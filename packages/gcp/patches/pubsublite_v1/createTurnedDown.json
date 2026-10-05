@@ -1,0 +1,47 @@
+{
+  "description": "Type the HTTP 403 Pub/Sub Lite returns now that the service is turned down ('Pub/Sub Lite is deprecated and will be turned down in March 2026. New customers ... will not be able to access the service ...'). It surfaced as a generic Forbidden, indistinguishable from a missing IAM permission.",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.pubsublite_v1#PubSubLiteTurnedDown",
+      "value": {
+        "type": "structure",
+        "members": {},
+        "traits": {
+          "smithy.api#error": "client",
+          "smithy.api#httpError": 403,
+          "smithy.api#documentation": "Pub/Sub Lite is turned down for this project (HTTP 403 PERMISSION_DENIED). Not retryable; migrate to Pub/Sub or Managed Kafka.",
+          "com.gcp.protocols#errorMatchers": [
+            {
+              "status": 403,
+              "message": {
+                "includes": "Pub/Sub Lite is deprecated"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.pubsublite_v1#CreateAdminProjectsLocationsReservations/errors/-",
+      "value": {
+        "target": "com.gcp.pubsublite_v1#PubSubLiteTurnedDown"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.pubsublite_v1#CreateAdminProjectsLocationsTopics/errors/-",
+      "value": {
+        "target": "com.gcp.pubsublite_v1#PubSubLiteTurnedDown"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.pubsublite_v1#CreateAdminProjectsLocationsSubscriptions/errors/-",
+      "value": {
+        "target": "com.gcp.pubsublite_v1#PubSubLiteTurnedDown"
+      }
+    }
+  ]
+}

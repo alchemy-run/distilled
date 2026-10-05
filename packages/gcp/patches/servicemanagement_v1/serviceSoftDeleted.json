@@ -1,0 +1,33 @@
+{
+  "description": "Type re-creating a managed service that is still in its 30-day soft-delete window. It surfaced as a generic BadRequest.",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.servicemanagement_v1#ServiceSoftDeleted",
+      "value": {
+        "type": "structure",
+        "members": {},
+        "traits": {
+          "smithy.api#error": "client",
+          "smithy.api#httpError": 400,
+          "smithy.api#documentation": "The service name was deleted within the last 30 days and must be undeleted before reuse (HTTP 400 FAILED_PRECONDITION).",
+          "com.gcp.protocols#errorMatchers": [
+            {
+              "status": 400,
+              "message": {
+                "includes": "has been deleted and will be purged"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.servicemanagement_v1#CreateServices/errors/-",
+      "value": {
+        "target": "com.gcp.servicemanagement_v1#ServiceSoftDeleted"
+      }
+    }
+  ]
+}

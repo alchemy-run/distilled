@@ -1,0 +1,24 @@
+{
+  "description": "Type buckets.setIamPolicy's HTTP 412 for a stale policy etag. Cloud Storage answers a concurrent read-modify-write with 412 PRECONDITION FAILED ('At least one of the pre-conditions you specified did not hold.') instead of the 409 ABORTED other IAM APIs use; 412 is not in the core status map, so it landed as UnknownGCPError. A dedicated tag lets callers re-read the policy and retry.",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.storage_v1#IamPolicyEtagMismatch",
+      "value": {
+        "type": "structure",
+        "members": {},
+        "traits": {
+          "smithy.api#error": "client",
+          "smithy.api#httpError": 412,
+          "smithy.api#documentation": "The policy's etag no longer matches the bucket's current IAM policy — another writer changed it concurrently (HTTP 412). Re-read the policy and retry.",
+          "com.gcp.protocols#errorMatchers": [{ "status": 412 }]
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.storage_v1#SetIamPolicyBuckets/errors/-",
+      "value": { "target": "com.gcp.storage_v1#IamPolicyEtagMismatch" }
+    }
+  ]
+}

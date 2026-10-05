@@ -1,0 +1,2609 @@
+{
+  "smithy": "2.0",
+  "metadata": {
+    "suppressions": [
+      {
+        "id": "HttpUriConflict",
+        "namespace": "*"
+      },
+      {
+        "id": "HttpMethodSemantics",
+        "namespace": "*"
+      },
+      {
+        "id": "UnreferencedShape",
+        "namespace": "*"
+      }
+    ],
+    "distilled.finalized": true
+  },
+  "shapes": {
+    "com.stackit.scf#ListOrganizationsRequest": {
+      "type": "structure",
+      "members": {
+        "projectId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        },
+        "region": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        },
+        "withDetails": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#httpQuery": "withDetails",
+            "smithy.api#documentation": "Adds the details to the response that can be queried from the Cloud Controller API"
+          }
+        },
+        "orderBy": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "orderBy",
+            "smithy.api#documentation": "In case `withDetails` is enabled, the organization list can be sorted by `name`.\n\nIn order to sort by `name`, you have to set the value `name`.\nThe default sort ordering is ascending.\nTo specify descending order for `name` field, you have to append ` desc` suffix; for example `name desc`.\n"
+          }
+        },
+        "page": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpQuery": "page",
+            "smithy.api#documentation": "Which page is returned"
+          }
+        },
+        "perPage": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpQuery": "perPage",
+            "smithy.api#documentation": "Elements to be returned per page"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.stackit.scf#OrganizationsList": {
+      "type": "structure",
+      "members": {
+        "pagination": {
+          "target": "com.stackit.scf#Pagination",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "resources": {
+          "target": "com.stackit.scf#OrganizationsListResourcesList",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.stackit.scf#Pagination": {
+      "type": "structure",
+      "members": {
+        "totalPages": {
+          "target": "smithy.api#Integer"
+        },
+        "totalResults": {
+          "target": "smithy.api#Integer"
+        }
+      },
+      "traits": {}
+    },
+    "com.stackit.scf#OrganizationsListItem": {
+      "type": "structure",
+      "members": {
+        "createdAt": {
+          "target": "smithy.api#String"
+        },
+        "guid": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "name": {
+          "target": "smithy.api#String"
+        },
+        "platformId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "projectId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "quotaId": {
+          "target": "smithy.api#String"
+        },
+        "region": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "status": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "suspended": {
+          "target": "smithy.api#Boolean"
+        },
+        "updatedAt": {
+          "target": "smithy.api#String"
+        }
+      },
+      "traits": {}
+    },
+    "com.stackit.scf#OrganizationsListResourcesList": {
+      "type": "list",
+      "member": {
+        "target": "com.stackit.scf#OrganizationsListItem"
+      },
+      "traits": {}
+    },
+    "com.stackit.scf#ListOrganizations": {
+      "type": "operation",
+      "input": {
+        "target": "com.stackit.scf#ListOrganizationsRequest"
+      },
+      "output": {
+        "target": "com.stackit.scf#OrganizationsList"
+      },
+      "errors": [
+        {
+          "target": "com.stackit.scf#BadRequest"
+        },
+        {
+          "target": "com.stackit.scf#Forbidden"
+        },
+        {
+          "target": "com.stackit.scf#NotFound"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/v1/projects/{projectId}/regions/{region}/organizations",
+          "code": 200,
+          "baseUrl": "https://scf.api.stackit.cloud"
+        },
+        "smithy.api#documentation": "List organizations\n\nReturns a list of organizations for a specific STACKIT project."
+      }
+    },
+    "com.stackit.scf#CreateOrganizationRequest": {
+      "type": "structure",
+      "members": {
+        "projectId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        },
+        "region": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "platformId": {
+          "target": "smithy.api#String"
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.stackit.scf#OrganizationCreateResponse": {
+      "type": "structure",
+      "members": {
+        "guid": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "platformId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "projectId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "region": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.stackit.scf#CreateOrganization": {
+      "type": "operation",
+      "input": {
+        "target": "com.stackit.scf#CreateOrganizationRequest"
+      },
+      "output": {
+        "target": "com.stackit.scf#OrganizationCreateResponse"
+      },
+      "errors": [
+        {
+          "target": "com.stackit.scf#BadRequest"
+        },
+        {
+          "target": "com.stackit.scf#Forbidden"
+        },
+        {
+          "target": "com.stackit.scf#NotFound"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/v1/projects/{projectId}/regions/{region}/organizations",
+          "code": 200,
+          "baseUrl": "https://scf.api.stackit.cloud"
+        },
+        "smithy.api#documentation": "Create an organization\n\nCreates an organization without assigning any CF roles or creating a space."
+      }
+    },
+    "com.stackit.scf#GetOrganizationRequest": {
+      "type": "structure",
+      "members": {
+        "projectId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        },
+        "region": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        },
+        "organizationId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.stackit.scf#Organization": {
+      "type": "structure",
+      "members": {
+        "createdAt": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "guid": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "platformId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "projectId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "quotaId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "region": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "status": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "suspended": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "updatedAt": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.stackit.scf#GetOrganization": {
+      "type": "operation",
+      "input": {
+        "target": "com.stackit.scf#GetOrganizationRequest"
+      },
+      "output": {
+        "target": "com.stackit.scf#Organization"
+      },
+      "errors": [
+        {
+          "target": "com.stackit.scf#BadRequest"
+        },
+        {
+          "target": "com.stackit.scf#Forbidden"
+        },
+        {
+          "target": "com.stackit.scf#NotFound"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/v1/projects/{projectId}/regions/{region}/organizations/{organizationId}",
+          "code": 200,
+          "baseUrl": "https://scf.api.stackit.cloud"
+        },
+        "smithy.api#documentation": "Get an organization\n\nReturns an organization."
+      }
+    },
+    "com.stackit.scf#UpdateOrganizationRequest": {
+      "type": "structure",
+      "members": {
+        "projectId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        },
+        "region": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        },
+        "organizationId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        },
+        "name": {
+          "target": "smithy.api#String"
+        },
+        "suspended": {
+          "target": "smithy.api#Boolean"
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.stackit.scf#UpdateOrganization": {
+      "type": "operation",
+      "input": {
+        "target": "com.stackit.scf#UpdateOrganizationRequest"
+      },
+      "output": {
+        "target": "com.stackit.scf#Organization"
+      },
+      "errors": [
+        {
+          "target": "com.stackit.scf#BadRequest"
+        },
+        {
+          "target": "com.stackit.scf#Forbidden"
+        },
+        {
+          "target": "com.stackit.scf#NotFound"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "PATCH",
+          "uri": "/v1/projects/{projectId}/regions/{region}/organizations/{organizationId}",
+          "code": 200,
+          "baseUrl": "https://scf.api.stackit.cloud"
+        },
+        "smithy.api#documentation": "Update organization\n\nUpdate organization."
+      }
+    },
+    "com.stackit.scf#DeleteOrganizationRequest": {
+      "type": "structure",
+      "members": {
+        "projectId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        },
+        "region": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        },
+        "organizationId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.stackit.scf#OrganizationDeleteResponse": {
+      "type": "structure",
+      "members": {
+        "guid": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "platformId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "projectId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "region": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.stackit.scf#DeleteOrganization": {
+      "type": "operation",
+      "input": {
+        "target": "com.stackit.scf#DeleteOrganizationRequest"
+      },
+      "output": {
+        "target": "com.stackit.scf#OrganizationDeleteResponse"
+      },
+      "errors": [
+        {
+          "target": "com.stackit.scf#BadRequest"
+        },
+        {
+          "target": "com.stackit.scf#Forbidden"
+        },
+        {
+          "target": "com.stackit.scf#NotFound"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "DELETE",
+          "uri": "/v1/projects/{projectId}/regions/{region}/organizations/{organizationId}",
+          "code": 200,
+          "baseUrl": "https://scf.api.stackit.cloud"
+        },
+        "smithy.api#documentation": "Delete organization\n\nDelete an organization."
+      }
+    },
+    "com.stackit.scf#GetOrgManagerRequest": {
+      "type": "structure",
+      "members": {
+        "projectId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        },
+        "region": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        },
+        "organizationId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.stackit.scf#OrgManager": {
+      "type": "structure",
+      "members": {
+        "createdAt": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "guid": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "orgId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "platformId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "projectId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "region": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "updatedAt": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "username": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.stackit.scf#GetOrgManager": {
+      "type": "operation",
+      "input": {
+        "target": "com.stackit.scf#GetOrgManagerRequest"
+      },
+      "output": {
+        "target": "com.stackit.scf#OrgManager"
+      },
+      "errors": [
+        {
+          "target": "com.stackit.scf#BadRequest"
+        },
+        {
+          "target": "com.stackit.scf#Forbidden"
+        },
+        {
+          "target": "com.stackit.scf#NotFound"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/v1/projects/{projectId}/regions/{region}/organizations/{organizationId}/organization_manager",
+          "code": 200,
+          "baseUrl": "https://scf.api.stackit.cloud"
+        },
+        "smithy.api#documentation": "Get organization manager\n\nReturns the organization manager within an organization."
+      }
+    },
+    "com.stackit.scf#CreateOrgManagerRequest": {
+      "type": "structure",
+      "members": {
+        "projectId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        },
+        "region": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        },
+        "organizationId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.stackit.scf#OrgManagerResponse": {
+      "type": "structure",
+      "members": {
+        "createdAt": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "guid": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "orgId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "password": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {},
+            "smithy.api#sensitive": {}
+          }
+        },
+        "platformId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "projectId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "region": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "updatedAt": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "username": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.stackit.scf#CreateOrgManager": {
+      "type": "operation",
+      "input": {
+        "target": "com.stackit.scf#CreateOrgManagerRequest"
+      },
+      "output": {
+        "target": "com.stackit.scf#OrgManagerResponse"
+      },
+      "errors": [
+        {
+          "target": "com.stackit.scf#BadRequest"
+        },
+        {
+          "target": "com.stackit.scf#Forbidden"
+        },
+        {
+          "target": "com.stackit.scf#NotFound"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/v1/projects/{projectId}/regions/{region}/organizations/{organizationId}/organization_manager",
+          "code": 200,
+          "baseUrl": "https://scf.api.stackit.cloud"
+        },
+        "smithy.api#documentation": "Create organization manager\n\nCreates organization manager within an organization.\n\nThe organization manager will be backed by a CF user.\nThere is only one organization manager per organization.\nThe organization manager gets assigned the CF role Org Manager.\n\nThis endpoint does synchronously several non-atomic steps behind the scenes.\nIf any of those steps fail, the 'Delete Organization Manager' needs to be called first to clean up the failed creation attempt and afterwards the creation can be retried.\n\nThe password needs to be stored by the API callee since it cannot be retrieved after creation."
+      }
+    },
+    "com.stackit.scf#DeleteOrgManagerRequest": {
+      "type": "structure",
+      "members": {
+        "projectId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        },
+        "region": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        },
+        "organizationId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.stackit.scf#OrgManagerDeleteResponse": {
+      "type": "structure",
+      "members": {
+        "message": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.stackit.scf#DeleteOrgManager": {
+      "type": "operation",
+      "input": {
+        "target": "com.stackit.scf#DeleteOrgManagerRequest"
+      },
+      "output": {
+        "target": "com.stackit.scf#OrgManagerDeleteResponse"
+      },
+      "errors": [
+        {
+          "target": "com.stackit.scf#BadRequest"
+        },
+        {
+          "target": "com.stackit.scf#Forbidden"
+        },
+        {
+          "target": "com.stackit.scf#NotFound"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "DELETE",
+          "uri": "/v1/projects/{projectId}/regions/{region}/organizations/{organizationId}/organization_manager",
+          "code": 200,
+          "baseUrl": "https://scf.api.stackit.cloud"
+        },
+        "smithy.api#documentation": "Delete organization manager\n\nDelete the organization manager."
+      }
+    },
+    "com.stackit.scf#ApplyOrganizationQuotaRequest": {
+      "type": "structure",
+      "members": {
+        "projectId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        },
+        "region": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        },
+        "organizationId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        },
+        "quotaId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.stackit.scf#OrganizationQuota": {
+      "type": "structure",
+      "members": {
+        "orgId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "platformId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "projectId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "quotaId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "region": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.stackit.scf#ApplyOrganizationQuota": {
+      "type": "operation",
+      "input": {
+        "target": "com.stackit.scf#ApplyOrganizationQuotaRequest"
+      },
+      "output": {
+        "target": "com.stackit.scf#OrganizationQuota"
+      },
+      "errors": [
+        {
+          "target": "com.stackit.scf#BadRequest"
+        },
+        {
+          "target": "com.stackit.scf#Forbidden"
+        },
+        {
+          "target": "com.stackit.scf#NotFound"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/v1/projects/{projectId}/regions/{region}/organizations/{organizationId}/quota",
+          "code": 200,
+          "baseUrl": "https://scf.api.stackit.cloud"
+        },
+        "smithy.api#documentation": "Apply an organization quota\n\nChange the organization quota of an organization."
+      }
+    },
+    "com.stackit.scf#ListOrganizationQuotasRequest": {
+      "type": "structure",
+      "members": {
+        "projectId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        },
+        "region": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        },
+        "organizationId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.stackit.scf#Quota": {
+      "type": "structure",
+      "members": {
+        "apps": {
+          "target": "com.stackit.scf#QuotaApps",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "createdAt": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "domains": {
+          "target": "com.stackit.scf#QuotaDomains",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "guid": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "orgId": {
+          "target": "smithy.api#String"
+        },
+        "platformId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "projectId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "region": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "routes": {
+          "target": "com.stackit.scf#QuotaRoutes",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "services": {
+          "target": "com.stackit.scf#QuotaServices",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "updatedAt": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.stackit.scf#QuotaApps": {
+      "type": "structure",
+      "members": {
+        "logRateLimitInBytesPerSecond": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "The value `null` means `unlimited`.\n",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "perAppTasks": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "The value `null` means `unlimited`.\n",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "perProcessMemoryInMb": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "The value `null` means `unlimited`.\n",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "totalInstances": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "The value `null` means `unlimited`.\n",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "totalMemoryInMb": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "The value `null` means `unlimited`.\n",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.stackit.scf#QuotaDomains": {
+      "type": "structure",
+      "members": {
+        "totalDomains": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "The value `null` means `unlimited`.\n",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.stackit.scf#QuotaRoutes": {
+      "type": "structure",
+      "members": {
+        "totalReservedPorts": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "The value `null` means `unlimited`.\n",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "totalRoutes": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "The value `null` means `unlimited`.\n",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.stackit.scf#QuotaServices": {
+      "type": "structure",
+      "members": {
+        "paidServicesAllowed": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "totalServiceInstances": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "The value `null` means `unlimited`.\n",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "totalServiceKeys": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "The value `null` means `unlimited`.\n",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.stackit.scf#ListOrganizationQuotasResponseBodyList": {
+      "type": "list",
+      "member": {
+        "target": "com.stackit.scf#Quota"
+      },
+      "traits": {}
+    },
+    "com.stackit.scf#ListOrganizationQuotasResponse": {
+      "type": "structure",
+      "members": {
+        "body": {
+          "target": "com.stackit.scf#ListOrganizationQuotasResponseBodyList",
+          "traits": {
+            "com.distilled.openapi#rawResponse": {},
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
+      }
+    },
+    "com.stackit.scf#ListOrganizationQuotas": {
+      "type": "operation",
+      "input": {
+        "target": "com.stackit.scf#ListOrganizationQuotasRequest"
+      },
+      "output": {
+        "target": "com.stackit.scf#ListOrganizationQuotasResponse"
+      },
+      "errors": [
+        {
+          "target": "com.stackit.scf#BadRequest"
+        },
+        {
+          "target": "com.stackit.scf#Forbidden"
+        },
+        {
+          "target": "com.stackit.scf#NotFound"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/v1/projects/{projectId}/regions/{region}/organizations/{organizationId}/quotas",
+          "code": 200,
+          "baseUrl": "https://scf.api.stackit.cloud"
+        },
+        "smithy.api#documentation": "List organization quotas\n\nReturns a list of organization quotas."
+      }
+    },
+    "com.stackit.scf#GetOrganizationQuotaRequest": {
+      "type": "structure",
+      "members": {
+        "projectId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        },
+        "region": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        },
+        "organizationId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        },
+        "quotaId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.stackit.scf#GetOrganizationQuota": {
+      "type": "operation",
+      "input": {
+        "target": "com.stackit.scf#GetOrganizationQuotaRequest"
+      },
+      "output": {
+        "target": "com.stackit.scf#Quota"
+      },
+      "errors": [
+        {
+          "target": "com.stackit.scf#BadRequest"
+        },
+        {
+          "target": "com.stackit.scf#Forbidden"
+        },
+        {
+          "target": "com.stackit.scf#NotFound"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/v1/projects/{projectId}/regions/{region}/organizations/{organizationId}/quotas/{quotaId}",
+          "code": 200,
+          "baseUrl": "https://scf.api.stackit.cloud"
+        },
+        "smithy.api#documentation": "Get an organization quota\n\nReturns an organization quota."
+      }
+    },
+    "com.stackit.scf#OrgRoleType": {
+      "type": "enum",
+      "members": {
+        "ORGANIZATION_USER": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "organization_user"
+          }
+        },
+        "ORGANIZATION_AUDITOR": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "organization_auditor"
+          }
+        },
+        "ORGANIZATION_MANAGER": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "organization_manager"
+          }
+        },
+        "ORGANIZATION_BILLING_MANAGER": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "organization_billing_manager"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.stackit.scf#CreateOrgRoleRequest": {
+      "type": "structure",
+      "members": {
+        "projectId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        },
+        "region": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        },
+        "organizationId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        },
+        "type": {
+          "target": "com.stackit.scf#OrgRoleType",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "userGuid": {
+          "target": "smithy.api#String"
+        },
+        "userName": {
+          "target": "smithy.api#String"
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.stackit.scf#OrgRoleResponse": {
+      "type": "structure",
+      "members": {
+        "guid": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "orgId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "platformId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "projectId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "region": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "type": {
+          "target": "com.stackit.scf#OrgRoleType",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.stackit.scf#CreateOrgRole": {
+      "type": "operation",
+      "input": {
+        "target": "com.stackit.scf#CreateOrgRoleRequest"
+      },
+      "output": {
+        "target": "com.stackit.scf#OrgRoleResponse"
+      },
+      "errors": [
+        {
+          "target": "com.stackit.scf#BadRequest"
+        },
+        {
+          "target": "com.stackit.scf#Forbidden"
+        },
+        {
+          "target": "com.stackit.scf#NotFound"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/v1/projects/{projectId}/regions/{region}/organizations/{organizationId}/roles",
+          "code": 200,
+          "baseUrl": "https://scf.api.stackit.cloud"
+        },
+        "smithy.api#documentation": "Assign organization role\n\nAssign organization role within an organization. If the role is already assigned, the existing role GUID gets returned."
+      }
+    },
+    "com.stackit.scf#ListSpacesRequest": {
+      "type": "structure",
+      "members": {
+        "projectId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        },
+        "region": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        },
+        "organizationId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        },
+        "page": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpQuery": "page",
+            "smithy.api#documentation": "Which page is returned"
+          }
+        },
+        "perPage": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpQuery": "perPage",
+            "smithy.api#documentation": "Elements to be returned per page"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.stackit.scf#SpacesList": {
+      "type": "structure",
+      "members": {
+        "pagination": {
+          "target": "com.stackit.scf#Pagination",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "resources": {
+          "target": "com.stackit.scf#SpacesListResourcesList",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.stackit.scf#Space": {
+      "type": "structure",
+      "members": {
+        "createdAt": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "guid": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "orgId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "platformId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "projectId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "region": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "updatedAt": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.stackit.scf#SpacesListResourcesList": {
+      "type": "list",
+      "member": {
+        "target": "com.stackit.scf#Space"
+      },
+      "traits": {}
+    },
+    "com.stackit.scf#ListSpaces": {
+      "type": "operation",
+      "input": {
+        "target": "com.stackit.scf#ListSpacesRequest"
+      },
+      "output": {
+        "target": "com.stackit.scf#SpacesList"
+      },
+      "errors": [
+        {
+          "target": "com.stackit.scf#BadRequest"
+        },
+        {
+          "target": "com.stackit.scf#Forbidden"
+        },
+        {
+          "target": "com.stackit.scf#NotFound"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/v1/projects/{projectId}/regions/{region}/organizations/{organizationId}/spaces",
+          "code": 200,
+          "baseUrl": "https://scf.api.stackit.cloud"
+        },
+        "smithy.api#documentation": "List spaces\n\nReturns a list of spaces for a specific organization."
+      }
+    },
+    "com.stackit.scf#CreateSpaceRequest": {
+      "type": "structure",
+      "members": {
+        "projectId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        },
+        "region": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        },
+        "organizationId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.stackit.scf#CreateSpace": {
+      "type": "operation",
+      "input": {
+        "target": "com.stackit.scf#CreateSpaceRequest"
+      },
+      "output": {
+        "target": "com.stackit.scf#Space"
+      },
+      "errors": [
+        {
+          "target": "com.stackit.scf#BadRequest"
+        },
+        {
+          "target": "com.stackit.scf#Forbidden"
+        },
+        {
+          "target": "com.stackit.scf#NotFound"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/v1/projects/{projectId}/regions/{region}/organizations/{organizationId}/spaces",
+          "code": 200,
+          "baseUrl": "https://scf.api.stackit.cloud"
+        },
+        "smithy.api#documentation": "Create space\n\nCreate space."
+      }
+    },
+    "com.stackit.scf#GetSpaceRequest": {
+      "type": "structure",
+      "members": {
+        "projectId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        },
+        "region": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        },
+        "organizationId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        },
+        "spaceId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.stackit.scf#GetSpace": {
+      "type": "operation",
+      "input": {
+        "target": "com.stackit.scf#GetSpaceRequest"
+      },
+      "output": {
+        "target": "com.stackit.scf#Space"
+      },
+      "errors": [
+        {
+          "target": "com.stackit.scf#BadRequest"
+        },
+        {
+          "target": "com.stackit.scf#Forbidden"
+        },
+        {
+          "target": "com.stackit.scf#NotFound"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/v1/projects/{projectId}/regions/{region}/organizations/{organizationId}/spaces/{spaceId}",
+          "code": 200,
+          "baseUrl": "https://scf.api.stackit.cloud"
+        },
+        "smithy.api#documentation": "Get a space\n\nReturns a space."
+      }
+    },
+    "com.stackit.scf#UpdateSpaceRequest": {
+      "type": "structure",
+      "members": {
+        "projectId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        },
+        "region": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        },
+        "organizationId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        },
+        "spaceId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.stackit.scf#UpdateSpace": {
+      "type": "operation",
+      "input": {
+        "target": "com.stackit.scf#UpdateSpaceRequest"
+      },
+      "output": {
+        "target": "com.stackit.scf#Space"
+      },
+      "errors": [
+        {
+          "target": "com.stackit.scf#BadRequest"
+        },
+        {
+          "target": "com.stackit.scf#Forbidden"
+        },
+        {
+          "target": "com.stackit.scf#NotFound"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "PATCH",
+          "uri": "/v1/projects/{projectId}/regions/{region}/organizations/{organizationId}/spaces/{spaceId}",
+          "code": 200,
+          "baseUrl": "https://scf.api.stackit.cloud"
+        },
+        "smithy.api#documentation": "Update space\n\nUpdate space."
+      }
+    },
+    "com.stackit.scf#DeleteSpaceRequest": {
+      "type": "structure",
+      "members": {
+        "projectId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        },
+        "region": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        },
+        "organizationId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        },
+        "spaceId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.stackit.scf#SpaceDeleteResponse": {
+      "type": "structure",
+      "members": {
+        "message": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.stackit.scf#DeleteSpace": {
+      "type": "operation",
+      "input": {
+        "target": "com.stackit.scf#DeleteSpaceRequest"
+      },
+      "output": {
+        "target": "com.stackit.scf#SpaceDeleteResponse"
+      },
+      "errors": [
+        {
+          "target": "com.stackit.scf#BadRequest"
+        },
+        {
+          "target": "com.stackit.scf#Forbidden"
+        },
+        {
+          "target": "com.stackit.scf#NotFound"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "DELETE",
+          "uri": "/v1/projects/{projectId}/regions/{region}/organizations/{organizationId}/spaces/{spaceId}",
+          "code": 200,
+          "baseUrl": "https://scf.api.stackit.cloud"
+        },
+        "smithy.api#documentation": "Delete space\n\nDelete space."
+      }
+    },
+    "com.stackit.scf#SpaceRoleType": {
+      "type": "enum",
+      "members": {
+        "SPACE_AUDITOR": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "space_auditor"
+          }
+        },
+        "SPACE_DEVELOPER": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "space_developer"
+          }
+        },
+        "SPACE_MANAGER": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "space_manager"
+          }
+        },
+        "SPACE_SUPPORTER": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "space_supporter"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.stackit.scf#CreateSpaceRoleRequest": {
+      "type": "structure",
+      "members": {
+        "projectId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        },
+        "region": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        },
+        "organizationId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        },
+        "spaceId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        },
+        "type": {
+          "target": "com.stackit.scf#SpaceRoleType",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "userGuid": {
+          "target": "smithy.api#String"
+        },
+        "userName": {
+          "target": "smithy.api#String"
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.stackit.scf#SpaceRoleCreateResponse": {
+      "type": "structure",
+      "members": {
+        "guid": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "orgId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "platformId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "projectId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "region": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "spaceId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "type": {
+          "target": "com.stackit.scf#SpaceRoleType",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.stackit.scf#CreateSpaceRole": {
+      "type": "operation",
+      "input": {
+        "target": "com.stackit.scf#CreateSpaceRoleRequest"
+      },
+      "output": {
+        "target": "com.stackit.scf#SpaceRoleCreateResponse"
+      },
+      "errors": [
+        {
+          "target": "com.stackit.scf#BadRequest"
+        },
+        {
+          "target": "com.stackit.scf#Forbidden"
+        },
+        {
+          "target": "com.stackit.scf#NotFound"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/v1/projects/{projectId}/regions/{region}/organizations/{organizationId}/spaces/{spaceId}/roles",
+          "code": 200,
+          "baseUrl": "https://scf.api.stackit.cloud"
+        },
+        "smithy.api#documentation": "Assign space role\n\nAssign space role within an space. If the role is already assigned, the existing role GUID gets returned."
+      }
+    },
+    "com.stackit.scf#GetOrganizationUsageSummaryRequest": {
+      "type": "structure",
+      "members": {
+        "projectId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        },
+        "region": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        },
+        "organizationId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.stackit.scf#OrganizationUsageSummary": {
+      "type": "structure",
+      "members": {
+        "orgId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "platformId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "projectId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "region": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "usageSummary": {
+          "target": "com.stackit.scf#UsageSummary",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.stackit.scf#UsageSummary": {
+      "type": "structure",
+      "members": {
+        "domains": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "memoryInMb": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "perAppTasks": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "reservedPorts": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "routes": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "serviceInstances": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "serviceKeys": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "startedInstances": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.stackit.scf#GetOrganizationUsageSummary": {
+      "type": "operation",
+      "input": {
+        "target": "com.stackit.scf#GetOrganizationUsageSummaryRequest"
+      },
+      "output": {
+        "target": "com.stackit.scf#OrganizationUsageSummary"
+      },
+      "errors": [
+        {
+          "target": "com.stackit.scf#BadRequest"
+        },
+        {
+          "target": "com.stackit.scf#Forbidden"
+        },
+        {
+          "target": "com.stackit.scf#NotFound"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/v1/projects/{projectId}/regions/{region}/organizations/{organizationId}/usage_summary",
+          "code": 200,
+          "baseUrl": "https://scf.api.stackit.cloud"
+        },
+        "smithy.api#documentation": "Get an organization usage summary\n\nReturns an organization usage summary."
+      }
+    },
+    "com.stackit.scf#ListPlatformsRequest": {
+      "type": "structure",
+      "members": {
+        "projectId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        },
+        "region": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        },
+        "page": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpQuery": "page",
+            "smithy.api#documentation": "Which page is returned"
+          }
+        },
+        "perPage": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpQuery": "perPage",
+            "smithy.api#documentation": "Elements to be returned per page"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.stackit.scf#PlatformList": {
+      "type": "structure",
+      "members": {
+        "pagination": {
+          "target": "com.stackit.scf#Pagination",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "resources": {
+          "target": "com.stackit.scf#PlatformListResourcesList",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.stackit.scf#Platforms": {
+      "type": "structure",
+      "members": {
+        "apiUrl": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "consoleUrl": {
+          "target": "smithy.api#String"
+        },
+        "displayName": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "guid": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "region": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "systemId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.stackit.scf#PlatformListResourcesList": {
+      "type": "list",
+      "member": {
+        "target": "com.stackit.scf#Platforms"
+      },
+      "traits": {}
+    },
+    "com.stackit.scf#ListPlatforms": {
+      "type": "operation",
+      "input": {
+        "target": "com.stackit.scf#ListPlatformsRequest"
+      },
+      "output": {
+        "target": "com.stackit.scf#PlatformList"
+      },
+      "errors": [
+        {
+          "target": "com.stackit.scf#BadRequest"
+        },
+        {
+          "target": "com.stackit.scf#Forbidden"
+        },
+        {
+          "target": "com.stackit.scf#NotFound"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/v1/projects/{projectId}/regions/{region}/platforms",
+          "code": 200,
+          "baseUrl": "https://scf.api.stackit.cloud"
+        },
+        "smithy.api#documentation": "List all platforms\n\nList all platforms available for a STACKIT project"
+      }
+    },
+    "com.stackit.scf#GetPlatformRequest": {
+      "type": "structure",
+      "members": {
+        "projectId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        },
+        "region": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        },
+        "platformId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.stackit.scf#GetPlatform": {
+      "type": "operation",
+      "input": {
+        "target": "com.stackit.scf#GetPlatformRequest"
+      },
+      "output": {
+        "target": "com.stackit.scf#Platforms"
+      },
+      "errors": [
+        {
+          "target": "com.stackit.scf#BadRequest"
+        },
+        {
+          "target": "com.stackit.scf#Forbidden"
+        },
+        {
+          "target": "com.stackit.scf#NotFound"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/v1/projects/{projectId}/regions/{region}/platforms/{platformId}",
+          "code": 200,
+          "baseUrl": "https://scf.api.stackit.cloud"
+        },
+        "smithy.api#documentation": "Get platform\n\nFetch a single platform"
+      }
+    },
+    "com.stackit.scf#ListPlatformQuotasRequest": {
+      "type": "structure",
+      "members": {
+        "projectId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        },
+        "region": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        },
+        "platformId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.stackit.scf#ListPlatformQuotasResponseBodyList": {
+      "type": "list",
+      "member": {
+        "target": "com.stackit.scf#Quota"
+      },
+      "traits": {}
+    },
+    "com.stackit.scf#ListPlatformQuotasResponse": {
+      "type": "structure",
+      "members": {
+        "body": {
+          "target": "com.stackit.scf#ListPlatformQuotasResponseBodyList",
+          "traits": {
+            "com.distilled.openapi#rawResponse": {},
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
+      }
+    },
+    "com.stackit.scf#ListPlatformQuotas": {
+      "type": "operation",
+      "input": {
+        "target": "com.stackit.scf#ListPlatformQuotasRequest"
+      },
+      "output": {
+        "target": "com.stackit.scf#ListPlatformQuotasResponse"
+      },
+      "errors": [
+        {
+          "target": "com.stackit.scf#BadRequest"
+        },
+        {
+          "target": "com.stackit.scf#Forbidden"
+        },
+        {
+          "target": "com.stackit.scf#NotFound"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/v1/projects/{projectId}/regions/{region}/platforms/{platformId}/quotas",
+          "code": 200,
+          "baseUrl": "https://scf.api.stackit.cloud"
+        },
+        "smithy.api#documentation": "List organization quotas on a platform\n\nReturns a list of organization quotas on a platform."
+      }
+    },
+    "com.stackit.scf#GetPlatformQuotaRequest": {
+      "type": "structure",
+      "members": {
+        "projectId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        },
+        "region": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        },
+        "platformId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        },
+        "quotaId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.stackit.scf#GetPlatformQuota": {
+      "type": "operation",
+      "input": {
+        "target": "com.stackit.scf#GetPlatformQuotaRequest"
+      },
+      "output": {
+        "target": "com.stackit.scf#Quota"
+      },
+      "errors": [
+        {
+          "target": "com.stackit.scf#BadRequest"
+        },
+        {
+          "target": "com.stackit.scf#Forbidden"
+        },
+        {
+          "target": "com.stackit.scf#NotFound"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/v1/projects/{projectId}/regions/{region}/platforms/{platformId}/quotas/{quotaId}",
+          "code": 200,
+          "baseUrl": "https://scf.api.stackit.cloud"
+        },
+        "smithy.api#documentation": "Get organization quota on a platform\n\nReturns an organization quota on a platform."
+      }
+    },
+    "com.stackit.scf#BadRequest": {
+      "type": "structure",
+      "members": {},
+      "traits": {
+        "smithy.api#error": "client",
+        "smithy.api#httpError": 400,
+        "com.distilled.openapi#errorMatchers": [
+          {
+            "status": 400
+          }
+        ]
+      }
+    },
+    "com.stackit.scf#Forbidden": {
+      "type": "structure",
+      "members": {},
+      "traits": {
+        "smithy.api#error": "client",
+        "smithy.api#httpError": 403,
+        "com.distilled.openapi#errorMatchers": [
+          {
+            "status": 403
+          }
+        ]
+      }
+    },
+    "com.stackit.scf#NotFound": {
+      "type": "structure",
+      "members": {},
+      "traits": {
+        "smithy.api#error": "client",
+        "smithy.api#httpError": 404,
+        "com.distilled.openapi#errorMatchers": [
+          {
+            "status": 404
+          }
+        ]
+      }
+    },
+    "com.stackit.scf#Scf": {
+      "type": "service",
+      "version": "1.0.0",
+      "operations": [
+        {
+          "target": "com.stackit.scf#ListOrganizations"
+        },
+        {
+          "target": "com.stackit.scf#CreateOrganization"
+        },
+        {
+          "target": "com.stackit.scf#GetOrganization"
+        },
+        {
+          "target": "com.stackit.scf#UpdateOrganization"
+        },
+        {
+          "target": "com.stackit.scf#DeleteOrganization"
+        },
+        {
+          "target": "com.stackit.scf#GetOrgManager"
+        },
+        {
+          "target": "com.stackit.scf#CreateOrgManager"
+        },
+        {
+          "target": "com.stackit.scf#DeleteOrgManager"
+        },
+        {
+          "target": "com.stackit.scf#ApplyOrganizationQuota"
+        },
+        {
+          "target": "com.stackit.scf#ListOrganizationQuotas"
+        },
+        {
+          "target": "com.stackit.scf#GetOrganizationQuota"
+        },
+        {
+          "target": "com.stackit.scf#CreateOrgRole"
+        },
+        {
+          "target": "com.stackit.scf#ListSpaces"
+        },
+        {
+          "target": "com.stackit.scf#CreateSpace"
+        },
+        {
+          "target": "com.stackit.scf#GetSpace"
+        },
+        {
+          "target": "com.stackit.scf#UpdateSpace"
+        },
+        {
+          "target": "com.stackit.scf#DeleteSpace"
+        },
+        {
+          "target": "com.stackit.scf#CreateSpaceRole"
+        },
+        {
+          "target": "com.stackit.scf#GetOrganizationUsageSummary"
+        },
+        {
+          "target": "com.stackit.scf#ListPlatforms"
+        },
+        {
+          "target": "com.stackit.scf#GetPlatform"
+        },
+        {
+          "target": "com.stackit.scf#ListPlatformQuotas"
+        },
+        {
+          "target": "com.stackit.scf#GetPlatformQuota"
+        }
+      ],
+      "traits": {
+        "smithy.api#title": "STACKIT Cloud Foundry API",
+        "smithy.api#documentation": "API endpoints for managing STACKIT Cloud Foundry"
+      }
+    }
+  }
+}

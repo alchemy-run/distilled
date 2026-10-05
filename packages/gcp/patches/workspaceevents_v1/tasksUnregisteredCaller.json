@@ -1,0 +1,54 @@
+{
+  "description": "Type the unregistered-caller 403 on the A2A task push-notification-config operations; it surfaced as a generic Forbidden. Observed live 2026-09-29 on getTasksPushNotificationConfigs with a service-account token.",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.workspaceevents_v1#TasksUnregisteredCaller",
+      "value": {
+        "type": "structure",
+        "members": {},
+        "traits": {
+          "smithy.api#error": "client",
+          "smithy.api#httpError": 403,
+          "smithy.api#documentation": "The A2A task endpoints reject callers without an established consumer identity (HTTP 403 PERMISSION_DENIED: 'Method doesn't allow unregistered callers (callers without established identity).'). Not retryable.",
+          "com.gcp.protocols#errorMatchers": [
+            {
+              "status": 403,
+              "message": {
+                "includes": "doesn't allow unregistered callers"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.workspaceevents_v1#CreateTasksPushNotificationConfigs/errors/-",
+      "value": {
+        "target": "com.gcp.workspaceevents_v1#TasksUnregisteredCaller"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.workspaceevents_v1#DeleteTasksPushNotificationConfigs/errors/-",
+      "value": {
+        "target": "com.gcp.workspaceevents_v1#TasksUnregisteredCaller"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.workspaceevents_v1#GetTasksPushNotificationConfigs/errors/-",
+      "value": {
+        "target": "com.gcp.workspaceevents_v1#TasksUnregisteredCaller"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.workspaceevents_v1#ListTasksPushNotificationConfigs/errors/-",
+      "value": {
+        "target": "com.gcp.workspaceevents_v1#TasksUnregisteredCaller"
+      }
+    }
+  ]
+}

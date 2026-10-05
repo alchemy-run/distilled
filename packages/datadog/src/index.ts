@@ -9,17 +9,13 @@
  * ```ts
  * import * as Datadog from "@distilled.cloud/datadog";
  *
- * const dashboards = yield* Datadog.Services.v1.listDashboards({});
+ * const dashboards = yield* Datadog.v1.listDashboards({});
  * ```
  */
 export * from "./credentials.ts";
 export * from "./errors.ts";
 export * as T from "./traits.ts";
-export {
-  DatadogProtocol,
-  type DatadogOpError,
-  type DatadogOpContext,
-} from "./protocol.ts";
+export { DatadogProtocol, type DatadogOpError, type DatadogOpContext } from "./protocol.ts";
 export { paginateCursor } from "./pagination.ts";
 export * as Retry from "./retry.ts";
-export * as Services from "./services/index.ts";
+export * from "./services/index.ts";

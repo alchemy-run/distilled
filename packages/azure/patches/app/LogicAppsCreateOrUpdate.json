@@ -1,0 +1,35 @@
+{
+  "description": "The Logic App extension resource carries an opaque `properties` object (Logic Apps Standard host settings) on PUT and GET; the spec models it as a bare ProxyResource, so the body could not be sent or read.",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.app#LogicAppsCreateOrUpdateRequest/members/properties",
+      "value": {
+        "target": "smithy.api#Document",
+        "traits": {
+          "smithy.api#documentation": "Logic App extension properties (opaque)."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.app#LogicAppsCreateOrUpdateResponse/members/properties",
+      "value": {
+        "target": "smithy.api#Document",
+        "traits": {
+          "smithy.api#documentation": "Logic App extension properties (opaque)."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.app#GetLogicAppResponse/members/properties",
+      "value": {
+        "target": "smithy.api#Document",
+        "traits": {
+          "smithy.api#documentation": "Logic App extension properties (opaque)."
+        }
+      }
+    }
+  ]
+}

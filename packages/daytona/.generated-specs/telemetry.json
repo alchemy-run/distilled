@@ -1,0 +1,539 @@
+{
+  "smithy": "2.0",
+  "metadata": {
+    "suppressions": [
+      {
+        "id": "HttpUriConflict",
+        "namespace": "*"
+      },
+      {
+        "id": "HttpMethodSemantics",
+        "namespace": "*"
+      },
+      {
+        "id": "UnreferencedShape",
+        "namespace": "*"
+      }
+    ],
+    "distilled.finalized": true
+  },
+  "shapes": {
+    "com.daytona.telemetry#ListOrganizationSandboxTelemetryLogsRequest": {
+      "type": "structure",
+      "members": {
+        "organizationId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Organization ID"
+          }
+        },
+        "sandboxId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Sandbox ID"
+          }
+        },
+        "from": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "from",
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Start time (RFC3339)"
+          }
+        },
+        "to": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "to",
+            "smithy.api#required": {},
+            "smithy.api#documentation": "End time (RFC3339)"
+          }
+        },
+        "severity": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "severity",
+            "smithy.api#documentation": "Comma-separated severity levels"
+          }
+        },
+        "search": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "search",
+            "smithy.api#documentation": "Search text (ILIKE)"
+          }
+        },
+        "limit": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpQuery": "limit",
+            "smithy.api#documentation": "Page size"
+          }
+        },
+        "offset": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpQuery": "offset",
+            "smithy.api#documentation": "Offset"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.daytona.telemetry#ModelsLogEntry": {
+      "type": "structure",
+      "members": {
+        "body": {
+          "target": "smithy.api#String"
+        },
+        "logAttributes": {
+          "target": "com.daytona.telemetry#ModelsLogEntryLogAttributesMap"
+        },
+        "resourceAttributes": {
+          "target": "com.daytona.telemetry#ModelsLogEntryResourceAttributesMap"
+        },
+        "serviceName": {
+          "target": "smithy.api#String"
+        },
+        "severityNumber": {
+          "target": "smithy.api#Integer"
+        },
+        "severityText": {
+          "target": "smithy.api#String"
+        },
+        "spanId": {
+          "target": "smithy.api#String"
+        },
+        "timestamp": {
+          "target": "smithy.api#String"
+        },
+        "traceId": {
+          "target": "smithy.api#String"
+        }
+      },
+      "traits": {}
+    },
+    "com.daytona.telemetry#ModelsLogEntryLogAttributesMap": {
+      "type": "map",
+      "key": {
+        "target": "smithy.api#String"
+      },
+      "value": {
+        "target": "smithy.api#String"
+      },
+      "traits": {}
+    },
+    "com.daytona.telemetry#ModelsLogEntryResourceAttributesMap": {
+      "type": "map",
+      "key": {
+        "target": "smithy.api#String"
+      },
+      "value": {
+        "target": "smithy.api#String"
+      },
+      "traits": {}
+    },
+    "com.daytona.telemetry#ListOrganizationSandboxTelemetryLogsResponseBodyList": {
+      "type": "list",
+      "member": {
+        "target": "com.daytona.telemetry#ModelsLogEntry"
+      },
+      "traits": {}
+    },
+    "com.daytona.telemetry#ListOrganizationSandboxTelemetryLogsResponse": {
+      "type": "structure",
+      "members": {
+        "body": {
+          "target": "com.daytona.telemetry#ListOrganizationSandboxTelemetryLogsResponseBodyList",
+          "traits": {
+            "com.distilled.openapi#rawResponse": {},
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
+      }
+    },
+    "com.daytona.telemetry#ListOrganizationSandboxTelemetryLogs": {
+      "type": "operation",
+      "input": {
+        "target": "com.daytona.telemetry#ListOrganizationSandboxTelemetryLogsRequest"
+      },
+      "output": {
+        "target": "com.daytona.telemetry#ListOrganizationSandboxTelemetryLogsResponse"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/organization/{organizationId}/sandbox/{sandboxId}/telemetry/logs",
+          "code": 200
+        },
+        "smithy.api#documentation": "Get sandbox logs\n\nReturns paginated log entries with optional severity and search filters"
+      }
+    },
+    "com.daytona.telemetry#ListOrganizationSandboxTelemetryMetricsRequest": {
+      "type": "structure",
+      "members": {
+        "organizationId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Organization ID"
+          }
+        },
+        "sandboxId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Sandbox ID"
+          }
+        },
+        "from": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "from",
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Start time (RFC3339)"
+          }
+        },
+        "to": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "to",
+            "smithy.api#required": {},
+            "smithy.api#documentation": "End time (RFC3339)"
+          }
+        },
+        "metricNames": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "metricNames",
+            "smithy.api#documentation": "Comma-separated metric names"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.daytona.telemetry#ModelsMetricPoint": {
+      "type": "structure",
+      "members": {
+        "metricName": {
+          "target": "smithy.api#String"
+        },
+        "timestamp": {
+          "target": "smithy.api#String"
+        },
+        "value": {
+          "target": "smithy.api#Double"
+        }
+      },
+      "traits": {}
+    },
+    "com.daytona.telemetry#ListOrganizationSandboxTelemetryMetricsResponseBodyList": {
+      "type": "list",
+      "member": {
+        "target": "com.daytona.telemetry#ModelsMetricPoint"
+      },
+      "traits": {}
+    },
+    "com.daytona.telemetry#ListOrganizationSandboxTelemetryMetricsResponse": {
+      "type": "structure",
+      "members": {
+        "body": {
+          "target": "com.daytona.telemetry#ListOrganizationSandboxTelemetryMetricsResponseBodyList",
+          "traits": {
+            "com.distilled.openapi#rawResponse": {},
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
+      }
+    },
+    "com.daytona.telemetry#ListOrganizationSandboxTelemetryMetrics": {
+      "type": "operation",
+      "input": {
+        "target": "com.daytona.telemetry#ListOrganizationSandboxTelemetryMetricsRequest"
+      },
+      "output": {
+        "target": "com.daytona.telemetry#ListOrganizationSandboxTelemetryMetricsResponse"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/organization/{organizationId}/sandbox/{sandboxId}/telemetry/metrics",
+          "code": 200
+        },
+        "smithy.api#documentation": "Get sandbox metrics\n\nReturns gauge metrics aggregated in 1-minute intervals"
+      }
+    },
+    "com.daytona.telemetry#ListOrganizationSandboxTelemetryTracesRequest": {
+      "type": "structure",
+      "members": {
+        "organizationId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Organization ID"
+          }
+        },
+        "sandboxId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Sandbox ID"
+          }
+        },
+        "from": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "from",
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Start time (RFC3339)"
+          }
+        },
+        "to": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "to",
+            "smithy.api#required": {},
+            "smithy.api#documentation": "End time (RFC3339)"
+          }
+        },
+        "limit": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpQuery": "limit",
+            "smithy.api#documentation": "Page size"
+          }
+        },
+        "offset": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpQuery": "offset",
+            "smithy.api#documentation": "Offset"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.daytona.telemetry#ModelsTraceSummary": {
+      "type": "structure",
+      "members": {
+        "endTime": {
+          "target": "smithy.api#String"
+        },
+        "rootSpanName": {
+          "target": "smithy.api#String"
+        },
+        "spanCount": {
+          "target": "smithy.api#Integer"
+        },
+        "startTime": {
+          "target": "smithy.api#String"
+        },
+        "statusCode": {
+          "target": "smithy.api#String"
+        },
+        "totalDurationMs": {
+          "target": "smithy.api#Double"
+        },
+        "traceId": {
+          "target": "smithy.api#String"
+        }
+      },
+      "traits": {}
+    },
+    "com.daytona.telemetry#ListOrganizationSandboxTelemetryTracesResponseBodyList": {
+      "type": "list",
+      "member": {
+        "target": "com.daytona.telemetry#ModelsTraceSummary"
+      },
+      "traits": {}
+    },
+    "com.daytona.telemetry#ListOrganizationSandboxTelemetryTracesResponse": {
+      "type": "structure",
+      "members": {
+        "body": {
+          "target": "com.daytona.telemetry#ListOrganizationSandboxTelemetryTracesResponseBodyList",
+          "traits": {
+            "com.distilled.openapi#rawResponse": {},
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
+      }
+    },
+    "com.daytona.telemetry#ListOrganizationSandboxTelemetryTraces": {
+      "type": "operation",
+      "input": {
+        "target": "com.daytona.telemetry#ListOrganizationSandboxTelemetryTracesRequest"
+      },
+      "output": {
+        "target": "com.daytona.telemetry#ListOrganizationSandboxTelemetryTracesResponse"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/organization/{organizationId}/sandbox/{sandboxId}/telemetry/traces",
+          "code": 200
+        },
+        "smithy.api#documentation": "Get sandbox traces\n\nReturns paginated trace summaries with span counts and root span info"
+      }
+    },
+    "com.daytona.telemetry#GetOrganizationSandboxTelemetryTraceRequest": {
+      "type": "structure",
+      "members": {
+        "organizationId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Organization ID"
+          }
+        },
+        "sandboxId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Sandbox ID"
+          }
+        },
+        "traceId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Trace ID"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.daytona.telemetry#ModelsSpan": {
+      "type": "structure",
+      "members": {
+        "durationMs": {
+          "target": "smithy.api#Double"
+        },
+        "parentSpanId": {
+          "target": "smithy.api#String"
+        },
+        "spanAttributes": {
+          "target": "com.daytona.telemetry#ModelsSpanSpanAttributesMap"
+        },
+        "spanId": {
+          "target": "smithy.api#String"
+        },
+        "spanName": {
+          "target": "smithy.api#String"
+        },
+        "statusCode": {
+          "target": "smithy.api#String"
+        },
+        "statusMessage": {
+          "target": "smithy.api#String"
+        },
+        "timestamp": {
+          "target": "smithy.api#String"
+        },
+        "traceId": {
+          "target": "smithy.api#String"
+        }
+      },
+      "traits": {}
+    },
+    "com.daytona.telemetry#ModelsSpanSpanAttributesMap": {
+      "type": "map",
+      "key": {
+        "target": "smithy.api#String"
+      },
+      "value": {
+        "target": "smithy.api#String"
+      },
+      "traits": {}
+    },
+    "com.daytona.telemetry#GetOrganizationSandboxTelemetryTraceResponseBodyList": {
+      "type": "list",
+      "member": {
+        "target": "com.daytona.telemetry#ModelsSpan"
+      },
+      "traits": {}
+    },
+    "com.daytona.telemetry#GetOrganizationSandboxTelemetryTraceResponse": {
+      "type": "structure",
+      "members": {
+        "body": {
+          "target": "com.daytona.telemetry#GetOrganizationSandboxTelemetryTraceResponseBodyList",
+          "traits": {
+            "com.distilled.openapi#rawResponse": {},
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
+      }
+    },
+    "com.daytona.telemetry#GetOrganizationSandboxTelemetryTrace": {
+      "type": "operation",
+      "input": {
+        "target": "com.daytona.telemetry#GetOrganizationSandboxTelemetryTraceRequest"
+      },
+      "output": {
+        "target": "com.daytona.telemetry#GetOrganizationSandboxTelemetryTraceResponse"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/organization/{organizationId}/sandbox/{sandboxId}/telemetry/traces/{traceId}",
+          "code": 200
+        },
+        "smithy.api#documentation": "Get trace spans\n\nReturns all spans belonging to a specific trace ID"
+      }
+    },
+    "com.daytona.telemetry#Telemetry": {
+      "type": "service",
+      "version": "v0.4.0",
+      "operations": [
+        {
+          "target": "com.daytona.telemetry#ListOrganizationSandboxTelemetryLogs"
+        },
+        {
+          "target": "com.daytona.telemetry#ListOrganizationSandboxTelemetryMetrics"
+        },
+        {
+          "target": "com.daytona.telemetry#ListOrganizationSandboxTelemetryTraces"
+        },
+        {
+          "target": "com.daytona.telemetry#GetOrganizationSandboxTelemetryTrace"
+        }
+      ],
+      "traits": {
+        "smithy.api#title": "Daytona Analytics API",
+        "smithy.api#documentation": "Daytona Analytics API - Read-only telemetry and usage data. Authenticated via Daytona API keys or JWT tokens."
+      }
+    }
+  }
+}

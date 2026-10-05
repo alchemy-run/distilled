@@ -1,0 +1,1171 @@
+{
+  "smithy": "2.0",
+  "metadata": {
+    "suppressions": [
+      {
+        "id": "HttpUriConflict",
+        "namespace": "*"
+      },
+      {
+        "id": "HttpMethodSemantics",
+        "namespace": "*"
+      },
+      {
+        "id": "UnreferencedShape",
+        "namespace": "*"
+      }
+    ],
+    "distilled.finalized": true
+  },
+  "shapes": {
+    "com.stackit.server_update#GetServiceResourceRequest": {
+      "type": "structure",
+      "members": {
+        "projectId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "project id"
+          }
+        },
+        "region": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "region"
+          }
+        },
+        "serverId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "server id"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.stackit.server_update#GetUpdateServiceResponse": {
+      "type": "structure",
+      "members": {
+        "enabled": {
+          "target": "smithy.api#Boolean"
+        }
+      },
+      "traits": {}
+    },
+    "com.stackit.server_update#GetServiceResource": {
+      "type": "operation",
+      "input": {
+        "target": "com.stackit.server_update#GetServiceResourceRequest"
+      },
+      "output": {
+        "target": "com.stackit.server_update#GetUpdateServiceResponse"
+      },
+      "errors": [
+        {
+          "target": "com.stackit.server_update#BadRequest"
+        },
+        {
+          "target": "com.stackit.server_update#NotFound"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/v2/projects/{projectId}/regions/{region}/servers/{serverId}/service",
+          "code": 200,
+          "baseUrl": "https://server-update.api.stackit.cloud"
+        },
+        "smithy.api#documentation": "get update service details"
+      }
+    },
+    "com.stackit.server_update#EnableServiceResourceRequest": {
+      "type": "structure",
+      "members": {
+        "projectId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "project id"
+          }
+        },
+        "region": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "region"
+          }
+        },
+        "serverId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "server id"
+          }
+        },
+        "updatePolicyId": {
+          "target": "smithy.api#String"
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.stackit.server_update#EnableServiceResource": {
+      "type": "operation",
+      "input": {
+        "target": "com.stackit.server_update#EnableServiceResourceRequest"
+      },
+      "output": {
+        "target": "smithy.api#Unit"
+      },
+      "errors": [
+        {
+          "target": "com.stackit.server_update#BadRequest"
+        },
+        {
+          "target": "com.stackit.server_update#NotFound"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/v2/projects/{projectId}/regions/{region}/servers/{serverId}/service",
+          "code": 200,
+          "baseUrl": "https://server-update.api.stackit.cloud"
+        },
+        "smithy.api#documentation": "enable update service"
+      }
+    },
+    "com.stackit.server_update#DisableServiceResourceRequest": {
+      "type": "structure",
+      "members": {
+        "projectId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "project id"
+          }
+        },
+        "region": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "region"
+          }
+        },
+        "serverId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "server id"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.stackit.server_update#DisableServiceResource": {
+      "type": "operation",
+      "input": {
+        "target": "com.stackit.server_update#DisableServiceResourceRequest"
+      },
+      "output": {
+        "target": "smithy.api#Unit"
+      },
+      "errors": [
+        {
+          "target": "com.stackit.server_update#BadRequest"
+        },
+        {
+          "target": "com.stackit.server_update#NotFound"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "DELETE",
+          "uri": "/v2/projects/{projectId}/regions/{region}/servers/{serverId}/service",
+          "code": 200,
+          "baseUrl": "https://server-update.api.stackit.cloud"
+        },
+        "smithy.api#documentation": "disable update service"
+      }
+    },
+    "com.stackit.server_update#ListUpdateSchedulesRequest": {
+      "type": "structure",
+      "members": {
+        "projectId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "project id"
+          }
+        },
+        "region": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "region"
+          }
+        },
+        "serverId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "server id"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.stackit.server_update#GetUpdateSchedulesResponse": {
+      "type": "structure",
+      "members": {
+        "items": {
+          "target": "com.stackit.server_update#GetUpdateSchedulesResponseItemsList"
+        }
+      },
+      "traits": {}
+    },
+    "com.stackit.server_update#UpdateSchedule": {
+      "type": "structure",
+      "members": {
+        "enabled": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "maintenanceWindow": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Updates start within the defined hourly window. Depending on the updates, the process may exceed this timeframe and require an automatic restart.",
+            "smithy.api#required": {}
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "rrule": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "An rrule (Recurrence Rule) is a standardized string format used in iCalendar (RFC 5545) to define repeating events, and you can generate one by using a dedicated library or by using online generator tools to specify parameters like frequency, interval, and end dates",
+            "smithy.api#required": {}
+          }
+        },
+        "id": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.stackit.server_update#GetUpdateSchedulesResponseItemsList": {
+      "type": "list",
+      "member": {
+        "target": "com.stackit.server_update#UpdateSchedule"
+      },
+      "traits": {}
+    },
+    "com.stackit.server_update#ListUpdateSchedules": {
+      "type": "operation",
+      "input": {
+        "target": "com.stackit.server_update#ListUpdateSchedulesRequest"
+      },
+      "output": {
+        "target": "com.stackit.server_update#GetUpdateSchedulesResponse"
+      },
+      "errors": [
+        {
+          "target": "com.stackit.server_update#BadRequest"
+        },
+        {
+          "target": "com.stackit.server_update#NotFound"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/v2/projects/{projectId}/regions/{region}/servers/{serverId}/update-schedules",
+          "code": 200,
+          "baseUrl": "https://server-update.api.stackit.cloud"
+        },
+        "smithy.api#documentation": "get list of update schedules"
+      }
+    },
+    "com.stackit.server_update#CreateUpdateScheduleRequest": {
+      "type": "structure",
+      "members": {
+        "projectId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "project id"
+          }
+        },
+        "region": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "region"
+          }
+        },
+        "serverId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "server id"
+          }
+        },
+        "enabled": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "maintenanceWindow": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Updates start within the defined hourly window. Depending on the updates, the process may exceed this timeframe and require an automatic restart.",
+            "smithy.api#required": {}
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "rrule": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "An rrule (Recurrence Rule) is a standardized string format used in iCalendar (RFC 5545) to define repeating events, and you can generate one by using a dedicated library or by using online generator tools to specify parameters like frequency, interval, and end dates",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.stackit.server_update#CreateUpdateScheduleResponse": {
+      "type": "structure",
+      "members": {
+        "enabled": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "maintenanceWindow": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Updates start within the defined hourly window. Depending on the updates, the process may exceed this timeframe and require an automatic restart.",
+            "smithy.api#required": {}
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "rrule": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "An rrule (Recurrence Rule) is a standardized string format used in iCalendar (RFC 5545) to define repeating events, and you can generate one by using a dedicated library or by using online generator tools to specify parameters like frequency, interval, and end dates",
+            "smithy.api#required": {}
+          }
+        },
+        "id": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
+      }
+    },
+    "com.stackit.server_update#CreateUpdateSchedule": {
+      "type": "operation",
+      "input": {
+        "target": "com.stackit.server_update#CreateUpdateScheduleRequest"
+      },
+      "output": {
+        "target": "com.stackit.server_update#CreateUpdateScheduleResponse"
+      },
+      "errors": [
+        {
+          "target": "com.stackit.server_update#BadRequest"
+        },
+        {
+          "target": "com.stackit.server_update#NotFound"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/v2/projects/{projectId}/regions/{region}/servers/{serverId}/update-schedules",
+          "code": 200,
+          "baseUrl": "https://server-update.api.stackit.cloud"
+        },
+        "smithy.api#documentation": "create update schedule"
+      }
+    },
+    "com.stackit.server_update#GetUpdateScheduleRequest": {
+      "type": "structure",
+      "members": {
+        "projectId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "project id"
+          }
+        },
+        "region": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "region"
+          }
+        },
+        "serverId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "server id"
+          }
+        },
+        "scheduleId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "update schedule id"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.stackit.server_update#GetUpdateScheduleResponse": {
+      "type": "structure",
+      "members": {
+        "enabled": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "maintenanceWindow": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Updates start within the defined hourly window. Depending on the updates, the process may exceed this timeframe and require an automatic restart.",
+            "smithy.api#required": {}
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "rrule": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "An rrule (Recurrence Rule) is a standardized string format used in iCalendar (RFC 5545) to define repeating events, and you can generate one by using a dedicated library or by using online generator tools to specify parameters like frequency, interval, and end dates",
+            "smithy.api#required": {}
+          }
+        },
+        "id": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
+      }
+    },
+    "com.stackit.server_update#GetUpdateSchedule": {
+      "type": "operation",
+      "input": {
+        "target": "com.stackit.server_update#GetUpdateScheduleRequest"
+      },
+      "output": {
+        "target": "com.stackit.server_update#GetUpdateScheduleResponse"
+      },
+      "errors": [
+        {
+          "target": "com.stackit.server_update#BadRequest"
+        },
+        {
+          "target": "com.stackit.server_update#NotFound"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/v2/projects/{projectId}/regions/{region}/servers/{serverId}/update-schedules/{scheduleId}",
+          "code": 200,
+          "baseUrl": "https://server-update.api.stackit.cloud"
+        },
+        "smithy.api#documentation": "get single update schedule details"
+      }
+    },
+    "com.stackit.server_update#UpdateUpdateScheduleRequest": {
+      "type": "structure",
+      "members": {
+        "projectId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "project id"
+          }
+        },
+        "region": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "region"
+          }
+        },
+        "serverId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "server id"
+          }
+        },
+        "scheduleId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "update schedule id"
+          }
+        },
+        "enabled": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "maintenanceWindow": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Updates start within the defined hourly window. Depending on the updates, the process may exceed this timeframe and require an automatic restart.",
+            "smithy.api#required": {}
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "rrule": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "An rrule (Recurrence Rule) is a standardized string format used in iCalendar (RFC 5545) to define repeating events, and you can generate one by using a dedicated library or by using online generator tools to specify parameters like frequency, interval, and end dates",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.stackit.server_update#UpdateUpdateScheduleResponse": {
+      "type": "structure",
+      "members": {
+        "enabled": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "maintenanceWindow": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Updates start within the defined hourly window. Depending on the updates, the process may exceed this timeframe and require an automatic restart.",
+            "smithy.api#required": {}
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "rrule": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "An rrule (Recurrence Rule) is a standardized string format used in iCalendar (RFC 5545) to define repeating events, and you can generate one by using a dedicated library or by using online generator tools to specify parameters like frequency, interval, and end dates",
+            "smithy.api#required": {}
+          }
+        },
+        "id": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
+      }
+    },
+    "com.stackit.server_update#UpdateUpdateSchedule": {
+      "type": "operation",
+      "input": {
+        "target": "com.stackit.server_update#UpdateUpdateScheduleRequest"
+      },
+      "output": {
+        "target": "com.stackit.server_update#UpdateUpdateScheduleResponse"
+      },
+      "errors": [
+        {
+          "target": "com.stackit.server_update#BadRequest"
+        },
+        {
+          "target": "com.stackit.server_update#NotFound"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "PUT",
+          "uri": "/v2/projects/{projectId}/regions/{region}/servers/{serverId}/update-schedules/{scheduleId}",
+          "code": 200,
+          "baseUrl": "https://server-update.api.stackit.cloud"
+        },
+        "smithy.api#documentation": "update update schedule"
+      }
+    },
+    "com.stackit.server_update#DeleteUpdateScheduleRequest": {
+      "type": "structure",
+      "members": {
+        "projectId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "project id"
+          }
+        },
+        "region": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "region"
+          }
+        },
+        "serverId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "server id"
+          }
+        },
+        "scheduleId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "update schedule id"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.stackit.server_update#DeleteUpdateSchedule": {
+      "type": "operation",
+      "input": {
+        "target": "com.stackit.server_update#DeleteUpdateScheduleRequest"
+      },
+      "output": {
+        "target": "smithy.api#Unit"
+      },
+      "errors": [
+        {
+          "target": "com.stackit.server_update#BadRequest"
+        },
+        {
+          "target": "com.stackit.server_update#NotFound"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "DELETE",
+          "uri": "/v2/projects/{projectId}/regions/{region}/servers/{serverId}/update-schedules/{scheduleId}",
+          "code": 200,
+          "baseUrl": "https://server-update.api.stackit.cloud"
+        },
+        "smithy.api#documentation": "delete update schedule"
+      }
+    },
+    "com.stackit.server_update#ListUpdatesRequest": {
+      "type": "structure",
+      "members": {
+        "projectId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "project id"
+          }
+        },
+        "region": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "region"
+          }
+        },
+        "serverId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "server id"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.stackit.server_update#GetUpdatesListResponse": {
+      "type": "structure",
+      "members": {
+        "items": {
+          "target": "com.stackit.server_update#GetUpdatesListResponseItemsList"
+        }
+      },
+      "traits": {}
+    },
+    "com.stackit.server_update#Update": {
+      "type": "structure",
+      "members": {
+        "endDate": {
+          "target": "smithy.api#String"
+        },
+        "failReason": {
+          "target": "smithy.api#String"
+        },
+        "failedUpdates": {
+          "target": "smithy.api#Integer"
+        },
+        "id": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "installedUpdates": {
+          "target": "smithy.api#Integer"
+        },
+        "startDate": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "status": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.stackit.server_update#GetUpdatesListResponseItemsList": {
+      "type": "list",
+      "member": {
+        "target": "com.stackit.server_update#Update"
+      },
+      "traits": {}
+    },
+    "com.stackit.server_update#ListUpdates": {
+      "type": "operation",
+      "input": {
+        "target": "com.stackit.server_update#ListUpdatesRequest"
+      },
+      "output": {
+        "target": "com.stackit.server_update#GetUpdatesListResponse"
+      },
+      "errors": [
+        {
+          "target": "com.stackit.server_update#BadRequest"
+        },
+        {
+          "target": "com.stackit.server_update#NotFound"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/v2/projects/{projectId}/regions/{region}/servers/{serverId}/updates",
+          "code": 200,
+          "baseUrl": "https://server-update.api.stackit.cloud"
+        },
+        "smithy.api#documentation": "get list of updates"
+      }
+    },
+    "com.stackit.server_update#CreateUpdateRequest": {
+      "type": "structure",
+      "members": {
+        "projectId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "project id"
+          }
+        },
+        "region": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "region"
+          }
+        },
+        "serverId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "server id"
+          }
+        },
+        "backupBeforeUpdate": {
+          "target": "smithy.api#Boolean"
+        },
+        "maintenanceWindow": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Updates start within the defined hourly window. Depending on the updates, the process may exceed this timeframe and require an automatic restart.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.stackit.server_update#CreateUpdate": {
+      "type": "operation",
+      "input": {
+        "target": "com.stackit.server_update#CreateUpdateRequest"
+      },
+      "output": {
+        "target": "com.stackit.server_update#Update"
+      },
+      "errors": [
+        {
+          "target": "com.stackit.server_update#BadRequest"
+        },
+        {
+          "target": "com.stackit.server_update#NotFound"
+        },
+        {
+          "target": "com.stackit.server_update#Conflict"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/v2/projects/{projectId}/regions/{region}/servers/{serverId}/updates",
+          "code": 200,
+          "baseUrl": "https://server-update.api.stackit.cloud"
+        },
+        "smithy.api#documentation": "create update"
+      }
+    },
+    "com.stackit.server_update#GetUpdateRequest": {
+      "type": "structure",
+      "members": {
+        "projectId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "project id"
+          }
+        },
+        "region": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "region"
+          }
+        },
+        "serverId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "server id"
+          }
+        },
+        "updateId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "id of the update"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.stackit.server_update#GetUpdate": {
+      "type": "operation",
+      "input": {
+        "target": "com.stackit.server_update#GetUpdateRequest"
+      },
+      "output": {
+        "target": "com.stackit.server_update#Update"
+      },
+      "errors": [
+        {
+          "target": "com.stackit.server_update#BadRequest"
+        },
+        {
+          "target": "com.stackit.server_update#NotFound"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/v2/projects/{projectId}/regions/{region}/servers/{serverId}/updates/{updateId}",
+          "code": 200,
+          "baseUrl": "https://server-update.api.stackit.cloud"
+        },
+        "smithy.api#documentation": "get update"
+      }
+    },
+    "com.stackit.server_update#ListUpdatePoliciesRequest": {
+      "type": "structure",
+      "members": {
+        "projectId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "project id"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.stackit.server_update#GetUpdatePoliciesResponse": {
+      "type": "structure",
+      "members": {
+        "items": {
+          "target": "com.stackit.server_update#GetUpdatePoliciesResponseItemsList"
+        }
+      },
+      "traits": {}
+    },
+    "com.stackit.server_update#UpdatePolicy": {
+      "type": "structure",
+      "members": {
+        "default": {
+          "target": "smithy.api#Boolean"
+        },
+        "description": {
+          "target": "smithy.api#String"
+        },
+        "enabled": {
+          "target": "smithy.api#Boolean"
+        },
+        "id": {
+          "target": "smithy.api#String"
+        },
+        "maintenanceWindow": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Updates start within the defined hourly window. Depending on the updates, the process may exceed this timeframe and require an automatic restart."
+          }
+        },
+        "name": {
+          "target": "smithy.api#String"
+        },
+        "rrule": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "An rrule (Recurrence Rule) is a standardized string format used in iCalendar (RFC 5545) to define repeating events, and you can generate one by using a dedicated library or by using online generator tools to specify parameters like frequency, interval, and end dates"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.stackit.server_update#GetUpdatePoliciesResponseItemsList": {
+      "type": "list",
+      "member": {
+        "target": "com.stackit.server_update#UpdatePolicy"
+      },
+      "traits": {}
+    },
+    "com.stackit.server_update#ListUpdatePolicies": {
+      "type": "operation",
+      "input": {
+        "target": "com.stackit.server_update#ListUpdatePoliciesRequest"
+      },
+      "output": {
+        "target": "com.stackit.server_update#GetUpdatePoliciesResponse"
+      },
+      "errors": [
+        {
+          "target": "com.stackit.server_update#BadRequest"
+        },
+        {
+          "target": "com.stackit.server_update#NotFound"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/v2/projects/{projectId}/update-policies",
+          "code": 200,
+          "baseUrl": "https://server-update.api.stackit.cloud"
+        },
+        "smithy.api#documentation": "get list of update policies"
+      }
+    },
+    "com.stackit.server_update#BadRequest": {
+      "type": "structure",
+      "members": {},
+      "traits": {
+        "smithy.api#error": "client",
+        "smithy.api#httpError": 400,
+        "com.distilled.openapi#errorMatchers": [
+          {
+            "status": 400
+          }
+        ]
+      }
+    },
+    "com.stackit.server_update#NotFound": {
+      "type": "structure",
+      "members": {},
+      "traits": {
+        "smithy.api#error": "client",
+        "smithy.api#httpError": 404,
+        "com.distilled.openapi#errorMatchers": [
+          {
+            "status": 404
+          }
+        ]
+      }
+    },
+    "com.stackit.server_update#Conflict": {
+      "type": "structure",
+      "members": {},
+      "traits": {
+        "smithy.api#error": "client",
+        "smithy.api#httpError": 409,
+        "com.distilled.openapi#errorMatchers": [
+          {
+            "status": 409
+          }
+        ]
+      }
+    },
+    "com.stackit.server_update#ServerUpdate": {
+      "type": "service",
+      "version": "2.0",
+      "operations": [
+        {
+          "target": "com.stackit.server_update#GetServiceResource"
+        },
+        {
+          "target": "com.stackit.server_update#EnableServiceResource"
+        },
+        {
+          "target": "com.stackit.server_update#DisableServiceResource"
+        },
+        {
+          "target": "com.stackit.server_update#ListUpdateSchedules"
+        },
+        {
+          "target": "com.stackit.server_update#CreateUpdateSchedule"
+        },
+        {
+          "target": "com.stackit.server_update#GetUpdateSchedule"
+        },
+        {
+          "target": "com.stackit.server_update#UpdateUpdateSchedule"
+        },
+        {
+          "target": "com.stackit.server_update#DeleteUpdateSchedule"
+        },
+        {
+          "target": "com.stackit.server_update#ListUpdates"
+        },
+        {
+          "target": "com.stackit.server_update#CreateUpdate"
+        },
+        {
+          "target": "com.stackit.server_update#GetUpdate"
+        },
+        {
+          "target": "com.stackit.server_update#ListUpdatePolicies"
+        }
+      ],
+      "traits": {
+        "smithy.api#title": "STACKIT Server Update Management API",
+        "smithy.api#documentation": "API endpoints for Server Update Operations on STACKIT Servers."
+      }
+    }
+  }
+}

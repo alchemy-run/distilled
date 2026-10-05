@@ -1,4 +1,4 @@
-#!/usr/bin/env bun
+#!/usr/bin/env -S node --conditions=bun
 /**
  * convert — turn the Turso OpenAPI spec into a Smithy JSON model.
  *
@@ -17,7 +17,7 @@
 import { runOpenApiConvert } from "@distilled.cloud/core/codegen/openapi-cli";
 
 await runOpenApiConvert({
-  root: `${import.meta.dir}/..`,
+  root: `${import.meta.dirname}/..`,
   specs: [
     {
       name: "turso",

@@ -1,0 +1,2041 @@
+{
+  "smithy": "2.0",
+  "metadata": {
+    "suppressions": [
+      {
+        "id": "HttpUriConflict",
+        "namespace": "*"
+      },
+      {
+        "id": "HttpMethodSemantics",
+        "namespace": "*"
+      },
+      {
+        "id": "UnreferencedShape",
+        "namespace": "*"
+      }
+    ],
+    "distilled.finalized": true
+  },
+  "shapes": {
+    "com.stackit.git#ListFlavorsRequest": {
+      "type": "structure",
+      "members": {
+        "projectId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Project identifier."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.stackit.git#ListFlavors": {
+      "type": "structure",
+      "members": {
+        "flavors": {
+          "target": "com.stackit.git#ListFlavorsFlavorsList",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "A list of STACKIT Git Flavors."
+      }
+    },
+    "com.stackit.git#Flavor": {
+      "type": "structure",
+      "members": {
+        "availability": {
+          "target": "com.stackit.git#FlavorAvailability",
+          "traits": {
+            "smithy.api#documentation": "Defines the flavor availability.",
+            "smithy.api#required": {}
+          }
+        },
+        "description": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Flavor description.",
+            "smithy.api#required": {}
+          }
+        },
+        "display_name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The display name that will be shown in the Portal.",
+            "smithy.api#required": {}
+          }
+        },
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Flavor id.",
+            "smithy.api#required": {}
+          }
+        },
+        "sku": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "SAP article number.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Describes a STACKIT Git Flavor."
+      }
+    },
+    "com.stackit.git#FlavorAvailability": {
+      "type": "enum",
+      "members": {
+        "AVAILABLE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "available"
+          }
+        },
+        "UNAVAILABLE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "unavailable"
+          }
+        },
+        "INTERNAL": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "internal"
+          }
+        },
+        "DEPRECATED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "deprecated"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Defines the flavor availability."
+      }
+    },
+    "com.stackit.git#ListFlavorsFlavorsList": {
+      "type": "list",
+      "member": {
+        "target": "com.stackit.git#Flavor"
+      },
+      "traits": {}
+    },
+    "com.stackit.git#ListFlavors2": {
+      "type": "operation",
+      "input": {
+        "target": "com.stackit.git#ListFlavorsRequest"
+      },
+      "output": {
+        "target": "com.stackit.git#ListFlavors"
+      },
+      "errors": [
+        {
+          "target": "com.stackit.git#BadRequest"
+        },
+        {
+          "target": "com.stackit.git#NotFound"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/v1beta/projects/{projectId}/flavors",
+          "code": 200,
+          "baseUrl": "https://git.api.stackit.cloud"
+        },
+        "smithy.api#documentation": "Returns the details for the given STACKIT Git flavors.\n\nProvides detailed information about possible Git Flavors."
+      }
+    },
+    "com.stackit.git#ListInstancesRequest": {
+      "type": "structure",
+      "members": {
+        "projectId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Project identifier."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.stackit.git#ListInstances": {
+      "type": "structure",
+      "members": {
+        "instances": {
+          "target": "com.stackit.git#ListInstancesInstancesList",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "A list of STACKIT Git instances."
+      }
+    },
+    "com.stackit.git#Instance": {
+      "type": "structure",
+      "members": {
+        "acl": {
+          "target": "com.stackit.git#InstanceAclList",
+          "traits": {
+            "smithy.api#documentation": "Restricted ACL for instance access.",
+            "smithy.api#required": {}
+          }
+        },
+        "admin_login": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Enable or disable Admin Idp",
+            "smithy.api#required": {}
+          }
+        },
+        "consumed_disk": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "How many bytes of disk space is consumed. Read Only.",
+            "smithy.api#required": {}
+          }
+        },
+        "consumed_object_storage": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "How many bytes of Object Storage is consumed. Read Only.",
+            "smithy.api#required": {}
+          }
+        },
+        "created": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The date and time the creation of the STACKIT Git instance was triggered.",
+            "smithy.api#required": {}
+          }
+        },
+        "feature_toggle": {
+          "target": "com.stackit.git#FeatureToggle",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "flavor": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Instance flavor.",
+            "smithy.api#required": {}
+          }
+        },
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "A auto generated unique id which identifies the STACKIT Git instances.",
+            "smithy.api#required": {}
+          }
+        },
+        "labels": {
+          "target": "com.stackit.git#Labels"
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "A user chosen name to distinguish multiple STACKIT Git instances.",
+            "smithy.api#required": {}
+          }
+        },
+        "state": {
+          "target": "com.stackit.git#InstanceState",
+          "traits": {
+            "smithy.api#documentation": "The current state of the STACKIT Git instance.",
+            "smithy.api#required": {}
+          }
+        },
+        "url": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The URL for reaching the STACKIT Git instance.",
+            "smithy.api#required": {}
+          }
+        },
+        "version": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The current version of STACKIT Git deployed to the instance.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Describes a STACKIT Git instance."
+      }
+    },
+    "com.stackit.git#InstanceAclList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {
+        "smithy.api#documentation": "Restricted ACL for instance access."
+      }
+    },
+    "com.stackit.git#FeatureToggle": {
+      "type": "structure",
+      "members": {
+        "default_email_notifications": {
+          "target": "com.stackit.git#FeatureToggleDefaultEmailNotifications",
+          "traits": {
+            "smithy.api#documentation": "Default email notifications.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "enable_local_login": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Enable local login.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "pipelines": {
+          "target": "com.stackit.git#Pipelines"
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Feature toggles for the instance."
+      }
+    },
+    "com.stackit.git#FeatureToggleDefaultEmailNotifications": {
+      "type": "enum",
+      "members": {
+        "ENABLED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "enabled"
+          }
+        },
+        "DISABLED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "disabled"
+          }
+        },
+        "ONMENTION": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "onmention"
+          }
+        },
+        "ANDYOUROWN": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "andyourown"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Default email notifications."
+      }
+    },
+    "com.stackit.git#Pipelines": {
+      "type": "structure",
+      "members": {
+        "action_url": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The action URL for the pipelines",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "enabled": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Enable pipelines for this instance",
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Feature toggles for instance pipelines"
+      }
+    },
+    "com.stackit.git#Labels": {
+      "type": "map",
+      "key": {
+        "target": "smithy.api#String"
+      },
+      "value": {
+        "target": "smithy.api#String"
+      },
+      "traits": {
+        "smithy.api#documentation": "Object that represents the labels of an object. Regex for keys: `^(?=.{1,63}$)([A-Za-z0-9][-A-Za-z0-9_.]*)?[A-Za-z0-9]$`. Regex for values: `^(?=.{0,63}$)(([A-Za-z0-9][-A-Za-z0-9_.]*)?[A-Za-z0-9])*$`. The `stackit-` prefix is reserved and cannot be used for Keys."
+      }
+    },
+    "com.stackit.git#InstanceState": {
+      "type": "enum",
+      "members": {
+        "CREATING": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "Creating"
+          }
+        },
+        "WAITINGFORRESOURCES": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "WaitingForResources"
+          }
+        },
+        "UPDATING": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "Updating"
+          }
+        },
+        "DELETING": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "Deleting"
+          }
+        },
+        "READY": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "Ready"
+          }
+        },
+        "ERROR": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "Error"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The current state of the STACKIT Git instance."
+      }
+    },
+    "com.stackit.git#ListInstancesInstancesList": {
+      "type": "list",
+      "member": {
+        "target": "com.stackit.git#Instance"
+      },
+      "traits": {}
+    },
+    "com.stackit.git#ListInstances2": {
+      "type": "operation",
+      "input": {
+        "target": "com.stackit.git#ListInstancesRequest"
+      },
+      "output": {
+        "target": "com.stackit.git#ListInstances"
+      },
+      "errors": [
+        {
+          "target": "com.stackit.git#BadRequest"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/v1beta/projects/{projectId}/instances",
+          "code": 200,
+          "baseUrl": "https://git.api.stackit.cloud"
+        },
+        "smithy.api#documentation": "List Instances.\n\nLists all STACKIT Git instances within a project."
+      }
+    },
+    "com.stackit.git#Acl": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {
+        "smithy.api#documentation": "A list of CIDR network addresses that are allowed to access the instance."
+      }
+    },
+    "com.stackit.git#CreateInstanceRequestFlavor": {
+      "type": "enum",
+      "members": {
+        "GIT_10": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "git-10"
+          }
+        },
+        "GIT_100": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "git-100"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.stackit.git#CreateInstanceRequest": {
+      "type": "structure",
+      "members": {
+        "projectId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Project identifier."
+          }
+        },
+        "acl": {
+          "target": "com.stackit.git#Acl"
+        },
+        "flavor": {
+          "target": "com.stackit.git#CreateInstanceRequestFlavor"
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "A user chosen name to distinguish multiple STACKIT Git instances.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.stackit.git#CreateInstance": {
+      "type": "operation",
+      "input": {
+        "target": "com.stackit.git#CreateInstanceRequest"
+      },
+      "output": {
+        "target": "com.stackit.git#Instance"
+      },
+      "errors": [
+        {
+          "target": "com.stackit.git#BadRequest"
+        },
+        {
+          "target": "com.stackit.git#Conflict"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/v1beta/projects/{projectId}/instances",
+          "code": 200,
+          "baseUrl": "https://git.api.stackit.cloud"
+        },
+        "smithy.api#documentation": "Create an Instance.\n\nCreates a new STACKIT Git instance as a project resource."
+      }
+    },
+    "com.stackit.git#GetInstanceRequest": {
+      "type": "structure",
+      "members": {
+        "projectId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Project identifier."
+          }
+        },
+        "instanceId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Instance identifier."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.stackit.git#GetInstance": {
+      "type": "operation",
+      "input": {
+        "target": "com.stackit.git#GetInstanceRequest"
+      },
+      "output": {
+        "target": "com.stackit.git#Instance"
+      },
+      "errors": [
+        {
+          "target": "com.stackit.git#BadRequest"
+        },
+        {
+          "target": "com.stackit.git#NotFound"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/v1beta/projects/{projectId}/instances/{instanceId}",
+          "code": 200,
+          "baseUrl": "https://git.api.stackit.cloud"
+        },
+        "smithy.api#documentation": "Get Instance information.\n\nRetrieves information about a STACKIT Git instance."
+      }
+    },
+    "com.stackit.git#PatchInstanceRequest": {
+      "type": "structure",
+      "members": {
+        "projectId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Project identifier."
+          }
+        },
+        "instanceId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Instance identifier."
+          }
+        },
+        "acl": {
+          "target": "com.stackit.git#Acl",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "admin_login": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Enable Admin IdP"
+          }
+        },
+        "feature_toggle": {
+          "target": "com.stackit.git#FeatureToggle"
+        },
+        "labels": {
+          "target": "com.stackit.git#Labels"
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.stackit.git#PatchInstance": {
+      "type": "operation",
+      "input": {
+        "target": "com.stackit.git#PatchInstanceRequest"
+      },
+      "output": {
+        "target": "com.stackit.git#Instance"
+      },
+      "errors": [
+        {
+          "target": "com.stackit.git#BadRequest"
+        },
+        {
+          "target": "com.stackit.git#NotFound"
+        },
+        {
+          "target": "com.stackit.git#Conflict"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "PATCH",
+          "uri": "/v1beta/projects/{projectId}/instances/{instanceId}",
+          "code": 200,
+          "baseUrl": "https://git.api.stackit.cloud"
+        },
+        "smithy.api#documentation": "Patch Instance.\n\nPatches the Instance."
+      }
+    },
+    "com.stackit.git#DeleteInstanceRequest": {
+      "type": "structure",
+      "members": {
+        "projectId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Project identifier."
+          }
+        },
+        "instanceId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Instance identifier."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.stackit.git#DeleteInstance": {
+      "type": "operation",
+      "input": {
+        "target": "com.stackit.git#DeleteInstanceRequest"
+      },
+      "output": {
+        "target": "smithy.api#Unit"
+      },
+      "errors": [
+        {
+          "target": "com.stackit.git#BadRequest"
+        },
+        {
+          "target": "com.stackit.git#NotFound"
+        },
+        {
+          "target": "com.stackit.git#Conflict"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "DELETE",
+          "uri": "/v1beta/projects/{projectId}/instances/{instanceId}",
+          "code": 200,
+          "baseUrl": "https://git.api.stackit.cloud"
+        },
+        "smithy.api#documentation": "Delete Instance.\n\nDeletes a STACKIT Git instance and destroys all associated data."
+      }
+    },
+    "com.stackit.git#ListAuthenticationRequest": {
+      "type": "structure",
+      "members": {
+        "projectId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Project identifier."
+          }
+        },
+        "instanceId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Instance identifier."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.stackit.git#AuthenticationList": {
+      "type": "structure",
+      "members": {
+        "authentication": {
+          "target": "com.stackit.git#AuthenticationListAuthenticationList",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "A list of authentications belonging to an Instance."
+      }
+    },
+    "com.stackit.git#Authentication": {
+      "type": "structure",
+      "members": {
+        "auto_discover_url": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The well-known configuration url to use for this authentication definition.",
+            "smithy.api#required": {}
+          }
+        },
+        "client_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The IDP client id to use.",
+            "smithy.api#required": {}
+          }
+        },
+        "created_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The date and time the creation of the authentication definition was triggered.",
+            "smithy.api#required": {}
+          }
+        },
+        "icon_url": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The url of the icon to use for this authentication definition.",
+            "smithy.api#required": {}
+          }
+        },
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "An auto generated unique uuid which identifies the authentication definition in STACKIT Git instances.",
+            "smithy.api#required": {}
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The name to identify an authentication definition associated with a STACKIT Git instance.",
+            "smithy.api#required": {}
+          }
+        },
+        "provider": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The Oauth2 provider to use.",
+            "smithy.api#required": {}
+          }
+        },
+        "scopes": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Scopes defines the OIDC scopes to request.",
+            "smithy.api#required": {}
+          }
+        },
+        "status": {
+          "target": "com.stackit.git#AuthenticationStatus",
+          "traits": {
+            "smithy.api#documentation": "The current status of the authentication definition.",
+            "smithy.api#required": {}
+          }
+        },
+        "status_message": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Provides additional information or error details when the status is 'Error'."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Describes an authentication definition associated to a STACKIT Git instance. The provider type will be an openidConnect type."
+      }
+    },
+    "com.stackit.git#AuthenticationStatus": {
+      "type": "enum",
+      "members": {
+        "CREATING": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "Creating"
+          }
+        },
+        "UPDATING": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "Updating"
+          }
+        },
+        "DELETING": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "Deleting"
+          }
+        },
+        "READY": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "Ready"
+          }
+        },
+        "ERROR": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "Error"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The current status of the authentication definition."
+      }
+    },
+    "com.stackit.git#AuthenticationListAuthenticationList": {
+      "type": "list",
+      "member": {
+        "target": "com.stackit.git#Authentication"
+      },
+      "traits": {}
+    },
+    "com.stackit.git#ListAuthentication": {
+      "type": "operation",
+      "input": {
+        "target": "com.stackit.git#ListAuthenticationRequest"
+      },
+      "output": {
+        "target": "com.stackit.git#AuthenticationList"
+      },
+      "errors": [
+        {
+          "target": "com.stackit.git#BadRequest"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/v1beta/projects/{projectId}/instances/{instanceId}/authentications",
+          "code": 200,
+          "baseUrl": "https://git.api.stackit.cloud"
+        },
+        "smithy.api#documentation": "List authentication sources\n\nLists all authentication sources belonging to a specific instance"
+      }
+    },
+    "com.stackit.git#CreateAuthenticationRequest": {
+      "type": "structure",
+      "members": {
+        "projectId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Project identifier."
+          }
+        },
+        "instanceId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Instance identifier."
+          }
+        },
+        "auto_discover_url": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The well-known configuration url to use for this authentication definition.",
+            "smithy.api#required": {}
+          }
+        },
+        "client_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The IDP client id to use.",
+            "smithy.api#required": {}
+          }
+        },
+        "client_secret": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The IDP client secret to use.",
+            "smithy.api#required": {},
+            "smithy.api#sensitive": {}
+          }
+        },
+        "icon_url": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The url of the icon to use for this authentication definition."
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The name to identify an authentication definition associated with a STACKIT Git instance.",
+            "smithy.api#required": {}
+          }
+        },
+        "provider": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The Oauth2 provider to use."
+          }
+        },
+        "scopes": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Scopes defines the OIDC scopes to request."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.stackit.git#CreateAuthentication": {
+      "type": "operation",
+      "input": {
+        "target": "com.stackit.git#CreateAuthenticationRequest"
+      },
+      "output": {
+        "target": "com.stackit.git#Authentication"
+      },
+      "errors": [
+        {
+          "target": "com.stackit.git#BadRequest"
+        },
+        {
+          "target": "com.stackit.git#NotFound"
+        },
+        {
+          "target": "com.stackit.git#Conflict"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/v1beta/projects/{projectId}/instances/{instanceId}/authentications",
+          "code": 200,
+          "baseUrl": "https://git.api.stackit.cloud"
+        },
+        "smithy.api#documentation": "Creates an authentication source\n\nCreates an authentication source for the corresponding STACKIT Git instance"
+      }
+    },
+    "com.stackit.git#GetAuthenticationRequest": {
+      "type": "structure",
+      "members": {
+        "projectId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Project identifier."
+          }
+        },
+        "instanceId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Instance identifier."
+          }
+        },
+        "authenticationId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Authentication Source identifier."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.stackit.git#GetAuthentication": {
+      "type": "operation",
+      "input": {
+        "target": "com.stackit.git#GetAuthenticationRequest"
+      },
+      "output": {
+        "target": "com.stackit.git#Authentication"
+      },
+      "errors": [
+        {
+          "target": "com.stackit.git#BadRequest"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/v1beta/projects/{projectId}/instances/{instanceId}/authentications/{authenticationId}",
+          "code": 200,
+          "baseUrl": "https://git.api.stackit.cloud"
+        },
+        "smithy.api#documentation": "Get authentication provider\n\nGet authentication provider"
+      }
+    },
+    "com.stackit.git#PatchAuthenticationRequest": {
+      "type": "structure",
+      "members": {
+        "projectId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Project identifier."
+          }
+        },
+        "instanceId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Instance identifier."
+          }
+        },
+        "authenticationId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Authentication Source identifier."
+          }
+        },
+        "auto_discover_url": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The well-known configuration url to use for this authentication definition."
+          }
+        },
+        "client_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The IDP client id to use."
+          }
+        },
+        "client_secret": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The IDP client secret to use.",
+            "smithy.api#sensitive": {}
+          }
+        },
+        "icon_url": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The url of the icon to use for this authentication definition."
+          }
+        },
+        "provider": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The Oauth2 provider to use."
+          }
+        },
+        "scopes": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Scopes defines the OIDC scopes to request."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.stackit.git#PatchAuthentication": {
+      "type": "operation",
+      "input": {
+        "target": "com.stackit.git#PatchAuthenticationRequest"
+      },
+      "output": {
+        "target": "com.stackit.git#Authentication"
+      },
+      "errors": [
+        {
+          "target": "com.stackit.git#BadRequest"
+        },
+        {
+          "target": "com.stackit.git#NotFound"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "PATCH",
+          "uri": "/v1beta/projects/{projectId}/instances/{instanceId}/authentications/{authenticationId}",
+          "code": 200,
+          "baseUrl": "https://git.api.stackit.cloud"
+        },
+        "smithy.api#documentation": "Patch Authentication.\n\nPatches the Authentication Provider."
+      }
+    },
+    "com.stackit.git#DeleteAuthenticationRequest": {
+      "type": "structure",
+      "members": {
+        "projectId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Project identifier."
+          }
+        },
+        "instanceId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Instance identifier."
+          }
+        },
+        "authenticationId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Authentication Source identifier."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.stackit.git#DeleteAuthentication": {
+      "type": "operation",
+      "input": {
+        "target": "com.stackit.git#DeleteAuthenticationRequest"
+      },
+      "output": {
+        "target": "smithy.api#Unit"
+      },
+      "errors": [
+        {
+          "target": "com.stackit.git#BadRequest"
+        },
+        {
+          "target": "com.stackit.git#NotFound"
+        },
+        {
+          "target": "com.stackit.git#Conflict"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "DELETE",
+          "uri": "/v1beta/projects/{projectId}/instances/{instanceId}/authentications/{authenticationId}",
+          "code": 200,
+          "baseUrl": "https://git.api.stackit.cloud"
+        },
+        "smithy.api#documentation": "Delete Authentication Source\n\nDeletes the authentication source associated to this STACKIT Git instance."
+      }
+    },
+    "com.stackit.git#GetRunnerRequest": {
+      "type": "structure",
+      "members": {
+        "projectId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Project identifier."
+          }
+        },
+        "instanceId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Instance identifier."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.stackit.git#Runner": {
+      "type": "structure",
+      "members": {
+        "created_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "labels": {
+          "target": "com.stackit.git#RunnerLabelsList",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "status": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The current status of the runner.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Describes a runner associated to a STACKIT Git instance."
+      }
+    },
+    "com.stackit.git#RunnerLabelsList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {}
+    },
+    "com.stackit.git#GetRunner": {
+      "type": "operation",
+      "input": {
+        "target": "com.stackit.git#GetRunnerRequest"
+      },
+      "output": {
+        "target": "com.stackit.git#Runner"
+      },
+      "errors": [
+        {
+          "target": "com.stackit.git#BadRequest"
+        },
+        {
+          "target": "com.stackit.git#NotFound"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/v1beta/projects/{projectId}/instances/{instanceId}/runner",
+          "code": 200,
+          "baseUrl": "https://git.api.stackit.cloud"
+        },
+        "smithy.api#documentation": "Get Runner information.\n\nRetrieves information about a runner in a STACKIT Git instance."
+      }
+    },
+    "com.stackit.git#CreateRunnerRequestLabelsList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {}
+    },
+    "com.stackit.git#CreateRunnerRequest": {
+      "type": "structure",
+      "members": {
+        "projectId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Project identifier."
+          }
+        },
+        "instanceId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Instance identifier."
+          }
+        },
+        "labels": {
+          "target": "com.stackit.git#CreateRunnerRequestLabelsList",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.stackit.git#CreateRunner": {
+      "type": "operation",
+      "input": {
+        "target": "com.stackit.git#CreateRunnerRequest"
+      },
+      "output": {
+        "target": "com.stackit.git#Runner"
+      },
+      "errors": [
+        {
+          "target": "com.stackit.git#BadRequest"
+        },
+        {
+          "target": "com.stackit.git#Conflict"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/v1beta/projects/{projectId}/instances/{instanceId}/runner",
+          "code": 200,
+          "baseUrl": "https://git.api.stackit.cloud"
+        },
+        "smithy.api#documentation": "Create the runner associated to this instance.\n\nCreates the runner associated to this STACKIT Git instance."
+      }
+    },
+    "com.stackit.git#DeleteRunnerRequest": {
+      "type": "structure",
+      "members": {
+        "projectId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Project identifier."
+          }
+        },
+        "instanceId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Instance identifier."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.stackit.git#DeleteRunner": {
+      "type": "operation",
+      "input": {
+        "target": "com.stackit.git#DeleteRunnerRequest"
+      },
+      "output": {
+        "target": "smithy.api#Unit"
+      },
+      "errors": [
+        {
+          "target": "com.stackit.git#BadRequest"
+        },
+        {
+          "target": "com.stackit.git#NotFound"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "DELETE",
+          "uri": "/v1beta/projects/{projectId}/instances/{instanceId}/runner",
+          "code": 200,
+          "baseUrl": "https://git.api.stackit.cloud"
+        },
+        "smithy.api#documentation": "Delete Runner.\n\nDeletes the runner associated to this STACKIT Git instance and destroys all associated data."
+      }
+    },
+    "com.stackit.git#GetUsersRequest": {
+      "type": "structure",
+      "members": {
+        "projectId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Project identifier."
+          }
+        },
+        "instanceId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Instance identifier."
+          }
+        },
+        "page": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpQuery": "page",
+            "smithy.api#documentation": "Page number for pagination (1-indexed). Each page contains up to 50 users."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.stackit.git#ListUsers": {
+      "type": "structure",
+      "members": {
+        "itemsCount": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Number of users returned in this page.",
+            "smithy.api#required": {}
+          }
+        },
+        "offset": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Zero-based index of the first item in this page.",
+            "smithy.api#required": {}
+          }
+        },
+        "totalPages": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Total number of pages available based on the fixed page size of 50.",
+            "smithy.api#required": {}
+          }
+        },
+        "users": {
+          "target": "com.stackit.git#ListUsersUsersList",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "A paginated list of STACKIT Git instance Users."
+      }
+    },
+    "com.stackit.git#User": {
+      "type": "structure",
+      "members": {
+        "email": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "A user chosen email to distinguish multiple STACKIT Git instance Users.",
+            "smithy.api#required": {}
+          }
+        },
+        "id": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "A auto generated unique id which identifies the STACKIT Git instances."
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Name of the user.",
+            "smithy.api#required": {}
+          }
+        },
+        "username": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "A user chosen username to distinguish multiple STACKIT Git instance Users.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Describes a STACKIT Git instance User."
+      }
+    },
+    "com.stackit.git#ListUsersUsersList": {
+      "type": "list",
+      "member": {
+        "target": "com.stackit.git#User"
+      },
+      "traits": {}
+    },
+    "com.stackit.git#GetUsers": {
+      "type": "operation",
+      "input": {
+        "target": "com.stackit.git#GetUsersRequest"
+      },
+      "output": {
+        "target": "com.stackit.git#ListUsers"
+      },
+      "errors": [
+        {
+          "target": "com.stackit.git#BadRequest"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/v1beta/projects/{projectId}/instances/{instanceId}/users",
+          "code": 200,
+          "baseUrl": "https://git.api.stackit.cloud"
+        },
+        "smithy.api#documentation": "Get instance Users.\n\nLists STACKIT Git Users within an instance. Supports pagination via the\noptional `page` query parameter. Each page returns up to 50 users."
+      }
+    },
+    "com.stackit.git#CreateUserRequest": {
+      "type": "structure",
+      "members": {
+        "projectId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Project identifier."
+          }
+        },
+        "instanceId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Instance identifier."
+          }
+        },
+        "email": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "A user chosen email to distinguish multiple STACKIT Git instance Users.",
+            "smithy.api#required": {}
+          }
+        },
+        "force_send_reset_password": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Whether to force sending a reset password email."
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Name of the user.",
+            "smithy.api#required": {}
+          }
+        },
+        "password": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "A user password to allow user/pass instance login.",
+            "smithy.api#required": {},
+            "smithy.api#sensitive": {}
+          }
+        },
+        "username": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "A user chosen username to distinguish multiple STACKIT Git instance Users.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.stackit.git#CreateUser": {
+      "type": "operation",
+      "input": {
+        "target": "com.stackit.git#CreateUserRequest"
+      },
+      "output": {
+        "target": "com.stackit.git#User"
+      },
+      "errors": [
+        {
+          "target": "com.stackit.git#BadRequest"
+        },
+        {
+          "target": "com.stackit.git#Conflict"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/v1beta/projects/{projectId}/instances/{instanceId}/users",
+          "code": 200,
+          "baseUrl": "https://git.api.stackit.cloud"
+        },
+        "smithy.api#documentation": "Create an Instance Local/Technical User.\n\nCreates a new STACKIT Git instance Local/Technical User."
+      }
+    },
+    "com.stackit.git#GetUserRequest": {
+      "type": "structure",
+      "members": {
+        "projectId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Project identifier."
+          }
+        },
+        "instanceId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Instance identifier."
+          }
+        },
+        "username": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Instance User identifier."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.stackit.git#GetUser": {
+      "type": "operation",
+      "input": {
+        "target": "com.stackit.git#GetUserRequest"
+      },
+      "output": {
+        "target": "smithy.api#Unit"
+      },
+      "errors": [
+        {
+          "target": "com.stackit.git#BadRequest"
+        },
+        {
+          "target": "com.stackit.git#NotFound"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/v1beta/projects/{projectId}/instances/{instanceId}/users/{username}",
+          "code": 200,
+          "baseUrl": "https://git.api.stackit.cloud"
+        },
+        "smithy.api#documentation": "Get Instance User information.\n\nRetrieves information about a STACKIT Git instance User."
+      }
+    },
+    "com.stackit.git#UpdateUserRequest": {
+      "type": "structure",
+      "members": {
+        "projectId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Project identifier."
+          }
+        },
+        "instanceId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Instance identifier."
+          }
+        },
+        "username": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Instance User identifier."
+          }
+        },
+        "email": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "A user chosen email to distinguish multiple STACKIT Git instance Users."
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Name of the user."
+          }
+        },
+        "password": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "A user password to allow user/pass instance login.",
+            "smithy.api#sensitive": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.stackit.git#UpdateUser": {
+      "type": "operation",
+      "input": {
+        "target": "com.stackit.git#UpdateUserRequest"
+      },
+      "output": {
+        "target": "com.stackit.git#User"
+      },
+      "errors": [
+        {
+          "target": "com.stackit.git#BadRequest"
+        },
+        {
+          "target": "com.stackit.git#NotFound"
+        },
+        {
+          "target": "com.stackit.git#Conflict"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "PATCH",
+          "uri": "/v1beta/projects/{projectId}/instances/{instanceId}/users/{username}",
+          "code": 200,
+          "baseUrl": "https://git.api.stackit.cloud"
+        },
+        "smithy.api#documentation": "Update Instance User.\n\nUpdates the Instance User."
+      }
+    },
+    "com.stackit.git#DeleteUserRequest": {
+      "type": "structure",
+      "members": {
+        "projectId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Project identifier."
+          }
+        },
+        "instanceId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Instance identifier."
+          }
+        },
+        "username": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Instance User identifier."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.stackit.git#DeleteUser": {
+      "type": "operation",
+      "input": {
+        "target": "com.stackit.git#DeleteUserRequest"
+      },
+      "output": {
+        "target": "smithy.api#Unit"
+      },
+      "errors": [
+        {
+          "target": "com.stackit.git#BadRequest"
+        },
+        {
+          "target": "com.stackit.git#NotFound"
+        },
+        {
+          "target": "com.stackit.git#Conflict"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "DELETE",
+          "uri": "/v1beta/projects/{projectId}/instances/{instanceId}/users/{username}",
+          "code": 200,
+          "baseUrl": "https://git.api.stackit.cloud"
+        },
+        "smithy.api#documentation": "Delete Instance User.\n\nDeletes a STACKIT Git instance User and destroys all associated data."
+      }
+    },
+    "com.stackit.git#ListRunnerRuntimesRequest": {
+      "type": "structure",
+      "members": {
+        "projectId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Project identifier."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.stackit.git#RunnerRuntimeList": {
+      "type": "structure",
+      "members": {
+        "items": {
+          "target": "com.stackit.git#RunnerRuntimeListItemsList",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "A list of STACKIT Git RunnerLabels."
+      }
+    },
+    "com.stackit.git#RunnerRuntime": {
+      "type": "structure",
+      "members": {
+        "availability": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Indicates the availability of the runner label",
+            "smithy.api#required": {}
+          }
+        },
+        "description": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Human-friendly description of the runtime and its capabilities.",
+            "smithy.api#required": {}
+          }
+        },
+        "display_name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Human-friendly name of the runtime.",
+            "smithy.api#required": {}
+          }
+        },
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Runtime identifier.",
+            "smithy.api#required": {}
+          }
+        },
+        "label": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Runtime label.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Describes a STACKIT Git Runner runtime."
+      }
+    },
+    "com.stackit.git#RunnerRuntimeListItemsList": {
+      "type": "list",
+      "member": {
+        "target": "com.stackit.git#RunnerRuntime"
+      },
+      "traits": {}
+    },
+    "com.stackit.git#ListRunnerRuntimes": {
+      "type": "operation",
+      "input": {
+        "target": "com.stackit.git#ListRunnerRuntimesRequest"
+      },
+      "output": {
+        "target": "com.stackit.git#RunnerRuntimeList"
+      },
+      "errors": [
+        {
+          "target": "com.stackit.git#BadRequest"
+        },
+        {
+          "target": "com.stackit.git#NotFound"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/v1beta/projects/{projectId}/runner-runtimes",
+          "code": 200,
+          "baseUrl": "https://git.api.stackit.cloud"
+        },
+        "smithy.api#documentation": "A list of runner runtimes that are available to be enabled for the project."
+      }
+    },
+    "com.stackit.git#BadRequest": {
+      "type": "structure",
+      "members": {},
+      "traits": {
+        "smithy.api#error": "client",
+        "smithy.api#httpError": 400,
+        "com.distilled.openapi#errorMatchers": [
+          {
+            "status": 400
+          }
+        ]
+      }
+    },
+    "com.stackit.git#NotFound": {
+      "type": "structure",
+      "members": {},
+      "traits": {
+        "smithy.api#error": "client",
+        "smithy.api#httpError": 404,
+        "com.distilled.openapi#errorMatchers": [
+          {
+            "status": 404
+          }
+        ]
+      }
+    },
+    "com.stackit.git#Conflict": {
+      "type": "structure",
+      "members": {},
+      "traits": {
+        "smithy.api#error": "client",
+        "smithy.api#httpError": 409,
+        "com.distilled.openapi#errorMatchers": [
+          {
+            "status": 409
+          }
+        ]
+      }
+    },
+    "com.stackit.git#Git": {
+      "type": "service",
+      "version": "1beta.0.4",
+      "operations": [
+        {
+          "target": "com.stackit.git#ListFlavors2"
+        },
+        {
+          "target": "com.stackit.git#ListInstances2"
+        },
+        {
+          "target": "com.stackit.git#CreateInstance"
+        },
+        {
+          "target": "com.stackit.git#GetInstance"
+        },
+        {
+          "target": "com.stackit.git#PatchInstance"
+        },
+        {
+          "target": "com.stackit.git#DeleteInstance"
+        },
+        {
+          "target": "com.stackit.git#ListAuthentication"
+        },
+        {
+          "target": "com.stackit.git#CreateAuthentication"
+        },
+        {
+          "target": "com.stackit.git#GetAuthentication"
+        },
+        {
+          "target": "com.stackit.git#PatchAuthentication"
+        },
+        {
+          "target": "com.stackit.git#DeleteAuthentication"
+        },
+        {
+          "target": "com.stackit.git#GetRunner"
+        },
+        {
+          "target": "com.stackit.git#CreateRunner"
+        },
+        {
+          "target": "com.stackit.git#DeleteRunner"
+        },
+        {
+          "target": "com.stackit.git#GetUsers"
+        },
+        {
+          "target": "com.stackit.git#CreateUser"
+        },
+        {
+          "target": "com.stackit.git#GetUser"
+        },
+        {
+          "target": "com.stackit.git#UpdateUser"
+        },
+        {
+          "target": "com.stackit.git#DeleteUser"
+        },
+        {
+          "target": "com.stackit.git#ListRunnerRuntimes"
+        }
+      ],
+      "traits": {
+        "smithy.api#title": "STACKIT Git API",
+        "smithy.api#documentation": "STACKIT Git management API."
+      }
+    }
+  }
+}

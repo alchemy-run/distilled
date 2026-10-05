@@ -1,0 +1,46 @@
+{
+  "description": "Sandbox group vnet connections are tracked resources: the PUT body requires `location` (\"JSON deserialization for type 'Adc.Arm.Api.Views.Version20260701.VnetConnectionRequest' was missing required properties including: 'location'\") and responses carry it, but the spec omits it.",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.app#VnetConnectionsCreateOrUpdateRequest/members/location",
+      "value": {
+        "target": "smithy.api#String",
+        "traits": {
+          "smithy.api#required": {},
+          "smithy.api#documentation": "The geo-location where the resource lives; must match the sandbox group's location."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.app#VnetConnectionsCreateOrUpdateResponse/members/location",
+      "value": {
+        "target": "smithy.api#String",
+        "traits": {
+          "smithy.api#documentation": "The geo-location where the resource lives."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.app#GetVnetConnectionResponse/members/location",
+      "value": {
+        "target": "smithy.api#String",
+        "traits": {
+          "smithy.api#documentation": "The geo-location where the resource lives."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.app#VnetConnection/members/location",
+      "value": {
+        "target": "smithy.api#String",
+        "traits": {
+          "smithy.api#documentation": "The geo-location where the resource lives."
+        }
+      }
+    }
+  ]
+}

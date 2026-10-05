@@ -1,0 +1,65 @@
+{
+  "description": "ARM has not rolled out api-version 2026-04-01 for Microsoft.Portal/dashboards (400: 'No registered resource provider found for location eastus and API version 2026-04-01 for type dashboards'; supported up to 2025-04-01-preview). Pin every dashboard operation to 2025-04-01-preview.",
+  "patches": [
+    {
+      "op": "replace",
+      "path": "/shapes/com.azure.portal#DeleteDashboard/traits/smithy.api#http/apiVersion",
+      "value": "2025-04-01-preview"
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.azure.portal#DeleteDashboard/traits/com.distilled.openapi#apiVersion",
+      "value": "2025-04-01-preview"
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.azure.portal#UpdateDashboard/traits/smithy.api#http/apiVersion",
+      "value": "2025-04-01-preview"
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.azure.portal#UpdateDashboard/traits/com.distilled.openapi#apiVersion",
+      "value": "2025-04-01-preview"
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.azure.portal#DashboardsCreateOrUpdate/traits/smithy.api#http/apiVersion",
+      "value": "2025-04-01-preview"
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.azure.portal#DashboardsCreateOrUpdate/traits/com.distilled.openapi#apiVersion",
+      "value": "2025-04-01-preview"
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.azure.portal#GetDashboard/traits/smithy.api#http/apiVersion",
+      "value": "2025-04-01-preview"
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.azure.portal#GetDashboard/traits/com.distilled.openapi#apiVersion",
+      "value": "2025-04-01-preview"
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.azure.portal#ListDashboardByResourceGroup/traits/smithy.api#http/apiVersion",
+      "value": "2025-04-01-preview"
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.azure.portal#ListDashboardByResourceGroup/traits/com.distilled.openapi#apiVersion",
+      "value": "2025-04-01-preview"
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.azure.portal#ListDashboardBySubscription/traits/smithy.api#http/apiVersion",
+      "value": "2025-04-01-preview"
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.azure.portal#ListDashboardBySubscription/traits/com.distilled.openapi#apiVersion",
+      "value": "2025-04-01-preview"
+    }
+  ]
+}

@@ -1,4 +1,5 @@
-#!/usr/bin/env bun
+#!/usr/bin/env -S node --conditions=bun
+import { runGeneratorCli } from "@distilled.cloud/core/codegen/cli";
 /**
  * generate — turn the Smithy JSON models in .generated-specs into the S2
  * Effect SDK.
@@ -17,10 +18,9 @@
  * `has_more`, `access_token`) on the TS surface, the spelling its own docs
  * and SDKs use, so there is no memberName mapping. Module files are named
  * after the tag slug (`access_tokens.ts`) while the barrel exports them
- * camelCased (`Services.accessTokens.listAccessTokens`).
+ * camelCased (`accessTokens.listAccessTokens`).
  */
 import { type SdkSpec } from "@distilled.cloud/core/codegen/generator";
-import { runGeneratorCli } from "@distilled.cloud/core/codegen/cli";
 import {
   ERROR_MATCHERS_TRAIT,
   NULLABLE_TRAIT,
@@ -113,7 +113,7 @@ const spec: SdkSpec = {
 
 runGeneratorCli({
   description: "Generate the S2 Effect SDK from the Smithy models",
-  root: `${import.meta.dir}/..`,
+  root: `${import.meta.dirname}/..`,
   // The RFC-6902 chain in patches/<service>/<op>.json applies to the Smithy
   // models via finalizeConvert in scripts/convert.ts — never here.
   patchesDir: false,

@@ -856,7 +856,7 @@
         }
       },
       "traits": {
-        "smithy.api#documentation": "Request for [ProvisionDeployment]. [spectrum.sas.portal.v1alpha1.Provisioning.ProvisionDeployment]. GCP Project, Organization Info, and caller’s GAIA ID should be retrieved from the RPC handler, and used as inputs to create a new SAS organization (if not exists) and a new SAS deployment."
+        "smithy.api#documentation": "Request for [ProvisionDeployment]. [spectrum.sas.portal.v1alpha1.Provisioning.ProvisionDeployment]. GCP Project, Organization Info, and caller\u2019s GAIA ID should be retrieved from the RPC handler, and used as inputs to create a new SAS organization (if not exists) and a new SAS deployment."
       }
     },
     "com.gcp.sasportal_v1alpha1#SasPortalDeviceConfig": {
@@ -1652,6 +1652,9 @@
         },
         {
           "target": "com.gcp.sasportal_v1alpha1#Forbidden"
+        },
+        {
+          "target": "com.gcp.sasportal_v1alpha1#ServiceDisabled"
         }
       ],
       "traits": {
@@ -1728,6 +1731,9 @@
         },
         {
           "target": "com.gcp.sasportal_v1alpha1#Conflict"
+        },
+        {
+          "target": "com.gcp.sasportal_v1alpha1#ServiceDisabled"
         }
       ],
       "traits": {
@@ -1765,6 +1771,9 @@
         },
         {
           "target": "com.gcp.sasportal_v1alpha1#Forbidden"
+        },
+        {
+          "target": "com.gcp.sasportal_v1alpha1#ServiceDisabled"
         }
       ],
       "traits": {
@@ -1815,6 +1824,9 @@
         },
         {
           "target": "com.gcp.sasportal_v1alpha1#Conflict"
+        },
+        {
+          "target": "com.gcp.sasportal_v1alpha1#ServiceDisabled"
         }
       ],
       "traits": {
@@ -1858,6 +1870,9 @@
         },
         {
           "target": "com.gcp.sasportal_v1alpha1#Conflict"
+        },
+        {
+          "target": "com.gcp.sasportal_v1alpha1#ServiceDisabled"
         }
       ],
       "traits": {
@@ -1915,6 +1930,9 @@
         },
         {
           "target": "com.gcp.sasportal_v1alpha1#Conflict"
+        },
+        {
+          "target": "com.gcp.sasportal_v1alpha1#ServiceDisabled"
         }
       ],
       "traits": {
@@ -1965,6 +1983,9 @@
         },
         {
           "target": "com.gcp.sasportal_v1alpha1#Conflict"
+        },
+        {
+          "target": "com.gcp.sasportal_v1alpha1#ServiceDisabled"
         }
       ],
       "traits": {
@@ -2002,6 +2023,9 @@
         },
         {
           "target": "com.gcp.sasportal_v1alpha1#Forbidden"
+        },
+        {
+          "target": "com.gcp.sasportal_v1alpha1#ServiceDisabled"
         }
       ],
       "traits": {
@@ -2052,6 +2076,9 @@
         },
         {
           "target": "com.gcp.sasportal_v1alpha1#Conflict"
+        },
+        {
+          "target": "com.gcp.sasportal_v1alpha1#ServiceDisabled"
         }
       ],
       "traits": {
@@ -2102,6 +2129,9 @@
         },
         {
           "target": "com.gcp.sasportal_v1alpha1#Conflict"
+        },
+        {
+          "target": "com.gcp.sasportal_v1alpha1#ServiceDisabled"
         }
       ],
       "traits": {
@@ -2160,6 +2190,9 @@
         },
         {
           "target": "com.gcp.sasportal_v1alpha1#Forbidden"
+        },
+        {
+          "target": "com.gcp.sasportal_v1alpha1#ServiceDisabled"
         }
       ],
       "traits": {
@@ -2201,6 +2234,9 @@
         },
         {
           "target": "com.gcp.sasportal_v1alpha1#Forbidden"
+        },
+        {
+          "target": "com.gcp.sasportal_v1alpha1#ServiceDisabled"
         }
       ],
       "traits": {
@@ -2258,6 +2294,9 @@
         },
         {
           "target": "com.gcp.sasportal_v1alpha1#Conflict"
+        },
+        {
+          "target": "com.gcp.sasportal_v1alpha1#ServiceDisabled"
         }
       ],
       "traits": {
@@ -2301,6 +2340,9 @@
         },
         {
           "target": "com.gcp.sasportal_v1alpha1#Conflict"
+        },
+        {
+          "target": "com.gcp.sasportal_v1alpha1#ServiceDisabled"
         }
       ],
       "traits": {
@@ -2351,6 +2393,9 @@
         },
         {
           "target": "com.gcp.sasportal_v1alpha1#Conflict"
+        },
+        {
+          "target": "com.gcp.sasportal_v1alpha1#ServiceDisabled"
         }
       ],
       "traits": {
@@ -2409,6 +2454,9 @@
         },
         {
           "target": "com.gcp.sasportal_v1alpha1#Forbidden"
+        },
+        {
+          "target": "com.gcp.sasportal_v1alpha1#ServiceDisabled"
         }
       ],
       "traits": {
@@ -2463,6 +2511,9 @@
         },
         {
           "target": "com.gcp.sasportal_v1alpha1#Conflict"
+        },
+        {
+          "target": "com.gcp.sasportal_v1alpha1#ServiceDisabled"
         }
       ],
       "traits": {
@@ -2513,6 +2564,9 @@
         },
         {
           "target": "com.gcp.sasportal_v1alpha1#Conflict"
+        },
+        {
+          "target": "com.gcp.sasportal_v1alpha1#ServiceDisabled"
         }
       ],
       "traits": {
@@ -2571,6 +2625,9 @@
         },
         {
           "target": "com.gcp.sasportal_v1alpha1#Forbidden"
+        },
+        {
+          "target": "com.gcp.sasportal_v1alpha1#ServiceDisabled"
         }
       ],
       "traits": {
@@ -2625,6 +2682,9 @@
         },
         {
           "target": "com.gcp.sasportal_v1alpha1#Conflict"
+        },
+        {
+          "target": "com.gcp.sasportal_v1alpha1#ServiceDisabled"
         }
       ],
       "traits": {
@@ -2683,6 +2743,9 @@
         },
         {
           "target": "com.gcp.sasportal_v1alpha1#Forbidden"
+        },
+        {
+          "target": "com.gcp.sasportal_v1alpha1#ServiceDisabled"
         }
       ],
       "traits": {
@@ -2724,6 +2787,9 @@
         },
         {
           "target": "com.gcp.sasportal_v1alpha1#Forbidden"
+        },
+        {
+          "target": "com.gcp.sasportal_v1alpha1#ServiceDisabled"
         }
       ],
       "traits": {
@@ -2774,6 +2840,9 @@
         },
         {
           "target": "com.gcp.sasportal_v1alpha1#Conflict"
+        },
+        {
+          "target": "com.gcp.sasportal_v1alpha1#ServiceDisabled"
         }
       ],
       "traits": {
@@ -2832,6 +2901,9 @@
         },
         {
           "target": "com.gcp.sasportal_v1alpha1#Forbidden"
+        },
+        {
+          "target": "com.gcp.sasportal_v1alpha1#ServiceDisabled"
         }
       ],
       "traits": {
@@ -2886,6 +2958,9 @@
         },
         {
           "target": "com.gcp.sasportal_v1alpha1#Conflict"
+        },
+        {
+          "target": "com.gcp.sasportal_v1alpha1#ServiceDisabled"
         }
       ],
       "traits": {
@@ -2936,6 +3011,9 @@
         },
         {
           "target": "com.gcp.sasportal_v1alpha1#Conflict"
+        },
+        {
+          "target": "com.gcp.sasportal_v1alpha1#ServiceDisabled"
         }
       ],
       "traits": {
@@ -2979,6 +3057,9 @@
         },
         {
           "target": "com.gcp.sasportal_v1alpha1#Conflict"
+        },
+        {
+          "target": "com.gcp.sasportal_v1alpha1#ServiceDisabled"
         }
       ],
       "traits": {
@@ -3036,6 +3117,9 @@
         },
         {
           "target": "com.gcp.sasportal_v1alpha1#Conflict"
+        },
+        {
+          "target": "com.gcp.sasportal_v1alpha1#ServiceDisabled"
         }
       ],
       "traits": {
@@ -3086,6 +3170,9 @@
         },
         {
           "target": "com.gcp.sasportal_v1alpha1#Conflict"
+        },
+        {
+          "target": "com.gcp.sasportal_v1alpha1#ServiceDisabled"
         }
       ],
       "traits": {
@@ -3136,6 +3223,9 @@
         },
         {
           "target": "com.gcp.sasportal_v1alpha1#Conflict"
+        },
+        {
+          "target": "com.gcp.sasportal_v1alpha1#ServiceDisabled"
         }
       ],
       "traits": {
@@ -3186,6 +3276,9 @@
         },
         {
           "target": "com.gcp.sasportal_v1alpha1#Conflict"
+        },
+        {
+          "target": "com.gcp.sasportal_v1alpha1#ServiceDisabled"
         }
       ],
       "traits": {
@@ -3223,6 +3316,9 @@
         },
         {
           "target": "com.gcp.sasportal_v1alpha1#Forbidden"
+        },
+        {
+          "target": "com.gcp.sasportal_v1alpha1#ServiceDisabled"
         }
       ],
       "traits": {
@@ -3281,6 +3377,9 @@
         },
         {
           "target": "com.gcp.sasportal_v1alpha1#Forbidden"
+        },
+        {
+          "target": "com.gcp.sasportal_v1alpha1#ServiceDisabled"
         }
       ],
       "traits": {
@@ -3328,6 +3427,9 @@
         },
         {
           "target": "com.gcp.sasportal_v1alpha1#Conflict"
+        },
+        {
+          "target": "com.gcp.sasportal_v1alpha1#ServiceDisabled"
         }
       ],
       "traits": {
@@ -3385,6 +3487,9 @@
         },
         {
           "target": "com.gcp.sasportal_v1alpha1#Conflict"
+        },
+        {
+          "target": "com.gcp.sasportal_v1alpha1#ServiceDisabled"
         }
       ],
       "traits": {
@@ -3435,6 +3540,9 @@
         },
         {
           "target": "com.gcp.sasportal_v1alpha1#Conflict"
+        },
+        {
+          "target": "com.gcp.sasportal_v1alpha1#ServiceDisabled"
         }
       ],
       "traits": {
@@ -3485,6 +3593,9 @@
         },
         {
           "target": "com.gcp.sasportal_v1alpha1#Conflict"
+        },
+        {
+          "target": "com.gcp.sasportal_v1alpha1#ServiceDisabled"
         }
       ],
       "traits": {
@@ -3543,6 +3654,9 @@
         },
         {
           "target": "com.gcp.sasportal_v1alpha1#Forbidden"
+        },
+        {
+          "target": "com.gcp.sasportal_v1alpha1#ServiceDisabled"
         }
       ],
       "traits": {
@@ -3590,6 +3704,9 @@
         },
         {
           "target": "com.gcp.sasportal_v1alpha1#Forbidden"
+        },
+        {
+          "target": "com.gcp.sasportal_v1alpha1#ServiceDisabled"
         }
       ],
       "traits": {
@@ -3636,6 +3753,9 @@
         },
         {
           "target": "com.gcp.sasportal_v1alpha1#Conflict"
+        },
+        {
+          "target": "com.gcp.sasportal_v1alpha1#ServiceDisabled"
         }
       ],
       "traits": {
@@ -3664,6 +3784,9 @@
         },
         {
           "target": "com.gcp.sasportal_v1alpha1#Forbidden"
+        },
+        {
+          "target": "com.gcp.sasportal_v1alpha1#ServiceDisabled"
         }
       ],
       "traits": {
@@ -3706,6 +3829,9 @@
         },
         {
           "target": "com.gcp.sasportal_v1alpha1#Conflict"
+        },
+        {
+          "target": "com.gcp.sasportal_v1alpha1#ServiceDisabled"
         }
       ],
       "traits": {
@@ -3734,6 +3860,9 @@
         },
         {
           "target": "com.gcp.sasportal_v1alpha1#Forbidden"
+        },
+        {
+          "target": "com.gcp.sasportal_v1alpha1#ServiceDisabled"
         }
       ],
       "traits": {
@@ -3791,6 +3920,9 @@
         },
         {
           "target": "com.gcp.sasportal_v1alpha1#Conflict"
+        },
+        {
+          "target": "com.gcp.sasportal_v1alpha1#ServiceDisabled"
         }
       ],
       "traits": {
@@ -3828,6 +3960,9 @@
         },
         {
           "target": "com.gcp.sasportal_v1alpha1#Forbidden"
+        },
+        {
+          "target": "com.gcp.sasportal_v1alpha1#ServiceDisabled"
         }
       ],
       "traits": {
@@ -3870,6 +4005,9 @@
         },
         {
           "target": "com.gcp.sasportal_v1alpha1#Conflict"
+        },
+        {
+          "target": "com.gcp.sasportal_v1alpha1#ServiceDisabled"
         }
       ],
       "traits": {
@@ -3927,6 +4065,9 @@
         },
         {
           "target": "com.gcp.sasportal_v1alpha1#Conflict"
+        },
+        {
+          "target": "com.gcp.sasportal_v1alpha1#ServiceDisabled"
         }
       ],
       "traits": {
@@ -3977,6 +4118,9 @@
         },
         {
           "target": "com.gcp.sasportal_v1alpha1#Conflict"
+        },
+        {
+          "target": "com.gcp.sasportal_v1alpha1#ServiceDisabled"
         }
       ],
       "traits": {
@@ -4014,6 +4158,9 @@
         },
         {
           "target": "com.gcp.sasportal_v1alpha1#Forbidden"
+        },
+        {
+          "target": "com.gcp.sasportal_v1alpha1#ServiceDisabled"
         }
       ],
       "traits": {
@@ -4064,6 +4211,9 @@
         },
         {
           "target": "com.gcp.sasportal_v1alpha1#Conflict"
+        },
+        {
+          "target": "com.gcp.sasportal_v1alpha1#ServiceDisabled"
         }
       ],
       "traits": {
@@ -4122,6 +4272,9 @@
         },
         {
           "target": "com.gcp.sasportal_v1alpha1#Forbidden"
+        },
+        {
+          "target": "com.gcp.sasportal_v1alpha1#ServiceDisabled"
         }
       ],
       "traits": {
@@ -4169,6 +4322,9 @@
         },
         {
           "target": "com.gcp.sasportal_v1alpha1#Conflict"
+        },
+        {
+          "target": "com.gcp.sasportal_v1alpha1#ServiceDisabled"
         }
       ],
       "traits": {
@@ -4227,6 +4383,9 @@
         },
         {
           "target": "com.gcp.sasportal_v1alpha1#Forbidden"
+        },
+        {
+          "target": "com.gcp.sasportal_v1alpha1#ServiceDisabled"
         }
       ],
       "traits": {
@@ -4281,6 +4440,9 @@
         },
         {
           "target": "com.gcp.sasportal_v1alpha1#Conflict"
+        },
+        {
+          "target": "com.gcp.sasportal_v1alpha1#ServiceDisabled"
         }
       ],
       "traits": {
@@ -4331,6 +4493,9 @@
         },
         {
           "target": "com.gcp.sasportal_v1alpha1#Conflict"
+        },
+        {
+          "target": "com.gcp.sasportal_v1alpha1#ServiceDisabled"
         }
       ],
       "traits": {
@@ -4381,6 +4546,9 @@
         },
         {
           "target": "com.gcp.sasportal_v1alpha1#Conflict"
+        },
+        {
+          "target": "com.gcp.sasportal_v1alpha1#ServiceDisabled"
         }
       ],
       "traits": {
@@ -4438,6 +4606,9 @@
         },
         {
           "target": "com.gcp.sasportal_v1alpha1#Conflict"
+        },
+        {
+          "target": "com.gcp.sasportal_v1alpha1#ServiceDisabled"
         }
       ],
       "traits": {
@@ -4488,6 +4659,9 @@
         },
         {
           "target": "com.gcp.sasportal_v1alpha1#Conflict"
+        },
+        {
+          "target": "com.gcp.sasportal_v1alpha1#ServiceDisabled"
         }
       ],
       "traits": {
@@ -4531,6 +4705,9 @@
         },
         {
           "target": "com.gcp.sasportal_v1alpha1#Conflict"
+        },
+        {
+          "target": "com.gcp.sasportal_v1alpha1#ServiceDisabled"
         }
       ],
       "traits": {
@@ -4581,6 +4758,9 @@
         },
         {
           "target": "com.gcp.sasportal_v1alpha1#Conflict"
+        },
+        {
+          "target": "com.gcp.sasportal_v1alpha1#ServiceDisabled"
         }
       ],
       "traits": {
@@ -4631,6 +4811,9 @@
         },
         {
           "target": "com.gcp.sasportal_v1alpha1#Conflict"
+        },
+        {
+          "target": "com.gcp.sasportal_v1alpha1#ServiceDisabled"
         }
       ],
       "traits": {
@@ -4689,6 +4872,9 @@
         },
         {
           "target": "com.gcp.sasportal_v1alpha1#Forbidden"
+        },
+        {
+          "target": "com.gcp.sasportal_v1alpha1#ServiceDisabled"
         }
       ],
       "traits": {
@@ -4743,6 +4929,9 @@
         },
         {
           "target": "com.gcp.sasportal_v1alpha1#Conflict"
+        },
+        {
+          "target": "com.gcp.sasportal_v1alpha1#ServiceDisabled"
         }
       ],
       "traits": {
@@ -4780,6 +4969,9 @@
         },
         {
           "target": "com.gcp.sasportal_v1alpha1#Forbidden"
+        },
+        {
+          "target": "com.gcp.sasportal_v1alpha1#ServiceDisabled"
         }
       ],
       "traits": {
@@ -4817,6 +5009,9 @@
         },
         {
           "target": "com.gcp.sasportal_v1alpha1#Forbidden"
+        },
+        {
+          "target": "com.gcp.sasportal_v1alpha1#ServiceDisabled"
         }
       ],
       "traits": {
@@ -4874,6 +5069,9 @@
         },
         {
           "target": "com.gcp.sasportal_v1alpha1#Conflict"
+        },
+        {
+          "target": "com.gcp.sasportal_v1alpha1#ServiceDisabled"
         }
       ],
       "traits": {
@@ -4924,6 +5122,9 @@
         },
         {
           "target": "com.gcp.sasportal_v1alpha1#Conflict"
+        },
+        {
+          "target": "com.gcp.sasportal_v1alpha1#ServiceDisabled"
         }
       ],
       "traits": {
@@ -4974,6 +5175,9 @@
         },
         {
           "target": "com.gcp.sasportal_v1alpha1#Conflict"
+        },
+        {
+          "target": "com.gcp.sasportal_v1alpha1#ServiceDisabled"
         }
       ],
       "traits": {
@@ -5032,6 +5236,9 @@
         },
         {
           "target": "com.gcp.sasportal_v1alpha1#Forbidden"
+        },
+        {
+          "target": "com.gcp.sasportal_v1alpha1#ServiceDisabled"
         }
       ],
       "traits": {
@@ -5079,6 +5286,9 @@
         },
         {
           "target": "com.gcp.sasportal_v1alpha1#Conflict"
+        },
+        {
+          "target": "com.gcp.sasportal_v1alpha1#ServiceDisabled"
         }
       ],
       "traits": {
@@ -5129,6 +5339,9 @@
         },
         {
           "target": "com.gcp.sasportal_v1alpha1#Conflict"
+        },
+        {
+          "target": "com.gcp.sasportal_v1alpha1#ServiceDisabled"
         }
       ],
       "traits": {
@@ -5187,6 +5400,9 @@
         },
         {
           "target": "com.gcp.sasportal_v1alpha1#Forbidden"
+        },
+        {
+          "target": "com.gcp.sasportal_v1alpha1#ServiceDisabled"
         }
       ],
       "traits": {
@@ -5241,6 +5457,9 @@
         },
         {
           "target": "com.gcp.sasportal_v1alpha1#Conflict"
+        },
+        {
+          "target": "com.gcp.sasportal_v1alpha1#ServiceDisabled"
         }
       ],
       "traits": {
@@ -5299,6 +5518,9 @@
         },
         {
           "target": "com.gcp.sasportal_v1alpha1#Forbidden"
+        },
+        {
+          "target": "com.gcp.sasportal_v1alpha1#ServiceDisabled"
         }
       ],
       "traits": {
@@ -5353,6 +5575,9 @@
         },
         {
           "target": "com.gcp.sasportal_v1alpha1#Conflict"
+        },
+        {
+          "target": "com.gcp.sasportal_v1alpha1#ServiceDisabled"
         }
       ],
       "traits": {
@@ -5403,6 +5628,9 @@
         },
         {
           "target": "com.gcp.sasportal_v1alpha1#Conflict"
+        },
+        {
+          "target": "com.gcp.sasportal_v1alpha1#ServiceDisabled"
         }
       ],
       "traits": {
@@ -5461,6 +5689,9 @@
         },
         {
           "target": "com.gcp.sasportal_v1alpha1#Forbidden"
+        },
+        {
+          "target": "com.gcp.sasportal_v1alpha1#ServiceDisabled"
         }
       ],
       "traits": {
@@ -5507,6 +5738,9 @@
         },
         {
           "target": "com.gcp.sasportal_v1alpha1#Conflict"
+        },
+        {
+          "target": "com.gcp.sasportal_v1alpha1#ServiceDisabled"
         }
       ],
       "traits": {
@@ -5549,6 +5783,9 @@
         },
         {
           "target": "com.gcp.sasportal_v1alpha1#Conflict"
+        },
+        {
+          "target": "com.gcp.sasportal_v1alpha1#ServiceDisabled"
         }
       ],
       "traits": {
@@ -5591,6 +5828,9 @@
         },
         {
           "target": "com.gcp.sasportal_v1alpha1#Conflict"
+        },
+        {
+          "target": "com.gcp.sasportal_v1alpha1#ServiceDisabled"
         }
       ],
       "traits": {
@@ -5633,6 +5873,9 @@
         },
         {
           "target": "com.gcp.sasportal_v1alpha1#Conflict"
+        },
+        {
+          "target": "com.gcp.sasportal_v1alpha1#ServiceDisabled"
         }
       ],
       "traits": {
@@ -5675,6 +5918,9 @@
         },
         {
           "target": "com.gcp.sasportal_v1alpha1#Conflict"
+        },
+        {
+          "target": "com.gcp.sasportal_v1alpha1#ServiceDisabled"
         }
       ],
       "traits": {
@@ -5683,6 +5929,23 @@
           "uri": "v1alpha1/installer:generateSecret"
         },
         "smithy.api#documentation": "Generates a secret to be used with the ValidateInstaller."
+      }
+    },
+    "com.gcp.sasportal_v1alpha1#ServiceDisabled": {
+      "type": "structure",
+      "members": {},
+      "traits": {
+        "smithy.api#error": "client",
+        "smithy.api#httpError": 403,
+        "smithy.api#documentation": "The SAS Portal API is not enabled for the calling project (HTTP 403 SERVICE_DISABLED).",
+        "com.gcp.protocols#errorMatchers": [
+          {
+            "status": 403,
+            "message": {
+              "includes": "has not been used in project"
+            }
+          }
+        ]
       }
     }
   }

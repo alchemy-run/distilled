@@ -1,0 +1,43 @@
+{
+  "description": "Type BeyondCorp app connector/connection/gateway creates' HTTP 501 UNIMPLEMENTED ('This function is not implemented'). The legacy app-connector surface is not available to projects without a BeyondCorp Enterprise / Chrome Enterprise Premium entitlement; the 501 fell outside HTTP_STATUS_MAP and surfaced as UnknownGCPError, which the default policy retried as a server error. No smithy.api#httpError is set, so the 501 carries no ServerError category and the default policy does not retry it. Observed live 2026-09-28 with validateOnly creates in us-central1.",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.beyondcorp_v1#AppConnectorsNotImplemented",
+      "value": {
+        "type": "structure",
+        "members": {},
+        "traits": {
+          "smithy.api#error": "client",
+          "smithy.api#documentation": "BeyondCorp app connectors, connections, and gateways are not available to this project (HTTP 501 UNIMPLEMENTED: 'This function is not implemented'). Not retryable.",
+          "com.gcp.protocols#errorMatchers": [
+            {
+              "status": 501
+            }
+          ]
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.beyondcorp_v1#CreateProjectsLocationsAppConnections/errors/-",
+      "value": {
+        "target": "com.gcp.beyondcorp_v1#AppConnectorsNotImplemented"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.beyondcorp_v1#CreateProjectsLocationsAppConnectors/errors/-",
+      "value": {
+        "target": "com.gcp.beyondcorp_v1#AppConnectorsNotImplemented"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.beyondcorp_v1#CreateProjectsLocationsAppGateways/errors/-",
+      "value": {
+        "target": "com.gcp.beyondcorp_v1#AppConnectorsNotImplemented"
+      }
+    }
+  ]
+}

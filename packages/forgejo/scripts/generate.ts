@@ -1,4 +1,5 @@
-#!/usr/bin/env bun
+#!/usr/bin/env -S node --conditions=bun
+import { runGeneratorCli } from "@distilled.cloud/core/codegen/cli";
 /**
  * generate — turn the Smithy JSON models in .generated-specs into the Forgejo
  * Effect SDK.
@@ -18,7 +19,7 @@
  * own docs and the Terraform provider use, so there is no memberName
  * mapping. Module files are named after the tag (`repository.ts`,
  * `organization.ts`) and the barrel exports them under the same name
- * (`Services.repository.repoGet`).
+ * (`repository.repoGet`).
  *
  * No pagination profiles are emitted: Forgejo paginates with `page`/`limit`
  * and an `X-Total-Count` response header, and every list endpoint returns a
@@ -27,7 +28,6 @@
  * callers advance them until an empty page comes back.
  */
 import { type SdkSpec } from "@distilled.cloud/core/codegen/generator";
-import { runGeneratorCli } from "@distilled.cloud/core/codegen/cli";
 import {
   ERROR_MATCHERS_TRAIT,
   NULLABLE_TRAIT,
@@ -119,7 +119,7 @@ const spec: SdkSpec = {
 
 runGeneratorCli({
   description: "Generate the Forgejo Effect SDK from the Smithy models",
-  root: `${import.meta.dir}/..`,
+  root: `${import.meta.dirname}/..`,
   // The RFC-6902 chain in patches/<service>/<op>.json applies to the
   // Swagger document in scripts/convert.ts — never to the Smithy models.
   patchesDir: false,

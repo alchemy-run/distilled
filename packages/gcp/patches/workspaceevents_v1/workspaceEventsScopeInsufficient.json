@@ -1,0 +1,68 @@
+{
+  "description": "Type the missing-OAuth-scope 403 on Workspace Events subscription operations; it surfaced as a generic Forbidden. Observed live 2026-09-29 on getSubscriptions/createSubscriptions with a cloud-platform token.",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.workspaceevents_v1#WorkspaceEventsScopeInsufficient",
+      "value": {
+        "type": "structure",
+        "members": {},
+        "traits": {
+          "smithy.api#error": "client",
+          "smithy.api#httpError": 403,
+          "smithy.api#documentation": "The access token lacks a Workspace Events OAuth scope for the subscribed resource (HTTP 403 PERMISSION_DENIED, reason ACCESS_TOKEN_SCOPE_INSUFFICIENT: 'Request had insufficient authentication scopes.'). A `cloud-platform` token is not enough. Not retryable.",
+          "com.gcp.protocols#errorMatchers": [
+            {
+              "status": 403,
+              "message": {
+                "includes": "insufficient authentication scopes"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.workspaceevents_v1#CreateSubscriptions/errors/-",
+      "value": {
+        "target": "com.gcp.workspaceevents_v1#WorkspaceEventsScopeInsufficient"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.workspaceevents_v1#DeleteSubscriptions/errors/-",
+      "value": {
+        "target": "com.gcp.workspaceevents_v1#WorkspaceEventsScopeInsufficient"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.workspaceevents_v1#GetSubscriptions/errors/-",
+      "value": {
+        "target": "com.gcp.workspaceevents_v1#WorkspaceEventsScopeInsufficient"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.workspaceevents_v1#ListSubscriptions/errors/-",
+      "value": {
+        "target": "com.gcp.workspaceevents_v1#WorkspaceEventsScopeInsufficient"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.workspaceevents_v1#PatchSubscriptions/errors/-",
+      "value": {
+        "target": "com.gcp.workspaceevents_v1#WorkspaceEventsScopeInsufficient"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.workspaceevents_v1#ReactivateSubscriptions/errors/-",
+      "value": {
+        "target": "com.gcp.workspaceevents_v1#WorkspaceEventsScopeInsufficient"
+      }
+    }
+  ]
+}

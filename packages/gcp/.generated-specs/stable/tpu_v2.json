@@ -1925,6 +1925,9 @@
         },
         {
           "target": "com.gcp.tpu_v2#Conflict"
+        },
+        {
+          "target": "com.gcp.tpu_v2#ServiceDisabled"
         }
       ],
       "traits": {
@@ -1990,6 +1993,9 @@
         },
         {
           "target": "com.gcp.tpu_v2#Forbidden"
+        },
+        {
+          "target": "com.gcp.tpu_v2#ServiceDisabled"
         }
       ],
       "traits": {
@@ -2031,6 +2037,9 @@
         },
         {
           "target": "com.gcp.tpu_v2#Forbidden"
+        },
+        {
+          "target": "com.gcp.tpu_v2#ServiceDisabled"
         }
       ],
       "traits": {
@@ -2068,6 +2077,9 @@
         },
         {
           "target": "com.gcp.tpu_v2#Forbidden"
+        },
+        {
+          "target": "com.gcp.tpu_v2#ServiceDisabled"
         }
       ],
       "traits": {
@@ -2133,6 +2145,9 @@
         },
         {
           "target": "com.gcp.tpu_v2#Forbidden"
+        },
+        {
+          "target": "com.gcp.tpu_v2#ServiceDisabled"
         }
       ],
       "traits": {
@@ -2187,6 +2202,9 @@
         },
         {
           "target": "com.gcp.tpu_v2#Conflict"
+        },
+        {
+          "target": "com.gcp.tpu_v2#ServiceDisabled"
         }
       ],
       "traits": {
@@ -2224,6 +2242,9 @@
         },
         {
           "target": "com.gcp.tpu_v2#Forbidden"
+        },
+        {
+          "target": "com.gcp.tpu_v2#ServiceDisabled"
         }
       ],
       "traits": {
@@ -2267,6 +2288,9 @@
         },
         {
           "target": "com.gcp.tpu_v2#Conflict"
+        },
+        {
+          "target": "com.gcp.tpu_v2#ServiceDisabled"
         }
       ],
       "traits": {
@@ -2318,6 +2342,9 @@
         },
         {
           "target": "com.gcp.tpu_v2#Forbidden"
+        },
+        {
+          "target": "com.gcp.tpu_v2#ServiceDisabled"
         }
       ],
       "traits": {
@@ -2372,6 +2399,9 @@
         },
         {
           "target": "com.gcp.tpu_v2#Conflict"
+        },
+        {
+          "target": "com.gcp.tpu_v2#ServiceDisabled"
         }
       ],
       "traits": {
@@ -2429,6 +2459,9 @@
         },
         {
           "target": "com.gcp.tpu_v2#Conflict"
+        },
+        {
+          "target": "com.gcp.tpu_v2#ServiceDisabled"
         }
       ],
       "traits": {
@@ -2479,6 +2512,9 @@
         },
         {
           "target": "com.gcp.tpu_v2#Conflict"
+        },
+        {
+          "target": "com.gcp.tpu_v2#ServiceDisabled"
         }
       ],
       "traits": {
@@ -2536,6 +2572,9 @@
         },
         {
           "target": "com.gcp.tpu_v2#Conflict"
+        },
+        {
+          "target": "com.gcp.tpu_v2#ServiceDisabled"
         }
       ],
       "traits": {
@@ -2573,6 +2612,9 @@
         },
         {
           "target": "com.gcp.tpu_v2#Forbidden"
+        },
+        {
+          "target": "com.gcp.tpu_v2#ServiceDisabled"
         }
       ],
       "traits": {
@@ -2630,6 +2672,9 @@
         },
         {
           "target": "com.gcp.tpu_v2#Conflict"
+        },
+        {
+          "target": "com.gcp.tpu_v2#ServiceDisabled"
         }
       ],
       "traits": {
@@ -2680,6 +2725,9 @@
         },
         {
           "target": "com.gcp.tpu_v2#Conflict"
+        },
+        {
+          "target": "com.gcp.tpu_v2#ServiceDisabled"
         }
       ],
       "traits": {
@@ -2744,6 +2792,9 @@
         },
         {
           "target": "com.gcp.tpu_v2#Conflict"
+        },
+        {
+          "target": "com.gcp.tpu_v2#ServiceDisabled"
         }
       ],
       "traits": {
@@ -2795,6 +2846,9 @@
         },
         {
           "target": "com.gcp.tpu_v2#Forbidden"
+        },
+        {
+          "target": "com.gcp.tpu_v2#ServiceDisabled"
         }
       ],
       "traits": {
@@ -2836,6 +2890,9 @@
         },
         {
           "target": "com.gcp.tpu_v2#Forbidden"
+        },
+        {
+          "target": "com.gcp.tpu_v2#ServiceDisabled"
         }
       ],
       "traits": {
@@ -2901,6 +2958,9 @@
         },
         {
           "target": "com.gcp.tpu_v2#Forbidden"
+        },
+        {
+          "target": "com.gcp.tpu_v2#ServiceDisabled"
         }
       ],
       "traits": {
@@ -2970,6 +3030,9 @@
         },
         {
           "target": "com.gcp.tpu_v2#Forbidden"
+        },
+        {
+          "target": "com.gcp.tpu_v2#ServiceDisabled"
         }
       ],
       "traits": {
@@ -3011,6 +3074,9 @@
         },
         {
           "target": "com.gcp.tpu_v2#Forbidden"
+        },
+        {
+          "target": "com.gcp.tpu_v2#ServiceDisabled"
         }
       ],
       "traits": {
@@ -3054,6 +3120,9 @@
         },
         {
           "target": "com.gcp.tpu_v2#Conflict"
+        },
+        {
+          "target": "com.gcp.tpu_v2#ServiceDisabled"
         }
       ],
       "traits": {
@@ -3097,6 +3166,9 @@
         },
         {
           "target": "com.gcp.tpu_v2#Conflict"
+        },
+        {
+          "target": "com.gcp.tpu_v2#ServiceDisabled"
         }
       ],
       "traits": {
@@ -3105,6 +3177,23 @@
           "uri": "v2/{+name}:cancel"
         },
         "smithy.api#documentation": "Starts asynchronous cancellation on a long-running operation. The server makes a best effort to cancel the operation, but success is not guaranteed. If the server doesn't support this method, it returns `google.rpc.Code.UNIMPLEMENTED`. Clients can use Operations.GetOperation or other methods to check whether the cancellation succeeded or whether the operation completed despite cancellation. On successful cancellation, the operation is not deleted; instead, it becomes an operation with an Operation.error value with a google.rpc.Status.code of `1`, corresponding to `Code.CANCELLED`."
+      }
+    },
+    "com.gcp.tpu_v2#ServiceDisabled": {
+      "type": "structure",
+      "members": {},
+      "traits": {
+        "smithy.api#error": "client",
+        "smithy.api#httpError": 403,
+        "smithy.api#documentation": "The Cloud TPU API is not enabled for the calling project (HTTP 403 SERVICE_DISABLED).",
+        "com.gcp.protocols#errorMatchers": [
+          {
+            "status": 403,
+            "message": {
+              "includes": "has not been used in project"
+            }
+          }
+        ]
       }
     }
   }

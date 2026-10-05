@@ -1,4 +1,4 @@
-#!/usr/bin/env bun
+#!/usr/bin/env node
 /**
  * Fetches the OpenCode server OpenAPI spec and first-party docs to ../specs/.
  *
@@ -8,7 +8,7 @@
  * plus the vendor server docs (markdown) so generate never crawls live.
  *
  * Usage:
- *   bun run fetch-specs.ts
+ *   node fetch-specs.ts
  *
  * The files are saved to:
  *   ../specs/openapi.json
@@ -30,6 +30,7 @@ const DOC_FILES = [
 ] as const;
 
 import { existsSync, mkdirSync } from "fs";
+import { writeFile } from "fs/promises";
 
 if (!existsSync(SPECS_DIR)) {
   mkdirSync(SPECS_DIR, { recursive: true });
@@ -46,9 +47,7 @@ const fetchText = async (url: string): Promise<string> => {
     },
   });
   if (!response.ok) {
-    throw new Error(
-      `Failed to fetch ${url}: ${response.status} ${response.statusText}`,
-    );
+    throw new Error(`Failed to fetch ${url}: ${response.status} ${response.statusText}`);
   }
   return await response.text();
 };
@@ -64,9 +63,7 @@ async function main() {
   });
 
   if (!response.ok) {
-    throw new Error(
-      `Failed to fetch OpenAPI spec: ${response.status} ${response.statusText}`,
-    );
+    throw new Error(`Failed to fetch OpenAPI spec: ${response.status} ${response.statusText}`);
   }
 
   const spec = (await response.json()) as Record<string, unknown>;
@@ -82,14 +79,14 @@ async function main() {
   console.log(`Writing spec to ${OUTPUT_PATH}...`);
   // 2-space indent + trailing newline so a whitespace-only change upstream
   // produces no diff.
-  await Bun.write(OUTPUT_PATH, JSON.stringify(spec, null, 2) + "\n");
+  await writeFile(OUTPUT_PATH, JSON.stringify(spec, null, 2) + "\n");
 
   const docs: Array<{ path: string; source: string; bytes: number }> = [];
   for (const file of DOC_FILES) {
     console.log(`Fetching docs ${file.url}...`);
     const text = await fetchText(file.url);
     const outputPath = `${DOCS_DIR}/${file.output}`;
-    await Bun.write(outputPath, text.endsWith("\n") ? text : `${text}\n`);
+    await writeFile(outputPath, text.endsWith("\n") ? text : `${text}\n`);
     docs.push({ path: file.output, source: file.url, bytes: text.length });
   }
 
@@ -109,10 +106,7 @@ async function main() {
     },
     docs,
   };
-  await Bun.write(
-    `${DOCS_DIR}/_manifest.json`,
-    JSON.stringify(manifest, null, 2) + "\n",
-  );
+  await writeFile(`${DOCS_DIR}/_manifest.json`, JSON.stringify(manifest, null, 2) + "\n");
 
   console.log(
     `Done! OpenAPI ${spec.openapi} — ${Object.keys(spec.paths as object).length} paths, ${docs.length} docs`,

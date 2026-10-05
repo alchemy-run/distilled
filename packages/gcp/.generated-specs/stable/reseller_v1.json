@@ -305,7 +305,7 @@
         "isInTrial": {
           "target": "smithy.api#Boolean",
           "traits": {
-            "smithy.api#documentation": "Determines if a subscription's plan is in a 30-day free trial or not: - `true` — The plan is in trial. - `false` — The plan is not in trial. "
+            "smithy.api#documentation": "Determines if a subscription's plan is in a 30-day free trial or not: - `true` \u2014 The plan is in trial. - `false` \u2014 The plan is not in trial. "
           }
         },
         "trialEndTime": {
@@ -357,13 +357,13 @@
         "planName": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "The `planName` property is required. This is the name of the subscription's plan. For more information about the Google payment plans, see the API concepts. Possible values are: - `ANNUAL_MONTHLY_PAY` — The annual commitment plan with monthly payments. *Caution: *`ANNUAL_MONTHLY_PAY` is returned as `ANNUAL` in all API responses. - `ANNUAL_YEARLY_PAY` — The annual commitment plan with yearly payments - `FLEXIBLE` — The flexible plan - `TRIAL` — The 30-day free trial plan. A subscription in trial will be suspended after the 30th free day if no payment plan is assigned. Calling `changePlan` will assign a payment plan to a trial but will not activate the plan. A trial will automatically begin its assigned payment plan after its 30th free day or immediately after calling `startPaidService`. - `FREE` — The free plan is exclusive to the Cloud Identity SKU and does not incur any billing. "
+            "smithy.api#documentation": "The `planName` property is required. This is the name of the subscription's plan. For more information about the Google payment plans, see the API concepts. Possible values are: - `ANNUAL_MONTHLY_PAY` \u2014 The annual commitment plan with monthly payments. *Caution: *`ANNUAL_MONTHLY_PAY` is returned as `ANNUAL` in all API responses. - `ANNUAL_YEARLY_PAY` \u2014 The annual commitment plan with yearly payments - `FLEXIBLE` \u2014 The flexible plan - `TRIAL` \u2014 The 30-day free trial plan. A subscription in trial will be suspended after the 30th free day if no payment plan is assigned. Calling `changePlan` will assign a payment plan to a trial but will not activate the plan. A trial will automatically begin its assigned payment plan after its 30th free day or immediately after calling `startPaidService`. - `FREE` \u2014 The free plan is exclusive to the Cloud Identity SKU and does not incur any billing. "
           }
         },
         "isCommitmentPlan": {
           "target": "smithy.api#Boolean",
           "traits": {
-            "smithy.api#documentation": "The `isCommitmentPlan` property's boolean value identifies the plan as an annual commitment plan: - `true` — The subscription's plan is an annual commitment plan. - `false` — The plan is not an annual commitment plan. "
+            "smithy.api#documentation": "The `isCommitmentPlan` property's boolean value identifies the plan as an annual commitment plan: - `true` \u2014 The subscription's plan is an annual commitment plan. - `false` \u2014 The plan is not an annual commitment plan. "
           }
         }
       }
@@ -675,6 +675,9 @@
         },
         {
           "target": "com.gcp.reseller_v1#Conflict"
+        },
+        {
+          "target": "com.gcp.reseller_v1#InsufficientScopes"
         }
       ],
       "traits": {
@@ -720,6 +723,9 @@
         },
         {
           "target": "com.gcp.reseller_v1#Forbidden"
+        },
+        {
+          "target": "com.gcp.reseller_v1#InsufficientScopes"
         }
       ],
       "traits": {
@@ -799,6 +805,9 @@
         },
         {
           "target": "com.gcp.reseller_v1#Conflict"
+        },
+        {
+          "target": "com.gcp.reseller_v1#InsufficientScopes"
         }
       ],
       "traits": {
@@ -857,6 +866,9 @@
         },
         {
           "target": "com.gcp.reseller_v1#Conflict"
+        },
+        {
+          "target": "com.gcp.reseller_v1#InsufficientScopes"
         }
       ],
       "traits": {
@@ -908,6 +920,9 @@
         },
         {
           "target": "com.gcp.reseller_v1#Conflict"
+        },
+        {
+          "target": "com.gcp.reseller_v1#InsufficientScopes"
         }
       ],
       "traits": {
@@ -966,6 +981,9 @@
         },
         {
           "target": "com.gcp.reseller_v1#Conflict"
+        },
+        {
+          "target": "com.gcp.reseller_v1#InsufficientScopes"
         }
       ],
       "traits": {
@@ -973,7 +991,7 @@
           "method": "POST",
           "uri": "apps/reseller/v1/customers/{customerId}/subscriptions/{subscriptionId}/changeSeats"
         },
-        "smithy.api#documentation": "Updates a subscription's user license settings. For more information about updating an annual commitment plan or a flexible plan subscription’s licenses, see [Manage Subscriptions](https://developers.google.com/workspace/admin/reseller/v1/how-tos/manage_subscriptions#update_subscription_seat)."
+        "smithy.api#documentation": "Updates a subscription's user license settings. For more information about updating an annual commitment plan or a flexible plan subscription\u2019s licenses, see [Manage Subscriptions](https://developers.google.com/workspace/admin/reseller/v1/how-tos/manage_subscriptions#update_subscription_seat)."
       }
     },
     "com.gcp.reseller_v1#ListSubscriptionsRequest": {
@@ -1030,6 +1048,9 @@
         },
         {
           "target": "com.gcp.reseller_v1#Forbidden"
+        },
+        {
+          "target": "com.gcp.reseller_v1#InsufficientScopes"
         }
       ],
       "traits": {
@@ -1092,6 +1113,9 @@
         },
         {
           "target": "com.gcp.reseller_v1#Conflict"
+        },
+        {
+          "target": "com.gcp.reseller_v1#InsufficientScopes"
         }
       ],
       "traits": {
@@ -1143,6 +1167,9 @@
         },
         {
           "target": "com.gcp.reseller_v1#Conflict"
+        },
+        {
+          "target": "com.gcp.reseller_v1#InsufficientScopes"
         }
       ],
       "traits": {
@@ -1194,6 +1221,9 @@
         },
         {
           "target": "com.gcp.reseller_v1#Conflict"
+        },
+        {
+          "target": "com.gcp.reseller_v1#InsufficientScopes"
         }
       ],
       "traits": {
@@ -1236,6 +1266,9 @@
         },
         {
           "target": "com.gcp.reseller_v1#Conflict"
+        },
+        {
+          "target": "com.gcp.reseller_v1#InsufficientScopes"
         }
       ],
       "traits": {
@@ -1264,6 +1297,9 @@
         },
         {
           "target": "com.gcp.reseller_v1#Forbidden"
+        },
+        {
+          "target": "com.gcp.reseller_v1#InsufficientScopes"
         }
       ],
       "traits": {
@@ -1306,6 +1342,9 @@
         },
         {
           "target": "com.gcp.reseller_v1#Conflict"
+        },
+        {
+          "target": "com.gcp.reseller_v1#InsufficientScopes"
         }
       ],
       "traits": {
@@ -1355,6 +1394,9 @@
         },
         {
           "target": "com.gcp.reseller_v1#Conflict"
+        },
+        {
+          "target": "com.gcp.reseller_v1#InsufficientScopes"
         }
       ],
       "traits": {
@@ -1392,6 +1434,9 @@
         },
         {
           "target": "com.gcp.reseller_v1#Forbidden"
+        },
+        {
+          "target": "com.gcp.reseller_v1#InsufficientScopes"
         }
       ],
       "traits": {
@@ -1442,6 +1487,9 @@
         },
         {
           "target": "com.gcp.reseller_v1#Conflict"
+        },
+        {
+          "target": "com.gcp.reseller_v1#InsufficientScopes"
         }
       ],
       "traits": {
@@ -1492,6 +1540,9 @@
         },
         {
           "target": "com.gcp.reseller_v1#Conflict"
+        },
+        {
+          "target": "com.gcp.reseller_v1#InsufficientScopes"
         }
       ],
       "traits": {
@@ -1500,6 +1551,23 @@
           "uri": "apps/reseller/v1/customers/{customerId}"
         },
         "smithy.api#documentation": "Updates a customer account's settings. You cannot update `customerType` via the Reseller API, but a `\"team\"` customer can verify their domain and become `customerType = \"domain\"`. For more information, see [update a customer's settings](https://developers.google.com/workspace/admin/reseller/v1/how-tos/manage_customers#update_customer)."
+      }
+    },
+    "com.gcp.reseller_v1#InsufficientScopes": {
+      "type": "structure",
+      "members": {},
+      "traits": {
+        "smithy.api#error": "client",
+        "smithy.api#httpError": 403,
+        "smithy.api#documentation": "The access token lacks the OAuth scope this API requires (HTTP 403 ACCESS_TOKEN_SCOPE_INSUFFICIENT).",
+        "com.gcp.protocols#errorMatchers": [
+          {
+            "status": 403,
+            "message": {
+              "includes": "insufficient authentication scopes"
+            }
+          }
+        ]
       }
     }
   }

@@ -1,21 +1,24 @@
+import { createHash } from "node:crypto";
 import * as Console from "effect/Console";
 import * as Effect from "effect/Effect";
 import * as FileSystem from "effect/FileSystem";
+import * as HttpClient from "effect/http/HttpClient";
 import * as Option from "effect/Option";
 import * as Path from "effect/Path";
 import * as Redacted from "effect/Redacted";
-import * as HttpClient from "effect/unstable/http/HttpClient";
-import { createHash } from "node:crypto";
 import {
   Auth,
   type AwsProfileConfig,
   type SsoProfileConfig,
   type SSOToken,
 } from "./auth.browser.ts";
+import { loginCredentialsSource } from "./credential-providers/from-login-credentials.ts";
 import {
+  AwsCredentialProviderError,
   ConflictingSSORegion,
   ConflictingSSOStartUrl,
   ExpiredSSOToken,
+  fromAwsCredentialIdentity,
   InvalidSSOProfile,
   InvalidSSOToken,
   ProfileNotFound,
@@ -24,7 +27,7 @@ import {
   SsoRegion,
   SsoStartUrl,
   type ResolvedCredentials,
-} from "./credentials.ts";
+} from "./credentials-service.ts";
 import { parseIni, parseSSOSessionData } from "./util/parse-ini.ts";
 import { getHomeDir, parseKnownFiles } from "./util/shared-config.ts";
 
@@ -128,18 +131,14 @@ export const makeAuthService = () =>
       // reporting the profile as not found.)
       if (profile.sso_session || profile.sso_start_url) {
         if (profile.sso_session) {
-          const ssoRegion = Option.getOrUndefined(
-            yield* Effect.serviceOption(SsoRegion),
-          );
+          const ssoRegion = Option.getOrUndefined(yield* Effect.serviceOption(SsoRegion));
           const ssoStartUrl = Option.getOrElse(
             yield* Effect.serviceOption(SsoStartUrl),
             () => profile.sso_start_url,
           );
 
           const ssoSessions = yield* fs.readFileString(configPath).pipe(
-            Effect.flatMap((config) =>
-              Effect.promise(async () => parseIni(config)),
-            ),
+            Effect.flatMap((config) => Effect.promise(async () => parseIni(config))),
             Effect.map(parseSSOSessionData),
           );
           const session = ssoSessions[profile.sso_session];
@@ -174,15 +173,17 @@ export const makeAuthService = () =>
             missingFields,
             message:
               `Profile is configured with invalid SSO credentials. Required parameters "sso_account_id", ` +
-              `"sso_region", "sso_role_name", "sso_start_url". Got ${Object.keys(
-                profile,
-              ).join(
+              `"sso_region", "sso_role_name", "sso_start_url". Got ${Object.keys(profile).join(
                 ", ",
               )}\nReference: https://docs.aws.amazon.com/cli/latest/userguide/cli-configure-sso.html`,
           });
         }
         // Every field in `ssoFields` was just checked to be present.
         return profile as SsoProfileConfig;
+      }
+
+      if (profile.login_session) {
+        return profile;
       }
 
       return yield* new ProfileNotFound({
@@ -201,17 +202,36 @@ export const makeAuthService = () =>
       // configures one (`sso_region` is required); `region` overrides it when
       // the profile calls a different region than its SSO portal lives in.
       // The environment is the last resort, for a profile carrying neither.
-      const region =
-        profile.region ?? profile.sso_region ?? (yield* regionFromEnv);
+      const region = profile.region ?? profile.sso_region ?? (yield* regionFromEnv);
+
+      // `aws login` keeps its own cache under `~/.aws/login/cache` and
+      // renews the session itself, so nothing is cached here.
+      if (profile.login_session) {
+        const identity = yield* loginCredentialsSource({
+          profile: profileName,
+          region,
+        }).pipe(
+          Effect.mapError(
+            (cause) =>
+              new AwsCredentialProviderError({
+                message: cause.message,
+                provider: "login",
+                cause,
+                hints: [`Run \`aws login --profile ${profileName}\`.`],
+              }),
+          ),
+        );
+        return fromAwsCredentialIdentity(identity, region);
+      }
 
       // Both SSO formats cache the access token under sha1 of the cache key: the
       // `sso_session` name (modern) or the `sso_start_url` (legacy inline format).
       const ssoCacheKey = profile.sso_session ?? profile.sso_start_url;
       if (ssoCacheKey) {
-        const ssoTokenFilepath = path.join(
-          cachePath,
-          `${ssoTokenCacheName(ssoCacheKey)}.json`,
-        );
+        // `loadProfile` returns a profile with a cache key only after
+        // validating that every required SSO field is present.
+        const { sso_account_id, sso_role_name } = profile as SsoProfileConfig;
+        const ssoTokenFilepath = path.join(cachePath, `${ssoTokenCacheName(ssoCacheKey)}.json`);
         // The token is one login per session, but the role credentials it
         // mints are per `sso_account_id` + `sso_role_name`. Several profiles
         // normally share one `[sso-session]`, so the credentials file must
@@ -240,8 +260,7 @@ export const makeAuthService = () =>
 
         const isExpired = (expiry: number | string | undefined) => {
           return (
-            expiry === undefined ||
-            new Date(expiry).getTime() - Date.now() <= EXPIRE_WINDOW_MS
+            expiry === undefined || new Date(expiry).getTime() - Date.now() <= EXPIRE_WINDOW_MS
           );
         };
 
@@ -346,8 +365,8 @@ export const makeAuthService = () =>
             secretAccessKey: credentials.secretAccessKey,
             sessionToken: credentials.sessionToken,
             expiry: credentials.expiration,
-            sso_account_id: profile.sso_account_id,
-            sso_role_name: profile.sso_role_name,
+            sso_account_id,
+            sso_role_name,
           } satisfies CachedSsoRoleCredentials),
         );
 

@@ -1640,7 +1640,7 @@
         "productReviewId": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "Required. The permanent, unique identifier for the product review in the publisher’s system."
+            "smithy.api#documentation": "Required. The permanent, unique identifier for the product review in the publisher\u2019s system."
           }
         }
       },
@@ -1740,6 +1740,9 @@
         },
         {
           "target": "com.gcp.merchantapi_reviews_v1beta#Conflict"
+        },
+        {
+          "target": "com.gcp.merchantapi_reviews_v1beta#InsufficientScopes"
         }
       ],
       "traits": {
@@ -1797,6 +1800,9 @@
         },
         {
           "target": "com.gcp.merchantapi_reviews_v1beta#Conflict"
+        },
+        {
+          "target": "com.gcp.merchantapi_reviews_v1beta#InsufficientScopes"
         }
       ],
       "traits": {
@@ -1834,6 +1840,9 @@
         },
         {
           "target": "com.gcp.merchantapi_reviews_v1beta#Forbidden"
+        },
+        {
+          "target": "com.gcp.merchantapi_reviews_v1beta#InsufficientScopes"
         }
       ],
       "traits": {
@@ -1885,6 +1894,9 @@
         },
         {
           "target": "com.gcp.merchantapi_reviews_v1beta#Forbidden"
+        },
+        {
+          "target": "com.gcp.merchantapi_reviews_v1beta#InsufficientScopes"
         }
       ],
       "traits": {
@@ -1946,6 +1958,9 @@
         },
         {
           "target": "com.gcp.merchantapi_reviews_v1beta#Conflict"
+        },
+        {
+          "target": "com.gcp.merchantapi_reviews_v1beta#InsufficientScopes"
         }
       ],
       "traits": {
@@ -1989,6 +2004,9 @@
         },
         {
           "target": "com.gcp.merchantapi_reviews_v1beta#Conflict"
+        },
+        {
+          "target": "com.gcp.merchantapi_reviews_v1beta#InsufficientScopes"
         }
       ],
       "traits": {
@@ -2026,6 +2044,9 @@
         },
         {
           "target": "com.gcp.merchantapi_reviews_v1beta#Forbidden"
+        },
+        {
+          "target": "com.gcp.merchantapi_reviews_v1beta#InsufficientScopes"
         }
       ],
       "traits": {
@@ -2077,6 +2098,9 @@
         },
         {
           "target": "com.gcp.merchantapi_reviews_v1beta#Forbidden"
+        },
+        {
+          "target": "com.gcp.merchantapi_reviews_v1beta#InsufficientScopes"
         }
       ],
       "traits": {
@@ -2089,6 +2113,23 @@
           "inputToken": "pageToken",
           "outputToken": "nextPageToken"
         }
+      }
+    },
+    "com.gcp.merchantapi_reviews_v1beta#InsufficientScopes": {
+      "type": "structure",
+      "members": {},
+      "traits": {
+        "smithy.api#error": "client",
+        "smithy.api#httpError": 403,
+        "smithy.api#documentation": "The OAuth token lacks the scope the API requires (HTTP 403 PERMISSION_DENIED: \"Request had insufficient authentication scopes.\"). Service-account tokens with only cloud-platform scope hit this.",
+        "com.gcp.protocols#errorMatchers": [
+          {
+            "status": 403,
+            "message": {
+              "includes": "insufficient authentication scopes"
+            }
+          }
+        ]
       }
     }
   }

@@ -1,0 +1,45 @@
+{
+  "description": "Mark IP assignment network nullable (the spec omits nullable; public addresses return null) and type the unknown-network rejection. Observed on the live API: allocating on a missing network returns HTTP 400 {\"error\": \"network not found\"}.",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.flyio.machines#IPAssignment/members/network/traits",
+      "value": { "com.distilled.openapi#nullable": {} }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.flyio.machines#AssignIPResponse/members/network/traits",
+      "value": { "com.distilled.openapi#nullable": {} }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.flyio.machines#NetworkNotFound",
+      "value": {
+        "type": "structure",
+        "members": {
+          "message": {
+            "target": "smithy.api#String"
+          }
+        },
+        "traits": {
+          "smithy.api#error": "client",
+          "com.distilled.openapi#errorMatchers": [
+            {
+              "status": 400,
+              "message": {
+                "includes": "network not found"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.flyio.machines#CreateAppIPAssignment/errors/-",
+      "value": {
+        "target": "com.flyio.machines#NetworkNotFound"
+      }
+    }
+  ]
+}

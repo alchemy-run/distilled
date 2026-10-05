@@ -1,0 +1,1295 @@
+{
+  "smithy": "2.0",
+  "metadata": {
+    "suppressions": [
+      {
+        "id": "HttpUriConflict",
+        "namespace": "*"
+      },
+      {
+        "id": "HttpMethodSemantics",
+        "namespace": "*"
+      },
+      {
+        "id": "UnreferencedShape",
+        "namespace": "*"
+      }
+    ],
+    "distilled.finalized": true
+  },
+  "shapes": {
+    "com.daytona.git#AddFilesRequestFilesList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {
+        "smithy.api#documentation": "files to add (use . for all files)"
+      }
+    },
+    "com.daytona.git#AddFilesRequest": {
+      "type": "structure",
+      "members": {
+        "files": {
+          "target": "com.daytona.git#AddFilesRequestFilesList",
+          "traits": {
+            "smithy.api#documentation": "files to add (use . for all files)",
+            "smithy.api#required": {}
+          }
+        },
+        "path": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.daytona.git#AddFiles": {
+      "type": "operation",
+      "input": {
+        "target": "com.daytona.git#AddFilesRequest"
+      },
+      "output": {
+        "target": "smithy.api#Unit"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/git/add",
+          "code": 200
+        },
+        "smithy.api#documentation": "Add files to Git staging\n\nAdd files to the Git staging area"
+      }
+    },
+    "com.daytona.git#ListBranchesRequest": {
+      "type": "structure",
+      "members": {
+        "path": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "path",
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Repository path"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.daytona.git#ListBranchResponse": {
+      "type": "structure",
+      "members": {
+        "branches": {
+          "target": "com.daytona.git#ListBranchResponseBranchesList",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "current": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Current is the name of the checked out branch (empty when HEAD is detached)."
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.daytona.git#ListBranchResponseBranchesList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {}
+    },
+    "com.daytona.git#ListBranches": {
+      "type": "operation",
+      "input": {
+        "target": "com.daytona.git#ListBranchesRequest"
+      },
+      "output": {
+        "target": "com.daytona.git#ListBranchResponse"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/git/branches",
+          "code": 200
+        },
+        "smithy.api#documentation": "List branches\n\nGet a list of all branches in the Git repository"
+      }
+    },
+    "com.daytona.git#CreateBranchRequest": {
+      "type": "structure",
+      "members": {
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "path": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.daytona.git#CreateBranch": {
+      "type": "operation",
+      "input": {
+        "target": "com.daytona.git#CreateBranchRequest"
+      },
+      "output": {
+        "target": "smithy.api#Unit"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/git/branches",
+          "code": 200
+        },
+        "smithy.api#documentation": "Create a new branch\n\nCreate a new branch in the Git repository"
+      }
+    },
+    "com.daytona.git#DeleteBranchRequest": {
+      "type": "structure",
+      "members": {
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "path": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.daytona.git#DeleteBranch": {
+      "type": "operation",
+      "input": {
+        "target": "com.daytona.git#DeleteBranchRequest"
+      },
+      "output": {
+        "target": "smithy.api#Unit"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "DELETE",
+          "uri": "/git/branches",
+          "code": 200
+        },
+        "smithy.api#documentation": "Delete a branch\n\nDelete a branch from the Git repository"
+      }
+    },
+    "com.daytona.git#CheckoutBranchRequest": {
+      "type": "structure",
+      "members": {
+        "branch": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "path": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.daytona.git#CheckoutBranch": {
+      "type": "operation",
+      "input": {
+        "target": "com.daytona.git#CheckoutBranchRequest"
+      },
+      "output": {
+        "target": "smithy.api#Unit"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/git/checkout",
+          "code": 200
+        },
+        "smithy.api#documentation": "Checkout branch or commit\n\nSwitch to a different branch or commit in the Git repository"
+      }
+    },
+    "com.daytona.git#CloneRepositoryRequest": {
+      "type": "structure",
+      "members": {
+        "branch": {
+          "target": "smithy.api#String"
+        },
+        "commit_id": {
+          "target": "smithy.api#String"
+        },
+        "depth": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Depth creates a shallow clone truncated to the given number of commits."
+          }
+        },
+        "insecure_skip_tls": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Skip TLS certificate verification for this clone. Defaults to false (verify).\nSet to true ONLY for trusted internal Git servers with self-signed or\nprivate-CA certs; credentials, if supplied, will be transmitted over an\nunverified TLS connection and are exposed to any MITM on the route."
+          }
+        },
+        "password": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#sensitive": {}
+          }
+        },
+        "path": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "url": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "username": {
+          "target": "smithy.api#String"
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.daytona.git#CloneRepository": {
+      "type": "operation",
+      "input": {
+        "target": "com.daytona.git#CloneRepositoryRequest"
+      },
+      "output": {
+        "target": "smithy.api#Unit"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/git/clone",
+          "code": 200
+        },
+        "smithy.api#documentation": "Clone a Git repository\n\nClone a Git repository to the specified path. Defaults to strict TLS verification; set insecure_skip_tls=true to skip verification for self-signed or private-CA Git servers."
+      }
+    },
+    "com.daytona.git#CommitChangesRequest": {
+      "type": "structure",
+      "members": {
+        "allow_empty": {
+          "target": "smithy.api#Boolean"
+        },
+        "author": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "email": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "message": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "path": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.daytona.git#GitCommitResponse": {
+      "type": "structure",
+      "members": {
+        "hash": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.daytona.git#CommitChanges": {
+      "type": "operation",
+      "input": {
+        "target": "com.daytona.git#CommitChangesRequest"
+      },
+      "output": {
+        "target": "com.daytona.git#GitCommitResponse"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/git/commit",
+          "code": 200
+        },
+        "smithy.api#documentation": "Commit changes\n\nCommit staged changes to the Git repository"
+      }
+    },
+    "com.daytona.git#GetGitConfigRequest": {
+      "type": "structure",
+      "members": {
+        "key": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "key",
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Config key (e.g. user.name)"
+          }
+        },
+        "path": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "path",
+            "smithy.api#documentation": "Repository path (required for local scope)"
+          }
+        },
+        "scope": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "scope",
+            "smithy.api#documentation": "Config scope: global (default), local or system"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.daytona.git#GitConfigResponse": {
+      "type": "structure",
+      "members": {
+        "value": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Value is the config value, null when the key is not set."
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.daytona.git#GetGitConfig": {
+      "type": "operation",
+      "input": {
+        "target": "com.daytona.git#GetGitConfigRequest"
+      },
+      "output": {
+        "target": "com.daytona.git#GitConfigResponse"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/git/config",
+          "code": 200
+        },
+        "smithy.api#documentation": "Get a Git config value\n\nGet a Git config value at the given scope (null when unset)"
+      }
+    },
+    "com.daytona.git#SetGitConfigRequest": {
+      "type": "structure",
+      "members": {
+        "key": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "path": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Path is the repository path, required when scope is \"local\"."
+          }
+        },
+        "scope": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Scope is one of global (default), local or system."
+          }
+        },
+        "value": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.daytona.git#SetGitConfig": {
+      "type": "operation",
+      "input": {
+        "target": "com.daytona.git#SetGitConfigRequest"
+      },
+      "output": {
+        "target": "smithy.api#Unit"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/git/config",
+          "code": 200
+        },
+        "smithy.api#documentation": "Set a Git config value\n\nSet a Git config key/value at the given scope"
+      }
+    },
+    "com.daytona.git#ConfigureUserRequest": {
+      "type": "structure",
+      "members": {
+        "email": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "path": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Path is the repository path, required when scope is \"local\"."
+          }
+        },
+        "scope": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Scope is one of global (default), local or system."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.daytona.git#ConfigureUser": {
+      "type": "operation",
+      "input": {
+        "target": "com.daytona.git#ConfigureUserRequest"
+      },
+      "output": {
+        "target": "smithy.api#Unit"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/git/config/user",
+          "code": 200
+        },
+        "smithy.api#documentation": "Configure Git user\n\nConfigure the Git user name and email at the given scope"
+      }
+    },
+    "com.daytona.git#AuthenticateRequest": {
+      "type": "structure",
+      "members": {
+        "host": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Host defaults to github.com."
+          }
+        },
+        "password": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {},
+            "smithy.api#sensitive": {}
+          }
+        },
+        "protocol": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Protocol defaults to https."
+          }
+        },
+        "username": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.daytona.git#Authenticate": {
+      "type": "operation",
+      "input": {
+        "target": "com.daytona.git#AuthenticateRequest"
+      },
+      "output": {
+        "target": "smithy.api#Unit"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/git/credentials",
+          "code": 200
+        },
+        "smithy.api#documentation": "Authenticate Git\n\nPersist Git credentials globally via the credential store. Stores the password in plaintext on disk."
+      }
+    },
+    "com.daytona.git#GetCommitHistoryRequest": {
+      "type": "structure",
+      "members": {
+        "path": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "path",
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Repository path"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.daytona.git#GitCommitInfo": {
+      "type": "structure",
+      "members": {
+        "author": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "email": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "hash": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "message": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "timestamp": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.daytona.git#GetCommitHistoryResponseBodyList": {
+      "type": "list",
+      "member": {
+        "target": "com.daytona.git#GitCommitInfo"
+      },
+      "traits": {}
+    },
+    "com.daytona.git#GetCommitHistoryResponse": {
+      "type": "structure",
+      "members": {
+        "body": {
+          "target": "com.daytona.git#GetCommitHistoryResponseBodyList",
+          "traits": {
+            "com.distilled.openapi#rawResponse": {},
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
+      }
+    },
+    "com.daytona.git#GetCommitHistory": {
+      "type": "operation",
+      "input": {
+        "target": "com.daytona.git#GetCommitHistoryRequest"
+      },
+      "output": {
+        "target": "com.daytona.git#GetCommitHistoryResponse"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/git/history",
+          "code": 200
+        },
+        "smithy.api#documentation": "Get commit history\n\nGet the commit history of the Git repository"
+      }
+    },
+    "com.daytona.git#InitRepositoryRequest": {
+      "type": "structure",
+      "members": {
+        "bare": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Bare creates a repository without a working tree."
+          }
+        },
+        "initial_branch": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "InitialBranch sets the name of the initial branch."
+          }
+        },
+        "path": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.daytona.git#InitRepository": {
+      "type": "operation",
+      "input": {
+        "target": "com.daytona.git#InitRepositoryRequest"
+      },
+      "output": {
+        "target": "smithy.api#Unit"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/git/init",
+          "code": 200
+        },
+        "smithy.api#documentation": "Initialize a Git repository\n\nInitialize a new Git repository at the specified path"
+      }
+    },
+    "com.daytona.git#PullChangesRequest": {
+      "type": "structure",
+      "members": {
+        "branch": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Branch to pull (defaults to the current branch's upstream)."
+          }
+        },
+        "password": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#sensitive": {}
+          }
+        },
+        "path": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "remote": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Remote to pull from (defaults to \"origin\")."
+          }
+        },
+        "username": {
+          "target": "smithy.api#String"
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.daytona.git#PullChanges": {
+      "type": "operation",
+      "input": {
+        "target": "com.daytona.git#PullChangesRequest"
+      },
+      "output": {
+        "target": "smithy.api#Unit"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/git/pull",
+          "code": 200
+        },
+        "smithy.api#documentation": "Pull changes from remote\n\nPull changes from the remote Git repository"
+      }
+    },
+    "com.daytona.git#PushChangesRequest": {
+      "type": "structure",
+      "members": {
+        "branch": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Branch to push (defaults to the current branch)."
+          }
+        },
+        "password": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#sensitive": {}
+          }
+        },
+        "path": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "remote": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Remote to push to (defaults to \"origin\")."
+          }
+        },
+        "set_upstream": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "SetUpstream records the pushed branch as the upstream tracking branch."
+          }
+        },
+        "username": {
+          "target": "smithy.api#String"
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.daytona.git#PushChanges": {
+      "type": "operation",
+      "input": {
+        "target": "com.daytona.git#PushChangesRequest"
+      },
+      "output": {
+        "target": "smithy.api#Unit"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/git/push",
+          "code": 200
+        },
+        "smithy.api#documentation": "Push changes to remote\n\nPush local changes to the remote Git repository"
+      }
+    },
+    "com.daytona.git#ListRemotesRequest": {
+      "type": "structure",
+      "members": {
+        "path": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "path",
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Repository path"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.daytona.git#ListRemotesResponse": {
+      "type": "structure",
+      "members": {
+        "remotes": {
+          "target": "com.daytona.git#ListRemotesResponseRemotesList",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.daytona.git#GitRemote": {
+      "type": "structure",
+      "members": {
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "url": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.daytona.git#ListRemotesResponseRemotesList": {
+      "type": "list",
+      "member": {
+        "target": "com.daytona.git#GitRemote"
+      },
+      "traits": {}
+    },
+    "com.daytona.git#ListRemotes": {
+      "type": "operation",
+      "input": {
+        "target": "com.daytona.git#ListRemotesRequest"
+      },
+      "output": {
+        "target": "com.daytona.git#ListRemotesResponse"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/git/remotes",
+          "code": 200
+        },
+        "smithy.api#documentation": "List remotes\n\nList the remotes configured in the Git repository"
+      }
+    },
+    "com.daytona.git#AddRemoteRequest": {
+      "type": "structure",
+      "members": {
+        "fetch": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Fetch fetches from the remote immediately after adding it."
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "overwrite": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Overwrite replaces an existing remote with the same name."
+          }
+        },
+        "path": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "url": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.daytona.git#AddRemote": {
+      "type": "operation",
+      "input": {
+        "target": "com.daytona.git#AddRemoteRequest"
+      },
+      "output": {
+        "target": "smithy.api#Unit"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/git/remotes",
+          "code": 200
+        },
+        "smithy.api#documentation": "Add a remote\n\nAdd (or overwrite) a remote in the Git repository"
+      }
+    },
+    "com.daytona.git#ResetChangesRequestFilesList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {
+        "smithy.api#documentation": "Files constrains the reset to the given paths."
+      }
+    },
+    "com.daytona.git#ResetChangesRequest": {
+      "type": "structure",
+      "members": {
+        "files": {
+          "target": "com.daytona.git#ResetChangesRequestFilesList",
+          "traits": {
+            "smithy.api#documentation": "Files constrains the reset to the given paths."
+          }
+        },
+        "mode": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Mode is one of soft, mixed (default), hard, merge or keep."
+          }
+        },
+        "path": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "target": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Target is the revision to reset to (defaults to HEAD)."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.daytona.git#ResetChanges": {
+      "type": "operation",
+      "input": {
+        "target": "com.daytona.git#ResetChangesRequest"
+      },
+      "output": {
+        "target": "smithy.api#Unit"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/git/reset",
+          "code": 200
+        },
+        "smithy.api#documentation": "Reset repository\n\nReset the current HEAD to the specified state"
+      }
+    },
+    "com.daytona.git#RestoreFilesRequestFilesList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {}
+    },
+    "com.daytona.git#RestoreFilesRequest": {
+      "type": "structure",
+      "members": {
+        "files": {
+          "target": "com.daytona.git#RestoreFilesRequestFilesList",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "path": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "source": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Source restores file contents from the given revision instead of the index."
+          }
+        },
+        "staged": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Staged restores the staging index for the given files."
+          }
+        },
+        "worktree": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Worktree restores the working tree for the given files."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.daytona.git#RestoreFiles": {
+      "type": "operation",
+      "input": {
+        "target": "com.daytona.git#RestoreFilesRequest"
+      },
+      "output": {
+        "target": "smithy.api#Unit"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/git/restore",
+          "code": 200
+        },
+        "smithy.api#documentation": "Restore files\n\nRestore working tree files or unstage changes"
+      }
+    },
+    "com.daytona.git#GetStatusRequest": {
+      "type": "structure",
+      "members": {
+        "path": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "path",
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Repository path"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.daytona.git#GitStatus": {
+      "type": "structure",
+      "members": {
+        "ahead": {
+          "target": "smithy.api#Integer"
+        },
+        "behind": {
+          "target": "smithy.api#Integer"
+        },
+        "branchPublished": {
+          "target": "smithy.api#Boolean"
+        },
+        "currentBranch": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "detached": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Detached is true when HEAD is not on a branch (detached HEAD state)."
+          }
+        },
+        "fileStatus": {
+          "target": "com.daytona.git#GitStatusFileStatusList",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "upstream": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Upstream is the upstream tracking branch (e.g. \"origin/main\"), empty when unset."
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.daytona.git#FileStatus": {
+      "type": "structure",
+      "members": {
+        "extra": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "staging": {
+          "target": "com.daytona.git#Status",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "worktree": {
+          "target": "com.daytona.git#Status",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.daytona.git#Status": {
+      "type": "enum",
+      "members": {
+        "UNMODIFIED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "Unmodified"
+          }
+        },
+        "UNTRACKED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "Untracked"
+          }
+        },
+        "MODIFIED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "Modified"
+          }
+        },
+        "ADDED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "Added"
+          }
+        },
+        "DELETED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "Deleted"
+          }
+        },
+        "RENAMED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "Renamed"
+          }
+        },
+        "COPIED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "Copied"
+          }
+        },
+        "UPDATED_BUT_UNMERGED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "Updated but unmerged"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.daytona.git#GitStatusFileStatusList": {
+      "type": "list",
+      "member": {
+        "target": "com.daytona.git#FileStatus"
+      },
+      "traits": {}
+    },
+    "com.daytona.git#GetStatus": {
+      "type": "operation",
+      "input": {
+        "target": "com.daytona.git#GetStatusRequest"
+      },
+      "output": {
+        "target": "com.daytona.git#GitStatus"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/git/status",
+          "code": 200
+        },
+        "smithy.api#documentation": "Get Git status\n\nGet the Git status of the repository at the specified path"
+      }
+    },
+    "com.daytona.git#Git": {
+      "type": "service",
+      "version": "v0.0.0-dev",
+      "operations": [
+        {
+          "target": "com.daytona.git#AddFiles"
+        },
+        {
+          "target": "com.daytona.git#ListBranches"
+        },
+        {
+          "target": "com.daytona.git#CreateBranch"
+        },
+        {
+          "target": "com.daytona.git#DeleteBranch"
+        },
+        {
+          "target": "com.daytona.git#CheckoutBranch"
+        },
+        {
+          "target": "com.daytona.git#CloneRepository"
+        },
+        {
+          "target": "com.daytona.git#CommitChanges"
+        },
+        {
+          "target": "com.daytona.git#GetGitConfig"
+        },
+        {
+          "target": "com.daytona.git#SetGitConfig"
+        },
+        {
+          "target": "com.daytona.git#ConfigureUser"
+        },
+        {
+          "target": "com.daytona.git#Authenticate"
+        },
+        {
+          "target": "com.daytona.git#GetCommitHistory"
+        },
+        {
+          "target": "com.daytona.git#InitRepository"
+        },
+        {
+          "target": "com.daytona.git#PullChanges"
+        },
+        {
+          "target": "com.daytona.git#PushChanges"
+        },
+        {
+          "target": "com.daytona.git#ListRemotes"
+        },
+        {
+          "target": "com.daytona.git#AddRemote"
+        },
+        {
+          "target": "com.daytona.git#ResetChanges"
+        },
+        {
+          "target": "com.daytona.git#RestoreFiles"
+        },
+        {
+          "target": "com.daytona.git#GetStatus"
+        }
+      ],
+      "traits": {
+        "smithy.api#title": "Daytona Toolbox API",
+        "smithy.api#documentation": "Daytona Toolbox API. The base URL comes from the sandbox's `toolboxProxyUrl` field (returned in sandbox DTO by the main Daytona API) plus the sandbox ID: `{toolboxProxyUrl}/{sandboxId}/{endpoint}`. Default for Daytona Cloud: `https://proxy.app.daytona.io/toolbox/{sandboxId}`."
+      }
+    }
+  }
+}

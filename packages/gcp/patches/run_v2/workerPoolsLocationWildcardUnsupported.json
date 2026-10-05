@@ -1,0 +1,30 @@
+{
+  "description": "Type Cloud Run workerPools.list's HTTP 501 UNIMPLEMENTED for the `locations/-` wildcard parent (Services and Jobs accept it; WorkerPools do not). It surfaced as UnknownGCPError and was retried as a server error.",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.run_v2#LocationWildcardUnsupported",
+      "value": {
+        "type": "structure",
+        "members": {},
+        "traits": {
+          "smithy.api#error": "client",
+          "smithy.api#httpError": 501,
+          "smithy.api#documentation": "The `locations/-` wildcard parent is not supported for this list call (HTTP 501 UNIMPLEMENTED). List each location instead. Not retryable.",
+          "com.gcp.protocols#errorMatchers": [
+            {
+              "status": 501
+            }
+          ]
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.run_v2#ListProjectsLocationsWorkerPools/errors/-",
+      "value": {
+        "target": "com.gcp.run_v2#LocationWildcardUnsupported"
+      }
+    }
+  ]
+}

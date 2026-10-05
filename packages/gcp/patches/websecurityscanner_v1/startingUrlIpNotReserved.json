@@ -1,0 +1,40 @@
+{
+  "description": "Type the 400 FAILED_PRECONDITION create/patch return when a starting URL uses an IP address that is not reserved as a static address in the project (\"... has an IP address that is not  reserved as static for this project\"). Right after an address is reserved this is eventual consistency; it surfaced as a generic BadRequest.",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.websecurityscanner_v1#StartingUrlIpNotReserved",
+      "value": {
+        "type": "structure",
+        "members": {},
+        "traits": {
+          "smithy.api#error": "client",
+          "smithy.api#httpError": 400,
+          "smithy.api#documentation": "A starting URL's IP address is not reserved as a static address in this project (HTTP 400 FAILED_PRECONDITION). Reserve it first; retry briefly right after reserving.",
+          "com.gcp.protocols#errorMatchers": [
+            {
+              "status": 400,
+              "message": {
+                "includes": "reserved as static for this project"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.websecurityscanner_v1#CreateProjectsScanConfigs/errors/-",
+      "value": {
+        "target": "com.gcp.websecurityscanner_v1#StartingUrlIpNotReserved"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.websecurityscanner_v1#PatchProjectsScanConfigs/errors/-",
+      "value": {
+        "target": "com.gcp.websecurityscanner_v1#StartingUrlIpNotReserved"
+      }
+    }
+  ]
+}

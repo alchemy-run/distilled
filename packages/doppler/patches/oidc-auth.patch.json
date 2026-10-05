@@ -1,0 +1,25 @@
+{
+  "description": "The OIDC identity login (https://docs.doppler.com/docs/service-account-identities) always returns the short-lived token and its expiry; the token is a credential and must be delivered redacted. It is a public endpoint: the OIDC token is the credential, so no bearer token is sent.",
+  "patches": [
+    {
+      "op": "test",
+      "path": "/paths/~1v3~1auth~1oidc/post/responses/200/content/application~1json/schema/properties/token/type",
+      "value": "string"
+    },
+    {
+      "op": "add",
+      "path": "/paths/~1v3~1auth~1oidc/post/responses/200/content/application~1json/schema/properties/token/x-sensitive",
+      "value": true
+    },
+    {
+      "op": "add",
+      "path": "/paths/~1v3~1auth~1oidc/post/responses/200/content/application~1json/schema/required",
+      "value": ["token", "expires_at"]
+    },
+    {
+      "op": "add",
+      "path": "/paths/~1v3~1auth~1oidc/post/security",
+      "value": []
+    }
+  ]
+}

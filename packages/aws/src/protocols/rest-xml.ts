@@ -4,7 +4,9 @@
  * https://smithy.io/2.0/aws/protocols/aws-restxml-protocol.html
  */
 
+import { failIfStrict } from "@distilled.cloud/core/response-validation";
 import * as Effect from "effect/Effect";
+import * as Result from "effect/Result";
 import * as S from "effect/Schema";
 import type * as AST from "effect/SchemaAST";
 import type { Operation } from "../client/operation.ts";
@@ -12,10 +14,7 @@ import type { Protocol, ProtocolHandler } from "../client/protocol.ts";
 import type { Request } from "../client/request.ts";
 import type { Response } from "../client/response.ts";
 import { ParseError } from "../errors.ts";
-import {
-  parseEventStreamToUnion,
-  type PayloadParser,
-} from "../eventstream/parser.ts";
+import { parseEventStreamToUnion, type PayloadParser } from "../eventstream/parser.ts";
 import {
   getEventSchema,
   getHttpHeader,
@@ -49,11 +48,7 @@ import {
 import { sanitizeErrorCode } from "../util/error.ts";
 import { extractStaticQueryParams } from "../util/query-params.ts";
 import { applyHttpTrait, bindInputToRequest } from "../util/serialize-input.ts";
-import {
-  convertStreamingInput,
-  readableToEffectStream,
-  readStreamAsText,
-} from "../util/stream.ts";
+import { convertStreamingInput, readableToEffectStream, readStreamAsText } from "../util/stream.ts";
 import { formatTimestamp } from "../util/timestamp.ts";
 import {
   deserializePrimitive,
@@ -69,9 +64,7 @@ import {
 // Protocol Export
 // =============================================================================
 
-export const restXmlProtocol: Protocol = (
-  operation: Operation,
-): ProtocolHandler => {
+export const restXmlProtocol: Protocol = (operation: Operation): ProtocolHandler => {
   const inputSchema = operation.input;
   const outputSchema = operation.output;
   const inputAst = inputSchema.ast;
@@ -79,16 +72,14 @@ export const restXmlProtocol: Protocol = (
 
   // Pre-compute encoder (done once at init)
   const encodeInput = S.encodeEffect(inputSchema);
-  const outputXmlName =
-    getXmlNameFromAST(outputAst) ?? getIdentifier(outputAst);
+  const outputXmlName = getXmlNameFromAST(outputAst) ?? getIdentifier(outputAst);
 
   // Pre-compute s3UnwrappedXmlOutput handling (done once at init)
   const isUnwrappedOutput = hasS3UnwrappedXmlOutput(outputAst);
   const outputProps = getEncodedPropertySignatures(outputAst);
   const unwrappedPropName = isUnwrappedOutput
-    ? outputProps.find(
-        (prop) => (getXmlNameProp(prop) ?? String(prop.name)) === outputXmlName,
-      )?.name
+    ? outputProps.find((prop) => (getXmlNameProp(prop) ?? String(prop.name)) === outputXmlName)
+        ?.name
     : undefined;
 
   // Pre-compute httpPayload property info for serialization (done once at init)
@@ -99,9 +90,7 @@ export const restXmlProtocol: Protocol = (
       getXmlNameFromAST(payloadProp.type) ??
       getIdentifier(payloadProp.type))
     : undefined;
-  const payloadIsStreaming = payloadProp
-    ? isStreamingType(payloadProp.type)
-    : false;
+  const payloadIsStreaming = payloadProp ? isStreamingType(payloadProp.type) : false;
   const inputXmlNamespace = getXmlNamespace(inputAst);
 
   // Pre-classify output properties by their HTTP binding (done once at init)
@@ -160,8 +149,7 @@ export const restXmlProtocol: Protocol = (
         isRawString: unwrapped._tag === "Union" || unwrapped._tag === "String",
         // Use property name as fallback when type annotations aren't preserved
         // (e.g., when using Schema.pipe to add HttpPayload annotation)
-        xmlName:
-          getXmlNameFromAST(prop.type) ?? getIdentifier(prop.type) ?? name,
+        xmlName: getXmlNameFromAST(prop.type) ?? getIdentifier(prop.type) ?? name,
       };
     }
   }
@@ -181,20 +169,17 @@ export const restXmlProtocol: Protocol = (
       };
 
       applyHttpTrait(inputAst, request);
-      const { payloadValue, payloadAst, bodyMembers, hasBodyMembers } =
-        bindInputToRequest(
-          inputAst,
-          encoded as Record<string, unknown>,
-          request,
-        );
+      const { payloadValue, payloadAst, bodyMembers, hasBodyMembers } = bindInputToRequest(
+        inputAst,
+        encoded as Record<string, unknown>,
+        request,
+      );
       extractStaticQueryParams(request);
 
       // Serialize body
       if (payloadValue !== undefined && payloadAst !== undefined) {
         if (payloadIsStreaming) {
-          request.body = convertStreamingInput(
-            payloadValue as StreamingInputBody,
-          );
+          request.body = convertStreamingInput(payloadValue as StreamingInputBody);
         } else if (typeof payloadValue === "string") {
           request.body = payloadValue;
         } else {
@@ -209,12 +194,7 @@ export const restXmlProtocol: Protocol = (
       } else if (hasBodyMembers) {
         request.headers["Content-Type"] = "application/xml";
         const tagName = getIdentifier(inputAst);
-        request.body = serializeObject(
-          inputAst,
-          bodyMembers,
-          tagName,
-          getXmlNamespace(inputAst),
-        );
+        request.body = serializeObject(inputAst, bodyMembers, tagName, getXmlNamespace(inputAst));
       }
 
       return request;
@@ -230,14 +210,9 @@ export const restXmlProtocol: Protocol = (
 
       // Extract header-bound properties using pre-computed metadata
       for (const hp of headerProps) {
-        const v =
-          response.headers[hp.headerLower] ?? response.headers[hp.header];
+        const v = response.headers[hp.headerLower] ?? response.headers[hp.header];
         if (v !== undefined) {
-          result[hp.name] = hp.isNumber
-            ? Number(v)
-            : hp.isBoolean
-              ? v === "true"
-              : v;
+          result[hp.name] = hp.isNumber ? Number(v) : hp.isBoolean ? v === "true" : v;
         }
       }
 
@@ -273,9 +248,7 @@ export const restXmlProtocol: Protocol = (
           );
         } else {
           // Raw streaming output (blob)
-          result[outputPayloadProp.name] = readableToEffectStream(
-            response.body,
-          );
+          result[outputPayloadProp.name] = readableToEffectStream(response.body);
         }
         return result;
       }
@@ -288,19 +261,27 @@ export const restXmlProtocol: Protocol = (
         if (outputPayloadProp.isRawString) {
           result[outputPayloadProp.name] = bodyText;
         } else {
-          const parsed = yield* parseXml(bodyText);
+          const read = yield* Effect.result(parseXml(bodyText));
+          // Lenient mode returns the body as read.
+          if (Result.isFailure(read)) {
+            return yield* failIfStrict(read.failure, bodyText);
+          }
+          const parsed = read.success;
           result[outputPayloadProp.name] = deserializeValue(
             outputPayloadProp.type,
-            outputPayloadProp.xmlName
-              ? (parsed[outputPayloadProp.xmlName] ?? parsed)
-              : parsed,
+            outputPayloadProp.xmlName ? (parsed[outputPayloadProp.xmlName] ?? parsed) : parsed,
           );
         }
       }
 
       // Parse body XML for non-payload properties
       if (bodyText && !outputPayloadProp) {
-        const parsed = yield* parseXml(bodyText);
+        const read = yield* Effect.result(parseXml(bodyText));
+        // Lenient mode returns the body as read.
+        if (Result.isFailure(read)) {
+          return yield* failIfStrict(read.failure, bodyText);
+        }
+        const parsed = read.success;
         const rawContent = outputXmlName ? parsed[outputXmlName] : parsed;
 
         if (isUnwrappedOutput && unwrappedPropName) {
@@ -319,85 +300,99 @@ export const restXmlProtocol: Protocol = (
       return result;
     }),
 
-    deserializeError: Effect.fn(function* (response: Response) {
-      // Read body as text
-      const bodyText = yield* readStreamAsText(response.body);
+    deserializeError: Effect.fn(
+      function* (response: Response) {
+        // Read body as text
+        const bodyText = yield* readStreamAsText(response.body);
+        const serverFailure = response.status >= 500 && response.status < 600;
 
-      if (!bodyText) {
-        // S3 HEAD requests and some other operations return empty body on error
-        // Derive error code from HTTP status code
-        const statusCodeMap: Record<number, string> = {
-          400: "BadRequest",
-          403: "AccessDenied",
-          404: "NotFound",
-          405: "MethodNotAllowed",
-          409: "Conflict",
-          412: "PreconditionFailed",
-          416: "InvalidRange",
-          500: "InternalError",
-          503: "ServiceUnavailable",
-        };
-        const errorCode =
-          statusCodeMap[response.status] ?? `HttpError${response.status}`;
-        return { errorCode, data: {} };
-      }
-
-      // Check if this is an HTML error response (e.g., S3 503 Slow Down)
-      // Format: <html>...<li>Code: SlowDown</li><li>Message: ...</li>...</html>
-      if (bodyText.trimStart().toLowerCase().startsWith("<html")) {
-        const htmlError = parseHtmlError(bodyText);
-        if (htmlError) {
-          return htmlError;
+        if (!bodyText) {
+          // S3 HEAD requests and some other operations return empty body on error
+          // Derive error code from HTTP status code
+          const statusCodeMap: Record<number, string> = {
+            400: "BadRequest",
+            403: "AccessDenied",
+            404: "NotFound",
+            405: "MethodNotAllowed",
+            409: "Conflict",
+            412: "PreconditionFailed",
+            416: "InvalidRange",
+            500: "InternalError",
+            503: "ServiceUnavailable",
+          };
+          const errorCode =
+            statusCodeMap[response.status] ??
+            (serverFailure ? "InternalError" : `HttpError${response.status}`);
+          return { errorCode, data: {} };
         }
-        // HTML response without parseable error - don't try XML parsing
-        return yield* new ParseError({
-          message: `Could not parse HTML error response: ${bodyText}`,
-        });
-      }
 
-      // Parse XML body
-      const parsed = yield* parseXml(bodyText);
-
-      // restXml error structure:
-      // Default: <ErrorResponse><Error><Code>...</Code><Message>...</Message>...</Error><RequestId>...</RequestId></ErrorResponse>
-      // With noErrorWrapping: <Error><Code>...</Code><Message>...</Message>...</Error>
-      // Note: noErrorWrapping is a protocol trait, but we handle both formats for flexibility
-      let errorContent: Record<string, unknown> | undefined;
-
-      // Try wrapped format first: <ErrorResponse><Error>...</Error></ErrorResponse>
-      if (parsed.ErrorResponse && typeof parsed.ErrorResponse === "object") {
-        const errorResponse = parsed.ErrorResponse as Record<string, unknown>;
-        if (errorResponse.Error && typeof errorResponse.Error === "object") {
-          errorContent = errorResponse.Error as Record<string, unknown>;
+        // Check if this is an HTML error response (e.g., S3 503 Slow Down)
+        // Format: <html>...<li>Code: SlowDown</li><li>Message: ...</li>...</html>
+        if (bodyText.trimStart().toLowerCase().startsWith("<html")) {
+          const htmlError = parseHtmlError(bodyText);
+          if (htmlError) {
+            return htmlError;
+          }
+          // HTML response without parseable error - don't try XML parsing
+          return yield* new ParseError({
+            message: `Could not parse HTML error response: ${bodyText}`,
+          });
         }
-      }
 
-      // Try unwrapped format: <Error>...</Error>
-      if (!errorContent && parsed.Error && typeof parsed.Error === "object") {
-        errorContent = parsed.Error as Record<string, unknown>;
-      }
+        // Parse XML body
+        const parsed = yield* parseXml(bodyText);
 
-      if (!errorContent) {
-        return yield* new ParseError({
-          message: `Could not find Error element in XML response: ${bodyText}`,
-        });
-      }
+        // restXml error structure:
+        // Default: <ErrorResponse><Error><Code>...</Code><Message>...</Message>...</Error><RequestId>...</RequestId></ErrorResponse>
+        // With noErrorWrapping: <Error><Code>...</Code><Message>...</Message>...</Error>
+        // Note: noErrorWrapping is a protocol trait, but we handle both formats for flexibility
+        let errorContent: Record<string, unknown> | undefined;
 
-      // Extract error code from <Code> element
-      const rawErrorCode = errorContent.Code;
-      if (typeof rawErrorCode !== "string") {
-        return yield* new ParseError({
-          message: `No Code element found in error response: ${bodyText}`,
-        });
-      }
+        // Try wrapped format first: <ErrorResponse><Error>...</Error></ErrorResponse>
+        if (parsed.ErrorResponse && typeof parsed.ErrorResponse === "object") {
+          const errorResponse = parsed.ErrorResponse as Record<string, unknown>;
+          if (errorResponse.Error && typeof errorResponse.Error === "object") {
+            errorContent = errorResponse.Error as Record<string, unknown>;
+          }
+        }
 
-      const errorCode = sanitizeErrorCode(rawErrorCode);
+        // Try unwrapped format: <Error>...</Error>
+        if (!errorContent && parsed.Error && typeof parsed.Error === "object") {
+          errorContent = parsed.Error as Record<string, unknown>;
+        }
 
-      // Extract remaining data (remove Code, keep Message, Type, RequestId, etc.)
-      const { Code: _Code, ...data } = errorContent;
+        if (!errorContent) {
+          return yield* new ParseError({
+            message: `Could not find Error element in XML response: ${bodyText}`,
+          });
+        }
 
-      return { errorCode, data };
-    }),
+        // Extract error code from <Code> element
+        const rawErrorCode = errorContent.Code;
+        if (typeof rawErrorCode !== "string") {
+          return yield* new ParseError({
+            message: `No Code element found in error response: ${bodyText}`,
+          });
+        }
+
+        const errorCode = sanitizeErrorCode(rawErrorCode);
+
+        // Extract remaining data (remove Code, keep Message, Type, RequestId, etc.)
+        const { Code: _Code, ...data } = errorContent;
+
+        return { errorCode, data };
+      },
+      (effect, response) =>
+        effect.pipe(
+          Effect.catchTag("ParseError", (error) => {
+            if (response.status < 500 || response.status >= 600) {
+              return Effect.fail(error);
+            }
+            // makeResponseParser converts this descriptor into a typed failure.
+            return Effect.succeed({ errorCode: "InternalError", data: {} });
+          }),
+        ),
+    ),
   };
 };
 
@@ -405,12 +400,7 @@ export const restXmlProtocol: Protocol = (
 // XML Serialization
 // =============================================================================
 
-function serializeValue(
-  ast: AST.AST,
-  value: unknown,
-  tagName?: string,
-  xmlns?: string,
-): string {
+function serializeValue(ast: AST.AST, value: unknown, tagName?: string, xmlns?: string): string {
   if (value == null) return "";
 
   // Primitives and Dates
@@ -429,14 +419,7 @@ function serializeValue(
     const elementAST = getArrayElementAST(ast);
     const tag = tagName ?? (elementAST && getIdentifier(elementAST));
     return value
-      .map((item, i) =>
-        serializeValue(
-          elementAST ?? ast,
-          item,
-          tag,
-          i === 0 ? xmlns : undefined,
-        ),
-      )
+      .map((item, i) => serializeValue(elementAST ?? ast, item, tag, i === 0 ? xmlns : undefined))
       .join("");
   }
 
@@ -472,16 +455,10 @@ function serializeObject(
 
     const elementAST = getArrayElementAST(prop.type);
     if (hasXmlFlattened(prop)) {
-      elems.push(
-        v
-          .map((item) => serializeValue(elementAST ?? prop.type, item, xmlName))
-          .join(""),
-      );
+      elems.push(v.map((item) => serializeValue(elementAST ?? prop.type, item, xmlName)).join(""));
     } else {
       // Use xmlName trait first, then fall back to class identifier
-      const itemTag =
-        elementAST &&
-        (getXmlNameFromAST(elementAST) ?? getIdentifier(elementAST));
+      const itemTag = elementAST && (getXmlNameFromAST(elementAST) ?? getIdentifier(elementAST));
       elems.push(
         `<${xmlName}>${v.map((item) => serializeValue(elementAST ?? prop.type, item, itemTag)).join("")}</${xmlName}>`,
       );
@@ -492,8 +469,7 @@ function serializeObject(
 
   const ns = xmlns ?? getXmlNamespace(ast);
   const attrStr =
-    (ns ? ` xmlns="${escapeXml(ns)}"` : "") +
-    (attrs.length ? ` ${attrs.join(" ")}` : "");
+    (ns ? ` xmlns="${escapeXml(ns)}"` : "") + (attrs.length ? ` ${attrs.join(" ")}` : "");
   return `<${tagName}${attrStr}>${elems.join("")}</${tagName}>`;
 }
 
@@ -501,18 +477,28 @@ function serializeObject(
 // XML Deserialization
 // =============================================================================
 
+function isStructureAST(ast: AST.AST): boolean {
+  const unwrapped = unwrapUnion(ast);
+  if (unwrapped !== ast) return isStructureAST(unwrapped);
+  if (ast._tag === "Suspend") return isStructureAST(ast.thunk());
+  if (ast.encoding && ast.encoding.length > 0) {
+    return isStructureAST(ast.encoding[0].to);
+  }
+  return ast._tag === "Objects" && ast.indexSignatures.length === 0;
+}
+
 function deserializeValue(ast: AST.AST, value: unknown): unknown {
   if (value == null) return undefined;
-  // Empty strings: preserve for string types, treat as undefined for others
-  if (value === "" && !isStringAST(ast)) return undefined;
 
-  // Handle empty objects (from empty XML elements) - treat as undefined
+  // An empty XML element can represent a present structure, but not a map.
   if (
-    typeof value === "object" &&
-    !Array.isArray(value) &&
-    Object.keys(value as object).length === 0
+    value === "" ||
+    (typeof value === "object" &&
+      !Array.isArray(value) &&
+      Object.keys(value as object).length === 0)
   ) {
-    return undefined;
+    if (isStructureAST(ast)) return {};
+    return value === "" && isStringAST(ast) ? "" : undefined;
   }
 
   if (isArrayAST(ast)) {
@@ -557,10 +543,7 @@ function extractTextContent(value: unknown): unknown {
   return value;
 }
 
-function deserializeObject(
-  ast: AST.AST,
-  value: Record<string, unknown>,
-): Record<string, unknown> {
+function deserializeObject(ast: AST.AST, value: Record<string, unknown>): Record<string, unknown> {
   const result: Record<string, unknown> = {};
 
   for (const prop of getEncodedPropertySignatures(ast)) {
@@ -601,7 +584,6 @@ function deserializeObject(
       result[key] = items.map((item) => deserializeValue(elAST, item));
     } else {
       const deserialized = deserializeValue(prop.type, propValue);
-      // Only assign if not undefined (empty XML elements become undefined)
       if (deserialized !== undefined) {
         result[key] = deserialized;
       }

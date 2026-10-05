@@ -1,0 +1,1028 @@
+{
+  "smithy": "2.0",
+  "metadata": {
+    "suppressions": [
+      {
+        "id": "HttpUriConflict",
+        "namespace": "*"
+      },
+      {
+        "id": "HttpMethodSemantics",
+        "namespace": "*"
+      },
+      {
+        "id": "UnreferencedShape",
+        "namespace": "*"
+      }
+    ],
+    "distilled.finalized": true
+  },
+  "shapes": {
+    "com.daytona.audit#StringFilter": {
+      "type": "structure",
+      "members": {
+        "eq": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Match values equal to this value."
+          }
+        },
+        "not": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Match values not equal to this value."
+          }
+        },
+        "in": {
+          "target": "com.daytona.audit#StringFilterInList",
+          "traits": {
+            "smithy.api#documentation": "Match values present in this list. Accepts comma-separated values or repeated query parameters. Maximum 100 entries."
+          }
+        },
+        "notIn": {
+          "target": "com.daytona.audit#StringFilterNotInList",
+          "traits": {
+            "smithy.api#documentation": "Match values not present in this list. Accepts comma-separated values or repeated query parameters. Maximum 100 entries."
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.daytona.audit#StringFilterInList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {
+        "smithy.api#documentation": "Match values present in this list. Accepts comma-separated values or repeated query parameters. Maximum 100 entries."
+      }
+    },
+    "com.daytona.audit#StringFilterNotInList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {
+        "smithy.api#documentation": "Match values not present in this list. Accepts comma-separated values or repeated query parameters. Maximum 100 entries."
+      }
+    },
+    "com.daytona.audit#IntFilter": {
+      "type": "structure",
+      "members": {
+        "eq": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "Match values equal to this value."
+          }
+        },
+        "not": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "Match values not equal to this value."
+          }
+        },
+        "in": {
+          "target": "com.daytona.audit#IntFilterInList",
+          "traits": {
+            "smithy.api#documentation": "Match values present in this list. Accepts comma-separated values or repeated query parameters. Maximum 100 entries."
+          }
+        },
+        "notIn": {
+          "target": "com.daytona.audit#IntFilterNotInList",
+          "traits": {
+            "smithy.api#documentation": "Match values not present in this list. Accepts comma-separated values or repeated query parameters. Maximum 100 entries."
+          }
+        },
+        "gte": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "Match values greater than or equal to this value."
+          }
+        },
+        "lte": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "Match values less than or equal to this value."
+          }
+        },
+        "gt": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "Match values strictly greater than this value."
+          }
+        },
+        "lt": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "Match values strictly less than this value."
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.daytona.audit#IntFilterInList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#Double"
+      },
+      "traits": {
+        "smithy.api#documentation": "Match values present in this list. Accepts comma-separated values or repeated query parameters. Maximum 100 entries."
+      }
+    },
+    "com.daytona.audit#IntFilterNotInList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#Double"
+      },
+      "traits": {
+        "smithy.api#documentation": "Match values not present in this list. Accepts comma-separated values or repeated query parameters. Maximum 100 entries."
+      }
+    },
+    "com.daytona.audit#DateFilter": {
+      "type": "structure",
+      "members": {
+        "gte": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Match values greater than or equal to this timestamp (ISO 8601)."
+          }
+        },
+        "lte": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Match values less than or equal to this timestamp (ISO 8601)."
+          }
+        },
+        "gt": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Match values strictly greater than this timestamp (ISO 8601)."
+          }
+        },
+        "lt": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Match values strictly less than this timestamp (ISO 8601)."
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.daytona.audit#GetOrganizationAuditLogsRequest": {
+      "type": "structure",
+      "members": {
+        "organizationId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Organization ID"
+          }
+        },
+        "page": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#httpQuery": "page",
+            "smithy.api#documentation": "Page number of the results"
+          }
+        },
+        "limit": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#httpQuery": "limit",
+            "smithy.api#documentation": "Number of results per page"
+          }
+        },
+        "from": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "from",
+            "smithy.api#documentation": "Deprecated alias for `createdAt[gte]`. From date (ISO 8601 format)."
+          }
+        },
+        "to": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "to",
+            "smithy.api#documentation": "Deprecated alias for `createdAt[lte]`. To date (ISO 8601 format)."
+          }
+        },
+        "nextToken": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "nextToken",
+            "smithy.api#documentation": "Token for cursor-based pagination. When provided, takes precedence over page parameter."
+          }
+        },
+        "id": {
+          "target": "com.daytona.audit#StringFilter",
+          "traits": {
+            "smithy.api#httpQuery": "id",
+            "smithy.api#documentation": "Filter by audit log ID."
+          }
+        },
+        "actorId": {
+          "target": "com.daytona.audit#StringFilter",
+          "traits": {
+            "smithy.api#httpQuery": "actorId",
+            "smithy.api#documentation": "Filter by actor user ID."
+          }
+        },
+        "actorEmail": {
+          "target": "com.daytona.audit#StringFilter",
+          "traits": {
+            "smithy.api#httpQuery": "actorEmail",
+            "smithy.api#documentation": "Filter by actor email."
+          }
+        },
+        "actorApiKeyPrefix": {
+          "target": "com.daytona.audit#StringFilter",
+          "traits": {
+            "smithy.api#httpQuery": "actorApiKeyPrefix",
+            "smithy.api#documentation": "Filter by actor API key prefix."
+          }
+        },
+        "actorApiKeySuffix": {
+          "target": "com.daytona.audit#StringFilter",
+          "traits": {
+            "smithy.api#httpQuery": "actorApiKeySuffix",
+            "smithy.api#documentation": "Filter by actor API key suffix."
+          }
+        },
+        "action": {
+          "target": "com.daytona.audit#StringFilter",
+          "traits": {
+            "smithy.api#httpQuery": "action",
+            "smithy.api#documentation": "Filter by action."
+          }
+        },
+        "targetType": {
+          "target": "com.daytona.audit#StringFilter",
+          "traits": {
+            "smithy.api#httpQuery": "targetType",
+            "smithy.api#documentation": "Filter by target type."
+          }
+        },
+        "targetId": {
+          "target": "com.daytona.audit#StringFilter",
+          "traits": {
+            "smithy.api#httpQuery": "targetId",
+            "smithy.api#documentation": "Filter by target ID."
+          }
+        },
+        "statusCode": {
+          "target": "com.daytona.audit#IntFilter",
+          "traits": {
+            "smithy.api#httpQuery": "statusCode",
+            "smithy.api#documentation": "Filter by HTTP status code."
+          }
+        },
+        "createdAt": {
+          "target": "com.daytona.audit#DateFilter",
+          "traits": {
+            "smithy.api#httpQuery": "createdAt",
+            "smithy.api#documentation": "Filter by creation timestamp."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.daytona.audit#PaginatedAuditLogs": {
+      "type": "structure",
+      "members": {
+        "items": {
+          "target": "com.daytona.audit#PaginatedAuditLogsItemsList",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "total": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "page": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "totalPages": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "nextToken": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Token for next page in cursor-based pagination"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.daytona.audit#AuditLog": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "actorId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "actorEmail": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "actorApiKeyPrefix": {
+          "target": "smithy.api#String"
+        },
+        "actorApiKeySuffix": {
+          "target": "smithy.api#String"
+        },
+        "organizationId": {
+          "target": "smithy.api#String"
+        },
+        "action": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "targetType": {
+          "target": "smithy.api#String"
+        },
+        "targetId": {
+          "target": "smithy.api#String"
+        },
+        "statusCode": {
+          "target": "smithy.api#Double"
+        },
+        "errorMessage": {
+          "target": "smithy.api#String"
+        },
+        "ipAddress": {
+          "target": "smithy.api#String"
+        },
+        "userAgent": {
+          "target": "smithy.api#String"
+        },
+        "source": {
+          "target": "smithy.api#String"
+        },
+        "metadata": {
+          "target": "com.daytona.audit#AuditLogMetadataMap"
+        },
+        "createdAt": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.daytona.audit#AuditLogMetadataMap": {
+      "type": "map",
+      "key": {
+        "target": "smithy.api#String"
+      },
+      "value": {
+        "target": "smithy.api#Document"
+      },
+      "traits": {}
+    },
+    "com.daytona.audit#PaginatedAuditLogsItemsList": {
+      "type": "list",
+      "member": {
+        "target": "com.daytona.audit#AuditLog"
+      },
+      "traits": {}
+    },
+    "com.daytona.audit#GetOrganizationAuditLogs": {
+      "type": "operation",
+      "input": {
+        "target": "com.daytona.audit#GetOrganizationAuditLogsRequest"
+      },
+      "output": {
+        "target": "com.daytona.audit#PaginatedAuditLogs"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/audit/organizations/{organizationId}",
+          "code": 200
+        },
+        "smithy.api#documentation": "Get audit logs for organization",
+        "smithy.api#paginated": {
+          "mode": "token",
+          "inputToken": "nextToken",
+          "outputToken": "nextToken",
+          "items": "items"
+        }
+      }
+    },
+    "com.daytona.audit#AuditScenarios": {
+      "type": "structure",
+      "members": {
+        "targets": {
+          "target": "com.daytona.audit#AuditScenariosTargetsList",
+          "traits": {
+            "smithy.api#documentation": "Supported audit log scenarios grouped by target type. Derived at runtime from the audited routes and system events, sorted by target type.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.daytona.audit#AuditTargetScenario": {
+      "type": "structure",
+      "members": {
+        "targetType": {
+          "target": "com.daytona.audit#AuditTargetScenarioTargetType",
+          "traits": {
+            "smithy.api#documentation": "Resource type the actions apply to. Scenarios that are not scoped to a specific resource type (e.g. leaving an organization) are grouped under \"other\".",
+            "smithy.api#required": {}
+          }
+        },
+        "actions": {
+          "target": "com.daytona.audit#AuditTargetScenarioActionsList",
+          "traits": {
+            "smithy.api#documentation": "Actions that can be audited against this target type, sorted alphabetically.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.daytona.audit#AuditTargetScenarioTargetType": {
+      "type": "enum",
+      "members": {
+        "API_KEY": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "api_key"
+          }
+        },
+        "ORGANIZATION": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "organization"
+          }
+        },
+        "ORGANIZATION_INVITATION": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "organization_invitation"
+          }
+        },
+        "ORGANIZATION_ROLE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "organization_role"
+          }
+        },
+        "ORGANIZATION_USER": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "organization_user"
+          }
+        },
+        "DOCKER_REGISTRY": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "docker_registry"
+          }
+        },
+        "RUNNER": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "runner"
+          }
+        },
+        "SANDBOX": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "sandbox"
+          }
+        },
+        "SNAPSHOT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "snapshot"
+          }
+        },
+        "USER": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "user"
+          }
+        },
+        "VOLUME": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "volume"
+          }
+        },
+        "WARM_POOL": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "warm_pool"
+          }
+        },
+        "REGION": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "region"
+          }
+        },
+        "SECRET": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "secret"
+          }
+        },
+        "OTHER": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "other"
+          }
+        },
+        "IDENTITY_PROVIDER": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "identity_provider"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Resource type the actions apply to. Scenarios that are not scoped to a specific resource type (e.g. leaving an organization) are grouped under \"other\"."
+      }
+    },
+    "com.daytona.audit#AuditTargetScenarioActionsItem": {
+      "type": "enum",
+      "members": {
+        "CREATE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "create"
+          }
+        },
+        "READ": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "read"
+          }
+        },
+        "UPDATE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "update"
+          }
+        },
+        "DELETE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "delete"
+          }
+        },
+        "LOGIN": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "login"
+          }
+        },
+        "REGISTER": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "register"
+          }
+        },
+        "CHANGE_PASSWORD": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "change_password"
+          }
+        },
+        "SET_DEFAULT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "set_default"
+          }
+        },
+        "UPDATE_ACCESS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "update_access"
+          }
+        },
+        "UPDATE_QUOTA": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "update_quota"
+          }
+        },
+        "CREATE_REGION_QUOTA": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "create_region_quota"
+          }
+        },
+        "UPDATE_REGION_QUOTA": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "update_region_quota"
+          }
+        },
+        "DELETE_REGION_QUOTA": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "delete_region_quota"
+          }
+        },
+        "SUSPEND": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "suspend"
+          }
+        },
+        "UNSUSPEND": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "unsuspend"
+          }
+        },
+        "ACCEPT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "accept"
+          }
+        },
+        "DECLINE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "decline"
+          }
+        },
+        "LINK_ACCOUNT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "link_account"
+          }
+        },
+        "UNLINK_ACCOUNT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "unlink_account"
+          }
+        },
+        "ACCEPT_PRIVACY_POLICIES": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "accept_privacy_policies"
+          }
+        },
+        "LEAVE_ORGANIZATION": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "leave_organization"
+          }
+        },
+        "REGENERATE_KEY_PAIR": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "regenerate_key_pair"
+          }
+        },
+        "UPDATE_SCHEDULING": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "update_scheduling"
+          }
+        },
+        "UPDATE_DRAINING": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "update_draining"
+          }
+        },
+        "START": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "start"
+          }
+        },
+        "STOP": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "stop"
+          }
+        },
+        "RESIZE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "resize"
+          }
+        },
+        "REPLACE_LABELS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "replace_labels"
+          }
+        },
+        "CREATE_BACKUP": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "create_backup"
+          }
+        },
+        "UPDATE_PUBLIC_STATUS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "update_public_status"
+          }
+        },
+        "ROTATE_SIGNING_KEY": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "rotate_signing_key"
+          }
+        },
+        "SET_AUTO_STOP_INTERVAL": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "set_auto_stop_interval"
+          }
+        },
+        "SET_AUTO_PAUSE_INTERVAL": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "set_auto_pause_interval"
+          }
+        },
+        "SET_TTL": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "set_ttl"
+          }
+        },
+        "SET_AUTO_ARCHIVE_INTERVAL": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "set_auto_archive_interval"
+          }
+        },
+        "SET_AUTO_DELETE_INTERVAL": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "set_auto_delete_interval"
+          }
+        },
+        "ARCHIVE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "archive"
+          }
+        },
+        "SNAPSHOT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "snapshot"
+          }
+        },
+        "FORK": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "fork"
+          }
+        },
+        "PAUSE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "pause"
+          }
+        },
+        "GET_PORT_PREVIEW_URL": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "get_port_preview_url"
+          }
+        },
+        "SET_GENERAL_STATUS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "set_general_status"
+          }
+        },
+        "ACTIVATE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "activate"
+          }
+        },
+        "DEACTIVATE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "deactivate"
+          }
+        },
+        "UPDATE_NETWORK_SETTINGS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "update_network_settings"
+          }
+        },
+        "UPDATE_SECRETS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "update_secrets"
+          }
+        },
+        "SEND_WEBHOOK_MESSAGE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "send_webhook_message"
+          }
+        },
+        "INITIALIZE_WEBHOOKS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "initialize_webhooks"
+          }
+        },
+        "UPDATE_SANDBOX_DEFAULT_LIMITED_NETWORK_EGRESS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "update_sandbox_default_limited_network_egress"
+          }
+        },
+        "UPDATE_PREVIEW_WARNING": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "update_preview_warning"
+          }
+        },
+        "UPDATE_SSO_ENABLED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "update_sso_enabled"
+          }
+        },
+        "GENERATE_WORKOS_ADMIN_PORTAL_LINK": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "generate_workos_admin_portal_link"
+          }
+        },
+        "UPDATE_SCIM_ENABLED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "update_scim_enabled"
+          }
+        },
+        "UPDATE_OTEL_CONFIG": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "update_otel_config"
+          }
+        },
+        "DELETE_OTEL_CONFIG": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "delete_otel_config"
+          }
+        },
+        "CREATE_SSH_ACCESS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "create_ssh_access"
+          }
+        },
+        "REVOKE_SSH_ACCESS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "revoke_ssh_access"
+          }
+        },
+        "RECOVER": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "recover"
+          }
+        },
+        "REGENERATE_PROXY_API_KEY": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "regenerate_proxy_api_key"
+          }
+        },
+        "REGENERATE_SSH_GATEWAY_API_KEY": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "regenerate_ssh_gateway_api_key"
+          }
+        },
+        "REGENERATE_SNAPSHOT_MANAGER_CREDENTIALS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "regenerate_snapshot_manager_credentials"
+          }
+        },
+        "AUTO_STOP": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "auto_stop"
+          }
+        },
+        "AUTO_ARCHIVE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "auto_archive"
+          }
+        },
+        "AUTO_DELETE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "auto_delete"
+          }
+        },
+        "TTL_EXPIRE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "ttl_expire"
+          }
+        },
+        "SPOT_EVICT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "spot_evict"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.daytona.audit#AuditTargetScenarioActionsList": {
+      "type": "list",
+      "member": {
+        "target": "com.daytona.audit#AuditTargetScenarioActionsItem"
+      },
+      "traits": {
+        "smithy.api#documentation": "Actions that can be audited against this target type, sorted alphabetically."
+      }
+    },
+    "com.daytona.audit#AuditScenariosTargetsList": {
+      "type": "list",
+      "member": {
+        "target": "com.daytona.audit#AuditTargetScenario"
+      },
+      "traits": {
+        "smithy.api#documentation": "Supported audit log scenarios grouped by target type. Derived at runtime from the audited routes and system events, sorted by target type."
+      }
+    },
+    "com.daytona.audit#GetAuditScenarios": {
+      "type": "operation",
+      "input": {
+        "target": "smithy.api#Unit"
+      },
+      "output": {
+        "target": "com.daytona.audit#AuditScenarios"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/audit/scenarios",
+          "code": 200
+        },
+        "smithy.api#documentation": "Get supported audit log scenarios\n\nReturns the supported audit log actions grouped by target type. The list is derived at runtime from the audited routes and system events, so it always reflects what can actually appear in the audit log."
+      }
+    },
+    "com.daytona.audit#Audit": {
+      "type": "service",
+      "version": "1.0",
+      "operations": [
+        {
+          "target": "com.daytona.audit#GetOrganizationAuditLogs"
+        },
+        {
+          "target": "com.daytona.audit#GetAuditScenarios"
+        }
+      ],
+      "traits": {
+        "smithy.api#title": "Daytona",
+        "smithy.api#documentation": "Daytona AI platform API Docs"
+      }
+    }
+  }
+}

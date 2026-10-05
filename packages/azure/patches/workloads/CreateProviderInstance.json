@@ -1,0 +1,248 @@
+{
+  "description": "ProviderSpecificProperties is polymorphic on `providerType` (SapHana, SapNetWeaver, PrometheusOS, PrometheusHaCluster, MsSqlServer, Db2); the converted model keeps only the discriminator, so S.Struct strips the subtype payload on encode and decode. Add the union of the flat subtype members.",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.workloads#ProviderSapHostFileEntriesList",
+      "value": {
+        "type": "list",
+        "member": {
+          "target": "smithy.api#String"
+        },
+        "traits": {
+          "smithy.api#documentation": "Host file entries (SapNetWeaver)."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.workloads#ProviderSpecificProperties/members/hostname",
+      "value": {
+        "target": "smithy.api#String",
+        "traits": {
+          "smithy.api#documentation": "Host name (SapHana, MsSqlServer, Db2, PrometheusHaCluster)."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.workloads#ProviderSpecificProperties/members/dbName",
+      "value": {
+        "target": "smithy.api#String",
+        "traits": {
+          "smithy.api#documentation": "Database name (SapHana, Db2)."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.workloads#ProviderSpecificProperties/members/sqlPort",
+      "value": {
+        "target": "smithy.api#String",
+        "traits": {
+          "smithy.api#documentation": "SQL port (SapHana)."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.workloads#ProviderSpecificProperties/members/instanceNumber",
+      "value": {
+        "target": "smithy.api#String",
+        "traits": {
+          "smithy.api#documentation": "Database instance number (SapHana)."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.workloads#ProviderSpecificProperties/members/dbPort",
+      "value": {
+        "target": "smithy.api#String",
+        "traits": {
+          "smithy.api#documentation": "Database port (MsSqlServer, Db2)."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.workloads#ProviderSpecificProperties/members/dbUsername",
+      "value": {
+        "target": "smithy.api#String",
+        "traits": {
+          "smithy.api#documentation": "Database user name."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.workloads#ProviderSpecificProperties/members/dbPassword",
+      "value": {
+        "target": "smithy.api#String",
+        "traits": {
+          "smithy.api#documentation": "Database password."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.workloads#ProviderSpecificProperties/members/dbPasswordUri",
+      "value": {
+        "target": "smithy.api#String",
+        "traits": {
+          "smithy.api#documentation": "Key Vault secret URI of the database password."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.workloads#ProviderSpecificProperties/members/sslHostNameInCertificate",
+      "value": {
+        "target": "smithy.api#String",
+        "traits": {
+          "smithy.api#documentation": "Host name in the SSL certificate (SapHana)."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.workloads#ProviderSpecificProperties/members/sapSid",
+      "value": {
+        "target": "smithy.api#String",
+        "traits": {
+          "smithy.api#documentation": "SAP system identifier."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.workloads#ProviderSpecificProperties/members/sapHostname",
+      "value": {
+        "target": "smithy.api#String",
+        "traits": {
+          "smithy.api#documentation": "SAP NetWeaver host name."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.workloads#ProviderSpecificProperties/members/sapInstanceNr",
+      "value": {
+        "target": "smithy.api#String",
+        "traits": {
+          "smithy.api#documentation": "SAP NetWeaver instance number."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.workloads#ProviderSpecificProperties/members/sapUsername",
+      "value": {
+        "target": "smithy.api#String",
+        "traits": {
+          "smithy.api#documentation": "SAP NetWeaver user name."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.workloads#ProviderSpecificProperties/members/sapPassword",
+      "value": {
+        "target": "smithy.api#String",
+        "traits": {
+          "smithy.api#documentation": "SAP NetWeaver password."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.workloads#ProviderSpecificProperties/members/sapPasswordUri",
+      "value": {
+        "target": "smithy.api#String",
+        "traits": {
+          "smithy.api#documentation": "Key Vault secret URI of the SAP password."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.workloads#ProviderSpecificProperties/members/sapClientId",
+      "value": {
+        "target": "smithy.api#String",
+        "traits": {
+          "smithy.api#documentation": "SAP client ID."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.workloads#ProviderSpecificProperties/members/sapPortNumber",
+      "value": {
+        "target": "smithy.api#String",
+        "traits": {
+          "smithy.api#documentation": "SAP HTTP port number."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.workloads#ProviderSpecificProperties/members/prometheusUrl",
+      "value": {
+        "target": "smithy.api#String",
+        "traits": {
+          "smithy.api#documentation": "URL of the node exporter / HA cluster exporter endpoint (PrometheusOS, PrometheusHaCluster)."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.workloads#ProviderSpecificProperties/members/sid",
+      "value": {
+        "target": "smithy.api#String",
+        "traits": {
+          "smithy.api#documentation": "Cluster SID (PrometheusHaCluster)."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.workloads#ProviderSpecificProperties/members/clusterName",
+      "value": {
+        "target": "smithy.api#String",
+        "traits": {
+          "smithy.api#documentation": "Cluster name (PrometheusHaCluster)."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.workloads#ProviderSpecificProperties/members/sslCertificateUri",
+      "value": {
+        "target": "smithy.api#String",
+        "traits": {
+          "smithy.api#documentation": "Blob URI of the SSL certificate."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.workloads#ProviderSpecificProperties/members/sslPreference",
+      "value": {
+        "target": "smithy.api#String",
+        "traits": {
+          "smithy.api#documentation": "SSL preference: Disabled, RootCertificate or ServerCertificate."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.workloads#ProviderSpecificProperties/members/sapHostFileEntries",
+      "value": {
+        "target": "com.azure.workloads#ProviderSapHostFileEntriesList",
+        "traits": {
+          "smithy.api#documentation": "Host file entries (SapNetWeaver)."
+        }
+      }
+    }
+  ]
+}

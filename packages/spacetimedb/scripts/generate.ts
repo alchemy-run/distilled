@@ -1,4 +1,5 @@
-#!/usr/bin/env bun
+#!/usr/bin/env -S node --conditions=bun
+import { runGeneratorCli } from "@distilled.cloud/core/codegen/cli";
 /**
  * generate — turn the Smithy JSON model in .generated-specs into the
  * SpacetimeDB Effect SDK.
@@ -15,17 +16,13 @@
  * trait so the REST protocol sends bytes/text verbatim.
  */
 import type { SdkSpec } from "@distilled.cloud/core/codegen/generator";
-import { runGeneratorCli } from "@distilled.cloud/core/codegen/cli";
 
 const NULLABLE_TRAIT = "com.distilled.openapi#nullable";
 const ERROR_MATCHERS_TRAIT = "com.distilled.openapi#errorMatchers";
 const RAW_RESPONSE_TRAIT = "com.distilled.openapi#rawResponse";
 const SENSITIVE_TRAIT = "smithy.api#sensitive";
 
-const OCTET_STREAM = new Set([
-  "POST /v1/database",
-  "PUT /v1/database/{name_or_identity}",
-]);
+const OCTET_STREAM = new Set(["POST /v1/database", "PUT /v1/database/{name_or_identity}"]);
 const TEXT_PLAIN = new Set([
   "POST /v1/database/{name_or_identity}/names",
   "POST /v1/database/{name_or_identity}/sql",
@@ -106,7 +103,7 @@ const spacetimedbSpec: SdkSpec = {
 
 runGeneratorCli({
   description: "Generate the SpacetimeDB Effect SDK from the Smithy model",
-  root: `${import.meta.dir}/..`,
+  root: `${import.meta.dirname}/..`,
   patchesDir: false,
   spec: () => spacetimedbSpec,
 });

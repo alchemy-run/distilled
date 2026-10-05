@@ -5644,7 +5644,7 @@
         "backupRetentionDays": {
           "target": "smithy.api#Integer",
           "traits": {
-            "smithy.api#documentation": "Required. Configures the duration for which backup data will be kept. It is defined in “days”. The value should be greater than or equal to minimum enforced retention of the backup vault. Minimum value is 1 and maximum value is 36159 for custom retention on-demand backup. Minimum and maximum values are workload specific for all other rules. Note: Longer retention can lead to higher storage costs post introductory trial. We recommend starting with a short duration of 3 days or less."
+            "smithy.api#documentation": "Required. Configures the duration for which backup data will be kept. It is defined in \u201cdays\u201d. The value should be greater than or equal to minimum enforced retention of the backup vault. Minimum value is 1 and maximum value is 36159 for custom retention on-demand backup. Minimum and maximum values are workload specific for all other rules. Note: Longer retention can lead to higher storage costs post introductory trial. We recommend starting with a short duration of 3 days or less."
           }
         },
         "standardSchedule": {
@@ -6609,7 +6609,7 @@
         "logRetentionDays": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "Optional. Applicable only for Cloud SQL resource_type. Configures how long logs will be stored. It is defined in “days”. This value should be greater than or equal to minimum enforced log retention duration of the backup vault."
+            "smithy.api#documentation": "Optional. Applicable only for Cloud SQL resource_type. Configures how long logs will be stored. It is defined in \u201cdays\u201d. This value should be greater than or equal to minimum enforced log retention duration of the backup vault."
           }
         },
         "backupVaultServiceAccount": {
@@ -9438,6 +9438,12 @@
         },
         {
           "target": "com.gcp.backupdr_v1#Conflict"
+        },
+        {
+          "target": "com.gcp.backupdr_v1#BackupPlanReferenceNotFound"
+        },
+        {
+          "target": "com.gcp.backupdr_v1#BackupResourceNotFound"
         }
       ],
       "traits": {
@@ -9786,6 +9792,9 @@
         },
         {
           "target": "com.gcp.backupdr_v1#Conflict"
+        },
+        {
+          "target": "com.gcp.backupdr_v1#BackupVaultReferenceNotFound"
         }
       ],
       "traits": {
@@ -10436,6 +10445,57 @@
           "inputToken": "pageToken",
           "outputToken": "nextPageToken"
         }
+      }
+    },
+    "com.gcp.backupdr_v1#BackupVaultReferenceNotFound": {
+      "type": "structure",
+      "members": {},
+      "traits": {
+        "smithy.api#error": "client",
+        "smithy.api#httpError": 400,
+        "smithy.api#documentation": "The backup plan references a backup vault that does not exist (HTTP 400: 'The request was invalid: backup vault \"\u2026\" not found'). Not retryable.",
+        "com.gcp.protocols#errorMatchers": [
+          {
+            "status": 400,
+            "message": {
+              "matches": "backup vault .* not found"
+            }
+          }
+        ]
+      }
+    },
+    "com.gcp.backupdr_v1#BackupPlanReferenceNotFound": {
+      "type": "structure",
+      "members": {},
+      "traits": {
+        "smithy.api#error": "client",
+        "smithy.api#httpError": 400,
+        "smithy.api#documentation": "The association references a backup plan that does not exist (HTTP 400: 'The request was invalid: backup plan \u2026 not found'). Not retryable.",
+        "com.gcp.protocols#errorMatchers": [
+          {
+            "status": 400,
+            "message": {
+              "matches": "backup plan .* not found"
+            }
+          }
+        ]
+      }
+    },
+    "com.gcp.backupdr_v1#BackupResourceNotFound": {
+      "type": "structure",
+      "members": {},
+      "traits": {
+        "smithy.api#error": "client",
+        "smithy.api#httpError": 400,
+        "smithy.api#documentation": "The association targets a workload resource that does not exist (HTTP 400: 'The request was invalid: resource \u2026 is not found'). Not retryable.",
+        "com.gcp.protocols#errorMatchers": [
+          {
+            "status": 400,
+            "message": {
+              "matches": "resource .* is not found"
+            }
+          }
+        ]
       }
     }
   }

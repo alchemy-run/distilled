@@ -5322,6 +5322,9 @@
         },
         {
           "target": "com.gcp.bigtableadmin_v2#Conflict"
+        },
+        {
+          "target": "com.gcp.bigtableadmin_v2#SourceTableNotReady"
         }
       ],
       "traits": {
@@ -5965,6 +5968,9 @@
         },
         {
           "target": "com.gcp.bigtableadmin_v2#Conflict"
+        },
+        {
+          "target": "com.gcp.bigtableadmin_v2#LastClusterDeletion"
         }
       ],
       "traits": {
@@ -8754,6 +8760,40 @@
           "inputToken": "pageToken",
           "outputToken": "nextPageToken"
         }
+      }
+    },
+    "com.gcp.bigtableadmin_v2#LastClusterDeletion": {
+      "type": "structure",
+      "members": {},
+      "traits": {
+        "smithy.api#error": "client",
+        "smithy.api#httpError": 400,
+        "smithy.api#documentation": "The cluster is the instance's last LIVE cluster and cannot be deleted on its own; delete the instance instead (HTTP 400 FAILED_PRECONDITION: 'Cannot delete the last LIVE Cluster in an Instance'). Not retryable.",
+        "com.gcp.protocols#errorMatchers": [
+          {
+            "status": 400,
+            "message": {
+              "includes": "Cannot delete the last LIVE Cluster"
+            }
+          }
+        ]
+      }
+    },
+    "com.gcp.bigtableadmin_v2#SourceTableNotReady": {
+      "type": "structure",
+      "members": {},
+      "traits": {
+        "smithy.api#error": "client",
+        "smithy.api#httpError": 400,
+        "smithy.api#documentation": "A table referenced by the materialized view query is still being created or modified (HTTP 400: '... while it is being created or modified'). Retryable after a short wait.",
+        "com.gcp.protocols#errorMatchers": [
+          {
+            "status": 400,
+            "message": {
+              "includes": "while it is being created or modified"
+            }
+          }
+        ]
       }
     }
   }

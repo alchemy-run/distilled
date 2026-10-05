@@ -58,7 +58,7 @@ jobs:
           fetch-depth: 0
           token: ${{ steps.bot-token.outputs.token }}
 
-      - name: Setup pnpm, Node.js, Bun and install dependencies
+      - name: Setup pnpm, Node.js and install dependencies
         uses: pnpm/setup@703c52620218391530e48b9e8870d5c0082e1b9b # v2.1.0
         with:
           cache: true
@@ -71,7 +71,7 @@ jobs:
           FORCE_LATEST: ${{ inputs.force-latest }}
         run: |
           set -euo pipefail
-          bun scripts/release/prepare.ts '${{ inputs.version }}' | tee -a "$GITHUB_OUTPUT"
+          node scripts/release/prepare.ts '${{ inputs.version }}' | tee -a "$GITHUB_OUTPUT"
 
       - name: Typecheck and build all packages
         run: pnpm typecheck:ci
@@ -95,7 +95,7 @@ jobs:
           TAG="v${VERSION}"
           git config user.email "alchemy-version-bot[bot]@users.noreply.github.com"
           git config user.name "alchemy-version-bot[bot]"
-          if [[ "$CHANNEL" != "tag" ]]; then bun scripts/release/release-notes.ts "$TAG"; fi
+          if [[ "$CHANNEL" != "tag" ]]; then node scripts/release/release-notes.ts "$TAG"; fi
           mapfile -t PACKAGE_JSONS < <(jq -r '.[] | "\(.)/package.json"' release-package-dirs.json)
           git add "${PACKAGE_JSONS[@]}" pnpm-lock.yaml
           if [[ "$CHANNEL" != "tag" ]]; then git add CHANGELOG.md; fi
@@ -123,7 +123,7 @@ jobs:
           ref: ${{ needs.build.outputs.sha }}
           fetch-depth: 0
 
-      - name: Setup pnpm, Node.js, Bun and install dependencies
+      - name: Setup pnpm, Node.js and install dependencies
         uses: pnpm/setup@703c52620218391530e48b9e8870d5c0082e1b9b # v2.1.0
         with:
           cache: true
@@ -152,7 +152,7 @@ jobs:
           GITHUB_TOKEN: ${{ github.token }}
           VERSION: ${{ needs.build.outputs.version }}
           CHANNEL: ${{ needs.build.outputs.channel }}
-        run: bun scripts/release/github-release.ts "v${VERSION}" "$CHANNEL"
+        run: node scripts/release/github-release.ts "v${VERSION}" "$CHANNEL"
 
       - name: Notify Discord
         if: needs.build.outputs.channel != 'tag'
@@ -160,4 +160,4 @@ jobs:
           DISCORD_WEBHOOK: ${{ secrets.DISCORD_WEBHOOK_URL }}
           VERSION: ${{ needs.build.outputs.version }}
           CHANNEL: ${{ needs.build.outputs.channel }}
-        run: bun scripts/release/discord-notify.ts "v${VERSION}" "$CHANNEL"
+        run: node scripts/release/discord-notify.ts "v${VERSION}" "$CHANNEL"

@@ -1,4 +1,5 @@
-#!/usr/bin/env bun
+#!/usr/bin/env -S node --conditions=bun
+import { runGeneratorCli } from "@distilled.cloud/core/codegen/cli";
 /**
  * generate — turn the Smithy JSON models in .generated-specs into the Whop
  * Effect SDK.
@@ -18,10 +19,9 @@
  * `initial_price`, `page_info`) on the TS surface, matching its own
  * TypeScript/Python/Ruby SDKs and every example in the docs. Module files are
  * named after the tag slug (`checkout_configurations.ts`) while the barrel
- * exports them camelCased (`Services.checkoutConfigurations.createPlan`).
+ * exports them camelCased (`checkoutConfigurations.createPlan`).
  */
 import { type SdkSpec } from "@distilled.cloud/core/codegen/generator";
-import { runGeneratorCli } from "@distilled.cloud/core/codegen/cli";
 
 const NULLABLE_TRAIT = "com.distilled.openapi#nullable";
 const ERROR_MATCHERS_TRAIT = "com.distilled.openapi#errorMatchers";
@@ -84,8 +84,7 @@ const spec: SdkSpec = {
     },
   },
 
-  sourceNote:
-    ".generated-specs (specs/api-v1-native.json + api-v1-stable.json)",
+  sourceNote: ".generated-specs (specs/api-v1-native.json + api-v1-stable.json)",
 
   operationDecl: {
     contextType: "WhopOpContext",
@@ -115,7 +114,7 @@ const spec: SdkSpec = {
 
 runGeneratorCli({
   description: "Generate the Whop Effect SDK from the Smithy models",
-  root: `${import.meta.dir}/..`,
+  root: `${import.meta.dirname}/..`,
   // The RFC-6902 patch chain in patches/ applies to the OpenAPI documents in
   // scripts/convert.ts — never to the Smithy models.
   patchesDir: false,

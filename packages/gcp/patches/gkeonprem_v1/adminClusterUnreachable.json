@@ -1,0 +1,46 @@
+{
+  "description": "Type the HTTP 400 GKE On-Prem returns when a user cluster's admin cluster membership is missing or unreachable. It surfaced as a generic BadRequest, indistinguishable from a malformed cluster spec.",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.gkeonprem_v1#AdminClusterUnreachable",
+      "value": {
+        "type": "structure",
+        "members": {},
+        "traits": {
+          "smithy.api#error": "client",
+          "smithy.api#httpError": 400,
+          "smithy.api#documentation": "The admin cluster fleet membership cannot be reached (HTTP 400 'Invalid resource state for \"…/memberships/…\": failed connecting to the cluster's control plane.' for VMware, 'could not fetch bare metal cluster version.' for bare metal): it does not exist or its Connect agent is offline. Not retryable until the admin cluster is registered and connected.",
+          "com.gcp.protocols#errorMatchers": [
+            {
+              "status": 400,
+              "message": {
+                "includes": "failed connecting to the cluster's control plane"
+              }
+            },
+            {
+              "status": 400,
+              "message": {
+                "includes": "could not fetch bare metal cluster version"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.gkeonprem_v1#CreateProjectsLocationsVmwareClusters/errors/-",
+      "value": {
+        "target": "com.gcp.gkeonprem_v1#AdminClusterUnreachable"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.gkeonprem_v1#CreateProjectsLocationsBareMetalClusters/errors/-",
+      "value": {
+        "target": "com.gcp.gkeonprem_v1#AdminClusterUnreachable"
+      }
+    }
+  ]
+}

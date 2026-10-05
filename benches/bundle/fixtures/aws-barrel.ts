@@ -4,12 +4,16 @@
 import * as AWS from "@distilled.cloud/aws";
 import * as s3 from "@distilled.cloud/aws/s3";
 import * as Effect from "effect/Effect";
+import * as FetchHttpClient from "effect/http/FetchHttpClient";
 import * as Layer from "effect/Layer";
-import * as FetchHttpClient from "effect/unstable/http/FetchHttpClient";
+import * as Redacted from "effect/Redacted";
 
 const layer = Layer.mergeAll(
   AWS.Credentials.fromCredentials(
-    { accessKeyId: "AKIA_BENCH", secretAccessKey: "bench" },
+    {
+      accessKeyId: Redacted.make("AKIA_BENCH"),
+      secretAccessKey: Redacted.make("bench"),
+    },
     "us-east-1",
   ),
   FetchHttpClient.layer,
@@ -21,7 +25,5 @@ const program = s3
 
 export default {
   fetch: () =>
-    Effect.runPromise(program).then(
-      (out) => new Response(String(out.ContentLength ?? 0)),
-    ),
+    Effect.runPromise(program).then((out) => new Response(String(out.ContentLength ?? 0))),
 };

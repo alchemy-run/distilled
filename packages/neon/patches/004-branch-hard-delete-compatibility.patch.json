@@ -1,0 +1,19 @@
+{
+  "description": "Preserve the previously published optional hard_delete query parameter. The refreshed mirror omits the preview parameter without a removal rationale; this compatibility patch preserves SDK source and wire behavior, not a claim of current server entitlement or acceptance.",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/paths/~1projects~1{project_id}~1branches~1{branch_id}/delete/parameters/-",
+      "value": {
+        "name": "hard_delete",
+        "in": "query",
+        "required": false,
+        "description": "If true, the branch is permanently deleted immediately without a recovery window. If false (default), the branch can be recovered within 7 days via the recover endpoint. This parameter is part of the Branch Recovery feature, which is in preview and not available to all users. Retained for compatibility with the previously published SDK; the refreshed OpenAPI document omits it.",
+        "schema": {
+          "type": "boolean",
+          "default": false
+        }
+      }
+    }
+  ]
+}

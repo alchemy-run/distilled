@@ -10,7 +10,7 @@
  * ```ts
  * import * as Kubernetes from "@distilled.cloud/kubernetes";
  *
- * const pods = yield* Kubernetes.Services.core.listCoreV1NamespacedPod({
+ * const pods = yield* Kubernetes.core.listCoreV1NamespacedPod({
  *   namespace: "default",
  * });
  * ```
@@ -24,4 +24,4 @@ export {
   type KubernetesOpContext,
 } from "./protocol.ts";
 export * as Retry from "./retry.ts";
-export * as Services from "./services/index.ts";
+export * from "./services/index.ts";

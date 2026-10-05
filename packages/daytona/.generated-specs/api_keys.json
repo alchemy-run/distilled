@@ -1,0 +1,841 @@
+{
+  "smithy": "2.0",
+  "metadata": {
+    "suppressions": [
+      {
+        "id": "HttpUriConflict",
+        "namespace": "*"
+      },
+      {
+        "id": "HttpMethodSemantics",
+        "namespace": "*"
+      },
+      {
+        "id": "UnreferencedShape",
+        "namespace": "*"
+      }
+    ],
+    "distilled.finalized": true
+  },
+  "shapes": {
+    "com.daytona.api_keys#ListApiKeysRequest": {
+      "type": "structure",
+      "members": {
+        "xDaytonaOrganizationID": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "X-Daytona-Organization-ID",
+            "smithy.api#documentation": "Use with JWT to specify the organization ID"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.daytona.api_keys#ApiKeyList": {
+      "type": "structure",
+      "members": {
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The name of the API key",
+            "smithy.api#required": {}
+          }
+        },
+        "value": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The masked API key value",
+            "smithy.api#required": {}
+          }
+        },
+        "createdAt": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "When the API key was created",
+            "smithy.api#required": {}
+          }
+        },
+        "permissions": {
+          "target": "com.daytona.api_keys#ApiKeyListPermissionsList",
+          "traits": {
+            "smithy.api#documentation": "The list of organization resource permissions assigned to the API key",
+            "smithy.api#required": {}
+          }
+        },
+        "lastUsedAt": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "When the API key was last used",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "expiresAt": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "When the API key expires",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "userId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The user ID of the user who created the API key",
+            "smithy.api#required": {}
+          }
+        },
+        "organizationId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The organization ID associated with the API key"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.daytona.api_keys#ApiKeyListPermissionsItem": {
+      "type": "enum",
+      "members": {
+        "WRITE_REGISTRIES": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "write:registries"
+          }
+        },
+        "DELETE_REGISTRIES": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "delete:registries"
+          }
+        },
+        "WRITE_SNAPSHOTS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "write:snapshots"
+          }
+        },
+        "DELETE_SNAPSHOTS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "delete:snapshots"
+          }
+        },
+        "WRITE_SANDBOXES": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "write:sandboxes"
+          }
+        },
+        "DELETE_SANDBOXES": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "delete:sandboxes"
+          }
+        },
+        "READ_VOLUMES": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "read:volumes"
+          }
+        },
+        "WRITE_VOLUMES": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "write:volumes"
+          }
+        },
+        "DELETE_VOLUMES": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "delete:volumes"
+          }
+        },
+        "WRITE_REGIONS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "write:regions"
+          }
+        },
+        "DELETE_REGIONS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "delete:regions"
+          }
+        },
+        "READ_RUNNERS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "read:runners"
+          }
+        },
+        "WRITE_RUNNERS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "write:runners"
+          }
+        },
+        "DELETE_RUNNERS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "delete:runners"
+          }
+        },
+        "READ_AUDIT_LOGS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "read:audit_logs"
+          }
+        },
+        "MANAGE_API_KEYS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "manage:api_keys"
+          }
+        },
+        "MANAGE_SECRETS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "manage:secrets"
+          }
+        },
+        "READ_LIMITS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "read:limits"
+          }
+        },
+        "MANAGE_SSO": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "manage:sso"
+          }
+        },
+        "READ_BILLING": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "read:billing"
+          }
+        },
+        "MANAGE_BILLING": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "manage:billing"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.daytona.api_keys#ApiKeyListPermissionsList": {
+      "type": "list",
+      "member": {
+        "target": "com.daytona.api_keys#ApiKeyListPermissionsItem"
+      },
+      "traits": {
+        "smithy.api#documentation": "The list of organization resource permissions assigned to the API key"
+      }
+    },
+    "com.daytona.api_keys#ListApiKeysResponseBodyList": {
+      "type": "list",
+      "member": {
+        "target": "com.daytona.api_keys#ApiKeyList"
+      },
+      "traits": {}
+    },
+    "com.daytona.api_keys#ListApiKeysResponse": {
+      "type": "structure",
+      "members": {
+        "body": {
+          "target": "com.daytona.api_keys#ListApiKeysResponseBodyList",
+          "traits": {
+            "com.distilled.openapi#rawResponse": {},
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
+      }
+    },
+    "com.daytona.api_keys#ListApiKeys": {
+      "type": "operation",
+      "input": {
+        "target": "com.daytona.api_keys#ListApiKeysRequest"
+      },
+      "output": {
+        "target": "com.daytona.api_keys#ListApiKeysResponse"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/api-keys",
+          "code": 200
+        },
+        "smithy.api#documentation": "List API keys"
+      }
+    },
+    "com.daytona.api_keys#CreateApiKeyRequestPermissionsItem": {
+      "type": "enum",
+      "members": {
+        "WRITE_REGISTRIES": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "write:registries"
+          }
+        },
+        "DELETE_REGISTRIES": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "delete:registries"
+          }
+        },
+        "WRITE_SNAPSHOTS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "write:snapshots"
+          }
+        },
+        "DELETE_SNAPSHOTS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "delete:snapshots"
+          }
+        },
+        "WRITE_SANDBOXES": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "write:sandboxes"
+          }
+        },
+        "DELETE_SANDBOXES": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "delete:sandboxes"
+          }
+        },
+        "READ_VOLUMES": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "read:volumes"
+          }
+        },
+        "WRITE_VOLUMES": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "write:volumes"
+          }
+        },
+        "DELETE_VOLUMES": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "delete:volumes"
+          }
+        },
+        "WRITE_REGIONS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "write:regions"
+          }
+        },
+        "DELETE_REGIONS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "delete:regions"
+          }
+        },
+        "READ_RUNNERS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "read:runners"
+          }
+        },
+        "WRITE_RUNNERS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "write:runners"
+          }
+        },
+        "DELETE_RUNNERS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "delete:runners"
+          }
+        },
+        "READ_AUDIT_LOGS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "read:audit_logs"
+          }
+        },
+        "MANAGE_API_KEYS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "manage:api_keys"
+          }
+        },
+        "MANAGE_SECRETS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "manage:secrets"
+          }
+        },
+        "READ_LIMITS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "read:limits"
+          }
+        },
+        "MANAGE_SSO": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "manage:sso"
+          }
+        },
+        "READ_BILLING": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "read:billing"
+          }
+        },
+        "MANAGE_BILLING": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "manage:billing"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.daytona.api_keys#CreateApiKeyRequestPermissionsList": {
+      "type": "list",
+      "member": {
+        "target": "com.daytona.api_keys#CreateApiKeyRequestPermissionsItem"
+      },
+      "traits": {
+        "smithy.api#documentation": "The list of organization resource permissions explicitly assigned to the API key"
+      }
+    },
+    "com.daytona.api_keys#CreateApiKeyRequest": {
+      "type": "structure",
+      "members": {
+        "xDaytonaOrganizationID": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "X-Daytona-Organization-ID",
+            "smithy.api#documentation": "Use with JWT to specify the organization ID"
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The name of the API key",
+            "smithy.api#required": {}
+          }
+        },
+        "permissions": {
+          "target": "com.daytona.api_keys#CreateApiKeyRequestPermissionsList",
+          "traits": {
+            "smithy.api#documentation": "The list of organization resource permissions explicitly assigned to the API key",
+            "smithy.api#required": {}
+          }
+        },
+        "expiresAt": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "When the API key expires",
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.daytona.api_keys#ApiKeyResponse": {
+      "type": "structure",
+      "members": {
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The name of the API key",
+            "smithy.api#required": {}
+          }
+        },
+        "value": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The API key value",
+            "smithy.api#required": {}
+          }
+        },
+        "createdAt": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "When the API key was created",
+            "smithy.api#required": {}
+          }
+        },
+        "permissions": {
+          "target": "com.daytona.api_keys#ApiKeyResponsePermissionsList",
+          "traits": {
+            "smithy.api#documentation": "The list of organization resource permissions assigned to the API key",
+            "smithy.api#required": {}
+          }
+        },
+        "expiresAt": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "When the API key expires",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.daytona.api_keys#ApiKeyResponsePermissionsItem": {
+      "type": "enum",
+      "members": {
+        "WRITE_REGISTRIES": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "write:registries"
+          }
+        },
+        "DELETE_REGISTRIES": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "delete:registries"
+          }
+        },
+        "WRITE_SNAPSHOTS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "write:snapshots"
+          }
+        },
+        "DELETE_SNAPSHOTS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "delete:snapshots"
+          }
+        },
+        "WRITE_SANDBOXES": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "write:sandboxes"
+          }
+        },
+        "DELETE_SANDBOXES": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "delete:sandboxes"
+          }
+        },
+        "READ_VOLUMES": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "read:volumes"
+          }
+        },
+        "WRITE_VOLUMES": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "write:volumes"
+          }
+        },
+        "DELETE_VOLUMES": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "delete:volumes"
+          }
+        },
+        "WRITE_REGIONS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "write:regions"
+          }
+        },
+        "DELETE_REGIONS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "delete:regions"
+          }
+        },
+        "READ_RUNNERS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "read:runners"
+          }
+        },
+        "WRITE_RUNNERS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "write:runners"
+          }
+        },
+        "DELETE_RUNNERS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "delete:runners"
+          }
+        },
+        "READ_AUDIT_LOGS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "read:audit_logs"
+          }
+        },
+        "MANAGE_API_KEYS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "manage:api_keys"
+          }
+        },
+        "MANAGE_SECRETS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "manage:secrets"
+          }
+        },
+        "READ_LIMITS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "read:limits"
+          }
+        },
+        "MANAGE_SSO": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "manage:sso"
+          }
+        },
+        "READ_BILLING": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "read:billing"
+          }
+        },
+        "MANAGE_BILLING": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "manage:billing"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.daytona.api_keys#ApiKeyResponsePermissionsList": {
+      "type": "list",
+      "member": {
+        "target": "com.daytona.api_keys#ApiKeyResponsePermissionsItem"
+      },
+      "traits": {
+        "smithy.api#documentation": "The list of organization resource permissions assigned to the API key"
+      }
+    },
+    "com.daytona.api_keys#CreateApiKey": {
+      "type": "operation",
+      "input": {
+        "target": "com.daytona.api_keys#CreateApiKeyRequest"
+      },
+      "output": {
+        "target": "com.daytona.api_keys#ApiKeyResponse"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/api-keys",
+          "code": 200
+        },
+        "smithy.api#documentation": "Create API key"
+      }
+    },
+    "com.daytona.api_keys#GetCurrentApiKeyRequest": {
+      "type": "structure",
+      "members": {
+        "xDaytonaOrganizationID": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "X-Daytona-Organization-ID",
+            "smithy.api#documentation": "Use with JWT to specify the organization ID"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.daytona.api_keys#GetCurrentApiKey": {
+      "type": "operation",
+      "input": {
+        "target": "com.daytona.api_keys#GetCurrentApiKeyRequest"
+      },
+      "output": {
+        "target": "com.daytona.api_keys#ApiKeyList"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/api-keys/current",
+          "code": 200
+        },
+        "smithy.api#documentation": "Get current API key's details"
+      }
+    },
+    "com.daytona.api_keys#GetApiKeyRequest": {
+      "type": "structure",
+      "members": {
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        },
+        "xDaytonaOrganizationID": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "X-Daytona-Organization-ID",
+            "smithy.api#documentation": "Use with JWT to specify the organization ID"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.daytona.api_keys#GetApiKey": {
+      "type": "operation",
+      "input": {
+        "target": "com.daytona.api_keys#GetApiKeyRequest"
+      },
+      "output": {
+        "target": "com.daytona.api_keys#ApiKeyList"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/api-keys/{name}",
+          "code": 200
+        },
+        "smithy.api#documentation": "Get API key"
+      }
+    },
+    "com.daytona.api_keys#DeleteApiKeyRequest": {
+      "type": "structure",
+      "members": {
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        },
+        "xDaytonaOrganizationID": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "X-Daytona-Organization-ID",
+            "smithy.api#documentation": "Use with JWT to specify the organization ID"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.daytona.api_keys#DeleteApiKey": {
+      "type": "operation",
+      "input": {
+        "target": "com.daytona.api_keys#DeleteApiKeyRequest"
+      },
+      "output": {
+        "target": "smithy.api#Unit"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "DELETE",
+          "uri": "/api-keys/{name}",
+          "code": 200
+        },
+        "smithy.api#documentation": "Delete API key"
+      }
+    },
+    "com.daytona.api_keys#DeleteApiKeyForUserRequest": {
+      "type": "structure",
+      "members": {
+        "userId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        },
+        "xDaytonaOrganizationID": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "X-Daytona-Organization-ID",
+            "smithy.api#documentation": "Use with JWT to specify the organization ID"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.daytona.api_keys#DeleteApiKeyForUser": {
+      "type": "operation",
+      "input": {
+        "target": "com.daytona.api_keys#DeleteApiKeyForUserRequest"
+      },
+      "output": {
+        "target": "smithy.api#Unit"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "DELETE",
+          "uri": "/api-keys/{userId}/{name}",
+          "code": 200
+        },
+        "smithy.api#documentation": "Delete API key for user"
+      }
+    },
+    "com.daytona.api_keys#ApiKeys": {
+      "type": "service",
+      "version": "1.0",
+      "operations": [
+        {
+          "target": "com.daytona.api_keys#ListApiKeys"
+        },
+        {
+          "target": "com.daytona.api_keys#CreateApiKey"
+        },
+        {
+          "target": "com.daytona.api_keys#GetCurrentApiKey"
+        },
+        {
+          "target": "com.daytona.api_keys#GetApiKey"
+        },
+        {
+          "target": "com.daytona.api_keys#DeleteApiKey"
+        },
+        {
+          "target": "com.daytona.api_keys#DeleteApiKeyForUser"
+        }
+      ],
+      "traits": {
+        "smithy.api#title": "Daytona",
+        "smithy.api#documentation": "Daytona AI platform API Docs"
+      }
+    }
+  }
+}

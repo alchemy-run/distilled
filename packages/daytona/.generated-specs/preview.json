@@ -1,0 +1,358 @@
+{
+  "smithy": "2.0",
+  "metadata": {
+    "suppressions": [
+      {
+        "id": "HttpUriConflict",
+        "namespace": "*"
+      },
+      {
+        "id": "HttpMethodSemantics",
+        "namespace": "*"
+      },
+      {
+        "id": "UnreferencedShape",
+        "namespace": "*"
+      }
+    ],
+    "distilled.finalized": true
+  },
+  "shapes": {
+    "com.daytona.preview#IsSandboxPublicRequest": {
+      "type": "structure",
+      "members": {
+        "sandboxId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "ID of the sandbox"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.daytona.preview#IsSandboxPublicResponse": {
+      "type": "structure",
+      "members": {
+        "body": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "com.distilled.openapi#rawResponse": {},
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
+      }
+    },
+    "com.daytona.preview#IsSandboxPublic": {
+      "type": "operation",
+      "input": {
+        "target": "com.daytona.preview#IsSandboxPublicRequest"
+      },
+      "output": {
+        "target": "com.daytona.preview#IsSandboxPublicResponse"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/preview/{sandboxId}/public",
+          "code": 200
+        },
+        "smithy.api#documentation": "Check if sandbox is public"
+      }
+    },
+    "com.daytona.preview#IsPreviewWarningEnabledRequest": {
+      "type": "structure",
+      "members": {
+        "sandboxId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "ID of the sandbox, or a signed preview URL token (requires the port query param)"
+          }
+        },
+        "port": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#httpQuery": "port",
+            "smithy.api#documentation": "Port the signed preview URL token was issued for. Required when sandboxId is a signed token."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.daytona.preview#PreviewWarning": {
+      "type": "structure",
+      "members": {
+        "enabled": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Whether the preview warning page is enabled for the sandbox",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.daytona.preview#IsPreviewWarningEnabled": {
+      "type": "operation",
+      "input": {
+        "target": "com.daytona.preview#IsPreviewWarningEnabledRequest"
+      },
+      "output": {
+        "target": "com.daytona.preview#PreviewWarning"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/preview/{sandboxId}/preview-warning",
+          "code": 200
+        },
+        "smithy.api#documentation": "Check if the preview warning page is enabled for the sandbox"
+      }
+    },
+    "com.daytona.preview#IsValidAuthTokenRequest": {
+      "type": "structure",
+      "members": {
+        "sandboxId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "ID of the sandbox"
+          }
+        },
+        "authToken": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Auth token of the sandbox"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.daytona.preview#IsValidAuthTokenResponse": {
+      "type": "structure",
+      "members": {
+        "body": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "com.distilled.openapi#rawResponse": {},
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
+      }
+    },
+    "com.daytona.preview#IsValidAuthToken": {
+      "type": "operation",
+      "input": {
+        "target": "com.daytona.preview#IsValidAuthTokenRequest"
+      },
+      "output": {
+        "target": "com.daytona.preview#IsValidAuthTokenResponse"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/preview/{sandboxId}/validate/{authToken}",
+          "code": 200
+        },
+        "smithy.api#documentation": "Check if sandbox auth token is valid"
+      }
+    },
+    "com.daytona.preview#GetSigningKeyRequest": {
+      "type": "structure",
+      "members": {
+        "sandboxId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "ID of the sandbox"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.daytona.preview#GetSigningKeyResponse": {
+      "type": "structure",
+      "members": {
+        "body": {
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.openapi#rawResponse": {},
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
+      }
+    },
+    "com.daytona.preview#GetSigningKey": {
+      "type": "operation",
+      "input": {
+        "target": "com.daytona.preview#GetSigningKeyRequest"
+      },
+      "output": {
+        "target": "com.daytona.preview#GetSigningKeyResponse"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/preview/{sandboxId}/signing-key",
+          "code": 200
+        },
+        "smithy.api#documentation": "Get the signing key for a sandbox"
+      }
+    },
+    "com.daytona.preview#HasSandboxAccessRequest": {
+      "type": "structure",
+      "members": {
+        "sandboxId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.daytona.preview#HasSandboxAccessResponse": {
+      "type": "structure",
+      "members": {
+        "body": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "com.distilled.openapi#rawResponse": {},
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
+      }
+    },
+    "com.daytona.preview#HasSandboxAccess": {
+      "type": "operation",
+      "input": {
+        "target": "com.daytona.preview#HasSandboxAccessRequest"
+      },
+      "output": {
+        "target": "com.daytona.preview#HasSandboxAccessResponse"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/preview/{sandboxId}/access",
+          "code": 200
+        },
+        "smithy.api#documentation": "Check if user has access to the sandbox"
+      }
+    },
+    "com.daytona.preview#GetSandboxIdFromSignedPreviewUrlTokenRequest": {
+      "type": "structure",
+      "members": {
+        "signedPreviewToken": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Signed preview URL token"
+          }
+        },
+        "port": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Port number to get sandbox ID from signed preview URL token"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.daytona.preview#GetSandboxIdFromSignedPreviewUrlTokenResponse": {
+      "type": "structure",
+      "members": {
+        "body": {
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.openapi#rawResponse": {},
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
+      }
+    },
+    "com.daytona.preview#GetSandboxIdFromSignedPreviewUrlToken": {
+      "type": "operation",
+      "input": {
+        "target": "com.daytona.preview#GetSandboxIdFromSignedPreviewUrlTokenRequest"
+      },
+      "output": {
+        "target": "com.daytona.preview#GetSandboxIdFromSignedPreviewUrlTokenResponse"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/preview/{signedPreviewToken}/{port}/sandbox-id",
+          "code": 200
+        },
+        "smithy.api#documentation": "Get sandbox ID from signed preview URL token"
+      }
+    },
+    "com.daytona.preview#Preview": {
+      "type": "service",
+      "version": "1.0",
+      "operations": [
+        {
+          "target": "com.daytona.preview#IsSandboxPublic"
+        },
+        {
+          "target": "com.daytona.preview#IsPreviewWarningEnabled"
+        },
+        {
+          "target": "com.daytona.preview#IsValidAuthToken"
+        },
+        {
+          "target": "com.daytona.preview#GetSigningKey"
+        },
+        {
+          "target": "com.daytona.preview#HasSandboxAccess"
+        },
+        {
+          "target": "com.daytona.preview#GetSandboxIdFromSignedPreviewUrlToken"
+        }
+      ],
+      "traits": {
+        "smithy.api#title": "Daytona",
+        "smithy.api#documentation": "Daytona AI platform API Docs"
+      }
+    }
+  }
+}

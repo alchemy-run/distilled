@@ -6720,6 +6720,9 @@
         },
         {
           "target": "com.gcp.firestore_v1#Forbidden"
+        },
+        {
+          "target": "com.gcp.firestore_v1#DatastoreModeDatabase"
         }
       ],
       "traits": {
@@ -6803,6 +6806,9 @@
         },
         {
           "target": "com.gcp.firestore_v1#Conflict"
+        },
+        {
+          "target": "com.gcp.firestore_v1#DatastoreModeDatabase"
         }
       ],
       "traits": {
@@ -7017,6 +7023,9 @@
         },
         {
           "target": "com.gcp.firestore_v1#Conflict"
+        },
+        {
+          "target": "com.gcp.firestore_v1#DatastoreModeDatabase"
         }
       ],
       "traits": {
@@ -7294,6 +7303,9 @@
         },
         {
           "target": "com.gcp.firestore_v1#Forbidden"
+        },
+        {
+          "target": "com.gcp.firestore_v1#DatastoreModeDatabase"
         }
       ],
       "traits": {
@@ -7579,6 +7591,9 @@
         },
         {
           "target": "com.gcp.firestore_v1#Conflict"
+        },
+        {
+          "target": "com.gcp.firestore_v1#DatastoreModeDatabase"
         }
       ],
       "traits": {
@@ -7736,6 +7751,9 @@
         },
         {
           "target": "com.gcp.firestore_v1#Conflict"
+        },
+        {
+          "target": "com.gcp.firestore_v1#EnterpriseDatabaseRequired"
         }
       ],
       "traits": {
@@ -8422,6 +8440,40 @@
           "uri": "v1/{+name}"
         },
         "smithy.api#documentation": "Gets information about a backup."
+      }
+    },
+    "com.gcp.firestore_v1#DatastoreModeDatabase": {
+      "type": "structure",
+      "members": {},
+      "traits": {
+        "smithy.api#error": "client",
+        "smithy.api#httpError": 400,
+        "smithy.api#documentation": "The database is in Datastore mode, which does not serve the Cloud Firestore document API (HTTP 400 FAILED_PRECONDITION: 'The Cloud Firestore API is not available for Firestore in Datastore Mode database ...'). Not retryable.",
+        "com.gcp.protocols#errorMatchers": [
+          {
+            "status": 400,
+            "message": {
+              "includes": "not available for Firestore in Datastore Mode"
+            }
+          }
+        ]
+      }
+    },
+    "com.gcp.firestore_v1#EnterpriseDatabaseRequired": {
+      "type": "structure",
+      "members": {},
+      "traits": {
+        "smithy.api#error": "client",
+        "smithy.api#httpError": 400,
+        "smithy.api#documentation": "User creds need an Enterprise-edition database (HTTP 400 FAILED_PRECONDITION: 'This operation requires an Enterprise database.'). Not retryable.",
+        "com.gcp.protocols#errorMatchers": [
+          {
+            "status": 400,
+            "message": {
+              "includes": "requires an Enterprise database"
+            }
+          }
+        ]
       }
     }
   }

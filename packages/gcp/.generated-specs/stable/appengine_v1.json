@@ -4153,6 +4153,9 @@
         },
         {
           "target": "com.gcp.appengine_v1#Conflict"
+        },
+        {
+          "target": "com.gcp.appengine_v1#ServiceDisabled"
         }
       ],
       "traits": {
@@ -4214,6 +4217,9 @@
         },
         {
           "target": "com.gcp.appengine_v1#Forbidden"
+        },
+        {
+          "target": "com.gcp.appengine_v1#ServiceDisabled"
         }
       ],
       "traits": {
@@ -4281,6 +4287,9 @@
         },
         {
           "target": "com.gcp.appengine_v1#Conflict"
+        },
+        {
+          "target": "com.gcp.appengine_v1#ServiceDisabled"
         }
       ],
       "traits": {
@@ -4348,6 +4357,9 @@
         },
         {
           "target": "com.gcp.appengine_v1#Forbidden"
+        },
+        {
+          "target": "com.gcp.appengine_v1#ServiceDisabled"
         }
       ],
       "traits": {
@@ -4448,6 +4460,9 @@
         },
         {
           "target": "com.gcp.appengine_v1#Conflict"
+        },
+        {
+          "target": "com.gcp.appengine_v1#ServiceDisabled"
         }
       ],
       "traits": {
@@ -4529,6 +4544,9 @@
         },
         {
           "target": "com.gcp.appengine_v1#Conflict"
+        },
+        {
+          "target": "com.gcp.appengine_v1#ServiceDisabled"
         }
       ],
       "traits": {
@@ -4596,6 +4614,9 @@
         },
         {
           "target": "com.gcp.appengine_v1#Forbidden"
+        },
+        {
+          "target": "com.gcp.appengine_v1#ServiceDisabled"
         }
       ],
       "traits": {
@@ -4688,6 +4709,9 @@
         },
         {
           "target": "com.gcp.appengine_v1#Conflict"
+        },
+        {
+          "target": "com.gcp.appengine_v1#ServiceDisabled"
         }
       ],
       "traits": {
@@ -4755,6 +4779,9 @@
         },
         {
           "target": "com.gcp.appengine_v1#Conflict"
+        },
+        {
+          "target": "com.gcp.appengine_v1#ServiceDisabled"
         }
       ],
       "traits": {
@@ -4844,6 +4871,9 @@
         },
         {
           "target": "com.gcp.appengine_v1#Conflict"
+        },
+        {
+          "target": "com.gcp.appengine_v1#ServiceDisabled"
         }
       ],
       "traits": {
@@ -4919,6 +4949,9 @@
         },
         {
           "target": "com.gcp.appengine_v1#Conflict"
+        },
+        {
+          "target": "com.gcp.appengine_v1#ServiceDisabled"
         }
       ],
       "traits": {
@@ -5001,6 +5034,9 @@
         },
         {
           "target": "com.gcp.appengine_v1#Conflict"
+        },
+        {
+          "target": "com.gcp.appengine_v1#ServiceDisabled"
         }
       ],
       "traits": {
@@ -5084,6 +5120,9 @@
         },
         {
           "target": "com.gcp.appengine_v1#Conflict"
+        },
+        {
+          "target": "com.gcp.appengine_v1#ServiceDisabled"
         }
       ],
       "traits": {
@@ -5174,6 +5213,9 @@
         },
         {
           "target": "com.gcp.appengine_v1#Conflict"
+        },
+        {
+          "target": "com.gcp.appengine_v1#ServiceDisabled"
         }
       ],
       "traits": {
@@ -5265,6 +5307,9 @@
         },
         {
           "target": "com.gcp.appengine_v1#Forbidden"
+        },
+        {
+          "target": "com.gcp.appengine_v1#ServiceDisabled"
         }
       ],
       "traits": {
@@ -5335,6 +5380,9 @@
         },
         {
           "target": "com.gcp.appengine_v1#Conflict"
+        },
+        {
+          "target": "com.gcp.appengine_v1#ServiceDisabled"
         }
       ],
       "traits": {
@@ -5416,6 +5464,9 @@
         },
         {
           "target": "com.gcp.appengine_v1#Conflict"
+        },
+        {
+          "target": "com.gcp.appengine_v1#ServiceDisabled"
         }
       ],
       "traits": {
@@ -5501,6 +5552,9 @@
         },
         {
           "target": "com.gcp.appengine_v1#Forbidden"
+        },
+        {
+          "target": "com.gcp.appengine_v1#ServiceDisabled"
         }
       ],
       "traits": {
@@ -5568,6 +5622,9 @@
         },
         {
           "target": "com.gcp.appengine_v1#Conflict"
+        },
+        {
+          "target": "com.gcp.appengine_v1#ServiceDisabled"
         }
       ],
       "traits": {
@@ -5618,6 +5675,9 @@
         },
         {
           "target": "com.gcp.appengine_v1#Conflict"
+        },
+        {
+          "target": "com.gcp.appengine_v1#ServiceDisabled"
         }
       ],
       "traits": {
@@ -5685,6 +5745,9 @@
         },
         {
           "target": "com.gcp.appengine_v1#Forbidden"
+        },
+        {
+          "target": "com.gcp.appengine_v1#ServiceDisabled"
         }
       ],
       "traits": {
@@ -5752,6 +5815,9 @@
         },
         {
           "target": "com.gcp.appengine_v1#Forbidden"
+        },
+        {
+          "target": "com.gcp.appengine_v1#ServiceDisabled"
         }
       ],
       "traits": {
@@ -5794,6 +5860,9 @@
         },
         {
           "target": "com.gcp.appengine_v1#Conflict"
+        },
+        {
+          "target": "com.gcp.appengine_v1#ServiceDisabled"
         }
       ],
       "traits": {
@@ -5851,6 +5920,9 @@
         },
         {
           "target": "com.gcp.appengine_v1#Conflict"
+        },
+        {
+          "target": "com.gcp.appengine_v1#ServiceDisabled"
         }
       ],
       "traits": {
@@ -5902,6 +5974,9 @@
         },
         {
           "target": "com.gcp.appengine_v1#Conflict"
+        },
+        {
+          "target": "com.gcp.appengine_v1#ServiceDisabled"
         }
       ],
       "traits": {
@@ -5947,6 +6022,9 @@
         },
         {
           "target": "com.gcp.appengine_v1#Forbidden"
+        },
+        {
+          "target": "com.gcp.appengine_v1#ServiceDisabled"
         }
       ],
       "traits": {
@@ -6027,6 +6105,9 @@
         },
         {
           "target": "com.gcp.appengine_v1#Conflict"
+        },
+        {
+          "target": "com.gcp.appengine_v1#ServiceDisabled"
         }
       ],
       "traits": {
@@ -6092,6 +6173,9 @@
         },
         {
           "target": "com.gcp.appengine_v1#Conflict"
+        },
+        {
+          "target": "com.gcp.appengine_v1#ServiceDisabled"
         }
       ],
       "traits": {
@@ -6143,6 +6227,9 @@
         },
         {
           "target": "com.gcp.appengine_v1#Forbidden"
+        },
+        {
+          "target": "com.gcp.appengine_v1#ServiceDisabled"
         }
       ],
       "traits": {
@@ -6212,6 +6299,9 @@
         },
         {
           "target": "com.gcp.appengine_v1#Forbidden"
+        },
+        {
+          "target": "com.gcp.appengine_v1#ServiceDisabled"
         }
       ],
       "traits": {
@@ -6261,6 +6351,9 @@
         },
         {
           "target": "com.gcp.appengine_v1#Forbidden"
+        },
+        {
+          "target": "com.gcp.appengine_v1#ServiceDisabled"
         }
       ],
       "traits": {
@@ -6312,6 +6405,9 @@
         },
         {
           "target": "com.gcp.appengine_v1#Forbidden"
+        },
+        {
+          "target": "com.gcp.appengine_v1#ServiceDisabled"
         }
       ],
       "traits": {
@@ -6361,6 +6457,9 @@
         },
         {
           "target": "com.gcp.appengine_v1#Forbidden"
+        },
+        {
+          "target": "com.gcp.appengine_v1#ServiceDisabled"
         }
       ],
       "traits": {
@@ -6412,6 +6511,9 @@
         },
         {
           "target": "com.gcp.appengine_v1#Conflict"
+        },
+        {
+          "target": "com.gcp.appengine_v1#ServiceDisabled"
         }
       ],
       "traits": {
@@ -6470,6 +6572,9 @@
         },
         {
           "target": "com.gcp.appengine_v1#Forbidden"
+        },
+        {
+          "target": "com.gcp.appengine_v1#ServiceDisabled"
         }
       ],
       "traits": {
@@ -6524,6 +6629,9 @@
         },
         {
           "target": "com.gcp.appengine_v1#Conflict"
+        },
+        {
+          "target": "com.gcp.appengine_v1#ServiceDisabled"
         }
       ],
       "traits": {
@@ -6574,6 +6682,9 @@
         },
         {
           "target": "com.gcp.appengine_v1#Conflict"
+        },
+        {
+          "target": "com.gcp.appengine_v1#ServiceDisabled"
         }
       ],
       "traits": {
@@ -6639,6 +6750,9 @@
         },
         {
           "target": "com.gcp.appengine_v1#Conflict"
+        },
+        {
+          "target": "com.gcp.appengine_v1#ServiceDisabled"
         }
       ],
       "traits": {
@@ -6704,6 +6818,9 @@
         },
         {
           "target": "com.gcp.appengine_v1#Forbidden"
+        },
+        {
+          "target": "com.gcp.appengine_v1#ServiceDisabled"
         }
       ],
       "traits": {
@@ -6753,6 +6870,9 @@
         },
         {
           "target": "com.gcp.appengine_v1#Forbidden"
+        },
+        {
+          "target": "com.gcp.appengine_v1#ServiceDisabled"
         }
       ],
       "traits": {
@@ -6825,6 +6945,9 @@
         },
         {
           "target": "com.gcp.appengine_v1#Conflict"
+        },
+        {
+          "target": "com.gcp.appengine_v1#ServiceDisabled"
         }
       ],
       "traits": {
@@ -6876,6 +6999,9 @@
         },
         {
           "target": "com.gcp.appengine_v1#Conflict"
+        },
+        {
+          "target": "com.gcp.appengine_v1#ServiceDisabled"
         }
       ],
       "traits": {
@@ -6927,6 +7053,9 @@
         },
         {
           "target": "com.gcp.appengine_v1#Forbidden"
+        },
+        {
+          "target": "com.gcp.appengine_v1#ServiceDisabled"
         }
       ],
       "traits": {
@@ -6976,6 +7105,9 @@
         },
         {
           "target": "com.gcp.appengine_v1#Forbidden"
+        },
+        {
+          "target": "com.gcp.appengine_v1#ServiceDisabled"
         }
       ],
       "traits": {
@@ -7035,6 +7167,9 @@
         },
         {
           "target": "com.gcp.appengine_v1#Conflict"
+        },
+        {
+          "target": "com.gcp.appengine_v1#ServiceDisabled"
         }
       ],
       "traits": {
@@ -7112,6 +7247,9 @@
         },
         {
           "target": "com.gcp.appengine_v1#Forbidden"
+        },
+        {
+          "target": "com.gcp.appengine_v1#ServiceDisabled"
         }
       ],
       "traits": {
@@ -7170,6 +7308,9 @@
         },
         {
           "target": "com.gcp.appengine_v1#Conflict"
+        },
+        {
+          "target": "com.gcp.appengine_v1#ServiceDisabled"
         }
       ],
       "traits": {
@@ -7243,6 +7384,9 @@
         },
         {
           "target": "com.gcp.appengine_v1#Conflict"
+        },
+        {
+          "target": "com.gcp.appengine_v1#ServiceDisabled"
         }
       ],
       "traits": {
@@ -7309,6 +7453,9 @@
         },
         {
           "target": "com.gcp.appengine_v1#Conflict"
+        },
+        {
+          "target": "com.gcp.appengine_v1#ServiceDisabled"
         }
       ],
       "traits": {
@@ -7392,6 +7539,9 @@
         },
         {
           "target": "com.gcp.appengine_v1#Forbidden"
+        },
+        {
+          "target": "com.gcp.appengine_v1#ServiceDisabled"
         }
       ],
       "traits": {
@@ -7463,6 +7613,9 @@
         },
         {
           "target": "com.gcp.appengine_v1#Forbidden"
+        },
+        {
+          "target": "com.gcp.appengine_v1#ServiceDisabled"
         }
       ],
       "traits": {
@@ -7528,6 +7681,9 @@
         },
         {
           "target": "com.gcp.appengine_v1#Forbidden"
+        },
+        {
+          "target": "com.gcp.appengine_v1#ServiceDisabled"
         }
       ],
       "traits": {
@@ -7602,6 +7758,9 @@
         },
         {
           "target": "com.gcp.appengine_v1#Conflict"
+        },
+        {
+          "target": "com.gcp.appengine_v1#ServiceDisabled"
         }
       ],
       "traits": {
@@ -7669,6 +7828,9 @@
         },
         {
           "target": "com.gcp.appengine_v1#Conflict"
+        },
+        {
+          "target": "com.gcp.appengine_v1#ServiceDisabled"
         }
       ],
       "traits": {
@@ -7719,6 +7881,9 @@
         },
         {
           "target": "com.gcp.appengine_v1#Conflict"
+        },
+        {
+          "target": "com.gcp.appengine_v1#ServiceDisabled"
         }
       ],
       "traits": {
@@ -7784,6 +7949,9 @@
         },
         {
           "target": "com.gcp.appengine_v1#Conflict"
+        },
+        {
+          "target": "com.gcp.appengine_v1#ServiceDisabled"
         }
       ],
       "traits": {
@@ -7859,6 +8027,9 @@
         },
         {
           "target": "com.gcp.appengine_v1#Forbidden"
+        },
+        {
+          "target": "com.gcp.appengine_v1#ServiceDisabled"
         }
       ],
       "traits": {
@@ -7914,6 +8085,9 @@
         },
         {
           "target": "com.gcp.appengine_v1#Conflict"
+        },
+        {
+          "target": "com.gcp.appengine_v1#ServiceDisabled"
         }
       ],
       "traits": {
@@ -7983,6 +8157,9 @@
         },
         {
           "target": "com.gcp.appengine_v1#Forbidden"
+        },
+        {
+          "target": "com.gcp.appengine_v1#ServiceDisabled"
         }
       ],
       "traits": {
@@ -7991,6 +8168,23 @@
           "uri": "v1/apps/{appsId}/authorizedCertificates/{authorizedCertificatesId}"
         },
         "smithy.api#documentation": "Gets the specified SSL certificate."
+      }
+    },
+    "com.gcp.appengine_v1#ServiceDisabled": {
+      "type": "structure",
+      "members": {},
+      "traits": {
+        "smithy.api#error": "client",
+        "smithy.api#httpError": 403,
+        "smithy.api#documentation": "The App Engine Admin API is not enabled for the calling project (HTTP 403 SERVICE_DISABLED).",
+        "com.gcp.protocols#errorMatchers": [
+          {
+            "status": 403,
+            "message": {
+              "includes": "has not been used in project"
+            }
+          }
+        ]
       }
     }
   }

@@ -1,0 +1,725 @@
+{
+  "smithy": "2.0",
+  "metadata": {
+    "suppressions": [
+      {
+        "id": "HttpUriConflict",
+        "namespace": "*"
+      },
+      {
+        "id": "HttpMethodSemantics",
+        "namespace": "*"
+      },
+      {
+        "id": "UnreferencedShape",
+        "namespace": "*"
+      }
+    ],
+    "distilled.finalized": true
+  },
+  "shapes": {
+    "com.stackit.registry#ListArtifactoriesRequest": {
+      "type": "structure",
+      "members": {
+        "projectId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Project identifier."
+          }
+        },
+        "regionId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "STACKIT region identification"
+          }
+        },
+        "page_size": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpQuery": "page_size",
+            "smithy.api#documentation": "The maximum number of artifactories to return. The service may return fewer than this value."
+          }
+        },
+        "next_page_token": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "next_page_token",
+            "smithy.api#documentation": "A page token, received from a previous `ListArtifactories` call. Provide this to retrieve the subsequent page."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.stackit.registry#ArtifactoryList": {
+      "type": "structure",
+      "members": {
+        "artifactories": {
+          "target": "com.stackit.registry#ArtifactoryListArtifactoriesList",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "next_page_token": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "A token to retrieve the next page of results. Pass this value as `page_token` in the subsequent request. If empty, there are no more pages."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "A list of artifactories inside a STACKIT project."
+      }
+    },
+    "com.stackit.registry#Artifactory": {
+      "type": "structure",
+      "members": {
+        "consumed_quota_bytes": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "How many bytes of quota is consumed. Read Only.",
+            "smithy.api#required": {}
+          }
+        },
+        "create_time": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The date and time the creation of the STACKIT Artifactory was triggered.",
+            "smithy.api#required": {}
+          }
+        },
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "A auto generated unique id which identifies the STACKIT Artifactory.",
+            "smithy.api#required": {}
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "A user chosen name to distinguish multiple STACKIT Artifactories.",
+            "smithy.api#required": {}
+          }
+        },
+        "proxy": {
+          "target": "com.stackit.registry#Proxy"
+        },
+        "state": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The current state of the STACKIT Artifactory.",
+            "smithy.api#required": {}
+          }
+        },
+        "url": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The base URL of the STACKIT Artifactory.",
+            "smithy.api#required": {}
+          }
+        },
+        "user_count": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "How many users does this artifactory have. Read Only.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Artifactory Information."
+      }
+    },
+    "com.stackit.registry#Proxy": {
+      "type": "structure",
+      "members": {
+        "credentials": {
+          "target": "com.stackit.registry#RedactedCredentials"
+        },
+        "description": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Description of the registry."
+          }
+        },
+        "registry_type": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Which replication adapter to use for this registry. Discover the\nlist of supported replication adapters, and therefore supported\nregistry types, by calling GET /v1/projects/{projectId}/regions/{regionId}/replication/adapters\n",
+            "smithy.api#required": {}
+          }
+        },
+        "url": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Upstream registry url to proxy",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Replication settings for a proxy-cache artifactory"
+      }
+    },
+    "com.stackit.registry#RedactedCredentials": {
+      "type": "structure",
+      "members": {
+        "access_key": {
+          "target": "smithy.api#String"
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Credentials for upstream registry, redacted"
+      }
+    },
+    "com.stackit.registry#ArtifactoryListArtifactoriesList": {
+      "type": "list",
+      "member": {
+        "target": "com.stackit.registry#Artifactory"
+      },
+      "traits": {}
+    },
+    "com.stackit.registry#ListArtifactories": {
+      "type": "operation",
+      "input": {
+        "target": "com.stackit.registry#ListArtifactoriesRequest"
+      },
+      "output": {
+        "target": "com.stackit.registry#ArtifactoryList"
+      },
+      "errors": [
+        {
+          "target": "com.stackit.registry#BadRequest"
+        },
+        {
+          "target": "com.stackit.registry#Forbidden"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/v1/projects/{projectId}/regions/{regionId}/artifactories",
+          "code": 200,
+          "baseUrl": "https://registry.api.stackit.cloud"
+        },
+        "smithy.api#documentation": "List artifactories inside a STACKIT project\n\nLists all artifactories associated to the specified project."
+      }
+    },
+    "com.stackit.registry#CreateProxyRequest": {
+      "type": "structure",
+      "members": {
+        "credentials": {
+          "target": "com.stackit.registry#Credentials"
+        },
+        "description": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Description of the registry."
+          }
+        },
+        "registry_type": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Which replication adapter to use for this registry. Discover the\nlist of supported replication adapters, and therefore supported\nregistry types, by calling GET /v1/projects/{projectId}/regions/{regionId}/replication/adapters\n",
+            "smithy.api#required": {}
+          }
+        },
+        "url": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Upstream registry url to proxy",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Provide an upstream repository this project is a proxy for"
+      }
+    },
+    "com.stackit.registry#Credentials": {
+      "type": "structure",
+      "members": {
+        "access_key": {
+          "target": "smithy.api#String"
+        },
+        "access_secret": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#sensitive": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Credentials for upstream registry"
+      }
+    },
+    "com.stackit.registry#CreateArtifactoryRequest": {
+      "type": "structure",
+      "members": {
+        "projectId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Project identifier."
+          }
+        },
+        "regionId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "STACKIT region identification"
+          }
+        },
+        "claim": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#httpQuery": "claim",
+            "smithy.api#documentation": "If true, claims ownership of an existing Harbor project instead of creating a new one."
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "A user chosen name to distinguish multiple STACKIT Artifactories.\n",
+            "smithy.api#required": {}
+          }
+        },
+        "proxy": {
+          "target": "com.stackit.registry#CreateProxyRequest",
+          "traits": {
+            "smithy.api#documentation": "If proxy configuration is provided, this project will be created as\na proxy-cache for the upstream registry.\n"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.stackit.registry#CreateArtifactory": {
+      "type": "operation",
+      "input": {
+        "target": "com.stackit.registry#CreateArtifactoryRequest"
+      },
+      "output": {
+        "target": "com.stackit.registry#Artifactory"
+      },
+      "errors": [
+        {
+          "target": "com.stackit.registry#BadRequest"
+        },
+        {
+          "target": "com.stackit.registry#Forbidden"
+        },
+        {
+          "target": "com.stackit.registry#NotFound"
+        },
+        {
+          "target": "com.stackit.registry#Conflict"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/v1/projects/{projectId}/regions/{regionId}/artifactories",
+          "code": 200,
+          "baseUrl": "https://registry.api.stackit.cloud"
+        },
+        "smithy.api#documentation": "Creates an artifactory\n\nCreates an artifactory associated to the specified project."
+      }
+    },
+    "com.stackit.registry#GetArtifactoryRequest": {
+      "type": "structure",
+      "members": {
+        "projectId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Project identifier."
+          }
+        },
+        "regionId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "STACKIT region identification"
+          }
+        },
+        "artifactoryId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Artifactory identifier."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.stackit.registry#GetArtifactory": {
+      "type": "operation",
+      "input": {
+        "target": "com.stackit.registry#GetArtifactoryRequest"
+      },
+      "output": {
+        "target": "com.stackit.registry#Artifactory"
+      },
+      "errors": [
+        {
+          "target": "com.stackit.registry#BadRequest"
+        },
+        {
+          "target": "com.stackit.registry#Forbidden"
+        },
+        {
+          "target": "com.stackit.registry#NotFound"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/v1/projects/{projectId}/regions/{regionId}/artifactories/{artifactoryId}",
+          "code": 200,
+          "baseUrl": "https://registry.api.stackit.cloud"
+        },
+        "smithy.api#documentation": "Get Artifactory information.\n\nRetrieves information about a STACKIT Artifactory."
+      }
+    },
+    "com.stackit.registry#UpdateProxyRequest": {
+      "type": "structure",
+      "members": {
+        "credentials": {
+          "target": "com.stackit.registry#Credentials"
+        },
+        "description": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Description of the registry."
+          }
+        },
+        "url": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Upstream registry url to proxy"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Update an upstream repository for a proxy-cache project"
+      }
+    },
+    "com.stackit.registry#PatchArtifactoryRequest": {
+      "type": "structure",
+      "members": {
+        "projectId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Project identifier."
+          }
+        },
+        "regionId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "STACKIT region identification"
+          }
+        },
+        "artifactoryId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Artifactory identifier."
+          }
+        },
+        "proxy": {
+          "target": "com.stackit.registry#UpdateProxyRequest"
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.stackit.registry#PatchArtifactory": {
+      "type": "operation",
+      "input": {
+        "target": "com.stackit.registry#PatchArtifactoryRequest"
+      },
+      "output": {
+        "target": "com.stackit.registry#Artifactory"
+      },
+      "errors": [
+        {
+          "target": "com.stackit.registry#BadRequest"
+        },
+        {
+          "target": "com.stackit.registry#Forbidden"
+        },
+        {
+          "target": "com.stackit.registry#NotFound"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "PATCH",
+          "uri": "/v1/projects/{projectId}/regions/{regionId}/artifactories/{artifactoryId}",
+          "code": 200,
+          "baseUrl": "https://registry.api.stackit.cloud"
+        },
+        "smithy.api#documentation": "Update Artifactory"
+      }
+    },
+    "com.stackit.registry#DeleteArtifactoryRequest": {
+      "type": "structure",
+      "members": {
+        "projectId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Project identifier."
+          }
+        },
+        "regionId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "STACKIT region identification"
+          }
+        },
+        "artifactoryId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Artifactory identifier."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.stackit.registry#DeleteArtifactory": {
+      "type": "operation",
+      "input": {
+        "target": "com.stackit.registry#DeleteArtifactoryRequest"
+      },
+      "output": {
+        "target": "smithy.api#Unit"
+      },
+      "errors": [
+        {
+          "target": "com.stackit.registry#BadRequest"
+        },
+        {
+          "target": "com.stackit.registry#Forbidden"
+        },
+        {
+          "target": "com.stackit.registry#NotFound"
+        },
+        {
+          "target": "com.stackit.registry#Conflict"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "DELETE",
+          "uri": "/v1/projects/{projectId}/regions/{regionId}/artifactories/{artifactoryId}",
+          "code": 200,
+          "baseUrl": "https://registry.api.stackit.cloud"
+        },
+        "smithy.api#documentation": "Soft delete the artifactory.\n\nDeletes the artifactory associated to the specified project."
+      }
+    },
+    "com.stackit.registry#ListReplicationAdaptersRequest": {
+      "type": "structure",
+      "members": {
+        "projectId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Project identifier."
+          }
+        },
+        "regionId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "STACKIT region identification"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.stackit.registry#ReplicationAdapterList": {
+      "type": "structure",
+      "members": {
+        "next_page_token": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "A token to retrieve the next page of results. Pass this value as `page_token` in the subsequent request. If empty, there are no more pages."
+          }
+        },
+        "replication_adapters": {
+          "target": "com.stackit.registry#ReplicationAdapterListReplicationAdaptersList",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "A list of replication adapters"
+      }
+    },
+    "com.stackit.registry#ReplicationAdapter": {
+      "type": "structure",
+      "members": {
+        "display_name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Human-friendly name of the provider the adapter relates to.",
+            "smithy.api#required": {}
+          }
+        },
+        "registry_type": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Identifies the replication adapter",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.stackit.registry#ReplicationAdapterListReplicationAdaptersList": {
+      "type": "list",
+      "member": {
+        "target": "com.stackit.registry#ReplicationAdapter"
+      },
+      "traits": {}
+    },
+    "com.stackit.registry#ListReplicationAdapters": {
+      "type": "operation",
+      "input": {
+        "target": "com.stackit.registry#ListReplicationAdaptersRequest"
+      },
+      "output": {
+        "target": "com.stackit.registry#ReplicationAdapterList"
+      },
+      "errors": [
+        {
+          "target": "com.stackit.registry#BadRequest"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/v1/projects/{projectId}/regions/{regionId}/replication/adapters",
+          "code": 200,
+          "baseUrl": "https://registry.api.stackit.cloud"
+        },
+        "smithy.api#documentation": "List available adapters for replication to/from other registries"
+      }
+    },
+    "com.stackit.registry#BadRequest": {
+      "type": "structure",
+      "members": {},
+      "traits": {
+        "smithy.api#error": "client",
+        "smithy.api#httpError": 400,
+        "com.distilled.openapi#errorMatchers": [
+          {
+            "status": 400
+          }
+        ]
+      }
+    },
+    "com.stackit.registry#Forbidden": {
+      "type": "structure",
+      "members": {},
+      "traits": {
+        "smithy.api#error": "client",
+        "smithy.api#httpError": 403,
+        "com.distilled.openapi#errorMatchers": [
+          {
+            "status": 403
+          }
+        ]
+      }
+    },
+    "com.stackit.registry#NotFound": {
+      "type": "structure",
+      "members": {},
+      "traits": {
+        "smithy.api#error": "client",
+        "smithy.api#httpError": 404,
+        "com.distilled.openapi#errorMatchers": [
+          {
+            "status": 404
+          }
+        ]
+      }
+    },
+    "com.stackit.registry#Conflict": {
+      "type": "structure",
+      "members": {},
+      "traits": {
+        "smithy.api#error": "client",
+        "smithy.api#httpError": 409,
+        "com.distilled.openapi#errorMatchers": [
+          {
+            "status": 409
+          }
+        ]
+      }
+    },
+    "com.stackit.registry#Registry": {
+      "type": "service",
+      "version": "1.0.0",
+      "operations": [
+        {
+          "target": "com.stackit.registry#ListArtifactories"
+        },
+        {
+          "target": "com.stackit.registry#CreateArtifactory"
+        },
+        {
+          "target": "com.stackit.registry#GetArtifactory"
+        },
+        {
+          "target": "com.stackit.registry#PatchArtifactory"
+        },
+        {
+          "target": "com.stackit.registry#DeleteArtifactory"
+        },
+        {
+          "target": "com.stackit.registry#ListReplicationAdapters"
+        }
+      ],
+      "traits": {
+        "smithy.api#title": "STACKIT Container Registry API",
+        "smithy.api#documentation": "STACKIT Container Registry management API."
+      }
+    }
+  }
+}

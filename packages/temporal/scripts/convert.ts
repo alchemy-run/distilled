@@ -1,4 +1,4 @@
-#!/usr/bin/env bun
+#!/usr/bin/env -S node --conditions=bun
 /**
  * convert — turn the Temporal OpenAPI spec into a Smithy 2.0 JSON model.
  *
@@ -20,9 +20,7 @@ const HTTP_METHODS = ["get", "post", "put", "patch", "delete"] as const;
  * and once at the unprefixed google.api.http path. Keep the `/api/v1`
  * mapping when both exist so convert does not mint `listNamespaces2`.
  */
-const dropDuplicateHttpBindings = (spec: {
-  paths?: Record<string, Record<string, unknown>>;
-}) => {
+const dropDuplicateHttpBindings = (spec: { paths?: Record<string, Record<string, unknown>> }) => {
   const paths = spec.paths ?? {};
   const byId = new Map<string, Array<{ path: string; method: string }>>();
   for (const [p, item] of Object.entries(paths)) {
@@ -36,8 +34,7 @@ const dropDuplicateHttpBindings = (spec: {
   }
   for (const locs of byId.values()) {
     if (locs.length < 2) continue;
-    const preferred =
-      locs.find((l) => l.path.startsWith("/api/v1/")) ?? locs[0]!;
+    const preferred = locs.find((l) => l.path.startsWith("/api/v1/")) ?? locs[0]!;
     for (const loc of locs) {
       if (loc.path === preferred.path && loc.method === preferred.method) {
         continue;
@@ -54,7 +51,7 @@ const dropDuplicateHttpBindings = (spec: {
 };
 
 await runOpenApiConvert({
-  root: path.resolve(import.meta.dir, ".."),
+  root: path.resolve(import.meta.dirname, ".."),
   specs: [
     {
       name: "temporal",

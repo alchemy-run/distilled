@@ -1,0 +1,507 @@
+{
+  "smithy": "2.0",
+  "metadata": {
+    "suppressions": [
+      {
+        "id": "HttpUriConflict",
+        "namespace": "*"
+      },
+      {
+        "id": "HttpMethodSemantics",
+        "namespace": "*"
+      },
+      {
+        "id": "UnreferencedShape",
+        "namespace": "*"
+      }
+    ],
+    "distilled.finalized": true
+  },
+  "shapes": {
+    "com.daytona.docker_registry#ListRegistriesRequest": {
+      "type": "structure",
+      "members": {
+        "xDaytonaOrganizationID": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "X-Daytona-Organization-ID",
+            "smithy.api#documentation": "Use with JWT to specify the organization ID"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.daytona.docker_registry#DockerRegistry2": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Registry ID",
+            "smithy.api#required": {}
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Registry name",
+            "smithy.api#required": {}
+          }
+        },
+        "url": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Registry URL",
+            "smithy.api#required": {}
+          }
+        },
+        "username": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Registry username",
+            "smithy.api#required": {}
+          }
+        },
+        "project": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Registry project",
+            "smithy.api#required": {}
+          }
+        },
+        "registryType": {
+          "target": "com.daytona.docker_registry#DockerRegistryRegistryType",
+          "traits": {
+            "smithy.api#documentation": "Registry type",
+            "smithy.api#required": {}
+          }
+        },
+        "createdAt": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Creation timestamp",
+            "smithy.api#required": {}
+          }
+        },
+        "updatedAt": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Last update timestamp",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.daytona.docker_registry#DockerRegistryRegistryType": {
+      "type": "enum",
+      "members": {
+        "INTERNAL": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "internal"
+          }
+        },
+        "ORGANIZATION": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "organization"
+          }
+        },
+        "TRANSIENT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "transient"
+          }
+        },
+        "BACKUP": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "backup"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Registry type"
+      }
+    },
+    "com.daytona.docker_registry#ListRegistriesResponseBodyList": {
+      "type": "list",
+      "member": {
+        "target": "com.daytona.docker_registry#DockerRegistry2"
+      },
+      "traits": {}
+    },
+    "com.daytona.docker_registry#ListRegistriesResponse": {
+      "type": "structure",
+      "members": {
+        "body": {
+          "target": "com.daytona.docker_registry#ListRegistriesResponseBodyList",
+          "traits": {
+            "com.distilled.openapi#rawResponse": {},
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
+      }
+    },
+    "com.daytona.docker_registry#ListRegistries": {
+      "type": "operation",
+      "input": {
+        "target": "com.daytona.docker_registry#ListRegistriesRequest"
+      },
+      "output": {
+        "target": "com.daytona.docker_registry#ListRegistriesResponse"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/docker-registry",
+          "code": 200
+        },
+        "smithy.api#documentation": "List registries"
+      }
+    },
+    "com.daytona.docker_registry#CreateRegistryRequest": {
+      "type": "structure",
+      "members": {
+        "xDaytonaOrganizationID": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "X-Daytona-Organization-ID",
+            "smithy.api#documentation": "Use with JWT to specify the organization ID"
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Registry name",
+            "smithy.api#required": {}
+          }
+        },
+        "url": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Registry URL",
+            "smithy.api#required": {}
+          }
+        },
+        "username": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Registry username",
+            "smithy.api#required": {}
+          }
+        },
+        "password": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Registry password",
+            "smithy.api#required": {},
+            "smithy.api#sensitive": {}
+          }
+        },
+        "project": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Registry project"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.daytona.docker_registry#CreateRegistry": {
+      "type": "operation",
+      "input": {
+        "target": "com.daytona.docker_registry#CreateRegistryRequest"
+      },
+      "output": {
+        "target": "com.daytona.docker_registry#DockerRegistry2"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/docker-registry",
+          "code": 200
+        },
+        "smithy.api#documentation": "Create registry"
+      }
+    },
+    "com.daytona.docker_registry#GetTransientPushAccessRequest": {
+      "type": "structure",
+      "members": {
+        "regionId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "regionId",
+            "smithy.api#documentation": "ID of the region where the snapshot will be available (defaults to organization default region)"
+          }
+        },
+        "xDaytonaOrganizationID": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "X-Daytona-Organization-ID",
+            "smithy.api#documentation": "Use with JWT to specify the organization ID"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.daytona.docker_registry#RegistryPushAccessDto": {
+      "type": "structure",
+      "members": {
+        "username": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Temporary username for registry authentication",
+            "smithy.api#required": {}
+          }
+        },
+        "secret": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Temporary secret for registry authentication",
+            "smithy.api#required": {},
+            "smithy.api#sensitive": {}
+          }
+        },
+        "registryUrl": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Registry URL",
+            "smithy.api#required": {}
+          }
+        },
+        "registryId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Registry ID",
+            "smithy.api#required": {}
+          }
+        },
+        "project": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Registry project ID",
+            "smithy.api#required": {}
+          }
+        },
+        "expiresAt": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Token expiration time in ISO format",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.daytona.docker_registry#GetTransientPushAccess": {
+      "type": "operation",
+      "input": {
+        "target": "com.daytona.docker_registry#GetTransientPushAccessRequest"
+      },
+      "output": {
+        "target": "com.daytona.docker_registry#RegistryPushAccessDto"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/docker-registry/registry-push-access",
+          "code": 200
+        },
+        "smithy.api#documentation": "Get temporary registry access for pushing snapshots"
+      }
+    },
+    "com.daytona.docker_registry#GetRegistryRequest": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "ID of the docker registry"
+          }
+        },
+        "xDaytonaOrganizationID": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "X-Daytona-Organization-ID",
+            "smithy.api#documentation": "Use with JWT to specify the organization ID"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.daytona.docker_registry#GetRegistry": {
+      "type": "operation",
+      "input": {
+        "target": "com.daytona.docker_registry#GetRegistryRequest"
+      },
+      "output": {
+        "target": "com.daytona.docker_registry#DockerRegistry2"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/docker-registry/{id}",
+          "code": 200
+        },
+        "smithy.api#documentation": "Get registry"
+      }
+    },
+    "com.daytona.docker_registry#UpdateRegistryRequest": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "ID of the docker registry"
+          }
+        },
+        "xDaytonaOrganizationID": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "X-Daytona-Organization-ID",
+            "smithy.api#documentation": "Use with JWT to specify the organization ID"
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Registry name",
+            "smithy.api#required": {}
+          }
+        },
+        "url": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Registry URL",
+            "smithy.api#required": {}
+          }
+        },
+        "username": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Registry username",
+            "smithy.api#required": {}
+          }
+        },
+        "password": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Registry password",
+            "smithy.api#sensitive": {}
+          }
+        },
+        "project": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Registry project"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.daytona.docker_registry#UpdateRegistry": {
+      "type": "operation",
+      "input": {
+        "target": "com.daytona.docker_registry#UpdateRegistryRequest"
+      },
+      "output": {
+        "target": "com.daytona.docker_registry#DockerRegistry2"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "PATCH",
+          "uri": "/docker-registry/{id}",
+          "code": 200
+        },
+        "smithy.api#documentation": "Update registry"
+      }
+    },
+    "com.daytona.docker_registry#DeleteRegistryRequest": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "ID of the docker registry"
+          }
+        },
+        "xDaytonaOrganizationID": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "X-Daytona-Organization-ID",
+            "smithy.api#documentation": "Use with JWT to specify the organization ID"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.daytona.docker_registry#DeleteRegistry": {
+      "type": "operation",
+      "input": {
+        "target": "com.daytona.docker_registry#DeleteRegistryRequest"
+      },
+      "output": {
+        "target": "smithy.api#Unit"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "DELETE",
+          "uri": "/docker-registry/{id}",
+          "code": 200
+        },
+        "smithy.api#documentation": "Delete registry"
+      }
+    },
+    "com.daytona.docker_registry#DockerRegistry": {
+      "type": "service",
+      "version": "1.0",
+      "operations": [
+        {
+          "target": "com.daytona.docker_registry#ListRegistries"
+        },
+        {
+          "target": "com.daytona.docker_registry#CreateRegistry"
+        },
+        {
+          "target": "com.daytona.docker_registry#GetTransientPushAccess"
+        },
+        {
+          "target": "com.daytona.docker_registry#GetRegistry"
+        },
+        {
+          "target": "com.daytona.docker_registry#UpdateRegistry"
+        },
+        {
+          "target": "com.daytona.docker_registry#DeleteRegistry"
+        }
+      ],
+      "traits": {
+        "smithy.api#title": "Daytona",
+        "smithy.api#documentation": "Daytona AI platform API Docs"
+      }
+    }
+  }
+}

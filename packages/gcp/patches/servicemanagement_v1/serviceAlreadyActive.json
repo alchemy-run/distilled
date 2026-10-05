@@ -1,0 +1,33 @@
+{
+  "description": "Type undeleting a managed service that is already active. It surfaced as a generic BadRequest.",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.servicemanagement_v1#ServiceAlreadyActive",
+      "value": {
+        "type": "structure",
+        "members": {},
+        "traits": {
+          "smithy.api#error": "client",
+          "smithy.api#httpError": 400,
+          "smithy.api#documentation": "Undelete was called on a service that is active (HTTP 400 FAILED_PRECONDITION).",
+          "com.gcp.protocols#errorMatchers": [
+            {
+              "status": 400,
+              "message": {
+                "includes": "already exists and is active"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.servicemanagement_v1#UndeleteServices/errors/-",
+      "value": {
+        "target": "com.gcp.servicemanagement_v1#ServiceAlreadyActive"
+      }
+    }
+  ]
+}

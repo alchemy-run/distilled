@@ -11,14 +11,14 @@
  *
  * Note that most mutating Hetzner endpoints are ASYNCHRONOUS: they answer
  * with an `action` object whose `status` is `running`, and the work completes
- * later. Poll `Services.actions.getAction` (or the resource's own action
+ * later. Poll `actions.getAction` (or the resource's own action
  * list) until `status` is `success` or `error`.
  *
  * @example
  * ```ts
  * import * as Hetzner from "@distilled.cloud/hetzner";
  *
- * const { servers } = yield* Hetzner.Services.servers.listServers({
+ * const { servers } = yield* Hetzner.servers.listServers({
  *   status: ["running"],
  * });
  * ```
@@ -26,11 +26,7 @@
 export * from "./credentials.ts";
 export * from "./errors.ts";
 export * as T from "./traits.ts";
-export {
-  HetznerProtocol,
-  type HetznerOpError,
-  type HetznerOpContext,
-} from "./protocol.ts";
+export { HetznerProtocol, type HetznerOpError, type HetznerOpContext } from "./protocol.ts";
 export { paginatePageNumber } from "./pagination.ts";
 export * as Retry from "./retry.ts";
-export * as Services from "./services/index.ts";
+export * from "./services/index.ts";

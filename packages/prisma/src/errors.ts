@@ -25,10 +25,9 @@ export {
   DEFAULT_ERRORS,
   API_ERRORS,
 } from "@distilled.cloud/core/errors";
-import type { DefaultErrors as CoreDefaultErrors } from "@distilled.cloud/core/errors";
-
-import * as Schema from "effect/Schema";
 import * as Category from "@distilled.cloud/core/category";
+import type { DefaultErrors as CoreDefaultErrors } from "@distilled.cloud/core/errors";
+import * as Schema from "effect/Schema";
 
 /**
  * Unknown Prisma error — returned when a failure matches no
@@ -46,13 +45,10 @@ export class UnknownPrismaError extends Schema.TaggedError<UnknownPrismaError>()
 ).pipe(Category.withServerError) {}
 
 /** Schema parse error wrapper (kept for v0 API compatibility). */
-export class PrismaParseError extends Schema.TaggedError<PrismaParseError>()(
-  "PrismaParseError",
-  {
-    body: Schema.Unknown,
-    cause: Schema.Unknown,
-  },
-).pipe(Category.withParseError) {}
+export class PrismaParseError extends Schema.TaggedError<PrismaParseError>()("PrismaParseError", {
+  body: Schema.Unknown,
+  cause: Schema.Unknown,
+}).pipe(Category.withParseError) {}
 
 /**
  * Errors any Prisma operation may surface in addition to the

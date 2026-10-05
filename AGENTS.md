@@ -60,12 +60,19 @@ pnpm specs:check            # spec-mirror coherence; also a CI gate
 pnpm format                 # oxfmt, not prettier
 pnpm lint                   # oxlint
 pnpm generate [<pkg>…]      # convert + generate + format; all packages if no args
+pnpm patches:audit <pkg>    # which of packages/<pkg>/patches/ the spec no longer needs
 ```
 
-Package manager is pnpm 11 (`packageManager` pins it), Node 24
-(`.node-version`). Bun runs the scripts under `scripts/` and
-`packages/*/scripts/`, so you need both on PATH. A `pre-commit` hook runs
-`bun format`.
+Package manager is pnpm 12 (`packageManager` pins it), Node 24
+(`.node-version`). Node runs the scripts under `scripts/` and
+`packages/*/scripts/` directly (native TypeScript type stripping). A script
+that imports a workspace package (`@distilled.cloud/*`) runs with
+`node --conditions=bun`, which resolves it to `src/*.ts` through the `bun`
+export condition; without the flag Node picks the tsc-built `lib/`. Keep the
+flag off scripts that don't need it and out of workspace-wide `NODE_OPTIONS`:
+third-party packages (srvx, h3, alchemy, …) ship Bun-only builds under the
+same condition. Tests use vitest: `pnpm vitest run
+<paths>`. A `pre-commit` hook runs `pnpm format`.
 
 ## Things that will surprise you
 
@@ -89,6 +96,12 @@ Package manager is pnpm 11 (`packageManager` pins it), Node 24
 
 - Adding a provider, sourcing a spec, or working on a mirror:
   the `distilled-sdk` skill in `.agents/skills/distilled-sdk/`.
+- Updating a provider to its latest spec and pruning patches it no longer
+  needs (`pnpm patches:audit <pkg>`): the `distilled-sdk-update` skill in
+  `.agents/skills/distilled-sdk-update/`.
+- Correcting a spec with a patch (typed errors, nullability, sensitive
+  fields, response shapes): the `distilled-sdk-patch` skill in
+  `.agents/skills/distilled-sdk-patch/`.
 - How the mirrors are created and kept in shape:
   `stacks/distilled-submodules/README.md`.
 - Open work: `todo.md`.

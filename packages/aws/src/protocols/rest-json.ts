@@ -9,6 +9,7 @@
  * - Default timestamp format is epoch-seconds
  */
 
+import { failIfStrict } from "@distilled.cloud/core/response-validation";
 import * as Effect from "effect/Effect";
 import * as Schema from "effect/Schema";
 import * as AST from "effect/SchemaAST";
@@ -17,21 +18,11 @@ import type { Operation } from "../client/operation.ts";
 import type { Protocol, ProtocolHandler } from "../client/protocol.ts";
 import type { Request } from "../client/request.ts";
 import type { Response } from "../client/response.ts";
-import {
-  applyApiGatewayCustomizations,
-  isApiGateway,
-} from "../customizations/api-gateway.ts";
-import {
-  applyGlacierCustomizations,
-  isGlacier,
-} from "../customizations/glacier.ts";
+import { applyApiGatewayCustomizations, isApiGateway } from "../customizations/api-gateway.ts";
+import { applyGlacierCustomizations, isGlacier } from "../customizations/glacier.ts";
 import { ParseError } from "../errors.ts";
 import { parseEventStreamToUnion } from "../eventstream/parser.ts";
-import {
-  serializeInputEventStream,
-  serializeInputEventStreamWithPayloads,
-  type InputEvent,
-} from "../eventstream/serializer.ts";
+import { serializeInputEventStreamWithSchema, type InputEvent } from "../eventstream/serializer.ts";
 import {
   getAwsApiService,
   getEventPayloadMap,
@@ -56,11 +47,7 @@ import {
   isBooleanAST,
   isNumberAST,
 } from "../util/ast.ts";
-import {
-  extractJsonErrorCode,
-  extractJsonErrorData,
-  sanitizeErrorCode,
-} from "../util/error.ts";
+import { extractJsonErrorCode, extractJsonErrorData, sanitizeErrorCode } from "../util/error.ts";
 import { extractStaticQueryParams } from "../util/query-params.ts";
 import { applyHttpTrait, bindInputToRequest } from "../util/serialize-input.ts";
 import {
@@ -71,9 +58,7 @@ import {
   readStreamAsText,
 } from "../util/stream.ts";
 
-export const restJson1Protocol: Protocol = (
-  operation: Operation,
-): ProtocolHandler => {
+export const restJson1Protocol: Protocol = (operation: Operation): ProtocolHandler => {
   const inputSchema = operation.input;
   const outputSchema = operation.output;
   const inputAst = inputSchema.ast;
@@ -130,7 +115,10 @@ export const restJson1Protocol: Protocol = (
         isNumber: isNumberAST(prop.type),
         isBoolean: isBooleanAST(prop.type),
       });
-    } else if (prefix) {
+    } else if (prefix !== undefined) {
+      // An empty prefix binds every response header (Smithy
+      // RestJsonHttpEmptyPrefixHeadersResponseClient), including ones also
+      // bound to httpHeader members.
       prefixHeaderProps.push({ name, prefix: prefix.toLowerCase() });
     } else if (hasHttpPayload(prop)) {
       const isEventStream = isOutputEventStream(prop.type);
@@ -142,9 +130,7 @@ export const restJson1Protocol: Protocol = (
         isBlob: isBlobPayload(prop.type),
         isEventStream,
         eventSchema,
-        eventPayloadMap: eventSchema
-          ? getOutputEventPayloadMap(eventSchema)
-          : undefined,
+        eventPayloadMap: eventSchema ? getOutputEventPayloadMap(eventSchema) : undefined,
       };
     } else if (isStreamingType(prop.type)) {
       // Streaming members (including event streams) implicitly become the payload
@@ -157,9 +143,7 @@ export const restJson1Protocol: Protocol = (
         isBlob: false,
         isEventStream,
         eventSchema,
-        eventPayloadMap: eventSchema
-          ? getOutputEventPayloadMap(eventSchema)
-          : undefined,
+        eventPayloadMap: eventSchema ? getOutputEventPayloadMap(eventSchema) : undefined,
       };
     }
   }
@@ -173,9 +157,7 @@ export const restJson1Protocol: Protocol = (
   // `ValidationException: Invalid request body` when called with no body.
   // Unit inputs (zero members) and inputs whose members are all bound to
   // labels/query/headers keep an empty body.
-  const hasBodyCapableInputMembers = getEncodedPropertySignatures(
-    inputAst,
-  ).some(
+  const hasBodyCapableInputMembers = getEncodedPropertySignatures(inputAst).some(
     (prop) =>
       getHttpHeader(prop) === undefined &&
       !hasHttpLabel(prop) &&
@@ -201,12 +183,11 @@ export const restJson1Protocol: Protocol = (
       };
 
       applyHttpTrait(inputAst, request);
-      const { payloadValue, payloadAst, bodyMembers, hasBodyMembers } =
-        bindInputToRequest(
-          inputAst,
-          encoded as Record<string, unknown>,
-          request,
-        );
+      const { payloadValue, payloadAst, bodyMembers, hasBodyMembers } = bindInputToRequest(
+        inputAst,
+        encoded as Record<string, unknown>,
+        request,
+      );
       extractStaticQueryParams(request);
 
       // Track if user set Content-Type explicitly via httpHeader binding
@@ -220,25 +201,17 @@ export const restJson1Protocol: Protocol = (
           isInputEventStream(payloadAst) && isEffectStream(payloadValue);
 
         if (isInputEventStreamPayload) {
-          // Input event stream - serialize each event to wire format
-          const eventPayloadMap = getEventPayloadMap(payloadAst);
-          if (eventPayloadMap && Object.keys(eventPayloadMap).length > 0) {
-            request.body = serializeInputEventStreamWithPayloads(
-              payloadValue as Stream.Stream<InputEvent, unknown>,
-              eventPayloadMap,
-            );
-          } else {
-            request.body = serializeInputEventStream(
-              payloadValue as Stream.Stream<InputEvent, unknown>,
-            );
-          }
-          // Set content type for event streams (always override)
-          request.headers["Content-Type"] =
-            "application/vnd.amazon.eventstream";
-        } else if (isStreamingType(payloadAst)) {
-          request.body = convertStreamingInput(
-            payloadValue as StreamingInputBody,
+          // Input event stream - frame each event per its eventPayload /
+          // eventHeader member annotations (as the output side does).
+          request.body = serializeInputEventStreamWithSchema(
+            payloadValue as Stream.Stream<InputEvent, unknown>,
+            getEventSchema(payloadAst),
+            getEventPayloadMap(payloadAst),
           );
+          // Set content type for event streams (always override)
+          request.headers["Content-Type"] = "application/vnd.amazon.eventstream";
+        } else if (isStreamingType(payloadAst)) {
+          request.body = convertStreamingInput(payloadValue as StreamingInputBody);
           // Streaming-input operations are signed UNSIGNED-PAYLOAD (see
           // Request.hasStreamingInput) — some services (Lex Runtime V2)
           // reject payload-hash signatures on these routes.
@@ -301,15 +274,10 @@ export const restJson1Protocol: Protocol = (
 
       // Extract header-bound properties using pre-computed metadata
       for (const hp of headerProps) {
-        const v =
-          response.headers[hp.headerLower] ?? response.headers[hp.header];
+        const v = response.headers[hp.headerLower] ?? response.headers[hp.header];
         if (v !== undefined) {
           // Convert string header values to appropriate types
-          result[hp.name] = hp.isNumber
-            ? Number(v)
-            : hp.isBoolean
-              ? v === "true"
-              : v;
+          result[hp.name] = hp.isNumber ? Number(v) : hp.isBoolean ? v === "true" : v;
         }
       }
 
@@ -338,9 +306,7 @@ export const restJson1Protocol: Protocol = (
           );
         } else {
           // Raw streaming output (blob)
-          result[outputPayloadProp.name] = readableToEffectStream(
-            response.body,
-          );
+          result[outputPayloadProp.name] = readableToEffectStream(response.body);
         }
         return result;
       }
@@ -360,24 +326,27 @@ export const restJson1Protocol: Protocol = (
       // Non-streaming response - read body as text
       const bodyText = yield* readStreamAsText(response.body);
 
-      // Handle httpPayload with raw body
-      if (outputPayloadProp?.isRaw && bodyText) {
-        result[outputPayloadProp.name] = bodyText;
+      // A string httpPayload is the body as-is, not a JSON document.
+      if (outputPayloadProp?.isRaw) {
+        if (bodyText) result[outputPayloadProp.name] = bodyText;
+        return result;
       }
 
       // Parse JSON body (reviver converts null → undefined since AWS returns null for absent fields)
       if (bodyText) {
         try {
-          const parsed = JSON.parse(bodyText, (_, v) =>
-            v === null ? undefined : v,
-          );
+          const parsed = JSON.parse(bodyText, (_, v) => (v === null ? undefined : v));
           if (parsed && typeof parsed === "object" && !Array.isArray(parsed)) {
             Object.assign(result, parsed);
           }
         } catch {
-          return yield* new ParseError({
-            message: `Failed to parse JSON body: ${bodyText}`,
-          });
+          // Lenient mode returns the body as read.
+          return yield* failIfStrict(
+            new ParseError({
+              message: `Failed to parse JSON body: ${bodyText}`,
+            }),
+            bodyText,
+          );
         }
       }
 
@@ -392,9 +361,7 @@ export const restJson1Protocol: Protocol = (
       let body: Record<string, unknown> = {};
       if (bodyText) {
         try {
-          const parsed = JSON.parse(bodyText, (_, v) =>
-            v === null ? undefined : v,
-          );
+          const parsed = JSON.parse(bodyText, (_, v) => (v === null ? undefined : v));
           if (parsed && typeof parsed === "object") {
             body = parsed as Record<string, unknown>;
           }

@@ -36,6 +36,7 @@ export {
 
 export {
   SensitiveValue,
+  BinaryResponse,
   RawResponse,
   RawResponseRoot,
   sensitiveValueSymbol,

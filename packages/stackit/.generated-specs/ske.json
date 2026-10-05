@@ -1,0 +1,2205 @@
+{
+  "smithy": "2.0",
+  "metadata": {
+    "suppressions": [
+      {
+        "id": "HttpUriConflict",
+        "namespace": "*"
+      },
+      {
+        "id": "HttpMethodSemantics",
+        "namespace": "*"
+      },
+      {
+        "id": "UnreferencedShape",
+        "namespace": "*"
+      }
+    ],
+    "distilled.finalized": true
+  },
+  "shapes": {
+    "com.stackit.ske#ListClustersRequest": {
+      "type": "structure",
+      "members": {
+        "projectId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        },
+        "region": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.stackit.ske#ListClustersResponse": {
+      "type": "structure",
+      "members": {
+        "items": {
+          "target": "com.stackit.ske#ListClustersResponseItemsList"
+        }
+      },
+      "traits": {}
+    },
+    "com.stackit.ske#Cluster": {
+      "type": "structure",
+      "members": {
+        "access": {
+          "target": "com.stackit.ske#Access"
+        },
+        "audit": {
+          "target": "com.stackit.ske#Audit"
+        },
+        "extensions": {
+          "target": "com.stackit.ske#Extension"
+        },
+        "hibernation": {
+          "target": "com.stackit.ske#Hibernation"
+        },
+        "kubernetes": {
+          "target": "com.stackit.ske#Kubernetes",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "labels": {
+          "target": "com.stackit.ske#ClusterLabelsMap",
+          "traits": {
+            "smithy.api#documentation": "Labels are key-value pairs. Keys may contain domain prefix separated by a slash(/) and must begin with an alphanumerical character. Values may be empty and if not empty, they must begin and end with an alphanumerical character. Keys can be between 1-314 characters long, whereas values can be 0-63 characters long."
+          }
+        },
+        "maintenance": {
+          "target": "com.stackit.ske#Maintenance"
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Use lowercase alphanumeric characters or -, must start and end with an alphanumeric character, and be between 1 and 11 characters long."
+          }
+        },
+        "network": {
+          "target": "com.stackit.ske#Network"
+        },
+        "nodepools": {
+          "target": "com.stackit.ske#ClusterNodepoolsList",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "status": {
+          "target": "com.stackit.ske#ClusterStatus"
+        }
+      },
+      "traits": {}
+    },
+    "com.stackit.ske#Access": {
+      "type": "structure",
+      "members": {
+        "idp": {
+          "target": "com.stackit.ske#IDP"
+        }
+      },
+      "traits": {}
+    },
+    "com.stackit.ske#IDP": {
+      "type": "structure",
+      "members": {
+        "enabled": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Enable IDP integration for the cluster.",
+            "smithy.api#required": {}
+          }
+        },
+        "type": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Possible values: `\"stackit\"`",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.stackit.ske#Audit": {
+      "type": "structure",
+      "members": {
+        "enabled": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Enable cluster audit log forwarding to a Telemetry Router.\n⚠️ Note: This feature is in private preview. Enabling audit logging is only possible for enabled accounts. Otherwise the request will be rejected.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.stackit.ske#Extension": {
+      "type": "structure",
+      "members": {
+        "acl": {
+          "target": "com.stackit.ske#ACL"
+        },
+        "applicationLoadBalancer": {
+          "target": "com.stackit.ske#ApplicationLoadBalancer"
+        },
+        "dns": {
+          "target": "com.stackit.ske#DNS"
+        },
+        "observability": {
+          "target": "com.stackit.ske#Observability"
+        }
+      },
+      "traits": {}
+    },
+    "com.stackit.ske#ACL": {
+      "type": "structure",
+      "members": {
+        "allowedCidrs": {
+          "target": "com.stackit.ske#ACLAllowedCidrsList",
+          "traits": {
+            "smithy.api#documentation": "Array of CIDRs to allow access to the kubernetes API.",
+            "smithy.api#required": {}
+          }
+        },
+        "enabled": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Enables the acl extension.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.stackit.ske#ACLAllowedCidrsList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {
+        "smithy.api#documentation": "Array of CIDRs to allow access to the kubernetes API."
+      }
+    },
+    "com.stackit.ske#ApplicationLoadBalancer": {
+      "type": "structure",
+      "members": {
+        "enabled": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Enables the application load balancer extension.\n⚠️ Note: This feature is in private preview. Enabling application load balancer extension is only possible for enabled accounts. Otherwise the request will be rejected.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.stackit.ske#DNS": {
+      "type": "structure",
+      "members": {
+        "enabled": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Enables the dns extension.",
+            "smithy.api#required": {}
+          }
+        },
+        "gatewayApi": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Enables Gateway API support for ExternalDNS.\nThe CRDs must be installed by the user. Once installed, ExternalDNS will be configured at the next cluster reconcile."
+          }
+        },
+        "zones": {
+          "target": "com.stackit.ske#DNSZonesList",
+          "traits": {
+            "smithy.api#documentation": "Array of domain filters for ExternalDNS, e.g., *.runs.onstackit.cloud."
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.stackit.ske#DNSZonesList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {
+        "smithy.api#documentation": "Array of domain filters for ExternalDNS, e.g., *.runs.onstackit.cloud."
+      }
+    },
+    "com.stackit.ske#Observability": {
+      "type": "structure",
+      "members": {
+        "enabled": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Enables the Observability extension.",
+            "smithy.api#required": {}
+          }
+        },
+        "instanceId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Instance ID to choose which Observability instance is used.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.stackit.ske#Hibernation": {
+      "type": "structure",
+      "members": {
+        "schedules": {
+          "target": "com.stackit.ske#HibernationSchedulesList",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.stackit.ske#HibernationSchedule": {
+      "type": "structure",
+      "members": {
+        "end": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "start": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "timezone": {
+          "target": "smithy.api#String"
+        }
+      },
+      "traits": {}
+    },
+    "com.stackit.ske#HibernationSchedulesList": {
+      "type": "list",
+      "member": {
+        "target": "com.stackit.ske#HibernationSchedule"
+      },
+      "traits": {}
+    },
+    "com.stackit.ske#Kubernetes": {
+      "type": "structure",
+      "members": {
+        "version": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "For valid versions please take a look at [provider-options](#tag/ProviderOptions/operation/SkeService_GetProviderOptions) `kubernetesVersions`."
+      }
+    },
+    "com.stackit.ske#ClusterLabelsMap": {
+      "type": "map",
+      "key": {
+        "target": "smithy.api#String"
+      },
+      "value": {
+        "target": "smithy.api#String"
+      },
+      "traits": {
+        "smithy.api#documentation": "Labels are key-value pairs. Keys may contain domain prefix separated by a slash(/) and must begin with an alphanumerical character. Values may be empty and if not empty, they must begin and end with an alphanumerical character. Keys can be between 1-314 characters long, whereas values can be 0-63 characters long."
+      }
+    },
+    "com.stackit.ske#Maintenance": {
+      "type": "structure",
+      "members": {
+        "autoUpdate": {
+          "target": "com.stackit.ske#MaintenanceAutoUpdate"
+        },
+        "timeWindow": {
+          "target": "com.stackit.ske#TimeWindow"
+        }
+      },
+      "traits": {}
+    },
+    "com.stackit.ske#MaintenanceAutoUpdate": {
+      "type": "structure",
+      "members": {
+        "kubernetesVersion": {
+          "target": "smithy.api#Boolean"
+        },
+        "machineImageVersion": {
+          "target": "smithy.api#Boolean"
+        }
+      },
+      "traits": {}
+    },
+    "com.stackit.ske#TimeWindow": {
+      "type": "structure",
+      "members": {
+        "end": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "start": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.stackit.ske#Network": {
+      "type": "structure",
+      "members": {
+        "cni": {
+          "target": "com.stackit.ske#CNI"
+        },
+        "controlPlane": {
+          "target": "com.stackit.ske#V2ControlPlaneNetwork"
+        },
+        "id": {
+          "target": "smithy.api#String"
+        }
+      },
+      "traits": {}
+    },
+    "com.stackit.ske#CNI": {
+      "type": "structure",
+      "members": {
+        "calico": {
+          "target": "smithy.api#Document",
+          "traits": {
+            "smithy.api#documentation": "configuration options for the Calico CNI"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "CNI to use for the cluster. Only one type of CNI can be used. The type of CNI is immutable after creation. Defaults to calico"
+      }
+    },
+    "com.stackit.ske#V2ControlPlaneNetwork": {
+      "type": "structure",
+      "members": {
+        "accessScope": {
+          "target": "com.stackit.ske#AccessScope"
+        }
+      },
+      "traits": {}
+    },
+    "com.stackit.ske#AccessScope": {
+      "type": "enum",
+      "members": {
+        "PUBLIC": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "PUBLIC"
+          }
+        },
+        "SNA": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "SNA"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The access scope of the Control Plane. It defines if the Kubernetes control plane is public or only available inside a STACKIT Network Area.\n⚠️ Warning: Changing the access scope on an existing cluster directly impacts its network exposure (e.g., making a private cluster publicly accessible)\n⚠️ Note: This feature is in private preview. Supplying this object is only permitted for enabled accounts. If your account does not have access, the request will be rejected."
+      }
+    },
+    "com.stackit.ske#Nodepool": {
+      "type": "structure",
+      "members": {
+        "allowSystemComponents": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "This needs to be true for at least one node pool."
+          }
+        },
+        "availabilityZones": {
+          "target": "com.stackit.ske#NodepoolAvailabilityZonesList",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "cri": {
+          "target": "com.stackit.ske#CRI"
+        },
+        "kubernetes": {
+          "target": "com.stackit.ske#NodepoolKubernetes"
+        },
+        "labels": {
+          "target": "com.stackit.ske#NodepoolLabelsMap"
+        },
+        "machine": {
+          "target": "com.stackit.ske#Machine",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "maxSurge": {
+          "target": "smithy.api#Integer"
+        },
+        "maxUnavailable": {
+          "target": "smithy.api#Integer"
+        },
+        "maximum": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Maximum number of nodes in the pool. During runtime, the cluster will never scale beyond 1000 nodes, even if the total maximum would allow for a larger cluster.",
+            "smithy.api#required": {}
+          }
+        },
+        "minimum": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Minimum number of nodes in the pool. The sum of all minima must not exceed 1000.",
+            "smithy.api#required": {}
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Maximum 15 chars",
+            "smithy.api#required": {}
+          }
+        },
+        "taints": {
+          "target": "com.stackit.ske#NodepoolTaintsList"
+        },
+        "volume": {
+          "target": "com.stackit.ske#Volume",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.stackit.ske#NodepoolAvailabilityZonesList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {}
+    },
+    "com.stackit.ske#CRI": {
+      "type": "structure",
+      "members": {
+        "name": {
+          "target": "com.stackit.ske#CRIName"
+        }
+      },
+      "traits": {}
+    },
+    "com.stackit.ske#CRIName": {
+      "type": "enum",
+      "members": {
+        "CONTAINERD": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "containerd"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.stackit.ske#NodepoolKubernetes": {
+      "type": "structure",
+      "members": {
+        "version": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Override the Kubernetes version for the Kubelet of this Nodepool.\nVersion must be equal or lower than the version of the cluster.\nOnly one minor version difference to the version of the cluster is allowed.\nDowngrade of existing Nodepools is prohibited."
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.stackit.ske#NodepoolLabelsMap": {
+      "type": "map",
+      "key": {
+        "target": "smithy.api#String"
+      },
+      "value": {
+        "target": "smithy.api#String"
+      },
+      "traits": {}
+    },
+    "com.stackit.ske#Machine": {
+      "type": "structure",
+      "members": {
+        "image": {
+          "target": "com.stackit.ske#Image",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "type": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "For valid types please take a look at [provider-options](#tag/ProviderOptions/operation/SkeService_GetProviderOptions) `machineTypes`.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.stackit.ske#Image": {
+      "type": "structure",
+      "members": {
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "version": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "For valid names and versions please take a look at [provider-options](#tag/ProviderOptions/operation/SkeService_GetProviderOptions) `machineImages`."
+      }
+    },
+    "com.stackit.ske#Taint": {
+      "type": "structure",
+      "members": {
+        "effect": {
+          "target": "com.stackit.ske#TaintEffect",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "key": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "value": {
+          "target": "smithy.api#String"
+        }
+      },
+      "traits": {}
+    },
+    "com.stackit.ske#TaintEffect": {
+      "type": "enum",
+      "members": {
+        "NOSCHEDULE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "NoSchedule"
+          }
+        },
+        "PREFERNOSCHEDULE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "PreferNoSchedule"
+          }
+        },
+        "NOEXECUTE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "NoExecute"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.stackit.ske#NodepoolTaintsList": {
+      "type": "list",
+      "member": {
+        "target": "com.stackit.ske#Taint"
+      },
+      "traits": {}
+    },
+    "com.stackit.ske#Volume": {
+      "type": "structure",
+      "members": {
+        "size": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "type": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "For valid values please take a look at [provider-options](#tag/ProviderOptions/operation/SkeService_GetProviderOptions) `volumeTypes`."
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.stackit.ske#ClusterNodepoolsList": {
+      "type": "list",
+      "member": {
+        "target": "com.stackit.ske#Nodepool"
+      },
+      "traits": {}
+    },
+    "com.stackit.ske#ClusterStatus": {
+      "type": "structure",
+      "members": {
+        "aggregated": {
+          "target": "com.stackit.ske#ClusterStatusState"
+        },
+        "creationTime": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Format: `2024-02-15T11:06:29Z`"
+          }
+        },
+        "credentialsRotation": {
+          "target": "com.stackit.ske#CredentialsRotationState"
+        },
+        "egressAddressRanges": {
+          "target": "com.stackit.ske#ClusterStatusEgressAddressRangesList",
+          "traits": {
+            "smithy.api#documentation": "The outgoing network ranges (in CIDR notation) of traffic originating from workload on the cluster."
+          }
+        },
+        "error": {
+          "target": "com.stackit.ske#RuntimeError"
+        },
+        "errors": {
+          "target": "com.stackit.ske#ClusterStatusErrorsList"
+        },
+        "expiration": {
+          "target": "com.stackit.ske#ExpirationStatus"
+        },
+        "hibernated": {
+          "target": "smithy.api#Boolean"
+        },
+        "identity": {
+          "target": "smithy.api#String"
+        },
+        "podAddressRanges": {
+          "target": "com.stackit.ske#ClusterStatusPodAddressRangesList",
+          "traits": {
+            "smithy.api#documentation": "The network ranges (in CIDR notation) used by pods of the cluster."
+          }
+        },
+        "serviceAccountIssuer": {
+          "target": "smithy.api#String"
+        }
+      },
+      "traits": {}
+    },
+    "com.stackit.ske#ClusterStatusState": {
+      "type": "enum",
+      "members": {
+        "STATE_HEALTHY": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "STATE_HEALTHY"
+          }
+        },
+        "STATE_CREATING": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "STATE_CREATING"
+          }
+        },
+        "STATE_DELETING": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "STATE_DELETING"
+          }
+        },
+        "STATE_UNHEALTHY": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "STATE_UNHEALTHY"
+          }
+        },
+        "STATE_RECONCILING": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "STATE_RECONCILING"
+          }
+        },
+        "STATE_HIBERNATED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "STATE_HIBERNATED"
+          }
+        },
+        "STATE_HIBERNATING": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "STATE_HIBERNATING"
+          }
+        },
+        "STATE_WAKINGUP": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "STATE_WAKINGUP"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "ClusterStatusState holds information about the current state of the Cluster"
+      }
+    },
+    "com.stackit.ske#CredentialsRotationState": {
+      "type": "structure",
+      "members": {
+        "lastCompletionTime": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Format: `2024-02-15T11:06:29Z`"
+          }
+        },
+        "lastInitiationTime": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Format: `2024-02-15T11:06:29Z`"
+          }
+        },
+        "phase": {
+          "target": "com.stackit.ske#CredentialsRotationStatePhase",
+          "traits": {
+            "smithy.api#documentation": "Phase of the credentials rotation. `NEVER` indicates that no credentials rotation has been performed using the new credentials rotation endpoints yet."
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.stackit.ske#CredentialsRotationStatePhase": {
+      "type": "enum",
+      "members": {
+        "NEVER": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "NEVER"
+          }
+        },
+        "PREPARING": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "PREPARING"
+          }
+        },
+        "PREPARED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "PREPARED"
+          }
+        },
+        "COMPLETING": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "COMPLETING"
+          }
+        },
+        "COMPLETED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "COMPLETED"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Phase of the credentials rotation. `NEVER` indicates that no credentials rotation has been performed using the new credentials rotation endpoints yet."
+      }
+    },
+    "com.stackit.ske#ClusterStatusEgressAddressRangesList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {
+        "smithy.api#documentation": "The outgoing network ranges (in CIDR notation) of traffic originating from workload on the cluster."
+      }
+    },
+    "com.stackit.ske#RuntimeError": {
+      "type": "structure",
+      "members": {
+        "code": {
+          "target": "com.stackit.ske#RuntimeErrorCode",
+          "traits": {
+            "smithy.api#documentation": "- Code:    `SKE_UNSPECIFIED`\n  Message: \"An error occurred. Please open a support ticket if this error persists.\"\n- Code:    `SKE_TMP_AUTH_ERROR`\n  Message: \"Authentication failed. This is a temporary error. Please wait while the system recovers.\"\n- Code:    `SKE_QUOTA_EXCEEDED`\n  Message: \"Your project's resource quotas are exhausted. Please make sure your quota is sufficient for the ordered cluster.\"\n- Code:    `SKE_OBSERVABILITY_INSTANCE_NOT_FOUND`\n  Message: \"The provided Observability instance could not be found.\"\n- Code:    `SKE_RATE_LIMITS`\n  Message: \"While provisioning your cluster, request rate limits where incurred. Please wait while the system recovers.\"\n- Code:    `SKE_INFRA_ERROR`\n  Message: \"An error occurred with the underlying infrastructure. Please open a support ticket if this error persists.\"\n- Code:    `SKE_REMAINING_RESOURCES`\n  Message: \"There are remaining Kubernetes resources in your cluster that prevent deletion. Please make sure to remove them.\"\n- Code:    `SKE_CONFIGURATION_PROBLEM`\n  Message: \"A configuration error occurred. Please open a support ticket if this error persists.\"\n- Code:    `SKE_UNREADY_NODES`\n  Message: \"Not all worker nodes are ready. Please open a support ticket if this error persists.\"\n- Code:    `SKE_API_SERVER_ERROR`\n  Message: \"The Kubernetes API server is not reporting readiness. Please open a support ticket if this error persists.\"\n- Code:    `SKE_DNS_ZONE_NOT_FOUND`\n  Message: \"The provided DNS zone for the STACKIT DNS extension could not be found. Please ensure you defined a valid domain that belongs to a STACKIT DNS zone.\"\n"
+          }
+        },
+        "details": {
+          "target": "smithy.api#String"
+        },
+        "message": {
+          "target": "smithy.api#String"
+        }
+      },
+      "traits": {}
+    },
+    "com.stackit.ske#RuntimeErrorCode": {
+      "type": "enum",
+      "members": {
+        "SKE_UNSPECIFIED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "SKE_UNSPECIFIED"
+          }
+        },
+        "SKE_TMP_AUTH_ERROR": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "SKE_TMP_AUTH_ERROR"
+          }
+        },
+        "SKE_QUOTA_EXCEEDED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "SKE_QUOTA_EXCEEDED"
+          }
+        },
+        "SKE_OBSERVABILITY_INSTANCE_NOT_FOUND": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "SKE_OBSERVABILITY_INSTANCE_NOT_FOUND"
+          }
+        },
+        "SKE_RATE_LIMITS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "SKE_RATE_LIMITS"
+          }
+        },
+        "SKE_INFRA_ERROR": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "SKE_INFRA_ERROR"
+          }
+        },
+        "SKE_REMAINING_RESOURCES": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "SKE_REMAINING_RESOURCES"
+          }
+        },
+        "SKE_CONFIGURATION_PROBLEM": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "SKE_CONFIGURATION_PROBLEM"
+          }
+        },
+        "SKE_UNREADY_NODES": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "SKE_UNREADY_NODES"
+          }
+        },
+        "SKE_API_SERVER_ERROR": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "SKE_API_SERVER_ERROR"
+          }
+        },
+        "SKE_DNS_ZONE_NOT_FOUND": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "SKE_DNS_ZONE_NOT_FOUND"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "- Code:    `SKE_UNSPECIFIED`\n  Message: \"An error occurred. Please open a support ticket if this error persists.\"\n- Code:    `SKE_TMP_AUTH_ERROR`\n  Message: \"Authentication failed. This is a temporary error. Please wait while the system recovers.\"\n- Code:    `SKE_QUOTA_EXCEEDED`\n  Message: \"Your project's resource quotas are exhausted. Please make sure your quota is sufficient for the ordered cluster.\"\n- Code:    `SKE_OBSERVABILITY_INSTANCE_NOT_FOUND`\n  Message: \"The provided Observability instance could not be found.\"\n- Code:    `SKE_RATE_LIMITS`\n  Message: \"While provisioning your cluster, request rate limits where incurred. Please wait while the system recovers.\"\n- Code:    `SKE_INFRA_ERROR`\n  Message: \"An error occurred with the underlying infrastructure. Please open a support ticket if this error persists.\"\n- Code:    `SKE_REMAINING_RESOURCES`\n  Message: \"There are remaining Kubernetes resources in your cluster that prevent deletion. Please make sure to remove them.\"\n- Code:    `SKE_CONFIGURATION_PROBLEM`\n  Message: \"A configuration error occurred. Please open a support ticket if this error persists.\"\n- Code:    `SKE_UNREADY_NODES`\n  Message: \"Not all worker nodes are ready. Please open a support ticket if this error persists.\"\n- Code:    `SKE_API_SERVER_ERROR`\n  Message: \"The Kubernetes API server is not reporting readiness. Please open a support ticket if this error persists.\"\n- Code:    `SKE_DNS_ZONE_NOT_FOUND`\n  Message: \"The provided DNS zone for the STACKIT DNS extension could not be found. Please ensure you defined a valid domain that belongs to a STACKIT DNS zone.\"\n"
+      }
+    },
+    "com.stackit.ske#ClusterError": {
+      "type": "structure",
+      "members": {
+        "code": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Possible values: `\"SKE_INFRA_SNA_NETWORK_NOT_FOUND\"`, `\"SKE_INFRA_SNA_NETWORK_NO_ROUTER\"`, `\"SKE_NODE_NO_VALID_HOST_FOUND\"`, `\"SKE_NODE_MISCONFIGURED_PDB\"`, `\"SKE_NODE_MACHINE_TYPE_NOT_FOUND\"`, `\"SKE_NETWORK_NO_DNS_CONFIGURED\"`, `\"SKE_NETWORK_NO_AVAILABLE_IPS\"`, `\"SKE_NODE_MEMORY_PRESSURE\"`, `\"SKE_NODE_DISK_PRESSURE\"`, `\"SKE_NODE_PID_PRESSURE\"`, `\"SKE_OBSERVABILITY_INSTANCE_NOT_FOUND\"`, `\"SKE_OBSERVABILITY_INSTANCE_NOT_READY\"`, `\"SKE_DNS_ZONE_NOT_FOUND\"`, `\"SKE_SNA_DOES_NOT_SUPPORT_SERVICE_ROUTES\"`, `\"SKE_FETCHING_ERRORS_NOT_POSSIBLE\"`"
+          }
+        },
+        "message": {
+          "target": "smithy.api#String"
+        }
+      },
+      "traits": {}
+    },
+    "com.stackit.ske#ClusterStatusErrorsList": {
+      "type": "list",
+      "member": {
+        "target": "com.stackit.ske#ClusterError"
+      },
+      "traits": {}
+    },
+    "com.stackit.ske#ExpirationStatus": {
+      "type": "structure",
+      "members": {
+        "kubernetes": {
+          "target": "com.stackit.ske#ExpirationStatusKubernetes"
+        },
+        "nodepools": {
+          "target": "com.stackit.ske#ExpirationStatusNodepoolsList"
+        }
+      },
+      "traits": {}
+    },
+    "com.stackit.ske#ExpirationStatusKubernetes": {
+      "type": "structure",
+      "members": {
+        "expirationDate": {
+          "target": "smithy.api#String"
+        },
+        "version": {
+          "target": "smithy.api#String"
+        }
+      },
+      "traits": {}
+    },
+    "com.stackit.ske#ExpirationStatusNodepool": {
+      "type": "structure",
+      "members": {
+        "kubernetesExpirationDate": {
+          "target": "smithy.api#String"
+        },
+        "kubernetesVersion": {
+          "target": "smithy.api#String"
+        },
+        "name": {
+          "target": "smithy.api#String"
+        },
+        "osExpirationDate": {
+          "target": "smithy.api#String"
+        },
+        "osName": {
+          "target": "smithy.api#String"
+        },
+        "osVersion": {
+          "target": "smithy.api#String"
+        }
+      },
+      "traits": {}
+    },
+    "com.stackit.ske#ExpirationStatusNodepoolsList": {
+      "type": "list",
+      "member": {
+        "target": "com.stackit.ske#ExpirationStatusNodepool"
+      },
+      "traits": {}
+    },
+    "com.stackit.ske#ClusterStatusPodAddressRangesList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {
+        "smithy.api#documentation": "The network ranges (in CIDR notation) used by pods of the cluster."
+      }
+    },
+    "com.stackit.ske#ListClustersResponseItemsList": {
+      "type": "list",
+      "member": {
+        "target": "com.stackit.ske#Cluster"
+      },
+      "traits": {}
+    },
+    "com.stackit.ske#ListClusters": {
+      "type": "operation",
+      "input": {
+        "target": "com.stackit.ske#ListClustersRequest"
+      },
+      "output": {
+        "target": "com.stackit.ske#ListClustersResponse"
+      },
+      "errors": [
+        {
+          "target": "com.stackit.ske#BadRequest"
+        },
+        {
+          "target": "com.stackit.ske#NotFound"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/v2/projects/{projectId}/regions/{region}/clusters",
+          "code": 200,
+          "baseUrl": "https://ske.api.stackit.cloud"
+        },
+        "smithy.api#documentation": "List all clusters\n\nReturn a list of Kubernetes clusters in the project specified by `projectId`."
+      }
+    },
+    "com.stackit.ske#GetClusterRequest": {
+      "type": "structure",
+      "members": {
+        "projectId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        },
+        "region": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        },
+        "clusterName": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.stackit.ske#GetCluster": {
+      "type": "operation",
+      "input": {
+        "target": "com.stackit.ske#GetClusterRequest"
+      },
+      "output": {
+        "target": "com.stackit.ske#Cluster"
+      },
+      "errors": [
+        {
+          "target": "com.stackit.ske#BadRequest"
+        },
+        {
+          "target": "com.stackit.ske#NotFound"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/v2/projects/{projectId}/regions/{region}/clusters/{clusterName}",
+          "code": 200,
+          "baseUrl": "https://ske.api.stackit.cloud"
+        },
+        "smithy.api#documentation": "Get a cluster\n\nGet Kubernetes cluster for the specified identifier, belonging to the project specified by `projectId`."
+      }
+    },
+    "com.stackit.ske#CreateOrUpdateClusterRequestLabelsMap": {
+      "type": "map",
+      "key": {
+        "target": "smithy.api#String"
+      },
+      "value": {
+        "target": "smithy.api#String"
+      },
+      "traits": {
+        "smithy.api#documentation": "Labels are key-value pairs. Keys may contain domain prefix separated by a slash(/) and must begin with an alphanumerical character. Values may be empty and if not empty, they must begin and end with an alphanumerical character. Keys can be between 1-314 characters long, whereas values can be 0-63 characters long."
+      }
+    },
+    "com.stackit.ske#CreateOrUpdateClusterRequestNodepoolsList": {
+      "type": "list",
+      "member": {
+        "target": "com.stackit.ske#Nodepool"
+      },
+      "traits": {}
+    },
+    "com.stackit.ske#CreateOrUpdateClusterRequest": {
+      "type": "structure",
+      "members": {
+        "projectId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        },
+        "region": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        },
+        "clusterName": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Use lowercase alphanumeric characters or -, must start and end with an alphanumeric character, and be between 1 and 11 characters long."
+          }
+        },
+        "access": {
+          "target": "com.stackit.ske#Access"
+        },
+        "audit": {
+          "target": "com.stackit.ske#Audit"
+        },
+        "extensions": {
+          "target": "com.stackit.ske#Extension"
+        },
+        "hibernation": {
+          "target": "com.stackit.ske#Hibernation"
+        },
+        "kubernetes": {
+          "target": "com.stackit.ske#Kubernetes",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "labels": {
+          "target": "com.stackit.ske#CreateOrUpdateClusterRequestLabelsMap",
+          "traits": {
+            "smithy.api#documentation": "Labels are key-value pairs. Keys may contain domain prefix separated by a slash(/) and must begin with an alphanumerical character. Values may be empty and if not empty, they must begin and end with an alphanumerical character. Keys can be between 1-314 characters long, whereas values can be 0-63 characters long."
+          }
+        },
+        "maintenance": {
+          "target": "com.stackit.ske#Maintenance"
+        },
+        "network": {
+          "target": "com.stackit.ske#Network"
+        },
+        "nodepools": {
+          "target": "com.stackit.ske#CreateOrUpdateClusterRequestNodepoolsList",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "status": {
+          "target": "com.stackit.ske#ClusterStatus"
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.stackit.ske#CreateOrUpdateCluster": {
+      "type": "operation",
+      "input": {
+        "target": "com.stackit.ske#CreateOrUpdateClusterRequest"
+      },
+      "output": {
+        "target": "com.stackit.ske#Cluster"
+      },
+      "errors": [
+        {
+          "target": "com.stackit.ske#BadRequest"
+        },
+        {
+          "target": "com.stackit.ske#NotFound"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "PUT",
+          "uri": "/v2/projects/{projectId}/regions/{region}/clusters/{clusterName}",
+          "code": 200,
+          "baseUrl": "https://ske.api.stackit.cloud"
+        },
+        "smithy.api#documentation": "Create or update a cluster\n\nCreate a new cluster in your project or modify an existing one. To get valid values for certain properties please check the [provider-options](#tag/ProviderOptions/operation/SkeService_GetProviderOptions) endpoint."
+      }
+    },
+    "com.stackit.ske#DeleteClusterRequest": {
+      "type": "structure",
+      "members": {
+        "projectId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        },
+        "region": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        },
+        "clusterName": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.stackit.ske#DeleteClusterResponse": {
+      "type": "structure",
+      "members": {
+        "body": {
+          "target": "smithy.api#Document",
+          "traits": {
+            "com.distilled.openapi#rawResponse": {},
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
+      }
+    },
+    "com.stackit.ske#DeleteCluster": {
+      "type": "operation",
+      "input": {
+        "target": "com.stackit.ske#DeleteClusterRequest"
+      },
+      "output": {
+        "target": "com.stackit.ske#DeleteClusterResponse"
+      },
+      "errors": [
+        {
+          "target": "com.stackit.ske#BadRequest"
+        },
+        {
+          "target": "com.stackit.ske#NotFound"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "DELETE",
+          "uri": "/v2/projects/{projectId}/regions/{region}/clusters/{clusterName}",
+          "code": 200,
+          "baseUrl": "https://ske.api.stackit.cloud"
+        },
+        "smithy.api#documentation": "Delete a cluster\n\nDelete Kubernetes cluster specified by the identifier, belonging to the project specified by `projectId`."
+      }
+    },
+    "com.stackit.ske#CompleteCredentialsRotationRequest": {
+      "type": "structure",
+      "members": {
+        "projectId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        },
+        "region": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        },
+        "clusterName": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.stackit.ske#CompleteCredentialsRotationResponse": {
+      "type": "structure",
+      "members": {
+        "body": {
+          "target": "smithy.api#Document",
+          "traits": {
+            "com.distilled.openapi#rawResponse": {},
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
+      }
+    },
+    "com.stackit.ske#CompleteCredentialsRotation": {
+      "type": "operation",
+      "input": {
+        "target": "com.stackit.ske#CompleteCredentialsRotationRequest"
+      },
+      "output": {
+        "target": "com.stackit.ske#CompleteCredentialsRotationResponse"
+      },
+      "errors": [
+        {
+          "target": "com.stackit.ske#BadRequest"
+        },
+        {
+          "target": "com.stackit.ske#NotFound"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/v2/projects/{projectId}/regions/{region}/clusters/{clusterName}/complete-credentials-rotation",
+          "code": 200,
+          "baseUrl": "https://ske.api.stackit.cloud"
+        },
+        "smithy.api#documentation": "Complete cluster credentials rotation\n\nComplete cluster credentials rotation. This is step 2 of a two-step process. Start the rotation using [start-credentials-rotation](#tag/Credentials/operation/SkeService_StartClusterCredentialsRotation)."
+      }
+    },
+    "com.stackit.ske#TriggerHibernateRequest": {
+      "type": "structure",
+      "members": {
+        "projectId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        },
+        "region": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        },
+        "clusterName": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.stackit.ske#TriggerHibernateResponse": {
+      "type": "structure",
+      "members": {
+        "body": {
+          "target": "smithy.api#Document",
+          "traits": {
+            "com.distilled.openapi#rawResponse": {},
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
+      }
+    },
+    "com.stackit.ske#TriggerHibernate": {
+      "type": "operation",
+      "input": {
+        "target": "com.stackit.ske#TriggerHibernateRequest"
+      },
+      "output": {
+        "target": "com.stackit.ske#TriggerHibernateResponse"
+      },
+      "errors": [
+        {
+          "target": "com.stackit.ske#BadRequest"
+        },
+        {
+          "target": "com.stackit.ske#NotFound"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/v2/projects/{projectId}/regions/{region}/clusters/{clusterName}/hibernate",
+          "code": 200,
+          "baseUrl": "https://ske.api.stackit.cloud"
+        },
+        "smithy.api#documentation": "Trigger cluster hibernation\n\nTrigger immediate hibernation of the cluster. If the cluster is already in hibernation state, this endpoint does nothing."
+      }
+    },
+    "com.stackit.ske#CreateKubeconfigRequest": {
+      "type": "structure",
+      "members": {
+        "projectId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        },
+        "region": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        },
+        "clusterName": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        },
+        "expirationSeconds": {
+          "target": "smithy.api#String"
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.stackit.ske#Kubeconfig": {
+      "type": "structure",
+      "members": {
+        "expirationTimestamp": {
+          "target": "smithy.api#String"
+        },
+        "kubeconfig": {
+          "target": "smithy.api#String"
+        }
+      },
+      "traits": {}
+    },
+    "com.stackit.ske#CreateKubeconfig": {
+      "type": "operation",
+      "input": {
+        "target": "com.stackit.ske#CreateKubeconfigRequest"
+      },
+      "output": {
+        "target": "com.stackit.ske#Kubeconfig"
+      },
+      "errors": [
+        {
+          "target": "com.stackit.ske#BadRequest"
+        },
+        {
+          "target": "com.stackit.ske#NotFound"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/v2/projects/{projectId}/regions/{region}/clusters/{clusterName}/kubeconfig",
+          "code": 200,
+          "baseUrl": "https://ske.api.stackit.cloud"
+        },
+        "smithy.api#documentation": "Create an admin kubeconfig\n\nCreate a new admin kubeconfig for the cluster. You can specify the expiration (in seconds) in the request body. Its value must be in the range from 600 (10 min) to 15552000 (6 months). Defaults to 3600."
+      }
+    },
+    "com.stackit.ske#GetIDPKubeconfigRequest": {
+      "type": "structure",
+      "members": {
+        "projectId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        },
+        "region": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        },
+        "clusterName": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.stackit.ske#IDPKubeconfig": {
+      "type": "structure",
+      "members": {
+        "kubeconfig": {
+          "target": "smithy.api#String"
+        }
+      },
+      "traits": {}
+    },
+    "com.stackit.ske#GetIDPKubeconfig": {
+      "type": "operation",
+      "input": {
+        "target": "com.stackit.ske#GetIDPKubeconfigRequest"
+      },
+      "output": {
+        "target": "com.stackit.ske#IDPKubeconfig"
+      },
+      "errors": [
+        {
+          "target": "com.stackit.ske#BadRequest"
+        },
+        {
+          "target": "com.stackit.ske#NotFound"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/v2/projects/{projectId}/regions/{region}/clusters/{clusterName}/kubeconfig/idp",
+          "code": 200,
+          "baseUrl": "https://ske.api.stackit.cloud"
+        },
+        "smithy.api#documentation": "Get a kubeconfig to authenticate via IDP for use with the STACKIT CLI\n\nA kubeconfig retrieved using this endpoint does not contain any credentials and instead obtains valid credentials via the STACKIT CLI. Permissions must be granted to the user beforehand using an admin kubeconfig."
+      }
+    },
+    "com.stackit.ske#GetLoginKubeconfigRequest": {
+      "type": "structure",
+      "members": {
+        "projectId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        },
+        "region": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        },
+        "clusterName": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.stackit.ske#LoginKubeconfig": {
+      "type": "structure",
+      "members": {
+        "kubeconfig": {
+          "target": "smithy.api#String"
+        }
+      },
+      "traits": {}
+    },
+    "com.stackit.ske#GetLoginKubeconfig": {
+      "type": "operation",
+      "input": {
+        "target": "com.stackit.ske#GetLoginKubeconfigRequest"
+      },
+      "output": {
+        "target": "com.stackit.ske#LoginKubeconfig"
+      },
+      "errors": [
+        {
+          "target": "com.stackit.ske#BadRequest"
+        },
+        {
+          "target": "com.stackit.ske#NotFound"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/v2/projects/{projectId}/regions/{region}/clusters/{clusterName}/kubeconfig/login",
+          "code": 200,
+          "baseUrl": "https://ske.api.stackit.cloud"
+        },
+        "smithy.api#documentation": "Get an admin kubeconfig for use with the STACKIT CLI\n\nA admin kubeconfig retrieved using this endpoint does not contain any credentials and instead obtains valid credentials via the STACKIT CLI."
+      }
+    },
+    "com.stackit.ske#TriggerMaintenanceRequest": {
+      "type": "structure",
+      "members": {
+        "projectId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        },
+        "region": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        },
+        "clusterName": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.stackit.ske#TriggerMaintenanceResponse": {
+      "type": "structure",
+      "members": {
+        "body": {
+          "target": "smithy.api#Document",
+          "traits": {
+            "com.distilled.openapi#rawResponse": {},
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
+      }
+    },
+    "com.stackit.ske#TriggerMaintenance": {
+      "type": "operation",
+      "input": {
+        "target": "com.stackit.ske#TriggerMaintenanceRequest"
+      },
+      "output": {
+        "target": "com.stackit.ske#TriggerMaintenanceResponse"
+      },
+      "errors": [
+        {
+          "target": "com.stackit.ske#BadRequest"
+        },
+        {
+          "target": "com.stackit.ske#NotFound"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/v2/projects/{projectId}/regions/{region}/clusters/{clusterName}/maintenance",
+          "code": 200,
+          "baseUrl": "https://ske.api.stackit.cloud"
+        },
+        "smithy.api#documentation": "Trigger cluster maintenance\n\nTrigger immediate maintenance of the cluster. The autoUpdate configuration specified in the Maintenance object of the cluster spec defines what is updated during the immediate maintenance operation."
+      }
+    },
+    "com.stackit.ske#TriggerReconcileRequest": {
+      "type": "structure",
+      "members": {
+        "projectId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        },
+        "region": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        },
+        "clusterName": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.stackit.ske#TriggerReconcileResponse": {
+      "type": "structure",
+      "members": {
+        "body": {
+          "target": "smithy.api#Document",
+          "traits": {
+            "com.distilled.openapi#rawResponse": {},
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
+      }
+    },
+    "com.stackit.ske#TriggerReconcile": {
+      "type": "operation",
+      "input": {
+        "target": "com.stackit.ske#TriggerReconcileRequest"
+      },
+      "output": {
+        "target": "com.stackit.ske#TriggerReconcileResponse"
+      },
+      "errors": [
+        {
+          "target": "com.stackit.ske#BadRequest"
+        },
+        {
+          "target": "com.stackit.ske#NotFound"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/v2/projects/{projectId}/regions/{region}/clusters/{clusterName}/reconcile",
+          "code": 200,
+          "baseUrl": "https://ske.api.stackit.cloud"
+        },
+        "smithy.api#documentation": "Trigger cluster reconciliation\n\nTrigger immediate reconciliation of the complete cluster without changing the cluster specification."
+      }
+    },
+    "com.stackit.ske#StartCredentialsRotationRequest": {
+      "type": "structure",
+      "members": {
+        "projectId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        },
+        "region": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        },
+        "clusterName": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.stackit.ske#StartCredentialsRotationResponse": {
+      "type": "structure",
+      "members": {
+        "body": {
+          "target": "smithy.api#Document",
+          "traits": {
+            "com.distilled.openapi#rawResponse": {},
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
+      }
+    },
+    "com.stackit.ske#StartCredentialsRotation": {
+      "type": "operation",
+      "input": {
+        "target": "com.stackit.ske#StartCredentialsRotationRequest"
+      },
+      "output": {
+        "target": "com.stackit.ske#StartCredentialsRotationResponse"
+      },
+      "errors": [
+        {
+          "target": "com.stackit.ske#BadRequest"
+        },
+        {
+          "target": "com.stackit.ske#NotFound"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/v2/projects/{projectId}/regions/{region}/clusters/{clusterName}/start-credentials-rotation",
+          "code": 200,
+          "baseUrl": "https://ske.api.stackit.cloud"
+        },
+        "smithy.api#documentation": "Start cluster credentials rotation\n\nStart cluster credentials rotation. This is step 1 of a two-step process. Complete the rotation using [complete-credentials-rotation](#tag/Credentials/operation/SkeService_CompleteClusterCredentialsRotation)."
+      }
+    },
+    "com.stackit.ske#TriggerWakeupRequest": {
+      "type": "structure",
+      "members": {
+        "projectId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        },
+        "region": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        },
+        "clusterName": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.stackit.ske#TriggerWakeupResponse": {
+      "type": "structure",
+      "members": {
+        "body": {
+          "target": "smithy.api#Document",
+          "traits": {
+            "com.distilled.openapi#rawResponse": {},
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
+      }
+    },
+    "com.stackit.ske#TriggerWakeup": {
+      "type": "operation",
+      "input": {
+        "target": "com.stackit.ske#TriggerWakeupRequest"
+      },
+      "output": {
+        "target": "com.stackit.ske#TriggerWakeupResponse"
+      },
+      "errors": [
+        {
+          "target": "com.stackit.ske#BadRequest"
+        },
+        {
+          "target": "com.stackit.ske#NotFound"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/v2/projects/{projectId}/regions/{region}/clusters/{clusterName}/wakeup",
+          "code": 200,
+          "baseUrl": "https://ske.api.stackit.cloud"
+        },
+        "smithy.api#documentation": "Trigger cluster wakeup\n\nTrigger immediate wake up of the cluster. If the cluster is already in running state, this endpoint does nothing."
+      }
+    },
+    "com.stackit.ske#ListProviderOptionsRequestVersionState": {
+      "type": "enum",
+      "members": {
+        "SUPPORTED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "SUPPORTED"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.stackit.ske#ListProviderOptionsRequest": {
+      "type": "structure",
+      "members": {
+        "region": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        },
+        "versionState": {
+          "target": "com.stackit.ske#ListProviderOptionsRequestVersionState",
+          "traits": {
+            "smithy.api#httpQuery": "versionState"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.stackit.ske#ProviderOptions": {
+      "type": "structure",
+      "members": {
+        "availabilityZones": {
+          "target": "com.stackit.ske#ProviderOptionsAvailabilityZonesList"
+        },
+        "kubernetesVersions": {
+          "target": "com.stackit.ske#ProviderOptionsKubernetesVersionsList"
+        },
+        "machineImages": {
+          "target": "com.stackit.ske#ProviderOptionsMachineImagesList"
+        },
+        "machineTypes": {
+          "target": "com.stackit.ske#ProviderOptionsMachineTypesList"
+        },
+        "volumeTypes": {
+          "target": "com.stackit.ske#ProviderOptionsVolumeTypesList"
+        }
+      },
+      "traits": {}
+    },
+    "com.stackit.ske#AvailabilityZone": {
+      "type": "structure",
+      "members": {
+        "name": {
+          "target": "smithy.api#String"
+        }
+      },
+      "traits": {}
+    },
+    "com.stackit.ske#ProviderOptionsAvailabilityZonesList": {
+      "type": "list",
+      "member": {
+        "target": "com.stackit.ske#AvailabilityZone"
+      },
+      "traits": {}
+    },
+    "com.stackit.ske#KubernetesVersion": {
+      "type": "structure",
+      "members": {
+        "expirationDate": {
+          "target": "smithy.api#String"
+        },
+        "featureGates": {
+          "target": "com.stackit.ske#KubernetesVersionFeatureGatesMap"
+        },
+        "state": {
+          "target": "smithy.api#String"
+        },
+        "version": {
+          "target": "smithy.api#String"
+        }
+      },
+      "traits": {}
+    },
+    "com.stackit.ske#KubernetesVersionFeatureGatesMap": {
+      "type": "map",
+      "key": {
+        "target": "smithy.api#String"
+      },
+      "value": {
+        "target": "smithy.api#String"
+      },
+      "traits": {}
+    },
+    "com.stackit.ske#ProviderOptionsKubernetesVersionsList": {
+      "type": "list",
+      "member": {
+        "target": "com.stackit.ske#KubernetesVersion"
+      },
+      "traits": {}
+    },
+    "com.stackit.ske#MachineImage": {
+      "type": "structure",
+      "members": {
+        "name": {
+          "target": "smithy.api#String"
+        },
+        "versions": {
+          "target": "com.stackit.ske#MachineImageVersionsList"
+        }
+      },
+      "traits": {}
+    },
+    "com.stackit.ske#MachineImageVersion": {
+      "type": "structure",
+      "members": {
+        "cri": {
+          "target": "com.stackit.ske#MachineImageVersionCriList"
+        },
+        "expirationDate": {
+          "target": "smithy.api#String"
+        },
+        "state": {
+          "target": "smithy.api#String"
+        },
+        "version": {
+          "target": "smithy.api#String"
+        }
+      },
+      "traits": {}
+    },
+    "com.stackit.ske#MachineImageVersionCriList": {
+      "type": "list",
+      "member": {
+        "target": "com.stackit.ske#CRI"
+      },
+      "traits": {}
+    },
+    "com.stackit.ske#MachineImageVersionsList": {
+      "type": "list",
+      "member": {
+        "target": "com.stackit.ske#MachineImageVersion"
+      },
+      "traits": {}
+    },
+    "com.stackit.ske#ProviderOptionsMachineImagesList": {
+      "type": "list",
+      "member": {
+        "target": "com.stackit.ske#MachineImage"
+      },
+      "traits": {}
+    },
+    "com.stackit.ske#MachineType": {
+      "type": "structure",
+      "members": {
+        "architecture": {
+          "target": "smithy.api#String"
+        },
+        "cpu": {
+          "target": "smithy.api#Integer"
+        },
+        "gpu": {
+          "target": "smithy.api#Integer"
+        },
+        "memory": {
+          "target": "smithy.api#Integer"
+        },
+        "name": {
+          "target": "smithy.api#String"
+        }
+      },
+      "traits": {}
+    },
+    "com.stackit.ske#ProviderOptionsMachineTypesList": {
+      "type": "list",
+      "member": {
+        "target": "com.stackit.ske#MachineType"
+      },
+      "traits": {}
+    },
+    "com.stackit.ske#VolumeType": {
+      "type": "structure",
+      "members": {
+        "name": {
+          "target": "smithy.api#String"
+        }
+      },
+      "traits": {}
+    },
+    "com.stackit.ske#ProviderOptionsVolumeTypesList": {
+      "type": "list",
+      "member": {
+        "target": "com.stackit.ske#VolumeType"
+      },
+      "traits": {}
+    },
+    "com.stackit.ske#ListProviderOptions": {
+      "type": "operation",
+      "input": {
+        "target": "com.stackit.ske#ListProviderOptionsRequest"
+      },
+      "output": {
+        "target": "com.stackit.ske#ProviderOptions"
+      },
+      "errors": [
+        {
+          "target": "com.stackit.ske#BadRequest"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/v2/regions/{region}/provider-options",
+          "code": 200,
+          "baseUrl": "https://ske.api.stackit.cloud"
+        },
+        "smithy.api#documentation": "List provider options\n\nReturns available Kubernetes versions, availability zones, machine types, OS versions and volume types for the cluster nodes."
+      }
+    },
+    "com.stackit.ske#BadRequest": {
+      "type": "structure",
+      "members": {},
+      "traits": {
+        "smithy.api#error": "client",
+        "smithy.api#httpError": 400,
+        "com.distilled.openapi#errorMatchers": [
+          {
+            "status": 400
+          }
+        ]
+      }
+    },
+    "com.stackit.ske#NotFound": {
+      "type": "structure",
+      "members": {},
+      "traits": {
+        "smithy.api#error": "client",
+        "smithy.api#httpError": 404,
+        "com.distilled.openapi#errorMatchers": [
+          {
+            "status": 404
+          }
+        ]
+      }
+    },
+    "com.stackit.ske#Ske": {
+      "type": "service",
+      "version": "2.0",
+      "operations": [
+        {
+          "target": "com.stackit.ske#ListClusters"
+        },
+        {
+          "target": "com.stackit.ske#GetCluster"
+        },
+        {
+          "target": "com.stackit.ske#CreateOrUpdateCluster"
+        },
+        {
+          "target": "com.stackit.ske#DeleteCluster"
+        },
+        {
+          "target": "com.stackit.ske#CompleteCredentialsRotation"
+        },
+        {
+          "target": "com.stackit.ske#TriggerHibernate"
+        },
+        {
+          "target": "com.stackit.ske#CreateKubeconfig"
+        },
+        {
+          "target": "com.stackit.ske#GetIDPKubeconfig"
+        },
+        {
+          "target": "com.stackit.ske#GetLoginKubeconfig"
+        },
+        {
+          "target": "com.stackit.ske#TriggerMaintenance"
+        },
+        {
+          "target": "com.stackit.ske#TriggerReconcile"
+        },
+        {
+          "target": "com.stackit.ske#StartCredentialsRotation"
+        },
+        {
+          "target": "com.stackit.ske#TriggerWakeup"
+        },
+        {
+          "target": "com.stackit.ske#ListProviderOptions"
+        }
+      ],
+      "traits": {
+        "smithy.api#title": "STACKIT Kubernetes Engine API",
+        "smithy.api#documentation": "The SKE API provides endpoints to create, update or delete clusters within STACKIT projects and to trigger further cluster management tasks."
+      }
+    }
+  }
+}

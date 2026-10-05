@@ -1819,7 +1819,7 @@
         "clientSignalsFailed": {
           "target": "smithy.api#Boolean",
           "traits": {
-            "smithy.api#documentation": "Output only. Indicates a failure collecting reCAPTCHA signals at token generation. This might be a transient condition, or persistent for a user’s environment."
+            "smithy.api#documentation": "Output only. Indicates a failure collecting reCAPTCHA signals at token generation. This might be a transient condition, or persistent for a user\u2019s environment."
           }
         },
         "valid": {
@@ -3960,6 +3960,9 @@
         },
         {
           "target": "com.gcp.recaptchaenterprise_v1#Conflict"
+        },
+        {
+          "target": "com.gcp.recaptchaenterprise_v1#FirewallPolicyApiUnavailable"
         }
       ],
       "traits": {
@@ -3997,6 +4000,9 @@
         },
         {
           "target": "com.gcp.recaptchaenterprise_v1#Forbidden"
+        },
+        {
+          "target": "com.gcp.recaptchaenterprise_v1#FirewallPolicyApiUnavailable"
         }
       ],
       "traits": {
@@ -4054,6 +4060,9 @@
         },
         {
           "target": "com.gcp.recaptchaenterprise_v1#Conflict"
+        },
+        {
+          "target": "com.gcp.recaptchaenterprise_v1#FirewallPolicyApiUnavailable"
         }
       ],
       "traits": {
@@ -4105,6 +4114,9 @@
         },
         {
           "target": "com.gcp.recaptchaenterprise_v1#Forbidden"
+        },
+        {
+          "target": "com.gcp.recaptchaenterprise_v1#FirewallPolicyApiUnavailable"
         }
       ],
       "traits": {
@@ -4152,6 +4164,9 @@
         },
         {
           "target": "com.gcp.recaptchaenterprise_v1#Conflict"
+        },
+        {
+          "target": "com.gcp.recaptchaenterprise_v1#FirewallPolicyApiUnavailable"
         }
       ],
       "traits": {
@@ -4202,6 +4217,9 @@
         },
         {
           "target": "com.gcp.recaptchaenterprise_v1#Conflict"
+        },
+        {
+          "target": "com.gcp.recaptchaenterprise_v1#FirewallPolicyApiUnavailable"
         }
       ],
       "traits": {
@@ -4412,6 +4430,9 @@
         },
         {
           "target": "com.gcp.recaptchaenterprise_v1#Conflict"
+        },
+        {
+          "target": "com.gcp.recaptchaenterprise_v1#InvalidSiteKey"
         }
       ],
       "traits": {
@@ -4470,6 +4491,40 @@
           "uri": "v1/{+project}/relatedaccountgroupmemberships:search"
         },
         "smithy.api#documentation": "Search group memberships related to a given account."
+      }
+    },
+    "com.gcp.recaptchaenterprise_v1#FirewallPolicyApiUnavailable": {
+      "type": "structure",
+      "members": {},
+      "traits": {
+        "smithy.api#error": "client",
+        "smithy.api#httpError": 403,
+        "smithy.api#documentation": "The project has no access to the reCAPTCHA firewall policy API (HTTP 403: \"The firewall policy API is not provided by this environment.\"). Not retryable; request access per the firewall policy documentation.",
+        "com.gcp.protocols#errorMatchers": [
+          {
+            "status": 403,
+            "message": {
+              "includes": "firewall policy API is not provided"
+            }
+          }
+        ]
+      }
+    },
+    "com.gcp.recaptchaenterprise_v1#InvalidSiteKey": {
+      "type": "structure",
+      "members": {},
+      "traits": {
+        "smithy.api#error": "client",
+        "smithy.api#httpError": 400,
+        "smithy.api#documentation": "The event's site key is unknown to reCAPTCHA (HTTP 400: 'siteKey is invalid'). Retryable briefly after the key is created; otherwise the key id is wrong.",
+        "com.gcp.protocols#errorMatchers": [
+          {
+            "status": 400,
+            "message": {
+              "includes": "siteKey is invalid"
+            }
+          }
+        ]
       }
     }
   }

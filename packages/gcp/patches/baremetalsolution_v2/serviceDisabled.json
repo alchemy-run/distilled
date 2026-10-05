@@ -1,0 +1,390 @@
+{
+  "description": "Type the API-disabled answer (HTTP 403 PERMISSION_DENIED, reason SERVICE_DISABLED: 'Bare Metal Solution API has not been used in project N before or it is disabled.'). It surfaced as the generic Forbidden, so callers could not tell a disabled service from a missing permission.",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.baremetalsolution_v2#ServiceDisabled",
+      "value": {
+        "type": "structure",
+        "members": {},
+        "traits": {
+          "smithy.api#error": "client",
+          "smithy.api#httpError": 403,
+          "smithy.api#documentation": "The Bare Metal Solution API is not enabled for the calling project (HTTP 403 SERVICE_DISABLED).",
+          "com.gcp.protocols#errorMatchers": [
+            {
+              "status": 403,
+              "message": {
+                "includes": "has not been used in project"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.baremetalsolution_v2#CreateProjectsLocationsNfsShares/errors/-",
+      "value": {
+        "target": "com.gcp.baremetalsolution_v2#ServiceDisabled"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.baremetalsolution_v2#CreateProjectsLocationsProvisioningConfigs/errors/-",
+      "value": {
+        "target": "com.gcp.baremetalsolution_v2#ServiceDisabled"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.baremetalsolution_v2#CreateProjectsLocationsSshKeys/errors/-",
+      "value": {
+        "target": "com.gcp.baremetalsolution_v2#ServiceDisabled"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.baremetalsolution_v2#CreateProjectsLocationsVolumesSnapshots/errors/-",
+      "value": {
+        "target": "com.gcp.baremetalsolution_v2#ServiceDisabled"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.baremetalsolution_v2#DeleteProjectsLocationsNfsShares/errors/-",
+      "value": {
+        "target": "com.gcp.baremetalsolution_v2#ServiceDisabled"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.baremetalsolution_v2#DeleteProjectsLocationsSshKeys/errors/-",
+      "value": {
+        "target": "com.gcp.baremetalsolution_v2#ServiceDisabled"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.baremetalsolution_v2#DeleteProjectsLocationsVolumesSnapshots/errors/-",
+      "value": {
+        "target": "com.gcp.baremetalsolution_v2#ServiceDisabled"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.baremetalsolution_v2#DetachLunProjectsLocationsInstances/errors/-",
+      "value": {
+        "target": "com.gcp.baremetalsolution_v2#ServiceDisabled"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.baremetalsolution_v2#DisableHyperthreadingProjectsLocationsInstances/errors/-",
+      "value": {
+        "target": "com.gcp.baremetalsolution_v2#ServiceDisabled"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.baremetalsolution_v2#DisableInteractiveSerialConsoleProjectsLocationsInstances/errors/-",
+      "value": {
+        "target": "com.gcp.baremetalsolution_v2#ServiceDisabled"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.baremetalsolution_v2#EnableHyperthreadingProjectsLocationsInstances/errors/-",
+      "value": {
+        "target": "com.gcp.baremetalsolution_v2#ServiceDisabled"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.baremetalsolution_v2#EnableInteractiveSerialConsoleProjectsLocationsInstances/errors/-",
+      "value": {
+        "target": "com.gcp.baremetalsolution_v2#ServiceDisabled"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.baremetalsolution_v2#EvictProjectsLocationsVolumes/errors/-",
+      "value": {
+        "target": "com.gcp.baremetalsolution_v2#ServiceDisabled"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.baremetalsolution_v2#EvictProjectsLocationsVolumesLuns/errors/-",
+      "value": {
+        "target": "com.gcp.baremetalsolution_v2#ServiceDisabled"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.baremetalsolution_v2#GetProjectsLocations/errors/-",
+      "value": {
+        "target": "com.gcp.baremetalsolution_v2#ServiceDisabled"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.baremetalsolution_v2#GetProjectsLocationsInstances/errors/-",
+      "value": {
+        "target": "com.gcp.baremetalsolution_v2#ServiceDisabled"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.baremetalsolution_v2#GetProjectsLocationsNetworks/errors/-",
+      "value": {
+        "target": "com.gcp.baremetalsolution_v2#ServiceDisabled"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.baremetalsolution_v2#GetProjectsLocationsNfsShares/errors/-",
+      "value": {
+        "target": "com.gcp.baremetalsolution_v2#ServiceDisabled"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.baremetalsolution_v2#GetProjectsLocationsOperations/errors/-",
+      "value": {
+        "target": "com.gcp.baremetalsolution_v2#ServiceDisabled"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.baremetalsolution_v2#GetProjectsLocationsOsImages/errors/-",
+      "value": {
+        "target": "com.gcp.baremetalsolution_v2#ServiceDisabled"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.baremetalsolution_v2#GetProjectsLocationsProvisioningConfigs/errors/-",
+      "value": {
+        "target": "com.gcp.baremetalsolution_v2#ServiceDisabled"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.baremetalsolution_v2#GetProjectsLocationsVolumes/errors/-",
+      "value": {
+        "target": "com.gcp.baremetalsolution_v2#ServiceDisabled"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.baremetalsolution_v2#GetProjectsLocationsVolumesLuns/errors/-",
+      "value": {
+        "target": "com.gcp.baremetalsolution_v2#ServiceDisabled"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.baremetalsolution_v2#GetProjectsLocationsVolumesSnapshots/errors/-",
+      "value": {
+        "target": "com.gcp.baremetalsolution_v2#ServiceDisabled"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.baremetalsolution_v2#ListNetworkUsageProjectsLocationsNetworks/errors/-",
+      "value": {
+        "target": "com.gcp.baremetalsolution_v2#ServiceDisabled"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.baremetalsolution_v2#ListProjectsLocations/errors/-",
+      "value": {
+        "target": "com.gcp.baremetalsolution_v2#ServiceDisabled"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.baremetalsolution_v2#ListProjectsLocationsInstances/errors/-",
+      "value": {
+        "target": "com.gcp.baremetalsolution_v2#ServiceDisabled"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.baremetalsolution_v2#ListProjectsLocationsNetworks/errors/-",
+      "value": {
+        "target": "com.gcp.baremetalsolution_v2#ServiceDisabled"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.baremetalsolution_v2#ListProjectsLocationsNfsShares/errors/-",
+      "value": {
+        "target": "com.gcp.baremetalsolution_v2#ServiceDisabled"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.baremetalsolution_v2#ListProjectsLocationsOsImages/errors/-",
+      "value": {
+        "target": "com.gcp.baremetalsolution_v2#ServiceDisabled"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.baremetalsolution_v2#ListProjectsLocationsProvisioningQuotas/errors/-",
+      "value": {
+        "target": "com.gcp.baremetalsolution_v2#ServiceDisabled"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.baremetalsolution_v2#ListProjectsLocationsSshKeys/errors/-",
+      "value": {
+        "target": "com.gcp.baremetalsolution_v2#ServiceDisabled"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.baremetalsolution_v2#ListProjectsLocationsVolumes/errors/-",
+      "value": {
+        "target": "com.gcp.baremetalsolution_v2#ServiceDisabled"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.baremetalsolution_v2#ListProjectsLocationsVolumesLuns/errors/-",
+      "value": {
+        "target": "com.gcp.baremetalsolution_v2#ServiceDisabled"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.baremetalsolution_v2#ListProjectsLocationsVolumesSnapshots/errors/-",
+      "value": {
+        "target": "com.gcp.baremetalsolution_v2#ServiceDisabled"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.baremetalsolution_v2#LoadAuthInfoProjectsLocationsInstances/errors/-",
+      "value": {
+        "target": "com.gcp.baremetalsolution_v2#ServiceDisabled"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.baremetalsolution_v2#PatchProjectsLocationsInstances/errors/-",
+      "value": {
+        "target": "com.gcp.baremetalsolution_v2#ServiceDisabled"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.baremetalsolution_v2#PatchProjectsLocationsNetworks/errors/-",
+      "value": {
+        "target": "com.gcp.baremetalsolution_v2#ServiceDisabled"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.baremetalsolution_v2#PatchProjectsLocationsNfsShares/errors/-",
+      "value": {
+        "target": "com.gcp.baremetalsolution_v2#ServiceDisabled"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.baremetalsolution_v2#PatchProjectsLocationsProvisioningConfigs/errors/-",
+      "value": {
+        "target": "com.gcp.baremetalsolution_v2#ServiceDisabled"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.baremetalsolution_v2#PatchProjectsLocationsVolumes/errors/-",
+      "value": {
+        "target": "com.gcp.baremetalsolution_v2#ServiceDisabled"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.baremetalsolution_v2#ReimageProjectsLocationsInstances/errors/-",
+      "value": {
+        "target": "com.gcp.baremetalsolution_v2#ServiceDisabled"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.baremetalsolution_v2#RenameProjectsLocationsInstances/errors/-",
+      "value": {
+        "target": "com.gcp.baremetalsolution_v2#ServiceDisabled"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.baremetalsolution_v2#RenameProjectsLocationsNetworks/errors/-",
+      "value": {
+        "target": "com.gcp.baremetalsolution_v2#ServiceDisabled"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.baremetalsolution_v2#RenameProjectsLocationsNfsShares/errors/-",
+      "value": {
+        "target": "com.gcp.baremetalsolution_v2#ServiceDisabled"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.baremetalsolution_v2#RenameProjectsLocationsVolumes/errors/-",
+      "value": {
+        "target": "com.gcp.baremetalsolution_v2#ServiceDisabled"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.baremetalsolution_v2#ResetProjectsLocationsInstances/errors/-",
+      "value": {
+        "target": "com.gcp.baremetalsolution_v2#ServiceDisabled"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.baremetalsolution_v2#ResizeProjectsLocationsVolumes/errors/-",
+      "value": {
+        "target": "com.gcp.baremetalsolution_v2#ServiceDisabled"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.baremetalsolution_v2#RestoreVolumeSnapshotProjectsLocationsVolumesSnapshots/errors/-",
+      "value": {
+        "target": "com.gcp.baremetalsolution_v2#ServiceDisabled"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.baremetalsolution_v2#StartProjectsLocationsInstances/errors/-",
+      "value": {
+        "target": "com.gcp.baremetalsolution_v2#ServiceDisabled"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.baremetalsolution_v2#StopProjectsLocationsInstances/errors/-",
+      "value": {
+        "target": "com.gcp.baremetalsolution_v2#ServiceDisabled"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.baremetalsolution_v2#SubmitProjectsLocationsProvisioningConfigs/errors/-",
+      "value": {
+        "target": "com.gcp.baremetalsolution_v2#ServiceDisabled"
+      }
+    }
+  ]
+}

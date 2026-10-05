@@ -1,0 +1,2136 @@
+{
+  "smithy": "2.0",
+  "metadata": {
+    "suppressions": [
+      {
+        "id": "HttpUriConflict",
+        "namespace": "*"
+      },
+      {
+        "id": "HttpMethodSemantics",
+        "namespace": "*"
+      },
+      {
+        "id": "UnreferencedShape",
+        "namespace": "*"
+      }
+    ],
+    "distilled.finalized": true
+  },
+  "shapes": {
+    "com.stackit.telemetry_link#GetFolderTelemetryLinkRequestRegionId": {
+      "type": "enum",
+      "members": {
+        "EU01": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "eu01"
+          }
+        },
+        "EU02": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "eu02"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.stackit.telemetry_link#GetFolderTelemetryLinkRequest": {
+      "type": "structure",
+      "members": {
+        "folderId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The STACKIT portal folder UUID the resource is located in."
+          }
+        },
+        "regionId": {
+          "target": "com.stackit.telemetry_link#GetFolderTelemetryLinkRequestRegionId",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The STACKIT region name the resource is located in."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.stackit.telemetry_link#TelemetryLinkResponse": {
+      "type": "structure",
+      "members": {
+        "accessToken": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The access token.",
+            "smithy.api#sensitive": {}
+          }
+        },
+        "createTime": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The point in time the resource was created.",
+            "smithy.api#required": {}
+          }
+        },
+        "description": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The description is a longer text chosen by the user to provide more context for the resource."
+          }
+        },
+        "displayName": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The display name is a short name chosen by the user to identify the resource.",
+            "smithy.api#required": {}
+          }
+        },
+        "enabled": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Indicates whether routing through the link to a telemetry-router is active.",
+            "smithy.api#required": {}
+          }
+        },
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "A auto generated unique id which identifies the resource.",
+            "smithy.api#required": {}
+          }
+        },
+        "regionId": {
+          "target": "com.stackit.telemetry_link#TelemetryLinkResponseRegionId",
+          "traits": {
+            "smithy.api#documentation": "The STACKIT region name the resource is located in.",
+            "smithy.api#required": {}
+          }
+        },
+        "status": {
+          "target": "com.stackit.telemetry_link#TelemetryLinkResponseStatus",
+          "traits": {
+            "smithy.api#documentation": "The current state of the link.",
+            "smithy.api#required": {}
+          }
+        },
+        "telemetryRouterId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The ID of the telemetry-router to route the telemetry data.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.stackit.telemetry_link#TelemetryLinkResponseRegionId": {
+      "type": "enum",
+      "members": {
+        "EU01": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "eu01"
+          }
+        },
+        "EU02": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "eu02"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The STACKIT region name the resource is located in."
+      }
+    },
+    "com.stackit.telemetry_link#TelemetryLinkResponseStatus": {
+      "type": "enum",
+      "members": {
+        "ACTIVE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "active"
+          }
+        },
+        "INACTIVE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "inactive"
+          }
+        },
+        "FAILED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "failed"
+          }
+        },
+        "RECONCILING": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "reconciling"
+          }
+        },
+        "DELETING": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "deleting"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The current state of the link."
+      }
+    },
+    "com.stackit.telemetry_link#GetFolderTelemetryLink": {
+      "type": "operation",
+      "input": {
+        "target": "com.stackit.telemetry_link#GetFolderTelemetryLinkRequest"
+      },
+      "output": {
+        "target": "com.stackit.telemetry_link#TelemetryLinkResponse"
+      },
+      "errors": [
+        {
+          "target": "com.stackit.telemetry_link#BadRequest"
+        },
+        {
+          "target": "com.stackit.telemetry_link#NotFound"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/v1/folders/{folderId}/regions/{regionId}/telemetry-link",
+          "code": 200,
+          "baseUrl": "https://telemetry-link.api.stackit.cloud"
+        },
+        "smithy.api#documentation": "Returns the details for the given Telemetry Link within the folder."
+      }
+    },
+    "com.stackit.telemetry_link#CreateOrUpdateFolderTelemetryLinkRequestRegionId": {
+      "type": "enum",
+      "members": {
+        "EU01": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "eu01"
+          }
+        },
+        "EU02": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "eu02"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.stackit.telemetry_link#CreateOrUpdateFolderTelemetryLinkRequest": {
+      "type": "structure",
+      "members": {
+        "folderId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The STACKIT portal folder UUID the resource is located in."
+          }
+        },
+        "regionId": {
+          "target": "com.stackit.telemetry_link#CreateOrUpdateFolderTelemetryLinkRequestRegionId",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The STACKIT region name the resource is located in."
+          }
+        },
+        "accessToken": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The access token.",
+            "smithy.api#required": {},
+            "smithy.api#sensitive": {}
+          }
+        },
+        "description": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The description is a longer text chosen by the user to provide more context for the resource."
+          }
+        },
+        "displayName": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The display name is a short name chosen by the user to identify the resource.",
+            "smithy.api#required": {}
+          }
+        },
+        "enabled": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Indicates whether routing through the link to a telemetry-router is active."
+          }
+        },
+        "telemetryRouterId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The ID of the telemetry-router to route the telemetry data.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.stackit.telemetry_link#CreateOrUpdateFolderTelemetryLink": {
+      "type": "operation",
+      "input": {
+        "target": "com.stackit.telemetry_link#CreateOrUpdateFolderTelemetryLinkRequest"
+      },
+      "output": {
+        "target": "com.stackit.telemetry_link#TelemetryLinkResponse"
+      },
+      "errors": [
+        {
+          "target": "com.stackit.telemetry_link#BadRequest"
+        },
+        {
+          "target": "com.stackit.telemetry_link#NotFound"
+        },
+        {
+          "target": "com.stackit.telemetry_link#Conflict"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "PUT",
+          "uri": "/v1/folders/{folderId}/regions/{regionId}/telemetry-link",
+          "code": 200,
+          "baseUrl": "https://telemetry-link.api.stackit.cloud"
+        },
+        "smithy.api#documentation": "Creates or updates the given Telemetry Link within the folder."
+      }
+    },
+    "com.stackit.telemetry_link#PartialUpdateFolderTelemetryLinkRequestRegionId": {
+      "type": "enum",
+      "members": {
+        "EU01": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "eu01"
+          }
+        },
+        "EU02": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "eu02"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.stackit.telemetry_link#PartialUpdateFolderTelemetryLinkRequest": {
+      "type": "structure",
+      "members": {
+        "folderId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The STACKIT portal folder UUID the resource is located in."
+          }
+        },
+        "regionId": {
+          "target": "com.stackit.telemetry_link#PartialUpdateFolderTelemetryLinkRequestRegionId",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The STACKIT region name the resource is located in."
+          }
+        },
+        "accessToken": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The access token.",
+            "smithy.api#sensitive": {}
+          }
+        },
+        "description": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The description is a longer text chosen by the user to provide more context for the resource."
+          }
+        },
+        "displayName": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The display name is a short name chosen by the user to identify the resource."
+          }
+        },
+        "enabled": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Indicates whether routing through the link to a telemetry-router is active."
+          }
+        },
+        "telemetryRouterId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The ID of the telemetry-router to route the telemetry data."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.stackit.telemetry_link#PartialUpdateFolderTelemetryLink": {
+      "type": "operation",
+      "input": {
+        "target": "com.stackit.telemetry_link#PartialUpdateFolderTelemetryLinkRequest"
+      },
+      "output": {
+        "target": "com.stackit.telemetry_link#TelemetryLinkResponse"
+      },
+      "errors": [
+        {
+          "target": "com.stackit.telemetry_link#BadRequest"
+        },
+        {
+          "target": "com.stackit.telemetry_link#NotFound"
+        },
+        {
+          "target": "com.stackit.telemetry_link#Conflict"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "PATCH",
+          "uri": "/v1/folders/{folderId}/regions/{regionId}/telemetry-link",
+          "code": 200,
+          "baseUrl": "https://telemetry-link.api.stackit.cloud"
+        },
+        "smithy.api#documentation": "Patches the given Telemetry Link within the folder."
+      }
+    },
+    "com.stackit.telemetry_link#DeleteFolderTelemetryLinkRequestRegionId": {
+      "type": "enum",
+      "members": {
+        "EU01": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "eu01"
+          }
+        },
+        "EU02": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "eu02"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.stackit.telemetry_link#DeleteFolderTelemetryLinkRequest": {
+      "type": "structure",
+      "members": {
+        "folderId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The STACKIT portal folder UUID the resource is located in."
+          }
+        },
+        "regionId": {
+          "target": "com.stackit.telemetry_link#DeleteFolderTelemetryLinkRequestRegionId",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The STACKIT region name the resource is located in."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.stackit.telemetry_link#DeleteFolderTelemetryLink": {
+      "type": "operation",
+      "input": {
+        "target": "com.stackit.telemetry_link#DeleteFolderTelemetryLinkRequest"
+      },
+      "output": {
+        "target": "smithy.api#Unit"
+      },
+      "errors": [
+        {
+          "target": "com.stackit.telemetry_link#BadRequest"
+        },
+        {
+          "target": "com.stackit.telemetry_link#NotFound"
+        },
+        {
+          "target": "com.stackit.telemetry_link#Conflict"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "DELETE",
+          "uri": "/v1/folders/{folderId}/regions/{regionId}/telemetry-link",
+          "code": 200,
+          "baseUrl": "https://telemetry-link.api.stackit.cloud"
+        },
+        "smithy.api#documentation": "Deletes the given Telemetry Link within the folder."
+      }
+    },
+    "com.stackit.telemetry_link#ListFolderBackflushJobsRequestRegionId": {
+      "type": "enum",
+      "members": {
+        "EU01": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "eu01"
+          }
+        },
+        "EU02": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "eu02"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.stackit.telemetry_link#ListFolderBackflushJobsRequest": {
+      "type": "structure",
+      "members": {
+        "folderId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The STACKIT portal folder UUID the resource is located in."
+          }
+        },
+        "regionId": {
+          "target": "com.stackit.telemetry_link#ListFolderBackflushJobsRequestRegionId",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The STACKIT region name the resource is located in."
+          }
+        },
+        "pageToken": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "pageToken",
+            "smithy.api#documentation": "A token to retrieve the next page of results."
+          }
+        },
+        "pageSize": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpQuery": "pageSize",
+            "smithy.api#documentation": "Maximum number of items to return"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.stackit.telemetry_link#ListBackflushJobsResponse": {
+      "type": "structure",
+      "members": {
+        "backflushJobs": {
+          "target": "com.stackit.telemetry_link#ListBackflushJobsResponseBackflushJobsList",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "nextPageToken": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "A token to retrieve the next page of results."
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.stackit.telemetry_link#BackflushJobResponse": {
+      "type": "structure",
+      "members": {
+        "createTime": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The point in time the resource was created.",
+            "smithy.api#required": {}
+          }
+        },
+        "description": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The description is a longer text chosen by the user to provide more context for the resource."
+          }
+        },
+        "displayName": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The display name is a short name chosen by the user to identify the resource.",
+            "smithy.api#required": {}
+          }
+        },
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "A auto generated unique id which identifies the resource.",
+            "smithy.api#required": {}
+          }
+        },
+        "regionId": {
+          "target": "com.stackit.telemetry_link#BackflushJobResponseRegionId",
+          "traits": {
+            "smithy.api#documentation": "The STACKIT region name the resource is located in.",
+            "smithy.api#required": {}
+          }
+        },
+        "status": {
+          "target": "com.stackit.telemetry_link#BackflushJobResponseStatus",
+          "traits": {
+            "smithy.api#documentation": "The current state of the link.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.stackit.telemetry_link#BackflushJobResponseRegionId": {
+      "type": "enum",
+      "members": {
+        "EU01": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "eu01"
+          }
+        },
+        "EU02": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "eu02"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The STACKIT region name the resource is located in."
+      }
+    },
+    "com.stackit.telemetry_link#BackflushJobResponseStatus": {
+      "type": "enum",
+      "members": {
+        "ACTIVE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "active"
+          }
+        },
+        "COMPLETE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "complete"
+          }
+        },
+        "FAILED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "failed"
+          }
+        },
+        "RECONCILING": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "reconciling"
+          }
+        },
+        "DELETING": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "deleting"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The current state of the link."
+      }
+    },
+    "com.stackit.telemetry_link#ListBackflushJobsResponseBackflushJobsList": {
+      "type": "list",
+      "member": {
+        "target": "com.stackit.telemetry_link#BackflushJobResponse"
+      },
+      "traits": {}
+    },
+    "com.stackit.telemetry_link#ListFolderBackflushJobs": {
+      "type": "operation",
+      "input": {
+        "target": "com.stackit.telemetry_link#ListFolderBackflushJobsRequest"
+      },
+      "output": {
+        "target": "com.stackit.telemetry_link#ListBackflushJobsResponse"
+      },
+      "errors": [
+        {
+          "target": "com.stackit.telemetry_link#BadRequest"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/v1/folders/{folderId}/regions/{regionId}/telemetry-link/backflush-jobs",
+          "code": 200,
+          "baseUrl": "https://telemetry-link.api.stackit.cloud"
+        },
+        "smithy.api#documentation": "Returns a list of all Backflush Jobs for the folder."
+      }
+    },
+    "com.stackit.telemetry_link#CreateFolderBackflushJobRequestRegionId": {
+      "type": "enum",
+      "members": {
+        "EU01": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "eu01"
+          }
+        },
+        "EU02": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "eu02"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.stackit.telemetry_link#CreateFolderBackflushJobRequest": {
+      "type": "structure",
+      "members": {
+        "folderId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The STACKIT portal folder UUID the resource is located in."
+          }
+        },
+        "regionId": {
+          "target": "com.stackit.telemetry_link#CreateFolderBackflushJobRequestRegionId",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The STACKIT region name the resource is located in."
+          }
+        },
+        "description": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The description is a longer text chosen by the user to provide more context for the resource."
+          }
+        },
+        "displayName": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The display name is a short name chosen by the user to identify the resource.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.stackit.telemetry_link#CreateFolderBackflushJob": {
+      "type": "operation",
+      "input": {
+        "target": "com.stackit.telemetry_link#CreateFolderBackflushJobRequest"
+      },
+      "output": {
+        "target": "com.stackit.telemetry_link#BackflushJobResponse"
+      },
+      "errors": [
+        {
+          "target": "com.stackit.telemetry_link#BadRequest"
+        },
+        {
+          "target": "com.stackit.telemetry_link#Conflict"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/v1/folders/{folderId}/regions/{regionId}/telemetry-link/backflush-jobs",
+          "code": 200,
+          "baseUrl": "https://telemetry-link.api.stackit.cloud"
+        },
+        "smithy.api#documentation": "Creates a new Backflush Job for the folder."
+      }
+    },
+    "com.stackit.telemetry_link#GetFolderBackflushJobRequestRegionId": {
+      "type": "enum",
+      "members": {
+        "EU01": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "eu01"
+          }
+        },
+        "EU02": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "eu02"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.stackit.telemetry_link#GetFolderBackflushJobRequest": {
+      "type": "structure",
+      "members": {
+        "folderId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The STACKIT portal folder UUID the resource is located in."
+          }
+        },
+        "regionId": {
+          "target": "com.stackit.telemetry_link#GetFolderBackflushJobRequestRegionId",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The STACKIT region name the resource is located in."
+          }
+        },
+        "backflushJobId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The Backflush Job UUID."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.stackit.telemetry_link#GetFolderBackflushJob": {
+      "type": "operation",
+      "input": {
+        "target": "com.stackit.telemetry_link#GetFolderBackflushJobRequest"
+      },
+      "output": {
+        "target": "com.stackit.telemetry_link#BackflushJobResponse"
+      },
+      "errors": [
+        {
+          "target": "com.stackit.telemetry_link#BadRequest"
+        },
+        {
+          "target": "com.stackit.telemetry_link#NotFound"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/v1/folders/{folderId}/regions/{regionId}/telemetry-link/backflush-jobs/{backflushJobId}",
+          "code": 200,
+          "baseUrl": "https://telemetry-link.api.stackit.cloud"
+        },
+        "smithy.api#documentation": "Returns the details for the given Backflush Job in a folder."
+      }
+    },
+    "com.stackit.telemetry_link#GetOrganizationTelemetryLinkRequestRegionId": {
+      "type": "enum",
+      "members": {
+        "EU01": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "eu01"
+          }
+        },
+        "EU02": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "eu02"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.stackit.telemetry_link#GetOrganizationTelemetryLinkRequest": {
+      "type": "structure",
+      "members": {
+        "organizationId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The STACKIT portal organization UUID the resource is located in."
+          }
+        },
+        "regionId": {
+          "target": "com.stackit.telemetry_link#GetOrganizationTelemetryLinkRequestRegionId",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The STACKIT region name the resource is located in."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.stackit.telemetry_link#GetOrganizationTelemetryLink": {
+      "type": "operation",
+      "input": {
+        "target": "com.stackit.telemetry_link#GetOrganizationTelemetryLinkRequest"
+      },
+      "output": {
+        "target": "com.stackit.telemetry_link#TelemetryLinkResponse"
+      },
+      "errors": [
+        {
+          "target": "com.stackit.telemetry_link#BadRequest"
+        },
+        {
+          "target": "com.stackit.telemetry_link#NotFound"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/v1/organizations/{organizationId}/regions/{regionId}/telemetry-link",
+          "code": 200,
+          "baseUrl": "https://telemetry-link.api.stackit.cloud"
+        },
+        "smithy.api#documentation": "Returns the details for the given Telemetry Link within the organization."
+      }
+    },
+    "com.stackit.telemetry_link#CreateOrUpdateOrganizationTelemetryLinkRequestRegionId": {
+      "type": "enum",
+      "members": {
+        "EU01": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "eu01"
+          }
+        },
+        "EU02": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "eu02"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.stackit.telemetry_link#CreateOrUpdateOrganizationTelemetryLinkRequest": {
+      "type": "structure",
+      "members": {
+        "organizationId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The STACKIT portal organization UUID the resource is located in."
+          }
+        },
+        "regionId": {
+          "target": "com.stackit.telemetry_link#CreateOrUpdateOrganizationTelemetryLinkRequestRegionId",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The STACKIT region name the resource is located in."
+          }
+        },
+        "accessToken": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The access token.",
+            "smithy.api#required": {},
+            "smithy.api#sensitive": {}
+          }
+        },
+        "description": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The description is a longer text chosen by the user to provide more context for the resource."
+          }
+        },
+        "displayName": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The display name is a short name chosen by the user to identify the resource.",
+            "smithy.api#required": {}
+          }
+        },
+        "enabled": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Indicates whether routing through the link to a telemetry-router is active."
+          }
+        },
+        "telemetryRouterId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The ID of the telemetry-router to route the telemetry data.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.stackit.telemetry_link#CreateOrUpdateOrganizationTelemetryLink": {
+      "type": "operation",
+      "input": {
+        "target": "com.stackit.telemetry_link#CreateOrUpdateOrganizationTelemetryLinkRequest"
+      },
+      "output": {
+        "target": "com.stackit.telemetry_link#TelemetryLinkResponse"
+      },
+      "errors": [
+        {
+          "target": "com.stackit.telemetry_link#BadRequest"
+        },
+        {
+          "target": "com.stackit.telemetry_link#NotFound"
+        },
+        {
+          "target": "com.stackit.telemetry_link#Conflict"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "PUT",
+          "uri": "/v1/organizations/{organizationId}/regions/{regionId}/telemetry-link",
+          "code": 200,
+          "baseUrl": "https://telemetry-link.api.stackit.cloud"
+        },
+        "smithy.api#documentation": "Creates or updates the given Telemetry Link within the organization."
+      }
+    },
+    "com.stackit.telemetry_link#PartialUpdateOrganizationTelemetryLinkRequestRegionId": {
+      "type": "enum",
+      "members": {
+        "EU01": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "eu01"
+          }
+        },
+        "EU02": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "eu02"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.stackit.telemetry_link#PartialUpdateOrganizationTelemetryLinkRequest": {
+      "type": "structure",
+      "members": {
+        "organizationId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The STACKIT portal organization UUID the resource is located in."
+          }
+        },
+        "regionId": {
+          "target": "com.stackit.telemetry_link#PartialUpdateOrganizationTelemetryLinkRequestRegionId",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The STACKIT region name the resource is located in."
+          }
+        },
+        "accessToken": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The access token.",
+            "smithy.api#sensitive": {}
+          }
+        },
+        "description": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The description is a longer text chosen by the user to provide more context for the resource."
+          }
+        },
+        "displayName": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The display name is a short name chosen by the user to identify the resource."
+          }
+        },
+        "enabled": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Indicates whether routing through the link to a telemetry-router is active."
+          }
+        },
+        "telemetryRouterId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The ID of the telemetry-router to route the telemetry data."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.stackit.telemetry_link#PartialUpdateOrganizationTelemetryLink": {
+      "type": "operation",
+      "input": {
+        "target": "com.stackit.telemetry_link#PartialUpdateOrganizationTelemetryLinkRequest"
+      },
+      "output": {
+        "target": "com.stackit.telemetry_link#TelemetryLinkResponse"
+      },
+      "errors": [
+        {
+          "target": "com.stackit.telemetry_link#BadRequest"
+        },
+        {
+          "target": "com.stackit.telemetry_link#NotFound"
+        },
+        {
+          "target": "com.stackit.telemetry_link#Conflict"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "PATCH",
+          "uri": "/v1/organizations/{organizationId}/regions/{regionId}/telemetry-link",
+          "code": 200,
+          "baseUrl": "https://telemetry-link.api.stackit.cloud"
+        },
+        "smithy.api#documentation": "Patches the given Telemetry Link within the organization."
+      }
+    },
+    "com.stackit.telemetry_link#DeleteOrganizationTelemetryLinkRequestRegionId": {
+      "type": "enum",
+      "members": {
+        "EU01": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "eu01"
+          }
+        },
+        "EU02": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "eu02"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.stackit.telemetry_link#DeleteOrganizationTelemetryLinkRequest": {
+      "type": "structure",
+      "members": {
+        "organizationId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The STACKIT portal organization UUID the resource is located in."
+          }
+        },
+        "regionId": {
+          "target": "com.stackit.telemetry_link#DeleteOrganizationTelemetryLinkRequestRegionId",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The STACKIT region name the resource is located in."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.stackit.telemetry_link#DeleteOrganizationTelemetryLink": {
+      "type": "operation",
+      "input": {
+        "target": "com.stackit.telemetry_link#DeleteOrganizationTelemetryLinkRequest"
+      },
+      "output": {
+        "target": "smithy.api#Unit"
+      },
+      "errors": [
+        {
+          "target": "com.stackit.telemetry_link#BadRequest"
+        },
+        {
+          "target": "com.stackit.telemetry_link#NotFound"
+        },
+        {
+          "target": "com.stackit.telemetry_link#Conflict"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "DELETE",
+          "uri": "/v1/organizations/{organizationId}/regions/{regionId}/telemetry-link",
+          "code": 200,
+          "baseUrl": "https://telemetry-link.api.stackit.cloud"
+        },
+        "smithy.api#documentation": "Deletes the given Telemetry Link within the organization."
+      }
+    },
+    "com.stackit.telemetry_link#ListOrganizationBackflushJobsRequestRegionId": {
+      "type": "enum",
+      "members": {
+        "EU01": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "eu01"
+          }
+        },
+        "EU02": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "eu02"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.stackit.telemetry_link#ListOrganizationBackflushJobsRequest": {
+      "type": "structure",
+      "members": {
+        "organizationId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The STACKIT portal organization UUID the resource is located in."
+          }
+        },
+        "regionId": {
+          "target": "com.stackit.telemetry_link#ListOrganizationBackflushJobsRequestRegionId",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The STACKIT region name the resource is located in."
+          }
+        },
+        "pageToken": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "pageToken",
+            "smithy.api#documentation": "A token to retrieve the next page of results."
+          }
+        },
+        "pageSize": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpQuery": "pageSize",
+            "smithy.api#documentation": "Maximum number of items to return"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.stackit.telemetry_link#ListOrganizationBackflushJobs": {
+      "type": "operation",
+      "input": {
+        "target": "com.stackit.telemetry_link#ListOrganizationBackflushJobsRequest"
+      },
+      "output": {
+        "target": "com.stackit.telemetry_link#ListBackflushJobsResponse"
+      },
+      "errors": [
+        {
+          "target": "com.stackit.telemetry_link#BadRequest"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/v1/organizations/{organizationId}/regions/{regionId}/telemetry-link/backflush-jobs",
+          "code": 200,
+          "baseUrl": "https://telemetry-link.api.stackit.cloud"
+        },
+        "smithy.api#documentation": "Returns a list of all Backflush Jobs for the organization."
+      }
+    },
+    "com.stackit.telemetry_link#CreateOrganizationBackflushJobRequestRegionId": {
+      "type": "enum",
+      "members": {
+        "EU01": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "eu01"
+          }
+        },
+        "EU02": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "eu02"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.stackit.telemetry_link#CreateOrganizationBackflushJobRequest": {
+      "type": "structure",
+      "members": {
+        "organizationId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The STACKIT portal organization UUID the resource is located in."
+          }
+        },
+        "regionId": {
+          "target": "com.stackit.telemetry_link#CreateOrganizationBackflushJobRequestRegionId",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The STACKIT region name the resource is located in."
+          }
+        },
+        "description": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The description is a longer text chosen by the user to provide more context for the resource."
+          }
+        },
+        "displayName": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The display name is a short name chosen by the user to identify the resource.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.stackit.telemetry_link#CreateOrganizationBackflushJob": {
+      "type": "operation",
+      "input": {
+        "target": "com.stackit.telemetry_link#CreateOrganizationBackflushJobRequest"
+      },
+      "output": {
+        "target": "com.stackit.telemetry_link#BackflushJobResponse"
+      },
+      "errors": [
+        {
+          "target": "com.stackit.telemetry_link#BadRequest"
+        },
+        {
+          "target": "com.stackit.telemetry_link#Conflict"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/v1/organizations/{organizationId}/regions/{regionId}/telemetry-link/backflush-jobs",
+          "code": 200,
+          "baseUrl": "https://telemetry-link.api.stackit.cloud"
+        },
+        "smithy.api#documentation": "Creates a new Backflush Job for the organization."
+      }
+    },
+    "com.stackit.telemetry_link#GetOrganizationBackflushJobRequestRegionId": {
+      "type": "enum",
+      "members": {
+        "EU01": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "eu01"
+          }
+        },
+        "EU02": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "eu02"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.stackit.telemetry_link#GetOrganizationBackflushJobRequest": {
+      "type": "structure",
+      "members": {
+        "organizationId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The STACKIT portal organization UUID the resource is located in."
+          }
+        },
+        "regionId": {
+          "target": "com.stackit.telemetry_link#GetOrganizationBackflushJobRequestRegionId",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The STACKIT region name the resource is located in."
+          }
+        },
+        "backflushJobId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The Backflush Job UUID."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.stackit.telemetry_link#GetOrganizationBackflushJob": {
+      "type": "operation",
+      "input": {
+        "target": "com.stackit.telemetry_link#GetOrganizationBackflushJobRequest"
+      },
+      "output": {
+        "target": "com.stackit.telemetry_link#BackflushJobResponse"
+      },
+      "errors": [
+        {
+          "target": "com.stackit.telemetry_link#BadRequest"
+        },
+        {
+          "target": "com.stackit.telemetry_link#NotFound"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/v1/organizations/{organizationId}/regions/{regionId}/telemetry-link/backflush-jobs/{backflushJobId}",
+          "code": 200,
+          "baseUrl": "https://telemetry-link.api.stackit.cloud"
+        },
+        "smithy.api#documentation": "Returns the details for the given Backflush Job in a organization."
+      }
+    },
+    "com.stackit.telemetry_link#GetProjectTelemetryLinkRequestRegionId": {
+      "type": "enum",
+      "members": {
+        "EU01": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "eu01"
+          }
+        },
+        "EU02": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "eu02"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.stackit.telemetry_link#GetProjectTelemetryLinkRequest": {
+      "type": "structure",
+      "members": {
+        "projectId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The STACKIT portal project UUID the resource is located in."
+          }
+        },
+        "regionId": {
+          "target": "com.stackit.telemetry_link#GetProjectTelemetryLinkRequestRegionId",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The STACKIT region name the resource is located in."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.stackit.telemetry_link#GetProjectTelemetryLink": {
+      "type": "operation",
+      "input": {
+        "target": "com.stackit.telemetry_link#GetProjectTelemetryLinkRequest"
+      },
+      "output": {
+        "target": "com.stackit.telemetry_link#TelemetryLinkResponse"
+      },
+      "errors": [
+        {
+          "target": "com.stackit.telemetry_link#BadRequest"
+        },
+        {
+          "target": "com.stackit.telemetry_link#NotFound"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/v1/projects/{projectId}/regions/{regionId}/telemetry-link",
+          "code": 200,
+          "baseUrl": "https://telemetry-link.api.stackit.cloud"
+        },
+        "smithy.api#documentation": "Returns the details for the given Telemetry Link within the project."
+      }
+    },
+    "com.stackit.telemetry_link#CreateOrUpdateProjectTelemetryLinkRequestRegionId": {
+      "type": "enum",
+      "members": {
+        "EU01": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "eu01"
+          }
+        },
+        "EU02": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "eu02"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.stackit.telemetry_link#CreateOrUpdateProjectTelemetryLinkRequest": {
+      "type": "structure",
+      "members": {
+        "projectId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The STACKIT portal project UUID the resource is located in."
+          }
+        },
+        "regionId": {
+          "target": "com.stackit.telemetry_link#CreateOrUpdateProjectTelemetryLinkRequestRegionId",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The STACKIT region name the resource is located in."
+          }
+        },
+        "accessToken": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The access token.",
+            "smithy.api#required": {},
+            "smithy.api#sensitive": {}
+          }
+        },
+        "description": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The description is a longer text chosen by the user to provide more context for the resource."
+          }
+        },
+        "displayName": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The display name is a short name chosen by the user to identify the resource.",
+            "smithy.api#required": {}
+          }
+        },
+        "enabled": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Indicates whether routing through the link to a telemetry-router is active."
+          }
+        },
+        "telemetryRouterId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The ID of the telemetry-router to route the telemetry data.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.stackit.telemetry_link#CreateOrUpdateProjectTelemetryLink": {
+      "type": "operation",
+      "input": {
+        "target": "com.stackit.telemetry_link#CreateOrUpdateProjectTelemetryLinkRequest"
+      },
+      "output": {
+        "target": "com.stackit.telemetry_link#TelemetryLinkResponse"
+      },
+      "errors": [
+        {
+          "target": "com.stackit.telemetry_link#BadRequest"
+        },
+        {
+          "target": "com.stackit.telemetry_link#NotFound"
+        },
+        {
+          "target": "com.stackit.telemetry_link#Conflict"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "PUT",
+          "uri": "/v1/projects/{projectId}/regions/{regionId}/telemetry-link",
+          "code": 200,
+          "baseUrl": "https://telemetry-link.api.stackit.cloud"
+        },
+        "smithy.api#documentation": "Creates or updates the given Telemetry Link within the project."
+      }
+    },
+    "com.stackit.telemetry_link#PartialUpdateProjectTelemetryLinkRequestRegionId": {
+      "type": "enum",
+      "members": {
+        "EU01": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "eu01"
+          }
+        },
+        "EU02": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "eu02"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.stackit.telemetry_link#PartialUpdateProjectTelemetryLinkRequest": {
+      "type": "structure",
+      "members": {
+        "projectId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The STACKIT portal project UUID the resource is located in."
+          }
+        },
+        "regionId": {
+          "target": "com.stackit.telemetry_link#PartialUpdateProjectTelemetryLinkRequestRegionId",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The STACKIT region name the resource is located in."
+          }
+        },
+        "accessToken": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The access token.",
+            "smithy.api#sensitive": {}
+          }
+        },
+        "description": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The description is a longer text chosen by the user to provide more context for the resource."
+          }
+        },
+        "displayName": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The display name is a short name chosen by the user to identify the resource."
+          }
+        },
+        "enabled": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Indicates whether routing through the link to a telemetry-router is active."
+          }
+        },
+        "telemetryRouterId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The ID of the telemetry-router to route the telemetry data."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.stackit.telemetry_link#PartialUpdateProjectTelemetryLink": {
+      "type": "operation",
+      "input": {
+        "target": "com.stackit.telemetry_link#PartialUpdateProjectTelemetryLinkRequest"
+      },
+      "output": {
+        "target": "com.stackit.telemetry_link#TelemetryLinkResponse"
+      },
+      "errors": [
+        {
+          "target": "com.stackit.telemetry_link#BadRequest"
+        },
+        {
+          "target": "com.stackit.telemetry_link#NotFound"
+        },
+        {
+          "target": "com.stackit.telemetry_link#Conflict"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "PATCH",
+          "uri": "/v1/projects/{projectId}/regions/{regionId}/telemetry-link",
+          "code": 200,
+          "baseUrl": "https://telemetry-link.api.stackit.cloud"
+        },
+        "smithy.api#documentation": "Patches the given Telemetry Link within the project."
+      }
+    },
+    "com.stackit.telemetry_link#DeleteProjectTelemetryLinkRequestRegionId": {
+      "type": "enum",
+      "members": {
+        "EU01": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "eu01"
+          }
+        },
+        "EU02": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "eu02"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.stackit.telemetry_link#DeleteProjectTelemetryLinkRequest": {
+      "type": "structure",
+      "members": {
+        "projectId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The STACKIT portal project UUID the resource is located in."
+          }
+        },
+        "regionId": {
+          "target": "com.stackit.telemetry_link#DeleteProjectTelemetryLinkRequestRegionId",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The STACKIT region name the resource is located in."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.stackit.telemetry_link#DeleteProjectTelemetryLink": {
+      "type": "operation",
+      "input": {
+        "target": "com.stackit.telemetry_link#DeleteProjectTelemetryLinkRequest"
+      },
+      "output": {
+        "target": "smithy.api#Unit"
+      },
+      "errors": [
+        {
+          "target": "com.stackit.telemetry_link#BadRequest"
+        },
+        {
+          "target": "com.stackit.telemetry_link#NotFound"
+        },
+        {
+          "target": "com.stackit.telemetry_link#Conflict"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "DELETE",
+          "uri": "/v1/projects/{projectId}/regions/{regionId}/telemetry-link",
+          "code": 200,
+          "baseUrl": "https://telemetry-link.api.stackit.cloud"
+        },
+        "smithy.api#documentation": "Deletes the given Telemetry Link within the project."
+      }
+    },
+    "com.stackit.telemetry_link#ListProjectBackflushJobsRequestRegionId": {
+      "type": "enum",
+      "members": {
+        "EU01": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "eu01"
+          }
+        },
+        "EU02": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "eu02"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.stackit.telemetry_link#ListProjectBackflushJobsRequest": {
+      "type": "structure",
+      "members": {
+        "projectId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The STACKIT portal project UUID the resource is located in."
+          }
+        },
+        "regionId": {
+          "target": "com.stackit.telemetry_link#ListProjectBackflushJobsRequestRegionId",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The STACKIT region name the resource is located in."
+          }
+        },
+        "pageToken": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "pageToken",
+            "smithy.api#documentation": "A token to retrieve the next page of results."
+          }
+        },
+        "pageSize": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpQuery": "pageSize",
+            "smithy.api#documentation": "Maximum number of items to return"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.stackit.telemetry_link#ListProjectBackflushJobs": {
+      "type": "operation",
+      "input": {
+        "target": "com.stackit.telemetry_link#ListProjectBackflushJobsRequest"
+      },
+      "output": {
+        "target": "com.stackit.telemetry_link#ListBackflushJobsResponse"
+      },
+      "errors": [
+        {
+          "target": "com.stackit.telemetry_link#BadRequest"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/v1/projects/{projectId}/regions/{regionId}/telemetry-link/backflush-jobs",
+          "code": 200,
+          "baseUrl": "https://telemetry-link.api.stackit.cloud"
+        },
+        "smithy.api#documentation": "Returns a list of all Backflush Jobs for the project."
+      }
+    },
+    "com.stackit.telemetry_link#CreateProjectBackflushJobRequestRegionId": {
+      "type": "enum",
+      "members": {
+        "EU01": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "eu01"
+          }
+        },
+        "EU02": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "eu02"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.stackit.telemetry_link#CreateProjectBackflushJobRequest": {
+      "type": "structure",
+      "members": {
+        "projectId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The STACKIT portal project UUID the resource is located in."
+          }
+        },
+        "regionId": {
+          "target": "com.stackit.telemetry_link#CreateProjectBackflushJobRequestRegionId",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The STACKIT region name the resource is located in."
+          }
+        },
+        "description": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The description is a longer text chosen by the user to provide more context for the resource."
+          }
+        },
+        "displayName": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The display name is a short name chosen by the user to identify the resource.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.stackit.telemetry_link#CreateProjectBackflushJob": {
+      "type": "operation",
+      "input": {
+        "target": "com.stackit.telemetry_link#CreateProjectBackflushJobRequest"
+      },
+      "output": {
+        "target": "com.stackit.telemetry_link#BackflushJobResponse"
+      },
+      "errors": [
+        {
+          "target": "com.stackit.telemetry_link#BadRequest"
+        },
+        {
+          "target": "com.stackit.telemetry_link#Conflict"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/v1/projects/{projectId}/regions/{regionId}/telemetry-link/backflush-jobs",
+          "code": 200,
+          "baseUrl": "https://telemetry-link.api.stackit.cloud"
+        },
+        "smithy.api#documentation": "Creates a new Backflush Job for the project."
+      }
+    },
+    "com.stackit.telemetry_link#GetProjectBackflushJobRequestRegionId": {
+      "type": "enum",
+      "members": {
+        "EU01": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "eu01"
+          }
+        },
+        "EU02": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "eu02"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.stackit.telemetry_link#GetProjectBackflushJobRequest": {
+      "type": "structure",
+      "members": {
+        "projectId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The STACKIT portal project UUID the resource is located in."
+          }
+        },
+        "regionId": {
+          "target": "com.stackit.telemetry_link#GetProjectBackflushJobRequestRegionId",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The STACKIT region name the resource is located in."
+          }
+        },
+        "backflushJobId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The Backflush Job UUID."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.stackit.telemetry_link#GetProjectBackflushJob": {
+      "type": "operation",
+      "input": {
+        "target": "com.stackit.telemetry_link#GetProjectBackflushJobRequest"
+      },
+      "output": {
+        "target": "com.stackit.telemetry_link#BackflushJobResponse"
+      },
+      "errors": [
+        {
+          "target": "com.stackit.telemetry_link#BadRequest"
+        },
+        {
+          "target": "com.stackit.telemetry_link#NotFound"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/v1/projects/{projectId}/regions/{regionId}/telemetry-link/backflush-jobs/{backflushJobId}",
+          "code": 200,
+          "baseUrl": "https://telemetry-link.api.stackit.cloud"
+        },
+        "smithy.api#documentation": "Returns the details for the given Backflush Job in a project."
+      }
+    },
+    "com.stackit.telemetry_link#BadRequest": {
+      "type": "structure",
+      "members": {},
+      "traits": {
+        "smithy.api#error": "client",
+        "smithy.api#httpError": 400,
+        "com.distilled.openapi#errorMatchers": [
+          {
+            "status": 400
+          }
+        ]
+      }
+    },
+    "com.stackit.telemetry_link#NotFound": {
+      "type": "structure",
+      "members": {},
+      "traits": {
+        "smithy.api#error": "client",
+        "smithy.api#httpError": 404,
+        "com.distilled.openapi#errorMatchers": [
+          {
+            "status": 404
+          }
+        ]
+      }
+    },
+    "com.stackit.telemetry_link#Conflict": {
+      "type": "structure",
+      "members": {},
+      "traits": {
+        "smithy.api#error": "client",
+        "smithy.api#httpError": 409,
+        "com.distilled.openapi#errorMatchers": [
+          {
+            "status": 409
+          }
+        ]
+      }
+    },
+    "com.stackit.telemetry_link#TelemetryLink": {
+      "type": "service",
+      "version": "1.0",
+      "operations": [
+        {
+          "target": "com.stackit.telemetry_link#GetFolderTelemetryLink"
+        },
+        {
+          "target": "com.stackit.telemetry_link#CreateOrUpdateFolderTelemetryLink"
+        },
+        {
+          "target": "com.stackit.telemetry_link#PartialUpdateFolderTelemetryLink"
+        },
+        {
+          "target": "com.stackit.telemetry_link#DeleteFolderTelemetryLink"
+        },
+        {
+          "target": "com.stackit.telemetry_link#ListFolderBackflushJobs"
+        },
+        {
+          "target": "com.stackit.telemetry_link#CreateFolderBackflushJob"
+        },
+        {
+          "target": "com.stackit.telemetry_link#GetFolderBackflushJob"
+        },
+        {
+          "target": "com.stackit.telemetry_link#GetOrganizationTelemetryLink"
+        },
+        {
+          "target": "com.stackit.telemetry_link#CreateOrUpdateOrganizationTelemetryLink"
+        },
+        {
+          "target": "com.stackit.telemetry_link#PartialUpdateOrganizationTelemetryLink"
+        },
+        {
+          "target": "com.stackit.telemetry_link#DeleteOrganizationTelemetryLink"
+        },
+        {
+          "target": "com.stackit.telemetry_link#ListOrganizationBackflushJobs"
+        },
+        {
+          "target": "com.stackit.telemetry_link#CreateOrganizationBackflushJob"
+        },
+        {
+          "target": "com.stackit.telemetry_link#GetOrganizationBackflushJob"
+        },
+        {
+          "target": "com.stackit.telemetry_link#GetProjectTelemetryLink"
+        },
+        {
+          "target": "com.stackit.telemetry_link#CreateOrUpdateProjectTelemetryLink"
+        },
+        {
+          "target": "com.stackit.telemetry_link#PartialUpdateProjectTelemetryLink"
+        },
+        {
+          "target": "com.stackit.telemetry_link#DeleteProjectTelemetryLink"
+        },
+        {
+          "target": "com.stackit.telemetry_link#ListProjectBackflushJobs"
+        },
+        {
+          "target": "com.stackit.telemetry_link#CreateProjectBackflushJob"
+        },
+        {
+          "target": "com.stackit.telemetry_link#GetProjectBackflushJob"
+        }
+      ],
+      "traits": {
+        "smithy.api#title": "STACKIT Telemetry Link API",
+        "smithy.api#documentation": "This API provides endpoints for managing Telemetry Links. The Telemetry Link enables Log Routing towards a defined Telemetry Router."
+      }
+    }
+  }
+}

@@ -8931,7 +8931,7 @@
         }
       },
       "traits": {
-        "smithy.api#documentation": "Per-model Agent Search TPM subscription status. One entry per active `core_subscription.agent_search_token_subscriptions[*]` entry in the customer-provided config; populated by UpdateProject and GetProject. The lifecycle scalars on this message (`start_time`, `terminate_time`, `update_type`, `tpm_threshold_next_update_time`) are per (project, model_version) — siblings of the whole-relationship `start_time` / `terminate_time` / `update_type` on the enclosing ConfigurableBillingStatus, but scoped to this specific Agent Search TPM subscription instead of to the overall customer-configurable- pricing relationship. This per-instance granularity is intentional: the underlying SubV3 storage is per-(project, model_version), so each model has its own activation, termination, and deferred-update clock; surfacing that on the response gives customers the granularity they need to manage per-model commitments independently. QPM / IndexingCore differ — their storage is one row per (project, location), so their lifecycle is represented only by the whole- relationship scalars on ConfigurableBillingStatus."
+        "smithy.api#documentation": "Per-model Agent Search TPM subscription status. One entry per active `core_subscription.agent_search_token_subscriptions[*]` entry in the customer-provided config; populated by UpdateProject and GetProject. The lifecycle scalars on this message (`start_time`, `terminate_time`, `update_type`, `tpm_threshold_next_update_time`) are per (project, model_version) \u2014 siblings of the whole-relationship `start_time` / `terminate_time` / `update_type` on the enclosing ConfigurableBillingStatus, but scoped to this specific Agent Search TPM subscription instead of to the overall customer-configurable- pricing relationship. This per-instance granularity is intentional: the underlying SubV3 storage is per-(project, model_version), so each model has its own activation, termination, and deferred-update clock; surfacing that on the response gives customers the granularity they need to manage per-model commitments independently. QPM / IndexingCore differ \u2014 their storage is one row per (project, location), so their lifecycle is represented only by the whole- relationship scalars on ConfigurableBillingStatus."
       }
     },
     "com.gcp.discoveryengine_v1#GoogleCloudDiscoveryengineV1alphaProjectConfigurableBillingStatusAgentSearchTokenSubscriptionStatusUpdateTypeEnum": {
@@ -10158,7 +10158,7 @@
         "ignoreDiacritics": {
           "target": "smithy.api#Boolean",
           "traits": {
-            "smithy.api#documentation": "Optional. If true, diacritical marks (e.g., accents, umlauts) are ignored when matching banned phrases. For example, \"cafe\" would match \"café\"."
+            "smithy.api#documentation": "Optional. If true, diacritical marks (e.g., accents, umlauts) are ignored when matching banned phrases. For example, \"cafe\" would match \"caf\u00e9\"."
           }
         },
         "phrase": {
@@ -15598,13 +15598,13 @@
         "int64Value": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "A 64-bit integer. Its range is approximately ±9.2x1018."
+            "smithy.api#documentation": "A 64-bit integer. Its range is approximately \u00b19.2x1018."
           }
         },
         "doubleValue": {
           "target": "smithy.api#Double",
           "traits": {
-            "smithy.api#documentation": "A 64-bit double-precision floating-point number. Its magnitude is approximately ±10±300 and it has 16 significant digits of precision."
+            "smithy.api#documentation": "A 64-bit double-precision floating-point number. Its magnitude is approximately \u00b110\u00b1300 and it has 16 significant digits of precision."
           }
         },
         "distributionValue": {
@@ -19059,7 +19059,7 @@
         "requestPayload": {
           "target": "com.gcp.discoveryengine_v1#DocumentMap",
           "traits": {
-            "smithy.api#documentation": "The API request payload, represented as a protocol buffer. Most API request types are supported—for example: * `type.googleapis.com/google.cloud.discoveryengine.v1alpha.DocumentService.CreateDocumentRequest` * `type.googleapis.com/google.cloud.discoveryengine.v1alpha.UserEventService.WriteUserEventRequest`"
+            "smithy.api#documentation": "The API request payload, represented as a protocol buffer. Most API request types are supported\u2014for example: * `type.googleapis.com/google.cloud.discoveryengine.v1alpha.DocumentService.CreateDocumentRequest` * `type.googleapis.com/google.cloud.discoveryengine.v1alpha.UserEventService.WriteUserEventRequest`"
           }
         },
         "responsePayload": {
@@ -27767,7 +27767,7 @@
         "functionName": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "Human-readable name of a function or method—for example, `google.cloud.discoveryengine.v1alpha.RecommendationService.Recommend`."
+            "smithy.api#documentation": "Human-readable name of a function or method\u2014for example, `google.cloud.discoveryengine.v1alpha.RecommendationService.Recommend`."
           }
         }
       },
@@ -31188,7 +31188,7 @@
         }
       },
       "traits": {
-        "smithy.api#documentation": "Per-model Agent Search TPM subscription status. One entry per active `core_subscription.agent_search_token_subscriptions[*]` entry in the customer-provided config; populated by UpdateProject and GetProject. The lifecycle scalars on this message (`start_time`, `terminate_time`, `update_type`, `tpm_threshold_next_update_time`) are per (project, model_version) — siblings of the whole-relationship `start_time` / `terminate_time` / `update_type` on the enclosing ConfigurableBillingStatus, but scoped to this specific Agent Search TPM subscription instead of to the overall customer-configurable- pricing relationship. This per-instance granularity is intentional: the underlying SubV3 storage is per-(project, model_version), so each model has its own activation, termination, and deferred-update clock; surfacing that on the response gives customers the granularity they need to manage per-model commitments independently. QPM / IndexingCore differ — their storage is one row per (project, location), so their lifecycle is represented only by the whole- relationship scalars on ConfigurableBillingStatus."
+        "smithy.api#documentation": "Per-model Agent Search TPM subscription status. One entry per active `core_subscription.agent_search_token_subscriptions[*]` entry in the customer-provided config; populated by UpdateProject and GetProject. The lifecycle scalars on this message (`start_time`, `terminate_time`, `update_type`, `tpm_threshold_next_update_time`) are per (project, model_version) \u2014 siblings of the whole-relationship `start_time` / `terminate_time` / `update_type` on the enclosing ConfigurableBillingStatus, but scoped to this specific Agent Search TPM subscription instead of to the overall customer-configurable- pricing relationship. This per-instance granularity is intentional: the underlying SubV3 storage is per-(project, model_version), so each model has its own activation, termination, and deferred-update clock; surfacing that on the response gives customers the granularity they need to manage per-model commitments independently. QPM / IndexingCore differ \u2014 their storage is one row per (project, location), so their lifecycle is represented only by the whole- relationship scalars on ConfigurableBillingStatus."
       }
     },
     "com.gcp.discoveryengine_v1#GoogleCloudDiscoveryengineV1betaProjectConfigurableBillingStatusAgentSearchTokenSubscriptionStatusUpdateTypeEnum": {
@@ -33358,7 +33358,7 @@
         "service": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "An identifier of the service—for example, `discoveryengine.googleapis.com`."
+            "smithy.api#documentation": "An identifier of the service\u2014for example, `discoveryengine.googleapis.com`."
           }
         }
       },
@@ -33427,7 +33427,7 @@
         }
       },
       "traits": {
-        "smithy.api#documentation": "Per-model Agent Search TPM subscription status. One entry per active `core_subscription.agent_search_token_subscriptions[*]` entry in the customer-provided config; populated by UpdateProject and GetProject. The lifecycle scalars on this message (`start_time`, `terminate_time`, `update_type`, `tpm_threshold_next_update_time`) are per (project, model_version) — siblings of the whole-relationship `start_time` / `terminate_time` / `update_type` on the enclosing ConfigurableBillingStatus, but scoped to this specific Agent Search TPM subscription instead of to the overall customer-configurable- pricing relationship. This per-instance granularity is intentional: the underlying SubV3 storage is per-(project, model_version), so each model has its own activation, termination, and deferred-update clock; surfacing that on the response gives customers the granularity they need to manage per-model commitments independently. QPM / IndexingCore differ — their storage is one row per (project, location), so their lifecycle is represented only by the whole- relationship scalars on ConfigurableBillingStatus."
+        "smithy.api#documentation": "Per-model Agent Search TPM subscription status. One entry per active `core_subscription.agent_search_token_subscriptions[*]` entry in the customer-provided config; populated by UpdateProject and GetProject. The lifecycle scalars on this message (`start_time`, `terminate_time`, `update_type`, `tpm_threshold_next_update_time`) are per (project, model_version) \u2014 siblings of the whole-relationship `start_time` / `terminate_time` / `update_type` on the enclosing ConfigurableBillingStatus, but scoped to this specific Agent Search TPM subscription instead of to the overall customer-configurable- pricing relationship. This per-instance granularity is intentional: the underlying SubV3 storage is per-(project, model_version), so each model has its own activation, termination, and deferred-update clock; surfacing that on the response gives customers the granularity they need to manage per-model commitments independently. QPM / IndexingCore differ \u2014 their storage is one row per (project, location), so their lifecycle is represented only by the whole- relationship scalars on ConfigurableBillingStatus."
       }
     },
     "com.gcp.discoveryengine_v1#GoogleCloudDiscoveryengineV1ProjectConfigurableBillingStatusAgentSearchTokenSubscriptionStatusUpdateTypeEnum": {
@@ -39827,6 +39827,9 @@
         },
         {
           "target": "com.gcp.discoveryengine_v1#Conflict"
+        },
+        {
+          "target": "com.gcp.discoveryengine_v1#DataStoreNotReady"
         }
       ],
       "traits": {
@@ -42944,6 +42947,9 @@
         },
         {
           "target": "com.gcp.discoveryengine_v1#Conflict"
+        },
+        {
+          "target": "com.gcp.discoveryengine_v1#LlmAddOnRequired"
         }
       ],
       "traits": {
@@ -47420,6 +47426,9 @@
         },
         {
           "target": "com.gcp.discoveryengine_v1#Conflict"
+        },
+        {
+          "target": "com.gcp.discoveryengine_v1#LlmAddOnRequired"
         }
       ],
       "traits": {
@@ -50586,6 +50595,9 @@
         },
         {
           "target": "com.gcp.discoveryengine_v1#Conflict"
+        },
+        {
+          "target": "com.gcp.discoveryengine_v1#LlmAddOnRequired"
         }
       ],
       "traits": {
@@ -51947,6 +51959,9 @@
         },
         {
           "target": "com.gcp.discoveryengine_v1#Conflict"
+        },
+        {
+          "target": "com.gcp.discoveryengine_v1#DataStoreNotReady"
         }
       ],
       "traits": {
@@ -52465,6 +52480,9 @@
         },
         {
           "target": "com.gcp.discoveryengine_v1#Conflict"
+        },
+        {
+          "target": "com.gcp.discoveryengine_v1#IdentityProviderNotConfigured"
         }
       ],
       "traits": {
@@ -52990,6 +53008,57 @@
           "uri": "v1/{+billingAccountLicenseConfig}:distributeLicenseConfig"
         },
         "smithy.api#documentation": "Distributes a LicenseConfig from billing account level to project level."
+      }
+    },
+    "com.gcp.discoveryengine_v1#DataStoreNotReady": {
+      "type": "structure",
+      "members": {},
+      "traits": {
+        "smithy.api#error": "client",
+        "smithy.api#httpError": 400,
+        "smithy.api#documentation": "The parent data store is still being set up and cannot accept the change yet (HTTP 400: '... try again later'). Retryable after a short wait.",
+        "com.gcp.protocols#errorMatchers": [
+          {
+            "status": 400,
+            "message": {
+              "includes": "try again later"
+            }
+          }
+        ]
+      }
+    },
+    "com.gcp.discoveryengine_v1#IdentityProviderNotConfigured": {
+      "type": "structure",
+      "members": {},
+      "traits": {
+        "smithy.api#error": "client",
+        "smithy.api#httpError": 400,
+        "smithy.api#documentation": "The project has no workforce identity provider configured, which identity mapping stores require (HTTP 400: 'IdP must be configured before creating an Identity Mapping Store'). Not retryable.",
+        "com.gcp.protocols#errorMatchers": [
+          {
+            "status": 400,
+            "message": {
+              "includes": "IdP must be configured"
+            }
+          }
+        ]
+      }
+    },
+    "com.gcp.discoveryengine_v1#LlmAddOnRequired": {
+      "type": "structure",
+      "members": {},
+      "traits": {
+        "smithy.api#error": "client",
+        "smithy.api#httpError": 400,
+        "smithy.api#documentation": "The data store or engine lacks the Large Language Model add-on that conversations need (HTTP 400: 'This feature is only available when Large Language Model add-on is enabled.'). Not retryable.",
+        "com.gcp.protocols#errorMatchers": [
+          {
+            "status": 400,
+            "message": {
+              "includes": "Large Language Model add-on"
+            }
+          }
+        ]
       }
     }
   }

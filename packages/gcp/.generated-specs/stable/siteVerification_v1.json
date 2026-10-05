@@ -206,6 +206,9 @@
         },
         {
           "target": "com.gcp.siteVerification_v1#Conflict"
+        },
+        {
+          "target": "com.gcp.siteVerification_v1#InsufficientAuthenticationScopes"
         }
       ],
       "traits": {
@@ -256,6 +259,9 @@
         },
         {
           "target": "com.gcp.siteVerification_v1#Conflict"
+        },
+        {
+          "target": "com.gcp.siteVerification_v1#InsufficientAuthenticationScopes"
         }
       ],
       "traits": {
@@ -293,6 +299,9 @@
         },
         {
           "target": "com.gcp.siteVerification_v1#Forbidden"
+        },
+        {
+          "target": "com.gcp.siteVerification_v1#InsufficientAuthenticationScopes"
         }
       ],
       "traits": {
@@ -333,6 +342,9 @@
         },
         {
           "target": "com.gcp.siteVerification_v1#Conflict"
+        },
+        {
+          "target": "com.gcp.siteVerification_v1#InsufficientAuthenticationScopes"
         }
       ],
       "traits": {
@@ -383,6 +395,9 @@
         },
         {
           "target": "com.gcp.siteVerification_v1#Conflict"
+        },
+        {
+          "target": "com.gcp.siteVerification_v1#InsufficientAuthenticationScopes"
         }
       ],
       "traits": {
@@ -411,6 +426,9 @@
         },
         {
           "target": "com.gcp.siteVerification_v1#Forbidden"
+        },
+        {
+          "target": "com.gcp.siteVerification_v1#InsufficientAuthenticationScopes"
         }
       ],
       "traits": {
@@ -461,6 +479,9 @@
         },
         {
           "target": "com.gcp.siteVerification_v1#Conflict"
+        },
+        {
+          "target": "com.gcp.siteVerification_v1#InsufficientAuthenticationScopes"
         }
       ],
       "traits": {
@@ -469,6 +490,23 @@
           "uri": "webResource/{id}"
         },
         "smithy.api#documentation": "Modify the list of owners for your website or domain. This method supports patch semantics."
+      }
+    },
+    "com.gcp.siteVerification_v1#InsufficientAuthenticationScopes": {
+      "type": "structure",
+      "members": {},
+      "traits": {
+        "smithy.api#error": "client",
+        "smithy.api#httpError": 403,
+        "smithy.api#documentation": "The credential lacks the https://www.googleapis.com/auth/siteverification OAuth scope (HTTP 403 'Request had insufficient authentication scopes.'). A Cloud Platform-scoped service account token cannot call the Site Verification API; not retryable.",
+        "com.gcp.protocols#errorMatchers": [
+          {
+            "status": 403,
+            "message": {
+              "includes": "insufficient authentication scopes"
+            }
+          }
+        ]
       }
     }
   }

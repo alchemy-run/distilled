@@ -272,8 +272,7 @@ class Parser {
   ident(): string {
     this.skipTrivia();
     const ch = this.peekChar();
-    if (!/[A-Za-z_]/.test(ch))
-      this.fail(`expected identifier, got ${JSON.stringify(ch)}`);
+    if (!/[A-Za-z_]/.test(ch)) this.fail(`expected identifier, got ${JSON.stringify(ch)}`);
     let out = this.bump();
     while (/[A-Za-z0-9_]/.test(this.peekChar())) out += this.bump();
     return out;
@@ -313,9 +312,7 @@ class Parser {
   expect(ch: string): void {
     this.skipTrivia();
     if (this.peekChar() !== ch) {
-      this.fail(
-        `expected ${JSON.stringify(ch)}, got ${JSON.stringify(this.peekChar())}`,
-      );
+      this.fail(`expected ${JSON.stringify(ch)}, got ${JSON.stringify(this.peekChar())}`);
     }
     this.bump();
   }
@@ -382,8 +379,7 @@ class Parser {
       this.expect("=");
       this.skipTrivia();
       let value: unknown;
-      if (this.peekChar() === '"' || this.peekChar() === "'")
-        value = this.stringLit();
+      if (this.peekChar() === '"' || this.peekChar() === "'") value = this.stringLit();
       else if (this.tryIdent("true")) value = true;
       else if (this.tryIdent("false")) value = false;
       else if (/[0-9-]/.test(this.peekChar())) value = this.number();
@@ -476,11 +472,7 @@ class Parser {
     while (true) {
       this.skipTrivia();
       if (this.peekChar() === "}") break;
-      if (
-        this.tryIdent("option") ||
-        this.tryIdent("reserved") ||
-        this.tryIdent("extensions")
-      ) {
+      if (this.tryIdent("option") || this.tryIdent("reserved") || this.tryIdent("extensions")) {
         this.skipUntil(";");
         this.expect(";");
         continue;
@@ -647,15 +639,10 @@ class Parser {
 }
 
 /** Parse a proto3 source file into an AST. */
-export const parseProto = (
-  text: string,
-  filename = "input.proto",
-): ProtoFile => {
+export const parseProto = (text: string, filename = "input.proto"): ProtoFile => {
   const file = new Parser(text, filename).parseFile();
   if (file.syntax !== "proto3") {
-    throw new Error(
-      `${filename}: expected proto3, got ${JSON.stringify(file.syntax)}`,
-    );
+    throw new Error(`${filename}: expected proto3, got ${JSON.stringify(file.syntax)}`);
   }
   return file;
 };
@@ -684,8 +671,7 @@ const indexFiles = (files: readonly ProtoFile[]): TypeIndex => {
   };
   for (const file of files) {
     for (const msg of file.messages) walkMessage(msg, index);
-    for (const en of file.enums)
-      index.enums.set(en.fullName, index.enums.get(en.fullName) ?? en);
+    for (const en of file.enums) index.enums.set(en.fullName, index.enums.get(en.fullName) ?? en);
     index.services.push(...file.services);
   }
   return index;
@@ -699,8 +685,7 @@ const resolveName = (
 ): string => {
   const stripped = name.startsWith(".") ? name.slice(1) : name;
   if (SCALAR_TARGETS[stripped]) return stripped;
-  if (WKT_TARGETS[stripped] || stripped.startsWith("google.protobuf."))
-    return stripped;
+  if (WKT_TARGETS[stripped] || stripped.startsWith("google.protobuf.")) return stripped;
   const candidates: string[] = [];
   if (name.startsWith(".")) {
     candidates.push(stripped);
@@ -718,9 +703,7 @@ const resolveName = (
   for (const c of candidates) {
     if (index.messages.has(c) || index.enums.has(c)) return c;
   }
-  throw new Error(
-    `unresolved proto type ${JSON.stringify(name)} (package ${pkg}, scope ${scope})`,
-  );
+  throw new Error(`unresolved proto type ${JSON.stringify(name)} (package ${pkg}, scope ${scope})`);
 };
 
 // ============================================================================
@@ -733,8 +716,7 @@ interface Bag {
   namespace: string;
 }
 
-const capitalize = (s: string): string =>
-  s ? s.charAt(0).toUpperCase() + s.slice(1) : s;
+const capitalize = (s: string): string => (s ? s.charAt(0).toUpperCase() + s.slice(1) : s);
 
 const ident = (s: string): string => {
   let out = s.replace(/[^A-Za-z0-9_]/g, "_");
@@ -776,8 +758,7 @@ const oneLineDoc = (s: string | undefined): string | undefined => {
   return t ? t : undefined;
 };
 
-const isSensitive = (name: string): boolean =>
-  SENSITIVE_FIELD_PATTERNS.some((re) => re.test(name));
+const isSensitive = (name: string): boolean => SENSITIVE_FIELD_PATTERNS.some((re) => re.test(name));
 
 const EMPTY_STRUCT_ID = "GoogleProtobufEmpty";
 
@@ -875,11 +856,7 @@ const mapOf = (ctx: EmitCtx, value: string): string => {
   return id;
 };
 
-const fieldTarget = (
-  ctx: EmitCtx,
-  field: ProtoField,
-  scope: string,
-): string => {
+const fieldTarget = (ctx: EmitCtx, field: ProtoField, scope: string): string => {
   if (field.mapKey && field.mapValue) {
     const value = emitType(ctx, field.mapValue, scope, true);
     return mapOf(ctx, value);
@@ -888,10 +865,7 @@ const fieldTarget = (
   return field.repeated ? listOf(ctx, inner) : inner;
 };
 
-const memberTraits = (
-  field: ProtoField,
-  tsName: string,
-): Record<string, any> => {
+const memberTraits = (field: ProtoField, tsName: string): Record<string, any> => {
   const traits: Record<string, any> = {};
   const doc = oneLineDoc(field.documentation);
   if (doc) traits["smithy.api#documentation"] = doc;
@@ -989,10 +963,7 @@ const copyIo = (
     });
   }
   const msg = ctx.index.messages.get(resolved);
-  if (!msg)
-    throw new Error(
-      `rpc ${rpcName}: ${side} type ${typeName} is not a message`,
-    );
+  if (!msg) throw new Error(`rpc ${rpcName}: ${side} type ${typeName} is not a message`);
   return addShape(ctx.bag, `${rpcName}${side}`, {
     type: "structure",
     members: emitMembers(ctx, msg.fields, msg.fullName),
@@ -1008,13 +979,9 @@ export const rpcGroupName = (rpcName: string): string => {
   return m?.[1] ?? rpcName;
 };
 
-export const convertProtoToSmithy = (
-  options: ProtoConvertOptions,
-): ProtoConvertResult => {
+export const convertProtoToSmithy = (options: ProtoConvertOptions): ProtoConvertResult => {
   const index = indexFiles(options.files);
-  const service = index.services.find(
-    (s) => s.fullName === options.protoService,
-  );
+  const service = index.services.find((s) => s.fullName === options.protoService);
   if (!service) {
     throw new Error(
       `proto service ${options.protoService} not found (have ${index.services
@@ -1022,11 +989,8 @@ export const convertProtoToSmithy = (
         .join(", ")})`,
     );
   }
-  const file = options.files.find((f) =>
-    f.services.some((s) => s.fullName === service.fullName),
-  );
-  const pkg =
-    file?.package ?? service.fullName.split(".").slice(0, -1).join(".");
+  const file = options.files.find((f) => f.services.some((s) => s.fullName === service.fullName));
+  const pkg = file?.package ?? service.fullName.split(".").slice(0, -1).join(".");
 
   const bag: Bag = {
     shapes: {},

@@ -1,0 +1,2293 @@
+{
+  "smithy": "2.0",
+  "metadata": {
+    "suppressions": [
+      {
+        "id": "HttpUriConflict",
+        "namespace": "*"
+      },
+      {
+        "id": "HttpMethodSemantics",
+        "namespace": "*"
+      },
+      {
+        "id": "UnreferencedShape",
+        "namespace": "*"
+      }
+    ],
+    "distilled.finalized": true
+  },
+  "shapes": {
+    "com.stackit.workflows#ListInstancesRequest": {
+      "type": "structure",
+      "members": {
+        "projectId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The STACKIT portal project UUID the STACKIT Workflows instance is part of."
+          }
+        },
+        "regionId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The STACKIT region the STACKIT Workflows instance is part of."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.stackit.workflows#ListInstancesResponse": {
+      "type": "structure",
+      "members": {
+        "instances": {
+          "target": "com.stackit.workflows#ListInstancesResponseInstancesList",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.stackit.workflows#Instance": {
+      "type": "structure",
+      "members": {
+        "createdAt": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The date and time the creation of the STACKIT Workflows instance was triggered.",
+            "smithy.api#required": {}
+          }
+        },
+        "dagBundles": {
+          "target": "com.stackit.workflows#InstanceDagBundlesList",
+          "traits": {
+            "smithy.api#documentation": "All configured DAG bundles. This is the canonical source of truth for DAG sources. Available for Airflow 3 instances.\n"
+          }
+        },
+        "dagsRepository": {
+          "target": "com.stackit.workflows#GitRepository"
+        },
+        "description": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "A user chosen description to distinguish multiple STACKIT Workflows instances."
+          }
+        },
+        "displayName": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The displayed name of the STACKIT Workflows instance.",
+            "smithy.api#required": {}
+          }
+        },
+        "enableAirflowExampleDags": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Whether the Airflow built-in example DAGs are enabled in this instance. Only supported for Airflow 3 instances.\n"
+          }
+        },
+        "enableStackitExampleDags": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Whether the STACKIT sample DAGs are included in this instance. Only supported for Airflow 3 instances.\n"
+          }
+        },
+        "endpoints": {
+          "target": "com.stackit.workflows#Endpoints",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "A auto generated unique id which identifies the STACKIT Workflows instance.",
+            "smithy.api#required": {}
+          }
+        },
+        "identityProvider": {
+          "target": "com.stackit.workflows#IdentityProvider",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "network": {
+          "target": "com.stackit.workflows#Network"
+        },
+        "observabilityId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Unique identifier of the customer's observability instance."
+          }
+        },
+        "projectId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The STACKIT portal project UUID the STACKIT Workflows instance is part of.",
+            "smithy.api#required": {}
+          }
+        },
+        "regionId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The STACKIT region the STACKIT Workflows instance is part of.",
+            "smithy.api#required": {}
+          }
+        },
+        "status": {
+          "target": "com.stackit.workflows#InstanceStatus",
+          "traits": {
+            "smithy.api#documentation": "The current status of the STACKIT Workflows instance.",
+            "smithy.api#required": {}
+          }
+        },
+        "statusMessage": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "A message related to the current status."
+          }
+        },
+        "version": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The currently configured STACKIT Workflows instance version.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.stackit.workflows#DagBundle": {
+      "type": "union",
+      "members": {
+        "GitDagBundle": {
+          "target": "com.stackit.workflows#GitDagBundle"
+        },
+        "S3DagBundle": {
+          "target": "com.stackit.workflows#S3DagBundle"
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "A DAG bundle configuration. Discriminated by the \"type\" field. Supported types are \"git\" and \"s3\".\n"
+      }
+    },
+    "com.stackit.workflows#GitDagBundle": {
+      "type": "structure",
+      "members": {
+        "auth": {
+          "target": "com.stackit.workflows#GitAuth",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "branch": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The branch, tag or ref to track.",
+            "smithy.api#required": {}
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Unique name for this bundle within the instance. Must be a valid DNS label (lowercase alphanumeric and hyphens, starting with a letter, max 63 characters).\n",
+            "smithy.api#required": {}
+          }
+        },
+        "refreshInterval": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "How often (in seconds) to check for new commits. Defaults to 60."
+          }
+        },
+        "subdir": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Subdirectory within the repository containing DAG files. Defaults to root. Leading and trailing slashes are stripped automatically — the following four forms are all equivalent and stored as `dags/production`: `/dags/production/`, `dags/production/`, `/dags/production`, `dags/production`.\n"
+          }
+        },
+        "type": {
+          "target": "com.stackit.workflows#GitDagBundleType",
+          "traits": {
+            "smithy.api#documentation": "Bundle type identifier.",
+            "smithy.api#required": {}
+          }
+        },
+        "url": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The URL of the Git repository.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "A Git-based DAG bundle. Maps to airflow.providers.git.bundles.git.GitDagBundle.\n"
+      }
+    },
+    "com.stackit.workflows#GitAuth": {
+      "type": "union",
+      "members": {
+        "BasicAuth": {
+          "target": "com.stackit.workflows#BasicAuth"
+        },
+        "NoAuth": {
+          "target": "com.stackit.workflows#NoAuth"
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Authentication for Git repositories"
+      }
+    },
+    "com.stackit.workflows#BasicAuth": {
+      "type": "structure",
+      "members": {
+        "password": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The password or token",
+            "smithy.api#sensitive": {}
+          }
+        },
+        "type": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Type of authentication"
+          }
+        },
+        "username": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The username"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.stackit.workflows#NoAuth": {
+      "type": "structure",
+      "members": {
+        "type": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Type of authentication"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "No authentication required"
+      }
+    },
+    "com.stackit.workflows#GitDagBundleType": {
+      "type": "enum",
+      "members": {
+        "GIT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "git"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Bundle type identifier."
+      }
+    },
+    "com.stackit.workflows#S3DagBundle": {
+      "type": "structure",
+      "members": {
+        "bucketName": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The S3 bucket name containing DAG files.",
+            "smithy.api#required": {}
+          }
+        },
+        "endpoint": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "S3-compatible endpoint URL. Defaults to https://object.storage.eu01.onstackit.cloud\n"
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Unique name for this bundle within the instance. Must be a valid DNS label (lowercase alphanumeric and hyphens, starting with a letter, max 63 characters).\n",
+            "smithy.api#required": {}
+          }
+        },
+        "prefix": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Key prefix (folder path) within the bucket. Defaults to root."
+          }
+        },
+        "refreshInterval": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "How often (in seconds) to check for new objects. Defaults to 60."
+          }
+        },
+        "s3Auth": {
+          "target": "com.stackit.workflows#S3Auth",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "type": {
+          "target": "com.stackit.workflows#S3DagBundleType",
+          "traits": {
+            "smithy.api#documentation": "Bundle type identifier.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "An S3-based DAG bundle. Maps to airflow.providers.amazon.aws.bundles.s3.S3DagBundle. Compatible with any S3-compatible object storage (e.g. STACKIT Object Storage).\n"
+      }
+    },
+    "com.stackit.workflows#S3Auth": {
+      "type": "union",
+      "members": {
+        "S3AccessKeyAuth": {
+          "target": "com.stackit.workflows#S3AccessKeyAuth"
+        },
+        "NoAuth": {
+          "target": "com.stackit.workflows#NoAuth"
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Authentication for S3-compatible object storage"
+      }
+    },
+    "com.stackit.workflows#S3AccessKeyAuth": {
+      "type": "structure",
+      "members": {
+        "accessKeyId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The S3 access key ID.",
+            "smithy.api#required": {},
+            "smithy.api#sensitive": {}
+          }
+        },
+        "secretAccessKey": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The S3 secret access key. This value is write-only and will not be returned in API responses.\n",
+            "smithy.api#required": {},
+            "smithy.api#sensitive": {}
+          }
+        },
+        "type": {
+          "target": "com.stackit.workflows#S3AccessKeyAuthType",
+          "traits": {
+            "smithy.api#documentation": "Type of authentication",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "S3 access key credentials (access key ID + secret access key)."
+      }
+    },
+    "com.stackit.workflows#S3AccessKeyAuthType": {
+      "type": "enum",
+      "members": {
+        "ACCESSKEY": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "accessKey"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Type of authentication"
+      }
+    },
+    "com.stackit.workflows#S3DagBundleType": {
+      "type": "enum",
+      "members": {
+        "S3": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "s3"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Bundle type identifier."
+      }
+    },
+    "com.stackit.workflows#InstanceDagBundlesList": {
+      "type": "list",
+      "member": {
+        "target": "com.stackit.workflows#DagBundle"
+      },
+      "traits": {
+        "smithy.api#documentation": "All configured DAG bundles. This is the canonical source of truth for DAG sources. Available for Airflow 3 instances.\n"
+      }
+    },
+    "com.stackit.workflows#GitRepository": {
+      "type": "structure",
+      "members": {
+        "auth": {
+          "target": "com.stackit.workflows#GitAuth",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "branch": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The branch in the repository to use",
+            "smithy.api#required": {}
+          }
+        },
+        "url": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The URL of the Git repository.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.stackit.workflows#Endpoints": {
+      "type": "structure",
+      "members": {
+        "redirectUrl": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The authentication callback URL.",
+            "smithy.api#required": {}
+          }
+        },
+        "url": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The URL for the UI of the Workflows instance.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "A collection of endpoints offered by the Workflows instance."
+      }
+    },
+    "com.stackit.workflows#IdentityProvider": {
+      "type": "union",
+      "members": {
+        "StackITIdentityProvider": {
+          "target": "com.stackit.workflows#StackITIdentityProvider"
+        },
+        "OAuth2IdentityProvider": {
+          "target": "com.stackit.workflows#OAuth2IdentityProvider"
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Configuration for the identity provider used."
+      }
+    },
+    "com.stackit.workflows#StackITIdentityProvider": {
+      "type": "structure",
+      "members": {
+        "type": {
+          "target": "com.stackit.workflows#StackITIdentityProviderType",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The default STACKIT identity provider."
+      }
+    },
+    "com.stackit.workflows#StackITIdentityProviderType": {
+      "type": "enum",
+      "members": {
+        "STACKIT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "stackit"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.stackit.workflows#OAuth2IdentityProvider": {
+      "type": "structure",
+      "members": {
+        "apiAudience": {
+          "target": "com.stackit.workflows#OAuth2IdentityProviderApiAudienceList",
+          "traits": {
+            "smithy.api#documentation": "Expected audience(s) for API token validation when using the session endpoint for token exchange.\n"
+          }
+        },
+        "clientId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The client id of the STACKIT Workflows application in the identity provider.",
+            "smithy.api#required": {}
+          }
+        },
+        "clientSecret": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The client secret of the STACKIT Workflows application in the identity provider.\n",
+            "smithy.api#required": {},
+            "smithy.api#sensitive": {}
+          }
+        },
+        "discoveryEndpoint": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Discovery endpoint of the OAuth2 identity provider. This endpoint is used to fetch the OpenID configuration. Typically, this endpoint ends with `/.well-known/openid-configuration`.\n",
+            "smithy.api#required": {}
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The name of the OAuth2 identity provider that will show in STACKIT Workflows instance. The following special values modify the way a token is parsed. If any of the following IdPs is used, please specify the corresponding value: `azure`, `okta`, `aws_cognito`, `keycloak`\n",
+            "smithy.api#required": {}
+          }
+        },
+        "resource": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "RFC 8707 Resource Indicators for OAuth 2.0. Optional resource parameter to indicate which resource the token is intended for.\n"
+          }
+        },
+        "rolesClaim": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Dot-separated path to extract roles from JWT claims (e.g., \"realm_access.roles\" or \"resource_access.my_client.roles\"). If not specified, provider-specific defaults are used.\n"
+          }
+        },
+        "scope": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Scopes to request for Authorization Code Flows. (UI login)",
+            "smithy.api#required": {}
+          }
+        },
+        "type": {
+          "target": "com.stackit.workflows#OAuth2IdentityProviderType",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Configuration for the custom OAuth2 identity provider used."
+      }
+    },
+    "com.stackit.workflows#OAuth2IdentityProviderApiAudienceList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {
+        "smithy.api#documentation": "Expected audience(s) for API token validation when using the session endpoint for token exchange.\n"
+      }
+    },
+    "com.stackit.workflows#OAuth2IdentityProviderType": {
+      "type": "enum",
+      "members": {
+        "OAUTH2": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "oauth2"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.stackit.workflows#Network": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String"
+        }
+      },
+      "traits": {}
+    },
+    "com.stackit.workflows#InstanceStatus": {
+      "type": "enum",
+      "members": {
+        "CREATING": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "creating"
+          }
+        },
+        "ACTIVE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "active"
+          }
+        },
+        "UPDATING": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "updating"
+          }
+        },
+        "DELETING": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "deleting"
+          }
+        },
+        "FAILED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "failed"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The current status of the STACKIT Workflows instance."
+      }
+    },
+    "com.stackit.workflows#ListInstancesResponseInstancesList": {
+      "type": "list",
+      "member": {
+        "target": "com.stackit.workflows#Instance"
+      },
+      "traits": {}
+    },
+    "com.stackit.workflows#ListInstances": {
+      "type": "operation",
+      "input": {
+        "target": "com.stackit.workflows#ListInstancesRequest"
+      },
+      "output": {
+        "target": "com.stackit.workflows#ListInstancesResponse"
+      },
+      "errors": [
+        {
+          "target": "com.stackit.workflows#BadRequest"
+        },
+        {
+          "target": "com.stackit.workflows#Forbidden"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/v1alpha/projects/{projectId}/regions/{regionId}/instances",
+          "code": 200,
+          "baseUrl": "https://workflows.api.stackit.cloud"
+        },
+        "smithy.api#documentation": "Returns a list of all STACKIT Workflows instances within the project."
+      }
+    },
+    "com.stackit.workflows#CreateInstanceRequestDagBundlesList": {
+      "type": "list",
+      "member": {
+        "target": "com.stackit.workflows#DagBundle"
+      },
+      "traits": {
+        "smithy.api#documentation": "List of DAG bundles to configure. Supports Git and S3 sources. If provided, this takes precedence over dagsRepository. At least one bundle must be specified. Maximum 10 bundles. Only supported for Airflow 3 versions.\n"
+      }
+    },
+    "com.stackit.workflows#CreateInstanceRequest": {
+      "type": "structure",
+      "members": {
+        "projectId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The STACKIT portal project UUID the STACKIT Workflows instance is part of."
+          }
+        },
+        "regionId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The STACKIT region the STACKIT Workflows instance is part of."
+          }
+        },
+        "dagBundles": {
+          "target": "com.stackit.workflows#CreateInstanceRequestDagBundlesList",
+          "traits": {
+            "smithy.api#documentation": "List of DAG bundles to configure. Supports Git and S3 sources. If provided, this takes precedence over dagsRepository. At least one bundle must be specified. Maximum 10 bundles. Only supported for Airflow 3 versions.\n"
+          }
+        },
+        "dagsRepository": {
+          "target": "com.stackit.workflows#GitRepository"
+        },
+        "description": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "A user chosen description to distinguish multiple STACKIT Workflows instances."
+          }
+        },
+        "displayName": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The displayed name to distinguish multiple STACKIT Workflows instances.",
+            "smithy.api#required": {}
+          }
+        },
+        "enableAirflowExampleDags": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Whether to enable the Airflow built-in example DAGs in this instance. Maps to airflow.config.core.load_examples in the Helm chart. Only supported for Airflow 3 instances. Defaults to false.\n"
+          }
+        },
+        "enableStackitExampleDags": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Whether to include the STACKIT sample DAGs in this instance. Only supported for Airflow 3 instances. Defaults to false.\n"
+          }
+        },
+        "identityProvider": {
+          "target": "com.stackit.workflows#IdentityProvider"
+        },
+        "network": {
+          "target": "com.stackit.workflows#Network"
+        },
+        "observabilityId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Unique identifier of the customer's observability instance."
+          }
+        },
+        "version": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The version of the STACKIT Workflows to use. For valid versions please take a look at [provider-options](#tag/provider-options/operation/get-provider-options)",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.stackit.workflows#CreateInstance": {
+      "type": "operation",
+      "input": {
+        "target": "com.stackit.workflows#CreateInstanceRequest"
+      },
+      "output": {
+        "target": "com.stackit.workflows#Instance"
+      },
+      "errors": [
+        {
+          "target": "com.stackit.workflows#BadRequest"
+        },
+        {
+          "target": "com.stackit.workflows#Forbidden"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/v1alpha/projects/{projectId}/regions/{regionId}/instances",
+          "code": 200,
+          "baseUrl": "https://workflows.api.stackit.cloud"
+        },
+        "smithy.api#documentation": "Creates a new STACKIT Workflows instance within the project."
+      }
+    },
+    "com.stackit.workflows#GetInstanceRequest": {
+      "type": "structure",
+      "members": {
+        "projectId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The STACKIT portal project UUID the STACKIT Workflows instance is part of."
+          }
+        },
+        "regionId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The STACKIT region the STACKIT Workflows instance is part of."
+          }
+        },
+        "instanceId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The STACKIT Workflows instance UUID."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.stackit.workflows#GetInstance": {
+      "type": "operation",
+      "input": {
+        "target": "com.stackit.workflows#GetInstanceRequest"
+      },
+      "output": {
+        "target": "com.stackit.workflows#Instance"
+      },
+      "errors": [
+        {
+          "target": "com.stackit.workflows#BadRequest"
+        },
+        {
+          "target": "com.stackit.workflows#Forbidden"
+        },
+        {
+          "target": "com.stackit.workflows#NotFound"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/v1alpha/projects/{projectId}/regions/{regionId}/instances/{instanceId}",
+          "code": 200,
+          "baseUrl": "https://workflows.api.stackit.cloud"
+        },
+        "smithy.api#documentation": "Returns the details for the given STACKIT Workflows instance."
+      }
+    },
+    "com.stackit.workflows#UpdateInstanceRequest": {
+      "type": "structure",
+      "members": {
+        "projectId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The STACKIT portal project UUID the STACKIT Workflows instance is part of."
+          }
+        },
+        "regionId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The STACKIT region the STACKIT Workflows instance is part of."
+          }
+        },
+        "instanceId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The STACKIT Workflows instance UUID."
+          }
+        },
+        "description": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "A user chosen description to distinguish multiple STACKIT Workflows instances. If not provided, the description won't be updated. Set to empty string to remove the description."
+          }
+        },
+        "displayName": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The displayed name to distinguish multiple STACKIT Workflows instances. If not provided, the display name won't be updated."
+          }
+        },
+        "enableAirflowExampleDags": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Whether to enable the Airflow built-in example DAGs in this instance. Maps to airflow.config.core.load_examples in the Helm chart. Only supported for Airflow 3 instances. If not provided, the setting won't be updated.\n"
+          }
+        },
+        "enableStackitExampleDags": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Whether to include the STACKIT sample DAGs in this instance. Only supported for Airflow 3 instances. If not provided, the setting won't be updated.\n"
+          }
+        },
+        "version": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The STACKIT Workflows version to use. For valid versions please take a look at [provider-options](#tag/provider-options/operation/get-provider-options) If not provided, the version won't be updated."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.stackit.workflows#UpdateInstance": {
+      "type": "operation",
+      "input": {
+        "target": "com.stackit.workflows#UpdateInstanceRequest"
+      },
+      "output": {
+        "target": "com.stackit.workflows#Instance"
+      },
+      "errors": [
+        {
+          "target": "com.stackit.workflows#BadRequest"
+        },
+        {
+          "target": "com.stackit.workflows#Forbidden"
+        },
+        {
+          "target": "com.stackit.workflows#NotFound"
+        },
+        {
+          "target": "com.stackit.workflows#Conflict"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "PATCH",
+          "uri": "/v1alpha/projects/{projectId}/regions/{regionId}/instances/{instanceId}",
+          "code": 200,
+          "baseUrl": "https://workflows.api.stackit.cloud"
+        },
+        "smithy.api#documentation": "Updates core Attributes of this STACKIT Workflows Instance."
+      }
+    },
+    "com.stackit.workflows#DeleteInstanceRequest": {
+      "type": "structure",
+      "members": {
+        "projectId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The STACKIT portal project UUID the STACKIT Workflows instance is part of."
+          }
+        },
+        "regionId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The STACKIT region the STACKIT Workflows instance is part of."
+          }
+        },
+        "instanceId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The STACKIT Workflows instance UUID."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.stackit.workflows#DeleteInstance": {
+      "type": "operation",
+      "input": {
+        "target": "com.stackit.workflows#DeleteInstanceRequest"
+      },
+      "output": {
+        "target": "smithy.api#Unit"
+      },
+      "errors": [
+        {
+          "target": "com.stackit.workflows#BadRequest"
+        },
+        {
+          "target": "com.stackit.workflows#Forbidden"
+        },
+        {
+          "target": "com.stackit.workflows#NotFound"
+        },
+        {
+          "target": "com.stackit.workflows#Conflict"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "DELETE",
+          "uri": "/v1alpha/projects/{projectId}/regions/{regionId}/instances/{instanceId}",
+          "code": 200,
+          "baseUrl": "https://workflows.api.stackit.cloud"
+        },
+        "smithy.api#documentation": "Deletes the given STACKIT Workflows instance."
+      }
+    },
+    "com.stackit.workflows#ListDagBundlesRequest": {
+      "type": "structure",
+      "members": {
+        "projectId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The STACKIT portal project UUID the STACKIT Workflows instance is part of."
+          }
+        },
+        "regionId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The STACKIT region the STACKIT Workflows instance is part of."
+          }
+        },
+        "instanceId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The STACKIT Workflows instance UUID."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.stackit.workflows#ListDagBundlesResponseOutput": {
+      "type": "structure",
+      "members": {
+        "dagBundles": {
+          "target": "com.stackit.workflows#ListDagBundlesResponseOutputDagBundlesList",
+          "traits": {
+            "smithy.api#documentation": "List of all configured DAG bundles. Authentication type and username are returned for informational purposes; passwords and secrets are always masked.\n",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.stackit.workflows#DagBundleResponseOutput": {
+      "type": "union",
+      "members": {
+        "GitDagBundleResponse": {
+          "target": "com.stackit.workflows#GitDagBundleResponseOutput"
+        },
+        "S3DagBundleResponse": {
+          "target": "com.stackit.workflows#S3DagBundleResponse"
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "A DAG bundle as returned by the API. Auth structure (type, username) is included but credentials (passwords, secret keys) are masked. Discriminated by the \"type\" field.\n"
+      }
+    },
+    "com.stackit.workflows#GitDagBundleResponseOutput": {
+      "type": "structure",
+      "members": {
+        "auth": {
+          "target": "com.stackit.workflows#GitAuthResponseOutput",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "branch": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The branch, tag or ref being tracked.",
+            "smithy.api#required": {}
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Unique name for this bundle within the instance.",
+            "smithy.api#required": {}
+          }
+        },
+        "refreshInterval": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "How often (in seconds) to check for new commits."
+          }
+        },
+        "subdir": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Subdirectory within the repository containing DAG files. Leading and trailing slashes are stripped automatically. Absent when set to root.\n"
+          }
+        },
+        "type": {
+          "target": "com.stackit.workflows#GitDagBundleResponseOutputType",
+          "traits": {
+            "smithy.api#documentation": "Bundle type identifier.",
+            "smithy.api#required": {}
+          }
+        },
+        "url": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The URL of the Git repository.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "A Git-based DAG bundle as returned by the API. The auth structure (type, username) is included; passwords are masked.\n"
+      }
+    },
+    "com.stackit.workflows#GitAuthResponseOutput": {
+      "type": "union",
+      "members": {
+        "BasicAuthResponse": {
+          "target": "com.stackit.workflows#BasicAuthResponseOutput"
+        },
+        "NoAuth": {
+          "target": "com.stackit.workflows#NoAuth"
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Authentication configuration as returned in API responses. Credentials (passwords) are always masked and never returned in plain text.\n"
+      }
+    },
+    "com.stackit.workflows#BasicAuthResponseOutput": {
+      "type": "structure",
+      "members": {
+        "type": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Type of authentication"
+          }
+        },
+        "username": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The username"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Basic authentication as returned in API responses. The password field is always masked (\"**********\") and never contains the real value.\n"
+      }
+    },
+    "com.stackit.workflows#GitDagBundleResponseOutputType": {
+      "type": "enum",
+      "members": {
+        "GIT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "git"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Bundle type identifier."
+      }
+    },
+    "com.stackit.workflows#S3DagBundleResponse": {
+      "type": "structure",
+      "members": {
+        "bucketName": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The S3 bucket name containing DAG files.",
+            "smithy.api#required": {}
+          }
+        },
+        "endpoint": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "S3-compatible endpoint URL."
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Unique name for this bundle within the instance.",
+            "smithy.api#required": {}
+          }
+        },
+        "prefix": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Key prefix (folder path) within the bucket."
+          }
+        },
+        "refreshInterval": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "How often (in seconds) to check for new objects."
+          }
+        },
+        "s3Auth": {
+          "target": "com.stackit.workflows#S3AuthResponse",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "type": {
+          "target": "com.stackit.workflows#S3DagBundleResponseType",
+          "traits": {
+            "smithy.api#documentation": "Bundle type identifier.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "An S3-based DAG bundle as returned by the API. The s3Auth structure (type, accessKeyId) is included; secret keys are masked.\n"
+      }
+    },
+    "com.stackit.workflows#S3AuthResponse": {
+      "type": "union",
+      "members": {
+        "S3AccessKeyAuthResponse": {
+          "target": "com.stackit.workflows#S3AccessKeyAuthResponse"
+        },
+        "NoAuth": {
+          "target": "com.stackit.workflows#NoAuth"
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "S3 authentication configuration as returned in API responses. Secret keys are always masked and never returned in plain text.\n"
+      }
+    },
+    "com.stackit.workflows#S3AccessKeyAuthResponse": {
+      "type": "structure",
+      "members": {
+        "accessKeyId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The S3 access key ID.",
+            "smithy.api#required": {},
+            "smithy.api#sensitive": {}
+          }
+        },
+        "secretAccessKey": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Always returned as \"**********\". The actual secret access key is never exposed in API responses.\n",
+            "smithy.api#sensitive": {}
+          }
+        },
+        "type": {
+          "target": "com.stackit.workflows#S3AccessKeyAuthResponseType",
+          "traits": {
+            "smithy.api#documentation": "Type of authentication",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "S3 access key credentials as returned in API responses. The secret access key is always masked (\"**********\") and never contains the real value.\n"
+      }
+    },
+    "com.stackit.workflows#S3AccessKeyAuthResponseType": {
+      "type": "enum",
+      "members": {
+        "ACCESSKEY": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "accessKey"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Type of authentication"
+      }
+    },
+    "com.stackit.workflows#S3DagBundleResponseType": {
+      "type": "enum",
+      "members": {
+        "S3": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "s3"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Bundle type identifier."
+      }
+    },
+    "com.stackit.workflows#ListDagBundlesResponseOutputDagBundlesList": {
+      "type": "list",
+      "member": {
+        "target": "com.stackit.workflows#DagBundleResponseOutput"
+      },
+      "traits": {
+        "smithy.api#documentation": "List of all configured DAG bundles. Authentication type and username are returned for informational purposes; passwords and secrets are always masked.\n"
+      }
+    },
+    "com.stackit.workflows#ListDagBundles": {
+      "type": "operation",
+      "input": {
+        "target": "com.stackit.workflows#ListDagBundlesRequest"
+      },
+      "output": {
+        "target": "com.stackit.workflows#ListDagBundlesResponseOutput"
+      },
+      "errors": [
+        {
+          "target": "com.stackit.workflows#BadRequest"
+        },
+        {
+          "target": "com.stackit.workflows#Forbidden"
+        },
+        {
+          "target": "com.stackit.workflows#NotFound"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/v1alpha/projects/{projectId}/regions/{regionId}/instances/{instanceId}/dag-bundles",
+          "code": 200,
+          "baseUrl": "https://workflows.api.stackit.cloud"
+        },
+        "smithy.api#documentation": "Returns a list of all DAG bundles configured for this STACKIT Workflows instance."
+      }
+    },
+    "com.stackit.workflows#CreateDagBundlePayload": {
+      "type": "union",
+      "members": {
+        "GitDagBundle": {
+          "target": "com.stackit.workflows#GitDagBundle"
+        },
+        "S3DagBundle": {
+          "target": "com.stackit.workflows#S3DagBundle"
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "A DAG bundle configuration. Discriminated by the \"type\" field. Supported types are \"git\" and \"s3\".\n"
+      }
+    },
+    "com.stackit.workflows#CreateDagBundleRequest": {
+      "type": "structure",
+      "members": {
+        "projectId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The STACKIT portal project UUID the STACKIT Workflows instance is part of."
+          }
+        },
+        "regionId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The STACKIT region the STACKIT Workflows instance is part of."
+          }
+        },
+        "instanceId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The STACKIT Workflows instance UUID."
+          }
+        },
+        "body": {
+          "target": "com.stackit.workflows#CreateDagBundlePayload",
+          "traits": {
+            "smithy.api#httpPayload": {},
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.stackit.workflows#CreateDagBundleResponse": {
+      "type": "structure",
+      "members": {
+        "body": {
+          "target": "com.stackit.workflows#DagBundleResponseOutput",
+          "traits": {
+            "com.distilled.openapi#rawResponse": {},
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
+      }
+    },
+    "com.stackit.workflows#CreateDagBundle": {
+      "type": "operation",
+      "input": {
+        "target": "com.stackit.workflows#CreateDagBundleRequest"
+      },
+      "output": {
+        "target": "com.stackit.workflows#CreateDagBundleResponse"
+      },
+      "errors": [
+        {
+          "target": "com.stackit.workflows#BadRequest"
+        },
+        {
+          "target": "com.stackit.workflows#Forbidden"
+        },
+        {
+          "target": "com.stackit.workflows#NotFound"
+        },
+        {
+          "target": "com.stackit.workflows#Conflict"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/v1alpha/projects/{projectId}/regions/{regionId}/instances/{instanceId}/dag-bundles",
+          "code": 200,
+          "baseUrl": "https://workflows.api.stackit.cloud"
+        },
+        "smithy.api#documentation": "Adds a new DAG bundle to this STACKIT Workflows instance. Only supported for Airflow 3 instances. Maximum 10 bundles per instance."
+      }
+    },
+    "com.stackit.workflows#GetDagBundleRequest": {
+      "type": "structure",
+      "members": {
+        "projectId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The STACKIT portal project UUID the STACKIT Workflows instance is part of."
+          }
+        },
+        "regionId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The STACKIT region the STACKIT Workflows instance is part of."
+          }
+        },
+        "instanceId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The STACKIT Workflows instance UUID."
+          }
+        },
+        "bundleName": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The unique name of the DAG bundle. Must be a valid DNS label (lowercase alphanumeric and hyphens, max 63 characters).\n"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.stackit.workflows#GetDagBundleResponse": {
+      "type": "structure",
+      "members": {
+        "body": {
+          "target": "com.stackit.workflows#DagBundleResponseOutput",
+          "traits": {
+            "com.distilled.openapi#rawResponse": {},
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
+      }
+    },
+    "com.stackit.workflows#GetDagBundle": {
+      "type": "operation",
+      "input": {
+        "target": "com.stackit.workflows#GetDagBundleRequest"
+      },
+      "output": {
+        "target": "com.stackit.workflows#GetDagBundleResponse"
+      },
+      "errors": [
+        {
+          "target": "com.stackit.workflows#Forbidden"
+        },
+        {
+          "target": "com.stackit.workflows#NotFound"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/v1alpha/projects/{projectId}/regions/{regionId}/instances/{instanceId}/dag-bundles/{bundleName}",
+          "code": 200,
+          "baseUrl": "https://workflows.api.stackit.cloud"
+        },
+        "smithy.api#documentation": "Returns the configuration of a single DAG bundle."
+      }
+    },
+    "com.stackit.workflows#UpdateDagBundlePayload": {
+      "type": "union",
+      "members": {
+        "UpdateGitDagBundlePayload": {
+          "target": "com.stackit.workflows#UpdateGitDagBundlePayload"
+        },
+        "UpdateS3DagBundlePayload": {
+          "target": "com.stackit.workflows#UpdateS3DagBundlePayload"
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Partial update payload for a DAG bundle. The \"type\" field must be provided and must match the existing bundle's type (\"git\" or \"s3\"). Only the provided fields will be updated. Supplying fields that belong to the wrong type will be rejected.\n"
+      }
+    },
+    "com.stackit.workflows#UpdateGitDagBundlePayload": {
+      "type": "structure",
+      "members": {
+        "auth": {
+          "target": "com.stackit.workflows#GitAuth"
+        },
+        "branch": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Updated branch/tag/ref to track."
+          }
+        },
+        "refreshInterval": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Updated refresh interval in seconds."
+          }
+        },
+        "subdir": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Updated subdirectory within the repository. Set to empty string or \"/\" to clear an existing subdir.\n"
+          }
+        },
+        "type": {
+          "target": "com.stackit.workflows#UpdateGitDagBundlePayloadType",
+          "traits": {
+            "smithy.api#documentation": "Bundle type identifier — must match the existing bundle's type.",
+            "smithy.api#required": {}
+          }
+        },
+        "url": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Updated Git repository URL. If changed, auth must also be provided."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Partial update payload for a Git DAG bundle. All fields except \"type\" are optional; only the provided fields will be updated.\n"
+      }
+    },
+    "com.stackit.workflows#UpdateGitDagBundlePayloadType": {
+      "type": "enum",
+      "members": {
+        "GIT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "git"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Bundle type identifier — must match the existing bundle's type."
+      }
+    },
+    "com.stackit.workflows#UpdateS3DagBundlePayload": {
+      "type": "structure",
+      "members": {
+        "bucketName": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Updated S3 bucket name. If changed, s3Auth must also be provided."
+          }
+        },
+        "endpoint": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Updated S3-compatible endpoint URL. If changed, s3Auth must also be provided."
+          }
+        },
+        "prefix": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Updated key prefix within the bucket."
+          }
+        },
+        "refreshInterval": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Updated refresh interval in seconds."
+          }
+        },
+        "s3Auth": {
+          "target": "com.stackit.workflows#S3Auth"
+        },
+        "type": {
+          "target": "com.stackit.workflows#UpdateS3DagBundlePayloadType",
+          "traits": {
+            "smithy.api#documentation": "Bundle type identifier — must match the existing bundle's type.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Partial update payload for an S3 DAG bundle. All fields except \"type\" are optional; only the provided fields will be updated.\n"
+      }
+    },
+    "com.stackit.workflows#UpdateS3DagBundlePayloadType": {
+      "type": "enum",
+      "members": {
+        "S3": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "s3"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Bundle type identifier — must match the existing bundle's type."
+      }
+    },
+    "com.stackit.workflows#UpdateDagBundleRequest": {
+      "type": "structure",
+      "members": {
+        "projectId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The STACKIT portal project UUID the STACKIT Workflows instance is part of."
+          }
+        },
+        "regionId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The STACKIT region the STACKIT Workflows instance is part of."
+          }
+        },
+        "instanceId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The STACKIT Workflows instance UUID."
+          }
+        },
+        "bundleName": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The unique name of the DAG bundle. Must be a valid DNS label (lowercase alphanumeric and hyphens, max 63 characters).\n"
+          }
+        },
+        "body": {
+          "target": "com.stackit.workflows#UpdateDagBundlePayload",
+          "traits": {
+            "smithy.api#httpPayload": {},
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.stackit.workflows#UpdateDagBundleResponse": {
+      "type": "structure",
+      "members": {
+        "body": {
+          "target": "com.stackit.workflows#DagBundleResponseOutput",
+          "traits": {
+            "com.distilled.openapi#rawResponse": {},
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
+      }
+    },
+    "com.stackit.workflows#UpdateDagBundle": {
+      "type": "operation",
+      "input": {
+        "target": "com.stackit.workflows#UpdateDagBundleRequest"
+      },
+      "output": {
+        "target": "com.stackit.workflows#UpdateDagBundleResponse"
+      },
+      "errors": [
+        {
+          "target": "com.stackit.workflows#BadRequest"
+        },
+        {
+          "target": "com.stackit.workflows#Forbidden"
+        },
+        {
+          "target": "com.stackit.workflows#NotFound"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "PATCH",
+          "uri": "/v1alpha/projects/{projectId}/regions/{regionId}/instances/{instanceId}/dag-bundles/{bundleName}",
+          "code": 200,
+          "baseUrl": "https://workflows.api.stackit.cloud"
+        },
+        "smithy.api#documentation": "Updates an existing DAG bundle. The bundle type (git/s3) is inferred from the existing bundle and cannot be changed. To change the type, delete and recreate the bundle. Only supported for Airflow 3 instances."
+      }
+    },
+    "com.stackit.workflows#DeleteDagBundleRequest": {
+      "type": "structure",
+      "members": {
+        "projectId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The STACKIT portal project UUID the STACKIT Workflows instance is part of."
+          }
+        },
+        "regionId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The STACKIT region the STACKIT Workflows instance is part of."
+          }
+        },
+        "instanceId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The STACKIT Workflows instance UUID."
+          }
+        },
+        "bundleName": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The unique name of the DAG bundle. Must be a valid DNS label (lowercase alphanumeric and hyphens, max 63 characters).\n"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.stackit.workflows#DeleteDagBundle": {
+      "type": "operation",
+      "input": {
+        "target": "com.stackit.workflows#DeleteDagBundleRequest"
+      },
+      "output": {
+        "target": "smithy.api#Unit"
+      },
+      "errors": [
+        {
+          "target": "com.stackit.workflows#BadRequest"
+        },
+        {
+          "target": "com.stackit.workflows#Forbidden"
+        },
+        {
+          "target": "com.stackit.workflows#NotFound"
+        },
+        {
+          "target": "com.stackit.workflows#Conflict"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "DELETE",
+          "uri": "/v1alpha/projects/{projectId}/regions/{regionId}/instances/{instanceId}/dag-bundles/{bundleName}",
+          "code": 200,
+          "baseUrl": "https://workflows.api.stackit.cloud"
+        },
+        "smithy.api#documentation": "Removes a DAG bundle from this STACKIT Workflows instance. At least one bundle must remain configured. Only supported for Airflow 3 instances."
+      }
+    },
+    "com.stackit.workflows#UpdateDagsRepositoryRequest": {
+      "type": "structure",
+      "members": {
+        "projectId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The STACKIT portal project UUID the STACKIT Workflows instance is part of."
+          }
+        },
+        "regionId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The STACKIT region the STACKIT Workflows instance is part of."
+          }
+        },
+        "instanceId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The STACKIT Workflows instance UUID."
+          }
+        },
+        "auth": {
+          "target": "com.stackit.workflows#GitAuth"
+        },
+        "branch": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The branch in the repository to use"
+          }
+        },
+        "url": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The URL of the Git repository."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.stackit.workflows#UpdateDagsRepository": {
+      "type": "operation",
+      "input": {
+        "target": "com.stackit.workflows#UpdateDagsRepositoryRequest"
+      },
+      "output": {
+        "target": "com.stackit.workflows#Instance"
+      },
+      "errors": [
+        {
+          "target": "com.stackit.workflows#BadRequest"
+        },
+        {
+          "target": "com.stackit.workflows#Forbidden"
+        },
+        {
+          "target": "com.stackit.workflows#NotFound"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "PATCH",
+          "uri": "/v1alpha/projects/{projectId}/regions/{regionId}/instances/{instanceId}/dags-repository",
+          "code": 200,
+          "baseUrl": "https://workflows.api.stackit.cloud"
+        },
+        "smithy.api#documentation": "Updates the DAGs repository configuration for this STACKIT Workflows instance."
+      }
+    },
+    "com.stackit.workflows#UpdateIdentityProviderPayload": {
+      "type": "union",
+      "members": {
+        "StackITIdentityProvider": {
+          "target": "com.stackit.workflows#StackITIdentityProvider"
+        },
+        "OAuth2IdentityProviderPatch": {
+          "target": "com.stackit.workflows#OAuth2IdentityProviderPatch"
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Request to update an identity provider configuration"
+      }
+    },
+    "com.stackit.workflows#OAuth2IdentityProviderPatch": {
+      "type": "structure",
+      "members": {
+        "apiAudience": {
+          "target": "com.stackit.workflows#OAuth2IdentityProviderPatchApiAudienceList",
+          "traits": {
+            "smithy.api#documentation": "Updated expected audience(s) for API token validation. Set to empty array to disable audience validation.\n"
+          }
+        },
+        "clientId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Updated client id of the STACKIT Workflows application in the identity provider. If changed, requires to also set the client secret."
+          }
+        },
+        "clientSecret": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Updated client secret of the STACKIT Workflows application in the identity provider.",
+            "smithy.api#sensitive": {}
+          }
+        },
+        "discoveryEndpoint": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Updated discovery endpoint of the OAuth2 identity provider. If changed, requires to also set the client id and client secret.\n"
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Updated name of the OAuth2 identity provider."
+          }
+        },
+        "resource": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Updated RFC 8707 resource parameter. Set to empty string to remove the resource parameter.\n"
+          }
+        },
+        "rolesClaim": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Updated dot-separated path to extract roles from JWT claims. Set to empty string to use provider-specific defaults.\n"
+          }
+        },
+        "scope": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Updated scopes to request for Authorization Code Flows. (UI login)"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Request to update an OAuth2 identity provider configuration"
+      }
+    },
+    "com.stackit.workflows#OAuth2IdentityProviderPatchApiAudienceList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {
+        "smithy.api#documentation": "Updated expected audience(s) for API token validation. Set to empty array to disable audience validation.\n"
+      }
+    },
+    "com.stackit.workflows#UpdateIdentityProviderRequest": {
+      "type": "structure",
+      "members": {
+        "projectId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The STACKIT portal project UUID the STACKIT Workflows instance is part of."
+          }
+        },
+        "regionId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The STACKIT region the STACKIT Workflows instance is part of."
+          }
+        },
+        "instanceId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The STACKIT Workflows instance UUID."
+          }
+        },
+        "body": {
+          "target": "com.stackit.workflows#UpdateIdentityProviderPayload",
+          "traits": {
+            "smithy.api#httpPayload": {},
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.stackit.workflows#UpdateIdentityProvider": {
+      "type": "operation",
+      "input": {
+        "target": "com.stackit.workflows#UpdateIdentityProviderRequest"
+      },
+      "output": {
+        "target": "com.stackit.workflows#Instance"
+      },
+      "errors": [
+        {
+          "target": "com.stackit.workflows#BadRequest"
+        },
+        {
+          "target": "com.stackit.workflows#Forbidden"
+        },
+        {
+          "target": "com.stackit.workflows#NotFound"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "PATCH",
+          "uri": "/v1alpha/projects/{projectId}/regions/{regionId}/instances/{instanceId}/identity-provider",
+          "code": 200,
+          "baseUrl": "https://workflows.api.stackit.cloud"
+        },
+        "smithy.api#documentation": "Updates the identity provider configuration for this STACKIT Workflows instance."
+      }
+    },
+    "com.stackit.workflows#UpdateObservabilityRequest": {
+      "type": "structure",
+      "members": {
+        "projectId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The STACKIT portal project UUID the STACKIT Workflows instance is part of."
+          }
+        },
+        "regionId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The STACKIT region the STACKIT Workflows instance is part of."
+          }
+        },
+        "instanceId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The STACKIT Workflows instance UUID."
+          }
+        },
+        "observabilityId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Unique identifier of the customer's observability instance."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.stackit.workflows#UpdateObservability": {
+      "type": "operation",
+      "input": {
+        "target": "com.stackit.workflows#UpdateObservabilityRequest"
+      },
+      "output": {
+        "target": "com.stackit.workflows#Instance"
+      },
+      "errors": [
+        {
+          "target": "com.stackit.workflows#BadRequest"
+        },
+        {
+          "target": "com.stackit.workflows#Forbidden"
+        },
+        {
+          "target": "com.stackit.workflows#NotFound"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "PATCH",
+          "uri": "/v1alpha/projects/{projectId}/regions/{regionId}/instances/{instanceId}/observability",
+          "code": 200,
+          "baseUrl": "https://workflows.api.stackit.cloud"
+        },
+        "smithy.api#documentation": "Updates the Observability configuration for this STACKIT Workflows instance."
+      }
+    },
+    "com.stackit.workflows#GetProviderOptionsRequest": {
+      "type": "structure",
+      "members": {
+        "regionId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The STACKIT region the STACKIT Workflows instance is part of."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.stackit.workflows#ProviderOptions": {
+      "type": "structure",
+      "members": {
+        "versions": {
+          "target": "com.stackit.workflows#ProviderOptionsVersionsList",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.stackit.workflows#SupportedVersion": {
+      "type": "structure",
+      "members": {
+        "expirationDate": {
+          "target": "smithy.api#String"
+        },
+        "state": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "version": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.stackit.workflows#ProviderOptionsVersionsList": {
+      "type": "list",
+      "member": {
+        "target": "com.stackit.workflows#SupportedVersion"
+      },
+      "traits": {}
+    },
+    "com.stackit.workflows#GetProviderOptions": {
+      "type": "operation",
+      "input": {
+        "target": "com.stackit.workflows#GetProviderOptionsRequest"
+      },
+      "output": {
+        "target": "com.stackit.workflows#ProviderOptions"
+      },
+      "errors": [
+        {
+          "target": "com.stackit.workflows#BadRequest"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/v1alpha/regions/{regionId}/provider-options",
+          "code": 200,
+          "baseUrl": "https://workflows.api.stackit.cloud"
+        },
+        "smithy.api#documentation": "Get provider options\n\nReturns a list of supported configuration options for this region."
+      }
+    },
+    "com.stackit.workflows#BadRequest": {
+      "type": "structure",
+      "members": {},
+      "traits": {
+        "smithy.api#error": "client",
+        "smithy.api#httpError": 400,
+        "com.distilled.openapi#errorMatchers": [
+          {
+            "status": 400
+          }
+        ]
+      }
+    },
+    "com.stackit.workflows#Forbidden": {
+      "type": "structure",
+      "members": {},
+      "traits": {
+        "smithy.api#error": "client",
+        "smithy.api#httpError": 403,
+        "com.distilled.openapi#errorMatchers": [
+          {
+            "status": 403
+          }
+        ]
+      }
+    },
+    "com.stackit.workflows#NotFound": {
+      "type": "structure",
+      "members": {},
+      "traits": {
+        "smithy.api#error": "client",
+        "smithy.api#httpError": 404,
+        "com.distilled.openapi#errorMatchers": [
+          {
+            "status": 404
+          }
+        ]
+      }
+    },
+    "com.stackit.workflows#Conflict": {
+      "type": "structure",
+      "members": {},
+      "traits": {
+        "smithy.api#error": "client",
+        "smithy.api#httpError": 409,
+        "com.distilled.openapi#errorMatchers": [
+          {
+            "status": 409
+          }
+        ]
+      }
+    },
+    "com.stackit.workflows#Workflows": {
+      "type": "service",
+      "version": "1alpha.0.1",
+      "operations": [
+        {
+          "target": "com.stackit.workflows#ListInstances"
+        },
+        {
+          "target": "com.stackit.workflows#CreateInstance"
+        },
+        {
+          "target": "com.stackit.workflows#GetInstance"
+        },
+        {
+          "target": "com.stackit.workflows#UpdateInstance"
+        },
+        {
+          "target": "com.stackit.workflows#DeleteInstance"
+        },
+        {
+          "target": "com.stackit.workflows#ListDagBundles"
+        },
+        {
+          "target": "com.stackit.workflows#CreateDagBundle"
+        },
+        {
+          "target": "com.stackit.workflows#GetDagBundle"
+        },
+        {
+          "target": "com.stackit.workflows#UpdateDagBundle"
+        },
+        {
+          "target": "com.stackit.workflows#DeleteDagBundle"
+        },
+        {
+          "target": "com.stackit.workflows#UpdateDagsRepository"
+        },
+        {
+          "target": "com.stackit.workflows#UpdateIdentityProvider"
+        },
+        {
+          "target": "com.stackit.workflows#UpdateObservability"
+        },
+        {
+          "target": "com.stackit.workflows#GetProviderOptions"
+        }
+      ],
+      "traits": {
+        "smithy.api#title": "STACKIT Workflows API",
+        "smithy.api#documentation": "This API provides endpoints for managing Workflows."
+      }
+    }
+  }
+}

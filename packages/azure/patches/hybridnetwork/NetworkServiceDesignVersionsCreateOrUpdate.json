@@ -1,0 +1,15 @@
+{
+  "description": "ResourceElementTemplate is polymorphic on type (ArmResourceDefinition/NetworkFunctionDefinition); the converted model keeps only base members, so `configuration` is stripped. Add it as an untyped document.",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.hybridnetwork#ResourceElementTemplate/members/configuration",
+      "value": {
+        "target": "smithy.api#Document",
+        "traits": {
+          "smithy.api#documentation": "Type-specific template configuration (polymorphic on `type`)."
+        }
+      }
+    }
+  ]
+}

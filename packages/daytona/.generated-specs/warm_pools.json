@@ -1,0 +1,339 @@
+{
+  "smithy": "2.0",
+  "metadata": {
+    "suppressions": [
+      {
+        "id": "HttpUriConflict",
+        "namespace": "*"
+      },
+      {
+        "id": "HttpMethodSemantics",
+        "namespace": "*"
+      },
+      {
+        "id": "UnreferencedShape",
+        "namespace": "*"
+      }
+    ],
+    "distilled.finalized": true
+  },
+  "shapes": {
+    "com.daytona.warm_pools#ListWarmPoolsRequest": {
+      "type": "structure",
+      "members": {
+        "xDaytonaOrganizationID": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "X-Daytona-Organization-ID",
+            "smithy.api#documentation": "Use with JWT to specify the organization ID"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.daytona.warm_pools#WarmPool": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "organizationId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "snapshot": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "target": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "pool": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "Desired number of warm sandboxes",
+            "smithy.api#required": {}
+          }
+        },
+        "currentSize": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "Current number of ready warm sandboxes in the pool",
+            "smithy.api#required": {}
+          }
+        },
+        "cpu": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "mem": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "disk": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "osUser": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "env": {
+          "target": "com.daytona.warm_pools#WarmPoolEnvMap",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "errorReason": {
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "createdAt": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "updatedAt": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.daytona.warm_pools#WarmPoolEnvMap": {
+      "type": "map",
+      "key": {
+        "target": "smithy.api#String"
+      },
+      "value": {
+        "target": "smithy.api#String"
+      },
+      "traits": {}
+    },
+    "com.daytona.warm_pools#ListWarmPoolsResponseBodyList": {
+      "type": "list",
+      "member": {
+        "target": "com.daytona.warm_pools#WarmPool"
+      },
+      "traits": {}
+    },
+    "com.daytona.warm_pools#ListWarmPoolsResponse": {
+      "type": "structure",
+      "members": {
+        "body": {
+          "target": "com.daytona.warm_pools#ListWarmPoolsResponseBodyList",
+          "traits": {
+            "com.distilled.openapi#rawResponse": {},
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
+      }
+    },
+    "com.daytona.warm_pools#ListWarmPools": {
+      "type": "operation",
+      "input": {
+        "target": "com.daytona.warm_pools#ListWarmPoolsRequest"
+      },
+      "output": {
+        "target": "com.daytona.warm_pools#ListWarmPoolsResponse"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/warm-pools",
+          "code": 200
+        },
+        "smithy.api#documentation": "List warm pools for the organization"
+      }
+    },
+    "com.daytona.warm_pools#CreateWarmPoolRequest": {
+      "type": "structure",
+      "members": {
+        "xDaytonaOrganizationID": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "X-Daytona-Organization-ID",
+            "smithy.api#documentation": "Use with JWT to specify the organization ID"
+          }
+        },
+        "snapshot": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The snapshot (id or name) to keep warm sandboxes for. A pool only serves sandbox creates that use this snapshot with the default OS user and no custom env, volumes or secrets.",
+            "smithy.api#required": {}
+          }
+        },
+        "pool": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "Number of warm sandboxes to keep ready (capped by the organization quota)",
+            "smithy.api#required": {}
+          }
+        },
+        "target": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Target region for the warm pool. Defaults to the organization default region."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.daytona.warm_pools#CreateWarmPool": {
+      "type": "operation",
+      "input": {
+        "target": "com.daytona.warm_pools#CreateWarmPoolRequest"
+      },
+      "output": {
+        "target": "com.daytona.warm_pools#WarmPool"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/warm-pools",
+          "code": 200
+        },
+        "smithy.api#documentation": "Create a warm pool"
+      }
+    },
+    "com.daytona.warm_pools#UpdateWarmPoolRequest": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Warm pool ID"
+          }
+        },
+        "xDaytonaOrganizationID": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "X-Daytona-Organization-ID",
+            "smithy.api#documentation": "Use with JWT to specify the organization ID"
+          }
+        },
+        "pool": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "New desired number of warm sandboxes (0 drains the pool)",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.daytona.warm_pools#UpdateWarmPool": {
+      "type": "operation",
+      "input": {
+        "target": "com.daytona.warm_pools#UpdateWarmPoolRequest"
+      },
+      "output": {
+        "target": "com.daytona.warm_pools#WarmPool"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "PATCH",
+          "uri": "/warm-pools/{id}",
+          "code": 200
+        },
+        "smithy.api#documentation": "Update a warm pool size"
+      }
+    },
+    "com.daytona.warm_pools#DeleteWarmPoolRequest": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Warm pool ID"
+          }
+        },
+        "xDaytonaOrganizationID": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "X-Daytona-Organization-ID",
+            "smithy.api#documentation": "Use with JWT to specify the organization ID"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.daytona.warm_pools#DeleteWarmPool": {
+      "type": "operation",
+      "input": {
+        "target": "com.daytona.warm_pools#DeleteWarmPoolRequest"
+      },
+      "output": {
+        "target": "smithy.api#Unit"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "DELETE",
+          "uri": "/warm-pools/{id}",
+          "code": 200
+        },
+        "smithy.api#documentation": "Delete a warm pool"
+      }
+    },
+    "com.daytona.warm_pools#WarmPools": {
+      "type": "service",
+      "version": "1.0",
+      "operations": [
+        {
+          "target": "com.daytona.warm_pools#ListWarmPools"
+        },
+        {
+          "target": "com.daytona.warm_pools#CreateWarmPool"
+        },
+        {
+          "target": "com.daytona.warm_pools#UpdateWarmPool"
+        },
+        {
+          "target": "com.daytona.warm_pools#DeleteWarmPool"
+        }
+      ],
+      "traits": {
+        "smithy.api#title": "Daytona",
+        "smithy.api#documentation": "Daytona AI platform API Docs"
+      }
+    }
+  }
+}

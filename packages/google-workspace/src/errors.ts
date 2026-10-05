@@ -20,8 +20,8 @@ export {
 } from "@distilled.cloud/core/errors";
 export type { DefaultErrors } from "@distilled.cloud/core/errors";
 
-import * as Schema from "effect/Schema";
 import * as Category from "@distilled.cloud/core/category";
+import * as Schema from "effect/Schema";
 
 /** Unknown Google Workspace error - returned when an error status is not recognized. */
 export class UnknownGoogleWorkspaceError extends Schema.TaggedError<UnknownGoogleWorkspaceError>()(
@@ -47,6 +47,4 @@ export class GoogleWorkspaceParseError extends Schema.TaggedError<GoogleWorkspac
  * Errors any Google Workspace operation may surface in addition to the per-operation
  * 4xx classes declared in each generated service module.
  */
-export type ClientErrors =
-  | UnknownGoogleWorkspaceError
-  | GoogleWorkspaceParseError;
+export type ClientErrors = UnknownGoogleWorkspaceError | GoogleWorkspaceParseError;

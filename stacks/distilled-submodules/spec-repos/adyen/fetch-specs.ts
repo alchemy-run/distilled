@@ -1,4 +1,4 @@
-#!/usr/bin/env bun
+#!/usr/bin/env node
 /**
  * Mirrors Adyen's OpenAPI description into ../specs/.
  *
@@ -9,7 +9,7 @@
  * never has to crawl docs.adyen.com.
  *
  * Usage:
- *   bun run fetch-specs.ts
+ *   node fetch-specs.ts
  *
  * Specs are saved to:
  *   ../specs/CheckoutService-v72.json
@@ -17,6 +17,7 @@
  */
 
 import { mkdirSync } from "fs";
+import { writeFile } from "fs/promises";
 
 /** Upstream repository, as `<owner>/<repo>`. */
 const REPO = "Adyen/adyen-openapi";
@@ -87,9 +88,7 @@ async function main() {
       },
     });
     if (!response.ok) {
-      throw new Error(
-        `Failed to fetch ${url}: ${response.status} ${response.statusText}`,
-      );
+      throw new Error(`Failed to fetch ${url}: ${response.status} ${response.statusText}`);
     }
 
     const spec = (await response.json()) as Record<string, unknown>;
@@ -105,10 +104,8 @@ async function main() {
 
     const outputPath = `${SPECS_DIR}/${file.output}`;
     console.log(`Writing ${outputPath}...`);
-    await Bun.write(outputPath, JSON.stringify(spec, null, 2) + "\n");
-    console.log(
-      `  OpenAPI ${spec.openapi} — ${Object.keys(spec.paths as object).length} paths`,
-    );
+    await writeFile(outputPath, JSON.stringify(spec, null, 2) + "\n");
+    console.log(`  OpenAPI ${spec.openapi} — ${Object.keys(spec.paths as object).length} paths`);
   }
 
   for (const doc of DOCS) {
@@ -120,9 +117,7 @@ async function main() {
       },
     });
     if (!response.ok) {
-      throw new Error(
-        `Failed to fetch ${doc.url}: ${response.status} ${response.statusText}`,
-      );
+      throw new Error(`Failed to fetch ${doc.url}: ${response.status} ${response.statusText}`);
     }
     const html = await response.text();
     if (html.trim().length === 0) {
@@ -130,7 +125,7 @@ async function main() {
     }
     const outputPath = `${DOCS_DIR}/${doc.output}`;
     console.log(`Writing ${outputPath}...`);
-    await Bun.write(outputPath, html.endsWith("\n") ? html : html + "\n");
+    await writeFile(outputPath, html.endsWith("\n") ? html : html + "\n");
   }
 
   console.log("Done!");

@@ -1,0 +1,2022 @@
+{
+  "smithy": "2.0",
+  "metadata": {
+    "suppressions": [
+      {
+        "id": "HttpUriConflict",
+        "namespace": "*"
+      },
+      {
+        "id": "HttpMethodSemantics",
+        "namespace": "*"
+      },
+      {
+        "id": "UnreferencedShape",
+        "namespace": "*"
+      }
+    ],
+    "distilled.finalized": true
+  },
+  "shapes": {
+    "com.stackit.logs#ListLogsInstancesRequestRegionId": {
+      "type": "enum",
+      "members": {
+        "EU01": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "eu01"
+          }
+        },
+        "EU02": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "eu02"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.stackit.logs#ListLogsInstancesRequest": {
+      "type": "structure",
+      "members": {
+        "projectId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The STACKIT portal project UUID the resource is located in."
+          }
+        },
+        "regionId": {
+          "target": "com.stackit.logs#ListLogsInstancesRequestRegionId",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The STACKIT region name the resource is located in."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.stackit.logs#LogsInstancesList": {
+      "type": "structure",
+      "members": {
+        "instances": {
+          "target": "com.stackit.logs#LogsInstancesListInstancesList",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.stackit.logs#LogsInstance": {
+      "type": "structure",
+      "members": {
+        "acl": {
+          "target": "com.stackit.logs#LogsInstanceAclList",
+          "traits": {
+            "smithy.api#documentation": "The access control list for the Logs instance."
+          }
+        },
+        "created": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The date and time the creation of the Logs instance was triggered.",
+            "smithy.api#required": {}
+          }
+        },
+        "datasourceUrl": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The Logs instance's datasource URL, can be used in Grafana as a datasource URL"
+          }
+        },
+        "description": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The description of the Logs instance."
+          }
+        },
+        "displayName": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The displayed name of the Logs instance.",
+            "smithy.api#required": {}
+          }
+        },
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "A auto generated unique id which identifies the Logs instance.",
+            "smithy.api#required": {}
+          }
+        },
+        "ingestOtlpUrl": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The Logs instance's ingest logs via OTLP URL"
+          }
+        },
+        "ingestUrl": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The Logs instance's ingest logs URL"
+          }
+        },
+        "queryRangeUrl": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The Logs instance's query range URL"
+          }
+        },
+        "queryUrl": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The Logs instance's query  URL"
+          }
+        },
+        "retentionDays": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "The log retention time in days.",
+            "smithy.api#required": {}
+          }
+        },
+        "status": {
+          "target": "com.stackit.logs#LogsInstanceStatus",
+          "traits": {
+            "smithy.api#documentation": "The current status of the Logs instance.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.stackit.logs#LogsInstanceAclList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {
+        "smithy.api#documentation": "The access control list for the Logs instance."
+      }
+    },
+    "com.stackit.logs#LogsInstanceStatus": {
+      "type": "enum",
+      "members": {
+        "ACTIVE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "active"
+          }
+        },
+        "DELETING": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "deleting"
+          }
+        },
+        "RECONCILING": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "reconciling"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The current status of the Logs instance."
+      }
+    },
+    "com.stackit.logs#LogsInstancesListInstancesList": {
+      "type": "list",
+      "member": {
+        "target": "com.stackit.logs#LogsInstance"
+      },
+      "traits": {}
+    },
+    "com.stackit.logs#ListLogsInstances": {
+      "type": "operation",
+      "input": {
+        "target": "com.stackit.logs#ListLogsInstancesRequest"
+      },
+      "output": {
+        "target": "com.stackit.logs#LogsInstancesList"
+      },
+      "errors": [
+        {
+          "target": "com.stackit.logs#BadRequest"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/v1/projects/{projectId}/regions/{regionId}/instances",
+          "code": 200,
+          "baseUrl": "https://logs.api.stackit.cloud"
+        },
+        "smithy.api#documentation": "List Logs instances\n\nReturns a list of all Logs instances within the project."
+      }
+    },
+    "com.stackit.logs#CreateLogsInstanceRequestRegionId": {
+      "type": "enum",
+      "members": {
+        "EU01": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "eu01"
+          }
+        },
+        "EU02": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "eu02"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.stackit.logs#CreateLogsInstanceRequestAclList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {
+        "smithy.api#documentation": "The access control list for the Logs instance."
+      }
+    },
+    "com.stackit.logs#CreateLogsInstanceRequest": {
+      "type": "structure",
+      "members": {
+        "projectId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The STACKIT portal project UUID the resource is located in."
+          }
+        },
+        "regionId": {
+          "target": "com.stackit.logs#CreateLogsInstanceRequestRegionId",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The STACKIT region name the resource is located in."
+          }
+        },
+        "acl": {
+          "target": "com.stackit.logs#CreateLogsInstanceRequestAclList",
+          "traits": {
+            "smithy.api#documentation": "The access control list for the Logs instance."
+          }
+        },
+        "description": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The description of the access token."
+          }
+        },
+        "displayName": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The displayed name to distinguish multiple Logs instances.",
+            "smithy.api#required": {}
+          }
+        },
+        "retentionDays": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "The log retention time in days.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.stackit.logs#CreateLogsInstance": {
+      "type": "operation",
+      "input": {
+        "target": "com.stackit.logs#CreateLogsInstanceRequest"
+      },
+      "output": {
+        "target": "com.stackit.logs#LogsInstance"
+      },
+      "errors": [
+        {
+          "target": "com.stackit.logs#BadRequest"
+        },
+        {
+          "target": "com.stackit.logs#NotFound"
+        },
+        {
+          "target": "com.stackit.logs#Conflict"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/v1/projects/{projectId}/regions/{regionId}/instances",
+          "code": 200,
+          "baseUrl": "https://logs.api.stackit.cloud"
+        },
+        "smithy.api#documentation": "Create Logs instance\n\nCreates a new Logs instance within the project."
+      }
+    },
+    "com.stackit.logs#GetLogsInstanceRequestRegionId": {
+      "type": "enum",
+      "members": {
+        "EU01": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "eu01"
+          }
+        },
+        "EU02": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "eu02"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.stackit.logs#GetLogsInstanceRequest": {
+      "type": "structure",
+      "members": {
+        "projectId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The STACKIT portal project UUID the resource is located in."
+          }
+        },
+        "regionId": {
+          "target": "com.stackit.logs#GetLogsInstanceRequestRegionId",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The STACKIT region name the resource is located in."
+          }
+        },
+        "instanceId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The Logs Instance UUID."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.stackit.logs#GetLogsInstance": {
+      "type": "operation",
+      "input": {
+        "target": "com.stackit.logs#GetLogsInstanceRequest"
+      },
+      "output": {
+        "target": "com.stackit.logs#LogsInstance"
+      },
+      "errors": [
+        {
+          "target": "com.stackit.logs#BadRequest"
+        },
+        {
+          "target": "com.stackit.logs#NotFound"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/v1/projects/{projectId}/regions/{regionId}/instances/{instanceId}",
+          "code": 200,
+          "baseUrl": "https://logs.api.stackit.cloud"
+        },
+        "smithy.api#documentation": "Get Logs Instance\n\nReturns the details for the given Logs instance."
+      }
+    },
+    "com.stackit.logs#UpdateLogsInstanceRequestRegionId": {
+      "type": "enum",
+      "members": {
+        "EU01": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "eu01"
+          }
+        },
+        "EU02": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "eu02"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.stackit.logs#UpdateLogsInstanceRequestAclList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {
+        "smithy.api#documentation": "The access control list for the Logs instance."
+      }
+    },
+    "com.stackit.logs#UpdateLogsInstanceRequest": {
+      "type": "structure",
+      "members": {
+        "projectId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The STACKIT portal project UUID the resource is located in."
+          }
+        },
+        "regionId": {
+          "target": "com.stackit.logs#UpdateLogsInstanceRequestRegionId",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The STACKIT region name the resource is located in."
+          }
+        },
+        "instanceId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The Logs Instance UUID."
+          }
+        },
+        "acl": {
+          "target": "com.stackit.logs#UpdateLogsInstanceRequestAclList",
+          "traits": {
+            "smithy.api#documentation": "The access control list for the Logs instance."
+          }
+        },
+        "description": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The description of the Logs instance."
+          }
+        },
+        "displayName": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The displayed name to distinguish multiple Logs instances."
+          }
+        },
+        "retentionDays": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "The log retention time in days."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.stackit.logs#UpdateLogsInstance": {
+      "type": "operation",
+      "input": {
+        "target": "com.stackit.logs#UpdateLogsInstanceRequest"
+      },
+      "output": {
+        "target": "com.stackit.logs#LogsInstance"
+      },
+      "errors": [
+        {
+          "target": "com.stackit.logs#BadRequest"
+        },
+        {
+          "target": "com.stackit.logs#NotFound"
+        },
+        {
+          "target": "com.stackit.logs#Conflict"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "PUT",
+          "uri": "/v1/projects/{projectId}/regions/{regionId}/instances/{instanceId}",
+          "code": 200,
+          "baseUrl": "https://logs.api.stackit.cloud"
+        },
+        "smithy.api#documentation": "Update Logs instance\n\nUpdates the given Logs instance."
+      }
+    },
+    "com.stackit.logs#DeleteLogsInstanceRequestRegionId": {
+      "type": "enum",
+      "members": {
+        "EU01": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "eu01"
+          }
+        },
+        "EU02": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "eu02"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.stackit.logs#DeleteLogsInstanceRequest": {
+      "type": "structure",
+      "members": {
+        "projectId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The STACKIT portal project UUID the resource is located in."
+          }
+        },
+        "regionId": {
+          "target": "com.stackit.logs#DeleteLogsInstanceRequestRegionId",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The STACKIT region name the resource is located in."
+          }
+        },
+        "instanceId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The Logs Instance UUID."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.stackit.logs#DeleteLogsInstance": {
+      "type": "operation",
+      "input": {
+        "target": "com.stackit.logs#DeleteLogsInstanceRequest"
+      },
+      "output": {
+        "target": "smithy.api#Unit"
+      },
+      "errors": [
+        {
+          "target": "com.stackit.logs#BadRequest"
+        },
+        {
+          "target": "com.stackit.logs#NotFound"
+        },
+        {
+          "target": "com.stackit.logs#Conflict"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "DELETE",
+          "uri": "/v1/projects/{projectId}/regions/{regionId}/instances/{instanceId}",
+          "code": 200,
+          "baseUrl": "https://logs.api.stackit.cloud"
+        },
+        "smithy.api#documentation": "Delete Logs instance\n\nDeletes the given Logs instance."
+      }
+    },
+    "com.stackit.logs#ListAccessPoliciesRequestRegionId": {
+      "type": "enum",
+      "members": {
+        "EU01": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "eu01"
+          }
+        },
+        "EU02": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "eu02"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.stackit.logs#ListAccessPoliciesRequest": {
+      "type": "structure",
+      "members": {
+        "projectId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The STACKIT portal project UUID the resource is located in."
+          }
+        },
+        "regionId": {
+          "target": "com.stackit.logs#ListAccessPoliciesRequestRegionId",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The STACKIT region name the resource is located in."
+          }
+        },
+        "instanceId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The Logs Instance UUID."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.stackit.logs#AccessPolicyList": {
+      "type": "structure",
+      "members": {
+        "policies": {
+          "target": "com.stackit.logs#AccessPolicyListPoliciesList",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.stackit.logs#AccessPolicy": {
+      "type": "structure",
+      "members": {
+        "description": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The description of the access policy."
+          }
+        },
+        "email": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The email address of the STACKIT IAM subject (user, group, or service account).",
+            "smithy.api#required": {}
+          }
+        },
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "An auto generated unique id which identifies the access policy.",
+            "smithy.api#required": {}
+          }
+        },
+        "permissions": {
+          "target": "com.stackit.logs#Permissions",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.stackit.logs#Permissions": {
+      "type": "list",
+      "member": {
+        "target": "com.stackit.logs#PermissionsItem"
+      },
+      "traits": {
+        "smithy.api#documentation": "The access permissions granted to the access token or access policy."
+      }
+    },
+    "com.stackit.logs#PermissionsItem": {
+      "type": "enum",
+      "members": {
+        "READ": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "read"
+          }
+        },
+        "WRITE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "write"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.stackit.logs#AccessPolicyListPoliciesList": {
+      "type": "list",
+      "member": {
+        "target": "com.stackit.logs#AccessPolicy"
+      },
+      "traits": {}
+    },
+    "com.stackit.logs#ListAccessPolicies": {
+      "type": "operation",
+      "input": {
+        "target": "com.stackit.logs#ListAccessPoliciesRequest"
+      },
+      "output": {
+        "target": "com.stackit.logs#AccessPolicyList"
+      },
+      "errors": [
+        {
+          "target": "com.stackit.logs#BadRequest"
+        },
+        {
+          "target": "com.stackit.logs#NotFound"
+        },
+        {
+          "target": "com.stackit.logs#Conflict"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/v1/projects/{projectId}/regions/{regionId}/instances/{instanceId}/access-policies",
+          "code": 200,
+          "baseUrl": "https://logs.api.stackit.cloud"
+        },
+        "smithy.api#documentation": "List Access Policies\n\nReturns a list of access policies created for a Logs instance"
+      }
+    },
+    "com.stackit.logs#CreateAccessPolicyRequestRegionId": {
+      "type": "enum",
+      "members": {
+        "EU01": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "eu01"
+          }
+        },
+        "EU02": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "eu02"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.stackit.logs#CreateAccessPolicyRequest": {
+      "type": "structure",
+      "members": {
+        "projectId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The STACKIT portal project UUID the resource is located in."
+          }
+        },
+        "regionId": {
+          "target": "com.stackit.logs#CreateAccessPolicyRequestRegionId",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The STACKIT region name the resource is located in."
+          }
+        },
+        "instanceId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The Logs Instance UUID."
+          }
+        },
+        "description": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The description of the access policy.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "email": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The email address of the STACKIT IAM subject (user, group, or service account).",
+            "smithy.api#required": {}
+          }
+        },
+        "permissions": {
+          "target": "com.stackit.logs#Permissions",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.stackit.logs#CreateAccessPolicy": {
+      "type": "operation",
+      "input": {
+        "target": "com.stackit.logs#CreateAccessPolicyRequest"
+      },
+      "output": {
+        "target": "com.stackit.logs#AccessPolicy"
+      },
+      "errors": [
+        {
+          "target": "com.stackit.logs#BadRequest"
+        },
+        {
+          "target": "com.stackit.logs#NotFound"
+        },
+        {
+          "target": "com.stackit.logs#Conflict"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/v1/projects/{projectId}/regions/{regionId}/instances/{instanceId}/access-policies",
+          "code": 200,
+          "baseUrl": "https://logs.api.stackit.cloud"
+        },
+        "smithy.api#documentation": "Create Access Policy\n\nCreate a new access policy for Logs instance"
+      }
+    },
+    "com.stackit.logs#DeleteAllAccessPoliciesRequestRegionId": {
+      "type": "enum",
+      "members": {
+        "EU01": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "eu01"
+          }
+        },
+        "EU02": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "eu02"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.stackit.logs#DeleteAllAccessPoliciesRequest": {
+      "type": "structure",
+      "members": {
+        "projectId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The STACKIT portal project UUID the resource is located in."
+          }
+        },
+        "regionId": {
+          "target": "com.stackit.logs#DeleteAllAccessPoliciesRequestRegionId",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The STACKIT region name the resource is located in."
+          }
+        },
+        "instanceId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The Logs Instance UUID."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.stackit.logs#DeleteAllAccessPolicies": {
+      "type": "operation",
+      "input": {
+        "target": "com.stackit.logs#DeleteAllAccessPoliciesRequest"
+      },
+      "output": {
+        "target": "com.stackit.logs#AccessPolicyList"
+      },
+      "errors": [
+        {
+          "target": "com.stackit.logs#BadRequest"
+        },
+        {
+          "target": "com.stackit.logs#NotFound"
+        },
+        {
+          "target": "com.stackit.logs#Conflict"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "DELETE",
+          "uri": "/v1/projects/{projectId}/regions/{regionId}/instances/{instanceId}/access-policies",
+          "code": 200,
+          "baseUrl": "https://logs.api.stackit.cloud"
+        },
+        "smithy.api#documentation": "Delete All Access Policies\n\nDeletes all access policies for a Logs instance"
+      }
+    },
+    "com.stackit.logs#GetAccessPolicyRequestRegionId": {
+      "type": "enum",
+      "members": {
+        "EU01": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "eu01"
+          }
+        },
+        "EU02": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "eu02"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.stackit.logs#GetAccessPolicyRequest": {
+      "type": "structure",
+      "members": {
+        "projectId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The STACKIT portal project UUID the resource is located in."
+          }
+        },
+        "regionId": {
+          "target": "com.stackit.logs#GetAccessPolicyRequestRegionId",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The STACKIT region name the resource is located in."
+          }
+        },
+        "instanceId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The Logs Instance UUID."
+          }
+        },
+        "pId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The access policy unique id."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.stackit.logs#GetAccessPolicy": {
+      "type": "operation",
+      "input": {
+        "target": "com.stackit.logs#GetAccessPolicyRequest"
+      },
+      "output": {
+        "target": "com.stackit.logs#AccessPolicy"
+      },
+      "errors": [
+        {
+          "target": "com.stackit.logs#BadRequest"
+        },
+        {
+          "target": "com.stackit.logs#NotFound"
+        },
+        {
+          "target": "com.stackit.logs#Conflict"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/v1/projects/{projectId}/regions/{regionId}/instances/{instanceId}/access-policies/{pId}",
+          "code": 200,
+          "baseUrl": "https://logs.api.stackit.cloud"
+        },
+        "smithy.api#documentation": "Get Access Policy\n\nGet the information of the given access policy."
+      }
+    },
+    "com.stackit.logs#UpdateAccessPolicyRequestRegionId": {
+      "type": "enum",
+      "members": {
+        "EU01": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "eu01"
+          }
+        },
+        "EU02": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "eu02"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.stackit.logs#UpdateAccessPolicyRequest": {
+      "type": "structure",
+      "members": {
+        "projectId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The STACKIT portal project UUID the resource is located in."
+          }
+        },
+        "regionId": {
+          "target": "com.stackit.logs#UpdateAccessPolicyRequestRegionId",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The STACKIT region name the resource is located in."
+          }
+        },
+        "instanceId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The Logs Instance UUID."
+          }
+        },
+        "pId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The access policy unique id."
+          }
+        },
+        "description": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The updated description of the access policy. If not present will be ignored in update.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "permissions": {
+          "target": "com.stackit.logs#Permissions"
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.stackit.logs#UpdateAccessPolicy": {
+      "type": "operation",
+      "input": {
+        "target": "com.stackit.logs#UpdateAccessPolicyRequest"
+      },
+      "output": {
+        "target": "com.stackit.logs#AccessPolicy"
+      },
+      "errors": [
+        {
+          "target": "com.stackit.logs#BadRequest"
+        },
+        {
+          "target": "com.stackit.logs#NotFound"
+        },
+        {
+          "target": "com.stackit.logs#Conflict"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "PATCH",
+          "uri": "/v1/projects/{projectId}/regions/{regionId}/instances/{instanceId}/access-policies/{pId}",
+          "code": 200,
+          "baseUrl": "https://logs.api.stackit.cloud"
+        },
+        "smithy.api#documentation": "Update Access Policy\n\nUpdates the given access policy."
+      }
+    },
+    "com.stackit.logs#DeleteAccessPolicyRequestRegionId": {
+      "type": "enum",
+      "members": {
+        "EU01": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "eu01"
+          }
+        },
+        "EU02": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "eu02"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.stackit.logs#DeleteAccessPolicyRequest": {
+      "type": "structure",
+      "members": {
+        "projectId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The STACKIT portal project UUID the resource is located in."
+          }
+        },
+        "regionId": {
+          "target": "com.stackit.logs#DeleteAccessPolicyRequestRegionId",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The STACKIT region name the resource is located in."
+          }
+        },
+        "instanceId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The Logs Instance UUID."
+          }
+        },
+        "pId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The access policy unique id."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.stackit.logs#DeleteAccessPolicy": {
+      "type": "operation",
+      "input": {
+        "target": "com.stackit.logs#DeleteAccessPolicyRequest"
+      },
+      "output": {
+        "target": "smithy.api#Unit"
+      },
+      "errors": [
+        {
+          "target": "com.stackit.logs#BadRequest"
+        },
+        {
+          "target": "com.stackit.logs#NotFound"
+        },
+        {
+          "target": "com.stackit.logs#Conflict"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "DELETE",
+          "uri": "/v1/projects/{projectId}/regions/{regionId}/instances/{instanceId}/access-policies/{pId}",
+          "code": 200,
+          "baseUrl": "https://logs.api.stackit.cloud"
+        },
+        "smithy.api#documentation": "Delete Access Policy\n\nDeletes a Logs instance access policy"
+      }
+    },
+    "com.stackit.logs#ListAccessTokensRequestRegionId": {
+      "type": "enum",
+      "members": {
+        "EU01": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "eu01"
+          }
+        },
+        "EU02": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "eu02"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.stackit.logs#ListAccessTokensRequest": {
+      "type": "structure",
+      "members": {
+        "projectId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The STACKIT portal project UUID the resource is located in."
+          }
+        },
+        "regionId": {
+          "target": "com.stackit.logs#ListAccessTokensRequestRegionId",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The STACKIT region name the resource is located in."
+          }
+        },
+        "instanceId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The Logs Instance UUID."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.stackit.logs#AccessTokenList": {
+      "type": "structure",
+      "members": {
+        "tokens": {
+          "target": "com.stackit.logs#AccessTokenListTokensList",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.stackit.logs#AccessToken": {
+      "type": "structure",
+      "members": {
+        "accessToken": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "A generated access token. Only available on creation.",
+            "smithy.api#sensitive": {}
+          }
+        },
+        "creator": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The user who created the access token.",
+            "smithy.api#required": {}
+          }
+        },
+        "description": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The description of the access token."
+          }
+        },
+        "displayName": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The displayed name of the access token.",
+            "smithy.api#required": {}
+          }
+        },
+        "expires": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Indicates if the access token can expire.",
+            "smithy.api#required": {}
+          }
+        },
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "An auto generated unique id which identifies the access token.",
+            "smithy.api#required": {}
+          }
+        },
+        "permissions": {
+          "target": "com.stackit.logs#Permissions",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "status": {
+          "target": "com.stackit.logs#AccessTokenStatus",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "validUntil": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The date and time util an access token is valid to (inclusively)."
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.stackit.logs#AccessTokenStatus": {
+      "type": "enum",
+      "members": {
+        "ACTIVE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "active"
+          }
+        },
+        "EXPIRED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "expired"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.stackit.logs#AccessTokenListTokensList": {
+      "type": "list",
+      "member": {
+        "target": "com.stackit.logs#AccessToken"
+      },
+      "traits": {}
+    },
+    "com.stackit.logs#ListAccessTokens": {
+      "type": "operation",
+      "input": {
+        "target": "com.stackit.logs#ListAccessTokensRequest"
+      },
+      "output": {
+        "target": "com.stackit.logs#AccessTokenList"
+      },
+      "errors": [
+        {
+          "target": "com.stackit.logs#BadRequest"
+        },
+        {
+          "target": "com.stackit.logs#NotFound"
+        },
+        {
+          "target": "com.stackit.logs#Conflict"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/v1/projects/{projectId}/regions/{regionId}/instances/{instanceId}/access-tokens",
+          "code": 200,
+          "baseUrl": "https://logs.api.stackit.cloud"
+        },
+        "smithy.api#documentation": "List Access Tokens\n\nReturns a list of access tokens created for a Logs instance"
+      }
+    },
+    "com.stackit.logs#CreateAccessTokenRequestRegionId": {
+      "type": "enum",
+      "members": {
+        "EU01": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "eu01"
+          }
+        },
+        "EU02": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "eu02"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.stackit.logs#CreateAccessTokenRequest": {
+      "type": "structure",
+      "members": {
+        "projectId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The STACKIT portal project UUID the resource is located in."
+          }
+        },
+        "regionId": {
+          "target": "com.stackit.logs#CreateAccessTokenRequestRegionId",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The STACKIT region name the resource is located in."
+          }
+        },
+        "instanceId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The Logs Instance UUID."
+          }
+        },
+        "description": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The description of the access token."
+          }
+        },
+        "displayName": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The displayed name of the access token.",
+            "smithy.api#required": {}
+          }
+        },
+        "lifetime": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "A lifetime period for an access token in days. If unset the token will not expire."
+          }
+        },
+        "permissions": {
+          "target": "com.stackit.logs#Permissions",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.stackit.logs#CreateAccessToken": {
+      "type": "operation",
+      "input": {
+        "target": "com.stackit.logs#CreateAccessTokenRequest"
+      },
+      "output": {
+        "target": "com.stackit.logs#AccessToken"
+      },
+      "errors": [
+        {
+          "target": "com.stackit.logs#BadRequest"
+        },
+        {
+          "target": "com.stackit.logs#NotFound"
+        },
+        {
+          "target": "com.stackit.logs#Conflict"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/v1/projects/{projectId}/regions/{regionId}/instances/{instanceId}/access-tokens",
+          "code": 200,
+          "baseUrl": "https://logs.api.stackit.cloud"
+        },
+        "smithy.api#documentation": "Create Access Token\n\nCreate a new Logs instance access token"
+      }
+    },
+    "com.stackit.logs#DeleteAllAccessTokensRequestRegionId": {
+      "type": "enum",
+      "members": {
+        "EU01": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "eu01"
+          }
+        },
+        "EU02": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "eu02"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.stackit.logs#DeleteAllAccessTokensRequest": {
+      "type": "structure",
+      "members": {
+        "projectId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The STACKIT portal project UUID the resource is located in."
+          }
+        },
+        "regionId": {
+          "target": "com.stackit.logs#DeleteAllAccessTokensRequestRegionId",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The STACKIT region name the resource is located in."
+          }
+        },
+        "instanceId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The Logs Instance UUID."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.stackit.logs#DeleteAllAccessTokens": {
+      "type": "operation",
+      "input": {
+        "target": "com.stackit.logs#DeleteAllAccessTokensRequest"
+      },
+      "output": {
+        "target": "com.stackit.logs#AccessTokenList"
+      },
+      "errors": [
+        {
+          "target": "com.stackit.logs#BadRequest"
+        },
+        {
+          "target": "com.stackit.logs#NotFound"
+        },
+        {
+          "target": "com.stackit.logs#Conflict"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "DELETE",
+          "uri": "/v1/projects/{projectId}/regions/{regionId}/instances/{instanceId}/access-tokens",
+          "code": 200,
+          "baseUrl": "https://logs.api.stackit.cloud"
+        },
+        "smithy.api#documentation": "Delete All Access Tokens\n\nDeletes all access tokens available for a Logs instance"
+      }
+    },
+    "com.stackit.logs#DeleteAllExpiredAccessTokensRequestRegionId": {
+      "type": "enum",
+      "members": {
+        "EU01": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "eu01"
+          }
+        },
+        "EU02": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "eu02"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.stackit.logs#DeleteAllExpiredAccessTokensRequest": {
+      "type": "structure",
+      "members": {
+        "projectId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The STACKIT portal project UUID the resource is located in."
+          }
+        },
+        "regionId": {
+          "target": "com.stackit.logs#DeleteAllExpiredAccessTokensRequestRegionId",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The STACKIT region name the resource is located in."
+          }
+        },
+        "instanceId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The Logs Instance UUID."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.stackit.logs#DeleteAllExpiredAccessTokens": {
+      "type": "operation",
+      "input": {
+        "target": "com.stackit.logs#DeleteAllExpiredAccessTokensRequest"
+      },
+      "output": {
+        "target": "com.stackit.logs#AccessTokenList"
+      },
+      "errors": [
+        {
+          "target": "com.stackit.logs#BadRequest"
+        },
+        {
+          "target": "com.stackit.logs#NotFound"
+        },
+        {
+          "target": "com.stackit.logs#Conflict"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "DELETE",
+          "uri": "/v1/projects/{projectId}/regions/{regionId}/instances/{instanceId}/access-tokens/expired",
+          "code": 200,
+          "baseUrl": "https://logs.api.stackit.cloud"
+        },
+        "smithy.api#documentation": "Deletes all expired access tokens\n\nDeletes all expired access tokens"
+      }
+    },
+    "com.stackit.logs#GetAccessTokenRequestRegionId": {
+      "type": "enum",
+      "members": {
+        "EU01": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "eu01"
+          }
+        },
+        "EU02": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "eu02"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.stackit.logs#GetAccessTokenRequest": {
+      "type": "structure",
+      "members": {
+        "projectId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The STACKIT portal project UUID the resource is located in."
+          }
+        },
+        "regionId": {
+          "target": "com.stackit.logs#GetAccessTokenRequestRegionId",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The STACKIT region name the resource is located in."
+          }
+        },
+        "instanceId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The Logs Instance UUID."
+          }
+        },
+        "tId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The access token UUID."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.stackit.logs#GetAccessToken": {
+      "type": "operation",
+      "input": {
+        "target": "com.stackit.logs#GetAccessTokenRequest"
+      },
+      "output": {
+        "target": "com.stackit.logs#AccessToken"
+      },
+      "errors": [
+        {
+          "target": "com.stackit.logs#BadRequest"
+        },
+        {
+          "target": "com.stackit.logs#NotFound"
+        },
+        {
+          "target": "com.stackit.logs#Conflict"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/v1/projects/{projectId}/regions/{regionId}/instances/{instanceId}/access-tokens/{tId}",
+          "code": 200,
+          "baseUrl": "https://logs.api.stackit.cloud"
+        },
+        "smithy.api#documentation": "Get Access Token\n\nGet the information of the given access token."
+      }
+    },
+    "com.stackit.logs#UpdateAccessTokenRequestRegionId": {
+      "type": "enum",
+      "members": {
+        "EU01": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "eu01"
+          }
+        },
+        "EU02": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "eu02"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.stackit.logs#UpdateAccessTokenRequest": {
+      "type": "structure",
+      "members": {
+        "projectId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The STACKIT portal project UUID the resource is located in."
+          }
+        },
+        "regionId": {
+          "target": "com.stackit.logs#UpdateAccessTokenRequestRegionId",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The STACKIT region name the resource is located in."
+          }
+        },
+        "instanceId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The Logs Instance UUID."
+          }
+        },
+        "tId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The access token UUID."
+          }
+        },
+        "description": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The description of the access token."
+          }
+        },
+        "displayName": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The displayed name of the access token."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.stackit.logs#UpdateAccessToken": {
+      "type": "operation",
+      "input": {
+        "target": "com.stackit.logs#UpdateAccessTokenRequest"
+      },
+      "output": {
+        "target": "smithy.api#Unit"
+      },
+      "errors": [
+        {
+          "target": "com.stackit.logs#BadRequest"
+        },
+        {
+          "target": "com.stackit.logs#NotFound"
+        },
+        {
+          "target": "com.stackit.logs#Conflict"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "PUT",
+          "uri": "/v1/projects/{projectId}/regions/{regionId}/instances/{instanceId}/access-tokens/{tId}",
+          "code": 200,
+          "baseUrl": "https://logs.api.stackit.cloud"
+        },
+        "smithy.api#documentation": "Update Access Token\n\nUpdates the given access token."
+      }
+    },
+    "com.stackit.logs#DeleteAccessTokenRequestRegionId": {
+      "type": "enum",
+      "members": {
+        "EU01": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "eu01"
+          }
+        },
+        "EU02": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "eu02"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.stackit.logs#DeleteAccessTokenRequest": {
+      "type": "structure",
+      "members": {
+        "projectId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The STACKIT portal project UUID the resource is located in."
+          }
+        },
+        "regionId": {
+          "target": "com.stackit.logs#DeleteAccessTokenRequestRegionId",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The STACKIT region name the resource is located in."
+          }
+        },
+        "instanceId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The Logs Instance UUID."
+          }
+        },
+        "tId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The access token UUID."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.stackit.logs#DeleteAccessToken": {
+      "type": "operation",
+      "input": {
+        "target": "com.stackit.logs#DeleteAccessTokenRequest"
+      },
+      "output": {
+        "target": "smithy.api#Unit"
+      },
+      "errors": [
+        {
+          "target": "com.stackit.logs#BadRequest"
+        },
+        {
+          "target": "com.stackit.logs#NotFound"
+        },
+        {
+          "target": "com.stackit.logs#Conflict"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "DELETE",
+          "uri": "/v1/projects/{projectId}/regions/{regionId}/instances/{instanceId}/access-tokens/{tId}",
+          "code": 200,
+          "baseUrl": "https://logs.api.stackit.cloud"
+        },
+        "smithy.api#documentation": "Delete Access Token\n\nDeletes a Logs instance access token"
+      }
+    },
+    "com.stackit.logs#BadRequest": {
+      "type": "structure",
+      "members": {},
+      "traits": {
+        "smithy.api#error": "client",
+        "smithy.api#httpError": 400,
+        "com.distilled.openapi#errorMatchers": [
+          {
+            "status": 400
+          }
+        ]
+      }
+    },
+    "com.stackit.logs#NotFound": {
+      "type": "structure",
+      "members": {},
+      "traits": {
+        "smithy.api#error": "client",
+        "smithy.api#httpError": 404,
+        "com.distilled.openapi#errorMatchers": [
+          {
+            "status": 404
+          }
+        ]
+      }
+    },
+    "com.stackit.logs#Conflict": {
+      "type": "structure",
+      "members": {},
+      "traits": {
+        "smithy.api#error": "client",
+        "smithy.api#httpError": 409,
+        "com.distilled.openapi#errorMatchers": [
+          {
+            "status": 409
+          }
+        ]
+      }
+    },
+    "com.stackit.logs#Logs": {
+      "type": "service",
+      "version": "1.1.0",
+      "operations": [
+        {
+          "target": "com.stackit.logs#ListLogsInstances"
+        },
+        {
+          "target": "com.stackit.logs#CreateLogsInstance"
+        },
+        {
+          "target": "com.stackit.logs#GetLogsInstance"
+        },
+        {
+          "target": "com.stackit.logs#UpdateLogsInstance"
+        },
+        {
+          "target": "com.stackit.logs#DeleteLogsInstance"
+        },
+        {
+          "target": "com.stackit.logs#ListAccessPolicies"
+        },
+        {
+          "target": "com.stackit.logs#CreateAccessPolicy"
+        },
+        {
+          "target": "com.stackit.logs#DeleteAllAccessPolicies"
+        },
+        {
+          "target": "com.stackit.logs#GetAccessPolicy"
+        },
+        {
+          "target": "com.stackit.logs#UpdateAccessPolicy"
+        },
+        {
+          "target": "com.stackit.logs#DeleteAccessPolicy"
+        },
+        {
+          "target": "com.stackit.logs#ListAccessTokens"
+        },
+        {
+          "target": "com.stackit.logs#CreateAccessToken"
+        },
+        {
+          "target": "com.stackit.logs#DeleteAllAccessTokens"
+        },
+        {
+          "target": "com.stackit.logs#DeleteAllExpiredAccessTokens"
+        },
+        {
+          "target": "com.stackit.logs#GetAccessToken"
+        },
+        {
+          "target": "com.stackit.logs#UpdateAccessToken"
+        },
+        {
+          "target": "com.stackit.logs#DeleteAccessToken"
+        }
+      ],
+      "traits": {
+        "smithy.api#title": "STACKIT Logs API",
+        "smithy.api#documentation": "This API provides endpoints for managing STACKIT Logs."
+      }
+    }
+  }
+}

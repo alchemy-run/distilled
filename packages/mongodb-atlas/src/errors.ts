@@ -28,14 +28,13 @@ export {
 } from "@distilled.cloud/core/errors";
 export type { DefaultErrors } from "@distilled.cloud/core/errors";
 
-import * as Schema from "effect/Schema";
 import * as Category from "@distilled.cloud/core/category";
+import * as Schema from "effect/Schema";
 
 /** Payment Required — billing/quota limit (402). */
-export class PaymentRequired extends Schema.TaggedError<PaymentRequired>()(
-  "PaymentRequired",
-  { message: Schema.String },
-).pipe(Category.withBadRequestError) {}
+export class PaymentRequired extends Schema.TaggedError<PaymentRequired>()("PaymentRequired", {
+  message: Schema.String,
+}).pipe(Category.withBadRequestError) {}
 
 /**
  * Unknown MongoDB Atlas error — returned when nothing else matches the
@@ -52,7 +51,7 @@ export class UnknownMongodbAtlasError extends Schema.TaggedError<UnknownMongodbA
   },
 ).pipe(Category.withServerError) {}
 
-/** Schema parse error wrapper (kept for v0 surface parity). */
+/** A 2xx body that does not match the output schema (strict response validation). */
 export class MongodbAtlasParseError extends Schema.TaggedError<MongodbAtlasParseError>()(
   "MongodbAtlasParseError",
   {

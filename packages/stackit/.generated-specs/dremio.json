@@ -1,0 +1,1459 @@
+{
+  "smithy": "2.0",
+  "metadata": {
+    "suppressions": [
+      {
+        "id": "HttpUriConflict",
+        "namespace": "*"
+      },
+      {
+        "id": "HttpMethodSemantics",
+        "namespace": "*"
+      },
+      {
+        "id": "UnreferencedShape",
+        "namespace": "*"
+      }
+    ],
+    "distilled.finalized": true
+  },
+  "shapes": {
+    "com.stackit.dremio#ListDremioInstancesRequestRegionId": {
+      "type": "enum",
+      "members": {
+        "EU01": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "eu01"
+          }
+        },
+        "EU02": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "eu02"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.stackit.dremio#ListDremioInstancesRequest": {
+      "type": "structure",
+      "members": {
+        "projectId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The STACKIT portal project UUID the resource is located in."
+          }
+        },
+        "regionId": {
+          "target": "com.stackit.dremio#ListDremioInstancesRequestRegionId",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The STACKIT region name the resource is located in."
+          }
+        },
+        "pageToken": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "pageToken",
+            "smithy.api#documentation": "A token to retrieve the next page of results."
+          }
+        },
+        "pageSize": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpQuery": "pageSize",
+            "smithy.api#documentation": "Maximum number of items to return."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.stackit.dremio#ListDremiosResponseOutput": {
+      "type": "structure",
+      "members": {
+        "dremios": {
+          "target": "com.stackit.dremio#ListDremiosResponseOutputDremiosList",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "nextPageToken": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "A token to retrieve the next page of results."
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.stackit.dremio#DremioResponseOutput": {
+      "type": "structure",
+      "members": {
+        "authentication": {
+          "target": "com.stackit.dremio#AuthenticationOutput",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "create_time": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The point in time the resource was created.",
+            "smithy.api#required": {}
+          }
+        },
+        "description": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The description is a longer text chosen by the user to provide more context for the resource."
+          }
+        },
+        "displayName": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The display name is a short name chosen by the user to identify the resource.",
+            "smithy.api#required": {}
+          }
+        },
+        "endpoints": {
+          "target": "com.stackit.dremio#Endpoints",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "errorMessage": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "A message describing an actionable error the user can resolve. This field is empty if no such error exists."
+          }
+        },
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "A auto generated unique id which identifies the resource.",
+            "smithy.api#required": {}
+          }
+        },
+        "state": {
+          "target": "com.stackit.dremio#DremioResponseOutputState",
+          "traits": {
+            "smithy.api#documentation": "The current state of the resource.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.stackit.dremio#AuthenticationOutput": {
+      "type": "structure",
+      "members": {
+        "azuread": {
+          "target": "com.stackit.dremio#AzureadOutput"
+        },
+        "oauth": {
+          "target": "com.stackit.dremio#OauthOutput"
+        },
+        "type": {
+          "target": "com.stackit.dremio#AuthenticationOutputType",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Dremio instance authentication settings. A change here triggers a Dremio restart and will incur downtime."
+      }
+    },
+    "com.stackit.dremio#AzureadOutput": {
+      "type": "structure",
+      "members": {
+        "authorityUrl": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The Azure AD authority URL.",
+            "smithy.api#required": {}
+          }
+        },
+        "clientId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The Azure AD client ID.",
+            "smithy.api#required": {}
+          }
+        },
+        "redirectUrl": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The Azure AD redirect URL."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Azure Active Directory authentication configuration."
+      }
+    },
+    "com.stackit.dremio#OauthOutput": {
+      "type": "structure",
+      "members": {
+        "authorityUrl": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The Issuer location URI, where the OIDC provider configuration can be found.",
+            "smithy.api#required": {}
+          }
+        },
+        "clientId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The client ID assigned by the Identity Provider.",
+            "smithy.api#required": {}
+          }
+        },
+        "jwtClaims": {
+          "target": "com.stackit.dremio#OauthOutputJwtClaims",
+          "traits": {
+            "smithy.api#documentation": "Maps fields from the JWT token to fields Dremio requires.",
+            "smithy.api#required": {}
+          }
+        },
+        "parameters": {
+          "target": "com.stackit.dremio#OauthOutputParametersList",
+          "traits": {
+            "smithy.api#documentation": "Any additional parameters the Identity Provider requires."
+          }
+        },
+        "redirectUrl": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The URL where the Dremio instance is hosted. The URL must match the redirect URL set in the Identity Provider."
+          }
+        },
+        "scope": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "A list of space-separated scopes. The `openid` scope is always required; other scopes can vary by provider."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "OIDC authentication configuration."
+      }
+    },
+    "com.stackit.dremio#OauthOutputJwtClaims": {
+      "type": "structure",
+      "members": {
+        "userName": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Maps fields from the JWT token to fields Dremio requires."
+      }
+    },
+    "com.stackit.dremio#AuthParameters": {
+      "type": "structure",
+      "members": {
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "value": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "An additional parameter the Identity Provider requires."
+      }
+    },
+    "com.stackit.dremio#OauthOutputParametersList": {
+      "type": "list",
+      "member": {
+        "target": "com.stackit.dremio#AuthParameters"
+      },
+      "traits": {
+        "smithy.api#documentation": "Any additional parameters the Identity Provider requires."
+      }
+    },
+    "com.stackit.dremio#AuthenticationOutputType": {
+      "type": "enum",
+      "members": {
+        "LOCAL_ONLY": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "local-only"
+          }
+        },
+        "AZUREAD": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "azuread"
+          }
+        },
+        "OAUTH": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "oauth"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.stackit.dremio#Endpoints": {
+      "type": "structure",
+      "members": {
+        "arrowFlight": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The URL for the Arrow Flight endpoint of the Dremio instance.",
+            "smithy.api#required": {}
+          }
+        },
+        "catalog": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The URL for the Catalog endpoint of the Dremio instance.",
+            "smithy.api#required": {}
+          }
+        },
+        "ui": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The URL for the UI of the Dremio instance.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "A collection of endpoints offered by the Dremio instance."
+      }
+    },
+    "com.stackit.dremio#DremioResponseOutputState": {
+      "type": "enum",
+      "members": {
+        "RECONCILING": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "reconciling"
+          }
+        },
+        "ACTIVE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "active"
+          }
+        },
+        "DELETING": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "deleting"
+          }
+        },
+        "ERROR": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "error"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The current state of the resource."
+      }
+    },
+    "com.stackit.dremio#ListDremiosResponseOutputDremiosList": {
+      "type": "list",
+      "member": {
+        "target": "com.stackit.dremio#DremioResponseOutput"
+      },
+      "traits": {}
+    },
+    "com.stackit.dremio#ListDremioInstances": {
+      "type": "operation",
+      "input": {
+        "target": "com.stackit.dremio#ListDremioInstancesRequest"
+      },
+      "output": {
+        "target": "com.stackit.dremio#ListDremiosResponseOutput"
+      },
+      "errors": [
+        {
+          "target": "com.stackit.dremio#BadRequest"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/v1beta/projects/{projectId}/regions/{regionId}/dremios",
+          "code": 200,
+          "baseUrl": "https://dremio.api.{region}stackit.cloud"
+        },
+        "smithy.api#documentation": "Returns a list of all Dremio instances within the project."
+      }
+    },
+    "com.stackit.dremio#CreateDremioInstanceRequestRegionId": {
+      "type": "enum",
+      "members": {
+        "EU01": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "eu01"
+          }
+        },
+        "EU02": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "eu02"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.stackit.dremio#AuthenticationInput": {
+      "type": "structure",
+      "members": {
+        "azuread": {
+          "target": "com.stackit.dremio#AzureadInput"
+        },
+        "oauth": {
+          "target": "com.stackit.dremio#OauthInput"
+        },
+        "type": {
+          "target": "com.stackit.dremio#AuthenticationInputType",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Dremio instance authentication settings. A change here triggers a Dremio restart and will incur downtime."
+      }
+    },
+    "com.stackit.dremio#AzureadInput": {
+      "type": "structure",
+      "members": {
+        "authorityUrl": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The Azure AD authority URL.",
+            "smithy.api#required": {}
+          }
+        },
+        "clientId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The Azure AD client ID.",
+            "smithy.api#required": {}
+          }
+        },
+        "clientSecret": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The Azure AD client secret.",
+            "smithy.api#sensitive": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Azure Active Directory authentication configuration."
+      }
+    },
+    "com.stackit.dremio#OauthInput": {
+      "type": "structure",
+      "members": {
+        "authorityUrl": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The Issuer location URI, where the OIDC provider configuration can be found.",
+            "smithy.api#required": {}
+          }
+        },
+        "clientId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The client ID assigned by the Identity Provider.",
+            "smithy.api#required": {}
+          }
+        },
+        "clientSecret": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The client secret generated by the Identity Provider.",
+            "smithy.api#sensitive": {}
+          }
+        },
+        "jwtClaims": {
+          "target": "com.stackit.dremio#OauthInputJwtClaims",
+          "traits": {
+            "smithy.api#documentation": "Maps fields from the JWT token to fields Dremio requires.",
+            "smithy.api#required": {}
+          }
+        },
+        "parameters": {
+          "target": "com.stackit.dremio#OauthInputParametersList",
+          "traits": {
+            "smithy.api#documentation": "Any additional parameters the Identity Provider requires."
+          }
+        },
+        "scope": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "A list of space-separated scopes. The `openid` scope is always required; other scopes can vary by provider."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "OIDC authentication configuration."
+      }
+    },
+    "com.stackit.dremio#OauthInputJwtClaims": {
+      "type": "structure",
+      "members": {
+        "userName": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Maps fields from the JWT token to fields Dremio requires."
+      }
+    },
+    "com.stackit.dremio#OauthInputParametersList": {
+      "type": "list",
+      "member": {
+        "target": "com.stackit.dremio#AuthParameters"
+      },
+      "traits": {
+        "smithy.api#documentation": "Any additional parameters the Identity Provider requires."
+      }
+    },
+    "com.stackit.dremio#AuthenticationInputType": {
+      "type": "enum",
+      "members": {
+        "LOCAL_ONLY": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "local-only"
+          }
+        },
+        "AZUREAD": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "azuread"
+          }
+        },
+        "OAUTH": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "oauth"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.stackit.dremio#CreateDremioInstanceRequest": {
+      "type": "structure",
+      "members": {
+        "projectId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The STACKIT portal project UUID the resource is located in."
+          }
+        },
+        "regionId": {
+          "target": "com.stackit.dremio#CreateDremioInstanceRequestRegionId",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The STACKIT region name the resource is located in."
+          }
+        },
+        "authentication": {
+          "target": "com.stackit.dremio#AuthenticationInput"
+        },
+        "description": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The description is a longer text chosen by the user to provide more context for the resource."
+          }
+        },
+        "displayName": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The display name is a short name chosen by the user to identify the resource.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.stackit.dremio#CreateDremioInstance": {
+      "type": "operation",
+      "input": {
+        "target": "com.stackit.dremio#CreateDremioInstanceRequest"
+      },
+      "output": {
+        "target": "com.stackit.dremio#DremioResponseOutput"
+      },
+      "errors": [
+        {
+          "target": "com.stackit.dremio#BadRequest"
+        },
+        {
+          "target": "com.stackit.dremio#Conflict"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/v1beta/projects/{projectId}/regions/{regionId}/dremios",
+          "code": 200,
+          "baseUrl": "https://dremio.api.{region}stackit.cloud"
+        },
+        "smithy.api#documentation": "Creates a new Dremio instance within the project."
+      }
+    },
+    "com.stackit.dremio#GetDremioInstanceRequestRegionId": {
+      "type": "enum",
+      "members": {
+        "EU01": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "eu01"
+          }
+        },
+        "EU02": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "eu02"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.stackit.dremio#GetDremioInstanceRequest": {
+      "type": "structure",
+      "members": {
+        "projectId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The STACKIT portal project UUID the resource is located in."
+          }
+        },
+        "regionId": {
+          "target": "com.stackit.dremio#GetDremioInstanceRequestRegionId",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The STACKIT region name the resource is located in."
+          }
+        },
+        "dremioId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The Dremio instance UUID."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.stackit.dremio#GetDremioInstance": {
+      "type": "operation",
+      "input": {
+        "target": "com.stackit.dremio#GetDremioInstanceRequest"
+      },
+      "output": {
+        "target": "com.stackit.dremio#DremioResponseOutput"
+      },
+      "errors": [
+        {
+          "target": "com.stackit.dremio#BadRequest"
+        },
+        {
+          "target": "com.stackit.dremio#NotFound"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/v1beta/projects/{projectId}/regions/{regionId}/dremios/{dremioId}",
+          "code": 200,
+          "baseUrl": "https://dremio.api.{region}stackit.cloud"
+        },
+        "smithy.api#documentation": "Returns the details for the given Dremio instance."
+      }
+    },
+    "com.stackit.dremio#UpdateDremioInstanceRequestRegionId": {
+      "type": "enum",
+      "members": {
+        "EU01": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "eu01"
+          }
+        },
+        "EU02": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "eu02"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.stackit.dremio#UpdateDremioInstanceRequest": {
+      "type": "structure",
+      "members": {
+        "projectId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The STACKIT portal project UUID the resource is located in."
+          }
+        },
+        "regionId": {
+          "target": "com.stackit.dremio#UpdateDremioInstanceRequestRegionId",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The STACKIT region name the resource is located in."
+          }
+        },
+        "dremioId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The Dremio instance UUID."
+          }
+        },
+        "authentication": {
+          "target": "com.stackit.dremio#AuthenticationInput"
+        },
+        "description": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The description is a longer text chosen by the user to provide more context for the resource."
+          }
+        },
+        "displayName": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The display name is a short name chosen by the user to identify the resource."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.stackit.dremio#UpdateDremioInstance": {
+      "type": "operation",
+      "input": {
+        "target": "com.stackit.dremio#UpdateDremioInstanceRequest"
+      },
+      "output": {
+        "target": "com.stackit.dremio#DremioResponseOutput"
+      },
+      "errors": [
+        {
+          "target": "com.stackit.dremio#BadRequest"
+        },
+        {
+          "target": "com.stackit.dremio#NotFound"
+        },
+        {
+          "target": "com.stackit.dremio#Conflict"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "PUT",
+          "uri": "/v1beta/projects/{projectId}/regions/{regionId}/dremios/{dremioId}",
+          "code": 200,
+          "baseUrl": "https://dremio.api.{region}stackit.cloud"
+        },
+        "smithy.api#documentation": "Updates the given Dremio instance. Please note that changing certain fields will trigger a Dremio restart and will incur downtime. See the request body information for more details."
+      }
+    },
+    "com.stackit.dremio#DeleteDremioInstanceRequestRegionId": {
+      "type": "enum",
+      "members": {
+        "EU01": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "eu01"
+          }
+        },
+        "EU02": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "eu02"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.stackit.dremio#DeleteDremioInstanceRequest": {
+      "type": "structure",
+      "members": {
+        "projectId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The STACKIT portal project UUID the resource is located in."
+          }
+        },
+        "regionId": {
+          "target": "com.stackit.dremio#DeleteDremioInstanceRequestRegionId",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The STACKIT region name the resource is located in."
+          }
+        },
+        "dremioId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The Dremio instance UUID."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.stackit.dremio#DeleteDremioInstance": {
+      "type": "operation",
+      "input": {
+        "target": "com.stackit.dremio#DeleteDremioInstanceRequest"
+      },
+      "output": {
+        "target": "smithy.api#Unit"
+      },
+      "errors": [
+        {
+          "target": "com.stackit.dremio#BadRequest"
+        },
+        {
+          "target": "com.stackit.dremio#NotFound"
+        },
+        {
+          "target": "com.stackit.dremio#Conflict"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "DELETE",
+          "uri": "/v1beta/projects/{projectId}/regions/{regionId}/dremios/{dremioId}",
+          "code": 200,
+          "baseUrl": "https://dremio.api.{region}stackit.cloud"
+        },
+        "smithy.api#documentation": "Deletes the given Dremio instance."
+      }
+    },
+    "com.stackit.dremio#ListDremioUsersRequestRegionId": {
+      "type": "enum",
+      "members": {
+        "EU01": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "eu01"
+          }
+        },
+        "EU02": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "eu02"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.stackit.dremio#ListDremioUsersRequest": {
+      "type": "structure",
+      "members": {
+        "projectId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The STACKIT portal project UUID the resource is located in."
+          }
+        },
+        "regionId": {
+          "target": "com.stackit.dremio#ListDremioUsersRequestRegionId",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The STACKIT region name the resource is located in."
+          }
+        },
+        "dremioId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The Dremio instance UUID."
+          }
+        },
+        "pageToken": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "pageToken",
+            "smithy.api#documentation": "A token to retrieve the next page of results."
+          }
+        },
+        "pageSize": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpQuery": "pageSize",
+            "smithy.api#documentation": "Maximum number of items to return."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.stackit.dremio#ListDremioUsersResponse": {
+      "type": "structure",
+      "members": {
+        "dremioUsers": {
+          "target": "com.stackit.dremio#ListDremioUsersResponseDremioUsersList",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "nextPageToken": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "A token to retrieve the next page of results."
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.stackit.dremio#DremioUserResponse": {
+      "type": "structure",
+      "members": {
+        "create_time": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The point in time the resource was created."
+          }
+        },
+        "description": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The description is a longer text chosen by the user to provide more context for the resource."
+          }
+        },
+        "email": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "This is the admin user's email address.",
+            "smithy.api#required": {}
+          }
+        },
+        "errorMessage": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "A message describing an actionable error the user can resolve. This field is empty if no such error exists."
+          }
+        },
+        "firstName": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "This is the admin user's first name.",
+            "smithy.api#required": {}
+          }
+        },
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "A auto generated unique id which identifies the resource.",
+            "smithy.api#required": {}
+          }
+        },
+        "lastName": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "This is the  admin user's last name.",
+            "smithy.api#required": {}
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "This is the username used to login the admin user.",
+            "smithy.api#required": {}
+          }
+        },
+        "state": {
+          "target": "com.stackit.dremio#DremioUserResponseState",
+          "traits": {
+            "smithy.api#documentation": "The current state of the resource.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.stackit.dremio#DremioUserResponseState": {
+      "type": "enum",
+      "members": {
+        "RECONCILING": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "reconciling"
+          }
+        },
+        "ACTIVE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "active"
+          }
+        },
+        "DELETING": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "deleting"
+          }
+        },
+        "ERROR": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "error"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The current state of the resource."
+      }
+    },
+    "com.stackit.dremio#ListDremioUsersResponseDremioUsersList": {
+      "type": "list",
+      "member": {
+        "target": "com.stackit.dremio#DremioUserResponse"
+      },
+      "traits": {}
+    },
+    "com.stackit.dremio#ListDremioUsers": {
+      "type": "operation",
+      "input": {
+        "target": "com.stackit.dremio#ListDremioUsersRequest"
+      },
+      "output": {
+        "target": "com.stackit.dremio#ListDremioUsersResponse"
+      },
+      "errors": [
+        {
+          "target": "com.stackit.dremio#BadRequest"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/v1beta/projects/{projectId}/regions/{regionId}/dremios/{dremioId}/users",
+          "code": 200,
+          "baseUrl": "https://dremio.api.{region}stackit.cloud"
+        },
+        "smithy.api#documentation": "Returns a list of all Dremio admin users for the given dremio instance."
+      }
+    },
+    "com.stackit.dremio#CreateDremioUserRequestRegionId": {
+      "type": "enum",
+      "members": {
+        "EU01": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "eu01"
+          }
+        },
+        "EU02": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "eu02"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.stackit.dremio#CreateDremioUserRequest": {
+      "type": "structure",
+      "members": {
+        "projectId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The STACKIT portal project UUID the resource is located in."
+          }
+        },
+        "regionId": {
+          "target": "com.stackit.dremio#CreateDremioUserRequestRegionId",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The STACKIT region name the resource is located in."
+          }
+        },
+        "dremioId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The Dremio instance UUID."
+          }
+        },
+        "description": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The description is a longer text chosen by the user to provide more context for the resource."
+          }
+        },
+        "email": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "This is the admin user's email address.",
+            "smithy.api#required": {}
+          }
+        },
+        "firstName": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "This is the admin user's first name.",
+            "smithy.api#required": {}
+          }
+        },
+        "lastName": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "This is the  admin user's last name.",
+            "smithy.api#required": {}
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "This is the username used to login the admin user.",
+            "smithy.api#required": {}
+          }
+        },
+        "password": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "A password chosen by the user.",
+            "smithy.api#required": {},
+            "smithy.api#sensitive": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.stackit.dremio#CreateDremioUser": {
+      "type": "operation",
+      "input": {
+        "target": "com.stackit.dremio#CreateDremioUserRequest"
+      },
+      "output": {
+        "target": "com.stackit.dremio#DremioUserResponse"
+      },
+      "errors": [
+        {
+          "target": "com.stackit.dremio#BadRequest"
+        },
+        {
+          "target": "com.stackit.dremio#Conflict"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/v1beta/projects/{projectId}/regions/{regionId}/dremios/{dremioId}/users",
+          "code": 200,
+          "baseUrl": "https://dremio.api.{region}stackit.cloud"
+        },
+        "smithy.api#documentation": "Creates a new Dremio admin user for the given Dremio instance."
+      }
+    },
+    "com.stackit.dremio#GetDremioUserRequestRegionId": {
+      "type": "enum",
+      "members": {
+        "EU01": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "eu01"
+          }
+        },
+        "EU02": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "eu02"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.stackit.dremio#GetDremioUserRequest": {
+      "type": "structure",
+      "members": {
+        "projectId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The STACKIT portal project UUID the resource is located in."
+          }
+        },
+        "regionId": {
+          "target": "com.stackit.dremio#GetDremioUserRequestRegionId",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The STACKIT region name the resource is located in."
+          }
+        },
+        "dremioId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The Dremio instance UUID."
+          }
+        },
+        "dremioUserId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The Dremio user UUID."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.stackit.dremio#GetDremioUser": {
+      "type": "operation",
+      "input": {
+        "target": "com.stackit.dremio#GetDremioUserRequest"
+      },
+      "output": {
+        "target": "com.stackit.dremio#DremioUserResponse"
+      },
+      "errors": [
+        {
+          "target": "com.stackit.dremio#BadRequest"
+        },
+        {
+          "target": "com.stackit.dremio#NotFound"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/v1beta/projects/{projectId}/regions/{regionId}/dremios/{dremioId}/users/{dremioUserId}",
+          "code": 200,
+          "baseUrl": "https://dremio.api.{region}stackit.cloud"
+        },
+        "smithy.api#documentation": "Returns the details for the given dremio admin user"
+      }
+    },
+    "com.stackit.dremio#DeleteDremioUserRequestRegionId": {
+      "type": "enum",
+      "members": {
+        "EU01": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "eu01"
+          }
+        },
+        "EU02": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "eu02"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.stackit.dremio#DeleteDremioUserRequest": {
+      "type": "structure",
+      "members": {
+        "projectId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The STACKIT portal project UUID the resource is located in."
+          }
+        },
+        "regionId": {
+          "target": "com.stackit.dremio#DeleteDremioUserRequestRegionId",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The STACKIT region name the resource is located in."
+          }
+        },
+        "dremioId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The Dremio instance UUID."
+          }
+        },
+        "dremioUserId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The Dremio user UUID."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.stackit.dremio#DeleteDremioUser": {
+      "type": "operation",
+      "input": {
+        "target": "com.stackit.dremio#DeleteDremioUserRequest"
+      },
+      "output": {
+        "target": "smithy.api#Unit"
+      },
+      "errors": [
+        {
+          "target": "com.stackit.dremio#BadRequest"
+        },
+        {
+          "target": "com.stackit.dremio#NotFound"
+        },
+        {
+          "target": "com.stackit.dremio#Conflict"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "DELETE",
+          "uri": "/v1beta/projects/{projectId}/regions/{regionId}/dremios/{dremioId}/users/{dremioUserId}",
+          "code": 200,
+          "baseUrl": "https://dremio.api.{region}stackit.cloud"
+        },
+        "smithy.api#documentation": "Deletes the given dremio admin user."
+      }
+    },
+    "com.stackit.dremio#BadRequest": {
+      "type": "structure",
+      "members": {},
+      "traits": {
+        "smithy.api#error": "client",
+        "smithy.api#httpError": 400,
+        "com.distilled.openapi#errorMatchers": [
+          {
+            "status": 400
+          }
+        ]
+      }
+    },
+    "com.stackit.dremio#Conflict": {
+      "type": "structure",
+      "members": {},
+      "traits": {
+        "smithy.api#error": "client",
+        "smithy.api#httpError": 409,
+        "com.distilled.openapi#errorMatchers": [
+          {
+            "status": 409
+          }
+        ]
+      }
+    },
+    "com.stackit.dremio#NotFound": {
+      "type": "structure",
+      "members": {},
+      "traits": {
+        "smithy.api#error": "client",
+        "smithy.api#httpError": 404,
+        "com.distilled.openapi#errorMatchers": [
+          {
+            "status": 404
+          }
+        ]
+      }
+    },
+    "com.stackit.dremio#Dremio": {
+      "type": "service",
+      "version": "1beta.0.0",
+      "operations": [
+        {
+          "target": "com.stackit.dremio#ListDremioInstances"
+        },
+        {
+          "target": "com.stackit.dremio#CreateDremioInstance"
+        },
+        {
+          "target": "com.stackit.dremio#GetDremioInstance"
+        },
+        {
+          "target": "com.stackit.dremio#UpdateDremioInstance"
+        },
+        {
+          "target": "com.stackit.dremio#DeleteDremioInstance"
+        },
+        {
+          "target": "com.stackit.dremio#ListDremioUsers"
+        },
+        {
+          "target": "com.stackit.dremio#CreateDremioUser"
+        },
+        {
+          "target": "com.stackit.dremio#GetDremioUser"
+        },
+        {
+          "target": "com.stackit.dremio#DeleteDremioUser"
+        }
+      ],
+      "traits": {
+        "smithy.api#title": "STACKIT Dremio API",
+        "smithy.api#documentation": "This API provides endpoints for managing Dremio instances and users."
+      }
+    }
+  }
+}

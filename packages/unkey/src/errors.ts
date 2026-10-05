@@ -27,8 +27,8 @@ export {
 } from "@distilled.cloud/core/errors";
 export type { DefaultErrors } from "@distilled.cloud/core/errors";
 
-import * as Schema from "effect/Schema";
 import * as Category from "@distilled.cloud/core/category";
+import * as Schema from "effect/Schema";
 
 /** Unknown Unkey error — returned when nothing else matches the failure. */
 export class UnknownUnkeyError extends Schema.TaggedError<UnknownUnkeyError>()(
@@ -41,10 +41,7 @@ export class UnknownUnkeyError extends Schema.TaggedError<UnknownUnkeyError>()(
 ).pipe(Category.withServerError) {}
 
 /** Schema parse error wrapper. */
-export class UnkeyParseError extends Schema.TaggedError<UnkeyParseError>()(
-  "UnkeyParseError",
-  {
-    body: Schema.Unknown,
-    cause: Schema.Unknown,
-  },
-).pipe(Category.withParseError) {}
+export class UnkeyParseError extends Schema.TaggedError<UnkeyParseError>()("UnkeyParseError", {
+  body: Schema.Unknown,
+  cause: Schema.Unknown,
+}).pipe(Category.withParseError) {}

@@ -1,0 +1,278 @@
+{
+  "description": "Type the Document AI Warehouse API-disabled answer (HTTP 403 PERMISSION_DENIED, reason SERVICE_DISABLED: 'Document AI Warehouse API has not been used in project N before or it is disabled.'). It surfaced as the generic Forbidden, so callers could not tell an unactivated service from a missing permission.",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.contentwarehouse_v1#ServiceDisabled",
+      "value": {
+        "type": "structure",
+        "members": {},
+        "traits": {
+          "smithy.api#error": "client",
+          "smithy.api#httpError": 403,
+          "smithy.api#documentation": "The Document AI Warehouse API is not enabled for the calling project (HTTP 403 SERVICE_DISABLED).",
+          "com.gcp.protocols#errorMatchers": [
+            {
+              "status": 403,
+              "message": {
+                "includes": "has not been used in project"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.contentwarehouse_v1#CreateProjectsLocationsDocumentSchemas/errors/-",
+      "value": {
+        "target": "com.gcp.contentwarehouse_v1#ServiceDisabled"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.contentwarehouse_v1#CreateProjectsLocationsDocuments/errors/-",
+      "value": {
+        "target": "com.gcp.contentwarehouse_v1#ServiceDisabled"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.contentwarehouse_v1#CreateProjectsLocationsDocumentsDocumentLinks/errors/-",
+      "value": {
+        "target": "com.gcp.contentwarehouse_v1#ServiceDisabled"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.contentwarehouse_v1#CreateProjectsLocationsRuleSets/errors/-",
+      "value": {
+        "target": "com.gcp.contentwarehouse_v1#ServiceDisabled"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.contentwarehouse_v1#CreateProjectsLocationsSynonymSets/errors/-",
+      "value": {
+        "target": "com.gcp.contentwarehouse_v1#ServiceDisabled"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.contentwarehouse_v1#DeleteProjectsLocationsDocumentSchemas/errors/-",
+      "value": {
+        "target": "com.gcp.contentwarehouse_v1#ServiceDisabled"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.contentwarehouse_v1#DeleteProjectsLocationsDocuments/errors/-",
+      "value": {
+        "target": "com.gcp.contentwarehouse_v1#ServiceDisabled"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.contentwarehouse_v1#DeleteProjectsLocationsDocumentsDocumentLinks/errors/-",
+      "value": {
+        "target": "com.gcp.contentwarehouse_v1#ServiceDisabled"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.contentwarehouse_v1#DeleteProjectsLocationsDocumentsReferenceId/errors/-",
+      "value": {
+        "target": "com.gcp.contentwarehouse_v1#ServiceDisabled"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.contentwarehouse_v1#DeleteProjectsLocationsRuleSets/errors/-",
+      "value": {
+        "target": "com.gcp.contentwarehouse_v1#ServiceDisabled"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.contentwarehouse_v1#DeleteProjectsLocationsSynonymSets/errors/-",
+      "value": {
+        "target": "com.gcp.contentwarehouse_v1#ServiceDisabled"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.contentwarehouse_v1#FetchAclProjects/errors/-",
+      "value": {
+        "target": "com.gcp.contentwarehouse_v1#ServiceDisabled"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.contentwarehouse_v1#FetchAclProjectsLocationsDocuments/errors/-",
+      "value": {
+        "target": "com.gcp.contentwarehouse_v1#ServiceDisabled"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.contentwarehouse_v1#GetProjectsLocationsDocumentSchemas/errors/-",
+      "value": {
+        "target": "com.gcp.contentwarehouse_v1#ServiceDisabled"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.contentwarehouse_v1#GetProjectsLocationsDocuments/errors/-",
+      "value": {
+        "target": "com.gcp.contentwarehouse_v1#ServiceDisabled"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.contentwarehouse_v1#GetProjectsLocationsDocumentsReferenceId/errors/-",
+      "value": {
+        "target": "com.gcp.contentwarehouse_v1#ServiceDisabled"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.contentwarehouse_v1#GetProjectsLocationsOperations/errors/-",
+      "value": {
+        "target": "com.gcp.contentwarehouse_v1#ServiceDisabled"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.contentwarehouse_v1#GetProjectsLocationsRuleSets/errors/-",
+      "value": {
+        "target": "com.gcp.contentwarehouse_v1#ServiceDisabled"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.contentwarehouse_v1#GetProjectsLocationsSynonymSets/errors/-",
+      "value": {
+        "target": "com.gcp.contentwarehouse_v1#ServiceDisabled"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.contentwarehouse_v1#GetStatusProjectsLocations/errors/-",
+      "value": {
+        "target": "com.gcp.contentwarehouse_v1#ServiceDisabled"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.contentwarehouse_v1#InitializeProjectsLocations/errors/-",
+      "value": {
+        "target": "com.gcp.contentwarehouse_v1#ServiceDisabled"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.contentwarehouse_v1#LinkedSourcesProjectsLocationsDocuments/errors/-",
+      "value": {
+        "target": "com.gcp.contentwarehouse_v1#ServiceDisabled"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.contentwarehouse_v1#LinkedTargetsProjectsLocationsDocuments/errors/-",
+      "value": {
+        "target": "com.gcp.contentwarehouse_v1#ServiceDisabled"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.contentwarehouse_v1#ListProjectsLocationsDocumentSchemas/errors/-",
+      "value": {
+        "target": "com.gcp.contentwarehouse_v1#ServiceDisabled"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.contentwarehouse_v1#ListProjectsLocationsRuleSets/errors/-",
+      "value": {
+        "target": "com.gcp.contentwarehouse_v1#ServiceDisabled"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.contentwarehouse_v1#ListProjectsLocationsSynonymSets/errors/-",
+      "value": {
+        "target": "com.gcp.contentwarehouse_v1#ServiceDisabled"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.contentwarehouse_v1#LockProjectsLocationsDocuments/errors/-",
+      "value": {
+        "target": "com.gcp.contentwarehouse_v1#ServiceDisabled"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.contentwarehouse_v1#PatchProjectsLocationsDocumentSchemas/errors/-",
+      "value": {
+        "target": "com.gcp.contentwarehouse_v1#ServiceDisabled"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.contentwarehouse_v1#PatchProjectsLocationsDocuments/errors/-",
+      "value": {
+        "target": "com.gcp.contentwarehouse_v1#ServiceDisabled"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.contentwarehouse_v1#PatchProjectsLocationsDocumentsReferenceId/errors/-",
+      "value": {
+        "target": "com.gcp.contentwarehouse_v1#ServiceDisabled"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.contentwarehouse_v1#PatchProjectsLocationsRuleSets/errors/-",
+      "value": {
+        "target": "com.gcp.contentwarehouse_v1#ServiceDisabled"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.contentwarehouse_v1#PatchProjectsLocationsSynonymSets/errors/-",
+      "value": {
+        "target": "com.gcp.contentwarehouse_v1#ServiceDisabled"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.contentwarehouse_v1#RunPipelineProjectsLocations/errors/-",
+      "value": {
+        "target": "com.gcp.contentwarehouse_v1#ServiceDisabled"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.contentwarehouse_v1#SearchProjectsLocationsDocuments/errors/-",
+      "value": {
+        "target": "com.gcp.contentwarehouse_v1#ServiceDisabled"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.contentwarehouse_v1#SetAclProjects/errors/-",
+      "value": {
+        "target": "com.gcp.contentwarehouse_v1#ServiceDisabled"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.contentwarehouse_v1#SetAclProjectsLocationsDocuments/errors/-",
+      "value": {
+        "target": "com.gcp.contentwarehouse_v1#ServiceDisabled"
+      }
+    }
+  ]
+}

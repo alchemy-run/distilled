@@ -1,5 +1,7 @@
-import { describe, expect, test } from "bun:test";
+import * as Redacted from "effect/Redacted";
+import { describe, expect, test } from "vitest";
 import { buildRequest, mapKeys } from "./protocol-http.ts";
+import { SensitiveValue, wrapSensitive } from "./protocol-rest.ts";
 import * as S from "./schema.ts";
 import * as T from "./trait.ts";
 
@@ -11,17 +13,11 @@ import * as T from "./trait.ts";
 const JsonInput = S.Struct({
   flag: S.optional(S.Boolean.pipe(T.Body("flag"), T.StringEncoded())),
   plain: S.optional(S.Boolean.pipe(T.Body("plain"))),
-  nullable: S.optional(
-    S.NullOr(S.Boolean).pipe(T.Body("nullable"), T.StringEncoded()),
-  ),
-  flags: S.optional(
-    S.Array(S.Boolean).pipe(T.Body("flags"), T.StringEncoded()),
-  ),
+  nullable: S.optional(S.NullOr(S.Boolean).pipe(T.Body("nullable"), T.StringEncoded())),
+  flags: S.optional(S.Array(S.Boolean).pipe(T.Body("flags"), T.StringEncoded())),
   profile: S.optional(
     S.Struct({
-      nested: S.optional(
-        S.Boolean.pipe(T.Body("nested_flag"), T.StringEncoded()),
-      ),
+      nested: S.optional(S.Boolean.pipe(T.Body("nested_flag"), T.StringEncoded())),
       plain: S.optional(S.Boolean.pipe(T.Body("plain_flag"))),
     }).pipe(T.Body("profile")),
   ),
@@ -67,6 +63,167 @@ describe("StringEncoded members", () => {
   });
 });
 
+describe("URI label encoding", () => {
+  const input = (preserve?: string) =>
+    S.Struct({
+      scope:
+        preserve === undefined
+          ? S.String.pipe(T.Label())
+          : S.String.pipe(T.Label(), T.LabelEncoding({ preserve })),
+    }).pipe(T.Http({ method: "POST", uri: "/runtime/{scope}" }));
+  const url = (scope: string, preserve?: string) =>
+    buildRequest({
+      input: { scope },
+      inputAst: input(preserve).ast,
+      baseUrl: "https://example.test",
+    }).url;
+
+  test("keeps the existing escaping unless a model opts in", () => {
+    expect(url("__KV:abc")).toBe("https://example.test/runtime/__KV%3Aabc");
+    expect(url("__KV:abc", ":")).toBe("https://example.test/runtime/__KV:abc");
+  });
+
+  test("preserves only modeled pchar delimiters, not separators or escapes", () => {
+    expect(url("__KV:a/b?c#d%3Aé", ":")).toBe(
+      "https://example.test/runtime/__KV:a%2Fb%3Fc%23d%253A%C3%A9",
+    );
+    expect(url("$&:@", "$&:")).toBe("https://example.test/runtime/$&:%40");
+  });
+
+  test("refuses unsafe preservation rules", () => {
+    for (const preserve of ["/", "?", "#", "%", "\\r", "[", "]"]) {
+      expect(() => T.LabelEncoding({ preserve })).toThrow(TypeError);
+    }
+  });
+});
+
+describe("greedy labels", () => {
+  const ScopedInput = S.Struct({
+    scope: S.String.pipe(T.Label()),
+    name: S.String.pipe(T.Label()),
+  }).pipe(T.Http({ method: "GET", uri: "/{scope+}/providers/Things/{name}" }));
+
+  const urlOf = (input: unknown) =>
+    buildRequest({
+      input,
+      inputAst: ScopedInput.ast,
+      baseUrl: "https://example.test",
+    }).url;
+
+  test("keeps slashes and drops the leading slash of the value", () => {
+    expect(urlOf({ scope: "/subscriptions/abc/resourceGroups/my rg", name: "a/b" })).toBe(
+      "https://example.test/subscriptions/abc/resourceGroups/my%20rg/providers/Things/a%2Fb",
+    );
+  });
+
+  test("accepts a value without a leading slash", () => {
+    expect(urlOf({ scope: "subscriptions/abc", name: "x" })).toBe(
+      "https://example.test/subscriptions/abc/providers/Things/x",
+    );
+  });
+});
+
+describe("multipart binary parts", () => {
+  const schema = S.Struct({ zip: S.Unknown, environment: S.String }).pipe(
+    T.Http({ method: "POST", uri: "/deployments", contentType: "multipart" }),
+  );
+
+  test("preserves typed-array slices and an already JSON-encoded environment", async () => {
+    const input = new Uint8Array([99, 80, 75, 0, 255, 99]).subarray(1, 5);
+    const environment = JSON.stringify({ SECRET: "value", REMOVED: "" });
+    const request = buildRequest({
+      input: { zip: input, environment },
+      inputAst: schema.ast,
+      baseUrl: "https://example.test",
+    });
+    if (request.body._tag !== "FormData") throw new Error("Expected multipart");
+    const part = request.body.formData.get("zip");
+    expect(part).toBeInstanceOf(File);
+    expect(new Uint8Array(await (part as File).arrayBuffer())).toEqual(input);
+    expect(request.body.formData.getAll("environment")).toEqual([environment]);
+    const wire = new Request(request.url, {
+      method: "POST",
+      body: request.body.formData,
+    });
+    expect(wire.headers.get("content-type")).toContain("multipart/form-data; boundary=");
+  });
+
+  test("preserves File names and ArrayBuffer bytes", async () => {
+    for (const zip of [
+      new File([new Uint8Array([80, 75, 255])], "bundle.zip"),
+      new Uint8Array([80, 75, 255]).buffer,
+    ]) {
+      const request = buildRequest({
+        input: { zip, environment: "{}" },
+        inputAst: schema.ast,
+        baseUrl: "https://example.test",
+      });
+      if (request.body._tag !== "FormData") throw new Error("Expected multipart");
+      const part = request.body.formData.get("zip") as File;
+      expect(part.name).toBe(zip instanceof File ? "bundle.zip" : "zip");
+      expect(new Uint8Array(await part.arrayBuffer())).toEqual(new Uint8Array([80, 75, 255]));
+    }
+  });
+});
+
+describe("sensitive union responses", () => {
+  const schema = S.suspend(() =>
+    S.Union([
+      S.Struct({
+        type: S.Literal("standard"),
+        password: S.String.pipe(SensitiveValue()),
+      }),
+      S.Struct({
+        type: S.Literal("token"),
+        token: S.String.pipe(SensitiveValue()),
+      }),
+      S.Struct({ type: S.Literal("shared") }),
+    ]),
+  );
+
+  test("all arms redact their secrets, even in partial or ambiguous responses", () => {
+    for (const value of [
+      { type: "standard", password: "fixture-password" },
+      { type: "token", token: "fixture-token" },
+      { password: "fixture-password", token: "fixture-token" },
+    ]) {
+      const wrapped = wrapSensitive(schema.ast, value);
+      expect(wrapped).toEqual(
+        Object.fromEntries(
+          Object.entries(value).map(([key, value]) => [
+            key,
+            key === "type" ? value : Redacted.make(value),
+          ]),
+        ),
+      );
+      expect(JSON.stringify(wrapped)).not.toContain("fixture-password");
+      expect(JSON.stringify(wrapped)).not.toContain("fixture-token");
+      expect(wrapSensitive(schema.ast, wrapped)).toEqual(wrapped);
+    }
+  });
+
+  test("nested arrays and optional nullable unions preserve nonsecret values", () => {
+    const nested = S.Struct({
+      provider: S.optional(S.NullOr(schema)),
+      providers: S.Array(schema),
+    });
+    for (const value of [{}, { provider: null }, { provider: { type: "shared" } }]) {
+      expect(
+        wrapSensitive(nested.ast, {
+          ...value,
+          providers: [{ type: "standard", password: "fixture-password" }, { type: "shared" }],
+        }),
+      ).toEqual({
+        ...value,
+        providers: [
+          { type: "standard", password: Redacted.make("fixture-password") },
+          { type: "shared" },
+        ],
+      });
+    }
+  });
+});
+
 describe("UnionCases decoding", () => {
   const cases = [
     ["id", "type", "zoneName"],
@@ -101,9 +258,7 @@ describe("UnionCases decoding", () => {
     const schema = S.Unknown.pipe(
       T.UnionCases(cases, { key: "type", values: ["zone", "account"] }),
     );
-    expect(
-      decode(schema, { ...merged, type: "other", accountName: null }),
-    ).toEqual({
+    expect(decode(schema, { ...merged, type: "other", accountName: null })).toEqual({
       id: "1",
       type: "other",
       zoneName: "zone-a",

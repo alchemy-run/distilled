@@ -36802,6 +36802,1028 @@
         }
       }
     },
+    "com.cloudflare.dns#CreateSettingsAccountNameserverSetRequestNameserversItem": {
+      "type": "structure",
+      "members": {
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "A unique lowercase Punycode nameserver name within the set.",
+            "smithy.api#required": {}
+          }
+        },
+        "ip_count": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "Number of IPv4 addresses and number of IPv6 addresses to allocate to this nameserver. All nameservers in an Advanced nameserver set must use the same value."
+          }
+        }
+      }
+    },
+    "com.cloudflare.dns#CreateSettingsAccountNameserverSetRequestNameserversList": {
+      "type": "list",
+      "member": {
+        "target": "com.cloudflare.dns#CreateSettingsAccountNameserverSetRequestNameserversItem"
+      }
+    },
+    "com.cloudflare.dns#CreateSettingsAccountNameserverSetRequest": {
+      "type": "structure",
+      "members": {
+        "account_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Identifier.",
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        },
+        "nameservers": {
+          "target": "com.cloudflare.dns#CreateSettingsAccountNameserverSetRequestNameserversList",
+          "traits": {
+            "smithy.api#documentation": "Lists each nameserver and the number of addresses to allocate to it. Requires a unique name for each entry in the set.",
+            "smithy.api#required": {}
+          }
+        },
+        "advanced": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Whether to allocate the nameservers from distinct Advanced anycast groups."
+          }
+        },
+        "ip_set": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "Selects the account-specific IP set that supplies the nameserver addresses. The account's entitlement determines the maximum value. Nameserver sets with the same `ip_set` and `advanced` value may reuse addresses; otherwise, they use disjoint address groups."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.cloudflare.dns#CreateSettingsAccountNameserverSetResultDNSSettingsNameserverSetStandardResponseNameserversItemIpv4List": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      }
+    },
+    "com.cloudflare.dns#CreateSettingsAccountNameserverSetResultDNSSettingsNameserverSetStandardResponseNameserversItemIpv6List": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      }
+    },
+    "com.cloudflare.dns#CreateSettingsAccountNameserverSetResultDNSSettingsNameserverSetStandardResponseNameserversItem": {
+      "type": "structure",
+      "members": {
+        "ipv4": {
+          "target": "com.cloudflare.dns#CreateSettingsAccountNameserverSetResultDNSSettingsNameserverSetStandardResponseNameserversItemIpv4List",
+          "traits": {
+            "smithy.api#documentation": "IPv4 addresses assigned to the nameserver.",
+            "smithy.api#required": {}
+          }
+        },
+        "ipv6": {
+          "target": "com.cloudflare.dns#CreateSettingsAccountNameserverSetResultDNSSettingsNameserverSetStandardResponseNameserversItemIpv6List",
+          "traits": {
+            "smithy.api#documentation": "IPv6 addresses assigned to the nameserver.",
+            "smithy.api#required": {}
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "A unique lowercase Punycode nameserver name within the set.",
+            "smithy.api#required": {}
+          }
+        }
+      }
+    },
+    "com.cloudflare.dns#CreateSettingsAccountNameserverSetResultDNSSettingsNameserverSetStandardResponseNameserversList": {
+      "type": "list",
+      "member": {
+        "target": "com.cloudflare.dns#CreateSettingsAccountNameserverSetResultDNSSettingsNameserverSetStandardResponseNameserversItem"
+      }
+    },
+    "com.cloudflare.dns#CreateSettingsAccountNameserverSetResultDNSSettingsNameserverSetStandardResponse": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Identifier for a nameserver set.",
+            "smithy.api#required": {}
+          }
+        },
+        "advanced": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Whether the nameserver set uses Advanced anycast groups.",
+            "smithy.api#required": {}
+          }
+        },
+        "created_on": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "When the nameserver set was created.",
+            "smithy.api#required": {}
+          }
+        },
+        "ip_set": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "Selects the account-specific IP set that supplies the nameserver addresses. The account's entitlement determines the maximum value. Nameserver sets with the same `ip_set` and `advanced` value may reuse addresses; otherwise, they use disjoint address groups.",
+            "smithy.api#required": {}
+          }
+        },
+        "nameservers": {
+          "target": "com.cloudflare.dns#CreateSettingsAccountNameserverSetResultDNSSettingsNameserverSetStandardResponseNameserversList",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      }
+    },
+    "com.cloudflare.dns#CreateSettingsAccountNameserverSetResultDNSSettingsNameserverSetAdvancedResponseNameserversItemIpv4List": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      }
+    },
+    "com.cloudflare.dns#CreateSettingsAccountNameserverSetResultDNSSettingsNameserverSetAdvancedResponseNameserversItemIpv4GroupsItem": {
+      "type": "enum",
+      "members": {
+        "A": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "a"
+          }
+        },
+        "B": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "b"
+          }
+        },
+        "C": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "c"
+          }
+        }
+      }
+    },
+    "com.cloudflare.dns#CreateSettingsAccountNameserverSetResultDNSSettingsNameserverSetAdvancedResponseNameserversItemIpv4GroupsList": {
+      "type": "list",
+      "member": {
+        "target": "com.cloudflare.dns#CreateSettingsAccountNameserverSetResultDNSSettingsNameserverSetAdvancedResponseNameserversItemIpv4GroupsItem"
+      }
+    },
+    "com.cloudflare.dns#CreateSettingsAccountNameserverSetResultDNSSettingsNameserverSetAdvancedResponseNameserversItemIpv6List": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      }
+    },
+    "com.cloudflare.dns#CreateSettingsAccountNameserverSetResultDNSSettingsNameserverSetAdvancedResponseNameserversItemIpv6GroupsItem": {
+      "type": "enum",
+      "members": {
+        "A": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "a"
+          }
+        },
+        "B": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "b"
+          }
+        },
+        "C": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "c"
+          }
+        }
+      }
+    },
+    "com.cloudflare.dns#CreateSettingsAccountNameserverSetResultDNSSettingsNameserverSetAdvancedResponseNameserversItemIpv6GroupsList": {
+      "type": "list",
+      "member": {
+        "target": "com.cloudflare.dns#CreateSettingsAccountNameserverSetResultDNSSettingsNameserverSetAdvancedResponseNameserversItemIpv6GroupsItem"
+      }
+    },
+    "com.cloudflare.dns#CreateSettingsAccountNameserverSetResultDNSSettingsNameserverSetAdvancedResponseNameserversItem": {
+      "type": "structure",
+      "members": {
+        "ipv4": {
+          "target": "com.cloudflare.dns#CreateSettingsAccountNameserverSetResultDNSSettingsNameserverSetAdvancedResponseNameserversItemIpv4List",
+          "traits": {
+            "smithy.api#documentation": "IPv4 addresses assigned to the nameserver.",
+            "smithy.api#required": {}
+          }
+        },
+        "ipv4_groups": {
+          "target": "com.cloudflare.dns#CreateSettingsAccountNameserverSetResultDNSSettingsNameserverSetAdvancedResponseNameserversItemIpv4GroupsList",
+          "traits": {
+            "smithy.api#documentation": "Advanced anycast group for each address in the corresponding address array. Entries have the same order as, and correspond one-to-one with, the addresses.",
+            "smithy.api#required": {}
+          }
+        },
+        "ipv6": {
+          "target": "com.cloudflare.dns#CreateSettingsAccountNameserverSetResultDNSSettingsNameserverSetAdvancedResponseNameserversItemIpv6List",
+          "traits": {
+            "smithy.api#documentation": "IPv6 addresses assigned to the nameserver.",
+            "smithy.api#required": {}
+          }
+        },
+        "ipv6_groups": {
+          "target": "com.cloudflare.dns#CreateSettingsAccountNameserverSetResultDNSSettingsNameserverSetAdvancedResponseNameserversItemIpv6GroupsList",
+          "traits": {
+            "smithy.api#documentation": "Advanced anycast group for each address in the corresponding address array. Entries have the same order as, and correspond one-to-one with, the addresses.",
+            "smithy.api#required": {}
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "A unique lowercase Punycode nameserver name within the set.",
+            "smithy.api#required": {}
+          }
+        }
+      }
+    },
+    "com.cloudflare.dns#CreateSettingsAccountNameserverSetResultDNSSettingsNameserverSetAdvancedResponseNameserversList": {
+      "type": "list",
+      "member": {
+        "target": "com.cloudflare.dns#CreateSettingsAccountNameserverSetResultDNSSettingsNameserverSetAdvancedResponseNameserversItem"
+      }
+    },
+    "com.cloudflare.dns#CreateSettingsAccountNameserverSetResultDNSSettingsNameserverSetAdvancedResponse": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Identifier for a nameserver set.",
+            "smithy.api#required": {}
+          }
+        },
+        "advanced": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Whether the nameserver set uses Advanced anycast groups.",
+            "smithy.api#required": {}
+          }
+        },
+        "created_on": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "When the nameserver set was created.",
+            "smithy.api#required": {}
+          }
+        },
+        "ip_set": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "Selects the account-specific IP set that supplies the nameserver addresses. The account's entitlement determines the maximum value. Nameserver sets with the same `ip_set` and `advanced` value may reuse addresses; otherwise, they use disjoint address groups.",
+            "smithy.api#required": {}
+          }
+        },
+        "nameservers": {
+          "target": "com.cloudflare.dns#CreateSettingsAccountNameserverSetResultDNSSettingsNameserverSetAdvancedResponseNameserversList",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      }
+    },
+    "com.cloudflare.dns#CreateSettingsAccountNameserverSetResult": {
+      "type": "union",
+      "members": {
+        "DNSSettingsNameserverSetStandardResponse": {
+          "target": "com.cloudflare.dns#CreateSettingsAccountNameserverSetResultDNSSettingsNameserverSetStandardResponse"
+        },
+        "DNSSettingsNameserverSetAdvancedResponse": {
+          "target": "com.cloudflare.dns#CreateSettingsAccountNameserverSetResultDNSSettingsNameserverSetAdvancedResponse"
+        }
+      }
+    },
+    "com.cloudflare.dns#CreateSettingsAccountNameserverSetResponse": {
+      "type": "structure",
+      "members": {
+        "result": {
+          "target": "com.cloudflare.dns#CreateSettingsAccountNameserverSetResult",
+          "traits": {
+            "com.cloudflare.protocols#envelopePayload": {},
+            "smithy.api#documentation": "The unwrapped `result` payload of the v4 response envelope."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
+      }
+    },
+    "com.cloudflare.dns#CreateSettingsAccountNameserverSet": {
+      "type": "operation",
+      "input": {
+        "target": "com.cloudflare.dns#CreateSettingsAccountNameserverSetRequest"
+      },
+      "output": {
+        "target": "com.cloudflare.dns#CreateSettingsAccountNameserverSetResponse"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/accounts/{account_id}/dns_settings/nameserver_sets",
+          "code": 200
+        },
+        "smithy.api#documentation": "Creates an immutable Custom Nameserver Set. To change a set, create a new one, move any zone assignments, and delete the old set."
+      }
+    },
+    "com.cloudflare.dns#DeleteSettingsAccountNameserverSetRequest": {
+      "type": "structure",
+      "members": {
+        "account_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Identifier.",
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        },
+        "nameserver_set_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Identifier for a nameserver set.",
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.cloudflare.dns#DeleteSettingsAccountNameserverSetResponse": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Identifier for a nameserver set.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {},
+        "smithy.api#documentation": "Unwrapped `result` payload of the Cloudflare v4 response envelope."
+      }
+    },
+    "com.cloudflare.dns#DeleteSettingsAccountNameserverSet": {
+      "type": "operation",
+      "input": {
+        "target": "com.cloudflare.dns#DeleteSettingsAccountNameserverSetRequest"
+      },
+      "output": {
+        "target": "com.cloudflare.dns#DeleteSettingsAccountNameserverSetResponse"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "DELETE",
+          "uri": "/accounts/{account_id}/dns_settings/nameserver_sets/{nameserver_set_id}",
+          "code": 200
+        },
+        "smithy.api#documentation": "Deletes an unassigned Custom Nameserver Set.",
+        "smithy.api#idempotent": {}
+      }
+    },
+    "com.cloudflare.dns#GetSettingsAccountNameserverSetRequest": {
+      "type": "structure",
+      "members": {
+        "account_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Identifier.",
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        },
+        "nameserver_set_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Identifier for a nameserver set.",
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.cloudflare.dns#GetSettingsAccountNameserverSetResultDNSSettingsNameserverSetStandardResponseNameserversItemIpv4List": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      }
+    },
+    "com.cloudflare.dns#GetSettingsAccountNameserverSetResultDNSSettingsNameserverSetStandardResponseNameserversItemIpv6List": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      }
+    },
+    "com.cloudflare.dns#GetSettingsAccountNameserverSetResultDNSSettingsNameserverSetStandardResponseNameserversItem": {
+      "type": "structure",
+      "members": {
+        "ipv4": {
+          "target": "com.cloudflare.dns#GetSettingsAccountNameserverSetResultDNSSettingsNameserverSetStandardResponseNameserversItemIpv4List",
+          "traits": {
+            "smithy.api#documentation": "IPv4 addresses assigned to the nameserver.",
+            "smithy.api#required": {}
+          }
+        },
+        "ipv6": {
+          "target": "com.cloudflare.dns#GetSettingsAccountNameserverSetResultDNSSettingsNameserverSetStandardResponseNameserversItemIpv6List",
+          "traits": {
+            "smithy.api#documentation": "IPv6 addresses assigned to the nameserver.",
+            "smithy.api#required": {}
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "A unique lowercase Punycode nameserver name within the set.",
+            "smithy.api#required": {}
+          }
+        }
+      }
+    },
+    "com.cloudflare.dns#GetSettingsAccountNameserverSetResultDNSSettingsNameserverSetStandardResponseNameserversList": {
+      "type": "list",
+      "member": {
+        "target": "com.cloudflare.dns#GetSettingsAccountNameserverSetResultDNSSettingsNameserverSetStandardResponseNameserversItem"
+      }
+    },
+    "com.cloudflare.dns#GetSettingsAccountNameserverSetResultDNSSettingsNameserverSetStandardResponse": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Identifier for a nameserver set.",
+            "smithy.api#required": {}
+          }
+        },
+        "advanced": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Whether the nameserver set uses Advanced anycast groups.",
+            "smithy.api#required": {}
+          }
+        },
+        "created_on": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "When the nameserver set was created.",
+            "smithy.api#required": {}
+          }
+        },
+        "ip_set": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "Selects the account-specific IP set that supplies the nameserver addresses. The account's entitlement determines the maximum value. Nameserver sets with the same `ip_set` and `advanced` value may reuse addresses; otherwise, they use disjoint address groups.",
+            "smithy.api#required": {}
+          }
+        },
+        "nameservers": {
+          "target": "com.cloudflare.dns#GetSettingsAccountNameserverSetResultDNSSettingsNameserverSetStandardResponseNameserversList",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      }
+    },
+    "com.cloudflare.dns#GetSettingsAccountNameserverSetResultDNSSettingsNameserverSetAdvancedResponseNameserversItemIpv4List": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      }
+    },
+    "com.cloudflare.dns#GetSettingsAccountNameserverSetResultDNSSettingsNameserverSetAdvancedResponseNameserversItemIpv4GroupsItem": {
+      "type": "enum",
+      "members": {
+        "A": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "a"
+          }
+        },
+        "B": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "b"
+          }
+        },
+        "C": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "c"
+          }
+        }
+      }
+    },
+    "com.cloudflare.dns#GetSettingsAccountNameserverSetResultDNSSettingsNameserverSetAdvancedResponseNameserversItemIpv4GroupsList": {
+      "type": "list",
+      "member": {
+        "target": "com.cloudflare.dns#GetSettingsAccountNameserverSetResultDNSSettingsNameserverSetAdvancedResponseNameserversItemIpv4GroupsItem"
+      }
+    },
+    "com.cloudflare.dns#GetSettingsAccountNameserverSetResultDNSSettingsNameserverSetAdvancedResponseNameserversItemIpv6List": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      }
+    },
+    "com.cloudflare.dns#GetSettingsAccountNameserverSetResultDNSSettingsNameserverSetAdvancedResponseNameserversItemIpv6GroupsItem": {
+      "type": "enum",
+      "members": {
+        "A": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "a"
+          }
+        },
+        "B": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "b"
+          }
+        },
+        "C": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "c"
+          }
+        }
+      }
+    },
+    "com.cloudflare.dns#GetSettingsAccountNameserverSetResultDNSSettingsNameserverSetAdvancedResponseNameserversItemIpv6GroupsList": {
+      "type": "list",
+      "member": {
+        "target": "com.cloudflare.dns#GetSettingsAccountNameserverSetResultDNSSettingsNameserverSetAdvancedResponseNameserversItemIpv6GroupsItem"
+      }
+    },
+    "com.cloudflare.dns#GetSettingsAccountNameserverSetResultDNSSettingsNameserverSetAdvancedResponseNameserversItem": {
+      "type": "structure",
+      "members": {
+        "ipv4": {
+          "target": "com.cloudflare.dns#GetSettingsAccountNameserverSetResultDNSSettingsNameserverSetAdvancedResponseNameserversItemIpv4List",
+          "traits": {
+            "smithy.api#documentation": "IPv4 addresses assigned to the nameserver.",
+            "smithy.api#required": {}
+          }
+        },
+        "ipv4_groups": {
+          "target": "com.cloudflare.dns#GetSettingsAccountNameserverSetResultDNSSettingsNameserverSetAdvancedResponseNameserversItemIpv4GroupsList",
+          "traits": {
+            "smithy.api#documentation": "Advanced anycast group for each address in the corresponding address array. Entries have the same order as, and correspond one-to-one with, the addresses.",
+            "smithy.api#required": {}
+          }
+        },
+        "ipv6": {
+          "target": "com.cloudflare.dns#GetSettingsAccountNameserverSetResultDNSSettingsNameserverSetAdvancedResponseNameserversItemIpv6List",
+          "traits": {
+            "smithy.api#documentation": "IPv6 addresses assigned to the nameserver.",
+            "smithy.api#required": {}
+          }
+        },
+        "ipv6_groups": {
+          "target": "com.cloudflare.dns#GetSettingsAccountNameserverSetResultDNSSettingsNameserverSetAdvancedResponseNameserversItemIpv6GroupsList",
+          "traits": {
+            "smithy.api#documentation": "Advanced anycast group for each address in the corresponding address array. Entries have the same order as, and correspond one-to-one with, the addresses.",
+            "smithy.api#required": {}
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "A unique lowercase Punycode nameserver name within the set.",
+            "smithy.api#required": {}
+          }
+        }
+      }
+    },
+    "com.cloudflare.dns#GetSettingsAccountNameserverSetResultDNSSettingsNameserverSetAdvancedResponseNameserversList": {
+      "type": "list",
+      "member": {
+        "target": "com.cloudflare.dns#GetSettingsAccountNameserverSetResultDNSSettingsNameserverSetAdvancedResponseNameserversItem"
+      }
+    },
+    "com.cloudflare.dns#GetSettingsAccountNameserverSetResultDNSSettingsNameserverSetAdvancedResponse": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Identifier for a nameserver set.",
+            "smithy.api#required": {}
+          }
+        },
+        "advanced": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Whether the nameserver set uses Advanced anycast groups.",
+            "smithy.api#required": {}
+          }
+        },
+        "created_on": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "When the nameserver set was created.",
+            "smithy.api#required": {}
+          }
+        },
+        "ip_set": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "Selects the account-specific IP set that supplies the nameserver addresses. The account's entitlement determines the maximum value. Nameserver sets with the same `ip_set` and `advanced` value may reuse addresses; otherwise, they use disjoint address groups.",
+            "smithy.api#required": {}
+          }
+        },
+        "nameservers": {
+          "target": "com.cloudflare.dns#GetSettingsAccountNameserverSetResultDNSSettingsNameserverSetAdvancedResponseNameserversList",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      }
+    },
+    "com.cloudflare.dns#GetSettingsAccountNameserverSetResult": {
+      "type": "union",
+      "members": {
+        "DNSSettingsNameserverSetStandardResponse": {
+          "target": "com.cloudflare.dns#GetSettingsAccountNameserverSetResultDNSSettingsNameserverSetStandardResponse"
+        },
+        "DNSSettingsNameserverSetAdvancedResponse": {
+          "target": "com.cloudflare.dns#GetSettingsAccountNameserverSetResultDNSSettingsNameserverSetAdvancedResponse"
+        }
+      }
+    },
+    "com.cloudflare.dns#GetSettingsAccountNameserverSetResponse": {
+      "type": "structure",
+      "members": {
+        "result": {
+          "target": "com.cloudflare.dns#GetSettingsAccountNameserverSetResult",
+          "traits": {
+            "com.cloudflare.protocols#envelopePayload": {},
+            "smithy.api#documentation": "The unwrapped `result` payload of the v4 response envelope."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
+      }
+    },
+    "com.cloudflare.dns#GetSettingsAccountNameserverSet": {
+      "type": "operation",
+      "input": {
+        "target": "com.cloudflare.dns#GetSettingsAccountNameserverSetRequest"
+      },
+      "output": {
+        "target": "com.cloudflare.dns#GetSettingsAccountNameserverSetResponse"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/accounts/{account_id}/dns_settings/nameserver_sets/{nameserver_set_id}",
+          "code": 200
+        },
+        "smithy.api#documentation": "Gets a Custom Nameserver Set owned by an account.",
+        "smithy.api#readonly": {}
+      }
+    },
+    "com.cloudflare.dns#ListSettingsAccountNameserverSetsRequest": {
+      "type": "structure",
+      "members": {
+        "account_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Identifier.",
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        },
+        "page": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "Page number of paginated results.",
+            "smithy.api#httpQuery": "page"
+          }
+        },
+        "per_page": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "Number of results per page.",
+            "smithy.api#httpQuery": "per_page"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.cloudflare.dns#ListSettingsAccountNameserverSetsResultItemDNSSettingsNameserverSetStandardResponseNameserversItemIpv4List": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      }
+    },
+    "com.cloudflare.dns#ListSettingsAccountNameserverSetsResultItemDNSSettingsNameserverSetStandardResponseNameserversItemIpv6List": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      }
+    },
+    "com.cloudflare.dns#ListSettingsAccountNameserverSetsResultItemDNSSettingsNameserverSetStandardResponseNameserversItem": {
+      "type": "structure",
+      "members": {
+        "ipv4": {
+          "target": "com.cloudflare.dns#ListSettingsAccountNameserverSetsResultItemDNSSettingsNameserverSetStandardResponseNameserversItemIpv4List",
+          "traits": {
+            "smithy.api#documentation": "IPv4 addresses assigned to the nameserver.",
+            "smithy.api#required": {}
+          }
+        },
+        "ipv6": {
+          "target": "com.cloudflare.dns#ListSettingsAccountNameserverSetsResultItemDNSSettingsNameserverSetStandardResponseNameserversItemIpv6List",
+          "traits": {
+            "smithy.api#documentation": "IPv6 addresses assigned to the nameserver.",
+            "smithy.api#required": {}
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "A unique lowercase Punycode nameserver name within the set.",
+            "smithy.api#required": {}
+          }
+        }
+      }
+    },
+    "com.cloudflare.dns#ListSettingsAccountNameserverSetsResultItemDNSSettingsNameserverSetStandardResponseNameserversList": {
+      "type": "list",
+      "member": {
+        "target": "com.cloudflare.dns#ListSettingsAccountNameserverSetsResultItemDNSSettingsNameserverSetStandardResponseNameserversItem"
+      }
+    },
+    "com.cloudflare.dns#ListSettingsAccountNameserverSetsResultItemDNSSettingsNameserverSetStandardResponse": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Identifier for a nameserver set.",
+            "smithy.api#required": {}
+          }
+        },
+        "advanced": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Whether the nameserver set uses Advanced anycast groups.",
+            "smithy.api#required": {}
+          }
+        },
+        "created_on": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "When the nameserver set was created.",
+            "smithy.api#required": {}
+          }
+        },
+        "ip_set": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "Selects the account-specific IP set that supplies the nameserver addresses. The account's entitlement determines the maximum value. Nameserver sets with the same `ip_set` and `advanced` value may reuse addresses; otherwise, they use disjoint address groups.",
+            "smithy.api#required": {}
+          }
+        },
+        "nameservers": {
+          "target": "com.cloudflare.dns#ListSettingsAccountNameserverSetsResultItemDNSSettingsNameserverSetStandardResponseNameserversList",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      }
+    },
+    "com.cloudflare.dns#ListSettingsAccountNameserverSetsResultItemDNSSettingsNameserverSetAdvancedResponseNameserversItemIpv4List": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      }
+    },
+    "com.cloudflare.dns#ListSettingsAccountNameserverSetsResultItemDNSSettingsNameserverSetAdvancedResponseNameserversItemIpv4GroupsItem": {
+      "type": "enum",
+      "members": {
+        "A": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "a"
+          }
+        },
+        "B": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "b"
+          }
+        },
+        "C": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "c"
+          }
+        }
+      }
+    },
+    "com.cloudflare.dns#ListSettingsAccountNameserverSetsResultItemDNSSettingsNameserverSetAdvancedResponseNameserversItemIpv4GroupsList": {
+      "type": "list",
+      "member": {
+        "target": "com.cloudflare.dns#ListSettingsAccountNameserverSetsResultItemDNSSettingsNameserverSetAdvancedResponseNameserversItemIpv4GroupsItem"
+      }
+    },
+    "com.cloudflare.dns#ListSettingsAccountNameserverSetsResultItemDNSSettingsNameserverSetAdvancedResponseNameserversItemIpv6List": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      }
+    },
+    "com.cloudflare.dns#ListSettingsAccountNameserverSetsResultItemDNSSettingsNameserverSetAdvancedResponseNameserversItemIpv6GroupsItem": {
+      "type": "enum",
+      "members": {
+        "A": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "a"
+          }
+        },
+        "B": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "b"
+          }
+        },
+        "C": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "c"
+          }
+        }
+      }
+    },
+    "com.cloudflare.dns#ListSettingsAccountNameserverSetsResultItemDNSSettingsNameserverSetAdvancedResponseNameserversItemIpv6GroupsList": {
+      "type": "list",
+      "member": {
+        "target": "com.cloudflare.dns#ListSettingsAccountNameserverSetsResultItemDNSSettingsNameserverSetAdvancedResponseNameserversItemIpv6GroupsItem"
+      }
+    },
+    "com.cloudflare.dns#ListSettingsAccountNameserverSetsResultItemDNSSettingsNameserverSetAdvancedResponseNameserversItem": {
+      "type": "structure",
+      "members": {
+        "ipv4": {
+          "target": "com.cloudflare.dns#ListSettingsAccountNameserverSetsResultItemDNSSettingsNameserverSetAdvancedResponseNameserversItemIpv4List",
+          "traits": {
+            "smithy.api#documentation": "IPv4 addresses assigned to the nameserver.",
+            "smithy.api#required": {}
+          }
+        },
+        "ipv4_groups": {
+          "target": "com.cloudflare.dns#ListSettingsAccountNameserverSetsResultItemDNSSettingsNameserverSetAdvancedResponseNameserversItemIpv4GroupsList",
+          "traits": {
+            "smithy.api#documentation": "Advanced anycast group for each address in the corresponding address array. Entries have the same order as, and correspond one-to-one with, the addresses.",
+            "smithy.api#required": {}
+          }
+        },
+        "ipv6": {
+          "target": "com.cloudflare.dns#ListSettingsAccountNameserverSetsResultItemDNSSettingsNameserverSetAdvancedResponseNameserversItemIpv6List",
+          "traits": {
+            "smithy.api#documentation": "IPv6 addresses assigned to the nameserver.",
+            "smithy.api#required": {}
+          }
+        },
+        "ipv6_groups": {
+          "target": "com.cloudflare.dns#ListSettingsAccountNameserverSetsResultItemDNSSettingsNameserverSetAdvancedResponseNameserversItemIpv6GroupsList",
+          "traits": {
+            "smithy.api#documentation": "Advanced anycast group for each address in the corresponding address array. Entries have the same order as, and correspond one-to-one with, the addresses.",
+            "smithy.api#required": {}
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "A unique lowercase Punycode nameserver name within the set.",
+            "smithy.api#required": {}
+          }
+        }
+      }
+    },
+    "com.cloudflare.dns#ListSettingsAccountNameserverSetsResultItemDNSSettingsNameserverSetAdvancedResponseNameserversList": {
+      "type": "list",
+      "member": {
+        "target": "com.cloudflare.dns#ListSettingsAccountNameserverSetsResultItemDNSSettingsNameserverSetAdvancedResponseNameserversItem"
+      }
+    },
+    "com.cloudflare.dns#ListSettingsAccountNameserverSetsResultItemDNSSettingsNameserverSetAdvancedResponse": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Identifier for a nameserver set.",
+            "smithy.api#required": {}
+          }
+        },
+        "advanced": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Whether the nameserver set uses Advanced anycast groups.",
+            "smithy.api#required": {}
+          }
+        },
+        "created_on": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "When the nameserver set was created.",
+            "smithy.api#required": {}
+          }
+        },
+        "ip_set": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "Selects the account-specific IP set that supplies the nameserver addresses. The account's entitlement determines the maximum value. Nameserver sets with the same `ip_set` and `advanced` value may reuse addresses; otherwise, they use disjoint address groups.",
+            "smithy.api#required": {}
+          }
+        },
+        "nameservers": {
+          "target": "com.cloudflare.dns#ListSettingsAccountNameserverSetsResultItemDNSSettingsNameserverSetAdvancedResponseNameserversList",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      }
+    },
+    "com.cloudflare.dns#ListSettingsAccountNameserverSetsResultItem": {
+      "type": "union",
+      "members": {
+        "DNSSettingsNameserverSetStandardResponse": {
+          "target": "com.cloudflare.dns#ListSettingsAccountNameserverSetsResultItemDNSSettingsNameserverSetStandardResponse"
+        },
+        "DNSSettingsNameserverSetAdvancedResponse": {
+          "target": "com.cloudflare.dns#ListSettingsAccountNameserverSetsResultItemDNSSettingsNameserverSetAdvancedResponse"
+        }
+      }
+    },
+    "com.cloudflare.dns#ListSettingsAccountNameserverSetsResultList": {
+      "type": "list",
+      "member": {
+        "target": "com.cloudflare.dns#ListSettingsAccountNameserverSetsResultItem"
+      }
+    },
+    "com.cloudflare.dns#ListSettingsAccountNameserverSetsResponse": {
+      "type": "structure",
+      "members": {
+        "result": {
+          "target": "com.cloudflare.dns#ListSettingsAccountNameserverSetsResultList",
+          "traits": {
+            "com.cloudflare.protocols#envelopePayload": {},
+            "smithy.api#documentation": "The unwrapped `result` payload of the v4 response envelope."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
+      }
+    },
+    "com.cloudflare.dns#ListSettingsAccountNameserverSets": {
+      "type": "operation",
+      "input": {
+        "target": "com.cloudflare.dns#ListSettingsAccountNameserverSetsRequest"
+      },
+      "output": {
+        "target": "com.cloudflare.dns#ListSettingsAccountNameserverSetsResponse"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/accounts/{account_id}/dns_settings/nameserver_sets",
+          "code": 200
+        },
+        "smithy.api#documentation": "Lists an account's Custom Nameserver Sets.",
+        "smithy.api#readonly": {}
+      }
+    },
     "com.cloudflare.dns#SettingsAccountViewsCreateRequestZonesList": {
       "type": "list",
       "member": {
@@ -36981,7 +38003,7 @@
         }
       }
     },
-    "com.cloudflare.dns#SettingsZoneEditRequestNameserversType": {
+    "com.cloudflare.dns#SettingsZoneEditRequestNameserversDNSSettingsZoneNameserversCloudflareType": {
       "type": "enum",
       "members": {
         "CLOUDFLARE_STANDARD": {
@@ -36995,7 +38017,24 @@
           "traits": {
             "smithy.api#enumValue": "cloudflare.advanced"
           }
-        },
+        }
+      }
+    },
+    "com.cloudflare.dns#SettingsZoneEditRequestNameserversDNSSettingsZoneNameserversCloudflare": {
+      "type": "structure",
+      "members": {
+        "type": {
+          "target": "com.cloudflare.dns#SettingsZoneEditRequestNameserversDNSSettingsZoneNameserversCloudflareType",
+          "traits": {
+            "smithy.api#documentation": "Nameserver type.",
+            "smithy.api#required": {}
+          }
+        }
+      }
+    },
+    "com.cloudflare.dns#SettingsZoneEditRequestNameserversDNSSettingsZoneNameserversCustomExistingType": {
+      "type": "enum",
+      "members": {
         "CUSTOM_ACCOUNT": {
           "target": "smithy.api#Unit",
           "traits": {
@@ -37016,20 +38055,65 @@
         }
       }
     },
-    "com.cloudflare.dns#SettingsZoneEditRequestNameservers": {
+    "com.cloudflare.dns#SettingsZoneEditRequestNameserversDNSSettingsZoneNameserversCustomExisting": {
       "type": "structure",
       "members": {
+        "type": {
+          "target": "com.cloudflare.dns#SettingsZoneEditRequestNameserversDNSSettingsZoneNameserversCustomExistingType",
+          "traits": {
+            "smithy.api#documentation": "Nameserver type.",
+            "smithy.api#required": {}
+          }
+        },
         "ns_set": {
           "target": "smithy.api#Double",
           "traits": {
-            "smithy.api#documentation": "Configured nameserver set to be used for this zone"
+            "smithy.api#documentation": "Configured nameserver set number to use for this zone."
+          }
+        }
+      }
+    },
+    "com.cloudflare.dns#SettingsZoneEditRequestNameserversDNSSettingsZoneNameserversCustomSetType": {
+      "type": "enum",
+      "members": {
+        "CUSTOM": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "custom"
+          }
+        }
+      }
+    },
+    "com.cloudflare.dns#SettingsZoneEditRequestNameserversDNSSettingsZoneNameserversCustomSet": {
+      "type": "structure",
+      "members": {
+        "nameserver_set_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Identifier of the account-owned Custom Nameserver Set to use for this zone.",
+            "smithy.api#required": {}
           }
         },
         "type": {
-          "target": "com.cloudflare.dns#SettingsZoneEditRequestNameserversType",
+          "target": "com.cloudflare.dns#SettingsZoneEditRequestNameserversDNSSettingsZoneNameserversCustomSetType",
           "traits": {
-            "smithy.api#documentation": "Nameserver type"
+            "smithy.api#documentation": "Nameserver type.",
+            "smithy.api#required": {}
           }
+        }
+      }
+    },
+    "com.cloudflare.dns#SettingsZoneEditRequestNameservers": {
+      "type": "union",
+      "members": {
+        "DNSSettingsZoneNameserversCloudflare": {
+          "target": "com.cloudflare.dns#SettingsZoneEditRequestNameserversDNSSettingsZoneNameserversCloudflare"
+        },
+        "DNSSettingsZoneNameserversCustomExisting": {
+          "target": "com.cloudflare.dns#SettingsZoneEditRequestNameserversDNSSettingsZoneNameserversCustomExisting"
+        },
+        "DNSSettingsZoneNameserversCustomSet": {
+          "target": "com.cloudflare.dns#SettingsZoneEditRequestNameserversDNSSettingsZoneNameserversCustomSet"
         }
       }
     },
@@ -37114,7 +38198,7 @@
         }
       }
     },
-    "com.cloudflare.dns#SettingsZoneEditResponseNameserversType": {
+    "com.cloudflare.dns#SettingsZoneEditResponseNameserversDNSSettingsZoneNameserversCloudflareType": {
       "type": "enum",
       "members": {
         "CLOUDFLARE_STANDARD": {
@@ -37128,7 +38212,24 @@
           "traits": {
             "smithy.api#enumValue": "cloudflare.advanced"
           }
-        },
+        }
+      }
+    },
+    "com.cloudflare.dns#SettingsZoneEditResponseNameserversDNSSettingsZoneNameserversCloudflare": {
+      "type": "structure",
+      "members": {
+        "type": {
+          "target": "com.cloudflare.dns#SettingsZoneEditResponseNameserversDNSSettingsZoneNameserversCloudflareType",
+          "traits": {
+            "smithy.api#documentation": "Nameserver type.",
+            "smithy.api#required": {}
+          }
+        }
+      }
+    },
+    "com.cloudflare.dns#SettingsZoneEditResponseNameserversDNSSettingsZoneNameserversCustomExistingType": {
+      "type": "enum",
+      "members": {
         "CUSTOM_ACCOUNT": {
           "target": "smithy.api#Unit",
           "traits": {
@@ -37149,21 +38250,65 @@
         }
       }
     },
-    "com.cloudflare.dns#SettingsZoneEditResponseNameservers": {
+    "com.cloudflare.dns#SettingsZoneEditResponseNameserversDNSSettingsZoneNameserversCustomExisting": {
       "type": "structure",
       "members": {
         "type": {
-          "target": "com.cloudflare.dns#SettingsZoneEditResponseNameserversType",
+          "target": "com.cloudflare.dns#SettingsZoneEditResponseNameserversDNSSettingsZoneNameserversCustomExistingType",
           "traits": {
-            "smithy.api#documentation": "Nameserver type",
+            "smithy.api#documentation": "Nameserver type.",
             "smithy.api#required": {}
           }
         },
         "ns_set": {
           "target": "smithy.api#Double",
           "traits": {
-            "smithy.api#documentation": "Configured nameserver set to be used for this zone"
+            "smithy.api#documentation": "Configured nameserver set number to use for this zone."
           }
+        }
+      }
+    },
+    "com.cloudflare.dns#SettingsZoneEditResponseNameserversDNSSettingsZoneNameserversCustomSetType": {
+      "type": "enum",
+      "members": {
+        "CUSTOM": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "custom"
+          }
+        }
+      }
+    },
+    "com.cloudflare.dns#SettingsZoneEditResponseNameserversDNSSettingsZoneNameserversCustomSet": {
+      "type": "structure",
+      "members": {
+        "nameserver_set_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Identifier of the account-owned Custom Nameserver Set to use for this zone.",
+            "smithy.api#required": {}
+          }
+        },
+        "type": {
+          "target": "com.cloudflare.dns#SettingsZoneEditResponseNameserversDNSSettingsZoneNameserversCustomSetType",
+          "traits": {
+            "smithy.api#documentation": "Nameserver type.",
+            "smithy.api#required": {}
+          }
+        }
+      }
+    },
+    "com.cloudflare.dns#SettingsZoneEditResponseNameservers": {
+      "type": "union",
+      "members": {
+        "DNSSettingsZoneNameserversCloudflare": {
+          "target": "com.cloudflare.dns#SettingsZoneEditResponseNameserversDNSSettingsZoneNameserversCloudflare"
+        },
+        "DNSSettingsZoneNameserversCustomExisting": {
+          "target": "com.cloudflare.dns#SettingsZoneEditResponseNameserversDNSSettingsZoneNameserversCustomExisting"
+        },
+        "DNSSettingsZoneNameserversCustomSet": {
+          "target": "com.cloudflare.dns#SettingsZoneEditResponseNameserversDNSSettingsZoneNameserversCustomSet"
         }
       }
     },
@@ -37248,7 +38393,7 @@
         }
       }
     },
-    "com.cloudflare.dns#SettingsZoneGetResponseNameserversType": {
+    "com.cloudflare.dns#SettingsZoneGetResponseNameserversDNSSettingsZoneNameserversCloudflareType": {
       "type": "enum",
       "members": {
         "CLOUDFLARE_STANDARD": {
@@ -37262,7 +38407,24 @@
           "traits": {
             "smithy.api#enumValue": "cloudflare.advanced"
           }
-        },
+        }
+      }
+    },
+    "com.cloudflare.dns#SettingsZoneGetResponseNameserversDNSSettingsZoneNameserversCloudflare": {
+      "type": "structure",
+      "members": {
+        "type": {
+          "target": "com.cloudflare.dns#SettingsZoneGetResponseNameserversDNSSettingsZoneNameserversCloudflareType",
+          "traits": {
+            "smithy.api#documentation": "Nameserver type.",
+            "smithy.api#required": {}
+          }
+        }
+      }
+    },
+    "com.cloudflare.dns#SettingsZoneGetResponseNameserversDNSSettingsZoneNameserversCustomExistingType": {
+      "type": "enum",
+      "members": {
         "CUSTOM_ACCOUNT": {
           "target": "smithy.api#Unit",
           "traits": {
@@ -37283,21 +38445,65 @@
         }
       }
     },
-    "com.cloudflare.dns#SettingsZoneGetResponseNameservers": {
+    "com.cloudflare.dns#SettingsZoneGetResponseNameserversDNSSettingsZoneNameserversCustomExisting": {
       "type": "structure",
       "members": {
         "type": {
-          "target": "com.cloudflare.dns#SettingsZoneGetResponseNameserversType",
+          "target": "com.cloudflare.dns#SettingsZoneGetResponseNameserversDNSSettingsZoneNameserversCustomExistingType",
           "traits": {
-            "smithy.api#documentation": "Nameserver type",
+            "smithy.api#documentation": "Nameserver type.",
             "smithy.api#required": {}
           }
         },
         "ns_set": {
           "target": "smithy.api#Double",
           "traits": {
-            "smithy.api#documentation": "Configured nameserver set to be used for this zone"
+            "smithy.api#documentation": "Configured nameserver set number to use for this zone."
           }
+        }
+      }
+    },
+    "com.cloudflare.dns#SettingsZoneGetResponseNameserversDNSSettingsZoneNameserversCustomSetType": {
+      "type": "enum",
+      "members": {
+        "CUSTOM": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "custom"
+          }
+        }
+      }
+    },
+    "com.cloudflare.dns#SettingsZoneGetResponseNameserversDNSSettingsZoneNameserversCustomSet": {
+      "type": "structure",
+      "members": {
+        "nameserver_set_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Identifier of the account-owned Custom Nameserver Set to use for this zone.",
+            "smithy.api#required": {}
+          }
+        },
+        "type": {
+          "target": "com.cloudflare.dns#SettingsZoneGetResponseNameserversDNSSettingsZoneNameserversCustomSetType",
+          "traits": {
+            "smithy.api#documentation": "Nameserver type.",
+            "smithy.api#required": {}
+          }
+        }
+      }
+    },
+    "com.cloudflare.dns#SettingsZoneGetResponseNameservers": {
+      "type": "union",
+      "members": {
+        "DNSSettingsZoneNameserversCloudflare": {
+          "target": "com.cloudflare.dns#SettingsZoneGetResponseNameserversDNSSettingsZoneNameserversCloudflare"
+        },
+        "DNSSettingsZoneNameserversCustomExisting": {
+          "target": "com.cloudflare.dns#SettingsZoneGetResponseNameserversDNSSettingsZoneNameserversCustomExisting"
+        },
+        "DNSSettingsZoneNameserversCustomSet": {
+          "target": "com.cloudflare.dns#SettingsZoneGetResponseNameserversDNSSettingsZoneNameserversCustomSet"
         }
       }
     },
@@ -37554,6 +38760,18 @@
       "operations": [
         {
           "target": "com.cloudflare.dns#ListDnssecZsk"
+        },
+        {
+          "target": "com.cloudflare.dns#CreateSettingsAccountNameserverSet"
+        },
+        {
+          "target": "com.cloudflare.dns#DeleteSettingsAccountNameserverSet"
+        },
+        {
+          "target": "com.cloudflare.dns#GetSettingsAccountNameserverSet"
+        },
+        {
+          "target": "com.cloudflare.dns#ListSettingsAccountNameserverSets"
         },
         {
           "target": "com.cloudflare.dns#BatchRecord"
@@ -37950,6 +39168,25 @@
           },
           {
             "status": 404
+          }
+        ]
+      }
+    },
+    "com.cloudflare.dns#RecordNotFound": {
+      "type": "structure",
+      "members": {
+        "code": {
+          "target": "smithy.api#Integer"
+        },
+        "message": {
+          "target": "smithy.api#String"
+        }
+      },
+      "traits": {
+        "smithy.api#error": "client",
+        "com.cloudflare.protocols#errorMatchers": [
+          {
+            "code": 81044
           }
         ]
       }
@@ -38827,7 +40064,12 @@
         },
         "smithy.api#documentation": "Permanently removes a DNS record from the zone.",
         "smithy.api#idempotent": {}
-      }
+      },
+      "errors": [
+        {
+          "target": "com.cloudflare.dns#RecordNotFound"
+        }
+      ]
     },
     "com.cloudflare.dns#DeleteRecordRequest": {
       "type": "structure",
@@ -39835,6 +41077,9 @@
       "errors": [
         {
           "target": "com.cloudflare.dns#Forbidden"
+        },
+        {
+          "target": "com.cloudflare.dns#RecordNotFound"
         }
       ]
     },
@@ -39924,6 +41169,7 @@
         "zone_defaults": {
           "target": "com.cloudflare.dns#SettingsAccountGetResponseZoneDefaults",
           "traits": {
+            "smithy.api#documentation": "Default settings for new zones created in this account.",
             "smithy.api#required": {}
           }
         },
@@ -40103,7 +41349,7 @@
         "nameservers": {
           "target": "com.cloudflare.dns#SettingsZoneGetResponseNameservers",
           "traits": {
-            "smithy.api#documentation": "Settings determining the nameservers through which the zone should be available.",
+            "smithy.api#documentation": "Controls the nameservers through which the zone is available.",
             "smithy.api#required": {}
           }
         },
@@ -40927,7 +42173,7 @@
         "shadowed_by_name": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "Filters to records at or below the given NS delegation name, excluding the NS records that form the delegation itself. The value must be a subdomain of the zone; the zone apex is not accepted. Requires `include_shadow_metadata=true`. See [Shadowed records](https://developers.cloudflare.com/dns/manage-dns-records/reference/shadowed-records).",
+            "smithy.api#documentation": "Filters the response to records at or below the specified NS delegation name. NS, DS, and NSEC records at the delegation name are excluded because they are not shadowed by that delegation. Those record types are included only when they exist below the delegation. The value must be a non-apex subdomain of the zone. Requires `include_shadow_metadata=true`. See [Shadowed records](https://developers.cloudflare.com/dns/manage-dns-records/reference/shadowed-records).",
             "smithy.api#httpQuery": "shadowed_by_name"
           }
         },
@@ -41051,7 +42297,7 @@
         "per_page": {
           "target": "smithy.api#Double",
           "traits": {
-            "smithy.api#documentation": "Number of DNS views per page.",
+            "smithy.api#documentation": "Number of results per page.",
             "smithy.api#httpQuery": "per_page"
           }
         },
@@ -41572,7 +42818,10 @@
           }
         },
         "zone_defaults": {
-          "target": "com.cloudflare.dns#SettingsAccountEditRequestZoneDefaults"
+          "target": "com.cloudflare.dns#SettingsAccountEditRequestZoneDefaults",
+          "traits": {
+            "smithy.api#documentation": "Default settings for new zones created in this account."
+          }
         }
       },
       "traits": {
@@ -41585,6 +42834,7 @@
         "zone_defaults": {
           "target": "com.cloudflare.dns#SettingsAccountEditResponseZoneDefaults",
           "traits": {
+            "smithy.api#documentation": "Default settings for new zones created in this account.",
             "smithy.api#required": {}
           }
         },
@@ -41762,7 +43012,7 @@
         "nameservers": {
           "target": "com.cloudflare.dns#SettingsZoneEditRequestNameservers",
           "traits": {
-            "smithy.api#documentation": "Settings determining the nameservers through which the zone should be available."
+            "smithy.api#documentation": "Controls the nameservers through which the zone is available."
           }
         },
         "ns_ttl": {
@@ -41828,7 +43078,7 @@
         "nameservers": {
           "target": "com.cloudflare.dns#SettingsZoneEditResponseNameservers",
           "traits": {
-            "smithy.api#documentation": "Settings determining the nameservers through which the zone should be available.",
+            "smithy.api#documentation": "Controls the nameservers through which the zone is available.",
             "smithy.api#required": {}
           }
         },

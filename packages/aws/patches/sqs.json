@@ -17,11 +17,7 @@
       "errors": ["RequestLimitExceeded", "InvalidParameterValueException"]
     },
     "startMessageMoveTask": {
-      "errors": [
-        "RequestLimitExceeded",
-        "CommonServiceException",
-        "InvalidParameterValueException"
-      ]
+      "errors": ["RequestLimitExceeded", "CommonServiceException", "InvalidParameterValueException"]
     },
     "createQueue": {
       "errors": ["RequestLimitExceeded", "InvalidParameterValueException"]
@@ -37,17 +33,14 @@
       ]
     },
     "sendMessageBatch": {
-      "errors": [
-        "RequestLimitExceeded",
-        "InvalidParameterValueException",
-        "ParseError"
-      ]
+      "errors": ["RequestLimitExceeded", "InvalidParameterValueException", "ParseError"]
     },
     "receiveMessage": {
       "errors": ["RequestLimitExceeded", "InvalidParameterValueException"]
     },
     "setQueueAttributes": {
       "errors": [
+        "InvalidParameterValueException",
         "RequestLimitExceeded",
         "CommonServiceException",
         "MissingRequiredParameterException"

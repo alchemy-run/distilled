@@ -1,3 +1,4 @@
+import { ConfigError } from "@distilled.cloud/core/errors";
 /**
  * GitHub credentials — hand-written.
  *
@@ -14,7 +15,6 @@ import * as Context from "effect/Context";
 import * as Effect from "effect/Effect";
 import * as Layer from "effect/Layer";
 import * as Redacted from "effect/Redacted";
-import { ConfigError } from "@distilled.cloud/core/errors";
 
 /** github.com's REST API root. */
 export const DEFAULT_API_BASE_URL = "https://api.github.com";
@@ -32,10 +32,9 @@ export interface Config {
   readonly userAgent: string;
 }
 
-export class Credentials extends Context.Service<
-  Credentials,
-  Effect.Effect<Config>
->()("GithubCredentials") {}
+export class Credentials extends Context.Service<Credentials, Effect.Effect<Config>>()(
+  "GithubCredentials",
+) {}
 
 const envConfig = EffectConfig.all({
   // `GITHUB_TOKEN` is what Actions injects; `GH_TOKEN` is the gh CLI's
@@ -58,8 +57,7 @@ export const CredentialsFromEnv = Layer.succeed(
     Effect.mapError(
       () =>
         new ConfigError({
-          message:
-            "GITHUB_TOKEN (or GH_TOKEN) environment variable is required",
+          message: "GITHUB_TOKEN (or GH_TOKEN) environment variable is required",
         }),
     ),
     Effect.map(({ token, apiBaseUrl, userAgent }) => ({
@@ -71,16 +69,16 @@ export const CredentialsFromEnv = Layer.succeed(
   ),
 );
 
-/** Convenience layer from a plain token + optional base URL / User-Agent. */
+/** Convenience layer from a redacted token + optional base URL / User-Agent. */
 export const credentials = (config: {
-  readonly token: string;
+  readonly token: Redacted.Redacted<string>;
   readonly apiBaseUrl?: string;
   readonly userAgent?: string;
 }): Layer.Layer<Credentials> =>
   Layer.succeed(
     Credentials,
     Effect.succeed({
-      token: Redacted.make(config.token),
+      token: config.token,
       apiBaseUrl: config.apiBaseUrl ?? DEFAULT_API_BASE_URL,
       userAgent: config.userAgent ?? DEFAULT_USER_AGENT,
     }),

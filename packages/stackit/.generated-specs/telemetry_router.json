@@ -1,0 +1,2233 @@
+{
+  "smithy": "2.0",
+  "metadata": {
+    "suppressions": [
+      {
+        "id": "HttpUriConflict",
+        "namespace": "*"
+      },
+      {
+        "id": "HttpMethodSemantics",
+        "namespace": "*"
+      },
+      {
+        "id": "UnreferencedShape",
+        "namespace": "*"
+      }
+    ],
+    "distilled.finalized": true
+  },
+  "shapes": {
+    "com.stackit.telemetry_router#ListTelemetryRoutersRequestRegionId": {
+      "type": "enum",
+      "members": {
+        "EU01": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "eu01"
+          }
+        },
+        "EU02": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "eu02"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.stackit.telemetry_router#ListTelemetryRoutersRequest": {
+      "type": "structure",
+      "members": {
+        "projectId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The STACKIT portal project UUID the resource is located in."
+          }
+        },
+        "regionId": {
+          "target": "com.stackit.telemetry_router#ListTelemetryRoutersRequestRegionId",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The STACKIT region name the resource is located in."
+          }
+        },
+        "pageToken": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "pageToken",
+            "smithy.api#documentation": "A token to retrieve the next page of results."
+          }
+        },
+        "pageSize": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpQuery": "pageSize",
+            "smithy.api#documentation": "Maximum number of items to return"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.stackit.telemetry_router#ListTelemetryRoutersResponse": {
+      "type": "structure",
+      "members": {
+        "nextPageToken": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "A token to retrieve the next page of results."
+          }
+        },
+        "telemetryRouters": {
+          "target": "com.stackit.telemetry_router#ListTelemetryRoutersResponseTelemetryRoutersList",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.stackit.telemetry_router#TelemetryRouterResponse": {
+      "type": "structure",
+      "members": {
+        "creationTime": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The point in time the resource was created.",
+            "smithy.api#required": {}
+          }
+        },
+        "description": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The description is a longer text chosen by the user to provide more context for the resource."
+          }
+        },
+        "displayName": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The display name is a short name chosen by the user to identify the resource.",
+            "smithy.api#required": {}
+          }
+        },
+        "filter": {
+          "target": "com.stackit.telemetry_router#ConfigFilter"
+        },
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "A auto generated unique id which identifies the resource.",
+            "smithy.api#required": {}
+          }
+        },
+        "status": {
+          "target": "com.stackit.telemetry_router#TelemetryRouterResponseStatus",
+          "traits": {
+            "smithy.api#documentation": "The current status of the resource.",
+            "smithy.api#required": {}
+          }
+        },
+        "uri": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The URI for reaching the resource.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.stackit.telemetry_router#ConfigFilter": {
+      "type": "structure",
+      "members": {
+        "attributes": {
+          "target": "com.stackit.telemetry_router#ConfigFilterAttributesList",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "disabled": {
+          "target": "smithy.api#Boolean"
+        }
+      },
+      "traits": {}
+    },
+    "com.stackit.telemetry_router#ConfigFilterAttributes": {
+      "type": "structure",
+      "members": {
+        "key": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "level": {
+          "target": "com.stackit.telemetry_router#ConfigFilterLevel",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "matcher": {
+          "target": "com.stackit.telemetry_router#ConfigFilterMatcher",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "values": {
+          "target": "com.stackit.telemetry_router#ConfigFilterAttributesValuesList",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.stackit.telemetry_router#ConfigFilterLevel": {
+      "type": "enum",
+      "members": {
+        "RESOURCE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "resource"
+          }
+        },
+        "SCOPE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "scope"
+          }
+        },
+        "LOGRECORD": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "logRecord"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.stackit.telemetry_router#ConfigFilterMatcher": {
+      "type": "enum",
+      "members": {
+        "VALUE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "="
+          }
+        },
+        "VALUE_2": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "!="
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.stackit.telemetry_router#ConfigFilterAttributesValuesList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {}
+    },
+    "com.stackit.telemetry_router#ConfigFilterAttributesList": {
+      "type": "list",
+      "member": {
+        "target": "com.stackit.telemetry_router#ConfigFilterAttributes"
+      },
+      "traits": {}
+    },
+    "com.stackit.telemetry_router#TelemetryRouterResponseStatus": {
+      "type": "enum",
+      "members": {
+        "RECONCILING": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "reconciling"
+          }
+        },
+        "ACTIVE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "active"
+          }
+        },
+        "DELETING": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "deleting"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The current status of the resource."
+      }
+    },
+    "com.stackit.telemetry_router#ListTelemetryRoutersResponseTelemetryRoutersList": {
+      "type": "list",
+      "member": {
+        "target": "com.stackit.telemetry_router#TelemetryRouterResponse"
+      },
+      "traits": {}
+    },
+    "com.stackit.telemetry_router#ListTelemetryRouters": {
+      "type": "operation",
+      "input": {
+        "target": "com.stackit.telemetry_router#ListTelemetryRoutersRequest"
+      },
+      "output": {
+        "target": "com.stackit.telemetry_router#ListTelemetryRoutersResponse"
+      },
+      "errors": [
+        {
+          "target": "com.stackit.telemetry_router#BadRequest"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/v1/projects/{projectId}/regions/{regionId}/telemetry-routers",
+          "code": 200,
+          "baseUrl": "https://telemetry-router.api.stackit.cloud"
+        },
+        "smithy.api#documentation": "Returns a list of all Telemetry Routers within the project."
+      }
+    },
+    "com.stackit.telemetry_router#CreateTelemetryRouterRequestRegionId": {
+      "type": "enum",
+      "members": {
+        "EU01": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "eu01"
+          }
+        },
+        "EU02": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "eu02"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.stackit.telemetry_router#CreateTelemetryRouterRequest": {
+      "type": "structure",
+      "members": {
+        "projectId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The STACKIT portal project UUID the resource is located in."
+          }
+        },
+        "regionId": {
+          "target": "com.stackit.telemetry_router#CreateTelemetryRouterRequestRegionId",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The STACKIT region name the resource is located in."
+          }
+        },
+        "description": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The description is a longer text chosen by the user to provide more context for the resource."
+          }
+        },
+        "displayName": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The display name is a short name chosen by the user to identify the resource.",
+            "smithy.api#required": {}
+          }
+        },
+        "filter": {
+          "target": "com.stackit.telemetry_router#ConfigFilter"
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.stackit.telemetry_router#CreateTelemetryRouter": {
+      "type": "operation",
+      "input": {
+        "target": "com.stackit.telemetry_router#CreateTelemetryRouterRequest"
+      },
+      "output": {
+        "target": "com.stackit.telemetry_router#TelemetryRouterResponse"
+      },
+      "errors": [
+        {
+          "target": "com.stackit.telemetry_router#BadRequest"
+        },
+        {
+          "target": "com.stackit.telemetry_router#Conflict"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/v1/projects/{projectId}/regions/{regionId}/telemetry-routers",
+          "code": 200,
+          "baseUrl": "https://telemetry-router.api.stackit.cloud"
+        },
+        "smithy.api#documentation": "Creates the new Telemetry Router within the project."
+      }
+    },
+    "com.stackit.telemetry_router#GetTelemetryRouterRequestRegionId": {
+      "type": "enum",
+      "members": {
+        "EU01": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "eu01"
+          }
+        },
+        "EU02": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "eu02"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.stackit.telemetry_router#GetTelemetryRouterRequest": {
+      "type": "structure",
+      "members": {
+        "projectId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The STACKIT portal project UUID the resource is located in."
+          }
+        },
+        "regionId": {
+          "target": "com.stackit.telemetry_router#GetTelemetryRouterRequestRegionId",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The STACKIT region name the resource is located in."
+          }
+        },
+        "telemetryRouterId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The Telemetry Router UUID."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.stackit.telemetry_router#GetTelemetryRouter": {
+      "type": "operation",
+      "input": {
+        "target": "com.stackit.telemetry_router#GetTelemetryRouterRequest"
+      },
+      "output": {
+        "target": "com.stackit.telemetry_router#TelemetryRouterResponse"
+      },
+      "errors": [
+        {
+          "target": "com.stackit.telemetry_router#BadRequest"
+        },
+        {
+          "target": "com.stackit.telemetry_router#Conflict"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/v1/projects/{projectId}/regions/{regionId}/telemetry-routers/{telemetryRouterId}",
+          "code": 200,
+          "baseUrl": "https://telemetry-router.api.stackit.cloud"
+        },
+        "smithy.api#documentation": "Returns the details for the given Telemetry Router."
+      }
+    },
+    "com.stackit.telemetry_router#UpdateTelemetryRouterRequestRegionId": {
+      "type": "enum",
+      "members": {
+        "EU01": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "eu01"
+          }
+        },
+        "EU02": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "eu02"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.stackit.telemetry_router#UpdateTelemetryRouterRequest": {
+      "type": "structure",
+      "members": {
+        "projectId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The STACKIT portal project UUID the resource is located in."
+          }
+        },
+        "regionId": {
+          "target": "com.stackit.telemetry_router#UpdateTelemetryRouterRequestRegionId",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The STACKIT region name the resource is located in."
+          }
+        },
+        "telemetryRouterId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The Telemetry Router UUID."
+          }
+        },
+        "description": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The description is a longer text chosen by the user to provide more context for the resource."
+          }
+        },
+        "displayName": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The display name is a short name chosen by the user to identify the resource."
+          }
+        },
+        "filter": {
+          "target": "com.stackit.telemetry_router#ConfigFilter"
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.stackit.telemetry_router#UpdateTelemetryRouter": {
+      "type": "operation",
+      "input": {
+        "target": "com.stackit.telemetry_router#UpdateTelemetryRouterRequest"
+      },
+      "output": {
+        "target": "com.stackit.telemetry_router#TelemetryRouterResponse"
+      },
+      "errors": [
+        {
+          "target": "com.stackit.telemetry_router#BadRequest"
+        },
+        {
+          "target": "com.stackit.telemetry_router#NotFound"
+        },
+        {
+          "target": "com.stackit.telemetry_router#Conflict"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "PUT",
+          "uri": "/v1/projects/{projectId}/regions/{regionId}/telemetry-routers/{telemetryRouterId}",
+          "code": 200,
+          "baseUrl": "https://telemetry-router.api.stackit.cloud"
+        },
+        "smithy.api#documentation": "Updates the given Telemetry Router."
+      }
+    },
+    "com.stackit.telemetry_router#DeleteTelemetryRouterRequestRegionId": {
+      "type": "enum",
+      "members": {
+        "EU01": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "eu01"
+          }
+        },
+        "EU02": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "eu02"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.stackit.telemetry_router#DeleteTelemetryRouterRequest": {
+      "type": "structure",
+      "members": {
+        "projectId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The STACKIT portal project UUID the resource is located in."
+          }
+        },
+        "regionId": {
+          "target": "com.stackit.telemetry_router#DeleteTelemetryRouterRequestRegionId",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The STACKIT region name the resource is located in."
+          }
+        },
+        "telemetryRouterId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The Telemetry Router UUID."
+          }
+        },
+        "force": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#httpQuery": "force",
+            "smithy.api#documentation": "If true, deletes all child resources. If false, the resource remains in a 'deletion state' while child resources exist."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.stackit.telemetry_router#DeleteTelemetryRouter": {
+      "type": "operation",
+      "input": {
+        "target": "com.stackit.telemetry_router#DeleteTelemetryRouterRequest"
+      },
+      "output": {
+        "target": "smithy.api#Unit"
+      },
+      "errors": [
+        {
+          "target": "com.stackit.telemetry_router#BadRequest"
+        },
+        {
+          "target": "com.stackit.telemetry_router#NotFound"
+        },
+        {
+          "target": "com.stackit.telemetry_router#Conflict"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "DELETE",
+          "uri": "/v1/projects/{projectId}/regions/{regionId}/telemetry-routers/{telemetryRouterId}",
+          "code": 200,
+          "baseUrl": "https://telemetry-router.api.stackit.cloud"
+        },
+        "smithy.api#documentation": "Deletes the given Telemetry Router."
+      }
+    },
+    "com.stackit.telemetry_router#ListAccessTokensRequestRegionId": {
+      "type": "enum",
+      "members": {
+        "EU01": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "eu01"
+          }
+        },
+        "EU02": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "eu02"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.stackit.telemetry_router#ListAccessTokensRequest": {
+      "type": "structure",
+      "members": {
+        "projectId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The STACKIT portal project UUID the resource is located in."
+          }
+        },
+        "regionId": {
+          "target": "com.stackit.telemetry_router#ListAccessTokensRequestRegionId",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The STACKIT region name the resource is located in."
+          }
+        },
+        "telemetryRouterId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The Telemetry Router UUID."
+          }
+        },
+        "pageToken": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "pageToken",
+            "smithy.api#documentation": "A token to retrieve the next page of results."
+          }
+        },
+        "pageSize": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpQuery": "pageSize",
+            "smithy.api#documentation": "Maximum number of items to return"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.stackit.telemetry_router#ListAccessTokensResponse": {
+      "type": "structure",
+      "members": {
+        "accessTokens": {
+          "target": "com.stackit.telemetry_router#ListAccessTokensResponseAccessTokensList",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "nextPageToken": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "A token to retrieve the next page of results."
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.stackit.telemetry_router#AccessTokenBaseResponse": {
+      "type": "structure",
+      "members": {
+        "creatorId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The user ID of the creator of the access token.",
+            "smithy.api#required": {}
+          }
+        },
+        "description": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The description of the access token."
+          }
+        },
+        "displayName": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The selected display name of the access token.",
+            "smithy.api#required": {}
+          }
+        },
+        "expirationTime": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The date and time until the access token is valid to (inclusively).",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "An auto generated unique id which identifies the access token.",
+            "smithy.api#required": {}
+          }
+        },
+        "status": {
+          "target": "com.stackit.telemetry_router#AccessTokenBaseResponseStatus",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.stackit.telemetry_router#AccessTokenBaseResponseStatus": {
+      "type": "enum",
+      "members": {
+        "ACTIVE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "active"
+          }
+        },
+        "EXPIRED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "expired"
+          }
+        },
+        "DELETING": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "deleting"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.stackit.telemetry_router#ListAccessTokensResponseAccessTokensList": {
+      "type": "list",
+      "member": {
+        "target": "com.stackit.telemetry_router#AccessTokenBaseResponse"
+      },
+      "traits": {}
+    },
+    "com.stackit.telemetry_router#ListAccessTokens": {
+      "type": "operation",
+      "input": {
+        "target": "com.stackit.telemetry_router#ListAccessTokensRequest"
+      },
+      "output": {
+        "target": "com.stackit.telemetry_router#ListAccessTokensResponse"
+      },
+      "errors": [
+        {
+          "target": "com.stackit.telemetry_router#BadRequest"
+        },
+        {
+          "target": "com.stackit.telemetry_router#NotFound"
+        },
+        {
+          "target": "com.stackit.telemetry_router#Conflict"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/v1/projects/{projectId}/regions/{regionId}/telemetry-routers/{telemetryRouterId}/access-tokens",
+          "code": 200,
+          "baseUrl": "https://telemetry-router.api.stackit.cloud"
+        },
+        "smithy.api#documentation": "Get all access tokens for a telemetry router."
+      }
+    },
+    "com.stackit.telemetry_router#CreateAccessTokenRequestRegionId": {
+      "type": "enum",
+      "members": {
+        "EU01": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "eu01"
+          }
+        },
+        "EU02": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "eu02"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.stackit.telemetry_router#CreateAccessTokenRequest": {
+      "type": "structure",
+      "members": {
+        "projectId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The STACKIT portal project UUID the resource is located in."
+          }
+        },
+        "regionId": {
+          "target": "com.stackit.telemetry_router#CreateAccessTokenRequestRegionId",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The STACKIT region name the resource is located in."
+          }
+        },
+        "telemetryRouterId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The Telemetry Router UUID."
+          }
+        },
+        "description": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The description of the access token."
+          }
+        },
+        "displayName": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The selected display name of the access token.",
+            "smithy.api#required": {}
+          }
+        },
+        "ttl": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "The time-to-live (TTL) in days for the access token. If not set, token will not expire.",
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.stackit.telemetry_router#CreateAccessTokenResponseStatus": {
+      "type": "enum",
+      "members": {
+        "ACTIVE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "active"
+          }
+        },
+        "EXPIRED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "expired"
+          }
+        },
+        "DELETING": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "deleting"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.stackit.telemetry_router#CreateAccessTokenResponse": {
+      "type": "structure",
+      "members": {
+        "creatorId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The user ID of the creator of the access token.",
+            "smithy.api#required": {}
+          }
+        },
+        "description": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The description of the access token."
+          }
+        },
+        "displayName": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The selected display name of the access token.",
+            "smithy.api#required": {}
+          }
+        },
+        "expirationTime": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The date and time until the access token is valid to (inclusively).",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "An auto generated unique id which identifies the access token.",
+            "smithy.api#required": {}
+          }
+        },
+        "status": {
+          "target": "com.stackit.telemetry_router#CreateAccessTokenResponseStatus",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "accessToken": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The generated access token.",
+            "smithy.api#required": {},
+            "smithy.api#sensitive": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
+      }
+    },
+    "com.stackit.telemetry_router#CreateAccessToken": {
+      "type": "operation",
+      "input": {
+        "target": "com.stackit.telemetry_router#CreateAccessTokenRequest"
+      },
+      "output": {
+        "target": "com.stackit.telemetry_router#CreateAccessTokenResponse"
+      },
+      "errors": [
+        {
+          "target": "com.stackit.telemetry_router#BadRequest"
+        },
+        {
+          "target": "com.stackit.telemetry_router#NotFound"
+        },
+        {
+          "target": "com.stackit.telemetry_router#Conflict"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/v1/projects/{projectId}/regions/{regionId}/telemetry-routers/{telemetryRouterId}/access-tokens",
+          "code": 200,
+          "baseUrl": "https://telemetry-router.api.stackit.cloud"
+        },
+        "smithy.api#documentation": "Create a new access token for the given Telemetry Router."
+      }
+    },
+    "com.stackit.telemetry_router#GetAccessTokenRequestRegionId": {
+      "type": "enum",
+      "members": {
+        "EU01": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "eu01"
+          }
+        },
+        "EU02": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "eu02"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.stackit.telemetry_router#GetAccessTokenRequest": {
+      "type": "structure",
+      "members": {
+        "projectId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The STACKIT portal project UUID the resource is located in."
+          }
+        },
+        "regionId": {
+          "target": "com.stackit.telemetry_router#GetAccessTokenRequestRegionId",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The STACKIT region name the resource is located in."
+          }
+        },
+        "telemetryRouterId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The Telemetry Router UUID."
+          }
+        },
+        "accessTokenId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The Access Token UUID."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.stackit.telemetry_router#GetAccessTokenResponseStatus": {
+      "type": "enum",
+      "members": {
+        "ACTIVE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "active"
+          }
+        },
+        "EXPIRED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "expired"
+          }
+        },
+        "DELETING": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "deleting"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.stackit.telemetry_router#GetAccessTokenResponse2": {
+      "type": "structure",
+      "members": {
+        "creatorId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The user ID of the creator of the access token.",
+            "smithy.api#required": {}
+          }
+        },
+        "description": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The description of the access token."
+          }
+        },
+        "displayName": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The selected display name of the access token.",
+            "smithy.api#required": {}
+          }
+        },
+        "expirationTime": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The date and time until the access token is valid to (inclusively).",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "An auto generated unique id which identifies the access token.",
+            "smithy.api#required": {}
+          }
+        },
+        "status": {
+          "target": "com.stackit.telemetry_router#GetAccessTokenResponseStatus",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
+      }
+    },
+    "com.stackit.telemetry_router#GetAccessToken": {
+      "type": "operation",
+      "input": {
+        "target": "com.stackit.telemetry_router#GetAccessTokenRequest"
+      },
+      "output": {
+        "target": "com.stackit.telemetry_router#GetAccessTokenResponse2"
+      },
+      "errors": [
+        {
+          "target": "com.stackit.telemetry_router#BadRequest"
+        },
+        {
+          "target": "com.stackit.telemetry_router#NotFound"
+        },
+        {
+          "target": "com.stackit.telemetry_router#Conflict"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/v1/projects/{projectId}/regions/{regionId}/telemetry-routers/{telemetryRouterId}/access-tokens/{accessTokenId}",
+          "code": 200,
+          "baseUrl": "https://telemetry-router.api.stackit.cloud"
+        },
+        "smithy.api#documentation": "Get an access token for the given Telemetry Router by its ID."
+      }
+    },
+    "com.stackit.telemetry_router#UpdateAccessTokenRequestRegionId": {
+      "type": "enum",
+      "members": {
+        "EU01": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "eu01"
+          }
+        },
+        "EU02": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "eu02"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.stackit.telemetry_router#UpdateAccessTokenRequest": {
+      "type": "structure",
+      "members": {
+        "projectId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The STACKIT portal project UUID the resource is located in."
+          }
+        },
+        "regionId": {
+          "target": "com.stackit.telemetry_router#UpdateAccessTokenRequestRegionId",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The STACKIT region name the resource is located in."
+          }
+        },
+        "telemetryRouterId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The Telemetry Router UUID."
+          }
+        },
+        "accessTokenId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The Access Token UUID."
+          }
+        },
+        "description": {
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "displayName": {
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.stackit.telemetry_router#UpdateAccessTokenResponseStatus": {
+      "type": "enum",
+      "members": {
+        "ACTIVE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "active"
+          }
+        },
+        "EXPIRED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "expired"
+          }
+        },
+        "DELETING": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "deleting"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.stackit.telemetry_router#UpdateAccessTokenResponse": {
+      "type": "structure",
+      "members": {
+        "creatorId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The user ID of the creator of the access token.",
+            "smithy.api#required": {}
+          }
+        },
+        "description": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The description of the access token."
+          }
+        },
+        "displayName": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The selected display name of the access token.",
+            "smithy.api#required": {}
+          }
+        },
+        "expirationTime": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The date and time until the access token is valid to (inclusively).",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "An auto generated unique id which identifies the access token.",
+            "smithy.api#required": {}
+          }
+        },
+        "status": {
+          "target": "com.stackit.telemetry_router#UpdateAccessTokenResponseStatus",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
+      }
+    },
+    "com.stackit.telemetry_router#UpdateAccessToken": {
+      "type": "operation",
+      "input": {
+        "target": "com.stackit.telemetry_router#UpdateAccessTokenRequest"
+      },
+      "output": {
+        "target": "com.stackit.telemetry_router#UpdateAccessTokenResponse"
+      },
+      "errors": [
+        {
+          "target": "com.stackit.telemetry_router#BadRequest"
+        },
+        {
+          "target": "com.stackit.telemetry_router#NotFound"
+        },
+        {
+          "target": "com.stackit.telemetry_router#Conflict"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "PUT",
+          "uri": "/v1/projects/{projectId}/regions/{regionId}/telemetry-routers/{telemetryRouterId}/access-tokens/{accessTokenId}",
+          "code": 200,
+          "baseUrl": "https://telemetry-router.api.stackit.cloud"
+        },
+        "smithy.api#documentation": "Update an existing access token for the given Telemetry Router by its ID."
+      }
+    },
+    "com.stackit.telemetry_router#DeleteAccessTokenRequestRegionId": {
+      "type": "enum",
+      "members": {
+        "EU01": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "eu01"
+          }
+        },
+        "EU02": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "eu02"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.stackit.telemetry_router#DeleteAccessTokenRequest": {
+      "type": "structure",
+      "members": {
+        "projectId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The STACKIT portal project UUID the resource is located in."
+          }
+        },
+        "regionId": {
+          "target": "com.stackit.telemetry_router#DeleteAccessTokenRequestRegionId",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The STACKIT region name the resource is located in."
+          }
+        },
+        "telemetryRouterId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The Telemetry Router UUID."
+          }
+        },
+        "accessTokenId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The Access Token UUID."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.stackit.telemetry_router#DeleteAccessToken": {
+      "type": "operation",
+      "input": {
+        "target": "com.stackit.telemetry_router#DeleteAccessTokenRequest"
+      },
+      "output": {
+        "target": "smithy.api#Unit"
+      },
+      "errors": [
+        {
+          "target": "com.stackit.telemetry_router#BadRequest"
+        },
+        {
+          "target": "com.stackit.telemetry_router#NotFound"
+        },
+        {
+          "target": "com.stackit.telemetry_router#Conflict"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "DELETE",
+          "uri": "/v1/projects/{projectId}/regions/{regionId}/telemetry-routers/{telemetryRouterId}/access-tokens/{accessTokenId}",
+          "code": 200,
+          "baseUrl": "https://telemetry-router.api.stackit.cloud"
+        },
+        "smithy.api#documentation": "Delete an access token for the given Telemetry Router by its ID."
+      }
+    },
+    "com.stackit.telemetry_router#ListDestinationsRequestRegionId": {
+      "type": "enum",
+      "members": {
+        "EU01": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "eu01"
+          }
+        },
+        "EU02": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "eu02"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.stackit.telemetry_router#ListDestinationsRequest": {
+      "type": "structure",
+      "members": {
+        "projectId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The STACKIT portal project UUID the resource is located in."
+          }
+        },
+        "regionId": {
+          "target": "com.stackit.telemetry_router#ListDestinationsRequestRegionId",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The STACKIT region name the resource is located in."
+          }
+        },
+        "telemetryRouterId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The Telemetry Router UUID."
+          }
+        },
+        "pageToken": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "pageToken",
+            "smithy.api#documentation": "A token to retrieve the next page of results."
+          }
+        },
+        "pageSize": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpQuery": "pageSize",
+            "smithy.api#documentation": "Maximum number of items to return"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.stackit.telemetry_router#ListDestinationsResponse": {
+      "type": "structure",
+      "members": {
+        "destinations": {
+          "target": "com.stackit.telemetry_router#ListDestinationsResponseDestinationsList",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "nextPageToken": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "A token to retrieve the next page of results."
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.stackit.telemetry_router#DestinationResponse": {
+      "type": "structure",
+      "members": {
+        "config": {
+          "target": "com.stackit.telemetry_router#DestinationConfig",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "creationTime": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The point in time the resource was created.",
+            "smithy.api#required": {}
+          }
+        },
+        "credentialType": {
+          "target": "com.stackit.telemetry_router#DestinationResponseCredentialType",
+          "traits": {
+            "smithy.api#documentation": "The credential type for the resource.",
+            "smithy.api#required": {}
+          }
+        },
+        "description": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The description is a longer text chosen by the user to provide more context for the resource."
+          }
+        },
+        "displayName": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The display name is a short name chosen by the user to identify the resource.",
+            "smithy.api#required": {}
+          }
+        },
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "A auto generated unique id which identifies the resource.",
+            "smithy.api#required": {}
+          }
+        },
+        "status": {
+          "target": "com.stackit.telemetry_router#DestinationResponseStatus",
+          "traits": {
+            "smithy.api#documentation": "The current status of the resource.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.stackit.telemetry_router#DestinationConfig": {
+      "type": "structure",
+      "members": {
+        "configType": {
+          "target": "com.stackit.telemetry_router#DestinationConfigType",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "filter": {
+          "target": "com.stackit.telemetry_router#ConfigFilter"
+        },
+        "openTelemetry": {
+          "target": "com.stackit.telemetry_router#DestinationConfigOpenTelemetry"
+        },
+        "s3": {
+          "target": "com.stackit.telemetry_router#DestinationConfigS3"
+        }
+      },
+      "traits": {}
+    },
+    "com.stackit.telemetry_router#DestinationConfigType": {
+      "type": "enum",
+      "members": {
+        "OPENTELEMETRY": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "OpenTelemetry"
+          }
+        },
+        "S3": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "S3"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Type of the destination."
+      }
+    },
+    "com.stackit.telemetry_router#DestinationConfigOpenTelemetry": {
+      "type": "structure",
+      "members": {
+        "basicAuth": {
+          "target": "com.stackit.telemetry_router#DestinationConfigOpenTelemetryBasicAuth"
+        },
+        "bearerToken": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "A bearer token to authenticate at the OpenTelemetry URI."
+          }
+        },
+        "uri": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The URI for reaching the resource.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.stackit.telemetry_router#DestinationConfigOpenTelemetryBasicAuth": {
+      "type": "structure",
+      "members": {
+        "password": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {},
+            "smithy.api#sensitive": {}
+          }
+        },
+        "username": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Basic auth to authenticate at the OpenTelemetry URI"
+      }
+    },
+    "com.stackit.telemetry_router#DestinationConfigS3": {
+      "type": "structure",
+      "members": {
+        "accessKey": {
+          "target": "com.stackit.telemetry_router#DestinationConfigS3AccessKey"
+        },
+        "bucket": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "endpoint": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The URI for reaching the resource.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.stackit.telemetry_router#DestinationConfigS3AccessKey": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "secret": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {},
+            "smithy.api#sensitive": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The S3 access key"
+      }
+    },
+    "com.stackit.telemetry_router#DestinationResponseCredentialType": {
+      "type": "enum",
+      "members": {
+        "BEARERTOKEN": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "bearerToken"
+          }
+        },
+        "BASICAUTH": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "basicAuth"
+          }
+        },
+        "ACCESSKEY": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "accessKey"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The credential type for the resource."
+      }
+    },
+    "com.stackit.telemetry_router#DestinationResponseStatus": {
+      "type": "enum",
+      "members": {
+        "RECONCILING": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "reconciling"
+          }
+        },
+        "ACTIVE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "active"
+          }
+        },
+        "DELETING": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "deleting"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The current status of the resource."
+      }
+    },
+    "com.stackit.telemetry_router#ListDestinationsResponseDestinationsList": {
+      "type": "list",
+      "member": {
+        "target": "com.stackit.telemetry_router#DestinationResponse"
+      },
+      "traits": {}
+    },
+    "com.stackit.telemetry_router#ListDestinations": {
+      "type": "operation",
+      "input": {
+        "target": "com.stackit.telemetry_router#ListDestinationsRequest"
+      },
+      "output": {
+        "target": "com.stackit.telemetry_router#ListDestinationsResponse"
+      },
+      "errors": [
+        {
+          "target": "com.stackit.telemetry_router#BadRequest"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/v1/projects/{projectId}/regions/{regionId}/telemetry-routers/{telemetryRouterId}/destinations",
+          "code": 200,
+          "baseUrl": "https://telemetry-router.api.stackit.cloud"
+        },
+        "smithy.api#documentation": "Returns a list of all destinations of a specific Telemetry Router within a project."
+      }
+    },
+    "com.stackit.telemetry_router#CreateDestinationRequestRegionId": {
+      "type": "enum",
+      "members": {
+        "EU01": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "eu01"
+          }
+        },
+        "EU02": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "eu02"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.stackit.telemetry_router#CreateDestinationRequest": {
+      "type": "structure",
+      "members": {
+        "projectId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The STACKIT portal project UUID the resource is located in."
+          }
+        },
+        "regionId": {
+          "target": "com.stackit.telemetry_router#CreateDestinationRequestRegionId",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The STACKIT region name the resource is located in."
+          }
+        },
+        "telemetryRouterId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The Telemetry Router UUID."
+          }
+        },
+        "config": {
+          "target": "com.stackit.telemetry_router#DestinationConfig",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "description": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The description is a longer text chosen by the user to provide more context for the resource."
+          }
+        },
+        "displayName": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The display name is a short name chosen by the user to identify the resource.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.stackit.telemetry_router#CreateDestination": {
+      "type": "operation",
+      "input": {
+        "target": "com.stackit.telemetry_router#CreateDestinationRequest"
+      },
+      "output": {
+        "target": "com.stackit.telemetry_router#DestinationResponse"
+      },
+      "errors": [
+        {
+          "target": "com.stackit.telemetry_router#BadRequest"
+        },
+        {
+          "target": "com.stackit.telemetry_router#Conflict"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/v1/projects/{projectId}/regions/{regionId}/telemetry-routers/{telemetryRouterId}/destinations",
+          "code": 200,
+          "baseUrl": "https://telemetry-router.api.stackit.cloud"
+        },
+        "smithy.api#documentation": "Creates a new Destination within the project."
+      }
+    },
+    "com.stackit.telemetry_router#GetDestinationRequestRegionId": {
+      "type": "enum",
+      "members": {
+        "EU01": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "eu01"
+          }
+        },
+        "EU02": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "eu02"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.stackit.telemetry_router#GetDestinationRequest": {
+      "type": "structure",
+      "members": {
+        "projectId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The STACKIT portal project UUID the resource is located in."
+          }
+        },
+        "regionId": {
+          "target": "com.stackit.telemetry_router#GetDestinationRequestRegionId",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The STACKIT region name the resource is located in."
+          }
+        },
+        "telemetryRouterId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The Telemetry Router UUID."
+          }
+        },
+        "destinationId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The Destination UUID."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.stackit.telemetry_router#GetDestination": {
+      "type": "operation",
+      "input": {
+        "target": "com.stackit.telemetry_router#GetDestinationRequest"
+      },
+      "output": {
+        "target": "com.stackit.telemetry_router#DestinationResponse"
+      },
+      "errors": [
+        {
+          "target": "com.stackit.telemetry_router#BadRequest"
+        },
+        {
+          "target": "com.stackit.telemetry_router#NotFound"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/v1/projects/{projectId}/regions/{regionId}/telemetry-routers/{telemetryRouterId}/destinations/{destinationId}",
+          "code": 200,
+          "baseUrl": "https://telemetry-router.api.stackit.cloud"
+        },
+        "smithy.api#documentation": "Returns the details for the given destination."
+      }
+    },
+    "com.stackit.telemetry_router#UpdateDestinationRequestRegionId": {
+      "type": "enum",
+      "members": {
+        "EU01": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "eu01"
+          }
+        },
+        "EU02": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "eu02"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.stackit.telemetry_router#UpdateDestinationRequest": {
+      "type": "structure",
+      "members": {
+        "projectId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The STACKIT portal project UUID the resource is located in."
+          }
+        },
+        "regionId": {
+          "target": "com.stackit.telemetry_router#UpdateDestinationRequestRegionId",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The STACKIT region name the resource is located in."
+          }
+        },
+        "telemetryRouterId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The Telemetry Router UUID."
+          }
+        },
+        "destinationId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The Destination UUID."
+          }
+        },
+        "config": {
+          "target": "com.stackit.telemetry_router#DestinationConfig"
+        },
+        "description": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The description is a longer text chosen by the user to provide more context for the resource."
+          }
+        },
+        "displayName": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The display name is a short name chosen by the user to identify the resource."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.stackit.telemetry_router#UpdateDestination": {
+      "type": "operation",
+      "input": {
+        "target": "com.stackit.telemetry_router#UpdateDestinationRequest"
+      },
+      "output": {
+        "target": "com.stackit.telemetry_router#DestinationResponse"
+      },
+      "errors": [
+        {
+          "target": "com.stackit.telemetry_router#BadRequest"
+        },
+        {
+          "target": "com.stackit.telemetry_router#NotFound"
+        },
+        {
+          "target": "com.stackit.telemetry_router#Conflict"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "PUT",
+          "uri": "/v1/projects/{projectId}/regions/{regionId}/telemetry-routers/{telemetryRouterId}/destinations/{destinationId}",
+          "code": 200,
+          "baseUrl": "https://telemetry-router.api.stackit.cloud"
+        },
+        "smithy.api#documentation": "Updates the given destination."
+      }
+    },
+    "com.stackit.telemetry_router#DeleteDestinationRequestRegionId": {
+      "type": "enum",
+      "members": {
+        "EU01": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "eu01"
+          }
+        },
+        "EU02": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "eu02"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.stackit.telemetry_router#DeleteDestinationRequest": {
+      "type": "structure",
+      "members": {
+        "projectId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The STACKIT portal project UUID the resource is located in."
+          }
+        },
+        "regionId": {
+          "target": "com.stackit.telemetry_router#DeleteDestinationRequestRegionId",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The STACKIT region name the resource is located in."
+          }
+        },
+        "telemetryRouterId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The Telemetry Router UUID."
+          }
+        },
+        "destinationId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The Destination UUID."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.stackit.telemetry_router#DeleteDestination": {
+      "type": "operation",
+      "input": {
+        "target": "com.stackit.telemetry_router#DeleteDestinationRequest"
+      },
+      "output": {
+        "target": "smithy.api#Unit"
+      },
+      "errors": [
+        {
+          "target": "com.stackit.telemetry_router#BadRequest"
+        },
+        {
+          "target": "com.stackit.telemetry_router#NotFound"
+        },
+        {
+          "target": "com.stackit.telemetry_router#Conflict"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "DELETE",
+          "uri": "/v1/projects/{projectId}/regions/{regionId}/telemetry-routers/{telemetryRouterId}/destinations/{destinationId}",
+          "code": 200,
+          "baseUrl": "https://telemetry-router.api.stackit.cloud"
+        },
+        "smithy.api#documentation": "Deletes the given Destination."
+      }
+    },
+    "com.stackit.telemetry_router#BadRequest": {
+      "type": "structure",
+      "members": {},
+      "traits": {
+        "smithy.api#error": "client",
+        "smithy.api#httpError": 400,
+        "com.distilled.openapi#errorMatchers": [
+          {
+            "status": 400
+          }
+        ]
+      }
+    },
+    "com.stackit.telemetry_router#Conflict": {
+      "type": "structure",
+      "members": {},
+      "traits": {
+        "smithy.api#error": "client",
+        "smithy.api#httpError": 409,
+        "com.distilled.openapi#errorMatchers": [
+          {
+            "status": 409
+          }
+        ]
+      }
+    },
+    "com.stackit.telemetry_router#NotFound": {
+      "type": "structure",
+      "members": {},
+      "traits": {
+        "smithy.api#error": "client",
+        "smithy.api#httpError": 404,
+        "com.distilled.openapi#errorMatchers": [
+          {
+            "status": 404
+          }
+        ]
+      }
+    },
+    "com.stackit.telemetry_router#TelemetryRouter": {
+      "type": "service",
+      "version": "1.0",
+      "operations": [
+        {
+          "target": "com.stackit.telemetry_router#ListTelemetryRouters"
+        },
+        {
+          "target": "com.stackit.telemetry_router#CreateTelemetryRouter"
+        },
+        {
+          "target": "com.stackit.telemetry_router#GetTelemetryRouter"
+        },
+        {
+          "target": "com.stackit.telemetry_router#UpdateTelemetryRouter"
+        },
+        {
+          "target": "com.stackit.telemetry_router#DeleteTelemetryRouter"
+        },
+        {
+          "target": "com.stackit.telemetry_router#ListAccessTokens"
+        },
+        {
+          "target": "com.stackit.telemetry_router#CreateAccessToken"
+        },
+        {
+          "target": "com.stackit.telemetry_router#GetAccessToken"
+        },
+        {
+          "target": "com.stackit.telemetry_router#UpdateAccessToken"
+        },
+        {
+          "target": "com.stackit.telemetry_router#DeleteAccessToken"
+        },
+        {
+          "target": "com.stackit.telemetry_router#ListDestinations"
+        },
+        {
+          "target": "com.stackit.telemetry_router#CreateDestination"
+        },
+        {
+          "target": "com.stackit.telemetry_router#GetDestination"
+        },
+        {
+          "target": "com.stackit.telemetry_router#UpdateDestination"
+        },
+        {
+          "target": "com.stackit.telemetry_router#DeleteDestination"
+        }
+      ],
+      "traits": {
+        "smithy.api#title": "STACKIT Telemetry Router API",
+        "smithy.api#documentation": "This API provides endpoints for managing Telemetry Routers."
+      }
+    }
+  }
+}

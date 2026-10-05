@@ -1,0 +1,439 @@
+{
+  "description": "Type the API-disabled answer (HTTP 403 PERMISSION_DENIED, reason SERVICE_DISABLED: 'App Engine Admin API has not been used in project N before or it is disabled.'). It surfaced as the generic Forbidden, so callers could not tell a disabled service from a missing permission.",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.appengine_v1#ServiceDisabled",
+      "value": {
+        "type": "structure",
+        "members": {},
+        "traits": {
+          "smithy.api#error": "client",
+          "smithy.api#httpError": 403,
+          "smithy.api#documentation": "The App Engine Admin API is not enabled for the calling project (HTTP 403 SERVICE_DISABLED).",
+          "com.gcp.protocols#errorMatchers": [
+            {
+              "status": 403,
+              "message": {
+                "includes": "has not been used in project"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.appengine_v1#BatchUpdateAppsFirewallIngressRules/errors/-",
+      "value": {
+        "target": "com.gcp.appengine_v1#ServiceDisabled"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.appengine_v1#CreateApps/errors/-",
+      "value": {
+        "target": "com.gcp.appengine_v1#ServiceDisabled"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.appengine_v1#CreateAppsAuthorizedCertificates/errors/-",
+      "value": {
+        "target": "com.gcp.appengine_v1#ServiceDisabled"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.appengine_v1#CreateAppsDomainMappings/errors/-",
+      "value": {
+        "target": "com.gcp.appengine_v1#ServiceDisabled"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.appengine_v1#CreateAppsFirewallIngressRules/errors/-",
+      "value": {
+        "target": "com.gcp.appengine_v1#ServiceDisabled"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.appengine_v1#CreateAppsServicesVersions/errors/-",
+      "value": {
+        "target": "com.gcp.appengine_v1#ServiceDisabled"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.appengine_v1#CreateProjectsLocationsApplicationsAuthorizedCertificates/errors/-",
+      "value": {
+        "target": "com.gcp.appengine_v1#ServiceDisabled"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.appengine_v1#CreateProjectsLocationsApplicationsDomainMappings/errors/-",
+      "value": {
+        "target": "com.gcp.appengine_v1#ServiceDisabled"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.appengine_v1#DebugAppsServicesVersionsInstances/errors/-",
+      "value": {
+        "target": "com.gcp.appengine_v1#ServiceDisabled"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.appengine_v1#DebugProjectsLocationsApplicationsServicesVersionsInstances/errors/-",
+      "value": {
+        "target": "com.gcp.appengine_v1#ServiceDisabled"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.appengine_v1#DeleteAppsAuthorizedCertificates/errors/-",
+      "value": {
+        "target": "com.gcp.appengine_v1#ServiceDisabled"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.appengine_v1#DeleteAppsDomainMappings/errors/-",
+      "value": {
+        "target": "com.gcp.appengine_v1#ServiceDisabled"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.appengine_v1#DeleteAppsFirewallIngressRules/errors/-",
+      "value": {
+        "target": "com.gcp.appengine_v1#ServiceDisabled"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.appengine_v1#DeleteAppsServices/errors/-",
+      "value": {
+        "target": "com.gcp.appengine_v1#ServiceDisabled"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.appengine_v1#DeleteAppsServicesVersions/errors/-",
+      "value": {
+        "target": "com.gcp.appengine_v1#ServiceDisabled"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.appengine_v1#DeleteAppsServicesVersionsInstances/errors/-",
+      "value": {
+        "target": "com.gcp.appengine_v1#ServiceDisabled"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.appengine_v1#DeleteProjectsLocationsApplicationsAuthorizedCertificates/errors/-",
+      "value": {
+        "target": "com.gcp.appengine_v1#ServiceDisabled"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.appengine_v1#DeleteProjectsLocationsApplicationsDomainMappings/errors/-",
+      "value": {
+        "target": "com.gcp.appengine_v1#ServiceDisabled"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.appengine_v1#DeleteProjectsLocationsApplicationsServices/errors/-",
+      "value": {
+        "target": "com.gcp.appengine_v1#ServiceDisabled"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.appengine_v1#DeleteProjectsLocationsApplicationsServicesVersions/errors/-",
+      "value": {
+        "target": "com.gcp.appengine_v1#ServiceDisabled"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.appengine_v1#DeleteProjectsLocationsApplicationsServicesVersionsInstances/errors/-",
+      "value": {
+        "target": "com.gcp.appengine_v1#ServiceDisabled"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.appengine_v1#ExportAppImageAppsServicesVersions/errors/-",
+      "value": {
+        "target": "com.gcp.appengine_v1#ServiceDisabled"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.appengine_v1#ExportAppImageProjectsLocationsApplicationsServicesVersions/errors/-",
+      "value": {
+        "target": "com.gcp.appengine_v1#ServiceDisabled"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.appengine_v1#GetApps/errors/-",
+      "value": {
+        "target": "com.gcp.appengine_v1#ServiceDisabled"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.appengine_v1#GetAppsAuthorizedCertificates/errors/-",
+      "value": {
+        "target": "com.gcp.appengine_v1#ServiceDisabled"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.appengine_v1#GetAppsDomainMappings/errors/-",
+      "value": {
+        "target": "com.gcp.appengine_v1#ServiceDisabled"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.appengine_v1#GetAppsFirewallIngressRules/errors/-",
+      "value": {
+        "target": "com.gcp.appengine_v1#ServiceDisabled"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.appengine_v1#GetAppsLocations/errors/-",
+      "value": {
+        "target": "com.gcp.appengine_v1#ServiceDisabled"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.appengine_v1#GetAppsOperations/errors/-",
+      "value": {
+        "target": "com.gcp.appengine_v1#ServiceDisabled"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.appengine_v1#GetAppsServices/errors/-",
+      "value": {
+        "target": "com.gcp.appengine_v1#ServiceDisabled"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.appengine_v1#GetAppsServicesVersions/errors/-",
+      "value": {
+        "target": "com.gcp.appengine_v1#ServiceDisabled"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.appengine_v1#GetAppsServicesVersionsInstances/errors/-",
+      "value": {
+        "target": "com.gcp.appengine_v1#ServiceDisabled"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.appengine_v1#GetProjectsLocationsApplicationsAuthorizedCertificates/errors/-",
+      "value": {
+        "target": "com.gcp.appengine_v1#ServiceDisabled"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.appengine_v1#GetProjectsLocationsApplicationsDomainMappings/errors/-",
+      "value": {
+        "target": "com.gcp.appengine_v1#ServiceDisabled"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.appengine_v1#ListAppsAuthorizedCertificates/errors/-",
+      "value": {
+        "target": "com.gcp.appengine_v1#ServiceDisabled"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.appengine_v1#ListAppsAuthorizedDomains/errors/-",
+      "value": {
+        "target": "com.gcp.appengine_v1#ServiceDisabled"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.appengine_v1#ListAppsDomainMappings/errors/-",
+      "value": {
+        "target": "com.gcp.appengine_v1#ServiceDisabled"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.appengine_v1#ListAppsFirewallIngressRules/errors/-",
+      "value": {
+        "target": "com.gcp.appengine_v1#ServiceDisabled"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.appengine_v1#ListAppsLocations/errors/-",
+      "value": {
+        "target": "com.gcp.appengine_v1#ServiceDisabled"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.appengine_v1#ListAppsOperations/errors/-",
+      "value": {
+        "target": "com.gcp.appengine_v1#ServiceDisabled"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.appengine_v1#ListAppsServices/errors/-",
+      "value": {
+        "target": "com.gcp.appengine_v1#ServiceDisabled"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.appengine_v1#ListAppsServicesVersions/errors/-",
+      "value": {
+        "target": "com.gcp.appengine_v1#ServiceDisabled"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.appengine_v1#ListAppsServicesVersionsInstances/errors/-",
+      "value": {
+        "target": "com.gcp.appengine_v1#ServiceDisabled"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.appengine_v1#ListProjectsLocationsApplicationsAuthorizedCertificates/errors/-",
+      "value": {
+        "target": "com.gcp.appengine_v1#ServiceDisabled"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.appengine_v1#ListProjectsLocationsApplicationsAuthorizedDomains/errors/-",
+      "value": {
+        "target": "com.gcp.appengine_v1#ServiceDisabled"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.appengine_v1#ListProjectsLocationsApplicationsDomainMappings/errors/-",
+      "value": {
+        "target": "com.gcp.appengine_v1#ServiceDisabled"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.appengine_v1#ListRuntimesApps/errors/-",
+      "value": {
+        "target": "com.gcp.appengine_v1#ServiceDisabled"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.appengine_v1#PatchApps/errors/-",
+      "value": {
+        "target": "com.gcp.appengine_v1#ServiceDisabled"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.appengine_v1#PatchAppsAuthorizedCertificates/errors/-",
+      "value": {
+        "target": "com.gcp.appengine_v1#ServiceDisabled"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.appengine_v1#PatchAppsDomainMappings/errors/-",
+      "value": {
+        "target": "com.gcp.appengine_v1#ServiceDisabled"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.appengine_v1#PatchAppsFirewallIngressRules/errors/-",
+      "value": {
+        "target": "com.gcp.appengine_v1#ServiceDisabled"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.appengine_v1#PatchAppsServices/errors/-",
+      "value": {
+        "target": "com.gcp.appengine_v1#ServiceDisabled"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.appengine_v1#PatchAppsServicesVersions/errors/-",
+      "value": {
+        "target": "com.gcp.appengine_v1#ServiceDisabled"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.appengine_v1#PatchProjectsLocationsApplications/errors/-",
+      "value": {
+        "target": "com.gcp.appengine_v1#ServiceDisabled"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.appengine_v1#PatchProjectsLocationsApplicationsAuthorizedCertificates/errors/-",
+      "value": {
+        "target": "com.gcp.appengine_v1#ServiceDisabled"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.appengine_v1#PatchProjectsLocationsApplicationsDomainMappings/errors/-",
+      "value": {
+        "target": "com.gcp.appengine_v1#ServiceDisabled"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.appengine_v1#PatchProjectsLocationsApplicationsServices/errors/-",
+      "value": {
+        "target": "com.gcp.appengine_v1#ServiceDisabled"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.appengine_v1#PatchProjectsLocationsApplicationsServicesVersions/errors/-",
+      "value": {
+        "target": "com.gcp.appengine_v1#ServiceDisabled"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.appengine_v1#RepairApps/errors/-",
+      "value": {
+        "target": "com.gcp.appengine_v1#ServiceDisabled"
+      }
+    }
+  ]
+}

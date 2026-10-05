@@ -1,0 +1,3908 @@
+{
+  "smithy": "2.0",
+  "metadata": {
+    "suppressions": [
+      {
+        "id": "HttpUriConflict",
+        "namespace": "*"
+      },
+      {
+        "id": "HttpMethodSemantics",
+        "namespace": "*"
+      },
+      {
+        "id": "UnreferencedShape",
+        "namespace": "*"
+      }
+    ],
+    "distilled.finalized": true
+  },
+  "shapes": {
+    "com.stackit.pim#ListCategoriesRequestLanguage": {
+      "type": "enum",
+      "members": {
+        "EN": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "en"
+          }
+        },
+        "DE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "de"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.stackit.pim#ListCategoriesRequest": {
+      "type": "structure",
+      "members": {
+        "pageSize": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpQuery": "pageSize",
+            "smithy.api#documentation": "The number of items to retrieve per page"
+          }
+        },
+        "cursor": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "cursor",
+            "smithy.api#documentation": "The cursor base64 encoded is used to retrieve the next page of results"
+          }
+        },
+        "categoryName": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "categoryName",
+            "smithy.api#documentation": "The category's name to retrieve the data for"
+          }
+        },
+        "language": {
+          "target": "com.stackit.pim#ListCategoriesRequestLanguage",
+          "traits": {
+            "smithy.api#httpQuery": "language",
+            "smithy.api#documentation": "The language to retrieve the data in, available for en and de"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.stackit.pim#PublicCategory": {
+      "type": "structure",
+      "members": {
+        "description": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Description of the category"
+          }
+        },
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The unique identifier for the category, which is object id from the DB",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "image": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "URI of the category image"
+          }
+        },
+        "language": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Language of the category"
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Category name"
+          }
+        },
+        "validStart": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Date when the current version was approved and became valid in PIM"
+          }
+        },
+        "version": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Number of the revision from PIM"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.stackit.pim#ListCategoriesResponseDataList": {
+      "type": "list",
+      "member": {
+        "target": "com.stackit.pim#PublicCategory"
+      },
+      "traits": {}
+    },
+    "com.stackit.pim#MetaInformation": {
+      "type": "structure",
+      "members": {
+        "nextCursor": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The cursor base64 encoded is used to retrieve the next page of results"
+          }
+        },
+        "pageSize": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "The number of items per page"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.stackit.pim#ListCategoriesResponse": {
+      "type": "structure",
+      "members": {
+        "data": {
+          "target": "com.stackit.pim#ListCategoriesResponseDataList"
+        },
+        "meta": {
+          "target": "com.stackit.pim#MetaInformation"
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
+      }
+    },
+    "com.stackit.pim#ListCategories": {
+      "type": "operation",
+      "input": {
+        "target": "com.stackit.pim#ListCategoriesRequest"
+      },
+      "output": {
+        "target": "com.stackit.pim#ListCategoriesResponse"
+      },
+      "errors": [
+        {
+          "target": "com.stackit.pim#BadRequest"
+        },
+        {
+          "target": "com.stackit.pim#Forbidden"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/v2/categories",
+          "code": 200,
+          "baseUrl": "https://pim.api.stackit.cloud"
+        },
+        "smithy.api#documentation": "List all categories\n\nReturns all categories, available for general public."
+      }
+    },
+    "com.stackit.pim#GetCategoryRequestLanguage": {
+      "type": "enum",
+      "members": {
+        "EN": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "en"
+          }
+        },
+        "DE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "de"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.stackit.pim#GetCategoryRequest": {
+      "type": "structure",
+      "members": {
+        "categoryId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The unique identifier for a category."
+          }
+        },
+        "language": {
+          "target": "com.stackit.pim#GetCategoryRequestLanguage",
+          "traits": {
+            "smithy.api#httpQuery": "language",
+            "smithy.api#documentation": "The language to retrieve the data in, available for en and de"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.stackit.pim#GetCategory": {
+      "type": "operation",
+      "input": {
+        "target": "com.stackit.pim#GetCategoryRequest"
+      },
+      "output": {
+        "target": "com.stackit.pim#PublicCategory"
+      },
+      "errors": [
+        {
+          "target": "com.stackit.pim#BadRequest"
+        },
+        {
+          "target": "com.stackit.pim#Forbidden"
+        },
+        {
+          "target": "com.stackit.pim#NotFound"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/v2/categories/{categoryId}",
+          "code": 200,
+          "baseUrl": "https://pim.api.stackit.cloud"
+        },
+        "smithy.api#documentation": "Get category by ID\n\nRetrieves a specific category by its ID, available for general public."
+      }
+    },
+    "com.stackit.pim#ListCategoryProductsRequestLanguage": {
+      "type": "enum",
+      "members": {
+        "EN": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "en"
+          }
+        },
+        "DE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "de"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.stackit.pim#ListCategoryProductsRequest": {
+      "type": "structure",
+      "members": {
+        "categoryId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The unique identifier for a category."
+          }
+        },
+        "pageSize": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpQuery": "pageSize",
+            "smithy.api#documentation": "The number of items to retrieve per page"
+          }
+        },
+        "cursor": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "cursor",
+            "smithy.api#documentation": "The cursor base64 encoded is used to retrieve the next page of results"
+          }
+        },
+        "productName": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "productName",
+            "smithy.api#documentation": "The product's name to retrieve the data for"
+          }
+        },
+        "language": {
+          "target": "com.stackit.pim#ListCategoryProductsRequestLanguage",
+          "traits": {
+            "smithy.api#httpQuery": "language",
+            "smithy.api#documentation": "The language to retrieve the data in, available for en and de"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.stackit.pim#PublicProduct": {
+      "type": "structure",
+      "members": {
+        "apiIdentifier": {
+          "target": "com.stackit.pim#PublicProductApiIdentifierList",
+          "traits": {
+            "smithy.api#documentation": "Api identifier"
+          }
+        },
+        "categoryId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The unique identifier for the category, which is object id from the DB",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "categoryName": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Generic categorization to structure the customer's invoice transparently (e.g. `Compute Engine`, `Database`, `Storage`)",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "description": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Description of the product"
+          }
+        },
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Unique identifier of the product, which is object id from the DB",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "image": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "URI of the category image"
+          }
+        },
+        "language": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Language of the product"
+          }
+        },
+        "longName": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Extended name of the product"
+          }
+        },
+        "shortName": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "An abbreviated name of the product"
+          }
+        },
+        "validStart": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Date when the current version was approved and became valid in PIM"
+          }
+        },
+        "version": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Number of the revision from PIM"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.stackit.pim#PublicProductApiIdentifierList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {
+        "smithy.api#documentation": "Api identifier"
+      }
+    },
+    "com.stackit.pim#ListCategoryProductsResponseDataList": {
+      "type": "list",
+      "member": {
+        "target": "com.stackit.pim#PublicProduct"
+      },
+      "traits": {}
+    },
+    "com.stackit.pim#ListCategoryProductsResponse": {
+      "type": "structure",
+      "members": {
+        "data": {
+          "target": "com.stackit.pim#ListCategoryProductsResponseDataList"
+        },
+        "meta": {
+          "target": "com.stackit.pim#MetaInformation"
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
+      }
+    },
+    "com.stackit.pim#ListCategoryProducts": {
+      "type": "operation",
+      "input": {
+        "target": "com.stackit.pim#ListCategoryProductsRequest"
+      },
+      "output": {
+        "target": "com.stackit.pim#ListCategoryProductsResponse"
+      },
+      "errors": [
+        {
+          "target": "com.stackit.pim#BadRequest"
+        },
+        {
+          "target": "com.stackit.pim#Forbidden"
+        },
+        {
+          "target": "com.stackit.pim#NotFound"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/v2/categories/{categoryId}/products",
+          "code": 200,
+          "baseUrl": "https://pim.api.stackit.cloud"
+        },
+        "smithy.api#documentation": "List products in a category\n\nRetrieves a specific category's products, available for general public."
+      }
+    },
+    "com.stackit.pim#ListMarketingDataRequestLanguage": {
+      "type": "enum",
+      "members": {
+        "EN": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "en"
+          }
+        },
+        "DE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "de"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.stackit.pim#ListMarketingDataRequest": {
+      "type": "structure",
+      "members": {
+        "pageSize": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpQuery": "pageSize",
+            "smithy.api#documentation": "The number of items to retrieve per page"
+          }
+        },
+        "cursor": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "cursor",
+            "smithy.api#documentation": "The cursor base64 encoded is used to retrieve the next page of results"
+          }
+        },
+        "language": {
+          "target": "com.stackit.pim#ListMarketingDataRequestLanguage",
+          "traits": {
+            "smithy.api#httpQuery": "language",
+            "smithy.api#documentation": "The language to retrieve the data in, available for en and de"
+          }
+        },
+        "productName": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "productName",
+            "smithy.api#documentation": "The product's name to retrieve the data for"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.stackit.pim#PublicMarketingData": {
+      "type": "structure",
+      "members": {
+        "advantages": {
+          "target": "com.stackit.pim#PublicMarketingDataAdvantagesList",
+          "traits": {
+            "smithy.api#documentation": "List of advantages of the product"
+          }
+        },
+        "applications": {
+          "target": "com.stackit.pim#PublicMarketingDataApplicationsList",
+          "traits": {
+            "smithy.api#documentation": "List of applications provided by the product"
+          }
+        },
+        "functions": {
+          "target": "com.stackit.pim#PublicMarketingDataFunctionsList",
+          "traits": {
+            "smithy.api#documentation": "List of functions provided by the product"
+          }
+        },
+        "headline": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Short description of what the product delivers"
+          }
+        },
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Unique identifier of the marketing product, which is object id from the DB",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "introductoryText": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Basic information of the product"
+          }
+        },
+        "language": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Language of the marketing data"
+          }
+        },
+        "longName": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Extended name of the product"
+          }
+        },
+        "shortName": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "An abbreviated name of the product"
+          }
+        },
+        "stId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Internal ID of the product in PIM"
+          }
+        },
+        "validStart": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Date when the current version was approved and became valid in PIM"
+          }
+        },
+        "version": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Number of the revision from PIM"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.stackit.pim#MarketingAdvantage": {
+      "type": "structure",
+      "members": {
+        "advantage": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Name of the advantage"
+          }
+        },
+        "position": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Description of the advantage"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.stackit.pim#PublicMarketingDataAdvantagesList": {
+      "type": "list",
+      "member": {
+        "target": "com.stackit.pim#MarketingAdvantage"
+      },
+      "traits": {
+        "smithy.api#documentation": "List of advantages of the product"
+      }
+    },
+    "com.stackit.pim#MarketingApplication": {
+      "type": "structure",
+      "members": {
+        "application": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Description of the application"
+          }
+        },
+        "applicationTitle": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Title of the application"
+          }
+        },
+        "position": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Position of the application"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.stackit.pim#PublicMarketingDataApplicationsList": {
+      "type": "list",
+      "member": {
+        "target": "com.stackit.pim#MarketingApplication"
+      },
+      "traits": {
+        "smithy.api#documentation": "List of applications provided by the product"
+      }
+    },
+    "com.stackit.pim#MarketingFunction": {
+      "type": "structure",
+      "members": {
+        "function": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Name of the function"
+          }
+        },
+        "position": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Position of the function"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.stackit.pim#PublicMarketingDataFunctionsList": {
+      "type": "list",
+      "member": {
+        "target": "com.stackit.pim#MarketingFunction"
+      },
+      "traits": {
+        "smithy.api#documentation": "List of functions provided by the product"
+      }
+    },
+    "com.stackit.pim#ListMarketingDataResponseDataList": {
+      "type": "list",
+      "member": {
+        "target": "com.stackit.pim#PublicMarketingData"
+      },
+      "traits": {}
+    },
+    "com.stackit.pim#ListMarketingDataResponse": {
+      "type": "structure",
+      "members": {
+        "data": {
+          "target": "com.stackit.pim#ListMarketingDataResponseDataList"
+        },
+        "meta": {
+          "target": "com.stackit.pim#MetaInformation"
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
+      }
+    },
+    "com.stackit.pim#ListMarketingData": {
+      "type": "operation",
+      "input": {
+        "target": "com.stackit.pim#ListMarketingDataRequest"
+      },
+      "output": {
+        "target": "com.stackit.pim#ListMarketingDataResponse"
+      },
+      "errors": [
+        {
+          "target": "com.stackit.pim#BadRequest"
+        },
+        {
+          "target": "com.stackit.pim#Forbidden"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/v2/marketing",
+          "code": 200,
+          "baseUrl": "https://pim.api.stackit.cloud"
+        },
+        "smithy.api#documentation": "List all marketing materials\n\nRetrieves a list of all marketing materials for all products, available for general public."
+      }
+    },
+    "com.stackit.pim#ListProductsRequestLanguage": {
+      "type": "enum",
+      "members": {
+        "EN": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "en"
+          }
+        },
+        "DE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "de"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.stackit.pim#ListProductsRequest": {
+      "type": "structure",
+      "members": {
+        "pageSize": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpQuery": "pageSize",
+            "smithy.api#documentation": "The number of items to retrieve per page"
+          }
+        },
+        "cursor": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "cursor",
+            "smithy.api#documentation": "The cursor base64 encoded is used to retrieve the next page of results"
+          }
+        },
+        "categoryName": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "categoryName",
+            "smithy.api#documentation": "The category's name to retrieve the data for"
+          }
+        },
+        "productName": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "productName",
+            "smithy.api#documentation": "The product's name to retrieve the data for"
+          }
+        },
+        "language": {
+          "target": "com.stackit.pim#ListProductsRequestLanguage",
+          "traits": {
+            "smithy.api#httpQuery": "language",
+            "smithy.api#documentation": "The language to retrieve the data in, available for en and de"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.stackit.pim#ListProductsResponseDataList": {
+      "type": "list",
+      "member": {
+        "target": "com.stackit.pim#PublicProduct"
+      },
+      "traits": {}
+    },
+    "com.stackit.pim#ListProductsResponse": {
+      "type": "structure",
+      "members": {
+        "data": {
+          "target": "com.stackit.pim#ListProductsResponseDataList"
+        },
+        "meta": {
+          "target": "com.stackit.pim#MetaInformation"
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
+      }
+    },
+    "com.stackit.pim#ListProducts": {
+      "type": "operation",
+      "input": {
+        "target": "com.stackit.pim#ListProductsRequest"
+      },
+      "output": {
+        "target": "com.stackit.pim#ListProductsResponse"
+      },
+      "errors": [
+        {
+          "target": "com.stackit.pim#BadRequest"
+        },
+        {
+          "target": "com.stackit.pim#Forbidden"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/v2/products",
+          "code": 200,
+          "baseUrl": "https://pim.api.stackit.cloud"
+        },
+        "smithy.api#documentation": "List all products\n\nRetrieves a list of all products, available for general public."
+      }
+    },
+    "com.stackit.pim#GetProductRequestLanguage": {
+      "type": "enum",
+      "members": {
+        "EN": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "en"
+          }
+        },
+        "DE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "de"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.stackit.pim#GetProductRequest": {
+      "type": "structure",
+      "members": {
+        "productId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The unique identifier for a product."
+          }
+        },
+        "language": {
+          "target": "com.stackit.pim#GetProductRequestLanguage",
+          "traits": {
+            "smithy.api#httpQuery": "language",
+            "smithy.api#documentation": "The language to retrieve the data in, available for en and de"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.stackit.pim#GetProduct": {
+      "type": "operation",
+      "input": {
+        "target": "com.stackit.pim#GetProductRequest"
+      },
+      "output": {
+        "target": "com.stackit.pim#PublicProduct"
+      },
+      "errors": [
+        {
+          "target": "com.stackit.pim#BadRequest"
+        },
+        {
+          "target": "com.stackit.pim#Forbidden"
+        },
+        {
+          "target": "com.stackit.pim#NotFound"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/v2/products/{productId}",
+          "code": 200,
+          "baseUrl": "https://pim.api.stackit.cloud"
+        },
+        "smithy.api#documentation": "Get product by ID\n\nRetrieves a specific product by its ID, available for general public."
+      }
+    },
+    "com.stackit.pim#GetProductMarketingDataRequestLanguage": {
+      "type": "enum",
+      "members": {
+        "EN": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "en"
+          }
+        },
+        "DE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "de"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.stackit.pim#GetProductMarketingDataRequest": {
+      "type": "structure",
+      "members": {
+        "productId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The unique identifier for a product."
+          }
+        },
+        "language": {
+          "target": "com.stackit.pim#GetProductMarketingDataRequestLanguage",
+          "traits": {
+            "smithy.api#httpQuery": "language",
+            "smithy.api#documentation": "The language to retrieve the data in, available for en and de"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.stackit.pim#GetProductMarketingData": {
+      "type": "operation",
+      "input": {
+        "target": "com.stackit.pim#GetProductMarketingDataRequest"
+      },
+      "output": {
+        "target": "com.stackit.pim#PublicMarketingData"
+      },
+      "errors": [
+        {
+          "target": "com.stackit.pim#BadRequest"
+        },
+        {
+          "target": "com.stackit.pim#Forbidden"
+        },
+        {
+          "target": "com.stackit.pim#NotFound"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/v2/products/{productId}/marketing",
+          "code": 200,
+          "baseUrl": "https://pim.api.stackit.cloud"
+        },
+        "smithy.api#documentation": "Get marketing data for a product\n\nRetrieves the marketing data for a specific product, available for general public."
+      }
+    },
+    "com.stackit.pim#ListProductSKUsRequestLanguage": {
+      "type": "enum",
+      "members": {
+        "EN": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "en"
+          }
+        },
+        "DE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "de"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.stackit.pim#ListProductSKUsRequestRegionList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {}
+    },
+    "com.stackit.pim#ListProductSKUsRequest": {
+      "type": "structure",
+      "members": {
+        "productId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The unique identifier for a product."
+          }
+        },
+        "cursor": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "cursor",
+            "smithy.api#documentation": "The cursor base64 encoded is used to retrieve the next page of results"
+          }
+        },
+        "pageSize": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpQuery": "pageSize",
+            "smithy.api#documentation": "The number of items to retrieve per page"
+          }
+        },
+        "language": {
+          "target": "com.stackit.pim#ListProductSKUsRequestLanguage",
+          "traits": {
+            "smithy.api#httpQuery": "language",
+            "smithy.api#documentation": "The language to retrieve the data in, available for en and de"
+          }
+        },
+        "skuName": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "skuName",
+            "smithy.api#documentation": "The SKU's name to retrieve the data for"
+          }
+        },
+        "region": {
+          "target": "com.stackit.pim#ListProductSKUsRequestRegionList",
+          "traits": {
+            "smithy.api#httpQuery": "region",
+            "smithy.api#documentation": "The region to retrieve the data in"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.stackit.pim#PublicSKU": {
+      "type": "structure",
+      "members": {
+        "categoryId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The unique identifier for the category, which is object id from the DB",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "categoryName": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Generic categorization to structure the customer's invoice transparently (e.g. `Compute Engine`, `Database`, `Storage`)",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "cpuOverprovisioning": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "CPU overprovisioning",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "deprecated": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Attribute that indicates if product is deprecated or not.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "documentation": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Documentation URL",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "finOpsFocus": {
+          "target": "com.stackit.pim#FinOpsFocus",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "generalProductGroup": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Category designation one level below the generic designation that describes the overall product group to which all the SKUs are allocated to.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "SKU ID \\ Complete SAP article number with prefix. Will be shown on the invoice like this",
+            "smithy.api#required": {}
+          }
+        },
+        "language": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Language of sku"
+          }
+        },
+        "licenseName": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Name of license",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "maturityModelState": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "State of the SKU following the mandatory product‘s maturity model progress (e.g. `beta`, `ga`)",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "metric": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Metric of service",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "How the line item will appear on the bill",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "priceListVisibility": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Attribute that indicates if PriceList is visible or not.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "prices": {
+          "target": "com.stackit.pim#PublicSKUPricesList",
+          "traits": {
+            "smithy.api#documentation": "List of prices",
+            "smithy.api#required": {}
+          }
+        },
+        "productId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The unique identifier for the product, which is object id from the DB",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "productName": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Generic product (e.g. `Windows Server`, `Server Backup Management`, `Server`)",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "rateType": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Rate type of service",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "region": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Region of sku",
+            "smithy.api#required": {}
+          }
+        },
+        "serviceId": {
+          "target": "com.stackit.pim#PublicSKUServiceIdList",
+          "traits": {
+            "smithy.api#documentation": "List of unique service look up ids (ASCII ordered, ascending)"
+          }
+        },
+        "technicalProductGroup": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Technical differentiation",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "tierMaxValue": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Tier max value",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "tierMinValue": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Tier min value",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "title": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Service name",
+            "smithy.api#required": {}
+          }
+        },
+        "unit": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The unit of measurement for the invoiced items, as to be displayed on the invoice.",
+            "smithy.api#required": {}
+          }
+        },
+        "unitBilling": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Unit billing",
+            "smithy.api#required": {}
+          }
+        },
+        "validStart": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Date when the current version was approved and became valid in PIM",
+            "smithy.api#required": {}
+          }
+        },
+        "version": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Number of the revision from PIM",
+            "smithy.api#required": {}
+          }
+        },
+        "productSpecificAttributes": {
+          "target": "com.stackit.pim#PublicSKUProductSpecificAttributes"
+        },
+        "savingsPlans": {
+          "target": "com.stackit.pim#PublicSKUSavingsPlansList"
+        }
+      },
+      "traits": {}
+    },
+    "com.stackit.pim#FinOpsFocus": {
+      "type": "structure",
+      "members": {
+        "serviceCategory": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "FinOps Focus service category"
+          }
+        },
+        "serviceSubCategory": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "FinOps Focus service subcategory"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.stackit.pim#Price": {
+      "type": "structure",
+      "members": {
+        "currencyCode": {
+          "target": "com.stackit.pim#CurrencyCodes"
+        },
+        "currencySymbol": {
+          "target": "com.stackit.pim#CurrencySymbols",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "monthlyPrice": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Monthly price value that is valid at request time, shown with full precision",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "roundedMonthlyPrice": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Used in Portal rounded to the minimal usable precision 2 digits after 0"
+          }
+        },
+        "roundedValue": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Used in Portal rounded to the minimal usable precision 2 digits after 0"
+          }
+        },
+        "validFrom": {
+          "target": "smithy.api#String"
+        },
+        "value": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Price value that is valid at request time, shown with full precision with 11 decimals"
+          }
+        },
+        "valueAsInt": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Price as integer representation 1e11"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.stackit.pim#CurrencyCodes": {
+      "type": "enum",
+      "members": {
+        "EUR": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "EUR"
+          }
+        },
+        "USD": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "USD"
+          }
+        },
+        "GBP": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "GBP"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Prices' currency code regarding ISO4217"
+      }
+    },
+    "com.stackit.pim#CurrencySymbols": {
+      "type": "enum",
+      "members": {
+        "VALUE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "€"
+          }
+        },
+        "VALUE_2": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "$"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Prices' currency symbol"
+      }
+    },
+    "com.stackit.pim#PublicSKUPricesList": {
+      "type": "list",
+      "member": {
+        "target": "com.stackit.pim#Price"
+      },
+      "traits": {
+        "smithy.api#documentation": "List of prices"
+      }
+    },
+    "com.stackit.pim#PublicSKUServiceIdList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {
+        "smithy.api#documentation": "List of unique service look up ids (ASCII ordered, ascending)"
+      }
+    },
+    "com.stackit.pim#PublicDatabaseSpecificAttributes": {
+      "type": "structure",
+      "members": {
+        "discriminator": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "diskStoragePerNode": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "diskStoragePerNode",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "flavor": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Flavor",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "nodes": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Nodes",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "performanceClasses": {
+          "target": "com.stackit.pim#PublicDatabaseSpecificAttributesPerformanceClassesList",
+          "traits": {
+            "smithy.api#documentation": "Performance Classes"
+          }
+        },
+        "ram": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "RAM (in GB)",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "storageMaxGb": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Max Storage in Gb",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "storageMinGb": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Min Storage in Gb",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "type": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Type (e.g. `single`, `replica`)",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "vCPU": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Number of vCPU",
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.stackit.pim#PublicDatabaseSpecificAttributesPerformanceClassesList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {
+        "smithy.api#documentation": "Performance Classes"
+      }
+    },
+    "com.stackit.pim#ArchivingSpecificAttributes": {
+      "type": "structure",
+      "members": {
+        "discriminator": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "metro": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "metro",
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.stackit.pim#ComputeEngineSpecificAttributes": {
+      "type": "structure",
+      "members": {
+        "discriminator": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "flavor": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Flavor",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "hardware": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Hardware",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "metro": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "metro",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "os": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Operating System (e.g. `windows`, `windows-managed`)",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "ram": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "RAM (in GB)",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "vCPU": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Number of vCPU",
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.stackit.pim#ComputeEngineGPUSpecificAttributes": {
+      "type": "structure",
+      "members": {
+        "discriminator": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "flavor": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Flavor",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "hardware": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Hardware",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "metro": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "metro",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "os": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Operating System (e.g. `windows`, `windows-managed`)",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "ram": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "RAM (in GB)",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "vCPU": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Number of vCPU",
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.stackit.pim#NetworkSpecificAttributes": {
+      "type": "structure",
+      "members": {
+        "connectionLimitPerLoadBalancer": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "Connection limit per Load Balancer",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "discriminator": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "maxBandWidth": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Maximum Bandwidth",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "maxConnections": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Maximum Connections",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "planId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Plan ID",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "recordLimitPerZone": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "Record limit per zone",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "type": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Type (e.g. `single`, `replica`)",
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.stackit.pim#MessagingSpecificAttributes": {
+      "type": "structure",
+      "members": {
+        "discriminator": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "diskStoragePerNode": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "diskStoragePerNode",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "nodes": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Nodes",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "ram": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "RAM (in GB)",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "type": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Type (e.g. `single`, `replica`)",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "vCPU": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Number of vCPU",
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.stackit.pim#LoggingAndMonitoringSpecificAttributes": {
+      "type": "structure",
+      "members": {
+        "discriminator": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "diskStoragePerNode": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "diskStoragePerNode",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "metricPerMin": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "metricPerMin",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "nodes": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Nodes",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "targets": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Targets",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "type": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Type (e.g. `single`, `replica`)",
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.stackit.pim#ConfidentialComputingSpecificAttributes": {
+      "type": "structure",
+      "members": {
+        "discriminator": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "flavor": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Flavor",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "hardware": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Hardware",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "metro": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "metro",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "os": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Operating System (e.g. `windows`, `windows-managed`)",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "ram": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "RAM (in GB)",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "vCPU": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Number of vCPU",
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.stackit.pim#StorageSpecificAttributes": {
+      "type": "structure",
+      "members": {
+        "class": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Storage Class type",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "discriminator": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "maxIOPerSec": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Storage maxIOPerSec",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "maxTroughInMB": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Storage maxTroughInMB",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "metro": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "metro",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "storage": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Storage (e.g. `image`, `postgresql`, `snapshot`, `volume`)",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "type": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Type (e.g. 'capacity', 'input')",
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.stackit.pim#DataAndAI": {
+      "type": "structure",
+      "members": {
+        "discriminator": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "type": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Type (e.g. `capacity`, `performance`)",
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.stackit.pim#RuntimeSpecificAttributes": {
+      "type": "structure",
+      "members": {
+        "discriminator": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "planId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Plan ID",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "type": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Type (e.g. `single`, `replica`)",
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.stackit.pim#SupportSpecificAttributes": {
+      "type": "structure",
+      "members": {
+        "communicationChannel": {
+          "target": "com.stackit.pim#SupportSpecificAttributesCommunicationChannelList",
+          "traits": {
+            "smithy.api#documentation": "Communication Channel"
+          }
+        },
+        "contractNoticePeriodInDays": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Contract notice period in days",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "discriminator": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "escalationAvailabilityBCINC": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Escalation availability BC INC",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "escalationAvailabilityINC": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Escalation availability INC",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "escalationAvailabilitySR": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Escalation availability for Service Requests",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "escalationThresholdBCINCInMins": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Escalation threshold BC INC (in minutes)",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "escalationThresholdINCInMins": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Escalation threshold INC (in minutes)",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "escalationThresholdSRInMins": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Escalation threshold for Service Requests",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "finPenaltySLAVio80Pct": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Financial Penalty for SLA Violation <80 (in %)",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "finPenaltySLAVio90_80Pct": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Financial Penalty for SLA Violation <90 - 80 (in %)",
+            "smithy.api#jsonName": "finPenaltySLAVio90-80Pct",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "initialRuntimeInMonths": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Initial runtime in months",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "leadTimeInWorkDays": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Lead time in workdays",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "location": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Location",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "projectNoticePeriodInWorkDays": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Project notice period in workdays",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "reactionTimeInMins": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Reaction time (in minutes)",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "repeatedRuntimeInMonths": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Repeated runtime in months",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "responseTimeBCINCInMins": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Response time BC INC (in minutes)",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "responseTimeINCInMins": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Response time INC (in minutes)",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "responseTimeSRInMins": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Response time (in minutes) for Service Requests",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "serviceHoursBCINC": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Service hours BC INC",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "serviceHoursINC": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Service hours INC",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "serviceHoursSR": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Service hours for Service Requests",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "slaGoalInPercentage": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "SLA goal in percentage",
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.stackit.pim#SupportSpecificAttributesCommunicationChannelList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {
+        "smithy.api#documentation": "Communication Channel"
+      }
+    },
+    "com.stackit.pim#DeveloperPlatformSpecificAttributes": {
+      "type": "structure",
+      "members": {
+        "discriminator": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "diskStoragePerNode": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "diskStoragePerNode",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "storage": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Storage (e.g. `image`, `postgresql`, `snapshot`, `volume`)",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "type": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Type (e.g. `single`, `replica`)",
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.stackit.pim#PublicSKUProductSpecificAttributes": {
+      "type": "union",
+      "members": {
+        "PublicDatabaseSpecificAttributes": {
+          "target": "com.stackit.pim#PublicDatabaseSpecificAttributes"
+        },
+        "ArchivingSpecificAttributes": {
+          "target": "com.stackit.pim#ArchivingSpecificAttributes"
+        },
+        "ComputeEngineSpecificAttributes": {
+          "target": "com.stackit.pim#ComputeEngineSpecificAttributes"
+        },
+        "ComputeEngineGPUSpecificAttributes": {
+          "target": "com.stackit.pim#ComputeEngineGPUSpecificAttributes"
+        },
+        "NetworkSpecificAttributes": {
+          "target": "com.stackit.pim#NetworkSpecificAttributes"
+        },
+        "MessagingSpecificAttributes": {
+          "target": "com.stackit.pim#MessagingSpecificAttributes"
+        },
+        "LoggingAndMonitoringSpecificAttributes": {
+          "target": "com.stackit.pim#LoggingAndMonitoringSpecificAttributes"
+        },
+        "ConfidentialComputingSpecificAttributes": {
+          "target": "com.stackit.pim#ConfidentialComputingSpecificAttributes"
+        },
+        "StorageSpecificAttributes": {
+          "target": "com.stackit.pim#StorageSpecificAttributes"
+        },
+        "DataAndAI": {
+          "target": "com.stackit.pim#DataAndAI"
+        },
+        "RuntimeSpecificAttributes": {
+          "target": "com.stackit.pim#RuntimeSpecificAttributes"
+        },
+        "SupportSpecificAttributes": {
+          "target": "com.stackit.pim#SupportSpecificAttributes"
+        },
+        "DeveloperPlatformSpecificAttributes": {
+          "target": "com.stackit.pim#DeveloperPlatformSpecificAttributes"
+        }
+      },
+      "traits": {}
+    },
+    "com.stackit.pim#PublicSavingsPlan": {
+      "type": "structure",
+      "members": {
+        "discount": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "Discount percentage for the savings plan"
+          }
+        },
+        "validityPeriodInYears": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Number of years the savings plan is valid"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.stackit.pim#PublicSKUSavingsPlansList": {
+      "type": "list",
+      "member": {
+        "target": "com.stackit.pim#PublicSavingsPlan"
+      },
+      "traits": {}
+    },
+    "com.stackit.pim#ListProductSKUsResponseDataList": {
+      "type": "list",
+      "member": {
+        "target": "com.stackit.pim#PublicSKU"
+      },
+      "traits": {}
+    },
+    "com.stackit.pim#ListProductSKUsResponse": {
+      "type": "structure",
+      "members": {
+        "data": {
+          "target": "com.stackit.pim#ListProductSKUsResponseDataList"
+        },
+        "meta": {
+          "target": "com.stackit.pim#MetaInformation"
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
+      }
+    },
+    "com.stackit.pim#ListProductSKUs": {
+      "type": "operation",
+      "input": {
+        "target": "com.stackit.pim#ListProductSKUsRequest"
+      },
+      "output": {
+        "target": "com.stackit.pim#ListProductSKUsResponse"
+      },
+      "errors": [
+        {
+          "target": "com.stackit.pim#BadRequest"
+        },
+        {
+          "target": "com.stackit.pim#Forbidden"
+        },
+        {
+          "target": "com.stackit.pim#NotFound"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/v2/products/{productId}/skus",
+          "code": 200,
+          "baseUrl": "https://pim.api.stackit.cloud"
+        },
+        "smithy.api#documentation": "List SKUs for a product\n\nRetrieves a list of all SKUs of a product, available for general public."
+      }
+    },
+    "com.stackit.pim#ListProductSTAXSKUsRequestLanguage": {
+      "type": "enum",
+      "members": {
+        "EN": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "en"
+          }
+        },
+        "DE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "de"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.stackit.pim#ListProductSTAXSKUsRequestRegionList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {}
+    },
+    "com.stackit.pim#ListProductSTAXSKUsRequest": {
+      "type": "structure",
+      "members": {
+        "productId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The unique identifier for a product."
+          }
+        },
+        "cursor": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "cursor",
+            "smithy.api#documentation": "The cursor base64 encoded is used to retrieve the next page of results"
+          }
+        },
+        "pageSize": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpQuery": "pageSize",
+            "smithy.api#documentation": "The number of items to retrieve per page"
+          }
+        },
+        "language": {
+          "target": "com.stackit.pim#ListProductSTAXSKUsRequestLanguage",
+          "traits": {
+            "smithy.api#httpQuery": "language",
+            "smithy.api#documentation": "The language to retrieve the data in, available for en and de"
+          }
+        },
+        "skuName": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "skuName",
+            "smithy.api#documentation": "The SKU's name to retrieve the data for"
+          }
+        },
+        "region": {
+          "target": "com.stackit.pim#ListProductSTAXSKUsRequestRegionList",
+          "traits": {
+            "smithy.api#httpQuery": "region",
+            "smithy.api#documentation": "The region to retrieve the data in"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.stackit.pim#ListProductSTAXSKUsResponseDataList": {
+      "type": "list",
+      "member": {
+        "target": "com.stackit.pim#PublicSKU"
+      },
+      "traits": {}
+    },
+    "com.stackit.pim#ListProductSTAXSKUsResponse": {
+      "type": "structure",
+      "members": {
+        "data": {
+          "target": "com.stackit.pim#ListProductSTAXSKUsResponseDataList"
+        },
+        "meta": {
+          "target": "com.stackit.pim#MetaInformation"
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
+      }
+    },
+    "com.stackit.pim#ListProductSTAXSKUs": {
+      "type": "operation",
+      "input": {
+        "target": "com.stackit.pim#ListProductSTAXSKUsRequest"
+      },
+      "output": {
+        "target": "com.stackit.pim#ListProductSTAXSKUsResponse"
+      },
+      "errors": [
+        {
+          "target": "com.stackit.pim#BadRequest"
+        },
+        {
+          "target": "com.stackit.pim#Forbidden"
+        },
+        {
+          "target": "com.stackit.pim#NotFound"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/v2/products/{productId}/stackitx/skus",
+          "code": 200,
+          "baseUrl": "https://pim.api.stackit.cloud"
+        },
+        "smithy.api#documentation": "List STACKIT:X SKUs for a product\n\nRetrieves a list of all STACKIT:X SKUs of a product, available for general public."
+      }
+    },
+    "com.stackit.pim#ListSKUsRequestLanguage": {
+      "type": "enum",
+      "members": {
+        "EN": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "en"
+          }
+        },
+        "DE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "de"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.stackit.pim#ListSKUsRequestRegionList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {}
+    },
+    "com.stackit.pim#ListSKUsRequest": {
+      "type": "structure",
+      "members": {
+        "cursor": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "cursor",
+            "smithy.api#documentation": "The cursor base64 encoded is used to retrieve the next page of results"
+          }
+        },
+        "pageSize": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpQuery": "pageSize",
+            "smithy.api#documentation": "The number of items to retrieve per page"
+          }
+        },
+        "language": {
+          "target": "com.stackit.pim#ListSKUsRequestLanguage",
+          "traits": {
+            "smithy.api#httpQuery": "language",
+            "smithy.api#documentation": "The language to retrieve the data in, available for en and de"
+          }
+        },
+        "categoryName": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "categoryName",
+            "smithy.api#documentation": "The category's name to retrieve the data for"
+          }
+        },
+        "productName": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "productName",
+            "smithy.api#documentation": "The product's name to retrieve the data for"
+          }
+        },
+        "skuName": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "skuName",
+            "smithy.api#documentation": "The SKU's name to retrieve the data for"
+          }
+        },
+        "region": {
+          "target": "com.stackit.pim#ListSKUsRequestRegionList",
+          "traits": {
+            "smithy.api#httpQuery": "region",
+            "smithy.api#documentation": "The region to retrieve the data in"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.stackit.pim#ListSKUsResponseDataList": {
+      "type": "list",
+      "member": {
+        "target": "com.stackit.pim#PublicSKU"
+      },
+      "traits": {}
+    },
+    "com.stackit.pim#ListSKUsResponse": {
+      "type": "structure",
+      "members": {
+        "data": {
+          "target": "com.stackit.pim#ListSKUsResponseDataList"
+        },
+        "meta": {
+          "target": "com.stackit.pim#MetaInformation"
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
+      }
+    },
+    "com.stackit.pim#ListSKUs": {
+      "type": "operation",
+      "input": {
+        "target": "com.stackit.pim#ListSKUsRequest"
+      },
+      "output": {
+        "target": "com.stackit.pim#ListSKUsResponse"
+      },
+      "errors": [
+        {
+          "target": "com.stackit.pim#BadRequest"
+        },
+        {
+          "target": "com.stackit.pim#Forbidden"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/v2/skus",
+          "code": 200,
+          "baseUrl": "https://pim.api.stackit.cloud"
+        },
+        "smithy.api#documentation": "List all SKUs\n\nRetrieves a list of all SKUs, available for general public."
+      }
+    },
+    "com.stackit.pim#SearchSKUsRequestLanguage": {
+      "type": "enum",
+      "members": {
+        "EN": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "en"
+          }
+        },
+        "DE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "de"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.stackit.pim#SearchSKUsRequest": {
+      "type": "structure",
+      "members": {
+        "language": {
+          "target": "com.stackit.pim#SearchSKUsRequestLanguage",
+          "traits": {
+            "smithy.api#httpQuery": "language",
+            "smithy.api#documentation": "The language to retrieve the data in, available for en and de"
+          }
+        },
+        "pageSize": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpQuery": "pageSize",
+            "smithy.api#documentation": "The number of items to retrieve per page"
+          }
+        },
+        "cursor": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "cursor",
+            "smithy.api#documentation": "The cursor base64 encoded is used to retrieve the next page of results"
+          }
+        },
+        "categoryName": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Generic categorization to structure the customer's invoice transparently (e.g. `Compute Engine`, `Database`, `Storage`)"
+          }
+        },
+        "class": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Storage Class type"
+          }
+        },
+        "communicationChannel": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Communication Channel"
+          }
+        },
+        "connectionLimitPerLoadBalancer": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "Connection limit per Load Balancer"
+          }
+        },
+        "contractNoticePeriodInDays": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Contract notice period in days",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "deprecated": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Attribute that indicates if product is deprecated or not."
+          }
+        },
+        "diskStoragePerNode": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "diskStoragePerNode"
+          }
+        },
+        "documentation": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Documentation URL"
+          }
+        },
+        "escalationAvailabilityBCINC": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Escalation availability BC INC",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "escalationAvailabilityINC": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Escalation availability INC",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "escalationAvailabilitySR": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Escalation availability for Service Requests",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "escalationThresholdBCINCInMins": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Escalation threshold BC INC (in minutes)",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "escalationThresholdINCInMins": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Escalation threshold INC (in minutes)",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "escalationThresholdSRInMins": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Escalation threshold for Service Requests",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "finPenaltySLAVio80Pct": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Financial Penalty for SLA Violation <80 (in %)",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "finPenaltySLAVio90_80Pct": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Financial Penalty for SLA Violation <90 - 80 (in %)",
+            "smithy.api#jsonName": "finPenaltySLAVio90-80Pct",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "flavor": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Flavor"
+          }
+        },
+        "generalProductGroup": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Category designation one level below the generic designation that describes the overall product group to which all the SKUs are allocated to."
+          }
+        },
+        "hardware": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Hardware"
+          }
+        },
+        "initialRuntimeInMonths": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Initial runtime in months",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "leadTimeInWorkDays": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Lead time in workdays",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "location": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Location",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "maturityModelState": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "State of the SKU following the mandatory product‘s maturity model progress (e.g. `beta`, `ga`)"
+          }
+        },
+        "maxIOPerSec": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Storage maxIOPerSec"
+          }
+        },
+        "maxTroughInMB": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Storage maxTroughInMB"
+          }
+        },
+        "metricPerMin": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "metricPerMin"
+          }
+        },
+        "metro": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "metro"
+          }
+        },
+        "monthlyPrice": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Monthly price value that is valid at request time, shown with full precision"
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "How the line item will appear on the bill"
+          }
+        },
+        "nodes": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Nodes"
+          }
+        },
+        "os": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Operating System (e.g. `windows`, `windows-managed`)"
+          }
+        },
+        "priceListVisibility": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Attribute that indicates if PriceList is visible or not."
+          }
+        },
+        "productName": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Generic product (e.g. `Windows Server`, `Server Backup Management`, `Server`)"
+          }
+        },
+        "projectNoticePeriodInWorkDays": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Project notice period in workdays",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "ram": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "RAM (in GB)"
+          }
+        },
+        "reactionTimeInMins": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Reaction time (in minutes)",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "recordLimitPerZone": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "Record limit per zone"
+          }
+        },
+        "region": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Region of sku"
+          }
+        },
+        "repeatedRuntimeInMonths": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Repeated runtime in months",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "responseTimeBCINCInMins": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Response time BC INC (in minutes)",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "responseTimeINCInMins": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Response time INC (in minutes)",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "responseTimeSRInMins": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Response time (in minutes) for Service Requests",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "serviceHoursBCINC": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Service hours BC INC",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "serviceHoursINC": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Service hours INC",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "serviceHoursSR": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Service hours for Service Requests",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "serviceId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "List of unique service look up ids (ASCII ordered, ascending)"
+          }
+        },
+        "sku": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "SKU ID \\ Complete SAP article number with prefix. Will be shown on the invoice like this"
+          }
+        },
+        "slaGoalInPercentage": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "SLA goal in percentage",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "storage": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Storage (e.g. `image`, `postgresql`, `snapshot`, `volume`)"
+          }
+        },
+        "storageMaxGb": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Max Storage in Gb"
+          }
+        },
+        "storageMinGb": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Min Storage in Gb"
+          }
+        },
+        "targets": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Targets"
+          }
+        },
+        "technicalProductGroup": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Technical differentiation"
+          }
+        },
+        "title": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Service name"
+          }
+        },
+        "type": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Type (e.g. `single`, `replica`)"
+          }
+        },
+        "unit": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The unit of measurement for the invoiced items, as to be displayed on the invoice."
+          }
+        },
+        "unitBilling": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Unit billing"
+          }
+        },
+        "vCPU": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Number of vCPU"
+          }
+        },
+        "validFrom": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Price valid from"
+          }
+        },
+        "value": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Price value that is valid at request time, shown with full precision with 11 decimals"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.stackit.pim#SearchSKUsResponseDataList": {
+      "type": "list",
+      "member": {
+        "target": "com.stackit.pim#PublicSKU"
+      },
+      "traits": {}
+    },
+    "com.stackit.pim#SearchSKUsResponse": {
+      "type": "structure",
+      "members": {
+        "data": {
+          "target": "com.stackit.pim#SearchSKUsResponseDataList"
+        },
+        "meta": {
+          "target": "com.stackit.pim#MetaInformation"
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
+      }
+    },
+    "com.stackit.pim#SearchSKUs": {
+      "type": "operation",
+      "input": {
+        "target": "com.stackit.pim#SearchSKUsRequest"
+      },
+      "output": {
+        "target": "com.stackit.pim#SearchSKUsResponse"
+      },
+      "errors": [
+        {
+          "target": "com.stackit.pim#BadRequest"
+        },
+        {
+          "target": "com.stackit.pim#Forbidden"
+        },
+        {
+          "target": "com.stackit.pim#NotFound"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/v2/skus/search",
+          "code": 200,
+          "baseUrl": "https://pim.api.stackit.cloud"
+        },
+        "smithy.api#documentation": "Performs a SKUs search with specific attributes\n\nAccepts a JSON object with a predefined set of optional attributes to be used as search criteria."
+      }
+    },
+    "com.stackit.pim#GetSKURequestLanguage": {
+      "type": "enum",
+      "members": {
+        "EN": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "en"
+          }
+        },
+        "DE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "de"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.stackit.pim#GetSKURequest": {
+      "type": "structure",
+      "members": {
+        "skuId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The unique identifier for a SKU."
+          }
+        },
+        "language": {
+          "target": "com.stackit.pim#GetSKURequestLanguage",
+          "traits": {
+            "smithy.api#httpQuery": "language",
+            "smithy.api#documentation": "The language to retrieve the data in, available for en and de"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.stackit.pim#GetSKUResponsePricesList": {
+      "type": "list",
+      "member": {
+        "target": "com.stackit.pim#Price"
+      },
+      "traits": {
+        "smithy.api#documentation": "List of prices"
+      }
+    },
+    "com.stackit.pim#GetSKUResponseServiceIdList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {
+        "smithy.api#documentation": "List of unique service look up ids (ASCII ordered, ascending)"
+      }
+    },
+    "com.stackit.pim#GetSKUResponseProductSpecificAttributes": {
+      "type": "union",
+      "members": {
+        "PublicDatabaseSpecificAttributes": {
+          "target": "com.stackit.pim#PublicDatabaseSpecificAttributes"
+        },
+        "ArchivingSpecificAttributes": {
+          "target": "com.stackit.pim#ArchivingSpecificAttributes"
+        },
+        "ComputeEngineSpecificAttributes": {
+          "target": "com.stackit.pim#ComputeEngineSpecificAttributes"
+        },
+        "ComputeEngineGPUSpecificAttributes": {
+          "target": "com.stackit.pim#ComputeEngineGPUSpecificAttributes"
+        },
+        "NetworkSpecificAttributes": {
+          "target": "com.stackit.pim#NetworkSpecificAttributes"
+        },
+        "MessagingSpecificAttributes": {
+          "target": "com.stackit.pim#MessagingSpecificAttributes"
+        },
+        "LoggingAndMonitoringSpecificAttributes": {
+          "target": "com.stackit.pim#LoggingAndMonitoringSpecificAttributes"
+        },
+        "ConfidentialComputingSpecificAttributes": {
+          "target": "com.stackit.pim#ConfidentialComputingSpecificAttributes"
+        },
+        "StorageSpecificAttributes": {
+          "target": "com.stackit.pim#StorageSpecificAttributes"
+        },
+        "DataAndAI": {
+          "target": "com.stackit.pim#DataAndAI"
+        },
+        "RuntimeSpecificAttributes": {
+          "target": "com.stackit.pim#RuntimeSpecificAttributes"
+        },
+        "SupportSpecificAttributes": {
+          "target": "com.stackit.pim#SupportSpecificAttributes"
+        },
+        "DeveloperPlatformSpecificAttributes": {
+          "target": "com.stackit.pim#DeveloperPlatformSpecificAttributes"
+        }
+      },
+      "traits": {}
+    },
+    "com.stackit.pim#GetSKUResponseSavingsPlansList": {
+      "type": "list",
+      "member": {
+        "target": "com.stackit.pim#PublicSavingsPlan"
+      },
+      "traits": {}
+    },
+    "com.stackit.pim#GetSKUResponse": {
+      "type": "structure",
+      "members": {
+        "categoryId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The unique identifier for the category, which is object id from the DB",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "categoryName": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Generic categorization to structure the customer's invoice transparently (e.g. `Compute Engine`, `Database`, `Storage`)",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "cpuOverprovisioning": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "CPU overprovisioning",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "deprecated": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Attribute that indicates if product is deprecated or not.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "documentation": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Documentation URL",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "finOpsFocus": {
+          "target": "com.stackit.pim#FinOpsFocus",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "generalProductGroup": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Category designation one level below the generic designation that describes the overall product group to which all the SKUs are allocated to.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "SKU ID \\ Complete SAP article number with prefix. Will be shown on the invoice like this",
+            "smithy.api#required": {}
+          }
+        },
+        "language": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Language of sku"
+          }
+        },
+        "licenseName": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Name of license",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "maturityModelState": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "State of the SKU following the mandatory product‘s maturity model progress (e.g. `beta`, `ga`)",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "metric": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Metric of service",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "How the line item will appear on the bill",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "priceListVisibility": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Attribute that indicates if PriceList is visible or not.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "prices": {
+          "target": "com.stackit.pim#GetSKUResponsePricesList",
+          "traits": {
+            "smithy.api#documentation": "List of prices",
+            "smithy.api#required": {}
+          }
+        },
+        "productId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The unique identifier for the product, which is object id from the DB",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "productName": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Generic product (e.g. `Windows Server`, `Server Backup Management`, `Server`)",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "rateType": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Rate type of service",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "region": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Region of sku",
+            "smithy.api#required": {}
+          }
+        },
+        "serviceId": {
+          "target": "com.stackit.pim#GetSKUResponseServiceIdList",
+          "traits": {
+            "smithy.api#documentation": "List of unique service look up ids (ASCII ordered, ascending)"
+          }
+        },
+        "technicalProductGroup": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Technical differentiation",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "tierMaxValue": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Tier max value",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "tierMinValue": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Tier min value",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "title": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Service name",
+            "smithy.api#required": {}
+          }
+        },
+        "unit": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The unit of measurement for the invoiced items, as to be displayed on the invoice.",
+            "smithy.api#required": {}
+          }
+        },
+        "unitBilling": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Unit billing",
+            "smithy.api#required": {}
+          }
+        },
+        "validStart": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Date when the current version was approved and became valid in PIM",
+            "smithy.api#required": {}
+          }
+        },
+        "version": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Number of the revision from PIM",
+            "smithy.api#required": {}
+          }
+        },
+        "productSpecificAttributes": {
+          "target": "com.stackit.pim#GetSKUResponseProductSpecificAttributes"
+        },
+        "savingsPlans": {
+          "target": "com.stackit.pim#GetSKUResponseSavingsPlansList"
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
+      }
+    },
+    "com.stackit.pim#GetSKU": {
+      "type": "operation",
+      "input": {
+        "target": "com.stackit.pim#GetSKURequest"
+      },
+      "output": {
+        "target": "com.stackit.pim#GetSKUResponse"
+      },
+      "errors": [
+        {
+          "target": "com.stackit.pim#BadRequest"
+        },
+        {
+          "target": "com.stackit.pim#Forbidden"
+        },
+        {
+          "target": "com.stackit.pim#NotFound"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/v2/skus/{skuId}",
+          "code": 200,
+          "baseUrl": "https://pim.api.stackit.cloud"
+        },
+        "smithy.api#documentation": "Get SKU by ID\n\nRetrieves a specific SKU by its ID, available for general public."
+      }
+    },
+    "com.stackit.pim#ListSTAXSKUsRequestLanguage": {
+      "type": "enum",
+      "members": {
+        "EN": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "en"
+          }
+        },
+        "DE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "de"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.stackit.pim#ListSTAXSKUsRequestRegionList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {}
+    },
+    "com.stackit.pim#ListSTAXSKUsRequest": {
+      "type": "structure",
+      "members": {
+        "cursor": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "cursor",
+            "smithy.api#documentation": "The cursor base64 encoded is used to retrieve the next page of results"
+          }
+        },
+        "pageSize": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpQuery": "pageSize",
+            "smithy.api#documentation": "The number of items to retrieve per page"
+          }
+        },
+        "language": {
+          "target": "com.stackit.pim#ListSTAXSKUsRequestLanguage",
+          "traits": {
+            "smithy.api#httpQuery": "language",
+            "smithy.api#documentation": "The language to retrieve the data in, available for en and de"
+          }
+        },
+        "categoryName": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "categoryName",
+            "smithy.api#documentation": "The category's name to retrieve the data for"
+          }
+        },
+        "productName": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "productName",
+            "smithy.api#documentation": "The product's name to retrieve the data for"
+          }
+        },
+        "skuName": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "skuName",
+            "smithy.api#documentation": "The SKU's name to retrieve the data for"
+          }
+        },
+        "region": {
+          "target": "com.stackit.pim#ListSTAXSKUsRequestRegionList",
+          "traits": {
+            "smithy.api#httpQuery": "region",
+            "smithy.api#documentation": "The region to retrieve the data in"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.stackit.pim#ListSTAXSKUsResponseDataList": {
+      "type": "list",
+      "member": {
+        "target": "com.stackit.pim#PublicSKU"
+      },
+      "traits": {}
+    },
+    "com.stackit.pim#ListSTAXSKUsResponse": {
+      "type": "structure",
+      "members": {
+        "data": {
+          "target": "com.stackit.pim#ListSTAXSKUsResponseDataList"
+        },
+        "meta": {
+          "target": "com.stackit.pim#MetaInformation"
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
+      }
+    },
+    "com.stackit.pim#ListSTAXSKUs": {
+      "type": "operation",
+      "input": {
+        "target": "com.stackit.pim#ListSTAXSKUsRequest"
+      },
+      "output": {
+        "target": "com.stackit.pim#ListSTAXSKUsResponse"
+      },
+      "errors": [
+        {
+          "target": "com.stackit.pim#BadRequest"
+        },
+        {
+          "target": "com.stackit.pim#Forbidden"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/v2/stackitx/skus",
+          "code": 200,
+          "baseUrl": "https://pim.api.stackit.cloud"
+        },
+        "smithy.api#documentation": "List all STACKIT:X SKUs\n\nGet all STACKIT:X SKUs data that has maturity model different than alpha."
+      }
+    },
+    "com.stackit.pim#GetSTAXSKURequestLanguage": {
+      "type": "enum",
+      "members": {
+        "EN": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "en"
+          }
+        },
+        "DE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "de"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.stackit.pim#GetSTAXSKURequest": {
+      "type": "structure",
+      "members": {
+        "skuId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The unique identifier for a SKU."
+          }
+        },
+        "language": {
+          "target": "com.stackit.pim#GetSTAXSKURequestLanguage",
+          "traits": {
+            "smithy.api#httpQuery": "language",
+            "smithy.api#documentation": "The language to retrieve the data in, available for en and de"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.stackit.pim#GetSTAXSKUResponsePricesList": {
+      "type": "list",
+      "member": {
+        "target": "com.stackit.pim#Price"
+      },
+      "traits": {
+        "smithy.api#documentation": "List of prices"
+      }
+    },
+    "com.stackit.pim#GetSTAXSKUResponseServiceIdList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {
+        "smithy.api#documentation": "List of unique service look up ids (ASCII ordered, ascending)"
+      }
+    },
+    "com.stackit.pim#GetSTAXSKUResponseProductSpecificAttributes": {
+      "type": "union",
+      "members": {
+        "PublicDatabaseSpecificAttributes": {
+          "target": "com.stackit.pim#PublicDatabaseSpecificAttributes"
+        },
+        "ArchivingSpecificAttributes": {
+          "target": "com.stackit.pim#ArchivingSpecificAttributes"
+        },
+        "ComputeEngineSpecificAttributes": {
+          "target": "com.stackit.pim#ComputeEngineSpecificAttributes"
+        },
+        "ComputeEngineGPUSpecificAttributes": {
+          "target": "com.stackit.pim#ComputeEngineGPUSpecificAttributes"
+        },
+        "NetworkSpecificAttributes": {
+          "target": "com.stackit.pim#NetworkSpecificAttributes"
+        },
+        "MessagingSpecificAttributes": {
+          "target": "com.stackit.pim#MessagingSpecificAttributes"
+        },
+        "LoggingAndMonitoringSpecificAttributes": {
+          "target": "com.stackit.pim#LoggingAndMonitoringSpecificAttributes"
+        },
+        "ConfidentialComputingSpecificAttributes": {
+          "target": "com.stackit.pim#ConfidentialComputingSpecificAttributes"
+        },
+        "StorageSpecificAttributes": {
+          "target": "com.stackit.pim#StorageSpecificAttributes"
+        },
+        "DataAndAI": {
+          "target": "com.stackit.pim#DataAndAI"
+        },
+        "RuntimeSpecificAttributes": {
+          "target": "com.stackit.pim#RuntimeSpecificAttributes"
+        },
+        "SupportSpecificAttributes": {
+          "target": "com.stackit.pim#SupportSpecificAttributes"
+        },
+        "DeveloperPlatformSpecificAttributes": {
+          "target": "com.stackit.pim#DeveloperPlatformSpecificAttributes"
+        }
+      },
+      "traits": {}
+    },
+    "com.stackit.pim#GetSTAXSKUResponseSavingsPlansList": {
+      "type": "list",
+      "member": {
+        "target": "com.stackit.pim#PublicSavingsPlan"
+      },
+      "traits": {}
+    },
+    "com.stackit.pim#GetSTAXSKUResponse": {
+      "type": "structure",
+      "members": {
+        "categoryId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The unique identifier for the category, which is object id from the DB",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "categoryName": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Generic categorization to structure the customer's invoice transparently (e.g. `Compute Engine`, `Database`, `Storage`)",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "cpuOverprovisioning": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "CPU overprovisioning",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "deprecated": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Attribute that indicates if product is deprecated or not.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "documentation": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Documentation URL",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "finOpsFocus": {
+          "target": "com.stackit.pim#FinOpsFocus",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "generalProductGroup": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Category designation one level below the generic designation that describes the overall product group to which all the SKUs are allocated to.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "SKU ID \\ Complete SAP article number with prefix. Will be shown on the invoice like this",
+            "smithy.api#required": {}
+          }
+        },
+        "language": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Language of sku"
+          }
+        },
+        "licenseName": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Name of license",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "maturityModelState": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "State of the SKU following the mandatory product‘s maturity model progress (e.g. `beta`, `ga`)",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "metric": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Metric of service",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "How the line item will appear on the bill",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "priceListVisibility": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Attribute that indicates if PriceList is visible or not.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "prices": {
+          "target": "com.stackit.pim#GetSTAXSKUResponsePricesList",
+          "traits": {
+            "smithy.api#documentation": "List of prices",
+            "smithy.api#required": {}
+          }
+        },
+        "productId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The unique identifier for the product, which is object id from the DB",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "productName": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Generic product (e.g. `Windows Server`, `Server Backup Management`, `Server`)",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "rateType": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Rate type of service",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "region": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Region of sku",
+            "smithy.api#required": {}
+          }
+        },
+        "serviceId": {
+          "target": "com.stackit.pim#GetSTAXSKUResponseServiceIdList",
+          "traits": {
+            "smithy.api#documentation": "List of unique service look up ids (ASCII ordered, ascending)"
+          }
+        },
+        "technicalProductGroup": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Technical differentiation",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "tierMaxValue": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Tier max value",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "tierMinValue": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Tier min value",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "title": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Service name",
+            "smithy.api#required": {}
+          }
+        },
+        "unit": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The unit of measurement for the invoiced items, as to be displayed on the invoice.",
+            "smithy.api#required": {}
+          }
+        },
+        "unitBilling": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Unit billing",
+            "smithy.api#required": {}
+          }
+        },
+        "validStart": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Date when the current version was approved and became valid in PIM",
+            "smithy.api#required": {}
+          }
+        },
+        "version": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Number of the revision from PIM",
+            "smithy.api#required": {}
+          }
+        },
+        "productSpecificAttributes": {
+          "target": "com.stackit.pim#GetSTAXSKUResponseProductSpecificAttributes"
+        },
+        "savingsPlans": {
+          "target": "com.stackit.pim#GetSTAXSKUResponseSavingsPlansList"
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
+      }
+    },
+    "com.stackit.pim#GetSTAXSKU": {
+      "type": "operation",
+      "input": {
+        "target": "com.stackit.pim#GetSTAXSKURequest"
+      },
+      "output": {
+        "target": "com.stackit.pim#GetSTAXSKUResponse"
+      },
+      "errors": [
+        {
+          "target": "com.stackit.pim#BadRequest"
+        },
+        {
+          "target": "com.stackit.pim#Forbidden"
+        },
+        {
+          "target": "com.stackit.pim#NotFound"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/v2/stackitx/skus/{skuId}",
+          "code": 200,
+          "baseUrl": "https://pim.api.stackit.cloud"
+        },
+        "smithy.api#documentation": "Get STACKIT:X SKU by ID\n\nRetrieves a specific STACKIT:X SKU by its ID, available for general public."
+      }
+    },
+    "com.stackit.pim#BadRequest": {
+      "type": "structure",
+      "members": {},
+      "traits": {
+        "smithy.api#error": "client",
+        "smithy.api#httpError": 400,
+        "com.distilled.openapi#errorMatchers": [
+          {
+            "status": 400
+          }
+        ]
+      }
+    },
+    "com.stackit.pim#Forbidden": {
+      "type": "structure",
+      "members": {},
+      "traits": {
+        "smithy.api#error": "client",
+        "smithy.api#httpError": 403,
+        "com.distilled.openapi#errorMatchers": [
+          {
+            "status": 403
+          }
+        ]
+      }
+    },
+    "com.stackit.pim#NotFound": {
+      "type": "structure",
+      "members": {},
+      "traits": {
+        "smithy.api#error": "client",
+        "smithy.api#httpError": 404,
+        "com.distilled.openapi#errorMatchers": [
+          {
+            "status": 404
+          }
+        ]
+      }
+    },
+    "com.stackit.pim#Pim": {
+      "type": "service",
+      "version": "2.0.0",
+      "operations": [
+        {
+          "target": "com.stackit.pim#ListCategories"
+        },
+        {
+          "target": "com.stackit.pim#GetCategory"
+        },
+        {
+          "target": "com.stackit.pim#ListCategoryProducts"
+        },
+        {
+          "target": "com.stackit.pim#ListMarketingData"
+        },
+        {
+          "target": "com.stackit.pim#ListProducts"
+        },
+        {
+          "target": "com.stackit.pim#GetProduct"
+        },
+        {
+          "target": "com.stackit.pim#GetProductMarketingData"
+        },
+        {
+          "target": "com.stackit.pim#ListProductSKUs"
+        },
+        {
+          "target": "com.stackit.pim#ListProductSTAXSKUs"
+        },
+        {
+          "target": "com.stackit.pim#ListSKUs"
+        },
+        {
+          "target": "com.stackit.pim#SearchSKUs"
+        },
+        {
+          "target": "com.stackit.pim#GetSKU"
+        },
+        {
+          "target": "com.stackit.pim#ListSTAXSKUs"
+        },
+        {
+          "target": "com.stackit.pim#GetSTAXSKU"
+        }
+      ],
+      "traits": {
+        "smithy.api#title": "STACKIT PIM API",
+        "smithy.api#documentation": "API that provides PIM data regarding STACKIT Cloud SKUs, Products and Categories"
+      }
+    }
+  }
+}

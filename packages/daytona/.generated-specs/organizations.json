@@ -1,0 +1,4109 @@
+{
+  "smithy": "2.0",
+  "metadata": {
+    "suppressions": [
+      {
+        "id": "HttpUriConflict",
+        "namespace": "*"
+      },
+      {
+        "id": "HttpMethodSemantics",
+        "namespace": "*"
+      },
+      {
+        "id": "UnreferencedShape",
+        "namespace": "*"
+      }
+    ],
+    "distilled.finalized": true
+  },
+  "shapes": {
+    "com.daytona.organizations#OrganizationInvitation": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Invitation ID",
+            "smithy.api#required": {}
+          }
+        },
+        "email": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Email address of the invitee",
+            "smithy.api#required": {}
+          }
+        },
+        "invitedBy": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Email address of the inviter",
+            "smithy.api#required": {}
+          }
+        },
+        "organizationId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Organization ID",
+            "smithy.api#required": {}
+          }
+        },
+        "organizationName": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Organization name",
+            "smithy.api#required": {}
+          }
+        },
+        "expiresAt": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Expiration date of the invitation",
+            "smithy.api#required": {}
+          }
+        },
+        "status": {
+          "target": "com.daytona.organizations#OrganizationInvitationStatus",
+          "traits": {
+            "smithy.api#documentation": "Invitation status",
+            "smithy.api#required": {}
+          }
+        },
+        "role": {
+          "target": "com.daytona.organizations#OrganizationInvitationRole",
+          "traits": {
+            "smithy.api#documentation": "Member role",
+            "smithy.api#required": {}
+          }
+        },
+        "assignedRoles": {
+          "target": "com.daytona.organizations#OrganizationInvitationAssignedRolesList",
+          "traits": {
+            "smithy.api#documentation": "Assigned roles",
+            "smithy.api#required": {}
+          }
+        },
+        "createdAt": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Creation timestamp",
+            "smithy.api#required": {}
+          }
+        },
+        "updatedAt": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Last update timestamp",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.daytona.organizations#OrganizationInvitationStatus": {
+      "type": "enum",
+      "members": {
+        "PENDING": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "pending"
+          }
+        },
+        "ACCEPTED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "accepted"
+          }
+        },
+        "DECLINED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "declined"
+          }
+        },
+        "CANCELLED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "cancelled"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Invitation status"
+      }
+    },
+    "com.daytona.organizations#OrganizationInvitationRole": {
+      "type": "enum",
+      "members": {
+        "OWNER": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "owner"
+          }
+        },
+        "MEMBER": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "member"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Member role"
+      }
+    },
+    "com.daytona.organizations#OrganizationRole": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Role ID",
+            "smithy.api#required": {}
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Role name",
+            "smithy.api#required": {}
+          }
+        },
+        "description": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Role description",
+            "smithy.api#required": {}
+          }
+        },
+        "permissions": {
+          "target": "com.daytona.organizations#OrganizationRolePermissionsList",
+          "traits": {
+            "smithy.api#documentation": "Roles assigned to the user",
+            "smithy.api#required": {}
+          }
+        },
+        "isGlobal": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Global role flag",
+            "smithy.api#required": {}
+          }
+        },
+        "createdAt": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Creation timestamp",
+            "smithy.api#required": {}
+          }
+        },
+        "updatedAt": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Last update timestamp",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.daytona.organizations#OrganizationRolePermissionsItem": {
+      "type": "enum",
+      "members": {
+        "WRITE_REGISTRIES": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "write:registries"
+          }
+        },
+        "DELETE_REGISTRIES": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "delete:registries"
+          }
+        },
+        "WRITE_SNAPSHOTS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "write:snapshots"
+          }
+        },
+        "DELETE_SNAPSHOTS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "delete:snapshots"
+          }
+        },
+        "WRITE_SANDBOXES": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "write:sandboxes"
+          }
+        },
+        "DELETE_SANDBOXES": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "delete:sandboxes"
+          }
+        },
+        "READ_VOLUMES": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "read:volumes"
+          }
+        },
+        "WRITE_VOLUMES": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "write:volumes"
+          }
+        },
+        "DELETE_VOLUMES": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "delete:volumes"
+          }
+        },
+        "WRITE_REGIONS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "write:regions"
+          }
+        },
+        "DELETE_REGIONS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "delete:regions"
+          }
+        },
+        "READ_RUNNERS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "read:runners"
+          }
+        },
+        "WRITE_RUNNERS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "write:runners"
+          }
+        },
+        "DELETE_RUNNERS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "delete:runners"
+          }
+        },
+        "READ_AUDIT_LOGS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "read:audit_logs"
+          }
+        },
+        "MANAGE_API_KEYS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "manage:api_keys"
+          }
+        },
+        "MANAGE_SECRETS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "manage:secrets"
+          }
+        },
+        "READ_LIMITS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "read:limits"
+          }
+        },
+        "MANAGE_SSO": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "manage:sso"
+          }
+        },
+        "READ_BILLING": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "read:billing"
+          }
+        },
+        "MANAGE_BILLING": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "manage:billing"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.daytona.organizations#OrganizationRolePermissionsList": {
+      "type": "list",
+      "member": {
+        "target": "com.daytona.organizations#OrganizationRolePermissionsItem"
+      },
+      "traits": {
+        "smithy.api#documentation": "Roles assigned to the user"
+      }
+    },
+    "com.daytona.organizations#OrganizationInvitationAssignedRolesList": {
+      "type": "list",
+      "member": {
+        "target": "com.daytona.organizations#OrganizationRole"
+      },
+      "traits": {
+        "smithy.api#documentation": "Assigned roles"
+      }
+    },
+    "com.daytona.organizations#ListOrganizationInvitationsForAuthenticatedUserResponseBodyList": {
+      "type": "list",
+      "member": {
+        "target": "com.daytona.organizations#OrganizationInvitation"
+      },
+      "traits": {}
+    },
+    "com.daytona.organizations#ListOrganizationInvitationsForAuthenticatedUserResponse": {
+      "type": "structure",
+      "members": {
+        "body": {
+          "target": "com.daytona.organizations#ListOrganizationInvitationsForAuthenticatedUserResponseBodyList",
+          "traits": {
+            "com.distilled.openapi#rawResponse": {},
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
+      }
+    },
+    "com.daytona.organizations#ListOrganizationInvitationsForAuthenticatedUser": {
+      "type": "operation",
+      "input": {
+        "target": "smithy.api#Unit"
+      },
+      "output": {
+        "target": "com.daytona.organizations#ListOrganizationInvitationsForAuthenticatedUserResponse"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/organizations/invitations",
+          "code": 200
+        },
+        "smithy.api#documentation": "List organization invitations for authenticated user"
+      }
+    },
+    "com.daytona.organizations#GetOrganizationInvitationsCountForAuthenticatedUserResponse": {
+      "type": "structure",
+      "members": {
+        "body": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "com.distilled.openapi#rawResponse": {},
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
+      }
+    },
+    "com.daytona.organizations#GetOrganizationInvitationsCountForAuthenticatedUser": {
+      "type": "operation",
+      "input": {
+        "target": "smithy.api#Unit"
+      },
+      "output": {
+        "target": "com.daytona.organizations#GetOrganizationInvitationsCountForAuthenticatedUserResponse"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/organizations/invitations/count",
+          "code": 200
+        },
+        "smithy.api#documentation": "Get count of organization invitations for authenticated user"
+      }
+    },
+    "com.daytona.organizations#AcceptOrganizationInvitationRequest": {
+      "type": "structure",
+      "members": {
+        "invitationId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Invitation ID"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.daytona.organizations#AcceptOrganizationInvitation": {
+      "type": "operation",
+      "input": {
+        "target": "com.daytona.organizations#AcceptOrganizationInvitationRequest"
+      },
+      "output": {
+        "target": "com.daytona.organizations#OrganizationInvitation"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/organizations/invitations/{invitationId}/accept",
+          "code": 200
+        },
+        "smithy.api#documentation": "Accept organization invitation"
+      }
+    },
+    "com.daytona.organizations#DeclineOrganizationInvitationRequest": {
+      "type": "structure",
+      "members": {
+        "invitationId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Invitation ID"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.daytona.organizations#DeclineOrganizationInvitation": {
+      "type": "operation",
+      "input": {
+        "target": "com.daytona.organizations#DeclineOrganizationInvitationRequest"
+      },
+      "output": {
+        "target": "smithy.api#Unit"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/organizations/invitations/{invitationId}/decline",
+          "code": 200
+        },
+        "smithy.api#documentation": "Decline organization invitation"
+      }
+    },
+    "com.daytona.organizations#Organization": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Organization ID",
+            "smithy.api#required": {}
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Organization name",
+            "smithy.api#required": {}
+          }
+        },
+        "createdBy": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "User ID of the organization creator",
+            "smithy.api#required": {}
+          }
+        },
+        "personal": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Personal organization flag",
+            "smithy.api#required": {}
+          }
+        },
+        "createdAt": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Creation timestamp",
+            "smithy.api#required": {}
+          }
+        },
+        "updatedAt": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Last update timestamp",
+            "smithy.api#required": {}
+          }
+        },
+        "suspended": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Suspended flag",
+            "smithy.api#required": {}
+          }
+        },
+        "suspendedAt": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Suspended at",
+            "smithy.api#required": {}
+          }
+        },
+        "suspensionReason": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Suspended reason",
+            "smithy.api#required": {}
+          }
+        },
+        "suspendedUntil": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Suspended until",
+            "smithy.api#required": {}
+          }
+        },
+        "suspensionCleanupGracePeriodHours": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "Suspension cleanup grace period hours",
+            "smithy.api#required": {}
+          }
+        },
+        "maxCpuPerSandbox": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "Max CPU per sandbox",
+            "smithy.api#required": {}
+          }
+        },
+        "maxMemoryPerSandbox": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "Max memory per sandbox",
+            "smithy.api#required": {}
+          }
+        },
+        "maxDiskPerSandbox": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "Max disk per sandbox",
+            "smithy.api#required": {}
+          }
+        },
+        "secretQuota": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "Maximum number of secrets",
+            "smithy.api#required": {}
+          }
+        },
+        "maxSecretsPerSandbox": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "Maximum number of secrets that can be mounted to a single sandbox",
+            "smithy.api#required": {}
+          }
+        },
+        "snapshotDeactivationTimeoutMinutes": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "Time in minutes before an unused snapshot is deactivated",
+            "smithy.api#required": {}
+          }
+        },
+        "sandboxLimitedNetworkEgress": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Sandbox default network block all",
+            "smithy.api#required": {}
+          }
+        },
+        "previewWarningEnabled": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Whether the proxy shows the preview URL warning page for this organization",
+            "smithy.api#required": {}
+          }
+        },
+        "ssoEnabled": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Whether this organization may configure SSO identity providers",
+            "smithy.api#required": {}
+          }
+        },
+        "scimEnabled": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Whether this organization may use SCIM directory sync",
+            "smithy.api#required": {}
+          }
+        },
+        "defaultRegionId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Default region ID"
+          }
+        },
+        "workosOrgId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "ID of the WorkOS organization mirrored from this organization (absent for personal organizations, which are never mirrored)"
+          }
+        },
+        "authenticatedRateLimit": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "Authenticated rate limit per minute",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "sandboxCreateRateLimit": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "Sandbox create rate limit per minute",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "sandboxLifecycleRateLimit": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "Sandbox lifecycle rate limit per minute",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "experimentalConfig": {
+          "target": "smithy.api#Document",
+          "traits": {
+            "smithy.api#documentation": "Experimental configuration",
+            "smithy.api#required": {}
+          }
+        },
+        "otelConfig": {
+          "target": "com.daytona.organizations#OtelConfig",
+          "traits": {
+            "smithy.api#documentation": "OpenTelemetry collection configuration",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "authenticatedRateLimitTtlSeconds": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "Authenticated rate limit TTL in seconds",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "sandboxCreateRateLimitTtlSeconds": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "Sandbox create rate limit TTL in seconds",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "sandboxLifecycleRateLimitTtlSeconds": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "Sandbox lifecycle rate limit TTL in seconds",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.daytona.organizations#OtelConfig": {
+      "type": "structure",
+      "members": {
+        "endpoint": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Endpoint",
+            "smithy.api#required": {}
+          }
+        },
+        "headers": {
+          "target": "com.daytona.organizations#OtelConfigHeadersMap",
+          "traits": {
+            "smithy.api#documentation": "Headers",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "organizationId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Organization ID the config belongs to"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.daytona.organizations#OtelConfigHeadersMap": {
+      "type": "map",
+      "key": {
+        "target": "smithy.api#String"
+      },
+      "value": {
+        "target": "smithy.api#String"
+      },
+      "traits": {
+        "smithy.api#documentation": "Headers"
+      }
+    },
+    "com.daytona.organizations#ListOrganizationsResponseBodyList": {
+      "type": "list",
+      "member": {
+        "target": "com.daytona.organizations#Organization"
+      },
+      "traits": {}
+    },
+    "com.daytona.organizations#ListOrganizationsResponse": {
+      "type": "structure",
+      "members": {
+        "body": {
+          "target": "com.daytona.organizations#ListOrganizationsResponseBodyList",
+          "traits": {
+            "com.distilled.openapi#rawResponse": {},
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
+      }
+    },
+    "com.daytona.organizations#ListOrganizations": {
+      "type": "operation",
+      "input": {
+        "target": "smithy.api#Unit"
+      },
+      "output": {
+        "target": "com.daytona.organizations#ListOrganizationsResponse"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/organizations",
+          "code": 200
+        },
+        "smithy.api#documentation": "List organizations"
+      }
+    },
+    "com.daytona.organizations#CreateOrganizationRequest": {
+      "type": "structure",
+      "members": {
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The name of organization",
+            "smithy.api#required": {}
+          }
+        },
+        "defaultRegionId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The ID of the default region for the organization",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.daytona.organizations#CreateOrganization": {
+      "type": "operation",
+      "input": {
+        "target": "com.daytona.organizations#CreateOrganizationRequest"
+      },
+      "output": {
+        "target": "com.daytona.organizations#Organization"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/organizations",
+          "code": 200
+        },
+        "smithy.api#documentation": "Create organization"
+      }
+    },
+    "com.daytona.organizations#SetOrganizationDefaultRegionRequest": {
+      "type": "structure",
+      "members": {
+        "organizationId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Organization ID"
+          }
+        },
+        "defaultRegionId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The ID of the default region for the organization",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.daytona.organizations#SetOrganizationDefaultRegion": {
+      "type": "operation",
+      "input": {
+        "target": "com.daytona.organizations#SetOrganizationDefaultRegionRequest"
+      },
+      "output": {
+        "target": "smithy.api#Unit"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "PATCH",
+          "uri": "/organizations/{organizationId}/default-region",
+          "code": 200
+        },
+        "smithy.api#documentation": "Set default region for organization"
+      }
+    },
+    "com.daytona.organizations#GetOrganizationRequest": {
+      "type": "structure",
+      "members": {
+        "organizationId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Organization ID"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.daytona.organizations#GetOrganization": {
+      "type": "operation",
+      "input": {
+        "target": "com.daytona.organizations#GetOrganizationRequest"
+      },
+      "output": {
+        "target": "com.daytona.organizations#Organization"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/organizations/{organizationId}",
+          "code": 200
+        },
+        "smithy.api#documentation": "Get organization by ID"
+      }
+    },
+    "com.daytona.organizations#DeleteOrganizationRequest": {
+      "type": "structure",
+      "members": {
+        "organizationId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Organization ID"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.daytona.organizations#DeleteOrganization": {
+      "type": "operation",
+      "input": {
+        "target": "com.daytona.organizations#DeleteOrganizationRequest"
+      },
+      "output": {
+        "target": "smithy.api#Unit"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "DELETE",
+          "uri": "/organizations/{organizationId}",
+          "code": 200
+        },
+        "smithy.api#documentation": "Delete organization"
+      }
+    },
+    "com.daytona.organizations#GetOrganizationUsageOverviewRequest": {
+      "type": "structure",
+      "members": {
+        "organizationId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Organization ID"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.daytona.organizations#OrganizationUsageOverview": {
+      "type": "structure",
+      "members": {
+        "regionUsage": {
+          "target": "com.daytona.organizations#OrganizationUsageOverviewRegionUsageList",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "totalSnapshotQuota": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "currentSnapshotUsage": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "totalVolumeQuota": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "currentVolumeUsage": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.daytona.organizations#RegionUsageOverview": {
+      "type": "structure",
+      "members": {
+        "regionId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "sandboxClass": {
+          "target": "com.daytona.organizations#SandboxClass",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "totalCpuQuota": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "currentCpuUsage": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "totalMemoryQuota": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "currentMemoryUsage": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "totalDiskQuota": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "currentDiskUsage": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "totalGpuQuota": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "currentGpuUsage": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "allowedGpuTypes": {
+          "target": "com.daytona.organizations#RegionUsageOverviewAllowedGpuTypesList"
+        },
+        "maxCpuPerSandbox": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "maxMemoryPerSandbox": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "maxDiskPerSandbox": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "maxDiskPerNonEphemeralSandbox": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "maxCpuPerGpu": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "CPU maximum per requested GPU unit for GPU sandboxes.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "maxMemoryPerGpu": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "Memory maximum per requested GPU unit for GPU sandboxes.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "maxDiskPerGpu": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "Disk maximum per requested GPU unit for GPU sandboxes.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.daytona.organizations#SandboxClass": {
+      "type": "enum",
+      "members": {
+        "LINUX_VM": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "linux-vm"
+          }
+        },
+        "CONTAINER": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "container"
+          }
+        },
+        "ANDROID": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "android"
+          }
+        },
+        "WINDOWS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "windows"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.daytona.organizations#GpuType": {
+      "type": "enum",
+      "members": {
+        "H100": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "H100"
+          }
+        },
+        "H200": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "H200"
+          }
+        },
+        "RTX_PRO_6000": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "RTX-PRO-6000"
+          }
+        },
+        "RTX_4090": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "RTX-4090"
+          }
+        },
+        "RTX_5090": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "RTX-5090"
+          }
+        },
+        "MI355X": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "MI355X"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.daytona.organizations#RegionUsageOverviewAllowedGpuTypesList": {
+      "type": "list",
+      "member": {
+        "target": "com.daytona.organizations#GpuType"
+      },
+      "traits": {}
+    },
+    "com.daytona.organizations#OrganizationUsageOverviewRegionUsageList": {
+      "type": "list",
+      "member": {
+        "target": "com.daytona.organizations#RegionUsageOverview"
+      },
+      "traits": {}
+    },
+    "com.daytona.organizations#GetOrganizationUsageOverview": {
+      "type": "operation",
+      "input": {
+        "target": "com.daytona.organizations#GetOrganizationUsageOverviewRequest"
+      },
+      "output": {
+        "target": "com.daytona.organizations#OrganizationUsageOverview"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/organizations/{organizationId}/usage",
+          "code": 200
+        },
+        "smithy.api#documentation": "Get organization current usage overview"
+      }
+    },
+    "com.daytona.organizations#ListAvailableSandboxClassesRequest": {
+      "type": "structure",
+      "members": {
+        "organizationId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Organization ID"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.daytona.organizations#AvailableSandboxClass": {
+      "type": "structure",
+      "members": {
+        "regionId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "sandboxClass": {
+          "target": "com.daytona.organizations#SandboxClass",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "gpuAvailable": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "allowedGpuTypes": {
+          "target": "com.daytona.organizations#AvailableSandboxClassAllowedGpuTypesList"
+        }
+      },
+      "traits": {}
+    },
+    "com.daytona.organizations#AvailableSandboxClassAllowedGpuTypesList": {
+      "type": "list",
+      "member": {
+        "target": "com.daytona.organizations#GpuType"
+      },
+      "traits": {}
+    },
+    "com.daytona.organizations#ListAvailableSandboxClassesResponseBodyList": {
+      "type": "list",
+      "member": {
+        "target": "com.daytona.organizations#AvailableSandboxClass"
+      },
+      "traits": {}
+    },
+    "com.daytona.organizations#ListAvailableSandboxClassesResponse": {
+      "type": "structure",
+      "members": {
+        "body": {
+          "target": "com.daytona.organizations#ListAvailableSandboxClassesResponseBodyList",
+          "traits": {
+            "com.distilled.openapi#rawResponse": {},
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
+      }
+    },
+    "com.daytona.organizations#ListAvailableSandboxClasses": {
+      "type": "operation",
+      "input": {
+        "target": "com.daytona.organizations#ListAvailableSandboxClassesRequest"
+      },
+      "output": {
+        "target": "com.daytona.organizations#ListAvailableSandboxClassesResponse"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/organizations/{organizationId}/available-sandbox-classes",
+          "code": 200
+        },
+        "smithy.api#documentation": "List available sandbox classes for organization"
+      }
+    },
+    "com.daytona.organizations#LeaveOrganizationRequest": {
+      "type": "structure",
+      "members": {
+        "organizationId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Organization ID"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.daytona.organizations#LeaveOrganization": {
+      "type": "operation",
+      "input": {
+        "target": "com.daytona.organizations#LeaveOrganizationRequest"
+      },
+      "output": {
+        "target": "smithy.api#Unit"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/organizations/{organizationId}/leave",
+          "code": 200
+        },
+        "smithy.api#documentation": "Leave organization"
+      }
+    },
+    "com.daytona.organizations#GetOrganizationOtelConfigBySandboxAuthTokenRequest": {
+      "type": "structure",
+      "members": {
+        "authToken": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Sandbox Auth Token"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.daytona.organizations#GetOrganizationOtelConfigBySandboxAuthToken": {
+      "type": "operation",
+      "input": {
+        "target": "com.daytona.organizations#GetOrganizationOtelConfigBySandboxAuthTokenRequest"
+      },
+      "output": {
+        "target": "com.daytona.organizations#OtelConfig"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/organizations/otel-config/by-sandbox-auth-token/{authToken}",
+          "code": 200
+        },
+        "smithy.api#documentation": "Get organization OTEL config by sandbox auth token"
+      }
+    },
+    "com.daytona.organizations#GetSandboxIdentityBySandboxAuthTokenRequest": {
+      "type": "structure",
+      "members": {
+        "authToken": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Sandbox Auth Token"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.daytona.organizations#SandboxIdentity": {
+      "type": "structure",
+      "members": {
+        "sandboxId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Sandbox ID",
+            "smithy.api#required": {}
+          }
+        },
+        "organizationId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Organization ID",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.daytona.organizations#GetSandboxIdentityBySandboxAuthToken": {
+      "type": "operation",
+      "input": {
+        "target": "com.daytona.organizations#GetSandboxIdentityBySandboxAuthTokenRequest"
+      },
+      "output": {
+        "target": "com.daytona.organizations#SandboxIdentity"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/organizations/sandbox-identity/by-sandbox-auth-token/{authToken}",
+          "code": 200
+        },
+        "smithy.api#documentation": "Get sandbox identity by sandbox auth token"
+      }
+    },
+    "com.daytona.organizations#GetOrganizationOtelConfigRequest": {
+      "type": "structure",
+      "members": {
+        "organizationId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Organization ID"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.daytona.organizations#GetOrganizationOtelConfig": {
+      "type": "operation",
+      "input": {
+        "target": "com.daytona.organizations#GetOrganizationOtelConfigRequest"
+      },
+      "output": {
+        "target": "com.daytona.organizations#OtelConfig"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/organizations/{organizationId}/otel-config",
+          "code": 200
+        },
+        "smithy.api#documentation": "Get organization OTEL config by organization ID"
+      }
+    },
+    "com.daytona.organizations#UpdateOrganizationOtelConfigRequestHeadersMap": {
+      "type": "map",
+      "key": {
+        "target": "smithy.api#String"
+      },
+      "value": {
+        "target": "smithy.api#String"
+      },
+      "traits": {
+        "smithy.api#documentation": "Headers"
+      }
+    },
+    "com.daytona.organizations#UpdateOrganizationOtelConfigRequest": {
+      "type": "structure",
+      "members": {
+        "organizationId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Organization ID"
+          }
+        },
+        "endpoint": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Endpoint",
+            "smithy.api#required": {}
+          }
+        },
+        "headers": {
+          "target": "com.daytona.organizations#UpdateOrganizationOtelConfigRequestHeadersMap",
+          "traits": {
+            "smithy.api#documentation": "Headers",
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.daytona.organizations#UpdateOrganizationOtelConfig": {
+      "type": "operation",
+      "input": {
+        "target": "com.daytona.organizations#UpdateOrganizationOtelConfigRequest"
+      },
+      "output": {
+        "target": "smithy.api#Unit"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "PUT",
+          "uri": "/organizations/{organizationId}/otel-config",
+          "code": 200
+        },
+        "smithy.api#documentation": "Update organization OpenTelemetry configuration"
+      }
+    },
+    "com.daytona.organizations#DeleteOrganizationOtelConfigRequest": {
+      "type": "structure",
+      "members": {
+        "organizationId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Organization ID"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.daytona.organizations#DeleteOrganizationOtelConfig": {
+      "type": "operation",
+      "input": {
+        "target": "com.daytona.organizations#DeleteOrganizationOtelConfigRequest"
+      },
+      "output": {
+        "target": "smithy.api#Unit"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "DELETE",
+          "uri": "/organizations/{organizationId}/otel-config",
+          "code": 200
+        },
+        "smithy.api#documentation": "Delete organization OpenTelemetry configuration"
+      }
+    },
+    "com.daytona.organizations#UpdateExperimentalConfigRequestBodyMap": {
+      "type": "map",
+      "key": {
+        "target": "smithy.api#String"
+      },
+      "value": {
+        "target": "smithy.api#Document"
+      },
+      "traits": {}
+    },
+    "com.daytona.organizations#UpdateExperimentalConfigRequest": {
+      "type": "structure",
+      "members": {
+        "organizationId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Organization ID"
+          }
+        },
+        "body": {
+          "target": "com.daytona.organizations#UpdateExperimentalConfigRequestBodyMap",
+          "traits": {
+            "smithy.api#httpPayload": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.daytona.organizations#UpdateExperimentalConfig": {
+      "type": "operation",
+      "input": {
+        "target": "com.daytona.organizations#UpdateExperimentalConfigRequest"
+      },
+      "output": {
+        "target": "smithy.api#Unit"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "PUT",
+          "uri": "/organizations/{organizationId}/experimental-config",
+          "code": 200
+        },
+        "smithy.api#documentation": "Update experimental configuration"
+      }
+    },
+    "com.daytona.organizations#ListOrganizationRolesRequest": {
+      "type": "structure",
+      "members": {
+        "organizationId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Organization ID"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.daytona.organizations#ListOrganizationRolesResponseBodyList": {
+      "type": "list",
+      "member": {
+        "target": "com.daytona.organizations#OrganizationRole"
+      },
+      "traits": {}
+    },
+    "com.daytona.organizations#ListOrganizationRolesResponse": {
+      "type": "structure",
+      "members": {
+        "body": {
+          "target": "com.daytona.organizations#ListOrganizationRolesResponseBodyList",
+          "traits": {
+            "com.distilled.openapi#rawResponse": {},
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
+      }
+    },
+    "com.daytona.organizations#ListOrganizationRoles": {
+      "type": "operation",
+      "input": {
+        "target": "com.daytona.organizations#ListOrganizationRolesRequest"
+      },
+      "output": {
+        "target": "com.daytona.organizations#ListOrganizationRolesResponse"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/organizations/{organizationId}/roles",
+          "code": 200
+        },
+        "smithy.api#documentation": "List organization roles"
+      }
+    },
+    "com.daytona.organizations#CreateOrganizationRoleRequestPermissionsItem": {
+      "type": "enum",
+      "members": {
+        "WRITE_REGISTRIES": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "write:registries"
+          }
+        },
+        "DELETE_REGISTRIES": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "delete:registries"
+          }
+        },
+        "WRITE_SNAPSHOTS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "write:snapshots"
+          }
+        },
+        "DELETE_SNAPSHOTS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "delete:snapshots"
+          }
+        },
+        "WRITE_SANDBOXES": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "write:sandboxes"
+          }
+        },
+        "DELETE_SANDBOXES": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "delete:sandboxes"
+          }
+        },
+        "READ_VOLUMES": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "read:volumes"
+          }
+        },
+        "WRITE_VOLUMES": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "write:volumes"
+          }
+        },
+        "DELETE_VOLUMES": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "delete:volumes"
+          }
+        },
+        "WRITE_REGIONS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "write:regions"
+          }
+        },
+        "DELETE_REGIONS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "delete:regions"
+          }
+        },
+        "READ_RUNNERS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "read:runners"
+          }
+        },
+        "WRITE_RUNNERS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "write:runners"
+          }
+        },
+        "DELETE_RUNNERS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "delete:runners"
+          }
+        },
+        "READ_AUDIT_LOGS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "read:audit_logs"
+          }
+        },
+        "MANAGE_API_KEYS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "manage:api_keys"
+          }
+        },
+        "MANAGE_SECRETS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "manage:secrets"
+          }
+        },
+        "READ_LIMITS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "read:limits"
+          }
+        },
+        "MANAGE_SSO": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "manage:sso"
+          }
+        },
+        "READ_BILLING": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "read:billing"
+          }
+        },
+        "MANAGE_BILLING": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "manage:billing"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.daytona.organizations#CreateOrganizationRoleRequestPermissionsList": {
+      "type": "list",
+      "member": {
+        "target": "com.daytona.organizations#CreateOrganizationRoleRequestPermissionsItem"
+      },
+      "traits": {
+        "smithy.api#documentation": "The list of permissions assigned to the role"
+      }
+    },
+    "com.daytona.organizations#CreateOrganizationRoleRequest": {
+      "type": "structure",
+      "members": {
+        "organizationId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Organization ID"
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The name of the role",
+            "smithy.api#required": {}
+          }
+        },
+        "description": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The description of the role",
+            "smithy.api#required": {}
+          }
+        },
+        "permissions": {
+          "target": "com.daytona.organizations#CreateOrganizationRoleRequestPermissionsList",
+          "traits": {
+            "smithy.api#documentation": "The list of permissions assigned to the role",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.daytona.organizations#CreateOrganizationRole": {
+      "type": "operation",
+      "input": {
+        "target": "com.daytona.organizations#CreateOrganizationRoleRequest"
+      },
+      "output": {
+        "target": "com.daytona.organizations#OrganizationRole"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/organizations/{organizationId}/roles",
+          "code": 200
+        },
+        "smithy.api#documentation": "Create organization role"
+      }
+    },
+    "com.daytona.organizations#UpdateOrganizationRoleRequestPermissionsItem": {
+      "type": "enum",
+      "members": {
+        "WRITE_REGISTRIES": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "write:registries"
+          }
+        },
+        "DELETE_REGISTRIES": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "delete:registries"
+          }
+        },
+        "WRITE_SNAPSHOTS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "write:snapshots"
+          }
+        },
+        "DELETE_SNAPSHOTS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "delete:snapshots"
+          }
+        },
+        "WRITE_SANDBOXES": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "write:sandboxes"
+          }
+        },
+        "DELETE_SANDBOXES": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "delete:sandboxes"
+          }
+        },
+        "READ_VOLUMES": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "read:volumes"
+          }
+        },
+        "WRITE_VOLUMES": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "write:volumes"
+          }
+        },
+        "DELETE_VOLUMES": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "delete:volumes"
+          }
+        },
+        "WRITE_REGIONS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "write:regions"
+          }
+        },
+        "DELETE_REGIONS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "delete:regions"
+          }
+        },
+        "READ_RUNNERS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "read:runners"
+          }
+        },
+        "WRITE_RUNNERS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "write:runners"
+          }
+        },
+        "DELETE_RUNNERS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "delete:runners"
+          }
+        },
+        "READ_AUDIT_LOGS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "read:audit_logs"
+          }
+        },
+        "MANAGE_API_KEYS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "manage:api_keys"
+          }
+        },
+        "MANAGE_SECRETS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "manage:secrets"
+          }
+        },
+        "READ_LIMITS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "read:limits"
+          }
+        },
+        "MANAGE_SSO": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "manage:sso"
+          }
+        },
+        "READ_BILLING": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "read:billing"
+          }
+        },
+        "MANAGE_BILLING": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "manage:billing"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.daytona.organizations#UpdateOrganizationRoleRequestPermissionsList": {
+      "type": "list",
+      "member": {
+        "target": "com.daytona.organizations#UpdateOrganizationRoleRequestPermissionsItem"
+      },
+      "traits": {
+        "smithy.api#documentation": "The list of permissions assigned to the role"
+      }
+    },
+    "com.daytona.organizations#UpdateOrganizationRoleRequest": {
+      "type": "structure",
+      "members": {
+        "organizationId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Organization ID"
+          }
+        },
+        "roleId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Role ID"
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The name of the role",
+            "smithy.api#required": {}
+          }
+        },
+        "description": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The description of the role",
+            "smithy.api#required": {}
+          }
+        },
+        "permissions": {
+          "target": "com.daytona.organizations#UpdateOrganizationRoleRequestPermissionsList",
+          "traits": {
+            "smithy.api#documentation": "The list of permissions assigned to the role",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.daytona.organizations#UpdateOrganizationRole": {
+      "type": "operation",
+      "input": {
+        "target": "com.daytona.organizations#UpdateOrganizationRoleRequest"
+      },
+      "output": {
+        "target": "com.daytona.organizations#OrganizationRole"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "PUT",
+          "uri": "/organizations/{organizationId}/roles/{roleId}",
+          "code": 200
+        },
+        "smithy.api#documentation": "Update organization role"
+      }
+    },
+    "com.daytona.organizations#DeleteOrganizationRoleRequest": {
+      "type": "structure",
+      "members": {
+        "organizationId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Organization ID"
+          }
+        },
+        "roleId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Role ID"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.daytona.organizations#DeleteOrganizationRole": {
+      "type": "operation",
+      "input": {
+        "target": "com.daytona.organizations#DeleteOrganizationRoleRequest"
+      },
+      "output": {
+        "target": "smithy.api#Unit"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "DELETE",
+          "uri": "/organizations/{organizationId}/roles/{roleId}",
+          "code": 200
+        },
+        "smithy.api#documentation": "Delete organization role"
+      }
+    },
+    "com.daytona.organizations#ListOrganizationMembersRequest": {
+      "type": "structure",
+      "members": {
+        "organizationId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Organization ID"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.daytona.organizations#OrganizationUser": {
+      "type": "structure",
+      "members": {
+        "userId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "User ID",
+            "smithy.api#required": {}
+          }
+        },
+        "organizationId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Organization ID",
+            "smithy.api#required": {}
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "User name",
+            "smithy.api#required": {}
+          }
+        },
+        "email": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "User email",
+            "smithy.api#required": {}
+          }
+        },
+        "role": {
+          "target": "com.daytona.organizations#OrganizationUserRole",
+          "traits": {
+            "smithy.api#documentation": "Member role",
+            "smithy.api#required": {}
+          }
+        },
+        "assignedRoles": {
+          "target": "com.daytona.organizations#OrganizationUserAssignedRolesList",
+          "traits": {
+            "smithy.api#documentation": "Roles assigned to the user",
+            "smithy.api#required": {}
+          }
+        },
+        "createdAt": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Creation timestamp",
+            "smithy.api#required": {}
+          }
+        },
+        "updatedAt": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Last update timestamp",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.daytona.organizations#OrganizationUserRole": {
+      "type": "enum",
+      "members": {
+        "OWNER": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "owner"
+          }
+        },
+        "MEMBER": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "member"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Member role"
+      }
+    },
+    "com.daytona.organizations#OrganizationUserAssignedRolesList": {
+      "type": "list",
+      "member": {
+        "target": "com.daytona.organizations#OrganizationRole"
+      },
+      "traits": {
+        "smithy.api#documentation": "Roles assigned to the user"
+      }
+    },
+    "com.daytona.organizations#ListOrganizationMembersResponseBodyList": {
+      "type": "list",
+      "member": {
+        "target": "com.daytona.organizations#OrganizationUser"
+      },
+      "traits": {}
+    },
+    "com.daytona.organizations#ListOrganizationMembersResponse": {
+      "type": "structure",
+      "members": {
+        "body": {
+          "target": "com.daytona.organizations#ListOrganizationMembersResponseBodyList",
+          "traits": {
+            "com.distilled.openapi#rawResponse": {},
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
+      }
+    },
+    "com.daytona.organizations#ListOrganizationMembers": {
+      "type": "operation",
+      "input": {
+        "target": "com.daytona.organizations#ListOrganizationMembersRequest"
+      },
+      "output": {
+        "target": "com.daytona.organizations#ListOrganizationMembersResponse"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/organizations/{organizationId}/users",
+          "code": 200
+        },
+        "smithy.api#documentation": "List organization members"
+      }
+    },
+    "com.daytona.organizations#UpdateAccessForOrganizationMemberRequestRole": {
+      "type": "enum",
+      "members": {
+        "OWNER": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "owner"
+          }
+        },
+        "MEMBER": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "member"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Organization member role"
+      }
+    },
+    "com.daytona.organizations#UpdateAccessForOrganizationMemberRequestAssignedRoleIdsList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {
+        "smithy.api#documentation": "Array of assigned role IDs"
+      }
+    },
+    "com.daytona.organizations#UpdateAccessForOrganizationMemberRequest": {
+      "type": "structure",
+      "members": {
+        "organizationId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Organization ID"
+          }
+        },
+        "userId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "User ID"
+          }
+        },
+        "role": {
+          "target": "com.daytona.organizations#UpdateAccessForOrganizationMemberRequestRole",
+          "traits": {
+            "smithy.api#documentation": "Organization member role",
+            "smithy.api#required": {}
+          }
+        },
+        "assignedRoleIds": {
+          "target": "com.daytona.organizations#UpdateAccessForOrganizationMemberRequestAssignedRoleIdsList",
+          "traits": {
+            "smithy.api#documentation": "Array of assigned role IDs",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.daytona.organizations#UpdateAccessForOrganizationMember": {
+      "type": "operation",
+      "input": {
+        "target": "com.daytona.organizations#UpdateAccessForOrganizationMemberRequest"
+      },
+      "output": {
+        "target": "com.daytona.organizations#OrganizationUser"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/organizations/{organizationId}/users/{userId}/access",
+          "code": 200
+        },
+        "smithy.api#documentation": "Update access for organization member"
+      }
+    },
+    "com.daytona.organizations#DeleteOrganizationMemberRequest": {
+      "type": "structure",
+      "members": {
+        "organizationId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Organization ID"
+          }
+        },
+        "userId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "User ID"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.daytona.organizations#DeleteOrganizationMember": {
+      "type": "operation",
+      "input": {
+        "target": "com.daytona.organizations#DeleteOrganizationMemberRequest"
+      },
+      "output": {
+        "target": "smithy.api#Unit"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "DELETE",
+          "uri": "/organizations/{organizationId}/users/{userId}",
+          "code": 200
+        },
+        "smithy.api#documentation": "Delete organization member"
+      }
+    },
+    "com.daytona.organizations#ListOrganizationInvitationsRequest": {
+      "type": "structure",
+      "members": {
+        "organizationId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Organization ID"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.daytona.organizations#ListOrganizationInvitationsResponseBodyList": {
+      "type": "list",
+      "member": {
+        "target": "com.daytona.organizations#OrganizationInvitation"
+      },
+      "traits": {}
+    },
+    "com.daytona.organizations#ListOrganizationInvitationsResponse": {
+      "type": "structure",
+      "members": {
+        "body": {
+          "target": "com.daytona.organizations#ListOrganizationInvitationsResponseBodyList",
+          "traits": {
+            "com.distilled.openapi#rawResponse": {},
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
+      }
+    },
+    "com.daytona.organizations#ListOrganizationInvitations": {
+      "type": "operation",
+      "input": {
+        "target": "com.daytona.organizations#ListOrganizationInvitationsRequest"
+      },
+      "output": {
+        "target": "com.daytona.organizations#ListOrganizationInvitationsResponse"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/organizations/{organizationId}/invitations",
+          "code": 200
+        },
+        "smithy.api#documentation": "List pending organization invitations"
+      }
+    },
+    "com.daytona.organizations#CreateOrganizationInvitationRequestRole": {
+      "type": "enum",
+      "members": {
+        "OWNER": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "owner"
+          }
+        },
+        "MEMBER": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "member"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Organization member role for the invitee"
+      }
+    },
+    "com.daytona.organizations#CreateOrganizationInvitationRequestAssignedRoleIdsList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {
+        "smithy.api#documentation": "Array of assigned role IDs for the invitee"
+      }
+    },
+    "com.daytona.organizations#CreateOrganizationInvitationRequest": {
+      "type": "structure",
+      "members": {
+        "organizationId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Organization ID"
+          }
+        },
+        "email": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Email address of the invitee",
+            "smithy.api#required": {}
+          }
+        },
+        "role": {
+          "target": "com.daytona.organizations#CreateOrganizationInvitationRequestRole",
+          "traits": {
+            "smithy.api#documentation": "Organization member role for the invitee",
+            "smithy.api#required": {}
+          }
+        },
+        "assignedRoleIds": {
+          "target": "com.daytona.organizations#CreateOrganizationInvitationRequestAssignedRoleIdsList",
+          "traits": {
+            "smithy.api#documentation": "Array of assigned role IDs for the invitee",
+            "smithy.api#required": {}
+          }
+        },
+        "expiresAt": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Expiration date of the invitation"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.daytona.organizations#CreateOrganizationInvitation": {
+      "type": "operation",
+      "input": {
+        "target": "com.daytona.organizations#CreateOrganizationInvitationRequest"
+      },
+      "output": {
+        "target": "com.daytona.organizations#OrganizationInvitation"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/organizations/{organizationId}/invitations",
+          "code": 200
+        },
+        "smithy.api#documentation": "Create organization invitation"
+      }
+    },
+    "com.daytona.organizations#UpdateOrganizationInvitationRequestRole": {
+      "type": "enum",
+      "members": {
+        "OWNER": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "owner"
+          }
+        },
+        "MEMBER": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "member"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Organization member role"
+      }
+    },
+    "com.daytona.organizations#UpdateOrganizationInvitationRequestAssignedRoleIdsList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {
+        "smithy.api#documentation": "Array of role IDs"
+      }
+    },
+    "com.daytona.organizations#UpdateOrganizationInvitationRequest": {
+      "type": "structure",
+      "members": {
+        "organizationId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Organization ID"
+          }
+        },
+        "invitationId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Invitation ID"
+          }
+        },
+        "role": {
+          "target": "com.daytona.organizations#UpdateOrganizationInvitationRequestRole",
+          "traits": {
+            "smithy.api#documentation": "Organization member role",
+            "smithy.api#required": {}
+          }
+        },
+        "assignedRoleIds": {
+          "target": "com.daytona.organizations#UpdateOrganizationInvitationRequestAssignedRoleIdsList",
+          "traits": {
+            "smithy.api#documentation": "Array of role IDs",
+            "smithy.api#required": {}
+          }
+        },
+        "expiresAt": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Expiration date of the invitation"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.daytona.organizations#UpdateOrganizationInvitation": {
+      "type": "operation",
+      "input": {
+        "target": "com.daytona.organizations#UpdateOrganizationInvitationRequest"
+      },
+      "output": {
+        "target": "com.daytona.organizations#OrganizationInvitation"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "PUT",
+          "uri": "/organizations/{organizationId}/invitations/{invitationId}",
+          "code": 200
+        },
+        "smithy.api#documentation": "Update organization invitation"
+      }
+    },
+    "com.daytona.organizations#CancelOrganizationInvitationRequest": {
+      "type": "structure",
+      "members": {
+        "organizationId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Organization ID"
+          }
+        },
+        "invitationId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Invitation ID"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.daytona.organizations#CancelOrganizationInvitation": {
+      "type": "operation",
+      "input": {
+        "target": "com.daytona.organizations#CancelOrganizationInvitationRequest"
+      },
+      "output": {
+        "target": "smithy.api#Unit"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/organizations/{organizationId}/invitations/{invitationId}/cancel",
+          "code": 200
+        },
+        "smithy.api#documentation": "Cancel organization invitation"
+      }
+    },
+    "com.daytona.organizations#ListAvailableRegionsRequest": {
+      "type": "structure",
+      "members": {
+        "xDaytonaOrganizationID": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "X-Daytona-Organization-ID",
+            "smithy.api#documentation": "Use with JWT to specify the organization ID"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.daytona.organizations#Region": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Region ID",
+            "smithy.api#required": {}
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Region name",
+            "smithy.api#required": {}
+          }
+        },
+        "organizationId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Organization ID",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "regionType": {
+          "target": "com.daytona.organizations#RegionType",
+          "traits": {
+            "smithy.api#documentation": "The type of the region",
+            "smithy.api#required": {}
+          }
+        },
+        "createdAt": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Creation timestamp",
+            "smithy.api#required": {}
+          }
+        },
+        "updatedAt": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Last update timestamp",
+            "smithy.api#required": {}
+          }
+        },
+        "proxyUrl": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Proxy URL for the region",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "sshGatewayUrl": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "SSH Gateway URL for the region",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "snapshotManagerUrl": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Snapshot Manager URL for the region",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "otelEndpoint": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "OTel collector endpoint for sandboxes created in this region. When set, sandbox OTel data is sent to this endpoint instead of the Daytona-hosted collector and will not be available in the Daytona analytics API or dashboard.",
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.daytona.organizations#RegionType": {
+      "type": "enum",
+      "members": {
+        "SHARED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "shared"
+          }
+        },
+        "DEDICATED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "dedicated"
+          }
+        },
+        "CUSTOM": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "custom"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The type of the region"
+      }
+    },
+    "com.daytona.organizations#ListAvailableRegionsResponseBodyList": {
+      "type": "list",
+      "member": {
+        "target": "com.daytona.organizations#Region"
+      },
+      "traits": {}
+    },
+    "com.daytona.organizations#ListAvailableRegionsResponse": {
+      "type": "structure",
+      "members": {
+        "body": {
+          "target": "com.daytona.organizations#ListAvailableRegionsResponseBodyList",
+          "traits": {
+            "com.distilled.openapi#rawResponse": {},
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
+      }
+    },
+    "com.daytona.organizations#ListAvailableRegions": {
+      "type": "operation",
+      "input": {
+        "target": "com.daytona.organizations#ListAvailableRegionsRequest"
+      },
+      "output": {
+        "target": "com.daytona.organizations#ListAvailableRegionsResponse"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/regions",
+          "code": 200
+        },
+        "smithy.api#documentation": "List all available regions for the organization"
+      }
+    },
+    "com.daytona.organizations#CreateRegionRequest": {
+      "type": "structure",
+      "members": {
+        "xDaytonaOrganizationID": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "X-Daytona-Organization-ID",
+            "smithy.api#documentation": "Use with JWT to specify the organization ID"
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Region name",
+            "smithy.api#required": {}
+          }
+        },
+        "proxyUrl": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Proxy URL for the region",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "sshGatewayUrl": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "SSH Gateway URL for the region",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "snapshotManagerUrl": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Snapshot Manager URL for the region",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "otelEndpoint": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "OTel collector endpoint for sandboxes created in this region. When set, sandbox OTel data is sent to this endpoint instead of the Daytona-hosted collector and will not be available in the Daytona analytics API or dashboard.",
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.daytona.organizations#CreateRegionResponse": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "ID of the created region",
+            "smithy.api#required": {}
+          }
+        },
+        "proxyApiKey": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Proxy API key for the region",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "sshGatewayApiKey": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "SSH Gateway API key for the region",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "snapshotManagerUsername": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Snapshot Manager username for the region",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "snapshotManagerPassword": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Snapshot Manager password for the region",
+            "com.distilled.openapi#nullable": {},
+            "smithy.api#sensitive": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.daytona.organizations#CreateRegion": {
+      "type": "operation",
+      "input": {
+        "target": "com.daytona.organizations#CreateRegionRequest"
+      },
+      "output": {
+        "target": "com.daytona.organizations#CreateRegionResponse"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/regions",
+          "code": 200
+        },
+        "smithy.api#documentation": "Create a new region"
+      }
+    },
+    "com.daytona.organizations#GetRegionRequest": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Region ID"
+          }
+        },
+        "xDaytonaOrganizationID": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "X-Daytona-Organization-ID",
+            "smithy.api#documentation": "Use with JWT to specify the organization ID"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.daytona.organizations#GetRegion": {
+      "type": "operation",
+      "input": {
+        "target": "com.daytona.organizations#GetRegionRequest"
+      },
+      "output": {
+        "target": "com.daytona.organizations#Region"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/regions/{id}",
+          "code": 200
+        },
+        "smithy.api#documentation": "Get region by ID"
+      }
+    },
+    "com.daytona.organizations#UpdateRegionRequest": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Region ID"
+          }
+        },
+        "xDaytonaOrganizationID": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "X-Daytona-Organization-ID",
+            "smithy.api#documentation": "Use with JWT to specify the organization ID"
+          }
+        },
+        "proxyUrl": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Proxy URL for the region",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "sshGatewayUrl": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "SSH Gateway URL for the region",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "snapshotManagerUrl": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Snapshot Manager URL for the region",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "otelEndpoint": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "OTel collector endpoint for sandboxes created in this region. When set, sandbox OTel data is sent to this endpoint instead of the Daytona-hosted collector and will not be available in the Daytona analytics API or dashboard.",
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.daytona.organizations#UpdateRegion": {
+      "type": "operation",
+      "input": {
+        "target": "com.daytona.organizations#UpdateRegionRequest"
+      },
+      "output": {
+        "target": "smithy.api#Unit"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "PATCH",
+          "uri": "/regions/{id}",
+          "code": 200
+        },
+        "smithy.api#documentation": "Update region configuration"
+      }
+    },
+    "com.daytona.organizations#DeleteRegionRequest": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Region ID"
+          }
+        },
+        "xDaytonaOrganizationID": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "X-Daytona-Organization-ID",
+            "smithy.api#documentation": "Use with JWT to specify the organization ID"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.daytona.organizations#DeleteRegion": {
+      "type": "operation",
+      "input": {
+        "target": "com.daytona.organizations#DeleteRegionRequest"
+      },
+      "output": {
+        "target": "smithy.api#Unit"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "DELETE",
+          "uri": "/regions/{id}",
+          "code": 200
+        },
+        "smithy.api#documentation": "Delete a region"
+      }
+    },
+    "com.daytona.organizations#RegenerateProxyApiKeyRequest": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Region ID"
+          }
+        },
+        "xDaytonaOrganizationID": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "X-Daytona-Organization-ID",
+            "smithy.api#documentation": "Use with JWT to specify the organization ID"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.daytona.organizations#RegenerateApiKeyResponse": {
+      "type": "structure",
+      "members": {
+        "apiKey": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The newly generated API key",
+            "smithy.api#required": {},
+            "smithy.api#sensitive": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.daytona.organizations#RegenerateProxyApiKey": {
+      "type": "operation",
+      "input": {
+        "target": "com.daytona.organizations#RegenerateProxyApiKeyRequest"
+      },
+      "output": {
+        "target": "com.daytona.organizations#RegenerateApiKeyResponse"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/regions/{id}/regenerate-proxy-api-key",
+          "code": 200
+        },
+        "smithy.api#documentation": "Regenerate proxy API key for a region"
+      }
+    },
+    "com.daytona.organizations#RegenerateSshGatewayApiKeyRequest": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Region ID"
+          }
+        },
+        "xDaytonaOrganizationID": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "X-Daytona-Organization-ID",
+            "smithy.api#documentation": "Use with JWT to specify the organization ID"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.daytona.organizations#RegenerateSshGatewayApiKey": {
+      "type": "operation",
+      "input": {
+        "target": "com.daytona.organizations#RegenerateSshGatewayApiKeyRequest"
+      },
+      "output": {
+        "target": "com.daytona.organizations#RegenerateApiKeyResponse"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/regions/{id}/regenerate-ssh-gateway-api-key",
+          "code": 200
+        },
+        "smithy.api#documentation": "Regenerate SSH gateway API key for a region"
+      }
+    },
+    "com.daytona.organizations#RegenerateSnapshotManagerCredentialsRequest": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Region ID"
+          }
+        },
+        "xDaytonaOrganizationID": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "X-Daytona-Organization-ID",
+            "smithy.api#documentation": "Use with JWT to specify the organization ID"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.daytona.organizations#SnapshotManagerCredentials": {
+      "type": "structure",
+      "members": {
+        "username": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Snapshot Manager username for the region",
+            "smithy.api#required": {}
+          }
+        },
+        "password": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Snapshot Manager password for the region",
+            "smithy.api#required": {},
+            "smithy.api#sensitive": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.daytona.organizations#RegenerateSnapshotManagerCredentials": {
+      "type": "operation",
+      "input": {
+        "target": "com.daytona.organizations#RegenerateSnapshotManagerCredentialsRequest"
+      },
+      "output": {
+        "target": "com.daytona.organizations#SnapshotManagerCredentials"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/regions/{id}/regenerate-snapshot-manager-credentials",
+          "code": 200
+        },
+        "smithy.api#documentation": "Regenerate snapshot manager credentials for a region"
+      }
+    },
+    "com.daytona.organizations#WorkosAdminPortalIntent": {
+      "type": "enum",
+      "members": {
+        "SSO": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "sso"
+          }
+        },
+        "DSYNC": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "dsync"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Which setup flow to open: sso for a single sign-on connection, dsync for SCIM directory sync"
+      }
+    },
+    "com.daytona.organizations#GenerateWorkosAdminPortalLinkRequest": {
+      "type": "structure",
+      "members": {
+        "organizationId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Organization ID"
+          }
+        },
+        "intent": {
+          "target": "com.daytona.organizations#WorkosAdminPortalIntent",
+          "traits": {
+            "smithy.api#documentation": "Which setup flow to open: sso for a single sign-on connection, dsync for SCIM directory sync",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.daytona.organizations#WorkosAdminPortalLink": {
+      "type": "structure",
+      "members": {
+        "link": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Single-purpose WorkOS Admin Portal URL. Expires five minutes after issuance; open it immediately.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.daytona.organizations#GenerateWorkosAdminPortalLink": {
+      "type": "operation",
+      "input": {
+        "target": "com.daytona.organizations#GenerateWorkosAdminPortalLinkRequest"
+      },
+      "output": {
+        "target": "com.daytona.organizations#WorkosAdminPortalLink"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/organizations/{organizationId}/identity-providers/workos-admin-portal-link",
+          "code": 200
+        },
+        "smithy.api#documentation": "Generate a WorkOS Admin Portal link for configuring SSO or SCIM directory sync"
+      }
+    },
+    "com.daytona.organizations#ListOrganizationIdentityProvidersRequest": {
+      "type": "structure",
+      "members": {
+        "organizationId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Organization ID"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.daytona.organizations#IdentityProvider": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Unique identifier",
+            "smithy.api#required": {}
+          }
+        },
+        "organizationId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Organization ID",
+            "smithy.api#required": {}
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Display name for the identity provider",
+            "smithy.api#required": {}
+          }
+        },
+        "oidcConfig": {
+          "target": "com.daytona.organizations#OidcIdPConfigResponse",
+          "traits": {
+            "smithy.api#documentation": "OIDC configuration (secret redacted)",
+            "smithy.api#required": {}
+          }
+        },
+        "emailDomains": {
+          "target": "com.daytona.organizations#IdentityProviderEmailDomainsList",
+          "traits": {
+            "smithy.api#documentation": "Email domains used for IdP discovery on the login form. May be empty when `allowAnyDomain` is true.",
+            "smithy.api#required": {}
+          }
+        },
+        "allowAnyDomain": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Whether the IdP accepts any email domain returned by the external provider",
+            "smithy.api#required": {}
+          }
+        },
+        "trustEmailVerified": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Whether the `email_verified` claim check is skipped on SSO logins through this identity provider",
+            "smithy.api#required": {}
+          }
+        },
+        "defaultAssignedRoleIds": {
+          "target": "com.daytona.organizations#IdentityProviderDefaultAssignedRoleIdsList",
+          "traits": {
+            "smithy.api#documentation": "Organization role IDs assigned to users who join via SSO through this identity provider",
+            "smithy.api#required": {}
+          }
+        },
+        "enabled": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Whether the identity provider is enabled",
+            "smithy.api#required": {}
+          }
+        },
+        "createdAt": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Creation timestamp",
+            "smithy.api#required": {}
+          }
+        },
+        "updatedAt": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Last update timestamp",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.daytona.organizations#OidcIdPConfigResponse": {
+      "type": "structure",
+      "members": {
+        "issuerUrl": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "OIDC Issuer URL",
+            "smithy.api#required": {}
+          }
+        },
+        "clientId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "OAuth Client ID",
+            "smithy.api#required": {}
+          }
+        },
+        "scope": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "OAuth scopes"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.daytona.organizations#IdentityProviderEmailDomainsList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {
+        "smithy.api#documentation": "Email domains used for IdP discovery on the login form. May be empty when `allowAnyDomain` is true."
+      }
+    },
+    "com.daytona.organizations#IdentityProviderDefaultAssignedRoleIdsList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {
+        "smithy.api#documentation": "Organization role IDs assigned to users who join via SSO through this identity provider"
+      }
+    },
+    "com.daytona.organizations#ListOrganizationIdentityProvidersResponseBodyList": {
+      "type": "list",
+      "member": {
+        "target": "com.daytona.organizations#IdentityProvider"
+      },
+      "traits": {}
+    },
+    "com.daytona.organizations#ListOrganizationIdentityProvidersResponse": {
+      "type": "structure",
+      "members": {
+        "body": {
+          "target": "com.daytona.organizations#ListOrganizationIdentityProvidersResponseBodyList",
+          "traits": {
+            "com.distilled.openapi#rawResponse": {},
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
+      }
+    },
+    "com.daytona.organizations#ListOrganizationIdentityProviders": {
+      "type": "operation",
+      "input": {
+        "target": "com.daytona.organizations#ListOrganizationIdentityProvidersRequest"
+      },
+      "output": {
+        "target": "com.daytona.organizations#ListOrganizationIdentityProvidersResponse"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/organizations/{organizationId}/identity-providers",
+          "code": 200
+        },
+        "smithy.api#documentation": "List organization identity providers"
+      }
+    },
+    "com.daytona.organizations#OidcIdPConfig": {
+      "type": "structure",
+      "members": {
+        "issuerUrl": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "OIDC Issuer URL",
+            "smithy.api#required": {}
+          }
+        },
+        "clientId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "OAuth Client ID",
+            "smithy.api#required": {}
+          }
+        },
+        "clientSecret": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "OAuth Client Secret",
+            "smithy.api#required": {},
+            "smithy.api#sensitive": {}
+          }
+        },
+        "scope": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "OAuth scopes"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.daytona.organizations#CreateOrganizationIdentityProviderRequestEmailDomainsList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {
+        "smithy.api#documentation": "Email domains used for IdP discovery on the login form and to validate the user identity returned by the IdP. Required and must be non-empty unless `allowAnyDomain` is true."
+      }
+    },
+    "com.daytona.organizations#CreateOrganizationIdentityProviderRequestDefaultAssignedRoleIdsList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {
+        "smithy.api#documentation": "Organization role IDs assigned to users who join the organization via SSO through this identity provider. Roles must be global or belong to this organization. Empty (default) grants the lowest access: membership with no resource permissions."
+      }
+    },
+    "com.daytona.organizations#CreateOrganizationIdentityProviderRequest": {
+      "type": "structure",
+      "members": {
+        "organizationId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Organization ID"
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Display name for the identity provider",
+            "smithy.api#required": {}
+          }
+        },
+        "oidcConfig": {
+          "target": "com.daytona.organizations#OidcIdPConfig",
+          "traits": {
+            "smithy.api#documentation": "OIDC configuration",
+            "smithy.api#required": {}
+          }
+        },
+        "emailDomains": {
+          "target": "com.daytona.organizations#CreateOrganizationIdentityProviderRequestEmailDomainsList",
+          "traits": {
+            "smithy.api#documentation": "Email domains used for IdP discovery on the login form and to validate the user identity returned by the IdP. Required and must be non-empty unless `allowAnyDomain` is true.",
+            "smithy.api#required": {}
+          }
+        },
+        "allowAnyDomain": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "When true, the IdP accepts any email domain returned by the external provider. Disables the post-callback domain check and allows `emailDomains` to be empty. Only enable for trusted IdPs that strictly control which users can authenticate."
+          }
+        },
+        "trustEmailVerified": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "When true, skip the `email_verified` claim check on SSO logins through this identity provider. Only intended for providers that never emit the claim (e.g. Microsoft Entra ID). Risky: only enable if the IdP strictly controls its users' email addresses."
+          }
+        },
+        "defaultAssignedRoleIds": {
+          "target": "com.daytona.organizations#CreateOrganizationIdentityProviderRequestDefaultAssignedRoleIdsList",
+          "traits": {
+            "smithy.api#documentation": "Organization role IDs assigned to users who join the organization via SSO through this identity provider. Roles must be global or belong to this organization. Empty (default) grants the lowest access: membership with no resource permissions."
+          }
+        },
+        "enabled": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Whether the identity provider is enabled"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.daytona.organizations#CreateOrganizationIdentityProvider": {
+      "type": "operation",
+      "input": {
+        "target": "com.daytona.organizations#CreateOrganizationIdentityProviderRequest"
+      },
+      "output": {
+        "target": "com.daytona.organizations#IdentityProvider"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/organizations/{organizationId}/identity-providers",
+          "code": 200
+        },
+        "smithy.api#documentation": "Create organization identity provider"
+      }
+    },
+    "com.daytona.organizations#GetOrganizationIdentityProviderRequest": {
+      "type": "structure",
+      "members": {
+        "organizationId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Organization ID"
+          }
+        },
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Identity provider ID"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.daytona.organizations#GetOrganizationIdentityProvider": {
+      "type": "operation",
+      "input": {
+        "target": "com.daytona.organizations#GetOrganizationIdentityProviderRequest"
+      },
+      "output": {
+        "target": "com.daytona.organizations#IdentityProvider"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/organizations/{organizationId}/identity-providers/{id}",
+          "code": 200
+        },
+        "smithy.api#documentation": "Get organization identity provider"
+      }
+    },
+    "com.daytona.organizations#UpdateOidcIdPConfig": {
+      "type": "structure",
+      "members": {
+        "issuerUrl": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "OIDC Issuer URL"
+          }
+        },
+        "clientId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "OAuth Client ID"
+          }
+        },
+        "clientSecret": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "OAuth Client Secret",
+            "smithy.api#sensitive": {}
+          }
+        },
+        "scope": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "OAuth scopes"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.daytona.organizations#UpdateOrganizationIdentityProviderRequestEmailDomainsList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {
+        "smithy.api#documentation": "Email domains used for IdP discovery on the login form and to validate the user identity returned by the IdP. If provided and `allowAnyDomain` is not being set to true, must contain at least one domain. To clear domains in the same request, set `allowAnyDomain: true` and `emailDomains: []`."
+      }
+    },
+    "com.daytona.organizations#UpdateOrganizationIdentityProviderRequestDefaultAssignedRoleIdsList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {
+        "smithy.api#documentation": "Organization role IDs assigned to users who join the organization via SSO through this identity provider. Roles must be global or belong to this organization. Empty grants the lowest access: membership with no resource permissions."
+      }
+    },
+    "com.daytona.organizations#UpdateOrganizationIdentityProviderRequest": {
+      "type": "structure",
+      "members": {
+        "organizationId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Organization ID"
+          }
+        },
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Identity provider ID"
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Display name for the identity provider"
+          }
+        },
+        "oidcConfig": {
+          "target": "com.daytona.organizations#UpdateOidcIdPConfig",
+          "traits": {
+            "smithy.api#documentation": "OIDC configuration"
+          }
+        },
+        "emailDomains": {
+          "target": "com.daytona.organizations#UpdateOrganizationIdentityProviderRequestEmailDomainsList",
+          "traits": {
+            "smithy.api#documentation": "Email domains used for IdP discovery on the login form and to validate the user identity returned by the IdP. If provided and `allowAnyDomain` is not being set to true, must contain at least one domain. To clear domains in the same request, set `allowAnyDomain: true` and `emailDomains: []`."
+          }
+        },
+        "allowAnyDomain": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "When true, the IdP accepts any email domain returned by the external provider. Disables the post-callback domain check and allows `emailDomains` to be empty. Only enable for trusted IdPs that strictly control which users can authenticate."
+          }
+        },
+        "trustEmailVerified": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "When true, skip the `email_verified` claim check on SSO logins through this identity provider. Only intended for providers that never emit the claim (e.g. Microsoft Entra ID). Risky: only enable if the IdP strictly controls its users' email addresses."
+          }
+        },
+        "defaultAssignedRoleIds": {
+          "target": "com.daytona.organizations#UpdateOrganizationIdentityProviderRequestDefaultAssignedRoleIdsList",
+          "traits": {
+            "smithy.api#documentation": "Organization role IDs assigned to users who join the organization via SSO through this identity provider. Roles must be global or belong to this organization. Empty grants the lowest access: membership with no resource permissions."
+          }
+        },
+        "enabled": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Whether the identity provider is enabled"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.daytona.organizations#UpdateOrganizationIdentityProvider": {
+      "type": "operation",
+      "input": {
+        "target": "com.daytona.organizations#UpdateOrganizationIdentityProviderRequest"
+      },
+      "output": {
+        "target": "com.daytona.organizations#IdentityProvider"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "PATCH",
+          "uri": "/organizations/{organizationId}/identity-providers/{id}",
+          "code": 200
+        },
+        "smithy.api#documentation": "Update organization identity provider"
+      }
+    },
+    "com.daytona.organizations#DeleteOrganizationIdentityProviderRequest": {
+      "type": "structure",
+      "members": {
+        "organizationId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Organization ID"
+          }
+        },
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Identity provider ID"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.daytona.organizations#DeleteOrganizationIdentityProvider": {
+      "type": "operation",
+      "input": {
+        "target": "com.daytona.organizations#DeleteOrganizationIdentityProviderRequest"
+      },
+      "output": {
+        "target": "smithy.api#Unit"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "DELETE",
+          "uri": "/organizations/{organizationId}/identity-providers/{id}",
+          "code": 200
+        },
+        "smithy.api#documentation": "Delete organization identity provider"
+      }
+    },
+    "com.daytona.organizations#TestOrganizationIdentityProviderConnectionRequest": {
+      "type": "structure",
+      "members": {
+        "organizationId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Organization ID"
+          }
+        },
+        "issuerUrl": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "OIDC Issuer URL to test",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.daytona.organizations#TestIdentityProviderConnectionResponse": {
+      "type": "structure",
+      "members": {
+        "success": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Whether the connection test was successful",
+            "smithy.api#required": {}
+          }
+        },
+        "issuer": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The discovered issuer from the OIDC configuration"
+          }
+        },
+        "error": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Error message if the connection test failed"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.daytona.organizations#TestOrganizationIdentityProviderConnection": {
+      "type": "operation",
+      "input": {
+        "target": "com.daytona.organizations#TestOrganizationIdentityProviderConnectionRequest"
+      },
+      "output": {
+        "target": "com.daytona.organizations#TestIdentityProviderConnectionResponse"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/organizations/{organizationId}/identity-providers/test-connection",
+          "code": 200
+        },
+        "smithy.api#documentation": "Test OIDC identity provider connection"
+      }
+    },
+    "com.daytona.organizations#GetGpuCapacityRequest": {
+      "type": "structure",
+      "members": {
+        "organizationId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Organization ID"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.daytona.organizations#GpuCapacityResponse": {
+      "type": "structure",
+      "members": {
+        "observedAt": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Time at which this capacity snapshot was calculated. Responses may be cached for up to five seconds.",
+            "smithy.api#required": {}
+          }
+        },
+        "capacity": {
+          "target": "com.daytona.organizations#GpuCapacityResponseCapacityList",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.daytona.organizations#GpuCapacity": {
+      "type": "structure",
+      "members": {
+        "gpuType": {
+          "target": "com.daytona.organizations#GpuType",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "availableOnDemand": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "GPU units available for on-demand placement across schedulable runners in the shared US fleet, including capacity occupied by spot sandboxes that are immediately reclaimable.",
+            "smithy.api#required": {}
+          }
+        },
+        "availableSpot": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "GPU units currently free for spot placement across schedulable runners in the shared US fleet.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.daytona.organizations#GpuCapacityResponseCapacityList": {
+      "type": "list",
+      "member": {
+        "target": "com.daytona.organizations#GpuCapacity"
+      },
+      "traits": {}
+    },
+    "com.daytona.organizations#GetGpuCapacity": {
+      "type": "operation",
+      "input": {
+        "target": "com.daytona.organizations#GetGpuCapacityRequest"
+      },
+      "output": {
+        "target": "com.daytona.organizations#GpuCapacityResponse"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/organizations/{organizationId}/gpu-capacity",
+          "code": 200
+        },
+        "smithy.api#documentation": "Get shared US GPU capacity\n\nReturns a short-lived observation of the shared US GPU fleet. Organization quotas and entitlements are not applied. Capacity can change immediately and sandbox creation remains authoritative."
+      }
+    },
+    "com.daytona.organizations#Organizations": {
+      "type": "service",
+      "version": "1.0",
+      "operations": [
+        {
+          "target": "com.daytona.organizations#ListOrganizationInvitationsForAuthenticatedUser"
+        },
+        {
+          "target": "com.daytona.organizations#GetOrganizationInvitationsCountForAuthenticatedUser"
+        },
+        {
+          "target": "com.daytona.organizations#AcceptOrganizationInvitation"
+        },
+        {
+          "target": "com.daytona.organizations#DeclineOrganizationInvitation"
+        },
+        {
+          "target": "com.daytona.organizations#ListOrganizations"
+        },
+        {
+          "target": "com.daytona.organizations#CreateOrganization"
+        },
+        {
+          "target": "com.daytona.organizations#SetOrganizationDefaultRegion"
+        },
+        {
+          "target": "com.daytona.organizations#GetOrganization"
+        },
+        {
+          "target": "com.daytona.organizations#DeleteOrganization"
+        },
+        {
+          "target": "com.daytona.organizations#GetOrganizationUsageOverview"
+        },
+        {
+          "target": "com.daytona.organizations#ListAvailableSandboxClasses"
+        },
+        {
+          "target": "com.daytona.organizations#LeaveOrganization"
+        },
+        {
+          "target": "com.daytona.organizations#GetOrganizationOtelConfigBySandboxAuthToken"
+        },
+        {
+          "target": "com.daytona.organizations#GetSandboxIdentityBySandboxAuthToken"
+        },
+        {
+          "target": "com.daytona.organizations#GetOrganizationOtelConfig"
+        },
+        {
+          "target": "com.daytona.organizations#UpdateOrganizationOtelConfig"
+        },
+        {
+          "target": "com.daytona.organizations#DeleteOrganizationOtelConfig"
+        },
+        {
+          "target": "com.daytona.organizations#UpdateExperimentalConfig"
+        },
+        {
+          "target": "com.daytona.organizations#ListOrganizationRoles"
+        },
+        {
+          "target": "com.daytona.organizations#CreateOrganizationRole"
+        },
+        {
+          "target": "com.daytona.organizations#UpdateOrganizationRole"
+        },
+        {
+          "target": "com.daytona.organizations#DeleteOrganizationRole"
+        },
+        {
+          "target": "com.daytona.organizations#ListOrganizationMembers"
+        },
+        {
+          "target": "com.daytona.organizations#UpdateAccessForOrganizationMember"
+        },
+        {
+          "target": "com.daytona.organizations#DeleteOrganizationMember"
+        },
+        {
+          "target": "com.daytona.organizations#ListOrganizationInvitations"
+        },
+        {
+          "target": "com.daytona.organizations#CreateOrganizationInvitation"
+        },
+        {
+          "target": "com.daytona.organizations#UpdateOrganizationInvitation"
+        },
+        {
+          "target": "com.daytona.organizations#CancelOrganizationInvitation"
+        },
+        {
+          "target": "com.daytona.organizations#ListAvailableRegions"
+        },
+        {
+          "target": "com.daytona.organizations#CreateRegion"
+        },
+        {
+          "target": "com.daytona.organizations#GetRegion"
+        },
+        {
+          "target": "com.daytona.organizations#UpdateRegion"
+        },
+        {
+          "target": "com.daytona.organizations#DeleteRegion"
+        },
+        {
+          "target": "com.daytona.organizations#RegenerateProxyApiKey"
+        },
+        {
+          "target": "com.daytona.organizations#RegenerateSshGatewayApiKey"
+        },
+        {
+          "target": "com.daytona.organizations#RegenerateSnapshotManagerCredentials"
+        },
+        {
+          "target": "com.daytona.organizations#GenerateWorkosAdminPortalLink"
+        },
+        {
+          "target": "com.daytona.organizations#ListOrganizationIdentityProviders"
+        },
+        {
+          "target": "com.daytona.organizations#CreateOrganizationIdentityProvider"
+        },
+        {
+          "target": "com.daytona.organizations#GetOrganizationIdentityProvider"
+        },
+        {
+          "target": "com.daytona.organizations#UpdateOrganizationIdentityProvider"
+        },
+        {
+          "target": "com.daytona.organizations#DeleteOrganizationIdentityProvider"
+        },
+        {
+          "target": "com.daytona.organizations#TestOrganizationIdentityProviderConnection"
+        },
+        {
+          "target": "com.daytona.organizations#GetGpuCapacity"
+        }
+      ],
+      "traits": {
+        "smithy.api#title": "Daytona",
+        "smithy.api#documentation": "Daytona AI platform API Docs"
+      }
+    }
+  }
+}

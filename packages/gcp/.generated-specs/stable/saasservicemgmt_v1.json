@@ -2962,6 +2962,9 @@
         },
         {
           "target": "com.gcp.saasservicemgmt_v1#Conflict"
+        },
+        {
+          "target": "com.gcp.saasservicemgmt_v1#SaasNotFound"
         }
       ],
       "traits": {
@@ -3203,6 +3206,9 @@
         },
         {
           "target": "com.gcp.saasservicemgmt_v1#Conflict"
+        },
+        {
+          "target": "com.gcp.saasservicemgmt_v1#SaasNotFound"
         }
       ],
       "traits": {
@@ -4247,6 +4253,9 @@
         },
         {
           "target": "com.gcp.saasservicemgmt_v1#Conflict"
+        },
+        {
+          "target": "com.gcp.saasservicemgmt_v1#SaasNotFound"
         }
       ],
       "traits": {
@@ -4451,6 +4460,9 @@
         },
         {
           "target": "com.gcp.saasservicemgmt_v1#Conflict"
+        },
+        {
+          "target": "com.gcp.saasservicemgmt_v1#SaasNotFound"
         }
       ],
       "traits": {
@@ -4522,6 +4534,9 @@
         },
         {
           "target": "com.gcp.saasservicemgmt_v1#Conflict"
+        },
+        {
+          "target": "com.gcp.saasservicemgmt_v1#BlueprintNotFound"
         }
       ],
       "traits": {
@@ -4699,6 +4714,9 @@
         },
         {
           "target": "com.gcp.saasservicemgmt_v1#Conflict"
+        },
+        {
+          "target": "com.gcp.saasservicemgmt_v1#BlueprintNotFound"
         }
       ],
       "traits": {
@@ -5083,6 +5101,40 @@
           "uri": "v1/{+parent}/rollouts"
         },
         "smithy.api#documentation": "Create a new rollout."
+      }
+    },
+    "com.gcp.saasservicemgmt_v1#BlueprintNotFound": {
+      "type": "structure",
+      "members": {},
+      "traits": {
+        "smithy.api#error": "client",
+        "smithy.api#httpError": 400,
+        "smithy.api#documentation": "The release's blueprint package image does not exist or is not readable (HTTP 400 INVALID_ARGUMENT: \"... failed to read for img path: ...\"). Push the blueprint image first.",
+        "com.gcp.protocols#errorMatchers": [
+          {
+            "status": 400,
+            "message": {
+              "includes": "failed to read for img path"
+            }
+          }
+        ]
+      }
+    },
+    "com.gcp.saasservicemgmt_v1#SaasNotFound": {
+      "type": "structure",
+      "members": {},
+      "traits": {
+        "smithy.api#error": "client",
+        "smithy.api#httpError": 400,
+        "smithy.api#documentation": "The referenced Saas does not exist or is not readable yet (HTTP 400 INVALID_ARGUMENT: \"cannot get UnitKind's Saas ...\"). Retry briefly right after creating the Saas.",
+        "com.gcp.protocols#errorMatchers": [
+          {
+            "status": 400,
+            "message": {
+              "matches": "cannot get \\w+'s Saas"
+            }
+          }
+        ]
       }
     }
   }

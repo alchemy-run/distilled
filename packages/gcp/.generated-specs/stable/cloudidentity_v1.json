@@ -3792,6 +3792,12 @@
         },
         {
           "target": "com.gcp.cloudidentity_v1#Conflict"
+        },
+        {
+          "target": "com.gcp.cloudidentity_v1#ServiceDisabled"
+        },
+        {
+          "target": "com.gcp.cloudidentity_v1#InsufficientScopes"
         }
       ],
       "traits": {
@@ -3835,6 +3841,12 @@
         },
         {
           "target": "com.gcp.cloudidentity_v1#Conflict"
+        },
+        {
+          "target": "com.gcp.cloudidentity_v1#ServiceDisabled"
+        },
+        {
+          "target": "com.gcp.cloudidentity_v1#InsufficientScopes"
         }
       ],
       "traits": {
@@ -3885,6 +3897,12 @@
         },
         {
           "target": "com.gcp.cloudidentity_v1#Forbidden"
+        },
+        {
+          "target": "com.gcp.cloudidentity_v1#ServiceDisabled"
+        },
+        {
+          "target": "com.gcp.cloudidentity_v1#InsufficientScopes"
         }
       ],
       "traits": {
@@ -3926,6 +3944,12 @@
         },
         {
           "target": "com.gcp.cloudidentity_v1#Forbidden"
+        },
+        {
+          "target": "com.gcp.cloudidentity_v1#ServiceDisabled"
+        },
+        {
+          "target": "com.gcp.cloudidentity_v1#InsufficientScopes"
         }
       ],
       "traits": {
@@ -3983,6 +4007,12 @@
         },
         {
           "target": "com.gcp.cloudidentity_v1#Conflict"
+        },
+        {
+          "target": "com.gcp.cloudidentity_v1#ServiceDisabled"
+        },
+        {
+          "target": "com.gcp.cloudidentity_v1#InsufficientScopes"
         }
       ],
       "traits": {
@@ -4026,6 +4056,12 @@
         },
         {
           "target": "com.gcp.cloudidentity_v1#Conflict"
+        },
+        {
+          "target": "com.gcp.cloudidentity_v1#ServiceDisabled"
+        },
+        {
+          "target": "com.gcp.cloudidentity_v1#InsufficientScopes"
         }
       ],
       "traits": {
@@ -4076,6 +4112,12 @@
         },
         {
           "target": "com.gcp.cloudidentity_v1#Conflict"
+        },
+        {
+          "target": "com.gcp.cloudidentity_v1#ServiceDisabled"
+        },
+        {
+          "target": "com.gcp.cloudidentity_v1#InsufficientScopes"
         }
       ],
       "traits": {
@@ -4118,6 +4160,12 @@
         },
         {
           "target": "com.gcp.cloudidentity_v1#Conflict"
+        },
+        {
+          "target": "com.gcp.cloudidentity_v1#ServiceDisabled"
+        },
+        {
+          "target": "com.gcp.cloudidentity_v1#InsufficientScopes"
         }
       ],
       "traits": {
@@ -4168,6 +4216,12 @@
         },
         {
           "target": "com.gcp.cloudidentity_v1#Forbidden"
+        },
+        {
+          "target": "com.gcp.cloudidentity_v1#ServiceDisabled"
+        },
+        {
+          "target": "com.gcp.cloudidentity_v1#InsufficientScopes"
         }
       ],
       "traits": {
@@ -4209,6 +4263,12 @@
         },
         {
           "target": "com.gcp.cloudidentity_v1#Forbidden"
+        },
+        {
+          "target": "com.gcp.cloudidentity_v1#ServiceDisabled"
+        },
+        {
+          "target": "com.gcp.cloudidentity_v1#InsufficientScopes"
         }
       ],
       "traits": {
@@ -4253,6 +4313,12 @@
         },
         {
           "target": "com.gcp.cloudidentity_v1#Forbidden"
+        },
+        {
+          "target": "com.gcp.cloudidentity_v1#ServiceDisabled"
+        },
+        {
+          "target": "com.gcp.cloudidentity_v1#InsufficientScopes"
         }
       ],
       "traits": {
@@ -4303,6 +4369,12 @@
         },
         {
           "target": "com.gcp.cloudidentity_v1#Conflict"
+        },
+        {
+          "target": "com.gcp.cloudidentity_v1#ServiceDisabled"
+        },
+        {
+          "target": "com.gcp.cloudidentity_v1#InsufficientScopes"
         }
       ],
       "traits": {
@@ -4352,6 +4424,12 @@
         },
         {
           "target": "com.gcp.cloudidentity_v1#Conflict"
+        },
+        {
+          "target": "com.gcp.cloudidentity_v1#ServiceDisabled"
+        },
+        {
+          "target": "com.gcp.cloudidentity_v1#InsufficientScopes"
         }
       ],
       "traits": {
@@ -4446,6 +4524,12 @@
         },
         {
           "target": "com.gcp.cloudidentity_v1#Forbidden"
+        },
+        {
+          "target": "com.gcp.cloudidentity_v1#ServiceDisabled"
+        },
+        {
+          "target": "com.gcp.cloudidentity_v1#InsufficientScopes"
         }
       ],
       "traits": {
@@ -4500,6 +4584,12 @@
         },
         {
           "target": "com.gcp.cloudidentity_v1#Conflict"
+        },
+        {
+          "target": "com.gcp.cloudidentity_v1#ServiceDisabled"
+        },
+        {
+          "target": "com.gcp.cloudidentity_v1#InsufficientScopes"
         }
       ],
       "traits": {
@@ -4550,6 +4640,12 @@
         },
         {
           "target": "com.gcp.cloudidentity_v1#Conflict"
+        },
+        {
+          "target": "com.gcp.cloudidentity_v1#ServiceDisabled"
+        },
+        {
+          "target": "com.gcp.cloudidentity_v1#InsufficientScopes"
         }
       ],
       "traits": {
@@ -4600,6 +4696,12 @@
         },
         {
           "target": "com.gcp.cloudidentity_v1#Conflict"
+        },
+        {
+          "target": "com.gcp.cloudidentity_v1#ServiceDisabled"
+        },
+        {
+          "target": "com.gcp.cloudidentity_v1#InsufficientScopes"
         }
       ],
       "traits": {
@@ -4644,6 +4746,12 @@
         },
         {
           "target": "com.gcp.cloudidentity_v1#Forbidden"
+        },
+        {
+          "target": "com.gcp.cloudidentity_v1#ServiceDisabled"
+        },
+        {
+          "target": "com.gcp.cloudidentity_v1#InsufficientScopes"
         }
       ],
       "traits": {
@@ -4694,6 +4802,12 @@
         },
         {
           "target": "com.gcp.cloudidentity_v1#Conflict"
+        },
+        {
+          "target": "com.gcp.cloudidentity_v1#ServiceDisabled"
+        },
+        {
+          "target": "com.gcp.cloudidentity_v1#InsufficientScopes"
         }
       ],
       "traits": {
@@ -4744,6 +4858,12 @@
         },
         {
           "target": "com.gcp.cloudidentity_v1#Conflict"
+        },
+        {
+          "target": "com.gcp.cloudidentity_v1#ServiceDisabled"
+        },
+        {
+          "target": "com.gcp.cloudidentity_v1#InsufficientScopes"
         }
       ],
       "traits": {
@@ -4816,6 +4936,12 @@
         },
         {
           "target": "com.gcp.cloudidentity_v1#Forbidden"
+        },
+        {
+          "target": "com.gcp.cloudidentity_v1#ServiceDisabled"
+        },
+        {
+          "target": "com.gcp.cloudidentity_v1#InsufficientScopes"
         }
       ],
       "traits": {
@@ -4870,6 +4996,12 @@
         },
         {
           "target": "com.gcp.cloudidentity_v1#Conflict"
+        },
+        {
+          "target": "com.gcp.cloudidentity_v1#ServiceDisabled"
+        },
+        {
+          "target": "com.gcp.cloudidentity_v1#InsufficientScopes"
         }
       ],
       "traits": {
@@ -4956,6 +5088,12 @@
         },
         {
           "target": "com.gcp.cloudidentity_v1#Forbidden"
+        },
+        {
+          "target": "com.gcp.cloudidentity_v1#ServiceDisabled"
+        },
+        {
+          "target": "com.gcp.cloudidentity_v1#InsufficientScopes"
         }
       ],
       "traits": {
@@ -5010,6 +5148,12 @@
         },
         {
           "target": "com.gcp.cloudidentity_v1#Conflict"
+        },
+        {
+          "target": "com.gcp.cloudidentity_v1#ServiceDisabled"
+        },
+        {
+          "target": "com.gcp.cloudidentity_v1#InsufficientScopes"
         }
       ],
       "traits": {
@@ -5075,6 +5219,12 @@
         },
         {
           "target": "com.gcp.cloudidentity_v1#Forbidden"
+        },
+        {
+          "target": "com.gcp.cloudidentity_v1#ServiceDisabled"
+        },
+        {
+          "target": "com.gcp.cloudidentity_v1#InsufficientScopes"
         }
       ],
       "traits": {
@@ -5123,6 +5273,12 @@
         },
         {
           "target": "com.gcp.cloudidentity_v1#Forbidden"
+        },
+        {
+          "target": "com.gcp.cloudidentity_v1#ServiceDisabled"
+        },
+        {
+          "target": "com.gcp.cloudidentity_v1#InsufficientScopes"
         }
       ],
       "traits": {
@@ -5187,6 +5343,12 @@
         },
         {
           "target": "com.gcp.cloudidentity_v1#Conflict"
+        },
+        {
+          "target": "com.gcp.cloudidentity_v1#ServiceDisabled"
+        },
+        {
+          "target": "com.gcp.cloudidentity_v1#InsufficientScopes"
         }
       ],
       "traits": {
@@ -5230,6 +5392,12 @@
         },
         {
           "target": "com.gcp.cloudidentity_v1#Conflict"
+        },
+        {
+          "target": "com.gcp.cloudidentity_v1#ServiceDisabled"
+        },
+        {
+          "target": "com.gcp.cloudidentity_v1#InsufficientScopes"
         }
       ],
       "traits": {
@@ -5273,6 +5441,12 @@
         },
         {
           "target": "com.gcp.cloudidentity_v1#Forbidden"
+        },
+        {
+          "target": "com.gcp.cloudidentity_v1#ServiceDisabled"
+        },
+        {
+          "target": "com.gcp.cloudidentity_v1#InsufficientScopes"
         }
       ],
       "traits": {
@@ -5310,6 +5484,12 @@
         },
         {
           "target": "com.gcp.cloudidentity_v1#Forbidden"
+        },
+        {
+          "target": "com.gcp.cloudidentity_v1#ServiceDisabled"
+        },
+        {
+          "target": "com.gcp.cloudidentity_v1#InsufficientScopes"
         }
       ],
       "traits": {
@@ -5367,6 +5547,12 @@
         },
         {
           "target": "com.gcp.cloudidentity_v1#Conflict"
+        },
+        {
+          "target": "com.gcp.cloudidentity_v1#ServiceDisabled"
+        },
+        {
+          "target": "com.gcp.cloudidentity_v1#InsufficientScopes"
         }
       ],
       "traits": {
@@ -5447,6 +5633,12 @@
         },
         {
           "target": "com.gcp.cloudidentity_v1#Forbidden"
+        },
+        {
+          "target": "com.gcp.cloudidentity_v1#ServiceDisabled"
+        },
+        {
+          "target": "com.gcp.cloudidentity_v1#InsufficientScopes"
         }
       ],
       "traits": {
@@ -5523,6 +5715,12 @@
         },
         {
           "target": "com.gcp.cloudidentity_v1#Conflict"
+        },
+        {
+          "target": "com.gcp.cloudidentity_v1#ServiceDisabled"
+        },
+        {
+          "target": "com.gcp.cloudidentity_v1#InsufficientScopes"
         }
       ],
       "traits": {
@@ -5603,6 +5801,12 @@
         },
         {
           "target": "com.gcp.cloudidentity_v1#Forbidden"
+        },
+        {
+          "target": "com.gcp.cloudidentity_v1#ServiceDisabled"
+        },
+        {
+          "target": "com.gcp.cloudidentity_v1#InsufficientScopes"
         }
       ],
       "traits": {
@@ -5664,6 +5868,12 @@
         },
         {
           "target": "com.gcp.cloudidentity_v1#Conflict"
+        },
+        {
+          "target": "com.gcp.cloudidentity_v1#ServiceDisabled"
+        },
+        {
+          "target": "com.gcp.cloudidentity_v1#InsufficientScopes"
         }
       ],
       "traits": {
@@ -5708,6 +5918,12 @@
         },
         {
           "target": "com.gcp.cloudidentity_v1#Forbidden"
+        },
+        {
+          "target": "com.gcp.cloudidentity_v1#ServiceDisabled"
+        },
+        {
+          "target": "com.gcp.cloudidentity_v1#InsufficientScopes"
         }
       ],
       "traits": {
@@ -5751,6 +5967,12 @@
         },
         {
           "target": "com.gcp.cloudidentity_v1#Conflict"
+        },
+        {
+          "target": "com.gcp.cloudidentity_v1#ServiceDisabled"
+        },
+        {
+          "target": "com.gcp.cloudidentity_v1#InsufficientScopes"
         }
       ],
       "traits": {
@@ -5802,6 +6024,12 @@
         },
         {
           "target": "com.gcp.cloudidentity_v1#Forbidden"
+        },
+        {
+          "target": "com.gcp.cloudidentity_v1#ServiceDisabled"
+        },
+        {
+          "target": "com.gcp.cloudidentity_v1#InsufficientScopes"
         }
       ],
       "traits": {
@@ -5852,6 +6080,12 @@
         },
         {
           "target": "com.gcp.cloudidentity_v1#Conflict"
+        },
+        {
+          "target": "com.gcp.cloudidentity_v1#ServiceDisabled"
+        },
+        {
+          "target": "com.gcp.cloudidentity_v1#InsufficientScopes"
         }
       ],
       "traits": {
@@ -5889,6 +6123,12 @@
         },
         {
           "target": "com.gcp.cloudidentity_v1#Forbidden"
+        },
+        {
+          "target": "com.gcp.cloudidentity_v1#ServiceDisabled"
+        },
+        {
+          "target": "com.gcp.cloudidentity_v1#InsufficientScopes"
         }
       ],
       "traits": {
@@ -5939,6 +6179,12 @@
         },
         {
           "target": "com.gcp.cloudidentity_v1#Conflict"
+        },
+        {
+          "target": "com.gcp.cloudidentity_v1#ServiceDisabled"
+        },
+        {
+          "target": "com.gcp.cloudidentity_v1#InsufficientScopes"
         }
       ],
       "traits": {
@@ -5983,6 +6229,12 @@
         },
         {
           "target": "com.gcp.cloudidentity_v1#Forbidden"
+        },
+        {
+          "target": "com.gcp.cloudidentity_v1#ServiceDisabled"
+        },
+        {
+          "target": "com.gcp.cloudidentity_v1#InsufficientScopes"
         }
       ],
       "traits": {
@@ -6048,6 +6300,12 @@
         },
         {
           "target": "com.gcp.cloudidentity_v1#Forbidden"
+        },
+        {
+          "target": "com.gcp.cloudidentity_v1#ServiceDisabled"
+        },
+        {
+          "target": "com.gcp.cloudidentity_v1#InsufficientScopes"
         }
       ],
       "traits": {
@@ -6096,6 +6354,12 @@
         },
         {
           "target": "com.gcp.cloudidentity_v1#Forbidden"
+        },
+        {
+          "target": "com.gcp.cloudidentity_v1#ServiceDisabled"
+        },
+        {
+          "target": "com.gcp.cloudidentity_v1#InsufficientScopes"
         }
       ],
       "traits": {
@@ -6177,6 +6441,12 @@
         },
         {
           "target": "com.gcp.cloudidentity_v1#Forbidden"
+        },
+        {
+          "target": "com.gcp.cloudidentity_v1#ServiceDisabled"
+        },
+        {
+          "target": "com.gcp.cloudidentity_v1#InsufficientScopes"
         }
       ],
       "traits": {
@@ -6232,6 +6502,12 @@
         },
         {
           "target": "com.gcp.cloudidentity_v1#Forbidden"
+        },
+        {
+          "target": "com.gcp.cloudidentity_v1#ServiceDisabled"
+        },
+        {
+          "target": "com.gcp.cloudidentity_v1#InsufficientScopes"
         }
       ],
       "traits": {
@@ -6294,6 +6570,12 @@
         },
         {
           "target": "com.gcp.cloudidentity_v1#Forbidden"
+        },
+        {
+          "target": "com.gcp.cloudidentity_v1#ServiceDisabled"
+        },
+        {
+          "target": "com.gcp.cloudidentity_v1#InsufficientScopes"
         }
       ],
       "traits": {
@@ -6363,6 +6645,12 @@
         },
         {
           "target": "com.gcp.cloudidentity_v1#Forbidden"
+        },
+        {
+          "target": "com.gcp.cloudidentity_v1#ServiceDisabled"
+        },
+        {
+          "target": "com.gcp.cloudidentity_v1#InsufficientScopes"
         }
       ],
       "traits": {
@@ -6417,6 +6705,12 @@
         },
         {
           "target": "com.gcp.cloudidentity_v1#Conflict"
+        },
+        {
+          "target": "com.gcp.cloudidentity_v1#ServiceDisabled"
+        },
+        {
+          "target": "com.gcp.cloudidentity_v1#InsufficientScopes"
         }
       ],
       "traits": {
@@ -6467,6 +6761,12 @@
         },
         {
           "target": "com.gcp.cloudidentity_v1#Conflict"
+        },
+        {
+          "target": "com.gcp.cloudidentity_v1#ServiceDisabled"
+        },
+        {
+          "target": "com.gcp.cloudidentity_v1#InsufficientScopes"
         }
       ],
       "traits": {
@@ -6504,6 +6804,12 @@
         },
         {
           "target": "com.gcp.cloudidentity_v1#Forbidden"
+        },
+        {
+          "target": "com.gcp.cloudidentity_v1#ServiceDisabled"
+        },
+        {
+          "target": "com.gcp.cloudidentity_v1#InsufficientScopes"
         }
       ],
       "traits": {
@@ -6541,6 +6847,12 @@
         },
         {
           "target": "com.gcp.cloudidentity_v1#Forbidden"
+        },
+        {
+          "target": "com.gcp.cloudidentity_v1#ServiceDisabled"
+        },
+        {
+          "target": "com.gcp.cloudidentity_v1#InsufficientScopes"
         }
       ],
       "traits": {
@@ -6578,6 +6890,12 @@
         },
         {
           "target": "com.gcp.cloudidentity_v1#Forbidden"
+        },
+        {
+          "target": "com.gcp.cloudidentity_v1#ServiceDisabled"
+        },
+        {
+          "target": "com.gcp.cloudidentity_v1#InsufficientScopes"
         }
       ],
       "traits": {
@@ -6621,6 +6939,12 @@
         },
         {
           "target": "com.gcp.cloudidentity_v1#Conflict"
+        },
+        {
+          "target": "com.gcp.cloudidentity_v1#ServiceDisabled"
+        },
+        {
+          "target": "com.gcp.cloudidentity_v1#InsufficientScopes"
         }
       ],
       "traits": {
@@ -6671,6 +6995,12 @@
         },
         {
           "target": "com.gcp.cloudidentity_v1#Forbidden"
+        },
+        {
+          "target": "com.gcp.cloudidentity_v1#ServiceDisabled"
+        },
+        {
+          "target": "com.gcp.cloudidentity_v1#InsufficientScopes"
         }
       ],
       "traits": {
@@ -6717,6 +7047,12 @@
         },
         {
           "target": "com.gcp.cloudidentity_v1#Conflict"
+        },
+        {
+          "target": "com.gcp.cloudidentity_v1#ServiceDisabled"
+        },
+        {
+          "target": "com.gcp.cloudidentity_v1#InsufficientScopes"
         }
       ],
       "traits": {
@@ -6754,6 +7090,12 @@
         },
         {
           "target": "com.gcp.cloudidentity_v1#Forbidden"
+        },
+        {
+          "target": "com.gcp.cloudidentity_v1#ServiceDisabled"
+        },
+        {
+          "target": "com.gcp.cloudidentity_v1#InsufficientScopes"
         }
       ],
       "traits": {
@@ -6797,6 +7139,12 @@
         },
         {
           "target": "com.gcp.cloudidentity_v1#Conflict"
+        },
+        {
+          "target": "com.gcp.cloudidentity_v1#ServiceDisabled"
+        },
+        {
+          "target": "com.gcp.cloudidentity_v1#InsufficientScopes"
         }
       ],
       "traits": {
@@ -6839,6 +7187,12 @@
         },
         {
           "target": "com.gcp.cloudidentity_v1#Conflict"
+        },
+        {
+          "target": "com.gcp.cloudidentity_v1#ServiceDisabled"
+        },
+        {
+          "target": "com.gcp.cloudidentity_v1#InsufficientScopes"
         }
       ],
       "traits": {
@@ -6896,6 +7250,12 @@
         },
         {
           "target": "com.gcp.cloudidentity_v1#Conflict"
+        },
+        {
+          "target": "com.gcp.cloudidentity_v1#ServiceDisabled"
+        },
+        {
+          "target": "com.gcp.cloudidentity_v1#InsufficientScopes"
         }
       ],
       "traits": {
@@ -6946,6 +7306,12 @@
         },
         {
           "target": "com.gcp.cloudidentity_v1#Forbidden"
+        },
+        {
+          "target": "com.gcp.cloudidentity_v1#ServiceDisabled"
+        },
+        {
+          "target": "com.gcp.cloudidentity_v1#InsufficientScopes"
         }
       ],
       "traits": {
@@ -6993,6 +7359,12 @@
         },
         {
           "target": "com.gcp.cloudidentity_v1#Conflict"
+        },
+        {
+          "target": "com.gcp.cloudidentity_v1#ServiceDisabled"
+        },
+        {
+          "target": "com.gcp.cloudidentity_v1#InsufficientScopes"
         }
       ],
       "traits": {
@@ -7050,6 +7422,12 @@
         },
         {
           "target": "com.gcp.cloudidentity_v1#Conflict"
+        },
+        {
+          "target": "com.gcp.cloudidentity_v1#ServiceDisabled"
+        },
+        {
+          "target": "com.gcp.cloudidentity_v1#InsufficientScopes"
         }
       ],
       "traits": {
@@ -7092,6 +7470,12 @@
         },
         {
           "target": "com.gcp.cloudidentity_v1#Conflict"
+        },
+        {
+          "target": "com.gcp.cloudidentity_v1#ServiceDisabled"
+        },
+        {
+          "target": "com.gcp.cloudidentity_v1#InsufficientScopes"
         }
       ],
       "traits": {
@@ -7142,6 +7526,12 @@
         },
         {
           "target": "com.gcp.cloudidentity_v1#Forbidden"
+        },
+        {
+          "target": "com.gcp.cloudidentity_v1#ServiceDisabled"
+        },
+        {
+          "target": "com.gcp.cloudidentity_v1#InsufficientScopes"
         }
       ],
       "traits": {
@@ -7183,6 +7573,12 @@
         },
         {
           "target": "com.gcp.cloudidentity_v1#Forbidden"
+        },
+        {
+          "target": "com.gcp.cloudidentity_v1#ServiceDisabled"
+        },
+        {
+          "target": "com.gcp.cloudidentity_v1#InsufficientScopes"
         }
       ],
       "traits": {
@@ -7226,6 +7622,12 @@
         },
         {
           "target": "com.gcp.cloudidentity_v1#Conflict"
+        },
+        {
+          "target": "com.gcp.cloudidentity_v1#ServiceDisabled"
+        },
+        {
+          "target": "com.gcp.cloudidentity_v1#InsufficientScopes"
         }
       ],
       "traits": {
@@ -7263,6 +7665,12 @@
         },
         {
           "target": "com.gcp.cloudidentity_v1#Forbidden"
+        },
+        {
+          "target": "com.gcp.cloudidentity_v1#ServiceDisabled"
+        },
+        {
+          "target": "com.gcp.cloudidentity_v1#InsufficientScopes"
         }
       ],
       "traits": {
@@ -7314,6 +7722,12 @@
         },
         {
           "target": "com.gcp.cloudidentity_v1#Forbidden"
+        },
+        {
+          "target": "com.gcp.cloudidentity_v1#ServiceDisabled"
+        },
+        {
+          "target": "com.gcp.cloudidentity_v1#InsufficientScopes"
         }
       ],
       "traits": {
@@ -7368,6 +7782,12 @@
         },
         {
           "target": "com.gcp.cloudidentity_v1#Conflict"
+        },
+        {
+          "target": "com.gcp.cloudidentity_v1#ServiceDisabled"
+        },
+        {
+          "target": "com.gcp.cloudidentity_v1#InsufficientScopes"
         }
       ],
       "traits": {
@@ -7376,6 +7796,40 @@
           "uri": "v1/{+parent}/idpCredentials:add"
         },
         "smithy.api#documentation": "Adds an IdpCredential. Up to 2 credentials are allowed. When the target customer has enabled [Multi-party approval for sensitive actions](https://support.google.com/a/answer/13790448), the `Operation` in the response will have `\"done\": false`, it will not have a response, and the metadata will have `\"state\": \"awaiting-multi-party-approval\"`."
+      }
+    },
+    "com.gcp.cloudidentity_v1#ServiceDisabled": {
+      "type": "structure",
+      "members": {},
+      "traits": {
+        "smithy.api#error": "client",
+        "smithy.api#httpError": 403,
+        "smithy.api#documentation": "The Cloud Identity API is not enabled for the calling project (HTTP 403 SERVICE_DISABLED).",
+        "com.gcp.protocols#errorMatchers": [
+          {
+            "status": 403,
+            "message": {
+              "includes": "has not been used in project"
+            }
+          }
+        ]
+      }
+    },
+    "com.gcp.cloudidentity_v1#InsufficientScopes": {
+      "type": "structure",
+      "members": {},
+      "traits": {
+        "smithy.api#error": "client",
+        "smithy.api#httpError": 403,
+        "smithy.api#documentation": "The access token lacks the OAuth scope this API requires (HTTP 403 ACCESS_TOKEN_SCOPE_INSUFFICIENT).",
+        "com.gcp.protocols#errorMatchers": [
+          {
+            "status": 403,
+            "message": {
+              "includes": "insufficient authentication scopes"
+            }
+          }
+        ]
       }
     }
   }

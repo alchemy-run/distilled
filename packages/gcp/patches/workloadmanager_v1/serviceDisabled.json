@@ -1,0 +1,243 @@
+{
+  "description": "Type the SERVICE_DISABLED 403 on every operation so callers can tell a disabled API from an IAM denial. Observed live 2026-09-29 on the testing project with the API disabled.",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.workloadmanager_v1#ServiceDisabled",
+      "value": {
+        "type": "structure",
+        "members": {},
+        "traits": {
+          "smithy.api#error": "client",
+          "smithy.api#httpError": 403,
+          "smithy.api#documentation": "The API is not enabled on the project (HTTP 403 PERMISSION_DENIED, reason SERVICE_DISABLED: '\u2026 API has not been used in project \u2026 before or it is disabled.'). Enable the API; not retryable until then.",
+          "com.gcp.protocols#errorMatchers": [
+            {
+              "status": 403,
+              "message": {
+                "includes": "has not been used in project"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.workloadmanager_v1#CancelProjectsLocationsOperations/errors/-",
+      "value": {
+        "target": "com.gcp.workloadmanager_v1#ServiceDisabled"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.workloadmanager_v1#CreateProjectsLocationsDeployments/errors/-",
+      "value": {
+        "target": "com.gcp.workloadmanager_v1#ServiceDisabled"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.workloadmanager_v1#CreateProjectsLocationsDeploymentsActuations/errors/-",
+      "value": {
+        "target": "com.gcp.workloadmanager_v1#ServiceDisabled"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.workloadmanager_v1#CreateProjectsLocationsEvaluations/errors/-",
+      "value": {
+        "target": "com.gcp.workloadmanager_v1#ServiceDisabled"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.workloadmanager_v1#DeleteProjectsLocationsDeployments/errors/-",
+      "value": {
+        "target": "com.gcp.workloadmanager_v1#ServiceDisabled"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.workloadmanager_v1#DeleteProjectsLocationsDeploymentsActuations/errors/-",
+      "value": {
+        "target": "com.gcp.workloadmanager_v1#ServiceDisabled"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.workloadmanager_v1#DeleteProjectsLocationsEvaluations/errors/-",
+      "value": {
+        "target": "com.gcp.workloadmanager_v1#ServiceDisabled"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.workloadmanager_v1#DeleteProjectsLocationsEvaluationsExecutions/errors/-",
+      "value": {
+        "target": "com.gcp.workloadmanager_v1#ServiceDisabled"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.workloadmanager_v1#DeleteProjectsLocationsInsights/errors/-",
+      "value": {
+        "target": "com.gcp.workloadmanager_v1#ServiceDisabled"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.workloadmanager_v1#DeleteProjectsLocationsOperations/errors/-",
+      "value": {
+        "target": "com.gcp.workloadmanager_v1#ServiceDisabled"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.workloadmanager_v1#GetProjectsLocations/errors/-",
+      "value": {
+        "target": "com.gcp.workloadmanager_v1#ServiceDisabled"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.workloadmanager_v1#GetProjectsLocationsDeployments/errors/-",
+      "value": {
+        "target": "com.gcp.workloadmanager_v1#ServiceDisabled"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.workloadmanager_v1#GetProjectsLocationsDeploymentsActuations/errors/-",
+      "value": {
+        "target": "com.gcp.workloadmanager_v1#ServiceDisabled"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.workloadmanager_v1#GetProjectsLocationsDiscoveredprofiles/errors/-",
+      "value": {
+        "target": "com.gcp.workloadmanager_v1#ServiceDisabled"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.workloadmanager_v1#GetProjectsLocationsDiscoveredprofilesHealth/errors/-",
+      "value": {
+        "target": "com.gcp.workloadmanager_v1#ServiceDisabled"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.workloadmanager_v1#GetProjectsLocationsEvaluations/errors/-",
+      "value": {
+        "target": "com.gcp.workloadmanager_v1#ServiceDisabled"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.workloadmanager_v1#GetProjectsLocationsEvaluationsExecutions/errors/-",
+      "value": {
+        "target": "com.gcp.workloadmanager_v1#ServiceDisabled"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.workloadmanager_v1#GetProjectsLocationsOperations/errors/-",
+      "value": {
+        "target": "com.gcp.workloadmanager_v1#ServiceDisabled"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.workloadmanager_v1#ListProjectsLocations/errors/-",
+      "value": {
+        "target": "com.gcp.workloadmanager_v1#ServiceDisabled"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.workloadmanager_v1#ListProjectsLocationsDeployments/errors/-",
+      "value": {
+        "target": "com.gcp.workloadmanager_v1#ServiceDisabled"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.workloadmanager_v1#ListProjectsLocationsDeploymentsActuations/errors/-",
+      "value": {
+        "target": "com.gcp.workloadmanager_v1#ServiceDisabled"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.workloadmanager_v1#ListProjectsLocationsDiscoveredprofiles/errors/-",
+      "value": {
+        "target": "com.gcp.workloadmanager_v1#ServiceDisabled"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.workloadmanager_v1#ListProjectsLocationsEvaluations/errors/-",
+      "value": {
+        "target": "com.gcp.workloadmanager_v1#ServiceDisabled"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.workloadmanager_v1#ListProjectsLocationsEvaluationsExecutions/errors/-",
+      "value": {
+        "target": "com.gcp.workloadmanager_v1#ServiceDisabled"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.workloadmanager_v1#ListProjectsLocationsEvaluationsExecutionsResults/errors/-",
+      "value": {
+        "target": "com.gcp.workloadmanager_v1#ServiceDisabled"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.workloadmanager_v1#ListProjectsLocationsEvaluationsExecutionsScannedResources/errors/-",
+      "value": {
+        "target": "com.gcp.workloadmanager_v1#ServiceDisabled"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.workloadmanager_v1#ListProjectsLocationsOperations/errors/-",
+      "value": {
+        "target": "com.gcp.workloadmanager_v1#ServiceDisabled"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.workloadmanager_v1#ListProjectsLocationsRules/errors/-",
+      "value": {
+        "target": "com.gcp.workloadmanager_v1#ServiceDisabled"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.workloadmanager_v1#PatchProjectsLocationsEvaluations/errors/-",
+      "value": {
+        "target": "com.gcp.workloadmanager_v1#ServiceDisabled"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.workloadmanager_v1#RunProjectsLocationsEvaluationsExecutions/errors/-",
+      "value": {
+        "target": "com.gcp.workloadmanager_v1#ServiceDisabled"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.workloadmanager_v1#WriteInsightProjectsLocationsInsights/errors/-",
+      "value": {
+        "target": "com.gcp.workloadmanager_v1#ServiceDisabled"
+      }
+    }
+  ]
+}

@@ -1879,6 +1879,9 @@
         },
         {
           "target": "com.gcp.osconfig_v2#Forbidden"
+        },
+        {
+          "target": "com.gcp.osconfig_v2#ServiceDisabled"
         }
       ],
       "traits": {
@@ -1948,6 +1951,9 @@
         },
         {
           "target": "com.gcp.osconfig_v2#Conflict"
+        },
+        {
+          "target": "com.gcp.osconfig_v2#ServiceDisabled"
         }
       ],
       "traits": {
@@ -2013,6 +2019,9 @@
         },
         {
           "target": "com.gcp.osconfig_v2#Forbidden"
+        },
+        {
+          "target": "com.gcp.osconfig_v2#ServiceDisabled"
         }
       ],
       "traits": {
@@ -2067,6 +2076,9 @@
         },
         {
           "target": "com.gcp.osconfig_v2#Conflict"
+        },
+        {
+          "target": "com.gcp.osconfig_v2#ServiceDisabled"
         }
       ],
       "traits": {
@@ -2124,6 +2136,9 @@
         },
         {
           "target": "com.gcp.osconfig_v2#Conflict"
+        },
+        {
+          "target": "com.gcp.osconfig_v2#ServiceDisabled"
         }
       ],
       "traits": {
@@ -2189,6 +2204,9 @@
         },
         {
           "target": "com.gcp.osconfig_v2#Forbidden"
+        },
+        {
+          "target": "com.gcp.osconfig_v2#ServiceDisabled"
         }
       ],
       "traits": {
@@ -2257,6 +2275,9 @@
         },
         {
           "target": "com.gcp.osconfig_v2#Conflict"
+        },
+        {
+          "target": "com.gcp.osconfig_v2#ServiceDisabled"
         }
       ],
       "traits": {
@@ -2294,6 +2315,9 @@
         },
         {
           "target": "com.gcp.osconfig_v2#Forbidden"
+        },
+        {
+          "target": "com.gcp.osconfig_v2#ServiceDisabled"
         }
       ],
       "traits": {
@@ -2351,6 +2375,9 @@
         },
         {
           "target": "com.gcp.osconfig_v2#Conflict"
+        },
+        {
+          "target": "com.gcp.osconfig_v2#ServiceDisabled"
         }
       ],
       "traits": {
@@ -2416,6 +2443,9 @@
         },
         {
           "target": "com.gcp.osconfig_v2#Forbidden"
+        },
+        {
+          "target": "com.gcp.osconfig_v2#ServiceDisabled"
         }
       ],
       "traits": {
@@ -2463,6 +2493,9 @@
         },
         {
           "target": "com.gcp.osconfig_v2#Conflict"
+        },
+        {
+          "target": "com.gcp.osconfig_v2#ServiceDisabled"
         }
       ],
       "traits": {
@@ -2513,6 +2546,9 @@
         },
         {
           "target": "com.gcp.osconfig_v2#Conflict"
+        },
+        {
+          "target": "com.gcp.osconfig_v2#ServiceDisabled"
         }
       ],
       "traits": {
@@ -2550,6 +2586,9 @@
         },
         {
           "target": "com.gcp.osconfig_v2#Forbidden"
+        },
+        {
+          "target": "com.gcp.osconfig_v2#ServiceDisabled"
         }
       ],
       "traits": {
@@ -2587,6 +2626,9 @@
         },
         {
           "target": "com.gcp.osconfig_v2#Forbidden"
+        },
+        {
+          "target": "com.gcp.osconfig_v2#ServiceDisabled"
         }
       ],
       "traits": {
@@ -2644,6 +2686,9 @@
         },
         {
           "target": "com.gcp.osconfig_v2#Conflict"
+        },
+        {
+          "target": "com.gcp.osconfig_v2#ServiceDisabled"
         }
       ],
       "traits": {
@@ -2701,6 +2746,9 @@
         },
         {
           "target": "com.gcp.osconfig_v2#Conflict"
+        },
+        {
+          "target": "com.gcp.osconfig_v2#ServiceDisabled"
         }
       ],
       "traits": {
@@ -2766,6 +2814,9 @@
         },
         {
           "target": "com.gcp.osconfig_v2#Forbidden"
+        },
+        {
+          "target": "com.gcp.osconfig_v2#ServiceDisabled"
         }
       ],
       "traits": {
@@ -2834,6 +2885,9 @@
         },
         {
           "target": "com.gcp.osconfig_v2#Conflict"
+        },
+        {
+          "target": "com.gcp.osconfig_v2#ServiceDisabled"
         }
       ],
       "traits": {
@@ -2877,6 +2931,9 @@
         },
         {
           "target": "com.gcp.osconfig_v2#Conflict"
+        },
+        {
+          "target": "com.gcp.osconfig_v2#ServiceDisabled"
         }
       ],
       "traits": {
@@ -2914,6 +2971,9 @@
         },
         {
           "target": "com.gcp.osconfig_v2#Forbidden"
+        },
+        {
+          "target": "com.gcp.osconfig_v2#ServiceDisabled"
         }
       ],
       "traits": {
@@ -2979,6 +3039,9 @@
         },
         {
           "target": "com.gcp.osconfig_v2#Forbidden"
+        },
+        {
+          "target": "com.gcp.osconfig_v2#ServiceDisabled"
         }
       ],
       "traits": {
@@ -3033,6 +3096,9 @@
         },
         {
           "target": "com.gcp.osconfig_v2#Conflict"
+        },
+        {
+          "target": "com.gcp.osconfig_v2#ServiceDisabled"
         }
       ],
       "traits": {
@@ -3098,6 +3164,9 @@
         },
         {
           "target": "com.gcp.osconfig_v2#Forbidden"
+        },
+        {
+          "target": "com.gcp.osconfig_v2#ServiceDisabled"
         }
       ],
       "traits": {
@@ -3159,6 +3228,9 @@
         },
         {
           "target": "com.gcp.osconfig_v2#Conflict"
+        },
+        {
+          "target": "com.gcp.osconfig_v2#ServiceDisabled"
         }
       ],
       "traits": {
@@ -3223,6 +3295,9 @@
         },
         {
           "target": "com.gcp.osconfig_v2#Conflict"
+        },
+        {
+          "target": "com.gcp.osconfig_v2#ServiceDisabled"
         }
       ],
       "traits": {
@@ -3280,6 +3355,9 @@
         },
         {
           "target": "com.gcp.osconfig_v2#Conflict"
+        },
+        {
+          "target": "com.gcp.osconfig_v2#ServiceDisabled"
         }
       ],
       "traits": {
@@ -3317,6 +3395,9 @@
         },
         {
           "target": "com.gcp.osconfig_v2#Forbidden"
+        },
+        {
+          "target": "com.gcp.osconfig_v2#ServiceDisabled"
         }
       ],
       "traits": {
@@ -3325,6 +3406,23 @@
           "uri": "v2/{+name}"
         },
         "smithy.api#documentation": "Retrieves an existing policy orchestrator, parented by an organization."
+      }
+    },
+    "com.gcp.osconfig_v2#ServiceDisabled": {
+      "type": "structure",
+      "members": {},
+      "traits": {
+        "smithy.api#error": "client",
+        "smithy.api#httpError": 403,
+        "smithy.api#documentation": "The OS Config API is not enabled for the calling project (HTTP 403 SERVICE_DISABLED).",
+        "com.gcp.protocols#errorMatchers": [
+          {
+            "status": 403,
+            "message": {
+              "includes": "has not been used in project"
+            }
+          }
+        ]
       }
     }
   }

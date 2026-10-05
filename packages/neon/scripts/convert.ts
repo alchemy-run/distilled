@@ -1,4 +1,4 @@
-#!/usr/bin/env bun
+#!/usr/bin/env -S node --conditions=bun
 /**
  * convert — turn the Neon OpenAPI spec into a Smithy 2.0 JSON model.
  *
@@ -16,7 +16,7 @@ import * as path from "node:path";
 import { runOpenApiConvert } from "@distilled.cloud/core/codegen/openapi-cli";
 
 await runOpenApiConvert({
-  root: path.resolve(import.meta.dir, ".."),
+  root: path.resolve(import.meta.dirname, ".."),
   specs: [
     {
       name: "neon",
@@ -29,6 +29,7 @@ await runOpenApiConvert({
   options: {
     namespace: "com.neon.api",
     serviceName: "Neon",
+    binaryTypes: true,
     // v0 parity: includeOperationErrors=true with the default status→class
     // map and default error statuses (401/429/500/503 covered globally).
     skipDeprecated: true,

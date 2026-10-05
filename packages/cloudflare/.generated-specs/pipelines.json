@@ -1921,6 +1921,12 @@
           "traits": {
             "smithy.api#enumValue": "r2_data_catalog"
           }
+        },
+        "BASIN_CATALOG": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "basin_catalog"
+          }
         }
       }
     },
@@ -2805,6 +2811,12 @@
           "target": "smithy.api#Unit",
           "traits": {
             "smithy.api#enumValue": "r2_data_catalog"
+          }
+        },
+        "BASIN_CATALOG": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "basin_catalog"
           }
         }
       }
@@ -3691,6 +3703,12 @@
           "traits": {
             "smithy.api#enumValue": "r2_data_catalog"
           }
+        },
+        "BASIN_CATALOG": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "basin_catalog"
+          }
         }
       }
     },
@@ -4543,6 +4561,12 @@
           "target": "smithy.api#Unit",
           "traits": {
             "smithy.api#enumValue": "r2_data_catalog"
+          }
+        },
+        "BASIN_CATALOG": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "basin_catalog"
           }
         }
       }

@@ -1,0 +1,1299 @@
+{
+  "smithy": "2.0",
+  "metadata": {
+    "suppressions": [
+      {
+        "id": "HttpUriConflict",
+        "namespace": "*"
+      },
+      {
+        "id": "HttpMethodSemantics",
+        "namespace": "*"
+      },
+      {
+        "id": "UnreferencedShape",
+        "namespace": "*"
+      }
+    ],
+    "distilled.finalized": true
+  },
+  "shapes": {
+    "com.stackit.stackit_marketplace#ConsumersSubscriptionsListByOrganizationRequest": {
+      "type": "structure",
+      "members": {
+        "organizationId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        },
+        "cursor": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "cursor"
+          }
+        },
+        "limit": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpQuery": "limit"
+          }
+        },
+        "productId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "productId"
+          }
+        },
+        "includeExpired": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#httpQuery": "includeExpired",
+            "smithy.api#documentation": "Flag to control if cancelled or rejected subscriptions should be returned."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.stackit.stackit_marketplace#MarketplaceSubscriptionV1ListSubscriptionsResponse": {
+      "type": "structure",
+      "members": {
+        "cursor": {
+          "target": "smithy.api#String"
+        },
+        "items": {
+          "target": "com.stackit.stackit_marketplace#MarketplaceSubscriptionV1ListSubscriptionsResponseItemsList"
+        },
+        "limit": {
+          "target": "smithy.api#Integer"
+        }
+      },
+      "traits": {}
+    },
+    "com.stackit.stackit_marketplace#MarketplaceSubscriptionV1Subscription": {
+      "type": "structure",
+      "members": {
+        "approvalTimeout": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Period between the subscription was created until the approval needs to happen."
+          }
+        },
+        "autoRenewal": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "If true, the the subscription will extend its validity automatically at the end of the current period."
+          }
+        },
+        "lifecycleState": {
+          "target": "com.stackit.stackit_marketplace#MarketplaceSubscriptionV1SubscriptionLifecycleState",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "orderedAt": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "When the subscription was ordered.",
+            "smithy.api#required": {}
+          }
+        },
+        "organizationId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The UUID of the organization.",
+            "smithy.api#required": {}
+          }
+        },
+        "product": {
+          "target": "com.stackit.stackit_marketplace#MarketplaceSubscriptionV1SubscriptionProduct",
+          "traits": {
+            "smithy.api#documentation": "The product to the subscription.",
+            "smithy.api#required": {}
+          }
+        },
+        "projectId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The UUID of the project.",
+            "smithy.api#required": {}
+          }
+        },
+        "subscriptionId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The UUID of the subscription.",
+            "smithy.api#required": {}
+          }
+        },
+        "terminatesAt": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Timestamp when the subscription will finally terminate."
+          }
+        },
+        "validFrom": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Timestamp when the subscription validity has started."
+          }
+        },
+        "validUntil": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Timestamp when the current subscription validity will end. May be automatically renewed."
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.stackit.stackit_marketplace#MarketplaceSubscriptionV1SubscriptionLifecycleState": {
+      "type": "enum",
+      "members": {
+        "STATE_UNSPECIFIED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "STATE_UNSPECIFIED"
+          }
+        },
+        "SUBSCRIPTION_PENDING": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "SUBSCRIPTION_PENDING"
+          }
+        },
+        "SUBSCRIPTION_ACTIVE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "SUBSCRIPTION_ACTIVE"
+          }
+        },
+        "SUBSCRIPTION_INACTIVE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "SUBSCRIPTION_INACTIVE"
+          }
+        },
+        "SUBSCRIPTION_CANCELLING": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "SUBSCRIPTION_CANCELLING"
+          }
+        },
+        "SUBSCRIPTION_CANCELLED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "SUBSCRIPTION_CANCELLED"
+          }
+        },
+        "SUBSCRIPTION_REJECTED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "SUBSCRIPTION_REJECTED"
+          }
+        },
+        "SUBSCRIPTION_APPROVAL_TIMED_OUT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "SUBSCRIPTION_APPROVAL_TIMED_OUT"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.stackit.stackit_marketplace#MarketplaceSubscriptionV1SubscriptionProduct": {
+      "type": "structure",
+      "members": {
+        "assets": {
+          "target": "com.stackit.stackit_marketplace#MarketplaceSubscriptionV1Assets"
+        },
+        "deliveryMethod": {
+          "target": "com.stackit.stackit_marketplace#MarketplaceSubscriptionV1SubscriptionProductDeliveryMethod",
+          "traits": {
+            "smithy.api#documentation": "The product delivery method/type. For reference: SAAS - Software as a Service, SAI - STACKIT Application Image",
+            "smithy.api#required": {}
+          }
+        },
+        "lifecycleState": {
+          "target": "com.stackit.stackit_marketplace#MarketplaceSubscriptionV1SubscriptionProductLifecycleState",
+          "traits": {
+            "smithy.api#documentation": "The lifecycle state of the product.",
+            "smithy.api#required": {}
+          }
+        },
+        "noticePeriod": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The cancellation notice period of the subscription.",
+            "smithy.api#required": {}
+          }
+        },
+        "planId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The user-readable plan ID of a pricing option.",
+            "smithy.api#required": {}
+          }
+        },
+        "priceType": {
+          "target": "com.stackit.stackit_marketplace#MarketplaceSubscriptionV1SubscriptionProductPriceType",
+          "traits": {
+            "smithy.api#documentation": "The product's price type.",
+            "smithy.api#required": {}
+          }
+        },
+        "pricingPlan": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Additional price type information.",
+            "smithy.api#required": {}
+          }
+        },
+        "productId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The user-readable ID of the product.",
+            "smithy.api#required": {}
+          }
+        },
+        "productName": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The name of the product.",
+            "smithy.api#required": {}
+          }
+        },
+        "rate": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The price of the product (per unit).",
+            "smithy.api#required": {}
+          }
+        },
+        "validityPeriod": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The period the subscription is valid for before it will be renewed.",
+            "smithy.api#required": {}
+          }
+        },
+        "vendorName": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The product vendor's name.",
+            "smithy.api#required": {}
+          }
+        },
+        "vendorPlanId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The vendor provided plan ID."
+          }
+        },
+        "vendorProductId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The vendor provided prduct ID."
+          }
+        },
+        "vendorWebsiteUrl": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The vendor's website.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.stackit.stackit_marketplace#MarketplaceSubscriptionV1Assets": {
+      "type": "structure",
+      "members": {
+        "endUserLicenseAgreement": {
+          "target": "com.stackit.stackit_marketplace#MarketplaceSubscriptionV1File"
+        },
+        "productDescription": {
+          "target": "com.stackit.stackit_marketplace#MarketplaceSubscriptionV1File"
+        },
+        "serviceCertificate": {
+          "target": "com.stackit.stackit_marketplace#MarketplaceSubscriptionV1File"
+        },
+        "serviceLevelAgreement": {
+          "target": "com.stackit.stackit_marketplace#MarketplaceSubscriptionV1File"
+        }
+      },
+      "traits": {}
+    },
+    "com.stackit.stackit_marketplace#MarketplaceSubscriptionV1File": {
+      "type": "structure",
+      "members": {
+        "version": {
+          "target": "com.stackit.stackit_marketplace#MarketplaceSubscriptionV1FileLocalizedVersion"
+        }
+      },
+      "traits": {}
+    },
+    "com.stackit.stackit_marketplace#MarketplaceSubscriptionV1FileLocalizedVersion": {
+      "type": "structure",
+      "members": {
+        "de": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The file version matching the file name (localized)."
+          }
+        },
+        "en": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The file version matching the file name (localized)."
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.stackit.stackit_marketplace#MarketplaceSubscriptionV1SubscriptionProductDeliveryMethod": {
+      "type": "enum",
+      "members": {
+        "SAAS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "SAAS"
+          }
+        },
+        "KUBERNETES": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "KUBERNETES"
+          }
+        },
+        "SAI": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "SAI"
+          }
+        },
+        "PROFESSIONAL_SERVICE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "PROFESSIONAL_SERVICE"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The product delivery method/type. For reference: SAAS - Software as a Service, SAI - STACKIT Application Image"
+      }
+    },
+    "com.stackit.stackit_marketplace#MarketplaceSubscriptionV1SubscriptionProductLifecycleState": {
+      "type": "enum",
+      "members": {
+        "PRODUCT_LIVE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "PRODUCT_LIVE"
+          }
+        },
+        "PRODUCT_PENDING_APPROVAL": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "PRODUCT_PENDING_APPROVAL"
+          }
+        },
+        "PRODUCT_PREVIEW": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "PRODUCT_PREVIEW"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The lifecycle state of the product."
+      }
+    },
+    "com.stackit.stackit_marketplace#MarketplaceSubscriptionV1SubscriptionProductPriceType": {
+      "type": "enum",
+      "members": {
+        "CONTRACT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "CONTRACT"
+          }
+        },
+        "FREE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "FREE"
+          }
+        },
+        "FREE_TRIAL": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "FREE_TRIAL"
+          }
+        },
+        "BYOL": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "BYOL"
+          }
+        },
+        "PAYG": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "PAYG"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The product's price type."
+      }
+    },
+    "com.stackit.stackit_marketplace#MarketplaceSubscriptionV1ListSubscriptionsResponseItemsList": {
+      "type": "list",
+      "member": {
+        "target": "com.stackit.stackit_marketplace#MarketplaceSubscriptionV1Subscription"
+      },
+      "traits": {}
+    },
+    "com.stackit.stackit_marketplace#ConsumersSubscriptionsListByOrganization": {
+      "type": "operation",
+      "input": {
+        "target": "com.stackit.stackit_marketplace#ConsumersSubscriptionsListByOrganizationRequest"
+      },
+      "output": {
+        "target": "com.stackit.stackit_marketplace#MarketplaceSubscriptionV1ListSubscriptionsResponse"
+      },
+      "errors": [
+        {
+          "target": "com.stackit.stackit_marketplace#BadRequest"
+        },
+        {
+          "target": "com.stackit.stackit_marketplace#Forbidden"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/v1/consumers/organizations/{organizationId}/subscriptions",
+          "code": 200,
+          "baseUrl": "https://stackit-marketplace.api.stackit.cloud"
+        },
+        "smithy.api#documentation": "List all subscriptions of an organization.\n\nList all subscriptions of an organization."
+      }
+    },
+    "com.stackit.stackit_marketplace#ConsumersSubscriptionsListByProjectRequest": {
+      "type": "structure",
+      "members": {
+        "projectId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        },
+        "cursor": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "cursor"
+          }
+        },
+        "limit": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpQuery": "limit"
+          }
+        },
+        "productId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "productId"
+          }
+        },
+        "includeExpired": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#httpQuery": "includeExpired",
+            "smithy.api#documentation": "Flag to control if cancelled or rejected subscriptions should be returned."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.stackit.stackit_marketplace#ConsumersSubscriptionsListByProject": {
+      "type": "operation",
+      "input": {
+        "target": "com.stackit.stackit_marketplace#ConsumersSubscriptionsListByProjectRequest"
+      },
+      "output": {
+        "target": "com.stackit.stackit_marketplace#MarketplaceSubscriptionV1ListSubscriptionsResponse"
+      },
+      "errors": [
+        {
+          "target": "com.stackit.stackit_marketplace#BadRequest"
+        },
+        {
+          "target": "com.stackit.stackit_marketplace#Forbidden"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/v1/consumers/projects/{projectId}/subscriptions",
+          "code": 200,
+          "baseUrl": "https://stackit-marketplace.api.stackit.cloud"
+        },
+        "smithy.api#documentation": "List all subscriptions of an project.\n\nList all subscriptions of an project."
+      }
+    },
+    "com.stackit.stackit_marketplace#CreateConsumersSubscriptionRequest": {
+      "type": "structure",
+      "members": {
+        "projectId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        },
+        "consumerNotificationEmail": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "An E-Mail address the vendor can reach the consuer about subscription updates."
+          }
+        },
+        "productId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The user-readable ID of the product.",
+            "smithy.api#required": {}
+          }
+        },
+        "sku": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The concrete variant of the product.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.stackit.stackit_marketplace#CreateConsumersSubscription": {
+      "type": "operation",
+      "input": {
+        "target": "com.stackit.stackit_marketplace#CreateConsumersSubscriptionRequest"
+      },
+      "output": {
+        "target": "com.stackit.stackit_marketplace#MarketplaceSubscriptionV1Subscription"
+      },
+      "errors": [
+        {
+          "target": "com.stackit.stackit_marketplace#BadRequest"
+        },
+        {
+          "target": "com.stackit.stackit_marketplace#Forbidden"
+        },
+        {
+          "target": "com.stackit.stackit_marketplace#Conflict"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/v1/consumers/projects/{projectId}/subscriptions",
+          "code": 200,
+          "baseUrl": "https://stackit-marketplace.api.stackit.cloud"
+        },
+        "smithy.api#documentation": "Create a new subscription.\n\nCreate a new subscription."
+      }
+    },
+    "com.stackit.stackit_marketplace#GetConsumersSubscriptionRequest": {
+      "type": "structure",
+      "members": {
+        "projectId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        },
+        "subscriptionId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        },
+        "includeExpired": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#httpQuery": "includeExpired",
+            "smithy.api#documentation": "Flag to control if cancelled or rejected subscriptions should be returned."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.stackit.stackit_marketplace#GetConsumersSubscription": {
+      "type": "operation",
+      "input": {
+        "target": "com.stackit.stackit_marketplace#GetConsumersSubscriptionRequest"
+      },
+      "output": {
+        "target": "com.stackit.stackit_marketplace#MarketplaceSubscriptionV1Subscription"
+      },
+      "errors": [
+        {
+          "target": "com.stackit.stackit_marketplace#BadRequest"
+        },
+        {
+          "target": "com.stackit.stackit_marketplace#Forbidden"
+        },
+        {
+          "target": "com.stackit.stackit_marketplace#NotFound"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/v1/consumers/projects/{projectId}/subscriptions/{subscriptionId}",
+          "code": 200,
+          "baseUrl": "https://stackit-marketplace.api.stackit.cloud"
+        },
+        "smithy.api#documentation": "Get a subscription.\n\nGet a subscription."
+      }
+    },
+    "com.stackit.stackit_marketplace#CancelConsumersSubscriptionRequest": {
+      "type": "structure",
+      "members": {
+        "projectId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        },
+        "subscriptionId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.stackit.stackit_marketplace#CancelConsumersSubscription": {
+      "type": "operation",
+      "input": {
+        "target": "com.stackit.stackit_marketplace#CancelConsumersSubscriptionRequest"
+      },
+      "output": {
+        "target": "smithy.api#Unit"
+      },
+      "errors": [
+        {
+          "target": "com.stackit.stackit_marketplace#BadRequest"
+        },
+        {
+          "target": "com.stackit.stackit_marketplace#Forbidden"
+        },
+        {
+          "target": "com.stackit.stackit_marketplace#NotFound"
+        },
+        {
+          "target": "com.stackit.stackit_marketplace#Conflict"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "DELETE",
+          "uri": "/v1/consumers/projects/{projectId}/subscriptions/{subscriptionId}",
+          "code": 200,
+          "baseUrl": "https://stackit-marketplace.api.stackit.cloud"
+        },
+        "smithy.api#documentation": "Cancel a subscription.\n\nCancel a subscription."
+      }
+    },
+    "com.stackit.stackit_marketplace#GetConsumersSubscriptionsRedirectRequest": {
+      "type": "structure",
+      "members": {
+        "projectId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        },
+        "subscriptionId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        },
+        "redirectTarget": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "redirectTarget"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.stackit.stackit_marketplace#MarketplaceSubscriptionV1SubscriptionRedirect": {
+      "type": "structure",
+      "members": {
+        "redirectTarget": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "redirectUrl": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.stackit.stackit_marketplace#GetConsumersSubscriptionsRedirect": {
+      "type": "operation",
+      "input": {
+        "target": "com.stackit.stackit_marketplace#GetConsumersSubscriptionsRedirectRequest"
+      },
+      "output": {
+        "target": "com.stackit.stackit_marketplace#MarketplaceSubscriptionV1SubscriptionRedirect"
+      },
+      "errors": [
+        {
+          "target": "com.stackit.stackit_marketplace#BadRequest"
+        },
+        {
+          "target": "com.stackit.stackit_marketplace#Forbidden"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/v1/consumers/projects/{projectId}/subscriptions/{subscriptionId}/redirects",
+          "code": 200,
+          "baseUrl": "https://stackit-marketplace.api.stackit.cloud"
+        },
+        "smithy.api#documentation": "Get a subscription redirect.\n\nGet a subscription redirect."
+      }
+    },
+    "com.stackit.stackit_marketplace#TerminateConsumersSubscriptionRequest": {
+      "type": "structure",
+      "members": {
+        "projectId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        },
+        "subscriptionId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.stackit.stackit_marketplace#TerminateConsumersSubscription": {
+      "type": "operation",
+      "input": {
+        "target": "com.stackit.stackit_marketplace#TerminateConsumersSubscriptionRequest"
+      },
+      "output": {
+        "target": "smithy.api#Unit"
+      },
+      "errors": [
+        {
+          "target": "com.stackit.stackit_marketplace#BadRequest"
+        },
+        {
+          "target": "com.stackit.stackit_marketplace#Forbidden"
+        },
+        {
+          "target": "com.stackit.stackit_marketplace#NotFound"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/v1/consumers/projects/{projectId}/subscriptions/{subscriptionId}/terminate",
+          "code": 200,
+          "baseUrl": "https://stackit-marketplace.api.stackit.cloud"
+        },
+        "smithy.api#documentation": "Terminates a consumer subscription early.\n\nTerminates a consumer subscription early."
+      }
+    },
+    "com.stackit.stackit_marketplace#VendorsSubscriptionsListByOrganizationRequest": {
+      "type": "structure",
+      "members": {
+        "organizationId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        },
+        "cursor": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "cursor"
+          }
+        },
+        "limit": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpQuery": "limit"
+          }
+        },
+        "productId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "productId"
+          }
+        },
+        "includeExpired": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#httpQuery": "includeExpired",
+            "smithy.api#documentation": "Flag to control if cancelled or rejected subscriptions should be returned."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.stackit.stackit_marketplace#VendorsSubscriptionsListByOrganization": {
+      "type": "operation",
+      "input": {
+        "target": "com.stackit.stackit_marketplace#VendorsSubscriptionsListByOrganizationRequest"
+      },
+      "output": {
+        "target": "com.stackit.stackit_marketplace#MarketplaceSubscriptionV1ListSubscriptionsResponse"
+      },
+      "errors": [
+        {
+          "target": "com.stackit.stackit_marketplace#BadRequest"
+        },
+        {
+          "target": "com.stackit.stackit_marketplace#Forbidden"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/v1/vendors/organizations/{organizationId}/subscriptions",
+          "code": 200,
+          "baseUrl": "https://stackit-marketplace.api.stackit.cloud"
+        },
+        "smithy.api#documentation": "List all subscriptions of an organization.\n\nList all subscriptions of an organization."
+      }
+    },
+    "com.stackit.stackit_marketplace#ResolveCustomerRequest": {
+      "type": "structure",
+      "members": {
+        "projectId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        },
+        "token": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Opaque token exchangeable for subscription details.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.stackit.stackit_marketplace#ResolveCustomer": {
+      "type": "operation",
+      "input": {
+        "target": "com.stackit.stackit_marketplace#ResolveCustomerRequest"
+      },
+      "output": {
+        "target": "com.stackit.stackit_marketplace#MarketplaceSubscriptionV1Subscription"
+      },
+      "errors": [
+        {
+          "target": "com.stackit.stackit_marketplace#BadRequest"
+        },
+        {
+          "target": "com.stackit.stackit_marketplace#Forbidden"
+        },
+        {
+          "target": "com.stackit.stackit_marketplace#NotFound"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/v1/vendors/projects/{projectId}/resolve-customer",
+          "code": 200,
+          "baseUrl": "https://stackit-marketplace.api.stackit.cloud"
+        },
+        "smithy.api#documentation": "Resolve customer.\n\nResolve customer."
+      }
+    },
+    "com.stackit.stackit_marketplace#VendorsSubscriptionsListByProjectRequest": {
+      "type": "structure",
+      "members": {
+        "projectId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        },
+        "cursor": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "cursor"
+          }
+        },
+        "limit": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpQuery": "limit"
+          }
+        },
+        "productId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "productId"
+          }
+        },
+        "includeExpired": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#httpQuery": "includeExpired",
+            "smithy.api#documentation": "Flag to control if cancelled or rejected subscriptions should be returned."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.stackit.stackit_marketplace#VendorsSubscriptionsListByProject": {
+      "type": "operation",
+      "input": {
+        "target": "com.stackit.stackit_marketplace#VendorsSubscriptionsListByProjectRequest"
+      },
+      "output": {
+        "target": "com.stackit.stackit_marketplace#MarketplaceSubscriptionV1ListSubscriptionsResponse"
+      },
+      "errors": [
+        {
+          "target": "com.stackit.stackit_marketplace#BadRequest"
+        },
+        {
+          "target": "com.stackit.stackit_marketplace#Forbidden"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/v1/vendors/projects/{projectId}/subscriptions",
+          "code": 200,
+          "baseUrl": "https://stackit-marketplace.api.stackit.cloud"
+        },
+        "smithy.api#documentation": "List all subscriptions of an project.\n\nList all subscriptions of an project."
+      }
+    },
+    "com.stackit.stackit_marketplace#GetVendorsSubscriptionRequest": {
+      "type": "structure",
+      "members": {
+        "projectId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        },
+        "subscriptionId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        },
+        "includeExpired": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#httpQuery": "includeExpired",
+            "smithy.api#documentation": "Flag to control if cancelled or rejected subscriptions should be returned."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.stackit.stackit_marketplace#GetVendorsSubscription": {
+      "type": "operation",
+      "input": {
+        "target": "com.stackit.stackit_marketplace#GetVendorsSubscriptionRequest"
+      },
+      "output": {
+        "target": "com.stackit.stackit_marketplace#MarketplaceSubscriptionV1Subscription"
+      },
+      "errors": [
+        {
+          "target": "com.stackit.stackit_marketplace#BadRequest"
+        },
+        {
+          "target": "com.stackit.stackit_marketplace#Forbidden"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/v1/vendors/projects/{projectId}/subscriptions/{subscriptionId}",
+          "code": 200,
+          "baseUrl": "https://stackit-marketplace.api.stackit.cloud"
+        },
+        "smithy.api#documentation": "Get a subscription.\n\nGet a subscription."
+      }
+    },
+    "com.stackit.stackit_marketplace#ApproveSubscriptionRequest": {
+      "type": "structure",
+      "members": {
+        "projectId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        },
+        "subscriptionId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        },
+        "instanceTarget": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The target URL of the user instance, used to redirect the user to the instance after the subscription is active."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.stackit.stackit_marketplace#ApproveSubscription": {
+      "type": "operation",
+      "input": {
+        "target": "com.stackit.stackit_marketplace#ApproveSubscriptionRequest"
+      },
+      "output": {
+        "target": "smithy.api#Unit"
+      },
+      "errors": [
+        {
+          "target": "com.stackit.stackit_marketplace#BadRequest"
+        },
+        {
+          "target": "com.stackit.stackit_marketplace#Forbidden"
+        },
+        {
+          "target": "com.stackit.stackit_marketplace#NotFound"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/v1/vendors/projects/{projectId}/subscriptions/{subscriptionId}/approve",
+          "code": 200,
+          "baseUrl": "https://stackit-marketplace.api.stackit.cloud"
+        },
+        "smithy.api#documentation": "Approve a pending subscription.\n\nApprove a pending subscription."
+      }
+    },
+    "com.stackit.stackit_marketplace#RejectVendorsSubscriptionRequest": {
+      "type": "structure",
+      "members": {
+        "projectId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        },
+        "subscriptionId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.stackit.stackit_marketplace#RejectVendorsSubscription": {
+      "type": "operation",
+      "input": {
+        "target": "com.stackit.stackit_marketplace#RejectVendorsSubscriptionRequest"
+      },
+      "output": {
+        "target": "smithy.api#Unit"
+      },
+      "errors": [
+        {
+          "target": "com.stackit.stackit_marketplace#BadRequest"
+        },
+        {
+          "target": "com.stackit.stackit_marketplace#Forbidden"
+        },
+        {
+          "target": "com.stackit.stackit_marketplace#NotFound"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/v1/vendors/projects/{projectId}/subscriptions/{subscriptionId}/reject",
+          "code": 200,
+          "baseUrl": "https://stackit-marketplace.api.stackit.cloud"
+        },
+        "smithy.api#documentation": "Reject a subscription.\n\nReject a subscription (in any lifecycle state). Only available for subscriptions to products with lifecycle state `PRODUCT_PREVIEW`."
+      }
+    },
+    "com.stackit.stackit_marketplace#BadRequest": {
+      "type": "structure",
+      "members": {},
+      "traits": {
+        "smithy.api#error": "client",
+        "smithy.api#httpError": 400,
+        "com.distilled.openapi#errorMatchers": [
+          {
+            "status": 400
+          }
+        ]
+      }
+    },
+    "com.stackit.stackit_marketplace#Forbidden": {
+      "type": "structure",
+      "members": {},
+      "traits": {
+        "smithy.api#error": "client",
+        "smithy.api#httpError": 403,
+        "com.distilled.openapi#errorMatchers": [
+          {
+            "status": 403
+          }
+        ]
+      }
+    },
+    "com.stackit.stackit_marketplace#Conflict": {
+      "type": "structure",
+      "members": {},
+      "traits": {
+        "smithy.api#error": "client",
+        "smithy.api#httpError": 409,
+        "com.distilled.openapi#errorMatchers": [
+          {
+            "status": 409
+          }
+        ]
+      }
+    },
+    "com.stackit.stackit_marketplace#NotFound": {
+      "type": "structure",
+      "members": {},
+      "traits": {
+        "smithy.api#error": "client",
+        "smithy.api#httpError": 404,
+        "com.distilled.openapi#errorMatchers": [
+          {
+            "status": 404
+          }
+        ]
+      }
+    },
+    "com.stackit.stackit_marketplace#StackitMarketplace": {
+      "type": "service",
+      "version": "1",
+      "operations": [
+        {
+          "target": "com.stackit.stackit_marketplace#ConsumersSubscriptionsListByOrganization"
+        },
+        {
+          "target": "com.stackit.stackit_marketplace#ConsumersSubscriptionsListByProject"
+        },
+        {
+          "target": "com.stackit.stackit_marketplace#CreateConsumersSubscription"
+        },
+        {
+          "target": "com.stackit.stackit_marketplace#GetConsumersSubscription"
+        },
+        {
+          "target": "com.stackit.stackit_marketplace#CancelConsumersSubscription"
+        },
+        {
+          "target": "com.stackit.stackit_marketplace#GetConsumersSubscriptionsRedirect"
+        },
+        {
+          "target": "com.stackit.stackit_marketplace#TerminateConsumersSubscription"
+        },
+        {
+          "target": "com.stackit.stackit_marketplace#VendorsSubscriptionsListByOrganization"
+        },
+        {
+          "target": "com.stackit.stackit_marketplace#ResolveCustomer"
+        },
+        {
+          "target": "com.stackit.stackit_marketplace#VendorsSubscriptionsListByProject"
+        },
+        {
+          "target": "com.stackit.stackit_marketplace#GetVendorsSubscription"
+        },
+        {
+          "target": "com.stackit.stackit_marketplace#ApproveSubscription"
+        },
+        {
+          "target": "com.stackit.stackit_marketplace#RejectVendorsSubscription"
+        }
+      ],
+      "traits": {
+        "smithy.api#title": "STACKIT Marketplace API",
+        "smithy.api#documentation": "API to manage STACKIT Marketplace."
+      }
+    }
+  }
+}

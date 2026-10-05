@@ -1,4 +1,5 @@
-#!/usr/bin/env bun
+#!/usr/bin/env -S node --conditions=bun
+import { runGeneratorCli } from "@distilled.cloud/core/codegen/cli";
 /**
  * generate — turn the Smithy JSON model in .generated-specs into the Doppler
  * Effect SDK.
@@ -12,12 +13,19 @@
  * member renaming or wire dictionaries appear here.
  */
 import type { SdkSpec } from "@distilled.cloud/core/codegen/generator";
-import { runGeneratorCli } from "@distilled.cloud/core/codegen/cli";
 
 const NULLABLE_TRAIT = "com.distilled.openapi#nullable";
 const ERROR_MATCHERS_TRAIT = "com.distilled.openapi#errorMatchers";
 const RAW_RESPONSE_TRAIT = "com.distilled.openapi#rawResponse";
 const SENSITIVE_TRAIT = "smithy.api#sensitive";
+
+/** Operations served without credentials — see `DopplerPublicProtocol`. */
+const PUBLIC_OPERATIONS = new Set([
+  "AuthOidc",
+  "GenerateCliAuth",
+  "AuthorizeCliAuth",
+  "RevokeCliAuth",
+]);
 
 /** Doppler's provider spec for the shared smithy→SDK compiler. */
 const dopplerSpec: SdkSpec = {
@@ -70,23 +78,37 @@ const dopplerSpec: SdkSpec = {
     commonErrorClasses: ["UnknownDopplerError"],
     protocol: "DopplerProtocol",
     retry: "Retry.Retry",
+    // The browser-login endpoints are public (`security: []` in the
+    // OpenAPI patch); they must never resolve or send a bearer token.
+    overrides: (ctx) =>
+      PUBLIC_OPERATIONS.has(ctx.opName)
+        ? {
+            protocol: "DopplerPublicProtocol",
+            contextType: "DopplerPublicOpContext",
+          }
+        : undefined,
   },
 
   sourceNote: ".generated-specs (specs/distilled-spec-doppler)",
 
   // Sensitive member types reference Redacted; pull the import in when used.
-  postProcess: (code) =>
-    code.includes("Redacted.Redacted<")
+  postProcess: (source) => {
+    const code = source.replace(
+      `  DopplerProtocol,`,
+      `  DopplerProtocol,\n  DopplerPublicProtocol,\n  type DopplerPublicOpContext,`,
+    );
+    return code.includes("Redacted.Redacted<")
       ? code.replace(
           `import * as S from "@distilled.cloud/core/schema";\n`,
           `import * as S from "@distilled.cloud/core/schema";\nimport * as Redacted from "effect/Redacted";\n`,
         )
-      : code,
+      : code;
+  },
 };
 
 runGeneratorCli({
   description: "Generate the Doppler Effect SDK from the Smithy model",
-  root: `${import.meta.dir}/..`,
+  root: `${import.meta.dirname}/..`,
   // patches/ holds OpenAPI-document patches consumed by scripts/convert.ts;
   // there is no smithy-model patch chain.
   patchesDir: false,

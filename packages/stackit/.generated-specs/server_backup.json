@@ -1,0 +1,1591 @@
+{
+  "smithy": "2.0",
+  "metadata": {
+    "suppressions": [
+      {
+        "id": "HttpUriConflict",
+        "namespace": "*"
+      },
+      {
+        "id": "HttpMethodSemantics",
+        "namespace": "*"
+      },
+      {
+        "id": "UnreferencedShape",
+        "namespace": "*"
+      }
+    ],
+    "distilled.finalized": true
+  },
+  "shapes": {
+    "com.stackit.server_backup#ListBackupPoliciesRequest": {
+      "type": "structure",
+      "members": {
+        "projectId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "project id"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.stackit.server_backup#GetBackupPoliciesResponse": {
+      "type": "structure",
+      "members": {
+        "items": {
+          "target": "com.stackit.server_backup#GetBackupPoliciesResponseItemsList"
+        }
+      },
+      "traits": {}
+    },
+    "com.stackit.server_backup#BackupPolicy": {
+      "type": "structure",
+      "members": {
+        "backupProperties": {
+          "target": "com.stackit.server_backup#BackupPolicyBackupProperties"
+        },
+        "default": {
+          "target": "smithy.api#Boolean"
+        },
+        "description": {
+          "target": "smithy.api#String"
+        },
+        "enabled": {
+          "target": "smithy.api#Boolean"
+        },
+        "id": {
+          "target": "smithy.api#String"
+        },
+        "name": {
+          "target": "smithy.api#String"
+        },
+        "rrule": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "An rrule (Recurrence Rule) is a standardized string format used in iCalendar (RFC 5545) to define repeating events, and you can generate one by using a dedicated library or by using online generator tools to specify parameters like frequency, interval, and end dates"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.stackit.server_backup#BackupPolicyBackupProperties": {
+      "type": "structure",
+      "members": {
+        "name": {
+          "target": "smithy.api#String"
+        },
+        "retentionPeriod": {
+          "target": "smithy.api#Integer"
+        }
+      },
+      "traits": {}
+    },
+    "com.stackit.server_backup#GetBackupPoliciesResponseItemsList": {
+      "type": "list",
+      "member": {
+        "target": "com.stackit.server_backup#BackupPolicy"
+      },
+      "traits": {}
+    },
+    "com.stackit.server_backup#ListBackupPolicies": {
+      "type": "operation",
+      "input": {
+        "target": "com.stackit.server_backup#ListBackupPoliciesRequest"
+      },
+      "output": {
+        "target": "com.stackit.server_backup#GetBackupPoliciesResponse"
+      },
+      "errors": [
+        {
+          "target": "com.stackit.server_backup#BadRequest"
+        },
+        {
+          "target": "com.stackit.server_backup#NotFound"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/v2/projects/{projectId}/backup-policies",
+          "code": 200,
+          "baseUrl": "https://server-backup.api.stackit.cloud"
+        },
+        "smithy.api#documentation": "get list of backup policies"
+      }
+    },
+    "com.stackit.server_backup#ListBackupSchedulesRequest": {
+      "type": "structure",
+      "members": {
+        "projectId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "project id"
+          }
+        },
+        "region": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "region"
+          }
+        },
+        "serverId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "server id"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.stackit.server_backup#GetBackupSchedulesResponse": {
+      "type": "structure",
+      "members": {
+        "items": {
+          "target": "com.stackit.server_backup#GetBackupSchedulesResponseItemsList"
+        }
+      },
+      "traits": {}
+    },
+    "com.stackit.server_backup#BackupSchedule": {
+      "type": "structure",
+      "members": {
+        "backupProperties": {
+          "target": "com.stackit.server_backup#BackupProperties"
+        },
+        "enabled": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "id": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "rrule": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "An rrule (Recurrence Rule) is a standardized string format used in iCalendar (RFC 5545) to define repeating events, and you can generate one by using a dedicated library or by using online generator tools to specify parameters like frequency, interval, and end dates",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.stackit.server_backup#BackupProperties": {
+      "type": "structure",
+      "members": {
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Max 255 characters",
+            "smithy.api#required": {}
+          }
+        },
+        "retentionPeriod": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Values are set in days (1-36500)",
+            "smithy.api#required": {}
+          }
+        },
+        "volumeIds": {
+          "target": "com.stackit.server_backup#BackupPropertiesVolumeIdsList"
+        }
+      },
+      "traits": {}
+    },
+    "com.stackit.server_backup#BackupPropertiesVolumeIdsList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {}
+    },
+    "com.stackit.server_backup#GetBackupSchedulesResponseItemsList": {
+      "type": "list",
+      "member": {
+        "target": "com.stackit.server_backup#BackupSchedule"
+      },
+      "traits": {}
+    },
+    "com.stackit.server_backup#ListBackupSchedules": {
+      "type": "operation",
+      "input": {
+        "target": "com.stackit.server_backup#ListBackupSchedulesRequest"
+      },
+      "output": {
+        "target": "com.stackit.server_backup#GetBackupSchedulesResponse"
+      },
+      "errors": [
+        {
+          "target": "com.stackit.server_backup#BadRequest"
+        },
+        {
+          "target": "com.stackit.server_backup#NotFound"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/v2/projects/{projectId}/regions/{region}/servers/{serverId}/backup-schedules",
+          "code": 200,
+          "baseUrl": "https://server-backup.api.stackit.cloud"
+        },
+        "smithy.api#documentation": "get list of backup schedules"
+      }
+    },
+    "com.stackit.server_backup#CreateBackupScheduleRequest": {
+      "type": "structure",
+      "members": {
+        "projectId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "project id"
+          }
+        },
+        "region": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "region"
+          }
+        },
+        "serverId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "server id"
+          }
+        },
+        "backupProperties": {
+          "target": "com.stackit.server_backup#BackupProperties"
+        },
+        "enabled": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Max 255 characters",
+            "smithy.api#required": {}
+          }
+        },
+        "rrule": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "An rrule (Recurrence Rule) is a standardized string format used in iCalendar (RFC 5545) to define repeating events, and you can generate one by using a dedicated library or by using online generator tools to specify parameters like frequency, interval, and end dates",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.stackit.server_backup#CreateBackupSchedule": {
+      "type": "operation",
+      "input": {
+        "target": "com.stackit.server_backup#CreateBackupScheduleRequest"
+      },
+      "output": {
+        "target": "com.stackit.server_backup#BackupSchedule"
+      },
+      "errors": [
+        {
+          "target": "com.stackit.server_backup#BadRequest"
+        },
+        {
+          "target": "com.stackit.server_backup#NotFound"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/v2/projects/{projectId}/regions/{region}/servers/{serverId}/backup-schedules",
+          "code": 200,
+          "baseUrl": "https://server-backup.api.stackit.cloud"
+        },
+        "smithy.api#documentation": "create backup schedule"
+      }
+    },
+    "com.stackit.server_backup#GetBackupScheduleRequest": {
+      "type": "structure",
+      "members": {
+        "projectId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "project id"
+          }
+        },
+        "region": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "region"
+          }
+        },
+        "serverId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "server id"
+          }
+        },
+        "backupScheduleId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "backup schedule id"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.stackit.server_backup#GetBackupSchedule": {
+      "type": "operation",
+      "input": {
+        "target": "com.stackit.server_backup#GetBackupScheduleRequest"
+      },
+      "output": {
+        "target": "com.stackit.server_backup#BackupSchedule"
+      },
+      "errors": [
+        {
+          "target": "com.stackit.server_backup#BadRequest"
+        },
+        {
+          "target": "com.stackit.server_backup#NotFound"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/v2/projects/{projectId}/regions/{region}/servers/{serverId}/backup-schedules/{backupScheduleId}",
+          "code": 200,
+          "baseUrl": "https://server-backup.api.stackit.cloud"
+        },
+        "smithy.api#documentation": "get single backup schedule details"
+      }
+    },
+    "com.stackit.server_backup#UpdateBackupScheduleRequest": {
+      "type": "structure",
+      "members": {
+        "projectId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "project id"
+          }
+        },
+        "region": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "region"
+          }
+        },
+        "serverId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "server id"
+          }
+        },
+        "backupScheduleId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "backup schedule id"
+          }
+        },
+        "backupProperties": {
+          "target": "com.stackit.server_backup#BackupProperties"
+        },
+        "enabled": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Max 255 characters",
+            "smithy.api#required": {}
+          }
+        },
+        "rrule": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "An rrule (Recurrence Rule) is a standardized string format used in iCalendar (RFC 5545) to define repeating events, and you can generate one by using a dedicated library or by using online generator tools to specify parameters like frequency, interval, and end dates",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.stackit.server_backup#UpdateBackupSchedule": {
+      "type": "operation",
+      "input": {
+        "target": "com.stackit.server_backup#UpdateBackupScheduleRequest"
+      },
+      "output": {
+        "target": "com.stackit.server_backup#BackupSchedule"
+      },
+      "errors": [
+        {
+          "target": "com.stackit.server_backup#BadRequest"
+        },
+        {
+          "target": "com.stackit.server_backup#NotFound"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "PUT",
+          "uri": "/v2/projects/{projectId}/regions/{region}/servers/{serverId}/backup-schedules/{backupScheduleId}",
+          "code": 200,
+          "baseUrl": "https://server-backup.api.stackit.cloud"
+        },
+        "smithy.api#documentation": "update backup schedule"
+      }
+    },
+    "com.stackit.server_backup#DeleteBackupScheduleRequest": {
+      "type": "structure",
+      "members": {
+        "projectId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "project id"
+          }
+        },
+        "region": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "region"
+          }
+        },
+        "serverId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "server id"
+          }
+        },
+        "backupScheduleId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "backup schedule id"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.stackit.server_backup#DeleteBackupSchedule": {
+      "type": "operation",
+      "input": {
+        "target": "com.stackit.server_backup#DeleteBackupScheduleRequest"
+      },
+      "output": {
+        "target": "smithy.api#Unit"
+      },
+      "errors": [
+        {
+          "target": "com.stackit.server_backup#BadRequest"
+        },
+        {
+          "target": "com.stackit.server_backup#NotFound"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "DELETE",
+          "uri": "/v2/projects/{projectId}/regions/{region}/servers/{serverId}/backup-schedules/{backupScheduleId}",
+          "code": 200,
+          "baseUrl": "https://server-backup.api.stackit.cloud"
+        },
+        "smithy.api#documentation": "delete backup schedule"
+      }
+    },
+    "com.stackit.server_backup#ListBackupsRequest": {
+      "type": "structure",
+      "members": {
+        "projectId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "project id"
+          }
+        },
+        "region": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "region"
+          }
+        },
+        "serverId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "server id"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.stackit.server_backup#GetBackupsListResponse": {
+      "type": "structure",
+      "members": {
+        "items": {
+          "target": "com.stackit.server_backup#GetBackupsListResponseItemsList"
+        }
+      },
+      "traits": {}
+    },
+    "com.stackit.server_backup#Backup": {
+      "type": "structure",
+      "members": {
+        "createdAt": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "expireAt": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "lastRestoredAt": {
+          "target": "smithy.api#String"
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "size": {
+          "target": "smithy.api#Integer"
+        },
+        "status": {
+          "target": "com.stackit.server_backup#BackupStatus",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "volumeBackups": {
+          "target": "com.stackit.server_backup#BackupVolumeBackupsList"
+        }
+      },
+      "traits": {}
+    },
+    "com.stackit.server_backup#BackupStatus": {
+      "type": "enum",
+      "members": {
+        "IN_PROGRESS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "in-progress"
+          }
+        },
+        "INCONSISTENT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "inconsistent"
+          }
+        },
+        "AVAILABLE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "available"
+          }
+        },
+        "ERROR": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "error"
+          }
+        },
+        "ERROR_RESTORING": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "error-restoring"
+          }
+        },
+        "ERROR_CREATING": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "error-creating"
+          }
+        },
+        "ERROR_DELETING": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "error-deleting"
+          }
+        },
+        "UNRECOGNIZED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "unrecognized"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.stackit.server_backup#BackupVolumeBackupsItemStatus": {
+      "type": "enum",
+      "members": {
+        "AVAILABLE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "available"
+          }
+        },
+        "CREATING": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "creating"
+          }
+        },
+        "DELETING": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "deleting"
+          }
+        },
+        "ERROR_DELETING": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "error-deleting"
+          }
+        },
+        "ERROR": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "error"
+          }
+        },
+        "ERROR_RESTORING": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "error-restoring"
+          }
+        },
+        "RESTORING": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "restoring"
+          }
+        },
+        "ERROR_CREATING": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "error-creating"
+          }
+        },
+        "UNRECOGNIZED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "unrecognized"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.stackit.server_backup#BackupVolumeBackupsItem": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String"
+        },
+        "lastRestoredAt": {
+          "target": "smithy.api#String"
+        },
+        "lastRestoredVolumeId": {
+          "target": "smithy.api#String"
+        },
+        "size": {
+          "target": "smithy.api#Integer"
+        },
+        "status": {
+          "target": "com.stackit.server_backup#BackupVolumeBackupsItemStatus"
+        },
+        "volumeId": {
+          "target": "smithy.api#String"
+        }
+      },
+      "traits": {}
+    },
+    "com.stackit.server_backup#BackupVolumeBackupsList": {
+      "type": "list",
+      "member": {
+        "target": "com.stackit.server_backup#BackupVolumeBackupsItem"
+      },
+      "traits": {}
+    },
+    "com.stackit.server_backup#GetBackupsListResponseItemsList": {
+      "type": "list",
+      "member": {
+        "target": "com.stackit.server_backup#Backup"
+      },
+      "traits": {}
+    },
+    "com.stackit.server_backup#ListBackups": {
+      "type": "operation",
+      "input": {
+        "target": "com.stackit.server_backup#ListBackupsRequest"
+      },
+      "output": {
+        "target": "com.stackit.server_backup#GetBackupsListResponse"
+      },
+      "errors": [
+        {
+          "target": "com.stackit.server_backup#BadRequest"
+        },
+        {
+          "target": "com.stackit.server_backup#NotFound"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/v2/projects/{projectId}/regions/{region}/servers/{serverId}/backups",
+          "code": 200,
+          "baseUrl": "https://server-backup.api.stackit.cloud"
+        },
+        "smithy.api#documentation": "get list of backups"
+      }
+    },
+    "com.stackit.server_backup#CreateBackupRequestVolumeIdsList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {}
+    },
+    "com.stackit.server_backup#CreateBackupRequest": {
+      "type": "structure",
+      "members": {
+        "projectId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "project id"
+          }
+        },
+        "region": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "region"
+          }
+        },
+        "serverId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "server id"
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Max 255 characters",
+            "smithy.api#required": {}
+          }
+        },
+        "retentionPeriod": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Values are set in days (1-36500)",
+            "smithy.api#required": {}
+          }
+        },
+        "volumeIds": {
+          "target": "com.stackit.server_backup#CreateBackupRequestVolumeIdsList"
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.stackit.server_backup#BackupJob": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.stackit.server_backup#CreateBackup": {
+      "type": "operation",
+      "input": {
+        "target": "com.stackit.server_backup#CreateBackupRequest"
+      },
+      "output": {
+        "target": "com.stackit.server_backup#BackupJob"
+      },
+      "errors": [
+        {
+          "target": "com.stackit.server_backup#BadRequest"
+        },
+        {
+          "target": "com.stackit.server_backup#NotFound"
+        },
+        {
+          "target": "com.stackit.server_backup#Conflict"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/v2/projects/{projectId}/regions/{region}/servers/{serverId}/backups",
+          "code": 200,
+          "baseUrl": "https://server-backup.api.stackit.cloud"
+        },
+        "smithy.api#documentation": "create backup"
+      }
+    },
+    "com.stackit.server_backup#GetBackupRequest": {
+      "type": "structure",
+      "members": {
+        "projectId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "project id"
+          }
+        },
+        "region": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "region"
+          }
+        },
+        "serverId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "server id"
+          }
+        },
+        "backupId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "id of the backup"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.stackit.server_backup#GetBackup": {
+      "type": "operation",
+      "input": {
+        "target": "com.stackit.server_backup#GetBackupRequest"
+      },
+      "output": {
+        "target": "com.stackit.server_backup#Backup"
+      },
+      "errors": [
+        {
+          "target": "com.stackit.server_backup#BadRequest"
+        },
+        {
+          "target": "com.stackit.server_backup#NotFound"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/v2/projects/{projectId}/regions/{region}/servers/{serverId}/backups/{backupId}",
+          "code": 200,
+          "baseUrl": "https://server-backup.api.stackit.cloud"
+        },
+        "smithy.api#documentation": "get backup"
+      }
+    },
+    "com.stackit.server_backup#DeleteBackupRequest": {
+      "type": "structure",
+      "members": {
+        "projectId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "project id"
+          }
+        },
+        "region": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "region"
+          }
+        },
+        "serverId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "server id"
+          }
+        },
+        "backupId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "id of the backup"
+          }
+        },
+        "force": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#httpQuery": "force",
+            "smithy.api#documentation": "force delete the backup"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.stackit.server_backup#DeleteBackup": {
+      "type": "operation",
+      "input": {
+        "target": "com.stackit.server_backup#DeleteBackupRequest"
+      },
+      "output": {
+        "target": "smithy.api#Unit"
+      },
+      "errors": [
+        {
+          "target": "com.stackit.server_backup#BadRequest"
+        },
+        {
+          "target": "com.stackit.server_backup#NotFound"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "DELETE",
+          "uri": "/v2/projects/{projectId}/regions/{region}/servers/{serverId}/backups/{backupId}",
+          "code": 200,
+          "baseUrl": "https://server-backup.api.stackit.cloud"
+        },
+        "smithy.api#documentation": "delete backup"
+      }
+    },
+    "com.stackit.server_backup#RestoreBackupRequestVolumeIdsList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {}
+    },
+    "com.stackit.server_backup#RestoreBackupRequest": {
+      "type": "structure",
+      "members": {
+        "projectId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "project id"
+          }
+        },
+        "region": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "region"
+          }
+        },
+        "serverId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "server id"
+          }
+        },
+        "backupId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "id of the backup"
+          }
+        },
+        "startServerAfterRestore": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "volumeIds": {
+          "target": "com.stackit.server_backup#RestoreBackupRequestVolumeIdsList"
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.stackit.server_backup#RestoreBackup": {
+      "type": "operation",
+      "input": {
+        "target": "com.stackit.server_backup#RestoreBackupRequest"
+      },
+      "output": {
+        "target": "smithy.api#Unit"
+      },
+      "errors": [
+        {
+          "target": "com.stackit.server_backup#BadRequest"
+        },
+        {
+          "target": "com.stackit.server_backup#NotFound"
+        },
+        {
+          "target": "com.stackit.server_backup#Conflict"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/v2/projects/{projectId}/regions/{region}/servers/{serverId}/backups/{backupId}/restore",
+          "code": 200,
+          "baseUrl": "https://server-backup.api.stackit.cloud"
+        },
+        "smithy.api#documentation": "trigger restore of the requested backup"
+      }
+    },
+    "com.stackit.server_backup#DeleteVolumeBackupRequest": {
+      "type": "structure",
+      "members": {
+        "projectId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "project id"
+          }
+        },
+        "region": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "region"
+          }
+        },
+        "serverId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "server id"
+          }
+        },
+        "backupId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "id of the backup"
+          }
+        },
+        "volumeBackupId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "id of the volume backup"
+          }
+        },
+        "force": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#httpQuery": "force",
+            "smithy.api#documentation": "Force delete the volume backup"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.stackit.server_backup#DeleteVolumeBackup": {
+      "type": "operation",
+      "input": {
+        "target": "com.stackit.server_backup#DeleteVolumeBackupRequest"
+      },
+      "output": {
+        "target": "smithy.api#Unit"
+      },
+      "errors": [
+        {
+          "target": "com.stackit.server_backup#BadRequest"
+        },
+        {
+          "target": "com.stackit.server_backup#NotFound"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "DELETE",
+          "uri": "/v2/projects/{projectId}/regions/{region}/servers/{serverId}/backups/{backupId}/volume-backups/{volumeBackupId}",
+          "code": 200,
+          "baseUrl": "https://server-backup.api.stackit.cloud"
+        },
+        "smithy.api#documentation": "delete volume backup"
+      }
+    },
+    "com.stackit.server_backup#RestoreVolumeBackupRequest": {
+      "type": "structure",
+      "members": {
+        "projectId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "project id"
+          }
+        },
+        "region": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "region"
+          }
+        },
+        "serverId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "server id"
+          }
+        },
+        "backupId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "id of the backup"
+          }
+        },
+        "volumeBackupId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "id of the volume backup"
+          }
+        },
+        "restoreVolumeId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.stackit.server_backup#RestoreVolumeBackup": {
+      "type": "operation",
+      "input": {
+        "target": "com.stackit.server_backup#RestoreVolumeBackupRequest"
+      },
+      "output": {
+        "target": "smithy.api#Unit"
+      },
+      "errors": [
+        {
+          "target": "com.stackit.server_backup#BadRequest"
+        },
+        {
+          "target": "com.stackit.server_backup#NotFound"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/v2/projects/{projectId}/regions/{region}/servers/{serverId}/backups/{backupId}/volume-backups/{volumeBackupId}/restore",
+          "code": 200,
+          "baseUrl": "https://server-backup.api.stackit.cloud"
+        },
+        "smithy.api#documentation": "trigger restore of the requested volume backup"
+      }
+    },
+    "com.stackit.server_backup#GetServiceResourceRequest": {
+      "type": "structure",
+      "members": {
+        "projectId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "project id"
+          }
+        },
+        "region": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "region"
+          }
+        },
+        "serverId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "server id"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.stackit.server_backup#GetBackupServiceResponse": {
+      "type": "structure",
+      "members": {
+        "enabled": {
+          "target": "smithy.api#Boolean"
+        }
+      },
+      "traits": {}
+    },
+    "com.stackit.server_backup#GetServiceResource": {
+      "type": "operation",
+      "input": {
+        "target": "com.stackit.server_backup#GetServiceResourceRequest"
+      },
+      "output": {
+        "target": "com.stackit.server_backup#GetBackupServiceResponse"
+      },
+      "errors": [
+        {
+          "target": "com.stackit.server_backup#BadRequest"
+        },
+        {
+          "target": "com.stackit.server_backup#NotFound"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/v2/projects/{projectId}/regions/{region}/servers/{serverId}/service",
+          "code": 200,
+          "baseUrl": "https://server-backup.api.stackit.cloud"
+        },
+        "smithy.api#documentation": "get backup service details"
+      }
+    },
+    "com.stackit.server_backup#EnableServiceResourceRequest": {
+      "type": "structure",
+      "members": {
+        "projectId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "project id"
+          }
+        },
+        "region": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "region"
+          }
+        },
+        "serverId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "server id"
+          }
+        },
+        "backupPolicyId": {
+          "target": "smithy.api#String"
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.stackit.server_backup#EnableServiceResource": {
+      "type": "operation",
+      "input": {
+        "target": "com.stackit.server_backup#EnableServiceResourceRequest"
+      },
+      "output": {
+        "target": "smithy.api#Unit"
+      },
+      "errors": [
+        {
+          "target": "com.stackit.server_backup#BadRequest"
+        },
+        {
+          "target": "com.stackit.server_backup#NotFound"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/v2/projects/{projectId}/regions/{region}/servers/{serverId}/service",
+          "code": 200,
+          "baseUrl": "https://server-backup.api.stackit.cloud"
+        },
+        "smithy.api#documentation": "enable backup service"
+      }
+    },
+    "com.stackit.server_backup#DisableServiceResourceRequest": {
+      "type": "structure",
+      "members": {
+        "projectId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "project id"
+          }
+        },
+        "region": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "region"
+          }
+        },
+        "serverId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "server id"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.stackit.server_backup#DisableServiceResource": {
+      "type": "operation",
+      "input": {
+        "target": "com.stackit.server_backup#DisableServiceResourceRequest"
+      },
+      "output": {
+        "target": "smithy.api#Unit"
+      },
+      "errors": [
+        {
+          "target": "com.stackit.server_backup#BadRequest"
+        },
+        {
+          "target": "com.stackit.server_backup#NotFound"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "DELETE",
+          "uri": "/v2/projects/{projectId}/regions/{region}/servers/{serverId}/service",
+          "code": 200,
+          "baseUrl": "https://server-backup.api.stackit.cloud"
+        },
+        "smithy.api#documentation": "disable backup service"
+      }
+    },
+    "com.stackit.server_backup#BadRequest": {
+      "type": "structure",
+      "members": {},
+      "traits": {
+        "smithy.api#error": "client",
+        "smithy.api#httpError": 400,
+        "com.distilled.openapi#errorMatchers": [
+          {
+            "status": 400
+          }
+        ]
+      }
+    },
+    "com.stackit.server_backup#NotFound": {
+      "type": "structure",
+      "members": {},
+      "traits": {
+        "smithy.api#error": "client",
+        "smithy.api#httpError": 404,
+        "com.distilled.openapi#errorMatchers": [
+          {
+            "status": 404
+          }
+        ]
+      }
+    },
+    "com.stackit.server_backup#Conflict": {
+      "type": "structure",
+      "members": {},
+      "traits": {
+        "smithy.api#error": "client",
+        "smithy.api#httpError": 409,
+        "com.distilled.openapi#errorMatchers": [
+          {
+            "status": 409
+          }
+        ]
+      }
+    },
+    "com.stackit.server_backup#ServerBackup": {
+      "type": "service",
+      "version": "2.0",
+      "operations": [
+        {
+          "target": "com.stackit.server_backup#ListBackupPolicies"
+        },
+        {
+          "target": "com.stackit.server_backup#ListBackupSchedules"
+        },
+        {
+          "target": "com.stackit.server_backup#CreateBackupSchedule"
+        },
+        {
+          "target": "com.stackit.server_backup#GetBackupSchedule"
+        },
+        {
+          "target": "com.stackit.server_backup#UpdateBackupSchedule"
+        },
+        {
+          "target": "com.stackit.server_backup#DeleteBackupSchedule"
+        },
+        {
+          "target": "com.stackit.server_backup#ListBackups"
+        },
+        {
+          "target": "com.stackit.server_backup#CreateBackup"
+        },
+        {
+          "target": "com.stackit.server_backup#GetBackup"
+        },
+        {
+          "target": "com.stackit.server_backup#DeleteBackup"
+        },
+        {
+          "target": "com.stackit.server_backup#RestoreBackup"
+        },
+        {
+          "target": "com.stackit.server_backup#DeleteVolumeBackup"
+        },
+        {
+          "target": "com.stackit.server_backup#RestoreVolumeBackup"
+        },
+        {
+          "target": "com.stackit.server_backup#GetServiceResource"
+        },
+        {
+          "target": "com.stackit.server_backup#EnableServiceResource"
+        },
+        {
+          "target": "com.stackit.server_backup#DisableServiceResource"
+        }
+      ],
+      "traits": {
+        "smithy.api#title": "STACKIT Server Backup Management API",
+        "smithy.api#documentation": "API endpoints for Server Backup Operations on STACKIT Servers."
+      }
+    }
+  }
+}

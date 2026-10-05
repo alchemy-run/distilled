@@ -5,10 +5,20 @@
  * Supports both raw StreamEvent streams and typed input event streams.
  */
 
+import * as Effect from "effect/Effect";
+import * as Redacted from "effect/Redacted";
+import * as Schema from "effect/Schema";
 import * as Stream from "effect/Stream";
+import {
+  getEventMemberBindings,
+  type EventMemberBindings,
+  type EventPayloadKind,
+} from "../traits.ts";
 import {
   encodeEvent,
   type EventStreamEncodeError,
+  type HeaderValue,
+  HeaderType,
   type Headers,
   type MessageEvent,
   type StreamEvent,
@@ -129,6 +139,176 @@ export const serializeInputEventStream = <E extends InputEvent>(
   return Stream.toReadableStream(byteStream);
 };
 
+// ============================================================================
+// Schema-driven Input Event Serialization
+// ============================================================================
+
+const textEncoder = new TextEncoder();
+
+const unwrapRedacted = (value: unknown): unknown =>
+  Redacted.isRedacted(value) ? Redacted.value(value) : value;
+
+const toBytes = (value: unknown): Uint8Array => {
+  if (value instanceof Uint8Array) return value;
+  if (ArrayBuffer.isView(value)) {
+    return new Uint8Array(value.buffer, value.byteOffset, value.byteLength);
+  }
+  if (value instanceof ArrayBuffer) return new Uint8Array(value);
+  if (typeof value === "string") return textEncoder.encode(value);
+  return new Uint8Array(0);
+};
+
+const INT32_MIN = -(2 ** 31);
+const INT32_MAX = 2 ** 31 - 1;
+
+/** Map an `eventHeader` member value to a typed event stream header. */
+const toHeaderValue = (value: unknown): HeaderValue | undefined => {
+  if (typeof value === "string") return { type: HeaderType.String, value };
+  if (typeof value === "boolean") {
+    return value
+      ? { type: HeaderType.BoolTrue, value: true }
+      : { type: HeaderType.BoolFalse, value: false };
+  }
+  if (typeof value === "bigint") return { type: HeaderType.Long, value };
+  if (typeof value === "number") {
+    return Number.isInteger(value) && value >= INT32_MIN && value <= INT32_MAX
+      ? { type: HeaderType.Int, value }
+      : { type: HeaderType.Long, value: BigInt(Math.trunc(value)) };
+  }
+  if (value instanceof Date) return { type: HeaderType.Timestamp, value };
+  if (value instanceof Uint8Array || ArrayBuffer.isView(value) || value instanceof ArrayBuffer) {
+    return { type: HeaderType.ByteArray, value: toBytes(value) };
+  }
+  return undefined;
+};
+
+const PAYLOAD_CONTENT_TYPE: Record<EventPayloadKind, string> = {
+  blob: "application/octet-stream",
+  string: "text/plain",
+  structure: "application/json",
+};
+
+/**
+ * Build the frame for one input event from its decoded value (what the caller
+ * passed) and its wire form (the event schema's encoding, with blobs as
+ * base64 and sensitive values unwrapped), following Smithy's event stream
+ * binding rules:
+ * - `eventHeader` members become typed frame headers;
+ * - an `eventPayload` member IS the frame payload — raw bytes for a blob,
+ *   UTF-8 for a string, JSON for a structure;
+ * - otherwise the remaining members are the JSON payload.
+ */
+const buildInputEventMessage = (
+  eventType: string,
+  member: Record<string, unknown>,
+  wireMember: Record<string, unknown>,
+  bindings: EventMemberBindings | undefined,
+): MessageEvent => {
+  const headers: Headers = {};
+  for (const name of bindings?.headers ?? []) {
+    const header = toHeaderValue(unwrapRedacted(member[name]));
+    if (header) headers[name] = header;
+  }
+
+  const payloadBinding = bindings?.payload;
+  if (payloadBinding) {
+    const { name, kind } = payloadBinding;
+    const value = unwrapRedacted(member[name]);
+    let payload: Uint8Array;
+    if (value === undefined || value === null) {
+      payload = new Uint8Array(0);
+    } else if (kind === "structure") {
+      payload = textEncoder.encode(JSON.stringify(wireMember[name] ?? value));
+    } else {
+      payload = toBytes(value);
+    }
+    return {
+      _tag: "MessageEvent",
+      eventType,
+      contentType: PAYLOAD_CONTENT_TYPE[kind],
+      payload,
+      headers,
+    };
+  }
+
+  const body: Record<string, unknown> = { ...wireMember };
+  for (const name of bindings?.headers ?? []) delete body[name];
+  return {
+    _tag: "MessageEvent",
+    eventType,
+    contentType: "application/json",
+    payload: textEncoder.encode(JSON.stringify(body)),
+    headers,
+  };
+};
+
+/**
+ * Serialize an input event stream using its event union schema.
+ *
+ * Each event is encoded through `eventSchema` (so blob members inside JSON
+ * payloads become base64 strings, as the service expects) and framed per the
+ * `eventPayload` / `eventHeader` bindings derived from the event structs'
+ * member annotations. An explicit `eventPayloadMap` (event type → payload
+ * member) overrides the derived payload member.
+ *
+ * @param events - Stream of events, in Smithy union (`{ EventName: {...} }`)
+ *   or tagged (`{ _tag: "EventName", ... }`) form
+ * @param eventSchema - The stream's event union schema
+ * @param eventPayloadMap - Optional explicit event type → payload member map
+ */
+export const serializeInputEventStreamWithSchema = <E extends InputEvent>(
+  events: Stream.Stream<E, unknown>,
+  eventSchema: Schema.Schema<unknown> | undefined,
+  eventPayloadMap?: Record<string, string>,
+): ReadableStream<Uint8Array> => {
+  const derived = eventSchema ? (getEventMemberBindings(eventSchema) ?? {}) : {};
+  const bindings: Record<string, EventMemberBindings> = { ...derived };
+  for (const [eventType, name] of Object.entries(eventPayloadMap ?? {})) {
+    const existing = derived[eventType];
+    bindings[eventType] = {
+      headers: existing?.headers ?? [],
+      payload: {
+        name,
+        kind: existing?.payload?.name === name ? existing.payload.kind : "blob",
+      },
+    };
+  }
+  const encode = eventSchema ? Schema.encodeUnknownEffect(eventSchema) : undefined;
+
+  const byteStream = events.pipe(
+    Stream.mapEffect((event) => {
+      const { eventType, payload } = extractEventTypeAndPayload(event);
+      const member =
+        payload !== null && typeof payload === "object" ? (payload as Record<string, unknown>) : {};
+      const binding = bindings[eventType];
+      // Raw (blob/string) payload frames need no wire form; skip encoding so
+      // large audio chunks are not base64-encoded only to be discarded.
+      const needsWire = !binding?.payload || binding.payload.kind === "structure";
+      const wire: Effect.Effect<unknown> =
+        encode && needsWire
+          ? (encode({ [eventType]: member }).pipe(
+              Effect.catch(() => Effect.succeed(undefined)),
+            ) as Effect.Effect<unknown>)
+          : Effect.succeed(undefined);
+      return wire.pipe(
+        Effect.map((encoded) => {
+          const wireMember =
+            encoded !== undefined &&
+            encoded !== null &&
+            typeof encoded === "object" &&
+            eventType in encoded
+              ? ((encoded as Record<string, unknown>)[eventType] as Record<string, unknown>)
+              : member;
+          return buildInputEventMessage(eventType, member, wireMember, binding);
+        }),
+      );
+    }),
+    Stream.mapEffect(encodeEvent),
+  );
+
+  return Stream.toReadableStream(byteStream);
+};
+
 /**
  * Serialize a typed input event with a specific eventPayload member.
  * Used for events that have an @eventPayload member (like AudioEvent with AudioChunk).
@@ -143,8 +323,7 @@ export const serializeInputEventWithPayload = (
   payloadMemberName: string,
   contentType: string = "application/octet-stream",
 ): MessageEvent => {
-  const { eventType, payload: innerPayload } =
-    extractEventTypeAndPayload(event);
+  const { eventType, payload: innerPayload } = extractEventTypeAndPayload(event);
 
   // For Smithy format, innerPayload is the event object itself
   // Extract the payload member from it

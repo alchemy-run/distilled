@@ -1,0 +1,2019 @@
+{
+  "smithy": "2.0",
+  "metadata": {
+    "suppressions": [
+      {
+        "id": "HttpUriConflict",
+        "namespace": "*"
+      },
+      {
+        "id": "HttpMethodSemantics",
+        "namespace": "*"
+      },
+      {
+        "id": "UnreferencedShape",
+        "namespace": "*"
+      }
+    ],
+    "distilled.finalized": true
+  },
+  "shapes": {
+    "com.stackit.pubsub#ListTopicsRequestRegionId": {
+      "type": "enum",
+      "members": {
+        "EU01": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "eu01"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.stackit.pubsub#ListTopicsRequest": {
+      "type": "structure",
+      "members": {
+        "projectId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The STACKIT portal project UUID the resource is located in."
+          }
+        },
+        "regionId": {
+          "target": "com.stackit.pubsub#ListTopicsRequestRegionId",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The STACKIT region name the resource is located in."
+          }
+        },
+        "pageToken": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "pageToken",
+            "smithy.api#documentation": "A token to retrieve the next page of results."
+          }
+        },
+        "pageSize": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpQuery": "pageSize",
+            "smithy.api#documentation": "Maximum number of items to return"
+          }
+        },
+        "query": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "query",
+            "smithy.api#documentation": "Supply a query string to filter the results."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.stackit.pubsub#ListTopicsResponse": {
+      "type": "structure",
+      "members": {
+        "nextPageToken": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "A token to retrieve the next page of results."
+          }
+        },
+        "topics": {
+          "target": "com.stackit.pubsub#ListTopicsResponseTopicsList",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.stackit.pubsub#TopicResponse": {
+      "type": "structure",
+      "members": {
+        "createTime": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The point in time the resource was created.",
+            "smithy.api#required": {}
+          }
+        },
+        "description": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The description is a longer text chosen by the user to provide more context for the resource."
+          }
+        },
+        "displayName": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The display name is a short name chosen by the user to identify the resource.",
+            "smithy.api#required": {}
+          }
+        },
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "An auto generated unique id which identifies the resource.",
+            "smithy.api#required": {}
+          }
+        },
+        "labels": {
+          "target": "com.stackit.pubsub#Labels"
+        },
+        "settings": {
+          "target": "com.stackit.pubsub#TopicSettings"
+        },
+        "state": {
+          "target": "com.stackit.pubsub#TopicResponseState",
+          "traits": {
+            "smithy.api#documentation": "The current state of the resource.",
+            "smithy.api#required": {}
+          }
+        },
+        "uri": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The URI for reaching the resource."
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.stackit.pubsub#Labels": {
+      "type": "map",
+      "key": {
+        "target": "smithy.api#String"
+      },
+      "value": {
+        "target": "smithy.api#String"
+      },
+      "traits": {
+        "smithy.api#documentation": "Labels are key-value pairs used to group and organize subsets of resources.\n\n**Key constraints:**\n- May contain an optional domain prefix separated by a slash (`/`).\n- The domain prefix must be less than or equal to 250 characters and a valid DNS subdomain containing only lowercase alphanumerics (`[a-z0-9]`) and dashes (`-`), separated by dots (`.`).\n- The name part (excluding the domain prefix) must be between 1 and 63 characters long.\n- The name part must begin and end with an alphanumeric character (`[a-z0-9A-Z]`).\n- The name part may contain dashes (`-`), underscores (`_`), dots (`.`), and alphanumerics in between.\n- Keys starting with the prefix `stackit-` or having a domain prefix of `stackit.cloud` (including its subdomains, e.g., `*.stackit.cloud/`) are reserved for system use.\n\n**Value constraints:**\n- Must be less than or equal to 63 characters long (can be empty).\n- Must begin and end with an alphanumeric character (`[a-z0-9A-Z]`) if not empty.\n- May contain dashes (`-`), underscores (`_`), dots (`.`), and alphanumerics in between.\n\n**Count constraint:**\n- A maximum of 64 labels can be applied per resource. Restricted labels are excluded from this count.\n"
+      }
+    },
+    "com.stackit.pubsub#TopicSettings": {
+      "type": "structure",
+      "members": {
+        "acl": {
+          "target": "com.stackit.pubsub#TopicSettingsAclList",
+          "traits": {
+            "smithy.api#documentation": "Whitelist of IPs in CIDR notation that can access the topic and its underlying subscriptions."
+          }
+        },
+        "metrics": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Enables or disables metrics collection for the topic."
+          }
+        },
+        "retention": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The maximum length of time a message is persisted in storage. \nMessages older than this duration are automatically discarded/deleted.\n\n**Format:**\nMust be a scalar duration: a number (integer or decimal) followed by a unit ('s', 'm', or 'h').\n\n**Constraints:**\n- **Minimum:** \"1s\"\n- **Maximum:** \"168h\" (7 days)\n"
+          }
+        },
+        "serviceLogs": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Enables or disables sending of service logs for the topic."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Configuration settings for the topic."
+      }
+    },
+    "com.stackit.pubsub#TopicSettingsAclList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {
+        "smithy.api#documentation": "Whitelist of IPs in CIDR notation that can access the topic and its underlying subscriptions."
+      }
+    },
+    "com.stackit.pubsub#TopicResponseState": {
+      "type": "enum",
+      "members": {
+        "RECONCILING": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "reconciling"
+          }
+        },
+        "ACTIVE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "active"
+          }
+        },
+        "DELETING": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "deleting"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The current state of the resource."
+      }
+    },
+    "com.stackit.pubsub#ListTopicsResponseTopicsList": {
+      "type": "list",
+      "member": {
+        "target": "com.stackit.pubsub#TopicResponse"
+      },
+      "traits": {}
+    },
+    "com.stackit.pubsub#ListTopics": {
+      "type": "operation",
+      "input": {
+        "target": "com.stackit.pubsub#ListTopicsRequest"
+      },
+      "output": {
+        "target": "com.stackit.pubsub#ListTopicsResponse"
+      },
+      "errors": [
+        {
+          "target": "com.stackit.pubsub#BadRequest"
+        },
+        {
+          "target": "com.stackit.pubsub#Forbidden"
+        },
+        {
+          "target": "com.stackit.pubsub#NotFound"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/v1beta/projects/{projectId}/regions/{regionId}/topics",
+          "code": 200,
+          "baseUrl": "https://pubsub.api.stackit.cloud"
+        },
+        "smithy.api#documentation": "Returns a list of all topics within the PubSub project."
+      }
+    },
+    "com.stackit.pubsub#CreateTopicRequestRegionId": {
+      "type": "enum",
+      "members": {
+        "EU01": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "eu01"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.stackit.pubsub#CreateTopicRequest": {
+      "type": "structure",
+      "members": {
+        "projectId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The STACKIT portal project UUID the resource is located in."
+          }
+        },
+        "regionId": {
+          "target": "com.stackit.pubsub#CreateTopicRequestRegionId",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The STACKIT region name the resource is located in."
+          }
+        },
+        "description": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The description is a longer text chosen by the user to provide more context for the resource."
+          }
+        },
+        "displayName": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The display name is a short name chosen by the user to identify the resource.",
+            "smithy.api#required": {}
+          }
+        },
+        "labels": {
+          "target": "com.stackit.pubsub#Labels"
+        },
+        "settings": {
+          "target": "com.stackit.pubsub#TopicSettings"
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.stackit.pubsub#CreateTopic": {
+      "type": "operation",
+      "input": {
+        "target": "com.stackit.pubsub#CreateTopicRequest"
+      },
+      "output": {
+        "target": "com.stackit.pubsub#TopicResponse"
+      },
+      "errors": [
+        {
+          "target": "com.stackit.pubsub#BadRequest"
+        },
+        {
+          "target": "com.stackit.pubsub#Forbidden"
+        },
+        {
+          "target": "com.stackit.pubsub#NotFound"
+        },
+        {
+          "target": "com.stackit.pubsub#Conflict"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/v1beta/projects/{projectId}/regions/{regionId}/topics",
+          "code": 200,
+          "baseUrl": "https://pubsub.api.stackit.cloud"
+        },
+        "smithy.api#documentation": "Creates a new topic within the PubSub project."
+      }
+    },
+    "com.stackit.pubsub#GetTopicRequestRegionId": {
+      "type": "enum",
+      "members": {
+        "EU01": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "eu01"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.stackit.pubsub#GetTopicRequest": {
+      "type": "structure",
+      "members": {
+        "projectId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The STACKIT portal project UUID the resource is located in."
+          }
+        },
+        "regionId": {
+          "target": "com.stackit.pubsub#GetTopicRequestRegionId",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The STACKIT region name the resource is located in."
+          }
+        },
+        "topicId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The topic UUID."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.stackit.pubsub#GetTopic": {
+      "type": "operation",
+      "input": {
+        "target": "com.stackit.pubsub#GetTopicRequest"
+      },
+      "output": {
+        "target": "com.stackit.pubsub#TopicResponse"
+      },
+      "errors": [
+        {
+          "target": "com.stackit.pubsub#BadRequest"
+        },
+        {
+          "target": "com.stackit.pubsub#Forbidden"
+        },
+        {
+          "target": "com.stackit.pubsub#NotFound"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/v1beta/projects/{projectId}/regions/{regionId}/topics/{topicId}",
+          "code": 200,
+          "baseUrl": "https://pubsub.api.stackit.cloud"
+        },
+        "smithy.api#documentation": "Returns the details for the given topic."
+      }
+    },
+    "com.stackit.pubsub#UpdateTopicRequestRegionId": {
+      "type": "enum",
+      "members": {
+        "EU01": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "eu01"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.stackit.pubsub#UpdateTopicRequest": {
+      "type": "structure",
+      "members": {
+        "projectId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The STACKIT portal project UUID the resource is located in."
+          }
+        },
+        "regionId": {
+          "target": "com.stackit.pubsub#UpdateTopicRequestRegionId",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The STACKIT region name the resource is located in."
+          }
+        },
+        "topicId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The topic UUID."
+          }
+        },
+        "description": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The description is a longer text chosen by the user to provide more context for the resource."
+          }
+        },
+        "displayName": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The display name is a short name chosen by the user to identify the resource."
+          }
+        },
+        "labels": {
+          "target": "com.stackit.pubsub#Labels"
+        },
+        "settings": {
+          "target": "com.stackit.pubsub#TopicSettings"
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.stackit.pubsub#UpdateTopic": {
+      "type": "operation",
+      "input": {
+        "target": "com.stackit.pubsub#UpdateTopicRequest"
+      },
+      "output": {
+        "target": "smithy.api#Unit"
+      },
+      "errors": [
+        {
+          "target": "com.stackit.pubsub#BadRequest"
+        },
+        {
+          "target": "com.stackit.pubsub#Forbidden"
+        },
+        {
+          "target": "com.stackit.pubsub#NotFound"
+        },
+        {
+          "target": "com.stackit.pubsub#Conflict"
+        },
+        {
+          "target": "com.stackit.pubsub#UnprocessableEntity"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "PATCH",
+          "uri": "/v1beta/projects/{projectId}/regions/{regionId}/topics/{topicId}",
+          "code": 200,
+          "baseUrl": "https://pubsub.api.stackit.cloud"
+        },
+        "smithy.api#documentation": "Will update the given topic."
+      }
+    },
+    "com.stackit.pubsub#DeleteTopicRequestRegionId": {
+      "type": "enum",
+      "members": {
+        "EU01": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "eu01"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.stackit.pubsub#DeleteTopicRequest": {
+      "type": "structure",
+      "members": {
+        "projectId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The STACKIT portal project UUID the resource is located in."
+          }
+        },
+        "regionId": {
+          "target": "com.stackit.pubsub#DeleteTopicRequestRegionId",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The STACKIT region name the resource is located in."
+          }
+        },
+        "topicId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The topic UUID."
+          }
+        },
+        "force": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#httpQuery": "force",
+            "smithy.api#documentation": "If true, deletes the topic and all its active subscriptions (cascading delete). \nIf false (default), the operation returns a 409 conflict if active subscriptions exist.\n"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.stackit.pubsub#DeleteTopic": {
+      "type": "operation",
+      "input": {
+        "target": "com.stackit.pubsub#DeleteTopicRequest"
+      },
+      "output": {
+        "target": "smithy.api#Unit"
+      },
+      "errors": [
+        {
+          "target": "com.stackit.pubsub#BadRequest"
+        },
+        {
+          "target": "com.stackit.pubsub#Forbidden"
+        },
+        {
+          "target": "com.stackit.pubsub#NotFound"
+        },
+        {
+          "target": "com.stackit.pubsub#UnprocessableEntity"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "DELETE",
+          "uri": "/v1beta/projects/{projectId}/regions/{regionId}/topics/{topicId}",
+          "code": 200,
+          "baseUrl": "https://pubsub.api.stackit.cloud"
+        },
+        "smithy.api#documentation": "Deletes the given topic."
+      }
+    },
+    "com.stackit.pubsub#ListTopicPublishersRequestRegionId": {
+      "type": "enum",
+      "members": {
+        "EU01": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "eu01"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.stackit.pubsub#ListTopicPublishersRequest": {
+      "type": "structure",
+      "members": {
+        "projectId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The STACKIT portal project UUID the resource is located in."
+          }
+        },
+        "regionId": {
+          "target": "com.stackit.pubsub#ListTopicPublishersRequestRegionId",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The STACKIT region name the resource is located in."
+          }
+        },
+        "topicId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The topic UUID."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.stackit.pubsub#ListEmailAddressesResponse": {
+      "type": "structure",
+      "members": {
+        "emailAddresses": {
+          "target": "com.stackit.pubsub#ListEmailAddressesResponseEmailAddressesList",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.stackit.pubsub#ListEmailAddressesResponseEmailAddressesList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {}
+    },
+    "com.stackit.pubsub#ListTopicPublishers": {
+      "type": "operation",
+      "input": {
+        "target": "com.stackit.pubsub#ListTopicPublishersRequest"
+      },
+      "output": {
+        "target": "com.stackit.pubsub#ListEmailAddressesResponse"
+      },
+      "errors": [
+        {
+          "target": "com.stackit.pubsub#BadRequest"
+        },
+        {
+          "target": "com.stackit.pubsub#Forbidden"
+        },
+        {
+          "target": "com.stackit.pubsub#NotFound"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/v1beta/projects/{projectId}/regions/{regionId}/topics/{topicId}/publishers",
+          "code": 200,
+          "baseUrl": "https://pubsub.api.stackit.cloud"
+        },
+        "smithy.api#documentation": "Returns a list of emailAddresses that are allowed to publish to the given topic."
+      }
+    },
+    "com.stackit.pubsub#UpdatePublisherAccessRequestRegionId": {
+      "type": "enum",
+      "members": {
+        "EU01": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "eu01"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.stackit.pubsub#UpdatePublisherAccessRequestEmailAddressesList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {
+        "smithy.api#documentation": "A list of valid subscriber email addresses."
+      }
+    },
+    "com.stackit.pubsub#UpdatePublisherAccessRequest": {
+      "type": "structure",
+      "members": {
+        "projectId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The STACKIT portal project UUID the resource is located in."
+          }
+        },
+        "regionId": {
+          "target": "com.stackit.pubsub#UpdatePublisherAccessRequestRegionId",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The STACKIT region name the resource is located in."
+          }
+        },
+        "topicId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The topic UUID."
+          }
+        },
+        "emailAddresses": {
+          "target": "com.stackit.pubsub#UpdatePublisherAccessRequestEmailAddressesList",
+          "traits": {
+            "smithy.api#documentation": "A list of valid subscriber email addresses.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.stackit.pubsub#UpdatePublisherAccess": {
+      "type": "operation",
+      "input": {
+        "target": "com.stackit.pubsub#UpdatePublisherAccessRequest"
+      },
+      "output": {
+        "target": "smithy.api#Unit"
+      },
+      "errors": [
+        {
+          "target": "com.stackit.pubsub#BadRequest"
+        },
+        {
+          "target": "com.stackit.pubsub#Forbidden"
+        },
+        {
+          "target": "com.stackit.pubsub#NotFound"
+        },
+        {
+          "target": "com.stackit.pubsub#UnprocessableEntity"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "PUT",
+          "uri": "/v1beta/projects/{projectId}/regions/{regionId}/topics/{topicId}/publishers",
+          "code": 200,
+          "baseUrl": "https://pubsub.api.stackit.cloud"
+        },
+        "smithy.api#documentation": "Updates the access list of email-addresses to publish to the given topic."
+      }
+    },
+    "com.stackit.pubsub#GrantTopicPublisherAccessRequestRegionId": {
+      "type": "enum",
+      "members": {
+        "EU01": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "eu01"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.stackit.pubsub#GrantTopicPublisherAccessRequest": {
+      "type": "structure",
+      "members": {
+        "projectId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The STACKIT portal project UUID the resource is located in."
+          }
+        },
+        "regionId": {
+          "target": "com.stackit.pubsub#GrantTopicPublisherAccessRequestRegionId",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The STACKIT region name the resource is located in."
+          }
+        },
+        "topicId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The topic UUID."
+          }
+        },
+        "emailAddress": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "A single RFC 5322 compliant email address.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.stackit.pubsub#GrantTopicPublisherAccess": {
+      "type": "operation",
+      "input": {
+        "target": "com.stackit.pubsub#GrantTopicPublisherAccessRequest"
+      },
+      "output": {
+        "target": "smithy.api#Unit"
+      },
+      "errors": [
+        {
+          "target": "com.stackit.pubsub#BadRequest"
+        },
+        {
+          "target": "com.stackit.pubsub#Forbidden"
+        },
+        {
+          "target": "com.stackit.pubsub#NotFound"
+        },
+        {
+          "target": "com.stackit.pubsub#UnprocessableEntity"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "PATCH",
+          "uri": "/v1beta/projects/{projectId}/regions/{regionId}/topics/{topicId}/publishers",
+          "code": 200,
+          "baseUrl": "https://pubsub.api.stackit.cloud"
+        },
+        "smithy.api#documentation": "Grants an emailAddress access to publish to the given topic."
+      }
+    },
+    "com.stackit.pubsub#RevokeTopicPublisherAccessRequestRegionId": {
+      "type": "enum",
+      "members": {
+        "EU01": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "eu01"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.stackit.pubsub#RevokeTopicPublisherAccessRequest": {
+      "type": "structure",
+      "members": {
+        "projectId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The STACKIT portal project UUID the resource is located in."
+          }
+        },
+        "regionId": {
+          "target": "com.stackit.pubsub#RevokeTopicPublisherAccessRequestRegionId",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The STACKIT region name the resource is located in."
+          }
+        },
+        "topicId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The topic UUID."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.stackit.pubsub#RevokeTopicPublisherAccess": {
+      "type": "operation",
+      "input": {
+        "target": "com.stackit.pubsub#RevokeTopicPublisherAccessRequest"
+      },
+      "output": {
+        "target": "smithy.api#Unit"
+      },
+      "errors": [
+        {
+          "target": "com.stackit.pubsub#BadRequest"
+        },
+        {
+          "target": "com.stackit.pubsub#Forbidden"
+        },
+        {
+          "target": "com.stackit.pubsub#NotFound"
+        },
+        {
+          "target": "com.stackit.pubsub#UnprocessableEntity"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "DELETE",
+          "uri": "/v1beta/projects/{projectId}/regions/{regionId}/topics/{topicId}/publishers",
+          "code": 200,
+          "baseUrl": "https://pubsub.api.stackit.cloud"
+        },
+        "smithy.api#documentation": "Revokes all email-addresses access to publish to the given topic."
+      }
+    },
+    "com.stackit.pubsub#ListSubscriptionsRequestRegionId": {
+      "type": "enum",
+      "members": {
+        "EU01": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "eu01"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.stackit.pubsub#ListSubscriptionsRequest": {
+      "type": "structure",
+      "members": {
+        "projectId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The STACKIT portal project UUID the resource is located in."
+          }
+        },
+        "regionId": {
+          "target": "com.stackit.pubsub#ListSubscriptionsRequestRegionId",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The STACKIT region name the resource is located in."
+          }
+        },
+        "topicId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The topic UUID."
+          }
+        },
+        "pageToken": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "pageToken",
+            "smithy.api#documentation": "A token to retrieve the next page of results."
+          }
+        },
+        "pageSize": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpQuery": "pageSize",
+            "smithy.api#documentation": "Maximum number of items to return"
+          }
+        },
+        "query": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "query",
+            "smithy.api#documentation": "Supply a query string to filter the results."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.stackit.pubsub#ListSubscriptionsResponse": {
+      "type": "structure",
+      "members": {
+        "nextPageToken": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "A token to retrieve the next page of results."
+          }
+        },
+        "subscriptions": {
+          "target": "com.stackit.pubsub#ListSubscriptionsResponseSubscriptionsList",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.stackit.pubsub#SubscriptionResponse": {
+      "type": "structure",
+      "members": {
+        "createTime": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The point in time the resource was created.",
+            "smithy.api#required": {}
+          }
+        },
+        "description": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The description is a longer text chosen by the user to provide more context for the resource."
+          }
+        },
+        "displayName": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The display name is a short name chosen by the user to identify the resource.",
+            "smithy.api#required": {}
+          }
+        },
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "An auto generated unique id which identifies the resource.",
+            "smithy.api#required": {}
+          }
+        },
+        "labels": {
+          "target": "com.stackit.pubsub#Labels"
+        },
+        "settings": {
+          "target": "com.stackit.pubsub#SubscriptionSettings"
+        },
+        "state": {
+          "target": "com.stackit.pubsub#SubscriptionResponseState",
+          "traits": {
+            "smithy.api#documentation": "The current state of the resource.",
+            "smithy.api#required": {}
+          }
+        },
+        "topicId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The id of the topic to which the subscription belongs.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.stackit.pubsub#SubscriptionSettings": {
+      "type": "structure",
+      "members": {
+        "ackDeadline": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The maximum amount of time the system waits for a message acknowledgment. \nIf a message is not acknowledged within this window, it will be redelivered.\n\n**Format:**\nMust be a duration string consisting of a number (integer or decimal) followed by a unit ('s', 'm', or 'h').\n\n**Constraints:**\n- **Minimum:** \"1s\"\n- **Maximum:** \"168h\" (7 days)\n"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Configuration settings for the subscription."
+      }
+    },
+    "com.stackit.pubsub#SubscriptionResponseState": {
+      "type": "enum",
+      "members": {
+        "RECONCILING": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "reconciling"
+          }
+        },
+        "ACTIVE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "active"
+          }
+        },
+        "DELETING": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "deleting"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The current state of the resource."
+      }
+    },
+    "com.stackit.pubsub#ListSubscriptionsResponseSubscriptionsList": {
+      "type": "list",
+      "member": {
+        "target": "com.stackit.pubsub#SubscriptionResponse"
+      },
+      "traits": {}
+    },
+    "com.stackit.pubsub#ListSubscriptions": {
+      "type": "operation",
+      "input": {
+        "target": "com.stackit.pubsub#ListSubscriptionsRequest"
+      },
+      "output": {
+        "target": "com.stackit.pubsub#ListSubscriptionsResponse"
+      },
+      "errors": [
+        {
+          "target": "com.stackit.pubsub#BadRequest"
+        },
+        {
+          "target": "com.stackit.pubsub#Forbidden"
+        },
+        {
+          "target": "com.stackit.pubsub#NotFound"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/v1beta/projects/{projectId}/regions/{regionId}/topics/{topicId}/subscriptions",
+          "code": 200,
+          "baseUrl": "https://pubsub.api.stackit.cloud"
+        },
+        "smithy.api#documentation": "Returns a list of all topic subscriptions."
+      }
+    },
+    "com.stackit.pubsub#CreateSubscriptionRequestRegionId": {
+      "type": "enum",
+      "members": {
+        "EU01": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "eu01"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.stackit.pubsub#CreateSubscriptionRequest": {
+      "type": "structure",
+      "members": {
+        "projectId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The STACKIT portal project UUID the resource is located in."
+          }
+        },
+        "regionId": {
+          "target": "com.stackit.pubsub#CreateSubscriptionRequestRegionId",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The STACKIT region name the resource is located in."
+          }
+        },
+        "topicId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The topic UUID."
+          }
+        },
+        "description": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The description is a longer text chosen by the user to provide more context for the resource."
+          }
+        },
+        "displayName": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The display name is a short name chosen by the user to identify the resource.",
+            "smithy.api#required": {}
+          }
+        },
+        "labels": {
+          "target": "com.stackit.pubsub#Labels"
+        },
+        "settings": {
+          "target": "com.stackit.pubsub#SubscriptionSettings"
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.stackit.pubsub#CreateSubscription": {
+      "type": "operation",
+      "input": {
+        "target": "com.stackit.pubsub#CreateSubscriptionRequest"
+      },
+      "output": {
+        "target": "com.stackit.pubsub#SubscriptionResponse"
+      },
+      "errors": [
+        {
+          "target": "com.stackit.pubsub#BadRequest"
+        },
+        {
+          "target": "com.stackit.pubsub#Forbidden"
+        },
+        {
+          "target": "com.stackit.pubsub#NotFound"
+        },
+        {
+          "target": "com.stackit.pubsub#Conflict"
+        },
+        {
+          "target": "com.stackit.pubsub#UnprocessableEntity"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/v1beta/projects/{projectId}/regions/{regionId}/topics/{topicId}/subscriptions",
+          "code": 200,
+          "baseUrl": "https://pubsub.api.stackit.cloud"
+        },
+        "smithy.api#documentation": "Creates a new subscription for a topic within the PubSub project."
+      }
+    },
+    "com.stackit.pubsub#GetSubscriptionRequestRegionId": {
+      "type": "enum",
+      "members": {
+        "EU01": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "eu01"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.stackit.pubsub#GetSubscriptionRequest": {
+      "type": "structure",
+      "members": {
+        "projectId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The STACKIT portal project UUID the resource is located in."
+          }
+        },
+        "regionId": {
+          "target": "com.stackit.pubsub#GetSubscriptionRequestRegionId",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The STACKIT region name the resource is located in."
+          }
+        },
+        "topicId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The topic UUID."
+          }
+        },
+        "subscriptionId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The subscription UUID."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.stackit.pubsub#GetSubscription": {
+      "type": "operation",
+      "input": {
+        "target": "com.stackit.pubsub#GetSubscriptionRequest"
+      },
+      "output": {
+        "target": "com.stackit.pubsub#SubscriptionResponse"
+      },
+      "errors": [
+        {
+          "target": "com.stackit.pubsub#BadRequest"
+        },
+        {
+          "target": "com.stackit.pubsub#Forbidden"
+        },
+        {
+          "target": "com.stackit.pubsub#NotFound"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/v1beta/projects/{projectId}/regions/{regionId}/topics/{topicId}/subscriptions/{subscriptionId}",
+          "code": 200,
+          "baseUrl": "https://pubsub.api.stackit.cloud"
+        },
+        "smithy.api#documentation": "Returns the details for the given subscription."
+      }
+    },
+    "com.stackit.pubsub#UpdateSubscriptionRequestRegionId": {
+      "type": "enum",
+      "members": {
+        "EU01": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "eu01"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.stackit.pubsub#UpdateSubscriptionRequest": {
+      "type": "structure",
+      "members": {
+        "projectId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The STACKIT portal project UUID the resource is located in."
+          }
+        },
+        "regionId": {
+          "target": "com.stackit.pubsub#UpdateSubscriptionRequestRegionId",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The STACKIT region name the resource is located in."
+          }
+        },
+        "topicId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The topic UUID."
+          }
+        },
+        "subscriptionId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The subscription UUID."
+          }
+        },
+        "description": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The description is a longer text chosen by the user to provide more context for the resource."
+          }
+        },
+        "displayName": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The display name is a short name chosen by the user to identify the resource."
+          }
+        },
+        "labels": {
+          "target": "com.stackit.pubsub#Labels"
+        },
+        "settings": {
+          "target": "com.stackit.pubsub#SubscriptionSettings"
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.stackit.pubsub#UpdateSubscription": {
+      "type": "operation",
+      "input": {
+        "target": "com.stackit.pubsub#UpdateSubscriptionRequest"
+      },
+      "output": {
+        "target": "smithy.api#Unit"
+      },
+      "errors": [
+        {
+          "target": "com.stackit.pubsub#BadRequest"
+        },
+        {
+          "target": "com.stackit.pubsub#Forbidden"
+        },
+        {
+          "target": "com.stackit.pubsub#NotFound"
+        },
+        {
+          "target": "com.stackit.pubsub#Conflict"
+        },
+        {
+          "target": "com.stackit.pubsub#UnprocessableEntity"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "PATCH",
+          "uri": "/v1beta/projects/{projectId}/regions/{regionId}/topics/{topicId}/subscriptions/{subscriptionId}",
+          "code": 200,
+          "baseUrl": "https://pubsub.api.stackit.cloud"
+        },
+        "smithy.api#documentation": "Will update the given subscription."
+      }
+    },
+    "com.stackit.pubsub#DeleteSubscriptionRequestRegionId": {
+      "type": "enum",
+      "members": {
+        "EU01": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "eu01"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.stackit.pubsub#DeleteSubscriptionRequest": {
+      "type": "structure",
+      "members": {
+        "projectId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The STACKIT portal project UUID the resource is located in."
+          }
+        },
+        "regionId": {
+          "target": "com.stackit.pubsub#DeleteSubscriptionRequestRegionId",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The STACKIT region name the resource is located in."
+          }
+        },
+        "topicId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The topic UUID."
+          }
+        },
+        "subscriptionId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The subscription UUID."
+          }
+        },
+        "force": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#httpQuery": "force",
+            "smithy.api#documentation": "If true, deletes the topic and all its active subscriptions (cascading delete). \nIf false (default), the operation returns a 409 conflict if active subscriptions exist.\n"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.stackit.pubsub#DeleteSubscription": {
+      "type": "operation",
+      "input": {
+        "target": "com.stackit.pubsub#DeleteSubscriptionRequest"
+      },
+      "output": {
+        "target": "smithy.api#Unit"
+      },
+      "errors": [
+        {
+          "target": "com.stackit.pubsub#BadRequest"
+        },
+        {
+          "target": "com.stackit.pubsub#Forbidden"
+        },
+        {
+          "target": "com.stackit.pubsub#NotFound"
+        },
+        {
+          "target": "com.stackit.pubsub#Conflict"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "DELETE",
+          "uri": "/v1beta/projects/{projectId}/regions/{regionId}/topics/{topicId}/subscriptions/{subscriptionId}",
+          "code": 200,
+          "baseUrl": "https://pubsub.api.stackit.cloud"
+        },
+        "smithy.api#documentation": "Deletes the given subscription."
+      }
+    },
+    "com.stackit.pubsub#ListSubscriptionSubscribersRequestRegionId": {
+      "type": "enum",
+      "members": {
+        "EU01": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "eu01"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.stackit.pubsub#ListSubscriptionSubscribersRequest": {
+      "type": "structure",
+      "members": {
+        "projectId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The STACKIT portal project UUID the resource is located in."
+          }
+        },
+        "regionId": {
+          "target": "com.stackit.pubsub#ListSubscriptionSubscribersRequestRegionId",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The STACKIT region name the resource is located in."
+          }
+        },
+        "topicId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The topic UUID."
+          }
+        },
+        "subscriptionId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The subscription UUID."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.stackit.pubsub#ListSubscriptionSubscribers": {
+      "type": "operation",
+      "input": {
+        "target": "com.stackit.pubsub#ListSubscriptionSubscribersRequest"
+      },
+      "output": {
+        "target": "com.stackit.pubsub#ListEmailAddressesResponse"
+      },
+      "errors": [
+        {
+          "target": "com.stackit.pubsub#BadRequest"
+        },
+        {
+          "target": "com.stackit.pubsub#Forbidden"
+        },
+        {
+          "target": "com.stackit.pubsub#NotFound"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/v1beta/projects/{projectId}/regions/{regionId}/topics/{topicId}/subscriptions/{subscriptionId}/subscribers",
+          "code": 200,
+          "baseUrl": "https://pubsub.api.stackit.cloud"
+        },
+        "smithy.api#documentation": "Returns a list of emailAddresses that are allowed to pull from the given subscription."
+      }
+    },
+    "com.stackit.pubsub#UpdateSubscriptionSubscriberAccessRequestRegionId": {
+      "type": "enum",
+      "members": {
+        "EU01": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "eu01"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.stackit.pubsub#UpdateSubscriptionSubscriberAccessRequestEmailAddressesList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {
+        "smithy.api#documentation": "A list of valid subscriber email addresses."
+      }
+    },
+    "com.stackit.pubsub#UpdateSubscriptionSubscriberAccessRequest": {
+      "type": "structure",
+      "members": {
+        "projectId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The STACKIT portal project UUID the resource is located in."
+          }
+        },
+        "regionId": {
+          "target": "com.stackit.pubsub#UpdateSubscriptionSubscriberAccessRequestRegionId",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The STACKIT region name the resource is located in."
+          }
+        },
+        "topicId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The topic UUID."
+          }
+        },
+        "subscriptionId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The subscription UUID."
+          }
+        },
+        "emailAddresses": {
+          "target": "com.stackit.pubsub#UpdateSubscriptionSubscriberAccessRequestEmailAddressesList",
+          "traits": {
+            "smithy.api#documentation": "A list of valid subscriber email addresses.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.stackit.pubsub#UpdateSubscriptionSubscriberAccess": {
+      "type": "operation",
+      "input": {
+        "target": "com.stackit.pubsub#UpdateSubscriptionSubscriberAccessRequest"
+      },
+      "output": {
+        "target": "smithy.api#Unit"
+      },
+      "errors": [
+        {
+          "target": "com.stackit.pubsub#BadRequest"
+        },
+        {
+          "target": "com.stackit.pubsub#Forbidden"
+        },
+        {
+          "target": "com.stackit.pubsub#NotFound"
+        },
+        {
+          "target": "com.stackit.pubsub#UnprocessableEntity"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "PUT",
+          "uri": "/v1beta/projects/{projectId}/regions/{regionId}/topics/{topicId}/subscriptions/{subscriptionId}/subscribers",
+          "code": 200,
+          "baseUrl": "https://pubsub.api.stackit.cloud"
+        },
+        "smithy.api#documentation": "Updates the access list of emailAddresses to pull from the given subscription."
+      }
+    },
+    "com.stackit.pubsub#GrantSubscriptionSubscriberAccessRequestRegionId": {
+      "type": "enum",
+      "members": {
+        "EU01": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "eu01"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.stackit.pubsub#GrantSubscriptionSubscriberAccessRequest": {
+      "type": "structure",
+      "members": {
+        "projectId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The STACKIT portal project UUID the resource is located in."
+          }
+        },
+        "regionId": {
+          "target": "com.stackit.pubsub#GrantSubscriptionSubscriberAccessRequestRegionId",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The STACKIT region name the resource is located in."
+          }
+        },
+        "topicId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The topic UUID."
+          }
+        },
+        "subscriptionId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The subscription UUID."
+          }
+        },
+        "emailAddress": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "A single RFC 5322 compliant email address.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.stackit.pubsub#GrantSubscriptionSubscriberAccess": {
+      "type": "operation",
+      "input": {
+        "target": "com.stackit.pubsub#GrantSubscriptionSubscriberAccessRequest"
+      },
+      "output": {
+        "target": "smithy.api#Unit"
+      },
+      "errors": [
+        {
+          "target": "com.stackit.pubsub#BadRequest"
+        },
+        {
+          "target": "com.stackit.pubsub#Forbidden"
+        },
+        {
+          "target": "com.stackit.pubsub#NotFound"
+        },
+        {
+          "target": "com.stackit.pubsub#UnprocessableEntity"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "PATCH",
+          "uri": "/v1beta/projects/{projectId}/regions/{regionId}/topics/{topicId}/subscriptions/{subscriptionId}/subscribers",
+          "code": 200,
+          "baseUrl": "https://pubsub.api.stackit.cloud"
+        },
+        "smithy.api#documentation": "Grants an emailAddress access to pull from the given subscription."
+      }
+    },
+    "com.stackit.pubsub#RevokeSubscriptionSubscriberAccessRequestRegionId": {
+      "type": "enum",
+      "members": {
+        "EU01": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "eu01"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.stackit.pubsub#RevokeSubscriptionSubscriberAccessRequest": {
+      "type": "structure",
+      "members": {
+        "projectId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The STACKIT portal project UUID the resource is located in."
+          }
+        },
+        "regionId": {
+          "target": "com.stackit.pubsub#RevokeSubscriptionSubscriberAccessRequestRegionId",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The STACKIT region name the resource is located in."
+          }
+        },
+        "topicId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The topic UUID."
+          }
+        },
+        "subscriptionId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The subscription UUID."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.stackit.pubsub#RevokeSubscriptionSubscriberAccess": {
+      "type": "operation",
+      "input": {
+        "target": "com.stackit.pubsub#RevokeSubscriptionSubscriberAccessRequest"
+      },
+      "output": {
+        "target": "smithy.api#Unit"
+      },
+      "errors": [
+        {
+          "target": "com.stackit.pubsub#BadRequest"
+        },
+        {
+          "target": "com.stackit.pubsub#Forbidden"
+        },
+        {
+          "target": "com.stackit.pubsub#NotFound"
+        },
+        {
+          "target": "com.stackit.pubsub#UnprocessableEntity"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "DELETE",
+          "uri": "/v1beta/projects/{projectId}/regions/{regionId}/topics/{topicId}/subscriptions/{subscriptionId}/subscribers",
+          "code": 200,
+          "baseUrl": "https://pubsub.api.stackit.cloud"
+        },
+        "smithy.api#documentation": "Revokes all email-addresses access to pull from the given subscription."
+      }
+    },
+    "com.stackit.pubsub#BadRequest": {
+      "type": "structure",
+      "members": {},
+      "traits": {
+        "smithy.api#error": "client",
+        "smithy.api#httpError": 400,
+        "com.distilled.openapi#errorMatchers": [
+          {
+            "status": 400
+          }
+        ]
+      }
+    },
+    "com.stackit.pubsub#Forbidden": {
+      "type": "structure",
+      "members": {},
+      "traits": {
+        "smithy.api#error": "client",
+        "smithy.api#httpError": 403,
+        "com.distilled.openapi#errorMatchers": [
+          {
+            "status": 403
+          }
+        ]
+      }
+    },
+    "com.stackit.pubsub#NotFound": {
+      "type": "structure",
+      "members": {},
+      "traits": {
+        "smithy.api#error": "client",
+        "smithy.api#httpError": 404,
+        "com.distilled.openapi#errorMatchers": [
+          {
+            "status": 404
+          }
+        ]
+      }
+    },
+    "com.stackit.pubsub#Conflict": {
+      "type": "structure",
+      "members": {},
+      "traits": {
+        "smithy.api#error": "client",
+        "smithy.api#httpError": 409,
+        "com.distilled.openapi#errorMatchers": [
+          {
+            "status": 409
+          }
+        ]
+      }
+    },
+    "com.stackit.pubsub#UnprocessableEntity": {
+      "type": "structure",
+      "members": {},
+      "traits": {
+        "smithy.api#error": "client",
+        "smithy.api#httpError": 422,
+        "com.distilled.openapi#errorMatchers": [
+          {
+            "status": 422
+          }
+        ]
+      }
+    },
+    "com.stackit.pubsub#Pubsub": {
+      "type": "service",
+      "version": "1beta.0.0",
+      "operations": [
+        {
+          "target": "com.stackit.pubsub#ListTopics"
+        },
+        {
+          "target": "com.stackit.pubsub#CreateTopic"
+        },
+        {
+          "target": "com.stackit.pubsub#GetTopic"
+        },
+        {
+          "target": "com.stackit.pubsub#UpdateTopic"
+        },
+        {
+          "target": "com.stackit.pubsub#DeleteTopic"
+        },
+        {
+          "target": "com.stackit.pubsub#ListTopicPublishers"
+        },
+        {
+          "target": "com.stackit.pubsub#UpdatePublisherAccess"
+        },
+        {
+          "target": "com.stackit.pubsub#GrantTopicPublisherAccess"
+        },
+        {
+          "target": "com.stackit.pubsub#RevokeTopicPublisherAccess"
+        },
+        {
+          "target": "com.stackit.pubsub#ListSubscriptions"
+        },
+        {
+          "target": "com.stackit.pubsub#CreateSubscription"
+        },
+        {
+          "target": "com.stackit.pubsub#GetSubscription"
+        },
+        {
+          "target": "com.stackit.pubsub#UpdateSubscription"
+        },
+        {
+          "target": "com.stackit.pubsub#DeleteSubscription"
+        },
+        {
+          "target": "com.stackit.pubsub#ListSubscriptionSubscribers"
+        },
+        {
+          "target": "com.stackit.pubsub#UpdateSubscriptionSubscriberAccess"
+        },
+        {
+          "target": "com.stackit.pubsub#GrantSubscriptionSubscriberAccess"
+        },
+        {
+          "target": "com.stackit.pubsub#RevokeSubscriptionSubscriberAccess"
+        }
+      ],
+      "traits": {
+        "smithy.api#title": "STACKIT PubSub API",
+        "smithy.api#documentation": "This API provides endpoints for managing PubSubs."
+      }
+    }
+  }
+}

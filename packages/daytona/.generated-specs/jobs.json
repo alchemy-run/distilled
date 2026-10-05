@@ -1,0 +1,524 @@
+{
+  "smithy": "2.0",
+  "metadata": {
+    "suppressions": [
+      {
+        "id": "HttpUriConflict",
+        "namespace": "*"
+      },
+      {
+        "id": "HttpMethodSemantics",
+        "namespace": "*"
+      },
+      {
+        "id": "UnreferencedShape",
+        "namespace": "*"
+      }
+    ],
+    "distilled.finalized": true
+  },
+  "shapes": {
+    "com.daytona.jobs#JobStatus": {
+      "type": "enum",
+      "members": {
+        "PENDING": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "PENDING"
+          }
+        },
+        "IN_PROGRESS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "IN_PROGRESS"
+          }
+        },
+        "COMPLETED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "COMPLETED"
+          }
+        },
+        "FAILED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "FAILED"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.daytona.jobs#ListJobsRequest": {
+      "type": "structure",
+      "members": {
+        "page": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#httpQuery": "page",
+            "smithy.api#documentation": "Page number of the results"
+          }
+        },
+        "limit": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#httpQuery": "limit",
+            "smithy.api#documentation": "Maximum number of jobs to return (default: 100, max: 500)"
+          }
+        },
+        "status": {
+          "target": "com.daytona.jobs#JobStatus",
+          "traits": {
+            "smithy.api#httpQuery": "status",
+            "smithy.api#documentation": "Filter jobs by status"
+          }
+        },
+        "offset": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#httpQuery": "offset",
+            "smithy.api#documentation": "Number of jobs to skip for pagination (default: 0)"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.daytona.jobs#PaginatedJobs": {
+      "type": "structure",
+      "members": {
+        "items": {
+          "target": "com.daytona.jobs#PaginatedJobsItemsList",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "total": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "page": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "totalPages": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.daytona.jobs#Job": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The ID of the job",
+            "smithy.api#required": {}
+          }
+        },
+        "type": {
+          "target": "com.daytona.jobs#JobType",
+          "traits": {
+            "smithy.api#documentation": "The type of the job",
+            "smithy.api#required": {}
+          }
+        },
+        "status": {
+          "target": "com.daytona.jobs#JobStatus",
+          "traits": {
+            "smithy.api#documentation": "The status of the job",
+            "smithy.api#required": {}
+          }
+        },
+        "resourceType": {
+          "target": "com.daytona.jobs#JobResourceType",
+          "traits": {
+            "smithy.api#documentation": "The type of resource this job operates on",
+            "smithy.api#required": {}
+          }
+        },
+        "resourceId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The ID of the resource this job operates on (sandboxId, snapshotRef, etc.)",
+            "smithy.api#required": {}
+          }
+        },
+        "payload": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Job-specific JSON-encoded payload data (operational metadata)"
+          }
+        },
+        "traceContext": {
+          "target": "com.daytona.jobs#JobTraceContextMap",
+          "traits": {
+            "smithy.api#documentation": "OpenTelemetry trace context for distributed tracing (W3C Trace Context format)"
+          }
+        },
+        "errorMessage": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Error message if the job failed"
+          }
+        },
+        "createdAt": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The creation timestamp of the job",
+            "smithy.api#required": {}
+          }
+        },
+        "updatedAt": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The last update timestamp of the job"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.daytona.jobs#JobType": {
+      "type": "enum",
+      "members": {
+        "CREATE_SANDBOX": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "CREATE_SANDBOX"
+          }
+        },
+        "START_SANDBOX": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "START_SANDBOX"
+          }
+        },
+        "STOP_SANDBOX": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "STOP_SANDBOX"
+          }
+        },
+        "DESTROY_SANDBOX": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "DESTROY_SANDBOX"
+          }
+        },
+        "RESIZE_SANDBOX": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "RESIZE_SANDBOX"
+          }
+        },
+        "CREATE_BACKUP": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "CREATE_BACKUP"
+          }
+        },
+        "BUILD_SNAPSHOT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "BUILD_SNAPSHOT"
+          }
+        },
+        "PULL_SNAPSHOT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "PULL_SNAPSHOT"
+          }
+        },
+        "RECOVER_SANDBOX": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "RECOVER_SANDBOX"
+          }
+        },
+        "INSPECT_SNAPSHOT_IN_REGISTRY": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "INSPECT_SNAPSHOT_IN_REGISTRY"
+          }
+        },
+        "REMOVE_SNAPSHOT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "REMOVE_SNAPSHOT"
+          }
+        },
+        "UPDATE_SANDBOX_NETWORK_SETTINGS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "UPDATE_SANDBOX_NETWORK_SETTINGS"
+          }
+        },
+        "UPDATE_SANDBOX_SECRETS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "UPDATE_SANDBOX_SECRETS"
+          }
+        },
+        "SNAPSHOT_SANDBOX": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "SNAPSHOT_SANDBOX"
+          }
+        },
+        "FORK_SANDBOX": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "FORK_SANDBOX"
+          }
+        },
+        "PAUSE_SANDBOX": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "PAUSE_SANDBOX"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The type of the job"
+      }
+    },
+    "com.daytona.jobs#JobResourceType": {
+      "type": "enum",
+      "members": {
+        "SANDBOX": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "SANDBOX"
+          }
+        },
+        "SNAPSHOT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "SNAPSHOT"
+          }
+        },
+        "BACKUP": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "BACKUP"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The type of resource this job operates on"
+      }
+    },
+    "com.daytona.jobs#JobTraceContextMap": {
+      "type": "map",
+      "key": {
+        "target": "smithy.api#String"
+      },
+      "value": {
+        "target": "smithy.api#Document"
+      },
+      "traits": {
+        "smithy.api#documentation": "OpenTelemetry trace context for distributed tracing (W3C Trace Context format)"
+      }
+    },
+    "com.daytona.jobs#PaginatedJobsItemsList": {
+      "type": "list",
+      "member": {
+        "target": "com.daytona.jobs#Job"
+      },
+      "traits": {}
+    },
+    "com.daytona.jobs#ListJobs": {
+      "type": "operation",
+      "input": {
+        "target": "com.daytona.jobs#ListJobsRequest"
+      },
+      "output": {
+        "target": "com.daytona.jobs#PaginatedJobs"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/jobs",
+          "code": 200
+        },
+        "smithy.api#documentation": "List jobs for the runner\n\nReturns a paginated list of jobs for the runner, optionally filtered by status."
+      }
+    },
+    "com.daytona.jobs#PollJobsRequest": {
+      "type": "structure",
+      "members": {
+        "timeout": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#httpQuery": "timeout",
+            "smithy.api#documentation": "Timeout in seconds for long polling (default: 30, max: 60)"
+          }
+        },
+        "limit": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#httpQuery": "limit",
+            "smithy.api#documentation": "Maximum number of jobs to return (default: 10, max: 100)"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.daytona.jobs#PollJobsResponse": {
+      "type": "structure",
+      "members": {
+        "jobs": {
+          "target": "com.daytona.jobs#PollJobsResponseJobsList",
+          "traits": {
+            "smithy.api#documentation": "List of jobs",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.daytona.jobs#PollJobsResponseJobsList": {
+      "type": "list",
+      "member": {
+        "target": "com.daytona.jobs#Job"
+      },
+      "traits": {
+        "smithy.api#documentation": "List of jobs"
+      }
+    },
+    "com.daytona.jobs#PollJobs": {
+      "type": "operation",
+      "input": {
+        "target": "com.daytona.jobs#PollJobsRequest"
+      },
+      "output": {
+        "target": "com.daytona.jobs#PollJobsResponse"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/jobs/poll",
+          "code": 200
+        },
+        "smithy.api#documentation": "Long poll for jobs\n\nLong poll endpoint for runners to fetch pending jobs. Returns immediately if jobs are available, otherwise waits up to timeout seconds."
+      }
+    },
+    "com.daytona.jobs#GetJobRequest": {
+      "type": "structure",
+      "members": {
+        "jobId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "ID of the job"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.daytona.jobs#GetJob": {
+      "type": "operation",
+      "input": {
+        "target": "com.daytona.jobs#GetJobRequest"
+      },
+      "output": {
+        "target": "com.daytona.jobs#Job"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/jobs/{jobId}",
+          "code": 200
+        },
+        "smithy.api#documentation": "Get job details"
+      }
+    },
+    "com.daytona.jobs#UpdateJobStatusRequest": {
+      "type": "structure",
+      "members": {
+        "jobId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "ID of the job"
+          }
+        },
+        "status": {
+          "target": "com.daytona.jobs#JobStatus",
+          "traits": {
+            "smithy.api#documentation": "The new status of the job",
+            "smithy.api#required": {}
+          }
+        },
+        "errorMessage": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Error message if the job failed"
+          }
+        },
+        "resultMetadata": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Result metadata for the job"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.daytona.jobs#UpdateJobStatus": {
+      "type": "operation",
+      "input": {
+        "target": "com.daytona.jobs#UpdateJobStatusRequest"
+      },
+      "output": {
+        "target": "com.daytona.jobs#Job"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/jobs/{jobId}/status",
+          "code": 200
+        },
+        "smithy.api#documentation": "Update job status"
+      }
+    },
+    "com.daytona.jobs#Jobs": {
+      "type": "service",
+      "version": "1.0",
+      "operations": [
+        {
+          "target": "com.daytona.jobs#ListJobs"
+        },
+        {
+          "target": "com.daytona.jobs#PollJobs"
+        },
+        {
+          "target": "com.daytona.jobs#GetJob"
+        },
+        {
+          "target": "com.daytona.jobs#UpdateJobStatus"
+        }
+      ],
+      "traits": {
+        "smithy.api#title": "Daytona",
+        "smithy.api#documentation": "Daytona AI platform API Docs"
+      }
+    }
+  }
+}

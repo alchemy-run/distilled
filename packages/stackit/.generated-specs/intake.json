@@ -1,0 +1,2242 @@
+{
+  "smithy": "2.0",
+  "metadata": {
+    "suppressions": [
+      {
+        "id": "HttpUriConflict",
+        "namespace": "*"
+      },
+      {
+        "id": "HttpMethodSemantics",
+        "namespace": "*"
+      },
+      {
+        "id": "UnreferencedShape",
+        "namespace": "*"
+      }
+    ],
+    "distilled.finalized": true
+  },
+  "shapes": {
+    "com.stackit.intake#ListIntakeRunnersRequestRegionId": {
+      "type": "enum",
+      "members": {
+        "EU01": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "eu01"
+          }
+        },
+        "EU02": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "eu02"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.stackit.intake#ListIntakeRunnersRequest": {
+      "type": "structure",
+      "members": {
+        "projectId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The STACKIT portal project UUID the resource is located in."
+          }
+        },
+        "regionId": {
+          "target": "com.stackit.intake#ListIntakeRunnersRequestRegionId",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The STACKIT region name the resource is located in."
+          }
+        },
+        "pageToken": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "pageToken",
+            "smithy.api#documentation": "A token to retrieve the next page of results."
+          }
+        },
+        "pageSize": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpQuery": "pageSize",
+            "smithy.api#documentation": "Maximum number of items to return"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.stackit.intake#ListIntakeRunnersResponse": {
+      "type": "structure",
+      "members": {
+        "intakeRunners": {
+          "target": "com.stackit.intake#ListIntakeRunnersResponseIntakeRunnersList",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "nextPageToken": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "A token to retrieve the next page of results."
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.stackit.intake#IntakeRunnerResponse": {
+      "type": "structure",
+      "members": {
+        "create_time": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The point in time the resource was created.",
+            "smithy.api#required": {}
+          }
+        },
+        "description": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The description is a longer text chosen by the user to provide more context for the resource."
+          }
+        },
+        "displayName": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The display name is a short name chosen by the user to identify the resource.",
+            "smithy.api#required": {}
+          }
+        },
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "A auto generated unique id which identifies the resource.",
+            "smithy.api#required": {}
+          }
+        },
+        "labels": {
+          "target": "com.stackit.intake#IntakeRunnerResponseLabelsMap",
+          "traits": {
+            "smithy.api#documentation": "Labels are a set of key-value pairs assigned to resources.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "maxMessageSizeKiB": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "The maximum size of a message in kibibytes (1 KiB = 1024 bytes).",
+            "smithy.api#required": {}
+          }
+        },
+        "maxMessagesPerHour": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "The maximum number of messages per hour.",
+            "smithy.api#required": {}
+          }
+        },
+        "state": {
+          "target": "com.stackit.intake#IntakeRunnerResponseState",
+          "traits": {
+            "smithy.api#documentation": "The current state of the resource.",
+            "smithy.api#required": {}
+          }
+        },
+        "uri": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The URI for reaching the resource.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.stackit.intake#IntakeRunnerResponseLabelsMap": {
+      "type": "map",
+      "key": {
+        "target": "smithy.api#String"
+      },
+      "value": {
+        "target": "smithy.api#String"
+      },
+      "traits": {
+        "smithy.api#documentation": "Labels are a set of key-value pairs assigned to resources."
+      }
+    },
+    "com.stackit.intake#IntakeRunnerResponseState": {
+      "type": "enum",
+      "members": {
+        "RECONCILING": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "reconciling"
+          }
+        },
+        "ACTIVE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "active"
+          }
+        },
+        "DELETING": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "deleting"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The current state of the resource."
+      }
+    },
+    "com.stackit.intake#ListIntakeRunnersResponseIntakeRunnersList": {
+      "type": "list",
+      "member": {
+        "target": "com.stackit.intake#IntakeRunnerResponse"
+      },
+      "traits": {}
+    },
+    "com.stackit.intake#ListIntakeRunners": {
+      "type": "operation",
+      "input": {
+        "target": "com.stackit.intake#ListIntakeRunnersRequest"
+      },
+      "output": {
+        "target": "com.stackit.intake#ListIntakeRunnersResponse"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/v1beta/projects/{projectId}/regions/{regionId}/intake-runners",
+          "code": 200,
+          "baseUrl": "https://intake.api.stackit.cloud"
+        },
+        "smithy.api#documentation": "Returns a list of all intake runners within the project."
+      }
+    },
+    "com.stackit.intake#CreateIntakeRunnerRequestRegionId": {
+      "type": "enum",
+      "members": {
+        "EU01": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "eu01"
+          }
+        },
+        "EU02": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "eu02"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.stackit.intake#CreateIntakeRunnerRequestLabelsMap": {
+      "type": "map",
+      "key": {
+        "target": "smithy.api#String"
+      },
+      "value": {
+        "target": "smithy.api#String"
+      },
+      "traits": {
+        "smithy.api#documentation": "Labels are a set of key-value pairs assigned to resources."
+      }
+    },
+    "com.stackit.intake#CreateIntakeRunnerRequest": {
+      "type": "structure",
+      "members": {
+        "projectId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The STACKIT portal project UUID the resource is located in."
+          }
+        },
+        "regionId": {
+          "target": "com.stackit.intake#CreateIntakeRunnerRequestRegionId",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The STACKIT region name the resource is located in."
+          }
+        },
+        "description": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The description is a longer text chosen by the user to provide more context for the resource."
+          }
+        },
+        "displayName": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The display name is a short name chosen by the user to identify the resource.",
+            "smithy.api#required": {}
+          }
+        },
+        "labels": {
+          "target": "com.stackit.intake#CreateIntakeRunnerRequestLabelsMap",
+          "traits": {
+            "smithy.api#documentation": "Labels are a set of key-value pairs assigned to resources.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "maxMessageSizeKiB": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "The maximum size of a message in kibibytes (1 KiB = 1024 bytes).",
+            "smithy.api#required": {}
+          }
+        },
+        "maxMessagesPerHour": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "The maximum number of messages per hour.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.stackit.intake#CreateIntakeRunner": {
+      "type": "operation",
+      "input": {
+        "target": "com.stackit.intake#CreateIntakeRunnerRequest"
+      },
+      "output": {
+        "target": "com.stackit.intake#IntakeRunnerResponse"
+      },
+      "errors": [
+        {
+          "target": "com.stackit.intake#BadRequest"
+        },
+        {
+          "target": "com.stackit.intake#Conflict"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/v1beta/projects/{projectId}/regions/{regionId}/intake-runners",
+          "code": 200,
+          "baseUrl": "https://intake.api.stackit.cloud"
+        },
+        "smithy.api#documentation": "Creates a new intake runner within the project."
+      }
+    },
+    "com.stackit.intake#GetIntakeRunnerRequestRegionId": {
+      "type": "enum",
+      "members": {
+        "EU01": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "eu01"
+          }
+        },
+        "EU02": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "eu02"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.stackit.intake#GetIntakeRunnerRequest": {
+      "type": "structure",
+      "members": {
+        "projectId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The STACKIT portal project UUID the resource is located in."
+          }
+        },
+        "regionId": {
+          "target": "com.stackit.intake#GetIntakeRunnerRequestRegionId",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The STACKIT region name the resource is located in."
+          }
+        },
+        "intakeRunnerId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The intake runner UUID."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.stackit.intake#GetIntakeRunner": {
+      "type": "operation",
+      "input": {
+        "target": "com.stackit.intake#GetIntakeRunnerRequest"
+      },
+      "output": {
+        "target": "com.stackit.intake#IntakeRunnerResponse"
+      },
+      "errors": [
+        {
+          "target": "com.stackit.intake#NotFound"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/v1beta/projects/{projectId}/regions/{regionId}/intake-runners/{intakeRunnerId}",
+          "code": 200,
+          "baseUrl": "https://intake.api.stackit.cloud"
+        },
+        "smithy.api#documentation": "Returns the details for the given intake runner."
+      }
+    },
+    "com.stackit.intake#UpdateIntakeRunnerRequestRegionId": {
+      "type": "enum",
+      "members": {
+        "EU01": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "eu01"
+          }
+        },
+        "EU02": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "eu02"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.stackit.intake#UpdateIntakeRunnerRequestLabelsMap": {
+      "type": "map",
+      "key": {
+        "target": "smithy.api#String"
+      },
+      "value": {
+        "target": "smithy.api#String"
+      },
+      "traits": {
+        "smithy.api#documentation": "Labels are key-value pairs associated with the resource. To update labels:\n  - Provide a new set of key-value pairs to replace the existing labels.\n  - Send empty object `{}` to remove all labels.\n  - Omit this field to leave the labels unchanged.\n"
+      }
+    },
+    "com.stackit.intake#UpdateIntakeRunnerRequest": {
+      "type": "structure",
+      "members": {
+        "projectId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The STACKIT portal project UUID the resource is located in."
+          }
+        },
+        "regionId": {
+          "target": "com.stackit.intake#UpdateIntakeRunnerRequestRegionId",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The STACKIT region name the resource is located in."
+          }
+        },
+        "intakeRunnerId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The intake runner UUID."
+          }
+        },
+        "description": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The description is a longer text chosen by the user to provide more context for the resource."
+          }
+        },
+        "displayName": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The display name is a short name chosen by the user to identify the resource."
+          }
+        },
+        "labels": {
+          "target": "com.stackit.intake#UpdateIntakeRunnerRequestLabelsMap",
+          "traits": {
+            "smithy.api#documentation": "Labels are key-value pairs associated with the resource. To update labels:\n  - Provide a new set of key-value pairs to replace the existing labels.\n  - Send empty object `{}` to remove all labels.\n  - Omit this field to leave the labels unchanged.\n",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "maxMessageSizeKiB": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "The maximum size of a message in kibibytes (1 KiB = 1024 bytes)."
+          }
+        },
+        "maxMessagesPerHour": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "The maximum number of messages per hour."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.stackit.intake#UpdateIntakeRunner": {
+      "type": "operation",
+      "input": {
+        "target": "com.stackit.intake#UpdateIntakeRunnerRequest"
+      },
+      "output": {
+        "target": "com.stackit.intake#IntakeRunnerResponse"
+      },
+      "errors": [
+        {
+          "target": "com.stackit.intake#BadRequest"
+        },
+        {
+          "target": "com.stackit.intake#Conflict"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "PUT",
+          "uri": "/v1beta/projects/{projectId}/regions/{regionId}/intake-runners/{intakeRunnerId}",
+          "code": 200,
+          "baseUrl": "https://intake.api.stackit.cloud"
+        },
+        "smithy.api#documentation": "Updates a intake runner within the project."
+      }
+    },
+    "com.stackit.intake#DeleteIntakeRunnerRequestRegionId": {
+      "type": "enum",
+      "members": {
+        "EU01": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "eu01"
+          }
+        },
+        "EU02": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "eu02"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.stackit.intake#DeleteIntakeRunnerRequest": {
+      "type": "structure",
+      "members": {
+        "projectId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The STACKIT portal project UUID the resource is located in."
+          }
+        },
+        "regionId": {
+          "target": "com.stackit.intake#DeleteIntakeRunnerRequestRegionId",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The STACKIT region name the resource is located in."
+          }
+        },
+        "intakeRunnerId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The intake runner UUID."
+          }
+        },
+        "force": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#httpQuery": "force",
+            "smithy.api#documentation": "If true, deletes all child resources. If false, the resource remains in a 'deletion state' while child resources exist."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.stackit.intake#DeleteIntakeRunner": {
+      "type": "operation",
+      "input": {
+        "target": "com.stackit.intake#DeleteIntakeRunnerRequest"
+      },
+      "output": {
+        "target": "smithy.api#Unit"
+      },
+      "errors": [
+        {
+          "target": "com.stackit.intake#NotFound"
+        },
+        {
+          "target": "com.stackit.intake#Conflict"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "DELETE",
+          "uri": "/v1beta/projects/{projectId}/regions/{regionId}/intake-runners/{intakeRunnerId}",
+          "code": 200,
+          "baseUrl": "https://intake.api.stackit.cloud"
+        },
+        "smithy.api#documentation": "Deletes the given intake runner."
+      }
+    },
+    "com.stackit.intake#ListIntakesRequestRegionId": {
+      "type": "enum",
+      "members": {
+        "EU01": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "eu01"
+          }
+        },
+        "EU02": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "eu02"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.stackit.intake#ListIntakesRequest": {
+      "type": "structure",
+      "members": {
+        "projectId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The STACKIT portal project UUID the resource is located in."
+          }
+        },
+        "regionId": {
+          "target": "com.stackit.intake#ListIntakesRequestRegionId",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The STACKIT region name the resource is located in."
+          }
+        },
+        "pageToken": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "pageToken",
+            "smithy.api#documentation": "A token to retrieve the next page of results."
+          }
+        },
+        "pageSize": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpQuery": "pageSize",
+            "smithy.api#documentation": "Maximum number of items to return"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.stackit.intake#ListIntakesResponse": {
+      "type": "structure",
+      "members": {
+        "intakes": {
+          "target": "com.stackit.intake#ListIntakesResponseIntakesList",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "nextPageToken": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "A token to retrieve the next page of results."
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.stackit.intake#IntakeResponse": {
+      "type": "structure",
+      "members": {
+        "catalog": {
+          "target": "com.stackit.intake#IntakeCatalog",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "create_time": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The point in time the resource was created.",
+            "smithy.api#required": {}
+          }
+        },
+        "deadLetterTopic": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The topic where undelivered messages are published (Dead Letter Queue).",
+            "smithy.api#required": {}
+          }
+        },
+        "description": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The description is a longer text chosen by the user to provide more context for the resource."
+          }
+        },
+        "displayName": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The display name is a short name chosen by the user to identify the resource.",
+            "smithy.api#required": {}
+          }
+        },
+        "failure_message": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "A human-readable description of the error, if the state is 'failed'."
+          }
+        },
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "A auto generated unique id which identifies the resource.",
+            "smithy.api#required": {}
+          }
+        },
+        "intakeRunnerId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The unique id of the intake runner this intake is running on.",
+            "smithy.api#required": {}
+          }
+        },
+        "labels": {
+          "target": "com.stackit.intake#IntakeResponseLabelsMap",
+          "traits": {
+            "smithy.api#documentation": "Labels are a set of key-value pairs assigned to resources.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "state": {
+          "target": "com.stackit.intake#IntakeResponseState",
+          "traits": {
+            "smithy.api#documentation": "The current state of the resource.",
+            "smithy.api#required": {}
+          }
+        },
+        "topic": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The topic to publish data to.",
+            "smithy.api#required": {}
+          }
+        },
+        "undeliveredMessageCount": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Number of messages that failed delivery and were sent to the Dead Letter Queue."
+          }
+        },
+        "uri": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The URI for reaching the resource.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.stackit.intake#IntakeCatalog": {
+      "type": "structure",
+      "members": {
+        "auth": {
+          "target": "com.stackit.intake#CatalogAuth"
+        },
+        "namespace": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The namespace to which data shall be written. It will be automatically created, if it does not exist."
+          }
+        },
+        "partitionBy": {
+          "target": "com.stackit.intake#IntakeCatalogPartitionByList",
+          "traits": {
+            "smithy.api#documentation": "List of Iceberg partitioning expressions to use when creating the target table.\nThis setting can only be used when `partitioning` is set to `manual`.\nPartitioning configuration of an Intake can be changed after creation, but will only take effect once the\ntable has been changed as well. In case of not updating the table to a new one, the old partitioning configuration \nwill remain.\nSee the [Apache Iceberg spec](https://iceberg.apache.org/spec/#partitioning) for more details.\n",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "partitioning": {
+          "target": "com.stackit.intake#PartitioningType"
+        },
+        "tableName": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The table name is a short name chosen by the user to identify the table in Iceberg."
+          }
+        },
+        "uri": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The URI to the Iceberg catalog endpoint",
+            "smithy.api#required": {}
+          }
+        },
+        "warehouse": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The Iceberg warehouse to connect to, required when the catalog has no default warehouse configured.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The Iceberg catalog configuration"
+      }
+    },
+    "com.stackit.intake#CatalogAuth": {
+      "type": "structure",
+      "members": {
+        "dremio": {
+          "target": "com.stackit.intake#DremioAuth"
+        },
+        "type": {
+          "target": "com.stackit.intake#CatalogAuthType",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Configures authentication for the Iceberg catalog"
+      }
+    },
+    "com.stackit.intake#DremioAuth": {
+      "type": "structure",
+      "members": {
+        "personalAccessToken": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "A Dremio personal access token for authentication",
+            "smithy.api#required": {}
+          }
+        },
+        "tokenEndpoint": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The URL to the Dremio instance's OAuth 2.0 token endpoint",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.stackit.intake#CatalogAuthType": {
+      "type": "enum",
+      "members": {
+        "NONE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "none"
+          }
+        },
+        "DREMIO": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "dremio"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Means of authentication for catalog requests"
+      }
+    },
+    "com.stackit.intake#IntakeCatalogPartitionByList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {
+        "smithy.api#documentation": "List of Iceberg partitioning expressions to use when creating the target table.\nThis setting can only be used when `partitioning` is set to `manual`.\nPartitioning configuration of an Intake can be changed after creation, but will only take effect once the\ntable has been changed as well. In case of not updating the table to a new one, the old partitioning configuration \nwill remain.\nSee the [Apache Iceberg spec](https://iceberg.apache.org/spec/#partitioning) for more details.\n"
+      }
+    },
+    "com.stackit.intake#PartitioningType": {
+      "type": "enum",
+      "members": {
+        "NONE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "none"
+          }
+        },
+        "INTAKE_TIME": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "intake-time"
+          }
+        },
+        "MANUAL": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "manual"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The target table's partitioning.\n* `none` disables partitioning, the default.\n* `intake-time` configures daily partitioning based on the automatically created ingestion time column `__intake_ts`.\n* `manual` allows arbitrary Iceberg partitioning expression to be set via `partitionBy`.\n"
+      }
+    },
+    "com.stackit.intake#IntakeResponseLabelsMap": {
+      "type": "map",
+      "key": {
+        "target": "smithy.api#String"
+      },
+      "value": {
+        "target": "smithy.api#String"
+      },
+      "traits": {
+        "smithy.api#documentation": "Labels are a set of key-value pairs assigned to resources."
+      }
+    },
+    "com.stackit.intake#IntakeResponseState": {
+      "type": "enum",
+      "members": {
+        "RECONCILING": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "reconciling"
+          }
+        },
+        "ACTIVE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "active"
+          }
+        },
+        "DELETING": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "deleting"
+          }
+        },
+        "FAILED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "failed"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The current state of the resource."
+      }
+    },
+    "com.stackit.intake#ListIntakesResponseIntakesList": {
+      "type": "list",
+      "member": {
+        "target": "com.stackit.intake#IntakeResponse"
+      },
+      "traits": {}
+    },
+    "com.stackit.intake#ListIntakes": {
+      "type": "operation",
+      "input": {
+        "target": "com.stackit.intake#ListIntakesRequest"
+      },
+      "output": {
+        "target": "com.stackit.intake#ListIntakesResponse"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/v1beta/projects/{projectId}/regions/{regionId}/intakes",
+          "code": 200,
+          "baseUrl": "https://intake.api.stackit.cloud"
+        },
+        "smithy.api#documentation": "Returns a list of all intakes within the project."
+      }
+    },
+    "com.stackit.intake#CreateIntakeRequestRegionId": {
+      "type": "enum",
+      "members": {
+        "EU01": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "eu01"
+          }
+        },
+        "EU02": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "eu02"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.stackit.intake#CreateIntakeRequestLabelsMap": {
+      "type": "map",
+      "key": {
+        "target": "smithy.api#String"
+      },
+      "value": {
+        "target": "smithy.api#String"
+      },
+      "traits": {
+        "smithy.api#documentation": "Labels are a set of key-value pairs assigned to resources."
+      }
+    },
+    "com.stackit.intake#CreateIntakeRequest": {
+      "type": "structure",
+      "members": {
+        "projectId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The STACKIT portal project UUID the resource is located in."
+          }
+        },
+        "regionId": {
+          "target": "com.stackit.intake#CreateIntakeRequestRegionId",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The STACKIT region name the resource is located in."
+          }
+        },
+        "catalog": {
+          "target": "com.stackit.intake#IntakeCatalog",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "description": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The description is a longer text chosen by the user to provide more context for the resource."
+          }
+        },
+        "displayName": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The display name is a short name chosen by the user to identify the resource.",
+            "smithy.api#required": {}
+          }
+        },
+        "intakeRunnerId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The unique id of the intake runner this intake should run on.",
+            "smithy.api#required": {}
+          }
+        },
+        "labels": {
+          "target": "com.stackit.intake#CreateIntakeRequestLabelsMap",
+          "traits": {
+            "smithy.api#documentation": "Labels are a set of key-value pairs assigned to resources.",
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.stackit.intake#CreateIntake": {
+      "type": "operation",
+      "input": {
+        "target": "com.stackit.intake#CreateIntakeRequest"
+      },
+      "output": {
+        "target": "com.stackit.intake#IntakeResponse"
+      },
+      "errors": [
+        {
+          "target": "com.stackit.intake#BadRequest"
+        },
+        {
+          "target": "com.stackit.intake#Conflict"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/v1beta/projects/{projectId}/regions/{regionId}/intakes",
+          "code": 200,
+          "baseUrl": "https://intake.api.stackit.cloud"
+        },
+        "smithy.api#documentation": "Creates a new intake within the project."
+      }
+    },
+    "com.stackit.intake#GetIntakeRequestRegionId": {
+      "type": "enum",
+      "members": {
+        "EU01": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "eu01"
+          }
+        },
+        "EU02": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "eu02"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.stackit.intake#GetIntakeRequest": {
+      "type": "structure",
+      "members": {
+        "projectId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The STACKIT portal project UUID the resource is located in."
+          }
+        },
+        "regionId": {
+          "target": "com.stackit.intake#GetIntakeRequestRegionId",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The STACKIT region name the resource is located in."
+          }
+        },
+        "intakeId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The intake UUID."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.stackit.intake#GetIntake": {
+      "type": "operation",
+      "input": {
+        "target": "com.stackit.intake#GetIntakeRequest"
+      },
+      "output": {
+        "target": "com.stackit.intake#IntakeResponse"
+      },
+      "errors": [
+        {
+          "target": "com.stackit.intake#NotFound"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/v1beta/projects/{projectId}/regions/{regionId}/intakes/{intakeId}",
+          "code": 200,
+          "baseUrl": "https://intake.api.stackit.cloud"
+        },
+        "smithy.api#documentation": "Returns the details for the given intake."
+      }
+    },
+    "com.stackit.intake#UpdateIntakeRequestRegionId": {
+      "type": "enum",
+      "members": {
+        "EU01": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "eu01"
+          }
+        },
+        "EU02": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "eu02"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.stackit.intake#IntakeCatalogPatch": {
+      "type": "structure",
+      "members": {
+        "auth": {
+          "target": "com.stackit.intake#CatalogAuthPatch"
+        },
+        "namespace": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The namespace to which data shall be written. It will be automatically created, if it does not exist."
+          }
+        },
+        "partitionBy": {
+          "target": "com.stackit.intake#IntakeCatalogPatchPartitionByList",
+          "traits": {
+            "smithy.api#documentation": "List of Iceberg partitioning expressions to use when creating the target table.\nThis setting can only be used when `partitioning` is set to `manual`.\nSee the [Apache Iceberg spec](https://iceberg.apache.org/spec/#partitioning) for more details.\n",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "partitioning": {
+          "target": "com.stackit.intake#PartitioningUpdateType"
+        },
+        "tableName": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The table name is a short name chosen by the user to identify the table in Iceberg."
+          }
+        },
+        "uri": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The URI to the Iceberg catalog endpoint"
+          }
+        },
+        "warehouse": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The Iceberg warehouse to connect to, required when the catalog has no default warehouse configured."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The Iceberg catalog configuration"
+      }
+    },
+    "com.stackit.intake#CatalogAuthPatch": {
+      "type": "structure",
+      "members": {
+        "dremio": {
+          "target": "com.stackit.intake#DremioAuthPatch"
+        },
+        "type": {
+          "target": "com.stackit.intake#CatalogAuthType"
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Configures authentication for the Iceberg catalog"
+      }
+    },
+    "com.stackit.intake#DremioAuthPatch": {
+      "type": "structure",
+      "members": {
+        "personalAccessToken": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "A Dremio personal access token for authentication"
+          }
+        },
+        "tokenEndpoint": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The URL to the Dremio instance's OAuth 2.0 token endpoint"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.stackit.intake#IntakeCatalogPatchPartitionByList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {
+        "smithy.api#documentation": "List of Iceberg partitioning expressions to use when creating the target table.\nThis setting can only be used when `partitioning` is set to `manual`.\nSee the [Apache Iceberg spec](https://iceberg.apache.org/spec/#partitioning) for more details.\n"
+      }
+    },
+    "com.stackit.intake#PartitioningUpdateType": {
+      "type": "enum",
+      "members": {
+        "NONE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "none"
+          }
+        },
+        "INTAKE_TIME": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "intake-time"
+          }
+        },
+        "MANUAL": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "manual"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The target table's partitioning.\n* `none` disables partitioning.\n* `intake-time` configures daily partitioning based on the automatically created ingestion time column `__intake_ts`.\n* `manual` allows arbitrary Iceberg partitioning expression to be set via `partitionBy`.\n"
+      }
+    },
+    "com.stackit.intake#UpdateIntakeRequestLabelsMap": {
+      "type": "map",
+      "key": {
+        "target": "smithy.api#String"
+      },
+      "value": {
+        "target": "smithy.api#String"
+      },
+      "traits": {
+        "smithy.api#documentation": "Labels are key-value pairs associated with the resource. To update labels:\n  - Provide a new set of key-value pairs to replace the existing labels.\n  - Send empty object `{}` to remove all labels.\n  - Omit this field to leave the labels unchanged.\n"
+      }
+    },
+    "com.stackit.intake#UpdateIntakeRequest": {
+      "type": "structure",
+      "members": {
+        "projectId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The STACKIT portal project UUID the resource is located in."
+          }
+        },
+        "regionId": {
+          "target": "com.stackit.intake#UpdateIntakeRequestRegionId",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The STACKIT region name the resource is located in."
+          }
+        },
+        "intakeId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The intake UUID."
+          }
+        },
+        "catalog": {
+          "target": "com.stackit.intake#IntakeCatalogPatch"
+        },
+        "description": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The description is a longer text chosen by the user to provide more context for the resource."
+          }
+        },
+        "displayName": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The display name is a short name chosen by the user to identify the resource."
+          }
+        },
+        "intakeRunnerId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The unique id of the intake runner this intake should run on.",
+            "smithy.api#required": {}
+          }
+        },
+        "labels": {
+          "target": "com.stackit.intake#UpdateIntakeRequestLabelsMap",
+          "traits": {
+            "smithy.api#documentation": "Labels are key-value pairs associated with the resource. To update labels:\n  - Provide a new set of key-value pairs to replace the existing labels.\n  - Send empty object `{}` to remove all labels.\n  - Omit this field to leave the labels unchanged.\n",
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.stackit.intake#UpdateIntake": {
+      "type": "operation",
+      "input": {
+        "target": "com.stackit.intake#UpdateIntakeRequest"
+      },
+      "output": {
+        "target": "com.stackit.intake#IntakeResponse"
+      },
+      "errors": [
+        {
+          "target": "com.stackit.intake#NotFound"
+        },
+        {
+          "target": "com.stackit.intake#Conflict"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "PUT",
+          "uri": "/v1beta/projects/{projectId}/regions/{regionId}/intakes/{intakeId}",
+          "code": 200,
+          "baseUrl": "https://intake.api.stackit.cloud"
+        },
+        "smithy.api#documentation": "Updates the given intake."
+      }
+    },
+    "com.stackit.intake#DeleteIntakeRequestRegionId": {
+      "type": "enum",
+      "members": {
+        "EU01": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "eu01"
+          }
+        },
+        "EU02": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "eu02"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.stackit.intake#DeleteIntakeRequest": {
+      "type": "structure",
+      "members": {
+        "projectId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The STACKIT portal project UUID the resource is located in."
+          }
+        },
+        "regionId": {
+          "target": "com.stackit.intake#DeleteIntakeRequestRegionId",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The STACKIT region name the resource is located in."
+          }
+        },
+        "intakeId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The intake UUID."
+          }
+        },
+        "force": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#httpQuery": "force",
+            "smithy.api#documentation": "If true, deletes all child resources. If false, the resource remains in a 'deletion state' while child resources exist."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.stackit.intake#DeleteIntake": {
+      "type": "operation",
+      "input": {
+        "target": "com.stackit.intake#DeleteIntakeRequest"
+      },
+      "output": {
+        "target": "smithy.api#Unit"
+      },
+      "errors": [
+        {
+          "target": "com.stackit.intake#NotFound"
+        },
+        {
+          "target": "com.stackit.intake#Conflict"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "DELETE",
+          "uri": "/v1beta/projects/{projectId}/regions/{regionId}/intakes/{intakeId}",
+          "code": 200,
+          "baseUrl": "https://intake.api.stackit.cloud"
+        },
+        "smithy.api#documentation": "Deletes the given intake."
+      }
+    },
+    "com.stackit.intake#ListIntakeUsersRequestRegionId": {
+      "type": "enum",
+      "members": {
+        "EU01": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "eu01"
+          }
+        },
+        "EU02": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "eu02"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.stackit.intake#ListIntakeUsersRequest": {
+      "type": "structure",
+      "members": {
+        "projectId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The STACKIT portal project UUID the resource is located in."
+          }
+        },
+        "regionId": {
+          "target": "com.stackit.intake#ListIntakeUsersRequestRegionId",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The STACKIT region name the resource is located in."
+          }
+        },
+        "intakeId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The intake UUID."
+          }
+        },
+        "pageToken": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "pageToken",
+            "smithy.api#documentation": "A token to retrieve the next page of results."
+          }
+        },
+        "pageSize": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpQuery": "pageSize",
+            "smithy.api#documentation": "Maximum number of items to return"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.stackit.intake#ListIntakeUsersResponse": {
+      "type": "structure",
+      "members": {
+        "intakeUsers": {
+          "target": "com.stackit.intake#ListIntakeUsersResponseIntakeUsersList",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "nextPageToken": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "A token to retrieve the next page of results."
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.stackit.intake#IntakeUserResponse": {
+      "type": "structure",
+      "members": {
+        "clientConfig": {
+          "target": "com.stackit.intake#ClientConfig"
+        },
+        "create_time": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The point in time the resource was created.",
+            "smithy.api#required": {}
+          }
+        },
+        "description": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The description is a longer text chosen by the user to provide more context for the resource."
+          }
+        },
+        "displayName": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The display name is a short name chosen by the user to identify the resource.",
+            "smithy.api#required": {}
+          }
+        },
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "A auto generated unique id which identifies the resource.",
+            "smithy.api#required": {}
+          }
+        },
+        "labels": {
+          "target": "com.stackit.intake#IntakeUserResponseLabelsMap",
+          "traits": {
+            "smithy.api#documentation": "Labels are a set of key-value pairs assigned to resources.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "state": {
+          "target": "com.stackit.intake#IntakeUserResponseState",
+          "traits": {
+            "smithy.api#documentation": "The current state of the resource.",
+            "smithy.api#required": {}
+          }
+        },
+        "type": {
+          "target": "com.stackit.intake#UserType",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "user": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The user to connect to the intake.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.stackit.intake#ClientConfig": {
+      "type": "structure",
+      "members": {
+        "java": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Configuration for Java Kafka clients.",
+            "smithy.api#required": {}
+          }
+        },
+        "librdkafka": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Configuration for Kafka clients using librdkafka",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Configuration properties for supported clients."
+      }
+    },
+    "com.stackit.intake#IntakeUserResponseLabelsMap": {
+      "type": "map",
+      "key": {
+        "target": "smithy.api#String"
+      },
+      "value": {
+        "target": "smithy.api#String"
+      },
+      "traits": {
+        "smithy.api#documentation": "Labels are a set of key-value pairs assigned to resources."
+      }
+    },
+    "com.stackit.intake#IntakeUserResponseState": {
+      "type": "enum",
+      "members": {
+        "RECONCILING": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "reconciling"
+          }
+        },
+        "ACTIVE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "active"
+          }
+        },
+        "DELETING": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "deleting"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The current state of the resource."
+      }
+    },
+    "com.stackit.intake#UserType": {
+      "type": "enum",
+      "members": {
+        "INTAKE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "intake"
+          }
+        },
+        "DEAD_LETTER": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "dead-letter"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Type of user, 'intake' allows writing to the Intake, 'dead-letter' allows reading from the dead-letter queue"
+      }
+    },
+    "com.stackit.intake#ListIntakeUsersResponseIntakeUsersList": {
+      "type": "list",
+      "member": {
+        "target": "com.stackit.intake#IntakeUserResponse"
+      },
+      "traits": {}
+    },
+    "com.stackit.intake#ListIntakeUsers": {
+      "type": "operation",
+      "input": {
+        "target": "com.stackit.intake#ListIntakeUsersRequest"
+      },
+      "output": {
+        "target": "com.stackit.intake#ListIntakeUsersResponse"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/v1beta/projects/{projectId}/regions/{regionId}/intakes/{intakeId}/users",
+          "code": 200,
+          "baseUrl": "https://intake.api.stackit.cloud"
+        },
+        "smithy.api#documentation": "Returns a list of all intake users within the project and intake."
+      }
+    },
+    "com.stackit.intake#CreateIntakeUserRequestRegionId": {
+      "type": "enum",
+      "members": {
+        "EU01": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "eu01"
+          }
+        },
+        "EU02": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "eu02"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.stackit.intake#CreateIntakeUserRequestLabelsMap": {
+      "type": "map",
+      "key": {
+        "target": "smithy.api#String"
+      },
+      "value": {
+        "target": "smithy.api#String"
+      },
+      "traits": {
+        "smithy.api#documentation": "Labels are key-value pairs associated with the resource."
+      }
+    },
+    "com.stackit.intake#CreateIntakeUserRequest": {
+      "type": "structure",
+      "members": {
+        "projectId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The STACKIT portal project UUID the resource is located in."
+          }
+        },
+        "regionId": {
+          "target": "com.stackit.intake#CreateIntakeUserRequestRegionId",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The STACKIT region name the resource is located in."
+          }
+        },
+        "intakeId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The intake UUID."
+          }
+        },
+        "description": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The description is a longer text chosen by the user to provide more context for the resource."
+          }
+        },
+        "displayName": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The display name is a short name chosen by the user to identify the resource.",
+            "smithy.api#required": {}
+          }
+        },
+        "labels": {
+          "target": "com.stackit.intake#CreateIntakeUserRequestLabelsMap",
+          "traits": {
+            "smithy.api#documentation": "Labels are key-value pairs associated with the resource.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "password": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "A password chosen by the user.\n\nThe password must consist of at least of each of these categories:\n* lower case letter\n* upper case letter\n* number\n* other character\n",
+            "smithy.api#required": {},
+            "smithy.api#sensitive": {}
+          }
+        },
+        "type": {
+          "target": "com.stackit.intake#UserType"
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.stackit.intake#CreateIntakeUser": {
+      "type": "operation",
+      "input": {
+        "target": "com.stackit.intake#CreateIntakeUserRequest"
+      },
+      "output": {
+        "target": "com.stackit.intake#IntakeUserResponse"
+      },
+      "errors": [
+        {
+          "target": "com.stackit.intake#BadRequest"
+        },
+        {
+          "target": "com.stackit.intake#Conflict"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/v1beta/projects/{projectId}/regions/{regionId}/intakes/{intakeId}/users",
+          "code": 200,
+          "baseUrl": "https://intake.api.stackit.cloud"
+        },
+        "smithy.api#documentation": "Creates a new user for this intake."
+      }
+    },
+    "com.stackit.intake#GetIntakeUserRequestRegionId": {
+      "type": "enum",
+      "members": {
+        "EU01": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "eu01"
+          }
+        },
+        "EU02": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "eu02"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.stackit.intake#GetIntakeUserRequest": {
+      "type": "structure",
+      "members": {
+        "projectId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The STACKIT portal project UUID the resource is located in."
+          }
+        },
+        "regionId": {
+          "target": "com.stackit.intake#GetIntakeUserRequestRegionId",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The STACKIT region name the resource is located in."
+          }
+        },
+        "intakeId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The intake UUID."
+          }
+        },
+        "intakeUserId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The intake user UUID."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.stackit.intake#GetIntakeUser": {
+      "type": "operation",
+      "input": {
+        "target": "com.stackit.intake#GetIntakeUserRequest"
+      },
+      "output": {
+        "target": "com.stackit.intake#IntakeUserResponse"
+      },
+      "errors": [
+        {
+          "target": "com.stackit.intake#NotFound"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/v1beta/projects/{projectId}/regions/{regionId}/intakes/{intakeId}/users/{intakeUserId}",
+          "code": 200,
+          "baseUrl": "https://intake.api.stackit.cloud"
+        },
+        "smithy.api#documentation": "Returns the details for the given user."
+      }
+    },
+    "com.stackit.intake#UpdateIntakeUserRequestRegionId": {
+      "type": "enum",
+      "members": {
+        "EU01": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "eu01"
+          }
+        },
+        "EU02": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "eu02"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.stackit.intake#UpdateIntakeUserRequestLabelsMap": {
+      "type": "map",
+      "key": {
+        "target": "smithy.api#String"
+      },
+      "value": {
+        "target": "smithy.api#String"
+      },
+      "traits": {
+        "smithy.api#documentation": "Labels are key-value pairs associated with the resource. To update labels:\n  - Provide a new set of key-value pairs to replace the existing labels.\n  - Send empty object `{}` to remove all labels.\n  - Omit this field to leave the labels unchanged.\n"
+      }
+    },
+    "com.stackit.intake#UpdateIntakeUserRequest": {
+      "type": "structure",
+      "members": {
+        "projectId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The STACKIT portal project UUID the resource is located in."
+          }
+        },
+        "regionId": {
+          "target": "com.stackit.intake#UpdateIntakeUserRequestRegionId",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The STACKIT region name the resource is located in."
+          }
+        },
+        "intakeId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The intake UUID."
+          }
+        },
+        "intakeUserId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The intake user UUID."
+          }
+        },
+        "description": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The description is a longer text chosen by the user to provide more context for the resource."
+          }
+        },
+        "displayName": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The display name is a short name chosen by the user to identify the resource."
+          }
+        },
+        "labels": {
+          "target": "com.stackit.intake#UpdateIntakeUserRequestLabelsMap",
+          "traits": {
+            "smithy.api#documentation": "Labels are key-value pairs associated with the resource. To update labels:\n  - Provide a new set of key-value pairs to replace the existing labels.\n  - Send empty object `{}` to remove all labels.\n  - Omit this field to leave the labels unchanged.\n",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "password": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "A password chosen by the user.",
+            "smithy.api#sensitive": {}
+          }
+        },
+        "type": {
+          "target": "com.stackit.intake#UserType"
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.stackit.intake#UpdateIntakeUser": {
+      "type": "operation",
+      "input": {
+        "target": "com.stackit.intake#UpdateIntakeUserRequest"
+      },
+      "output": {
+        "target": "com.stackit.intake#IntakeUserResponse"
+      },
+      "errors": [
+        {
+          "target": "com.stackit.intake#NotFound"
+        },
+        {
+          "target": "com.stackit.intake#Conflict"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "PUT",
+          "uri": "/v1beta/projects/{projectId}/regions/{regionId}/intakes/{intakeId}/users/{intakeUserId}",
+          "code": 200,
+          "baseUrl": "https://intake.api.stackit.cloud"
+        },
+        "smithy.api#documentation": "Updates the given intake user."
+      }
+    },
+    "com.stackit.intake#DeleteIntakeUserRequestRegionId": {
+      "type": "enum",
+      "members": {
+        "EU01": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "eu01"
+          }
+        },
+        "EU02": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "eu02"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.stackit.intake#DeleteIntakeUserRequest": {
+      "type": "structure",
+      "members": {
+        "projectId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The STACKIT portal project UUID the resource is located in."
+          }
+        },
+        "regionId": {
+          "target": "com.stackit.intake#DeleteIntakeUserRequestRegionId",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The STACKIT region name the resource is located in."
+          }
+        },
+        "intakeId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The intake UUID."
+          }
+        },
+        "intakeUserId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The intake user UUID."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.stackit.intake#DeleteIntakeUser": {
+      "type": "operation",
+      "input": {
+        "target": "com.stackit.intake#DeleteIntakeUserRequest"
+      },
+      "output": {
+        "target": "smithy.api#Unit"
+      },
+      "errors": [
+        {
+          "target": "com.stackit.intake#NotFound"
+        },
+        {
+          "target": "com.stackit.intake#Conflict"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "DELETE",
+          "uri": "/v1beta/projects/{projectId}/regions/{regionId}/intakes/{intakeId}/users/{intakeUserId}",
+          "code": 200,
+          "baseUrl": "https://intake.api.stackit.cloud"
+        },
+        "smithy.api#documentation": "Deletes the given intake user."
+      }
+    },
+    "com.stackit.intake#BadRequest": {
+      "type": "structure",
+      "members": {},
+      "traits": {
+        "smithy.api#error": "client",
+        "smithy.api#httpError": 400,
+        "com.distilled.openapi#errorMatchers": [
+          {
+            "status": 400
+          }
+        ]
+      }
+    },
+    "com.stackit.intake#Conflict": {
+      "type": "structure",
+      "members": {},
+      "traits": {
+        "smithy.api#error": "client",
+        "smithy.api#httpError": 409,
+        "com.distilled.openapi#errorMatchers": [
+          {
+            "status": 409
+          }
+        ]
+      }
+    },
+    "com.stackit.intake#NotFound": {
+      "type": "structure",
+      "members": {},
+      "traits": {
+        "smithy.api#error": "client",
+        "smithy.api#httpError": 404,
+        "com.distilled.openapi#errorMatchers": [
+          {
+            "status": 404
+          }
+        ]
+      }
+    },
+    "com.stackit.intake#Intake": {
+      "type": "service",
+      "version": "1beta.3.7",
+      "operations": [
+        {
+          "target": "com.stackit.intake#ListIntakeRunners"
+        },
+        {
+          "target": "com.stackit.intake#CreateIntakeRunner"
+        },
+        {
+          "target": "com.stackit.intake#GetIntakeRunner"
+        },
+        {
+          "target": "com.stackit.intake#UpdateIntakeRunner"
+        },
+        {
+          "target": "com.stackit.intake#DeleteIntakeRunner"
+        },
+        {
+          "target": "com.stackit.intake#ListIntakes"
+        },
+        {
+          "target": "com.stackit.intake#CreateIntake"
+        },
+        {
+          "target": "com.stackit.intake#GetIntake"
+        },
+        {
+          "target": "com.stackit.intake#UpdateIntake"
+        },
+        {
+          "target": "com.stackit.intake#DeleteIntake"
+        },
+        {
+          "target": "com.stackit.intake#ListIntakeUsers"
+        },
+        {
+          "target": "com.stackit.intake#CreateIntakeUser"
+        },
+        {
+          "target": "com.stackit.intake#GetIntakeUser"
+        },
+        {
+          "target": "com.stackit.intake#UpdateIntakeUser"
+        },
+        {
+          "target": "com.stackit.intake#DeleteIntakeUser"
+        }
+      ],
+      "traits": {
+        "smithy.api#title": "STACKIT Intake API",
+        "smithy.api#documentation": "This API provides endpoints for managing Intakes."
+      }
+    }
+  }
+}

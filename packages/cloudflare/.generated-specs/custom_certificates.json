@@ -1097,7 +1097,7 @@
         "id": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "Identifier.",
+            "smithy.api#documentation": "Custom certificate identifier tag.",
             "smithy.api#required": {}
           }
         },
@@ -1194,7 +1194,7 @@
         "id": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "Identifier."
+            "smithy.api#documentation": "Custom certificate identifier tag."
           }
         },
         "priority": {
@@ -1428,7 +1428,7 @@
         "id": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "Identifier.",
+            "smithy.api#documentation": "Custom certificate identifier tag.",
             "smithy.api#required": {}
           }
         },
@@ -1729,7 +1729,7 @@
         "id": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "Identifier.",
+            "smithy.api#documentation": "Custom certificate identifier tag.",
             "smithy.api#required": {}
           }
         },
@@ -1861,7 +1861,7 @@
         "custom_certificate_id": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "Identifier.",
+            "smithy.api#documentation": "Custom certificate identifier tag.",
             "smithy.api#httpLabel": {},
             "smithy.api#required": {}
           }
@@ -1877,7 +1877,7 @@
         "id": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "Identifier."
+            "smithy.api#documentation": "Custom certificate identifier tag."
           }
         }
       },
@@ -1929,7 +1929,7 @@
         "custom_certificate_id": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "Identifier.",
+            "smithy.api#documentation": "Custom certificate identifier tag.",
             "smithy.api#httpLabel": {},
             "smithy.api#required": {}
           }
@@ -1945,7 +1945,7 @@
         "id": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "Identifier.",
+            "smithy.api#documentation": "Custom certificate identifier tag.",
             "smithy.api#required": {}
           }
         },
@@ -2171,7 +2171,7 @@
         "custom_certificate_id": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "Identifier.",
+            "smithy.api#documentation": "Custom certificate identifier tag.",
             "smithy.api#httpLabel": {},
             "smithy.api#required": {}
           }
@@ -2229,7 +2229,7 @@
         "id": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "Identifier.",
+            "smithy.api#documentation": "Custom certificate identifier tag.",
             "smithy.api#required": {}
           }
         },

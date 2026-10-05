@@ -1,4 +1,4 @@
-#!/usr/bin/env bun
+#!/usr/bin/env -S node --conditions=bun
 /**
  * convert — turn the PlanetScale Swagger 2.0 spec into a Smithy 2.0 JSON
  * model.
@@ -6,8 +6,8 @@
  * Input:  specs/spec-mirror-planetscale/specs/openapi.json  (spec
  *         submodule; Swagger 2.0 — `/definitions`, `x-nullable`)
  *         patches/*.patch.json  (RFC-6902 patches to the Swagger document —
- *         ported verbatim from distilled v0; nullability fixes, observed
- *         error responses, and the x-sensitive vendor extensions)
+ *         observed error responses, required-field corrections, and the
+ *         x-sensitive mark on ServiceToken.token)
  * Output: .generated-specs/planetscale.json
  *
  * The OpenAPI→Smithy converter lives in
@@ -19,7 +19,7 @@ import * as path from "node:path";
 import { runOpenApiConvert } from "@distilled.cloud/core/codegen/openapi-cli";
 
 await runOpenApiConvert({
-  root: path.resolve(import.meta.dir, ".."),
+  root: path.resolve(import.meta.dirname, ".."),
   specs: [
     {
       name: "planetscale",

@@ -1,0 +1,1499 @@
+{
+  "smithy": "2.0",
+  "metadata": {
+    "suppressions": [
+      {
+        "id": "HttpUriConflict",
+        "namespace": "*"
+      },
+      {
+        "id": "HttpMethodSemantics",
+        "namespace": "*"
+      },
+      {
+        "id": "UnreferencedShape",
+        "namespace": "*"
+      }
+    ],
+    "distilled.finalized": true
+  },
+  "shapes": {
+    "com.stackit.functions#ListFunctionsRequest": {
+      "type": "structure",
+      "members": {
+        "projectId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The STACKIT portal project UUID the resource is located in."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.stackit.functions#ListFunctions": {
+      "type": "structure",
+      "members": {
+        "functions": {
+          "target": "com.stackit.functions#ListFunctionsFunctionsList",
+          "traits": {
+            "smithy.api#documentation": "List of functions."
+          }
+        },
+        "next_page_token": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Token for the next page of results."
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.stackit.functions#Function": {
+      "type": "structure",
+      "members": {
+        "created_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Time the function was created."
+          }
+        },
+        "current_revision": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The ID of the currently-deployed revision associated with this function."
+          }
+        },
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Unique identifier for the function."
+          }
+        },
+        "labels": {
+          "target": "com.stackit.functions#FunctionLabelsMap"
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "User-defined name of the function.",
+            "smithy.api#required": {}
+          }
+        },
+        "state": {
+          "target": "com.stackit.functions#FunctionState",
+          "traits": {
+            "smithy.api#documentation": "Status of this function's latest revision."
+          }
+        },
+        "state_error": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Error message related to this function's status."
+          }
+        },
+        "updated_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Time the function was last updated."
+          }
+        },
+        "url": {
+          "target": "com.stackit.functions#FunctionUrlList",
+          "traits": {
+            "smithy.api#documentation": "URLs that resolve to the function."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Represents a STACKIT Functions function."
+      }
+    },
+    "com.stackit.functions#FunctionLabelsMap": {
+      "type": "map",
+      "key": {
+        "target": "smithy.api#String"
+      },
+      "value": {
+        "target": "smithy.api#String"
+      },
+      "traits": {}
+    },
+    "com.stackit.functions#FunctionState": {
+      "type": "enum",
+      "members": {
+        "CREATING": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "CREATING"
+          }
+        },
+        "ACTIVE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "ACTIVE"
+          }
+        },
+        "FAILED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "FAILED"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Status of this function's latest revision."
+      }
+    },
+    "com.stackit.functions#FunctionUrlList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {
+        "smithy.api#documentation": "URLs that resolve to the function."
+      }
+    },
+    "com.stackit.functions#ListFunctionsFunctionsList": {
+      "type": "list",
+      "member": {
+        "target": "com.stackit.functions#Function"
+      },
+      "traits": {
+        "smithy.api#documentation": "List of functions."
+      }
+    },
+    "com.stackit.functions#ListFunctions2": {
+      "type": "operation",
+      "input": {
+        "target": "com.stackit.functions#ListFunctionsRequest"
+      },
+      "output": {
+        "target": "com.stackit.functions#ListFunctions"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/v1alpha/projects/{projectId}/functions",
+          "code": 200,
+          "baseUrl": "https://functions.api.{region}stackit.cloud"
+        },
+        "smithy.api#documentation": "Lists all functions."
+      }
+    },
+    "com.stackit.functions#CreateFunctionRequestLabelsMap": {
+      "type": "map",
+      "key": {
+        "target": "smithy.api#String"
+      },
+      "value": {
+        "target": "smithy.api#String"
+      },
+      "traits": {}
+    },
+    "com.stackit.functions#CreateFunctionRequestState": {
+      "type": "enum",
+      "members": {
+        "CREATING": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "CREATING"
+          }
+        },
+        "ACTIVE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "ACTIVE"
+          }
+        },
+        "FAILED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "FAILED"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Status of this function's latest revision."
+      }
+    },
+    "com.stackit.functions#CreateFunctionRequestUrlList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {
+        "smithy.api#documentation": "URLs that resolve to the function."
+      }
+    },
+    "com.stackit.functions#CreateFunctionRequest": {
+      "type": "structure",
+      "members": {
+        "projectId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The STACKIT portal project UUID the resource is located in."
+          }
+        },
+        "created_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Time the function was created."
+          }
+        },
+        "current_revision": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The ID of the currently-deployed revision associated with this function."
+          }
+        },
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Unique identifier for the function."
+          }
+        },
+        "labels": {
+          "target": "com.stackit.functions#CreateFunctionRequestLabelsMap"
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "User-defined name of the function.",
+            "smithy.api#required": {}
+          }
+        },
+        "state": {
+          "target": "com.stackit.functions#CreateFunctionRequestState",
+          "traits": {
+            "smithy.api#documentation": "Status of this function's latest revision."
+          }
+        },
+        "state_error": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Error message related to this function's status."
+          }
+        },
+        "updated_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Time the function was last updated."
+          }
+        },
+        "url": {
+          "target": "com.stackit.functions#CreateFunctionRequestUrlList",
+          "traits": {
+            "smithy.api#documentation": "URLs that resolve to the function."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.stackit.functions#CreateFunction": {
+      "type": "operation",
+      "input": {
+        "target": "com.stackit.functions#CreateFunctionRequest"
+      },
+      "output": {
+        "target": "com.stackit.functions#Function"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/v1alpha/projects/{projectId}/functions",
+          "code": 200,
+          "baseUrl": "https://functions.api.{region}stackit.cloud"
+        },
+        "smithy.api#documentation": "Creates a new function."
+      }
+    },
+    "com.stackit.functions#GetFunctionRequest": {
+      "type": "structure",
+      "members": {
+        "projectId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The STACKIT portal project UUID the resource is located in."
+          }
+        },
+        "functionId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The STACKIT Functions functionId"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.stackit.functions#GetFunction": {
+      "type": "operation",
+      "input": {
+        "target": "com.stackit.functions#GetFunctionRequest"
+      },
+      "output": {
+        "target": "com.stackit.functions#Function"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/v1alpha/projects/{projectId}/functions/{functionId}",
+          "code": 200,
+          "baseUrl": "https://functions.api.{region}stackit.cloud"
+        },
+        "smithy.api#documentation": "Retrieves details of a specific function."
+      }
+    },
+    "com.stackit.functions#UpdateFunctionRequestLabelsMap": {
+      "type": "map",
+      "key": {
+        "target": "smithy.api#String"
+      },
+      "value": {
+        "target": "smithy.api#String"
+      },
+      "traits": {}
+    },
+    "com.stackit.functions#UpdateFunctionRequest": {
+      "type": "structure",
+      "members": {
+        "projectId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The STACKIT portal project UUID the resource is located in."
+          }
+        },
+        "functionId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The STACKIT Functions functionId"
+          }
+        },
+        "labels": {
+          "target": "com.stackit.functions#UpdateFunctionRequestLabelsMap"
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "User-defined name of the function."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.stackit.functions#UpdateFunction": {
+      "type": "operation",
+      "input": {
+        "target": "com.stackit.functions#UpdateFunctionRequest"
+      },
+      "output": {
+        "target": "com.stackit.functions#Function"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "PATCH",
+          "uri": "/v1alpha/projects/{projectId}/functions/{functionId}",
+          "code": 200,
+          "baseUrl": "https://functions.api.{region}stackit.cloud"
+        },
+        "smithy.api#documentation": "Updates a specific function."
+      }
+    },
+    "com.stackit.functions#DeleteFunctionRequest": {
+      "type": "structure",
+      "members": {
+        "projectId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The STACKIT portal project UUID the resource is located in."
+          }
+        },
+        "functionId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The STACKIT Functions functionId"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.stackit.functions#DeleteFunction": {
+      "type": "operation",
+      "input": {
+        "target": "com.stackit.functions#DeleteFunctionRequest"
+      },
+      "output": {
+        "target": "smithy.api#Unit"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "DELETE",
+          "uri": "/v1alpha/projects/{projectId}/functions/{functionId}",
+          "code": 200,
+          "baseUrl": "https://functions.api.{region}stackit.cloud"
+        },
+        "smithy.api#documentation": "Deletes a specific function."
+      }
+    },
+    "com.stackit.functions#ListRevisionsRequest": {
+      "type": "structure",
+      "members": {
+        "projectId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The STACKIT portal project UUID the resource is located in."
+          }
+        },
+        "functionId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The STACKIT Functions functionId"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.stackit.functions#ListRevisions": {
+      "type": "structure",
+      "members": {
+        "maxItems": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Maximum number of items"
+          }
+        },
+        "next_page_token": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Token for the next page of results."
+          }
+        },
+        "revisionList": {
+          "target": "com.stackit.functions#ListRevisionsRevisionListList",
+          "traits": {
+            "smithy.api#documentation": "List of revisions."
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.stackit.functions#Revision": {
+      "type": "structure",
+      "members": {
+        "created_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Time the function was created."
+          }
+        },
+        "digest": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "A hashed fingerprint of the revision artifact."
+          }
+        },
+        "function_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The ID of the function associated with this revision."
+          }
+        },
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The revision identifier."
+          }
+        },
+        "labels": {
+          "target": "com.stackit.functions#RevisionLabelsMap"
+        },
+        "limits": {
+          "target": "com.stackit.functions#ResourceLimits",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "message": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Revision message"
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The name of the the revision. Must be unique within the function."
+          }
+        },
+        "oci_pull_credential_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "OCI Registry pull credential to use for pulling the revision's image."
+          }
+        },
+        "oci_reference": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "OCI reference for the revision.",
+            "smithy.api#required": {}
+          }
+        },
+        "state": {
+          "target": "com.stackit.functions#RevisionState",
+          "traits": {
+            "smithy.api#documentation": "Status of this revision."
+          }
+        },
+        "state_error": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Error message related to this revision."
+          }
+        },
+        "updated_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Time the function was last updated."
+          }
+        },
+        "variables": {
+          "target": "com.stackit.functions#RevisionVariablesList",
+          "traits": {
+            "smithy.api#documentation": "Variable values for this revision. Each variable must reference a variable definition on the function."
+          }
+        },
+        "version": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "The version number of the revision."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The function revision"
+      }
+    },
+    "com.stackit.functions#RevisionLabelsMap": {
+      "type": "map",
+      "key": {
+        "target": "smithy.api#String"
+      },
+      "value": {
+        "target": "smithy.api#String"
+      },
+      "traits": {}
+    },
+    "com.stackit.functions#ResourceLimits": {
+      "type": "structure",
+      "members": {
+        "concurrency": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "plan": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Resource utilization limitations"
+      }
+    },
+    "com.stackit.functions#RevisionState": {
+      "type": "enum",
+      "members": {
+        "CANCELLED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "CANCELLED"
+          }
+        },
+        "CREATING": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "CREATING"
+          }
+        },
+        "ACTIVE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "ACTIVE"
+          }
+        },
+        "FAILED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "FAILED"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Status of this revision."
+      }
+    },
+    "com.stackit.functions#RevisionVariable": {
+      "type": "structure",
+      "members": {
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Name of the variable (must match a variable definition on the function).",
+            "smithy.api#required": {}
+          }
+        },
+        "value": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The value of the variable. Only present for normal variables. Secrets will have a vault reference instead.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "vault_reference": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Reference to the vault secret. Only present for secret variables.",
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Represents a variable value for a specific revision."
+      }
+    },
+    "com.stackit.functions#RevisionVariablesList": {
+      "type": "list",
+      "member": {
+        "target": "com.stackit.functions#RevisionVariable"
+      },
+      "traits": {
+        "smithy.api#documentation": "Variable values for this revision. Each variable must reference a variable definition on the function."
+      }
+    },
+    "com.stackit.functions#ListRevisionsRevisionListList": {
+      "type": "list",
+      "member": {
+        "target": "com.stackit.functions#Revision"
+      },
+      "traits": {
+        "smithy.api#documentation": "List of revisions."
+      }
+    },
+    "com.stackit.functions#ListRevisions2": {
+      "type": "operation",
+      "input": {
+        "target": "com.stackit.functions#ListRevisionsRequest"
+      },
+      "output": {
+        "target": "com.stackit.functions#ListRevisions"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/v1alpha/projects/{projectId}/functions/{functionId}/revisions",
+          "code": 200,
+          "baseUrl": "https://functions.api.{region}stackit.cloud"
+        },
+        "smithy.api#documentation": "Lists all revisions."
+      }
+    },
+    "com.stackit.functions#CreateFunctionRevisionRequestLabelsMap": {
+      "type": "map",
+      "key": {
+        "target": "smithy.api#String"
+      },
+      "value": {
+        "target": "smithy.api#String"
+      },
+      "traits": {}
+    },
+    "com.stackit.functions#CreateFunctionRevisionRequestState": {
+      "type": "enum",
+      "members": {
+        "CANCELLED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "CANCELLED"
+          }
+        },
+        "CREATING": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "CREATING"
+          }
+        },
+        "ACTIVE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "ACTIVE"
+          }
+        },
+        "FAILED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "FAILED"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Status of this revision."
+      }
+    },
+    "com.stackit.functions#CreateFunctionRevisionRequestVariablesList": {
+      "type": "list",
+      "member": {
+        "target": "com.stackit.functions#RevisionVariable"
+      },
+      "traits": {
+        "smithy.api#documentation": "Variable values for this revision. Each variable must reference a variable definition on the function."
+      }
+    },
+    "com.stackit.functions#CreateFunctionRevisionRequest": {
+      "type": "structure",
+      "members": {
+        "projectId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The STACKIT portal project UUID the resource is located in."
+          }
+        },
+        "functionId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The STACKIT Functions functionId"
+          }
+        },
+        "created_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Time the function was created."
+          }
+        },
+        "digest": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "A hashed fingerprint of the revision artifact."
+          }
+        },
+        "function_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The ID of the function associated with this revision."
+          }
+        },
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The revision identifier."
+          }
+        },
+        "labels": {
+          "target": "com.stackit.functions#CreateFunctionRevisionRequestLabelsMap"
+        },
+        "limits": {
+          "target": "com.stackit.functions#ResourceLimits",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "message": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Revision message"
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The name of the the revision. Must be unique within the function."
+          }
+        },
+        "oci_pull_credential_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "OCI Registry pull credential to use for pulling the revision's image."
+          }
+        },
+        "oci_reference": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "OCI reference for the revision.",
+            "smithy.api#required": {}
+          }
+        },
+        "state": {
+          "target": "com.stackit.functions#CreateFunctionRevisionRequestState",
+          "traits": {
+            "smithy.api#documentation": "Status of this revision."
+          }
+        },
+        "state_error": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Error message related to this revision."
+          }
+        },
+        "updated_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Time the function was last updated."
+          }
+        },
+        "variables": {
+          "target": "com.stackit.functions#CreateFunctionRevisionRequestVariablesList",
+          "traits": {
+            "smithy.api#documentation": "Variable values for this revision. Each variable must reference a variable definition on the function."
+          }
+        },
+        "version": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "The version number of the revision."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.stackit.functions#CreateFunctionRevision": {
+      "type": "operation",
+      "input": {
+        "target": "com.stackit.functions#CreateFunctionRevisionRequest"
+      },
+      "output": {
+        "target": "com.stackit.functions#Revision"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/v1alpha/projects/{projectId}/functions/{functionId}/revisions",
+          "code": 200,
+          "baseUrl": "https://functions.api.{region}stackit.cloud"
+        },
+        "smithy.api#documentation": "Create a new function revision"
+      }
+    },
+    "com.stackit.functions#GetRevisionRequest": {
+      "type": "structure",
+      "members": {
+        "projectId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The STACKIT portal project UUID the resource is located in."
+          }
+        },
+        "functionId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The STACKIT Functions functionId"
+          }
+        },
+        "revisionId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The identifier of the revision"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.stackit.functions#GetRevision": {
+      "type": "operation",
+      "input": {
+        "target": "com.stackit.functions#GetRevisionRequest"
+      },
+      "output": {
+        "target": "com.stackit.functions#Revision"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/v1alpha/projects/{projectId}/functions/{functionId}/revisions/{revisionId}",
+          "code": 200,
+          "baseUrl": "https://functions.api.{region}stackit.cloud"
+        },
+        "smithy.api#documentation": "Retrieves a specific revision."
+      }
+    },
+    "com.stackit.functions#UpdateRevisionRequestLabelsMap": {
+      "type": "map",
+      "key": {
+        "target": "smithy.api#String"
+      },
+      "value": {
+        "target": "smithy.api#String"
+      },
+      "traits": {}
+    },
+    "com.stackit.functions#UpdateRevisionRequest": {
+      "type": "structure",
+      "members": {
+        "projectId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The STACKIT portal project UUID the resource is located in."
+          }
+        },
+        "functionId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The STACKIT Functions functionId"
+          }
+        },
+        "revisionId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The identifier of the revision"
+          }
+        },
+        "labels": {
+          "target": "com.stackit.functions#UpdateRevisionRequestLabelsMap"
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The name of the the revision. Must be unique within the function."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.stackit.functions#UpdateRevision": {
+      "type": "operation",
+      "input": {
+        "target": "com.stackit.functions#UpdateRevisionRequest"
+      },
+      "output": {
+        "target": "com.stackit.functions#Revision"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "PATCH",
+          "uri": "/v1alpha/projects/{projectId}/functions/{functionId}/revisions/{revisionId}",
+          "code": 200,
+          "baseUrl": "https://functions.api.{region}stackit.cloud"
+        },
+        "smithy.api#documentation": "Updates a specific revision."
+      }
+    },
+    "com.stackit.functions#DeleteRevisionRequest": {
+      "type": "structure",
+      "members": {
+        "projectId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The STACKIT portal project UUID the resource is located in."
+          }
+        },
+        "functionId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The STACKIT Functions functionId"
+          }
+        },
+        "revisionId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The identifier of the revision"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.stackit.functions#DeleteRevision": {
+      "type": "operation",
+      "input": {
+        "target": "com.stackit.functions#DeleteRevisionRequest"
+      },
+      "output": {
+        "target": "smithy.api#Unit"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "DELETE",
+          "uri": "/v1alpha/projects/{projectId}/functions/{functionId}/revisions/{revisionId}",
+          "code": 200,
+          "baseUrl": "https://functions.api.{region}stackit.cloud"
+        },
+        "smithy.api#documentation": "Deletes a specific revision."
+      }
+    },
+    "com.stackit.functions#ListPullCredentialsRequest": {
+      "type": "structure",
+      "members": {
+        "projectId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The STACKIT portal project UUID the resource is located in."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.stackit.functions#ListPullCredentials": {
+      "type": "structure",
+      "members": {
+        "next_page_token": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Token for the next page of results."
+          }
+        },
+        "pull_credentials": {
+          "target": "com.stackit.functions#ListPullCredentialsPullCredentialsList",
+          "traits": {
+            "smithy.api#documentation": "List of oci registries pull credentials associated with the project."
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.stackit.functions#PullCredential": {
+      "type": "structure",
+      "members": {
+        "address": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The OCI registry address.",
+            "smithy.api#required": {}
+          }
+        },
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Unique identifier for the OCI registry pull credential."
+          }
+        },
+        "labels": {
+          "target": "com.stackit.functions#PullCredentialLabelsMap"
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Unique name for the OCI registry pull credential."
+          }
+        },
+        "password": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The password for the OCI registry pull-credentials.",
+            "smithy.api#required": {},
+            "smithy.api#sensitive": {}
+          }
+        },
+        "username": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The username for the OCI registry pull-credentials.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.stackit.functions#PullCredentialLabelsMap": {
+      "type": "map",
+      "key": {
+        "target": "smithy.api#String"
+      },
+      "value": {
+        "target": "smithy.api#String"
+      },
+      "traits": {}
+    },
+    "com.stackit.functions#ListPullCredentialsPullCredentialsList": {
+      "type": "list",
+      "member": {
+        "target": "com.stackit.functions#PullCredential"
+      },
+      "traits": {
+        "smithy.api#documentation": "List of oci registries pull credentials associated with the project."
+      }
+    },
+    "com.stackit.functions#ListPullCredentials2": {
+      "type": "operation",
+      "input": {
+        "target": "com.stackit.functions#ListPullCredentialsRequest"
+      },
+      "output": {
+        "target": "com.stackit.functions#ListPullCredentials"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/v1alpha/projects/{projectId}/pull-credentials",
+          "code": 200,
+          "baseUrl": "https://functions.api.{region}stackit.cloud"
+        },
+        "smithy.api#documentation": "List OCI image registry pull credential definitions\n\nReturns all the current OCI image registry pull credential configurations for a project."
+      }
+    },
+    "com.stackit.functions#CreatePullCredentialRequestLabelsMap": {
+      "type": "map",
+      "key": {
+        "target": "smithy.api#String"
+      },
+      "value": {
+        "target": "smithy.api#String"
+      },
+      "traits": {}
+    },
+    "com.stackit.functions#CreatePullCredentialRequest": {
+      "type": "structure",
+      "members": {
+        "projectId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The STACKIT portal project UUID the resource is located in."
+          }
+        },
+        "address": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The OCI registry address.",
+            "smithy.api#required": {}
+          }
+        },
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Unique identifier for the OCI registry pull credential."
+          }
+        },
+        "labels": {
+          "target": "com.stackit.functions#CreatePullCredentialRequestLabelsMap"
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Unique name for the OCI registry pull credential."
+          }
+        },
+        "password": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The password for the OCI registry pull-credentials.",
+            "smithy.api#required": {},
+            "smithy.api#sensitive": {}
+          }
+        },
+        "username": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The username for the OCI registry pull-credentials.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.stackit.functions#CreatePullCredential": {
+      "type": "operation",
+      "input": {
+        "target": "com.stackit.functions#CreatePullCredentialRequest"
+      },
+      "output": {
+        "target": "com.stackit.functions#PullCredential"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/v1alpha/projects/{projectId}/pull-credentials",
+          "code": 200,
+          "baseUrl": "https://functions.api.{region}stackit.cloud"
+        },
+        "smithy.api#documentation": "Create OCI image registry pull credential definition\n\nCreate a new OCI image registry pull credential configuration."
+      }
+    },
+    "com.stackit.functions#GetPullCredentialRequest": {
+      "type": "structure",
+      "members": {
+        "projectId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The STACKIT portal project UUID the resource is located in."
+          }
+        },
+        "pullCredentialId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The identifier of the OCI registry pull credential configuration"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.stackit.functions#GetPullCredential": {
+      "type": "operation",
+      "input": {
+        "target": "com.stackit.functions#GetPullCredentialRequest"
+      },
+      "output": {
+        "target": "com.stackit.functions#PullCredential"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/v1alpha/projects/{projectId}/pull-credentials/{pullCredentialId}",
+          "code": 200,
+          "baseUrl": "https://functions.api.{region}stackit.cloud"
+        },
+        "smithy.api#documentation": "Get OCI image registry pull credential definition\n\nReturns the current OCI image registry pull credential configuration."
+      }
+    },
+    "com.stackit.functions#UpdatePullCredentialRequestLabelsMap": {
+      "type": "map",
+      "key": {
+        "target": "smithy.api#String"
+      },
+      "value": {
+        "target": "smithy.api#String"
+      },
+      "traits": {}
+    },
+    "com.stackit.functions#UpdatePullCredentialRequest": {
+      "type": "structure",
+      "members": {
+        "projectId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The STACKIT portal project UUID the resource is located in."
+          }
+        },
+        "pullCredentialId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The identifier of the OCI registry pull credential configuration"
+          }
+        },
+        "address": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The OCI registry address."
+          }
+        },
+        "labels": {
+          "target": "com.stackit.functions#UpdatePullCredentialRequestLabelsMap"
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Unique name for the OCI registry pull secret."
+          }
+        },
+        "password": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The password for the OCI registry pull-credentials.",
+            "smithy.api#sensitive": {}
+          }
+        },
+        "username": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The username for the OCI registry pull-credentials."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.stackit.functions#UpdatePullCredential": {
+      "type": "operation",
+      "input": {
+        "target": "com.stackit.functions#UpdatePullCredentialRequest"
+      },
+      "output": {
+        "target": "com.stackit.functions#PullCredential"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "PATCH",
+          "uri": "/v1alpha/projects/{projectId}/pull-credentials/{pullCredentialId}",
+          "code": 200,
+          "baseUrl": "https://functions.api.{region}stackit.cloud"
+        },
+        "smithy.api#documentation": "Update OCI image registry pull credential definition\n\nUpdates the OCI image registry pull credential configuration."
+      }
+    },
+    "com.stackit.functions#DeletePullCredentialRequest": {
+      "type": "structure",
+      "members": {
+        "projectId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The STACKIT portal project UUID the resource is located in."
+          }
+        },
+        "pullCredentialId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The identifier of the OCI registry pull credential configuration"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.stackit.functions#DeletePullCredential": {
+      "type": "operation",
+      "input": {
+        "target": "com.stackit.functions#DeletePullCredentialRequest"
+      },
+      "output": {
+        "target": "smithy.api#Unit"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "DELETE",
+          "uri": "/v1alpha/projects/{projectId}/pull-credentials/{pullCredentialId}",
+          "code": 200,
+          "baseUrl": "https://functions.api.{region}stackit.cloud"
+        },
+        "smithy.api#documentation": "Remove OCI image registry pull credential definition\n\nRemoves the OCI image pull credential registry configuration."
+      }
+    },
+    "com.stackit.functions#Functions": {
+      "type": "service",
+      "version": "1alpha",
+      "operations": [
+        {
+          "target": "com.stackit.functions#ListFunctions2"
+        },
+        {
+          "target": "com.stackit.functions#CreateFunction"
+        },
+        {
+          "target": "com.stackit.functions#GetFunction"
+        },
+        {
+          "target": "com.stackit.functions#UpdateFunction"
+        },
+        {
+          "target": "com.stackit.functions#DeleteFunction"
+        },
+        {
+          "target": "com.stackit.functions#ListRevisions2"
+        },
+        {
+          "target": "com.stackit.functions#CreateFunctionRevision"
+        },
+        {
+          "target": "com.stackit.functions#GetRevision"
+        },
+        {
+          "target": "com.stackit.functions#UpdateRevision"
+        },
+        {
+          "target": "com.stackit.functions#DeleteRevision"
+        },
+        {
+          "target": "com.stackit.functions#ListPullCredentials2"
+        },
+        {
+          "target": "com.stackit.functions#CreatePullCredential"
+        },
+        {
+          "target": "com.stackit.functions#GetPullCredential"
+        },
+        {
+          "target": "com.stackit.functions#UpdatePullCredential"
+        },
+        {
+          "target": "com.stackit.functions#DeletePullCredential"
+        }
+      ],
+      "traits": {
+        "smithy.api#title": "STACKIT Functions Core API",
+        "smithy.api#documentation": "This API provides endpoints for managing STACKIT Functions."
+      }
+    }
+  }
+}

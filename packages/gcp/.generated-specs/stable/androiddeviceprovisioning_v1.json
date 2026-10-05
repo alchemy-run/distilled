@@ -165,7 +165,7 @@
         "customMessage": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "A message, containing one or two sentences, to help device users get help or give them more details about what’s happening to their device. Zero-touch enrollment shows this message before the device is provisioned."
+            "smithy.api#documentation": "A message, containing one or two sentences, to help device users get help or give them more details about what\u2019s happening to their device. Zero-touch enrollment shows this message before the device is provisioned."
           }
         },
         "dpcExtras": {
@@ -307,7 +307,7 @@
         }
       },
       "traits": {
-        "smithy.api#documentation": "Tracks the status of a long-running operation to claim, unclaim, or attach metadata to devices. To learn more, read [Long‑running batch operations](/zero-touch/guides/how-it-works#operations)."
+        "smithy.api#documentation": "Tracks the status of a long-running operation to claim, unclaim, or attach metadata to devices. To learn more, read [Long\u2011running batch operations](/zero-touch/guides/how-it-works#operations)."
       }
     },
     "com.gcp.androiddeviceprovisioning_v1#OperationPerDeviceList": {
@@ -544,7 +544,7 @@
         "vacationModeExpireTime": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "The timestamp when the device will exit ‘vacation mode’. This value is present iff the device is in 'vacation mode'."
+            "smithy.api#documentation": "The timestamp when the device will exit \u2018vacation mode\u2019. This value is present iff the device is in 'vacation mode'."
           }
         },
         "additionalService": {
@@ -562,7 +562,7 @@
         "vacationModeStartTime": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "The timestamp when the device was put into ‘vacation mode’. This value is present iff the device is in 'vacation mode'."
+            "smithy.api#documentation": "The timestamp when the device was put into \u2018vacation mode\u2019. This value is present iff the device is in 'vacation mode'."
           }
         },
         "ownerCompanyId": {
@@ -660,7 +660,7 @@
         "progress": {
           "target": "smithy.api#Integer",
           "traits": {
-            "smithy.api#documentation": "The processing progress of the operation. Measured as a number from 0 to 100. A value of 10O doesn't always mean the operation completed—check for the inclusion of a `done` field."
+            "smithy.api#documentation": "The processing progress of the operation. Measured as a number from 0 to 100. A value of 10O doesn't always mean the operation completed\u2014check for the inclusion of a `done` field."
           }
         },
         "processingStatus": {
@@ -677,7 +677,7 @@
         }
       },
       "traits": {
-        "smithy.api#documentation": "Tracks the status of a long-running operation to asynchronously update a batch of reseller metadata attached to devices. To learn more, read [Long‑running batch operations](/zero-touch/guides/how-it-works#operations)."
+        "smithy.api#documentation": "Tracks the status of a long-running operation to asynchronously update a batch of reseller metadata attached to devices. To learn more, read [Long\u2011running batch operations](/zero-touch/guides/how-it-works#operations)."
       }
     },
     "com.gcp.androiddeviceprovisioning_v1#DevicesLongRunningOperationMetadataProcessingStatusEnum": {
@@ -729,7 +729,7 @@
         "manufacturer": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "The device manufacturer’s name. Matches the device's built-in value returned from `android.os.Build.MANUFACTURER`. Allowed values are listed in [Android manufacturers](/zero-touch/resources/manufacturer-names#manufacturers-names)."
+            "smithy.api#documentation": "The device manufacturer\u2019s name. Matches the device's built-in value returned from `android.os.Build.MANUFACTURER`. Allowed values are listed in [Android manufacturers](/zero-touch/resources/manufacturer-names#manufacturers-names)."
           }
         },
         "chromeOsAttestedDeviceId": {
@@ -747,7 +747,7 @@
         "meid": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "The device’s MEID number."
+            "smithy.api#documentation": "The device\u2019s MEID number."
           }
         },
         "model": {
@@ -759,13 +759,13 @@
         "meid2": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "The device’s second MEID number."
+            "smithy.api#documentation": "The device\u2019s second MEID number."
           }
         },
         "imei": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "The device’s IMEI number. Validated on input."
+            "smithy.api#documentation": "The device\u2019s IMEI number. Validated on input."
           }
         },
         "deviceType": {
@@ -777,7 +777,7 @@
         "imei2": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "The device’s second IMEI number."
+            "smithy.api#documentation": "The device\u2019s second IMEI number."
           }
         }
       },
@@ -1679,6 +1679,9 @@
         },
         {
           "target": "com.gcp.androiddeviceprovisioning_v1#Forbidden"
+        },
+        {
+          "target": "com.gcp.androiddeviceprovisioning_v1#InsufficientAuthenticationScopes"
         }
       ],
       "traits": {
@@ -1720,6 +1723,9 @@
         },
         {
           "target": "com.gcp.androiddeviceprovisioning_v1#Forbidden"
+        },
+        {
+          "target": "com.gcp.androiddeviceprovisioning_v1#InsufficientAuthenticationScopes"
         }
       ],
       "traits": {
@@ -2025,6 +2031,9 @@
         },
         {
           "target": "com.gcp.androiddeviceprovisioning_v1#Forbidden"
+        },
+        {
+          "target": "com.gcp.androiddeviceprovisioning_v1#InsufficientAuthenticationScopes"
         }
       ],
       "traits": {
@@ -2062,6 +2071,9 @@
         },
         {
           "target": "com.gcp.androiddeviceprovisioning_v1#Forbidden"
+        },
+        {
+          "target": "com.gcp.androiddeviceprovisioning_v1#InsufficientAuthenticationScopes"
         }
       ],
       "traits": {
@@ -2105,6 +2117,9 @@
         },
         {
           "target": "com.gcp.androiddeviceprovisioning_v1#Conflict"
+        },
+        {
+          "target": "com.gcp.androiddeviceprovisioning_v1#InsufficientAuthenticationScopes"
         }
       ],
       "traits": {
@@ -2155,6 +2170,9 @@
         },
         {
           "target": "com.gcp.androiddeviceprovisioning_v1#Conflict"
+        },
+        {
+          "target": "com.gcp.androiddeviceprovisioning_v1#InsufficientAuthenticationScopes"
         }
       ],
       "traits": {
@@ -2212,6 +2230,9 @@
         },
         {
           "target": "com.gcp.androiddeviceprovisioning_v1#Conflict"
+        },
+        {
+          "target": "com.gcp.androiddeviceprovisioning_v1#InsufficientAuthenticationScopes"
         }
       ],
       "traits": {
@@ -2464,7 +2485,7 @@
           "method": "POST",
           "uri": "v1/partners/{+partnerId}/devices:claimAsync"
         },
-        "smithy.api#documentation": "Claims a batch of devices for a customer asynchronously. Adds the devices to zero-touch enrollment. To learn more, read [Long‑running batch operations](/zero-touch/guides/how-it-works#operations)."
+        "smithy.api#documentation": "Claims a batch of devices for a customer asynchronously. Adds the devices to zero-touch enrollment. To learn more, read [Long\u2011running batch operations](/zero-touch/guides/how-it-works#operations)."
       }
     },
     "com.gcp.androiddeviceprovisioning_v1#UnclaimAsyncPartnersDevicesRequest": {
@@ -2514,7 +2535,7 @@
           "method": "POST",
           "uri": "v1/partners/{+partnerId}/devices:unclaimAsync"
         },
-        "smithy.api#documentation": "Unclaims a batch of devices for a customer asynchronously. Removes the devices from zero-touch enrollment. To learn more, read [Long‑running batch operations](/zero-touch/guides/how-it-works#operations)."
+        "smithy.api#documentation": "Unclaims a batch of devices for a customer asynchronously. Removes the devices from zero-touch enrollment. To learn more, read [Long\u2011running batch operations](/zero-touch/guides/how-it-works#operations)."
       }
     },
     "com.gcp.androiddeviceprovisioning_v1#GetPartnersDevicesRequest": {
@@ -2701,7 +2722,7 @@
           "method": "POST",
           "uri": "v1/partners/{+partnerId}/devices:updateMetadataAsync"
         },
-        "smithy.api#documentation": "Updates the reseller metadata attached to a batch of devices. This method updates devices asynchronously and returns an `Operation` that can be used to track progress. Read [Long‑running batch operations](/zero-touch/guides/how-it-works#operations). Android Devices only."
+        "smithy.api#documentation": "Updates the reseller metadata attached to a batch of devices. This method updates devices asynchronously and returns an `Operation` that can be used to track progress. Read [Long\u2011running batch operations](/zero-touch/guides/how-it-works#operations). Android Devices only."
       }
     },
     "com.gcp.androiddeviceprovisioning_v1#FindByIdentifierPartnersDevicesRequest": {
@@ -2967,6 +2988,23 @@
           "inputToken": "pageToken",
           "outputToken": "nextPageToken"
         }
+      }
+    },
+    "com.gcp.androiddeviceprovisioning_v1#InsufficientAuthenticationScopes": {
+      "type": "structure",
+      "members": {},
+      "traits": {
+        "smithy.api#error": "client",
+        "smithy.api#httpError": 403,
+        "smithy.api#documentation": "The credential lacks the zero-touch (androidworkzerotouchemm) OAuth scope (HTTP 403 'Request had insufficient authentication scopes.'). A Cloud Platform-scoped service account token cannot call the customer API; not retryable.",
+        "com.gcp.protocols#errorMatchers": [
+          {
+            "status": 403,
+            "message": {
+              "includes": "insufficient authentication scopes"
+            }
+          }
+        ]
       }
     }
   }

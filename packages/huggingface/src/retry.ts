@@ -1,3 +1,4 @@
+import * as Retries from "@distilled.cloud/core/retry";
 /**
  * Hugging Face retry surface — a veneer over `@distilled.cloud/core/retry`.
  *
@@ -20,31 +21,23 @@
 import * as Context from "effect/Context";
 import * as Effect from "effect/Effect";
 import * as Layer from "effect/Layer";
-import * as Retries from "@distilled.cloud/core/retry";
 
 export type Options = Retries.Options;
 export type Factory = Retries.Factory;
 export type Policy = Retries.Policy;
 
 /** Context tag for configuring retry behavior of Hugging Face API calls. */
-export class Retry extends Context.Service<Retry, Policy>()(
-  "HuggingFaceRetry",
-) {}
+export class Retry extends Context.Service<Retry, Policy>()("HuggingFaceRetry") {}
 
 /** Provides a custom retry policy to every Hugging Face API call below it. */
 export const policy: {
   (
     options: Options,
-  ): <A, E, R>(
-    effect: Effect.Effect<A, E, R>,
-  ) => Effect.Effect<A, E, Exclude<R, Retry>>;
+  ): <A, E, R>(effect: Effect.Effect<A, E, R>) => Effect.Effect<A, E, Exclude<R, Retry>>;
   (
     factory: Factory,
-  ): <A, E, R>(
-    effect: Effect.Effect<A, E, R>,
-  ) => Effect.Effect<A, E, Exclude<R, Retry>>;
-} = (optionsOrFactory: Options | Factory) =>
-  Effect.provide(Layer.succeed(Retry, optionsOrFactory));
+  ): <A, E, R>(effect: Effect.Effect<A, E, R>) => Effect.Effect<A, E, Exclude<R, Retry>>;
+} = (optionsOrFactory: Options | Factory) => Effect.provide(Layer.succeed(Retry, optionsOrFactory));
 
 /** Disables all automatic retries. */
 export const none: <A, E, R>(

@@ -1,0 +1,229 @@
+{
+  "description": "Type the missing-OAuth-scope 403 on Vault matter operations; it surfaced as a generic Forbidden indistinguishable from an IAM denial. Observed live 2026-09-29 on getMatters/createMatters (and holds, exports, saved queries) with a cloud-platform token.",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.vault_v1#VaultScopeInsufficient",
+      "value": {
+        "type": "structure",
+        "members": {},
+        "traits": {
+          "smithy.api#error": "client",
+          "smithy.api#httpError": 403,
+          "smithy.api#documentation": "The access token lacks the Vault OAuth scope (`https://www.googleapis.com/auth/ediscovery`) (HTTP 403 PERMISSION_DENIED, reason ACCESS_TOKEN_SCOPE_INSUFFICIENT: 'Request had insufficient authentication scopes.'). A `cloud-platform` token is not enough. Not retryable.",
+          "com.gcp.protocols#errorMatchers": [
+            {
+              "status": 403,
+              "message": {
+                "includes": "insufficient authentication scopes"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.vault_v1#AddHeldAccountsMattersHolds/errors/-",
+      "value": {
+        "target": "com.gcp.vault_v1#VaultScopeInsufficient"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.vault_v1#AddPermissionsMatters/errors/-",
+      "value": {
+        "target": "com.gcp.vault_v1#VaultScopeInsufficient"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.vault_v1#CloseMatters/errors/-",
+      "value": {
+        "target": "com.gcp.vault_v1#VaultScopeInsufficient"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.vault_v1#CountMatters/errors/-",
+      "value": {
+        "target": "com.gcp.vault_v1#VaultScopeInsufficient"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.vault_v1#CreateMatters/errors/-",
+      "value": {
+        "target": "com.gcp.vault_v1#VaultScopeInsufficient"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.vault_v1#CreateMattersExports/errors/-",
+      "value": {
+        "target": "com.gcp.vault_v1#VaultScopeInsufficient"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.vault_v1#CreateMattersHolds/errors/-",
+      "value": {
+        "target": "com.gcp.vault_v1#VaultScopeInsufficient"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.vault_v1#CreateMattersHoldsAccounts/errors/-",
+      "value": {
+        "target": "com.gcp.vault_v1#VaultScopeInsufficient"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.vault_v1#CreateMattersSavedQueries/errors/-",
+      "value": {
+        "target": "com.gcp.vault_v1#VaultScopeInsufficient"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.vault_v1#DeleteMatters/errors/-",
+      "value": {
+        "target": "com.gcp.vault_v1#VaultScopeInsufficient"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.vault_v1#DeleteMattersExports/errors/-",
+      "value": {
+        "target": "com.gcp.vault_v1#VaultScopeInsufficient"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.vault_v1#DeleteMattersHolds/errors/-",
+      "value": {
+        "target": "com.gcp.vault_v1#VaultScopeInsufficient"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.vault_v1#DeleteMattersHoldsAccounts/errors/-",
+      "value": {
+        "target": "com.gcp.vault_v1#VaultScopeInsufficient"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.vault_v1#DeleteMattersSavedQueries/errors/-",
+      "value": {
+        "target": "com.gcp.vault_v1#VaultScopeInsufficient"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.vault_v1#GetMatters/errors/-",
+      "value": {
+        "target": "com.gcp.vault_v1#VaultScopeInsufficient"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.vault_v1#GetMattersExports/errors/-",
+      "value": {
+        "target": "com.gcp.vault_v1#VaultScopeInsufficient"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.vault_v1#GetMattersHolds/errors/-",
+      "value": {
+        "target": "com.gcp.vault_v1#VaultScopeInsufficient"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.vault_v1#GetMattersSavedQueries/errors/-",
+      "value": {
+        "target": "com.gcp.vault_v1#VaultScopeInsufficient"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.vault_v1#ListMatters/errors/-",
+      "value": {
+        "target": "com.gcp.vault_v1#VaultScopeInsufficient"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.vault_v1#ListMattersExports/errors/-",
+      "value": {
+        "target": "com.gcp.vault_v1#VaultScopeInsufficient"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.vault_v1#ListMattersHolds/errors/-",
+      "value": {
+        "target": "com.gcp.vault_v1#VaultScopeInsufficient"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.vault_v1#ListMattersHoldsAccounts/errors/-",
+      "value": {
+        "target": "com.gcp.vault_v1#VaultScopeInsufficient"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.vault_v1#ListMattersSavedQueries/errors/-",
+      "value": {
+        "target": "com.gcp.vault_v1#VaultScopeInsufficient"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.vault_v1#RemoveHeldAccountsMattersHolds/errors/-",
+      "value": {
+        "target": "com.gcp.vault_v1#VaultScopeInsufficient"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.vault_v1#RemovePermissionsMatters/errors/-",
+      "value": {
+        "target": "com.gcp.vault_v1#VaultScopeInsufficient"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.vault_v1#ReopenMatters/errors/-",
+      "value": {
+        "target": "com.gcp.vault_v1#VaultScopeInsufficient"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.vault_v1#UndeleteMatters/errors/-",
+      "value": {
+        "target": "com.gcp.vault_v1#VaultScopeInsufficient"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.vault_v1#UpdateMatters/errors/-",
+      "value": {
+        "target": "com.gcp.vault_v1#VaultScopeInsufficient"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.vault_v1#UpdateMattersHolds/errors/-",
+      "value": {
+        "target": "com.gcp.vault_v1#VaultScopeInsufficient"
+      }
+    }
+  ]
+}

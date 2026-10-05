@@ -520,11 +520,7 @@
         "aws.iam#conditionKeys": ["aws:TagKeys", "aws:RequestTag/${TagKey}"],
         "aws.iam#iamAction": {
           "documentation": "Grants permission to create application",
-          "requiredActions": [
-            "gameliftstreams:TagResource",
-            "s3:ListBucket",
-            "s3:GetObject"
-          ],
+          "requiredActions": ["gameliftstreams:TagResource", "s3:ListBucket", "s3:GetObject"],
           "resources": {
             "required": {}
           }
@@ -1921,12 +1917,7 @@
             "externalDocumentation": "${DocHomeURL}service-authorization/latest/reference/list_gameliftstreams.html#list_gameliftstreams-policy-keys"
           }
         },
-        "aws.iam#supportedPrincipalTypes": [
-          "Root",
-          "IAMUser",
-          "IAMRole",
-          "FederatedUser"
-        ],
+        "aws.iam#supportedPrincipalTypes": ["Root", "IAMUser", "IAMRole", "FederatedUser"],
         "aws.protocols#restJson1": {},
         "smithy.api#cors": {
           "additionalAllowedHeaders": ["x-amz-gameliftstreams-raw-errors"]

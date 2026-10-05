@@ -1,0 +1,653 @@
+{
+  "smithy": "2.0",
+  "metadata": {
+    "suppressions": [
+      {
+        "id": "HttpUriConflict",
+        "namespace": "*"
+      },
+      {
+        "id": "HttpMethodSemantics",
+        "namespace": "*"
+      },
+      {
+        "id": "UnreferencedShape",
+        "namespace": "*"
+      }
+    ],
+    "distilled.finalized": true
+  },
+  "shapes": {
+    "com.stackit.run_command#ListCommandTemplatesRequest": {
+      "type": "structure",
+      "members": {
+        "osType": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "osType",
+            "smithy.api#documentation": "The type of the Operating System (windows or linux). If not provided will return data for all OS types."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.stackit.run_command#CommandTemplateResponse": {
+      "type": "structure",
+      "members": {
+        "items": {
+          "target": "com.stackit.run_command#CommandTemplateResponseItemsList"
+        }
+      },
+      "traits": {}
+    },
+    "com.stackit.run_command#CommandTemplate": {
+      "type": "structure",
+      "members": {
+        "name": {
+          "target": "smithy.api#String"
+        },
+        "osType": {
+          "target": "com.stackit.run_command#CommandTemplateOsTypeList"
+        },
+        "title": {
+          "target": "smithy.api#String"
+        }
+      },
+      "traits": {}
+    },
+    "com.stackit.run_command#CommandTemplateOsTypeList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {}
+    },
+    "com.stackit.run_command#CommandTemplateResponseItemsList": {
+      "type": "list",
+      "member": {
+        "target": "com.stackit.run_command#CommandTemplate"
+      },
+      "traits": {}
+    },
+    "com.stackit.run_command#ListCommandTemplates": {
+      "type": "operation",
+      "input": {
+        "target": "com.stackit.run_command#ListCommandTemplatesRequest"
+      },
+      "output": {
+        "target": "com.stackit.run_command#CommandTemplateResponse"
+      },
+      "errors": [
+        {
+          "target": "com.stackit.run_command#BadRequest"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/v2/command-templates",
+          "code": 200,
+          "baseUrl": "https://run-command.api.stackit.cloud"
+        },
+        "smithy.api#documentation": "Returns a list of command templates"
+      }
+    },
+    "com.stackit.run_command#GetCommandTemplateRequest": {
+      "type": "structure",
+      "members": {
+        "projectId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "ID of the project"
+          }
+        },
+        "region": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "region"
+          }
+        },
+        "serverId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Server ID of the machine"
+          }
+        },
+        "commandTemplateName": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Name of the template"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.stackit.run_command#CommandTemplateSchema": {
+      "type": "structure",
+      "members": {
+        "description": {
+          "target": "smithy.api#String"
+        },
+        "name": {
+          "target": "smithy.api#String"
+        },
+        "osType": {
+          "target": "com.stackit.run_command#CommandTemplateSchemaOsTypeList"
+        },
+        "parametersSchema": {
+          "target": "com.stackit.run_command#ParametersSchema"
+        },
+        "title": {
+          "target": "smithy.api#String"
+        }
+      },
+      "traits": {}
+    },
+    "com.stackit.run_command#CommandTemplateSchemaOsTypeList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {}
+    },
+    "com.stackit.run_command#ParametersSchema": {
+      "type": "structure",
+      "members": {
+        "properties": {
+          "target": "com.stackit.run_command#Properties"
+        }
+      },
+      "traits": {}
+    },
+    "com.stackit.run_command#Properties": {
+      "type": "structure",
+      "members": {
+        "ConfirmPassword": {
+          "target": "com.stackit.run_command#Field"
+        },
+        "Password": {
+          "target": "com.stackit.run_command#Field"
+        },
+        "Script": {
+          "target": "com.stackit.run_command#Field"
+        },
+        "Username": {
+          "target": "com.stackit.run_command#Field"
+        },
+        "required": {
+          "target": "com.stackit.run_command#PropertiesRequiredList"
+        },
+        "type": {
+          "target": "smithy.api#String"
+        }
+      },
+      "traits": {}
+    },
+    "com.stackit.run_command#Field": {
+      "type": "structure",
+      "members": {
+        "default": {
+          "target": "smithy.api#String"
+        },
+        "description": {
+          "target": "smithy.api#String"
+        },
+        "maxLen": {
+          "target": "smithy.api#Integer"
+        },
+        "minLen": {
+          "target": "smithy.api#Integer"
+        },
+        "readOnly": {
+          "target": "smithy.api#Boolean"
+        },
+        "title": {
+          "target": "smithy.api#String"
+        },
+        "type": {
+          "target": "smithy.api#String"
+        }
+      },
+      "traits": {}
+    },
+    "com.stackit.run_command#PropertiesRequiredList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {}
+    },
+    "com.stackit.run_command#GetCommandTemplate": {
+      "type": "operation",
+      "input": {
+        "target": "com.stackit.run_command#GetCommandTemplateRequest"
+      },
+      "output": {
+        "target": "com.stackit.run_command#CommandTemplateSchema"
+      },
+      "errors": [
+        {
+          "target": "com.stackit.run_command#BadRequest"
+        },
+        {
+          "target": "com.stackit.run_command#NotFound"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/v2/projects/{projectId}/regions/{region}/servers/{serverId}/command-templates/{commandTemplateName}",
+          "code": 200,
+          "baseUrl": "https://run-command.api.stackit.cloud"
+        },
+        "smithy.api#documentation": "Returns details about a command template"
+      }
+    },
+    "com.stackit.run_command#ListCommandsRequest": {
+      "type": "structure",
+      "members": {
+        "projectId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "ID of the project"
+          }
+        },
+        "region": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "region"
+          }
+        },
+        "serverId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Server ID of the machine"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.stackit.run_command#GetCommandsResponse": {
+      "type": "structure",
+      "members": {
+        "items": {
+          "target": "com.stackit.run_command#GetCommandsResponseItemsList"
+        }
+      },
+      "traits": {}
+    },
+    "com.stackit.run_command#Commands": {
+      "type": "structure",
+      "members": {
+        "commandTemplateName": {
+          "target": "smithy.api#String"
+        },
+        "commandTemplateTitle": {
+          "target": "smithy.api#String"
+        },
+        "finishedAt": {
+          "target": "smithy.api#String"
+        },
+        "id": {
+          "target": "smithy.api#Integer"
+        },
+        "startedAt": {
+          "target": "smithy.api#String"
+        },
+        "status": {
+          "target": "com.stackit.run_command#CommandsStatus"
+        }
+      },
+      "traits": {}
+    },
+    "com.stackit.run_command#CommandsStatus": {
+      "type": "enum",
+      "members": {
+        "PENDING": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "pending"
+          }
+        },
+        "RUNNING": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "running"
+          }
+        },
+        "COMPLETED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "completed"
+          }
+        },
+        "FAILED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "failed"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.stackit.run_command#GetCommandsResponseItemsList": {
+      "type": "list",
+      "member": {
+        "target": "com.stackit.run_command#Commands"
+      },
+      "traits": {}
+    },
+    "com.stackit.run_command#ListCommands": {
+      "type": "operation",
+      "input": {
+        "target": "com.stackit.run_command#ListCommandsRequest"
+      },
+      "output": {
+        "target": "com.stackit.run_command#GetCommandsResponse"
+      },
+      "errors": [
+        {
+          "target": "com.stackit.run_command#BadRequest"
+        },
+        {
+          "target": "com.stackit.run_command#NotFound"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/v2/projects/{projectId}/regions/{region}/servers/{serverId}/commands",
+          "code": 200,
+          "baseUrl": "https://run-command.api.stackit.cloud"
+        },
+        "smithy.api#documentation": "Returns a list of commands"
+      }
+    },
+    "com.stackit.run_command#CreateCommandRequestParametersMap": {
+      "type": "map",
+      "key": {
+        "target": "smithy.api#String"
+      },
+      "value": {
+        "target": "smithy.api#String"
+      },
+      "traits": {}
+    },
+    "com.stackit.run_command#CreateCommandRequest": {
+      "type": "structure",
+      "members": {
+        "projectId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "ID of the project"
+          }
+        },
+        "region": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "region"
+          }
+        },
+        "serverId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Server ID of the machine"
+          }
+        },
+        "commandTemplateName": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "parameters": {
+          "target": "com.stackit.run_command#CreateCommandRequestParametersMap"
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.stackit.run_command#NewCommandResponse": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#Integer"
+        }
+      },
+      "traits": {}
+    },
+    "com.stackit.run_command#CreateCommand": {
+      "type": "operation",
+      "input": {
+        "target": "com.stackit.run_command#CreateCommandRequest"
+      },
+      "output": {
+        "target": "com.stackit.run_command#NewCommandResponse"
+      },
+      "errors": [
+        {
+          "target": "com.stackit.run_command#BadRequest"
+        },
+        {
+          "target": "com.stackit.run_command#NotFound"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/v2/projects/{projectId}/regions/{region}/servers/{serverId}/commands",
+          "code": 200,
+          "baseUrl": "https://run-command.api.stackit.cloud"
+        },
+        "smithy.api#documentation": "Creates a new command for execution"
+      }
+    },
+    "com.stackit.run_command#GetCommandRequest": {
+      "type": "structure",
+      "members": {
+        "projectId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "ID of the project"
+          }
+        },
+        "region": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "region"
+          }
+        },
+        "serverId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Server ID of the machine"
+          }
+        },
+        "commandId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "ID of the command"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.stackit.run_command#CommandDetails": {
+      "type": "structure",
+      "members": {
+        "commandTemplateName": {
+          "target": "smithy.api#String"
+        },
+        "commandTemplateTitle": {
+          "target": "smithy.api#String"
+        },
+        "exitCode": {
+          "target": "smithy.api#Integer"
+        },
+        "finishedAt": {
+          "target": "smithy.api#String"
+        },
+        "id": {
+          "target": "smithy.api#Integer"
+        },
+        "output": {
+          "target": "smithy.api#String"
+        },
+        "script": {
+          "target": "smithy.api#String"
+        },
+        "startedAt": {
+          "target": "smithy.api#String"
+        },
+        "status": {
+          "target": "com.stackit.run_command#CommandDetailsStatus"
+        }
+      },
+      "traits": {}
+    },
+    "com.stackit.run_command#CommandDetailsStatus": {
+      "type": "enum",
+      "members": {
+        "PENDING": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "pending"
+          }
+        },
+        "RUNNING": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "running"
+          }
+        },
+        "COMPLETED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "completed"
+          }
+        },
+        "FAILED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "failed"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.stackit.run_command#GetCommand": {
+      "type": "operation",
+      "input": {
+        "target": "com.stackit.run_command#GetCommandRequest"
+      },
+      "output": {
+        "target": "com.stackit.run_command#CommandDetails"
+      },
+      "errors": [
+        {
+          "target": "com.stackit.run_command#BadRequest"
+        },
+        {
+          "target": "com.stackit.run_command#NotFound"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/v2/projects/{projectId}/regions/{region}/servers/{serverId}/commands/{commandId}",
+          "code": 200,
+          "baseUrl": "https://run-command.api.stackit.cloud"
+        },
+        "smithy.api#documentation": "Returns details about a command"
+      }
+    },
+    "com.stackit.run_command#BadRequest": {
+      "type": "structure",
+      "members": {},
+      "traits": {
+        "smithy.api#error": "client",
+        "smithy.api#httpError": 400,
+        "com.distilled.openapi#errorMatchers": [
+          {
+            "status": 400
+          }
+        ]
+      }
+    },
+    "com.stackit.run_command#NotFound": {
+      "type": "structure",
+      "members": {},
+      "traits": {
+        "smithy.api#error": "client",
+        "smithy.api#httpError": 404,
+        "com.distilled.openapi#errorMatchers": [
+          {
+            "status": 404
+          }
+        ]
+      }
+    },
+    "com.stackit.run_command#RunCommand": {
+      "type": "service",
+      "version": "2.0",
+      "operations": [
+        {
+          "target": "com.stackit.run_command#ListCommandTemplates"
+        },
+        {
+          "target": "com.stackit.run_command#GetCommandTemplate"
+        },
+        {
+          "target": "com.stackit.run_command#ListCommands"
+        },
+        {
+          "target": "com.stackit.run_command#CreateCommand"
+        },
+        {
+          "target": "com.stackit.run_command#GetCommand"
+        }
+      ],
+      "traits": {
+        "smithy.api#title": "STACKIT Run Commands Service API",
+        "smithy.api#documentation": "API endpoints for the STACKIT Run Commands Service API"
+      }
+    }
+  }
+}

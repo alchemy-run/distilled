@@ -1,6 +1,41 @@
 {
-  "description": "Add missing error responses to branch and role delete operations",
+  "description": "Add 422 responses observed on the live API (2026-09-22) but omitted from the spec. Includes validation failures (blank name/url/cluster_size) and state conflicts (default branch/role cannot be deleted, last keyspace, resize already at requested size, unpaid invoices).",
   "patches": [
+    {
+      "op": "add",
+      "path": "/paths/~1organizations~1{organization}~1billing~1payment-method/delete/responses/422",
+      "value": {
+        "description": "Unprocessable Entity"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/paths/~1organizations~1{organization}~1databases/post/responses/422",
+      "value": {
+        "description": "Unprocessable Entity"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/paths/~1organizations~1{organization}~1databases~1{database}~1backup-policies/post/responses/422",
+      "value": {
+        "description": "Unprocessable Entity"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/paths/~1organizations~1{organization}~1databases~1{database}~1branches/post/responses/422",
+      "value": {
+        "description": "Unprocessable Entity"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/paths/~1organizations~1{organization}~1databases~1{database}~1branches~1{branch}/patch/responses/422",
+      "value": {
+        "description": "Unprocessable Entity"
+      }
+    },
     {
       "op": "add",
       "path": "/paths/~1organizations~1{organization}~1databases~1{database}~1branches~1{branch}/delete/responses/422",
@@ -10,7 +45,84 @@
     },
     {
       "op": "add",
+      "path": "/paths/~1organizations~1{organization}~1databases~1{database}~1branches~1{branch}~1bouncers/post/responses/422",
+      "value": {
+        "description": "Unprocessable Entity"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/paths/~1organizations~1{organization}~1databases~1{database}~1branches~1{branch}~1cluster/patch/responses/422",
+      "value": {
+        "description": "Unprocessable Entity"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/paths/~1organizations~1{organization}~1databases~1{database}~1branches~1{branch}~1demote/post/responses/422",
+      "value": {
+        "description": "Unprocessable Entity"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/paths/~1organizations~1{organization}~1databases~1{database}~1branches~1{branch}~1keyspaces/post/responses/422",
+      "value": {
+        "description": "Unprocessable Entity"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/paths/~1organizations~1{organization}~1databases~1{database}~1branches~1{branch}~1keyspaces~1{keyspace}/delete/responses/422",
+      "value": {
+        "description": "Unprocessable Entity"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/paths/~1organizations~1{organization}~1databases~1{database}~1branches~1{branch}~1keyspaces~1{keyspace}~1resizes/put/responses/422",
+      "value": {
+        "description": "Unprocessable Entity"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/paths/~1organizations~1{organization}~1databases~1{database}~1branches~1{branch}~1passwords~1{id}~1renew/post/responses/422",
+      "value": {
+        "description": "Unprocessable Entity"
+      }
+    },
+    {
+      "op": "add",
       "path": "/paths/~1organizations~1{organization}~1databases~1{database}~1branches~1{branch}~1roles~1{id}/delete/responses/422",
+      "value": {
+        "description": "Unprocessable Entity"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/paths/~1organizations~1{organization}~1databases~1{database}~1branches~1{branch}~1traffic~1budgets/post/responses/422",
+      "value": {
+        "description": "Unprocessable Entity"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/paths/~1organizations~1{organization}~1databases~1{database}~1deploy-requests/post/responses/422",
+      "value": {
+        "description": "Unprocessable Entity"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/paths/~1organizations~1{organization}~1databases~1{database}~1throttler/patch/responses/422",
+      "value": {
+        "description": "Unprocessable Entity"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/paths/~1organizations~1{organization}~1databases~1{database}~1webhooks/post/responses/422",
       "value": {
         "description": "Unprocessable Entity"
       }

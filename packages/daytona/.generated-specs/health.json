@@ -1,0 +1,136 @@
+{
+  "smithy": "2.0",
+  "metadata": {
+    "suppressions": [
+      {
+        "id": "HttpUriConflict",
+        "namespace": "*"
+      },
+      {
+        "id": "HttpMethodSemantics",
+        "namespace": "*"
+      },
+      {
+        "id": "UnreferencedShape",
+        "namespace": "*"
+      }
+    ],
+    "distilled.finalized": true
+  },
+  "shapes": {
+    "com.daytona.health#HealthControllerLive": {
+      "type": "operation",
+      "input": {
+        "target": "smithy.api#Unit"
+      },
+      "output": {
+        "target": "smithy.api#Unit"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/health",
+          "code": 200
+        }
+      }
+    },
+    "com.daytona.health#HealthControllerCheck200Response": {
+      "type": "structure",
+      "members": {
+        "status": {
+          "target": "smithy.api#String"
+        },
+        "info": {
+          "target": "com.daytona.health#HealthControllerCheck200ResponseInfoMap",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "error": {
+          "target": "com.daytona.health#HealthControllerCheck200ResponseErrorMap",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "details": {
+          "target": "com.daytona.health#HealthControllerCheck200ResponseDetailsMap"
+        }
+      },
+      "traits": {}
+    },
+    "com.daytona.health#HealthControllerCheck200ResponseInfoValue": {
+      "type": "structure",
+      "members": {
+        "status": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.daytona.health#HealthControllerCheck200ResponseInfoMap": {
+      "type": "map",
+      "key": {
+        "target": "smithy.api#String"
+      },
+      "value": {
+        "target": "com.daytona.health#HealthControllerCheck200ResponseInfoValue"
+      },
+      "traits": {}
+    },
+    "com.daytona.health#HealthControllerCheck200ResponseErrorMap": {
+      "type": "map",
+      "key": {
+        "target": "smithy.api#String"
+      },
+      "value": {
+        "target": "com.daytona.health#HealthControllerCheck200ResponseInfoValue"
+      },
+      "traits": {}
+    },
+    "com.daytona.health#HealthControllerCheck200ResponseDetailsMap": {
+      "type": "map",
+      "key": {
+        "target": "smithy.api#String"
+      },
+      "value": {
+        "target": "com.daytona.health#HealthControllerCheck200ResponseInfoValue"
+      },
+      "traits": {}
+    },
+    "com.daytona.health#CheckHealthController": {
+      "type": "operation",
+      "input": {
+        "target": "smithy.api#Unit"
+      },
+      "output": {
+        "target": "com.daytona.health#HealthControllerCheck200Response"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/health/ready",
+          "code": 200
+        }
+      }
+    },
+    "com.daytona.health#Health": {
+      "type": "service",
+      "version": "1.0",
+      "operations": [
+        {
+          "target": "com.daytona.health#HealthControllerLive"
+        },
+        {
+          "target": "com.daytona.health#CheckHealthController"
+        }
+      ],
+      "traits": {
+        "smithy.api#title": "Daytona",
+        "smithy.api#documentation": "Daytona AI platform API Docs"
+      }
+    }
+  }
+}

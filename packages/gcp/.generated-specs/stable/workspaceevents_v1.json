@@ -1229,6 +1229,9 @@
         },
         {
           "target": "com.gcp.workspaceevents_v1#Conflict"
+        },
+        {
+          "target": "com.gcp.workspaceevents_v1#TasksUnregisteredCaller"
         }
       ],
       "traits": {
@@ -1279,6 +1282,9 @@
         },
         {
           "target": "com.gcp.workspaceevents_v1#Conflict"
+        },
+        {
+          "target": "com.gcp.workspaceevents_v1#TasksUnregisteredCaller"
         }
       ],
       "traits": {
@@ -1323,6 +1329,9 @@
         },
         {
           "target": "com.gcp.workspaceevents_v1#Forbidden"
+        },
+        {
+          "target": "com.gcp.workspaceevents_v1#TasksUnregisteredCaller"
         }
       ],
       "traits": {
@@ -1381,6 +1390,9 @@
         },
         {
           "target": "com.gcp.workspaceevents_v1#Forbidden"
+        },
+        {
+          "target": "com.gcp.workspaceevents_v1#TasksUnregisteredCaller"
         }
       ],
       "traits": {
@@ -1501,6 +1513,9 @@
         },
         {
           "target": "com.gcp.workspaceevents_v1#Forbidden"
+        },
+        {
+          "target": "com.gcp.workspaceevents_v1#WorkspaceEventsScopeInsufficient"
         }
       ],
       "traits": {
@@ -1565,6 +1580,9 @@
         },
         {
           "target": "com.gcp.workspaceevents_v1#Conflict"
+        },
+        {
+          "target": "com.gcp.workspaceevents_v1#WorkspaceEventsScopeInsufficient"
         }
       ],
       "traits": {
@@ -1615,6 +1633,9 @@
         },
         {
           "target": "com.gcp.workspaceevents_v1#Forbidden"
+        },
+        {
+          "target": "com.gcp.workspaceevents_v1#WorkspaceEventsScopeInsufficient"
         }
       ],
       "traits": {
@@ -1683,6 +1704,9 @@
         },
         {
           "target": "com.gcp.workspaceevents_v1#Conflict"
+        },
+        {
+          "target": "com.gcp.workspaceevents_v1#WorkspaceEventsScopeInsufficient"
         }
       ],
       "traits": {
@@ -1733,6 +1757,9 @@
         },
         {
           "target": "com.gcp.workspaceevents_v1#Conflict"
+        },
+        {
+          "target": "com.gcp.workspaceevents_v1#WorkspaceEventsScopeInsufficient"
         }
       ],
       "traits": {
@@ -1782,6 +1809,9 @@
         },
         {
           "target": "com.gcp.workspaceevents_v1#Conflict"
+        },
+        {
+          "target": "com.gcp.workspaceevents_v1#WorkspaceEventsScopeInsufficient"
         }
       ],
       "traits": {
@@ -1790,6 +1820,40 @@
           "uri": "v1/subscriptions"
         },
         "smithy.api#documentation": "Creates a Google Workspace subscription. To learn how to use this method, see [Create a Google Workspace subscription](https://developers.google.com/workspace/events/guides/create-subscription). For a subscription on a [Chat target resource](https://developers.google.com/workspace/events/guides/events-chat), you can create a subscription as: - A Chat app subscribing to space events where the app is a member by specifying an authorization scope that begins with `chat.app` and getting one-time administrator approval. To learn more, see [Authorize as a Chat app with administrator approval](https://developers.google.com/workspace/chat/authenticate-authorize-chat-app). - [Developer Preview](https://developers.google.com/workspace/preview): A Chat app subscribing to all events in a Google Workspace organization by specifying an authorization scope that begins with `chat.app.all` and obtaining one-time administrator approval. To learn more, see [Subscribe to all Google Chat events in a Workspace organization ](https://developers.google.com/workspace/events/guides/create-subscription#customer-subscription). - A user by specifying an authorization scope that doesn't include `app` in its name. To learn more, see [Authorize as a Chat user](https://developers.google.com/workspace/chat/authenticate-authorize-chat-user)."
+      }
+    },
+    "com.gcp.workspaceevents_v1#TasksUnregisteredCaller": {
+      "type": "structure",
+      "members": {},
+      "traits": {
+        "smithy.api#error": "client",
+        "smithy.api#httpError": 403,
+        "smithy.api#documentation": "The A2A task endpoints reject callers without an established consumer identity (HTTP 403 PERMISSION_DENIED: 'Method doesn't allow unregistered callers (callers without established identity).'). Not retryable.",
+        "com.gcp.protocols#errorMatchers": [
+          {
+            "status": 403,
+            "message": {
+              "includes": "doesn't allow unregistered callers"
+            }
+          }
+        ]
+      }
+    },
+    "com.gcp.workspaceevents_v1#WorkspaceEventsScopeInsufficient": {
+      "type": "structure",
+      "members": {},
+      "traits": {
+        "smithy.api#error": "client",
+        "smithy.api#httpError": 403,
+        "smithy.api#documentation": "The access token lacks a Workspace Events OAuth scope for the subscribed resource (HTTP 403 PERMISSION_DENIED, reason ACCESS_TOKEN_SCOPE_INSUFFICIENT: 'Request had insufficient authentication scopes.'). A `cloud-platform` token is not enough. Not retryable.",
+        "com.gcp.protocols#errorMatchers": [
+          {
+            "status": 403,
+            "message": {
+              "includes": "insufficient authentication scopes"
+            }
+          }
+        ]
       }
     }
   }

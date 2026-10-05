@@ -101,9 +101,7 @@ export const makeStreamingBodyMiddleware = (schema: S.Top) => {
 /**
  * Buffer a ReadableStream into a Uint8Array.
  */
-const bufferStream = (
-  stream: ReadableStream<Uint8Array>,
-): Effect.Effect<Uint8Array> =>
+const bufferStream = (stream: ReadableStream<Uint8Array>): Effect.Effect<Uint8Array> =>
   Effect.promise(async (signal) => {
     const reader = stream.getReader();
     const chunks: Uint8Array[] = [];

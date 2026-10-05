@@ -1,0 +1,33 @@
+{
+  "description": "Type creating a reservation group without Reservation Based Fairness (HTTP 400). It surfaced as the generic BadRequest.",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.bigqueryreservation_v1#ReservationBasedFairnessRequired",
+      "value": {
+        "type": "structure",
+        "members": {},
+        "traits": {
+          "smithy.api#error": "client",
+          "smithy.api#httpError": 400,
+          "smithy.api#documentation": "Reservation groups need Reservation Based Fairness enabled for the project/edition (HTTP 400). Not retryable.",
+          "com.gcp.protocols#errorMatchers": [
+            {
+              "status": 400,
+              "message": {
+                "includes": "Reservation Based Fairness"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.bigqueryreservation_v1#CreateProjectsLocationsReservationGroups/errors/-",
+      "value": {
+        "target": "com.gcp.bigqueryreservation_v1#ReservationBasedFairnessRequired"
+      }
+    }
+  ]
+}

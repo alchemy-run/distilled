@@ -1,10 +1,11 @@
+import { ConfigError } from "@distilled.cloud/core/errors";
 /**
  * S2 (s2.dev) credentials — hand-written.
  *
  * The `Credentials` service resolves `{ token, accountBaseUrl, basin,
  * basinBaseUrl }` per request; the protocol layer formats the
  * `Authorization: Bearer <token>` header from it. The token is an S2 access
- * token, issued per account via `Services.accessTokens.issueAccessToken` or
+ * token, issued per account via `accessTokens.issueAccessToken` or
  * the S2 dashboard.
  *
  * S2 speaks from TWO endpoints: account-level operations (basins, access
@@ -21,7 +22,6 @@ import * as Context from "effect/Context";
 import * as Effect from "effect/Effect";
 import * as Layer from "effect/Layer";
 import * as Redacted from "effect/Redacted";
-import { ConfigError } from "@distilled.cloud/core/errors";
 
 /** S2's account-level API root (the spec's top-level `servers` entry). */
 export const DEFAULT_ACCOUNT_BASE_URL = "https://a.s2.dev/v1";
@@ -43,14 +43,13 @@ export interface Config {
   readonly basinBaseUrl: string;
 }
 
-export class Credentials extends Context.Service<
-  Credentials,
-  Effect.Effect<Config>
->()("S2Credentials") {}
+export class Credentials extends Context.Service<Credentials, Effect.Effect<Config>>()(
+  "S2Credentials",
+) {}
 
 const envConfig = EffectConfig.all({
   // `S2_ACCESS_TOKEN` / `S2_BASIN` are what the official `s2` CLI reads.
-  token: EffectConfig.String("S2_ACCESS_TOKEN"),
+  token: EffectConfig.Redacted("S2_ACCESS_TOKEN"),
   basin: EffectConfig.String("S2_BASIN").pipe(EffectConfig.option),
   accountBaseUrl: EffectConfig.String("S2_ACCOUNT_ENDPOINT").pipe(
     EffectConfig.withDefault(DEFAULT_ACCOUNT_BASE_URL),
@@ -70,7 +69,7 @@ export const CredentialsFromEnv = Layer.succeed(
         }),
     ),
     Effect.map(({ token, basin, accountBaseUrl, basinBaseUrl }) => ({
-      token: Redacted.make(token),
+      token,
       basin: basin._tag === "Some" ? basin.value : undefined,
       accountBaseUrl,
       basinBaseUrl,
@@ -79,9 +78,9 @@ export const CredentialsFromEnv = Layer.succeed(
   ),
 );
 
-/** Convenience layer from a plain token + optional basin/endpoints. */
+/** Convenience layer from a redacted token + optional basin/endpoints. */
 export const credentials = (config: {
-  readonly token: string;
+  readonly token: Redacted.Redacted<string>;
   readonly basin?: string;
   readonly accountBaseUrl?: string;
   readonly basinBaseUrl?: string;
@@ -89,7 +88,7 @@ export const credentials = (config: {
   Layer.succeed(
     Credentials,
     Effect.succeed({
-      token: Redacted.make(config.token),
+      token: config.token,
       basin: config.basin,
       accountBaseUrl: config.accountBaseUrl ?? DEFAULT_ACCOUNT_BASE_URL,
       basinBaseUrl: config.basinBaseUrl ?? DEFAULT_BASIN_BASE_URL,

@@ -1,0 +1,523 @@
+{
+  "description": "Type the 400 FAILED_PRECONDITION every Retail call returns until the project has enabled Cloud Retail and accepted the Retail data use terms (a one-time console step). On GETs it surfaced as an out-of-union BadRequest; elsewhere as a generic BadRequest.",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.retail_v2#RetailDataUseTermsNotAccepted",
+      "value": {
+        "type": "structure",
+        "members": {},
+        "traits": {
+          "smithy.api#error": "client",
+          "smithy.api#httpError": 400,
+          "smithy.api#documentation": "The project has not enabled Cloud Retail or not accepted the Retail data use terms (HTTP 400 FAILED_PRECONDITION: \"... doesn't have Cloud Retail enabled or it hasn't accepted Retail data use terms.\"). Accept them once in the Retail console; not retryable until then.",
+          "com.gcp.protocols#errorMatchers": [
+            {
+              "status": 400,
+              "message": {
+                "includes": "Retail data use terms"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.retail_v2#AddCatalogAttributeProjectsLocationsCatalogsAttributesConfig/errors/-",
+      "value": {
+        "target": "com.gcp.retail_v2#RetailDataUseTermsNotAccepted"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.retail_v2#AddControlProjectsLocationsCatalogsServingConfigs/errors/-",
+      "value": {
+        "target": "com.gcp.retail_v2#RetailDataUseTermsNotAccepted"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.retail_v2#AddFulfillmentPlacesProjectsLocationsCatalogsBranchesProducts/errors/-",
+      "value": {
+        "target": "com.gcp.retail_v2#RetailDataUseTermsNotAccepted"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.retail_v2#AddLocalInventoriesProjectsLocationsCatalogsBranchesProducts/errors/-",
+      "value": {
+        "target": "com.gcp.retail_v2#RetailDataUseTermsNotAccepted"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.retail_v2#BatchUpdateProjectsLocationsCatalogsGenerativeQuestion/errors/-",
+      "value": {
+        "target": "com.gcp.retail_v2#RetailDataUseTermsNotAccepted"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.retail_v2#CollectProjectsLocationsCatalogsUserEvents/errors/-",
+      "value": {
+        "target": "com.gcp.retail_v2#RetailDataUseTermsNotAccepted"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.retail_v2#CompleteQueryProjectsLocationsCatalogs/errors/-",
+      "value": {
+        "target": "com.gcp.retail_v2#RetailDataUseTermsNotAccepted"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.retail_v2#ConversationalSearchProjectsLocationsCatalogsPlacements/errors/-",
+      "value": {
+        "target": "com.gcp.retail_v2#RetailDataUseTermsNotAccepted"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.retail_v2#ConversationalSearchProjectsLocationsCatalogsServingConfigs/errors/-",
+      "value": {
+        "target": "com.gcp.retail_v2#RetailDataUseTermsNotAccepted"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.retail_v2#CreateProjectsLocationsCatalogsBranchesProducts/errors/-",
+      "value": {
+        "target": "com.gcp.retail_v2#RetailDataUseTermsNotAccepted"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.retail_v2#CreateProjectsLocationsCatalogsControls/errors/-",
+      "value": {
+        "target": "com.gcp.retail_v2#RetailDataUseTermsNotAccepted"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.retail_v2#CreateProjectsLocationsCatalogsModels/errors/-",
+      "value": {
+        "target": "com.gcp.retail_v2#RetailDataUseTermsNotAccepted"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.retail_v2#CreateProjectsLocationsCatalogsServingConfigs/errors/-",
+      "value": {
+        "target": "com.gcp.retail_v2#RetailDataUseTermsNotAccepted"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.retail_v2#DeleteProjectsLocationsCatalogsBranchesProducts/errors/-",
+      "value": {
+        "target": "com.gcp.retail_v2#RetailDataUseTermsNotAccepted"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.retail_v2#DeleteProjectsLocationsCatalogsControls/errors/-",
+      "value": {
+        "target": "com.gcp.retail_v2#RetailDataUseTermsNotAccepted"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.retail_v2#DeleteProjectsLocationsCatalogsModels/errors/-",
+      "value": {
+        "target": "com.gcp.retail_v2#RetailDataUseTermsNotAccepted"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.retail_v2#DeleteProjectsLocationsCatalogsServingConfigs/errors/-",
+      "value": {
+        "target": "com.gcp.retail_v2#RetailDataUseTermsNotAccepted"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.retail_v2#ExportAnalyticsMetricsProjectsLocationsCatalogs/errors/-",
+      "value": {
+        "target": "com.gcp.retail_v2#RetailDataUseTermsNotAccepted"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.retail_v2#GetAttributesConfigProjectsLocationsCatalogs/errors/-",
+      "value": {
+        "target": "com.gcp.retail_v2#RetailDataUseTermsNotAccepted"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.retail_v2#GetCompletionConfigProjectsLocationsCatalogs/errors/-",
+      "value": {
+        "target": "com.gcp.retail_v2#RetailDataUseTermsNotAccepted"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.retail_v2#GetConversationalSearchCustomizationConfigProjectsLocationsCatalogs/errors/-",
+      "value": {
+        "target": "com.gcp.retail_v2#RetailDataUseTermsNotAccepted"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.retail_v2#GetDefaultBranchProjectsLocationsCatalogs/errors/-",
+      "value": {
+        "target": "com.gcp.retail_v2#RetailDataUseTermsNotAccepted"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.retail_v2#GetGenerativeQuestionFeatureProjectsLocationsCatalogs/errors/-",
+      "value": {
+        "target": "com.gcp.retail_v2#RetailDataUseTermsNotAccepted"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.retail_v2#GetProjectsLocationsCatalogsBranchesOperations/errors/-",
+      "value": {
+        "target": "com.gcp.retail_v2#RetailDataUseTermsNotAccepted"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.retail_v2#GetProjectsLocationsCatalogsBranchesProducts/errors/-",
+      "value": {
+        "target": "com.gcp.retail_v2#RetailDataUseTermsNotAccepted"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.retail_v2#GetProjectsLocationsCatalogsControls/errors/-",
+      "value": {
+        "target": "com.gcp.retail_v2#RetailDataUseTermsNotAccepted"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.retail_v2#GetProjectsLocationsCatalogsModels/errors/-",
+      "value": {
+        "target": "com.gcp.retail_v2#RetailDataUseTermsNotAccepted"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.retail_v2#GetProjectsLocationsCatalogsOperations/errors/-",
+      "value": {
+        "target": "com.gcp.retail_v2#RetailDataUseTermsNotAccepted"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.retail_v2#GetProjectsLocationsCatalogsServingConfigs/errors/-",
+      "value": {
+        "target": "com.gcp.retail_v2#RetailDataUseTermsNotAccepted"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.retail_v2#GetProjectsLocationsOperations/errors/-",
+      "value": {
+        "target": "com.gcp.retail_v2#RetailDataUseTermsNotAccepted"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.retail_v2#GetProjectsOperations/errors/-",
+      "value": {
+        "target": "com.gcp.retail_v2#RetailDataUseTermsNotAccepted"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.retail_v2#ImportProjectsLocationsCatalogsBranchesProducts/errors/-",
+      "value": {
+        "target": "com.gcp.retail_v2#RetailDataUseTermsNotAccepted"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.retail_v2#ImportProjectsLocationsCatalogsCompletionData/errors/-",
+      "value": {
+        "target": "com.gcp.retail_v2#RetailDataUseTermsNotAccepted"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.retail_v2#ImportProjectsLocationsCatalogsUserEvents/errors/-",
+      "value": {
+        "target": "com.gcp.retail_v2#RetailDataUseTermsNotAccepted"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.retail_v2#ListProjectsLocationsCatalogs/errors/-",
+      "value": {
+        "target": "com.gcp.retail_v2#RetailDataUseTermsNotAccepted"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.retail_v2#ListProjectsLocationsCatalogsBranchesProducts/errors/-",
+      "value": {
+        "target": "com.gcp.retail_v2#RetailDataUseTermsNotAccepted"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.retail_v2#ListProjectsLocationsCatalogsControls/errors/-",
+      "value": {
+        "target": "com.gcp.retail_v2#RetailDataUseTermsNotAccepted"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.retail_v2#ListProjectsLocationsCatalogsGenerativeQuestions/errors/-",
+      "value": {
+        "target": "com.gcp.retail_v2#RetailDataUseTermsNotAccepted"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.retail_v2#ListProjectsLocationsCatalogsModels/errors/-",
+      "value": {
+        "target": "com.gcp.retail_v2#RetailDataUseTermsNotAccepted"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.retail_v2#ListProjectsLocationsCatalogsOperations/errors/-",
+      "value": {
+        "target": "com.gcp.retail_v2#RetailDataUseTermsNotAccepted"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.retail_v2#ListProjectsLocationsCatalogsServingConfigs/errors/-",
+      "value": {
+        "target": "com.gcp.retail_v2#RetailDataUseTermsNotAccepted"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.retail_v2#ListProjectsLocationsOperations/errors/-",
+      "value": {
+        "target": "com.gcp.retail_v2#RetailDataUseTermsNotAccepted"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.retail_v2#ListProjectsOperations/errors/-",
+      "value": {
+        "target": "com.gcp.retail_v2#RetailDataUseTermsNotAccepted"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.retail_v2#PatchProjectsLocationsCatalogs/errors/-",
+      "value": {
+        "target": "com.gcp.retail_v2#RetailDataUseTermsNotAccepted"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.retail_v2#PatchProjectsLocationsCatalogsBranchesProducts/errors/-",
+      "value": {
+        "target": "com.gcp.retail_v2#RetailDataUseTermsNotAccepted"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.retail_v2#PatchProjectsLocationsCatalogsControls/errors/-",
+      "value": {
+        "target": "com.gcp.retail_v2#RetailDataUseTermsNotAccepted"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.retail_v2#PatchProjectsLocationsCatalogsModels/errors/-",
+      "value": {
+        "target": "com.gcp.retail_v2#RetailDataUseTermsNotAccepted"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.retail_v2#PatchProjectsLocationsCatalogsServingConfigs/errors/-",
+      "value": {
+        "target": "com.gcp.retail_v2#RetailDataUseTermsNotAccepted"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.retail_v2#PauseProjectsLocationsCatalogsModels/errors/-",
+      "value": {
+        "target": "com.gcp.retail_v2#RetailDataUseTermsNotAccepted"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.retail_v2#PredictProjectsLocationsCatalogsPlacements/errors/-",
+      "value": {
+        "target": "com.gcp.retail_v2#RetailDataUseTermsNotAccepted"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.retail_v2#PredictProjectsLocationsCatalogsServingConfigs/errors/-",
+      "value": {
+        "target": "com.gcp.retail_v2#RetailDataUseTermsNotAccepted"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.retail_v2#PurgeProjectsLocationsCatalogsBranchesProducts/errors/-",
+      "value": {
+        "target": "com.gcp.retail_v2#RetailDataUseTermsNotAccepted"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.retail_v2#PurgeProjectsLocationsCatalogsUserEvents/errors/-",
+      "value": {
+        "target": "com.gcp.retail_v2#RetailDataUseTermsNotAccepted"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.retail_v2#RejoinProjectsLocationsCatalogsUserEvents/errors/-",
+      "value": {
+        "target": "com.gcp.retail_v2#RetailDataUseTermsNotAccepted"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.retail_v2#RemoveCatalogAttributeProjectsLocationsCatalogsAttributesConfig/errors/-",
+      "value": {
+        "target": "com.gcp.retail_v2#RetailDataUseTermsNotAccepted"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.retail_v2#RemoveControlProjectsLocationsCatalogsServingConfigs/errors/-",
+      "value": {
+        "target": "com.gcp.retail_v2#RetailDataUseTermsNotAccepted"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.retail_v2#RemoveFulfillmentPlacesProjectsLocationsCatalogsBranchesProducts/errors/-",
+      "value": {
+        "target": "com.gcp.retail_v2#RetailDataUseTermsNotAccepted"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.retail_v2#RemoveLocalInventoriesProjectsLocationsCatalogsBranchesProducts/errors/-",
+      "value": {
+        "target": "com.gcp.retail_v2#RetailDataUseTermsNotAccepted"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.retail_v2#ReplaceCatalogAttributeProjectsLocationsCatalogsAttributesConfig/errors/-",
+      "value": {
+        "target": "com.gcp.retail_v2#RetailDataUseTermsNotAccepted"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.retail_v2#ResumeProjectsLocationsCatalogsModels/errors/-",
+      "value": {
+        "target": "com.gcp.retail_v2#RetailDataUseTermsNotAccepted"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.retail_v2#SearchProjectsLocationsCatalogsPlacements/errors/-",
+      "value": {
+        "target": "com.gcp.retail_v2#RetailDataUseTermsNotAccepted"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.retail_v2#SearchProjectsLocationsCatalogsServingConfigs/errors/-",
+      "value": {
+        "target": "com.gcp.retail_v2#RetailDataUseTermsNotAccepted"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.retail_v2#SetDefaultBranchProjectsLocationsCatalogs/errors/-",
+      "value": {
+        "target": "com.gcp.retail_v2#RetailDataUseTermsNotAccepted"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.retail_v2#SetInventoryProjectsLocationsCatalogsBranchesProducts/errors/-",
+      "value": {
+        "target": "com.gcp.retail_v2#RetailDataUseTermsNotAccepted"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.retail_v2#TuneProjectsLocationsCatalogsModels/errors/-",
+      "value": {
+        "target": "com.gcp.retail_v2#RetailDataUseTermsNotAccepted"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.retail_v2#UpdateAttributesConfigProjectsLocationsCatalogs/errors/-",
+      "value": {
+        "target": "com.gcp.retail_v2#RetailDataUseTermsNotAccepted"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.retail_v2#UpdateCompletionConfigProjectsLocationsCatalogs/errors/-",
+      "value": {
+        "target": "com.gcp.retail_v2#RetailDataUseTermsNotAccepted"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.retail_v2#UpdateConversationalSearchCustomizationConfigProjectsLocationsCatalogs/errors/-",
+      "value": {
+        "target": "com.gcp.retail_v2#RetailDataUseTermsNotAccepted"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.retail_v2#UpdateGenerativeQuestionFeatureProjectsLocationsCatalogs/errors/-",
+      "value": {
+        "target": "com.gcp.retail_v2#RetailDataUseTermsNotAccepted"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.retail_v2#UpdateGenerativeQuestionProjectsLocationsCatalogs/errors/-",
+      "value": {
+        "target": "com.gcp.retail_v2#RetailDataUseTermsNotAccepted"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.retail_v2#WriteProjectsLocationsCatalogsUserEvents/errors/-",
+      "value": {
+        "target": "com.gcp.retail_v2#RetailDataUseTermsNotAccepted"
+      }
+    }
+  ]
+}

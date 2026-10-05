@@ -1,3 +1,15 @@
+import * as API from "@distilled.cloud/core/api";
+import {
+  type ConfigError,
+  HTTP_STATUS_MAP,
+  InternalServerError,
+  type API_ERRORS,
+} from "@distilled.cloud/core/errors";
+import { buildRequest, getAnn, mapKeys } from "@distilled.cloud/core/protocol-http";
+import { unwrapRedactedDeep, wrapSensitive } from "@distilled.cloud/core/protocol-rest";
+import { validateResponse } from "@distilled.cloud/core/response-validation";
+import { parseRetryAfterForStatus } from "@distilled.cloud/core/retry-after";
+import { httpSymbol } from "@distilled.cloud/core/trait";
 /**
  * AzureProtocol — hand-written.
  *
@@ -27,35 +39,19 @@
  *               4. `UnknownAzureError` catch-all
  */
 import * as Effect from "effect/Effect";
+import type * as HttpClient from "effect/http/HttpClient";
+import type * as HttpClientError from "effect/http/HttpClientError";
+import * as HttpClientRequest from "effect/http/HttpClientRequest";
+import type * as HttpClientResponse from "effect/http/HttpClientResponse";
 import * as Layer from "effect/Layer";
 import * as Redacted from "effect/Redacted";
 import type * as AST from "effect/SchemaAST";
-import type * as HttpClient from "effect/unstable/http/HttpClient";
-import type * as HttpClientError from "effect/unstable/http/HttpClientError";
-import * as HttpClientRequest from "effect/unstable/http/HttpClientRequest";
-import type * as HttpClientResponse from "effect/unstable/http/HttpClientResponse";
-import * as API from "@distilled.cloud/core/api";
-import { httpSymbol } from "@distilled.cloud/core/trait";
-import {
-  buildRequest,
-  getAnn,
-  mapKeys,
-} from "@distilled.cloud/core/protocol-http";
-import {
-  unwrapRedactedDeep,
-  wrapSensitive,
-} from "@distilled.cloud/core/protocol-rest";
-import {
-  type ConfigError,
-  HTTP_STATUS_MAP,
-  InternalServerError,
-  type API_ERRORS,
-} from "@distilled.cloud/core/errors";
-import { parseRetryAfterForStatus } from "@distilled.cloud/core/retry-after";
 import { Credentials, type Config } from "./credentials.ts";
 import {
   AZURE_ERROR_CODE_MAP,
+  matchAzureErrorMessage,
   type AzureApiError,
+  AzureParseError,
   UnknownAzureError,
 } from "./errors.ts";
 import type { HttpTrait } from "./traits.ts";
@@ -71,6 +67,7 @@ export type AzureOpError =
   | InstanceType<(typeof API_ERRORS)[number]>
   | AzureApiError
   | UnknownAzureError
+  | AzureParseError
   | ConfigError
   | HttpClientError.HttpClientError;
 
@@ -81,8 +78,7 @@ export type AzureOpContext = Credentials | HttpClient.HttpClient;
 // but Azure failures are real typed errors surfaced through AzureOpError.
 // Fail with the instance and erase the type here; the generated operation
 // annotations reintroduce it for callers.
-const fail = (e: unknown): Effect.Effect<never> =>
-  Effect.fail(e) as Effect.Effect<never>;
+const fail = (e: unknown): Effect.Effect<never> => Effect.fail(e) as Effect.Effect<never>;
 
 // ---------------------------------------------------------------------------
 // Error-body parsing
@@ -92,6 +88,9 @@ interface ArmError {
   code?: string;
   message?: string;
   target?: string;
+  /** Codes/messages of `error.details[]` (e.g. a generic `ValidationError`
+   * whose real cause is a nested detail code). */
+  details?: ReadonlyArray<{ code?: string; message?: string }>;
 }
 
 /**
@@ -100,17 +99,40 @@ interface ArmError {
  * `{ code, message }` shape as a fallback (v0 parity).
  */
 const parseArmError = (body: unknown): ArmError | undefined => {
+  // Some RPs (e.g. Microsoft.GuestConfiguration) return a bare JSON string.
+  if (typeof body === "string") return body ? { message: body } : undefined;
   if (body === null || typeof body !== "object") return undefined;
   const b = body as Record<string, unknown>;
   const inner =
-    b.error !== null && typeof b.error === "object"
-      ? (b.error as Record<string, unknown>)
-      : b;
-  const code = typeof inner.code === "string" ? inner.code : undefined;
-  const message = typeof inner.message === "string" ? inner.message : undefined;
-  const target = typeof inner.target === "string" ? inner.target : undefined;
+    b.error !== null && typeof b.error === "object" ? (b.error as Record<string, unknown>) : b;
+  // Microsoft.Web (and other legacy RPs) return PascalCase `Code`/`Message`.
+  const field = (name: string) => {
+    const value = inner[name] ?? inner[name[0]!.toUpperCase() + name.slice(1)];
+    return typeof value === "string" ? value : undefined;
+  };
+  const code = field("code");
+  const message = field("message");
+  const target = field("target");
   if (code === undefined && message === undefined) return undefined;
-  return { code, message, target };
+  const details = Array.isArray(inner.details)
+    ? inner.details.flatMap((d: unknown) =>
+        d !== null && typeof d === "object"
+          ? [
+              {
+                code:
+                  typeof (d as { code?: unknown }).code === "string"
+                    ? ((d as { code: string }).code as string)
+                    : undefined,
+                message:
+                  typeof (d as { message?: unknown }).message === "string"
+                    ? ((d as { message: string }).message as string)
+                    : undefined,
+              },
+            ]
+          : [],
+      )
+    : undefined;
+  return { code, message, target, details };
 };
 
 // ---------------------------------------------------------------------------
@@ -122,13 +144,7 @@ const parseArmError = (body: unknown): ArmError | undefined => {
 // calling fiber's context on every request instead. Its ConfigError channel
 // is erased at this boundary (Protocol effects carry none) and reintroduced
 // for callers by the generated AzureOpError annotations.
-const encode = ({
-  input,
-  inputAst,
-}: {
-  readonly input: unknown;
-  readonly inputAst: AST.AST;
-}) =>
+const encode = ({ input, inputAst }: { readonly input: unknown; readonly inputAst: AST.AST }) =>
   Effect.gen(function* () {
     const resolveCredentials = yield* Credentials;
     const creds = yield* resolveCredentials as Effect.Effect<Config>;
@@ -138,6 +154,9 @@ const encode = ({
       baseUrl: creds.apiBaseUrl,
       headers: {
         Authorization: `Bearer ${Redacted.value(creds.bearerToken)}`,
+        // ARM speaks JSON; without this, some resource providers negotiate
+        // another media type (API Management returns policies as raw XML).
+        Accept: "application/json",
       },
     });
 
@@ -151,9 +170,7 @@ const encode = ({
     const http = getAnn(inputAst, httpSymbol) as HttpTrait | undefined;
     let url = request.url;
     if (url.includes("{subscriptionId}")) {
-      url = url
-        .split("{subscriptionId}")
-        .join(encodeURIComponent(creds.subscriptionId));
+      url = url.split("{subscriptionId}").join(encodeURIComponent(creds.subscriptionId));
     }
     if (http?.apiVersion && !/[?&]api-version=/.test(url)) {
       url += `${url.includes("?") ? "&" : "?"}api-version=${encodeURIComponent(http.apiVersion)}`;
@@ -200,7 +217,8 @@ const decode = ({
 
       // 1. Match by Azure error code first for richer typed errors.
       const AzureErrorClass =
-        arm?.code !== undefined ? AZURE_ERROR_CODE_MAP[arm.code] : undefined;
+        (arm !== undefined ? matchAzureErrorMessage(arm) : undefined) ??
+        (arm?.code !== undefined ? AZURE_ERROR_CODE_MAP[arm.code] : undefined);
       if (AzureErrorClass) {
         return yield* fail(
           new AzureErrorClass({
@@ -211,15 +229,29 @@ const decode = ({
         );
       }
 
+      // 1b. A generic top-level code (e.g. `ValidationError`) whose nested
+      //     `details[].code` is mapped.
+      const detail = arm?.details?.find(
+        (d) => d.code !== undefined && AZURE_ERROR_CODE_MAP[d.code],
+      );
+      if (detail !== undefined) {
+        const DetailErrorClass = AZURE_ERROR_CODE_MAP[detail.code!]!;
+        return yield* fail(
+          new DetailErrorClass({
+            message: detail.message ?? arm!.message,
+            code: detail.code,
+            target: arm!.target,
+          }),
+        );
+      }
+
       // 2. Fall back to standard HTTP status errors (Retry-After honored on
       //    retryable statuses).
-      const StatusErrorClass =
-        HTTP_STATUS_MAP[status as keyof typeof HTTP_STATUS_MAP];
+      const StatusErrorClass = HTTP_STATUS_MAP[status as keyof typeof HTTP_STATUS_MAP];
       if (StatusErrorClass) {
         return yield* fail(
           new StatusErrorClass({
-            message:
-              arm?.message ?? (nonJson && text.trim() ? text.trim() : ""),
+            message: arm?.message ?? (nonJson && text.trim() ? text.trim() : ""),
             retryAfter: parseRetryAfterForStatus(status, headers),
           } as any),
         );
@@ -249,9 +281,16 @@ const decode = ({
     // 2xx: the response body IS the payload (ARM has no success envelope).
     // Wire→TS key mapping is schema-driven; `RawResponseRoot` responses are
     // the body verbatim (mapKeys handles arrays/scalars structurally either
-    // way). Sensitive members are delivered as `Redacted`.
+    // way). Strict mode (core/response-validation) checks the mapped body
+    // against the output schema. Sensitive members are delivered as
+    // `Redacted`.
     const body: unknown = nonJson ? text : (json ?? {});
-    return wrapSensitive(outputAst, mapKeys(outputAst, body, "decode"));
+    const mapped = yield* validateResponse(
+      outputAst,
+      mapKeys(outputAst, body, "decode"),
+      (cause) => new AzureParseError({ body: nonJson ? text : json, cause }),
+    ).pipe(Effect.catch(fail));
+    return wrapSensitive(outputAst, mapped);
   });
 
 export const AzureProtocol: Layer.Layer<API.Protocol> = Layer.succeed(
@@ -259,8 +298,7 @@ export const AzureProtocol: Layer.Layer<API.Protocol> = Layer.succeed(
   API.Protocol.of({
     // Erase encode's Credentials requirement (resolved on the calling
     // fiber; see the note above `encode`).
-    encode: (args) =>
-      encode(args) as Effect.Effect<HttpClientRequest.HttpClientRequest>,
+    encode: (args) => encode(args) as Effect.Effect<HttpClientRequest.HttpClientRequest>,
     decode,
   }),
 );

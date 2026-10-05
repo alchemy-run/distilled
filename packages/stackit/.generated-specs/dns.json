@@ -1,0 +1,4352 @@
+{
+  "smithy": "2.0",
+  "metadata": {
+    "suppressions": [
+      {
+        "id": "HttpUriConflict",
+        "namespace": "*"
+      },
+      {
+        "id": "HttpMethodSemantics",
+        "namespace": "*"
+      },
+      {
+        "id": "UnreferencedShape",
+        "namespace": "*"
+      }
+    ],
+    "distilled.finalized": true
+  },
+  "shapes": {
+    "com.stackit.dns#MoveZoneRequest": {
+      "type": "structure",
+      "members": {
+        "projectId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "project id"
+          }
+        },
+        "code": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Code to move the zone. It must be valid, not expired and belong",
+            "smithy.api#required": {}
+          }
+        },
+        "zoneDnsName": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "ZoneDnsName is the dns name of the zone to move",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.stackit.dns#Message": {
+      "type": "structure",
+      "members": {
+        "message": {
+          "target": "smithy.api#String"
+        }
+      },
+      "traits": {}
+    },
+    "com.stackit.dns#MoveZone": {
+      "type": "operation",
+      "input": {
+        "target": "com.stackit.dns#MoveZoneRequest"
+      },
+      "output": {
+        "target": "com.stackit.dns#Message"
+      },
+      "errors": [
+        {
+          "target": "com.stackit.dns#BadRequest"
+        },
+        {
+          "target": "com.stackit.dns#NotFound"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/v1/projects/{projectId}/move-zone",
+          "code": 200,
+          "baseUrl": "https://dns.api.stackit.cloud"
+        },
+        "smithy.api#documentation": "move zone from one project to another\n\nmove zone from one project to another"
+      }
+    },
+    "com.stackit.dns#ListZonesRequestTypeEq": {
+      "type": "enum",
+      "members": {
+        "PRIMARY": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "primary"
+          }
+        },
+        "SECONDARY": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "secondary"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.stackit.dns#ListZonesRequestStateEq": {
+      "type": "enum",
+      "members": {
+        "CREATING": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "CREATING"
+          }
+        },
+        "CREATE_SUCCEEDED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "CREATE_SUCCEEDED"
+          }
+        },
+        "CREATE_FAILED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "CREATE_FAILED"
+          }
+        },
+        "DELETING": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "DELETING"
+          }
+        },
+        "DELETE_SUCCEEDED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "DELETE_SUCCEEDED"
+          }
+        },
+        "DELETE_FAILED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "DELETE_FAILED"
+          }
+        },
+        "UPDATING": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "UPDATING"
+          }
+        },
+        "UPDATE_SUCCEEDED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "UPDATE_SUCCEEDED"
+          }
+        },
+        "UPDATE_FAILED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "UPDATE_FAILED"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.stackit.dns#ListZonesRequestStateNeq": {
+      "type": "enum",
+      "members": {
+        "CREATING": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "CREATING"
+          }
+        },
+        "CREATE_SUCCEEDED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "CREATE_SUCCEEDED"
+          }
+        },
+        "CREATE_FAILED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "CREATE_FAILED"
+          }
+        },
+        "DELETING": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "DELETING"
+          }
+        },
+        "DELETE_SUCCEEDED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "DELETE_SUCCEEDED"
+          }
+        },
+        "DELETE_FAILED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "DELETE_FAILED"
+          }
+        },
+        "UPDATING": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "UPDATING"
+          }
+        },
+        "UPDATE_SUCCEEDED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "UPDATE_SUCCEEDED"
+          }
+        },
+        "UPDATE_FAILED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "UPDATE_FAILED"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.stackit.dns#ListZonesRequestLabelKeyEqList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {}
+    },
+    "com.stackit.dns#ListZonesRequestLabelValueEqList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {}
+    },
+    "com.stackit.dns#ListZonesRequestOrderByDnsName": {
+      "type": "enum",
+      "members": {
+        "ASC": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "ASC"
+          }
+        },
+        "DESC": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "DESC"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.stackit.dns#ListZonesRequestOrderByName": {
+      "type": "enum",
+      "members": {
+        "ASC": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "ASC"
+          }
+        },
+        "DESC": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "DESC"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.stackit.dns#ListZonesRequestOrderByRecordCount": {
+      "type": "enum",
+      "members": {
+        "ASC": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "ASC"
+          }
+        },
+        "DESC": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "DESC"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.stackit.dns#ListZonesRequestOrderByType": {
+      "type": "enum",
+      "members": {
+        "ASC": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "ASC"
+          }
+        },
+        "DESC": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "DESC"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.stackit.dns#ListZonesRequestOrderByDescription": {
+      "type": "enum",
+      "members": {
+        "ASC": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "ASC"
+          }
+        },
+        "DESC": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "DESC"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.stackit.dns#ListZonesRequestOrderByCreationStarted": {
+      "type": "enum",
+      "members": {
+        "ASC": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "ASC"
+          }
+        },
+        "DESC": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "DESC"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.stackit.dns#ListZonesRequestOrderByCreationFinished": {
+      "type": "enum",
+      "members": {
+        "ASC": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "ASC"
+          }
+        },
+        "DESC": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "DESC"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.stackit.dns#ListZonesRequestOrderByUpdateStarted": {
+      "type": "enum",
+      "members": {
+        "ASC": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "ASC"
+          }
+        },
+        "DESC": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "DESC"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.stackit.dns#ListZonesRequestOrderByUpdateFinished": {
+      "type": "enum",
+      "members": {
+        "ASC": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "ASC"
+          }
+        },
+        "DESC": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "DESC"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.stackit.dns#ListZonesRequest": {
+      "type": "structure",
+      "members": {
+        "projectId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "project id"
+          }
+        },
+        "page": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpQuery": "page",
+            "smithy.api#documentation": "page"
+          }
+        },
+        "pageSize": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpQuery": "pageSize",
+            "smithy.api#documentation": "page size"
+          }
+        },
+        "dnsName_eq_": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "dnsName[eq]",
+            "smithy.api#documentation": "filter dns name equal"
+          }
+        },
+        "dnsName_like_": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "dnsName[like]",
+            "smithy.api#documentation": "filter dns name like"
+          }
+        },
+        "type_eq_": {
+          "target": "com.stackit.dns#ListZonesRequestTypeEq",
+          "traits": {
+            "smithy.api#httpQuery": "type[eq]",
+            "smithy.api#documentation": "filter type"
+          }
+        },
+        "name_eq_": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "name[eq]",
+            "smithy.api#documentation": "filter name equal"
+          }
+        },
+        "name_neq_": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "name[neq]",
+            "smithy.api#documentation": "filter name not equal"
+          }
+        },
+        "name_like_": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "name[like]",
+            "smithy.api#documentation": "filter name like"
+          }
+        },
+        "description_eq_": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "description[eq]",
+            "smithy.api#documentation": "filter description equal"
+          }
+        },
+        "description_neq_": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "description[neq]",
+            "smithy.api#documentation": "filter description not equal"
+          }
+        },
+        "description_like_": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "description[like]",
+            "smithy.api#documentation": "filter description like"
+          }
+        },
+        "state_eq_": {
+          "target": "com.stackit.dns#ListZonesRequestStateEq",
+          "traits": {
+            "smithy.api#httpQuery": "state[eq]",
+            "smithy.api#documentation": "filter state"
+          }
+        },
+        "state_neq_": {
+          "target": "com.stackit.dns#ListZonesRequestStateNeq",
+          "traits": {
+            "smithy.api#httpQuery": "state[neq]",
+            "smithy.api#documentation": "filter state"
+          }
+        },
+        "primaryNameServer_eq_": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "primaryNameServer[eq]",
+            "smithy.api#documentation": "filter primary name server equal"
+          }
+        },
+        "primaryNameServer_like_": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "primaryNameServer[like]",
+            "smithy.api#documentation": "filter primary name server like"
+          }
+        },
+        "isReverseZone_eq_": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#httpQuery": "isReverseZone[eq]",
+            "smithy.api#documentation": "filter reverse zone equal"
+          }
+        },
+        "active_eq_": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#httpQuery": "active[eq]",
+            "smithy.api#documentation": "filter active equal"
+          }
+        },
+        "creationStarted_gt_": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "creationStarted[gt]",
+            "smithy.api#documentation": "filter creation started greater with utc timestamp"
+          }
+        },
+        "creationStarted_lt_": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "creationStarted[lt]",
+            "smithy.api#documentation": "filter creation started lesser with utc timestamp"
+          }
+        },
+        "creationStarted_gte_": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "creationStarted[gte]",
+            "smithy.api#documentation": "filter creation started greater equal with utc timestamp"
+          }
+        },
+        "creationStarted_lte_": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "creationStarted[lte]",
+            "smithy.api#documentation": "filter creation started lesser equal with utc timestamp"
+          }
+        },
+        "creationFinished_gt_": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "creationFinished[gt]",
+            "smithy.api#documentation": "filter creation finished greater with utc timestamp"
+          }
+        },
+        "creationFinished_lt_": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "creationFinished[lt]",
+            "smithy.api#documentation": "filter creation finished lesser with utc timestamp"
+          }
+        },
+        "creationFinished_gte_": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "creationFinished[gte]",
+            "smithy.api#documentation": "filter creation finished greater equal with utc timestamp"
+          }
+        },
+        "creationFinished_lte_": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "creationFinished[lte]",
+            "smithy.api#documentation": "filter creation finished lesser equal with utc timestamp"
+          }
+        },
+        "updateStarted_gt_": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "updateStarted[gt]",
+            "smithy.api#documentation": "filter update started greater with utc timestamp"
+          }
+        },
+        "updateStarted_lt_": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "updateStarted[lt]",
+            "smithy.api#documentation": "filter update started lesser with utc timestamp"
+          }
+        },
+        "updateStarted_gte_": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "updateStarted[gte]",
+            "smithy.api#documentation": "filter update started greater equal with utc timestamp"
+          }
+        },
+        "updateStarted_lte_": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "updateStarted[lte]",
+            "smithy.api#documentation": "filter update started lesser equal with utc timestamp"
+          }
+        },
+        "updateFinished_gt_": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "updateFinished[gt]",
+            "smithy.api#documentation": "filter update finished greater with utc timestamp"
+          }
+        },
+        "updateFinished_lt_": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "updateFinished[lt]",
+            "smithy.api#documentation": "filter update finished lesser with utc timestamp"
+          }
+        },
+        "updateFinished_gte_": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "updateFinished[gte]",
+            "smithy.api#documentation": "filter update finished greater equal with utc timestamp"
+          }
+        },
+        "updateFinished_lte_": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "updateFinished[lte]",
+            "smithy.api#documentation": "filter update finished lesser equal with utc timestamp"
+          }
+        },
+        "labelKey_eq_": {
+          "target": "com.stackit.dns#ListZonesRequestLabelKeyEqList",
+          "traits": {
+            "smithy.api#httpQuery": "labelKey[eq]",
+            "smithy.api#documentation": "filter zones according to the zone label keys."
+          }
+        },
+        "labelValue_eq_": {
+          "target": "com.stackit.dns#ListZonesRequestLabelValueEqList",
+          "traits": {
+            "smithy.api#httpQuery": "labelValue[eq]",
+            "smithy.api#documentation": "filter zones according to the zone label values."
+          }
+        },
+        "orderBy_dnsName_": {
+          "target": "com.stackit.dns#ListZonesRequestOrderByDnsName",
+          "traits": {
+            "smithy.api#httpQuery": "orderBy[dnsName]",
+            "smithy.api#documentation": "order by dns name"
+          }
+        },
+        "orderBy_name_": {
+          "target": "com.stackit.dns#ListZonesRequestOrderByName",
+          "traits": {
+            "smithy.api#httpQuery": "orderBy[name]",
+            "smithy.api#documentation": "order by name"
+          }
+        },
+        "orderBy_recordCount_": {
+          "target": "com.stackit.dns#ListZonesRequestOrderByRecordCount",
+          "traits": {
+            "smithy.api#httpQuery": "orderBy[recordCount]",
+            "smithy.api#documentation": "order by record count"
+          }
+        },
+        "orderBy_type_": {
+          "target": "com.stackit.dns#ListZonesRequestOrderByType",
+          "traits": {
+            "smithy.api#httpQuery": "orderBy[type]",
+            "smithy.api#documentation": "order by type"
+          }
+        },
+        "orderBy_description_": {
+          "target": "com.stackit.dns#ListZonesRequestOrderByDescription",
+          "traits": {
+            "smithy.api#httpQuery": "orderBy[description]",
+            "smithy.api#documentation": "order by description"
+          }
+        },
+        "orderBy_creationStarted_": {
+          "target": "com.stackit.dns#ListZonesRequestOrderByCreationStarted",
+          "traits": {
+            "smithy.api#httpQuery": "orderBy[creationStarted]",
+            "smithy.api#documentation": "order by creationStarted"
+          }
+        },
+        "orderBy_creationFinished_": {
+          "target": "com.stackit.dns#ListZonesRequestOrderByCreationFinished",
+          "traits": {
+            "smithy.api#httpQuery": "orderBy[creationFinished]",
+            "smithy.api#documentation": "order by creationFinished"
+          }
+        },
+        "orderBy_updateStarted_": {
+          "target": "com.stackit.dns#ListZonesRequestOrderByUpdateStarted",
+          "traits": {
+            "smithy.api#httpQuery": "orderBy[updateStarted]",
+            "smithy.api#documentation": "order by updateStarted"
+          }
+        },
+        "orderBy_updateFinished_": {
+          "target": "com.stackit.dns#ListZonesRequestOrderByUpdateFinished",
+          "traits": {
+            "smithy.api#httpQuery": "orderBy[updateFinished]",
+            "smithy.api#documentation": "order by updateFinished"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.stackit.dns#ListZonesResponse": {
+      "type": "structure",
+      "members": {
+        "itemsPerPage": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "message": {
+          "target": "smithy.api#String"
+        },
+        "totalItems": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "totalPages": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "zones": {
+          "target": "com.stackit.dns#ListZonesResponseZonesList",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "ResponseZoneAll for filtered zones."
+      }
+    },
+    "com.stackit.dns#Zone": {
+      "type": "structure",
+      "members": {
+        "acl": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "access control list",
+            "smithy.api#required": {}
+          }
+        },
+        "active": {
+          "target": "smithy.api#Boolean"
+        },
+        "contactEmail": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "contact email from soa record"
+          }
+        },
+        "creationFinished": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "when zone creation finished",
+            "smithy.api#required": {}
+          }
+        },
+        "creationStarted": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "when zone creation started",
+            "smithy.api#required": {}
+          }
+        },
+        "defaultTTL": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "default time to live",
+            "smithy.api#required": {}
+          }
+        },
+        "description": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "description of the zone"
+          }
+        },
+        "dnsName": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "zone name",
+            "smithy.api#required": {}
+          }
+        },
+        "error": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Error shows error in case create/update/delete failed"
+          }
+        },
+        "expireTime": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "expire time",
+            "smithy.api#required": {}
+          }
+        },
+        "extensions": {
+          "target": "com.stackit.dns#DomainExtensions"
+        },
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "zone id",
+            "smithy.api#required": {}
+          }
+        },
+        "isReverseZone": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "if the zone is a reverse zone or not"
+          }
+        },
+        "labels": {
+          "target": "com.stackit.dns#ZoneLabelsList"
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "user given name",
+            "smithy.api#required": {}
+          }
+        },
+        "negativeCache": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "negative caching",
+            "smithy.api#required": {}
+          }
+        },
+        "primaries": {
+          "target": "com.stackit.dns#ZonePrimariesList",
+          "traits": {
+            "smithy.api#documentation": "primary name server for secondary zone"
+          }
+        },
+        "primaryNameServer": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "primary name server. FQDN",
+            "smithy.api#required": {}
+          }
+        },
+        "recordCount": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "record count how many records are in the zone"
+          }
+        },
+        "refreshTime": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "refresh time",
+            "smithy.api#required": {}
+          }
+        },
+        "retryTime": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "retry time",
+            "smithy.api#required": {}
+          }
+        },
+        "serialNumber": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "serial number",
+            "smithy.api#required": {}
+          }
+        },
+        "state": {
+          "target": "com.stackit.dns#ZoneState",
+          "traits": {
+            "smithy.api#documentation": "zone state",
+            "smithy.api#required": {}
+          }
+        },
+        "type": {
+          "target": "com.stackit.dns#ZoneType",
+          "traits": {
+            "smithy.api#documentation": "zone type",
+            "smithy.api#required": {}
+          }
+        },
+        "updateFinished": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "when zone update/deletion finished",
+            "smithy.api#required": {}
+          }
+        },
+        "updateStarted": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "when zone update/deletion started",
+            "smithy.api#required": {}
+          }
+        },
+        "visibility": {
+          "target": "com.stackit.dns#ZoneVisibility",
+          "traits": {
+            "smithy.api#documentation": "visibility of the zone",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Zone."
+      }
+    },
+    "com.stackit.dns#DomainExtensions": {
+      "type": "structure",
+      "members": {
+        "observabilityExtension": {
+          "target": "com.stackit.dns#DomainObservabilityExtension"
+        }
+      },
+      "traits": {}
+    },
+    "com.stackit.dns#DomainObservabilityExtension": {
+      "type": "structure",
+      "members": {
+        "observabilityInstanceId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "state": {
+          "target": "com.stackit.dns#DomainObservabilityExtensionState"
+        }
+      },
+      "traits": {}
+    },
+    "com.stackit.dns#DomainObservabilityExtensionState": {
+      "type": "enum",
+      "members": {
+        "CREATING": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "CREATING"
+          }
+        },
+        "CREATE_SUCCEEDED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "CREATE_SUCCEEDED"
+          }
+        },
+        "ERROR": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "ERROR"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.stackit.dns#Label": {
+      "type": "structure",
+      "members": {
+        "key": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "value": {
+          "target": "smithy.api#String"
+        }
+      },
+      "traits": {}
+    },
+    "com.stackit.dns#ZoneLabelsList": {
+      "type": "list",
+      "member": {
+        "target": "com.stackit.dns#Label"
+      },
+      "traits": {}
+    },
+    "com.stackit.dns#ZonePrimariesList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {
+        "smithy.api#documentation": "primary name server for secondary zone"
+      }
+    },
+    "com.stackit.dns#ZoneState": {
+      "type": "enum",
+      "members": {
+        "CREATING": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "CREATING"
+          }
+        },
+        "CREATE_SUCCEEDED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "CREATE_SUCCEEDED"
+          }
+        },
+        "CREATE_FAILED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "CREATE_FAILED"
+          }
+        },
+        "DELETING": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "DELETING"
+          }
+        },
+        "DELETE_SUCCEEDED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "DELETE_SUCCEEDED"
+          }
+        },
+        "DELETE_FAILED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "DELETE_FAILED"
+          }
+        },
+        "UPDATING": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "UPDATING"
+          }
+        },
+        "UPDATE_SUCCEEDED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "UPDATE_SUCCEEDED"
+          }
+        },
+        "UPDATE_FAILED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "UPDATE_FAILED"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "zone state"
+      }
+    },
+    "com.stackit.dns#ZoneType": {
+      "type": "enum",
+      "members": {
+        "PRIMARY": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "primary"
+          }
+        },
+        "SECONDARY": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "secondary"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "zone type"
+      }
+    },
+    "com.stackit.dns#ZoneVisibility": {
+      "type": "enum",
+      "members": {
+        "PUBLIC": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "public"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "visibility of the zone"
+      }
+    },
+    "com.stackit.dns#ListZonesResponseZonesList": {
+      "type": "list",
+      "member": {
+        "target": "com.stackit.dns#Zone"
+      },
+      "traits": {}
+    },
+    "com.stackit.dns#ListZones": {
+      "type": "operation",
+      "input": {
+        "target": "com.stackit.dns#ListZonesRequest"
+      },
+      "output": {
+        "target": "com.stackit.dns#ListZonesResponse"
+      },
+      "errors": [
+        {
+          "target": "com.stackit.dns#BadRequest"
+        },
+        {
+          "target": "com.stackit.dns#NotFound"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/v1/projects/{projectId}/zones",
+          "code": 200,
+          "baseUrl": "https://dns.api.stackit.cloud"
+        },
+        "smithy.api#documentation": "All get selected zones\n\nAll zone",
+        "smithy.api#paginated": {
+          "mode": "page",
+          "inputToken": "page",
+          "outputToken": "totalPages",
+          "items": "zones",
+          "pageSize": "pageSize"
+        }
+      }
+    },
+    "com.stackit.dns#ZoneExtensions": {
+      "type": "structure",
+      "members": {
+        "observabilityExtension": {
+          "target": "com.stackit.dns#ZoneObservabilityExtension"
+        }
+      },
+      "traits": {}
+    },
+    "com.stackit.dns#ZoneObservabilityExtension": {
+      "type": "structure",
+      "members": {
+        "observabilityInstanceId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.stackit.dns#CreateZoneRequestPrimariesList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {
+        "smithy.api#documentation": "primary name server for secondary zone"
+      }
+    },
+    "com.stackit.dns#CreateZoneRequestType": {
+      "type": "enum",
+      "members": {
+        "PRIMARY": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "primary"
+          }
+        },
+        "SECONDARY": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "secondary"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "zone type"
+      }
+    },
+    "com.stackit.dns#CreateZoneRequest": {
+      "type": "structure",
+      "members": {
+        "projectId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "project id"
+          }
+        },
+        "acl": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "the access control list (note: this field currently has no effect and does not enforce any access restrictions on the DNS zone)"
+          }
+        },
+        "contactEmail": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "contact e-mail for the zone"
+          }
+        },
+        "defaultTTL": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "default time to live"
+          }
+        },
+        "description": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "description of the zone"
+          }
+        },
+        "dnsName": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "zone name",
+            "smithy.api#required": {}
+          }
+        },
+        "expireTime": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "expire time"
+          }
+        },
+        "extensions": {
+          "target": "com.stackit.dns#ZoneExtensions",
+          "traits": {
+            "smithy.api#documentation": "optional extensions"
+          }
+        },
+        "isReverseZone": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "if the zone is a reverse zone or not"
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "user given name",
+            "smithy.api#required": {}
+          }
+        },
+        "negativeCache": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "negative caching"
+          }
+        },
+        "primaries": {
+          "target": "com.stackit.dns#CreateZoneRequestPrimariesList",
+          "traits": {
+            "smithy.api#documentation": "primary name server for secondary zone"
+          }
+        },
+        "refreshTime": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "refresh time"
+          }
+        },
+        "retryTime": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "retry time"
+          }
+        },
+        "type": {
+          "target": "com.stackit.dns#CreateZoneRequestType",
+          "traits": {
+            "smithy.api#documentation": "zone type"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.stackit.dns#ZoneResponse": {
+      "type": "structure",
+      "members": {
+        "message": {
+          "target": "smithy.api#String"
+        },
+        "zone": {
+          "target": "com.stackit.dns#Zone",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "ResponseZone for user info."
+      }
+    },
+    "com.stackit.dns#CreateZone": {
+      "type": "operation",
+      "input": {
+        "target": "com.stackit.dns#CreateZoneRequest"
+      },
+      "output": {
+        "target": "com.stackit.dns#ZoneResponse"
+      },
+      "errors": [
+        {
+          "target": "com.stackit.dns#BadRequest"
+        },
+        {
+          "target": "com.stackit.dns#NotFound"
+        },
+        {
+          "target": "com.stackit.dns#Conflict"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/v1/projects/{projectId}/zones",
+          "code": 200,
+          "baseUrl": "https://dns.api.stackit.cloud"
+        },
+        "smithy.api#documentation": "Post create a new zone\n\nPost zone create a new zone"
+      }
+    },
+    "com.stackit.dns#GetZoneRequest": {
+      "type": "structure",
+      "members": {
+        "projectId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "project id"
+          }
+        },
+        "zoneId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "zone id"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.stackit.dns#GetZone": {
+      "type": "operation",
+      "input": {
+        "target": "com.stackit.dns#GetZoneRequest"
+      },
+      "output": {
+        "target": "com.stackit.dns#ZoneResponse"
+      },
+      "errors": [
+        {
+          "target": "com.stackit.dns#BadRequest"
+        },
+        {
+          "target": "com.stackit.dns#NotFound"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/v1/projects/{projectId}/zones/{zoneId}",
+          "code": 200,
+          "baseUrl": "https://dns.api.stackit.cloud"
+        },
+        "smithy.api#documentation": "Get a single zone\n\nGet zone"
+      }
+    },
+    "com.stackit.dns#PartialUpdateZoneRequestPrimariesList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {
+        "smithy.api#documentation": "primary name server for secondary zone"
+      }
+    },
+    "com.stackit.dns#PartialUpdateZoneRequest": {
+      "type": "structure",
+      "members": {
+        "projectId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "project id"
+          }
+        },
+        "zoneId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "zone id"
+          }
+        },
+        "acl": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "the access control list (note: this field currently has no effect and does not enforce any access restrictions on the DNS zone)"
+          }
+        },
+        "contactEmail": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "contact e-mail for the zone"
+          }
+        },
+        "defaultTTL": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "default time to live"
+          }
+        },
+        "description": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "description of the zone"
+          }
+        },
+        "expireTime": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "expire time"
+          }
+        },
+        "extensions": {
+          "target": "com.stackit.dns#ZoneExtensions",
+          "traits": {
+            "smithy.api#documentation": "optional extensions"
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "user given name"
+          }
+        },
+        "negativeCache": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "negative caching"
+          }
+        },
+        "primaries": {
+          "target": "com.stackit.dns#PartialUpdateZoneRequestPrimariesList",
+          "traits": {
+            "smithy.api#documentation": "primary name server for secondary zone"
+          }
+        },
+        "refreshTime": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "refresh time"
+          }
+        },
+        "retryTime": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "retry time"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.stackit.dns#PartialUpdateZone": {
+      "type": "operation",
+      "input": {
+        "target": "com.stackit.dns#PartialUpdateZoneRequest"
+      },
+      "output": {
+        "target": "com.stackit.dns#ZoneResponse"
+      },
+      "errors": [
+        {
+          "target": "com.stackit.dns#BadRequest"
+        },
+        {
+          "target": "com.stackit.dns#NotFound"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "PATCH",
+          "uri": "/v1/projects/{projectId}/zones/{zoneId}",
+          "code": 200,
+          "baseUrl": "https://dns.api.stackit.cloud"
+        },
+        "smithy.api#documentation": "Patch update an existing zone\n\nPatch update an existing zone"
+      }
+    },
+    "com.stackit.dns#DeleteZoneRequest": {
+      "type": "structure",
+      "members": {
+        "projectId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "project id"
+          }
+        },
+        "zoneId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "zone id"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.stackit.dns#DeleteZone": {
+      "type": "operation",
+      "input": {
+        "target": "com.stackit.dns#DeleteZoneRequest"
+      },
+      "output": {
+        "target": "com.stackit.dns#Message"
+      },
+      "errors": [
+        {
+          "target": "com.stackit.dns#BadRequest"
+        },
+        {
+          "target": "com.stackit.dns#NotFound"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "DELETE",
+          "uri": "/v1/projects/{projectId}/zones/{zoneId}",
+          "code": 200,
+          "baseUrl": "https://dns.api.stackit.cloud"
+        },
+        "smithy.api#documentation": "Delete a zone\n\nDelete a zone"
+      }
+    },
+    "com.stackit.dns#CloneZoneRequest": {
+      "type": "structure",
+      "members": {
+        "projectId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "project id"
+          }
+        },
+        "zoneId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "zone id"
+          }
+        },
+        "adjustRecords": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Adjust record set content and replace the dns name of the original zone with the new dns name of the cloned zone"
+          }
+        },
+        "description": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "New Description for the cloned zone. Leave empty to use the same description as the original zone"
+          }
+        },
+        "dnsName": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "DnsName is the dns name of the zone to clone",
+            "smithy.api#required": {}
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "New Name for the cloned zone. Leave empty to use the same name as the original zone"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.stackit.dns#CloneZone": {
+      "type": "operation",
+      "input": {
+        "target": "com.stackit.dns#CloneZoneRequest"
+      },
+      "output": {
+        "target": "com.stackit.dns#ZoneResponse"
+      },
+      "errors": [
+        {
+          "target": "com.stackit.dns#BadRequest"
+        },
+        {
+          "target": "com.stackit.dns#NotFound"
+        },
+        {
+          "target": "com.stackit.dns#Conflict"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/v1/projects/{projectId}/zones/{zoneId}/clone",
+          "code": 200,
+          "baseUrl": "https://dns.api.stackit.cloud"
+        },
+        "smithy.api#documentation": "Clone an existing zone with all record sets to a new zone with a different name\n\nClone an existing zone with all record sets to a new zone with a different name"
+      }
+    },
+    "com.stackit.dns#ExportRecordSetsRequestFormat": {
+      "type": "enum",
+      "members": {
+        "CSV": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "csv"
+          }
+        },
+        "JSON": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "json"
+          }
+        },
+        "BIND": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "bind"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.stackit.dns#ExportRecordSetsRequest": {
+      "type": "structure",
+      "members": {
+        "projectId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "project id"
+          }
+        },
+        "zoneId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "zone id"
+          }
+        },
+        "exportAsFQDN": {
+          "target": "smithy.api#Boolean"
+        },
+        "format": {
+          "target": "com.stackit.dns#ExportRecordSetsRequestFormat"
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.stackit.dns#ZoneDataExchange": {
+      "type": "structure",
+      "members": {
+        "rrSets": {
+          "target": "com.stackit.dns#ZoneDataExchangeRrSetsList"
+        }
+      },
+      "traits": {}
+    },
+    "com.stackit.dns#RecordDataExchange": {
+      "type": "structure",
+      "members": {
+        "comment": {
+          "target": "smithy.api#String"
+        },
+        "content": {
+          "target": "com.stackit.dns#RecordDataExchangeContentList"
+        },
+        "name": {
+          "target": "smithy.api#String"
+        },
+        "ttl": {
+          "target": "smithy.api#Integer"
+        },
+        "type": {
+          "target": "smithy.api#String"
+        }
+      },
+      "traits": {}
+    },
+    "com.stackit.dns#RecordDataExchangeContentList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {}
+    },
+    "com.stackit.dns#ZoneDataExchangeRrSetsList": {
+      "type": "list",
+      "member": {
+        "target": "com.stackit.dns#RecordDataExchange"
+      },
+      "traits": {}
+    },
+    "com.stackit.dns#ExportRecordSets": {
+      "type": "operation",
+      "input": {
+        "target": "com.stackit.dns#ExportRecordSetsRequest"
+      },
+      "output": {
+        "target": "com.stackit.dns#ZoneDataExchange"
+      },
+      "errors": [
+        {
+          "target": "com.stackit.dns#BadRequest"
+        },
+        {
+          "target": "com.stackit.dns#Forbidden"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/v1/projects/{projectId}/zones/{zoneId}/export",
+          "code": 200,
+          "baseUrl": "https://dns.api.stackit.cloud"
+        },
+        "smithy.api#documentation": "Export all records in a single zone\n\nExport Zone"
+      }
+    },
+    "com.stackit.dns#ImportRecordSetsRequestFormat": {
+      "type": "enum",
+      "members": {
+        "JSON": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "json"
+          }
+        },
+        "CSV": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "csv"
+          }
+        },
+        "BIND": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "bind"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.stackit.dns#ImportRecordSetsRequestImportType": {
+      "type": "enum",
+      "members": {
+        "RESTORE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "restore"
+          }
+        },
+        "DELETE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "delete"
+          }
+        },
+        "UPDATE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "update"
+          }
+        },
+        "UPSERT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "upsert"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.stackit.dns#ZoneModelsImportRecordModel": {
+      "type": "structure",
+      "members": {
+        "comment": {
+          "target": "smithy.api#String"
+        },
+        "content": {
+          "target": "com.stackit.dns#ZoneModelsImportRecordModelContentList"
+        },
+        "name": {
+          "target": "smithy.api#String"
+        },
+        "ttl": {
+          "target": "smithy.api#Integer"
+        },
+        "type": {
+          "target": "smithy.api#String"
+        }
+      },
+      "traits": {}
+    },
+    "com.stackit.dns#ZoneModelsImportRecordModelContentList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {}
+    },
+    "com.stackit.dns#ImportRecordSetsRequestRrSetsList": {
+      "type": "list",
+      "member": {
+        "target": "com.stackit.dns#ZoneModelsImportRecordModel"
+      },
+      "traits": {}
+    },
+    "com.stackit.dns#ImportRecordSetsRequest": {
+      "type": "structure",
+      "members": {
+        "projectId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "project id"
+          }
+        },
+        "zoneId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "zone id"
+          }
+        },
+        "format": {
+          "target": "com.stackit.dns#ImportRecordSetsRequestFormat",
+          "traits": {
+            "smithy.api#httpQuery": "format",
+            "smithy.api#documentation": "format of the data to import"
+          }
+        },
+        "importType": {
+          "target": "com.stackit.dns#ImportRecordSetsRequestImportType",
+          "traits": {
+            "smithy.api#httpQuery": "importType",
+            "smithy.api#documentation": "type of the zone import"
+          }
+        },
+        "rrSets": {
+          "target": "com.stackit.dns#ImportRecordSetsRequestRrSetsList"
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.stackit.dns#ImportRecordSetsResponse": {
+      "type": "structure",
+      "members": {
+        "message": {
+          "target": "smithy.api#String"
+        },
+        "summary": {
+          "target": "com.stackit.dns#ImportSummary",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "ImportSummaryResponse is the response of the import."
+      }
+    },
+    "com.stackit.dns#ImportSummary": {
+      "type": "structure",
+      "members": {
+        "createdRRSets": {
+          "target": "smithy.api#Integer"
+        },
+        "createdRecords": {
+          "target": "smithy.api#Integer"
+        },
+        "deletedRRSets": {
+          "target": "smithy.api#Integer"
+        },
+        "deletedRecords": {
+          "target": "smithy.api#Integer"
+        },
+        "updatedRRSets": {
+          "target": "smithy.api#Integer"
+        },
+        "updatedRecords": {
+          "target": "smithy.api#Integer"
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "ImportSummary is the summary of the import."
+      }
+    },
+    "com.stackit.dns#ImportRecordSets": {
+      "type": "operation",
+      "input": {
+        "target": "com.stackit.dns#ImportRecordSetsRequest"
+      },
+      "output": {
+        "target": "com.stackit.dns#ImportRecordSetsResponse"
+      },
+      "errors": [
+        {
+          "target": "com.stackit.dns#BadRequest"
+        },
+        {
+          "target": "com.stackit.dns#Forbidden"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/v1/projects/{projectId}/zones/{zoneId}/import",
+          "code": 200,
+          "baseUrl": "https://dns.api.stackit.cloud"
+        },
+        "smithy.api#documentation": "Imports a zone\n\nImports a zone and overwrites/deletes/inserts all desired records"
+      }
+    },
+    "com.stackit.dns#ListLabelsRequest": {
+      "type": "structure",
+      "members": {
+        "projectId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "project id"
+          }
+        },
+        "zoneId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "zone id"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.stackit.dns#ListLabelsResponse": {
+      "type": "structure",
+      "members": {
+        "labels": {
+          "target": "com.stackit.dns#ListLabelsResponseLabelsList"
+        },
+        "message": {
+          "target": "smithy.api#String"
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "ResponseAllLabels."
+      }
+    },
+    "com.stackit.dns#ListLabelsResponseLabelsList": {
+      "type": "list",
+      "member": {
+        "target": "com.stackit.dns#Label"
+      },
+      "traits": {}
+    },
+    "com.stackit.dns#ListLabels": {
+      "type": "operation",
+      "input": {
+        "target": "com.stackit.dns#ListLabelsRequest"
+      },
+      "output": {
+        "target": "com.stackit.dns#ListLabelsResponse"
+      },
+      "errors": [
+        {
+          "target": "com.stackit.dns#BadRequest"
+        },
+        {
+          "target": "com.stackit.dns#Forbidden"
+        },
+        {
+          "target": "com.stackit.dns#NotFound"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/v1/projects/{projectId}/zones/{zoneId}/labels",
+          "code": 200,
+          "baseUrl": "https://dns.api.stackit.cloud"
+        },
+        "smithy.api#documentation": "Get all labels\n\nAll Labels"
+      }
+    },
+    "com.stackit.dns#CreateLabelRequest": {
+      "type": "structure",
+      "members": {
+        "projectId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "project id"
+          }
+        },
+        "zoneId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "zone id"
+          }
+        },
+        "key": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "value": {
+          "target": "smithy.api#String"
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.stackit.dns#CreateLabelResponse": {
+      "type": "structure",
+      "members": {
+        "label": {
+          "target": "com.stackit.dns#Label"
+        },
+        "message": {
+          "target": "smithy.api#String"
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "ResponseUpsertLabel."
+      }
+    },
+    "com.stackit.dns#CreateLabel": {
+      "type": "operation",
+      "input": {
+        "target": "com.stackit.dns#CreateLabelRequest"
+      },
+      "output": {
+        "target": "com.stackit.dns#CreateLabelResponse"
+      },
+      "errors": [
+        {
+          "target": "com.stackit.dns#BadRequest"
+        },
+        {
+          "target": "com.stackit.dns#NotFound"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "PUT",
+          "uri": "/v1/projects/{projectId}/zones/{zoneId}/labels",
+          "code": 200,
+          "baseUrl": "https://dns.api.stackit.cloud"
+        },
+        "smithy.api#documentation": "Create or update label\n\nCreate or update label"
+      }
+    },
+    "com.stackit.dns#DeleteLabelRequest": {
+      "type": "structure",
+      "members": {
+        "projectId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "project id"
+          }
+        },
+        "zoneId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "zone id"
+          }
+        },
+        "key": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "key of the label"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.stackit.dns#DeleteLabelResponse": {
+      "type": "structure",
+      "members": {
+        "label": {
+          "target": "com.stackit.dns#Label"
+        },
+        "message": {
+          "target": "smithy.api#String"
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "ResponseDeleteLabel."
+      }
+    },
+    "com.stackit.dns#DeleteLabel": {
+      "type": "operation",
+      "input": {
+        "target": "com.stackit.dns#DeleteLabelRequest"
+      },
+      "output": {
+        "target": "com.stackit.dns#DeleteLabelResponse"
+      },
+      "errors": [
+        {
+          "target": "com.stackit.dns#BadRequest"
+        },
+        {
+          "target": "com.stackit.dns#Forbidden"
+        },
+        {
+          "target": "com.stackit.dns#NotFound"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "DELETE",
+          "uri": "/v1/projects/{projectId}/zones/{zoneId}/labels/{key}",
+          "code": 200,
+          "baseUrl": "https://dns.api.stackit.cloud"
+        },
+        "smithy.api#documentation": "Delete a label\n\nDelete a label"
+      }
+    },
+    "com.stackit.dns#CreateMoveCodeRequest": {
+      "type": "structure",
+      "members": {
+        "projectId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "project id"
+          }
+        },
+        "zoneId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "zone id"
+          }
+        },
+        "ttl": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "TTL is the duration for which the move code is valid, represented as seconds. Min: 1, Max: 2592000 (30 days)."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.stackit.dns#MoveCodeResponse": {
+      "type": "structure",
+      "members": {
+        "code": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "code to move the zone. It is one time shown so better keep it.",
+            "smithy.api#required": {}
+          }
+        },
+        "expiresAt": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "when the code expires",
+            "smithy.api#required": {}
+          }
+        },
+        "message": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "human readable message"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.stackit.dns#CreateMoveCode": {
+      "type": "operation",
+      "input": {
+        "target": "com.stackit.dns#CreateMoveCodeRequest"
+      },
+      "output": {
+        "target": "com.stackit.dns#MoveCodeResponse"
+      },
+      "errors": [
+        {
+          "target": "com.stackit.dns#BadRequest"
+        },
+        {
+          "target": "com.stackit.dns#Conflict"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/v1/projects/{projectId}/zones/{zoneId}/move-code",
+          "code": 200,
+          "baseUrl": "https://dns.api.stackit.cloud"
+        },
+        "smithy.api#documentation": "request a move code to move zone to another project\n\nmove zone from one project to another"
+      }
+    },
+    "com.stackit.dns#DeleteMoveCodeRequest": {
+      "type": "structure",
+      "members": {
+        "projectId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "project id"
+          }
+        },
+        "zoneId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "zone id"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.stackit.dns#DeleteMoveCode": {
+      "type": "operation",
+      "input": {
+        "target": "com.stackit.dns#DeleteMoveCodeRequest"
+      },
+      "output": {
+        "target": "com.stackit.dns#Message"
+      },
+      "errors": [
+        {
+          "target": "com.stackit.dns#BadRequest"
+        },
+        {
+          "target": "com.stackit.dns#NotFound"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "DELETE",
+          "uri": "/v1/projects/{projectId}/zones/{zoneId}/move-code",
+          "code": 200,
+          "baseUrl": "https://dns.api.stackit.cloud"
+        },
+        "smithy.api#documentation": "delete/invalidate a move code\n\ndelete/invalidate a move code"
+      }
+    },
+    "com.stackit.dns#ValidateMoveCodeRequest": {
+      "type": "structure",
+      "members": {
+        "projectId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "project id"
+          }
+        },
+        "zoneId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "zone id"
+          }
+        },
+        "code": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "code that should be validated. It validates if it is valid, not expired and belongs to the zone.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.stackit.dns#ValidateMoveCode": {
+      "type": "operation",
+      "input": {
+        "target": "com.stackit.dns#ValidateMoveCodeRequest"
+      },
+      "output": {
+        "target": "com.stackit.dns#Message"
+      },
+      "errors": [
+        {
+          "target": "com.stackit.dns#BadRequest"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/v1/projects/{projectId}/zones/{zoneId}/move-code-validation",
+          "code": 200,
+          "baseUrl": "https://dns.api.stackit.cloud"
+        },
+        "smithy.api#documentation": "validate the move code is still valid for the zone\n\nvalidate the move code is still valid for the zone"
+      }
+    },
+    "com.stackit.dns#RestoreZoneRequest": {
+      "type": "structure",
+      "members": {
+        "projectId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "project id"
+          }
+        },
+        "zoneId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "zone id"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.stackit.dns#RestoreZone": {
+      "type": "operation",
+      "input": {
+        "target": "com.stackit.dns#RestoreZoneRequest"
+      },
+      "output": {
+        "target": "com.stackit.dns#Message"
+      },
+      "errors": [
+        {
+          "target": "com.stackit.dns#BadRequest"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/v1/projects/{projectId}/zones/{zoneId}/restores",
+          "code": 200,
+          "baseUrl": "https://dns.api.stackit.cloud"
+        },
+        "smithy.api#documentation": "Restore  an inactive zone\n\nRestore  an inactive zone"
+      }
+    },
+    "com.stackit.dns#GetZoneRequest2": {
+      "type": "structure",
+      "members": {
+        "projectId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "project id"
+          }
+        },
+        "zoneId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "zone id"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.stackit.dns#GetZone2": {
+      "type": "operation",
+      "input": {
+        "target": "com.stackit.dns#GetZoneRequest2"
+      },
+      "output": {
+        "target": "com.stackit.dns#Message"
+      },
+      "errors": [
+        {
+          "target": "com.stackit.dns#BadRequest"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/v1/projects/{projectId}/zones/{zoneId}/retrieve",
+          "code": 200,
+          "baseUrl": "https://dns.api.stackit.cloud"
+        },
+        "smithy.api#documentation": "Queue secondary zone for a zone transfer request.\n\nThe zone transfer will usually be performed within a few seconds, and will be tried only once by randomly choosing one of the configured primary name servers. If that single attempt fails, no further attempt will be performed. The zone will be transferred to our inbound name server regardless of its serial, but the internal zone distribution is only reliable if the zone's serial on the customer's primary name server is higher than on the STACKIT name server. <br>NOTE: As said above, this endpoint is not a reliable way to decrease a zone's serial. To guarantee consistent zones over all STACKIT location, the zone's serial MUST always be increased on zone changes."
+      }
+    },
+    "com.stackit.dns#ListRecordSetsRequestTypeEq": {
+      "type": "enum",
+      "members": {
+        "A": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "A"
+          }
+        },
+        "AAAA": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "AAAA"
+          }
+        },
+        "SOA": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "SOA"
+          }
+        },
+        "CNAME": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "CNAME"
+          }
+        },
+        "NS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "NS"
+          }
+        },
+        "MX": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "MX"
+          }
+        },
+        "TXT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "TXT"
+          }
+        },
+        "SRV": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "SRV"
+          }
+        },
+        "PTR": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "PTR"
+          }
+        },
+        "ALIAS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "ALIAS"
+          }
+        },
+        "DNAME": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "DNAME"
+          }
+        },
+        "CAA": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "CAA"
+          }
+        },
+        "DNSKEY": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "DNSKEY"
+          }
+        },
+        "DS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "DS"
+          }
+        },
+        "LOC": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "LOC"
+          }
+        },
+        "NAPTR": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "NAPTR"
+          }
+        },
+        "SSHFP": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "SSHFP"
+          }
+        },
+        "TLSA": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "TLSA"
+          }
+        },
+        "URI": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "URI"
+          }
+        },
+        "CERT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "CERT"
+          }
+        },
+        "SVCB": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "SVCB"
+          }
+        },
+        "TYPE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "TYPE"
+          }
+        },
+        "CSYNC": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "CSYNC"
+          }
+        },
+        "HINFO": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "HINFO"
+          }
+        },
+        "HTTPS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "HTTPS"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.stackit.dns#ListRecordSetsRequestStateEq": {
+      "type": "enum",
+      "members": {
+        "CREATING": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "CREATING"
+          }
+        },
+        "CREATE_SUCCEEDED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "CREATE_SUCCEEDED"
+          }
+        },
+        "CREATE_FAILED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "CREATE_FAILED"
+          }
+        },
+        "DELETING": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "DELETING"
+          }
+        },
+        "DELETE_SUCCEEDED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "DELETE_SUCCEEDED"
+          }
+        },
+        "DELETE_FAILED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "DELETE_FAILED"
+          }
+        },
+        "UPDATING": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "UPDATING"
+          }
+        },
+        "UPDATE_SUCCEEDED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "UPDATE_SUCCEEDED"
+          }
+        },
+        "UPDATE_FAILED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "UPDATE_FAILED"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.stackit.dns#ListRecordSetsRequestStateNeq": {
+      "type": "enum",
+      "members": {
+        "CREATING": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "CREATING"
+          }
+        },
+        "CREATE_SUCCEEDED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "CREATE_SUCCEEDED"
+          }
+        },
+        "CREATE_FAILED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "CREATE_FAILED"
+          }
+        },
+        "DELETING": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "DELETING"
+          }
+        },
+        "DELETE_SUCCEEDED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "DELETE_SUCCEEDED"
+          }
+        },
+        "DELETE_FAILED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "DELETE_FAILED"
+          }
+        },
+        "UPDATING": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "UPDATING"
+          }
+        },
+        "UPDATE_SUCCEEDED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "UPDATE_SUCCEEDED"
+          }
+        },
+        "UPDATE_FAILED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "UPDATE_FAILED"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.stackit.dns#ListRecordSetsRequestOrderByName": {
+      "type": "enum",
+      "members": {
+        "ASC": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "ASC"
+          }
+        },
+        "DESC": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "DESC"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.stackit.dns#ListRecordSetsRequestOrderByCreationStarted": {
+      "type": "enum",
+      "members": {
+        "ASC": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "ASC"
+          }
+        },
+        "DESC": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "DESC"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.stackit.dns#ListRecordSetsRequestOrderByCreationFinished": {
+      "type": "enum",
+      "members": {
+        "ASC": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "ASC"
+          }
+        },
+        "DESC": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "DESC"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.stackit.dns#ListRecordSetsRequestOrderByUpdateStarted": {
+      "type": "enum",
+      "members": {
+        "ASC": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "ASC"
+          }
+        },
+        "DESC": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "DESC"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.stackit.dns#ListRecordSetsRequestOrderByUpdateFinished": {
+      "type": "enum",
+      "members": {
+        "ASC": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "ASC"
+          }
+        },
+        "DESC": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "DESC"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.stackit.dns#ListRecordSetsRequestOrderByType": {
+      "type": "enum",
+      "members": {
+        "ASC": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "ASC"
+          }
+        },
+        "DESC": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "DESC"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.stackit.dns#ListRecordSetsRequestOrderByState": {
+      "type": "enum",
+      "members": {
+        "ASC": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "ASC"
+          }
+        },
+        "DESC": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "DESC"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.stackit.dns#ListRecordSetsRequestOrderByRecordCount": {
+      "type": "enum",
+      "members": {
+        "ASC": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "ASC"
+          }
+        },
+        "DESC": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "DESC"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.stackit.dns#ListRecordSetsRequest": {
+      "type": "structure",
+      "members": {
+        "projectId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "project id"
+          }
+        },
+        "zoneId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "zone id"
+          }
+        },
+        "page": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpQuery": "page",
+            "smithy.api#documentation": "page"
+          }
+        },
+        "pageSize": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpQuery": "pageSize",
+            "smithy.api#documentation": "page size"
+          }
+        },
+        "name_eq_": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "name[eq]",
+            "smithy.api#documentation": "filter name equal"
+          }
+        },
+        "name_like_": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "name[like]",
+            "smithy.api#documentation": "filter name like"
+          }
+        },
+        "type_eq_": {
+          "target": "com.stackit.dns#ListRecordSetsRequestTypeEq",
+          "traits": {
+            "smithy.api#httpQuery": "type[eq]",
+            "smithy.api#documentation": "filter type"
+          }
+        },
+        "state_eq_": {
+          "target": "com.stackit.dns#ListRecordSetsRequestStateEq",
+          "traits": {
+            "smithy.api#httpQuery": "state[eq]",
+            "smithy.api#documentation": "filter state"
+          }
+        },
+        "state_neq_": {
+          "target": "com.stackit.dns#ListRecordSetsRequestStateNeq",
+          "traits": {
+            "smithy.api#httpQuery": "state[neq]",
+            "smithy.api#documentation": "filter state"
+          }
+        },
+        "active_eq_": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#httpQuery": "active[eq]",
+            "smithy.api#documentation": "filter active equal"
+          }
+        },
+        "creationStarted_gt_": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "creationStarted[gt]",
+            "smithy.api#documentation": "filter creation started greater with utc timestamp"
+          }
+        },
+        "creationStarted_lt_": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "creationStarted[lt]",
+            "smithy.api#documentation": "filter creation started lesser with utc timestamp"
+          }
+        },
+        "creationStarted_gte_": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "creationStarted[gte]",
+            "smithy.api#documentation": "filter creation started greater equal with utc timestamp"
+          }
+        },
+        "creationStarted_lte_": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "creationStarted[lte]",
+            "smithy.api#documentation": "filter creation started lesser equal with utc timestamp"
+          }
+        },
+        "creationFinished_gt_": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "creationFinished[gt]",
+            "smithy.api#documentation": "filter creation finished greater with utc timestamp"
+          }
+        },
+        "creationFinished_lt_": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "creationFinished[lt]",
+            "smithy.api#documentation": "filter creation finished lesser with utc timestamp"
+          }
+        },
+        "creationFinished_gte_": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "creationFinished[gte]",
+            "smithy.api#documentation": "filter creation finished greater equal with utc timestamp"
+          }
+        },
+        "creationFinished_lte_": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "creationFinished[lte]",
+            "smithy.api#documentation": "filter creation finished lesser equal with utc timestamp"
+          }
+        },
+        "updateStarted_gt_": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "updateStarted[gt]",
+            "smithy.api#documentation": "filter update started greater with utc timestamp"
+          }
+        },
+        "updateStarted_lt_": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "updateStarted[lt]",
+            "smithy.api#documentation": "filter update started lesser with utc timestamp"
+          }
+        },
+        "updateStarted_gte_": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "updateStarted[gte]",
+            "smithy.api#documentation": "filter update started greater equal with utc timestamp"
+          }
+        },
+        "updateStarted_lte_": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "updateStarted[lte]",
+            "smithy.api#documentation": "filter update started lesser equal with utc timestamp"
+          }
+        },
+        "updateFinished_gt_": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "updateFinished[gt]",
+            "smithy.api#documentation": "filter update finished greater with utc timestamp"
+          }
+        },
+        "updateFinished_lt_": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "updateFinished[lt]",
+            "smithy.api#documentation": "filter update finished lesser with utc timestamp"
+          }
+        },
+        "updateFinished_gte_": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "updateFinished[gte]",
+            "smithy.api#documentation": "filter update finished greater equal with utc timestamp"
+          }
+        },
+        "updateFinished_lte_": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "updateFinished[lte]",
+            "smithy.api#documentation": "filter update finished lesser equal with utc timestamp"
+          }
+        },
+        "orderBy_name_": {
+          "target": "com.stackit.dns#ListRecordSetsRequestOrderByName",
+          "traits": {
+            "smithy.api#httpQuery": "orderBy[name]",
+            "smithy.api#documentation": "order by name"
+          }
+        },
+        "orderBy_creationStarted_": {
+          "target": "com.stackit.dns#ListRecordSetsRequestOrderByCreationStarted",
+          "traits": {
+            "smithy.api#httpQuery": "orderBy[creationStarted]",
+            "smithy.api#documentation": "order by creationStarted"
+          }
+        },
+        "orderBy_creationFinished_": {
+          "target": "com.stackit.dns#ListRecordSetsRequestOrderByCreationFinished",
+          "traits": {
+            "smithy.api#httpQuery": "orderBy[creationFinished]",
+            "smithy.api#documentation": "order by creationFinished"
+          }
+        },
+        "orderBy_updateStarted_": {
+          "target": "com.stackit.dns#ListRecordSetsRequestOrderByUpdateStarted",
+          "traits": {
+            "smithy.api#httpQuery": "orderBy[updateStarted]",
+            "smithy.api#documentation": "order by updateStarted"
+          }
+        },
+        "orderBy_updateFinished_": {
+          "target": "com.stackit.dns#ListRecordSetsRequestOrderByUpdateFinished",
+          "traits": {
+            "smithy.api#httpQuery": "orderBy[updateFinished]",
+            "smithy.api#documentation": "order by updateFinished"
+          }
+        },
+        "orderBy_type_": {
+          "target": "com.stackit.dns#ListRecordSetsRequestOrderByType",
+          "traits": {
+            "smithy.api#httpQuery": "orderBy[type]",
+            "smithy.api#documentation": "order by type"
+          }
+        },
+        "orderBy_state_": {
+          "target": "com.stackit.dns#ListRecordSetsRequestOrderByState",
+          "traits": {
+            "smithy.api#httpQuery": "orderBy[state]",
+            "smithy.api#documentation": "order by state"
+          }
+        },
+        "orderBy_recordCount_": {
+          "target": "com.stackit.dns#ListRecordSetsRequestOrderByRecordCount",
+          "traits": {
+            "smithy.api#httpQuery": "orderBy[recordCount]",
+            "smithy.api#documentation": "order by record count"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.stackit.dns#ListRecordSetsResponse": {
+      "type": "structure",
+      "members": {
+        "itemsPerPage": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "message": {
+          "target": "smithy.api#String"
+        },
+        "rrSets": {
+          "target": "com.stackit.dns#ListRecordSetsResponseRrSetsList",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "totalItems": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "totalPages": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "ResponseRRSetAll."
+      }
+    },
+    "com.stackit.dns#RecordSet": {
+      "type": "structure",
+      "members": {
+        "active": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "if the record set is active or not"
+          }
+        },
+        "comment": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "comment"
+          }
+        },
+        "creationFinished": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "when record set creation finished",
+            "smithy.api#required": {}
+          }
+        },
+        "creationStarted": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "when record set creation started",
+            "smithy.api#required": {}
+          }
+        },
+        "error": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Error shows error in case create/update/delete failed"
+          }
+        },
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "rr set id",
+            "smithy.api#required": {}
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "name of the record which should be a valid domain according to rfc1035 Section 2.3.4. For APEX records (same as zone name), the zone name itself has to be put in here.",
+            "smithy.api#required": {}
+          }
+        },
+        "records": {
+          "target": "com.stackit.dns#RecordSetRecordsList",
+          "traits": {
+            "smithy.api#documentation": "records",
+            "smithy.api#required": {}
+          }
+        },
+        "state": {
+          "target": "com.stackit.dns#RecordSetState",
+          "traits": {
+            "smithy.api#documentation": "record set state",
+            "smithy.api#required": {}
+          }
+        },
+        "ttl": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "time to live",
+            "smithy.api#required": {}
+          }
+        },
+        "type": {
+          "target": "com.stackit.dns#RecordSetType",
+          "traits": {
+            "smithy.api#documentation": "record set type",
+            "smithy.api#required": {}
+          }
+        },
+        "updateFinished": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "when record set update/deletion finished",
+            "smithy.api#required": {}
+          }
+        },
+        "updateStarted": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "when record set update/deletion started",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "RRSet."
+      }
+    },
+    "com.stackit.dns#Record": {
+      "type": "structure",
+      "members": {
+        "content": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "content of the record",
+            "smithy.api#required": {}
+          }
+        },
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "rr set id",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Record."
+      }
+    },
+    "com.stackit.dns#RecordSetRecordsList": {
+      "type": "list",
+      "member": {
+        "target": "com.stackit.dns#Record"
+      },
+      "traits": {
+        "smithy.api#documentation": "records"
+      }
+    },
+    "com.stackit.dns#RecordSetState": {
+      "type": "enum",
+      "members": {
+        "CREATING": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "CREATING"
+          }
+        },
+        "CREATE_SUCCEEDED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "CREATE_SUCCEEDED"
+          }
+        },
+        "CREATE_FAILED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "CREATE_FAILED"
+          }
+        },
+        "DELETING": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "DELETING"
+          }
+        },
+        "DELETE_SUCCEEDED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "DELETE_SUCCEEDED"
+          }
+        },
+        "DELETE_FAILED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "DELETE_FAILED"
+          }
+        },
+        "UPDATING": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "UPDATING"
+          }
+        },
+        "UPDATE_SUCCEEDED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "UPDATE_SUCCEEDED"
+          }
+        },
+        "UPDATE_FAILED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "UPDATE_FAILED"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "record set state"
+      }
+    },
+    "com.stackit.dns#RecordSetType": {
+      "type": "enum",
+      "members": {
+        "A": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "A"
+          }
+        },
+        "AAAA": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "AAAA"
+          }
+        },
+        "SOA": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "SOA"
+          }
+        },
+        "CNAME": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "CNAME"
+          }
+        },
+        "NS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "NS"
+          }
+        },
+        "MX": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "MX"
+          }
+        },
+        "TXT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "TXT"
+          }
+        },
+        "SRV": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "SRV"
+          }
+        },
+        "PTR": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "PTR"
+          }
+        },
+        "ALIAS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "ALIAS"
+          }
+        },
+        "DNAME": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "DNAME"
+          }
+        },
+        "CAA": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "CAA"
+          }
+        },
+        "DNSKEY": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "DNSKEY"
+          }
+        },
+        "DS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "DS"
+          }
+        },
+        "LOC": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "LOC"
+          }
+        },
+        "NAPTR": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "NAPTR"
+          }
+        },
+        "SSHFP": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "SSHFP"
+          }
+        },
+        "TLSA": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "TLSA"
+          }
+        },
+        "URI": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "URI"
+          }
+        },
+        "CERT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "CERT"
+          }
+        },
+        "SVCB": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "SVCB"
+          }
+        },
+        "TYPE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "TYPE"
+          }
+        },
+        "CSYNC": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "CSYNC"
+          }
+        },
+        "HINFO": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "HINFO"
+          }
+        },
+        "HTTPS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "HTTPS"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "record set type"
+      }
+    },
+    "com.stackit.dns#ListRecordSetsResponseRrSetsList": {
+      "type": "list",
+      "member": {
+        "target": "com.stackit.dns#RecordSet"
+      },
+      "traits": {}
+    },
+    "com.stackit.dns#ListRecordSets": {
+      "type": "operation",
+      "input": {
+        "target": "com.stackit.dns#ListRecordSetsRequest"
+      },
+      "output": {
+        "target": "com.stackit.dns#ListRecordSetsResponse"
+      },
+      "errors": [
+        {
+          "target": "com.stackit.dns#BadRequest"
+        },
+        {
+          "target": "com.stackit.dns#NotFound"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/v1/projects/{projectId}/zones/{zoneId}/rrsets",
+          "code": 200,
+          "baseUrl": "https://dns.api.stackit.cloud"
+        },
+        "smithy.api#documentation": "All get selected RRSets\n\nAll RRSet",
+        "smithy.api#paginated": {
+          "mode": "page",
+          "inputToken": "page",
+          "outputToken": "totalPages",
+          "items": "rrSets",
+          "pageSize": "pageSize"
+        }
+      }
+    },
+    "com.stackit.dns#RecordPayload": {
+      "type": "structure",
+      "members": {
+        "content": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "content of the record",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "RecordPost for rr set info."
+      }
+    },
+    "com.stackit.dns#CreateRecordSetRequestRecordsList": {
+      "type": "list",
+      "member": {
+        "target": "com.stackit.dns#RecordPayload"
+      },
+      "traits": {
+        "smithy.api#documentation": "records"
+      }
+    },
+    "com.stackit.dns#CreateRecordSetRequestType": {
+      "type": "enum",
+      "members": {
+        "A": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "A"
+          }
+        },
+        "AAAA": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "AAAA"
+          }
+        },
+        "SOA": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "SOA"
+          }
+        },
+        "CNAME": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "CNAME"
+          }
+        },
+        "NS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "NS"
+          }
+        },
+        "MX": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "MX"
+          }
+        },
+        "TXT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "TXT"
+          }
+        },
+        "SRV": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "SRV"
+          }
+        },
+        "PTR": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "PTR"
+          }
+        },
+        "ALIAS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "ALIAS"
+          }
+        },
+        "DNAME": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "DNAME"
+          }
+        },
+        "CAA": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "CAA"
+          }
+        },
+        "DNSKEY": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "DNSKEY"
+          }
+        },
+        "DS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "DS"
+          }
+        },
+        "LOC": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "LOC"
+          }
+        },
+        "NAPTR": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "NAPTR"
+          }
+        },
+        "SSHFP": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "SSHFP"
+          }
+        },
+        "TLSA": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "TLSA"
+          }
+        },
+        "URI": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "URI"
+          }
+        },
+        "CERT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "CERT"
+          }
+        },
+        "SVCB": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "SVCB"
+          }
+        },
+        "TYPE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "TYPE"
+          }
+        },
+        "CSYNC": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "CSYNC"
+          }
+        },
+        "HINFO": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "HINFO"
+          }
+        },
+        "HTTPS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "HTTPS"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "record set type"
+      }
+    },
+    "com.stackit.dns#CreateRecordSetRequest": {
+      "type": "structure",
+      "members": {
+        "projectId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "project id"
+          }
+        },
+        "zoneId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "zone id"
+          }
+        },
+        "comment": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "user comment"
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "name of the record which should be a valid domain according to rfc1035 Section 2.3.4. For APEX records (same as zone name), the zone name itself has to be put in here.",
+            "smithy.api#required": {}
+          }
+        },
+        "records": {
+          "target": "com.stackit.dns#CreateRecordSetRequestRecordsList",
+          "traits": {
+            "smithy.api#documentation": "records",
+            "smithy.api#required": {}
+          }
+        },
+        "ttl": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "time to live. If nothing provided we will set the zone ttl."
+          }
+        },
+        "type": {
+          "target": "com.stackit.dns#CreateRecordSetRequestType",
+          "traits": {
+            "smithy.api#documentation": "record set type",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.stackit.dns#RecordSetResponse": {
+      "type": "structure",
+      "members": {
+        "message": {
+          "target": "smithy.api#String"
+        },
+        "rrset": {
+          "target": "com.stackit.dns#RecordSet",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "ResponseRRSet for rr set info."
+      }
+    },
+    "com.stackit.dns#CreateRecordSet": {
+      "type": "operation",
+      "input": {
+        "target": "com.stackit.dns#CreateRecordSetRequest"
+      },
+      "output": {
+        "target": "com.stackit.dns#RecordSetResponse"
+      },
+      "errors": [
+        {
+          "target": "com.stackit.dns#BadRequest"
+        },
+        {
+          "target": "com.stackit.dns#NotFound"
+        },
+        {
+          "target": "com.stackit.dns#Conflict"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/v1/projects/{projectId}/zones/{zoneId}/rrsets",
+          "code": 200,
+          "baseUrl": "https://dns.api.stackit.cloud"
+        },
+        "smithy.api#documentation": "Post record set\n\nPost record set"
+      }
+    },
+    "com.stackit.dns#GetRecordSetRequest": {
+      "type": "structure",
+      "members": {
+        "projectId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "project id"
+          }
+        },
+        "zoneId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "zone id"
+          }
+        },
+        "rrSetId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "record set id"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.stackit.dns#GetRecordSet": {
+      "type": "operation",
+      "input": {
+        "target": "com.stackit.dns#GetRecordSetRequest"
+      },
+      "output": {
+        "target": "com.stackit.dns#RecordSetResponse"
+      },
+      "errors": [
+        {
+          "target": "com.stackit.dns#BadRequest"
+        },
+        {
+          "target": "com.stackit.dns#NotFound"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/v1/projects/{projectId}/zones/{zoneId}/rrsets/{rrSetId}",
+          "code": 200,
+          "baseUrl": "https://dns.api.stackit.cloud"
+        },
+        "smithy.api#documentation": "Get a single rrset\n\nGet rrset"
+      }
+    },
+    "com.stackit.dns#PartialUpdateRecordSetRequestRecordsList": {
+      "type": "list",
+      "member": {
+        "target": "com.stackit.dns#RecordPayload"
+      },
+      "traits": {
+        "smithy.api#documentation": "records"
+      }
+    },
+    "com.stackit.dns#PartialUpdateRecordSetRequest": {
+      "type": "structure",
+      "members": {
+        "projectId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "project id"
+          }
+        },
+        "zoneId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "zone id"
+          }
+        },
+        "rrSetId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "record set id"
+          }
+        },
+        "comment": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "user comment"
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "rfc1035 Section 2.3.4"
+          }
+        },
+        "records": {
+          "target": "com.stackit.dns#PartialUpdateRecordSetRequestRecordsList",
+          "traits": {
+            "smithy.api#documentation": "records"
+          }
+        },
+        "ttl": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "time to live"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.stackit.dns#PartialUpdateRecordSet": {
+      "type": "operation",
+      "input": {
+        "target": "com.stackit.dns#PartialUpdateRecordSetRequest"
+      },
+      "output": {
+        "target": "com.stackit.dns#Message"
+      },
+      "errors": [
+        {
+          "target": "com.stackit.dns#BadRequest"
+        },
+        {
+          "target": "com.stackit.dns#NotFound"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "PATCH",
+          "uri": "/v1/projects/{projectId}/zones/{zoneId}/rrsets/{rrSetId}",
+          "code": 200,
+          "baseUrl": "https://dns.api.stackit.cloud"
+        },
+        "smithy.api#documentation": "Patch updates a record set\n\nPatch record set"
+      }
+    },
+    "com.stackit.dns#DeleteRecordSetRequest": {
+      "type": "structure",
+      "members": {
+        "projectId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "project id"
+          }
+        },
+        "zoneId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "zone id"
+          }
+        },
+        "rrSetId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "record set id"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.stackit.dns#DeleteRecordSet": {
+      "type": "operation",
+      "input": {
+        "target": "com.stackit.dns#DeleteRecordSetRequest"
+      },
+      "output": {
+        "target": "com.stackit.dns#Message"
+      },
+      "errors": [
+        {
+          "target": "com.stackit.dns#BadRequest"
+        },
+        {
+          "target": "com.stackit.dns#NotFound"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "DELETE",
+          "uri": "/v1/projects/{projectId}/zones/{zoneId}/rrsets/{rrSetId}",
+          "code": 200,
+          "baseUrl": "https://dns.api.stackit.cloud"
+        },
+        "smithy.api#documentation": "Delete a record set\n\nDelete a record set"
+      }
+    },
+    "com.stackit.dns#PartialUpdateRecordRequestAction": {
+      "type": "enum",
+      "members": {
+        "ADD": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "add"
+          }
+        },
+        "DELETE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "delete"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.stackit.dns#PartialUpdateRecordRequestRecordsList": {
+      "type": "list",
+      "member": {
+        "target": "com.stackit.dns#RecordPayload"
+      },
+      "traits": {
+        "smithy.api#documentation": "records"
+      }
+    },
+    "com.stackit.dns#PartialUpdateRecordRequest": {
+      "type": "structure",
+      "members": {
+        "projectId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "project id"
+          }
+        },
+        "zoneId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "zone id"
+          }
+        },
+        "rrSetId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "record set id"
+          }
+        },
+        "action": {
+          "target": "com.stackit.dns#PartialUpdateRecordRequestAction",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "records": {
+          "target": "com.stackit.dns#PartialUpdateRecordRequestRecordsList",
+          "traits": {
+            "smithy.api#documentation": "records",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.stackit.dns#PartialUpdateRecord": {
+      "type": "operation",
+      "input": {
+        "target": "com.stackit.dns#PartialUpdateRecordRequest"
+      },
+      "output": {
+        "target": "com.stackit.dns#Message"
+      },
+      "errors": [
+        {
+          "target": "com.stackit.dns#BadRequest"
+        },
+        {
+          "target": "com.stackit.dns#NotFound"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "PATCH",
+          "uri": "/v1/projects/{projectId}/zones/{zoneId}/rrsets/{rrSetId}/records",
+          "code": 200,
+          "baseUrl": "https://dns.api.stackit.cloud"
+        },
+        "smithy.api#documentation": "PatchRecords updates a record in a rrset\n\nPatchRecords rrset updates a record in a rrset"
+      }
+    },
+    "com.stackit.dns#RestoreRecordSetRequest": {
+      "type": "structure",
+      "members": {
+        "projectId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "project id"
+          }
+        },
+        "zoneId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "zone id"
+          }
+        },
+        "rrSetId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "record set id"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.stackit.dns#RestoreRecordSet": {
+      "type": "operation",
+      "input": {
+        "target": "com.stackit.dns#RestoreRecordSetRequest"
+      },
+      "output": {
+        "target": "com.stackit.dns#Message"
+      },
+      "errors": [
+        {
+          "target": "com.stackit.dns#BadRequest"
+        },
+        {
+          "target": "com.stackit.dns#NotFound"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/v1/projects/{projectId}/zones/{zoneId}/rrsets/{rrSetId}/restores",
+          "code": 200,
+          "baseUrl": "https://dns.api.stackit.cloud"
+        },
+        "smithy.api#documentation": "Restore record set\n\nRestore record set"
+      }
+    },
+    "com.stackit.dns#BadRequest": {
+      "type": "structure",
+      "members": {},
+      "traits": {
+        "smithy.api#error": "client",
+        "smithy.api#httpError": 400,
+        "com.distilled.openapi#errorMatchers": [
+          {
+            "status": 400
+          }
+        ]
+      }
+    },
+    "com.stackit.dns#NotFound": {
+      "type": "structure",
+      "members": {},
+      "traits": {
+        "smithy.api#error": "client",
+        "smithy.api#httpError": 404,
+        "com.distilled.openapi#errorMatchers": [
+          {
+            "status": 404
+          }
+        ]
+      }
+    },
+    "com.stackit.dns#Conflict": {
+      "type": "structure",
+      "members": {},
+      "traits": {
+        "smithy.api#error": "client",
+        "smithy.api#httpError": 409,
+        "com.distilled.openapi#errorMatchers": [
+          {
+            "status": 409
+          }
+        ]
+      }
+    },
+    "com.stackit.dns#Forbidden": {
+      "type": "structure",
+      "members": {},
+      "traits": {
+        "smithy.api#error": "client",
+        "smithy.api#httpError": 403,
+        "com.distilled.openapi#errorMatchers": [
+          {
+            "status": 403
+          }
+        ]
+      }
+    },
+    "com.stackit.dns#Dns": {
+      "type": "service",
+      "version": "1.0",
+      "operations": [
+        {
+          "target": "com.stackit.dns#MoveZone"
+        },
+        {
+          "target": "com.stackit.dns#ListZones"
+        },
+        {
+          "target": "com.stackit.dns#CreateZone"
+        },
+        {
+          "target": "com.stackit.dns#GetZone"
+        },
+        {
+          "target": "com.stackit.dns#PartialUpdateZone"
+        },
+        {
+          "target": "com.stackit.dns#DeleteZone"
+        },
+        {
+          "target": "com.stackit.dns#CloneZone"
+        },
+        {
+          "target": "com.stackit.dns#ExportRecordSets"
+        },
+        {
+          "target": "com.stackit.dns#ImportRecordSets"
+        },
+        {
+          "target": "com.stackit.dns#ListLabels"
+        },
+        {
+          "target": "com.stackit.dns#CreateLabel"
+        },
+        {
+          "target": "com.stackit.dns#DeleteLabel"
+        },
+        {
+          "target": "com.stackit.dns#CreateMoveCode"
+        },
+        {
+          "target": "com.stackit.dns#DeleteMoveCode"
+        },
+        {
+          "target": "com.stackit.dns#ValidateMoveCode"
+        },
+        {
+          "target": "com.stackit.dns#RestoreZone"
+        },
+        {
+          "target": "com.stackit.dns#GetZone2"
+        },
+        {
+          "target": "com.stackit.dns#ListRecordSets"
+        },
+        {
+          "target": "com.stackit.dns#CreateRecordSet"
+        },
+        {
+          "target": "com.stackit.dns#GetRecordSet"
+        },
+        {
+          "target": "com.stackit.dns#PartialUpdateRecordSet"
+        },
+        {
+          "target": "com.stackit.dns#DeleteRecordSet"
+        },
+        {
+          "target": "com.stackit.dns#PartialUpdateRecord"
+        },
+        {
+          "target": "com.stackit.dns#RestoreRecordSet"
+        }
+      ],
+      "traits": {
+        "smithy.api#title": "STACKIT DNS API",
+        "smithy.api#documentation": "This api provides dns"
+      }
+    }
+  }
+}

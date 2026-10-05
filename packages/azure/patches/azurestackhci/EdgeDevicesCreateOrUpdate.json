@@ -1,0 +1,180 @@
+{
+  "description": "EdgeDevice is polymorphic on `kind`; the converted model keeps only the base `kind` member, so the HCI subtype's `properties.deviceConfiguration` (nicDetails, deviceMetadata) is stripped on encode and decode. Add the HciEdgeDevice properties to the base request/response shapes.",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.azurestackhci#HciEdgeDeviceNicDetail",
+      "value": {
+        "type": "structure",
+        "members": {
+          "adapterName": {
+            "target": "smithy.api#String",
+            "traits": {
+              "smithy.api#required": {},
+              "smithy.api#documentation": "Adapter Name of NIC"
+            }
+          },
+          "interfaceDescription": {
+            "target": "smithy.api#String",
+            "traits": {
+              "smithy.api#documentation": "Interface Description of NIC"
+            }
+          },
+          "componentId": {
+            "target": "smithy.api#String",
+            "traits": {
+              "smithy.api#documentation": "Component Id of NIC"
+            }
+          },
+          "driverVersion": {
+            "target": "smithy.api#String",
+            "traits": {
+              "smithy.api#documentation": "Driver Version of NIC"
+            }
+          },
+          "ip4Address": {
+            "target": "smithy.api#String",
+            "traits": {
+              "smithy.api#documentation": "IPv4 address of NIC"
+            }
+          },
+          "subnetMask": {
+            "target": "smithy.api#String",
+            "traits": {
+              "smithy.api#documentation": "Subnet Mask of NIC"
+            }
+          },
+          "defaultGateway": {
+            "target": "smithy.api#String",
+            "traits": {
+              "smithy.api#documentation": "Default Gateway of NIC"
+            }
+          },
+          "dnsServers": {
+            "target": "com.azure.azurestackhci#HciEdgeDeviceStringList",
+            "traits": {
+              "smithy.api#documentation": "DNS Servers for NIC"
+            }
+          },
+          "defaultIsolationId": {
+            "target": "smithy.api#String",
+            "traits": {
+              "smithy.api#documentation": "Default Isolation of Management NIC"
+            }
+          }
+        },
+        "traits": {
+          "smithy.api#documentation": "NIC Details of device"
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.azurestackhci#HciEdgeDeviceStringList",
+      "value": {
+        "type": "list",
+        "member": {
+          "target": "smithy.api#String"
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.azurestackhci#HciEdgeDeviceNicDetailList",
+      "value": {
+        "type": "list",
+        "member": {
+          "target": "com.azure.azurestackhci#HciEdgeDeviceNicDetail"
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.azurestackhci#HciEdgeDeviceConfiguration",
+      "value": {
+        "type": "structure",
+        "members": {
+          "nicDetails": {
+            "target": "com.azure.azurestackhci#HciEdgeDeviceNicDetailList",
+            "traits": {
+              "smithy.api#documentation": "NIC Details of device"
+            }
+          },
+          "deviceMetadata": {
+            "target": "smithy.api#String",
+            "traits": {
+              "smithy.api#documentation": "Device metadata details."
+            }
+          }
+        },
+        "traits": {
+          "smithy.api#documentation": "The device Configuration of an edge device."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.azurestackhci#HciEdgeDeviceProperties",
+      "value": {
+        "type": "structure",
+        "members": {
+          "deviceConfiguration": {
+            "target": "com.azure.azurestackhci#HciEdgeDeviceConfiguration",
+            "traits": {
+              "smithy.api#documentation": "Device Configuration"
+            }
+          },
+          "provisioningState": {
+            "target": "smithy.api#String",
+            "traits": {
+              "smithy.api#documentation": "Provisioning state of edgeDevice resource"
+            }
+          }
+        },
+        "traits": {
+          "smithy.api#documentation": "Properties of an HCI edge device."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.azurestackhci#EdgeDevicesCreateOrUpdateRequest/members/properties",
+      "value": {
+        "target": "com.azure.azurestackhci#HciEdgeDeviceProperties",
+        "traits": {
+          "smithy.api#documentation": "properties for Arc-enabled edge device with HCI OS."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.azurestackhci#EdgeDevicesCreateOrUpdateResponse/members/properties",
+      "value": {
+        "target": "com.azure.azurestackhci#HciEdgeDeviceProperties",
+        "traits": {
+          "smithy.api#documentation": "properties for Arc-enabled edge device with HCI OS."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.azurestackhci#GetEdgeDeviceResponse/members/properties",
+      "value": {
+        "target": "com.azure.azurestackhci#HciEdgeDeviceProperties",
+        "traits": {
+          "smithy.api#documentation": "properties for Arc-enabled edge device with HCI OS."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.azurestackhci#EdgeDevice/members/properties",
+      "value": {
+        "target": "com.azure.azurestackhci#HciEdgeDeviceProperties",
+        "traits": {
+          "smithy.api#documentation": "properties for Arc-enabled edge device with HCI OS."
+        }
+      }
+    }
+  ]
+}

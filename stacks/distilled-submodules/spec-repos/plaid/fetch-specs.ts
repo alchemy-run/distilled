@@ -1,4 +1,4 @@
-#!/usr/bin/env bun
+#!/usr/bin/env node
 /**
  * Mirrors the Plaid OpenAPI spec into ../specs/.
  *
@@ -8,13 +8,15 @@
  * repository is never cloned.
  *
  * Usage:
- *   bun run fetch-specs.ts
+ *   node fetch-specs.ts
  *
  * Specs are saved to:
  *   ../specs/2020-09-14.yml
  */
 
 import { mkdirSync } from "fs";
+import { writeFile } from "fs/promises";
+import YAML from "yaml";
 
 /** Upstream repository, as `<owner>/<repo>`. */
 const REPO = "plaid/plaid-openapi";
@@ -45,28 +47,22 @@ async function main() {
 
   const response = await fetch(url);
   if (!response.ok) {
-    throw new Error(
-      `Failed to fetch ${url}: ${response.status} ${response.statusText}`,
-    );
+    throw new Error(`Failed to fetch ${url}: ${response.status} ${response.statusText}`);
   }
 
   const text = await response.text();
-  const spec = Bun.YAML.parse(text) as Record<string, unknown>;
+  const spec = YAML.parse(text) as Record<string, unknown>;
 
   // Fail here rather than three steps later in the generator: a login page
   // or a gutted response is still parseable YAML, but it is not OpenAPI.
   if (typeof spec?.openapi !== "string" || spec.paths === undefined) {
-    throw new Error(
-      `${url} returned YAML without \`openapi\`/\`paths\` — not an OpenAPI document`,
-    );
+    throw new Error(`${url} returned YAML without \`openapi\`/\`paths\` — not an OpenAPI document`);
   }
 
   console.log(`Writing ${OUTPUT_PATH}...`);
-  await Bun.write(OUTPUT_PATH, text.endsWith("\n") ? text : `${text}\n`);
+  await writeFile(OUTPUT_PATH, text.endsWith("\n") ? text : `${text}\n`);
 
-  console.log(
-    `Done! OpenAPI ${spec.openapi} — ${Object.keys(spec.paths as object).length} paths`,
-  );
+  console.log(`Done! OpenAPI ${spec.openapi} — ${Object.keys(spec.paths as object).length} paths`);
 }
 
 main().catch((err) => {

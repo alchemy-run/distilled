@@ -6,7 +6,7 @@
  * OpenAPI specs in specs/docs/restapi/versions). Everything else in this
  * folder is hand-written.
  *
- * The v2 control-plane API lives under `Services.v2`; the v1 edge APIs are
+ * The v2 control-plane API lives under `v2`; the v1 edge APIs are
  * also available under their own subpath imports:
  *
  * @example
@@ -15,29 +15,18 @@
  * import * as EdgeIngest from "@distilled.cloud/axiom/edge-ingest";
  * import * as EdgeQuery from "@distilled.cloud/axiom/edge-query";
  *
- * const datasets = yield* Axiom.Services.v2.getDatasets({});
+ * const datasets = yield* Axiom.v2.getDatasets({});
  * ```
  */
 export * from "./credentials.ts";
 export * from "./errors.ts";
 export * as T from "./traits.ts";
-export {
-  AxiomProtocol,
-  stripNulls,
-  type AxiomOpError,
-  type AxiomOpContext,
-} from "./protocol.ts";
+export { AxiomProtocol, stripNulls, type AxiomOpError, type AxiomOpContext } from "./protocol.ts";
 export * as Retry from "./retry.ts";
-export * as Services from "./services/index.ts";
+export * from "./services/index.ts";
 // v0-parity surface: the v2 control-plane operations live on the package
 // root (edge-ingest / edge-query stay behind their subpath exports).
 // The service-local typed error classes shadow the same-named shared ones
 // from ./errors.ts — the ops actually raise the service-local classes.
 export * from "./services/v2.ts";
-export {
-  BadRequest,
-  Conflict,
-  Forbidden,
-  NotFound,
-  UnprocessableEntity,
-} from "./services/v2.ts";
+export { BadRequest, Conflict, Forbidden, NotFound, UnprocessableEntity } from "./services/v2.ts";

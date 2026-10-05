@@ -1,0 +1,2775 @@
+{
+  "smithy": "2.0",
+  "metadata": {
+    "suppressions": [
+      {
+        "id": "HttpUriConflict",
+        "namespace": "*"
+      },
+      {
+        "id": "HttpMethodSemantics",
+        "namespace": "*"
+      },
+      {
+        "id": "UnreferencedShape",
+        "namespace": "*"
+      }
+    ],
+    "distilled.finalized": true
+  },
+  "shapes": {
+    "com.stackit.sfs#ListResourcePoolsRequest": {
+      "type": "structure",
+      "members": {
+        "projectId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        },
+        "region": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.stackit.sfs#ListResourcePoolsResponse": {
+      "type": "structure",
+      "members": {
+        "resourcePools": {
+          "target": "com.stackit.sfs#ListResourcePoolsResponseResourcePoolsList",
+          "traits": {
+            "smithy.api#documentation": "List of Resource Pools"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.stackit.sfs#ResourcePool": {
+      "type": "structure",
+      "members": {
+        "availabilityZone": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Name of the respective availability zone"
+          }
+        },
+        "countShares": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Number of Shares in the Resource Pool"
+          }
+        },
+        "createdAt": {
+          "target": "smithy.api#String"
+        },
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "ID of the Resource Pool"
+          }
+        },
+        "ipAcl": {
+          "target": "com.stackit.sfs#ResourcePoolIpAclList",
+          "traits": {
+            "smithy.api#documentation": "List of IPs that can mount the Resource Pool in read-only; IPs must have a subnet mask (e.g. \"172.16.0.0/24\" for a range of IPs,\n or \"172.16.0.250/32\" for a specific IP)"
+          }
+        },
+        "labels": {
+          "target": "com.stackit.sfs#ResourcePoolLabelsMap"
+        },
+        "mountPath": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Mount path of the Resource Pool, used to mount the Resource Pool\n\n Note that a Resource Pool can only be mounted in read-only"
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Name of the Resource Pool"
+          }
+        },
+        "performanceClass": {
+          "target": "com.stackit.sfs#ResourcePoolPerformanceClass",
+          "traits": {
+            "smithy.api#documentation": "Information about the performance class"
+          }
+        },
+        "performanceClassDowngradableAt": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Time when the performance class can be downgraded again."
+          }
+        },
+        "sizeReducibleAt": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Time when the size can be reduced again."
+          }
+        },
+        "snapshotPolicy": {
+          "target": "com.stackit.sfs#ResourcePoolSnapshotPolicy",
+          "traits": {
+            "smithy.api#documentation": "(optional) Snapshot Policy",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "snapshotsAreVisible": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Whether the .snapshot directory is visible when mounting the resource pool.\n Setting this value to false might prevent you from accessing the snapshots (e.g.\n for security reasons). Additionally, the access to the snapshots is always controlled\n by the export policy of the resource pool. That means, if snapshots are visible and\n the export policy allows for reading the resource pool, then it also allows reading\n the snapshot of all shares."
+          }
+        },
+        "space": {
+          "target": "com.stackit.sfs#ResourcePoolSpace",
+          "traits": {
+            "smithy.api#documentation": "Space information"
+          }
+        },
+        "state": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "State of the Resource Pool\n\n (possible values: [\"pending\", \"creating\", \"created\", \"updating\", \"error\", \"deleting\"])"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.stackit.sfs#ResourcePoolIpAclList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {
+        "smithy.api#documentation": "List of IPs that can mount the Resource Pool in read-only; IPs must have a subnet mask (e.g. \"172.16.0.0/24\" for a range of IPs,\n or \"172.16.0.250/32\" for a specific IP)"
+      }
+    },
+    "com.stackit.sfs#ResourcePoolLabelsMap": {
+      "type": "map",
+      "key": {
+        "target": "smithy.api#String"
+      },
+      "value": {
+        "target": "smithy.api#String"
+      },
+      "traits": {}
+    },
+    "com.stackit.sfs#ResourcePoolPerformanceClass": {
+      "type": "structure",
+      "members": {
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Name of the performance class"
+          }
+        },
+        "peakIops": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Max. IOPS of the Resource Pool. This is shared between every Share in the Resource Pool."
+          }
+        },
+        "throughput": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Throughput of the Resource Pool."
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.stackit.sfs#ResourcePoolSnapshotPolicy": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "ID of the Snapshot Policy"
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Name of the Snapshot Policy"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.stackit.sfs#ResourcePoolSpace": {
+      "type": "structure",
+      "members": {
+        "availableGigabytes": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "Available space of the Resource Pool\n\n (only available when retrieving a single Resource Pool by ID)",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "sizeGigabytes": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Size of the Resource Pool in Gibibytes."
+          }
+        },
+        "usedBySnapshotsGigabytes": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "Used space by snapshots\n\n (only available when retrieving a single Resource Pool by ID)",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "usedGigabytes": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "Used space of the Resource Pool\n\n (only available when retrieving a single Resource Pool by ID)",
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.stackit.sfs#ListResourcePoolsResponseResourcePoolsList": {
+      "type": "list",
+      "member": {
+        "target": "com.stackit.sfs#ResourcePool"
+      },
+      "traits": {
+        "smithy.api#documentation": "List of Resource Pools"
+      }
+    },
+    "com.stackit.sfs#ListResourcePools": {
+      "type": "operation",
+      "input": {
+        "target": "com.stackit.sfs#ListResourcePoolsRequest"
+      },
+      "output": {
+        "target": "com.stackit.sfs#ListResourcePoolsResponse"
+      },
+      "errors": [
+        {
+          "target": "com.stackit.sfs#BadRequest"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/v1/projects/{projectId}/regions/{region}/resourcePools",
+          "code": 200,
+          "baseUrl": "https://sfs.api.stackit.cloud"
+        },
+        "smithy.api#documentation": "List Resource Pools\n\nLists Resource Pools in a project."
+      }
+    },
+    "com.stackit.sfs#CreateResourcePoolRequestIpAclList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {
+        "smithy.api#documentation": "List of IPs that can mount the Resource Pool in read-only; IPs must have a subnet mask (e.g. \"172.16.0.0/24\" for a range of IPs,\n or \"172.16.0.250/32\" for a specific IP)"
+      }
+    },
+    "com.stackit.sfs#CreateResourcePoolRequestLabelsMap": {
+      "type": "map",
+      "key": {
+        "target": "smithy.api#String"
+      },
+      "value": {
+        "target": "smithy.api#String"
+      },
+      "traits": {
+        "smithy.api#documentation": "An optional object that represents the labels associated with the resource pool\n keys are validated using the following regex '^[\\\\p{Ll}][\\\\p{Ll}\\\\p{N}_-]*$' and cannot be empty\n values are validated using the following regex '^[\\\\p{Ll}\\\\p{N}_-]*$'"
+      }
+    },
+    "com.stackit.sfs#CreateResourcePoolRequest": {
+      "type": "structure",
+      "members": {
+        "projectId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        },
+        "region": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        },
+        "availabilityZone": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Availability zone",
+            "smithy.api#required": {}
+          }
+        },
+        "ipAcl": {
+          "target": "com.stackit.sfs#CreateResourcePoolRequestIpAclList",
+          "traits": {
+            "smithy.api#documentation": "List of IPs that can mount the Resource Pool in read-only; IPs must have a subnet mask (e.g. \"172.16.0.0/24\" for a range of IPs,\n or \"172.16.0.250/32\" for a specific IP)",
+            "smithy.api#required": {}
+          }
+        },
+        "labels": {
+          "target": "com.stackit.sfs#CreateResourcePoolRequestLabelsMap",
+          "traits": {
+            "smithy.api#documentation": "An optional object that represents the labels associated with the resource pool\n keys are validated using the following regex '^[\\\\p{Ll}][\\\\p{Ll}\\\\p{N}_-]*$' and cannot be empty\n values are validated using the following regex '^[\\\\p{Ll}\\\\p{N}_-]*$'"
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Name of the Resource Pool",
+            "smithy.api#required": {}
+          }
+        },
+        "performanceClass": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Name of the performance class",
+            "smithy.api#required": {}
+          }
+        },
+        "sizeGigabytes": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Size of the Resource Pool\n\n (unit: gibibytes)",
+            "smithy.api#required": {}
+          }
+        },
+        "snapshotPolicyId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "(optional) Id of the Snapshot Policy to use"
+          }
+        },
+        "snapshotsAreVisible": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Whether the .snapshot directory is visible when mounting the resource pool.\n Setting this value to false might prevent you from accessing the snapshots (e.g.\n for security reasons). Additionally, the access to the snapshots is always controlled\n by the export policy of the resource pool. That means, if snapshots are visible and\n the export policy allows for reading the resource pool, then it also allows reading\n the snapshot of all shares."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.stackit.sfs#CreateResourcePoolResponse": {
+      "type": "structure",
+      "members": {
+        "resourcePool": {
+          "target": "com.stackit.sfs#ResourcePool",
+          "traits": {
+            "smithy.api#documentation": "Created Resource Pool"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.stackit.sfs#CreateResourcePool": {
+      "type": "operation",
+      "input": {
+        "target": "com.stackit.sfs#CreateResourcePoolRequest"
+      },
+      "output": {
+        "target": "com.stackit.sfs#CreateResourcePoolResponse"
+      },
+      "errors": [
+        {
+          "target": "com.stackit.sfs#BadRequest"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/v1/projects/{projectId}/regions/{region}/resourcePools",
+          "code": 200,
+          "baseUrl": "https://sfs.api.stackit.cloud"
+        },
+        "smithy.api#documentation": "Create Resource Pool\n\nCreate a Resource Pool in a project."
+      }
+    },
+    "com.stackit.sfs#GetResourcePoolRequest": {
+      "type": "structure",
+      "members": {
+        "projectId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        },
+        "region": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        },
+        "resourcePoolId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.stackit.sfs#GetResourcePoolResponse": {
+      "type": "structure",
+      "members": {
+        "resourcePool": {
+          "target": "com.stackit.sfs#ResourcePool",
+          "traits": {
+            "smithy.api#documentation": "Resource Pool"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.stackit.sfs#GetResourcePool": {
+      "type": "operation",
+      "input": {
+        "target": "com.stackit.sfs#GetResourcePoolRequest"
+      },
+      "output": {
+        "target": "com.stackit.sfs#GetResourcePoolResponse"
+      },
+      "errors": [
+        {
+          "target": "com.stackit.sfs#BadRequest"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/v1/projects/{projectId}/regions/{region}/resourcePools/{resourcePoolId}",
+          "code": 200,
+          "baseUrl": "https://sfs.api.stackit.cloud"
+        },
+        "smithy.api#documentation": "Get Resource Pool\n\nRetrieves a Resource Pool in a project."
+      }
+    },
+    "com.stackit.sfs#UpdateResourcePoolRequestIpAclList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {
+        "smithy.api#documentation": "(optional) List of IPs that can mount the Resource Pool in read-only; IPs must have a subnet mask (e.g. \"172.16.0.0/24\" for a range of IPs,\n or \"172.16.0.250/32\" for a specific IP)"
+      }
+    },
+    "com.stackit.sfs#UpdateResourcePoolRequestLabelsMap": {
+      "type": "map",
+      "key": {
+        "target": "smithy.api#String"
+      },
+      "value": {
+        "target": "smithy.api#String"
+      },
+      "traits": {
+        "smithy.api#documentation": "An optional object that represents the labels associated with the resource pool\n keys are validated using the following regex '^[\\\\p{Ll}][\\\\p{Ll}\\\\p{N}_-]*$' and cannot be empty\n values are validated using the following regex '^[\\\\p{Ll}\\\\p{N}_-]*$'"
+      }
+    },
+    "com.stackit.sfs#UpdateResourcePoolRequest": {
+      "type": "structure",
+      "members": {
+        "projectId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        },
+        "region": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        },
+        "resourcePoolId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        },
+        "ipAcl": {
+          "target": "com.stackit.sfs#UpdateResourcePoolRequestIpAclList",
+          "traits": {
+            "smithy.api#documentation": "(optional) List of IPs that can mount the Resource Pool in read-only; IPs must have a subnet mask (e.g. \"172.16.0.0/24\" for a range of IPs,\n or \"172.16.0.250/32\" for a specific IP)"
+          }
+        },
+        "labels": {
+          "target": "com.stackit.sfs#UpdateResourcePoolRequestLabelsMap",
+          "traits": {
+            "smithy.api#documentation": "An optional object that represents the labels associated with the resource pool\n keys are validated using the following regex '^[\\\\p{Ll}][\\\\p{Ll}\\\\p{N}_-]*$' and cannot be empty\n values are validated using the following regex '^[\\\\p{Ll}\\\\p{N}_-]*$'"
+          }
+        },
+        "performanceClass": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "(optional) Name of the performance class"
+          }
+        },
+        "sizeGigabytes": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "(optional) Size of the Resource Pool\n\n (unit: gigabytes)",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "snapshotPolicyId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "(optional) Id of the Snapshot Policy to use\n If not set, the Snapshot Policy is not updated\n If set to an empty string, the Snapshot Policy is removed",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "snapshotsAreVisible": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Whether the .snapshot directory is visible when mounting the resource pool.\n Setting this value to false might prevent you from accessing the snapshots (e.g.\n for security reasons). Additionally, the access to the snapshots is always controlled\n by the export policy of the resource pool. That means, if snapshots are visible and\n the export policy allows for reading the resource pool, then it also allows reading\n the snapshot of all shares."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.stackit.sfs#UpdateResourcePoolResponse": {
+      "type": "structure",
+      "members": {
+        "resourcePool": {
+          "target": "com.stackit.sfs#ResourcePool",
+          "traits": {
+            "smithy.api#documentation": "Updated Resource Pool"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.stackit.sfs#UpdateResourcePool": {
+      "type": "operation",
+      "input": {
+        "target": "com.stackit.sfs#UpdateResourcePoolRequest"
+      },
+      "output": {
+        "target": "com.stackit.sfs#UpdateResourcePoolResponse"
+      },
+      "errors": [
+        {
+          "target": "com.stackit.sfs#BadRequest"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "PATCH",
+          "uri": "/v1/projects/{projectId}/regions/{region}/resourcePools/{resourcePoolId}",
+          "code": 200,
+          "baseUrl": "https://sfs.api.stackit.cloud"
+        },
+        "smithy.api#documentation": "Update Resource Pool\n\nUpdates a Resource Pool in a project."
+      }
+    },
+    "com.stackit.sfs#DeleteResourcePoolRequest": {
+      "type": "structure",
+      "members": {
+        "projectId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        },
+        "region": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        },
+        "resourcePoolId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.stackit.sfs#DeleteResourcePoolResponse2": {
+      "type": "structure",
+      "members": {
+        "body": {
+          "target": "smithy.api#Document",
+          "traits": {
+            "com.distilled.openapi#rawResponse": {},
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
+      }
+    },
+    "com.stackit.sfs#DeleteResourcePool": {
+      "type": "operation",
+      "input": {
+        "target": "com.stackit.sfs#DeleteResourcePoolRequest"
+      },
+      "output": {
+        "target": "com.stackit.sfs#DeleteResourcePoolResponse2"
+      },
+      "errors": [
+        {
+          "target": "com.stackit.sfs#BadRequest"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "DELETE",
+          "uri": "/v1/projects/{projectId}/regions/{region}/resourcePools/{resourcePoolId}",
+          "code": 200,
+          "baseUrl": "https://sfs.api.stackit.cloud"
+        },
+        "smithy.api#documentation": "Delete Resource Pool\n\nDeletes a Resource Pool in a project."
+      }
+    },
+    "com.stackit.sfs#ListSharesRequest": {
+      "type": "structure",
+      "members": {
+        "projectId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        },
+        "region": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        },
+        "resourcePoolId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.stackit.sfs#ListSharesResponse": {
+      "type": "structure",
+      "members": {
+        "shares": {
+          "target": "com.stackit.sfs#ListSharesResponseSharesList",
+          "traits": {
+            "smithy.api#documentation": "List of Shares"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.stackit.sfs#Share": {
+      "type": "structure",
+      "members": {
+        "createdAt": {
+          "target": "smithy.api#String"
+        },
+        "exportPolicy": {
+          "target": "com.stackit.sfs#ShareExportPolicy",
+          "traits": {
+            "smithy.api#documentation": "Details of the Share Export Policy to use in the Share.\n\n Note that if this is not set, the Share can only be mounted in read only by clients with IPs matching the\n IP ACL of the Resource Pool hosting this Share",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "ID of the Share"
+          }
+        },
+        "labels": {
+          "target": "com.stackit.sfs#ShareLabelsMap",
+          "traits": {
+            "smithy.api#documentation": "An optional object that represents the labels associated with the share\n keys are validated using the following regex '^[\\\\p{Ll}][\\\\p{Ll}\\\\p{N}_-]*$' and cannot be empty\n values are validated using the following regex '^[\\\\p{Ll}\\\\p{N}_-]*$'"
+          }
+        },
+        "mountPath": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Mount path of the Share, used to mount the Share"
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Name of the Share"
+          }
+        },
+        "spaceHardLimitGigabytes": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Space hard limit for the Share. If zero, the Share will have access to the full space of the Resource Pool it lives in.\n\n (unit: gibibytes)"
+          }
+        },
+        "state": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "State of the Resource Pool Snapshot\n\n (possible values: [\"pending\", \"creating\", \"created\", \"error\", \"deleting\"])"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.stackit.sfs#ShareExportPolicy": {
+      "type": "structure",
+      "members": {
+        "createdAt": {
+          "target": "smithy.api#String"
+        },
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "ID of the Share Export Policy"
+          }
+        },
+        "labels": {
+          "target": "com.stackit.sfs#ShareExportPolicyLabelsMap",
+          "traits": {
+            "smithy.api#documentation": "An optional object that represents the labels associated with the share export policy\n keys are validated using the following regex '^[\\\\p{Ll}][\\\\p{Ll}\\\\p{N}_-]*$' and cannot be empty\n values are validated using the following regex '^[\\\\p{Ll}\\\\p{N}_-]*$'"
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Name of the Share Export Policy"
+          }
+        },
+        "rules": {
+          "target": "com.stackit.sfs#ShareExportPolicyRulesList",
+          "traits": {
+            "smithy.api#documentation": "List of rules of the Share Export Policy. The order of the rules within the array does not matter - what matters\n is the field \"order\" within each rule"
+          }
+        },
+        "sharesUsingExportPolicy": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Number of Shares using this Share Export Policy"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.stackit.sfs#ShareExportPolicyLabelsMap": {
+      "type": "map",
+      "key": {
+        "target": "smithy.api#String"
+      },
+      "value": {
+        "target": "smithy.api#String"
+      },
+      "traits": {
+        "smithy.api#documentation": "An optional object that represents the labels associated with the share export policy\n keys are validated using the following regex '^[\\\\p{Ll}][\\\\p{Ll}\\\\p{N}_-]*$' and cannot be empty\n values are validated using the following regex '^[\\\\p{Ll}\\\\p{N}_-]*$'"
+      }
+    },
+    "com.stackit.sfs#ShareExportPolicyRule": {
+      "type": "structure",
+      "members": {
+        "createdAt": {
+          "target": "smithy.api#String"
+        },
+        "description": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Description of the Rule\n\n (optional)",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "ID of the Share Export Policy Rule"
+          }
+        },
+        "ipAcl": {
+          "target": "com.stackit.sfs#ShareExportPolicyRuleIpAclList",
+          "traits": {
+            "smithy.api#documentation": "IP access control list, where IPs must have a subnet mask (e.g. \"172.16.0.0/24\" for a range of IPs,\n or \"172.16.0.251/32\" for a specific IP)\n\n This array cannot be empty"
+          }
+        },
+        "order": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Order of the rule within a Share Export Policy. The order is used so that when a client IP matches\n multiple rules, the first rule is applied\n\n This field must be set"
+          }
+        },
+        "readOnly": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Flag to indicate if client IPs matching this rule can only mount the share in read only mode\n\n Default: false"
+          }
+        },
+        "setUuid": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Flag to honor set UUID\n\n Default: false"
+          }
+        },
+        "superUser": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Flag to indicate if client IPs matching this rule have root access on the Share\n\n Default: true"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.stackit.sfs#ShareExportPolicyRuleIpAclList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {
+        "smithy.api#documentation": "IP access control list, where IPs must have a subnet mask (e.g. \"172.16.0.0/24\" for a range of IPs,\n or \"172.16.0.251/32\" for a specific IP)\n\n This array cannot be empty"
+      }
+    },
+    "com.stackit.sfs#ShareExportPolicyRulesList": {
+      "type": "list",
+      "member": {
+        "target": "com.stackit.sfs#ShareExportPolicyRule"
+      },
+      "traits": {
+        "smithy.api#documentation": "List of rules of the Share Export Policy. The order of the rules within the array does not matter - what matters\n is the field \"order\" within each rule"
+      }
+    },
+    "com.stackit.sfs#ShareLabelsMap": {
+      "type": "map",
+      "key": {
+        "target": "smithy.api#String"
+      },
+      "value": {
+        "target": "smithy.api#String"
+      },
+      "traits": {
+        "smithy.api#documentation": "An optional object that represents the labels associated with the share\n keys are validated using the following regex '^[\\\\p{Ll}][\\\\p{Ll}\\\\p{N}_-]*$' and cannot be empty\n values are validated using the following regex '^[\\\\p{Ll}\\\\p{N}_-]*$'"
+      }
+    },
+    "com.stackit.sfs#ListSharesResponseSharesList": {
+      "type": "list",
+      "member": {
+        "target": "com.stackit.sfs#Share"
+      },
+      "traits": {
+        "smithy.api#documentation": "List of Shares"
+      }
+    },
+    "com.stackit.sfs#ListShares": {
+      "type": "operation",
+      "input": {
+        "target": "com.stackit.sfs#ListSharesRequest"
+      },
+      "output": {
+        "target": "com.stackit.sfs#ListSharesResponse"
+      },
+      "errors": [
+        {
+          "target": "com.stackit.sfs#BadRequest"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/v1/projects/{projectId}/regions/{region}/resourcePools/{resourcePoolId}/shares",
+          "code": 200,
+          "baseUrl": "https://sfs.api.stackit.cloud"
+        },
+        "smithy.api#documentation": "List Shares\n\nLists Shares in a Resource Pool in a project."
+      }
+    },
+    "com.stackit.sfs#CreateShareRequestLabelsMap": {
+      "type": "map",
+      "key": {
+        "target": "smithy.api#String"
+      },
+      "value": {
+        "target": "smithy.api#String"
+      },
+      "traits": {
+        "smithy.api#documentation": "An optional object that represents the labels associated with the share\n keys are validated using the following regex '^[\\\\p{Ll}][\\\\p{Ll}\\\\p{N}_-]*$' and cannot be empty\n values are validated using the following regex '^[\\\\p{Ll}\\\\p{N}_-]*$'"
+      }
+    },
+    "com.stackit.sfs#CreateShareRequest": {
+      "type": "structure",
+      "members": {
+        "projectId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        },
+        "region": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        },
+        "resourcePoolId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        },
+        "exportPolicyName": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Name of the Share Export Policy to use in the Share.\n\n Note that if this is not set, the Share can only be mounted in read only by clients with IPs matching the\n IP ACL of the Resource Pool hosting this Share. You can also assign a Share Export Policy after creating\n the Share",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "labels": {
+          "target": "com.stackit.sfs#CreateShareRequestLabelsMap",
+          "traits": {
+            "smithy.api#documentation": "An optional object that represents the labels associated with the share\n keys are validated using the following regex '^[\\\\p{Ll}][\\\\p{Ll}\\\\p{N}_-]*$' and cannot be empty\n values are validated using the following regex '^[\\\\p{Ll}\\\\p{N}_-]*$'"
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Name of the Share",
+            "smithy.api#required": {}
+          }
+        },
+        "spaceHardLimitGigabytes": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Space hard limit for the Share. If zero, the Share will have access to the full space of the Resource Pool it lives in.\n\n (unit: gibibytes)",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.stackit.sfs#CreateShareResponse": {
+      "type": "structure",
+      "members": {
+        "share": {
+          "target": "com.stackit.sfs#Share",
+          "traits": {
+            "smithy.api#documentation": "Created Share"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.stackit.sfs#CreateShare": {
+      "type": "operation",
+      "input": {
+        "target": "com.stackit.sfs#CreateShareRequest"
+      },
+      "output": {
+        "target": "com.stackit.sfs#CreateShareResponse"
+      },
+      "errors": [
+        {
+          "target": "com.stackit.sfs#BadRequest"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/v1/projects/{projectId}/regions/{region}/resourcePools/{resourcePoolId}/shares",
+          "code": 200,
+          "baseUrl": "https://sfs.api.stackit.cloud"
+        },
+        "smithy.api#documentation": "Create Share\n\nCreates a Share in a Resource Pool in a project."
+      }
+    },
+    "com.stackit.sfs#GetShareRequest": {
+      "type": "structure",
+      "members": {
+        "projectId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        },
+        "region": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        },
+        "resourcePoolId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        },
+        "shareId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.stackit.sfs#GetShareResponse": {
+      "type": "structure",
+      "members": {
+        "share": {
+          "target": "com.stackit.sfs#Share",
+          "traits": {
+            "smithy.api#documentation": "Share"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.stackit.sfs#GetShare": {
+      "type": "operation",
+      "input": {
+        "target": "com.stackit.sfs#GetShareRequest"
+      },
+      "output": {
+        "target": "com.stackit.sfs#GetShareResponse"
+      },
+      "errors": [
+        {
+          "target": "com.stackit.sfs#BadRequest"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/v1/projects/{projectId}/regions/{region}/resourcePools/{resourcePoolId}/shares/{shareId}",
+          "code": 200,
+          "baseUrl": "https://sfs.api.stackit.cloud"
+        },
+        "smithy.api#documentation": "Get Share\n\nRetrieves a Shares in a Resource Pool in a project."
+      }
+    },
+    "com.stackit.sfs#UpdateShareRequestLabelsMap": {
+      "type": "map",
+      "key": {
+        "target": "smithy.api#String"
+      },
+      "value": {
+        "target": "smithy.api#String"
+      },
+      "traits": {
+        "smithy.api#documentation": "An optional object that represents the labels associated with the share\n keys are validated using the following regex '^[\\\\p{Ll}][\\\\p{Ll}\\\\p{N}_-]*$' and cannot be empty\n values are validated using the following regex '^[\\\\p{Ll}\\\\p{N}_-]*$'"
+      }
+    },
+    "com.stackit.sfs#UpdateShareRequest": {
+      "type": "structure",
+      "members": {
+        "projectId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        },
+        "region": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        },
+        "resourcePoolId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        },
+        "shareId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        },
+        "exportPolicyName": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Name of the Share Export Policy to use in the Share.\n\n The behavior depends on the value:\n - If not set (null): Keep the existing export policy (if any)\n - If set to empty string (\"\"):  Remove the existing export policy\n - If set to a policy name: Update to use the specified policy, creating a new association if none exists",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "labels": {
+          "target": "com.stackit.sfs#UpdateShareRequestLabelsMap",
+          "traits": {
+            "smithy.api#documentation": "An optional object that represents the labels associated with the share\n keys are validated using the following regex '^[\\\\p{Ll}][\\\\p{Ll}\\\\p{N}_-]*$' and cannot be empty\n values are validated using the following regex '^[\\\\p{Ll}\\\\p{N}_-]*$'"
+          }
+        },
+        "spaceHardLimitGigabytes": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Space hard limit for the Share. If zero, the Share will have access to the full space of the Resource Pool it lives in.\n\n (unit: gibibytes)",
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.stackit.sfs#UpdateShareResponse": {
+      "type": "structure",
+      "members": {
+        "share": {
+          "target": "com.stackit.sfs#Share",
+          "traits": {
+            "smithy.api#documentation": "Updated Share"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.stackit.sfs#UpdateShare": {
+      "type": "operation",
+      "input": {
+        "target": "com.stackit.sfs#UpdateShareRequest"
+      },
+      "output": {
+        "target": "com.stackit.sfs#UpdateShareResponse"
+      },
+      "errors": [
+        {
+          "target": "com.stackit.sfs#BadRequest"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "PATCH",
+          "uri": "/v1/projects/{projectId}/regions/{region}/resourcePools/{resourcePoolId}/shares/{shareId}",
+          "code": 200,
+          "baseUrl": "https://sfs.api.stackit.cloud"
+        },
+        "smithy.api#documentation": "Update Share\n\nUpdates a Shares in a Resource Pool in a project."
+      }
+    },
+    "com.stackit.sfs#DeleteShareRequest": {
+      "type": "structure",
+      "members": {
+        "projectId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        },
+        "region": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        },
+        "resourcePoolId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        },
+        "shareId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.stackit.sfs#DeleteShareResponse2": {
+      "type": "structure",
+      "members": {
+        "body": {
+          "target": "smithy.api#Document",
+          "traits": {
+            "com.distilled.openapi#rawResponse": {},
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
+      }
+    },
+    "com.stackit.sfs#DeleteShare": {
+      "type": "operation",
+      "input": {
+        "target": "com.stackit.sfs#DeleteShareRequest"
+      },
+      "output": {
+        "target": "com.stackit.sfs#DeleteShareResponse2"
+      },
+      "errors": [
+        {
+          "target": "com.stackit.sfs#BadRequest"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "DELETE",
+          "uri": "/v1/projects/{projectId}/regions/{region}/resourcePools/{resourcePoolId}/shares/{shareId}",
+          "code": 200,
+          "baseUrl": "https://sfs.api.stackit.cloud"
+        },
+        "smithy.api#documentation": "Delete Share\n\nDeletes a Shares in a Resource Pool in a project."
+      }
+    },
+    "com.stackit.sfs#ListResourcePoolSnapshotsRequest": {
+      "type": "structure",
+      "members": {
+        "projectId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        },
+        "region": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        },
+        "resourcePoolId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.stackit.sfs#ListResourcePoolSnapshotsResponse": {
+      "type": "structure",
+      "members": {
+        "resourcePoolSnapshots": {
+          "target": "com.stackit.sfs#ListResourcePoolSnapshotsResponseResourcePoolSnapshotsList",
+          "traits": {
+            "smithy.api#documentation": "List of Resource Pool Snapshots"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.stackit.sfs#ResourcePoolSnapshot": {
+      "type": "structure",
+      "members": {
+        "comment": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "(optional) A comment to add more information about a snapshot",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "createdAt": {
+          "target": "smithy.api#String"
+        },
+        "logicalSizeGigabytes": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Represents the user-visible data size at the time of the snapshot in Gibibytes (e.g. what’s in the snapshot)"
+          }
+        },
+        "resourcePoolId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "ID of the Resource Pool of the Snapshot"
+          }
+        },
+        "sizeGigabytes": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Reflects the actual storage footprint in the backend at snapshot time in Gibibytes (e.g. how much storage from the Resource Pool\n does it use)."
+          }
+        },
+        "snaplockExpiryTime": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Represents the snaplock expiry time if snaplock is enabled for the resource pool",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "snapshotName": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Name of the Resource Pool Snapshot"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.stackit.sfs#ListResourcePoolSnapshotsResponseResourcePoolSnapshotsList": {
+      "type": "list",
+      "member": {
+        "target": "com.stackit.sfs#ResourcePoolSnapshot"
+      },
+      "traits": {
+        "smithy.api#documentation": "List of Resource Pool Snapshots"
+      }
+    },
+    "com.stackit.sfs#ListResourcePoolSnapshots": {
+      "type": "operation",
+      "input": {
+        "target": "com.stackit.sfs#ListResourcePoolSnapshotsRequest"
+      },
+      "output": {
+        "target": "com.stackit.sfs#ListResourcePoolSnapshotsResponse"
+      },
+      "errors": [
+        {
+          "target": "com.stackit.sfs#BadRequest"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/v1/projects/{projectId}/regions/{region}/resourcePools/{resourcePoolId}/snapshots",
+          "code": 200,
+          "baseUrl": "https://sfs.api.stackit.cloud"
+        },
+        "smithy.api#documentation": "List Resource Pool Snapshots\n\nLists the Snapshots of a Resource Pool in a project."
+      }
+    },
+    "com.stackit.sfs#CreateResourcePoolSnapshotRequest": {
+      "type": "structure",
+      "members": {
+        "projectId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        },
+        "region": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        },
+        "resourcePoolId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        },
+        "comment": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "(optional) A comment to add more information about a snapshot",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Name of the Resource Pool Snapshot"
+          }
+        },
+        "snaplockRetentionHours": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "(optional) Time in hours after which snaplock on the snapshot expires",
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.stackit.sfs#CreateResourcePoolSnapshotResponse": {
+      "type": "structure",
+      "members": {
+        "resourcePoolSnapshot": {
+          "target": "com.stackit.sfs#ResourcePoolSnapshot",
+          "traits": {
+            "smithy.api#documentation": "Created Resource Pool Snapshot"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.stackit.sfs#CreateResourcePoolSnapshot": {
+      "type": "operation",
+      "input": {
+        "target": "com.stackit.sfs#CreateResourcePoolSnapshotRequest"
+      },
+      "output": {
+        "target": "com.stackit.sfs#CreateResourcePoolSnapshotResponse"
+      },
+      "errors": [
+        {
+          "target": "com.stackit.sfs#BadRequest"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/v1/projects/{projectId}/regions/{region}/resourcePools/{resourcePoolId}/snapshots",
+          "code": 200,
+          "baseUrl": "https://sfs.api.stackit.cloud"
+        },
+        "smithy.api#documentation": "Create Resource Pool Snapshot\n\nCreates a Snapshot of a Resource Pool in a project."
+      }
+    },
+    "com.stackit.sfs#GetResourcePoolSnapshotRequest": {
+      "type": "structure",
+      "members": {
+        "projectId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        },
+        "region": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        },
+        "resourcePoolId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        },
+        "snapshotName": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.stackit.sfs#GetResourcePoolSnapshotResponse": {
+      "type": "structure",
+      "members": {
+        "resourcePoolSnapshot": {
+          "target": "com.stackit.sfs#ResourcePoolSnapshot",
+          "traits": {
+            "smithy.api#documentation": "Resource Pool Snapshot"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.stackit.sfs#GetResourcePoolSnapshot": {
+      "type": "operation",
+      "input": {
+        "target": "com.stackit.sfs#GetResourcePoolSnapshotRequest"
+      },
+      "output": {
+        "target": "com.stackit.sfs#GetResourcePoolSnapshotResponse"
+      },
+      "errors": [
+        {
+          "target": "com.stackit.sfs#BadRequest"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/v1/projects/{projectId}/regions/{region}/resourcePools/{resourcePoolId}/snapshots/{snapshotName}",
+          "code": 200,
+          "baseUrl": "https://sfs.api.stackit.cloud"
+        },
+        "smithy.api#documentation": "Get Resource Pool Snapshot\n\nRetrieves a Snapshot from a Resource Pool in a project."
+      }
+    },
+    "com.stackit.sfs#UpdateResourcePoolSnapshotRequest": {
+      "type": "structure",
+      "members": {
+        "projectId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        },
+        "region": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        },
+        "resourcePoolId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        },
+        "snapshotName": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        },
+        "comment": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "(optional) A comment to add more information about a snapshot",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "(optional) name of the Resource Pool Snapshot",
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.stackit.sfs#UpdateResourcePoolSnapshotResponse": {
+      "type": "structure",
+      "members": {
+        "resourcePoolSnapshot": {
+          "target": "com.stackit.sfs#ResourcePoolSnapshot",
+          "traits": {
+            "smithy.api#documentation": "Updated Resource Pool Snapshot"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.stackit.sfs#UpdateResourcePoolSnapshot": {
+      "type": "operation",
+      "input": {
+        "target": "com.stackit.sfs#UpdateResourcePoolSnapshotRequest"
+      },
+      "output": {
+        "target": "com.stackit.sfs#UpdateResourcePoolSnapshotResponse"
+      },
+      "errors": [
+        {
+          "target": "com.stackit.sfs#BadRequest"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "PATCH",
+          "uri": "/v1/projects/{projectId}/regions/{region}/resourcePools/{resourcePoolId}/snapshots/{snapshotName}",
+          "code": 200,
+          "baseUrl": "https://sfs.api.stackit.cloud"
+        },
+        "smithy.api#documentation": "Update Resource Pool Snapshot\n\nUpdates a Snapshot from a Resource Pool in a project."
+      }
+    },
+    "com.stackit.sfs#DeleteResourcePoolSnapshotRequest": {
+      "type": "structure",
+      "members": {
+        "projectId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        },
+        "region": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        },
+        "resourcePoolId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        },
+        "snapshotName": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.stackit.sfs#DeleteResourcePoolSnapshotResponse2": {
+      "type": "structure",
+      "members": {
+        "body": {
+          "target": "smithy.api#Document",
+          "traits": {
+            "com.distilled.openapi#rawResponse": {},
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
+      }
+    },
+    "com.stackit.sfs#DeleteResourcePoolSnapshot": {
+      "type": "operation",
+      "input": {
+        "target": "com.stackit.sfs#DeleteResourcePoolSnapshotRequest"
+      },
+      "output": {
+        "target": "com.stackit.sfs#DeleteResourcePoolSnapshotResponse2"
+      },
+      "errors": [
+        {
+          "target": "com.stackit.sfs#BadRequest"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "DELETE",
+          "uri": "/v1/projects/{projectId}/regions/{region}/resourcePools/{resourcePoolId}/snapshots/{snapshotName}",
+          "code": 200,
+          "baseUrl": "https://sfs.api.stackit.cloud"
+        },
+        "smithy.api#documentation": "Delete Resource Pool Snapshot\n\nDeletes a Snapshot from a Resource Pool in a project."
+      }
+    },
+    "com.stackit.sfs#ListShareExportPoliciesRequest": {
+      "type": "structure",
+      "members": {
+        "projectId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        },
+        "region": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.stackit.sfs#ListShareExportPoliciesResponse": {
+      "type": "structure",
+      "members": {
+        "shareExportPolicies": {
+          "target": "com.stackit.sfs#ListShareExportPoliciesResponseShareExportPoliciesList",
+          "traits": {
+            "smithy.api#documentation": "List of Share Export Policies"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.stackit.sfs#ListShareExportPoliciesResponseShareExportPoliciesList": {
+      "type": "list",
+      "member": {
+        "target": "com.stackit.sfs#ShareExportPolicy"
+      },
+      "traits": {
+        "smithy.api#documentation": "List of Share Export Policies"
+      }
+    },
+    "com.stackit.sfs#ListShareExportPolicies": {
+      "type": "operation",
+      "input": {
+        "target": "com.stackit.sfs#ListShareExportPoliciesRequest"
+      },
+      "output": {
+        "target": "com.stackit.sfs#ListShareExportPoliciesResponse"
+      },
+      "errors": [
+        {
+          "target": "com.stackit.sfs#BadRequest"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/v1/projects/{projectId}/regions/{region}/shareExportPolicies",
+          "code": 200,
+          "baseUrl": "https://sfs.api.stackit.cloud"
+        },
+        "smithy.api#documentation": "List Share Export Policies\n\nLists ShareExportPolicies in a Resource Pool in a project."
+      }
+    },
+    "com.stackit.sfs#CreateShareExportPolicyRequestLabelsMap": {
+      "type": "map",
+      "key": {
+        "target": "smithy.api#String"
+      },
+      "value": {
+        "target": "smithy.api#String"
+      },
+      "traits": {
+        "smithy.api#documentation": "An optional object that represents the labels associated with the share export policy\n keys are validated using the following regex '^[\\\\p{Ll}][\\\\p{Ll}\\\\p{N}_-]*$' and cannot be empty\n values are validated using the following regex '^[\\\\p{Ll}\\\\p{N}_-]*$'"
+      }
+    },
+    "com.stackit.sfs#CreateShareExportPolicyRequestRule": {
+      "type": "structure",
+      "members": {
+        "description": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Description of the Rule\n\n (optional)",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "ipAcl": {
+          "target": "com.stackit.sfs#CreateShareExportPolicyRequestRuleIpAclList",
+          "traits": {
+            "smithy.api#documentation": "IP access control list, where IPs must have a subnet mask (e.g. \"172.16.0.0/24\" for a range of IPs,\n or \"172.16.0.250/32\" for a specific IP)\n\n This array cannot be empty"
+          }
+        },
+        "order": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Order of the rule within a Share Export Policy. The order is used so that when a client IP matches\n multiple rules, the first rule is applied\n\n This field must be set"
+          }
+        },
+        "readOnly": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Flag to indicate if client IPs matching this rule can only mount the share in read only mode\n\n Default: false"
+          }
+        },
+        "setUuid": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Flag to honor set UUID\n\n Default: false"
+          }
+        },
+        "superUser": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Flag to indicate if client IPs matching this rule have root access on the Share\n\n Default: true"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.stackit.sfs#CreateShareExportPolicyRequestRuleIpAclList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {
+        "smithy.api#documentation": "IP access control list, where IPs must have a subnet mask (e.g. \"172.16.0.0/24\" for a range of IPs,\n or \"172.16.0.250/32\" for a specific IP)\n\n This array cannot be empty"
+      }
+    },
+    "com.stackit.sfs#CreateShareExportPolicyRequestRulesList": {
+      "type": "list",
+      "member": {
+        "target": "com.stackit.sfs#CreateShareExportPolicyRequestRule"
+      },
+      "traits": {
+        "smithy.api#documentation": "List of rules of the Share Export Policy. The order of the rules within the array does not matter - what matters\n is the field \"order\" within each rule"
+      }
+    },
+    "com.stackit.sfs#CreateShareExportPolicyRequest": {
+      "type": "structure",
+      "members": {
+        "projectId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        },
+        "region": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        },
+        "labels": {
+          "target": "com.stackit.sfs#CreateShareExportPolicyRequestLabelsMap",
+          "traits": {
+            "smithy.api#documentation": "An optional object that represents the labels associated with the share export policy\n keys are validated using the following regex '^[\\\\p{Ll}][\\\\p{Ll}\\\\p{N}_-]*$' and cannot be empty\n values are validated using the following regex '^[\\\\p{Ll}\\\\p{N}_-]*$'"
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Name of the Share Export Policy",
+            "smithy.api#required": {}
+          }
+        },
+        "rules": {
+          "target": "com.stackit.sfs#CreateShareExportPolicyRequestRulesList",
+          "traits": {
+            "smithy.api#documentation": "List of rules of the Share Export Policy. The order of the rules within the array does not matter - what matters\n is the field \"order\" within each rule"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.stackit.sfs#CreateShareExportPolicyResponse": {
+      "type": "structure",
+      "members": {
+        "shareExportPolicy": {
+          "target": "com.stackit.sfs#ShareExportPolicy",
+          "traits": {
+            "smithy.api#documentation": "Created Share Export Policy"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.stackit.sfs#CreateShareExportPolicy": {
+      "type": "operation",
+      "input": {
+        "target": "com.stackit.sfs#CreateShareExportPolicyRequest"
+      },
+      "output": {
+        "target": "com.stackit.sfs#CreateShareExportPolicyResponse"
+      },
+      "errors": [
+        {
+          "target": "com.stackit.sfs#BadRequest"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/v1/projects/{projectId}/regions/{region}/shareExportPolicies",
+          "code": 200,
+          "baseUrl": "https://sfs.api.stackit.cloud"
+        },
+        "smithy.api#documentation": "Create Share Export Policy\n\nCreates a ShareExportPolicy in a Resource Pool in a project."
+      }
+    },
+    "com.stackit.sfs#GetShareExportPolicyRequest": {
+      "type": "structure",
+      "members": {
+        "projectId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        },
+        "region": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        },
+        "policyId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.stackit.sfs#GetShareExportPolicyResponse": {
+      "type": "structure",
+      "members": {
+        "shareExportPolicy": {
+          "target": "com.stackit.sfs#ShareExportPolicy",
+          "traits": {
+            "smithy.api#documentation": "Share Export Policies"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.stackit.sfs#GetShareExportPolicy": {
+      "type": "operation",
+      "input": {
+        "target": "com.stackit.sfs#GetShareExportPolicyRequest"
+      },
+      "output": {
+        "target": "com.stackit.sfs#GetShareExportPolicyResponse"
+      },
+      "errors": [
+        {
+          "target": "com.stackit.sfs#BadRequest"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/v1/projects/{projectId}/regions/{region}/shareExportPolicies/{policyId}",
+          "code": 200,
+          "baseUrl": "https://sfs.api.stackit.cloud"
+        },
+        "smithy.api#documentation": "Get Share Export Policy\n\nRetrieves a ShareExportPolicies in a Resource Pool in a project."
+      }
+    },
+    "com.stackit.sfs#UpdateShareExportPolicyRequestLabelsMap": {
+      "type": "map",
+      "key": {
+        "target": "smithy.api#String"
+      },
+      "value": {
+        "target": "smithy.api#String"
+      },
+      "traits": {
+        "smithy.api#documentation": "An optional object that represents the labels associated with the share export policy\n keys are validated using the following regex '^[\\\\p{Ll}][\\\\p{Ll}\\\\p{N}_-]*$' and cannot be empty\n values are validated using the following regex '^[\\\\p{Ll}\\\\p{N}_-]*$'"
+      }
+    },
+    "com.stackit.sfs#UpdateShareExportPolicyBodyRule": {
+      "type": "structure",
+      "members": {
+        "description": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Description of the Rule\n\n (optional)",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "ipAcl": {
+          "target": "com.stackit.sfs#UpdateShareExportPolicyBodyRuleIpAclList",
+          "traits": {
+            "smithy.api#documentation": "IP access control list, where IPs must have a subnet mask (e.g. \"172.16.0.0/24\" for a range of IPs,\n or \"172.16.0.250/32\" for a specific IP)\n\n This array cannot be empty"
+          }
+        },
+        "order": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Order of the rule within a Share Export Policy. The order is used so that when a client IP matches\n multiple rules, the first rule is applied\n\n This field must be set"
+          }
+        },
+        "readOnly": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Flag to indicate if client IPs matching this rule can only mount the share in read only mode\n\n Default: false"
+          }
+        },
+        "setUuid": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Flag to honor set UUID\n\n Default: false"
+          }
+        },
+        "superUser": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Flag to indicate if client IPs matching this rule have root access on the Share\n\n Default: true"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.stackit.sfs#UpdateShareExportPolicyBodyRuleIpAclList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {
+        "smithy.api#documentation": "IP access control list, where IPs must have a subnet mask (e.g. \"172.16.0.0/24\" for a range of IPs,\n or \"172.16.0.250/32\" for a specific IP)\n\n This array cannot be empty"
+      }
+    },
+    "com.stackit.sfs#UpdateShareExportPolicyRequestRulesList": {
+      "type": "list",
+      "member": {
+        "target": "com.stackit.sfs#UpdateShareExportPolicyBodyRule"
+      },
+      "traits": {
+        "smithy.api#documentation": "List of rules of the Share Export Policy. The order of the rules within the array does not matter - what matters\n is the field \"order\" within each rule. The whole set of rules needs to be sent in the same request, e.g. if 1 rule\n is sent, the share export policy will have just that 1 rule, as opposed to extending the existing set of rules with\n the 1 rule that was sent\n\n Important note: the array of rules passed always overwrites the rule array (i.e. sending an empty array removes all rules)"
+      }
+    },
+    "com.stackit.sfs#UpdateShareExportPolicyRequest": {
+      "type": "structure",
+      "members": {
+        "projectId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        },
+        "region": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        },
+        "policyId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        },
+        "labels": {
+          "target": "com.stackit.sfs#UpdateShareExportPolicyRequestLabelsMap",
+          "traits": {
+            "smithy.api#documentation": "An optional object that represents the labels associated with the share export policy\n keys are validated using the following regex '^[\\\\p{Ll}][\\\\p{Ll}\\\\p{N}_-]*$' and cannot be empty\n values are validated using the following regex '^[\\\\p{Ll}\\\\p{N}_-]*$'"
+          }
+        },
+        "rules": {
+          "target": "com.stackit.sfs#UpdateShareExportPolicyRequestRulesList",
+          "traits": {
+            "smithy.api#documentation": "List of rules of the Share Export Policy. The order of the rules within the array does not matter - what matters\n is the field \"order\" within each rule. The whole set of rules needs to be sent in the same request, e.g. if 1 rule\n is sent, the share export policy will have just that 1 rule, as opposed to extending the existing set of rules with\n the 1 rule that was sent\n\n Important note: the array of rules passed always overwrites the rule array (i.e. sending an empty array removes all rules)",
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.stackit.sfs#UpdateShareExportPolicyResponse": {
+      "type": "structure",
+      "members": {
+        "shareExportPolicy": {
+          "target": "com.stackit.sfs#ShareExportPolicy"
+        }
+      },
+      "traits": {}
+    },
+    "com.stackit.sfs#UpdateShareExportPolicy": {
+      "type": "operation",
+      "input": {
+        "target": "com.stackit.sfs#UpdateShareExportPolicyRequest"
+      },
+      "output": {
+        "target": "com.stackit.sfs#UpdateShareExportPolicyResponse"
+      },
+      "errors": [
+        {
+          "target": "com.stackit.sfs#BadRequest"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "PATCH",
+          "uri": "/v1/projects/{projectId}/regions/{region}/shareExportPolicies/{policyId}",
+          "code": 200,
+          "baseUrl": "https://sfs.api.stackit.cloud"
+        },
+        "smithy.api#documentation": "Update Share Export Policy\n\nUpdates a ShareExportPolicies in a Resource Pool in a project."
+      }
+    },
+    "com.stackit.sfs#DeleteShareExportPolicyRequest": {
+      "type": "structure",
+      "members": {
+        "projectId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        },
+        "region": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        },
+        "policyId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.stackit.sfs#DeleteShareExportPolicyResponse2": {
+      "type": "structure",
+      "members": {
+        "body": {
+          "target": "smithy.api#Document",
+          "traits": {
+            "com.distilled.openapi#rawResponse": {},
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
+      }
+    },
+    "com.stackit.sfs#DeleteShareExportPolicy": {
+      "type": "operation",
+      "input": {
+        "target": "com.stackit.sfs#DeleteShareExportPolicyRequest"
+      },
+      "output": {
+        "target": "com.stackit.sfs#DeleteShareExportPolicyResponse2"
+      },
+      "errors": [
+        {
+          "target": "com.stackit.sfs#BadRequest"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "DELETE",
+          "uri": "/v1/projects/{projectId}/regions/{region}/shareExportPolicies/{policyId}",
+          "code": 200,
+          "baseUrl": "https://sfs.api.stackit.cloud"
+        },
+        "smithy.api#documentation": "Delete Share Export Policy\n\nDeletes a ShareExportPolicies in a Resource Pool in a project."
+      }
+    },
+    "com.stackit.sfs#ListSnapshotPoliciesRequest": {
+      "type": "structure",
+      "members": {
+        "projectId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        },
+        "immutable": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#httpQuery": "immutable"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.stackit.sfs#ListSnapshotPoliciesResponse": {
+      "type": "structure",
+      "members": {
+        "snapshotPolicies": {
+          "target": "com.stackit.sfs#ListSnapshotPoliciesResponseSnapshotPoliciesList",
+          "traits": {
+            "smithy.api#documentation": "List of Snapshot Policies"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.stackit.sfs#SnapshotPolicy": {
+      "type": "structure",
+      "members": {
+        "comment": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Comment of the Snapshot Policy"
+          }
+        },
+        "createdAt": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "created at timestamp"
+          }
+        },
+        "enabled": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Wether the Snapshot Policy is enabled"
+          }
+        },
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "ID of the Snapshot Policy"
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Name of the Snapshot Policy"
+          }
+        },
+        "schedules": {
+          "target": "com.stackit.sfs#SnapshotPolicySchedulesList",
+          "traits": {
+            "smithy.api#documentation": "(deprecated) associated schedules"
+          }
+        },
+        "snapshotSchedules": {
+          "target": "com.stackit.sfs#SnapshotPolicySnapshotSchedulesList",
+          "traits": {
+            "smithy.api#documentation": "associated schedules"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.stackit.sfs#SnapshotPolicySchedule": {
+      "type": "structure",
+      "members": {
+        "count": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Retention Count"
+          }
+        },
+        "interval": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Interval of the Schedule (follows the cron schedule expression in Unix-like systems)"
+          }
+        },
+        "prefix": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Prefix used for the snapshots created by this policy"
+          }
+        },
+        "retentionPeriod": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Retention Period (ISO 8601 format or \"infinite\")"
+          }
+        },
+        "scheduleId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "ID of the Schedule"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.stackit.sfs#SnapshotPolicySchedulesList": {
+      "type": "list",
+      "member": {
+        "target": "com.stackit.sfs#SnapshotPolicySchedule"
+      },
+      "traits": {
+        "smithy.api#documentation": "(deprecated) associated schedules"
+      }
+    },
+    "com.stackit.sfs#SnapshotPolicySnapshotPolicySchedule": {
+      "type": "structure",
+      "members": {
+        "createdAt": {
+          "target": "smithy.api#String"
+        },
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "ID of the Schedule"
+          }
+        },
+        "interval": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Interval of the Schedule (follows the cron schedule expression in Unix-like systems)"
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Name of the Schedule"
+          }
+        },
+        "prefix": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Prefix used for the snapshots created by this policy"
+          }
+        },
+        "retentionCount": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Retention Count"
+          }
+        },
+        "retentionPeriod": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Retention Period (ISO 8601 format or \"infinite\")"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.stackit.sfs#SnapshotPolicySnapshotSchedulesList": {
+      "type": "list",
+      "member": {
+        "target": "com.stackit.sfs#SnapshotPolicySnapshotPolicySchedule"
+      },
+      "traits": {
+        "smithy.api#documentation": "associated schedules"
+      }
+    },
+    "com.stackit.sfs#ListSnapshotPoliciesResponseSnapshotPoliciesList": {
+      "type": "list",
+      "member": {
+        "target": "com.stackit.sfs#SnapshotPolicy"
+      },
+      "traits": {
+        "smithy.api#documentation": "List of Snapshot Policies"
+      }
+    },
+    "com.stackit.sfs#ListSnapshotPolicies": {
+      "type": "operation",
+      "input": {
+        "target": "com.stackit.sfs#ListSnapshotPoliciesRequest"
+      },
+      "output": {
+        "target": "com.stackit.sfs#ListSnapshotPoliciesResponse"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/v1/projects/{projectId}/snapshotPolicies",
+          "code": 200,
+          "baseUrl": "https://sfs.api.stackit.cloud"
+        },
+        "smithy.api#documentation": "List Snapshot Policies"
+      }
+    },
+    "com.stackit.sfs#GetSnapshotPolicyRequest": {
+      "type": "structure",
+      "members": {
+        "projectId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        },
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.stackit.sfs#GetSnapshotPolicyResponse": {
+      "type": "structure",
+      "members": {
+        "snapshotPolicy": {
+          "target": "com.stackit.sfs#SnapshotPolicy",
+          "traits": {
+            "smithy.api#documentation": "Snapshot Policy"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.stackit.sfs#GetSnapshotPolicy": {
+      "type": "operation",
+      "input": {
+        "target": "com.stackit.sfs#GetSnapshotPolicyRequest"
+      },
+      "output": {
+        "target": "com.stackit.sfs#GetSnapshotPolicyResponse"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/v1/projects/{projectId}/snapshotPolicies/{id}",
+          "code": 200,
+          "baseUrl": "https://sfs.api.stackit.cloud"
+        },
+        "smithy.api#documentation": "Get Snapshot Policy"
+      }
+    },
+    "com.stackit.sfs#GetLockRequest": {
+      "type": "structure",
+      "members": {
+        "region": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        },
+        "projectId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.stackit.sfs#GetLockResponse": {
+      "type": "structure",
+      "members": {
+        "lockId": {
+          "target": "smithy.api#String"
+        }
+      },
+      "traits": {}
+    },
+    "com.stackit.sfs#GetLock": {
+      "type": "operation",
+      "input": {
+        "target": "com.stackit.sfs#GetLockRequest"
+      },
+      "output": {
+        "target": "com.stackit.sfs#GetLockResponse"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/v1/regions/{region}/project/{projectId}/locks",
+          "code": 200,
+          "baseUrl": "https://sfs.api.stackit.cloud"
+        },
+        "smithy.api#documentation": "Get lock status for a project."
+      }
+    },
+    "com.stackit.sfs#EnableLockRequest": {
+      "type": "structure",
+      "members": {
+        "region": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        },
+        "projectId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.stackit.sfs#EnableLockResponse": {
+      "type": "structure",
+      "members": {
+        "lockId": {
+          "target": "smithy.api#String"
+        }
+      },
+      "traits": {}
+    },
+    "com.stackit.sfs#EnableLock": {
+      "type": "operation",
+      "input": {
+        "target": "com.stackit.sfs#EnableLockRequest"
+      },
+      "output": {
+        "target": "com.stackit.sfs#EnableLockResponse"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/v1/regions/{region}/project/{projectId}/locks",
+          "code": 200,
+          "baseUrl": "https://sfs.api.stackit.cloud"
+        },
+        "smithy.api#documentation": "Enable Lock for a project. Necessary for immutable snapshots and to prevent accidental deletion of resources."
+      }
+    },
+    "com.stackit.sfs#DisableLockRequest": {
+      "type": "structure",
+      "members": {
+        "region": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        },
+        "projectId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.stackit.sfs#DisableLockResponse2": {
+      "type": "structure",
+      "members": {
+        "body": {
+          "target": "smithy.api#Document",
+          "traits": {
+            "com.distilled.openapi#rawResponse": {},
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
+      }
+    },
+    "com.stackit.sfs#DisableLock": {
+      "type": "operation",
+      "input": {
+        "target": "com.stackit.sfs#DisableLockRequest"
+      },
+      "output": {
+        "target": "com.stackit.sfs#DisableLockResponse2"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "DELETE",
+          "uri": "/v1/regions/{region}/project/{projectId}/locks",
+          "code": 200,
+          "baseUrl": "https://sfs.api.stackit.cloud"
+        },
+        "smithy.api#documentation": "Clean up locks for a project so that it can be deleted successfully."
+      }
+    },
+    "com.stackit.sfs#ListPerformanceClassesResponse": {
+      "type": "structure",
+      "members": {
+        "performanceClasses": {
+          "target": "com.stackit.sfs#ListPerformanceClassesResponsePerformanceClassesList",
+          "traits": {
+            "smithy.api#documentation": "List of Performance Classes"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.stackit.sfs#PerformanceClass": {
+      "type": "structure",
+      "members": {
+        "iops": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "IOPS of the Performance Class"
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Name of the Performance Class"
+          }
+        },
+        "throughput": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Throughput of the Performance Class"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.stackit.sfs#ListPerformanceClassesResponsePerformanceClassesList": {
+      "type": "list",
+      "member": {
+        "target": "com.stackit.sfs#PerformanceClass"
+      },
+      "traits": {
+        "smithy.api#documentation": "List of Performance Classes"
+      }
+    },
+    "com.stackit.sfs#ListPerformanceClasses": {
+      "type": "operation",
+      "input": {
+        "target": "smithy.api#Unit"
+      },
+      "output": {
+        "target": "com.stackit.sfs#ListPerformanceClassesResponse"
+      },
+      "errors": [
+        {
+          "target": "com.stackit.sfs#BadRequest"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/v1/resourcePoolPerformanceClasses",
+          "code": 200,
+          "baseUrl": "https://sfs.api.stackit.cloud"
+        },
+        "smithy.api#documentation": "List Resource Performance Classes\n\nLists all performances classes available"
+      }
+    },
+    "com.stackit.sfs#BadRequest": {
+      "type": "structure",
+      "members": {},
+      "traits": {
+        "smithy.api#error": "client",
+        "smithy.api#httpError": 400,
+        "com.distilled.openapi#errorMatchers": [
+          {
+            "status": 400
+          }
+        ]
+      }
+    },
+    "com.stackit.sfs#Sfs": {
+      "type": "service",
+      "version": "1.0.0",
+      "operations": [
+        {
+          "target": "com.stackit.sfs#ListResourcePools"
+        },
+        {
+          "target": "com.stackit.sfs#CreateResourcePool"
+        },
+        {
+          "target": "com.stackit.sfs#GetResourcePool"
+        },
+        {
+          "target": "com.stackit.sfs#UpdateResourcePool"
+        },
+        {
+          "target": "com.stackit.sfs#DeleteResourcePool"
+        },
+        {
+          "target": "com.stackit.sfs#ListShares"
+        },
+        {
+          "target": "com.stackit.sfs#CreateShare"
+        },
+        {
+          "target": "com.stackit.sfs#GetShare"
+        },
+        {
+          "target": "com.stackit.sfs#UpdateShare"
+        },
+        {
+          "target": "com.stackit.sfs#DeleteShare"
+        },
+        {
+          "target": "com.stackit.sfs#ListResourcePoolSnapshots"
+        },
+        {
+          "target": "com.stackit.sfs#CreateResourcePoolSnapshot"
+        },
+        {
+          "target": "com.stackit.sfs#GetResourcePoolSnapshot"
+        },
+        {
+          "target": "com.stackit.sfs#UpdateResourcePoolSnapshot"
+        },
+        {
+          "target": "com.stackit.sfs#DeleteResourcePoolSnapshot"
+        },
+        {
+          "target": "com.stackit.sfs#ListShareExportPolicies"
+        },
+        {
+          "target": "com.stackit.sfs#CreateShareExportPolicy"
+        },
+        {
+          "target": "com.stackit.sfs#GetShareExportPolicy"
+        },
+        {
+          "target": "com.stackit.sfs#UpdateShareExportPolicy"
+        },
+        {
+          "target": "com.stackit.sfs#DeleteShareExportPolicy"
+        },
+        {
+          "target": "com.stackit.sfs#ListSnapshotPolicies"
+        },
+        {
+          "target": "com.stackit.sfs#GetSnapshotPolicy"
+        },
+        {
+          "target": "com.stackit.sfs#GetLock"
+        },
+        {
+          "target": "com.stackit.sfs#EnableLock"
+        },
+        {
+          "target": "com.stackit.sfs#DisableLock"
+        },
+        {
+          "target": "com.stackit.sfs#ListPerformanceClasses"
+        }
+      ],
+      "traits": {
+        "smithy.api#title": "STACKIT File Storage (SFS)",
+        "smithy.api#documentation": "API used to create and manage NFS Shares."
+      }
+    }
+  }
+}

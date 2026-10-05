@@ -1895,10 +1895,7 @@
         }
       ],
       "traits": {
-        "aws.iam#conditionKeys": [
-          "aidevops:SourceAgentSpaceArn",
-          "aidevops:TargetAgentSpaceArn"
-        ],
+        "aws.iam#conditionKeys": ["aidevops:SourceAgentSpaceArn", "aidevops:TargetAgentSpaceArn"],
         "aws.iam#iamAction": {
           "documentation": "Grants permission to create a new backlog task",
           "resources": {
@@ -4497,10 +4494,7 @@
         }
       ],
       "traits": {
-        "aws.iam#conditionKeys": [
-          "aidevops:SourceAgentSpaceArn",
-          "aidevops:TargetAgentSpaceArn"
-        ],
+        "aws.iam#conditionKeys": ["aidevops:SourceAgentSpaceArn", "aidevops:TargetAgentSpaceArn"],
         "aws.iam#iamAction": {
           "documentation": "Grants permission to get an asset",
           "resources": {
@@ -4547,10 +4541,7 @@
         }
       ],
       "traits": {
-        "aws.iam#conditionKeys": [
-          "aidevops:SourceAgentSpaceArn",
-          "aidevops:TargetAgentSpaceArn"
-        ],
+        "aws.iam#conditionKeys": ["aidevops:SourceAgentSpaceArn", "aidevops:TargetAgentSpaceArn"],
         "aws.iam#iamAction": {
           "documentation": "Grants permission to get asset content",
           "resources": {
@@ -4655,10 +4646,7 @@
         }
       ],
       "traits": {
-        "aws.iam#conditionKeys": [
-          "aidevops:SourceAgentSpaceArn",
-          "aidevops:TargetAgentSpaceArn"
-        ],
+        "aws.iam#conditionKeys": ["aidevops:SourceAgentSpaceArn", "aidevops:TargetAgentSpaceArn"],
         "aws.iam#iamAction": {
           "documentation": "Grants permission to get an asset file",
           "resources": {
@@ -4899,10 +4887,7 @@
         }
       ],
       "traits": {
-        "aws.iam#conditionKeys": [
-          "aidevops:SourceAgentSpaceArn",
-          "aidevops:TargetAgentSpaceArn"
-        ],
+        "aws.iam#conditionKeys": ["aidevops:SourceAgentSpaceArn", "aidevops:TargetAgentSpaceArn"],
         "aws.iam#iamAction": {
           "documentation": "Grants permission to get a backlog task",
           "resources": {
@@ -6211,10 +6196,7 @@
         }
       ],
       "traits": {
-        "aws.iam#conditionKeys": [
-          "aidevops:SourceAgentSpaceArn",
-          "aidevops:TargetAgentSpaceArn"
-        ],
+        "aws.iam#conditionKeys": ["aidevops:SourceAgentSpaceArn", "aidevops:TargetAgentSpaceArn"],
         "aws.iam#iamAction": {
           "documentation": "Grants permission to list asset files",
           "resources": {
@@ -6549,10 +6531,7 @@
         }
       ],
       "traits": {
-        "aws.iam#conditionKeys": [
-          "aidevops:SourceAgentSpaceArn",
-          "aidevops:TargetAgentSpaceArn"
-        ],
+        "aws.iam#conditionKeys": ["aidevops:SourceAgentSpaceArn", "aidevops:TargetAgentSpaceArn"],
         "aws.iam#iamAction": {
           "documentation": "Grants permission to list assets",
           "resources": {
@@ -6790,10 +6769,7 @@
         }
       ],
       "traits": {
-        "aws.iam#conditionKeys": [
-          "aidevops:SourceAgentSpaceArn",
-          "aidevops:TargetAgentSpaceArn"
-        ],
+        "aws.iam#conditionKeys": ["aidevops:SourceAgentSpaceArn", "aidevops:TargetAgentSpaceArn"],
         "aws.iam#iamAction": {
           "documentation": "Grants permission to list backlog tasks",
           "resources": {
@@ -7029,10 +7005,7 @@
         }
       ],
       "traits": {
-        "aws.iam#conditionKeys": [
-          "aidevops:SourceAgentSpaceArn",
-          "aidevops:TargetAgentSpaceArn"
-        ],
+        "aws.iam#conditionKeys": ["aidevops:SourceAgentSpaceArn", "aidevops:TargetAgentSpaceArn"],
         "aws.iam#iamAction": {
           "documentation": "Grants permission to list executions",
           "resources": {
@@ -7258,10 +7231,7 @@
         }
       ],
       "traits": {
-        "aws.iam#conditionKeys": [
-          "aidevops:SourceAgentSpaceArn",
-          "aidevops:TargetAgentSpaceArn"
-        ],
+        "aws.iam#conditionKeys": ["aidevops:SourceAgentSpaceArn", "aidevops:TargetAgentSpaceArn"],
         "aws.iam#iamAction": {
           "documentation": "Grants permission to list journal records",
           "resources": {

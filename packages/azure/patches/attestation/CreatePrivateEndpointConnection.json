@@ -1,0 +1,25 @@
+{
+  "description": "The Attestation RP rejects a PUT without the connection's ARM `id` (400 `Null PrivateEndpointConnection.Id`), and the converted model strips the read-only `id` fields from the request. Add the connection `id` to the body and the private endpoint `id` to PrivateEndpointInput.",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.attestation#CreatePrivateEndpointConnectionRequest/members/id",
+      "value": {
+        "target": "smithy.api#String",
+        "traits": {
+          "smithy.api#documentation": "Fully qualified ARM resource ID of the private endpoint connection. Required by the service."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.attestation#PrivateEndpointInput/members/id",
+      "value": {
+        "target": "smithy.api#String",
+        "traits": {
+          "smithy.api#documentation": "The ARM identifier for Private Endpoint."
+        }
+      }
+    }
+  ]
+}

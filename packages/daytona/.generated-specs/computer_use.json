@@ -1,0 +1,1794 @@
+{
+  "smithy": "2.0",
+  "metadata": {
+    "suppressions": [
+      {
+        "id": "HttpUriConflict",
+        "namespace": "*"
+      },
+      {
+        "id": "HttpMethodSemantics",
+        "namespace": "*"
+      },
+      {
+        "id": "UnreferencedShape",
+        "namespace": "*"
+      }
+    ],
+    "distilled.finalized": true
+  },
+  "shapes": {
+    "com.daytona.computer_use#FindAccessibilityNodesRequestStatesList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {}
+    },
+    "com.daytona.computer_use#FindAccessibilityNodesRequest": {
+      "type": "structure",
+      "members": {
+        "limit": {
+          "target": "smithy.api#Integer"
+        },
+        "name": {
+          "target": "smithy.api#String"
+        },
+        "nameMatch": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "\"exact\" | \"substring\" | \"regex\""
+          }
+        },
+        "pid": {
+          "target": "smithy.api#Integer"
+        },
+        "role": {
+          "target": "smithy.api#String"
+        },
+        "scope": {
+          "target": "smithy.api#String"
+        },
+        "states": {
+          "target": "com.daytona.computer_use#FindAccessibilityNodesRequestStatesList"
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.daytona.computer_use#AccessibilityNodesResponse": {
+      "type": "structure",
+      "members": {
+        "matches": {
+          "target": "com.daytona.computer_use#AccessibilityNodesResponseMatchesList"
+        },
+        "truncated": {
+          "target": "smithy.api#Boolean"
+        }
+      },
+      "traits": {}
+    },
+    "com.daytona.computer_use#ComputeruseAccessibilityNode": {
+      "type": "structure",
+      "members": {
+        "actions": {
+          "target": "com.daytona.computer_use#ComputeruseAccessibilityNodeActionsList"
+        },
+        "bounds": {
+          "target": "com.daytona.computer_use#AccessibilityBounds"
+        },
+        "children": {
+          "target": "com.daytona.computer_use#ComputeruseAccessibilityNodeChildrenList"
+        },
+        "description": {
+          "target": "smithy.api#String"
+        },
+        "id": {
+          "target": "smithy.api#String"
+        },
+        "name": {
+          "target": "smithy.api#String"
+        },
+        "role": {
+          "target": "smithy.api#String"
+        },
+        "states": {
+          "target": "com.daytona.computer_use#ComputeruseAccessibilityNodeStatesList"
+        }
+      },
+      "traits": {}
+    },
+    "com.daytona.computer_use#ComputeruseAccessibilityNodeActionsList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {}
+    },
+    "com.daytona.computer_use#AccessibilityBounds": {
+      "type": "structure",
+      "members": {
+        "height": {
+          "target": "smithy.api#Integer"
+        },
+        "width": {
+          "target": "smithy.api#Integer"
+        },
+        "x": {
+          "target": "smithy.api#Integer"
+        },
+        "y": {
+          "target": "smithy.api#Integer"
+        }
+      },
+      "traits": {}
+    },
+    "com.daytona.computer_use#ComputeruseAccessibilityNodeChildrenList": {
+      "type": "list",
+      "member": {
+        "target": "com.daytona.computer_use#ComputeruseAccessibilityNode"
+      },
+      "traits": {}
+    },
+    "com.daytona.computer_use#ComputeruseAccessibilityNodeStatesList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {}
+    },
+    "com.daytona.computer_use#AccessibilityNodesResponseMatchesList": {
+      "type": "list",
+      "member": {
+        "target": "com.daytona.computer_use#ComputeruseAccessibilityNode"
+      },
+      "traits": {}
+    },
+    "com.daytona.computer_use#FindAccessibilityNodes": {
+      "type": "operation",
+      "input": {
+        "target": "com.daytona.computer_use#FindAccessibilityNodesRequest"
+      },
+      "output": {
+        "target": "com.daytona.computer_use#AccessibilityNodesResponse"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/computeruse/a11y/find",
+          "code": 200
+        },
+        "smithy.api#documentation": "Find accessibility nodes\n\nSearch the AT-SPI tree for nodes matching a role/name/state filter and return a flat list."
+      }
+    },
+    "com.daytona.computer_use#FocusAccessibilityNodeRequest": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.daytona.computer_use#FocusAccessibilityNodeResponse": {
+      "type": "structure",
+      "members": {
+        "body": {
+          "target": "smithy.api#Document",
+          "traits": {
+            "com.distilled.openapi#rawResponse": {},
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
+      }
+    },
+    "com.daytona.computer_use#FocusAccessibilityNode": {
+      "type": "operation",
+      "input": {
+        "target": "com.daytona.computer_use#FocusAccessibilityNodeRequest"
+      },
+      "output": {
+        "target": "com.daytona.computer_use#FocusAccessibilityNodeResponse"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/computeruse/a11y/node/focus",
+          "code": 200
+        },
+        "smithy.api#documentation": "Focus an accessibility node\n\nMove keyboard focus to the AT-SPI node identified by id (bus-name:object-path)."
+      }
+    },
+    "com.daytona.computer_use#InvokeAccessibilityNodeRequest": {
+      "type": "structure",
+      "members": {
+        "action": {
+          "target": "smithy.api#String"
+        },
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.daytona.computer_use#InvokeAccessibilityNodeResponse": {
+      "type": "structure",
+      "members": {
+        "body": {
+          "target": "smithy.api#Document",
+          "traits": {
+            "com.distilled.openapi#rawResponse": {},
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
+      }
+    },
+    "com.daytona.computer_use#InvokeAccessibilityNode": {
+      "type": "operation",
+      "input": {
+        "target": "com.daytona.computer_use#InvokeAccessibilityNodeRequest"
+      },
+      "output": {
+        "target": "com.daytona.computer_use#InvokeAccessibilityNodeResponse"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/computeruse/a11y/node/invoke",
+          "code": 200
+        },
+        "smithy.api#documentation": "Invoke an action on an accessibility node\n\nCall an AT-SPI Action on the node. Leave action empty to invoke the node's primary (first) action."
+      }
+    },
+    "com.daytona.computer_use#SetAccessibilityNodeValueRequest": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "value": {
+          "target": "smithy.api#String"
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.daytona.computer_use#SetAccessibilityNodeValueResponse": {
+      "type": "structure",
+      "members": {
+        "body": {
+          "target": "smithy.api#Document",
+          "traits": {
+            "com.distilled.openapi#rawResponse": {},
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
+      }
+    },
+    "com.daytona.computer_use#SetAccessibilityNodeValue": {
+      "type": "operation",
+      "input": {
+        "target": "com.daytona.computer_use#SetAccessibilityNodeValueRequest"
+      },
+      "output": {
+        "target": "com.daytona.computer_use#SetAccessibilityNodeValueResponse"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/computeruse/a11y/node/value",
+          "code": 200
+        },
+        "smithy.api#documentation": "Set the value of an accessibility node\n\nWrite the given value to the node via EditableText.SetTextContents or, for numeric controls, Value.CurrentValue."
+      }
+    },
+    "com.daytona.computer_use#GetAccessibilityTreeRequest": {
+      "type": "structure",
+      "members": {
+        "scope": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "scope",
+            "smithy.api#documentation": "Scope: focused | pid | all (default: focused)"
+          }
+        },
+        "pid": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpQuery": "pid",
+            "smithy.api#documentation": "Process ID when scope=pid"
+          }
+        },
+        "maxDepth": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpQuery": "maxDepth",
+            "smithy.api#documentation": "Max tree depth (-1 unbounded, 0 root only; default -1)"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.daytona.computer_use#AccessibilityTreeResponse": {
+      "type": "structure",
+      "members": {
+        "root": {
+          "target": "com.daytona.computer_use#ComputeruseAccessibilityNode"
+        },
+        "truncated": {
+          "target": "smithy.api#Boolean"
+        }
+      },
+      "traits": {}
+    },
+    "com.daytona.computer_use#GetAccessibilityTree": {
+      "type": "operation",
+      "input": {
+        "target": "com.daytona.computer_use#GetAccessibilityTreeRequest"
+      },
+      "output": {
+        "target": "com.daytona.computer_use#AccessibilityTreeResponse"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/computeruse/a11y/tree",
+          "code": 200
+        },
+        "smithy.api#documentation": "Get accessibility tree\n\nFetch the AT-SPI accessibility tree for the focused application, a specific PID, or all registered applications."
+      }
+    },
+    "com.daytona.computer_use#DisplayInfoResponse": {
+      "type": "structure",
+      "members": {
+        "displays": {
+          "target": "com.daytona.computer_use#DisplayInfoResponseDisplaysList"
+        }
+      },
+      "traits": {}
+    },
+    "com.daytona.computer_use#DisplayInfo": {
+      "type": "structure",
+      "members": {
+        "height": {
+          "target": "smithy.api#Integer"
+        },
+        "id": {
+          "target": "smithy.api#Integer"
+        },
+        "isActive": {
+          "target": "smithy.api#Boolean"
+        },
+        "width": {
+          "target": "smithy.api#Integer"
+        },
+        "x": {
+          "target": "smithy.api#Integer"
+        },
+        "y": {
+          "target": "smithy.api#Integer"
+        }
+      },
+      "traits": {}
+    },
+    "com.daytona.computer_use#DisplayInfoResponseDisplaysList": {
+      "type": "list",
+      "member": {
+        "target": "com.daytona.computer_use#DisplayInfo"
+      },
+      "traits": {}
+    },
+    "com.daytona.computer_use#GetDisplayInfo": {
+      "type": "operation",
+      "input": {
+        "target": "smithy.api#Unit"
+      },
+      "output": {
+        "target": "com.daytona.computer_use#DisplayInfoResponse"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/computeruse/display/info",
+          "code": 200
+        },
+        "smithy.api#documentation": "Get display information\n\nGet information about all available displays"
+      }
+    },
+    "com.daytona.computer_use#WindowsResponse": {
+      "type": "structure",
+      "members": {
+        "windows": {
+          "target": "com.daytona.computer_use#WindowsResponseWindowsList"
+        }
+      },
+      "traits": {}
+    },
+    "com.daytona.computer_use#WindowInfo": {
+      "type": "structure",
+      "members": {
+        "height": {
+          "target": "smithy.api#Integer"
+        },
+        "id": {
+          "target": "smithy.api#Integer"
+        },
+        "isActive": {
+          "target": "smithy.api#Boolean"
+        },
+        "title": {
+          "target": "smithy.api#String"
+        },
+        "width": {
+          "target": "smithy.api#Integer"
+        },
+        "x": {
+          "target": "smithy.api#Integer"
+        },
+        "y": {
+          "target": "smithy.api#Integer"
+        }
+      },
+      "traits": {}
+    },
+    "com.daytona.computer_use#WindowsResponseWindowsList": {
+      "type": "list",
+      "member": {
+        "target": "com.daytona.computer_use#WindowInfo"
+      },
+      "traits": {}
+    },
+    "com.daytona.computer_use#GetWindows": {
+      "type": "operation",
+      "input": {
+        "target": "smithy.api#Unit"
+      },
+      "output": {
+        "target": "com.daytona.computer_use#WindowsResponse"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/computeruse/display/windows",
+          "code": 200
+        },
+        "smithy.api#documentation": "Get windows information\n\nGet information about all open windows"
+      }
+    },
+    "com.daytona.computer_use#PressHotkeyRequest": {
+      "type": "structure",
+      "members": {
+        "keys": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "e.g., \"ctrl+c\", \"cmd+v\""
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.daytona.computer_use#PressHotkeyResponse": {
+      "type": "structure",
+      "members": {
+        "body": {
+          "target": "smithy.api#Document",
+          "traits": {
+            "com.distilled.openapi#rawResponse": {},
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
+      }
+    },
+    "com.daytona.computer_use#PressHotkey": {
+      "type": "operation",
+      "input": {
+        "target": "com.daytona.computer_use#PressHotkeyRequest"
+      },
+      "output": {
+        "target": "com.daytona.computer_use#PressHotkeyResponse"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/computeruse/keyboard/hotkey",
+          "code": 200
+        },
+        "smithy.api#documentation": "Press hotkey\n\nPress a hotkey combination (e.g., ctrl+c, cmd+v)"
+      }
+    },
+    "com.daytona.computer_use#PressKeyRequestModifiersList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {
+        "smithy.api#documentation": "ctrl, alt, shift, cmd"
+      }
+    },
+    "com.daytona.computer_use#PressKeyRequest": {
+      "type": "structure",
+      "members": {
+        "key": {
+          "target": "smithy.api#String"
+        },
+        "modifiers": {
+          "target": "com.daytona.computer_use#PressKeyRequestModifiersList",
+          "traits": {
+            "smithy.api#documentation": "ctrl, alt, shift, cmd"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.daytona.computer_use#PressKeyResponse": {
+      "type": "structure",
+      "members": {
+        "body": {
+          "target": "smithy.api#Document",
+          "traits": {
+            "com.distilled.openapi#rawResponse": {},
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
+      }
+    },
+    "com.daytona.computer_use#PressKey": {
+      "type": "operation",
+      "input": {
+        "target": "com.daytona.computer_use#PressKeyRequest"
+      },
+      "output": {
+        "target": "com.daytona.computer_use#PressKeyResponse"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/computeruse/keyboard/key",
+          "code": 200
+        },
+        "smithy.api#documentation": "Press key\n\nPress a key with optional modifiers"
+      }
+    },
+    "com.daytona.computer_use#TypeTextRequest": {
+      "type": "structure",
+      "members": {
+        "delay": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "milliseconds between keystrokes"
+          }
+        },
+        "text": {
+          "target": "smithy.api#String"
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.daytona.computer_use#TypeTextResponse": {
+      "type": "structure",
+      "members": {
+        "body": {
+          "target": "smithy.api#Document",
+          "traits": {
+            "com.distilled.openapi#rawResponse": {},
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
+      }
+    },
+    "com.daytona.computer_use#TypeText": {
+      "type": "operation",
+      "input": {
+        "target": "com.daytona.computer_use#TypeTextRequest"
+      },
+      "output": {
+        "target": "com.daytona.computer_use#TypeTextResponse"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/computeruse/keyboard/type",
+          "code": 200
+        },
+        "smithy.api#documentation": "Type text\n\nType text with optional delay between keystrokes"
+      }
+    },
+    "com.daytona.computer_use#ClickRequest": {
+      "type": "structure",
+      "members": {
+        "button": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "left, right, middle"
+          }
+        },
+        "double": {
+          "target": "smithy.api#Boolean"
+        },
+        "x": {
+          "target": "smithy.api#Integer"
+        },
+        "y": {
+          "target": "smithy.api#Integer"
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.daytona.computer_use#MouseClickResponse": {
+      "type": "structure",
+      "members": {
+        "x": {
+          "target": "smithy.api#Integer"
+        },
+        "y": {
+          "target": "smithy.api#Integer"
+        }
+      },
+      "traits": {}
+    },
+    "com.daytona.computer_use#Click": {
+      "type": "operation",
+      "input": {
+        "target": "com.daytona.computer_use#ClickRequest"
+      },
+      "output": {
+        "target": "com.daytona.computer_use#MouseClickResponse"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/computeruse/mouse/click",
+          "code": 200
+        },
+        "smithy.api#documentation": "Click mouse button\n\nClick the mouse button at the specified coordinates"
+      }
+    },
+    "com.daytona.computer_use#DragRequest": {
+      "type": "structure",
+      "members": {
+        "button": {
+          "target": "smithy.api#String"
+        },
+        "endX": {
+          "target": "smithy.api#Integer"
+        },
+        "endY": {
+          "target": "smithy.api#Integer"
+        },
+        "startX": {
+          "target": "smithy.api#Integer"
+        },
+        "startY": {
+          "target": "smithy.api#Integer"
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.daytona.computer_use#MouseDragResponse": {
+      "type": "structure",
+      "members": {
+        "x": {
+          "target": "smithy.api#Integer"
+        },
+        "y": {
+          "target": "smithy.api#Integer"
+        }
+      },
+      "traits": {}
+    },
+    "com.daytona.computer_use#Drag": {
+      "type": "operation",
+      "input": {
+        "target": "com.daytona.computer_use#DragRequest"
+      },
+      "output": {
+        "target": "com.daytona.computer_use#MouseDragResponse"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/computeruse/mouse/drag",
+          "code": 200
+        },
+        "smithy.api#documentation": "Drag mouse\n\nDrag the mouse from start to end coordinates"
+      }
+    },
+    "com.daytona.computer_use#MoveMouseRequest": {
+      "type": "structure",
+      "members": {
+        "x": {
+          "target": "smithy.api#Integer"
+        },
+        "y": {
+          "target": "smithy.api#Integer"
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.daytona.computer_use#MousePositionResponse": {
+      "type": "structure",
+      "members": {
+        "x": {
+          "target": "smithy.api#Integer"
+        },
+        "y": {
+          "target": "smithy.api#Integer"
+        }
+      },
+      "traits": {}
+    },
+    "com.daytona.computer_use#MoveMouse": {
+      "type": "operation",
+      "input": {
+        "target": "com.daytona.computer_use#MoveMouseRequest"
+      },
+      "output": {
+        "target": "com.daytona.computer_use#MousePositionResponse"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/computeruse/mouse/move",
+          "code": 200
+        },
+        "smithy.api#documentation": "Move mouse cursor\n\nMove the mouse cursor to the specified coordinates"
+      }
+    },
+    "com.daytona.computer_use#GetMousePosition": {
+      "type": "operation",
+      "input": {
+        "target": "smithy.api#Unit"
+      },
+      "output": {
+        "target": "com.daytona.computer_use#MousePositionResponse"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/computeruse/mouse/position",
+          "code": 200
+        },
+        "smithy.api#documentation": "Get mouse position\n\nGet the current mouse cursor position"
+      }
+    },
+    "com.daytona.computer_use#ScrollRequest": {
+      "type": "structure",
+      "members": {
+        "amount": {
+          "target": "smithy.api#Integer"
+        },
+        "direction": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "up, down"
+          }
+        },
+        "x": {
+          "target": "smithy.api#Integer"
+        },
+        "y": {
+          "target": "smithy.api#Integer"
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.daytona.computer_use#ScrollResponse": {
+      "type": "structure",
+      "members": {
+        "success": {
+          "target": "smithy.api#Boolean"
+        }
+      },
+      "traits": {}
+    },
+    "com.daytona.computer_use#Scroll": {
+      "type": "operation",
+      "input": {
+        "target": "com.daytona.computer_use#ScrollRequest"
+      },
+      "output": {
+        "target": "com.daytona.computer_use#ScrollResponse"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/computeruse/mouse/scroll",
+          "code": 200
+        },
+        "smithy.api#documentation": "Scroll mouse wheel\n\nScroll the mouse wheel at the specified coordinates"
+      }
+    },
+    "com.daytona.computer_use#ComputerUseStatusResponse": {
+      "type": "structure",
+      "members": {
+        "status": {
+          "target": "smithy.api#String"
+        }
+      },
+      "traits": {}
+    },
+    "com.daytona.computer_use#GetComputerUseStatus": {
+      "type": "operation",
+      "input": {
+        "target": "smithy.api#Unit"
+      },
+      "output": {
+        "target": "com.daytona.computer_use#ComputerUseStatusResponse"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/computeruse/process-status",
+          "code": 200
+        },
+        "smithy.api#documentation": "Get computer use process status\n\nGet the status of all computer use processes"
+      }
+    },
+    "com.daytona.computer_use#GetProcessErrorsRequest": {
+      "type": "structure",
+      "members": {
+        "processName": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Process name to get errors for"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.daytona.computer_use#ProcessErrorsResponse": {
+      "type": "structure",
+      "members": {
+        "errors": {
+          "target": "smithy.api#String"
+        },
+        "processName": {
+          "target": "smithy.api#String"
+        }
+      },
+      "traits": {}
+    },
+    "com.daytona.computer_use#GetProcessErrors": {
+      "type": "operation",
+      "input": {
+        "target": "com.daytona.computer_use#GetProcessErrorsRequest"
+      },
+      "output": {
+        "target": "com.daytona.computer_use#ProcessErrorsResponse"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/computeruse/process/{processName}/errors",
+          "code": 200
+        },
+        "smithy.api#documentation": "Get process errors\n\nGet errors for a specific computer use process"
+      }
+    },
+    "com.daytona.computer_use#GetProcessLogsRequest": {
+      "type": "structure",
+      "members": {
+        "processName": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Process name to get logs for"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.daytona.computer_use#ProcessLogsResponse": {
+      "type": "structure",
+      "members": {
+        "logs": {
+          "target": "smithy.api#String"
+        },
+        "processName": {
+          "target": "smithy.api#String"
+        }
+      },
+      "traits": {}
+    },
+    "com.daytona.computer_use#GetProcessLogs": {
+      "type": "operation",
+      "input": {
+        "target": "com.daytona.computer_use#GetProcessLogsRequest"
+      },
+      "output": {
+        "target": "com.daytona.computer_use#ProcessLogsResponse"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/computeruse/process/{processName}/logs",
+          "code": 200
+        },
+        "smithy.api#documentation": "Get process logs\n\nGet logs for a specific computer use process"
+      }
+    },
+    "com.daytona.computer_use#RestartProcessRequest": {
+      "type": "structure",
+      "members": {
+        "processName": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Process name to restart"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.daytona.computer_use#ProcessRestartResponse": {
+      "type": "structure",
+      "members": {
+        "message": {
+          "target": "smithy.api#String"
+        },
+        "processName": {
+          "target": "smithy.api#String"
+        }
+      },
+      "traits": {}
+    },
+    "com.daytona.computer_use#RestartProcess": {
+      "type": "operation",
+      "input": {
+        "target": "com.daytona.computer_use#RestartProcessRequest"
+      },
+      "output": {
+        "target": "com.daytona.computer_use#ProcessRestartResponse"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/computeruse/process/{processName}/restart",
+          "code": 200
+        },
+        "smithy.api#documentation": "Restart specific process\n\nRestart a specific computer use process"
+      }
+    },
+    "com.daytona.computer_use#GetProcessStatusRequest": {
+      "type": "structure",
+      "members": {
+        "processName": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Process name to check"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.daytona.computer_use#ProcessStatusResponse": {
+      "type": "structure",
+      "members": {
+        "processName": {
+          "target": "smithy.api#String"
+        },
+        "running": {
+          "target": "smithy.api#Boolean"
+        }
+      },
+      "traits": {}
+    },
+    "com.daytona.computer_use#GetProcessStatus": {
+      "type": "operation",
+      "input": {
+        "target": "com.daytona.computer_use#GetProcessStatusRequest"
+      },
+      "output": {
+        "target": "com.daytona.computer_use#ProcessStatusResponse"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/computeruse/process/{processName}/status",
+          "code": 200
+        },
+        "smithy.api#documentation": "Get specific process status\n\nCheck if a specific computer use process is running"
+      }
+    },
+    "com.daytona.computer_use#ListRecordingsResponse": {
+      "type": "structure",
+      "members": {
+        "recordings": {
+          "target": "com.daytona.computer_use#ListRecordingsResponseRecordingsList",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.daytona.computer_use#Recording": {
+      "type": "structure",
+      "members": {
+        "durationSeconds": {
+          "target": "smithy.api#Double"
+        },
+        "endTime": {
+          "target": "smithy.api#String"
+        },
+        "fileName": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "filePath": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "sizeBytes": {
+          "target": "smithy.api#Integer"
+        },
+        "startTime": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "status": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.daytona.computer_use#ListRecordingsResponseRecordingsList": {
+      "type": "list",
+      "member": {
+        "target": "com.daytona.computer_use#Recording"
+      },
+      "traits": {}
+    },
+    "com.daytona.computer_use#ListRecordings": {
+      "type": "operation",
+      "input": {
+        "target": "smithy.api#Unit"
+      },
+      "output": {
+        "target": "com.daytona.computer_use#ListRecordingsResponse"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/computeruse/recordings",
+          "code": 200
+        },
+        "smithy.api#documentation": "List all recordings\n\nGet a list of all recordings (active and completed)"
+      }
+    },
+    "com.daytona.computer_use#StartRecordingRequest": {
+      "type": "structure",
+      "members": {
+        "label": {
+          "target": "smithy.api#String"
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.daytona.computer_use#StartRecording": {
+      "type": "operation",
+      "input": {
+        "target": "com.daytona.computer_use#StartRecordingRequest"
+      },
+      "output": {
+        "target": "com.daytona.computer_use#Recording"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/computeruse/recordings/start",
+          "code": 200
+        },
+        "smithy.api#documentation": "Start a new recording\n\nStart a new screen recording session"
+      }
+    },
+    "com.daytona.computer_use#StopRecordingRequest": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.daytona.computer_use#StopRecording": {
+      "type": "operation",
+      "input": {
+        "target": "com.daytona.computer_use#StopRecordingRequest"
+      },
+      "output": {
+        "target": "com.daytona.computer_use#Recording"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/computeruse/recordings/stop",
+          "code": 200
+        },
+        "smithy.api#documentation": "Stop a recording\n\nStop an active screen recording session"
+      }
+    },
+    "com.daytona.computer_use#GetRecordingRequest": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Recording ID"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.daytona.computer_use#GetRecording": {
+      "type": "operation",
+      "input": {
+        "target": "com.daytona.computer_use#GetRecordingRequest"
+      },
+      "output": {
+        "target": "com.daytona.computer_use#Recording"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/computeruse/recordings/{id}",
+          "code": 200
+        },
+        "smithy.api#documentation": "Get recording details\n\nGet details of a specific recording by ID"
+      }
+    },
+    "com.daytona.computer_use#DeleteRecordingRequest": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Recording ID"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.daytona.computer_use#DeleteRecording": {
+      "type": "operation",
+      "input": {
+        "target": "com.daytona.computer_use#DeleteRecordingRequest"
+      },
+      "output": {
+        "target": "smithy.api#Unit"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "DELETE",
+          "uri": "/computeruse/recordings/{id}",
+          "code": 200
+        },
+        "smithy.api#documentation": "Delete a recording\n\nDelete a recording file by ID"
+      }
+    },
+    "com.daytona.computer_use#DownloadRecordingRequest": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Recording ID"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.daytona.computer_use#DownloadRecordingResponse": {
+      "type": "structure",
+      "members": {
+        "body": {
+          "target": "smithy.api#Document",
+          "traits": {
+            "com.distilled.openapi#rawResponse": {},
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
+      }
+    },
+    "com.daytona.computer_use#DownloadRecording": {
+      "type": "operation",
+      "input": {
+        "target": "com.daytona.computer_use#DownloadRecordingRequest"
+      },
+      "output": {
+        "target": "com.daytona.computer_use#DownloadRecordingResponse"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/computeruse/recordings/{id}/download",
+          "code": 200
+        },
+        "smithy.api#documentation": "Download a recording\n\nDownload a recording by providing its ID"
+      }
+    },
+    "com.daytona.computer_use#TakeScreenshotRequest": {
+      "type": "structure",
+      "members": {
+        "showCursor": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#httpQuery": "showCursor",
+            "smithy.api#documentation": "Whether to show cursor in screenshot"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.daytona.computer_use#ScreenshotResponse": {
+      "type": "structure",
+      "members": {
+        "cursorPosition": {
+          "target": "com.daytona.computer_use#Position"
+        },
+        "screenshot": {
+          "target": "smithy.api#String"
+        },
+        "sizeBytes": {
+          "target": "smithy.api#Integer"
+        }
+      },
+      "traits": {}
+    },
+    "com.daytona.computer_use#Position": {
+      "type": "structure",
+      "members": {
+        "x": {
+          "target": "smithy.api#Integer"
+        },
+        "y": {
+          "target": "smithy.api#Integer"
+        }
+      },
+      "traits": {}
+    },
+    "com.daytona.computer_use#TakeScreenshot": {
+      "type": "operation",
+      "input": {
+        "target": "com.daytona.computer_use#TakeScreenshotRequest"
+      },
+      "output": {
+        "target": "com.daytona.computer_use#ScreenshotResponse"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/computeruse/screenshot",
+          "code": 200
+        },
+        "smithy.api#documentation": "Take a screenshot\n\nTake a screenshot of the entire screen"
+      }
+    },
+    "com.daytona.computer_use#TakeCompressedScreenshotRequest": {
+      "type": "structure",
+      "members": {
+        "showCursor": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#httpQuery": "showCursor",
+            "smithy.api#documentation": "Whether to show cursor in screenshot"
+          }
+        },
+        "format": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "format",
+            "smithy.api#documentation": "Image format (png or jpeg)"
+          }
+        },
+        "quality": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpQuery": "quality",
+            "smithy.api#documentation": "JPEG quality (1-100)"
+          }
+        },
+        "scale": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#httpQuery": "scale",
+            "smithy.api#documentation": "Scale factor (0.1-1.0)"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.daytona.computer_use#TakeCompressedScreenshot": {
+      "type": "operation",
+      "input": {
+        "target": "com.daytona.computer_use#TakeCompressedScreenshotRequest"
+      },
+      "output": {
+        "target": "com.daytona.computer_use#ScreenshotResponse"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/computeruse/screenshot/compressed",
+          "code": 200
+        },
+        "smithy.api#documentation": "Take a compressed screenshot\n\nTake a compressed screenshot of the entire screen"
+      }
+    },
+    "com.daytona.computer_use#TakeRegionScreenshotRequest": {
+      "type": "structure",
+      "members": {
+        "x": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpQuery": "x",
+            "smithy.api#required": {},
+            "smithy.api#documentation": "X coordinate of the region"
+          }
+        },
+        "y": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpQuery": "y",
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Y coordinate of the region"
+          }
+        },
+        "width": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpQuery": "width",
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Width of the region"
+          }
+        },
+        "height": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpQuery": "height",
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Height of the region"
+          }
+        },
+        "showCursor": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#httpQuery": "showCursor",
+            "smithy.api#documentation": "Whether to show cursor in screenshot"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.daytona.computer_use#TakeRegionScreenshot": {
+      "type": "operation",
+      "input": {
+        "target": "com.daytona.computer_use#TakeRegionScreenshotRequest"
+      },
+      "output": {
+        "target": "com.daytona.computer_use#ScreenshotResponse"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/computeruse/screenshot/region",
+          "code": 200
+        },
+        "smithy.api#documentation": "Take a region screenshot\n\nTake a screenshot of a specific region of the screen"
+      }
+    },
+    "com.daytona.computer_use#TakeCompressedRegionScreenshotRequest": {
+      "type": "structure",
+      "members": {
+        "x": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpQuery": "x",
+            "smithy.api#required": {},
+            "smithy.api#documentation": "X coordinate of the region"
+          }
+        },
+        "y": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpQuery": "y",
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Y coordinate of the region"
+          }
+        },
+        "width": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpQuery": "width",
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Width of the region"
+          }
+        },
+        "height": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpQuery": "height",
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Height of the region"
+          }
+        },
+        "showCursor": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#httpQuery": "showCursor",
+            "smithy.api#documentation": "Whether to show cursor in screenshot"
+          }
+        },
+        "format": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "format",
+            "smithy.api#documentation": "Image format (png or jpeg)"
+          }
+        },
+        "quality": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpQuery": "quality",
+            "smithy.api#documentation": "JPEG quality (1-100)"
+          }
+        },
+        "scale": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#httpQuery": "scale",
+            "smithy.api#documentation": "Scale factor (0.1-1.0)"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.daytona.computer_use#TakeCompressedRegionScreenshot": {
+      "type": "operation",
+      "input": {
+        "target": "com.daytona.computer_use#TakeCompressedRegionScreenshotRequest"
+      },
+      "output": {
+        "target": "com.daytona.computer_use#ScreenshotResponse"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/computeruse/screenshot/region/compressed",
+          "code": 200
+        },
+        "smithy.api#documentation": "Take a compressed region screenshot\n\nTake a compressed screenshot of a specific region of the screen"
+      }
+    },
+    "com.daytona.computer_use#ComputerUseStartResponse": {
+      "type": "structure",
+      "members": {
+        "message": {
+          "target": "smithy.api#String"
+        },
+        "status": {
+          "target": "com.daytona.computer_use#ComputerUseStartResponseStatusMap"
+        }
+      },
+      "traits": {}
+    },
+    "com.daytona.computer_use#ProcessStatus": {
+      "type": "structure",
+      "members": {
+        "autoRestart": {
+          "target": "smithy.api#Boolean"
+        },
+        "pid": {
+          "target": "smithy.api#Integer"
+        },
+        "priority": {
+          "target": "smithy.api#Integer"
+        },
+        "running": {
+          "target": "smithy.api#Boolean"
+        }
+      },
+      "traits": {}
+    },
+    "com.daytona.computer_use#ComputerUseStartResponseStatusMap": {
+      "type": "map",
+      "key": {
+        "target": "smithy.api#String"
+      },
+      "value": {
+        "target": "com.daytona.computer_use#ProcessStatus"
+      },
+      "traits": {}
+    },
+    "com.daytona.computer_use#StartComputerUse": {
+      "type": "operation",
+      "input": {
+        "target": "smithy.api#Unit"
+      },
+      "output": {
+        "target": "com.daytona.computer_use#ComputerUseStartResponse"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/computeruse/start",
+          "code": 200
+        },
+        "smithy.api#documentation": "Start computer use processes\n\nStart all computer use processes and return their status"
+      }
+    },
+    "com.daytona.computer_use#GetComputerUseSystemStatus": {
+      "type": "operation",
+      "input": {
+        "target": "smithy.api#Unit"
+      },
+      "output": {
+        "target": "com.daytona.computer_use#ComputerUseStatusResponse"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/computeruse/status",
+          "code": 200
+        },
+        "smithy.api#documentation": "Get computer use status\n\nGet the current status of the computer use system"
+      }
+    },
+    "com.daytona.computer_use#ComputerUseStopResponse": {
+      "type": "structure",
+      "members": {
+        "message": {
+          "target": "smithy.api#String"
+        },
+        "status": {
+          "target": "com.daytona.computer_use#ComputerUseStopResponseStatusMap"
+        }
+      },
+      "traits": {}
+    },
+    "com.daytona.computer_use#ComputerUseStopResponseStatusMap": {
+      "type": "map",
+      "key": {
+        "target": "smithy.api#String"
+      },
+      "value": {
+        "target": "com.daytona.computer_use#ProcessStatus"
+      },
+      "traits": {}
+    },
+    "com.daytona.computer_use#StopComputerUse": {
+      "type": "operation",
+      "input": {
+        "target": "smithy.api#Unit"
+      },
+      "output": {
+        "target": "com.daytona.computer_use#ComputerUseStopResponse"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/computeruse/stop",
+          "code": 200
+        },
+        "smithy.api#documentation": "Stop computer use processes\n\nStop all computer use processes and return their status"
+      }
+    },
+    "com.daytona.computer_use#ComputerUse": {
+      "type": "service",
+      "version": "v0.0.0-dev",
+      "operations": [
+        {
+          "target": "com.daytona.computer_use#FindAccessibilityNodes"
+        },
+        {
+          "target": "com.daytona.computer_use#FocusAccessibilityNode"
+        },
+        {
+          "target": "com.daytona.computer_use#InvokeAccessibilityNode"
+        },
+        {
+          "target": "com.daytona.computer_use#SetAccessibilityNodeValue"
+        },
+        {
+          "target": "com.daytona.computer_use#GetAccessibilityTree"
+        },
+        {
+          "target": "com.daytona.computer_use#GetDisplayInfo"
+        },
+        {
+          "target": "com.daytona.computer_use#GetWindows"
+        },
+        {
+          "target": "com.daytona.computer_use#PressHotkey"
+        },
+        {
+          "target": "com.daytona.computer_use#PressKey"
+        },
+        {
+          "target": "com.daytona.computer_use#TypeText"
+        },
+        {
+          "target": "com.daytona.computer_use#Click"
+        },
+        {
+          "target": "com.daytona.computer_use#Drag"
+        },
+        {
+          "target": "com.daytona.computer_use#MoveMouse"
+        },
+        {
+          "target": "com.daytona.computer_use#GetMousePosition"
+        },
+        {
+          "target": "com.daytona.computer_use#Scroll"
+        },
+        {
+          "target": "com.daytona.computer_use#GetComputerUseStatus"
+        },
+        {
+          "target": "com.daytona.computer_use#GetProcessErrors"
+        },
+        {
+          "target": "com.daytona.computer_use#GetProcessLogs"
+        },
+        {
+          "target": "com.daytona.computer_use#RestartProcess"
+        },
+        {
+          "target": "com.daytona.computer_use#GetProcessStatus"
+        },
+        {
+          "target": "com.daytona.computer_use#ListRecordings"
+        },
+        {
+          "target": "com.daytona.computer_use#StartRecording"
+        },
+        {
+          "target": "com.daytona.computer_use#StopRecording"
+        },
+        {
+          "target": "com.daytona.computer_use#GetRecording"
+        },
+        {
+          "target": "com.daytona.computer_use#DeleteRecording"
+        },
+        {
+          "target": "com.daytona.computer_use#DownloadRecording"
+        },
+        {
+          "target": "com.daytona.computer_use#TakeScreenshot"
+        },
+        {
+          "target": "com.daytona.computer_use#TakeCompressedScreenshot"
+        },
+        {
+          "target": "com.daytona.computer_use#TakeRegionScreenshot"
+        },
+        {
+          "target": "com.daytona.computer_use#TakeCompressedRegionScreenshot"
+        },
+        {
+          "target": "com.daytona.computer_use#StartComputerUse"
+        },
+        {
+          "target": "com.daytona.computer_use#GetComputerUseSystemStatus"
+        },
+        {
+          "target": "com.daytona.computer_use#StopComputerUse"
+        }
+      ],
+      "traits": {
+        "smithy.api#title": "Daytona Toolbox API",
+        "smithy.api#documentation": "Daytona Toolbox API. The base URL comes from the sandbox's `toolboxProxyUrl` field (returned in sandbox DTO by the main Daytona API) plus the sandbox ID: `{toolboxProxyUrl}/{sandboxId}/{endpoint}`. Default for Daytona Cloud: `https://proxy.app.daytona.io/toolbox/{sandboxId}`."
+      }
+    }
+  }
+}

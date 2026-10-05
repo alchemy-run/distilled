@@ -1,0 +1,1279 @@
+{
+  "description": "Type the OAuth-scope rejection (HTTP 403 PERMISSION_DENIED, reason ACCESS_TOKEN_SCOPE_INSUFFICIENT: 'Request had insufficient authentication scopes.'). This API needs a product-specific OAuth scope that a cloud-platform token does not carry; it surfaced as the generic Forbidden, indistinguishable from a missing IAM permission.",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.displayvideo_v4#InsufficientScopes",
+      "value": {
+        "type": "structure",
+        "members": {},
+        "traits": {
+          "smithy.api#error": "client",
+          "smithy.api#httpError": 403,
+          "smithy.api#documentation": "The access token lacks the OAuth scope this API requires (HTTP 403 ACCESS_TOKEN_SCOPE_INSUFFICIENT).",
+          "com.gcp.protocols#errorMatchers": [
+            {
+              "status": 403,
+              "message": {
+                "includes": "insufficient authentication scopes"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.displayvideo_v4#AuditAdvertisers/errors/-",
+      "value": {
+        "target": "com.gcp.displayvideo_v4#InsufficientScopes"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.displayvideo_v4#BulkCreateAdvertisersAdAssets/errors/-",
+      "value": {
+        "target": "com.gcp.displayvideo_v4#InsufficientScopes"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.displayvideo_v4#BulkEditAdvertisersChannelsSites/errors/-",
+      "value": {
+        "target": "com.gcp.displayvideo_v4#InsufficientScopes"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.displayvideo_v4#BulkEditAdvertisersLocationListsAssignedLocations/errors/-",
+      "value": {
+        "target": "com.gcp.displayvideo_v4#InsufficientScopes"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.displayvideo_v4#BulkEditAdvertisersNegativeKeywordListsNegativeKeywords/errors/-",
+      "value": {
+        "target": "com.gcp.displayvideo_v4#InsufficientScopes"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.displayvideo_v4#BulkEditAssignedTargetingOptionsAdvertisersAdGroups/errors/-",
+      "value": {
+        "target": "com.gcp.displayvideo_v4#InsufficientScopes"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.displayvideo_v4#BulkEditAssignedTargetingOptionsAdvertisersLineItems/errors/-",
+      "value": {
+        "target": "com.gcp.displayvideo_v4#InsufficientScopes"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.displayvideo_v4#BulkEditAssignedUserRolesUsers/errors/-",
+      "value": {
+        "target": "com.gcp.displayvideo_v4#InsufficientScopes"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.displayvideo_v4#BulkEditInventorySourceGroupsAssignedInventorySources/errors/-",
+      "value": {
+        "target": "com.gcp.displayvideo_v4#InsufficientScopes"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.displayvideo_v4#BulkEditPartnersChannelsSites/errors/-",
+      "value": {
+        "target": "com.gcp.displayvideo_v4#InsufficientScopes"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.displayvideo_v4#BulkListAssignedTargetingOptionsAdvertisersAdGroups/errors/-",
+      "value": {
+        "target": "com.gcp.displayvideo_v4#InsufficientScopes"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.displayvideo_v4#BulkListAssignedTargetingOptionsAdvertisersLineItems/errors/-",
+      "value": {
+        "target": "com.gcp.displayvideo_v4#InsufficientScopes"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.displayvideo_v4#BulkUpdateAdvertisersLineItems/errors/-",
+      "value": {
+        "target": "com.gcp.displayvideo_v4#InsufficientScopes"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.displayvideo_v4#CreateAdvertisers/errors/-",
+      "value": {
+        "target": "com.gcp.displayvideo_v4#InsufficientScopes"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.displayvideo_v4#CreateAdvertisersAdAssets/errors/-",
+      "value": {
+        "target": "com.gcp.displayvideo_v4#InsufficientScopes"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.displayvideo_v4#CreateAdvertisersAdGroupAds/errors/-",
+      "value": {
+        "target": "com.gcp.displayvideo_v4#InsufficientScopes"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.displayvideo_v4#CreateAdvertisersAdGroups/errors/-",
+      "value": {
+        "target": "com.gcp.displayvideo_v4#InsufficientScopes"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.displayvideo_v4#CreateAdvertisersAdGroupsTargetingTypesAssignedTargetingOptions/errors/-",
+      "value": {
+        "target": "com.gcp.displayvideo_v4#InsufficientScopes"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.displayvideo_v4#CreateAdvertisersAdGroupsYoutubeAssetTypesYoutubeAssetAssociations/errors/-",
+      "value": {
+        "target": "com.gcp.displayvideo_v4#InsufficientScopes"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.displayvideo_v4#CreateAdvertisersCampaigns/errors/-",
+      "value": {
+        "target": "com.gcp.displayvideo_v4#InsufficientScopes"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.displayvideo_v4#CreateAdvertisersChannels/errors/-",
+      "value": {
+        "target": "com.gcp.displayvideo_v4#InsufficientScopes"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.displayvideo_v4#CreateAdvertisersChannelsSites/errors/-",
+      "value": {
+        "target": "com.gcp.displayvideo_v4#InsufficientScopes"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.displayvideo_v4#CreateAdvertisersCreatives/errors/-",
+      "value": {
+        "target": "com.gcp.displayvideo_v4#InsufficientScopes"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.displayvideo_v4#CreateAdvertisersInsertionOrders/errors/-",
+      "value": {
+        "target": "com.gcp.displayvideo_v4#InsufficientScopes"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.displayvideo_v4#CreateAdvertisersLineItems/errors/-",
+      "value": {
+        "target": "com.gcp.displayvideo_v4#InsufficientScopes"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.displayvideo_v4#CreateAdvertisersLineItemsTargetingTypesAssignedTargetingOptions/errors/-",
+      "value": {
+        "target": "com.gcp.displayvideo_v4#InsufficientScopes"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.displayvideo_v4#CreateAdvertisersLineItemsYoutubeAssetTypesYoutubeAssetAssociations/errors/-",
+      "value": {
+        "target": "com.gcp.displayvideo_v4#InsufficientScopes"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.displayvideo_v4#CreateAdvertisersLocationLists/errors/-",
+      "value": {
+        "target": "com.gcp.displayvideo_v4#InsufficientScopes"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.displayvideo_v4#CreateAdvertisersLocationListsAssignedLocations/errors/-",
+      "value": {
+        "target": "com.gcp.displayvideo_v4#InsufficientScopes"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.displayvideo_v4#CreateAdvertisersNegativeKeywordLists/errors/-",
+      "value": {
+        "target": "com.gcp.displayvideo_v4#InsufficientScopes"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.displayvideo_v4#CreateAdvertisersNegativeKeywordListsNegativeKeywords/errors/-",
+      "value": {
+        "target": "com.gcp.displayvideo_v4#InsufficientScopes"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.displayvideo_v4#CreateAdvertisersTargetingTypesAssignedTargetingOptions/errors/-",
+      "value": {
+        "target": "com.gcp.displayvideo_v4#InsufficientScopes"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.displayvideo_v4#CreateCustomBiddingAlgorithms/errors/-",
+      "value": {
+        "target": "com.gcp.displayvideo_v4#InsufficientScopes"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.displayvideo_v4#CreateCustomBiddingAlgorithmsRules/errors/-",
+      "value": {
+        "target": "com.gcp.displayvideo_v4#InsufficientScopes"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.displayvideo_v4#CreateCustomBiddingAlgorithmsScripts/errors/-",
+      "value": {
+        "target": "com.gcp.displayvideo_v4#InsufficientScopes"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.displayvideo_v4#CreateFirstPartyAndPartnerAudiences/errors/-",
+      "value": {
+        "target": "com.gcp.displayvideo_v4#InsufficientScopes"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.displayvideo_v4#CreateGuaranteedOrders/errors/-",
+      "value": {
+        "target": "com.gcp.displayvideo_v4#InsufficientScopes"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.displayvideo_v4#CreateInventorySourceGroups/errors/-",
+      "value": {
+        "target": "com.gcp.displayvideo_v4#InsufficientScopes"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.displayvideo_v4#CreateInventorySourceGroupsAssignedInventorySources/errors/-",
+      "value": {
+        "target": "com.gcp.displayvideo_v4#InsufficientScopes"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.displayvideo_v4#CreateInventorySources/errors/-",
+      "value": {
+        "target": "com.gcp.displayvideo_v4#InsufficientScopes"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.displayvideo_v4#CreatePartnersChannels/errors/-",
+      "value": {
+        "target": "com.gcp.displayvideo_v4#InsufficientScopes"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.displayvideo_v4#CreatePartnersChannelsSites/errors/-",
+      "value": {
+        "target": "com.gcp.displayvideo_v4#InsufficientScopes"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.displayvideo_v4#CreatePartnersTargetingTypesAssignedTargetingOptions/errors/-",
+      "value": {
+        "target": "com.gcp.displayvideo_v4#InsufficientScopes"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.displayvideo_v4#CreateSdfdownloadtasks/errors/-",
+      "value": {
+        "target": "com.gcp.displayvideo_v4#InsufficientScopes"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.displayvideo_v4#CreateUsers/errors/-",
+      "value": {
+        "target": "com.gcp.displayvideo_v4#InsufficientScopes"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.displayvideo_v4#DeleteAdvertisers/errors/-",
+      "value": {
+        "target": "com.gcp.displayvideo_v4#InsufficientScopes"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.displayvideo_v4#DeleteAdvertisersAdGroupAds/errors/-",
+      "value": {
+        "target": "com.gcp.displayvideo_v4#InsufficientScopes"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.displayvideo_v4#DeleteAdvertisersAdGroups/errors/-",
+      "value": {
+        "target": "com.gcp.displayvideo_v4#InsufficientScopes"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.displayvideo_v4#DeleteAdvertisersAdGroupsTargetingTypesAssignedTargetingOptions/errors/-",
+      "value": {
+        "target": "com.gcp.displayvideo_v4#InsufficientScopes"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.displayvideo_v4#DeleteAdvertisersAdGroupsYoutubeAssetTypesYoutubeAssetAssociations/errors/-",
+      "value": {
+        "target": "com.gcp.displayvideo_v4#InsufficientScopes"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.displayvideo_v4#DeleteAdvertisersCampaigns/errors/-",
+      "value": {
+        "target": "com.gcp.displayvideo_v4#InsufficientScopes"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.displayvideo_v4#DeleteAdvertisersChannelsSites/errors/-",
+      "value": {
+        "target": "com.gcp.displayvideo_v4#InsufficientScopes"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.displayvideo_v4#DeleteAdvertisersCreatives/errors/-",
+      "value": {
+        "target": "com.gcp.displayvideo_v4#InsufficientScopes"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.displayvideo_v4#DeleteAdvertisersInsertionOrders/errors/-",
+      "value": {
+        "target": "com.gcp.displayvideo_v4#InsufficientScopes"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.displayvideo_v4#DeleteAdvertisersLineItems/errors/-",
+      "value": {
+        "target": "com.gcp.displayvideo_v4#InsufficientScopes"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.displayvideo_v4#DeleteAdvertisersLineItemsTargetingTypesAssignedTargetingOptions/errors/-",
+      "value": {
+        "target": "com.gcp.displayvideo_v4#InsufficientScopes"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.displayvideo_v4#DeleteAdvertisersLineItemsYoutubeAssetTypesYoutubeAssetAssociations/errors/-",
+      "value": {
+        "target": "com.gcp.displayvideo_v4#InsufficientScopes"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.displayvideo_v4#DeleteAdvertisersLocationListsAssignedLocations/errors/-",
+      "value": {
+        "target": "com.gcp.displayvideo_v4#InsufficientScopes"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.displayvideo_v4#DeleteAdvertisersNegativeKeywordLists/errors/-",
+      "value": {
+        "target": "com.gcp.displayvideo_v4#InsufficientScopes"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.displayvideo_v4#DeleteAdvertisersNegativeKeywordListsNegativeKeywords/errors/-",
+      "value": {
+        "target": "com.gcp.displayvideo_v4#InsufficientScopes"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.displayvideo_v4#DeleteAdvertisersTargetingTypesAssignedTargetingOptions/errors/-",
+      "value": {
+        "target": "com.gcp.displayvideo_v4#InsufficientScopes"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.displayvideo_v4#DeleteInventorySourceGroups/errors/-",
+      "value": {
+        "target": "com.gcp.displayvideo_v4#InsufficientScopes"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.displayvideo_v4#DeleteInventorySourceGroupsAssignedInventorySources/errors/-",
+      "value": {
+        "target": "com.gcp.displayvideo_v4#InsufficientScopes"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.displayvideo_v4#DeletePartnersChannelsSites/errors/-",
+      "value": {
+        "target": "com.gcp.displayvideo_v4#InsufficientScopes"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.displayvideo_v4#DeletePartnersTargetingTypesAssignedTargetingOptions/errors/-",
+      "value": {
+        "target": "com.gcp.displayvideo_v4#InsufficientScopes"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.displayvideo_v4#DeleteUsers/errors/-",
+      "value": {
+        "target": "com.gcp.displayvideo_v4#InsufficientScopes"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.displayvideo_v4#DownloadMedia/errors/-",
+      "value": {
+        "target": "com.gcp.displayvideo_v4#InsufficientScopes"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.displayvideo_v4#DuplicateAdvertisersLineItems/errors/-",
+      "value": {
+        "target": "com.gcp.displayvideo_v4#InsufficientScopes"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.displayvideo_v4#EditAssignedTargetingOptionsAdvertisers/errors/-",
+      "value": {
+        "target": "com.gcp.displayvideo_v4#InsufficientScopes"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.displayvideo_v4#EditAssignedTargetingOptionsPartners/errors/-",
+      "value": {
+        "target": "com.gcp.displayvideo_v4#InsufficientScopes"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.displayvideo_v4#EditCustomerMatchMembersFirstPartyAndPartnerAudiences/errors/-",
+      "value": {
+        "target": "com.gcp.displayvideo_v4#InsufficientScopes"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.displayvideo_v4#EditGuaranteedOrderReadAccessorsGuaranteedOrders/errors/-",
+      "value": {
+        "target": "com.gcp.displayvideo_v4#InsufficientScopes"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.displayvideo_v4#EditInventorySourceReadWriteAccessorsInventorySources/errors/-",
+      "value": {
+        "target": "com.gcp.displayvideo_v4#InsufficientScopes"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.displayvideo_v4#GenerateReachForecastAdvertisersReachForecast/errors/-",
+      "value": {
+        "target": "com.gcp.displayvideo_v4#InsufficientScopes"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.displayvideo_v4#GetAdvertisers/errors/-",
+      "value": {
+        "target": "com.gcp.displayvideo_v4#InsufficientScopes"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.displayvideo_v4#GetAdvertisersAdAssets/errors/-",
+      "value": {
+        "target": "com.gcp.displayvideo_v4#InsufficientScopes"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.displayvideo_v4#GetAdvertisersAdGroupAds/errors/-",
+      "value": {
+        "target": "com.gcp.displayvideo_v4#InsufficientScopes"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.displayvideo_v4#GetAdvertisersAdGroups/errors/-",
+      "value": {
+        "target": "com.gcp.displayvideo_v4#InsufficientScopes"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.displayvideo_v4#GetAdvertisersAdGroupsTargetingTypesAssignedTargetingOptions/errors/-",
+      "value": {
+        "target": "com.gcp.displayvideo_v4#InsufficientScopes"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.displayvideo_v4#GetAdvertisersCampaigns/errors/-",
+      "value": {
+        "target": "com.gcp.displayvideo_v4#InsufficientScopes"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.displayvideo_v4#GetAdvertisersChannels/errors/-",
+      "value": {
+        "target": "com.gcp.displayvideo_v4#InsufficientScopes"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.displayvideo_v4#GetAdvertisersCreatives/errors/-",
+      "value": {
+        "target": "com.gcp.displayvideo_v4#InsufficientScopes"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.displayvideo_v4#GetAdvertisersInsertionOrders/errors/-",
+      "value": {
+        "target": "com.gcp.displayvideo_v4#InsufficientScopes"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.displayvideo_v4#GetAdvertisersLineItems/errors/-",
+      "value": {
+        "target": "com.gcp.displayvideo_v4#InsufficientScopes"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.displayvideo_v4#GetAdvertisersLineItemsTargetingTypesAssignedTargetingOptions/errors/-",
+      "value": {
+        "target": "com.gcp.displayvideo_v4#InsufficientScopes"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.displayvideo_v4#GetAdvertisersLocationLists/errors/-",
+      "value": {
+        "target": "com.gcp.displayvideo_v4#InsufficientScopes"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.displayvideo_v4#GetAdvertisersNegativeKeywordLists/errors/-",
+      "value": {
+        "target": "com.gcp.displayvideo_v4#InsufficientScopes"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.displayvideo_v4#GetAdvertisersTargetingTypesAssignedTargetingOptions/errors/-",
+      "value": {
+        "target": "com.gcp.displayvideo_v4#InsufficientScopes"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.displayvideo_v4#GetCombinedAudiences/errors/-",
+      "value": {
+        "target": "com.gcp.displayvideo_v4#InsufficientScopes"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.displayvideo_v4#GetCustomBiddingAlgorithms/errors/-",
+      "value": {
+        "target": "com.gcp.displayvideo_v4#InsufficientScopes"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.displayvideo_v4#GetCustomBiddingAlgorithmsRules/errors/-",
+      "value": {
+        "target": "com.gcp.displayvideo_v4#InsufficientScopes"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.displayvideo_v4#GetCustomBiddingAlgorithmsScripts/errors/-",
+      "value": {
+        "target": "com.gcp.displayvideo_v4#InsufficientScopes"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.displayvideo_v4#GetCustomLists/errors/-",
+      "value": {
+        "target": "com.gcp.displayvideo_v4#InsufficientScopes"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.displayvideo_v4#GetFirstPartyAndPartnerAudiences/errors/-",
+      "value": {
+        "target": "com.gcp.displayvideo_v4#InsufficientScopes"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.displayvideo_v4#GetFloodlightGroups/errors/-",
+      "value": {
+        "target": "com.gcp.displayvideo_v4#InsufficientScopes"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.displayvideo_v4#GetFloodlightGroupsFloodlightActivities/errors/-",
+      "value": {
+        "target": "com.gcp.displayvideo_v4#InsufficientScopes"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.displayvideo_v4#GetGoogleAudiences/errors/-",
+      "value": {
+        "target": "com.gcp.displayvideo_v4#InsufficientScopes"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.displayvideo_v4#GetGuaranteedOrders/errors/-",
+      "value": {
+        "target": "com.gcp.displayvideo_v4#InsufficientScopes"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.displayvideo_v4#GetInventorySourceGroups/errors/-",
+      "value": {
+        "target": "com.gcp.displayvideo_v4#InsufficientScopes"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.displayvideo_v4#GetInventorySources/errors/-",
+      "value": {
+        "target": "com.gcp.displayvideo_v4#InsufficientScopes"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.displayvideo_v4#GetPartners/errors/-",
+      "value": {
+        "target": "com.gcp.displayvideo_v4#InsufficientScopes"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.displayvideo_v4#GetPartnersChannels/errors/-",
+      "value": {
+        "target": "com.gcp.displayvideo_v4#InsufficientScopes"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.displayvideo_v4#GetPartnersTargetingTypesAssignedTargetingOptions/errors/-",
+      "value": {
+        "target": "com.gcp.displayvideo_v4#InsufficientScopes"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.displayvideo_v4#GetPlannableLocationsAdvertisersReachForecast/errors/-",
+      "value": {
+        "target": "com.gcp.displayvideo_v4#InsufficientScopes"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.displayvideo_v4#GetPlannableProductsAdvertisersReachForecast/errors/-",
+      "value": {
+        "target": "com.gcp.displayvideo_v4#InsufficientScopes"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.displayvideo_v4#GetPlannableUserInterestsAdvertisersReachForecast/errors/-",
+      "value": {
+        "target": "com.gcp.displayvideo_v4#InsufficientScopes"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.displayvideo_v4#GetPlannableUserListsAdvertisersReachForecast/errors/-",
+      "value": {
+        "target": "com.gcp.displayvideo_v4#InsufficientScopes"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.displayvideo_v4#GetSdfdownloadtasksOperations/errors/-",
+      "value": {
+        "target": "com.gcp.displayvideo_v4#InsufficientScopes"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.displayvideo_v4#GetSdfuploadtasksOperations/errors/-",
+      "value": {
+        "target": "com.gcp.displayvideo_v4#InsufficientScopes"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.displayvideo_v4#GetTargetingTypesTargetingOptions/errors/-",
+      "value": {
+        "target": "com.gcp.displayvideo_v4#InsufficientScopes"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.displayvideo_v4#GetUsers/errors/-",
+      "value": {
+        "target": "com.gcp.displayvideo_v4#InsufficientScopes"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.displayvideo_v4#ListAdvertisers/errors/-",
+      "value": {
+        "target": "com.gcp.displayvideo_v4#InsufficientScopes"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.displayvideo_v4#ListAdvertisersAdAssets/errors/-",
+      "value": {
+        "target": "com.gcp.displayvideo_v4#InsufficientScopes"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.displayvideo_v4#ListAdvertisersAdGroupAds/errors/-",
+      "value": {
+        "target": "com.gcp.displayvideo_v4#InsufficientScopes"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.displayvideo_v4#ListAdvertisersAdGroups/errors/-",
+      "value": {
+        "target": "com.gcp.displayvideo_v4#InsufficientScopes"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.displayvideo_v4#ListAdvertisersAdGroupsTargetingTypesAssignedTargetingOptions/errors/-",
+      "value": {
+        "target": "com.gcp.displayvideo_v4#InsufficientScopes"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.displayvideo_v4#ListAdvertisersAdGroupsYoutubeAssetTypesYoutubeAssetAssociations/errors/-",
+      "value": {
+        "target": "com.gcp.displayvideo_v4#InsufficientScopes"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.displayvideo_v4#ListAdvertisersCampaigns/errors/-",
+      "value": {
+        "target": "com.gcp.displayvideo_v4#InsufficientScopes"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.displayvideo_v4#ListAdvertisersChannels/errors/-",
+      "value": {
+        "target": "com.gcp.displayvideo_v4#InsufficientScopes"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.displayvideo_v4#ListAdvertisersChannelsSites/errors/-",
+      "value": {
+        "target": "com.gcp.displayvideo_v4#InsufficientScopes"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.displayvideo_v4#ListAdvertisersCreatives/errors/-",
+      "value": {
+        "target": "com.gcp.displayvideo_v4#InsufficientScopes"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.displayvideo_v4#ListAdvertisersInsertionOrders/errors/-",
+      "value": {
+        "target": "com.gcp.displayvideo_v4#InsufficientScopes"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.displayvideo_v4#ListAdvertisersInvoices/errors/-",
+      "value": {
+        "target": "com.gcp.displayvideo_v4#InsufficientScopes"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.displayvideo_v4#ListAdvertisersLineItems/errors/-",
+      "value": {
+        "target": "com.gcp.displayvideo_v4#InsufficientScopes"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.displayvideo_v4#ListAdvertisersLineItemsTargetingTypesAssignedTargetingOptions/errors/-",
+      "value": {
+        "target": "com.gcp.displayvideo_v4#InsufficientScopes"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.displayvideo_v4#ListAdvertisersLineItemsYoutubeAssetTypesYoutubeAssetAssociations/errors/-",
+      "value": {
+        "target": "com.gcp.displayvideo_v4#InsufficientScopes"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.displayvideo_v4#ListAdvertisersLocationLists/errors/-",
+      "value": {
+        "target": "com.gcp.displayvideo_v4#InsufficientScopes"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.displayvideo_v4#ListAdvertisersLocationListsAssignedLocations/errors/-",
+      "value": {
+        "target": "com.gcp.displayvideo_v4#InsufficientScopes"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.displayvideo_v4#ListAdvertisersNegativeKeywordLists/errors/-",
+      "value": {
+        "target": "com.gcp.displayvideo_v4#InsufficientScopes"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.displayvideo_v4#ListAdvertisersNegativeKeywordListsNegativeKeywords/errors/-",
+      "value": {
+        "target": "com.gcp.displayvideo_v4#InsufficientScopes"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.displayvideo_v4#ListAdvertisersTargetingTypesAssignedTargetingOptions/errors/-",
+      "value": {
+        "target": "com.gcp.displayvideo_v4#InsufficientScopes"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.displayvideo_v4#ListAssignedTargetingOptionsAdvertisers/errors/-",
+      "value": {
+        "target": "com.gcp.displayvideo_v4#InsufficientScopes"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.displayvideo_v4#ListCombinedAudiences/errors/-",
+      "value": {
+        "target": "com.gcp.displayvideo_v4#InsufficientScopes"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.displayvideo_v4#ListCustomBiddingAlgorithms/errors/-",
+      "value": {
+        "target": "com.gcp.displayvideo_v4#InsufficientScopes"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.displayvideo_v4#ListCustomBiddingAlgorithmsRules/errors/-",
+      "value": {
+        "target": "com.gcp.displayvideo_v4#InsufficientScopes"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.displayvideo_v4#ListCustomBiddingAlgorithmsScripts/errors/-",
+      "value": {
+        "target": "com.gcp.displayvideo_v4#InsufficientScopes"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.displayvideo_v4#ListCustomLists/errors/-",
+      "value": {
+        "target": "com.gcp.displayvideo_v4#InsufficientScopes"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.displayvideo_v4#ListFirstPartyAndPartnerAudiences/errors/-",
+      "value": {
+        "target": "com.gcp.displayvideo_v4#InsufficientScopes"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.displayvideo_v4#ListFloodlightGroupsFloodlightActivities/errors/-",
+      "value": {
+        "target": "com.gcp.displayvideo_v4#InsufficientScopes"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.displayvideo_v4#ListGoogleAudiences/errors/-",
+      "value": {
+        "target": "com.gcp.displayvideo_v4#InsufficientScopes"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.displayvideo_v4#ListGuaranteedOrders/errors/-",
+      "value": {
+        "target": "com.gcp.displayvideo_v4#InsufficientScopes"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.displayvideo_v4#ListInventorySourceGroups/errors/-",
+      "value": {
+        "target": "com.gcp.displayvideo_v4#InsufficientScopes"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.displayvideo_v4#ListInventorySourceGroupsAssignedInventorySources/errors/-",
+      "value": {
+        "target": "com.gcp.displayvideo_v4#InsufficientScopes"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.displayvideo_v4#ListInventorySources/errors/-",
+      "value": {
+        "target": "com.gcp.displayvideo_v4#InsufficientScopes"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.displayvideo_v4#ListPartners/errors/-",
+      "value": {
+        "target": "com.gcp.displayvideo_v4#InsufficientScopes"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.displayvideo_v4#ListPartnersChannels/errors/-",
+      "value": {
+        "target": "com.gcp.displayvideo_v4#InsufficientScopes"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.displayvideo_v4#ListPartnersChannelsSites/errors/-",
+      "value": {
+        "target": "com.gcp.displayvideo_v4#InsufficientScopes"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.displayvideo_v4#ListPartnersTargetingTypesAssignedTargetingOptions/errors/-",
+      "value": {
+        "target": "com.gcp.displayvideo_v4#InsufficientScopes"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.displayvideo_v4#ListTargetingTypesTargetingOptions/errors/-",
+      "value": {
+        "target": "com.gcp.displayvideo_v4#InsufficientScopes"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.displayvideo_v4#ListUsers/errors/-",
+      "value": {
+        "target": "com.gcp.displayvideo_v4#InsufficientScopes"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.displayvideo_v4#LookupInvoiceCurrencyAdvertisersInvoices/errors/-",
+      "value": {
+        "target": "com.gcp.displayvideo_v4#InsufficientScopes"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.displayvideo_v4#PatchAdvertisers/errors/-",
+      "value": {
+        "target": "com.gcp.displayvideo_v4#InsufficientScopes"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.displayvideo_v4#PatchAdvertisersAdAssets/errors/-",
+      "value": {
+        "target": "com.gcp.displayvideo_v4#InsufficientScopes"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.displayvideo_v4#PatchAdvertisersAdGroupAds/errors/-",
+      "value": {
+        "target": "com.gcp.displayvideo_v4#InsufficientScopes"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.displayvideo_v4#PatchAdvertisersAdGroups/errors/-",
+      "value": {
+        "target": "com.gcp.displayvideo_v4#InsufficientScopes"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.displayvideo_v4#PatchAdvertisersCampaigns/errors/-",
+      "value": {
+        "target": "com.gcp.displayvideo_v4#InsufficientScopes"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.displayvideo_v4#PatchAdvertisersChannels/errors/-",
+      "value": {
+        "target": "com.gcp.displayvideo_v4#InsufficientScopes"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.displayvideo_v4#PatchAdvertisersCreatives/errors/-",
+      "value": {
+        "target": "com.gcp.displayvideo_v4#InsufficientScopes"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.displayvideo_v4#PatchAdvertisersInsertionOrders/errors/-",
+      "value": {
+        "target": "com.gcp.displayvideo_v4#InsufficientScopes"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.displayvideo_v4#PatchAdvertisersLineItems/errors/-",
+      "value": {
+        "target": "com.gcp.displayvideo_v4#InsufficientScopes"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.displayvideo_v4#PatchAdvertisersLocationLists/errors/-",
+      "value": {
+        "target": "com.gcp.displayvideo_v4#InsufficientScopes"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.displayvideo_v4#PatchAdvertisersNegativeKeywordLists/errors/-",
+      "value": {
+        "target": "com.gcp.displayvideo_v4#InsufficientScopes"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.displayvideo_v4#PatchCustomBiddingAlgorithms/errors/-",
+      "value": {
+        "target": "com.gcp.displayvideo_v4#InsufficientScopes"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.displayvideo_v4#PatchFirstPartyAndPartnerAudiences/errors/-",
+      "value": {
+        "target": "com.gcp.displayvideo_v4#InsufficientScopes"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.displayvideo_v4#PatchFloodlightGroups/errors/-",
+      "value": {
+        "target": "com.gcp.displayvideo_v4#InsufficientScopes"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.displayvideo_v4#PatchGuaranteedOrders/errors/-",
+      "value": {
+        "target": "com.gcp.displayvideo_v4#InsufficientScopes"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.displayvideo_v4#PatchInventorySourceGroups/errors/-",
+      "value": {
+        "target": "com.gcp.displayvideo_v4#InsufficientScopes"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.displayvideo_v4#PatchInventorySources/errors/-",
+      "value": {
+        "target": "com.gcp.displayvideo_v4#InsufficientScopes"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.displayvideo_v4#PatchPartnersChannels/errors/-",
+      "value": {
+        "target": "com.gcp.displayvideo_v4#InsufficientScopes"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.displayvideo_v4#PatchUsers/errors/-",
+      "value": {
+        "target": "com.gcp.displayvideo_v4#InsufficientScopes"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.displayvideo_v4#ReplaceAdvertisersChannelsSites/errors/-",
+      "value": {
+        "target": "com.gcp.displayvideo_v4#InsufficientScopes"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.displayvideo_v4#ReplaceAdvertisersNegativeKeywordListsNegativeKeywords/errors/-",
+      "value": {
+        "target": "com.gcp.displayvideo_v4#InsufficientScopes"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.displayvideo_v4#ReplacePartnersChannelsSites/errors/-",
+      "value": {
+        "target": "com.gcp.displayvideo_v4#InsufficientScopes"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.displayvideo_v4#SearchTargetingTypesTargetingOptions/errors/-",
+      "value": {
+        "target": "com.gcp.displayvideo_v4#InsufficientScopes"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.displayvideo_v4#UploadAdvertisersAdAssets/errors/-",
+      "value": {
+        "target": "com.gcp.displayvideo_v4#InsufficientScopes"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.displayvideo_v4#UploadAdvertisersAssets/errors/-",
+      "value": {
+        "target": "com.gcp.displayvideo_v4#InsufficientScopes"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.displayvideo_v4#UploadMedia/errors/-",
+      "value": {
+        "target": "com.gcp.displayvideo_v4#InsufficientScopes"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.displayvideo_v4#UploadRulesCustomBiddingAlgorithms/errors/-",
+      "value": {
+        "target": "com.gcp.displayvideo_v4#InsufficientScopes"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.displayvideo_v4#UploadScriptCustomBiddingAlgorithms/errors/-",
+      "value": {
+        "target": "com.gcp.displayvideo_v4#InsufficientScopes"
+      }
+    }
+  ]
+}

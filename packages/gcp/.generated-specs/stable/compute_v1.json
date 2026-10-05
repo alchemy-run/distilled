@@ -8,6 +8,23 @@
     "distilled.finalized": true
   },
   "shapes": {
+    "com.gcp.compute_v1#ResourceNotReady": {
+      "type": "structure",
+      "members": {},
+      "traits": {
+        "smithy.api#error": "client",
+        "smithy.api#httpError": 400,
+        "smithy.api#documentation": "The resource has an operation in flight and cannot be modified yet (HTTP 400 resourceNotReady: \"The resource '…' is not ready\"). Retryable after a few seconds.",
+        "com.gcp.protocols#errorMatchers": [
+          {
+            "status": 400,
+            "message": {
+              "includes": "' is not ready"
+            }
+          }
+        ]
+      }
+    },
     "com.gcp.compute_v1#ReservationBlocksListResponse": {
       "type": "structure",
       "members": {
@@ -89216,7 +89233,7 @@
         "localityLbPolicy": {
           "target": "com.gcp.compute_v1#BackendServiceLocalityLbPolicyEnum",
           "traits": {
-            "smithy.api#documentation": "The load balancing algorithm used within the scope of the locality. The\npossible values are:\n   \n   - ROUND_ROBIN: This is a simple policy in which each healthy\n   backend is selected in round robin order. This is the default.\n   - LEAST_REQUEST: An O(1) algorithm which\n   selects two random healthy hosts and picks the host which has fewer active\n   requests.\n   - RING_HASH: The ring/modulo hash load balancer implements\n   consistent hashing to backends. The algorithm has the property that the\n   addition/removal of a host from a set of N hosts only affects 1/N of the\n   requests.\n   - RANDOM: The load balancer selects a random healthy\n   host.\n   - ORIGINAL_DESTINATION: Backend host is selected\n   based on the client connection metadata, i.e., connections are opened to\n   the same address as the destination address of the incoming connection\n   before the connection was redirected to the load balancer.\n   - MAGLEV: used as a drop in replacement for the ring hash\n   load balancer. Maglev is not as stable as ring hash but has faster table\n   lookup build times and host selection times. For more information about\n   Maglev, see Maglev:\n   A Fast and Reliable Software Network Load Balancer.\n   - WEIGHTED_ROUND_ROBIN: Per-endpoint Weighted Round Robin\n   Load Balancing using weights computed from Backend reported Custom Metrics.\n   If set, the Backend Service responses are expected to contain non-standard\n   HTTP response header field Endpoint-Load-Metrics. The reported\n   metrics to use for computing the weights are specified via thecustomMetrics field.\n   - WEIGHTED_MAGLEV: Per-endpoint weighted load balancing via\n   health check reported weights. If set, the backend service must configure\n   an HTTP-based Health Check, and health check replies are expected to\n   contain the non-standard HTTP response header fieldX-Load-Balancing-Endpoint-Weight to specify the per-endpoint\n   weights. If set, load balancing is weighted based on the per-endpoint\n   weights reported in the last processed health check replies, as long as\n   every instance either reported a valid weight or had UNAVAILABLE_WEIGHT.\n   Otherwise, load balancing remains equal-weight.\n\n\n\nThis field is applicable to either:\n   \n   - A regional backend service with the service protocol set to HTTP,\n   HTTPS, HTTP2 or H2C, and load_balancing_scheme set to\n   INTERNAL_MANAGED. \n   - A global backend service with the\n   load_balancing_scheme set to INTERNAL_SELF_MANAGED, INTERNAL_MANAGED, or\n   EXTERNAL_MANAGED.\n\n\n\nIf sessionAffinity is not configured—that is, if session\naffinity remains at the default value of NONE—then the\ndefault value for localityLbPolicy\nis ROUND_ROBIN. If session affinity is set to a value other\nthan NONE,\nthen the default value for localityLbPolicy isMAGLEV.\n\nOnly ROUND_ROBIN and RING_HASH are supported\nwhen the backend service is referenced by a URL map that is bound to\ntarget gRPC proxy that has validateForProxyless field set to true.\n\nlocalityLbPolicy cannot be specified with haPolicy."
+            "smithy.api#documentation": "The load balancing algorithm used within the scope of the locality. The\npossible values are:\n   \n   - ROUND_ROBIN: This is a simple policy in which each healthy\n   backend is selected in round robin order. This is the default.\n   - LEAST_REQUEST: An O(1) algorithm which\n   selects two random healthy hosts and picks the host which has fewer active\n   requests.\n   - RING_HASH: The ring/modulo hash load balancer implements\n   consistent hashing to backends. The algorithm has the property that the\n   addition/removal of a host from a set of N hosts only affects 1/N of the\n   requests.\n   - RANDOM: The load balancer selects a random healthy\n   host.\n   - ORIGINAL_DESTINATION: Backend host is selected\n   based on the client connection metadata, i.e., connections are opened to\n   the same address as the destination address of the incoming connection\n   before the connection was redirected to the load balancer.\n   - MAGLEV: used as a drop in replacement for the ring hash\n   load balancer. Maglev is not as stable as ring hash but has faster table\n   lookup build times and host selection times. For more information about\n   Maglev, see Maglev:\n   A Fast and Reliable Software Network Load Balancer.\n   - WEIGHTED_ROUND_ROBIN: Per-endpoint Weighted Round Robin\n   Load Balancing using weights computed from Backend reported Custom Metrics.\n   If set, the Backend Service responses are expected to contain non-standard\n   HTTP response header field Endpoint-Load-Metrics. The reported\n   metrics to use for computing the weights are specified via thecustomMetrics field.\n   - WEIGHTED_MAGLEV: Per-endpoint weighted load balancing via\n   health check reported weights. If set, the backend service must configure\n   an HTTP-based Health Check, and health check replies are expected to\n   contain the non-standard HTTP response header fieldX-Load-Balancing-Endpoint-Weight to specify the per-endpoint\n   weights. If set, load balancing is weighted based on the per-endpoint\n   weights reported in the last processed health check replies, as long as\n   every instance either reported a valid weight or had UNAVAILABLE_WEIGHT.\n   Otherwise, load balancing remains equal-weight.\n\n\n\nThis field is applicable to either:\n   \n   - A regional backend service with the service protocol set to HTTP,\n   HTTPS, HTTP2 or H2C, and load_balancing_scheme set to\n   INTERNAL_MANAGED. \n   - A global backend service with the\n   load_balancing_scheme set to INTERNAL_SELF_MANAGED, INTERNAL_MANAGED, or\n   EXTERNAL_MANAGED.\n\n\n\nIf sessionAffinity is not configured\u2014that is, if session\naffinity remains at the default value of NONE\u2014then the\ndefault value for localityLbPolicy\nis ROUND_ROBIN. If session affinity is set to a value other\nthan NONE,\nthen the default value for localityLbPolicy isMAGLEV.\n\nOnly ROUND_ROBIN and RING_HASH are supported\nwhen the backend service is referenced by a URL map that is bound to\ntarget gRPC proxy that has validateForProxyless field set to true.\n\nlocalityLbPolicy cannot be specified with haPolicy."
           }
         },
         "strongSessionAffinityCookie": {
@@ -105953,6 +105970,9 @@
         },
         {
           "target": "com.gcp.compute_v1#Conflict"
+        },
+        {
+          "target": "com.gcp.compute_v1#CollectorIlbNotReady"
         }
       ],
       "traits": {
@@ -106084,6 +106104,9 @@
         },
         {
           "target": "com.gcp.compute_v1#Conflict"
+        },
+        {
+          "target": "com.gcp.compute_v1#CollectorIlbNotReady"
         }
       ],
       "traits": {
@@ -111846,6 +111869,9 @@
         },
         {
           "target": "com.gcp.compute_v1#Conflict"
+        },
+        {
+          "target": "com.gcp.compute_v1#ResourceNotReady"
         }
       ],
       "traits": {
@@ -119986,6 +120012,9 @@
         },
         {
           "target": "com.gcp.compute_v1#Conflict"
+        },
+        {
+          "target": "com.gcp.compute_v1#HealthCheckServiceNotAvailable"
         }
       ],
       "traits": {
@@ -122783,6 +122812,9 @@
         },
         {
           "target": "com.gcp.compute_v1#Conflict"
+        },
+        {
+          "target": "com.gcp.compute_v1#CloudArmorEnterpriseRequired"
         }
       ],
       "traits": {
@@ -165068,6 +165100,9 @@
         },
         {
           "target": "com.gcp.compute_v1#Conflict"
+        },
+        {
+          "target": "com.gcp.compute_v1#ResourceNotReady"
         }
       ],
       "traits": {
@@ -170495,6 +170530,9 @@
         },
         {
           "target": "com.gcp.compute_v1#Conflict"
+        },
+        {
+          "target": "com.gcp.compute_v1#FutureReservationsNotEligible"
         }
       ],
       "traits": {
@@ -173102,6 +173140,73 @@
           "uri": "projects/{project}/global/rollouts/{rollout}/advance"
         },
         "smithy.api#documentation": "Advances a Rollout to the next wave, or completes it if no waves remain."
+      }
+    },
+    "com.gcp.compute_v1#CloudArmorEnterpriseRequired": {
+      "type": "structure",
+      "members": {},
+      "traits": {
+        "smithy.api#error": "client",
+        "smithy.api#httpError": 400,
+        "smithy.api#documentation": "The project is not enrolled in Cloud Armor Enterprise (Managed Protection Plus), which network edge security services require (HTTP 400: 'Network Security Policies require Cloud Armor Managed Protection Plus tier and above to use.'). Not retryable.",
+        "com.gcp.protocols#errorMatchers": [
+          {
+            "status": 400,
+            "message": {
+              "includes": "require Cloud Armor Managed Protection Plus"
+            }
+          }
+        ]
+      }
+    },
+    "com.gcp.compute_v1#CollectorIlbNotReady": {
+      "type": "structure",
+      "members": {},
+      "traits": {
+        "smithy.api#error": "client",
+        "smithy.api#httpError": 400,
+        "smithy.api#documentation": "The forwarding rule used as the packet-mirroring collector is still being programmed (HTTP 400: 'Forwarding Rule specified as collector ILB is not ready'). Retryable after a few seconds.",
+        "com.gcp.protocols#errorMatchers": [
+          {
+            "status": 400,
+            "message": {
+              "includes": "specified as collector ILB is not ready"
+            }
+          }
+        ]
+      }
+    },
+    "com.gcp.compute_v1#FutureReservationsNotEligible": {
+      "type": "structure",
+      "members": {},
+      "traits": {
+        "smithy.api#error": "client",
+        "smithy.api#documentation": "The project is not eligible for the Future Reservations feature (HTTP 412 conditionNotMet: 'Based on your service usage history, you are not eligible for using the Future Reservations feature at this time.'). Not retryable.",
+        "com.gcp.protocols#errorMatchers": [
+          {
+            "status": 412,
+            "message": {
+              "includes": "not eligible for using the Future Reservations feature"
+            }
+          }
+        ]
+      }
+    },
+    "com.gcp.compute_v1#HealthCheckServiceNotAvailable": {
+      "type": "structure",
+      "members": {},
+      "traits": {
+        "smithy.api#error": "client",
+        "smithy.api#httpError": 400,
+        "smithy.api#documentation": "Health Check as a Service is not enabled for the project (HTTP 400: 'Invalid resource usage: 'HealthCheck as a Service feature is not available for this project.''). Not retryable.",
+        "com.gcp.protocols#errorMatchers": [
+          {
+            "status": 400,
+            "message": {
+              "includes": "HealthCheck as a Service feature is not available"
+            }
+          }
+        ]
       }
     }
   }

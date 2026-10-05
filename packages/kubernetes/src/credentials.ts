@@ -1,3 +1,4 @@
+import { ConfigError } from "@distilled.cloud/core/errors";
 /**
  * Kubernetes credentials — hand-written.
  *
@@ -10,7 +11,6 @@ import * as Context from "effect/Context";
 import * as Effect from "effect/Effect";
 import * as Layer from "effect/Layer";
 import * as Redacted from "effect/Redacted";
-import { ConfigError } from "@distilled.cloud/core/errors";
 
 export interface Config {
   /**
@@ -31,20 +31,19 @@ export interface Config {
   readonly apiBaseUrl: string;
 }
 
-export class Credentials extends Context.Service<
-  Credentials,
-  Effect.Effect<Config>
->()("KubernetesCredentials") {}
+export class Credentials extends Context.Service<Credentials, Effect.Effect<Config>>()(
+  "KubernetesCredentials",
+) {}
 
-/** Layer from a plain bearer token + API server URL. */
+/** Layer from a redacted bearer token + API server URL. */
 export const fromToken = (config: {
-  readonly token: string;
+  readonly token: Redacted.Redacted<string>;
   readonly apiBaseUrl: string;
 }): Layer.Layer<Credentials> =>
   Layer.succeed(
     Credentials,
     Effect.succeed({
-      token: Redacted.make(config.token),
+      token: config.token,
       apiBaseUrl: config.apiBaseUrl,
     }),
   );

@@ -405,7 +405,8 @@
           "target": "smithy.api#String",
           "traits": {
             "smithy.api#documentation": "The generated 64-bit token required to access the Neon API",
-            "smithy.api#required": {}
+            "smithy.api#required": {},
+            "smithy.api#sensitive": {}
           }
         },
         "name": {
@@ -6490,9 +6491,30 @@
             "smithy.api#documentation": "Display name shown as the sender in outgoing emails.",
             "smithy.api#required": {}
           }
+        },
+        "type": {
+          "target": "com.neon.api#StandardEmailServerResponseType",
+          "traits": {
+            "smithy.api#documentation": "Use a custom SMTP server to send authentication emails.",
+            "smithy.api#required": {}
+          }
         }
       },
       "traits": {}
+    },
+    "com.neon.api#StandardEmailServerResponseType": {
+      "type": "enum",
+      "members": {
+        "STANDARD": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "standard"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Use a custom SMTP server to send authentication emails."
+      }
     },
     "com.neon.api#SharedEmailServer": {
       "type": "structure",
@@ -6508,9 +6530,30 @@
           "traits": {
             "smithy.api#documentation": "Display name shown as the sender in outgoing emails."
           }
+        },
+        "type": {
+          "target": "com.neon.api#SharedEmailServerType",
+          "traits": {
+            "smithy.api#documentation": "Use the shared email server to send authentication emails.",
+            "smithy.api#required": {}
+          }
         }
       },
       "traits": {}
+    },
+    "com.neon.api#SharedEmailServerType": {
+      "type": "enum",
+      "members": {
+        "SHARED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "shared"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Use the shared email server to send authentication emails."
+      }
     },
     "com.neon.api#GetNeonAuthEmailProviderResponse": {
       "type": "structure",
@@ -6595,9 +6638,30 @@
           "traits": {
             "smithy.api#documentation": "Display name shown as the sender in outgoing emails."
           }
+        },
+        "type": {
+          "target": "com.neon.api#StandardEmailServerType",
+          "traits": {
+            "smithy.api#documentation": "Use a custom SMTP server to send authentication emails.",
+            "smithy.api#required": {}
+          }
         }
       },
       "traits": {}
+    },
+    "com.neon.api#StandardEmailServerType": {
+      "type": "enum",
+      "members": {
+        "STANDARD": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "standard"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Use a custom SMTP server to send authentication emails."
+      }
     },
     "com.neon.api#UpdateNeonAuthEmailProviderRequest": {
       "type": "structure",
@@ -8078,6 +8142,11 @@
       "output": {
         "target": "com.neon.api#CreateProjectBranchResponse"
       },
+      "errors": [
+        {
+          "target": "com.neon.api#Conflict"
+        }
+      ],
       "traits": {
         "smithy.api#http": {
           "method": "POST",
@@ -8629,7 +8698,7 @@
           "target": "smithy.api#Boolean",
           "traits": {
             "smithy.api#httpQuery": "hard_delete",
-            "smithy.api#documentation": "If true, the branch is permanently deleted immediately without a recovery window.\nIf false (default), the branch can be recovered within 7 days via the recover endpoint.\n\nThis parameter is part of the Branch Recovery feature, which is in preview and not available to all users.\n"
+            "smithy.api#documentation": "If true, the branch is permanently deleted immediately without a recovery window. If false (default), the branch can be recovered within 7 days via the recover endpoint. This parameter is part of the Branch Recovery feature, which is in preview and not available to all users. Retained for compatibility with the previously published SDK; the refreshed OpenAPI document omits it."
           }
         }
       },
@@ -8687,7 +8756,7 @@
           "uri": "/projects/{project_id}/branches/{branch_id}",
           "code": 200
         },
-        "smithy.api#documentation": "Delete branch\n\nDeletes the specified branch from a project and places all compute endpoints into an idle state, breaking existing client connections.\n\nThe deletion completes after all operations finish.\nYou cannot delete a project's root or default branch, or a branch that has a child branch.\nA project must have at least one branch.\n\nBy default, deleted branches can be recovered within a 7-day grace period.\nUse the `hard_delete` parameter to permanently delete the branch immediately.\nFor related information, see [Manage branches](https://neon.com/docs/manage/branches/)."
+        "smithy.api#documentation": "Delete branch\n\nDeletes the specified branch from a project and places all compute endpoints into an idle state, breaking existing client connections.\n\nThe deletion completes after all operations finish.\nYou cannot delete a project's root or default branch, or a branch that has a child branch.\nA project must have at least one branch.\n\nFor related information, see [Manage branches](https://neon.com/docs/manage/branches/)."
       }
     },
     "com.neon.api#RestoreProjectBranchRequest": {
@@ -12468,7 +12537,8 @@
           "target": "smithy.api#String",
           "traits": {
             "smithy.api#documentation": "The generated 64-bit token required to access the Neon API",
-            "smithy.api#required": {}
+            "smithy.api#required": {},
+            "smithy.api#sensitive": {}
           }
         },
         "name": {
@@ -16351,13 +16421,28 @@
         "smithy.api#input": {}
       }
     },
+    "com.neon.api#GetProjectBranchBucketObjectResponse": {
+      "type": "structure",
+      "members": {
+        "body": {
+          "target": "smithy.api#Blob",
+          "traits": {
+            "com.distilled.openapi#rawResponse": {},
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
+      }
+    },
     "com.neon.api#GetProjectBranchBucketObject": {
       "type": "operation",
       "input": {
         "target": "com.neon.api#GetProjectBranchBucketObjectRequest"
       },
       "output": {
-        "target": "smithy.api#Unit"
+        "target": "com.neon.api#GetProjectBranchBucketObjectResponse"
       },
       "errors": [
         {
@@ -16534,7 +16619,8 @@
           "target": "smithy.api#String",
           "traits": {
             "smithy.api#documentation": "The presigned URL. Transfer the object bytes by issuing\n`method url` with the returned `headers`.\n",
-            "smithy.api#required": {}
+            "smithy.api#required": {},
+            "smithy.api#sensitive": {}
           }
         },
         "method": {
@@ -16892,7 +16978,8 @@
           "target": "smithy.api#String",
           "traits": {
             "smithy.api#documentation": "nsk_live_<64 hex>; the AWS_SECRET_ACCESS_KEY, returned exactly once.",
-            "smithy.api#required": {}
+            "smithy.api#required": {},
+            "smithy.api#sensitive": {}
           }
         },
         "scopes": {
@@ -17054,7 +17141,8 @@
           "target": "smithy.api#String",
           "traits": {
             "smithy.api#documentation": "nsk_live_<64 hex>; the AWS_SECRET_ACCESS_KEY.",
-            "smithy.api#required": {}
+            "smithy.api#required": {},
+            "smithy.api#sensitive": {}
           }
         }
       },
@@ -17154,7 +17242,8 @@
           "target": "smithy.api#String",
           "traits": {
             "smithy.api#documentation": "The new nsk_live_<64 hex> AWS_SECRET_ACCESS_KEY; returned exactly once.",
-            "smithy.api#required": {}
+            "smithy.api#required": {},
+            "smithy.api#sensitive": {}
           }
         },
         "scopes": {
@@ -17304,13 +17393,15 @@
         "current_deployment": {
           "target": "com.neon.api#NeonFunctionDeployment",
           "traits": {
-            "smithy.api#documentation": "The most recent deployment, regardless of build status. It may\nstill be building or it may have failed. Omitted until the first\ndeployment is created.\n"
+            "smithy.api#documentation": "The most recent deployment, regardless of build status. It may\nstill be building or it may have failed. Omitted until the first\ndeployment is created.\n",
+            "com.distilled.openapi#nullable": {}
           }
         },
         "active_deployment": {
           "target": "com.neon.api#NeonFunctionDeployment",
           "traits": {
-            "smithy.api#documentation": "The most recent deployment whose build completed successfully.\nThis is the deployment that serves invocations. Omitted until a\ndeployment succeeds.\n"
+            "smithy.api#documentation": "The most recent deployment whose build completed successfully.\nThis is the deployment that serves invocations. Omitted until a\ndeployment succeeds.\n",
+            "com.distilled.openapi#nullable": {}
           }
         },
         "created_at": {
@@ -17360,13 +17451,15 @@
         "environment": {
           "target": "com.neon.api#NeonFunctionDeploymentEnvironmentList",
           "traits": {
-            "smithy.api#documentation": "The NAMES of the deployment's environment variables, sorted.\nValues are encrypted at rest and are never returned — they are\nwrite-only. To change a value, deploy the variable with the new\nvalue; to remove a variable, deploy it with an empty value.\n"
+            "smithy.api#documentation": "The NAMES of the deployment's environment variables, sorted.\nValues are encrypted at rest and are never returned — they are\nwrite-only. To change a value, deploy the variable with the new\nvalue; to remove a variable, deploy it with an empty value.\n",
+            "com.distilled.openapi#nullable": {}
           }
         },
         "error": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "Human-readable reason the deployment build failed. Present only\nwhen `status` is `failed`.\n"
+            "smithy.api#documentation": "Human-readable reason the deployment build failed. Present only\nwhen `status` is `failed`.\n",
+            "com.distilled.openapi#nullable": {}
           }
         }
       },
@@ -17512,6 +17605,11 @@
       "output": {
         "target": "com.neon.api#NeonFunctionResponse"
       },
+      "errors": [
+        {
+          "target": "com.neon.api#NotFound"
+        }
+      ],
       "traits": {
         "smithy.api#http": {
           "method": "GET",
@@ -17667,7 +17765,7 @@
           }
         },
         "zip": {
-          "target": "smithy.api#String",
+          "target": "smithy.api#Blob",
           "traits": {
             "smithy.api#documentation": "Optional ZIP archive of the function source code. Omit to reuse the\nlatest version's bundle (a config-only change). Required for the\nfirst deployment of a function.\n"
           }
@@ -17678,7 +17776,8 @@
         "environment": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "Optional JSON object (a string-to-string map) of environment\nvariables for the deployment, e.g. {\"KEY\":\"VALUE\"}. Carried as a\nJSON-encoded string because multipart form data does not support\ntyped object parts.\n\nValues are write-only: they are encrypted at rest, and responses\ncarry only the variable names (the `environment` array), never the\nvalues.\n"
+            "smithy.api#documentation": "Optional JSON object (a string-to-string map) of environment\nvariables for the deployment, e.g. {\"KEY\":\"VALUE\"}. Carried as a\nJSON-encoded string because multipart form data does not support\ntyped object parts.\n\nValues are write-only: they are encrypted at rest, and responses\ncarry only the variable names (the `environment` array), never the\nvalues.\n",
+            "smithy.api#sensitive": {}
           }
         }
       },
@@ -17715,6 +17814,749 @@
         },
         "smithy.api#documentation": "Deploy code to a function\n\nCreates a deployment for the function. Supply any subset of zip,\nenvironment, and runtime; omitted fields inherit the\nfunction's latest version. At least one field must be supplied. The\nfirst deployment of a function must include zip. The newest deployment\nbecomes active.\n\n**Note**: This endpoint is currently in Beta.",
         "com.distilled.openapi#contentType": "multipart"
+      }
+    },
+    "com.neon.api#ListProjectBranchTriggersRequest": {
+      "type": "structure",
+      "members": {
+        "project_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The Neon project ID"
+          }
+        },
+        "branch_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The Neon branch ID"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.neon.api#TriggersListResponse": {
+      "type": "structure",
+      "members": {
+        "triggers": {
+          "target": "com.neon.api#TriggersListResponseTriggersList",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.neon.api#Trigger": {
+      "type": "union",
+      "members": {
+        "ScheduleTrigger": {
+          "target": "com.neon.api#ScheduleTrigger"
+        },
+        "StorageObjectCreatedTrigger": {
+          "target": "com.neon.api#StorageObjectCreatedTrigger"
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "A branch-effective trigger discriminated by `type`. The supported trigger\ntypes are `schedule` and `storage_object_created`.\n"
+      }
+    },
+    "com.neon.api#ScheduleTrigger": {
+      "type": "structure",
+      "members": {
+        "type": {
+          "target": "com.neon.api#ScheduleTriggerType",
+          "traits": {
+            "smithy.api#documentation": "Trigger type discriminator.",
+            "smithy.api#required": {}
+          }
+        },
+        "trigger_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "function_slug": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The branch-local Function slug resolved when an occurrence is consumed.",
+            "smithy.api#required": {}
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Human-readable trigger name.",
+            "smithy.api#required": {}
+          }
+        },
+        "function_path": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Path passed to the target Function.",
+            "smithy.api#required": {}
+          }
+        },
+        "schedule": {
+          "target": "com.neon.api#FunctionTriggerSchedule",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "enabled": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "version": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Monotonic configuration version.",
+            "smithy.api#required": {}
+          }
+        },
+        "next_run_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Next scheduled occurrence as an RFC 3339 UTC timestamp, or null\nwhile disabled or inherited and not explicitly enabled on this branch.\n",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "inherited": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "True when the effective configuration was authored on an ancestor branch.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "A branch-effective schedule trigger for a Function."
+      }
+    },
+    "com.neon.api#ScheduleTriggerType": {
+      "type": "enum",
+      "members": {
+        "SCHEDULE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "schedule"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Trigger type discriminator."
+      }
+    },
+    "com.neon.api#FunctionTriggerSchedule": {
+      "type": "structure",
+      "members": {
+        "cron": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Numeric five-field cron expression (minute through day-of-week), interpreted in UTC.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "A numeric five-field cron schedule interpreted in UTC."
+      }
+    },
+    "com.neon.api#StorageObjectCreatedTrigger": {
+      "type": "structure",
+      "members": {
+        "type": {
+          "target": "com.neon.api#StorageObjectCreatedTriggerType",
+          "traits": {
+            "smithy.api#documentation": "Trigger type discriminator.",
+            "smithy.api#required": {}
+          }
+        },
+        "trigger_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "function_slug": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The branch-local Function slug resolved when an invocation is consumed.",
+            "smithy.api#required": {}
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Human-readable trigger name.",
+            "smithy.api#required": {}
+          }
+        },
+        "function_path": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Path passed to the target Function.",
+            "smithy.api#required": {}
+          }
+        },
+        "storage_object_created": {
+          "target": "com.neon.api#FunctionTriggerStorageObjectCreated",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "enabled": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "version": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Monotonic configuration version.",
+            "smithy.api#required": {}
+          }
+        },
+        "inherited": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "True when the effective configuration was authored on an ancestor branch.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "A branch-effective trigger that invokes a Function after a successful\nupload matching its exact bucket and optional object-key prefix.\n"
+      }
+    },
+    "com.neon.api#StorageObjectCreatedTriggerType": {
+      "type": "enum",
+      "members": {
+        "STORAGE_OBJECT_CREATED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "storage_object_created"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Trigger type discriminator."
+      }
+    },
+    "com.neon.api#FunctionTriggerStorageObjectCreated": {
+      "type": "structure",
+      "members": {
+        "bucket_name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The exact object-storage bucket name to watch.",
+            "smithy.api#required": {}
+          }
+        },
+        "prefix": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Optional object-key prefix of at most 1024 UTF-8 bytes. When omitted,\nevery key in the bucket matches. When present, the full object key\nmust start with these exact bytes; matching is case-sensitive and\ndoes not normalize paths or require a path-segment boundary.\nMatch-all responses omit this field rather than returning an empty\nstring.\n"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Matches successful uploads to one exact bucket and, when configured, an\nobject-key prefix. The Function receives a JSON request body with\n`type` set to `storage_object_created` and a `data` object containing\nexactly `bucket_name` and `object_key`.\n"
+      }
+    },
+    "com.neon.api#TriggersListResponseTriggersList": {
+      "type": "list",
+      "member": {
+        "target": "com.neon.api#Trigger"
+      },
+      "traits": {}
+    },
+    "com.neon.api#ListProjectBranchTriggers": {
+      "type": "operation",
+      "input": {
+        "target": "com.neon.api#ListProjectBranchTriggersRequest"
+      },
+      "output": {
+        "target": "com.neon.api#TriggersListResponse"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/projects/{project_id}/branches/{branch_id}/triggers",
+          "code": 200
+        },
+        "smithy.api#documentation": "List triggers on the branch\n\nLists the complete project-bounded set of triggers visible on the branch,\nordered by `trigger_id`. An inherited trigger keeps its project-wide ID\nand configuration, and is disabled on the child until explicitly enabled\nthere.\n\nThe supported trigger types are `schedule` and\n`storage_object_created`. A storage-object-created trigger watches one\nexact bucket and fires only after an object upload succeeds.\n\n**Note**: This endpoint is currently in Beta."
+      }
+    },
+    "com.neon.api#TriggerCreateRequest": {
+      "type": "union",
+      "members": {
+        "ScheduleTriggerCreateRequest": {
+          "target": "com.neon.api#ScheduleTriggerCreateRequest"
+        },
+        "StorageObjectCreatedTriggerCreateRequest": {
+          "target": "com.neon.api#StorageObjectCreatedTriggerCreateRequest"
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Trigger creation payload discriminated by `type`. The supported trigger\ntypes are `schedule` and `storage_object_created`.\n"
+      }
+    },
+    "com.neon.api#ScheduleTriggerCreateRequest": {
+      "type": "structure",
+      "members": {
+        "type": {
+          "target": "com.neon.api#ScheduleTriggerCreateRequestType",
+          "traits": {
+            "smithy.api#documentation": "Trigger type discriminator.",
+            "smithy.api#required": {}
+          }
+        },
+        "function_slug": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The branch-local Function slug to invoke.",
+            "smithy.api#required": {}
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Human-readable name, unique among triggers visible on the branch.",
+            "smithy.api#required": {}
+          }
+        },
+        "function_path": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Path passed to the target Function. Defaults to `/`."
+          }
+        },
+        "schedule": {
+          "target": "com.neon.api#FunctionTriggerSchedule",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "enabled": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Whether future occurrences should be scheduled."
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.neon.api#ScheduleTriggerCreateRequestType": {
+      "type": "enum",
+      "members": {
+        "SCHEDULE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "schedule"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Trigger type discriminator."
+      }
+    },
+    "com.neon.api#StorageObjectCreatedTriggerCreateRequest": {
+      "type": "structure",
+      "members": {
+        "type": {
+          "target": "com.neon.api#StorageObjectCreatedTriggerCreateRequestType",
+          "traits": {
+            "smithy.api#documentation": "Trigger type discriminator.",
+            "smithy.api#required": {}
+          }
+        },
+        "function_slug": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The branch-local Function slug to invoke.",
+            "smithy.api#required": {}
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Human-readable name, unique among triggers visible on the branch.",
+            "smithy.api#required": {}
+          }
+        },
+        "function_path": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Path passed to the target Function. Defaults to `/`."
+          }
+        },
+        "storage_object_created": {
+          "target": "com.neon.api#FunctionTriggerStorageObjectCreated",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "enabled": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Whether successful matching uploads should invoke the Function."
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.neon.api#StorageObjectCreatedTriggerCreateRequestType": {
+      "type": "enum",
+      "members": {
+        "STORAGE_OBJECT_CREATED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "storage_object_created"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Trigger type discriminator."
+      }
+    },
+    "com.neon.api#CreateProjectBranchTriggerRequest": {
+      "type": "structure",
+      "members": {
+        "project_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The Neon project ID"
+          }
+        },
+        "branch_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The Neon branch ID"
+          }
+        },
+        "body": {
+          "target": "com.neon.api#TriggerCreateRequest",
+          "traits": {
+            "smithy.api#httpPayload": {},
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.neon.api#TriggerResponse": {
+      "type": "structure",
+      "members": {
+        "trigger": {
+          "target": "com.neon.api#Trigger",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.neon.api#CreateProjectBranchTrigger": {
+      "type": "operation",
+      "input": {
+        "target": "com.neon.api#CreateProjectBranchTriggerRequest"
+      },
+      "output": {
+        "target": "com.neon.api#TriggerResponse"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/projects/{project_id}/branches/{branch_id}/triggers",
+          "code": 200
+        },
+        "smithy.api#documentation": "Create a trigger\n\nCreates a trigger for a Function visible on the branch. The required\n`type` discriminator selects the trigger-specific configuration. The\nsupported types are `schedule` and `storage_object_created`. A schedule\ntrigger uses a numeric five-field cron expression interpreted in UTC. A\nstorage-object-created trigger fires only after a successful upload to\none exact bucket and may narrow matches to an object-key prefix.\n\nThe name must be unique among triggers visible on the branch, including\ninherited triggers.\n\n**Note**: This endpoint is currently in Beta."
+      }
+    },
+    "com.neon.api#GetProjectBranchTriggerRequest": {
+      "type": "structure",
+      "members": {
+        "project_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The Neon project ID"
+          }
+        },
+        "branch_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The Neon branch ID"
+          }
+        },
+        "trigger_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The opaque, project-wide trigger ID"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.neon.api#GetProjectBranchTrigger": {
+      "type": "operation",
+      "input": {
+        "target": "com.neon.api#GetProjectBranchTriggerRequest"
+      },
+      "output": {
+        "target": "com.neon.api#TriggerResponse"
+      },
+      "errors": [
+        {
+          "target": "com.neon.api#NotFound"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/projects/{project_id}/branches/{branch_id}/triggers/{trigger_id}",
+          "code": 200
+        },
+        "smithy.api#documentation": "Get a trigger\n\nReturns the trigger visible on the branch. The supported trigger types\nare `schedule` and `storage_object_created`.\n\n**Note**: This endpoint is currently in Beta."
+      }
+    },
+    "com.neon.api#TriggerUpdateRequest": {
+      "type": "union",
+      "members": {
+        "ScheduleTriggerUpdateRequest": {
+          "target": "com.neon.api#ScheduleTriggerUpdateRequest"
+        },
+        "StorageObjectCreatedTriggerUpdateRequest": {
+          "target": "com.neon.api#StorageObjectCreatedTriggerUpdateRequest"
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Partial trigger update discriminated by `type`. The supported trigger\ntypes are `schedule` and `storage_object_created`.\n"
+      }
+    },
+    "com.neon.api#ScheduleTriggerUpdateRequest": {
+      "type": "structure",
+      "members": {
+        "type": {
+          "target": "com.neon.api#ScheduleTriggerUpdateRequestType",
+          "traits": {
+            "smithy.api#documentation": "Trigger type discriminator; it does not change the trigger type.",
+            "smithy.api#required": {}
+          }
+        },
+        "function_slug": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Replacement branch-local Function slug."
+          }
+        },
+        "name": {
+          "target": "smithy.api#String"
+        },
+        "function_path": {
+          "target": "smithy.api#String"
+        },
+        "schedule": {
+          "target": "com.neon.api#FunctionTriggerSchedule"
+        },
+        "enabled": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "True enables and false disables future scheduling."
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.neon.api#ScheduleTriggerUpdateRequestType": {
+      "type": "enum",
+      "members": {
+        "SCHEDULE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "schedule"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Trigger type discriminator; it does not change the trigger type."
+      }
+    },
+    "com.neon.api#StorageObjectCreatedTriggerUpdateRequest": {
+      "type": "structure",
+      "members": {
+        "type": {
+          "target": "com.neon.api#StorageObjectCreatedTriggerUpdateRequestType",
+          "traits": {
+            "smithy.api#documentation": "Trigger type discriminator; it does not change the trigger type.",
+            "smithy.api#required": {}
+          }
+        },
+        "function_slug": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Replacement branch-local Function slug."
+          }
+        },
+        "name": {
+          "target": "smithy.api#String"
+        },
+        "function_path": {
+          "target": "smithy.api#String"
+        },
+        "storage_object_created": {
+          "target": "com.neon.api#FunctionTriggerStorageObjectCreated"
+        },
+        "enabled": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "True enables and false disables future matching uploads."
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.neon.api#StorageObjectCreatedTriggerUpdateRequestType": {
+      "type": "enum",
+      "members": {
+        "STORAGE_OBJECT_CREATED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "storage_object_created"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Trigger type discriminator; it does not change the trigger type."
+      }
+    },
+    "com.neon.api#UpdateProjectBranchTriggerRequest": {
+      "type": "structure",
+      "members": {
+        "project_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The Neon project ID"
+          }
+        },
+        "branch_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The Neon branch ID"
+          }
+        },
+        "trigger_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The opaque, project-wide trigger ID"
+          }
+        },
+        "body": {
+          "target": "com.neon.api#TriggerUpdateRequest",
+          "traits": {
+            "smithy.api#httpPayload": {},
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.neon.api#UpdateProjectBranchTrigger": {
+      "type": "operation",
+      "input": {
+        "target": "com.neon.api#UpdateProjectBranchTriggerRequest"
+      },
+      "output": {
+        "target": "com.neon.api#TriggerResponse"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "PATCH",
+          "uri": "/projects/{project_id}/branches/{branch_id}/triggers/{trigger_id}",
+          "code": 200
+        },
+        "smithy.api#documentation": "Update a trigger\n\nApplies a partial update. The required `type` discriminator must identify\nthe existing trigger kind. The supported types are `schedule` and\n`storage_object_created`. Editing an inherited trigger creates a\nchild-local shadow with the same `trigger_id`; it remains disabled unless\nthis request explicitly enables it. For a schedule trigger, updating the\nschedule or enabled state increments `version` and recomputes\n`next_run_at`.\n\nDisabling stops future scheduling but does not cancel occurrences already\ncommitted for delivery. For `storage_object_created`, the configuration\nselects one exact bucket. An omitted object-key prefix matches every key\nin that bucket; a present prefix is matched byte-for-byte and\ncase-sensitively against the full key, without path normalization or a\npath-segment boundary.\n\n**Note**: This endpoint is currently in Beta."
+      }
+    },
+    "com.neon.api#DeleteProjectBranchTriggerRequest": {
+      "type": "structure",
+      "members": {
+        "project_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The Neon project ID"
+          }
+        },
+        "branch_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The Neon branch ID"
+          }
+        },
+        "trigger_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The opaque, project-wide trigger ID"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.neon.api#DeleteProjectBranchTrigger": {
+      "type": "operation",
+      "input": {
+        "target": "com.neon.api#DeleteProjectBranchTriggerRequest"
+      },
+      "output": {
+        "target": "smithy.api#Unit"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "DELETE",
+          "uri": "/projects/{project_id}/branches/{branch_id}/triggers/{trigger_id}",
+          "code": 200
+        },
+        "smithy.api#documentation": "Delete a trigger\n\nDeletes a branch-local trigger or writes a branch-local tombstone for an\ninherited trigger so it does not reappear. Deletion stops future\nscheduling or storage-event matching but does not cancel invocations\nalready committed for delivery. The supported trigger types are\n`schedule` and `storage_object_created`.\n\n**Note**: This endpoint is currently in Beta."
       }
     },
     "com.neon.api#ListProjectBranchCustomDomainsRequest": {
@@ -17997,19 +18839,6 @@
         ]
       }
     },
-    "com.neon.api#UnprocessableEntity": {
-      "type": "structure",
-      "members": {},
-      "traits": {
-        "smithy.api#error": "client",
-        "smithy.api#httpError": 422,
-        "com.distilled.openapi#errorMatchers": [
-          {
-            "status": 422
-          }
-        ]
-      }
-    },
     "com.neon.api#Conflict": {
       "type": "structure",
       "members": {},
@@ -18019,6 +18848,19 @@
         "com.distilled.openapi#errorMatchers": [
           {
             "status": 409
+          }
+        ]
+      }
+    },
+    "com.neon.api#UnprocessableEntity": {
+      "type": "structure",
+      "members": {},
+      "traits": {
+        "smithy.api#error": "client",
+        "smithy.api#httpError": 422,
+        "com.distilled.openapi#errorMatchers": [
+          {
+            "status": 422
           }
         ]
       }
@@ -18504,6 +19346,21 @@
         },
         {
           "target": "com.neon.api#CreateProjectBranchFunctionDeployment"
+        },
+        {
+          "target": "com.neon.api#ListProjectBranchTriggers"
+        },
+        {
+          "target": "com.neon.api#CreateProjectBranchTrigger"
+        },
+        {
+          "target": "com.neon.api#GetProjectBranchTrigger"
+        },
+        {
+          "target": "com.neon.api#UpdateProjectBranchTrigger"
+        },
+        {
+          "target": "com.neon.api#DeleteProjectBranchTrigger"
         },
         {
           "target": "com.neon.api#ListProjectBranchCustomDomains"

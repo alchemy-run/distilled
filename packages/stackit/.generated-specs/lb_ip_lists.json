@@ -1,0 +1,572 @@
+{
+  "smithy": "2.0",
+  "metadata": {
+    "suppressions": [
+      {
+        "id": "HttpUriConflict",
+        "namespace": "*"
+      },
+      {
+        "id": "HttpMethodSemantics",
+        "namespace": "*"
+      },
+      {
+        "id": "UnreferencedShape",
+        "namespace": "*"
+      }
+    ],
+    "distilled.finalized": true
+  },
+  "shapes": {
+    "com.stackit.lb_ip_lists#ListIPListsRequest": {
+      "type": "structure",
+      "members": {
+        "projectId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        },
+        "region": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.stackit.lb_ip_lists#ListIPListsResponse": {
+      "type": "structure",
+      "members": {
+        "items": {
+          "target": "com.stackit.lb_ip_lists#ListIPListsResponseItemsList",
+          "traits": {
+            "smithy.api#documentation": "Every IP list in the project and region. Never includes the CIDR entries themselves."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "ListIPListsResponse returns metadata for all IP lists in a project and region.\n The CIDR entries themselves are never returned."
+      }
+    },
+    "com.stackit.lb_ip_lists#GetIPListResponse": {
+      "type": "structure",
+      "members": {
+        "contentHash": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Unique SHA-256 hex fingerprint used to verify the stored IP list content."
+          }
+        },
+        "labels": {
+          "target": "com.stackit.lb_ip_lists#GetIPListResponseLabelsMap",
+          "traits": {
+            "smithy.api#documentation": "Labels represent user-defined metadata as key-value pairs.\nLabel count should not exceed 64 per IP list.\n\n**Key Formatting Rules:**\nLength: 1-63 characters.\nCharacters: Must begin and end with [a-zA-Z0-9]. May contain dashes (-), underscores (_), dots (.), and alphanumerics in between.\nKeys starting with 'stackit-' are system-reserved; users MUST NOT manage them.\n\n**Value Formatting Rules:**\nLength: 0-63 characters (empty string explicitly allowed).\nCharacters (for non-empty values): Must begin and end with [a-zA-Z0-9]. May contain dashes (-), underscores (_), dots (.), and alphanumerics in between.\n"
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "IP list name.",
+            "smithy.api#required": {}
+          }
+        },
+        "numberOfIps": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Number of IPv4 CIDR entries stored in the list."
+          }
+        },
+        "usage": {
+          "target": "com.stackit.lb_ip_lists#IPListUsage",
+          "traits": {
+            "smithy.api#documentation": "Current use of this IP list in load balancers."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "GetIPListResponse returns IP list configuration without CIDR entries."
+      }
+    },
+    "com.stackit.lb_ip_lists#GetIPListResponseLabelsMap": {
+      "type": "map",
+      "key": {
+        "target": "smithy.api#String"
+      },
+      "value": {
+        "target": "smithy.api#String"
+      },
+      "traits": {
+        "smithy.api#documentation": "Labels represent user-defined metadata as key-value pairs.\nLabel count should not exceed 64 per IP list.\n\n**Key Formatting Rules:**\nLength: 1-63 characters.\nCharacters: Must begin and end with [a-zA-Z0-9]. May contain dashes (-), underscores (_), dots (.), and alphanumerics in between.\nKeys starting with 'stackit-' are system-reserved; users MUST NOT manage them.\n\n**Value Formatting Rules:**\nLength: 0-63 characters (empty string explicitly allowed).\nCharacters (for non-empty values): Must begin and end with [a-zA-Z0-9]. May contain dashes (-), underscores (_), dots (.), and alphanumerics in between.\n"
+      }
+    },
+    "com.stackit.lb_ip_lists#IPListUsage": {
+      "type": "structure",
+      "members": {
+        "count": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Number of load balancers currently using this IP list."
+          }
+        },
+        "items": {
+          "target": "com.stackit.lb_ip_lists#IPListUsageItemsList",
+          "traits": {
+            "smithy.api#documentation": "List of load balancers that reference this IP list."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "IPListUsage describes which NLB/ALB currently reference an IP list."
+      }
+    },
+    "com.stackit.lb_ip_lists#IPListUsageItemsList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {
+        "smithy.api#documentation": "List of load balancers that reference this IP list."
+      }
+    },
+    "com.stackit.lb_ip_lists#ListIPListsResponseItemsList": {
+      "type": "list",
+      "member": {
+        "target": "com.stackit.lb_ip_lists#GetIPListResponse"
+      },
+      "traits": {
+        "smithy.api#documentation": "Every IP list in the project and region. Never includes the CIDR entries themselves."
+      }
+    },
+    "com.stackit.lb_ip_lists#ListIPLists": {
+      "type": "operation",
+      "input": {
+        "target": "com.stackit.lb_ip_lists#ListIPListsRequest"
+      },
+      "output": {
+        "target": "com.stackit.lb_ip_lists#ListIPListsResponse"
+      },
+      "errors": [
+        {
+          "target": "com.stackit.lb_ip_lists#BadRequest"
+        },
+        {
+          "target": "com.stackit.lb_ip_lists#Forbidden"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/v1alpha/projects/{projectId}/regions/{region}/ip-lists",
+          "code": 200,
+          "baseUrl": "https://lb-ip-lists.api.{region}stackit.cloud"
+        },
+        "smithy.api#documentation": "List metadata of all IP lists in a project\n\nListIPLists returns every IP list in the project without CIDR entries.\n No pagination while the per-project limit is 3."
+      }
+    },
+    "com.stackit.lb_ip_lists#GetIPListRequest": {
+      "type": "structure",
+      "members": {
+        "projectId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        },
+        "region": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.stackit.lb_ip_lists#GetIPList": {
+      "type": "operation",
+      "input": {
+        "target": "com.stackit.lb_ip_lists#GetIPListRequest"
+      },
+      "output": {
+        "target": "com.stackit.lb_ip_lists#GetIPListResponse"
+      },
+      "errors": [
+        {
+          "target": "com.stackit.lb_ip_lists#BadRequest"
+        },
+        {
+          "target": "com.stackit.lb_ip_lists#Forbidden"
+        },
+        {
+          "target": "com.stackit.lb_ip_lists#NotFound"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/v1alpha/projects/{projectId}/regions/{region}/ip-lists/{name}",
+          "code": 200,
+          "baseUrl": "https://lb-ip-lists.api.{region}stackit.cloud"
+        },
+        "smithy.api#documentation": "Retrieve metadata of an existing IP list configuration in a project.\n\nGetIPList returns metadata of a single IP list by name, without CIDR entries."
+      }
+    },
+    "com.stackit.lb_ip_lists#UploadIPListRequestLabelsMap": {
+      "type": "map",
+      "key": {
+        "target": "smithy.api#String"
+      },
+      "value": {
+        "target": "smithy.api#String"
+      },
+      "traits": {
+        "smithy.api#documentation": "Labels represent user-defined metadata as key-value pairs.\nLabel count should not exceed 64 per IP list.\n\n**Key Formatting Rules:**\nLength: 1-63 characters.\nCharacters: Must begin and end with [a-zA-Z0-9]. May contain dashes (-), underscores (_), dots (.), and alphanumerics in between.\nKeys starting with 'stackit-' are system-reserved; users MUST NOT manage them.\n\n**Value Formatting Rules:**\nLength: 0-63 characters (empty string explicitly allowed).\nCharacters (for non-empty values): Must begin and end with [a-zA-Z0-9]. May contain dashes (-), underscores (_), dots (.), and alphanumerics in between.\n"
+      }
+    },
+    "com.stackit.lb_ip_lists#UploadIPListRequest": {
+      "type": "structure",
+      "members": {
+        "projectId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        },
+        "region": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        },
+        "fileContent": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Raw upload payload as a plain UTF-8 string. Newline-separated `.txt` list of IPv4 CIDR entries, or CSV with `cidr,labels` columns (any other columns are ignored).",
+            "smithy.api#required": {}
+          }
+        },
+        "labels": {
+          "target": "com.stackit.lb_ip_lists#UploadIPListRequestLabelsMap",
+          "traits": {
+            "smithy.api#documentation": "Labels represent user-defined metadata as key-value pairs.\nLabel count should not exceed 64 per IP list.\n\n**Key Formatting Rules:**\nLength: 1-63 characters.\nCharacters: Must begin and end with [a-zA-Z0-9]. May contain dashes (-), underscores (_), dots (.), and alphanumerics in between.\nKeys starting with 'stackit-' are system-reserved; users MUST NOT manage them.\n\n**Value Formatting Rules:**\nLength: 0-63 characters (empty string explicitly allowed).\nCharacters (for non-empty values): Must begin and end with [a-zA-Z0-9]. May contain dashes (-), underscores (_), dots (.), and alphanumerics in between.\n"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.stackit.lb_ip_lists#UploadIPList": {
+      "type": "operation",
+      "input": {
+        "target": "com.stackit.lb_ip_lists#UploadIPListRequest"
+      },
+      "output": {
+        "target": "com.stackit.lb_ip_lists#GetIPListResponse"
+      },
+      "errors": [
+        {
+          "target": "com.stackit.lb_ip_lists#BadRequest"
+        },
+        {
+          "target": "com.stackit.lb_ip_lists#Forbidden"
+        },
+        {
+          "target": "com.stackit.lb_ip_lists#UnprocessableEntity"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "PUT",
+          "uri": "/v1alpha/projects/{projectId}/regions/{region}/ip-lists/{name}",
+          "code": 200,
+          "baseUrl": "https://lb-ip-lists.api.{region}stackit.cloud"
+        },
+        "smithy.api#documentation": "Create/Replace an IP list\n\nUploadIPList creates the IP list or replaces its content. Raw upload is in `file_content`."
+      }
+    },
+    "com.stackit.lb_ip_lists#DeleteIPListRequest": {
+      "type": "structure",
+      "members": {
+        "projectId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        },
+        "region": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.stackit.lb_ip_lists#DeleteIPListResponse2": {
+      "type": "structure",
+      "members": {
+        "body": {
+          "target": "smithy.api#Document",
+          "traits": {
+            "com.distilled.openapi#rawResponse": {},
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
+      }
+    },
+    "com.stackit.lb_ip_lists#DeleteIPList": {
+      "type": "operation",
+      "input": {
+        "target": "com.stackit.lb_ip_lists#DeleteIPListRequest"
+      },
+      "output": {
+        "target": "com.stackit.lb_ip_lists#DeleteIPListResponse2"
+      },
+      "errors": [
+        {
+          "target": "com.stackit.lb_ip_lists#BadRequest"
+        },
+        {
+          "target": "com.stackit.lb_ip_lists#Forbidden"
+        },
+        {
+          "target": "com.stackit.lb_ip_lists#NotFound"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "DELETE",
+          "uri": "/v1alpha/projects/{projectId}/regions/{region}/ip-lists/{name}",
+          "code": 200,
+          "baseUrl": "https://lb-ip-lists.api.{region}stackit.cloud"
+        },
+        "smithy.api#documentation": "Delete an IP List configuration\n\nRemoves the IP list configuration from the project. If the IP list is referenced by load balancers,\n clear or replace the reference first."
+      }
+    },
+    "com.stackit.lb_ip_lists#GetQuotaRequest": {
+      "type": "structure",
+      "members": {
+        "projectId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        },
+        "region": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.stackit.lb_ip_lists#GetQuotaResponse": {
+      "type": "structure",
+      "members": {
+        "projectId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Project identifier"
+          }
+        },
+        "quotas": {
+          "target": "com.stackit.lb_ip_lists#Quotas"
+        },
+        "region": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Region"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "GetQuotaResponse returns the configured IP list quota for the project and region."
+      }
+    },
+    "com.stackit.lb_ip_lists#Quotas": {
+      "type": "structure",
+      "members": {
+        "ipLists": {
+          "target": "com.stackit.lb_ip_lists#IPListsQuota"
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Quotas holds the specific quota elements for resources managed by this API."
+      }
+    },
+    "com.stackit.lb_ip_lists#IPListsQuota": {
+      "type": "structure",
+      "members": {
+        "limit": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "The maximum number of IP lists allowed in this project. Defaults to 3. Use -1 to indicate unlimited."
+          }
+        },
+        "maxEntriesPerList": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "The maximum number of IPv4 CIDR entries allowed in a single IP list. Defaults to 50000."
+          }
+        },
+        "usage": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "The number of IP lists that currently exist in this project."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "IPListsQuota holds the limits and current usage for IP list resources.\n Defaults: limit=3 per project, max_entries_per_list=50000."
+      }
+    },
+    "com.stackit.lb_ip_lists#GetQuota": {
+      "type": "operation",
+      "input": {
+        "target": "com.stackit.lb_ip_lists#GetQuotaRequest"
+      },
+      "output": {
+        "target": "com.stackit.lb_ip_lists#GetQuotaResponse"
+      },
+      "errors": [
+        {
+          "target": "com.stackit.lb_ip_lists#BadRequest"
+        },
+        {
+          "target": "com.stackit.lb_ip_lists#Forbidden"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/v1alpha/projects/{projectId}/regions/{region}/quotas",
+          "code": 200,
+          "baseUrl": "https://lb-ip-lists.api.{region}stackit.cloud"
+        },
+        "smithy.api#documentation": "Get the quota for IP lists in a project\n\nRetrieves the IP List resource quota for the project."
+      }
+    },
+    "com.stackit.lb_ip_lists#BadRequest": {
+      "type": "structure",
+      "members": {},
+      "traits": {
+        "smithy.api#error": "client",
+        "smithy.api#httpError": 400,
+        "com.distilled.openapi#errorMatchers": [
+          {
+            "status": 400
+          }
+        ]
+      }
+    },
+    "com.stackit.lb_ip_lists#Forbidden": {
+      "type": "structure",
+      "members": {},
+      "traits": {
+        "smithy.api#error": "client",
+        "smithy.api#httpError": 403,
+        "com.distilled.openapi#errorMatchers": [
+          {
+            "status": 403
+          }
+        ]
+      }
+    },
+    "com.stackit.lb_ip_lists#NotFound": {
+      "type": "structure",
+      "members": {},
+      "traits": {
+        "smithy.api#error": "client",
+        "smithy.api#httpError": 404,
+        "com.distilled.openapi#errorMatchers": [
+          {
+            "status": 404
+          }
+        ]
+      }
+    },
+    "com.stackit.lb_ip_lists#UnprocessableEntity": {
+      "type": "structure",
+      "members": {},
+      "traits": {
+        "smithy.api#error": "client",
+        "smithy.api#httpError": 422,
+        "com.distilled.openapi#errorMatchers": [
+          {
+            "status": 422
+          }
+        ]
+      }
+    },
+    "com.stackit.lb_ip_lists#LbIpLists": {
+      "type": "service",
+      "version": "1alpha.0.0",
+      "operations": [
+        {
+          "target": "com.stackit.lb_ip_lists#ListIPLists"
+        },
+        {
+          "target": "com.stackit.lb_ip_lists#GetIPList"
+        },
+        {
+          "target": "com.stackit.lb_ip_lists#UploadIPList"
+        },
+        {
+          "target": "com.stackit.lb_ip_lists#DeleteIPList"
+        },
+        {
+          "target": "com.stackit.lb_ip_lists#GetQuota"
+        }
+      ],
+      "traits": {
+        "smithy.api#title": "STACKIT Load Balancer IP Lists API",
+        "smithy.api#documentation": "This API manages IP lists (sets of IPv4 CIDR ranges) scoped to a project and region. IP lists enable blacklisting: they can be referenced by Application and Network Load Balancer to deny traffic from matching source addresses.\n\n**Upload format**\nLists are uploaded as a single raw text payload in `file_content` (plain UTF-8 string in JSON). The server first tries to parse the payload as CSV (with a `cidr` column; any other columns are ignored) and falls back to a newline-separated `.txt` list of CIDR entries when CSV parsing fails.\n\n**Limits**\n- Maximum request payload size: 2 MB JSON (enforced before parsing).\n- Maximum number of CIDR entries per list: 50000 (enforced during streaming parse).\n- Maximum number of IP lists per project: 3.\n- Empty lists (0 CIDRs) are rejected.\n- Only IPv4 CIDR entries are supported for now; IPv6 entries are rejected.\n- No duplicate or overlap checks are performed.\n\n**Semantics**\n- `Upload` creates the list if it does not exist and replaces its content otherwise.   Uploads with identical stored content are a no-op (no version bump, no reload).\n- `List` returns each stored IP list without its CIDR entries (name, labels, number of IPs, content hash, usage).   The CIDR entries themselves are never returned by the API.\n- There is no single-item Get endpoint. Clients verify content by comparing the returned `content_hash`.\n- IP lists referenced by any load balancer cannot be deleted; the reference must be cleared or   replaced with a different list first."
+      }
+    }
+  }
+}

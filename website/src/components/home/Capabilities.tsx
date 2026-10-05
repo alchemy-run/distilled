@@ -1,0 +1,220 @@
+import { A } from "@solidjs/router";
+import { For, type JSX } from "solid-js";
+import type { BenchHeadline } from "../../../build/site-data.ts";
+import { revealOnScroll } from "../../lib/dom.ts";
+import { Code } from "../ui/Code.tsx";
+import { SectionHead } from "../ui/Section.tsx";
+
+const Cap = (props: { index: number; title: string; code: string; children: JSX.Element }) => (
+  <article
+    class="reveal-item panel flex min-w-0 flex-col gap-3 px-[1.6rem] pt-6 pb-[1.6rem] hover:border-line-2"
+    style={{ "--i": props.index }}
+  >
+    <h3 class="display-48 text-[1.45rem] leading-[1.15] text-fg">{props.title}</h3>
+    <Code
+      src={props.code}
+      class="my-[0.2rem] rounded-lg border border-line bg-bg px-[0.9rem] py-3 leading-[1.6]"
+    />
+    <p class="m-0 text-[0.93rem] text-pretty text-fg-2">{props.children}</p>
+  </article>
+);
+
+export const Capabilities = (props: { bench: BenchHeadline }) => {
+  const stats = () => [
+    ["gzipped, one S3 operation", props.bench.s3Gzip],
+    ["gzipped, one Workers operation", props.bench.cfGzip],
+    // ["Cloudflare call, p50", props.bench.cfP50],
+    // ["AWS call incl. SigV4, p50", props.bench.awsP50],
+  ];
+  return (
+    <section class="rule py-section" id="features" aria-labelledby="features-title">
+      <SectionHead
+        id="features-title"
+        title={
+          <>
+            Built entirely on <em>Effect</em>, not <code>tryPromise</code>
+          </>
+        }
+      >
+        Every operation returns an Effect, requests go through Effect's HttpClient, and inputs and
+        outputs are Effect Schemas. Distilled's core gives you everything you want from an
+        Effect-first SDK: typed error categories, retry policies, pagination as Effect Streams, and
+        a span per request. Every SDK is built on the same core with the same naming patterns, so
+        once you've used one, the rest feel familiar.
+      </SectionHead>
+
+      <div class="grid grid-cols-1 gap-3 md:grid-cols-2" data-reveal ref={revealOnScroll}>
+        <Cap
+          index={0}
+          title="Typed errors"
+          code={`S3.«f:getObject»({ Bucket, Key }).«f:pipe»(
+  Effect.«f:catchTags»({
+    «t:NoSuchKey»:          () => Effect.«f:succeed»(«c:null»),
+    «t:InvalidObjectState»: (e) => Effect.«f:fail»(«k:new» «t:Archived»(e)),
+  }),
+  Effect.«f:catchIf»(«f:isThrottlingError», () => backOff),
+)`}
+        >
+          Match an exact error or a whole category with the Effect functions you already know, like{" "}
+          <code>Effect.catchTags</code> and <code>Effect.catchIf</code>. Each SDK is patched with
+          the errors and details its API spec never documents, so nothing comes back as{" "}
+          <code>unknown</code> and your types stay accurate.
+        </Cap>
+
+        <Cap
+          index={1}
+          title="Retries and backoff"
+          code={`«k:const» write = Effect.«f:all»([
+  «m:// throttled → waits as long as S3 asks, forever»
+  S3.«f:putObject»({ Bucket, Key, Body }),
+  «m:// no retry of its own; only the outer loop can bring it back»
+  S3.«f:deleteObject»({ Bucket, Key }).«f:pipe»(AWS.Retry.«f:none»),
+]).«f:pipe»(AWS.Retry.«f:throttling»)
+
+«m:// around both: 5xx, timeouts, dropped sockets — 4 tries, then fail»
+write.«f:pipe»(Effect.«f:retry»({
+  while: «f:isTransientError»,
+  times: 3,
+  schedule: Schedule.«f:exponential»("250 millis"),
+}))`}
+        >
+          The API's own <code>Retry-After</code> is respected, and you can define your own retry
+          policies and stack them.
+        </Cap>
+
+        <Cap
+          index={2}
+          title="Streaming pagination"
+          code={`«m:// Paginated: pages fetch themselves, on demand.»
+«k:const» stale = Lambda.listFunctions.«f:items»({}).«f:pipe»(
+  Stream.«f:filter»((fn) => fn.Runtime === «s:"nodejs16.x"»),
+  Stream.«f:take»(«c:50»),
+  Stream.«f:runCollect»,
+)
+
+«m:// Bodies stream in and out — nothing is buffered.»
+«k:const» copy = S3.«f:getObject»({ Bucket: src, Key }).«f:pipe»(
+  Effect.«f:flatMap»((o) =>
+    S3.«f:putObject»({ Bucket: dst, Key, Body: o.Body! })),
+)`}
+        >
+          <span class="block">
+            Every paginated operation has <code>.items()</code> and <code>.pages()</code>, so you
+            pull items from an Effect Stream and pages load as you go.
+          </span>
+          <span class="mt-3 block">
+            Large binary bodies stream in and out without being held in memory. Cancel the Effect
+            and the requests stop.
+          </span>
+        </Cap>
+
+        <Cap
+          index={3}
+          title="Layered configuration"
+          code={`«k:const» AwsLive = Layer.«f:mergeAll»(
+  FetchHttpClient.layer,
+  Region.«f:fromEnv»(),
+  Credentials.«f:fromChain»(),   «m:// env → ~/.aws → SSO → IMDS»
+)
+
+«m:// the region comes from the layer…»
+«k:const» head = S3.«f:headObject»({ Bucket, Key })
+
+«m:// ...unless one call says otherwise»
+«k:const» eu = head.«f:pipe»(Effect.«f:provide»(Region.«f:of»("eu-central-1")))
+
+Effect.«f:all»([head, eu]).«f:pipe»(Effect.«f:provide»(AwsLive))`}
+        >
+          Your code just calls <code>S3.headObject</code>. Credentials and regions come from layers:
+          provide them once at the root of your program and override them wherever you need to.
+        </Cap>
+
+        <Cap
+          index={4}
+          title="Lazy GraphQL"
+          code={`«m:// at runtime \`yield* load()\` is a single GraphQL query»
+«k:const» load = Query.«f:fn»(() => {
+  «k:const» me = Railway.«f:me»()
+  «k:const» page = Railway.«f:projects»({ first: «c:20» })
+  «k:return» {
+    email: me.email,
+    names: page.«f:pipe»(
+      Query.«f:map»((project) => project.name),
+    ),
+  }
+})`}
+        >
+          GraphQL queries are abstracted away, just reference the fields you need and a query is
+          generated at runtime.
+        </Cap>
+
+        <Cap
+          index={5}
+          title="OpenTelemetry spans"
+          code={`«m:// Effect's HttpClient opens a span per request with the»
+«m:// standard http.* and server.* attributes.»
+program.«f:pipe»(
+  Effect.«f:withSpan»(«s:"provision-bucket"»),
+  Effect.«f:provide»(OtlpTracer.«f:layer»({
+    url: «s:"http://collector:4318/v1/traces"»,
+  })),
+)`}
+        >
+          Operations are ordinary Effects, so they get Effect's built-in OpenTelemetry support.
+        </Cap>
+
+        <Cap
+          index={6}
+          title="Strict responses"
+          code={`«k:import» { ResponseValidation } «k:from» «s:"@distilled.cloud/core"»
+
+«m:// every SDK checks each response against its schema»
+program.«f:pipe»(Effect.«f:provide»(ResponseValidation.strict))
+
+«m:// a response that drifted from the spec is a typed error»
+Neon.«f:getProject»({ project_id }).«f:pipe»(
+  Effect.«f:catchTag»(«s:"NeonParseError"», (e) => ...),
+)`}
+        >
+          Responses are lenient by default and come back as the API sent them. Provide one layer and
+          every SDK in your program checks each response against its schema. When an API changes
+          shape, the call fails with a typed <code>ParseError</code> instead of handing you the
+          wrong type.
+        </Cap>
+
+        <article
+          class="reveal-item panel flex min-w-0 flex-col gap-3 px-[1.6rem] pt-6 pb-[1.6rem] hover:border-line-2"
+          style={{ "--i": 7 }}
+        >
+          <h3 class="display-48 text-[1.45rem] leading-[1.15] text-fg">Per-operation imports</h3>
+          <Code
+            src={`«m:// the bundle keeps getObject — not the other 111 S3 ops»
+«k:import» { getObject } «k:from» «s:"@distilled.cloud/aws/s3"»`}
+            class="my-[0.2rem] rounded-lg border border-line bg-bg px-[0.9rem] py-3 leading-[1.6]"
+          />
+          <dl class="my-[0.2rem] grid grid-cols-2 gap-2">
+            <For each={stats()}>
+              {([label, value]) => (
+                <div class="rounded-lg border border-line bg-bg px-[0.8rem] py-[0.6rem]">
+                  <dt class="font-mono text-[0.66rem] tracking-[0.06em] text-fg-3 uppercase">
+                    {label}
+                  </dt>
+                  <dd class="display-48 mt-[0.15rem] text-2xl leading-none text-teal-2 tabular-nums">
+                    {value}
+                  </dd>
+                </div>
+              )}
+            </For>
+          </dl>
+          <p class="m-0 text-[0.93rem] text-pretty text-fg-2">
+            Every operation is its own export, so the bundler keeps only the ones you call — 1 of
+            112 S3 operations survives in the measured build. Runs on Node, Bun and Workers.{" "}
+            <A class="ml-1.5 inline-block whitespace-nowrap text-accent" href="/bench">
+              See all the numbers →
+            </A>
+          </p>
+        </article>
+      </div>
+    </section>
+  );
+};

@@ -1,0 +1,942 @@
+{
+  "smithy": "2.0",
+  "metadata": {
+    "suppressions": [
+      {
+        "id": "HttpUriConflict",
+        "namespace": "*"
+      },
+      {
+        "id": "HttpMethodSemantics",
+        "namespace": "*"
+      },
+      {
+        "id": "UnreferencedShape",
+        "namespace": "*"
+      }
+    ],
+    "distilled.finalized": true
+  },
+  "shapes": {
+    "com.daytona.snapshots#GetAllSnapshotsRequestSort": {
+      "type": "enum",
+      "members": {
+        "NAME": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "name"
+          }
+        },
+        "STATE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "state"
+          }
+        },
+        "LASTUSEDAT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "lastUsedAt"
+          }
+        },
+        "CREATEDAT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "createdAt"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.daytona.snapshots#GetAllSnapshotsRequestOrder": {
+      "type": "enum",
+      "members": {
+        "ASC": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "asc"
+          }
+        },
+        "DESC": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "desc"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.daytona.snapshots#GetAllSnapshotsRequest": {
+      "type": "structure",
+      "members": {
+        "page": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#httpQuery": "page",
+            "smithy.api#documentation": "Page number of the results"
+          }
+        },
+        "limit": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#httpQuery": "limit",
+            "smithy.api#documentation": "Number of results per page"
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "name",
+            "smithy.api#documentation": "Filter by partial name match"
+          }
+        },
+        "sourceSandboxId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "sourceSandboxId",
+            "smithy.api#documentation": "Filter by the ID of the sandbox the snapshot was created from"
+          }
+        },
+        "sort": {
+          "target": "com.daytona.snapshots#GetAllSnapshotsRequestSort",
+          "traits": {
+            "smithy.api#httpQuery": "sort",
+            "smithy.api#documentation": "Field to sort by"
+          }
+        },
+        "order": {
+          "target": "com.daytona.snapshots#GetAllSnapshotsRequestOrder",
+          "traits": {
+            "smithy.api#httpQuery": "order",
+            "smithy.api#documentation": "Direction to sort by"
+          }
+        },
+        "xDaytonaOrganizationID": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "X-Daytona-Organization-ID",
+            "smithy.api#documentation": "Use with JWT to specify the organization ID"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.daytona.snapshots#PaginatedSnapshots": {
+      "type": "structure",
+      "members": {
+        "items": {
+          "target": "com.daytona.snapshots#PaginatedSnapshotsItemsList",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "total": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "page": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "totalPages": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.daytona.snapshots#SnapshotDto": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "organizationId": {
+          "target": "smithy.api#String"
+        },
+        "general": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "imageName": {
+          "target": "smithy.api#String"
+        },
+        "state": {
+          "target": "com.daytona.snapshots#SnapshotState",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "size": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "entrypoint": {
+          "target": "com.daytona.snapshots#SnapshotDtoEntrypointList",
+          "traits": {
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "cpu": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "gpu": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "gpuType": {
+          "target": "com.daytona.snapshots#GpuType",
+          "traits": {
+            "smithy.api#documentation": "The GPU type assigned to the snapshot"
+          }
+        },
+        "mem": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "disk": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "errorReason": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "createdAt": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "updatedAt": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "lastUsedAt": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "buildInfo": {
+          "target": "com.daytona.snapshots#BuildInfo",
+          "traits": {
+            "smithy.api#documentation": "Build information for the snapshot"
+          }
+        },
+        "regionIds": {
+          "target": "com.daytona.snapshots#SnapshotDtoRegionIdsList",
+          "traits": {
+            "smithy.api#documentation": "IDs of regions where the snapshot is available"
+          }
+        },
+        "initialRunnerId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The initial runner ID of the snapshot"
+          }
+        },
+        "ref": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The snapshot reference"
+          }
+        },
+        "sourceSandboxId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The ID of the sandbox the snapshot was created from",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "sandboxClass": {
+          "target": "com.daytona.snapshots#SnapshotDtoSandboxClass",
+          "traits": {
+            "smithy.api#documentation": "The sandbox class of the snapshot"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.daytona.snapshots#SnapshotState": {
+      "type": "enum",
+      "members": {
+        "BUILDING": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "building"
+          }
+        },
+        "PENDING": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "pending"
+          }
+        },
+        "PULLING": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "pulling"
+          }
+        },
+        "SNAPSHOTTING": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "snapshotting"
+          }
+        },
+        "ACTIVE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "active"
+          }
+        },
+        "INACTIVE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "inactive"
+          }
+        },
+        "ERROR": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "error"
+          }
+        },
+        "BUILD_FAILED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "build_failed"
+          }
+        },
+        "REMOVING": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "removing"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.daytona.snapshots#SnapshotDtoEntrypointList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {}
+    },
+    "com.daytona.snapshots#GpuType": {
+      "type": "enum",
+      "members": {
+        "H100": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "H100"
+          }
+        },
+        "H200": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "H200"
+          }
+        },
+        "RTX_PRO_6000": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "RTX-PRO-6000"
+          }
+        },
+        "RTX_4090": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "RTX-4090"
+          }
+        },
+        "RTX_5090": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "RTX-5090"
+          }
+        },
+        "MI355X": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "MI355X"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.daytona.snapshots#BuildInfo": {
+      "type": "structure",
+      "members": {
+        "dockerfileContent": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The Dockerfile content used for the build"
+          }
+        },
+        "contextHashes": {
+          "target": "com.daytona.snapshots#BuildInfoContextHashesList",
+          "traits": {
+            "smithy.api#documentation": "The context hashes used for the build"
+          }
+        },
+        "createdAt": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The creation timestamp",
+            "smithy.api#required": {}
+          }
+        },
+        "updatedAt": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The last update timestamp",
+            "smithy.api#required": {}
+          }
+        },
+        "snapshotRef": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The snapshot reference",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.daytona.snapshots#BuildInfoContextHashesList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {
+        "smithy.api#documentation": "The context hashes used for the build"
+      }
+    },
+    "com.daytona.snapshots#SnapshotDtoRegionIdsList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {
+        "smithy.api#documentation": "IDs of regions where the snapshot is available"
+      }
+    },
+    "com.daytona.snapshots#SnapshotDtoSandboxClass": {
+      "type": "enum",
+      "members": {
+        "LINUX_VM": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "linux-vm"
+          }
+        },
+        "CONTAINER": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "container"
+          }
+        },
+        "ANDROID": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "android"
+          }
+        },
+        "WINDOWS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "windows"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The sandbox class of the snapshot"
+      }
+    },
+    "com.daytona.snapshots#PaginatedSnapshotsItemsList": {
+      "type": "list",
+      "member": {
+        "target": "com.daytona.snapshots#SnapshotDto"
+      },
+      "traits": {}
+    },
+    "com.daytona.snapshots#GetAllSnapshots": {
+      "type": "operation",
+      "input": {
+        "target": "com.daytona.snapshots#GetAllSnapshotsRequest"
+      },
+      "output": {
+        "target": "com.daytona.snapshots#PaginatedSnapshots"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/snapshots",
+          "code": 200
+        },
+        "smithy.api#documentation": "List all snapshots"
+      }
+    },
+    "com.daytona.snapshots#CreateSnapshotRequestEntrypointList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {
+        "smithy.api#documentation": "The entrypoint command for the snapshot"
+      }
+    },
+    "com.daytona.snapshots#CreateSnapshotRequestGpuTypeList": {
+      "type": "list",
+      "member": {
+        "target": "com.daytona.snapshots#GpuType"
+      },
+      "traits": {
+        "smithy.api#documentation": "Preferred GPU type for the resulting sandbox."
+      }
+    },
+    "com.daytona.snapshots#CreateBuildInfo": {
+      "type": "structure",
+      "members": {
+        "dockerfileContent": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The Dockerfile content used for the build",
+            "smithy.api#required": {}
+          }
+        },
+        "contextHashes": {
+          "target": "com.daytona.snapshots#CreateBuildInfoContextHashesList",
+          "traits": {
+            "smithy.api#documentation": "The context hashes used for the build"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.daytona.snapshots#CreateBuildInfoContextHashesList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {
+        "smithy.api#documentation": "The context hashes used for the build"
+      }
+    },
+    "com.daytona.snapshots#SandboxClass": {
+      "type": "enum",
+      "members": {
+        "LINUX_VM": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "linux-vm"
+          }
+        },
+        "CONTAINER": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "container"
+          }
+        },
+        "ANDROID": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "android"
+          }
+        },
+        "WINDOWS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "windows"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.daytona.snapshots#CreateSnapshotRequest": {
+      "type": "structure",
+      "members": {
+        "xDaytonaOrganizationID": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "X-Daytona-Organization-ID",
+            "smithy.api#documentation": "Use with JWT to specify the organization ID"
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The name of the snapshot",
+            "smithy.api#required": {}
+          }
+        },
+        "imageName": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The image name of the snapshot"
+          }
+        },
+        "entrypoint": {
+          "target": "com.daytona.snapshots#CreateSnapshotRequestEntrypointList",
+          "traits": {
+            "smithy.api#documentation": "The entrypoint command for the snapshot"
+          }
+        },
+        "cpu": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "CPU cores allocated to the resulting sandbox"
+          }
+        },
+        "gpu": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "GPU units allocated to the resulting sandbox"
+          }
+        },
+        "gpuType": {
+          "target": "com.daytona.snapshots#CreateSnapshotRequestGpuTypeList",
+          "traits": {
+            "smithy.api#documentation": "Preferred GPU type for the resulting sandbox."
+          }
+        },
+        "memory": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Memory allocated to the resulting sandbox in GB"
+          }
+        },
+        "disk": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Disk space allocated to the sandbox in GB"
+          }
+        },
+        "buildInfo": {
+          "target": "com.daytona.snapshots#CreateBuildInfo",
+          "traits": {
+            "smithy.api#documentation": "Build information for the snapshot"
+          }
+        },
+        "regionId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "ID of the region where the snapshot will be available. Defaults to organization default region if not specified."
+          }
+        },
+        "sandboxClass": {
+          "target": "com.daytona.snapshots#SandboxClass",
+          "traits": {
+            "smithy.api#documentation": "Target sandbox class. Determines which runners can host sandboxes created from this snapshot."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.daytona.snapshots#CreateSnapshot": {
+      "type": "operation",
+      "input": {
+        "target": "com.daytona.snapshots#CreateSnapshotRequest"
+      },
+      "output": {
+        "target": "com.daytona.snapshots#SnapshotDto"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/snapshots",
+          "code": 200
+        },
+        "smithy.api#documentation": "Create a new snapshot"
+      }
+    },
+    "com.daytona.snapshots#GetSnapshotRequest": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Snapshot ID or name"
+          }
+        },
+        "xDaytonaOrganizationID": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "X-Daytona-Organization-ID",
+            "smithy.api#documentation": "Use with JWT to specify the organization ID"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.daytona.snapshots#GetSnapshot": {
+      "type": "operation",
+      "input": {
+        "target": "com.daytona.snapshots#GetSnapshotRequest"
+      },
+      "output": {
+        "target": "com.daytona.snapshots#SnapshotDto"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/snapshots/{id}",
+          "code": 200
+        },
+        "smithy.api#documentation": "Get snapshot by ID or name"
+      }
+    },
+    "com.daytona.snapshots#RemoveSnapshotRequest": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Snapshot ID"
+          }
+        },
+        "xDaytonaOrganizationID": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "X-Daytona-Organization-ID",
+            "smithy.api#documentation": "Use with JWT to specify the organization ID"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.daytona.snapshots#RemoveSnapshot": {
+      "type": "operation",
+      "input": {
+        "target": "com.daytona.snapshots#RemoveSnapshotRequest"
+      },
+      "output": {
+        "target": "smithy.api#Unit"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "DELETE",
+          "uri": "/snapshots/{id}",
+          "code": 200
+        },
+        "smithy.api#documentation": "Delete snapshot"
+      }
+    },
+    "com.daytona.snapshots#GetSnapshotBuildLogsUrlRequest": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Snapshot ID"
+          }
+        },
+        "xDaytonaOrganizationID": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "X-Daytona-Organization-ID",
+            "smithy.api#documentation": "Use with JWT to specify the organization ID"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.daytona.snapshots#Url": {
+      "type": "structure",
+      "members": {
+        "url": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "URL response",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.daytona.snapshots#GetSnapshotBuildLogsUrl": {
+      "type": "operation",
+      "input": {
+        "target": "com.daytona.snapshots#GetSnapshotBuildLogsUrlRequest"
+      },
+      "output": {
+        "target": "com.daytona.snapshots#Url"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/snapshots/{id}/build-logs-url",
+          "code": 200
+        },
+        "smithy.api#documentation": "Get snapshot build logs URL"
+      }
+    },
+    "com.daytona.snapshots#ActivateSnapshotRequest": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Snapshot ID"
+          }
+        },
+        "xDaytonaOrganizationID": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "X-Daytona-Organization-ID",
+            "smithy.api#documentation": "Use with JWT to specify the organization ID"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.daytona.snapshots#ActivateSnapshot": {
+      "type": "operation",
+      "input": {
+        "target": "com.daytona.snapshots#ActivateSnapshotRequest"
+      },
+      "output": {
+        "target": "com.daytona.snapshots#SnapshotDto"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/snapshots/{id}/activate",
+          "code": 200
+        },
+        "smithy.api#documentation": "Activate a snapshot"
+      }
+    },
+    "com.daytona.snapshots#DeactivateSnapshotRequest": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Snapshot ID"
+          }
+        },
+        "xDaytonaOrganizationID": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "X-Daytona-Organization-ID",
+            "smithy.api#documentation": "Use with JWT to specify the organization ID"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.daytona.snapshots#DeactivateSnapshot": {
+      "type": "operation",
+      "input": {
+        "target": "com.daytona.snapshots#DeactivateSnapshotRequest"
+      },
+      "output": {
+        "target": "smithy.api#Unit"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/snapshots/{id}/deactivate",
+          "code": 200
+        },
+        "smithy.api#documentation": "Deactivate a snapshot"
+      }
+    },
+    "com.daytona.snapshots#Snapshots": {
+      "type": "service",
+      "version": "1.0",
+      "operations": [
+        {
+          "target": "com.daytona.snapshots#GetAllSnapshots"
+        },
+        {
+          "target": "com.daytona.snapshots#CreateSnapshot"
+        },
+        {
+          "target": "com.daytona.snapshots#GetSnapshot"
+        },
+        {
+          "target": "com.daytona.snapshots#RemoveSnapshot"
+        },
+        {
+          "target": "com.daytona.snapshots#GetSnapshotBuildLogsUrl"
+        },
+        {
+          "target": "com.daytona.snapshots#ActivateSnapshot"
+        },
+        {
+          "target": "com.daytona.snapshots#DeactivateSnapshot"
+        }
+      ],
+      "traits": {
+        "smithy.api#title": "Daytona",
+        "smithy.api#documentation": "Daytona AI platform API Docs"
+      }
+    }
+  }
+}

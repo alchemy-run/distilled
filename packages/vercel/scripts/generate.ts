@@ -1,4 +1,5 @@
-#!/usr/bin/env bun
+#!/usr/bin/env -S node --conditions=bun
+import { runGeneratorCli } from "@distilled.cloud/core/codegen/cli";
 /**
  * generate — turn the Smithy JSON models in .generated-specs into the Vercel
  * Effect SDK.
@@ -16,7 +17,7 @@
  * Vercel keeps its wire member names verbatim (camelCase — `projectId`,
  * `teamId`, `createdAt`) on the TS surface. Module files are named after the
  * tag slug (`access_groups.ts`) while the barrel exports them camelCased
- * (`Services.accessGroups.listAccessGroups`), the spelling Vercel's own SDK
+ * (`accessGroups.listAccessGroups`), the spelling Vercel's own SDK
  * uses.
  *
  * No pagination profiles are emitted. Vercel paginates with `limit` plus a
@@ -29,7 +30,6 @@
  * plain input fields; callers advance them.
  */
 import { type SdkSpec } from "@distilled.cloud/core/codegen/generator";
-import { runGeneratorCli } from "@distilled.cloud/core/codegen/cli";
 
 const NULLABLE_TRAIT = "com.distilled.openapi#nullable";
 const ERROR_MATCHERS_TRAIT = "com.distilled.openapi#errorMatchers";
@@ -111,7 +111,7 @@ const spec: SdkSpec = {
 
 runGeneratorCli({
   description: "Generate the Vercel Effect SDK from the Smithy models",
-  root: `${import.meta.dir}/..`,
+  root: `${import.meta.dirname}/..`,
   // The RFC-6902 patch chain in patches/ applies to the OpenAPI document in
   // scripts/convert.ts — never to the Smithy models.
   patchesDir: false,
