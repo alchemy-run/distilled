@@ -43,6 +43,7 @@ import {
   listNamespaces,
   NamespaceNotFound,
 } from "./services/kv.ts";
+import { sendStreamRecords } from "./services/pipelines.ts";
 import { createAssetUpload } from "./services/workers.ts";
 import { getZone, InvalidZoneIdentifier } from "./services/zones.ts";
 
@@ -579,5 +580,20 @@ describe("single `error` envelopes (K2 produce)", () => {
     );
     expect(error).toBeInstanceOf(K2Unavailable);
     expect(Category.isTransientError(error)).toBe(true);
+  });
+});
+
+describe("verbatim payloads (Pipelines ingest)", () => {
+  test("event keys are sent exactly as given, never renamed by the key dictionary", async () => {
+    const records = [{ createdAt: 1, accountId: "a", nested: { tableName: "t" } }];
+    const { requests, promise } = run(
+      sendStreamRecords({ streamId: "0123456789abcdef0123456789abcdef", records }),
+      { body: JSON.stringify({ success: true, result: { committed: 1 } }) },
+    );
+    expect(await promise).toEqual({ committed: 1 });
+    expect(requests[0]!.url).toBe(
+      "https://0123456789abcdef0123456789abcdef.ingest.cloudflare.com/",
+    );
+    expect(JSON.parse(await requests[0]!.text())).toEqual(records);
   });
 });

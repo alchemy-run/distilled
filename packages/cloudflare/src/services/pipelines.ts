@@ -5949,8 +5949,7 @@ export const SendStreamRecordsRequest = /*@__PURE__*/ S.suspend(() =>
     records: SendStreamRecordsEventList.pipe(T.HttpBody()),
   })
     .pipe(T.Http({ method: "POST", uri: "/", code: 200 }))
-    .pipe(T.Host("https://{stream_id}.ingest.cloudflare.com"))
-    .pipe(T.KeyDictionary(KEY_DICTIONARY)),
+    .pipe(T.Host("https://{stream_id}.ingest.cloudflare.com")),
 ).annotate({ identifier: "SendStreamRecordsRequest" }) as any as S.Schema<SendStreamRecordsRequest>;
 
 export interface SendStreamRecordsResponse {

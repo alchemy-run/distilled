@@ -24,6 +24,7 @@ const BINARY_RESPONSE_BODY_TRAIT = "com.cloudflare.protocols#binaryResponseBody"
 const KEY_DICTIONARY_TRAIT = "com.cloudflare.protocols#keyDictionary";
 const DEEP_QUERY_TRAIT = "com.cloudflare.protocols#deepQuery";
 const HOST_TRAIT = "com.cloudflare.protocols#host";
+const VERBATIM_PAYLOAD_TRAIT = "com.cloudflare.protocols#verbatimPayload";
 
 /** Cloudflare's provider spec for the shared smithy→SDK compiler. */
 const makeCfSpec = (
@@ -102,7 +103,12 @@ const makeCfSpec = (
     ...(typeof opTraits?.[HOST_TRAIT] === "string"
       ? [`T.Host(${JSON.stringify(opTraits[HOST_TRAIT])})`]
       : []),
-    ...(keyDictionary && isOpIo ? [`T.KeyDictionary(KEY_DICTIONARY)`] : []),
+    // An operation whose request body is user data (Pipelines ingest
+    // records) must not have its opaque content renamed through the
+    // service key dictionary.
+    ...(keyDictionary && isOpIo && opTraits?.[VERBATIM_PAYLOAD_TRAIT] === undefined
+      ? [`T.KeyDictionary(KEY_DICTIONARY)`]
+      : []),
   ],
 
   // Op I/O roots carry the service key dictionary (inside the suspend, so it

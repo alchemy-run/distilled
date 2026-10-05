@@ -11148,7 +11148,8 @@
           "code": 200
         },
         "com.cloudflare.protocols#host": "https://{stream_id}.ingest.cloudflare.com",
-        "smithy.api#documentation": "Send events to a stream's HTTP ingest endpoint. Needs the stream's HTTP input enabled, and a token with Pipelines Send when it requires authentication."
+        "smithy.api#documentation": "Send events to a stream's HTTP ingest endpoint. Needs the stream's HTTP input enabled, and a token with Pipelines Send when it requires authentication.",
+        "com.cloudflare.protocols#verbatimPayload": {}
       }
     }
   }
