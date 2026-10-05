@@ -88,13 +88,7 @@ export class HostnameAssociationNotFound
       code: S.Number,
       message: S.String,
     }),
-    [
-      {
-        code: 1553,
-        message: { includes: "setting for this hostname not found" },
-      },
-      { status: 404 },
-    ],
+    [{ code: 1553, message: { includes: "setting for this hostname not found" } }, { status: 404 }],
   ) {}
 
 export class HostnameCertificateIdRequired
@@ -198,7 +192,7 @@ export const HostnameCertificatesCreateResponseStatus = S.String;
 
 /** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
 export interface CreateHostnameCertificateResponse {
-  /** Identifier. */
+  /** Certificate identifier tag. */
   id?: string | null;
   /** The hostname certificate. */
   certificate?: string | null;
@@ -244,13 +238,7 @@ export const CreateOriginTlsClientAuthRequest = /*@__PURE__*/ S.suspend(() =>
     certificate: S.String,
     privateKey: S.String.pipe(T.Body("private_key")),
   })
-    .pipe(
-      T.Http({
-        method: "POST",
-        uri: "/zones/{zone_id}/origin_tls_client_auth",
-        code: 200,
-      }),
-    )
+    .pipe(T.Http({ method: "POST", uri: "/zones/{zone_id}/origin_tls_client_auth", code: 200 }))
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
 ).annotate({
   identifier: "CreateOriginTlsClientAuthRequest",
@@ -258,7 +246,7 @@ export const CreateOriginTlsClientAuthRequest = /*@__PURE__*/ S.suspend(() =>
 
 /** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
 export interface CreateOriginTlsClientAuthResponse {
-  /** Identifier. */
+  /** Certificate identifier tag. */
   id?: string | null;
   /** The zone's leaf certificate. */
   certificate?: string | null;
@@ -302,13 +290,7 @@ export const CreateZoneCertificateRequest = /*@__PURE__*/ S.suspend(() =>
     certificate: S.String,
     privateKey: S.String.pipe(T.Body("private_key")),
   })
-    .pipe(
-      T.Http({
-        method: "POST",
-        uri: "/zones/{zone_id}/origin_tls_client_auth",
-        code: 200,
-      }),
-    )
+    .pipe(T.Http({ method: "POST", uri: "/zones/{zone_id}/origin_tls_client_auth", code: 200 }))
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
 ).annotate({
   identifier: "CreateZoneCertificateRequest",
@@ -316,7 +298,7 @@ export const CreateZoneCertificateRequest = /*@__PURE__*/ S.suspend(() =>
 
 /** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
 export interface CreateZoneCertificateResponse {
-  /** Identifier. */
+  /** Certificate identifier tag. */
   id?: string | null;
   /** The zone's leaf certificate. */
   certificate?: string | null;
@@ -339,7 +321,7 @@ export const CreateZoneCertificateResponse = /*@__PURE__*/ S.suspend(() =>
 export interface DeleteHostnameCertificateRequest {
   /** Identifier. */
   zoneId: string;
-  /** Identifier. */
+  /** Certificate identifier tag. */
   certificateId: string;
 }
 export const DeleteHostnameCertificateRequest = /*@__PURE__*/ S.suspend(() =>
@@ -371,7 +353,7 @@ export const HostnameCertificatesDeleteResponseStatus = S.String;
 
 /** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
 export interface DeleteHostnameCertificateResponse {
-  /** Identifier. */
+  /** Certificate identifier tag. */
   id?: string | null;
   /** The hostname certificate. */
   certificate?: string | null;
@@ -406,7 +388,7 @@ export const DeleteHostnameCertificateResponse = /*@__PURE__*/ S.suspend(() =>
 export interface DeleteOriginTlsClientAuthRequest {
   /** Identifier. */
   zoneId: string;
-  /** Identifier. */
+  /** Certificate identifier tag. */
   certificateId: string;
 }
 export const DeleteOriginTlsClientAuthRequest = /*@__PURE__*/ S.suspend(() =>
@@ -428,7 +410,7 @@ export const DeleteOriginTlsClientAuthRequest = /*@__PURE__*/ S.suspend(() =>
 
 /** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
 export interface DeleteOriginTlsClientAuthResponse {
-  /** Identifier. */
+  /** Certificate identifier tag. */
   id?: string | null;
   /** The zone's leaf certificate. */
   certificate?: string | null;
@@ -451,7 +433,7 @@ export const DeleteOriginTlsClientAuthResponse = /*@__PURE__*/ S.suspend(() =>
 export interface DeleteZoneCertificateRequest {
   /** Identifier. */
   zoneId: string;
-  /** Identifier. */
+  /** Certificate identifier tag. */
   certificateId: string;
 }
 export const DeleteZoneCertificateRequest = /*@__PURE__*/ S.suspend(() =>
@@ -473,7 +455,7 @@ export const DeleteZoneCertificateRequest = /*@__PURE__*/ S.suspend(() =>
 
 /** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
 export interface DeleteZoneCertificateResponse {
-  /** Identifier. */
+  /** Certificate identifier tag. */
   id?: string | null;
   /** The zone's leaf certificate. */
   certificate?: string | null;
@@ -512,9 +494,7 @@ export const GetHostnameRequest = /*@__PURE__*/ S.suspend(() =>
       }),
     )
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "GetHostnameRequest",
-}) as any as S.Schema<GetHostnameRequest>;
+).annotate({ identifier: "GetHostnameRequest" }) as any as S.Schema<GetHostnameRequest>;
 
 export type HostnamesGetResponseCertStatus =
   | "initializing"
@@ -538,7 +518,7 @@ export const HostnamesGetResponseStatus = S.String;
 
 /** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
 export interface GetHostnameResponse {
-  /** Identifier. */
+  /** Certificate identifier tag. */
   certId?: string | null;
   /** Status of the certificate or the association. */
   certStatus?: HostnamesGetResponseCertStatus | null;
@@ -584,14 +564,12 @@ export const GetHostnameResponse = /*@__PURE__*/ S.suspend(() =>
     status: S.optional(S.NullOr(HostnamesGetResponseStatus)),
     updatedAt: S.optional(S.NullOr(S.String).pipe(T.Body("updated_at"))),
   }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "GetHostnameResponse",
-}) as any as S.Schema<GetHostnameResponse>;
+).annotate({ identifier: "GetHostnameResponse" }) as any as S.Schema<GetHostnameResponse>;
 
 export interface GetHostnameCertificateRequest {
   /** Identifier. */
   zoneId: string;
-  /** Identifier. */
+  /** Certificate identifier tag. */
   certificateId: string;
 }
 export const GetHostnameCertificateRequest = /*@__PURE__*/ S.suspend(() =>
@@ -623,7 +601,7 @@ export const HostnameCertificatesGetResponseStatus = S.String;
 
 /** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
 export interface GetHostnameCertificateResponse {
-  /** Identifier. */
+  /** Certificate identifier tag. */
   id?: string | null;
   /** The hostname certificate. */
   certificate?: string | null;
@@ -658,7 +636,7 @@ export const GetHostnameCertificateResponse = /*@__PURE__*/ S.suspend(() =>
 export interface GetOriginTlsClientAuthRequest {
   /** Identifier. */
   zoneId: string;
-  /** Identifier. */
+  /** Certificate identifier tag. */
   certificateId: string;
 }
 export const GetOriginTlsClientAuthRequest = /*@__PURE__*/ S.suspend(() =>
@@ -680,7 +658,7 @@ export const GetOriginTlsClientAuthRequest = /*@__PURE__*/ S.suspend(() =>
 
 /** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
 export interface GetOriginTlsClientAuthResponse {
-  /** Identifier. */
+  /** Certificate identifier tag. */
   id?: string | null;
   /** The zone's leaf certificate. */
   certificate?: string | null;
@@ -719,16 +697,10 @@ export const GetSettingRequest = /*@__PURE__*/ S.suspend(() =>
     zoneId: S.String.pipe(T.Label("zone_id")),
   })
     .pipe(
-      T.Http({
-        method: "GET",
-        uri: "/zones/{zone_id}/origin_tls_client_auth/settings",
-        code: 200,
-      }),
+      T.Http({ method: "GET", uri: "/zones/{zone_id}/origin_tls_client_auth/settings", code: 200 }),
     )
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "GetSettingRequest",
-}) as any as S.Schema<GetSettingRequest>;
+).annotate({ identifier: "GetSettingRequest" }) as any as S.Schema<GetSettingRequest>;
 
 /** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
 export interface GetSettingResponse {
@@ -739,14 +711,12 @@ export const GetSettingResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     enabled: S.optional(S.NullOr(S.Boolean)),
   }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "GetSettingResponse",
-}) as any as S.Schema<GetSettingResponse>;
+).annotate({ identifier: "GetSettingResponse" }) as any as S.Schema<GetSettingResponse>;
 
 export interface GetZoneCertificateRequest {
   /** Identifier. */
   zoneId: string;
-  /** Identifier. */
+  /** Certificate identifier tag. */
   certificateId: string;
 }
 export const GetZoneCertificateRequest = /*@__PURE__*/ S.suspend(() =>
@@ -768,7 +738,7 @@ export const GetZoneCertificateRequest = /*@__PURE__*/ S.suspend(() =>
 
 /** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
 export interface GetZoneCertificateResponse {
-  /** Identifier. */
+  /** Certificate identifier tag. */
   id?: string | null;
   /** The zone's leaf certificate. */
   certificate?: string | null;
@@ -819,7 +789,7 @@ export type HostnameCertificatesListResultItemStatus =
 export const HostnameCertificatesListResultItemStatus = S.String;
 
 export interface HostnameCertificatesListResultItem {
-  /** Identifier. */
+  /** Certificate identifier tag. */
   id?: string | null;
   /** The hostname certificate. */
   certificate?: string | null;
@@ -879,20 +849,14 @@ export const ListOriginTlsClientAuthsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     zoneId: S.String.pipe(T.Label("zone_id")),
   })
-    .pipe(
-      T.Http({
-        method: "GET",
-        uri: "/zones/{zone_id}/origin_tls_client_auth",
-        code: 200,
-      }),
-    )
+    .pipe(T.Http({ method: "GET", uri: "/zones/{zone_id}/origin_tls_client_auth", code: 200 }))
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
 ).annotate({
   identifier: "ListOriginTlsClientAuthsRequest",
 }) as any as S.Schema<ListOriginTlsClientAuthsRequest>;
 
 export interface ListResultItem {
-  /** Identifier. */
+  /** Certificate identifier tag. */
   id?: string | null;
   /** The zone's leaf certificate. */
   certificate?: string | null;
@@ -948,20 +912,14 @@ export const ListZoneCertificatesRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     zoneId: S.String.pipe(T.Label("zone_id")),
   })
-    .pipe(
-      T.Http({
-        method: "GET",
-        uri: "/zones/{zone_id}/origin_tls_client_auth",
-        code: 200,
-      }),
-    )
+    .pipe(T.Http({ method: "GET", uri: "/zones/{zone_id}/origin_tls_client_auth", code: 200 }))
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
 ).annotate({
   identifier: "ListZoneCertificatesRequest",
 }) as any as S.Schema<ListZoneCertificatesRequest>;
 
 export interface ListZoneCertificatesResultItem {
-  /** Identifier. */
+  /** Certificate identifier tag. */
   id?: string | null;
   /** The zone's leaf certificate. */
   certificate?: string | null;
@@ -1042,14 +1000,12 @@ export const PutHostnameRequest = /*@__PURE__*/ S.suspend(() =>
       }),
     )
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "PutHostnameRequest",
-}) as any as S.Schema<PutHostnameRequest>;
+).annotate({ identifier: "PutHostnameRequest" }) as any as S.Schema<PutHostnameRequest>;
 
 export interface HostnamesUpdateResultItem {
-  /** Identifier. */
+  /** Certificate identifier tag. */
   id?: string | null;
-  /** Identifier. */
+  /** Certificate identifier tag. */
   certId?: string | null;
   /** The hostname certificate. */
   certificate?: string | null;
@@ -1089,9 +1045,7 @@ export const PutHostnameResponse = /*@__PURE__*/ S.suspend(() =>
     result: HostnamesUpdateResultList.pipe(T.EnvelopePayload()),
     resultInfo: S.optional(S.NullOr(ResultInfo).pipe(T.ResultInfo())),
   }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "PutHostnameResponse",
-}) as any as S.Schema<PutHostnameResponse>;
+).annotate({ identifier: "PutHostnameResponse" }) as any as S.Schema<PutHostnameResponse>;
 
 export interface PutSettingRequest {
   /** Identifier. */
@@ -1105,16 +1059,10 @@ export const PutSettingRequest = /*@__PURE__*/ S.suspend(() =>
     enabled: S.Boolean,
   })
     .pipe(
-      T.Http({
-        method: "PUT",
-        uri: "/zones/{zone_id}/origin_tls_client_auth/settings",
-        code: 200,
-      }),
+      T.Http({ method: "PUT", uri: "/zones/{zone_id}/origin_tls_client_auth/settings", code: 200 }),
     )
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "PutSettingRequest",
-}) as any as S.Schema<PutSettingRequest>;
+).annotate({ identifier: "PutSettingRequest" }) as any as S.Schema<PutSettingRequest>;
 
 /** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
 export interface PutSettingResponse {
@@ -1125,9 +1073,7 @@ export const PutSettingResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     enabled: S.optional(S.NullOr(S.Boolean)),
   }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "PutSettingResponse",
-}) as any as S.Schema<PutSettingResponse>;
+).annotate({ identifier: "PutSettingResponse" }) as any as S.Schema<PutSettingResponse>;
 
 export type CreateHostnameCertificateError =
   | CertificateAlreadyExists

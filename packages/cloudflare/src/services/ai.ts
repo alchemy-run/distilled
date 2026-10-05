@@ -98,17 +98,9 @@ export const CreateFinetuneRequest = /*@__PURE__*/ S.suspend(() =>
     description: S.optional(S.String),
     public: S.optional(S.Boolean),
   })
-    .pipe(
-      T.Http({
-        method: "POST",
-        uri: "/accounts/{account_id}/ai/finetunes",
-        code: 200,
-      }),
-    )
+    .pipe(T.Http({ method: "POST", uri: "/accounts/{account_id}/ai/finetunes", code: 200 }))
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "CreateFinetuneRequest",
-}) as any as S.Schema<CreateFinetuneRequest>;
+).annotate({ identifier: "CreateFinetuneRequest" }) as any as S.Schema<CreateFinetuneRequest>;
 
 /** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
 export interface CreateFinetuneResponse {
@@ -130,9 +122,7 @@ export const CreateFinetuneResponse = /*@__PURE__*/ S.suspend(() =>
     public: S.Boolean,
     description: S.optional(S.NullOr(S.String)),
   }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "CreateFinetuneResponse",
-}) as any as S.Schema<CreateFinetuneResponse>;
+).annotate({ identifier: "CreateFinetuneResponse" }) as any as S.Schema<CreateFinetuneResponse>;
 
 export interface CreateFinetuneAssetRequest {
   accountId: string;
@@ -169,8 +159,9 @@ export const CreateFinetuneAssetResponse = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<CreateFinetuneAssetResponse>;
 
 export interface GetModelSchemaRequest {
+  /** Cloudflare account ID used for this AI model request. */
   accountId: string;
-  /** Model Name */
+  /** AI model identifier, including its namespace and model name. */
   model: string;
 }
 export const GetModelSchemaRequest = /*@__PURE__*/ S.suspend(() =>
@@ -178,17 +169,9 @@ export const GetModelSchemaRequest = /*@__PURE__*/ S.suspend(() =>
     accountId: S.String.pipe(T.Label("account_id")),
     model: S.String.pipe(T.Query()),
   })
-    .pipe(
-      T.Http({
-        method: "GET",
-        uri: "/accounts/{account_id}/ai/models/schema",
-        code: 200,
-      }),
-    )
+    .pipe(T.Http({ method: "GET", uri: "/accounts/{account_id}/ai/models/schema", code: 200 }))
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "GetModelSchemaRequest",
-}) as any as S.Schema<GetModelSchemaRequest>;
+).annotate({ identifier: "GetModelSchemaRequest" }) as any as S.Schema<GetModelSchemaRequest>;
 
 export interface ModelsSchemaGetResponseInput {
   additionalProperties: boolean;
@@ -218,9 +201,7 @@ export const GetModelSchemaResponse = /*@__PURE__*/ S.suspend(() =>
     input: ModelsSchemaGetResponseInput,
     output: ModelsSchemaGetResponseInput,
   }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "GetModelSchemaResponse",
-}) as any as S.Schema<GetModelSchemaResponse>;
+).annotate({ identifier: "GetModelSchemaResponse" }) as any as S.Schema<GetModelSchemaResponse>;
 
 export interface ListAuthorsRequest {
   accountId: string;
@@ -229,17 +210,9 @@ export const ListAuthorsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     accountId: S.String.pipe(T.Label("account_id")),
   })
-    .pipe(
-      T.Http({
-        method: "GET",
-        uri: "/accounts/{account_id}/ai/authors/search",
-        code: 200,
-      }),
-    )
+    .pipe(T.Http({ method: "GET", uri: "/accounts/{account_id}/ai/authors/search", code: 200 }))
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "ListAuthorsRequest",
-}) as any as S.Schema<ListAuthorsRequest>;
+).annotate({ identifier: "ListAuthorsRequest" }) as any as S.Schema<ListAuthorsRequest>;
 
 export type AuthorsListResultList = Array<unknown>;
 export const AuthorsListResultList = /*@__PURE__*/ S.Array(
@@ -257,9 +230,7 @@ export const ListAuthorsResponse = /*@__PURE__*/ S.suspend(() =>
     result: AuthorsListResultList.pipe(T.EnvelopePayload()),
     resultInfo: S.optional(S.NullOr(ResultInfo).pipe(T.ResultInfo())),
   }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "ListAuthorsResponse",
-}) as any as S.Schema<ListAuthorsResponse>;
+).annotate({ identifier: "ListAuthorsResponse" }) as any as S.Schema<ListAuthorsResponse>;
 
 export interface ListFinetunePublicsRequest {
   accountId: string;
@@ -277,13 +248,7 @@ export const ListFinetunePublicsRequest = /*@__PURE__*/ S.suspend(() =>
     offset: S.optional(S.Number.pipe(T.Query())),
     orderBy: S.optional(S.String.pipe(T.Query())),
   })
-    .pipe(
-      T.Http({
-        method: "GET",
-        uri: "/accounts/{account_id}/ai/finetunes/public",
-        code: 200,
-      }),
-    )
+    .pipe(T.Http({ method: "GET", uri: "/accounts/{account_id}/ai/finetunes/public", code: 200 }))
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
 ).annotate({
   identifier: "ListFinetunePublicsRequest",
@@ -339,17 +304,9 @@ export const ListFinetunesRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     accountId: S.String.pipe(T.Label("account_id")),
   })
-    .pipe(
-      T.Http({
-        method: "GET",
-        uri: "/accounts/{account_id}/ai/finetunes",
-        code: 200,
-      }),
-    )
+    .pipe(T.Http({ method: "GET", uri: "/accounts/{account_id}/ai/finetunes", code: 200 }))
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "ListFinetunesRequest",
-}) as any as S.Schema<ListFinetunesRequest>;
+).annotate({ identifier: "ListFinetunesRequest" }) as any as S.Schema<ListFinetunesRequest>;
 
 /** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
 export interface ListFinetunesResponse {
@@ -369,9 +326,7 @@ export const ListFinetunesResponse = /*@__PURE__*/ S.suspend(() =>
     name: S.String,
     description: S.optional(S.NullOr(S.String)),
   }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "ListFinetunesResponse",
-}) as any as S.Schema<ListFinetunesResponse>;
+).annotate({ identifier: "ListFinetunesResponse" }) as any as S.Schema<ListFinetunesResponse>;
 
 export type ModelsListRequestFormat = "openrouter";
 export const ModelsListRequestFormat = S.String;
@@ -408,25 +363,15 @@ export const ListModelsRequest = /*@__PURE__*/ S.suspend(() =>
     source: S.optional(S.Number.pipe(T.Query())),
     task: S.optional(S.String.pipe(T.Query())),
   })
-    .pipe(
-      T.Http({
-        method: "GET",
-        uri: "/accounts/{account_id}/ai/models/search",
-        code: 200,
-      }),
-    )
+    .pipe(T.Http({ method: "GET", uri: "/accounts/{account_id}/ai/models/search", code: 200 }))
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "ListModelsRequest",
-}) as any as S.Schema<ListModelsRequest>;
+).annotate({ identifier: "ListModelsRequest" }) as any as S.Schema<ListModelsRequest>;
 
 /** Raw response payload (operation does not use the standard v4 result envelope). */
 export interface ListModelsResponse {}
 export const ListModelsResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({}).pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "ListModelsResponse",
-}) as any as S.Schema<ListModelsResponse>;
+).annotate({ identifier: "ListModelsResponse" }) as any as S.Schema<ListModelsResponse>;
 
 export interface ListTasksRequest {
   accountId: string;
@@ -435,17 +380,9 @@ export const ListTasksRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     accountId: S.String.pipe(T.Label("account_id")),
   })
-    .pipe(
-      T.Http({
-        method: "GET",
-        uri: "/accounts/{account_id}/ai/tasks/search",
-        code: 200,
-      }),
-    )
+    .pipe(T.Http({ method: "GET", uri: "/accounts/{account_id}/ai/tasks/search", code: 200 }))
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "ListTasksRequest",
-}) as any as S.Schema<ListTasksRequest>;
+).annotate({ identifier: "ListTasksRequest" }) as any as S.Schema<ListTasksRequest>;
 
 export type TasksListResultList = Array<unknown>;
 export const TasksListResultList = /*@__PURE__*/ S.Array(
@@ -463,9 +400,7 @@ export const ListTasksResponse = /*@__PURE__*/ S.suspend(() =>
     result: TasksListResultList.pipe(T.EnvelopePayload()),
     resultInfo: S.optional(S.NullOr(ResultInfo).pipe(T.ResultInfo())),
   }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "ListTasksResponse",
-}) as any as S.Schema<ListTasksResponse>;
+).annotate({ identifier: "ListTasksResponse" }) as any as S.Schema<ListTasksResponse>;
 
 export type RunRequestTextTextEmbeddingsCase1List = Array<string>;
 export const RunRequestTextTextEmbeddingsCase1List = /*@__PURE__*/ S.Array(
@@ -516,9 +451,7 @@ export const RunRequestResponseFormat = /*@__PURE__*/ S.suspend(() =>
     jsonSchema: S.optional(S.Unknown.pipe(T.Body("json_schema"))),
     type: S.optional(RunRequestResponseFormatType),
   }),
-).annotate({
-  identifier: "RunRequestResponseFormat",
-}) as any as S.Schema<RunRequestResponseFormat>;
+).annotate({ identifier: "RunRequestResponseFormat" }) as any as S.Schema<RunRequestResponseFormat>;
 
 export interface RunRequestMessagesTextGenerationItemContentCase1Item {
   /** Text content */
@@ -648,9 +581,7 @@ export const RunRequestFunctionsItem = /*@__PURE__*/ S.suspend(() =>
     code: S.String,
     name: S.String,
   }),
-).annotate({
-  identifier: "RunRequestFunctionsItem",
-}) as any as S.Schema<RunRequestFunctionsItem>;
+).annotate({ identifier: "RunRequestFunctionsItem" }) as any as S.Schema<RunRequestFunctionsItem>;
 
 export type RunRequestFunctionsList = Array<RunRequestFunctionsItem>;
 export const RunRequestFunctionsList = /*@__PURE__*/ S.Array(
@@ -717,9 +648,7 @@ export const RunRequestToolsItemCase0 = /*@__PURE__*/ S.suspend(() =>
     name: S.String,
     parameters: RunRequestToolsItemCase0Parameters,
   }),
-).annotate({
-  identifier: "RunRequestToolsItemCase0",
-}) as any as S.Schema<RunRequestToolsItemCase0>;
+).annotate({ identifier: "RunRequestToolsItemCase0" }) as any as S.Schema<RunRequestToolsItemCase0>;
 
 export type RunRequestToolsItemFunctionFunctionParametersPropertiesValue =
   RunRequestToolsItemCase0ParametersPropertiesValue;
@@ -804,7 +733,9 @@ export const RunRequestToolsList = /*@__PURE__*/ S.Array(
 ) as any as S.Schema<RunRequestToolsList>;
 
 export interface RunAiRequest {
+  /** Cloudflare account ID used for this AI model request. */
   accountId: string;
+  /** Workers AI model identifier, including its namespace and model name. */
   modelName: string;
   /** The text that you want to classify */
   text?: RunRequestText;
@@ -909,13 +840,7 @@ export const RunAiRequest = /*@__PURE__*/ S.suspend(() =>
     maxLength: S.optional(S.Number.pipe(T.Body("max_length"))),
     ignoreEos: S.optional(S.Boolean.pipe(T.Body("ignore_eos"))),
   })
-    .pipe(
-      T.Http({
-        method: "POST",
-        uri: "/accounts/{account_id}/ai/run/{model_name}",
-        code: 200,
-      }),
-    )
+    .pipe(T.Http({ method: "POST", uri: "/accounts/{account_id}/ai/run/{model_name}", code: 200 }))
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
 ).annotate({ identifier: "RunAiRequest" }) as any as S.Schema<RunAiRequest>;
 
@@ -974,9 +899,7 @@ export const RunResultTextEmbeddings = /*@__PURE__*/ S.suspend(() =>
     data: S.optional(S.NullOr(RunResultTextEmbeddingsDataList)),
     shape: S.optional(S.NullOr(RunResultTextEmbeddingsShapeList)),
   }),
-).annotate({
-  identifier: "RunResultTextEmbeddings",
-}) as any as S.Schema<RunResultTextEmbeddings>;
+).annotate({ identifier: "RunResultTextEmbeddings" }) as any as S.Schema<RunResultTextEmbeddings>;
 
 export interface RunResultAutomaticSpeechRecognitionWordsItem {
   /** The ending second when the word completes */
@@ -1117,9 +1040,7 @@ export const RunResultCase8Usage = /*@__PURE__*/ S.suspend(() =>
     promptTokens: S.optional(S.NullOr(S.Number).pipe(T.Body("prompt_tokens"))),
     totalTokens: S.optional(S.NullOr(S.Number).pipe(T.Body("total_tokens"))),
   }),
-).annotate({
-  identifier: "RunResultCase8Usage",
-}) as any as S.Schema<RunResultCase8Usage>;
+).annotate({ identifier: "RunResultCase8Usage" }) as any as S.Schema<RunResultCase8Usage>;
 
 export interface RunResultCase8 {
   /** The generated text response from the model */
@@ -1145,9 +1066,7 @@ export const RunResultTranslation = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     translatedText: S.optional(S.NullOr(S.String).pipe(T.Body("translated_text"))),
   }),
-).annotate({
-  identifier: "RunResultTranslation",
-}) as any as S.Schema<RunResultTranslation>;
+).annotate({ identifier: "RunResultTranslation" }) as any as S.Schema<RunResultTranslation>;
 
 export interface RunResultSummarization {
   /** The summarized version of the input text */
@@ -1157,9 +1076,7 @@ export const RunResultSummarization = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     summary: S.optional(S.NullOr(S.String)),
   }),
-).annotate({
-  identifier: "RunResultSummarization",
-}) as any as S.Schema<RunResultSummarization>;
+).annotate({ identifier: "RunResultSummarization" }) as any as S.Schema<RunResultSummarization>;
 
 export interface RunResultImageToText {
   description?: string | null;
@@ -1168,9 +1085,7 @@ export const RunResultImageToText = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     description: S.optional(S.NullOr(S.String)),
   }),
-).annotate({
-  identifier: "RunResultImageToText",
-}) as any as S.Schema<RunResultImageToText>;
+).annotate({ identifier: "RunResultImageToText" }) as any as S.Schema<RunResultImageToText>;
 
 export type RunResultImageTextToText = RunResultImageToText;
 export const RunResultImageTextToText = RunResultImageToText;
@@ -1242,6 +1157,7 @@ export const RunAiResponse = /*@__PURE__*/ S.suspend(() =>
 ).annotate({ identifier: "RunAiResponse" }) as any as S.Schema<RunAiResponse>;
 
 export interface SupportedToMarkdownRequest {
+  /** Cloudflare account ID used for this AI model request. */
   accountId: string;
 }
 export const SupportedToMarkdownRequest = /*@__PURE__*/ S.suspend(() =>
@@ -1249,11 +1165,7 @@ export const SupportedToMarkdownRequest = /*@__PURE__*/ S.suspend(() =>
     accountId: S.String.pipe(T.Label("account_id")),
   })
     .pipe(
-      T.Http({
-        method: "GET",
-        uri: "/accounts/{account_id}/ai/tomarkdown/supported",
-        code: 200,
-      }),
+      T.Http({ method: "GET", uri: "/accounts/{account_id}/ai/tomarkdown/supported", code: 200 }),
     )
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
 ).annotate({
@@ -1299,6 +1211,7 @@ export const ToMarkdownTransformRequestFileFilesList = /*@__PURE__*/ S.Array(
 ) as any as S.Schema<ToMarkdownTransformRequestFileFilesList>;
 
 export interface ToMarkdownTransformRequestFile {
+  /** Files to convert, supplied as multipart file uploads. */
   files: ToMarkdownTransformRequestFileFilesList;
 }
 export const ToMarkdownTransformRequestFile = /*@__PURE__*/ S.suspend(() =>
@@ -1310,6 +1223,7 @@ export const ToMarkdownTransformRequestFile = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<ToMarkdownTransformRequestFile>;
 
 export interface TransformToMarkdownRequest {
+  /** Cloudflare account ID used for this AI model request. */
   accountId: string;
   file: ToMarkdownTransformRequestFile;
 }
@@ -1318,13 +1232,7 @@ export const TransformToMarkdownRequest = /*@__PURE__*/ S.suspend(() =>
     accountId: S.String.pipe(T.Label("account_id")),
     file: ToMarkdownTransformRequestFile,
   })
-    .pipe(
-      T.Http({
-        method: "POST",
-        uri: "/accounts/{account_id}/ai/tomarkdown",
-        code: 200,
-      }),
-    )
+    .pipe(T.Http({ method: "POST", uri: "/accounts/{account_id}/ai/tomarkdown", code: 200 }))
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
 ).annotate({
   identifier: "TransformToMarkdownRequest",
@@ -1396,7 +1304,7 @@ export type GetModelSchemaError =
   | ModelSchemaNotFound
   | AccountNotFound
   | CloudflareOpError;
-/** Retrieves the input and output JSON schema definition for a Workers AI model. */
+/** Retrieves the input and output JSON Schema definitions for an AI model. Use these definitions to determine the model-specific request fields and response format. */
 export const getModelSchema: API.OperationMethod<
   GetModelSchemaRequest,
   GetModelSchemaResponse,
@@ -1507,7 +1415,7 @@ export const listTasks: API.PaginatedOperationMethod<
 ) as any;
 
 export type RunAiError = ModelNotFound | CloudflareOpError;
-/** This endpoint provides users with the capability to run specific AI models on-demand. By submitting the required input data, users can receive real-time predictions or results generated by the chosen AI model. The endpoint supports various AI model types, ensuring flexibility and adaptability for diverse use cases. Model specific inputs available in [Cloudflare Docs](https://developers.cloudflare.com/workers-ai/models/). */
+/** Runs the Workers AI model specified in the URL path. Send the model's inputs directly in the request body, without a model/input/options wrapper. Accepts model-specific JSON or binary input. The response format depends on the model and the requested output. See the [model catalog](https://developers.cloudflare.com/workers-ai/models/) for supported models and their input formats. */
 export const runAi: API.OperationMethod<
   RunAiRequest,
   RunAiResponse,
@@ -1522,7 +1430,7 @@ export const runAi: API.OperationMethod<
 }));
 
 export type SupportedToMarkdownError = CloudflareOpError;
-/** Lists all file formats supported for conversion to Markdown. */
+/** Lists the file extensions and MIME types accepted by Workers AI's Markdown conversion endpoint. Use this list to check whether a file can be converted before uploading it. */
 export const supportedToMarkdown: API.PaginatedOperationMethod<
   SupportedToMarkdownRequest,
   SupportedToMarkdownResponse,
@@ -1542,7 +1450,7 @@ export const supportedToMarkdown: API.PaginatedOperationMethod<
 ) as any;
 
 export type TransformToMarkdownError = CloudflareOpError;
-/** Converts uploaded files into Markdown format using Workers AI. */
+/** Converts files uploaded as multipart form data into Markdown using Workers AI. Returns a conversion result for each file. Use the supported-formats endpoint to check accepted file types. */
 export const transformToMarkdown: API.OperationMethod<
   TransformToMarkdownRequest,
   TransformToMarkdownResponse,

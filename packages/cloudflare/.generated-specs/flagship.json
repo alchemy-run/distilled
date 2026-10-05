@@ -73,6 +73,12 @@
     "com.cloudflare.flagship#AppsEvaluateGetResponseReason": {
       "type": "enum",
       "members": {
+        "STATIC": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "STATIC"
+          }
+        },
         "TARGETING_MATCH": {
           "target": "smithy.api#Unit",
           "traits": {
@@ -201,6 +207,18 @@
           "target": "smithy.api#Unit",
           "traits": {
             "smithy.api#enumValue": "not_in"
+          }
+        },
+        "HAS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "has"
+          }
+        },
+        "NOT_HAS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "not_has"
           }
         }
       }
@@ -331,6 +349,18 @@
           "traits": {
             "smithy.api#enumValue": "not_in"
           }
+        },
+        "HAS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "has"
+          }
+        },
+        "NOT_HAS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "not_has"
+          }
         }
       }
     },
@@ -459,6 +489,18 @@
           "target": "smithy.api#Unit",
           "traits": {
             "smithy.api#enumValue": "not_in"
+          }
+        },
+        "HAS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "has"
+          }
+        },
+        "NOT_HAS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "not_has"
           }
         }
       }
@@ -589,6 +631,18 @@
           "traits": {
             "smithy.api#enumValue": "not_in"
           }
+        },
+        "HAS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "has"
+          }
+        },
+        "NOT_HAS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "not_has"
+          }
         }
       }
     },
@@ -718,6 +772,18 @@
           "traits": {
             "smithy.api#enumValue": "not_in"
           }
+        },
+        "HAS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "has"
+          }
+        },
+        "NOT_HAS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "not_has"
+          }
         }
       }
     },
@@ -846,6 +912,18 @@
           "target": "smithy.api#Unit",
           "traits": {
             "smithy.api#enumValue": "not_in"
+          }
+        },
+        "HAS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "has"
+          }
+        },
+        "NOT_HAS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "not_has"
           }
         }
       }
@@ -1255,7 +1333,7 @@
         "percentage": {
           "target": "smithy.api#Double",
           "traits": {
-            "smithy.api#documentation": "Percentage of matching traffic (0–100) served this variation. For multi-way splits, use cumulative upper bounds across rules (e.g. 30, 70, 100).",
+            "smithy.api#documentation": "Percentage of matching traffic (0–100, up to 2 decimal places) served this variation. For multi-way splits, use cumulative upper bounds across rules (e.g. 30, 70, 100).",
             "smithy.api#required": {}
           }
         },
@@ -1434,6 +1512,18 @@
           "traits": {
             "smithy.api#enumValue": "not_in"
           }
+        },
+        "HAS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "has"
+          }
+        },
+        "NOT_HAS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "not_has"
+          }
         }
       }
     },
@@ -1562,6 +1652,18 @@
           "target": "smithy.api#Unit",
           "traits": {
             "smithy.api#enumValue": "not_in"
+          }
+        },
+        "HAS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "has"
+          }
+        },
+        "NOT_HAS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "not_has"
           }
         }
       }
@@ -1692,6 +1794,18 @@
           "traits": {
             "smithy.api#enumValue": "not_in"
           }
+        },
+        "HAS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "has"
+          }
+        },
+        "NOT_HAS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "not_has"
+          }
         }
       }
     },
@@ -1820,6 +1934,18 @@
           "target": "smithy.api#Unit",
           "traits": {
             "smithy.api#enumValue": "not_in"
+          }
+        },
+        "HAS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "has"
+          }
+        },
+        "NOT_HAS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "not_has"
           }
         }
       }
@@ -1950,6 +2076,18 @@
           "traits": {
             "smithy.api#enumValue": "not_in"
           }
+        },
+        "HAS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "has"
+          }
+        },
+        "NOT_HAS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "not_has"
+          }
         }
       }
     },
@@ -2078,6 +2216,18 @@
           "target": "smithy.api#Unit",
           "traits": {
             "smithy.api#enumValue": "not_in"
+          }
+        },
+        "HAS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "has"
+          }
+        },
+        "NOT_HAS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "not_has"
           }
         }
       }
@@ -2487,7 +2637,7 @@
         "percentage": {
           "target": "smithy.api#Double",
           "traits": {
-            "smithy.api#documentation": "Percentage of matching traffic (0–100) served this variation. For multi-way splits, use cumulative upper bounds across rules (e.g. 30, 70, 100).",
+            "smithy.api#documentation": "Percentage of matching traffic (0–100, up to 2 decimal places) served this variation. For multi-way splits, use cumulative upper bounds across rules (e.g. 30, 70, 100).",
             "smithy.api#required": {}
           }
         },
@@ -2666,6 +2816,18 @@
           "traits": {
             "smithy.api#enumValue": "not_in"
           }
+        },
+        "HAS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "has"
+          }
+        },
+        "NOT_HAS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "not_has"
+          }
         }
       }
     },
@@ -2794,6 +2956,18 @@
           "target": "smithy.api#Unit",
           "traits": {
             "smithy.api#enumValue": "not_in"
+          }
+        },
+        "HAS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "has"
+          }
+        },
+        "NOT_HAS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "not_has"
           }
         }
       }
@@ -2924,6 +3098,18 @@
           "traits": {
             "smithy.api#enumValue": "not_in"
           }
+        },
+        "HAS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "has"
+          }
+        },
+        "NOT_HAS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "not_has"
+          }
         }
       }
     },
@@ -3052,6 +3238,18 @@
           "target": "smithy.api#Unit",
           "traits": {
             "smithy.api#enumValue": "not_in"
+          }
+        },
+        "HAS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "has"
+          }
+        },
+        "NOT_HAS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "not_has"
           }
         }
       }
@@ -3182,6 +3380,18 @@
           "traits": {
             "smithy.api#enumValue": "not_in"
           }
+        },
+        "HAS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "has"
+          }
+        },
+        "NOT_HAS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "not_has"
+          }
         }
       }
     },
@@ -3310,6 +3520,18 @@
           "target": "smithy.api#Unit",
           "traits": {
             "smithy.api#enumValue": "not_in"
+          }
+        },
+        "HAS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "has"
+          }
+        },
+        "NOT_HAS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "not_has"
           }
         }
       }
@@ -3719,7 +3941,7 @@
         "percentage": {
           "target": "smithy.api#Double",
           "traits": {
-            "smithy.api#documentation": "Percentage of matching traffic (0–100) served this variation. For multi-way splits, use cumulative upper bounds across rules (e.g. 30, 70, 100).",
+            "smithy.api#documentation": "Percentage of matching traffic (0–100, up to 2 decimal places) served this variation. For multi-way splits, use cumulative upper bounds across rules (e.g. 30, 70, 100).",
             "smithy.api#required": {}
           }
         },
@@ -3898,6 +4120,18 @@
           "traits": {
             "smithy.api#enumValue": "not_in"
           }
+        },
+        "HAS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "has"
+          }
+        },
+        "NOT_HAS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "not_has"
+          }
         }
       }
     },
@@ -4026,6 +4260,18 @@
           "target": "smithy.api#Unit",
           "traits": {
             "smithy.api#enumValue": "not_in"
+          }
+        },
+        "HAS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "has"
+          }
+        },
+        "NOT_HAS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "not_has"
           }
         }
       }
@@ -4156,6 +4402,18 @@
           "traits": {
             "smithy.api#enumValue": "not_in"
           }
+        },
+        "HAS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "has"
+          }
+        },
+        "NOT_HAS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "not_has"
+          }
         }
       }
     },
@@ -4284,6 +4542,18 @@
           "target": "smithy.api#Unit",
           "traits": {
             "smithy.api#enumValue": "not_in"
+          }
+        },
+        "HAS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "has"
+          }
+        },
+        "NOT_HAS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "not_has"
           }
         }
       }
@@ -4414,6 +4684,18 @@
           "traits": {
             "smithy.api#enumValue": "not_in"
           }
+        },
+        "HAS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "has"
+          }
+        },
+        "NOT_HAS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "not_has"
+          }
         }
       }
     },
@@ -4542,6 +4824,18 @@
           "target": "smithy.api#Unit",
           "traits": {
             "smithy.api#enumValue": "not_in"
+          }
+        },
+        "HAS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "has"
+          }
+        },
+        "NOT_HAS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "not_has"
           }
         }
       }
@@ -4951,7 +5245,7 @@
         "percentage": {
           "target": "smithy.api#Double",
           "traits": {
-            "smithy.api#documentation": "Percentage of matching traffic (0–100) served this variation. For multi-way splits, use cumulative upper bounds across rules (e.g. 30, 70, 100).",
+            "smithy.api#documentation": "Percentage of matching traffic (0–100, up to 2 decimal places) served this variation. For multi-way splits, use cumulative upper bounds across rules (e.g. 30, 70, 100).",
             "smithy.api#required": {}
           }
         },
@@ -5108,7 +5402,10 @@
           }
         },
         "description": {
-          "target": "smithy.api#String"
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Optional operator-facing description. It does not affect flag evaluation."
+          }
         },
         "updated_at": {
           "target": "smithy.api#String"
@@ -5191,6 +5488,18 @@
           "target": "smithy.api#Unit",
           "traits": {
             "smithy.api#enumValue": "not_in"
+          }
+        },
+        "HAS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "has"
+          }
+        },
+        "NOT_HAS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "not_has"
           }
         }
       }
@@ -5321,6 +5630,18 @@
           "traits": {
             "smithy.api#enumValue": "not_in"
           }
+        },
+        "HAS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "has"
+          }
+        },
+        "NOT_HAS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "not_has"
+          }
         }
       }
     },
@@ -5449,6 +5770,18 @@
           "target": "smithy.api#Unit",
           "traits": {
             "smithy.api#enumValue": "not_in"
+          }
+        },
+        "HAS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "has"
+          }
+        },
+        "NOT_HAS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "not_has"
           }
         }
       }
@@ -5579,6 +5912,18 @@
           "traits": {
             "smithy.api#enumValue": "not_in"
           }
+        },
+        "HAS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "has"
+          }
+        },
+        "NOT_HAS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "not_has"
+          }
         }
       }
     },
@@ -5708,6 +6053,18 @@
           "traits": {
             "smithy.api#enumValue": "not_in"
           }
+        },
+        "HAS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "has"
+          }
+        },
+        "NOT_HAS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "not_has"
+          }
         }
       }
     },
@@ -5836,6 +6193,18 @@
           "target": "smithy.api#Unit",
           "traits": {
             "smithy.api#enumValue": "not_in"
+          }
+        },
+        "HAS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "has"
+          }
+        },
+        "NOT_HAS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "not_has"
           }
         }
       }
@@ -6245,7 +6614,7 @@
         "percentage": {
           "target": "smithy.api#Double",
           "traits": {
-            "smithy.api#documentation": "Percentage of matching traffic (0–100) served this variation. For multi-way splits, use cumulative upper bounds across rules (e.g. 30, 70, 100).",
+            "smithy.api#documentation": "Percentage of matching traffic (0–100, up to 2 decimal places) served this variation. For multi-way splits, use cumulative upper bounds across rules (e.g. 30, 70, 100).",
             "smithy.api#required": {}
           }
         },
@@ -6424,6 +6793,18 @@
           "traits": {
             "smithy.api#enumValue": "not_in"
           }
+        },
+        "HAS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "has"
+          }
+        },
+        "NOT_HAS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "not_has"
+          }
         }
       }
     },
@@ -6552,6 +6933,18 @@
           "target": "smithy.api#Unit",
           "traits": {
             "smithy.api#enumValue": "not_in"
+          }
+        },
+        "HAS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "has"
+          }
+        },
+        "NOT_HAS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "not_has"
           }
         }
       }
@@ -6682,6 +7075,18 @@
           "traits": {
             "smithy.api#enumValue": "not_in"
           }
+        },
+        "HAS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "has"
+          }
+        },
+        "NOT_HAS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "not_has"
+          }
         }
       }
     },
@@ -6810,6 +7215,18 @@
           "target": "smithy.api#Unit",
           "traits": {
             "smithy.api#enumValue": "not_in"
+          }
+        },
+        "HAS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "has"
+          }
+        },
+        "NOT_HAS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "not_has"
           }
         }
       }
@@ -6940,6 +7357,18 @@
           "traits": {
             "smithy.api#enumValue": "not_in"
           }
+        },
+        "HAS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "has"
+          }
+        },
+        "NOT_HAS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "not_has"
+          }
         }
       }
     },
@@ -7068,6 +7497,18 @@
           "target": "smithy.api#Unit",
           "traits": {
             "smithy.api#enumValue": "not_in"
+          }
+        },
+        "HAS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "has"
+          }
+        },
+        "NOT_HAS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "not_has"
           }
         }
       }
@@ -7477,7 +7918,7 @@
         "percentage": {
           "target": "smithy.api#Double",
           "traits": {
-            "smithy.api#documentation": "Percentage of matching traffic (0–100) served this variation. For multi-way splits, use cumulative upper bounds across rules (e.g. 30, 70, 100).",
+            "smithy.api#documentation": "Percentage of matching traffic (0–100, up to 2 decimal places) served this variation. For multi-way splits, use cumulative upper bounds across rules (e.g. 30, 70, 100).",
             "smithy.api#required": {}
           }
         },
@@ -7656,6 +8097,18 @@
           "traits": {
             "smithy.api#enumValue": "not_in"
           }
+        },
+        "HAS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "has"
+          }
+        },
+        "NOT_HAS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "not_has"
+          }
         }
       }
     },
@@ -7784,6 +8237,18 @@
           "target": "smithy.api#Unit",
           "traits": {
             "smithy.api#enumValue": "not_in"
+          }
+        },
+        "HAS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "has"
+          }
+        },
+        "NOT_HAS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "not_has"
           }
         }
       }
@@ -7914,6 +8379,18 @@
           "traits": {
             "smithy.api#enumValue": "not_in"
           }
+        },
+        "HAS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "has"
+          }
+        },
+        "NOT_HAS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "not_has"
+          }
         }
       }
     },
@@ -8042,6 +8519,18 @@
           "target": "smithy.api#Unit",
           "traits": {
             "smithy.api#enumValue": "not_in"
+          }
+        },
+        "HAS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "has"
+          }
+        },
+        "NOT_HAS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "not_has"
           }
         }
       }
@@ -8172,6 +8661,18 @@
           "traits": {
             "smithy.api#enumValue": "not_in"
           }
+        },
+        "HAS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "has"
+          }
+        },
+        "NOT_HAS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "not_has"
+          }
         }
       }
     },
@@ -8300,6 +8801,18 @@
           "target": "smithy.api#Unit",
           "traits": {
             "smithy.api#enumValue": "not_in"
+          }
+        },
+        "HAS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "has"
+          }
+        },
+        "NOT_HAS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "not_has"
           }
         }
       }
@@ -8709,7 +9222,7 @@
         "percentage": {
           "target": "smithy.api#Double",
           "traits": {
-            "smithy.api#documentation": "Percentage of matching traffic (0–100) served this variation. For multi-way splits, use cumulative upper bounds across rules (e.g. 30, 70, 100).",
+            "smithy.api#documentation": "Percentage of matching traffic (0–100, up to 2 decimal places) served this variation. For multi-way splits, use cumulative upper bounds across rules (e.g. 30, 70, 100).",
             "smithy.api#required": {}
           }
         },
@@ -8866,7 +9379,10 @@
           }
         },
         "description": {
-          "target": "smithy.api#String"
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Optional operator-facing description. It does not affect flag evaluation."
+          }
         },
         "updated_at": {
           "target": "smithy.api#String"
@@ -8977,6 +9493,18 @@
           "target": "smithy.api#Unit",
           "traits": {
             "smithy.api#enumValue": "not_in"
+          }
+        },
+        "HAS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "has"
+          }
+        },
+        "NOT_HAS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "not_has"
           }
         }
       }
@@ -9107,6 +9635,18 @@
           "traits": {
             "smithy.api#enumValue": "not_in"
           }
+        },
+        "HAS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "has"
+          }
+        },
+        "NOT_HAS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "not_has"
+          }
         }
       }
     },
@@ -9235,6 +9775,18 @@
           "target": "smithy.api#Unit",
           "traits": {
             "smithy.api#enumValue": "not_in"
+          }
+        },
+        "HAS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "has"
+          }
+        },
+        "NOT_HAS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "not_has"
           }
         }
       }
@@ -9365,6 +9917,18 @@
           "traits": {
             "smithy.api#enumValue": "not_in"
           }
+        },
+        "HAS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "has"
+          }
+        },
+        "NOT_HAS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "not_has"
+          }
         }
       }
     },
@@ -9494,6 +10058,18 @@
           "traits": {
             "smithy.api#enumValue": "not_in"
           }
+        },
+        "HAS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "has"
+          }
+        },
+        "NOT_HAS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "not_has"
+          }
         }
       }
     },
@@ -9622,6 +10198,18 @@
           "target": "smithy.api#Unit",
           "traits": {
             "smithy.api#enumValue": "not_in"
+          }
+        },
+        "HAS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "has"
+          }
+        },
+        "NOT_HAS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "not_has"
           }
         }
       }
@@ -10031,7 +10619,7 @@
         "percentage": {
           "target": "smithy.api#Double",
           "traits": {
-            "smithy.api#documentation": "Percentage of matching traffic (0–100) served this variation. For multi-way splits, use cumulative upper bounds across rules (e.g. 30, 70, 100).",
+            "smithy.api#documentation": "Percentage of matching traffic (0–100, up to 2 decimal places) served this variation. For multi-way splits, use cumulative upper bounds across rules (e.g. 30, 70, 100).",
             "smithy.api#required": {}
           }
         },
@@ -10188,7 +10776,10 @@
           }
         },
         "description": {
-          "target": "smithy.api#String"
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Optional operator-facing description. It does not affect flag evaluation."
+          }
         },
         "updated_at": {
           "target": "smithy.api#String"
@@ -10299,6 +10890,18 @@
           "target": "smithy.api#Unit",
           "traits": {
             "smithy.api#enumValue": "not_in"
+          }
+        },
+        "HAS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "has"
+          }
+        },
+        "NOT_HAS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "not_has"
           }
         }
       }
@@ -10429,6 +11032,18 @@
           "traits": {
             "smithy.api#enumValue": "not_in"
           }
+        },
+        "HAS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "has"
+          }
+        },
+        "NOT_HAS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "not_has"
+          }
         }
       }
     },
@@ -10557,6 +11172,18 @@
           "target": "smithy.api#Unit",
           "traits": {
             "smithy.api#enumValue": "not_in"
+          }
+        },
+        "HAS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "has"
+          }
+        },
+        "NOT_HAS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "not_has"
           }
         }
       }
@@ -10687,6 +11314,18 @@
           "traits": {
             "smithy.api#enumValue": "not_in"
           }
+        },
+        "HAS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "has"
+          }
+        },
+        "NOT_HAS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "not_has"
+          }
         }
       }
     },
@@ -10816,6 +11455,18 @@
           "traits": {
             "smithy.api#enumValue": "not_in"
           }
+        },
+        "HAS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "has"
+          }
+        },
+        "NOT_HAS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "not_has"
+          }
         }
       }
     },
@@ -10944,6 +11595,18 @@
           "target": "smithy.api#Unit",
           "traits": {
             "smithy.api#enumValue": "not_in"
+          }
+        },
+        "HAS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "has"
+          }
+        },
+        "NOT_HAS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "not_has"
           }
         }
       }
@@ -11353,7 +12016,7 @@
         "percentage": {
           "target": "smithy.api#Double",
           "traits": {
-            "smithy.api#documentation": "Percentage of matching traffic (0–100) served this variation. For multi-way splits, use cumulative upper bounds across rules (e.g. 30, 70, 100).",
+            "smithy.api#documentation": "Percentage of matching traffic (0–100, up to 2 decimal places) served this variation. For multi-way splits, use cumulative upper bounds across rules (e.g. 30, 70, 100).",
             "smithy.api#required": {}
           }
         },
@@ -11510,7 +12173,10 @@
           }
         },
         "description": {
-          "target": "smithy.api#String"
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Optional operator-facing description. It does not affect flag evaluation."
+          }
         },
         "updated_at": {
           "target": "smithy.api#String"
@@ -11806,7 +12472,7 @@
         "account_id": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "Cloudflare account ID.",
+            "smithy.api#documentation": "Cloudflare account ID that owns the Flagship app.",
             "smithy.api#httpLabel": {},
             "smithy.api#required": {}
           }
@@ -11814,6 +12480,7 @@
         "name": {
           "target": "smithy.api#String",
           "traits": {
+            "smithy.api#documentation": "Name of the Flagship app (1–64 letters, numbers, hyphens, or underscores).",
             "smithy.api#required": {}
           }
         }
@@ -11893,7 +12560,7 @@
         "account_id": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "Cloudflare account ID.",
+            "smithy.api#documentation": "Cloudflare account ID that owns the Flagship app.",
             "smithy.api#httpLabel": {},
             "smithy.api#required": {}
           }
@@ -11901,7 +12568,7 @@
         "app_id": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "App identifier.",
+            "smithy.api#documentation": "Flagship app ID returned when the app was created.",
             "smithy.api#httpLabel": {},
             "smithy.api#required": {}
           }
@@ -11942,7 +12609,10 @@
           }
         },
         "description": {
-          "target": "smithy.api#String"
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Optional operator-facing description. It does not affect flag evaluation."
+          }
         },
         "type": {
           "target": "com.cloudflare.flagship#AppsFlagsCreateRequestType",
@@ -12001,7 +12671,10 @@
           }
         },
         "description": {
-          "target": "smithy.api#String"
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Optional operator-facing description. It does not affect flag evaluation."
+          }
         },
         "updated_at": {
           "target": "smithy.api#String"
@@ -12044,7 +12717,7 @@
         "account_id": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "Cloudflare account ID.",
+            "smithy.api#documentation": "Cloudflare account ID that owns the Flagship app.",
             "smithy.api#httpLabel": {},
             "smithy.api#required": {}
           }
@@ -12052,7 +12725,7 @@
         "app_id": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "App identifier.",
+            "smithy.api#documentation": "Flagship app ID returned when the app was created.",
             "smithy.api#httpLabel": {},
             "smithy.api#required": {}
           }
@@ -12091,7 +12764,7 @@
           "uri": "/accounts/{account_id}/flagship/apps/{app_id}/flags/{flag_key}",
           "code": 200
         },
-        "smithy.api#documentation": "Deletes a flag permanently. Subsequent evaluations fall back to the caller-supplied default. Cannot be undone.",
+        "smithy.api#documentation": "Deletes a flag permanently. After deletion propagates, direct evaluations return not found; typed binding accessors may return the caller-supplied default. Cannot be undone.",
         "smithy.api#idempotent": {}
       },
       "errors": [
@@ -12109,7 +12782,7 @@
         "account_id": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "Cloudflare account ID.",
+            "smithy.api#documentation": "Cloudflare account ID that owns the Flagship app.",
             "smithy.api#httpLabel": {},
             "smithy.api#required": {}
           }
@@ -12117,7 +12790,7 @@
         "app_id": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "App identifier.",
+            "smithy.api#documentation": "Flagship app ID returned when the app was created.",
             "smithy.api#httpLabel": {},
             "smithy.api#required": {}
           }
@@ -12125,7 +12798,7 @@
         "flag_key": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "Flag key (slug).",
+            "smithy.api#documentation": "Case-sensitive key identifying the flag within the app.",
             "smithy.api#httpLabel": {},
             "smithy.api#required": {}
           }
@@ -12179,7 +12852,7 @@
         "account_id": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "Cloudflare account ID.",
+            "smithy.api#documentation": "Cloudflare account ID that owns the Flagship app.",
             "smithy.api#httpLabel": {},
             "smithy.api#required": {}
           }
@@ -12187,7 +12860,7 @@
         "app_id": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "App identifier.",
+            "smithy.api#documentation": "Flagship app ID returned when the app was created.",
             "smithy.api#httpLabel": {},
             "smithy.api#required": {}
           }
@@ -12251,7 +12924,7 @@
           "uri": "/accounts/{account_id}/flagship/apps/{app_id}/evaluate",
           "code": 200
         },
-        "smithy.api#documentation": "Evaluates a flag against the provided context. Pass context attributes as query parameters; values are forwarded as strings. For low-latency in-Worker evaluation, prefer the Flagship binding over this endpoint.",
+        "smithy.api#documentation": "Evaluates a flag against the provided context. Pass context attributes as query parameters; values are coerced to numbers or booleans where unambiguous. For low-latency in-Worker evaluation, prefer the Flagship binding over this endpoint.",
         "smithy.api#readonly": {}
       }
     },
@@ -12261,7 +12934,7 @@
         "account_id": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "Cloudflare account ID.",
+            "smithy.api#documentation": "Cloudflare account ID that owns the Flagship app.",
             "smithy.api#httpLabel": {},
             "smithy.api#required": {}
           }
@@ -12269,7 +12942,7 @@
         "app_id": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "App identifier.",
+            "smithy.api#documentation": "Flagship app ID returned when the app was created.",
             "smithy.api#httpLabel": {},
             "smithy.api#required": {}
           }
@@ -12300,18 +12973,21 @@
         "flagKey": {
           "target": "smithy.api#String",
           "traits": {
+            "smithy.api#documentation": "Key of the evaluated flag.",
             "smithy.api#required": {}
           }
         },
         "reason": {
           "target": "com.cloudflare.flagship#AppsEvaluateGetResponseReason",
           "traits": {
+            "smithy.api#documentation": "Reason the evaluator selected this variation.",
             "smithy.api#required": {}
           }
         },
         "variant": {
           "target": "smithy.api#String",
           "traits": {
+            "smithy.api#documentation": "Name of the variation that supplied the resolved value.",
             "smithy.api#required": {}
           }
         },
@@ -12356,7 +13032,7 @@
         "account_id": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "Cloudflare account ID.",
+            "smithy.api#documentation": "Cloudflare account ID that owns the Flagship app.",
             "smithy.api#httpLabel": {},
             "smithy.api#required": {}
           }
@@ -12364,7 +13040,7 @@
         "app_id": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "App identifier.",
+            "smithy.api#documentation": "Flagship app ID returned when the app was created.",
             "smithy.api#httpLabel": {},
             "smithy.api#required": {}
           }
@@ -12372,7 +13048,7 @@
         "flag_key": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "Flag key (slug).",
+            "smithy.api#documentation": "Case-sensitive key identifying the flag within the app.",
             "smithy.api#httpLabel": {},
             "smithy.api#required": {}
           }
@@ -12428,7 +13104,10 @@
           }
         },
         "description": {
-          "target": "smithy.api#String"
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Optional operator-facing description. It does not affect flag evaluation."
+          }
         },
         "updated_at": {
           "target": "smithy.api#String"
@@ -12472,7 +13151,7 @@
         "account_id": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "Cloudflare account ID.",
+            "smithy.api#documentation": "Cloudflare account ID that owns the Flagship app.",
             "smithy.api#httpLabel": {},
             "smithy.api#required": {}
           }
@@ -12480,7 +13159,7 @@
         "app_id": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "App identifier.",
+            "smithy.api#documentation": "Flagship app ID returned when the app was created.",
             "smithy.api#httpLabel": {},
             "smithy.api#required": {}
           }
@@ -12488,7 +13167,7 @@
         "flag_key": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "Flag key (slug).",
+            "smithy.api#documentation": "Case-sensitive key identifying the flag within the app.",
             "smithy.api#httpLabel": {},
             "smithy.api#required": {}
           }
@@ -12501,7 +13180,7 @@
           }
         },
         "limit": {
-          "target": "smithy.api#String",
+          "target": "smithy.api#Double",
           "traits": {
             "smithy.api#documentation": "Max items to return (1–200).",
             "smithy.api#httpQuery": "limit"
@@ -12562,7 +13241,7 @@
         "account_id": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "Cloudflare account ID.",
+            "smithy.api#documentation": "Cloudflare account ID that owns the Flagship app.",
             "smithy.api#httpLabel": {},
             "smithy.api#required": {}
           }
@@ -12570,7 +13249,7 @@
         "app_id": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "App identifier.",
+            "smithy.api#documentation": "Flagship app ID returned when the app was created.",
             "smithy.api#httpLabel": {},
             "smithy.api#required": {}
           }
@@ -12583,7 +13262,7 @@
           }
         },
         "limit": {
-          "target": "smithy.api#String",
+          "target": "smithy.api#Double",
           "traits": {
             "smithy.api#documentation": "Max items to return (1–200).",
             "smithy.api#httpQuery": "limit"
@@ -12623,7 +13302,7 @@
           "uri": "/accounts/{account_id}/flagship/apps",
           "code": 200
         },
-        "smithy.api#documentation": "Lists all apps in the account. Returns identity and audit fields only — flag definitions are not included.",
+        "smithy.api#documentation": "Lists all Flagship apps in the account. Returns identity and audit fields only; flag definitions are not included.",
         "smithy.api#readonly": {},
         "smithy.api#paginated": {
           "mode": "single",
@@ -12637,7 +13316,7 @@
         "account_id": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "Cloudflare account ID.",
+            "smithy.api#documentation": "Cloudflare account ID that owns the Flagship app.",
             "smithy.api#httpLabel": {},
             "smithy.api#required": {}
           }
@@ -12691,7 +13370,7 @@
         "account_id": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "Cloudflare account ID.",
+            "smithy.api#documentation": "Cloudflare account ID that owns the Flagship app.",
             "smithy.api#httpLabel": {},
             "smithy.api#required": {}
           }
@@ -12699,13 +13378,16 @@
         "app_id": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "App identifier.",
+            "smithy.api#documentation": "Flagship app ID returned when the app was created.",
             "smithy.api#httpLabel": {},
             "smithy.api#required": {}
           }
         },
         "name": {
-          "target": "smithy.api#String"
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Name of the Flagship app (1–64 letters, numbers, hyphens, or underscores)."
+          }
         }
       },
       "traits": {
@@ -12766,7 +13448,7 @@
           "uri": "/accounts/{account_id}/flagship/apps/{app_id}/flags/{flag_key}",
           "code": 200
         },
-        "smithy.api#documentation": "Replaces the entire flag definition. Omitted fields are dropped, not preserved — read before writing. Each update appends a changelog entry.",
+        "smithy.api#documentation": "Replaces the entire flag definition. Omitted fields are dropped, not preserved — read before writing. The path key identifies the flag and cannot be renamed by changing the body `key`. Each update appends a changelog entry.",
         "smithy.api#idempotent": {}
       },
       "errors": [
@@ -12784,7 +13466,7 @@
         "account_id": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "Cloudflare account ID.",
+            "smithy.api#documentation": "Cloudflare account ID that owns the Flagship app.",
             "smithy.api#httpLabel": {},
             "smithy.api#required": {}
           }
@@ -12792,7 +13474,7 @@
         "app_id": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "App identifier.",
+            "smithy.api#documentation": "Flagship app ID returned when the app was created.",
             "smithy.api#httpLabel": {},
             "smithy.api#required": {}
           }
@@ -12800,7 +13482,7 @@
         "flag_key": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "Flag key (slug).",
+            "smithy.api#documentation": "Case-sensitive key identifying the flag within the app.",
             "smithy.api#httpLabel": {},
             "smithy.api#required": {}
           }
@@ -12841,7 +13523,10 @@
           }
         },
         "description": {
-          "target": "smithy.api#String"
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Optional operator-facing description. It does not affect flag evaluation."
+          }
         },
         "type": {
           "target": "com.cloudflare.flagship#AppsFlagsUpdateRequestType",
@@ -12900,7 +13585,10 @@
           }
         },
         "description": {
-          "target": "smithy.api#String"
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Optional operator-facing description. It does not affect flag evaluation."
+          }
         },
         "updated_at": {
           "target": "smithy.api#String"

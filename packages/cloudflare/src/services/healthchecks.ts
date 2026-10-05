@@ -134,9 +134,7 @@ export const CreateRequestHttpConfig = /*@__PURE__*/ S.suspend(() =>
     path: S.optional(S.String),
     port: S.optional(S.Number),
   }),
-).annotate({
-  identifier: "CreateRequestHttpConfig",
-}) as any as S.Schema<CreateRequestHttpConfig>;
+).annotate({ identifier: "CreateRequestHttpConfig" }) as any as S.Schema<CreateRequestHttpConfig>;
 
 export type CreateRequestTcpConfigMethod = "connection_established";
 export const CreateRequestTcpConfigMethod = S.String;
@@ -152,9 +150,7 @@ export const CreateRequestTcpConfig = /*@__PURE__*/ S.suspend(() =>
     method: S.optional(CreateRequestTcpConfigMethod),
     port: S.optional(S.Number),
   }),
-).annotate({
-  identifier: "CreateRequestTcpConfig",
-}) as any as S.Schema<CreateRequestTcpConfig>;
+).annotate({ identifier: "CreateRequestTcpConfig" }) as any as S.Schema<CreateRequestTcpConfig>;
 
 export interface CreateHealthcheckRequest {
   /** Identifier */
@@ -203,17 +199,9 @@ export const CreateHealthcheckRequest = /*@__PURE__*/ S.suspend(() =>
     timeout: S.optional(S.Number),
     type: S.optional(S.String),
   })
-    .pipe(
-      T.Http({
-        method: "POST",
-        uri: "/zones/{zone_id}/healthchecks",
-        code: 200,
-      }),
-    )
+    .pipe(T.Http({ method: "POST", uri: "/zones/{zone_id}/healthchecks", code: 200 }))
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "CreateHealthcheckRequest",
-}) as any as S.Schema<CreateHealthcheckRequest>;
+).annotate({ identifier: "CreateHealthcheckRequest" }) as any as S.Schema<CreateHealthcheckRequest>;
 
 export type CreateResponseCheckRegionsItem =
   | "WNAM"
@@ -289,9 +277,7 @@ export const CreateResponseHttpConfig = /*@__PURE__*/ S.suspend(() =>
     path: S.optional(S.NullOr(S.String)),
     port: S.optional(S.NullOr(S.Number)),
   }),
-).annotate({
-  identifier: "CreateResponseHttpConfig",
-}) as any as S.Schema<CreateResponseHttpConfig>;
+).annotate({ identifier: "CreateResponseHttpConfig" }) as any as S.Schema<CreateResponseHttpConfig>;
 
 export type CreateResponseStatus = "unknown" | "healthy" | "unhealthy" | "suspended";
 export const CreateResponseStatus = S.String;
@@ -310,9 +296,7 @@ export const CreateResponseTcpConfig = /*@__PURE__*/ S.suspend(() =>
     method: S.optional(S.NullOr(CreateResponseTcpConfigMethod)),
     port: S.optional(S.NullOr(S.Number)),
   }),
-).annotate({
-  identifier: "CreateResponseTcpConfig",
-}) as any as S.Schema<CreateResponseTcpConfig>;
+).annotate({ identifier: "CreateResponseTcpConfig" }) as any as S.Schema<CreateResponseTcpConfig>;
 
 /** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
 export interface CreateHealthcheckResponse {
@@ -523,17 +507,9 @@ export const CreatePreviewRequest = /*@__PURE__*/ S.suspend(() =>
     timeout: S.optional(S.Number),
     type: S.optional(S.String),
   })
-    .pipe(
-      T.Http({
-        method: "POST",
-        uri: "/zones/{zone_id}/healthchecks/preview",
-        code: 200,
-      }),
-    )
+    .pipe(T.Http({ method: "POST", uri: "/zones/{zone_id}/healthchecks/preview", code: 200 }))
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "CreatePreviewRequest",
-}) as any as S.Schema<CreatePreviewRequest>;
+).annotate({ identifier: "CreatePreviewRequest" }) as any as S.Schema<CreatePreviewRequest>;
 
 export type PreviewsCreateResponseCheckRegionsItem =
   | "WNAM"
@@ -694,9 +670,7 @@ export const CreatePreviewResponse = /*@__PURE__*/ S.suspend(() =>
     timeout: S.optional(S.NullOr(S.Number)),
     type: S.optional(S.NullOr(S.String)),
   }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "CreatePreviewResponse",
-}) as any as S.Schema<CreatePreviewResponse>;
+).annotate({ identifier: "CreatePreviewResponse" }) as any as S.Schema<CreatePreviewResponse>;
 
 export interface DeleteHealthcheckRequest {
   /** Identifier */
@@ -717,9 +691,7 @@ export const DeleteHealthcheckRequest = /*@__PURE__*/ S.suspend(() =>
       }),
     )
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "DeleteHealthcheckRequest",
-}) as any as S.Schema<DeleteHealthcheckRequest>;
+).annotate({ identifier: "DeleteHealthcheckRequest" }) as any as S.Schema<DeleteHealthcheckRequest>;
 
 /** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
 export interface DeleteHealthcheckResponse {
@@ -753,9 +725,7 @@ export const DeletePreviewRequest = /*@__PURE__*/ S.suspend(() =>
       }),
     )
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "DeletePreviewRequest",
-}) as any as S.Schema<DeletePreviewRequest>;
+).annotate({ identifier: "DeletePreviewRequest" }) as any as S.Schema<DeletePreviewRequest>;
 
 /** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
 export interface DeletePreviewResponse {
@@ -766,9 +736,7 @@ export const DeletePreviewResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     id: S.optional(S.NullOr(S.String)),
   }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "DeletePreviewResponse",
-}) as any as S.Schema<DeletePreviewResponse>;
+).annotate({ identifier: "DeletePreviewResponse" }) as any as S.Schema<DeletePreviewResponse>;
 
 export interface GetHealthcheckRequest {
   /** Identifier */
@@ -782,16 +750,10 @@ export const GetHealthcheckRequest = /*@__PURE__*/ S.suspend(() =>
     healthcheckId: S.String.pipe(T.Label("healthcheck_id")),
   })
     .pipe(
-      T.Http({
-        method: "GET",
-        uri: "/zones/{zone_id}/healthchecks/{healthcheck_id}",
-        code: 200,
-      }),
+      T.Http({ method: "GET", uri: "/zones/{zone_id}/healthchecks/{healthcheck_id}", code: 200 }),
     )
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "GetHealthcheckRequest",
-}) as any as S.Schema<GetHealthcheckRequest>;
+).annotate({ identifier: "GetHealthcheckRequest" }) as any as S.Schema<GetHealthcheckRequest>;
 
 export type GetResponseCheckRegionsItem =
   | "WNAM"
@@ -867,9 +829,7 @@ export const GetResponseHttpConfig = /*@__PURE__*/ S.suspend(() =>
     path: S.optional(S.NullOr(S.String)),
     port: S.optional(S.NullOr(S.Number)),
   }),
-).annotate({
-  identifier: "GetResponseHttpConfig",
-}) as any as S.Schema<GetResponseHttpConfig>;
+).annotate({ identifier: "GetResponseHttpConfig" }) as any as S.Schema<GetResponseHttpConfig>;
 
 export type GetResponseStatus = "unknown" | "healthy" | "unhealthy" | "suspended";
 export const GetResponseStatus = S.String;
@@ -888,9 +848,7 @@ export const GetResponseTcpConfig = /*@__PURE__*/ S.suspend(() =>
     method: S.optional(S.NullOr(GetResponseTcpConfigMethod)),
     port: S.optional(S.NullOr(S.Number)),
   }),
-).annotate({
-  identifier: "GetResponseTcpConfig",
-}) as any as S.Schema<GetResponseTcpConfig>;
+).annotate({ identifier: "GetResponseTcpConfig" }) as any as S.Schema<GetResponseTcpConfig>;
 
 /** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
 export interface GetHealthcheckResponse {
@@ -950,9 +908,7 @@ export const GetHealthcheckResponse = /*@__PURE__*/ S.suspend(() =>
     timeout: S.optional(S.NullOr(S.Number)),
     type: S.optional(S.NullOr(S.String)),
   }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "GetHealthcheckResponse",
-}) as any as S.Schema<GetHealthcheckResponse>;
+).annotate({ identifier: "GetHealthcheckResponse" }) as any as S.Schema<GetHealthcheckResponse>;
 
 export interface GetPreviewRequest {
   /** Identifier */
@@ -973,9 +929,7 @@ export const GetPreviewRequest = /*@__PURE__*/ S.suspend(() =>
       }),
     )
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "GetPreviewRequest",
-}) as any as S.Schema<GetPreviewRequest>;
+).annotate({ identifier: "GetPreviewRequest" }) as any as S.Schema<GetPreviewRequest>;
 
 export type PreviewsGetResponseCheckRegionsItem =
   | "WNAM"
@@ -1136,9 +1090,7 @@ export const GetPreviewResponse = /*@__PURE__*/ S.suspend(() =>
     timeout: S.optional(S.NullOr(S.Number)),
     type: S.optional(S.NullOr(S.String)),
   }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "GetPreviewResponse",
-}) as any as S.Schema<GetPreviewResponse>;
+).annotate({ identifier: "GetPreviewResponse" }) as any as S.Schema<GetPreviewResponse>;
 
 export interface ListHealthchecksRequest {
   /** Identifier */
@@ -1154,17 +1106,9 @@ export const ListHealthchecksRequest = /*@__PURE__*/ S.suspend(() =>
     page: S.optional(S.Number.pipe(T.Query())),
     perPage: S.optional(S.Number.pipe(T.Query("per_page"))),
   })
-    .pipe(
-      T.Http({
-        method: "GET",
-        uri: "/zones/{zone_id}/healthchecks",
-        code: 200,
-      }),
-    )
+    .pipe(T.Http({ method: "GET", uri: "/zones/{zone_id}/healthchecks", code: 200 }))
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "ListHealthchecksRequest",
-}) as any as S.Schema<ListHealthchecksRequest>;
+).annotate({ identifier: "ListHealthchecksRequest" }) as any as S.Schema<ListHealthchecksRequest>;
 
 export type ListResultItemCheckRegionsItem =
   | "WNAM"
@@ -1240,9 +1184,7 @@ export const ListResultItemHttpConfig = /*@__PURE__*/ S.suspend(() =>
     path: S.optional(S.NullOr(S.String)),
     port: S.optional(S.NullOr(S.Number)),
   }),
-).annotate({
-  identifier: "ListResultItemHttpConfig",
-}) as any as S.Schema<ListResultItemHttpConfig>;
+).annotate({ identifier: "ListResultItemHttpConfig" }) as any as S.Schema<ListResultItemHttpConfig>;
 
 export type ListResultItemStatus = "unknown" | "healthy" | "unhealthy" | "suspended";
 export const ListResultItemStatus = S.String;
@@ -1261,9 +1203,7 @@ export const ListResultItemTcpConfig = /*@__PURE__*/ S.suspend(() =>
     method: S.optional(S.NullOr(ListResultItemTcpConfigMethod)),
     port: S.optional(S.NullOr(S.Number)),
   }),
-).annotate({
-  identifier: "ListResultItemTcpConfig",
-}) as any as S.Schema<ListResultItemTcpConfig>;
+).annotate({ identifier: "ListResultItemTcpConfig" }) as any as S.Schema<ListResultItemTcpConfig>;
 
 export interface ListResultItem {
   /** Identifier */
@@ -1342,9 +1282,7 @@ export const ListHealthchecksResponse = /*@__PURE__*/ S.suspend(() =>
     result: ListResultList.pipe(T.EnvelopePayload()),
     resultInfo: S.optional(S.NullOr(ResultInfo).pipe(T.ResultInfo())),
   }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "ListHealthchecksResponse",
-}) as any as S.Schema<ListHealthchecksResponse>;
+).annotate({ identifier: "ListHealthchecksResponse" }) as any as S.Schema<ListHealthchecksResponse>;
 
 export type EditRequestCheckRegionsItem =
   | "WNAM"
@@ -1420,9 +1358,7 @@ export const EditRequestHttpConfig = /*@__PURE__*/ S.suspend(() =>
     path: S.optional(S.String),
     port: S.optional(S.Number),
   }),
-).annotate({
-  identifier: "EditRequestHttpConfig",
-}) as any as S.Schema<EditRequestHttpConfig>;
+).annotate({ identifier: "EditRequestHttpConfig" }) as any as S.Schema<EditRequestHttpConfig>;
 
 export type EditRequestTcpConfigMethod = "connection_established";
 export const EditRequestTcpConfigMethod = S.String;
@@ -1438,9 +1374,7 @@ export const EditRequestTcpConfig = /*@__PURE__*/ S.suspend(() =>
     method: S.optional(EditRequestTcpConfigMethod),
     port: S.optional(S.Number),
   }),
-).annotate({
-  identifier: "EditRequestTcpConfig",
-}) as any as S.Schema<EditRequestTcpConfig>;
+).annotate({ identifier: "EditRequestTcpConfig" }) as any as S.Schema<EditRequestTcpConfig>;
 
 export interface PatchHealthcheckRequest {
   /** Identifier */
@@ -1493,16 +1427,10 @@ export const PatchHealthcheckRequest = /*@__PURE__*/ S.suspend(() =>
     type: S.optional(S.String),
   })
     .pipe(
-      T.Http({
-        method: "PATCH",
-        uri: "/zones/{zone_id}/healthchecks/{healthcheck_id}",
-        code: 200,
-      }),
+      T.Http({ method: "PATCH", uri: "/zones/{zone_id}/healthchecks/{healthcheck_id}", code: 200 }),
     )
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "PatchHealthcheckRequest",
-}) as any as S.Schema<PatchHealthcheckRequest>;
+).annotate({ identifier: "PatchHealthcheckRequest" }) as any as S.Schema<PatchHealthcheckRequest>;
 
 export type EditResponseCheckRegionsItem =
   | "WNAM"
@@ -1578,9 +1506,7 @@ export const EditResponseHttpConfig = /*@__PURE__*/ S.suspend(() =>
     path: S.optional(S.NullOr(S.String)),
     port: S.optional(S.NullOr(S.Number)),
   }),
-).annotate({
-  identifier: "EditResponseHttpConfig",
-}) as any as S.Schema<EditResponseHttpConfig>;
+).annotate({ identifier: "EditResponseHttpConfig" }) as any as S.Schema<EditResponseHttpConfig>;
 
 export type EditResponseStatus = "unknown" | "healthy" | "unhealthy" | "suspended";
 export const EditResponseStatus = S.String;
@@ -1599,9 +1525,7 @@ export const EditResponseTcpConfig = /*@__PURE__*/ S.suspend(() =>
     method: S.optional(S.NullOr(EditResponseTcpConfigMethod)),
     port: S.optional(S.NullOr(S.Number)),
   }),
-).annotate({
-  identifier: "EditResponseTcpConfig",
-}) as any as S.Schema<EditResponseTcpConfig>;
+).annotate({ identifier: "EditResponseTcpConfig" }) as any as S.Schema<EditResponseTcpConfig>;
 
 /** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
 export interface PatchHealthcheckResponse {
@@ -1661,9 +1585,7 @@ export const PatchHealthcheckResponse = /*@__PURE__*/ S.suspend(() =>
     timeout: S.optional(S.NullOr(S.Number)),
     type: S.optional(S.NullOr(S.String)),
   }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "PatchHealthcheckResponse",
-}) as any as S.Schema<PatchHealthcheckResponse>;
+).annotate({ identifier: "PatchHealthcheckResponse" }) as any as S.Schema<PatchHealthcheckResponse>;
 
 export type UpdateRequestCheckRegionsItem =
   | "WNAM"
@@ -1739,9 +1661,7 @@ export const UpdateRequestHttpConfig = /*@__PURE__*/ S.suspend(() =>
     path: S.optional(S.String),
     port: S.optional(S.Number),
   }),
-).annotate({
-  identifier: "UpdateRequestHttpConfig",
-}) as any as S.Schema<UpdateRequestHttpConfig>;
+).annotate({ identifier: "UpdateRequestHttpConfig" }) as any as S.Schema<UpdateRequestHttpConfig>;
 
 export type UpdateRequestTcpConfigMethod = "connection_established";
 export const UpdateRequestTcpConfigMethod = S.String;
@@ -1757,9 +1677,7 @@ export const UpdateRequestTcpConfig = /*@__PURE__*/ S.suspend(() =>
     method: S.optional(UpdateRequestTcpConfigMethod),
     port: S.optional(S.Number),
   }),
-).annotate({
-  identifier: "UpdateRequestTcpConfig",
-}) as any as S.Schema<UpdateRequestTcpConfig>;
+).annotate({ identifier: "UpdateRequestTcpConfig" }) as any as S.Schema<UpdateRequestTcpConfig>;
 
 export interface UpdateHealthcheckRequest {
   /** Identifier */
@@ -1812,16 +1730,10 @@ export const UpdateHealthcheckRequest = /*@__PURE__*/ S.suspend(() =>
     type: S.optional(S.String),
   })
     .pipe(
-      T.Http({
-        method: "PUT",
-        uri: "/zones/{zone_id}/healthchecks/{healthcheck_id}",
-        code: 200,
-      }),
+      T.Http({ method: "PUT", uri: "/zones/{zone_id}/healthchecks/{healthcheck_id}", code: 200 }),
     )
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "UpdateHealthcheckRequest",
-}) as any as S.Schema<UpdateHealthcheckRequest>;
+).annotate({ identifier: "UpdateHealthcheckRequest" }) as any as S.Schema<UpdateHealthcheckRequest>;
 
 export type UpdateResponseCheckRegionsItem =
   | "WNAM"
@@ -1897,9 +1809,7 @@ export const UpdateResponseHttpConfig = /*@__PURE__*/ S.suspend(() =>
     path: S.optional(S.NullOr(S.String)),
     port: S.optional(S.NullOr(S.Number)),
   }),
-).annotate({
-  identifier: "UpdateResponseHttpConfig",
-}) as any as S.Schema<UpdateResponseHttpConfig>;
+).annotate({ identifier: "UpdateResponseHttpConfig" }) as any as S.Schema<UpdateResponseHttpConfig>;
 
 export type UpdateResponseStatus = "unknown" | "healthy" | "unhealthy" | "suspended";
 export const UpdateResponseStatus = S.String;
@@ -1918,9 +1828,7 @@ export const UpdateResponseTcpConfig = /*@__PURE__*/ S.suspend(() =>
     method: S.optional(S.NullOr(UpdateResponseTcpConfigMethod)),
     port: S.optional(S.NullOr(S.Number)),
   }),
-).annotate({
-  identifier: "UpdateResponseTcpConfig",
-}) as any as S.Schema<UpdateResponseTcpConfig>;
+).annotate({ identifier: "UpdateResponseTcpConfig" }) as any as S.Schema<UpdateResponseTcpConfig>;
 
 /** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
 export interface UpdateHealthcheckResponse {

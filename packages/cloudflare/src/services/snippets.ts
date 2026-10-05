@@ -81,24 +81,44 @@ export const DeleteRuleRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     zoneId: S.String.pipe(T.Label("zone_id")),
   })
-    .pipe(
-      T.Http({
-        method: "DELETE",
-        uri: "/zones/{zone_id}/snippets/snippet_rules",
-        code: 200,
-      }),
-    )
+    .pipe(T.Http({ method: "DELETE", uri: "/zones/{zone_id}/snippets/snippet_rules", code: 200 }))
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "DeleteRuleRequest",
-}) as any as S.Schema<DeleteRuleRequest>;
+).annotate({ identifier: "DeleteRuleRequest" }) as any as S.Schema<DeleteRuleRequest>;
 
-export type DeleteRuleResponse = unknown;
+export interface RulesDeleteResultItem {
+  /** Specify the unique ID of the rule. */
+  id: string;
+  /** Define the expression that determines which traffic matches the rule. */
+  expression: string;
+  /** Specify the timestamp of when the rule was last modified. */
+  lastUpdated: string;
+  /** Identify the snippet. */
+  snippetName: string;
+  /** Provide an informative description of the rule. */
+  description?: string | null;
+  /** Indicate whether to execute the rule. */
+  enabled?: boolean | null;
+}
+export const RulesDeleteResultItem = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    id: S.String,
+    expression: S.String,
+    lastUpdated: S.String.pipe(T.Body("last_updated")),
+    snippetName: S.String.pipe(T.Body("snippet_name")),
+    description: S.optional(S.NullOr(S.String)),
+    enabled: S.optional(S.NullOr(S.Boolean)),
+  }),
+).annotate({ identifier: "RulesDeleteResultItem" }) as any as S.Schema<RulesDeleteResultItem>;
+
+export type RulesDeleteResultList = Array<RulesDeleteResultItem>;
+export const RulesDeleteResultList = /*@__PURE__*/ S.Array(
+  RulesDeleteResultItem,
+) as any as S.Schema<RulesDeleteResultList>;
+
+export type DeleteRuleResponse = RulesDeleteResultList;
 export const DeleteRuleResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Unknown.pipe(T.EnvelopePayloadRoot(), T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "DeleteRuleResponse",
-}) as any as S.Schema<DeleteRuleResponse>;
+  RulesDeleteResultList.pipe(T.EnvelopePayloadRoot(), T.KeyDictionary(KEY_DICTIONARY)),
+).annotate({ identifier: "DeleteRuleResponse" }) as any as S.Schema<DeleteRuleResponse>;
 
 export interface DeleteSnippetRequest {
   /** Use this field to specify the unique ID of the zone. */
@@ -111,24 +131,14 @@ export const DeleteSnippetRequest = /*@__PURE__*/ S.suspend(() =>
     zoneId: S.String.pipe(T.Label("zone_id")),
     snippetName: S.String.pipe(T.Label("snippet_name")),
   })
-    .pipe(
-      T.Http({
-        method: "DELETE",
-        uri: "/zones/{zone_id}/snippets/{snippet_name}",
-        code: 200,
-      }),
-    )
+    .pipe(T.Http({ method: "DELETE", uri: "/zones/{zone_id}/snippets/{snippet_name}", code: 200 }))
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "DeleteSnippetRequest",
-}) as any as S.Schema<DeleteSnippetRequest>;
+).annotate({ identifier: "DeleteSnippetRequest" }) as any as S.Schema<DeleteSnippetRequest>;
 
 export type DeleteSnippetResponse = unknown;
 export const DeleteSnippetResponse = /*@__PURE__*/ S.suspend(() =>
   S.Unknown.pipe(T.EnvelopePayloadRoot(), T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "DeleteSnippetResponse",
-}) as any as S.Schema<DeleteSnippetResponse>;
+).annotate({ identifier: "DeleteSnippetResponse" }) as any as S.Schema<DeleteSnippetResponse>;
 
 export interface GetContentRequest {
   /** Use this field to specify the unique ID of the zone. */
@@ -142,23 +152,15 @@ export const GetContentRequest = /*@__PURE__*/ S.suspend(() =>
     snippetName: S.String.pipe(T.Label("snippet_name")),
   })
     .pipe(
-      T.Http({
-        method: "GET",
-        uri: "/zones/{zone_id}/snippets/{snippet_name}/content",
-        code: 200,
-      }),
+      T.Http({ method: "GET", uri: "/zones/{zone_id}/snippets/{snippet_name}/content", code: 200 }),
     )
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "GetContentRequest",
-}) as any as S.Schema<GetContentRequest>;
+).annotate({ identifier: "GetContentRequest" }) as any as S.Schema<GetContentRequest>;
 
 export interface GetContentResponse {}
 export const GetContentResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({}).pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "GetContentResponse",
-}) as any as S.Schema<GetContentResponse>;
+).annotate({ identifier: "GetContentResponse" }) as any as S.Schema<GetContentResponse>;
 
 export interface GetSnippetRequest {
   /** Use this field to specify the unique ID of the zone. */
@@ -171,17 +173,9 @@ export const GetSnippetRequest = /*@__PURE__*/ S.suspend(() =>
     zoneId: S.String.pipe(T.Label("zone_id")),
     snippetName: S.String.pipe(T.Label("snippet_name")),
   })
-    .pipe(
-      T.Http({
-        method: "GET",
-        uri: "/zones/{zone_id}/snippets/{snippet_name}",
-        code: 200,
-      }),
-    )
+    .pipe(T.Http({ method: "GET", uri: "/zones/{zone_id}/snippets/{snippet_name}", code: 200 }))
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "GetSnippetRequest",
-}) as any as S.Schema<GetSnippetRequest>;
+).annotate({ identifier: "GetSnippetRequest" }) as any as S.Schema<GetSnippetRequest>;
 
 /** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
 export interface GetSnippetResponse {
@@ -198,9 +192,7 @@ export const GetSnippetResponse = /*@__PURE__*/ S.suspend(() =>
     snippetName: S.String.pipe(T.Body("snippet_name")),
     modifiedOn: S.optional(S.NullOr(S.String).pipe(T.Body("modified_on"))),
   }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "GetSnippetResponse",
-}) as any as S.Schema<GetSnippetResponse>;
+).annotate({ identifier: "GetSnippetResponse" }) as any as S.Schema<GetSnippetResponse>;
 
 export interface ListRulesRequest {
   /** Use this field to specify the unique ID of the zone. */
@@ -210,24 +202,22 @@ export const ListRulesRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     zoneId: S.String.pipe(T.Label("zone_id")),
   })
-    .pipe(
-      T.Http({
-        method: "GET",
-        uri: "/zones/{zone_id}/snippets/snippet_rules",
-        code: 200,
-      }),
-    )
+    .pipe(T.Http({ method: "GET", uri: "/zones/{zone_id}/snippets/snippet_rules", code: 200 }))
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "ListRulesRequest",
-}) as any as S.Schema<ListRulesRequest>;
+).annotate({ identifier: "ListRulesRequest" }) as any as S.Schema<ListRulesRequest>;
 
-export type ListRulesResponse = unknown;
+export type RulesGetResultItem = RulesDeleteResultItem;
+export const RulesGetResultItem = RulesDeleteResultItem;
+
+export type RulesGetResultList = Array<RulesDeleteResultItem>;
+export const RulesGetResultList = /*@__PURE__*/ S.Array(
+  RulesDeleteResultItem,
+) as any as S.Schema<RulesGetResultList>;
+
+export type ListRulesResponse = RulesGetResultList;
 export const ListRulesResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Unknown.pipe(T.EnvelopePayloadRoot(), T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "ListRulesResponse",
-}) as any as S.Schema<ListRulesResponse>;
+  RulesGetResultList.pipe(T.EnvelopePayloadRoot(), T.KeyDictionary(KEY_DICTIONARY)),
+).annotate({ identifier: "ListRulesResponse" }) as any as S.Schema<ListRulesResponse>;
 
 export interface ListSnippetsRequest {
   /** Use this field to specify the unique ID of the zone. */
@@ -245,9 +235,7 @@ export const ListSnippetsRequest = /*@__PURE__*/ S.suspend(() =>
   })
     .pipe(T.Http({ method: "GET", uri: "/zones/{zone_id}/snippets", code: 200 }))
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "ListSnippetsRequest",
-}) as any as S.Schema<ListSnippetsRequest>;
+).annotate({ identifier: "ListSnippetsRequest" }) as any as S.Schema<ListSnippetsRequest>;
 
 export interface ListResultItem {
   /** Indicates when the snippet was created. */
@@ -281,9 +269,7 @@ export const ListSnippetsResponse = /*@__PURE__*/ S.suspend(() =>
     result: ListResultList.pipe(T.EnvelopePayload()),
     resultInfo: S.optional(S.NullOr(ResultInfo).pipe(T.ResultInfo())),
   }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "ListSnippetsResponse",
-}) as any as S.Schema<ListSnippetsResponse>;
+).annotate({ identifier: "ListSnippetsResponse" }) as any as S.Schema<ListSnippetsResponse>;
 
 export interface RulesUpdateRequestRulesItem {
   /** Define the expression that determines which traffic matches the rule. */
@@ -322,22 +308,22 @@ export const PutRuleRequest = /*@__PURE__*/ S.suspend(() =>
     zoneId: S.String.pipe(T.Label("zone_id")),
     rules: RulesUpdateRequestRulesList,
   })
-    .pipe(
-      T.Http({
-        method: "PUT",
-        uri: "/zones/{zone_id}/snippets/snippet_rules",
-        code: 200,
-      }),
-    )
+    .pipe(T.Http({ method: "PUT", uri: "/zones/{zone_id}/snippets/snippet_rules", code: 200 }))
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
 ).annotate({ identifier: "PutRuleRequest" }) as any as S.Schema<PutRuleRequest>;
 
-export type PutRuleResponse = unknown;
+export type RulesUpdateResultItem = RulesDeleteResultItem;
+export const RulesUpdateResultItem = RulesDeleteResultItem;
+
+export type RulesUpdateResultList = Array<RulesDeleteResultItem>;
+export const RulesUpdateResultList = /*@__PURE__*/ S.Array(
+  RulesDeleteResultItem,
+) as any as S.Schema<RulesUpdateResultList>;
+
+export type PutRuleResponse = RulesUpdateResultList;
 export const PutRuleResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Unknown.pipe(T.EnvelopePayloadRoot(), T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "PutRuleResponse",
-}) as any as S.Schema<PutRuleResponse>;
+  RulesUpdateResultList.pipe(T.EnvelopePayloadRoot(), T.KeyDictionary(KEY_DICTIONARY)),
+).annotate({ identifier: "PutRuleResponse" }) as any as S.Schema<PutRuleResponse>;
 
 export interface PutSnippetRequest {
   /** Use this field to specify the unique ID of the zone. */
@@ -365,9 +351,7 @@ export const PutSnippetRequest = /*@__PURE__*/ S.suspend(() =>
       }),
     )
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "PutSnippetRequest",
-}) as any as S.Schema<PutSnippetRequest>;
+).annotate({ identifier: "PutSnippetRequest" }) as any as S.Schema<PutSnippetRequest>;
 
 /** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
 export interface PutSnippetResponse {
@@ -384,9 +368,7 @@ export const PutSnippetResponse = /*@__PURE__*/ S.suspend(() =>
     snippetName: S.String.pipe(T.Body("snippet_name")),
     modifiedOn: S.optional(S.NullOr(S.String).pipe(T.Body("modified_on"))),
   }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "PutSnippetResponse",
-}) as any as S.Schema<PutSnippetResponse>;
+).annotate({ identifier: "PutSnippetResponse" }) as any as S.Schema<PutSnippetResponse>;
 
 export type DeleteRuleError =
   | SnippetRulesNotFound

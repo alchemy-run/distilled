@@ -29,9 +29,7 @@ export const CancelBuildRequest = /*@__PURE__*/ S.suspend(() =>
       code: 200,
     }),
   ),
-).annotate({
-  identifier: "CancelBuildRequest",
-}) as any as S.Schema<CancelBuildRequest>;
+).annotate({ identifier: "CancelBuildRequest" }) as any as S.Schema<CancelBuildRequest>;
 
 export type CancelBuildResponseBuildOutcome =
   | "success"
@@ -56,9 +54,7 @@ export const CancelBuildResponse = /*@__PURE__*/ S.suspend(() =>
     buildUuid: S.optional(S.NullOr(S.String).pipe(T.Body("build_uuid"))),
     stoppedOn: S.optional(S.NullOr(S.String).pipe(T.Body("stopped_on"))),
   }),
-).annotate({
-  identifier: "CancelBuildResponse",
-}) as any as S.Schema<CancelBuildResponse>;
+).annotate({ identifier: "CancelBuildResponse" }) as any as S.Schema<CancelBuildResponse>;
 
 export interface CreateTokenRequest {
   /** Account identifier. */
@@ -73,16 +69,8 @@ export const CreateTokenRequest = /*@__PURE__*/ S.suspend(() =>
     buildTokenName: S.String.pipe(T.Body("build_token_name")),
     buildTokenSecret: S.String.pipe(T.Body("build_token_secret")),
     cloudflareTokenId: S.String.pipe(T.Body("cloudflare_token_id")),
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/accounts/{account_id}/builds/tokens",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "CreateTokenRequest",
-}) as any as S.Schema<CreateTokenRequest>;
+  }).pipe(T.Http({ method: "POST", uri: "/accounts/{account_id}/builds/tokens", code: 200 })),
+).annotate({ identifier: "CreateTokenRequest" }) as any as S.Schema<CreateTokenRequest>;
 
 /** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
 export interface CreateTokenResponse {
@@ -99,9 +87,7 @@ export const CreateTokenResponse = /*@__PURE__*/ S.suspend(() =>
     cloudflareTokenId: S.optional(S.NullOr(S.String).pipe(T.Body("cloudflare_token_id"))),
     ownerType: S.optional(S.NullOr(S.String).pipe(T.Body("owner_type"))),
   }),
-).annotate({
-  identifier: "CreateTokenResponse",
-}) as any as S.Schema<CreateTokenResponse>;
+).annotate({ identifier: "CreateTokenResponse" }) as any as S.Schema<CreateTokenResponse>;
 
 export type CreateTriggerRequestBranchExcludesList = Array<string>;
 export const CreateTriggerRequestBranchExcludesList = /*@__PURE__*/ S.Array(
@@ -166,16 +152,8 @@ export const CreateTriggerRequest = /*@__PURE__*/ S.suspend(() =>
     rootDirectory: S.String.pipe(T.Body("root_directory")),
     triggerName: S.String.pipe(T.Body("trigger_name")),
     buildCachingEnabled: S.optional(S.Boolean.pipe(T.Body("build_caching_enabled"))),
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/accounts/{account_id}/builds/triggers",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "CreateTriggerRequest",
-}) as any as S.Schema<CreateTriggerRequest>;
+  }).pipe(T.Http({ method: "POST", uri: "/accounts/{account_id}/builds/triggers", code: 200 })),
+).annotate({ identifier: "CreateTriggerRequest" }) as any as S.Schema<CreateTriggerRequest>;
 
 export type CreateTriggerResponseBranchExcludesList = Array<string>;
 export const CreateTriggerResponseBranchExcludesList = /*@__PURE__*/ S.Array(
@@ -301,9 +279,7 @@ export const CreateTriggerResponse = /*@__PURE__*/ S.suspend(() =>
     triggerName: S.optional(S.NullOr(S.String).pipe(T.Body("trigger_name"))),
     triggerUuid: S.optional(S.NullOr(S.String).pipe(T.Body("trigger_uuid"))),
   }),
-).annotate({
-  identifier: "CreateTriggerResponse",
-}) as any as S.Schema<CreateTriggerResponse>;
+).annotate({ identifier: "CreateTriggerResponse" }) as any as S.Schema<CreateTriggerResponse>;
 
 export interface DeleteReposConnectionRequest {
   /** Account identifier. */
@@ -350,16 +326,12 @@ export const DeleteTokenRequest = /*@__PURE__*/ S.suspend(() =>
       code: 200,
     }),
   ),
-).annotate({
-  identifier: "DeleteTokenRequest",
-}) as any as S.Schema<DeleteTokenRequest>;
+).annotate({ identifier: "DeleteTokenRequest" }) as any as S.Schema<DeleteTokenRequest>;
 
 export type DeleteTokenResponse = unknown;
 export const DeleteTokenResponse = /*@__PURE__*/ S.suspend(() =>
   S.Unknown.pipe(T.EnvelopePayloadRoot()),
-).annotate({
-  identifier: "DeleteTokenResponse",
-}) as any as S.Schema<DeleteTokenResponse>;
+).annotate({ identifier: "DeleteTokenResponse" }) as any as S.Schema<DeleteTokenResponse>;
 
 export interface DeleteTriggerRequest {
   /** Account identifier. */
@@ -378,16 +350,12 @@ export const DeleteTriggerRequest = /*@__PURE__*/ S.suspend(() =>
       code: 200,
     }),
   ),
-).annotate({
-  identifier: "DeleteTriggerRequest",
-}) as any as S.Schema<DeleteTriggerRequest>;
+).annotate({ identifier: "DeleteTriggerRequest" }) as any as S.Schema<DeleteTriggerRequest>;
 
 export type DeleteTriggerResponse = unknown;
 export const DeleteTriggerResponse = /*@__PURE__*/ S.suspend(() =>
   S.Unknown.pipe(T.EnvelopePayloadRoot()),
-).annotate({
-  identifier: "DeleteTriggerResponse",
-}) as any as S.Schema<DeleteTriggerResponse>;
+).annotate({ identifier: "DeleteTriggerResponse" }) as any as S.Schema<DeleteTriggerResponse>;
 
 export interface DeleteTriggersEnvironmentVariableRequest {
   /** Account identifier. */
@@ -443,9 +411,7 @@ export const DeployHooksCreateRequest = /*@__PURE__*/ S.suspend(() =>
       code: 200,
     }),
   ),
-).annotate({
-  identifier: "DeployHooksCreateRequest",
-}) as any as S.Schema<DeployHooksCreateRequest>;
+).annotate({ identifier: "DeployHooksCreateRequest" }) as any as S.Schema<DeployHooksCreateRequest>;
 
 /** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
 export interface DeployHooksCreateResponse {
@@ -493,9 +459,7 @@ export const DeployHooksDeleteRequest = /*@__PURE__*/ S.suspend(() =>
       code: 200,
     }),
   ),
-).annotate({
-  identifier: "DeployHooksDeleteRequest",
-}) as any as S.Schema<DeployHooksDeleteRequest>;
+).annotate({ identifier: "DeployHooksDeleteRequest" }) as any as S.Schema<DeployHooksDeleteRequest>;
 
 /** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
 export interface DeployHooksDeleteResponse {
@@ -543,9 +507,7 @@ export const DeployHooksGetRequest = /*@__PURE__*/ S.suspend(() =>
       code: 200,
     }),
   ),
-).annotate({
-  identifier: "DeployHooksGetRequest",
-}) as any as S.Schema<DeployHooksGetRequest>;
+).annotate({ identifier: "DeployHooksGetRequest" }) as any as S.Schema<DeployHooksGetRequest>;
 
 /** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
 export interface DeployHooksGetResponse {
@@ -569,9 +531,7 @@ export const DeployHooksGetResponse = /*@__PURE__*/ S.suspend(() =>
     externalScriptId: S.optional(S.NullOr(S.String).pipe(T.Body("external_script_id"))),
     modifiedOn: S.optional(S.NullOr(S.String).pipe(T.Body("modified_on"))),
   }),
-).annotate({
-  identifier: "DeployHooksGetResponse",
-}) as any as S.Schema<DeployHooksGetResponse>;
+).annotate({ identifier: "DeployHooksGetResponse" }) as any as S.Schema<DeployHooksGetResponse>;
 
 export interface DeployHooksListRequest {
   /** Account identifier. */
@@ -590,9 +550,7 @@ export const DeployHooksListRequest = /*@__PURE__*/ S.suspend(() =>
       code: 200,
     }),
   ),
-).annotate({
-  identifier: "DeployHooksListRequest",
-}) as any as S.Schema<DeployHooksListRequest>;
+).annotate({ identifier: "DeployHooksListRequest" }) as any as S.Schema<DeployHooksListRequest>;
 
 export interface DeployHooksListResultItemLatestBuild {
   createdOn?: string | null;
@@ -642,9 +600,7 @@ export const DeployHooksListResultList = /*@__PURE__*/ S.Array(
 export type DeployHooksListResponse = DeployHooksListResultList;
 export const DeployHooksListResponse = /*@__PURE__*/ S.suspend(() =>
   DeployHooksListResultList.pipe(T.EnvelopePayloadRoot()),
-).annotate({
-  identifier: "DeployHooksListResponse",
-}) as any as S.Schema<DeployHooksListResponse>;
+).annotate({ identifier: "DeployHooksListResponse" }) as any as S.Schema<DeployHooksListResponse>;
 
 export interface DeployHooksTriggerRequest {
   /** Deploy hook UUID. */
@@ -654,11 +610,7 @@ export const DeployHooksTriggerRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     deployHookUuid: S.String.pipe(T.Label("deploy_hook_uuid")),
   }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/workers/builds/deploy_hooks/{deploy_hook_uuid}",
-      code: 200,
-    }),
+    T.Http({ method: "POST", uri: "/workers/builds/deploy_hooks/{deploy_hook_uuid}", code: 200 }),
   ),
 ).annotate({
   identifier: "DeployHooksTriggerRequest",
@@ -713,9 +665,7 @@ export const DeployHooksUpdateRequest = /*@__PURE__*/ S.suspend(() =>
       code: 200,
     }),
   ),
-).annotate({
-  identifier: "DeployHooksUpdateRequest",
-}) as any as S.Schema<DeployHooksUpdateRequest>;
+).annotate({ identifier: "DeployHooksUpdateRequest" }) as any as S.Schema<DeployHooksUpdateRequest>;
 
 /** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
 export interface DeployHooksUpdateResponse {
@@ -751,15 +701,9 @@ export const GetAccountLimitsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     accountId: S.String.pipe(T.Label("account_id")),
   }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/accounts/{account_id}/builds/account/limits",
-      code: 200,
-    }),
+    T.Http({ method: "GET", uri: "/accounts/{account_id}/builds/account/limits", code: 200 }),
   ),
-).annotate({
-  identifier: "GetAccountLimitsRequest",
-}) as any as S.Schema<GetAccountLimitsRequest>;
+).annotate({ identifier: "GetAccountLimitsRequest" }) as any as S.Schema<GetAccountLimitsRequest>;
 
 /** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
 export interface GetAccountLimitsResponse {
@@ -775,9 +719,7 @@ export const GetAccountLimitsResponse = /*@__PURE__*/ S.suspend(() =>
       S.NullOr(S.Boolean).pipe(T.Body("has_reached_build_minutes_limit")),
     ),
   }),
-).annotate({
-  identifier: "GetAccountLimitsResponse",
-}) as any as S.Schema<GetAccountLimitsResponse>;
+).annotate({ identifier: "GetAccountLimitsResponse" }) as any as S.Schema<GetAccountLimitsResponse>;
 
 export interface GetBuildRequest {
   /** Account identifier. */
@@ -790,15 +732,9 @@ export const GetBuildRequest = /*@__PURE__*/ S.suspend(() =>
     accountId: S.String.pipe(T.Label("account_id")),
     buildUuid: S.String.pipe(T.Label("build_uuid")),
   }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/accounts/{account_id}/builds/builds/{build_uuid}",
-      code: 200,
-    }),
+    T.Http({ method: "GET", uri: "/accounts/{account_id}/builds/builds/{build_uuid}", code: 200 }),
   ),
-).annotate({
-  identifier: "GetBuildRequest",
-}) as any as S.Schema<GetBuildRequest>;
+).annotate({ identifier: "GetBuildRequest" }) as any as S.Schema<GetBuildRequest>;
 
 export type GetBuildResponseBuildOutcome =
   | "success"
@@ -886,12 +822,26 @@ export const GetBuildResponseBuildTriggerMetadata = /*@__PURE__*/ S.suspend(() =
   identifier: "GetBuildResponseBuildTriggerMetadata",
 }) as any as S.Schema<GetBuildResponseBuildTriggerMetadata>;
 
+export interface GetBuildResponseDeployHook {
+  /** Deploy hook name (1-58 characters). */
+  deployHookName?: string | null;
+}
+export const GetBuildResponseDeployHook = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    deployHookName: S.optional(S.NullOr(S.String).pipe(T.Body("deploy_hook_name"))),
+  }),
+).annotate({
+  identifier: "GetBuildResponseDeployHook",
+}) as any as S.Schema<GetBuildResponseDeployHook>;
+
 export interface GetBuildResponsePullRequest {
+  closedOn?: string | null;
   createdOn?: string | null;
   pullRequestUrl?: string | null;
 }
 export const GetBuildResponsePullRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
+    closedOn: S.optional(S.NullOr(S.String).pipe(T.Body("closed_on"))),
     createdOn: S.optional(S.NullOr(S.String).pipe(T.Body("created_on"))),
     pullRequestUrl: S.optional(S.NullOr(S.String).pipe(T.Body("pull_request_url"))),
   }),
@@ -1020,9 +970,7 @@ export const GetBuildResponseTrigger = /*@__PURE__*/ S.suspend(() =>
     triggerName: S.optional(S.NullOr(S.String).pipe(T.Body("trigger_name"))),
     triggerUuid: S.optional(S.NullOr(S.String).pipe(T.Body("trigger_uuid"))),
   }),
-).annotate({
-  identifier: "GetBuildResponseTrigger",
-}) as any as S.Schema<GetBuildResponseTrigger>;
+).annotate({ identifier: "GetBuildResponseTrigger" }) as any as S.Schema<GetBuildResponseTrigger>;
 
 /** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
 export interface GetBuildResponse {
@@ -1031,8 +979,11 @@ export interface GetBuildResponse {
   /** Build UUID. */
   buildUuid?: string | null;
   createdOn?: string | null;
+  deployHook?: GetBuildResponseDeployHook | null;
   initializingOn?: string | null;
   modifiedOn?: string | null;
+  /** URL serving the Worker version this build deployed. Only returned by Get build by UUID, and only once the build has produced a preview artifact. */
+  previewUrl?: string | null;
   pullRequest?: GetBuildResponsePullRequest | null;
   runningOn?: string | null;
   status?: GetBuildResponseStatus | null;
@@ -1048,17 +999,17 @@ export const GetBuildResponse = /*@__PURE__*/ S.suspend(() =>
     ),
     buildUuid: S.optional(S.NullOr(S.String).pipe(T.Body("build_uuid"))),
     createdOn: S.optional(S.NullOr(S.String).pipe(T.Body("created_on"))),
+    deployHook: S.optional(S.NullOr(GetBuildResponseDeployHook).pipe(T.Body("deploy_hook"))),
     initializingOn: S.optional(S.NullOr(S.String).pipe(T.Body("initializing_on"))),
     modifiedOn: S.optional(S.NullOr(S.String).pipe(T.Body("modified_on"))),
+    previewUrl: S.optional(S.NullOr(S.String).pipe(T.Body("preview_url"))),
     pullRequest: S.optional(S.NullOr(GetBuildResponsePullRequest).pipe(T.Body("pull_request"))),
     runningOn: S.optional(S.NullOr(S.String).pipe(T.Body("running_on"))),
     status: S.optional(S.NullOr(GetBuildResponseStatus)),
     stoppedOn: S.optional(S.NullOr(S.String).pipe(T.Body("stopped_on"))),
     trigger: S.optional(S.NullOr(GetBuildResponseTrigger)),
   }),
-).annotate({
-  identifier: "GetBuildResponse",
-}) as any as S.Schema<GetBuildResponse>;
+).annotate({ identifier: "GetBuildResponse" }) as any as S.Schema<GetBuildResponse>;
 
 export interface GetBuildsByVersionRequest {
   /** Account identifier. */
@@ -1070,13 +1021,7 @@ export const GetBuildsByVersionRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     accountId: S.String.pipe(T.Label("account_id")),
     versionIds: S.String.pipe(T.Query("version_ids")),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/accounts/{account_id}/builds/builds",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/accounts/{account_id}/builds/builds", code: 200 })),
 ).annotate({
   identifier: "GetBuildsByVersionRequest",
 }) as any as S.Schema<GetBuildsByVersionRequest>;
@@ -1170,6 +1115,9 @@ export const GetBuildsByVersionResponseBuildsValueBuildTriggerMetadata = /*@__PU
 ).annotate({
   identifier: "GetBuildsByVersionResponseBuildsValueBuildTriggerMetadata",
 }) as any as S.Schema<GetBuildsByVersionResponseBuildsValueBuildTriggerMetadata>;
+
+export type GetBuildsByVersionResponseBuildsValueDeployHook = GetBuildResponseDeployHook;
+export const GetBuildsByVersionResponseBuildsValueDeployHook = GetBuildResponseDeployHook;
 
 export type GetBuildsByVersionResponseBuildsValuePullRequest = GetBuildResponsePullRequest;
 export const GetBuildsByVersionResponseBuildsValuePullRequest = GetBuildResponsePullRequest;
@@ -1322,8 +1270,11 @@ export interface GetBuildsByVersionResponseBuildsValue {
   /** Build UUID. */
   buildUuid?: string | null;
   createdOn?: string | null;
+  deployHook?: GetBuildResponseDeployHook | null;
   initializingOn?: string | null;
   modifiedOn?: string | null;
+  /** URL serving the Worker version this build deployed. Only returned by Get build by UUID, and only once the build has produced a preview artifact. */
+  previewUrl?: string | null;
   pullRequest?: GetBuildResponsePullRequest | null;
   runningOn?: string | null;
   status?: GetBuildsByVersionResponseBuildsValueStatus | null;
@@ -1343,8 +1294,10 @@ export const GetBuildsByVersionResponseBuildsValue = /*@__PURE__*/ S.suspend(() 
     ),
     buildUuid: S.optional(S.NullOr(S.String).pipe(T.Body("build_uuid"))),
     createdOn: S.optional(S.NullOr(S.String).pipe(T.Body("created_on"))),
+    deployHook: S.optional(S.NullOr(GetBuildResponseDeployHook).pipe(T.Body("deploy_hook"))),
     initializingOn: S.optional(S.NullOr(S.String).pipe(T.Body("initializing_on"))),
     modifiedOn: S.optional(S.NullOr(S.String).pipe(T.Body("modified_on"))),
+    previewUrl: S.optional(S.NullOr(S.String).pipe(T.Body("preview_url"))),
     pullRequest: S.optional(S.NullOr(GetBuildResponsePullRequest).pipe(T.Body("pull_request"))),
     runningOn: S.optional(S.NullOr(S.String).pipe(T.Body("running_on"))),
     status: S.optional(S.NullOr(GetBuildsByVersionResponseBuildsValueStatus)),
@@ -1395,9 +1348,7 @@ export const GetBuildsLogRequest = /*@__PURE__*/ S.suspend(() =>
       code: 200,
     }),
   ),
-).annotate({
-  identifier: "GetBuildsLogRequest",
-}) as any as S.Schema<GetBuildsLogRequest>;
+).annotate({ identifier: "GetBuildsLogRequest" }) as any as S.Schema<GetBuildsLogRequest>;
 
 export type GetBuildsLogResponseLinesItem = string | number;
 export const GetBuildsLogResponseLinesItem = /*@__PURE__*/ S.Unknown.pipe(T.UnionCases([[], []]));
@@ -1420,9 +1371,7 @@ export const GetBuildsLogResponse = /*@__PURE__*/ S.suspend(() =>
     lines: S.optional(S.NullOr(GetBuildsLogResponseLinesList)),
     truncated: S.optional(S.NullOr(S.Boolean)),
   }),
-).annotate({
-  identifier: "GetBuildsLogResponse",
-}) as any as S.Schema<GetBuildsLogResponse>;
+).annotate({ identifier: "GetBuildsLogResponse" }) as any as S.Schema<GetBuildsLogResponse>;
 
 export interface GetLatestBuildsRequest {
   /** Account identifier. */
@@ -1434,16 +1383,8 @@ export const GetLatestBuildsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     accountId: S.String.pipe(T.Label("account_id")),
     externalScriptIds: S.String.pipe(T.Query("external_script_ids")),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/accounts/{account_id}/builds/builds/latest",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "GetLatestBuildsRequest",
-}) as any as S.Schema<GetLatestBuildsRequest>;
+  }).pipe(T.Http({ method: "GET", uri: "/accounts/{account_id}/builds/builds/latest", code: 200 })),
+).annotate({ identifier: "GetLatestBuildsRequest" }) as any as S.Schema<GetLatestBuildsRequest>;
 
 export type GetLatestBuildsResponseBuildsValueBuildOutcome =
   | "success"
@@ -1533,6 +1474,9 @@ export const GetLatestBuildsResponseBuildsValueBuildTriggerMetadata = /*@__PURE_
 ).annotate({
   identifier: "GetLatestBuildsResponseBuildsValueBuildTriggerMetadata",
 }) as any as S.Schema<GetLatestBuildsResponseBuildsValueBuildTriggerMetadata>;
+
+export type GetLatestBuildsResponseBuildsValueDeployHook = GetBuildResponseDeployHook;
+export const GetLatestBuildsResponseBuildsValueDeployHook = GetBuildResponseDeployHook;
 
 export type GetLatestBuildsResponseBuildsValuePullRequest = GetBuildResponsePullRequest;
 export const GetLatestBuildsResponseBuildsValuePullRequest = GetBuildResponsePullRequest;
@@ -1684,8 +1628,11 @@ export interface GetLatestBuildsResponseBuildsValue {
   /** Build UUID. */
   buildUuid?: string | null;
   createdOn?: string | null;
+  deployHook?: GetBuildResponseDeployHook | null;
   initializingOn?: string | null;
   modifiedOn?: string | null;
+  /** URL serving the Worker version this build deployed. Only returned by Get build by UUID, and only once the build has produced a preview artifact. */
+  previewUrl?: string | null;
   pullRequest?: GetBuildResponsePullRequest | null;
   runningOn?: string | null;
   status?: GetLatestBuildsResponseBuildsValueStatus | null;
@@ -1705,8 +1652,10 @@ export const GetLatestBuildsResponseBuildsValue = /*@__PURE__*/ S.suspend(() =>
     ),
     buildUuid: S.optional(S.NullOr(S.String).pipe(T.Body("build_uuid"))),
     createdOn: S.optional(S.NullOr(S.String).pipe(T.Body("created_on"))),
+    deployHook: S.optional(S.NullOr(GetBuildResponseDeployHook).pipe(T.Body("deploy_hook"))),
     initializingOn: S.optional(S.NullOr(S.String).pipe(T.Body("initializing_on"))),
     modifiedOn: S.optional(S.NullOr(S.String).pipe(T.Body("modified_on"))),
+    previewUrl: S.optional(S.NullOr(S.String).pipe(T.Body("preview_url"))),
     pullRequest: S.optional(S.NullOr(GetBuildResponsePullRequest).pipe(T.Body("pull_request"))),
     runningOn: S.optional(S.NullOr(S.String).pipe(T.Body("running_on"))),
     status: S.optional(S.NullOr(GetLatestBuildsResponseBuildsValueStatus)),
@@ -1733,9 +1682,7 @@ export const GetLatestBuildsResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     builds: S.optional(S.NullOr(GetLatestBuildsResponseBuildsMap)),
   }),
-).annotate({
-  identifier: "GetLatestBuildsResponse",
-}) as any as S.Schema<GetLatestBuildsResponse>;
+).annotate({ identifier: "GetLatestBuildsResponse" }) as any as S.Schema<GetLatestBuildsResponse>;
 
 export type GetReposConfigAutofillRequestProviderType =
   | "github"
@@ -1777,9 +1724,7 @@ export const GetReposConfigAutofillRequest = /*@__PURE__*/ S.suspend(() =>
   identifier: "GetReposConfigAutofillRequest",
 }) as any as S.Schema<GetReposConfigAutofillRequest>;
 
-export type GetReposConfigAutofillResponseEnvWorkerNamesMap = {
-  [key: string]: string | undefined;
-};
+export type GetReposConfigAutofillResponseEnvWorkerNamesMap = { [key: string]: string | undefined };
 export const GetReposConfigAutofillResponseEnvWorkerNamesMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -1788,9 +1733,7 @@ export const GetReposConfigAutofillResponseEnvWorkerNamesMap = /*@__PURE__*/ S.R
 export type GetReposConfigAutofillResponsePackageManager = "npm" | "yarn" | "pnpm" | "bun" | "uv";
 export const GetReposConfigAutofillResponsePackageManager = S.String;
 
-export type GetReposConfigAutofillResponseScriptsMap = {
-  [key: string]: string | undefined;
-};
+export type GetReposConfigAutofillResponseScriptsMap = { [key: string]: string | undefined };
 export const GetReposConfigAutofillResponseScriptsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -1844,9 +1787,7 @@ export const ListBuildsRequest = /*@__PURE__*/ S.suspend(() =>
       code: 200,
     }),
   ),
-).annotate({
-  identifier: "ListBuildsRequest",
-}) as any as S.Schema<ListBuildsRequest>;
+).annotate({ identifier: "ListBuildsRequest" }) as any as S.Schema<ListBuildsRequest>;
 
 export type ListBuildsResultItemBuildOutcome =
   | "success"
@@ -1934,6 +1875,9 @@ export const ListBuildsResultItemBuildTriggerMetadata = /*@__PURE__*/ S.suspend(
 ).annotate({
   identifier: "ListBuildsResultItemBuildTriggerMetadata",
 }) as any as S.Schema<ListBuildsResultItemBuildTriggerMetadata>;
+
+export type ListBuildsResultItemDeployHook = GetBuildResponseDeployHook;
+export const ListBuildsResultItemDeployHook = GetBuildResponseDeployHook;
 
 export type ListBuildsResultItemPullRequest = GetBuildResponsePullRequest;
 export const ListBuildsResultItemPullRequest = GetBuildResponsePullRequest;
@@ -2069,8 +2013,11 @@ export interface ListBuildsResultItem {
   /** Build UUID. */
   buildUuid?: string | null;
   createdOn?: string | null;
+  deployHook?: GetBuildResponseDeployHook | null;
   initializingOn?: string | null;
   modifiedOn?: string | null;
+  /** URL serving the Worker version this build deployed. Only returned by Get build by UUID, and only once the build has produced a preview artifact. */
+  previewUrl?: string | null;
   pullRequest?: GetBuildResponsePullRequest | null;
   runningOn?: string | null;
   status?: ListBuildsResultItemStatus | null;
@@ -2088,17 +2035,17 @@ export const ListBuildsResultItem = /*@__PURE__*/ S.suspend(() =>
     ),
     buildUuid: S.optional(S.NullOr(S.String).pipe(T.Body("build_uuid"))),
     createdOn: S.optional(S.NullOr(S.String).pipe(T.Body("created_on"))),
+    deployHook: S.optional(S.NullOr(GetBuildResponseDeployHook).pipe(T.Body("deploy_hook"))),
     initializingOn: S.optional(S.NullOr(S.String).pipe(T.Body("initializing_on"))),
     modifiedOn: S.optional(S.NullOr(S.String).pipe(T.Body("modified_on"))),
+    previewUrl: S.optional(S.NullOr(S.String).pipe(T.Body("preview_url"))),
     pullRequest: S.optional(S.NullOr(GetBuildResponsePullRequest).pipe(T.Body("pull_request"))),
     runningOn: S.optional(S.NullOr(S.String).pipe(T.Body("running_on"))),
     status: S.optional(S.NullOr(ListBuildsResultItemStatus)),
     stoppedOn: S.optional(S.NullOr(S.String).pipe(T.Body("stopped_on"))),
     trigger: S.optional(S.NullOr(ListBuildsResultItemTrigger)),
   }),
-).annotate({
-  identifier: "ListBuildsResultItem",
-}) as any as S.Schema<ListBuildsResultItem>;
+).annotate({ identifier: "ListBuildsResultItem" }) as any as S.Schema<ListBuildsResultItem>;
 
 export type ListBuildsResultList = Array<ListBuildsResultItem>;
 export const ListBuildsResultList = /*@__PURE__*/ S.Array(
@@ -2108,9 +2055,7 @@ export const ListBuildsResultList = /*@__PURE__*/ S.Array(
 export type ListBuildsResponse = ListBuildsResultList;
 export const ListBuildsResponse = /*@__PURE__*/ S.suspend(() =>
   ListBuildsResultList.pipe(T.EnvelopePayloadRoot()),
-).annotate({
-  identifier: "ListBuildsResponse",
-}) as any as S.Schema<ListBuildsResponse>;
+).annotate({ identifier: "ListBuildsResponse" }) as any as S.Schema<ListBuildsResponse>;
 
 export interface ListTokensRequest {
   /** Account identifier. */
@@ -2125,16 +2070,8 @@ export const ListTokensRequest = /*@__PURE__*/ S.suspend(() =>
     accountId: S.String.pipe(T.Label("account_id")),
     page: S.optional(S.Number.pipe(T.Query())),
     perPage: S.optional(S.Number.pipe(T.Query("per_page"))),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/accounts/{account_id}/builds/tokens",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "ListTokensRequest",
-}) as any as S.Schema<ListTokensRequest>;
+  }).pipe(T.Http({ method: "GET", uri: "/accounts/{account_id}/builds/tokens", code: 200 })),
+).annotate({ identifier: "ListTokensRequest" }) as any as S.Schema<ListTokensRequest>;
 
 export interface ListTokensResultItem {
   buildTokenName?: string | null;
@@ -2150,9 +2087,7 @@ export const ListTokensResultItem = /*@__PURE__*/ S.suspend(() =>
     cloudflareTokenId: S.optional(S.NullOr(S.String).pipe(T.Body("cloudflare_token_id"))),
     ownerType: S.optional(S.NullOr(S.String).pipe(T.Body("owner_type"))),
   }),
-).annotate({
-  identifier: "ListTokensResultItem",
-}) as any as S.Schema<ListTokensResultItem>;
+).annotate({ identifier: "ListTokensResultItem" }) as any as S.Schema<ListTokensResultItem>;
 
 export type ListTokensResultList = Array<ListTokensResultItem>;
 export const ListTokensResultList = /*@__PURE__*/ S.Array(
@@ -2162,9 +2097,7 @@ export const ListTokensResultList = /*@__PURE__*/ S.Array(
 export type ListTokensResponse = ListTokensResultList;
 export const ListTokensResponse = /*@__PURE__*/ S.suspend(() =>
   ListTokensResultList.pipe(T.EnvelopePayloadRoot()),
-).annotate({
-  identifier: "ListTokensResponse",
-}) as any as S.Schema<ListTokensResponse>;
+).annotate({ identifier: "ListTokensResponse" }) as any as S.Schema<ListTokensResponse>;
 
 export interface ListTriggersRequest {
   /** Account identifier. */
@@ -2183,9 +2116,7 @@ export const ListTriggersRequest = /*@__PURE__*/ S.suspend(() =>
       code: 200,
     }),
   ),
-).annotate({
-  identifier: "ListTriggersRequest",
-}) as any as S.Schema<ListTriggersRequest>;
+).annotate({ identifier: "ListTriggersRequest" }) as any as S.Schema<ListTriggersRequest>;
 
 export type ListTriggersResultItemBranchExcludesList = Array<string>;
 export const ListTriggersResultItemBranchExcludesList = /*@__PURE__*/ S.Array(
@@ -2310,9 +2241,7 @@ export const ListTriggersResultItem = /*@__PURE__*/ S.suspend(() =>
     triggerName: S.optional(S.NullOr(S.String).pipe(T.Body("trigger_name"))),
     triggerUuid: S.optional(S.NullOr(S.String).pipe(T.Body("trigger_uuid"))),
   }),
-).annotate({
-  identifier: "ListTriggersResultItem",
-}) as any as S.Schema<ListTriggersResultItem>;
+).annotate({ identifier: "ListTriggersResultItem" }) as any as S.Schema<ListTriggersResultItem>;
 
 export type ListTriggersResultList = Array<ListTriggersResultItem>;
 export const ListTriggersResultList = /*@__PURE__*/ S.Array(
@@ -2322,9 +2251,7 @@ export const ListTriggersResultList = /*@__PURE__*/ S.Array(
 export type ListTriggersResponse = ListTriggersResultList;
 export const ListTriggersResponse = /*@__PURE__*/ S.suspend(() =>
   ListTriggersResultList.pipe(T.EnvelopePayloadRoot()),
-).annotate({
-  identifier: "ListTriggersResponse",
-}) as any as S.Schema<ListTriggersResponse>;
+).annotate({ identifier: "ListTriggersResponse" }) as any as S.Schema<ListTriggersResponse>;
 
 export interface ListTriggersEnvironmentVariablesRequest {
   /** Account identifier. */
@@ -2464,16 +2391,272 @@ export const TriggersCreateBuildRequest = /*@__PURE__*/ S.suspend(() =>
   identifier: "TriggersCreateBuildRequest",
 }) as any as S.Schema<TriggersCreateBuildRequest>;
 
+export type TriggersCreateBuildResponseBuildOutcome =
+  | "success"
+  | "fail"
+  | "skipped"
+  | "cancelled"
+  | "terminated";
+export const TriggersCreateBuildResponseBuildOutcome = S.String;
+
+export type TriggersCreateBuildResponseBuildTriggerMetadataBuildTriggerSource =
+  | "push"
+  | "pull_request"
+  | "manual"
+  | "api";
+export const TriggersCreateBuildResponseBuildTriggerMetadataBuildTriggerSource = S.String;
+
+export type TriggersCreateBuildResponseBuildTriggerMetadataEnvironmentVariablesMap = {
+  [key: string]: string | undefined;
+};
+export const TriggersCreateBuildResponseBuildTriggerMetadataEnvironmentVariablesMap =
+  /*@__PURE__*/ S.Record(
+    S.String,
+    S.String,
+  ) as any as S.Schema<TriggersCreateBuildResponseBuildTriggerMetadataEnvironmentVariablesMap>;
+
+export type TriggersCreateBuildResponseBuildTriggerMetadataProviderType =
+  | "github"
+  | "gitlab"
+  | "gitlab_internal"
+  | "origin";
+export const TriggersCreateBuildResponseBuildTriggerMetadataProviderType = S.String;
+
+export interface TriggersCreateBuildResponseBuildTriggerMetadata {
+  author?: string | null;
+  /** Git branch name. */
+  branch?: string | null;
+  /** Command to build the Worker. */
+  buildCommand?: string | null;
+  buildTokenName?: string | null;
+  /** UUID of the build token used when deploying the Worker. */
+  buildTokenUuid?: string | null;
+  buildTriggerSource?: TriggersCreateBuildResponseBuildTriggerMetadataBuildTriggerSource | null;
+  /** Git commit hash */
+  commitHash?: string | null;
+  commitMessage?: string | null;
+  /** Command to deploy the Worker. */
+  deployCommand?: string | null;
+  environmentVariables?: TriggersCreateBuildResponseBuildTriggerMetadataEnvironmentVariablesMap | null;
+  /** Human-readable name of the account or namespace that owns the repository. */
+  providerAccountName?: string | null;
+  /** Source control provider. */
+  providerType?: TriggersCreateBuildResponseBuildTriggerMetadataProviderType | null;
+  /** Human-readable repository name. */
+  repoName?: string | null;
+  /** Repository directory in which build and deploy commands run. */
+  rootDirectory?: string | null;
+}
+export const TriggersCreateBuildResponseBuildTriggerMetadata = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    author: S.optional(S.NullOr(S.String)),
+    branch: S.optional(S.NullOr(S.String)),
+    buildCommand: S.optional(S.NullOr(S.String).pipe(T.Body("build_command"))),
+    buildTokenName: S.optional(S.NullOr(S.String).pipe(T.Body("build_token_name"))),
+    buildTokenUuid: S.optional(S.NullOr(S.String).pipe(T.Body("build_token_uuid"))),
+    buildTriggerSource: S.optional(
+      S.NullOr(TriggersCreateBuildResponseBuildTriggerMetadataBuildTriggerSource).pipe(
+        T.Body("build_trigger_source"),
+      ),
+    ),
+    commitHash: S.optional(S.NullOr(S.String).pipe(T.Body("commit_hash"))),
+    commitMessage: S.optional(S.NullOr(S.String).pipe(T.Body("commit_message"))),
+    deployCommand: S.optional(S.NullOr(S.String).pipe(T.Body("deploy_command"))),
+    environmentVariables: S.optional(
+      S.NullOr(TriggersCreateBuildResponseBuildTriggerMetadataEnvironmentVariablesMap).pipe(
+        T.Body("environment_variables"),
+      ),
+    ),
+    providerAccountName: S.optional(S.NullOr(S.String).pipe(T.Body("provider_account_name"))),
+    providerType: S.optional(
+      S.NullOr(TriggersCreateBuildResponseBuildTriggerMetadataProviderType).pipe(
+        T.Body("provider_type"),
+      ),
+    ),
+    repoName: S.optional(S.NullOr(S.String).pipe(T.Body("repo_name"))),
+    rootDirectory: S.optional(S.NullOr(S.String).pipe(T.Body("root_directory"))),
+  }),
+).annotate({
+  identifier: "TriggersCreateBuildResponseBuildTriggerMetadata",
+}) as any as S.Schema<TriggersCreateBuildResponseBuildTriggerMetadata>;
+
+export type TriggersCreateBuildResponseDeployHook = GetBuildResponseDeployHook;
+export const TriggersCreateBuildResponseDeployHook = GetBuildResponseDeployHook;
+
+export type TriggersCreateBuildResponsePullRequest = GetBuildResponsePullRequest;
+export const TriggersCreateBuildResponsePullRequest = GetBuildResponsePullRequest;
+
+export type TriggersCreateBuildResponseStatus = "queued" | "initializing" | "running" | "stopped";
+export const TriggersCreateBuildResponseStatus = S.String;
+
+export type TriggersCreateBuildResponseTriggerBranchExcludesList = Array<string>;
+export const TriggersCreateBuildResponseTriggerBranchExcludesList = /*@__PURE__*/ S.Array(
+  S.String,
+) as any as S.Schema<TriggersCreateBuildResponseTriggerBranchExcludesList>;
+
+export type TriggersCreateBuildResponseTriggerBranchIncludesList = Array<string>;
+export const TriggersCreateBuildResponseTriggerBranchIncludesList = /*@__PURE__*/ S.Array(
+  S.String,
+) as any as S.Schema<TriggersCreateBuildResponseTriggerBranchIncludesList>;
+
+export type TriggersCreateBuildResponseTriggerPathExcludesList = Array<string>;
+export const TriggersCreateBuildResponseTriggerPathExcludesList = /*@__PURE__*/ S.Array(
+  S.String,
+) as any as S.Schema<TriggersCreateBuildResponseTriggerPathExcludesList>;
+
+export type TriggersCreateBuildResponseTriggerPathIncludesList = Array<string>;
+export const TriggersCreateBuildResponseTriggerPathIncludesList = /*@__PURE__*/ S.Array(
+  S.String,
+) as any as S.Schema<TriggersCreateBuildResponseTriggerPathIncludesList>;
+
+export type TriggersCreateBuildResponseTriggerRepoConnectionProviderType =
+  | "github"
+  | "gitlab"
+  | "gitlab_internal"
+  | "origin";
+export const TriggersCreateBuildResponseTriggerRepoConnectionProviderType = S.String;
+
+export interface TriggersCreateBuildResponseTriggerRepoConnection {
+  createdOn?: string | null;
+  deletedOn?: string | null;
+  modifiedOn?: string | null;
+  /** Provider-specific identifier of the account or namespace that owns the repository. */
+  providerAccountId?: string | null;
+  /** Human-readable name of the account or namespace that owns the repository. */
+  providerAccountName?: string | null;
+  /** Source control provider. */
+  providerType?: TriggersCreateBuildResponseTriggerRepoConnectionProviderType | null;
+  /** Repository connection UUID. */
+  repoConnectionUuid?: string | null;
+  /** Provider-specific repository identifier. */
+  repoId?: string | null;
+  /** Human-readable repository name. */
+  repoName?: string | null;
+}
+export const TriggersCreateBuildResponseTriggerRepoConnection = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    createdOn: S.optional(S.NullOr(S.String).pipe(T.Body("created_on"))),
+    deletedOn: S.optional(S.NullOr(S.String).pipe(T.Body("deleted_on"))),
+    modifiedOn: S.optional(S.NullOr(S.String).pipe(T.Body("modified_on"))),
+    providerAccountId: S.optional(S.NullOr(S.String).pipe(T.Body("provider_account_id"))),
+    providerAccountName: S.optional(S.NullOr(S.String).pipe(T.Body("provider_account_name"))),
+    providerType: S.optional(
+      S.NullOr(TriggersCreateBuildResponseTriggerRepoConnectionProviderType).pipe(
+        T.Body("provider_type"),
+      ),
+    ),
+    repoConnectionUuid: S.optional(S.NullOr(S.String).pipe(T.Body("repo_connection_uuid"))),
+    repoId: S.optional(S.NullOr(S.String).pipe(T.Body("repo_id"))),
+    repoName: S.optional(S.NullOr(S.String).pipe(T.Body("repo_name"))),
+  }),
+).annotate({
+  identifier: "TriggersCreateBuildResponseTriggerRepoConnection",
+}) as any as S.Schema<TriggersCreateBuildResponseTriggerRepoConnection>;
+
+export interface TriggersCreateBuildResponseTrigger {
+  /** Branch patterns that must not start builds. */
+  branchExcludes?: TriggersCreateBuildResponseTriggerBranchExcludesList | null;
+  /** Branch patterns that can start builds. */
+  branchIncludes?: TriggersCreateBuildResponseTriggerBranchIncludesList | null;
+  /** Whether builds reuse cached dependencies and build artifacts. */
+  buildCachingEnabled?: boolean | null;
+  /** Command to build the Worker. */
+  buildCommand?: string | null;
+  createdOn?: string | null;
+  deletedOn?: string | null;
+  /** Command to deploy the Worker. */
+  deployCommand?: string | null;
+  /** System-generated tag of the Worker. This is not the Worker name. */
+  externalScriptId?: string | null;
+  modifiedOn?: string | null;
+  /** Path patterns that must not start builds. */
+  pathExcludes?: TriggersCreateBuildResponseTriggerPathExcludesList | null;
+  /** Path patterns that can start builds. */
+  pathIncludes?: TriggersCreateBuildResponseTriggerPathIncludesList | null;
+  repoConnection?: TriggersCreateBuildResponseTriggerRepoConnection | null;
+  /** Repository directory in which build and deploy commands run. */
+  rootDirectory?: string | null;
+  /** Human-readable name of the build trigger. */
+  triggerName?: string | null;
+  /** Trigger UUID. */
+  triggerUuid?: string | null;
+}
+export const TriggersCreateBuildResponseTrigger = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    branchExcludes: S.optional(
+      S.NullOr(TriggersCreateBuildResponseTriggerBranchExcludesList).pipe(
+        T.Body("branch_excludes"),
+      ),
+    ),
+    branchIncludes: S.optional(
+      S.NullOr(TriggersCreateBuildResponseTriggerBranchIncludesList).pipe(
+        T.Body("branch_includes"),
+      ),
+    ),
+    buildCachingEnabled: S.optional(S.NullOr(S.Boolean).pipe(T.Body("build_caching_enabled"))),
+    buildCommand: S.optional(S.NullOr(S.String).pipe(T.Body("build_command"))),
+    createdOn: S.optional(S.NullOr(S.String).pipe(T.Body("created_on"))),
+    deletedOn: S.optional(S.NullOr(S.String).pipe(T.Body("deleted_on"))),
+    deployCommand: S.optional(S.NullOr(S.String).pipe(T.Body("deploy_command"))),
+    externalScriptId: S.optional(S.NullOr(S.String).pipe(T.Body("external_script_id"))),
+    modifiedOn: S.optional(S.NullOr(S.String).pipe(T.Body("modified_on"))),
+    pathExcludes: S.optional(
+      S.NullOr(TriggersCreateBuildResponseTriggerPathExcludesList).pipe(T.Body("path_excludes")),
+    ),
+    pathIncludes: S.optional(
+      S.NullOr(TriggersCreateBuildResponseTriggerPathIncludesList).pipe(T.Body("path_includes")),
+    ),
+    repoConnection: S.optional(
+      S.NullOr(TriggersCreateBuildResponseTriggerRepoConnection).pipe(T.Body("repo_connection")),
+    ),
+    rootDirectory: S.optional(S.NullOr(S.String).pipe(T.Body("root_directory"))),
+    triggerName: S.optional(S.NullOr(S.String).pipe(T.Body("trigger_name"))),
+    triggerUuid: S.optional(S.NullOr(S.String).pipe(T.Body("trigger_uuid"))),
+  }),
+).annotate({
+  identifier: "TriggersCreateBuildResponseTrigger",
+}) as any as S.Schema<TriggersCreateBuildResponseTrigger>;
+
 /** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
 export interface TriggersCreateBuildResponse {
+  buildOutcome?: TriggersCreateBuildResponseBuildOutcome | null;
+  buildTriggerMetadata?: TriggersCreateBuildResponseBuildTriggerMetadata | null;
   /** Build UUID. */
   buildUuid?: string | null;
   createdOn?: string | null;
+  deployHook?: GetBuildResponseDeployHook | null;
+  initializingOn?: string | null;
+  modifiedOn?: string | null;
+  /** URL serving the Worker version this build deployed. Only returned by Get build by UUID, and only once the build has produced a preview artifact. */
+  previewUrl?: string | null;
+  pullRequest?: GetBuildResponsePullRequest | null;
+  runningOn?: string | null;
+  status?: TriggersCreateBuildResponseStatus | null;
+  stoppedOn?: string | null;
+  /** Trigger information without build_token_uuid */
+  trigger?: TriggersCreateBuildResponseTrigger | null;
 }
 export const TriggersCreateBuildResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
+    buildOutcome: S.optional(
+      S.NullOr(TriggersCreateBuildResponseBuildOutcome).pipe(T.Body("build_outcome")),
+    ),
+    buildTriggerMetadata: S.optional(
+      S.NullOr(TriggersCreateBuildResponseBuildTriggerMetadata).pipe(
+        T.Body("build_trigger_metadata"),
+      ),
+    ),
     buildUuid: S.optional(S.NullOr(S.String).pipe(T.Body("build_uuid"))),
     createdOn: S.optional(S.NullOr(S.String).pipe(T.Body("created_on"))),
+    deployHook: S.optional(S.NullOr(GetBuildResponseDeployHook).pipe(T.Body("deploy_hook"))),
+    initializingOn: S.optional(S.NullOr(S.String).pipe(T.Body("initializing_on"))),
+    modifiedOn: S.optional(S.NullOr(S.String).pipe(T.Body("modified_on"))),
+    previewUrl: S.optional(S.NullOr(S.String).pipe(T.Body("preview_url"))),
+    pullRequest: S.optional(S.NullOr(GetBuildResponsePullRequest).pipe(T.Body("pull_request"))),
+    runningOn: S.optional(S.NullOr(S.String).pipe(T.Body("running_on"))),
+    status: S.optional(S.NullOr(TriggersCreateBuildResponseStatus)),
+    stoppedOn: S.optional(S.NullOr(S.String).pipe(T.Body("stopped_on"))),
+    trigger: S.optional(S.NullOr(TriggersCreateBuildResponseTrigger)),
   }),
 ).annotate({
   identifier: "TriggersCreateBuildResponse",
@@ -2578,9 +2761,7 @@ export const UpdateTriggerRequest = /*@__PURE__*/ S.suspend(() =>
       code: 200,
     }),
   ),
-).annotate({
-  identifier: "UpdateTriggerRequest",
-}) as any as S.Schema<UpdateTriggerRequest>;
+).annotate({ identifier: "UpdateTriggerRequest" }) as any as S.Schema<UpdateTriggerRequest>;
 
 export type UpdateTriggerResponseBranchExcludesList = Array<string>;
 export const UpdateTriggerResponseBranchExcludesList = /*@__PURE__*/ S.Array(
@@ -2706,9 +2887,7 @@ export const UpdateTriggerResponse = /*@__PURE__*/ S.suspend(() =>
     triggerName: S.optional(S.NullOr(S.String).pipe(T.Body("trigger_name"))),
     triggerUuid: S.optional(S.NullOr(S.String).pipe(T.Body("trigger_uuid"))),
   }),
-).annotate({
-  identifier: "UpdateTriggerResponse",
-}) as any as S.Schema<UpdateTriggerResponse>;
+).annotate({ identifier: "UpdateTriggerResponse" }) as any as S.Schema<UpdateTriggerResponse>;
 
 export type UpsertReposConnectionRequestProviderType =
   | "github"
@@ -2740,11 +2919,7 @@ export const UpsertReposConnectionRequest = /*@__PURE__*/ S.suspend(() =>
     repoId: S.String.pipe(T.Body("repo_id")),
     repoName: S.String.pipe(T.Body("repo_name")),
   }).pipe(
-    T.Http({
-      method: "PUT",
-      uri: "/accounts/{account_id}/builds/repos/connections",
-      code: 200,
-    }),
+    T.Http({ method: "PUT", uri: "/accounts/{account_id}/builds/repos/connections", code: 200 }),
   ),
 ).annotate({
   identifier: "UpsertReposConnectionRequest",

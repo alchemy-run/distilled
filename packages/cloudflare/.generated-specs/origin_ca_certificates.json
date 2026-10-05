@@ -365,7 +365,7 @@
         "id": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "Identifier."
+            "smithy.api#documentation": "The x509 serial number of the Origin CA certificate."
           }
         },
         "certificate": {
@@ -606,7 +606,7 @@
         "id": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "Identifier."
+            "smithy.api#documentation": "The x509 serial number of the Origin CA certificate."
           }
         },
         "certificate": {
@@ -671,7 +671,7 @@
         "certificate_id": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "Identifier.",
+            "smithy.api#documentation": "The x509 serial number of the Origin CA certificate.",
             "smithy.api#httpLabel": {},
             "smithy.api#required": {}
           }
@@ -687,7 +687,7 @@
         "id": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "Identifier."
+            "smithy.api#documentation": "The x509 serial number of the Origin CA certificate."
           }
         },
         "revoked_at": {
@@ -734,7 +734,7 @@
         "certificate_id": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "Identifier.",
+            "smithy.api#documentation": "The x509 serial number of the Origin CA certificate.",
             "smithy.api#httpLabel": {},
             "smithy.api#required": {}
           }
@@ -778,7 +778,7 @@
         "id": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "Identifier."
+            "smithy.api#documentation": "The x509 serial number of the Origin CA certificate."
           }
         },
         "certificate": {

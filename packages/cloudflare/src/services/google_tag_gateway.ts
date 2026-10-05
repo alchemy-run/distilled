@@ -35,9 +35,7 @@ export const GetConfigRequest = /*@__PURE__*/ S.suspend(() =>
       code: 200,
     }),
   ),
-).annotate({
-  identifier: "GetConfigRequest",
-}) as any as S.Schema<GetConfigRequest>;
+).annotate({ identifier: "GetConfigRequest" }) as any as S.Schema<GetConfigRequest>;
 
 /** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
 export interface GetConfigResponse {
@@ -60,9 +58,7 @@ export const GetConfigResponse = /*@__PURE__*/ S.suspend(() =>
     measurementId: S.String,
     setUpTag: S.optional(S.NullOr(S.Boolean)),
   }),
-).annotate({
-  identifier: "GetConfigResponse",
-}) as any as S.Schema<GetConfigResponse>;
+).annotate({ identifier: "GetConfigResponse" }) as any as S.Schema<GetConfigResponse>;
 
 export interface PutConfigRequest {
   /** Identifier. */
@@ -93,9 +89,7 @@ export const PutConfigRequest = /*@__PURE__*/ S.suspend(() =>
       code: 200,
     }),
   ),
-).annotate({
-  identifier: "PutConfigRequest",
-}) as any as S.Schema<PutConfigRequest>;
+).annotate({ identifier: "PutConfigRequest" }) as any as S.Schema<PutConfigRequest>;
 
 /** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
 export interface PutConfigResponse {
@@ -118,9 +112,7 @@ export const PutConfigResponse = /*@__PURE__*/ S.suspend(() =>
     measurementId: S.String,
     setUpTag: S.optional(S.NullOr(S.Boolean)),
   }),
-).annotate({
-  identifier: "PutConfigResponse",
-}) as any as S.Schema<PutConfigResponse>;
+).annotate({ identifier: "PutConfigResponse" }) as any as S.Schema<PutConfigResponse>;
 
 export type GetConfigError = Forbidden | CloudflareOpError;
 /** Gets the Google Tag Gateway configuration for a zone. */

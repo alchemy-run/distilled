@@ -48,17 +48,9 @@ export const GetFraudRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     zoneId: S.String.pipe(T.Label("zone_id")),
   })
-    .pipe(
-      T.Http({
-        method: "GET",
-        uri: "/zones/{zone_id}/fraud_detection/settings",
-        code: 200,
-      }),
-    )
+    .pipe(T.Http({ method: "GET", uri: "/zones/{zone_id}/fraud_detection/settings", code: 200 }))
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "GetFraudRequest",
-}) as any as S.Schema<GetFraudRequest>;
+).annotate({ identifier: "GetFraudRequest" }) as any as S.Schema<GetFraudRequest>;
 
 export type GetResponseAuthenticationSettingsFailureCriteriaKind = "status_code";
 export const GetResponseAuthenticationSettingsFailureCriteriaKind = S.String;
@@ -162,9 +154,7 @@ export const GetFraudResponse = /*@__PURE__*/ S.suspend(() =>
       S.NullOr(GetResponseUsernameExpressionsList).pipe(T.Body("username_expressions")),
     ),
   }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "GetFraudResponse",
-}) as any as S.Schema<GetFraudResponse>;
+).annotate({ identifier: "GetFraudResponse" }) as any as S.Schema<GetFraudResponse>;
 
 export type UpdateRequestAuthenticationSettingsFailureCriteriaKind = "status_code";
 export const UpdateRequestAuthenticationSettingsFailureCriteriaKind = S.String;
@@ -270,17 +260,9 @@ export const PutFraudRequest = /*@__PURE__*/ S.suspend(() =>
       UpdateRequestUsernameExpressionsList.pipe(T.Body("username_expressions")),
     ),
   })
-    .pipe(
-      T.Http({
-        method: "PUT",
-        uri: "/zones/{zone_id}/fraud_detection/settings",
-        code: 200,
-      }),
-    )
+    .pipe(T.Http({ method: "PUT", uri: "/zones/{zone_id}/fraud_detection/settings", code: 200 }))
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "PutFraudRequest",
-}) as any as S.Schema<PutFraudRequest>;
+).annotate({ identifier: "PutFraudRequest" }) as any as S.Schema<PutFraudRequest>;
 
 export type UpdateResponseAuthenticationSettingsFailureCriteriaKind = "status_code";
 export const UpdateResponseAuthenticationSettingsFailureCriteriaKind = S.String;
@@ -388,9 +370,7 @@ export const PutFraudResponse = /*@__PURE__*/ S.suspend(() =>
       S.NullOr(UpdateResponseUsernameExpressionsList).pipe(T.Body("username_expressions")),
     ),
   }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "PutFraudResponse",
-}) as any as S.Schema<PutFraudResponse>;
+).annotate({ identifier: "PutFraudResponse" }) as any as S.Schema<PutFraudResponse>;
 
 export type GetFraudError = Forbidden | CloudflareOpError;
 /** Retrieve Fraud Detection settings for a zone. */

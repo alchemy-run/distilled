@@ -74,7 +74,7 @@ export interface CreateWidgetRequest {
   accountId: string;
   /** Direction to order widgets. */
   direction?: WidgetsCreateRequestDirection | (string & {});
-  /** Filter widgets by field using case-insensitive substring matching. Format: `field:value` */
+  /** Filter widgets by field. The `name` field uses case-insensitive substring matching; `sitekey` uses exact matching. Format: `field:value` */
   filter?: string;
   /** Field to order widgets by. */
   order?: WidgetsCreateRequestOrder | (string & {});
@@ -115,17 +115,9 @@ export const CreateWidgetRequest = /*@__PURE__*/ S.suspend(() =>
     offlabel: S.optional(S.Boolean),
     region: S.optional(WidgetsCreateRequestRegion),
   })
-    .pipe(
-      T.Http({
-        method: "POST",
-        uri: "/accounts/{account_id}/challenges/widgets",
-        code: 200,
-      }),
-    )
+    .pipe(T.Http({ method: "POST", uri: "/accounts/{account_id}/challenges/widgets", code: 200 }))
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "CreateWidgetRequest",
-}) as any as S.Schema<CreateWidgetRequest>;
+).annotate({ identifier: "CreateWidgetRequest" }) as any as S.Schema<CreateWidgetRequest>;
 
 export type WidgetsCreateResponseClearanceLevel =
   | "no_clearance"
@@ -184,7 +176,7 @@ export interface CreateWidgetResponse {
   region: WidgetsCreateResponseRegion;
   /** Secret key for this widget. */
   secret: string;
-  /** Widget item identifier tag. */
+  /** Unique identifier for a Turnstile widget. */
   sitekey: string;
   /** Origin that created this widget, recorded at creation time and immutable afterward. Server-derived from the create request; not client-settable. Omitted from the response for widgets created before this field existed. */
   deployedVia?: WidgetsCreateResponseDeployedVia | null;
@@ -212,14 +204,12 @@ export const CreateWidgetResponse = /*@__PURE__*/ S.suspend(() =>
       S.NullOr(WidgetsCreateResponseLastModifiedVia).pipe(T.Body("last_modified_via")),
     ),
   }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "CreateWidgetResponse",
-}) as any as S.Schema<CreateWidgetResponse>;
+).annotate({ identifier: "CreateWidgetResponse" }) as any as S.Schema<CreateWidgetResponse>;
 
 export interface DeleteWidgetRequest {
   /** Identifier */
   accountId: string;
-  /** Widget item identifier tag. */
+  /** Unique identifier for a Turnstile widget. */
   sitekey: string;
 }
 export const DeleteWidgetRequest = /*@__PURE__*/ S.suspend(() =>
@@ -235,9 +225,7 @@ export const DeleteWidgetRequest = /*@__PURE__*/ S.suspend(() =>
       }),
     )
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "DeleteWidgetRequest",
-}) as any as S.Schema<DeleteWidgetRequest>;
+).annotate({ identifier: "DeleteWidgetRequest" }) as any as S.Schema<DeleteWidgetRequest>;
 
 export type WidgetsDeleteResponseClearanceLevel =
   | "no_clearance"
@@ -296,7 +284,7 @@ export interface DeleteWidgetResponse {
   region: WidgetsDeleteResponseRegion;
   /** Secret key for this widget. */
   secret: string;
-  /** Widget item identifier tag. */
+  /** Unique identifier for a Turnstile widget. */
   sitekey: string;
   /** Origin that created this widget, recorded at creation time and immutable afterward. Server-derived from the create request; not client-settable. Omitted from the response for widgets created before this field existed. */
   deployedVia?: WidgetsDeleteResponseDeployedVia | null;
@@ -324,14 +312,12 @@ export const DeleteWidgetResponse = /*@__PURE__*/ S.suspend(() =>
       S.NullOr(WidgetsDeleteResponseLastModifiedVia).pipe(T.Body("last_modified_via")),
     ),
   }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "DeleteWidgetResponse",
-}) as any as S.Schema<DeleteWidgetResponse>;
+).annotate({ identifier: "DeleteWidgetResponse" }) as any as S.Schema<DeleteWidgetResponse>;
 
 export interface GetWidgetRequest {
   /** Identifier */
   accountId: string;
-  /** Widget item identifier tag. */
+  /** Unique identifier for a Turnstile widget. */
   sitekey: string;
 }
 export const GetWidgetRequest = /*@__PURE__*/ S.suspend(() =>
@@ -347,9 +333,7 @@ export const GetWidgetRequest = /*@__PURE__*/ S.suspend(() =>
       }),
     )
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "GetWidgetRequest",
-}) as any as S.Schema<GetWidgetRequest>;
+).annotate({ identifier: "GetWidgetRequest" }) as any as S.Schema<GetWidgetRequest>;
 
 export type WidgetsGetResponseClearanceLevel =
   | "no_clearance"
@@ -403,7 +387,7 @@ export interface GetWidgetResponse {
   region: WidgetsGetResponseRegion;
   /** Secret key for this widget. */
   secret: string;
-  /** Widget item identifier tag. */
+  /** Unique identifier for a Turnstile widget. */
   sitekey: string;
   /** Origin that created this widget, recorded at creation time and immutable afterward. Server-derived from the create request; not client-settable. Omitted from the response for widgets created before this field existed. */
   deployedVia?: WidgetsGetResponseDeployedVia | null;
@@ -429,9 +413,7 @@ export const GetWidgetResponse = /*@__PURE__*/ S.suspend(() =>
       S.NullOr(WidgetsGetResponseLastModifiedVia).pipe(T.Body("last_modified_via")),
     ),
   }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "GetWidgetResponse",
-}) as any as S.Schema<GetWidgetResponse>;
+).annotate({ identifier: "GetWidgetResponse" }) as any as S.Schema<GetWidgetResponse>;
 
 export type WidgetsListRequestDirection = "asc" | "desc";
 export const WidgetsListRequestDirection = S.String;
@@ -444,7 +426,7 @@ export interface ListWidgetsRequest {
   accountId: string;
   /** Direction to order widgets. */
   direction?: WidgetsListRequestDirection | (string & {});
-  /** Filter widgets by field using case-insensitive substring matching. Format: `field:value` */
+  /** Filter widgets by field. The `name` field uses case-insensitive substring matching; `sitekey` uses exact matching. Format: `field:value` */
   filter?: string;
   /** Field to order widgets by. */
   order?: WidgetsListRequestOrder | (string & {});
@@ -462,17 +444,9 @@ export const ListWidgetsRequest = /*@__PURE__*/ S.suspend(() =>
     page: S.optional(S.Number.pipe(T.Query())),
     perPage: S.optional(S.Number.pipe(T.Query("per_page"))),
   })
-    .pipe(
-      T.Http({
-        method: "GET",
-        uri: "/accounts/{account_id}/challenges/widgets",
-        code: 200,
-      }),
-    )
+    .pipe(T.Http({ method: "GET", uri: "/accounts/{account_id}/challenges/widgets", code: 200 }))
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "ListWidgetsRequest",
-}) as any as S.Schema<ListWidgetsRequest>;
+).annotate({ identifier: "ListWidgetsRequest" }) as any as S.Schema<ListWidgetsRequest>;
 
 export type WidgetsListResultItemClearanceLevel =
   | "no_clearance"
@@ -528,7 +502,7 @@ export interface WidgetsListResultItem {
   offlabel: boolean;
   /** Region where this widget can be used. This cannot be changed after creation. */
   region: WidgetsListResultItemRegion;
-  /** Widget item identifier tag. */
+  /** Unique identifier for a Turnstile widget. */
   sitekey: string;
   /** Origin that created this widget, recorded at creation time and immutable afterward. Server-derived from the create request; not client-settable. Omitted from the response for widgets created before this field existed. */
   deployedVia?: WidgetsListResultItemDeployedVia | null;
@@ -555,9 +529,7 @@ export const WidgetsListResultItem = /*@__PURE__*/ S.suspend(() =>
       S.NullOr(WidgetsListResultItemLastModifiedVia).pipe(T.Body("last_modified_via")),
     ),
   }),
-).annotate({
-  identifier: "WidgetsListResultItem",
-}) as any as S.Schema<WidgetsListResultItem>;
+).annotate({ identifier: "WidgetsListResultItem" }) as any as S.Schema<WidgetsListResultItem>;
 
 export type WidgetsListResultList = Array<WidgetsListResultItem>;
 export const WidgetsListResultList = /*@__PURE__*/ S.Array(
@@ -575,14 +547,12 @@ export const ListWidgetsResponse = /*@__PURE__*/ S.suspend(() =>
     result: WidgetsListResultList.pipe(T.EnvelopePayload()),
     resultInfo: S.optional(S.NullOr(ResultInfo).pipe(T.ResultInfo())),
   }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "ListWidgetsResponse",
-}) as any as S.Schema<ListWidgetsResponse>;
+).annotate({ identifier: "ListWidgetsResponse" }) as any as S.Schema<ListWidgetsResponse>;
 
 export interface RotateSecretWidgetRequest {
   /** Identifier */
   accountId: string;
-  /** Widget item identifier tag. */
+  /** Unique identifier for a Turnstile widget. */
   sitekey: string;
   /** If `invalidate_immediately` is set to `false`, the previous secret will remain valid for two hours. Otherwise, the secret is immediately invalidated, and requests using it will be rejected. */
   invalidateImmediately?: boolean;
@@ -662,7 +632,7 @@ export interface RotateSecretWidgetResponse {
   region: WidgetsRotateSecretResponseRegion;
   /** Secret key for this widget. */
   secret: string;
-  /** Widget item identifier tag. */
+  /** Unique identifier for a Turnstile widget. */
   sitekey: string;
   /** Origin that created this widget, recorded at creation time and immutable afterward. Server-derived from the create request; not client-settable. Omitted from the response for widgets created before this field existed. */
   deployedVia?: WidgetsRotateSecretResponseDeployedVia | null;
@@ -715,7 +685,7 @@ export const WidgetsUpdateRequestRegion = S.String;
 export interface UpdateWidgetRequest {
   /** Identifier */
   accountId: string;
-  /** Widget item identifier tag. */
+  /** Unique identifier for a Turnstile widget. */
   sitekey: string;
   domains: WidgetsUpdateRequestDomainsList;
   /** Widget Mode */
@@ -754,9 +724,7 @@ export const UpdateWidgetRequest = /*@__PURE__*/ S.suspend(() =>
       }),
     )
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "UpdateWidgetRequest",
-}) as any as S.Schema<UpdateWidgetRequest>;
+).annotate({ identifier: "UpdateWidgetRequest" }) as any as S.Schema<UpdateWidgetRequest>;
 
 export type WidgetsUpdateResponseClearanceLevel =
   | "no_clearance"
@@ -815,7 +783,7 @@ export interface UpdateWidgetResponse {
   region: WidgetsUpdateResponseRegion;
   /** Secret key for this widget. */
   secret: string;
-  /** Widget item identifier tag. */
+  /** Unique identifier for a Turnstile widget. */
   sitekey: string;
   /** Origin that created this widget, recorded at creation time and immutable afterward. Server-derived from the create request; not client-settable. Omitted from the response for widgets created before this field existed. */
   deployedVia?: WidgetsUpdateResponseDeployedVia | null;
@@ -843,12 +811,10 @@ export const UpdateWidgetResponse = /*@__PURE__*/ S.suspend(() =>
       S.NullOr(WidgetsUpdateResponseLastModifiedVia).pipe(T.Body("last_modified_via")),
     ),
   }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "UpdateWidgetResponse",
-}) as any as S.Schema<UpdateWidgetResponse>;
+).annotate({ identifier: "UpdateWidgetResponse" }) as any as S.Schema<UpdateWidgetResponse>;
 
 export type CreateWidgetError = CloudflareOpError;
-/** Lists challenge widgets. */
+/** Creates a Turnstile widget for an account. */
 export const createWidget: API.OperationMethod<
   CreateWidgetRequest,
   CreateWidgetResponse,
@@ -863,7 +829,7 @@ export const createWidget: API.OperationMethod<
 }));
 
 export type DeleteWidgetError = WidgetNotFound | Forbidden | CloudflareOpError;
-/** Destroy a Turnstile Widget. */
+/** Deletes a Turnstile widget from an account. */
 export const deleteWidget: API.OperationMethod<
   DeleteWidgetRequest,
   DeleteWidgetResponse,
@@ -878,7 +844,7 @@ export const deleteWidget: API.OperationMethod<
 }));
 
 export type GetWidgetError = WidgetNotFound | Forbidden | CloudflareOpError;
-/** Show a single challenge widget configuration. */
+/** Returns the configuration of a Turnstile widget. */
 export const getWidget: API.OperationMethod<
   GetWidgetRequest,
   GetWidgetResponse,
@@ -893,7 +859,7 @@ export const getWidget: API.OperationMethod<
 }));
 
 export type ListWidgetsError = CloudflareOpError;
-/** Lists all turnstile widgets of an account. */
+/** Lists Turnstile widgets for an account. */
 export const listWidgets: API.PaginatedOperationMethod<
   ListWidgetsRequest,
   ListWidgetsResponse,
@@ -919,7 +885,7 @@ export const listWidgets: API.PaginatedOperationMethod<
 ) as any;
 
 export type RotateSecretWidgetError = CloudflareOpError;
-/** Generate a new secret key for this widget. If `invalidate_immediately` is set to `false`, the previous secret remains valid for 2 hours. Note that secrets cannot be rotated again during the grace period. */
+/** Generates a new secret key for this widget. If `invalidate_immediately` is set to `false`, the previous secret remains valid for 2 hours. Note that secrets cannot be rotated again during the grace period. */
 export const rotateSecretWidget: API.OperationMethod<
   RotateSecretWidgetRequest,
   RotateSecretWidgetResponse,
@@ -934,7 +900,7 @@ export const rotateSecretWidget: API.OperationMethod<
 }));
 
 export type UpdateWidgetError = CloudflareOpError;
-/** Update the configuration of a widget. */
+/** Updates the configuration of a Turnstile widget. */
 export const updateWidget: API.OperationMethod<
   UpdateWidgetRequest,
   UpdateWidgetResponse,

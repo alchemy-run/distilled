@@ -249,17 +249,9 @@ export const CreateOauthClientRequest = /*@__PURE__*/ S.suspend(() =>
     ),
     tosUri: S.optional(S.String.pipe(T.Body("tos_uri"))),
   })
-    .pipe(
-      T.Http({
-        method: "POST",
-        uri: "/accounts/{account_id}/oauth_clients",
-        code: 200,
-      }),
-    )
+    .pipe(T.Http({ method: "POST", uri: "/accounts/{account_id}/oauth_clients", code: 200 }))
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "CreateOauthClientRequest",
-}) as any as S.Schema<CreateOauthClientRequest>;
+).annotate({ identifier: "CreateOauthClientRequest" }) as any as S.Schema<CreateOauthClientRequest>;
 
 export type OauthClientsCreateResponseVisibility = "public" | "private";
 export const OauthClientsCreateResponseVisibility = S.String;
@@ -479,13 +471,7 @@ export const CreateResourceGroupRequest = /*@__PURE__*/ S.suspend(() =>
     name: S.String,
     scope: ResourceGroupsCreateRequestScope,
   })
-    .pipe(
-      T.Http({
-        method: "POST",
-        uri: "/accounts/{account_id}/iam/resource_groups",
-        code: 200,
-      }),
-    )
+    .pipe(T.Http({ method: "POST", uri: "/accounts/{account_id}/iam/resource_groups", code: 200 }))
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
 ).annotate({
   identifier: "CreateResourceGroupRequest",
@@ -569,17 +555,9 @@ export const CreateSsoRequest = /*@__PURE__*/ S.suspend(() =>
     beginVerification: S.optional(S.Boolean.pipe(T.Body("begin_verification"))),
     useFedrampLanguage: S.optional(S.Boolean.pipe(T.Body("use_fedramp_language"))),
   })
-    .pipe(
-      T.Http({
-        method: "POST",
-        uri: "/accounts/{account_id}/sso_connectors",
-        code: 200,
-      }),
-    )
+    .pipe(T.Http({ method: "POST", uri: "/accounts/{account_id}/sso_connectors", code: 200 }))
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "CreateSsoRequest",
-}) as any as S.Schema<CreateSsoRequest>;
+).annotate({ identifier: "CreateSsoRequest" }) as any as S.Schema<CreateSsoRequest>;
 
 export type SsoCreateResponseVerificationStatus = "awaiting" | "pending" | "failed" | "verified";
 export const SsoCreateResponseVerificationStatus = S.String;
@@ -623,9 +601,7 @@ export const CreateSsoResponse = /*@__PURE__*/ S.suspend(() =>
     useFedrampLanguage: S.optional(S.NullOr(S.Boolean).pipe(T.Body("use_fedramp_language"))),
     verification: S.optional(S.NullOr(SsoCreateResponseVerification)),
   }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "CreateSsoResponse",
-}) as any as S.Schema<CreateSsoResponse>;
+).annotate({ identifier: "CreateSsoResponse" }) as any as S.Schema<CreateSsoResponse>;
 
 export type UserGroupsCreateRequestPoliciesItemAccess = "allow" | "deny";
 export const UserGroupsCreateRequestPoliciesItemAccess = S.String;
@@ -707,31 +683,52 @@ export const CreateUserGroupRequest = /*@__PURE__*/ S.suspend(() =>
     name: S.String,
     policies: S.optional(UserGroupsCreateRequestPoliciesList),
   })
-    .pipe(
-      T.Http({
-        method: "POST",
-        uri: "/accounts/{account_id}/iam/user_groups",
-        code: 200,
-      }),
-    )
+    .pipe(T.Http({ method: "POST", uri: "/accounts/{account_id}/iam/user_groups", code: 200 }))
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "CreateUserGroupRequest",
-}) as any as S.Schema<CreateUserGroupRequest>;
+).annotate({ identifier: "CreateUserGroupRequest" }) as any as S.Schema<CreateUserGroupRequest>;
 
 export type UserGroupsCreateResponsePoliciesItemAccess = "allow" | "deny";
 export const UserGroupsCreateResponsePoliciesItemAccess = S.String;
 
-export type UserGroupsCreateResponsePoliciesItemPermissionGroupsItemMeta =
-  ResourceGroupsCreateResponseMeta;
-export const UserGroupsCreateResponsePoliciesItemPermissionGroupsItemMeta =
-  ResourceGroupsCreateResponseMeta;
+export interface UserGroupsCreateResponsePoliciesItemPermissionGroupsItemMeta {
+  /** A category used to group permission groups. */
+  category?: string | null;
+  /** Indicates whether the permission group is deprecated. */
+  deprecated?: string | null;
+  /** Additional information about the permission group. */
+  description?: string | null;
+  /** Indicates whether the permission group can be edited. */
+  editable?: string | null;
+  /** The planned end-of-life date and time, when provided. */
+  eolAt?: string | null;
+  /** A label identifying the permission group. */
+  label?: string | null;
+  /** The scope associated with the permission group. */
+  scopes?: string | null;
+  /** Indicates the permission group's availability or visibility. */
+  visibility?: string | null;
+}
+export const UserGroupsCreateResponsePoliciesItemPermissionGroupsItemMeta = /*@__PURE__*/ S.suspend(
+  () =>
+    S.Struct({
+      category: S.optional(S.NullOr(S.String)),
+      deprecated: S.optional(S.NullOr(S.String)),
+      description: S.optional(S.NullOr(S.String)),
+      editable: S.optional(S.NullOr(S.String)),
+      eolAt: S.optional(S.NullOr(S.String).pipe(T.Body("eol_at"))),
+      label: S.optional(S.NullOr(S.String)),
+      scopes: S.optional(S.NullOr(S.String)),
+      visibility: S.optional(S.NullOr(S.String)),
+    }),
+).annotate({
+  identifier: "UserGroupsCreateResponsePoliciesItemPermissionGroupsItemMeta",
+}) as any as S.Schema<UserGroupsCreateResponsePoliciesItemPermissionGroupsItemMeta>;
 
 export interface UserGroupsCreateResponsePoliciesItemPermissionGroupsItem {
   /** Identifier of the permission group. */
   id: string;
   /** Attributes associated to the permission group. */
-  meta?: ResourceGroupsCreateResponseMeta | null;
+  meta?: UserGroupsCreateResponsePoliciesItemPermissionGroupsItemMeta | null;
   /** Name of the permission group. */
   name?: string | null;
 }
@@ -739,7 +736,7 @@ export const UserGroupsCreateResponsePoliciesItemPermissionGroupsItem = /*@__PUR
   () =>
     S.Struct({
       id: S.String,
-      meta: S.optional(S.NullOr(ResourceGroupsCreateResponseMeta)),
+      meta: S.optional(S.NullOr(UserGroupsCreateResponsePoliciesItemPermissionGroupsItemMeta)),
       name: S.optional(S.NullOr(S.String)),
     }),
 ).annotate({
@@ -867,9 +864,7 @@ export const CreateUserGroupResponse = /*@__PURE__*/ S.suspend(() =>
     name: S.String,
     policies: S.optional(S.NullOr(UserGroupsCreateResponsePoliciesList)),
   }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "CreateUserGroupResponse",
-}) as any as S.Schema<CreateUserGroupResponse>;
+).annotate({ identifier: "CreateUserGroupResponse" }) as any as S.Schema<CreateUserGroupResponse>;
 
 export interface UserGroupsMembersCreateRequestMembersItem {
   /** The identifier of an existing account Member. */
@@ -974,9 +969,7 @@ export const DeleteOauthClientRequest = /*@__PURE__*/ S.suspend(() =>
       }),
     )
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "DeleteOauthClientRequest",
-}) as any as S.Schema<DeleteOauthClientRequest>;
+).annotate({ identifier: "DeleteOauthClientRequest" }) as any as S.Schema<DeleteOauthClientRequest>;
 
 /** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
 export interface DeleteOauthClientResponse {
@@ -1082,9 +1075,7 @@ export const DeleteSsoRequest = /*@__PURE__*/ S.suspend(() =>
       }),
     )
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "DeleteSsoRequest",
-}) as any as S.Schema<DeleteSsoRequest>;
+).annotate({ identifier: "DeleteSsoRequest" }) as any as S.Schema<DeleteSsoRequest>;
 
 /** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
 export interface DeleteSsoResponse {
@@ -1095,9 +1086,7 @@ export const DeleteSsoResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     id: S.String,
   }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "DeleteSsoResponse",
-}) as any as S.Schema<DeleteSsoResponse>;
+).annotate({ identifier: "DeleteSsoResponse" }) as any as S.Schema<DeleteSsoResponse>;
 
 export interface DeleteUserGroupRequest {
   /** Account identifier tag. */
@@ -1118,9 +1107,7 @@ export const DeleteUserGroupRequest = /*@__PURE__*/ S.suspend(() =>
       }),
     )
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "DeleteUserGroupRequest",
-}) as any as S.Schema<DeleteUserGroupRequest>;
+).annotate({ identifier: "DeleteUserGroupRequest" }) as any as S.Schema<DeleteUserGroupRequest>;
 
 /** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
 export interface DeleteUserGroupResponse {
@@ -1131,9 +1118,7 @@ export const DeleteUserGroupResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     id: S.String,
   }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "DeleteUserGroupResponse",
-}) as any as S.Schema<DeleteUserGroupResponse>;
+).annotate({ identifier: "DeleteUserGroupResponse" }) as any as S.Schema<DeleteUserGroupResponse>;
 
 export interface DeleteUserGroupMemberRequest {
   /** Account identifier tag. */
@@ -1202,9 +1187,7 @@ export const GetOauthClientRequest = /*@__PURE__*/ S.suspend(() =>
       }),
     )
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "GetOauthClientRequest",
-}) as any as S.Schema<GetOauthClientRequest>;
+).annotate({ identifier: "GetOauthClientRequest" }) as any as S.Schema<GetOauthClientRequest>;
 
 export type OauthClientsGetResponseVisibility = "public" | "private";
 export const OauthClientsGetResponseVisibility = S.String;
@@ -1367,9 +1350,7 @@ export const GetOauthClientResponse = /*@__PURE__*/ S.suspend(() =>
     tosUri: S.optional(S.NullOr(S.String).pipe(T.Body("tos_uri"))),
     updatedAt: S.optional(S.NullOr(S.String).pipe(T.Body("updated_at"))),
   }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "GetOauthClientResponse",
-}) as any as S.Schema<GetOauthClientResponse>;
+).annotate({ identifier: "GetOauthClientResponse" }) as any as S.Schema<GetOauthClientResponse>;
 
 export interface GetPermissionGroupRequest {
   /** Account identifier tag. */
@@ -1394,22 +1375,24 @@ export const GetPermissionGroupRequest = /*@__PURE__*/ S.suspend(() =>
   identifier: "GetPermissionGroupRequest",
 }) as any as S.Schema<GetPermissionGroupRequest>;
 
-export type PermissionGroupsGetResponseMeta = ResourceGroupsCreateResponseMeta;
-export const PermissionGroupsGetResponseMeta = ResourceGroupsCreateResponseMeta;
+export type PermissionGroupsGetResponseMeta =
+  UserGroupsCreateResponsePoliciesItemPermissionGroupsItemMeta;
+export const PermissionGroupsGetResponseMeta =
+  UserGroupsCreateResponsePoliciesItemPermissionGroupsItemMeta;
 
 /** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
 export interface GetPermissionGroupResponse {
   /** Identifier of the permission group. */
   id: string;
   /** Attributes associated to the permission group. */
-  meta?: ResourceGroupsCreateResponseMeta | null;
+  meta?: UserGroupsCreateResponsePoliciesItemPermissionGroupsItemMeta | null;
   /** Name of the permission group. */
   name?: string | null;
 }
 export const GetPermissionGroupResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     id: S.String,
-    meta: S.optional(S.NullOr(ResourceGroupsCreateResponseMeta)),
+    meta: S.optional(S.NullOr(UserGroupsCreateResponsePoliciesItemPermissionGroupsItemMeta)),
     name: S.optional(S.NullOr(S.String)),
   }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
 ).annotate({
@@ -1435,9 +1418,7 @@ export const GetResourceGroupRequest = /*@__PURE__*/ S.suspend(() =>
       }),
     )
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "GetResourceGroupRequest",
-}) as any as S.Schema<GetResourceGroupRequest>;
+).annotate({ identifier: "GetResourceGroupRequest" }) as any as S.Schema<GetResourceGroupRequest>;
 
 export type ResourceGroupsGetResponseScopeObjectsItem = ResourceGroupsCreateRequestScopeObjectsItem;
 export const ResourceGroupsGetResponseScopeObjectsItem =
@@ -1485,9 +1466,7 @@ export const GetResourceGroupResponse = /*@__PURE__*/ S.suspend(() =>
     meta: S.optional(S.NullOr(ResourceGroupsCreateResponseMeta)),
     name: S.optional(S.NullOr(S.String)),
   }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "GetResourceGroupResponse",
-}) as any as S.Schema<GetResourceGroupResponse>;
+).annotate({ identifier: "GetResourceGroupResponse" }) as any as S.Schema<GetResourceGroupResponse>;
 
 export interface GetSsoRequest {
   /** Account identifier tag. */
@@ -1573,17 +1552,15 @@ export const GetUserGroupRequest = /*@__PURE__*/ S.suspend(() =>
       }),
     )
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "GetUserGroupRequest",
-}) as any as S.Schema<GetUserGroupRequest>;
+).annotate({ identifier: "GetUserGroupRequest" }) as any as S.Schema<GetUserGroupRequest>;
 
 export type UserGroupsGetResponsePoliciesItemAccess = "allow" | "deny";
 export const UserGroupsGetResponsePoliciesItemAccess = S.String;
 
 export type UserGroupsGetResponsePoliciesItemPermissionGroupsItemMeta =
-  ResourceGroupsCreateResponseMeta;
+  UserGroupsCreateResponsePoliciesItemPermissionGroupsItemMeta;
 export const UserGroupsGetResponsePoliciesItemPermissionGroupsItemMeta =
-  ResourceGroupsCreateResponseMeta;
+  UserGroupsCreateResponsePoliciesItemPermissionGroupsItemMeta;
 
 export type UserGroupsGetResponsePoliciesItemPermissionGroupsItem =
   UserGroupsCreateResponsePoliciesItemPermissionGroupsItem;
@@ -1709,9 +1686,7 @@ export const GetUserGroupResponse = /*@__PURE__*/ S.suspend(() =>
     name: S.String,
     policies: S.optional(S.NullOr(UserGroupsGetResponsePoliciesList)),
   }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "GetUserGroupResponse",
-}) as any as S.Schema<GetUserGroupResponse>;
+).annotate({ identifier: "GetUserGroupResponse" }) as any as S.Schema<GetUserGroupResponse>;
 
 export interface GetUserGroupMemberRequest {
   /** Account identifier tag. */
@@ -1796,17 +1771,9 @@ export const ListOauthClientsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     accountId: S.String.pipe(T.Label("account_id")),
   })
-    .pipe(
-      T.Http({
-        method: "GET",
-        uri: "/accounts/{account_id}/oauth_clients",
-        code: 200,
-      }),
-    )
+    .pipe(T.Http({ method: "GET", uri: "/accounts/{account_id}/oauth_clients", code: 200 }))
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "ListOauthClientsRequest",
-}) as any as S.Schema<ListOauthClientsRequest>;
+).annotate({ identifier: "ListOauthClientsRequest" }) as any as S.Schema<ListOauthClientsRequest>;
 
 export type OauthClientsListResultItemVisibility = "public" | "private";
 export const OauthClientsListResultItemVisibility = S.String;
@@ -1991,18 +1958,14 @@ export const ListOauthClientsResponse = /*@__PURE__*/ S.suspend(() =>
     result: OauthClientsListResultList.pipe(T.EnvelopePayload()),
     resultInfo: S.optional(S.NullOr(ResultInfo).pipe(T.ResultInfo())),
   }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "ListOauthClientsResponse",
-}) as any as S.Schema<ListOauthClientsResponse>;
+).annotate({ identifier: "ListOauthClientsResponse" }) as any as S.Schema<ListOauthClientsResponse>;
 
 export interface ListOauthScopesRequest {}
 export const ListOauthScopesRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({})
     .pipe(T.Http({ method: "GET", uri: "/oauth/scopes", code: 200 }))
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "ListOauthScopesRequest",
-}) as any as S.Schema<ListOauthScopesRequest>;
+).annotate({ identifier: "ListOauthScopesRequest" }) as any as S.Schema<ListOauthScopesRequest>;
 
 export type OauthScopesListResultItemScopesList = Array<string>;
 export const OauthScopesListResultItemScopesList = /*@__PURE__*/ S.Array(
@@ -2046,9 +2009,7 @@ export const ListOauthScopesResponse = /*@__PURE__*/ S.suspend(() =>
     result: OauthScopesListResultList.pipe(T.EnvelopePayload()),
     resultInfo: S.optional(S.NullOr(ResultInfo).pipe(T.ResultInfo())),
   }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "ListOauthScopesResponse",
-}) as any as S.Schema<ListOauthScopesResponse>;
+).annotate({ identifier: "ListOauthScopesResponse" }) as any as S.Schema<ListOauthScopesResponse>;
 
 export interface ListPermissionGroupsRequest {
   /** Account identifier tag. */
@@ -2073,20 +2034,16 @@ export const ListPermissionGroupsRequest = /*@__PURE__*/ S.suspend(() =>
     page: S.optional(S.Number.pipe(T.Query())),
     perPage: S.optional(S.Number.pipe(T.Query("per_page"))),
   })
-    .pipe(
-      T.Http({
-        method: "GET",
-        uri: "/accounts/{account_id}/iam/permission_groups",
-        code: 200,
-      }),
-    )
+    .pipe(T.Http({ method: "GET", uri: "/accounts/{account_id}/iam/permission_groups", code: 200 }))
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
 ).annotate({
   identifier: "ListPermissionGroupsRequest",
 }) as any as S.Schema<ListPermissionGroupsRequest>;
 
-export type PermissionGroupsListResultItemMeta = ResourceGroupsCreateResponseMeta;
-export const PermissionGroupsListResultItemMeta = ResourceGroupsCreateResponseMeta;
+export type PermissionGroupsListResultItemMeta =
+  UserGroupsCreateResponsePoliciesItemPermissionGroupsItemMeta;
+export const PermissionGroupsListResultItemMeta =
+  UserGroupsCreateResponsePoliciesItemPermissionGroupsItemMeta;
 
 export type PermissionGroupsListResultItem =
   UserGroupsCreateResponsePoliciesItemPermissionGroupsItem;
@@ -2128,13 +2085,7 @@ export const ListResourceGroupsRequest = /*@__PURE__*/ S.suspend(() =>
     id: S.optional(S.String.pipe(T.Query())),
     name: S.optional(S.String.pipe(T.Query())),
   })
-    .pipe(
-      T.Http({
-        method: "GET",
-        uri: "/accounts/{account_id}/iam/resource_groups",
-        code: 200,
-      }),
-    )
+    .pipe(T.Http({ method: "GET", uri: "/accounts/{account_id}/iam/resource_groups", code: 200 }))
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
 ).annotate({
   identifier: "ListResourceGroupsRequest",
@@ -2218,17 +2169,9 @@ export const ListSsosRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     accountId: S.String.pipe(T.Label("account_id")),
   })
-    .pipe(
-      T.Http({
-        method: "GET",
-        uri: "/accounts/{account_id}/sso_connectors",
-        code: 200,
-      }),
-    )
+    .pipe(T.Http({ method: "GET", uri: "/accounts/{account_id}/sso_connectors", code: 200 }))
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "ListSsosRequest",
-}) as any as S.Schema<ListSsosRequest>;
+).annotate({ identifier: "ListSsosRequest" }) as any as S.Schema<ListSsosRequest>;
 
 export type SsoListResultItemVerificationStatus = "awaiting" | "pending" | "failed" | "verified";
 export const SsoListResultItemVerificationStatus = S.String;
@@ -2271,9 +2214,7 @@ export const SsoListResultItem = /*@__PURE__*/ S.suspend(() =>
     useFedrampLanguage: S.optional(S.NullOr(S.Boolean).pipe(T.Body("use_fedramp_language"))),
     verification: S.optional(S.NullOr(SsoListResultItemVerification)),
   }),
-).annotate({
-  identifier: "SsoListResultItem",
-}) as any as S.Schema<SsoListResultItem>;
+).annotate({ identifier: "SsoListResultItem" }) as any as S.Schema<SsoListResultItem>;
 
 export type SsoListResultList = Array<SsoListResultItem>;
 export const SsoListResultList = /*@__PURE__*/ S.Array(
@@ -2291,9 +2232,7 @@ export const ListSsosResponse = /*@__PURE__*/ S.suspend(() =>
     result: SsoListResultList.pipe(T.EnvelopePayload()),
     resultInfo: S.optional(S.NullOr(ResultInfo).pipe(T.ResultInfo())),
   }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "ListSsosResponse",
-}) as any as S.Schema<ListSsosResponse>;
+).annotate({ identifier: "ListSsosResponse" }) as any as S.Schema<ListSsosResponse>;
 
 export type UserGroupsMembersListRequestDirection = "asc" | "desc";
 export const UserGroupsMembersListRequestDirection = S.String;
@@ -2403,25 +2342,17 @@ export const ListUserGroupsRequest = /*@__PURE__*/ S.suspend(() =>
     page: S.optional(S.Number.pipe(T.Query())),
     perPage: S.optional(S.Number.pipe(T.Query("per_page"))),
   })
-    .pipe(
-      T.Http({
-        method: "GET",
-        uri: "/accounts/{account_id}/iam/user_groups",
-        code: 200,
-      }),
-    )
+    .pipe(T.Http({ method: "GET", uri: "/accounts/{account_id}/iam/user_groups", code: 200 }))
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "ListUserGroupsRequest",
-}) as any as S.Schema<ListUserGroupsRequest>;
+).annotate({ identifier: "ListUserGroupsRequest" }) as any as S.Schema<ListUserGroupsRequest>;
 
 export type UserGroupsListResultItemPoliciesItemAccess = "allow" | "deny";
 export const UserGroupsListResultItemPoliciesItemAccess = S.String;
 
 export type UserGroupsListResultItemPoliciesItemPermissionGroupsItemMeta =
-  ResourceGroupsCreateResponseMeta;
+  UserGroupsCreateResponsePoliciesItemPermissionGroupsItemMeta;
 export const UserGroupsListResultItemPoliciesItemPermissionGroupsItemMeta =
-  ResourceGroupsCreateResponseMeta;
+  UserGroupsCreateResponsePoliciesItemPermissionGroupsItemMeta;
 
 export type UserGroupsListResultItemPoliciesItemPermissionGroupsItem =
   UserGroupsCreateResponsePoliciesItemPermissionGroupsItem;
@@ -2548,9 +2479,7 @@ export const UserGroupsListResultItem = /*@__PURE__*/ S.suspend(() =>
     name: S.String,
     policies: S.optional(S.NullOr(UserGroupsListResultItemPoliciesList)),
   }),
-).annotate({
-  identifier: "UserGroupsListResultItem",
-}) as any as S.Schema<UserGroupsListResultItem>;
+).annotate({ identifier: "UserGroupsListResultItem" }) as any as S.Schema<UserGroupsListResultItem>;
 
 export type UserGroupsListResultList = Array<UserGroupsListResultItem>;
 export const UserGroupsListResultList = /*@__PURE__*/ S.Array(
@@ -2568,9 +2497,7 @@ export const ListUserGroupsResponse = /*@__PURE__*/ S.suspend(() =>
     result: UserGroupsListResultList.pipe(T.EnvelopePayload()),
     resultInfo: S.optional(S.NullOr(ResultInfo).pipe(T.ResultInfo())),
   }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "ListUserGroupsResponse",
-}) as any as S.Schema<ListUserGroupsResponse>;
+).annotate({ identifier: "ListUserGroupsResponse" }) as any as S.Schema<ListUserGroupsResponse>;
 
 export type OauthClientsUpdateRequestAllowedCorsOriginsList = Array<string>;
 export const OauthClientsUpdateRequestAllowedCorsOriginsList = /*@__PURE__*/ S.Array(
@@ -2699,9 +2626,7 @@ export const PatchOauthClientRequest = /*@__PURE__*/ S.suspend(() =>
       }),
     )
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "PatchOauthClientRequest",
-}) as any as S.Schema<PatchOauthClientRequest>;
+).annotate({ identifier: "PatchOauthClientRequest" }) as any as S.Schema<PatchOauthClientRequest>;
 
 export type OauthClientsUpdateResponseVisibility = "public" | "private";
 export const OauthClientsUpdateResponseVisibility = S.String;
@@ -2867,9 +2792,7 @@ export const PatchOauthClientResponse = /*@__PURE__*/ S.suspend(() =>
     tosUri: S.optional(S.NullOr(S.String).pipe(T.Body("tos_uri"))),
     updatedAt: S.optional(S.NullOr(S.String).pipe(T.Body("updated_at"))),
   }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "PatchOauthClientResponse",
-}) as any as S.Schema<PatchOauthClientResponse>;
+).annotate({ identifier: "PatchOauthClientResponse" }) as any as S.Schema<PatchOauthClientResponse>;
 
 export interface PatchSsoRequest {
   /** Account identifier tag. */
@@ -2896,9 +2819,7 @@ export const PatchSsoRequest = /*@__PURE__*/ S.suspend(() =>
       }),
     )
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "PatchSsoRequest",
-}) as any as S.Schema<PatchSsoRequest>;
+).annotate({ identifier: "PatchSsoRequest" }) as any as S.Schema<PatchSsoRequest>;
 
 export type SsoUpdateResponseVerificationStatus = "awaiting" | "pending" | "failed" | "verified";
 export const SsoUpdateResponseVerificationStatus = S.String;
@@ -2942,9 +2863,7 @@ export const PatchSsoResponse = /*@__PURE__*/ S.suspend(() =>
     useFedrampLanguage: S.optional(S.NullOr(S.Boolean).pipe(T.Body("use_fedramp_language"))),
     verification: S.optional(S.NullOr(SsoUpdateResponseVerification)),
   }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "PatchSsoResponse",
-}) as any as S.Schema<PatchSsoResponse>;
+).annotate({ identifier: "PatchSsoResponse" }) as any as S.Schema<PatchSsoResponse>;
 
 export interface RotateSecretOauthClientRequest {
   /** Account identifier tag. */
@@ -3168,17 +3087,15 @@ export const UpdateUserGroupRequest = /*@__PURE__*/ S.suspend(() =>
       }),
     )
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "UpdateUserGroupRequest",
-}) as any as S.Schema<UpdateUserGroupRequest>;
+).annotate({ identifier: "UpdateUserGroupRequest" }) as any as S.Schema<UpdateUserGroupRequest>;
 
 export type UserGroupsUpdateResponsePoliciesItemAccess = "allow" | "deny";
 export const UserGroupsUpdateResponsePoliciesItemAccess = S.String;
 
 export type UserGroupsUpdateResponsePoliciesItemPermissionGroupsItemMeta =
-  ResourceGroupsCreateResponseMeta;
+  UserGroupsCreateResponsePoliciesItemPermissionGroupsItemMeta;
 export const UserGroupsUpdateResponsePoliciesItemPermissionGroupsItemMeta =
-  ResourceGroupsCreateResponseMeta;
+  UserGroupsCreateResponsePoliciesItemPermissionGroupsItemMeta;
 
 export type UserGroupsUpdateResponsePoliciesItemPermissionGroupsItem =
   UserGroupsCreateResponsePoliciesItemPermissionGroupsItem;
@@ -3306,9 +3223,7 @@ export const UpdateUserGroupResponse = /*@__PURE__*/ S.suspend(() =>
     name: S.String,
     policies: S.optional(S.NullOr(UserGroupsUpdateResponsePoliciesList)),
   }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "UpdateUserGroupResponse",
-}) as any as S.Schema<UpdateUserGroupResponse>;
+).annotate({ identifier: "UpdateUserGroupResponse" }) as any as S.Schema<UpdateUserGroupResponse>;
 
 export type UserGroupsMembersUpdateRequestMembersItem = UserGroupsMembersCreateRequestMembersItem;
 export const UserGroupsMembersUpdateRequestMembersItem = UserGroupsMembersCreateRequestMembersItem;

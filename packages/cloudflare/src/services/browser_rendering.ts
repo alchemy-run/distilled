@@ -144,6 +144,9 @@ export const ConnectDevtoolBrowserResponse = /*@__PURE__*/ S.suspend(() =>
   identifier: "ConnectDevtoolBrowserResponse",
 }) as any as S.Schema<ConnectDevtoolBrowserResponse>;
 
+export type CreateAccessibilityTreeRequestBrowser = "kitesurf";
+export const CreateAccessibilityTreeRequestBrowser = S.String;
+
 export interface CreateAccessibilityTreeRequestAddScriptTagItem {
   id?: string;
   content?: string;
@@ -416,11 +419,14 @@ export const CreateAccessibilityTreeRequestWaitForSelector = /*@__PURE__*/ S.sus
 export interface CreateAccessibilityTreeRequest {
   /** Account ID. */
   accountId: string;
+  /** Rendering backend. Set to `kitesurf` to use Kitesurf (beta). */
+  browser?: CreateAccessibilityTreeRequestBrowser | (string & {});
   /** Cache TTL default is 5s. Set to 0 to disable. */
   cacheTTL?: number;
+  url?: string;
   /** The maximum duration allowed for the browser action to complete after the page has loaded (such as taking screenshots, extracting content, or generating PDFs). If this time limit is exceeded, the action stops and returns a timeout error. */
   actionTimeout?: number;
-  /** Adds a `&lt;script&gt;` tag into the page with the desired URL or content. */
+  /** Adds a script element into the page with the desired URL or content. */
   addScriptTag?: CreateAccessibilityTreeRequestAddScriptTagList;
   /** Adds a `&lt;link rel="stylesheet"&gt;` tag into the page with the desired URL or a `&lt;style type="text/css"&gt;` tag with the content. */
   addStyleTag?: CreateAccessibilityTreeRequestAddStyleTagList;
@@ -437,7 +443,6 @@ export interface CreateAccessibilityTreeRequest {
   emulateMediaType?: string;
   /** Check [options](https://pptr.dev/api/puppeteer.gotooptions). */
   gotoOptions?: CreateAccessibilityTreeRequestGotoOptions;
-  /** Set the content of the page, eg: `<h1>Hello World!!</h1>`. Either `html` or `url` must be set. */
   html?: string;
   interestingOnly?: boolean;
   /** Block undesired requests that match the provided regex patterns, eg. '/^.*.(css)'. */
@@ -447,8 +452,6 @@ export interface CreateAccessibilityTreeRequest {
   root?: string;
   setExtraHTTPHeaders?: CreateAccessibilityTreeRequestSetExtraHTTPHeadersMap;
   setJavaScriptEnabled?: boolean;
-  /** URL to navigate to, eg. `https://example.com`. */
-  url?: string;
   userAgent?: string;
   /** Check [options](https://pptr.dev/api/puppeteer.page.setviewport). */
   viewport?: CreateAccessibilityTreeRequestViewport;
@@ -460,7 +463,9 @@ export interface CreateAccessibilityTreeRequest {
 export const CreateAccessibilityTreeRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     accountId: S.String.pipe(T.Label("account_id")),
+    browser: S.optional(CreateAccessibilityTreeRequestBrowser.pipe(T.Query())),
     cacheTTL: S.optional(S.Number.pipe(T.Query())),
+    url: S.optional(S.String),
     actionTimeout: S.optional(S.Number),
     addScriptTag: S.optional(CreateAccessibilityTreeRequestAddScriptTagList),
     addStyleTag: S.optional(CreateAccessibilityTreeRequestAddStyleTagList),
@@ -478,7 +483,6 @@ export const CreateAccessibilityTreeRequest = /*@__PURE__*/ S.suspend(() =>
     root: S.optional(S.String),
     setExtraHTTPHeaders: S.optional(CreateAccessibilityTreeRequestSetExtraHTTPHeadersMap),
     setJavaScriptEnabled: S.optional(S.Boolean),
-    url: S.optional(S.String),
     userAgent: S.optional(S.String),
     viewport: S.optional(CreateAccessibilityTreeRequestViewport),
     waitForSelector: S.optional(CreateAccessibilityTreeRequestWaitForSelector),
@@ -597,6 +601,9 @@ export const CreateAccessibilityTreeResponse = /*@__PURE__*/ S.suspend(() =>
 ).annotate({
   identifier: "CreateAccessibilityTreeResponse",
 }) as any as S.Schema<CreateAccessibilityTreeResponse>;
+
+export type ContentCreateRequestBrowser = "kitesurf";
+export const ContentCreateRequestBrowser = S.String;
 
 export type ContentCreateRequestAddScriptTagItem = CreateAccessibilityTreeRequestAddScriptTagItem;
 export const ContentCreateRequestAddScriptTagItem = CreateAccessibilityTreeRequestAddScriptTagItem;
@@ -783,9 +790,7 @@ export const ContentCreateRequestRejectResourceTypesList = /*@__PURE__*/ S.Array
   ContentCreateRequestRejectResourceTypesItem,
 ) as any as S.Schema<ContentCreateRequestRejectResourceTypesList>;
 
-export type ContentCreateRequestSetExtraHTTPHeadersMap = {
-  [key: string]: string | undefined;
-};
+export type ContentCreateRequestSetExtraHTTPHeadersMap = { [key: string]: string | undefined };
 export const ContentCreateRequestSetExtraHTTPHeadersMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -800,11 +805,14 @@ export const ContentCreateRequestWaitForSelector = CreateAccessibilityTreeReques
 export interface CreateContentRequest {
   /** Account ID. */
   accountId: string;
+  /** Rendering backend. Set to `kitesurf` to use Kitesurf (beta). */
+  browser?: ContentCreateRequestBrowser | (string & {});
   /** Cache TTL default is 5s. Set to 0 to disable. */
   cacheTTL?: number;
+  url?: string;
   /** The maximum duration allowed for the browser action to complete after the page has loaded (such as taking screenshots, extracting content, or generating PDFs). If this time limit is exceeded, the action stops and returns a timeout error. */
   actionTimeout?: number;
-  /** Adds a `&lt;script&gt;` tag into the page with the desired URL or content. */
+  /** Adds a script element into the page with the desired URL or content. */
   addScriptTag?: ContentCreateRequestAddScriptTagList;
   /** Adds a `&lt;link rel="stylesheet"&gt;` tag into the page with the desired URL or a `&lt;style type="text/css"&gt;` tag with the content. */
   addStyleTag?: ContentCreateRequestAddStyleTagList;
@@ -821,7 +829,6 @@ export interface CreateContentRequest {
   emulateMediaType?: string;
   /** Check [options](https://pptr.dev/api/puppeteer.gotooptions). */
   gotoOptions?: ContentCreateRequestGotoOptions;
-  /** Set the content of the page, eg: `<h1>Hello World!!</h1>`. Either `html` or `url` must be set. */
   html?: string;
   /** Block undesired requests that match the provided regex patterns, eg. '/^.*.(css)'. */
   rejectRequestPattern?: ContentCreateRequestRejectRequestPatternList;
@@ -829,8 +836,6 @@ export interface CreateContentRequest {
   rejectResourceTypes?: ContentCreateRequestRejectResourceTypesList;
   setExtraHTTPHeaders?: ContentCreateRequestSetExtraHTTPHeadersMap;
   setJavaScriptEnabled?: boolean;
-  /** URL to navigate to, eg. `https://example.com`. */
-  url?: string;
   userAgent?: string;
   /** Check [options](https://pptr.dev/api/puppeteer.page.setviewport). */
   viewport?: CreateAccessibilityTreeRequestViewport;
@@ -842,7 +847,9 @@ export interface CreateContentRequest {
 export const CreateContentRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     accountId: S.String.pipe(T.Label("account_id")),
+    browser: S.optional(ContentCreateRequestBrowser.pipe(T.Query())),
     cacheTTL: S.optional(S.Number.pipe(T.Query())),
+    url: S.optional(S.String),
     actionTimeout: S.optional(S.Number),
     addScriptTag: S.optional(ContentCreateRequestAddScriptTagList),
     addStyleTag: S.optional(ContentCreateRequestAddStyleTagList),
@@ -858,7 +865,6 @@ export const CreateContentRequest = /*@__PURE__*/ S.suspend(() =>
     rejectResourceTypes: S.optional(ContentCreateRequestRejectResourceTypesList),
     setExtraHTTPHeaders: S.optional(ContentCreateRequestSetExtraHTTPHeadersMap),
     setJavaScriptEnabled: S.optional(S.Boolean),
-    url: S.optional(S.String),
     userAgent: S.optional(S.String),
     viewport: S.optional(CreateAccessibilityTreeRequestViewport),
     waitForSelector: S.optional(CreateAccessibilityTreeRequestWaitForSelector),
@@ -872,16 +878,12 @@ export const CreateContentRequest = /*@__PURE__*/ S.suspend(() =>
       }),
     )
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "CreateContentRequest",
-}) as any as S.Schema<CreateContentRequest>;
+).annotate({ identifier: "CreateContentRequest" }) as any as S.Schema<CreateContentRequest>;
 
 export type CreateContentResponse = string;
 export const CreateContentResponse = /*@__PURE__*/ S.suspend(() =>
   S.String.pipe(T.EnvelopePayloadRoot(), T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "CreateContentResponse",
-}) as any as S.Schema<CreateContentResponse>;
+).annotate({ identifier: "CreateContentResponse" }) as any as S.Schema<CreateContentResponse>;
 
 export type CrawlCreateRequestAddScriptTagItem = CreateAccessibilityTreeRequestAddScriptTagItem;
 export const CrawlCreateRequestAddScriptTagItem = CreateAccessibilityTreeRequestAddScriptTagItem;
@@ -936,6 +938,9 @@ export const CrawlCreateRequestAllowResourceTypesList = /*@__PURE__*/ S.Array(
 
 export type CrawlCreateRequestAuthenticate = CreateAccessibilityTreeRequestAuthenticate;
 export const CrawlCreateRequestAuthenticate = CreateAccessibilityTreeRequestAuthenticate;
+
+export type CrawlCreateRequestBrowser = "kitesurf";
+export const CrawlCreateRequestBrowser = S.String;
 
 export type CrawlCreateRequestContentUse = "reference" | "full";
 export const CrawlCreateRequestContentUse = S.String;
@@ -1183,9 +1188,7 @@ export const CrawlCreateRequestRejectResourceTypesList = /*@__PURE__*/ S.Array(
   CrawlCreateRequestRejectResourceTypesItem,
 ) as any as S.Schema<CrawlCreateRequestRejectResourceTypesList>;
 
-export type CrawlCreateRequestSetExtraHTTPHeadersMap = {
-  [key: string]: string | undefined;
-};
+export type CrawlCreateRequestSetExtraHTTPHeadersMap = { [key: string]: string | undefined };
 export const CrawlCreateRequestSetExtraHTTPHeadersMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -1209,7 +1212,7 @@ export interface CreateCrawlRequest {
   url: string;
   /** The maximum duration allowed for the browser action to complete after the page has loaded (such as taking screenshots, extracting content, or generating PDFs). If this time limit is exceeded, the action stops and returns a timeout error. */
   actionTimeout?: number;
-  /** Adds a `&lt;script&gt;` tag into the page with the desired URL or content. */
+  /** Adds a script element into the page with the desired URL or content. */
   addScriptTag?: CrawlCreateRequestAddScriptTagList;
   /** Adds a `&lt;link rel="stylesheet"&gt;` tag into the page with the desired URL or a `&lt;style type="text/css"&gt;` tag with the content. */
   addStyleTag?: CrawlCreateRequestAddStyleTagList;
@@ -1221,6 +1224,8 @@ export interface CreateCrawlRequest {
   authenticate?: CreateAccessibilityTreeRequestAuthenticate;
   /** Attempt to proceed when 'awaited' events fail or timeout. */
   bestAttempt?: boolean;
+  /** Rendering backend for this crawl. Set to `kitesurf` to render pages with Kitesurf (beta). Only valid when `render` is `true`. */
+  browser?: CrawlCreateRequestBrowser | (string & {});
   /** Intended content use level to respect the `use` Content-Signal directive in robots.txt. Levels (least to most permissive): 'reference', 'full'. A URL is disallowed when the publisher's declared `use` level is lower than this intent. Learn more: https://contentsignals.org/. Default: 'full'. */
   contentUse?: CrawlCreateRequestContentUse | (string & {});
   /** Check [options](https://pptr.dev/api/puppeteer.page.setcookie). */
@@ -1273,6 +1278,7 @@ export const CreateCrawlRequest = /*@__PURE__*/ S.suspend(() =>
     allowResourceTypes: S.optional(CrawlCreateRequestAllowResourceTypesList),
     authenticate: S.optional(CreateAccessibilityTreeRequestAuthenticate),
     bestAttempt: S.optional(S.Boolean),
+    browser: S.optional(CrawlCreateRequestBrowser),
     contentUse: S.optional(CrawlCreateRequestContentUse),
     cookies: S.optional(CrawlCreateRequestCookiesList),
     crawlPurposes: S.optional(CrawlCreateRequestCrawlPurposesList),
@@ -1296,23 +1302,15 @@ export const CreateCrawlRequest = /*@__PURE__*/ S.suspend(() =>
     waitForTimeout: S.optional(S.Number),
   })
     .pipe(
-      T.Http({
-        method: "POST",
-        uri: "/accounts/{account_id}/browser-rendering/crawl",
-        code: 200,
-      }),
+      T.Http({ method: "POST", uri: "/accounts/{account_id}/browser-rendering/crawl", code: 200 }),
     )
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "CreateCrawlRequest",
-}) as any as S.Schema<CreateCrawlRequest>;
+).annotate({ identifier: "CreateCrawlRequest" }) as any as S.Schema<CreateCrawlRequest>;
 
 export type CreateCrawlResponse = string;
 export const CreateCrawlResponse = /*@__PURE__*/ S.suspend(() =>
   S.String.pipe(T.EnvelopePayloadRoot(), T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "CreateCrawlResponse",
-}) as any as S.Schema<CreateCrawlResponse>;
+).annotate({ identifier: "CreateCrawlResponse" }) as any as S.Schema<CreateCrawlResponse>;
 
 export type DevtoolsBrowserCreateRequestGuardrailsAllowedDomainsList = Array<string>;
 export const DevtoolsBrowserCreateRequestGuardrailsAllowedDomainsList = /*@__PURE__*/ S.Array(
@@ -1555,6 +1553,9 @@ export const CreateDevtoolsBrowserLiveViewResponse = /*@__PURE__*/ S.suspend(() 
   identifier: "CreateDevtoolsBrowserLiveViewResponse",
 }) as any as S.Schema<CreateDevtoolsBrowserLiveViewResponse>;
 
+export type JsonCreateRequestBrowser = "kitesurf";
+export const JsonCreateRequestBrowser = S.String;
+
 export type JsonCreateRequestAddScriptTagItem = CreateAccessibilityTreeRequestAddScriptTagItem;
 export const JsonCreateRequestAddScriptTagItem = CreateAccessibilityTreeRequestAddScriptTagItem;
 
@@ -1747,9 +1748,7 @@ export const JsonCreateRequestRejectResourceTypesList = /*@__PURE__*/ S.Array(
   JsonCreateRequestRejectResourceTypesItem,
 ) as any as S.Schema<JsonCreateRequestRejectResourceTypesList>;
 
-export type JsonCreateRequestResponseFormatJsonSchemaMap = {
-  [key: string]: unknown | undefined;
-};
+export type JsonCreateRequestResponseFormatJsonSchemaMap = { [key: string]: unknown | undefined };
 export const JsonCreateRequestResponseFormatJsonSchemaMap = /*@__PURE__*/ S.Record(
   S.String,
   S.Unknown,
@@ -1771,9 +1770,7 @@ export const JsonCreateRequestResponseFormat = /*@__PURE__*/ S.suspend(() =>
   identifier: "JsonCreateRequestResponseFormat",
 }) as any as S.Schema<JsonCreateRequestResponseFormat>;
 
-export type JsonCreateRequestSetExtraHTTPHeadersMap = {
-  [key: string]: string | undefined;
-};
+export type JsonCreateRequestSetExtraHTTPHeadersMap = { [key: string]: string | undefined };
 export const JsonCreateRequestSetExtraHTTPHeadersMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -1788,11 +1785,14 @@ export const JsonCreateRequestWaitForSelector = CreateAccessibilityTreeRequestWa
 export interface CreateJsonRequest {
   /** Account ID. */
   accountId: string;
+  /** Rendering backend. Set to `kitesurf` to use Kitesurf (beta). */
+  browser?: JsonCreateRequestBrowser | (string & {});
   /** Cache TTL default is 5s. Set to 0 to disable. */
   cacheTTL?: number;
+  url?: string;
   /** The maximum duration allowed for the browser action to complete after the page has loaded (such as taking screenshots, extracting content, or generating PDFs). If this time limit is exceeded, the action stops and returns a timeout error. */
   actionTimeout?: number;
-  /** Adds a `&lt;script&gt;` tag into the page with the desired URL or content. */
+  /** Adds a script element into the page with the desired URL or content. */
   addScriptTag?: JsonCreateRequestAddScriptTagList;
   /** Adds a `&lt;link rel="stylesheet"&gt;` tag into the page with the desired URL or a `&lt;style type="text/css"&gt;` tag with the content. */
   addStyleTag?: JsonCreateRequestAddStyleTagList;
@@ -1811,7 +1811,6 @@ export interface CreateJsonRequest {
   emulateMediaType?: string;
   /** Check [options](https://pptr.dev/api/puppeteer.gotooptions). */
   gotoOptions?: JsonCreateRequestGotoOptions;
-  /** Set the content of the page, eg: `<h1>Hello World!!</h1>`. Either `html` or `url` must be set. */
   html?: string;
   prompt?: string;
   /** Block undesired requests that match the provided regex patterns, eg. '/^.*.(css)'. */
@@ -1821,8 +1820,6 @@ export interface CreateJsonRequest {
   responseFormat?: JsonCreateRequestResponseFormat;
   setExtraHTTPHeaders?: JsonCreateRequestSetExtraHTTPHeadersMap;
   setJavaScriptEnabled?: boolean;
-  /** URL to navigate to, eg. `https://example.com`. */
-  url?: string;
   userAgent?: string;
   /** Check [options](https://pptr.dev/api/puppeteer.page.setviewport). */
   viewport?: CreateAccessibilityTreeRequestViewport;
@@ -1834,7 +1831,9 @@ export interface CreateJsonRequest {
 export const CreateJsonRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     accountId: S.String.pipe(T.Label("account_id")),
+    browser: S.optional(JsonCreateRequestBrowser.pipe(T.Query())),
     cacheTTL: S.optional(S.Number.pipe(T.Query())),
+    url: S.optional(S.String),
     actionTimeout: S.optional(S.Number),
     addScriptTag: S.optional(JsonCreateRequestAddScriptTagList),
     addStyleTag: S.optional(JsonCreateRequestAddStyleTagList),
@@ -1853,23 +1852,16 @@ export const CreateJsonRequest = /*@__PURE__*/ S.suspend(() =>
     responseFormat: S.optional(JsonCreateRequestResponseFormat.pipe(T.Body("response_format"))),
     setExtraHTTPHeaders: S.optional(JsonCreateRequestSetExtraHTTPHeadersMap),
     setJavaScriptEnabled: S.optional(S.Boolean),
-    url: S.optional(S.String),
     userAgent: S.optional(S.String),
     viewport: S.optional(CreateAccessibilityTreeRequestViewport),
     waitForSelector: S.optional(CreateAccessibilityTreeRequestWaitForSelector),
     waitForTimeout: S.optional(S.Number),
   })
     .pipe(
-      T.Http({
-        method: "POST",
-        uri: "/accounts/{account_id}/browser-rendering/json",
-        code: 200,
-      }),
+      T.Http({ method: "POST", uri: "/accounts/{account_id}/browser-rendering/json", code: 200 }),
     )
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "CreateJsonRequest",
-}) as any as S.Schema<CreateJsonRequest>;
+).annotate({ identifier: "CreateJsonRequest" }) as any as S.Schema<CreateJsonRequest>;
 
 export type JsonCreateResultMap = { [key: string]: unknown | undefined };
 export const JsonCreateResultMap = /*@__PURE__*/ S.Record(
@@ -1880,9 +1872,10 @@ export const JsonCreateResultMap = /*@__PURE__*/ S.Record(
 export type CreateJsonResponse = JsonCreateResultMap;
 export const CreateJsonResponse = /*@__PURE__*/ S.suspend(() =>
   JsonCreateResultMap.pipe(T.EnvelopePayloadRoot(), T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "CreateJsonResponse",
-}) as any as S.Schema<CreateJsonResponse>;
+).annotate({ identifier: "CreateJsonResponse" }) as any as S.Schema<CreateJsonResponse>;
+
+export type LinksCreateRequestBrowser = "kitesurf";
+export const LinksCreateRequestBrowser = S.String;
 
 export type LinksCreateRequestAddScriptTagItem = CreateAccessibilityTreeRequestAddScriptTagItem;
 export const LinksCreateRequestAddScriptTagItem = CreateAccessibilityTreeRequestAddScriptTagItem;
@@ -2069,9 +2062,7 @@ export const LinksCreateRequestRejectResourceTypesList = /*@__PURE__*/ S.Array(
   LinksCreateRequestRejectResourceTypesItem,
 ) as any as S.Schema<LinksCreateRequestRejectResourceTypesList>;
 
-export type LinksCreateRequestSetExtraHTTPHeadersMap = {
-  [key: string]: string | undefined;
-};
+export type LinksCreateRequestSetExtraHTTPHeadersMap = { [key: string]: string | undefined };
 export const LinksCreateRequestSetExtraHTTPHeadersMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -2086,11 +2077,14 @@ export const LinksCreateRequestWaitForSelector = CreateAccessibilityTreeRequestW
 export interface CreateLinkRequest {
   /** Account ID. */
   accountId: string;
+  /** Rendering backend. Set to `kitesurf` to use Kitesurf (beta). */
+  browser?: LinksCreateRequestBrowser | (string & {});
   /** Cache TTL default is 5s. Set to 0 to disable. */
   cacheTTL?: number;
+  url?: string;
   /** The maximum duration allowed for the browser action to complete after the page has loaded (such as taking screenshots, extracting content, or generating PDFs). If this time limit is exceeded, the action stops and returns a timeout error. */
   actionTimeout?: number;
-  /** Adds a `&lt;script&gt;` tag into the page with the desired URL or content. */
+  /** Adds a script element into the page with the desired URL or content. */
   addScriptTag?: LinksCreateRequestAddScriptTagList;
   /** Adds a `&lt;link rel="stylesheet"&gt;` tag into the page with the desired URL or a `&lt;style type="text/css"&gt;` tag with the content. */
   addStyleTag?: LinksCreateRequestAddStyleTagList;
@@ -2108,7 +2102,6 @@ export interface CreateLinkRequest {
   excludeExternalLinks?: boolean;
   /** Check [options](https://pptr.dev/api/puppeteer.gotooptions). */
   gotoOptions?: LinksCreateRequestGotoOptions;
-  /** Set the content of the page, eg: `<h1>Hello World!!</h1>`. Either `html` or `url` must be set. */
   html?: string;
   /** Block undesired requests that match the provided regex patterns, eg. '/^.*.(css)'. */
   rejectRequestPattern?: LinksCreateRequestRejectRequestPatternList;
@@ -2116,8 +2109,6 @@ export interface CreateLinkRequest {
   rejectResourceTypes?: LinksCreateRequestRejectResourceTypesList;
   setExtraHTTPHeaders?: LinksCreateRequestSetExtraHTTPHeadersMap;
   setJavaScriptEnabled?: boolean;
-  /** URL to navigate to, eg. `https://example.com`. */
-  url?: string;
   userAgent?: string;
   /** Check [options](https://pptr.dev/api/puppeteer.page.setviewport). */
   viewport?: CreateAccessibilityTreeRequestViewport;
@@ -2130,7 +2121,9 @@ export interface CreateLinkRequest {
 export const CreateLinkRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     accountId: S.String.pipe(T.Label("account_id")),
+    browser: S.optional(LinksCreateRequestBrowser.pipe(T.Query())),
     cacheTTL: S.optional(S.Number.pipe(T.Query())),
+    url: S.optional(S.String),
     actionTimeout: S.optional(S.Number),
     addScriptTag: S.optional(LinksCreateRequestAddScriptTagList),
     addStyleTag: S.optional(LinksCreateRequestAddStyleTagList),
@@ -2147,7 +2140,6 @@ export const CreateLinkRequest = /*@__PURE__*/ S.suspend(() =>
     rejectResourceTypes: S.optional(LinksCreateRequestRejectResourceTypesList),
     setExtraHTTPHeaders: S.optional(LinksCreateRequestSetExtraHTTPHeadersMap),
     setJavaScriptEnabled: S.optional(S.Boolean),
-    url: S.optional(S.String),
     userAgent: S.optional(S.String),
     viewport: S.optional(CreateAccessibilityTreeRequestViewport),
     visibleLinksOnly: S.optional(S.Boolean),
@@ -2155,16 +2147,10 @@ export const CreateLinkRequest = /*@__PURE__*/ S.suspend(() =>
     waitForTimeout: S.optional(S.Number),
   })
     .pipe(
-      T.Http({
-        method: "POST",
-        uri: "/accounts/{account_id}/browser-rendering/links",
-        code: 200,
-      }),
+      T.Http({ method: "POST", uri: "/accounts/{account_id}/browser-rendering/links", code: 200 }),
     )
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "CreateLinkRequest",
-}) as any as S.Schema<CreateLinkRequest>;
+).annotate({ identifier: "CreateLinkRequest" }) as any as S.Schema<CreateLinkRequest>;
 
 export type LinksCreateResultList = Array<string>;
 export const LinksCreateResultList = /*@__PURE__*/ S.Array(
@@ -2174,9 +2160,10 @@ export const LinksCreateResultList = /*@__PURE__*/ S.Array(
 export type CreateLinkResponse = LinksCreateResultList;
 export const CreateLinkResponse = /*@__PURE__*/ S.suspend(() =>
   LinksCreateResultList.pipe(T.EnvelopePayloadRoot(), T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "CreateLinkResponse",
-}) as any as S.Schema<CreateLinkResponse>;
+).annotate({ identifier: "CreateLinkResponse" }) as any as S.Schema<CreateLinkResponse>;
+
+export type MarkdownCreateRequestBrowser = "kitesurf";
+export const MarkdownCreateRequestBrowser = S.String;
 
 export type MarkdownCreateRequestAddScriptTagItem = CreateAccessibilityTreeRequestAddScriptTagItem;
 export const MarkdownCreateRequestAddScriptTagItem = CreateAccessibilityTreeRequestAddScriptTagItem;
@@ -2363,9 +2350,7 @@ export const MarkdownCreateRequestRejectResourceTypesList = /*@__PURE__*/ S.Arra
   MarkdownCreateRequestRejectResourceTypesItem,
 ) as any as S.Schema<MarkdownCreateRequestRejectResourceTypesList>;
 
-export type MarkdownCreateRequestSetExtraHTTPHeadersMap = {
-  [key: string]: string | undefined;
-};
+export type MarkdownCreateRequestSetExtraHTTPHeadersMap = { [key: string]: string | undefined };
 export const MarkdownCreateRequestSetExtraHTTPHeadersMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -2380,11 +2365,14 @@ export const MarkdownCreateRequestWaitForSelector = CreateAccessibilityTreeReque
 export interface CreateMarkdownRequest {
   /** Account ID. */
   accountId: string;
+  /** Rendering backend. Set to `kitesurf` to use Kitesurf (beta). */
+  browser?: MarkdownCreateRequestBrowser | (string & {});
   /** Cache TTL default is 5s. Set to 0 to disable. */
   cacheTTL?: number;
+  url?: string;
   /** The maximum duration allowed for the browser action to complete after the page has loaded (such as taking screenshots, extracting content, or generating PDFs). If this time limit is exceeded, the action stops and returns a timeout error. */
   actionTimeout?: number;
-  /** Adds a `&lt;script&gt;` tag into the page with the desired URL or content. */
+  /** Adds a script element into the page with the desired URL or content. */
   addScriptTag?: MarkdownCreateRequestAddScriptTagList;
   /** Adds a `&lt;link rel="stylesheet"&gt;` tag into the page with the desired URL or a `&lt;style type="text/css"&gt;` tag with the content. */
   addStyleTag?: MarkdownCreateRequestAddStyleTagList;
@@ -2401,7 +2389,6 @@ export interface CreateMarkdownRequest {
   emulateMediaType?: string;
   /** Check [options](https://pptr.dev/api/puppeteer.gotooptions). */
   gotoOptions?: MarkdownCreateRequestGotoOptions;
-  /** Set the content of the page, eg: `<h1>Hello World!!</h1>`. Either `html` or `url` must be set. */
   html?: string;
   /** Block undesired requests that match the provided regex patterns, eg. '/^.*.(css)'. */
   rejectRequestPattern?: MarkdownCreateRequestRejectRequestPatternList;
@@ -2409,8 +2396,6 @@ export interface CreateMarkdownRequest {
   rejectResourceTypes?: MarkdownCreateRequestRejectResourceTypesList;
   setExtraHTTPHeaders?: MarkdownCreateRequestSetExtraHTTPHeadersMap;
   setJavaScriptEnabled?: boolean;
-  /** URL to navigate to, eg. `https://example.com`. */
-  url?: string;
   userAgent?: string;
   /** Check [options](https://pptr.dev/api/puppeteer.page.setviewport). */
   viewport?: CreateAccessibilityTreeRequestViewport;
@@ -2422,7 +2407,9 @@ export interface CreateMarkdownRequest {
 export const CreateMarkdownRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     accountId: S.String.pipe(T.Label("account_id")),
+    browser: S.optional(MarkdownCreateRequestBrowser.pipe(T.Query())),
     cacheTTL: S.optional(S.Number.pipe(T.Query())),
+    url: S.optional(S.String),
     actionTimeout: S.optional(S.Number),
     addScriptTag: S.optional(MarkdownCreateRequestAddScriptTagList),
     addStyleTag: S.optional(MarkdownCreateRequestAddStyleTagList),
@@ -2438,7 +2425,6 @@ export const CreateMarkdownRequest = /*@__PURE__*/ S.suspend(() =>
     rejectResourceTypes: S.optional(MarkdownCreateRequestRejectResourceTypesList),
     setExtraHTTPHeaders: S.optional(MarkdownCreateRequestSetExtraHTTPHeadersMap),
     setJavaScriptEnabled: S.optional(S.Boolean),
-    url: S.optional(S.String),
     userAgent: S.optional(S.String),
     viewport: S.optional(CreateAccessibilityTreeRequestViewport),
     waitForSelector: S.optional(CreateAccessibilityTreeRequestWaitForSelector),
@@ -2452,16 +2438,15 @@ export const CreateMarkdownRequest = /*@__PURE__*/ S.suspend(() =>
       }),
     )
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "CreateMarkdownRequest",
-}) as any as S.Schema<CreateMarkdownRequest>;
+).annotate({ identifier: "CreateMarkdownRequest" }) as any as S.Schema<CreateMarkdownRequest>;
 
 export type CreateMarkdownResponse = string;
 export const CreateMarkdownResponse = /*@__PURE__*/ S.suspend(() =>
   S.String.pipe(T.EnvelopePayloadRoot(), T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "CreateMarkdownResponse",
-}) as any as S.Schema<CreateMarkdownResponse>;
+).annotate({ identifier: "CreateMarkdownResponse" }) as any as S.Schema<CreateMarkdownResponse>;
+
+export type PdfCreateRequestBrowser = "kitesurf";
+export const PdfCreateRequestBrowser = S.String;
 
 export type PdfCreateRequestAddScriptTagItem = CreateAccessibilityTreeRequestAddScriptTagItem;
 export const PdfCreateRequestAddScriptTagItem = CreateAccessibilityTreeRequestAddScriptTagItem;
@@ -2763,9 +2748,7 @@ export const PdfCreateRequestRejectResourceTypesList = /*@__PURE__*/ S.Array(
   PdfCreateRequestRejectResourceTypesItem,
 ) as any as S.Schema<PdfCreateRequestRejectResourceTypesList>;
 
-export type PdfCreateRequestSetExtraHTTPHeadersMap = {
-  [key: string]: string | undefined;
-};
+export type PdfCreateRequestSetExtraHTTPHeadersMap = { [key: string]: string | undefined };
 export const PdfCreateRequestSetExtraHTTPHeadersMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -2780,11 +2763,14 @@ export const PdfCreateRequestWaitForSelector = CreateAccessibilityTreeRequestWai
 export interface CreatePdfRequest {
   /** Account ID. */
   accountId: string;
+  /** Rendering backend. Set to `kitesurf` to use Kitesurf (beta). */
+  browser?: PdfCreateRequestBrowser | (string & {});
   /** Cache TTL default is 5s. Set to 0 to disable. */
   cacheTTL?: number;
+  url?: string;
   /** The maximum duration allowed for the browser action to complete after the page has loaded (such as taking screenshots, extracting content, or generating PDFs). If this time limit is exceeded, the action stops and returns a timeout error. */
   actionTimeout?: number;
-  /** Adds a `&lt;script&gt;` tag into the page with the desired URL or content. */
+  /** Adds a script element into the page with the desired URL or content. */
   addScriptTag?: PdfCreateRequestAddScriptTagList;
   /** Adds a `&lt;link rel="stylesheet"&gt;` tag into the page with the desired URL or a `&lt;style type="text/css"&gt;` tag with the content. */
   addStyleTag?: PdfCreateRequestAddStyleTagList;
@@ -2801,7 +2787,6 @@ export interface CreatePdfRequest {
   emulateMediaType?: string;
   /** Check [options](https://pptr.dev/api/puppeteer.gotooptions). */
   gotoOptions?: PdfCreateRequestGotoOptions;
-  /** Set the content of the page, eg: `<h1>Hello World!!</h1>`. Either `html` or `url` must be set. */
   html?: string;
   /** Check [options](https://pptr.dev/api/puppeteer.pdfoptions). */
   pdfOptions?: PdfCreateRequestPdfOptions;
@@ -2811,8 +2796,6 @@ export interface CreatePdfRequest {
   rejectResourceTypes?: PdfCreateRequestRejectResourceTypesList;
   setExtraHTTPHeaders?: PdfCreateRequestSetExtraHTTPHeadersMap;
   setJavaScriptEnabled?: boolean;
-  /** URL to navigate to, eg. `https://example.com`. */
-  url?: string;
   userAgent?: string;
   /** Check [options](https://pptr.dev/api/puppeteer.page.setviewport). */
   viewport?: CreateAccessibilityTreeRequestViewport;
@@ -2824,7 +2807,9 @@ export interface CreatePdfRequest {
 export const CreatePdfRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     accountId: S.String.pipe(T.Label("account_id")),
+    browser: S.optional(PdfCreateRequestBrowser.pipe(T.Query())),
     cacheTTL: S.optional(S.Number.pipe(T.Query())),
+    url: S.optional(S.String),
     actionTimeout: S.optional(S.Number),
     addScriptTag: S.optional(PdfCreateRequestAddScriptTagList),
     addStyleTag: S.optional(PdfCreateRequestAddStyleTagList),
@@ -2841,46 +2826,24 @@ export const CreatePdfRequest = /*@__PURE__*/ S.suspend(() =>
     rejectResourceTypes: S.optional(PdfCreateRequestRejectResourceTypesList),
     setExtraHTTPHeaders: S.optional(PdfCreateRequestSetExtraHTTPHeadersMap),
     setJavaScriptEnabled: S.optional(S.Boolean),
-    url: S.optional(S.String),
     userAgent: S.optional(S.String),
     viewport: S.optional(CreateAccessibilityTreeRequestViewport),
     waitForSelector: S.optional(CreateAccessibilityTreeRequestWaitForSelector),
     waitForTimeout: S.optional(S.Number),
   })
     .pipe(
-      T.Http({
-        method: "POST",
-        uri: "/accounts/{account_id}/browser-rendering/pdf",
-        code: 200,
-      }),
+      T.Http({ method: "POST", uri: "/accounts/{account_id}/browser-rendering/pdf", code: 200 }),
     )
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "CreatePdfRequest",
-}) as any as S.Schema<CreatePdfRequest>;
+).annotate({ identifier: "CreatePdfRequest" }) as any as S.Schema<CreatePdfRequest>;
 
 export interface CreatePdfResponse {}
 export const CreatePdfResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({}).pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "CreatePdfResponse",
-}) as any as S.Schema<CreatePdfResponse>;
+).annotate({ identifier: "CreatePdfResponse" }) as any as S.Schema<CreatePdfResponse>;
 
-export interface ScrapeCreateRequestElementsItem {
-  selector: string;
-}
-export const ScrapeCreateRequestElementsItem = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    selector: S.String,
-  }),
-).annotate({
-  identifier: "ScrapeCreateRequestElementsItem",
-}) as any as S.Schema<ScrapeCreateRequestElementsItem>;
-
-export type ScrapeCreateRequestElementsList = Array<ScrapeCreateRequestElementsItem>;
-export const ScrapeCreateRequestElementsList = /*@__PURE__*/ S.Array(
-  ScrapeCreateRequestElementsItem,
-) as any as S.Schema<ScrapeCreateRequestElementsList>;
+export type ScrapeCreateRequestBrowser = "kitesurf";
+export const ScrapeCreateRequestBrowser = S.String;
 
 export type ScrapeCreateRequestAddScriptTagItem = CreateAccessibilityTreeRequestAddScriptTagItem;
 export const ScrapeCreateRequestAddScriptTagItem = CreateAccessibilityTreeRequestAddScriptTagItem;
@@ -2988,6 +2951,22 @@ export const ScrapeCreateRequestCookiesList = /*@__PURE__*/ S.Array(
   ScrapeCreateRequestCookiesItem,
 ) as any as S.Schema<ScrapeCreateRequestCookiesList>;
 
+export interface ScrapeCreateRequestElementsItem {
+  selector: string;
+}
+export const ScrapeCreateRequestElementsItem = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    selector: S.String,
+  }),
+).annotate({
+  identifier: "ScrapeCreateRequestElementsItem",
+}) as any as S.Schema<ScrapeCreateRequestElementsItem>;
+
+export type ScrapeCreateRequestElementsList = Array<ScrapeCreateRequestElementsItem>;
+export const ScrapeCreateRequestElementsList = /*@__PURE__*/ S.Array(
+  ScrapeCreateRequestElementsItem,
+) as any as S.Schema<ScrapeCreateRequestElementsList>;
+
 export type ScrapeCreateRequestGotoOptionsWaitUntilCase0 =
   | "load"
   | "domcontentloaded"
@@ -3067,9 +3046,7 @@ export const ScrapeCreateRequestRejectResourceTypesList = /*@__PURE__*/ S.Array(
   ScrapeCreateRequestRejectResourceTypesItem,
 ) as any as S.Schema<ScrapeCreateRequestRejectResourceTypesList>;
 
-export type ScrapeCreateRequestSetExtraHTTPHeadersMap = {
-  [key: string]: string | undefined;
-};
+export type ScrapeCreateRequestSetExtraHTTPHeadersMap = { [key: string]: string | undefined };
 export const ScrapeCreateRequestSetExtraHTTPHeadersMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -3084,12 +3061,14 @@ export const ScrapeCreateRequestWaitForSelector = CreateAccessibilityTreeRequest
 export interface CreateScrapeRequest {
   /** Account ID. */
   accountId: string;
+  /** Rendering backend. Set to `kitesurf` to use Kitesurf (beta). */
+  browser?: ScrapeCreateRequestBrowser | (string & {});
   /** Cache TTL default is 5s. Set to 0 to disable. */
   cacheTTL?: number;
-  elements: ScrapeCreateRequestElementsList;
+  url?: string;
   /** The maximum duration allowed for the browser action to complete after the page has loaded (such as taking screenshots, extracting content, or generating PDFs). If this time limit is exceeded, the action stops and returns a timeout error. */
   actionTimeout?: number;
-  /** Adds a `&lt;script&gt;` tag into the page with the desired URL or content. */
+  /** Adds a script element into the page with the desired URL or content. */
   addScriptTag?: ScrapeCreateRequestAddScriptTagList;
   /** Adds a `&lt;link rel="stylesheet"&gt;` tag into the page with the desired URL or a `&lt;style type="text/css"&gt;` tag with the content. */
   addStyleTag?: ScrapeCreateRequestAddStyleTagList;
@@ -3103,10 +3082,10 @@ export interface CreateScrapeRequest {
   bestAttempt?: boolean;
   /** Check [options](https://pptr.dev/api/puppeteer.page.setcookie). */
   cookies?: ScrapeCreateRequestCookiesList;
+  elements?: ScrapeCreateRequestElementsList;
   emulateMediaType?: string;
   /** Check [options](https://pptr.dev/api/puppeteer.gotooptions). */
   gotoOptions?: ScrapeCreateRequestGotoOptions;
-  /** Set the content of the page, eg: `<h1>Hello World!!</h1>`. Either `html` or `url` must be set. */
   html?: string;
   /** Block undesired requests that match the provided regex patterns, eg. '/^.*.(css)'. */
   rejectRequestPattern?: ScrapeCreateRequestRejectRequestPatternList;
@@ -3114,8 +3093,6 @@ export interface CreateScrapeRequest {
   rejectResourceTypes?: ScrapeCreateRequestRejectResourceTypesList;
   setExtraHTTPHeaders?: ScrapeCreateRequestSetExtraHTTPHeadersMap;
   setJavaScriptEnabled?: boolean;
-  /** URL to navigate to, eg. `https://example.com`. */
-  url?: string;
   userAgent?: string;
   /** Check [options](https://pptr.dev/api/puppeteer.page.setviewport). */
   viewport?: CreateAccessibilityTreeRequestViewport;
@@ -3127,8 +3104,9 @@ export interface CreateScrapeRequest {
 export const CreateScrapeRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     accountId: S.String.pipe(T.Label("account_id")),
+    browser: S.optional(ScrapeCreateRequestBrowser.pipe(T.Query())),
     cacheTTL: S.optional(S.Number.pipe(T.Query())),
-    elements: ScrapeCreateRequestElementsList,
+    url: S.optional(S.String),
     actionTimeout: S.optional(S.Number),
     addScriptTag: S.optional(ScrapeCreateRequestAddScriptTagList),
     addStyleTag: S.optional(ScrapeCreateRequestAddStyleTagList),
@@ -3137,6 +3115,7 @@ export const CreateScrapeRequest = /*@__PURE__*/ S.suspend(() =>
     authenticate: S.optional(CreateAccessibilityTreeRequestAuthenticate),
     bestAttempt: S.optional(S.Boolean),
     cookies: S.optional(ScrapeCreateRequestCookiesList),
+    elements: S.optional(ScrapeCreateRequestElementsList),
     emulateMediaType: S.optional(S.String),
     gotoOptions: S.optional(ScrapeCreateRequestGotoOptions),
     html: S.optional(S.String),
@@ -3144,23 +3123,16 @@ export const CreateScrapeRequest = /*@__PURE__*/ S.suspend(() =>
     rejectResourceTypes: S.optional(ScrapeCreateRequestRejectResourceTypesList),
     setExtraHTTPHeaders: S.optional(ScrapeCreateRequestSetExtraHTTPHeadersMap),
     setJavaScriptEnabled: S.optional(S.Boolean),
-    url: S.optional(S.String),
     userAgent: S.optional(S.String),
     viewport: S.optional(CreateAccessibilityTreeRequestViewport),
     waitForSelector: S.optional(CreateAccessibilityTreeRequestWaitForSelector),
     waitForTimeout: S.optional(S.Number),
   })
     .pipe(
-      T.Http({
-        method: "POST",
-        uri: "/accounts/{account_id}/browser-rendering/scrape",
-        code: 200,
-      }),
+      T.Http({ method: "POST", uri: "/accounts/{account_id}/browser-rendering/scrape", code: 200 }),
     )
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "CreateScrapeRequest",
-}) as any as S.Schema<CreateScrapeRequest>;
+).annotate({ identifier: "CreateScrapeRequest" }) as any as S.Schema<CreateScrapeRequest>;
 
 export interface ScrapeCreateResultItemResultsAttributesItem {
   /** Attribute name. */
@@ -3222,9 +3194,7 @@ export const ScrapeCreateResultItem = /*@__PURE__*/ S.suspend(() =>
     results: ScrapeCreateResultItemResults,
     selector: S.String,
   }),
-).annotate({
-  identifier: "ScrapeCreateResultItem",
-}) as any as S.Schema<ScrapeCreateResultItem>;
+).annotate({ identifier: "ScrapeCreateResultItem" }) as any as S.Schema<ScrapeCreateResultItem>;
 
 export type ScrapeCreateResultList = Array<ScrapeCreateResultItem>;
 export const ScrapeCreateResultList = /*@__PURE__*/ S.Array(
@@ -3234,9 +3204,10 @@ export const ScrapeCreateResultList = /*@__PURE__*/ S.Array(
 export type CreateScrapeResponse = ScrapeCreateResultList;
 export const CreateScrapeResponse = /*@__PURE__*/ S.suspend(() =>
   ScrapeCreateResultList.pipe(T.EnvelopePayloadRoot(), T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "CreateScrapeResponse",
-}) as any as S.Schema<CreateScrapeResponse>;
+).annotate({ identifier: "CreateScrapeResponse" }) as any as S.Schema<CreateScrapeResponse>;
+
+export type ScreenshotCreateRequestBrowser = "kitesurf";
+export const ScreenshotCreateRequestBrowser = S.String;
 
 export type ScreenshotCreateRequestAddScriptTagItem =
   CreateAccessibilityTreeRequestAddScriptTagItem;
@@ -3477,9 +3448,7 @@ export const ScreenshotCreateRequestScreenshotOptions = /*@__PURE__*/ S.suspend(
   identifier: "ScreenshotCreateRequestScreenshotOptions",
 }) as any as S.Schema<ScreenshotCreateRequestScreenshotOptions>;
 
-export type ScreenshotCreateRequestSetExtraHTTPHeadersMap = {
-  [key: string]: string | undefined;
-};
+export type ScreenshotCreateRequestSetExtraHTTPHeadersMap = { [key: string]: string | undefined };
 export const ScreenshotCreateRequestSetExtraHTTPHeadersMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -3494,11 +3463,14 @@ export const ScreenshotCreateRequestWaitForSelector = CreateAccessibilityTreeReq
 export interface CreateScreenshotRequest {
   /** Account ID. */
   accountId: string;
+  /** Rendering backend. Set to `kitesurf` to use Kitesurf (beta). */
+  browser?: ScreenshotCreateRequestBrowser | (string & {});
   /** Cache TTL default is 5s. Set to 0 to disable. */
   cacheTTL?: number;
+  url?: string;
   /** The maximum duration allowed for the browser action to complete after the page has loaded (such as taking screenshots, extracting content, or generating PDFs). If this time limit is exceeded, the action stops and returns a timeout error. */
   actionTimeout?: number;
-  /** Adds a `&lt;script&gt;` tag into the page with the desired URL or content. */
+  /** Adds a script element into the page with the desired URL or content. */
   addScriptTag?: ScreenshotCreateRequestAddScriptTagList;
   /** Adds a `&lt;link rel="stylesheet"&gt;` tag into the page with the desired URL or a `&lt;style type="text/css"&gt;` tag with the content. */
   addStyleTag?: ScreenshotCreateRequestAddStyleTagList;
@@ -3515,7 +3487,6 @@ export interface CreateScreenshotRequest {
   emulateMediaType?: string;
   /** Check [options](https://pptr.dev/api/puppeteer.gotooptions). */
   gotoOptions?: ScreenshotCreateRequestGotoOptions;
-  /** Set the content of the page, eg: `<h1>Hello World!!</h1>`. Either `html` or `url` must be set. */
   html?: string;
   /** Block undesired requests that match the provided regex patterns, eg. '/^.*.(css)'. */
   rejectRequestPattern?: ScreenshotCreateRequestRejectRequestPatternList;
@@ -3527,8 +3498,6 @@ export interface CreateScreenshotRequest {
   selector?: string;
   setExtraHTTPHeaders?: ScreenshotCreateRequestSetExtraHTTPHeadersMap;
   setJavaScriptEnabled?: boolean;
-  /** URL to navigate to, eg. `https://example.com`. */
-  url?: string;
   userAgent?: string;
   /** Check [options](https://pptr.dev/api/puppeteer.page.setviewport). */
   viewport?: CreateAccessibilityTreeRequestViewport;
@@ -3540,7 +3509,9 @@ export interface CreateScreenshotRequest {
 export const CreateScreenshotRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     accountId: S.String.pipe(T.Label("account_id")),
+    browser: S.optional(ScreenshotCreateRequestBrowser.pipe(T.Query())),
     cacheTTL: S.optional(S.Number.pipe(T.Query())),
+    url: S.optional(S.String),
     actionTimeout: S.optional(S.Number),
     addScriptTag: S.optional(ScreenshotCreateRequestAddScriptTagList),
     addStyleTag: S.optional(ScreenshotCreateRequestAddStyleTagList),
@@ -3559,7 +3530,6 @@ export const CreateScreenshotRequest = /*@__PURE__*/ S.suspend(() =>
     selector: S.optional(S.String),
     setExtraHTTPHeaders: S.optional(ScreenshotCreateRequestSetExtraHTTPHeadersMap),
     setJavaScriptEnabled: S.optional(S.Boolean),
-    url: S.optional(S.String),
     userAgent: S.optional(S.String),
     viewport: S.optional(CreateAccessibilityTreeRequestViewport),
     waitForSelector: S.optional(CreateAccessibilityTreeRequestWaitForSelector),
@@ -3573,16 +3543,15 @@ export const CreateScreenshotRequest = /*@__PURE__*/ S.suspend(() =>
       }),
     )
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "CreateScreenshotRequest",
-}) as any as S.Schema<CreateScreenshotRequest>;
+).annotate({ identifier: "CreateScreenshotRequest" }) as any as S.Schema<CreateScreenshotRequest>;
 
 export interface CreateScreenshotResponse {}
 export const CreateScreenshotResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({}).pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "CreateScreenshotResponse",
-}) as any as S.Schema<CreateScreenshotResponse>;
+).annotate({ identifier: "CreateScreenshotResponse" }) as any as S.Schema<CreateScreenshotResponse>;
+
+export type SnapshotCreateRequestBrowser = "kitesurf";
+export const SnapshotCreateRequestBrowser = S.String;
 
 export type SnapshotCreateRequestAddScriptTagItem = CreateAccessibilityTreeRequestAddScriptTagItem;
 export const SnapshotCreateRequestAddScriptTagItem = CreateAccessibilityTreeRequestAddScriptTagItem;
@@ -3816,9 +3785,7 @@ export const SnapshotCreateRequestScreenshotOptions = /*@__PURE__*/ S.suspend(()
   identifier: "SnapshotCreateRequestScreenshotOptions",
 }) as any as S.Schema<SnapshotCreateRequestScreenshotOptions>;
 
-export type SnapshotCreateRequestSetExtraHTTPHeadersMap = {
-  [key: string]: string | undefined;
-};
+export type SnapshotCreateRequestSetExtraHTTPHeadersMap = { [key: string]: string | undefined };
 export const SnapshotCreateRequestSetExtraHTTPHeadersMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -3833,11 +3800,14 @@ export const SnapshotCreateRequestWaitForSelector = CreateAccessibilityTreeReque
 export interface CreateSnapshotRequest {
   /** Account ID. */
   accountId: string;
+  /** Rendering backend. Set to `kitesurf` to use Kitesurf (beta). */
+  browser?: SnapshotCreateRequestBrowser | (string & {});
   /** Cache TTL default is 5s. Set to 0 to disable. */
   cacheTTL?: number;
+  url?: string;
   /** The maximum duration allowed for the browser action to complete after the page has loaded (such as taking screenshots, extracting content, or generating PDFs). If this time limit is exceeded, the action stops and returns a timeout error. */
   actionTimeout?: number;
-  /** Adds a `&lt;script&gt;` tag into the page with the desired URL or content. */
+  /** Adds a script element into the page with the desired URL or content. */
   addScriptTag?: SnapshotCreateRequestAddScriptTagList;
   /** Adds a `&lt;link rel="stylesheet"&gt;` tag into the page with the desired URL or a `&lt;style type="text/css"&gt;` tag with the content. */
   addStyleTag?: SnapshotCreateRequestAddStyleTagList;
@@ -3855,7 +3825,6 @@ export interface CreateSnapshotRequest {
   formats?: SnapshotCreateRequestFormatsList;
   /** Check [options](https://pptr.dev/api/puppeteer.gotooptions). */
   gotoOptions?: SnapshotCreateRequestGotoOptions;
-  /** Set the content of the page, eg: `<h1>Hello World!!</h1>`. Either `html` or `url` must be set. */
   html?: string;
   /** Block undesired requests that match the provided regex patterns, eg. '/^.*.(css)'. */
   rejectRequestPattern?: SnapshotCreateRequestRejectRequestPatternList;
@@ -3864,8 +3833,6 @@ export interface CreateSnapshotRequest {
   screenshotOptions?: SnapshotCreateRequestScreenshotOptions;
   setExtraHTTPHeaders?: SnapshotCreateRequestSetExtraHTTPHeadersMap;
   setJavaScriptEnabled?: boolean;
-  /** URL to navigate to, eg. `https://example.com`. */
-  url?: string;
   userAgent?: string;
   /** Check [options](https://pptr.dev/api/puppeteer.page.setviewport). */
   viewport?: CreateAccessibilityTreeRequestViewport;
@@ -3877,7 +3844,9 @@ export interface CreateSnapshotRequest {
 export const CreateSnapshotRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     accountId: S.String.pipe(T.Label("account_id")),
+    browser: S.optional(SnapshotCreateRequestBrowser.pipe(T.Query())),
     cacheTTL: S.optional(S.Number.pipe(T.Query())),
+    url: S.optional(S.String),
     actionTimeout: S.optional(S.Number),
     addScriptTag: S.optional(SnapshotCreateRequestAddScriptTagList),
     addStyleTag: S.optional(SnapshotCreateRequestAddStyleTagList),
@@ -3895,7 +3864,6 @@ export const CreateSnapshotRequest = /*@__PURE__*/ S.suspend(() =>
     screenshotOptions: S.optional(SnapshotCreateRequestScreenshotOptions),
     setExtraHTTPHeaders: S.optional(SnapshotCreateRequestSetExtraHTTPHeadersMap),
     setJavaScriptEnabled: S.optional(S.Boolean),
-    url: S.optional(S.String),
     userAgent: S.optional(S.String),
     viewport: S.optional(CreateAccessibilityTreeRequestViewport),
     waitForSelector: S.optional(CreateAccessibilityTreeRequestWaitForSelector),
@@ -3909,9 +3877,7 @@ export const CreateSnapshotRequest = /*@__PURE__*/ S.suspend(() =>
       }),
     )
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "CreateSnapshotRequest",
-}) as any as S.Schema<CreateSnapshotRequest>;
+).annotate({ identifier: "CreateSnapshotRequest" }) as any as S.Schema<CreateSnapshotRequest>;
 
 export type SnapshotCreateResponseAccessibilityTreeChecked = "mixed";
 export const SnapshotCreateResponseAccessibilityTreeChecked = S.String;
@@ -4022,9 +3988,7 @@ export const CreateSnapshotResponse = /*@__PURE__*/ S.suspend(() =>
     markdown: S.optional(S.NullOr(S.String)),
     screenshot: S.optional(S.NullOr(S.String)),
   }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "CreateSnapshotResponse",
-}) as any as S.Schema<CreateSnapshotResponse>;
+).annotate({ identifier: "CreateSnapshotResponse" }) as any as S.Schema<CreateSnapshotResponse>;
 
 export interface DeleteCrawlRequest {
   /** Account ID. */
@@ -4045,9 +4009,7 @@ export const DeleteCrawlRequest = /*@__PURE__*/ S.suspend(() =>
       }),
     )
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "DeleteCrawlRequest",
-}) as any as S.Schema<DeleteCrawlRequest>;
+).annotate({ identifier: "DeleteCrawlRequest" }) as any as S.Schema<DeleteCrawlRequest>;
 
 /** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
 export interface DeleteCrawlResponse {
@@ -4061,9 +4023,7 @@ export const DeleteCrawlResponse = /*@__PURE__*/ S.suspend(() =>
     jobId: S.String.pipe(T.Body("job_id")),
     message: S.String,
   }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "DeleteCrawlResponse",
-}) as any as S.Schema<DeleteCrawlResponse>;
+).annotate({ identifier: "DeleteCrawlResponse" }) as any as S.Schema<DeleteCrawlResponse>;
 
 export interface DeleteDevtoolBrowserRequest {
   /** Account ID. */
@@ -4143,9 +4103,7 @@ export const GetCrawlRequest = /*@__PURE__*/ S.suspend(() =>
       }),
     )
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "GetCrawlRequest",
-}) as any as S.Schema<GetCrawlRequest>;
+).annotate({ identifier: "GetCrawlRequest" }) as any as S.Schema<GetCrawlRequest>;
 
 export type CrawlGetResponseRecordsItemStatus =
   | "queued"
@@ -4156,9 +4114,7 @@ export type CrawlGetResponseRecordsItemStatus =
   | "cancelled";
 export const CrawlGetResponseRecordsItemStatus = S.String;
 
-export type CrawlGetResponseRecordsItemJsonMap = {
-  [key: string]: unknown | undefined;
-};
+export type CrawlGetResponseRecordsItemJsonMap = { [key: string]: unknown | undefined };
 export const CrawlGetResponseRecordsItemJsonMap = /*@__PURE__*/ S.Record(
   S.String,
   S.Unknown,
@@ -4244,9 +4200,7 @@ export const GetCrawlResponse = /*@__PURE__*/ S.suspend(() =>
     total: S.Number,
     cursor: S.optional(S.NullOr(S.Number)),
   }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "GetCrawlResponse",
-}) as any as S.Schema<GetCrawlResponse>;
+).annotate({ identifier: "GetCrawlResponse" }) as any as S.Schema<GetCrawlResponse>;
 
 export interface GetDevtoolBrowserPageRequest {
   /** Account ID. */
@@ -4360,9 +4314,7 @@ export const GetDevtoolSessionRequest = /*@__PURE__*/ S.suspend(() =>
       }),
     )
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "GetDevtoolSessionRequest",
-}) as any as S.Schema<GetDevtoolSessionRequest>;
+).annotate({ identifier: "GetDevtoolSessionRequest" }) as any as S.Schema<GetDevtoolSessionRequest>;
 
 /** Raw response payload (operation does not use the standard v4 result envelope). */
 export interface GetDevtoolSessionResponse {

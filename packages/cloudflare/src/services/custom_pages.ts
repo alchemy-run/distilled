@@ -44,13 +44,7 @@ export const CreateAssetForAccountRequest = /*@__PURE__*/ S.suspend(() =>
     name: S.String,
     url: S.String,
   })
-    .pipe(
-      T.Http({
-        method: "POST",
-        uri: "/accounts/{account_id}/custom_pages/assets",
-        code: 200,
-      }),
-    )
+    .pipe(T.Http({ method: "POST", uri: "/accounts/{account_id}/custom_pages/assets", code: 200 }))
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
 ).annotate({
   identifier: "CreateAssetForAccountRequest",
@@ -76,9 +70,7 @@ export const CreateAssetResponse = /*@__PURE__*/ S.suspend(() =>
     sizeBytes: S.optional(S.NullOr(S.Number).pipe(T.Body("size_bytes"))),
     url: S.optional(S.NullOr(S.String)),
   }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "CreateAssetResponse",
-}) as any as S.Schema<CreateAssetResponse>;
+).annotate({ identifier: "CreateAssetResponse" }) as any as S.Schema<CreateAssetResponse>;
 
 export interface CreateAssetForZoneRequest {
   /** The Zone ID to use for this endpoint. Mutually exclusive with the Account ID. */
@@ -97,13 +89,7 @@ export const CreateAssetForZoneRequest = /*@__PURE__*/ S.suspend(() =>
     name: S.String,
     url: S.String,
   })
-    .pipe(
-      T.Http({
-        method: "POST",
-        uri: "/zones/{zone_id}/custom_pages/assets",
-        code: 200,
-      }),
-    )
+    .pipe(T.Http({ method: "POST", uri: "/zones/{zone_id}/custom_pages/assets", code: 200 }))
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
 ).annotate({
   identifier: "CreateAssetForZoneRequest",
@@ -212,9 +198,7 @@ export const GetAssetResponse = /*@__PURE__*/ S.suspend(() =>
     sizeBytes: S.optional(S.NullOr(S.Number).pipe(T.Body("size_bytes"))),
     url: S.optional(S.NullOr(S.String)),
   }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "GetAssetResponse",
-}) as any as S.Schema<GetAssetResponse>;
+).annotate({ identifier: "GetAssetResponse" }) as any as S.Schema<GetAssetResponse>;
 
 export interface GetAssetForZoneRequest {
   /** The Zone ID to use for this endpoint. Mutually exclusive with the Account ID. */
@@ -235,9 +219,7 @@ export const GetAssetForZoneRequest = /*@__PURE__*/ S.suspend(() =>
       }),
     )
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "GetAssetForZoneRequest",
-}) as any as S.Schema<GetAssetForZoneRequest>;
+).annotate({ identifier: "GetAssetForZoneRequest" }) as any as S.Schema<GetAssetForZoneRequest>;
 
 export type GetRequestIdentifier =
   | "1000_errors"
@@ -255,7 +237,7 @@ export const GetRequestIdentifier = S.String;
 export interface GetCustomPageForAccountRequest {
   /** The Account ID to use for this endpoint. Mutually exclusive with the Zone ID. */
   accountId: string;
-  /** Error Page Types */
+  /** Custom page type. */
   identifier: GetRequestIdentifier | (string & {});
 }
 export const GetCustomPageForAccountRequest = /*@__PURE__*/ S.suspend(() =>
@@ -264,11 +246,7 @@ export const GetCustomPageForAccountRequest = /*@__PURE__*/ S.suspend(() =>
     identifier: GetRequestIdentifier.pipe(T.Label()),
   })
     .pipe(
-      T.Http({
-        method: "GET",
-        uri: "/accounts/{account_id}/custom_pages/{identifier}",
-        code: 200,
-      }),
+      T.Http({ method: "GET", uri: "/accounts/{account_id}/custom_pages/{identifier}", code: 200 }),
     )
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
 ).annotate({
@@ -309,14 +287,12 @@ export const GetCustomPageResponse = /*@__PURE__*/ S.suspend(() =>
     state: S.optional(S.NullOr(GetResponseState)),
     url: S.optional(S.NullOr(S.String)),
   }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "GetCustomPageResponse",
-}) as any as S.Schema<GetCustomPageResponse>;
+).annotate({ identifier: "GetCustomPageResponse" }) as any as S.Schema<GetCustomPageResponse>;
 
 export interface GetCustomPageForZoneRequest {
   /** The Zone ID to use for this endpoint. Mutually exclusive with the Account ID. */
   zoneId: string;
-  /** Error Page Types */
+  /** Custom page type. */
   identifier: GetRequestIdentifier | (string & {});
 }
 export const GetCustomPageForZoneRequest = /*@__PURE__*/ S.suspend(() =>
@@ -324,13 +300,7 @@ export const GetCustomPageForZoneRequest = /*@__PURE__*/ S.suspend(() =>
     zoneId: S.String.pipe(T.Label("zone_id")),
     identifier: GetRequestIdentifier.pipe(T.Label()),
   })
-    .pipe(
-      T.Http({
-        method: "GET",
-        uri: "/zones/{zone_id}/custom_pages/{identifier}",
-        code: 200,
-      }),
-    )
+    .pipe(T.Http({ method: "GET", uri: "/zones/{zone_id}/custom_pages/{identifier}", code: 200 }))
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
 ).annotate({
   identifier: "GetCustomPageForZoneRequest",
@@ -339,7 +309,9 @@ export const GetCustomPageForZoneRequest = /*@__PURE__*/ S.suspend(() =>
 export interface ListAssetsForAccountRequest {
   /** The Account ID to use for this endpoint. Mutually exclusive with the Zone ID. */
   accountId: string;
+  /** Page number of paginated results. */
   page?: number;
+  /** Number of custom assets per page. */
   perPage?: number;
 }
 export const ListAssetsForAccountRequest = /*@__PURE__*/ S.suspend(() =>
@@ -348,13 +320,7 @@ export const ListAssetsForAccountRequest = /*@__PURE__*/ S.suspend(() =>
     page: S.optional(S.Number.pipe(T.Query())),
     perPage: S.optional(S.Number.pipe(T.Query("per_page"))),
   })
-    .pipe(
-      T.Http({
-        method: "GET",
-        uri: "/accounts/{account_id}/custom_pages/assets",
-        code: 200,
-      }),
-    )
+    .pipe(T.Http({ method: "GET", uri: "/accounts/{account_id}/custom_pages/assets", code: 200 }))
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
 ).annotate({
   identifier: "ListAssetsForAccountRequest",
@@ -379,9 +345,7 @@ export const AssetsListResultItem = /*@__PURE__*/ S.suspend(() =>
     sizeBytes: S.optional(S.NullOr(S.Number).pipe(T.Body("size_bytes"))),
     url: S.optional(S.NullOr(S.String)),
   }),
-).annotate({
-  identifier: "AssetsListResultItem",
-}) as any as S.Schema<AssetsListResultItem>;
+).annotate({ identifier: "AssetsListResultItem" }) as any as S.Schema<AssetsListResultItem>;
 
 export type AssetsListResultList = Array<AssetsListResultItem>;
 export const AssetsListResultList = /*@__PURE__*/ S.Array(
@@ -399,14 +363,14 @@ export const ListAssetsResponse = /*@__PURE__*/ S.suspend(() =>
     result: AssetsListResultList.pipe(T.EnvelopePayload()),
     resultInfo: S.optional(S.NullOr(ResultInfo).pipe(T.ResultInfo())),
   }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "ListAssetsResponse",
-}) as any as S.Schema<ListAssetsResponse>;
+).annotate({ identifier: "ListAssetsResponse" }) as any as S.Schema<ListAssetsResponse>;
 
 export interface ListAssetsForZoneRequest {
   /** The Zone ID to use for this endpoint. Mutually exclusive with the Account ID. */
   zoneId: string;
+  /** Page number of paginated results. */
   page?: number;
+  /** Number of custom assets per page. */
   perPage?: number;
 }
 export const ListAssetsForZoneRequest = /*@__PURE__*/ S.suspend(() =>
@@ -415,17 +379,9 @@ export const ListAssetsForZoneRequest = /*@__PURE__*/ S.suspend(() =>
     page: S.optional(S.Number.pipe(T.Query())),
     perPage: S.optional(S.Number.pipe(T.Query("per_page"))),
   })
-    .pipe(
-      T.Http({
-        method: "GET",
-        uri: "/zones/{zone_id}/custom_pages/assets",
-        code: 200,
-      }),
-    )
+    .pipe(T.Http({ method: "GET", uri: "/zones/{zone_id}/custom_pages/assets", code: 200 }))
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "ListAssetsForZoneRequest",
-}) as any as S.Schema<ListAssetsForZoneRequest>;
+).annotate({ identifier: "ListAssetsForZoneRequest" }) as any as S.Schema<ListAssetsForZoneRequest>;
 
 export interface ListCustomPagesForAccountRequest {
   /** The Account ID to use for this endpoint. Mutually exclusive with the Zone ID. */
@@ -435,13 +391,7 @@ export const ListCustomPagesForAccountRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     accountId: S.String.pipe(T.Label("account_id")),
   })
-    .pipe(
-      T.Http({
-        method: "GET",
-        uri: "/accounts/{account_id}/custom_pages",
-        code: 200,
-      }),
-    )
+    .pipe(T.Http({ method: "GET", uri: "/accounts/{account_id}/custom_pages", code: 200 }))
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
 ).annotate({
   identifier: "ListCustomPagesForAccountRequest",
@@ -498,9 +448,7 @@ export const ListCustomPagesResponse = /*@__PURE__*/ S.suspend(() =>
     result: ListResultList.pipe(T.EnvelopePayload()),
     resultInfo: S.optional(S.NullOr(ResultInfo).pipe(T.ResultInfo())),
   }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "ListCustomPagesResponse",
-}) as any as S.Schema<ListCustomPagesResponse>;
+).annotate({ identifier: "ListCustomPagesResponse" }) as any as S.Schema<ListCustomPagesResponse>;
 
 export interface ListCustomPagesForZoneRequest {
   /** The Zone ID to use for this endpoint. Mutually exclusive with the Account ID. */
@@ -510,13 +458,7 @@ export const ListCustomPagesForZoneRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     zoneId: S.String.pipe(T.Label("zone_id")),
   })
-    .pipe(
-      T.Http({
-        method: "GET",
-        uri: "/zones/{zone_id}/custom_pages",
-        code: 200,
-      }),
-    )
+    .pipe(T.Http({ method: "GET", uri: "/zones/{zone_id}/custom_pages", code: 200 }))
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
 ).annotate({
   identifier: "ListCustomPagesForZoneRequest",
@@ -541,7 +483,7 @@ export const UpdateRequestState = S.String;
 export interface PutCustomPageForAccountRequest {
   /** The Account ID to use for this endpoint. Mutually exclusive with the Zone ID. */
   accountId: string;
-  /** Error Page Types */
+  /** Custom page type. */
   identifier: UpdateRequestIdentifier | (string & {});
   /** The custom page state. */
   state: UpdateRequestState | (string & {});
@@ -556,11 +498,7 @@ export const PutCustomPageForAccountRequest = /*@__PURE__*/ S.suspend(() =>
     url: S.String,
   })
     .pipe(
-      T.Http({
-        method: "PUT",
-        uri: "/accounts/{account_id}/custom_pages/{identifier}",
-        code: 200,
-      }),
+      T.Http({ method: "PUT", uri: "/accounts/{account_id}/custom_pages/{identifier}", code: 200 }),
     )
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
 ).annotate({
@@ -601,14 +539,12 @@ export const PutCustomPageResponse = /*@__PURE__*/ S.suspend(() =>
     state: S.optional(S.NullOr(UpdateResponseState)),
     url: S.optional(S.NullOr(S.String)),
   }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "PutCustomPageResponse",
-}) as any as S.Schema<PutCustomPageResponse>;
+).annotate({ identifier: "PutCustomPageResponse" }) as any as S.Schema<PutCustomPageResponse>;
 
 export interface PutCustomPageForZoneRequest {
   /** The Zone ID to use for this endpoint. Mutually exclusive with the Account ID. */
   zoneId: string;
-  /** Error Page Types */
+  /** Custom page type. */
   identifier: UpdateRequestIdentifier | (string & {});
   /** The custom page state. */
   state: UpdateRequestState | (string & {});
@@ -622,13 +558,7 @@ export const PutCustomPageForZoneRequest = /*@__PURE__*/ S.suspend(() =>
     state: UpdateRequestState,
     url: S.String,
   })
-    .pipe(
-      T.Http({
-        method: "PUT",
-        uri: "/zones/{zone_id}/custom_pages/{identifier}",
-        code: 200,
-      }),
-    )
+    .pipe(T.Http({ method: "PUT", uri: "/zones/{zone_id}/custom_pages/{identifier}", code: 200 }))
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
 ).annotate({
   identifier: "PutCustomPageForZoneRequest",
@@ -683,9 +613,7 @@ export const UpdateAssetResponse = /*@__PURE__*/ S.suspend(() =>
     sizeBytes: S.optional(S.NullOr(S.Number).pipe(T.Body("size_bytes"))),
     url: S.optional(S.NullOr(S.String)),
   }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "UpdateAssetResponse",
-}) as any as S.Schema<UpdateAssetResponse>;
+).annotate({ identifier: "UpdateAssetResponse" }) as any as S.Schema<UpdateAssetResponse>;
 
 export interface UpdateAssetForZoneRequest {
   /** The Zone ID to use for this endpoint. Mutually exclusive with the Account ID. */
@@ -717,7 +645,7 @@ export const UpdateAssetForZoneRequest = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<UpdateAssetForZoneRequest>;
 
 export type CreateAssetForAccountError = CloudflareOpError;
-/** Creates a new custom asset. */
+/** Creates a custom asset for an account or zone. */
 export const createAssetForAccount: API.OperationMethod<
   CreateAssetForAccountRequest,
   CreateAssetResponse,
@@ -732,7 +660,7 @@ export const createAssetForAccount: API.OperationMethod<
 }));
 
 export type CreateAssetForZoneError = CloudflareOpError;
-/** Creates a new custom asset. */
+/** Creates a custom asset for an account or zone. */
 export const createAssetForZone: API.OperationMethod<
   CreateAssetForZoneRequest,
   CreateAssetResponse,
@@ -747,7 +675,7 @@ export const createAssetForZone: API.OperationMethod<
 }));
 
 export type DeleteAssetForAccountError = CloudflareOpError;
-/** Deletes an existing custom asset. */
+/** Deletes a custom asset from an account or zone. */
 export const deleteAssetForAccount: API.OperationMethod<
   DeleteAssetForAccountRequest,
   DeleteAssetForAccountResponse,
@@ -762,7 +690,7 @@ export const deleteAssetForAccount: API.OperationMethod<
 }));
 
 export type DeleteAssetForZoneError = CloudflareOpError;
-/** Deletes an existing custom asset. */
+/** Deletes a custom asset from an account or zone. */
 export const deleteAssetForZone: API.OperationMethod<
   DeleteAssetForZoneRequest,
   DeleteAssetForZoneResponse,
@@ -777,7 +705,7 @@ export const deleteAssetForZone: API.OperationMethod<
 }));
 
 export type GetAssetForAccountError = CloudflareOpError;
-/** Fetches the details of a custom asset. */
+/** Returns a custom asset for an account or zone. */
 export const getAssetForAccount: API.OperationMethod<
   GetAssetForAccountRequest,
   GetAssetResponse,
@@ -792,7 +720,7 @@ export const getAssetForAccount: API.OperationMethod<
 }));
 
 export type GetAssetForZoneError = CloudflareOpError;
-/** Fetches the details of a custom asset. */
+/** Returns a custom asset for an account or zone. */
 export const getAssetForZone: API.OperationMethod<
   GetAssetForZoneRequest,
   GetAssetResponse,
@@ -807,7 +735,7 @@ export const getAssetForZone: API.OperationMethod<
 }));
 
 export type GetCustomPageForAccountError = CloudflareOpError;
-/** Fetches the details of a custom page. */
+/** Returns the configuration for a custom page type. */
 export const getCustomPageForAccount: API.OperationMethod<
   GetCustomPageForAccountRequest,
   GetCustomPageResponse,
@@ -822,7 +750,7 @@ export const getCustomPageForAccount: API.OperationMethod<
 }));
 
 export type GetCustomPageForZoneError = CloudflareOpError;
-/** Fetches the details of a custom page. */
+/** Returns the configuration for a custom page type. */
 export const getCustomPageForZone: API.OperationMethod<
   GetCustomPageForZoneRequest,
   GetCustomPageResponse,
@@ -837,7 +765,7 @@ export const getCustomPageForZone: API.OperationMethod<
 }));
 
 export type ListAssetsForAccountError = CloudflareOpError;
-/** Fetches all the custom assets. */
+/** Lists custom assets for an account or zone. */
 export const listAssetsForAccount: API.PaginatedOperationMethod<
   ListAssetsForAccountRequest,
   ListAssetsResponse,
@@ -863,7 +791,7 @@ export const listAssetsForAccount: API.PaginatedOperationMethod<
 ) as any;
 
 export type ListAssetsForZoneError = CloudflareOpError;
-/** Fetches all the custom assets. */
+/** Lists custom assets for an account or zone. */
 export const listAssetsForZone: API.PaginatedOperationMethod<
   ListAssetsForZoneRequest,
   ListAssetsResponse,
@@ -889,7 +817,7 @@ export const listAssetsForZone: API.PaginatedOperationMethod<
 ) as any;
 
 export type ListCustomPagesForAccountError = CloudflareOpError;
-/** Fetches all the custom pages. */
+/** Lists all custom page configurations for an account or zone. */
 export const listCustomPagesForAccount: API.PaginatedOperationMethod<
   ListCustomPagesForAccountRequest,
   ListCustomPagesResponse,
@@ -909,7 +837,7 @@ export const listCustomPagesForAccount: API.PaginatedOperationMethod<
 ) as any;
 
 export type ListCustomPagesForZoneError = CloudflareOpError;
-/** Fetches all the custom pages. */
+/** Lists all custom page configurations for an account or zone. */
 export const listCustomPagesForZone: API.PaginatedOperationMethod<
   ListCustomPagesForZoneRequest,
   ListCustomPagesResponse,
@@ -929,7 +857,7 @@ export const listCustomPagesForZone: API.PaginatedOperationMethod<
 ) as any;
 
 export type PutCustomPageForAccountError = CloudflareOpError;
-/** Updates the configuration of an existing custom page. */
+/** Updates the configuration for a custom page type. */
 export const putCustomPageForAccount: API.OperationMethod<
   PutCustomPageForAccountRequest,
   PutCustomPageResponse,
@@ -944,7 +872,7 @@ export const putCustomPageForAccount: API.OperationMethod<
 }));
 
 export type PutCustomPageForZoneError = CloudflareOpError;
-/** Updates the configuration of an existing custom page. */
+/** Updates the configuration for a custom page type. */
 export const putCustomPageForZone: API.OperationMethod<
   PutCustomPageForZoneRequest,
   PutCustomPageResponse,
@@ -959,7 +887,7 @@ export const putCustomPageForZone: API.OperationMethod<
 }));
 
 export type UpdateAssetForAccountError = CloudflareOpError;
-/** Updates the configuration of an existing custom asset. */
+/** Updates a custom asset for an account or zone. */
 export const updateAssetForAccount: API.OperationMethod<
   UpdateAssetForAccountRequest,
   UpdateAssetResponse,
@@ -974,7 +902,7 @@ export const updateAssetForAccount: API.OperationMethod<
 }));
 
 export type UpdateAssetForZoneError = CloudflareOpError;
-/** Updates the configuration of an existing custom asset. */
+/** Updates a custom asset for an account or zone. */
 export const updateAssetForZone: API.OperationMethod<
   UpdateAssetForZoneRequest,
   UpdateAssetResponse,

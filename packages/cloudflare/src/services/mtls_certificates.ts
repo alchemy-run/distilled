@@ -70,13 +70,7 @@ export const CreateMtlsCertificateRequest = /*@__PURE__*/ S.suspend(() =>
     name: S.optional(S.String),
     privateKey: S.optional(S.String.pipe(T.Body("private_key"))),
   })
-    .pipe(
-      T.Http({
-        method: "POST",
-        uri: "/accounts/{account_id}/mtls_certificates",
-        code: 200,
-      }),
-    )
+    .pipe(T.Http({ method: "POST", uri: "/accounts/{account_id}/mtls_certificates", code: 200 }))
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
 ).annotate({
   identifier: "CreateMtlsCertificateRequest",
@@ -87,7 +81,7 @@ export const CreateResponseType = S.String;
 
 /** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
 export interface CreateMtlsCertificateResponse {
-  /** Identifier. */
+  /** Certificate identifier tag. */
   id?: string | null;
   /** Indicates whether the certificate is a CA or leaf certificate. */
   ca?: boolean | null;
@@ -131,7 +125,7 @@ export const CreateMtlsCertificateResponse = /*@__PURE__*/ S.suspend(() =>
 export interface DeleteMtlsCertificateRequest {
   /** Identifier. */
   accountId: string;
-  /** Identifier. */
+  /** Certificate identifier tag. */
   mtlsCertificateId: string;
 }
 export const DeleteMtlsCertificateRequest = /*@__PURE__*/ S.suspend(() =>
@@ -156,7 +150,7 @@ export const DeleteResponseType = S.String;
 
 /** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
 export interface DeleteMtlsCertificateResponse {
-  /** Identifier. */
+  /** Certificate identifier tag. */
   id?: string | null;
   /** Indicates whether the certificate is a CA or leaf certificate. */
   ca?: boolean | null;
@@ -197,7 +191,7 @@ export const DeleteMtlsCertificateResponse = /*@__PURE__*/ S.suspend(() =>
 export interface GetAssociationRequest {
   /** Identifier. */
   accountId: string;
-  /** Identifier. */
+  /** Certificate identifier tag. */
   mtlsCertificateId: string;
 }
 export const GetAssociationRequest = /*@__PURE__*/ S.suspend(() =>
@@ -213,9 +207,7 @@ export const GetAssociationRequest = /*@__PURE__*/ S.suspend(() =>
       }),
     )
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "GetAssociationRequest",
-}) as any as S.Schema<GetAssociationRequest>;
+).annotate({ identifier: "GetAssociationRequest" }) as any as S.Schema<GetAssociationRequest>;
 
 export interface AssociationsGetResultItem {
   /** The service using the certificate. */
@@ -248,14 +240,12 @@ export const GetAssociationResponse = /*@__PURE__*/ S.suspend(() =>
     result: AssociationsGetResultList.pipe(T.EnvelopePayload()),
     resultInfo: S.optional(S.NullOr(ResultInfo).pipe(T.ResultInfo())),
   }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "GetAssociationResponse",
-}) as any as S.Schema<GetAssociationResponse>;
+).annotate({ identifier: "GetAssociationResponse" }) as any as S.Schema<GetAssociationResponse>;
 
 export interface GetMtlsCertificateRequest {
   /** Identifier. */
   accountId: string;
-  /** Identifier. */
+  /** Certificate identifier tag. */
   mtlsCertificateId: string;
 }
 export const GetMtlsCertificateRequest = /*@__PURE__*/ S.suspend(() =>
@@ -280,7 +270,7 @@ export const GetResponseType = S.String;
 
 /** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
 export interface GetMtlsCertificateResponse {
-  /** Identifier. */
+  /** Certificate identifier tag. */
   id?: string | null;
   /** Indicates whether the certificate is a CA or leaf certificate. */
   ca?: boolean | null;
@@ -337,13 +327,7 @@ export const ListMtlsCertificatesRequest = /*@__PURE__*/ S.suspend(() =>
     accountId: S.String.pipe(T.Label("account_id")),
     type: S.optional(ListRequestTypeList.pipe(T.Query())),
   })
-    .pipe(
-      T.Http({
-        method: "GET",
-        uri: "/accounts/{account_id}/mtls_certificates",
-        code: 200,
-      }),
-    )
+    .pipe(T.Http({ method: "GET", uri: "/accounts/{account_id}/mtls_certificates", code: 200 }))
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
 ).annotate({
   identifier: "ListMtlsCertificatesRequest",
@@ -353,7 +337,7 @@ export type ListResultItemType = "custom" | "gateway_managed" | "access_managed"
 export const ListResultItemType = S.String;
 
 export interface ListResultItem {
-  /** Identifier. */
+  /** Certificate identifier tag. */
   id?: string | null;
   /** Indicates whether the certificate is a CA or leaf certificate. */
   ca?: boolean | null;

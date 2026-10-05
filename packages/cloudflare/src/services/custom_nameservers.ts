@@ -72,13 +72,7 @@ export const CreateCustomNameserverRequest = /*@__PURE__*/ S.suspend(() =>
     nsName: S.String.pipe(T.Body("ns_name")),
     nsSet: S.optional(S.Number.pipe(T.Body("ns_set"))),
   })
-    .pipe(
-      T.Http({
-        method: "POST",
-        uri: "/accounts/{account_id}/custom_ns",
-        code: 200,
-      }),
-    )
+    .pipe(T.Http({ method: "POST", uri: "/accounts/{account_id}/custom_ns", code: 200 }))
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
 ).annotate({
   identifier: "CreateCustomNameserverRequest",
@@ -186,13 +180,7 @@ export const GetCustomNameserverRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     accountId: S.String.pipe(T.Label("account_id")),
   })
-    .pipe(
-      T.Http({
-        method: "GET",
-        uri: "/accounts/{account_id}/custom_ns",
-        code: 200,
-      }),
-    )
+    .pipe(T.Http({ method: "GET", uri: "/accounts/{account_id}/custom_ns", code: 200 }))
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
 ).annotate({
   identifier: "GetCustomNameserverRequest",

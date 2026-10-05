@@ -41,17 +41,9 @@ export const DeleteMembershipRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     membershipId: S.String.pipe(T.Label("membership_id")),
   })
-    .pipe(
-      T.Http({
-        method: "DELETE",
-        uri: "/memberships/{membership_id}",
-        code: 200,
-      }),
-    )
+    .pipe(T.Http({ method: "DELETE", uri: "/memberships/{membership_id}", code: 200 }))
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "DeleteMembershipRequest",
-}) as any as S.Schema<DeleteMembershipRequest>;
+).annotate({ identifier: "DeleteMembershipRequest" }) as any as S.Schema<DeleteMembershipRequest>;
 
 /** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
 export interface DeleteMembershipResponse {
@@ -62,9 +54,7 @@ export const DeleteMembershipResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     id: S.optional(S.NullOr(S.String)),
   }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "DeleteMembershipResponse",
-}) as any as S.Schema<DeleteMembershipResponse>;
+).annotate({ identifier: "DeleteMembershipResponse" }) as any as S.Schema<DeleteMembershipResponse>;
 
 export interface GetMembershipRequest {
   /** Membership identifier tag. */
@@ -76,9 +66,7 @@ export const GetMembershipRequest = /*@__PURE__*/ S.suspend(() =>
   })
     .pipe(T.Http({ method: "GET", uri: "/memberships/{membership_id}", code: 200 }))
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "GetMembershipRequest",
-}) as any as S.Schema<GetMembershipRequest>;
+).annotate({ identifier: "GetMembershipRequest" }) as any as S.Schema<GetMembershipRequest>;
 
 export type GetResponseAccountType = "standard" | "enterprise";
 export const GetResponseAccountType = S.String;
@@ -135,9 +123,7 @@ export const GetResponseAccount = /*@__PURE__*/ S.suspend(() =>
     managedBy: S.optional(S.NullOr(GetResponseAccountManagedBy).pipe(T.Body("managed_by"))),
     settings: S.optional(S.NullOr(GetResponseAccountSettings)),
   }),
-).annotate({
-  identifier: "GetResponseAccount",
-}) as any as S.Schema<GetResponseAccount>;
+).annotate({ identifier: "GetResponseAccount" }) as any as S.Schema<GetResponseAccount>;
 
 export interface GetResponsePermissionsAnalytics {
   read?: boolean | null;
@@ -216,21 +202,39 @@ export const GetResponsePermissions = /*@__PURE__*/ S.suspend(() =>
     ),
     zones: S.optional(S.NullOr(GetResponsePermissionsAnalytics)),
   }),
-).annotate({
-  identifier: "GetResponsePermissions",
-}) as any as S.Schema<GetResponsePermissions>;
+).annotate({ identifier: "GetResponsePermissions" }) as any as S.Schema<GetResponsePermissions>;
 
 export type GetResponsePoliciesItemAccess = "allow" | "deny";
 export const GetResponsePoliciesItemAccess = S.String;
 
 export interface GetResponsePoliciesItemPermissionGroupsItemMeta {
-  key?: string | null;
-  value?: string | null;
+  /** A category used to group permission groups. */
+  category?: string | null;
+  /** Indicates whether the permission group is deprecated. */
+  deprecated?: string | null;
+  /** Additional information about the permission group. */
+  description?: string | null;
+  /** Indicates whether the permission group can be edited. */
+  editable?: string | null;
+  /** The planned end-of-life date and time, when provided. */
+  eolAt?: string | null;
+  /** A label identifying the permission group. */
+  label?: string | null;
+  /** The scope associated with the permission group. */
+  scopes?: string | null;
+  /** Indicates the permission group's availability or visibility. */
+  visibility?: string | null;
 }
 export const GetResponsePoliciesItemPermissionGroupsItemMeta = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    key: S.optional(S.NullOr(S.String)),
-    value: S.optional(S.NullOr(S.String)),
+    category: S.optional(S.NullOr(S.String)),
+    deprecated: S.optional(S.NullOr(S.String)),
+    description: S.optional(S.NullOr(S.String)),
+    editable: S.optional(S.NullOr(S.String)),
+    eolAt: S.optional(S.NullOr(S.String).pipe(T.Body("eol_at"))),
+    label: S.optional(S.NullOr(S.String)),
+    scopes: S.optional(S.NullOr(S.String)),
+    visibility: S.optional(S.NullOr(S.String)),
   }),
 ).annotate({
   identifier: "GetResponsePoliciesItemPermissionGroupsItemMeta",
@@ -294,10 +298,18 @@ export const GetResponsePoliciesItemResourceGroupsItemScope = /*@__PURE__*/ S.su
   identifier: "GetResponsePoliciesItemResourceGroupsItemScope",
 }) as any as S.Schema<GetResponsePoliciesItemResourceGroupsItemScope>;
 
-export type GetResponsePoliciesItemResourceGroupsItemMeta =
-  GetResponsePoliciesItemPermissionGroupsItemMeta;
-export const GetResponsePoliciesItemResourceGroupsItemMeta =
-  GetResponsePoliciesItemPermissionGroupsItemMeta;
+export interface GetResponsePoliciesItemResourceGroupsItemMeta {
+  key?: string | null;
+  value?: string | null;
+}
+export const GetResponsePoliciesItemResourceGroupsItemMeta = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    key: S.optional(S.NullOr(S.String)),
+    value: S.optional(S.NullOr(S.String)),
+  }),
+).annotate({
+  identifier: "GetResponsePoliciesItemResourceGroupsItemMeta",
+}) as any as S.Schema<GetResponsePoliciesItemResourceGroupsItemMeta>;
 
 export interface GetResponsePoliciesItemResourceGroupsItem {
   /** Identifier of the resource group. */
@@ -305,7 +317,7 @@ export interface GetResponsePoliciesItemResourceGroupsItem {
   /** A scope is a combination of scope objects which provides additional context. */
   scope: GetResponsePoliciesItemResourceGroupsItemScope;
   /** Attributes associated to the resource group. */
-  meta?: GetResponsePoliciesItemPermissionGroupsItemMeta | null;
+  meta?: GetResponsePoliciesItemResourceGroupsItemMeta | null;
   /** Name of the resource group. */
   name?: string | null;
 }
@@ -313,7 +325,7 @@ export const GetResponsePoliciesItemResourceGroupsItem = /*@__PURE__*/ S.suspend
   S.Struct({
     id: S.String,
     scope: GetResponsePoliciesItemResourceGroupsItemScope,
-    meta: S.optional(S.NullOr(GetResponsePoliciesItemPermissionGroupsItemMeta)),
+    meta: S.optional(S.NullOr(GetResponsePoliciesItemResourceGroupsItemMeta)),
     name: S.optional(S.NullOr(S.String)),
   }),
 ).annotate({
@@ -347,9 +359,7 @@ export const GetResponsePoliciesItem = /*@__PURE__*/ S.suspend(() =>
       S.NullOr(GetResponsePoliciesItemResourceGroupsList).pipe(T.Body("resource_groups")),
     ),
   }),
-).annotate({
-  identifier: "GetResponsePoliciesItem",
-}) as any as S.Schema<GetResponsePoliciesItem>;
+).annotate({ identifier: "GetResponsePoliciesItem" }) as any as S.Schema<GetResponsePoliciesItem>;
 
 export type GetResponsePoliciesList = Array<GetResponsePoliciesItem>;
 export const GetResponsePoliciesList = /*@__PURE__*/ S.Array(
@@ -390,9 +400,7 @@ export const GetMembershipResponse = /*@__PURE__*/ S.suspend(() =>
     roles: S.optional(S.NullOr(GetResponseRolesList)),
     status: S.optional(S.NullOr(GetResponseStatus)),
   }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "GetMembershipResponse",
-}) as any as S.Schema<GetMembershipResponse>;
+).annotate({ identifier: "GetMembershipResponse" }) as any as S.Schema<GetMembershipResponse>;
 
 export interface ListRequestAccount {
   /** Account name */
@@ -402,9 +410,7 @@ export const ListRequestAccount = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     name: S.optional(S.String),
   }),
-).annotate({
-  identifier: "ListRequestAccount",
-}) as any as S.Schema<ListRequestAccount>;
+).annotate({ identifier: "ListRequestAccount" }) as any as S.Schema<ListRequestAccount>;
 
 export type ListRequestDirection = "asc" | "desc";
 export const ListRequestDirection = S.String;
@@ -442,9 +448,7 @@ export const ListMembershipsRequest = /*@__PURE__*/ S.suspend(() =>
   })
     .pipe(T.Http({ method: "GET", uri: "/memberships", code: 200 }))
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "ListMembershipsRequest",
-}) as any as S.Schema<ListMembershipsRequest>;
+).annotate({ identifier: "ListMembershipsRequest" }) as any as S.Schema<ListMembershipsRequest>;
 
 export type ListResultItemAccountType = "standard" | "enterprise";
 export const ListResultItemAccountType = S.String;
@@ -477,9 +481,7 @@ export const ListResultItemAccount = /*@__PURE__*/ S.suspend(() =>
     managedBy: S.optional(S.NullOr(GetResponseAccountManagedBy).pipe(T.Body("managed_by"))),
     settings: S.optional(S.NullOr(GetResponseAccountSettings)),
   }),
-).annotate({
-  identifier: "ListResultItemAccount",
-}) as any as S.Schema<ListResultItemAccount>;
+).annotate({ identifier: "ListResultItemAccount" }) as any as S.Schema<ListResultItemAccount>;
 
 export type ListResultItemPermissionsAnalytics = GetResponsePermissionsAnalytics;
 export const ListResultItemPermissionsAnalytics = GetResponsePermissionsAnalytics;
@@ -568,9 +570,7 @@ export const ListMembershipsResponse = /*@__PURE__*/ S.suspend(() =>
     result: ListResultList.pipe(T.EnvelopePayload()),
     resultInfo: S.optional(S.NullOr(ResultInfo).pipe(T.ResultInfo())),
   }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "ListMembershipsResponse",
-}) as any as S.Schema<ListMembershipsResponse>;
+).annotate({ identifier: "ListMembershipsResponse" }) as any as S.Schema<ListMembershipsResponse>;
 
 export type UpdateRequestStatus = "accepted" | "rejected";
 export const UpdateRequestStatus = S.String;
@@ -588,9 +588,7 @@ export const PutMembershipRequest = /*@__PURE__*/ S.suspend(() =>
   })
     .pipe(T.Http({ method: "PUT", uri: "/memberships/{membership_id}", code: 200 }))
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "PutMembershipRequest",
-}) as any as S.Schema<PutMembershipRequest>;
+).annotate({ identifier: "PutMembershipRequest" }) as any as S.Schema<PutMembershipRequest>;
 
 export type UpdateResponseAccountType = "standard" | "enterprise";
 export const UpdateResponseAccountType = S.String;
@@ -623,9 +621,7 @@ export const UpdateResponseAccount = /*@__PURE__*/ S.suspend(() =>
     managedBy: S.optional(S.NullOr(GetResponseAccountManagedBy).pipe(T.Body("managed_by"))),
     settings: S.optional(S.NullOr(GetResponseAccountSettings)),
   }),
-).annotate({
-  identifier: "UpdateResponseAccount",
-}) as any as S.Schema<UpdateResponseAccount>;
+).annotate({ identifier: "UpdateResponseAccount" }) as any as S.Schema<UpdateResponseAccount>;
 
 export type UpdateResponsePermissionsAnalytics = GetResponsePermissionsAnalytics;
 export const UpdateResponsePermissionsAnalytics = GetResponsePermissionsAnalytics;
@@ -712,9 +708,9 @@ export const UpdateResponsePoliciesItemResourceGroupsItemScope = /*@__PURE__*/ S
 }) as any as S.Schema<UpdateResponsePoliciesItemResourceGroupsItemScope>;
 
 export type UpdateResponsePoliciesItemResourceGroupsItemMeta =
-  GetResponsePoliciesItemPermissionGroupsItemMeta;
+  GetResponsePoliciesItemResourceGroupsItemMeta;
 export const UpdateResponsePoliciesItemResourceGroupsItemMeta =
-  GetResponsePoliciesItemPermissionGroupsItemMeta;
+  GetResponsePoliciesItemResourceGroupsItemMeta;
 
 export interface UpdateResponsePoliciesItemResourceGroupsItem {
   /** Identifier of the resource group. */
@@ -722,7 +718,7 @@ export interface UpdateResponsePoliciesItemResourceGroupsItem {
   /** A scope is a combination of scope objects which provides additional context. */
   scope: UpdateResponsePoliciesItemResourceGroupsItemScope;
   /** Attributes associated to the resource group. */
-  meta?: GetResponsePoliciesItemPermissionGroupsItemMeta | null;
+  meta?: GetResponsePoliciesItemResourceGroupsItemMeta | null;
   /** Name of the resource group. */
   name?: string | null;
 }
@@ -730,7 +726,7 @@ export const UpdateResponsePoliciesItemResourceGroupsItem = /*@__PURE__*/ S.susp
   S.Struct({
     id: S.String,
     scope: UpdateResponsePoliciesItemResourceGroupsItemScope,
-    meta: S.optional(S.NullOr(GetResponsePoliciesItemPermissionGroupsItemMeta)),
+    meta: S.optional(S.NullOr(GetResponsePoliciesItemResourceGroupsItemMeta)),
     name: S.optional(S.NullOr(S.String)),
   }),
 ).annotate({
@@ -807,9 +803,7 @@ export const PutMembershipResponse = /*@__PURE__*/ S.suspend(() =>
     roles: S.optional(S.NullOr(UpdateResponseRolesList)),
     status: S.optional(S.NullOr(UpdateResponseStatus)),
   }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "PutMembershipResponse",
-}) as any as S.Schema<PutMembershipResponse>;
+).annotate({ identifier: "PutMembershipResponse" }) as any as S.Schema<PutMembershipResponse>;
 
 export type DeleteMembershipError = CloudflareOpError;
 /** Remove the associated member from an account. */

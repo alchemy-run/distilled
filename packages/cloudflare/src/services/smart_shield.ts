@@ -20,11 +20,7 @@ export const CacheReserveClearStatusRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     zoneId: S.String.pipe(T.Label("zone_id")),
   }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/zones/{zone_id}/smart_shield/cache_reserve_clear",
-      code: 200,
-    }),
+    T.Http({ method: "GET", uri: "/zones/{zone_id}/smart_shield/cache_reserve_clear", code: 200 }),
   ),
 ).annotate({
   identifier: "CacheReserveClearStatusRequest",
@@ -66,11 +62,7 @@ export const ClearCacheReserveClearRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     zoneId: S.String.pipe(T.Label("zone_id")),
   }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/zones/{zone_id}/smart_shield/cache_reserve_clear",
-      code: 200,
-    }),
+    T.Http({ method: "POST", uri: "/zones/{zone_id}/smart_shield/cache_reserve_clear", code: 200 }),
   ),
 ).annotate({
   identifier: "ClearCacheReserveClearRequest",
@@ -250,16 +242,8 @@ export const CreateHealthCheckRequest = /*@__PURE__*/ S.suspend(() =>
     tcpConfig: S.optional(CreateHealthCheckRequestTcpConfig.pipe(T.Body("tcp_config"))),
     timeout: S.optional(S.Number),
     type: S.optional(S.String),
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/zones/{zone_id}/smart_shield/healthchecks",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "CreateHealthCheckRequest",
-}) as any as S.Schema<CreateHealthCheckRequest>;
+  }).pipe(T.Http({ method: "POST", uri: "/zones/{zone_id}/smart_shield/healthchecks", code: 200 })),
+).annotate({ identifier: "CreateHealthCheckRequest" }) as any as S.Schema<CreateHealthCheckRequest>;
 
 export type CreateHealthCheckResponseCheckRegionsItem =
   | "WNAM"
@@ -444,9 +428,7 @@ export const DeleteHealthCheckRequest = /*@__PURE__*/ S.suspend(() =>
       code: 200,
     }),
   ),
-).annotate({
-  identifier: "DeleteHealthCheckRequest",
-}) as any as S.Schema<DeleteHealthCheckRequest>;
+).annotate({ identifier: "DeleteHealthCheckRequest" }) as any as S.Schema<DeleteHealthCheckRequest>;
 
 /** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
 export interface DeleteHealthCheckResponse {
@@ -615,9 +597,7 @@ export const EditHealthCheckRequest = /*@__PURE__*/ S.suspend(() =>
       code: 200,
     }),
   ),
-).annotate({
-  identifier: "EditHealthCheckRequest",
-}) as any as S.Schema<EditHealthCheckRequest>;
+).annotate({ identifier: "EditHealthCheckRequest" }) as any as S.Schema<EditHealthCheckRequest>;
 
 export type EditHealthCheckResponseCheckRegionsItem =
   | "WNAM"
@@ -779,9 +759,7 @@ export const EditHealthCheckResponse = /*@__PURE__*/ S.suspend(() =>
     timeout: S.optional(S.NullOr(S.Number)),
     type: S.optional(S.NullOr(S.String)),
   }),
-).annotate({
-  identifier: "EditHealthCheckResponse",
-}) as any as S.Schema<EditHealthCheckResponse>;
+).annotate({ identifier: "EditHealthCheckResponse" }) as any as S.Schema<EditHealthCheckResponse>;
 
 export interface GetRequest {
   /** Identifier. */
@@ -810,9 +788,7 @@ export const GetResponseCacheReserve = /*@__PURE__*/ S.suspend(() =>
     editable: S.optional(S.NullOr(S.Boolean)),
     value: S.optional(S.NullOr(GetResponseCacheReserveValue)),
   }),
-).annotate({
-  identifier: "GetResponseCacheReserve",
-}) as any as S.Schema<GetResponseCacheReserve>;
+).annotate({ identifier: "GetResponseCacheReserve" }) as any as S.Schema<GetResponseCacheReserve>;
 
 export type GetResponseRegionalTieredCacheValue = "on" | "off";
 export const GetResponseRegionalTieredCacheValue = S.String;
@@ -852,9 +828,7 @@ export const GetResponseSmartRouting = /*@__PURE__*/ S.suspend(() =>
     editable: S.optional(S.NullOr(S.Boolean)),
     value: S.optional(S.NullOr(GetResponseSmartRoutingValue)),
   }),
-).annotate({
-  identifier: "GetResponseSmartRouting",
-}) as any as S.Schema<GetResponseSmartRouting>;
+).annotate({ identifier: "GetResponseSmartRouting" }) as any as S.Schema<GetResponseSmartRouting>;
 
 export type GetResponseSmartTieredCacheValue = "on" | "off";
 export const GetResponseSmartTieredCacheValue = S.String;
@@ -916,9 +890,7 @@ export const GetHealthCheckRequest = /*@__PURE__*/ S.suspend(() =>
       code: 200,
     }),
   ),
-).annotate({
-  identifier: "GetHealthCheckRequest",
-}) as any as S.Schema<GetHealthCheckRequest>;
+).annotate({ identifier: "GetHealthCheckRequest" }) as any as S.Schema<GetHealthCheckRequest>;
 
 export type GetHealthCheckResponseCheckRegionsItem =
   | "WNAM"
@@ -1079,9 +1051,7 @@ export const GetHealthCheckResponse = /*@__PURE__*/ S.suspend(() =>
     timeout: S.optional(S.NullOr(S.Number)),
     type: S.optional(S.NullOr(S.String)),
   }),
-).annotate({
-  identifier: "GetHealthCheckResponse",
-}) as any as S.Schema<GetHealthCheckResponse>;
+).annotate({ identifier: "GetHealthCheckResponse" }) as any as S.Schema<GetHealthCheckResponse>;
 
 export interface ListHealthChecksRequest {
   /** Identifier. */
@@ -1096,16 +1066,8 @@ export const ListHealthChecksRequest = /*@__PURE__*/ S.suspend(() =>
     zoneId: S.String.pipe(T.Label("zone_id")),
     page: S.optional(S.Number.pipe(T.Query())),
     perPage: S.optional(S.Number.pipe(T.Query("per_page"))),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/zones/{zone_id}/smart_shield/healthchecks",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "ListHealthChecksRequest",
-}) as any as S.Schema<ListHealthChecksRequest>;
+  }).pipe(T.Http({ method: "GET", uri: "/zones/{zone_id}/smart_shield/healthchecks", code: 200 })),
+).annotate({ identifier: "ListHealthChecksRequest" }) as any as S.Schema<ListHealthChecksRequest>;
 
 export type ListHealthChecksResultItemCheckRegionsItem =
   | "WNAM"
@@ -1282,9 +1244,7 @@ export const ListHealthChecksResultList = /*@__PURE__*/ S.Array(
 export type ListHealthChecksResponse = ListHealthChecksResultList;
 export const ListHealthChecksResponse = /*@__PURE__*/ S.suspend(() =>
   ListHealthChecksResultList.pipe(T.EnvelopePayloadRoot()),
-).annotate({
-  identifier: "ListHealthChecksResponse",
-}) as any as S.Schema<ListHealthChecksResponse>;
+).annotate({ identifier: "ListHealthChecksResponse" }) as any as S.Schema<ListHealthChecksResponse>;
 
 export type UpdateRequestCacheReserveValue = "on" | "off";
 export const UpdateRequestCacheReserveValue = S.String;
@@ -1363,13 +1323,7 @@ export const UpdateRequest = /*@__PURE__*/ S.suspend(() =>
     ),
     smartRouting: S.optional(UpdateRequestSmartRouting.pipe(T.Body("smart_routing"))),
     smartTieredCache: S.optional(UpdateRequestSmartTieredCache.pipe(T.Body("smart_tiered_cache"))),
-  }).pipe(
-    T.Http({
-      method: "PATCH",
-      uri: "/zones/{zone_id}/smart_shield",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "PATCH", uri: "/zones/{zone_id}/smart_shield", code: 200 })),
 ).annotate({ identifier: "UpdateRequest" }) as any as S.Schema<UpdateRequest>;
 
 export type UpdateResponseSmartTieredCacheValue = "on" | "off";
@@ -1644,9 +1598,7 @@ export const UpdateHealthCheckRequest = /*@__PURE__*/ S.suspend(() =>
       code: 200,
     }),
   ),
-).annotate({
-  identifier: "UpdateHealthCheckRequest",
-}) as any as S.Schema<UpdateHealthCheckRequest>;
+).annotate({ identifier: "UpdateHealthCheckRequest" }) as any as S.Schema<UpdateHealthCheckRequest>;
 
 export type UpdateHealthCheckResponseCheckRegionsItem =
   | "WNAM"

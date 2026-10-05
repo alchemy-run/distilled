@@ -1,0 +1,5297 @@
+{
+  "smithy": "2.0",
+  "metadata": {
+    "suppressions": [
+      {
+        "id": "HttpUriConflict",
+        "namespace": "*"
+      },
+      {
+        "id": "HttpMethodSemantics",
+        "namespace": "*"
+      },
+      {
+        "id": "UnreferencedShape",
+        "namespace": "*"
+      }
+    ],
+    "distilled.finalized": true
+  },
+  "shapes": {
+    "com.cloudflare.managed_defense#GetVulnerabilityDiscoveryReportRequest": {
+      "type": "structure",
+      "members": {
+        "account_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        },
+        "repo_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        },
+        "scan_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.cloudflare.managed_defense#GetVulnerabilityDiscoveryReportResponsePublication": {
+      "type": "structure",
+      "members": {
+        "published_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "revision_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "version": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      }
+    },
+    "com.cloudflare.managed_defense#GetVulnerabilityDiscoveryReportResponseReportFindingsItemConditionsList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      }
+    },
+    "com.cloudflare.managed_defense#GetVulnerabilityDiscoveryReportResponseReportFindingsItemLocation": {
+      "type": "structure",
+      "members": {
+        "file": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "line": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "route": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      }
+    },
+    "com.cloudflare.managed_defense#GetVulnerabilityDiscoveryReportResponseReportFindingsItemReachabilityItem": {
+      "type": "structure",
+      "members": {
+        "consumer": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "reachable": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "via": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      }
+    },
+    "com.cloudflare.managed_defense#GetVulnerabilityDiscoveryReportResponseReportFindingsItemReachabilityList": {
+      "type": "list",
+      "member": {
+        "target": "com.cloudflare.managed_defense#GetVulnerabilityDiscoveryReportResponseReportFindingsItemReachabilityItem"
+      }
+    },
+    "com.cloudflare.managed_defense#GetVulnerabilityDiscoveryReportResponseReportFindingsItemRemediation": {
+      "type": "structure",
+      "members": {
+        "code_changes": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "strategy": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      }
+    },
+    "com.cloudflare.managed_defense#GetVulnerabilityDiscoveryReportResponseReportFindingsItemSeverity": {
+      "type": "enum",
+      "members": {
+        "CRITICAL": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "critical"
+          }
+        },
+        "HIGH": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "high"
+          }
+        },
+        "MEDIUM": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "medium"
+          }
+        },
+        "LOW": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "low"
+          }
+        },
+        "INFO": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "info"
+          }
+        }
+      }
+    },
+    "com.cloudflare.managed_defense#GetVulnerabilityDiscoveryReportResponseReportFindingsItemTelemetryReferencesList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      }
+    },
+    "com.cloudflare.managed_defense#GetVulnerabilityDiscoveryReportResponseReportFindingsItemTelemetryState": {
+      "type": "enum",
+      "members": {
+        "NO_ROUTE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "no_route"
+          }
+        },
+        "NO_TELEMETRY": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "no_telemetry"
+          }
+        },
+        "NO_MATCH": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "no_match"
+          }
+        },
+        "MATCHED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "matched"
+          }
+        }
+      }
+    },
+    "com.cloudflare.managed_defense#GetVulnerabilityDiscoveryReportResponseReportFindingsItemTelemetry": {
+      "type": "structure",
+      "members": {
+        "references": {
+          "target": "com.cloudflare.managed_defense#GetVulnerabilityDiscoveryReportResponseReportFindingsItemTelemetryReferencesList",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "state": {
+          "target": "com.cloudflare.managed_defense#GetVulnerabilityDiscoveryReportResponseReportFindingsItemTelemetryState",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      }
+    },
+    "com.cloudflare.managed_defense#GetVulnerabilityDiscoveryReportResponseReportFindingsItemTraceItem": {
+      "type": "structure",
+      "members": {
+        "line": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "path": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "scope": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "why": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      }
+    },
+    "com.cloudflare.managed_defense#GetVulnerabilityDiscoveryReportResponseReportFindingsItemTraceList": {
+      "type": "list",
+      "member": {
+        "target": "com.cloudflare.managed_defense#GetVulnerabilityDiscoveryReportResponseReportFindingsItemTraceItem"
+      }
+    },
+    "com.cloudflare.managed_defense#GetVulnerabilityDiscoveryReportResponseReportFindingsItemWafRulesBroadAction": {
+      "type": "enum",
+      "members": {
+        "BLOCK": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "block"
+          }
+        },
+        "MANAGED_CHALLENGE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "managed_challenge"
+          }
+        },
+        "JS_CHALLENGE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "js_challenge"
+          }
+        },
+        "LOG": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "log"
+          }
+        }
+      }
+    },
+    "com.cloudflare.managed_defense#GetVulnerabilityDiscoveryReportResponseReportFindingsItemWafRulesBroadConfidence": {
+      "type": "enum",
+      "members": {
+        "LOW": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "low"
+          }
+        },
+        "MEDIUM": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "medium"
+          }
+        },
+        "HIGH": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "high"
+          }
+        }
+      }
+    },
+    "com.cloudflare.managed_defense#GetVulnerabilityDiscoveryReportResponseReportFindingsItemWafRulesBroad": {
+      "type": "structure",
+      "members": {
+        "action": {
+          "target": "com.cloudflare.managed_defense#GetVulnerabilityDiscoveryReportResponseReportFindingsItemWafRulesBroadAction",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "confidence": {
+          "target": "com.cloudflare.managed_defense#GetVulnerabilityDiscoveryReportResponseReportFindingsItemWafRulesBroadConfidence",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "description": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "expression": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "false_positive_risk": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "rationale": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      }
+    },
+    "com.cloudflare.managed_defense#GetVulnerabilityDiscoveryReportResponseReportFindingsItemWafRulesTargetedAction": {
+      "type": "enum",
+      "members": {
+        "BLOCK": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "block"
+          }
+        },
+        "MANAGED_CHALLENGE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "managed_challenge"
+          }
+        },
+        "JS_CHALLENGE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "js_challenge"
+          }
+        },
+        "LOG": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "log"
+          }
+        }
+      }
+    },
+    "com.cloudflare.managed_defense#GetVulnerabilityDiscoveryReportResponseReportFindingsItemWafRulesTargetedConfidence": {
+      "type": "enum",
+      "members": {
+        "LOW": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "low"
+          }
+        },
+        "MEDIUM": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "medium"
+          }
+        },
+        "HIGH": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "high"
+          }
+        }
+      }
+    },
+    "com.cloudflare.managed_defense#GetVulnerabilityDiscoveryReportResponseReportFindingsItemWafRulesTargeted": {
+      "type": "structure",
+      "members": {
+        "action": {
+          "target": "com.cloudflare.managed_defense#GetVulnerabilityDiscoveryReportResponseReportFindingsItemWafRulesTargetedAction",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "confidence": {
+          "target": "com.cloudflare.managed_defense#GetVulnerabilityDiscoveryReportResponseReportFindingsItemWafRulesTargetedConfidence",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "description": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "expression": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "false_positive_risk": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "rationale": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      }
+    },
+    "com.cloudflare.managed_defense#GetVulnerabilityDiscoveryReportResponseReportFindingsItemWafRules": {
+      "type": "structure",
+      "members": {
+        "broad": {
+          "target": "com.cloudflare.managed_defense#GetVulnerabilityDiscoveryReportResponseReportFindingsItemWafRulesBroad",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "targeted": {
+          "target": "com.cloudflare.managed_defense#GetVulnerabilityDiscoveryReportResponseReportFindingsItemWafRulesTargeted",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      }
+    },
+    "com.cloudflare.managed_defense#GetVulnerabilityDiscoveryReportResponseReportFindingsItemAttackerPosition": {
+      "type": "enum",
+      "members": {
+        "EXTERNAL": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "external"
+          }
+        },
+        "AUTHENTICATED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "authenticated"
+          }
+        },
+        "INTERNAL": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "internal"
+          }
+        },
+        "POST_COMPROMISE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "post_compromise"
+          }
+        }
+      }
+    },
+    "com.cloudflare.managed_defense#GetVulnerabilityDiscoveryReportResponseReportFindingsItemExternalLinksItem": {
+      "type": "structure",
+      "members": {
+        "title": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "url": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      }
+    },
+    "com.cloudflare.managed_defense#GetVulnerabilityDiscoveryReportResponseReportFindingsItemExternalLinksList": {
+      "type": "list",
+      "member": {
+        "target": "com.cloudflare.managed_defense#GetVulnerabilityDiscoveryReportResponseReportFindingsItemExternalLinksItem"
+      }
+    },
+    "com.cloudflare.managed_defense#GetVulnerabilityDiscoveryReportResponseReportFindingsItemProofMethod": {
+      "type": "enum",
+      "members": {
+        "STRUCTURAL": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "structural"
+          }
+        },
+        "EXPERIMENTAL": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "experimental"
+          }
+        },
+        "ACQUIRED_SOURCE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "acquired_source"
+          }
+        },
+        "PUBLIC_KNOWLEDGE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "public_knowledge"
+          }
+        },
+        "TEAM_QUESTION": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "team_question"
+          }
+        }
+      }
+    },
+    "com.cloudflare.managed_defense#GetVulnerabilityDiscoveryReportResponseReportFindingsItemProofState": {
+      "type": "enum",
+      "members": {
+        "CLOSED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "closed"
+          }
+        },
+        "PENDING_SOURCE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "pending_source"
+          }
+        },
+        "PENDING_PUBLIC": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "pending_public"
+          }
+        },
+        "PENDING_EXPERIMENT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "pending_experiment"
+          }
+        },
+        "PENDING_TEAM": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "pending_team"
+          }
+        }
+      }
+    },
+    "com.cloudflare.managed_defense#GetVulnerabilityDiscoveryReportResponseReportFindingsItem": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "conditions": {
+          "target": "com.cloudflare.managed_defense#GetVulnerabilityDiscoveryReportResponseReportFindingsItemConditionsList",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "cwe": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "impact": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "location": {
+          "target": "com.cloudflare.managed_defense#GetVulnerabilityDiscoveryReportResponseReportFindingsItemLocation",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "reachability": {
+          "target": "com.cloudflare.managed_defense#GetVulnerabilityDiscoveryReportResponseReportFindingsItemReachabilityList",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "remediation": {
+          "target": "com.cloudflare.managed_defense#GetVulnerabilityDiscoveryReportResponseReportFindingsItemRemediation",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "root_cause": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "severity": {
+          "target": "com.cloudflare.managed_defense#GetVulnerabilityDiscoveryReportResponseReportFindingsItemSeverity",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "severity_basis": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "summary": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "telemetry": {
+          "target": "com.cloudflare.managed_defense#GetVulnerabilityDiscoveryReportResponseReportFindingsItemTelemetry",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "title": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "trace": {
+          "target": "com.cloudflare.managed_defense#GetVulnerabilityDiscoveryReportResponseReportFindingsItemTraceList",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "waf_rules": {
+          "target": "com.cloudflare.managed_defense#GetVulnerabilityDiscoveryReportResponseReportFindingsItemWafRules",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "attacker_position": {
+          "target": "com.cloudflare.managed_defense#GetVulnerabilityDiscoveryReportResponseReportFindingsItemAttackerPosition",
+          "traits": {
+            "smithy.api#documentation": "Least-privileged position required to trigger the finding. Optional on legacy report revisions."
+          }
+        },
+        "external_links": {
+          "target": "com.cloudflare.managed_defense#GetVulnerabilityDiscoveryReportResponseReportFindingsItemExternalLinksList"
+        },
+        "open_question": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "One bounded unresolved proof question. Optional on legacy report revisions."
+          }
+        },
+        "proof_method": {
+          "target": "com.cloudflare.managed_defense#GetVulnerabilityDiscoveryReportResponseReportFindingsItemProofMethod",
+          "traits": {
+            "smithy.api#documentation": "Method used or needed to close the proof. Optional on legacy report revisions."
+          }
+        },
+        "proof_state": {
+          "target": "com.cloudflare.managed_defense#GetVulnerabilityDiscoveryReportResponseReportFindingsItemProofState",
+          "traits": {
+            "smithy.api#documentation": "Current proof lifecycle state. Optional on legacy report revisions."
+          }
+        }
+      }
+    },
+    "com.cloudflare.managed_defense#GetVulnerabilityDiscoveryReportResponseReportFindingsList": {
+      "type": "list",
+      "member": {
+        "target": "com.cloudflare.managed_defense#GetVulnerabilityDiscoveryReportResponseReportFindingsItem"
+      }
+    },
+    "com.cloudflare.managed_defense#GetVulnerabilityDiscoveryReportResponseReportOverallSeverity": {
+      "type": "enum",
+      "members": {
+        "CRITICAL": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "critical"
+          }
+        },
+        "HIGH": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "high"
+          }
+        },
+        "MEDIUM": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "medium"
+          }
+        },
+        "LOW": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "low"
+          }
+        },
+        "INFO": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "info"
+          }
+        }
+      }
+    },
+    "com.cloudflare.managed_defense#GetVulnerabilityDiscoveryReportResponseReportTrafficContextHttpErrorPathsItem": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "hits": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "host": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "path": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "status": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      }
+    },
+    "com.cloudflare.managed_defense#GetVulnerabilityDiscoveryReportResponseReportTrafficContextHttpErrorPathsList": {
+      "type": "list",
+      "member": {
+        "target": "com.cloudflare.managed_defense#GetVulnerabilityDiscoveryReportResponseReportTrafficContextHttpErrorPathsItem"
+      }
+    },
+    "com.cloudflare.managed_defense#GetVulnerabilityDiscoveryReportResponseReportTrafficContextHttpHotPathsItem": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "hits": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "host": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "path": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "top_status": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      }
+    },
+    "com.cloudflare.managed_defense#GetVulnerabilityDiscoveryReportResponseReportTrafficContextHttpHotPathsList": {
+      "type": "list",
+      "member": {
+        "target": "com.cloudflare.managed_defense#GetVulnerabilityDiscoveryReportResponseReportTrafficContextHttpHotPathsItem"
+      }
+    },
+    "com.cloudflare.managed_defense#GetVulnerabilityDiscoveryReportResponseReportTrafficContextHttp": {
+      "type": "structure",
+      "members": {
+        "error_paths": {
+          "target": "com.cloudflare.managed_defense#GetVulnerabilityDiscoveryReportResponseReportTrafficContextHttpErrorPathsList",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "hot_paths": {
+          "target": "com.cloudflare.managed_defense#GetVulnerabilityDiscoveryReportResponseReportTrafficContextHttpHotPathsList",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "request_volume": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      }
+    },
+    "com.cloudflare.managed_defense#GetVulnerabilityDiscoveryReportResponseReportTrafficContextTargetHostsList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      }
+    },
+    "com.cloudflare.managed_defense#GetVulnerabilityDiscoveryReportResponseReportTrafficContextTargetKind": {
+      "type": "enum",
+      "members": {
+        "WORKER": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "worker"
+          }
+        },
+        "ORIGIN": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "origin"
+          }
+        }
+      }
+    },
+    "com.cloudflare.managed_defense#GetVulnerabilityDiscoveryReportResponseReportTrafficContextTargetTelemetryWindow": {
+      "type": "structure",
+      "members": {
+        "end": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "start": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      }
+    },
+    "com.cloudflare.managed_defense#GetVulnerabilityDiscoveryReportResponseReportTrafficContextTarget": {
+      "type": "structure",
+      "members": {
+        "hosts": {
+          "target": "com.cloudflare.managed_defense#GetVulnerabilityDiscoveryReportResponseReportTrafficContextTargetHostsList",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "kind": {
+          "target": "com.cloudflare.managed_defense#GetVulnerabilityDiscoveryReportResponseReportTrafficContextTargetKind",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "telemetry_window": {
+          "target": "com.cloudflare.managed_defense#GetVulnerabilityDiscoveryReportResponseReportTrafficContextTargetTelemetryWindow",
+          "traits": {
+            "smithy.api#documentation": "UTC ISO-8601 interval. Start is inclusive, end is exclusive, and the interval must be positive and at most seven days."
+          }
+        }
+      }
+    },
+    "com.cloudflare.managed_defense#GetVulnerabilityDiscoveryReportResponseReportTrafficContextWafRulesItemPathsItem": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "hit_volume": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "host": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "path": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      }
+    },
+    "com.cloudflare.managed_defense#GetVulnerabilityDiscoveryReportResponseReportTrafficContextWafRulesItemPathsList": {
+      "type": "list",
+      "member": {
+        "target": "com.cloudflare.managed_defense#GetVulnerabilityDiscoveryReportResponseReportTrafficContextWafRulesItemPathsItem"
+      }
+    },
+    "com.cloudflare.managed_defense#GetVulnerabilityDiscoveryReportResponseReportTrafficContextWafRulesItem": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "hit_volume": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "paths": {
+          "target": "com.cloudflare.managed_defense#GetVulnerabilityDiscoveryReportResponseReportTrafficContextWafRulesItemPathsList",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "rule_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "rule_version": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      }
+    },
+    "com.cloudflare.managed_defense#GetVulnerabilityDiscoveryReportResponseReportTrafficContextWafRulesList": {
+      "type": "list",
+      "member": {
+        "target": "com.cloudflare.managed_defense#GetVulnerabilityDiscoveryReportResponseReportTrafficContextWafRulesItem"
+      }
+    },
+    "com.cloudflare.managed_defense#GetVulnerabilityDiscoveryReportResponseReportTrafficContextWaf": {
+      "type": "structure",
+      "members": {
+        "hit_volume": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "rules": {
+          "target": "com.cloudflare.managed_defense#GetVulnerabilityDiscoveryReportResponseReportTrafficContextWafRulesList",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      }
+    },
+    "com.cloudflare.managed_defense#GetVulnerabilityDiscoveryReportResponseReportTrafficContextWebAssetsOperationsItemRiskLabelsItem": {
+      "type": "structure",
+      "members": {
+        "description": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      }
+    },
+    "com.cloudflare.managed_defense#GetVulnerabilityDiscoveryReportResponseReportTrafficContextWebAssetsOperationsItemRiskLabelsList": {
+      "type": "list",
+      "member": {
+        "target": "com.cloudflare.managed_defense#GetVulnerabilityDiscoveryReportResponseReportTrafficContextWebAssetsOperationsItemRiskLabelsItem"
+      }
+    },
+    "com.cloudflare.managed_defense#GetVulnerabilityDiscoveryReportResponseReportTrafficContextWebAssetsOperationsItemPerformance": {
+      "type": "structure",
+      "members": {
+        "avg_origin_latency_ms": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "error_rate": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "estimated_requests": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      }
+    },
+    "com.cloudflare.managed_defense#GetVulnerabilityDiscoveryReportResponseReportTrafficContextWebAssetsOperationsItem": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "endpoint": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "host": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "method": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "risk_labels": {
+          "target": "com.cloudflare.managed_defense#GetVulnerabilityDiscoveryReportResponseReportTrafficContextWebAssetsOperationsItemRiskLabelsList",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "performance": {
+          "target": "com.cloudflare.managed_defense#GetVulnerabilityDiscoveryReportResponseReportTrafficContextWebAssetsOperationsItemPerformance"
+        }
+      }
+    },
+    "com.cloudflare.managed_defense#GetVulnerabilityDiscoveryReportResponseReportTrafficContextWebAssetsOperationsList": {
+      "type": "list",
+      "member": {
+        "target": "com.cloudflare.managed_defense#GetVulnerabilityDiscoveryReportResponseReportTrafficContextWebAssetsOperationsItem"
+      }
+    },
+    "com.cloudflare.managed_defense#GetVulnerabilityDiscoveryReportResponseReportTrafficContextWebAssetsPathsItem": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "avg_origin_latency_ms": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "error_rate": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "estimated_requests": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "host": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "path": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      }
+    },
+    "com.cloudflare.managed_defense#GetVulnerabilityDiscoveryReportResponseReportTrafficContextWebAssetsPathsList": {
+      "type": "list",
+      "member": {
+        "target": "com.cloudflare.managed_defense#GetVulnerabilityDiscoveryReportResponseReportTrafficContextWebAssetsPathsItem"
+      }
+    },
+    "com.cloudflare.managed_defense#GetVulnerabilityDiscoveryReportResponseReportTrafficContextWebAssetsRiskTypesItem": {
+      "type": "structure",
+      "members": {
+        "description": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "operation_count": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      }
+    },
+    "com.cloudflare.managed_defense#GetVulnerabilityDiscoveryReportResponseReportTrafficContextWebAssetsRiskTypesList": {
+      "type": "list",
+      "member": {
+        "target": "com.cloudflare.managed_defense#GetVulnerabilityDiscoveryReportResponseReportTrafficContextWebAssetsRiskTypesItem"
+      }
+    },
+    "com.cloudflare.managed_defense#GetVulnerabilityDiscoveryReportResponseReportTrafficContextWebAssets": {
+      "type": "structure",
+      "members": {
+        "operations": {
+          "target": "com.cloudflare.managed_defense#GetVulnerabilityDiscoveryReportResponseReportTrafficContextWebAssetsOperationsList",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "paths": {
+          "target": "com.cloudflare.managed_defense#GetVulnerabilityDiscoveryReportResponseReportTrafficContextWebAssetsPathsList",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "risk_types": {
+          "target": "com.cloudflare.managed_defense#GetVulnerabilityDiscoveryReportResponseReportTrafficContextWebAssetsRiskTypesList",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      }
+    },
+    "com.cloudflare.managed_defense#GetVulnerabilityDiscoveryReportResponseReportTrafficContext": {
+      "type": "structure",
+      "members": {
+        "http": {
+          "target": "com.cloudflare.managed_defense#GetVulnerabilityDiscoveryReportResponseReportTrafficContextHttp",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "target": {
+          "target": "com.cloudflare.managed_defense#GetVulnerabilityDiscoveryReportResponseReportTrafficContextTarget",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "waf": {
+          "target": "com.cloudflare.managed_defense#GetVulnerabilityDiscoveryReportResponseReportTrafficContextWaf",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "web_assets": {
+          "target": "com.cloudflare.managed_defense#GetVulnerabilityDiscoveryReportResponseReportTrafficContextWebAssets",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      }
+    },
+    "com.cloudflare.managed_defense#GetVulnerabilityDiscoveryReportResponseReportExternalLinksItem": {
+      "type": "structure",
+      "members": {
+        "title": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "url": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      }
+    },
+    "com.cloudflare.managed_defense#GetVulnerabilityDiscoveryReportResponseReportExternalLinksList": {
+      "type": "list",
+      "member": {
+        "target": "com.cloudflare.managed_defense#GetVulnerabilityDiscoveryReportResponseReportExternalLinksItem"
+      }
+    },
+    "com.cloudflare.managed_defense#GetVulnerabilityDiscoveryReportResponseReportLimitationsList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      }
+    },
+    "com.cloudflare.managed_defense#GetVulnerabilityDiscoveryReportResponseReport": {
+      "type": "structure",
+      "members": {
+        "findings": {
+          "target": "com.cloudflare.managed_defense#GetVulnerabilityDiscoveryReportResponseReportFindingsList",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "overall_severity": {
+          "target": "com.cloudflare.managed_defense#GetVulnerabilityDiscoveryReportResponseReportOverallSeverity",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "repository_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "repository_name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "summary": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "traffic_context": {
+          "target": "com.cloudflare.managed_defense#GetVulnerabilityDiscoveryReportResponseReportTrafficContext",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "external_links": {
+          "target": "com.cloudflare.managed_defense#GetVulnerabilityDiscoveryReportResponseReportExternalLinksList"
+        },
+        "limitations": {
+          "target": "com.cloudflare.managed_defense#GetVulnerabilityDiscoveryReportResponseReportLimitationsList"
+        }
+      }
+    },
+    "com.cloudflare.managed_defense#GetVulnerabilityDiscoveryReportResponse": {
+      "type": "structure",
+      "members": {
+        "publication": {
+          "target": "com.cloudflare.managed_defense#GetVulnerabilityDiscoveryReportResponsePublication",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "report": {
+          "target": "com.cloudflare.managed_defense#GetVulnerabilityDiscoveryReportResponseReport",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "repository_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "scan_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {},
+        "smithy.api#documentation": "Unwrapped `result` payload of the Cloudflare v4 response envelope."
+      }
+    },
+    "com.cloudflare.managed_defense#GetVulnerabilityDiscoveryReport": {
+      "type": "operation",
+      "input": {
+        "target": "com.cloudflare.managed_defense#GetVulnerabilityDiscoveryReportRequest"
+      },
+      "output": {
+        "target": "com.cloudflare.managed_defense#GetVulnerabilityDiscoveryReportResponse"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/accounts/{account_id}/managed-defense/vulnerability-discovery/repos/{repo_id}/scans/{scan_id}/report",
+          "code": 200
+        },
+        "smithy.api#documentation": "Gets the repository projection of the active operator-reviewed scan report. `scan_id` is the customer scan's stable request ID.",
+        "smithy.api#readonly": {}
+      }
+    },
+    "com.cloudflare.managed_defense#CreateVulnerabilityDiscoveryRepositoryRequest": {
+      "type": "structure",
+      "members": {
+        "account_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        },
+        "Idempotency_Key": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Idempotency-Key"
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "worker_script_name": {
+          "target": "smithy.api#String"
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.cloudflare.managed_defense#CreateVulnerabilityDiscoveryRepositoryResultCase0RepositoryReadiness": {
+      "type": "enum",
+      "members": {
+        "AWAITING_SOURCE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "awaiting_source"
+          }
+        },
+        "PROCESSING": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "processing"
+          }
+        },
+        "READY": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "ready"
+          }
+        },
+        "FAILED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "failed"
+          }
+        }
+      }
+    },
+    "com.cloudflare.managed_defense#CreateVulnerabilityDiscoveryRepositoryResultCase0RepositorySource": {
+      "type": "enum",
+      "members": {
+        "UPLOAD": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "upload"
+          }
+        },
+        "WORKER": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "worker"
+          }
+        }
+      }
+    },
+    "com.cloudflare.managed_defense#CreateVulnerabilityDiscoveryRepositoryResultCase0RepositoryImportErrorCode": {
+      "type": "enum",
+      "members": {
+        "WORKER_IMPORT_FAILED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "worker_import_failed"
+          }
+        }
+      }
+    },
+    "com.cloudflare.managed_defense#CreateVulnerabilityDiscoveryRepositoryResultCase0RepositoryImportErrorMessage": {
+      "type": "enum",
+      "members": {
+        "WORKER_IMPORT_FAILED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "Worker import failed."
+          }
+        }
+      }
+    },
+    "com.cloudflare.managed_defense#CreateVulnerabilityDiscoveryRepositoryResultCase0RepositoryImportError": {
+      "type": "structure",
+      "members": {
+        "code": {
+          "target": "com.cloudflare.managed_defense#CreateVulnerabilityDiscoveryRepositoryResultCase0RepositoryImportErrorCode",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "message": {
+          "target": "com.cloudflare.managed_defense#CreateVulnerabilityDiscoveryRepositoryResultCase0RepositoryImportErrorMessage",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      }
+    },
+    "com.cloudflare.managed_defense#CreateVulnerabilityDiscoveryRepositoryResultCase0Repository": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "readiness": {
+          "target": "com.cloudflare.managed_defense#CreateVulnerabilityDiscoveryRepositoryResultCase0RepositoryReadiness",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "source": {
+          "target": "com.cloudflare.managed_defense#CreateVulnerabilityDiscoveryRepositoryResultCase0RepositorySource",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "import_error": {
+          "target": "com.cloudflare.managed_defense#CreateVulnerabilityDiscoveryRepositoryResultCase0RepositoryImportError"
+        }
+      }
+    },
+    "com.cloudflare.managed_defense#CreateVulnerabilityDiscoveryRepositoryResultCase0UploadExpiresIn": {
+      "type": "intEnum",
+      "members": {
+        "_3600": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": 3600
+          }
+        }
+      }
+    },
+    "com.cloudflare.managed_defense#CreateVulnerabilityDiscoveryRepositoryResultCase0Upload": {
+      "type": "structure",
+      "members": {
+        "token": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "expires_in": {
+          "target": "com.cloudflare.managed_defense#CreateVulnerabilityDiscoveryRepositoryResultCase0UploadExpiresIn",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "remote": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      }
+    },
+    "com.cloudflare.managed_defense#CreateVulnerabilityDiscoveryRepositoryResultCase0": {
+      "type": "structure",
+      "members": {
+        "repository": {
+          "target": "com.cloudflare.managed_defense#CreateVulnerabilityDiscoveryRepositoryResultCase0Repository",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "upload": {
+          "target": "com.cloudflare.managed_defense#CreateVulnerabilityDiscoveryRepositoryResultCase0Upload",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      }
+    },
+    "com.cloudflare.managed_defense#CreateVulnerabilityDiscoveryRepositoryResultRepositoryRepositoryReadiness": {
+      "type": "enum",
+      "members": {
+        "AWAITING_SOURCE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "awaiting_source"
+          }
+        },
+        "PROCESSING": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "processing"
+          }
+        },
+        "READY": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "ready"
+          }
+        },
+        "FAILED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "failed"
+          }
+        }
+      }
+    },
+    "com.cloudflare.managed_defense#CreateVulnerabilityDiscoveryRepositoryResultRepositoryRepositorySource": {
+      "type": "enum",
+      "members": {
+        "UPLOAD": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "upload"
+          }
+        },
+        "WORKER": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "worker"
+          }
+        }
+      }
+    },
+    "com.cloudflare.managed_defense#CreateVulnerabilityDiscoveryRepositoryResultRepositoryRepositoryImportErrorCode": {
+      "type": "enum",
+      "members": {
+        "WORKER_IMPORT_FAILED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "worker_import_failed"
+          }
+        }
+      }
+    },
+    "com.cloudflare.managed_defense#CreateVulnerabilityDiscoveryRepositoryResultRepositoryRepositoryImportErrorMessage": {
+      "type": "enum",
+      "members": {
+        "WORKER_IMPORT_FAILED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "Worker import failed."
+          }
+        }
+      }
+    },
+    "com.cloudflare.managed_defense#CreateVulnerabilityDiscoveryRepositoryResultRepositoryRepositoryImportError": {
+      "type": "structure",
+      "members": {
+        "code": {
+          "target": "com.cloudflare.managed_defense#CreateVulnerabilityDiscoveryRepositoryResultRepositoryRepositoryImportErrorCode",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "message": {
+          "target": "com.cloudflare.managed_defense#CreateVulnerabilityDiscoveryRepositoryResultRepositoryRepositoryImportErrorMessage",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      }
+    },
+    "com.cloudflare.managed_defense#CreateVulnerabilityDiscoveryRepositoryResultRepositoryRepository": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "readiness": {
+          "target": "com.cloudflare.managed_defense#CreateVulnerabilityDiscoveryRepositoryResultRepositoryRepositoryReadiness",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "source": {
+          "target": "com.cloudflare.managed_defense#CreateVulnerabilityDiscoveryRepositoryResultRepositoryRepositorySource",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "import_error": {
+          "target": "com.cloudflare.managed_defense#CreateVulnerabilityDiscoveryRepositoryResultRepositoryRepositoryImportError"
+        }
+      }
+    },
+    "com.cloudflare.managed_defense#CreateVulnerabilityDiscoveryRepositoryResultRepository": {
+      "type": "structure",
+      "members": {
+        "repository": {
+          "target": "com.cloudflare.managed_defense#CreateVulnerabilityDiscoveryRepositoryResultRepositoryRepository",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      }
+    },
+    "com.cloudflare.managed_defense#CreateVulnerabilityDiscoveryRepositoryResult": {
+      "type": "union",
+      "members": {
+        "VulnerabilityDiscoveryRepositoriesCreateResultCase0": {
+          "target": "com.cloudflare.managed_defense#CreateVulnerabilityDiscoveryRepositoryResultCase0"
+        },
+        "Repository": {
+          "target": "com.cloudflare.managed_defense#CreateVulnerabilityDiscoveryRepositoryResultRepository"
+        }
+      }
+    },
+    "com.cloudflare.managed_defense#CreateVulnerabilityDiscoveryRepositoryResponse": {
+      "type": "structure",
+      "members": {
+        "result": {
+          "target": "com.cloudflare.managed_defense#CreateVulnerabilityDiscoveryRepositoryResult",
+          "traits": {
+            "com.cloudflare.protocols#envelopePayload": {},
+            "smithy.api#documentation": "The unwrapped `result` payload of the v4 response envelope."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
+      }
+    },
+    "com.cloudflare.managed_defense#CreateVulnerabilityDiscoveryRepository": {
+      "type": "operation",
+      "input": {
+        "target": "com.cloudflare.managed_defense#CreateVulnerabilityDiscoveryRepositoryRequest"
+      },
+      "output": {
+        "target": "com.cloudflare.managed_defense#CreateVulnerabilityDiscoveryRepositoryResponse"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/accounts/{account_id}/managed-defense/vulnerability-discovery/repos",
+          "code": 200
+        },
+        "smithy.api#documentation": "Creates an upload repository or reserves an asynchronous deployed Worker import by name. Worker imports require Idempotency-Key."
+      }
+    },
+    "com.cloudflare.managed_defense#GetVulnerabilityDiscoveryRepositoryRequest": {
+      "type": "structure",
+      "members": {
+        "account_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        },
+        "repo_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        },
+        "scan_cursor": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "scan_cursor"
+          }
+        },
+        "scan_limit": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#httpQuery": "scan_limit"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.cloudflare.managed_defense#GetVulnerabilityDiscoveryRepositoryResponseRepositoryReadiness": {
+      "type": "enum",
+      "members": {
+        "AWAITING_SOURCE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "awaiting_source"
+          }
+        },
+        "PROCESSING": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "processing"
+          }
+        },
+        "READY": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "ready"
+          }
+        },
+        "FAILED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "failed"
+          }
+        }
+      }
+    },
+    "com.cloudflare.managed_defense#GetVulnerabilityDiscoveryRepositoryResponseRepositorySource": {
+      "type": "enum",
+      "members": {
+        "UPLOAD": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "upload"
+          }
+        },
+        "WORKER": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "worker"
+          }
+        }
+      }
+    },
+    "com.cloudflare.managed_defense#GetVulnerabilityDiscoveryRepositoryResponseRepositoryImportErrorCode": {
+      "type": "enum",
+      "members": {
+        "WORKER_IMPORT_FAILED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "worker_import_failed"
+          }
+        }
+      }
+    },
+    "com.cloudflare.managed_defense#GetVulnerabilityDiscoveryRepositoryResponseRepositoryImportErrorMessage": {
+      "type": "enum",
+      "members": {
+        "WORKER_IMPORT_FAILED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "Worker import failed."
+          }
+        }
+      }
+    },
+    "com.cloudflare.managed_defense#GetVulnerabilityDiscoveryRepositoryResponseRepositoryImportError": {
+      "type": "structure",
+      "members": {
+        "code": {
+          "target": "com.cloudflare.managed_defense#GetVulnerabilityDiscoveryRepositoryResponseRepositoryImportErrorCode",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "message": {
+          "target": "com.cloudflare.managed_defense#GetVulnerabilityDiscoveryRepositoryResponseRepositoryImportErrorMessage",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      }
+    },
+    "com.cloudflare.managed_defense#GetVulnerabilityDiscoveryRepositoryResponseRepository": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "created_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "readiness": {
+          "target": "com.cloudflare.managed_defense#GetVulnerabilityDiscoveryRepositoryResponseRepositoryReadiness",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "source": {
+          "target": "com.cloudflare.managed_defense#GetVulnerabilityDiscoveryRepositoryResponseRepositorySource",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "import_error": {
+          "target": "com.cloudflare.managed_defense#GetVulnerabilityDiscoveryRepositoryResponseRepositoryImportError"
+        }
+      }
+    },
+    "com.cloudflare.managed_defense#GetVulnerabilityDiscoveryRepositoryResponseScansItemPhase": {
+      "type": "enum",
+      "members": {
+        "PROVISIONING": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "provisioning"
+          }
+        },
+        "INDEXING": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "indexing"
+          }
+        },
+        "ANALYZING": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "analyzing"
+          }
+        },
+        "REPORTING": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "reporting"
+          }
+        },
+        "FINALIZING": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "finalizing"
+          }
+        }
+      }
+    },
+    "com.cloudflare.managed_defense#GetVulnerabilityDiscoveryRepositoryResponseScansItemRepositoriesItemPhase": {
+      "type": "enum",
+      "members": {
+        "PROVISIONING": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "provisioning"
+          }
+        },
+        "INDEXING": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "indexing"
+          }
+        },
+        "ANALYZING": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "analyzing"
+          }
+        },
+        "REPORTING": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "reporting"
+          }
+        },
+        "FINALIZING": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "finalizing"
+          }
+        }
+      }
+    },
+    "com.cloudflare.managed_defense#GetVulnerabilityDiscoveryRepositoryResponseScansItemRepositoriesItemReportStatus": {
+      "type": "enum",
+      "members": {
+        "NOT_READY": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "not_ready"
+          }
+        },
+        "PENDING_REVIEW": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "pending_review"
+          }
+        },
+        "PUBLISHED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "published"
+          }
+        },
+        "WITHDRAWN": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "withdrawn"
+          }
+        }
+      }
+    },
+    "com.cloudflare.managed_defense#GetVulnerabilityDiscoveryRepositoryResponseScansItemRepositoriesItemStatus": {
+      "type": "enum",
+      "members": {
+        "REQUESTED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "requested"
+          }
+        },
+        "ACCEPTED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "accepted"
+          }
+        },
+        "RUNNING": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "running"
+          }
+        },
+        "COMPLETED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "completed"
+          }
+        },
+        "FAILED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "failed"
+          }
+        },
+        "REJECTED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "rejected"
+          }
+        },
+        "CANCELLED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "cancelled"
+          }
+        }
+      }
+    },
+    "com.cloudflare.managed_defense#GetVulnerabilityDiscoveryRepositoryResponseScansItemRepositoriesItem": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "phase": {
+          "target": "com.cloudflare.managed_defense#GetVulnerabilityDiscoveryRepositoryResponseScansItemRepositoriesItemPhase",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "report_status": {
+          "target": "com.cloudflare.managed_defense#GetVulnerabilityDiscoveryRepositoryResponseScansItemRepositoriesItemReportStatus",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "status": {
+          "target": "com.cloudflare.managed_defense#GetVulnerabilityDiscoveryRepositoryResponseScansItemRepositoriesItemStatus",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      }
+    },
+    "com.cloudflare.managed_defense#GetVulnerabilityDiscoveryRepositoryResponseScansItemRepositoriesList": {
+      "type": "list",
+      "member": {
+        "target": "com.cloudflare.managed_defense#GetVulnerabilityDiscoveryRepositoryResponseScansItemRepositoriesItem"
+      }
+    },
+    "com.cloudflare.managed_defense#GetVulnerabilityDiscoveryRepositoryResponseScansItemStatus": {
+      "type": "enum",
+      "members": {
+        "REQUESTED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "requested"
+          }
+        },
+        "ACCEPTED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "accepted"
+          }
+        },
+        "RUNNING": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "running"
+          }
+        },
+        "COMPLETED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "completed"
+          }
+        },
+        "FAILED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "failed"
+          }
+        },
+        "REJECTED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "rejected"
+          }
+        },
+        "CANCELLED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "cancelled"
+          }
+        }
+      }
+    },
+    "com.cloudflare.managed_defense#GetVulnerabilityDiscoveryRepositoryResponseScansItemTelemetryWindow": {
+      "type": "structure",
+      "members": {
+        "end": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "start": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      }
+    },
+    "com.cloudflare.managed_defense#GetVulnerabilityDiscoveryRepositoryResponseScansItem": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "completed_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "message": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "phase": {
+          "target": "com.cloudflare.managed_defense#GetVulnerabilityDiscoveryRepositoryResponseScansItemPhase",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "repositories": {
+          "target": "com.cloudflare.managed_defense#GetVulnerabilityDiscoveryRepositoryResponseScansItemRepositoriesList",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "started_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "status": {
+          "target": "com.cloudflare.managed_defense#GetVulnerabilityDiscoveryRepositoryResponseScansItemStatus",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "submitted_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "telemetry_window": {
+          "target": "com.cloudflare.managed_defense#GetVulnerabilityDiscoveryRepositoryResponseScansItemTelemetryWindow",
+          "traits": {
+            "smithy.api#documentation": "UTC ISO-8601 interval. Start is inclusive, end is exclusive, and the interval must be positive and at most seven days."
+          }
+        }
+      }
+    },
+    "com.cloudflare.managed_defense#GetVulnerabilityDiscoveryRepositoryResponseScansList": {
+      "type": "list",
+      "member": {
+        "target": "com.cloudflare.managed_defense#GetVulnerabilityDiscoveryRepositoryResponseScansItem"
+      }
+    },
+    "com.cloudflare.managed_defense#GetVulnerabilityDiscoveryRepositoryResponse": {
+      "type": "structure",
+      "members": {
+        "repository": {
+          "target": "com.cloudflare.managed_defense#GetVulnerabilityDiscoveryRepositoryResponseRepository",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "scans": {
+          "target": "com.cloudflare.managed_defense#GetVulnerabilityDiscoveryRepositoryResponseScansList",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {},
+        "smithy.api#documentation": "Unwrapped `result` payload of the Cloudflare v4 response envelope."
+      }
+    },
+    "com.cloudflare.managed_defense#GetVulnerabilityDiscoveryRepository": {
+      "type": "operation",
+      "input": {
+        "target": "com.cloudflare.managed_defense#GetVulnerabilityDiscoveryRepositoryRequest"
+      },
+      "output": {
+        "target": "com.cloudflare.managed_defense#GetVulnerabilityDiscoveryRepositoryResponse"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/accounts/{account_id}/managed-defense/vulnerability-discovery/repos/{repo_id}",
+          "code": 200
+        },
+        "smithy.api#documentation": "Gets repository metadata, source readiness, and customer scan history.",
+        "smithy.api#readonly": {}
+      }
+    },
+    "com.cloudflare.managed_defense#ListVulnerabilityDiscoveryRepositoriesRequest": {
+      "type": "structure",
+      "members": {
+        "account_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        },
+        "cursor": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "cursor"
+          }
+        },
+        "limit": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#httpQuery": "limit"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.cloudflare.managed_defense#ListVulnerabilityDiscoveryRepositoriesResultItemReadiness": {
+      "type": "enum",
+      "members": {
+        "AWAITING_SOURCE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "awaiting_source"
+          }
+        },
+        "PROCESSING": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "processing"
+          }
+        },
+        "READY": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "ready"
+          }
+        },
+        "FAILED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "failed"
+          }
+        }
+      }
+    },
+    "com.cloudflare.managed_defense#ListVulnerabilityDiscoveryRepositoriesResultItemSource": {
+      "type": "enum",
+      "members": {
+        "UPLOAD": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "upload"
+          }
+        },
+        "WORKER": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "worker"
+          }
+        }
+      }
+    },
+    "com.cloudflare.managed_defense#ListVulnerabilityDiscoveryRepositoriesResultItemImportErrorCode": {
+      "type": "enum",
+      "members": {
+        "WORKER_IMPORT_FAILED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "worker_import_failed"
+          }
+        }
+      }
+    },
+    "com.cloudflare.managed_defense#ListVulnerabilityDiscoveryRepositoriesResultItemImportErrorMessage": {
+      "type": "enum",
+      "members": {
+        "WORKER_IMPORT_FAILED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "Worker import failed."
+          }
+        }
+      }
+    },
+    "com.cloudflare.managed_defense#ListVulnerabilityDiscoveryRepositoriesResultItemImportError": {
+      "type": "structure",
+      "members": {
+        "code": {
+          "target": "com.cloudflare.managed_defense#ListVulnerabilityDiscoveryRepositoriesResultItemImportErrorCode",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "message": {
+          "target": "com.cloudflare.managed_defense#ListVulnerabilityDiscoveryRepositoriesResultItemImportErrorMessage",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      }
+    },
+    "com.cloudflare.managed_defense#ListVulnerabilityDiscoveryRepositoriesResultItem": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "created_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "readiness": {
+          "target": "com.cloudflare.managed_defense#ListVulnerabilityDiscoveryRepositoriesResultItemReadiness",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "source": {
+          "target": "com.cloudflare.managed_defense#ListVulnerabilityDiscoveryRepositoriesResultItemSource",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "import_error": {
+          "target": "com.cloudflare.managed_defense#ListVulnerabilityDiscoveryRepositoriesResultItemImportError"
+        }
+      }
+    },
+    "com.cloudflare.managed_defense#ListVulnerabilityDiscoveryRepositoriesResultList": {
+      "type": "list",
+      "member": {
+        "target": "com.cloudflare.managed_defense#ListVulnerabilityDiscoveryRepositoriesResultItem"
+      }
+    },
+    "com.cloudflare.managed_defense#ListVulnerabilityDiscoveryRepositoriesResponse": {
+      "type": "structure",
+      "members": {
+        "result": {
+          "target": "com.cloudflare.managed_defense#ListVulnerabilityDiscoveryRepositoriesResultList",
+          "traits": {
+            "com.cloudflare.protocols#envelopePayload": {},
+            "smithy.api#documentation": "The unwrapped `result` payload of the v4 response envelope."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
+      }
+    },
+    "com.cloudflare.managed_defense#ListVulnerabilityDiscoveryRepositories": {
+      "type": "operation",
+      "input": {
+        "target": "com.cloudflare.managed_defense#ListVulnerabilityDiscoveryRepositoriesRequest"
+      },
+      "output": {
+        "target": "com.cloudflare.managed_defense#ListVulnerabilityDiscoveryRepositoriesResponse"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/accounts/{account_id}/managed-defense/vulnerability-discovery/repos",
+          "code": 200
+        },
+        "smithy.api#documentation": "Lists repositories available for vulnerability discovery in an account.",
+        "smithy.api#readonly": {}
+      }
+    },
+    "com.cloudflare.managed_defense#CreateVulnerabilityDiscoveryScanRequestReposList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      }
+    },
+    "com.cloudflare.managed_defense#CreateVulnerabilityDiscoveryScanRequestRepoHostsValueList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      }
+    },
+    "com.cloudflare.managed_defense#CreateVulnerabilityDiscoveryScanRequestRepoHostsMap": {
+      "type": "map",
+      "key": {
+        "target": "smithy.api#String"
+      },
+      "value": {
+        "target": "com.cloudflare.managed_defense#CreateVulnerabilityDiscoveryScanRequestRepoHostsValueList"
+      }
+    },
+    "com.cloudflare.managed_defense#CreateVulnerabilityDiscoveryScanRequestTelemetryWindow": {
+      "type": "structure",
+      "members": {
+        "end": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "start": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      }
+    },
+    "com.cloudflare.managed_defense#CreateVulnerabilityDiscoveryScanRequest": {
+      "type": "structure",
+      "members": {
+        "account_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        },
+        "Idempotency_Key": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Idempotency-Key"
+          }
+        },
+        "repos": {
+          "target": "com.cloudflare.managed_defense#CreateVulnerabilityDiscoveryScanRequestReposList",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "repo_hosts": {
+          "target": "com.cloudflare.managed_defense#CreateVulnerabilityDiscoveryScanRequestRepoHostsMap",
+          "traits": {
+            "smithy.api#documentation": "Explicit hostname scopes. Every hostname must be authorized for its repository before review admission; rejected scopes return 422 and do not persist a scan request."
+          }
+        },
+        "telemetry_window": {
+          "target": "com.cloudflare.managed_defense#CreateVulnerabilityDiscoveryScanRequestTelemetryWindow",
+          "traits": {
+            "smithy.api#documentation": "UTC ISO-8601 interval. Start is inclusive, end is exclusive, and the interval must be positive and at most seven days."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.cloudflare.managed_defense#CreateVulnerabilityDiscoveryScanResponsePhase": {
+      "type": "enum",
+      "members": {
+        "PROVISIONING": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "provisioning"
+          }
+        },
+        "INDEXING": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "indexing"
+          }
+        },
+        "ANALYZING": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "analyzing"
+          }
+        },
+        "REPORTING": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "reporting"
+          }
+        },
+        "FINALIZING": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "finalizing"
+          }
+        }
+      }
+    },
+    "com.cloudflare.managed_defense#CreateVulnerabilityDiscoveryScanResponseRepositoriesItemPhase": {
+      "type": "enum",
+      "members": {
+        "PROVISIONING": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "provisioning"
+          }
+        },
+        "INDEXING": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "indexing"
+          }
+        },
+        "ANALYZING": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "analyzing"
+          }
+        },
+        "REPORTING": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "reporting"
+          }
+        },
+        "FINALIZING": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "finalizing"
+          }
+        }
+      }
+    },
+    "com.cloudflare.managed_defense#CreateVulnerabilityDiscoveryScanResponseRepositoriesItemReportStatus": {
+      "type": "enum",
+      "members": {
+        "NOT_READY": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "not_ready"
+          }
+        },
+        "PENDING_REVIEW": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "pending_review"
+          }
+        },
+        "PUBLISHED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "published"
+          }
+        },
+        "WITHDRAWN": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "withdrawn"
+          }
+        }
+      }
+    },
+    "com.cloudflare.managed_defense#CreateVulnerabilityDiscoveryScanResponseRepositoriesItemStatus": {
+      "type": "enum",
+      "members": {
+        "REQUESTED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "requested"
+          }
+        },
+        "ACCEPTED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "accepted"
+          }
+        },
+        "RUNNING": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "running"
+          }
+        },
+        "COMPLETED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "completed"
+          }
+        },
+        "FAILED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "failed"
+          }
+        },
+        "REJECTED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "rejected"
+          }
+        },
+        "CANCELLED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "cancelled"
+          }
+        }
+      }
+    },
+    "com.cloudflare.managed_defense#CreateVulnerabilityDiscoveryScanResponseRepositoriesItem": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "phase": {
+          "target": "com.cloudflare.managed_defense#CreateVulnerabilityDiscoveryScanResponseRepositoriesItemPhase",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "report_status": {
+          "target": "com.cloudflare.managed_defense#CreateVulnerabilityDiscoveryScanResponseRepositoriesItemReportStatus",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "status": {
+          "target": "com.cloudflare.managed_defense#CreateVulnerabilityDiscoveryScanResponseRepositoriesItemStatus",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      }
+    },
+    "com.cloudflare.managed_defense#CreateVulnerabilityDiscoveryScanResponseRepositoriesList": {
+      "type": "list",
+      "member": {
+        "target": "com.cloudflare.managed_defense#CreateVulnerabilityDiscoveryScanResponseRepositoriesItem"
+      }
+    },
+    "com.cloudflare.managed_defense#CreateVulnerabilityDiscoveryScanResponseStatus": {
+      "type": "enum",
+      "members": {
+        "REQUESTED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "requested"
+          }
+        },
+        "ACCEPTED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "accepted"
+          }
+        },
+        "RUNNING": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "running"
+          }
+        },
+        "COMPLETED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "completed"
+          }
+        },
+        "FAILED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "failed"
+          }
+        },
+        "REJECTED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "rejected"
+          }
+        },
+        "CANCELLED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "cancelled"
+          }
+        }
+      }
+    },
+    "com.cloudflare.managed_defense#CreateVulnerabilityDiscoveryScanResponseTelemetryWindow": {
+      "type": "structure",
+      "members": {
+        "end": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "start": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      }
+    },
+    "com.cloudflare.managed_defense#CreateVulnerabilityDiscoveryScanResponse": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "completed_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "message": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "phase": {
+          "target": "com.cloudflare.managed_defense#CreateVulnerabilityDiscoveryScanResponsePhase",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "repositories": {
+          "target": "com.cloudflare.managed_defense#CreateVulnerabilityDiscoveryScanResponseRepositoriesList",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "started_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "status": {
+          "target": "com.cloudflare.managed_defense#CreateVulnerabilityDiscoveryScanResponseStatus",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "submitted_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "telemetry_window": {
+          "target": "com.cloudflare.managed_defense#CreateVulnerabilityDiscoveryScanResponseTelemetryWindow",
+          "traits": {
+            "smithy.api#documentation": "UTC ISO-8601 interval. Start is inclusive, end is exclusive, and the interval must be positive and at most seven days."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {},
+        "smithy.api#documentation": "Unwrapped `result` payload of the Cloudflare v4 response envelope."
+      }
+    },
+    "com.cloudflare.managed_defense#CreateVulnerabilityDiscoveryScan": {
+      "type": "operation",
+      "input": {
+        "target": "com.cloudflare.managed_defense#CreateVulnerabilityDiscoveryScanRequest"
+      },
+      "output": {
+        "target": "com.cloudflare.managed_defense#CreateVulnerabilityDiscoveryScanResponse"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/accounts/{account_id}/managed-defense/vulnerability-discovery/scans",
+          "code": 200
+        },
+        "smithy.api#documentation": "Submits repository intent for operator review. This endpoint does not immediately start execution. Worker-imported repositories must be ready; explicit `repo_hosts` must be authorized before the request is persisted."
+      }
+    },
+    "com.cloudflare.managed_defense#GetVulnerabilityDiscoveryScanRequest": {
+      "type": "structure",
+      "members": {
+        "account_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        },
+        "scan_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.cloudflare.managed_defense#GetVulnerabilityDiscoveryScanResponsePhase": {
+      "type": "enum",
+      "members": {
+        "PROVISIONING": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "provisioning"
+          }
+        },
+        "INDEXING": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "indexing"
+          }
+        },
+        "ANALYZING": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "analyzing"
+          }
+        },
+        "REPORTING": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "reporting"
+          }
+        },
+        "FINALIZING": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "finalizing"
+          }
+        }
+      }
+    },
+    "com.cloudflare.managed_defense#GetVulnerabilityDiscoveryScanResponseRepositoriesItemPhase": {
+      "type": "enum",
+      "members": {
+        "PROVISIONING": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "provisioning"
+          }
+        },
+        "INDEXING": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "indexing"
+          }
+        },
+        "ANALYZING": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "analyzing"
+          }
+        },
+        "REPORTING": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "reporting"
+          }
+        },
+        "FINALIZING": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "finalizing"
+          }
+        }
+      }
+    },
+    "com.cloudflare.managed_defense#GetVulnerabilityDiscoveryScanResponseRepositoriesItemReportStatus": {
+      "type": "enum",
+      "members": {
+        "NOT_READY": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "not_ready"
+          }
+        },
+        "PENDING_REVIEW": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "pending_review"
+          }
+        },
+        "PUBLISHED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "published"
+          }
+        },
+        "WITHDRAWN": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "withdrawn"
+          }
+        }
+      }
+    },
+    "com.cloudflare.managed_defense#GetVulnerabilityDiscoveryScanResponseRepositoriesItemStatus": {
+      "type": "enum",
+      "members": {
+        "REQUESTED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "requested"
+          }
+        },
+        "ACCEPTED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "accepted"
+          }
+        },
+        "RUNNING": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "running"
+          }
+        },
+        "COMPLETED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "completed"
+          }
+        },
+        "FAILED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "failed"
+          }
+        },
+        "REJECTED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "rejected"
+          }
+        },
+        "CANCELLED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "cancelled"
+          }
+        }
+      }
+    },
+    "com.cloudflare.managed_defense#GetVulnerabilityDiscoveryScanResponseRepositoriesItem": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "phase": {
+          "target": "com.cloudflare.managed_defense#GetVulnerabilityDiscoveryScanResponseRepositoriesItemPhase",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "report_status": {
+          "target": "com.cloudflare.managed_defense#GetVulnerabilityDiscoveryScanResponseRepositoriesItemReportStatus",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "status": {
+          "target": "com.cloudflare.managed_defense#GetVulnerabilityDiscoveryScanResponseRepositoriesItemStatus",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      }
+    },
+    "com.cloudflare.managed_defense#GetVulnerabilityDiscoveryScanResponseRepositoriesList": {
+      "type": "list",
+      "member": {
+        "target": "com.cloudflare.managed_defense#GetVulnerabilityDiscoveryScanResponseRepositoriesItem"
+      }
+    },
+    "com.cloudflare.managed_defense#GetVulnerabilityDiscoveryScanResponseStatus": {
+      "type": "enum",
+      "members": {
+        "REQUESTED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "requested"
+          }
+        },
+        "ACCEPTED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "accepted"
+          }
+        },
+        "RUNNING": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "running"
+          }
+        },
+        "COMPLETED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "completed"
+          }
+        },
+        "FAILED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "failed"
+          }
+        },
+        "REJECTED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "rejected"
+          }
+        },
+        "CANCELLED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "cancelled"
+          }
+        }
+      }
+    },
+    "com.cloudflare.managed_defense#GetVulnerabilityDiscoveryScanResponseTelemetryWindow": {
+      "type": "structure",
+      "members": {
+        "end": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "start": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      }
+    },
+    "com.cloudflare.managed_defense#GetVulnerabilityDiscoveryScanResponse": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "completed_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "message": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "phase": {
+          "target": "com.cloudflare.managed_defense#GetVulnerabilityDiscoveryScanResponsePhase",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "repositories": {
+          "target": "com.cloudflare.managed_defense#GetVulnerabilityDiscoveryScanResponseRepositoriesList",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "started_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "status": {
+          "target": "com.cloudflare.managed_defense#GetVulnerabilityDiscoveryScanResponseStatus",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "submitted_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "telemetry_window": {
+          "target": "com.cloudflare.managed_defense#GetVulnerabilityDiscoveryScanResponseTelemetryWindow",
+          "traits": {
+            "smithy.api#documentation": "UTC ISO-8601 interval. Start is inclusive, end is exclusive, and the interval must be positive and at most seven days."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {},
+        "smithy.api#documentation": "Unwrapped `result` payload of the Cloudflare v4 response envelope."
+      }
+    },
+    "com.cloudflare.managed_defense#GetVulnerabilityDiscoveryScan": {
+      "type": "operation",
+      "input": {
+        "target": "com.cloudflare.managed_defense#GetVulnerabilityDiscoveryScanRequest"
+      },
+      "output": {
+        "target": "com.cloudflare.managed_defense#GetVulnerabilityDiscoveryScanResponse"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/accounts/{account_id}/managed-defense/vulnerability-discovery/scans/{scan_id}",
+          "code": 200
+        },
+        "smithy.api#documentation": "Gets one customer-requested scan across its review and execution lifecycle.",
+        "smithy.api#readonly": {}
+      }
+    },
+    "com.cloudflare.managed_defense#VulnerabilityDiscoveryScansGetReportRequest": {
+      "type": "structure",
+      "members": {
+        "account_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        },
+        "scan_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.cloudflare.managed_defense#VulnerabilityDiscoveryScansGetReportResponsePublication": {
+      "type": "structure",
+      "members": {
+        "published_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "revision_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "version": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      }
+    },
+    "com.cloudflare.managed_defense#VulnerabilityDiscoveryScansGetReportResponseReportOverallSeverity": {
+      "type": "enum",
+      "members": {
+        "CRITICAL": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "critical"
+          }
+        },
+        "HIGH": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "high"
+          }
+        },
+        "MEDIUM": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "medium"
+          }
+        },
+        "LOW": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "low"
+          }
+        },
+        "INFO": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "info"
+          }
+        }
+      }
+    },
+    "com.cloudflare.managed_defense#VulnerabilityDiscoveryScansGetReportResponseReportRepositoriesItemFindingsItemConditionsList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      }
+    },
+    "com.cloudflare.managed_defense#VulnerabilityDiscoveryScansGetReportResponseReportRepositoriesItemFindingsItemLocation": {
+      "type": "structure",
+      "members": {
+        "file": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "line": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "route": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      }
+    },
+    "com.cloudflare.managed_defense#VulnerabilityDiscoveryScansGetReportResponseReportRepositoriesItemFindingsItemReachabilityItem": {
+      "type": "structure",
+      "members": {
+        "consumer": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "reachable": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "via": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      }
+    },
+    "com.cloudflare.managed_defense#VulnerabilityDiscoveryScansGetReportResponseReportRepositoriesItemFindingsItemReachabilityList": {
+      "type": "list",
+      "member": {
+        "target": "com.cloudflare.managed_defense#VulnerabilityDiscoveryScansGetReportResponseReportRepositoriesItemFindingsItemReachabilityItem"
+      }
+    },
+    "com.cloudflare.managed_defense#VulnerabilityDiscoveryScansGetReportResponseReportRepositoriesItemFindingsItemRemediation": {
+      "type": "structure",
+      "members": {
+        "code_changes": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "strategy": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      }
+    },
+    "com.cloudflare.managed_defense#VulnerabilityDiscoveryScansGetReportResponseReportRepositoriesItemFindingsItemSeverity": {
+      "type": "enum",
+      "members": {
+        "CRITICAL": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "critical"
+          }
+        },
+        "HIGH": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "high"
+          }
+        },
+        "MEDIUM": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "medium"
+          }
+        },
+        "LOW": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "low"
+          }
+        },
+        "INFO": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "info"
+          }
+        }
+      }
+    },
+    "com.cloudflare.managed_defense#VulnerabilityDiscoveryScansGetReportResponseReportRepositoriesItemFindingsItemTelemetryReferencesList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      }
+    },
+    "com.cloudflare.managed_defense#VulnerabilityDiscoveryScansGetReportResponseReportRepositoriesItemFindingsItemTelemetryState": {
+      "type": "enum",
+      "members": {
+        "NO_ROUTE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "no_route"
+          }
+        },
+        "NO_TELEMETRY": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "no_telemetry"
+          }
+        },
+        "NO_MATCH": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "no_match"
+          }
+        },
+        "MATCHED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "matched"
+          }
+        }
+      }
+    },
+    "com.cloudflare.managed_defense#VulnerabilityDiscoveryScansGetReportResponseReportRepositoriesItemFindingsItemTelemetry": {
+      "type": "structure",
+      "members": {
+        "references": {
+          "target": "com.cloudflare.managed_defense#VulnerabilityDiscoveryScansGetReportResponseReportRepositoriesItemFindingsItemTelemetryReferencesList",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "state": {
+          "target": "com.cloudflare.managed_defense#VulnerabilityDiscoveryScansGetReportResponseReportRepositoriesItemFindingsItemTelemetryState",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      }
+    },
+    "com.cloudflare.managed_defense#VulnerabilityDiscoveryScansGetReportResponseReportRepositoriesItemFindingsItemTraceItem": {
+      "type": "structure",
+      "members": {
+        "line": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "path": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "scope": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "why": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      }
+    },
+    "com.cloudflare.managed_defense#VulnerabilityDiscoveryScansGetReportResponseReportRepositoriesItemFindingsItemTraceList": {
+      "type": "list",
+      "member": {
+        "target": "com.cloudflare.managed_defense#VulnerabilityDiscoveryScansGetReportResponseReportRepositoriesItemFindingsItemTraceItem"
+      }
+    },
+    "com.cloudflare.managed_defense#VulnerabilityDiscoveryScansGetReportResponseReportRepositoriesItemFindingsItemWafRulesBroadAction": {
+      "type": "enum",
+      "members": {
+        "BLOCK": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "block"
+          }
+        },
+        "MANAGED_CHALLENGE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "managed_challenge"
+          }
+        },
+        "JS_CHALLENGE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "js_challenge"
+          }
+        },
+        "LOG": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "log"
+          }
+        }
+      }
+    },
+    "com.cloudflare.managed_defense#VulnerabilityDiscoveryScansGetReportResponseReportRepositoriesItemFindingsItemWafRulesBroadConfidence": {
+      "type": "enum",
+      "members": {
+        "LOW": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "low"
+          }
+        },
+        "MEDIUM": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "medium"
+          }
+        },
+        "HIGH": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "high"
+          }
+        }
+      }
+    },
+    "com.cloudflare.managed_defense#VulnerabilityDiscoveryScansGetReportResponseReportRepositoriesItemFindingsItemWafRulesBroad": {
+      "type": "structure",
+      "members": {
+        "action": {
+          "target": "com.cloudflare.managed_defense#VulnerabilityDiscoveryScansGetReportResponseReportRepositoriesItemFindingsItemWafRulesBroadAction",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "confidence": {
+          "target": "com.cloudflare.managed_defense#VulnerabilityDiscoveryScansGetReportResponseReportRepositoriesItemFindingsItemWafRulesBroadConfidence",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "description": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "expression": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "false_positive_risk": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "rationale": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      }
+    },
+    "com.cloudflare.managed_defense#VulnerabilityDiscoveryScansGetReportResponseReportRepositoriesItemFindingsItemWafRulesTargetedAction": {
+      "type": "enum",
+      "members": {
+        "BLOCK": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "block"
+          }
+        },
+        "MANAGED_CHALLENGE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "managed_challenge"
+          }
+        },
+        "JS_CHALLENGE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "js_challenge"
+          }
+        },
+        "LOG": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "log"
+          }
+        }
+      }
+    },
+    "com.cloudflare.managed_defense#VulnerabilityDiscoveryScansGetReportResponseReportRepositoriesItemFindingsItemWafRulesTargetedConfidence": {
+      "type": "enum",
+      "members": {
+        "LOW": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "low"
+          }
+        },
+        "MEDIUM": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "medium"
+          }
+        },
+        "HIGH": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "high"
+          }
+        }
+      }
+    },
+    "com.cloudflare.managed_defense#VulnerabilityDiscoveryScansGetReportResponseReportRepositoriesItemFindingsItemWafRulesTargeted": {
+      "type": "structure",
+      "members": {
+        "action": {
+          "target": "com.cloudflare.managed_defense#VulnerabilityDiscoveryScansGetReportResponseReportRepositoriesItemFindingsItemWafRulesTargetedAction",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "confidence": {
+          "target": "com.cloudflare.managed_defense#VulnerabilityDiscoveryScansGetReportResponseReportRepositoriesItemFindingsItemWafRulesTargetedConfidence",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "description": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "expression": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "false_positive_risk": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "rationale": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      }
+    },
+    "com.cloudflare.managed_defense#VulnerabilityDiscoveryScansGetReportResponseReportRepositoriesItemFindingsItemWafRules": {
+      "type": "structure",
+      "members": {
+        "broad": {
+          "target": "com.cloudflare.managed_defense#VulnerabilityDiscoveryScansGetReportResponseReportRepositoriesItemFindingsItemWafRulesBroad",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "targeted": {
+          "target": "com.cloudflare.managed_defense#VulnerabilityDiscoveryScansGetReportResponseReportRepositoriesItemFindingsItemWafRulesTargeted",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      }
+    },
+    "com.cloudflare.managed_defense#VulnerabilityDiscoveryScansGetReportResponseReportRepositoriesItemFindingsItemAttackerPosition": {
+      "type": "enum",
+      "members": {
+        "EXTERNAL": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "external"
+          }
+        },
+        "AUTHENTICATED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "authenticated"
+          }
+        },
+        "INTERNAL": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "internal"
+          }
+        },
+        "POST_COMPROMISE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "post_compromise"
+          }
+        }
+      }
+    },
+    "com.cloudflare.managed_defense#VulnerabilityDiscoveryScansGetReportResponseReportRepositoriesItemFindingsItemExternalLinksItem": {
+      "type": "structure",
+      "members": {
+        "title": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "url": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      }
+    },
+    "com.cloudflare.managed_defense#VulnerabilityDiscoveryScansGetReportResponseReportRepositoriesItemFindingsItemExternalLinksList": {
+      "type": "list",
+      "member": {
+        "target": "com.cloudflare.managed_defense#VulnerabilityDiscoveryScansGetReportResponseReportRepositoriesItemFindingsItemExternalLinksItem"
+      }
+    },
+    "com.cloudflare.managed_defense#VulnerabilityDiscoveryScansGetReportResponseReportRepositoriesItemFindingsItemProofMethod": {
+      "type": "enum",
+      "members": {
+        "STRUCTURAL": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "structural"
+          }
+        },
+        "EXPERIMENTAL": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "experimental"
+          }
+        },
+        "ACQUIRED_SOURCE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "acquired_source"
+          }
+        },
+        "PUBLIC_KNOWLEDGE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "public_knowledge"
+          }
+        },
+        "TEAM_QUESTION": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "team_question"
+          }
+        }
+      }
+    },
+    "com.cloudflare.managed_defense#VulnerabilityDiscoveryScansGetReportResponseReportRepositoriesItemFindingsItemProofState": {
+      "type": "enum",
+      "members": {
+        "CLOSED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "closed"
+          }
+        },
+        "PENDING_SOURCE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "pending_source"
+          }
+        },
+        "PENDING_PUBLIC": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "pending_public"
+          }
+        },
+        "PENDING_EXPERIMENT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "pending_experiment"
+          }
+        },
+        "PENDING_TEAM": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "pending_team"
+          }
+        }
+      }
+    },
+    "com.cloudflare.managed_defense#VulnerabilityDiscoveryScansGetReportResponseReportRepositoriesItemFindingsItem": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "conditions": {
+          "target": "com.cloudflare.managed_defense#VulnerabilityDiscoveryScansGetReportResponseReportRepositoriesItemFindingsItemConditionsList",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "cwe": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "impact": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "location": {
+          "target": "com.cloudflare.managed_defense#VulnerabilityDiscoveryScansGetReportResponseReportRepositoriesItemFindingsItemLocation",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "reachability": {
+          "target": "com.cloudflare.managed_defense#VulnerabilityDiscoveryScansGetReportResponseReportRepositoriesItemFindingsItemReachabilityList",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "remediation": {
+          "target": "com.cloudflare.managed_defense#VulnerabilityDiscoveryScansGetReportResponseReportRepositoriesItemFindingsItemRemediation",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "root_cause": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "severity": {
+          "target": "com.cloudflare.managed_defense#VulnerabilityDiscoveryScansGetReportResponseReportRepositoriesItemFindingsItemSeverity",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "severity_basis": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "summary": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "telemetry": {
+          "target": "com.cloudflare.managed_defense#VulnerabilityDiscoveryScansGetReportResponseReportRepositoriesItemFindingsItemTelemetry",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "title": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "trace": {
+          "target": "com.cloudflare.managed_defense#VulnerabilityDiscoveryScansGetReportResponseReportRepositoriesItemFindingsItemTraceList",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "waf_rules": {
+          "target": "com.cloudflare.managed_defense#VulnerabilityDiscoveryScansGetReportResponseReportRepositoriesItemFindingsItemWafRules",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "attacker_position": {
+          "target": "com.cloudflare.managed_defense#VulnerabilityDiscoveryScansGetReportResponseReportRepositoriesItemFindingsItemAttackerPosition",
+          "traits": {
+            "smithy.api#documentation": "Least-privileged position required to trigger the finding. Optional on legacy report revisions."
+          }
+        },
+        "external_links": {
+          "target": "com.cloudflare.managed_defense#VulnerabilityDiscoveryScansGetReportResponseReportRepositoriesItemFindingsItemExternalLinksList"
+        },
+        "open_question": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "One bounded unresolved proof question. Optional on legacy report revisions."
+          }
+        },
+        "proof_method": {
+          "target": "com.cloudflare.managed_defense#VulnerabilityDiscoveryScansGetReportResponseReportRepositoriesItemFindingsItemProofMethod",
+          "traits": {
+            "smithy.api#documentation": "Method used or needed to close the proof. Optional on legacy report revisions."
+          }
+        },
+        "proof_state": {
+          "target": "com.cloudflare.managed_defense#VulnerabilityDiscoveryScansGetReportResponseReportRepositoriesItemFindingsItemProofState",
+          "traits": {
+            "smithy.api#documentation": "Current proof lifecycle state. Optional on legacy report revisions."
+          }
+        }
+      }
+    },
+    "com.cloudflare.managed_defense#VulnerabilityDiscoveryScansGetReportResponseReportRepositoriesItemFindingsList": {
+      "type": "list",
+      "member": {
+        "target": "com.cloudflare.managed_defense#VulnerabilityDiscoveryScansGetReportResponseReportRepositoriesItemFindingsItem"
+      }
+    },
+    "com.cloudflare.managed_defense#VulnerabilityDiscoveryScansGetReportResponseReportRepositoriesItemOverallSeverity": {
+      "type": "enum",
+      "members": {
+        "CRITICAL": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "critical"
+          }
+        },
+        "HIGH": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "high"
+          }
+        },
+        "MEDIUM": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "medium"
+          }
+        },
+        "LOW": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "low"
+          }
+        },
+        "INFO": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "info"
+          }
+        }
+      }
+    },
+    "com.cloudflare.managed_defense#VulnerabilityDiscoveryScansGetReportResponseReportRepositoriesItemTrafficContextHttpErrorPathsItem": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "hits": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "host": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "path": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "status": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      }
+    },
+    "com.cloudflare.managed_defense#VulnerabilityDiscoveryScansGetReportResponseReportRepositoriesItemTrafficContextHttpErrorPathsList": {
+      "type": "list",
+      "member": {
+        "target": "com.cloudflare.managed_defense#VulnerabilityDiscoveryScansGetReportResponseReportRepositoriesItemTrafficContextHttpErrorPathsItem"
+      }
+    },
+    "com.cloudflare.managed_defense#VulnerabilityDiscoveryScansGetReportResponseReportRepositoriesItemTrafficContextHttpHotPathsItem": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "hits": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "host": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "path": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "top_status": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      }
+    },
+    "com.cloudflare.managed_defense#VulnerabilityDiscoveryScansGetReportResponseReportRepositoriesItemTrafficContextHttpHotPathsList": {
+      "type": "list",
+      "member": {
+        "target": "com.cloudflare.managed_defense#VulnerabilityDiscoveryScansGetReportResponseReportRepositoriesItemTrafficContextHttpHotPathsItem"
+      }
+    },
+    "com.cloudflare.managed_defense#VulnerabilityDiscoveryScansGetReportResponseReportRepositoriesItemTrafficContextHttp": {
+      "type": "structure",
+      "members": {
+        "error_paths": {
+          "target": "com.cloudflare.managed_defense#VulnerabilityDiscoveryScansGetReportResponseReportRepositoriesItemTrafficContextHttpErrorPathsList",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "hot_paths": {
+          "target": "com.cloudflare.managed_defense#VulnerabilityDiscoveryScansGetReportResponseReportRepositoriesItemTrafficContextHttpHotPathsList",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "request_volume": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      }
+    },
+    "com.cloudflare.managed_defense#VulnerabilityDiscoveryScansGetReportResponseReportRepositoriesItemTrafficContextTargetHostsList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      }
+    },
+    "com.cloudflare.managed_defense#VulnerabilityDiscoveryScansGetReportResponseReportRepositoriesItemTrafficContextTargetKind": {
+      "type": "enum",
+      "members": {
+        "WORKER": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "worker"
+          }
+        },
+        "ORIGIN": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "origin"
+          }
+        }
+      }
+    },
+    "com.cloudflare.managed_defense#VulnerabilityDiscoveryScansGetReportResponseReportRepositoriesItemTrafficContextTargetTelemetryWindow": {
+      "type": "structure",
+      "members": {
+        "end": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "start": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      }
+    },
+    "com.cloudflare.managed_defense#VulnerabilityDiscoveryScansGetReportResponseReportRepositoriesItemTrafficContextTarget": {
+      "type": "structure",
+      "members": {
+        "hosts": {
+          "target": "com.cloudflare.managed_defense#VulnerabilityDiscoveryScansGetReportResponseReportRepositoriesItemTrafficContextTargetHostsList",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "kind": {
+          "target": "com.cloudflare.managed_defense#VulnerabilityDiscoveryScansGetReportResponseReportRepositoriesItemTrafficContextTargetKind",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "telemetry_window": {
+          "target": "com.cloudflare.managed_defense#VulnerabilityDiscoveryScansGetReportResponseReportRepositoriesItemTrafficContextTargetTelemetryWindow",
+          "traits": {
+            "smithy.api#documentation": "UTC ISO-8601 interval. Start is inclusive, end is exclusive, and the interval must be positive and at most seven days."
+          }
+        }
+      }
+    },
+    "com.cloudflare.managed_defense#VulnerabilityDiscoveryScansGetReportResponseReportRepositoriesItemTrafficContextWafRulesItemPathsItem": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "hit_volume": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "host": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "path": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      }
+    },
+    "com.cloudflare.managed_defense#VulnerabilityDiscoveryScansGetReportResponseReportRepositoriesItemTrafficContextWafRulesItemPathsList": {
+      "type": "list",
+      "member": {
+        "target": "com.cloudflare.managed_defense#VulnerabilityDiscoveryScansGetReportResponseReportRepositoriesItemTrafficContextWafRulesItemPathsItem"
+      }
+    },
+    "com.cloudflare.managed_defense#VulnerabilityDiscoveryScansGetReportResponseReportRepositoriesItemTrafficContextWafRulesItem": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "hit_volume": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "paths": {
+          "target": "com.cloudflare.managed_defense#VulnerabilityDiscoveryScansGetReportResponseReportRepositoriesItemTrafficContextWafRulesItemPathsList",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "rule_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "rule_version": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      }
+    },
+    "com.cloudflare.managed_defense#VulnerabilityDiscoveryScansGetReportResponseReportRepositoriesItemTrafficContextWafRulesList": {
+      "type": "list",
+      "member": {
+        "target": "com.cloudflare.managed_defense#VulnerabilityDiscoveryScansGetReportResponseReportRepositoriesItemTrafficContextWafRulesItem"
+      }
+    },
+    "com.cloudflare.managed_defense#VulnerabilityDiscoveryScansGetReportResponseReportRepositoriesItemTrafficContextWaf": {
+      "type": "structure",
+      "members": {
+        "hit_volume": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "rules": {
+          "target": "com.cloudflare.managed_defense#VulnerabilityDiscoveryScansGetReportResponseReportRepositoriesItemTrafficContextWafRulesList",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      }
+    },
+    "com.cloudflare.managed_defense#VulnerabilityDiscoveryScansGetReportResponseReportRepositoriesItemTrafficContextWebAssetsOperationsItemRiskLabelsItem": {
+      "type": "structure",
+      "members": {
+        "description": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      }
+    },
+    "com.cloudflare.managed_defense#VulnerabilityDiscoveryScansGetReportResponseReportRepositoriesItemTrafficContextWebAssetsOperationsItemRiskLabelsList": {
+      "type": "list",
+      "member": {
+        "target": "com.cloudflare.managed_defense#VulnerabilityDiscoveryScansGetReportResponseReportRepositoriesItemTrafficContextWebAssetsOperationsItemRiskLabelsItem"
+      }
+    },
+    "com.cloudflare.managed_defense#VulnerabilityDiscoveryScansGetReportResponseReportRepositoriesItemTrafficContextWebAssetsOperationsItemPerformance": {
+      "type": "structure",
+      "members": {
+        "avg_origin_latency_ms": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "error_rate": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "estimated_requests": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      }
+    },
+    "com.cloudflare.managed_defense#VulnerabilityDiscoveryScansGetReportResponseReportRepositoriesItemTrafficContextWebAssetsOperationsItem": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "endpoint": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "host": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "method": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "risk_labels": {
+          "target": "com.cloudflare.managed_defense#VulnerabilityDiscoveryScansGetReportResponseReportRepositoriesItemTrafficContextWebAssetsOperationsItemRiskLabelsList",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "performance": {
+          "target": "com.cloudflare.managed_defense#VulnerabilityDiscoveryScansGetReportResponseReportRepositoriesItemTrafficContextWebAssetsOperationsItemPerformance"
+        }
+      }
+    },
+    "com.cloudflare.managed_defense#VulnerabilityDiscoveryScansGetReportResponseReportRepositoriesItemTrafficContextWebAssetsOperationsList": {
+      "type": "list",
+      "member": {
+        "target": "com.cloudflare.managed_defense#VulnerabilityDiscoveryScansGetReportResponseReportRepositoriesItemTrafficContextWebAssetsOperationsItem"
+      }
+    },
+    "com.cloudflare.managed_defense#VulnerabilityDiscoveryScansGetReportResponseReportRepositoriesItemTrafficContextWebAssetsPathsItem": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "avg_origin_latency_ms": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "error_rate": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "estimated_requests": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "host": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "path": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      }
+    },
+    "com.cloudflare.managed_defense#VulnerabilityDiscoveryScansGetReportResponseReportRepositoriesItemTrafficContextWebAssetsPathsList": {
+      "type": "list",
+      "member": {
+        "target": "com.cloudflare.managed_defense#VulnerabilityDiscoveryScansGetReportResponseReportRepositoriesItemTrafficContextWebAssetsPathsItem"
+      }
+    },
+    "com.cloudflare.managed_defense#VulnerabilityDiscoveryScansGetReportResponseReportRepositoriesItemTrafficContextWebAssetsRiskTypesItem": {
+      "type": "structure",
+      "members": {
+        "description": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "operation_count": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      }
+    },
+    "com.cloudflare.managed_defense#VulnerabilityDiscoveryScansGetReportResponseReportRepositoriesItemTrafficContextWebAssetsRiskTypesList": {
+      "type": "list",
+      "member": {
+        "target": "com.cloudflare.managed_defense#VulnerabilityDiscoveryScansGetReportResponseReportRepositoriesItemTrafficContextWebAssetsRiskTypesItem"
+      }
+    },
+    "com.cloudflare.managed_defense#VulnerabilityDiscoveryScansGetReportResponseReportRepositoriesItemTrafficContextWebAssets": {
+      "type": "structure",
+      "members": {
+        "operations": {
+          "target": "com.cloudflare.managed_defense#VulnerabilityDiscoveryScansGetReportResponseReportRepositoriesItemTrafficContextWebAssetsOperationsList",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "paths": {
+          "target": "com.cloudflare.managed_defense#VulnerabilityDiscoveryScansGetReportResponseReportRepositoriesItemTrafficContextWebAssetsPathsList",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "risk_types": {
+          "target": "com.cloudflare.managed_defense#VulnerabilityDiscoveryScansGetReportResponseReportRepositoriesItemTrafficContextWebAssetsRiskTypesList",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      }
+    },
+    "com.cloudflare.managed_defense#VulnerabilityDiscoveryScansGetReportResponseReportRepositoriesItemTrafficContext": {
+      "type": "structure",
+      "members": {
+        "http": {
+          "target": "com.cloudflare.managed_defense#VulnerabilityDiscoveryScansGetReportResponseReportRepositoriesItemTrafficContextHttp",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "target": {
+          "target": "com.cloudflare.managed_defense#VulnerabilityDiscoveryScansGetReportResponseReportRepositoriesItemTrafficContextTarget",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "waf": {
+          "target": "com.cloudflare.managed_defense#VulnerabilityDiscoveryScansGetReportResponseReportRepositoriesItemTrafficContextWaf",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "web_assets": {
+          "target": "com.cloudflare.managed_defense#VulnerabilityDiscoveryScansGetReportResponseReportRepositoriesItemTrafficContextWebAssets",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      }
+    },
+    "com.cloudflare.managed_defense#VulnerabilityDiscoveryScansGetReportResponseReportRepositoriesItemExternalLinksItem": {
+      "type": "structure",
+      "members": {
+        "title": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "url": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      }
+    },
+    "com.cloudflare.managed_defense#VulnerabilityDiscoveryScansGetReportResponseReportRepositoriesItemExternalLinksList": {
+      "type": "list",
+      "member": {
+        "target": "com.cloudflare.managed_defense#VulnerabilityDiscoveryScansGetReportResponseReportRepositoriesItemExternalLinksItem"
+      }
+    },
+    "com.cloudflare.managed_defense#VulnerabilityDiscoveryScansGetReportResponseReportRepositoriesItemLimitationsList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      }
+    },
+    "com.cloudflare.managed_defense#VulnerabilityDiscoveryScansGetReportResponseReportRepositoriesItem": {
+      "type": "structure",
+      "members": {
+        "findings": {
+          "target": "com.cloudflare.managed_defense#VulnerabilityDiscoveryScansGetReportResponseReportRepositoriesItemFindingsList",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "overall_severity": {
+          "target": "com.cloudflare.managed_defense#VulnerabilityDiscoveryScansGetReportResponseReportRepositoriesItemOverallSeverity",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "repository_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "repository_name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "summary": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "traffic_context": {
+          "target": "com.cloudflare.managed_defense#VulnerabilityDiscoveryScansGetReportResponseReportRepositoriesItemTrafficContext",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "external_links": {
+          "target": "com.cloudflare.managed_defense#VulnerabilityDiscoveryScansGetReportResponseReportRepositoriesItemExternalLinksList"
+        },
+        "limitations": {
+          "target": "com.cloudflare.managed_defense#VulnerabilityDiscoveryScansGetReportResponseReportRepositoriesItemLimitationsList"
+        }
+      }
+    },
+    "com.cloudflare.managed_defense#VulnerabilityDiscoveryScansGetReportResponseReportRepositoriesList": {
+      "type": "list",
+      "member": {
+        "target": "com.cloudflare.managed_defense#VulnerabilityDiscoveryScansGetReportResponseReportRepositoriesItem"
+      }
+    },
+    "com.cloudflare.managed_defense#VulnerabilityDiscoveryScansGetReportResponseReportSchemaVersion": {
+      "type": "intEnum",
+      "members": {
+        "_2": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": 2
+          }
+        }
+      }
+    },
+    "com.cloudflare.managed_defense#VulnerabilityDiscoveryScansGetReportResponseReport": {
+      "type": "structure",
+      "members": {
+        "executive_summary": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "generated_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Revision requests must echo the existing generation timestamp unchanged.",
+            "smithy.api#required": {}
+          }
+        },
+        "overall_severity": {
+          "target": "com.cloudflare.managed_defense#VulnerabilityDiscoveryScansGetReportResponseReportOverallSeverity",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "repositories": {
+          "target": "com.cloudflare.managed_defense#VulnerabilityDiscoveryScansGetReportResponseReportRepositoriesList",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "schema_version": {
+          "target": "com.cloudflare.managed_defense#VulnerabilityDiscoveryScansGetReportResponseReportSchemaVersion",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "title": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      }
+    },
+    "com.cloudflare.managed_defense#VulnerabilityDiscoveryScansGetReportResponseRepositoriesItemReportStatus": {
+      "type": "enum",
+      "members": {
+        "NOT_READY": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "not_ready"
+          }
+        },
+        "PENDING_REVIEW": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "pending_review"
+          }
+        },
+        "PUBLISHED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "published"
+          }
+        },
+        "WITHDRAWN": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "withdrawn"
+          }
+        }
+      }
+    },
+    "com.cloudflare.managed_defense#VulnerabilityDiscoveryScansGetReportResponseRepositoriesItemScanStatus": {
+      "type": "enum",
+      "members": {
+        "REQUESTED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "requested"
+          }
+        },
+        "ACCEPTED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "accepted"
+          }
+        },
+        "RUNNING": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "running"
+          }
+        },
+        "COMPLETED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "completed"
+          }
+        },
+        "FAILED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "failed"
+          }
+        },
+        "REJECTED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "rejected"
+          }
+        },
+        "CANCELLED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "cancelled"
+          }
+        }
+      }
+    },
+    "com.cloudflare.managed_defense#VulnerabilityDiscoveryScansGetReportResponseRepositoriesItem": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "report_status": {
+          "target": "com.cloudflare.managed_defense#VulnerabilityDiscoveryScansGetReportResponseRepositoriesItemReportStatus",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "scan_status": {
+          "target": "com.cloudflare.managed_defense#VulnerabilityDiscoveryScansGetReportResponseRepositoriesItemScanStatus",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      }
+    },
+    "com.cloudflare.managed_defense#VulnerabilityDiscoveryScansGetReportResponseRepositoriesList": {
+      "type": "list",
+      "member": {
+        "target": "com.cloudflare.managed_defense#VulnerabilityDiscoveryScansGetReportResponseRepositoriesItem"
+      }
+    },
+    "com.cloudflare.managed_defense#VulnerabilityDiscoveryScansGetReportResponse": {
+      "type": "structure",
+      "members": {
+        "publication": {
+          "target": "com.cloudflare.managed_defense#VulnerabilityDiscoveryScansGetReportResponsePublication",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "report": {
+          "target": "com.cloudflare.managed_defense#VulnerabilityDiscoveryScansGetReportResponseReport",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "repositories": {
+          "target": "com.cloudflare.managed_defense#VulnerabilityDiscoveryScansGetReportResponseRepositoriesList",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "scan_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {},
+        "smithy.api#documentation": "Unwrapped `result` payload of the Cloudflare v4 response envelope."
+      }
+    },
+    "com.cloudflare.managed_defense#VulnerabilityDiscoveryScansGetReport": {
+      "type": "operation",
+      "input": {
+        "target": "com.cloudflare.managed_defense#VulnerabilityDiscoveryScansGetReportRequest"
+      },
+      "output": {
+        "target": "com.cloudflare.managed_defense#VulnerabilityDiscoveryScansGetReportResponse"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/accounts/{account_id}/managed-defense/vulnerability-discovery/scans/{scan_id}/report",
+          "code": 200
+        },
+        "smithy.api#documentation": "Gets the active operator-reviewed scan report. Repository metadata records report readiness even when no publication is available.",
+        "smithy.api#readonly": {}
+      }
+    },
+    "com.cloudflare.managed_defense#ListVulnerabilityDiscoveryScansRequestStatusCase0": {
+      "type": "enum",
+      "members": {
+        "REQUESTED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "requested"
+          }
+        },
+        "ACCEPTED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "accepted"
+          }
+        },
+        "RUNNING": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "running"
+          }
+        },
+        "COMPLETED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "completed"
+          }
+        },
+        "FAILED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "failed"
+          }
+        },
+        "REJECTED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "rejected"
+          }
+        },
+        "CANCELLED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "cancelled"
+          }
+        }
+      }
+    },
+    "com.cloudflare.managed_defense#ListVulnerabilityDiscoveryScansRequestStatusCase1Item": {
+      "type": "enum",
+      "members": {
+        "REQUESTED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "requested"
+          }
+        },
+        "ACCEPTED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "accepted"
+          }
+        },
+        "RUNNING": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "running"
+          }
+        },
+        "COMPLETED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "completed"
+          }
+        },
+        "FAILED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "failed"
+          }
+        },
+        "REJECTED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "rejected"
+          }
+        },
+        "CANCELLED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "cancelled"
+          }
+        }
+      }
+    },
+    "com.cloudflare.managed_defense#ListVulnerabilityDiscoveryScansRequestStatusCase1List": {
+      "type": "list",
+      "member": {
+        "target": "com.cloudflare.managed_defense#ListVulnerabilityDiscoveryScansRequestStatusCase1Item"
+      }
+    },
+    "com.cloudflare.managed_defense#ListVulnerabilityDiscoveryScansRequestStatus": {
+      "type": "union",
+      "members": {
+        "VulnerabilityDiscoveryScansListRequestStatusCase0": {
+          "target": "com.cloudflare.managed_defense#ListVulnerabilityDiscoveryScansRequestStatusCase0"
+        },
+        "VulnerabilityDiscoveryScansListRequestStatusCase1List": {
+          "target": "com.cloudflare.managed_defense#ListVulnerabilityDiscoveryScansRequestStatusCase1List"
+        }
+      }
+    },
+    "com.cloudflare.managed_defense#ListVulnerabilityDiscoveryScansRequest": {
+      "type": "structure",
+      "members": {
+        "account_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        },
+        "cursor": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "cursor"
+          }
+        },
+        "limit": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#httpQuery": "limit"
+          }
+        },
+        "repo": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "repo"
+          }
+        },
+        "status": {
+          "target": "com.cloudflare.managed_defense#ListVulnerabilityDiscoveryScansRequestStatus",
+          "traits": {
+            "smithy.api#documentation": "Repeat parameter or provide comma-separated values.",
+            "smithy.api#httpQuery": "status"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.cloudflare.managed_defense#ListVulnerabilityDiscoveryScansResultItemPhase": {
+      "type": "enum",
+      "members": {
+        "PROVISIONING": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "provisioning"
+          }
+        },
+        "INDEXING": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "indexing"
+          }
+        },
+        "ANALYZING": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "analyzing"
+          }
+        },
+        "REPORTING": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "reporting"
+          }
+        },
+        "FINALIZING": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "finalizing"
+          }
+        }
+      }
+    },
+    "com.cloudflare.managed_defense#ListVulnerabilityDiscoveryScansResultItemRepositoriesItemPhase": {
+      "type": "enum",
+      "members": {
+        "PROVISIONING": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "provisioning"
+          }
+        },
+        "INDEXING": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "indexing"
+          }
+        },
+        "ANALYZING": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "analyzing"
+          }
+        },
+        "REPORTING": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "reporting"
+          }
+        },
+        "FINALIZING": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "finalizing"
+          }
+        }
+      }
+    },
+    "com.cloudflare.managed_defense#ListVulnerabilityDiscoveryScansResultItemRepositoriesItemReportStatus": {
+      "type": "enum",
+      "members": {
+        "NOT_READY": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "not_ready"
+          }
+        },
+        "PENDING_REVIEW": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "pending_review"
+          }
+        },
+        "PUBLISHED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "published"
+          }
+        },
+        "WITHDRAWN": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "withdrawn"
+          }
+        }
+      }
+    },
+    "com.cloudflare.managed_defense#ListVulnerabilityDiscoveryScansResultItemRepositoriesItemStatus": {
+      "type": "enum",
+      "members": {
+        "REQUESTED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "requested"
+          }
+        },
+        "ACCEPTED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "accepted"
+          }
+        },
+        "RUNNING": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "running"
+          }
+        },
+        "COMPLETED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "completed"
+          }
+        },
+        "FAILED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "failed"
+          }
+        },
+        "REJECTED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "rejected"
+          }
+        },
+        "CANCELLED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "cancelled"
+          }
+        }
+      }
+    },
+    "com.cloudflare.managed_defense#ListVulnerabilityDiscoveryScansResultItemRepositoriesItem": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "phase": {
+          "target": "com.cloudflare.managed_defense#ListVulnerabilityDiscoveryScansResultItemRepositoriesItemPhase",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "report_status": {
+          "target": "com.cloudflare.managed_defense#ListVulnerabilityDiscoveryScansResultItemRepositoriesItemReportStatus",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "status": {
+          "target": "com.cloudflare.managed_defense#ListVulnerabilityDiscoveryScansResultItemRepositoriesItemStatus",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      }
+    },
+    "com.cloudflare.managed_defense#ListVulnerabilityDiscoveryScansResultItemRepositoriesList": {
+      "type": "list",
+      "member": {
+        "target": "com.cloudflare.managed_defense#ListVulnerabilityDiscoveryScansResultItemRepositoriesItem"
+      }
+    },
+    "com.cloudflare.managed_defense#ListVulnerabilityDiscoveryScansResultItemStatus": {
+      "type": "enum",
+      "members": {
+        "REQUESTED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "requested"
+          }
+        },
+        "ACCEPTED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "accepted"
+          }
+        },
+        "RUNNING": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "running"
+          }
+        },
+        "COMPLETED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "completed"
+          }
+        },
+        "FAILED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "failed"
+          }
+        },
+        "REJECTED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "rejected"
+          }
+        },
+        "CANCELLED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "cancelled"
+          }
+        }
+      }
+    },
+    "com.cloudflare.managed_defense#ListVulnerabilityDiscoveryScansResultItemTelemetryWindow": {
+      "type": "structure",
+      "members": {
+        "end": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "start": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      }
+    },
+    "com.cloudflare.managed_defense#ListVulnerabilityDiscoveryScansResultItem": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "completed_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "message": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "phase": {
+          "target": "com.cloudflare.managed_defense#ListVulnerabilityDiscoveryScansResultItemPhase",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "repositories": {
+          "target": "com.cloudflare.managed_defense#ListVulnerabilityDiscoveryScansResultItemRepositoriesList",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "started_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "status": {
+          "target": "com.cloudflare.managed_defense#ListVulnerabilityDiscoveryScansResultItemStatus",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "submitted_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "telemetry_window": {
+          "target": "com.cloudflare.managed_defense#ListVulnerabilityDiscoveryScansResultItemTelemetryWindow",
+          "traits": {
+            "smithy.api#documentation": "UTC ISO-8601 interval. Start is inclusive, end is exclusive, and the interval must be positive and at most seven days."
+          }
+        }
+      }
+    },
+    "com.cloudflare.managed_defense#ListVulnerabilityDiscoveryScansResultList": {
+      "type": "list",
+      "member": {
+        "target": "com.cloudflare.managed_defense#ListVulnerabilityDiscoveryScansResultItem"
+      }
+    },
+    "com.cloudflare.managed_defense#ListVulnerabilityDiscoveryScansResponse": {
+      "type": "structure",
+      "members": {
+        "result": {
+          "target": "com.cloudflare.managed_defense#ListVulnerabilityDiscoveryScansResultList",
+          "traits": {
+            "com.cloudflare.protocols#envelopePayload": {},
+            "smithy.api#documentation": "The unwrapped `result` payload of the v4 response envelope."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
+      }
+    },
+    "com.cloudflare.managed_defense#ListVulnerabilityDiscoveryScans": {
+      "type": "operation",
+      "input": {
+        "target": "com.cloudflare.managed_defense#ListVulnerabilityDiscoveryScansRequest"
+      },
+      "output": {
+        "target": "com.cloudflare.managed_defense#ListVulnerabilityDiscoveryScansResponse"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/accounts/{account_id}/managed-defense/vulnerability-discovery/scans",
+          "code": 200
+        },
+        "smithy.api#documentation": "Lists customer-requested scans across review and execution lifecycle states.",
+        "smithy.api#readonly": {}
+      }
+    },
+    "com.cloudflare.managed_defense#ManagedDefense": {
+      "type": "service",
+      "version": "4.0",
+      "operations": [
+        {
+          "target": "com.cloudflare.managed_defense#GetVulnerabilityDiscoveryReport"
+        },
+        {
+          "target": "com.cloudflare.managed_defense#CreateVulnerabilityDiscoveryRepository"
+        },
+        {
+          "target": "com.cloudflare.managed_defense#GetVulnerabilityDiscoveryRepository"
+        },
+        {
+          "target": "com.cloudflare.managed_defense#ListVulnerabilityDiscoveryRepositories"
+        },
+        {
+          "target": "com.cloudflare.managed_defense#CreateVulnerabilityDiscoveryScan"
+        },
+        {
+          "target": "com.cloudflare.managed_defense#GetVulnerabilityDiscoveryScan"
+        },
+        {
+          "target": "com.cloudflare.managed_defense#VulnerabilityDiscoveryScansGetReport"
+        },
+        {
+          "target": "com.cloudflare.managed_defense#ListVulnerabilityDiscoveryScans"
+        }
+      ],
+      "traits": {
+        "com.cloudflare.protocols#v4Json": {},
+        "smithy.api#title": "Cloudflare ManagedDefense",
+        "smithy.api#documentation": "Cloudflare API — managed_defense resource. Speaks the v4 JSON envelope protocol; operation outputs describe the unwrapped `result` payload."
+      }
+    }
+  }
+}

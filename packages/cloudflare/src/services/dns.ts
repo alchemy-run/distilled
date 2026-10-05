@@ -1972,17 +1972,9 @@ export const BatchRecordRequest = /*@__PURE__*/ S.suspend(() =>
     posts: S.optional(RecordsBatchRequestPostsList),
     puts: S.optional(RecordsBatchRequestPutsList),
   })
-    .pipe(
-      T.Http({
-        method: "POST",
-        uri: "/zones/{zone_id}/dns_records/batch",
-        code: 200,
-      }),
-    )
+    .pipe(T.Http({ method: "POST", uri: "/zones/{zone_id}/dns_records/batch", code: 200 }))
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "BatchRecordRequest",
-}) as any as S.Schema<BatchRecordRequest>;
+).annotate({ identifier: "BatchRecordRequest" }) as any as S.Schema<BatchRecordRequest>;
 
 export type RecordsBatchResponseDeletesItemARecordMetaShadowedByList = Array<string>;
 export const RecordsBatchResponseDeletesItemARecordMetaShadowedByList = /*@__PURE__*/ S.Array(
@@ -7447,9 +7439,7 @@ export const BatchRecordResponse = /*@__PURE__*/ S.suspend(() =>
     posts: S.optional(S.NullOr(RecordsBatchResponsePostsList)),
     puts: S.optional(S.NullOr(RecordsBatchResponsePutsList)),
   }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "BatchRecordResponse",
-}) as any as S.Schema<BatchRecordResponse>;
+).annotate({ identifier: "BatchRecordResponse" }) as any as S.Schema<BatchRecordResponse>;
 
 export type RecordsCreateRequestType =
   | "A"
@@ -7670,17 +7660,9 @@ export const CreateRecordRequest = /*@__PURE__*/ S.suspend(() =>
     priority: S.optional(S.Number),
     data: S.optional(RecordsCreateRequestData),
   })
-    .pipe(
-      T.Http({
-        method: "POST",
-        uri: "/zones/{zone_id}/dns_records",
-        code: 200,
-      }),
-    )
+    .pipe(T.Http({ method: "POST", uri: "/zones/{zone_id}/dns_records", code: 200 }))
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "CreateRecordRequest",
-}) as any as S.Schema<CreateRecordRequest>;
+).annotate({ identifier: "CreateRecordRequest" }) as any as S.Schema<CreateRecordRequest>;
 
 export type RecordsCreateResultARecordMetaShadowedByList = Array<string>;
 export const RecordsCreateResultARecordMetaShadowedByList = /*@__PURE__*/ S.Array(
@@ -9857,9 +9839,7 @@ export const RecordsCreateResult = /*@__PURE__*/ S.Unknown.pipe(
 export type CreateRecordResponse = RecordsCreateResult;
 export const CreateRecordResponse = /*@__PURE__*/ S.suspend(() =>
   RecordsCreateResult.pipe(T.EnvelopePayloadRoot(), T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "CreateRecordResponse",
-}) as any as S.Schema<CreateRecordResponse>;
+).annotate({ identifier: "CreateRecordResponse" }) as any as S.Schema<CreateRecordResponse>;
 
 export type SettingsAccountViewsCreateRequestZonesList = Array<string>;
 export const SettingsAccountViewsCreateRequestZonesList = /*@__PURE__*/ S.Array(
@@ -9880,13 +9860,7 @@ export const CreateSettingAccountViewRequest = /*@__PURE__*/ S.suspend(() =>
     name: S.String,
     zones: SettingsAccountViewsCreateRequestZonesList,
   })
-    .pipe(
-      T.Http({
-        method: "POST",
-        uri: "/accounts/{account_id}/dns_settings/views",
-        code: 200,
-      }),
-    )
+    .pipe(T.Http({ method: "POST", uri: "/accounts/{account_id}/dns_settings/views", code: 200 }))
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
 ).annotate({
   identifier: "CreateSettingAccountViewRequest",
@@ -9922,6 +9896,249 @@ export const CreateSettingAccountViewResponse = /*@__PURE__*/ S.suspend(() =>
   identifier: "CreateSettingAccountViewResponse",
 }) as any as S.Schema<CreateSettingAccountViewResponse>;
 
+export interface CreateSettingsAccountNameserverSetRequestNameserversItem {
+  /** A unique lowercase Punycode nameserver name within the set. */
+  name: string;
+  /** Number of IPv4 addresses and number of IPv6 addresses to allocate to this nameserver. All nameservers in an Advanced nameserver set must use the same value. */
+  ipCount?: number;
+}
+export const CreateSettingsAccountNameserverSetRequestNameserversItem = /*@__PURE__*/ S.suspend(
+  () =>
+    S.Struct({
+      name: S.String,
+      ipCount: S.optional(S.Number.pipe(T.Body("ip_count"))),
+    }),
+).annotate({
+  identifier: "CreateSettingsAccountNameserverSetRequestNameserversItem",
+}) as any as S.Schema<CreateSettingsAccountNameserverSetRequestNameserversItem>;
+
+export type CreateSettingsAccountNameserverSetRequestNameserversList =
+  Array<CreateSettingsAccountNameserverSetRequestNameserversItem>;
+export const CreateSettingsAccountNameserverSetRequestNameserversList = /*@__PURE__*/ S.Array(
+  CreateSettingsAccountNameserverSetRequestNameserversItem,
+) as any as S.Schema<CreateSettingsAccountNameserverSetRequestNameserversList>;
+
+export interface CreateSettingsAccountNameserverSetRequest {
+  /** Identifier. */
+  accountId: string;
+  /** Lists each nameserver and the number of addresses to allocate to it. Requires a unique name for each entry in the set. */
+  nameservers: CreateSettingsAccountNameserverSetRequestNameserversList;
+  /** Whether to allocate the nameservers from distinct Advanced anycast groups. */
+  advanced?: boolean;
+  /** Selects the account-specific IP set that supplies the nameserver addresses. The account's entitlement determines the maximum value. Nameserver sets with the same `ip_set` and `advanced` value may reuse addresses; otherwise, they use disjoint address groups. */
+  ipSet?: number;
+}
+export const CreateSettingsAccountNameserverSetRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    accountId: S.String.pipe(T.Label("account_id")),
+    nameservers: CreateSettingsAccountNameserverSetRequestNameserversList,
+    advanced: S.optional(S.Boolean),
+    ipSet: S.optional(S.Number.pipe(T.Body("ip_set"))),
+  })
+    .pipe(
+      T.Http({
+        method: "POST",
+        uri: "/accounts/{account_id}/dns_settings/nameserver_sets",
+        code: 200,
+      }),
+    )
+    .pipe(T.KeyDictionary(KEY_DICTIONARY)),
+).annotate({
+  identifier: "CreateSettingsAccountNameserverSetRequest",
+}) as any as S.Schema<CreateSettingsAccountNameserverSetRequest>;
+
+export type CreateSettingsAccountNameserverSetResultDNSSettingsNameserverSetStandardResponseNameserversItemIpv4List =
+  Array<string>;
+export const CreateSettingsAccountNameserverSetResultDNSSettingsNameserverSetStandardResponseNameserversItemIpv4List =
+  /*@__PURE__*/ S.Array(
+    S.String,
+  ) as any as S.Schema<CreateSettingsAccountNameserverSetResultDNSSettingsNameserverSetStandardResponseNameserversItemIpv4List>;
+
+export type CreateSettingsAccountNameserverSetResultDNSSettingsNameserverSetStandardResponseNameserversItemIpv6List =
+  Array<string>;
+export const CreateSettingsAccountNameserverSetResultDNSSettingsNameserverSetStandardResponseNameserversItemIpv6List =
+  /*@__PURE__*/ S.Array(
+    S.String,
+  ) as any as S.Schema<CreateSettingsAccountNameserverSetResultDNSSettingsNameserverSetStandardResponseNameserversItemIpv6List>;
+
+export interface CreateSettingsAccountNameserverSetResultDNSSettingsNameserverSetStandardResponseNameserversItem {
+  /** IPv4 addresses assigned to the nameserver. */
+  ipv4: CreateSettingsAccountNameserverSetResultDNSSettingsNameserverSetStandardResponseNameserversItemIpv4List;
+  /** IPv6 addresses assigned to the nameserver. */
+  ipv6: CreateSettingsAccountNameserverSetResultDNSSettingsNameserverSetStandardResponseNameserversItemIpv6List;
+  /** A unique lowercase Punycode nameserver name within the set. */
+  name: string;
+}
+export const CreateSettingsAccountNameserverSetResultDNSSettingsNameserverSetStandardResponseNameserversItem =
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      ipv4: CreateSettingsAccountNameserverSetResultDNSSettingsNameserverSetStandardResponseNameserversItemIpv4List,
+      ipv6: CreateSettingsAccountNameserverSetResultDNSSettingsNameserverSetStandardResponseNameserversItemIpv6List,
+      name: S.String,
+    }),
+  ).annotate({
+    identifier:
+      "CreateSettingsAccountNameserverSetResultDNSSettingsNameserverSetStandardResponseNameserversItem",
+  }) as any as S.Schema<CreateSettingsAccountNameserverSetResultDNSSettingsNameserverSetStandardResponseNameserversItem>;
+
+export type CreateSettingsAccountNameserverSetResultDNSSettingsNameserverSetStandardResponseNameserversList =
+  Array<CreateSettingsAccountNameserverSetResultDNSSettingsNameserverSetStandardResponseNameserversItem>;
+export const CreateSettingsAccountNameserverSetResultDNSSettingsNameserverSetStandardResponseNameserversList =
+  /*@__PURE__*/ S.Array(
+    CreateSettingsAccountNameserverSetResultDNSSettingsNameserverSetStandardResponseNameserversItem,
+  ) as any as S.Schema<CreateSettingsAccountNameserverSetResultDNSSettingsNameserverSetStandardResponseNameserversList>;
+
+export interface CreateSettingsAccountNameserverSetResultDNSSettingsNameserverSetStandardResponse {
+  /** Identifier for a nameserver set. */
+  id: string;
+  /** Whether the nameserver set uses Advanced anycast groups. */
+  advanced: boolean;
+  /** When the nameserver set was created. */
+  createdOn: string;
+  /** Selects the account-specific IP set that supplies the nameserver addresses. The account's entitlement determines the maximum value. Nameserver sets with the same `ip_set` and `advanced` value may reuse addresses; otherwise, they use disjoint address groups. */
+  ipSet: number;
+  nameservers: CreateSettingsAccountNameserverSetResultDNSSettingsNameserverSetStandardResponseNameserversList;
+}
+export const CreateSettingsAccountNameserverSetResultDNSSettingsNameserverSetStandardResponse =
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      id: S.String,
+      advanced: S.Boolean,
+      createdOn: S.String.pipe(T.Body("created_on")),
+      ipSet: S.Number.pipe(T.Body("ip_set")),
+      nameservers:
+        CreateSettingsAccountNameserverSetResultDNSSettingsNameserverSetStandardResponseNameserversList,
+    }),
+  ).annotate({
+    identifier: "CreateSettingsAccountNameserverSetResultDNSSettingsNameserverSetStandardResponse",
+  }) as any as S.Schema<CreateSettingsAccountNameserverSetResultDNSSettingsNameserverSetStandardResponse>;
+
+export type CreateSettingsAccountNameserverSetResultDNSSettingsNameserverSetAdvancedResponseNameserversItemIpv4List =
+  Array<string>;
+export const CreateSettingsAccountNameserverSetResultDNSSettingsNameserverSetAdvancedResponseNameserversItemIpv4List =
+  /*@__PURE__*/ S.Array(
+    S.String,
+  ) as any as S.Schema<CreateSettingsAccountNameserverSetResultDNSSettingsNameserverSetAdvancedResponseNameserversItemIpv4List>;
+
+export type CreateSettingsAccountNameserverSetResultDNSSettingsNameserverSetAdvancedResponseNameserversItemIpv4GroupsItem =
+  | "a"
+  | "b"
+  | "c";
+export const CreateSettingsAccountNameserverSetResultDNSSettingsNameserverSetAdvancedResponseNameserversItemIpv4GroupsItem =
+  S.String;
+
+export type CreateSettingsAccountNameserverSetResultDNSSettingsNameserverSetAdvancedResponseNameserversItemIpv4GroupsList =
+  Array<CreateSettingsAccountNameserverSetResultDNSSettingsNameserverSetAdvancedResponseNameserversItemIpv4GroupsItem>;
+export const CreateSettingsAccountNameserverSetResultDNSSettingsNameserverSetAdvancedResponseNameserversItemIpv4GroupsList =
+  /*@__PURE__*/ S.Array(
+    CreateSettingsAccountNameserverSetResultDNSSettingsNameserverSetAdvancedResponseNameserversItemIpv4GroupsItem,
+  ) as any as S.Schema<CreateSettingsAccountNameserverSetResultDNSSettingsNameserverSetAdvancedResponseNameserversItemIpv4GroupsList>;
+
+export type CreateSettingsAccountNameserverSetResultDNSSettingsNameserverSetAdvancedResponseNameserversItemIpv6List =
+  Array<string>;
+export const CreateSettingsAccountNameserverSetResultDNSSettingsNameserverSetAdvancedResponseNameserversItemIpv6List =
+  /*@__PURE__*/ S.Array(
+    S.String,
+  ) as any as S.Schema<CreateSettingsAccountNameserverSetResultDNSSettingsNameserverSetAdvancedResponseNameserversItemIpv6List>;
+
+export type CreateSettingsAccountNameserverSetResultDNSSettingsNameserverSetAdvancedResponseNameserversItemIpv6GroupsItem =
+  | "a"
+  | "b"
+  | "c";
+export const CreateSettingsAccountNameserverSetResultDNSSettingsNameserverSetAdvancedResponseNameserversItemIpv6GroupsItem =
+  S.String;
+
+export type CreateSettingsAccountNameserverSetResultDNSSettingsNameserverSetAdvancedResponseNameserversItemIpv6GroupsList =
+  Array<CreateSettingsAccountNameserverSetResultDNSSettingsNameserverSetAdvancedResponseNameserversItemIpv6GroupsItem>;
+export const CreateSettingsAccountNameserverSetResultDNSSettingsNameserverSetAdvancedResponseNameserversItemIpv6GroupsList =
+  /*@__PURE__*/ S.Array(
+    CreateSettingsAccountNameserverSetResultDNSSettingsNameserverSetAdvancedResponseNameserversItemIpv6GroupsItem,
+  ) as any as S.Schema<CreateSettingsAccountNameserverSetResultDNSSettingsNameserverSetAdvancedResponseNameserversItemIpv6GroupsList>;
+
+export interface CreateSettingsAccountNameserverSetResultDNSSettingsNameserverSetAdvancedResponseNameserversItem {
+  /** IPv4 addresses assigned to the nameserver. */
+  ipv4: CreateSettingsAccountNameserverSetResultDNSSettingsNameserverSetAdvancedResponseNameserversItemIpv4List;
+  /** Advanced anycast group for each address in the corresponding address array. Entries have the same order as, and correspond one-to-one with, the addresses. */
+  ipv4Groups: CreateSettingsAccountNameserverSetResultDNSSettingsNameserverSetAdvancedResponseNameserversItemIpv4GroupsList;
+  /** IPv6 addresses assigned to the nameserver. */
+  ipv6: CreateSettingsAccountNameserverSetResultDNSSettingsNameserverSetAdvancedResponseNameserversItemIpv6List;
+  /** Advanced anycast group for each address in the corresponding address array. Entries have the same order as, and correspond one-to-one with, the addresses. */
+  ipv6Groups: CreateSettingsAccountNameserverSetResultDNSSettingsNameserverSetAdvancedResponseNameserversItemIpv6GroupsList;
+  /** A unique lowercase Punycode nameserver name within the set. */
+  name: string;
+}
+export const CreateSettingsAccountNameserverSetResultDNSSettingsNameserverSetAdvancedResponseNameserversItem =
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      ipv4: CreateSettingsAccountNameserverSetResultDNSSettingsNameserverSetAdvancedResponseNameserversItemIpv4List,
+      ipv4Groups:
+        CreateSettingsAccountNameserverSetResultDNSSettingsNameserverSetAdvancedResponseNameserversItemIpv4GroupsList.pipe(
+          T.Body("ipv4_groups"),
+        ),
+      ipv6: CreateSettingsAccountNameserverSetResultDNSSettingsNameserverSetAdvancedResponseNameserversItemIpv6List,
+      ipv6Groups:
+        CreateSettingsAccountNameserverSetResultDNSSettingsNameserverSetAdvancedResponseNameserversItemIpv6GroupsList.pipe(
+          T.Body("ipv6_groups"),
+        ),
+      name: S.String,
+    }),
+  ).annotate({
+    identifier:
+      "CreateSettingsAccountNameserverSetResultDNSSettingsNameserverSetAdvancedResponseNameserversItem",
+  }) as any as S.Schema<CreateSettingsAccountNameserverSetResultDNSSettingsNameserverSetAdvancedResponseNameserversItem>;
+
+export type CreateSettingsAccountNameserverSetResultDNSSettingsNameserverSetAdvancedResponseNameserversList =
+  Array<CreateSettingsAccountNameserverSetResultDNSSettingsNameserverSetAdvancedResponseNameserversItem>;
+export const CreateSettingsAccountNameserverSetResultDNSSettingsNameserverSetAdvancedResponseNameserversList =
+  /*@__PURE__*/ S.Array(
+    CreateSettingsAccountNameserverSetResultDNSSettingsNameserverSetAdvancedResponseNameserversItem,
+  ) as any as S.Schema<CreateSettingsAccountNameserverSetResultDNSSettingsNameserverSetAdvancedResponseNameserversList>;
+
+export interface CreateSettingsAccountNameserverSetResultDNSSettingsNameserverSetAdvancedResponse {
+  /** Identifier for a nameserver set. */
+  id: string;
+  /** Whether the nameserver set uses Advanced anycast groups. */
+  advanced: boolean;
+  /** When the nameserver set was created. */
+  createdOn: string;
+  /** Selects the account-specific IP set that supplies the nameserver addresses. The account's entitlement determines the maximum value. Nameserver sets with the same `ip_set` and `advanced` value may reuse addresses; otherwise, they use disjoint address groups. */
+  ipSet: number;
+  nameservers: CreateSettingsAccountNameserverSetResultDNSSettingsNameserverSetAdvancedResponseNameserversList;
+}
+export const CreateSettingsAccountNameserverSetResultDNSSettingsNameserverSetAdvancedResponse =
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      id: S.String,
+      advanced: S.Boolean,
+      createdOn: S.String.pipe(T.Body("created_on")),
+      ipSet: S.Number.pipe(T.Body("ip_set")),
+      nameservers:
+        CreateSettingsAccountNameserverSetResultDNSSettingsNameserverSetAdvancedResponseNameserversList,
+    }),
+  ).annotate({
+    identifier: "CreateSettingsAccountNameserverSetResultDNSSettingsNameserverSetAdvancedResponse",
+  }) as any as S.Schema<CreateSettingsAccountNameserverSetResultDNSSettingsNameserverSetAdvancedResponse>;
+
+export type CreateSettingsAccountNameserverSetResult =
+  | CreateSettingsAccountNameserverSetResultDNSSettingsNameserverSetStandardResponse
+  | CreateSettingsAccountNameserverSetResultDNSSettingsNameserverSetAdvancedResponse;
+export const CreateSettingsAccountNameserverSetResult = /*@__PURE__*/ S.Unknown.pipe(
+  T.UnionCases([
+    ["id", "advanced", "createdOn", "ipSet", "nameservers"],
+    ["id", "advanced", "createdOn", "ipSet", "nameservers"],
+  ]),
+);
+
+export type CreateSettingsAccountNameserverSetResponse = CreateSettingsAccountNameserverSetResult;
+export const CreateSettingsAccountNameserverSetResponse = /*@__PURE__*/ S.suspend(() =>
+  CreateSettingsAccountNameserverSetResult.pipe(
+    T.EnvelopePayloadRoot(),
+    T.KeyDictionary(KEY_DICTIONARY),
+  ),
+).annotate({
+  identifier: "CreateSettingsAccountNameserverSetResponse",
+}) as any as S.Schema<CreateSettingsAccountNameserverSetResponse>;
+
 export interface CreateZoneTransferAclRequest {
   accountId: string;
   /** Allowed IPv4/IPv6 address range of primary or secondary nameservers. This will be applied for the entire account. The IP range is used to allow additional NOTIFY IPs for secondary zones and IPs Cloudflare allows AXFR/IXFR requests from for primary zones. CIDRs are limited to a maximum of /24 for IPv4 and /64 for IPv6 respectively. */
@@ -9935,13 +10152,7 @@ export const CreateZoneTransferAclRequest = /*@__PURE__*/ S.suspend(() =>
     ipRange: S.String.pipe(T.Body("ip_range")),
     name: S.String,
   })
-    .pipe(
-      T.Http({
-        method: "POST",
-        uri: "/accounts/{account_id}/secondary_dns/acls",
-        code: 200,
-      }),
-    )
+    .pipe(T.Http({ method: "POST", uri: "/accounts/{account_id}/secondary_dns/acls", code: 200 }))
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
 ).annotate({
   identifier: "CreateZoneTransferAclRequest",
@@ -9972,13 +10183,7 @@ export const CreateZoneTransferForceAxfrRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     zoneId: S.String.pipe(T.Label("zone_id")),
   })
-    .pipe(
-      T.Http({
-        method: "POST",
-        uri: "/zones/{zone_id}/secondary_dns/force_axfr",
-        code: 200,
-      }),
-    )
+    .pipe(T.Http({ method: "POST", uri: "/zones/{zone_id}/secondary_dns/force_axfr", code: 200 }))
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
 ).annotate({
   identifier: "CreateZoneTransferForceAxfrRequest",
@@ -10012,13 +10217,7 @@ export const CreateZoneTransferIncomingRequest = /*@__PURE__*/ S.suspend(() =>
     name: S.String,
     peers: ZoneTransfersIncomingCreateRequestPeersList,
   })
-    .pipe(
-      T.Http({
-        method: "POST",
-        uri: "/zones/{zone_id}/secondary_dns/incoming",
-        code: 200,
-      }),
-    )
+    .pipe(T.Http({ method: "POST", uri: "/zones/{zone_id}/secondary_dns/incoming", code: 200 }))
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
 ).annotate({
   identifier: "CreateZoneTransferIncomingRequest",
@@ -10080,13 +10279,7 @@ export const CreateZoneTransferOutgoingRequest = /*@__PURE__*/ S.suspend(() =>
     name: S.String,
     peers: ZoneTransfersOutgoingCreateRequestPeersList,
   })
-    .pipe(
-      T.Http({
-        method: "POST",
-        uri: "/zones/{zone_id}/secondary_dns/outgoing",
-        code: 200,
-      }),
-    )
+    .pipe(T.Http({ method: "POST", uri: "/zones/{zone_id}/secondary_dns/outgoing", code: 200 }))
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
 ).annotate({
   identifier: "CreateZoneTransferOutgoingRequest",
@@ -10137,13 +10330,7 @@ export const CreateZoneTransferPeerRequest = /*@__PURE__*/ S.suspend(() =>
     accountId: S.String.pipe(T.Label("account_id")),
     name: S.String,
   })
-    .pipe(
-      T.Http({
-        method: "POST",
-        uri: "/accounts/{account_id}/secondary_dns/peers",
-        code: 200,
-      }),
-    )
+    .pipe(T.Http({ method: "POST", uri: "/accounts/{account_id}/secondary_dns/peers", code: 200 }))
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
 ).annotate({
   identifier: "CreateZoneTransferPeerRequest",
@@ -10192,13 +10379,7 @@ export const CreateZoneTransferTsigRequest = /*@__PURE__*/ S.suspend(() =>
     name: S.String,
     secret: S.String,
   })
-    .pipe(
-      T.Http({
-        method: "POST",
-        uri: "/accounts/{account_id}/secondary_dns/tsigs",
-        code: 200,
-      }),
-    )
+    .pipe(T.Http({ method: "POST", uri: "/accounts/{account_id}/secondary_dns/tsigs", code: 200 }))
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
 ).annotate({
   identifier: "CreateZoneTransferTsigRequest",
@@ -10235,16 +10416,12 @@ export const DeleteDnssecRequest = /*@__PURE__*/ S.suspend(() =>
   })
     .pipe(T.Http({ method: "DELETE", uri: "/zones/{zone_id}/dnssec", code: 200 }))
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "DeleteDnssecRequest",
-}) as any as S.Schema<DeleteDnssecRequest>;
+).annotate({ identifier: "DeleteDnssecRequest" }) as any as S.Schema<DeleteDnssecRequest>;
 
 export type DeleteDnssecResponse = string;
 export const DeleteDnssecResponse = /*@__PURE__*/ S.suspend(() =>
   S.String.pipe(T.EnvelopePayloadRoot(), T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "DeleteDnssecResponse",
-}) as any as S.Schema<DeleteDnssecResponse>;
+).annotate({ identifier: "DeleteDnssecResponse" }) as any as S.Schema<DeleteDnssecResponse>;
 
 export interface DeleteRecordRequest {
   /** Identifier. */
@@ -10258,16 +10435,10 @@ export const DeleteRecordRequest = /*@__PURE__*/ S.suspend(() =>
     dnsRecordId: S.String.pipe(T.Label("dns_record_id")),
   })
     .pipe(
-      T.Http({
-        method: "DELETE",
-        uri: "/zones/{zone_id}/dns_records/{dns_record_id}",
-        code: 200,
-      }),
+      T.Http({ method: "DELETE", uri: "/zones/{zone_id}/dns_records/{dns_record_id}", code: 200 }),
     )
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "DeleteRecordRequest",
-}) as any as S.Schema<DeleteRecordRequest>;
+).annotate({ identifier: "DeleteRecordRequest" }) as any as S.Schema<DeleteRecordRequest>;
 
 /** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
 export interface DeleteRecordResponse {
@@ -10278,9 +10449,7 @@ export const DeleteRecordResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     id: S.optional(S.NullOr(S.String)),
   }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "DeleteRecordResponse",
-}) as any as S.Schema<DeleteRecordResponse>;
+).annotate({ identifier: "DeleteRecordResponse" }) as any as S.Schema<DeleteRecordResponse>;
 
 export interface DeleteSettingAccountViewRequest {
   /** Identifier. */
@@ -10317,6 +10486,42 @@ export const DeleteSettingAccountViewResponse = /*@__PURE__*/ S.suspend(() =>
 ).annotate({
   identifier: "DeleteSettingAccountViewResponse",
 }) as any as S.Schema<DeleteSettingAccountViewResponse>;
+
+export interface DeleteSettingsAccountNameserverSetRequest {
+  /** Identifier. */
+  accountId: string;
+  /** Identifier for a nameserver set. */
+  nameserverSetId: string;
+}
+export const DeleteSettingsAccountNameserverSetRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    accountId: S.String.pipe(T.Label("account_id")),
+    nameserverSetId: S.String.pipe(T.Label("nameserver_set_id")),
+  })
+    .pipe(
+      T.Http({
+        method: "DELETE",
+        uri: "/accounts/{account_id}/dns_settings/nameserver_sets/{nameserver_set_id}",
+        code: 200,
+      }),
+    )
+    .pipe(T.KeyDictionary(KEY_DICTIONARY)),
+).annotate({
+  identifier: "DeleteSettingsAccountNameserverSetRequest",
+}) as any as S.Schema<DeleteSettingsAccountNameserverSetRequest>;
+
+/** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
+export interface DeleteSettingsAccountNameserverSetResponse {
+  /** Identifier for a nameserver set. */
+  id: string;
+}
+export const DeleteSettingsAccountNameserverSetResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    id: S.String,
+  }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
+).annotate({
+  identifier: "DeleteSettingsAccountNameserverSetResponse",
+}) as any as S.Schema<DeleteSettingsAccountNameserverSetResponse>;
 
 export interface DeleteZoneTransferAclRequest {
   accountId: string;
@@ -10358,13 +10563,7 @@ export const DeleteZoneTransferIncomingRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     zoneId: S.String.pipe(T.Label("zone_id")),
   })
-    .pipe(
-      T.Http({
-        method: "DELETE",
-        uri: "/zones/{zone_id}/secondary_dns/incoming",
-        code: 200,
-      }),
-    )
+    .pipe(T.Http({ method: "DELETE", uri: "/zones/{zone_id}/secondary_dns/incoming", code: 200 }))
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
 ).annotate({
   identifier: "DeleteZoneTransferIncomingRequest",
@@ -10389,13 +10588,7 @@ export const DeleteZoneTransferOutgoingRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     zoneId: S.String.pipe(T.Label("zone_id")),
   })
-    .pipe(
-      T.Http({
-        method: "DELETE",
-        uri: "/zones/{zone_id}/secondary_dns/outgoing",
-        code: 200,
-      }),
-    )
+    .pipe(T.Http({ method: "DELETE", uri: "/zones/{zone_id}/secondary_dns/outgoing", code: 200 }))
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
 ).annotate({
   identifier: "DeleteZoneTransferOutgoingRequest",
@@ -10487,11 +10680,7 @@ export const DisableZoneTransferOutgoingRequest = /*@__PURE__*/ S.suspend(() =>
     zoneId: S.String.pipe(T.Label("zone_id")),
   })
     .pipe(
-      T.Http({
-        method: "POST",
-        uri: "/zones/{zone_id}/secondary_dns/outgoing/disable",
-        code: 200,
-      }),
+      T.Http({ method: "POST", uri: "/zones/{zone_id}/secondary_dns/outgoing/disable", code: 200 }),
     )
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
 ).annotate({
@@ -10513,11 +10702,7 @@ export const EnableZoneTransferOutgoingRequest = /*@__PURE__*/ S.suspend(() =>
     zoneId: S.String.pipe(T.Label("zone_id")),
   })
     .pipe(
-      T.Http({
-        method: "POST",
-        uri: "/zones/{zone_id}/secondary_dns/outgoing/enable",
-        code: 200,
-      }),
+      T.Http({ method: "POST", uri: "/zones/{zone_id}/secondary_dns/outgoing/enable", code: 200 }),
     )
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
 ).annotate({
@@ -10539,24 +10724,14 @@ export const ExportRecordRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     zoneId: S.String.pipe(T.Label("zone_id")),
   })
-    .pipe(
-      T.Http({
-        method: "GET",
-        uri: "/zones/{zone_id}/dns_records/export",
-        code: 200,
-      }),
-    )
+    .pipe(T.Http({ method: "GET", uri: "/zones/{zone_id}/dns_records/export", code: 200 }))
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "ExportRecordRequest",
-}) as any as S.Schema<ExportRecordRequest>;
+).annotate({ identifier: "ExportRecordRequest" }) as any as S.Schema<ExportRecordRequest>;
 
 export interface ExportRecordResponse {}
 export const ExportRecordResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({}).pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "ExportRecordResponse",
-}) as any as S.Schema<ExportRecordResponse>;
+).annotate({ identifier: "ExportRecordResponse" }) as any as S.Schema<ExportRecordResponse>;
 
 export interface ForceNotifyZoneTransferOutgoingRequest {
   zoneId: string;
@@ -10613,17 +10788,9 @@ export const GetAnalyticReportRequest = /*@__PURE__*/ S.suspend(() =>
     sort: S.optional(S.String.pipe(T.Query())),
     until: S.optional(S.String.pipe(T.Query())),
   })
-    .pipe(
-      T.Http({
-        method: "GET",
-        uri: "/zones/{zone_id}/dns_analytics/report",
-        code: 200,
-      }),
-    )
+    .pipe(T.Http({ method: "GET", uri: "/zones/{zone_id}/dns_analytics/report", code: 200 }))
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "GetAnalyticReportRequest",
-}) as any as S.Schema<GetAnalyticReportRequest>;
+).annotate({ identifier: "GetAnalyticReportRequest" }) as any as S.Schema<GetAnalyticReportRequest>;
 
 export type AnalyticsReportsGetResponseDataItemDimensionsList = Array<string>;
 export const AnalyticsReportsGetResponseDataItemDimensionsList = /*@__PURE__*/ S.Array(
@@ -10775,13 +10942,7 @@ export const GetAnalyticReportBytimeRequest = /*@__PURE__*/ S.suspend(() =>
     timeDelta: S.optional(AnalyticsReportsBytimesGetRequestTimeDelta.pipe(T.Query("time_delta"))),
     until: S.optional(S.String.pipe(T.Query())),
   })
-    .pipe(
-      T.Http({
-        method: "GET",
-        uri: "/zones/{zone_id}/dns_analytics/report/bytime",
-        code: 200,
-      }),
-    )
+    .pipe(T.Http({ method: "GET", uri: "/zones/{zone_id}/dns_analytics/report/bytime", code: 200 }))
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
 ).annotate({
   identifier: "GetAnalyticReportBytimeRequest",
@@ -10941,9 +11102,7 @@ export const GetDnssecRequest = /*@__PURE__*/ S.suspend(() =>
   })
     .pipe(T.Http({ method: "GET", uri: "/zones/{zone_id}/dnssec", code: 200 }))
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "GetDnssecRequest",
-}) as any as S.Schema<GetDnssecRequest>;
+).annotate({ identifier: "GetDnssecRequest" }) as any as S.Schema<GetDnssecRequest>;
 
 export type DnssecGetResponseStatus =
   | "active"
@@ -11001,9 +11160,7 @@ export const GetDnssecResponse = /*@__PURE__*/ S.suspend(() =>
     publicKey: S.optional(S.NullOr(S.String).pipe(T.Body("public_key"))),
     status: S.optional(S.NullOr(DnssecGetResponseStatus)),
   }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "GetDnssecResponse",
-}) as any as S.Schema<GetDnssecResponse>;
+).annotate({ identifier: "GetDnssecResponse" }) as any as S.Schema<GetDnssecResponse>;
 
 export interface GetRecordRequest {
   /** Identifier. */
@@ -11019,17 +11176,9 @@ export const GetRecordRequest = /*@__PURE__*/ S.suspend(() =>
     dnsRecordId: S.String.pipe(T.Label("dns_record_id")),
     includeShadowMetadata: S.optional(S.Boolean.pipe(T.Query("include_shadow_metadata"))),
   })
-    .pipe(
-      T.Http({
-        method: "GET",
-        uri: "/zones/{zone_id}/dns_records/{dns_record_id}",
-        code: 200,
-      }),
-    )
+    .pipe(T.Http({ method: "GET", uri: "/zones/{zone_id}/dns_records/{dns_record_id}", code: 200 }))
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "GetRecordRequest",
-}) as any as S.Schema<GetRecordRequest>;
+).annotate({ identifier: "GetRecordRequest" }) as any as S.Schema<GetRecordRequest>;
 
 export type RecordsGetResultARecordMetaShadowedByList = Array<string>;
 export const RecordsGetResultARecordMetaShadowedByList = /*@__PURE__*/ S.Array(
@@ -11105,9 +11254,7 @@ export const RecordsGetResultARecord = /*@__PURE__*/ S.suspend(() =>
     settings: S.optional(S.NullOr(S.Unknown)),
     data: S.optional(S.NullOr(S.Unknown)),
   }),
-).annotate({
-  identifier: "RecordsGetResultARecord",
-}) as any as S.Schema<RecordsGetResultARecord>;
+).annotate({ identifier: "RecordsGetResultARecord" }) as any as S.Schema<RecordsGetResultARecord>;
 
 export type RecordsGetResultAAAARecordMetaShadowedByList = Array<string>;
 export const RecordsGetResultAAAARecordMetaShadowedByList = /*@__PURE__*/ S.Array(
@@ -11339,9 +11486,7 @@ export const RecordsGetResultMXRecord = /*@__PURE__*/ S.suspend(() =>
     settings: S.optional(S.NullOr(S.Unknown)),
     data: S.optional(S.NullOr(S.Unknown)),
   }),
-).annotate({
-  identifier: "RecordsGetResultMXRecord",
-}) as any as S.Schema<RecordsGetResultMXRecord>;
+).annotate({ identifier: "RecordsGetResultMXRecord" }) as any as S.Schema<RecordsGetResultMXRecord>;
 
 export type RecordsGetResultNSRecordMetaShadowedByList = Array<string>;
 export const RecordsGetResultNSRecordMetaShadowedByList = /*@__PURE__*/ S.Array(
@@ -11417,9 +11562,7 @@ export const RecordsGetResultNSRecord = /*@__PURE__*/ S.suspend(() =>
     settings: S.optional(S.NullOr(S.Unknown)),
     data: S.optional(S.NullOr(S.Unknown)),
   }),
-).annotate({
-  identifier: "RecordsGetResultNSRecord",
-}) as any as S.Schema<RecordsGetResultNSRecord>;
+).annotate({ identifier: "RecordsGetResultNSRecord" }) as any as S.Schema<RecordsGetResultNSRecord>;
 
 export type RecordsGetResultOpenpgpkeyRecordMetaShadowedByList = Array<string>;
 export const RecordsGetResultOpenpgpkeyRecordMetaShadowedByList = /*@__PURE__*/ S.Array(
@@ -11980,9 +12123,7 @@ export const RecordsGetResultDSRecord = /*@__PURE__*/ S.suspend(() =>
     settings: S.optional(S.NullOr(S.Unknown)),
     data: S.optional(S.NullOr(S.Unknown)),
   }),
-).annotate({
-  identifier: "RecordsGetResultDSRecord",
-}) as any as S.Schema<RecordsGetResultDSRecord>;
+).annotate({ identifier: "RecordsGetResultDSRecord" }) as any as S.Schema<RecordsGetResultDSRecord>;
 
 export type RecordsGetResultHTTPSRecordMetaShadowedByList = Array<string>;
 export const RecordsGetResultHTTPSRecordMetaShadowedByList = /*@__PURE__*/ S.Array(
@@ -13141,9 +13282,7 @@ export const RecordsGetResult = /*@__PURE__*/ S.Unknown.pipe(
 export type GetRecordResponse = RecordsGetResult;
 export const GetRecordResponse = /*@__PURE__*/ S.suspend(() =>
   RecordsGetResult.pipe(T.EnvelopePayloadRoot(), T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "GetRecordResponse",
-}) as any as S.Schema<GetRecordResponse>;
+).annotate({ identifier: "GetRecordResponse" }) as any as S.Schema<GetRecordResponse>;
 
 export interface GetSettingAccountRequest {
   /** Identifier. */
@@ -13153,17 +13292,9 @@ export const GetSettingAccountRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     accountId: S.String.pipe(T.Label("account_id")),
   })
-    .pipe(
-      T.Http({
-        method: "GET",
-        uri: "/accounts/{account_id}/dns_settings",
-        code: 200,
-      }),
-    )
+    .pipe(T.Http({ method: "GET", uri: "/accounts/{account_id}/dns_settings", code: 200 }))
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "GetSettingAccountRequest",
-}) as any as S.Schema<GetSettingAccountRequest>;
+).annotate({ identifier: "GetSettingAccountRequest" }) as any as S.Schema<GetSettingAccountRequest>;
 
 export interface SettingsAccountGetResponseZoneDefaultsInternalDns {
   /** The ID of the zone to fallback to. */
@@ -13268,6 +13399,7 @@ export const SettingsAccountGetResponseZoneDefaults = /*@__PURE__*/ S.suspend(()
 
 /** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
 export interface GetSettingAccountResponse {
+  /** Default settings for new zones created in this account. */
   zoneDefaults: SettingsAccountGetResponseZoneDefaults;
   /** When enabled, forces all proxied DNS records in the account to behave as DNS-only at the edge, regardless of each record's individual proxy setting. Note that this account-level override does not modify the records themselves; it only affects how they are served at the edge. See more on [Enforce DNS-only](https://developers.cloudflare.com/dns/proxy-status/enforce-dns-only). */
   enforceDnsOnly?: boolean | null;
@@ -13334,6 +13466,221 @@ export const GetSettingAccountViewResponse = /*@__PURE__*/ S.suspend(() =>
   identifier: "GetSettingAccountViewResponse",
 }) as any as S.Schema<GetSettingAccountViewResponse>;
 
+export interface GetSettingsAccountNameserverSetRequest {
+  /** Identifier. */
+  accountId: string;
+  /** Identifier for a nameserver set. */
+  nameserverSetId: string;
+}
+export const GetSettingsAccountNameserverSetRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    accountId: S.String.pipe(T.Label("account_id")),
+    nameserverSetId: S.String.pipe(T.Label("nameserver_set_id")),
+  })
+    .pipe(
+      T.Http({
+        method: "GET",
+        uri: "/accounts/{account_id}/dns_settings/nameserver_sets/{nameserver_set_id}",
+        code: 200,
+      }),
+    )
+    .pipe(T.KeyDictionary(KEY_DICTIONARY)),
+).annotate({
+  identifier: "GetSettingsAccountNameserverSetRequest",
+}) as any as S.Schema<GetSettingsAccountNameserverSetRequest>;
+
+export type GetSettingsAccountNameserverSetResultDNSSettingsNameserverSetStandardResponseNameserversItemIpv4List =
+  Array<string>;
+export const GetSettingsAccountNameserverSetResultDNSSettingsNameserverSetStandardResponseNameserversItemIpv4List =
+  /*@__PURE__*/ S.Array(
+    S.String,
+  ) as any as S.Schema<GetSettingsAccountNameserverSetResultDNSSettingsNameserverSetStandardResponseNameserversItemIpv4List>;
+
+export type GetSettingsAccountNameserverSetResultDNSSettingsNameserverSetStandardResponseNameserversItemIpv6List =
+  Array<string>;
+export const GetSettingsAccountNameserverSetResultDNSSettingsNameserverSetStandardResponseNameserversItemIpv6List =
+  /*@__PURE__*/ S.Array(
+    S.String,
+  ) as any as S.Schema<GetSettingsAccountNameserverSetResultDNSSettingsNameserverSetStandardResponseNameserversItemIpv6List>;
+
+export interface GetSettingsAccountNameserverSetResultDNSSettingsNameserverSetStandardResponseNameserversItem {
+  /** IPv4 addresses assigned to the nameserver. */
+  ipv4: GetSettingsAccountNameserverSetResultDNSSettingsNameserverSetStandardResponseNameserversItemIpv4List;
+  /** IPv6 addresses assigned to the nameserver. */
+  ipv6: GetSettingsAccountNameserverSetResultDNSSettingsNameserverSetStandardResponseNameserversItemIpv6List;
+  /** A unique lowercase Punycode nameserver name within the set. */
+  name: string;
+}
+export const GetSettingsAccountNameserverSetResultDNSSettingsNameserverSetStandardResponseNameserversItem =
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      ipv4: GetSettingsAccountNameserverSetResultDNSSettingsNameserverSetStandardResponseNameserversItemIpv4List,
+      ipv6: GetSettingsAccountNameserverSetResultDNSSettingsNameserverSetStandardResponseNameserversItemIpv6List,
+      name: S.String,
+    }),
+  ).annotate({
+    identifier:
+      "GetSettingsAccountNameserverSetResultDNSSettingsNameserverSetStandardResponseNameserversItem",
+  }) as any as S.Schema<GetSettingsAccountNameserverSetResultDNSSettingsNameserverSetStandardResponseNameserversItem>;
+
+export type GetSettingsAccountNameserverSetResultDNSSettingsNameserverSetStandardResponseNameserversList =
+  Array<GetSettingsAccountNameserverSetResultDNSSettingsNameserverSetStandardResponseNameserversItem>;
+export const GetSettingsAccountNameserverSetResultDNSSettingsNameserverSetStandardResponseNameserversList =
+  /*@__PURE__*/ S.Array(
+    GetSettingsAccountNameserverSetResultDNSSettingsNameserverSetStandardResponseNameserversItem,
+  ) as any as S.Schema<GetSettingsAccountNameserverSetResultDNSSettingsNameserverSetStandardResponseNameserversList>;
+
+export interface GetSettingsAccountNameserverSetResultDNSSettingsNameserverSetStandardResponse {
+  /** Identifier for a nameserver set. */
+  id: string;
+  /** Whether the nameserver set uses Advanced anycast groups. */
+  advanced: boolean;
+  /** When the nameserver set was created. */
+  createdOn: string;
+  /** Selects the account-specific IP set that supplies the nameserver addresses. The account's entitlement determines the maximum value. Nameserver sets with the same `ip_set` and `advanced` value may reuse addresses; otherwise, they use disjoint address groups. */
+  ipSet: number;
+  nameservers: GetSettingsAccountNameserverSetResultDNSSettingsNameserverSetStandardResponseNameserversList;
+}
+export const GetSettingsAccountNameserverSetResultDNSSettingsNameserverSetStandardResponse =
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      id: S.String,
+      advanced: S.Boolean,
+      createdOn: S.String.pipe(T.Body("created_on")),
+      ipSet: S.Number.pipe(T.Body("ip_set")),
+      nameservers:
+        GetSettingsAccountNameserverSetResultDNSSettingsNameserverSetStandardResponseNameserversList,
+    }),
+  ).annotate({
+    identifier: "GetSettingsAccountNameserverSetResultDNSSettingsNameserverSetStandardResponse",
+  }) as any as S.Schema<GetSettingsAccountNameserverSetResultDNSSettingsNameserverSetStandardResponse>;
+
+export type GetSettingsAccountNameserverSetResultDNSSettingsNameserverSetAdvancedResponseNameserversItemIpv4List =
+  Array<string>;
+export const GetSettingsAccountNameserverSetResultDNSSettingsNameserverSetAdvancedResponseNameserversItemIpv4List =
+  /*@__PURE__*/ S.Array(
+    S.String,
+  ) as any as S.Schema<GetSettingsAccountNameserverSetResultDNSSettingsNameserverSetAdvancedResponseNameserversItemIpv4List>;
+
+export type GetSettingsAccountNameserverSetResultDNSSettingsNameserverSetAdvancedResponseNameserversItemIpv4GroupsItem =
+  | "a"
+  | "b"
+  | "c";
+export const GetSettingsAccountNameserverSetResultDNSSettingsNameserverSetAdvancedResponseNameserversItemIpv4GroupsItem =
+  S.String;
+
+export type GetSettingsAccountNameserverSetResultDNSSettingsNameserverSetAdvancedResponseNameserversItemIpv4GroupsList =
+  Array<GetSettingsAccountNameserverSetResultDNSSettingsNameserverSetAdvancedResponseNameserversItemIpv4GroupsItem>;
+export const GetSettingsAccountNameserverSetResultDNSSettingsNameserverSetAdvancedResponseNameserversItemIpv4GroupsList =
+  /*@__PURE__*/ S.Array(
+    GetSettingsAccountNameserverSetResultDNSSettingsNameserverSetAdvancedResponseNameserversItemIpv4GroupsItem,
+  ) as any as S.Schema<GetSettingsAccountNameserverSetResultDNSSettingsNameserverSetAdvancedResponseNameserversItemIpv4GroupsList>;
+
+export type GetSettingsAccountNameserverSetResultDNSSettingsNameserverSetAdvancedResponseNameserversItemIpv6List =
+  Array<string>;
+export const GetSettingsAccountNameserverSetResultDNSSettingsNameserverSetAdvancedResponseNameserversItemIpv6List =
+  /*@__PURE__*/ S.Array(
+    S.String,
+  ) as any as S.Schema<GetSettingsAccountNameserverSetResultDNSSettingsNameserverSetAdvancedResponseNameserversItemIpv6List>;
+
+export type GetSettingsAccountNameserverSetResultDNSSettingsNameserverSetAdvancedResponseNameserversItemIpv6GroupsItem =
+  | "a"
+  | "b"
+  | "c";
+export const GetSettingsAccountNameserverSetResultDNSSettingsNameserverSetAdvancedResponseNameserversItemIpv6GroupsItem =
+  S.String;
+
+export type GetSettingsAccountNameserverSetResultDNSSettingsNameserverSetAdvancedResponseNameserversItemIpv6GroupsList =
+  Array<GetSettingsAccountNameserverSetResultDNSSettingsNameserverSetAdvancedResponseNameserversItemIpv6GroupsItem>;
+export const GetSettingsAccountNameserverSetResultDNSSettingsNameserverSetAdvancedResponseNameserversItemIpv6GroupsList =
+  /*@__PURE__*/ S.Array(
+    GetSettingsAccountNameserverSetResultDNSSettingsNameserverSetAdvancedResponseNameserversItemIpv6GroupsItem,
+  ) as any as S.Schema<GetSettingsAccountNameserverSetResultDNSSettingsNameserverSetAdvancedResponseNameserversItemIpv6GroupsList>;
+
+export interface GetSettingsAccountNameserverSetResultDNSSettingsNameserverSetAdvancedResponseNameserversItem {
+  /** IPv4 addresses assigned to the nameserver. */
+  ipv4: GetSettingsAccountNameserverSetResultDNSSettingsNameserverSetAdvancedResponseNameserversItemIpv4List;
+  /** Advanced anycast group for each address in the corresponding address array. Entries have the same order as, and correspond one-to-one with, the addresses. */
+  ipv4Groups: GetSettingsAccountNameserverSetResultDNSSettingsNameserverSetAdvancedResponseNameserversItemIpv4GroupsList;
+  /** IPv6 addresses assigned to the nameserver. */
+  ipv6: GetSettingsAccountNameserverSetResultDNSSettingsNameserverSetAdvancedResponseNameserversItemIpv6List;
+  /** Advanced anycast group for each address in the corresponding address array. Entries have the same order as, and correspond one-to-one with, the addresses. */
+  ipv6Groups: GetSettingsAccountNameserverSetResultDNSSettingsNameserverSetAdvancedResponseNameserversItemIpv6GroupsList;
+  /** A unique lowercase Punycode nameserver name within the set. */
+  name: string;
+}
+export const GetSettingsAccountNameserverSetResultDNSSettingsNameserverSetAdvancedResponseNameserversItem =
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      ipv4: GetSettingsAccountNameserverSetResultDNSSettingsNameserverSetAdvancedResponseNameserversItemIpv4List,
+      ipv4Groups:
+        GetSettingsAccountNameserverSetResultDNSSettingsNameserverSetAdvancedResponseNameserversItemIpv4GroupsList.pipe(
+          T.Body("ipv4_groups"),
+        ),
+      ipv6: GetSettingsAccountNameserverSetResultDNSSettingsNameserverSetAdvancedResponseNameserversItemIpv6List,
+      ipv6Groups:
+        GetSettingsAccountNameserverSetResultDNSSettingsNameserverSetAdvancedResponseNameserversItemIpv6GroupsList.pipe(
+          T.Body("ipv6_groups"),
+        ),
+      name: S.String,
+    }),
+  ).annotate({
+    identifier:
+      "GetSettingsAccountNameserverSetResultDNSSettingsNameserverSetAdvancedResponseNameserversItem",
+  }) as any as S.Schema<GetSettingsAccountNameserverSetResultDNSSettingsNameserverSetAdvancedResponseNameserversItem>;
+
+export type GetSettingsAccountNameserverSetResultDNSSettingsNameserverSetAdvancedResponseNameserversList =
+  Array<GetSettingsAccountNameserverSetResultDNSSettingsNameserverSetAdvancedResponseNameserversItem>;
+export const GetSettingsAccountNameserverSetResultDNSSettingsNameserverSetAdvancedResponseNameserversList =
+  /*@__PURE__*/ S.Array(
+    GetSettingsAccountNameserverSetResultDNSSettingsNameserverSetAdvancedResponseNameserversItem,
+  ) as any as S.Schema<GetSettingsAccountNameserverSetResultDNSSettingsNameserverSetAdvancedResponseNameserversList>;
+
+export interface GetSettingsAccountNameserverSetResultDNSSettingsNameserverSetAdvancedResponse {
+  /** Identifier for a nameserver set. */
+  id: string;
+  /** Whether the nameserver set uses Advanced anycast groups. */
+  advanced: boolean;
+  /** When the nameserver set was created. */
+  createdOn: string;
+  /** Selects the account-specific IP set that supplies the nameserver addresses. The account's entitlement determines the maximum value. Nameserver sets with the same `ip_set` and `advanced` value may reuse addresses; otherwise, they use disjoint address groups. */
+  ipSet: number;
+  nameservers: GetSettingsAccountNameserverSetResultDNSSettingsNameserverSetAdvancedResponseNameserversList;
+}
+export const GetSettingsAccountNameserverSetResultDNSSettingsNameserverSetAdvancedResponse =
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      id: S.String,
+      advanced: S.Boolean,
+      createdOn: S.String.pipe(T.Body("created_on")),
+      ipSet: S.Number.pipe(T.Body("ip_set")),
+      nameservers:
+        GetSettingsAccountNameserverSetResultDNSSettingsNameserverSetAdvancedResponseNameserversList,
+    }),
+  ).annotate({
+    identifier: "GetSettingsAccountNameserverSetResultDNSSettingsNameserverSetAdvancedResponse",
+  }) as any as S.Schema<GetSettingsAccountNameserverSetResultDNSSettingsNameserverSetAdvancedResponse>;
+
+export type GetSettingsAccountNameserverSetResult =
+  | GetSettingsAccountNameserverSetResultDNSSettingsNameserverSetStandardResponse
+  | GetSettingsAccountNameserverSetResultDNSSettingsNameserverSetAdvancedResponse;
+export const GetSettingsAccountNameserverSetResult = /*@__PURE__*/ S.Unknown.pipe(
+  T.UnionCases([
+    ["id", "advanced", "createdOn", "ipSet", "nameservers"],
+    ["id", "advanced", "createdOn", "ipSet", "nameservers"],
+  ]),
+);
+
+export type GetSettingsAccountNameserverSetResponse = GetSettingsAccountNameserverSetResult;
+export const GetSettingsAccountNameserverSetResponse = /*@__PURE__*/ S.suspend(() =>
+  GetSettingsAccountNameserverSetResult.pipe(
+    T.EnvelopePayloadRoot(),
+    T.KeyDictionary(KEY_DICTIONARY),
+  ),
+).annotate({
+  identifier: "GetSettingsAccountNameserverSetResponse",
+}) as any as S.Schema<GetSettingsAccountNameserverSetResponse>;
+
 export interface GetSettingZoneRequest {
   /** Identifier. */
   zoneId: string;
@@ -13342,43 +13689,80 @@ export const GetSettingZoneRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     zoneId: S.String.pipe(T.Label("zone_id")),
   })
-    .pipe(
-      T.Http({
-        method: "GET",
-        uri: "/zones/{zone_id}/dns_settings",
-        code: 200,
-      }),
-    )
+    .pipe(T.Http({ method: "GET", uri: "/zones/{zone_id}/dns_settings", code: 200 }))
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "GetSettingZoneRequest",
-}) as any as S.Schema<GetSettingZoneRequest>;
+).annotate({ identifier: "GetSettingZoneRequest" }) as any as S.Schema<GetSettingZoneRequest>;
 
 export type SettingsZoneGetResponseInternalDns = SettingsAccountGetResponseZoneDefaultsInternalDns;
 export const SettingsZoneGetResponseInternalDns = SettingsAccountGetResponseZoneDefaultsInternalDns;
 
-export type SettingsZoneGetResponseNameserversType =
+export type SettingsZoneGetResponseNameserversDNSSettingsZoneNameserversCloudflareType =
   | "cloudflare.standard"
-  | "cloudflare.advanced"
+  | "cloudflare.advanced";
+export const SettingsZoneGetResponseNameserversDNSSettingsZoneNameserversCloudflareType = S.String;
+
+export interface SettingsZoneGetResponseNameserversDNSSettingsZoneNameserversCloudflare {
+  /** Nameserver type. */
+  type: SettingsZoneGetResponseNameserversDNSSettingsZoneNameserversCloudflareType;
+}
+export const SettingsZoneGetResponseNameserversDNSSettingsZoneNameserversCloudflare =
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      type: SettingsZoneGetResponseNameserversDNSSettingsZoneNameserversCloudflareType,
+    }),
+  ).annotate({
+    identifier: "SettingsZoneGetResponseNameserversDNSSettingsZoneNameserversCloudflare",
+  }) as any as S.Schema<SettingsZoneGetResponseNameserversDNSSettingsZoneNameserversCloudflare>;
+
+export type SettingsZoneGetResponseNameserversDNSSettingsZoneNameserversCustomExistingType =
   | "custom.account"
   | "custom.tenant"
   | "custom.zone";
-export const SettingsZoneGetResponseNameserversType = S.String;
+export const SettingsZoneGetResponseNameserversDNSSettingsZoneNameserversCustomExistingType =
+  S.String;
 
-export interface SettingsZoneGetResponseNameservers {
-  /** Nameserver type */
-  type: SettingsZoneGetResponseNameserversType;
-  /** Configured nameserver set to be used for this zone */
+export interface SettingsZoneGetResponseNameserversDNSSettingsZoneNameserversCustomExisting {
+  /** Nameserver type. */
+  type: SettingsZoneGetResponseNameserversDNSSettingsZoneNameserversCustomExistingType;
+  /** Configured nameserver set number to use for this zone. */
   nsSet?: number | null;
 }
-export const SettingsZoneGetResponseNameservers = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    type: SettingsZoneGetResponseNameserversType,
-    nsSet: S.optional(S.NullOr(S.Number).pipe(T.Body("ns_set"))),
-  }),
-).annotate({
-  identifier: "SettingsZoneGetResponseNameservers",
-}) as any as S.Schema<SettingsZoneGetResponseNameservers>;
+export const SettingsZoneGetResponseNameserversDNSSettingsZoneNameserversCustomExisting =
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      type: SettingsZoneGetResponseNameserversDNSSettingsZoneNameserversCustomExistingType,
+      nsSet: S.optional(S.NullOr(S.Number).pipe(T.Body("ns_set"))),
+    }),
+  ).annotate({
+    identifier: "SettingsZoneGetResponseNameserversDNSSettingsZoneNameserversCustomExisting",
+  }) as any as S.Schema<SettingsZoneGetResponseNameserversDNSSettingsZoneNameserversCustomExisting>;
+
+export type SettingsZoneGetResponseNameserversDNSSettingsZoneNameserversCustomSetType = "custom";
+export const SettingsZoneGetResponseNameserversDNSSettingsZoneNameserversCustomSetType = S.String;
+
+export interface SettingsZoneGetResponseNameserversDNSSettingsZoneNameserversCustomSet {
+  /** Identifier of the account-owned Custom Nameserver Set to use for this zone. */
+  nameserverSetId: string;
+  /** Nameserver type. */
+  type: SettingsZoneGetResponseNameserversDNSSettingsZoneNameserversCustomSetType;
+}
+export const SettingsZoneGetResponseNameserversDNSSettingsZoneNameserversCustomSet =
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      nameserverSetId: S.String.pipe(T.Body("nameserver_set_id")),
+      type: SettingsZoneGetResponseNameserversDNSSettingsZoneNameserversCustomSetType,
+    }),
+  ).annotate({
+    identifier: "SettingsZoneGetResponseNameserversDNSSettingsZoneNameserversCustomSet",
+  }) as any as S.Schema<SettingsZoneGetResponseNameserversDNSSettingsZoneNameserversCustomSet>;
+
+export type SettingsZoneGetResponseNameservers =
+  | SettingsZoneGetResponseNameserversDNSSettingsZoneNameserversCloudflare
+  | SettingsZoneGetResponseNameserversDNSSettingsZoneNameserversCustomExisting
+  | SettingsZoneGetResponseNameserversDNSSettingsZoneNameserversCustomSet;
+export const SettingsZoneGetResponseNameservers = /*@__PURE__*/ S.Unknown.pipe(
+  T.UnionCases([["type"], ["type", "nsSet"], ["nameserverSetId", "type"]]),
+);
 
 export type SettingsZoneGetResponseSoa = SettingsAccountGetResponseZoneDefaultsSoa;
 export const SettingsZoneGetResponseSoa = SettingsAccountGetResponseZoneDefaultsSoa;
@@ -13396,7 +13780,7 @@ export interface GetSettingZoneResponse {
   internalDns: SettingsAccountGetResponseZoneDefaultsInternalDns;
   /** Whether to enable multi-provider DNS, which causes Cloudflare to activate the zone even when non-Cloudflare NS records exist, and to respect NS records at the zone apex during outbound zone transfers. */
   multiProvider: boolean;
-  /** Settings determining the nameservers through which the zone should be available. */
+  /** Controls the nameservers through which the zone is available. */
   nameservers: SettingsZoneGetResponseNameservers;
   /** The time to live (TTL) of the zone's nameserver (NS) records. */
   nsTtl: number;
@@ -13419,9 +13803,7 @@ export const GetSettingZoneResponse = /*@__PURE__*/ S.suspend(() =>
     soa: SettingsAccountGetResponseZoneDefaultsSoa,
     zoneMode: SettingsZoneGetResponseZoneMode.pipe(T.Body("zone_mode")),
   }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "GetSettingZoneResponse",
-}) as any as S.Schema<GetSettingZoneResponse>;
+).annotate({ identifier: "GetSettingZoneResponse" }) as any as S.Schema<GetSettingZoneResponse>;
 
 export interface GetUsageAccountRequest {
   /** Identifier. */
@@ -13431,17 +13813,9 @@ export const GetUsageAccountRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     accountId: S.String.pipe(T.Label("account_id")),
   })
-    .pipe(
-      T.Http({
-        method: "GET",
-        uri: "/accounts/{account_id}/dns_records/usage",
-        code: 200,
-      }),
-    )
+    .pipe(T.Http({ method: "GET", uri: "/accounts/{account_id}/dns_records/usage", code: 200 }))
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "GetUsageAccountRequest",
-}) as any as S.Schema<GetUsageAccountRequest>;
+).annotate({ identifier: "GetUsageAccountRequest" }) as any as S.Schema<GetUsageAccountRequest>;
 
 /** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
 export interface GetUsageAccountResponse {
@@ -13461,9 +13835,7 @@ export const GetUsageAccountResponse = /*@__PURE__*/ S.suspend(() =>
     internalRecordQuota: S.optional(S.NullOr(S.Number).pipe(T.Body("internal_record_quota"))),
     internalRecordUsage: S.optional(S.NullOr(S.Number).pipe(T.Body("internal_record_usage"))),
   }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "GetUsageAccountResponse",
-}) as any as S.Schema<GetUsageAccountResponse>;
+).annotate({ identifier: "GetUsageAccountResponse" }) as any as S.Schema<GetUsageAccountResponse>;
 
 export interface GetUsageZoneRequest {
   /** Identifier. */
@@ -13473,17 +13845,9 @@ export const GetUsageZoneRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     zoneId: S.String.pipe(T.Label("zone_id")),
   })
-    .pipe(
-      T.Http({
-        method: "GET",
-        uri: "/zones/{zone_id}/dns_records/usage",
-        code: 200,
-      }),
-    )
+    .pipe(T.Http({ method: "GET", uri: "/zones/{zone_id}/dns_records/usage", code: 200 }))
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "GetUsageZoneRequest",
-}) as any as S.Schema<GetUsageZoneRequest>;
+).annotate({ identifier: "GetUsageZoneRequest" }) as any as S.Schema<GetUsageZoneRequest>;
 
 /** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
 export interface GetUsageZoneResponse {
@@ -13497,9 +13861,7 @@ export const GetUsageZoneResponse = /*@__PURE__*/ S.suspend(() =>
     recordQuota: S.Number.pipe(T.Body("record_quota")),
     recordUsage: S.Number.pipe(T.Body("record_usage")),
   }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "GetUsageZoneResponse",
-}) as any as S.Schema<GetUsageZoneResponse>;
+).annotate({ identifier: "GetUsageZoneResponse" }) as any as S.Schema<GetUsageZoneResponse>;
 
 export interface GetZoneTransferAclRequest {
   accountId: string;
@@ -13547,13 +13909,7 @@ export const GetZoneTransferIncomingRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     zoneId: S.String.pipe(T.Label("zone_id")),
   })
-    .pipe(
-      T.Http({
-        method: "GET",
-        uri: "/zones/{zone_id}/secondary_dns/incoming",
-        code: 200,
-      }),
-    )
+    .pipe(T.Http({ method: "GET", uri: "/zones/{zone_id}/secondary_dns/incoming", code: 200 }))
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
 ).annotate({
   identifier: "GetZoneTransferIncomingRequest",
@@ -13604,13 +13960,7 @@ export const GetZoneTransferOutgoingRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     zoneId: S.String.pipe(T.Label("zone_id")),
   })
-    .pipe(
-      T.Http({
-        method: "GET",
-        uri: "/zones/{zone_id}/secondary_dns/outgoing",
-        code: 200,
-      }),
-    )
+    .pipe(T.Http({ method: "GET", uri: "/zones/{zone_id}/secondary_dns/outgoing", code: 200 }))
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
 ).annotate({
   identifier: "GetZoneTransferOutgoingRequest",
@@ -13659,11 +14009,7 @@ export const GetZoneTransferOutgoingStatusRequest = /*@__PURE__*/ S.suspend(() =
     zoneId: S.String.pipe(T.Label("zone_id")),
   })
     .pipe(
-      T.Http({
-        method: "GET",
-        uri: "/zones/{zone_id}/secondary_dns/outgoing/status",
-        code: 200,
-      }),
+      T.Http({ method: "GET", uri: "/zones/{zone_id}/secondary_dns/outgoing/status", code: 200 }),
     )
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
 ).annotate({
@@ -13781,17 +14127,9 @@ export const ImportRecordRequest = /*@__PURE__*/ S.suspend(() =>
     file: S.String,
     proxied: S.optional(S.String),
   })
-    .pipe(
-      T.Http({
-        method: "POST",
-        uri: "/zones/{zone_id}/dns_records/import",
-        code: 200,
-      }),
-    )
+    .pipe(T.Http({ method: "POST", uri: "/zones/{zone_id}/dns_records/import", code: 200 }))
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "ImportRecordRequest",
-}) as any as S.Schema<ImportRecordRequest>;
+).annotate({ identifier: "ImportRecordRequest" }) as any as S.Schema<ImportRecordRequest>;
 
 /** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
 export interface ImportRecordResponse {
@@ -13805,9 +14143,7 @@ export const ImportRecordResponse = /*@__PURE__*/ S.suspend(() =>
     recsAdded: S.optional(S.NullOr(S.Number).pipe(T.Body("recs_added"))),
     totalRecordsParsed: S.optional(S.NullOr(S.Number).pipe(T.Body("total_records_parsed"))),
   }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "ImportRecordResponse",
-}) as any as S.Schema<ImportRecordResponse>;
+).annotate({ identifier: "ImportRecordResponse" }) as any as S.Schema<ImportRecordResponse>;
 
 export interface ListDnssecZskRequest {
   /** Identifier. */
@@ -13819,9 +14155,7 @@ export const ListDnssecZskRequest = /*@__PURE__*/ S.suspend(() =>
   })
     .pipe(T.Http({ method: "GET", uri: "/zones/{zone_id}/dnssec/zsk", code: 200 }))
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "ListDnssecZskRequest",
-}) as any as S.Schema<ListDnssecZskRequest>;
+).annotate({ identifier: "ListDnssecZskRequest" }) as any as S.Schema<ListDnssecZskRequest>;
 
 export interface ListDnssecZskResultItemDNSKEYHdr {
   Class?: number | null;
@@ -13909,9 +14243,7 @@ export const ListDnssecZskResultItem = /*@__PURE__*/ S.suspend(() =>
     signingKey: S.optional(S.NullOr(ListDnssecZskResultItemSigningKey).pipe(T.Body("SigningKey"))),
     tag: S.optional(S.NullOr(ListDnssecZskResultItemTag).pipe(T.Body("Tag"))),
   }),
-).annotate({
-  identifier: "ListDnssecZskResultItem",
-}) as any as S.Schema<ListDnssecZskResultItem>;
+).annotate({ identifier: "ListDnssecZskResultItem" }) as any as S.Schema<ListDnssecZskResultItem>;
 
 export type ListDnssecZskResultList = Array<ListDnssecZskResultItem>;
 export const ListDnssecZskResultList = /*@__PURE__*/ S.Array(
@@ -13921,9 +14253,7 @@ export const ListDnssecZskResultList = /*@__PURE__*/ S.Array(
 export type ListDnssecZskResponse = ListDnssecZskResultList;
 export const ListDnssecZskResponse = /*@__PURE__*/ S.suspend(() =>
   ListDnssecZskResultList.pipe(T.EnvelopePayloadRoot(), T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "ListDnssecZskResponse",
-}) as any as S.Schema<ListDnssecZskResponse>;
+).annotate({ identifier: "ListDnssecZskResponse" }) as any as S.Schema<ListDnssecZskResponse>;
 
 export interface RecordsListRequestComment {
   /** If this parameter is present, only records *without* a comment are returned. */
@@ -13993,9 +14323,7 @@ export const RecordsListRequestName = /*@__PURE__*/ S.suspend(() =>
     exact: S.optional(S.String),
     startswith: S.optional(S.String),
   }),
-).annotate({
-  identifier: "RecordsListRequestName",
-}) as any as S.Schema<RecordsListRequestName>;
+).annotate({ identifier: "RecordsListRequestName" }) as any as S.Schema<RecordsListRequestName>;
 
 export type RecordsListRequestOrder = "type" | "name" | "content" | "ttl" | "proxied";
 export const RecordsListRequestOrder = S.String;
@@ -14023,9 +14351,7 @@ export const RecordsListRequestTag = /*@__PURE__*/ S.suspend(() =>
     present: S.optional(S.String),
     startswith: S.optional(S.String),
   }),
-).annotate({
-  identifier: "RecordsListRequestTag",
-}) as any as S.Schema<RecordsListRequestTag>;
+).annotate({ identifier: "RecordsListRequestTag" }) as any as S.Schema<RecordsListRequestTag>;
 
 export type RecordsListRequestTagMatch = "any" | "all";
 export const RecordsListRequestTagMatch = S.String;
@@ -14076,7 +14402,7 @@ export interface ListRecordsRequest {
   proxied?: boolean;
   /** Allows searching in multiple properties of a DNS record simultaneously. This parameter is intended for human users, not automation. Its exact behavior is intentionally left unspecified and is subject to change in the future. This parameter works independently of the `match` setting. For automated searches, please use the other available parameters. */
   search?: string;
-  /** Filters to records at or below the given NS delegation name, excluding the NS records that form the delegation itself. The value must be a subdomain of the zone; the zone apex is not accepted. Requires `include_shadow_metadata=true`. See [Shadowed records](https://developers.cloudflare.com/dns/manage-dns-records/reference/shadowed-records). */
+  /** Filters the response to records at or below the specified NS delegation name. NS, DS, and NSEC records at the delegation name are excluded because they are not shadowed by that delegation. Those record types are included only when they exist below the delegation. The value must be a non-apex subdomain of the zone. Requires `include_shadow_metadata=true`. See [Shadowed records](https://developers.cloudflare.com/dns/manage-dns-records/reference/shadowed-records). */
   shadowedByName?: string;
   /** Returns NS records that shadow the given name, searching at the name itself and each of its ancestor names within the zone, excluding the zone apex. The value must be a subdomain of the zone; the zone apex is not accepted. See [Shadowed records](https://developers.cloudflare.com/dns/manage-dns-records/reference/shadowed-records). */
   shadowingName?: string;
@@ -14108,9 +14434,7 @@ export const ListRecordsRequest = /*@__PURE__*/ S.suspend(() =>
   })
     .pipe(T.Http({ method: "GET", uri: "/zones/{zone_id}/dns_records", code: 200 }))
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "ListRecordsRequest",
-}) as any as S.Schema<ListRecordsRequest>;
+).annotate({ identifier: "ListRecordsRequest" }) as any as S.Schema<ListRecordsRequest>;
 
 export type RecordsListResultItemARecordMetaShadowedByList = Array<string>;
 export const RecordsListResultItemARecordMetaShadowedByList = /*@__PURE__*/ S.Array(
@@ -16335,9 +16659,7 @@ export const ListRecordsResponse = /*@__PURE__*/ S.suspend(() =>
     result: RecordsListResultList.pipe(T.EnvelopePayload()),
     resultInfo: S.optional(S.NullOr(ResultInfo).pipe(T.ResultInfo())),
   }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "ListRecordsResponse",
-}) as any as S.Schema<ListRecordsResponse>;
+).annotate({ identifier: "ListRecordsResponse" }) as any as S.Schema<ListRecordsResponse>;
 
 export type SettingsAccountViewsListRequestDirection = "asc" | "desc";
 export const SettingsAccountViewsListRequestDirection = S.String;
@@ -16381,7 +16703,7 @@ export interface ListSettingAccountViewsRequest {
   order?: SettingsAccountViewsListRequestOrder | (string & {});
   /** Page number of paginated results. */
   page?: number;
-  /** Number of DNS views per page. */
+  /** Number of results per page. */
   perPage?: number;
   /** A zone ID that exists in the zones list for the view. */
   zoneId?: string;
@@ -16400,13 +16722,7 @@ export const ListSettingAccountViewsRequest = /*@__PURE__*/ S.suspend(() =>
     zoneId: S.optional(S.String.pipe(T.Query("zone_id"))),
     zoneName: S.optional(S.String.pipe(T.Query("zone_name"))),
   })
-    .pipe(
-      T.Http({
-        method: "GET",
-        uri: "/accounts/{account_id}/dns_settings/views",
-        code: 200,
-      }),
-    )
+    .pipe(T.Http({ method: "GET", uri: "/accounts/{account_id}/dns_settings/views", code: 200 }))
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
 ).annotate({
   identifier: "ListSettingAccountViewsRequest",
@@ -16461,6 +16777,232 @@ export const ListSettingAccountViewsResponse = /*@__PURE__*/ S.suspend(() =>
   identifier: "ListSettingAccountViewsResponse",
 }) as any as S.Schema<ListSettingAccountViewsResponse>;
 
+export interface ListSettingsAccountNameserverSetsRequest {
+  /** Identifier. */
+  accountId: string;
+  /** Page number of paginated results. */
+  page?: number;
+  /** Number of results per page. */
+  perPage?: number;
+}
+export const ListSettingsAccountNameserverSetsRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    accountId: S.String.pipe(T.Label("account_id")),
+    page: S.optional(S.Number.pipe(T.Query())),
+    perPage: S.optional(S.Number.pipe(T.Query("per_page"))),
+  })
+    .pipe(
+      T.Http({
+        method: "GET",
+        uri: "/accounts/{account_id}/dns_settings/nameserver_sets",
+        code: 200,
+      }),
+    )
+    .pipe(T.KeyDictionary(KEY_DICTIONARY)),
+).annotate({
+  identifier: "ListSettingsAccountNameserverSetsRequest",
+}) as any as S.Schema<ListSettingsAccountNameserverSetsRequest>;
+
+export type ListSettingsAccountNameserverSetsResultItemDNSSettingsNameserverSetStandardResponseNameserversItemIpv4List =
+  Array<string>;
+export const ListSettingsAccountNameserverSetsResultItemDNSSettingsNameserverSetStandardResponseNameserversItemIpv4List =
+  /*@__PURE__*/ S.Array(
+    S.String,
+  ) as any as S.Schema<ListSettingsAccountNameserverSetsResultItemDNSSettingsNameserverSetStandardResponseNameserversItemIpv4List>;
+
+export type ListSettingsAccountNameserverSetsResultItemDNSSettingsNameserverSetStandardResponseNameserversItemIpv6List =
+  Array<string>;
+export const ListSettingsAccountNameserverSetsResultItemDNSSettingsNameserverSetStandardResponseNameserversItemIpv6List =
+  /*@__PURE__*/ S.Array(
+    S.String,
+  ) as any as S.Schema<ListSettingsAccountNameserverSetsResultItemDNSSettingsNameserverSetStandardResponseNameserversItemIpv6List>;
+
+export interface ListSettingsAccountNameserverSetsResultItemDNSSettingsNameserverSetStandardResponseNameserversItem {
+  /** IPv4 addresses assigned to the nameserver. */
+  ipv4: ListSettingsAccountNameserverSetsResultItemDNSSettingsNameserverSetStandardResponseNameserversItemIpv4List;
+  /** IPv6 addresses assigned to the nameserver. */
+  ipv6: ListSettingsAccountNameserverSetsResultItemDNSSettingsNameserverSetStandardResponseNameserversItemIpv6List;
+  /** A unique lowercase Punycode nameserver name within the set. */
+  name: string;
+}
+export const ListSettingsAccountNameserverSetsResultItemDNSSettingsNameserverSetStandardResponseNameserversItem =
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      ipv4: ListSettingsAccountNameserverSetsResultItemDNSSettingsNameserverSetStandardResponseNameserversItemIpv4List,
+      ipv6: ListSettingsAccountNameserverSetsResultItemDNSSettingsNameserverSetStandardResponseNameserversItemIpv6List,
+      name: S.String,
+    }),
+  ).annotate({
+    identifier:
+      "ListSettingsAccountNameserverSetsResultItemDNSSettingsNameserverSetStandardResponseNameserversItem",
+  }) as any as S.Schema<ListSettingsAccountNameserverSetsResultItemDNSSettingsNameserverSetStandardResponseNameserversItem>;
+
+export type ListSettingsAccountNameserverSetsResultItemDNSSettingsNameserverSetStandardResponseNameserversList =
+  Array<ListSettingsAccountNameserverSetsResultItemDNSSettingsNameserverSetStandardResponseNameserversItem>;
+export const ListSettingsAccountNameserverSetsResultItemDNSSettingsNameserverSetStandardResponseNameserversList =
+  /*@__PURE__*/ S.Array(
+    ListSettingsAccountNameserverSetsResultItemDNSSettingsNameserverSetStandardResponseNameserversItem,
+  ) as any as S.Schema<ListSettingsAccountNameserverSetsResultItemDNSSettingsNameserverSetStandardResponseNameserversList>;
+
+export interface ListSettingsAccountNameserverSetsResultItemDNSSettingsNameserverSetStandardResponse {
+  /** Identifier for a nameserver set. */
+  id: string;
+  /** Whether the nameserver set uses Advanced anycast groups. */
+  advanced: boolean;
+  /** When the nameserver set was created. */
+  createdOn: string;
+  /** Selects the account-specific IP set that supplies the nameserver addresses. The account's entitlement determines the maximum value. Nameserver sets with the same `ip_set` and `advanced` value may reuse addresses; otherwise, they use disjoint address groups. */
+  ipSet: number;
+  nameservers: ListSettingsAccountNameserverSetsResultItemDNSSettingsNameserverSetStandardResponseNameserversList;
+}
+export const ListSettingsAccountNameserverSetsResultItemDNSSettingsNameserverSetStandardResponse =
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      id: S.String,
+      advanced: S.Boolean,
+      createdOn: S.String.pipe(T.Body("created_on")),
+      ipSet: S.Number.pipe(T.Body("ip_set")),
+      nameservers:
+        ListSettingsAccountNameserverSetsResultItemDNSSettingsNameserverSetStandardResponseNameserversList,
+    }),
+  ).annotate({
+    identifier:
+      "ListSettingsAccountNameserverSetsResultItemDNSSettingsNameserverSetStandardResponse",
+  }) as any as S.Schema<ListSettingsAccountNameserverSetsResultItemDNSSettingsNameserverSetStandardResponse>;
+
+export type ListSettingsAccountNameserverSetsResultItemDNSSettingsNameserverSetAdvancedResponseNameserversItemIpv4List =
+  Array<string>;
+export const ListSettingsAccountNameserverSetsResultItemDNSSettingsNameserverSetAdvancedResponseNameserversItemIpv4List =
+  /*@__PURE__*/ S.Array(
+    S.String,
+  ) as any as S.Schema<ListSettingsAccountNameserverSetsResultItemDNSSettingsNameserverSetAdvancedResponseNameserversItemIpv4List>;
+
+export type ListSettingsAccountNameserverSetsResultItemDNSSettingsNameserverSetAdvancedResponseNameserversItemIpv4GroupsItem =
+  | "a"
+  | "b"
+  | "c";
+export const ListSettingsAccountNameserverSetsResultItemDNSSettingsNameserverSetAdvancedResponseNameserversItemIpv4GroupsItem =
+  S.String;
+
+export type ListSettingsAccountNameserverSetsResultItemDNSSettingsNameserverSetAdvancedResponseNameserversItemIpv4GroupsList =
+  Array<ListSettingsAccountNameserverSetsResultItemDNSSettingsNameserverSetAdvancedResponseNameserversItemIpv4GroupsItem>;
+export const ListSettingsAccountNameserverSetsResultItemDNSSettingsNameserverSetAdvancedResponseNameserversItemIpv4GroupsList =
+  /*@__PURE__*/ S.Array(
+    ListSettingsAccountNameserverSetsResultItemDNSSettingsNameserverSetAdvancedResponseNameserversItemIpv4GroupsItem,
+  ) as any as S.Schema<ListSettingsAccountNameserverSetsResultItemDNSSettingsNameserverSetAdvancedResponseNameserversItemIpv4GroupsList>;
+
+export type ListSettingsAccountNameserverSetsResultItemDNSSettingsNameserverSetAdvancedResponseNameserversItemIpv6List =
+  Array<string>;
+export const ListSettingsAccountNameserverSetsResultItemDNSSettingsNameserverSetAdvancedResponseNameserversItemIpv6List =
+  /*@__PURE__*/ S.Array(
+    S.String,
+  ) as any as S.Schema<ListSettingsAccountNameserverSetsResultItemDNSSettingsNameserverSetAdvancedResponseNameserversItemIpv6List>;
+
+export type ListSettingsAccountNameserverSetsResultItemDNSSettingsNameserverSetAdvancedResponseNameserversItemIpv6GroupsItem =
+  | "a"
+  | "b"
+  | "c";
+export const ListSettingsAccountNameserverSetsResultItemDNSSettingsNameserverSetAdvancedResponseNameserversItemIpv6GroupsItem =
+  S.String;
+
+export type ListSettingsAccountNameserverSetsResultItemDNSSettingsNameserverSetAdvancedResponseNameserversItemIpv6GroupsList =
+  Array<ListSettingsAccountNameserverSetsResultItemDNSSettingsNameserverSetAdvancedResponseNameserversItemIpv6GroupsItem>;
+export const ListSettingsAccountNameserverSetsResultItemDNSSettingsNameserverSetAdvancedResponseNameserversItemIpv6GroupsList =
+  /*@__PURE__*/ S.Array(
+    ListSettingsAccountNameserverSetsResultItemDNSSettingsNameserverSetAdvancedResponseNameserversItemIpv6GroupsItem,
+  ) as any as S.Schema<ListSettingsAccountNameserverSetsResultItemDNSSettingsNameserverSetAdvancedResponseNameserversItemIpv6GroupsList>;
+
+export interface ListSettingsAccountNameserverSetsResultItemDNSSettingsNameserverSetAdvancedResponseNameserversItem {
+  /** IPv4 addresses assigned to the nameserver. */
+  ipv4: ListSettingsAccountNameserverSetsResultItemDNSSettingsNameserverSetAdvancedResponseNameserversItemIpv4List;
+  /** Advanced anycast group for each address in the corresponding address array. Entries have the same order as, and correspond one-to-one with, the addresses. */
+  ipv4Groups: ListSettingsAccountNameserverSetsResultItemDNSSettingsNameserverSetAdvancedResponseNameserversItemIpv4GroupsList;
+  /** IPv6 addresses assigned to the nameserver. */
+  ipv6: ListSettingsAccountNameserverSetsResultItemDNSSettingsNameserverSetAdvancedResponseNameserversItemIpv6List;
+  /** Advanced anycast group for each address in the corresponding address array. Entries have the same order as, and correspond one-to-one with, the addresses. */
+  ipv6Groups: ListSettingsAccountNameserverSetsResultItemDNSSettingsNameserverSetAdvancedResponseNameserversItemIpv6GroupsList;
+  /** A unique lowercase Punycode nameserver name within the set. */
+  name: string;
+}
+export const ListSettingsAccountNameserverSetsResultItemDNSSettingsNameserverSetAdvancedResponseNameserversItem =
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      ipv4: ListSettingsAccountNameserverSetsResultItemDNSSettingsNameserverSetAdvancedResponseNameserversItemIpv4List,
+      ipv4Groups:
+        ListSettingsAccountNameserverSetsResultItemDNSSettingsNameserverSetAdvancedResponseNameserversItemIpv4GroupsList.pipe(
+          T.Body("ipv4_groups"),
+        ),
+      ipv6: ListSettingsAccountNameserverSetsResultItemDNSSettingsNameserverSetAdvancedResponseNameserversItemIpv6List,
+      ipv6Groups:
+        ListSettingsAccountNameserverSetsResultItemDNSSettingsNameserverSetAdvancedResponseNameserversItemIpv6GroupsList.pipe(
+          T.Body("ipv6_groups"),
+        ),
+      name: S.String,
+    }),
+  ).annotate({
+    identifier:
+      "ListSettingsAccountNameserverSetsResultItemDNSSettingsNameserverSetAdvancedResponseNameserversItem",
+  }) as any as S.Schema<ListSettingsAccountNameserverSetsResultItemDNSSettingsNameserverSetAdvancedResponseNameserversItem>;
+
+export type ListSettingsAccountNameserverSetsResultItemDNSSettingsNameserverSetAdvancedResponseNameserversList =
+  Array<ListSettingsAccountNameserverSetsResultItemDNSSettingsNameserverSetAdvancedResponseNameserversItem>;
+export const ListSettingsAccountNameserverSetsResultItemDNSSettingsNameserverSetAdvancedResponseNameserversList =
+  /*@__PURE__*/ S.Array(
+    ListSettingsAccountNameserverSetsResultItemDNSSettingsNameserverSetAdvancedResponseNameserversItem,
+  ) as any as S.Schema<ListSettingsAccountNameserverSetsResultItemDNSSettingsNameserverSetAdvancedResponseNameserversList>;
+
+export interface ListSettingsAccountNameserverSetsResultItemDNSSettingsNameserverSetAdvancedResponse {
+  /** Identifier for a nameserver set. */
+  id: string;
+  /** Whether the nameserver set uses Advanced anycast groups. */
+  advanced: boolean;
+  /** When the nameserver set was created. */
+  createdOn: string;
+  /** Selects the account-specific IP set that supplies the nameserver addresses. The account's entitlement determines the maximum value. Nameserver sets with the same `ip_set` and `advanced` value may reuse addresses; otherwise, they use disjoint address groups. */
+  ipSet: number;
+  nameservers: ListSettingsAccountNameserverSetsResultItemDNSSettingsNameserverSetAdvancedResponseNameserversList;
+}
+export const ListSettingsAccountNameserverSetsResultItemDNSSettingsNameserverSetAdvancedResponse =
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      id: S.String,
+      advanced: S.Boolean,
+      createdOn: S.String.pipe(T.Body("created_on")),
+      ipSet: S.Number.pipe(T.Body("ip_set")),
+      nameservers:
+        ListSettingsAccountNameserverSetsResultItemDNSSettingsNameserverSetAdvancedResponseNameserversList,
+    }),
+  ).annotate({
+    identifier:
+      "ListSettingsAccountNameserverSetsResultItemDNSSettingsNameserverSetAdvancedResponse",
+  }) as any as S.Schema<ListSettingsAccountNameserverSetsResultItemDNSSettingsNameserverSetAdvancedResponse>;
+
+export type ListSettingsAccountNameserverSetsResultItem =
+  | ListSettingsAccountNameserverSetsResultItemDNSSettingsNameserverSetStandardResponse
+  | ListSettingsAccountNameserverSetsResultItemDNSSettingsNameserverSetAdvancedResponse;
+export const ListSettingsAccountNameserverSetsResultItem = /*@__PURE__*/ S.Unknown.pipe(
+  T.UnionCases([
+    ["id", "advanced", "createdOn", "ipSet", "nameservers"],
+    ["id", "advanced", "createdOn", "ipSet", "nameservers"],
+  ]),
+);
+
+export type ListSettingsAccountNameserverSetsResultList =
+  Array<ListSettingsAccountNameserverSetsResultItem>;
+export const ListSettingsAccountNameserverSetsResultList = /*@__PURE__*/ S.Array(
+  ListSettingsAccountNameserverSetsResultItem,
+) as any as S.Schema<ListSettingsAccountNameserverSetsResultList>;
+
+export type ListSettingsAccountNameserverSetsResponse = ListSettingsAccountNameserverSetsResultList;
+export const ListSettingsAccountNameserverSetsResponse = /*@__PURE__*/ S.suspend(() =>
+  ListSettingsAccountNameserverSetsResultList.pipe(
+    T.EnvelopePayloadRoot(),
+    T.KeyDictionary(KEY_DICTIONARY),
+  ),
+).annotate({
+  identifier: "ListSettingsAccountNameserverSetsResponse",
+}) as any as S.Schema<ListSettingsAccountNameserverSetsResponse>;
+
 export interface ListZoneTransferAclsRequest {
   accountId: string;
 }
@@ -16468,13 +17010,7 @@ export const ListZoneTransferAclsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     accountId: S.String.pipe(T.Label("account_id")),
   })
-    .pipe(
-      T.Http({
-        method: "GET",
-        uri: "/accounts/{account_id}/secondary_dns/acls",
-        code: 200,
-      }),
-    )
+    .pipe(T.Http({ method: "GET", uri: "/accounts/{account_id}/secondary_dns/acls", code: 200 }))
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
 ).annotate({
   identifier: "ListZoneTransferAclsRequest",
@@ -16524,13 +17060,7 @@ export const ListZoneTransferPeersRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     accountId: S.String.pipe(T.Label("account_id")),
   })
-    .pipe(
-      T.Http({
-        method: "GET",
-        uri: "/accounts/{account_id}/secondary_dns/peers",
-        code: 200,
-      }),
-    )
+    .pipe(T.Http({ method: "GET", uri: "/accounts/{account_id}/secondary_dns/peers", code: 200 }))
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
 ).annotate({
   identifier: "ListZoneTransferPeersRequest",
@@ -16589,13 +17119,7 @@ export const ListZoneTransferTsigsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     accountId: S.String.pipe(T.Label("account_id")),
   })
-    .pipe(
-      T.Http({
-        method: "GET",
-        uri: "/accounts/{account_id}/secondary_dns/tsigs",
-        code: 200,
-      }),
-    )
+    .pipe(T.Http({ method: "GET", uri: "/accounts/{account_id}/secondary_dns/tsigs", code: 200 }))
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
 ).annotate({
   identifier: "ListZoneTransferTsigsRequest",
@@ -16666,9 +17190,7 @@ export const PatchDnssecRequest = /*@__PURE__*/ S.suspend(() =>
   })
     .pipe(T.Http({ method: "PATCH", uri: "/zones/{zone_id}/dnssec", code: 200 }))
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "PatchDnssecRequest",
-}) as any as S.Schema<PatchDnssecRequest>;
+).annotate({ identifier: "PatchDnssecRequest" }) as any as S.Schema<PatchDnssecRequest>;
 
 export type DnssecEditResponseStatus =
   | "active"
@@ -16726,9 +17248,7 @@ export const PatchDnssecResponse = /*@__PURE__*/ S.suspend(() =>
     publicKey: S.optional(S.NullOr(S.String).pipe(T.Body("public_key"))),
     status: S.optional(S.NullOr(DnssecEditResponseStatus)),
   }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "PatchDnssecResponse",
-}) as any as S.Schema<PatchDnssecResponse>;
+).annotate({ identifier: "PatchDnssecResponse" }) as any as S.Schema<PatchDnssecResponse>;
 
 export type RecordsEditRequestType =
   | "A"
@@ -16952,16 +17472,10 @@ export const PatchRecordRequest = /*@__PURE__*/ S.suspend(() =>
     data: S.optional(RecordsEditRequestData),
   })
     .pipe(
-      T.Http({
-        method: "PATCH",
-        uri: "/zones/{zone_id}/dns_records/{dns_record_id}",
-        code: 200,
-      }),
+      T.Http({ method: "PATCH", uri: "/zones/{zone_id}/dns_records/{dns_record_id}", code: 200 }),
     )
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "PatchRecordRequest",
-}) as any as S.Schema<PatchRecordRequest>;
+).annotate({ identifier: "PatchRecordRequest" }) as any as S.Schema<PatchRecordRequest>;
 
 export type RecordsEditResultARecordMetaShadowedByList = Array<string>;
 export const RecordsEditResultARecordMetaShadowedByList = /*@__PURE__*/ S.Array(
@@ -17037,9 +17551,7 @@ export const RecordsEditResultARecord = /*@__PURE__*/ S.suspend(() =>
     settings: S.optional(S.NullOr(S.Unknown)),
     data: S.optional(S.NullOr(S.Unknown)),
   }),
-).annotate({
-  identifier: "RecordsEditResultARecord",
-}) as any as S.Schema<RecordsEditResultARecord>;
+).annotate({ identifier: "RecordsEditResultARecord" }) as any as S.Schema<RecordsEditResultARecord>;
 
 export type RecordsEditResultAAAARecordMetaShadowedByList = Array<string>;
 export const RecordsEditResultAAAARecordMetaShadowedByList = /*@__PURE__*/ S.Array(
@@ -19073,9 +19585,7 @@ export const RecordsEditResult = /*@__PURE__*/ S.Unknown.pipe(
 export type PatchRecordResponse = RecordsEditResult;
 export const PatchRecordResponse = /*@__PURE__*/ S.suspend(() =>
   RecordsEditResult.pipe(T.EnvelopePayloadRoot(), T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "PatchRecordResponse",
-}) as any as S.Schema<PatchRecordResponse>;
+).annotate({ identifier: "PatchRecordResponse" }) as any as S.Schema<PatchRecordResponse>;
 
 export interface SettingsAccountEditRequestZoneDefaultsInternalDns {
   /** The ID of the zone to fallback to. */
@@ -19185,6 +19695,7 @@ export interface PatchSettingAccountRequest {
   accountId: string;
   /** When enabled, forces all proxied DNS records in the account to behave as DNS-only at the edge, regardless of each record's individual proxy setting. Note that this account-level override does not modify the records themselves; it only affects how they are served at the edge. See more on [Enforce DNS-only](https://developers.cloudflare.com/dns/proxy-status/enforce-dns-only). */
   enforceDnsOnly?: boolean;
+  /** Default settings for new zones created in this account. */
   zoneDefaults?: SettingsAccountEditRequestZoneDefaults;
 }
 export const PatchSettingAccountRequest = /*@__PURE__*/ S.suspend(() =>
@@ -19193,13 +19704,7 @@ export const PatchSettingAccountRequest = /*@__PURE__*/ S.suspend(() =>
     enforceDnsOnly: S.optional(S.Boolean.pipe(T.Body("enforce_dns_only"))),
     zoneDefaults: S.optional(SettingsAccountEditRequestZoneDefaults.pipe(T.Body("zone_defaults"))),
   })
-    .pipe(
-      T.Http({
-        method: "PATCH",
-        uri: "/accounts/{account_id}/dns_settings",
-        code: 200,
-      }),
-    )
+    .pipe(T.Http({ method: "PATCH", uri: "/accounts/{account_id}/dns_settings", code: 200 }))
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
 ).annotate({
   identifier: "PatchSettingAccountRequest",
@@ -19274,6 +19779,7 @@ export const SettingsAccountEditResponseZoneDefaults = /*@__PURE__*/ S.suspend((
 
 /** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
 export interface PatchSettingAccountResponse {
+  /** Default settings for new zones created in this account. */
   zoneDefaults: SettingsAccountEditResponseZoneDefaults;
   /** When enabled, forces all proxied DNS records in the account to behave as DNS-only at the edge, regardless of each record's individual proxy setting. Note that this account-level override does not modify the records themselves; it only affects how they are served at the edge. See more on [Enforce DNS-only](https://developers.cloudflare.com/dns/proxy-status/enforce-dns-only). */
   enforceDnsOnly?: boolean | null;
@@ -19354,28 +19860,75 @@ export const PatchSettingAccountViewResponse = /*@__PURE__*/ S.suspend(() =>
 export type SettingsZoneEditRequestInternalDns = SettingsAccountEditRequestZoneDefaultsInternalDns;
 export const SettingsZoneEditRequestInternalDns = SettingsAccountEditRequestZoneDefaultsInternalDns;
 
-export type SettingsZoneEditRequestNameserversType =
+export type SettingsZoneEditRequestNameserversDNSSettingsZoneNameserversCloudflareType =
   | "cloudflare.standard"
-  | "cloudflare.advanced"
+  | "cloudflare.advanced";
+export const SettingsZoneEditRequestNameserversDNSSettingsZoneNameserversCloudflareType = S.String;
+
+export interface SettingsZoneEditRequestNameserversDNSSettingsZoneNameserversCloudflare {
+  /** Nameserver type. */
+  type: SettingsZoneEditRequestNameserversDNSSettingsZoneNameserversCloudflareType | (string & {});
+}
+export const SettingsZoneEditRequestNameserversDNSSettingsZoneNameserversCloudflare =
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      type: SettingsZoneEditRequestNameserversDNSSettingsZoneNameserversCloudflareType,
+    }),
+  ).annotate({
+    identifier: "SettingsZoneEditRequestNameserversDNSSettingsZoneNameserversCloudflare",
+  }) as any as S.Schema<SettingsZoneEditRequestNameserversDNSSettingsZoneNameserversCloudflare>;
+
+export type SettingsZoneEditRequestNameserversDNSSettingsZoneNameserversCustomExistingType =
   | "custom.account"
   | "custom.tenant"
   | "custom.zone";
-export const SettingsZoneEditRequestNameserversType = S.String;
+export const SettingsZoneEditRequestNameserversDNSSettingsZoneNameserversCustomExistingType =
+  S.String;
 
-export interface SettingsZoneEditRequestNameservers {
-  /** Configured nameserver set to be used for this zone */
+export interface SettingsZoneEditRequestNameserversDNSSettingsZoneNameserversCustomExisting {
+  /** Nameserver type. */
+  type:
+    | SettingsZoneEditRequestNameserversDNSSettingsZoneNameserversCustomExistingType
+    | (string & {});
+  /** Configured nameserver set number to use for this zone. */
   nsSet?: number;
-  /** Nameserver type */
-  type?: SettingsZoneEditRequestNameserversType | (string & {});
 }
-export const SettingsZoneEditRequestNameservers = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    nsSet: S.optional(S.Number.pipe(T.Body("ns_set"))),
-    type: S.optional(SettingsZoneEditRequestNameserversType),
-  }),
-).annotate({
-  identifier: "SettingsZoneEditRequestNameservers",
-}) as any as S.Schema<SettingsZoneEditRequestNameservers>;
+export const SettingsZoneEditRequestNameserversDNSSettingsZoneNameserversCustomExisting =
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      type: SettingsZoneEditRequestNameserversDNSSettingsZoneNameserversCustomExistingType,
+      nsSet: S.optional(S.Number.pipe(T.Body("ns_set"))),
+    }),
+  ).annotate({
+    identifier: "SettingsZoneEditRequestNameserversDNSSettingsZoneNameserversCustomExisting",
+  }) as any as S.Schema<SettingsZoneEditRequestNameserversDNSSettingsZoneNameserversCustomExisting>;
+
+export type SettingsZoneEditRequestNameserversDNSSettingsZoneNameserversCustomSetType = "custom";
+export const SettingsZoneEditRequestNameserversDNSSettingsZoneNameserversCustomSetType = S.String;
+
+export interface SettingsZoneEditRequestNameserversDNSSettingsZoneNameserversCustomSet {
+  /** Identifier of the account-owned Custom Nameserver Set to use for this zone. */
+  nameserverSetId: string;
+  /** Nameserver type. */
+  type: SettingsZoneEditRequestNameserversDNSSettingsZoneNameserversCustomSetType;
+}
+export const SettingsZoneEditRequestNameserversDNSSettingsZoneNameserversCustomSet =
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      nameserverSetId: S.String.pipe(T.Body("nameserver_set_id")),
+      type: SettingsZoneEditRequestNameserversDNSSettingsZoneNameserversCustomSetType,
+    }),
+  ).annotate({
+    identifier: "SettingsZoneEditRequestNameserversDNSSettingsZoneNameserversCustomSet",
+  }) as any as S.Schema<SettingsZoneEditRequestNameserversDNSSettingsZoneNameserversCustomSet>;
+
+export type SettingsZoneEditRequestNameservers =
+  | SettingsZoneEditRequestNameserversDNSSettingsZoneNameserversCloudflare
+  | SettingsZoneEditRequestNameserversDNSSettingsZoneNameserversCustomExisting
+  | SettingsZoneEditRequestNameserversDNSSettingsZoneNameserversCustomSet;
+export const SettingsZoneEditRequestNameservers = /*@__PURE__*/ S.Unknown.pipe(
+  T.UnionCases([["type"], ["type", "nsSet"], ["nameserverSetId", "type"]]),
+);
 
 export type SettingsZoneEditRequestSoa = SettingsAccountEditRequestZoneDefaultsSoa;
 export const SettingsZoneEditRequestSoa = SettingsAccountEditRequestZoneDefaultsSoa;
@@ -19394,7 +19947,7 @@ export interface PatchSettingZoneRequest {
   internalDns?: SettingsAccountEditRequestZoneDefaultsInternalDns;
   /** Whether to enable multi-provider DNS, which causes Cloudflare to activate the zone even when non-Cloudflare NS records exist, and to respect NS records at the zone apex during outbound zone transfers. */
   multiProvider?: boolean;
-  /** Settings determining the nameservers through which the zone should be available. */
+  /** Controls the nameservers through which the zone is available. */
   nameservers?: SettingsZoneEditRequestNameservers;
   /** The time to live (TTL) of the zone's nameserver (NS) records. */
   nsTtl?: number;
@@ -19420,44 +19973,81 @@ export const PatchSettingZoneRequest = /*@__PURE__*/ S.suspend(() =>
     soa: S.optional(SettingsAccountEditRequestZoneDefaultsSoa),
     zoneMode: S.optional(SettingsZoneEditRequestZoneMode.pipe(T.Body("zone_mode"))),
   })
-    .pipe(
-      T.Http({
-        method: "PATCH",
-        uri: "/zones/{zone_id}/dns_settings",
-        code: 200,
-      }),
-    )
+    .pipe(T.Http({ method: "PATCH", uri: "/zones/{zone_id}/dns_settings", code: 200 }))
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "PatchSettingZoneRequest",
-}) as any as S.Schema<PatchSettingZoneRequest>;
+).annotate({ identifier: "PatchSettingZoneRequest" }) as any as S.Schema<PatchSettingZoneRequest>;
 
 export type SettingsZoneEditResponseInternalDns = SettingsAccountGetResponseZoneDefaultsInternalDns;
 export const SettingsZoneEditResponseInternalDns =
   SettingsAccountGetResponseZoneDefaultsInternalDns;
 
-export type SettingsZoneEditResponseNameserversType =
+export type SettingsZoneEditResponseNameserversDNSSettingsZoneNameserversCloudflareType =
   | "cloudflare.standard"
-  | "cloudflare.advanced"
+  | "cloudflare.advanced";
+export const SettingsZoneEditResponseNameserversDNSSettingsZoneNameserversCloudflareType = S.String;
+
+export interface SettingsZoneEditResponseNameserversDNSSettingsZoneNameserversCloudflare {
+  /** Nameserver type. */
+  type: SettingsZoneEditResponseNameserversDNSSettingsZoneNameserversCloudflareType;
+}
+export const SettingsZoneEditResponseNameserversDNSSettingsZoneNameserversCloudflare =
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      type: SettingsZoneEditResponseNameserversDNSSettingsZoneNameserversCloudflareType,
+    }),
+  ).annotate({
+    identifier: "SettingsZoneEditResponseNameserversDNSSettingsZoneNameserversCloudflare",
+  }) as any as S.Schema<SettingsZoneEditResponseNameserversDNSSettingsZoneNameserversCloudflare>;
+
+export type SettingsZoneEditResponseNameserversDNSSettingsZoneNameserversCustomExistingType =
   | "custom.account"
   | "custom.tenant"
   | "custom.zone";
-export const SettingsZoneEditResponseNameserversType = S.String;
+export const SettingsZoneEditResponseNameserversDNSSettingsZoneNameserversCustomExistingType =
+  S.String;
 
-export interface SettingsZoneEditResponseNameservers {
-  /** Nameserver type */
-  type: SettingsZoneEditResponseNameserversType;
-  /** Configured nameserver set to be used for this zone */
+export interface SettingsZoneEditResponseNameserversDNSSettingsZoneNameserversCustomExisting {
+  /** Nameserver type. */
+  type: SettingsZoneEditResponseNameserversDNSSettingsZoneNameserversCustomExistingType;
+  /** Configured nameserver set number to use for this zone. */
   nsSet?: number | null;
 }
-export const SettingsZoneEditResponseNameservers = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    type: SettingsZoneEditResponseNameserversType,
-    nsSet: S.optional(S.NullOr(S.Number).pipe(T.Body("ns_set"))),
-  }),
-).annotate({
-  identifier: "SettingsZoneEditResponseNameservers",
-}) as any as S.Schema<SettingsZoneEditResponseNameservers>;
+export const SettingsZoneEditResponseNameserversDNSSettingsZoneNameserversCustomExisting =
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      type: SettingsZoneEditResponseNameserversDNSSettingsZoneNameserversCustomExistingType,
+      nsSet: S.optional(S.NullOr(S.Number).pipe(T.Body("ns_set"))),
+    }),
+  ).annotate({
+    identifier: "SettingsZoneEditResponseNameserversDNSSettingsZoneNameserversCustomExisting",
+  }) as any as S.Schema<SettingsZoneEditResponseNameserversDNSSettingsZoneNameserversCustomExisting>;
+
+export type SettingsZoneEditResponseNameserversDNSSettingsZoneNameserversCustomSetType = "custom";
+export const SettingsZoneEditResponseNameserversDNSSettingsZoneNameserversCustomSetType = S.String;
+
+export interface SettingsZoneEditResponseNameserversDNSSettingsZoneNameserversCustomSet {
+  /** Identifier of the account-owned Custom Nameserver Set to use for this zone. */
+  nameserverSetId: string;
+  /** Nameserver type. */
+  type: SettingsZoneEditResponseNameserversDNSSettingsZoneNameserversCustomSetType;
+}
+export const SettingsZoneEditResponseNameserversDNSSettingsZoneNameserversCustomSet =
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      nameserverSetId: S.String.pipe(T.Body("nameserver_set_id")),
+      type: SettingsZoneEditResponseNameserversDNSSettingsZoneNameserversCustomSetType,
+    }),
+  ).annotate({
+    identifier: "SettingsZoneEditResponseNameserversDNSSettingsZoneNameserversCustomSet",
+  }) as any as S.Schema<SettingsZoneEditResponseNameserversDNSSettingsZoneNameserversCustomSet>;
+
+export type SettingsZoneEditResponseNameservers =
+  | SettingsZoneEditResponseNameserversDNSSettingsZoneNameserversCloudflare
+  | SettingsZoneEditResponseNameserversDNSSettingsZoneNameserversCustomExisting
+  | SettingsZoneEditResponseNameserversDNSSettingsZoneNameserversCustomSet;
+export const SettingsZoneEditResponseNameservers = /*@__PURE__*/ S.Unknown.pipe(
+  T.UnionCases([["type"], ["type", "nsSet"], ["nameserverSetId", "type"]]),
+);
 
 export type SettingsZoneEditResponseSoa = SettingsAccountGetResponseZoneDefaultsSoa;
 export const SettingsZoneEditResponseSoa = SettingsAccountGetResponseZoneDefaultsSoa;
@@ -19475,7 +20065,7 @@ export interface PatchSettingZoneResponse {
   internalDns: SettingsAccountGetResponseZoneDefaultsInternalDns;
   /** Whether to enable multi-provider DNS, which causes Cloudflare to activate the zone even when non-Cloudflare NS records exist, and to respect NS records at the zone apex during outbound zone transfers. */
   multiProvider: boolean;
-  /** Settings determining the nameservers through which the zone should be available. */
+  /** Controls the nameservers through which the zone is available. */
   nameservers: SettingsZoneEditResponseNameservers;
   /** The time to live (TTL) of the zone's nameserver (NS) records. */
   nsTtl: number;
@@ -19498,9 +20088,7 @@ export const PatchSettingZoneResponse = /*@__PURE__*/ S.suspend(() =>
     soa: SettingsAccountGetResponseZoneDefaultsSoa,
     zoneMode: SettingsZoneEditResponseZoneMode.pipe(T.Body("zone_mode")),
   }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "PatchSettingZoneResponse",
-}) as any as S.Schema<PatchSettingZoneResponse>;
+).annotate({ identifier: "PatchSettingZoneResponse" }) as any as S.Schema<PatchSettingZoneResponse>;
 
 export interface ScanListRecordRequest {
   /** Identifier. */
@@ -19510,17 +20098,9 @@ export const ScanListRecordRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     zoneId: S.String.pipe(T.Label("zone_id")),
   })
-    .pipe(
-      T.Http({
-        method: "GET",
-        uri: "/zones/{zone_id}/dns_records/scan/review",
-        code: 200,
-      }),
-    )
+    .pipe(T.Http({ method: "GET", uri: "/zones/{zone_id}/dns_records/scan/review", code: 200 }))
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "ScanListRecordRequest",
-}) as any as S.Schema<ScanListRecordRequest>;
+).annotate({ identifier: "ScanListRecordRequest" }) as any as S.Schema<ScanListRecordRequest>;
 
 export type RecordsScanListResultItemARecordMetaShadowedByList = Array<string>;
 export const RecordsScanListResultItemARecordMetaShadowedByList = /*@__PURE__*/ S.Array(
@@ -21647,9 +22227,7 @@ export const ScanListRecordResponse = /*@__PURE__*/ S.suspend(() =>
     result: RecordsScanListResultList.pipe(T.EnvelopePayload()),
     resultInfo: S.optional(S.NullOr(ResultInfo).pipe(T.ResultInfo())),
   }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "ScanListRecordResponse",
-}) as any as S.Schema<ScanListRecordResponse>;
+).annotate({ identifier: "ScanListRecordResponse" }) as any as S.Schema<ScanListRecordResponse>;
 
 export interface ScanRecordRequest {
   /** Identifier. */
@@ -21659,17 +22237,9 @@ export const ScanRecordRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     zoneId: S.String.pipe(T.Label("zone_id")),
   })
-    .pipe(
-      T.Http({
-        method: "POST",
-        uri: "/zones/{zone_id}/dns_records/scan",
-        code: 200,
-      }),
-    )
+    .pipe(T.Http({ method: "POST", uri: "/zones/{zone_id}/dns_records/scan", code: 200 }))
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "ScanRecordRequest",
-}) as any as S.Schema<ScanRecordRequest>;
+).annotate({ identifier: "ScanRecordRequest" }) as any as S.Schema<ScanRecordRequest>;
 
 /** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
 export interface ScanRecordResponse {
@@ -21683,9 +22253,7 @@ export const ScanRecordResponse = /*@__PURE__*/ S.suspend(() =>
     recsAdded: S.optional(S.NullOr(S.Number).pipe(T.Body("recs_added"))),
     totalRecordsParsed: S.optional(S.NullOr(S.Number).pipe(T.Body("total_records_parsed"))),
   }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "ScanRecordResponse",
-}) as any as S.Schema<ScanRecordResponse>;
+).annotate({ identifier: "ScanRecordResponse" }) as any as S.Schema<ScanRecordResponse>;
 
 export type RecordsScanReviewRequestAcceptsItemARecordType = "A";
 export const RecordsScanReviewRequestAcceptsItemARecordType = S.String;
@@ -22953,17 +23521,9 @@ export const ScanReviewRecordRequest = /*@__PURE__*/ S.suspend(() =>
     accepts: S.optional(RecordsScanReviewRequestAcceptsList),
     rejects: S.optional(RecordsScanReviewRequestRejectsList),
   })
-    .pipe(
-      T.Http({
-        method: "POST",
-        uri: "/zones/{zone_id}/dns_records/scan/review",
-        code: 200,
-      }),
-    )
+    .pipe(T.Http({ method: "POST", uri: "/zones/{zone_id}/dns_records/scan/review", code: 200 }))
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "ScanReviewRecordRequest",
-}) as any as S.Schema<ScanReviewRecordRequest>;
+).annotate({ identifier: "ScanReviewRecordRequest" }) as any as S.Schema<ScanReviewRecordRequest>;
 
 export type RecordsScanReviewResponseAcceptsItemARecordMetaShadowedByList = Array<string>;
 export const RecordsScanReviewResponseAcceptsItemARecordMetaShadowedByList = /*@__PURE__*/ S.Array(
@@ -24364,9 +24924,7 @@ export const ScanReviewRecordResponse = /*@__PURE__*/ S.suspend(() =>
     accepts: S.optional(S.NullOr(RecordsScanReviewResponseAcceptsList)),
     rejects: S.optional(S.NullOr(RecordsScanReviewResponseRejectsList)),
   }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "ScanReviewRecordResponse",
-}) as any as S.Schema<ScanReviewRecordResponse>;
+).annotate({ identifier: "ScanReviewRecordResponse" }) as any as S.Schema<ScanReviewRecordResponse>;
 
 export interface ScanTriggerRecordRequest {
   /** Identifier. */
@@ -24376,17 +24934,9 @@ export const ScanTriggerRecordRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     zoneId: S.String.pipe(T.Label("zone_id")),
   })
-    .pipe(
-      T.Http({
-        method: "POST",
-        uri: "/zones/{zone_id}/dns_records/scan/trigger",
-        code: 200,
-      }),
-    )
+    .pipe(T.Http({ method: "POST", uri: "/zones/{zone_id}/dns_records/scan/trigger", code: 200 }))
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "ScanTriggerRecordRequest",
-}) as any as S.Schema<ScanTriggerRecordRequest>;
+).annotate({ identifier: "ScanTriggerRecordRequest" }) as any as S.Schema<ScanTriggerRecordRequest>;
 
 export interface ScanTriggerRecordResponse {}
 export const ScanTriggerRecordResponse = /*@__PURE__*/ S.suspend(() =>
@@ -24617,17 +25167,9 @@ export const UpdateRecordRequest = /*@__PURE__*/ S.suspend(() =>
     priority: S.optional(S.Number),
     data: S.optional(RecordsUpdateRequestData),
   })
-    .pipe(
-      T.Http({
-        method: "PUT",
-        uri: "/zones/{zone_id}/dns_records/{dns_record_id}",
-        code: 200,
-      }),
-    )
+    .pipe(T.Http({ method: "PUT", uri: "/zones/{zone_id}/dns_records/{dns_record_id}", code: 200 }))
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "UpdateRecordRequest",
-}) as any as S.Schema<UpdateRecordRequest>;
+).annotate({ identifier: "UpdateRecordRequest" }) as any as S.Schema<UpdateRecordRequest>;
 
 export type RecordsUpdateResultARecordMetaShadowedByList = Array<string>;
 export const RecordsUpdateResultARecordMetaShadowedByList = /*@__PURE__*/ S.Array(
@@ -26739,9 +27281,7 @@ export const RecordsUpdateResult = /*@__PURE__*/ S.Unknown.pipe(
 export type UpdateRecordResponse = RecordsUpdateResult;
 export const UpdateRecordResponse = /*@__PURE__*/ S.suspend(() =>
   RecordsUpdateResult.pipe(T.EnvelopePayloadRoot(), T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "UpdateRecordResponse",
-}) as any as S.Schema<UpdateRecordResponse>;
+).annotate({ identifier: "UpdateRecordResponse" }) as any as S.Schema<UpdateRecordResponse>;
 
 export interface UpdateZoneTransferAclRequest {
   accountId: string;
@@ -26809,13 +27349,7 @@ export const UpdateZoneTransferIncomingRequest = /*@__PURE__*/ S.suspend(() =>
     name: S.String,
     peers: ZoneTransfersIncomingUpdateRequestPeersList,
   })
-    .pipe(
-      T.Http({
-        method: "PUT",
-        uri: "/zones/{zone_id}/secondary_dns/incoming",
-        code: 200,
-      }),
-    )
+    .pipe(T.Http({ method: "PUT", uri: "/zones/{zone_id}/secondary_dns/incoming", code: 200 }))
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
 ).annotate({
   identifier: "UpdateZoneTransferIncomingRequest",
@@ -26877,13 +27411,7 @@ export const UpdateZoneTransferOutgoingRequest = /*@__PURE__*/ S.suspend(() =>
     name: S.String,
     peers: ZoneTransfersOutgoingUpdateRequestPeersList,
   })
-    .pipe(
-      T.Http({
-        method: "PUT",
-        uri: "/zones/{zone_id}/secondary_dns/outgoing",
-        code: 200,
-      }),
-    )
+    .pipe(T.Http({ method: "PUT", uri: "/zones/{zone_id}/secondary_dns/outgoing", code: 200 }))
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
 ).annotate({
   identifier: "UpdateZoneTransferOutgoingRequest",
@@ -27083,6 +27611,21 @@ export const createSettingAccountView: API.OperationMethod<
   retry: Retry.Retry,
 }));
 
+export type CreateSettingsAccountNameserverSetError = CloudflareOpError;
+/** Creates an immutable Custom Nameserver Set. To change a set, create a new one, move any zone assignments, and delete the old set. */
+export const createSettingsAccountNameserverSet: API.OperationMethod<
+  CreateSettingsAccountNameserverSetRequest,
+  CreateSettingsAccountNameserverSetResponse,
+  CreateSettingsAccountNameserverSetError,
+  CloudflareOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: CreateSettingsAccountNameserverSetRequest,
+  output: CreateSettingsAccountNameserverSetResponse,
+  errors: [CloudflareRateLimited, CloudflareError],
+  protocol: CloudflareProtocol,
+  retry: Retry.Retry,
+}));
+
 export type CreateZoneTransferAclError = CloudflareOpError;
 /** Create ACL. */
 export const createZoneTransferAcl: API.OperationMethod<
@@ -27214,6 +27757,21 @@ export const deleteSettingAccountView: API.OperationMethod<
   input: DeleteSettingAccountViewRequest,
   output: DeleteSettingAccountViewResponse,
   errors: [ViewNotFound, CloudflareRateLimited, CloudflareError],
+  protocol: CloudflareProtocol,
+  retry: Retry.Retry,
+}));
+
+export type DeleteSettingsAccountNameserverSetError = CloudflareOpError;
+/** Deletes an unassigned Custom Nameserver Set. */
+export const deleteSettingsAccountNameserverSet: API.OperationMethod<
+  DeleteSettingsAccountNameserverSetRequest,
+  DeleteSettingsAccountNameserverSetResponse,
+  DeleteSettingsAccountNameserverSetError,
+  CloudflareOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: DeleteSettingsAccountNameserverSetRequest,
+  output: DeleteSettingsAccountNameserverSetResponse,
+  errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
 }));
@@ -27451,6 +28009,21 @@ export const getSettingAccountView: API.OperationMethod<
   retry: Retry.Retry,
 }));
 
+export type GetSettingsAccountNameserverSetError = CloudflareOpError;
+/** Gets a Custom Nameserver Set owned by an account. */
+export const getSettingsAccountNameserverSet: API.OperationMethod<
+  GetSettingsAccountNameserverSetRequest,
+  GetSettingsAccountNameserverSetResponse,
+  GetSettingsAccountNameserverSetError,
+  CloudflareOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: GetSettingsAccountNameserverSetRequest,
+  output: GetSettingsAccountNameserverSetResponse,
+  errors: [CloudflareRateLimited, CloudflareError],
+  protocol: CloudflareProtocol,
+  retry: Retry.Retry,
+}));
+
 export type GetSettingZoneError = Forbidden | CloudflareOpError;
 /** Show DNS settings for a zone */
 export const getSettingZone: API.OperationMethod<
@@ -27675,6 +28248,21 @@ export const listSettingAccountViews: API.PaginatedOperationMethod<
   }),
   cloudflarePaginate,
 ) as any;
+
+export type ListSettingsAccountNameserverSetsError = CloudflareOpError;
+/** Lists an account's Custom Nameserver Sets. */
+export const listSettingsAccountNameserverSets: API.OperationMethod<
+  ListSettingsAccountNameserverSetsRequest,
+  ListSettingsAccountNameserverSetsResponse,
+  ListSettingsAccountNameserverSetsError,
+  CloudflareOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: ListSettingsAccountNameserverSetsRequest,
+  output: ListSettingsAccountNameserverSetsResponse,
+  errors: [CloudflareRateLimited, CloudflareError],
+  protocol: CloudflareProtocol,
+  retry: Retry.Retry,
+}));
 
 export type ListZoneTransferAclsError = CloudflareOpError;
 /** List ACLs. */

@@ -177231,18 +177231,21 @@
         "p25": {
           "target": "smithy.api#String",
           "traits": {
+            "smithy.api#documentation": "A numeric string.",
             "smithy.api#required": {}
           }
         },
         "p50": {
           "target": "smithy.api#String",
           "traits": {
+            "smithy.api#documentation": "A numeric string.",
             "smithy.api#required": {}
           }
         },
         "p75": {
           "target": "smithy.api#String",
           "traits": {
+            "smithy.api#documentation": "A numeric string.",
             "smithy.api#required": {}
           }
         }
@@ -178837,42 +178840,49 @@
         "bandwidthDownload": {
           "target": "smithy.api#String",
           "traits": {
+            "smithy.api#documentation": "A numeric string.",
             "smithy.api#required": {}
           }
         },
         "bandwidthUpload": {
           "target": "smithy.api#String",
           "traits": {
+            "smithy.api#documentation": "A numeric string.",
             "smithy.api#required": {}
           }
         },
         "jitterIdle": {
           "target": "smithy.api#String",
           "traits": {
+            "smithy.api#documentation": "A numeric string.",
             "smithy.api#required": {}
           }
         },
         "jitterLoaded": {
           "target": "smithy.api#String",
           "traits": {
+            "smithy.api#documentation": "A numeric string.",
             "smithy.api#required": {}
           }
         },
         "latencyIdle": {
           "target": "smithy.api#String",
           "traits": {
+            "smithy.api#documentation": "A numeric string.",
             "smithy.api#required": {}
           }
         },
         "latencyLoaded": {
           "target": "smithy.api#String",
           "traits": {
+            "smithy.api#documentation": "A numeric string.",
             "smithy.api#required": {}
           }
         },
         "packetLoss": {
           "target": "smithy.api#String",
           "traits": {
+            "smithy.api#documentation": "A numeric string.",
             "smithy.api#required": {}
           }
         }
@@ -179384,12 +179394,14 @@
         "bandwidthDownload": {
           "target": "smithy.api#String",
           "traits": {
+            "smithy.api#documentation": "A numeric string.",
             "smithy.api#required": {}
           }
         },
         "bandwidthUpload": {
           "target": "smithy.api#String",
           "traits": {
+            "smithy.api#documentation": "A numeric string.",
             "smithy.api#required": {}
           }
         },
@@ -179408,24 +179420,28 @@
         "jitterIdle": {
           "target": "smithy.api#String",
           "traits": {
+            "smithy.api#documentation": "A numeric string.",
             "smithy.api#required": {}
           }
         },
         "jitterLoaded": {
           "target": "smithy.api#String",
           "traits": {
+            "smithy.api#documentation": "A numeric string.",
             "smithy.api#required": {}
           }
         },
         "latencyIdle": {
           "target": "smithy.api#String",
           "traits": {
+            "smithy.api#documentation": "A numeric string.",
             "smithy.api#required": {}
           }
         },
         "latencyLoaded": {
           "target": "smithy.api#String",
           "traits": {
+            "smithy.api#documentation": "A numeric string.",
             "smithy.api#required": {}
           }
         },
@@ -179955,12 +179971,14 @@
         "bandwidthDownload": {
           "target": "smithy.api#String",
           "traits": {
+            "smithy.api#documentation": "A numeric string.",
             "smithy.api#required": {}
           }
         },
         "bandwidthUpload": {
           "target": "smithy.api#String",
           "traits": {
+            "smithy.api#documentation": "A numeric string.",
             "smithy.api#required": {}
           }
         },
@@ -179979,24 +179997,28 @@
         "jitterIdle": {
           "target": "smithy.api#String",
           "traits": {
+            "smithy.api#documentation": "A numeric string.",
             "smithy.api#required": {}
           }
         },
         "jitterLoaded": {
           "target": "smithy.api#String",
           "traits": {
+            "smithy.api#documentation": "A numeric string.",
             "smithy.api#required": {}
           }
         },
         "latencyIdle": {
           "target": "smithy.api#String",
           "traits": {
+            "smithy.api#documentation": "A numeric string.",
             "smithy.api#required": {}
           }
         },
         "latencyLoaded": {
           "target": "smithy.api#String",
           "traits": {
+            "smithy.api#documentation": "A numeric string.",
             "smithy.api#required": {}
           }
         },
@@ -180988,6 +181010,17 @@
         }
       }
     },
+    "com.cloudflare.radar#RankingTopResponseMetaTop0": {
+      "type": "structure",
+      "members": {
+        "date": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      }
+    },
     "com.cloudflare.radar#RankingTopResponseMetaUnitsItem": {
       "type": "structure",
       "members": {
@@ -181037,6 +181070,12 @@
           "target": "com.cloudflare.radar#RankingTopResponseMetaNormalization",
           "traits": {
             "smithy.api#documentation": "Normalization method applied to the results. Refer to [Normalization methods](https://developers.cloudflare.com/radar/concepts/normalization/).",
+            "smithy.api#required": {}
+          }
+        },
+        "top_0": {
+          "target": "com.cloudflare.radar#RankingTopResponseMetaTop0",
+          "traits": {
             "smithy.api#required": {}
           }
         },
@@ -182232,6 +182271,23 @@
         }
       }
     },
+    "com.cloudflare.radar#RankingInternetServicesTopResponseMetaTop0": {
+      "type": "structure",
+      "members": {
+        "date": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "serviceCategory": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      }
+    },
     "com.cloudflare.radar#RankingInternetServicesTopResponseMetaUnitsItem": {
       "type": "structure",
       "members": {
@@ -182281,6 +182337,12 @@
           "target": "com.cloudflare.radar#RankingInternetServicesTopResponseMetaNormalization",
           "traits": {
             "smithy.api#documentation": "Normalization method applied to the results. Refer to [Normalization methods](https://developers.cloudflare.com/radar/concepts/normalization/).",
+            "smithy.api#required": {}
+          }
+        },
+        "top_0": {
+          "target": "com.cloudflare.radar#RankingInternetServicesTopResponseMetaTop0",
+          "traits": {
             "smithy.api#required": {}
           }
         },
@@ -221257,7 +221319,7 @@
           "uri": "/accounts/{account_id}/ai/tomarkdown",
           "code": 200
         },
-        "smithy.api#documentation": "Converts uploaded files into Markdown format using Workers AI."
+        "smithy.api#documentation": "Converts files uploaded as multipart form data into Markdown using Workers AI. Returns a conversion result for each file. Use the supported-formats endpoint to check accepted file types."
       }
     },
     "com.cloudflare.radar#TransformToMarkdownRequest": {
@@ -221266,6 +221328,7 @@
         "account_id": {
           "target": "smithy.api#String",
           "traits": {
+            "smithy.api#documentation": "Cloudflare account ID used for this AI model request.",
             "smithy.api#httpLabel": {},
             "smithy.api#required": {}
           }
@@ -221273,6 +221336,7 @@
         "files": {
           "target": "com.cloudflare.radar#AiToMarkdownCreateRequestFilesList",
           "traits": {
+            "smithy.api#documentation": "Files to convert, supplied as multipart file uploads.",
             "smithy.api#required": {}
           }
         }

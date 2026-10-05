@@ -88,9 +88,7 @@ export const GetResponseRulesItem = /*@__PURE__*/ S.suspend(() =>
     ref: S.String,
     description: S.optional(S.NullOr(S.String)),
   }),
-).annotate({
-  identifier: "GetResponseRulesItem",
-}) as any as S.Schema<GetResponseRulesItem>;
+).annotate({ identifier: "GetResponseRulesItem" }) as any as S.Schema<GetResponseRulesItem>;
 
 export type GetResponseRulesList = Array<GetResponseRulesItem>;
 export const GetResponseRulesList = /*@__PURE__*/ S.Array(
@@ -139,9 +137,7 @@ export const UpdateRequestRulesItem = /*@__PURE__*/ S.suspend(() =>
     ref: S.String,
     description: S.optional(S.String),
   }),
-).annotate({
-  identifier: "UpdateRequestRulesItem",
-}) as any as S.Schema<UpdateRequestRulesItem>;
+).annotate({ identifier: "UpdateRequestRulesItem" }) as any as S.Schema<UpdateRequestRulesItem>;
 
 export type UpdateRequestRulesList = Array<UpdateRequestRulesItem>;
 export const UpdateRequestRulesList = /*@__PURE__*/ S.Array(
@@ -190,9 +186,7 @@ export const UpdateResponseRulesItem = /*@__PURE__*/ S.suspend(() =>
     ref: S.String,
     description: S.optional(S.NullOr(S.String)),
   }),
-).annotate({
-  identifier: "UpdateResponseRulesItem",
-}) as any as S.Schema<UpdateResponseRulesItem>;
+).annotate({ identifier: "UpdateResponseRulesItem" }) as any as S.Schema<UpdateResponseRulesItem>;
 
 export type UpdateResponseRulesList = Array<UpdateResponseRulesItem>;
 export const UpdateResponseRulesList = /*@__PURE__*/ S.Array(

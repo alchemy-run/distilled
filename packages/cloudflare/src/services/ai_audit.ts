@@ -21,16 +21,8 @@ export const GetRobotRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     zoneId: S.String.pipe(T.Label("zone_id")),
     subdomain: S.optional(S.String.pipe(T.Query())),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/zones/{zone_id}/ai-audit/robots",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "GetRobotRequest",
-}) as any as S.Schema<GetRobotRequest>;
+  }).pipe(T.Http({ method: "GET", uri: "/zones/{zone_id}/ai-audit/robots", code: 200 })),
+).annotate({ identifier: "GetRobotRequest" }) as any as S.Schema<GetRobotRequest>;
 
 export type GetRobotResponseUserAgentsValueAllowList = Array<string>;
 export const GetRobotResponseUserAgentsValueAllowList = /*@__PURE__*/ S.Array(
@@ -122,9 +114,7 @@ export const GetRobotResponse = /*@__PURE__*/ S.suspend(() =>
     sitemaps: S.optional(S.NullOr(GetRobotResponseSitemapsList)),
     status: S.optional(S.NullOr(S.Number)),
   }),
-).annotate({
-  identifier: "GetRobotResponse",
-}) as any as S.Schema<GetRobotResponse>;
+).annotate({ identifier: "GetRobotResponse" }) as any as S.Schema<GetRobotResponse>;
 
 export type RobotsBulkGetRequestBodyList = Array<string>;
 export const RobotsBulkGetRequestBodyList = /*@__PURE__*/ S.Array(
@@ -140,16 +130,8 @@ export const RobotsBulkGetRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     zoneId: S.String.pipe(T.Label("zone_id")),
     body: RobotsBulkGetRequestBodyList.pipe(T.HttpBody()),
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/zones/{zone_id}/ai-audit/robots/bulk",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "RobotsBulkGetRequest",
-}) as any as S.Schema<RobotsBulkGetRequest>;
+  }).pipe(T.Http({ method: "POST", uri: "/zones/{zone_id}/ai-audit/robots/bulk", code: 200 })),
+).annotate({ identifier: "RobotsBulkGetRequest" }) as any as S.Schema<RobotsBulkGetRequest>;
 
 export type RobotsBulkGetResultValueUserAgentsValueAllowList = Array<string>;
 export const RobotsBulkGetResultValueUserAgentsValueAllowList = /*@__PURE__*/ S.Array(
@@ -244,13 +226,9 @@ export const RobotsBulkGetResultValue = /*@__PURE__*/ S.suspend(() =>
     sitemaps: S.optional(S.NullOr(RobotsBulkGetResultValueSitemapsList)),
     status: S.optional(S.NullOr(S.Number)),
   }),
-).annotate({
-  identifier: "RobotsBulkGetResultValue",
-}) as any as S.Schema<RobotsBulkGetResultValue>;
+).annotate({ identifier: "RobotsBulkGetResultValue" }) as any as S.Schema<RobotsBulkGetResultValue>;
 
-export type RobotsBulkGetResultMap = {
-  [key: string]: RobotsBulkGetResultValue | undefined;
-};
+export type RobotsBulkGetResultMap = { [key: string]: RobotsBulkGetResultValue | undefined };
 export const RobotsBulkGetResultMap = /*@__PURE__*/ S.Record(
   S.String,
   RobotsBulkGetResultValue,
@@ -259,9 +237,7 @@ export const RobotsBulkGetResultMap = /*@__PURE__*/ S.Record(
 export type RobotsBulkGetResponse = RobotsBulkGetResultMap;
 export const RobotsBulkGetResponse = /*@__PURE__*/ S.suspend(() =>
   RobotsBulkGetResultMap.pipe(T.EnvelopePayloadRoot()),
-).annotate({
-  identifier: "RobotsBulkGetResponse",
-}) as any as S.Schema<RobotsBulkGetResponse>;
+).annotate({ identifier: "RobotsBulkGetResponse" }) as any as S.Schema<RobotsBulkGetResponse>;
 
 export type GetRobotError = CloudflareOpError;
 /** Fetches and parses the robots.txt file for a zone or a specific subdomain within the zone. Returns parsed user-agent rules, content signals, and sitemaps. */

@@ -2517,9 +2517,7 @@ export const WebCrawlerCrawlOptions = /*@__PURE__*/ S.suspend(() =>
     maxAge: S.optional(S.NullOr(S.Number).pipe(T.Body("max_age"))),
     source: S.optional(S.NullOr(WebCrawlerCrawlOptionsSource)),
   }),
-).annotate({
-  identifier: "WebCrawlerCrawlOptions",
-}) as any as S.Schema<WebCrawlerCrawlOptions>;
+).annotate({ identifier: "WebCrawlerCrawlOptions" }) as any as S.Schema<WebCrawlerCrawlOptions>;
 
 export interface InstancesCreateRequestSourceParamsWebCrawler {
   /** Options for parse_type 'discover', where Browser Run discovers URLs by link following and sitemaps. Ignored for 'sitemap'. */
@@ -2605,9 +2603,9 @@ export interface CreateInstanceRequest {
   customMetadata?: InstancesCreateRequestCustomMetadataList;
   embeddingModel?: string;
   fusionMethod?: InstancesCreateRequestFusionMethod | (string & {});
-  /** Deprecated — use index_method instead. */
+  /** Deprecated — use index_method instead. Defaults to true for new instances; set false to create a vector-only instance. */
   hybridSearchEnabled?: boolean;
-  /** Controls which storage backends are used during indexing. Defaults to vector-only. */
+  /** Controls which storage backends are used during indexing. Defaults to vector and keyword indexing for new instances. */
   indexMethod?: InstancesCreateRequestIndexMethod;
   indexingOptions?: InstancesCreateRequestIndexingOptions;
   maxNumResults?: number;
@@ -2625,6 +2623,7 @@ export interface CreateInstanceRequest {
   /** Interval between automatic syncs, in seconds. Allowed values: 900 (15min), 1800 (30min), 3600 (1h), 7200 (2h), 14400 (4h), 21600 (6h), 43200 (12h), 86400 (24h). */
   syncInterval?: InstancesCreateRequestSyncInterval | (number & {});
   tokenId?: string;
+  /** Source type. When omitted or null with a non-blank source, HTTP(S) URLs infer web-crawler and existing R2 bucket names infer r2. A missing or blank source without a type uses managed upload-only storage. */
   type?: InstancesCreateRequestType | (string & {});
 }
 export const CreateInstanceRequest = /*@__PURE__*/ S.suspend(() =>
@@ -2670,17 +2669,9 @@ export const CreateInstanceRequest = /*@__PURE__*/ S.suspend(() =>
     tokenId: S.optional(S.String.pipe(T.Body("token_id"))),
     type: S.optional(InstancesCreateRequestType),
   })
-    .pipe(
-      T.Http({
-        method: "POST",
-        uri: "/accounts/{account_id}/ai-search/instances",
-        code: 200,
-      }),
-    )
+    .pipe(T.Http({ method: "POST", uri: "/accounts/{account_id}/ai-search/instances", code: 200 }))
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "CreateInstanceRequest",
-}) as any as S.Schema<CreateInstanceRequest>;
+).annotate({ identifier: "CreateInstanceRequest" }) as any as S.Schema<CreateInstanceRequest>;
 
 export type InstancesCreateResponseCacheThreshold =
   | "super_strict_match"
@@ -3140,9 +3131,9 @@ export interface CreateInstanceResponse {
   enable?: boolean | null;
   engineVersion?: number | null;
   fusionMethod?: InstancesCreateResponseFusionMethod | null;
-  /** Deprecated — use index_method instead. */
+  /** Deprecated — use index_method instead. Defaults to true for new instances; set false to create a vector-only instance. */
   hybridSearchEnabled?: boolean | null;
-  /** Controls which storage backends are used during indexing. Defaults to vector-only. */
+  /** Controls which storage backends are used during indexing. Defaults to vector and keyword indexing for new instances. */
   indexMethod?: InstancesCreateRequestIndexMethod | null;
   indexingOptions?: InstancesCreateResponseIndexingOptions | null;
   lastActivity?: string | null;
@@ -3166,6 +3157,7 @@ export interface CreateInstanceResponse {
   /** Interval between automatic syncs, in seconds. Allowed values: 900 (15min), 1800 (30min), 3600 (1h), 7200 (2h), 14400 (4h), 21600 (6h), 43200 (12h), 86400 (24h). */
   syncInterval?: InstancesCreateResponseSyncInterval | null;
   tokenId?: string | null;
+  /** Source type. When omitted or null with a non-blank source, HTTP(S) URLs infer web-crawler and existing R2 bucket names infer r2. A missing or blank source without a type uses managed upload-only storage. */
   type?: InstancesCreateResponseType | null;
 }
 export const CreateInstanceResponse = /*@__PURE__*/ S.suspend(() =>
@@ -3228,9 +3220,7 @@ export const CreateInstanceResponse = /*@__PURE__*/ S.suspend(() =>
     tokenId: S.optional(S.NullOr(S.String).pipe(T.Body("token_id"))),
     type: S.optional(S.NullOr(InstancesCreateResponseType)),
   }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "CreateInstanceResponse",
-}) as any as S.Schema<CreateInstanceResponse>;
+).annotate({ identifier: "CreateInstanceResponse" }) as any as S.Schema<CreateInstanceResponse>;
 
 export interface CreateInstanceJobRequest {
   accountId: string;
@@ -3252,9 +3242,7 @@ export const CreateInstanceJobRequest = /*@__PURE__*/ S.suspend(() =>
       }),
     )
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "CreateInstanceJobRequest",
-}) as any as S.Schema<CreateInstanceJobRequest>;
+).annotate({ identifier: "CreateInstanceJobRequest" }) as any as S.Schema<CreateInstanceJobRequest>;
 
 export type InstancesJobsCreateResponseSource = "user" | "schedule";
 export const InstancesJobsCreateResponseSource = S.String;
@@ -3396,17 +3384,9 @@ export const CreateNamespaceRequest = /*@__PURE__*/ S.suspend(() =>
       NamespacesCreateRequestPublicEndpointParams.pipe(T.Body("public_endpoint_params")),
     ),
   })
-    .pipe(
-      T.Http({
-        method: "POST",
-        uri: "/accounts/{account_id}/ai-search/namespaces",
-        code: 200,
-      }),
-    )
+    .pipe(T.Http({ method: "POST", uri: "/accounts/{account_id}/ai-search/namespaces", code: 200 }))
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "CreateNamespaceRequest",
-}) as any as S.Schema<CreateNamespaceRequest>;
+).annotate({ identifier: "CreateNamespaceRequest" }) as any as S.Schema<CreateNamespaceRequest>;
 
 export type NamespacesCreateResponsePublicEndpointParamsAuthorizedHostsList = Array<string>;
 export const NamespacesCreateResponsePublicEndpointParamsAuthorizedHostsList =
@@ -3529,9 +3509,7 @@ export const CreateNamespaceResponse = /*@__PURE__*/ S.suspend(() =>
       S.NullOr(NamespacesCreateResponsePublicEndpointParams).pipe(T.Body("public_endpoint_params")),
     ),
   }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "CreateNamespaceResponse",
-}) as any as S.Schema<CreateNamespaceResponse>;
+).annotate({ identifier: "CreateNamespaceResponse" }) as any as S.Schema<CreateNamespaceResponse>;
 
 export type NamespacesInstancesCreateRequestCacheThreshold =
   | "super_strict_match"
@@ -3965,9 +3943,9 @@ export interface CreateNamespaceInstanceRequest {
   customMetadata?: NamespacesInstancesCreateRequestCustomMetadataList;
   embeddingModel?: string;
   fusionMethod?: NamespacesInstancesCreateRequestFusionMethod | (string & {});
-  /** Deprecated — use index_method instead. */
+  /** Deprecated — use index_method instead. Defaults to true for new instances; set false to create a vector-only instance. */
   hybridSearchEnabled?: boolean;
-  /** Controls which storage backends are used during indexing. Defaults to vector-only. */
+  /** Controls which storage backends are used during indexing. Defaults to vector and keyword indexing for new instances. */
   indexMethod?: InstancesCreateRequestIndexMethod;
   indexingOptions?: NamespacesInstancesCreateRequestIndexingOptions;
   maxNumResults?: number;
@@ -3985,6 +3963,7 @@ export interface CreateNamespaceInstanceRequest {
   /** Interval between automatic syncs, in seconds. Allowed values: 900 (15min), 1800 (30min), 3600 (1h), 7200 (2h), 14400 (4h), 21600 (6h), 43200 (12h), 86400 (24h). */
   syncInterval?: NamespacesInstancesCreateRequestSyncInterval | (number & {});
   tokenId?: string;
+  /** Source type. When omitted or null with a non-blank source, HTTP(S) URLs infer web-crawler and existing R2 bucket names infer r2. A missing or blank source without a type uses managed upload-only storage. */
   type?: NamespacesInstancesCreateRequestType | (string & {});
 }
 export const CreateNamespaceInstanceRequest = /*@__PURE__*/ S.suspend(() =>
@@ -4494,9 +4473,9 @@ export interface CreateNamespaceInstanceResponse {
   enable?: boolean | null;
   engineVersion?: number | null;
   fusionMethod?: NamespacesInstancesCreateResponseFusionMethod | null;
-  /** Deprecated — use index_method instead. */
+  /** Deprecated — use index_method instead. Defaults to true for new instances; set false to create a vector-only instance. */
   hybridSearchEnabled?: boolean | null;
-  /** Controls which storage backends are used during indexing. Defaults to vector-only. */
+  /** Controls which storage backends are used during indexing. Defaults to vector and keyword indexing for new instances. */
   indexMethod?: InstancesCreateRequestIndexMethod | null;
   indexingOptions?: NamespacesInstancesCreateResponseIndexingOptions | null;
   lastActivity?: string | null;
@@ -4520,6 +4499,7 @@ export interface CreateNamespaceInstanceResponse {
   /** Interval between automatic syncs, in seconds. Allowed values: 900 (15min), 1800 (30min), 3600 (1h), 7200 (2h), 14400 (4h), 21600 (6h), 43200 (12h), 86400 (24h). */
   syncInterval?: NamespacesInstancesCreateResponseSyncInterval | null;
   tokenId?: string | null;
+  /** Source type. When omitted or null with a non-blank source, HTTP(S) URLs infer web-crawler and existing R2 bucket names infer r2. A missing or blank source without a type uses managed upload-only storage. */
   type?: NamespacesInstancesCreateResponseType | null;
 }
 export const CreateNamespaceInstanceResponse = /*@__PURE__*/ S.suspend(() =>
@@ -4750,17 +4730,9 @@ export const CreateTokenRequest = /*@__PURE__*/ S.suspend(() =>
     name: S.String,
     legacy: S.optional(S.Boolean),
   })
-    .pipe(
-      T.Http({
-        method: "POST",
-        uri: "/accounts/{account_id}/ai-search/tokens",
-        code: 200,
-      }),
-    )
+    .pipe(T.Http({ method: "POST", uri: "/accounts/{account_id}/ai-search/tokens", code: 200 }))
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "CreateTokenRequest",
-}) as any as S.Schema<CreateTokenRequest>;
+).annotate({ identifier: "CreateTokenRequest" }) as any as S.Schema<CreateTokenRequest>;
 
 /** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
 export interface CreateTokenResponse {
@@ -4786,9 +4758,7 @@ export const CreateTokenResponse = /*@__PURE__*/ S.suspend(() =>
     legacy: S.optional(S.NullOr(S.Boolean)),
     modifiedBy: S.optional(S.NullOr(S.String).pipe(T.Body("modified_by"))),
   }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "CreateTokenResponse",
-}) as any as S.Schema<CreateTokenResponse>;
+).annotate({ identifier: "CreateTokenResponse" }) as any as S.Schema<CreateTokenResponse>;
 
 export interface DeleteInstanceRequest {
   accountId: string;
@@ -4807,9 +4777,7 @@ export const DeleteInstanceRequest = /*@__PURE__*/ S.suspend(() =>
       }),
     )
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "DeleteInstanceRequest",
-}) as any as S.Schema<DeleteInstanceRequest>;
+).annotate({ identifier: "DeleteInstanceRequest" }) as any as S.Schema<DeleteInstanceRequest>;
 
 export type InstancesDeleteResponseCacheThreshold =
   | "super_strict_match"
@@ -5232,9 +5200,9 @@ export interface DeleteInstanceResponse {
   enable?: boolean | null;
   engineVersion?: number | null;
   fusionMethod?: InstancesDeleteResponseFusionMethod | null;
-  /** Deprecated — use index_method instead. */
+  /** Deprecated — use index_method instead. Defaults to true for new instances; set false to create a vector-only instance. */
   hybridSearchEnabled?: boolean | null;
-  /** Controls which storage backends are used during indexing. Defaults to vector-only. */
+  /** Controls which storage backends are used during indexing. Defaults to vector and keyword indexing for new instances. */
   indexMethod?: InstancesCreateRequestIndexMethod | null;
   indexingOptions?: InstancesDeleteResponseIndexingOptions | null;
   lastActivity?: string | null;
@@ -5258,6 +5226,7 @@ export interface DeleteInstanceResponse {
   /** Interval between automatic syncs, in seconds. Allowed values: 900 (15min), 1800 (30min), 3600 (1h), 7200 (2h), 14400 (4h), 21600 (6h), 43200 (12h), 86400 (24h). */
   syncInterval?: InstancesDeleteResponseSyncInterval | null;
   tokenId?: string | null;
+  /** Source type. When omitted or null with a non-blank source, HTTP(S) URLs infer web-crawler and existing R2 bucket names infer r2. A missing or blank source without a type uses managed upload-only storage. */
   type?: InstancesDeleteResponseType | null;
 }
 export const DeleteInstanceResponse = /*@__PURE__*/ S.suspend(() =>
@@ -5320,9 +5289,7 @@ export const DeleteInstanceResponse = /*@__PURE__*/ S.suspend(() =>
     tokenId: S.optional(S.NullOr(S.String).pipe(T.Body("token_id"))),
     type: S.optional(S.NullOr(InstancesDeleteResponseType)),
   }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "DeleteInstanceResponse",
-}) as any as S.Schema<DeleteInstanceResponse>;
+).annotate({ identifier: "DeleteInstanceResponse" }) as any as S.Schema<DeleteInstanceResponse>;
 
 export interface DeleteNamespaceRequest {
   accountId: string;
@@ -5341,16 +5308,12 @@ export const DeleteNamespaceRequest = /*@__PURE__*/ S.suspend(() =>
       }),
     )
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "DeleteNamespaceRequest",
-}) as any as S.Schema<DeleteNamespaceRequest>;
+).annotate({ identifier: "DeleteNamespaceRequest" }) as any as S.Schema<DeleteNamespaceRequest>;
 
 export type DeleteNamespaceResponse = unknown;
 export const DeleteNamespaceResponse = /*@__PURE__*/ S.suspend(() =>
   S.Unknown.pipe(T.EnvelopePayloadRoot(), T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "DeleteNamespaceResponse",
-}) as any as S.Schema<DeleteNamespaceResponse>;
+).annotate({ identifier: "DeleteNamespaceResponse" }) as any as S.Schema<DeleteNamespaceResponse>;
 
 export interface DeleteNamespaceInstanceRequest {
   accountId: string;
@@ -5820,9 +5783,9 @@ export interface DeleteNamespaceInstanceResponse {
   enable?: boolean | null;
   engineVersion?: number | null;
   fusionMethod?: NamespacesInstancesDeleteResponseFusionMethod | null;
-  /** Deprecated — use index_method instead. */
+  /** Deprecated — use index_method instead. Defaults to true for new instances; set false to create a vector-only instance. */
   hybridSearchEnabled?: boolean | null;
-  /** Controls which storage backends are used during indexing. Defaults to vector-only. */
+  /** Controls which storage backends are used during indexing. Defaults to vector and keyword indexing for new instances. */
   indexMethod?: InstancesCreateRequestIndexMethod | null;
   indexingOptions?: NamespacesInstancesDeleteResponseIndexingOptions | null;
   lastActivity?: string | null;
@@ -5846,6 +5809,7 @@ export interface DeleteNamespaceInstanceResponse {
   /** Interval between automatic syncs, in seconds. Allowed values: 900 (15min), 1800 (30min), 3600 (1h), 7200 (2h), 14400 (4h), 21600 (6h), 43200 (12h), 86400 (24h). */
   syncInterval?: NamespacesInstancesDeleteResponseSyncInterval | null;
   tokenId?: string | null;
+  /** Source type. When omitted or null with a non-blank source, HTTP(S) URLs infer web-crawler and existing R2 bucket names infer r2. A missing or blank source without a type uses managed upload-only storage. */
   type?: NamespacesInstancesDeleteResponseType | null;
 }
 export const DeleteNamespaceInstanceResponse = /*@__PURE__*/ S.suspend(() =>
@@ -5964,23 +5928,15 @@ export const DeleteTokenRequest = /*@__PURE__*/ S.suspend(() =>
     id: S.String.pipe(T.Label()),
   })
     .pipe(
-      T.Http({
-        method: "DELETE",
-        uri: "/accounts/{account_id}/ai-search/tokens/{id}",
-        code: 200,
-      }),
+      T.Http({ method: "DELETE", uri: "/accounts/{account_id}/ai-search/tokens/{id}", code: 200 }),
     )
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "DeleteTokenRequest",
-}) as any as S.Schema<DeleteTokenRequest>;
+).annotate({ identifier: "DeleteTokenRequest" }) as any as S.Schema<DeleteTokenRequest>;
 
 export type DeleteTokenResponse = unknown;
 export const DeleteTokenResponse = /*@__PURE__*/ S.suspend(() =>
   S.Unknown.pipe(T.EnvelopePayloadRoot(), T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "DeleteTokenResponse",
-}) as any as S.Schema<DeleteTokenResponse>;
+).annotate({ identifier: "DeleteTokenResponse" }) as any as S.Schema<DeleteTokenResponse>;
 
 export interface DownloadNamespaceInstanceItemRequest {
   accountId: string;
@@ -6035,9 +5991,7 @@ export const GetInstanceJobRequest = /*@__PURE__*/ S.suspend(() =>
       }),
     )
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "GetInstanceJobRequest",
-}) as any as S.Schema<GetInstanceJobRequest>;
+).annotate({ identifier: "GetInstanceJobRequest" }) as any as S.Schema<GetInstanceJobRequest>;
 
 export type InstancesJobsGetResponseSource = "user" | "schedule";
 export const InstancesJobsGetResponseSource = S.String;
@@ -6062,9 +6016,7 @@ export const GetInstanceJobResponse = /*@__PURE__*/ S.suspend(() =>
     lastSeenAt: S.optional(S.NullOr(S.String).pipe(T.Body("last_seen_at"))),
     startedAt: S.optional(S.NullOr(S.String).pipe(T.Body("started_at"))),
   }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "GetInstanceJobResponse",
-}) as any as S.Schema<GetInstanceJobResponse>;
+).annotate({ identifier: "GetInstanceJobResponse" }) as any as S.Schema<GetInstanceJobResponse>;
 
 export interface GetNamespaceInstanceItemRequest {
   accountId: string;
@@ -6222,9 +6174,7 @@ export const ListInstanceJobsRequest = /*@__PURE__*/ S.suspend(() =>
       }),
     )
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "ListInstanceJobsRequest",
-}) as any as S.Schema<ListInstanceJobsRequest>;
+).annotate({ identifier: "ListInstanceJobsRequest" }) as any as S.Schema<ListInstanceJobsRequest>;
 
 export type InstancesJobsListResultItemSource = "user" | "schedule";
 export const InstancesJobsListResultItemSource = S.String;
@@ -6268,9 +6218,7 @@ export const ListInstanceJobsResponse = /*@__PURE__*/ S.suspend(() =>
     result: InstancesJobsListResultList.pipe(T.EnvelopePayload()),
     resultInfo: S.optional(S.NullOr(ResultInfo).pipe(T.ResultInfo())),
   }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "ListInstanceJobsResponse",
-}) as any as S.Schema<ListInstanceJobsResponse>;
+).annotate({ identifier: "ListInstanceJobsResponse" }) as any as S.Schema<ListInstanceJobsResponse>;
 
 export type InstancesListRequestOrderBy = "created_at";
 export const InstancesListRequestOrderBy = S.String;
@@ -6280,6 +6228,8 @@ export const InstancesListRequestOrderByDirection = S.String;
 
 export interface ListInstancesRequest {
   accountId: string;
+  /** Filter by exact Search for Agents hostname (case-insensitive). */
+  hostname?: string;
   /** Filter by namespace. */
   namespace?: string;
   /** Field to order results by. */
@@ -6296,6 +6246,7 @@ export interface ListInstancesRequest {
 export const ListInstancesRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     accountId: S.String.pipe(T.Label("account_id")),
+    hostname: S.optional(S.String.pipe(T.Query())),
     namespace: S.optional(S.String.pipe(T.Query())),
     orderBy: S.optional(InstancesListRequestOrderBy.pipe(T.Query("order_by"))),
     orderByDirection: S.optional(
@@ -6305,17 +6256,9 @@ export const ListInstancesRequest = /*@__PURE__*/ S.suspend(() =>
     perPage: S.optional(S.Number.pipe(T.Query("per_page"))),
     search: S.optional(S.String.pipe(T.Query())),
   })
-    .pipe(
-      T.Http({
-        method: "GET",
-        uri: "/accounts/{account_id}/ai-search/instances",
-        code: 200,
-      }),
-    )
+    .pipe(T.Http({ method: "GET", uri: "/accounts/{account_id}/ai-search/instances", code: 200 }))
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "ListInstancesRequest",
-}) as any as S.Schema<ListInstancesRequest>;
+).annotate({ identifier: "ListInstancesRequest" }) as any as S.Schema<ListInstancesRequest>;
 
 export type InstancesListResultItemCacheThreshold =
   | "super_strict_match"
@@ -6837,9 +6780,7 @@ export const InstancesListResultItem = /*@__PURE__*/ S.suspend(() =>
     tokenId: S.String.pipe(T.Body("token_id")),
     type: InstancesListResultItemType,
   }),
-).annotate({
-  identifier: "InstancesListResultItem",
-}) as any as S.Schema<InstancesListResultItem>;
+).annotate({ identifier: "InstancesListResultItem" }) as any as S.Schema<InstancesListResultItem>;
 
 export type InstancesListResultList = Array<InstancesListResultItem>;
 export const InstancesListResultList = /*@__PURE__*/ S.Array(
@@ -6857,9 +6798,7 @@ export const ListInstancesResponse = /*@__PURE__*/ S.suspend(() =>
     result: InstancesListResultList.pipe(T.EnvelopePayload()),
     resultInfo: S.optional(S.NullOr(ResultInfo).pipe(T.ResultInfo())),
   }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "ListInstancesResponse",
-}) as any as S.Schema<ListInstancesResponse>;
+).annotate({ identifier: "ListInstancesResponse" }) as any as S.Schema<ListInstancesResponse>;
 
 export type NamespacesInstancesItemsListRequestSortBy = "status" | "modified_at";
 export const NamespacesInstancesItemsListRequestSortBy = S.String;
@@ -7077,6 +7016,8 @@ export const NamespacesInstancesListRequestOrderByDirection = S.String;
 export interface ListNamespaceInstancesRequest {
   accountId: string;
   name: string;
+  /** Filter by exact Search for Agents hostname (case-insensitive). */
+  hostname?: string;
   /** Filter by namespace. */
   namespace?: string;
   /** Field to order results by. */
@@ -7094,6 +7035,7 @@ export const ListNamespaceInstancesRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     accountId: S.String.pipe(T.Label("account_id")),
     name: S.String.pipe(T.Label()),
+    hostname: S.optional(S.String.pipe(T.Query())),
     namespace: S.optional(S.String.pipe(T.Query())),
     orderBy: S.optional(NamespacesInstancesListRequestOrderBy.pipe(T.Query("order_by"))),
     orderByDirection: S.optional(
@@ -7673,17 +7615,9 @@ export const ListNamespacesRequest = /*@__PURE__*/ S.suspend(() =>
     perPage: S.optional(S.Number.pipe(T.Query("per_page"))),
     search: S.optional(S.String.pipe(T.Query())),
   })
-    .pipe(
-      T.Http({
-        method: "GET",
-        uri: "/accounts/{account_id}/ai-search/namespaces",
-        code: 200,
-      }),
-    )
+    .pipe(T.Http({ method: "GET", uri: "/accounts/{account_id}/ai-search/namespaces", code: 200 }))
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "ListNamespacesRequest",
-}) as any as S.Schema<ListNamespacesRequest>;
+).annotate({ identifier: "ListNamespacesRequest" }) as any as S.Schema<ListNamespacesRequest>;
 
 export type NamespacesListResultItemPublicEndpointParamsAuthorizedHostsList = Array<string>;
 export const NamespacesListResultItemPublicEndpointParamsAuthorizedHostsList =
@@ -7805,9 +7739,7 @@ export const NamespacesListResultItem = /*@__PURE__*/ S.suspend(() =>
       S.NullOr(NamespacesListResultItemPublicEndpointParams).pipe(T.Body("public_endpoint_params")),
     ),
   }),
-).annotate({
-  identifier: "NamespacesListResultItem",
-}) as any as S.Schema<NamespacesListResultItem>;
+).annotate({ identifier: "NamespacesListResultItem" }) as any as S.Schema<NamespacesListResultItem>;
 
 export type NamespacesListResultList = Array<NamespacesListResultItem>;
 export const NamespacesListResultList = /*@__PURE__*/ S.Array(
@@ -7825,9 +7757,7 @@ export const ListNamespacesResponse = /*@__PURE__*/ S.suspend(() =>
     result: NamespacesListResultList.pipe(T.EnvelopePayload()),
     resultInfo: S.optional(S.NullOr(ResultInfo).pipe(T.ResultInfo())),
   }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "ListNamespacesResponse",
-}) as any as S.Schema<ListNamespacesResponse>;
+).annotate({ identifier: "ListNamespacesResponse" }) as any as S.Schema<ListNamespacesResponse>;
 
 export interface ListTokensRequest {
   accountId: string;
@@ -7845,17 +7775,9 @@ export const ListTokensRequest = /*@__PURE__*/ S.suspend(() =>
     perPage: S.optional(S.Number.pipe(T.Query("per_page"))),
     search: S.optional(S.String.pipe(T.Query())),
   })
-    .pipe(
-      T.Http({
-        method: "GET",
-        uri: "/accounts/{account_id}/ai-search/tokens",
-        code: 200,
-      }),
-    )
+    .pipe(T.Http({ method: "GET", uri: "/accounts/{account_id}/ai-search/tokens", code: 200 }))
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "ListTokensRequest",
-}) as any as S.Schema<ListTokensRequest>;
+).annotate({ identifier: "ListTokensRequest" }) as any as S.Schema<ListTokensRequest>;
 
 export interface TokensListResultItem {
   id: string;
@@ -7880,9 +7802,7 @@ export const TokensListResultItem = /*@__PURE__*/ S.suspend(() =>
     legacy: S.optional(S.NullOr(S.Boolean)),
     modifiedBy: S.optional(S.NullOr(S.String).pipe(T.Body("modified_by"))),
   }),
-).annotate({
-  identifier: "TokensListResultItem",
-}) as any as S.Schema<TokensListResultItem>;
+).annotate({ identifier: "TokensListResultItem" }) as any as S.Schema<TokensListResultItem>;
 
 export type TokensListResultList = Array<TokensListResultItem>;
 export const TokensListResultList = /*@__PURE__*/ S.Array(
@@ -7900,9 +7820,7 @@ export const ListTokensResponse = /*@__PURE__*/ S.suspend(() =>
     result: TokensListResultList.pipe(T.EnvelopePayload()),
     resultInfo: S.optional(S.NullOr(ResultInfo).pipe(T.ResultInfo())),
   }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "ListTokensResponse",
-}) as any as S.Schema<ListTokensResponse>;
+).annotate({ identifier: "ListTokensResponse" }) as any as S.Schema<ListTokensResponse>;
 
 export interface LogsInstanceJobRequest {
   accountId: string;
@@ -7928,9 +7846,7 @@ export const LogsInstanceJobRequest = /*@__PURE__*/ S.suspend(() =>
       }),
     )
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "LogsInstanceJobRequest",
-}) as any as S.Schema<LogsInstanceJobRequest>;
+).annotate({ identifier: "LogsInstanceJobRequest" }) as any as S.Schema<LogsInstanceJobRequest>;
 
 export interface InstancesJobsLogsResultItem {
   id: number;
@@ -7957,9 +7873,7 @@ export const InstancesJobsLogsResultList = /*@__PURE__*/ S.Array(
 export type LogsInstanceJobResponse = InstancesJobsLogsResultList;
 export const LogsInstanceJobResponse = /*@__PURE__*/ S.suspend(() =>
   InstancesJobsLogsResultList.pipe(T.EnvelopePayloadRoot(), T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "LogsInstanceJobResponse",
-}) as any as S.Schema<LogsInstanceJobResponse>;
+).annotate({ identifier: "LogsInstanceJobResponse" }) as any as S.Schema<LogsInstanceJobResponse>;
 
 export interface LogsNamespaceInstanceItemRequest {
   accountId: string;
@@ -8145,16 +8059,10 @@ export const ReadInstanceRequest = /*@__PURE__*/ S.suspend(() =>
     id: S.String.pipe(T.Label()),
   })
     .pipe(
-      T.Http({
-        method: "GET",
-        uri: "/accounts/{account_id}/ai-search/instances/{id}",
-        code: 200,
-      }),
+      T.Http({ method: "GET", uri: "/accounts/{account_id}/ai-search/instances/{id}", code: 200 }),
     )
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "ReadInstanceRequest",
-}) as any as S.Schema<ReadInstanceRequest>;
+).annotate({ identifier: "ReadInstanceRequest" }) as any as S.Schema<ReadInstanceRequest>;
 
 export type InstancesReadResponseCacheThreshold =
   | "super_strict_match"
@@ -8576,9 +8484,9 @@ export interface ReadInstanceResponse {
   enable?: boolean | null;
   engineVersion?: number | null;
   fusionMethod?: InstancesReadResponseFusionMethod | null;
-  /** Deprecated — use index_method instead. */
+  /** Deprecated — use index_method instead. Defaults to true for new instances; set false to create a vector-only instance. */
   hybridSearchEnabled?: boolean | null;
-  /** Controls which storage backends are used during indexing. Defaults to vector-only. */
+  /** Controls which storage backends are used during indexing. Defaults to vector and keyword indexing for new instances. */
   indexMethod?: InstancesCreateRequestIndexMethod | null;
   indexingOptions?: InstancesReadResponseIndexingOptions | null;
   lastActivity?: string | null;
@@ -8602,6 +8510,7 @@ export interface ReadInstanceResponse {
   /** Interval between automatic syncs, in seconds. Allowed values: 900 (15min), 1800 (30min), 3600 (1h), 7200 (2h), 14400 (4h), 21600 (6h), 43200 (12h), 86400 (24h). */
   syncInterval?: InstancesReadResponseSyncInterval | null;
   tokenId?: string | null;
+  /** Source type. When omitted or null with a non-blank source, HTTP(S) URLs infer web-crawler and existing R2 bucket names infer r2. A missing or blank source without a type uses managed upload-only storage. */
   type?: InstancesReadResponseType | null;
 }
 export const ReadInstanceResponse = /*@__PURE__*/ S.suspend(() =>
@@ -8664,9 +8573,7 @@ export const ReadInstanceResponse = /*@__PURE__*/ S.suspend(() =>
     tokenId: S.optional(S.NullOr(S.String).pipe(T.Body("token_id"))),
     type: S.optional(S.NullOr(InstancesReadResponseType)),
   }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "ReadInstanceResponse",
-}) as any as S.Schema<ReadInstanceResponse>;
+).annotate({ identifier: "ReadInstanceResponse" }) as any as S.Schema<ReadInstanceResponse>;
 
 export interface ReadNamespaceRequest {
   accountId: string;
@@ -8685,9 +8592,7 @@ export const ReadNamespaceRequest = /*@__PURE__*/ S.suspend(() =>
       }),
     )
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "ReadNamespaceRequest",
-}) as any as S.Schema<ReadNamespaceRequest>;
+).annotate({ identifier: "ReadNamespaceRequest" }) as any as S.Schema<ReadNamespaceRequest>;
 
 export type NamespacesReadResponsePublicEndpointParamsAuthorizedHostsList = Array<string>;
 export const NamespacesReadResponsePublicEndpointParamsAuthorizedHostsList = /*@__PURE__*/ S.Array(
@@ -8808,9 +8713,7 @@ export const ReadNamespaceResponse = /*@__PURE__*/ S.suspend(() =>
       S.NullOr(NamespacesReadResponsePublicEndpointParams).pipe(T.Body("public_endpoint_params")),
     ),
   }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "ReadNamespaceResponse",
-}) as any as S.Schema<ReadNamespaceResponse>;
+).annotate({ identifier: "ReadNamespaceResponse" }) as any as S.Schema<ReadNamespaceResponse>;
 
 export interface ReadNamespaceInstanceRequest {
   accountId: string;
@@ -9274,9 +9177,9 @@ export interface ReadNamespaceInstanceResponse {
   enable?: boolean | null;
   engineVersion?: number | null;
   fusionMethod?: NamespacesInstancesReadResponseFusionMethod | null;
-  /** Deprecated — use index_method instead. */
+  /** Deprecated — use index_method instead. Defaults to true for new instances; set false to create a vector-only instance. */
   hybridSearchEnabled?: boolean | null;
-  /** Controls which storage backends are used during indexing. Defaults to vector-only. */
+  /** Controls which storage backends are used during indexing. Defaults to vector and keyword indexing for new instances. */
   indexMethod?: InstancesCreateRequestIndexMethod | null;
   indexingOptions?: NamespacesInstancesReadResponseIndexingOptions | null;
   lastActivity?: string | null;
@@ -9300,6 +9203,7 @@ export interface ReadNamespaceInstanceResponse {
   /** Interval between automatic syncs, in seconds. Allowed values: 900 (15min), 1800 (30min), 3600 (1h), 7200 (2h), 14400 (4h), 21600 (6h), 43200 (12h), 86400 (24h). */
   syncInterval?: NamespacesInstancesReadResponseSyncInterval | null;
   tokenId?: string | null;
+  /** Source type. When omitted or null with a non-blank source, HTTP(S) URLs infer web-crawler and existing R2 bucket names infer r2. A missing or blank source without a type uses managed upload-only storage. */
   type?: NamespacesInstancesReadResponseType | null;
 }
 export const ReadNamespaceInstanceResponse = /*@__PURE__*/ S.suspend(() =>
@@ -9379,17 +9283,9 @@ export const ReadTokenRequest = /*@__PURE__*/ S.suspend(() =>
     accountId: S.String.pipe(T.Label("account_id")),
     id: S.String.pipe(T.Label()),
   })
-    .pipe(
-      T.Http({
-        method: "GET",
-        uri: "/accounts/{account_id}/ai-search/tokens/{id}",
-        code: 200,
-      }),
-    )
+    .pipe(T.Http({ method: "GET", uri: "/accounts/{account_id}/ai-search/tokens/{id}", code: 200 }))
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "ReadTokenRequest",
-}) as any as S.Schema<ReadTokenRequest>;
+).annotate({ identifier: "ReadTokenRequest" }) as any as S.Schema<ReadTokenRequest>;
 
 /** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
 export interface ReadTokenResponse {
@@ -9415,9 +9311,7 @@ export const ReadTokenResponse = /*@__PURE__*/ S.suspend(() =>
     legacy: S.optional(S.NullOr(S.Boolean)),
     modifiedBy: S.optional(S.NullOr(S.String).pipe(T.Body("modified_by"))),
   }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "ReadTokenResponse",
-}) as any as S.Schema<ReadTokenResponse>;
+).annotate({ identifier: "ReadTokenResponse" }) as any as S.Schema<ReadTokenResponse>;
 
 export type InstancesSearchRequestAiSearchOptionsCacheCacheThreshold =
   | "super_strict_match"
@@ -9710,9 +9604,7 @@ export const SearchInstanceRequest = /*@__PURE__*/ S.suspend(() =>
       }),
     )
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "SearchInstanceRequest",
-}) as any as S.Schema<SearchInstanceRequest>;
+).annotate({ identifier: "SearchInstanceRequest" }) as any as S.Schema<SearchInstanceRequest>;
 
 export type InstancesSearchResponseChunksItemItemMetadataMap = {
   [key: string]: unknown | undefined;
@@ -9808,9 +9700,7 @@ export const SearchInstanceResponse = /*@__PURE__*/ S.suspend(() =>
     queryKind: InstancesSearchResponseQueryKind.pipe(T.Body("query_kind")),
     searchQuery: S.optional(S.NullOr(S.String).pipe(T.Body("search_query"))),
   }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "SearchInstanceResponse",
-}) as any as S.Schema<SearchInstanceResponse>;
+).annotate({ identifier: "SearchInstanceResponse" }) as any as S.Schema<SearchInstanceResponse>;
 
 export type NamespacesSearchRequestAiSearchOptionsInstanceIdsList = Array<string>;
 export const NamespacesSearchRequestAiSearchOptionsInstanceIdsList = /*@__PURE__*/ S.Array(
@@ -10112,9 +10002,7 @@ export const SearchNamespaceRequest = /*@__PURE__*/ S.suspend(() =>
       }),
     )
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "SearchNamespaceRequest",
-}) as any as S.Schema<SearchNamespaceRequest>;
+).annotate({ identifier: "SearchNamespaceRequest" }) as any as S.Schema<SearchNamespaceRequest>;
 
 export type NamespacesSearchResponseChunksItemItemMetadataMap = {
   [key: string]: unknown | undefined;
@@ -10232,9 +10120,7 @@ export const SearchNamespaceResponse = /*@__PURE__*/ S.suspend(() =>
     errors: S.optional(S.NullOr(NamespacesSearchResponseErrorsList)),
     searchQuery: S.optional(S.NullOr(S.String).pipe(T.Body("search_query"))),
   }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "SearchNamespaceResponse",
-}) as any as S.Schema<SearchNamespaceResponse>;
+).annotate({ identifier: "SearchNamespaceResponse" }) as any as S.Schema<SearchNamespaceResponse>;
 
 export type NamespacesInstancesSearchRequestAiSearchOptionsCacheCacheThreshold =
   | "super_strict_match"
@@ -10684,9 +10570,7 @@ export const StatsInstanceRequest = /*@__PURE__*/ S.suspend(() =>
       }),
     )
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "StatsInstanceRequest",
-}) as any as S.Schema<StatsInstanceRequest>;
+).annotate({ identifier: "StatsInstanceRequest" }) as any as S.Schema<StatsInstanceRequest>;
 
 export interface InstancesStatsResponseEngineR2 {
   metadataSizeBytes: number;
@@ -10731,17 +10615,13 @@ export const InstancesStatsResponseEngine = /*@__PURE__*/ S.suspend(() =>
   identifier: "InstancesStatsResponseEngine",
 }) as any as S.Schema<InstancesStatsResponseEngine>;
 
-export type InstancesStatsResponseFileEmbedErrorsMap = {
-  [key: string]: unknown | undefined;
-};
+export type InstancesStatsResponseFileEmbedErrorsMap = { [key: string]: unknown | undefined };
 export const InstancesStatsResponseFileEmbedErrorsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.Unknown,
 ) as any as S.Schema<InstancesStatsResponseFileEmbedErrorsMap>;
 
-export type InstancesStatsResponseIndexSourceErrorsMap = {
-  [key: string]: unknown | undefined;
-};
+export type InstancesStatsResponseIndexSourceErrorsMap = { [key: string]: unknown | undefined };
 export const InstancesStatsResponseIndexSourceErrorsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.Unknown,
@@ -10781,9 +10661,7 @@ export const StatsInstanceResponse = /*@__PURE__*/ S.suspend(() =>
     running: S.optional(S.NullOr(S.Number)),
     skipped: S.optional(S.NullOr(S.Number)),
   }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "StatsInstanceResponse",
-}) as any as S.Schema<StatsInstanceResponse>;
+).annotate({ identifier: "StatsInstanceResponse" }) as any as S.Schema<StatsInstanceResponse>;
 
 export interface StatsNamespaceInstanceRequest {
   accountId: string;
@@ -11363,7 +11241,7 @@ export interface UpdateInstanceRequest {
   customMetadata?: InstancesUpdateRequestCustomMetadataList;
   embeddingModel?: string;
   fusionMethod?: InstancesUpdateRequestFusionMethod | (string & {});
-  /** Controls which storage backends are used during indexing. Defaults to vector-only. */
+  /** Controls which storage backends are used during indexing. Defaults to vector and keyword indexing for new instances. */
   indexMethod?: InstancesCreateRequestIndexMethod;
   indexingOptions?: InstancesUpdateRequestIndexingOptions;
   maxNumResults?: number;
@@ -11438,16 +11316,10 @@ export const UpdateInstanceRequest = /*@__PURE__*/ S.suspend(() =>
     tokenId: S.optional(S.String.pipe(T.Body("token_id"))),
   })
     .pipe(
-      T.Http({
-        method: "PUT",
-        uri: "/accounts/{account_id}/ai-search/instances/{id}",
-        code: 200,
-      }),
+      T.Http({ method: "PUT", uri: "/accounts/{account_id}/ai-search/instances/{id}", code: 200 }),
     )
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "UpdateInstanceRequest",
-}) as any as S.Schema<UpdateInstanceRequest>;
+).annotate({ identifier: "UpdateInstanceRequest" }) as any as S.Schema<UpdateInstanceRequest>;
 
 export type InstancesUpdateResponseCacheThreshold =
   | "super_strict_match"
@@ -11870,9 +11742,9 @@ export interface UpdateInstanceResponse {
   enable?: boolean | null;
   engineVersion?: number | null;
   fusionMethod?: InstancesUpdateResponseFusionMethod | null;
-  /** Deprecated — use index_method instead. */
+  /** Deprecated — use index_method instead. Defaults to true for new instances; set false to create a vector-only instance. */
   hybridSearchEnabled?: boolean | null;
-  /** Controls which storage backends are used during indexing. Defaults to vector-only. */
+  /** Controls which storage backends are used during indexing. Defaults to vector and keyword indexing for new instances. */
   indexMethod?: InstancesCreateRequestIndexMethod | null;
   indexingOptions?: InstancesUpdateResponseIndexingOptions | null;
   lastActivity?: string | null;
@@ -11896,6 +11768,7 @@ export interface UpdateInstanceResponse {
   /** Interval between automatic syncs, in seconds. Allowed values: 900 (15min), 1800 (30min), 3600 (1h), 7200 (2h), 14400 (4h), 21600 (6h), 43200 (12h), 86400 (24h). */
   syncInterval?: InstancesUpdateResponseSyncInterval | null;
   tokenId?: string | null;
+  /** Source type. When omitted or null with a non-blank source, HTTP(S) URLs infer web-crawler and existing R2 bucket names infer r2. A missing or blank source without a type uses managed upload-only storage. */
   type?: InstancesUpdateResponseType | null;
 }
 export const UpdateInstanceResponse = /*@__PURE__*/ S.suspend(() =>
@@ -11958,9 +11831,7 @@ export const UpdateInstanceResponse = /*@__PURE__*/ S.suspend(() =>
     tokenId: S.optional(S.NullOr(S.String).pipe(T.Body("token_id"))),
     type: S.optional(S.NullOr(InstancesUpdateResponseType)),
   }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "UpdateInstanceResponse",
-}) as any as S.Schema<UpdateInstanceResponse>;
+).annotate({ identifier: "UpdateInstanceResponse" }) as any as S.Schema<UpdateInstanceResponse>;
 
 export type NamespacesUpdateRequestPublicEndpointParamsAuthorizedHostsList = Array<string>;
 export const NamespacesUpdateRequestPublicEndpointParamsAuthorizedHostsList = /*@__PURE__*/ S.Array(
@@ -12083,9 +11954,7 @@ export const UpdateNamespaceRequest = /*@__PURE__*/ S.suspend(() =>
       }),
     )
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "UpdateNamespaceRequest",
-}) as any as S.Schema<UpdateNamespaceRequest>;
+).annotate({ identifier: "UpdateNamespaceRequest" }) as any as S.Schema<UpdateNamespaceRequest>;
 
 export type NamespacesUpdateResponsePublicEndpointParamsAuthorizedHostsList = Array<string>;
 export const NamespacesUpdateResponsePublicEndpointParamsAuthorizedHostsList =
@@ -12208,9 +12077,7 @@ export const UpdateNamespaceResponse = /*@__PURE__*/ S.suspend(() =>
       S.NullOr(NamespacesUpdateResponsePublicEndpointParams).pipe(T.Body("public_endpoint_params")),
     ),
   }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "UpdateNamespaceResponse",
-}) as any as S.Schema<UpdateNamespaceResponse>;
+).annotate({ identifier: "UpdateNamespaceResponse" }) as any as S.Schema<UpdateNamespaceResponse>;
 
 export type NamespacesInstancesUpdateRequestCacheThreshold =
   | "super_strict_match"
@@ -12640,7 +12507,7 @@ export interface UpdateNamespaceInstanceRequest {
   customMetadata?: NamespacesInstancesUpdateRequestCustomMetadataList;
   embeddingModel?: string;
   fusionMethod?: NamespacesInstancesUpdateRequestFusionMethod | (string & {});
-  /** Controls which storage backends are used during indexing. Defaults to vector-only. */
+  /** Controls which storage backends are used during indexing. Defaults to vector and keyword indexing for new instances. */
   indexMethod?: InstancesCreateRequestIndexMethod;
   indexingOptions?: NamespacesInstancesUpdateRequestIndexingOptions;
   maxNumResults?: number;
@@ -13178,9 +13045,9 @@ export interface UpdateNamespaceInstanceResponse {
   enable?: boolean | null;
   engineVersion?: number | null;
   fusionMethod?: NamespacesInstancesUpdateResponseFusionMethod | null;
-  /** Deprecated — use index_method instead. */
+  /** Deprecated — use index_method instead. Defaults to true for new instances; set false to create a vector-only instance. */
   hybridSearchEnabled?: boolean | null;
-  /** Controls which storage backends are used during indexing. Defaults to vector-only. */
+  /** Controls which storage backends are used during indexing. Defaults to vector and keyword indexing for new instances. */
   indexMethod?: InstancesCreateRequestIndexMethod | null;
   indexingOptions?: NamespacesInstancesUpdateResponseIndexingOptions | null;
   lastActivity?: string | null;
@@ -13204,6 +13071,7 @@ export interface UpdateNamespaceInstanceResponse {
   /** Interval between automatic syncs, in seconds. Allowed values: 900 (15min), 1800 (30min), 3600 (1h), 7200 (2h), 14400 (4h), 21600 (6h), 43200 (12h), 86400 (24h). */
   syncInterval?: NamespacesInstancesUpdateResponseSyncInterval | null;
   tokenId?: string | null;
+  /** Source type. When omitted or null with a non-blank source, HTTP(S) URLs infer web-crawler and existing R2 bucket names infer r2. A missing or blank source without a type uses managed upload-only storage. */
   type?: NamespacesInstancesUpdateResponseType | null;
 }
 export const UpdateNamespaceInstanceResponse = /*@__PURE__*/ S.suspend(() =>
@@ -13291,17 +13159,9 @@ export const UpdateTokenRequest = /*@__PURE__*/ S.suspend(() =>
     name: S.String,
     legacy: S.optional(S.Boolean),
   })
-    .pipe(
-      T.Http({
-        method: "PUT",
-        uri: "/accounts/{account_id}/ai-search/tokens/{id}",
-        code: 200,
-      }),
-    )
+    .pipe(T.Http({ method: "PUT", uri: "/accounts/{account_id}/ai-search/tokens/{id}", code: 200 }))
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "UpdateTokenRequest",
-}) as any as S.Schema<UpdateTokenRequest>;
+).annotate({ identifier: "UpdateTokenRequest" }) as any as S.Schema<UpdateTokenRequest>;
 
 /** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
 export interface UpdateTokenResponse {
@@ -13327,9 +13187,7 @@ export const UpdateTokenResponse = /*@__PURE__*/ S.suspend(() =>
     legacy: S.optional(S.NullOr(S.Boolean)),
     modifiedBy: S.optional(S.NullOr(S.String).pipe(T.Body("modified_by"))),
   }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "UpdateTokenResponse",
-}) as any as S.Schema<UpdateTokenResponse>;
+).annotate({ identifier: "UpdateTokenResponse" }) as any as S.Schema<UpdateTokenResponse>;
 
 export interface NamespacesInstancesItemsUploadRequestFile {
   /** The file to upload. Filename must not exceed 128 characters. */
@@ -13500,7 +13358,7 @@ export const UploadNamespaceInstanceItemResponse = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<UploadNamespaceInstanceItemResponse>;
 
 export type ChatCompletionsInstanceError = CloudflareOpError;
-/** Performs a chat completion request against an AI Search instance, using indexed content as context for generating responses. */
+/** Performs a chat completion request against an AI Search instance, using indexed content as context for generating responses. Deprecated: use /accounts/{account_id}/ai-search/namespaces/{name}/instances (and descendant paths) instead. */
 export const chatCompletionsInstance: API.OperationMethod<
   ChatCompletionsInstanceRequest,
   ChatCompletionsInstanceResponse,
@@ -13567,7 +13425,7 @@ export type CreateInstanceError =
   | InvalidTokenCredentials
   | Forbidden
   | CloudflareOpError;
-/** Create a new AI Search instance with the given configuration. */
+/** Create a new AI Search instance with the given configuration. If type is omitted or null, a non-blank HTTP(S) source infers web-crawler and an existing R2 bucket source infers r2. A missing or blank source without a type creates a managed upload-only instance. Search for Agents instances require the default namespace. Deprecated: use /accounts/{account_id}/ai-search/namespaces/{name}/instances (and descendant paths) instead. */
 export const createInstance: API.OperationMethod<
   CreateInstanceRequest,
   CreateInstanceResponse,
@@ -13597,7 +13455,7 @@ export type CreateInstanceJobError =
   | UnableToConnect
   | SyncInCooldown
   | CloudflareOpError;
-/** Creates a new indexing job for an AI Search instance. */
+/** Creates a new indexing job for an AI Search instance. Deprecated: use /accounts/{account_id}/ai-search/namespaces/{name}/instances (and descendant paths) instead. */
 export const createInstanceJob: API.OperationMethod<
   CreateInstanceJobRequest,
   CreateInstanceJobResponse,
@@ -13645,7 +13503,7 @@ export type CreateNamespaceInstanceError =
   | MissingSitemap
   | Forbidden
   | CloudflareOpError;
-/** Create a new AI Search instance with the given configuration. */
+/** Create a new AI Search instance with the given configuration. If type is omitted or null, a non-blank HTTP(S) source infers web-crawler and an existing R2 bucket source infers r2. A missing or blank source without a type creates a managed upload-only instance. Search for Agents instances require the default namespace. */
 export const createNamespaceInstance: API.OperationMethod<
   CreateNamespaceInstanceRequest,
   CreateNamespaceInstanceResponse,
@@ -13736,7 +13594,7 @@ export type DeleteInstanceError =
   | InvalidRoute
   | Forbidden
   | CloudflareOpError;
-/** Permanently delete an AI Search instance and all its indexed data. */
+/** Permanently delete an AI Search instance and all its indexed data. Deprecated: use /accounts/{account_id}/ai-search/namespaces/{name}/instances (and descendant paths) instead. */
 export const deleteInstance: API.OperationMethod<
   DeleteInstanceRequest,
   DeleteInstanceResponse,
@@ -13802,7 +13660,7 @@ export const deleteNamespaceInstance: API.OperationMethod<
 }));
 
 export type DeleteNamespaceInstanceItemError = CloudflareOpError;
-/** Deletes a file from a managed AI Search instance and triggers a reindex. */
+/** Deletes a file from a managed AI Search instance and removes its indexed data. */
 export const deleteNamespaceInstanceItem: API.OperationMethod<
   DeleteNamespaceInstanceItemRequest,
   DeleteNamespaceInstanceItemResponse,
@@ -13863,7 +13721,7 @@ export const downloadNamespaceInstanceItem: API.OperationMethod<
 }));
 
 export type GetInstanceJobError = ValidationError | NotFound | InvalidRoute | CloudflareOpError;
-/** Retrieves details for a specific AI Search indexing job. */
+/** Retrieves details for a specific AI Search indexing job. Deprecated: use /accounts/{account_id}/ai-search/namespaces/{name}/instances (and descendant paths) instead. */
 export const getInstanceJob: API.OperationMethod<
   GetInstanceJobRequest,
   GetInstanceJobResponse,
@@ -13908,7 +13766,7 @@ export const getNamespaceInstanceJob: API.OperationMethod<
 }));
 
 export type ListInstanceJobsError = CloudflareOpError;
-/** Lists indexing jobs for an AI Search instance. */
+/** Lists indexing jobs for an AI Search instance. Deprecated: use /accounts/{account_id}/ai-search/namespaces/{name}/instances (and descendant paths) instead. */
 export const listInstanceJobs: API.PaginatedOperationMethod<
   ListInstanceJobsRequest,
   ListInstanceJobsResponse,
@@ -13934,7 +13792,7 @@ export const listInstanceJobs: API.PaginatedOperationMethod<
 ) as any;
 
 export type ListInstancesError = InvalidRoute | Forbidden | CloudflareOpError;
-/** List all AI Search instances in the account. */
+/** List all AI Search instances in the account. Deprecated: use /accounts/{account_id}/ai-search/namespaces/{name}/instances (and descendant paths) instead. */
 export const listInstances: API.PaginatedOperationMethod<
   ListInstancesRequest,
   ListInstancesResponse,
@@ -14094,7 +13952,7 @@ export const listTokens: API.PaginatedOperationMethod<
 ) as any;
 
 export type LogsInstanceJobError = ValidationError | NotFound | InvalidRoute | CloudflareOpError;
-/** Lists log entries for an AI Search indexing job. */
+/** Lists log entries for an AI Search indexing job. Deprecated: use /accounts/{account_id}/ai-search/namespaces/{name}/instances (and descendant paths) instead. */
 export const logsInstanceJob: API.OperationMethod<
   LogsInstanceJobRequest,
   LogsInstanceJobResponse,
@@ -14159,7 +14017,7 @@ export type ReadInstanceError =
   | InvalidRoute
   | Forbidden
   | CloudflareOpError;
-/** Retrieve the configuration and status of an AI Search instance. */
+/** Retrieve the configuration and status of an AI Search instance. Deprecated: use /accounts/{account_id}/ai-search/namespaces/{name}/instances (and descendant paths) instead. */
 export const readInstance: API.OperationMethod<
   ReadInstanceRequest,
   ReadInstanceResponse,
@@ -14254,7 +14112,7 @@ export const readToken: API.OperationMethod<
 }));
 
 export type SearchInstanceError = CloudflareOpError;
-/** Executes a semantic search query against an AI Search instance to find relevant indexed content. */
+/** Executes a semantic search query against an AI Search instance to find relevant indexed content. Deprecated: use /accounts/{account_id}/ai-search/namespaces/{name}/instances (and descendant paths) instead. */
 export const searchInstance: API.OperationMethod<
   SearchInstanceRequest,
   SearchInstanceResponse,
@@ -14299,7 +14157,7 @@ export const searchNamespaceInstance: API.OperationMethod<
 }));
 
 export type StatsInstanceError = ValidationError | NotFound | InvalidRoute | CloudflareOpError;
-/** Retrieve usage and indexing statistics for an AI Search instance. */
+/** Retrieve usage and indexing statistics for an AI Search instance. Deprecated: use /accounts/{account_id}/ai-search/namespaces/{name}/instances (and descendant paths) instead. */
 export const statsInstance: API.OperationMethod<
   StatsInstanceRequest,
   StatsInstanceResponse,
@@ -14350,7 +14208,7 @@ export type UpdateInstanceError =
   | InvalidTokenCredentials
   | Forbidden
   | CloudflareOpError;
-/** Update the configuration of an AI Search instance. */
+/** Update an AI Search instance. Submitting Search for Agents metadata requires the default namespace; omitting or removing it is allowed elsewhere. Submit Search for Agents metadata and restrictive or unknown public endpoint changes or custom domains in separate PUT requests, even when resubmitting unchanged metadata. Deprecated: use /accounts/{account_id}/ai-search/namespaces/{name}/instances (and descendant paths) instead. */
 export const updateInstance: API.OperationMethod<
   UpdateInstanceRequest,
   UpdateInstanceResponse,
@@ -14396,7 +14254,7 @@ export type UpdateNamespaceInstanceError =
   | WebCrawlerDomainNotOwned
   | Forbidden
   | CloudflareOpError;
-/** Update the configuration of an AI Search instance. */
+/** Update an AI Search instance. Submitting Search for Agents metadata requires the default namespace; omitting or removing it is allowed elsewhere. Submit Search for Agents metadata and restrictive or unknown public endpoint changes or custom domains in separate PUT requests, even when resubmitting unchanged metadata. */
 export const updateNamespaceInstance: API.OperationMethod<
   UpdateNamespaceInstanceRequest,
   UpdateNamespaceInstanceResponse,

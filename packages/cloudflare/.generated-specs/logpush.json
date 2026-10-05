@@ -5275,7 +5275,7 @@
         "merge_subrequests": {
           "target": "smithy.api#Boolean",
           "traits": {
-            "smithy.api#documentation": "If set to true, subrequests will be merged into the parent request. Only supported for the `http_requests` dataset."
+            "smithy.api#documentation": "If set to true, subrequests will be merged into the parent request. Only supported for the `http_requests` dataset. Not supported for account-scoped jobs."
           }
         },
         "output_type": {
@@ -5360,7 +5360,7 @@
         "merge_subrequests": {
           "target": "smithy.api#Boolean",
           "traits": {
-            "smithy.api#documentation": "If set to true, subrequests will be merged into the parent request. Only supported for the `http_requests` dataset."
+            "smithy.api#documentation": "If set to true, subrequests will be merged into the parent request. Only supported for the `http_requests` dataset. Not supported for account-scoped jobs."
           }
         },
         "output_type": {
@@ -5445,7 +5445,7 @@
         "merge_subrequests": {
           "target": "smithy.api#Boolean",
           "traits": {
-            "smithy.api#documentation": "If set to true, subrequests will be merged into the parent request. Only supported for the `http_requests` dataset."
+            "smithy.api#documentation": "If set to true, subrequests will be merged into the parent request. Only supported for the `http_requests` dataset. Not supported for account-scoped jobs."
           }
         },
         "output_type": {
@@ -5530,7 +5530,7 @@
         "merge_subrequests": {
           "target": "smithy.api#Boolean",
           "traits": {
-            "smithy.api#documentation": "If set to true, subrequests will be merged into the parent request. Only supported for the `http_requests` dataset."
+            "smithy.api#documentation": "If set to true, subrequests will be merged into the parent request. Only supported for the `http_requests` dataset. Not supported for account-scoped jobs."
           }
         },
         "output_type": {
@@ -5615,7 +5615,7 @@
         "merge_subrequests": {
           "target": "smithy.api#Boolean",
           "traits": {
-            "smithy.api#documentation": "If set to true, subrequests will be merged into the parent request. Only supported for the `http_requests` dataset."
+            "smithy.api#documentation": "If set to true, subrequests will be merged into the parent request. Only supported for the `http_requests` dataset. Not supported for account-scoped jobs."
           }
         },
         "output_type": {
@@ -5700,7 +5700,7 @@
         "merge_subrequests": {
           "target": "smithy.api#Boolean",
           "traits": {
-            "smithy.api#documentation": "If set to true, subrequests will be merged into the parent request. Only supported for the `http_requests` dataset."
+            "smithy.api#documentation": "If set to true, subrequests will be merged into the parent request. Only supported for the `http_requests` dataset. Not supported for account-scoped jobs."
           }
         },
         "output_type": {
@@ -5785,7 +5785,7 @@
         "merge_subrequests": {
           "target": "smithy.api#Boolean",
           "traits": {
-            "smithy.api#documentation": "If set to true, subrequests will be merged into the parent request. Only supported for the `http_requests` dataset."
+            "smithy.api#documentation": "If set to true, subrequests will be merged into the parent request. Only supported for the `http_requests` dataset. Not supported for account-scoped jobs."
           }
         },
         "output_type": {

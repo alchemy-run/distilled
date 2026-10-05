@@ -64,9 +64,7 @@ export const CreateRequestTunnel = /*@__PURE__*/ S.suspend(() =>
     privateIp: S.String.pipe(T.Body("private_ip")),
     vnetId: S.String.pipe(T.Body("vnet_id")),
   }),
-).annotate({
-  identifier: "CreateRequestTunnel",
-}) as any as S.Schema<CreateRequestTunnel>;
+).annotate({ identifier: "CreateRequestTunnel" }) as any as S.Schema<CreateRequestTunnel>;
 
 export interface CreateKeylessCertificateRequest {
   /** Identifier. */
@@ -94,13 +92,7 @@ export const CreateKeylessCertificateRequest = /*@__PURE__*/ S.suspend(() =>
     name: S.optional(S.String),
     tunnel: S.optional(CreateRequestTunnel),
   })
-    .pipe(
-      T.Http({
-        method: "POST",
-        uri: "/zones/{zone_id}/keyless_certificates",
-        code: 200,
-      }),
-    )
+    .pipe(T.Http({ method: "POST", uri: "/zones/{zone_id}/keyless_certificates", code: 200 }))
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
 ).annotate({
   identifier: "CreateKeylessCertificateRequest",
@@ -160,7 +152,7 @@ export const CreateKeylessCertificateResponse = /*@__PURE__*/ S.suspend(() =>
 export interface DeleteKeylessCertificateRequest {
   /** Identifier. */
   zoneId: string;
-  /** Identifier. */
+  /** Keyless certificate identifier tag. */
   keylessCertificateId: string;
 }
 export const DeleteKeylessCertificateRequest = /*@__PURE__*/ S.suspend(() =>
@@ -182,7 +174,7 @@ export const DeleteKeylessCertificateRequest = /*@__PURE__*/ S.suspend(() =>
 
 /** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
 export interface DeleteKeylessCertificateResponse {
-  /** Identifier. */
+  /** Keyless certificate identifier tag. */
   id?: string | null;
 }
 export const DeleteKeylessCertificateResponse = /*@__PURE__*/ S.suspend(() =>
@@ -196,7 +188,7 @@ export const DeleteKeylessCertificateResponse = /*@__PURE__*/ S.suspend(() =>
 export interface GetKeylessCertificateRequest {
   /** Identifier. */
   zoneId: string;
-  /** Identifier. */
+  /** Keyless certificate identifier tag. */
   keylessCertificateId: string;
 }
 export const GetKeylessCertificateRequest = /*@__PURE__*/ S.suspend(() =>
@@ -275,13 +267,7 @@ export const ListKeylessCertificatesRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     zoneId: S.String.pipe(T.Label("zone_id")),
   })
-    .pipe(
-      T.Http({
-        method: "GET",
-        uri: "/zones/{zone_id}/keyless_certificates",
-        code: 200,
-      }),
-    )
+    .pipe(T.Http({ method: "GET", uri: "/zones/{zone_id}/keyless_certificates", code: 200 }))
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
 ).annotate({
   identifier: "ListKeylessCertificatesRequest",
@@ -361,7 +347,7 @@ export const EditRequestTunnel = CreateRequestTunnel;
 export interface PatchKeylessCertificateRequest {
   /** Identifier. */
   zoneId: string;
-  /** Identifier. */
+  /** Keyless certificate identifier tag. */
   keylessCertificateId: string;
   /** Whether or not the Keyless SSL is on or off. */
   enabled?: boolean;

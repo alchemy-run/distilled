@@ -228,28 +228,29 @@ export const CreateRequestUnit = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     id: S.optional(S.String),
   }),
-).annotate({
-  identifier: "CreateRequestUnit",
-}) as any as S.Schema<CreateRequestUnit>;
+).annotate({ identifier: "CreateRequestUnit" }) as any as S.Schema<CreateRequestUnit>;
 
 export interface CreateAccountRequest {
+  idempotencyKey?: string;
   /** Account name */
   name: string;
+  /** Set to `true` and omit `unit` to create a standalone Free Account. If provided, this field must be `true`. */
+  standalone?: boolean;
   type?: CreateRequestType | (string & {});
-  /** information related to the tenant unit, and optionally, an id of the unit to create the account on. see https://developers.cloudflare.com/tenant/how-to/manage-accounts/ */
+  /** Information related to the tenant unit. Provide its ID and omit `standalone` to create the Account within an Organization. See https://developers.cloudflare.com/tenant/how-to/manage-accounts/. */
   unit?: CreateRequestUnit;
 }
 export const CreateAccountRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
+    idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
     name: S.String,
+    standalone: S.optional(S.Boolean),
     type: S.optional(CreateRequestType),
     unit: S.optional(CreateRequestUnit),
   })
     .pipe(T.Http({ method: "POST", uri: "/accounts", code: 200 }))
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "CreateAccountRequest",
-}) as any as S.Schema<CreateAccountRequest>;
+).annotate({ identifier: "CreateAccountRequest" }) as any as S.Schema<CreateAccountRequest>;
 
 export type CreateResponseType = "standard" | "enterprise";
 export const CreateResponseType = S.String;
@@ -265,9 +266,7 @@ export const CreateResponseManagedBy = /*@__PURE__*/ S.suspend(() =>
     parentOrgId: S.optional(S.NullOr(S.String).pipe(T.Body("parent_org_id"))),
     parentOrgName: S.optional(S.NullOr(S.String).pipe(T.Body("parent_org_name"))),
   }),
-).annotate({
-  identifier: "CreateResponseManagedBy",
-}) as any as S.Schema<CreateResponseManagedBy>;
+).annotate({ identifier: "CreateResponseManagedBy" }) as any as S.Schema<CreateResponseManagedBy>;
 
 export interface CreateResponseSettings {
   /** Sets an abuse contact email to notify for abuse reports. */
@@ -280,9 +279,7 @@ export const CreateResponseSettings = /*@__PURE__*/ S.suspend(() =>
     abuseContactEmail: S.optional(S.NullOr(S.String).pipe(T.Body("abuse_contact_email"))),
     enforceTwofactor: S.optional(S.NullOr(S.Boolean).pipe(T.Body("enforce_twofactor"))),
   }),
-).annotate({
-  identifier: "CreateResponseSettings",
-}) as any as S.Schema<CreateResponseSettings>;
+).annotate({ identifier: "CreateResponseSettings" }) as any as S.Schema<CreateResponseSettings>;
 
 /** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
 export interface CreateAccountResponse {
@@ -307,12 +304,11 @@ export const CreateAccountResponse = /*@__PURE__*/ S.suspend(() =>
     managedBy: S.optional(S.NullOr(CreateResponseManagedBy).pipe(T.Body("managed_by"))),
     settings: S.optional(S.NullOr(CreateResponseSettings)),
   }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "CreateAccountResponse",
-}) as any as S.Schema<CreateAccountResponse>;
+).annotate({ identifier: "CreateAccountResponse" }) as any as S.Schema<CreateAccountResponse>;
 
 export interface CreateAccountOrganizationRequest {
   accountId: string;
+  /** The ID of the organization to move the account into. */
   destinationOrganizationId: string;
 }
 export const CreateAccountOrganizationRequest = /*@__PURE__*/ S.suspend(() =>
@@ -350,13 +346,7 @@ export const CreateClientSecretRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     accountId: S.String.pipe(T.Label("account_id")),
   })
-    .pipe(
-      T.Http({
-        method: "POST",
-        uri: "/accounts/{account_id}/client-secret",
-        code: 200,
-      }),
-    )
+    .pipe(T.Http({ method: "POST", uri: "/accounts/{account_id}/client-secret", code: 200 }))
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
 ).annotate({
   identifier: "CreateClientSecretRequest",
@@ -462,30 +452,42 @@ export const CreateMemberRequest = /*@__PURE__*/ S.suspend(() =>
     status: S.optional(MembersCreateRequestStatus),
     policies: S.optional(MembersCreateRequestPoliciesList),
   })
-    .pipe(
-      T.Http({
-        method: "POST",
-        uri: "/accounts/{account_id}/members",
-        code: 200,
-      }),
-    )
+    .pipe(T.Http({ method: "POST", uri: "/accounts/{account_id}/members", code: 200 }))
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "CreateMemberRequest",
-}) as any as S.Schema<CreateMemberRequest>;
+).annotate({ identifier: "CreateMemberRequest" }) as any as S.Schema<CreateMemberRequest>;
 
 export type MembersCreateResponsePoliciesItemAccess = "allow" | "deny";
 export const MembersCreateResponsePoliciesItemAccess = S.String;
 
 export interface MembersCreateResponsePoliciesItemPermissionGroupsItemMeta {
-  key?: string | null;
-  value?: string | null;
+  /** A category used to group permission groups. */
+  category?: string | null;
+  /** Indicates whether the permission group is deprecated. */
+  deprecated?: string | null;
+  /** Additional information about the permission group. */
+  description?: string | null;
+  /** Indicates whether the permission group can be edited. */
+  editable?: string | null;
+  /** The planned end-of-life date and time, when provided. */
+  eolAt?: string | null;
+  /** A label identifying the permission group. */
+  label?: string | null;
+  /** The scope associated with the permission group. */
+  scopes?: string | null;
+  /** Indicates the permission group's availability or visibility. */
+  visibility?: string | null;
 }
 export const MembersCreateResponsePoliciesItemPermissionGroupsItemMeta = /*@__PURE__*/ S.suspend(
   () =>
     S.Struct({
-      key: S.optional(S.NullOr(S.String)),
-      value: S.optional(S.NullOr(S.String)),
+      category: S.optional(S.NullOr(S.String)),
+      deprecated: S.optional(S.NullOr(S.String)),
+      description: S.optional(S.NullOr(S.String)),
+      editable: S.optional(S.NullOr(S.String)),
+      eolAt: S.optional(S.NullOr(S.String).pipe(T.Body("eol_at"))),
+      label: S.optional(S.NullOr(S.String)),
+      scopes: S.optional(S.NullOr(S.String)),
+      visibility: S.optional(S.NullOr(S.String)),
     }),
 ).annotate({
   identifier: "MembersCreateResponsePoliciesItemPermissionGroupsItemMeta",
@@ -551,10 +553,18 @@ export const MembersCreateResponsePoliciesItemResourceGroupsItemScope = /*@__PUR
   identifier: "MembersCreateResponsePoliciesItemResourceGroupsItemScope",
 }) as any as S.Schema<MembersCreateResponsePoliciesItemResourceGroupsItemScope>;
 
-export type MembersCreateResponsePoliciesItemResourceGroupsItemMeta =
-  MembersCreateResponsePoliciesItemPermissionGroupsItemMeta;
-export const MembersCreateResponsePoliciesItemResourceGroupsItemMeta =
-  MembersCreateResponsePoliciesItemPermissionGroupsItemMeta;
+export interface MembersCreateResponsePoliciesItemResourceGroupsItemMeta {
+  key?: string | null;
+  value?: string | null;
+}
+export const MembersCreateResponsePoliciesItemResourceGroupsItemMeta = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    key: S.optional(S.NullOr(S.String)),
+    value: S.optional(S.NullOr(S.String)),
+  }),
+).annotate({
+  identifier: "MembersCreateResponsePoliciesItemResourceGroupsItemMeta",
+}) as any as S.Schema<MembersCreateResponsePoliciesItemResourceGroupsItemMeta>;
 
 export interface MembersCreateResponsePoliciesItemResourceGroupsItem {
   /** Identifier of the resource group. */
@@ -562,7 +572,7 @@ export interface MembersCreateResponsePoliciesItemResourceGroupsItem {
   /** A scope is a combination of scope objects which provides additional context. */
   scope: MembersCreateResponsePoliciesItemResourceGroupsItemScope;
   /** Attributes associated to the resource group. */
-  meta?: MembersCreateResponsePoliciesItemPermissionGroupsItemMeta | null;
+  meta?: MembersCreateResponsePoliciesItemResourceGroupsItemMeta | null;
   /** Name of the resource group. */
   name?: string | null;
 }
@@ -570,7 +580,7 @@ export const MembersCreateResponsePoliciesItemResourceGroupsItem = /*@__PURE__*/
   S.Struct({
     id: S.String,
     scope: MembersCreateResponsePoliciesItemResourceGroupsItemScope,
-    meta: S.optional(S.NullOr(MembersCreateResponsePoliciesItemPermissionGroupsItemMeta)),
+    meta: S.optional(S.NullOr(MembersCreateResponsePoliciesItemResourceGroupsItemMeta)),
     name: S.optional(S.NullOr(S.String)),
   }),
 ).annotate({
@@ -800,9 +810,7 @@ export const CreateMemberResponse = /*@__PURE__*/ S.suspend(() =>
     status: S.optional(S.NullOr(MembersCreateResponseStatus)),
     user: S.optional(S.NullOr(MembersCreateResponseUser)),
   }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "CreateMemberResponse",
-}) as any as S.Schema<CreateMemberResponse>;
+).annotate({ identifier: "CreateMemberResponse" }) as any as S.Schema<CreateMemberResponse>;
 
 export interface CreatePayBadDebtRequest {
   /** Identifier */
@@ -815,17 +823,9 @@ export const CreatePayBadDebtRequest = /*@__PURE__*/ S.suspend(() =>
     accountId: S.String.pipe(T.Label("account_id")),
     paymentMethodId: S.optional(S.String.pipe(T.Body("payment_method_id"))),
   })
-    .pipe(
-      T.Http({
-        method: "POST",
-        uri: "/accounts/{account_id}/pay-bad-debt",
-        code: 200,
-      }),
-    )
+    .pipe(T.Http({ method: "POST", uri: "/accounts/{account_id}/pay-bad-debt", code: 200 }))
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "CreatePayBadDebtRequest",
-}) as any as S.Schema<CreatePayBadDebtRequest>;
+).annotate({ identifier: "CreatePayBadDebtRequest" }) as any as S.Schema<CreatePayBadDebtRequest>;
 
 /** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
 export interface CreatePayBadDebtResponse {
@@ -836,9 +836,7 @@ export const CreatePayBadDebtResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     clientSecret: S.optional(S.NullOr(S.String).pipe(T.Body("client_secret"))),
   }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "CreatePayBadDebtResponse",
-}) as any as S.Schema<CreatePayBadDebtResponse>;
+).annotate({ identifier: "CreatePayBadDebtResponse" }) as any as S.Schema<CreatePayBadDebtResponse>;
 
 export interface CreatePayInvoiceRequest {
   /** Identifier */
@@ -857,17 +855,9 @@ export const CreatePayInvoiceRequest = /*@__PURE__*/ S.suspend(() =>
     paymentMethodId: S.optional(S.String.pipe(T.Body("payment_method_id"))),
     validatePaymentMethod: S.optional(S.Boolean.pipe(T.Body("validate_payment_method"))),
   })
-    .pipe(
-      T.Http({
-        method: "POST",
-        uri: "/accounts/{account_id}/pay-invoice",
-        code: 200,
-      }),
-    )
+    .pipe(T.Http({ method: "POST", uri: "/accounts/{account_id}/pay-invoice", code: 200 }))
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "CreatePayInvoiceRequest",
-}) as any as S.Schema<CreatePayInvoiceRequest>;
+).annotate({ identifier: "CreatePayInvoiceRequest" }) as any as S.Schema<CreatePayInvoiceRequest>;
 
 /** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
 export interface CreatePayInvoiceResponse {
@@ -878,9 +868,7 @@ export const CreatePayInvoiceResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     clientSecret: S.optional(S.NullOr(S.String).pipe(T.Body("client_secret"))),
   }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "CreatePayInvoiceResponse",
-}) as any as S.Schema<CreatePayInvoiceResponse>;
+).annotate({ identifier: "CreatePayInvoiceResponse" }) as any as S.Schema<CreatePayInvoiceResponse>;
 
 export type CreatePaymentMethodRequestType =
   | "CREDIT_CARD"
@@ -965,13 +953,7 @@ export const CreatePaymentMethodRequest = /*@__PURE__*/ S.suspend(() =>
     type: S.optional(CreatePaymentMethodRequestType),
     zipcode: S.optional(S.String),
   })
-    .pipe(
-      T.Http({
-        method: "POST",
-        uri: "/accounts/{account_id}/payment-methods",
-        code: 200,
-      }),
-    )
+    .pipe(T.Http({ method: "POST", uri: "/accounts/{account_id}/payment-methods", code: 200 }))
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
 ).annotate({
   identifier: "CreatePaymentMethodRequest",
@@ -1136,13 +1118,7 @@ export const CreateSubscriptionRequest = /*@__PURE__*/ S.suspend(() =>
     frequency: S.optional(SubscriptionsCreateRequestFrequency),
     ratePlan: S.optional(SubscriptionsCreateRequestRatePlan.pipe(T.Body("rate_plan"))),
   })
-    .pipe(
-      T.Http({
-        method: "POST",
-        uri: "/accounts/{account_id}/subscriptions",
-        code: 200,
-      }),
-    )
+    .pipe(T.Http({ method: "POST", uri: "/accounts/{account_id}/subscriptions", code: 200 }))
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
 ).annotate({
   identifier: "CreateSubscriptionRequest",
@@ -1247,13 +1223,33 @@ export type TokensCreateRequestPoliciesItemEffect = "allow" | "deny";
 export const TokensCreateRequestPoliciesItemEffect = S.String;
 
 export interface TokensCreateRequestPoliciesItemPermissionGroupsItemMeta {
-  key?: string;
-  value?: string;
+  /** A category used to group permission groups. */
+  category?: string;
+  /** Indicates whether the permission group is deprecated. */
+  deprecated?: string;
+  /** Additional information about the permission group. */
+  description?: string;
+  /** Indicates whether the permission group can be edited. */
+  editable?: string;
+  /** The planned end-of-life date and time, when provided. */
+  eolAt?: string;
+  /** A label identifying the permission group. */
+  label?: string;
+  /** The scope associated with the permission group. */
+  scopes?: string;
+  /** Indicates the permission group's availability or visibility. */
+  visibility?: string;
 }
 export const TokensCreateRequestPoliciesItemPermissionGroupsItemMeta = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    key: S.optional(S.String),
-    value: S.optional(S.String),
+    category: S.optional(S.String),
+    deprecated: S.optional(S.String),
+    description: S.optional(S.String),
+    editable: S.optional(S.String),
+    eolAt: S.optional(S.String.pipe(T.Body("eol_at"))),
+    label: S.optional(S.String),
+    scopes: S.optional(S.String),
+    visibility: S.optional(S.String),
   }),
 ).annotate({
   identifier: "TokensCreateRequestPoliciesItemPermissionGroupsItemMeta",
@@ -1391,17 +1387,9 @@ export const CreateTokenRequest = /*@__PURE__*/ S.suspend(() =>
     expiresOn: S.optional(S.String.pipe(T.Body("expires_on"))),
     notBefore: S.optional(S.String.pipe(T.Body("not_before"))),
   })
-    .pipe(
-      T.Http({
-        method: "POST",
-        uri: "/accounts/{account_id}/tokens",
-        code: 200,
-      }),
-    )
+    .pipe(T.Http({ method: "POST", uri: "/accounts/{account_id}/tokens", code: 200 }))
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "CreateTokenRequest",
-}) as any as S.Schema<CreateTokenRequest>;
+).annotate({ identifier: "CreateTokenRequest" }) as any as S.Schema<CreateTokenRequest>;
 
 export type TokensCreateResponseConditionRequestIpInList = Array<string>;
 export const TokensCreateResponseConditionRequestIpInList = /*@__PURE__*/ S.Array(
@@ -1523,6 +1511,8 @@ export interface CreateTokenResponse {
   /** Token identifier tag. */
   id?: string | null;
   condition?: TokensCreateResponseCondition | null;
+  /** The email address of the user who created the token at the time of creation. Only present for Account Owned API Tokens when a creator email was available. */
+  creatorEmailAtCreation?: string | null;
   /** The expiration time on or after which the JWT MUST NOT be accepted for processing. */
   expiresOn?: string | null;
   /** The time on which the token was created. */
@@ -1537,6 +1527,10 @@ export interface CreateTokenResponse {
   notBefore?: string | null;
   /** List of access policies assigned to the token. */
   policies?: TokensCreateResponsePoliciesList | null;
+  /** The identifier of the service that provisioned the token. For an OAuth-provisioned token, this is the OAuth client identifier. Present when `provisioner_type` is present and null when the identifier is unavailable. */
+  provisionerId?: string | null;
+  /** The type of service that provisioned the token. Only present for provisioned Account Owned API Tokens. */
+  provisionerType?: string | null;
   /** Status of the token. */
   status?: TokensCreateResponseStatus | null;
   /** The token value. */
@@ -1546,6 +1540,9 @@ export const CreateTokenResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     id: S.optional(S.NullOr(S.String)),
     condition: S.optional(S.NullOr(TokensCreateResponseCondition)),
+    creatorEmailAtCreation: S.optional(
+      S.NullOr(S.String).pipe(T.Body("creator_email_at_creation")),
+    ),
     expiresOn: S.optional(S.NullOr(S.String).pipe(T.Body("expires_on"))),
     issuedOn: S.optional(S.NullOr(S.String).pipe(T.Body("issued_on"))),
     lastUsedOn: S.optional(S.NullOr(S.String).pipe(T.Body("last_used_on"))),
@@ -1553,12 +1550,12 @@ export const CreateTokenResponse = /*@__PURE__*/ S.suspend(() =>
     name: S.optional(S.NullOr(S.String)),
     notBefore: S.optional(S.NullOr(S.String).pipe(T.Body("not_before"))),
     policies: S.optional(S.NullOr(TokensCreateResponsePoliciesList)),
+    provisionerId: S.optional(S.NullOr(S.String).pipe(T.Body("provisioner_id"))),
+    provisionerType: S.optional(S.NullOr(S.String).pipe(T.Body("provisioner_type"))),
     status: S.optional(S.NullOr(TokensCreateResponseStatus)),
     value: S.optional(S.NullOr(S.String)),
   }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "CreateTokenResponse",
-}) as any as S.Schema<CreateTokenResponse>;
+).annotate({ identifier: "CreateTokenResponse" }) as any as S.Schema<CreateTokenResponse>;
 
 export interface DeleteAccountRequest {
   /** The account ID of the account to be deleted */
@@ -1570,9 +1567,7 @@ export const DeleteAccountRequest = /*@__PURE__*/ S.suspend(() =>
   })
     .pipe(T.Http({ method: "DELETE", uri: "/accounts/{account_id}", code: 200 }))
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "DeleteAccountRequest",
-}) as any as S.Schema<DeleteAccountRequest>;
+).annotate({ identifier: "DeleteAccountRequest" }) as any as S.Schema<DeleteAccountRequest>;
 
 /** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
 export interface DeleteAccountResponse {
@@ -1583,9 +1578,7 @@ export const DeleteAccountResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     id: S.String,
   }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "DeleteAccountResponse",
-}) as any as S.Schema<DeleteAccountResponse>;
+).annotate({ identifier: "DeleteAccountResponse" }) as any as S.Schema<DeleteAccountResponse>;
 
 export interface DeleteMemberRequest {
   /** Account identifier tag. */
@@ -1599,16 +1592,10 @@ export const DeleteMemberRequest = /*@__PURE__*/ S.suspend(() =>
     memberId: S.String.pipe(T.Label("member_id")),
   })
     .pipe(
-      T.Http({
-        method: "DELETE",
-        uri: "/accounts/{account_id}/members/{member_id}",
-        code: 200,
-      }),
+      T.Http({ method: "DELETE", uri: "/accounts/{account_id}/members/{member_id}", code: 200 }),
     )
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "DeleteMemberRequest",
-}) as any as S.Schema<DeleteMemberRequest>;
+).annotate({ identifier: "DeleteMemberRequest" }) as any as S.Schema<DeleteMemberRequest>;
 
 /** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
 export interface DeleteMemberResponse {
@@ -1619,9 +1606,7 @@ export const DeleteMemberResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     id: S.String,
   }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "DeleteMemberResponse",
-}) as any as S.Schema<DeleteMemberResponse>;
+).annotate({ identifier: "DeleteMemberResponse" }) as any as S.Schema<DeleteMemberResponse>;
 
 export interface DeletePaymentMethodRequest {
   /** Identifier */
@@ -1700,17 +1685,9 @@ export const DeleteTokenRequest = /*@__PURE__*/ S.suspend(() =>
     accountId: S.String.pipe(T.Label("account_id")),
     tokenId: S.String.pipe(T.Label("token_id")),
   })
-    .pipe(
-      T.Http({
-        method: "DELETE",
-        uri: "/accounts/{account_id}/tokens/{token_id}",
-        code: 200,
-      }),
-    )
+    .pipe(T.Http({ method: "DELETE", uri: "/accounts/{account_id}/tokens/{token_id}", code: 200 }))
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "DeleteTokenRequest",
-}) as any as S.Schema<DeleteTokenRequest>;
+).annotate({ identifier: "DeleteTokenRequest" }) as any as S.Schema<DeleteTokenRequest>;
 
 /** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
 export interface DeleteTokenResponse {
@@ -1721,9 +1698,7 @@ export const DeleteTokenResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     id: S.String,
   }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "DeleteTokenResponse",
-}) as any as S.Schema<DeleteTokenResponse>;
+).annotate({ identifier: "DeleteTokenResponse" }) as any as S.Schema<DeleteTokenResponse>;
 
 export interface EditInvoiceRequest {
   /** Identifier */
@@ -1736,24 +1711,14 @@ export const EditInvoiceRequest = /*@__PURE__*/ S.suspend(() =>
     accountId: S.String.pipe(T.Label("account_id")),
     toggle: S.optional(S.Boolean),
   })
-    .pipe(
-      T.Http({
-        method: "PATCH",
-        uri: "/accounts/{account_id}/invoices",
-        code: 200,
-      }),
-    )
+    .pipe(T.Http({ method: "PATCH", uri: "/accounts/{account_id}/invoices", code: 200 }))
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "EditInvoiceRequest",
-}) as any as S.Schema<EditInvoiceRequest>;
+).annotate({ identifier: "EditInvoiceRequest" }) as any as S.Schema<EditInvoiceRequest>;
 
 export type EditInvoiceResponse = unknown;
 export const EditInvoiceResponse = /*@__PURE__*/ S.suspend(() =>
   S.Unknown.pipe(T.EnvelopePayloadRoot(), T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "EditInvoiceResponse",
-}) as any as S.Schema<EditInvoiceResponse>;
+).annotate({ identifier: "EditInvoiceResponse" }) as any as S.Schema<EditInvoiceResponse>;
 
 export interface GetAccountRequest {
   /** Account identifier tag. */
@@ -1765,9 +1730,7 @@ export const GetAccountRequest = /*@__PURE__*/ S.suspend(() =>
   })
     .pipe(T.Http({ method: "GET", uri: "/accounts/{account_id}", code: 200 }))
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "GetAccountRequest",
-}) as any as S.Schema<GetAccountRequest>;
+).annotate({ identifier: "GetAccountRequest" }) as any as S.Schema<GetAccountRequest>;
 
 export type GetResponseType = "standard" | "enterprise";
 export const GetResponseType = S.String;
@@ -1801,9 +1764,7 @@ export const GetAccountResponse = /*@__PURE__*/ S.suspend(() =>
     managedBy: S.optional(S.NullOr(CreateResponseManagedBy).pipe(T.Body("managed_by"))),
     settings: S.optional(S.NullOr(CreateResponseSettings)),
   }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "GetAccountResponse",
-}) as any as S.Schema<GetAccountResponse>;
+).annotate({ identifier: "GetAccountResponse" }) as any as S.Schema<GetAccountResponse>;
 
 export interface GetAccountProfileRequest {
   accountId: string;
@@ -1812,17 +1773,9 @@ export const GetAccountProfileRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     accountId: S.String.pipe(T.Label("account_id")),
   })
-    .pipe(
-      T.Http({
-        method: "GET",
-        uri: "/accounts/{account_id}/profile",
-        code: 200,
-      }),
-    )
+    .pipe(T.Http({ method: "GET", uri: "/accounts/{account_id}/profile", code: 200 }))
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "GetAccountProfileRequest",
-}) as any as S.Schema<GetAccountProfileRequest>;
+).annotate({ identifier: "GetAccountProfileRequest" }) as any as S.Schema<GetAccountProfileRequest>;
 
 /** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
 export interface GetAccountProfileResponse {
@@ -1855,17 +1808,9 @@ export const GetMemberRequest = /*@__PURE__*/ S.suspend(() =>
     accountId: S.String.pipe(T.Label("account_id")),
     memberId: S.String.pipe(T.Label("member_id")),
   })
-    .pipe(
-      T.Http({
-        method: "GET",
-        uri: "/accounts/{account_id}/members/{member_id}",
-        code: 200,
-      }),
-    )
+    .pipe(T.Http({ method: "GET", uri: "/accounts/{account_id}/members/{member_id}", code: 200 }))
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "GetMemberRequest",
-}) as any as S.Schema<GetMemberRequest>;
+).annotate({ identifier: "GetMemberRequest" }) as any as S.Schema<GetMemberRequest>;
 
 export type MembersGetResponsePoliciesItemAccess = "allow" | "deny";
 export const MembersGetResponsePoliciesItemAccess = S.String;
@@ -1914,9 +1859,9 @@ export const MembersGetResponsePoliciesItemResourceGroupsItemScope = /*@__PURE__
 }) as any as S.Schema<MembersGetResponsePoliciesItemResourceGroupsItemScope>;
 
 export type MembersGetResponsePoliciesItemResourceGroupsItemMeta =
-  MembersCreateResponsePoliciesItemPermissionGroupsItemMeta;
+  MembersCreateResponsePoliciesItemResourceGroupsItemMeta;
 export const MembersGetResponsePoliciesItemResourceGroupsItemMeta =
-  MembersCreateResponsePoliciesItemPermissionGroupsItemMeta;
+  MembersCreateResponsePoliciesItemResourceGroupsItemMeta;
 
 export interface MembersGetResponsePoliciesItemResourceGroupsItem {
   /** Identifier of the resource group. */
@@ -1924,7 +1869,7 @@ export interface MembersGetResponsePoliciesItemResourceGroupsItem {
   /** A scope is a combination of scope objects which provides additional context. */
   scope: MembersGetResponsePoliciesItemResourceGroupsItemScope;
   /** Attributes associated to the resource group. */
-  meta?: MembersCreateResponsePoliciesItemPermissionGroupsItemMeta | null;
+  meta?: MembersCreateResponsePoliciesItemResourceGroupsItemMeta | null;
   /** Name of the resource group. */
   name?: string | null;
 }
@@ -1932,7 +1877,7 @@ export const MembersGetResponsePoliciesItemResourceGroupsItem = /*@__PURE__*/ S.
   S.Struct({
     id: S.String,
     scope: MembersGetResponsePoliciesItemResourceGroupsItemScope,
-    meta: S.optional(S.NullOr(MembersCreateResponsePoliciesItemPermissionGroupsItemMeta)),
+    meta: S.optional(S.NullOr(MembersCreateResponsePoliciesItemResourceGroupsItemMeta)),
     name: S.optional(S.NullOr(S.String)),
   }),
 ).annotate({
@@ -2078,9 +2023,7 @@ export const GetMemberResponse = /*@__PURE__*/ S.suspend(() =>
     status: S.optional(S.NullOr(MembersGetResponseStatus)),
     user: S.optional(S.NullOr(MembersCreateResponseUser)),
   }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "GetMemberResponse",
-}) as any as S.Schema<GetMemberResponse>;
+).annotate({ identifier: "GetMemberResponse" }) as any as S.Schema<GetMemberResponse>;
 
 export interface GetPaymentMethodRequest {
   /** Identifier */
@@ -2101,9 +2044,7 @@ export const GetPaymentMethodRequest = /*@__PURE__*/ S.suspend(() =>
       }),
     )
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "GetPaymentMethodRequest",
-}) as any as S.Schema<GetPaymentMethodRequest>;
+).annotate({ identifier: "GetPaymentMethodRequest" }) as any as S.Schema<GetPaymentMethodRequest>;
 
 export type GetPaymentMethodResponseType =
   | "CREDIT_CARD"
@@ -2195,9 +2136,7 @@ export const GetPaymentMethodResponse = /*@__PURE__*/ S.suspend(() =>
     type: S.optional(S.NullOr(GetPaymentMethodResponseType)),
     zipcode: S.optional(S.NullOr(S.String)),
   }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "GetPaymentMethodResponse",
-}) as any as S.Schema<GetPaymentMethodResponse>;
+).annotate({ identifier: "GetPaymentMethodResponse" }) as any as S.Schema<GetPaymentMethodResponse>;
 
 export interface GetRoleRequest {
   /** Account identifier tag. */
@@ -2210,13 +2149,7 @@ export const GetRoleRequest = /*@__PURE__*/ S.suspend(() =>
     accountId: S.String.pipe(T.Label("account_id")),
     roleId: S.String.pipe(T.Label("role_id")),
   })
-    .pipe(
-      T.Http({
-        method: "GET",
-        uri: "/accounts/{account_id}/roles/{role_id}",
-        code: 200,
-      }),
-    )
+    .pipe(T.Http({ method: "GET", uri: "/accounts/{account_id}/roles/{role_id}", code: 200 }))
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
 ).annotate({ identifier: "GetRoleRequest" }) as any as S.Schema<GetRoleRequest>;
 
@@ -2287,9 +2220,7 @@ export const GetRoleResponse = /*@__PURE__*/ S.suspend(() =>
     name: S.String,
     permissions: MembersCreateResponseRolesItemPermissions,
   }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "GetRoleResponse",
-}) as any as S.Schema<GetRoleResponse>;
+).annotate({ identifier: "GetRoleResponse" }) as any as S.Schema<GetRoleResponse>;
 
 export interface GetSpeedSettingsTransformationRequest {
   /** Identifier. */
@@ -2300,11 +2231,7 @@ export const GetSpeedSettingsTransformationRequest = /*@__PURE__*/ S.suspend(() 
     accountId: S.String.pipe(T.Label("account_id")),
   })
     .pipe(
-      T.Http({
-        method: "GET",
-        uri: "/accounts/{account_id}/settings/transformations",
-        code: 200,
-      }),
+      T.Http({ method: "GET", uri: "/accounts/{account_id}/settings/transformations", code: 200 }),
     )
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
 ).annotate({
@@ -2359,17 +2286,9 @@ export const GetSubscriptionRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     accountId: S.String.pipe(T.Label("account_id")),
   })
-    .pipe(
-      T.Http({
-        method: "GET",
-        uri: "/accounts/{account_id}/subscriptions",
-        code: 200,
-      }),
-    )
+    .pipe(T.Http({ method: "GET", uri: "/accounts/{account_id}/subscriptions", code: 200 }))
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "GetSubscriptionRequest",
-}) as any as S.Schema<GetSubscriptionRequest>;
+).annotate({ identifier: "GetSubscriptionRequest" }) as any as S.Schema<GetSubscriptionRequest>;
 
 export type SubscriptionsGetResultItemFrequency = "weekly" | "monthly" | "quarterly" | "yearly";
 export const SubscriptionsGetResultItemFrequency = S.String;
@@ -2481,9 +2400,7 @@ export const GetSubscriptionResponse = /*@__PURE__*/ S.suspend(() =>
     result: SubscriptionsGetResultList.pipe(T.EnvelopePayload()),
     resultInfo: S.optional(S.NullOr(ResultInfo).pipe(T.ResultInfo())),
   }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "GetSubscriptionResponse",
-}) as any as S.Schema<GetSubscriptionResponse>;
+).annotate({ identifier: "GetSubscriptionResponse" }) as any as S.Schema<GetSubscriptionResponse>;
 
 export interface GetTokenRequest {
   /** Account identifier tag. */
@@ -2496,17 +2413,9 @@ export const GetTokenRequest = /*@__PURE__*/ S.suspend(() =>
     accountId: S.String.pipe(T.Label("account_id")),
     tokenId: S.String.pipe(T.Label("token_id")),
   })
-    .pipe(
-      T.Http({
-        method: "GET",
-        uri: "/accounts/{account_id}/tokens/{token_id}",
-        code: 200,
-      }),
-    )
+    .pipe(T.Http({ method: "GET", uri: "/accounts/{account_id}/tokens/{token_id}", code: 200 }))
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "GetTokenRequest",
-}) as any as S.Schema<GetTokenRequest>;
+).annotate({ identifier: "GetTokenRequest" }) as any as S.Schema<GetTokenRequest>;
 
 export type TokensGetResponseConditionRequestIpInList = Array<string>;
 export const TokensGetResponseConditionRequestIpInList = /*@__PURE__*/ S.Array(
@@ -2626,6 +2535,8 @@ export interface GetTokenResponse {
   /** Token identifier tag. */
   id?: string | null;
   condition?: TokensGetResponseCondition | null;
+  /** The email address of the user who created the token at the time of creation. Only present for Account Owned API Tokens when a creator email was available. */
+  creatorEmailAtCreation?: string | null;
   /** The expiration time on or after which the JWT MUST NOT be accepted for processing. */
   expiresOn?: string | null;
   /** The time on which the token was created. */
@@ -2640,6 +2551,10 @@ export interface GetTokenResponse {
   notBefore?: string | null;
   /** List of access policies assigned to the token. */
   policies?: TokensGetResponsePoliciesList | null;
+  /** The identifier of the service that provisioned the token. For an OAuth-provisioned token, this is the OAuth client identifier. Present when `provisioner_type` is present and null when the identifier is unavailable. */
+  provisionerId?: string | null;
+  /** The type of service that provisioned the token. Only present for provisioned Account Owned API Tokens. */
+  provisionerType?: string | null;
   /** Status of the token. */
   status?: TokensGetResponseStatus | null;
 }
@@ -2647,6 +2562,9 @@ export const GetTokenResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     id: S.optional(S.NullOr(S.String)),
     condition: S.optional(S.NullOr(TokensGetResponseCondition)),
+    creatorEmailAtCreation: S.optional(
+      S.NullOr(S.String).pipe(T.Body("creator_email_at_creation")),
+    ),
     expiresOn: S.optional(S.NullOr(S.String).pipe(T.Body("expires_on"))),
     issuedOn: S.optional(S.NullOr(S.String).pipe(T.Body("issued_on"))),
     lastUsedOn: S.optional(S.NullOr(S.String).pipe(T.Body("last_used_on"))),
@@ -2654,11 +2572,11 @@ export const GetTokenResponse = /*@__PURE__*/ S.suspend(() =>
     name: S.optional(S.NullOr(S.String)),
     notBefore: S.optional(S.NullOr(S.String).pipe(T.Body("not_before"))),
     policies: S.optional(S.NullOr(TokensGetResponsePoliciesList)),
+    provisionerId: S.optional(S.NullOr(S.String).pipe(T.Body("provisioner_id"))),
+    provisionerType: S.optional(S.NullOr(S.String).pipe(T.Body("provisioner_type"))),
     status: S.optional(S.NullOr(TokensGetResponseStatus)),
   }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "GetTokenResponse",
-}) as any as S.Schema<GetTokenResponse>;
+).annotate({ identifier: "GetTokenResponse" }) as any as S.Schema<GetTokenResponse>;
 
 export interface GetTokenPermissionGroupRequest {
   /** Account identifier tag. */
@@ -2675,11 +2593,7 @@ export const GetTokenPermissionGroupRequest = /*@__PURE__*/ S.suspend(() =>
     scope: S.optional(S.String.pipe(T.Query())),
   })
     .pipe(
-      T.Http({
-        method: "GET",
-        uri: "/accounts/{account_id}/tokens/permission_groups",
-        code: 200,
-      }),
+      T.Http({ method: "GET", uri: "/accounts/{account_id}/tokens/permission_groups", code: 200 }),
     )
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
 ).annotate({
@@ -2720,6 +2634,8 @@ export interface TokensPermissionGroupsGetResultItem {
   id?: string | null;
   /** Product category that this permission group belongs to. */
   category?: TokensPermissionGroupsGetResultItemCategory | null;
+  /** Whether the caller can select this permission group when creating a token. */
+  isSelectable?: boolean | null;
   /** Permission Group Name */
   name?: string | null;
   /** Resources to which the Permission Group is scoped */
@@ -2729,6 +2645,7 @@ export const TokensPermissionGroupsGetResultItem = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     id: S.optional(S.NullOr(S.String)),
     category: S.optional(S.NullOr(TokensPermissionGroupsGetResultItemCategory)),
+    isSelectable: S.optional(S.NullOr(S.Boolean).pipe(T.Body("is_selectable"))),
     name: S.optional(S.NullOr(S.String)),
     scopes: S.optional(S.NullOr(TokensPermissionGroupsGetResultItemScopesList)),
   }),
@@ -2773,9 +2690,7 @@ export const ListAccountsRequest = /*@__PURE__*/ S.suspend(() =>
   })
     .pipe(T.Http({ method: "GET", uri: "/accounts", code: 200 }))
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "ListAccountsRequest",
-}) as any as S.Schema<ListAccountsRequest>;
+).annotate({ identifier: "ListAccountsRequest" }) as any as S.Schema<ListAccountsRequest>;
 
 export type ListResultItemType = "standard" | "enterprise";
 export const ListResultItemType = S.String;
@@ -2826,9 +2741,128 @@ export const ListAccountsResponse = /*@__PURE__*/ S.suspend(() =>
     result: ListResultList.pipe(T.EnvelopePayload()),
     resultInfo: S.optional(S.NullOr(ResultInfo).pipe(T.ResultInfo())),
   }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
+).annotate({ identifier: "ListAccountsResponse" }) as any as S.Schema<ListAccountsResponse>;
+
+export interface ListEntitlementsRequest {
+  /** Identifier tag. */
+  accountId: string;
+}
+export const ListEntitlementsRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    accountId: S.String.pipe(T.Label("account_id")),
+  })
+    .pipe(T.Http({ method: "GET", uri: "/accounts/{account_id}/entitlements", code: 200 }))
+    .pipe(T.KeyDictionary(KEY_DICTIONARY)),
+).annotate({ identifier: "ListEntitlementsRequest" }) as any as S.Schema<ListEntitlementsRequest>;
+
+export type ListEntitlementsResultItemAllocationType =
+  | "bool"
+  | "max_count"
+  | "enum_number"
+  | "range"
+  | "string";
+export const ListEntitlementsResultItemAllocationType = S.String;
+
+export type ListEntitlementsResultItemAllocationValueCase3List = Array<number>;
+export const ListEntitlementsResultItemAllocationValueCase3List = /*@__PURE__*/ S.Array(
+  S.Number,
+) as any as S.Schema<ListEntitlementsResultItemAllocationValueCase3List>;
+
+export interface ListEntitlementsResultItemAllocationValueCase4 {
+  max: number;
+  min: number;
+}
+export const ListEntitlementsResultItemAllocationValueCase4 = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    max: S.Number,
+    min: S.Number,
+  }),
 ).annotate({
-  identifier: "ListAccountsResponse",
-}) as any as S.Schema<ListAccountsResponse>;
+  identifier: "ListEntitlementsResultItemAllocationValueCase4",
+}) as any as S.Schema<ListEntitlementsResultItemAllocationValueCase4>;
+
+export type ListEntitlementsResultItemAllocationValue =
+  | string
+  | number
+  | boolean
+  | ListEntitlementsResultItemAllocationValueCase3List
+  | ListEntitlementsResultItemAllocationValueCase4;
+export const ListEntitlementsResultItemAllocationValue = /*@__PURE__*/ S.Unknown.pipe(
+  T.UnionCases([[], [], [], [], ["max", "min"]]),
+);
+
+export interface ListEntitlementsResultItemAllocation {
+  /** Allocation type discriminator. */
+  type: ListEntitlementsResultItemAllocationType;
+  /** Contains the allocation value whose concrete type the `type` field determines: bool yields a boolean, max_count yields an integer, enum_number yields an array of numbers, range yields an object with `min` and `max`, and string yields a string. */
+  value: ListEntitlementsResultItemAllocationValue;
+}
+export const ListEntitlementsResultItemAllocation = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    type: ListEntitlementsResultItemAllocationType,
+    value: ListEntitlementsResultItemAllocationValue,
+  }),
+).annotate({
+  identifier: "ListEntitlementsResultItemAllocation",
+}) as any as S.Schema<ListEntitlementsResultItemAllocation>;
+
+export interface ListEntitlementsResultItemFeature {
+  /** Numeric identifier of the feature. */
+  id: number;
+  /** The logical grouping (set) this feature belongs to. */
+  featureSet: string;
+  /** Unique string key for the feature. */
+  key: string;
+  /** Human-readable name of the feature. */
+  name: string;
+}
+export const ListEntitlementsResultItemFeature = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    id: S.Number,
+    featureSet: S.String.pipe(T.Body("feature_set")),
+    key: S.String,
+    name: S.String,
+  }),
+).annotate({
+  identifier: "ListEntitlementsResultItemFeature",
+}) as any as S.Schema<ListEntitlementsResultItemFeature>;
+
+export interface ListEntitlementsResultItem {
+  /** Entitlement identifier — equal to the feature key. */
+  id: string;
+  /** Represents the allocation value for an entitlement. The shape of `value` depends on `type`: `bool` uses a boolean, `max_count` uses an integer, `enum_number` uses an array of numbers, `range` uses an object with `min` and `max` integer fields, and `string` uses a string. */
+  allocation: ListEntitlementsResultItemAllocation;
+  /** ISO 8601 timestamp (microsecond precision, no timezone offset) when the entitlement was created. Format: `YYYY-MM-DDTHH:MM:SS.ffffff`. */
+  createdDate: string;
+  /** ISO 8601 timestamp when the entitlement was deleted, or empty string if not deleted. */
+  deletedDate: string;
+  /** ISO 8601 timestamp (microsecond precision, no timezone offset) when the entitlement was last edited. */
+  editedDate: string;
+  /** Describes a product feature associated with an entitlement. */
+  feature: ListEntitlementsResultItemFeature;
+}
+export const ListEntitlementsResultItem = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    id: S.String,
+    allocation: ListEntitlementsResultItemAllocation,
+    createdDate: S.String.pipe(T.Body("created_date")),
+    deletedDate: S.String.pipe(T.Body("deleted_date")),
+    editedDate: S.String.pipe(T.Body("edited_date")),
+    feature: ListEntitlementsResultItemFeature,
+  }),
+).annotate({
+  identifier: "ListEntitlementsResultItem",
+}) as any as S.Schema<ListEntitlementsResultItem>;
+
+export type ListEntitlementsResultList = Array<ListEntitlementsResultItem>;
+export const ListEntitlementsResultList = /*@__PURE__*/ S.Array(
+  ListEntitlementsResultItem,
+) as any as S.Schema<ListEntitlementsResultList>;
+
+export type ListEntitlementsResponse = ListEntitlementsResultList;
+export const ListEntitlementsResponse = /*@__PURE__*/ S.suspend(() =>
+  ListEntitlementsResultList.pipe(T.EnvelopePayloadRoot(), T.KeyDictionary(KEY_DICTIONARY)),
+).annotate({ identifier: "ListEntitlementsResponse" }) as any as S.Schema<ListEntitlementsResponse>;
 
 export type LogsAuditListRequestIdNotList = Array<string>;
 export const LogsAuditListRequestIdNotList = /*@__PURE__*/ S.Array(
@@ -2843,9 +2877,7 @@ export const LogsAuditListRequestId = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     not: S.optional(LogsAuditListRequestIdNotList),
   }),
-).annotate({
-  identifier: "LogsAuditListRequestId",
-}) as any as S.Schema<LogsAuditListRequestId>;
+).annotate({ identifier: "LogsAuditListRequestId" }) as any as S.Schema<LogsAuditListRequestId>;
 
 export type LogsAuditListRequestAccountNameNotList = Array<string>;
 export const LogsAuditListRequestAccountNameNotList = /*@__PURE__*/ S.Array(
@@ -3380,17 +3412,9 @@ export const ListLogAuditsRequest = /*@__PURE__*/ S.suspend(() =>
       LogsAuditListRequestZoneName.pipe(T.Body("zone_name"), T.DeepQuery("zone_name")),
     ),
   })
-    .pipe(
-      T.Http({
-        method: "GET",
-        uri: "/accounts/{account_id}/logs/audit",
-        code: 200,
-      }),
-    )
+    .pipe(T.Http({ method: "GET", uri: "/accounts/{account_id}/logs/audit", code: 200 }))
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "ListLogAuditsRequest",
-}) as any as S.Schema<ListLogAuditsRequest>;
+).annotate({ identifier: "ListLogAuditsRequest" }) as any as S.Schema<ListLogAuditsRequest>;
 
 export interface LogsAuditListResultItemAccount {
   /** A unique identifier for the account. */
@@ -3565,9 +3589,7 @@ export const LogsAuditListResultItem = /*@__PURE__*/ S.suspend(() =>
     resource: S.optional(S.NullOr(LogsAuditListResultItemResource)),
     zone: S.optional(S.NullOr(LogsAuditListResultItemZone)),
   }),
-).annotate({
-  identifier: "LogsAuditListResultItem",
-}) as any as S.Schema<LogsAuditListResultItem>;
+).annotate({ identifier: "LogsAuditListResultItem" }) as any as S.Schema<LogsAuditListResultItem>;
 
 export type LogsAuditListResultList = Array<LogsAuditListResultItem>;
 export const LogsAuditListResultList = /*@__PURE__*/ S.Array(
@@ -3585,9 +3607,7 @@ export const ListLogAuditsResponse = /*@__PURE__*/ S.suspend(() =>
     result: LogsAuditListResultList.pipe(T.EnvelopePayload()),
     resultInfo: S.optional(S.NullOr(ResultInfo).pipe(T.ResultInfo())),
   }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "ListLogAuditsResponse",
-}) as any as S.Schema<ListLogAuditsResponse>;
+).annotate({ identifier: "ListLogAuditsResponse" }) as any as S.Schema<ListLogAuditsResponse>;
 
 export type MembersListRequestDirection = "asc" | "desc";
 export const MembersListRequestDirection = S.String;
@@ -3625,17 +3645,9 @@ export const ListMembersRequest = /*@__PURE__*/ S.suspend(() =>
     perPage: S.optional(S.Number.pipe(T.Query("per_page"))),
     status: S.optional(MembersListRequestStatus.pipe(T.Query())),
   })
-    .pipe(
-      T.Http({
-        method: "GET",
-        uri: "/accounts/{account_id}/members",
-        code: 200,
-      }),
-    )
+    .pipe(T.Http({ method: "GET", uri: "/accounts/{account_id}/members", code: 200 }))
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "ListMembersRequest",
-}) as any as S.Schema<ListMembersRequest>;
+).annotate({ identifier: "ListMembersRequest" }) as any as S.Schema<ListMembersRequest>;
 
 export type MembersListResultItemPoliciesItemAccess = "allow" | "deny";
 export const MembersListResultItemPoliciesItemAccess = S.String;
@@ -3685,9 +3697,9 @@ export const MembersListResultItemPoliciesItemResourceGroupsItemScope = /*@__PUR
 }) as any as S.Schema<MembersListResultItemPoliciesItemResourceGroupsItemScope>;
 
 export type MembersListResultItemPoliciesItemResourceGroupsItemMeta =
-  MembersCreateResponsePoliciesItemPermissionGroupsItemMeta;
+  MembersCreateResponsePoliciesItemResourceGroupsItemMeta;
 export const MembersListResultItemPoliciesItemResourceGroupsItemMeta =
-  MembersCreateResponsePoliciesItemPermissionGroupsItemMeta;
+  MembersCreateResponsePoliciesItemResourceGroupsItemMeta;
 
 export interface MembersListResultItemPoliciesItemResourceGroupsItem {
   /** Identifier of the resource group. */
@@ -3695,7 +3707,7 @@ export interface MembersListResultItemPoliciesItemResourceGroupsItem {
   /** A scope is a combination of scope objects which provides additional context. */
   scope: MembersListResultItemPoliciesItemResourceGroupsItemScope;
   /** Attributes associated to the resource group. */
-  meta?: MembersCreateResponsePoliciesItemPermissionGroupsItemMeta | null;
+  meta?: MembersCreateResponsePoliciesItemResourceGroupsItemMeta | null;
   /** Name of the resource group. */
   name?: string | null;
 }
@@ -3703,7 +3715,7 @@ export const MembersListResultItemPoliciesItemResourceGroupsItem = /*@__PURE__*/
   S.Struct({
     id: S.String,
     scope: MembersListResultItemPoliciesItemResourceGroupsItemScope,
-    meta: S.optional(S.NullOr(MembersCreateResponsePoliciesItemPermissionGroupsItemMeta)),
+    meta: S.optional(S.NullOr(MembersCreateResponsePoliciesItemResourceGroupsItemMeta)),
     name: S.optional(S.NullOr(S.String)),
   }),
 ).annotate({
@@ -3848,9 +3860,7 @@ export const MembersListResultItem = /*@__PURE__*/ S.suspend(() =>
     status: S.optional(S.NullOr(MembersListResultItemStatus)),
     user: S.optional(S.NullOr(MembersCreateResponseUser)),
   }),
-).annotate({
-  identifier: "MembersListResultItem",
-}) as any as S.Schema<MembersListResultItem>;
+).annotate({ identifier: "MembersListResultItem" }) as any as S.Schema<MembersListResultItem>;
 
 export type MembersListResultList = Array<MembersListResultItem>;
 export const MembersListResultList = /*@__PURE__*/ S.Array(
@@ -3868,9 +3878,7 @@ export const ListMembersResponse = /*@__PURE__*/ S.suspend(() =>
     result: MembersListResultList.pipe(T.EnvelopePayload()),
     resultInfo: S.optional(S.NullOr(ResultInfo).pipe(T.ResultInfo())),
   }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "ListMembersResponse",
-}) as any as S.Schema<ListMembersResponse>;
+).annotate({ identifier: "ListMembersResponse" }) as any as S.Schema<ListMembersResponse>;
 
 export interface ListPaymentMethodsRequest {
   /** Identifier */
@@ -3886,13 +3894,7 @@ export const ListPaymentMethodsRequest = /*@__PURE__*/ S.suspend(() =>
     page: S.optional(S.Number.pipe(T.Query())),
     perPage: S.optional(S.Number.pipe(T.Query("per_page"))),
   })
-    .pipe(
-      T.Http({
-        method: "GET",
-        uri: "/accounts/{account_id}/payment-methods",
-        code: 200,
-      }),
-    )
+    .pipe(T.Http({ method: "GET", uri: "/accounts/{account_id}/payment-methods", code: 200 }))
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
 ).annotate({
   identifier: "ListPaymentMethodsRequest",
@@ -4019,9 +4021,7 @@ export const ListRolesRequest = /*@__PURE__*/ S.suspend(() =>
   })
     .pipe(T.Http({ method: "GET", uri: "/accounts/{account_id}/roles", code: 200 }))
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "ListRolesRequest",
-}) as any as S.Schema<ListRolesRequest>;
+).annotate({ identifier: "ListRolesRequest" }) as any as S.Schema<ListRolesRequest>;
 
 export type RolesListResultItemPermissionsAnalytics =
   MembersCreateResponseRolesItemPermissionsAnalytics;
@@ -4096,9 +4096,7 @@ export const ListRolesResponse = /*@__PURE__*/ S.suspend(() =>
     result: RolesListResultList.pipe(T.EnvelopePayload()),
     resultInfo: S.optional(S.NullOr(ResultInfo).pipe(T.ResultInfo())),
   }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "ListRolesResponse",
-}) as any as S.Schema<ListRolesResponse>;
+).annotate({ identifier: "ListRolesResponse" }) as any as S.Schema<ListRolesResponse>;
 
 export type TokensListRequestDirection = "asc" | "desc";
 export const TokensListRequestDirection = S.String;
@@ -4123,17 +4121,9 @@ export const ListTokensRequest = /*@__PURE__*/ S.suspend(() =>
     page: S.optional(S.Number.pipe(T.Query())),
     perPage: S.optional(S.Number.pipe(T.Query("per_page"))),
   })
-    .pipe(
-      T.Http({
-        method: "GET",
-        uri: "/accounts/{account_id}/tokens",
-        code: 200,
-      }),
-    )
+    .pipe(T.Http({ method: "GET", uri: "/accounts/{account_id}/tokens", code: 200 }))
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "ListTokensRequest",
-}) as any as S.Schema<ListTokensRequest>;
+).annotate({ identifier: "ListTokensRequest" }) as any as S.Schema<ListTokensRequest>;
 
 export type TokensListResultItemConditionRequestIpInList = Array<string>;
 export const TokensListResultItemConditionRequestIpInList = /*@__PURE__*/ S.Array(
@@ -4254,6 +4244,8 @@ export interface TokensListResultItem {
   /** Token identifier tag. */
   id?: string | null;
   condition?: TokensListResultItemCondition | null;
+  /** The email address of the user who created the token at the time of creation. Only present for Account Owned API Tokens when a creator email was available. */
+  creatorEmailAtCreation?: string | null;
   /** The expiration time on or after which the JWT MUST NOT be accepted for processing. */
   expiresOn?: string | null;
   /** The time on which the token was created. */
@@ -4268,6 +4260,10 @@ export interface TokensListResultItem {
   notBefore?: string | null;
   /** List of access policies assigned to the token. */
   policies?: TokensListResultItemPoliciesList | null;
+  /** The identifier of the service that provisioned the token. For an OAuth-provisioned token, this is the OAuth client identifier. Present when `provisioner_type` is present and null when the identifier is unavailable. */
+  provisionerId?: string | null;
+  /** The type of service that provisioned the token. Only present for provisioned Account Owned API Tokens. */
+  provisionerType?: string | null;
   /** Status of the token. */
   status?: TokensListResultItemStatus | null;
 }
@@ -4275,6 +4271,9 @@ export const TokensListResultItem = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     id: S.optional(S.NullOr(S.String)),
     condition: S.optional(S.NullOr(TokensListResultItemCondition)),
+    creatorEmailAtCreation: S.optional(
+      S.NullOr(S.String).pipe(T.Body("creator_email_at_creation")),
+    ),
     expiresOn: S.optional(S.NullOr(S.String).pipe(T.Body("expires_on"))),
     issuedOn: S.optional(S.NullOr(S.String).pipe(T.Body("issued_on"))),
     lastUsedOn: S.optional(S.NullOr(S.String).pipe(T.Body("last_used_on"))),
@@ -4282,11 +4281,11 @@ export const TokensListResultItem = /*@__PURE__*/ S.suspend(() =>
     name: S.optional(S.NullOr(S.String)),
     notBefore: S.optional(S.NullOr(S.String).pipe(T.Body("not_before"))),
     policies: S.optional(S.NullOr(TokensListResultItemPoliciesList)),
+    provisionerId: S.optional(S.NullOr(S.String).pipe(T.Body("provisioner_id"))),
+    provisionerType: S.optional(S.NullOr(S.String).pipe(T.Body("provisioner_type"))),
     status: S.optional(S.NullOr(TokensListResultItemStatus)),
   }),
-).annotate({
-  identifier: "TokensListResultItem",
-}) as any as S.Schema<TokensListResultItem>;
+).annotate({ identifier: "TokensListResultItem" }) as any as S.Schema<TokensListResultItem>;
 
 export type TokensListResultList = Array<TokensListResultItem>;
 export const TokensListResultList = /*@__PURE__*/ S.Array(
@@ -4304,9 +4303,7 @@ export const ListTokensResponse = /*@__PURE__*/ S.suspend(() =>
     result: TokensListResultList.pipe(T.EnvelopePayload()),
     resultInfo: S.optional(S.NullOr(ResultInfo).pipe(T.ResultInfo())),
   }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "ListTokensResponse",
-}) as any as S.Schema<ListTokensResponse>;
+).annotate({ identifier: "ListTokensResponse" }) as any as S.Schema<ListTokensResponse>;
 
 export interface ListTokensPermissionGroupsRequest {
   /** Account identifier tag. */
@@ -4323,11 +4320,7 @@ export const ListTokensPermissionGroupsRequest = /*@__PURE__*/ S.suspend(() =>
     scope: S.optional(S.String.pipe(T.Query())),
   })
     .pipe(
-      T.Http({
-        method: "GET",
-        uri: "/accounts/{account_id}/tokens/permission_groups",
-        code: 200,
-      }),
+      T.Http({ method: "GET", uri: "/accounts/{account_id}/tokens/permission_groups", code: 200 }),
     )
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
 ).annotate({
@@ -4368,6 +4361,8 @@ export interface ListTokensPermissionGroupsResultItem {
   id?: string | null;
   /** Product category that this permission group belongs to. */
   category?: ListTokensPermissionGroupsResultItemCategory | null;
+  /** Whether the caller can select this permission group when creating a token. */
+  isSelectable?: boolean | null;
   /** Permission Group Name */
   name?: string | null;
   /** Resources to which the Permission Group is scoped */
@@ -4377,6 +4372,7 @@ export const ListTokensPermissionGroupsResultItem = /*@__PURE__*/ S.suspend(() =
   S.Struct({
     id: S.optional(S.NullOr(S.String)),
     category: S.optional(S.NullOr(ListTokensPermissionGroupsResultItemCategory)),
+    isSelectable: S.optional(S.NullOr(S.Boolean).pipe(T.Body("is_selectable"))),
     name: S.optional(S.NullOr(S.String)),
     scopes: S.optional(S.NullOr(ListTokensPermissionGroupsResultItemScopesList)),
   }),
@@ -4432,16 +4428,10 @@ export const LogsAuditHistoryRequest = /*@__PURE__*/ S.suspend(() =>
     limit: S.optional(S.Number.pipe(T.Query())),
   })
     .pipe(
-      T.Http({
-        method: "GET",
-        uri: "/accounts/{account_id}/logs/audit/{id}/history",
-        code: 200,
-      }),
+      T.Http({ method: "GET", uri: "/accounts/{account_id}/logs/audit/{id}/history", code: 200 }),
     )
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "LogsAuditHistoryRequest",
-}) as any as S.Schema<LogsAuditHistoryRequest>;
+).annotate({ identifier: "LogsAuditHistoryRequest" }) as any as S.Schema<LogsAuditHistoryRequest>;
 
 export type LogsAuditHistoryResultItemAccount = LogsAuditListResultItemAccount;
 export const LogsAuditHistoryResultItemAccount = LogsAuditListResultItemAccount;
@@ -4543,9 +4533,7 @@ export const LogsAuditHistoryResultList = /*@__PURE__*/ S.Array(
 export type LogsAuditHistoryResponse = LogsAuditHistoryResultList;
 export const LogsAuditHistoryResponse = /*@__PURE__*/ S.suspend(() =>
   LogsAuditHistoryResultList.pipe(T.EnvelopePayloadRoot(), T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "LogsAuditHistoryResponse",
-}) as any as S.Schema<LogsAuditHistoryResponse>;
+).annotate({ identifier: "LogsAuditHistoryResponse" }) as any as S.Schema<LogsAuditHistoryResponse>;
 
 export interface LogsAuditProductCategoriesRequest {
   /** The unique id that identifies the account. */
@@ -4663,23 +4651,15 @@ export const PutTokenValueRequest = /*@__PURE__*/ S.suspend(() =>
     tokenId: S.String.pipe(T.Label("token_id")),
   })
     .pipe(
-      T.Http({
-        method: "PUT",
-        uri: "/accounts/{account_id}/tokens/{token_id}/value",
-        code: 200,
-      }),
+      T.Http({ method: "PUT", uri: "/accounts/{account_id}/tokens/{token_id}/value", code: 200 }),
     )
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "PutTokenValueRequest",
-}) as any as S.Schema<PutTokenValueRequest>;
+).annotate({ identifier: "PutTokenValueRequest" }) as any as S.Schema<PutTokenValueRequest>;
 
 export type PutTokenValueResponse = unknown;
 export const PutTokenValueResponse = /*@__PURE__*/ S.suspend(() =>
   S.Unknown.pipe(T.EnvelopePayloadRoot(), T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "PutTokenValueResponse",
-}) as any as S.Schema<PutTokenValueResponse>;
+).annotate({ identifier: "PutTokenValueResponse" }) as any as S.Schema<PutTokenValueResponse>;
 
 export interface ReceiptsPdfRequest {
   /** Identifier */
@@ -4696,23 +4676,15 @@ export const ReceiptsPdfRequest = /*@__PURE__*/ S.suspend(() =>
     doctype: S.optional(S.String.pipe(T.Query())),
   })
     .pipe(
-      T.Http({
-        method: "GET",
-        uri: "/accounts/{account_id}/receipts/{receipt_id}/pdf",
-        code: 200,
-      }),
+      T.Http({ method: "GET", uri: "/accounts/{account_id}/receipts/{receipt_id}/pdf", code: 200 }),
     )
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "ReceiptsPdfRequest",
-}) as any as S.Schema<ReceiptsPdfRequest>;
+).annotate({ identifier: "ReceiptsPdfRequest" }) as any as S.Schema<ReceiptsPdfRequest>;
 
 export interface ReceiptsPdfResponse {}
 export const ReceiptsPdfResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({}).pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "ReceiptsPdfResponse",
-}) as any as S.Schema<ReceiptsPdfResponse>;
+).annotate({ identifier: "ReceiptsPdfResponse" }) as any as S.Schema<ReceiptsPdfResponse>;
 
 export type SubscriptionsActionsAppendRequestFrequency =
   | "weekly"
@@ -5024,13 +4996,7 @@ export const SubscriptionsBulkCreateRequest = /*@__PURE__*/ S.suspend(() =>
     subscriptions: S.optional(SubscriptionsBulkCreateRequestSubscriptionsList),
     userIsOnSession: S.optional(S.Boolean.pipe(T.Body("user_is_on_session"))),
   })
-    .pipe(
-      T.Http({
-        method: "POST",
-        uri: "/accounts/{account_id}/bulk/subscriptions",
-        code: 200,
-      }),
-    )
+    .pipe(T.Http({ method: "POST", uri: "/accounts/{account_id}/bulk/subscriptions", code: 200 }))
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
 ).annotate({
   identifier: "SubscriptionsBulkCreateRequest",
@@ -5346,9 +5312,7 @@ export const UpdateRequestManagedBy = /*@__PURE__*/ S.suspend(() =>
     parentOrgId: S.optional(S.String.pipe(T.Body("parent_org_id"))),
     parentOrgName: S.optional(S.String.pipe(T.Body("parent_org_name"))),
   }),
-).annotate({
-  identifier: "UpdateRequestManagedBy",
-}) as any as S.Schema<UpdateRequestManagedBy>;
+).annotate({ identifier: "UpdateRequestManagedBy" }) as any as S.Schema<UpdateRequestManagedBy>;
 
 export interface UpdateRequestSettings {
   /** Sets an abuse contact email to notify for abuse reports. */
@@ -5361,9 +5325,7 @@ export const UpdateRequestSettings = /*@__PURE__*/ S.suspend(() =>
     abuseContactEmail: S.optional(S.String.pipe(T.Body("abuse_contact_email"))),
     enforceTwofactor: S.optional(S.Boolean.pipe(T.Body("enforce_twofactor"))),
   }),
-).annotate({
-  identifier: "UpdateRequestSettings",
-}) as any as S.Schema<UpdateRequestSettings>;
+).annotate({ identifier: "UpdateRequestSettings" }) as any as S.Schema<UpdateRequestSettings>;
 
 export interface UpdateAccountRequest {
   /** Account identifier tag. */
@@ -5389,9 +5351,7 @@ export const UpdateAccountRequest = /*@__PURE__*/ S.suspend(() =>
   })
     .pipe(T.Http({ method: "PUT", uri: "/accounts/{account_id}", code: 200 }))
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "UpdateAccountRequest",
-}) as any as S.Schema<UpdateAccountRequest>;
+).annotate({ identifier: "UpdateAccountRequest" }) as any as S.Schema<UpdateAccountRequest>;
 
 export type UpdateResponseType = "standard" | "enterprise";
 export const UpdateResponseType = S.String;
@@ -5425,9 +5385,7 @@ export const UpdateAccountResponse = /*@__PURE__*/ S.suspend(() =>
     managedBy: S.optional(S.NullOr(CreateResponseManagedBy).pipe(T.Body("managed_by"))),
     settings: S.optional(S.NullOr(CreateResponseSettings)),
   }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "UpdateAccountResponse",
-}) as any as S.Schema<UpdateAccountResponse>;
+).annotate({ identifier: "UpdateAccountResponse" }) as any as S.Schema<UpdateAccountResponse>;
 
 export interface UpdateAccountProfileRequest {
   accountId: string;
@@ -5446,13 +5404,7 @@ export const UpdateAccountProfileRequest = /*@__PURE__*/ S.suspend(() =>
     businessPhone: S.String.pipe(T.Body("business_phone")),
     externalMetadata: S.String.pipe(T.Body("external_metadata")),
   })
-    .pipe(
-      T.Http({
-        method: "PUT",
-        uri: "/accounts/{account_id}/profile",
-        code: 200,
-      }),
-    )
+    .pipe(T.Http({ method: "PUT", uri: "/accounts/{account_id}/profile", code: 200 }))
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
 ).annotate({
   identifier: "UpdateAccountProfileRequest",
@@ -5622,9 +5574,7 @@ export const MembersUpdateRequestUser = /*@__PURE__*/ S.suspend(() =>
       S.Boolean.pipe(T.Body("two_factor_authentication_enabled")),
     ),
   }),
-).annotate({
-  identifier: "MembersUpdateRequestUser",
-}) as any as S.Schema<MembersUpdateRequestUser>;
+).annotate({ identifier: "MembersUpdateRequestUser" }) as any as S.Schema<MembersUpdateRequestUser>;
 
 export type MembersUpdateRequestPoliciesItemAccess = "allow" | "deny";
 export const MembersUpdateRequestPoliciesItemAccess = S.String;
@@ -5707,17 +5657,9 @@ export const UpdateMemberRequest = /*@__PURE__*/ S.suspend(() =>
     user: S.optional(MembersUpdateRequestUser),
     policies: S.optional(MembersUpdateRequestPoliciesList),
   })
-    .pipe(
-      T.Http({
-        method: "PUT",
-        uri: "/accounts/{account_id}/members/{member_id}",
-        code: 200,
-      }),
-    )
+    .pipe(T.Http({ method: "PUT", uri: "/accounts/{account_id}/members/{member_id}", code: 200 }))
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "UpdateMemberRequest",
-}) as any as S.Schema<UpdateMemberRequest>;
+).annotate({ identifier: "UpdateMemberRequest" }) as any as S.Schema<UpdateMemberRequest>;
 
 export type MembersUpdateResponsePoliciesItemAccess = "allow" | "deny";
 export const MembersUpdateResponsePoliciesItemAccess = S.String;
@@ -5767,9 +5709,9 @@ export const MembersUpdateResponsePoliciesItemResourceGroupsItemScope = /*@__PUR
 }) as any as S.Schema<MembersUpdateResponsePoliciesItemResourceGroupsItemScope>;
 
 export type MembersUpdateResponsePoliciesItemResourceGroupsItemMeta =
-  MembersCreateResponsePoliciesItemPermissionGroupsItemMeta;
+  MembersCreateResponsePoliciesItemResourceGroupsItemMeta;
 export const MembersUpdateResponsePoliciesItemResourceGroupsItemMeta =
-  MembersCreateResponsePoliciesItemPermissionGroupsItemMeta;
+  MembersCreateResponsePoliciesItemResourceGroupsItemMeta;
 
 export interface MembersUpdateResponsePoliciesItemResourceGroupsItem {
   /** Identifier of the resource group. */
@@ -5777,7 +5719,7 @@ export interface MembersUpdateResponsePoliciesItemResourceGroupsItem {
   /** A scope is a combination of scope objects which provides additional context. */
   scope: MembersUpdateResponsePoliciesItemResourceGroupsItemScope;
   /** Attributes associated to the resource group. */
-  meta?: MembersCreateResponsePoliciesItemPermissionGroupsItemMeta | null;
+  meta?: MembersCreateResponsePoliciesItemResourceGroupsItemMeta | null;
   /** Name of the resource group. */
   name?: string | null;
 }
@@ -5785,7 +5727,7 @@ export const MembersUpdateResponsePoliciesItemResourceGroupsItem = /*@__PURE__*/
   S.Struct({
     id: S.String,
     scope: MembersUpdateResponsePoliciesItemResourceGroupsItemScope,
-    meta: S.optional(S.NullOr(MembersCreateResponsePoliciesItemPermissionGroupsItemMeta)),
+    meta: S.optional(S.NullOr(MembersCreateResponsePoliciesItemResourceGroupsItemMeta)),
     name: S.optional(S.NullOr(S.String)),
   }),
 ).annotate({
@@ -5931,9 +5873,7 @@ export const UpdateMemberResponse = /*@__PURE__*/ S.suspend(() =>
     status: S.optional(S.NullOr(MembersUpdateResponseStatus)),
     user: S.optional(S.NullOr(MembersCreateResponseUser)),
   }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "UpdateMemberResponse",
-}) as any as S.Schema<UpdateMemberResponse>;
+).annotate({ identifier: "UpdateMemberResponse" }) as any as S.Schema<UpdateMemberResponse>;
 
 export type UpdatePaymentMethodRequestType =
   | "CREDIT_CARD"
@@ -6438,17 +6378,9 @@ export const UpdateTokenRequest = /*@__PURE__*/ S.suspend(() =>
     notBefore: S.optional(S.String.pipe(T.Body("not_before"))),
     status: S.optional(TokensUpdateRequestStatus),
   })
-    .pipe(
-      T.Http({
-        method: "PUT",
-        uri: "/accounts/{account_id}/tokens/{token_id}",
-        code: 200,
-      }),
-    )
+    .pipe(T.Http({ method: "PUT", uri: "/accounts/{account_id}/tokens/{token_id}", code: 200 }))
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "UpdateTokenRequest",
-}) as any as S.Schema<UpdateTokenRequest>;
+).annotate({ identifier: "UpdateTokenRequest" }) as any as S.Schema<UpdateTokenRequest>;
 
 export type TokensUpdateResponseConditionRequestIpInList = Array<string>;
 export const TokensUpdateResponseConditionRequestIpInList = /*@__PURE__*/ S.Array(
@@ -6570,6 +6502,8 @@ export interface UpdateTokenResponse {
   /** Token identifier tag. */
   id?: string | null;
   condition?: TokensUpdateResponseCondition | null;
+  /** The email address of the user who created the token at the time of creation. Only present for Account Owned API Tokens when a creator email was available. */
+  creatorEmailAtCreation?: string | null;
   /** The expiration time on or after which the JWT MUST NOT be accepted for processing. */
   expiresOn?: string | null;
   /** The time on which the token was created. */
@@ -6584,6 +6518,10 @@ export interface UpdateTokenResponse {
   notBefore?: string | null;
   /** List of access policies assigned to the token. */
   policies?: TokensUpdateResponsePoliciesList | null;
+  /** The identifier of the service that provisioned the token. For an OAuth-provisioned token, this is the OAuth client identifier. Present when `provisioner_type` is present and null when the identifier is unavailable. */
+  provisionerId?: string | null;
+  /** The type of service that provisioned the token. Only present for provisioned Account Owned API Tokens. */
+  provisionerType?: string | null;
   /** Status of the token. */
   status?: TokensUpdateResponseStatus | null;
 }
@@ -6591,6 +6529,9 @@ export const UpdateTokenResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     id: S.optional(S.NullOr(S.String)),
     condition: S.optional(S.NullOr(TokensUpdateResponseCondition)),
+    creatorEmailAtCreation: S.optional(
+      S.NullOr(S.String).pipe(T.Body("creator_email_at_creation")),
+    ),
     expiresOn: S.optional(S.NullOr(S.String).pipe(T.Body("expires_on"))),
     issuedOn: S.optional(S.NullOr(S.String).pipe(T.Body("issued_on"))),
     lastUsedOn: S.optional(S.NullOr(S.String).pipe(T.Body("last_used_on"))),
@@ -6598,11 +6539,11 @@ export const UpdateTokenResponse = /*@__PURE__*/ S.suspend(() =>
     name: S.optional(S.NullOr(S.String)),
     notBefore: S.optional(S.NullOr(S.String).pipe(T.Body("not_before"))),
     policies: S.optional(S.NullOr(TokensUpdateResponsePoliciesList)),
+    provisionerId: S.optional(S.NullOr(S.String).pipe(T.Body("provisioner_id"))),
+    provisionerType: S.optional(S.NullOr(S.String).pipe(T.Body("provisioner_type"))),
     status: S.optional(S.NullOr(TokensUpdateResponseStatus)),
   }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "UpdateTokenResponse",
-}) as any as S.Schema<UpdateTokenResponse>;
+).annotate({ identifier: "UpdateTokenResponse" }) as any as S.Schema<UpdateTokenResponse>;
 
 export interface VerifyTokenRequest {
   /** Account identifier tag. */
@@ -6612,17 +6553,9 @@ export const VerifyTokenRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     accountId: S.String.pipe(T.Label("account_id")),
   })
-    .pipe(
-      T.Http({
-        method: "GET",
-        uri: "/accounts/{account_id}/tokens/verify",
-        code: 200,
-      }),
-    )
+    .pipe(T.Http({ method: "GET", uri: "/accounts/{account_id}/tokens/verify", code: 200 }))
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "VerifyTokenRequest",
-}) as any as S.Schema<VerifyTokenRequest>;
+).annotate({ identifier: "VerifyTokenRequest" }) as any as S.Schema<VerifyTokenRequest>;
 
 export type TokensVerifyResponseStatus = "active" | "disabled" | "expired";
 export const TokensVerifyResponseStatus = S.String;
@@ -6645,12 +6578,10 @@ export const VerifyTokenResponse = /*@__PURE__*/ S.suspend(() =>
     expiresOn: S.optional(S.NullOr(S.String).pipe(T.Body("expires_on"))),
     notBefore: S.optional(S.NullOr(S.String).pipe(T.Body("not_before"))),
   }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "VerifyTokenResponse",
-}) as any as S.Schema<VerifyTokenResponse>;
+).annotate({ identifier: "VerifyTokenResponse" }) as any as S.Schema<VerifyTokenResponse>;
 
 export type CreateAccountError = AccountCreationForbidden | MissingName | CloudflareOpError;
-/** Create an account (only available for tenant admins at this time) */
+/** Create an Account. To create the Account within an Organization, provide `unit.id` and omit `standalone`. To create a standalone Free Account, provide `standalone: true` and omit `unit`. Providing both fields is invalid. If you omit both fields, Cloudflare can determine the destination only when the User is an administrator of exactly one Organization. Cloudflare creates the Account in that Organization; otherwise, the request returns an error. */
 export const createAccount: API.OperationMethod<
   CreateAccountRequest,
   CreateAccountResponse,
@@ -6665,7 +6596,7 @@ export const createAccount: API.OperationMethod<
 }));
 
 export type CreateAccountOrganizationError = CloudflareOpError;
-/** Move an account within an organization hierarchy or an account outside an organization. (Currently in Public Beta - see https://developers.cloudflare.com/fundamentals/organizations/) */
+/** Move an account into a destination organization, either assigning a standalone account to an organization or moving it between organizations in the same hierarchy. Availability depends on the organization's capabilities. (Currently in Public Beta - see https://developers.cloudflare.com/fundamentals/organizations/) */
 export const createAccountOrganization: API.OperationMethod<
   CreateAccountOrganizationRequest,
   CreateAccountOrganizationResponse,
@@ -6922,7 +6853,7 @@ export const getAccount: API.OperationMethod<
 }));
 
 export type GetAccountProfileError = CloudflareOpError;
-/** Retrieves the profile information for a specific Cloudflare account, including organization details, settings, and metadata. This endpoint is commonly used to verify account access and retrieve account-level configuration. */
+/** Retrieves the business profile (name, email, phone, address, and external metadata) associated with this account's parent organization customer record. Profiles can be shared across accounts and organizations. Only available to members of an organization that contains the account. */
 export const getAccountProfile: API.OperationMethod<
   GetAccountProfileRequest,
   GetAccountProfileResponse,
@@ -7032,7 +6963,7 @@ export const getToken: API.OperationMethod<
 }));
 
 export type GetTokenPermissionGroupError = InvalidRoute | CloudflareOpError;
-/** Find all available permission groups for Account Owned API Tokens */
+/** Find all available permission groups for Account Owned API Tokens. Each permission group indicates whether the caller can select it when creating a token. Token creation performs the authoritative permission check. */
 export const getTokenPermissionGroup: API.OperationMethod<
   GetTokenPermissionGroupRequest,
   GetTokenPermissionGroupResponse,
@@ -7071,6 +7002,21 @@ export const listAccounts: API.PaginatedOperationMethod<
   }),
   cloudflarePaginate,
 ) as any;
+
+export type ListEntitlementsError = CloudflareOpError;
+/** Returns the list of entitlements (features and their allocations) for a given account. Each entitlement describes a product feature the account is permitted to use and the allocation value (boolean, count, range, enum, or string) that governs its behaviour. */
+export const listEntitlements: API.OperationMethod<
+  ListEntitlementsRequest,
+  ListEntitlementsResponse,
+  ListEntitlementsError,
+  CloudflareOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: ListEntitlementsRequest,
+  output: ListEntitlementsResponse,
+  errors: [CloudflareRateLimited, CloudflareError],
+  protocol: CloudflareProtocol,
+  retry: Retry.Retry,
+}));
 
 export type ListLogAuditsError = CloudflareOpError;
 /** Gets a list of audit logs for an account. */
@@ -7165,7 +7111,7 @@ export const listRoles: API.PaginatedOperationMethod<
 ) as any;
 
 export type ListTokensError = CloudflareOpError;
-/** List all Account Owned API tokens created for this account. Results include active, disabled, and recently-expired tokens when include_expired is set to true. */
+/** List Account Owned API tokens created for this account. Callers with `com.cloudflare.api.account.token.list_self` permission only receive tokens they created. Results include active, disabled, and recently-expired tokens when `include_expired` is set to true. */
 export const listTokens: API.PaginatedOperationMethod<
   ListTokensRequest,
   ListTokensResponse,
@@ -7191,7 +7137,7 @@ export const listTokens: API.PaginatedOperationMethod<
 ) as any;
 
 export type ListTokensPermissionGroupsError = InvalidRoute | CloudflareOpError;
-/** Find all available permission groups for Account Owned API Tokens */
+/** Find all available permission groups for Account Owned API Tokens. Each permission group indicates whether the caller can select it when creating a token. Token creation performs the authoritative permission check. */
 export const listTokensPermissionGroups: API.OperationMethod<
   ListTokensPermissionGroupsRequest,
   ListTokensPermissionGroupsResponse,
@@ -7400,7 +7346,7 @@ export const updateAccount: API.OperationMethod<
 }));
 
 export type UpdateAccountProfileError = CloudflareOpError;
-/** Updates the profile information for a Cloudflare account. Allows modification of account-level settings and organizational details. Requires Account Settings Write permission. */
+/** Updates the business profile (name, email, phone, address, and external metadata) associated with this account's parent organization customer record. Changes apply to every account and organization sharing that profile. Omitted or empty fields are left unchanged. Only available to members of an organization that contains the account. Requires Account Settings Write permission. */
 export const updateAccountProfile: API.OperationMethod<
   UpdateAccountProfileRequest,
   UpdateAccountProfileResponse,

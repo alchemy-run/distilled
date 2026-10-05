@@ -50,24 +50,14 @@ export const CreatePublishRequest = /*@__PURE__*/ S.suspend(() =>
     zoneId: S.String.pipe(T.Label("zone_id")),
     body: S.optional(S.String.pipe(T.HttpBody())),
   })
-    .pipe(
-      T.Http({
-        method: "POST",
-        uri: "/zones/{zone_id}/settings/zaraz/publish",
-        code: 200,
-      }),
-    )
+    .pipe(T.Http({ method: "POST", uri: "/zones/{zone_id}/settings/zaraz/publish", code: 200 }))
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "CreatePublishRequest",
-}) as any as S.Schema<CreatePublishRequest>;
+).annotate({ identifier: "CreatePublishRequest" }) as any as S.Schema<CreatePublishRequest>;
 
 export type CreatePublishResponse = string;
 export const CreatePublishResponse = /*@__PURE__*/ S.suspend(() =>
   S.String.pipe(T.EnvelopePayloadRoot(), T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "CreatePublishResponse",
-}) as any as S.Schema<CreatePublishResponse>;
+).annotate({ identifier: "CreatePublishResponse" }) as any as S.Schema<CreatePublishResponse>;
 
 export interface GetConfigRequest {
   /** Identifier. */
@@ -77,17 +67,9 @@ export const GetConfigRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     zoneId: S.String.pipe(T.Label("zone_id")),
   })
-    .pipe(
-      T.Http({
-        method: "GET",
-        uri: "/zones/{zone_id}/settings/zaraz/config",
-        code: 200,
-      }),
-    )
+    .pipe(T.Http({ method: "GET", uri: "/zones/{zone_id}/settings/zaraz/config", code: 200 }))
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "GetConfigRequest",
-}) as any as S.Schema<GetConfigRequest>;
+).annotate({ identifier: "GetConfigRequest" }) as any as S.Schema<GetConfigRequest>;
 
 export interface ConfigGetResponseSettingsContextEnricher {
   escapedWorkerName: string;
@@ -340,9 +322,7 @@ export const ConfigGetResponseConsent = /*@__PURE__*/ S.suspend(() =>
     ),
     tcfCompliant: S.optional(S.NullOr(S.Boolean)),
   }),
-).annotate({
-  identifier: "ConfigGetResponseConsent",
-}) as any as S.Schema<ConfigGetResponseConsent>;
+).annotate({ identifier: "ConfigGetResponseConsent" }) as any as S.Schema<ConfigGetResponseConsent>;
 
 /** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
 export interface GetConfigResponse {
@@ -380,9 +360,7 @@ export const GetConfigResponse = /*@__PURE__*/ S.suspend(() =>
     consent: S.optional(S.NullOr(ConfigGetResponseConsent)),
     historyChange: S.optional(S.NullOr(S.Boolean)),
   }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "GetConfigResponse",
-}) as any as S.Schema<GetConfigResponse>;
+).annotate({ identifier: "GetConfigResponse" }) as any as S.Schema<GetConfigResponse>;
 
 export interface GetDefaultRequest {
   /** Identifier. */
@@ -392,17 +370,9 @@ export const GetDefaultRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     zoneId: S.String.pipe(T.Label("zone_id")),
   })
-    .pipe(
-      T.Http({
-        method: "GET",
-        uri: "/zones/{zone_id}/settings/zaraz/default",
-        code: 200,
-      }),
-    )
+    .pipe(T.Http({ method: "GET", uri: "/zones/{zone_id}/settings/zaraz/default", code: 200 }))
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "GetDefaultRequest",
-}) as any as S.Schema<GetDefaultRequest>;
+).annotate({ identifier: "GetDefaultRequest" }) as any as S.Schema<GetDefaultRequest>;
 
 export type DefaultGetResponseSettingsContextEnricher = ConfigGetResponseSettingsContextEnricher;
 export const DefaultGetResponseSettingsContextEnricher = ConfigGetResponseSettingsContextEnricher;
@@ -606,9 +576,7 @@ export const GetDefaultResponse = /*@__PURE__*/ S.suspend(() =>
     consent: S.optional(S.NullOr(DefaultGetResponseConsent)),
     historyChange: S.optional(S.NullOr(S.Boolean)),
   }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "GetDefaultResponse",
-}) as any as S.Schema<GetDefaultResponse>;
+).annotate({ identifier: "GetDefaultResponse" }) as any as S.Schema<GetDefaultResponse>;
 
 export interface GetExportRequest {
   /** Identifier. */
@@ -618,25 +586,15 @@ export const GetExportRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     zoneId: S.String.pipe(T.Label("zone_id")),
   })
-    .pipe(
-      T.Http({
-        method: "GET",
-        uri: "/zones/{zone_id}/settings/zaraz/export",
-        code: 200,
-      }),
-    )
+    .pipe(T.Http({ method: "GET", uri: "/zones/{zone_id}/settings/zaraz/export", code: 200 }))
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "GetExportRequest",
-}) as any as S.Schema<GetExportRequest>;
+).annotate({ identifier: "GetExportRequest" }) as any as S.Schema<GetExportRequest>;
 
 /** Raw response payload (operation does not use the standard v4 result envelope). */
 export interface GetExportResponse {}
 export const GetExportResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({}).pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "GetExportResponse",
-}) as any as S.Schema<GetExportResponse>;
+).annotate({ identifier: "GetExportResponse" }) as any as S.Schema<GetExportResponse>;
 
 export type HistoryConfigsGetRequestIdsList = Array<number>;
 export const HistoryConfigsGetRequestIdsList = /*@__PURE__*/ S.Array(
@@ -655,16 +613,10 @@ export const GetHistoryConfigRequest = /*@__PURE__*/ S.suspend(() =>
     ids: HistoryConfigsGetRequestIdsList.pipe(T.Query()),
   })
     .pipe(
-      T.Http({
-        method: "GET",
-        uri: "/zones/{zone_id}/settings/zaraz/history/configs",
-        code: 200,
-      }),
+      T.Http({ method: "GET", uri: "/zones/{zone_id}/settings/zaraz/history/configs", code: 200 }),
     )
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "GetHistoryConfigRequest",
-}) as any as S.Schema<GetHistoryConfigRequest>;
+).annotate({ identifier: "GetHistoryConfigRequest" }) as any as S.Schema<GetHistoryConfigRequest>;
 
 export type HistoryConfigsGetResultValueConfigSettingsContextEnricher =
   ConfigGetResponseSettingsContextEnricher;
@@ -920,9 +872,7 @@ export const HistoryConfigsGetResultMap = /*@__PURE__*/ S.Record(
 export type GetHistoryConfigResponse = HistoryConfigsGetResultMap;
 export const GetHistoryConfigResponse = /*@__PURE__*/ S.suspend(() =>
   HistoryConfigsGetResultMap.pipe(T.EnvelopePayloadRoot(), T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "GetHistoryConfigResponse",
-}) as any as S.Schema<GetHistoryConfigResponse>;
+).annotate({ identifier: "GetHistoryConfigResponse" }) as any as S.Schema<GetHistoryConfigResponse>;
 
 export interface GetWorkflowRequest {
   /** Identifier. */
@@ -932,17 +882,9 @@ export const GetWorkflowRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     zoneId: S.String.pipe(T.Label("zone_id")),
   })
-    .pipe(
-      T.Http({
-        method: "GET",
-        uri: "/zones/{zone_id}/settings/zaraz/workflow",
-        code: 200,
-      }),
-    )
+    .pipe(T.Http({ method: "GET", uri: "/zones/{zone_id}/settings/zaraz/workflow", code: 200 }))
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "GetWorkflowRequest",
-}) as any as S.Schema<GetWorkflowRequest>;
+).annotate({ identifier: "GetWorkflowRequest" }) as any as S.Schema<GetWorkflowRequest>;
 
 export type WorkflowGetResult = "realtime" | "preview";
 export const WorkflowGetResult = S.String;
@@ -950,9 +892,7 @@ export const WorkflowGetResult = S.String;
 export type GetWorkflowResponse = WorkflowGetResult;
 export const GetWorkflowResponse = /*@__PURE__*/ S.suspend(() =>
   WorkflowGetResult.pipe(T.EnvelopePayloadRoot(), T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "GetWorkflowResponse",
-}) as any as S.Schema<GetWorkflowResponse>;
+).annotate({ identifier: "GetWorkflowResponse" }) as any as S.Schema<GetWorkflowResponse>;
 
 export type HistoryListRequestSortField =
   | "id"
@@ -985,17 +925,9 @@ export const ListHistoriesRequest = /*@__PURE__*/ S.suspend(() =>
     sortField: S.optional(HistoryListRequestSortField.pipe(T.Query())),
     sortOrder: S.optional(HistoryListRequestSortOrder.pipe(T.Query())),
   })
-    .pipe(
-      T.Http({
-        method: "GET",
-        uri: "/zones/{zone_id}/settings/zaraz/history",
-        code: 200,
-      }),
-    )
+    .pipe(T.Http({ method: "GET", uri: "/zones/{zone_id}/settings/zaraz/history", code: 200 }))
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "ListHistoriesRequest",
-}) as any as S.Schema<ListHistoriesRequest>;
+).annotate({ identifier: "ListHistoriesRequest" }) as any as S.Schema<ListHistoriesRequest>;
 
 export interface HistoryListResultItem {
   /** ID of the configuration. */
@@ -1017,9 +949,7 @@ export const HistoryListResultItem = /*@__PURE__*/ S.suspend(() =>
     updatedAt: S.String,
     userId: S.String,
   }),
-).annotate({
-  identifier: "HistoryListResultItem",
-}) as any as S.Schema<HistoryListResultItem>;
+).annotate({ identifier: "HistoryListResultItem" }) as any as S.Schema<HistoryListResultItem>;
 
 export type HistoryListResultList = Array<HistoryListResultItem>;
 export const HistoryListResultList = /*@__PURE__*/ S.Array(
@@ -1037,9 +967,7 @@ export const ListHistoriesResponse = /*@__PURE__*/ S.suspend(() =>
     result: HistoryListResultList.pipe(T.EnvelopePayload()),
     resultInfo: S.optional(S.NullOr(ResultInfo).pipe(T.ResultInfo())),
   }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "ListHistoriesResponse",
-}) as any as S.Schema<ListHistoriesResponse>;
+).annotate({ identifier: "ListHistoriesResponse" }) as any as S.Schema<ListHistoriesResponse>;
 
 export type ConfigUpdateRequestSettingsContextEnricher = ConfigGetResponseSettingsContextEnricher;
 export const ConfigUpdateRequestSettingsContextEnricher = ConfigGetResponseSettingsContextEnricher;
@@ -1307,17 +1235,9 @@ export const PutConfigRequest = /*@__PURE__*/ S.suspend(() =>
     consent: S.optional(ConfigUpdateRequestConsent),
     historyChange: S.optional(S.Boolean),
   })
-    .pipe(
-      T.Http({
-        method: "PUT",
-        uri: "/zones/{zone_id}/settings/zaraz/config",
-        code: 200,
-      }),
-    )
+    .pipe(T.Http({ method: "PUT", uri: "/zones/{zone_id}/settings/zaraz/config", code: 200 }))
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "PutConfigRequest",
-}) as any as S.Schema<PutConfigRequest>;
+).annotate({ identifier: "PutConfigRequest" }) as any as S.Schema<PutConfigRequest>;
 
 export type ConfigUpdateResponseSettingsContextEnricher = ConfigGetResponseSettingsContextEnricher;
 export const ConfigUpdateResponseSettingsContextEnricher = ConfigGetResponseSettingsContextEnricher;
@@ -1523,9 +1443,7 @@ export const PutConfigResponse = /*@__PURE__*/ S.suspend(() =>
     consent: S.optional(S.NullOr(ConfigUpdateResponseConsent)),
     historyChange: S.optional(S.NullOr(S.Boolean)),
   }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "PutConfigResponse",
-}) as any as S.Schema<PutConfigResponse>;
+).annotate({ identifier: "PutConfigResponse" }) as any as S.Schema<PutConfigResponse>;
 
 export interface PutHistoryRequest {
   /** Identifier. */
@@ -1538,17 +1456,9 @@ export const PutHistoryRequest = /*@__PURE__*/ S.suspend(() =>
     zoneId: S.String.pipe(T.Label("zone_id")),
     body: S.Number.pipe(T.HttpBody()),
   })
-    .pipe(
-      T.Http({
-        method: "PUT",
-        uri: "/zones/{zone_id}/settings/zaraz/history",
-        code: 200,
-      }),
-    )
+    .pipe(T.Http({ method: "PUT", uri: "/zones/{zone_id}/settings/zaraz/history", code: 200 }))
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "PutHistoryRequest",
-}) as any as S.Schema<PutHistoryRequest>;
+).annotate({ identifier: "PutHistoryRequest" }) as any as S.Schema<PutHistoryRequest>;
 
 export type HistoryUpdateResponseSettingsContextEnricher = ConfigGetResponseSettingsContextEnricher;
 export const HistoryUpdateResponseSettingsContextEnricher =
@@ -1759,9 +1669,7 @@ export const PutHistoryResponse = /*@__PURE__*/ S.suspend(() =>
     consent: S.optional(S.NullOr(HistoryUpdateResponseConsent)),
     historyChange: S.optional(S.NullOr(S.Boolean)),
   }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "PutHistoryResponse",
-}) as any as S.Schema<PutHistoryResponse>;
+).annotate({ identifier: "PutHistoryResponse" }) as any as S.Schema<PutHistoryResponse>;
 
 export type UpdateRequestWorkflow = "realtime" | "preview";
 export const UpdateRequestWorkflow = S.String;
@@ -1777,17 +1685,9 @@ export const PutZarazRequest = /*@__PURE__*/ S.suspend(() =>
     zoneId: S.String.pipe(T.Label("zone_id")),
     workflow: UpdateRequestWorkflow,
   })
-    .pipe(
-      T.Http({
-        method: "PUT",
-        uri: "/zones/{zone_id}/settings/zaraz/workflow",
-        code: 200,
-      }),
-    )
+    .pipe(T.Http({ method: "PUT", uri: "/zones/{zone_id}/settings/zaraz/workflow", code: 200 }))
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "PutZarazRequest",
-}) as any as S.Schema<PutZarazRequest>;
+).annotate({ identifier: "PutZarazRequest" }) as any as S.Schema<PutZarazRequest>;
 
 export type UpdateResult = "realtime" | "preview";
 export const UpdateResult = S.String;
@@ -1795,9 +1695,7 @@ export const UpdateResult = S.String;
 export type PutZarazResponse = UpdateResult;
 export const PutZarazResponse = /*@__PURE__*/ S.suspend(() =>
   UpdateResult.pipe(T.EnvelopePayloadRoot(), T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "PutZarazResponse",
-}) as any as S.Schema<PutZarazResponse>;
+).annotate({ identifier: "PutZarazResponse" }) as any as S.Schema<PutZarazResponse>;
 
 export type CreatePublishError = CloudflareOpError;
 /** Publish current Zaraz preview configuration for a zone. */

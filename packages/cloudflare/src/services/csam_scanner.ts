@@ -36,9 +36,7 @@ export const GetCsamScannerRequest = /*@__PURE__*/ S.suspend(() =>
       }),
     )
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "GetCsamScannerRequest",
-}) as any as S.Schema<GetCsamScannerRequest>;
+).annotate({ identifier: "GetCsamScannerRequest" }) as any as S.Schema<GetCsamScannerRequest>;
 
 export type GetResponseId = "csam_scanner";
 export const GetResponseId = S.String;
@@ -72,9 +70,7 @@ export const GetResponseValue = /*@__PURE__*/ S.suspend(() =>
     sources: S.optional(S.NullOr(GetResponseValueSourcesMap)),
     zonePlan: S.optional(S.NullOr(S.String).pipe(T.Body("zone_plan"))),
   }),
-).annotate({
-  identifier: "GetResponseValue",
-}) as any as S.Schema<GetResponseValue>;
+).annotate({ identifier: "GetResponseValue" }) as any as S.Schema<GetResponseValue>;
 
 /** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
 export interface GetCsamScannerResponse {
@@ -94,9 +90,7 @@ export const GetCsamScannerResponse = /*@__PURE__*/ S.suspend(() =>
     modifiedOn: S.optional(S.NullOr(S.String).pipe(T.Body("modified_on"))),
     value: S.optional(S.NullOr(GetResponseValue)),
   }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "GetCsamScannerResponse",
-}) as any as S.Schema<GetCsamScannerResponse>;
+).annotate({ identifier: "GetCsamScannerResponse" }) as any as S.Schema<GetCsamScannerResponse>;
 
 export type EditRequestId = "csam_scanner";
 export const EditRequestId = S.String;
@@ -124,9 +118,7 @@ export const EditRequestValue = /*@__PURE__*/ S.suspend(() =>
     resendEmail: S.optional(S.Boolean.pipe(T.Body("resend_email"))),
     sources: S.optional(EditRequestValueSourcesMap),
   }),
-).annotate({
-  identifier: "EditRequestValue",
-}) as any as S.Schema<EditRequestValue>;
+).annotate({ identifier: "EditRequestValue" }) as any as S.Schema<EditRequestValue>;
 
 export interface PatchCsamScannerRequest {
   /** Identifier for the zone. */
@@ -150,9 +142,7 @@ export const PatchCsamScannerRequest = /*@__PURE__*/ S.suspend(() =>
       }),
     )
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "PatchCsamScannerRequest",
-}) as any as S.Schema<PatchCsamScannerRequest>;
+).annotate({ identifier: "PatchCsamScannerRequest" }) as any as S.Schema<PatchCsamScannerRequest>;
 
 export type EditResponseId = "csam_scanner";
 export const EditResponseId = S.String;
@@ -160,9 +150,7 @@ export const EditResponseId = S.String;
 export type EditResponseValueEmailState = "valid" | "pending" | "unverified";
 export const EditResponseValueEmailState = S.String;
 
-export type EditResponseValueSourcesMap = {
-  [key: string]: boolean | undefined;
-};
+export type EditResponseValueSourcesMap = { [key: string]: boolean | undefined };
 export const EditResponseValueSourcesMap = /*@__PURE__*/ S.Record(
   S.String,
   S.Boolean,
@@ -188,9 +176,7 @@ export const EditResponseValue = /*@__PURE__*/ S.suspend(() =>
     sources: S.optional(S.NullOr(EditResponseValueSourcesMap)),
     zonePlan: S.optional(S.NullOr(S.String).pipe(T.Body("zone_plan"))),
   }),
-).annotate({
-  identifier: "EditResponseValue",
-}) as any as S.Schema<EditResponseValue>;
+).annotate({ identifier: "EditResponseValue" }) as any as S.Schema<EditResponseValue>;
 
 /** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
 export interface PatchCsamScannerResponse {
@@ -210,9 +196,7 @@ export const PatchCsamScannerResponse = /*@__PURE__*/ S.suspend(() =>
     modifiedOn: S.optional(S.NullOr(S.String).pipe(T.Body("modified_on"))),
     value: S.optional(S.NullOr(EditResponseValue)),
   }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "PatchCsamScannerResponse",
-}) as any as S.Schema<PatchCsamScannerResponse>;
+).annotate({ identifier: "PatchCsamScannerResponse" }) as any as S.Schema<PatchCsamScannerResponse>;
 
 export type GetCsamScannerError = CloudflareOpError;
 /** Retrieve the current CSAM Scanner configuration for a zone. The notification email is masked by default in responses. */

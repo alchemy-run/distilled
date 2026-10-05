@@ -288,6 +288,12 @@
             "smithy.api#enumValue": "lt-LT"
           }
         },
+        "LV_LV": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "lv-LV"
+          }
+        },
         "MS_MY": {
           "target": "smithy.api#Unit",
           "traits": {
@@ -726,6 +732,12 @@
           "target": "smithy.api#Unit",
           "traits": {
             "smithy.api#enumValue": "lt-LT"
+          }
+        },
+        "LV_LV": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "lv-LV"
           }
         },
         "MS_MY": {
@@ -1168,6 +1180,12 @@
             "smithy.api#enumValue": "lt-LT"
           }
         },
+        "LV_LV": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "lv-LV"
+          }
+        },
         "MS_MY": {
           "target": "smithy.api#Unit",
           "traits": {
@@ -1606,6 +1624,12 @@
           "target": "smithy.api#Unit",
           "traits": {
             "smithy.api#enumValue": "lt-LT"
+          }
+        },
+        "LV_LV": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "lv-LV"
           }
         },
         "MS_MY": {
@@ -2048,6 +2072,12 @@
             "smithy.api#enumValue": "lt-LT"
           }
         },
+        "LV_LV": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "lv-LV"
+          }
+        },
         "MS_MY": {
           "target": "smithy.api#Unit",
           "traits": {
@@ -2488,6 +2518,12 @@
             "smithy.api#enumValue": "lt-LT"
           }
         },
+        "LV_LV": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "lv-LV"
+          }
+        },
         "MS_MY": {
           "target": "smithy.api#Unit",
           "traits": {
@@ -2926,6 +2962,12 @@
           "target": "smithy.api#Unit",
           "traits": {
             "smithy.api#enumValue": "lt-LT"
+          }
+        },
+        "LV_LV": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "lv-LV"
           }
         },
         "MS_MY": {
@@ -7669,6 +7711,12 @@
           "target": "smithy.api#Unit",
           "traits": {
             "smithy.api#enumValue": "lt-LT"
+          }
+        },
+        "LV_LV": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "lv-LV"
           }
         },
         "MS_MY": {

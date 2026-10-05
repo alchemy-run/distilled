@@ -941,9 +941,7 @@ export const CreateMeetingRequest = /*@__PURE__*/ S.suspend(() =>
       }),
     )
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "CreateMeetingRequest",
-}) as any as S.Schema<CreateMeetingRequest>;
+).annotate({ identifier: "CreateMeetingRequest" }) as any as S.Schema<CreateMeetingRequest>;
 
 export type MeetingsCreateResponseDataAiConfigSummarizationSummaryType =
   | "general"
@@ -1557,9 +1555,7 @@ export const CreateMeetingResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     data: S.optional(S.NullOr(MeetingsCreateResponseData)),
   }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "CreateMeetingResponse",
-}) as any as S.Schema<CreateMeetingResponse>;
+).annotate({ identifier: "CreateMeetingResponse" }) as any as S.Schema<CreateMeetingResponse>;
 
 export type ActiveSessionCreatePollRequestOptionsList = Array<string>;
 export const ActiveSessionCreatePollRequestOptionsList = /*@__PURE__*/ S.Array(
@@ -2203,9 +2199,7 @@ export const PresetsCreateRequestUi = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     designTokens: PresetsCreateRequestUiDesignTokens.pipe(T.Body("design_tokens")),
   }),
-).annotate({
-  identifier: "PresetsCreateRequestUi",
-}) as any as S.Schema<PresetsCreateRequestUi>;
+).annotate({ identifier: "PresetsCreateRequestUi" }) as any as S.Schema<PresetsCreateRequestUi>;
 
 export interface CreatePresetRequest {
   /** The account identifier tag. */
@@ -2235,9 +2229,7 @@ export const CreatePresetRequest = /*@__PURE__*/ S.suspend(() =>
       }),
     )
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "CreatePresetRequest",
-}) as any as S.Schema<CreatePresetRequest>;
+).annotate({ identifier: "CreatePresetRequest" }) as any as S.Schema<CreatePresetRequest>;
 
 export type PresetsCreateResponseDataConfigMaxVideoStreams =
   PresetsCreateRequestConfigMaxVideoStreams;
@@ -2657,9 +2649,7 @@ export const CreatePresetResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     data: PresetsCreateResponseData,
   }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "CreatePresetResponse",
-}) as any as S.Schema<CreatePresetResponse>;
+).annotate({ identifier: "CreatePresetResponse" }) as any as S.Schema<CreatePresetResponse>;
 
 export type WebhooksCreateWebhookRequestEventsItem =
   | "meeting.started"
@@ -2857,9 +2847,7 @@ export const DeletePresetRequest = /*@__PURE__*/ S.suspend(() =>
       }),
     )
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "DeletePresetRequest",
-}) as any as S.Schema<DeletePresetRequest>;
+).annotate({ identifier: "DeletePresetRequest" }) as any as S.Schema<DeletePresetRequest>;
 
 export type PresetsDeleteResponseDataConfigMaxVideoStreams =
   PresetsCreateRequestConfigMaxVideoStreams;
@@ -3267,9 +3255,7 @@ export const DeletePresetResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     data: PresetsDeleteResponseData,
   }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "DeletePresetResponse",
-}) as any as S.Schema<DeletePresetResponse>;
+).annotate({ identifier: "DeletePresetResponse" }) as any as S.Schema<DeletePresetResponse>;
 
 export interface DeleteWebhookWebhookRequest {
   /** The account identifier tag. */
@@ -4056,13 +4042,7 @@ export const GetAppRequest = /*@__PURE__*/ S.suspend(() =>
     search: S.optional(S.String.pipe(T.Query())),
     sortOrder: S.optional(AppsGetRequestSortOrder.pipe(T.Query("sort_order"))),
   })
-    .pipe(
-      T.Http({
-        method: "GET",
-        uri: "/accounts/{account_id}/realtime/kit/apps",
-        code: 200,
-      }),
-    )
+    .pipe(T.Http({ method: "GET", uri: "/accounts/{account_id}/realtime/kit/apps", code: 200 }))
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
 ).annotate({ identifier: "GetAppRequest" }) as any as S.Schema<GetAppRequest>;
 
@@ -4077,9 +4057,7 @@ export const AppsGetResponseDataItem = /*@__PURE__*/ S.suspend(() =>
     createdAt: S.optional(S.NullOr(S.String).pipe(T.Body("created_at"))),
     name: S.optional(S.NullOr(S.String)),
   }),
-).annotate({
-  identifier: "AppsGetResponseDataItem",
-}) as any as S.Schema<AppsGetResponseDataItem>;
+).annotate({ identifier: "AppsGetResponseDataItem" }) as any as S.Schema<AppsGetResponseDataItem>;
 
 export type AppsGetResponseDataList = Array<AppsGetResponseDataItem>;
 export const AppsGetResponseDataList = /*@__PURE__*/ S.Array(
@@ -4504,9 +4482,7 @@ export const GetMeetingRequest = /*@__PURE__*/ S.suspend(() =>
       }),
     )
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "GetMeetingRequest",
-}) as any as S.Schema<GetMeetingRequest>;
+).annotate({ identifier: "GetMeetingRequest" }) as any as S.Schema<GetMeetingRequest>;
 
 export type MeetingsGetResponseDataItemRecordingConfigAudioConfigChannel = "mono" | "stereo";
 export const MeetingsGetResponseDataItemRecordingConfigAudioConfigChannel = S.String;
@@ -5027,9 +5003,7 @@ export const GetMeetingResponse = /*@__PURE__*/ S.suspend(() =>
     data: MeetingsGetResponseDataList,
     paging: MeetingsGetResponsePaging,
   }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "GetMeetingResponse",
-}) as any as S.Schema<GetMeetingResponse>;
+).annotate({ identifier: "GetMeetingResponse" }) as any as S.Schema<GetMeetingResponse>;
 
 export interface GetMeetingActiveLivestreamsLivestreamRequest {
   /** The account identifier tag. */
@@ -8346,9 +8320,7 @@ export const GetPresetRequest = /*@__PURE__*/ S.suspend(() =>
       }),
     )
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "GetPresetRequest",
-}) as any as S.Schema<GetPresetRequest>;
+).annotate({ identifier: "GetPresetRequest" }) as any as S.Schema<GetPresetRequest>;
 
 export interface PresetsGetResponseDataItem {
   /** ID of the preset */
@@ -8389,9 +8361,7 @@ export const GetPresetResponse = /*@__PURE__*/ S.suspend(() =>
     data: PresetsGetResponseDataList,
     paging: MeetingsGetResponsePaging,
   }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "GetPresetResponse",
-}) as any as S.Schema<GetPresetResponse>;
+).annotate({ identifier: "GetPresetResponse" }) as any as S.Schema<GetPresetResponse>;
 
 export interface GetPresetByIdPresetRequest {
   /** The account identifier tag. */
@@ -11623,9 +11593,7 @@ export const PresetsUpdateRequestUi = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     designTokens: S.optional(PresetsUpdateRequestUiDesignTokens.pipe(T.Body("design_tokens"))),
   }),
-).annotate({
-  identifier: "PresetsUpdateRequestUi",
-}) as any as S.Schema<PresetsUpdateRequestUi>;
+).annotate({ identifier: "PresetsUpdateRequestUi" }) as any as S.Schema<PresetsUpdateRequestUi>;
 
 export interface PatchPresetRequest {
   /** The account identifier tag. */
@@ -11657,9 +11625,7 @@ export const PatchPresetRequest = /*@__PURE__*/ S.suspend(() =>
       }),
     )
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "PatchPresetRequest",
-}) as any as S.Schema<PatchPresetRequest>;
+).annotate({ identifier: "PatchPresetRequest" }) as any as S.Schema<PatchPresetRequest>;
 
 export type PresetsUpdateResponseDataConfigMaxVideoStreams =
   PresetsCreateRequestConfigMaxVideoStreams;
@@ -12067,9 +12033,7 @@ export const PatchPresetResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     data: PresetsUpdateResponseData,
   }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "PatchPresetResponse",
-}) as any as S.Schema<PatchPresetResponse>;
+).annotate({ identifier: "PatchPresetResponse" }) as any as S.Schema<PatchPresetResponse>;
 
 export type RecordingsPauseResumeStopRecordingRequestAction = "stop" | "pause" | "resume";
 export const RecordingsPauseResumeStopRecordingRequestAction = S.String;
@@ -12077,6 +12041,7 @@ export const RecordingsPauseResumeStopRecordingRequestAction = S.String;
 export interface PauseResumeStopRecordingRecordingRequest {
   /** The account identifier tag. */
   accountId: string;
+  /** The app identifier tag. */
   appId: string;
   recordingId: string;
   action: RecordingsPauseResumeStopRecordingRequestAction | (string & {});
@@ -12598,13 +12563,7 @@ export const PostAppRequest = /*@__PURE__*/ S.suspend(() =>
     accountId: S.String.pipe(T.Label("account_id")),
     name: S.String,
   })
-    .pipe(
-      T.Http({
-        method: "POST",
-        uri: "/accounts/{account_id}/realtime/kit/apps",
-        code: 200,
-      }),
-    )
+    .pipe(T.Http({ method: "POST", uri: "/accounts/{account_id}/realtime/kit/apps", code: 200 }))
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
 ).annotate({ identifier: "PostAppRequest" }) as any as S.Schema<PostAppRequest>;
 
@@ -12618,9 +12577,7 @@ export const AppsPostResponseData = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     app: S.optional(S.NullOr(AppsGetResponseDataItem)),
   }),
-).annotate({
-  identifier: "AppsPostResponseData",
-}) as any as S.Schema<AppsPostResponseData>;
+).annotate({ identifier: "AppsPostResponseData" }) as any as S.Schema<AppsPostResponseData>;
 
 /** Raw response payload (operation does not use the standard v4 result envelope). */
 export interface PostAppResponse {
@@ -12630,9 +12587,7 @@ export const PostAppResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     data: S.optional(S.NullOr(AppsPostResponseData)),
   }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "PostAppResponse",
-}) as any as S.Schema<PostAppResponse>;
+).annotate({ identifier: "PostAppResponse" }) as any as S.Schema<PostAppResponse>;
 
 export interface RefreshParticipantTokenMeetingRequest {
   /** The account identifier tag. */
@@ -14379,9 +14334,7 @@ export const ReplacePresetByIdRequest = /*@__PURE__*/ S.suspend(() =>
       }),
     )
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "ReplacePresetByIdRequest",
-}) as any as S.Schema<ReplacePresetByIdRequest>;
+).annotate({ identifier: "ReplacePresetByIdRequest" }) as any as S.Schema<ReplacePresetByIdRequest>;
 
 export type ReplacePresetByIdResponseDataConfigMaxVideoStreams =
   PresetsCreateRequestConfigMaxVideoStreams;

@@ -84,11 +84,7 @@ export const BulkDeleteOriginCloudRegionsRequest = /*@__PURE__*/ S.suspend(() =>
     zoneId: S.String.pipe(T.Label("zone_id")),
   })
     .pipe(
-      T.Http({
-        method: "DELETE",
-        uri: "/zones/{zone_id}/origin/cloud_regions/batch",
-        code: 200,
-      }),
+      T.Http({ method: "DELETE", uri: "/zones/{zone_id}/origin/cloud_regions/batch", code: 200 }),
     )
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
 ).annotate({
@@ -186,13 +182,7 @@ export const BulkPutOriginCloudRegionsRequest = /*@__PURE__*/ S.suspend(() =>
     zoneId: S.String.pipe(T.Label("zone_id")),
     body: OriginCloudRegionsBulkUpdateRequestBodyList.pipe(T.HttpBody()),
   })
-    .pipe(
-      T.Http({
-        method: "PUT",
-        uri: "/zones/{zone_id}/origin/cloud_regions/batch",
-        code: 200,
-      }),
-    )
+    .pipe(T.Http({ method: "PUT", uri: "/zones/{zone_id}/origin/cloud_regions/batch", code: 200 }))
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
 ).annotate({
   identifier: "BulkPutOriginCloudRegionsRequest",
@@ -244,17 +234,9 @@ export const ClearCacheReserveRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     zoneId: S.String.pipe(T.Label("zone_id")),
   })
-    .pipe(
-      T.Http({
-        method: "POST",
-        uri: "/zones/{zone_id}/cache/cache_reserve_clear",
-        code: 200,
-      }),
-    )
+    .pipe(T.Http({ method: "POST", uri: "/zones/{zone_id}/cache/cache_reserve_clear", code: 200 }))
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "ClearCacheReserveRequest",
-}) as any as S.Schema<ClearCacheReserveRequest>;
+).annotate({ identifier: "ClearCacheReserveRequest" }) as any as S.Schema<ClearCacheReserveRequest>;
 
 export type CacheReserveClearResponseId = "cache_reserve_clear";
 export const CacheReserveClearResponseId = S.String;
@@ -426,17 +408,9 @@ export const DeleteVariantRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     zoneId: S.String.pipe(T.Label("zone_id")),
   })
-    .pipe(
-      T.Http({
-        method: "DELETE",
-        uri: "/zones/{zone_id}/cache/variants",
-        code: 200,
-      }),
-    )
+    .pipe(T.Http({ method: "DELETE", uri: "/zones/{zone_id}/cache/variants", code: 200 }))
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "DeleteVariantRequest",
-}) as any as S.Schema<DeleteVariantRequest>;
+).annotate({ identifier: "DeleteVariantRequest" }) as any as S.Schema<DeleteVariantRequest>;
 
 export type VariantsDeleteResponseId = "variants";
 export const VariantsDeleteResponseId = S.String;
@@ -456,9 +430,7 @@ export const DeleteVariantResponse = /*@__PURE__*/ S.suspend(() =>
     editable: S.Boolean,
     modifiedOn: S.optional(S.NullOr(S.String).pipe(T.Body("modified_on"))),
   }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "DeleteVariantResponse",
-}) as any as S.Schema<DeleteVariantResponse>;
+).annotate({ identifier: "DeleteVariantResponse" }) as any as S.Schema<DeleteVariantResponse>;
 
 export interface GetCacheReserveRequest {
   /** Identifier. */
@@ -468,17 +440,9 @@ export const GetCacheReserveRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     zoneId: S.String.pipe(T.Label("zone_id")),
   })
-    .pipe(
-      T.Http({
-        method: "GET",
-        uri: "/zones/{zone_id}/cache/cache_reserve",
-        code: 200,
-      }),
-    )
+    .pipe(T.Http({ method: "GET", uri: "/zones/{zone_id}/cache/cache_reserve", code: 200 }))
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "GetCacheReserveRequest",
-}) as any as S.Schema<GetCacheReserveRequest>;
+).annotate({ identifier: "GetCacheReserveRequest" }) as any as S.Schema<GetCacheReserveRequest>;
 
 export type CacheReserveGetResponseId = "cache_reserve";
 export const CacheReserveGetResponseId = S.String;
@@ -504,9 +468,7 @@ export const GetCacheReserveResponse = /*@__PURE__*/ S.suspend(() =>
     value: CacheReserveGetResponseValue,
     modifiedOn: S.optional(S.NullOr(S.String).pipe(T.Body("modified_on"))),
   }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "GetCacheReserveResponse",
-}) as any as S.Schema<GetCacheReserveResponse>;
+).annotate({ identifier: "GetCacheReserveResponse" }) as any as S.Schema<GetCacheReserveResponse>;
 
 export interface GetOriginCloudRegionRequest {
   /** Identifier. */
@@ -519,11 +481,7 @@ export const GetOriginCloudRegionRequest = /*@__PURE__*/ S.suspend(() =>
     originIP: S.String.pipe(T.Label()),
   })
     .pipe(
-      T.Http({
-        method: "GET",
-        uri: "/zones/{zone_id}/origin/cloud_regions/{originIP}",
-        code: 200,
-      }),
+      T.Http({ method: "GET", uri: "/zones/{zone_id}/origin/cloud_regions/{originIP}", code: 200 }),
     )
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
 ).annotate({
@@ -563,13 +521,7 @@ export const GetRegionalTieredCacheRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     zoneId: S.String.pipe(T.Label("zone_id")),
   })
-    .pipe(
-      T.Http({
-        method: "GET",
-        uri: "/zones/{zone_id}/cache/regional_tiered_cache",
-        code: 200,
-      }),
-    )
+    .pipe(T.Http({ method: "GET", uri: "/zones/{zone_id}/cache/regional_tiered_cache", code: 200 }))
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
 ).annotate({
   identifier: "GetRegionalTieredCacheRequest",
@@ -659,17 +611,9 @@ export const GetVariantRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     zoneId: S.String.pipe(T.Label("zone_id")),
   })
-    .pipe(
-      T.Http({
-        method: "GET",
-        uri: "/zones/{zone_id}/cache/variants",
-        code: 200,
-      }),
-    )
+    .pipe(T.Http({ method: "GET", uri: "/zones/{zone_id}/cache/variants", code: 200 }))
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "GetVariantRequest",
-}) as any as S.Schema<GetVariantRequest>;
+).annotate({ identifier: "GetVariantRequest" }) as any as S.Schema<GetVariantRequest>;
 
 export type VariantsGetResponseId = "variants";
 export const VariantsGetResponseId = S.String;
@@ -767,9 +711,7 @@ export const VariantsGetResponseValue = /*@__PURE__*/ S.suspend(() =>
     tiff: S.optional(S.NullOr(VariantsGetResponseValueTiffList)),
     webp: S.optional(S.NullOr(VariantsGetResponseValueWebpList)),
   }),
-).annotate({
-  identifier: "VariantsGetResponseValue",
-}) as any as S.Schema<VariantsGetResponseValue>;
+).annotate({ identifier: "VariantsGetResponseValue" }) as any as S.Schema<VariantsGetResponseValue>;
 
 /** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
 export interface GetVariantResponse {
@@ -789,9 +731,211 @@ export const GetVariantResponse = /*@__PURE__*/ S.suspend(() =>
     value: VariantsGetResponseValue,
     modifiedOn: S.optional(S.NullOr(S.String).pipe(T.Body("modified_on"))),
   }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
+).annotate({ identifier: "GetVariantResponse" }) as any as S.Schema<GetVariantResponse>;
+
+export type InvalidateRequestTagsList = Array<string>;
+export const InvalidateRequestTagsList = /*@__PURE__*/ S.Array(
+  S.String,
+) as any as S.Schema<InvalidateRequestTagsList>;
+
+export type InvalidateRequestHostsList = Array<string>;
+export const InvalidateRequestHostsList = /*@__PURE__*/ S.Array(
+  S.String,
+) as any as S.Schema<InvalidateRequestHostsList>;
+
+export type InvalidateRequestPrefixesList = Array<string>;
+export const InvalidateRequestPrefixesList = /*@__PURE__*/ S.Array(
+  S.String,
+) as any as S.Schema<InvalidateRequestPrefixesList>;
+
+export type InvalidateRequestFilesCachePurgeSingleFileList = Array<string>;
+export const InvalidateRequestFilesCachePurgeSingleFileList = /*@__PURE__*/ S.Array(
+  S.String,
+) as any as S.Schema<InvalidateRequestFilesCachePurgeSingleFileList>;
+
+export type InvalidateRequestFilesCachePurgeSingleFileWithURLAndHeadersItemHeadersMap = {
+  [key: string]: string | undefined;
+};
+export const InvalidateRequestFilesCachePurgeSingleFileWithURLAndHeadersItemHeadersMap =
+  /*@__PURE__*/ S.Record(
+    S.String,
+    S.String,
+  ) as any as S.Schema<InvalidateRequestFilesCachePurgeSingleFileWithURLAndHeadersItemHeadersMap>;
+
+export interface InvalidateRequestFilesCachePurgeSingleFileWithURLAndHeadersItem {
+  /** Request headers and the values the content was cached with. */
+  headers?: InvalidateRequestFilesCachePurgeSingleFileWithURLAndHeadersItemHeadersMap;
+  /** Full URL of the content. */
+  url?: string;
+}
+export const InvalidateRequestFilesCachePurgeSingleFileWithURLAndHeadersItem =
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      headers: S.optional(
+        InvalidateRequestFilesCachePurgeSingleFileWithURLAndHeadersItemHeadersMap,
+      ),
+      url: S.optional(S.String),
+    }),
+  ).annotate({
+    identifier: "InvalidateRequestFilesCachePurgeSingleFileWithURLAndHeadersItem",
+  }) as any as S.Schema<InvalidateRequestFilesCachePurgeSingleFileWithURLAndHeadersItem>;
+
+export type InvalidateRequestFilesCachePurgeSingleFileWithURLAndHeadersList =
+  Array<InvalidateRequestFilesCachePurgeSingleFileWithURLAndHeadersItem>;
+export const InvalidateRequestFilesCachePurgeSingleFileWithURLAndHeadersList =
+  /*@__PURE__*/ S.Array(
+    InvalidateRequestFilesCachePurgeSingleFileWithURLAndHeadersItem,
+  ) as any as S.Schema<InvalidateRequestFilesCachePurgeSingleFileWithURLAndHeadersList>;
+
+export type InvalidateRequestFiles =
+  | InvalidateRequestFilesCachePurgeSingleFileList
+  | InvalidateRequestFilesCachePurgeSingleFileWithURLAndHeadersList;
+export const InvalidateRequestFiles = /*@__PURE__*/ S.Unknown.pipe(T.UnionCases([[], []]));
+
+export interface InvalidateRequest {
+  zoneId: string;
+  /** Cache tags. Targets all content whose `Cache-Tag` response header contains at least one of these tags. See [Purge cache by cache-tags](https://developers.cloudflare.com/cache/how-to/purge-cache/purge-by-tags/). */
+  tags?: InvalidateRequestTagsList;
+  /** Hostnames, such as `www.example.com`. Targets all content cached for these hostnames. See [Purge cache by hostname](https://developers.cloudflare.com/cache/how-to/purge-cache/purge-by-hostname/). */
+  hosts?: InvalidateRequestHostsList;
+  /** URL prefixes, each a hostname followed by a path, such as `www.example.com/blog/`. Targets all content whose URL starts with one of these prefixes. Do not include a scheme, query string, or fragment. See [Purge cache by prefix](https://developers.cloudflare.com/cache/how-to/purge-cache/purge_by_prefix/). */
+  prefixes?: InvalidateRequestPrefixesList;
+  /** Set to `true` to target all cached content in the zone, or in the environment for the environment endpoints. Must be the only field in the request. See [Purge everything](https://developers.cloudflare.com/cache/how-to/purge-cache/purge-everything/). */
+  purgeEverything?: boolean;
+  /** Full URLs, such as `https://www.example.com/css/styles.css`. Targets the content cached for each URL. If your cache key includes request headers, send objects with `url` and `headers` instead. See [Purge by single-file](https://developers.cloudflare.com/cache/how-to/purge-cache/purge-by-single-file/). */
+  files?: InvalidateRequestFiles;
+}
+export const InvalidateRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    zoneId: S.String.pipe(T.Label("zone_id")),
+    tags: S.optional(InvalidateRequestTagsList),
+    hosts: S.optional(InvalidateRequestHostsList),
+    prefixes: S.optional(InvalidateRequestPrefixesList),
+    purgeEverything: S.optional(S.Boolean.pipe(T.Body("purge_everything"))),
+    files: S.optional(InvalidateRequestFiles),
+  })
+    .pipe(T.Http({ method: "POST", uri: "/zones/{zone_id}/invalidate_cache", code: 200 }))
+    .pipe(T.KeyDictionary(KEY_DICTIONARY)),
+).annotate({ identifier: "InvalidateRequest" }) as any as S.Schema<InvalidateRequest>;
+
+/** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
+export interface InvalidateResponse {
+  id: string;
+}
+export const InvalidateResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    id: S.String,
+  }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
+).annotate({ identifier: "InvalidateResponse" }) as any as S.Schema<InvalidateResponse>;
+
+export type InvalidateEnvironmentRequestTagsList = Array<string>;
+export const InvalidateEnvironmentRequestTagsList = /*@__PURE__*/ S.Array(
+  S.String,
+) as any as S.Schema<InvalidateEnvironmentRequestTagsList>;
+
+export type InvalidateEnvironmentRequestHostsList = Array<string>;
+export const InvalidateEnvironmentRequestHostsList = /*@__PURE__*/ S.Array(
+  S.String,
+) as any as S.Schema<InvalidateEnvironmentRequestHostsList>;
+
+export type InvalidateEnvironmentRequestPrefixesList = Array<string>;
+export const InvalidateEnvironmentRequestPrefixesList = /*@__PURE__*/ S.Array(
+  S.String,
+) as any as S.Schema<InvalidateEnvironmentRequestPrefixesList>;
+
+export type InvalidateEnvironmentRequestFilesCachePurgeSingleFileList = Array<string>;
+export const InvalidateEnvironmentRequestFilesCachePurgeSingleFileList = /*@__PURE__*/ S.Array(
+  S.String,
+) as any as S.Schema<InvalidateEnvironmentRequestFilesCachePurgeSingleFileList>;
+
+export type InvalidateEnvironmentRequestFilesCachePurgeSingleFileWithURLAndHeadersItemHeadersMap = {
+  [key: string]: string | undefined;
+};
+export const InvalidateEnvironmentRequestFilesCachePurgeSingleFileWithURLAndHeadersItemHeadersMap =
+  /*@__PURE__*/ S.Record(
+    S.String,
+    S.String,
+  ) as any as S.Schema<InvalidateEnvironmentRequestFilesCachePurgeSingleFileWithURLAndHeadersItemHeadersMap>;
+
+export interface InvalidateEnvironmentRequestFilesCachePurgeSingleFileWithURLAndHeadersItem {
+  /** Request headers and the values the content was cached with. */
+  headers?: InvalidateEnvironmentRequestFilesCachePurgeSingleFileWithURLAndHeadersItemHeadersMap;
+  /** Full URL of the content. */
+  url?: string;
+}
+export const InvalidateEnvironmentRequestFilesCachePurgeSingleFileWithURLAndHeadersItem =
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      headers: S.optional(
+        InvalidateEnvironmentRequestFilesCachePurgeSingleFileWithURLAndHeadersItemHeadersMap,
+      ),
+      url: S.optional(S.String),
+    }),
+  ).annotate({
+    identifier: "InvalidateEnvironmentRequestFilesCachePurgeSingleFileWithURLAndHeadersItem",
+  }) as any as S.Schema<InvalidateEnvironmentRequestFilesCachePurgeSingleFileWithURLAndHeadersItem>;
+
+export type InvalidateEnvironmentRequestFilesCachePurgeSingleFileWithURLAndHeadersList =
+  Array<InvalidateEnvironmentRequestFilesCachePurgeSingleFileWithURLAndHeadersItem>;
+export const InvalidateEnvironmentRequestFilesCachePurgeSingleFileWithURLAndHeadersList =
+  /*@__PURE__*/ S.Array(
+    InvalidateEnvironmentRequestFilesCachePurgeSingleFileWithURLAndHeadersItem,
+  ) as any as S.Schema<InvalidateEnvironmentRequestFilesCachePurgeSingleFileWithURLAndHeadersList>;
+
+export type InvalidateEnvironmentRequestFiles =
+  | InvalidateEnvironmentRequestFilesCachePurgeSingleFileList
+  | InvalidateEnvironmentRequestFilesCachePurgeSingleFileWithURLAndHeadersList;
+export const InvalidateEnvironmentRequestFiles = /*@__PURE__*/ S.Unknown.pipe(
+  T.UnionCases([[], []]),
+);
+
+export interface InvalidateEnvironmentRequest {
+  zoneId: string;
+  environmentId: string;
+  /** Cache tags. Targets all content whose `Cache-Tag` response header contains at least one of these tags. See [Purge cache by cache-tags](https://developers.cloudflare.com/cache/how-to/purge-cache/purge-by-tags/). */
+  tags?: InvalidateEnvironmentRequestTagsList;
+  /** Hostnames, such as `www.example.com`. Targets all content cached for these hostnames. See [Purge cache by hostname](https://developers.cloudflare.com/cache/how-to/purge-cache/purge-by-hostname/). */
+  hosts?: InvalidateEnvironmentRequestHostsList;
+  /** URL prefixes, each a hostname followed by a path, such as `www.example.com/blog/`. Targets all content whose URL starts with one of these prefixes. Do not include a scheme, query string, or fragment. See [Purge cache by prefix](https://developers.cloudflare.com/cache/how-to/purge-cache/purge_by_prefix/). */
+  prefixes?: InvalidateEnvironmentRequestPrefixesList;
+  /** Set to `true` to target all cached content in the zone, or in the environment for the environment endpoints. Must be the only field in the request. See [Purge everything](https://developers.cloudflare.com/cache/how-to/purge-cache/purge-everything/). */
+  purgeEverything?: boolean;
+  /** Full URLs, such as `https://www.example.com/css/styles.css`. Targets the content cached for each URL. If your cache key includes request headers, send objects with `url` and `headers` instead. See [Purge by single-file](https://developers.cloudflare.com/cache/how-to/purge-cache/purge-by-single-file/). */
+  files?: InvalidateEnvironmentRequestFiles;
+}
+export const InvalidateEnvironmentRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    zoneId: S.String.pipe(T.Label("zone_id")),
+    environmentId: S.String.pipe(T.Label("environment_id")),
+    tags: S.optional(InvalidateEnvironmentRequestTagsList),
+    hosts: S.optional(InvalidateEnvironmentRequestHostsList),
+    prefixes: S.optional(InvalidateEnvironmentRequestPrefixesList),
+    purgeEverything: S.optional(S.Boolean.pipe(T.Body("purge_everything"))),
+    files: S.optional(InvalidateEnvironmentRequestFiles),
+  })
+    .pipe(
+      T.Http({
+        method: "POST",
+        uri: "/zones/{zone_id}/environments/{environment_id}/invalidate_cache",
+        code: 200,
+      }),
+    )
+    .pipe(T.KeyDictionary(KEY_DICTIONARY)),
 ).annotate({
-  identifier: "GetVariantResponse",
-}) as any as S.Schema<GetVariantResponse>;
+  identifier: "InvalidateEnvironmentRequest",
+}) as any as S.Schema<InvalidateEnvironmentRequest>;
+
+/** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
+export interface InvalidateEnvironmentResponse {
+  id: string;
+}
+export const InvalidateEnvironmentResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    id: S.String,
+  }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
+).annotate({
+  identifier: "InvalidateEnvironmentResponse",
+}) as any as S.Schema<InvalidateEnvironmentResponse>;
 
 export interface ListOriginCloudRegionsRequest {
   /** Identifier. */
@@ -807,13 +951,7 @@ export const ListOriginCloudRegionsRequest = /*@__PURE__*/ S.suspend(() =>
     page: S.optional(S.Number.pipe(T.Query())),
     perPage: S.optional(S.Number.pipe(T.Query("per_page"))),
   })
-    .pipe(
-      T.Http({
-        method: "GET",
-        uri: "/zones/{zone_id}/origin/cloud_regions",
-        code: 200,
-      }),
-    )
+    .pipe(T.Http({ method: "GET", uri: "/zones/{zone_id}/origin/cloud_regions", code: 200 }))
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
 ).annotate({
   identifier: "ListOriginCloudRegionsRequest",
@@ -1088,13 +1226,7 @@ export const OriginCloudRegionsCreateV1Request = /*@__PURE__*/ S.suspend(() =>
     region: S.String,
     vendor: OriginCloudRegionsCreateV1RequestVendor,
   })
-    .pipe(
-      T.Http({
-        method: "POST",
-        uri: "/zones/{zone_id}/cache/origin_cloud_regions",
-        code: 200,
-      }),
-    )
+    .pipe(T.Http({ method: "POST", uri: "/zones/{zone_id}/cache/origin_cloud_regions", code: 200 }))
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
 ).annotate({
   identifier: "OriginCloudRegionsCreateV1Request",
@@ -1239,11 +1371,7 @@ export const OriginCloudRegionsEditV1Request = /*@__PURE__*/ S.suspend(() =>
     vendor: OriginCloudRegionsEditV1RequestVendor,
   })
     .pipe(
-      T.Http({
-        method: "PATCH",
-        uri: "/zones/{zone_id}/cache/origin_cloud_regions",
-        code: 200,
-      }),
+      T.Http({ method: "PATCH", uri: "/zones/{zone_id}/cache/origin_cloud_regions", code: 200 }),
     )
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
 ).annotate({
@@ -1381,13 +1509,7 @@ export const OriginCloudRegionsListV1Request = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     zoneId: S.String.pipe(T.Label("zone_id")),
   })
-    .pipe(
-      T.Http({
-        method: "GET",
-        uri: "/zones/{zone_id}/cache/origin_cloud_regions",
-        code: 200,
-      }),
-    )
+    .pipe(T.Http({ method: "GET", uri: "/zones/{zone_id}/cache/origin_cloud_regions", code: 200 }))
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
 ).annotate({
   identifier: "OriginCloudRegionsListV1Request",
@@ -1536,17 +1658,9 @@ export const PatchCacheReserveRequest = /*@__PURE__*/ S.suspend(() =>
     zoneId: S.String.pipe(T.Label("zone_id")),
     value: CacheReserveEditRequestValue,
   })
-    .pipe(
-      T.Http({
-        method: "PATCH",
-        uri: "/zones/{zone_id}/cache/cache_reserve",
-        code: 200,
-      }),
-    )
+    .pipe(T.Http({ method: "PATCH", uri: "/zones/{zone_id}/cache/cache_reserve", code: 200 }))
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "PatchCacheReserveRequest",
-}) as any as S.Schema<PatchCacheReserveRequest>;
+).annotate({ identifier: "PatchCacheReserveRequest" }) as any as S.Schema<PatchCacheReserveRequest>;
 
 export type CacheReserveEditResponseId = "cache_reserve";
 export const CacheReserveEditResponseId = S.String;
@@ -1591,11 +1705,7 @@ export const PatchRegionalTieredCacheRequest = /*@__PURE__*/ S.suspend(() =>
     value: RegionalTieredCacheEditRequestValue,
   })
     .pipe(
-      T.Http({
-        method: "PATCH",
-        uri: "/zones/{zone_id}/cache/regional_tiered_cache",
-        code: 200,
-      }),
+      T.Http({ method: "PATCH", uri: "/zones/{zone_id}/cache/regional_tiered_cache", code: 200 }),
     )
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
 ).annotate({
@@ -1777,9 +1887,7 @@ export const VariantsEditRequestValue = /*@__PURE__*/ S.suspend(() =>
     tiff: S.optional(VariantsEditRequestValueTiffList),
     webp: S.optional(VariantsEditRequestValueWebpList),
   }),
-).annotate({
-  identifier: "VariantsEditRequestValue",
-}) as any as S.Schema<VariantsEditRequestValue>;
+).annotate({ identifier: "VariantsEditRequestValue" }) as any as S.Schema<VariantsEditRequestValue>;
 
 export interface PatchVariantRequest {
   /** Identifier. */
@@ -1792,17 +1900,9 @@ export const PatchVariantRequest = /*@__PURE__*/ S.suspend(() =>
     zoneId: S.String.pipe(T.Label("zone_id")),
     value: VariantsEditRequestValue,
   })
-    .pipe(
-      T.Http({
-        method: "PATCH",
-        uri: "/zones/{zone_id}/cache/variants",
-        code: 200,
-      }),
-    )
+    .pipe(T.Http({ method: "PATCH", uri: "/zones/{zone_id}/cache/variants", code: 200 }))
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "PatchVariantRequest",
-}) as any as S.Schema<PatchVariantRequest>;
+).annotate({ identifier: "PatchVariantRequest" }) as any as S.Schema<PatchVariantRequest>;
 
 export type VariantsEditResponseId = "variants";
 export const VariantsEditResponseId = S.String;
@@ -1922,9 +2022,7 @@ export const PatchVariantResponse = /*@__PURE__*/ S.suspend(() =>
     value: VariantsEditResponseValue,
     modifiedOn: S.optional(S.NullOr(S.String).pipe(T.Body("modified_on"))),
   }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "PatchVariantResponse",
-}) as any as S.Schema<PatchVariantResponse>;
+).annotate({ identifier: "PatchVariantResponse" }) as any as S.Schema<PatchVariantResponse>;
 
 export type PurgeRequestTagsList = Array<string>;
 export const PurgeRequestTagsList = /*@__PURE__*/ S.Array(
@@ -1956,7 +2054,9 @@ export const PurgeRequestFilesCachePurgeSingleFileWithURLAndHeadersItemHeadersMa
   ) as any as S.Schema<PurgeRequestFilesCachePurgeSingleFileWithURLAndHeadersItemHeadersMap>;
 
 export interface PurgeRequestFilesCachePurgeSingleFileWithURLAndHeadersItem {
+  /** Request headers and the values the content was cached with. */
   headers?: PurgeRequestFilesCachePurgeSingleFileWithURLAndHeadersItemHeadersMap;
+  /** Full URL of the content. */
   url?: string;
 }
 export const PurgeRequestFilesCachePurgeSingleFileWithURLAndHeadersItem = /*@__PURE__*/ S.suspend(
@@ -1982,15 +2082,15 @@ export const PurgeRequestFiles = /*@__PURE__*/ S.Unknown.pipe(T.UnionCases([[], 
 
 export interface PurgeCacheRequest {
   zoneId: string;
-  /** For more information on cache tags and purging by tags, please refer to [purge by cache-tags documentation page](https://developers.cloudflare.com/cache/how-to/purge-cache/purge-by-tags/). */
+  /** Cache tags. Targets all content whose `Cache-Tag` response header contains at least one of these tags. See [Purge cache by cache-tags](https://developers.cloudflare.com/cache/how-to/purge-cache/purge-by-tags/). */
   tags?: PurgeRequestTagsList;
-  /** For more information purging by hostnames, please refer to [purge by hostname documentation page](https://developers.cloudflare.com/cache/how-to/purge-cache/purge-by-hostname/). */
+  /** Hostnames, such as `www.example.com`. Targets all content cached for these hostnames. See [Purge cache by hostname](https://developers.cloudflare.com/cache/how-to/purge-cache/purge-by-hostname/). */
   hosts?: PurgeRequestHostsList;
-  /** For more information on purging by prefixes, please refer to [purge by prefix documentation page](https://developers.cloudflare.com/cache/how-to/purge-cache/purge_by_prefix/). */
+  /** URL prefixes, each a hostname followed by a path, such as `www.example.com/blog/`. Targets all content whose URL starts with one of these prefixes. Do not include a scheme, query string, or fragment. See [Purge cache by prefix](https://developers.cloudflare.com/cache/how-to/purge-cache/purge_by_prefix/). */
   prefixes?: PurgeRequestPrefixesList;
-  /** For more information, please refer to [purge everything documentation page](https://developers.cloudflare.com/cache/how-to/purge-cache/purge-everything/). */
+  /** Set to `true` to target all cached content in the zone, or in the environment for the environment endpoints. Must be the only field in the request. See [Purge everything](https://developers.cloudflare.com/cache/how-to/purge-cache/purge-everything/). */
   purgeEverything?: boolean;
-  /** For more information on purging files, please refer to [purge by single-file documentation page](https://developers.cloudflare.com/cache/how-to/purge-cache/purge-by-single-file/). */
+  /** Full URLs, such as `https://www.example.com/css/styles.css`. Targets the content cached for each URL. If your cache key includes request headers, send objects with `url` and `headers` instead. See [Purge by single-file](https://developers.cloudflare.com/cache/how-to/purge-cache/purge-by-single-file/). */
   files?: PurgeRequestFiles;
 }
 export const PurgeCacheRequest = /*@__PURE__*/ S.suspend(() =>
@@ -2002,17 +2102,9 @@ export const PurgeCacheRequest = /*@__PURE__*/ S.suspend(() =>
     purgeEverything: S.optional(S.Boolean.pipe(T.Body("purge_everything"))),
     files: S.optional(PurgeRequestFiles),
   })
-    .pipe(
-      T.Http({
-        method: "POST",
-        uri: "/zones/{zone_id}/purge_cache",
-        code: 200,
-      }),
-    )
+    .pipe(T.Http({ method: "POST", uri: "/zones/{zone_id}/purge_cache", code: 200 }))
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "PurgeCacheRequest",
-}) as any as S.Schema<PurgeCacheRequest>;
+).annotate({ identifier: "PurgeCacheRequest" }) as any as S.Schema<PurgeCacheRequest>;
 
 /** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
 export interface PurgeCacheResponse {
@@ -2022,9 +2114,7 @@ export const PurgeCacheResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     id: S.String,
   }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "PurgeCacheResponse",
-}) as any as S.Schema<PurgeCacheResponse>;
+).annotate({ identifier: "PurgeCacheResponse" }) as any as S.Schema<PurgeCacheResponse>;
 
 export type PurgeEnvironmentRequestTagsList = Array<string>;
 export const PurgeEnvironmentRequestTagsList = /*@__PURE__*/ S.Array(
@@ -2056,7 +2146,9 @@ export const PurgeEnvironmentRequestFilesCachePurgeSingleFileWithURLAndHeadersIt
   ) as any as S.Schema<PurgeEnvironmentRequestFilesCachePurgeSingleFileWithURLAndHeadersItemHeadersMap>;
 
 export interface PurgeEnvironmentRequestFilesCachePurgeSingleFileWithURLAndHeadersItem {
+  /** Request headers and the values the content was cached with. */
   headers?: PurgeEnvironmentRequestFilesCachePurgeSingleFileWithURLAndHeadersItemHeadersMap;
+  /** Full URL of the content. */
   url?: string;
 }
 export const PurgeEnvironmentRequestFilesCachePurgeSingleFileWithURLAndHeadersItem =
@@ -2086,15 +2178,15 @@ export const PurgeEnvironmentRequestFiles = /*@__PURE__*/ S.Unknown.pipe(T.Union
 export interface PurgeEnvironmentCacheRequest {
   zoneId: string;
   environmentId: string;
-  /** For more information on cache tags and purging by tags, please refer to [purge by cache-tags documentation page](https://developers.cloudflare.com/cache/how-to/purge-cache/purge-by-tags/). */
+  /** Cache tags. Targets all content whose `Cache-Tag` response header contains at least one of these tags. See [Purge cache by cache-tags](https://developers.cloudflare.com/cache/how-to/purge-cache/purge-by-tags/). */
   tags?: PurgeEnvironmentRequestTagsList;
-  /** For more information purging by hostnames, please refer to [purge by hostname documentation page](https://developers.cloudflare.com/cache/how-to/purge-cache/purge-by-hostname/). */
+  /** Hostnames, such as `www.example.com`. Targets all content cached for these hostnames. See [Purge cache by hostname](https://developers.cloudflare.com/cache/how-to/purge-cache/purge-by-hostname/). */
   hosts?: PurgeEnvironmentRequestHostsList;
-  /** For more information on purging by prefixes, please refer to [purge by prefix documentation page](https://developers.cloudflare.com/cache/how-to/purge-cache/purge_by_prefix/). */
+  /** URL prefixes, each a hostname followed by a path, such as `www.example.com/blog/`. Targets all content whose URL starts with one of these prefixes. Do not include a scheme, query string, or fragment. See [Purge cache by prefix](https://developers.cloudflare.com/cache/how-to/purge-cache/purge_by_prefix/). */
   prefixes?: PurgeEnvironmentRequestPrefixesList;
-  /** For more information, please refer to [purge everything documentation page](https://developers.cloudflare.com/cache/how-to/purge-cache/purge-everything/). */
+  /** Set to `true` to target all cached content in the zone, or in the environment for the environment endpoints. Must be the only field in the request. See [Purge everything](https://developers.cloudflare.com/cache/how-to/purge-cache/purge-everything/). */
   purgeEverything?: boolean;
-  /** For more information on purging files, please refer to [purge by single-file documentation page](https://developers.cloudflare.com/cache/how-to/purge-cache/purge-by-single-file/). */
+  /** Full URLs, such as `https://www.example.com/css/styles.css`. Targets the content cached for each URL. If your cache key includes request headers, send objects with `url` and `headers` instead. See [Purge by single-file](https://developers.cloudflare.com/cache/how-to/purge-cache/purge-by-single-file/). */
   files?: PurgeEnvironmentRequestFiles;
 }
 export const PurgeEnvironmentCacheRequest = /*@__PURE__*/ S.suspend(() =>
@@ -2154,11 +2246,7 @@ export const PutOriginCloudRegionRequest = /*@__PURE__*/ S.suspend(() =>
     originIp: S.String.pipe(T.Body("origin_ip")),
   })
     .pipe(
-      T.Http({
-        method: "PUT",
-        uri: "/zones/{zone_id}/origin/cloud_regions/{originIP}",
-        code: 200,
-      }),
+      T.Http({ method: "PUT", uri: "/zones/{zone_id}/origin/cloud_regions/{originIP}", code: 200 }),
     )
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
 ).annotate({
@@ -2198,13 +2286,7 @@ export const StatusCacheReserveRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     zoneId: S.String.pipe(T.Label("zone_id")),
   })
-    .pipe(
-      T.Http({
-        method: "GET",
-        uri: "/zones/{zone_id}/cache/cache_reserve_clear",
-        code: 200,
-      }),
-    )
+    .pipe(T.Http({ method: "GET", uri: "/zones/{zone_id}/cache/cache_reserve_clear", code: 200 }))
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
 ).annotate({
   identifier: "StatusCacheReserveRequest",
@@ -2510,6 +2592,36 @@ export const getVariant: API.OperationMethod<
   retry: Retry.Retry,
 }));
 
+export type InvalidateError = CloudflareOpError;
+/** Marks cached content as stale in every Cloudflare data center and cache tier, including Cache Reserve. The content stays in cache. The next request for it makes Cloudflare revalidate it with your origin, using the `ETag` and `Last-Modified` values it was cached with: - If your origin answers `304 Not Modified`, Cloudflare serves the cached copy without downloading it again, and `CF-Cache-Status` is `REVALIDATED`. - If your origin sends a full response, Cloudflare serves and caches the new content, and `CF-Cache-Status` is `EXPIRED`. With Tiered Cache, each tier revalidates with the tier above it, so a visitor can see `EXPIRED` even when your origin answered `304`. Until content is revalidated, your `stale-while-revalidate` and `stale-if-error` directives still apply, counted from the time you invalidated it. For example, if your origin fails during revalidation, Cloudflare can keep serving the stale copy for the `stale-if-error` window. */
+export const invalidate: API.OperationMethod<
+  InvalidateRequest,
+  InvalidateResponse,
+  InvalidateError,
+  CloudflareOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: InvalidateRequest,
+  output: InvalidateResponse,
+  errors: [CloudflareRateLimited, CloudflareError],
+  protocol: CloudflareProtocol,
+  retry: Retry.Retry,
+}));
+
+export type InvalidateEnvironmentError = CloudflareOpError;
+/** Marks cached content as stale for one environment of the zone. Content cached for the zone's other environments, including production, is not affected. Otherwise this works like `POST /zones/{zone_id}/invalidate_cache`: the next request for invalidated content makes Cloudflare revalidate it with your origin, and the request body takes the same fields. Environments are part of [Version Management](https://developers.cloudflare.com/version-management/). To delete the content instead, use `POST /zones/{zone_id}/environments/{environment_id}/purge_cache`. Invalidating by URL (`files`) does not work for environments that select requests by IP address, country, ASN, or threat score, and fails with error `1136`. Use `tags`, `hosts`, `prefixes`, or `purge_everything` for those environments. */
+export const invalidateEnvironment: API.OperationMethod<
+  InvalidateEnvironmentRequest,
+  InvalidateEnvironmentResponse,
+  InvalidateEnvironmentError,
+  CloudflareOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: InvalidateEnvironmentRequest,
+  output: InvalidateEnvironmentResponse,
+  errors: [CloudflareRateLimited, CloudflareError],
+  protocol: CloudflareProtocol,
+  retry: Retry.Retry,
+}));
+
 export type ListOriginCloudRegionsError = Forbidden | CloudflareOpError;
 /** Returns all IP-to-cloud-region mappings configured for the zone with pagination support. Each mapping tells Cloudflare which cloud vendor and region hosts the origin at that IP, enabling the edge to route via the nearest Tiered Cache upper-tier co-located with that cloud provider. Returns an empty array when no mappings exist. */
 export const listOriginCloudRegions: API.PaginatedOperationMethod<
@@ -2720,6 +2832,7 @@ export const patchVariant: API.OperationMethod<
 }));
 
 export type PurgeCacheError = CloudflareOpError;
+/** Deletes cached content in every Cloudflare data center and cache tier, including Cache Reserve. The next request for purged content is a cache `MISS`: Cloudflare fetches the full response from your origin and caches it again. Cloudflare does not serve purged content from cache again, even if your origin is unavailable. To keep content cached and have Cloudflare revalidate it with your origin instead, use `POST /zones/{zone_id}/invalidate_cache`. */
 export const purgeCache: API.OperationMethod<
   PurgeCacheRequest,
   PurgeCacheResponse,
@@ -2734,7 +2847,7 @@ export const purgeCache: API.OperationMethod<
 }));
 
 export type PurgeEnvironmentCacheError = CloudflareOpError;
-/** Purge cached content scoped to a specific environment. Supports the same purge types as the zone-level endpoint (purge everything, by URL, by tag, host, or prefix). */
+/** Deletes cached content for one environment of the zone. Content cached for the zone's other environments, including production, is not affected. Otherwise this works like `POST /zones/{zone_id}/purge_cache`: the next request for purged content is a cache `MISS`, and the request body takes the same fields. Environments are part of [Version Management](https://developers.cloudflare.com/version-management/). To keep content cached and have Cloudflare revalidate it instead, use `POST /zones/{zone_id}/environments/{environment_id}/invalidate_cache`. Purging by URL (`files`) does not work for environments that select requests by IP address, country, ASN, or threat score, and fails with error `1136`. Use `tags`, `hosts`, `prefixes`, or `purge_everything` for those environments. */
 export const purgeEnvironmentCache: API.OperationMethod<
   PurgeEnvironmentCacheRequest,
   PurgeEnvironmentCacheResponse,

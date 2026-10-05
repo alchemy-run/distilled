@@ -178,17 +178,9 @@ export const CreateDatabaseRequest = /*@__PURE__*/ S.suspend(() =>
       DatabaseCreateRequestReadReplication.pipe(T.Body("read_replication")),
     ),
   })
-    .pipe(
-      T.Http({
-        method: "POST",
-        uri: "/accounts/{account_id}/d1/database",
-        code: 200,
-      }),
-    )
+    .pipe(T.Http({ method: "POST", uri: "/accounts/{account_id}/d1/database", code: 200 }))
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "CreateDatabaseRequest",
-}) as any as S.Schema<CreateDatabaseRequest>;
+).annotate({ identifier: "CreateDatabaseRequest" }) as any as S.Schema<CreateDatabaseRequest>;
 
 export type DatabaseCreateResponseJurisdiction = "eu" | "fedramp" | "us";
 export const DatabaseCreateResponseJurisdiction = S.String;
@@ -218,6 +210,7 @@ export interface CreateDatabaseResponse {
   jurisdiction?: DatabaseCreateResponseJurisdiction | null;
   /** D1 database name. */
   name?: string | null;
+  /** The number of tables in the D1 database. This count is no longer accurate and should not be relied upon. */
   numTables?: number | null;
   /** Configuration for D1 read replication. */
   readReplication?: DatabaseCreateResponseReadReplication | null;
@@ -238,9 +231,7 @@ export const CreateDatabaseResponse = /*@__PURE__*/ S.suspend(() =>
     uuid: S.optional(S.NullOr(S.String)),
     version: S.optional(S.NullOr(S.String)),
   }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "CreateDatabaseResponse",
-}) as any as S.Schema<CreateDatabaseResponse>;
+).annotate({ identifier: "CreateDatabaseResponse" }) as any as S.Schema<CreateDatabaseResponse>;
 
 export interface DeleteDatabaseRequest {
   /** Account identifier tag. */
@@ -261,16 +252,12 @@ export const DeleteDatabaseRequest = /*@__PURE__*/ S.suspend(() =>
       }),
     )
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "DeleteDatabaseRequest",
-}) as any as S.Schema<DeleteDatabaseRequest>;
+).annotate({ identifier: "DeleteDatabaseRequest" }) as any as S.Schema<DeleteDatabaseRequest>;
 
 export type DeleteDatabaseResponse = unknown;
 export const DeleteDatabaseResponse = /*@__PURE__*/ S.suspend(() =>
   S.Unknown.pipe(T.EnvelopePayloadRoot(), T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "DeleteDatabaseResponse",
-}) as any as S.Schema<DeleteDatabaseResponse>;
+).annotate({ identifier: "DeleteDatabaseResponse" }) as any as S.Schema<DeleteDatabaseResponse>;
 
 export type DatabaseExportRequestOutputFormat = "polling";
 export const DatabaseExportRequestOutputFormat = S.String;
@@ -325,9 +312,7 @@ export const ExportDatabaseRequest = /*@__PURE__*/ S.suspend(() =>
       }),
     )
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "ExportDatabaseRequest",
-}) as any as S.Schema<ExportDatabaseRequest>;
+).annotate({ identifier: "ExportDatabaseRequest" }) as any as S.Schema<ExportDatabaseRequest>;
 
 export type DatabaseExportResponseMessagesList = Array<string>;
 export const DatabaseExportResponseMessagesList = /*@__PURE__*/ S.Array(
@@ -379,9 +364,7 @@ export const ExportDatabaseResponse = /*@__PURE__*/ S.suspend(() =>
     success: S.optional(S.NullOr(S.Boolean)),
     type: S.optional(S.NullOr(DatabaseExportResponseType)),
   }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "ExportDatabaseResponse",
-}) as any as S.Schema<ExportDatabaseResponse>;
+).annotate({ identifier: "ExportDatabaseResponse" }) as any as S.Schema<ExportDatabaseResponse>;
 
 export interface GetBookmarkDatabaseTimeTravelRequest {
   /** Account identifier tag. */
@@ -454,16 +437,10 @@ export const GetDatabaseRequest = /*@__PURE__*/ S.suspend(() =>
     fields: S.optional(DatabaseGetRequestFieldsList.pipe(T.Query())),
   })
     .pipe(
-      T.Http({
-        method: "GET",
-        uri: "/accounts/{account_id}/d1/database/{database_id}",
-        code: 200,
-      }),
+      T.Http({ method: "GET", uri: "/accounts/{account_id}/d1/database/{database_id}", code: 200 }),
     )
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "GetDatabaseRequest",
-}) as any as S.Schema<GetDatabaseRequest>;
+).annotate({ identifier: "GetDatabaseRequest" }) as any as S.Schema<GetDatabaseRequest>;
 
 export type DatabaseGetResponseJurisdiction = "eu" | "fedramp" | "us";
 export const DatabaseGetResponseJurisdiction = S.String;
@@ -493,6 +470,7 @@ export interface GetDatabaseResponse {
   jurisdiction?: DatabaseGetResponseJurisdiction | null;
   /** D1 database name. */
   name?: string | null;
+  /** The number of tables in the D1 database. This count is no longer accurate and should not be relied upon. */
   numTables?: number | null;
   /** Configuration for D1 read replication. */
   readReplication?: DatabaseGetResponseReadReplication | null;
@@ -513,9 +491,7 @@ export const GetDatabaseResponse = /*@__PURE__*/ S.suspend(() =>
     uuid: S.optional(S.NullOr(S.String)),
     version: S.optional(S.NullOr(S.String)),
   }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "GetDatabaseResponse",
-}) as any as S.Schema<GetDatabaseResponse>;
+).annotate({ identifier: "GetDatabaseResponse" }) as any as S.Schema<GetDatabaseResponse>;
 
 export type DatabaseImportRequestAction = "init" | "ingest" | "poll";
 export const DatabaseImportRequestAction = S.String;
@@ -551,9 +527,7 @@ export const ImportDatabaseRequest = /*@__PURE__*/ S.suspend(() =>
       }),
     )
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "ImportDatabaseRequest",
-}) as any as S.Schema<ImportDatabaseRequest>;
+).annotate({ identifier: "ImportDatabaseRequest" }) as any as S.Schema<ImportDatabaseRequest>;
 
 export type DatabaseImportResponseMessagesList = Array<string>;
 export const DatabaseImportResponseMessagesList = /*@__PURE__*/ S.Array(
@@ -678,9 +652,7 @@ export const ImportDatabaseResponse = /*@__PURE__*/ S.suspend(() =>
     type: S.optional(S.NullOr(DatabaseImportResponseType)),
     uploadUrl: S.optional(S.NullOr(S.String).pipe(T.Body("upload_url"))),
   }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "ImportDatabaseResponse",
-}) as any as S.Schema<ImportDatabaseResponse>;
+).annotate({ identifier: "ImportDatabaseResponse" }) as any as S.Schema<ImportDatabaseResponse>;
 
 export interface ListDatabasesRequest {
   /** Account identifier tag. */
@@ -699,17 +671,9 @@ export const ListDatabasesRequest = /*@__PURE__*/ S.suspend(() =>
     page: S.optional(S.Number.pipe(T.Query())),
     perPage: S.optional(S.Number.pipe(T.Query("per_page"))),
   })
-    .pipe(
-      T.Http({
-        method: "GET",
-        uri: "/accounts/{account_id}/d1/database",
-        code: 200,
-      }),
-    )
+    .pipe(T.Http({ method: "GET", uri: "/accounts/{account_id}/d1/database", code: 200 }))
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "ListDatabasesRequest",
-}) as any as S.Schema<ListDatabasesRequest>;
+).annotate({ identifier: "ListDatabasesRequest" }) as any as S.Schema<ListDatabasesRequest>;
 
 export type DatabaseListResultItemJurisdiction = "eu" | "fedramp" | "us";
 export const DatabaseListResultItemJurisdiction = S.String;
@@ -733,9 +697,7 @@ export const DatabaseListResultItem = /*@__PURE__*/ S.suspend(() =>
     uuid: S.optional(S.NullOr(S.String)),
     version: S.optional(S.NullOr(S.String)),
   }),
-).annotate({
-  identifier: "DatabaseListResultItem",
-}) as any as S.Schema<DatabaseListResultItem>;
+).annotate({ identifier: "DatabaseListResultItem" }) as any as S.Schema<DatabaseListResultItem>;
 
 export type DatabaseListResultList = Array<DatabaseListResultItem>;
 export const DatabaseListResultList = /*@__PURE__*/ S.Array(
@@ -753,9 +715,7 @@ export const ListDatabasesResponse = /*@__PURE__*/ S.suspend(() =>
     result: DatabaseListResultList.pipe(T.EnvelopePayload()),
     resultInfo: S.optional(S.NullOr(ResultInfo).pipe(T.ResultInfo())),
   }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "ListDatabasesResponse",
-}) as any as S.Schema<ListDatabasesResponse>;
+).annotate({ identifier: "ListDatabasesResponse" }) as any as S.Schema<ListDatabasesResponse>;
 
 export type DatabaseEditRequestReadReplicationMode = "auto" | "disabled";
 export const DatabaseEditRequestReadReplicationMode = S.String;
@@ -796,9 +756,7 @@ export const PatchDatabaseRequest = /*@__PURE__*/ S.suspend(() =>
       }),
     )
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "PatchDatabaseRequest",
-}) as any as S.Schema<PatchDatabaseRequest>;
+).annotate({ identifier: "PatchDatabaseRequest" }) as any as S.Schema<PatchDatabaseRequest>;
 
 export type DatabaseEditResponseJurisdiction = "eu" | "fedramp" | "us";
 export const DatabaseEditResponseJurisdiction = S.String;
@@ -828,6 +786,7 @@ export interface PatchDatabaseResponse {
   jurisdiction?: DatabaseEditResponseJurisdiction | null;
   /** D1 database name. */
   name?: string | null;
+  /** The number of tables in the D1 database. This count is no longer accurate and should not be relied upon. */
   numTables?: number | null;
   /** Configuration for D1 read replication. */
   readReplication?: DatabaseEditResponseReadReplication | null;
@@ -848,9 +807,7 @@ export const PatchDatabaseResponse = /*@__PURE__*/ S.suspend(() =>
     uuid: S.optional(S.NullOr(S.String)),
     version: S.optional(S.NullOr(S.String)),
   }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "PatchDatabaseResponse",
-}) as any as S.Schema<PatchDatabaseResponse>;
+).annotate({ identifier: "PatchDatabaseResponse" }) as any as S.Schema<PatchDatabaseResponse>;
 
 export type DatabaseQueryRequestParamsList = Array<unknown>;
 export const DatabaseQueryRequestParamsList = /*@__PURE__*/ S.Array(
@@ -907,9 +864,7 @@ export const QueryDatabaseRequest = /*@__PURE__*/ S.suspend(() =>
       }),
     )
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "QueryDatabaseRequest",
-}) as any as S.Schema<QueryDatabaseRequest>;
+).annotate({ identifier: "QueryDatabaseRequest" }) as any as S.Schema<QueryDatabaseRequest>;
 
 export type DatabaseQueryResultItemMetaServedByRegion =
   | "WNAM"
@@ -983,9 +938,7 @@ export const DatabaseQueryResultItem = /*@__PURE__*/ S.suspend(() =>
     results: S.optional(S.NullOr(DatabaseQueryResultItemResultsList)),
     success: S.optional(S.NullOr(S.Boolean)),
   }),
-).annotate({
-  identifier: "DatabaseQueryResultItem",
-}) as any as S.Schema<DatabaseQueryResultItem>;
+).annotate({ identifier: "DatabaseQueryResultItem" }) as any as S.Schema<DatabaseQueryResultItem>;
 
 export type DatabaseQueryResultList = Array<DatabaseQueryResultItem>;
 export const DatabaseQueryResultList = /*@__PURE__*/ S.Array(
@@ -1003,9 +956,7 @@ export const QueryDatabaseResponse = /*@__PURE__*/ S.suspend(() =>
     result: DatabaseQueryResultList.pipe(T.EnvelopePayload()),
     resultInfo: S.optional(S.NullOr(ResultInfo).pipe(T.ResultInfo())),
   }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "QueryDatabaseResponse",
-}) as any as S.Schema<QueryDatabaseResponse>;
+).annotate({ identifier: "QueryDatabaseResponse" }) as any as S.Schema<QueryDatabaseResponse>;
 
 export type DatabaseRawRequestParamsList = Array<unknown>;
 export const DatabaseRawRequestParamsList = /*@__PURE__*/ S.Array(
@@ -1062,9 +1013,7 @@ export const RawDatabaseRequest = /*@__PURE__*/ S.suspend(() =>
       }),
     )
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "RawDatabaseRequest",
-}) as any as S.Schema<RawDatabaseRequest>;
+).annotate({ identifier: "RawDatabaseRequest" }) as any as S.Schema<RawDatabaseRequest>;
 
 export type DatabaseRawResultItemMetaServedByRegion =
   | "WNAM"
@@ -1156,9 +1105,7 @@ export const DatabaseRawResultItem = /*@__PURE__*/ S.suspend(() =>
     results: S.optional(S.NullOr(DatabaseRawResultItemResults)),
     success: S.optional(S.NullOr(S.Boolean)),
   }),
-).annotate({
-  identifier: "DatabaseRawResultItem",
-}) as any as S.Schema<DatabaseRawResultItem>;
+).annotate({ identifier: "DatabaseRawResultItem" }) as any as S.Schema<DatabaseRawResultItem>;
 
 export type DatabaseRawResultList = Array<DatabaseRawResultItem>;
 export const DatabaseRawResultList = /*@__PURE__*/ S.Array(
@@ -1176,9 +1123,7 @@ export const RawDatabaseResponse = /*@__PURE__*/ S.suspend(() =>
     result: DatabaseRawResultList.pipe(T.EnvelopePayload()),
     resultInfo: S.optional(S.NullOr(ResultInfo).pipe(T.ResultInfo())),
   }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "RawDatabaseResponse",
-}) as any as S.Schema<RawDatabaseResponse>;
+).annotate({ identifier: "RawDatabaseResponse" }) as any as S.Schema<RawDatabaseResponse>;
 
 export interface RestoreDatabaseTimeTravelRequest {
   /** Account identifier tag. */
@@ -1258,16 +1203,10 @@ export const UpdateDatabaseRequest = /*@__PURE__*/ S.suspend(() =>
     readReplication: DatabaseUpdateRequestReadReplication.pipe(T.Body("read_replication")),
   })
     .pipe(
-      T.Http({
-        method: "PUT",
-        uri: "/accounts/{account_id}/d1/database/{database_id}",
-        code: 200,
-      }),
+      T.Http({ method: "PUT", uri: "/accounts/{account_id}/d1/database/{database_id}", code: 200 }),
     )
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "UpdateDatabaseRequest",
-}) as any as S.Schema<UpdateDatabaseRequest>;
+).annotate({ identifier: "UpdateDatabaseRequest" }) as any as S.Schema<UpdateDatabaseRequest>;
 
 export type DatabaseUpdateResponseJurisdiction = "eu" | "fedramp" | "us";
 export const DatabaseUpdateResponseJurisdiction = S.String;
@@ -1297,6 +1236,7 @@ export interface UpdateDatabaseResponse {
   jurisdiction?: DatabaseUpdateResponseJurisdiction | null;
   /** D1 database name. */
   name?: string | null;
+  /** The number of tables in the D1 database. This count is no longer accurate and should not be relied upon. */
   numTables?: number | null;
   /** Configuration for D1 read replication. */
   readReplication?: DatabaseUpdateResponseReadReplication | null;
@@ -1317,16 +1257,14 @@ export const UpdateDatabaseResponse = /*@__PURE__*/ S.suspend(() =>
     uuid: S.optional(S.NullOr(S.String)),
     version: S.optional(S.NullOr(S.String)),
   }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "UpdateDatabaseResponse",
-}) as any as S.Schema<UpdateDatabaseResponse>;
+).annotate({ identifier: "UpdateDatabaseResponse" }) as any as S.Schema<UpdateDatabaseResponse>;
 
 export type CreateDatabaseError =
   | InvalidObjectIdentifier
   | InvalidProperty
   | DatabaseAlreadyExists
   | CloudflareOpError;
-/** Returns the created D1 database. */
+/** Create a new D1 database in your account. */
 export const createDatabase: API.OperationMethod<
   CreateDatabaseRequest,
   CreateDatabaseResponse,
@@ -1351,7 +1289,7 @@ export type DeleteDatabaseError =
   | DatabaseNotFound
   | UnknownError
   | CloudflareOpError;
-/** Deletes the specified D1 database. */
+/** Delete a D1 database. */
 export const deleteDatabase: API.OperationMethod<
   DeleteDatabaseRequest,
   DeleteDatabaseResponse,
@@ -1376,7 +1314,7 @@ export type ExportDatabaseError =
   | InvalidRequest
   | DatabaseNotFound
   | CloudflareOpError;
-/** Returns a URL where the SQL contents of your D1 can be downloaded. Note: this process may take some time for larger DBs, during which your D1 will be unavailable to serve queries. To avoid blocking your DB unnecessarily, an in-progress export must be continually polled or will automatically cancel. */
+/** Export the SQL contents of a D1 database and return a URL where they can be downloaded. Note: this process may take some time for larger DBs, during which your D1 will be unavailable to serve queries. To avoid blocking your DB unnecessarily, an in-progress export must be continually polled or will automatically cancel. */
 export const exportDatabase: API.OperationMethod<
   ExportDatabaseRequest,
   ExportDatabaseResponse,
@@ -1402,7 +1340,7 @@ export type GetBookmarkDatabaseTimeTravelError =
   | TimestampTooOld
   | DatabaseNotFound
   | CloudflareOpError;
-/** Retrieves the current bookmark, or the nearest bookmark at or before a provided timestamp. Bookmarks can be used with the restore endpoint to revert the database to a previous point in time. */
+/** Retrieve the current bookmark, or the nearest bookmark at or before a provided timestamp. Bookmarks can be used with the restore endpoint to revert the database to a previous point in time. */
 export const getBookmarkDatabaseTimeTravel: API.OperationMethod<
   GetBookmarkDatabaseTimeTravelRequest,
   GetBookmarkDatabaseTimeTravelResponse,
@@ -1428,7 +1366,7 @@ export type GetDatabaseError =
   | DatabaseNotFound
   | UnknownError
   | CloudflareOpError;
-/** Returns the specified D1 database. */
+/** Get details for a specific D1 database. */
 export const getDatabase: API.OperationMethod<
   GetDatabaseRequest,
   GetDatabaseResponse,
@@ -1449,7 +1387,7 @@ export const getDatabase: API.OperationMethod<
 }));
 
 export type ImportDatabaseError = InvalidObjectIdentifier | CloudflareOpError;
-/** Generates a temporary URL for uploading an SQL file to, then instructing the D1 to import it and polling it for status updates. Imports block the D1 for their duration. */
+/** Generate a temporary URL for uploading an SQL file to, then instruct the D1 to import it and poll it for status updates. Imports block the D1 for their duration. */
 export const importDatabase: API.OperationMethod<
   ImportDatabaseRequest,
   ImportDatabaseResponse,
@@ -1464,7 +1402,7 @@ export const importDatabase: API.OperationMethod<
 }));
 
 export type ListDatabasesError = CloudflareOpError;
-/** Returns a list of D1 databases. */
+/** List D1 databases in your account. */
 export const listDatabases: API.PaginatedOperationMethod<
   ListDatabasesRequest,
   ListDatabasesResponse,
@@ -1494,7 +1432,7 @@ export type PatchDatabaseError =
   | InternalError
   | DatabaseNotFound
   | CloudflareOpError;
-/** Updates partially the specified D1 database. */
+/** Partially update a D1 database's configuration. */
 export const patchDatabase: API.OperationMethod<
   PatchDatabaseRequest,
   PatchDatabaseResponse,
@@ -1515,7 +1453,7 @@ export const patchDatabase: API.OperationMethod<
 }));
 
 export type QueryDatabaseError = CloudflareOpError;
-/** Returns the query result as an object. */
+/** Execute a SQL query against a D1 database and return results as objects. */
 export const queryDatabase: API.PaginatedOperationMethod<
   QueryDatabaseRequest,
   QueryDatabaseResponse,
@@ -1535,7 +1473,7 @@ export const queryDatabase: API.PaginatedOperationMethod<
 ) as any;
 
 export type RawDatabaseError = CloudflareOpError;
-/** Returns the query result rows as arrays rather than objects. This is a performance-optimized version of the /query endpoint. */
+/** Execute a SQL query against a D1 database and return result rows as arrays rather than objects. This is a performance-optimized version of the /query endpoint. */
 export const rawDatabase: API.PaginatedOperationMethod<
   RawDatabaseRequest,
   RawDatabaseResponse,
@@ -1560,7 +1498,7 @@ export type RestoreDatabaseTimeTravelError =
   | DatabaseNotFound
   | InvalidProperty
   | CloudflareOpError;
-/** Restores a D1 database to a previous point in time either via a bookmark or a timestamp. */
+/** Restore a D1 database to a previous point in time either via a bookmark or a timestamp. */
 export const restoreDatabaseTimeTravel: API.OperationMethod<
   RestoreDatabaseTimeTravelRequest,
   RestoreDatabaseTimeTravelResponse,
@@ -1586,7 +1524,7 @@ export type UpdateDatabaseError =
   | InternalError
   | DatabaseNotFound
   | CloudflareOpError;
-/** Updates the specified D1 database. */
+/** Update a D1 database's configuration. */
 export const updateDatabase: API.OperationMethod<
   UpdateDatabaseRequest,
   UpdateDatabaseResponse,

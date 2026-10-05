@@ -109,9 +109,7 @@ export const AddressValidationRequest = /*@__PURE__*/ S.suspend(() =>
   })
     .pipe(T.Http({ method: "POST", uri: "/billing/address-validation", code: 200 }))
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "AddressValidationRequest",
-}) as any as S.Schema<AddressValidationRequest>;
+).annotate({ identifier: "AddressValidationRequest" }) as any as S.Schema<AddressValidationRequest>;
 
 export interface AddressValidationResponseValidatedAddressesItem {
   /** Validated address line 1. */
@@ -229,17 +227,9 @@ export const CreateProfileRequest = /*@__PURE__*/ S.suspend(() =>
     vat: S.optional(S.String),
     zipcode: S.optional(S.String),
   })
-    .pipe(
-      T.Http({
-        method: "POST",
-        uri: "/accounts/{account_id}/billing/profile",
-        code: 200,
-      }),
-    )
+    .pipe(T.Http({ method: "POST", uri: "/accounts/{account_id}/billing/profile", code: 200 }))
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "CreateProfileRequest",
-}) as any as S.Schema<CreateProfileRequest>;
+).annotate({ identifier: "CreateProfileRequest" }) as any as S.Schema<CreateProfileRequest>;
 
 /** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
 export interface CreateProfileResponse {
@@ -324,9 +314,7 @@ export const CreateProfileResponse = /*@__PURE__*/ S.suspend(() =>
     vat: S.optional(S.NullOr(S.String)),
     zipcode: S.optional(S.NullOr(S.String)),
   }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "CreateProfileResponse",
-}) as any as S.Schema<CreateProfileResponse>;
+).annotate({ identifier: "CreateProfileResponse" }) as any as S.Schema<CreateProfileResponse>;
 
 export interface CreateProfilesPaymentMethodRequest {
   /** Identifier */
@@ -372,24 +360,14 @@ export const DeleteProfileRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     accountId: S.String.pipe(T.Label("account_id")),
   })
-    .pipe(
-      T.Http({
-        method: "DELETE",
-        uri: "/accounts/{account_id}/billing/profile",
-        code: 200,
-      }),
-    )
+    .pipe(T.Http({ method: "DELETE", uri: "/accounts/{account_id}/billing/profile", code: 200 }))
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "DeleteProfileRequest",
-}) as any as S.Schema<DeleteProfileRequest>;
+).annotate({ identifier: "DeleteProfileRequest" }) as any as S.Schema<DeleteProfileRequest>;
 
 export interface DeleteProfileResponse {}
 export const DeleteProfileResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({}).pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "DeleteProfileResponse",
-}) as any as S.Schema<DeleteProfileResponse>;
+).annotate({ identifier: "DeleteProfileResponse" }) as any as S.Schema<DeleteProfileResponse>;
 
 export interface GetBadDebtRequest {
   /** Identifier */
@@ -399,17 +377,9 @@ export const GetBadDebtRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     accountId: S.String.pipe(T.Label("account_id")),
   })
-    .pipe(
-      T.Http({
-        method: "GET",
-        uri: "/accounts/{account_id}/billing/bad-debt",
-        code: 200,
-      }),
-    )
+    .pipe(T.Http({ method: "GET", uri: "/accounts/{account_id}/billing/bad-debt", code: 200 }))
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "GetBadDebtRequest",
-}) as any as S.Schema<GetBadDebtRequest>;
+).annotate({ identifier: "GetBadDebtRequest" }) as any as S.Schema<GetBadDebtRequest>;
 
 export interface GetBadDebtResponseInvoicesItem {
   /** Billing history item identifier. */
@@ -488,9 +458,7 @@ export const GetBadDebtResponse = /*@__PURE__*/ S.suspend(() =>
     invoices: S.optional(S.NullOr(GetBadDebtResponseInvoicesList)),
     totalDebtAmount: S.optional(S.NullOr(S.Number).pipe(T.Body("total_debt_amount"))),
   }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "GetBadDebtResponse",
-}) as any as S.Schema<GetBadDebtResponse>;
+).annotate({ identifier: "GetBadDebtResponse" }) as any as S.Schema<GetBadDebtResponse>;
 
 export interface GetCreditRequest {
   /** Identifier */
@@ -500,17 +468,9 @@ export const GetCreditRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     accountId: S.String.pipe(T.Label("account_id")),
   })
-    .pipe(
-      T.Http({
-        method: "GET",
-        uri: "/accounts/{account_id}/billing/credits",
-        code: 200,
-      }),
-    )
+    .pipe(T.Http({ method: "GET", uri: "/accounts/{account_id}/billing/credits", code: 200 }))
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "GetCreditRequest",
-}) as any as S.Schema<GetCreditRequest>;
+).annotate({ identifier: "GetCreditRequest" }) as any as S.Schema<GetCreditRequest>;
 
 /** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
 export interface GetCreditResponse {
@@ -548,9 +508,7 @@ export const GetCreditResponse = /*@__PURE__*/ S.suspend(() =>
     validFrom: S.optional(S.NullOr(S.String).pipe(T.Body("valid_from"))),
     validTo: S.optional(S.NullOr(S.String).pipe(T.Body("valid_to"))),
   }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "GetCreditResponse",
-}) as any as S.Schema<GetCreditResponse>;
+).annotate({ identifier: "GetCreditResponse" }) as any as S.Schema<GetCreditResponse>;
 
 export interface GetProfileRequest {
   /** Identifier */
@@ -560,17 +518,9 @@ export const GetProfileRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     accountId: S.String.pipe(T.Label("account_id")),
   })
-    .pipe(
-      T.Http({
-        method: "GET",
-        uri: "/accounts/{account_id}/billing/profile",
-        code: 200,
-      }),
-    )
+    .pipe(T.Http({ method: "GET", uri: "/accounts/{account_id}/billing/profile", code: 200 }))
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "GetProfileRequest",
-}) as any as S.Schema<GetProfileRequest>;
+).annotate({ identifier: "GetProfileRequest" }) as any as S.Schema<GetProfileRequest>;
 
 /** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
 export interface GetProfileResponse {
@@ -655,9 +605,7 @@ export const GetProfileResponse = /*@__PURE__*/ S.suspend(() =>
     vat: S.optional(S.NullOr(S.String)),
     zipcode: S.optional(S.NullOr(S.String)),
   }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "GetProfileResponse",
-}) as any as S.Schema<GetProfileResponse>;
+).annotate({ identifier: "GetProfileResponse" }) as any as S.Schema<GetProfileResponse>;
 
 export interface GetRatePlanRequest {
   publicKey: string;
@@ -666,21 +614,11 @@ export const GetRatePlanRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     publicKey: S.String.pipe(T.Label("public_key")),
   })
-    .pipe(
-      T.Http({
-        method: "GET",
-        uri: "/billing/rate_plans/{public_key}",
-        code: 200,
-      }),
-    )
+    .pipe(T.Http({ method: "GET", uri: "/billing/rate_plans/{public_key}", code: 200 }))
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "GetRatePlanRequest",
-}) as any as S.Schema<GetRatePlanRequest>;
+).annotate({ identifier: "GetRatePlanRequest" }) as any as S.Schema<GetRatePlanRequest>;
 
-export type GetRatePlanResponseComponentsItemMap = {
-  [key: string]: unknown | undefined;
-};
+export type GetRatePlanResponseComponentsItemMap = { [key: string]: unknown | undefined };
 export const GetRatePlanResponseComponentsItemMap = /*@__PURE__*/ S.Record(
   S.String,
   S.Unknown,
@@ -709,9 +647,7 @@ export const GetRatePlanResponse = /*@__PURE__*/ S.suspend(() =>
     currency: S.optional(S.NullOr(S.String)),
     publicName: S.optional(S.NullOr(S.String).pipe(T.Body("public_name"))),
   }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "GetRatePlanResponse",
-}) as any as S.Schema<GetRatePlanResponse>;
+).annotate({ identifier: "GetRatePlanResponse" }) as any as S.Schema<GetRatePlanResponse>;
 
 export interface GetUnpaidInvoiceRequest {
   /** Identifier */
@@ -722,16 +658,10 @@ export const GetUnpaidInvoiceRequest = /*@__PURE__*/ S.suspend(() =>
     accountId: S.String.pipe(T.Label("account_id")),
   })
     .pipe(
-      T.Http({
-        method: "GET",
-        uri: "/accounts/{account_id}/billing/unpaid-invoice",
-        code: 200,
-      }),
+      T.Http({ method: "GET", uri: "/accounts/{account_id}/billing/unpaid-invoice", code: 200 }),
     )
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "GetUnpaidInvoiceRequest",
-}) as any as S.Schema<GetUnpaidInvoiceRequest>;
+).annotate({ identifier: "GetUnpaidInvoiceRequest" }) as any as S.Schema<GetUnpaidInvoiceRequest>;
 
 export type GetUnpaidInvoiceResponseInvoicesItem = GetBadDebtResponseInvoicesItem;
 export const GetUnpaidInvoiceResponseInvoicesItem = GetBadDebtResponseInvoicesItem;
@@ -750,9 +680,7 @@ export const GetUnpaidInvoiceResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     invoices: S.optional(S.NullOr(GetUnpaidInvoiceResponseInvoicesList)),
   }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "GetUnpaidInvoiceResponse",
-}) as any as S.Schema<GetUnpaidInvoiceResponse>;
+).annotate({ identifier: "GetUnpaidInvoiceResponse" }) as any as S.Schema<GetUnpaidInvoiceResponse>;
 
 export interface GetUsageRequest {
   /** Represents a Cloudflare resource identifier tag. */
@@ -768,17 +696,9 @@ export const GetUsageRequest = /*@__PURE__*/ S.suspend(() =>
     from: S.optional(S.String.pipe(T.Query())),
     to: S.optional(S.String.pipe(T.Query())),
   })
-    .pipe(
-      T.Http({
-        method: "GET",
-        uri: "/accounts/{account_id}/billable/usage",
-        code: 200,
-      }),
-    )
+    .pipe(T.Http({ method: "GET", uri: "/accounts/{account_id}/billable/usage", code: 200 }))
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "GetUsageRequest",
-}) as any as S.Schema<GetUsageRequest>;
+).annotate({ identifier: "GetUsageRequest" }) as any as S.Schema<GetUsageRequest>;
 
 export type UsageGetResultItemChargeCategory = "Usage";
 export const UsageGetResultItemChargeCategory = S.String;
@@ -793,10 +713,6 @@ export type UsageGetResultItemTags = string | boolean;
 export const UsageGetResultItemTags = /*@__PURE__*/ S.Unknown.pipe(T.UnionCases([[], []]));
 
 export interface UsageGetResultItem {
-  /** Public identifier of the Cloudflare account (account tag). */
-  billingAccountId: string;
-  /** Display name of the Cloudflare account. */
-  billingAccountName: string;
   /** Highest-level classification of a charge based on the nature of how it gets billed. Currently only "Usage" is supported. */
   chargeCategory: UsageGetResultItemChargeCategory;
   /** Self-contained summary of the charge's purpose and price. */
@@ -819,10 +735,12 @@ export interface UsageGetResultItem {
   serviceProviderName: string;
   /** The unique identifier for the billable metric in the Cloudflare catalog. Cloudflare extension; replaces FOCUS SkuId. */
   xBillableMetricId: string;
-  /** The display name of the billable metric. Cloudflare extension; replaces FOCUS SkuMeter. */
-  xBillableMetricName: string;
   /** A charge serving as the basis for invoicing, inclusive of all reduced rates and discounts while excluding the amortization of upfront charges (one-time or recurring). */
   billedCost?: number | null;
+  /** Public identifier of the Cloudflare account (account tag). Omitted when account is not part of the requested grouping, and always omitted for usage measured at contract level, even when grouping by account: that usage is returned as its own record with no account. */
+  billingAccountId?: string | null;
+  /** Display name of the Cloudflare account. Omitted when account is not part of the requested grouping, and for usage measured at contract level. */
+  billingAccountName?: string | null;
   /** Currency that a charge was billed in (ISO 4217). */
   billingCurrency?: string | null;
   /** Exclusive end of the billing cycle that contains this usage record. */
@@ -855,21 +773,21 @@ export interface UsageGetResultItem {
   subAccountName?: string | null;
   /** Tag values for the requested `GroupBy` keys. Omitted when `GroupBy` is not provided. Missing keys are omitted, and key-only tags are returned as boolean `true`. All other tag values are strings. */
   tags?: UsageGetResultItemTags | null;
+  /** The display name of the billable metric. Cloudflare extension; replaces FOCUS SkuMeter. */
+  xBillableMetricName?: string | null;
   /** The product category the charge belongs to (e.g., "Developer", "Cloudflare One"). Cloudflare extension; replaces FOCUS ServiceCategory. */
   xProductCategoryName?: string | null;
   /** The unique identifier for the product family in the Cloudflare catalog. Cloudflare extension; replaces FOCUS ServiceId. */
   xProductFamilyId?: string | null;
   /** The product family the charge belongs to (e.g., "R2", "Workers"). Cloudflare extension; replaces FOCUS ServiceName. */
   xProductFamilyName?: string | null;
-  /** The identifier for the Cloudflare zone (zone tag). Cloudflare extension. */
+  /** The identifier for the Cloudflare zone (zone tag). Omitted when zone is not part of the requested grouping, and always omitted for usage measured at contract level, even when grouping by zone. Cloudflare extension. */
   xZoneId?: string | null;
-  /** The display name of the Cloudflare zone. Cloudflare extension. */
+  /** The display name of the Cloudflare zone. Omitted when zone is not part of the requested grouping, and for usage measured at contract level. Cloudflare extension. */
   xZoneName?: string | null;
 }
 export const UsageGetResultItem = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    billingAccountId: S.String.pipe(T.Body("BillingAccountId")),
-    billingAccountName: S.String.pipe(T.Body("BillingAccountName")),
     chargeCategory: UsageGetResultItemChargeCategory.pipe(T.Body("ChargeCategory")),
     chargeDescription: S.String.pipe(T.Body("ChargeDescription")),
     chargeFrequency: UsageGetResultItemChargeFrequency.pipe(T.Body("ChargeFrequency")),
@@ -881,8 +799,9 @@ export const UsageGetResultItem = /*@__PURE__*/ S.suspend(() =>
     invoiceIssuerName: S.String.pipe(T.Body("InvoiceIssuerName")),
     serviceProviderName: S.String.pipe(T.Body("ServiceProviderName")),
     xBillableMetricId: S.String.pipe(T.Body("x_BillableMetricId")),
-    xBillableMetricName: S.String.pipe(T.Body("x_BillableMetricName")),
     billedCost: S.optional(S.NullOr(S.Number).pipe(T.Body("BilledCost"))),
+    billingAccountId: S.optional(S.NullOr(S.String).pipe(T.Body("BillingAccountId"))),
+    billingAccountName: S.optional(S.NullOr(S.String).pipe(T.Body("BillingAccountName"))),
     billingCurrency: S.optional(S.NullOr(S.String).pipe(T.Body("BillingCurrency"))),
     billingPeriodEnd: S.optional(S.NullOr(S.String).pipe(T.Body("BillingPeriodEnd"))),
     billingPeriodStart: S.optional(S.NullOr(S.String).pipe(T.Body("BillingPeriodStart"))),
@@ -899,15 +818,14 @@ export const UsageGetResultItem = /*@__PURE__*/ S.suspend(() =>
     subAccountId: S.optional(S.NullOr(S.String).pipe(T.Body("SubAccountId"))),
     subAccountName: S.optional(S.NullOr(S.String).pipe(T.Body("SubAccountName"))),
     tags: S.optional(S.NullOr(UsageGetResultItemTags).pipe(T.Body("Tags"))),
+    xBillableMetricName: S.optional(S.NullOr(S.String).pipe(T.Body("x_BillableMetricName"))),
     xProductCategoryName: S.optional(S.NullOr(S.String).pipe(T.Body("x_ProductCategoryName"))),
     xProductFamilyId: S.optional(S.NullOr(S.String).pipe(T.Body("x_ProductFamilyId"))),
     xProductFamilyName: S.optional(S.NullOr(S.String).pipe(T.Body("x_ProductFamilyName"))),
     xZoneId: S.optional(S.NullOr(S.String).pipe(T.Body("x_ZoneId"))),
     xZoneName: S.optional(S.NullOr(S.String).pipe(T.Body("x_ZoneName"))),
   }),
-).annotate({
-  identifier: "UsageGetResultItem",
-}) as any as S.Schema<UsageGetResultItem>;
+).annotate({ identifier: "UsageGetResultItem" }) as any as S.Schema<UsageGetResultItem>;
 
 export type UsageGetResultList = Array<UsageGetResultItem>;
 export const UsageGetResultList = /*@__PURE__*/ S.Array(
@@ -917,9 +835,7 @@ export const UsageGetResultList = /*@__PURE__*/ S.Array(
 export type GetUsageResponse = UsageGetResultList;
 export const GetUsageResponse = /*@__PURE__*/ S.suspend(() =>
   UsageGetResultList.pipe(T.EnvelopePayloadRoot(), T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "GetUsageResponse",
-}) as any as S.Schema<GetUsageResponse>;
+).annotate({ identifier: "GetUsageResponse" }) as any as S.Schema<GetUsageResponse>;
 
 export interface ListHistoryRequest {
   /** Identifier */
@@ -938,17 +854,9 @@ export const ListHistoryRequest = /*@__PURE__*/ S.suspend(() =>
     perPage: S.optional(S.Number.pipe(T.Query("per_page"))),
     status: S.optional(S.String.pipe(T.Query())),
   })
-    .pipe(
-      T.Http({
-        method: "GET",
-        uri: "/accounts/{account_id}/billing/history",
-        code: 200,
-      }),
-    )
+    .pipe(T.Http({ method: "GET", uri: "/accounts/{account_id}/billing/history", code: 200 }))
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "ListHistoryRequest",
-}) as any as S.Schema<ListHistoryRequest>;
+).annotate({ identifier: "ListHistoryRequest" }) as any as S.Schema<ListHistoryRequest>;
 
 export type ListHistoryResultItem = GetBadDebtResponseInvoicesItem;
 export const ListHistoryResultItem = GetBadDebtResponseInvoicesItem;
@@ -961,9 +869,7 @@ export const ListHistoryResultList = /*@__PURE__*/ S.Array(
 export type ListHistoryResponse = ListHistoryResultList;
 export const ListHistoryResponse = /*@__PURE__*/ S.suspend(() =>
   ListHistoryResultList.pipe(T.EnvelopePayloadRoot(), T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "ListHistoryResponse",
-}) as any as S.Schema<ListHistoryResponse>;
+).annotate({ identifier: "ListHistoryResponse" }) as any as S.Schema<ListHistoryResponse>;
 
 export interface PaygoUsageRequest {
   /** Represents a Cloudflare resource identifier tag. */
@@ -979,17 +885,9 @@ export const PaygoUsageRequest = /*@__PURE__*/ S.suspend(() =>
     from: S.optional(S.String.pipe(T.Query())),
     to: S.optional(S.String.pipe(T.Query())),
   })
-    .pipe(
-      T.Http({
-        method: "GET",
-        uri: "/accounts/{account_id}/billable-usage",
-        code: 200,
-      }),
-    )
+    .pipe(T.Http({ method: "GET", uri: "/accounts/{account_id}/billable-usage", code: 200 }))
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "PaygoUsageRequest",
-}) as any as S.Schema<PaygoUsageRequest>;
+).annotate({ identifier: "PaygoUsageRequest" }) as any as S.Schema<PaygoUsageRequest>;
 
 export type UsagePaygoResultItemChargeCategory = "Usage";
 export const UsagePaygoResultItemChargeCategory = S.String;
@@ -1080,9 +978,7 @@ export const UsagePaygoResultItem = /*@__PURE__*/ S.suspend(() =>
     zoneId: S.optional(S.NullOr(S.String).pipe(T.Body("ZoneId"))),
     zoneName: S.optional(S.NullOr(S.String).pipe(T.Body("ZoneName"))),
   }),
-).annotate({
-  identifier: "UsagePaygoResultItem",
-}) as any as S.Schema<UsagePaygoResultItem>;
+).annotate({ identifier: "UsagePaygoResultItem" }) as any as S.Schema<UsagePaygoResultItem>;
 
 export type UsagePaygoResultList = Array<UsagePaygoResultItem>;
 export const UsagePaygoResultList = /*@__PURE__*/ S.Array(
@@ -1092,9 +988,7 @@ export const UsagePaygoResultList = /*@__PURE__*/ S.Array(
 export type PaygoUsageResponse = UsagePaygoResultList;
 export const PaygoUsageResponse = /*@__PURE__*/ S.suspend(() =>
   UsagePaygoResultList.pipe(T.EnvelopePayloadRoot(), T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "PaygoUsageResponse",
-}) as any as S.Schema<PaygoUsageResponse>;
+).annotate({ identifier: "PaygoUsageResponse" }) as any as S.Schema<PaygoUsageResponse>;
 
 export interface ProfilesUpdateBillingEmailRequest {
   /** Identifier */
@@ -1110,13 +1004,7 @@ export const ProfilesUpdateBillingEmailRequest = /*@__PURE__*/ S.suspend(() =>
     preferredLocale: S.optional(S.String.pipe(T.Body("preferred_locale"))),
     secondaryBillingEmail: S.optional(S.String.pipe(T.Body("secondary_billing_email"))),
   })
-    .pipe(
-      T.Http({
-        method: "PATCH",
-        uri: "/accounts/{account_id}/billing/profile",
-        code: 200,
-      }),
-    )
+    .pipe(T.Http({ method: "PATCH", uri: "/accounts/{account_id}/billing/profile", code: 200 }))
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
 ).annotate({
   identifier: "ProfilesUpdateBillingEmailRequest",
@@ -1274,17 +1162,9 @@ export const UpdateProfileRequest = /*@__PURE__*/ S.suspend(() =>
     vat: S.optional(S.String),
     zipcode: S.optional(S.String),
   })
-    .pipe(
-      T.Http({
-        method: "PUT",
-        uri: "/accounts/{account_id}/billing/profile",
-        code: 200,
-      }),
-    )
+    .pipe(T.Http({ method: "PUT", uri: "/accounts/{account_id}/billing/profile", code: 200 }))
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "UpdateProfileRequest",
-}) as any as S.Schema<UpdateProfileRequest>;
+).annotate({ identifier: "UpdateProfileRequest" }) as any as S.Schema<UpdateProfileRequest>;
 
 /** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
 export interface UpdateProfileResponse {
@@ -1369,9 +1249,7 @@ export const UpdateProfileResponse = /*@__PURE__*/ S.suspend(() =>
     vat: S.optional(S.NullOr(S.String)),
     zipcode: S.optional(S.NullOr(S.String)),
   }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "UpdateProfileResponse",
-}) as any as S.Schema<UpdateProfileResponse>;
+).annotate({ identifier: "UpdateProfileResponse" }) as any as S.Schema<UpdateProfileResponse>;
 
 export interface UsageGetAccountUsageInfoV1Request {
   /** Represents a Cloudflare resource identifier tag. */
@@ -1381,13 +1259,7 @@ export const UsageGetAccountUsageInfoV1Request = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     accountId: S.String.pipe(T.Label("account_id")),
   })
-    .pipe(
-      T.Http({
-        method: "GET",
-        uri: "/accounts/{account_id}/billable-usage/info",
-        code: 200,
-      }),
-    )
+    .pipe(T.Http({ method: "GET", uri: "/accounts/{account_id}/billable-usage/info", code: 200 }))
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
 ).annotate({
   identifier: "UsageGetAccountUsageInfoV1Request",
@@ -1450,13 +1322,7 @@ export const UsageGetAccountUsageV1Request = /*@__PURE__*/ S.suspend(() =>
     from: S.optional(S.String.pipe(T.Query())),
     to: S.optional(S.String.pipe(T.Query())),
   })
-    .pipe(
-      T.Http({
-        method: "GET",
-        uri: "/accounts/{account_id}/billable-usage",
-        code: 200,
-      }),
-    )
+    .pipe(T.Http({ method: "GET", uri: "/accounts/{account_id}/billable-usage", code: 200 }))
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
 ).annotate({
   identifier: "UsageGetAccountUsageV1Request",
@@ -1581,13 +1447,7 @@ export const UsageGetAccountUsageV2Request = /*@__PURE__*/ S.suspend(() =>
     from: S.optional(S.String.pipe(T.Query())),
     to: S.optional(S.String.pipe(T.Query())),
   })
-    .pipe(
-      T.Http({
-        method: "GET",
-        uri: "/accounts/{account_id}/billable/usage",
-        code: 200,
-      }),
-    )
+    .pipe(T.Http({ method: "GET", uri: "/accounts/{account_id}/billable/usage", code: 200 }))
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
 ).annotate({
   identifier: "UsageGetAccountUsageV2Request",
@@ -1608,10 +1468,6 @@ export const UsageGetAccountUsageV2ResultItemTags = /*@__PURE__*/ S.Unknown.pipe
 );
 
 export interface UsageGetAccountUsageV2ResultItem {
-  /** Public identifier of the Cloudflare account (account tag). */
-  billingAccountId: string;
-  /** Display name of the Cloudflare account. */
-  billingAccountName: string;
   /** Highest-level classification of a charge based on the nature of how it gets billed. Currently only "Usage" is supported. */
   chargeCategory: UsageGetAccountUsageV2ResultItemChargeCategory;
   /** Self-contained summary of the charge's purpose and price. */
@@ -1634,10 +1490,12 @@ export interface UsageGetAccountUsageV2ResultItem {
   serviceProviderName: string;
   /** The unique identifier for the billable metric in the Cloudflare catalog. Cloudflare extension; replaces FOCUS SkuId. */
   xBillableMetricId: string;
-  /** The display name of the billable metric. Cloudflare extension; replaces FOCUS SkuMeter. */
-  xBillableMetricName: string;
   /** A charge serving as the basis for invoicing, inclusive of all reduced rates and discounts while excluding the amortization of upfront charges (one-time or recurring). */
   billedCost?: number | null;
+  /** Public identifier of the Cloudflare account (account tag). Omitted when account is not part of the requested grouping, and always omitted for usage measured at contract level, even when grouping by account: that usage is returned as its own record with no account. */
+  billingAccountId?: string | null;
+  /** Display name of the Cloudflare account. Omitted when account is not part of the requested grouping, and for usage measured at contract level. */
+  billingAccountName?: string | null;
   /** Currency that a charge was billed in (ISO 4217). */
   billingCurrency?: string | null;
   /** Exclusive end of the billing cycle that contains this usage record. */
@@ -1670,21 +1528,21 @@ export interface UsageGetAccountUsageV2ResultItem {
   subAccountName?: string | null;
   /** Tag values for the requested `GroupBy` keys. Omitted when `GroupBy` is not provided. Missing keys are omitted, and key-only tags are returned as boolean `true`. All other tag values are strings. */
   tags?: UsageGetAccountUsageV2ResultItemTags | null;
+  /** The display name of the billable metric. Cloudflare extension; replaces FOCUS SkuMeter. */
+  xBillableMetricName?: string | null;
   /** The product category the charge belongs to (e.g., "Developer", "Cloudflare One"). Cloudflare extension; replaces FOCUS ServiceCategory. */
   xProductCategoryName?: string | null;
   /** The unique identifier for the product family in the Cloudflare catalog. Cloudflare extension; replaces FOCUS ServiceId. */
   xProductFamilyId?: string | null;
   /** The product family the charge belongs to (e.g., "R2", "Workers"). Cloudflare extension; replaces FOCUS ServiceName. */
   xProductFamilyName?: string | null;
-  /** The identifier for the Cloudflare zone (zone tag). Cloudflare extension. */
+  /** The identifier for the Cloudflare zone (zone tag). Omitted when zone is not part of the requested grouping, and always omitted for usage measured at contract level, even when grouping by zone. Cloudflare extension. */
   xZoneId?: string | null;
-  /** The display name of the Cloudflare zone. Cloudflare extension. */
+  /** The display name of the Cloudflare zone. Omitted when zone is not part of the requested grouping, and for usage measured at contract level. Cloudflare extension. */
   xZoneName?: string | null;
 }
 export const UsageGetAccountUsageV2ResultItem = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    billingAccountId: S.String.pipe(T.Body("BillingAccountId")),
-    billingAccountName: S.String.pipe(T.Body("BillingAccountName")),
     chargeCategory: UsageGetAccountUsageV2ResultItemChargeCategory.pipe(T.Body("ChargeCategory")),
     chargeDescription: S.String.pipe(T.Body("ChargeDescription")),
     chargeFrequency: UsageGetAccountUsageV2ResultItemChargeFrequency.pipe(
@@ -1698,8 +1556,9 @@ export const UsageGetAccountUsageV2ResultItem = /*@__PURE__*/ S.suspend(() =>
     invoiceIssuerName: S.String.pipe(T.Body("InvoiceIssuerName")),
     serviceProviderName: S.String.pipe(T.Body("ServiceProviderName")),
     xBillableMetricId: S.String.pipe(T.Body("x_BillableMetricId")),
-    xBillableMetricName: S.String.pipe(T.Body("x_BillableMetricName")),
     billedCost: S.optional(S.NullOr(S.Number).pipe(T.Body("BilledCost"))),
+    billingAccountId: S.optional(S.NullOr(S.String).pipe(T.Body("BillingAccountId"))),
+    billingAccountName: S.optional(S.NullOr(S.String).pipe(T.Body("BillingAccountName"))),
     billingCurrency: S.optional(S.NullOr(S.String).pipe(T.Body("BillingCurrency"))),
     billingPeriodEnd: S.optional(S.NullOr(S.String).pipe(T.Body("BillingPeriodEnd"))),
     billingPeriodStart: S.optional(S.NullOr(S.String).pipe(T.Body("BillingPeriodStart"))),
@@ -1718,6 +1577,7 @@ export const UsageGetAccountUsageV2ResultItem = /*@__PURE__*/ S.suspend(() =>
     subAccountId: S.optional(S.NullOr(S.String).pipe(T.Body("SubAccountId"))),
     subAccountName: S.optional(S.NullOr(S.String).pipe(T.Body("SubAccountName"))),
     tags: S.optional(S.NullOr(UsageGetAccountUsageV2ResultItemTags).pipe(T.Body("Tags"))),
+    xBillableMetricName: S.optional(S.NullOr(S.String).pipe(T.Body("x_BillableMetricName"))),
     xProductCategoryName: S.optional(S.NullOr(S.String).pipe(T.Body("x_ProductCategoryName"))),
     xProductFamilyId: S.optional(S.NullOr(S.String).pipe(T.Body("x_ProductFamilyId"))),
     xProductFamilyName: S.optional(S.NullOr(S.String).pipe(T.Body("x_ProductFamilyName"))),
@@ -1748,17 +1608,9 @@ export const UsagePaygoInfoRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     accountId: S.String.pipe(T.Label("account_id")),
   })
-    .pipe(
-      T.Http({
-        method: "GET",
-        uri: "/accounts/{account_id}/billable-usage/info",
-        code: 200,
-      }),
-    )
+    .pipe(T.Http({ method: "GET", uri: "/accounts/{account_id}/billable-usage/info", code: 200 }))
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "UsagePaygoInfoRequest",
-}) as any as S.Schema<UsagePaygoInfoRequest>;
+).annotate({ identifier: "UsagePaygoInfoRequest" }) as any as S.Schema<UsagePaygoInfoRequest>;
 
 export type UsagePaygoInfoResponseSubscriptionsItem =
   UsageGetAccountUsageInfoV1ResponseSubscriptionsItem;
@@ -1783,9 +1635,7 @@ export const UsagePaygoInfoResponse = /*@__PURE__*/ S.suspend(() =>
     covered: S.Boolean,
     subscriptions: UsagePaygoInfoResponseSubscriptionsList,
   }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "UsagePaygoInfoResponse",
-}) as any as S.Schema<UsagePaygoInfoResponse>;
+).annotate({ identifier: "UsagePaygoInfoResponse" }) as any as S.Schema<UsagePaygoInfoResponse>;
 
 export type AddressValidationError = CloudflareOpError;
 /** Validates a billing address and returns validated address suggestions. Authentication is not enforced to support pre-signup address validation flows, so credentials are accepted but not required. */

@@ -228,9 +228,7 @@ export const InsightsClassGetResultList = /*@__PURE__*/ S.Array(
 export type GetInsightClassResponse = InsightsClassGetResultList;
 export const GetInsightClassResponse = /*@__PURE__*/ S.suspend(() =>
   InsightsClassGetResultList.pipe(T.EnvelopePayloadRoot(), T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "GetInsightClassResponse",
-}) as any as S.Schema<GetInsightClassResponse>;
+).annotate({ identifier: "GetInsightClassResponse" }) as any as S.Schema<GetInsightClassResponse>;
 
 export interface GetInsightClassForZoneRequest {
   /** The Zone ID to use for this endpoint. Mutually exclusive with the Account ID. */
@@ -269,11 +267,7 @@ export const GetInsightClassForZoneRequest = /*@__PURE__*/ S.suspend(() =>
     subjectNeq: S.optional(InsightsClassGetRequestSubjectNeqList.pipe(T.Query("subject~neq"))),
   })
     .pipe(
-      T.Http({
-        method: "GET",
-        uri: "/zones/{zone_id}/security-center/insights/class",
-        code: 200,
-      }),
+      T.Http({ method: "GET", uri: "/zones/{zone_id}/security-center/insights/class", code: 200 }),
     )
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
 ).annotate({
@@ -298,13 +292,9 @@ export const GetInsightContextRequest = /*@__PURE__*/ S.suspend(() =>
       }),
     )
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "GetInsightContextRequest",
-}) as any as S.Schema<GetInsightContextRequest>;
+).annotate({ identifier: "GetInsightContextRequest" }) as any as S.Schema<GetInsightContextRequest>;
 
-export type InsightsContextGetResultMap = {
-  [key: string]: unknown | undefined;
-};
+export type InsightsContextGetResultMap = { [key: string]: unknown | undefined };
 export const InsightsContextGetResultMap = /*@__PURE__*/ S.Record(
   S.String,
   S.Unknown,
@@ -609,9 +599,7 @@ export const InsightsTypeGetResultList = /*@__PURE__*/ S.Array(
 export type GetInsightTypeResponse = InsightsTypeGetResultList;
 export const GetInsightTypeResponse = /*@__PURE__*/ S.suspend(() =>
   InsightsTypeGetResultList.pipe(T.EnvelopePayloadRoot(), T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "GetInsightTypeResponse",
-}) as any as S.Schema<GetInsightTypeResponse>;
+).annotate({ identifier: "GetInsightTypeResponse" }) as any as S.Schema<GetInsightTypeResponse>;
 
 export interface GetInsightTypeForZoneRequest {
   /** The Zone ID to use for this endpoint. Mutually exclusive with the Account ID. */
@@ -650,11 +638,7 @@ export const GetInsightTypeForZoneRequest = /*@__PURE__*/ S.suspend(() =>
     subjectNeq: S.optional(InsightsTypeGetRequestSubjectNeqList.pipe(T.Query("subject~neq"))),
   })
     .pipe(
-      T.Http({
-        method: "GET",
-        uri: "/zones/{zone_id}/security-center/insights/type",
-        code: 200,
-      }),
+      T.Http({ method: "GET", uri: "/zones/{zone_id}/security-center/insights/type", code: 200 }),
     )
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
 ).annotate({
@@ -1071,11 +1055,7 @@ export const ListInsightsForAccountRequest = /*@__PURE__*/ S.suspend(() =>
     subjectNeq: S.optional(InsightsListRequestSubjectNeqList.pipe(T.Query("subject~neq"))),
   })
     .pipe(
-      T.Http({
-        method: "GET",
-        uri: "/accounts/{account_id}/security-center/insights",
-        code: 200,
-      }),
+      T.Http({ method: "GET", uri: "/accounts/{account_id}/security-center/insights", code: 200 }),
     )
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
 ).annotate({
@@ -1185,9 +1165,7 @@ export const ListInsightsResponse = /*@__PURE__*/ S.suspend(() =>
     page: S.optional(S.NullOr(S.Number)),
     perPage: S.optional(S.NullOr(S.Number).pipe(T.Body("per_page"))),
   }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "ListInsightsResponse",
-}) as any as S.Schema<ListInsightsResponse>;
+).annotate({ identifier: "ListInsightsResponse" }) as any as S.Schema<ListInsightsResponse>;
 
 export interface ListInsightsForZoneRequest {
   /** The Zone ID to use for this endpoint. Mutually exclusive with the Account ID. */
@@ -1229,13 +1207,7 @@ export const ListInsightsForZoneRequest = /*@__PURE__*/ S.suspend(() =>
     subject: S.optional(InsightsListRequestSubjectList.pipe(T.Query())),
     subjectNeq: S.optional(InsightsListRequestSubjectNeqList.pipe(T.Query("subject~neq"))),
   })
-    .pipe(
-      T.Http({
-        method: "GET",
-        uri: "/zones/{zone_id}/security-center/insights",
-        code: 200,
-      }),
-    )
+    .pipe(T.Http({ method: "GET", uri: "/zones/{zone_id}/security-center/insights", code: 200 }))
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
 ).annotate({
   identifier: "ListInsightsForZoneRequest",

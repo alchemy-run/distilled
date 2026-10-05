@@ -73,9 +73,7 @@ export const CreateDetectionRequest = /*@__PURE__*/ S.suspend(() =>
       code: 200,
     }),
   ),
-).annotate({
-  identifier: "CreateDetectionRequest",
-}) as any as S.Schema<CreateDetectionRequest>;
+).annotate({ identifier: "CreateDetectionRequest" }) as any as S.Schema<CreateDetectionRequest>;
 
 /** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
 export interface CreateDetectionResponse {
@@ -92,9 +90,7 @@ export const CreateDetectionResponse = /*@__PURE__*/ S.suspend(() =>
     password: S.optional(S.NullOr(S.String)),
     username: S.optional(S.NullOr(S.String)),
   }),
-).annotate({
-  identifier: "CreateDetectionResponse",
-}) as any as S.Schema<CreateDetectionResponse>;
+).annotate({ identifier: "CreateDetectionResponse" }) as any as S.Schema<CreateDetectionResponse>;
 
 export interface CreateLeakedCredentialCheckRequest {
   /** Defines an identifier. */
@@ -106,13 +102,7 @@ export const CreateLeakedCredentialCheckRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     zoneId: S.String.pipe(T.Label("zone_id")),
     enabled: S.optional(S.Boolean),
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/zones/{zone_id}/leaked-credential-checks",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "POST", uri: "/zones/{zone_id}/leaked-credential-checks", code: 200 })),
 ).annotate({
   identifier: "CreateLeakedCredentialCheckRequest",
 }) as any as S.Schema<CreateLeakedCredentialCheckRequest>;
@@ -147,16 +137,12 @@ export const DeleteDetectionRequest = /*@__PURE__*/ S.suspend(() =>
       code: 200,
     }),
   ),
-).annotate({
-  identifier: "DeleteDetectionRequest",
-}) as any as S.Schema<DeleteDetectionRequest>;
+).annotate({ identifier: "DeleteDetectionRequest" }) as any as S.Schema<DeleteDetectionRequest>;
 
 export type DeleteDetectionResponse = unknown;
 export const DeleteDetectionResponse = /*@__PURE__*/ S.suspend(() =>
   S.Unknown.pipe(T.EnvelopePayloadRoot()),
-).annotate({
-  identifier: "DeleteDetectionResponse",
-}) as any as S.Schema<DeleteDetectionResponse>;
+).annotate({ identifier: "DeleteDetectionResponse" }) as any as S.Schema<DeleteDetectionResponse>;
 
 export interface GetDetectionRequest {
   /** Defines an identifier. */
@@ -175,9 +161,7 @@ export const GetDetectionRequest = /*@__PURE__*/ S.suspend(() =>
       code: 200,
     }),
   ),
-).annotate({
-  identifier: "GetDetectionRequest",
-}) as any as S.Schema<GetDetectionRequest>;
+).annotate({ identifier: "GetDetectionRequest" }) as any as S.Schema<GetDetectionRequest>;
 
 /** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
 export interface GetDetectionResponse {
@@ -194,9 +178,7 @@ export const GetDetectionResponse = /*@__PURE__*/ S.suspend(() =>
     password: S.optional(S.NullOr(S.String)),
     username: S.optional(S.NullOr(S.String)),
   }),
-).annotate({
-  identifier: "GetDetectionResponse",
-}) as any as S.Schema<GetDetectionResponse>;
+).annotate({ identifier: "GetDetectionResponse" }) as any as S.Schema<GetDetectionResponse>;
 
 export interface GetLeakedCredentialCheckRequest {
   /** Defines an identifier. */
@@ -205,13 +187,7 @@ export interface GetLeakedCredentialCheckRequest {
 export const GetLeakedCredentialCheckRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     zoneId: S.String.pipe(T.Label("zone_id")),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/zones/{zone_id}/leaked-credential-checks",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/zones/{zone_id}/leaked-credential-checks", code: 200 })),
 ).annotate({
   identifier: "GetLeakedCredentialCheckRequest",
 }) as any as S.Schema<GetLeakedCredentialCheckRequest>;
@@ -243,9 +219,7 @@ export const ListDetectionsRequest = /*@__PURE__*/ S.suspend(() =>
       code: 200,
     }),
   ),
-).annotate({
-  identifier: "ListDetectionsRequest",
-}) as any as S.Schema<ListDetectionsRequest>;
+).annotate({ identifier: "ListDetectionsRequest" }) as any as S.Schema<ListDetectionsRequest>;
 
 export interface DetectionsListResultItem {
   /** Defines the unique ID for this custom detection. */
@@ -261,9 +235,7 @@ export const DetectionsListResultItem = /*@__PURE__*/ S.suspend(() =>
     password: S.optional(S.NullOr(S.String)),
     username: S.optional(S.NullOr(S.String)),
   }),
-).annotate({
-  identifier: "DetectionsListResultItem",
-}) as any as S.Schema<DetectionsListResultItem>;
+).annotate({ identifier: "DetectionsListResultItem" }) as any as S.Schema<DetectionsListResultItem>;
 
 export type DetectionsListResultList = Array<DetectionsListResultItem>;
 export const DetectionsListResultList = /*@__PURE__*/ S.Array(
@@ -281,9 +253,7 @@ export const ListDetectionsResponse = /*@__PURE__*/ S.suspend(() =>
     result: DetectionsListResultList.pipe(T.EnvelopePayload()),
     resultInfo: S.optional(S.NullOr(ResultInfo).pipe(T.ResultInfo())),
   }),
-).annotate({
-  identifier: "ListDetectionsResponse",
-}) as any as S.Schema<ListDetectionsResponse>;
+).annotate({ identifier: "ListDetectionsResponse" }) as any as S.Schema<ListDetectionsResponse>;
 
 export interface UpdateDetectionRequest {
   /** Defines an identifier. */
@@ -308,9 +278,7 @@ export const UpdateDetectionRequest = /*@__PURE__*/ S.suspend(() =>
       code: 200,
     }),
   ),
-).annotate({
-  identifier: "UpdateDetectionRequest",
-}) as any as S.Schema<UpdateDetectionRequest>;
+).annotate({ identifier: "UpdateDetectionRequest" }) as any as S.Schema<UpdateDetectionRequest>;
 
 /** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
 export interface UpdateDetectionResponse {
@@ -327,9 +295,7 @@ export const UpdateDetectionResponse = /*@__PURE__*/ S.suspend(() =>
     password: S.optional(S.NullOr(S.String)),
     username: S.optional(S.NullOr(S.String)),
   }),
-).annotate({
-  identifier: "UpdateDetectionResponse",
-}) as any as S.Schema<UpdateDetectionResponse>;
+).annotate({ identifier: "UpdateDetectionResponse" }) as any as S.Schema<UpdateDetectionResponse>;
 
 export type CreateDetectionError =
   | DetectionQuotaExceeded

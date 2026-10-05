@@ -345,7 +345,7 @@
         "bgp_mode": {
           "target": "com.cloudflare.network_interconnects#CnisListResponseItemsItemBgpMode",
           "traits": {
-            "smithy.api#documentation": "The BGP mode for a CNI."
+            "smithy.api#documentation": "The BGP mode for a CNI. One of the following:"
           }
         }
       }
@@ -1073,7 +1073,7 @@
         "bgp_mode": {
           "target": "com.cloudflare.network_interconnects#CnisCreateResponseBgpMode",
           "traits": {
-            "smithy.api#documentation": "The BGP mode for a CNI."
+            "smithy.api#documentation": "The BGP mode for a CNI. One of the following:"
           }
         }
       },
@@ -1325,7 +1325,7 @@
         "bgp_mode": {
           "target": "com.cloudflare.network_interconnects#CnisGetResponseBgpMode",
           "traits": {
-            "smithy.api#documentation": "The BGP mode for a CNI."
+            "smithy.api#documentation": "The BGP mode for a CNI. One of the following:"
           }
         }
       },
@@ -2010,7 +2010,7 @@
         "bgp_mode": {
           "target": "com.cloudflare.network_interconnects#CnisUpdateRequestBgpMode",
           "traits": {
-            "smithy.api#documentation": "The BGP mode for a CNI."
+            "smithy.api#documentation": "The BGP mode for a CNI. One of the following:"
           }
         }
       },
@@ -2067,7 +2067,7 @@
         "bgp_mode": {
           "target": "com.cloudflare.network_interconnects#CnisUpdateResponseBgpMode",
           "traits": {
-            "smithy.api#documentation": "The BGP mode for a CNI."
+            "smithy.api#documentation": "The BGP mode for a CNI. One of the following:"
           }
         }
       },

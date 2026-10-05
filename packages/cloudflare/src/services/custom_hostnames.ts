@@ -94,9 +94,7 @@ export class SaasQuotaNotAllocated
     [{ code: 1404, status: 403 }],
   ) {}
 
-export type CreateRequestCustomMetadataMap = {
-  [key: string]: unknown | undefined;
-};
+export type CreateRequestCustomMetadataMap = { [key: string]: unknown | undefined };
 export const CreateRequestCustomMetadataMap = /*@__PURE__*/ S.Record(
   S.String,
   S.Unknown,
@@ -174,9 +172,7 @@ export const CreateRequestSslSettings = /*@__PURE__*/ S.suspend(() =>
     ),
     tls_1_3: S.optional(CreateRequestSslSettingsTls13),
   }),
-).annotate({
-  identifier: "CreateRequestSslSettings",
-}) as any as S.Schema<CreateRequestSslSettings>;
+).annotate({ identifier: "CreateRequestSslSettings" }) as any as S.Schema<CreateRequestSslSettings>;
 
 export type CreateRequestSslType = "dv";
 export const CreateRequestSslType = S.String;
@@ -223,9 +219,7 @@ export const CreateRequestSsl = /*@__PURE__*/ S.suspend(() =>
     type: S.optional(CreateRequestSslType),
     wildcard: S.optional(S.Boolean),
   }),
-).annotate({
-  identifier: "CreateRequestSsl",
-}) as any as S.Schema<CreateRequestSsl>;
+).annotate({ identifier: "CreateRequestSsl" }) as any as S.Schema<CreateRequestSsl>;
 
 export interface CreateCustomHostnameRequest {
   /** Identifier. */
@@ -250,21 +244,13 @@ export const CreateCustomHostnameRequest = /*@__PURE__*/ S.suspend(() =>
     customOriginSni: S.optional(S.String.pipe(T.Body("custom_origin_sni"))),
     ssl: S.optional(CreateRequestSsl),
   })
-    .pipe(
-      T.Http({
-        method: "POST",
-        uri: "/zones/{zone_id}/custom_hostnames",
-        code: 200,
-      }),
-    )
+    .pipe(T.Http({ method: "POST", uri: "/zones/{zone_id}/custom_hostnames", code: 200 }))
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
 ).annotate({
   identifier: "CreateCustomHostnameRequest",
 }) as any as S.Schema<CreateCustomHostnameRequest>;
 
-export type CreateResponseCustomMetadataMap = {
-  [key: string]: unknown | undefined;
-};
+export type CreateResponseCustomMetadataMap = { [key: string]: unknown | undefined };
 export const CreateResponseCustomMetadataMap = /*@__PURE__*/ S.Record(
   S.String,
   S.Unknown,
@@ -571,9 +557,7 @@ export const CreateResponseSsl = /*@__PURE__*/ S.suspend(() =>
     ),
     wildcard: S.optional(S.NullOr(S.Boolean)),
   }),
-).annotate({
-  identifier: "CreateResponseSsl",
-}) as any as S.Schema<CreateResponseSsl>;
+).annotate({ identifier: "CreateResponseSsl" }) as any as S.Schema<CreateResponseSsl>;
 
 export type CreateResponseStatus =
   | "active"
@@ -601,7 +585,7 @@ export const CreateResponseVerificationErrorsList = /*@__PURE__*/ S.Array(
 
 /** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
 export interface CreateCustomHostnameResponse {
-  /** Identifier. */
+  /** Custom hostname identifier tag. */
   id: string;
   /** The custom hostname that will point to your hostname via CNAME. */
   hostname: string;
@@ -652,11 +636,11 @@ export const CreateCustomHostnameResponse = /*@__PURE__*/ S.suspend(() =>
 export interface DeleteCertificatePackCertificateRequest {
   /** Identifier. */
   zoneId: string;
-  /** Identifier. */
+  /** Custom hostname identifier tag. */
   customHostnameId: string;
-  /** Identifier. */
+  /** Custom hostname identifier tag. */
   certificatePackId: string;
-  /** Identifier. */
+  /** Custom hostname identifier tag. */
   certificateId: string;
 }
 export const DeleteCertificatePackCertificateRequest = /*@__PURE__*/ S.suspend(() =>
@@ -680,7 +664,7 @@ export const DeleteCertificatePackCertificateRequest = /*@__PURE__*/ S.suspend((
 
 /** Raw response payload (operation does not use the standard v4 result envelope). */
 export interface DeleteCertificatePackCertificateResponse {
-  /** Identifier. */
+  /** Custom hostname identifier tag. */
   id?: string | null;
 }
 export const DeleteCertificatePackCertificateResponse = /*@__PURE__*/ S.suspend(() =>
@@ -694,7 +678,7 @@ export const DeleteCertificatePackCertificateResponse = /*@__PURE__*/ S.suspend(
 export interface DeleteCustomHostnameRequest {
   /** Identifier. */
   zoneId: string;
-  /** Identifier. */
+  /** Custom hostname identifier tag. */
   customHostnameId: string;
 }
 export const DeleteCustomHostnameRequest = /*@__PURE__*/ S.suspend(() =>
@@ -716,7 +700,7 @@ export const DeleteCustomHostnameRequest = /*@__PURE__*/ S.suspend(() =>
 
 /** Raw response payload (operation does not use the standard v4 result envelope). */
 export interface DeleteCustomHostnameResponse {
-  /** Identifier. */
+  /** Custom hostname identifier tag. */
   id?: string | null;
 }
 export const DeleteCustomHostnameResponse = /*@__PURE__*/ S.suspend(() =>
@@ -789,7 +773,7 @@ export const DeleteFallbackOriginResponse = /*@__PURE__*/ S.suspend(() =>
 export interface GetCustomHostnameRequest {
   /** Identifier. */
   zoneId: string;
-  /** Identifier. */
+  /** Custom hostname identifier tag. */
   customHostnameId: string;
 }
 export const GetCustomHostnameRequest = /*@__PURE__*/ S.suspend(() =>
@@ -805,13 +789,9 @@ export const GetCustomHostnameRequest = /*@__PURE__*/ S.suspend(() =>
       }),
     )
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "GetCustomHostnameRequest",
-}) as any as S.Schema<GetCustomHostnameRequest>;
+).annotate({ identifier: "GetCustomHostnameRequest" }) as any as S.Schema<GetCustomHostnameRequest>;
 
-export type GetResponseCustomMetadataMap = {
-  [key: string]: unknown | undefined;
-};
+export type GetResponseCustomMetadataMap = { [key: string]: unknown | undefined };
 export const GetResponseCustomMetadataMap = /*@__PURE__*/ S.Record(
   S.String,
   S.Unknown,
@@ -937,9 +917,7 @@ export const GetResponseSslSettings = /*@__PURE__*/ S.suspend(() =>
     ),
     tls_1_3: S.optional(S.NullOr(GetResponseSslSettingsTls13)),
   }),
-).annotate({
-  identifier: "GetResponseSslSettings",
-}) as any as S.Schema<GetResponseSslSettings>;
+).annotate({ identifier: "GetResponseSslSettings" }) as any as S.Schema<GetResponseSslSettings>;
 
 export type GetResponseSslStatus =
   | "initializing"
@@ -1118,7 +1096,7 @@ export const GetResponseVerificationErrorsList = /*@__PURE__*/ S.Array(
 
 /** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
 export interface GetCustomHostnameResponse {
-  /** Identifier. */
+  /** Custom hostname identifier tag. */
   id: string;
   /** The custom hostname that will point to your hostname via CNAME. */
   hostname: string;
@@ -1182,9 +1160,7 @@ export const GetFallbackOriginRequest = /*@__PURE__*/ S.suspend(() =>
       }),
     )
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "GetFallbackOriginRequest",
-}) as any as S.Schema<GetFallbackOriginRequest>;
+).annotate({ identifier: "GetFallbackOriginRequest" }) as any as S.Schema<GetFallbackOriginRequest>;
 
 export type FallbackOriginGetResponseErrorsList = Array<string>;
 export const FallbackOriginGetResponseErrorsList = /*@__PURE__*/ S.Array(
@@ -1233,17 +1209,9 @@ export const GetQuotaRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     zoneId: S.String.pipe(T.Label("zone_id")),
   })
-    .pipe(
-      T.Http({
-        method: "GET",
-        uri: "/zones/{zone_id}/custom_hostnames/quota",
-        code: 200,
-      }),
-    )
+    .pipe(T.Http({ method: "GET", uri: "/zones/{zone_id}/custom_hostnames/quota", code: 200 }))
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "GetQuotaRequest",
-}) as any as S.Schema<GetQuotaRequest>;
+).annotate({ identifier: "GetQuotaRequest" }) as any as S.Schema<GetQuotaRequest>;
 
 /** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
 export interface GetQuotaResponse {
@@ -1263,9 +1231,7 @@ export const GetQuotaResponse = /*@__PURE__*/ S.suspend(() =>
     hardCap: S.Number.pipe(T.Body("hard_cap")),
     used: S.Number,
   }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "GetQuotaResponse",
-}) as any as S.Schema<GetQuotaResponse>;
+).annotate({ identifier: "GetQuotaResponse" }) as any as S.Schema<GetQuotaResponse>;
 
 export type ListRequestCertificateAuthority = "google" | "lets_encrypt" | "ssl_com";
 export const ListRequestCertificateAuthority = S.String;
@@ -1287,9 +1253,7 @@ export const ListRequestHostname = /*@__PURE__*/ S.suspend(() =>
     exact: S.optional(S.String),
     startsWith: S.optional(S.String),
   }),
-).annotate({
-  identifier: "ListRequestHostname",
-}) as any as S.Schema<ListRequestHostname>;
+).annotate({ identifier: "ListRequestHostname" }) as any as S.Schema<ListRequestHostname>;
 
 export type ListRequestHostnameStatus =
   | "active"
@@ -1382,21 +1346,13 @@ export const ListCustomHostnamesRequest = /*@__PURE__*/ S.suspend(() =>
     sslStatus: S.optional(ListRequestSslStatus.pipe(T.Query("ssl_status"))),
     wildcard: S.optional(S.Boolean.pipe(T.Query())),
   })
-    .pipe(
-      T.Http({
-        method: "GET",
-        uri: "/zones/{zone_id}/custom_hostnames",
-        code: 200,
-      }),
-    )
+    .pipe(T.Http({ method: "GET", uri: "/zones/{zone_id}/custom_hostnames", code: 200 }))
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
 ).annotate({
   identifier: "ListCustomHostnamesRequest",
 }) as any as S.Schema<ListCustomHostnamesRequest>;
 
-export type ListResultItemCustomMetadataMap = {
-  [key: string]: unknown | undefined;
-};
+export type ListResultItemCustomMetadataMap = { [key: string]: unknown | undefined };
 export const ListResultItemCustomMetadataMap = /*@__PURE__*/ S.Record(
   S.String,
   S.Unknown,
@@ -1682,9 +1638,7 @@ export const ListResultItemSsl = /*@__PURE__*/ S.suspend(() =>
     ),
     wildcard: S.optional(S.NullOr(S.Boolean)),
   }),
-).annotate({
-  identifier: "ListResultItemSsl",
-}) as any as S.Schema<ListResultItemSsl>;
+).annotate({ identifier: "ListResultItemSsl" }) as any as S.Schema<ListResultItemSsl>;
 
 export type ListResultItemStatus =
   | "active"
@@ -1711,7 +1665,7 @@ export const ListResultItemVerificationErrorsList = /*@__PURE__*/ S.Array(
 ) as any as S.Schema<ListResultItemVerificationErrorsList>;
 
 export interface ListResultItem {
-  /** Identifier. */
+  /** Custom hostname identifier tag. */
   id: string;
   /** The custom hostname that will point to your hostname via CNAME. */
   hostname: string;
@@ -1777,9 +1731,7 @@ export const ListCustomHostnamesResponse = /*@__PURE__*/ S.suspend(() =>
   identifier: "ListCustomHostnamesResponse",
 }) as any as S.Schema<ListCustomHostnamesResponse>;
 
-export type EditRequestCustomMetadataMap = {
-  [key: string]: unknown | undefined;
-};
+export type EditRequestCustomMetadataMap = { [key: string]: unknown | undefined };
 export const EditRequestCustomMetadataMap = /*@__PURE__*/ S.Record(
   S.String,
   S.Unknown,
@@ -1839,9 +1791,7 @@ export const EditRequestSslSettings = /*@__PURE__*/ S.suspend(() =>
     minTlsVersion: S.optional(EditRequestSslSettingsMinTlsVersion.pipe(T.Body("min_tls_version"))),
     tls_1_3: S.optional(EditRequestSslSettingsTls13),
   }),
-).annotate({
-  identifier: "EditRequestSslSettings",
-}) as any as S.Schema<EditRequestSslSettings>;
+).annotate({ identifier: "EditRequestSslSettings" }) as any as S.Schema<EditRequestSslSettings>;
 
 export type EditRequestSslType = "dv";
 export const EditRequestSslType = S.String;
@@ -1893,7 +1843,7 @@ export const EditRequestSsl = /*@__PURE__*/ S.suspend(() =>
 export interface PatchCustomHostnameRequest {
   /** Identifier. */
   zoneId: string;
-  /** Identifier. */
+  /** Custom hostname identifier tag. */
   customHostnameId: string;
   /** Unique key/value metadata for this hostname. These are per-hostname (customer) settings. */
   customMetadata?: EditRequestCustomMetadataMap;
@@ -1925,9 +1875,7 @@ export const PatchCustomHostnameRequest = /*@__PURE__*/ S.suspend(() =>
   identifier: "PatchCustomHostnameRequest",
 }) as any as S.Schema<PatchCustomHostnameRequest>;
 
-export type EditResponseCustomMetadataMap = {
-  [key: string]: unknown | undefined;
-};
+export type EditResponseCustomMetadataMap = { [key: string]: unknown | undefined };
 export const EditResponseCustomMetadataMap = /*@__PURE__*/ S.Record(
   S.String,
   S.Unknown,
@@ -2058,9 +2006,7 @@ export const EditResponseSslSettings = /*@__PURE__*/ S.suspend(() =>
     ),
     tls_1_3: S.optional(S.NullOr(EditResponseSslSettingsTls13)),
   }),
-).annotate({
-  identifier: "EditResponseSslSettings",
-}) as any as S.Schema<EditResponseSslSettings>;
+).annotate({ identifier: "EditResponseSslSettings" }) as any as S.Schema<EditResponseSslSettings>;
 
 export type EditResponseSslStatus =
   | "initializing"
@@ -2211,9 +2157,7 @@ export const EditResponseSsl = /*@__PURE__*/ S.suspend(() =>
     ),
     wildcard: S.optional(S.NullOr(S.Boolean)),
   }),
-).annotate({
-  identifier: "EditResponseSsl",
-}) as any as S.Schema<EditResponseSsl>;
+).annotate({ identifier: "EditResponseSsl" }) as any as S.Schema<EditResponseSsl>;
 
 export type EditResponseStatus =
   | "active"
@@ -2241,7 +2185,7 @@ export const EditResponseVerificationErrorsList = /*@__PURE__*/ S.Array(
 
 /** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
 export interface PatchCustomHostnameResponse {
-  /** Identifier. */
+  /** Custom hostname identifier tag. */
   id: string;
   /** The custom hostname that will point to your hostname via CNAME. */
   hostname: string;
@@ -2292,11 +2236,11 @@ export const PatchCustomHostnameResponse = /*@__PURE__*/ S.suspend(() =>
 export interface PutCertificatePackCertificateRequest {
   /** Identifier. */
   zoneId: string;
-  /** Identifier. */
+  /** Custom hostname identifier tag. */
   customHostnameId: string;
-  /** Identifier. */
+  /** Custom hostname identifier tag. */
   certificatePackId: string;
-  /** Identifier. */
+  /** Custom hostname identifier tag. */
   certificateId: string;
   /** If a custom uploaded certificate is used. */
   customCertificate: string;
@@ -2689,7 +2633,7 @@ export const CertificatePackCertificatesUpdateResponseVerificationErrorsList =
 
 /** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
 export interface PutCertificatePackCertificateResponse {
-  /** Identifier. */
+  /** Custom hostname identifier tag. */
   id: string;
   /** The custom hostname that will point to your hostname via CNAME. */
   hostname: string;
@@ -2762,9 +2706,7 @@ export const PutFallbackOriginRequest = /*@__PURE__*/ S.suspend(() =>
       }),
     )
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "PutFallbackOriginRequest",
-}) as any as S.Schema<PutFallbackOriginRequest>;
+).annotate({ identifier: "PutFallbackOriginRequest" }) as any as S.Schema<PutFallbackOriginRequest>;
 
 export type FallbackOriginUpdateResponseErrorsList = Array<string>;
 export const FallbackOriginUpdateResponseErrorsList = /*@__PURE__*/ S.Array(

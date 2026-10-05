@@ -453,11 +453,7 @@ export const BulkPutCfInterconnectsRequest = /*@__PURE__*/ S.suspend(() =>
     xMagicNewHcTarget: S.optional(S.Boolean.pipe(T.Header("x-magic-new-hc-target"))),
   })
     .pipe(
-      T.Http({
-        method: "PUT",
-        uri: "/accounts/{account_id}/magic/cf_interconnects",
-        code: 200,
-      }),
+      T.Http({ method: "PUT", uri: "/accounts/{account_id}/magic/cf_interconnects", code: 200 }),
     )
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
 ).annotate({
@@ -693,17 +689,9 @@ export const BulkPutGreTunnelsRequest = /*@__PURE__*/ S.suspend(() =>
     accountId: S.String.pipe(T.Label("account_id")),
     xMagicNewHcTarget: S.optional(S.Boolean.pipe(T.Header("x-magic-new-hc-target"))),
   })
-    .pipe(
-      T.Http({
-        method: "PUT",
-        uri: "/accounts/{account_id}/magic/gre_tunnels",
-        code: 200,
-      }),
-    )
+    .pipe(T.Http({ method: "PUT", uri: "/accounts/{account_id}/magic/gre_tunnels", code: 200 }))
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "BulkPutGreTunnelsRequest",
-}) as any as S.Schema<BulkPutGreTunnelsRequest>;
+).annotate({ identifier: "BulkPutGreTunnelsRequest" }) as any as S.Schema<BulkPutGreTunnelsRequest>;
 
 export type GreTunnelsBulkUpdateResponseModifiedGreTunnelsItemBgpExtraPrefixesList = Array<string>;
 export const GreTunnelsBulkUpdateResponseModifiedGreTunnelsItemBgpExtraPrefixesList =
@@ -920,13 +908,7 @@ export const BulkPutIpsecTunnelsRequest = /*@__PURE__*/ S.suspend(() =>
     accountId: S.String.pipe(T.Label("account_id")),
     xMagicNewHcTarget: S.optional(S.Boolean.pipe(T.Header("x-magic-new-hc-target"))),
   })
-    .pipe(
-      T.Http({
-        method: "PUT",
-        uri: "/accounts/{account_id}/magic/ipsec_tunnels",
-        code: 200,
-      }),
-    )
+    .pipe(T.Http({ method: "PUT", uri: "/accounts/{account_id}/magic/ipsec_tunnels", code: 200 }))
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
 ).annotate({
   identifier: "BulkPutIpsecTunnelsRequest",
@@ -1258,17 +1240,9 @@ export const BulkPutRoutesRequest = /*@__PURE__*/ S.suspend(() =>
     accountId: S.String.pipe(T.Label("account_id")),
     routes: RoutesBulkUpdateRequestRoutesList,
   })
-    .pipe(
-      T.Http({
-        method: "PUT",
-        uri: "/accounts/{account_id}/magic/routes",
-        code: 200,
-      }),
-    )
+    .pipe(T.Http({ method: "PUT", uri: "/accounts/{account_id}/magic/routes", code: 200 }))
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "BulkPutRoutesRequest",
-}) as any as S.Schema<BulkPutRoutesRequest>;
+).annotate({ identifier: "BulkPutRoutesRequest" }) as any as S.Schema<BulkPutRoutesRequest>;
 
 export type RoutesBulkUpdateResponseModifiedRoutesItemScopeColoNamesList = Array<string>;
 export const RoutesBulkUpdateResponseModifiedRoutesItemScopeColoNamesList = /*@__PURE__*/ S.Array(
@@ -1357,9 +1331,7 @@ export const BulkPutRoutesResponse = /*@__PURE__*/ S.suspend(() =>
       S.NullOr(RoutesBulkUpdateResponseModifiedRoutesList).pipe(T.Body("modified_routes")),
     ),
   }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "BulkPutRoutesResponse",
-}) as any as S.Schema<BulkPutRoutesResponse>;
+).annotate({ identifier: "BulkPutRoutesResponse" }) as any as S.Schema<BulkPutRoutesResponse>;
 
 export type AppsCreateRequestHostnamesList = Array<string>;
 export const AppsCreateRequestHostnamesList = /*@__PURE__*/ S.Array(
@@ -1399,17 +1371,9 @@ export const CreateAppRequest = /*@__PURE__*/ S.suspend(() =>
     ipSubnets: S.optional(AppsCreateRequestIpSubnetsList.pipe(T.Body("ip_subnets"))),
     sourceSubnets: S.optional(AppsCreateRequestSourceSubnetsList.pipe(T.Body("source_subnets"))),
   })
-    .pipe(
-      T.Http({
-        method: "POST",
-        uri: "/accounts/{account_id}/magic/apps",
-        code: 200,
-      }),
-    )
+    .pipe(T.Http({ method: "POST", uri: "/accounts/{account_id}/magic/apps", code: 200 }))
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "CreateAppRequest",
-}) as any as S.Schema<CreateAppRequest>;
+).annotate({ identifier: "CreateAppRequest" }) as any as S.Schema<CreateAppRequest>;
 
 export type AppsCreateResponseHostnamesList = Array<string>;
 export const AppsCreateResponseHostnamesList = /*@__PURE__*/ S.Array(
@@ -1452,9 +1416,7 @@ export const CreateAppResponse = /*@__PURE__*/ S.suspend(() =>
     ),
     type: S.optional(S.NullOr(S.String)),
   }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "CreateAppResponse",
-}) as any as S.Schema<CreateAppResponse>;
+).annotate({ identifier: "CreateAppResponse" }) as any as S.Schema<CreateAppResponse>;
 
 export type CreateBgpFilterProfileRequestMatchAction = "allow" | "deny";
 export const CreateBgpFilterProfileRequestMatchAction = S.String;
@@ -1590,17 +1552,9 @@ export const CreateCf1SiteRequest = /*@__PURE__*/ S.suspend(() =>
     accountId: S.String.pipe(T.Label("account_id")),
     body: Cf1SitesCreateRequestBodyList.pipe(T.HttpBody()),
   })
-    .pipe(
-      T.Http({
-        method: "POST",
-        uri: "/accounts/{account_id}/magic/cf1_sites",
-        code: 200,
-      }),
-    )
+    .pipe(T.Http({ method: "POST", uri: "/accounts/{account_id}/magic/cf1_sites", code: 200 }))
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "CreateCf1SiteRequest",
-}) as any as S.Schema<CreateCf1SiteRequest>;
+).annotate({ identifier: "CreateCf1SiteRequest" }) as any as S.Schema<CreateCf1SiteRequest>;
 
 export interface Cf1SitesCreateResultItemLocation {
   /** Latitude of the CF1 Site. */
@@ -1640,9 +1594,7 @@ export const Cf1SitesCreateResultItem = /*@__PURE__*/ S.suspend(() =>
     location: S.optional(S.NullOr(Cf1SitesCreateResultItemLocation)),
     modifiedOn: S.optional(S.NullOr(S.String).pipe(T.Body("modified_on"))),
   }),
-).annotate({
-  identifier: "Cf1SitesCreateResultItem",
-}) as any as S.Schema<Cf1SitesCreateResultItem>;
+).annotate({ identifier: "Cf1SitesCreateResultItem" }) as any as S.Schema<Cf1SitesCreateResultItem>;
 
 export type Cf1SitesCreateResultList = Array<Cf1SitesCreateResultItem>;
 export const Cf1SitesCreateResultList = /*@__PURE__*/ S.Array(
@@ -1660,9 +1612,7 @@ export const CreateCf1SiteResponse = /*@__PURE__*/ S.suspend(() =>
     result: Cf1SitesCreateResultList.pipe(T.EnvelopePayload()),
     resultInfo: S.optional(S.NullOr(ResultInfo).pipe(T.ResultInfo())),
   }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "CreateCf1SiteResponse",
-}) as any as S.Schema<CreateCf1SiteResponse>;
+).annotate({ identifier: "CreateCf1SiteResponse" }) as any as S.Schema<CreateCf1SiteResponse>;
 
 export type Cf1SitesRampsCreateRequestBodyItemType =
   | "gre"
@@ -1713,9 +1663,7 @@ export const CreateCf1SiteRampRequest = /*@__PURE__*/ S.suspend(() =>
       }),
     )
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "CreateCf1SiteRampRequest",
-}) as any as S.Schema<CreateCf1SiteRampRequest>;
+).annotate({ identifier: "CreateCf1SiteRampRequest" }) as any as S.Schema<CreateCf1SiteRampRequest>;
 
 export type Cf1SitesRampsCreateResultItemType =
   | "gre"
@@ -1858,8 +1806,6 @@ export interface CreateConnectorRequest {
   interruptWindowEmbargoDates?: ConnectorsCreateRequestInterruptWindowEmbargoDatesList;
   interruptWindowHourOfDay?: number;
   notes?: string;
-  primary?: boolean;
-  siteId?: string;
   timezone?: string;
 }
 export const CreateConnectorRequest = /*@__PURE__*/ S.suspend(() =>
@@ -1882,21 +1828,11 @@ export const CreateConnectorRequest = /*@__PURE__*/ S.suspend(() =>
     ),
     interruptWindowHourOfDay: S.optional(S.Number.pipe(T.Body("interrupt_window_hour_of_day"))),
     notes: S.optional(S.String),
-    primary: S.optional(S.Boolean),
-    siteId: S.optional(S.String.pipe(T.Body("site_id"))),
     timezone: S.optional(S.String),
   })
-    .pipe(
-      T.Http({
-        method: "POST",
-        uri: "/accounts/{account_id}/magic/connectors",
-        code: 200,
-      }),
-    )
+    .pipe(T.Http({ method: "POST", uri: "/accounts/{account_id}/magic/connectors", code: 200 }))
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "CreateConnectorRequest",
-}) as any as S.Schema<CreateConnectorRequest>;
+).annotate({ identifier: "CreateConnectorRequest" }) as any as S.Schema<CreateConnectorRequest>;
 
 export type ConnectorsCreateResponseInterruptWindowDaysOfWeekItem =
   | "Sunday"
@@ -1949,13 +1885,11 @@ export interface CreateConnectorResponse {
   interruptWindowHourOfDay: number;
   lastUpdated: string;
   notes: string;
-  primary: boolean;
   timezone: string;
   device?: ConnectorsCreateResponseDevice | null;
   lastHeartbeat?: string | null;
   lastSeenVersion?: string | null;
   licenseKey?: string | null;
-  siteId?: string | null;
 }
 export const CreateConnectorResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -1971,17 +1905,13 @@ export const CreateConnectorResponse = /*@__PURE__*/ S.suspend(() =>
     interruptWindowHourOfDay: S.Number.pipe(T.Body("interrupt_window_hour_of_day")),
     lastUpdated: S.String.pipe(T.Body("last_updated")),
     notes: S.String,
-    primary: S.Boolean,
     timezone: S.String,
     device: S.optional(S.NullOr(ConnectorsCreateResponseDevice)),
     lastHeartbeat: S.optional(S.NullOr(S.String).pipe(T.Body("last_heartbeat"))),
     lastSeenVersion: S.optional(S.NullOr(S.String).pipe(T.Body("last_seen_version"))),
     licenseKey: S.optional(S.NullOr(S.String).pipe(T.Body("license_key"))),
-    siteId: S.optional(S.NullOr(S.String).pipe(T.Body("site_id"))),
   }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "CreateConnectorResponse",
-}) as any as S.Schema<CreateConnectorResponse>;
+).annotate({ identifier: "CreateConnectorResponse" }) as any as S.Schema<CreateConnectorResponse>;
 
 export interface CreateConnectorsInterruptRequestReboot {
   /** Purge connector state. */
@@ -2194,17 +2124,9 @@ export const CreateGreTunnelRequest = /*@__PURE__*/ S.suspend(() =>
     ttl: S.optional(S.Number),
     xMagicNewHcTarget: S.optional(S.Boolean.pipe(T.Header("x-magic-new-hc-target"))),
   })
-    .pipe(
-      T.Http({
-        method: "POST",
-        uri: "/accounts/{account_id}/magic/gre_tunnels",
-        code: 200,
-      }),
-    )
+    .pipe(T.Http({ method: "POST", uri: "/accounts/{account_id}/magic/gre_tunnels", code: 200 }))
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "CreateGreTunnelRequest",
-}) as any as S.Schema<CreateGreTunnelRequest>;
+).annotate({ identifier: "CreateGreTunnelRequest" }) as any as S.Schema<CreateGreTunnelRequest>;
 
 export type GreTunnelsCreateResponseBgpExtraPrefixesList = Array<string>;
 export const GreTunnelsCreateResponseBgpExtraPrefixesList = /*@__PURE__*/ S.Array(
@@ -2362,9 +2284,7 @@ export const CreateGreTunnelResponse = /*@__PURE__*/ S.suspend(() =>
     mtu: S.optional(S.NullOr(S.Number)),
     ttl: S.optional(S.NullOr(S.Number)),
   }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "CreateGreTunnelResponse",
-}) as any as S.Schema<CreateGreTunnelResponse>;
+).annotate({ identifier: "CreateGreTunnelResponse" }) as any as S.Schema<CreateGreTunnelResponse>;
 
 export type IpsecTunnelsCreateRequestBgpExtraPrefixesList = Array<string>;
 export const IpsecTunnelsCreateRequestBgpExtraPrefixesList = /*@__PURE__*/ S.Array(
@@ -2499,17 +2419,9 @@ export const CreateIpsecTunnelRequest = /*@__PURE__*/ S.suspend(() =>
     replayProtection: S.optional(S.Boolean.pipe(T.Body("replay_protection"))),
     xMagicNewHcTarget: S.optional(S.Boolean.pipe(T.Header("x-magic-new-hc-target"))),
   })
-    .pipe(
-      T.Http({
-        method: "POST",
-        uri: "/accounts/{account_id}/magic/ipsec_tunnels",
-        code: 200,
-      }),
-    )
+    .pipe(T.Http({ method: "POST", uri: "/accounts/{account_id}/magic/ipsec_tunnels", code: 200 }))
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "CreateIpsecTunnelRequest",
-}) as any as S.Schema<CreateIpsecTunnelRequest>;
+).annotate({ identifier: "CreateIpsecTunnelRequest" }) as any as S.Schema<CreateIpsecTunnelRequest>;
 
 export type IpsecTunnelsCreateResponseBgpExtraPrefixesList = Array<string>;
 export const IpsecTunnelsCreateResponseBgpExtraPrefixesList = /*@__PURE__*/ S.Array(
@@ -2759,17 +2671,9 @@ export const CreatePcapRequest = /*@__PURE__*/ S.suspend(() =>
     destinationConf: S.optional(S.String.pipe(T.Body("destination_conf"))),
     byteLimit: S.optional(S.Number.pipe(T.Body("byte_limit"))),
   })
-    .pipe(
-      T.Http({
-        method: "POST",
-        uri: "/accounts/{account_id}/pcaps",
-        code: 200,
-      }),
-    )
+    .pipe(T.Http({ method: "POST", uri: "/accounts/{account_id}/pcaps", code: 200 }))
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "CreatePcapRequest",
-}) as any as S.Schema<CreatePcapRequest>;
+).annotate({ identifier: "CreatePcapRequest" }) as any as S.Schema<CreatePcapRequest>;
 
 export interface PcapsCreateResultPCAPFilterV1 {
   /** The destination IP address of the packet. */
@@ -2841,9 +2745,7 @@ export const PcapsCreateResultPCAP = /*@__PURE__*/ S.suspend(() =>
     timeLimit: S.optional(S.NullOr(S.Number).pipe(T.Body("time_limit"))),
     type: S.optional(S.NullOr(PcapsCreateResultPCAPType)),
   }),
-).annotate({
-  identifier: "PcapsCreateResultPCAP",
-}) as any as S.Schema<PcapsCreateResultPCAP>;
+).annotate({ identifier: "PcapsCreateResultPCAP" }) as any as S.Schema<PcapsCreateResultPCAP>;
 
 export type PcapsCreateResultMagicVisibilityPCAPsPCAPsResponseFullFilterV1 =
   PcapsCreateResultPCAPFilterV1;
@@ -2942,9 +2844,7 @@ export const PcapsCreateResult = /*@__PURE__*/ S.Unknown.pipe(
 export type CreatePcapResponse = PcapsCreateResult;
 export const CreatePcapResponse = /*@__PURE__*/ S.suspend(() =>
   PcapsCreateResult.pipe(T.EnvelopePayloadRoot(), T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "CreatePcapResponse",
-}) as any as S.Schema<CreatePcapResponse>;
+).annotate({ identifier: "CreatePcapResponse" }) as any as S.Schema<CreatePcapResponse>;
 
 export interface CreatePcapOwnershipRequest {
   /** Identifier. */
@@ -2957,13 +2857,7 @@ export const CreatePcapOwnershipRequest = /*@__PURE__*/ S.suspend(() =>
     accountId: S.String.pipe(T.Label("account_id")),
     destinationConf: S.String.pipe(T.Body("destination_conf")),
   })
-    .pipe(
-      T.Http({
-        method: "POST",
-        uri: "/accounts/{account_id}/pcaps/ownership",
-        code: 200,
-      }),
-    )
+    .pipe(T.Http({ method: "POST", uri: "/accounts/{account_id}/pcaps/ownership", code: 200 }))
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
 ).annotate({
   identifier: "CreatePcapOwnershipRequest",
@@ -3021,9 +2915,7 @@ export const RoutesCreateRequestScope = /*@__PURE__*/ S.suspend(() =>
     coloNames: S.optional(RoutesCreateRequestScopeColoNamesList.pipe(T.Body("colo_names"))),
     coloRegions: S.optional(RoutesCreateRequestScopeColoRegionsList.pipe(T.Body("colo_regions"))),
   }),
-).annotate({
-  identifier: "RoutesCreateRequestScope",
-}) as any as S.Schema<RoutesCreateRequestScope>;
+).annotate({ identifier: "RoutesCreateRequestScope" }) as any as S.Schema<RoutesCreateRequestScope>;
 
 export interface CreateRouteRequest {
   /** Identifier */
@@ -3051,17 +2943,9 @@ export const CreateRouteRequest = /*@__PURE__*/ S.suspend(() =>
     scope: S.optional(RoutesCreateRequestScope),
     weight: S.optional(S.Number),
   })
-    .pipe(
-      T.Http({
-        method: "POST",
-        uri: "/accounts/{account_id}/magic/routes",
-        code: 200,
-      }),
-    )
+    .pipe(T.Http({ method: "POST", uri: "/accounts/{account_id}/magic/routes", code: 200 }))
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "CreateRouteRequest",
-}) as any as S.Schema<CreateRouteRequest>;
+).annotate({ identifier: "CreateRouteRequest" }) as any as S.Schema<CreateRouteRequest>;
 
 export type RoutesCreateResponseScopeColoNamesList = Array<string>;
 export const RoutesCreateResponseScopeColoNamesList = /*@__PURE__*/ S.Array(
@@ -3125,9 +3009,7 @@ export const CreateRouteResponse = /*@__PURE__*/ S.suspend(() =>
     scope: S.optional(S.NullOr(RoutesCreateResponseScope)),
     weight: S.optional(S.NullOr(S.Number)),
   }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "CreateRouteResponse",
-}) as any as S.Schema<CreateRouteResponse>;
+).annotate({ identifier: "CreateRouteResponse" }) as any as S.Schema<CreateRouteResponse>;
 
 export interface SitesCreateRequestLocation {
   /** Latitude */
@@ -3169,17 +3051,9 @@ export const CreateSiteRequest = /*@__PURE__*/ S.suspend(() =>
     location: S.optional(SitesCreateRequestLocation),
     secondaryConnectorId: S.optional(S.String.pipe(T.Body("secondary_connector_id"))),
   })
-    .pipe(
-      T.Http({
-        method: "POST",
-        uri: "/accounts/{account_id}/magic/sites",
-        code: 200,
-      }),
-    )
+    .pipe(T.Http({ method: "POST", uri: "/accounts/{account_id}/magic/sites", code: 200 }))
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "CreateSiteRequest",
-}) as any as S.Schema<CreateSiteRequest>;
+).annotate({ identifier: "CreateSiteRequest" }) as any as S.Schema<CreateSiteRequest>;
 
 export interface SitesCreateResponseLocation {
   /** Latitude */
@@ -3222,9 +3096,7 @@ export const CreateSiteResponse = /*@__PURE__*/ S.suspend(() =>
     name: S.optional(S.NullOr(S.String)),
     secondaryConnectorId: S.optional(S.NullOr(S.String).pipe(T.Body("secondary_connector_id"))),
   }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "CreateSiteResponse",
-}) as any as S.Schema<CreateSiteResponse>;
+).annotate({ identifier: "CreateSiteResponse" }) as any as S.Schema<CreateSiteResponse>;
 
 export type SitesAclsCreateRequestLan1PortRangesList = Array<string>;
 export const SitesAclsCreateRequestLan1PortRangesList = /*@__PURE__*/ S.Array(
@@ -3351,9 +3223,7 @@ export const CreateSiteAclRequest = /*@__PURE__*/ S.suspend(() =>
       }),
     )
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "CreateSiteAclRequest",
-}) as any as S.Schema<CreateSiteAclRequest>;
+).annotate({ identifier: "CreateSiteAclRequest" }) as any as S.Schema<CreateSiteAclRequest>;
 
 export type SitesAclsCreateResponseLan1PortRangesList = Array<string>;
 export const SitesAclsCreateResponseLan1PortRangesList = /*@__PURE__*/ S.Array(
@@ -3472,9 +3342,7 @@ export const CreateSiteAclResponse = /*@__PURE__*/ S.suspend(() =>
     protocols: S.optional(S.NullOr(SitesAclsCreateResponseProtocolsList)),
     unidirectional: S.optional(S.NullOr(S.Boolean)),
   }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "CreateSiteAclResponse",
-}) as any as S.Schema<CreateSiteAclResponse>;
+).annotate({ identifier: "CreateSiteAclResponse" }) as any as S.Schema<CreateSiteAclResponse>;
 
 export interface SitesLansCreateRequestNat {
   /** A valid CIDR notation representing an IP range. */
@@ -3689,9 +3557,7 @@ export const CreateSiteLanRequest = /*@__PURE__*/ S.suspend(() =>
       }),
     )
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "CreateSiteLanRequest",
-}) as any as S.Schema<CreateSiteLanRequest>;
+).annotate({ identifier: "CreateSiteLanRequest" }) as any as S.Schema<CreateSiteLanRequest>;
 
 export interface SitesLansCreateResultItemNat {
   /** A valid CIDR notation representing an IP range. */
@@ -3925,9 +3791,7 @@ export const CreateSiteLanResponse = /*@__PURE__*/ S.suspend(() =>
     result: SitesLansCreateResultList.pipe(T.EnvelopePayload()),
     resultInfo: S.optional(S.NullOr(ResultInfo).pipe(T.ResultInfo())),
   }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "CreateSiteLanResponse",
-}) as any as S.Schema<CreateSiteLanResponse>;
+).annotate({ identifier: "CreateSiteLanResponse" }) as any as S.Schema<CreateSiteLanResponse>;
 
 export type CreateSitesAppConfigurationRequestPreferredWansList = Array<string>;
 export const CreateSitesAppConfigurationRequestPreferredWansList = /*@__PURE__*/ S.Array(
@@ -4063,6 +3927,9 @@ export const CreateSitesAppConfigurationResponse = /*@__PURE__*/ S.suspend(() =>
   identifier: "CreateSitesAppConfigurationResponse",
 }) as any as S.Schema<CreateSitesAppConfigurationResponse>;
 
+export type SitesWansCreateRequestHealthCheckRate = "low" | "mid" | "high";
+export const SitesWansCreateRequestHealthCheckRate = S.String;
+
 export interface SitesWansCreateRequestStaticAddressing {
   /** A valid CIDR notation representing an IP range. */
   address: string;
@@ -4087,6 +3954,9 @@ export interface CreateSiteWanRequest {
   /** Identifier */
   siteId: string;
   physport: number;
+  /** Magic WAN health check rate for tunnels created on this link. The default value is `mid`. */
+  healthCheckRate?: SitesWansCreateRequestHealthCheckRate | (string & {});
+  loadBalanceInnerFlows?: boolean;
   name?: string;
   priority?: number;
   /** (optional) if omitted, use DHCP. Submit secondary_address when site is in high availability mode. */
@@ -4099,6 +3969,10 @@ export const CreateSiteWanRequest = /*@__PURE__*/ S.suspend(() =>
     accountId: S.String.pipe(T.Label("account_id")),
     siteId: S.String.pipe(T.Label("site_id")),
     physport: S.Number,
+    healthCheckRate: S.optional(
+      SitesWansCreateRequestHealthCheckRate.pipe(T.Body("health_check_rate")),
+    ),
+    loadBalanceInnerFlows: S.optional(S.Boolean.pipe(T.Body("load_balance_inner_flows"))),
     name: S.optional(S.String),
     priority: S.optional(S.Number),
     staticAddressing: S.optional(
@@ -4114,9 +3988,7 @@ export const CreateSiteWanRequest = /*@__PURE__*/ S.suspend(() =>
       }),
     )
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "CreateSiteWanRequest",
-}) as any as S.Schema<CreateSiteWanRequest>;
+).annotate({ identifier: "CreateSiteWanRequest" }) as any as S.Schema<CreateSiteWanRequest>;
 
 export type SitesWansCreateResultItemHealthCheckRate = "low" | "mid" | "high";
 export const SitesWansCreateResultItemHealthCheckRate = S.String;
@@ -4144,6 +4016,7 @@ export interface SitesWansCreateResultItem {
   id?: string | null;
   /** Magic WAN health check rate for tunnels created on this link. The default value is `mid`. */
   healthCheckRate?: SitesWansCreateResultItemHealthCheckRate | null;
+  loadBalanceInnerFlows?: boolean | null;
   name?: string | null;
   physport?: number | null;
   /** Priority of WAN for traffic loadbalancing. */
@@ -4161,6 +4034,7 @@ export const SitesWansCreateResultItem = /*@__PURE__*/ S.suspend(() =>
     healthCheckRate: S.optional(
       S.NullOr(SitesWansCreateResultItemHealthCheckRate).pipe(T.Body("health_check_rate")),
     ),
+    loadBalanceInnerFlows: S.optional(S.NullOr(S.Boolean).pipe(T.Body("load_balance_inner_flows"))),
     name: S.optional(S.NullOr(S.String)),
     physport: S.optional(S.NullOr(S.Number)),
     priority: S.optional(S.NullOr(S.Number)),
@@ -4190,9 +4064,7 @@ export const CreateSiteWanResponse = /*@__PURE__*/ S.suspend(() =>
     result: SitesWansCreateResultList.pipe(T.EnvelopePayload()),
     resultInfo: S.optional(S.NullOr(ResultInfo).pipe(T.ResultInfo())),
   }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "CreateSiteWanResponse",
-}) as any as S.Schema<CreateSiteWanResponse>;
+).annotate({ identifier: "CreateSiteWanResponse" }) as any as S.Schema<CreateSiteWanResponse>;
 
 export interface DeleteAppRequest {
   /** Identifier */
@@ -4213,9 +4085,7 @@ export const DeleteAppRequest = /*@__PURE__*/ S.suspend(() =>
       }),
     )
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "DeleteAppRequest",
-}) as any as S.Schema<DeleteAppRequest>;
+).annotate({ identifier: "DeleteAppRequest" }) as any as S.Schema<DeleteAppRequest>;
 
 export type AppsDeleteResponseHostnamesList = Array<string>;
 export const AppsDeleteResponseHostnamesList = /*@__PURE__*/ S.Array(
@@ -4258,9 +4128,7 @@ export const DeleteAppResponse = /*@__PURE__*/ S.suspend(() =>
     ),
     type: S.optional(S.NullOr(S.String)),
   }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "DeleteAppResponse",
-}) as any as S.Schema<DeleteAppResponse>;
+).annotate({ identifier: "DeleteAppResponse" }) as any as S.Schema<DeleteAppResponse>;
 
 export interface DeleteBgpFilterProfileRequest {
   /** Identifier */
@@ -4341,9 +4209,7 @@ export const DeleteCf1SiteRequest = /*@__PURE__*/ S.suspend(() =>
       }),
     )
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "DeleteCf1SiteRequest",
-}) as any as S.Schema<DeleteCf1SiteRequest>;
+).annotate({ identifier: "DeleteCf1SiteRequest" }) as any as S.Schema<DeleteCf1SiteRequest>;
 
 export type Cf1SitesDeleteResponseLocation = Cf1SitesCreateResultItemLocation;
 export const Cf1SitesDeleteResponseLocation = Cf1SitesCreateResultItemLocation;
@@ -4369,9 +4235,7 @@ export const DeleteCf1SiteResponse = /*@__PURE__*/ S.suspend(() =>
     location: S.optional(S.NullOr(Cf1SitesCreateResultItemLocation)),
     modifiedOn: S.optional(S.NullOr(S.String).pipe(T.Body("modified_on"))),
   }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "DeleteCf1SiteResponse",
-}) as any as S.Schema<DeleteCf1SiteResponse>;
+).annotate({ identifier: "DeleteCf1SiteResponse" }) as any as S.Schema<DeleteCf1SiteResponse>;
 
 export interface DeleteCf1SiteRampRequest {
   /** Identifier */
@@ -4395,9 +4259,7 @@ export const DeleteCf1SiteRampRequest = /*@__PURE__*/ S.suspend(() =>
       }),
     )
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "DeleteCf1SiteRampRequest",
-}) as any as S.Schema<DeleteCf1SiteRampRequest>;
+).annotate({ identifier: "DeleteCf1SiteRampRequest" }) as any as S.Schema<DeleteCf1SiteRampRequest>;
 
 export type Cf1SitesRampsDeleteResponseType =
   | "gre"
@@ -4479,9 +4341,7 @@ export const DeleteConnectorRequest = /*@__PURE__*/ S.suspend(() =>
       }),
     )
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "DeleteConnectorRequest",
-}) as any as S.Schema<DeleteConnectorRequest>;
+).annotate({ identifier: "DeleteConnectorRequest" }) as any as S.Schema<DeleteConnectorRequest>;
 
 export type ConnectorsDeleteResponseInterruptWindowDaysOfWeekItem =
   | "Sunday"
@@ -4534,13 +4394,11 @@ export interface DeleteConnectorResponse {
   interruptWindowHourOfDay: number;
   lastUpdated: string;
   notes: string;
-  primary: boolean;
   timezone: string;
   device?: ConnectorsDeleteResponseDevice | null;
   lastHeartbeat?: string | null;
   lastSeenVersion?: string | null;
   licenseKey?: string | null;
-  siteId?: string | null;
 }
 export const DeleteConnectorResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -4556,17 +4414,13 @@ export const DeleteConnectorResponse = /*@__PURE__*/ S.suspend(() =>
     interruptWindowHourOfDay: S.Number.pipe(T.Body("interrupt_window_hour_of_day")),
     lastUpdated: S.String.pipe(T.Body("last_updated")),
     notes: S.String,
-    primary: S.Boolean,
     timezone: S.String,
     device: S.optional(S.NullOr(ConnectorsDeleteResponseDevice)),
     lastHeartbeat: S.optional(S.NullOr(S.String).pipe(T.Body("last_heartbeat"))),
     lastSeenVersion: S.optional(S.NullOr(S.String).pipe(T.Body("last_seen_version"))),
     licenseKey: S.optional(S.NullOr(S.String).pipe(T.Body("license_key"))),
-    siteId: S.optional(S.NullOr(S.String).pipe(T.Body("site_id"))),
   }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "DeleteConnectorResponse",
-}) as any as S.Schema<DeleteConnectorResponse>;
+).annotate({ identifier: "DeleteConnectorResponse" }) as any as S.Schema<DeleteConnectorResponse>;
 
 export interface DeleteGreTunnelRequest {
   /** Identifier */
@@ -4589,9 +4443,7 @@ export const DeleteGreTunnelRequest = /*@__PURE__*/ S.suspend(() =>
       }),
     )
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "DeleteGreTunnelRequest",
-}) as any as S.Schema<DeleteGreTunnelRequest>;
+).annotate({ identifier: "DeleteGreTunnelRequest" }) as any as S.Schema<DeleteGreTunnelRequest>;
 
 export type GreTunnelsDeleteResponseDeletedGreTunnelBgpExtraPrefixesList = Array<string>;
 export const GreTunnelsDeleteResponseDeletedGreTunnelBgpExtraPrefixesList = /*@__PURE__*/ S.Array(
@@ -4772,9 +4624,7 @@ export const DeleteGreTunnelResponse = /*@__PURE__*/ S.suspend(() =>
       S.NullOr(GreTunnelsDeleteResponseDeletedGreTunnel).pipe(T.Body("deleted_gre_tunnel")),
     ),
   }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "DeleteGreTunnelResponse",
-}) as any as S.Schema<DeleteGreTunnelResponse>;
+).annotate({ identifier: "DeleteGreTunnelResponse" }) as any as S.Schema<DeleteGreTunnelResponse>;
 
 export interface DeleteIpsecTunnelRequest {
   /** Identifier */
@@ -4797,9 +4647,7 @@ export const DeleteIpsecTunnelRequest = /*@__PURE__*/ S.suspend(() =>
       }),
     )
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "DeleteIpsecTunnelRequest",
-}) as any as S.Schema<DeleteIpsecTunnelRequest>;
+).annotate({ identifier: "DeleteIpsecTunnelRequest" }) as any as S.Schema<DeleteIpsecTunnelRequest>;
 
 export type IpsecTunnelsDeleteResponseDeletedIpsecTunnelBgpExtraPrefixesList = Array<string>;
 export const IpsecTunnelsDeleteResponseDeletedIpsecTunnelBgpExtraPrefixesList =
@@ -5061,9 +4909,7 @@ export const DeleteRouteRequest = /*@__PURE__*/ S.suspend(() =>
       }),
     )
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "DeleteRouteRequest",
-}) as any as S.Schema<DeleteRouteRequest>;
+).annotate({ identifier: "DeleteRouteRequest" }) as any as S.Schema<DeleteRouteRequest>;
 
 export type RoutesDeleteResponseDeletedRouteScopeColoNamesList = Array<string>;
 export const RoutesDeleteResponseDeletedRouteScopeColoNamesList = /*@__PURE__*/ S.Array(
@@ -5142,9 +4988,7 @@ export const DeleteRouteResponse = /*@__PURE__*/ S.suspend(() =>
       S.NullOr(RoutesDeleteResponseDeletedRoute).pipe(T.Body("deleted_route")),
     ),
   }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "DeleteRouteResponse",
-}) as any as S.Schema<DeleteRouteResponse>;
+).annotate({ identifier: "DeleteRouteResponse" }) as any as S.Schema<DeleteRouteResponse>;
 
 export interface DeleteSiteRequest {
   /** Identifier */
@@ -5158,16 +5002,10 @@ export const DeleteSiteRequest = /*@__PURE__*/ S.suspend(() =>
     siteId: S.String.pipe(T.Label("site_id")),
   })
     .pipe(
-      T.Http({
-        method: "DELETE",
-        uri: "/accounts/{account_id}/magic/sites/{site_id}",
-        code: 200,
-      }),
+      T.Http({ method: "DELETE", uri: "/accounts/{account_id}/magic/sites/{site_id}", code: 200 }),
     )
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "DeleteSiteRequest",
-}) as any as S.Schema<DeleteSiteRequest>;
+).annotate({ identifier: "DeleteSiteRequest" }) as any as S.Schema<DeleteSiteRequest>;
 
 export type SitesDeleteResponseLocation = SitesCreateResponseLocation;
 export const SitesDeleteResponseLocation = SitesCreateResponseLocation;
@@ -5198,9 +5036,7 @@ export const DeleteSiteResponse = /*@__PURE__*/ S.suspend(() =>
     name: S.optional(S.NullOr(S.String)),
     secondaryConnectorId: S.optional(S.NullOr(S.String).pipe(T.Body("secondary_connector_id"))),
   }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "DeleteSiteResponse",
-}) as any as S.Schema<DeleteSiteResponse>;
+).annotate({ identifier: "DeleteSiteResponse" }) as any as S.Schema<DeleteSiteResponse>;
 
 export interface DeleteSiteAclRequest {
   /** Identifier */
@@ -5224,9 +5060,7 @@ export const DeleteSiteAclRequest = /*@__PURE__*/ S.suspend(() =>
       }),
     )
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "DeleteSiteAclRequest",
-}) as any as S.Schema<DeleteSiteAclRequest>;
+).annotate({ identifier: "DeleteSiteAclRequest" }) as any as S.Schema<DeleteSiteAclRequest>;
 
 export type SitesAclsDeleteResponseLan1PortRangesList = Array<string>;
 export const SitesAclsDeleteResponseLan1PortRangesList = /*@__PURE__*/ S.Array(
@@ -5345,9 +5179,7 @@ export const DeleteSiteAclResponse = /*@__PURE__*/ S.suspend(() =>
     protocols: S.optional(S.NullOr(SitesAclsDeleteResponseProtocolsList)),
     unidirectional: S.optional(S.NullOr(S.Boolean)),
   }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "DeleteSiteAclResponse",
-}) as any as S.Schema<DeleteSiteAclResponse>;
+).annotate({ identifier: "DeleteSiteAclResponse" }) as any as S.Schema<DeleteSiteAclResponse>;
 
 export interface DeleteSiteLanRequest {
   /** Identifier */
@@ -5371,9 +5203,7 @@ export const DeleteSiteLanRequest = /*@__PURE__*/ S.suspend(() =>
       }),
     )
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "DeleteSiteLanRequest",
-}) as any as S.Schema<DeleteSiteLanRequest>;
+).annotate({ identifier: "DeleteSiteLanRequest" }) as any as S.Schema<DeleteSiteLanRequest>;
 
 export type SitesLansDeleteResponseNat = SitesLansCreateResultItemNat;
 export const SitesLansDeleteResponseNat = SitesLansCreateResultItemNat;
@@ -5565,9 +5395,7 @@ export const DeleteSiteLanResponse = /*@__PURE__*/ S.suspend(() =>
     ),
     vlanTag: S.optional(S.NullOr(S.Number).pipe(T.Body("vlan_tag"))),
   }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "DeleteSiteLanResponse",
-}) as any as S.Schema<DeleteSiteLanResponse>;
+).annotate({ identifier: "DeleteSiteLanResponse" }) as any as S.Schema<DeleteSiteLanResponse>;
 
 export interface DeleteSitesAppConfigurationRequest {
   /** Identifier */
@@ -5706,9 +5534,7 @@ export const DeleteSiteWanRequest = /*@__PURE__*/ S.suspend(() =>
       }),
     )
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "DeleteSiteWanRequest",
-}) as any as S.Schema<DeleteSiteWanRequest>;
+).annotate({ identifier: "DeleteSiteWanRequest" }) as any as S.Schema<DeleteSiteWanRequest>;
 
 export type SitesWansDeleteResponseHealthCheckRate = "low" | "mid" | "high";
 export const SitesWansDeleteResponseHealthCheckRate = S.String;
@@ -5722,6 +5548,7 @@ export interface DeleteSiteWanResponse {
   id?: string | null;
   /** Magic WAN health check rate for tunnels created on this link. The default value is `mid`. */
   healthCheckRate?: SitesWansDeleteResponseHealthCheckRate | null;
+  loadBalanceInnerFlows?: boolean | null;
   name?: string | null;
   physport?: number | null;
   /** Priority of WAN for traffic loadbalancing. */
@@ -5739,6 +5566,7 @@ export const DeleteSiteWanResponse = /*@__PURE__*/ S.suspend(() =>
     healthCheckRate: S.optional(
       S.NullOr(SitesWansDeleteResponseHealthCheckRate).pipe(T.Body("health_check_rate")),
     ),
+    loadBalanceInnerFlows: S.optional(S.NullOr(S.Boolean).pipe(T.Body("load_balance_inner_flows"))),
     name: S.optional(S.NullOr(S.String)),
     physport: S.optional(S.NullOr(S.Number)),
     priority: S.optional(S.NullOr(S.Number)),
@@ -5748,9 +5576,7 @@ export const DeleteSiteWanResponse = /*@__PURE__*/ S.suspend(() =>
     ),
     vlanTag: S.optional(S.NullOr(S.Number).pipe(T.Body("vlan_tag"))),
   }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "DeleteSiteWanResponse",
-}) as any as S.Schema<DeleteSiteWanResponse>;
+).annotate({ identifier: "DeleteSiteWanResponse" }) as any as S.Schema<DeleteSiteWanResponse>;
 
 export type EditSitesAppConfigurationRequestPreferredWansList = Array<string>;
 export const EditSitesAppConfigurationRequestPreferredWansList = /*@__PURE__*/ S.Array(
@@ -5897,17 +5723,9 @@ export const EmptyRouteRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     accountId: S.String.pipe(T.Label("account_id")),
   })
-    .pipe(
-      T.Http({
-        method: "DELETE",
-        uri: "/accounts/{account_id}/magic/routes",
-        code: 200,
-      }),
-    )
+    .pipe(T.Http({ method: "DELETE", uri: "/accounts/{account_id}/magic/routes", code: 200 }))
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "EmptyRouteRequest",
-}) as any as S.Schema<EmptyRouteRequest>;
+).annotate({ identifier: "EmptyRouteRequest" }) as any as S.Schema<EmptyRouteRequest>;
 
 export type RoutesEmptyResponseDeletedRoutesItemScopeColoNamesList = Array<string>;
 export const RoutesEmptyResponseDeletedRoutesItemScopeColoNamesList = /*@__PURE__*/ S.Array(
@@ -5993,9 +5811,7 @@ export const EmptyRouteResponse = /*@__PURE__*/ S.suspend(() =>
       S.NullOr(RoutesEmptyResponseDeletedRoutesList).pipe(T.Body("deleted_routes")),
     ),
   }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "EmptyRouteResponse",
-}) as any as S.Schema<EmptyRouteResponse>;
+).annotate({ identifier: "EmptyRouteResponse" }) as any as S.Schema<EmptyRouteResponse>;
 
 export interface GetBgpFilterProfileRequest {
   /** Identifier */
@@ -6076,9 +5892,7 @@ export const GetCf1SiteRequest = /*@__PURE__*/ S.suspend(() =>
       }),
     )
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "GetCf1SiteRequest",
-}) as any as S.Schema<GetCf1SiteRequest>;
+).annotate({ identifier: "GetCf1SiteRequest" }) as any as S.Schema<GetCf1SiteRequest>;
 
 export type Cf1SitesGetResponseLocation = Cf1SitesCreateResultItemLocation;
 export const Cf1SitesGetResponseLocation = Cf1SitesCreateResultItemLocation;
@@ -6104,9 +5918,7 @@ export const GetCf1SiteResponse = /*@__PURE__*/ S.suspend(() =>
     location: S.optional(S.NullOr(Cf1SitesCreateResultItemLocation)),
     modifiedOn: S.optional(S.NullOr(S.String).pipe(T.Body("modified_on"))),
   }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "GetCf1SiteResponse",
-}) as any as S.Schema<GetCf1SiteResponse>;
+).annotate({ identifier: "GetCf1SiteResponse" }) as any as S.Schema<GetCf1SiteResponse>;
 
 export interface GetCf1SiteRampRequest {
   /** Identifier */
@@ -6130,9 +5942,7 @@ export const GetCf1SiteRampRequest = /*@__PURE__*/ S.suspend(() =>
       }),
     )
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "GetCf1SiteRampRequest",
-}) as any as S.Schema<GetCf1SiteRampRequest>;
+).annotate({ identifier: "GetCf1SiteRampRequest" }) as any as S.Schema<GetCf1SiteRampRequest>;
 
 export type Cf1SitesRampsGetResponseType =
   | "gre"
@@ -6193,9 +6003,7 @@ export const GetCf1SiteRampResponse = /*@__PURE__*/ S.suspend(() =>
       S.NullOr(Cf1SitesRampsCreateResultItemGre).pipe(T.Body("mpls_interconnect")),
     ),
   }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "GetCf1SiteRampResponse",
-}) as any as S.Schema<GetCf1SiteRampResponse>;
+).annotate({ identifier: "GetCf1SiteRampResponse" }) as any as S.Schema<GetCf1SiteRampResponse>;
 
 export interface GetCfInterconnectRequest {
   /** Identifier */
@@ -6218,9 +6026,7 @@ export const GetCfInterconnectRequest = /*@__PURE__*/ S.suspend(() =>
       }),
     )
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "GetCfInterconnectRequest",
-}) as any as S.Schema<GetCfInterconnectRequest>;
+).annotate({ identifier: "GetCfInterconnectRequest" }) as any as S.Schema<GetCfInterconnectRequest>;
 
 export type CfInterconnectsGetResponseInterconnectBgpExtraPrefixesList = Array<string>;
 export const CfInterconnectsGetResponseInterconnectBgpExtraPrefixesList = /*@__PURE__*/ S.Array(
@@ -6406,9 +6212,7 @@ export const GetConnectorRequest = /*@__PURE__*/ S.suspend(() =>
       }),
     )
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "GetConnectorRequest",
-}) as any as S.Schema<GetConnectorRequest>;
+).annotate({ identifier: "GetConnectorRequest" }) as any as S.Schema<GetConnectorRequest>;
 
 export type ConnectorsGetResponseInterruptWindowDaysOfWeekItem =
   | "Sunday"
@@ -6461,13 +6265,11 @@ export interface GetConnectorResponse {
   interruptWindowHourOfDay: number;
   lastUpdated: string;
   notes: string;
-  primary: boolean;
   timezone: string;
   device?: ConnectorsGetResponseDevice | null;
   lastHeartbeat?: string | null;
   lastSeenVersion?: string | null;
   licenseKey?: string | null;
-  siteId?: string | null;
 }
 export const GetConnectorResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -6483,17 +6285,13 @@ export const GetConnectorResponse = /*@__PURE__*/ S.suspend(() =>
     interruptWindowHourOfDay: S.Number.pipe(T.Body("interrupt_window_hour_of_day")),
     lastUpdated: S.String.pipe(T.Body("last_updated")),
     notes: S.String,
-    primary: S.Boolean,
     timezone: S.String,
     device: S.optional(S.NullOr(ConnectorsGetResponseDevice)),
     lastHeartbeat: S.optional(S.NullOr(S.String).pipe(T.Body("last_heartbeat"))),
     lastSeenVersion: S.optional(S.NullOr(S.String).pipe(T.Body("last_seen_version"))),
     licenseKey: S.optional(S.NullOr(S.String).pipe(T.Body("license_key"))),
-    siteId: S.optional(S.NullOr(S.String).pipe(T.Body("site_id"))),
   }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "GetConnectorResponse",
-}) as any as S.Schema<GetConnectorResponse>;
+).annotate({ identifier: "GetConnectorResponse" }) as any as S.Schema<GetConnectorResponse>;
 
 export interface GetConnectorEventRequest {
   /** Account identifier */
@@ -6517,9 +6315,7 @@ export const GetConnectorEventRequest = /*@__PURE__*/ S.suspend(() =>
       }),
     )
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "GetConnectorEventRequest",
-}) as any as S.Schema<GetConnectorEventRequest>;
+).annotate({ identifier: "GetConnectorEventRequest" }) as any as S.Schema<GetConnectorEventRequest>;
 
 export type ConnectorsEventsGetResponseEK =
   | "Init"
@@ -6767,6 +6563,10 @@ export interface ConnectorsSnapshotsGetResponseInterfacesItem {
   name: string;
   /** UP/DOWN state of the network interface */
   operstate: string;
+  /** Comma-separated list of reasons for health score */
+  healthReason?: string | null;
+  /** Aggregate health score (0-100) */
+  healthScore?: number | null;
   ipAddresses?: ConnectorsSnapshotsGetResponseInterfacesItemIpAddressesList | null;
   /** Speed of the network interface (bits per second) */
   speed?: number | null;
@@ -6775,6 +6575,8 @@ export const ConnectorsSnapshotsGetResponseInterfacesItem = /*@__PURE__*/ S.susp
   S.Struct({
     name: S.String,
     operstate: S.String,
+    healthReason: S.optional(S.NullOr(S.String).pipe(T.Body("health_reason"))),
+    healthScore: S.optional(S.NullOr(S.Number).pipe(T.Body("health_score"))),
     ipAddresses: S.optional(
       S.NullOr(ConnectorsSnapshotsGetResponseInterfacesItemIpAddressesList).pipe(
         T.Body("ip_addresses"),
@@ -7609,9 +7411,7 @@ export const GetGreTunnelRequest = /*@__PURE__*/ S.suspend(() =>
       }),
     )
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "GetGreTunnelRequest",
-}) as any as S.Schema<GetGreTunnelRequest>;
+).annotate({ identifier: "GetGreTunnelRequest" }) as any as S.Schema<GetGreTunnelRequest>;
 
 export type GreTunnelsGetResponseGreTunnelBgpExtraPrefixesList = Array<string>;
 export const GreTunnelsGetResponseGreTunnelBgpExtraPrefixesList = /*@__PURE__*/ S.Array(
@@ -7785,9 +7585,7 @@ export const GetGreTunnelResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     greTunnel: S.optional(S.NullOr(GreTunnelsGetResponseGreTunnel).pipe(T.Body("gre_tunnel"))),
   }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "GetGreTunnelResponse",
-}) as any as S.Schema<GetGreTunnelResponse>;
+).annotate({ identifier: "GetGreTunnelResponse" }) as any as S.Schema<GetGreTunnelResponse>;
 
 export interface GetIpsecTunnelRequest {
   /** Identifier */
@@ -7810,9 +7608,7 @@ export const GetIpsecTunnelRequest = /*@__PURE__*/ S.suspend(() =>
       }),
     )
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "GetIpsecTunnelRequest",
-}) as any as S.Schema<GetIpsecTunnelRequest>;
+).annotate({ identifier: "GetIpsecTunnelRequest" }) as any as S.Schema<GetIpsecTunnelRequest>;
 
 export type IpsecTunnelsGetResponseIpsecTunnelBgpExtraPrefixesList = Array<string>;
 export const IpsecTunnelsGetResponseIpsecTunnelBgpExtraPrefixesList = /*@__PURE__*/ S.Array(
@@ -8015,9 +7811,7 @@ export const GetIpsecTunnelResponse = /*@__PURE__*/ S.suspend(() =>
       S.NullOr(IpsecTunnelsGetResponseIpsecTunnel).pipe(T.Body("ipsec_tunnel")),
     ),
   }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "GetIpsecTunnelResponse",
-}) as any as S.Schema<GetIpsecTunnelResponse>;
+).annotate({ identifier: "GetIpsecTunnelResponse" }) as any as S.Schema<GetIpsecTunnelResponse>;
 
 export interface GetPcapRequest {
   /** Identifier. */
@@ -8030,13 +7824,7 @@ export const GetPcapRequest = /*@__PURE__*/ S.suspend(() =>
     accountId: S.String.pipe(T.Label("account_id")),
     pcapId: S.String.pipe(T.Label("pcap_id")),
   })
-    .pipe(
-      T.Http({
-        method: "GET",
-        uri: "/accounts/{account_id}/pcaps/{pcap_id}",
-        code: 200,
-      }),
-    )
+    .pipe(T.Http({ method: "GET", uri: "/accounts/{account_id}/pcaps/{pcap_id}", code: 200 }))
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
 ).annotate({ identifier: "GetPcapRequest" }) as any as S.Schema<GetPcapRequest>;
 
@@ -8089,9 +7877,7 @@ export const PcapsGetResultPCAP = /*@__PURE__*/ S.suspend(() =>
     timeLimit: S.optional(S.NullOr(S.Number).pipe(T.Body("time_limit"))),
     type: S.optional(S.NullOr(PcapsGetResultPCAPType)),
   }),
-).annotate({
-  identifier: "PcapsGetResultPCAP",
-}) as any as S.Schema<PcapsGetResultPCAP>;
+).annotate({ identifier: "PcapsGetResultPCAP" }) as any as S.Schema<PcapsGetResultPCAP>;
 
 export type PcapsGetResultMagicVisibilityPCAPsPCAPsResponseFullFilterV1 =
   PcapsCreateResultPCAPFilterV1;
@@ -8190,9 +7976,7 @@ export const PcapsGetResult = /*@__PURE__*/ S.Unknown.pipe(
 export type GetPcapResponse = PcapsGetResult;
 export const GetPcapResponse = /*@__PURE__*/ S.suspend(() =>
   PcapsGetResult.pipe(T.EnvelopePayloadRoot(), T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "GetPcapResponse",
-}) as any as S.Schema<GetPcapResponse>;
+).annotate({ identifier: "GetPcapResponse" }) as any as S.Schema<GetPcapResponse>;
 
 export interface GetPcapDownloadRequest {
   /** Identifier. */
@@ -8206,23 +7990,15 @@ export const GetPcapDownloadRequest = /*@__PURE__*/ S.suspend(() =>
     pcapId: S.String.pipe(T.Label("pcap_id")),
   })
     .pipe(
-      T.Http({
-        method: "GET",
-        uri: "/accounts/{account_id}/pcaps/{pcap_id}/download",
-        code: 200,
-      }),
+      T.Http({ method: "GET", uri: "/accounts/{account_id}/pcaps/{pcap_id}/download", code: 200 }),
     )
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "GetPcapDownloadRequest",
-}) as any as S.Schema<GetPcapDownloadRequest>;
+).annotate({ identifier: "GetPcapDownloadRequest" }) as any as S.Schema<GetPcapDownloadRequest>;
 
 export interface GetPcapDownloadResponse {}
 export const GetPcapDownloadResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({}).pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "GetPcapDownloadResponse",
-}) as any as S.Schema<GetPcapDownloadResponse>;
+).annotate({ identifier: "GetPcapDownloadResponse" }) as any as S.Schema<GetPcapDownloadResponse>;
 
 export interface GetPcapOwnershipRequest {
   /** Identifier. */
@@ -8232,17 +8008,9 @@ export const GetPcapOwnershipRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     accountId: S.String.pipe(T.Label("account_id")),
   })
-    .pipe(
-      T.Http({
-        method: "GET",
-        uri: "/accounts/{account_id}/pcaps/ownership",
-        code: 200,
-      }),
-    )
+    .pipe(T.Http({ method: "GET", uri: "/accounts/{account_id}/pcaps/ownership", code: 200 }))
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "GetPcapOwnershipRequest",
-}) as any as S.Schema<GetPcapOwnershipRequest>;
+).annotate({ identifier: "GetPcapOwnershipRequest" }) as any as S.Schema<GetPcapOwnershipRequest>;
 
 export type PcapsOwnershipGetResultItemStatus = "pending" | "success" | "failed";
 export const PcapsOwnershipGetResultItemStatus = S.String;
@@ -8290,9 +8058,7 @@ export const GetPcapOwnershipResponse = /*@__PURE__*/ S.suspend(() =>
     result: PcapsOwnershipGetResultList.pipe(T.EnvelopePayload()),
     resultInfo: S.optional(S.NullOr(ResultInfo).pipe(T.ResultInfo())),
   }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "GetPcapOwnershipResponse",
-}) as any as S.Schema<GetPcapOwnershipResponse>;
+).annotate({ identifier: "GetPcapOwnershipResponse" }) as any as S.Schema<GetPcapOwnershipResponse>;
 
 export interface GetRouteRequest {
   /** Identifier */
@@ -8306,16 +8072,10 @@ export const GetRouteRequest = /*@__PURE__*/ S.suspend(() =>
     routeId: S.String.pipe(T.Label("route_id")),
   })
     .pipe(
-      T.Http({
-        method: "GET",
-        uri: "/accounts/{account_id}/magic/routes/{route_id}",
-        code: 200,
-      }),
+      T.Http({ method: "GET", uri: "/accounts/{account_id}/magic/routes/{route_id}", code: 200 }),
     )
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "GetRouteRequest",
-}) as any as S.Schema<GetRouteRequest>;
+).annotate({ identifier: "GetRouteRequest" }) as any as S.Schema<GetRouteRequest>;
 
 export type RoutesGetResponseRouteScopeColoNamesList = Array<string>;
 export const RoutesGetResponseRouteScopeColoNamesList = /*@__PURE__*/ S.Array(
@@ -8378,9 +8138,7 @@ export const RoutesGetResponseRoute = /*@__PURE__*/ S.suspend(() =>
     scope: S.optional(S.NullOr(RoutesGetResponseRouteScope)),
     weight: S.optional(S.NullOr(S.Number)),
   }),
-).annotate({
-  identifier: "RoutesGetResponseRoute",
-}) as any as S.Schema<RoutesGetResponseRoute>;
+).annotate({ identifier: "RoutesGetResponseRoute" }) as any as S.Schema<RoutesGetResponseRoute>;
 
 /** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
 export interface GetRouteResponse {
@@ -8390,9 +8148,7 @@ export const GetRouteResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     route: S.optional(S.NullOr(RoutesGetResponseRoute)),
   }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "GetRouteResponse",
-}) as any as S.Schema<GetRouteResponse>;
+).annotate({ identifier: "GetRouteResponse" }) as any as S.Schema<GetRouteResponse>;
 
 export interface GetSiteRequest {
   /** Identifier */
@@ -8407,13 +8163,7 @@ export const GetSiteRequest = /*@__PURE__*/ S.suspend(() =>
     siteId: S.String.pipe(T.Label("site_id")),
     xMagicNewHcTarget: S.optional(S.Boolean.pipe(T.Header("x-magic-new-hc-target"))),
   })
-    .pipe(
-      T.Http({
-        method: "GET",
-        uri: "/accounts/{account_id}/magic/sites/{site_id}",
-        code: 200,
-      }),
-    )
+    .pipe(T.Http({ method: "GET", uri: "/accounts/{account_id}/magic/sites/{site_id}", code: 200 }))
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
 ).annotate({ identifier: "GetSiteRequest" }) as any as S.Schema<GetSiteRequest>;
 
@@ -8446,9 +8196,7 @@ export const GetSiteResponse = /*@__PURE__*/ S.suspend(() =>
     name: S.optional(S.NullOr(S.String)),
     secondaryConnectorId: S.optional(S.NullOr(S.String).pipe(T.Body("secondary_connector_id"))),
   }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "GetSiteResponse",
-}) as any as S.Schema<GetSiteResponse>;
+).annotate({ identifier: "GetSiteResponse" }) as any as S.Schema<GetSiteResponse>;
 
 export interface GetSiteAclRequest {
   /** Identifier */
@@ -8472,9 +8220,7 @@ export const GetSiteAclRequest = /*@__PURE__*/ S.suspend(() =>
       }),
     )
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "GetSiteAclRequest",
-}) as any as S.Schema<GetSiteAclRequest>;
+).annotate({ identifier: "GetSiteAclRequest" }) as any as S.Schema<GetSiteAclRequest>;
 
 export type SitesAclsGetResponseLan1PortRangesList = Array<string>;
 export const SitesAclsGetResponseLan1PortRangesList = /*@__PURE__*/ S.Array(
@@ -8513,9 +8259,7 @@ export const SitesAclsGetResponseLan1 = /*@__PURE__*/ S.suspend(() =>
     ports: S.optional(S.NullOr(SitesAclsGetResponseLan1PortsList)),
     subnets: S.optional(S.NullOr(SitesAclsGetResponseLan1SubnetsList)),
   }),
-).annotate({
-  identifier: "SitesAclsGetResponseLan1",
-}) as any as S.Schema<SitesAclsGetResponseLan1>;
+).annotate({ identifier: "SitesAclsGetResponseLan1" }) as any as S.Schema<SitesAclsGetResponseLan1>;
 
 export type SitesAclsGetResponseLan2PortRangesList = Array<string>;
 export const SitesAclsGetResponseLan2PortRangesList = /*@__PURE__*/ S.Array(
@@ -8554,9 +8298,7 @@ export const SitesAclsGetResponseLan2 = /*@__PURE__*/ S.suspend(() =>
     ports: S.optional(S.NullOr(SitesAclsGetResponseLan2PortsList)),
     subnets: S.optional(S.NullOr(SitesAclsGetResponseLan2SubnetsList)),
   }),
-).annotate({
-  identifier: "SitesAclsGetResponseLan2",
-}) as any as S.Schema<SitesAclsGetResponseLan2>;
+).annotate({ identifier: "SitesAclsGetResponseLan2" }) as any as S.Schema<SitesAclsGetResponseLan2>;
 
 export type SitesAclsGetResponseProtocolsItem = "tcp" | "udp" | "icmp";
 export const SitesAclsGetResponseProtocolsItem = S.String;
@@ -8593,9 +8335,7 @@ export const GetSiteAclResponse = /*@__PURE__*/ S.suspend(() =>
     protocols: S.optional(S.NullOr(SitesAclsGetResponseProtocolsList)),
     unidirectional: S.optional(S.NullOr(S.Boolean)),
   }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "GetSiteAclResponse",
-}) as any as S.Schema<GetSiteAclResponse>;
+).annotate({ identifier: "GetSiteAclResponse" }) as any as S.Schema<GetSiteAclResponse>;
 
 export interface GetSiteLanRequest {
   /** Identifier */
@@ -8619,9 +8359,7 @@ export const GetSiteLanRequest = /*@__PURE__*/ S.suspend(() =>
       }),
     )
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "GetSiteLanRequest",
-}) as any as S.Schema<GetSiteLanRequest>;
+).annotate({ identifier: "GetSiteLanRequest" }) as any as S.Schema<GetSiteLanRequest>;
 
 export type SitesLansGetResponseNat = SitesLansCreateResultItemNat;
 export const SitesLansGetResponseNat = SitesLansCreateResultItemNat;
@@ -8810,9 +8548,7 @@ export const GetSiteLanResponse = /*@__PURE__*/ S.suspend(() =>
     ),
     vlanTag: S.optional(S.NullOr(S.Number).pipe(T.Body("vlan_tag"))),
   }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "GetSiteLanResponse",
-}) as any as S.Schema<GetSiteLanResponse>;
+).annotate({ identifier: "GetSiteLanResponse" }) as any as S.Schema<GetSiteLanResponse>;
 
 export interface GetSiteWanRequest {
   /** Identifier */
@@ -8836,9 +8572,7 @@ export const GetSiteWanRequest = /*@__PURE__*/ S.suspend(() =>
       }),
     )
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "GetSiteWanRequest",
-}) as any as S.Schema<GetSiteWanRequest>;
+).annotate({ identifier: "GetSiteWanRequest" }) as any as S.Schema<GetSiteWanRequest>;
 
 export type SitesWansGetResponseHealthCheckRate = "low" | "mid" | "high";
 export const SitesWansGetResponseHealthCheckRate = S.String;
@@ -8852,6 +8586,7 @@ export interface GetSiteWanResponse {
   id?: string | null;
   /** Magic WAN health check rate for tunnels created on this link. The default value is `mid`. */
   healthCheckRate?: SitesWansGetResponseHealthCheckRate | null;
+  loadBalanceInnerFlows?: boolean | null;
   name?: string | null;
   physport?: number | null;
   /** Priority of WAN for traffic loadbalancing. */
@@ -8869,6 +8604,7 @@ export const GetSiteWanResponse = /*@__PURE__*/ S.suspend(() =>
     healthCheckRate: S.optional(
       S.NullOr(SitesWansGetResponseHealthCheckRate).pipe(T.Body("health_check_rate")),
     ),
+    loadBalanceInnerFlows: S.optional(S.NullOr(S.Boolean).pipe(T.Body("load_balance_inner_flows"))),
     name: S.optional(S.NullOr(S.String)),
     physport: S.optional(S.NullOr(S.Number)),
     priority: S.optional(S.NullOr(S.Number)),
@@ -8878,9 +8614,7 @@ export const GetSiteWanResponse = /*@__PURE__*/ S.suspend(() =>
     ),
     vlanTag: S.optional(S.NullOr(S.Number).pipe(T.Body("vlan_tag"))),
   }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "GetSiteWanResponse",
-}) as any as S.Schema<GetSiteWanResponse>;
+).annotate({ identifier: "GetSiteWanResponse" }) as any as S.Schema<GetSiteWanResponse>;
 
 export interface ListAppsRequest {
   /** Identifier */
@@ -8890,17 +8624,9 @@ export const ListAppsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     accountId: S.String.pipe(T.Label("account_id")),
   })
-    .pipe(
-      T.Http({
-        method: "GET",
-        uri: "/accounts/{account_id}/magic/apps",
-        code: 200,
-      }),
-    )
+    .pipe(T.Http({ method: "GET", uri: "/accounts/{account_id}/magic/apps", code: 200 }))
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "ListAppsRequest",
-}) as any as S.Schema<ListAppsRequest>;
+).annotate({ identifier: "ListAppsRequest" }) as any as S.Schema<ListAppsRequest>;
 
 export type AppsListResultItemMagicAccountAppHostnamesList = Array<string>;
 export const AppsListResultItemMagicAccountAppHostnamesList = /*@__PURE__*/ S.Array(
@@ -9020,9 +8746,7 @@ export const ListAppsResponse = /*@__PURE__*/ S.suspend(() =>
     result: AppsListResultList.pipe(T.EnvelopePayload()),
     resultInfo: S.optional(S.NullOr(ResultInfo).pipe(T.ResultInfo())),
   }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "ListAppsResponse",
-}) as any as S.Schema<ListAppsResponse>;
+).annotate({ identifier: "ListAppsResponse" }) as any as S.Schema<ListAppsResponse>;
 
 export interface ListBgpFilterProfilesRequest {
   /** Identifier */
@@ -9033,11 +8757,7 @@ export const ListBgpFilterProfilesRequest = /*@__PURE__*/ S.suspend(() =>
     accountId: S.String.pipe(T.Label("account_id")),
   })
     .pipe(
-      T.Http({
-        method: "GET",
-        uri: "/accounts/{account_id}/magic/bgp/filter_profiles",
-        code: 200,
-      }),
+      T.Http({ method: "GET", uri: "/accounts/{account_id}/magic/bgp/filter_profiles", code: 200 }),
     )
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
 ).annotate({
@@ -9111,9 +8831,7 @@ export const ListCf1SiteRampsRequest = /*@__PURE__*/ S.suspend(() =>
       }),
     )
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "ListCf1SiteRampsRequest",
-}) as any as S.Schema<ListCf1SiteRampsRequest>;
+).annotate({ identifier: "ListCf1SiteRampsRequest" }) as any as S.Schema<ListCf1SiteRampsRequest>;
 
 export type Cf1SitesRampsListResultItemType =
   | "gre"
@@ -9193,9 +8911,7 @@ export const ListCf1SiteRampsResponse = /*@__PURE__*/ S.suspend(() =>
     result: Cf1SitesRampsListResultList.pipe(T.EnvelopePayload()),
     resultInfo: S.optional(S.NullOr(ResultInfo).pipe(T.ResultInfo())),
   }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "ListCf1SiteRampsResponse",
-}) as any as S.Schema<ListCf1SiteRampsResponse>;
+).annotate({ identifier: "ListCf1SiteRampsResponse" }) as any as S.Schema<ListCf1SiteRampsResponse>;
 
 export interface ListCf1SitesRequest {
   /** Identifier */
@@ -9205,17 +8921,9 @@ export const ListCf1SitesRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     accountId: S.String.pipe(T.Label("account_id")),
   })
-    .pipe(
-      T.Http({
-        method: "GET",
-        uri: "/accounts/{account_id}/magic/cf1_sites",
-        code: 200,
-      }),
-    )
+    .pipe(T.Http({ method: "GET", uri: "/accounts/{account_id}/magic/cf1_sites", code: 200 }))
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "ListCf1SitesRequest",
-}) as any as S.Schema<ListCf1SitesRequest>;
+).annotate({ identifier: "ListCf1SitesRequest" }) as any as S.Schema<ListCf1SitesRequest>;
 
 export type Cf1SitesListResultItemLocation = Cf1SitesCreateResultItemLocation;
 export const Cf1SitesListResultItemLocation = Cf1SitesCreateResultItemLocation;
@@ -9239,9 +8947,7 @@ export const ListCf1SitesResponse = /*@__PURE__*/ S.suspend(() =>
     result: Cf1SitesListResultList.pipe(T.EnvelopePayload()),
     resultInfo: S.optional(S.NullOr(ResultInfo).pipe(T.ResultInfo())),
   }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "ListCf1SitesResponse",
-}) as any as S.Schema<ListCf1SitesResponse>;
+).annotate({ identifier: "ListCf1SitesResponse" }) as any as S.Schema<ListCf1SitesResponse>;
 
 export interface ListCfInterconnectsRequest {
   /** Identifier */
@@ -9254,11 +8960,7 @@ export const ListCfInterconnectsRequest = /*@__PURE__*/ S.suspend(() =>
     xMagicNewHcTarget: S.optional(S.Boolean.pipe(T.Header("x-magic-new-hc-target"))),
   })
     .pipe(
-      T.Http({
-        method: "GET",
-        uri: "/accounts/{account_id}/magic/cf_interconnects",
-        code: 200,
-      }),
+      T.Http({ method: "GET", uri: "/accounts/{account_id}/magic/cf_interconnects", code: 200 }),
     )
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
 ).annotate({
@@ -9637,17 +9339,9 @@ export const ListConnectorsRequest = /*@__PURE__*/ S.suspend(() =>
     accountId: S.String.pipe(T.Label("account_id")),
     deviceType: S.optional(ConnectorsListRequestDeviceType.pipe(T.Query("device_type"))),
   })
-    .pipe(
-      T.Http({
-        method: "GET",
-        uri: "/accounts/{account_id}/magic/connectors",
-        code: 200,
-      }),
-    )
+    .pipe(T.Http({ method: "GET", uri: "/accounts/{account_id}/magic/connectors", code: 200 }))
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "ListConnectorsRequest",
-}) as any as S.Schema<ListConnectorsRequest>;
+).annotate({ identifier: "ListConnectorsRequest" }) as any as S.Schema<ListConnectorsRequest>;
 
 export type ConnectorsListResultItemInterruptWindowDaysOfWeekItem =
   | "Sunday"
@@ -9699,13 +9393,11 @@ export interface ConnectorsListResultItem {
   interruptWindowHourOfDay: number;
   lastUpdated: string;
   notes: string;
-  primary: boolean;
   timezone: string;
   device?: ConnectorsListResultItemDevice | null;
   lastHeartbeat?: string | null;
   lastSeenVersion?: string | null;
   licenseKey?: string | null;
-  siteId?: string | null;
 }
 export const ConnectorsListResultItem = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -9721,17 +9413,13 @@ export const ConnectorsListResultItem = /*@__PURE__*/ S.suspend(() =>
     interruptWindowHourOfDay: S.Number.pipe(T.Body("interrupt_window_hour_of_day")),
     lastUpdated: S.String.pipe(T.Body("last_updated")),
     notes: S.String,
-    primary: S.Boolean,
     timezone: S.String,
     device: S.optional(S.NullOr(ConnectorsListResultItemDevice)),
     lastHeartbeat: S.optional(S.NullOr(S.String).pipe(T.Body("last_heartbeat"))),
     lastSeenVersion: S.optional(S.NullOr(S.String).pipe(T.Body("last_seen_version"))),
     licenseKey: S.optional(S.NullOr(S.String).pipe(T.Body("license_key"))),
-    siteId: S.optional(S.NullOr(S.String).pipe(T.Body("site_id"))),
   }),
-).annotate({
-  identifier: "ConnectorsListResultItem",
-}) as any as S.Schema<ConnectorsListResultItem>;
+).annotate({ identifier: "ConnectorsListResultItem" }) as any as S.Schema<ConnectorsListResultItem>;
 
 export type ConnectorsListResultList = Array<ConnectorsListResultItem>;
 export const ConnectorsListResultList = /*@__PURE__*/ S.Array(
@@ -9749,9 +9437,7 @@ export const ListConnectorsResponse = /*@__PURE__*/ S.suspend(() =>
     result: ConnectorsListResultList.pipe(T.EnvelopePayload()),
     resultInfo: S.optional(S.NullOr(ResultInfo).pipe(T.ResultInfo())),
   }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "ListConnectorsResponse",
-}) as any as S.Schema<ListConnectorsResponse>;
+).annotate({ identifier: "ListConnectorsResponse" }) as any as S.Schema<ListConnectorsResponse>;
 
 export interface ListConnectorsInterruptsRequest {
   accountId: string;
@@ -9886,6 +9572,10 @@ export interface ConnectorsSnapshotsLatestListResponseItemsItemInterfacesItem {
   name: string;
   /** UP/DOWN state of the network interface */
   operstate: string;
+  /** Comma-separated list of reasons for health score */
+  healthReason?: string | null;
+  /** Aggregate health score (0-100) */
+  healthScore?: number | null;
   ipAddresses?: ConnectorsSnapshotsLatestListResponseItemsItemInterfacesItemIpAddressesList | null;
   /** Speed of the network interface (bits per second) */
   speed?: number | null;
@@ -9895,6 +9585,8 @@ export const ConnectorsSnapshotsLatestListResponseItemsItemInterfacesItem = /*@_
     S.Struct({
       name: S.String,
       operstate: S.String,
+      healthReason: S.optional(S.NullOr(S.String).pipe(T.Body("health_reason"))),
+      healthScore: S.optional(S.NullOr(S.Number).pipe(T.Body("health_score"))),
       ipAddresses: S.optional(
         S.NullOr(ConnectorsSnapshotsLatestListResponseItemsItemInterfacesItemIpAddressesList).pipe(
           T.Body("ip_addresses"),
@@ -10639,17 +10331,9 @@ export const ListGreTunnelsRequest = /*@__PURE__*/ S.suspend(() =>
     accountId: S.String.pipe(T.Label("account_id")),
     xMagicNewHcTarget: S.optional(S.Boolean.pipe(T.Header("x-magic-new-hc-target"))),
   })
-    .pipe(
-      T.Http({
-        method: "GET",
-        uri: "/accounts/{account_id}/magic/gre_tunnels",
-        code: 200,
-      }),
-    )
+    .pipe(T.Http({ method: "GET", uri: "/accounts/{account_id}/magic/gre_tunnels", code: 200 }))
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "ListGreTunnelsRequest",
-}) as any as S.Schema<ListGreTunnelsRequest>;
+).annotate({ identifier: "ListGreTunnelsRequest" }) as any as S.Schema<ListGreTunnelsRequest>;
 
 export type GreTunnelsListResponseGreTunnelsItemBgpExtraPrefixesList = Array<string>;
 export const GreTunnelsListResponseGreTunnelsItemBgpExtraPrefixesList = /*@__PURE__*/ S.Array(
@@ -10834,9 +10518,7 @@ export const ListGreTunnelsResponse = /*@__PURE__*/ S.suspend(() =>
       S.NullOr(GreTunnelsListResponseGreTunnelsList).pipe(T.Body("gre_tunnels")),
     ),
   }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "ListGreTunnelsResponse",
-}) as any as S.Schema<ListGreTunnelsResponse>;
+).annotate({ identifier: "ListGreTunnelsResponse" }) as any as S.Schema<ListGreTunnelsResponse>;
 
 export interface ListIpsecTunnelsRequest {
   /** Identifier */
@@ -10848,17 +10530,9 @@ export const ListIpsecTunnelsRequest = /*@__PURE__*/ S.suspend(() =>
     accountId: S.String.pipe(T.Label("account_id")),
     xMagicNewHcTarget: S.optional(S.Boolean.pipe(T.Header("x-magic-new-hc-target"))),
   })
-    .pipe(
-      T.Http({
-        method: "GET",
-        uri: "/accounts/{account_id}/magic/ipsec_tunnels",
-        code: 200,
-      }),
-    )
+    .pipe(T.Http({ method: "GET", uri: "/accounts/{account_id}/magic/ipsec_tunnels", code: 200 }))
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "ListIpsecTunnelsRequest",
-}) as any as S.Schema<ListIpsecTunnelsRequest>;
+).annotate({ identifier: "ListIpsecTunnelsRequest" }) as any as S.Schema<ListIpsecTunnelsRequest>;
 
 export type IpsecTunnelsListResponseIpsecTunnelsItemBgpExtraPrefixesList = Array<string>;
 export const IpsecTunnelsListResponseIpsecTunnelsItemBgpExtraPrefixesList = /*@__PURE__*/ S.Array(
@@ -11066,9 +10740,7 @@ export const ListIpsecTunnelsResponse = /*@__PURE__*/ S.suspend(() =>
       S.NullOr(IpsecTunnelsListResponseIpsecTunnelsList).pipe(T.Body("ipsec_tunnels")),
     ),
   }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "ListIpsecTunnelsResponse",
-}) as any as S.Schema<ListIpsecTunnelsResponse>;
+).annotate({ identifier: "ListIpsecTunnelsResponse" }) as any as S.Schema<ListIpsecTunnelsResponse>;
 
 export interface ListPcapsRequest {
   /** Identifier. */
@@ -11080,9 +10752,7 @@ export const ListPcapsRequest = /*@__PURE__*/ S.suspend(() =>
   })
     .pipe(T.Http({ method: "GET", uri: "/accounts/{account_id}/pcaps", code: 200 }))
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "ListPcapsRequest",
-}) as any as S.Schema<ListPcapsRequest>;
+).annotate({ identifier: "ListPcapsRequest" }) as any as S.Schema<ListPcapsRequest>;
 
 export type PcapsListResultItemPCAPFilterV1 = PcapsCreateResultPCAPFilterV1;
 export const PcapsListResultItemPCAPFilterV1 = PcapsCreateResultPCAPFilterV1;
@@ -11133,9 +10803,7 @@ export const PcapsListResultItemPCAP = /*@__PURE__*/ S.suspend(() =>
     timeLimit: S.optional(S.NullOr(S.Number).pipe(T.Body("time_limit"))),
     type: S.optional(S.NullOr(PcapsListResultItemPCAPType)),
   }),
-).annotate({
-  identifier: "PcapsListResultItemPCAP",
-}) as any as S.Schema<PcapsListResultItemPCAP>;
+).annotate({ identifier: "PcapsListResultItemPCAP" }) as any as S.Schema<PcapsListResultItemPCAP>;
 
 export type PcapsListResultItemMagicVisibilityPCAPsPCAPsResponseFullFilterV1 =
   PcapsCreateResultPCAPFilterV1;
@@ -11248,9 +10916,7 @@ export const ListPcapsResponse = /*@__PURE__*/ S.suspend(() =>
     result: PcapsListResultList.pipe(T.EnvelopePayload()),
     resultInfo: S.optional(S.NullOr(ResultInfo).pipe(T.ResultInfo())),
   }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "ListPcapsResponse",
-}) as any as S.Schema<ListPcapsResponse>;
+).annotate({ identifier: "ListPcapsResponse" }) as any as S.Schema<ListPcapsResponse>;
 
 export interface ListRoutesRequest {
   /** Identifier */
@@ -11260,17 +10926,9 @@ export const ListRoutesRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     accountId: S.String.pipe(T.Label("account_id")),
   })
-    .pipe(
-      T.Http({
-        method: "GET",
-        uri: "/accounts/{account_id}/magic/routes",
-        code: 200,
-      }),
-    )
+    .pipe(T.Http({ method: "GET", uri: "/accounts/{account_id}/magic/routes", code: 200 }))
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "ListRoutesRequest",
-}) as any as S.Schema<ListRoutesRequest>;
+).annotate({ identifier: "ListRoutesRequest" }) as any as S.Schema<ListRoutesRequest>;
 
 export type RoutesListResponseRoutesItemScopeColoNamesList = Array<string>;
 export const RoutesListResponseRoutesItemScopeColoNamesList = /*@__PURE__*/ S.Array(
@@ -11350,9 +11008,7 @@ export const ListRoutesResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     routes: S.optional(S.NullOr(RoutesListResponseRoutesList)),
   }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "ListRoutesResponse",
-}) as any as S.Schema<ListRoutesResponse>;
+).annotate({ identifier: "ListRoutesResponse" }) as any as S.Schema<ListRoutesResponse>;
 
 export interface ListSiteAclsRequest {
   /** Identifier */
@@ -11373,9 +11029,7 @@ export const ListSiteAclsRequest = /*@__PURE__*/ S.suspend(() =>
       }),
     )
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "ListSiteAclsRequest",
-}) as any as S.Schema<ListSiteAclsRequest>;
+).annotate({ identifier: "ListSiteAclsRequest" }) as any as S.Schema<ListSiteAclsRequest>;
 
 export type SitesAclsListResultItemLan1PortRangesList = Array<string>;
 export const SitesAclsListResultItemLan1PortRangesList = /*@__PURE__*/ S.Array(
@@ -11493,9 +11147,7 @@ export const SitesAclsListResultItem = /*@__PURE__*/ S.suspend(() =>
     protocols: S.optional(S.NullOr(SitesAclsListResultItemProtocolsList)),
     unidirectional: S.optional(S.NullOr(S.Boolean)),
   }),
-).annotate({
-  identifier: "SitesAclsListResultItem",
-}) as any as S.Schema<SitesAclsListResultItem>;
+).annotate({ identifier: "SitesAclsListResultItem" }) as any as S.Schema<SitesAclsListResultItem>;
 
 export type SitesAclsListResultList = Array<SitesAclsListResultItem>;
 export const SitesAclsListResultList = /*@__PURE__*/ S.Array(
@@ -11513,9 +11165,7 @@ export const ListSiteAclsResponse = /*@__PURE__*/ S.suspend(() =>
     result: SitesAclsListResultList.pipe(T.EnvelopePayload()),
     resultInfo: S.optional(S.NullOr(ResultInfo).pipe(T.ResultInfo())),
   }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "ListSiteAclsResponse",
-}) as any as S.Schema<ListSiteAclsResponse>;
+).annotate({ identifier: "ListSiteAclsResponse" }) as any as S.Schema<ListSiteAclsResponse>;
 
 export interface ListSiteLansRequest {
   /** Identifier */
@@ -11536,9 +11186,7 @@ export const ListSiteLansRequest = /*@__PURE__*/ S.suspend(() =>
       }),
     )
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "ListSiteLansRequest",
-}) as any as S.Schema<ListSiteLansRequest>;
+).annotate({ identifier: "ListSiteLansRequest" }) as any as S.Schema<ListSiteLansRequest>;
 
 export type SitesLansListResultItemNat = SitesLansCreateResultItemNat;
 export const SitesLansListResultItemNat = SitesLansCreateResultItemNat;
@@ -11729,9 +11377,7 @@ export const SitesLansListResultItem = /*@__PURE__*/ S.suspend(() =>
     ),
     vlanTag: S.optional(S.NullOr(S.Number).pipe(T.Body("vlan_tag"))),
   }),
-).annotate({
-  identifier: "SitesLansListResultItem",
-}) as any as S.Schema<SitesLansListResultItem>;
+).annotate({ identifier: "SitesLansListResultItem" }) as any as S.Schema<SitesLansListResultItem>;
 
 export type SitesLansListResultList = Array<SitesLansListResultItem>;
 export const SitesLansListResultList = /*@__PURE__*/ S.Array(
@@ -11749,9 +11395,7 @@ export const ListSiteLansResponse = /*@__PURE__*/ S.suspend(() =>
     result: SitesLansListResultList.pipe(T.EnvelopePayload()),
     resultInfo: S.optional(S.NullOr(ResultInfo).pipe(T.ResultInfo())),
   }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "ListSiteLansResponse",
-}) as any as S.Schema<ListSiteLansResponse>;
+).annotate({ identifier: "ListSiteLansResponse" }) as any as S.Schema<ListSiteLansResponse>;
 
 export interface ListSitesRequest {
   /** Identifier */
@@ -11764,17 +11408,9 @@ export const ListSitesRequest = /*@__PURE__*/ S.suspend(() =>
     accountId: S.String.pipe(T.Label("account_id")),
     connectorid: S.optional(S.String.pipe(T.Query())),
   })
-    .pipe(
-      T.Http({
-        method: "GET",
-        uri: "/accounts/{account_id}/magic/sites",
-        code: 200,
-      }),
-    )
+    .pipe(T.Http({ method: "GET", uri: "/accounts/{account_id}/magic/sites", code: 200 }))
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "ListSitesRequest",
-}) as any as S.Schema<ListSitesRequest>;
+).annotate({ identifier: "ListSitesRequest" }) as any as S.Schema<ListSitesRequest>;
 
 export type SitesListResultItemLocation = SitesCreateResponseLocation;
 export const SitesListResultItemLocation = SitesCreateResponseLocation;
@@ -11804,9 +11440,7 @@ export const SitesListResultItem = /*@__PURE__*/ S.suspend(() =>
     name: S.optional(S.NullOr(S.String)),
     secondaryConnectorId: S.optional(S.NullOr(S.String).pipe(T.Body("secondary_connector_id"))),
   }),
-).annotate({
-  identifier: "SitesListResultItem",
-}) as any as S.Schema<SitesListResultItem>;
+).annotate({ identifier: "SitesListResultItem" }) as any as S.Schema<SitesListResultItem>;
 
 export type SitesListResultList = Array<SitesListResultItem>;
 export const SitesListResultList = /*@__PURE__*/ S.Array(
@@ -11824,9 +11458,7 @@ export const ListSitesResponse = /*@__PURE__*/ S.suspend(() =>
     result: SitesListResultList.pipe(T.EnvelopePayload()),
     resultInfo: S.optional(S.NullOr(ResultInfo).pipe(T.ResultInfo())),
   }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "ListSitesResponse",
-}) as any as S.Schema<ListSitesResponse>;
+).annotate({ identifier: "ListSitesResponse" }) as any as S.Schema<ListSitesResponse>;
 
 export interface ListSitesAppConfigurationRequest {
   /** Identifier */
@@ -11967,9 +11599,7 @@ export const ListSiteWansRequest = /*@__PURE__*/ S.suspend(() =>
       }),
     )
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "ListSiteWansRequest",
-}) as any as S.Schema<ListSiteWansRequest>;
+).annotate({ identifier: "ListSiteWansRequest" }) as any as S.Schema<ListSiteWansRequest>;
 
 export type SitesWansListResultItemHealthCheckRate = "low" | "mid" | "high";
 export const SitesWansListResultItemHealthCheckRate = S.String;
@@ -11982,6 +11612,7 @@ export interface SitesWansListResultItem {
   id?: string | null;
   /** Magic WAN health check rate for tunnels created on this link. The default value is `mid`. */
   healthCheckRate?: SitesWansListResultItemHealthCheckRate | null;
+  loadBalanceInnerFlows?: boolean | null;
   name?: string | null;
   physport?: number | null;
   /** Priority of WAN for traffic loadbalancing. */
@@ -11999,6 +11630,7 @@ export const SitesWansListResultItem = /*@__PURE__*/ S.suspend(() =>
     healthCheckRate: S.optional(
       S.NullOr(SitesWansListResultItemHealthCheckRate).pipe(T.Body("health_check_rate")),
     ),
+    loadBalanceInnerFlows: S.optional(S.NullOr(S.Boolean).pipe(T.Body("load_balance_inner_flows"))),
     name: S.optional(S.NullOr(S.String)),
     physport: S.optional(S.NullOr(S.Number)),
     priority: S.optional(S.NullOr(S.Number)),
@@ -12008,9 +11640,7 @@ export const SitesWansListResultItem = /*@__PURE__*/ S.suspend(() =>
     ),
     vlanTag: S.optional(S.NullOr(S.Number).pipe(T.Body("vlan_tag"))),
   }),
-).annotate({
-  identifier: "SitesWansListResultItem",
-}) as any as S.Schema<SitesWansListResultItem>;
+).annotate({ identifier: "SitesWansListResultItem" }) as any as S.Schema<SitesWansListResultItem>;
 
 export type SitesWansListResultList = Array<SitesWansListResultItem>;
 export const SitesWansListResultList = /*@__PURE__*/ S.Array(
@@ -12028,9 +11658,7 @@ export const ListSiteWansResponse = /*@__PURE__*/ S.suspend(() =>
     result: SitesWansListResultList.pipe(T.EnvelopePayload()),
     resultInfo: S.optional(S.NullOr(ResultInfo).pipe(T.ResultInfo())),
   }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "ListSiteWansResponse",
-}) as any as S.Schema<ListSiteWansResponse>;
+).annotate({ identifier: "ListSiteWansResponse" }) as any as S.Schema<ListSiteWansResponse>;
 
 export type AppsEditRequestHostnamesList = Array<string>;
 export const AppsEditRequestHostnamesList = /*@__PURE__*/ S.Array(
@@ -12081,9 +11709,7 @@ export const PatchAppRequest = /*@__PURE__*/ S.suspend(() =>
       }),
     )
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "PatchAppRequest",
-}) as any as S.Schema<PatchAppRequest>;
+).annotate({ identifier: "PatchAppRequest" }) as any as S.Schema<PatchAppRequest>;
 
 export type AppsEditResponseHostnamesList = Array<string>;
 export const AppsEditResponseHostnamesList = /*@__PURE__*/ S.Array(
@@ -12126,9 +11752,7 @@ export const PatchAppResponse = /*@__PURE__*/ S.suspend(() =>
     ),
     type: S.optional(S.NullOr(S.String)),
   }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "PatchAppResponse",
-}) as any as S.Schema<PatchAppResponse>;
+).annotate({ identifier: "PatchAppResponse" }) as any as S.Schema<PatchAppResponse>;
 
 export type Cf1SitesUpdateRequestLocation = Cf1SitesCreateRequestBodyItemLocation;
 export const Cf1SitesUpdateRequestLocation = Cf1SitesCreateRequestBodyItemLocation;
@@ -12160,9 +11784,7 @@ export const PatchCf1SiteRequest = /*@__PURE__*/ S.suspend(() =>
       }),
     )
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "PatchCf1SiteRequest",
-}) as any as S.Schema<PatchCf1SiteRequest>;
+).annotate({ identifier: "PatchCf1SiteRequest" }) as any as S.Schema<PatchCf1SiteRequest>;
 
 export type Cf1SitesUpdateResponseLocation = Cf1SitesCreateResultItemLocation;
 export const Cf1SitesUpdateResponseLocation = Cf1SitesCreateResultItemLocation;
@@ -12188,9 +11810,7 @@ export const PatchCf1SiteResponse = /*@__PURE__*/ S.suspend(() =>
     location: S.optional(S.NullOr(Cf1SitesCreateResultItemLocation)),
     modifiedOn: S.optional(S.NullOr(S.String).pipe(T.Body("modified_on"))),
   }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "PatchCf1SiteResponse",
-}) as any as S.Schema<PatchCf1SiteResponse>;
+).annotate({ identifier: "PatchCf1SiteResponse" }) as any as S.Schema<PatchCf1SiteResponse>;
 
 export type ConnectorsEditRequestInterruptWindowDaysOfWeekItem =
   | "Sunday"
@@ -12225,10 +11845,8 @@ export interface PatchConnectorRequest {
   interruptWindowEmbargoDates?: ConnectorsEditRequestInterruptWindowEmbargoDatesList;
   interruptWindowHourOfDay?: number;
   notes?: string;
-  primary?: boolean;
   /** When true, regenerate license key for the connector. */
   provisionLicense?: boolean;
-  siteId?: string;
   timezone?: string;
 }
 export const PatchConnectorRequest = /*@__PURE__*/ S.suspend(() =>
@@ -12251,9 +11869,7 @@ export const PatchConnectorRequest = /*@__PURE__*/ S.suspend(() =>
     ),
     interruptWindowHourOfDay: S.optional(S.Number.pipe(T.Body("interrupt_window_hour_of_day"))),
     notes: S.optional(S.String),
-    primary: S.optional(S.Boolean),
     provisionLicense: S.optional(S.Boolean.pipe(T.Body("provision_license"))),
-    siteId: S.optional(S.String.pipe(T.Body("site_id"))),
     timezone: S.optional(S.String),
   })
     .pipe(
@@ -12264,9 +11880,7 @@ export const PatchConnectorRequest = /*@__PURE__*/ S.suspend(() =>
       }),
     )
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "PatchConnectorRequest",
-}) as any as S.Schema<PatchConnectorRequest>;
+).annotate({ identifier: "PatchConnectorRequest" }) as any as S.Schema<PatchConnectorRequest>;
 
 export type ConnectorsEditResponseInterruptWindowDaysOfWeekItem =
   | "Sunday"
@@ -12319,13 +11933,11 @@ export interface PatchConnectorResponse {
   interruptWindowHourOfDay: number;
   lastUpdated: string;
   notes: string;
-  primary: boolean;
   timezone: string;
   device?: ConnectorsEditResponseDevice | null;
   lastHeartbeat?: string | null;
   lastSeenVersion?: string | null;
   licenseKey?: string | null;
-  siteId?: string | null;
 }
 export const PatchConnectorResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -12341,17 +11953,13 @@ export const PatchConnectorResponse = /*@__PURE__*/ S.suspend(() =>
     interruptWindowHourOfDay: S.Number.pipe(T.Body("interrupt_window_hour_of_day")),
     lastUpdated: S.String.pipe(T.Body("last_updated")),
     notes: S.String,
-    primary: S.Boolean,
     timezone: S.String,
     device: S.optional(S.NullOr(ConnectorsEditResponseDevice)),
     lastHeartbeat: S.optional(S.NullOr(S.String).pipe(T.Body("last_heartbeat"))),
     lastSeenVersion: S.optional(S.NullOr(S.String).pipe(T.Body("last_seen_version"))),
     licenseKey: S.optional(S.NullOr(S.String).pipe(T.Body("license_key"))),
-    siteId: S.optional(S.NullOr(S.String).pipe(T.Body("site_id"))),
   }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "PatchConnectorResponse",
-}) as any as S.Schema<PatchConnectorResponse>;
+).annotate({ identifier: "PatchConnectorResponse" }) as any as S.Schema<PatchConnectorResponse>;
 
 export type SitesEditRequestLocation = SitesCreateRequestLocation;
 export const SitesEditRequestLocation = SitesCreateRequestLocation;
@@ -12364,6 +11972,8 @@ export interface PatchSiteRequest {
   /** Magic Connector identifier tag. */
   connectorId?: string;
   description?: string;
+  /** Site high availability mode. If set to true, the site can have two connectors and runs in high availability mode. */
+  haMode?: boolean;
   /** Location of site in latitude and longitude. */
   location?: SitesCreateRequestLocation;
   /** The name of the site. */
@@ -12377,21 +11987,16 @@ export const PatchSiteRequest = /*@__PURE__*/ S.suspend(() =>
     siteId: S.String.pipe(T.Label("site_id")),
     connectorId: S.optional(S.String.pipe(T.Body("connector_id"))),
     description: S.optional(S.String),
+    haMode: S.optional(S.Boolean.pipe(T.Body("ha_mode"))),
     location: S.optional(SitesCreateRequestLocation),
     name: S.optional(S.String),
     secondaryConnectorId: S.optional(S.String.pipe(T.Body("secondary_connector_id"))),
   })
     .pipe(
-      T.Http({
-        method: "PATCH",
-        uri: "/accounts/{account_id}/magic/sites/{site_id}",
-        code: 200,
-      }),
+      T.Http({ method: "PATCH", uri: "/accounts/{account_id}/magic/sites/{site_id}", code: 200 }),
     )
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "PatchSiteRequest",
-}) as any as S.Schema<PatchSiteRequest>;
+).annotate({ identifier: "PatchSiteRequest" }) as any as S.Schema<PatchSiteRequest>;
 
 export type SitesEditResponseLocation = SitesCreateResponseLocation;
 export const SitesEditResponseLocation = SitesCreateResponseLocation;
@@ -12422,9 +12027,7 @@ export const PatchSiteResponse = /*@__PURE__*/ S.suspend(() =>
     name: S.optional(S.NullOr(S.String)),
     secondaryConnectorId: S.optional(S.NullOr(S.String).pipe(T.Body("secondary_connector_id"))),
   }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "PatchSiteResponse",
-}) as any as S.Schema<PatchSiteResponse>;
+).annotate({ identifier: "PatchSiteResponse" }) as any as S.Schema<PatchSiteResponse>;
 
 export type SitesAclsEditRequestLan1PortRangesList = Array<string>;
 export const SitesAclsEditRequestLan1PortRangesList = /*@__PURE__*/ S.Array(
@@ -12461,9 +12064,7 @@ export const SitesAclsEditRequestLan1 = /*@__PURE__*/ S.suspend(() =>
     ports: S.optional(SitesAclsEditRequestLan1PortsList),
     subnets: S.optional(SitesAclsEditRequestLan1SubnetsList),
   }),
-).annotate({
-  identifier: "SitesAclsEditRequestLan1",
-}) as any as S.Schema<SitesAclsEditRequestLan1>;
+).annotate({ identifier: "SitesAclsEditRequestLan1" }) as any as S.Schema<SitesAclsEditRequestLan1>;
 
 export type SitesAclsEditRequestLan2PortRangesList = Array<string>;
 export const SitesAclsEditRequestLan2PortRangesList = /*@__PURE__*/ S.Array(
@@ -12500,9 +12101,7 @@ export const SitesAclsEditRequestLan2 = /*@__PURE__*/ S.suspend(() =>
     ports: S.optional(SitesAclsEditRequestLan2PortsList),
     subnets: S.optional(SitesAclsEditRequestLan2SubnetsList),
   }),
-).annotate({
-  identifier: "SitesAclsEditRequestLan2",
-}) as any as S.Schema<SitesAclsEditRequestLan2>;
+).annotate({ identifier: "SitesAclsEditRequestLan2" }) as any as S.Schema<SitesAclsEditRequestLan2>;
 
 export type SitesAclsEditRequestProtocolsItem = "tcp" | "udp" | "icmp";
 export const SitesAclsEditRequestProtocolsItem = S.String;
@@ -12554,9 +12153,7 @@ export const PatchSiteAclRequest = /*@__PURE__*/ S.suspend(() =>
       }),
     )
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "PatchSiteAclRequest",
-}) as any as S.Schema<PatchSiteAclRequest>;
+).annotate({ identifier: "PatchSiteAclRequest" }) as any as S.Schema<PatchSiteAclRequest>;
 
 export type SitesAclsEditResponseLan1PortRangesList = Array<string>;
 export const SitesAclsEditResponseLan1PortRangesList = /*@__PURE__*/ S.Array(
@@ -12675,9 +12272,7 @@ export const PatchSiteAclResponse = /*@__PURE__*/ S.suspend(() =>
     protocols: S.optional(S.NullOr(SitesAclsEditResponseProtocolsList)),
     unidirectional: S.optional(S.NullOr(S.Boolean)),
   }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "PatchSiteAclResponse",
-}) as any as S.Schema<PatchSiteAclResponse>;
+).annotate({ identifier: "PatchSiteAclResponse" }) as any as S.Schema<PatchSiteAclResponse>;
 
 export type SitesLansEditRequestNat = SitesLansCreateRequestNat;
 export const SitesLansEditRequestNat = SitesLansCreateRequestNat;
@@ -12824,6 +12419,8 @@ export interface PatchSiteLanRequest {
   /** Identifier */
   lanId: string;
   bondId?: number;
+  /** mark true to use this LAN for HA probing. only works for site with HA turned on. only one LAN can be set as the ha_link. */
+  haLink?: boolean;
   /** mark true to use this LAN for source-based breakout traffic */
   isBreakout?: boolean;
   /** mark true to use this LAN for source-based prioritized traffic */
@@ -12843,6 +12440,7 @@ export const PatchSiteLanRequest = /*@__PURE__*/ S.suspend(() =>
     siteId: S.String.pipe(T.Label("site_id")),
     lanId: S.String.pipe(T.Label("lan_id")),
     bondId: S.optional(S.Number.pipe(T.Body("bond_id"))),
+    haLink: S.optional(S.Boolean.pipe(T.Body("ha_link"))),
     isBreakout: S.optional(S.Boolean.pipe(T.Body("is_breakout"))),
     isPrioritized: S.optional(S.Boolean.pipe(T.Body("is_prioritized"))),
     name: S.optional(S.String),
@@ -12862,9 +12460,7 @@ export const PatchSiteLanRequest = /*@__PURE__*/ S.suspend(() =>
       }),
     )
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "PatchSiteLanRequest",
-}) as any as S.Schema<PatchSiteLanRequest>;
+).annotate({ identifier: "PatchSiteLanRequest" }) as any as S.Schema<PatchSiteLanRequest>;
 
 export type SitesLansEditResponseNat = SitesLansCreateResultItemNat;
 export const SitesLansEditResponseNat = SitesLansCreateResultItemNat;
@@ -13054,9 +12650,10 @@ export const PatchSiteLanResponse = /*@__PURE__*/ S.suspend(() =>
     ),
     vlanTag: S.optional(S.NullOr(S.Number).pipe(T.Body("vlan_tag"))),
   }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "PatchSiteLanResponse",
-}) as any as S.Schema<PatchSiteLanResponse>;
+).annotate({ identifier: "PatchSiteLanResponse" }) as any as S.Schema<PatchSiteLanResponse>;
+
+export type SitesWansEditRequestHealthCheckRate = "low" | "mid" | "high";
+export const SitesWansEditRequestHealthCheckRate = S.String;
 
 export type SitesWansEditRequestStaticAddressing = SitesWansCreateRequestStaticAddressing;
 export const SitesWansEditRequestStaticAddressing = SitesWansCreateRequestStaticAddressing;
@@ -13068,6 +12665,9 @@ export interface PatchSiteWanRequest {
   siteId: string;
   /** Identifier */
   wanId: string;
+  /** Magic WAN health check rate for tunnels created on this link. */
+  healthCheckRate?: SitesWansEditRequestHealthCheckRate | (string & {});
+  loadBalanceInnerFlows?: boolean;
   name?: string;
   physport?: number;
   priority?: number;
@@ -13081,6 +12681,10 @@ export const PatchSiteWanRequest = /*@__PURE__*/ S.suspend(() =>
     accountId: S.String.pipe(T.Label("account_id")),
     siteId: S.String.pipe(T.Label("site_id")),
     wanId: S.String.pipe(T.Label("wan_id")),
+    healthCheckRate: S.optional(
+      SitesWansEditRequestHealthCheckRate.pipe(T.Body("health_check_rate")),
+    ),
+    loadBalanceInnerFlows: S.optional(S.Boolean.pipe(T.Body("load_balance_inner_flows"))),
     name: S.optional(S.String),
     physport: S.optional(S.Number),
     priority: S.optional(S.Number),
@@ -13097,9 +12701,7 @@ export const PatchSiteWanRequest = /*@__PURE__*/ S.suspend(() =>
       }),
     )
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "PatchSiteWanRequest",
-}) as any as S.Schema<PatchSiteWanRequest>;
+).annotate({ identifier: "PatchSiteWanRequest" }) as any as S.Schema<PatchSiteWanRequest>;
 
 export type SitesWansEditResponseHealthCheckRate = "low" | "mid" | "high";
 export const SitesWansEditResponseHealthCheckRate = S.String;
@@ -13113,6 +12715,7 @@ export interface PatchSiteWanResponse {
   id?: string | null;
   /** Magic WAN health check rate for tunnels created on this link. The default value is `mid`. */
   healthCheckRate?: SitesWansEditResponseHealthCheckRate | null;
+  loadBalanceInnerFlows?: boolean | null;
   name?: string | null;
   physport?: number | null;
   /** Priority of WAN for traffic loadbalancing. */
@@ -13130,6 +12733,7 @@ export const PatchSiteWanResponse = /*@__PURE__*/ S.suspend(() =>
     healthCheckRate: S.optional(
       S.NullOr(SitesWansEditResponseHealthCheckRate).pipe(T.Body("health_check_rate")),
     ),
+    loadBalanceInnerFlows: S.optional(S.NullOr(S.Boolean).pipe(T.Body("load_balance_inner_flows"))),
     name: S.optional(S.NullOr(S.String)),
     physport: S.optional(S.NullOr(S.Number)),
     priority: S.optional(S.NullOr(S.Number)),
@@ -13139,9 +12743,7 @@ export const PatchSiteWanResponse = /*@__PURE__*/ S.suspend(() =>
     ),
     vlanTag: S.optional(S.NullOr(S.Number).pipe(T.Body("vlan_tag"))),
   }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "PatchSiteWanResponse",
-}) as any as S.Schema<PatchSiteWanResponse>;
+).annotate({ identifier: "PatchSiteWanResponse" }) as any as S.Schema<PatchSiteWanResponse>;
 
 export interface PskGenerateIpsecTunnelRequest {
   /** Identifier */
@@ -13229,16 +12831,10 @@ export const PskSetIpsecTunnelRequest = /*@__PURE__*/ S.suspend(() =>
     psks: IpsecTunnelsPskSetRequestPsksList,
   })
     .pipe(
-      T.Http({
-        method: "POST",
-        uri: "/accounts/{account_id}/magic/ipsec_tunnels/psk",
-        code: 200,
-      }),
+      T.Http({ method: "POST", uri: "/accounts/{account_id}/magic/ipsec_tunnels/psk", code: 200 }),
     )
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "PskSetIpsecTunnelRequest",
-}) as any as S.Schema<PskSetIpsecTunnelRequest>;
+).annotate({ identifier: "PskSetIpsecTunnelRequest" }) as any as S.Schema<PskSetIpsecTunnelRequest>;
 
 export type IpsecTunnelsPskSetResponseSuccessfullyAppliedPsksValuePskMetadata =
   IpsecTunnelsBulkUpdateResponseModifiedIpsecTunnelsItemPskMetadata;
@@ -13276,9 +12872,7 @@ export const IpsecTunnelsPskSetResponseSuccessfullyAppliedPsksMap = /*@__PURE__*
   IpsecTunnelsPskSetResponseSuccessfullyAppliedPsksValue,
 ) as any as S.Schema<IpsecTunnelsPskSetResponseSuccessfullyAppliedPsksMap>;
 
-export type IpsecTunnelsPskSetResponseUnappliedPsksMap = {
-  [key: string]: string | undefined;
-};
+export type IpsecTunnelsPskSetResponseUnappliedPsksMap = { [key: string]: string | undefined };
 export const IpsecTunnelsPskSetResponseUnappliedPsksMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -13452,9 +13046,7 @@ export const PutCfInterconnectRequest = /*@__PURE__*/ S.suspend(() =>
       }),
     )
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "PutCfInterconnectRequest",
-}) as any as S.Schema<PutCfInterconnectRequest>;
+).annotate({ identifier: "PutCfInterconnectRequest" }) as any as S.Schema<PutCfInterconnectRequest>;
 
 export type CfInterconnectsUpdateResponseModifiedInterconnectBgpExtraPrefixesList = Array<string>;
 export const CfInterconnectsUpdateResponseModifiedInterconnectBgpExtraPrefixesList =
@@ -13650,24 +13242,14 @@ export const StopPcapRequest = /*@__PURE__*/ S.suspend(() =>
     accountId: S.String.pipe(T.Label("account_id")),
     pcapId: S.String.pipe(T.Label("pcap_id")),
   })
-    .pipe(
-      T.Http({
-        method: "PUT",
-        uri: "/accounts/{account_id}/pcaps/{pcap_id}/stop",
-        code: 200,
-      }),
-    )
+    .pipe(T.Http({ method: "PUT", uri: "/accounts/{account_id}/pcaps/{pcap_id}/stop", code: 200 }))
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "StopPcapRequest",
-}) as any as S.Schema<StopPcapRequest>;
+).annotate({ identifier: "StopPcapRequest" }) as any as S.Schema<StopPcapRequest>;
 
 export interface StopPcapResponse {}
 export const StopPcapResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({}).pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "StopPcapResponse",
-}) as any as S.Schema<StopPcapResponse>;
+).annotate({ identifier: "StopPcapResponse" }) as any as S.Schema<StopPcapResponse>;
 
 export type AppsUpdateRequestHostnamesList = Array<string>;
 export const AppsUpdateRequestHostnamesList = /*@__PURE__*/ S.Array(
@@ -13718,9 +13300,7 @@ export const UpdateAppRequest = /*@__PURE__*/ S.suspend(() =>
       }),
     )
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "UpdateAppRequest",
-}) as any as S.Schema<UpdateAppRequest>;
+).annotate({ identifier: "UpdateAppRequest" }) as any as S.Schema<UpdateAppRequest>;
 
 export type AppsUpdateResponseHostnamesList = Array<string>;
 export const AppsUpdateResponseHostnamesList = /*@__PURE__*/ S.Array(
@@ -13763,9 +13343,7 @@ export const UpdateAppResponse = /*@__PURE__*/ S.suspend(() =>
     ),
     type: S.optional(S.NullOr(S.String)),
   }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "UpdateAppResponse",
-}) as any as S.Schema<UpdateAppResponse>;
+).annotate({ identifier: "UpdateAppResponse" }) as any as S.Schema<UpdateAppResponse>;
 
 export type UpdateBgpFilterProfileRequestMatchAction = "allow" | "deny";
 export const UpdateBgpFilterProfileRequestMatchAction = S.String;
@@ -13880,10 +13458,8 @@ export interface UpdateConnectorRequest {
   interruptWindowEmbargoDates?: ConnectorsUpdateRequestInterruptWindowEmbargoDatesList;
   interruptWindowHourOfDay?: number;
   notes?: string;
-  primary?: boolean;
   /** When true, regenerate license key for the connector. */
   provisionLicense?: boolean;
-  siteId?: string;
   timezone?: string;
 }
 export const UpdateConnectorRequest = /*@__PURE__*/ S.suspend(() =>
@@ -13906,9 +13482,7 @@ export const UpdateConnectorRequest = /*@__PURE__*/ S.suspend(() =>
     ),
     interruptWindowHourOfDay: S.optional(S.Number.pipe(T.Body("interrupt_window_hour_of_day"))),
     notes: S.optional(S.String),
-    primary: S.optional(S.Boolean),
     provisionLicense: S.optional(S.Boolean.pipe(T.Body("provision_license"))),
-    siteId: S.optional(S.String.pipe(T.Body("site_id"))),
     timezone: S.optional(S.String),
   })
     .pipe(
@@ -13919,9 +13493,7 @@ export const UpdateConnectorRequest = /*@__PURE__*/ S.suspend(() =>
       }),
     )
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "UpdateConnectorRequest",
-}) as any as S.Schema<UpdateConnectorRequest>;
+).annotate({ identifier: "UpdateConnectorRequest" }) as any as S.Schema<UpdateConnectorRequest>;
 
 export type ConnectorsUpdateResponseInterruptWindowDaysOfWeekItem =
   | "Sunday"
@@ -13974,13 +13546,11 @@ export interface UpdateConnectorResponse {
   interruptWindowHourOfDay: number;
   lastUpdated: string;
   notes: string;
-  primary: boolean;
   timezone: string;
   device?: ConnectorsUpdateResponseDevice | null;
   lastHeartbeat?: string | null;
   lastSeenVersion?: string | null;
   licenseKey?: string | null;
-  siteId?: string | null;
 }
 export const UpdateConnectorResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -13996,17 +13566,13 @@ export const UpdateConnectorResponse = /*@__PURE__*/ S.suspend(() =>
     interruptWindowHourOfDay: S.Number.pipe(T.Body("interrupt_window_hour_of_day")),
     lastUpdated: S.String.pipe(T.Body("last_updated")),
     notes: S.String,
-    primary: S.Boolean,
     timezone: S.String,
     device: S.optional(S.NullOr(ConnectorsUpdateResponseDevice)),
     lastHeartbeat: S.optional(S.NullOr(S.String).pipe(T.Body("last_heartbeat"))),
     lastSeenVersion: S.optional(S.NullOr(S.String).pipe(T.Body("last_seen_version"))),
     licenseKey: S.optional(S.NullOr(S.String).pipe(T.Body("license_key"))),
-    siteId: S.optional(S.NullOr(S.String).pipe(T.Body("site_id"))),
   }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "UpdateConnectorResponse",
-}) as any as S.Schema<UpdateConnectorResponse>;
+).annotate({ identifier: "UpdateConnectorResponse" }) as any as S.Schema<UpdateConnectorResponse>;
 
 export type GreTunnelsUpdateRequestHealthCheckDirection = "unidirectional" | "bidirectional";
 export const GreTunnelsUpdateRequestHealthCheckDirection = S.String;
@@ -14103,9 +13669,7 @@ export const UpdateGreTunnelRequest = /*@__PURE__*/ S.suspend(() =>
       }),
     )
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "UpdateGreTunnelRequest",
-}) as any as S.Schema<UpdateGreTunnelRequest>;
+).annotate({ identifier: "UpdateGreTunnelRequest" }) as any as S.Schema<UpdateGreTunnelRequest>;
 
 export type GreTunnelsUpdateResponseModifiedGreTunnelBgpExtraPrefixesList = Array<string>;
 export const GreTunnelsUpdateResponseModifiedGreTunnelBgpExtraPrefixesList = /*@__PURE__*/ S.Array(
@@ -14286,9 +13850,7 @@ export const UpdateGreTunnelResponse = /*@__PURE__*/ S.suspend(() =>
       S.NullOr(GreTunnelsUpdateResponseModifiedGreTunnel).pipe(T.Body("modified_gre_tunnel")),
     ),
   }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "UpdateGreTunnelResponse",
-}) as any as S.Schema<UpdateGreTunnelResponse>;
+).annotate({ identifier: "UpdateGreTunnelResponse" }) as any as S.Schema<UpdateGreTunnelResponse>;
 
 export type IpsecTunnelsUpdateRequestBgpExtraPrefixesList = Array<string>;
 export const IpsecTunnelsUpdateRequestBgpExtraPrefixesList = /*@__PURE__*/ S.Array(
@@ -14427,9 +13989,7 @@ export const UpdateIpsecTunnelRequest = /*@__PURE__*/ S.suspend(() =>
       }),
     )
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "UpdateIpsecTunnelRequest",
-}) as any as S.Schema<UpdateIpsecTunnelRequest>;
+).annotate({ identifier: "UpdateIpsecTunnelRequest" }) as any as S.Schema<UpdateIpsecTunnelRequest>;
 
 export type IpsecTunnelsUpdateResponseModifiedIpsecTunnelBgpExtraPrefixesList = Array<string>;
 export const IpsecTunnelsUpdateResponseModifiedIpsecTunnelBgpExtraPrefixesList =
@@ -14664,9 +14224,7 @@ export const RoutesUpdateRequestScope = /*@__PURE__*/ S.suspend(() =>
     coloNames: S.optional(RoutesUpdateRequestScopeColoNamesList.pipe(T.Body("colo_names"))),
     coloRegions: S.optional(RoutesUpdateRequestScopeColoRegionsList.pipe(T.Body("colo_regions"))),
   }),
-).annotate({
-  identifier: "RoutesUpdateRequestScope",
-}) as any as S.Schema<RoutesUpdateRequestScope>;
+).annotate({ identifier: "RoutesUpdateRequestScope" }) as any as S.Schema<RoutesUpdateRequestScope>;
 
 export interface UpdateRouteRequest {
   /** Identifier */
@@ -14698,16 +14256,10 @@ export const UpdateRouteRequest = /*@__PURE__*/ S.suspend(() =>
     weight: S.optional(S.Number),
   })
     .pipe(
-      T.Http({
-        method: "PUT",
-        uri: "/accounts/{account_id}/magic/routes/{route_id}",
-        code: 200,
-      }),
+      T.Http({ method: "PUT", uri: "/accounts/{account_id}/magic/routes/{route_id}", code: 200 }),
     )
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "UpdateRouteRequest",
-}) as any as S.Schema<UpdateRouteRequest>;
+).annotate({ identifier: "UpdateRouteRequest" }) as any as S.Schema<UpdateRouteRequest>;
 
 export type RoutesUpdateResponseModifiedRouteScopeColoNamesList = Array<string>;
 export const RoutesUpdateResponseModifiedRouteScopeColoNamesList = /*@__PURE__*/ S.Array(
@@ -14786,9 +14338,7 @@ export const UpdateRouteResponse = /*@__PURE__*/ S.suspend(() =>
       S.NullOr(RoutesUpdateResponseModifiedRoute).pipe(T.Body("modified_route")),
     ),
   }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "UpdateRouteResponse",
-}) as any as S.Schema<UpdateRouteResponse>;
+).annotate({ identifier: "UpdateRouteResponse" }) as any as S.Schema<UpdateRouteResponse>;
 
 export type SitesUpdateRequestLocation = SitesCreateRequestLocation;
 export const SitesUpdateRequestLocation = SitesCreateRequestLocation;
@@ -14801,6 +14351,8 @@ export interface UpdateSiteRequest {
   /** Magic Connector identifier tag. */
   connectorId?: string;
   description?: string;
+  /** Site high availability mode. If set to true, the site can have two connectors and runs in high availability mode. */
+  haMode?: boolean;
   /** Location of site in latitude and longitude. */
   location?: SitesCreateRequestLocation;
   /** The name of the site. */
@@ -14814,21 +14366,14 @@ export const UpdateSiteRequest = /*@__PURE__*/ S.suspend(() =>
     siteId: S.String.pipe(T.Label("site_id")),
     connectorId: S.optional(S.String.pipe(T.Body("connector_id"))),
     description: S.optional(S.String),
+    haMode: S.optional(S.Boolean.pipe(T.Body("ha_mode"))),
     location: S.optional(SitesCreateRequestLocation),
     name: S.optional(S.String),
     secondaryConnectorId: S.optional(S.String.pipe(T.Body("secondary_connector_id"))),
   })
-    .pipe(
-      T.Http({
-        method: "PUT",
-        uri: "/accounts/{account_id}/magic/sites/{site_id}",
-        code: 200,
-      }),
-    )
+    .pipe(T.Http({ method: "PUT", uri: "/accounts/{account_id}/magic/sites/{site_id}", code: 200 }))
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "UpdateSiteRequest",
-}) as any as S.Schema<UpdateSiteRequest>;
+).annotate({ identifier: "UpdateSiteRequest" }) as any as S.Schema<UpdateSiteRequest>;
 
 export type SitesUpdateResponseLocation = SitesCreateResponseLocation;
 export const SitesUpdateResponseLocation = SitesCreateResponseLocation;
@@ -14859,9 +14404,7 @@ export const UpdateSiteResponse = /*@__PURE__*/ S.suspend(() =>
     name: S.optional(S.NullOr(S.String)),
     secondaryConnectorId: S.optional(S.NullOr(S.String).pipe(T.Body("secondary_connector_id"))),
   }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "UpdateSiteResponse",
-}) as any as S.Schema<UpdateSiteResponse>;
+).annotate({ identifier: "UpdateSiteResponse" }) as any as S.Schema<UpdateSiteResponse>;
 
 export type SitesAclsUpdateRequestLan1PortRangesList = Array<string>;
 export const SitesAclsUpdateRequestLan1PortRangesList = /*@__PURE__*/ S.Array(
@@ -14991,9 +14534,7 @@ export const UpdateSiteAclRequest = /*@__PURE__*/ S.suspend(() =>
       }),
     )
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "UpdateSiteAclRequest",
-}) as any as S.Schema<UpdateSiteAclRequest>;
+).annotate({ identifier: "UpdateSiteAclRequest" }) as any as S.Schema<UpdateSiteAclRequest>;
 
 export type SitesAclsUpdateResponseLan1PortRangesList = Array<string>;
 export const SitesAclsUpdateResponseLan1PortRangesList = /*@__PURE__*/ S.Array(
@@ -15112,9 +14653,7 @@ export const UpdateSiteAclResponse = /*@__PURE__*/ S.suspend(() =>
     protocols: S.optional(S.NullOr(SitesAclsUpdateResponseProtocolsList)),
     unidirectional: S.optional(S.NullOr(S.Boolean)),
   }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "UpdateSiteAclResponse",
-}) as any as S.Schema<UpdateSiteAclResponse>;
+).annotate({ identifier: "UpdateSiteAclResponse" }) as any as S.Schema<UpdateSiteAclResponse>;
 
 export type SitesLansUpdateRequestNat = SitesLansCreateRequestNat;
 export const SitesLansUpdateRequestNat = SitesLansCreateRequestNat;
@@ -15266,6 +14805,8 @@ export interface UpdateSiteLanRequest {
   /** Identifier */
   lanId: string;
   bondId?: number;
+  /** mark true to use this LAN for HA probing. only works for site with HA turned on. only one LAN can be set as the ha_link. */
+  haLink?: boolean;
   /** mark true to use this LAN for source-based breakout traffic */
   isBreakout?: boolean;
   /** mark true to use this LAN for source-based prioritized traffic */
@@ -15285,6 +14826,7 @@ export const UpdateSiteLanRequest = /*@__PURE__*/ S.suspend(() =>
     siteId: S.String.pipe(T.Label("site_id")),
     lanId: S.String.pipe(T.Label("lan_id")),
     bondId: S.optional(S.Number.pipe(T.Body("bond_id"))),
+    haLink: S.optional(S.Boolean.pipe(T.Body("ha_link"))),
     isBreakout: S.optional(S.Boolean.pipe(T.Body("is_breakout"))),
     isPrioritized: S.optional(S.Boolean.pipe(T.Body("is_prioritized"))),
     name: S.optional(S.String),
@@ -15306,9 +14848,7 @@ export const UpdateSiteLanRequest = /*@__PURE__*/ S.suspend(() =>
       }),
     )
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "UpdateSiteLanRequest",
-}) as any as S.Schema<UpdateSiteLanRequest>;
+).annotate({ identifier: "UpdateSiteLanRequest" }) as any as S.Schema<UpdateSiteLanRequest>;
 
 export type SitesLansUpdateResponseNat = SitesLansCreateResultItemNat;
 export const SitesLansUpdateResponseNat = SitesLansCreateResultItemNat;
@@ -15500,9 +15040,7 @@ export const UpdateSiteLanResponse = /*@__PURE__*/ S.suspend(() =>
     ),
     vlanTag: S.optional(S.NullOr(S.Number).pipe(T.Body("vlan_tag"))),
   }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "UpdateSiteLanResponse",
-}) as any as S.Schema<UpdateSiteLanResponse>;
+).annotate({ identifier: "UpdateSiteLanResponse" }) as any as S.Schema<UpdateSiteLanResponse>;
 
 export type UpdateSitesAppConfigurationRequestPreferredWansList = Array<string>;
 export const UpdateSitesAppConfigurationRequestPreferredWansList = /*@__PURE__*/ S.Array(
@@ -15641,6 +15179,9 @@ export const UpdateSitesAppConfigurationResponse = /*@__PURE__*/ S.suspend(() =>
   identifier: "UpdateSitesAppConfigurationResponse",
 }) as any as S.Schema<UpdateSitesAppConfigurationResponse>;
 
+export type SitesWansUpdateRequestHealthCheckRate = "low" | "mid" | "high";
+export const SitesWansUpdateRequestHealthCheckRate = S.String;
+
 export type SitesWansUpdateRequestStaticAddressing = SitesWansCreateRequestStaticAddressing;
 export const SitesWansUpdateRequestStaticAddressing = SitesWansCreateRequestStaticAddressing;
 
@@ -15651,6 +15192,9 @@ export interface UpdateSiteWanRequest {
   siteId: string;
   /** Identifier */
   wanId: string;
+  /** Magic WAN health check rate for tunnels created on this link. */
+  healthCheckRate?: SitesWansUpdateRequestHealthCheckRate | (string & {});
+  loadBalanceInnerFlows?: boolean;
   name?: string;
   physport?: number;
   priority?: number;
@@ -15664,6 +15208,10 @@ export const UpdateSiteWanRequest = /*@__PURE__*/ S.suspend(() =>
     accountId: S.String.pipe(T.Label("account_id")),
     siteId: S.String.pipe(T.Label("site_id")),
     wanId: S.String.pipe(T.Label("wan_id")),
+    healthCheckRate: S.optional(
+      SitesWansUpdateRequestHealthCheckRate.pipe(T.Body("health_check_rate")),
+    ),
+    loadBalanceInnerFlows: S.optional(S.Boolean.pipe(T.Body("load_balance_inner_flows"))),
     name: S.optional(S.String),
     physport: S.optional(S.Number),
     priority: S.optional(S.Number),
@@ -15680,9 +15228,7 @@ export const UpdateSiteWanRequest = /*@__PURE__*/ S.suspend(() =>
       }),
     )
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "UpdateSiteWanRequest",
-}) as any as S.Schema<UpdateSiteWanRequest>;
+).annotate({ identifier: "UpdateSiteWanRequest" }) as any as S.Schema<UpdateSiteWanRequest>;
 
 export type SitesWansUpdateResponseHealthCheckRate = "low" | "mid" | "high";
 export const SitesWansUpdateResponseHealthCheckRate = S.String;
@@ -15696,6 +15242,7 @@ export interface UpdateSiteWanResponse {
   id?: string | null;
   /** Magic WAN health check rate for tunnels created on this link. The default value is `mid`. */
   healthCheckRate?: SitesWansUpdateResponseHealthCheckRate | null;
+  loadBalanceInnerFlows?: boolean | null;
   name?: string | null;
   physport?: number | null;
   /** Priority of WAN for traffic loadbalancing. */
@@ -15713,6 +15260,7 @@ export const UpdateSiteWanResponse = /*@__PURE__*/ S.suspend(() =>
     healthCheckRate: S.optional(
       S.NullOr(SitesWansUpdateResponseHealthCheckRate).pipe(T.Body("health_check_rate")),
     ),
+    loadBalanceInnerFlows: S.optional(S.NullOr(S.Boolean).pipe(T.Body("load_balance_inner_flows"))),
     name: S.optional(S.NullOr(S.String)),
     physport: S.optional(S.NullOr(S.Number)),
     priority: S.optional(S.NullOr(S.Number)),
@@ -15722,9 +15270,7 @@ export const UpdateSiteWanResponse = /*@__PURE__*/ S.suspend(() =>
     ),
     vlanTag: S.optional(S.NullOr(S.Number).pipe(T.Body("vlan_tag"))),
   }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "UpdateSiteWanResponse",
-}) as any as S.Schema<UpdateSiteWanResponse>;
+).annotate({ identifier: "UpdateSiteWanResponse" }) as any as S.Schema<UpdateSiteWanResponse>;
 
 export interface ValidatePcapOwnershipRequest {
   /** Identifier. */
@@ -15741,11 +15287,7 @@ export const ValidatePcapOwnershipRequest = /*@__PURE__*/ S.suspend(() =>
     ownershipChallenge: S.String.pipe(T.Body("ownership_challenge")),
   })
     .pipe(
-      T.Http({
-        method: "POST",
-        uri: "/accounts/{account_id}/pcaps/ownership/validate",
-        code: 200,
-      }),
+      T.Http({ method: "POST", uri: "/accounts/{account_id}/pcaps/ownership/validate", code: 200 }),
     )
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
 ).annotate({

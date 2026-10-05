@@ -7379,6 +7379,13 @@ export type RulesCreateResultRulesetRulesItemSetConfigurationRuleActionParameter
   | "origin_pull";
 export const RulesCreateResultRulesetRulesItemSetConfigurationRuleActionParametersSsl = S.String;
 
+export type RulesCreateResultRulesetRulesItemSetConfigurationRuleActionParametersWebmcpPacksList =
+  Array<string>;
+export const RulesCreateResultRulesetRulesItemSetConfigurationRuleActionParametersWebmcpPacksList =
+  /*@__PURE__*/ S.Array(
+    S.String,
+  ) as any as S.Schema<RulesCreateResultRulesetRulesItemSetConfigurationRuleActionParametersWebmcpPacksList>;
+
 export interface RulesCreateResultRulesetRulesItemSetConfigurationRuleActionParameters {
   /** Whether to enable Automatic HTTPS Rewrites. */
   automaticHttpsRewrites?: boolean | null;
@@ -7424,6 +7431,10 @@ export interface RulesCreateResultRulesetRulesItemSetConfigurationRuleActionPara
   ssl?: RulesCreateResultRulesetRulesItemSetConfigurationRuleActionParametersSsl | null;
   /** Signed Exchanges (SXG) is deprecated. */
   sxg?: boolean | null;
+  /** Whether to serve the WebMCP bridge script, which exposes the page's tools to browser AI agents. */
+  webmcpEnabled?: boolean | null;
+  /** Bundled WebMCP tool packs to activate for matching requests. An empty array disables all packs. Omitting this parameter leaves the pack selection unchanged. Does not enable the WebMCP bridge itself. Non-empty selections require the WebMCP Configuration Rules entitlement. */
+  webmcpPacks?: RulesCreateResultRulesetRulesItemSetConfigurationRuleActionParametersWebmcpPacksList | null;
 }
 export const RulesCreateResultRulesetRulesItemSetConfigurationRuleActionParameters =
   /*@__PURE__*/ S.suspend(() =>
@@ -7474,6 +7485,12 @@ export const RulesCreateResultRulesetRulesItemSetConfigurationRuleActionParamete
         S.NullOr(RulesCreateResultRulesetRulesItemSetConfigurationRuleActionParametersSsl),
       ),
       sxg: S.optional(S.NullOr(S.Boolean)),
+      webmcpEnabled: S.optional(S.NullOr(S.Boolean).pipe(T.Body("webmcp_enabled"))),
+      webmcpPacks: S.optional(
+        S.NullOr(
+          RulesCreateResultRulesetRulesItemSetConfigurationRuleActionParametersWebmcpPacksList,
+        ).pipe(T.Body("webmcp_packs")),
+      ),
     }),
   ).annotate({
     identifier: "RulesCreateResultRulesetRulesItemSetConfigurationRuleActionParameters",
@@ -8353,9 +8370,7 @@ export const CreateRuleResponse = /*@__PURE__*/ S.suspend(() =>
     version: S.String,
     description: S.optional(S.NullOr(S.String)),
   }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "CreateRuleResponse",
-}) as any as S.Schema<CreateRuleResponse>;
+).annotate({ identifier: "CreateRuleResponse" }) as any as S.Schema<CreateRuleResponse>;
 
 export interface CreateRuleForZoneRequest {
   /** The Zone ID to use for this endpoint. Mutually exclusive with the Account ID. */
@@ -8374,16 +8389,10 @@ export const CreateRuleForZoneRequest = /*@__PURE__*/ S.suspend(() =>
     body: RulesCreateRequestBody.pipe(T.HttpBody()),
   })
     .pipe(
-      T.Http({
-        method: "POST",
-        uri: "/zones/{zone_id}/rulesets/{ruleset_id}/rules",
-        code: 200,
-      }),
+      T.Http({ method: "POST", uri: "/zones/{zone_id}/rulesets/{ruleset_id}/rules", code: 200 }),
     )
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "CreateRuleForZoneRequest",
-}) as any as S.Schema<CreateRuleForZoneRequest>;
+).annotate({ identifier: "CreateRuleForZoneRequest" }) as any as S.Schema<CreateRuleForZoneRequest>;
 
 export type CreateRequestKind = "managed" | "custom" | "root" | "zone";
 export const CreateRequestKind = S.String;
@@ -12769,6 +12778,12 @@ export type CreateRequestRulesItemSetConfigRuleActionParametersSsl =
   | "origin_pull";
 export const CreateRequestRulesItemSetConfigRuleActionParametersSsl = S.String;
 
+export type CreateRequestRulesItemSetConfigRuleActionParametersWebmcpPacksList = Array<string>;
+export const CreateRequestRulesItemSetConfigRuleActionParametersWebmcpPacksList =
+  /*@__PURE__*/ S.Array(
+    S.String,
+  ) as any as S.Schema<CreateRequestRulesItemSetConfigRuleActionParametersWebmcpPacksList>;
+
 export interface CreateRequestRulesItemSetConfigRuleActionParameters {
   /** Whether to enable Automatic HTTPS Rewrites. */
   automaticHttpsRewrites?: boolean;
@@ -12818,6 +12833,10 @@ export interface CreateRequestRulesItemSetConfigRuleActionParameters {
   ssl?: CreateRequestRulesItemSetConfigRuleActionParametersSsl | (string & {});
   /** Signed Exchanges (SXG) is deprecated. */
   sxg?: boolean;
+  /** Whether to serve the WebMCP bridge script, which exposes the page's tools to browser AI agents. */
+  webmcpEnabled?: boolean;
+  /** Bundled WebMCP tool packs to activate for matching requests. An empty array disables all packs. Omitting this parameter leaves the pack selection unchanged. Does not enable the WebMCP bridge itself. Non-empty selections require the WebMCP Configuration Rules entitlement. */
+  webmcpPacks?: CreateRequestRulesItemSetConfigRuleActionParametersWebmcpPacksList;
 }
 export const CreateRequestRulesItemSetConfigRuleActionParameters = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -12855,6 +12874,12 @@ export const CreateRequestRulesItemSetConfigRuleActionParameters = /*@__PURE__*/
     serverSideExcludes: S.optional(S.Boolean.pipe(T.Body("server_side_excludes"))),
     ssl: S.optional(CreateRequestRulesItemSetConfigRuleActionParametersSsl),
     sxg: S.optional(S.Boolean),
+    webmcpEnabled: S.optional(S.Boolean.pipe(T.Body("webmcp_enabled"))),
+    webmcpPacks: S.optional(
+      CreateRequestRulesItemSetConfigRuleActionParametersWebmcpPacksList.pipe(
+        T.Body("webmcp_packs"),
+      ),
+    ),
   }),
 ).annotate({
   identifier: "CreateRequestRulesItemSetConfigRuleActionParameters",
@@ -13612,14 +13637,14 @@ export interface CreateRulesetForAccountRequest {
   accountId: string;
   /** Validates the request without persisting changes when set to `true`. Responses that normally return 200 return `result: null`; endpoints that normally return 204 continue to return 204. */
   dryRun?: boolean;
-  /** The kind of the ruleset. */
-  kind: CreateRequestKind | (string & {});
-  /** The human-readable name of the ruleset. */
-  name: string;
-  /** The phase of the ruleset. */
-  phase: CreateRequestPhase | (string & {});
   /** An informative description of the ruleset. */
   description?: string;
+  /** The kind of the ruleset. */
+  kind?: CreateRequestKind | (string & {});
+  /** The human-readable name of the ruleset. */
+  name?: string;
+  /** The phase of the ruleset. */
+  phase?: CreateRequestPhase | (string & {});
   /** The list of rules in the ruleset. */
   rules?: CreateRequestRulesList;
 }
@@ -13627,19 +13652,13 @@ export const CreateRulesetForAccountRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     accountId: S.String.pipe(T.Label("account_id")),
     dryRun: S.optional(S.Boolean.pipe(T.Query("dry_run"))),
-    kind: CreateRequestKind,
-    name: S.String,
-    phase: CreateRequestPhase,
     description: S.optional(S.String),
+    kind: S.optional(CreateRequestKind),
+    name: S.optional(S.String),
+    phase: S.optional(CreateRequestPhase),
     rules: S.optional(CreateRequestRulesList),
   })
-    .pipe(
-      T.Http({
-        method: "POST",
-        uri: "/accounts/{account_id}/rulesets",
-        code: 200,
-      }),
-    )
+    .pipe(T.Http({ method: "POST", uri: "/accounts/{account_id}/rulesets", code: 200 }))
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
 ).annotate({
   identifier: "CreateRulesetForAccountRequest",
@@ -18041,6 +18060,13 @@ export type CreateResultRulesetRulesItemSetConfigurationRuleActionParametersSsl 
   | "origin_pull";
 export const CreateResultRulesetRulesItemSetConfigurationRuleActionParametersSsl = S.String;
 
+export type CreateResultRulesetRulesItemSetConfigurationRuleActionParametersWebmcpPacksList =
+  Array<string>;
+export const CreateResultRulesetRulesItemSetConfigurationRuleActionParametersWebmcpPacksList =
+  /*@__PURE__*/ S.Array(
+    S.String,
+  ) as any as S.Schema<CreateResultRulesetRulesItemSetConfigurationRuleActionParametersWebmcpPacksList>;
+
 export interface CreateResultRulesetRulesItemSetConfigurationRuleActionParameters {
   /** Whether to enable Automatic HTTPS Rewrites. */
   automaticHttpsRewrites?: boolean | null;
@@ -18086,6 +18112,10 @@ export interface CreateResultRulesetRulesItemSetConfigurationRuleActionParameter
   ssl?: CreateResultRulesetRulesItemSetConfigurationRuleActionParametersSsl | null;
   /** Signed Exchanges (SXG) is deprecated. */
   sxg?: boolean | null;
+  /** Whether to serve the WebMCP bridge script, which exposes the page's tools to browser AI agents. */
+  webmcpEnabled?: boolean | null;
+  /** Bundled WebMCP tool packs to activate for matching requests. An empty array disables all packs. Omitting this parameter leaves the pack selection unchanged. Does not enable the WebMCP bridge itself. Non-empty selections require the WebMCP Configuration Rules entitlement. */
+  webmcpPacks?: CreateResultRulesetRulesItemSetConfigurationRuleActionParametersWebmcpPacksList | null;
 }
 export const CreateResultRulesetRulesItemSetConfigurationRuleActionParameters =
   /*@__PURE__*/ S.suspend(() =>
@@ -18136,6 +18166,12 @@ export const CreateResultRulesetRulesItemSetConfigurationRuleActionParameters =
         S.NullOr(CreateResultRulesetRulesItemSetConfigurationRuleActionParametersSsl),
       ),
       sxg: S.optional(S.NullOr(S.Boolean)),
+      webmcpEnabled: S.optional(S.NullOr(S.Boolean).pipe(T.Body("webmcp_enabled"))),
+      webmcpPacks: S.optional(
+        S.NullOr(
+          CreateResultRulesetRulesItemSetConfigurationRuleActionParametersWebmcpPacksList,
+        ).pipe(T.Body("webmcp_packs")),
+      ),
     }),
   ).annotate({
     identifier: "CreateResultRulesetRulesItemSetConfigurationRuleActionParameters",
@@ -18997,23 +19033,21 @@ export const CreateRulesetResponse = /*@__PURE__*/ S.suspend(() =>
     version: S.String,
     description: S.optional(S.NullOr(S.String)),
   }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "CreateRulesetResponse",
-}) as any as S.Schema<CreateRulesetResponse>;
+).annotate({ identifier: "CreateRulesetResponse" }) as any as S.Schema<CreateRulesetResponse>;
 
 export interface CreateRulesetForZoneRequest {
   /** The Zone ID to use for this endpoint. Mutually exclusive with the Account ID. */
   zoneId: string;
   /** Validates the request without persisting changes when set to `true`. Responses that normally return 200 return `result: null`; endpoints that normally return 204 continue to return 204. */
   dryRun?: boolean;
-  /** The kind of the ruleset. */
-  kind: CreateRequestKind | (string & {});
-  /** The human-readable name of the ruleset. */
-  name: string;
-  /** The phase of the ruleset. */
-  phase: CreateRequestPhase | (string & {});
   /** An informative description of the ruleset. */
   description?: string;
+  /** The kind of the ruleset. */
+  kind?: CreateRequestKind | (string & {});
+  /** The human-readable name of the ruleset. */
+  name?: string;
+  /** The phase of the ruleset. */
+  phase?: CreateRequestPhase | (string & {});
   /** The list of rules in the ruleset. */
   rules?: CreateRequestRulesList;
 }
@@ -19021,10 +19055,10 @@ export const CreateRulesetForZoneRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     zoneId: S.String.pipe(T.Label("zone_id")),
     dryRun: S.optional(S.Boolean.pipe(T.Query("dry_run"))),
-    kind: CreateRequestKind,
-    name: S.String,
-    phase: CreateRequestPhase,
     description: S.optional(S.String),
+    kind: S.optional(CreateRequestKind),
+    name: S.optional(S.String),
+    phase: S.optional(CreateRequestPhase),
     rules: S.optional(CreateRequestRulesList),
   })
     .pipe(T.Http({ method: "POST", uri: "/zones/{zone_id}/rulesets", code: 200 }))
@@ -23523,6 +23557,13 @@ export type RulesDeleteResultRulesetRulesItemSetConfigurationRuleActionParameter
   | "origin_pull";
 export const RulesDeleteResultRulesetRulesItemSetConfigurationRuleActionParametersSsl = S.String;
 
+export type RulesDeleteResultRulesetRulesItemSetConfigurationRuleActionParametersWebmcpPacksList =
+  Array<string>;
+export const RulesDeleteResultRulesetRulesItemSetConfigurationRuleActionParametersWebmcpPacksList =
+  /*@__PURE__*/ S.Array(
+    S.String,
+  ) as any as S.Schema<RulesDeleteResultRulesetRulesItemSetConfigurationRuleActionParametersWebmcpPacksList>;
+
 export interface RulesDeleteResultRulesetRulesItemSetConfigurationRuleActionParameters {
   /** Whether to enable Automatic HTTPS Rewrites. */
   automaticHttpsRewrites?: boolean | null;
@@ -23568,6 +23609,10 @@ export interface RulesDeleteResultRulesetRulesItemSetConfigurationRuleActionPara
   ssl?: RulesDeleteResultRulesetRulesItemSetConfigurationRuleActionParametersSsl | null;
   /** Signed Exchanges (SXG) is deprecated. */
   sxg?: boolean | null;
+  /** Whether to serve the WebMCP bridge script, which exposes the page's tools to browser AI agents. */
+  webmcpEnabled?: boolean | null;
+  /** Bundled WebMCP tool packs to activate for matching requests. An empty array disables all packs. Omitting this parameter leaves the pack selection unchanged. Does not enable the WebMCP bridge itself. Non-empty selections require the WebMCP Configuration Rules entitlement. */
+  webmcpPacks?: RulesDeleteResultRulesetRulesItemSetConfigurationRuleActionParametersWebmcpPacksList | null;
 }
 export const RulesDeleteResultRulesetRulesItemSetConfigurationRuleActionParameters =
   /*@__PURE__*/ S.suspend(() =>
@@ -23618,6 +23663,12 @@ export const RulesDeleteResultRulesetRulesItemSetConfigurationRuleActionParamete
         S.NullOr(RulesDeleteResultRulesetRulesItemSetConfigurationRuleActionParametersSsl),
       ),
       sxg: S.optional(S.NullOr(S.Boolean)),
+      webmcpEnabled: S.optional(S.NullOr(S.Boolean).pipe(T.Body("webmcp_enabled"))),
+      webmcpPacks: S.optional(
+        S.NullOr(
+          RulesDeleteResultRulesetRulesItemSetConfigurationRuleActionParametersWebmcpPacksList,
+        ).pipe(T.Body("webmcp_packs")),
+      ),
     }),
   ).annotate({
     identifier: "RulesDeleteResultRulesetRulesItemSetConfigurationRuleActionParameters",
@@ -24497,9 +24548,7 @@ export const DeleteRuleResponse = /*@__PURE__*/ S.suspend(() =>
     version: S.String,
     description: S.optional(S.NullOr(S.String)),
   }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "DeleteRuleResponse",
-}) as any as S.Schema<DeleteRuleResponse>;
+).annotate({ identifier: "DeleteRuleResponse" }) as any as S.Schema<DeleteRuleResponse>;
 
 export interface DeleteRuleForZoneRequest {
   /** The Zone ID to use for this endpoint. Mutually exclusive with the Account ID. */
@@ -24526,9 +24575,7 @@ export const DeleteRuleForZoneRequest = /*@__PURE__*/ S.suspend(() =>
       }),
     )
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "DeleteRuleForZoneRequest",
-}) as any as S.Schema<DeleteRuleForZoneRequest>;
+).annotate({ identifier: "DeleteRuleForZoneRequest" }) as any as S.Schema<DeleteRuleForZoneRequest>;
 
 export interface DeleteRulesetForAccountRequest {
   /** The Account ID to use for this endpoint. Mutually exclusive with the Zone ID. */
@@ -24545,11 +24592,7 @@ export const DeleteRulesetForAccountRequest = /*@__PURE__*/ S.suspend(() =>
     dryRun: S.optional(S.Boolean.pipe(T.Query("dry_run"))),
   })
     .pipe(
-      T.Http({
-        method: "DELETE",
-        uri: "/accounts/{account_id}/rulesets/{ruleset_id}",
-        code: 200,
-      }),
+      T.Http({ method: "DELETE", uri: "/accounts/{account_id}/rulesets/{ruleset_id}", code: 200 }),
     )
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
 ).annotate({
@@ -24577,13 +24620,7 @@ export const DeleteRulesetForZoneRequest = /*@__PURE__*/ S.suspend(() =>
     rulesetId: S.String.pipe(T.Label("ruleset_id")),
     dryRun: S.optional(S.Boolean.pipe(T.Query("dry_run"))),
   })
-    .pipe(
-      T.Http({
-        method: "DELETE",
-        uri: "/zones/{zone_id}/rulesets/{ruleset_id}",
-        code: 200,
-      }),
-    )
+    .pipe(T.Http({ method: "DELETE", uri: "/zones/{zone_id}/rulesets/{ruleset_id}", code: 200 }))
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
 ).annotate({
   identifier: "DeleteRulesetForZoneRequest",
@@ -24687,9 +24724,7 @@ export const GetPhasForAccountRequest = /*@__PURE__*/ S.suspend(() =>
       }),
     )
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "GetPhasForAccountRequest",
-}) as any as S.Schema<GetPhasForAccountRequest>;
+).annotate({ identifier: "GetPhasForAccountRequest" }) as any as S.Schema<GetPhasForAccountRequest>;
 
 export type PhasesGetResponseKind = "managed" | "custom" | "root" | "zone";
 export const PhasesGetResponseKind = S.String;
@@ -29065,6 +29100,13 @@ export type PhasesGetResponseRulesItemSetConfigurationRuleActionParametersSsl =
   | "origin_pull";
 export const PhasesGetResponseRulesItemSetConfigurationRuleActionParametersSsl = S.String;
 
+export type PhasesGetResponseRulesItemSetConfigurationRuleActionParametersWebmcpPacksList =
+  Array<string>;
+export const PhasesGetResponseRulesItemSetConfigurationRuleActionParametersWebmcpPacksList =
+  /*@__PURE__*/ S.Array(
+    S.String,
+  ) as any as S.Schema<PhasesGetResponseRulesItemSetConfigurationRuleActionParametersWebmcpPacksList>;
+
 export interface PhasesGetResponseRulesItemSetConfigurationRuleActionParameters {
   /** Whether to enable Automatic HTTPS Rewrites. */
   automaticHttpsRewrites?: boolean | null;
@@ -29110,6 +29152,10 @@ export interface PhasesGetResponseRulesItemSetConfigurationRuleActionParameters 
   ssl?: PhasesGetResponseRulesItemSetConfigurationRuleActionParametersSsl | null;
   /** Signed Exchanges (SXG) is deprecated. */
   sxg?: boolean | null;
+  /** Whether to serve the WebMCP bridge script, which exposes the page's tools to browser AI agents. */
+  webmcpEnabled?: boolean | null;
+  /** Bundled WebMCP tool packs to activate for matching requests. An empty array disables all packs. Omitting this parameter leaves the pack selection unchanged. Does not enable the WebMCP bridge itself. Non-empty selections require the WebMCP Configuration Rules entitlement. */
+  webmcpPacks?: PhasesGetResponseRulesItemSetConfigurationRuleActionParametersWebmcpPacksList | null;
 }
 export const PhasesGetResponseRulesItemSetConfigurationRuleActionParameters =
   /*@__PURE__*/ S.suspend(() =>
@@ -29158,6 +29204,12 @@ export const PhasesGetResponseRulesItemSetConfigurationRuleActionParameters =
       serverSideExcludes: S.optional(S.NullOr(S.Boolean).pipe(T.Body("server_side_excludes"))),
       ssl: S.optional(S.NullOr(PhasesGetResponseRulesItemSetConfigurationRuleActionParametersSsl)),
       sxg: S.optional(S.NullOr(S.Boolean)),
+      webmcpEnabled: S.optional(S.NullOr(S.Boolean).pipe(T.Body("webmcp_enabled"))),
+      webmcpPacks: S.optional(
+        S.NullOr(
+          PhasesGetResponseRulesItemSetConfigurationRuleActionParametersWebmcpPacksList,
+        ).pipe(T.Body("webmcp_packs")),
+      ),
     }),
   ).annotate({
     identifier: "PhasesGetResponseRulesItemSetConfigurationRuleActionParameters",
@@ -30009,9 +30061,7 @@ export const GetPhasResponse = /*@__PURE__*/ S.suspend(() =>
     version: S.String,
     description: S.optional(S.NullOr(S.String)),
   }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "GetPhasResponse",
-}) as any as S.Schema<GetPhasResponse>;
+).annotate({ identifier: "GetPhasResponse" }) as any as S.Schema<GetPhasResponse>;
 
 export interface GetPhasForZoneRequest {
   /** The Zone ID to use for this endpoint. Mutually exclusive with the Account ID. */
@@ -30032,9 +30082,7 @@ export const GetPhasForZoneRequest = /*@__PURE__*/ S.suspend(() =>
       }),
     )
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "GetPhasForZoneRequest",
-}) as any as S.Schema<GetPhasForZoneRequest>;
+).annotate({ identifier: "GetPhasForZoneRequest" }) as any as S.Schema<GetPhasForZoneRequest>;
 
 export interface GetPhasVersionForAccountRequest {
   /** The Account ID to use for this endpoint. Mutually exclusive with the Zone ID. */
@@ -34536,6 +34584,13 @@ export type PhasesVersionsGetResponseRulesItemSetConfigurationRuleActionParamete
   | "origin_pull";
 export const PhasesVersionsGetResponseRulesItemSetConfigurationRuleActionParametersSsl = S.String;
 
+export type PhasesVersionsGetResponseRulesItemSetConfigurationRuleActionParametersWebmcpPacksList =
+  Array<string>;
+export const PhasesVersionsGetResponseRulesItemSetConfigurationRuleActionParametersWebmcpPacksList =
+  /*@__PURE__*/ S.Array(
+    S.String,
+  ) as any as S.Schema<PhasesVersionsGetResponseRulesItemSetConfigurationRuleActionParametersWebmcpPacksList>;
+
 export interface PhasesVersionsGetResponseRulesItemSetConfigurationRuleActionParameters {
   /** Whether to enable Automatic HTTPS Rewrites. */
   automaticHttpsRewrites?: boolean | null;
@@ -34581,6 +34636,10 @@ export interface PhasesVersionsGetResponseRulesItemSetConfigurationRuleActionPar
   ssl?: PhasesVersionsGetResponseRulesItemSetConfigurationRuleActionParametersSsl | null;
   /** Signed Exchanges (SXG) is deprecated. */
   sxg?: boolean | null;
+  /** Whether to serve the WebMCP bridge script, which exposes the page's tools to browser AI agents. */
+  webmcpEnabled?: boolean | null;
+  /** Bundled WebMCP tool packs to activate for matching requests. An empty array disables all packs. Omitting this parameter leaves the pack selection unchanged. Does not enable the WebMCP bridge itself. Non-empty selections require the WebMCP Configuration Rules entitlement. */
+  webmcpPacks?: PhasesVersionsGetResponseRulesItemSetConfigurationRuleActionParametersWebmcpPacksList | null;
 }
 export const PhasesVersionsGetResponseRulesItemSetConfigurationRuleActionParameters =
   /*@__PURE__*/ S.suspend(() =>
@@ -34631,6 +34690,12 @@ export const PhasesVersionsGetResponseRulesItemSetConfigurationRuleActionParamet
         S.NullOr(PhasesVersionsGetResponseRulesItemSetConfigurationRuleActionParametersSsl),
       ),
       sxg: S.optional(S.NullOr(S.Boolean)),
+      webmcpEnabled: S.optional(S.NullOr(S.Boolean).pipe(T.Body("webmcp_enabled"))),
+      webmcpPacks: S.optional(
+        S.NullOr(
+          PhasesVersionsGetResponseRulesItemSetConfigurationRuleActionParametersWebmcpPacksList,
+        ).pipe(T.Body("webmcp_packs")),
+      ),
     }),
   ).annotate({
     identifier: "PhasesVersionsGetResponseRulesItemSetConfigurationRuleActionParameters",
@@ -35513,9 +35578,7 @@ export const GetPhasVersionResponse = /*@__PURE__*/ S.suspend(() =>
     version: S.String,
     description: S.optional(S.NullOr(S.String)),
   }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "GetPhasVersionResponse",
-}) as any as S.Schema<GetPhasVersionResponse>;
+).annotate({ identifier: "GetPhasVersionResponse" }) as any as S.Schema<GetPhasVersionResponse>;
 
 export interface GetPhasVersionForZoneRequest {
   /** The Zone ID to use for this endpoint. Mutually exclusive with the Account ID. */
@@ -35554,13 +35617,7 @@ export const GetRulesetForAccountRequest = /*@__PURE__*/ S.suspend(() =>
     accountId: S.String.pipe(T.Label("account_id")),
     rulesetId: S.String.pipe(T.Label("ruleset_id")),
   })
-    .pipe(
-      T.Http({
-        method: "GET",
-        uri: "/accounts/{account_id}/rulesets/{ruleset_id}",
-        code: 200,
-      }),
-    )
+    .pipe(T.Http({ method: "GET", uri: "/accounts/{account_id}/rulesets/{ruleset_id}", code: 200 }))
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
 ).annotate({
   identifier: "GetRulesetForAccountRequest",
@@ -39848,6 +39905,12 @@ export type GetResponseRulesItemSetConfigurationRuleActionParametersSsl =
   | "origin_pull";
 export const GetResponseRulesItemSetConfigurationRuleActionParametersSsl = S.String;
 
+export type GetResponseRulesItemSetConfigurationRuleActionParametersWebmcpPacksList = Array<string>;
+export const GetResponseRulesItemSetConfigurationRuleActionParametersWebmcpPacksList =
+  /*@__PURE__*/ S.Array(
+    S.String,
+  ) as any as S.Schema<GetResponseRulesItemSetConfigurationRuleActionParametersWebmcpPacksList>;
+
 export interface GetResponseRulesItemSetConfigurationRuleActionParameters {
   /** Whether to enable Automatic HTTPS Rewrites. */
   automaticHttpsRewrites?: boolean | null;
@@ -39893,6 +39956,10 @@ export interface GetResponseRulesItemSetConfigurationRuleActionParameters {
   ssl?: GetResponseRulesItemSetConfigurationRuleActionParametersSsl | null;
   /** Signed Exchanges (SXG) is deprecated. */
   sxg?: boolean | null;
+  /** Whether to serve the WebMCP bridge script, which exposes the page's tools to browser AI agents. */
+  webmcpEnabled?: boolean | null;
+  /** Bundled WebMCP tool packs to activate for matching requests. An empty array disables all packs. Omitting this parameter leaves the pack selection unchanged. Does not enable the WebMCP bridge itself. Non-empty selections require the WebMCP Configuration Rules entitlement. */
+  webmcpPacks?: GetResponseRulesItemSetConfigurationRuleActionParametersWebmcpPacksList | null;
 }
 export const GetResponseRulesItemSetConfigurationRuleActionParameters = /*@__PURE__*/ S.suspend(
   () =>
@@ -39939,6 +40006,12 @@ export const GetResponseRulesItemSetConfigurationRuleActionParameters = /*@__PUR
       serverSideExcludes: S.optional(S.NullOr(S.Boolean).pipe(T.Body("server_side_excludes"))),
       ssl: S.optional(S.NullOr(GetResponseRulesItemSetConfigurationRuleActionParametersSsl)),
       sxg: S.optional(S.NullOr(S.Boolean)),
+      webmcpEnabled: S.optional(S.NullOr(S.Boolean).pipe(T.Body("webmcp_enabled"))),
+      webmcpPacks: S.optional(
+        S.NullOr(GetResponseRulesItemSetConfigurationRuleActionParametersWebmcpPacksList).pipe(
+          T.Body("webmcp_packs"),
+        ),
+      ),
     }),
 ).annotate({
   identifier: "GetResponseRulesItemSetConfigurationRuleActionParameters",
@@ -40781,9 +40854,7 @@ export const GetRulesetResponse = /*@__PURE__*/ S.suspend(() =>
     version: S.String,
     description: S.optional(S.NullOr(S.String)),
   }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "GetRulesetResponse",
-}) as any as S.Schema<GetRulesetResponse>;
+).annotate({ identifier: "GetRulesetResponse" }) as any as S.Schema<GetRulesetResponse>;
 
 export interface GetRulesetForZoneRequest {
   /** The Zone ID to use for this endpoint. Mutually exclusive with the Account ID. */
@@ -40796,17 +40867,9 @@ export const GetRulesetForZoneRequest = /*@__PURE__*/ S.suspend(() =>
     zoneId: S.String.pipe(T.Label("zone_id")),
     rulesetId: S.String.pipe(T.Label("ruleset_id")),
   })
-    .pipe(
-      T.Http({
-        method: "GET",
-        uri: "/zones/{zone_id}/rulesets/{ruleset_id}",
-        code: 200,
-      }),
-    )
+    .pipe(T.Http({ method: "GET", uri: "/zones/{zone_id}/rulesets/{ruleset_id}", code: 200 }))
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "GetRulesetForZoneRequest",
-}) as any as S.Schema<GetRulesetForZoneRequest>;
+).annotate({ identifier: "GetRulesetForZoneRequest" }) as any as S.Schema<GetRulesetForZoneRequest>;
 
 export interface GetVersionForAccountRequest {
   /** The Account ID to use for this endpoint. Mutually exclusive with the Zone ID. */
@@ -45230,6 +45293,13 @@ export type VersionsGetResponseRulesItemSetConfigurationRuleActionParametersSsl 
   | "origin_pull";
 export const VersionsGetResponseRulesItemSetConfigurationRuleActionParametersSsl = S.String;
 
+export type VersionsGetResponseRulesItemSetConfigurationRuleActionParametersWebmcpPacksList =
+  Array<string>;
+export const VersionsGetResponseRulesItemSetConfigurationRuleActionParametersWebmcpPacksList =
+  /*@__PURE__*/ S.Array(
+    S.String,
+  ) as any as S.Schema<VersionsGetResponseRulesItemSetConfigurationRuleActionParametersWebmcpPacksList>;
+
 export interface VersionsGetResponseRulesItemSetConfigurationRuleActionParameters {
   /** Whether to enable Automatic HTTPS Rewrites. */
   automaticHttpsRewrites?: boolean | null;
@@ -45275,6 +45345,10 @@ export interface VersionsGetResponseRulesItemSetConfigurationRuleActionParameter
   ssl?: VersionsGetResponseRulesItemSetConfigurationRuleActionParametersSsl | null;
   /** Signed Exchanges (SXG) is deprecated. */
   sxg?: boolean | null;
+  /** Whether to serve the WebMCP bridge script, which exposes the page's tools to browser AI agents. */
+  webmcpEnabled?: boolean | null;
+  /** Bundled WebMCP tool packs to activate for matching requests. An empty array disables all packs. Omitting this parameter leaves the pack selection unchanged. Does not enable the WebMCP bridge itself. Non-empty selections require the WebMCP Configuration Rules entitlement. */
+  webmcpPacks?: VersionsGetResponseRulesItemSetConfigurationRuleActionParametersWebmcpPacksList | null;
 }
 export const VersionsGetResponseRulesItemSetConfigurationRuleActionParameters =
   /*@__PURE__*/ S.suspend(() =>
@@ -45325,6 +45399,12 @@ export const VersionsGetResponseRulesItemSetConfigurationRuleActionParameters =
         S.NullOr(VersionsGetResponseRulesItemSetConfigurationRuleActionParametersSsl),
       ),
       sxg: S.optional(S.NullOr(S.Boolean)),
+      webmcpEnabled: S.optional(S.NullOr(S.Boolean).pipe(T.Body("webmcp_enabled"))),
+      webmcpPacks: S.optional(
+        S.NullOr(
+          VersionsGetResponseRulesItemSetConfigurationRuleActionParametersWebmcpPacksList,
+        ).pipe(T.Body("webmcp_packs")),
+      ),
     }),
   ).annotate({
     identifier: "VersionsGetResponseRulesItemSetConfigurationRuleActionParameters",
@@ -46186,9 +46266,7 @@ export const GetVersionResponse = /*@__PURE__*/ S.suspend(() =>
     version: S.String,
     description: S.optional(S.NullOr(S.String)),
   }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "GetVersionResponse",
-}) as any as S.Schema<GetVersionResponse>;
+).annotate({ identifier: "GetVersionResponse" }) as any as S.Schema<GetVersionResponse>;
 
 export interface GetVersionForZoneRequest {
   /** The Zone ID to use for this endpoint. Mutually exclusive with the Account ID. */
@@ -46212,9 +46290,7 @@ export const GetVersionForZoneRequest = /*@__PURE__*/ S.suspend(() =>
       }),
     )
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "GetVersionForZoneRequest",
-}) as any as S.Schema<GetVersionForZoneRequest>;
+).annotate({ identifier: "GetVersionForZoneRequest" }) as any as S.Schema<GetVersionForZoneRequest>;
 
 export interface ListPhasVersionsForAccountRequest {
   /** The Account ID to use for this endpoint. Mutually exclusive with the Zone ID. */
@@ -46315,9 +46391,7 @@ export const ListPhasVersionsResponse = /*@__PURE__*/ S.suspend(() =>
     result: PhasesVersionsListResultList.pipe(T.EnvelopePayload()),
     resultInfo: S.optional(S.NullOr(ResultInfo).pipe(T.ResultInfo())),
   }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "ListPhasVersionsResponse",
-}) as any as S.Schema<ListPhasVersionsResponse>;
+).annotate({ identifier: "ListPhasVersionsResponse" }) as any as S.Schema<ListPhasVersionsResponse>;
 
 export interface ListPhasVersionsForZoneRequest {
   /** The Zone ID to use for this endpoint. Mutually exclusive with the Account ID. */
@@ -46356,13 +46430,7 @@ export const ListRulesetsForAccountRequest = /*@__PURE__*/ S.suspend(() =>
     cursor: S.optional(S.String.pipe(T.Query())),
     perPage: S.optional(S.Number.pipe(T.Query("per_page"))),
   })
-    .pipe(
-      T.Http({
-        method: "GET",
-        uri: "/accounts/{account_id}/rulesets",
-        code: 200,
-      }),
-    )
+    .pipe(T.Http({ method: "GET", uri: "/accounts/{account_id}/rulesets", code: 200 }))
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
 ).annotate({
   identifier: "ListRulesetsForAccountRequest",
@@ -46442,9 +46510,7 @@ export const ListRulesetsResponse = /*@__PURE__*/ S.suspend(() =>
     result: ListResultList.pipe(T.EnvelopePayload()),
     resultInfo: S.optional(S.NullOr(ResultInfo).pipe(T.ResultInfo())),
   }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "ListRulesetsResponse",
-}) as any as S.Schema<ListRulesetsResponse>;
+).annotate({ identifier: "ListRulesetsResponse" }) as any as S.Schema<ListRulesetsResponse>;
 
 export interface ListRulesetsForZoneRequest {
   /** The Zone ID to use for this endpoint. Mutually exclusive with the Account ID. */
@@ -46545,9 +46611,7 @@ export const VersionsListResultItem = /*@__PURE__*/ S.suspend(() =>
     version: S.String,
     description: S.optional(S.NullOr(S.String)),
   }),
-).annotate({
-  identifier: "VersionsListResultItem",
-}) as any as S.Schema<VersionsListResultItem>;
+).annotate({ identifier: "VersionsListResultItem" }) as any as S.Schema<VersionsListResultItem>;
 
 export type VersionsListResultList = Array<VersionsListResultItem>;
 export const VersionsListResultList = /*@__PURE__*/ S.Array(
@@ -46565,9 +46629,7 @@ export const ListVersionsResponse = /*@__PURE__*/ S.suspend(() =>
     result: VersionsListResultList.pipe(T.EnvelopePayload()),
     resultInfo: S.optional(S.NullOr(ResultInfo).pipe(T.ResultInfo())),
   }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "ListVersionsResponse",
-}) as any as S.Schema<ListVersionsResponse>;
+).annotate({ identifier: "ListVersionsResponse" }) as any as S.Schema<ListVersionsResponse>;
 
 export interface ListVersionsForZoneRequest {
   /** The Zone ID to use for this endpoint. Mutually exclusive with the Account ID. */
@@ -46581,11 +46643,7 @@ export const ListVersionsForZoneRequest = /*@__PURE__*/ S.suspend(() =>
     rulesetId: S.String.pipe(T.Label("ruleset_id")),
   })
     .pipe(
-      T.Http({
-        method: "GET",
-        uri: "/zones/{zone_id}/rulesets/{ruleset_id}/versions",
-        code: 200,
-      }),
+      T.Http({ method: "GET", uri: "/zones/{zone_id}/rulesets/{ruleset_id}/versions", code: 200 }),
     )
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
 ).annotate({
@@ -53490,6 +53548,13 @@ export type RulesEditResultRulesetRulesItemSetConfigurationRuleActionParametersS
   | "origin_pull";
 export const RulesEditResultRulesetRulesItemSetConfigurationRuleActionParametersSsl = S.String;
 
+export type RulesEditResultRulesetRulesItemSetConfigurationRuleActionParametersWebmcpPacksList =
+  Array<string>;
+export const RulesEditResultRulesetRulesItemSetConfigurationRuleActionParametersWebmcpPacksList =
+  /*@__PURE__*/ S.Array(
+    S.String,
+  ) as any as S.Schema<RulesEditResultRulesetRulesItemSetConfigurationRuleActionParametersWebmcpPacksList>;
+
 export interface RulesEditResultRulesetRulesItemSetConfigurationRuleActionParameters {
   /** Whether to enable Automatic HTTPS Rewrites. */
   automaticHttpsRewrites?: boolean | null;
@@ -53535,6 +53600,10 @@ export interface RulesEditResultRulesetRulesItemSetConfigurationRuleActionParame
   ssl?: RulesEditResultRulesetRulesItemSetConfigurationRuleActionParametersSsl | null;
   /** Signed Exchanges (SXG) is deprecated. */
   sxg?: boolean | null;
+  /** Whether to serve the WebMCP bridge script, which exposes the page's tools to browser AI agents. */
+  webmcpEnabled?: boolean | null;
+  /** Bundled WebMCP tool packs to activate for matching requests. An empty array disables all packs. Omitting this parameter leaves the pack selection unchanged. Does not enable the WebMCP bridge itself. Non-empty selections require the WebMCP Configuration Rules entitlement. */
+  webmcpPacks?: RulesEditResultRulesetRulesItemSetConfigurationRuleActionParametersWebmcpPacksList | null;
 }
 export const RulesEditResultRulesetRulesItemSetConfigurationRuleActionParameters =
   /*@__PURE__*/ S.suspend(() =>
@@ -53585,6 +53654,12 @@ export const RulesEditResultRulesetRulesItemSetConfigurationRuleActionParameters
         S.NullOr(RulesEditResultRulesetRulesItemSetConfigurationRuleActionParametersSsl),
       ),
       sxg: S.optional(S.NullOr(S.Boolean)),
+      webmcpEnabled: S.optional(S.NullOr(S.Boolean).pipe(T.Body("webmcp_enabled"))),
+      webmcpPacks: S.optional(
+        S.NullOr(
+          RulesEditResultRulesetRulesItemSetConfigurationRuleActionParametersWebmcpPacksList,
+        ).pipe(T.Body("webmcp_packs")),
+      ),
     }),
   ).annotate({
     identifier: "RulesEditResultRulesetRulesItemSetConfigurationRuleActionParameters",
@@ -54454,9 +54529,7 @@ export const PatchRuleResponse = /*@__PURE__*/ S.suspend(() =>
     version: S.String,
     description: S.optional(S.NullOr(S.String)),
   }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "PatchRuleResponse",
-}) as any as S.Schema<PatchRuleResponse>;
+).annotate({ identifier: "PatchRuleResponse" }) as any as S.Schema<PatchRuleResponse>;
 
 export interface PatchRuleForZoneRequest {
   /** The Zone ID to use for this endpoint. Mutually exclusive with the Account ID. */
@@ -54485,9 +54558,7 @@ export const PatchRuleForZoneRequest = /*@__PURE__*/ S.suspend(() =>
       }),
     )
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "PatchRuleForZoneRequest",
-}) as any as S.Schema<PatchRuleForZoneRequest>;
+).annotate({ identifier: "PatchRuleForZoneRequest" }) as any as S.Schema<PatchRuleForZoneRequest>;
 
 export type PhasesUpdateRequestRulesItemBlockRuleAction = "block";
 export const PhasesUpdateRequestRulesItemBlockRuleAction = S.String;
@@ -58757,6 +58828,13 @@ export type PhasesUpdateRequestRulesItemSetConfigRuleActionParametersSsl =
   | "origin_pull";
 export const PhasesUpdateRequestRulesItemSetConfigRuleActionParametersSsl = S.String;
 
+export type PhasesUpdateRequestRulesItemSetConfigRuleActionParametersWebmcpPacksList =
+  Array<string>;
+export const PhasesUpdateRequestRulesItemSetConfigRuleActionParametersWebmcpPacksList =
+  /*@__PURE__*/ S.Array(
+    S.String,
+  ) as any as S.Schema<PhasesUpdateRequestRulesItemSetConfigRuleActionParametersWebmcpPacksList>;
+
 export interface PhasesUpdateRequestRulesItemSetConfigRuleActionParameters {
   /** Whether to enable Automatic HTTPS Rewrites. */
   automaticHttpsRewrites?: boolean;
@@ -58808,6 +58886,10 @@ export interface PhasesUpdateRequestRulesItemSetConfigRuleActionParameters {
   ssl?: PhasesUpdateRequestRulesItemSetConfigRuleActionParametersSsl | (string & {});
   /** Signed Exchanges (SXG) is deprecated. */
   sxg?: boolean;
+  /** Whether to serve the WebMCP bridge script, which exposes the page's tools to browser AI agents. */
+  webmcpEnabled?: boolean;
+  /** Bundled WebMCP tool packs to activate for matching requests. An empty array disables all packs. Omitting this parameter leaves the pack selection unchanged. Does not enable the WebMCP bridge itself. Non-empty selections require the WebMCP Configuration Rules entitlement. */
+  webmcpPacks?: PhasesUpdateRequestRulesItemSetConfigRuleActionParametersWebmcpPacksList;
 }
 export const PhasesUpdateRequestRulesItemSetConfigRuleActionParameters = /*@__PURE__*/ S.suspend(
   () =>
@@ -58846,6 +58928,12 @@ export const PhasesUpdateRequestRulesItemSetConfigRuleActionParameters = /*@__PU
       serverSideExcludes: S.optional(S.Boolean.pipe(T.Body("server_side_excludes"))),
       ssl: S.optional(PhasesUpdateRequestRulesItemSetConfigRuleActionParametersSsl),
       sxg: S.optional(S.Boolean),
+      webmcpEnabled: S.optional(S.Boolean.pipe(T.Body("webmcp_enabled"))),
+      webmcpPacks: S.optional(
+        PhasesUpdateRequestRulesItemSetConfigRuleActionParametersWebmcpPacksList.pipe(
+          T.Body("webmcp_packs"),
+        ),
+      ),
     }),
 ).annotate({
   identifier: "PhasesUpdateRequestRulesItemSetConfigRuleActionParameters",
@@ -59640,9 +59728,7 @@ export const PutPhasForAccountRequest = /*@__PURE__*/ S.suspend(() =>
       }),
     )
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "PutPhasForAccountRequest",
-}) as any as S.Schema<PutPhasForAccountRequest>;
+).annotate({ identifier: "PutPhasForAccountRequest" }) as any as S.Schema<PutPhasForAccountRequest>;
 
 export type PhasesUpdateResultRulesetKind = "managed" | "custom" | "root" | "zone";
 export const PhasesUpdateResultRulesetKind = S.String;
@@ -64118,6 +64204,13 @@ export type PhasesUpdateResultRulesetRulesItemSetConfigurationRuleActionParamete
   | "origin_pull";
 export const PhasesUpdateResultRulesetRulesItemSetConfigurationRuleActionParametersSsl = S.String;
 
+export type PhasesUpdateResultRulesetRulesItemSetConfigurationRuleActionParametersWebmcpPacksList =
+  Array<string>;
+export const PhasesUpdateResultRulesetRulesItemSetConfigurationRuleActionParametersWebmcpPacksList =
+  /*@__PURE__*/ S.Array(
+    S.String,
+  ) as any as S.Schema<PhasesUpdateResultRulesetRulesItemSetConfigurationRuleActionParametersWebmcpPacksList>;
+
 export interface PhasesUpdateResultRulesetRulesItemSetConfigurationRuleActionParameters {
   /** Whether to enable Automatic HTTPS Rewrites. */
   automaticHttpsRewrites?: boolean | null;
@@ -64163,6 +64256,10 @@ export interface PhasesUpdateResultRulesetRulesItemSetConfigurationRuleActionPar
   ssl?: PhasesUpdateResultRulesetRulesItemSetConfigurationRuleActionParametersSsl | null;
   /** Signed Exchanges (SXG) is deprecated. */
   sxg?: boolean | null;
+  /** Whether to serve the WebMCP bridge script, which exposes the page's tools to browser AI agents. */
+  webmcpEnabled?: boolean | null;
+  /** Bundled WebMCP tool packs to activate for matching requests. An empty array disables all packs. Omitting this parameter leaves the pack selection unchanged. Does not enable the WebMCP bridge itself. Non-empty selections require the WebMCP Configuration Rules entitlement. */
+  webmcpPacks?: PhasesUpdateResultRulesetRulesItemSetConfigurationRuleActionParametersWebmcpPacksList | null;
 }
 export const PhasesUpdateResultRulesetRulesItemSetConfigurationRuleActionParameters =
   /*@__PURE__*/ S.suspend(() =>
@@ -64213,6 +64310,12 @@ export const PhasesUpdateResultRulesetRulesItemSetConfigurationRuleActionParamet
         S.NullOr(PhasesUpdateResultRulesetRulesItemSetConfigurationRuleActionParametersSsl),
       ),
       sxg: S.optional(S.NullOr(S.Boolean)),
+      webmcpEnabled: S.optional(S.NullOr(S.Boolean).pipe(T.Body("webmcp_enabled"))),
+      webmcpPacks: S.optional(
+        S.NullOr(
+          PhasesUpdateResultRulesetRulesItemSetConfigurationRuleActionParametersWebmcpPacksList,
+        ).pipe(T.Body("webmcp_packs")),
+      ),
     }),
   ).annotate({
     identifier: "PhasesUpdateResultRulesetRulesItemSetConfigurationRuleActionParameters",
@@ -65095,9 +65198,7 @@ export const PutPhasResponse = /*@__PURE__*/ S.suspend(() =>
     version: S.String,
     description: S.optional(S.NullOr(S.String)),
   }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "PutPhasResponse",
-}) as any as S.Schema<PutPhasResponse>;
+).annotate({ identifier: "PutPhasResponse" }) as any as S.Schema<PutPhasResponse>;
 
 export interface PutPhasForZoneRequest {
   /** The Zone ID to use for this endpoint. Mutually exclusive with the Account ID. */
@@ -65130,9 +65231,7 @@ export const PutPhasForZoneRequest = /*@__PURE__*/ S.suspend(() =>
       }),
     )
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "PutPhasForZoneRequest",
-}) as any as S.Schema<PutPhasForZoneRequest>;
+).annotate({ identifier: "PutPhasForZoneRequest" }) as any as S.Schema<PutPhasForZoneRequest>;
 
 export type UpdateRequestKind = "managed" | "custom" | "root" | "zone";
 export const UpdateRequestKind = S.String;
@@ -69336,6 +69435,12 @@ export type UpdateRequestRulesItemSetConfigRuleActionParametersSsl =
   | "origin_pull";
 export const UpdateRequestRulesItemSetConfigRuleActionParametersSsl = S.String;
 
+export type UpdateRequestRulesItemSetConfigRuleActionParametersWebmcpPacksList = Array<string>;
+export const UpdateRequestRulesItemSetConfigRuleActionParametersWebmcpPacksList =
+  /*@__PURE__*/ S.Array(
+    S.String,
+  ) as any as S.Schema<UpdateRequestRulesItemSetConfigRuleActionParametersWebmcpPacksList>;
+
 export interface UpdateRequestRulesItemSetConfigRuleActionParameters {
   /** Whether to enable Automatic HTTPS Rewrites. */
   automaticHttpsRewrites?: boolean;
@@ -69385,6 +69490,10 @@ export interface UpdateRequestRulesItemSetConfigRuleActionParameters {
   ssl?: UpdateRequestRulesItemSetConfigRuleActionParametersSsl | (string & {});
   /** Signed Exchanges (SXG) is deprecated. */
   sxg?: boolean;
+  /** Whether to serve the WebMCP bridge script, which exposes the page's tools to browser AI agents. */
+  webmcpEnabled?: boolean;
+  /** Bundled WebMCP tool packs to activate for matching requests. An empty array disables all packs. Omitting this parameter leaves the pack selection unchanged. Does not enable the WebMCP bridge itself. Non-empty selections require the WebMCP Configuration Rules entitlement. */
+  webmcpPacks?: UpdateRequestRulesItemSetConfigRuleActionParametersWebmcpPacksList;
 }
 export const UpdateRequestRulesItemSetConfigRuleActionParameters = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -69422,6 +69531,12 @@ export const UpdateRequestRulesItemSetConfigRuleActionParameters = /*@__PURE__*/
     serverSideExcludes: S.optional(S.Boolean.pipe(T.Body("server_side_excludes"))),
     ssl: S.optional(UpdateRequestRulesItemSetConfigRuleActionParametersSsl),
     sxg: S.optional(S.Boolean),
+    webmcpEnabled: S.optional(S.Boolean.pipe(T.Body("webmcp_enabled"))),
+    webmcpPacks: S.optional(
+      UpdateRequestRulesItemSetConfigRuleActionParametersWebmcpPacksList.pipe(
+        T.Body("webmcp_packs"),
+      ),
+    ),
   }),
 ).annotate({
   identifier: "UpdateRequestRulesItemSetConfigRuleActionParameters",
@@ -70203,13 +70318,7 @@ export const UpdateRulesetForAccountRequest = /*@__PURE__*/ S.suspend(() =>
     phase: S.optional(UpdateRequestPhase),
     rules: S.optional(UpdateRequestRulesList),
   })
-    .pipe(
-      T.Http({
-        method: "PUT",
-        uri: "/accounts/{account_id}/rulesets/{ruleset_id}",
-        code: 200,
-      }),
-    )
+    .pipe(T.Http({ method: "PUT", uri: "/accounts/{account_id}/rulesets/{ruleset_id}", code: 200 }))
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
 ).annotate({
   identifier: "UpdateRulesetForAccountRequest",
@@ -74611,6 +74720,13 @@ export type UpdateResultRulesetRulesItemSetConfigurationRuleActionParametersSsl 
   | "origin_pull";
 export const UpdateResultRulesetRulesItemSetConfigurationRuleActionParametersSsl = S.String;
 
+export type UpdateResultRulesetRulesItemSetConfigurationRuleActionParametersWebmcpPacksList =
+  Array<string>;
+export const UpdateResultRulesetRulesItemSetConfigurationRuleActionParametersWebmcpPacksList =
+  /*@__PURE__*/ S.Array(
+    S.String,
+  ) as any as S.Schema<UpdateResultRulesetRulesItemSetConfigurationRuleActionParametersWebmcpPacksList>;
+
 export interface UpdateResultRulesetRulesItemSetConfigurationRuleActionParameters {
   /** Whether to enable Automatic HTTPS Rewrites. */
   automaticHttpsRewrites?: boolean | null;
@@ -74656,6 +74772,10 @@ export interface UpdateResultRulesetRulesItemSetConfigurationRuleActionParameter
   ssl?: UpdateResultRulesetRulesItemSetConfigurationRuleActionParametersSsl | null;
   /** Signed Exchanges (SXG) is deprecated. */
   sxg?: boolean | null;
+  /** Whether to serve the WebMCP bridge script, which exposes the page's tools to browser AI agents. */
+  webmcpEnabled?: boolean | null;
+  /** Bundled WebMCP tool packs to activate for matching requests. An empty array disables all packs. Omitting this parameter leaves the pack selection unchanged. Does not enable the WebMCP bridge itself. Non-empty selections require the WebMCP Configuration Rules entitlement. */
+  webmcpPacks?: UpdateResultRulesetRulesItemSetConfigurationRuleActionParametersWebmcpPacksList | null;
 }
 export const UpdateResultRulesetRulesItemSetConfigurationRuleActionParameters =
   /*@__PURE__*/ S.suspend(() =>
@@ -74706,6 +74826,12 @@ export const UpdateResultRulesetRulesItemSetConfigurationRuleActionParameters =
         S.NullOr(UpdateResultRulesetRulesItemSetConfigurationRuleActionParametersSsl),
       ),
       sxg: S.optional(S.NullOr(S.Boolean)),
+      webmcpEnabled: S.optional(S.NullOr(S.Boolean).pipe(T.Body("webmcp_enabled"))),
+      webmcpPacks: S.optional(
+        S.NullOr(
+          UpdateResultRulesetRulesItemSetConfigurationRuleActionParametersWebmcpPacksList,
+        ).pipe(T.Body("webmcp_packs")),
+      ),
     }),
   ).annotate({
     identifier: "UpdateResultRulesetRulesItemSetConfigurationRuleActionParameters",
@@ -75567,9 +75693,7 @@ export const UpdateRulesetResponse = /*@__PURE__*/ S.suspend(() =>
     version: S.String,
     description: S.optional(S.NullOr(S.String)),
   }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "UpdateRulesetResponse",
-}) as any as S.Schema<UpdateRulesetResponse>;
+).annotate({ identifier: "UpdateRulesetResponse" }) as any as S.Schema<UpdateRulesetResponse>;
 
 export interface UpdateRulesetForZoneRequest {
   /** The Zone ID to use for this endpoint. Mutually exclusive with the Account ID. */
@@ -75600,13 +75724,7 @@ export const UpdateRulesetForZoneRequest = /*@__PURE__*/ S.suspend(() =>
     phase: S.optional(UpdateRequestPhase),
     rules: S.optional(UpdateRequestRulesList),
   })
-    .pipe(
-      T.Http({
-        method: "PUT",
-        uri: "/zones/{zone_id}/rulesets/{ruleset_id}",
-        code: 200,
-      }),
-    )
+    .pipe(T.Http({ method: "PUT", uri: "/zones/{zone_id}/rulesets/{ruleset_id}", code: 200 }))
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
 ).annotate({
   identifier: "UpdateRulesetForZoneRequest",

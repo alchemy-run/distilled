@@ -45,9 +45,7 @@ const KEY_DICTIONARY: Record<string, string | ReadonlyArray<string>> = {
   urlScanId: "url_scan_id",
 };
 
-export type QueriesBulkRequestQueriesItemMap = {
-  [key: string]: unknown | undefined;
-};
+export type QueriesBulkRequestQueriesItemMap = { [key: string]: unknown | undefined };
 export const QueriesBulkRequestQueriesItemMap = /*@__PURE__*/ S.Record(
   S.String,
   S.Unknown,
@@ -75,16 +73,12 @@ export const BulkQueryRequest = /*@__PURE__*/ S.suspend(() =>
       }),
     )
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "BulkQueryRequest",
-}) as any as S.Schema<BulkQueryRequest>;
+).annotate({ identifier: "BulkQueryRequest" }) as any as S.Schema<BulkQueryRequest>;
 
 export interface BulkQueryResponse {}
 export const BulkQueryResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({}).pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "BulkQueryResponse",
-}) as any as S.Schema<BulkQueryResponse>;
+).annotate({ identifier: "BulkQueryResponse" }) as any as S.Schema<BulkQueryResponse>;
 
 export interface CreateLogoRequest {
   accountId: string;
@@ -102,16 +96,10 @@ export const CreateLogoRequest = /*@__PURE__*/ S.suspend(() =>
     image: S.optional(S.Unknown),
   })
     .pipe(
-      T.Http({
-        method: "POST",
-        uri: "/accounts/{account_id}/brand-protection/logos",
-        code: 200,
-      }),
+      T.Http({ method: "POST", uri: "/accounts/{account_id}/brand-protection/logos", code: 200 }),
     )
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "CreateLogoRequest",
-}) as any as S.Schema<CreateLogoRequest>;
+).annotate({ identifier: "CreateLogoRequest" }) as any as S.Schema<CreateLogoRequest>;
 
 /** Raw response payload (operation does not use the standard v4 result envelope). */
 export interface CreateLogoResponse {
@@ -125,9 +113,7 @@ export const CreateLogoResponse = /*@__PURE__*/ S.suspend(() =>
     tag: S.optional(S.NullOr(S.String)),
     uploadPath: S.optional(S.NullOr(S.String).pipe(T.Body("upload_path"))),
   }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "CreateLogoResponse",
-}) as any as S.Schema<CreateLogoResponse>;
+).annotate({ identifier: "CreateLogoResponse" }) as any as S.Schema<CreateLogoResponse>;
 
 export interface CreateQueryRequest {
   accountId: string;
@@ -153,23 +139,15 @@ export const CreateQueryRequest = /*@__PURE__*/ S.suspend(() =>
     bodyTag: S.optional(S.String.pipe(T.Body("tag"))),
   })
     .pipe(
-      T.Http({
-        method: "POST",
-        uri: "/accounts/{account_id}/brand-protection/queries",
-        code: 200,
-      }),
+      T.Http({ method: "POST", uri: "/accounts/{account_id}/brand-protection/queries", code: 200 }),
     )
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "CreateQueryRequest",
-}) as any as S.Schema<CreateQueryRequest>;
+).annotate({ identifier: "CreateQueryRequest" }) as any as S.Schema<CreateQueryRequest>;
 
 export interface CreateQueryResponse {}
 export const CreateQueryResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({}).pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "CreateQueryResponse",
-}) as any as S.Schema<CreateQueryResponse>;
+).annotate({ identifier: "CreateQueryResponse" }) as any as S.Schema<CreateQueryResponse>;
 
 export interface CreateV2LogoRequest {
   accountId: string;
@@ -198,9 +176,7 @@ export const CreateV2LogoRequest = /*@__PURE__*/ S.suspend(() =>
       }),
     )
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "CreateV2LogoRequest",
-}) as any as S.Schema<CreateV2LogoRequest>;
+).annotate({ identifier: "CreateV2LogoRequest" }) as any as S.Schema<CreateV2LogoRequest>;
 
 /** Raw response payload (operation does not use the standard v4 result envelope). */
 export interface CreateV2LogoResponse {
@@ -212,9 +188,7 @@ export const CreateV2LogoResponse = /*@__PURE__*/ S.suspend(() =>
     message: S.String,
     queryId: S.optional(S.NullOr(S.Number).pipe(T.Body("query_id"))),
   }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "CreateV2LogoResponse",
-}) as any as S.Schema<CreateV2LogoResponse>;
+).annotate({ identifier: "CreateV2LogoResponse" }) as any as S.Schema<CreateV2LogoResponse>;
 
 export interface DeleteLogoRequest {
   accountId: string;
@@ -233,16 +207,12 @@ export const DeleteLogoRequest = /*@__PURE__*/ S.suspend(() =>
       }),
     )
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "DeleteLogoRequest",
-}) as any as S.Schema<DeleteLogoRequest>;
+).annotate({ identifier: "DeleteLogoRequest" }) as any as S.Schema<DeleteLogoRequest>;
 
 export interface DeleteLogoResponse {}
 export const DeleteLogoResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({}).pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "DeleteLogoResponse",
-}) as any as S.Schema<DeleteLogoResponse>;
+).annotate({ identifier: "DeleteLogoResponse" }) as any as S.Schema<DeleteLogoResponse>;
 
 export interface DeleteQueryRequest {
   accountId: string;
@@ -265,16 +235,12 @@ export const DeleteQueryRequest = /*@__PURE__*/ S.suspend(() =>
       }),
     )
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "DeleteQueryRequest",
-}) as any as S.Schema<DeleteQueryRequest>;
+).annotate({ identifier: "DeleteQueryRequest" }) as any as S.Schema<DeleteQueryRequest>;
 
 export interface DeleteQueryResponse {}
 export const DeleteQueryResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({}).pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "DeleteQueryResponse",
-}) as any as S.Schema<DeleteQueryResponse>;
+).annotate({ identifier: "DeleteQueryResponse" }) as any as S.Schema<DeleteQueryResponse>;
 
 export interface DeleteV2LogoRequest {
   accountId: string;
@@ -293,9 +259,7 @@ export const DeleteV2LogoRequest = /*@__PURE__*/ S.suspend(() =>
       }),
     )
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "DeleteV2LogoRequest",
-}) as any as S.Schema<DeleteV2LogoRequest>;
+).annotate({ identifier: "DeleteV2LogoRequest" }) as any as S.Schema<DeleteV2LogoRequest>;
 
 /** Raw response payload (operation does not use the standard v4 result envelope). */
 export interface DeleteV2LogoResponse {
@@ -305,9 +269,7 @@ export const DeleteV2LogoResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     message: S.String,
   }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "DeleteV2LogoResponse",
-}) as any as S.Schema<DeleteV2LogoResponse>;
+).annotate({ identifier: "DeleteV2LogoResponse" }) as any as S.Schema<DeleteV2LogoResponse>;
 
 export type LogoMatchesDownloadRequestLogoIdList = Array<string>;
 export const LogoMatchesDownloadRequestLogoIdList = /*@__PURE__*/ S.Array(
@@ -335,13 +297,9 @@ export const DownloadLogoMatchRequest = /*@__PURE__*/ S.suspend(() =>
       }),
     )
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "DownloadLogoMatchRequest",
-}) as any as S.Schema<DownloadLogoMatchRequest>;
+).annotate({ identifier: "DownloadLogoMatchRequest" }) as any as S.Schema<DownloadLogoMatchRequest>;
 
-export type LogoMatchesDownloadResponseMatchesItemMap = {
-  [key: string]: unknown | undefined;
-};
+export type LogoMatchesDownloadResponseMatchesItemMap = { [key: string]: unknown | undefined };
 export const LogoMatchesDownloadResponseMatchesItemMap = /*@__PURE__*/ S.Record(
   S.String,
   S.Unknown,
@@ -392,13 +350,9 @@ export const DownloadMatchRequest = /*@__PURE__*/ S.suspend(() =>
       }),
     )
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "DownloadMatchRequest",
-}) as any as S.Schema<DownloadMatchRequest>;
+).annotate({ identifier: "DownloadMatchRequest" }) as any as S.Schema<DownloadMatchRequest>;
 
-export type MatchesDownloadResponseMatchesItemMap = {
-  [key: string]: unknown | undefined;
-};
+export type MatchesDownloadResponseMatchesItemMap = { [key: string]: unknown | undefined };
 export const MatchesDownloadResponseMatchesItemMap = /*@__PURE__*/ S.Record(
   S.String,
   S.Unknown,
@@ -419,9 +373,7 @@ export const DownloadMatchResponse = /*@__PURE__*/ S.suspend(() =>
     matches: S.optional(S.NullOr(MatchesDownloadResponseMatchesList)),
     total: S.optional(S.NullOr(S.Number)),
   }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "DownloadMatchResponse",
-}) as any as S.Schema<DownloadMatchResponse>;
+).annotate({ identifier: "DownloadMatchResponse" }) as any as S.Schema<DownloadMatchResponse>;
 
 export type LogoMatchesGetRequestLogoIdList = Array<string>;
 export const LogoMatchesGetRequestLogoIdList = /*@__PURE__*/ S.Array(
@@ -449,13 +401,9 @@ export const GetLogoMatchRequest = /*@__PURE__*/ S.suspend(() =>
       }),
     )
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "GetLogoMatchRequest",
-}) as any as S.Schema<GetLogoMatchRequest>;
+).annotate({ identifier: "GetLogoMatchRequest" }) as any as S.Schema<GetLogoMatchRequest>;
 
-export type LogoMatchesGetResponseMatchesItemMap = {
-  [key: string]: unknown | undefined;
-};
+export type LogoMatchesGetResponseMatchesItemMap = { [key: string]: unknown | undefined };
 export const LogoMatchesGetResponseMatchesItemMap = /*@__PURE__*/ S.Record(
   S.String,
   S.Unknown,
@@ -476,9 +424,7 @@ export const GetLogoMatchResponse = /*@__PURE__*/ S.suspend(() =>
     matches: S.optional(S.NullOr(LogoMatchesGetResponseMatchesList)),
     total: S.optional(S.NullOr(S.Number)),
   }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "GetLogoMatchResponse",
-}) as any as S.Schema<GetLogoMatchResponse>;
+).annotate({ identifier: "GetLogoMatchResponse" }) as any as S.Schema<GetLogoMatchResponse>;
 
 export interface GetMatchRequest {
   accountId: string;
@@ -498,20 +444,12 @@ export const GetMatchRequest = /*@__PURE__*/ S.suspend(() =>
     offset: S.optional(S.Number.pipe(T.Query())),
   })
     .pipe(
-      T.Http({
-        method: "GET",
-        uri: "/accounts/{account_id}/brand-protection/matches",
-        code: 200,
-      }),
+      T.Http({ method: "GET", uri: "/accounts/{account_id}/brand-protection/matches", code: 200 }),
     )
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "GetMatchRequest",
-}) as any as S.Schema<GetMatchRequest>;
+).annotate({ identifier: "GetMatchRequest" }) as any as S.Schema<GetMatchRequest>;
 
-export type MatchesGetResponseMatchesItemMap = {
-  [key: string]: unknown | undefined;
-};
+export type MatchesGetResponseMatchesItemMap = { [key: string]: unknown | undefined };
 export const MatchesGetResponseMatchesItemMap = /*@__PURE__*/ S.Record(
   S.String,
   S.Unknown,
@@ -532,9 +470,7 @@ export const GetMatchResponse = /*@__PURE__*/ S.suspend(() =>
     matches: S.optional(S.NullOr(MatchesGetResponseMatchesList)),
     total: S.optional(S.NullOr(S.Number)),
   }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "GetMatchResponse",
-}) as any as S.Schema<GetMatchResponse>;
+).annotate({ identifier: "GetMatchResponse" }) as any as S.Schema<GetMatchResponse>;
 
 export interface GetV2LogoRequest {
   accountId: string;
@@ -557,9 +493,7 @@ export const GetV2LogoRequest = /*@__PURE__*/ S.suspend(() =>
       }),
     )
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "GetV2LogoRequest",
-}) as any as S.Schema<GetV2LogoRequest>;
+).annotate({ identifier: "GetV2LogoRequest" }) as any as S.Schema<GetV2LogoRequest>;
 
 /** Raw response payload (operation does not use the standard v4 result envelope). */
 export interface GetV2LogoResponse {
@@ -583,9 +517,7 @@ export const GetV2LogoResponse = /*@__PURE__*/ S.suspend(() =>
     contentType: S.optional(S.NullOr(S.String).pipe(T.Body("content_type"))),
     imageData: S.optional(S.NullOr(S.String).pipe(T.Body("image_data"))),
   }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "GetV2LogoResponse",
-}) as any as S.Schema<GetV2LogoResponse>;
+).annotate({ identifier: "GetV2LogoResponse" }) as any as S.Schema<GetV2LogoResponse>;
 
 export type V2LogoMatchesGetRequestOrder = "asc" | "desc";
 export const V2LogoMatchesGetRequestOrder = S.String;
@@ -626,9 +558,7 @@ export const GetV2LogoMatchRequest = /*@__PURE__*/ S.suspend(() =>
       }),
     )
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "GetV2LogoMatchRequest",
-}) as any as S.Schema<GetV2LogoMatchRequest>;
+).annotate({ identifier: "GetV2LogoMatchRequest" }) as any as S.Schema<GetV2LogoMatchRequest>;
 
 export interface V2LogoMatchesGetResponseMatchesItem {
   id: number;
@@ -672,9 +602,7 @@ export const GetV2LogoMatchResponse = /*@__PURE__*/ S.suspend(() =>
     matches: V2LogoMatchesGetResponseMatchesList,
     total: S.Number,
   }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "GetV2LogoMatchResponse",
-}) as any as S.Schema<GetV2LogoMatchResponse>;
+).annotate({ identifier: "GetV2LogoMatchResponse" }) as any as S.Schema<GetV2LogoMatchResponse>;
 
 export type V2MatchesGetRequestQueryIdList = Array<string>;
 export const V2MatchesGetRequestQueryIdList = /*@__PURE__*/ S.Array(
@@ -722,9 +650,7 @@ export const GetV2MatchRequest = /*@__PURE__*/ S.suspend(() =>
       }),
     )
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "GetV2MatchRequest",
-}) as any as S.Schema<GetV2MatchRequest>;
+).annotate({ identifier: "GetV2MatchRequest" }) as any as S.Schema<GetV2MatchRequest>;
 
 export interface V2MatchesGetResponseMatchesItemPublicScans {
   submissionId: string;
@@ -808,9 +734,7 @@ export const GetV2MatchResponse = /*@__PURE__*/ S.suspend(() =>
     matches: V2MatchesGetResponseMatchesList,
     total: S.Number,
   }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "GetV2MatchResponse",
-}) as any as S.Schema<GetV2MatchResponse>;
+).annotate({ identifier: "GetV2MatchResponse" }) as any as S.Schema<GetV2MatchResponse>;
 
 export interface GetV2QueryRequest {
   accountId: string;
@@ -835,9 +759,7 @@ export const GetV2QueryRequest = /*@__PURE__*/ S.suspend(() =>
       }),
     )
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "GetV2QueryRequest",
-}) as any as S.Schema<GetV2QueryRequest>;
+).annotate({ identifier: "GetV2QueryRequest" }) as any as S.Schema<GetV2QueryRequest>;
 
 export interface V2QueriesGetResultCase0ItemParametersStringMatchesItem {
   pattern: string;
@@ -944,9 +866,7 @@ export const V2QueriesGetResultCase1 = /*@__PURE__*/ S.suspend(() =>
     scan: S.Boolean,
     updated: S.String,
   }),
-).annotate({
-  identifier: "V2QueriesGetResultCase1",
-}) as any as S.Schema<V2QueriesGetResultCase1>;
+).annotate({ identifier: "V2QueriesGetResultCase1" }) as any as S.Schema<V2QueriesGetResultCase1>;
 
 export type V2QueriesGetResult = V2QueriesGetResultCase0List | V2QueriesGetResultCase1;
 export const V2QueriesGetResult = /*@__PURE__*/ S.Unknown.pipe(
@@ -956,9 +876,7 @@ export const V2QueriesGetResult = /*@__PURE__*/ S.Unknown.pipe(
 export type GetV2QueryResponse = V2QueriesGetResult;
 export const GetV2QueryResponse = /*@__PURE__*/ S.suspend(() =>
   V2QueriesGetResult.pipe(T.EnvelopePayloadRoot(), T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "GetV2QueryResponse",
-}) as any as S.Schema<GetV2QueryResponse>;
+).annotate({ identifier: "GetV2QueryResponse" }) as any as S.Schema<GetV2QueryResponse>;
 
 export interface SubmitBrandProtectionRequest {
   accountId: string;
@@ -968,20 +886,14 @@ export const SubmitBrandProtectionRequest = /*@__PURE__*/ S.suspend(() =>
     accountId: S.String.pipe(T.Label("account_id")),
   })
     .pipe(
-      T.Http({
-        method: "POST",
-        uri: "/accounts/{account_id}/brand-protection/submit",
-        code: 200,
-      }),
+      T.Http({ method: "POST", uri: "/accounts/{account_id}/brand-protection/submit", code: 200 }),
     )
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
 ).annotate({
   identifier: "SubmitBrandProtectionRequest",
 }) as any as S.Schema<SubmitBrandProtectionRequest>;
 
-export type SubmitResponseSkippedUrlsItemMap = {
-  [key: string]: unknown | undefined;
-};
+export type SubmitResponseSkippedUrlsItemMap = { [key: string]: unknown | undefined };
 export const SubmitResponseSkippedUrlsItemMap = /*@__PURE__*/ S.Record(
   S.String,
   S.Unknown,
@@ -992,9 +904,7 @@ export const SubmitResponseSkippedUrlsList = /*@__PURE__*/ S.Array(
   SubmitResponseSkippedUrlsItemMap,
 ) as any as S.Schema<SubmitResponseSkippedUrlsList>;
 
-export type SubmitResponseSubmittedUrlsItemMap = {
-  [key: string]: unknown | undefined;
-};
+export type SubmitResponseSubmittedUrlsItemMap = { [key: string]: unknown | undefined };
 export const SubmitResponseSubmittedUrlsItemMap = /*@__PURE__*/ S.Record(
   S.String,
   S.Unknown,
@@ -1029,11 +939,7 @@ export const UrlInfoBrandProtectionRequest = /*@__PURE__*/ S.suspend(() =>
     accountId: S.String.pipe(T.Label("account_id")),
   })
     .pipe(
-      T.Http({
-        method: "GET",
-        uri: "/accounts/{account_id}/brand-protection/url-info",
-        code: 200,
-      }),
+      T.Http({ method: "GET", uri: "/accounts/{account_id}/brand-protection/url-info", code: 200 }),
     )
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
 ).annotate({

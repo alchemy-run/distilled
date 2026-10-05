@@ -36,13 +36,7 @@ export const CreateTenantCustomNameserverRequest = /*@__PURE__*/ S.suspend(() =>
     nsName: S.String.pipe(T.Body("ns_name")),
     nsSet: S.optional(S.Number.pipe(T.Body("ns_set"))),
   })
-    .pipe(
-      T.Http({
-        method: "POST",
-        uri: "/tenants/{tenant_tag}/custom_ns",
-        code: 200,
-      }),
-    )
+    .pipe(T.Http({ method: "POST", uri: "/tenants/{tenant_tag}/custom_ns", code: 200 }))
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
 ).annotate({
   identifier: "CreateTenantCustomNameserverRequest",
@@ -150,13 +144,7 @@ export const GetTenantCustomNameserverRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     tenantTag: S.String.pipe(T.Label("tenant_tag")),
   })
-    .pipe(
-      T.Http({
-        method: "GET",
-        uri: "/tenants/{tenant_tag}/custom_ns",
-        code: 200,
-      }),
-    )
+    .pipe(T.Http({ method: "GET", uri: "/tenants/{tenant_tag}/custom_ns", code: 200 }))
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
 ).annotate({
   identifier: "GetTenantCustomNameserverRequest",

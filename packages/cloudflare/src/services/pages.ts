@@ -1017,7 +1017,7 @@ export const ProjectsCreateRequestSource = /*@__PURE__*/ S.suspend(() =>
 export interface CreateProjectRequest {
   /** Identifier. */
   accountId: string;
-  /** Name of the project. */
+  /** Name for the Pages project. Must begin with a lowercase letter or digit and contain only lowercase letters, digits, and hyphens. */
   name: string;
   /** Production branch of the project. Used to identify production deployments. */
   productionBranch: string;
@@ -1039,17 +1039,9 @@ export const CreateProjectRequest = /*@__PURE__*/ S.suspend(() =>
     ),
     source: S.optional(ProjectsCreateRequestSource),
   })
-    .pipe(
-      T.Http({
-        method: "POST",
-        uri: "/accounts/{account_id}/pages/projects",
-        code: 200,
-      }),
-    )
+    .pipe(T.Http({ method: "POST", uri: "/accounts/{account_id}/pages/projects", code: 200 }))
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "CreateProjectRequest",
-}) as any as S.Schema<CreateProjectRequest>;
+).annotate({ identifier: "CreateProjectRequest" }) as any as S.Schema<CreateProjectRequest>;
 
 export type ProjectsCreateResponseCanonicalDeploymentAliasesList = Array<string>;
 export const ProjectsCreateResponseCanonicalDeploymentAliasesList = /*@__PURE__*/ S.Array(
@@ -1143,7 +1135,8 @@ export type ProjectsCreateResponseCanonicalDeploymentLatestStageStatus =
   | "idle"
   | "active"
   | "failure"
-  | "canceled";
+  | "canceled"
+  | "skipped";
 export const ProjectsCreateResponseCanonicalDeploymentLatestStageStatus = S.String;
 
 export interface ProjectsCreateResponseCanonicalDeploymentLatestStage {
@@ -1291,7 +1284,8 @@ export type ProjectsCreateResponseCanonicalDeploymentStagesItemStatus =
   | "idle"
   | "active"
   | "failure"
-  | "canceled";
+  | "canceled"
+  | "skipped";
 export const ProjectsCreateResponseCanonicalDeploymentStagesItemStatus = S.String;
 
 export interface ProjectsCreateResponseCanonicalDeploymentStagesItem {
@@ -1327,7 +1321,8 @@ export type ProjectsCreateResponseCanonicalDeploymentSkipReason =
   | "production_deployments_disabled"
   | "path_config"
   | "branch_config"
-  | "pages_to_workers_conversion";
+  | "pages_to_workers_conversion"
+  | "superseded_queued_build";
 export const ProjectsCreateResponseCanonicalDeploymentSkipReason = S.String;
 
 export interface ProjectsCreateResponseCanonicalDeployment {
@@ -1345,7 +1340,7 @@ export interface ProjectsCreateResponseCanonicalDeployment {
   envVars: UntypedBindingMap;
   /** Type of deploy. */
   environment: ProjectsCreateResponseCanonicalDeploymentEnvironment;
-  /** If the deployment has been skipped. */
+  /** Whether the deployment was skipped. */
   isSkipped: boolean;
   /** The status of the deployment. */
   latestStage: ProjectsCreateResponseCanonicalDeploymentLatestStage;
@@ -1353,7 +1348,7 @@ export interface ProjectsCreateResponseCanonicalDeployment {
   modifiedOn: string;
   /** Id of the project. */
   projectId: string;
-  /** Name of the project. */
+  /** Name of the Pages project. Must begin with a lowercase letter or digit and contain only lowercase letters, digits, and hyphens. */
   projectName: string;
   /** Short Id (8 character) of the deployment. */
   shortId: string;
@@ -2107,7 +2102,8 @@ export type ProjectsCreateResponseLatestDeploymentLatestStageStatus =
   | "idle"
   | "active"
   | "failure"
-  | "canceled";
+  | "canceled"
+  | "skipped";
 export const ProjectsCreateResponseLatestDeploymentLatestStageStatus = S.String;
 
 export interface ProjectsCreateResponseLatestDeploymentLatestStage {
@@ -2254,7 +2250,8 @@ export type ProjectsCreateResponseLatestDeploymentStagesItemStatus =
   | "idle"
   | "active"
   | "failure"
-  | "canceled";
+  | "canceled"
+  | "skipped";
 export const ProjectsCreateResponseLatestDeploymentStagesItemStatus = S.String;
 
 export interface ProjectsCreateResponseLatestDeploymentStagesItem {
@@ -2290,7 +2287,8 @@ export type ProjectsCreateResponseLatestDeploymentSkipReason =
   | "production_deployments_disabled"
   | "path_config"
   | "branch_config"
-  | "pages_to_workers_conversion";
+  | "pages_to_workers_conversion"
+  | "superseded_queued_build";
 export const ProjectsCreateResponseLatestDeploymentSkipReason = S.String;
 
 export interface ProjectsCreateResponseLatestDeployment {
@@ -2308,7 +2306,7 @@ export interface ProjectsCreateResponseLatestDeployment {
   envVars: ProjectsCreateResponseLatestDeploymentEnvVars;
   /** Type of deploy. */
   environment: ProjectsCreateResponseLatestDeploymentEnvironment;
-  /** If the deployment has been skipped. */
+  /** Whether the deployment was skipped. */
   isSkipped: boolean;
   /** The status of the deployment. */
   latestStage: ProjectsCreateResponseLatestDeploymentLatestStage;
@@ -2316,7 +2314,7 @@ export interface ProjectsCreateResponseLatestDeployment {
   modifiedOn: string;
   /** Id of the project. */
   projectId: string;
-  /** Name of the project. */
+  /** Name of the Pages project. Must begin with a lowercase letter or digit and contain only lowercase letters, digits, and hyphens. */
   projectName: string;
   /** Short Id (8 character) of the deployment. */
   shortId: string;
@@ -2480,7 +2478,7 @@ export interface CreateProjectResponse {
   frameworkVersion: string;
   /** Most recent deployment of the project. */
   latestDeployment: ProjectsCreateResponseLatestDeployment;
-  /** Name of the project. */
+  /** Name of the Pages project. Must begin with a lowercase letter or digit and contain only lowercase letters, digits, and hyphens. */
   name: string;
   /** Name of the preview script. */
   previewScriptName: string;
@@ -2522,14 +2520,12 @@ export const CreateProjectResponse = /*@__PURE__*/ S.suspend(() =>
     source: S.optional(S.NullOr(ProjectsCreateResponseSource)),
     subdomain: S.optional(S.NullOr(S.String)),
   }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "CreateProjectResponse",
-}) as any as S.Schema<CreateProjectResponse>;
+).annotate({ identifier: "CreateProjectResponse" }) as any as S.Schema<CreateProjectResponse>;
 
 export interface CreateProjectDeploymentRequest {
   /** Identifier. */
   accountId: string;
-  /** Name of the project. */
+  /** Name of the Pages project. Must begin with a lowercase letter or digit and contain only lowercase letters, digits, and hyphens. */
   projectName: string;
   /** Headers configuration file for the deployment. */
   headers?: unknown;
@@ -2541,17 +2537,17 @@ export interface CreateProjectDeploymentRequest {
   workerBundle?: unknown;
   /** Worker JavaScript file. Mutually exclusive with `_worker.bundle`. Cannot specify both `_worker.js` and `_worker.bundle` in the same request. */
   workerJs?: unknown;
-  /** The branch to build the new deployment from. The `HEAD` of the branch will be used. If omitted, the production branch will be used by default. */
+  /** Git branch to deploy. Uses the branch's `HEAD`; defaults to the project's production branch. */
   branch?: string;
-  /** Boolean string indicating if the working directory has uncommitted changes. */
+  /** Whether the associated Git working tree has uncommitted changes. Provide `true` or `false`. */
   commitDirty?: boolean;
-  /** Git commit SHA associated with this deployment. */
+  /** Git commit SHA associated with the deployment. */
   commitHash?: string;
-  /** Git commit message associated with this deployment. */
+  /** Git commit message associated with the deployment. */
   commitMessage?: string;
   /** Functions routing configuration file. */
   functionsFilepathRoutingConfigJson?: unknown;
-  /** JSON string containing a manifest of files to deploy. Maps file paths to their content hashes. Required for direct upload deployments. Maximum 20,000 entries. */
+  /** JSON-encoded object mapping deployment file paths to their uploaded content hashes. Required for Direct Upload deployments. Maximum 20,000 entries. */
   manifest?: string;
   /** The build output directory path. */
   pagesBuildOutputDir?: string;
@@ -2643,7 +2639,8 @@ export type ProjectsDeploymentsCreateResponseLatestStageStatus =
   | "idle"
   | "active"
   | "failure"
-  | "canceled";
+  | "canceled"
+  | "skipped";
 export const ProjectsDeploymentsCreateResponseLatestStageStatus = S.String;
 
 export interface ProjectsDeploymentsCreateResponseLatestStage {
@@ -2786,7 +2783,8 @@ export type ProjectsDeploymentsCreateResponseStagesItemStatus =
   | "idle"
   | "active"
   | "failure"
-  | "canceled";
+  | "canceled"
+  | "skipped";
 export const ProjectsDeploymentsCreateResponseStagesItemStatus = S.String;
 
 export interface ProjectsDeploymentsCreateResponseStagesItem {
@@ -2822,7 +2820,8 @@ export type ProjectsDeploymentsCreateResponseSkipReason =
   | "production_deployments_disabled"
   | "path_config"
   | "branch_config"
-  | "pages_to_workers_conversion";
+  | "pages_to_workers_conversion"
+  | "superseded_queued_build";
 export const ProjectsDeploymentsCreateResponseSkipReason = S.String;
 
 /** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
@@ -2841,7 +2840,7 @@ export interface CreateProjectDeploymentResponse {
   envVars: UntypedBindingMap;
   /** Type of deploy. */
   environment: ProjectsDeploymentsCreateResponseEnvironment;
-  /** If the deployment has been skipped. */
+  /** Whether the deployment was skipped. */
   isSkipped: boolean;
   /** The status of the deployment. */
   latestStage: ProjectsDeploymentsCreateResponseLatestStage;
@@ -2849,7 +2848,7 @@ export interface CreateProjectDeploymentResponse {
   modifiedOn: string;
   /** Id of the project. */
   projectId: string;
-  /** Name of the project. */
+  /** Name of the Pages project. Must begin with a lowercase letter or digit and contain only lowercase letters, digits, and hyphens. */
   projectName: string;
   /** Short Id (8 character) of the deployment. */
   shortId: string;
@@ -2896,9 +2895,9 @@ export const CreateProjectDeploymentResponse = /*@__PURE__*/ S.suspend(() =>
 export interface CreateProjectDomainRequest {
   /** Identifier. */
   accountId: string;
-  /** Name of the project. */
+  /** Name of the Pages project. Must begin with a lowercase letter or digit and contain only lowercase letters, digits, and hyphens. */
   projectName: string;
-  /** The domain name. */
+  /** Fully qualified domain name for the Pages project, such as `example.com`. */
   name: string;
 }
 export const CreateProjectDomainRequest = /*@__PURE__*/ S.suspend(() =>
@@ -2988,7 +2987,7 @@ export interface CreateProjectDomainResponse {
   certificateAuthority: ProjectsDomainsCreateResponseCertificateAuthority;
   createdOn: string;
   domainId: string;
-  /** The domain name. */
+  /** Fully qualified domain name for the Pages project, such as `example.com`. */
   name: string;
   status: ProjectsDomainsCreateResponseStatus;
   validationData: ProjectsDomainsCreateResponseValidationData;
@@ -3032,9 +3031,9 @@ export const CreateProjectsDeploymentsTailRequestFiltersList = /*@__PURE__*/ S.A
 export interface CreateProjectsDeploymentsTailRequest {
   /** Identifier. */
   accountId: string;
-  /** Name of the project. */
+  /** Name of the Pages project. Must begin with a lowercase letter or digit and contain only lowercase letters, digits, and hyphens. */
   projectName: string;
-  /** Identifier. */
+  /** UUID of the Pages deployment, as returned by deployment list or create operations. */
   deploymentId: string;
   /** Filters to apply to the tail session. */
   filters?: CreateProjectsDeploymentsTailRequestFiltersList;
@@ -3077,7 +3076,7 @@ export const CreateProjectsDeploymentsTailResponse = /*@__PURE__*/ S.suspend(() 
 export interface DeleteProjectRequest {
   /** Identifier. */
   accountId: string;
-  /** Name of the project. */
+  /** Name of the Pages project. Must begin with a lowercase letter or digit and contain only lowercase letters, digits, and hyphens. */
   projectName: string;
 }
 export const DeleteProjectRequest = /*@__PURE__*/ S.suspend(() =>
@@ -3093,25 +3092,21 @@ export const DeleteProjectRequest = /*@__PURE__*/ S.suspend(() =>
       }),
     )
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "DeleteProjectRequest",
-}) as any as S.Schema<DeleteProjectRequest>;
+).annotate({ identifier: "DeleteProjectRequest" }) as any as S.Schema<DeleteProjectRequest>;
 
 export type DeleteProjectResponse = unknown;
 export const DeleteProjectResponse = /*@__PURE__*/ S.suspend(() =>
   S.Unknown.pipe(T.EnvelopePayloadRoot(), T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "DeleteProjectResponse",
-}) as any as S.Schema<DeleteProjectResponse>;
+).annotate({ identifier: "DeleteProjectResponse" }) as any as S.Schema<DeleteProjectResponse>;
 
 export interface DeleteProjectDeploymentRequest {
   /** Identifier. */
   accountId: string;
-  /** Name of the project. */
+  /** Name of the Pages project. Must begin with a lowercase letter or digit and contain only lowercase letters, digits, and hyphens. */
   projectName: string;
-  /** Identifier. */
+  /** UUID of the Pages deployment, as returned by deployment list or create operations. */
   deploymentId: string;
-  /** Allow deletion of aliased non-production deployments when a normal delete would be rejected. */
+  /** Allow deletion when a non-production deployment has an active alias. */
   force?: boolean;
 }
 export const DeleteProjectDeploymentRequest = /*@__PURE__*/ S.suspend(() =>
@@ -3143,9 +3138,9 @@ export const DeleteProjectDeploymentResponse = /*@__PURE__*/ S.suspend(() =>
 export interface DeleteProjectDomainRequest {
   /** Identifier. */
   accountId: string;
-  /** Name of the project. */
+  /** Name of the Pages project. Must begin with a lowercase letter or digit and contain only lowercase letters, digits, and hyphens. */
   projectName: string;
-  /** The domain name. */
+  /** Fully qualified domain name for the Pages project, such as `example.com`. */
   domainName: string;
 }
 export const DeleteProjectDomainRequest = /*@__PURE__*/ S.suspend(() =>
@@ -3176,9 +3171,9 @@ export const DeleteProjectDomainResponse = /*@__PURE__*/ S.suspend(() =>
 export interface DeleteProjectsDeploymentsTailRequest {
   /** Identifier. */
   accountId: string;
-  /** Name of the project. */
+  /** Name of the Pages project. Must begin with a lowercase letter or digit and contain only lowercase letters, digits, and hyphens. */
   projectName: string;
-  /** Identifier. */
+  /** UUID of the Pages deployment, as returned by deployment list or create operations. */
   deploymentId: string;
   /** Identifier. */
   tailId: string;
@@ -3212,7 +3207,7 @@ export const DeleteProjectsDeploymentsTailResponse = /*@__PURE__*/ S.suspend(() 
 export interface GetProjectRequest {
   /** Identifier. */
   accountId: string;
-  /** Name of the project. */
+  /** Name of the Pages project. Must begin with a lowercase letter or digit and contain only lowercase letters, digits, and hyphens. */
   projectName: string;
 }
 export const GetProjectRequest = /*@__PURE__*/ S.suspend(() =>
@@ -3228,9 +3223,7 @@ export const GetProjectRequest = /*@__PURE__*/ S.suspend(() =>
       }),
     )
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "GetProjectRequest",
-}) as any as S.Schema<GetProjectRequest>;
+).annotate({ identifier: "GetProjectRequest" }) as any as S.Schema<GetProjectRequest>;
 
 export type ProjectsGetResponseCanonicalDeploymentAliasesList = Array<string>;
 export const ProjectsGetResponseCanonicalDeploymentAliasesList = /*@__PURE__*/ S.Array(
@@ -3284,7 +3277,8 @@ export type ProjectsGetResponseCanonicalDeploymentLatestStageStatus =
   | "idle"
   | "active"
   | "failure"
-  | "canceled";
+  | "canceled"
+  | "skipped";
 export const ProjectsGetResponseCanonicalDeploymentLatestStageStatus = S.String;
 
 export interface ProjectsGetResponseCanonicalDeploymentLatestStage {
@@ -3431,7 +3425,8 @@ export type ProjectsGetResponseCanonicalDeploymentStagesItemStatus =
   | "idle"
   | "active"
   | "failure"
-  | "canceled";
+  | "canceled"
+  | "skipped";
 export const ProjectsGetResponseCanonicalDeploymentStagesItemStatus = S.String;
 
 export interface ProjectsGetResponseCanonicalDeploymentStagesItem {
@@ -3467,7 +3462,8 @@ export type ProjectsGetResponseCanonicalDeploymentSkipReason =
   | "production_deployments_disabled"
   | "path_config"
   | "branch_config"
-  | "pages_to_workers_conversion";
+  | "pages_to_workers_conversion"
+  | "superseded_queued_build";
 export const ProjectsGetResponseCanonicalDeploymentSkipReason = S.String;
 
 export interface ProjectsGetResponseCanonicalDeployment {
@@ -3485,7 +3481,7 @@ export interface ProjectsGetResponseCanonicalDeployment {
   envVars: UntypedBindingMap;
   /** Type of deploy. */
   environment: ProjectsGetResponseCanonicalDeploymentEnvironment;
-  /** If the deployment has been skipped. */
+  /** Whether the deployment was skipped. */
   isSkipped: boolean;
   /** The status of the deployment. */
   latestStage: ProjectsGetResponseCanonicalDeploymentLatestStage;
@@ -3493,7 +3489,7 @@ export interface ProjectsGetResponseCanonicalDeployment {
   modifiedOn: string;
   /** Id of the project. */
   projectId: string;
-  /** Name of the project. */
+  /** Name of the Pages project. Must begin with a lowercase letter or digit and contain only lowercase letters, digits, and hyphens. */
   projectName: string;
   /** Short Id (8 character) of the deployment. */
   shortId: string;
@@ -4224,7 +4220,8 @@ export type ProjectsGetResponseLatestDeploymentLatestStageStatus =
   | "idle"
   | "active"
   | "failure"
-  | "canceled";
+  | "canceled"
+  | "skipped";
 export const ProjectsGetResponseLatestDeploymentLatestStageStatus = S.String;
 
 export interface ProjectsGetResponseLatestDeploymentLatestStage {
@@ -4371,7 +4368,8 @@ export type ProjectsGetResponseLatestDeploymentStagesItemStatus =
   | "idle"
   | "active"
   | "failure"
-  | "canceled";
+  | "canceled"
+  | "skipped";
 export const ProjectsGetResponseLatestDeploymentStagesItemStatus = S.String;
 
 export interface ProjectsGetResponseLatestDeploymentStagesItem {
@@ -4407,7 +4405,8 @@ export type ProjectsGetResponseLatestDeploymentSkipReason =
   | "production_deployments_disabled"
   | "path_config"
   | "branch_config"
-  | "pages_to_workers_conversion";
+  | "pages_to_workers_conversion"
+  | "superseded_queued_build";
 export const ProjectsGetResponseLatestDeploymentSkipReason = S.String;
 
 export interface ProjectsGetResponseLatestDeployment {
@@ -4425,7 +4424,7 @@ export interface ProjectsGetResponseLatestDeployment {
   envVars: ProjectsGetResponseLatestDeploymentEnvVars;
   /** Type of deploy. */
   environment: ProjectsGetResponseLatestDeploymentEnvironment;
-  /** If the deployment has been skipped. */
+  /** Whether the deployment was skipped. */
   isSkipped: boolean;
   /** The status of the deployment. */
   latestStage: ProjectsGetResponseLatestDeploymentLatestStage;
@@ -4433,7 +4432,7 @@ export interface ProjectsGetResponseLatestDeployment {
   modifiedOn: string;
   /** Id of the project. */
   projectId: string;
-  /** Name of the project. */
+  /** Name of the Pages project. Must begin with a lowercase letter or digit and contain only lowercase letters, digits, and hyphens. */
   projectName: string;
   /** Short Id (8 character) of the deployment. */
   shortId: string;
@@ -4595,7 +4594,7 @@ export interface GetProjectResponse {
   frameworkVersion: string;
   /** Most recent deployment of the project. */
   latestDeployment: ProjectsGetResponseLatestDeployment;
-  /** Name of the project. */
+  /** Name of the Pages project. Must begin with a lowercase letter or digit and contain only lowercase letters, digits, and hyphens. */
   name: string;
   /** Name of the preview script. */
   previewScriptName: string;
@@ -4637,16 +4636,14 @@ export const GetProjectResponse = /*@__PURE__*/ S.suspend(() =>
     source: S.optional(S.NullOr(ProjectsGetResponseSource)),
     subdomain: S.optional(S.NullOr(S.String)),
   }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "GetProjectResponse",
-}) as any as S.Schema<GetProjectResponse>;
+).annotate({ identifier: "GetProjectResponse" }) as any as S.Schema<GetProjectResponse>;
 
 export interface GetProjectDeploymentRequest {
   /** Identifier. */
   accountId: string;
-  /** Name of the project. */
+  /** Name of the Pages project. Must begin with a lowercase letter or digit and contain only lowercase letters, digits, and hyphens. */
   projectName: string;
-  /** Identifier. */
+  /** UUID of the Pages deployment, as returned by deployment list or create operations. */
   deploymentId: string;
 }
 export const GetProjectDeploymentRequest = /*@__PURE__*/ S.suspend(() =>
@@ -4719,7 +4716,8 @@ export type ProjectsDeploymentsGetResponseLatestStageStatus =
   | "idle"
   | "active"
   | "failure"
-  | "canceled";
+  | "canceled"
+  | "skipped";
 export const ProjectsDeploymentsGetResponseLatestStageStatus = S.String;
 
 export interface ProjectsDeploymentsGetResponseLatestStage {
@@ -4860,7 +4858,8 @@ export type ProjectsDeploymentsGetResponseStagesItemStatus =
   | "idle"
   | "active"
   | "failure"
-  | "canceled";
+  | "canceled"
+  | "skipped";
 export const ProjectsDeploymentsGetResponseStagesItemStatus = S.String;
 
 export interface ProjectsDeploymentsGetResponseStagesItem {
@@ -4896,7 +4895,8 @@ export type ProjectsDeploymentsGetResponseSkipReason =
   | "production_deployments_disabled"
   | "path_config"
   | "branch_config"
-  | "pages_to_workers_conversion";
+  | "pages_to_workers_conversion"
+  | "superseded_queued_build";
 export const ProjectsDeploymentsGetResponseSkipReason = S.String;
 
 /** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
@@ -4915,7 +4915,7 @@ export interface GetProjectDeploymentResponse {
   envVars: UntypedBindingMap;
   /** Type of deploy. */
   environment: ProjectsDeploymentsGetResponseEnvironment;
-  /** If the deployment has been skipped. */
+  /** Whether the deployment was skipped. */
   isSkipped: boolean;
   /** The status of the deployment. */
   latestStage: ProjectsDeploymentsGetResponseLatestStage;
@@ -4923,7 +4923,7 @@ export interface GetProjectDeploymentResponse {
   modifiedOn: string;
   /** Id of the project. */
   projectId: string;
-  /** Name of the project. */
+  /** Name of the Pages project. Must begin with a lowercase letter or digit and contain only lowercase letters, digits, and hyphens. */
   projectName: string;
   /** Short Id (8 character) of the deployment. */
   shortId: string;
@@ -4970,9 +4970,9 @@ export const GetProjectDeploymentResponse = /*@__PURE__*/ S.suspend(() =>
 export interface GetProjectDeploymentHistoryLogRequest {
   /** Identifier. */
   accountId: string;
-  /** Name of the project. */
+  /** Name of the Pages project. Must begin with a lowercase letter or digit and contain only lowercase letters, digits, and hyphens. */
   projectName: string;
-  /** Identifier. */
+  /** UUID of the Pages deployment, as returned by deployment list or create operations. */
   deploymentId: string;
 }
 export const GetProjectDeploymentHistoryLogRequest = /*@__PURE__*/ S.suspend(() =>
@@ -5031,9 +5031,9 @@ export const GetProjectDeploymentHistoryLogResponse = /*@__PURE__*/ S.suspend(()
 export interface GetProjectDomainRequest {
   /** Identifier. */
   accountId: string;
-  /** Name of the project. */
+  /** Name of the Pages project. Must begin with a lowercase letter or digit and contain only lowercase letters, digits, and hyphens. */
   projectName: string;
-  /** The domain name. */
+  /** Fully qualified domain name for the Pages project, such as `example.com`. */
   domainName: string;
 }
 export const GetProjectDomainRequest = /*@__PURE__*/ S.suspend(() =>
@@ -5050,9 +5050,7 @@ export const GetProjectDomainRequest = /*@__PURE__*/ S.suspend(() =>
       }),
     )
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "GetProjectDomainRequest",
-}) as any as S.Schema<GetProjectDomainRequest>;
+).annotate({ identifier: "GetProjectDomainRequest" }) as any as S.Schema<GetProjectDomainRequest>;
 
 export type ProjectsDomainsGetResponseCertificateAuthority = "google" | "lets_encrypt";
 export const ProjectsDomainsGetResponseCertificateAuthority = S.String;
@@ -5123,7 +5121,7 @@ export interface GetProjectDomainResponse {
   certificateAuthority: ProjectsDomainsGetResponseCertificateAuthority;
   createdOn: string;
   domainId: string;
-  /** The domain name. */
+  /** Fully qualified domain name for the Pages project, such as `example.com`. */
   name: string;
   status: ProjectsDomainsGetResponseStatus;
   validationData: ProjectsDomainsGetResponseValidationData;
@@ -5144,9 +5142,7 @@ export const GetProjectDomainResponse = /*@__PURE__*/ S.suspend(() =>
     verificationData: ProjectsDomainsGetResponseVerificationData.pipe(T.Body("verification_data")),
     zoneTag: S.String.pipe(T.Body("zone_tag")),
   }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "GetProjectDomainResponse",
-}) as any as S.Schema<GetProjectDomainResponse>;
+).annotate({ identifier: "GetProjectDomainResponse" }) as any as S.Schema<GetProjectDomainResponse>;
 
 export type ProjectsDeploymentsListRequestEnv = "production" | "preview";
 export const ProjectsDeploymentsListRequestEnv = S.String;
@@ -5154,13 +5150,13 @@ export const ProjectsDeploymentsListRequestEnv = S.String;
 export interface ListProjectDeploymentsRequest {
   /** Identifier. */
   accountId: string;
-  /** Name of the project. */
+  /** Name of the Pages project. Must begin with a lowercase letter or digit and contain only lowercase letters, digits, and hyphens. */
   projectName: string;
-  /** What type of deployments to fetch. */
+  /** Deployment environment to return. Valid values are `production` and `preview`. */
   env?: ProjectsDeploymentsListRequestEnv | (string & {});
-  /** Which page of deployments to fetch. */
+  /** Page number of results to return. */
   page?: number;
-  /** How many deployments to return per page. */
+  /** Number of results to return per page. */
   perPage?: number;
 }
 export const ListProjectDeploymentsRequest = /*@__PURE__*/ S.suspend(() =>
@@ -5235,7 +5231,8 @@ export type ProjectsDeploymentsListResultItemLatestStageStatus =
   | "idle"
   | "active"
   | "failure"
-  | "canceled";
+  | "canceled"
+  | "skipped";
 export const ProjectsDeploymentsListResultItemLatestStageStatus = S.String;
 
 export interface ProjectsDeploymentsListResultItemLatestStage {
@@ -5378,7 +5375,8 @@ export type ProjectsDeploymentsListResultItemStagesItemStatus =
   | "idle"
   | "active"
   | "failure"
-  | "canceled";
+  | "canceled"
+  | "skipped";
 export const ProjectsDeploymentsListResultItemStagesItemStatus = S.String;
 
 export interface ProjectsDeploymentsListResultItemStagesItem {
@@ -5414,7 +5412,8 @@ export type ProjectsDeploymentsListResultItemSkipReason =
   | "production_deployments_disabled"
   | "path_config"
   | "branch_config"
-  | "pages_to_workers_conversion";
+  | "pages_to_workers_conversion"
+  | "superseded_queued_build";
 export const ProjectsDeploymentsListResultItemSkipReason = S.String;
 
 export interface ProjectsDeploymentsListResultItem {
@@ -5432,7 +5431,7 @@ export interface ProjectsDeploymentsListResultItem {
   envVars: UntypedBindingMap;
   /** Type of deploy. */
   environment: ProjectsDeploymentsListResultItemEnvironment;
-  /** If the deployment has been skipped. */
+  /** Whether the deployment was skipped. */
   isSkipped: boolean;
   /** The status of the deployment. */
   latestStage: ProjectsDeploymentsListResultItemLatestStage;
@@ -5440,7 +5439,7 @@ export interface ProjectsDeploymentsListResultItem {
   modifiedOn: string;
   /** Id of the project. */
   projectId: string;
-  /** Name of the project. */
+  /** Name of the Pages project. Must begin with a lowercase letter or digit and contain only lowercase letters, digits, and hyphens. */
   projectName: string;
   /** Short Id (8 character) of the deployment. */
   shortId: string;
@@ -5507,7 +5506,7 @@ export const ListProjectDeploymentsResponse = /*@__PURE__*/ S.suspend(() =>
 export interface ListProjectDomainsRequest {
   /** Identifier. */
   accountId: string;
-  /** Name of the project. */
+  /** Name of the Pages project. Must begin with a lowercase letter or digit and contain only lowercase letters, digits, and hyphens. */
   projectName: string;
 }
 export const ListProjectDomainsRequest = /*@__PURE__*/ S.suspend(() =>
@@ -5595,7 +5594,7 @@ export interface ProjectsDomainsListResultItem {
   certificateAuthority: ProjectsDomainsListResultItemCertificateAuthority;
   createdOn: string;
   domainId: string;
-  /** The domain name. */
+  /** Fully qualified domain name for the Pages project, such as `example.com`. */
   name: string;
   status: ProjectsDomainsListResultItemStatus;
   validationData: ProjectsDomainsListResultItemValidationData;
@@ -5645,9 +5644,9 @@ export const ListProjectDomainsResponse = /*@__PURE__*/ S.suspend(() =>
 export interface ListProjectsRequest {
   /** Identifier. */
   accountId: string;
-  /** Which page of projects to fetch. */
+  /** Page number of results to return. */
   page?: number;
-  /** How many projects to return per page. */
+  /** Number of results to return per page. */
   perPage?: number;
 }
 export const ListProjectsRequest = /*@__PURE__*/ S.suspend(() =>
@@ -5656,17 +5655,9 @@ export const ListProjectsRequest = /*@__PURE__*/ S.suspend(() =>
     page: S.optional(S.Number.pipe(T.Query())),
     perPage: S.optional(S.Number.pipe(T.Query("per_page"))),
   })
-    .pipe(
-      T.Http({
-        method: "GET",
-        uri: "/accounts/{account_id}/pages/projects",
-        code: 200,
-      }),
-    )
+    .pipe(T.Http({ method: "GET", uri: "/accounts/{account_id}/pages/projects", code: 200 }))
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "ListProjectsRequest",
-}) as any as S.Schema<ListProjectsRequest>;
+).annotate({ identifier: "ListProjectsRequest" }) as any as S.Schema<ListProjectsRequest>;
 
 export type ProjectsListResultItemCanonicalDeploymentAliasesList = Array<string>;
 export const ProjectsListResultItemCanonicalDeploymentAliasesList = /*@__PURE__*/ S.Array(
@@ -5721,7 +5712,8 @@ export type ProjectsListResultItemCanonicalDeploymentLatestStageStatus =
   | "idle"
   | "active"
   | "failure"
-  | "canceled";
+  | "canceled"
+  | "skipped";
 export const ProjectsListResultItemCanonicalDeploymentLatestStageStatus = S.String;
 
 export interface ProjectsListResultItemCanonicalDeploymentLatestStage {
@@ -5869,7 +5861,8 @@ export type ProjectsListResultItemCanonicalDeploymentStagesItemStatus =
   | "idle"
   | "active"
   | "failure"
-  | "canceled";
+  | "canceled"
+  | "skipped";
 export const ProjectsListResultItemCanonicalDeploymentStagesItemStatus = S.String;
 
 export interface ProjectsListResultItemCanonicalDeploymentStagesItem {
@@ -5905,7 +5898,8 @@ export type ProjectsListResultItemCanonicalDeploymentSkipReason =
   | "production_deployments_disabled"
   | "path_config"
   | "branch_config"
-  | "pages_to_workers_conversion";
+  | "pages_to_workers_conversion"
+  | "superseded_queued_build";
 export const ProjectsListResultItemCanonicalDeploymentSkipReason = S.String;
 
 export interface ProjectsListResultItemCanonicalDeployment {
@@ -5923,7 +5917,7 @@ export interface ProjectsListResultItemCanonicalDeployment {
   envVars: UntypedBindingMap;
   /** Type of deploy. */
   environment: ProjectsListResultItemCanonicalDeploymentEnvironment;
-  /** If the deployment has been skipped. */
+  /** Whether the deployment was skipped. */
   isSkipped: boolean;
   /** The status of the deployment. */
   latestStage: ProjectsListResultItemCanonicalDeploymentLatestStage;
@@ -5931,7 +5925,7 @@ export interface ProjectsListResultItemCanonicalDeployment {
   modifiedOn: string;
   /** Id of the project. */
   projectId: string;
-  /** Name of the project. */
+  /** Name of the Pages project. Must begin with a lowercase letter or digit and contain only lowercase letters, digits, and hyphens. */
   projectName: string;
   /** Short Id (8 character) of the deployment. */
   shortId: string;
@@ -6671,7 +6665,8 @@ export type ProjectsListResultItemLatestDeploymentLatestStageStatus =
   | "idle"
   | "active"
   | "failure"
-  | "canceled";
+  | "canceled"
+  | "skipped";
 export const ProjectsListResultItemLatestDeploymentLatestStageStatus = S.String;
 
 export interface ProjectsListResultItemLatestDeploymentLatestStage {
@@ -6818,7 +6813,8 @@ export type ProjectsListResultItemLatestDeploymentStagesItemStatus =
   | "idle"
   | "active"
   | "failure"
-  | "canceled";
+  | "canceled"
+  | "skipped";
 export const ProjectsListResultItemLatestDeploymentStagesItemStatus = S.String;
 
 export interface ProjectsListResultItemLatestDeploymentStagesItem {
@@ -6854,7 +6850,8 @@ export type ProjectsListResultItemLatestDeploymentSkipReason =
   | "production_deployments_disabled"
   | "path_config"
   | "branch_config"
-  | "pages_to_workers_conversion";
+  | "pages_to_workers_conversion"
+  | "superseded_queued_build";
 export const ProjectsListResultItemLatestDeploymentSkipReason = S.String;
 
 export interface ProjectsListResultItemLatestDeployment {
@@ -6872,7 +6869,7 @@ export interface ProjectsListResultItemLatestDeployment {
   envVars: ProjectsListResultItemLatestDeploymentEnvVars;
   /** Type of deploy. */
   environment: ProjectsListResultItemLatestDeploymentEnvironment;
-  /** If the deployment has been skipped. */
+  /** Whether the deployment was skipped. */
   isSkipped: boolean;
   /** The status of the deployment. */
   latestStage: ProjectsListResultItemLatestDeploymentLatestStage;
@@ -6880,7 +6877,7 @@ export interface ProjectsListResultItemLatestDeployment {
   modifiedOn: string;
   /** Id of the project. */
   projectId: string;
-  /** Name of the project. */
+  /** Name of the Pages project. Must begin with a lowercase letter or digit and contain only lowercase letters, digits, and hyphens. */
   projectName: string;
   /** Short Id (8 character) of the deployment. */
   shortId: string;
@@ -7043,7 +7040,7 @@ export interface ProjectsListResultItem {
   frameworkVersion: string;
   /** Most recent deployment of the project. */
   latestDeployment: ProjectsListResultItemLatestDeployment;
-  /** Name of the project. */
+  /** Name of the Pages project. Must begin with a lowercase letter or digit and contain only lowercase letters, digits, and hyphens. */
   name: string;
   /** Name of the preview script. */
   previewScriptName: string;
@@ -7085,9 +7082,7 @@ export const ProjectsListResultItem = /*@__PURE__*/ S.suspend(() =>
     source: S.optional(S.NullOr(ProjectsListResultItemSource)),
     subdomain: S.optional(S.NullOr(S.String)),
   }),
-).annotate({
-  identifier: "ProjectsListResultItem",
-}) as any as S.Schema<ProjectsListResultItem>;
+).annotate({ identifier: "ProjectsListResultItem" }) as any as S.Schema<ProjectsListResultItem>;
 
 export type ProjectsListResultList = Array<ProjectsListResultItem>;
 export const ProjectsListResultList = /*@__PURE__*/ S.Array(
@@ -7105,9 +7100,7 @@ export const ListProjectsResponse = /*@__PURE__*/ S.suspend(() =>
     result: ProjectsListResultList.pipe(T.EnvelopePayload()),
     resultInfo: S.optional(S.NullOr(ResultInfo).pipe(T.ResultInfo())),
   }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "ListProjectsResponse",
-}) as any as S.Schema<ListProjectsResponse>;
+).annotate({ identifier: "ListProjectsResponse" }) as any as S.Schema<ListProjectsResponse>;
 
 export type ProjectsEditRequestBuildConfig = ProjectsCreateRequestBuildConfig;
 export const ProjectsEditRequestBuildConfig = ProjectsCreateRequestBuildConfig;
@@ -7801,13 +7794,13 @@ export const ProjectsEditRequestSource = /*@__PURE__*/ S.suspend(() =>
 export interface PatchProjectRequest {
   /** Identifier. */
   accountId: string;
-  /** Name of the project. */
+  /** Name of the Pages project. Must begin with a lowercase letter or digit and contain only lowercase letters, digits, and hyphens. */
   projectName: string;
   /** Configs for the project build process. */
   buildConfig?: ProjectsCreateRequestBuildConfig;
   /** Configs for deployments in a project. */
   deploymentConfigs?: ProjectsEditRequestDeploymentConfigs;
-  /** Name of the project. */
+  /** Name for the Pages project. Must begin with a lowercase letter or digit and contain only lowercase letters, digits, and hyphens. */
   name?: string;
   /** Production branch of the project. Used to identify production deployments. */
   productionBranch?: string;
@@ -7834,9 +7827,7 @@ export const PatchProjectRequest = /*@__PURE__*/ S.suspend(() =>
       }),
     )
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "PatchProjectRequest",
-}) as any as S.Schema<PatchProjectRequest>;
+).annotate({ identifier: "PatchProjectRequest" }) as any as S.Schema<PatchProjectRequest>;
 
 export type ProjectsEditResponseCanonicalDeploymentAliasesList = Array<string>;
 export const ProjectsEditResponseCanonicalDeploymentAliasesList = /*@__PURE__*/ S.Array(
@@ -7891,7 +7882,8 @@ export type ProjectsEditResponseCanonicalDeploymentLatestStageStatus =
   | "idle"
   | "active"
   | "failure"
-  | "canceled";
+  | "canceled"
+  | "skipped";
 export const ProjectsEditResponseCanonicalDeploymentLatestStageStatus = S.String;
 
 export interface ProjectsEditResponseCanonicalDeploymentLatestStage {
@@ -8038,7 +8030,8 @@ export type ProjectsEditResponseCanonicalDeploymentStagesItemStatus =
   | "idle"
   | "active"
   | "failure"
-  | "canceled";
+  | "canceled"
+  | "skipped";
 export const ProjectsEditResponseCanonicalDeploymentStagesItemStatus = S.String;
 
 export interface ProjectsEditResponseCanonicalDeploymentStagesItem {
@@ -8074,7 +8067,8 @@ export type ProjectsEditResponseCanonicalDeploymentSkipReason =
   | "production_deployments_disabled"
   | "path_config"
   | "branch_config"
-  | "pages_to_workers_conversion";
+  | "pages_to_workers_conversion"
+  | "superseded_queued_build";
 export const ProjectsEditResponseCanonicalDeploymentSkipReason = S.String;
 
 export interface ProjectsEditResponseCanonicalDeployment {
@@ -8092,7 +8086,7 @@ export interface ProjectsEditResponseCanonicalDeployment {
   envVars: UntypedBindingMap;
   /** Type of deploy. */
   environment: ProjectsEditResponseCanonicalDeploymentEnvironment;
-  /** If the deployment has been skipped. */
+  /** Whether the deployment was skipped. */
   isSkipped: boolean;
   /** The status of the deployment. */
   latestStage: ProjectsEditResponseCanonicalDeploymentLatestStage;
@@ -8100,7 +8094,7 @@ export interface ProjectsEditResponseCanonicalDeployment {
   modifiedOn: string;
   /** Id of the project. */
   projectId: string;
-  /** Name of the project. */
+  /** Name of the Pages project. Must begin with a lowercase letter or digit and contain only lowercase letters, digits, and hyphens. */
   projectName: string;
   /** Short Id (8 character) of the deployment. */
   shortId: string;
@@ -8832,7 +8826,8 @@ export type ProjectsEditResponseLatestDeploymentLatestStageStatus =
   | "idle"
   | "active"
   | "failure"
-  | "canceled";
+  | "canceled"
+  | "skipped";
 export const ProjectsEditResponseLatestDeploymentLatestStageStatus = S.String;
 
 export interface ProjectsEditResponseLatestDeploymentLatestStage {
@@ -8979,7 +8974,8 @@ export type ProjectsEditResponseLatestDeploymentStagesItemStatus =
   | "idle"
   | "active"
   | "failure"
-  | "canceled";
+  | "canceled"
+  | "skipped";
 export const ProjectsEditResponseLatestDeploymentStagesItemStatus = S.String;
 
 export interface ProjectsEditResponseLatestDeploymentStagesItem {
@@ -9015,7 +9011,8 @@ export type ProjectsEditResponseLatestDeploymentSkipReason =
   | "production_deployments_disabled"
   | "path_config"
   | "branch_config"
-  | "pages_to_workers_conversion";
+  | "pages_to_workers_conversion"
+  | "superseded_queued_build";
 export const ProjectsEditResponseLatestDeploymentSkipReason = S.String;
 
 export interface ProjectsEditResponseLatestDeployment {
@@ -9033,7 +9030,7 @@ export interface ProjectsEditResponseLatestDeployment {
   envVars: ProjectsEditResponseLatestDeploymentEnvVars;
   /** Type of deploy. */
   environment: ProjectsEditResponseLatestDeploymentEnvironment;
-  /** If the deployment has been skipped. */
+  /** Whether the deployment was skipped. */
   isSkipped: boolean;
   /** The status of the deployment. */
   latestStage: ProjectsEditResponseLatestDeploymentLatestStage;
@@ -9041,7 +9038,7 @@ export interface ProjectsEditResponseLatestDeployment {
   modifiedOn: string;
   /** Id of the project. */
   projectId: string;
-  /** Name of the project. */
+  /** Name of the Pages project. Must begin with a lowercase letter or digit and contain only lowercase letters, digits, and hyphens. */
   projectName: string;
   /** Short Id (8 character) of the deployment. */
   shortId: string;
@@ -9203,7 +9200,7 @@ export interface PatchProjectResponse {
   frameworkVersion: string;
   /** Most recent deployment of the project. */
   latestDeployment: ProjectsEditResponseLatestDeployment;
-  /** Name of the project. */
+  /** Name of the Pages project. Must begin with a lowercase letter or digit and contain only lowercase letters, digits, and hyphens. */
   name: string;
   /** Name of the preview script. */
   previewScriptName: string;
@@ -9245,16 +9242,14 @@ export const PatchProjectResponse = /*@__PURE__*/ S.suspend(() =>
     source: S.optional(S.NullOr(ProjectsEditResponseSource)),
     subdomain: S.optional(S.NullOr(S.String)),
   }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "PatchProjectResponse",
-}) as any as S.Schema<PatchProjectResponse>;
+).annotate({ identifier: "PatchProjectResponse" }) as any as S.Schema<PatchProjectResponse>;
 
 export interface PatchProjectDomainRequest {
   /** Identifier. */
   accountId: string;
-  /** Name of the project. */
+  /** Name of the Pages project. Must begin with a lowercase letter or digit and contain only lowercase letters, digits, and hyphens. */
   projectName: string;
-  /** The domain name. */
+  /** Fully qualified domain name for the Pages project, such as `example.com`. */
   domainName: string;
 }
 export const PatchProjectDomainRequest = /*@__PURE__*/ S.suspend(() =>
@@ -9344,7 +9339,7 @@ export interface PatchProjectDomainResponse {
   certificateAuthority: ProjectsDomainsEditResponseCertificateAuthority;
   createdOn: string;
   domainId: string;
-  /** The domain name. */
+  /** Fully qualified domain name for the Pages project, such as `example.com`. */
   name: string;
   status: ProjectsDomainsEditResponseStatus;
   validationData: ProjectsDomainsEditResponseValidationData;
@@ -9372,7 +9367,7 @@ export const PatchProjectDomainResponse = /*@__PURE__*/ S.suspend(() =>
 export interface ProjectsGetUploadTokenRequest {
   /** Identifier. */
   accountId: string;
-  /** Name of the project. */
+  /** Name of the Pages project. Must begin with a lowercase letter or digit and contain only lowercase letters, digits, and hyphens. */
   projectName: string;
 }
 export const ProjectsGetUploadTokenRequest = /*@__PURE__*/ S.suspend(() =>
@@ -9408,7 +9403,7 @@ export const ProjectsGetUploadTokenResponse = /*@__PURE__*/ S.suspend(() =>
 export interface PurgeBuildCacheProjectRequest {
   /** Identifier. */
   accountId: string;
-  /** Name of the project. */
+  /** Name of the Pages project. Must begin with a lowercase letter or digit and contain only lowercase letters, digits, and hyphens. */
   projectName: string;
 }
 export const PurgeBuildCacheProjectRequest = /*@__PURE__*/ S.suspend(() =>
@@ -9438,9 +9433,9 @@ export const PurgeBuildCacheProjectResponse = /*@__PURE__*/ S.suspend(() =>
 export interface RetryProjectDeploymentRequest {
   /** Identifier. */
   accountId: string;
-  /** Name of the project. */
+  /** Name of the Pages project. Must begin with a lowercase letter or digit and contain only lowercase letters, digits, and hyphens. */
   projectName: string;
-  /** Identifier. */
+  /** UUID of the Pages deployment, as returned by deployment list or create operations. */
   deploymentId: string;
 }
 export const RetryProjectDeploymentRequest = /*@__PURE__*/ S.suspend(() =>
@@ -9513,7 +9508,8 @@ export type ProjectsDeploymentsRetryResponseLatestStageStatus =
   | "idle"
   | "active"
   | "failure"
-  | "canceled";
+  | "canceled"
+  | "skipped";
 export const ProjectsDeploymentsRetryResponseLatestStageStatus = S.String;
 
 export interface ProjectsDeploymentsRetryResponseLatestStage {
@@ -9656,7 +9652,8 @@ export type ProjectsDeploymentsRetryResponseStagesItemStatus =
   | "idle"
   | "active"
   | "failure"
-  | "canceled";
+  | "canceled"
+  | "skipped";
 export const ProjectsDeploymentsRetryResponseStagesItemStatus = S.String;
 
 export interface ProjectsDeploymentsRetryResponseStagesItem {
@@ -9692,7 +9689,8 @@ export type ProjectsDeploymentsRetryResponseSkipReason =
   | "production_deployments_disabled"
   | "path_config"
   | "branch_config"
-  | "pages_to_workers_conversion";
+  | "pages_to_workers_conversion"
+  | "superseded_queued_build";
 export const ProjectsDeploymentsRetryResponseSkipReason = S.String;
 
 /** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
@@ -9711,7 +9709,7 @@ export interface RetryProjectDeploymentResponse {
   envVars: UntypedBindingMap;
   /** Type of deploy. */
   environment: ProjectsDeploymentsRetryResponseEnvironment;
-  /** If the deployment has been skipped. */
+  /** Whether the deployment was skipped. */
   isSkipped: boolean;
   /** The status of the deployment. */
   latestStage: ProjectsDeploymentsRetryResponseLatestStage;
@@ -9719,7 +9717,7 @@ export interface RetryProjectDeploymentResponse {
   modifiedOn: string;
   /** Id of the project. */
   projectId: string;
-  /** Name of the project. */
+  /** Name of the Pages project. Must begin with a lowercase letter or digit and contain only lowercase letters, digits, and hyphens. */
   projectName: string;
   /** Short Id (8 character) of the deployment. */
   shortId: string;
@@ -9766,9 +9764,9 @@ export const RetryProjectDeploymentResponse = /*@__PURE__*/ S.suspend(() =>
 export interface RollbackProjectDeploymentRequest {
   /** Identifier. */
   accountId: string;
-  /** Name of the project. */
+  /** Name of the Pages project. Must begin with a lowercase letter or digit and contain only lowercase letters, digits, and hyphens. */
   projectName: string;
-  /** Identifier. */
+  /** UUID of the Pages deployment, as returned by deployment list or create operations. */
   deploymentId: string;
 }
 export const RollbackProjectDeploymentRequest = /*@__PURE__*/ S.suspend(() =>
@@ -9841,7 +9839,8 @@ export type ProjectsDeploymentsRollbackResponseLatestStageStatus =
   | "idle"
   | "active"
   | "failure"
-  | "canceled";
+  | "canceled"
+  | "skipped";
 export const ProjectsDeploymentsRollbackResponseLatestStageStatus = S.String;
 
 export interface ProjectsDeploymentsRollbackResponseLatestStage {
@@ -9988,7 +9987,8 @@ export type ProjectsDeploymentsRollbackResponseStagesItemStatus =
   | "idle"
   | "active"
   | "failure"
-  | "canceled";
+  | "canceled"
+  | "skipped";
 export const ProjectsDeploymentsRollbackResponseStagesItemStatus = S.String;
 
 export interface ProjectsDeploymentsRollbackResponseStagesItem {
@@ -10024,7 +10024,8 @@ export type ProjectsDeploymentsRollbackResponseSkipReason =
   | "production_deployments_disabled"
   | "path_config"
   | "branch_config"
-  | "pages_to_workers_conversion";
+  | "pages_to_workers_conversion"
+  | "superseded_queued_build";
 export const ProjectsDeploymentsRollbackResponseSkipReason = S.String;
 
 /** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
@@ -10043,7 +10044,7 @@ export interface RollbackProjectDeploymentResponse {
   envVars: UntypedBindingMap;
   /** Type of deploy. */
   environment: ProjectsDeploymentsRollbackResponseEnvironment;
-  /** If the deployment has been skipped. */
+  /** Whether the deployment was skipped. */
   isSkipped: boolean;
   /** The status of the deployment. */
   latestStage: ProjectsDeploymentsRollbackResponseLatestStage;
@@ -10051,7 +10052,7 @@ export interface RollbackProjectDeploymentResponse {
   modifiedOn: string;
   /** Id of the project. */
   projectId: string;
-  /** Name of the project. */
+  /** Name of the Pages project. Must begin with a lowercase letter or digit and contain only lowercase letters, digits, and hyphens. */
   projectName: string;
   /** Short Id (8 character) of the deployment. */
   shortId: string;
@@ -10141,16 +10142,12 @@ export const UploadAssetRequest = /*@__PURE__*/ S.suspend(() =>
   })
     .pipe(T.Http({ method: "POST", uri: "/pages/assets/upload", code: 200 }))
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "UploadAssetRequest",
-}) as any as S.Schema<UploadAssetRequest>;
+).annotate({ identifier: "UploadAssetRequest" }) as any as S.Schema<UploadAssetRequest>;
 
 export interface UploadAssetResponse {}
 export const UploadAssetResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({}).pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "UploadAssetResponse",
-}) as any as S.Schema<UploadAssetResponse>;
+).annotate({ identifier: "UploadAssetResponse" }) as any as S.Schema<UploadAssetResponse>;
 
 export type AssetsCheckMissingError = CloudflareOpError;
 /** Check which of the provided file hashes are missing from the Pages asset store. Returns a list of missing hashes that need to be uploaded. Used as part of the Pages Direct Upload workflow. Authenticate with the JWT obtained from the upload-token endpoint: GET /accounts/{account_id}/pages/projects/{project_name}/upload-token */
@@ -10183,7 +10180,7 @@ export const assetsUpsertHashes: API.OperationMethod<
 }));
 
 export type CreateProjectError = ProjectAlreadyExists | Forbidden | CloudflareOpError;
-/** Create a new project. */
+/** Create a Cloudflare Pages project for configuring and deploying a site or application. */
 export const createProject: API.OperationMethod<
   CreateProjectRequest,
   CreateProjectResponse,
@@ -10198,7 +10195,7 @@ export const createProject: API.OperationMethod<
 }));
 
 export type CreateProjectDeploymentError = ProjectNotFound | Forbidden | CloudflareOpError;
-/** Start a new deployment from production. The repository and account must have already been authorized on the Cloudflare Pages dashboard. */
+/** Create a Cloudflare Pages deployment from a Git branch or Direct Upload manifest. Git repositories must already be authorized in Cloudflare Pages. */
 export const createProjectDeployment: API.OperationMethod<
   CreateProjectDeploymentRequest,
   CreateProjectDeploymentResponse,
@@ -10217,7 +10214,7 @@ export type CreateProjectDomainError =
   | PagesDomainAlreadyExists
   | Forbidden
   | CloudflareOpError;
-/** Add a new domain for the Pages project. */
+/** Attach a custom domain to a Cloudflare Pages project. */
 export const createProjectDomain: API.OperationMethod<
   CreateProjectDomainRequest,
   CreateProjectDomainResponse,
@@ -10253,7 +10250,7 @@ export const createProjectsDeploymentsTail: API.OperationMethod<
 }));
 
 export type DeleteProjectError = ProjectNotFound | Forbidden | CloudflareOpError;
-/** Delete a project by name. */
+/** Permanently delete a Cloudflare Pages project and its deployments. */
 export const deleteProject: API.OperationMethod<
   DeleteProjectRequest,
   DeleteProjectResponse,
@@ -10273,7 +10270,7 @@ export type DeleteProjectDeploymentError =
   | ActiveProductionDeployment
   | Forbidden
   | CloudflareOpError;
-/** Delete a deployment. */
+/** Remove a deployment from a Cloudflare Pages project. */
 export const deleteProjectDeployment: API.OperationMethod<
   DeleteProjectDeploymentRequest,
   DeleteProjectDeploymentResponse,
@@ -10299,7 +10296,7 @@ export type DeleteProjectDomainError =
   | PagesDomainNotFound
   | Forbidden
   | CloudflareOpError;
-/** Delete a Pages project's domain. */
+/** Remove a custom domain from a Cloudflare Pages project. */
 export const deleteProjectDomain: API.OperationMethod<
   DeleteProjectDomainRequest,
   DeleteProjectDomainResponse,
@@ -10329,7 +10326,7 @@ export const deleteProjectsDeploymentsTail: API.OperationMethod<
 }));
 
 export type GetProjectError = ProjectNotFound | Forbidden | CloudflareOpError;
-/** Fetch a project by name. */
+/** Retrieve the configuration and deployment settings for a Cloudflare Pages project. */
 export const getProject: API.OperationMethod<
   GetProjectRequest,
   GetProjectResponse,
@@ -10348,7 +10345,7 @@ export type GetProjectDeploymentError =
   | ProjectNotFound
   | Forbidden
   | CloudflareOpError;
-/** Fetch information about a deployment. */
+/** Retrieve the status and details of a Cloudflare Pages deployment. */
 export const getProjectDeployment: API.OperationMethod<
   GetProjectDeploymentRequest,
   GetProjectDeploymentResponse,
@@ -10363,7 +10360,7 @@ export const getProjectDeployment: API.OperationMethod<
 }));
 
 export type GetProjectDeploymentHistoryLogError = CloudflareOpError;
-/** Fetch deployment logs for a project. */
+/** Retrieve the build logs for a Cloudflare Pages deployment. */
 export const getProjectDeploymentHistoryLog: API.OperationMethod<
   GetProjectDeploymentHistoryLogRequest,
   GetProjectDeploymentHistoryLogResponse,
@@ -10382,7 +10379,7 @@ export type GetProjectDomainError =
   | PagesDomainNotFound
   | Forbidden
   | CloudflareOpError;
-/** Fetch a single domain. */
+/** Retrieve the configuration and validation status of a custom domain attached to a Cloudflare Pages project. */
 export const getProjectDomain: API.OperationMethod<
   GetProjectDomainRequest,
   GetProjectDomainResponse,
@@ -10397,7 +10394,7 @@ export const getProjectDomain: API.OperationMethod<
 }));
 
 export type ListProjectDeploymentsError = CloudflareOpError;
-/** Fetch a list of project deployments. */
+/** List the production or preview deployments for a Cloudflare Pages project. */
 export const listProjectDeployments: API.PaginatedOperationMethod<
   ListProjectDeploymentsRequest,
   ListProjectDeploymentsResponse,
@@ -10423,7 +10420,7 @@ export const listProjectDeployments: API.PaginatedOperationMethod<
 ) as any;
 
 export type ListProjectDomainsError = ProjectNotFound | Forbidden | CloudflareOpError;
-/** Fetch a list of all domains associated with a Pages project. */
+/** List the custom domains associated with a Cloudflare Pages project. */
 export const listProjectDomains: API.PaginatedOperationMethod<
   ListProjectDomainsRequest,
   ListProjectDomainsResponse,
@@ -10443,7 +10440,7 @@ export const listProjectDomains: API.PaginatedOperationMethod<
 ) as any;
 
 export type ListProjectsError = Forbidden | CloudflareOpError;
-/** Fetch a list of all user projects. */
+/** List the Cloudflare Pages projects in an account. */
 export const listProjects: API.PaginatedOperationMethod<
   ListProjectsRequest,
   ListProjectsResponse,
@@ -10469,7 +10466,7 @@ export const listProjects: API.PaginatedOperationMethod<
 ) as any;
 
 export type PatchProjectError = ProjectNotFound | Forbidden | CloudflareOpError;
-/** Set new attributes for an existing project. Modify environment variables. To delete an environment variable, set the key to null. */
+/** Update the build, deployment, source, or environment settings for a Cloudflare Pages project. To delete an environment variable, set its key to `null`. */
 export const patchProject: API.OperationMethod<
   PatchProjectRequest,
   PatchProjectResponse,
@@ -10488,7 +10485,7 @@ export type PatchProjectDomainError =
   | PagesDomainNotFound
   | Forbidden
   | CloudflareOpError;
-/** Retry the validation status of a single domain. */
+/** Retry validation for a custom domain attached to a Cloudflare Pages project. */
 export const patchProjectDomain: API.OperationMethod<
   PatchProjectDomainRequest,
   PatchProjectDomainResponse,
@@ -10518,7 +10515,7 @@ export const projectsGetUploadToken: API.OperationMethod<
 }));
 
 export type PurgeBuildCacheProjectError = CloudflareOpError;
-/** Purge all cached build artifacts for a Pages project */
+/** Remove cached build artifacts so subsequent builds run without the project's existing build cache. */
 export const purgeBuildCacheProject: API.OperationMethod<
   PurgeBuildCacheProjectRequest,
   PurgeBuildCacheProjectResponse,
@@ -10533,7 +10530,7 @@ export const purgeBuildCacheProject: API.OperationMethod<
 }));
 
 export type RetryProjectDeploymentError = CloudflareOpError;
-/** Retry a previous deployment. */
+/** Retry a previous Cloudflare Pages deployment. */
 export const retryProjectDeployment: API.OperationMethod<
   RetryProjectDeploymentRequest,
   RetryProjectDeploymentResponse,
@@ -10548,7 +10545,7 @@ export const retryProjectDeployment: API.OperationMethod<
 }));
 
 export type RollbackProjectDeploymentError = CloudflareOpError;
-/** Rollback the production deployment to a previous deployment. You can only rollback to succesful builds on production. */
+/** Roll back production to a previous successful Cloudflare Pages deployment. */
 export const rollbackProjectDeployment: API.OperationMethod<
   RollbackProjectDeploymentRequest,
   RollbackProjectDeploymentResponse,

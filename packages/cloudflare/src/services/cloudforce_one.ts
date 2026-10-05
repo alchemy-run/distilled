@@ -230,11 +230,7 @@ export const CreateBinaryStorageRequest = /*@__PURE__*/ S.suspend(() =>
     file: S.Unknown,
   })
     .pipe(
-      T.Http({
-        method: "POST",
-        uri: "/accounts/{account_id}/cloudforce-one/binary",
-        code: 200,
-      }),
+      T.Http({ method: "POST", uri: "/accounts/{account_id}/cloudforce-one/binary", code: 200 }),
     )
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
 ).annotate({
@@ -293,9 +289,7 @@ export const CreateRequestRequest = /*@__PURE__*/ S.suspend(() =>
       }),
     )
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "CreateRequestRequest",
-}) as any as S.Schema<CreateRequestRequest>;
+).annotate({ identifier: "CreateRequestRequest" }) as any as S.Schema<CreateRequestRequest>;
 
 export type RequestsCreateResponseTlp = "clear" | "amber" | "amber-strict" | "green" | "red";
 export const RequestsCreateResponseTlp = S.String;
@@ -350,9 +344,7 @@ export const CreateRequestResponse = /*@__PURE__*/ S.suspend(() =>
     status: S.optional(S.NullOr(RequestsCreateResponseStatus)),
     tokens: S.optional(S.NullOr(S.Number)),
   }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "CreateRequestResponse",
-}) as any as S.Schema<CreateRequestResponse>;
+).annotate({ identifier: "CreateRequestResponse" }) as any as S.Schema<CreateRequestResponse>;
 
 export interface CreateRequestAssetRequest {
   /** Identifier. */
@@ -600,9 +592,7 @@ export const CreateScanConfigRequest = /*@__PURE__*/ S.suspend(() =>
       }),
     )
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "CreateScanConfigRequest",
-}) as any as S.Schema<CreateScanConfigRequest>;
+).annotate({ identifier: "CreateScanConfigRequest" }) as any as S.Schema<CreateScanConfigRequest>;
 
 export type ScansConfigCreateResponseIpsList = Array<string>;
 export const ScansConfigCreateResponseIpsList = /*@__PURE__*/ S.Array(
@@ -634,13 +624,9 @@ export const CreateScanConfigResponse = /*@__PURE__*/ S.suspend(() =>
     ips: ScansConfigCreateResponseIpsList,
     ports: ScansConfigCreateResponsePortsList,
   }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "CreateScanConfigResponse",
-}) as any as S.Schema<CreateScanConfigResponse>;
+).annotate({ identifier: "CreateScanConfigResponse" }) as any as S.Schema<CreateScanConfigResponse>;
 
-export type ThreatEventsCreateRequestRawDataMap = {
-  [key: string]: unknown | undefined;
-};
+export type ThreatEventsCreateRequestRawDataMap = { [key: string]: unknown | undefined };
 export const ThreatEventsCreateRequestRawDataMap = /*@__PURE__*/ S.Record(
   S.String,
   S.Unknown,
@@ -682,12 +668,15 @@ export interface ThreatEventsCreateRequestSource {
   resourceId: string;
   resourceType: ThreatEventsCreateRequestSourceResourceType | (string & {});
   system: ThreatEventsCreateRequestSourceSystem | (string & {});
+  /** Threat Signals article title; null for historical provenance without a stored title. */
+  title?: string;
 }
 export const ThreatEventsCreateRequestSource = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     resourceId: S.String,
     resourceType: ThreatEventsCreateRequestSourceResourceType,
     system: ThreatEventsCreateRequestSourceSystem,
+    title: S.optional(S.String),
   }),
 ).annotate({
   identifier: "ThreatEventsCreateRequestSource",
@@ -748,9 +737,7 @@ export const CreateThreatEventRequest = /*@__PURE__*/ S.suspend(() =>
       }),
     )
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "CreateThreatEventRequest",
-}) as any as S.Schema<CreateThreatEventRequest>;
+).annotate({ identifier: "CreateThreatEventRequest" }) as any as S.Schema<CreateThreatEventRequest>;
 
 export type ThreatEventsCreateResponseMitreAttackList = Array<string>;
 export const ThreatEventsCreateResponseMitreAttackList = /*@__PURE__*/ S.Array(
@@ -1741,9 +1728,7 @@ export const ThreatEventsTagsCreateRequestPriority = /*@__PURE__*/ S.Unknown.pip
   T.UnionCases([[], ["value", "confidence", "tlp"]]),
 );
 
-export type ThreatEventsTagsCreateRequestPropertiesMap = {
-  [key: string]: unknown | undefined;
-};
+export type ThreatEventsTagsCreateRequestPropertiesMap = { [key: string]: unknown | undefined };
 export const ThreatEventsTagsCreateRequestPropertiesMap = /*@__PURE__*/ S.Record(
   S.String,
   S.Unknown,
@@ -1812,7 +1797,7 @@ export interface CreateThreatEventTagRequest {
   externalReferenceLinks?: ThreatEventsTagsCreateRequestExternalReferenceLinksList;
   /** Structured external references ({ url, description }). Public: returned to all accounts. */
   externalReferences?: ThreatEventsTagsCreateRequestExternalReferencesList;
-  /** Internal structured aliases ({ value, confidence 1-10, tlp }). CFONE-only: never returned to non-CFONE accounts. */
+  /** Owner-private structured aliases ({ value, confidence 1-10, tlp }). Returned to the owning account and omitted from shared-catalog non-owner responses. */
   internalAliases?: ThreatEventsTagsCreateRequestInternalAliasesList;
   internalDescription?: string;
   lastSeen?: string;
@@ -2163,9 +2148,7 @@ export const ThreatEventsTagsCreateResponsePriorityAnnotated = /*@__PURE__*/ S.s
   identifier: "ThreatEventsTagsCreateResponsePriorityAnnotated",
 }) as any as S.Schema<ThreatEventsTagsCreateResponsePriorityAnnotated>;
 
-export type ThreatEventsTagsCreateResponsePropertiesMap = {
-  [key: string]: unknown | undefined;
-};
+export type ThreatEventsTagsCreateResponsePropertiesMap = { [key: string]: unknown | undefined };
 export const ThreatEventsTagsCreateResponsePropertiesMap = /*@__PURE__*/ S.Record(
   S.String,
   S.Unknown,
@@ -2232,7 +2215,7 @@ export interface CreateThreatEventTagResponse {
   /** Structured external references ({ url, description }). Public: returned to all accounts. */
   externalReferences?: ThreatEventsTagsCreateResponseExternalReferencesList | null;
   externalReferencesAnnotated?: ThreatEventsTagsCreateResponseExternalReferencesAnnotatedList | null;
-  /** Internal structured aliases ({ value, confidence 1-10, tlp }). CFONE-only: never returned to non-CFONE accounts. */
+  /** Owner-private structured aliases ({ value, confidence 1-10, tlp }). Returned to the owning account and omitted from shared-catalog non-owner responses. */
   internalAliases?: ThreatEventsTagsCreateResponseInternalAliasesList | null;
   internalDescription?: string | null;
   lastSeen?: string | null;
@@ -2334,6 +2317,207 @@ export const CreateThreatEventTagResponse = /*@__PURE__*/ S.suspend(() =>
   identifier: "CreateThreatEventTagResponse",
 }) as any as S.Schema<CreateThreatEventTagResponse>;
 
+export interface CreateThreatSignalsArticlesTagRequest {
+  accountId: string;
+  articleId: string;
+  tagId: string;
+}
+export const CreateThreatSignalsArticlesTagRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    accountId: S.String.pipe(T.Label("account_id")),
+    articleId: S.String.pipe(T.Label("article_id")),
+    tagId: S.String.pipe(T.Body("tag_id")),
+  })
+    .pipe(
+      T.Http({
+        method: "POST",
+        uri: "/accounts/{account_id}/cloudforce-one/v2/threat-signals/articles/{article_id}/tags",
+        code: 200,
+      }),
+    )
+    .pipe(T.KeyDictionary(KEY_DICTIONARY)),
+).annotate({
+  identifier: "CreateThreatSignalsArticlesTagRequest",
+}) as any as S.Schema<CreateThreatSignalsArticlesTagRequest>;
+
+export type CreateThreatSignalsArticlesTagResponseAppliedBy = "ai" | "analyst" | "system";
+export const CreateThreatSignalsArticlesTagResponseAppliedBy = S.String;
+
+/** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
+export interface CreateThreatSignalsArticlesTagResponse {
+  appliedBy: CreateThreatSignalsArticlesTagResponseAppliedBy;
+  categoryId: string;
+  uuid: string;
+  value: string;
+}
+export const CreateThreatSignalsArticlesTagResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    appliedBy: CreateThreatSignalsArticlesTagResponseAppliedBy.pipe(T.Body("applied_by")),
+    categoryId: S.String,
+    uuid: S.String,
+    value: S.String,
+  }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
+).annotate({
+  identifier: "CreateThreatSignalsArticlesTagResponse",
+}) as any as S.Schema<CreateThreatSignalsArticlesTagResponse>;
+
+export type CreateThreatSignalsFeedRequestCategoryId =
+  | "b12a0fd6-f7b9-5393-9ef3-f888d506c550"
+  | "d5b70eaa-626f-5761-b55b-6d9590df49fb"
+  | "3b572d2b-890d-5286-9433-f18c85079030"
+  | "17f90d3b-37d3-5241-8ad4-7d6abbc2006c"
+  | "c68f28e9-7e8f-5d4b-853b-f3076893a9ee"
+  | "bb0e4a94-38ab-5c14-80a7-28cee9f4b139"
+  | "b1ef66d9-a73c-58dc-b269-22d34dfd11f4"
+  | "ab02a976-0a20-5c76-a553-7f6325afacfe";
+export const CreateThreatSignalsFeedRequestCategoryId = S.String;
+
+export interface CreateThreatSignalsFeedRequest {
+  accountId: string;
+  /** One of the predefined Threat Signals feed categories; see GET /:account_id/v2/threat-signals/categories. */
+  categoryId?: CreateThreatSignalsFeedRequestCategoryId | (string & {});
+  curatedFeedId?: string;
+  displayName?: string;
+  enabled?: boolean;
+  pollIntervalS?: number;
+  title?: string;
+  url?: string;
+}
+export const CreateThreatSignalsFeedRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    accountId: S.String.pipe(T.Label("account_id")),
+    categoryId: S.optional(CreateThreatSignalsFeedRequestCategoryId.pipe(T.Body("category_id"))),
+    curatedFeedId: S.optional(S.String.pipe(T.Body("curated_feed_id"))),
+    displayName: S.optional(S.String.pipe(T.Body("display_name"))),
+    enabled: S.optional(S.Boolean),
+    pollIntervalS: S.optional(S.Number.pipe(T.Body("poll_interval_s"))),
+    title: S.optional(S.String),
+    url: S.optional(S.String),
+  })
+    .pipe(
+      T.Http({
+        method: "POST",
+        uri: "/accounts/{account_id}/cloudforce-one/v2/threat-signals/feeds",
+        code: 200,
+      }),
+    )
+    .pipe(T.KeyDictionary(KEY_DICTIONARY)),
+).annotate({
+  identifier: "CreateThreatSignalsFeedRequest",
+}) as any as S.Schema<CreateThreatSignalsFeedRequest>;
+
+/** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
+export interface CreateThreatSignalsFeedResponse {
+  id: string;
+  /** Feed category identifier. Null when unset. */
+  categoryId: string;
+  /** Display name of the feed category. Null when unset or unresolvable. */
+  categoryName: string;
+  createdAt: string;
+  /** Curated catalog feed this subscription was created from. Null for custom feeds. */
+  curatedFeedId: string;
+  displayName: string;
+  enabled: boolean;
+  lastPolledAt: string;
+  pollIntervalS: number;
+  /** `custom` for a feed added by URL, `curated` for a curated catalog feed. */
+  sourceType: string;
+  /** Polling health: `active`, or `error` after a failed poll. */
+  status: string;
+  subscribedAt: string;
+  title: string;
+  updatedAt: string;
+  url: string;
+}
+export const CreateThreatSignalsFeedResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    id: S.String,
+    categoryId: S.String.pipe(T.Body("category_id")),
+    categoryName: S.String.pipe(T.Body("category_name")),
+    createdAt: S.String.pipe(T.Body("created_at")),
+    curatedFeedId: S.String.pipe(T.Body("curated_feed_id")),
+    displayName: S.String.pipe(T.Body("display_name")),
+    enabled: S.Boolean,
+    lastPolledAt: S.String.pipe(T.Body("last_polled_at")),
+    pollIntervalS: S.Number.pipe(T.Body("poll_interval_s")),
+    sourceType: S.String.pipe(T.Body("source_type")),
+    status: S.String,
+    subscribedAt: S.String.pipe(T.Body("subscribed_at")),
+    title: S.String,
+    updatedAt: S.String.pipe(T.Body("updated_at")),
+    url: S.String,
+  }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
+).annotate({
+  identifier: "CreateThreatSignalsFeedResponse",
+}) as any as S.Schema<CreateThreatSignalsFeedResponse>;
+
+export type CreateThreatSignalsSkillRequestType = "summary" | "tags";
+export const CreateThreatSignalsSkillRequestType = S.String;
+
+export interface CreateThreatSignalsSkillRequest {
+  accountId: string;
+  name: string;
+  outputSchema: string;
+  prompt: string;
+  type: CreateThreatSignalsSkillRequestType | (string & {});
+}
+export const CreateThreatSignalsSkillRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    accountId: S.String.pipe(T.Label("account_id")),
+    name: S.String,
+    outputSchema: S.String.pipe(T.Body("output_schema")),
+    prompt: S.String,
+    type: CreateThreatSignalsSkillRequestType,
+  })
+    .pipe(
+      T.Http({
+        method: "POST",
+        uri: "/accounts/{account_id}/cloudforce-one/v2/threat-signals/skills",
+        code: 200,
+      }),
+    )
+    .pipe(T.KeyDictionary(KEY_DICTIONARY)),
+).annotate({
+  identifier: "CreateThreatSignalsSkillRequest",
+}) as any as S.Schema<CreateThreatSignalsSkillRequest>;
+
+export type CreateThreatSignalsSkillResponseSource = "default" | "custom";
+export const CreateThreatSignalsSkillResponseSource = S.String;
+
+/** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
+export interface CreateThreatSignalsSkillResponse {
+  id: string;
+  /** JSON-encoded skill configuration. Always null for default skills. */
+  config: string;
+  createdAt: string;
+  /** 1 when active, 0 when inactive. */
+  isActive: number;
+  name: string;
+  /** JSON-encoded JSON Schema the skill output must satisfy. */
+  outputSchema: string;
+  prompt: string;
+  /** `default` for Cloudforce One managed skills (read-only), `custom` for account skills. */
+  source: CreateThreatSignalsSkillResponseSource;
+  type: string;
+  updatedAt: string;
+}
+export const CreateThreatSignalsSkillResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    id: S.String,
+    config: S.String,
+    createdAt: S.String.pipe(T.Body("created_at")),
+    isActive: S.Number.pipe(T.Body("is_active")),
+    name: S.String,
+    outputSchema: S.String.pipe(T.Body("output_schema")),
+    prompt: S.String,
+    source: CreateThreatSignalsSkillResponseSource,
+    type: S.String,
+    updatedAt: S.String.pipe(T.Body("updated_at")),
+  }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
+).annotate({
+  identifier: "CreateThreatSignalsSkillResponse",
+}) as any as S.Schema<CreateThreatSignalsSkillResponse>;
+
 export interface DeleteRequestRequest {
   /** Identifier. */
   accountId: string;
@@ -2353,16 +2537,12 @@ export const DeleteRequestRequest = /*@__PURE__*/ S.suspend(() =>
       }),
     )
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "DeleteRequestRequest",
-}) as any as S.Schema<DeleteRequestRequest>;
+).annotate({ identifier: "DeleteRequestRequest" }) as any as S.Schema<DeleteRequestRequest>;
 
 export interface DeleteRequestResponse {}
 export const DeleteRequestResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({}).pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "DeleteRequestResponse",
-}) as any as S.Schema<DeleteRequestResponse>;
+).annotate({ identifier: "DeleteRequestResponse" }) as any as S.Schema<DeleteRequestResponse>;
 
 export interface DeleteRequestAssetRequest {
   /** Identifier. */
@@ -2478,16 +2658,12 @@ export const DeleteScanConfigRequest = /*@__PURE__*/ S.suspend(() =>
       }),
     )
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "DeleteScanConfigRequest",
-}) as any as S.Schema<DeleteScanConfigRequest>;
+).annotate({ identifier: "DeleteScanConfigRequest" }) as any as S.Schema<DeleteScanConfigRequest>;
 
 export type DeleteScanConfigResponse = unknown;
 export const DeleteScanConfigResponse = /*@__PURE__*/ S.suspend(() =>
   S.Unknown.pipe(T.EnvelopePayloadRoot(), T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "DeleteScanConfigResponse",
-}) as any as S.Schema<DeleteScanConfigResponse>;
+).annotate({ identifier: "DeleteScanConfigResponse" }) as any as S.Schema<DeleteScanConfigResponse>;
 
 export interface DeleteThreatEventCategoryRequest {
   /** Account ID. */
@@ -2730,6 +2906,174 @@ export const DeleteThreatEventsTagsCategoryResponse = /*@__PURE__*/ S.suspend(()
 ).annotate({
   identifier: "DeleteThreatEventsTagsCategoryResponse",
 }) as any as S.Schema<DeleteThreatEventsTagsCategoryResponse>;
+
+export interface DeleteThreatSignalsArticlesTagRequest {
+  accountId: string;
+  articleId: string;
+  tagId: string;
+}
+export const DeleteThreatSignalsArticlesTagRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    accountId: S.String.pipe(T.Label("account_id")),
+    articleId: S.String.pipe(T.Label("article_id")),
+    tagId: S.String.pipe(T.Label("tag_id")),
+  })
+    .pipe(
+      T.Http({
+        method: "DELETE",
+        uri: "/accounts/{account_id}/cloudforce-one/v2/threat-signals/articles/{article_id}/tags/{tag_id}",
+        code: 200,
+      }),
+    )
+    .pipe(T.KeyDictionary(KEY_DICTIONARY)),
+).annotate({
+  identifier: "DeleteThreatSignalsArticlesTagRequest",
+}) as any as S.Schema<DeleteThreatSignalsArticlesTagRequest>;
+
+export type DeleteThreatSignalsArticlesTagResponseAppliedBy = "ai" | "analyst" | "system";
+export const DeleteThreatSignalsArticlesTagResponseAppliedBy = S.String;
+
+/** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
+export interface DeleteThreatSignalsArticlesTagResponse {
+  appliedBy: DeleteThreatSignalsArticlesTagResponseAppliedBy;
+  categoryId: string;
+  uuid: string;
+  value: string;
+}
+export const DeleteThreatSignalsArticlesTagResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    appliedBy: DeleteThreatSignalsArticlesTagResponseAppliedBy.pipe(T.Body("applied_by")),
+    categoryId: S.String,
+    uuid: S.String,
+    value: S.String,
+  }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
+).annotate({
+  identifier: "DeleteThreatSignalsArticlesTagResponse",
+}) as any as S.Schema<DeleteThreatSignalsArticlesTagResponse>;
+
+export interface DeleteThreatSignalsFeedRequest {
+  accountId: string;
+  feedId: string;
+}
+export const DeleteThreatSignalsFeedRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    accountId: S.String.pipe(T.Label("account_id")),
+    feedId: S.String.pipe(T.Label("feed_id")),
+  })
+    .pipe(
+      T.Http({
+        method: "DELETE",
+        uri: "/accounts/{account_id}/cloudforce-one/v2/threat-signals/feeds/{feed_id}",
+        code: 200,
+      }),
+    )
+    .pipe(T.KeyDictionary(KEY_DICTIONARY)),
+).annotate({
+  identifier: "DeleteThreatSignalsFeedRequest",
+}) as any as S.Schema<DeleteThreatSignalsFeedRequest>;
+
+/** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
+export interface DeleteThreatSignalsFeedResponse {
+  id: string;
+  /** Feed category identifier. Null when unset. */
+  categoryId: string;
+  /** Display name of the feed category. Null when unset or unresolvable. */
+  categoryName: string;
+  createdAt: string;
+  /** Curated catalog feed this subscription was created from. Null for custom feeds. */
+  curatedFeedId: string;
+  displayName: string;
+  enabled: boolean;
+  lastPolledAt: string;
+  pollIntervalS: number;
+  /** `custom` for a feed added by URL, `curated` for a curated catalog feed. */
+  sourceType: string;
+  /** Polling health: `active`, or `error` after a failed poll. */
+  status: string;
+  subscribedAt: string;
+  title: string;
+  updatedAt: string;
+  url: string;
+}
+export const DeleteThreatSignalsFeedResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    id: S.String,
+    categoryId: S.String.pipe(T.Body("category_id")),
+    categoryName: S.String.pipe(T.Body("category_name")),
+    createdAt: S.String.pipe(T.Body("created_at")),
+    curatedFeedId: S.String.pipe(T.Body("curated_feed_id")),
+    displayName: S.String.pipe(T.Body("display_name")),
+    enabled: S.Boolean,
+    lastPolledAt: S.String.pipe(T.Body("last_polled_at")),
+    pollIntervalS: S.Number.pipe(T.Body("poll_interval_s")),
+    sourceType: S.String.pipe(T.Body("source_type")),
+    status: S.String,
+    subscribedAt: S.String.pipe(T.Body("subscribed_at")),
+    title: S.String,
+    updatedAt: S.String.pipe(T.Body("updated_at")),
+    url: S.String,
+  }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
+).annotate({
+  identifier: "DeleteThreatSignalsFeedResponse",
+}) as any as S.Schema<DeleteThreatSignalsFeedResponse>;
+
+export interface DeleteThreatSignalsSkillRequest {
+  accountId: string;
+  skillId: string;
+}
+export const DeleteThreatSignalsSkillRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    accountId: S.String.pipe(T.Label("account_id")),
+    skillId: S.String.pipe(T.Label("skill_id")),
+  })
+    .pipe(
+      T.Http({
+        method: "DELETE",
+        uri: "/accounts/{account_id}/cloudforce-one/v2/threat-signals/skills/{skill_id}",
+        code: 200,
+      }),
+    )
+    .pipe(T.KeyDictionary(KEY_DICTIONARY)),
+).annotate({
+  identifier: "DeleteThreatSignalsSkillRequest",
+}) as any as S.Schema<DeleteThreatSignalsSkillRequest>;
+
+export type DeleteThreatSignalsSkillResponseSource = "default" | "custom";
+export const DeleteThreatSignalsSkillResponseSource = S.String;
+
+/** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
+export interface DeleteThreatSignalsSkillResponse {
+  id: string;
+  /** JSON-encoded skill configuration. Always null for default skills. */
+  config: string;
+  createdAt: string;
+  /** 1 when active, 0 when inactive. */
+  isActive: number;
+  name: string;
+  /** JSON-encoded JSON Schema the skill output must satisfy. */
+  outputSchema: string;
+  prompt: string;
+  /** `default` for Cloudforce One managed skills (read-only), `custom` for account skills. */
+  source: DeleteThreatSignalsSkillResponseSource;
+  type: string;
+  updatedAt: string;
+}
+export const DeleteThreatSignalsSkillResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    id: S.String,
+    config: S.String,
+    createdAt: S.String.pipe(T.Body("created_at")),
+    isActive: S.Number.pipe(T.Body("is_active")),
+    name: S.String,
+    outputSchema: S.String.pipe(T.Body("output_schema")),
+    prompt: S.String,
+    source: DeleteThreatSignalsSkillResponseSource,
+    type: S.String,
+    updatedAt: S.String.pipe(T.Body("updated_at")),
+  }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
+).annotate({
+  identifier: "DeleteThreatSignalsSkillResponse",
+}) as any as S.Schema<DeleteThreatSignalsSkillResponse>;
 
 export interface EditThreatEventsQueryRequest {
   /** Account ID. */
@@ -3128,9 +3472,7 @@ export const EditThreatEventsTagRequestPriority = /*@__PURE__*/ S.Unknown.pipe(
   T.UnionCases([[], ["value", "confidence", "tlp"]]),
 );
 
-export type EditThreatEventsTagRequestPropertiesMap = {
-  [key: string]: unknown | undefined;
-};
+export type EditThreatEventsTagRequestPropertiesMap = { [key: string]: unknown | undefined };
 export const EditThreatEventsTagRequestPropertiesMap = /*@__PURE__*/ S.Record(
   S.String,
   S.Unknown,
@@ -3200,7 +3542,7 @@ export interface EditThreatEventsTagRequest {
   externalReferenceLinks?: EditThreatEventsTagRequestExternalReferenceLinksList;
   /** Structured external references ({ url, description }). Public: returned to all accounts. */
   externalReferences?: EditThreatEventsTagRequestExternalReferencesList;
-  /** Internal structured aliases ({ value, confidence 1-10, tlp }). CFONE-only: never returned to non-CFONE accounts. */
+  /** Owner-private structured aliases ({ value, confidence 1-10, tlp }). Returned to the owning account and omitted from shared-catalog non-owner responses. */
   internalAliases?: EditThreatEventsTagRequestInternalAliasesList;
   internalDescription?: string;
   lastSeen?: string;
@@ -3544,9 +3886,7 @@ export const EditThreatEventsTagResponsePriorityAnnotated = /*@__PURE__*/ S.susp
   identifier: "EditThreatEventsTagResponsePriorityAnnotated",
 }) as any as S.Schema<EditThreatEventsTagResponsePriorityAnnotated>;
 
-export type EditThreatEventsTagResponsePropertiesMap = {
-  [key: string]: unknown | undefined;
-};
+export type EditThreatEventsTagResponsePropertiesMap = { [key: string]: unknown | undefined };
 export const EditThreatEventsTagResponsePropertiesMap = /*@__PURE__*/ S.Record(
   S.String,
   S.Unknown,
@@ -3612,7 +3952,7 @@ export interface EditThreatEventsTagResponse {
   /** Structured external references ({ url, description }). Public: returned to all accounts. */
   externalReferences?: EditThreatEventsTagResponseExternalReferencesList | null;
   externalReferencesAnnotated?: EditThreatEventsTagResponseExternalReferencesAnnotatedList | null;
-  /** Internal structured aliases ({ value, confidence 1-10, tlp }). CFONE-only: never returned to non-CFONE accounts. */
+  /** Owner-private structured aliases ({ value, confidence 1-10, tlp }). Returned to the owning account and omitted from shared-catalog non-owner responses. */
   internalAliases?: EditThreatEventsTagResponseInternalAliasesList | null;
   internalDescription?: string | null;
   lastSeen?: string | null;
@@ -3962,6 +4302,353 @@ export const EditThreatEventsTagsCategoryResponse = /*@__PURE__*/ S.suspend(() =
   identifier: "EditThreatEventsTagsCategoryResponse",
 }) as any as S.Schema<EditThreatEventsTagsCategoryResponse>;
 
+export interface EditThreatSignalsArticleRequest {
+  accountId: string;
+  articleId: string;
+  read: boolean;
+}
+export const EditThreatSignalsArticleRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    accountId: S.String.pipe(T.Label("account_id")),
+    articleId: S.String.pipe(T.Label("article_id")),
+    read: S.Boolean,
+  })
+    .pipe(
+      T.Http({
+        method: "PATCH",
+        uri: "/accounts/{account_id}/cloudforce-one/v2/threat-signals/articles/{article_id}",
+        code: 200,
+      }),
+    )
+    .pipe(T.KeyDictionary(KEY_DICTIONARY)),
+).annotate({
+  identifier: "EditThreatSignalsArticleRequest",
+}) as any as S.Schema<EditThreatSignalsArticleRequest>;
+
+export interface EditThreatSignalsArticleResponseBulletPoints {
+  impact: string;
+  whatHappened: string;
+  whoAffected: string;
+}
+export const EditThreatSignalsArticleResponseBulletPoints = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    impact: S.String,
+    whatHappened: S.String.pipe(T.Body("what_happened")),
+    whoAffected: S.String.pipe(T.Body("who_affected")),
+  }),
+).annotate({
+  identifier: "EditThreatSignalsArticleResponseBulletPoints",
+}) as any as S.Schema<EditThreatSignalsArticleResponseBulletPoints>;
+
+export type EditThreatSignalsArticleResponseIndicatorExtractionStatus =
+  | "in_progress"
+  | "complete"
+  | "failed"
+  | "unknown";
+export const EditThreatSignalsArticleResponseIndicatorExtractionStatus = S.String;
+
+export type EditThreatSignalsArticleResponseMetadataMap = { [key: string]: unknown | undefined };
+export const EditThreatSignalsArticleResponseMetadataMap = /*@__PURE__*/ S.Record(
+  S.String,
+  S.Unknown,
+) as any as S.Schema<EditThreatSignalsArticleResponseMetadataMap>;
+
+export type EditThreatSignalsArticleResponseTagsItemAppliedBy = "ai" | "analyst" | "system";
+export const EditThreatSignalsArticleResponseTagsItemAppliedBy = S.String;
+
+export interface EditThreatSignalsArticleResponseTagsItem {
+  appliedBy: EditThreatSignalsArticleResponseTagsItemAppliedBy;
+  categoryId: string;
+  uuid: string;
+  value: string;
+}
+export const EditThreatSignalsArticleResponseTagsItem = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    appliedBy: EditThreatSignalsArticleResponseTagsItemAppliedBy.pipe(T.Body("applied_by")),
+    categoryId: S.String,
+    uuid: S.String,
+    value: S.String,
+  }),
+).annotate({
+  identifier: "EditThreatSignalsArticleResponseTagsItem",
+}) as any as S.Schema<EditThreatSignalsArticleResponseTagsItem>;
+
+export type EditThreatSignalsArticleResponseTagsList =
+  Array<EditThreatSignalsArticleResponseTagsItem>;
+export const EditThreatSignalsArticleResponseTagsList = /*@__PURE__*/ S.Array(
+  EditThreatSignalsArticleResponseTagsItem,
+) as any as S.Schema<EditThreatSignalsArticleResponseTagsList>;
+
+/** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
+export interface EditThreatSignalsArticleResponse {
+  id: string;
+  bulletPoints: EditThreatSignalsArticleResponseBulletPoints;
+  contentR2Key: string;
+  feedDisplayName: string;
+  feedId: string;
+  fetchedAt: string;
+  /** Progress of the article's indicator extraction and IOC contextualization run. complete and failed are terminal; unknown means no run has been recorded. */
+  indicatorExtractionStatus: EditThreatSignalsArticleResponseIndicatorExtractionStatus;
+  link: string;
+  metadata: EditThreatSignalsArticleResponseMetadataMap;
+  publishedAt: string;
+  read: boolean;
+  readAt: string;
+  sourceCount: number;
+  /** Persisted enrichment summary. Null until enrichment produces a summary. */
+  summary: string;
+  summaryR2Key: string;
+  tags: EditThreatSignalsArticleResponseTagsList;
+  title: string;
+  skillVersion?: string | null;
+  tagSkillVersion?: string | null;
+}
+export const EditThreatSignalsArticleResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    id: S.String,
+    bulletPoints: EditThreatSignalsArticleResponseBulletPoints.pipe(T.Body("bullet_points")),
+    contentR2Key: S.String.pipe(T.Body("content_r2_key")),
+    feedDisplayName: S.String.pipe(T.Body("feed_display_name")),
+    feedId: S.String.pipe(T.Body("feed_id")),
+    fetchedAt: S.String.pipe(T.Body("fetched_at")),
+    indicatorExtractionStatus: EditThreatSignalsArticleResponseIndicatorExtractionStatus.pipe(
+      T.Body("indicator_extraction_status"),
+    ),
+    link: S.String,
+    metadata: EditThreatSignalsArticleResponseMetadataMap,
+    publishedAt: S.String.pipe(T.Body("published_at")),
+    read: S.Boolean,
+    readAt: S.String.pipe(T.Body("read_at")),
+    sourceCount: S.Number.pipe(T.Body("source_count")),
+    summary: S.String,
+    summaryR2Key: S.String.pipe(T.Body("summary_r2_key")),
+    tags: EditThreatSignalsArticleResponseTagsList,
+    title: S.String,
+    skillVersion: S.optional(S.NullOr(S.String).pipe(T.Body("skill_version"))),
+    tagSkillVersion: S.optional(S.NullOr(S.String).pipe(T.Body("tag_skill_version"))),
+  }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
+).annotate({
+  identifier: "EditThreatSignalsArticleResponse",
+}) as any as S.Schema<EditThreatSignalsArticleResponse>;
+
+export type EditThreatSignalsFeedRequestCategoryId =
+  | "b12a0fd6-f7b9-5393-9ef3-f888d506c550"
+  | "d5b70eaa-626f-5761-b55b-6d9590df49fb"
+  | "3b572d2b-890d-5286-9433-f18c85079030"
+  | "17f90d3b-37d3-5241-8ad4-7d6abbc2006c"
+  | "c68f28e9-7e8f-5d4b-853b-f3076893a9ee"
+  | "bb0e4a94-38ab-5c14-80a7-28cee9f4b139"
+  | "b1ef66d9-a73c-58dc-b269-22d34dfd11f4"
+  | "ab02a976-0a20-5c76-a553-7f6325afacfe";
+export const EditThreatSignalsFeedRequestCategoryId = S.String;
+
+export interface EditThreatSignalsFeedRequest {
+  accountId: string;
+  feedId: string;
+  /** One of the predefined Threat Signals feed categories; see GET /:account_id/v2/threat-signals/categories. */
+  categoryId?: EditThreatSignalsFeedRequestCategoryId | (string & {});
+  displayName?: string;
+  enabled?: boolean;
+  pollIntervalS?: number;
+  title?: string;
+}
+export const EditThreatSignalsFeedRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    accountId: S.String.pipe(T.Label("account_id")),
+    feedId: S.String.pipe(T.Label("feed_id")),
+    categoryId: S.optional(EditThreatSignalsFeedRequestCategoryId.pipe(T.Body("category_id"))),
+    displayName: S.optional(S.String.pipe(T.Body("display_name"))),
+    enabled: S.optional(S.Boolean),
+    pollIntervalS: S.optional(S.Number.pipe(T.Body("poll_interval_s"))),
+    title: S.optional(S.String),
+  })
+    .pipe(
+      T.Http({
+        method: "PATCH",
+        uri: "/accounts/{account_id}/cloudforce-one/v2/threat-signals/feeds/{feed_id}",
+        code: 200,
+      }),
+    )
+    .pipe(T.KeyDictionary(KEY_DICTIONARY)),
+).annotate({
+  identifier: "EditThreatSignalsFeedRequest",
+}) as any as S.Schema<EditThreatSignalsFeedRequest>;
+
+/** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
+export interface EditThreatSignalsFeedResponse {
+  id: string;
+  /** Feed category identifier. Null when unset. */
+  categoryId: string;
+  /** Display name of the feed category. Null when unset or unresolvable. */
+  categoryName: string;
+  createdAt: string;
+  /** Curated catalog feed this subscription was created from. Null for custom feeds. */
+  curatedFeedId: string;
+  displayName: string;
+  enabled: boolean;
+  lastPolledAt: string;
+  pollIntervalS: number;
+  /** `custom` for a feed added by URL, `curated` for a curated catalog feed. */
+  sourceType: string;
+  /** Polling health: `active`, or `error` after a failed poll. */
+  status: string;
+  subscribedAt: string;
+  title: string;
+  updatedAt: string;
+  url: string;
+}
+export const EditThreatSignalsFeedResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    id: S.String,
+    categoryId: S.String.pipe(T.Body("category_id")),
+    categoryName: S.String.pipe(T.Body("category_name")),
+    createdAt: S.String.pipe(T.Body("created_at")),
+    curatedFeedId: S.String.pipe(T.Body("curated_feed_id")),
+    displayName: S.String.pipe(T.Body("display_name")),
+    enabled: S.Boolean,
+    lastPolledAt: S.String.pipe(T.Body("last_polled_at")),
+    pollIntervalS: S.Number.pipe(T.Body("poll_interval_s")),
+    sourceType: S.String.pipe(T.Body("source_type")),
+    status: S.String,
+    subscribedAt: S.String.pipe(T.Body("subscribed_at")),
+    title: S.String,
+    updatedAt: S.String.pipe(T.Body("updated_at")),
+    url: S.String,
+  }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
+).annotate({
+  identifier: "EditThreatSignalsFeedResponse",
+}) as any as S.Schema<EditThreatSignalsFeedResponse>;
+
+export interface EditThreatSignalsSkillRequest {
+  accountId: string;
+  skillId: string;
+  config?: string;
+  isActive?: boolean;
+  name?: string;
+  outputSchema?: string;
+  prompt?: string;
+}
+export const EditThreatSignalsSkillRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    accountId: S.String.pipe(T.Label("account_id")),
+    skillId: S.String.pipe(T.Label("skill_id")),
+    config: S.optional(S.String),
+    isActive: S.optional(S.Boolean.pipe(T.Body("is_active"))),
+    name: S.optional(S.String),
+    outputSchema: S.optional(S.String.pipe(T.Body("output_schema"))),
+    prompt: S.optional(S.String),
+  })
+    .pipe(
+      T.Http({
+        method: "PATCH",
+        uri: "/accounts/{account_id}/cloudforce-one/v2/threat-signals/skills/{skill_id}",
+        code: 200,
+      }),
+    )
+    .pipe(T.KeyDictionary(KEY_DICTIONARY)),
+).annotate({
+  identifier: "EditThreatSignalsSkillRequest",
+}) as any as S.Schema<EditThreatSignalsSkillRequest>;
+
+export type EditThreatSignalsSkillResponseSource = "default" | "custom";
+export const EditThreatSignalsSkillResponseSource = S.String;
+
+/** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
+export interface EditThreatSignalsSkillResponse {
+  id: string;
+  /** JSON-encoded skill configuration. Always null for default skills. */
+  config: string;
+  createdAt: string;
+  /** 1 when active, 0 when inactive. */
+  isActive: number;
+  name: string;
+  /** JSON-encoded JSON Schema the skill output must satisfy. */
+  outputSchema: string;
+  prompt: string;
+  /** `default` for Cloudforce One managed skills (read-only), `custom` for account skills. */
+  source: EditThreatSignalsSkillResponseSource;
+  type: string;
+  updatedAt: string;
+}
+export const EditThreatSignalsSkillResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    id: S.String,
+    config: S.String,
+    createdAt: S.String.pipe(T.Body("created_at")),
+    isActive: S.Number.pipe(T.Body("is_active")),
+    name: S.String,
+    outputSchema: S.String.pipe(T.Body("output_schema")),
+    prompt: S.String,
+    source: EditThreatSignalsSkillResponseSource,
+    type: S.String,
+    updatedAt: S.String.pipe(T.Body("updated_at")),
+  }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
+).annotate({
+  identifier: "EditThreatSignalsSkillResponse",
+}) as any as S.Schema<EditThreatSignalsSkillResponse>;
+
+export interface GenerateThreatSignalsArticlesTagRequest {
+  accountId: string;
+  articleId: string;
+}
+export const GenerateThreatSignalsArticlesTagRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    accountId: S.String.pipe(T.Label("account_id")),
+    articleId: S.String.pipe(T.Label("article_id")),
+  })
+    .pipe(
+      T.Http({
+        method: "POST",
+        uri: "/accounts/{account_id}/cloudforce-one/v2/threat-signals/articles/{article_id}/tag",
+        code: 200,
+      }),
+    )
+    .pipe(T.KeyDictionary(KEY_DICTIONARY)),
+).annotate({
+  identifier: "GenerateThreatSignalsArticlesTagRequest",
+}) as any as S.Schema<GenerateThreatSignalsArticlesTagRequest>;
+
+export type GenerateThreatSignalsArticlesTagResponseTagsItemAppliedBy = "ai" | "analyst" | "system";
+export const GenerateThreatSignalsArticlesTagResponseTagsItemAppliedBy = S.String;
+
+export interface GenerateThreatSignalsArticlesTagResponseTagsItem {
+  appliedBy: GenerateThreatSignalsArticlesTagResponseTagsItemAppliedBy;
+  categoryId: string;
+  uuid: string;
+  value: string;
+}
+export const GenerateThreatSignalsArticlesTagResponseTagsItem = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    appliedBy: GenerateThreatSignalsArticlesTagResponseTagsItemAppliedBy.pipe(T.Body("applied_by")),
+    categoryId: S.String,
+    uuid: S.String,
+    value: S.String,
+  }),
+).annotate({
+  identifier: "GenerateThreatSignalsArticlesTagResponseTagsItem",
+}) as any as S.Schema<GenerateThreatSignalsArticlesTagResponseTagsItem>;
+
+export type GenerateThreatSignalsArticlesTagResponseTagsList =
+  Array<GenerateThreatSignalsArticlesTagResponseTagsItem>;
+export const GenerateThreatSignalsArticlesTagResponseTagsList = /*@__PURE__*/ S.Array(
+  GenerateThreatSignalsArticlesTagResponseTagsItem,
+) as any as S.Schema<GenerateThreatSignalsArticlesTagResponseTagsList>;
+
+/** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
+export interface GenerateThreatSignalsArticlesTagResponse {
+  tagSkillVersion: string;
+  /** Final hydrated assignment set; may be empty when no applicable tags are selected. */
+  tags: GenerateThreatSignalsArticlesTagResponseTagsList;
+}
+export const GenerateThreatSignalsArticlesTagResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    tagSkillVersion: S.String.pipe(T.Body("tag_skill_version")),
+    tags: GenerateThreatSignalsArticlesTagResponseTagsList,
+  }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
+).annotate({
+  identifier: "GenerateThreatSignalsArticlesTagResponse",
+}) as any as S.Schema<GenerateThreatSignalsArticlesTagResponse>;
+
 export interface GetBinaryStorageRequest {
   /** Account ID. */
   accountId: string;
@@ -3981,16 +4668,12 @@ export const GetBinaryStorageRequest = /*@__PURE__*/ S.suspend(() =>
       }),
     )
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "GetBinaryStorageRequest",
-}) as any as S.Schema<GetBinaryStorageRequest>;
+).annotate({ identifier: "GetBinaryStorageRequest" }) as any as S.Schema<GetBinaryStorageRequest>;
 
 export interface GetBinaryStorageResponse {}
 export const GetBinaryStorageResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({}).pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "GetBinaryStorageResponse",
-}) as any as S.Schema<GetBinaryStorageResponse>;
+).annotate({ identifier: "GetBinaryStorageResponse" }) as any as S.Schema<GetBinaryStorageResponse>;
 
 export interface GetRequestRequest {
   /** Identifier. */
@@ -4011,9 +4694,7 @@ export const GetRequestRequest = /*@__PURE__*/ S.suspend(() =>
       }),
     )
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "GetRequestRequest",
-}) as any as S.Schema<GetRequestRequest>;
+).annotate({ identifier: "GetRequestRequest" }) as any as S.Schema<GetRequestRequest>;
 
 export type RequestsGetResponseTlp = "clear" | "amber" | "amber-strict" | "green" | "red";
 export const RequestsGetResponseTlp = S.String;
@@ -4068,9 +4749,7 @@ export const GetRequestResponse = /*@__PURE__*/ S.suspend(() =>
     status: S.optional(S.NullOr(RequestsGetResponseStatus)),
     tokens: S.optional(S.NullOr(S.Number)),
   }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "GetRequestResponse",
-}) as any as S.Schema<GetRequestResponse>;
+).annotate({ identifier: "GetRequestResponse" }) as any as S.Schema<GetRequestResponse>;
 
 export type RequestsMessageGetRequestSortOrder = "asc" | "desc";
 export const RequestsMessageGetRequestSortOrder = S.String;
@@ -4112,9 +4791,7 @@ export const GetRequestMessageRequest = /*@__PURE__*/ S.suspend(() =>
       }),
     )
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "GetRequestMessageRequest",
-}) as any as S.Schema<GetRequestMessageRequest>;
+).annotate({ identifier: "GetRequestMessageRequest" }) as any as S.Schema<GetRequestMessageRequest>;
 
 export interface RequestsMessageGetResultItem {
   /** Message ID. */
@@ -4265,9 +4942,7 @@ export const GetRequestsAssetRequest = /*@__PURE__*/ S.suspend(() =>
       }),
     )
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "GetRequestsAssetRequest",
-}) as any as S.Schema<GetRequestsAssetRequest>;
+).annotate({ identifier: "GetRequestsAssetRequest" }) as any as S.Schema<GetRequestsAssetRequest>;
 
 export type GetRequestsAssetResultItem = RequestsAssetsCreateResultItem;
 export const GetRequestsAssetResultItem = RequestsAssetsCreateResultItem;
@@ -4280,9 +4955,7 @@ export const GetRequestsAssetResultList = /*@__PURE__*/ S.Array(
 export type GetRequestsAssetResponse = GetRequestsAssetResultList;
 export const GetRequestsAssetResponse = /*@__PURE__*/ S.suspend(() =>
   GetRequestsAssetResultList.pipe(T.EnvelopePayloadRoot(), T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "GetRequestsAssetResponse",
-}) as any as S.Schema<GetRequestsAssetResponse>;
+).annotate({ identifier: "GetRequestsAssetResponse" }) as any as S.Schema<GetRequestsAssetResponse>;
 
 export interface GetScanResultRequest {
   /** Defines the Account ID. */
@@ -4303,9 +4976,7 @@ export const GetScanResultRequest = /*@__PURE__*/ S.suspend(() =>
       }),
     )
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "GetScanResultRequest",
-}) as any as S.Schema<GetScanResultRequest>;
+).annotate({ identifier: "GetScanResultRequest" }) as any as S.Schema<GetScanResultRequest>;
 
 export interface ScansResultsGetResponse1111Item {
   number?: number | null;
@@ -4335,9 +5006,7 @@ export const GetScanResultResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     "1_1_1_1": ScansResultsGetResponse1111List.pipe(T.Body("1.1.1.1")),
   }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "GetScanResultResponse",
-}) as any as S.Schema<GetScanResultResponse>;
+).annotate({ identifier: "GetScanResultResponse" }) as any as S.Schema<GetScanResultResponse>;
 
 export interface GetThreatEventRequest {
   /** Account ID. */
@@ -4358,9 +5027,7 @@ export const GetThreatEventRequest = /*@__PURE__*/ S.suspend(() =>
       }),
     )
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "GetThreatEventRequest",
-}) as any as S.Schema<GetThreatEventRequest>;
+).annotate({ identifier: "GetThreatEventRequest" }) as any as S.Schema<GetThreatEventRequest>;
 
 export type ThreatEventsGetResponseMitreAttackList = Array<string>;
 export const ThreatEventsGetResponseMitreAttackList = /*@__PURE__*/ S.Array(
@@ -4461,9 +5128,7 @@ export const GetThreatEventResponse = /*@__PURE__*/ S.suspend(() =>
     insight: S.optional(S.NullOr(S.String)),
     releasabilityId: S.optional(S.NullOr(S.String)),
   }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "GetThreatEventResponse",
-}) as any as S.Schema<GetThreatEventResponse>;
+).annotate({ identifier: "GetThreatEventResponse" }) as any as S.Schema<GetThreatEventResponse>;
 
 export interface GetThreatEventCategoryRequest {
   /** Account ID. */
@@ -4583,9 +5248,7 @@ export const GetThreatEventRawRequest = /*@__PURE__*/ S.suspend(() =>
       }),
     )
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "GetThreatEventRawRequest",
-}) as any as S.Schema<GetThreatEventRawRequest>;
+).annotate({ identifier: "GetThreatEventRawRequest" }) as any as S.Schema<GetThreatEventRawRequest>;
 
 /** Raw response payload (operation does not use the standard v4 result envelope). */
 export interface GetThreatEventRawResponse {
@@ -4820,7 +5483,10 @@ export interface GetThreatEventsIndicatorsByDatasetResponse {
   value: string;
   /** The dataset ID this indicator belongs to. Included in list responses. */
   datasetId?: string | null;
+  /** Related events, capped by `relatedEventsLimit` (default 2). Check `relatedEventsHasMore` to detect a capped list; pass `relatedEventsLimit=-1` to retrieve all of them. */
   relatedEvents?: GetThreatEventsIndicatorsByDatasetResponseRelatedEventsList | null;
+  /** True when this indicator appears in more events than `relatedEvents` contains because `relatedEventsLimit` capped the list. Pass `relatedEventsLimit=-1` to retrieve every related event. */
+  relatedEventsHasMore?: boolean | null;
   tags?: GetThreatEventsIndicatorsByDatasetResponseTagsList | null;
   /** Traffic Light Protocol designation. UPPERCASE. Possible values: CLEAR, GREEN, AMBER, AMBER-STRICT, RED, PURPLE. Null when not set. */
   tlp?: string | null;
@@ -4836,6 +5502,7 @@ export const GetThreatEventsIndicatorsByDatasetResponse = /*@__PURE__*/ S.suspen
     relatedEvents: S.optional(
       S.NullOr(GetThreatEventsIndicatorsByDatasetResponseRelatedEventsList),
     ),
+    relatedEventsHasMore: S.optional(S.NullOr(S.Boolean)),
     tags: S.optional(S.NullOr(GetThreatEventsIndicatorsByDatasetResponseTagsList)),
     tlp: S.optional(S.NullOr(S.String)),
   }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
@@ -4915,6 +5582,417 @@ export const GetThreatEventsQueryResponse = /*@__PURE__*/ S.suspend(() =>
   identifier: "GetThreatEventsQueryResponse",
 }) as any as S.Schema<GetThreatEventsQueryResponse>;
 
+export interface GetThreatSignalsArticleRequest {
+  accountId: string;
+  articleId: string;
+}
+export const GetThreatSignalsArticleRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    accountId: S.String.pipe(T.Label("account_id")),
+    articleId: S.String.pipe(T.Label("article_id")),
+  })
+    .pipe(
+      T.Http({
+        method: "GET",
+        uri: "/accounts/{account_id}/cloudforce-one/v2/threat-signals/articles/{article_id}",
+        code: 200,
+      }),
+    )
+    .pipe(T.KeyDictionary(KEY_DICTIONARY)),
+).annotate({
+  identifier: "GetThreatSignalsArticleRequest",
+}) as any as S.Schema<GetThreatSignalsArticleRequest>;
+
+export type GetThreatSignalsArticleResponseBulletPoints =
+  EditThreatSignalsArticleResponseBulletPoints;
+export const GetThreatSignalsArticleResponseBulletPoints =
+  EditThreatSignalsArticleResponseBulletPoints;
+
+export type GetThreatSignalsArticleResponseIndicatorExtractionStatus =
+  | "in_progress"
+  | "complete"
+  | "failed"
+  | "unknown";
+export const GetThreatSignalsArticleResponseIndicatorExtractionStatus = S.String;
+
+export type GetThreatSignalsArticleResponseMetadataMap = { [key: string]: unknown | undefined };
+export const GetThreatSignalsArticleResponseMetadataMap = /*@__PURE__*/ S.Record(
+  S.String,
+  S.Unknown,
+) as any as S.Schema<GetThreatSignalsArticleResponseMetadataMap>;
+
+export type GetThreatSignalsArticleResponseTagsItemAppliedBy = "ai" | "analyst" | "system";
+export const GetThreatSignalsArticleResponseTagsItemAppliedBy = S.String;
+
+export interface GetThreatSignalsArticleResponseTagsItem {
+  appliedBy: GetThreatSignalsArticleResponseTagsItemAppliedBy;
+  categoryId: string;
+  uuid: string;
+  value: string;
+}
+export const GetThreatSignalsArticleResponseTagsItem = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    appliedBy: GetThreatSignalsArticleResponseTagsItemAppliedBy.pipe(T.Body("applied_by")),
+    categoryId: S.String,
+    uuid: S.String,
+    value: S.String,
+  }),
+).annotate({
+  identifier: "GetThreatSignalsArticleResponseTagsItem",
+}) as any as S.Schema<GetThreatSignalsArticleResponseTagsItem>;
+
+export type GetThreatSignalsArticleResponseTagsList =
+  Array<GetThreatSignalsArticleResponseTagsItem>;
+export const GetThreatSignalsArticleResponseTagsList = /*@__PURE__*/ S.Array(
+  GetThreatSignalsArticleResponseTagsItem,
+) as any as S.Schema<GetThreatSignalsArticleResponseTagsList>;
+
+/** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
+export interface GetThreatSignalsArticleResponse {
+  id: string;
+  bulletPoints: EditThreatSignalsArticleResponseBulletPoints;
+  contentR2Key: string;
+  feedDisplayName: string;
+  feedId: string;
+  fetchedAt: string;
+  /** Progress of the article's indicator extraction and IOC contextualization run. complete and failed are terminal; unknown means no run has been recorded. */
+  indicatorExtractionStatus: GetThreatSignalsArticleResponseIndicatorExtractionStatus;
+  link: string;
+  metadata: GetThreatSignalsArticleResponseMetadataMap;
+  publishedAt: string;
+  read: boolean;
+  readAt: string;
+  sourceCount: number;
+  /** Persisted enrichment summary. Null until enrichment produces a summary. */
+  summary: string;
+  summaryR2Key: string;
+  tags: GetThreatSignalsArticleResponseTagsList;
+  title: string;
+  skillVersion?: string | null;
+  tagSkillVersion?: string | null;
+}
+export const GetThreatSignalsArticleResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    id: S.String,
+    bulletPoints: EditThreatSignalsArticleResponseBulletPoints.pipe(T.Body("bullet_points")),
+    contentR2Key: S.String.pipe(T.Body("content_r2_key")),
+    feedDisplayName: S.String.pipe(T.Body("feed_display_name")),
+    feedId: S.String.pipe(T.Body("feed_id")),
+    fetchedAt: S.String.pipe(T.Body("fetched_at")),
+    indicatorExtractionStatus: GetThreatSignalsArticleResponseIndicatorExtractionStatus.pipe(
+      T.Body("indicator_extraction_status"),
+    ),
+    link: S.String,
+    metadata: GetThreatSignalsArticleResponseMetadataMap,
+    publishedAt: S.String.pipe(T.Body("published_at")),
+    read: S.Boolean,
+    readAt: S.String.pipe(T.Body("read_at")),
+    sourceCount: S.Number.pipe(T.Body("source_count")),
+    summary: S.String,
+    summaryR2Key: S.String.pipe(T.Body("summary_r2_key")),
+    tags: GetThreatSignalsArticleResponseTagsList,
+    title: S.String,
+    skillVersion: S.optional(S.NullOr(S.String).pipe(T.Body("skill_version"))),
+    tagSkillVersion: S.optional(S.NullOr(S.String).pipe(T.Body("tag_skill_version"))),
+  }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
+).annotate({
+  identifier: "GetThreatSignalsArticleResponse",
+}) as any as S.Schema<GetThreatSignalsArticleResponse>;
+
+export type GetThreatSignalsArticlesContentRequestFormat = "text" | "html";
+export const GetThreatSignalsArticlesContentRequestFormat = S.String;
+
+export interface GetThreatSignalsArticlesContentRequest {
+  accountId: string;
+  articleId: string;
+  format?: GetThreatSignalsArticlesContentRequestFormat | (string & {});
+}
+export const GetThreatSignalsArticlesContentRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    accountId: S.String.pipe(T.Label("account_id")),
+    articleId: S.String.pipe(T.Label("article_id")),
+    format: S.optional(GetThreatSignalsArticlesContentRequestFormat.pipe(T.Query())),
+  })
+    .pipe(
+      T.Http({
+        method: "GET",
+        uri: "/accounts/{account_id}/cloudforce-one/v2/threat-signals/articles/{article_id}/content",
+        code: 200,
+      }),
+    )
+    .pipe(T.KeyDictionary(KEY_DICTIONARY)),
+).annotate({
+  identifier: "GetThreatSignalsArticlesContentRequest",
+}) as any as S.Schema<GetThreatSignalsArticlesContentRequest>;
+
+export interface GetThreatSignalsArticlesContentResponse {}
+export const GetThreatSignalsArticlesContentResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({}).pipe(T.KeyDictionary(KEY_DICTIONARY)),
+).annotate({
+  identifier: "GetThreatSignalsArticlesContentResponse",
+}) as any as S.Schema<GetThreatSignalsArticlesContentResponse>;
+
+export interface GetThreatSignalsArticlesSkillOutputRequest {
+  accountId: string;
+  articleId: string;
+  skillId: string;
+}
+export const GetThreatSignalsArticlesSkillOutputRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    accountId: S.String.pipe(T.Label("account_id")),
+    articleId: S.String.pipe(T.Label("article_id")),
+    skillId: S.String.pipe(T.Label("skill_id")),
+  })
+    .pipe(
+      T.Http({
+        method: "GET",
+        uri: "/accounts/{account_id}/cloudforce-one/v2/threat-signals/articles/{article_id}/skills/{skill_id}/output",
+        code: 200,
+      }),
+    )
+    .pipe(T.KeyDictionary(KEY_DICTIONARY)),
+).annotate({
+  identifier: "GetThreatSignalsArticlesSkillOutputRequest",
+}) as any as S.Schema<GetThreatSignalsArticlesSkillOutputRequest>;
+
+/** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
+export interface GetThreatSignalsArticlesSkillOutputResponse {
+  articleId: string;
+  customSkillVersion: string;
+  /** JSON-encoded output schema of the skill. Null when the skill no longer exists. */
+  outputSchema: string;
+  skillId: string;
+  /** Skill output. Parsed JSON when the stored output is valid JSON, otherwise the raw string. */
+  customOutput?: unknown | null;
+}
+export const GetThreatSignalsArticlesSkillOutputResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    articleId: S.String.pipe(T.Body("article_id")),
+    customSkillVersion: S.String.pipe(T.Body("custom_skill_version")),
+    outputSchema: S.String.pipe(T.Body("output_schema")),
+    skillId: S.String.pipe(T.Body("skill_id")),
+    customOutput: S.optional(S.NullOr(S.Unknown).pipe(T.Body("custom_output"))),
+  }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
+).annotate({
+  identifier: "GetThreatSignalsArticlesSkillOutputResponse",
+}) as any as S.Schema<GetThreatSignalsArticlesSkillOutputResponse>;
+
+export type GetThreatSignalsFeedsRawRequestFormat = "xml";
+export const GetThreatSignalsFeedsRawRequestFormat = S.String;
+
+export interface GetThreatSignalsFeedsRawRequest {
+  accountId: string;
+  feedId: string;
+  format?: GetThreatSignalsFeedsRawRequestFormat | (string & {});
+}
+export const GetThreatSignalsFeedsRawRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    accountId: S.String.pipe(T.Label("account_id")),
+    feedId: S.String.pipe(T.Label("feed_id")),
+    format: S.optional(GetThreatSignalsFeedsRawRequestFormat.pipe(T.Query())),
+  })
+    .pipe(
+      T.Http({
+        method: "GET",
+        uri: "/accounts/{account_id}/cloudforce-one/v2/threat-signals/feeds/{feed_id}/raw",
+        code: 200,
+      }),
+    )
+    .pipe(T.KeyDictionary(KEY_DICTIONARY)),
+).annotate({
+  identifier: "GetThreatSignalsFeedsRawRequest",
+}) as any as S.Schema<GetThreatSignalsFeedsRawRequest>;
+
+export interface GetThreatSignalsFeedsRawResponse {}
+export const GetThreatSignalsFeedsRawResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({}).pipe(T.KeyDictionary(KEY_DICTIONARY)),
+).annotate({
+  identifier: "GetThreatSignalsFeedsRawResponse",
+}) as any as S.Schema<GetThreatSignalsFeedsRawResponse>;
+
+export interface GetThreatSignalsFeedsSkillRequest {
+  accountId: string;
+  feedId: string;
+}
+export const GetThreatSignalsFeedsSkillRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    accountId: S.String.pipe(T.Label("account_id")),
+    feedId: S.String.pipe(T.Label("feed_id")),
+  })
+    .pipe(
+      T.Http({
+        method: "GET",
+        uri: "/accounts/{account_id}/cloudforce-one/v2/threat-signals/feeds/{feed_id}/skills",
+        code: 200,
+      }),
+    )
+    .pipe(T.KeyDictionary(KEY_DICTIONARY)),
+).annotate({
+  identifier: "GetThreatSignalsFeedsSkillRequest",
+}) as any as S.Schema<GetThreatSignalsFeedsSkillRequest>;
+
+export type GetThreatSignalsFeedsSkillResponseSkillsItemSource = "default" | "custom";
+export const GetThreatSignalsFeedsSkillResponseSkillsItemSource = S.String;
+
+export interface GetThreatSignalsFeedsSkillResponseSkillsItem {
+  id: string;
+  /** JSON-encoded skill configuration. Always null for default skills. */
+  config: string;
+  createdAt: string;
+  /** 1 when active, 0 when inactive. */
+  isActive: number;
+  name: string;
+  /** JSON-encoded JSON Schema the skill output must satisfy. */
+  outputSchema: string;
+  prompt: string;
+  /** `default` for Cloudforce One managed skills (read-only), `custom` for account skills. */
+  source: GetThreatSignalsFeedsSkillResponseSkillsItemSource;
+  type: string;
+  updatedAt: string;
+}
+export const GetThreatSignalsFeedsSkillResponseSkillsItem = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    id: S.String,
+    config: S.String,
+    createdAt: S.String.pipe(T.Body("created_at")),
+    isActive: S.Number.pipe(T.Body("is_active")),
+    name: S.String,
+    outputSchema: S.String.pipe(T.Body("output_schema")),
+    prompt: S.String,
+    source: GetThreatSignalsFeedsSkillResponseSkillsItemSource,
+    type: S.String,
+    updatedAt: S.String.pipe(T.Body("updated_at")),
+  }),
+).annotate({
+  identifier: "GetThreatSignalsFeedsSkillResponseSkillsItem",
+}) as any as S.Schema<GetThreatSignalsFeedsSkillResponseSkillsItem>;
+
+export type GetThreatSignalsFeedsSkillResponseSkillsList =
+  Array<GetThreatSignalsFeedsSkillResponseSkillsItem>;
+export const GetThreatSignalsFeedsSkillResponseSkillsList = /*@__PURE__*/ S.Array(
+  GetThreatSignalsFeedsSkillResponseSkillsItem,
+) as any as S.Schema<GetThreatSignalsFeedsSkillResponseSkillsList>;
+
+/** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
+export interface GetThreatSignalsFeedsSkillResponse {
+  feedId: string;
+  skills: GetThreatSignalsFeedsSkillResponseSkillsList;
+}
+export const GetThreatSignalsFeedsSkillResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    feedId: S.String.pipe(T.Body("feed_id")),
+    skills: GetThreatSignalsFeedsSkillResponseSkillsList,
+  }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
+).annotate({
+  identifier: "GetThreatSignalsFeedsSkillResponse",
+}) as any as S.Schema<GetThreatSignalsFeedsSkillResponse>;
+
+export interface GetThreatSignalsSkillRequest {
+  accountId: string;
+  skillId: string;
+}
+export const GetThreatSignalsSkillRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    accountId: S.String.pipe(T.Label("account_id")),
+    skillId: S.String.pipe(T.Label("skill_id")),
+  })
+    .pipe(
+      T.Http({
+        method: "GET",
+        uri: "/accounts/{account_id}/cloudforce-one/v2/threat-signals/skills/{skill_id}",
+        code: 200,
+      }),
+    )
+    .pipe(T.KeyDictionary(KEY_DICTIONARY)),
+).annotate({
+  identifier: "GetThreatSignalsSkillRequest",
+}) as any as S.Schema<GetThreatSignalsSkillRequest>;
+
+export type GetThreatSignalsSkillResponseSource = "default" | "custom";
+export const GetThreatSignalsSkillResponseSource = S.String;
+
+/** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
+export interface GetThreatSignalsSkillResponse {
+  id: string;
+  /** JSON-encoded skill configuration. Always null for default skills. */
+  config: string;
+  createdAt: string;
+  /** 1 when active, 0 when inactive. */
+  isActive: number;
+  name: string;
+  /** JSON-encoded JSON Schema the skill output must satisfy. */
+  outputSchema: string;
+  prompt: string;
+  /** `default` for Cloudforce One managed skills (read-only), `custom` for account skills. */
+  source: GetThreatSignalsSkillResponseSource;
+  type: string;
+  updatedAt: string;
+}
+export const GetThreatSignalsSkillResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    id: S.String,
+    config: S.String,
+    createdAt: S.String.pipe(T.Body("created_at")),
+    isActive: S.Number.pipe(T.Body("is_active")),
+    name: S.String,
+    outputSchema: S.String.pipe(T.Body("output_schema")),
+    prompt: S.String,
+    source: GetThreatSignalsSkillResponseSource,
+    type: S.String,
+    updatedAt: S.String.pipe(T.Body("updated_at")),
+  }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
+).annotate({
+  identifier: "GetThreatSignalsSkillResponse",
+}) as any as S.Schema<GetThreatSignalsSkillResponse>;
+
+export type GetThreatSignalsSkillsTagCategoryRequestSkillId = "default-tagging-skill";
+export const GetThreatSignalsSkillsTagCategoryRequestSkillId = S.String;
+
+export interface GetThreatSignalsSkillsTagCategoryRequest {
+  accountId: string;
+  skillId: GetThreatSignalsSkillsTagCategoryRequestSkillId | (string & {});
+}
+export const GetThreatSignalsSkillsTagCategoryRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    accountId: S.String.pipe(T.Label("account_id")),
+    skillId: GetThreatSignalsSkillsTagCategoryRequestSkillId.pipe(T.Label("skill_id")),
+  })
+    .pipe(
+      T.Http({
+        method: "GET",
+        uri: "/accounts/{account_id}/cloudforce-one/v2/threat-signals/skills/{skill_id}/tag-categories",
+        code: 200,
+      }),
+    )
+    .pipe(T.KeyDictionary(KEY_DICTIONARY)),
+).annotate({
+  identifier: "GetThreatSignalsSkillsTagCategoryRequest",
+}) as any as S.Schema<GetThreatSignalsSkillsTagCategoryRequest>;
+
+export type GetThreatSignalsSkillsTagCategoryResponseCategoryUuidsList = Array<string>;
+export const GetThreatSignalsSkillsTagCategoryResponseCategoryUuidsList = /*@__PURE__*/ S.Array(
+  S.String,
+) as any as S.Schema<GetThreatSignalsSkillsTagCategoryResponseCategoryUuidsList>;
+
+export type GetThreatSignalsSkillsTagCategoryResponseSkillId = "default-tagging-skill";
+export const GetThreatSignalsSkillsTagCategoryResponseSkillId = S.String;
+
+/** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
+export interface GetThreatSignalsSkillsTagCategoryResponse {
+  categoryUuids: GetThreatSignalsSkillsTagCategoryResponseCategoryUuidsList;
+  skillId: GetThreatSignalsSkillsTagCategoryResponseSkillId;
+}
+export const GetThreatSignalsSkillsTagCategoryResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    categoryUuids: GetThreatSignalsSkillsTagCategoryResponseCategoryUuidsList.pipe(
+      T.Body("category_uuids"),
+    ),
+    skillId: GetThreatSignalsSkillsTagCategoryResponseSkillId.pipe(T.Body("skill_id")),
+  }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
+).annotate({
+  identifier: "GetThreatSignalsSkillsTagCategoryResponse",
+}) as any as S.Schema<GetThreatSignalsSkillsTagCategoryResponse>;
+
 export type ListRequestsRequestSortOrder = "asc" | "desc";
 export const ListRequestsRequestSortOrder = S.String;
 
@@ -4966,16 +6044,10 @@ export const ListRequestsRequest = /*@__PURE__*/ S.suspend(() =>
     status: S.optional(ListRequestsRequestStatus),
   })
     .pipe(
-      T.Http({
-        method: "POST",
-        uri: "/accounts/{account_id}/cloudforce-one/requests",
-        code: 200,
-      }),
+      T.Http({ method: "POST", uri: "/accounts/{account_id}/cloudforce-one/requests", code: 200 }),
     )
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "ListRequestsRequest",
-}) as any as S.Schema<ListRequestsRequest>;
+).annotate({ identifier: "ListRequestsRequest" }) as any as S.Schema<ListRequestsRequest>;
 
 export type ListRequestsResultItemPriority = "routine" | "high" | "urgent";
 export const ListRequestsResultItemPriority = S.String;
@@ -5032,9 +6104,7 @@ export const ListRequestsResultItem = /*@__PURE__*/ S.suspend(() =>
     status: S.optional(S.NullOr(ListRequestsResultItemStatus)),
     tokens: S.optional(S.NullOr(S.Number)),
   }),
-).annotate({
-  identifier: "ListRequestsResultItem",
-}) as any as S.Schema<ListRequestsResultItem>;
+).annotate({ identifier: "ListRequestsResultItem" }) as any as S.Schema<ListRequestsResultItem>;
 
 export type ListRequestsResultList = Array<ListRequestsResultItem>;
 export const ListRequestsResultList = /*@__PURE__*/ S.Array(
@@ -5044,9 +6114,7 @@ export const ListRequestsResultList = /*@__PURE__*/ S.Array(
 export type ListRequestsResponse = ListRequestsResultList;
 export const ListRequestsResponse = /*@__PURE__*/ S.suspend(() =>
   ListRequestsResultList.pipe(T.EnvelopePayloadRoot(), T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "ListRequestsResponse",
-}) as any as S.Schema<ListRequestsResponse>;
+).annotate({ identifier: "ListRequestsResponse" }) as any as S.Schema<ListRequestsResponse>;
 
 export interface ListScanConfigsRequest {
   /** Defines the Account ID. */
@@ -5064,9 +6132,7 @@ export const ListScanConfigsRequest = /*@__PURE__*/ S.suspend(() =>
       }),
     )
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "ListScanConfigsRequest",
-}) as any as S.Schema<ListScanConfigsRequest>;
+).annotate({ identifier: "ListScanConfigsRequest" }) as any as S.Schema<ListScanConfigsRequest>;
 
 export type ScansConfigListResultItemIpsList = Array<string>;
 export const ScansConfigListResultItemIpsList = /*@__PURE__*/ S.Array(
@@ -5117,9 +6183,7 @@ export const ListScanConfigsResponse = /*@__PURE__*/ S.suspend(() =>
     result: ScansConfigListResultList.pipe(T.EnvelopePayload()),
     resultInfo: S.optional(S.NullOr(ResultInfo).pipe(T.ResultInfo())),
   }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "ListScanConfigsResponse",
-}) as any as S.Schema<ListScanConfigsResponse>;
+).annotate({ identifier: "ListScanConfigsResponse" }) as any as S.Schema<ListScanConfigsResponse>;
 
 export type ThreatEventsAttackersListRequestDatasetIdsList = Array<string>;
 export const ThreatEventsAttackersListRequestDatasetIdsList = /*@__PURE__*/ S.Array(
@@ -5392,6 +6456,11 @@ export const ThreatEventsListRequestSearchList = /*@__PURE__*/ S.Array(
   S.String,
 ) as any as S.Schema<ThreatEventsListRequestSearchList>;
 
+export type ThreatEventsListRequestSearchBranchesList = Array<string>;
+export const ThreatEventsListRequestSearchBranchesList = /*@__PURE__*/ S.Array(
+  S.String,
+) as any as S.Schema<ThreatEventsListRequestSearchBranchesList>;
+
 export interface ListThreatEventsRequest {
   /** Account ID. */
   accountId: string;
@@ -5410,6 +6479,8 @@ export interface ListThreatEventsRequest {
   /** Number of results per page. Maximum 25,000. */
   pageSize?: number;
   search?: ThreatEventsListRequestSearchList;
+  /** JSON-encoded. OR branches of structured search filters. Filters within a branch are AND'd, branches are OR'd, and the result is AND'd with `search`: `AND(search) AND OR(AND(branch 1), ...)`. Max 8 branches of 1-10 conditions each. Not supported for analytics datasets, and `indicator` filters are not yet supported inside branches. Cursor pages carry the original branches, so do not resend them with `cursor`. */
+  searchBranches?: ThreatEventsListRequestSearchBranchesList;
 }
 export const ListThreatEventsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -5424,18 +6495,11 @@ export const ListThreatEventsRequest = /*@__PURE__*/ S.suspend(() =>
     page: S.optional(S.Number.pipe(T.Query())),
     pageSize: S.optional(S.Number.pipe(T.Query())),
     search: S.optional(ThreatEventsListRequestSearchList.pipe(T.Query())),
+    searchBranches: S.optional(ThreatEventsListRequestSearchBranchesList.pipe(T.Query())),
   })
-    .pipe(
-      T.Http({
-        method: "GET",
-        uri: "/accounts/{account_id}/cloudforce-one/events",
-        code: 200,
-      }),
-    )
+    .pipe(T.Http({ method: "GET", uri: "/accounts/{account_id}/cloudforce-one/events", code: 200 }))
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "ListThreatEventsRequest",
-}) as any as S.Schema<ListThreatEventsRequest>;
+).annotate({ identifier: "ListThreatEventsRequest" }) as any as S.Schema<ListThreatEventsRequest>;
 
 export type ThreatEventsListResponseMitreAttackList = Array<string>;
 export const ThreatEventsListResponseMitreAttackList = /*@__PURE__*/ S.Array(
@@ -5536,9 +6600,7 @@ export const ListThreatEventsResponse = /*@__PURE__*/ S.suspend(() =>
     insight: S.optional(S.NullOr(S.String)),
     releasabilityId: S.optional(S.NullOr(S.String)),
   }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "ListThreatEventsResponse",
-}) as any as S.Schema<ListThreatEventsResponse>;
+).annotate({ identifier: "ListThreatEventsResponse" }) as any as S.Schema<ListThreatEventsResponse>;
 
 export type ListThreatEventsAggregateRequestDatasetIdList = Array<string>;
 export const ListThreatEventsAggregateRequestDatasetIdList = /*@__PURE__*/ S.Array(
@@ -5793,17 +6855,13 @@ export const ListThreatEventsGraphResponseEdgesList = /*@__PURE__*/ S.Array(
   ListThreatEventsGraphResponseEdgesItem,
 ) as any as S.Schema<ListThreatEventsGraphResponseEdgesList>;
 
-export type ListThreatEventsGraphResponseNodeMap = {
-  [key: string]: unknown | undefined;
-};
+export type ListThreatEventsGraphResponseNodeMap = { [key: string]: unknown | undefined };
 export const ListThreatEventsGraphResponseNodeMap = /*@__PURE__*/ S.Record(
   S.String,
   S.Unknown,
 ) as any as S.Schema<ListThreatEventsGraphResponseNodeMap>;
 
-export type ListThreatEventsGraphResponseNodesItemMap = {
-  [key: string]: unknown | undefined;
-};
+export type ListThreatEventsGraphResponseNodesItemMap = { [key: string]: unknown | undefined };
 export const ListThreatEventsGraphResponseNodesItemMap = /*@__PURE__*/ S.Record(
   S.String,
   S.Unknown,
@@ -5889,7 +6947,7 @@ export interface ListThreatEventsIndicatorsRequest {
   pageSize?: number;
   /** Filter by related event IDs */
   relatedEvents?: ListThreatEventsIndicatorsRequestRelatedEventsList;
-  /** Limit the number of related events returned per indicator. Default: 2. Set to 0 for none, -1 for all events. */
+  /** Limit the number of related events returned per indicator. Default: 2. Set to 0 for none, -1 for all events. For JSON responses, when the limit hides events, the indicator carries `relatedEventsHasMore: true` and the response includes an advisory message — the cap is never applied silently. STIX and TAXII representations do not include related-event data. */
   relatedEventsLimit?: number;
   /** Structured search as a JSON array of {field, op, value} objects. Searchable fields: value, indicatorType, uuid. Supports operators: equals, not, contains, startsWith, endsWith, gt, lt, gte, lte, like, in, find. Use the 'in' operator with an array value to bulk-check up to 100 indicators in a single request, e.g. search=[{"field":"value","op":"in","value":["evil.com","bad.org"]}]. Multiple conditions are AND'd together. Max 10 conditions per request. */
   search?: ListThreatEventsIndicatorsRequestSearchList;
@@ -6067,6 +7125,8 @@ export interface ListThreatEventsIndicatorsResponsePropertiesIndicatorsItemsSour
   resourceId: string;
   resourceType: ListThreatEventsIndicatorsResponsePropertiesIndicatorsItemsSourcesItemResourceType;
   system: ListThreatEventsIndicatorsResponsePropertiesIndicatorsItemsSourcesItemSystem;
+  /** Threat Signals article title; null for historical provenance without a stored title. */
+  title: string;
 }
 export const ListThreatEventsIndicatorsResponsePropertiesIndicatorsItemsSourcesItem =
   /*@__PURE__*/ S.suspend(() =>
@@ -6075,6 +7135,7 @@ export const ListThreatEventsIndicatorsResponsePropertiesIndicatorsItemsSourcesI
       resourceType:
         ListThreatEventsIndicatorsResponsePropertiesIndicatorsItemsSourcesItemResourceType,
       system: ListThreatEventsIndicatorsResponsePropertiesIndicatorsItemsSourcesItemSystem,
+      title: S.String,
     }),
   ).annotate({
     identifier: "ListThreatEventsIndicatorsResponsePropertiesIndicatorsItemsSourcesItem",
@@ -6121,7 +7182,10 @@ export interface ListThreatEventsIndicatorsResponsePropertiesIndicatorsItems {
   value: string;
   /** The dataset ID this indicator belongs to. Included in list responses. */
   datasetId?: string | null;
+  /** Related events, capped by `relatedEventsLimit` (default 2). Check `relatedEventsHasMore` to detect a capped list; pass `relatedEventsLimit=-1` to retrieve all of them. */
   relatedEvents?: ListThreatEventsIndicatorsResponsePropertiesIndicatorsItemsRelatedEventsList | null;
+  /** True when this indicator appears in more events than `relatedEvents` contains because `relatedEventsLimit` capped the list. Pass `relatedEventsLimit=-1` to retrieve every related event. */
+  relatedEventsHasMore?: boolean | null;
   tags?: ListThreatEventsIndicatorsResponsePropertiesIndicatorsItemsTagsList | null;
   /** Traffic Light Protocol designation. UPPERCASE. Possible values: CLEAR, GREEN, AMBER, AMBER-STRICT, RED, PURPLE. Null when not set. */
   tlp?: string | null;
@@ -6139,6 +7203,7 @@ export const ListThreatEventsIndicatorsResponsePropertiesIndicatorsItems = /*@__
       relatedEvents: S.optional(
         S.NullOr(ListThreatEventsIndicatorsResponsePropertiesIndicatorsItemsRelatedEventsList),
       ),
+      relatedEventsHasMore: S.optional(S.NullOr(S.Boolean)),
       tags: S.optional(
         S.NullOr(ListThreatEventsIndicatorsResponsePropertiesIndicatorsItemsTagsList),
       ),
@@ -6442,6 +7507,8 @@ export interface ListThreatEventsIndicatorsByDatasetResponseIndicatorsItemSource
   resourceId: string;
   resourceType: ListThreatEventsIndicatorsByDatasetResponseIndicatorsItemSourcesItemResourceType;
   system: ListThreatEventsIndicatorsByDatasetResponseIndicatorsItemSourcesItemSystem;
+  /** Threat Signals article title; null for historical provenance without a stored title. */
+  title: string;
 }
 export const ListThreatEventsIndicatorsByDatasetResponseIndicatorsItemSourcesItem =
   /*@__PURE__*/ S.suspend(() =>
@@ -6450,6 +7517,7 @@ export const ListThreatEventsIndicatorsByDatasetResponseIndicatorsItemSourcesIte
       resourceType:
         ListThreatEventsIndicatorsByDatasetResponseIndicatorsItemSourcesItemResourceType,
       system: ListThreatEventsIndicatorsByDatasetResponseIndicatorsItemSourcesItemSystem,
+      title: S.String,
     }),
   ).annotate({
     identifier: "ListThreatEventsIndicatorsByDatasetResponseIndicatorsItemSourcesItem",
@@ -6496,7 +7564,10 @@ export interface ListThreatEventsIndicatorsByDatasetResponseIndicatorsItem {
   value: string;
   /** The dataset ID this indicator belongs to. Included in list responses. */
   datasetId?: string | null;
+  /** Related events, capped by `relatedEventsLimit` (default 2). Check `relatedEventsHasMore` to detect a capped list; pass `relatedEventsLimit=-1` to retrieve all of them. */
   relatedEvents?: ListThreatEventsIndicatorsByDatasetResponseIndicatorsItemRelatedEventsList | null;
+  /** True when this indicator appears in more events than `relatedEvents` contains because `relatedEventsLimit` capped the list. Pass `relatedEventsLimit=-1` to retrieve every related event. */
+  relatedEventsHasMore?: boolean | null;
   tags?: ListThreatEventsIndicatorsByDatasetResponseIndicatorsItemTagsList | null;
   /** Traffic Light Protocol designation. UPPERCASE. Possible values: CLEAR, GREEN, AMBER, AMBER-STRICT, RED, PURPLE. Null when not set. */
   tlp?: string | null;
@@ -6514,6 +7585,7 @@ export const ListThreatEventsIndicatorsByDatasetResponseIndicatorsItem = /*@__PU
       relatedEvents: S.optional(
         S.NullOr(ListThreatEventsIndicatorsByDatasetResponseIndicatorsItemRelatedEventsList),
       ),
+      relatedEventsHasMore: S.optional(S.NullOr(S.Boolean)),
       tags: S.optional(S.NullOr(ListThreatEventsIndicatorsByDatasetResponseIndicatorsItemTagsList)),
       tlp: S.optional(S.NullOr(S.String)),
     }),
@@ -7277,7 +8349,7 @@ export interface ListThreatEventsTagsResponseTagsItem {
   /** Structured external references ({ url, description }). Public: returned to all accounts. */
   externalReferences?: ListThreatEventsTagsResponseTagsItemExternalReferencesList | null;
   externalReferencesAnnotated?: ListThreatEventsTagsResponseTagsItemExternalReferencesAnnotatedList | null;
-  /** Internal structured aliases ({ value, confidence 1-10, tlp }). CFONE-only: never returned to non-CFONE accounts. */
+  /** Owner-private structured aliases ({ value, confidence 1-10, tlp }). Returned to the owning account and omitted from shared-catalog non-owner responses. */
   internalAliases?: ListThreatEventsTagsResponseTagsItemInternalAliasesList | null;
   internalDescription?: string | null;
   lastSeen?: string | null;
@@ -7669,7 +8741,10 @@ export interface ListThreatEventsTagsIndicatorsResponseIndicatorsItem {
   value: string;
   /** The dataset ID this indicator belongs to. Included in list responses. */
   datasetId?: string | null;
+  /** Related events, capped by `relatedEventsLimit` (default 2). Check `relatedEventsHasMore` to detect a capped list; pass `relatedEventsLimit=-1` to retrieve all of them. */
   relatedEvents?: ListThreatEventsTagsIndicatorsResponseIndicatorsItemRelatedEventsList | null;
+  /** True when this indicator appears in more events than `relatedEvents` contains because `relatedEventsLimit` capped the list. Pass `relatedEventsLimit=-1` to retrieve every related event. */
+  relatedEventsHasMore?: boolean | null;
   tags?: ListThreatEventsTagsIndicatorsResponseIndicatorsItemTagsList | null;
   /** Traffic Light Protocol designation. UPPERCASE. Possible values: CLEAR, GREEN, AMBER, AMBER-STRICT, RED, PURPLE. Null when not set. */
   tlp?: string | null;
@@ -7685,6 +8760,7 @@ export const ListThreatEventsTagsIndicatorsResponseIndicatorsItem = /*@__PURE__*
     relatedEvents: S.optional(
       S.NullOr(ListThreatEventsTagsIndicatorsResponseIndicatorsItemRelatedEventsList),
     ),
+    relatedEventsHasMore: S.optional(S.NullOr(S.Boolean)),
     tags: S.optional(S.NullOr(ListThreatEventsTagsIndicatorsResponseIndicatorsItemTagsList)),
     tlp: S.optional(S.NullOr(S.String)),
   }),
@@ -7799,7 +8875,10 @@ export interface ListThreatEventsTagsIndicatorsByDatasetResponseIndicatorsItem {
   value: string;
   /** The dataset ID this indicator belongs to. Included in list responses. */
   datasetId?: string | null;
+  /** Related events, capped by `relatedEventsLimit` (default 2). Check `relatedEventsHasMore` to detect a capped list; pass `relatedEventsLimit=-1` to retrieve all of them. */
   relatedEvents?: ListThreatEventsTagsIndicatorsByDatasetResponseIndicatorsItemRelatedEventsList | null;
+  /** True when this indicator appears in more events than `relatedEvents` contains because `relatedEventsLimit` capped the list. Pass `relatedEventsLimit=-1` to retrieve every related event. */
+  relatedEventsHasMore?: boolean | null;
   tags?: ListThreatEventsTagsIndicatorsByDatasetResponseIndicatorsItemTagsList | null;
   /** Traffic Light Protocol designation. UPPERCASE. Possible values: CLEAR, GREEN, AMBER, AMBER-STRICT, RED, PURPLE. Null when not set. */
   tlp?: string | null;
@@ -7816,6 +8895,7 @@ export const ListThreatEventsTagsIndicatorsByDatasetResponseIndicatorsItem =
       relatedEvents: S.optional(
         S.NullOr(ListThreatEventsTagsIndicatorsByDatasetResponseIndicatorsItemRelatedEventsList),
       ),
+      relatedEventsHasMore: S.optional(S.NullOr(S.Boolean)),
       tags: S.optional(
         S.NullOr(ListThreatEventsTagsIndicatorsByDatasetResponseIndicatorsItemTagsList),
       ),
@@ -7976,6 +9056,549 @@ export const ListThreatEventTargetIndustriesResponse = /*@__PURE__*/ S.suspend((
   identifier: "ListThreatEventTargetIndustriesResponse",
 }) as any as S.Schema<ListThreatEventTargetIndustriesResponse>;
 
+export type ListThreatSignalsArticlesRequestArticleIdList = Array<string>;
+export const ListThreatSignalsArticlesRequestArticleIdList = /*@__PURE__*/ S.Array(
+  S.String,
+) as any as S.Schema<ListThreatSignalsArticlesRequestArticleIdList>;
+
+export type ListThreatSignalsArticlesRequestSourceType = "curated" | "custom";
+export const ListThreatSignalsArticlesRequestSourceType = S.String;
+
+export type ListThreatSignalsArticlesRequestTagAppliedBy = "ai" | "analyst" | "system";
+export const ListThreatSignalsArticlesRequestTagAppliedBy = S.String;
+
+export type ListThreatSignalsArticlesRequestTagCategoryIdList = Array<string>;
+export const ListThreatSignalsArticlesRequestTagCategoryIdList = /*@__PURE__*/ S.Array(
+  S.String,
+) as any as S.Schema<ListThreatSignalsArticlesRequestTagCategoryIdList>;
+
+export type ListThreatSignalsArticlesRequestTagIdList = Array<string>;
+export const ListThreatSignalsArticlesRequestTagIdList = /*@__PURE__*/ S.Array(
+  S.String,
+) as any as S.Schema<ListThreatSignalsArticlesRequestTagIdList>;
+
+export interface ListThreatSignalsArticlesRequest {
+  accountId: string;
+  /** Repeatable article UUID filter. Returns the union of matching account-owned articles; use this to list every Threat Signals article referenced by an indicator's sources. */
+  articleId?: ListThreatSignalsArticlesRequestArticleIdList;
+  /** Opaque cursor from a previous response's `next_cursor`. When provided, pagination, ordering, totals, and article filters come from the cursor. Sending `per_page`, `sort`, `include_total`, or any article filter alongside it returns a 400 `CursorFilterConflictError`. */
+  cursor?: string;
+  feedCategory?: string;
+  feedId?: string;
+  fetchedAfter?: string;
+  fetchedBefore?: string;
+  includeTotal?: boolean;
+  perPage?: number;
+  publishedAfter?: string;
+  publishedBefore?: string;
+  read?: boolean;
+  search?: string;
+  sort?: string;
+  sourceType?: ListThreatSignalsArticlesRequestSourceType | (string & {});
+  /** Legacy human-readable tag-value filter. Ignored when tag_id is supplied; prefer tag_id. */
+  tag?: string;
+  /** Assignment provenance filter. When combined with tag_id or tag_category_id, the matching assignment must have this provenance. */
+  tagAppliedBy?: ListThreatSignalsArticlesRequestTagAppliedBy | (string & {});
+  /** Legacy category-name disambiguator for tag. It has no effect without tag; prefer tag_category_id. */
+  tagCategory?: string;
+  /** Repeatable tag-category UUID filter. An article matches any selected category; when tag_id is also present, the tag and category groups are ANDed. */
+  tagCategoryId?: ListThreatSignalsArticlesRequestTagCategoryIdList;
+  /** Repeatable tag UUID filter. An article matches any selected tag. */
+  tagId?: ListThreatSignalsArticlesRequestTagIdList;
+}
+export const ListThreatSignalsArticlesRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    accountId: S.String.pipe(T.Label("account_id")),
+    articleId: S.optional(
+      ListThreatSignalsArticlesRequestArticleIdList.pipe(T.Query("article_id")),
+    ),
+    cursor: S.optional(S.String.pipe(T.Query())),
+    feedCategory: S.optional(S.String.pipe(T.Query("feed_category"))),
+    feedId: S.optional(S.String.pipe(T.Query("feed_id"))),
+    fetchedAfter: S.optional(S.String.pipe(T.Query("fetched_after"))),
+    fetchedBefore: S.optional(S.String.pipe(T.Query("fetched_before"))),
+    includeTotal: S.optional(S.Boolean.pipe(T.Query("include_total"))),
+    perPage: S.optional(S.Number.pipe(T.Query("per_page"))),
+    publishedAfter: S.optional(S.String.pipe(T.Query("published_after"))),
+    publishedBefore: S.optional(S.String.pipe(T.Query("published_before"))),
+    read: S.optional(S.Boolean.pipe(T.Query())),
+    search: S.optional(S.String.pipe(T.Query())),
+    sort: S.optional(S.String.pipe(T.Query())),
+    sourceType: S.optional(ListThreatSignalsArticlesRequestSourceType.pipe(T.Query("source_type"))),
+    tag: S.optional(S.String.pipe(T.Query())),
+    tagAppliedBy: S.optional(
+      ListThreatSignalsArticlesRequestTagAppliedBy.pipe(T.Query("tag_applied_by")),
+    ),
+    tagCategory: S.optional(S.String.pipe(T.Query("tag_category"))),
+    tagCategoryId: S.optional(
+      ListThreatSignalsArticlesRequestTagCategoryIdList.pipe(T.Query("tag_category_id")),
+    ),
+    tagId: S.optional(ListThreatSignalsArticlesRequestTagIdList.pipe(T.Query("tag_id"))),
+  })
+    .pipe(
+      T.Http({
+        method: "GET",
+        uri: "/accounts/{account_id}/cloudforce-one/v2/threat-signals/articles",
+        code: 200,
+      }),
+    )
+    .pipe(T.KeyDictionary(KEY_DICTIONARY)),
+).annotate({
+  identifier: "ListThreatSignalsArticlesRequest",
+}) as any as S.Schema<ListThreatSignalsArticlesRequest>;
+
+export type ListThreatSignalsArticlesResponseArticlesItemTagsItemAppliedBy =
+  | "ai"
+  | "analyst"
+  | "system";
+export const ListThreatSignalsArticlesResponseArticlesItemTagsItemAppliedBy = S.String;
+
+export interface ListThreatSignalsArticlesResponseArticlesItemTagsItem {
+  appliedBy: ListThreatSignalsArticlesResponseArticlesItemTagsItemAppliedBy;
+  categoryId: string;
+  uuid: string;
+  value: string;
+}
+export const ListThreatSignalsArticlesResponseArticlesItemTagsItem = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    appliedBy: ListThreatSignalsArticlesResponseArticlesItemTagsItemAppliedBy.pipe(
+      T.Body("applied_by"),
+    ),
+    categoryId: S.String,
+    uuid: S.String,
+    value: S.String,
+  }),
+).annotate({
+  identifier: "ListThreatSignalsArticlesResponseArticlesItemTagsItem",
+}) as any as S.Schema<ListThreatSignalsArticlesResponseArticlesItemTagsItem>;
+
+export type ListThreatSignalsArticlesResponseArticlesItemTagsList =
+  Array<ListThreatSignalsArticlesResponseArticlesItemTagsItem>;
+export const ListThreatSignalsArticlesResponseArticlesItemTagsList = /*@__PURE__*/ S.Array(
+  ListThreatSignalsArticlesResponseArticlesItemTagsItem,
+) as any as S.Schema<ListThreatSignalsArticlesResponseArticlesItemTagsList>;
+
+export interface ListThreatSignalsArticlesResponseArticlesItem {
+  id: string;
+  /** Threat Events dataset identifier for the article redirect. Null when the account feeds dataset mapping is unavailable. */
+  datasetId: string;
+  /** Threat Events event identifier associated with this article for a UI redirect. Null when no event has been linked. */
+  eventId: string;
+  feedDisplayName: string;
+  feedId: string;
+  fetchedAt: string;
+  link: string;
+  publishedAt: string;
+  read: boolean;
+  readAt: string;
+  /** Persisted enrichment summary. Null until enrichment produces a summary. */
+  summary: string;
+  tags: ListThreatSignalsArticlesResponseArticlesItemTagsList;
+  title: string;
+}
+export const ListThreatSignalsArticlesResponseArticlesItem = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    id: S.String,
+    datasetId: S.String.pipe(T.Body("dataset_id")),
+    eventId: S.String.pipe(T.Body("event_id")),
+    feedDisplayName: S.String.pipe(T.Body("feed_display_name")),
+    feedId: S.String.pipe(T.Body("feed_id")),
+    fetchedAt: S.String.pipe(T.Body("fetched_at")),
+    link: S.String,
+    publishedAt: S.String.pipe(T.Body("published_at")),
+    read: S.Boolean,
+    readAt: S.String.pipe(T.Body("read_at")),
+    summary: S.String,
+    tags: ListThreatSignalsArticlesResponseArticlesItemTagsList,
+    title: S.String,
+  }),
+).annotate({
+  identifier: "ListThreatSignalsArticlesResponseArticlesItem",
+}) as any as S.Schema<ListThreatSignalsArticlesResponseArticlesItem>;
+
+export type ListThreatSignalsArticlesResponseArticlesList =
+  Array<ListThreatSignalsArticlesResponseArticlesItem>;
+export const ListThreatSignalsArticlesResponseArticlesList = /*@__PURE__*/ S.Array(
+  ListThreatSignalsArticlesResponseArticlesItem,
+) as any as S.Schema<ListThreatSignalsArticlesResponseArticlesList>;
+
+/** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
+export interface ListThreatSignalsArticlesResponse {
+  articles: ListThreatSignalsArticlesResponseArticlesList;
+  hasMore: boolean;
+  nextCursor: string;
+  totalCount: number;
+  totalCountIsExact: boolean;
+}
+export const ListThreatSignalsArticlesResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    articles: ListThreatSignalsArticlesResponseArticlesList,
+    hasMore: S.Boolean.pipe(T.Body("has_more")),
+    nextCursor: S.String.pipe(T.Body("next_cursor")),
+    totalCount: S.Number.pipe(T.Body("total_count")),
+    totalCountIsExact: S.Boolean.pipe(T.Body("total_count_is_exact")),
+  }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
+).annotate({
+  identifier: "ListThreatSignalsArticlesResponse",
+}) as any as S.Schema<ListThreatSignalsArticlesResponse>;
+
+export interface ListThreatSignalsCategoriesRequest {
+  accountId: string;
+}
+export const ListThreatSignalsCategoriesRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    accountId: S.String.pipe(T.Label("account_id")),
+  })
+    .pipe(
+      T.Http({
+        method: "GET",
+        uri: "/accounts/{account_id}/cloudforce-one/v2/threat-signals/categories",
+        code: 200,
+      }),
+    )
+    .pipe(T.KeyDictionary(KEY_DICTIONARY)),
+).annotate({
+  identifier: "ListThreatSignalsCategoriesRequest",
+}) as any as S.Schema<ListThreatSignalsCategoriesRequest>;
+
+export interface ListThreatSignalsCategoriesResponseCategoriesItem {
+  /** Wire value accepted by the feed `category_id` field. */
+  id: string;
+  /** Plain-language description of the category. */
+  description: string;
+  /** Human-readable display label. */
+  name: string;
+}
+export const ListThreatSignalsCategoriesResponseCategoriesItem = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    id: S.String,
+    description: S.String,
+    name: S.String,
+  }),
+).annotate({
+  identifier: "ListThreatSignalsCategoriesResponseCategoriesItem",
+}) as any as S.Schema<ListThreatSignalsCategoriesResponseCategoriesItem>;
+
+export type ListThreatSignalsCategoriesResponseCategoriesList =
+  Array<ListThreatSignalsCategoriesResponseCategoriesItem>;
+export const ListThreatSignalsCategoriesResponseCategoriesList = /*@__PURE__*/ S.Array(
+  ListThreatSignalsCategoriesResponseCategoriesItem,
+) as any as S.Schema<ListThreatSignalsCategoriesResponseCategoriesList>;
+
+/** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
+export interface ListThreatSignalsCategoriesResponse {
+  categories: ListThreatSignalsCategoriesResponseCategoriesList;
+}
+export const ListThreatSignalsCategoriesResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    categories: ListThreatSignalsCategoriesResponseCategoriesList,
+  }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
+).annotate({
+  identifier: "ListThreatSignalsCategoriesResponse",
+}) as any as S.Schema<ListThreatSignalsCategoriesResponse>;
+
+export type ListThreatSignalsFeedsRequestSourceType = "curated" | "custom";
+export const ListThreatSignalsFeedsRequestSourceType = S.String;
+
+export interface ListThreatSignalsFeedsRequest {
+  accountId: string;
+  category?: string;
+  enabled?: boolean;
+  limit?: number;
+  page?: number;
+  perPage?: number;
+  sort?: string;
+  sourceType?: ListThreatSignalsFeedsRequestSourceType | (string & {});
+  status?: string;
+}
+export const ListThreatSignalsFeedsRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    accountId: S.String.pipe(T.Label("account_id")),
+    category: S.optional(S.String.pipe(T.Query())),
+    enabled: S.optional(S.Boolean.pipe(T.Query())),
+    limit: S.optional(S.Number.pipe(T.Query())),
+    page: S.optional(S.Number.pipe(T.Query())),
+    perPage: S.optional(S.Number.pipe(T.Query("per_page"))),
+    sort: S.optional(S.String.pipe(T.Query())),
+    sourceType: S.optional(ListThreatSignalsFeedsRequestSourceType.pipe(T.Query("source_type"))),
+    status: S.optional(S.String.pipe(T.Query())),
+  })
+    .pipe(
+      T.Http({
+        method: "GET",
+        uri: "/accounts/{account_id}/cloudforce-one/v2/threat-signals/feeds",
+        code: 200,
+      }),
+    )
+    .pipe(T.KeyDictionary(KEY_DICTIONARY)),
+).annotate({
+  identifier: "ListThreatSignalsFeedsRequest",
+}) as any as S.Schema<ListThreatSignalsFeedsRequest>;
+
+export interface ListThreatSignalsFeedsResponseFeedsItem {
+  id: string;
+  /** Feed category identifier. Null when unset. */
+  categoryId: string;
+  /** Display name of the feed category. Null when unset or unresolvable. */
+  categoryName: string;
+  createdAt: string;
+  /** Curated catalog feed this subscription was created from. Null for custom feeds. */
+  curatedFeedId: string;
+  displayName: string;
+  enabled: boolean;
+  lastPolledAt: string;
+  pollIntervalS: number;
+  /** `custom` for a feed added by URL, `curated` for a curated catalog feed. */
+  sourceType: string;
+  /** Polling health: `active`, or `error` after a failed poll. */
+  status: string;
+  subscribedAt: string;
+  title: string;
+  updatedAt: string;
+  url: string;
+}
+export const ListThreatSignalsFeedsResponseFeedsItem = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    id: S.String,
+    categoryId: S.String.pipe(T.Body("category_id")),
+    categoryName: S.String.pipe(T.Body("category_name")),
+    createdAt: S.String.pipe(T.Body("created_at")),
+    curatedFeedId: S.String.pipe(T.Body("curated_feed_id")),
+    displayName: S.String.pipe(T.Body("display_name")),
+    enabled: S.Boolean,
+    lastPolledAt: S.String.pipe(T.Body("last_polled_at")),
+    pollIntervalS: S.Number.pipe(T.Body("poll_interval_s")),
+    sourceType: S.String.pipe(T.Body("source_type")),
+    status: S.String,
+    subscribedAt: S.String.pipe(T.Body("subscribed_at")),
+    title: S.String,
+    updatedAt: S.String.pipe(T.Body("updated_at")),
+    url: S.String,
+  }),
+).annotate({
+  identifier: "ListThreatSignalsFeedsResponseFeedsItem",
+}) as any as S.Schema<ListThreatSignalsFeedsResponseFeedsItem>;
+
+export type ListThreatSignalsFeedsResponseFeedsList =
+  Array<ListThreatSignalsFeedsResponseFeedsItem>;
+export const ListThreatSignalsFeedsResponseFeedsList = /*@__PURE__*/ S.Array(
+  ListThreatSignalsFeedsResponseFeedsItem,
+) as any as S.Schema<ListThreatSignalsFeedsResponseFeedsList>;
+
+/** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
+export interface ListThreatSignalsFeedsResponse {
+  /** Number of feeds on this page. */
+  count: number;
+  feeds: ListThreatSignalsFeedsResponseFeedsList;
+  page: number;
+  perPage: number;
+  totalCount: number;
+}
+export const ListThreatSignalsFeedsResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    count: S.Number,
+    feeds: ListThreatSignalsFeedsResponseFeedsList,
+    page: S.Number,
+    perPage: S.Number.pipe(T.Body("per_page")),
+    totalCount: S.Number.pipe(T.Body("total_count")),
+  }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
+).annotate({
+  identifier: "ListThreatSignalsFeedsResponse",
+}) as any as S.Schema<ListThreatSignalsFeedsResponse>;
+
+export interface ListThreatSignalsIndicatorsRequest {
+  accountId: string;
+  articleId?: string;
+  cursor?: string;
+  feedId?: string;
+  includeTotal?: boolean;
+  perPage?: number;
+  /** NFC-normalized and trimmed, case-insensitive literal substring search of indicator values. Requires 3–500 Unicode code points; the upper code-point bound is described here because OpenAPI string length cannot precisely express it without imposing UTF-16 semantics. */
+  search?: string;
+  sort?: string;
+}
+export const ListThreatSignalsIndicatorsRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    accountId: S.String.pipe(T.Label("account_id")),
+    articleId: S.optional(S.String.pipe(T.Query("article_id"))),
+    cursor: S.optional(S.String.pipe(T.Query())),
+    feedId: S.optional(S.String.pipe(T.Query("feed_id"))),
+    includeTotal: S.optional(S.Boolean.pipe(T.Query("include_total"))),
+    perPage: S.optional(S.Number.pipe(T.Query("per_page"))),
+    search: S.optional(S.String.pipe(T.Query())),
+    sort: S.optional(S.String.pipe(T.Query())),
+  })
+    .pipe(
+      T.Http({
+        method: "GET",
+        uri: "/accounts/{account_id}/cloudforce-one/v2/threat-signals/indicators",
+        code: 200,
+      }),
+    )
+    .pipe(T.KeyDictionary(KEY_DICTIONARY)),
+).annotate({
+  identifier: "ListThreatSignalsIndicatorsRequest",
+}) as any as S.Schema<ListThreatSignalsIndicatorsRequest>;
+
+export interface ListThreatSignalsIndicatorsResponseIndicatorsItem {
+  id: string;
+  articleId: string;
+  articleTitle: string;
+  /** Threat Events dataset identifier for navigating from this indicator. Null when the account feeds dataset mapping is unavailable. */
+  datasetId: string;
+  feedDisplayName: string;
+  feedId: string;
+  type: string;
+  value: string;
+}
+export const ListThreatSignalsIndicatorsResponseIndicatorsItem = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    id: S.String,
+    articleId: S.String.pipe(T.Body("article_id")),
+    articleTitle: S.String.pipe(T.Body("article_title")),
+    datasetId: S.String.pipe(T.Body("dataset_id")),
+    feedDisplayName: S.String.pipe(T.Body("feed_display_name")),
+    feedId: S.String.pipe(T.Body("feed_id")),
+    type: S.String,
+    value: S.String,
+  }),
+).annotate({
+  identifier: "ListThreatSignalsIndicatorsResponseIndicatorsItem",
+}) as any as S.Schema<ListThreatSignalsIndicatorsResponseIndicatorsItem>;
+
+export type ListThreatSignalsIndicatorsResponseIndicatorsList =
+  Array<ListThreatSignalsIndicatorsResponseIndicatorsItem>;
+export const ListThreatSignalsIndicatorsResponseIndicatorsList = /*@__PURE__*/ S.Array(
+  ListThreatSignalsIndicatorsResponseIndicatorsItem,
+) as any as S.Schema<ListThreatSignalsIndicatorsResponseIndicatorsList>;
+
+export interface ListThreatSignalsIndicatorsResponsePagination {
+  count: number;
+  cursor: string;
+  hasMore: boolean;
+  /** Ordinal of this cursor page; not a total-results offset. */
+  page: number;
+  perPage: number;
+  totalCount: number;
+  totalCountIsExact: boolean;
+}
+export const ListThreatSignalsIndicatorsResponsePagination = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    count: S.Number,
+    cursor: S.String,
+    hasMore: S.Boolean.pipe(T.Body("has_more")),
+    page: S.Number,
+    perPage: S.Number.pipe(T.Body("per_page")),
+    totalCount: S.Number.pipe(T.Body("total_count")),
+    totalCountIsExact: S.Boolean.pipe(T.Body("total_count_is_exact")),
+  }),
+).annotate({
+  identifier: "ListThreatSignalsIndicatorsResponsePagination",
+}) as any as S.Schema<ListThreatSignalsIndicatorsResponsePagination>;
+
+/** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
+export interface ListThreatSignalsIndicatorsResponse {
+  indicators: ListThreatSignalsIndicatorsResponseIndicatorsList;
+  pagination: ListThreatSignalsIndicatorsResponsePagination;
+}
+export const ListThreatSignalsIndicatorsResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    indicators: ListThreatSignalsIndicatorsResponseIndicatorsList,
+    pagination: ListThreatSignalsIndicatorsResponsePagination,
+  }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
+).annotate({
+  identifier: "ListThreatSignalsIndicatorsResponse",
+}) as any as S.Schema<ListThreatSignalsIndicatorsResponse>;
+
+export interface ListThreatSignalsSkillsRequest {
+  accountId: string;
+  page?: number;
+  perPage?: number;
+}
+export const ListThreatSignalsSkillsRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    accountId: S.String.pipe(T.Label("account_id")),
+    page: S.optional(S.Number.pipe(T.Query())),
+    perPage: S.optional(S.Number.pipe(T.Query("per_page"))),
+  })
+    .pipe(
+      T.Http({
+        method: "GET",
+        uri: "/accounts/{account_id}/cloudforce-one/v2/threat-signals/skills",
+        code: 200,
+      }),
+    )
+    .pipe(T.KeyDictionary(KEY_DICTIONARY)),
+).annotate({
+  identifier: "ListThreatSignalsSkillsRequest",
+}) as any as S.Schema<ListThreatSignalsSkillsRequest>;
+
+export type ListThreatSignalsSkillsResponseSkillsItemSource = "default" | "custom";
+export const ListThreatSignalsSkillsResponseSkillsItemSource = S.String;
+
+export interface ListThreatSignalsSkillsResponseSkillsItem {
+  id: string;
+  /** JSON-encoded skill configuration. Always null for default skills. */
+  config: string;
+  createdAt: string;
+  /** 1 when active, 0 when inactive. */
+  isActive: number;
+  name: string;
+  /** JSON-encoded JSON Schema the skill output must satisfy. */
+  outputSchema: string;
+  prompt: string;
+  /** `default` for Cloudforce One managed skills (read-only), `custom` for account skills. */
+  source: ListThreatSignalsSkillsResponseSkillsItemSource;
+  type: string;
+  updatedAt: string;
+}
+export const ListThreatSignalsSkillsResponseSkillsItem = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    id: S.String,
+    config: S.String,
+    createdAt: S.String.pipe(T.Body("created_at")),
+    isActive: S.Number.pipe(T.Body("is_active")),
+    name: S.String,
+    outputSchema: S.String.pipe(T.Body("output_schema")),
+    prompt: S.String,
+    source: ListThreatSignalsSkillsResponseSkillsItemSource,
+    type: S.String,
+    updatedAt: S.String.pipe(T.Body("updated_at")),
+  }),
+).annotate({
+  identifier: "ListThreatSignalsSkillsResponseSkillsItem",
+}) as any as S.Schema<ListThreatSignalsSkillsResponseSkillsItem>;
+
+export type ListThreatSignalsSkillsResponseSkillsList =
+  Array<ListThreatSignalsSkillsResponseSkillsItem>;
+export const ListThreatSignalsSkillsResponseSkillsList = /*@__PURE__*/ S.Array(
+  ListThreatSignalsSkillsResponseSkillsItem,
+) as any as S.Schema<ListThreatSignalsSkillsResponseSkillsList>;
+
+/** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
+export interface ListThreatSignalsSkillsResponse {
+  /** Number of skills on this page. */
+  count: number;
+  /** Whether the authenticated account may access custom-skill capabilities under Stakeout's Threat Signals access-mode policy. This is a policy availability indicator, not a row-existence indicator. False for threat_signals_only mode; true for entitled, allowlisted, cfone_internal, and service modes. */
+  customSkillsAvailable: boolean;
+  page: number;
+  perPage: number;
+  skills: ListThreatSignalsSkillsResponseSkillsList;
+  totalCount: number;
+}
+export const ListThreatSignalsSkillsResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    count: S.Number,
+    customSkillsAvailable: S.Boolean.pipe(T.Body("custom_skills_available")),
+    page: S.Number,
+    perPage: S.Number.pipe(T.Body("per_page")),
+    skills: ListThreatSignalsSkillsResponseSkillsList,
+    totalCount: S.Number.pipe(T.Body("total_count")),
+  }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
+).annotate({
+  identifier: "ListThreatSignalsSkillsResponse",
+}) as any as S.Schema<ListThreatSignalsSkillsResponse>;
+
 export type ScansConfigEditRequestIpsList = Array<string>;
 export const ScansConfigEditRequestIpsList = /*@__PURE__*/ S.Array(
   S.String,
@@ -8014,9 +9637,7 @@ export const PatchScanConfigRequest = /*@__PURE__*/ S.suspend(() =>
       }),
     )
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "PatchScanConfigRequest",
-}) as any as S.Schema<PatchScanConfigRequest>;
+).annotate({ identifier: "PatchScanConfigRequest" }) as any as S.Schema<PatchScanConfigRequest>;
 
 export type ScansConfigEditResponseIpsList = Array<string>;
 export const ScansConfigEditResponseIpsList = /*@__PURE__*/ S.Array(
@@ -8048,13 +9669,9 @@ export const PatchScanConfigResponse = /*@__PURE__*/ S.suspend(() =>
     ips: ScansConfigEditResponseIpsList,
     ports: ScansConfigEditResponsePortsList,
   }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "PatchScanConfigResponse",
-}) as any as S.Schema<PatchScanConfigResponse>;
+).annotate({ identifier: "PatchScanConfigResponse" }) as any as S.Schema<PatchScanConfigResponse>;
 
-export type ThreatEventsEditRequestRawDataMap = {
-  [key: string]: unknown | undefined;
-};
+export type ThreatEventsEditRequestRawDataMap = { [key: string]: unknown | undefined };
 export const ThreatEventsEditRequestRawDataMap = /*@__PURE__*/ S.Record(
   S.String,
   S.Unknown,
@@ -8123,9 +9740,7 @@ export const PatchThreatEventRequest = /*@__PURE__*/ S.suspend(() =>
       }),
     )
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "PatchThreatEventRequest",
-}) as any as S.Schema<PatchThreatEventRequest>;
+).annotate({ identifier: "PatchThreatEventRequest" }) as any as S.Schema<PatchThreatEventRequest>;
 
 export type ThreatEventsEditResponseMitreAttackList = Array<string>;
 export const ThreatEventsEditResponseMitreAttackList = /*@__PURE__*/ S.Array(
@@ -8226,9 +9841,7 @@ export const PatchThreatEventResponse = /*@__PURE__*/ S.suspend(() =>
     insight: S.optional(S.NullOr(S.String)),
     releasabilityId: S.optional(S.NullOr(S.String)),
   }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "PatchThreatEventResponse",
-}) as any as S.Schema<PatchThreatEventResponse>;
+).annotate({ identifier: "PatchThreatEventResponse" }) as any as S.Schema<PatchThreatEventResponse>;
 
 export type ThreatEventsCategoriesEditRequestMitreAttackList = Array<string>;
 export const ThreatEventsCategoriesEditRequestMitreAttackList = /*@__PURE__*/ S.Array(
@@ -8398,6 +10011,68 @@ export const PatchThreatEventRawResponse = /*@__PURE__*/ S.suspend(() =>
   identifier: "PatchThreatEventRawResponse",
 }) as any as S.Schema<PatchThreatEventRawResponse>;
 
+export interface PollThreatSignalsFeedRequest {
+  accountId: string;
+  feedId?: string;
+}
+export const PollThreatSignalsFeedRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    accountId: S.String.pipe(T.Label("account_id")),
+    feedId: S.optional(S.String.pipe(T.Query("feed_id"))),
+  })
+    .pipe(
+      T.Http({
+        method: "POST",
+        uri: "/accounts/{account_id}/cloudforce-one/v2/threat-signals/feeds/poll",
+        code: 200,
+      }),
+    )
+    .pipe(T.KeyDictionary(KEY_DICTIONARY)),
+).annotate({
+  identifier: "PollThreatSignalsFeedRequest",
+}) as any as S.Schema<PollThreatSignalsFeedRequest>;
+
+export type PollThreatSignalsFeedResponseFeedsItemStatus = "workflow_created" | "error";
+export const PollThreatSignalsFeedResponseFeedsItemStatus = S.String;
+
+export interface PollThreatSignalsFeedResponseFeedsItem {
+  feedId: string;
+  status: PollThreatSignalsFeedResponseFeedsItemStatus;
+  workflowId: string;
+  feedEnabled?: boolean | null;
+}
+export const PollThreatSignalsFeedResponseFeedsItem = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    feedId: S.String.pipe(T.Body("feed_id")),
+    status: PollThreatSignalsFeedResponseFeedsItemStatus,
+    workflowId: S.String.pipe(T.Body("workflow_id")),
+    feedEnabled: S.optional(S.NullOr(S.Boolean).pipe(T.Body("feed_enabled"))),
+  }),
+).annotate({
+  identifier: "PollThreatSignalsFeedResponseFeedsItem",
+}) as any as S.Schema<PollThreatSignalsFeedResponseFeedsItem>;
+
+export type PollThreatSignalsFeedResponseFeedsList = Array<PollThreatSignalsFeedResponseFeedsItem>;
+export const PollThreatSignalsFeedResponseFeedsList = /*@__PURE__*/ S.Array(
+  PollThreatSignalsFeedResponseFeedsItem,
+) as any as S.Schema<PollThreatSignalsFeedResponseFeedsList>;
+
+/** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
+export interface PollThreatSignalsFeedResponse {
+  errors: number;
+  feeds: PollThreatSignalsFeedResponseFeedsList;
+  triggered: number;
+}
+export const PollThreatSignalsFeedResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    errors: S.Number,
+    feeds: PollThreatSignalsFeedResponseFeedsList,
+    triggered: S.Number,
+  }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
+).annotate({
+  identifier: "PollThreatSignalsFeedResponse",
+}) as any as S.Schema<PollThreatSignalsFeedResponse>;
+
 export interface QuotaRequestPriorityRequest {
   /** Identifier. */
   accountId: string;
@@ -8504,9 +10179,7 @@ export const RequestsConstantsRequest = /*@__PURE__*/ S.suspend(() =>
       }),
     )
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "RequestsConstantsRequest",
-}) as any as S.Schema<RequestsConstantsRequest>;
+).annotate({ identifier: "RequestsConstantsRequest" }) as any as S.Schema<RequestsConstantsRequest>;
 
 export type RequestsConstantsResponsePriorityItem = "routine" | "high" | "urgent";
 export const RequestsConstantsResponsePriorityItem = S.String;
@@ -8570,9 +10243,7 @@ export const RequestsQuotaRequest = /*@__PURE__*/ S.suspend(() =>
       }),
     )
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "RequestsQuotaRequest",
-}) as any as S.Schema<RequestsQuotaRequest>;
+).annotate({ identifier: "RequestsQuotaRequest" }) as any as S.Schema<RequestsQuotaRequest>;
 
 /** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
 export interface RequestsQuotaResponse {
@@ -8592,9 +10263,7 @@ export const RequestsQuotaResponse = /*@__PURE__*/ S.suspend(() =>
     quota: S.optional(S.NullOr(S.Number)),
     remaining: S.optional(S.NullOr(S.Number)),
   }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "RequestsQuotaResponse",
-}) as any as S.Schema<RequestsQuotaResponse>;
+).annotate({ identifier: "RequestsQuotaResponse" }) as any as S.Schema<RequestsQuotaResponse>;
 
 export interface RequestsTypesRequest {
   /** Identifier. */
@@ -8612,9 +10281,7 @@ export const RequestsTypesRequest = /*@__PURE__*/ S.suspend(() =>
       }),
     )
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "RequestsTypesRequest",
-}) as any as S.Schema<RequestsTypesRequest>;
+).annotate({ identifier: "RequestsTypesRequest" }) as any as S.Schema<RequestsTypesRequest>;
 
 export type RequestsTypesResultList = Array<string>;
 export const RequestsTypesResultList = /*@__PURE__*/ S.Array(
@@ -8624,9 +10291,73 @@ export const RequestsTypesResultList = /*@__PURE__*/ S.Array(
 export type RequestsTypesResponse = RequestsTypesResultList;
 export const RequestsTypesResponse = /*@__PURE__*/ S.suspend(() =>
   RequestsTypesResultList.pipe(T.EnvelopePayloadRoot(), T.KeyDictionary(KEY_DICTIONARY)),
+).annotate({ identifier: "RequestsTypesResponse" }) as any as S.Schema<RequestsTypesResponse>;
+
+export interface SearchThreatSignalRequest {
+  accountId: string;
+  query: string;
+  feedId?: string;
+  maxResults?: string;
+}
+export const SearchThreatSignalRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    accountId: S.String.pipe(T.Label("account_id")),
+    query: S.String.pipe(T.Query()),
+    feedId: S.optional(S.String.pipe(T.Query("feed_id"))),
+    maxResults: S.optional(S.String.pipe(T.Query("max_results"))),
+  })
+    .pipe(
+      T.Http({
+        method: "GET",
+        uri: "/accounts/{account_id}/cloudforce-one/v2/threat-signals/search",
+        code: 200,
+      }),
+    )
+    .pipe(T.KeyDictionary(KEY_DICTIONARY)),
 ).annotate({
-  identifier: "RequestsTypesResponse",
-}) as any as S.Schema<RequestsTypesResponse>;
+  identifier: "SearchThreatSignalRequest",
+}) as any as S.Schema<SearchThreatSignalRequest>;
+
+export interface SearchThreatSignalResponseResultsItem {
+  articleId: string;
+  datasetId: string;
+  eventId: string;
+  feedId: string;
+  score: number;
+  text: string;
+}
+export const SearchThreatSignalResponseResultsItem = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    articleId: S.String.pipe(T.Body("article_id")),
+    datasetId: S.String.pipe(T.Body("dataset_id")),
+    eventId: S.String.pipe(T.Body("event_id")),
+    feedId: S.String.pipe(T.Body("feed_id")),
+    score: S.Number,
+    text: S.String,
+  }),
+).annotate({
+  identifier: "SearchThreatSignalResponseResultsItem",
+}) as any as S.Schema<SearchThreatSignalResponseResultsItem>;
+
+export type SearchThreatSignalResponseResultsList = Array<SearchThreatSignalResponseResultsItem>;
+export const SearchThreatSignalResponseResultsList = /*@__PURE__*/ S.Array(
+  SearchThreatSignalResponseResultsItem,
+) as any as S.Schema<SearchThreatSignalResponseResultsList>;
+
+/** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
+export interface SearchThreatSignalResponse {
+  /** Number of unique article candidates returned in this response. Equal to results.length. */
+  count: number;
+  results: SearchThreatSignalResponseResultsList;
+}
+export const SearchThreatSignalResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    count: S.Number,
+    results: SearchThreatSignalResponseResultsList,
+  }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
+).annotate({
+  identifier: "SearchThreatSignalResponse",
+}) as any as S.Schema<SearchThreatSignalResponse>;
 
 export type ThreatEventsBulkCreateRelationshipsRequestDataItemRawDataMap = {
   [key: string]: unknown | undefined;
@@ -8762,6 +10493,129 @@ export const ThreatEventsBulkCreateRelationshipsResponse = /*@__PURE__*/ S.suspe
   identifier: "ThreatEventsBulkCreateRelationshipsResponse",
 }) as any as S.Schema<ThreatEventsBulkCreateRelationshipsResponse>;
 
+export type ThreatSignalsArticlesBulkEditRequestArticleIdsList = Array<string>;
+export const ThreatSignalsArticlesBulkEditRequestArticleIdsList = /*@__PURE__*/ S.Array(
+  S.String,
+) as any as S.Schema<ThreatSignalsArticlesBulkEditRequestArticleIdsList>;
+
+export interface ThreatSignalsArticlesBulkEditRequest {
+  accountId: string;
+  articleIds: ThreatSignalsArticlesBulkEditRequestArticleIdsList;
+  read: boolean;
+}
+export const ThreatSignalsArticlesBulkEditRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    accountId: S.String.pipe(T.Label("account_id")),
+    articleIds: ThreatSignalsArticlesBulkEditRequestArticleIdsList.pipe(T.Body("article_ids")),
+    read: S.Boolean,
+  })
+    .pipe(
+      T.Http({
+        method: "PATCH",
+        uri: "/accounts/{account_id}/cloudforce-one/v2/threat-signals/articles",
+        code: 200,
+      }),
+    )
+    .pipe(T.KeyDictionary(KEY_DICTIONARY)),
+).annotate({
+  identifier: "ThreatSignalsArticlesBulkEditRequest",
+}) as any as S.Schema<ThreatSignalsArticlesBulkEditRequest>;
+
+/** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
+export interface ThreatSignalsArticlesBulkEditResponse {
+  updatedCount: number;
+}
+export const ThreatSignalsArticlesBulkEditResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    updatedCount: S.Number.pipe(T.Body("updated_count")),
+  }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
+).annotate({
+  identifier: "ThreatSignalsArticlesBulkEditResponse",
+}) as any as S.Schema<ThreatSignalsArticlesBulkEditResponse>;
+
+export interface ThreatSignalsHealthRequest {
+  accountId: string;
+}
+export const ThreatSignalsHealthRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    accountId: S.String.pipe(T.Label("account_id")),
+  })
+    .pipe(
+      T.Http({
+        method: "GET",
+        uri: "/accounts/{account_id}/cloudforce-one/v2/threat-signals/health",
+        code: 200,
+      }),
+    )
+    .pipe(T.KeyDictionary(KEY_DICTIONARY)),
+).annotate({
+  identifier: "ThreatSignalsHealthRequest",
+}) as any as S.Schema<ThreatSignalsHealthRequest>;
+
+export type ThreatSignalsHealthResponseStatus = "ok";
+export const ThreatSignalsHealthResponseStatus = S.String;
+
+/** Raw response payload (operation does not use the standard v4 result envelope). */
+export interface ThreatSignalsHealthResponse {
+  status: ThreatSignalsHealthResponseStatus;
+}
+export const ThreatSignalsHealthResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    status: ThreatSignalsHealthResponseStatus,
+  }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
+).annotate({
+  identifier: "ThreatSignalsHealthResponse",
+}) as any as S.Schema<ThreatSignalsHealthResponse>;
+
+export interface ThreatSignalsSearchSearchRequest {
+  accountId: string;
+  query: string;
+  feedId?: string;
+  maxResults?: string;
+}
+export const ThreatSignalsSearchSearchRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    accountId: S.String.pipe(T.Label("account_id")),
+    query: S.String.pipe(T.Query()),
+    feedId: S.optional(S.String.pipe(T.Query("feed_id"))),
+    maxResults: S.optional(S.String.pipe(T.Query("max_results"))),
+  })
+    .pipe(
+      T.Http({
+        method: "GET",
+        uri: "/accounts/{account_id}/cloudforce-one/v2/threat-signals/search",
+        code: 200,
+      }),
+    )
+    .pipe(T.KeyDictionary(KEY_DICTIONARY)),
+).annotate({
+  identifier: "ThreatSignalsSearchSearchRequest",
+}) as any as S.Schema<ThreatSignalsSearchSearchRequest>;
+
+export type ThreatSignalsSearchSearchResponseResultsItem = SearchThreatSignalResponseResultsItem;
+export const ThreatSignalsSearchSearchResponseResultsItem = SearchThreatSignalResponseResultsItem;
+
+export type ThreatSignalsSearchSearchResponseResultsList =
+  Array<SearchThreatSignalResponseResultsItem>;
+export const ThreatSignalsSearchSearchResponseResultsList = /*@__PURE__*/ S.Array(
+  SearchThreatSignalResponseResultsItem,
+) as any as S.Schema<ThreatSignalsSearchSearchResponseResultsList>;
+
+/** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
+export interface ThreatSignalsSearchSearchResponse {
+  /** Number of unique article candidates returned in this response. Equal to results.length. */
+  count: number;
+  results: ThreatSignalsSearchSearchResponseResultsList;
+}
+export const ThreatSignalsSearchSearchResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    count: S.Number,
+    results: ThreatSignalsSearchSearchResponseResultsList,
+  }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
+).annotate({
+  identifier: "ThreatSignalsSearchSearchResponse",
+}) as any as S.Schema<ThreatSignalsSearchSearchResponse>;
+
 export type UpdateRequestRequestTlp = "clear" | "amber" | "amber-strict" | "green" | "red";
 export const UpdateRequestRequestTlp = S.String;
 
@@ -8799,9 +10653,7 @@ export const UpdateRequestRequest = /*@__PURE__*/ S.suspend(() =>
       }),
     )
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "UpdateRequestRequest",
-}) as any as S.Schema<UpdateRequestRequest>;
+).annotate({ identifier: "UpdateRequestRequest" }) as any as S.Schema<UpdateRequestRequest>;
 
 export type UpdateRequestResponseTlp = "clear" | "amber" | "amber-strict" | "green" | "red";
 export const UpdateRequestResponseTlp = S.String;
@@ -8856,9 +10708,7 @@ export const UpdateRequestResponse = /*@__PURE__*/ S.suspend(() =>
     status: S.optional(S.NullOr(UpdateRequestResponseStatus)),
     tokens: S.optional(S.NullOr(S.Number)),
   }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "UpdateRequestResponse",
-}) as any as S.Schema<UpdateRequestResponse>;
+).annotate({ identifier: "UpdateRequestResponse" }) as any as S.Schema<UpdateRequestResponse>;
 
 export interface UpdateRequestAssetRequest {
   /** Identifier. */
@@ -9074,6 +10924,125 @@ export const UpdateRequestPriorityResponse = /*@__PURE__*/ S.suspend(() =>
 ).annotate({
   identifier: "UpdateRequestPriorityResponse",
 }) as any as S.Schema<UpdateRequestPriorityResponse>;
+
+export type UpdateThreatSignalsFeedsSkillRequestSkillIdsList = Array<string>;
+export const UpdateThreatSignalsFeedsSkillRequestSkillIdsList = /*@__PURE__*/ S.Array(
+  S.String,
+) as any as S.Schema<UpdateThreatSignalsFeedsSkillRequestSkillIdsList>;
+
+export interface UpdateThreatSignalsFeedsSkillRequest {
+  accountId: string;
+  feedId: string;
+  skillIds: UpdateThreatSignalsFeedsSkillRequestSkillIdsList;
+}
+export const UpdateThreatSignalsFeedsSkillRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    accountId: S.String.pipe(T.Label("account_id")),
+    feedId: S.String.pipe(T.Label("feed_id")),
+    skillIds: UpdateThreatSignalsFeedsSkillRequestSkillIdsList.pipe(T.Body("skill_ids")),
+  })
+    .pipe(
+      T.Http({
+        method: "PUT",
+        uri: "/accounts/{account_id}/cloudforce-one/v2/threat-signals/feeds/{feed_id}/skills",
+        code: 200,
+      }),
+    )
+    .pipe(T.KeyDictionary(KEY_DICTIONARY)),
+).annotate({
+  identifier: "UpdateThreatSignalsFeedsSkillRequest",
+}) as any as S.Schema<UpdateThreatSignalsFeedsSkillRequest>;
+
+export interface UpdateThreatSignalsFeedsSkillResponseSkillsItem {
+  /** Zero-based pipeline position. */
+  position: number;
+  skillId: string;
+}
+export const UpdateThreatSignalsFeedsSkillResponseSkillsItem = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    position: S.Number,
+    skillId: S.String.pipe(T.Body("skill_id")),
+  }),
+).annotate({
+  identifier: "UpdateThreatSignalsFeedsSkillResponseSkillsItem",
+}) as any as S.Schema<UpdateThreatSignalsFeedsSkillResponseSkillsItem>;
+
+export type UpdateThreatSignalsFeedsSkillResponseSkillsList =
+  Array<UpdateThreatSignalsFeedsSkillResponseSkillsItem>;
+export const UpdateThreatSignalsFeedsSkillResponseSkillsList = /*@__PURE__*/ S.Array(
+  UpdateThreatSignalsFeedsSkillResponseSkillsItem,
+) as any as S.Schema<UpdateThreatSignalsFeedsSkillResponseSkillsList>;
+
+/** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
+export interface UpdateThreatSignalsFeedsSkillResponse {
+  feedId: string;
+  skills: UpdateThreatSignalsFeedsSkillResponseSkillsList;
+}
+export const UpdateThreatSignalsFeedsSkillResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    feedId: S.String.pipe(T.Body("feed_id")),
+    skills: UpdateThreatSignalsFeedsSkillResponseSkillsList,
+  }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
+).annotate({
+  identifier: "UpdateThreatSignalsFeedsSkillResponse",
+}) as any as S.Schema<UpdateThreatSignalsFeedsSkillResponse>;
+
+export type UpdateThreatSignalsSkillsTagCategoryRequestSkillId = "default-tagging-skill";
+export const UpdateThreatSignalsSkillsTagCategoryRequestSkillId = S.String;
+
+export type UpdateThreatSignalsSkillsTagCategoryRequestCategoryUuidsList = Array<string>;
+export const UpdateThreatSignalsSkillsTagCategoryRequestCategoryUuidsList = /*@__PURE__*/ S.Array(
+  S.String,
+) as any as S.Schema<UpdateThreatSignalsSkillsTagCategoryRequestCategoryUuidsList>;
+
+export interface UpdateThreatSignalsSkillsTagCategoryRequest {
+  accountId: string;
+  skillId: UpdateThreatSignalsSkillsTagCategoryRequestSkillId | (string & {});
+  categoryUuids: UpdateThreatSignalsSkillsTagCategoryRequestCategoryUuidsList;
+}
+export const UpdateThreatSignalsSkillsTagCategoryRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    accountId: S.String.pipe(T.Label("account_id")),
+    skillId: UpdateThreatSignalsSkillsTagCategoryRequestSkillId.pipe(T.Label("skill_id")),
+    categoryUuids: UpdateThreatSignalsSkillsTagCategoryRequestCategoryUuidsList.pipe(
+      T.Body("category_uuids"),
+    ),
+  })
+    .pipe(
+      T.Http({
+        method: "PUT",
+        uri: "/accounts/{account_id}/cloudforce-one/v2/threat-signals/skills/{skill_id}/tag-categories",
+        code: 200,
+      }),
+    )
+    .pipe(T.KeyDictionary(KEY_DICTIONARY)),
+).annotate({
+  identifier: "UpdateThreatSignalsSkillsTagCategoryRequest",
+}) as any as S.Schema<UpdateThreatSignalsSkillsTagCategoryRequest>;
+
+export type UpdateThreatSignalsSkillsTagCategoryResponseCategoryUuidsList = Array<string>;
+export const UpdateThreatSignalsSkillsTagCategoryResponseCategoryUuidsList = /*@__PURE__*/ S.Array(
+  S.String,
+) as any as S.Schema<UpdateThreatSignalsSkillsTagCategoryResponseCategoryUuidsList>;
+
+export type UpdateThreatSignalsSkillsTagCategoryResponseSkillId = "default-tagging-skill";
+export const UpdateThreatSignalsSkillsTagCategoryResponseSkillId = S.String;
+
+/** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
+export interface UpdateThreatSignalsSkillsTagCategoryResponse {
+  categoryUuids: UpdateThreatSignalsSkillsTagCategoryResponseCategoryUuidsList;
+  skillId: UpdateThreatSignalsSkillsTagCategoryResponseSkillId;
+}
+export const UpdateThreatSignalsSkillsTagCategoryResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    categoryUuids: UpdateThreatSignalsSkillsTagCategoryResponseCategoryUuidsList.pipe(
+      T.Body("category_uuids"),
+    ),
+    skillId: UpdateThreatSignalsSkillsTagCategoryResponseSkillId.pipe(T.Body("skill_id")),
+  }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
+).annotate({
+  identifier: "UpdateThreatSignalsSkillsTagCategoryResponse",
+}) as any as S.Schema<UpdateThreatSignalsSkillsTagCategoryResponse>;
 
 export type BulkCreateThreatEventsError = CloudflareOpError;
 /** The `datasetId` parameter must be defined. To list existing datasets (and their IDs) in your account, use the [`List Datasets`](https://developers.cloudflare.com/api/resources/cloudforce_one/subresources/threat_events/subresources/datasets/methods/list/) endpoint. */
@@ -9291,7 +11260,7 @@ export const createThreatEventsTagsCategory: API.OperationMethod<
 }));
 
 export type CreateThreatEventTagError = CloudflareOpError;
-/** Creates a new tag to be used accross threat events. */
+/** Creates an account-owned tag for threat events and returns its complete owner projection. */
 export const createThreatEventTag: API.OperationMethod<
   CreateThreatEventTagRequest,
   CreateThreatEventTagResponse,
@@ -9300,6 +11269,51 @@ export const createThreatEventTag: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: CreateThreatEventTagRequest,
   output: CreateThreatEventTagResponse,
+  errors: [CloudflareRateLimited, CloudflareError],
+  protocol: CloudflareProtocol,
+  retry: Retry.Retry,
+}));
+
+export type CreateThreatSignalsArticlesTagError = CloudflareOpError;
+/** Applies a tag from the account's tag catalog to a Threat Signals article. */
+export const createThreatSignalsArticlesTag: API.OperationMethod<
+  CreateThreatSignalsArticlesTagRequest,
+  CreateThreatSignalsArticlesTagResponse,
+  CreateThreatSignalsArticlesTagError,
+  CloudflareOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: CreateThreatSignalsArticlesTagRequest,
+  output: CreateThreatSignalsArticlesTagResponse,
+  errors: [CloudflareRateLimited, CloudflareError],
+  protocol: CloudflareProtocol,
+  retry: Retry.Retry,
+}));
+
+export type CreateThreatSignalsFeedError = CloudflareOpError;
+/** Subscribes the account to a custom or curated Threat Signals feed. */
+export const createThreatSignalsFeed: API.OperationMethod<
+  CreateThreatSignalsFeedRequest,
+  CreateThreatSignalsFeedResponse,
+  CreateThreatSignalsFeedError,
+  CloudflareOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: CreateThreatSignalsFeedRequest,
+  output: CreateThreatSignalsFeedResponse,
+  errors: [CloudflareRateLimited, CloudflareError],
+  protocol: CloudflareProtocol,
+  retry: Retry.Retry,
+}));
+
+export type CreateThreatSignalsSkillError = CloudflareOpError;
+/** Creates a custom AI skill for the account. */
+export const createThreatSignalsSkill: API.OperationMethod<
+  CreateThreatSignalsSkillRequest,
+  CreateThreatSignalsSkillResponse,
+  CreateThreatSignalsSkillError,
+  CloudflareOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: CreateThreatSignalsSkillRequest,
+  output: CreateThreatSignalsSkillResponse,
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
@@ -9381,7 +11395,7 @@ export const deleteScanConfig: API.OperationMethod<
 }));
 
 export type DeleteThreatEventCategoryError = CloudflareOpError;
-/** Removes a threat event category from Cloudforce One. */
+/** Deprecated; use DELETE /events/event-categories/by-id/{category_id}. Available through 2026-11-28. */
 export const deleteThreatEventCategory: API.OperationMethod<
   DeleteThreatEventCategoryRequest,
   DeleteThreatEventCategoryResponse,
@@ -9471,7 +11485,7 @@ export const deleteThreatEventsTag: API.OperationMethod<
 }));
 
 export type DeleteThreatEventsTagsCategoryError = CloudflareOpError;
-/** Deletes a Source-of-Truth tag category by UUID. */
+/** Deprecated; use DELETE /events/tag-categories/{category_uuid}. Available through 2026-11-28. */
 export const deleteThreatEventsTagsCategory: API.OperationMethod<
   DeleteThreatEventsTagsCategoryRequest,
   DeleteThreatEventsTagsCategoryResponse,
@@ -9480,6 +11494,51 @@ export const deleteThreatEventsTagsCategory: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: DeleteThreatEventsTagsCategoryRequest,
   output: DeleteThreatEventsTagsCategoryResponse,
+  errors: [CloudflareRateLimited, CloudflareError],
+  protocol: CloudflareProtocol,
+  retry: Retry.Retry,
+}));
+
+export type DeleteThreatSignalsArticlesTagError = CloudflareOpError;
+/** Removes a tag from a Threat Signals article. */
+export const deleteThreatSignalsArticlesTag: API.OperationMethod<
+  DeleteThreatSignalsArticlesTagRequest,
+  DeleteThreatSignalsArticlesTagResponse,
+  DeleteThreatSignalsArticlesTagError,
+  CloudflareOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: DeleteThreatSignalsArticlesTagRequest,
+  output: DeleteThreatSignalsArticlesTagResponse,
+  errors: [CloudflareRateLimited, CloudflareError],
+  protocol: CloudflareProtocol,
+  retry: Retry.Retry,
+}));
+
+export type DeleteThreatSignalsFeedError = CloudflareOpError;
+/** Unsubscribes the account from a Threat Signals feed and deletes its articles. */
+export const deleteThreatSignalsFeed: API.OperationMethod<
+  DeleteThreatSignalsFeedRequest,
+  DeleteThreatSignalsFeedResponse,
+  DeleteThreatSignalsFeedError,
+  CloudflareOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: DeleteThreatSignalsFeedRequest,
+  output: DeleteThreatSignalsFeedResponse,
+  errors: [CloudflareRateLimited, CloudflareError],
+  protocol: CloudflareProtocol,
+  retry: Retry.Retry,
+}));
+
+export type DeleteThreatSignalsSkillError = CloudflareOpError;
+/** Deletes a custom skill. Default skills cannot be deleted. */
+export const deleteThreatSignalsSkill: API.OperationMethod<
+  DeleteThreatSignalsSkillRequest,
+  DeleteThreatSignalsSkillResponse,
+  DeleteThreatSignalsSkillError,
+  CloudflareOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: DeleteThreatSignalsSkillRequest,
+  output: DeleteThreatSignalsSkillResponse,
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
@@ -9501,7 +11560,7 @@ export const editThreatEventsQuery: API.OperationMethod<
 }));
 
 export type EditThreatEventsTagError = CloudflareOpError;
-/** Updates a Source-of-Truth tag by UUID. */
+/** Updates an account-owned Source-of-Truth tag by UUID and returns its complete owner projection. */
 export const editThreatEventsTag: API.OperationMethod<
   EditThreatEventsTagRequest,
   EditThreatEventsTagResponse,
@@ -9516,7 +11575,7 @@ export const editThreatEventsTag: API.OperationMethod<
 }));
 
 export type EditThreatEventsTagsCategoryError = CloudflareOpError;
-/** Updates a Source-of-Truth tag category by UUID. */
+/** Deprecated; use PATCH /events/tag-categories/{category_uuid}. Available through 2026-11-28. */
 export const editThreatEventsTagsCategory: API.OperationMethod<
   EditThreatEventsTagsCategoryRequest,
   EditThreatEventsTagsCategoryResponse,
@@ -9525,6 +11584,66 @@ export const editThreatEventsTagsCategory: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: EditThreatEventsTagsCategoryRequest,
   output: EditThreatEventsTagsCategoryResponse,
+  errors: [CloudflareRateLimited, CloudflareError],
+  protocol: CloudflareProtocol,
+  retry: Retry.Retry,
+}));
+
+export type EditThreatSignalsArticleError = CloudflareOpError;
+/** Marks a Threat Signals article as read or unread. */
+export const editThreatSignalsArticle: API.OperationMethod<
+  EditThreatSignalsArticleRequest,
+  EditThreatSignalsArticleResponse,
+  EditThreatSignalsArticleError,
+  CloudflareOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: EditThreatSignalsArticleRequest,
+  output: EditThreatSignalsArticleResponse,
+  errors: [CloudflareRateLimited, CloudflareError],
+  protocol: CloudflareProtocol,
+  retry: Retry.Retry,
+}));
+
+export type EditThreatSignalsFeedError = CloudflareOpError;
+/** Updates a Threat Signals feed subscription. */
+export const editThreatSignalsFeed: API.OperationMethod<
+  EditThreatSignalsFeedRequest,
+  EditThreatSignalsFeedResponse,
+  EditThreatSignalsFeedError,
+  CloudflareOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: EditThreatSignalsFeedRequest,
+  output: EditThreatSignalsFeedResponse,
+  errors: [CloudflareRateLimited, CloudflareError],
+  protocol: CloudflareProtocol,
+  retry: Retry.Retry,
+}));
+
+export type EditThreatSignalsSkillError = CloudflareOpError;
+/** Updates a custom skill. Default skills are read-only. */
+export const editThreatSignalsSkill: API.OperationMethod<
+  EditThreatSignalsSkillRequest,
+  EditThreatSignalsSkillResponse,
+  EditThreatSignalsSkillError,
+  CloudflareOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: EditThreatSignalsSkillRequest,
+  output: EditThreatSignalsSkillResponse,
+  errors: [CloudflareRateLimited, CloudflareError],
+  protocol: CloudflareProtocol,
+  retry: Retry.Retry,
+}));
+
+export type GenerateThreatSignalsArticlesTagError = CloudflareOpError;
+/** Runs the default AI tagging skill on an article and replaces its AI-applied tags. */
+export const generateThreatSignalsArticlesTag: API.OperationMethod<
+  GenerateThreatSignalsArticlesTagRequest,
+  GenerateThreatSignalsArticlesTagResponse,
+  GenerateThreatSignalsArticlesTagError,
+  CloudflareOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: GenerateThreatSignalsArticlesTagRequest,
+  output: GenerateThreatSignalsArticlesTagResponse,
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
@@ -9641,7 +11760,7 @@ export const getThreatEvent: API.OperationMethod<
 }));
 
 export type GetThreatEventCategoryError = CloudflareOpError;
-/** Retrieves details for a specific threat event category. */
+/** Deprecated; use GET /events/event-categories/by-id/{category_id}. Available through 2026-11-28. */
 export const getThreatEventCategory: API.OperationMethod<
   GetThreatEventCategoryRequest,
   GetThreatEventCategoryResponse,
@@ -9725,6 +11844,111 @@ export const getThreatEventsQuery: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: GetThreatEventsQueryRequest,
   output: GetThreatEventsQueryResponse,
+  errors: [CloudflareRateLimited, CloudflareError],
+  protocol: CloudflareProtocol,
+  retry: Retry.Retry,
+}));
+
+export type GetThreatSignalsArticleError = CloudflareOpError;
+/** Retrieves a Threat Signals article with its summary, tags and indicator status. */
+export const getThreatSignalsArticle: API.OperationMethod<
+  GetThreatSignalsArticleRequest,
+  GetThreatSignalsArticleResponse,
+  GetThreatSignalsArticleError,
+  CloudflareOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: GetThreatSignalsArticleRequest,
+  output: GetThreatSignalsArticleResponse,
+  errors: [CloudflareRateLimited, CloudflareError],
+  protocol: CloudflareProtocol,
+  retry: Retry.Retry,
+}));
+
+export type GetThreatSignalsArticlesContentError = CloudflareOpError;
+/** Retrieves the stored body of a Threat Signals article as plain text or HTML. */
+export const getThreatSignalsArticlesContent: API.OperationMethod<
+  GetThreatSignalsArticlesContentRequest,
+  GetThreatSignalsArticlesContentResponse,
+  GetThreatSignalsArticlesContentError,
+  CloudflareOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: GetThreatSignalsArticlesContentRequest,
+  output: GetThreatSignalsArticlesContentResponse,
+  errors: [CloudflareRateLimited, CloudflareError],
+  protocol: CloudflareProtocol,
+  retry: Retry.Retry,
+}));
+
+export type GetThreatSignalsArticlesSkillOutputError = CloudflareOpError;
+/** Retrieves the stored output of a skill for a Threat Signals article. */
+export const getThreatSignalsArticlesSkillOutput: API.OperationMethod<
+  GetThreatSignalsArticlesSkillOutputRequest,
+  GetThreatSignalsArticlesSkillOutputResponse,
+  GetThreatSignalsArticlesSkillOutputError,
+  CloudflareOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: GetThreatSignalsArticlesSkillOutputRequest,
+  output: GetThreatSignalsArticlesSkillOutputResponse,
+  errors: [CloudflareRateLimited, CloudflareError],
+  protocol: CloudflareProtocol,
+  retry: Retry.Retry,
+}));
+
+export type GetThreatSignalsFeedsRawError = CloudflareOpError;
+/** Retrieves the feed document fetched by the most recent poll. */
+export const getThreatSignalsFeedsRaw: API.OperationMethod<
+  GetThreatSignalsFeedsRawRequest,
+  GetThreatSignalsFeedsRawResponse,
+  GetThreatSignalsFeedsRawError,
+  CloudflareOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: GetThreatSignalsFeedsRawRequest,
+  output: GetThreatSignalsFeedsRawResponse,
+  errors: [CloudflareRateLimited, CloudflareError],
+  protocol: CloudflareProtocol,
+  retry: Retry.Retry,
+}));
+
+export type GetThreatSignalsFeedsSkillError = CloudflareOpError;
+/** Retrieves the effective skill pipeline for a Threat Signals feed. */
+export const getThreatSignalsFeedsSkill: API.OperationMethod<
+  GetThreatSignalsFeedsSkillRequest,
+  GetThreatSignalsFeedsSkillResponse,
+  GetThreatSignalsFeedsSkillError,
+  CloudflareOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: GetThreatSignalsFeedsSkillRequest,
+  output: GetThreatSignalsFeedsSkillResponse,
+  errors: [CloudflareRateLimited, CloudflareError],
+  protocol: CloudflareProtocol,
+  retry: Retry.Retry,
+}));
+
+export type GetThreatSignalsSkillError = CloudflareOpError;
+/** Retrieves a default or custom skill by ID. */
+export const getThreatSignalsSkill: API.OperationMethod<
+  GetThreatSignalsSkillRequest,
+  GetThreatSignalsSkillResponse,
+  GetThreatSignalsSkillError,
+  CloudflareOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: GetThreatSignalsSkillRequest,
+  output: GetThreatSignalsSkillResponse,
+  errors: [CloudflareRateLimited, CloudflareError],
+  protocol: CloudflareProtocol,
+  retry: Retry.Retry,
+}));
+
+export type GetThreatSignalsSkillsTagCategoryError = CloudflareOpError;
+/** Retrieves the tag categories the default tagging skill may choose tags from. */
+export const getThreatSignalsSkillsTagCategory: API.OperationMethod<
+  GetThreatSignalsSkillsTagCategoryRequest,
+  GetThreatSignalsSkillsTagCategoryResponse,
+  GetThreatSignalsSkillsTagCategoryError,
+  CloudflareOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: GetThreatSignalsSkillsTagCategoryRequest,
+  output: GetThreatSignalsSkillsTagCategoryResponse,
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
@@ -9991,7 +12215,7 @@ export const listThreatEventsQueries: API.OperationMethod<
 }));
 
 export type ListThreatEventsRelationshipsError = CloudflareOpError;
-/** The `event_id` must be defined (to list existing events (and their IDs), use the [`Filter and List Events`](https://developers.cloudflare.com/api/resources/cloudforce_one/subresources/threat_events/methods/list/) endpoint). Also, must provide query parameters. */
+/** Deprecated; use GET /events/by-id/{event_id}/relationships. Available through 2026-11-28. */
 export const listThreatEventsRelationships: API.OperationMethod<
   ListThreatEventsRelationshipsRequest,
   ListThreatEventsRelationshipsResponse,
@@ -10006,7 +12230,7 @@ export const listThreatEventsRelationships: API.OperationMethod<
 }));
 
 export type ListThreatEventsTagsError = CloudflareOpError;
-/** Returns all Source-of-Truth tags for an account. Supports legacy free-text `search` on tag value and `categoryUuid` exact match, plus a structured `filters` JSON array for filtering by metadata fields (originCountryISO, actorCategory, motive, priority, etc.). Country values may be passed as alpha-2, alpha-3, name, or common alias. */
+/** Returns all Source-of-Truth tags for an account. Supports legacy free-text `search` on tag value and `categoryUuid` exact match, plus a structured `filters` JSON array for filtering by metadata fields (originCountryISO, actorCategory, motive, priority, etc.). The authenticated account owns these account-scoped tags and receives their complete owner projection. Country values may be passed as alpha-2, alpha-3, name, or common alias. Purple TLP remains CFONE-only. */
 export const listThreatEventsTags: API.OperationMethod<
   ListThreatEventsTagsRequest,
   ListThreatEventsTagsResponse,
@@ -10110,6 +12334,81 @@ export const listThreatEventTargetIndustries: API.OperationMethod<
   retry: Retry.Retry,
 }));
 
+export type ListThreatSignalsArticlesError = CloudflareOpError;
+/** Lists articles from the account's Threat Signals feeds. */
+export const listThreatSignalsArticles: API.OperationMethod<
+  ListThreatSignalsArticlesRequest,
+  ListThreatSignalsArticlesResponse,
+  ListThreatSignalsArticlesError,
+  CloudflareOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: ListThreatSignalsArticlesRequest,
+  output: ListThreatSignalsArticlesResponse,
+  errors: [CloudflareRateLimited, CloudflareError],
+  protocol: CloudflareProtocol,
+  retry: Retry.Retry,
+}));
+
+export type ListThreatSignalsCategoriesError = CloudflareOpError;
+/** Lists the predefined categories that can be assigned to feeds. */
+export const listThreatSignalsCategories: API.OperationMethod<
+  ListThreatSignalsCategoriesRequest,
+  ListThreatSignalsCategoriesResponse,
+  ListThreatSignalsCategoriesError,
+  CloudflareOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: ListThreatSignalsCategoriesRequest,
+  output: ListThreatSignalsCategoriesResponse,
+  errors: [CloudflareRateLimited, CloudflareError],
+  protocol: CloudflareProtocol,
+  retry: Retry.Retry,
+}));
+
+export type ListThreatSignalsFeedsError = CloudflareOpError;
+/** Lists the account's Threat Signals feed subscriptions. */
+export const listThreatSignalsFeeds: API.OperationMethod<
+  ListThreatSignalsFeedsRequest,
+  ListThreatSignalsFeedsResponse,
+  ListThreatSignalsFeedsError,
+  CloudflareOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: ListThreatSignalsFeedsRequest,
+  output: ListThreatSignalsFeedsResponse,
+  errors: [CloudflareRateLimited, CloudflareError],
+  protocol: CloudflareProtocol,
+  retry: Retry.Retry,
+}));
+
+export type ListThreatSignalsIndicatorsError = CloudflareOpError;
+/** Lists indicators of compromise extracted from the account's Threat Signals articles. */
+export const listThreatSignalsIndicators: API.OperationMethod<
+  ListThreatSignalsIndicatorsRequest,
+  ListThreatSignalsIndicatorsResponse,
+  ListThreatSignalsIndicatorsError,
+  CloudflareOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: ListThreatSignalsIndicatorsRequest,
+  output: ListThreatSignalsIndicatorsResponse,
+  errors: [CloudflareRateLimited, CloudflareError],
+  protocol: CloudflareProtocol,
+  retry: Retry.Retry,
+}));
+
+export type ListThreatSignalsSkillsError = CloudflareOpError;
+/** Lists the default and custom skills available to the account. */
+export const listThreatSignalsSkills: API.OperationMethod<
+  ListThreatSignalsSkillsRequest,
+  ListThreatSignalsSkillsResponse,
+  ListThreatSignalsSkillsError,
+  CloudflareOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: ListThreatSignalsSkillsRequest,
+  output: ListThreatSignalsSkillsResponse,
+  errors: [CloudflareRateLimited, CloudflareError],
+  protocol: CloudflareProtocol,
+  retry: Retry.Retry,
+}));
+
 export type PatchScanConfigError = ScanConfigNotFound | CloudflareOpError;
 /** Updates an existing scan configuration in Cloudforce One's network scanning service. */
 export const patchScanConfig: API.OperationMethod<
@@ -10141,7 +12440,7 @@ export const patchThreatEvent: API.OperationMethod<
 }));
 
 export type PatchThreatEventCategoryError = CloudflareOpError;
-/** Partially updates a threat event category in Cloudforce One, modifying specific fields without replacing the entire category. */
+/** Deprecated; use PATCH /events/event-categories/by-id/{category_id}. Available through 2026-11-28. */
 export const patchThreatEventCategory: API.OperationMethod<
   PatchThreatEventCategoryRequest,
   PatchThreatEventCategoryResponse,
@@ -10185,6 +12484,21 @@ export const patchThreatEventRaw: API.OperationMethod<
   retry: Retry.Retry,
 }));
 
+export type PollThreatSignalsFeedError = CloudflareOpError;
+/** Starts an immediate poll of one or all Threat Signals feeds. */
+export const pollThreatSignalsFeed: API.OperationMethod<
+  PollThreatSignalsFeedRequest,
+  PollThreatSignalsFeedResponse,
+  PollThreatSignalsFeedError,
+  CloudflareOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: PollThreatSignalsFeedRequest,
+  output: PollThreatSignalsFeedResponse,
+  errors: [CloudflareRateLimited, CloudflareError],
+  protocol: CloudflareProtocol,
+  retry: Retry.Retry,
+}));
+
 export type QuotaRequestPriorityError = CloudflareOpError;
 /** Retrieves quota usage for Cloudforce One priority requests. */
 export const quotaRequestPriority: API.OperationMethod<
@@ -10201,7 +12515,7 @@ export const quotaRequestPriority: API.OperationMethod<
 }));
 
 export type RawThreatEventDatasetError = CloudflareOpError;
-/** Retrieves the raw data associated with an event. Searches across all shards in the dataset. */
+/** Deprecated; use GET /events/datasets/{dataset_id}/events/{event_id}/raw. Available through 2026-11-28. */
 export const rawThreatEventDataset: API.OperationMethod<
   RawThreatEventDatasetRequest,
   RawThreatEventDatasetResponse,
@@ -10260,6 +12574,21 @@ export const requestsTypes: API.OperationMethod<
   retry: Retry.Retry,
 }));
 
+export type SearchThreatSignalError = CloudflareOpError;
+/** Searches the account's Threat Signals articles using keyword and semantic retrieval. */
+export const searchThreatSignal: API.OperationMethod<
+  SearchThreatSignalRequest,
+  SearchThreatSignalResponse,
+  SearchThreatSignalError,
+  CloudflareOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: SearchThreatSignalRequest,
+  output: SearchThreatSignalResponse,
+  errors: [CloudflareRateLimited, CloudflareError],
+  protocol: CloudflareProtocol,
+  retry: Retry.Retry,
+}));
+
 export type ThreatEventsBulkCreateRelationshipsError = CloudflareOpError;
 /** This method is deprecated. Please use `event_create_bulk` instead */
 export const threatEventsBulkCreateRelationships: API.OperationMethod<
@@ -10270,6 +12599,51 @@ export const threatEventsBulkCreateRelationships: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: ThreatEventsBulkCreateRelationshipsRequest,
   output: ThreatEventsBulkCreateRelationshipsResponse,
+  errors: [CloudflareRateLimited, CloudflareError],
+  protocol: CloudflareProtocol,
+  retry: Retry.Retry,
+}));
+
+export type ThreatSignalsArticlesBulkEditError = CloudflareOpError;
+/** Marks up to 50 Threat Signals articles as read or unread. */
+export const threatSignalsArticlesBulkEdit: API.OperationMethod<
+  ThreatSignalsArticlesBulkEditRequest,
+  ThreatSignalsArticlesBulkEditResponse,
+  ThreatSignalsArticlesBulkEditError,
+  CloudflareOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: ThreatSignalsArticlesBulkEditRequest,
+  output: ThreatSignalsArticlesBulkEditResponse,
+  errors: [CloudflareRateLimited, CloudflareError],
+  protocol: CloudflareProtocol,
+  retry: Retry.Retry,
+}));
+
+export type ThreatSignalsHealthError = CloudflareOpError;
+/** Checks that the Threat Signals API is reachable. */
+export const threatSignalsHealth: API.OperationMethod<
+  ThreatSignalsHealthRequest,
+  ThreatSignalsHealthResponse,
+  ThreatSignalsHealthError,
+  CloudflareOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: ThreatSignalsHealthRequest,
+  output: ThreatSignalsHealthResponse,
+  errors: [CloudflareRateLimited, CloudflareError],
+  protocol: CloudflareProtocol,
+  retry: Retry.Retry,
+}));
+
+export type ThreatSignalsSearchSearchError = CloudflareOpError;
+/** Searches the account's Threat Signals articles using keyword and semantic retrieval. */
+export const threatSignalsSearchSearch: API.OperationMethod<
+  ThreatSignalsSearchSearchRequest,
+  ThreatSignalsSearchSearchResponse,
+  ThreatSignalsSearchSearchError,
+  CloudflareOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: ThreatSignalsSearchSearchRequest,
+  output: ThreatSignalsSearchSearchResponse,
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
@@ -10330,6 +12704,36 @@ export const updateRequestPriority: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: UpdateRequestPriorityRequest,
   output: UpdateRequestPriorityResponse,
+  errors: [CloudflareRateLimited, CloudflareError],
+  protocol: CloudflareProtocol,
+  retry: Retry.Retry,
+}));
+
+export type UpdateThreatSignalsFeedsSkillError = CloudflareOpError;
+/** Replaces the ordered custom skills assigned to a Threat Signals feed. */
+export const updateThreatSignalsFeedsSkill: API.OperationMethod<
+  UpdateThreatSignalsFeedsSkillRequest,
+  UpdateThreatSignalsFeedsSkillResponse,
+  UpdateThreatSignalsFeedsSkillError,
+  CloudflareOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: UpdateThreatSignalsFeedsSkillRequest,
+  output: UpdateThreatSignalsFeedsSkillResponse,
+  errors: [CloudflareRateLimited, CloudflareError],
+  protocol: CloudflareProtocol,
+  retry: Retry.Retry,
+}));
+
+export type UpdateThreatSignalsSkillsTagCategoryError = CloudflareOpError;
+/** Replaces the tag categories the default tagging skill may choose tags from. */
+export const updateThreatSignalsSkillsTagCategory: API.OperationMethod<
+  UpdateThreatSignalsSkillsTagCategoryRequest,
+  UpdateThreatSignalsSkillsTagCategoryResponse,
+  UpdateThreatSignalsSkillsTagCategoryError,
+  CloudflareOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: UpdateThreatSignalsSkillsTagCategoryRequest,
+  output: UpdateThreatSignalsSkillsTagCategoryResponse,
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,

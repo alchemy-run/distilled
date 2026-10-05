@@ -33,11 +33,7 @@ export const FilesRequest = /*@__PURE__*/ S.suspend(() =>
     search: S.optional(S.String.pipe(T.Query())),
     status: S.optional(FilesRequestStatus.pipe(T.Query())),
   }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/accounts/{account_id}/autorag/rags/{id}/files",
-      code: 200,
-    }),
+    T.Http({ method: "GET", uri: "/accounts/{account_id}/autorag/rags/{id}/files", code: 200 }),
   ),
 ).annotate({ identifier: "FilesRequest" }) as any as S.Schema<FilesRequest>;
 
@@ -50,9 +46,7 @@ export const FilesResultItem = /*@__PURE__*/ S.suspend(() =>
     error: S.String,
     key: S.String,
   }),
-).annotate({
-  identifier: "FilesResultItem",
-}) as any as S.Schema<FilesResultItem>;
+).annotate({ identifier: "FilesResultItem" }) as any as S.Schema<FilesResultItem>;
 
 export type FilesResultList = Array<FilesResultItem>;
 export const FilesResultList = /*@__PURE__*/ S.Array(
@@ -129,9 +123,7 @@ export const JobsLogsRequest = /*@__PURE__*/ S.suspend(() =>
       code: 200,
     }),
   ),
-).annotate({
-  identifier: "JobsLogsRequest",
-}) as any as S.Schema<JobsLogsRequest>;
+).annotate({ identifier: "JobsLogsRequest" }) as any as S.Schema<JobsLogsRequest>;
 
 export interface JobsLogsResultItem {
   id: number;
@@ -146,9 +138,7 @@ export const JobsLogsResultItem = /*@__PURE__*/ S.suspend(() =>
     message: S.String,
     messageType: S.Number.pipe(T.Body("message_type")),
   }),
-).annotate({
-  identifier: "JobsLogsResultItem",
-}) as any as S.Schema<JobsLogsResultItem>;
+).annotate({ identifier: "JobsLogsResultItem" }) as any as S.Schema<JobsLogsResultItem>;
 
 export type JobsLogsResultList = Array<JobsLogsResultItem>;
 export const JobsLogsResultList = /*@__PURE__*/ S.Array(
@@ -158,9 +148,7 @@ export const JobsLogsResultList = /*@__PURE__*/ S.Array(
 export type JobsLogsResponse = JobsLogsResultList;
 export const JobsLogsResponse = /*@__PURE__*/ S.suspend(() =>
   JobsLogsResultList.pipe(T.EnvelopePayloadRoot()),
-).annotate({
-  identifier: "JobsLogsResponse",
-}) as any as S.Schema<JobsLogsResponse>;
+).annotate({ identifier: "JobsLogsResponse" }) as any as S.Schema<JobsLogsResponse>;
 
 export interface ListJobsRequest {
   accountId: string;
@@ -176,15 +164,9 @@ export const ListJobsRequest = /*@__PURE__*/ S.suspend(() =>
     page: S.optional(S.Number.pipe(T.Query())),
     perPage: S.optional(S.Number.pipe(T.Query("per_page"))),
   }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/accounts/{account_id}/autorag/rags/{id}/jobs",
-      code: 200,
-    }),
+    T.Http({ method: "GET", uri: "/accounts/{account_id}/autorag/rags/{id}/jobs", code: 200 }),
   ),
-).annotate({
-  identifier: "ListJobsRequest",
-}) as any as S.Schema<ListJobsRequest>;
+).annotate({ identifier: "ListJobsRequest" }) as any as S.Schema<ListJobsRequest>;
 
 export type ListJobsResultItemSource = "user" | "schedule";
 export const ListJobsResultItemSource = S.String;
@@ -206,9 +188,7 @@ export const ListJobsResultItem = /*@__PURE__*/ S.suspend(() =>
     lastSeenAt: S.optional(S.NullOr(S.String).pipe(T.Body("last_seen_at"))),
     startedAt: S.optional(S.NullOr(S.String).pipe(T.Body("started_at"))),
   }),
-).annotate({
-  identifier: "ListJobsResultItem",
-}) as any as S.Schema<ListJobsResultItem>;
+).annotate({ identifier: "ListJobsResultItem" }) as any as S.Schema<ListJobsResultItem>;
 
 export type ListJobsResultList = Array<ListJobsResultItem>;
 export const ListJobsResultList = /*@__PURE__*/ S.Array(
@@ -218,9 +198,7 @@ export const ListJobsResultList = /*@__PURE__*/ S.Array(
 export type ListJobsResponse = ListJobsResultList;
 export const ListJobsResponse = /*@__PURE__*/ S.suspend(() =>
   ListJobsResultList.pipe(T.EnvelopePayloadRoot()),
-).annotate({
-  identifier: "ListJobsResponse",
-}) as any as S.Schema<ListJobsResponse>;
+).annotate({ identifier: "ListJobsResponse" }) as any as S.Schema<ListJobsResponse>;
 
 export type SearchRequestFiltersCase0Type = "eq" | "ne" | "gt" | "gte" | "lt" | "lte";
 export const SearchRequestFiltersCase0Type = S.String;
@@ -322,9 +300,7 @@ export const SearchRequestReranking = /*@__PURE__*/ S.suspend(() =>
     enabled: S.optional(S.Boolean),
     model: S.optional(SearchRequestRerankingModel),
   }),
-).annotate({
-  identifier: "SearchRequestReranking",
-}) as any as S.Schema<SearchRequestReranking>;
+).annotate({ identifier: "SearchRequestReranking" }) as any as S.Schema<SearchRequestReranking>;
 
 export interface SearchRequest {
   accountId: string;
@@ -348,11 +324,7 @@ export const SearchRequest = /*@__PURE__*/ S.suspend(() =>
     reranking: S.optional(SearchRequestReranking),
     rewriteQuery: S.optional(S.Boolean.pipe(T.Body("rewrite_query"))),
   }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/accounts/{account_id}/autorag/rags/{id}/search",
-      code: 200,
-    }),
+    T.Http({ method: "POST", uri: "/accounts/{account_id}/autorag/rags/{id}/search", code: 200 }),
   ),
 ).annotate({ identifier: "SearchRequest" }) as any as S.Schema<SearchRequest>;
 
@@ -389,9 +361,7 @@ export const SearchResponseDataItem = /*@__PURE__*/ S.suspend(() =>
     fileId: S.optional(S.NullOr(S.String).pipe(T.Body("file_id"))),
     filename: S.optional(S.NullOr(S.String)),
   }),
-).annotate({
-  identifier: "SearchResponseDataItem",
-}) as any as S.Schema<SearchResponseDataItem>;
+).annotate({ identifier: "SearchResponseDataItem" }) as any as S.Schema<SearchResponseDataItem>;
 
 export type SearchResponseDataList = Array<SearchResponseDataItem>;
 export const SearchResponseDataList = /*@__PURE__*/ S.Array(
@@ -535,9 +505,7 @@ export const SearchAiRequestReranking = /*@__PURE__*/ S.suspend(() =>
     enabled: S.optional(S.Boolean),
     model: S.optional(SearchAiRequestRerankingModel),
   }),
-).annotate({
-  identifier: "SearchAiRequestReranking",
-}) as any as S.Schema<SearchAiRequestReranking>;
+).annotate({ identifier: "SearchAiRequestReranking" }) as any as S.Schema<SearchAiRequestReranking>;
 
 export interface SearchAiRequest {
   accountId: string;
@@ -573,9 +541,7 @@ export const SearchAiRequest = /*@__PURE__*/ S.suspend(() =>
       code: 200,
     }),
   ),
-).annotate({
-  identifier: "SearchAiRequest",
-}) as any as S.Schema<SearchAiRequest>;
+).annotate({ identifier: "SearchAiRequest" }) as any as S.Schema<SearchAiRequest>;
 
 export type SearchAiResponseDataItemContentItem = SearchResponseDataItemContentItem;
 export const SearchAiResponseDataItemContentItem = SearchResponseDataItemContentItem;
@@ -600,9 +566,7 @@ export const SearchAiResponseDataItem = /*@__PURE__*/ S.suspend(() =>
     fileId: S.optional(S.NullOr(S.String).pipe(T.Body("file_id"))),
     filename: S.optional(S.NullOr(S.String)),
   }),
-).annotate({
-  identifier: "SearchAiResponseDataItem",
-}) as any as S.Schema<SearchAiResponseDataItem>;
+).annotate({ identifier: "SearchAiResponseDataItem" }) as any as S.Schema<SearchAiResponseDataItem>;
 
 export type SearchAiResponseDataList = Array<SearchAiResponseDataItem>;
 export const SearchAiResponseDataList = /*@__PURE__*/ S.Array(
@@ -627,9 +591,7 @@ export const SearchAiResponse = /*@__PURE__*/ S.suspend(() =>
     nextPage: S.optional(S.NullOr(S.String).pipe(T.Body("next_page"))),
     object: S.optional(S.NullOr(S.String)),
   }),
-).annotate({
-  identifier: "SearchAiResponse",
-}) as any as S.Schema<SearchAiResponse>;
+).annotate({ identifier: "SearchAiResponse" }) as any as S.Schema<SearchAiResponse>;
 
 export interface SyncRequest {
   accountId: string;
@@ -641,11 +603,7 @@ export const SyncRequest = /*@__PURE__*/ S.suspend(() =>
     accountId: S.String.pipe(T.Label("account_id")),
     id: S.String.pipe(T.Label()),
   }).pipe(
-    T.Http({
-      method: "PATCH",
-      uri: "/accounts/{account_id}/autorag/rags/{id}/sync",
-      code: 200,
-    }),
+    T.Http({ method: "PATCH", uri: "/accounts/{account_id}/autorag/rags/{id}/sync", code: 200 }),
   ),
 ).annotate({ identifier: "SyncRequest" }) as any as S.Schema<SyncRequest>;
 

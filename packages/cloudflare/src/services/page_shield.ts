@@ -114,17 +114,9 @@ export const CreatePolicyRequest = /*@__PURE__*/ S.suspend(() =>
     expression: S.String,
     value: S.String,
   })
-    .pipe(
-      T.Http({
-        method: "POST",
-        uri: "/zones/{zone_id}/page_shield/policies",
-        code: 200,
-      }),
-    )
+    .pipe(T.Http({ method: "POST", uri: "/zones/{zone_id}/page_shield/policies", code: 200 }))
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "CreatePolicyRequest",
-}) as any as S.Schema<CreatePolicyRequest>;
+).annotate({ identifier: "CreatePolicyRequest" }) as any as S.Schema<CreatePolicyRequest>;
 
 export type PoliciesCreateResponseAction = "allow" | "log" | "add_reporting_directives";
 export const PoliciesCreateResponseAction = S.String;
@@ -153,9 +145,7 @@ export const CreatePolicyResponse = /*@__PURE__*/ S.suspend(() =>
     expression: S.String,
     value: S.String,
   }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "CreatePolicyResponse",
-}) as any as S.Schema<CreatePolicyResponse>;
+).annotate({ identifier: "CreatePolicyResponse" }) as any as S.Schema<CreatePolicyResponse>;
 
 export interface DeletePolicyRequest {
   /** Identifier */
@@ -176,16 +166,12 @@ export const DeletePolicyRequest = /*@__PURE__*/ S.suspend(() =>
       }),
     )
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "DeletePolicyRequest",
-}) as any as S.Schema<DeletePolicyRequest>;
+).annotate({ identifier: "DeletePolicyRequest" }) as any as S.Schema<DeletePolicyRequest>;
 
 export interface DeletePolicyResponse {}
 export const DeletePolicyResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({}).pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "DeletePolicyResponse",
-}) as any as S.Schema<DeletePolicyResponse>;
+).annotate({ identifier: "DeletePolicyResponse" }) as any as S.Schema<DeletePolicyResponse>;
 
 export interface GetConnectionRequest {
   /** Identifier */
@@ -206,9 +192,7 @@ export const GetConnectionRequest = /*@__PURE__*/ S.suspend(() =>
       }),
     )
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "GetConnectionRequest",
-}) as any as S.Schema<GetConnectionRequest>;
+).annotate({ identifier: "GetConnectionRequest" }) as any as S.Schema<GetConnectionRequest>;
 
 export type ConnectionsGetResponseMaliciousDomainCategoriesList = Array<string>;
 export const ConnectionsGetResponseMaliciousDomainCategoriesList = /*@__PURE__*/ S.Array(
@@ -268,9 +252,7 @@ export const GetConnectionResponse = /*@__PURE__*/ S.suspend(() =>
     pageUrls: S.optional(S.NullOr(ConnectionsGetResponsePageUrlsList).pipe(T.Body("page_urls"))),
     urlReportedMalicious: S.optional(S.NullOr(S.Boolean).pipe(T.Body("url_reported_malicious"))),
   }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "GetConnectionResponse",
-}) as any as S.Schema<GetConnectionResponse>;
+).annotate({ identifier: "GetConnectionResponse" }) as any as S.Schema<GetConnectionResponse>;
 
 export interface GetCookyRequest {
   /** Identifier */
@@ -284,16 +266,10 @@ export const GetCookyRequest = /*@__PURE__*/ S.suspend(() =>
     cookieId: S.String.pipe(T.Label("cookie_id")),
   })
     .pipe(
-      T.Http({
-        method: "GET",
-        uri: "/zones/{zone_id}/page_shield/cookies/{cookie_id}",
-        code: 200,
-      }),
+      T.Http({ method: "GET", uri: "/zones/{zone_id}/page_shield/cookies/{cookie_id}", code: 200 }),
     )
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "GetCookyRequest",
-}) as any as S.Schema<GetCookyRequest>;
+).annotate({ identifier: "GetCookyRequest" }) as any as S.Schema<GetCookyRequest>;
 
 export type CookiesGetResponseType = "first_party" | "unknown";
 export const CookiesGetResponseType = S.String;
@@ -343,9 +319,7 @@ export const GetCookyResponse = /*@__PURE__*/ S.suspend(() =>
     ),
     secureAttribute: S.optional(S.NullOr(S.Boolean).pipe(T.Body("secure_attribute"))),
   }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "GetCookyResponse",
-}) as any as S.Schema<GetCookyResponse>;
+).annotate({ identifier: "GetCookyResponse" }) as any as S.Schema<GetCookyResponse>;
 
 export interface GetPageShieldRequest {
   /** Identifier */
@@ -357,9 +331,7 @@ export const GetPageShieldRequest = /*@__PURE__*/ S.suspend(() =>
   })
     .pipe(T.Http({ method: "GET", uri: "/zones/{zone_id}/page_shield", code: 200 }))
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "GetPageShieldRequest",
-}) as any as S.Schema<GetPageShieldRequest>;
+).annotate({ identifier: "GetPageShieldRequest" }) as any as S.Schema<GetPageShieldRequest>;
 
 /** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
 export interface GetPageShieldResponse {
@@ -379,9 +351,7 @@ export const GetPageShieldResponse = /*@__PURE__*/ S.suspend(() =>
     useCloudflareReportingEndpoint: S.Boolean.pipe(T.Body("use_cloudflare_reporting_endpoint")),
     useConnectionUrlPath: S.Boolean.pipe(T.Body("use_connection_url_path")),
   }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "GetPageShieldResponse",
-}) as any as S.Schema<GetPageShieldResponse>;
+).annotate({ identifier: "GetPageShieldResponse" }) as any as S.Schema<GetPageShieldResponse>;
 
 export interface GetPolicyRequest {
   /** Identifier */
@@ -402,9 +372,7 @@ export const GetPolicyRequest = /*@__PURE__*/ S.suspend(() =>
       }),
     )
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "GetPolicyRequest",
-}) as any as S.Schema<GetPolicyRequest>;
+).annotate({ identifier: "GetPolicyRequest" }) as any as S.Schema<GetPolicyRequest>;
 
 export type PoliciesGetResponseAction = "allow" | "log" | "add_reporting_directives";
 export const PoliciesGetResponseAction = S.String;
@@ -433,9 +401,7 @@ export const GetPolicyResponse = /*@__PURE__*/ S.suspend(() =>
     expression: S.String,
     value: S.String,
   }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "GetPolicyResponse",
-}) as any as S.Schema<GetPolicyResponse>;
+).annotate({ identifier: "GetPolicyResponse" }) as any as S.Schema<GetPolicyResponse>;
 
 export interface GetScriptRequest {
   /** Identifier */
@@ -449,16 +415,10 @@ export const GetScriptRequest = /*@__PURE__*/ S.suspend(() =>
     scriptId: S.String.pipe(T.Label("script_id")),
   })
     .pipe(
-      T.Http({
-        method: "GET",
-        uri: "/zones/{zone_id}/page_shield/scripts/{script_id}",
-        code: 200,
-      }),
+      T.Http({ method: "GET", uri: "/zones/{zone_id}/page_shield/scripts/{script_id}", code: 200 }),
     )
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "GetScriptRequest",
-}) as any as S.Schema<GetScriptRequest>;
+).annotate({ identifier: "GetScriptRequest" }) as any as S.Schema<GetScriptRequest>;
 
 export type ScriptsGetResponseMaliciousDomainCategoriesList = Array<string>;
 export const ScriptsGetResponseMaliciousDomainCategoriesList = /*@__PURE__*/ S.Array(
@@ -582,9 +542,7 @@ export const GetScriptResponse = /*@__PURE__*/ S.suspend(() =>
     urlReportedMalicious: S.optional(S.NullOr(S.Boolean).pipe(T.Body("url_reported_malicious"))),
     versions: S.optional(S.NullOr(ScriptsGetResponseVersionsList)),
   }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "GetScriptResponse",
-}) as any as S.Schema<GetScriptResponse>;
+).annotate({ identifier: "GetScriptResponse" }) as any as S.Schema<GetScriptResponse>;
 
 export type ConnectionsListRequestDirection = "asc" | "desc";
 export const ConnectionsListRequestDirection = S.String;
@@ -639,17 +597,9 @@ export const ListConnectionsRequest = /*@__PURE__*/ S.suspend(() =>
     status: S.optional(S.String.pipe(T.Query())),
     urls: S.optional(S.String.pipe(T.Query())),
   })
-    .pipe(
-      T.Http({
-        method: "GET",
-        uri: "/zones/{zone_id}/page_shield/connections",
-        code: 200,
-      }),
-    )
+    .pipe(T.Http({ method: "GET", uri: "/zones/{zone_id}/page_shield/connections", code: 200 }))
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "ListConnectionsRequest",
-}) as any as S.Schema<ListConnectionsRequest>;
+).annotate({ identifier: "ListConnectionsRequest" }) as any as S.Schema<ListConnectionsRequest>;
 
 export type ConnectionsListResultItemMaliciousDomainCategoriesList = Array<string>;
 export const ConnectionsListResultItemMaliciousDomainCategoriesList = /*@__PURE__*/ S.Array(
@@ -728,9 +678,7 @@ export const ListConnectionsResponse = /*@__PURE__*/ S.suspend(() =>
     result: ConnectionsListResultList.pipe(T.EnvelopePayload()),
     resultInfo: S.optional(S.NullOr(ResultInfo).pipe(T.ResultInfo())),
   }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "ListConnectionsResponse",
-}) as any as S.Schema<ListConnectionsResponse>;
+).annotate({ identifier: "ListConnectionsResponse" }) as any as S.Schema<ListConnectionsResponse>;
 
 export type CookiesListRequestDirection = "asc" | "desc";
 export const CookiesListRequestDirection = S.String;
@@ -797,17 +745,9 @@ export const ListCookiesRequest = /*@__PURE__*/ S.suspend(() =>
     secure: S.optional(S.Boolean.pipe(T.Query())),
     type: S.optional(CookiesListRequestType.pipe(T.Query())),
   })
-    .pipe(
-      T.Http({
-        method: "GET",
-        uri: "/zones/{zone_id}/page_shield/cookies",
-        code: 200,
-      }),
-    )
+    .pipe(T.Http({ method: "GET", uri: "/zones/{zone_id}/page_shield/cookies", code: 200 }))
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "ListCookiesRequest",
-}) as any as S.Schema<ListCookiesRequest>;
+).annotate({ identifier: "ListCookiesRequest" }) as any as S.Schema<ListCookiesRequest>;
 
 export type CookiesListResultItemType = "first_party" | "unknown";
 export const CookiesListResultItemType = S.String;
@@ -856,9 +796,7 @@ export const CookiesListResultItem = /*@__PURE__*/ S.suspend(() =>
     ),
     secureAttribute: S.optional(S.NullOr(S.Boolean).pipe(T.Body("secure_attribute"))),
   }),
-).annotate({
-  identifier: "CookiesListResultItem",
-}) as any as S.Schema<CookiesListResultItem>;
+).annotate({ identifier: "CookiesListResultItem" }) as any as S.Schema<CookiesListResultItem>;
 
 export type CookiesListResultList = Array<CookiesListResultItem>;
 export const CookiesListResultList = /*@__PURE__*/ S.Array(
@@ -876,9 +814,7 @@ export const ListCookiesResponse = /*@__PURE__*/ S.suspend(() =>
     result: CookiesListResultList.pipe(T.EnvelopePayload()),
     resultInfo: S.optional(S.NullOr(ResultInfo).pipe(T.ResultInfo())),
   }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "ListCookiesResponse",
-}) as any as S.Schema<ListCookiesResponse>;
+).annotate({ identifier: "ListCookiesResponse" }) as any as S.Schema<ListCookiesResponse>;
 
 export interface ListPoliciesRequest {
   /** Identifier */
@@ -888,17 +824,9 @@ export const ListPoliciesRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     zoneId: S.String.pipe(T.Label("zone_id")),
   })
-    .pipe(
-      T.Http({
-        method: "GET",
-        uri: "/zones/{zone_id}/page_shield/policies",
-        code: 200,
-      }),
-    )
+    .pipe(T.Http({ method: "GET", uri: "/zones/{zone_id}/page_shield/policies", code: 200 }))
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "ListPoliciesRequest",
-}) as any as S.Schema<ListPoliciesRequest>;
+).annotate({ identifier: "ListPoliciesRequest" }) as any as S.Schema<ListPoliciesRequest>;
 
 export type PoliciesListResultItemAction = "allow" | "log" | "add_reporting_directives";
 export const PoliciesListResultItemAction = S.String;
@@ -926,9 +854,7 @@ export const PoliciesListResultItem = /*@__PURE__*/ S.suspend(() =>
     expression: S.String,
     value: S.String,
   }),
-).annotate({
-  identifier: "PoliciesListResultItem",
-}) as any as S.Schema<PoliciesListResultItem>;
+).annotate({ identifier: "PoliciesListResultItem" }) as any as S.Schema<PoliciesListResultItem>;
 
 export type PoliciesListResultList = Array<PoliciesListResultItem>;
 export const PoliciesListResultList = /*@__PURE__*/ S.Array(
@@ -946,9 +872,7 @@ export const ListPoliciesResponse = /*@__PURE__*/ S.suspend(() =>
     result: PoliciesListResultList.pipe(T.EnvelopePayload()),
     resultInfo: S.optional(S.NullOr(ResultInfo).pipe(T.ResultInfo())),
   }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "ListPoliciesResponse",
-}) as any as S.Schema<ListPoliciesResponse>;
+).annotate({ identifier: "ListPoliciesResponse" }) as any as S.Schema<ListPoliciesResponse>;
 
 export type ScriptsListRequestDirection = "asc" | "desc";
 export const ScriptsListRequestDirection = S.String;
@@ -1006,17 +930,9 @@ export const ListScriptsRequest = /*@__PURE__*/ S.suspend(() =>
     status: S.optional(S.String.pipe(T.Query())),
     urls: S.optional(S.String.pipe(T.Query())),
   })
-    .pipe(
-      T.Http({
-        method: "GET",
-        uri: "/zones/{zone_id}/page_shield/scripts",
-        code: 200,
-      }),
-    )
+    .pipe(T.Http({ method: "GET", uri: "/zones/{zone_id}/page_shield/scripts", code: 200 }))
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "ListScriptsRequest",
-}) as any as S.Schema<ListScriptsRequest>;
+).annotate({ identifier: "ListScriptsRequest" }) as any as S.Schema<ListScriptsRequest>;
 
 export type ScriptsListResultItemMaliciousDomainCategoriesList = Array<string>;
 export const ScriptsListResultItemMaliciousDomainCategoriesList = /*@__PURE__*/ S.Array(
@@ -1099,9 +1015,7 @@ export const ScriptsListResultItem = /*@__PURE__*/ S.suspend(() =>
     pageUrls: S.optional(S.NullOr(ScriptsListResultItemPageUrlsList).pipe(T.Body("page_urls"))),
     urlReportedMalicious: S.optional(S.NullOr(S.Boolean).pipe(T.Body("url_reported_malicious"))),
   }),
-).annotate({
-  identifier: "ScriptsListResultItem",
-}) as any as S.Schema<ScriptsListResultItem>;
+).annotate({ identifier: "ScriptsListResultItem" }) as any as S.Schema<ScriptsListResultItem>;
 
 export type ScriptsListResultList = Array<ScriptsListResultItem>;
 export const ScriptsListResultList = /*@__PURE__*/ S.Array(
@@ -1119,9 +1033,7 @@ export const ListScriptsResponse = /*@__PURE__*/ S.suspend(() =>
     result: ScriptsListResultList.pipe(T.EnvelopePayload()),
     resultInfo: S.optional(S.NullOr(ResultInfo).pipe(T.ResultInfo())),
   }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "ListScriptsResponse",
-}) as any as S.Schema<ListScriptsResponse>;
+).annotate({ identifier: "ListScriptsResponse" }) as any as S.Schema<ListScriptsResponse>;
 
 export interface PutPageShieldRequest {
   /** Identifier */
@@ -1144,9 +1056,7 @@ export const PutPageShieldRequest = /*@__PURE__*/ S.suspend(() =>
   })
     .pipe(T.Http({ method: "PUT", uri: "/zones/{zone_id}/page_shield", code: 200 }))
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "PutPageShieldRequest",
-}) as any as S.Schema<PutPageShieldRequest>;
+).annotate({ identifier: "PutPageShieldRequest" }) as any as S.Schema<PutPageShieldRequest>;
 
 /** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
 export interface PutPageShieldResponse {
@@ -1166,9 +1076,7 @@ export const PutPageShieldResponse = /*@__PURE__*/ S.suspend(() =>
     useCloudflareReportingEndpoint: S.Boolean.pipe(T.Body("use_cloudflare_reporting_endpoint")),
     useConnectionUrlPath: S.Boolean.pipe(T.Body("use_connection_url_path")),
   }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "PutPageShieldResponse",
-}) as any as S.Schema<PutPageShieldResponse>;
+).annotate({ identifier: "PutPageShieldResponse" }) as any as S.Schema<PutPageShieldResponse>;
 
 export type PoliciesUpdateRequestAction = "allow" | "log" | "add_reporting_directives";
 export const PoliciesUpdateRequestAction = S.String;
@@ -1207,9 +1115,7 @@ export const UpdatePolicyRequest = /*@__PURE__*/ S.suspend(() =>
       }),
     )
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "UpdatePolicyRequest",
-}) as any as S.Schema<UpdatePolicyRequest>;
+).annotate({ identifier: "UpdatePolicyRequest" }) as any as S.Schema<UpdatePolicyRequest>;
 
 export type PoliciesUpdateResponseAction = "allow" | "log" | "add_reporting_directives";
 export const PoliciesUpdateResponseAction = S.String;
@@ -1238,9 +1144,7 @@ export const UpdatePolicyResponse = /*@__PURE__*/ S.suspend(() =>
     expression: S.String,
     value: S.String,
   }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "UpdatePolicyResponse",
-}) as any as S.Schema<UpdatePolicyResponse>;
+).annotate({ identifier: "UpdatePolicyResponse" }) as any as S.Schema<UpdatePolicyResponse>;
 
 export type CreatePolicyError = PolicyQuotaExceeded | Forbidden | CloudflareOpError;
 /** Creates a rule that applies a client-side security action when its filter expression matches. */

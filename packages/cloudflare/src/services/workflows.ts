@@ -206,9 +206,7 @@ export const BulkInstanceRequest = /*@__PURE__*/ S.suspend(() =>
       }),
     )
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "BulkInstanceRequest",
-}) as any as S.Schema<BulkInstanceRequest>;
+).annotate({ identifier: "BulkInstanceRequest" }) as any as S.Schema<BulkInstanceRequest>;
 
 export type InstancesBulkResultItemStatus =
   | "queued"
@@ -242,9 +240,7 @@ export const InstancesBulkResultItem = /*@__PURE__*/ S.suspend(() =>
       S.NullOr(InstancesBulkResultItemTriggerSource).pipe(T.Body("trigger_source")),
     ),
   }),
-).annotate({
-  identifier: "InstancesBulkResultItem",
-}) as any as S.Schema<InstancesBulkResultItem>;
+).annotate({ identifier: "InstancesBulkResultItem" }) as any as S.Schema<InstancesBulkResultItem>;
 
 export type InstancesBulkResultList = Array<InstancesBulkResultItem>;
 export const InstancesBulkResultList = /*@__PURE__*/ S.Array(
@@ -262,9 +258,7 @@ export const BulkInstanceResponse = /*@__PURE__*/ S.suspend(() =>
     result: InstancesBulkResultList.pipe(T.EnvelopePayload()),
     resultInfo: S.optional(S.NullOr(ResultInfo).pipe(T.ResultInfo())),
   }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "BulkInstanceResponse",
-}) as any as S.Schema<BulkInstanceResponse>;
+).annotate({ identifier: "BulkInstanceResponse" }) as any as S.Schema<BulkInstanceResponse>;
 
 export type InstancesCreateRequestInstanceRetentionErrorRetention = string | number;
 export const InstancesCreateRequestInstanceRetentionErrorRetention = /*@__PURE__*/ S.Unknown.pipe(
@@ -338,9 +332,7 @@ export const CreateInstanceRequest = /*@__PURE__*/ S.suspend(() =>
       }),
     )
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "CreateInstanceRequest",
-}) as any as S.Schema<CreateInstanceRequest>;
+).annotate({ identifier: "CreateInstanceRequest" }) as any as S.Schema<CreateInstanceRequest>;
 
 export type InstancesCreateResponseStatus =
   | "queued"
@@ -375,9 +367,7 @@ export const CreateInstanceResponse = /*@__PURE__*/ S.suspend(() =>
       S.NullOr(InstancesCreateResponseTriggerSource).pipe(T.Body("trigger_source")),
     ),
   }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "CreateInstanceResponse",
-}) as any as S.Schema<CreateInstanceResponse>;
+).annotate({ identifier: "CreateInstanceResponse" }) as any as S.Schema<CreateInstanceResponse>;
 
 export interface CreateInstanceEventRequest {
   accountId: string;
@@ -436,9 +426,7 @@ export const DeleteWorkflowRequest = /*@__PURE__*/ S.suspend(() =>
       }),
     )
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "DeleteWorkflowRequest",
-}) as any as S.Schema<DeleteWorkflowRequest>;
+).annotate({ identifier: "DeleteWorkflowRequest" }) as any as S.Schema<DeleteWorkflowRequest>;
 
 export type DeleteResponseStatus = "ok";
 export const DeleteResponseStatus = S.String;
@@ -453,9 +441,7 @@ export const DeleteWorkflowResponse = /*@__PURE__*/ S.suspend(() =>
     status: DeleteResponseStatus,
     success: S.Boolean,
   }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "DeleteWorkflowResponse",
-}) as any as S.Schema<DeleteWorkflowResponse>;
+).annotate({ identifier: "DeleteWorkflowResponse" }) as any as S.Schema<DeleteWorkflowResponse>;
 
 export type InstancesGetRequestOrder = "asc" | "desc";
 export const InstancesGetRequestOrder = S.String;
@@ -485,9 +471,7 @@ export const GetInstanceRequest = /*@__PURE__*/ S.suspend(() =>
       }),
     )
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "GetInstanceRequest",
-}) as any as S.Schema<GetInstanceRequest>;
+).annotate({ identifier: "GetInstanceRequest" }) as any as S.Schema<GetInstanceRequest>;
 
 export interface InstancesGetResponseError {
   message: string;
@@ -807,9 +791,7 @@ export const GetInstanceResponse = /*@__PURE__*/ S.suspend(() =>
     versionId: S.String,
     schedule: S.optional(S.NullOr(InstancesGetResponseSchedule)),
   }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "GetInstanceResponse",
-}) as any as S.Schema<GetInstanceResponse>;
+).annotate({ identifier: "GetInstanceResponse" }) as any as S.Schema<GetInstanceResponse>;
 
 export interface GetVersionRequest {
   accountId: string;
@@ -830,9 +812,7 @@ export const GetVersionRequest = /*@__PURE__*/ S.suspend(() =>
       }),
     )
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "GetVersionRequest",
-}) as any as S.Schema<GetVersionRequest>;
+).annotate({ identifier: "GetVersionRequest" }) as any as S.Schema<GetVersionRequest>;
 
 export type VersionsGetResponseLanguage = "javascript" | "python";
 export const VersionsGetResponseLanguage = S.String;
@@ -904,9 +884,7 @@ export const GetVersionResponse = /*@__PURE__*/ S.suspend(() =>
     ),
     limits: S.optional(S.NullOr(VersionsGetResponseLimits)),
   }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "GetVersionResponse",
-}) as any as S.Schema<GetVersionResponse>;
+).annotate({ identifier: "GetVersionResponse" }) as any as S.Schema<GetVersionResponse>;
 
 export interface GetWorkflowRequest {
   accountId: string;
@@ -918,16 +896,10 @@ export const GetWorkflowRequest = /*@__PURE__*/ S.suspend(() =>
     workflowName: S.String.pipe(T.Label("workflow_name")),
   })
     .pipe(
-      T.Http({
-        method: "GET",
-        uri: "/accounts/{account_id}/workflows/{workflow_name}",
-        code: 200,
-      }),
+      T.Http({ method: "GET", uri: "/accounts/{account_id}/workflows/{workflow_name}", code: 200 }),
     )
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "GetWorkflowRequest",
-}) as any as S.Schema<GetWorkflowRequest>;
+).annotate({ identifier: "GetWorkflowRequest" }) as any as S.Schema<GetWorkflowRequest>;
 
 export type GetResponseInstancesMap = { [key: string]: number | undefined };
 export const GetResponseInstancesMap = /*@__PURE__*/ S.Record(
@@ -944,9 +916,7 @@ export const GetResponseSchedulesItem = /*@__PURE__*/ S.suspend(() =>
     cron: S.String,
     nextInstance: S.String.pipe(T.Body("next_instance")),
   }),
-).annotate({
-  identifier: "GetResponseSchedulesItem",
-}) as any as S.Schema<GetResponseSchedulesItem>;
+).annotate({ identifier: "GetResponseSchedulesItem" }) as any as S.Schema<GetResponseSchedulesItem>;
 
 export type GetResponseSchedulesList = Array<GetResponseSchedulesItem>;
 export const GetResponseSchedulesList = /*@__PURE__*/ S.Array(
@@ -964,6 +934,8 @@ export interface GetWorkflowResponse {
   scriptName: string;
   triggeredOn: string;
   schedules?: GetResponseSchedulesList | null;
+  /** Whether the bound Worker was deleted, leaving this Workflow inactive. */
+  scriptDeleted?: boolean | null;
 }
 export const GetWorkflowResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -976,10 +948,9 @@ export const GetWorkflowResponse = /*@__PURE__*/ S.suspend(() =>
     scriptName: S.String.pipe(T.Body("script_name")),
     triggeredOn: S.String.pipe(T.Body("triggered_on")),
     schedules: S.optional(S.NullOr(GetResponseSchedulesList)),
+    scriptDeleted: S.optional(S.NullOr(S.Boolean).pipe(T.Body("script_deleted"))),
   }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "GetWorkflowResponse",
-}) as any as S.Schema<GetWorkflowResponse>;
+).annotate({ identifier: "GetWorkflowResponse" }) as any as S.Schema<GetWorkflowResponse>;
 
 export interface GraphVersionRequest {
   accountId: string;
@@ -1000,9 +971,7 @@ export const GraphVersionRequest = /*@__PURE__*/ S.suspend(() =>
       }),
     )
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "GraphVersionRequest",
-}) as any as S.Schema<GraphVersionRequest>;
+).annotate({ identifier: "GraphVersionRequest" }) as any as S.Schema<GraphVersionRequest>;
 
 export type VersionsGraphResponseGraphWorkflowFunctionsValueNodesList = Array<unknown>;
 export const VersionsGraphResponseGraphWorkflowFunctionsValueNodesList = /*@__PURE__*/ S.Array(
@@ -1208,10 +1177,7 @@ export type VersionsGraphResponseGraphWorkflowNodesItemCase2Payload =
   | VersionsGraphResponseGraphWorkflowNodesItemCase2PayloadType
   | VersionsGraphResponseGraphWorkflowNodesItemCase2PayloadCase1;
 export const VersionsGraphResponseGraphWorkflowNodesItemCase2Payload = /*@__PURE__*/ S.Unknown.pipe(
-  T.UnionCases([["type"], ["fields", "type"]], {
-    key: "type",
-    values: ["unknown", "object"],
-  }),
+  T.UnionCases([["type"], ["fields", "type"]], { key: "type", values: ["unknown", "object"] }),
 );
 
 export interface VersionsGraphResponseGraphWorkflowNodesItemCase2 {
@@ -1609,10 +1575,7 @@ export type VersionsGraphResponseGraphWorkflowNodesItemCase10Payload =
   | VersionsGraphResponseGraphWorkflowNodesItemCase10PayloadCase1;
 export const VersionsGraphResponseGraphWorkflowNodesItemCase10Payload =
   /*@__PURE__*/ S.Unknown.pipe(
-    T.UnionCases([["type"], ["fields", "type"]], {
-      key: "type",
-      values: ["unknown", "object"],
-    }),
+    T.UnionCases([["type"], ["fields", "type"]], { key: "type", values: ["unknown", "object"] }),
   );
 
 export interface VersionsGraphResponseGraphWorkflowNodesItemCase10 {
@@ -1804,10 +1767,7 @@ export type VersionsGraphResponseGraphWorkflowPayload =
   | VersionsGraphResponseGraphWorkflowPayloadType
   | VersionsGraphResponseGraphWorkflowPayloadCase1;
 export const VersionsGraphResponseGraphWorkflowPayload = /*@__PURE__*/ S.Unknown.pipe(
-  T.UnionCases([["type"], ["fields", "type"]], {
-    key: "type",
-    values: ["unknown", "object"],
-  }),
+  T.UnionCases([["type"], ["fields", "type"]], { key: "type", values: ["unknown", "object"] }),
 );
 
 export interface VersionsGraphResponseGraphWorkflow {
@@ -1861,9 +1821,7 @@ export const GraphVersionResponse = /*@__PURE__*/ S.suspend(() =>
     modifiedOn: S.String.pipe(T.Body("modified_on")),
     workflowId: S.String.pipe(T.Body("workflow_id")),
   }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "GraphVersionResponse",
-}) as any as S.Schema<GraphVersionResponse>;
+).annotate({ identifier: "GraphVersionResponse" }) as any as S.Schema<GraphVersionResponse>;
 
 export type InstancesListRequestDirection = "asc" | "desc";
 export const InstancesListRequestDirection = S.String;
@@ -1916,9 +1874,7 @@ export const ListInstancesRequest = /*@__PURE__*/ S.suspend(() =>
       }),
     )
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "ListInstancesRequest",
-}) as any as S.Schema<ListInstancesRequest>;
+).annotate({ identifier: "ListInstancesRequest" }) as any as S.Schema<ListInstancesRequest>;
 
 export type InstancesListResultItemStatus =
   | "queued"
@@ -1960,9 +1916,7 @@ export const InstancesListResultItem = /*@__PURE__*/ S.suspend(() =>
       S.NullOr(InstancesListResultItemTriggerSource).pipe(T.Body("trigger_source")),
     ),
   }),
-).annotate({
-  identifier: "InstancesListResultItem",
-}) as any as S.Schema<InstancesListResultItem>;
+).annotate({ identifier: "InstancesListResultItem" }) as any as S.Schema<InstancesListResultItem>;
 
 export type InstancesListResultList = Array<InstancesListResultItem>;
 export const InstancesListResultList = /*@__PURE__*/ S.Array(
@@ -1980,9 +1934,7 @@ export const ListInstancesResponse = /*@__PURE__*/ S.suspend(() =>
     result: InstancesListResultList.pipe(T.EnvelopePayload()),
     resultInfo: S.optional(S.NullOr(ResultInfo).pipe(T.ResultInfo())),
   }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "ListInstancesResponse",
-}) as any as S.Schema<ListInstancesResponse>;
+).annotate({ identifier: "ListInstancesResponse" }) as any as S.Schema<ListInstancesResponse>;
 
 export interface ListVersionsRequest {
   accountId: string;
@@ -2005,9 +1957,7 @@ export const ListVersionsRequest = /*@__PURE__*/ S.suspend(() =>
       }),
     )
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "ListVersionsRequest",
-}) as any as S.Schema<ListVersionsRequest>;
+).annotate({ identifier: "ListVersionsRequest" }) as any as S.Schema<ListVersionsRequest>;
 
 export type VersionsListResultItemLanguage = "javascript" | "python";
 export const VersionsListResultItemLanguage = S.String;
@@ -2049,9 +1999,7 @@ export const VersionsListResultItem = /*@__PURE__*/ S.suspend(() =>
     ),
     limits: S.optional(S.NullOr(VersionsGetResponseLimits)),
   }),
-).annotate({
-  identifier: "VersionsListResultItem",
-}) as any as S.Schema<VersionsListResultItem>;
+).annotate({ identifier: "VersionsListResultItem" }) as any as S.Schema<VersionsListResultItem>;
 
 export type VersionsListResultList = Array<VersionsListResultItem>;
 export const VersionsListResultList = /*@__PURE__*/ S.Array(
@@ -2069,9 +2017,7 @@ export const ListVersionsResponse = /*@__PURE__*/ S.suspend(() =>
     result: VersionsListResultList.pipe(T.EnvelopePayload()),
     resultInfo: S.optional(S.NullOr(ResultInfo).pipe(T.ResultInfo())),
   }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "ListVersionsResponse",
-}) as any as S.Schema<ListVersionsResponse>;
+).annotate({ identifier: "ListVersionsResponse" }) as any as S.Schema<ListVersionsResponse>;
 
 export interface ListWorkflowsRequest {
   accountId: string;
@@ -2087,17 +2033,9 @@ export const ListWorkflowsRequest = /*@__PURE__*/ S.suspend(() =>
     perPage: S.optional(S.Number.pipe(T.Query("per_page"))),
     search: S.optional(S.String.pipe(T.Query())),
   })
-    .pipe(
-      T.Http({
-        method: "GET",
-        uri: "/accounts/{account_id}/workflows",
-        code: 200,
-      }),
-    )
+    .pipe(T.Http({ method: "GET", uri: "/accounts/{account_id}/workflows", code: 200 }))
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "ListWorkflowsRequest",
-}) as any as S.Schema<ListWorkflowsRequest>;
+).annotate({ identifier: "ListWorkflowsRequest" }) as any as S.Schema<ListWorkflowsRequest>;
 
 export type ListResultItemInstancesMap = { [key: string]: number | undefined };
 export const ListResultItemInstancesMap = /*@__PURE__*/ S.Record(
@@ -2123,6 +2061,8 @@ export interface ListResultItem {
   scriptName: string;
   triggeredOn: string;
   schedules?: ListResultItemSchedulesList | null;
+  /** Whether the bound Worker was deleted, leaving this Workflow inactive. */
+  scriptDeleted?: boolean | null;
 }
 export const ListResultItem = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -2135,6 +2075,7 @@ export const ListResultItem = /*@__PURE__*/ S.suspend(() =>
     scriptName: S.String.pipe(T.Body("script_name")),
     triggeredOn: S.String.pipe(T.Body("triggered_on")),
     schedules: S.optional(S.NullOr(ListResultItemSchedulesList)),
+    scriptDeleted: S.optional(S.NullOr(S.Boolean).pipe(T.Body("script_deleted"))),
   }),
 ).annotate({ identifier: "ListResultItem" }) as any as S.Schema<ListResultItem>;
 
@@ -2154,9 +2095,7 @@ export const ListWorkflowsResponse = /*@__PURE__*/ S.suspend(() =>
     result: ListResultList.pipe(T.EnvelopePayload()),
     resultInfo: S.optional(S.NullOr(ResultInfo).pipe(T.ResultInfo())),
   }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "ListWorkflowsResponse",
-}) as any as S.Schema<ListWorkflowsResponse>;
+).annotate({ identifier: "ListWorkflowsResponse" }) as any as S.Schema<ListWorkflowsResponse>;
 
 export type InstancesStatusEditRequestStatus = "pause" | "resume" | "terminate" | "restart";
 export const InstancesStatusEditRequestStatus = S.String;
@@ -2246,9 +2185,7 @@ export const UpdateRequestConcurrency = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     limit: S.optional(S.Number),
   }),
-).annotate({
-  identifier: "UpdateRequestConcurrency",
-}) as any as S.Schema<UpdateRequestConcurrency>;
+).annotate({ identifier: "UpdateRequestConcurrency" }) as any as S.Schema<UpdateRequestConcurrency>;
 
 export type UpdateRequestDefaultRetentionErrorRetention = string | number;
 export const UpdateRequestDefaultRetentionErrorRetention = /*@__PURE__*/ S.Unknown.pipe(
@@ -2286,9 +2223,7 @@ export const UpdateRequestLimits = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     steps: S.optional(S.Number),
   }),
-).annotate({
-  identifier: "UpdateRequestLimits",
-}) as any as S.Schema<UpdateRequestLimits>;
+).annotate({ identifier: "UpdateRequestLimits" }) as any as S.Schema<UpdateRequestLimits>;
 
 export interface UpdateRequestSchedulesItem {
   cron: string;
@@ -2329,16 +2264,10 @@ export const PutWorkflowRequest = /*@__PURE__*/ S.suspend(() =>
     schedules: S.optional(UpdateRequestSchedulesList),
   })
     .pipe(
-      T.Http({
-        method: "PUT",
-        uri: "/accounts/{account_id}/workflows/{workflow_name}",
-        code: 200,
-      }),
+      T.Http({ method: "PUT", uri: "/accounts/{account_id}/workflows/{workflow_name}", code: 200 }),
     )
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "PutWorkflowRequest",
-}) as any as S.Schema<PutWorkflowRequest>;
+).annotate({ identifier: "PutWorkflowRequest" }) as any as S.Schema<PutWorkflowRequest>;
 
 /** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
 export interface PutWorkflowResponse {
@@ -2366,9 +2295,7 @@ export const PutWorkflowResponse = /*@__PURE__*/ S.suspend(() =>
     triggeredOn: S.String.pipe(T.Body("triggered_on")),
     versionId: S.String.pipe(T.Body("version_id")),
   }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "PutWorkflowResponse",
-}) as any as S.Schema<PutWorkflowResponse>;
+).annotate({ identifier: "PutWorkflowResponse" }) as any as S.Schema<PutWorkflowResponse>;
 
 export type InstancesStepRequestType = "step" | "waitForEvent";
 export const InstancesStepRequestType = S.String;
@@ -2401,9 +2328,7 @@ export const StepInstanceRequest = /*@__PURE__*/ S.suspend(() =>
       }),
     )
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "StepInstanceRequest",
-}) as any as S.Schema<StepInstanceRequest>;
+).annotate({ identifier: "StepInstanceRequest" }) as any as S.Schema<StepInstanceRequest>;
 
 export type InstancesStepResponseError = InstancesGetResponseError;
 export const InstancesStepResponseError = InstancesGetResponseError;
@@ -2437,9 +2362,7 @@ export const StepInstanceResponse = /*@__PURE__*/ S.suspend(() =>
     eventType: S.optional(S.NullOr(S.String).pipe(T.Body("event_type"))),
     output: S.optional(S.NullOr(S.Unknown)),
   }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "StepInstanceResponse",
-}) as any as S.Schema<StepInstanceResponse>;
+).annotate({ identifier: "StepInstanceResponse" }) as any as S.Schema<StepInstanceResponse>;
 
 export type BulkInstanceError =
   | WorkflowNotFound

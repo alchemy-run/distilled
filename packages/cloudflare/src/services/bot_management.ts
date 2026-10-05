@@ -55,17 +55,13 @@ export const CreateFeedbackRequestRequestsByAttribute = /*@__PURE__*/ S.suspend(
   identifier: "CreateFeedbackRequestRequestsByAttribute",
 }) as any as S.Schema<CreateFeedbackRequestRequestsByAttribute>;
 
-export type CreateFeedbackRequestRequestsByScoreMap = {
-  [key: string]: number | undefined;
-};
+export type CreateFeedbackRequestRequestsByScoreMap = { [key: string]: number | undefined };
 export const CreateFeedbackRequestRequestsByScoreMap = /*@__PURE__*/ S.Record(
   S.String,
   S.Number,
 ) as any as S.Schema<CreateFeedbackRequestRequestsByScoreMap>;
 
-export type CreateFeedbackRequestRequestsByScoreSrcMap = {
-  [key: string]: number | undefined;
-};
+export type CreateFeedbackRequestRequestsByScoreSrcMap = { [key: string]: number | undefined };
 export const CreateFeedbackRequestRequestsByScoreSrcMap = /*@__PURE__*/ S.Record(
   S.String,
   S.Number,
@@ -111,24 +107,14 @@ export const CreateFeedbackRequest = /*@__PURE__*/ S.suspend(() =>
     type: CreateFeedbackRequestType,
     subtype: S.optional(S.String),
   })
-    .pipe(
-      T.Http({
-        method: "POST",
-        uri: "/zones/{zone_id}/bot_management/feedback",
-        code: 200,
-      }),
-    )
+    .pipe(T.Http({ method: "POST", uri: "/zones/{zone_id}/bot_management/feedback", code: 200 }))
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "CreateFeedbackRequest",
-}) as any as S.Schema<CreateFeedbackRequest>;
+).annotate({ identifier: "CreateFeedbackRequest" }) as any as S.Schema<CreateFeedbackRequest>;
 
 export interface CreateFeedbackResponse {}
 export const CreateFeedbackResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({}).pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "CreateFeedbackResponse",
-}) as any as S.Schema<CreateFeedbackResponse>;
+).annotate({ identifier: "CreateFeedbackResponse" }) as any as S.Schema<CreateFeedbackResponse>;
 
 export interface GetBotManagementRequest {
   /** Identifier. */
@@ -138,17 +124,9 @@ export const GetBotManagementRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     zoneId: S.String.pipe(T.Label("zone_id")),
   })
-    .pipe(
-      T.Http({
-        method: "GET",
-        uri: "/zones/{zone_id}/bot_management",
-        code: 200,
-      }),
-    )
+    .pipe(T.Http({ method: "GET", uri: "/zones/{zone_id}/bot_management", code: 200 }))
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "GetBotManagementRequest",
-}) as any as S.Schema<GetBotManagementRequest>;
+).annotate({ identifier: "GetBotManagementRequest" }) as any as S.Schema<GetBotManagementRequest>;
 
 export type GetResultBotFightModeConfigurationAiBotsProtection =
   | "block"
@@ -235,6 +213,8 @@ export interface GetResultBotFightModeConfiguration {
   fightMode?: boolean | null;
   /** Enable cloudflare managed robots.txt. If an existing robots.txt is detected, then managed robots.txt will be prepended to the existing robots.txt. */
   isRobotsTxtManaged?: boolean | null;
+  /** Whether to use JavaScript Detection results submitted through the API for this zone. */
+  jsdApiResultsEnabled?: boolean | null;
   /** A read-only field that shows which unauthorized settings are currently active on the zone. These settings typically result from upgrades or downgrades. */
   staleZoneConfiguration?: GetResultBotFightModeConfigurationStaleZoneConfiguration | null;
   /** A read-only field that indicates whether the zone currently is running the latest ML model. */
@@ -276,6 +256,7 @@ export const GetResultBotFightModeConfiguration = /*@__PURE__*/ S.suspend(() =>
     enableJs: S.optional(S.NullOr(S.Boolean).pipe(T.Body("enable_js"))),
     fightMode: S.optional(S.NullOr(S.Boolean).pipe(T.Body("fight_mode"))),
     isRobotsTxtManaged: S.optional(S.NullOr(S.Boolean).pipe(T.Body("is_robots_txt_managed"))),
+    jsdApiResultsEnabled: S.optional(S.NullOr(S.Boolean).pipe(T.Body("jsd_api_results_enabled"))),
     staleZoneConfiguration: S.optional(
       S.NullOr(GetResultBotFightModeConfigurationStaleZoneConfiguration).pipe(
         T.Body("stale_zone_configuration"),
@@ -375,6 +356,8 @@ export interface GetResultSuperBotFightModeDefinitelyConfiguration {
   enableJs?: boolean | null;
   /** Enable cloudflare managed robots.txt. If an existing robots.txt is detected, then managed robots.txt will be prepended to the existing robots.txt. */
   isRobotsTxtManaged?: boolean | null;
+  /** Whether to use JavaScript Detection results submitted through the API for this zone. */
+  jsdApiResultsEnabled?: boolean | null;
   /** Whether to optimize Super Bot Fight Mode protections for Wordpress. */
   optimizeWordpress?: boolean | null;
   /** Super Bot Fight Mode (SBFM) action to take on definitely automated requests. */
@@ -429,6 +412,7 @@ export const GetResultSuperBotFightModeDefinitelyConfiguration = /*@__PURE__*/ S
     ),
     enableJs: S.optional(S.NullOr(S.Boolean).pipe(T.Body("enable_js"))),
     isRobotsTxtManaged: S.optional(S.NullOr(S.Boolean).pipe(T.Body("is_robots_txt_managed"))),
+    jsdApiResultsEnabled: S.optional(S.NullOr(S.Boolean).pipe(T.Body("jsd_api_results_enabled"))),
     optimizeWordpress: S.optional(S.NullOr(S.Boolean).pipe(T.Body("optimize_wordpress"))),
     sbfmDefinitelyAutomated: S.optional(
       S.NullOr(GetResultSuperBotFightModeDefinitelyConfigurationSbfmDefinitelyAutomated).pipe(
@@ -541,6 +525,8 @@ export interface GetResultSuperBotFightModeLikelyConfiguration {
   enableJs?: boolean | null;
   /** Enable cloudflare managed robots.txt. If an existing robots.txt is detected, then managed robots.txt will be prepended to the existing robots.txt. */
   isRobotsTxtManaged?: boolean | null;
+  /** Whether to use JavaScript Detection results submitted through the API for this zone. */
+  jsdApiResultsEnabled?: boolean | null;
   /** Whether to optimize Super Bot Fight Mode protections for Wordpress. */
   optimizeWordpress?: boolean | null;
   /** Super Bot Fight Mode (SBFM) action to take on definitely automated requests. */
@@ -595,6 +581,7 @@ export const GetResultSuperBotFightModeLikelyConfiguration = /*@__PURE__*/ S.sus
     ),
     enableJs: S.optional(S.NullOr(S.Boolean).pipe(T.Body("enable_js"))),
     isRobotsTxtManaged: S.optional(S.NullOr(S.Boolean).pipe(T.Body("is_robots_txt_managed"))),
+    jsdApiResultsEnabled: S.optional(S.NullOr(S.Boolean).pipe(T.Body("jsd_api_results_enabled"))),
     optimizeWordpress: S.optional(S.NullOr(S.Boolean).pipe(T.Body("optimize_wordpress"))),
     sbfmDefinitelyAutomated: S.optional(
       S.NullOr(GetResultSuperBotFightModeLikelyConfigurationSbfmDefinitelyAutomated).pipe(
@@ -712,6 +699,8 @@ export interface GetResultSubscriptionConfiguration {
   enableJs?: boolean | null;
   /** Enable cloudflare managed robots.txt. If an existing robots.txt is detected, then managed robots.txt will be prepended to the existing robots.txt. */
   isRobotsTxtManaged?: boolean | null;
+  /** Whether to use JavaScript Detection results submitted through the API for this zone. */
+  jsdApiResultsEnabled?: boolean | null;
   /** A read-only field that shows which unauthorized settings are currently active on the zone. These settings typically result from upgrades or downgrades. */
   staleZoneConfiguration?: GetResultSubscriptionConfigurationStaleZoneConfiguration | null;
   /** Whether to disable tracking the highest bot score for a session in the Bot Management cookie. */
@@ -756,6 +745,7 @@ export const GetResultSubscriptionConfiguration = /*@__PURE__*/ S.suspend(() =>
     ),
     enableJs: S.optional(S.NullOr(S.Boolean).pipe(T.Body("enable_js"))),
     isRobotsTxtManaged: S.optional(S.NullOr(S.Boolean).pipe(T.Body("is_robots_txt_managed"))),
+    jsdApiResultsEnabled: S.optional(S.NullOr(S.Boolean).pipe(T.Body("jsd_api_results_enabled"))),
     staleZoneConfiguration: S.optional(
       S.NullOr(GetResultSubscriptionConfigurationStaleZoneConfiguration).pipe(
         T.Body("stale_zone_configuration"),
@@ -788,6 +778,7 @@ export const GetResult = /*@__PURE__*/ S.Unknown.pipe(
       "enableJs",
       "fightMode",
       "isRobotsTxtManaged",
+      "jsdApiResultsEnabled",
       "staleZoneConfiguration",
       "usingLatestModel",
     ],
@@ -803,6 +794,7 @@ export const GetResult = /*@__PURE__*/ S.Unknown.pipe(
       "crawlerProtection",
       "enableJs",
       "isRobotsTxtManaged",
+      "jsdApiResultsEnabled",
       "optimizeWordpress",
       "sbfmDefinitelyAutomated",
       "sbfmStaticResourceProtection",
@@ -822,6 +814,7 @@ export const GetResult = /*@__PURE__*/ S.Unknown.pipe(
       "crawlerProtection",
       "enableJs",
       "isRobotsTxtManaged",
+      "jsdApiResultsEnabled",
       "optimizeWordpress",
       "sbfmDefinitelyAutomated",
       "sbfmLikelyAutomated",
@@ -844,6 +837,7 @@ export const GetResult = /*@__PURE__*/ S.Unknown.pipe(
       "crawlerProtection",
       "enableJs",
       "isRobotsTxtManaged",
+      "jsdApiResultsEnabled",
       "staleZoneConfiguration",
       "suppressSessionScore",
       "usingLatestModel",
@@ -854,9 +848,7 @@ export const GetResult = /*@__PURE__*/ S.Unknown.pipe(
 export type GetBotManagementResponse = GetResult;
 export const GetBotManagementResponse = /*@__PURE__*/ S.suspend(() =>
   GetResult.pipe(T.EnvelopePayloadRoot(), T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "GetBotManagementResponse",
-}) as any as S.Schema<GetBotManagementResponse>;
+).annotate({ identifier: "GetBotManagementResponse" }) as any as S.Schema<GetBotManagementResponse>;
 
 export interface ListFeedbackRequest {
   /** Identifier. */
@@ -866,32 +858,20 @@ export const ListFeedbackRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     zoneId: S.String.pipe(T.Label("zone_id")),
   })
-    .pipe(
-      T.Http({
-        method: "GET",
-        uri: "/zones/{zone_id}/bot_management/feedback",
-        code: 200,
-      }),
-    )
+    .pipe(T.Http({ method: "GET", uri: "/zones/{zone_id}/bot_management/feedback", code: 200 }))
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "ListFeedbackRequest",
-}) as any as S.Schema<ListFeedbackRequest>;
+).annotate({ identifier: "ListFeedbackRequest" }) as any as S.Schema<ListFeedbackRequest>;
 
 export type ListFeedbackResponseRequestsByAttribute = CreateFeedbackRequestRequestsByAttribute;
 export const ListFeedbackResponseRequestsByAttribute = CreateFeedbackRequestRequestsByAttribute;
 
-export type ListFeedbackResponseRequestsByScoreMap = {
-  [key: string]: number | undefined;
-};
+export type ListFeedbackResponseRequestsByScoreMap = { [key: string]: number | undefined };
 export const ListFeedbackResponseRequestsByScoreMap = /*@__PURE__*/ S.Record(
   S.String,
   S.Number,
 ) as any as S.Schema<ListFeedbackResponseRequestsByScoreMap>;
 
-export type ListFeedbackResponseRequestsByScoreSrcMap = {
-  [key: string]: number | undefined;
-};
+export type ListFeedbackResponseRequestsByScoreSrcMap = { [key: string]: number | undefined };
 export const ListFeedbackResponseRequestsByScoreSrcMap = /*@__PURE__*/ S.Record(
   S.String,
   S.Number,
@@ -937,9 +917,7 @@ export const ListFeedbackResponse = /*@__PURE__*/ S.suspend(() =>
     createdAt: S.optional(S.NullOr(S.String).pipe(T.Body("created_at"))),
     subtype: S.optional(S.NullOr(S.String)),
   }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "ListFeedbackResponse",
-}) as any as S.Schema<ListFeedbackResponse>;
+).annotate({ identifier: "ListFeedbackResponse" }) as any as S.Schema<ListFeedbackResponse>;
 
 export type UpdateRequestAiBotsProtection = "block" | "disabled" | "only_on_ad_pages";
 export const UpdateRequestAiBotsProtection = S.String;
@@ -1115,6 +1093,8 @@ export interface PutBotManagementRequest {
   fightMode?: boolean;
   /** Enable cloudflare managed robots.txt. If an existing robots.txt is detected, then managed robots.txt will be prepended to the existing robots.txt. */
   isRobotsTxtManaged?: boolean;
+  /** Whether to use JavaScript Detection results submitted through the API for this zone. */
+  jsdApiResultsEnabled?: boolean;
   /** A read-only field that shows which unauthorized settings are currently active on the zone. These settings typically result from upgrades or downgrades. */
   staleZoneConfiguration?: UpdateRequestStaleZoneConfiguration;
   /** A read-only field that indicates whether the zone currently is running the latest ML model. */
@@ -1155,6 +1135,7 @@ export const PutBotManagementRequest = /*@__PURE__*/ S.suspend(() =>
     enableJs: S.optional(S.Boolean.pipe(T.Body("enable_js"))),
     fightMode: S.optional(S.Boolean.pipe(T.Body("fight_mode"))),
     isRobotsTxtManaged: S.optional(S.Boolean.pipe(T.Body("is_robots_txt_managed"))),
+    jsdApiResultsEnabled: S.optional(S.Boolean.pipe(T.Body("jsd_api_results_enabled"))),
     staleZoneConfiguration: S.optional(
       UpdateRequestStaleZoneConfiguration.pipe(T.Body("stale_zone_configuration")),
     ),
@@ -1174,17 +1155,9 @@ export const PutBotManagementRequest = /*@__PURE__*/ S.suspend(() =>
     bmCookieEnabled: S.optional(S.Boolean.pipe(T.Body("bm_cookie_enabled"))),
     suppressSessionScore: S.optional(S.Boolean.pipe(T.Body("suppress_session_score"))),
   })
-    .pipe(
-      T.Http({
-        method: "PUT",
-        uri: "/zones/{zone_id}/bot_management",
-        code: 200,
-      }),
-    )
+    .pipe(T.Http({ method: "PUT", uri: "/zones/{zone_id}/bot_management", code: 200 }))
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "PutBotManagementRequest",
-}) as any as S.Schema<PutBotManagementRequest>;
+).annotate({ identifier: "PutBotManagementRequest" }) as any as S.Schema<PutBotManagementRequest>;
 
 export type UpdateResultBotFightModeConfigurationAiBotsProtection =
   | "block"
@@ -1247,6 +1220,8 @@ export interface UpdateResultBotFightModeConfiguration {
   fightMode?: boolean | null;
   /** Enable cloudflare managed robots.txt. If an existing robots.txt is detected, then managed robots.txt will be prepended to the existing robots.txt. */
   isRobotsTxtManaged?: boolean | null;
+  /** Whether to use JavaScript Detection results submitted through the API for this zone. */
+  jsdApiResultsEnabled?: boolean | null;
   /** A read-only field that shows which unauthorized settings are currently active on the zone. These settings typically result from upgrades or downgrades. */
   staleZoneConfiguration?: GetResultBotFightModeConfigurationStaleZoneConfiguration | null;
   /** A read-only field that indicates whether the zone currently is running the latest ML model. */
@@ -1292,6 +1267,7 @@ export const UpdateResultBotFightModeConfiguration = /*@__PURE__*/ S.suspend(() 
     enableJs: S.optional(S.NullOr(S.Boolean).pipe(T.Body("enable_js"))),
     fightMode: S.optional(S.NullOr(S.Boolean).pipe(T.Body("fight_mode"))),
     isRobotsTxtManaged: S.optional(S.NullOr(S.Boolean).pipe(T.Body("is_robots_txt_managed"))),
+    jsdApiResultsEnabled: S.optional(S.NullOr(S.Boolean).pipe(T.Body("jsd_api_results_enabled"))),
     staleZoneConfiguration: S.optional(
       S.NullOr(GetResultBotFightModeConfigurationStaleZoneConfiguration).pipe(
         T.Body("stale_zone_configuration"),
@@ -1382,6 +1358,8 @@ export interface UpdateResultSuperBotFightModeDefinitelyConfiguration {
   enableJs?: boolean | null;
   /** Enable cloudflare managed robots.txt. If an existing robots.txt is detected, then managed robots.txt will be prepended to the existing robots.txt. */
   isRobotsTxtManaged?: boolean | null;
+  /** Whether to use JavaScript Detection results submitted through the API for this zone. */
+  jsdApiResultsEnabled?: boolean | null;
   /** Whether to optimize Super Bot Fight Mode protections for Wordpress. */
   optimizeWordpress?: boolean | null;
   /** Super Bot Fight Mode (SBFM) action to take on definitely automated requests. */
@@ -1438,6 +1416,7 @@ export const UpdateResultSuperBotFightModeDefinitelyConfiguration = /*@__PURE__*
     ),
     enableJs: S.optional(S.NullOr(S.Boolean).pipe(T.Body("enable_js"))),
     isRobotsTxtManaged: S.optional(S.NullOr(S.Boolean).pipe(T.Body("is_robots_txt_managed"))),
+    jsdApiResultsEnabled: S.optional(S.NullOr(S.Boolean).pipe(T.Body("jsd_api_results_enabled"))),
     optimizeWordpress: S.optional(S.NullOr(S.Boolean).pipe(T.Body("optimize_wordpress"))),
     sbfmDefinitelyAutomated: S.optional(
       S.NullOr(UpdateResultSuperBotFightModeDefinitelyConfigurationSbfmDefinitelyAutomated).pipe(
@@ -1544,6 +1523,8 @@ export interface UpdateResultSuperBotFightModeLikelyConfiguration {
   enableJs?: boolean | null;
   /** Enable cloudflare managed robots.txt. If an existing robots.txt is detected, then managed robots.txt will be prepended to the existing robots.txt. */
   isRobotsTxtManaged?: boolean | null;
+  /** Whether to use JavaScript Detection results submitted through the API for this zone. */
+  jsdApiResultsEnabled?: boolean | null;
   /** Whether to optimize Super Bot Fight Mode protections for Wordpress. */
   optimizeWordpress?: boolean | null;
   /** Super Bot Fight Mode (SBFM) action to take on definitely automated requests. */
@@ -1600,6 +1581,7 @@ export const UpdateResultSuperBotFightModeLikelyConfiguration = /*@__PURE__*/ S.
     ),
     enableJs: S.optional(S.NullOr(S.Boolean).pipe(T.Body("enable_js"))),
     isRobotsTxtManaged: S.optional(S.NullOr(S.Boolean).pipe(T.Body("is_robots_txt_managed"))),
+    jsdApiResultsEnabled: S.optional(S.NullOr(S.Boolean).pipe(T.Body("jsd_api_results_enabled"))),
     optimizeWordpress: S.optional(S.NullOr(S.Boolean).pipe(T.Body("optimize_wordpress"))),
     sbfmDefinitelyAutomated: S.optional(
       S.NullOr(UpdateResultSuperBotFightModeLikelyConfigurationSbfmDefinitelyAutomated).pipe(
@@ -1693,6 +1675,8 @@ export interface UpdateResultSubscriptionConfiguration {
   enableJs?: boolean | null;
   /** Enable cloudflare managed robots.txt. If an existing robots.txt is detected, then managed robots.txt will be prepended to the existing robots.txt. */
   isRobotsTxtManaged?: boolean | null;
+  /** Whether to use JavaScript Detection results submitted through the API for this zone. */
+  jsdApiResultsEnabled?: boolean | null;
   /** A read-only field that shows which unauthorized settings are currently active on the zone. These settings typically result from upgrades or downgrades. */
   staleZoneConfiguration?: GetResultSubscriptionConfigurationStaleZoneConfiguration | null;
   /** Whether to disable tracking the highest bot score for a session in the Bot Management cookie. */
@@ -1741,6 +1725,7 @@ export const UpdateResultSubscriptionConfiguration = /*@__PURE__*/ S.suspend(() 
     ),
     enableJs: S.optional(S.NullOr(S.Boolean).pipe(T.Body("enable_js"))),
     isRobotsTxtManaged: S.optional(S.NullOr(S.Boolean).pipe(T.Body("is_robots_txt_managed"))),
+    jsdApiResultsEnabled: S.optional(S.NullOr(S.Boolean).pipe(T.Body("jsd_api_results_enabled"))),
     staleZoneConfiguration: S.optional(
       S.NullOr(GetResultSubscriptionConfigurationStaleZoneConfiguration).pipe(
         T.Body("stale_zone_configuration"),
@@ -1773,6 +1758,7 @@ export const UpdateResult = /*@__PURE__*/ S.Unknown.pipe(
       "enableJs",
       "fightMode",
       "isRobotsTxtManaged",
+      "jsdApiResultsEnabled",
       "staleZoneConfiguration",
       "usingLatestModel",
     ],
@@ -1788,6 +1774,7 @@ export const UpdateResult = /*@__PURE__*/ S.Unknown.pipe(
       "crawlerProtection",
       "enableJs",
       "isRobotsTxtManaged",
+      "jsdApiResultsEnabled",
       "optimizeWordpress",
       "sbfmDefinitelyAutomated",
       "sbfmStaticResourceProtection",
@@ -1807,6 +1794,7 @@ export const UpdateResult = /*@__PURE__*/ S.Unknown.pipe(
       "crawlerProtection",
       "enableJs",
       "isRobotsTxtManaged",
+      "jsdApiResultsEnabled",
       "optimizeWordpress",
       "sbfmDefinitelyAutomated",
       "sbfmLikelyAutomated",
@@ -1829,6 +1817,7 @@ export const UpdateResult = /*@__PURE__*/ S.Unknown.pipe(
       "crawlerProtection",
       "enableJs",
       "isRobotsTxtManaged",
+      "jsdApiResultsEnabled",
       "staleZoneConfiguration",
       "suppressSessionScore",
       "usingLatestModel",
@@ -1839,9 +1828,7 @@ export const UpdateResult = /*@__PURE__*/ S.Unknown.pipe(
 export type PutBotManagementResponse = UpdateResult;
 export const PutBotManagementResponse = /*@__PURE__*/ S.suspend(() =>
   UpdateResult.pipe(T.EnvelopePayloadRoot(), T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "PutBotManagementResponse",
-}) as any as S.Schema<PutBotManagementResponse>;
+).annotate({ identifier: "PutBotManagementResponse" }) as any as S.Schema<PutBotManagementResponse>;
 
 export type CreateFeedbackError = CloudflareOpError;
 /** Submit a feedback report for the specified zone. Use `type` to indicate whether the report is a false positive (good traffic flagged as bot) or a false negative (bot traffic missed). Furthermore, you can also use `expression` as a wirefilter to identify the affected traffic sample. See more accepted API fields and expression types at https://developers.cloudflare.com/bots/concepts/feedback-loop/#api-fields and https://developers.cloudflare.com/bots/concepts/feedback-loop/#expression-fields, respectively. */

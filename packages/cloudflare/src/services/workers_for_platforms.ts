@@ -327,7 +327,7 @@ export interface BulkUpdateDispatchNamespaceScriptSecretsRequest {
   accountId: string;
   /** Name of the Workers for Platforms dispatch namespace. */
   dispatchNamespace: string;
-  /** Name of the script, used in URLs and route configuration. */
+  /** Name of the script. */
   scriptName: string;
   /** Map of secret names to secret values: */
   secrets?: DispatchNamespacesScriptsSecretsBulkUpdateRequestSecrets;
@@ -547,7 +547,7 @@ export interface CreateDispatchNamespaceScriptAssetUploadRequest {
   accountId: string;
   /** Name of the Workers for Platforms dispatch namespace. */
   dispatchNamespace: string;
-  /** Name of the script, used in URLs and route configuration. */
+  /** Name of the script. */
   scriptName: string;
   /** A manifest ([path]: {hash, size}) map of files to upload. As an example, `/blog/hello-world.html` would be a valid path key. */
   manifest: DispatchNamespacesScriptsAssetUploadCreateRequestManifestMap;
@@ -634,9 +634,9 @@ export interface DeleteDispatchNamespaceScriptRequest {
   accountId: string;
   /** Name of the Workers for Platforms dispatch namespace. */
   dispatchNamespace: string;
-  /** Name of the script, used in URLs and route configuration. */
+  /** Name of the script. */
   scriptName: string;
-  /** If set to true, delete will not be stopped by associated service binding, durable object, or other binding. Any of these associated bindings/durable objects will be deleted along with the script. */
+  /** If true, delete the script even when other Workers still reference it. Service bindings in those Workers may be left broken. Durable Object namespaces implemented by the deleted script are deleted even if other Workers reference them. */
   force?: boolean;
 }
 export const DeleteDispatchNamespaceScriptRequest = /*@__PURE__*/ S.suspend(() =>
@@ -670,7 +670,7 @@ export interface DeleteDispatchNamespaceScriptSecretRequest {
   accountId: string;
   /** Name of the Workers for Platforms dispatch namespace. */
   dispatchNamespace: string;
-  /** Name of the script, used in URLs and route configuration. */
+  /** Name of the script. */
   scriptName: string;
   /** A JavaScript variable name for the secret binding. */
   secretName: string;
@@ -709,9 +709,11 @@ export interface DeleteDispatchNamespaceScriptTagRequest {
   accountId: string;
   /** Name of the Workers for Platforms dispatch namespace. */
   dispatchNamespace: string;
-  /** Name of the script, used in URLs and route configuration. */
+  /** Name of the script. */
   scriptName: string;
+  /** A typed tag key containing only Unicode letters or numbers, underscores, periods, or hyphens. The complete UTF-8 encoded tag (the key plus `=` and the value when the value is non-empty) must not exceed 1024 bytes. Cloudflare-reserved prefixes are not accepted. */
   tag: string;
+  apiVersion?: string;
 }
 export const DeleteDispatchNamespaceScriptTagRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -719,6 +721,7 @@ export const DeleteDispatchNamespaceScriptTagRequest = /*@__PURE__*/ S.suspend((
     dispatchNamespace: S.String.pipe(T.Label("dispatch_namespace")),
     scriptName: S.String.pipe(T.Label("script_name")),
     tag: S.String.pipe(T.Label()),
+    apiVersion: S.optional(S.String.pipe(T.Header("api-version"))),
   })
     .pipe(
       T.Http({
@@ -732,9 +735,18 @@ export const DeleteDispatchNamespaceScriptTagRequest = /*@__PURE__*/ S.suspend((
   identifier: "DeleteDispatchNamespaceScriptTagRequest",
 }) as any as S.Schema<DeleteDispatchNamespaceScriptTagRequest>;
 
-export type DeleteDispatchNamespaceScriptTagResponse = unknown;
+export type DispatchNamespacesScriptsTagsDeleteResultMap = { [key: string]: string | undefined };
+export const DispatchNamespacesScriptsTagsDeleteResultMap = /*@__PURE__*/ S.Record(
+  S.String,
+  S.String,
+) as any as S.Schema<DispatchNamespacesScriptsTagsDeleteResultMap>;
+
+export type DeleteDispatchNamespaceScriptTagResponse = DispatchNamespacesScriptsTagsDeleteResultMap;
 export const DeleteDispatchNamespaceScriptTagResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Unknown.pipe(T.EnvelopePayloadRoot(), T.KeyDictionary(KEY_DICTIONARY)),
+  DispatchNamespacesScriptsTagsDeleteResultMap.pipe(
+    T.EnvelopePayloadRoot(),
+    T.KeyDictionary(KEY_DICTIONARY),
+  ),
 ).annotate({
   identifier: "DeleteDispatchNamespaceScriptTagResponse",
 }) as any as S.Schema<DeleteDispatchNamespaceScriptTagResponse>;
@@ -801,7 +813,7 @@ export interface GetDispatchNamespaceScriptRequest {
   accountId: string;
   /** Name of the Workers for Platforms dispatch namespace. */
   dispatchNamespace: string;
-  /** Name of the script, used in URLs and route configuration. */
+  /** Name of the script. */
   scriptName: string;
 }
 export const GetDispatchNamespaceScriptRequest = /*@__PURE__*/ S.suspend(() =>
@@ -1107,6 +1119,19 @@ export const DispatchNamespacesScriptsGetResponseScriptNamedHandlersList = /*@__
   DispatchNamespacesScriptsGetResponseScriptNamedHandlersItem,
 ) as any as S.Schema<DispatchNamespacesScriptsGetResponseScriptNamedHandlersList>;
 
+export interface DispatchNamespacesScriptsGetResponseScriptObservabilityIssues {
+  /** Whether real-time Issues are enabled for the Worker. */
+  enabled?: boolean | null;
+}
+export const DispatchNamespacesScriptsGetResponseScriptObservabilityIssues =
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      enabled: S.optional(S.NullOr(S.Boolean)),
+    }),
+  ).annotate({
+    identifier: "DispatchNamespacesScriptsGetResponseScriptObservabilityIssues",
+  }) as any as S.Schema<DispatchNamespacesScriptsGetResponseScriptObservabilityIssues>;
+
 export type DispatchNamespacesScriptsGetResponseScriptObservabilityLogsDestinationsList =
   Array<string>;
 export const DispatchNamespacesScriptsGetResponseScriptObservabilityLogsDestinationsList =
@@ -1190,6 +1215,8 @@ export interface DispatchNamespacesScriptsGetResponseScriptObservability {
   enabled: boolean;
   /** The sampling rate for incoming requests. From 0 to 1 (1 = 100%, 0.1 = 10%). Default is 1. */
   headSamplingRate?: number | null;
+  /** Real-time Issues settings for the Worker. */
+  issues?: DispatchNamespacesScriptsGetResponseScriptObservabilityIssues | null;
   /** Log settings for the Worker. */
   logs?: DispatchNamespacesScriptsGetResponseScriptObservabilityLogs | null;
   /** Whether query strings are removed from request URLs in logs and traces. */
@@ -1201,6 +1228,7 @@ export const DispatchNamespacesScriptsGetResponseScriptObservability = /*@__PURE
   S.Struct({
     enabled: S.Boolean,
     headSamplingRate: S.optional(S.NullOr(S.Number).pipe(T.Body("head_sampling_rate"))),
+    issues: S.optional(S.NullOr(DispatchNamespacesScriptsGetResponseScriptObservabilityIssues)),
     logs: S.optional(S.NullOr(DispatchNamespacesScriptsGetResponseScriptObservabilityLogs)),
     redactQueryString: S.optional(S.NullOr(S.Boolean).pipe(T.Body("redact_query_string"))),
     traces: S.optional(S.NullOr(DispatchNamespacesScriptsGetResponseScriptObservabilityTraces)),
@@ -1686,7 +1714,7 @@ export interface GetDispatchNamespaceScriptBindingRequest {
   accountId: string;
   /** Name of the Workers for Platforms dispatch namespace. */
   dispatchNamespace: string;
-  /** Name of the script, used in URLs and route configuration. */
+  /** Name of the script. */
   scriptName: string;
 }
 export const GetDispatchNamespaceScriptBindingRequest = /*@__PURE__*/ S.suspend(() =>
@@ -1814,6 +1842,27 @@ export const DispatchNamespacesScriptsBindingsGetResultItemAnalyticsEngine =
   ).annotate({
     identifier: "DispatchNamespacesScriptsBindingsGetResultItemAnalyticsEngine",
   }) as any as S.Schema<DispatchNamespacesScriptsBindingsGetResultItemAnalyticsEngine>;
+
+export type DispatchNamespacesScriptsBindingsGetResultItemArtifactsType = "artifacts";
+export const DispatchNamespacesScriptsBindingsGetResultItemArtifactsType = S.String;
+
+export interface DispatchNamespacesScriptsBindingsGetResultItemArtifacts {
+  /** A JavaScript variable name for the binding. */
+  name: string;
+  /** The Artifacts namespace exposed to the Worker in the Worker's account. Must be 2-63 characters, start with an ASCII alphanumeric character, contain only ASCII alphanumeric characters, dots, underscores, and hyphens, and must not end with a hyphen. The namespace does not need to be created before binding it. */
+  namespace: string;
+  /** The kind of resource that the binding provides. */
+  type: DispatchNamespacesScriptsBindingsGetResultItemArtifactsType;
+}
+export const DispatchNamespacesScriptsBindingsGetResultItemArtifacts = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    name: S.String,
+    namespace: S.String,
+    type: DispatchNamespacesScriptsBindingsGetResultItemArtifactsType,
+  }),
+).annotate({
+  identifier: "DispatchNamespacesScriptsBindingsGetResultItemArtifacts",
+}) as any as S.Schema<DispatchNamespacesScriptsBindingsGetResultItemArtifacts>;
 
 export type DispatchNamespacesScriptsBindingsGetResultItemAssetsType = "assets";
 export const DispatchNamespacesScriptsBindingsGetResultItemAssetsType = S.String;
@@ -2206,6 +2255,27 @@ export const DispatchNamespacesScriptsBindingsGetResultItemPipelines = /*@__PURE
 ).annotate({
   identifier: "DispatchNamespacesScriptsBindingsGetResultItemPipelines",
 }) as any as S.Schema<DispatchNamespacesScriptsBindingsGetResultItemPipelines>;
+
+export type DispatchNamespacesScriptsBindingsGetResultItemK2Type = "k2";
+export const DispatchNamespacesScriptsBindingsGetResultItemK2Type = S.String;
+
+export interface DispatchNamespacesScriptsBindingsGetResultItemK2 {
+  /** A JavaScript variable name for the binding. */
+  name: string;
+  /** ID of a K2 stream owned by the account deploying the Worker. */
+  stream: string;
+  /** The kind of resource that the binding provides. */
+  type: DispatchNamespacesScriptsBindingsGetResultItemK2Type;
+}
+export const DispatchNamespacesScriptsBindingsGetResultItemK2 = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    name: S.String,
+    stream: S.String,
+    type: DispatchNamespacesScriptsBindingsGetResultItemK2Type,
+  }),
+).annotate({
+  identifier: "DispatchNamespacesScriptsBindingsGetResultItemK2",
+}) as any as S.Schema<DispatchNamespacesScriptsBindingsGetResultItemK2>;
 
 export type DispatchNamespacesScriptsBindingsGetResultItemQueueType = "queue";
 export const DispatchNamespacesScriptsBindingsGetResultItemQueueType = S.String;
@@ -2679,6 +2749,7 @@ export type DispatchNamespacesScriptsBindingsGetResultItem =
   | DispatchNamespacesScriptsBindingsGetResultItemAISearchNamespace
   | DispatchNamespacesScriptsBindingsGetResultItemMessaging
   | DispatchNamespacesScriptsBindingsGetResultItemAnalyticsEngine
+  | DispatchNamespacesScriptsBindingsGetResultItemArtifacts
   | DispatchNamespacesScriptsBindingsGetResultItemAssets
   | DispatchNamespacesScriptsBindingsGetResultItemBrowser
   | DispatchNamespacesScriptsBindingsGetResultItemD1
@@ -2694,6 +2765,7 @@ export type DispatchNamespacesScriptsBindingsGetResultItem =
   | DispatchNamespacesScriptsBindingsGetResultItemMTLSCertificate
   | DispatchNamespacesScriptsBindingsGetResultItemPlainText
   | DispatchNamespacesScriptsBindingsGetResultItemPipelines
+  | DispatchNamespacesScriptsBindingsGetResultItemK2
   | DispatchNamespacesScriptsBindingsGetResultItemQueue
   | DispatchNamespacesScriptsBindingsGetResultItemRatelimit
   | DispatchNamespacesScriptsBindingsGetResultItemR2Bucket
@@ -2718,6 +2790,7 @@ export const DispatchNamespacesScriptsBindingsGetResultItem = /*@__PURE__*/ S.Un
       ["name", "namespace", "type"],
       ["name", "namespace", "type"],
       ["dataset", "name", "type"],
+      ["name", "namespace", "type"],
       ["name", "type"],
       ["name", "type"],
       ["databaseId", "name", "type", "id"],
@@ -2741,6 +2814,7 @@ export const DispatchNamespacesScriptsBindingsGetResultItem = /*@__PURE__*/ S.Un
       ["certificateId", "name", "type"],
       ["name", "text", "type"],
       ["name", "pipeline", "type"],
+      ["name", "stream", "type"],
       ["name", "queueName", "type"],
       ["name", "namespaceId", "simple", "type"],
       ["bucketName", "name", "type", "jurisdiction"],
@@ -2772,6 +2846,7 @@ export const DispatchNamespacesScriptsBindingsGetResultItem = /*@__PURE__*/ S.Un
         "ai_search_namespace",
         "messaging",
         "analytics_engine",
+        "artifacts",
         "assets",
         "browser",
         "d1",
@@ -2787,6 +2862,7 @@ export const DispatchNamespacesScriptsBindingsGetResultItem = /*@__PURE__*/ S.Un
         "mtls_certificate",
         "plain_text",
         "pipelines",
+        "k2",
         "queue",
         "ratelimit",
         "r2_bucket",
@@ -2834,7 +2910,7 @@ export interface GetDispatchNamespaceScriptContentRequest {
   accountId: string;
   /** Name of the Workers for Platforms dispatch namespace. */
   dispatchNamespace: string;
-  /** Name of the script, used in URLs and route configuration. */
+  /** Name of the script. */
   scriptName: string;
 }
 export const GetDispatchNamespaceScriptContentRequest = /*@__PURE__*/ S.suspend(() =>
@@ -2867,7 +2943,7 @@ export interface GetDispatchNamespaceScriptSecretRequest {
   accountId: string;
   /** Name of the Workers for Platforms dispatch namespace. */
   dispatchNamespace: string;
-  /** Name of the script, used in URLs and route configuration. */
+  /** Name of the script. */
   scriptName: string;
   /** A JavaScript variable name for the secret binding. */
   secretName: string;
@@ -3000,7 +3076,7 @@ export interface GetDispatchNamespaceScriptSettingRequest {
   accountId: string;
   /** Name of the Workers for Platforms dispatch namespace. */
   dispatchNamespace: string;
-  /** Name of the script, used in URLs and route configuration. */
+  /** Name of the script. */
   scriptName: string;
 }
 export const GetDispatchNamespaceScriptSettingRequest = /*@__PURE__*/ S.suspend(() =>
@@ -3133,6 +3209,28 @@ export const DispatchNamespacesScriptsSettingsGetResponseBindingsItemAnalyticsEn
   ).annotate({
     identifier: "DispatchNamespacesScriptsSettingsGetResponseBindingsItemAnalyticsEngine",
   }) as any as S.Schema<DispatchNamespacesScriptsSettingsGetResponseBindingsItemAnalyticsEngine>;
+
+export type DispatchNamespacesScriptsSettingsGetResponseBindingsItemArtifactsType = "artifacts";
+export const DispatchNamespacesScriptsSettingsGetResponseBindingsItemArtifactsType = S.String;
+
+export interface DispatchNamespacesScriptsSettingsGetResponseBindingsItemArtifacts {
+  /** A JavaScript variable name for the binding. */
+  name: string;
+  /** The Artifacts namespace exposed to the Worker in the Worker's account. Must be 2-63 characters, start with an ASCII alphanumeric character, contain only ASCII alphanumeric characters, dots, underscores, and hyphens, and must not end with a hyphen. The namespace does not need to be created before binding it. */
+  namespace: string;
+  /** The kind of resource that the binding provides. */
+  type: DispatchNamespacesScriptsSettingsGetResponseBindingsItemArtifactsType;
+}
+export const DispatchNamespacesScriptsSettingsGetResponseBindingsItemArtifacts =
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      name: S.String,
+      namespace: S.String,
+      type: DispatchNamespacesScriptsSettingsGetResponseBindingsItemArtifactsType,
+    }),
+  ).annotate({
+    identifier: "DispatchNamespacesScriptsSettingsGetResponseBindingsItemArtifacts",
+  }) as any as S.Schema<DispatchNamespacesScriptsSettingsGetResponseBindingsItemArtifacts>;
 
 export type DispatchNamespacesScriptsSettingsGetResponseBindingsItemAssetsType = "assets";
 export const DispatchNamespacesScriptsSettingsGetResponseBindingsItemAssetsType = S.String;
@@ -3519,6 +3617,28 @@ export const DispatchNamespacesScriptsSettingsGetResponseBindingsItemPipelines =
   ).annotate({
     identifier: "DispatchNamespacesScriptsSettingsGetResponseBindingsItemPipelines",
   }) as any as S.Schema<DispatchNamespacesScriptsSettingsGetResponseBindingsItemPipelines>;
+
+export type DispatchNamespacesScriptsSettingsGetResponseBindingsItemK2Type = "k2";
+export const DispatchNamespacesScriptsSettingsGetResponseBindingsItemK2Type = S.String;
+
+export interface DispatchNamespacesScriptsSettingsGetResponseBindingsItemK2 {
+  /** A JavaScript variable name for the binding. */
+  name: string;
+  /** ID of a K2 stream owned by the account deploying the Worker. */
+  stream: string;
+  /** The kind of resource that the binding provides. */
+  type: DispatchNamespacesScriptsSettingsGetResponseBindingsItemK2Type;
+}
+export const DispatchNamespacesScriptsSettingsGetResponseBindingsItemK2 = /*@__PURE__*/ S.suspend(
+  () =>
+    S.Struct({
+      name: S.String,
+      stream: S.String,
+      type: DispatchNamespacesScriptsSettingsGetResponseBindingsItemK2Type,
+    }),
+).annotate({
+  identifier: "DispatchNamespacesScriptsSettingsGetResponseBindingsItemK2",
+}) as any as S.Schema<DispatchNamespacesScriptsSettingsGetResponseBindingsItemK2>;
 
 export type DispatchNamespacesScriptsSettingsGetResponseBindingsItemQueueType = "queue";
 export const DispatchNamespacesScriptsSettingsGetResponseBindingsItemQueueType = S.String;
@@ -3991,6 +4111,7 @@ export type DispatchNamespacesScriptsSettingsGetResponseBindingsItem =
   | DispatchNamespacesScriptsSettingsGetResponseBindingsItemAISearchNamespace
   | DispatchNamespacesScriptsSettingsGetResponseBindingsItemMessaging
   | DispatchNamespacesScriptsSettingsGetResponseBindingsItemAnalyticsEngine
+  | DispatchNamespacesScriptsSettingsGetResponseBindingsItemArtifacts
   | DispatchNamespacesScriptsSettingsGetResponseBindingsItemAssets
   | DispatchNamespacesScriptsSettingsGetResponseBindingsItemBrowser
   | DispatchNamespacesScriptsSettingsGetResponseBindingsItemD1
@@ -4006,6 +4127,7 @@ export type DispatchNamespacesScriptsSettingsGetResponseBindingsItem =
   | DispatchNamespacesScriptsSettingsGetResponseBindingsItemMTLSCertificate
   | DispatchNamespacesScriptsSettingsGetResponseBindingsItemPlainText
   | DispatchNamespacesScriptsSettingsGetResponseBindingsItemPipelines
+  | DispatchNamespacesScriptsSettingsGetResponseBindingsItemK2
   | DispatchNamespacesScriptsSettingsGetResponseBindingsItemQueue
   | DispatchNamespacesScriptsSettingsGetResponseBindingsItemRatelimit
   | DispatchNamespacesScriptsSettingsGetResponseBindingsItemR2Bucket
@@ -4031,6 +4153,7 @@ export const DispatchNamespacesScriptsSettingsGetResponseBindingsItem =
         ["name", "namespace", "type"],
         ["name", "namespace", "type"],
         ["dataset", "name", "type"],
+        ["name", "namespace", "type"],
         ["name", "type"],
         ["name", "type"],
         ["databaseId", "name", "type", "id"],
@@ -4054,6 +4177,7 @@ export const DispatchNamespacesScriptsSettingsGetResponseBindingsItem =
         ["certificateId", "name", "type"],
         ["name", "text", "type"],
         ["name", "pipeline", "type"],
+        ["name", "stream", "type"],
         ["name", "queueName", "type"],
         ["name", "namespaceId", "simple", "type"],
         ["bucketName", "name", "type", "jurisdiction"],
@@ -4085,6 +4209,7 @@ export const DispatchNamespacesScriptsSettingsGetResponseBindingsItem =
           "ai_search_namespace",
           "messaging",
           "analytics_engine",
+          "artifacts",
           "assets",
           "browser",
           "d1",
@@ -4100,6 +4225,7 @@ export const DispatchNamespacesScriptsSettingsGetResponseBindingsItem =
           "mtls_certificate",
           "plain_text",
           "pipelines",
+          "k2",
           "queue",
           "ratelimit",
           "r2_bucket",
@@ -4931,6 +5057,11 @@ export const DispatchNamespacesScriptsSettingsGetResponseMigrations = /*@__PURE_
   ]),
 );
 
+export type DispatchNamespacesScriptsSettingsGetResponseObservabilityIssues =
+  DispatchNamespacesScriptsGetResponseScriptObservabilityIssues;
+export const DispatchNamespacesScriptsSettingsGetResponseObservabilityIssues =
+  DispatchNamespacesScriptsGetResponseScriptObservabilityIssues;
+
 export type DispatchNamespacesScriptsSettingsGetResponseObservabilityLogsDestinationsList =
   Array<string>;
 export const DispatchNamespacesScriptsSettingsGetResponseObservabilityLogsDestinationsList =
@@ -5014,6 +5145,8 @@ export interface DispatchNamespacesScriptsSettingsGetResponseObservability {
   enabled: boolean;
   /** The sampling rate for incoming requests. From 0 to 1 (1 = 100%, 0.1 = 10%). Default is 1. */
   headSamplingRate?: number | null;
+  /** Real-time Issues settings for the Worker. */
+  issues?: DispatchNamespacesScriptsGetResponseScriptObservabilityIssues | null;
   /** Log settings for the Worker. */
   logs?: DispatchNamespacesScriptsSettingsGetResponseObservabilityLogs | null;
   /** Whether query strings are removed from request URLs in logs and traces. */
@@ -5026,6 +5159,7 @@ export const DispatchNamespacesScriptsSettingsGetResponseObservability = /*@__PU
     S.Struct({
       enabled: S.Boolean,
       headSamplingRate: S.optional(S.NullOr(S.Number).pipe(T.Body("head_sampling_rate"))),
+      issues: S.optional(S.NullOr(DispatchNamespacesScriptsGetResponseScriptObservabilityIssues)),
       logs: S.optional(S.NullOr(DispatchNamespacesScriptsSettingsGetResponseObservabilityLogs)),
       redactQueryString: S.optional(S.NullOr(S.Boolean).pipe(T.Body("redact_query_string"))),
       traces: S.optional(S.NullOr(DispatchNamespacesScriptsSettingsGetResponseObservabilityTraces)),
@@ -5378,7 +5512,7 @@ export interface ListDispatchNamespaceScriptSecretsRequest {
   accountId: string;
   /** Name of the Workers for Platforms dispatch namespace. */
   dispatchNamespace: string;
-  /** Name of the script, used in URLs and route configuration. */
+  /** Name of the script. */
   scriptName: string;
 }
 export const ListDispatchNamespaceScriptSecretsRequest = /*@__PURE__*/ S.suspend(() =>
@@ -5518,7 +5652,7 @@ export interface ListDispatchNamespaceScriptTagsRequest {
   accountId: string;
   /** Name of the Workers for Platforms dispatch namespace. */
   dispatchNamespace: string;
-  /** Name of the script, used in URLs and route configuration. */
+  /** Name of the script. */
   scriptName: string;
 }
 export const ListDispatchNamespaceScriptTagsRequest = /*@__PURE__*/ S.suspend(() =>
@@ -5676,6 +5810,30 @@ export const DispatchNamespacesScriptsSettingsEditRequestSettingsBindingsItemAna
   ).annotate({
     identifier: "DispatchNamespacesScriptsSettingsEditRequestSettingsBindingsItemAnalyticsEngine",
   }) as any as S.Schema<DispatchNamespacesScriptsSettingsEditRequestSettingsBindingsItemAnalyticsEngine>;
+
+export type DispatchNamespacesScriptsSettingsEditRequestSettingsBindingsItemArtifactsType =
+  "artifacts";
+export const DispatchNamespacesScriptsSettingsEditRequestSettingsBindingsItemArtifactsType =
+  S.String;
+
+export interface DispatchNamespacesScriptsSettingsEditRequestSettingsBindingsItemArtifacts {
+  /** A JavaScript variable name for the binding. */
+  name: string;
+  /** The Artifacts namespace exposed to the Worker in the Worker's account. Must be 2-63 characters, start with an ASCII alphanumeric character, contain only ASCII alphanumeric characters, dots, underscores, and hyphens, and must not end with a hyphen. The namespace does not need to be created before binding it. */
+  namespace: string;
+  /** The kind of resource that the binding provides. */
+  type: DispatchNamespacesScriptsSettingsEditRequestSettingsBindingsItemArtifactsType;
+}
+export const DispatchNamespacesScriptsSettingsEditRequestSettingsBindingsItemArtifacts =
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      name: S.String,
+      namespace: S.String,
+      type: DispatchNamespacesScriptsSettingsEditRequestSettingsBindingsItemArtifactsType,
+    }),
+  ).annotate({
+    identifier: "DispatchNamespacesScriptsSettingsEditRequestSettingsBindingsItemArtifacts",
+  }) as any as S.Schema<DispatchNamespacesScriptsSettingsEditRequestSettingsBindingsItemArtifacts>;
 
 export type DispatchNamespacesScriptsSettingsEditRequestSettingsBindingsItemAssetsType = "assets";
 export const DispatchNamespacesScriptsSettingsEditRequestSettingsBindingsItemAssetsType = S.String;
@@ -6087,6 +6245,28 @@ export const DispatchNamespacesScriptsSettingsEditRequestSettingsBindingsItemPip
   ).annotate({
     identifier: "DispatchNamespacesScriptsSettingsEditRequestSettingsBindingsItemPipelines",
   }) as any as S.Schema<DispatchNamespacesScriptsSettingsEditRequestSettingsBindingsItemPipelines>;
+
+export type DispatchNamespacesScriptsSettingsEditRequestSettingsBindingsItemK2Type = "k2";
+export const DispatchNamespacesScriptsSettingsEditRequestSettingsBindingsItemK2Type = S.String;
+
+export interface DispatchNamespacesScriptsSettingsEditRequestSettingsBindingsItemK2 {
+  /** A JavaScript variable name for the binding. */
+  name: string;
+  /** ID of a K2 stream owned by the account deploying the Worker. */
+  stream: string;
+  /** The kind of resource that the binding provides. */
+  type: DispatchNamespacesScriptsSettingsEditRequestSettingsBindingsItemK2Type;
+}
+export const DispatchNamespacesScriptsSettingsEditRequestSettingsBindingsItemK2 =
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      name: S.String,
+      stream: S.String,
+      type: DispatchNamespacesScriptsSettingsEditRequestSettingsBindingsItemK2Type,
+    }),
+  ).annotate({
+    identifier: "DispatchNamespacesScriptsSettingsEditRequestSettingsBindingsItemK2",
+  }) as any as S.Schema<DispatchNamespacesScriptsSettingsEditRequestSettingsBindingsItemK2>;
 
 export type DispatchNamespacesScriptsSettingsEditRequestSettingsBindingsItemQueueType = "queue";
 export const DispatchNamespacesScriptsSettingsEditRequestSettingsBindingsItemQueueType = S.String;
@@ -6611,6 +6791,7 @@ export type DispatchNamespacesScriptsSettingsEditRequestSettingsBindingsItem =
   | DispatchNamespacesScriptsSettingsEditRequestSettingsBindingsItemAISearchNamespace
   | DispatchNamespacesScriptsSettingsEditRequestSettingsBindingsItemMessaging
   | DispatchNamespacesScriptsSettingsEditRequestSettingsBindingsItemAnalyticsEngine
+  | DispatchNamespacesScriptsSettingsEditRequestSettingsBindingsItemArtifacts
   | DispatchNamespacesScriptsSettingsEditRequestSettingsBindingsItemAssets
   | DispatchNamespacesScriptsSettingsEditRequestSettingsBindingsItemBrowser
   | DispatchNamespacesScriptsSettingsEditRequestSettingsBindingsItemD1
@@ -6626,6 +6807,7 @@ export type DispatchNamespacesScriptsSettingsEditRequestSettingsBindingsItem =
   | DispatchNamespacesScriptsSettingsEditRequestSettingsBindingsItemMTLSCertificate
   | DispatchNamespacesScriptsSettingsEditRequestSettingsBindingsItemPlainText
   | DispatchNamespacesScriptsSettingsEditRequestSettingsBindingsItemPipelines
+  | DispatchNamespacesScriptsSettingsEditRequestSettingsBindingsItemK2
   | DispatchNamespacesScriptsSettingsEditRequestSettingsBindingsItemQueue
   | DispatchNamespacesScriptsSettingsEditRequestSettingsBindingsItemRatelimit
   | DispatchNamespacesScriptsSettingsEditRequestSettingsBindingsItemR2Bucket
@@ -6651,6 +6833,7 @@ export const DispatchNamespacesScriptsSettingsEditRequestSettingsBindingsItem =
         ["name", "namespace", "type"],
         ["name", "namespace", "type"],
         ["dataset", "name", "type"],
+        ["name", "namespace", "type"],
         ["name", "type"],
         ["name", "type"],
         ["databaseId", "name", "type", "id"],
@@ -6674,6 +6857,7 @@ export const DispatchNamespacesScriptsSettingsEditRequestSettingsBindingsItem =
         ["certificateId", "name", "type"],
         ["name", "text", "type"],
         ["name", "pipeline", "type"],
+        ["name", "stream", "type"],
         ["name", "queueName", "type"],
         ["name", "namespaceId", "simple", "type"],
         ["bucketName", "name", "type", "jurisdiction"],
@@ -6705,6 +6889,7 @@ export const DispatchNamespacesScriptsSettingsEditRequestSettingsBindingsItem =
           "ai_search_namespace",
           "messaging",
           "analytics_engine",
+          "artifacts",
           "assets",
           "browser",
           "d1",
@@ -6720,6 +6905,7 @@ export const DispatchNamespacesScriptsSettingsEditRequestSettingsBindingsItem =
           "mtls_certificate",
           "plain_text",
           "pipelines",
+          "k2",
           "queue",
           "ratelimit",
           "r2_bucket",
@@ -7560,6 +7746,19 @@ export const DispatchNamespacesScriptsSettingsEditRequestSettingsMigrations =
     ]),
   );
 
+export interface DispatchNamespacesScriptsSettingsEditRequestSettingsObservabilityIssues {
+  /** Whether real-time Issues are enabled for the Worker. */
+  enabled?: boolean;
+}
+export const DispatchNamespacesScriptsSettingsEditRequestSettingsObservabilityIssues =
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      enabled: S.optional(S.Boolean),
+    }),
+  ).annotate({
+    identifier: "DispatchNamespacesScriptsSettingsEditRequestSettingsObservabilityIssues",
+  }) as any as S.Schema<DispatchNamespacesScriptsSettingsEditRequestSettingsObservabilityIssues>;
+
 export type DispatchNamespacesScriptsSettingsEditRequestSettingsObservabilityLogsDestinationsList =
   Array<string>;
 export const DispatchNamespacesScriptsSettingsEditRequestSettingsObservabilityLogsDestinationsList =
@@ -7645,6 +7844,8 @@ export interface DispatchNamespacesScriptsSettingsEditRequestSettingsObservabili
   enabled: boolean;
   /** The sampling rate for incoming requests. From 0 to 1 (1 = 100%, 0.1 = 10%). Default is 1. */
   headSamplingRate?: number;
+  /** Real-time Issues settings for the Worker. */
+  issues?: DispatchNamespacesScriptsSettingsEditRequestSettingsObservabilityIssues;
   /** Log settings for the Worker. */
   logs?: DispatchNamespacesScriptsSettingsEditRequestSettingsObservabilityLogs;
   /** Whether query strings are removed from request URLs in logs and traces. */
@@ -7657,6 +7858,7 @@ export const DispatchNamespacesScriptsSettingsEditRequestSettingsObservability =
     S.Struct({
       enabled: S.Boolean,
       headSamplingRate: S.optional(S.Number.pipe(T.Body("head_sampling_rate"))),
+      issues: S.optional(DispatchNamespacesScriptsSettingsEditRequestSettingsObservabilityIssues),
       logs: S.optional(DispatchNamespacesScriptsSettingsEditRequestSettingsObservabilityLogs),
       redactQueryString: S.optional(S.Boolean.pipe(T.Body("redact_query_string"))),
       traces: S.optional(DispatchNamespacesScriptsSettingsEditRequestSettingsObservabilityTraces),
@@ -7935,7 +8137,7 @@ export interface PatchDispatchNamespaceScriptSettingRequest {
   accountId: string;
   /** Name of the Workers for Platforms dispatch namespace. */
   dispatchNamespace: string;
-  /** Name of the script, used in URLs and route configuration. */
+  /** Name of the script. */
   scriptName: string;
   /** Script and version settings for Workers for Platforms namespace scripts. Same as script-and-version-settings-item but without annotations, which are not supported for namespace scripts. */
   settings?: DispatchNamespacesScriptsSettingsEditRequestSettings;
@@ -8072,6 +8274,28 @@ export const DispatchNamespacesScriptsSettingsEditResponseBindingsItemAnalyticsE
   ).annotate({
     identifier: "DispatchNamespacesScriptsSettingsEditResponseBindingsItemAnalyticsEngine",
   }) as any as S.Schema<DispatchNamespacesScriptsSettingsEditResponseBindingsItemAnalyticsEngine>;
+
+export type DispatchNamespacesScriptsSettingsEditResponseBindingsItemArtifactsType = "artifacts";
+export const DispatchNamespacesScriptsSettingsEditResponseBindingsItemArtifactsType = S.String;
+
+export interface DispatchNamespacesScriptsSettingsEditResponseBindingsItemArtifacts {
+  /** A JavaScript variable name for the binding. */
+  name: string;
+  /** The Artifacts namespace exposed to the Worker in the Worker's account. Must be 2-63 characters, start with an ASCII alphanumeric character, contain only ASCII alphanumeric characters, dots, underscores, and hyphens, and must not end with a hyphen. The namespace does not need to be created before binding it. */
+  namespace: string;
+  /** The kind of resource that the binding provides. */
+  type: DispatchNamespacesScriptsSettingsEditResponseBindingsItemArtifactsType;
+}
+export const DispatchNamespacesScriptsSettingsEditResponseBindingsItemArtifacts =
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      name: S.String,
+      namespace: S.String,
+      type: DispatchNamespacesScriptsSettingsEditResponseBindingsItemArtifactsType,
+    }),
+  ).annotate({
+    identifier: "DispatchNamespacesScriptsSettingsEditResponseBindingsItemArtifacts",
+  }) as any as S.Schema<DispatchNamespacesScriptsSettingsEditResponseBindingsItemArtifacts>;
 
 export type DispatchNamespacesScriptsSettingsEditResponseBindingsItemAssetsType = "assets";
 export const DispatchNamespacesScriptsSettingsEditResponseBindingsItemAssetsType = S.String;
@@ -8462,6 +8686,28 @@ export const DispatchNamespacesScriptsSettingsEditResponseBindingsItemPipelines 
   ).annotate({
     identifier: "DispatchNamespacesScriptsSettingsEditResponseBindingsItemPipelines",
   }) as any as S.Schema<DispatchNamespacesScriptsSettingsEditResponseBindingsItemPipelines>;
+
+export type DispatchNamespacesScriptsSettingsEditResponseBindingsItemK2Type = "k2";
+export const DispatchNamespacesScriptsSettingsEditResponseBindingsItemK2Type = S.String;
+
+export interface DispatchNamespacesScriptsSettingsEditResponseBindingsItemK2 {
+  /** A JavaScript variable name for the binding. */
+  name: string;
+  /** ID of a K2 stream owned by the account deploying the Worker. */
+  stream: string;
+  /** The kind of resource that the binding provides. */
+  type: DispatchNamespacesScriptsSettingsEditResponseBindingsItemK2Type;
+}
+export const DispatchNamespacesScriptsSettingsEditResponseBindingsItemK2 = /*@__PURE__*/ S.suspend(
+  () =>
+    S.Struct({
+      name: S.String,
+      stream: S.String,
+      type: DispatchNamespacesScriptsSettingsEditResponseBindingsItemK2Type,
+    }),
+).annotate({
+  identifier: "DispatchNamespacesScriptsSettingsEditResponseBindingsItemK2",
+}) as any as S.Schema<DispatchNamespacesScriptsSettingsEditResponseBindingsItemK2>;
 
 export type DispatchNamespacesScriptsSettingsEditResponseBindingsItemQueueType = "queue";
 export const DispatchNamespacesScriptsSettingsEditResponseBindingsItemQueueType = S.String;
@@ -8936,6 +9182,7 @@ export type DispatchNamespacesScriptsSettingsEditResponseBindingsItem =
   | DispatchNamespacesScriptsSettingsEditResponseBindingsItemAISearchNamespace
   | DispatchNamespacesScriptsSettingsEditResponseBindingsItemMessaging
   | DispatchNamespacesScriptsSettingsEditResponseBindingsItemAnalyticsEngine
+  | DispatchNamespacesScriptsSettingsEditResponseBindingsItemArtifacts
   | DispatchNamespacesScriptsSettingsEditResponseBindingsItemAssets
   | DispatchNamespacesScriptsSettingsEditResponseBindingsItemBrowser
   | DispatchNamespacesScriptsSettingsEditResponseBindingsItemD1
@@ -8951,6 +9198,7 @@ export type DispatchNamespacesScriptsSettingsEditResponseBindingsItem =
   | DispatchNamespacesScriptsSettingsEditResponseBindingsItemMTLSCertificate
   | DispatchNamespacesScriptsSettingsEditResponseBindingsItemPlainText
   | DispatchNamespacesScriptsSettingsEditResponseBindingsItemPipelines
+  | DispatchNamespacesScriptsSettingsEditResponseBindingsItemK2
   | DispatchNamespacesScriptsSettingsEditResponseBindingsItemQueue
   | DispatchNamespacesScriptsSettingsEditResponseBindingsItemRatelimit
   | DispatchNamespacesScriptsSettingsEditResponseBindingsItemR2Bucket
@@ -8976,6 +9224,7 @@ export const DispatchNamespacesScriptsSettingsEditResponseBindingsItem =
         ["name", "namespace", "type"],
         ["name", "namespace", "type"],
         ["dataset", "name", "type"],
+        ["name", "namespace", "type"],
         ["name", "type"],
         ["name", "type"],
         ["databaseId", "name", "type", "id"],
@@ -8999,6 +9248,7 @@ export const DispatchNamespacesScriptsSettingsEditResponseBindingsItem =
         ["certificateId", "name", "type"],
         ["name", "text", "type"],
         ["name", "pipeline", "type"],
+        ["name", "stream", "type"],
         ["name", "queueName", "type"],
         ["name", "namespaceId", "simple", "type"],
         ["bucketName", "name", "type", "jurisdiction"],
@@ -9030,6 +9280,7 @@ export const DispatchNamespacesScriptsSettingsEditResponseBindingsItem =
           "ai_search_namespace",
           "messaging",
           "analytics_engine",
+          "artifacts",
           "assets",
           "browser",
           "d1",
@@ -9045,6 +9296,7 @@ export const DispatchNamespacesScriptsSettingsEditResponseBindingsItem =
           "mtls_certificate",
           "plain_text",
           "pipelines",
+          "k2",
           "queue",
           "ratelimit",
           "r2_bucket",
@@ -9823,6 +10075,11 @@ export const DispatchNamespacesScriptsSettingsEditResponseMigrations = /*@__PURE
   ]),
 );
 
+export type DispatchNamespacesScriptsSettingsEditResponseObservabilityIssues =
+  DispatchNamespacesScriptsGetResponseScriptObservabilityIssues;
+export const DispatchNamespacesScriptsSettingsEditResponseObservabilityIssues =
+  DispatchNamespacesScriptsGetResponseScriptObservabilityIssues;
+
 export type DispatchNamespacesScriptsSettingsEditResponseObservabilityLogsDestinationsList =
   Array<string>;
 export const DispatchNamespacesScriptsSettingsEditResponseObservabilityLogsDestinationsList =
@@ -9906,6 +10163,8 @@ export interface DispatchNamespacesScriptsSettingsEditResponseObservability {
   enabled: boolean;
   /** The sampling rate for incoming requests. From 0 to 1 (1 = 100%, 0.1 = 10%). Default is 1. */
   headSamplingRate?: number | null;
+  /** Real-time Issues settings for the Worker. */
+  issues?: DispatchNamespacesScriptsGetResponseScriptObservabilityIssues | null;
   /** Log settings for the Worker. */
   logs?: DispatchNamespacesScriptsSettingsEditResponseObservabilityLogs | null;
   /** Whether query strings are removed from request URLs in logs and traces. */
@@ -9918,6 +10177,7 @@ export const DispatchNamespacesScriptsSettingsEditResponseObservability = /*@__P
     S.Struct({
       enabled: S.Boolean,
       headSamplingRate: S.optional(S.NullOr(S.Number).pipe(T.Body("head_sampling_rate"))),
+      issues: S.optional(S.NullOr(DispatchNamespacesScriptsGetResponseScriptObservabilityIssues)),
       logs: S.optional(S.NullOr(DispatchNamespacesScriptsSettingsEditResponseObservabilityLogs)),
       redactQueryString: S.optional(S.NullOr(S.Boolean).pipe(T.Body("redact_query_string"))),
       traces: S.optional(
@@ -11697,7 +11957,7 @@ export interface PutDispatchNamespaceScriptRequest {
   accountId: string;
   /** Name of the Workers for Platforms dispatch namespace. */
   dispatchNamespace: string;
-  /** Name of the script, used in URLs and route configuration. */
+  /** Name of the script. */
   scriptName: string;
   /** When set to "strict", the upload will fail if any `inherit` type bindings cannot be resolved against the previous version of the script. Without this, unresolvable inherit bindings are silently dropped. */
   bindingsInherit?: DispatchNamespacesScriptsUpdateRequestBindingsInherit | (string & {});
@@ -12094,6 +12354,11 @@ export const DispatchNamespacesScriptsUpdateResponseNamedHandlersList = /*@__PUR
   DispatchNamespacesScriptsUpdateResponseNamedHandlersItem,
 ) as any as S.Schema<DispatchNamespacesScriptsUpdateResponseNamedHandlersList>;
 
+export type DispatchNamespacesScriptsUpdateResponseObservabilityIssues =
+  DispatchNamespacesScriptsGetResponseScriptObservabilityIssues;
+export const DispatchNamespacesScriptsUpdateResponseObservabilityIssues =
+  DispatchNamespacesScriptsGetResponseScriptObservabilityIssues;
+
 export type DispatchNamespacesScriptsUpdateResponseObservabilityLogsDestinationsList =
   Array<string>;
 export const DispatchNamespacesScriptsUpdateResponseObservabilityLogsDestinationsList =
@@ -12176,6 +12441,8 @@ export interface DispatchNamespacesScriptsUpdateResponseObservability {
   enabled: boolean;
   /** The sampling rate for incoming requests. From 0 to 1 (1 = 100%, 0.1 = 10%). Default is 1. */
   headSamplingRate?: number | null;
+  /** Real-time Issues settings for the Worker. */
+  issues?: DispatchNamespacesScriptsGetResponseScriptObservabilityIssues | null;
   /** Log settings for the Worker. */
   logs?: DispatchNamespacesScriptsUpdateResponseObservabilityLogs | null;
   /** Whether query strings are removed from request URLs in logs and traces. */
@@ -12187,6 +12454,7 @@ export const DispatchNamespacesScriptsUpdateResponseObservability = /*@__PURE__*
   S.Struct({
     enabled: S.Boolean,
     headSamplingRate: S.optional(S.NullOr(S.Number).pipe(T.Body("head_sampling_rate"))),
+    issues: S.optional(S.NullOr(DispatchNamespacesScriptsGetResponseScriptObservabilityIssues)),
     logs: S.optional(S.NullOr(DispatchNamespacesScriptsUpdateResponseObservabilityLogs)),
     redactQueryString: S.optional(S.NullOr(S.Boolean).pipe(T.Body("redact_query_string"))),
     traces: S.optional(S.NullOr(DispatchNamespacesScriptsUpdateResponseObservabilityTraces)),
@@ -12624,7 +12892,7 @@ export interface PutDispatchNamespaceScriptContentRequest {
   accountId: string;
   /** Name of the Workers for Platforms dispatch namespace. */
   dispatchNamespace: string;
-  /** Name of the script, used in URLs and route configuration. */
+  /** Name of the script. */
   scriptName: string;
   /** JSON-encoded metadata about the uploaded parts and Worker configuration. */
   metadata: DispatchNamespacesScriptsContentUpdateRequestMetadata;
@@ -12928,6 +13196,11 @@ export const DispatchNamespacesScriptsContentUpdateResponseNamedHandlersList =
     DispatchNamespacesScriptsContentUpdateResponseNamedHandlersItem,
   ) as any as S.Schema<DispatchNamespacesScriptsContentUpdateResponseNamedHandlersList>;
 
+export type DispatchNamespacesScriptsContentUpdateResponseObservabilityIssues =
+  DispatchNamespacesScriptsGetResponseScriptObservabilityIssues;
+export const DispatchNamespacesScriptsContentUpdateResponseObservabilityIssues =
+  DispatchNamespacesScriptsGetResponseScriptObservabilityIssues;
+
 export type DispatchNamespacesScriptsContentUpdateResponseObservabilityLogsDestinationsList =
   Array<string>;
 export const DispatchNamespacesScriptsContentUpdateResponseObservabilityLogsDestinationsList =
@@ -13011,6 +13284,8 @@ export interface DispatchNamespacesScriptsContentUpdateResponseObservability {
   enabled: boolean;
   /** The sampling rate for incoming requests. From 0 to 1 (1 = 100%, 0.1 = 10%). Default is 1. */
   headSamplingRate?: number | null;
+  /** Real-time Issues settings for the Worker. */
+  issues?: DispatchNamespacesScriptsGetResponseScriptObservabilityIssues | null;
   /** Log settings for the Worker. */
   logs?: DispatchNamespacesScriptsContentUpdateResponseObservabilityLogs | null;
   /** Whether query strings are removed from request URLs in logs and traces. */
@@ -13023,6 +13298,7 @@ export const DispatchNamespacesScriptsContentUpdateResponseObservability = /*@__
     S.Struct({
       enabled: S.Boolean,
       headSamplingRate: S.optional(S.NullOr(S.Number).pipe(T.Body("head_sampling_rate"))),
+      issues: S.optional(S.NullOr(DispatchNamespacesScriptsGetResponseScriptObservabilityIssues)),
       logs: S.optional(S.NullOr(DispatchNamespacesScriptsContentUpdateResponseObservabilityLogs)),
       redactQueryString: S.optional(S.NullOr(S.Boolean).pipe(T.Body("redact_query_string"))),
       traces: S.optional(
@@ -13497,7 +13773,7 @@ export interface PutDispatchNamespaceScriptSecretRequest {
   accountId: string;
   /** Name of the Workers for Platforms dispatch namespace. */
   dispatchNamespace: string;
-  /** Name of the script, used in URLs and route configuration. */
+  /** Name of the script. */
   scriptName: string;
   /** A JavaScript variable name for the binding. */
   name: string;
@@ -13654,7 +13930,7 @@ export interface PutDispatchNamespaceScriptTagRequest {
   accountId: string;
   /** Name of the Workers for Platforms dispatch namespace. */
   dispatchNamespace: string;
-  /** Name of the script, used in URLs and route configuration. */
+  /** Name of the script. */
   scriptName: string;
   /** Tags associated with the Worker. */
   body: DispatchNamespacesScriptsTagsUpdateRequestBodyList;
@@ -13699,7 +13975,7 @@ export const PutDispatchNamespaceScriptTagResponse = /*@__PURE__*/ S.suspend(() 
 }) as any as S.Schema<PutDispatchNamespaceScriptTagResponse>;
 
 export type BulkUpdateDispatchNamespaceScriptSecretsError = CloudflareOpError;
-/** Create, update, or delete multiple secrets on a script in a single operation using JSON Merge Patch (RFC 7396). This operation creates a single version with all changes included. Prefer this API instead of changing many secrets individually. Usage: - To create or update a secret, set its value to a secret object. - To delete a secret, set its value to `null`. - Secrets not included in the request are left unchanged. */
+/** Create, update, or delete multiple secrets on a Workers for Platforms script in a single operation using JSON Merge Patch (RFC 7396). This operation creates a single version with all changes included. Prefer this API instead of changing many secrets individually. Usage: - To create or update a secret, set its value to a secret object. - To delete a secret, set its value to `null`. - Secrets not included in the request are left unchanged. */
 export const bulkUpdateDispatchNamespaceScriptSecrets: API.OperationMethod<
   BulkUpdateDispatchNamespaceScriptSecretsRequest,
   BulkUpdateDispatchNamespaceScriptSecretsResponse,
@@ -13717,7 +13993,7 @@ export type CreateDispatchNamespaceError =
   | DispatchNamespaceAlreadyExists
   | Forbidden
   | CloudflareOpError;
-/** Create a new Workers for Platforms namespace. */
+/** Create a new Workers for Platforms dispatch namespace. */
 export const createDispatchNamespace: API.OperationMethod<
   CreateDispatchNamespaceRequest,
   CreateDispatchNamespaceResponse,
@@ -13732,7 +14008,7 @@ export const createDispatchNamespace: API.OperationMethod<
 }));
 
 export type CreateDispatchNamespaceScriptAssetUploadError = CloudflareOpError;
-/** Start uploading a collection of assets for use in a Worker version. To learn more about the direct uploads of assets, see https://developers.cloudflare.com/workers/static-assets/direct-upload/. */
+/** Start uploading a collection of assets for use in a Workers for Platforms script version. To learn more about the direct uploads of assets, see https://developers.cloudflare.com/workers/static-assets/direct-upload/. */
 export const createDispatchNamespaceScriptAssetUpload: API.OperationMethod<
   CreateDispatchNamespaceScriptAssetUploadRequest,
   CreateDispatchNamespaceScriptAssetUploadResponse,
@@ -13750,7 +14026,7 @@ export type DeleteDispatchNamespaceError =
   | DispatchNamespaceNotFound
   | Forbidden
   | CloudflareOpError;
-/** Delete a Workers for Platforms namespace. */
+/** Delete a Workers for Platforms dispatch namespace. */
 export const deleteDispatchNamespace: API.OperationMethod<
   DeleteDispatchNamespaceRequest,
   DeleteDispatchNamespaceResponse,
@@ -13769,7 +14045,7 @@ export type DeleteDispatchNamespaceScriptError =
   | DispatchNamespaceNotFound
   | Forbidden
   | CloudflareOpError;
-/** Delete a worker from a Workers for Platforms namespace. This call has no response body on a successful delete. */
+/** Delete a script from a Workers for Platforms dispatch namespace. This call has no response body on a successful delete. */
 export const deleteDispatchNamespaceScript: API.OperationMethod<
   DeleteDispatchNamespaceScriptRequest,
   DeleteDispatchNamespaceScriptResponse,
@@ -13790,7 +14066,7 @@ export const deleteDispatchNamespaceScript: API.OperationMethod<
 }));
 
 export type DeleteDispatchNamespaceScriptSecretError = CloudflareOpError;
-/** Remove a secret from a script by creating a new version without that secret. When changing more than one secret at a time, prefer the "Patch multiple script secrets" API instead of changing many secrets individually. */
+/** Remove a secret from a Workers for Platforms script by creating a new version without that secret. When changing more than one secret at a time, prefer the "Patch multiple script secrets" API instead of changing many secrets individually. */
 export const deleteDispatchNamespaceScriptSecret: API.OperationMethod<
   DeleteDispatchNamespaceScriptSecretRequest,
   DeleteDispatchNamespaceScriptSecretResponse,
@@ -13805,7 +14081,7 @@ export const deleteDispatchNamespaceScriptSecret: API.OperationMethod<
 }));
 
 export type DeleteDispatchNamespaceScriptTagError = CloudflareOpError;
-/** Delete script tag for a script uploaded to a Workers for Platforms namespace. */
+/** Delete a tag from a script uploaded to a Workers for Platforms dispatch namespace. On `api-version` dates on or after `2026-10-01`, `tag` identifies a key and the operation returns the complete updated tag map. Deleting a missing key succeeds. Earlier versions retain the legacy string-tag behavior and return a null result. */
 export const deleteDispatchNamespaceScriptTag: API.OperationMethod<
   DeleteDispatchNamespaceScriptTagRequest,
   DeleteDispatchNamespaceScriptTagResponse,
@@ -13820,7 +14096,7 @@ export const deleteDispatchNamespaceScriptTag: API.OperationMethod<
 }));
 
 export type GetDispatchNamespaceError = DispatchNamespaceNotFound | Forbidden | CloudflareOpError;
-/** Get a Workers for Platforms namespace. */
+/** Get a Workers for Platforms dispatch namespace. */
 export const getDispatchNamespace: API.OperationMethod<
   GetDispatchNamespaceRequest,
   GetDispatchNamespaceResponse,
@@ -13839,7 +14115,7 @@ export type GetDispatchNamespaceScriptError =
   | DispatchNamespaceScriptNotFound
   | Forbidden
   | CloudflareOpError;
-/** Fetch information about a script uploaded to a Workers for Platforms namespace. */
+/** Fetch information about a script uploaded to a Workers for Platforms dispatch namespace. */
 export const getDispatchNamespaceScript: API.OperationMethod<
   GetDispatchNamespaceScriptRequest,
   GetDispatchNamespaceScriptResponse,
@@ -13860,7 +14136,7 @@ export const getDispatchNamespaceScript: API.OperationMethod<
 }));
 
 export type GetDispatchNamespaceScriptBindingError = CloudflareOpError;
-/** Fetch script bindings from a script uploaded to a Workers for Platforms namespace. */
+/** Fetch bindings from a script uploaded to a Workers for Platforms dispatch namespace. */
 export const getDispatchNamespaceScriptBinding: API.PaginatedOperationMethod<
   GetDispatchNamespaceScriptBindingRequest,
   GetDispatchNamespaceScriptBindingResponse,
@@ -13880,7 +14156,7 @@ export const getDispatchNamespaceScriptBinding: API.PaginatedOperationMethod<
 ) as any;
 
 export type GetDispatchNamespaceScriptContentError = CloudflareOpError;
-/** Fetch script content from a script uploaded to a Workers for Platforms namespace. */
+/** Fetch content from a script uploaded to a Workers for Platforms dispatch namespace. */
 export const getDispatchNamespaceScriptContent: API.OperationMethod<
   GetDispatchNamespaceScriptContentRequest,
   GetDispatchNamespaceScriptContentResponse,
@@ -13895,7 +14171,7 @@ export const getDispatchNamespaceScriptContent: API.OperationMethod<
 }));
 
 export type GetDispatchNamespaceScriptSecretError = CloudflareOpError;
-/** Get a given secret binding (value omitted) on a script uploaded to a Workers for Platforms namespace. */
+/** Get a given secret binding (value omitted) on a script uploaded to a Workers for Platforms dispatch namespace. */
 export const getDispatchNamespaceScriptSecret: API.OperationMethod<
   GetDispatchNamespaceScriptSecretRequest,
   GetDispatchNamespaceScriptSecretResponse,
@@ -13914,7 +14190,7 @@ export type GetDispatchNamespaceScriptSettingError =
   | DispatchNamespaceScriptNotFound
   | Forbidden
   | CloudflareOpError;
-/** Get script settings from a script uploaded to a Workers for Platforms namespace. */
+/** Get settings for a script uploaded to a Workers for Platforms dispatch namespace. */
 export const getDispatchNamespaceScriptSetting: API.OperationMethod<
   GetDispatchNamespaceScriptSettingRequest,
   GetDispatchNamespaceScriptSettingResponse,
@@ -13935,7 +14211,7 @@ export const getDispatchNamespaceScriptSetting: API.OperationMethod<
 }));
 
 export type ListDispatchNamespacesError = CloudflareOpError;
-/** Fetch a list of Workers for Platforms namespaces. */
+/** Fetch a list of Workers for Platforms dispatch namespaces. */
 export const listDispatchNamespaces: API.PaginatedOperationMethod<
   ListDispatchNamespacesRequest,
   ListDispatchNamespacesResponse,
@@ -13955,7 +14231,7 @@ export const listDispatchNamespaces: API.PaginatedOperationMethod<
 ) as any;
 
 export type ListDispatchNamespaceScriptSecretsError = CloudflareOpError;
-/** List secrets bound to a script uploaded to a Workers for Platforms namespace. */
+/** List secrets bound to a script uploaded to a Workers for Platforms dispatch namespace. */
 export const listDispatchNamespaceScriptSecrets: API.PaginatedOperationMethod<
   ListDispatchNamespaceScriptSecretsRequest,
   ListDispatchNamespaceScriptSecretsResponse,
@@ -13975,7 +14251,7 @@ export const listDispatchNamespaceScriptSecrets: API.PaginatedOperationMethod<
 ) as any;
 
 export type ListDispatchNamespaceScriptTagsError = CloudflareOpError;
-/** Fetch tags from a script uploaded to a Workers for Platforms namespace. */
+/** Fetch tags from a script uploaded to a Workers for Platforms dispatch namespace. */
 export const listDispatchNamespaceScriptTags: API.PaginatedOperationMethod<
   ListDispatchNamespaceScriptTagsRequest,
   ListDispatchNamespaceScriptTagsResponse,
@@ -13995,7 +14271,7 @@ export const listDispatchNamespaceScriptTags: API.PaginatedOperationMethod<
 ) as any;
 
 export type PatchDispatchNamespaceScriptSettingError = CloudflareOpError;
-/** Patch script metadata, such as bindings. */
+/** Patch metadata for a script uploaded to a Workers for Platforms dispatch namespace, such as bindings. */
 export const patchDispatchNamespaceScriptSetting: API.OperationMethod<
   PatchDispatchNamespaceScriptSettingRequest,
   PatchDispatchNamespaceScriptSettingResponse,
@@ -14023,7 +14299,7 @@ export type PutDispatchNamespaceScriptError =
   | VectorizeIndexNotFound
   | MtlsCertificateNotFound
   | CloudflareOpError;
-/** Upload a worker module to a Workers for Platforms namespace. You can find more about the multipart metadata on our docs: https://developers.cloudflare.com/workers/configuration/multipart-upload-metadata/. */
+/** Upload a Workers for Platforms script module to a dispatch namespace. You can find more about the multipart metadata on our docs: https://developers.cloudflare.com/workers/configuration/multipart-upload-metadata/. */
 export const putDispatchNamespaceScript: API.OperationMethod<
   PutDispatchNamespaceScriptRequest,
   PutDispatchNamespaceScriptResponse,
@@ -14053,7 +14329,7 @@ export const putDispatchNamespaceScript: API.OperationMethod<
 }));
 
 export type PutDispatchNamespaceScriptContentError = CloudflareOpError;
-/** Put script content for a script uploaded to a Workers for Platforms namespace. */
+/** Replace content for a script uploaded to a Workers for Platforms dispatch namespace. */
 export const putDispatchNamespaceScriptContent: API.OperationMethod<
   PutDispatchNamespaceScriptContentRequest,
   PutDispatchNamespaceScriptContentResponse,
@@ -14068,7 +14344,7 @@ export const putDispatchNamespaceScriptContent: API.OperationMethod<
 }));
 
 export type PutDispatchNamespaceScriptSecretError = CloudflareOpError;
-/** Add a secret to a script by creating a new version with that secret. When changing more than one secret at a time, prefer the "Patch multiple script secrets" API instead of changing many secrets individually. */
+/** Add a secret to a Workers for Platforms script by creating a new version with that secret. When changing more than one secret at a time, prefer the "Patch multiple script secrets" API instead of changing many secrets individually. */
 export const putDispatchNamespaceScriptSecret: API.OperationMethod<
   PutDispatchNamespaceScriptSecretRequest,
   PutDispatchNamespaceScriptSecretResponse,
@@ -14083,7 +14359,7 @@ export const putDispatchNamespaceScriptSecret: API.OperationMethod<
 }));
 
 export type PutDispatchNamespaceScriptTagError = CloudflareOpError;
-/** Put script tags for a script uploaded to a Workers for Platforms namespace. */
+/** Replace tags for a script uploaded to a Workers for Platforms dispatch namespace. */
 export const putDispatchNamespaceScriptTag: API.PaginatedOperationMethod<
   PutDispatchNamespaceScriptTagRequest,
   PutDispatchNamespaceScriptTagResponse,

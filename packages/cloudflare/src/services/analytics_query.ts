@@ -75,9 +75,7 @@ export const DataSecurityContentFindingsTopNRequest = /*@__PURE__*/ S.suspend(()
   identifier: "DataSecurityContentFindingsTopNRequest",
 }) as any as S.Schema<DataSecurityContentFindingsTopNRequest>;
 
-export type DataSecurityContentFindingsTopNResultItemMap = {
-  [key: string]: unknown | undefined;
-};
+export type DataSecurityContentFindingsTopNResultItemMap = { [key: string]: unknown | undefined };
 export const DataSecurityContentFindingsTopNResultItemMap = /*@__PURE__*/ S.Record(
   S.String,
   S.Unknown,
@@ -366,9 +364,7 @@ export const SummaryRequest = /*@__PURE__*/ S.suspend(() =>
   ),
 ).annotate({ identifier: "SummaryRequest" }) as any as S.Schema<SummaryRequest>;
 
-export type SummaryResponseCurrentTotalItemMap = {
-  [key: string]: unknown | undefined;
-};
+export type SummaryResponseCurrentTotalItemMap = { [key: string]: unknown | undefined };
 export const SummaryResponseCurrentTotalItemMap = /*@__PURE__*/ S.Record(
   S.String,
   S.Unknown,
@@ -379,9 +375,7 @@ export const SummaryResponseCurrentTotalList = /*@__PURE__*/ S.Array(
   SummaryResponseCurrentTotalItemMap,
 ) as any as S.Schema<SummaryResponseCurrentTotalList>;
 
-export type SummaryResponsePreviousTotalItemMap = {
-  [key: string]: unknown | undefined;
-};
+export type SummaryResponsePreviousTotalItemMap = { [key: string]: unknown | undefined };
 export const SummaryResponsePreviousTotalItemMap = /*@__PURE__*/ S.Record(
   S.String,
   S.Unknown,
@@ -404,9 +398,7 @@ export const SummaryResponse = /*@__PURE__*/ S.suspend(() =>
     currentTotal: SummaryResponseCurrentTotalList,
     previousTotal: SummaryResponsePreviousTotalList,
   }),
-).annotate({
-  identifier: "SummaryResponse",
-}) as any as S.Schema<SummaryResponse>;
+).annotate({ identifier: "SummaryResponse" }) as any as S.Schema<SummaryResponse>;
 
 export type TimeseriesRequestFiltersItemValuesItem = string | number | boolean;
 export const TimeseriesRequestFiltersItemValuesItem = /*@__PURE__*/ S.Unknown.pipe(
@@ -484,13 +476,9 @@ export const TimeseriesRequest = /*@__PURE__*/ S.suspend(() =>
       code: 200,
     }),
   ),
-).annotate({
-  identifier: "TimeseriesRequest",
-}) as any as S.Schema<TimeseriesRequest>;
+).annotate({ identifier: "TimeseriesRequest" }) as any as S.Schema<TimeseriesRequest>;
 
-export type TimeseriesResponseSlotsItemMap = {
-  [key: string]: unknown | undefined;
-};
+export type TimeseriesResponseSlotsItemMap = { [key: string]: unknown | undefined };
 export const TimeseriesResponseSlotsItemMap = /*@__PURE__*/ S.Record(
   S.String,
   S.Unknown,
@@ -513,9 +501,7 @@ export const TimeseriesResponse = /*@__PURE__*/ S.suspend(() =>
     resolution: S.String,
     slots: TimeseriesResponseSlotsList,
   }),
-).annotate({
-  identifier: "TimeseriesResponse",
-}) as any as S.Schema<TimeseriesResponse>;
+).annotate({ identifier: "TimeseriesResponse" }) as any as S.Schema<TimeseriesResponse>;
 
 export type TopNRequestFiltersItemValuesItem = string | number | boolean;
 export const TopNRequestFiltersItemValuesItem = /*@__PURE__*/ S.Unknown.pipe(
@@ -541,9 +527,7 @@ export const TopNRequestFiltersItem = /*@__PURE__*/ S.suspend(() =>
     op: S.String,
     values: TopNRequestFiltersItemValuesList,
   }),
-).annotate({
-  identifier: "TopNRequestFiltersItem",
-}) as any as S.Schema<TopNRequestFiltersItem>;
+).annotate({ identifier: "TopNRequestFiltersItem" }) as any as S.Schema<TopNRequestFiltersItem>;
 
 export type TopNRequestFiltersList = Array<TopNRequestFiltersItem>;
 export const TopNRequestFiltersList = /*@__PURE__*/ S.Array(

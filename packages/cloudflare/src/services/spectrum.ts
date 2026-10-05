@@ -75,11 +75,9 @@ export const AppsCreateRequestDns = /*@__PURE__*/ S.suspend(() =>
     name: S.optional(S.String),
     type: S.optional(AppsCreateRequestDnsType),
   }),
-).annotate({
-  identifier: "AppsCreateRequestDns",
-}) as any as S.Schema<AppsCreateRequestDns>;
+).annotate({ identifier: "AppsCreateRequestDns" }) as any as S.Schema<AppsCreateRequestDns>;
 
-export type AppsCreateRequestTrafficType = "direct" | "http" | "https";
+export type AppsCreateRequestTrafficType = "direct" | "http" | "https" | "worker";
 export const AppsCreateRequestTrafficType = S.String;
 
 export type AppsCreateRequestEdgeIpsDynamicConnectivity = "all" | "ipv4" | "ipv6";
@@ -181,7 +179,7 @@ export interface CreateAppRequest {
   dns: AppsCreateRequestDns;
   /** The port configuration at Cloudflare's edge. May specify a single port, for example `"tcp/1000"`, or a range of ports, for example `"tcp/1000-2000"`. */
   protocol: string;
-  /** Determines how data travels from the edge to your origin. When set to "direct", Spectrum will send traffic directly to your origin, and the application's type is derived from the `protocol`. When set to "http" or "https", Spectrum will apply Cloudflare's HTTP/HTTPS features as it sends traffic to your origin, and the application type matches this property exactly. */
+  /** Determines how data travels from the edge to your origin. When set to "direct", Spectrum will send traffic directly to your origin, and the application's type is derived from the `protocol`. When set to "http" or "https", Spectrum will apply Cloudflare's HTTP/HTTPS features as it sends traffic to your origin, and the application type matches this property exactly. When set to "worker", traffic is sent to the Worker specified by `origin_worker_id`. */
   trafficType?: AppsCreateRequestTrafficType | (string & {});
   /** Enables Argo Smart Routing for this application. Notes: Only available for TCP or UDP applications with traffic_type set to "direct". */
   argoSmartRouting?: boolean;
@@ -195,6 +193,8 @@ export interface CreateAppRequest {
   originDns?: AppsCreateRequestOriginDns;
   /** The destination port at the origin. Only specified in conjunction with origin_dns. May use an integer to specify a single origin port, for example `1000`, or a string to specify a range of origin ports, for example `"1000-2000"`. Notes: If specifying a port range, the number of ports in the range must match the number of ports specified in the "protocol" field. */
   originPort?: AppsCreateRequestOriginPort;
+  /** Optional Worker script tag (worker ID) to use as the application's origin. Only supported for TCP applications with traffic_type "worker"; mutually exclusive with origin_direct, origin_dns, origin_port, proxy_protocol, and argo_smart_routing. tls may only be "off" or "flexible". */
+  originWorkerId?: string;
   /** Enables Proxy Protocol to the origin. Refer to [Enable Proxy protocol](https://developers.cloudflare.com/spectrum/getting-started/proxy-protocol/) for implementation details on PROXY Protocol V1, PROXY Protocol V2, and Simple Proxy Protocol. */
   proxyProtocol?: AppsCreateRequestProxyProtocol | (string & {});
   /** The type of TLS termination associated with the application. */
@@ -214,21 +214,14 @@ export const CreateAppRequest = /*@__PURE__*/ S.suspend(() =>
     originDirect: S.optional(AppsCreateRequestOriginDirectList.pipe(T.Body("origin_direct"))),
     originDns: S.optional(AppsCreateRequestOriginDns.pipe(T.Body("origin_dns"))),
     originPort: S.optional(AppsCreateRequestOriginPort.pipe(T.Body("origin_port"))),
+    originWorkerId: S.optional(S.String.pipe(T.Body("origin_worker_id"))),
     proxyProtocol: S.optional(AppsCreateRequestProxyProtocol.pipe(T.Body("proxy_protocol"))),
     tls: S.optional(AppsCreateRequestTls),
     virtualNetworkId: S.optional(S.String.pipe(T.Body("virtual_network_id"))),
   })
-    .pipe(
-      T.Http({
-        method: "POST",
-        uri: "/zones/{zone_id}/spectrum/apps",
-        code: 200,
-      }),
-    )
+    .pipe(T.Http({ method: "POST", uri: "/zones/{zone_id}/spectrum/apps", code: 200 }))
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "CreateAppRequest",
-}) as any as S.Schema<CreateAppRequest>;
+).annotate({ identifier: "CreateAppRequest" }) as any as S.Schema<CreateAppRequest>;
 
 export type AppsCreateResultSpectrumConfigAppConfigDnsType = "CNAME" | "ADDRESS";
 export const AppsCreateResultSpectrumConfigAppConfigDnsType = S.String;
@@ -248,7 +241,11 @@ export const AppsCreateResultSpectrumConfigAppConfigDns = /*@__PURE__*/ S.suspen
   identifier: "AppsCreateResultSpectrumConfigAppConfigDns",
 }) as any as S.Schema<AppsCreateResultSpectrumConfigAppConfigDns>;
 
-export type AppsCreateResultSpectrumConfigAppConfigTrafficType = "direct" | "http" | "https";
+export type AppsCreateResultSpectrumConfigAppConfigTrafficType =
+  | "direct"
+  | "http"
+  | "https"
+  | "worker";
 export const AppsCreateResultSpectrumConfigAppConfigTrafficType = S.String;
 
 export type AppsCreateResultSpectrumConfigAppConfigEdgeIpsDynamicConnectivity =
@@ -361,7 +358,7 @@ export interface AppsCreateResultSpectrumConfigAppConfig {
   modifiedOn: string;
   /** The port configuration at Cloudflare's edge. May specify a single port, for example `"tcp/1000"`, or a range of ports, for example `"tcp/1000-2000"`. */
   protocol: string;
-  /** Determines how data travels from the edge to your origin. When set to "direct", Spectrum will send traffic directly to your origin, and the application's type is derived from the `protocol`. When set to "http" or "https", Spectrum will apply Cloudflare's HTTP/HTTPS features as it sends traffic to your origin, and the application type matches this property exactly. */
+  /** Determines how data travels from the edge to your origin. When set to "direct", Spectrum will send traffic directly to your origin, and the application's type is derived from the `protocol`. When set to "http" or "https", Spectrum will apply Cloudflare's HTTP/HTTPS features as it sends traffic to your origin, and the application type matches this property exactly. When set to "worker", traffic is sent to the Worker specified by `origin_worker_id`. */
   trafficType: AppsCreateResultSpectrumConfigAppConfigTrafficType;
   /** Enables Argo Smart Routing for this application. Notes: Only available for TCP or UDP applications with traffic_type set to "direct". */
   argoSmartRouting?: boolean | null;
@@ -375,6 +372,8 @@ export interface AppsCreateResultSpectrumConfigAppConfig {
   originDns?: AppsCreateResultSpectrumConfigAppConfigOriginDns | null;
   /** The destination port at the origin. Only specified in conjunction with origin_dns. May use an integer to specify a single origin port, for example `1000`, or a string to specify a range of origin ports, for example `"1000-2000"`. Notes: If specifying a port range, the number of ports in the range must match the number of ports specified in the "protocol" field. */
   originPort?: AppsCreateResultSpectrumConfigAppConfigOriginPort | null;
+  /** Optional Worker script tag (worker ID) to use as the application's origin. Only supported for TCP applications with traffic_type "worker"; mutually exclusive with origin_direct, origin_dns, origin_port, proxy_protocol, and argo_smart_routing. tls may only be "off" or "flexible". */
+  originWorkerId?: string | null;
   /** Enables Proxy Protocol to the origin. Refer to [Enable Proxy protocol](https://developers.cloudflare.com/spectrum/getting-started/proxy-protocol/) for implementation details on PROXY Protocol V1, PROXY Protocol V2, and Simple Proxy Protocol. */
   proxyProtocol?: AppsCreateResultSpectrumConfigAppConfigProxyProtocol | null;
   /** The type of TLS termination associated with the application. */
@@ -406,6 +405,7 @@ export const AppsCreateResultSpectrumConfigAppConfig = /*@__PURE__*/ S.suspend((
     originPort: S.optional(
       S.NullOr(AppsCreateResultSpectrumConfigAppConfigOriginPort).pipe(T.Body("origin_port")),
     ),
+    originWorkerId: S.optional(S.NullOr(S.String).pipe(T.Body("origin_worker_id"))),
     proxyProtocol: S.optional(
       S.NullOr(AppsCreateResultSpectrumConfigAppConfigProxyProtocol).pipe(T.Body("proxy_protocol")),
     ),
@@ -488,6 +488,7 @@ export const AppsCreateResult = /*@__PURE__*/ S.Unknown.pipe(
       "originDirect",
       "originDns",
       "originPort",
+      "originWorkerId",
       "proxyProtocol",
       "tls",
       "virtualNetworkId",
@@ -499,9 +500,7 @@ export const AppsCreateResult = /*@__PURE__*/ S.Unknown.pipe(
 export type CreateAppResponse = AppsCreateResult;
 export const CreateAppResponse = /*@__PURE__*/ S.suspend(() =>
   AppsCreateResult.pipe(T.EnvelopePayloadRoot(), T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "CreateAppResponse",
-}) as any as S.Schema<CreateAppResponse>;
+).annotate({ identifier: "CreateAppResponse" }) as any as S.Schema<CreateAppResponse>;
 
 export interface DeleteAppRequest {
   /** Zone identifier. */
@@ -514,17 +513,9 @@ export const DeleteAppRequest = /*@__PURE__*/ S.suspend(() =>
     zoneId: S.String.pipe(T.Label("zone_id")),
     appId: S.String.pipe(T.Label("app_id")),
   })
-    .pipe(
-      T.Http({
-        method: "DELETE",
-        uri: "/zones/{zone_id}/spectrum/apps/{app_id}",
-        code: 200,
-      }),
-    )
+    .pipe(T.Http({ method: "DELETE", uri: "/zones/{zone_id}/spectrum/apps/{app_id}", code: 200 }))
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "DeleteAppRequest",
-}) as any as S.Schema<DeleteAppRequest>;
+).annotate({ identifier: "DeleteAppRequest" }) as any as S.Schema<DeleteAppRequest>;
 
 /** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
 export interface DeleteAppResponse {
@@ -535,9 +526,7 @@ export const DeleteAppResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     id: S.String,
   }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "DeleteAppResponse",
-}) as any as S.Schema<DeleteAppResponse>;
+).annotate({ identifier: "DeleteAppResponse" }) as any as S.Schema<DeleteAppResponse>;
 
 export interface GetAnalyticAggregateCurrentRequest {
   /** Identifier. */
@@ -731,17 +720,13 @@ export const AnalyticsEventsBytimesGetResponseDataList = /*@__PURE__*/ S.Array(
   AnalyticsEventsBytimesGetResponseDataItem,
 ) as any as S.Schema<AnalyticsEventsBytimesGetResponseDataList>;
 
-export type AnalyticsEventsBytimesGetResponseMaxMap = {
-  [key: string]: number | undefined;
-};
+export type AnalyticsEventsBytimesGetResponseMaxMap = { [key: string]: number | undefined };
 export const AnalyticsEventsBytimesGetResponseMaxMap = /*@__PURE__*/ S.Record(
   S.String,
   S.Number,
 ) as any as S.Schema<AnalyticsEventsBytimesGetResponseMaxMap>;
 
-export type AnalyticsEventsBytimesGetResponseMinMap = {
-  [key: string]: number | undefined;
-};
+export type AnalyticsEventsBytimesGetResponseMinMap = { [key: string]: number | undefined };
 export const AnalyticsEventsBytimesGetResponseMinMap = /*@__PURE__*/ S.Record(
   S.String,
   S.Number,
@@ -811,9 +796,7 @@ export const AnalyticsEventsBytimesGetResponseQuery = /*@__PURE__*/ S.suspend(()
   identifier: "AnalyticsEventsBytimesGetResponseQuery",
 }) as any as S.Schema<AnalyticsEventsBytimesGetResponseQuery>;
 
-export type AnalyticsEventsBytimesGetResponseTotalsMap = {
-  [key: string]: number | undefined;
-};
+export type AnalyticsEventsBytimesGetResponseTotalsMap = { [key: string]: number | undefined };
 export const AnalyticsEventsBytimesGetResponseTotalsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.Number,
@@ -978,17 +961,13 @@ export const AnalyticsEventsSummariesGetResponseDataList = /*@__PURE__*/ S.Array
   AnalyticsEventsSummariesGetResponseDataItem,
 ) as any as S.Schema<AnalyticsEventsSummariesGetResponseDataList>;
 
-export type AnalyticsEventsSummariesGetResponseMaxMap = {
-  [key: string]: number | undefined;
-};
+export type AnalyticsEventsSummariesGetResponseMaxMap = { [key: string]: number | undefined };
 export const AnalyticsEventsSummariesGetResponseMaxMap = /*@__PURE__*/ S.Record(
   S.String,
   S.Number,
 ) as any as S.Schema<AnalyticsEventsSummariesGetResponseMaxMap>;
 
-export type AnalyticsEventsSummariesGetResponseMinMap = {
-  [key: string]: number | undefined;
-};
+export type AnalyticsEventsSummariesGetResponseMinMap = { [key: string]: number | undefined };
 export const AnalyticsEventsSummariesGetResponseMinMap = /*@__PURE__*/ S.Record(
   S.String,
   S.Number,
@@ -1058,9 +1037,7 @@ export const AnalyticsEventsSummariesGetResponseQuery = /*@__PURE__*/ S.suspend(
   identifier: "AnalyticsEventsSummariesGetResponseQuery",
 }) as any as S.Schema<AnalyticsEventsSummariesGetResponseQuery>;
 
-export type AnalyticsEventsSummariesGetResponseTotalsMap = {
-  [key: string]: number | undefined;
-};
+export type AnalyticsEventsSummariesGetResponseTotalsMap = { [key: string]: number | undefined };
 export const AnalyticsEventsSummariesGetResponseTotalsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.Number,
@@ -1123,13 +1100,7 @@ export const GetAppRequest = /*@__PURE__*/ S.suspend(() =>
     zoneId: S.String.pipe(T.Label("zone_id")),
     appId: S.String.pipe(T.Label("app_id")),
   })
-    .pipe(
-      T.Http({
-        method: "GET",
-        uri: "/zones/{zone_id}/spectrum/apps/{app_id}",
-        code: 200,
-      }),
-    )
+    .pipe(T.Http({ method: "GET", uri: "/zones/{zone_id}/spectrum/apps/{app_id}", code: 200 }))
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
 ).annotate({ identifier: "GetAppRequest" }) as any as S.Schema<GetAppRequest>;
 
@@ -1151,7 +1122,11 @@ export const AppsGetResultSpectrumConfigAppConfigDns = /*@__PURE__*/ S.suspend((
   identifier: "AppsGetResultSpectrumConfigAppConfigDns",
 }) as any as S.Schema<AppsGetResultSpectrumConfigAppConfigDns>;
 
-export type AppsGetResultSpectrumConfigAppConfigTrafficType = "direct" | "http" | "https";
+export type AppsGetResultSpectrumConfigAppConfigTrafficType =
+  | "direct"
+  | "http"
+  | "https"
+  | "worker";
 export const AppsGetResultSpectrumConfigAppConfigTrafficType = S.String;
 
 export type AppsGetResultSpectrumConfigAppConfigEdgeIpsDynamicConnectivity =
@@ -1264,7 +1239,7 @@ export interface AppsGetResultSpectrumConfigAppConfig {
   modifiedOn: string;
   /** The port configuration at Cloudflare's edge. May specify a single port, for example `"tcp/1000"`, or a range of ports, for example `"tcp/1000-2000"`. */
   protocol: string;
-  /** Determines how data travels from the edge to your origin. When set to "direct", Spectrum will send traffic directly to your origin, and the application's type is derived from the `protocol`. When set to "http" or "https", Spectrum will apply Cloudflare's HTTP/HTTPS features as it sends traffic to your origin, and the application type matches this property exactly. */
+  /** Determines how data travels from the edge to your origin. When set to "direct", Spectrum will send traffic directly to your origin, and the application's type is derived from the `protocol`. When set to "http" or "https", Spectrum will apply Cloudflare's HTTP/HTTPS features as it sends traffic to your origin, and the application type matches this property exactly. When set to "worker", traffic is sent to the Worker specified by `origin_worker_id`. */
   trafficType: AppsGetResultSpectrumConfigAppConfigTrafficType;
   /** Enables Argo Smart Routing for this application. Notes: Only available for TCP or UDP applications with traffic_type set to "direct". */
   argoSmartRouting?: boolean | null;
@@ -1278,6 +1253,8 @@ export interface AppsGetResultSpectrumConfigAppConfig {
   originDns?: AppsGetResultSpectrumConfigAppConfigOriginDns | null;
   /** The destination port at the origin. Only specified in conjunction with origin_dns. May use an integer to specify a single origin port, for example `1000`, or a string to specify a range of origin ports, for example `"1000-2000"`. Notes: If specifying a port range, the number of ports in the range must match the number of ports specified in the "protocol" field. */
   originPort?: AppsGetResultSpectrumConfigAppConfigOriginPort | null;
+  /** Optional Worker script tag (worker ID) to use as the application's origin. Only supported for TCP applications with traffic_type "worker"; mutually exclusive with origin_direct, origin_dns, origin_port, proxy_protocol, and argo_smart_routing. tls may only be "off" or "flexible". */
+  originWorkerId?: string | null;
   /** Enables Proxy Protocol to the origin. Refer to [Enable Proxy protocol](https://developers.cloudflare.com/spectrum/getting-started/proxy-protocol/) for implementation details on PROXY Protocol V1, PROXY Protocol V2, and Simple Proxy Protocol. */
   proxyProtocol?: AppsGetResultSpectrumConfigAppConfigProxyProtocol | null;
   /** The type of TLS termination associated with the application. */
@@ -1307,6 +1284,7 @@ export const AppsGetResultSpectrumConfigAppConfig = /*@__PURE__*/ S.suspend(() =
     originPort: S.optional(
       S.NullOr(AppsGetResultSpectrumConfigAppConfigOriginPort).pipe(T.Body("origin_port")),
     ),
+    originWorkerId: S.optional(S.NullOr(S.String).pipe(T.Body("origin_worker_id"))),
     proxyProtocol: S.optional(
       S.NullOr(AppsGetResultSpectrumConfigAppConfigProxyProtocol).pipe(T.Body("proxy_protocol")),
     ),
@@ -1389,6 +1367,7 @@ export const AppsGetResult = /*@__PURE__*/ S.Unknown.pipe(
       "originDirect",
       "originDns",
       "originPort",
+      "originWorkerId",
       "proxyProtocol",
       "tls",
       "virtualNetworkId",
@@ -1428,17 +1407,9 @@ export const ListAppsRequest = /*@__PURE__*/ S.suspend(() =>
     page: S.optional(S.Number.pipe(T.Query())),
     perPage: S.optional(S.Number.pipe(T.Query("per_page"))),
   })
-    .pipe(
-      T.Http({
-        method: "GET",
-        uri: "/zones/{zone_id}/spectrum/apps",
-        code: 200,
-      }),
-    )
+    .pipe(T.Http({ method: "GET", uri: "/zones/{zone_id}/spectrum/apps", code: 200 }))
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "ListAppsRequest",
-}) as any as S.Schema<ListAppsRequest>;
+).annotate({ identifier: "ListAppsRequest" }) as any as S.Schema<ListAppsRequest>;
 
 export type AppsListResultCase0ItemDnsType = "CNAME" | "ADDRESS";
 export const AppsListResultCase0ItemDnsType = S.String;
@@ -1458,7 +1429,7 @@ export const AppsListResultCase0ItemDns = /*@__PURE__*/ S.suspend(() =>
   identifier: "AppsListResultCase0ItemDns",
 }) as any as S.Schema<AppsListResultCase0ItemDns>;
 
-export type AppsListResultCase0ItemTrafficType = "direct" | "http" | "https";
+export type AppsListResultCase0ItemTrafficType = "direct" | "http" | "https" | "worker";
 export const AppsListResultCase0ItemTrafficType = S.String;
 
 export type AppsListResultCase0ItemEdgeIpsDynamicConnectivity = "all" | "ipv4" | "ipv6";
@@ -1566,7 +1537,7 @@ export interface AppsListResultCase0Item {
   modifiedOn: string;
   /** The port configuration at Cloudflare's edge. May specify a single port, for example `"tcp/1000"`, or a range of ports, for example `"tcp/1000-2000"`. */
   protocol: string;
-  /** Determines how data travels from the edge to your origin. When set to "direct", Spectrum will send traffic directly to your origin, and the application's type is derived from the `protocol`. When set to "http" or "https", Spectrum will apply Cloudflare's HTTP/HTTPS features as it sends traffic to your origin, and the application type matches this property exactly. */
+  /** Determines how data travels from the edge to your origin. When set to "direct", Spectrum will send traffic directly to your origin, and the application's type is derived from the `protocol`. When set to "http" or "https", Spectrum will apply Cloudflare's HTTP/HTTPS features as it sends traffic to your origin, and the application type matches this property exactly. When set to "worker", traffic is sent to the Worker specified by `origin_worker_id`. */
   trafficType: AppsListResultCase0ItemTrafficType;
   /** Enables Argo Smart Routing for this application. Notes: Only available for TCP or UDP applications with traffic_type set to "direct". */
   argoSmartRouting?: boolean | null;
@@ -1580,6 +1551,8 @@ export interface AppsListResultCase0Item {
   originDns?: AppsListResultCase0ItemOriginDns | null;
   /** The destination port at the origin. Only specified in conjunction with origin_dns. May use an integer to specify a single origin port, for example `1000`, or a string to specify a range of origin ports, for example `"1000-2000"`. Notes: If specifying a port range, the number of ports in the range must match the number of ports specified in the "protocol" field. */
   originPort?: AppsListResultCase0ItemOriginPort | null;
+  /** Optional Worker script tag (worker ID) to use as the application's origin. Only supported for TCP applications with traffic_type "worker"; mutually exclusive with origin_direct, origin_dns, origin_port, proxy_protocol, and argo_smart_routing. tls may only be "off" or "flexible". */
+  originWorkerId?: string | null;
   /** Enables Proxy Protocol to the origin. Refer to [Enable Proxy protocol](https://developers.cloudflare.com/spectrum/getting-started/proxy-protocol/) for implementation details on PROXY Protocol V1, PROXY Protocol V2, and Simple Proxy Protocol. */
   proxyProtocol?: AppsListResultCase0ItemProxyProtocol | null;
   /** The type of TLS termination associated with the application. */
@@ -1603,15 +1576,14 @@ export const AppsListResultCase0Item = /*@__PURE__*/ S.suspend(() =>
     ),
     originDns: S.optional(S.NullOr(AppsListResultCase0ItemOriginDns).pipe(T.Body("origin_dns"))),
     originPort: S.optional(S.NullOr(AppsListResultCase0ItemOriginPort).pipe(T.Body("origin_port"))),
+    originWorkerId: S.optional(S.NullOr(S.String).pipe(T.Body("origin_worker_id"))),
     proxyProtocol: S.optional(
       S.NullOr(AppsListResultCase0ItemProxyProtocol).pipe(T.Body("proxy_protocol")),
     ),
     tls: S.optional(S.NullOr(AppsListResultCase0ItemTls)),
     virtualNetworkId: S.optional(S.NullOr(S.String).pipe(T.Body("virtual_network_id"))),
   }),
-).annotate({
-  identifier: "AppsListResultCase0Item",
-}) as any as S.Schema<AppsListResultCase0Item>;
+).annotate({ identifier: "AppsListResultCase0Item" }) as any as S.Schema<AppsListResultCase0Item>;
 
 export type AppsListResultCase0List = Array<AppsListResultCase0Item>;
 export const AppsListResultCase0List = /*@__PURE__*/ S.Array(
@@ -1666,9 +1638,7 @@ export const AppsListResultCase1Item = /*@__PURE__*/ S.suspend(() =>
       S.NullOr(AppsListResultCase1ItemOriginDirectList).pipe(T.Body("origin_direct")),
     ),
   }),
-).annotate({
-  identifier: "AppsListResultCase1Item",
-}) as any as S.Schema<AppsListResultCase1Item>;
+).annotate({ identifier: "AppsListResultCase1Item" }) as any as S.Schema<AppsListResultCase1Item>;
 
 export type AppsListResultCase1List = Array<AppsListResultCase1Item>;
 export const AppsListResultCase1List = /*@__PURE__*/ S.Array(
@@ -1689,9 +1659,7 @@ export const ListAppsResponse = /*@__PURE__*/ S.suspend(() =>
     result: AppsListResult.pipe(T.EnvelopePayload()),
     resultInfo: S.optional(S.NullOr(ResultInfo).pipe(T.ResultInfo())),
   }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "ListAppsResponse",
-}) as any as S.Schema<ListAppsResponse>;
+).annotate({ identifier: "ListAppsResponse" }) as any as S.Schema<ListAppsResponse>;
 
 export interface ListProtocolsRequest {
   /** Zone identifier. */
@@ -1701,17 +1669,9 @@ export const ListProtocolsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     zoneId: S.String.pipe(T.Label("zone_id")),
   })
-    .pipe(
-      T.Http({
-        method: "GET",
-        uri: "/zones/{zone_id}/spectrum/protocols",
-        code: 200,
-      }),
-    )
+    .pipe(T.Http({ method: "GET", uri: "/zones/{zone_id}/spectrum/protocols", code: 200 }))
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "ListProtocolsRequest",
-}) as any as S.Schema<ListProtocolsRequest>;
+).annotate({ identifier: "ListProtocolsRequest" }) as any as S.Schema<ListProtocolsRequest>;
 
 export type ListProtocolsResultItemPortsList = Array<number>;
 export const ListProtocolsResultItemPortsList = /*@__PURE__*/ S.Array(
@@ -1735,9 +1695,7 @@ export const ListProtocolsResultItem = /*@__PURE__*/ S.suspend(() =>
     ports: ListProtocolsResultItemPortsList,
     transport: S.String,
   }),
-).annotate({
-  identifier: "ListProtocolsResultItem",
-}) as any as S.Schema<ListProtocolsResultItem>;
+).annotate({ identifier: "ListProtocolsResultItem" }) as any as S.Schema<ListProtocolsResultItem>;
 
 export type ListProtocolsResultList = Array<ListProtocolsResultItem>;
 export const ListProtocolsResultList = /*@__PURE__*/ S.Array(
@@ -1747,9 +1705,7 @@ export const ListProtocolsResultList = /*@__PURE__*/ S.Array(
 export type ListProtocolsResponse = ListProtocolsResultList;
 export const ListProtocolsResponse = /*@__PURE__*/ S.suspend(() =>
   ListProtocolsResultList.pipe(T.EnvelopePayloadRoot(), T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "ListProtocolsResponse",
-}) as any as S.Schema<ListProtocolsResponse>;
+).annotate({ identifier: "ListProtocolsResponse" }) as any as S.Schema<ListProtocolsResponse>;
 
 export type AppsUpdateRequestDnsType = "CNAME" | "ADDRESS";
 export const AppsUpdateRequestDnsType = S.String;
@@ -1765,11 +1721,9 @@ export const AppsUpdateRequestDns = /*@__PURE__*/ S.suspend(() =>
     name: S.optional(S.String),
     type: S.optional(AppsUpdateRequestDnsType),
   }),
-).annotate({
-  identifier: "AppsUpdateRequestDns",
-}) as any as S.Schema<AppsUpdateRequestDns>;
+).annotate({ identifier: "AppsUpdateRequestDns" }) as any as S.Schema<AppsUpdateRequestDns>;
 
-export type AppsUpdateRequestTrafficType = "direct" | "http" | "https";
+export type AppsUpdateRequestTrafficType = "direct" | "http" | "https" | "worker";
 export const AppsUpdateRequestTrafficType = S.String;
 
 export type AppsUpdateRequestEdgeIpsDynamicConnectivity = "all" | "ipv4" | "ipv6";
@@ -1873,7 +1827,7 @@ export interface UpdateAppRequest {
   dns: AppsUpdateRequestDns;
   /** The port configuration at Cloudflare's edge. May specify a single port, for example `"tcp/1000"`, or a range of ports, for example `"tcp/1000-2000"`. */
   protocol: string;
-  /** Determines how data travels from the edge to your origin. When set to "direct", Spectrum will send traffic directly to your origin, and the application's type is derived from the `protocol`. When set to "http" or "https", Spectrum will apply Cloudflare's HTTP/HTTPS features as it sends traffic to your origin, and the application type matches this property exactly. */
+  /** Determines how data travels from the edge to your origin. When set to "direct", Spectrum will send traffic directly to your origin, and the application's type is derived from the `protocol`. When set to "http" or "https", Spectrum will apply Cloudflare's HTTP/HTTPS features as it sends traffic to your origin, and the application type matches this property exactly. When set to "worker", traffic is sent to the Worker specified by `origin_worker_id`. */
   trafficType?: AppsUpdateRequestTrafficType | (string & {});
   /** Enables Argo Smart Routing for this application. Notes: Only available for TCP or UDP applications with traffic_type set to "direct". */
   argoSmartRouting?: boolean;
@@ -1887,6 +1841,8 @@ export interface UpdateAppRequest {
   originDns?: AppsUpdateRequestOriginDns;
   /** The destination port at the origin. Only specified in conjunction with origin_dns. May use an integer to specify a single origin port, for example `1000`, or a string to specify a range of origin ports, for example `"1000-2000"`. Notes: If specifying a port range, the number of ports in the range must match the number of ports specified in the "protocol" field. */
   originPort?: AppsUpdateRequestOriginPort;
+  /** Optional Worker script tag (worker ID) to use as the application's origin. Only supported for TCP applications with traffic_type "worker"; mutually exclusive with origin_direct, origin_dns, origin_port, proxy_protocol, and argo_smart_routing. tls may only be "off" or "flexible". */
+  originWorkerId?: string;
   /** Enables Proxy Protocol to the origin. Refer to [Enable Proxy protocol](https://developers.cloudflare.com/spectrum/getting-started/proxy-protocol/) for implementation details on PROXY Protocol V1, PROXY Protocol V2, and Simple Proxy Protocol. */
   proxyProtocol?: AppsUpdateRequestProxyProtocol | (string & {});
   /** The type of TLS termination associated with the application. */
@@ -1907,21 +1863,14 @@ export const UpdateAppRequest = /*@__PURE__*/ S.suspend(() =>
     originDirect: S.optional(AppsUpdateRequestOriginDirectList.pipe(T.Body("origin_direct"))),
     originDns: S.optional(AppsUpdateRequestOriginDns.pipe(T.Body("origin_dns"))),
     originPort: S.optional(AppsUpdateRequestOriginPort.pipe(T.Body("origin_port"))),
+    originWorkerId: S.optional(S.String.pipe(T.Body("origin_worker_id"))),
     proxyProtocol: S.optional(AppsUpdateRequestProxyProtocol.pipe(T.Body("proxy_protocol"))),
     tls: S.optional(AppsUpdateRequestTls),
     virtualNetworkId: S.optional(S.String.pipe(T.Body("virtual_network_id"))),
   })
-    .pipe(
-      T.Http({
-        method: "PUT",
-        uri: "/zones/{zone_id}/spectrum/apps/{app_id}",
-        code: 200,
-      }),
-    )
+    .pipe(T.Http({ method: "PUT", uri: "/zones/{zone_id}/spectrum/apps/{app_id}", code: 200 }))
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "UpdateAppRequest",
-}) as any as S.Schema<UpdateAppRequest>;
+).annotate({ identifier: "UpdateAppRequest" }) as any as S.Schema<UpdateAppRequest>;
 
 export type AppsUpdateResultSpectrumConfigAppConfigDnsType = "CNAME" | "ADDRESS";
 export const AppsUpdateResultSpectrumConfigAppConfigDnsType = S.String;
@@ -1941,7 +1890,11 @@ export const AppsUpdateResultSpectrumConfigAppConfigDns = /*@__PURE__*/ S.suspen
   identifier: "AppsUpdateResultSpectrumConfigAppConfigDns",
 }) as any as S.Schema<AppsUpdateResultSpectrumConfigAppConfigDns>;
 
-export type AppsUpdateResultSpectrumConfigAppConfigTrafficType = "direct" | "http" | "https";
+export type AppsUpdateResultSpectrumConfigAppConfigTrafficType =
+  | "direct"
+  | "http"
+  | "https"
+  | "worker";
 export const AppsUpdateResultSpectrumConfigAppConfigTrafficType = S.String;
 
 export type AppsUpdateResultSpectrumConfigAppConfigEdgeIpsDynamicConnectivity =
@@ -2054,7 +2007,7 @@ export interface AppsUpdateResultSpectrumConfigAppConfig {
   modifiedOn: string;
   /** The port configuration at Cloudflare's edge. May specify a single port, for example `"tcp/1000"`, or a range of ports, for example `"tcp/1000-2000"`. */
   protocol: string;
-  /** Determines how data travels from the edge to your origin. When set to "direct", Spectrum will send traffic directly to your origin, and the application's type is derived from the `protocol`. When set to "http" or "https", Spectrum will apply Cloudflare's HTTP/HTTPS features as it sends traffic to your origin, and the application type matches this property exactly. */
+  /** Determines how data travels from the edge to your origin. When set to "direct", Spectrum will send traffic directly to your origin, and the application's type is derived from the `protocol`. When set to "http" or "https", Spectrum will apply Cloudflare's HTTP/HTTPS features as it sends traffic to your origin, and the application type matches this property exactly. When set to "worker", traffic is sent to the Worker specified by `origin_worker_id`. */
   trafficType: AppsUpdateResultSpectrumConfigAppConfigTrafficType;
   /** Enables Argo Smart Routing for this application. Notes: Only available for TCP or UDP applications with traffic_type set to "direct". */
   argoSmartRouting?: boolean | null;
@@ -2068,6 +2021,8 @@ export interface AppsUpdateResultSpectrumConfigAppConfig {
   originDns?: AppsUpdateResultSpectrumConfigAppConfigOriginDns | null;
   /** The destination port at the origin. Only specified in conjunction with origin_dns. May use an integer to specify a single origin port, for example `1000`, or a string to specify a range of origin ports, for example `"1000-2000"`. Notes: If specifying a port range, the number of ports in the range must match the number of ports specified in the "protocol" field. */
   originPort?: AppsUpdateResultSpectrumConfigAppConfigOriginPort | null;
+  /** Optional Worker script tag (worker ID) to use as the application's origin. Only supported for TCP applications with traffic_type "worker"; mutually exclusive with origin_direct, origin_dns, origin_port, proxy_protocol, and argo_smart_routing. tls may only be "off" or "flexible". */
+  originWorkerId?: string | null;
   /** Enables Proxy Protocol to the origin. Refer to [Enable Proxy protocol](https://developers.cloudflare.com/spectrum/getting-started/proxy-protocol/) for implementation details on PROXY Protocol V1, PROXY Protocol V2, and Simple Proxy Protocol. */
   proxyProtocol?: AppsUpdateResultSpectrumConfigAppConfigProxyProtocol | null;
   /** The type of TLS termination associated with the application. */
@@ -2099,6 +2054,7 @@ export const AppsUpdateResultSpectrumConfigAppConfig = /*@__PURE__*/ S.suspend((
     originPort: S.optional(
       S.NullOr(AppsUpdateResultSpectrumConfigAppConfigOriginPort).pipe(T.Body("origin_port")),
     ),
+    originWorkerId: S.optional(S.NullOr(S.String).pipe(T.Body("origin_worker_id"))),
     proxyProtocol: S.optional(
       S.NullOr(AppsUpdateResultSpectrumConfigAppConfigProxyProtocol).pipe(T.Body("proxy_protocol")),
     ),
@@ -2181,6 +2137,7 @@ export const AppsUpdateResult = /*@__PURE__*/ S.Unknown.pipe(
       "originDirect",
       "originDns",
       "originPort",
+      "originWorkerId",
       "proxyProtocol",
       "tls",
       "virtualNetworkId",
@@ -2192,9 +2149,7 @@ export const AppsUpdateResult = /*@__PURE__*/ S.Unknown.pipe(
 export type UpdateAppResponse = AppsUpdateResult;
 export const UpdateAppResponse = /*@__PURE__*/ S.suspend(() =>
   AppsUpdateResult.pipe(T.EnvelopePayloadRoot(), T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "UpdateAppResponse",
-}) as any as S.Schema<UpdateAppResponse>;
+).annotate({ identifier: "UpdateAppResponse" }) as any as S.Schema<UpdateAppResponse>;
 
 export type CreateAppError = SpectrumProtocolNotAvailable | Forbidden | CloudflareOpError;
 /** Creates a new Spectrum application from a configuration using a name for the origin. */

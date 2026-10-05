@@ -127,7 +127,7 @@ export interface CreateOriginCaCertificateResponse {
   requestType: CreateResponseRequestType;
   /** The number of days for which the certificate should be valid. */
   requestedValidity: CreateResponseRequestedValidity;
-  /** Identifier. */
+  /** The x509 serial number of the Origin CA certificate. */
   id?: string | null;
   /** The Origin CA certificate. Will be newline-encoded. */
   certificate?: string | null;
@@ -152,20 +152,14 @@ export const CreateOriginCaCertificateResponse = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<CreateOriginCaCertificateResponse>;
 
 export interface DeleteOriginCaCertificateRequest {
-  /** Identifier. */
+  /** The x509 serial number of the Origin CA certificate. */
   certificateId: string;
 }
 export const DeleteOriginCaCertificateRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     certificateId: S.String.pipe(T.Label("certificate_id")),
   })
-    .pipe(
-      T.Http({
-        method: "DELETE",
-        uri: "/certificates/{certificate_id}",
-        code: 200,
-      }),
-    )
+    .pipe(T.Http({ method: "DELETE", uri: "/certificates/{certificate_id}", code: 200 }))
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
 ).annotate({
   identifier: "DeleteOriginCaCertificateRequest",
@@ -173,7 +167,7 @@ export const DeleteOriginCaCertificateRequest = /*@__PURE__*/ S.suspend(() =>
 
 /** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
 export interface DeleteOriginCaCertificateResponse {
-  /** Identifier. */
+  /** The x509 serial number of the Origin CA certificate. */
   id?: string | null;
   /** When the certificate was revoked. */
   revokedAt?: string | null;
@@ -188,20 +182,14 @@ export const DeleteOriginCaCertificateResponse = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<DeleteOriginCaCertificateResponse>;
 
 export interface GetOriginCaCertificateRequest {
-  /** Identifier. */
+  /** The x509 serial number of the Origin CA certificate. */
   certificateId: string;
 }
 export const GetOriginCaCertificateRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     certificateId: S.String.pipe(T.Label("certificate_id")),
   })
-    .pipe(
-      T.Http({
-        method: "GET",
-        uri: "/certificates/{certificate_id}",
-        code: 200,
-      }),
-    )
+    .pipe(T.Http({ method: "GET", uri: "/certificates/{certificate_id}", code: 200 }))
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
 ).annotate({
   identifier: "GetOriginCaCertificateRequest",
@@ -228,7 +216,7 @@ export interface GetOriginCaCertificateResponse {
   requestType: GetResponseRequestType;
   /** The number of days for which the certificate should be valid. */
   requestedValidity: GetResponseRequestedValidity;
-  /** Identifier. */
+  /** The x509 serial number of the Origin CA certificate. */
   id?: string | null;
   /** The Origin CA certificate. Will be newline-encoded. */
   certificate?: string | null;
@@ -298,7 +286,7 @@ export interface ListResultItem {
   requestType: ListResultItemRequestType;
   /** The number of days for which the certificate should be valid. */
   requestedValidity: ListResultItemRequestedValidity;
-  /** Identifier. */
+  /** The x509 serial number of the Origin CA certificate. */
   id?: string | null;
   /** The Origin CA certificate. Will be newline-encoded. */
   certificate?: string | null;

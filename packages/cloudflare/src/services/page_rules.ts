@@ -1077,9 +1077,7 @@ export const CreateRequestTargetsItem = /*@__PURE__*/ S.suspend(() =>
     constraint: S.optional(CreateRequestTargetsItemConstraint),
     target: S.optional(CreateRequestTargetsItemTarget),
   }),
-).annotate({
-  identifier: "CreateRequestTargetsItem",
-}) as any as S.Schema<CreateRequestTargetsItem>;
+).annotate({ identifier: "CreateRequestTargetsItem" }) as any as S.Schema<CreateRequestTargetsItem>;
 
 export type CreateRequestTargetsList = Array<CreateRequestTargetsItem>;
 export const CreateRequestTargetsList = /*@__PURE__*/ S.Array(
@@ -1111,9 +1109,7 @@ export const CreatePageRuleRequest = /*@__PURE__*/ S.suspend(() =>
   })
     .pipe(T.Http({ method: "POST", uri: "/zones/{zone_id}/pagerules", code: 200 }))
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "CreatePageRuleRequest",
-}) as any as S.Schema<CreatePageRuleRequest>;
+).annotate({ identifier: "CreatePageRuleRequest" }) as any as S.Schema<CreatePageRuleRequest>;
 
 export type CreateResponseActionsItemAlwaysUseHTTPSId = "always_use_https";
 export const CreateResponseActionsItemAlwaysUseHTTPSId = S.String;
@@ -2181,9 +2177,7 @@ export const CreatePageRuleResponse = /*@__PURE__*/ S.suspend(() =>
     status: CreateResponseStatus,
     targets: CreateResponseTargetsList,
   }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "CreatePageRuleResponse",
-}) as any as S.Schema<CreatePageRuleResponse>;
+).annotate({ identifier: "CreatePageRuleResponse" }) as any as S.Schema<CreatePageRuleResponse>;
 
 export interface DeletePageRuleRequest {
   /** Identifier. */
@@ -2196,17 +2190,9 @@ export const DeletePageRuleRequest = /*@__PURE__*/ S.suspend(() =>
     zoneId: S.String.pipe(T.Label("zone_id")),
     pageruleId: S.String.pipe(T.Label("pagerule_id")),
   })
-    .pipe(
-      T.Http({
-        method: "DELETE",
-        uri: "/zones/{zone_id}/pagerules/{pagerule_id}",
-        code: 200,
-      }),
-    )
+    .pipe(T.Http({ method: "DELETE", uri: "/zones/{zone_id}/pagerules/{pagerule_id}", code: 200 }))
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "DeletePageRuleRequest",
-}) as any as S.Schema<DeletePageRuleRequest>;
+).annotate({ identifier: "DeletePageRuleRequest" }) as any as S.Schema<DeletePageRuleRequest>;
 
 /** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
 export interface DeletePageRuleResponse {
@@ -2217,9 +2203,7 @@ export const DeletePageRuleResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     id: S.String,
   }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "DeletePageRuleResponse",
-}) as any as S.Schema<DeletePageRuleResponse>;
+).annotate({ identifier: "DeletePageRuleResponse" }) as any as S.Schema<DeletePageRuleResponse>;
 
 export interface GetPageRuleRequest {
   /** Identifier. */
@@ -2232,17 +2216,9 @@ export const GetPageRuleRequest = /*@__PURE__*/ S.suspend(() =>
     zoneId: S.String.pipe(T.Label("zone_id")),
     pageruleId: S.String.pipe(T.Label("pagerule_id")),
   })
-    .pipe(
-      T.Http({
-        method: "GET",
-        uri: "/zones/{zone_id}/pagerules/{pagerule_id}",
-        code: 200,
-      }),
-    )
+    .pipe(T.Http({ method: "GET", uri: "/zones/{zone_id}/pagerules/{pagerule_id}", code: 200 }))
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "GetPageRuleRequest",
-}) as any as S.Schema<GetPageRuleRequest>;
+).annotate({ identifier: "GetPageRuleRequest" }) as any as S.Schema<GetPageRuleRequest>;
 
 export type GetResponseActionsItemAlwaysUseHTTPSId = "always_use_https";
 export const GetResponseActionsItemAlwaysUseHTTPSId = S.String;
@@ -3247,9 +3223,7 @@ export const GetResponseTargetsItem = /*@__PURE__*/ S.suspend(() =>
     constraint: S.optional(S.NullOr(GetResponseTargetsItemConstraint)),
     target: S.optional(S.NullOr(GetResponseTargetsItemTarget)),
   }),
-).annotate({
-  identifier: "GetResponseTargetsItem",
-}) as any as S.Schema<GetResponseTargetsItem>;
+).annotate({ identifier: "GetResponseTargetsItem" }) as any as S.Schema<GetResponseTargetsItem>;
 
 export type GetResponseTargetsList = Array<GetResponseTargetsItem>;
 export const GetResponseTargetsList = /*@__PURE__*/ S.Array(
@@ -3283,9 +3257,7 @@ export const GetPageRuleResponse = /*@__PURE__*/ S.suspend(() =>
     status: GetResponseStatus,
     targets: GetResponseTargetsList,
   }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "GetPageRuleResponse",
-}) as any as S.Schema<GetPageRuleResponse>;
+).annotate({ identifier: "GetPageRuleResponse" }) as any as S.Schema<GetPageRuleResponse>;
 
 export type ListRequestDirection = "asc" | "desc";
 export const ListRequestDirection = S.String;
@@ -3321,9 +3293,7 @@ export const ListPageRulesRequest = /*@__PURE__*/ S.suspend(() =>
   })
     .pipe(T.Http({ method: "GET", uri: "/zones/{zone_id}/pagerules", code: 200 }))
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "ListPageRulesRequest",
-}) as any as S.Schema<ListPageRulesRequest>;
+).annotate({ identifier: "ListPageRulesRequest" }) as any as S.Schema<ListPageRulesRequest>;
 
 export type ListResultItemActionsItemAlwaysUseHTTPSId = "always_use_https";
 export const ListResultItemActionsItemAlwaysUseHTTPSId = S.String;
@@ -4380,9 +4350,7 @@ export const ListResultList = /*@__PURE__*/ S.Array(
 export type ListPageRulesResponse = ListResultList;
 export const ListPageRulesResponse = /*@__PURE__*/ S.suspend(() =>
   ListResultList.pipe(T.EnvelopePayloadRoot(), T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "ListPageRulesResponse",
-}) as any as S.Schema<ListPageRulesResponse>;
+).annotate({ identifier: "ListPageRulesResponse" }) as any as S.Schema<ListPageRulesResponse>;
 
 export type EditRequestActionsItemAlwaysUseHTTPSId = "always_use_https";
 export const EditRequestActionsItemAlwaysUseHTTPSId = S.String;
@@ -5390,9 +5358,7 @@ export const EditRequestTargetsItem = /*@__PURE__*/ S.suspend(() =>
     constraint: S.optional(EditRequestTargetsItemConstraint),
     target: S.optional(EditRequestTargetsItemTarget),
   }),
-).annotate({
-  identifier: "EditRequestTargetsItem",
-}) as any as S.Schema<EditRequestTargetsItem>;
+).annotate({ identifier: "EditRequestTargetsItem" }) as any as S.Schema<EditRequestTargetsItem>;
 
 export type EditRequestTargetsList = Array<EditRequestTargetsItem>;
 export const EditRequestTargetsList = /*@__PURE__*/ S.Array(
@@ -5422,17 +5388,9 @@ export const PatchPageRuleRequest = /*@__PURE__*/ S.suspend(() =>
     status: S.optional(EditRequestStatus),
     targets: S.optional(EditRequestTargetsList),
   })
-    .pipe(
-      T.Http({
-        method: "PATCH",
-        uri: "/zones/{zone_id}/pagerules/{pagerule_id}",
-        code: 200,
-      }),
-    )
+    .pipe(T.Http({ method: "PATCH", uri: "/zones/{zone_id}/pagerules/{pagerule_id}", code: 200 }))
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "PatchPageRuleRequest",
-}) as any as S.Schema<PatchPageRuleRequest>;
+).annotate({ identifier: "PatchPageRuleRequest" }) as any as S.Schema<PatchPageRuleRequest>;
 
 export type EditResponseActionsItemAlwaysUseHTTPSId = "always_use_https";
 export const EditResponseActionsItemAlwaysUseHTTPSId = S.String;
@@ -6442,9 +6400,7 @@ export const EditResponseTargetsItem = /*@__PURE__*/ S.suspend(() =>
     constraint: S.optional(S.NullOr(EditResponseTargetsItemConstraint)),
     target: S.optional(S.NullOr(EditResponseTargetsItemTarget)),
   }),
-).annotate({
-  identifier: "EditResponseTargetsItem",
-}) as any as S.Schema<EditResponseTargetsItem>;
+).annotate({ identifier: "EditResponseTargetsItem" }) as any as S.Schema<EditResponseTargetsItem>;
 
 export type EditResponseTargetsList = Array<EditResponseTargetsItem>;
 export const EditResponseTargetsList = /*@__PURE__*/ S.Array(
@@ -6478,9 +6434,7 @@ export const PatchPageRuleResponse = /*@__PURE__*/ S.suspend(() =>
     status: EditResponseStatus,
     targets: EditResponseTargetsList,
   }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "PatchPageRuleResponse",
-}) as any as S.Schema<PatchPageRuleResponse>;
+).annotate({ identifier: "PatchPageRuleResponse" }) as any as S.Schema<PatchPageRuleResponse>;
 
 export type UpdateRequestActionsItemAlwaysUseHTTPSId = "always_use_https";
 export const UpdateRequestActionsItemAlwaysUseHTTPSId = S.String;
@@ -7490,9 +7444,7 @@ export const UpdateRequestTargetsItem = /*@__PURE__*/ S.suspend(() =>
     constraint: S.optional(UpdateRequestTargetsItemConstraint),
     target: S.optional(UpdateRequestTargetsItemTarget),
   }),
-).annotate({
-  identifier: "UpdateRequestTargetsItem",
-}) as any as S.Schema<UpdateRequestTargetsItem>;
+).annotate({ identifier: "UpdateRequestTargetsItem" }) as any as S.Schema<UpdateRequestTargetsItem>;
 
 export type UpdateRequestTargetsList = Array<UpdateRequestTargetsItem>;
 export const UpdateRequestTargetsList = /*@__PURE__*/ S.Array(
@@ -7525,17 +7477,9 @@ export const UpdatePageRuleRequest = /*@__PURE__*/ S.suspend(() =>
     priority: S.optional(S.Number),
     status: S.optional(UpdateRequestStatus),
   })
-    .pipe(
-      T.Http({
-        method: "PUT",
-        uri: "/zones/{zone_id}/pagerules/{pagerule_id}",
-        code: 200,
-      }),
-    )
+    .pipe(T.Http({ method: "PUT", uri: "/zones/{zone_id}/pagerules/{pagerule_id}", code: 200 }))
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "UpdatePageRuleRequest",
-}) as any as S.Schema<UpdatePageRuleRequest>;
+).annotate({ identifier: "UpdatePageRuleRequest" }) as any as S.Schema<UpdatePageRuleRequest>;
 
 export type UpdateResponseActionsItemAlwaysUseHTTPSId = "always_use_https";
 export const UpdateResponseActionsItemAlwaysUseHTTPSId = S.String;
@@ -8583,9 +8527,7 @@ export const UpdatePageRuleResponse = /*@__PURE__*/ S.suspend(() =>
     status: UpdateResponseStatus,
     targets: UpdateResponseTargetsList,
   }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "UpdatePageRuleResponse",
-}) as any as S.Schema<UpdatePageRuleResponse>;
+).annotate({ identifier: "UpdatePageRuleResponse" }) as any as S.Schema<UpdatePageRuleResponse>;
 
 export type CreatePageRuleError = Forbidden | CloudflareOpError;
 /** Creates a new Page Rule. */

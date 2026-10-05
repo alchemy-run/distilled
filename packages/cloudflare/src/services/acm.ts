@@ -94,13 +94,7 @@ export const CreateCustomTrustStoreRequest = /*@__PURE__*/ S.suspend(() =>
     zoneId: S.String.pipe(T.Label("zone_id")),
     certificate: S.String,
   })
-    .pipe(
-      T.Http({
-        method: "POST",
-        uri: "/zones/{zone_id}/acm/custom_trust_store",
-        code: 200,
-      }),
-    )
+    .pipe(T.Http({ method: "POST", uri: "/zones/{zone_id}/acm/custom_trust_store", code: 200 }))
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
 ).annotate({
   identifier: "CreateCustomTrustStoreRequest",
@@ -117,7 +111,7 @@ export const CustomTrustStoreCreateResponseStatus = S.String;
 
 /** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
 export interface CreateCustomTrustStoreResponse {
-  /** Identifier. */
+  /** Certificate identifier tag. */
   id: string;
   /** The root CA certificate in PEM format. Only root CA certificates are accepted; intermediate and leaf certificates are not supported. */
   certificate: string;
@@ -152,7 +146,7 @@ export const CreateCustomTrustStoreResponse = /*@__PURE__*/ S.suspend(() =>
 export interface DeleteCustomTrustStoreRequest {
   /** Identifier. */
   zoneId: string;
-  /** Identifier. */
+  /** Certificate identifier tag. */
   customOriginTrustStoreId: string;
 }
 export const DeleteCustomTrustStoreRequest = /*@__PURE__*/ S.suspend(() =>
@@ -174,7 +168,7 @@ export const DeleteCustomTrustStoreRequest = /*@__PURE__*/ S.suspend(() =>
 
 /** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
 export interface DeleteCustomTrustStoreResponse {
-  /** Identifier. */
+  /** Certificate identifier tag. */
   id?: string | null;
 }
 export const DeleteCustomTrustStoreResponse = /*@__PURE__*/ S.suspend(() =>
@@ -188,7 +182,7 @@ export const DeleteCustomTrustStoreResponse = /*@__PURE__*/ S.suspend(() =>
 export interface GetCustomTrustStoreRequest {
   /** Identifier. */
   zoneId: string;
-  /** Identifier. */
+  /** Certificate identifier tag. */
   customOriginTrustStoreId: string;
 }
 export const GetCustomTrustStoreRequest = /*@__PURE__*/ S.suspend(() =>
@@ -219,7 +213,7 @@ export const CustomTrustStoreGetResponseStatus = S.String;
 
 /** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
 export interface GetCustomTrustStoreResponse {
-  /** Identifier. */
+  /** Certificate identifier tag. */
   id: string;
   /** The root CA certificate in PEM format. Only root CA certificates are accepted; intermediate and leaf certificates are not supported. */
   certificate: string;
@@ -259,17 +253,9 @@ export const GetTotalTlRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     zoneId: S.String.pipe(T.Label("zone_id")),
   })
-    .pipe(
-      T.Http({
-        method: "GET",
-        uri: "/zones/{zone_id}/acm/total_tls",
-        code: 200,
-      }),
-    )
+    .pipe(T.Http({ method: "GET", uri: "/zones/{zone_id}/acm/total_tls", code: 200 }))
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "GetTotalTlRequest",
-}) as any as S.Schema<GetTotalTlRequest>;
+).annotate({ identifier: "GetTotalTlRequest" }) as any as S.Schema<GetTotalTlRequest>;
 
 export type TotalTlsGetResponseCertificateAuthority = "google" | "lets_encrypt" | "ssl_com";
 export const TotalTlsGetResponseCertificateAuthority = S.String;
@@ -296,9 +282,7 @@ export const GetTotalTlResponse = /*@__PURE__*/ S.suspend(() =>
       S.NullOr(TotalTlsGetResponseValidityPeriod).pipe(T.Body("validity_period")),
     ),
   }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "GetTotalTlResponse",
-}) as any as S.Schema<GetTotalTlResponse>;
+).annotate({ identifier: "GetTotalTlResponse" }) as any as S.Schema<GetTotalTlResponse>;
 
 export interface ListCustomTrustStoresRequest {
   /** Identifier. */
@@ -320,13 +304,7 @@ export const ListCustomTrustStoresRequest = /*@__PURE__*/ S.suspend(() =>
     page: S.optional(S.Number.pipe(T.Query())),
     perPage: S.optional(S.Number.pipe(T.Query("per_page"))),
   })
-    .pipe(
-      T.Http({
-        method: "GET",
-        uri: "/zones/{zone_id}/acm/custom_trust_store",
-        code: 200,
-      }),
-    )
+    .pipe(T.Http({ method: "GET", uri: "/zones/{zone_id}/acm/custom_trust_store", code: 200 }))
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
 ).annotate({
   identifier: "ListCustomTrustStoresRequest",
@@ -342,7 +320,7 @@ export type CustomTrustStoreListResultItemStatus =
 export const CustomTrustStoreListResultItemStatus = S.String;
 
 export interface CustomTrustStoreListResultItem {
-  /** Identifier. */
+  /** Certificate identifier tag. */
   id: string;
   /** The root CA certificate in PEM format. Only root CA certificates are accepted; intermediate and leaf certificates are not supported. */
   certificate: string;
@@ -413,17 +391,9 @@ export const UpdateTotalTlRequest = /*@__PURE__*/ S.suspend(() =>
       TotalTlsEditRequestCertificateAuthority.pipe(T.Body("certificate_authority")),
     ),
   })
-    .pipe(
-      T.Http({
-        method: "POST",
-        uri: "/zones/{zone_id}/acm/total_tls",
-        code: 200,
-      }),
-    )
+    .pipe(T.Http({ method: "POST", uri: "/zones/{zone_id}/acm/total_tls", code: 200 }))
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "UpdateTotalTlRequest",
-}) as any as S.Schema<UpdateTotalTlRequest>;
+).annotate({ identifier: "UpdateTotalTlRequest" }) as any as S.Schema<UpdateTotalTlRequest>;
 
 export type TotalTlsEditResponseCertificateAuthority = "google" | "lets_encrypt" | "ssl_com";
 export const TotalTlsEditResponseCertificateAuthority = S.String;
@@ -450,9 +420,7 @@ export const UpdateTotalTlResponse = /*@__PURE__*/ S.suspend(() =>
       S.NullOr(TotalTlsEditResponseValidityPeriod).pipe(T.Body("validity_period")),
     ),
   }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "UpdateTotalTlResponse",
-}) as any as S.Schema<UpdateTotalTlResponse>;
+).annotate({ identifier: "UpdateTotalTlResponse" }) as any as S.Schema<UpdateTotalTlResponse>;
 
 export type UpdateTotalTlsRequestCertificateAuthority = "google" | "lets_encrypt" | "ssl_com";
 export const UpdateTotalTlsRequestCertificateAuthority = S.String;
@@ -473,17 +441,9 @@ export const UpdateTotalTlsRequest = /*@__PURE__*/ S.suspend(() =>
       UpdateTotalTlsRequestCertificateAuthority.pipe(T.Body("certificate_authority")),
     ),
   })
-    .pipe(
-      T.Http({
-        method: "POST",
-        uri: "/zones/{zone_id}/acm/total_tls",
-        code: 200,
-      }),
-    )
+    .pipe(T.Http({ method: "POST", uri: "/zones/{zone_id}/acm/total_tls", code: 200 }))
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "UpdateTotalTlsRequest",
-}) as any as S.Schema<UpdateTotalTlsRequest>;
+).annotate({ identifier: "UpdateTotalTlsRequest" }) as any as S.Schema<UpdateTotalTlsRequest>;
 
 export type UpdateTotalTlsResponseCertificateAuthority = "google" | "lets_encrypt" | "ssl_com";
 export const UpdateTotalTlsResponseCertificateAuthority = S.String;
@@ -510,9 +470,7 @@ export const UpdateTotalTlsResponse = /*@__PURE__*/ S.suspend(() =>
       S.NullOr(UpdateTotalTlsResponseValidityPeriod).pipe(T.Body("validity_period")),
     ),
   }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "UpdateTotalTlsResponse",
-}) as any as S.Schema<UpdateTotalTlsResponse>;
+).annotate({ identifier: "UpdateTotalTlsResponse" }) as any as S.Schema<UpdateTotalTlsResponse>;
 
 export type CreateCustomTrustStoreError =
   | InvalidObjectIdentifier

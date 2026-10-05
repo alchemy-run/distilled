@@ -163,7 +163,7 @@
         "id": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "Identifier.",
+            "smithy.api#documentation": "Certificate identifier tag.",
             "smithy.api#required": {}
           }
         },
@@ -665,7 +665,7 @@
         "id": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "Identifier.",
+            "smithy.api#documentation": "Certificate identifier tag.",
             "smithy.api#required": {}
           }
         },
@@ -770,7 +770,7 @@
         "custom_origin_trust_store_id": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "Identifier.",
+            "smithy.api#documentation": "Certificate identifier tag.",
             "smithy.api#httpLabel": {},
             "smithy.api#required": {}
           }
@@ -786,7 +786,7 @@
         "id": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "Identifier."
+            "smithy.api#documentation": "Certificate identifier tag."
           }
         }
       },
@@ -841,7 +841,7 @@
         "custom_origin_trust_store_id": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "Identifier.",
+            "smithy.api#documentation": "Certificate identifier tag.",
             "smithy.api#httpLabel": {},
             "smithy.api#required": {}
           }
@@ -857,7 +857,7 @@
         "id": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "Identifier.",
+            "smithy.api#documentation": "Certificate identifier tag.",
             "smithy.api#required": {}
           }
         },
