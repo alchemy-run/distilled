@@ -181,6 +181,12 @@ const fromConfigError = (message: string) => () =>
     message,
   });
 
+/**
+ * An empty variable counts as unset. `resolveFromEnv` picks the auth mode
+ * with truthiness checks, and a `Redacted` wrapping `""` is truthy, so
+ * without this filter an empty CLOUDFLARE_API_TOKEN would win and send
+ * `Authorization: Bearer ` with no token.
+ */
 const redactNonEmpty = (value: Option.Option<string>): Option.Option<Redacted.Redacted<string>> =>
   value.pipe(
     Option.filter((v) => v.length > 0),
