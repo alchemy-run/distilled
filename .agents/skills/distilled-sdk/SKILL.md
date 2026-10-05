@@ -206,13 +206,13 @@ Strict mode surfaces every spec inaccuracy (an undocumented `null`, a new
 enum member) as a `<Pkg>ParseError`; that is the cost of opting in, and why
 strict is never the default.
 
-Every SDK ships `src/response-validation.test.ts` (copy
-`packages/s2/src/response-validation.test.ts`). It uses
-`runValidationModes` from `@distilled.cloud/core/testing` to run one real
-operation against a canned response in both modes and asserts: a matching
-body succeeds in both; a mismatched body succeeds in lenient and fails with
-`<Pkg>ParseError` in strict; and what a non-JSON body does in each. CI runs
-every `packages/*/src/response-validation.test.ts`.
+Do not add tests to a generated SDK. Generated code is tested once, through
+the generator and the protocols in `packages/core`. A package gets a test
+only for code someone wrote by hand in it — a custom protocol
+(`packages/fly-io/src/protocol.ts`, everything in `packages/aws`), or
+credentials logic like `packages/prisma/test/credentials.test.ts` — next to
+that code. No live tests: calls against real APIs belong to Alchemy's test
+suite.
 
 Before opening the PR, confirm the parse error and the unknown-error
 fallback are both constructed outside the generated code — this must print
@@ -435,8 +435,7 @@ Body, in order:
    quick start.
 4. `Checks: pnpm specs:check` green, `tsc -b packages/<pkg> --noCheck false`
    green, `DISTILLED_SPECS_LOCAL=1 pnpm generate <pkg>` reproduces output,
-   the error-construction check from step 4 finds both classes, and
-   `pnpm vitest run packages/<pkg>/src/response-validation.test.ts` passes.
+   and the error-construction check from step 4 finds both classes.
 
 ```sh
 git push -u origin HEAD

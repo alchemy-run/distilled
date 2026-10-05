@@ -56,14 +56,12 @@
     "build": "tsc -b",
     "convert": "node --conditions=bun scripts/convert.ts",
     "generate": "node --conditions=bun scripts/generate.ts",
-    "typecheck": "tsc -p tsconfig.json --noCheck false",
-    "test": "vitest run test"
+    "typecheck": "tsc -p tsconfig.json --noCheck false"
   },
   "dependencies": {
     "@distilled.cloud/core": "workspace:*"
   },
   "devDependencies": {
-    "@distilled.cloud/aws": "workspace:*",
     "@types/node": "catalog:"
   },
   "peerDependencies": {

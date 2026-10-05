@@ -443,9 +443,6 @@ importers:
         specifier: 'catalog:'
         version: 4.0.0
     devDependencies:
-      '@distilled.cloud/aws':
-        specifier: workspace:*
-        version: link:../aws
       '@types/node':
         specifier: 'catalog:'
         version: 26.2.0

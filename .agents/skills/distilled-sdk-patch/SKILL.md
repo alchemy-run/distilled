@@ -147,11 +147,10 @@ replaced.
 pnpm generate <pkg>
 ```
 
-For a failure a caller will branch on (a typed error, a response split),
-add a fixture test next to the package source that stubs the HTTP response
-and asserts the class or the decoded shape — `packages/neon/src/branch.test.ts`
-is the pattern. It keeps the classification when a later regeneration
-moves things.
+Do not add a per-package test for the patch. What a patch changes is
+proven by the audit in the next step, and the behaviour it relies on (error
+matchers, nullability, sensitive members) is tested once in
+`packages/core`.
 
 ## Step 5 — prove the patch
 
