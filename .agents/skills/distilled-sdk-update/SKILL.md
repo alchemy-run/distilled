@@ -1,6 +1,6 @@
 ---
 name: distilled-sdk-update
-description: Move an existing distilled SDK to its mirror's latest spec, regenerate it, audit packages/<pkg>/patches/ with `pnpm patches:audit` and delete or slim the patches the new spec has absorbed, then open the PR. Use for "update <pkg> to the latest spec", "regenerate <pkg>", "audit / remove unused patches", "does the spec still need this patch", or when a provider says they fixed their spec. Building a new SDK is the distilled-sdk skill.
+description: Move an existing distilled SDK to its mirror's latest spec, regenerate it, audit packages/<pkg>/patches/ with `pnpm patches:audit` and delete or slim the patches the new spec has absorbed, then open the PR. Use for "update <pkg> to the latest spec", "regenerate <pkg>", "audit / remove unused patches", "does the spec still need this patch", or when a provider says they fixed their spec. When also asked to "look at / go through the open PRs" for that provider, it reconciles them against the new spec (Step 6). Building a new SDK is the distilled-sdk skill.
 ---
 
 # Updating a distilled SDK to its latest spec
@@ -144,3 +144,77 @@ the branch, is also the message to send the provider. Group it by kind —
 missing `x-nullable`, shared models with too many `required` fields,
 undocumented error statuses, a wrong response schema, secrets with no
 sensitive mark — because that is how they will fix it.
+
+## Step 6 — reconcile open PRs for the provider (when asked)
+
+Open PRs that patch `packages/<pkg>` were written against the old spec, so
+they are reviewed after the update has merged, never before. The new spec
+decides each one. The authors' commits should land with their names on
+them: update their branches and merge, and close only what the spec or
+another PR already covers.
+
+**Find them.**
+
+```sh
+gh pr list --state open --limit 300 --json number,title,author,files \
+  --jq '.[] | select(any(.files[]; .path | startswith("packages/<pkg>/")))
+        | "#\(.number) \(.author.login): \(.title)"'
+```
+
+Filter on changed files: titles miss PRs scoped to `core` or to a sibling
+package that also patch this one.
+
+Read each body and its `patches/` diff. If the user excludes a PR or an API,
+leave it untouched: no push, no comment, no close.
+
+**Judge each against the regenerated model** (`.generated-specs/`, not the
+TypeScript):
+
+| Finding | Do |
+| --- | --- |
+| The spec now has it: same operations, members or shapes | close with a comment naming the spec commit and the generated symbols |
+| Another open PR does the same, or it already merged | merge the most complete one; close the rest with a link to it |
+| Part is in the spec now | trim the PR to what the spec still lacks |
+| None of it is in the spec | update and merge as is |
+| The spec has it, but the converter generates it wrong | fix the converter in its own PR, merge it, then close |
+
+A PR's patch file is the quickest test: copy it into a scratch checkout and
+run `pnpm --filter @distilled.cloud/<pkg> run convert`. A stale target means
+the spec moved underneath it; `pnpm patches:audit <pkg> --only <file> --ops`
+then says whether each op still changes anything.
+
+**Update a branch in place.** Maintainers can push to forks when
+`maintainerCanModify` is true; for a fork, fetch `refs/pull/<n>/head`,
+since `origin/<branch>` does not exist:
+
+```sh
+git fetch origin main "refs/pull/<n>/head:refs/remotes/pr/<n>"
+git checkout -B pr-<n> pr/<n>
+git merge --no-edit origin/main            # merge, never rebase: keep their commits
+pnpm generate <pkg>                        # resolve generated-file conflicts by regenerating
+pnpm exec tsc -b packages/<pkg> --noCheck false
+pnpm vitest run packages/<pkg>/src/<their>.test.ts
+git push https://github.com/<owner>/<repo>.git pr-<n>:<headRefName>
+```
+
+- Conflicts in `.generated-specs/` or `src/services/` are not edits to
+  resolve by hand: take either side and regenerate. Conflicts in `patches/`
+  are real; read both sides. Two PRs adding the same shape merge into
+  duplicate ops or duplicate JSON keys without a textual conflict, so check
+  the patch parses with no repeated keys.
+- Old PRs predate repo changes their tests now fail on (`bun:test` →
+  `vitest`, `Redacted` credentials). Fix those in a separate commit on
+  their branch.
+- When a PR was trimmed, say so in a comment on it: what was dropped and why.
+
+**Merge in dependency order.** PRs that regenerate the same service conflict
+with each other once one lands. Merge the independent ones first, then
+re-merge `main` into each remaining branch and regenerate before queueing
+it. `main` uses a merge queue; enqueue with the GraphQL
+`enqueuePullRequest` mutation (with `expectedHeadOid`) after the checks
+pass.
+
+**Ask before** closing anyone's PR, or before a change beyond patches,
+such as a converter or runtime fix. Every close carries a comment that
+thanks the author and names what superseded it, by PR number or spec
+commit.
