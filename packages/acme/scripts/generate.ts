@@ -30,13 +30,17 @@ const spec: SdkSpec = {
     "smithy.api#sensitive": "T.SensitiveValue",
   },
   errors: {
+    // The protocol always fills code/message/type; `detail` is optional in a
+    // problem document (RFC 7807 §3.1), as the model's unrequired member says.
     field: (name, target) =>
       `${JSON.stringify(name)}: ${
         name === "retryAfter"
           ? "S.optional(S.Duration)"
-          : target === "smithy.api#Integer"
-            ? "S.Number"
-            : "S.String"
+          : name === "detail"
+            ? "S.optional(S.String)"
+            : target === "smithy.api#Integer"
+              ? "S.Number"
+              : "S.String"
       },`,
   },
   sourceNote: "manual-specs/acme.json (hand-authored Smithy, RFC 8555)",

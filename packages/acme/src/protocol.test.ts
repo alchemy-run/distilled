@@ -597,6 +597,50 @@ describe("badNonce retry", () => {
     expect(error).toBeInstanceOf(AcmeBadNonce);
     expect(posts(ca)).toHaveLength(1);
   });
+
+  test("a badNonce without detail is still retried", async () => {
+    const ca = makeCa();
+    let n = 0;
+    ca.handlers.set(`POST ${ca.urls.newOrder}`, () =>
+      ++n === 1
+        ? problem(
+            { type: "urn:ietf:params:acme:error:badNonce" },
+            { status: 400, headers: { "Replay-Nonce": "retry-1" } },
+          )
+        : json(order(ca), { status: 201 }),
+    );
+    const result = await run(
+      ca,
+      { accountKey: ecKey, accountUrl: ca.urls.account },
+      newOrder({ identifiers: [{ type: "dns", value: "example.test" }] }),
+    );
+    expect(result.status).toBe("pending");
+    expect(posts(ca).map((r) => parseJws(r).header.nonce)).toEqual(["head-1", "retry-1"]);
+  });
+
+  test("a badNonce without detail gives up with AcmeBadNonce", async () => {
+    const ca = makeCa();
+    let n = 0;
+    ca.handlers.set(`POST ${ca.urls.newOrder}`, () =>
+      problem(
+        { type: "urn:ietf:params:acme:error:badNonce" },
+        { status: 400, headers: { "Replay-Nonce": `retry-${++n}` } },
+      ),
+    );
+    const error = await runError(
+      ca,
+      { accountKey: ecKey, accountUrl: ca.urls.account },
+      newOrder({ identifiers: [{ type: "dns", value: "example.test" }] }),
+    );
+    expect(error).toBeInstanceOf(AcmeBadNonce);
+    expect(error).toMatchObject({
+      code: 400,
+      message: "urn:ietf:params:acme:error:badNonce",
+      type: "urn:ietf:params:acme:error:badNonce",
+    });
+    expect((error as AcmeBadNonce).detail).toBeUndefined();
+    expect(posts(ca)).toHaveLength(3);
+  });
 });
 
 describe("Problem document errors", () => {
@@ -624,6 +668,44 @@ describe("Problem document errors", () => {
       type: "urn:ietf:params:acme:error:malformed",
       detail: "Request body was invalid",
     });
+  });
+
+  test("a known URN without detail maps to its typed class", async () => {
+    const error = await getOrderFails(() =>
+      problem({ type: "urn:ietf:params:acme:error:malformed" }, { status: 400 }),
+    );
+    expect(error).toBeInstanceOf(AcmeMalformed);
+    expect(error).toMatchObject({
+      code: 400,
+      message: "urn:ietf:params:acme:error:malformed",
+      type: "urn:ietf:params:acme:error:malformed",
+    });
+    expect((error as AcmeMalformed).detail).toBeUndefined();
+  });
+
+  test("rateLimited without detail keeps the Retry-After hint", async () => {
+    const error = await getOrderFails(() =>
+      problem(
+        { type: "urn:ietf:params:acme:error:rateLimited" },
+        { status: 429, headers: { "Retry-After": "30" } },
+      ),
+    );
+    expect(error).toBeInstanceOf(AcmeRateLimited);
+    expect((error as AcmeRateLimited).detail).toBeUndefined();
+    expect(Duration.toSeconds((error as AcmeRateLimited).retryAfter!)).toBe(30);
+  });
+
+  test("an unknown URN without detail is UnknownAcmeError messaged by its type", async () => {
+    const error = await getOrderFails(() =>
+      problem({ type: "urn:example:custom" }, { status: 403 }),
+    );
+    expect(error).toBeInstanceOf(UnknownAcmeError);
+    expect(error).toMatchObject({
+      type: "urn:example:custom",
+      message: "urn:example:custom",
+      status: 403,
+    });
+    expect((error as UnknownAcmeError).detail).toBeUndefined();
   });
 
   test("rateLimited carries the Retry-After hint", async () => {

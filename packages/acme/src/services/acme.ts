@@ -15,7 +15,7 @@ export class AcmeAccountDoesNotExist
       code: S.Number,
       message: S.String,
       type: S.String,
-      detail: S.String,
+      detail: S.optional(S.String),
     }),
     [
       {
@@ -32,7 +32,7 @@ export class AcmeAlreadyRevoked
       code: S.Number,
       message: S.String,
       type: S.String,
-      detail: S.String,
+      detail: S.optional(S.String),
     }),
     [{ message: { matches: "^urn:ietf:params:acme:error:alreadyRevoked$" } }],
   ) {}
@@ -43,7 +43,7 @@ export class AcmeBadCsr
       code: S.Number,
       message: S.String,
       type: S.String,
-      detail: S.String,
+      detail: S.optional(S.String),
     }),
     [{ message: { matches: "^urn:ietf:params:acme:error:badCSR$" } }],
   ) {}
@@ -55,7 +55,7 @@ export class AcmeBadNonce
       code: S.Number,
       message: S.String,
       type: S.String,
-      detail: S.String,
+      detail: S.optional(S.String),
     }),
     [{ message: { matches: "^urn:ietf:params:acme:error:badNonce$" } }],
   ) {}
@@ -66,7 +66,7 @@ export class AcmeBadPublicKey
       code: S.Number,
       message: S.String,
       type: S.String,
-      detail: S.String,
+      detail: S.optional(S.String),
     }),
     [{ message: { matches: "^urn:ietf:params:acme:error:badPublicKey$" } }],
   ) {}
@@ -77,7 +77,7 @@ export class AcmeBadRevocationReason
       code: S.Number,
       message: S.String,
       type: S.String,
-      detail: S.String,
+      detail: S.optional(S.String),
     }),
     [
       {
@@ -94,7 +94,7 @@ export class AcmeBadSignatureAlgorithm
       code: S.Number,
       message: S.String,
       type: S.String,
-      detail: S.String,
+      detail: S.optional(S.String),
     }),
     [
       {
@@ -112,7 +112,7 @@ export class AcmeCaa
       code: S.Number,
       message: S.String,
       type: S.String,
-      detail: S.String,
+      detail: S.optional(S.String),
     }),
     [{ message: { matches: "^urn:ietf:params:acme:error:caa$" } }],
   ) {}
@@ -123,7 +123,7 @@ export class AcmeConnection
       code: S.Number,
       message: S.String,
       type: S.String,
-      detail: S.String,
+      detail: S.optional(S.String),
     }),
     [{ message: { matches: "^urn:ietf:params:acme:error:connection$" } }],
   ) {}
@@ -135,7 +135,7 @@ export class AcmeDns
       code: S.Number,
       message: S.String,
       type: S.String,
-      detail: S.String,
+      detail: S.optional(S.String),
     }),
     [{ message: { matches: "^urn:ietf:params:acme:error:dns$" } }],
   ) {}
@@ -147,7 +147,7 @@ export class AcmeExternalAccountRequired
       code: S.Number,
       message: S.String,
       type: S.String,
-      detail: S.String,
+      detail: S.optional(S.String),
     }),
     [
       {
@@ -164,7 +164,7 @@ export class AcmeIncorrectResponse
       code: S.Number,
       message: S.String,
       type: S.String,
-      detail: S.String,
+      detail: S.optional(S.String),
     }),
     [
       {
@@ -179,7 +179,7 @@ export class AcmeInvalidContact
       code: S.Number,
       message: S.String,
       type: S.String,
-      detail: S.String,
+      detail: S.optional(S.String),
     }),
     [{ message: { matches: "^urn:ietf:params:acme:error:invalidContact$" } }],
   ) {}
@@ -190,7 +190,7 @@ export class AcmeMalformed
       code: S.Number,
       message: S.String,
       type: S.String,
-      detail: S.String,
+      detail: S.optional(S.String),
     }),
     [{ message: { matches: "^urn:ietf:params:acme:error:malformed$" } }],
   ) {}
@@ -202,7 +202,7 @@ export class AcmeOrderNotReady
       code: S.Number,
       message: S.String,
       type: S.String,
-      detail: S.String,
+      detail: S.optional(S.String),
     }),
     [{ message: { matches: "^urn:ietf:params:acme:error:orderNotReady$" } }],
   ) {}
@@ -215,7 +215,7 @@ export class AcmeRateLimited
       code: S.Number,
       message: S.String,
       type: S.String,
-      detail: S.String,
+      detail: S.optional(S.String),
     }).pipe(C.withThrottlingError, C.withRetryableError),
     [{ message: { matches: "^urn:ietf:params:acme:error:rateLimited$" } }],
   ) {}
@@ -227,7 +227,7 @@ export class AcmeRejectedIdentifier
       code: S.Number,
       message: S.String,
       type: S.String,
-      detail: S.String,
+      detail: S.optional(S.String),
     }),
     [
       {
@@ -242,7 +242,7 @@ export class AcmeServerInternal
       code: S.Number,
       message: S.String,
       type: S.String,
-      detail: S.String,
+      detail: S.optional(S.String),
     }).pipe(C.withRetryableError),
     [{ message: { matches: "^urn:ietf:params:acme:error:serverInternal$" } }],
   ) {}
@@ -253,7 +253,7 @@ export class AcmeTls
       code: S.Number,
       message: S.String,
       type: S.String,
-      detail: S.String,
+      detail: S.optional(S.String),
     }),
     [{ message: { matches: "^urn:ietf:params:acme:error:tls$" } }],
   ) {}
@@ -264,7 +264,7 @@ export class AcmeUnauthorized
       code: S.Number,
       message: S.String,
       type: S.String,
-      detail: S.String,
+      detail: S.optional(S.String),
     }),
     [{ message: { matches: "^urn:ietf:params:acme:error:unauthorized$" } }],
   ) {}
@@ -275,7 +275,7 @@ export class AcmeUnsupportedContact
       code: S.Number,
       message: S.String,
       type: S.String,
-      detail: S.String,
+      detail: S.optional(S.String),
     }),
     [
       {
@@ -290,7 +290,7 @@ export class AcmeUnsupportedIdentifier
       code: S.Number,
       message: S.String,
       type: S.String,
-      detail: S.String,
+      detail: S.optional(S.String),
     }),
     [
       {
@@ -308,7 +308,7 @@ export class AcmeUserActionRequired
       code: S.Number,
       message: S.String,
       type: S.String,
-      detail: S.String,
+      detail: S.optional(S.String),
     }),
     [
       {
