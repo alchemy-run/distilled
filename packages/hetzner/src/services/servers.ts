@@ -71,9 +71,7 @@ export const CreateServerRequestFirewallsList = /*@__PURE__*/ S.Array(
 ) as any as S.Schema<CreateServerRequestFirewallsList>;
 
 /** User-defined labels (`key/value` pairs) for the Resource. For more information, see "[Labels](#description/labels)". */
-export type CreateServerRequestLabelsMap = {
-  [key: string]: string | undefined;
-};
+export type CreateServerRequestLabelsMap = { [key: string]: string | undefined };
 export const CreateServerRequestLabelsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -148,9 +146,7 @@ export const CreateServerRequest = /*@__PURE__*/ S.suspend(() =>
     automount: S.optional(S.Boolean),
     public_net: S.optional(CreateServerRequestPublicNet),
   }).pipe(T.Http({ method: "POST", uri: "/servers", code: 200 })),
-).annotate({
-  identifier: "CreateServerRequest",
-}) as any as S.Schema<CreateServerRequest>;
+).annotate({ identifier: "CreateServerRequest" }) as any as S.Schema<CreateServerRequest>;
 
 /** Status of the Server. */
 export type CreateServerResponseServerStatus =
@@ -171,7 +167,7 @@ export interface CreateServerResponseServerPublicNetIpv4 {
   id?: number;
   /** IP address (v4) of this Server. */
   ip: string;
-  /** If the IP is blocked by our anti abuse dept. */
+  /** Whether the IP is blocked by our abuse department. */
   blocked: boolean;
   /** Reverse DNS PTR entry for the IPv4 addresses of this Server. */
   dns_ptr: string;
@@ -215,7 +211,7 @@ export interface CreateServerResponseServerPublicNetIpv6 {
   id?: number;
   /** IP address (v6) of this Server. */
   ip: string;
-  /** If the IP is blocked by our anti abuse dept. */
+  /** Whether the IP is blocked by our abuse department. */
   blocked: boolean;
   /** Reverse DNS PTR entries for the IPv6 addresses of this Server. */
   dns_ptr: CreateServerResponseServerPublicNetIpv6DnsPtrList | null;
@@ -579,10 +575,14 @@ export const CreateServerResponseServerImageProtection = /*@__PURE__*/ S.suspend
   identifier: "CreateServerResponseServerImageProtection",
 }) as any as S.Schema<CreateServerResponseServerImageProtection>;
 
+/** Describes if, when and how the resource is deprecated. If this field is set to `null` the resource is not deprecated. If a value is set, it is considered deprecated. */
+export type CreateServerResponseServerImageDeprecation =
+  CreateServerResponseServerServerTypeDeprecation;
+export const CreateServerResponseServerImageDeprecation =
+  CreateServerResponseServerServerTypeDeprecation;
+
 /** User-defined labels (`key/value` pairs) for the Resource. For more information, see "[Labels](#description/labels)". */
-export type CreateServerResponseServerImageLabelsMap = {
-  [key: string]: string | undefined;
-};
+export type CreateServerResponseServerImageLabelsMap = { [key: string]: string | undefined };
 export const CreateServerResponseServerImageLabelsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -622,8 +622,10 @@ export interface CreateServerResponseServerImage {
   rapid_deploy?: boolean;
   /** Protection configuration for the Resource. */
   protection: CreateServerResponseServerImageProtection;
-  /** Point in time when the Image is considered to be deprecated (in [RFC3339](https://datatracker.ietf.org/doc/html/rfc3339#section-5.6) format). */
+  /** **Deprecated:** This field is deprecated, use the deprecation object instead. Point in time when the Image is considered to be deprecated (in [RFC3339](https://datatracker.ietf.org/doc/html/rfc3339#section-5.6) format). */
   deprecated: string | null;
+  /** Describes if, when and how the resource is deprecated. If this field is set to `null` the resource is not deprecated. If a value is set, it is considered deprecated. */
+  deprecation: CreateServerResponseServerServerTypeDeprecation | null;
   /** Point in time where the Image was deleted (in [RFC3339](https://datatracker.ietf.org/doc/html/rfc3339#section-5.6) format). */
   deleted: string | null;
   /** User-defined labels (`key/value` pairs) for the Resource. For more information, see "[Labels](#description/labels)". */
@@ -648,6 +650,7 @@ export const CreateServerResponseServerImage = /*@__PURE__*/ S.suspend(() =>
     rapid_deploy: S.optional(S.Boolean),
     protection: CreateServerResponseServerImageProtection,
     deprecated: S.NullOr(S.String),
+    deprecation: S.NullOr(CreateServerResponseServerServerTypeDeprecation),
     deleted: S.NullOr(S.String),
     labels: CreateServerResponseServerImageLabelsMap,
     architecture: CreateServerResponseServerImageArchitecture,
@@ -715,9 +718,7 @@ export const CreateServerResponseServerProtection = /*@__PURE__*/ S.suspend(() =
 }) as any as S.Schema<CreateServerResponseServerProtection>;
 
 /** User-defined labels (`key/value` pairs) for the Resource. For more information, see "[Labels](#description/labels)". */
-export type CreateServerResponseServerLabelsMap = {
-  [key: string]: string | undefined;
-};
+export type CreateServerResponseServerLabelsMap = { [key: string]: string | undefined };
 export const CreateServerResponseServerLabelsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -1003,9 +1004,7 @@ export const CreateServerResponse = /*@__PURE__*/ S.suspend(() =>
     next_actions: CreateServerResponseNextActionsList,
     root_password: S.NullOr(S.String).pipe(T.SensitiveValue({})),
   }),
-).annotate({
-  identifier: "CreateServerResponse",
-}) as any as S.Schema<CreateServerResponse>;
+).annotate({ identifier: "CreateServerResponse" }) as any as S.Schema<CreateServerResponse>;
 
 export interface DeleteServerRequest {
   /** ID of the Server. */
@@ -1015,9 +1014,7 @@ export const DeleteServerRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     id: S.Number.pipe(T.Label()),
   }).pipe(T.Http({ method: "DELETE", uri: "/servers/{id}", code: 200 })),
-).annotate({
-  identifier: "DeleteServerRequest",
-}) as any as S.Schema<DeleteServerRequest>;
+).annotate({ identifier: "DeleteServerRequest" }) as any as S.Schema<DeleteServerRequest>;
 
 /** Status of the Action. */
 export type DeleteServerResponseActionStatus = "running" | "success" | "error";
@@ -1077,9 +1074,7 @@ export const DeleteServerResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     action: S.optional(DeleteServerResponseAction),
   }),
-).annotate({
-  identifier: "DeleteServerResponse",
-}) as any as S.Schema<DeleteServerResponse>;
+).annotate({ identifier: "DeleteServerResponse" }) as any as S.Schema<DeleteServerResponse>;
 
 export interface GetServerRequest {
   /** ID of the Server. */
@@ -1089,9 +1084,7 @@ export const GetServerRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     id: S.Number.pipe(T.Label()),
   }).pipe(T.Http({ method: "GET", uri: "/servers/{id}", code: 200 })),
-).annotate({
-  identifier: "GetServerRequest",
-}) as any as S.Schema<GetServerRequest>;
+).annotate({ identifier: "GetServerRequest" }) as any as S.Schema<GetServerRequest>;
 
 /** Status of the Server. */
 export type GetServerResponseServerStatus =
@@ -1128,7 +1121,7 @@ export interface GetServerResponseServerPublicNetIpv6 {
   id?: number;
   /** IP address (v6) of this Server. */
   ip: string;
-  /** If the IP is blocked by our anti abuse dept. */
+  /** Whether the IP is blocked by our abuse department. */
   blocked: boolean;
   /** Reverse DNS PTR entries for the IPv6 addresses of this Server. */
   dns_ptr: GetServerResponseServerPublicNetIpv6DnsPtrList | null;
@@ -1381,10 +1374,14 @@ export const GetServerResponseServerImageOsFlavor = S.String;
 export type GetServerResponseServerImageProtection = CreateServerResponseServerImageProtection;
 export const GetServerResponseServerImageProtection = CreateServerResponseServerImageProtection;
 
+/** Describes if, when and how the resource is deprecated. If this field is set to `null` the resource is not deprecated. If a value is set, it is considered deprecated. */
+export type GetServerResponseServerImageDeprecation =
+  CreateServerResponseServerServerTypeDeprecation;
+export const GetServerResponseServerImageDeprecation =
+  CreateServerResponseServerServerTypeDeprecation;
+
 /** User-defined labels (`key/value` pairs) for the Resource. For more information, see "[Labels](#description/labels)". */
-export type GetServerResponseServerImageLabelsMap = {
-  [key: string]: string | undefined;
-};
+export type GetServerResponseServerImageLabelsMap = { [key: string]: string | undefined };
 export const GetServerResponseServerImageLabelsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -1424,8 +1421,10 @@ export interface GetServerResponseServerImage {
   rapid_deploy?: boolean;
   /** Protection configuration for the Resource. */
   protection: CreateServerResponseServerImageProtection;
-  /** Point in time when the Image is considered to be deprecated (in [RFC3339](https://datatracker.ietf.org/doc/html/rfc3339#section-5.6) format). */
+  /** **Deprecated:** This field is deprecated, use the deprecation object instead. Point in time when the Image is considered to be deprecated (in [RFC3339](https://datatracker.ietf.org/doc/html/rfc3339#section-5.6) format). */
   deprecated: string | null;
+  /** Describes if, when and how the resource is deprecated. If this field is set to `null` the resource is not deprecated. If a value is set, it is considered deprecated. */
+  deprecation: CreateServerResponseServerServerTypeDeprecation | null;
   /** Point in time where the Image was deleted (in [RFC3339](https://datatracker.ietf.org/doc/html/rfc3339#section-5.6) format). */
   deleted: string | null;
   /** User-defined labels (`key/value` pairs) for the Resource. For more information, see "[Labels](#description/labels)". */
@@ -1450,6 +1449,7 @@ export const GetServerResponseServerImage = /*@__PURE__*/ S.suspend(() =>
     rapid_deploy: S.optional(S.Boolean),
     protection: CreateServerResponseServerImageProtection,
     deprecated: S.NullOr(S.String),
+    deprecation: S.NullOr(CreateServerResponseServerServerTypeDeprecation),
     deleted: S.NullOr(S.String),
     labels: GetServerResponseServerImageLabelsMap,
     architecture: GetServerResponseServerImageArchitecture,
@@ -1504,9 +1504,7 @@ export type GetServerResponseServerProtection = CreateServerResponseServerProtec
 export const GetServerResponseServerProtection = CreateServerResponseServerProtection;
 
 /** User-defined labels (`key/value` pairs) for the Resource. For more information, see "[Labels](#description/labels)". */
-export type GetServerResponseServerLabelsMap = {
-  [key: string]: string | undefined;
-};
+export type GetServerResponseServerLabelsMap = { [key: string]: string | undefined };
 export const GetServerResponseServerLabelsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -1525,9 +1523,7 @@ export const GetServerResponseServerLoadBalancersList = /*@__PURE__*/ S.Array(
 ) as any as S.Schema<GetServerResponseServerLoadBalancersList>;
 
 /** User-defined labels (`key/value` pairs) for the Resource. For more information, see "[Labels](#description/labels)". */
-export type GetServerResponseServerPlacementGroupLabelsMap = {
-  [key: string]: string | undefined;
-};
+export type GetServerResponseServerPlacementGroupLabelsMap = { [key: string]: string | undefined };
 export const GetServerResponseServerPlacementGroupLabelsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -1641,9 +1637,7 @@ export const GetServerResponseServer = /*@__PURE__*/ S.suspend(() =>
     primary_disk_size: S.Number,
     placement_group: S.optional(S.NullOr(GetServerResponseServerPlacementGroup)),
   }),
-).annotate({
-  identifier: "GetServerResponseServer",
-}) as any as S.Schema<GetServerResponseServer>;
+).annotate({ identifier: "GetServerResponseServer" }) as any as S.Schema<GetServerResponseServer>;
 
 export interface GetServerResponse {
   server?: GetServerResponseServer;
@@ -1652,9 +1646,7 @@ export const GetServerResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     server: S.optional(GetServerResponseServer),
   }),
-).annotate({
-  identifier: "GetServerResponse",
-}) as any as S.Schema<GetServerResponse>;
+).annotate({ identifier: "GetServerResponse" }) as any as S.Schema<GetServerResponse>;
 
 export type GetServerMetricsRequestTypeItem = "cpu" | "disk" | "network";
 export const GetServerMetricsRequestTypeItem = S.String;
@@ -1686,9 +1678,7 @@ export const GetServerMetricsRequest = /*@__PURE__*/ S.suspend(() =>
     end: S.String.pipe(T.Query()),
     step: S.optional(S.String.pipe(T.Query())),
   }).pipe(T.Http({ method: "GET", uri: "/servers/{id}/metrics", code: 200 })),
-).annotate({
-  identifier: "GetServerMetricsRequest",
-}) as any as S.Schema<GetServerMetricsRequest>;
+).annotate({ identifier: "GetServerMetricsRequest" }) as any as S.Schema<GetServerMetricsRequest>;
 
 export type GetServerMetricsResponseMetricsTimeSeriesValueValuesItemList = Array<unknown>;
 export const GetServerMetricsResponseMetricsTimeSeriesValueValuesItemList = /*@__PURE__*/ S.Array(
@@ -1751,9 +1741,7 @@ export const GetServerMetricsResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     metrics: GetServerMetricsResponseMetrics,
   }),
-).annotate({
-  identifier: "GetServerMetricsResponse",
-}) as any as S.Schema<GetServerMetricsResponse>;
+).annotate({ identifier: "GetServerMetricsResponse" }) as any as S.Schema<GetServerMetricsResponse>;
 
 export type ListServersRequestSortItem =
   | "id"
@@ -1813,9 +1801,7 @@ export const ListServersRequest = /*@__PURE__*/ S.suspend(() =>
     page: S.optional(S.Number.pipe(T.Query())),
     per_page: S.optional(S.Number.pipe(T.Query())),
   }).pipe(T.Http({ method: "GET", uri: "/servers", code: 200 })),
-).annotate({
-  identifier: "ListServersRequest",
-}) as any as S.Schema<ListServersRequest>;
+).annotate({ identifier: "ListServersRequest" }) as any as S.Schema<ListServersRequest>;
 
 /** Status of the Server. */
 export type ListServersResponseServersItemStatus =
@@ -1852,7 +1838,7 @@ export interface ListServersResponseServersItemPublicNetIpv6 {
   id?: number;
   /** IP address (v6) of this Server. */
   ip: string;
-  /** If the IP is blocked by our anti abuse dept. */
+  /** Whether the IP is blocked by our abuse department. */
   blocked: boolean;
   /** Reverse DNS PTR entries for the IPv6 addresses of this Server. */
   dns_ptr: ListServersResponseServersItemPublicNetIpv6DnsPtrList | null;
@@ -2110,10 +2096,14 @@ export type ListServersResponseServersItemImageProtection =
 export const ListServersResponseServersItemImageProtection =
   CreateServerResponseServerImageProtection;
 
+/** Describes if, when and how the resource is deprecated. If this field is set to `null` the resource is not deprecated. If a value is set, it is considered deprecated. */
+export type ListServersResponseServersItemImageDeprecation =
+  CreateServerResponseServerServerTypeDeprecation;
+export const ListServersResponseServersItemImageDeprecation =
+  CreateServerResponseServerServerTypeDeprecation;
+
 /** User-defined labels (`key/value` pairs) for the Resource. For more information, see "[Labels](#description/labels)". */
-export type ListServersResponseServersItemImageLabelsMap = {
-  [key: string]: string | undefined;
-};
+export type ListServersResponseServersItemImageLabelsMap = { [key: string]: string | undefined };
 export const ListServersResponseServersItemImageLabelsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -2153,8 +2143,10 @@ export interface ListServersResponseServersItemImage {
   rapid_deploy?: boolean;
   /** Protection configuration for the Resource. */
   protection: CreateServerResponseServerImageProtection;
-  /** Point in time when the Image is considered to be deprecated (in [RFC3339](https://datatracker.ietf.org/doc/html/rfc3339#section-5.6) format). */
+  /** **Deprecated:** This field is deprecated, use the deprecation object instead. Point in time when the Image is considered to be deprecated (in [RFC3339](https://datatracker.ietf.org/doc/html/rfc3339#section-5.6) format). */
   deprecated: string | null;
+  /** Describes if, when and how the resource is deprecated. If this field is set to `null` the resource is not deprecated. If a value is set, it is considered deprecated. */
+  deprecation: CreateServerResponseServerServerTypeDeprecation | null;
   /** Point in time where the Image was deleted (in [RFC3339](https://datatracker.ietf.org/doc/html/rfc3339#section-5.6) format). */
   deleted: string | null;
   /** User-defined labels (`key/value` pairs) for the Resource. For more information, see "[Labels](#description/labels)". */
@@ -2179,6 +2171,7 @@ export const ListServersResponseServersItemImage = /*@__PURE__*/ S.suspend(() =>
     rapid_deploy: S.optional(S.Boolean),
     protection: CreateServerResponseServerImageProtection,
     deprecated: S.NullOr(S.String),
+    deprecation: S.NullOr(CreateServerResponseServerServerTypeDeprecation),
     deleted: S.NullOr(S.String),
     labels: ListServersResponseServersItemImageLabelsMap,
     architecture: ListServersResponseServersItemImageArchitecture,
@@ -2234,9 +2227,7 @@ export type ListServersResponseServersItemProtection = CreateServerResponseServe
 export const ListServersResponseServersItemProtection = CreateServerResponseServerProtection;
 
 /** User-defined labels (`key/value` pairs) for the Resource. For more information, see "[Labels](#description/labels)". */
-export type ListServersResponseServersItemLabelsMap = {
-  [key: string]: string | undefined;
-};
+export type ListServersResponseServersItemLabelsMap = { [key: string]: string | undefined };
 export const ListServersResponseServersItemLabelsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -2416,9 +2407,7 @@ export const ListServersResponseMeta = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     pagination: ListServersResponseMetaPagination,
   }),
-).annotate({
-  identifier: "ListServersResponseMeta",
-}) as any as S.Schema<ListServersResponseMeta>;
+).annotate({ identifier: "ListServersResponseMeta" }) as any as S.Schema<ListServersResponseMeta>;
 
 export interface ListServersResponse {
   servers: ListServersResponseServersList;
@@ -2429,14 +2418,10 @@ export const ListServersResponse = /*@__PURE__*/ S.suspend(() =>
     servers: ListServersResponseServersList,
     meta: ListServersResponseMeta,
   }),
-).annotate({
-  identifier: "ListServersResponse",
-}) as any as S.Schema<ListServersResponse>;
+).annotate({ identifier: "ListServersResponse" }) as any as S.Schema<ListServersResponse>;
 
 /** User-defined labels (`key/value` pairs) for the Resource. Note that the set of [Labels](#description/labels) provided in the request will overwrite the existing one. For more information, see "[Labels](#description/labels)". */
-export type UpdateServerRequestLabelsMap = {
-  [key: string]: string | undefined;
-};
+export type UpdateServerRequestLabelsMap = { [key: string]: string | undefined };
 export const UpdateServerRequestLabelsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -2456,9 +2441,7 @@ export const UpdateServerRequest = /*@__PURE__*/ S.suspend(() =>
     name: S.optional(S.String),
     labels: S.optional(UpdateServerRequestLabelsMap),
   }).pipe(T.Http({ method: "PUT", uri: "/servers/{id}", code: 200 })),
-).annotate({
-  identifier: "UpdateServerRequest",
-}) as any as S.Schema<UpdateServerRequest>;
+).annotate({ identifier: "UpdateServerRequest" }) as any as S.Schema<UpdateServerRequest>;
 
 /** Status of the Server. */
 export type UpdateServerResponseServerStatus =
@@ -2495,7 +2478,7 @@ export interface UpdateServerResponseServerPublicNetIpv6 {
   id?: number;
   /** IP address (v6) of this Server. */
   ip: string;
-  /** If the IP is blocked by our anti abuse dept. */
+  /** Whether the IP is blocked by our abuse department. */
   blocked: boolean;
   /** Reverse DNS PTR entries for the IPv6 addresses of this Server. */
   dns_ptr: UpdateServerResponseServerPublicNetIpv6DnsPtrList | null;
@@ -2750,10 +2733,14 @@ export const UpdateServerResponseServerImageOsFlavor = S.String;
 export type UpdateServerResponseServerImageProtection = CreateServerResponseServerImageProtection;
 export const UpdateServerResponseServerImageProtection = CreateServerResponseServerImageProtection;
 
+/** Describes if, when and how the resource is deprecated. If this field is set to `null` the resource is not deprecated. If a value is set, it is considered deprecated. */
+export type UpdateServerResponseServerImageDeprecation =
+  CreateServerResponseServerServerTypeDeprecation;
+export const UpdateServerResponseServerImageDeprecation =
+  CreateServerResponseServerServerTypeDeprecation;
+
 /** User-defined labels (`key/value` pairs) for the Resource. For more information, see "[Labels](#description/labels)". */
-export type UpdateServerResponseServerImageLabelsMap = {
-  [key: string]: string | undefined;
-};
+export type UpdateServerResponseServerImageLabelsMap = { [key: string]: string | undefined };
 export const UpdateServerResponseServerImageLabelsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -2793,8 +2780,10 @@ export interface UpdateServerResponseServerImage {
   rapid_deploy?: boolean;
   /** Protection configuration for the Resource. */
   protection: CreateServerResponseServerImageProtection;
-  /** Point in time when the Image is considered to be deprecated (in [RFC3339](https://datatracker.ietf.org/doc/html/rfc3339#section-5.6) format). */
+  /** **Deprecated:** This field is deprecated, use the deprecation object instead. Point in time when the Image is considered to be deprecated (in [RFC3339](https://datatracker.ietf.org/doc/html/rfc3339#section-5.6) format). */
   deprecated: string | null;
+  /** Describes if, when and how the resource is deprecated. If this field is set to `null` the resource is not deprecated. If a value is set, it is considered deprecated. */
+  deprecation: CreateServerResponseServerServerTypeDeprecation | null;
   /** Point in time where the Image was deleted (in [RFC3339](https://datatracker.ietf.org/doc/html/rfc3339#section-5.6) format). */
   deleted: string | null;
   /** User-defined labels (`key/value` pairs) for the Resource. For more information, see "[Labels](#description/labels)". */
@@ -2819,6 +2808,7 @@ export const UpdateServerResponseServerImage = /*@__PURE__*/ S.suspend(() =>
     rapid_deploy: S.optional(S.Boolean),
     protection: CreateServerResponseServerImageProtection,
     deprecated: S.NullOr(S.String),
+    deprecation: S.NullOr(CreateServerResponseServerServerTypeDeprecation),
     deleted: S.NullOr(S.String),
     labels: UpdateServerResponseServerImageLabelsMap,
     architecture: UpdateServerResponseServerImageArchitecture,
@@ -2874,9 +2864,7 @@ export type UpdateServerResponseServerProtection = CreateServerResponseServerPro
 export const UpdateServerResponseServerProtection = CreateServerResponseServerProtection;
 
 /** User-defined labels (`key/value` pairs) for the Resource. For more information, see "[Labels](#description/labels)". */
-export type UpdateServerResponseServerLabelsMap = {
-  [key: string]: string | undefined;
-};
+export type UpdateServerResponseServerLabelsMap = { [key: string]: string | undefined };
 export const UpdateServerResponseServerLabelsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -3022,9 +3010,7 @@ export const UpdateServerResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     server: S.optional(UpdateServerResponseServer),
   }),
-).annotate({
-  identifier: "UpdateServerResponse",
-}) as any as S.Schema<UpdateServerResponse>;
+).annotate({ identifier: "UpdateServerResponse" }) as any as S.Schema<UpdateServerResponse>;
 
 export type CreateServerError = ServerLimitExceeded | ServerPlacementError | HetznerOpError;
 /** Create a Server Creates a new Server. Returns preliminary information about the Server as well as an Action that covers progress of creation. #### Operation specific errors */
@@ -3072,7 +3058,7 @@ export const getServer: API.OperationMethod<
 }));
 
 export type GetServerMetricsError = HetznerOpError;
-/** Get Metrics for a Server Get Metrics for specified Server. You must specify the type of metric to get: cpu, disk or network. You can also specify more than one type by comma separation, e.g. cpu,disk. Depending on the type you will get different time series data Metrics are available for the last 30 days only. If you do not provide the step argument we will automatically adjust it so that a maximum of 200 samples are returned. We limit the number of samples returned to a maximum of 500 and will adjust the step parameter accordingly. */
+/** Get Metrics for a Server Get Metrics for specified Server. You must specify the type of metric to get: cpu, disk or network. You can also specify more than one type by comma separation, e.g. cpu,disk. Depending on the type you will get different time series data Note that the CPU value is not normalized to a fixed 0–100% scale. It is calculated per vCPU: a value of 100 represents full utilization on a 1-vCPU server, and 25% utilization on a 4-vCPU server. To calculate the overall CPU usage, divide the metric value by the number of vCPUs. Metrics are available for the last 30 days only. If you do not provide the step argument we will automatically adjust it so that a maximum of 200 samples are returned. We limit the number of samples returned to a maximum of 500 and will adjust the step parameter accordingly. */
 export const getServerMetrics: API.OperationMethod<
   GetServerMetricsRequest,
   GetServerMetricsResponse,

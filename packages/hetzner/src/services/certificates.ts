@@ -11,9 +11,7 @@ import * as T from "../traits.ts";
 export type { HetznerOpError, HetznerOpContext };
 
 /** User-defined labels (`key/value` pairs) for the Resource. For more information, see "[Labels](#description/labels)". */
-export type CreateCertificateRequestLabelsMap = {
-  [key: string]: string | undefined;
-};
+export type CreateCertificateRequestLabelsMap = { [key: string]: string | undefined };
 export const CreateCertificateRequestLabelsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -52,14 +50,10 @@ export const CreateCertificateRequest = /*@__PURE__*/ S.suspend(() =>
     private_key: S.optional(S.String.pipe(T.SensitiveValue({}))),
     domain_names: S.optional(CreateCertificateRequestDomainNamesList),
   }).pipe(T.Http({ method: "POST", uri: "/certificates", code: 200 })),
-).annotate({
-  identifier: "CreateCertificateRequest",
-}) as any as S.Schema<CreateCertificateRequest>;
+).annotate({ identifier: "CreateCertificateRequest" }) as any as S.Schema<CreateCertificateRequest>;
 
 /** User-defined labels (`key/value` pairs) for the Resource. For more information, see "[Labels](#description/labels)". */
-export type CreateCertificateResponseCertificateLabelsMap = {
-  [key: string]: string | undefined;
-};
+export type CreateCertificateResponseCertificateLabelsMap = { [key: string]: string | undefined };
 export const CreateCertificateResponseCertificateLabelsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -283,9 +277,7 @@ export const DeleteCertificateRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     id: S.Number.pipe(T.Label()),
   }).pipe(T.Http({ method: "DELETE", uri: "/certificates/{id}", code: 200 })),
-).annotate({
-  identifier: "DeleteCertificateRequest",
-}) as any as S.Schema<DeleteCertificateRequest>;
+).annotate({ identifier: "DeleteCertificateRequest" }) as any as S.Schema<DeleteCertificateRequest>;
 
 export interface DeleteCertificateResponse {}
 export const DeleteCertificateResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -300,14 +292,10 @@ export const GetCertificateRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     id: S.Number.pipe(T.Label()),
   }).pipe(T.Http({ method: "GET", uri: "/certificates/{id}", code: 200 })),
-).annotate({
-  identifier: "GetCertificateRequest",
-}) as any as S.Schema<GetCertificateRequest>;
+).annotate({ identifier: "GetCertificateRequest" }) as any as S.Schema<GetCertificateRequest>;
 
 /** User-defined labels (`key/value` pairs) for the Resource. For more information, see "[Labels](#description/labels)". */
-export type GetCertificateResponseCertificateLabelsMap = {
-  [key: string]: string | undefined;
-};
+export type GetCertificateResponseCertificateLabelsMap = { [key: string]: string | undefined };
 export const GetCertificateResponseCertificateLabelsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -424,9 +412,7 @@ export const GetCertificateResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     certificate: GetCertificateResponseCertificate,
   }),
-).annotate({
-  identifier: "GetCertificateResponse",
-}) as any as S.Schema<GetCertificateResponse>;
+).annotate({ identifier: "GetCertificateResponse" }) as any as S.Schema<GetCertificateResponse>;
 
 export type ListCertificatesRequestSortItem =
   | "id"
@@ -481,9 +467,7 @@ export const ListCertificatesRequest = /*@__PURE__*/ S.suspend(() =>
     page: S.optional(S.Number.pipe(T.Query())),
     per_page: S.optional(S.Number.pipe(T.Query())),
   }).pipe(T.Http({ method: "GET", uri: "/certificates", code: 200 })),
-).annotate({
-  identifier: "ListCertificatesRequest",
-}) as any as S.Schema<ListCertificatesRequest>;
+).annotate({ identifier: "ListCertificatesRequest" }) as any as S.Schema<ListCertificatesRequest>;
 
 /** User-defined labels (`key/value` pairs) for the Resource. For more information, see "[Labels](#description/labels)". */
 export type ListCertificatesResponseCertificatesItemLabelsMap = {
@@ -656,14 +640,10 @@ export const ListCertificatesResponse = /*@__PURE__*/ S.suspend(() =>
     certificates: ListCertificatesResponseCertificatesList,
     meta: ListCertificatesResponseMeta,
   }),
-).annotate({
-  identifier: "ListCertificatesResponse",
-}) as any as S.Schema<ListCertificatesResponse>;
+).annotate({ identifier: "ListCertificatesResponse" }) as any as S.Schema<ListCertificatesResponse>;
 
 /** User-defined labels (`key/value` pairs) for the Resource. Note that the set of [Labels](#description/labels) provided in the request will overwrite the existing one. For more information, see "[Labels](#description/labels)". */
-export type UpdateCertificateRequestLabelsMap = {
-  [key: string]: string | undefined;
-};
+export type UpdateCertificateRequestLabelsMap = { [key: string]: string | undefined };
 export const UpdateCertificateRequestLabelsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -683,14 +663,10 @@ export const UpdateCertificateRequest = /*@__PURE__*/ S.suspend(() =>
     name: S.optional(S.String),
     labels: S.optional(UpdateCertificateRequestLabelsMap),
   }).pipe(T.Http({ method: "PUT", uri: "/certificates/{id}", code: 200 })),
-).annotate({
-  identifier: "UpdateCertificateRequest",
-}) as any as S.Schema<UpdateCertificateRequest>;
+).annotate({ identifier: "UpdateCertificateRequest" }) as any as S.Schema<UpdateCertificateRequest>;
 
 /** User-defined labels (`key/value` pairs) for the Resource. For more information, see "[Labels](#description/labels)". */
-export type UpdateCertificateResponseCertificateLabelsMap = {
-  [key: string]: string | undefined;
-};
+export type UpdateCertificateResponseCertificateLabelsMap = { [key: string]: string | undefined };
 export const UpdateCertificateResponseCertificateLabelsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,

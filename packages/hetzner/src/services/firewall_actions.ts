@@ -74,13 +74,7 @@ export const ApplyFirewallToResourcesRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     id: S.Number.pipe(T.Label()),
     apply_to: ApplyFirewallToResourcesRequestApplyToList,
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/firewalls/{id}/actions/apply_to_resources",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "POST", uri: "/firewalls/{id}/actions/apply_to_resources", code: 200 })),
 ).annotate({
   identifier: "ApplyFirewallToResourcesRequest",
 }) as any as S.Schema<ApplyFirewallToResourcesRequest>;
@@ -627,11 +621,7 @@ export const RemoveFirewallFromResourcesRequest = /*@__PURE__*/ S.suspend(() =>
     id: S.Number.pipe(T.Label()),
     remove_from: RemoveFirewallFromResourcesRequestRemoveFromList,
   }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/firewalls/{id}/actions/remove_from_resources",
-      code: 200,
-    }),
+    T.Http({ method: "POST", uri: "/firewalls/{id}/actions/remove_from_resources", code: 200 }),
   ),
 ).annotate({
   identifier: "RemoveFirewallFromResourcesRequest",
@@ -772,16 +762,8 @@ export const SetFirewallRulesRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     id: S.Number.pipe(T.Label()),
     rules: SetFirewallRulesRequestRulesList,
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/firewalls/{id}/actions/set_rules",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "SetFirewallRulesRequest",
-}) as any as S.Schema<SetFirewallRulesRequest>;
+  }).pipe(T.Http({ method: "POST", uri: "/firewalls/{id}/actions/set_rules", code: 200 })),
+).annotate({ identifier: "SetFirewallRulesRequest" }) as any as S.Schema<SetFirewallRulesRequest>;
 
 /** Status of the Action. */
 export type SetFirewallRulesResponseActionsItemStatus = "running" | "success" | "error";
@@ -850,9 +832,7 @@ export const SetFirewallRulesResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     actions: SetFirewallRulesResponseActionsList,
   }),
-).annotate({
-  identifier: "SetFirewallRulesResponse",
-}) as any as S.Schema<SetFirewallRulesResponse>;
+).annotate({ identifier: "SetFirewallRulesResponse" }) as any as S.Schema<SetFirewallRulesResponse>;
 
 export type ApplyFirewallToResourcesError = HetznerOpError;
 /** Apply to Resources Applies a [Firewall](#tag/firewalls) to multiple resources. Supported resources: - [Servers](#tag/servers) (with a public network interface) - [Label Selectors](#description/label-selector) A [Server](#tag/servers) can be applied to [a maximum of 5 Firewalls](https://docs.hetzner.com/cloud/firewalls/overview#limits). This limit applies to [Servers](#tag/servers) applied via a matching [Label Selector](#description/label-selector) as well. Updates to resources matching or no longer matching a [Label Selector](#description/label-selector) can take up to a few seconds to be processed. A [Firewall](#tag/firewalls) is applied to a resource once the related [Action](#tag/actions) with command `apply_firewall` successfully finished. #### Operation specific errors */

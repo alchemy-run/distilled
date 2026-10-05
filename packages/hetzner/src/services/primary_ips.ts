@@ -20,9 +20,7 @@ export class PrimaryIpLimitExceeded
   ) {}
 
 /** User-defined labels (`key/value` pairs) for the Resource. For more information, see "[Labels](#description/labels)". */
-export type CreatePrimaryIpRequestLabelsMap = {
-  [key: string]: string | undefined;
-};
+export type CreatePrimaryIpRequestLabelsMap = { [key: string]: string | undefined };
 export const CreatePrimaryIpRequestLabelsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -38,7 +36,7 @@ export const CreatePrimaryIpRequestLocation =
   S.Unknown as any as S.Schema<CreatePrimaryIpRequestLocation>;
 
 /** Type of resource to assign the [Primary IP](#tag/primary-ips) to. Omitted if the [Primary IP](#tag/primary-ips) should not get assigned. */
-export type CreatePrimaryIpRequestAssigneeType = "server";
+export type CreatePrimaryIpRequestAssigneeType = "server" | "unassigned";
 export const CreatePrimaryIpRequestAssigneeType = S.String;
 
 export interface CreatePrimaryIpRequest {
@@ -67,14 +65,10 @@ export const CreatePrimaryIpRequest = /*@__PURE__*/ S.suspend(() =>
     assignee_id: S.optional(S.NullOr(S.Number)),
     auto_delete: S.optional(S.Boolean),
   }).pipe(T.Http({ method: "POST", uri: "/primary_ips", code: 200 })),
-).annotate({
-  identifier: "CreatePrimaryIpRequest",
-}) as any as S.Schema<CreatePrimaryIpRequest>;
+).annotate({ identifier: "CreatePrimaryIpRequest" }) as any as S.Schema<CreatePrimaryIpRequest>;
 
 /** User-defined labels (`key/value` pairs) for the Resource. For more information, see "[Labels](#description/labels)". */
-export type CreatePrimaryIpResponsePrimaryIpLabelsMap = {
-  [key: string]: string | undefined;
-};
+export type CreatePrimaryIpResponsePrimaryIpLabelsMap = { [key: string]: string | undefined };
 export const CreatePrimaryIpResponsePrimaryIpLabelsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -153,8 +147,8 @@ export const CreatePrimaryIpResponsePrimaryIpProtection = /*@__PURE__*/ S.suspen
 export type CreatePrimaryIpResponsePrimaryIpType = "ipv4" | "ipv6";
 export const CreatePrimaryIpResponsePrimaryIpType = S.String;
 
-/** Type of resource the [Primary IP](#tag/primary-ips) is assigned to. As of 01 August 2026 `unassigned` will be returned if the [Primary IP](#tag/primary-ips) is not assigned. */
-export type CreatePrimaryIpResponsePrimaryIpAssigneeType = "server";
+/** Type of resource the [Primary IP](#tag/primary-ips) is assigned to. As of 23 September 2026 `unassigned` is returned if the [Primary IP](#tag/primary-ips) is not assigned. */
+export type CreatePrimaryIpResponsePrimaryIpAssigneeType = "server" | "unassigned";
 export const CreatePrimaryIpResponsePrimaryIpAssigneeType = S.String;
 
 export interface CreatePrimaryIpResponsePrimaryIp {
@@ -180,7 +174,7 @@ export interface CreatePrimaryIpResponsePrimaryIp {
   type: CreatePrimaryIpResponsePrimaryIpType;
   /** Auto deletion state. If enabled the [Primary IP](#tag/primary-ips) will be deleted once the assigned resource gets deleted. */
   auto_delete: boolean;
-  /** Type of resource the [Primary IP](#tag/primary-ips) is assigned to. As of 01 August 2026 `unassigned` will be returned if the [Primary IP](#tag/primary-ips) is not assigned. */
+  /** Type of resource the [Primary IP](#tag/primary-ips) is assigned to. As of 23 September 2026 `unassigned` is returned if the [Primary IP](#tag/primary-ips) is not assigned. */
   assignee_type: CreatePrimaryIpResponsePrimaryIpAssigneeType;
   /** ID of resource the [Primary IP](#tag/primary-ips) is assigned to. `null` if the [Primary IP](#tag/primary-ips) is not assigned. */
   assignee_id: number | null;
@@ -291,9 +285,7 @@ export const CreatePrimaryIpResponse = /*@__PURE__*/ S.suspend(() =>
     primary_ip: CreatePrimaryIpResponsePrimaryIp,
     action: S.optional(S.NullOr(CreatePrimaryIpResponseAction)),
   }),
-).annotate({
-  identifier: "CreatePrimaryIpResponse",
-}) as any as S.Schema<CreatePrimaryIpResponse>;
+).annotate({ identifier: "CreatePrimaryIpResponse" }) as any as S.Schema<CreatePrimaryIpResponse>;
 
 export interface DeletePrimaryIpRequest {
   /** ID of the Primary IP. */
@@ -303,9 +295,7 @@ export const DeletePrimaryIpRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     id: S.Number.pipe(T.Label()),
   }).pipe(T.Http({ method: "DELETE", uri: "/primary_ips/{id}", code: 200 })),
-).annotate({
-  identifier: "DeletePrimaryIpRequest",
-}) as any as S.Schema<DeletePrimaryIpRequest>;
+).annotate({ identifier: "DeletePrimaryIpRequest" }) as any as S.Schema<DeletePrimaryIpRequest>;
 
 export interface DeletePrimaryIpResponse {}
 export const DeletePrimaryIpResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -320,14 +310,10 @@ export const GetPrimaryIpRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     id: S.Number.pipe(T.Label()),
   }).pipe(T.Http({ method: "GET", uri: "/primary_ips/{id}", code: 200 })),
-).annotate({
-  identifier: "GetPrimaryIpRequest",
-}) as any as S.Schema<GetPrimaryIpRequest>;
+).annotate({ identifier: "GetPrimaryIpRequest" }) as any as S.Schema<GetPrimaryIpRequest>;
 
 /** User-defined labels (`key/value` pairs) for the Resource. For more information, see "[Labels](#description/labels)". */
-export type GetPrimaryIpResponsePrimaryIpLabelsMap = {
-  [key: string]: string | undefined;
-};
+export type GetPrimaryIpResponsePrimaryIpLabelsMap = { [key: string]: string | undefined };
 export const GetPrimaryIpResponsePrimaryIpLabelsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -355,8 +341,8 @@ export const GetPrimaryIpResponsePrimaryIpProtection = CreatePrimaryIpResponsePr
 export type GetPrimaryIpResponsePrimaryIpType = "ipv4" | "ipv6";
 export const GetPrimaryIpResponsePrimaryIpType = S.String;
 
-/** Type of resource the [Primary IP](#tag/primary-ips) is assigned to. As of 01 August 2026 `unassigned` will be returned if the [Primary IP](#tag/primary-ips) is not assigned. */
-export type GetPrimaryIpResponsePrimaryIpAssigneeType = "server";
+/** Type of resource the [Primary IP](#tag/primary-ips) is assigned to. As of 23 September 2026 `unassigned` is returned if the [Primary IP](#tag/primary-ips) is not assigned. */
+export type GetPrimaryIpResponsePrimaryIpAssigneeType = "server" | "unassigned";
 export const GetPrimaryIpResponsePrimaryIpAssigneeType = S.String;
 
 export interface GetPrimaryIpResponsePrimaryIp {
@@ -382,7 +368,7 @@ export interface GetPrimaryIpResponsePrimaryIp {
   type: GetPrimaryIpResponsePrimaryIpType;
   /** Auto deletion state. If enabled the [Primary IP](#tag/primary-ips) will be deleted once the assigned resource gets deleted. */
   auto_delete: boolean;
-  /** Type of resource the [Primary IP](#tag/primary-ips) is assigned to. As of 01 August 2026 `unassigned` will be returned if the [Primary IP](#tag/primary-ips) is not assigned. */
+  /** Type of resource the [Primary IP](#tag/primary-ips) is assigned to. As of 23 September 2026 `unassigned` is returned if the [Primary IP](#tag/primary-ips) is not assigned. */
   assignee_type: GetPrimaryIpResponsePrimaryIpAssigneeType;
   /** ID of resource the [Primary IP](#tag/primary-ips) is assigned to. `null` if the [Primary IP](#tag/primary-ips) is not assigned. */
   assignee_id: number | null;
@@ -414,9 +400,7 @@ export const GetPrimaryIpResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     primary_ip: GetPrimaryIpResponsePrimaryIp,
   }),
-).annotate({
-  identifier: "GetPrimaryIpResponse",
-}) as any as S.Schema<GetPrimaryIpResponse>;
+).annotate({ identifier: "GetPrimaryIpResponse" }) as any as S.Schema<GetPrimaryIpResponse>;
 
 export type ListPrimaryIpsRequestSortItem =
   | "id"
@@ -455,14 +439,10 @@ export const ListPrimaryIpsRequest = /*@__PURE__*/ S.suspend(() =>
     per_page: S.optional(S.Number.pipe(T.Query())),
     sort: S.optional(ListPrimaryIpsRequestSortList.pipe(T.Query())),
   }).pipe(T.Http({ method: "GET", uri: "/primary_ips", code: 200 })),
-).annotate({
-  identifier: "ListPrimaryIpsRequest",
-}) as any as S.Schema<ListPrimaryIpsRequest>;
+).annotate({ identifier: "ListPrimaryIpsRequest" }) as any as S.Schema<ListPrimaryIpsRequest>;
 
 /** User-defined labels (`key/value` pairs) for the Resource. For more information, see "[Labels](#description/labels)". */
-export type ListPrimaryIpsResponsePrimaryIpsItemLabelsMap = {
-  [key: string]: string | undefined;
-};
+export type ListPrimaryIpsResponsePrimaryIpsItemLabelsMap = { [key: string]: string | undefined };
 export const ListPrimaryIpsResponsePrimaryIpsItemLabelsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -495,8 +475,8 @@ export const ListPrimaryIpsResponsePrimaryIpsItemProtection =
 export type ListPrimaryIpsResponsePrimaryIpsItemType = "ipv4" | "ipv6";
 export const ListPrimaryIpsResponsePrimaryIpsItemType = S.String;
 
-/** Type of resource the [Primary IP](#tag/primary-ips) is assigned to. As of 01 August 2026 `unassigned` will be returned if the [Primary IP](#tag/primary-ips) is not assigned. */
-export type ListPrimaryIpsResponsePrimaryIpsItemAssigneeType = "server";
+/** Type of resource the [Primary IP](#tag/primary-ips) is assigned to. As of 23 September 2026 `unassigned` is returned if the [Primary IP](#tag/primary-ips) is not assigned. */
+export type ListPrimaryIpsResponsePrimaryIpsItemAssigneeType = "server" | "unassigned";
 export const ListPrimaryIpsResponsePrimaryIpsItemAssigneeType = S.String;
 
 export interface ListPrimaryIpsResponsePrimaryIpsItem {
@@ -522,7 +502,7 @@ export interface ListPrimaryIpsResponsePrimaryIpsItem {
   type: ListPrimaryIpsResponsePrimaryIpsItemType;
   /** Auto deletion state. If enabled the [Primary IP](#tag/primary-ips) will be deleted once the assigned resource gets deleted. */
   auto_delete: boolean;
-  /** Type of resource the [Primary IP](#tag/primary-ips) is assigned to. As of 01 August 2026 `unassigned` will be returned if the [Primary IP](#tag/primary-ips) is not assigned. */
+  /** Type of resource the [Primary IP](#tag/primary-ips) is assigned to. As of 23 September 2026 `unassigned` is returned if the [Primary IP](#tag/primary-ips) is not assigned. */
   assignee_type: ListPrimaryIpsResponsePrimaryIpsItemAssigneeType;
   /** ID of resource the [Primary IP](#tag/primary-ips) is assigned to. `null` if the [Primary IP](#tag/primary-ips) is not assigned. */
   assignee_id: number | null;
@@ -601,14 +581,10 @@ export const ListPrimaryIpsResponse = /*@__PURE__*/ S.suspend(() =>
     primary_ips: ListPrimaryIpsResponsePrimaryIpsList,
     meta: ListPrimaryIpsResponseMeta,
   }),
-).annotate({
-  identifier: "ListPrimaryIpsResponse",
-}) as any as S.Schema<ListPrimaryIpsResponse>;
+).annotate({ identifier: "ListPrimaryIpsResponse" }) as any as S.Schema<ListPrimaryIpsResponse>;
 
 /** User-defined labels (`key/value` pairs) for the Resource. Note that the set of [Labels](#description/labels) provided in the request will overwrite the existing one. For more information, see "[Labels](#description/labels)". */
-export type UpdatePrimaryIpRequestLabelsMap = {
-  [key: string]: string | undefined;
-};
+export type UpdatePrimaryIpRequestLabelsMap = { [key: string]: string | undefined };
 export const UpdatePrimaryIpRequestLabelsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -631,14 +607,10 @@ export const UpdatePrimaryIpRequest = /*@__PURE__*/ S.suspend(() =>
     labels: S.optional(UpdatePrimaryIpRequestLabelsMap),
     auto_delete: S.optional(S.Boolean),
   }).pipe(T.Http({ method: "PUT", uri: "/primary_ips/{id}", code: 200 })),
-).annotate({
-  identifier: "UpdatePrimaryIpRequest",
-}) as any as S.Schema<UpdatePrimaryIpRequest>;
+).annotate({ identifier: "UpdatePrimaryIpRequest" }) as any as S.Schema<UpdatePrimaryIpRequest>;
 
 /** User-defined labels (`key/value` pairs) for the Resource. For more information, see "[Labels](#description/labels)". */
-export type UpdatePrimaryIpResponsePrimaryIpLabelsMap = {
-  [key: string]: string | undefined;
-};
+export type UpdatePrimaryIpResponsePrimaryIpLabelsMap = { [key: string]: string | undefined };
 export const UpdatePrimaryIpResponsePrimaryIpLabelsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -668,8 +640,8 @@ export const UpdatePrimaryIpResponsePrimaryIpProtection =
 export type UpdatePrimaryIpResponsePrimaryIpType = "ipv4" | "ipv6";
 export const UpdatePrimaryIpResponsePrimaryIpType = S.String;
 
-/** Type of resource the [Primary IP](#tag/primary-ips) is assigned to. As of 01 August 2026 `unassigned` will be returned if the [Primary IP](#tag/primary-ips) is not assigned. */
-export type UpdatePrimaryIpResponsePrimaryIpAssigneeType = "server";
+/** Type of resource the [Primary IP](#tag/primary-ips) is assigned to. As of 23 September 2026 `unassigned` is returned if the [Primary IP](#tag/primary-ips) is not assigned. */
+export type UpdatePrimaryIpResponsePrimaryIpAssigneeType = "server" | "unassigned";
 export const UpdatePrimaryIpResponsePrimaryIpAssigneeType = S.String;
 
 export interface UpdatePrimaryIpResponsePrimaryIp {
@@ -695,7 +667,7 @@ export interface UpdatePrimaryIpResponsePrimaryIp {
   type: UpdatePrimaryIpResponsePrimaryIpType;
   /** Auto deletion state. If enabled the [Primary IP](#tag/primary-ips) will be deleted once the assigned resource gets deleted. */
   auto_delete: boolean;
-  /** Type of resource the [Primary IP](#tag/primary-ips) is assigned to. As of 01 August 2026 `unassigned` will be returned if the [Primary IP](#tag/primary-ips) is not assigned. */
+  /** Type of resource the [Primary IP](#tag/primary-ips) is assigned to. As of 23 September 2026 `unassigned` is returned if the [Primary IP](#tag/primary-ips) is not assigned. */
   assignee_type: UpdatePrimaryIpResponsePrimaryIpAssigneeType;
   /** ID of resource the [Primary IP](#tag/primary-ips) is assigned to. `null` if the [Primary IP](#tag/primary-ips) is not assigned. */
   assignee_id: number | null;
@@ -727,9 +699,7 @@ export const UpdatePrimaryIpResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     primary_ip: UpdatePrimaryIpResponsePrimaryIp,
   }),
-).annotate({
-  identifier: "UpdatePrimaryIpResponse",
-}) as any as S.Schema<UpdatePrimaryIpResponse>;
+).annotate({ identifier: "UpdatePrimaryIpResponse" }) as any as S.Schema<UpdatePrimaryIpResponse>;
 
 export type CreatePrimaryIpError = PrimaryIpLimitExceeded | HetznerOpError;
 /** Create a Primary IP Create a new [Primary IP](#tag/primary-ips). Can optionally be assigned to a resource by providing an `assignee_id` and `assignee_type`. If not assigned to a resource the `location` key needs to be provided. This can be either the ID or the name of the [Location](#tag/locations) this [Primary IP](#tag/primary-ips) shall be created in. A [Primary IP](#tag/primary-ips) can only be assigned to resource in the same [Location](#tag/locations) later on. #### Operation specific errors */

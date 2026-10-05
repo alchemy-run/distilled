@@ -66,9 +66,7 @@ export const GetIsoResponseIso = /*@__PURE__*/ S.suspend(() =>
     deprecation: S.NullOr(GetIsoResponseIsoDeprecation),
     architecture: S.NullOr(GetIsoResponseIsoArchitecture),
   }),
-).annotate({
-  identifier: "GetIsoResponseIso",
-}) as any as S.Schema<GetIsoResponseIso>;
+).annotate({ identifier: "GetIsoResponseIso" }) as any as S.Schema<GetIsoResponseIso>;
 
 export interface GetIsoResponse {
   iso: GetIsoResponseIso;
@@ -103,9 +101,7 @@ export const ListIsosRequest = /*@__PURE__*/ S.suspend(() =>
     page: S.optional(S.Number.pipe(T.Query())),
     per_page: S.optional(S.Number.pipe(T.Query())),
   }).pipe(T.Http({ method: "GET", uri: "/isos", code: 200 })),
-).annotate({
-  identifier: "ListIsosRequest",
-}) as any as S.Schema<ListIsosRequest>;
+).annotate({ identifier: "ListIsosRequest" }) as any as S.Schema<ListIsosRequest>;
 
 /** Type of the ISO. */
 export type ListIsosResponseIsosItemType = "public" | "private";
@@ -142,9 +138,7 @@ export const ListIsosResponseIsosItem = /*@__PURE__*/ S.suspend(() =>
     deprecation: S.NullOr(GetIsoResponseIsoDeprecation),
     architecture: S.NullOr(ListIsosResponseIsosItemArchitecture),
   }),
-).annotate({
-  identifier: "ListIsosResponseIsosItem",
-}) as any as S.Schema<ListIsosResponseIsosItem>;
+).annotate({ identifier: "ListIsosResponseIsosItem" }) as any as S.Schema<ListIsosResponseIsosItem>;
 
 export type ListIsosResponseIsosList = Array<ListIsosResponseIsosItem>;
 export const ListIsosResponseIsosList = /*@__PURE__*/ S.Array(
@@ -187,9 +181,7 @@ export const ListIsosResponseMeta = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     pagination: ListIsosResponseMetaPagination,
   }),
-).annotate({
-  identifier: "ListIsosResponseMeta",
-}) as any as S.Schema<ListIsosResponseMeta>;
+).annotate({ identifier: "ListIsosResponseMeta" }) as any as S.Schema<ListIsosResponseMeta>;
 
 export interface ListIsosResponse {
   isos: ListIsosResponseIsosList;
@@ -200,9 +192,7 @@ export const ListIsosResponse = /*@__PURE__*/ S.suspend(() =>
     isos: ListIsosResponseIsosList,
     meta: ListIsosResponseMeta,
   }),
-).annotate({
-  identifier: "ListIsosResponse",
-}) as any as S.Schema<ListIsosResponse>;
+).annotate({ identifier: "ListIsosResponse" }) as any as S.Schema<ListIsosResponse>;
 
 export type GetIsoError = HetznerOpError;
 /** Get an ISO Returns a specific ISO object. */
