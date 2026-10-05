@@ -11,12 +11,14 @@ import * as Result from "effect/Result";
 import { describe, expect, test } from "vitest";
 import { Credentials, CredentialsFromEnv } from "./credentials.ts";
 import {
+  BadGateway,
   BadRequest,
   EasChannelAlreadyExists,
   EasExperienceNotFound,
   EasParseError,
   EasUnauthorizedOperation,
   InternalServerError,
+  ServiceUnavailable,
   TooManyRequests,
   Unauthorized,
   UnknownEasError,
@@ -287,6 +289,54 @@ describe("HTTP-level failures", () => {
     });
     expect(error).toBeInstanceOf(UnknownEasError);
     expect(error).toMatchObject({ code: "TEAPOT", message: "teapot" });
+  });
+});
+
+describe("non-JSON HTTP-level failures", () => {
+  test("an HTML 502 proxy page is BadGateway with the trimmed body as message", async () => {
+    const html = "<html><body><h1>502 Bad Gateway</h1></body></html>";
+    const error = await failWith({
+      status: 502,
+      body: `\n  ${html}\n`,
+      headers: { "content-type": "text/html" },
+    });
+    expect(error).toBeInstanceOf(BadGateway);
+    expect(error).toMatchObject({ message: html });
+  });
+
+  test("a plain-text 500 is InternalServerError", async () => {
+    const error = await failWith({ status: 500, body: "Internal Server Error" });
+    expect(error).toBeInstanceOf(InternalServerError);
+    expect(error).toMatchObject({ message: "Internal Server Error" });
+  });
+
+  test("a plain-text 429 is TooManyRequests carrying the Retry-After hint", async () => {
+    const error = await failWith({
+      status: 429,
+      body: "Too Many Requests",
+      headers: { "content-type": "text/plain", "retry-after": "7" },
+    });
+    expect(error).toBeInstanceOf(TooManyRequests);
+    expect(error).toMatchObject({ message: "Too Many Requests" });
+    expect(Duration.toSeconds((error as TooManyRequests).retryAfter!)).toBe(7);
+  });
+
+  test("a plain-text 401 is Unauthorized", async () => {
+    const error = await failWith({ status: 401, body: "Unauthorized\n" });
+    expect(error).toBeInstanceOf(Unauthorized);
+    expect(error).toMatchObject({ message: "Unauthorized" });
+  });
+
+  test("an empty error body uses the status class with an HTTP <status> message", async () => {
+    const error = await failWith({ status: 503, body: "" });
+    expect(error).toBeInstanceOf(ServiceUnavailable);
+    expect(error).toMatchObject({ message: "HTTP 503" });
+  });
+
+  test("a non-JSON body under an unmapped status is UnknownEasError carrying the body", async () => {
+    const error = await failWith({ status: 418, body: "I'm a teapot" });
+    expect(error).toBeInstanceOf(UnknownEasError);
+    expect(error).toMatchObject({ body: "I'm a teapot" });
   });
 });
 

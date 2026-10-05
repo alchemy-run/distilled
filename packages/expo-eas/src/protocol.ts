@@ -23,9 +23,9 @@ import { parseRetryAfterForStatus } from "@distilled.cloud/core/retry-after";
  *                `EAS_ERROR_CODE_MAP`, then the HTTP status map, then
  *                `UnknownEasError`.
  *             2. HTTP status >= 400 (network/auth/proxy errors) — body
- *                usually `{ message }` or a plain `{ errors: [...] }`
- *                envelope; mapped via the status map with retry-after
- *                parsing.
+ *                usually `{ message }`, a plain `{ errors: [...] }`
+ *                envelope, or non-JSON text (proxy HTML, plain-text 429);
+ *                mapped via the status map with retry-after parsing.
  *             On success the value of `data.<responsePath>` (see
  *             `T.ResponsePath`) is returned verbatim.
  */
@@ -114,6 +114,9 @@ type StatusClass = new (args: {
   retryAfter?: ReturnType<typeof parseRetryAfterForStatus>;
 }) => unknown;
 
+const statusClass = (status: number): StatusClass | undefined =>
+  (HTTP_STATUS_MAP as Record<number, StatusClass | undefined>)[status];
+
 /**
  * Match an EAS error response (GraphQL envelope or HTTP-level body) to the
  * appropriate error class. Ported from distilled v0's `matchError`:
@@ -140,9 +143,7 @@ const matchError = (
       }
     }
 
-    const StatusClass = (HTTP_STATUS_MAP as Record<number, unknown>)[status] as
-      | StatusClass
-      | undefined;
+    const StatusClass = statusClass(status);
     if (StatusClass && status >= 400) {
       return fail(
         new StatusClass({
@@ -161,12 +162,25 @@ const matchError = (
     );
   }
 
+  // Non-JSON body (HTML proxy page, plain-text 429/401): the trimmed text
+  // is the message.
+  if (typeof errorBody === "string") {
+    const StatusClass = statusClass(status);
+    if (StatusClass) {
+      return fail(
+        new StatusClass({
+          message: errorBody.trim() || `HTTP ${status}`,
+          retryAfter: parseRetryAfterForStatus(status, headers),
+        }),
+      );
+    }
+    return fail(new UnknownEasError({ body: errorBody }));
+  }
+
   // Plain REST-ish error body
   const rest = decodeRest(errorBody);
   if (rest._tag === "Some") {
-    const StatusClass = (HTTP_STATUS_MAP as Record<number, unknown>)[status] as
-      | StatusClass
-      | undefined;
+    const StatusClass = statusClass(status);
     if (StatusClass) {
       return fail(
         new StatusClass({
