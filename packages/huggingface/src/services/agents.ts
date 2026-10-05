@@ -14,9 +14,7 @@ export type { HuggingFaceOpError, HuggingFaceOpContext };
 export interface GetAgentHarnessesRequest {}
 export const GetAgentHarnessesRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({}).pipe(T.Http({ method: "GET", uri: "/api/agent-harnesses", code: 200 })),
-).annotate({
-  identifier: "GetAgentHarnessesRequest",
-}) as any as S.Schema<GetAgentHarnessesRequest>;
+).annotate({ identifier: "GetAgentHarnessesRequest" }) as any as S.Schema<GetAgentHarnessesRequest>;
 
 /** Standard environment variables that any agent can set to identify itself. Their value is matched against the harness ids. */
 export type GetAgentHarnessesResponseStandardEnvVarsList = Array<string>;

@@ -21,11 +21,7 @@ export const AddServerToPlacementGroupRequest = /*@__PURE__*/ S.suspend(() =>
     id: S.Number.pipe(T.Label()),
     placement_group: S.Number,
   }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/servers/{id}/actions/add_to_placement_group",
-      code: 200,
-    }),
+    T.Http({ method: "POST", uri: "/servers/{id}/actions/add_to_placement_group", code: 200 }),
   ),
 ).annotate({
   identifier: "AddServerToPlacementGroupRequest",
@@ -127,16 +123,8 @@ export const AttachServerIsoRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     id: S.Number.pipe(T.Label()),
     iso: S.String,
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/servers/{id}/actions/attach_iso",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "AttachServerIsoRequest",
-}) as any as S.Schema<AttachServerIsoRequest>;
+  }).pipe(T.Http({ method: "POST", uri: "/servers/{id}/actions/attach_iso", code: 200 })),
+).annotate({ identifier: "AttachServerIsoRequest" }) as any as S.Schema<AttachServerIsoRequest>;
 
 /** Status of the Action. */
 export type AttachServerIsoResponseActionStatus = "running" | "success" | "error";
@@ -198,9 +186,7 @@ export const AttachServerIsoResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     action: AttachServerIsoResponseAction,
   }),
-).annotate({
-  identifier: "AttachServerIsoResponse",
-}) as any as S.Schema<AttachServerIsoResponse>;
+).annotate({ identifier: "AttachServerIsoResponse" }) as any as S.Schema<AttachServerIsoResponse>;
 
 /** Additional IPs to be assigned to this Server. */
 export type AttachServerToNetworkRequestAliasIpsList = Array<string>;
@@ -227,13 +213,7 @@ export const AttachServerToNetworkRequest = /*@__PURE__*/ S.suspend(() =>
     ip: S.optional(S.String),
     alias_ips: S.optional(AttachServerToNetworkRequestAliasIpsList),
     ip_range: S.optional(S.String),
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/servers/{id}/actions/attach_to_network",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "POST", uri: "/servers/{id}/actions/attach_to_network", code: 200 })),
 ).annotate({
   identifier: "AttachServerToNetworkRequest",
 }) as any as S.Schema<AttachServerToNetworkRequest>;
@@ -322,13 +302,7 @@ export const ChangeServerAliasIpsRequest = /*@__PURE__*/ S.suspend(() =>
     id: S.Number.pipe(T.Label()),
     network: S.Number,
     alias_ips: ChangeServerAliasIpsRequestAliasIpsList,
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/servers/{id}/actions/change_alias_ips",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "POST", uri: "/servers/{id}/actions/change_alias_ips", code: 200 })),
 ).annotate({
   identifier: "ChangeServerAliasIpsRequest",
 }) as any as S.Schema<ChangeServerAliasIpsRequest>;
@@ -403,20 +377,14 @@ export interface ChangeServerDnsPtrRequest {
   /** Single IPv4 or IPv6 address to create pointer for. */
   ip: string;
   /** Domain Name to point to. PTR record content used for reverse DNS. Set to null to reset (IPv4) to the default value or remove (IPv6) the record. */
-  dns_ptr?: string | null;
+  dns_ptr: string | null;
 }
 export const ChangeServerDnsPtrRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     id: S.Number.pipe(T.Label()),
     ip: S.String,
-    dns_ptr: S.optional(S.NullOr(S.String)),
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/servers/{id}/actions/change_dns_ptr",
-      code: 200,
-    }),
-  ),
+    dns_ptr: S.NullOr(S.String),
+  }).pipe(T.Http({ method: "POST", uri: "/servers/{id}/actions/change_dns_ptr", code: 200 })),
 ).annotate({
   identifier: "ChangeServerDnsPtrRequest",
 }) as any as S.Schema<ChangeServerDnsPtrRequest>;
@@ -498,13 +466,7 @@ export const ChangeServerProtectionRequest = /*@__PURE__*/ S.suspend(() =>
     id: S.Number.pipe(T.Label()),
     delete: S.optional(S.Boolean),
     rebuild: S.optional(S.Boolean),
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/servers/{id}/actions/change_protection",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "POST", uri: "/servers/{id}/actions/change_protection", code: 200 })),
 ).annotate({
   identifier: "ChangeServerProtectionRequest",
 }) as any as S.Schema<ChangeServerProtectionRequest>;
@@ -588,16 +550,8 @@ export const ChangeServerTypeRequest = /*@__PURE__*/ S.suspend(() =>
     id: S.Number.pipe(T.Label()),
     upgrade_disk: S.Boolean,
     server_type: S.String,
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/servers/{id}/actions/change_type",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "ChangeServerTypeRequest",
-}) as any as S.Schema<ChangeServerTypeRequest>;
+  }).pipe(T.Http({ method: "POST", uri: "/servers/{id}/actions/change_type", code: 200 })),
+).annotate({ identifier: "ChangeServerTypeRequest" }) as any as S.Schema<ChangeServerTypeRequest>;
 
 /** Status of the Action. */
 export type ChangeServerTypeResponseActionStatus = "running" | "success" | "error";
@@ -659,18 +613,14 @@ export const ChangeServerTypeResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     action: ChangeServerTypeResponseAction,
   }),
-).annotate({
-  identifier: "ChangeServerTypeResponse",
-}) as any as S.Schema<ChangeServerTypeResponse>;
+).annotate({ identifier: "ChangeServerTypeResponse" }) as any as S.Schema<ChangeServerTypeResponse>;
 
 /** Type of Image to create. */
 export type CreateServerImageRequestType = "snapshot" | "backup";
 export const CreateServerImageRequestType = S.String;
 
 /** User-defined labels (`key/value` pairs) for the Resource. For more information, see "[Labels](#description/labels)". */
-export type CreateServerImageRequestLabelsMap = {
-  [key: string]: string | undefined;
-};
+export type CreateServerImageRequestLabelsMap = { [key: string]: string | undefined };
 export const CreateServerImageRequestLabelsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -692,16 +642,8 @@ export const CreateServerImageRequest = /*@__PURE__*/ S.suspend(() =>
     description: S.optional(S.String),
     type: S.optional(CreateServerImageRequestType),
     labels: S.optional(CreateServerImageRequestLabelsMap),
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/servers/{id}/actions/create_image",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "CreateServerImageRequest",
-}) as any as S.Schema<CreateServerImageRequest>;
+  }).pipe(T.Http({ method: "POST", uri: "/servers/{id}/actions/create_image", code: 200 })),
+).annotate({ identifier: "CreateServerImageRequest" }) as any as S.Schema<CreateServerImageRequest>;
 
 /** Type of the Image. */
 export type CreateServerImageResponseImageType = "system" | "app" | "snapshot" | "backup";
@@ -752,10 +694,24 @@ export const CreateServerImageResponseImageProtection = /*@__PURE__*/ S.suspend(
   identifier: "CreateServerImageResponseImageProtection",
 }) as any as S.Schema<CreateServerImageResponseImageProtection>;
 
+/** Describes if, when and how the resource is deprecated. If this field is set to `null` the resource is not deprecated. If a value is set, it is considered deprecated. */
+export interface CreateServerImageResponseImageDeprecation {
+  /** Date of the deprecated resource removal. Once this date is reached, the resource will not be returned by resource type "list" endpoint, and the resource can not be used to create new resources. For example, if this is an image, you can not create new servers with this image after the mentioned date. */
+  unavailable_after: string;
+  /** Date of the deprecation announcement. */
+  announced: string;
+}
+export const CreateServerImageResponseImageDeprecation = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    unavailable_after: S.String,
+    announced: S.String,
+  }),
+).annotate({
+  identifier: "CreateServerImageResponseImageDeprecation",
+}) as any as S.Schema<CreateServerImageResponseImageDeprecation>;
+
 /** User-defined labels (`key/value` pairs) for the Resource. For more information, see "[Labels](#description/labels)". */
-export type CreateServerImageResponseImageLabelsMap = {
-  [key: string]: string | undefined;
-};
+export type CreateServerImageResponseImageLabelsMap = { [key: string]: string | undefined };
 export const CreateServerImageResponseImageLabelsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -794,8 +750,10 @@ export interface CreateServerImageResponseImage {
   rapid_deploy?: boolean;
   /** Protection configuration for the Resource. */
   protection: CreateServerImageResponseImageProtection;
-  /** Point in time when the Image is considered to be deprecated (in [RFC3339](https://datatracker.ietf.org/doc/html/rfc3339#section-5.6) format). */
+  /** **Deprecated:** This field is deprecated, use the deprecation object instead. Point in time when the Image is considered to be deprecated (in [RFC3339](https://datatracker.ietf.org/doc/html/rfc3339#section-5.6) format). */
   deprecated: string | null;
+  /** Describes if, when and how the resource is deprecated. If this field is set to `null` the resource is not deprecated. If a value is set, it is considered deprecated. */
+  deprecation: CreateServerImageResponseImageDeprecation | null;
   /** Point in time where the Image was deleted (in [RFC3339](https://datatracker.ietf.org/doc/html/rfc3339#section-5.6) format). */
   deleted: string | null;
   /** User-defined labels (`key/value` pairs) for the Resource. For more information, see "[Labels](#description/labels)". */
@@ -820,6 +778,7 @@ export const CreateServerImageResponseImage = /*@__PURE__*/ S.suspend(() =>
     rapid_deploy: S.optional(S.Boolean),
     protection: CreateServerImageResponseImageProtection,
     deprecated: S.NullOr(S.String),
+    deprecation: S.NullOr(CreateServerImageResponseImageDeprecation),
     deleted: S.NullOr(S.String),
     labels: CreateServerImageResponseImageLabelsMap,
     architecture: CreateServerImageResponseImageArchitecture,
@@ -904,13 +863,7 @@ export const DetachServerFromNetworkRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     id: S.Number.pipe(T.Label()),
     network: S.Number,
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/servers/{id}/actions/detach_from_network",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "POST", uri: "/servers/{id}/actions/detach_from_network", code: 200 })),
 ).annotate({
   identifier: "DetachServerFromNetworkRequest",
 }) as any as S.Schema<DetachServerFromNetworkRequest>;
@@ -988,16 +941,8 @@ export interface DetachServerIsoRequest {
 export const DetachServerIsoRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     id: S.Number.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/servers/{id}/actions/detach_iso",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "DetachServerIsoRequest",
-}) as any as S.Schema<DetachServerIsoRequest>;
+  }).pipe(T.Http({ method: "POST", uri: "/servers/{id}/actions/detach_iso", code: 200 })),
+).annotate({ identifier: "DetachServerIsoRequest" }) as any as S.Schema<DetachServerIsoRequest>;
 
 /** Status of the Action. */
 export type DetachServerIsoResponseActionStatus = "running" | "success" | "error";
@@ -1059,9 +1004,7 @@ export const DetachServerIsoResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     action: DetachServerIsoResponseAction,
   }),
-).annotate({
-  identifier: "DetachServerIsoResponse",
-}) as any as S.Schema<DetachServerIsoResponse>;
+).annotate({ identifier: "DetachServerIsoResponse" }) as any as S.Schema<DetachServerIsoResponse>;
 
 export interface DisableServerBackupRequest {
   /** ID of the Server. */
@@ -1070,13 +1013,7 @@ export interface DisableServerBackupRequest {
 export const DisableServerBackupRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     id: S.Number.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/servers/{id}/actions/disable_backup",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "POST", uri: "/servers/{id}/actions/disable_backup", code: 200 })),
 ).annotate({
   identifier: "DisableServerBackupRequest",
 }) as any as S.Schema<DisableServerBackupRequest>;
@@ -1152,13 +1089,7 @@ export interface DisableServerRescueRequest {
 export const DisableServerRescueRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     id: S.Number.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/servers/{id}/actions/disable_rescue",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "POST", uri: "/servers/{id}/actions/disable_rescue", code: 200 })),
 ).annotate({
   identifier: "DisableServerRescueRequest",
 }) as any as S.Schema<DisableServerRescueRequest>;
@@ -1234,13 +1165,7 @@ export interface EnableServerBackupRequest {
 export const EnableServerBackupRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     id: S.Number.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/servers/{id}/actions/enable_backup",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "POST", uri: "/servers/{id}/actions/enable_backup", code: 200 })),
 ).annotate({
   identifier: "EnableServerBackupRequest",
 }) as any as S.Schema<EnableServerBackupRequest>;
@@ -1332,13 +1257,7 @@ export const EnableServerRescueRequest = /*@__PURE__*/ S.suspend(() =>
     id: S.Number.pipe(T.Label()),
     type: S.optional(EnableServerRescueRequestType),
     ssh_keys: S.optional(EnableServerRescueRequestSshKeysList),
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/servers/{id}/actions/enable_rescue",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "POST", uri: "/servers/{id}/actions/enable_rescue", code: 200 })),
 ).annotate({
   identifier: "EnableServerRescueRequest",
 }) as any as S.Schema<EnableServerRescueRequest>;
@@ -1418,9 +1337,7 @@ export const GetServersActionRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     id: S.Number.pipe(T.Label()),
   }).pipe(T.Http({ method: "GET", uri: "/servers/actions/{id}", code: 200 })),
-).annotate({
-  identifier: "GetServersActionRequest",
-}) as any as S.Schema<GetServersActionRequest>;
+).annotate({ identifier: "GetServersActionRequest" }) as any as S.Schema<GetServersActionRequest>;
 
 /** Status of the Action. */
 export type GetServersActionResponseActionStatus = "running" | "success" | "error";
@@ -1482,9 +1399,7 @@ export const GetServersActionResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     action: GetServersActionResponseAction,
   }),
-).annotate({
-  identifier: "GetServersActionResponse",
-}) as any as S.Schema<GetServersActionResponse>;
+).annotate({ identifier: "GetServersActionResponse" }) as any as S.Schema<GetServersActionResponse>;
 
 export type ListServerActionsRequestSortItem =
   | "id"
@@ -1542,9 +1457,7 @@ export const ListServerActionsRequest = /*@__PURE__*/ S.suspend(() =>
     page: S.optional(S.Number.pipe(T.Query())),
     per_page: S.optional(S.Number.pipe(T.Query())),
   }).pipe(T.Http({ method: "GET", uri: "/servers/{id}/actions", code: 200 })),
-).annotate({
-  identifier: "ListServerActionsRequest",
-}) as any as S.Schema<ListServerActionsRequest>;
+).annotate({ identifier: "ListServerActionsRequest" }) as any as S.Schema<ListServerActionsRequest>;
 
 /** Status of the Action. */
 export type ListServerActionsResponseActionsItemStatus = "running" | "success" | "error";
@@ -1811,16 +1724,8 @@ export interface PoweroffServerRequest {
 export const PoweroffServerRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     id: S.Number.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/servers/{id}/actions/poweroff",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "PoweroffServerRequest",
-}) as any as S.Schema<PoweroffServerRequest>;
+  }).pipe(T.Http({ method: "POST", uri: "/servers/{id}/actions/poweroff", code: 200 })),
+).annotate({ identifier: "PoweroffServerRequest" }) as any as S.Schema<PoweroffServerRequest>;
 
 /** Status of the Action. */
 export type PoweroffServerResponseActionStatus = "running" | "success" | "error";
@@ -1882,9 +1787,7 @@ export const PoweroffServerResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     action: PoweroffServerResponseAction,
   }),
-).annotate({
-  identifier: "PoweroffServerResponse",
-}) as any as S.Schema<PoweroffServerResponse>;
+).annotate({ identifier: "PoweroffServerResponse" }) as any as S.Schema<PoweroffServerResponse>;
 
 export interface PoweronServerRequest {
   /** ID of the Server. */
@@ -1894,9 +1797,7 @@ export const PoweronServerRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     id: S.Number.pipe(T.Label()),
   }).pipe(T.Http({ method: "POST", uri: "/servers/{id}/actions/poweron", code: 200 })),
-).annotate({
-  identifier: "PoweronServerRequest",
-}) as any as S.Schema<PoweronServerRequest>;
+).annotate({ identifier: "PoweronServerRequest" }) as any as S.Schema<PoweronServerRequest>;
 
 /** Status of the Action. */
 export type PoweronServerResponseActionStatus = "running" | "success" | "error";
@@ -1958,9 +1859,7 @@ export const PoweronServerResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     action: PoweronServerResponseAction,
   }),
-).annotate({
-  identifier: "PoweronServerResponse",
-}) as any as S.Schema<PoweronServerResponse>;
+).annotate({ identifier: "PoweronServerResponse" }) as any as S.Schema<PoweronServerResponse>;
 
 export interface RebootServerRequest {
   /** ID of the Server. */
@@ -1970,9 +1869,7 @@ export const RebootServerRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     id: S.Number.pipe(T.Label()),
   }).pipe(T.Http({ method: "POST", uri: "/servers/{id}/actions/reboot", code: 200 })),
-).annotate({
-  identifier: "RebootServerRequest",
-}) as any as S.Schema<RebootServerRequest>;
+).annotate({ identifier: "RebootServerRequest" }) as any as S.Schema<RebootServerRequest>;
 
 /** Status of the Action. */
 export type RebootServerResponseActionStatus = "running" | "success" | "error";
@@ -2034,9 +1931,7 @@ export const RebootServerResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     action: RebootServerResponseAction,
   }),
-).annotate({
-  identifier: "RebootServerResponse",
-}) as any as S.Schema<RebootServerResponse>;
+).annotate({ identifier: "RebootServerResponse" }) as any as S.Schema<RebootServerResponse>;
 
 export interface RebuildServerRequest {
   /** ID of the Server. */
@@ -2052,9 +1947,7 @@ export const RebuildServerRequest = /*@__PURE__*/ S.suspend(() =>
     image: S.String,
     user_data: S.optional(S.String),
   }).pipe(T.Http({ method: "POST", uri: "/servers/{id}/actions/rebuild", code: 200 })),
-).annotate({
-  identifier: "RebuildServerRequest",
-}) as any as S.Schema<RebuildServerRequest>;
+).annotate({ identifier: "RebuildServerRequest" }) as any as S.Schema<RebuildServerRequest>;
 
 /** Status of the Action. */
 export type RebuildServerResponseActionStatus = "running" | "success" | "error";
@@ -2119,9 +2012,7 @@ export const RebuildServerResponse = /*@__PURE__*/ S.suspend(() =>
     root_password: S.optional(S.NullOr(S.String).pipe(T.SensitiveValue({}))),
     action: S.optional(RebuildServerResponseAction),
   }),
-).annotate({
-  identifier: "RebuildServerResponse",
-}) as any as S.Schema<RebuildServerResponse>;
+).annotate({ identifier: "RebuildServerResponse" }) as any as S.Schema<RebuildServerResponse>;
 
 export interface RemoveServerFromPlacementGroupRequest {
   /** ID of the Server. */
@@ -2131,11 +2022,7 @@ export const RemoveServerFromPlacementGroupRequest = /*@__PURE__*/ S.suspend(() 
   S.Struct({
     id: S.Number.pipe(T.Label()),
   }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/servers/{id}/actions/remove_from_placement_group",
-      code: 200,
-    }),
+    T.Http({ method: "POST", uri: "/servers/{id}/actions/remove_from_placement_group", code: 200 }),
   ),
 ).annotate({
   identifier: "RemoveServerFromPlacementGroupRequest",
@@ -2214,13 +2101,7 @@ export interface RequestServerConsoleRequest {
 export const RequestServerConsoleRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     id: S.Number.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/servers/{id}/actions/request_console",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "POST", uri: "/servers/{id}/actions/request_console", code: 200 })),
 ).annotate({
   identifier: "RequestServerConsoleRequest",
 }) as any as S.Schema<RequestServerConsoleRequest>;
@@ -2303,9 +2184,7 @@ export const ResetServerRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     id: S.Number.pipe(T.Label()),
   }).pipe(T.Http({ method: "POST", uri: "/servers/{id}/actions/reset", code: 200 })),
-).annotate({
-  identifier: "ResetServerRequest",
-}) as any as S.Schema<ResetServerRequest>;
+).annotate({ identifier: "ResetServerRequest" }) as any as S.Schema<ResetServerRequest>;
 
 /** Status of the Action. */
 export type ResetServerResponseActionStatus = "running" | "success" | "error";
@@ -2367,9 +2246,7 @@ export const ResetServerResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     action: ResetServerResponseAction,
   }),
-).annotate({
-  identifier: "ResetServerResponse",
-}) as any as S.Schema<ResetServerResponse>;
+).annotate({ identifier: "ResetServerResponse" }) as any as S.Schema<ResetServerResponse>;
 
 export interface ResetServerPasswordRequest {
   /** ID of the Server. */
@@ -2378,13 +2255,7 @@ export interface ResetServerPasswordRequest {
 export const ResetServerPasswordRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     id: S.Number.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/servers/{id}/actions/reset_password",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "POST", uri: "/servers/{id}/actions/reset_password", code: 200 })),
 ).annotate({
   identifier: "ResetServerPasswordRequest",
 }) as any as S.Schema<ResetServerPasswordRequest>;
@@ -2463,16 +2334,8 @@ export interface ShutdownServerRequest {
 export const ShutdownServerRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     id: S.Number.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/servers/{id}/actions/shutdown",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "ShutdownServerRequest",
-}) as any as S.Schema<ShutdownServerRequest>;
+  }).pipe(T.Http({ method: "POST", uri: "/servers/{id}/actions/shutdown", code: 200 })),
+).annotate({ identifier: "ShutdownServerRequest" }) as any as S.Schema<ShutdownServerRequest>;
 
 /** Status of the Action. */
 export type ShutdownServerResponseActionStatus = "running" | "success" | "error";
@@ -2534,9 +2397,7 @@ export const ShutdownServerResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     action: ShutdownServerResponseAction,
   }),
-).annotate({
-  identifier: "ShutdownServerResponse",
-}) as any as S.Schema<ShutdownServerResponse>;
+).annotate({ identifier: "ShutdownServerResponse" }) as any as S.Schema<ShutdownServerResponse>;
 
 export type AddServerToPlacementGroupError = HetznerOpError;
 /** Add a Server to a Placement Group Adds a Server to a Placement Group. Server must be powered off for this command to succeed. #### Operation specific errors */

@@ -23,9 +23,7 @@ export const AttachVolumeRequest = /*@__PURE__*/ S.suspend(() =>
     server: S.Number,
     automount: S.optional(S.Boolean),
   }).pipe(T.Http({ method: "POST", uri: "/volumes/{id}/actions/attach", code: 200 })),
-).annotate({
-  identifier: "AttachVolumeRequest",
-}) as any as S.Schema<AttachVolumeRequest>;
+).annotate({ identifier: "AttachVolumeRequest" }) as any as S.Schema<AttachVolumeRequest>;
 
 /** Status of the Action. */
 export type AttachVolumeResponseActionStatus = "running" | "success" | "error";
@@ -109,9 +107,7 @@ export const AttachVolumeResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     action: AttachVolumeResponseAction,
   }),
-).annotate({
-  identifier: "AttachVolumeResponse",
-}) as any as S.Schema<AttachVolumeResponse>;
+).annotate({ identifier: "AttachVolumeResponse" }) as any as S.Schema<AttachVolumeResponse>;
 
 export interface ChangeVolumeProtectionRequest {
   /** ID of the Volume. */
@@ -123,13 +119,7 @@ export const ChangeVolumeProtectionRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     id: S.Number.pipe(T.Label()),
     delete: S.optional(S.Boolean),
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/volumes/{id}/actions/change_protection",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "POST", uri: "/volumes/{id}/actions/change_protection", code: 200 })),
 ).annotate({
   identifier: "ChangeVolumeProtectionRequest",
 }) as any as S.Schema<ChangeVolumeProtectionRequest>;
@@ -206,9 +196,7 @@ export const DetachVolumeRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     id: S.Number.pipe(T.Label()),
   }).pipe(T.Http({ method: "POST", uri: "/volumes/{id}/actions/detach", code: 200 })),
-).annotate({
-  identifier: "DetachVolumeRequest",
-}) as any as S.Schema<DetachVolumeRequest>;
+).annotate({ identifier: "DetachVolumeRequest" }) as any as S.Schema<DetachVolumeRequest>;
 
 /** Status of the Action. */
 export type DetachVolumeResponseActionStatus = "running" | "success" | "error";
@@ -268,9 +256,7 @@ export const DetachVolumeResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     action: DetachVolumeResponseAction,
   }),
-).annotate({
-  identifier: "DetachVolumeResponse",
-}) as any as S.Schema<DetachVolumeResponse>;
+).annotate({ identifier: "DetachVolumeResponse" }) as any as S.Schema<DetachVolumeResponse>;
 
 export interface GetVolumesActionRequest {
   /** ID of the Action. */
@@ -280,9 +266,7 @@ export const GetVolumesActionRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     id: S.Number.pipe(T.Label()),
   }).pipe(T.Http({ method: "GET", uri: "/volumes/actions/{id}", code: 200 })),
-).annotate({
-  identifier: "GetVolumesActionRequest",
-}) as any as S.Schema<GetVolumesActionRequest>;
+).annotate({ identifier: "GetVolumesActionRequest" }) as any as S.Schema<GetVolumesActionRequest>;
 
 /** Status of the Action. */
 export type GetVolumesActionResponseActionStatus = "running" | "success" | "error";
@@ -342,9 +326,7 @@ export const GetVolumesActionResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     action: GetVolumesActionResponseAction,
   }),
-).annotate({
-  identifier: "GetVolumesActionResponse",
-}) as any as S.Schema<GetVolumesActionResponse>;
+).annotate({ identifier: "GetVolumesActionResponse" }) as any as S.Schema<GetVolumesActionResponse>;
 
 export type ListVolumeActionsRequestSortItem =
   | "id"
@@ -402,9 +384,7 @@ export const ListVolumeActionsRequest = /*@__PURE__*/ S.suspend(() =>
     page: S.optional(S.Number.pipe(T.Query())),
     per_page: S.optional(S.Number.pipe(T.Query())),
   }).pipe(T.Http({ method: "GET", uri: "/volumes/{id}/actions", code: 200 })),
-).annotate({
-  identifier: "ListVolumeActionsRequest",
-}) as any as S.Schema<ListVolumeActionsRequest>;
+).annotate({ identifier: "ListVolumeActionsRequest" }) as any as S.Schema<ListVolumeActionsRequest>;
 
 /** Status of the Action. */
 export type ListVolumeActionsResponseActionsItemStatus = "running" | "success" | "error";
@@ -671,9 +651,7 @@ export const ResizeVolumeRequest = /*@__PURE__*/ S.suspend(() =>
     id: S.Number.pipe(T.Label()),
     size: S.Number,
   }).pipe(T.Http({ method: "POST", uri: "/volumes/{id}/actions/resize", code: 200 })),
-).annotate({
-  identifier: "ResizeVolumeRequest",
-}) as any as S.Schema<ResizeVolumeRequest>;
+).annotate({ identifier: "ResizeVolumeRequest" }) as any as S.Schema<ResizeVolumeRequest>;
 
 /** Status of the Action. */
 export type ResizeVolumeResponseActionStatus = "running" | "success" | "error";
@@ -733,9 +711,7 @@ export const ResizeVolumeResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     action: ResizeVolumeResponseAction,
   }),
-).annotate({
-  identifier: "ResizeVolumeResponse",
-}) as any as S.Schema<ResizeVolumeResponse>;
+).annotate({ identifier: "ResizeVolumeResponse" }) as any as S.Schema<ResizeVolumeResponse>;
 
 export type AttachVolumeError = HetznerOpError;
 /** Attach Volume to a Server Attaches a Volume to a Server. Works only if the Server is in the same Location as the Volume. */

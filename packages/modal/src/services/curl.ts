@@ -14,16 +14,8 @@ export interface CurlGetAuthTokenRequest {
 export const CurlGetAuthTokenRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     url: S.optional(S.String),
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/modal.client.ModalClient/CurlGetAuthToken",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "CurlGetAuthTokenRequest",
-}) as any as S.Schema<CurlGetAuthTokenRequest>;
+  }).pipe(T.Http({ method: "POST", uri: "/modal.client.ModalClient/CurlGetAuthToken", code: 200 })),
+).annotate({ identifier: "CurlGetAuthTokenRequest" }) as any as S.Schema<CurlGetAuthTokenRequest>;
 
 export interface CurlGetAuthTokenResponse {
   token?: string;
@@ -32,9 +24,7 @@ export const CurlGetAuthTokenResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     token: S.optional(S.String),
   }),
-).annotate({
-  identifier: "CurlGetAuthTokenResponse",
-}) as any as S.Schema<CurlGetAuthTokenResponse>;
+).annotate({ identifier: "CurlGetAuthTokenResponse" }) as any as S.Schema<CurlGetAuthTokenResponse>;
 
 export type CurlGetAuthTokenError = ModalOpError;
 /** Curl */

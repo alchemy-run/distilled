@@ -19,13 +19,7 @@ export const ChangeImageProtectionRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     id: S.Number.pipe(T.Label()),
     delete: S.optional(S.Boolean),
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/images/{id}/actions/change_protection",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "POST", uri: "/images/{id}/actions/change_protection", code: 200 })),
 ).annotate({
   identifier: "ChangeImageProtectionRequest",
 }) as any as S.Schema<ChangeImageProtectionRequest>;
@@ -124,9 +118,7 @@ export const GetImagesActionRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     id: S.Number.pipe(T.Label()),
   }).pipe(T.Http({ method: "GET", uri: "/images/actions/{id}", code: 200 })),
-).annotate({
-  identifier: "GetImagesActionRequest",
-}) as any as S.Schema<GetImagesActionRequest>;
+).annotate({ identifier: "GetImagesActionRequest" }) as any as S.Schema<GetImagesActionRequest>;
 
 /** Status of the Action. */
 export type GetImagesActionResponseActionStatus = "running" | "success" | "error";
@@ -188,9 +180,7 @@ export const GetImagesActionResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     action: GetImagesActionResponseAction,
   }),
-).annotate({
-  identifier: "GetImagesActionResponse",
-}) as any as S.Schema<GetImagesActionResponse>;
+).annotate({ identifier: "GetImagesActionResponse" }) as any as S.Schema<GetImagesActionResponse>;
 
 export type ListImageActionsRequestSortItem =
   | "id"
@@ -248,9 +238,7 @@ export const ListImageActionsRequest = /*@__PURE__*/ S.suspend(() =>
     page: S.optional(S.Number.pipe(T.Query())),
     per_page: S.optional(S.Number.pipe(T.Query())),
   }).pipe(T.Http({ method: "GET", uri: "/images/{id}/actions", code: 200 })),
-).annotate({
-  identifier: "ListImageActionsRequest",
-}) as any as S.Schema<ListImageActionsRequest>;
+).annotate({ identifier: "ListImageActionsRequest" }) as any as S.Schema<ListImageActionsRequest>;
 
 /** Status of the Action. */
 export type ListImageActionsResponseActionsItemStatus = "running" | "success" | "error";
@@ -359,9 +347,7 @@ export const ListImageActionsResponse = /*@__PURE__*/ S.suspend(() =>
     actions: ListImageActionsResponseActionsList,
     meta: ListImageActionsResponseMeta,
   }),
-).annotate({
-  identifier: "ListImageActionsResponse",
-}) as any as S.Schema<ListImageActionsResponse>;
+).annotate({ identifier: "ListImageActionsResponse" }) as any as S.Schema<ListImageActionsResponse>;
 
 export type ListImagesActionsRequestIdList = Array<number>;
 export const ListImagesActionsRequestIdList = /*@__PURE__*/ S.Array(
@@ -424,9 +410,7 @@ export const ListImagesActionsRequest = /*@__PURE__*/ S.suspend(() =>
     page: S.optional(S.Number.pipe(T.Query())),
     per_page: S.optional(S.Number.pipe(T.Query())),
   }).pipe(T.Http({ method: "GET", uri: "/images/actions", code: 200 })),
-).annotate({
-  identifier: "ListImagesActionsRequest",
-}) as any as S.Schema<ListImagesActionsRequest>;
+).annotate({ identifier: "ListImagesActionsRequest" }) as any as S.Schema<ListImagesActionsRequest>;
 
 /** Status of the Action. */
 export type ListImagesActionsResponseActionsItemStatus = "running" | "success" | "error";

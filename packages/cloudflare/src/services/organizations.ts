@@ -383,8 +383,18 @@ export const BillingUsageGetResultItemChargeFrequency = S.String;
 export type BillingUsageGetResultItemChargeClass = "Correction";
 export const BillingUsageGetResultItemChargeClass = S.String;
 
-export type BillingUsageGetResultItemTags = string | boolean;
-export const BillingUsageGetResultItemTags = /*@__PURE__*/ S.Unknown.pipe(T.UnionCases([[], []]));
+export type BillingUsageGetResultItemTagsValue = string | boolean;
+export const BillingUsageGetResultItemTagsValue = /*@__PURE__*/ S.Unknown.pipe(
+  T.UnionCases([[], []]),
+);
+
+export type BillingUsageGetResultItemTagsMap = {
+  [key: string]: BillingUsageGetResultItemTagsValue | undefined;
+};
+export const BillingUsageGetResultItemTagsMap = /*@__PURE__*/ S.Record(
+  S.String,
+  BillingUsageGetResultItemTagsValue,
+) as any as S.Schema<BillingUsageGetResultItemTagsMap>;
 
 export interface BillingUsageGetResultItem {
   /** Highest-level classification of a charge based on the nature of how it gets billed. Currently only "Usage" is supported. */
@@ -446,7 +456,7 @@ export interface BillingUsageGetResultItem {
   /** Name assigned to a grouping of services. For Cloudflare, this is the subscription or contract display name. */
   subAccountName?: string | null;
   /** Tag values for the requested `GroupBy` keys. Omitted when `GroupBy` is not provided. Missing keys are omitted, and key-only tags are returned as boolean `true`. All other tag values are strings. */
-  tags?: BillingUsageGetResultItemTags | null;
+  tags?: BillingUsageGetResultItemTagsMap | null;
   /** The display name of the billable metric. Cloudflare extension; replaces FOCUS SkuMeter. */
   xBillableMetricName?: string | null;
   /** The product category the charge belongs to (e.g., "Developer", "Cloudflare One"). Cloudflare extension; replaces FOCUS ServiceCategory. */
@@ -493,7 +503,7 @@ export const BillingUsageGetResultItem = /*@__PURE__*/ S.suspend(() =>
     regionName: S.optional(S.NullOr(S.String).pipe(T.Body("RegionName"))),
     subAccountId: S.optional(S.NullOr(S.String).pipe(T.Body("SubAccountId"))),
     subAccountName: S.optional(S.NullOr(S.String).pipe(T.Body("SubAccountName"))),
-    tags: S.optional(S.NullOr(BillingUsageGetResultItemTags).pipe(T.Body("Tags"))),
+    tags: S.optional(S.NullOr(BillingUsageGetResultItemTagsMap).pipe(T.Body("Tags"))),
     xBillableMetricName: S.optional(S.NullOr(S.String).pipe(T.Body("x_BillableMetricName"))),
     xProductCategoryName: S.optional(S.NullOr(S.String).pipe(T.Body("x_ProductCategoryName"))),
     xProductFamilyId: S.optional(S.NullOr(S.String).pipe(T.Body("x_ProductFamilyId"))),

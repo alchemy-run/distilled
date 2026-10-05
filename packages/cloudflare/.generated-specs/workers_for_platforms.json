@@ -170,7 +170,7 @@
         "target": "smithy.api#String"
       }
     },
-    "com.cloudflare.workers_for_platforms#DispatchNamespacesScriptsGetResponseScriptExportsWorkerType": {
+    "com.cloudflare.workers_for_platforms#DispatchNamespacesScriptsGetResponseScriptExportsValueWorkerType": {
       "type": "enum",
       "members": {
         "WORKER": {
@@ -181,7 +181,7 @@
         }
       }
     },
-    "com.cloudflare.workers_for_platforms#DispatchNamespacesScriptsGetResponseScriptExportsWorkerCache": {
+    "com.cloudflare.workers_for_platforms#DispatchNamespacesScriptsGetResponseScriptExportsValueWorkerCache": {
       "type": "structure",
       "members": {
         "enabled": {
@@ -193,7 +193,7 @@
         }
       }
     },
-    "com.cloudflare.workers_for_platforms#DispatchNamespacesScriptsGetResponseScriptExportsWorkerState": {
+    "com.cloudflare.workers_for_platforms#DispatchNamespacesScriptsGetResponseScriptExportsValueWorkerState": {
       "type": "enum",
       "members": {
         "CREATED": {
@@ -204,31 +204,31 @@
         }
       }
     },
-    "com.cloudflare.workers_for_platforms#DispatchNamespacesScriptsGetResponseScriptExportsWorker": {
+    "com.cloudflare.workers_for_platforms#DispatchNamespacesScriptsGetResponseScriptExportsValueWorker": {
       "type": "structure",
       "members": {
         "type": {
-          "target": "com.cloudflare.workers_for_platforms#DispatchNamespacesScriptsGetResponseScriptExportsWorkerType",
+          "target": "com.cloudflare.workers_for_platforms#DispatchNamespacesScriptsGetResponseScriptExportsValueWorkerType",
           "traits": {
             "smithy.api#documentation": "Marks this entry as a Worker entrypoint export.",
             "smithy.api#required": {}
           }
         },
         "cache": {
-          "target": "com.cloudflare.workers_for_platforms#DispatchNamespacesScriptsGetResponseScriptExportsWorkerCache",
+          "target": "com.cloudflare.workers_for_platforms#DispatchNamespacesScriptsGetResponseScriptExportsValueWorkerCache",
           "traits": {
             "smithy.api#documentation": "Cache override for this entrypoint. Overrides the Worker's global `cache_options.enabled` for this entrypoint only."
           }
         },
         "state": {
-          "target": "com.cloudflare.workers_for_platforms#DispatchNamespacesScriptsGetResponseScriptExportsWorkerState",
+          "target": "com.cloudflare.workers_for_platforms#DispatchNamespacesScriptsGetResponseScriptExportsValueWorkerState",
           "traits": {
             "smithy.api#documentation": "Live export. May be omitted; defaults to `created`."
           }
         }
       }
     },
-    "com.cloudflare.workers_for_platforms#DispatchNamespacesScriptsGetResponseScriptExportsWorkersDurableObjectExportStorage": {
+    "com.cloudflare.workers_for_platforms#DispatchNamespacesScriptsGetResponseScriptExportsValueWorkersDurableObjectExportStorage": {
       "type": "enum",
       "members": {
         "SQLITE": {
@@ -245,7 +245,7 @@
         }
       }
     },
-    "com.cloudflare.workers_for_platforms#DispatchNamespacesScriptsGetResponseScriptExportsWorkersDurableObjectExportType": {
+    "com.cloudflare.workers_for_platforms#DispatchNamespacesScriptsGetResponseScriptExportsValueWorkersDurableObjectExportType": {
       "type": "enum",
       "members": {
         "DURABLE_OBJECT": {
@@ -256,7 +256,7 @@
         }
       }
     },
-    "com.cloudflare.workers_for_platforms#DispatchNamespacesScriptsGetResponseScriptExportsWorkersDurableObjectExportState": {
+    "com.cloudflare.workers_for_platforms#DispatchNamespacesScriptsGetResponseScriptExportsValueWorkersDurableObjectExportState": {
       "type": "enum",
       "members": {
         "CREATED": {
@@ -267,18 +267,18 @@
         }
       }
     },
-    "com.cloudflare.workers_for_platforms#DispatchNamespacesScriptsGetResponseScriptExportsWorkersDurableObjectExport": {
+    "com.cloudflare.workers_for_platforms#DispatchNamespacesScriptsGetResponseScriptExportsValueWorkersDurableObjectExport": {
       "type": "structure",
       "members": {
         "storage": {
-          "target": "com.cloudflare.workers_for_platforms#DispatchNamespacesScriptsGetResponseScriptExportsWorkersDurableObjectExportStorage",
+          "target": "com.cloudflare.workers_for_platforms#DispatchNamespacesScriptsGetResponseScriptExportsValueWorkersDurableObjectExportStorage",
           "traits": {
             "smithy.api#documentation": "Durable Object storage backend. `sqlite` is the recommended (and only) backend for new namespaces. `legacy-kv` is accepted only for a class whose namespace already exists as KV-backed; the `exports` flow never provisions a new `legacy-kv` namespace.",
             "smithy.api#required": {}
           }
         },
         "type": {
-          "target": "com.cloudflare.workers_for_platforms#DispatchNamespacesScriptsGetResponseScriptExportsWorkersDurableObjectExportType",
+          "target": "com.cloudflare.workers_for_platforms#DispatchNamespacesScriptsGetResponseScriptExportsValueWorkersDurableObjectExportType",
           "traits": {
             "smithy.api#documentation": "Marks this entry as a Durable Object export.",
             "smithy.api#required": {}
@@ -291,14 +291,14 @@
           }
         },
         "state": {
-          "target": "com.cloudflare.workers_for_platforms#DispatchNamespacesScriptsGetResponseScriptExportsWorkersDurableObjectExportState",
+          "target": "com.cloudflare.workers_for_platforms#DispatchNamespacesScriptsGetResponseScriptExportsValueWorkersDurableObjectExportState",
           "traits": {
             "smithy.api#documentation": "Live export. May be omitted; defaults to `created`."
           }
         }
       }
     },
-    "com.cloudflare.workers_for_platforms#DispatchNamespacesScriptsGetResponseScriptExportsWorkersDurableObjectDeletedExportState": {
+    "com.cloudflare.workers_for_platforms#DispatchNamespacesScriptsGetResponseScriptExportsValueWorkersDurableObjectDeletedExportState": {
       "type": "enum",
       "members": {
         "DELETED": {
@@ -309,7 +309,7 @@
         }
       }
     },
-    "com.cloudflare.workers_for_platforms#DispatchNamespacesScriptsGetResponseScriptExportsWorkersDurableObjectDeletedExportType": {
+    "com.cloudflare.workers_for_platforms#DispatchNamespacesScriptsGetResponseScriptExportsValueWorkersDurableObjectDeletedExportType": {
       "type": "enum",
       "members": {
         "DURABLE_OBJECT": {
@@ -320,18 +320,18 @@
         }
       }
     },
-    "com.cloudflare.workers_for_platforms#DispatchNamespacesScriptsGetResponseScriptExportsWorkersDurableObjectDeletedExport": {
+    "com.cloudflare.workers_for_platforms#DispatchNamespacesScriptsGetResponseScriptExportsValueWorkersDurableObjectDeletedExport": {
       "type": "structure",
       "members": {
         "state": {
-          "target": "com.cloudflare.workers_for_platforms#DispatchNamespacesScriptsGetResponseScriptExportsWorkersDurableObjectDeletedExportState",
+          "target": "com.cloudflare.workers_for_platforms#DispatchNamespacesScriptsGetResponseScriptExportsValueWorkersDurableObjectDeletedExportState",
           "traits": {
             "smithy.api#documentation": "Tombstone that deletes the namespace.",
             "smithy.api#required": {}
           }
         },
         "type": {
-          "target": "com.cloudflare.workers_for_platforms#DispatchNamespacesScriptsGetResponseScriptExportsWorkersDurableObjectDeletedExportType",
+          "target": "com.cloudflare.workers_for_platforms#DispatchNamespacesScriptsGetResponseScriptExportsValueWorkersDurableObjectDeletedExportType",
           "traits": {
             "smithy.api#documentation": "Marks this entry as a Durable Object export.",
             "smithy.api#required": {}
@@ -339,7 +339,7 @@
         }
       }
     },
-    "com.cloudflare.workers_for_platforms#DispatchNamespacesScriptsGetResponseScriptExportsWorkersDurableObjectRenamedExportState": {
+    "com.cloudflare.workers_for_platforms#DispatchNamespacesScriptsGetResponseScriptExportsValueWorkersDurableObjectRenamedExportState": {
       "type": "enum",
       "members": {
         "RENAMED": {
@@ -350,7 +350,7 @@
         }
       }
     },
-    "com.cloudflare.workers_for_platforms#DispatchNamespacesScriptsGetResponseScriptExportsWorkersDurableObjectRenamedExportType": {
+    "com.cloudflare.workers_for_platforms#DispatchNamespacesScriptsGetResponseScriptExportsValueWorkersDurableObjectRenamedExportType": {
       "type": "enum",
       "members": {
         "DURABLE_OBJECT": {
@@ -361,7 +361,7 @@
         }
       }
     },
-    "com.cloudflare.workers_for_platforms#DispatchNamespacesScriptsGetResponseScriptExportsWorkersDurableObjectRenamedExport": {
+    "com.cloudflare.workers_for_platforms#DispatchNamespacesScriptsGetResponseScriptExportsValueWorkersDurableObjectRenamedExport": {
       "type": "structure",
       "members": {
         "renamed_to": {
@@ -372,14 +372,14 @@
           }
         },
         "state": {
-          "target": "com.cloudflare.workers_for_platforms#DispatchNamespacesScriptsGetResponseScriptExportsWorkersDurableObjectRenamedExportState",
+          "target": "com.cloudflare.workers_for_platforms#DispatchNamespacesScriptsGetResponseScriptExportsValueWorkersDurableObjectRenamedExportState",
           "traits": {
             "smithy.api#documentation": "Tombstone that renames the namespace's class.",
             "smithy.api#required": {}
           }
         },
         "type": {
-          "target": "com.cloudflare.workers_for_platforms#DispatchNamespacesScriptsGetResponseScriptExportsWorkersDurableObjectRenamedExportType",
+          "target": "com.cloudflare.workers_for_platforms#DispatchNamespacesScriptsGetResponseScriptExportsValueWorkersDurableObjectRenamedExportType",
           "traits": {
             "smithy.api#documentation": "Marks this entry as a Durable Object export.",
             "smithy.api#required": {}
@@ -387,7 +387,7 @@
         }
       }
     },
-    "com.cloudflare.workers_for_platforms#DispatchNamespacesScriptsGetResponseScriptExportsWorkersDurableObjectTransferredExportState": {
+    "com.cloudflare.workers_for_platforms#DispatchNamespacesScriptsGetResponseScriptExportsValueWorkersDurableObjectTransferredExportState": {
       "type": "enum",
       "members": {
         "TRANSFERRED": {
@@ -398,7 +398,7 @@
         }
       }
     },
-    "com.cloudflare.workers_for_platforms#DispatchNamespacesScriptsGetResponseScriptExportsWorkersDurableObjectTransferredExportType": {
+    "com.cloudflare.workers_for_platforms#DispatchNamespacesScriptsGetResponseScriptExportsValueWorkersDurableObjectTransferredExportType": {
       "type": "enum",
       "members": {
         "DURABLE_OBJECT": {
@@ -409,11 +409,11 @@
         }
       }
     },
-    "com.cloudflare.workers_for_platforms#DispatchNamespacesScriptsGetResponseScriptExportsWorkersDurableObjectTransferredExport": {
+    "com.cloudflare.workers_for_platforms#DispatchNamespacesScriptsGetResponseScriptExportsValueWorkersDurableObjectTransferredExport": {
       "type": "structure",
       "members": {
         "state": {
-          "target": "com.cloudflare.workers_for_platforms#DispatchNamespacesScriptsGetResponseScriptExportsWorkersDurableObjectTransferredExportState",
+          "target": "com.cloudflare.workers_for_platforms#DispatchNamespacesScriptsGetResponseScriptExportsValueWorkersDurableObjectTransferredExportState",
           "traits": {
             "smithy.api#documentation": "Tombstone that transfers the namespace to another script.",
             "smithy.api#required": {}
@@ -427,7 +427,7 @@
           }
         },
         "type": {
-          "target": "com.cloudflare.workers_for_platforms#DispatchNamespacesScriptsGetResponseScriptExportsWorkersDurableObjectTransferredExportType",
+          "target": "com.cloudflare.workers_for_platforms#DispatchNamespacesScriptsGetResponseScriptExportsValueWorkersDurableObjectTransferredExportType",
           "traits": {
             "smithy.api#documentation": "Marks this entry as a Durable Object export.",
             "smithy.api#required": {}
@@ -435,7 +435,7 @@
         }
       }
     },
-    "com.cloudflare.workers_for_platforms#DispatchNamespacesScriptsGetResponseScriptExportsWorkersDurableObjectExpectingTransferExportState": {
+    "com.cloudflare.workers_for_platforms#DispatchNamespacesScriptsGetResponseScriptExportsValueWorkersDurableObjectExpectingTransferExportState": {
       "type": "enum",
       "members": {
         "EXPECTING_TRANSFER": {
@@ -446,7 +446,7 @@
         }
       }
     },
-    "com.cloudflare.workers_for_platforms#DispatchNamespacesScriptsGetResponseScriptExportsWorkersDurableObjectExpectingTransferExportStorage": {
+    "com.cloudflare.workers_for_platforms#DispatchNamespacesScriptsGetResponseScriptExportsValueWorkersDurableObjectExpectingTransferExportStorage": {
       "type": "enum",
       "members": {
         "SQLITE": {
@@ -463,7 +463,7 @@
         }
       }
     },
-    "com.cloudflare.workers_for_platforms#DispatchNamespacesScriptsGetResponseScriptExportsWorkersDurableObjectExpectingTransferExportType": {
+    "com.cloudflare.workers_for_platforms#DispatchNamespacesScriptsGetResponseScriptExportsValueWorkersDurableObjectExpectingTransferExportType": {
       "type": "enum",
       "members": {
         "DURABLE_OBJECT": {
@@ -474,18 +474,18 @@
         }
       }
     },
-    "com.cloudflare.workers_for_platforms#DispatchNamespacesScriptsGetResponseScriptExportsWorkersDurableObjectExpectingTransferExport": {
+    "com.cloudflare.workers_for_platforms#DispatchNamespacesScriptsGetResponseScriptExportsValueWorkersDurableObjectExpectingTransferExport": {
       "type": "structure",
       "members": {
         "state": {
-          "target": "com.cloudflare.workers_for_platforms#DispatchNamespacesScriptsGetResponseScriptExportsWorkersDurableObjectExpectingTransferExportState",
+          "target": "com.cloudflare.workers_for_platforms#DispatchNamespacesScriptsGetResponseScriptExportsValueWorkersDurableObjectExpectingTransferExportState",
           "traits": {
             "smithy.api#documentation": "Target side of a two-phase transfer.",
             "smithy.api#required": {}
           }
         },
         "storage": {
-          "target": "com.cloudflare.workers_for_platforms#DispatchNamespacesScriptsGetResponseScriptExportsWorkersDurableObjectExpectingTransferExportStorage",
+          "target": "com.cloudflare.workers_for_platforms#DispatchNamespacesScriptsGetResponseScriptExportsValueWorkersDurableObjectExpectingTransferExportStorage",
           "traits": {
             "smithy.api#documentation": "Durable Object storage backend. `sqlite` is the recommended (and only) backend for new namespaces. `legacy-kv` is accepted only for a class whose namespace already exists as KV-backed; the `exports` flow never provisions a new `legacy-kv` namespace.",
             "smithy.api#required": {}
@@ -499,7 +499,7 @@
           }
         },
         "type": {
-          "target": "com.cloudflare.workers_for_platforms#DispatchNamespacesScriptsGetResponseScriptExportsWorkersDurableObjectExpectingTransferExportType",
+          "target": "com.cloudflare.workers_for_platforms#DispatchNamespacesScriptsGetResponseScriptExportsValueWorkersDurableObjectExpectingTransferExportType",
           "traits": {
             "smithy.api#documentation": "Marks this entry as a Durable Object export.",
             "smithy.api#required": {}
@@ -513,27 +513,36 @@
         }
       }
     },
-    "com.cloudflare.workers_for_platforms#DispatchNamespacesScriptsGetResponseScriptExports": {
+    "com.cloudflare.workers_for_platforms#DispatchNamespacesScriptsGetResponseScriptExportsValue": {
       "type": "union",
       "members": {
         "Worker": {
-          "target": "com.cloudflare.workers_for_platforms#DispatchNamespacesScriptsGetResponseScriptExportsWorker"
+          "target": "com.cloudflare.workers_for_platforms#DispatchNamespacesScriptsGetResponseScriptExportsValueWorker"
         },
         "WorkersDurableObjectExport": {
-          "target": "com.cloudflare.workers_for_platforms#DispatchNamespacesScriptsGetResponseScriptExportsWorkersDurableObjectExport"
+          "target": "com.cloudflare.workers_for_platforms#DispatchNamespacesScriptsGetResponseScriptExportsValueWorkersDurableObjectExport"
         },
         "WorkersDurableObjectDeletedExport": {
-          "target": "com.cloudflare.workers_for_platforms#DispatchNamespacesScriptsGetResponseScriptExportsWorkersDurableObjectDeletedExport"
+          "target": "com.cloudflare.workers_for_platforms#DispatchNamespacesScriptsGetResponseScriptExportsValueWorkersDurableObjectDeletedExport"
         },
         "WorkersDurableObjectRenamedExport": {
-          "target": "com.cloudflare.workers_for_platforms#DispatchNamespacesScriptsGetResponseScriptExportsWorkersDurableObjectRenamedExport"
+          "target": "com.cloudflare.workers_for_platforms#DispatchNamespacesScriptsGetResponseScriptExportsValueWorkersDurableObjectRenamedExport"
         },
         "WorkersDurableObjectTransferredExport": {
-          "target": "com.cloudflare.workers_for_platforms#DispatchNamespacesScriptsGetResponseScriptExportsWorkersDurableObjectTransferredExport"
+          "target": "com.cloudflare.workers_for_platforms#DispatchNamespacesScriptsGetResponseScriptExportsValueWorkersDurableObjectTransferredExport"
         },
         "WorkersDurableObjectExpectingTransferExport": {
-          "target": "com.cloudflare.workers_for_platforms#DispatchNamespacesScriptsGetResponseScriptExportsWorkersDurableObjectExpectingTransferExport"
+          "target": "com.cloudflare.workers_for_platforms#DispatchNamespacesScriptsGetResponseScriptExportsValueWorkersDurableObjectExpectingTransferExport"
         }
+      }
+    },
+    "com.cloudflare.workers_for_platforms#DispatchNamespacesScriptsGetResponseScriptExportsMap": {
+      "type": "map",
+      "key": {
+        "target": "smithy.api#String"
+      },
+      "value": {
+        "target": "com.cloudflare.workers_for_platforms#DispatchNamespacesScriptsGetResponseScriptExportsValue"
       }
     },
     "com.cloudflare.workers_for_platforms#DispatchNamespacesScriptsGetResponseScriptHandlersList": {
@@ -1408,7 +1417,7 @@
           }
         },
         "exports": {
-          "target": "com.cloudflare.workers_for_platforms#DispatchNamespacesScriptsGetResponseScriptExports",
+          "target": "com.cloudflare.workers_for_platforms#DispatchNamespacesScriptsGetResponseScriptExportsMap",
           "traits": {
             "smithy.api#documentation": "Declarative exports for the Worker's most recent version, including Durable Object classes (with their `storage` backend) and named Worker entrypoints. Tombstoned lifecycle entries are omitted, so only live exports (`created` and `expecting-transfer`) are returned."
           }
@@ -3529,7 +3538,7 @@
         "target": "smithy.api#String"
       }
     },
-    "com.cloudflare.workers_for_platforms#DispatchNamespacesScriptsUpdateRequestMetadataExportsWorkerType": {
+    "com.cloudflare.workers_for_platforms#DispatchNamespacesScriptsUpdateRequestMetadataExportsValueWorkerType": {
       "type": "enum",
       "members": {
         "WORKER": {
@@ -3540,7 +3549,7 @@
         }
       }
     },
-    "com.cloudflare.workers_for_platforms#DispatchNamespacesScriptsUpdateRequestMetadataExportsWorkerCache": {
+    "com.cloudflare.workers_for_platforms#DispatchNamespacesScriptsUpdateRequestMetadataExportsValueWorkerCache": {
       "type": "structure",
       "members": {
         "enabled": {
@@ -3552,7 +3561,7 @@
         }
       }
     },
-    "com.cloudflare.workers_for_platforms#DispatchNamespacesScriptsUpdateRequestMetadataExportsWorkerState": {
+    "com.cloudflare.workers_for_platforms#DispatchNamespacesScriptsUpdateRequestMetadataExportsValueWorkerState": {
       "type": "enum",
       "members": {
         "CREATED": {
@@ -3563,31 +3572,31 @@
         }
       }
     },
-    "com.cloudflare.workers_for_platforms#DispatchNamespacesScriptsUpdateRequestMetadataExportsWorker": {
+    "com.cloudflare.workers_for_platforms#DispatchNamespacesScriptsUpdateRequestMetadataExportsValueWorker": {
       "type": "structure",
       "members": {
         "type": {
-          "target": "com.cloudflare.workers_for_platforms#DispatchNamespacesScriptsUpdateRequestMetadataExportsWorkerType",
+          "target": "com.cloudflare.workers_for_platforms#DispatchNamespacesScriptsUpdateRequestMetadataExportsValueWorkerType",
           "traits": {
             "smithy.api#documentation": "Marks this entry as a Worker entrypoint export.",
             "smithy.api#required": {}
           }
         },
         "cache": {
-          "target": "com.cloudflare.workers_for_platforms#DispatchNamespacesScriptsUpdateRequestMetadataExportsWorkerCache",
+          "target": "com.cloudflare.workers_for_platforms#DispatchNamespacesScriptsUpdateRequestMetadataExportsValueWorkerCache",
           "traits": {
             "smithy.api#documentation": "Cache override for this entrypoint. Overrides the Worker's global `cache_options.enabled` for this entrypoint only."
           }
         },
         "state": {
-          "target": "com.cloudflare.workers_for_platforms#DispatchNamespacesScriptsUpdateRequestMetadataExportsWorkerState",
+          "target": "com.cloudflare.workers_for_platforms#DispatchNamespacesScriptsUpdateRequestMetadataExportsValueWorkerState",
           "traits": {
             "smithy.api#documentation": "Live export. May be omitted; defaults to `created`."
           }
         }
       }
     },
-    "com.cloudflare.workers_for_platforms#DispatchNamespacesScriptsUpdateRequestMetadataExportsWorkersDurableObjectExportStorage": {
+    "com.cloudflare.workers_for_platforms#DispatchNamespacesScriptsUpdateRequestMetadataExportsValueWorkersDurableObjectExportStorage": {
       "type": "enum",
       "members": {
         "SQLITE": {
@@ -3604,7 +3613,7 @@
         }
       }
     },
-    "com.cloudflare.workers_for_platforms#DispatchNamespacesScriptsUpdateRequestMetadataExportsWorkersDurableObjectExportType": {
+    "com.cloudflare.workers_for_platforms#DispatchNamespacesScriptsUpdateRequestMetadataExportsValueWorkersDurableObjectExportType": {
       "type": "enum",
       "members": {
         "DURABLE_OBJECT": {
@@ -3615,7 +3624,7 @@
         }
       }
     },
-    "com.cloudflare.workers_for_platforms#DispatchNamespacesScriptsUpdateRequestMetadataExportsWorkersDurableObjectExportState": {
+    "com.cloudflare.workers_for_platforms#DispatchNamespacesScriptsUpdateRequestMetadataExportsValueWorkersDurableObjectExportState": {
       "type": "enum",
       "members": {
         "CREATED": {
@@ -3626,18 +3635,18 @@
         }
       }
     },
-    "com.cloudflare.workers_for_platforms#DispatchNamespacesScriptsUpdateRequestMetadataExportsWorkersDurableObjectExport": {
+    "com.cloudflare.workers_for_platforms#DispatchNamespacesScriptsUpdateRequestMetadataExportsValueWorkersDurableObjectExport": {
       "type": "structure",
       "members": {
         "storage": {
-          "target": "com.cloudflare.workers_for_platforms#DispatchNamespacesScriptsUpdateRequestMetadataExportsWorkersDurableObjectExportStorage",
+          "target": "com.cloudflare.workers_for_platforms#DispatchNamespacesScriptsUpdateRequestMetadataExportsValueWorkersDurableObjectExportStorage",
           "traits": {
             "smithy.api#documentation": "Durable Object storage backend. `sqlite` is the recommended (and only) backend for new namespaces. `legacy-kv` is accepted only for a class whose namespace already exists as KV-backed; the `exports` flow never provisions a new `legacy-kv` namespace.",
             "smithy.api#required": {}
           }
         },
         "type": {
-          "target": "com.cloudflare.workers_for_platforms#DispatchNamespacesScriptsUpdateRequestMetadataExportsWorkersDurableObjectExportType",
+          "target": "com.cloudflare.workers_for_platforms#DispatchNamespacesScriptsUpdateRequestMetadataExportsValueWorkersDurableObjectExportType",
           "traits": {
             "smithy.api#documentation": "Marks this entry as a Durable Object export.",
             "smithy.api#required": {}
@@ -3650,14 +3659,14 @@
           }
         },
         "state": {
-          "target": "com.cloudflare.workers_for_platforms#DispatchNamespacesScriptsUpdateRequestMetadataExportsWorkersDurableObjectExportState",
+          "target": "com.cloudflare.workers_for_platforms#DispatchNamespacesScriptsUpdateRequestMetadataExportsValueWorkersDurableObjectExportState",
           "traits": {
             "smithy.api#documentation": "Live export. May be omitted; defaults to `created`."
           }
         }
       }
     },
-    "com.cloudflare.workers_for_platforms#DispatchNamespacesScriptsUpdateRequestMetadataExportsWorkersDurableObjectDeletedExportState": {
+    "com.cloudflare.workers_for_platforms#DispatchNamespacesScriptsUpdateRequestMetadataExportsValueWorkersDurableObjectDeletedExportState": {
       "type": "enum",
       "members": {
         "DELETED": {
@@ -3668,7 +3677,7 @@
         }
       }
     },
-    "com.cloudflare.workers_for_platforms#DispatchNamespacesScriptsUpdateRequestMetadataExportsWorkersDurableObjectDeletedExportType": {
+    "com.cloudflare.workers_for_platforms#DispatchNamespacesScriptsUpdateRequestMetadataExportsValueWorkersDurableObjectDeletedExportType": {
       "type": "enum",
       "members": {
         "DURABLE_OBJECT": {
@@ -3679,18 +3688,18 @@
         }
       }
     },
-    "com.cloudflare.workers_for_platforms#DispatchNamespacesScriptsUpdateRequestMetadataExportsWorkersDurableObjectDeletedExport": {
+    "com.cloudflare.workers_for_platforms#DispatchNamespacesScriptsUpdateRequestMetadataExportsValueWorkersDurableObjectDeletedExport": {
       "type": "structure",
       "members": {
         "state": {
-          "target": "com.cloudflare.workers_for_platforms#DispatchNamespacesScriptsUpdateRequestMetadataExportsWorkersDurableObjectDeletedExportState",
+          "target": "com.cloudflare.workers_for_platforms#DispatchNamespacesScriptsUpdateRequestMetadataExportsValueWorkersDurableObjectDeletedExportState",
           "traits": {
             "smithy.api#documentation": "Tombstone that deletes the namespace.",
             "smithy.api#required": {}
           }
         },
         "type": {
-          "target": "com.cloudflare.workers_for_platforms#DispatchNamespacesScriptsUpdateRequestMetadataExportsWorkersDurableObjectDeletedExportType",
+          "target": "com.cloudflare.workers_for_platforms#DispatchNamespacesScriptsUpdateRequestMetadataExportsValueWorkersDurableObjectDeletedExportType",
           "traits": {
             "smithy.api#documentation": "Marks this entry as a Durable Object export.",
             "smithy.api#required": {}
@@ -3698,7 +3707,7 @@
         }
       }
     },
-    "com.cloudflare.workers_for_platforms#DispatchNamespacesScriptsUpdateRequestMetadataExportsWorkersDurableObjectRenamedExportState": {
+    "com.cloudflare.workers_for_platforms#DispatchNamespacesScriptsUpdateRequestMetadataExportsValueWorkersDurableObjectRenamedExportState": {
       "type": "enum",
       "members": {
         "RENAMED": {
@@ -3709,7 +3718,7 @@
         }
       }
     },
-    "com.cloudflare.workers_for_platforms#DispatchNamespacesScriptsUpdateRequestMetadataExportsWorkersDurableObjectRenamedExportType": {
+    "com.cloudflare.workers_for_platforms#DispatchNamespacesScriptsUpdateRequestMetadataExportsValueWorkersDurableObjectRenamedExportType": {
       "type": "enum",
       "members": {
         "DURABLE_OBJECT": {
@@ -3720,7 +3729,7 @@
         }
       }
     },
-    "com.cloudflare.workers_for_platforms#DispatchNamespacesScriptsUpdateRequestMetadataExportsWorkersDurableObjectRenamedExport": {
+    "com.cloudflare.workers_for_platforms#DispatchNamespacesScriptsUpdateRequestMetadataExportsValueWorkersDurableObjectRenamedExport": {
       "type": "structure",
       "members": {
         "renamed_to": {
@@ -3731,14 +3740,14 @@
           }
         },
         "state": {
-          "target": "com.cloudflare.workers_for_platforms#DispatchNamespacesScriptsUpdateRequestMetadataExportsWorkersDurableObjectRenamedExportState",
+          "target": "com.cloudflare.workers_for_platforms#DispatchNamespacesScriptsUpdateRequestMetadataExportsValueWorkersDurableObjectRenamedExportState",
           "traits": {
             "smithy.api#documentation": "Tombstone that renames the namespace's class.",
             "smithy.api#required": {}
           }
         },
         "type": {
-          "target": "com.cloudflare.workers_for_platforms#DispatchNamespacesScriptsUpdateRequestMetadataExportsWorkersDurableObjectRenamedExportType",
+          "target": "com.cloudflare.workers_for_platforms#DispatchNamespacesScriptsUpdateRequestMetadataExportsValueWorkersDurableObjectRenamedExportType",
           "traits": {
             "smithy.api#documentation": "Marks this entry as a Durable Object export.",
             "smithy.api#required": {}
@@ -3746,7 +3755,7 @@
         }
       }
     },
-    "com.cloudflare.workers_for_platforms#DispatchNamespacesScriptsUpdateRequestMetadataExportsWorkersDurableObjectTransferredExportState": {
+    "com.cloudflare.workers_for_platforms#DispatchNamespacesScriptsUpdateRequestMetadataExportsValueWorkersDurableObjectTransferredExportState": {
       "type": "enum",
       "members": {
         "TRANSFERRED": {
@@ -3757,7 +3766,7 @@
         }
       }
     },
-    "com.cloudflare.workers_for_platforms#DispatchNamespacesScriptsUpdateRequestMetadataExportsWorkersDurableObjectTransferredExportType": {
+    "com.cloudflare.workers_for_platforms#DispatchNamespacesScriptsUpdateRequestMetadataExportsValueWorkersDurableObjectTransferredExportType": {
       "type": "enum",
       "members": {
         "DURABLE_OBJECT": {
@@ -3768,11 +3777,11 @@
         }
       }
     },
-    "com.cloudflare.workers_for_platforms#DispatchNamespacesScriptsUpdateRequestMetadataExportsWorkersDurableObjectTransferredExport": {
+    "com.cloudflare.workers_for_platforms#DispatchNamespacesScriptsUpdateRequestMetadataExportsValueWorkersDurableObjectTransferredExport": {
       "type": "structure",
       "members": {
         "state": {
-          "target": "com.cloudflare.workers_for_platforms#DispatchNamespacesScriptsUpdateRequestMetadataExportsWorkersDurableObjectTransferredExportState",
+          "target": "com.cloudflare.workers_for_platforms#DispatchNamespacesScriptsUpdateRequestMetadataExportsValueWorkersDurableObjectTransferredExportState",
           "traits": {
             "smithy.api#documentation": "Tombstone that transfers the namespace to another script.",
             "smithy.api#required": {}
@@ -3786,7 +3795,7 @@
           }
         },
         "type": {
-          "target": "com.cloudflare.workers_for_platforms#DispatchNamespacesScriptsUpdateRequestMetadataExportsWorkersDurableObjectTransferredExportType",
+          "target": "com.cloudflare.workers_for_platforms#DispatchNamespacesScriptsUpdateRequestMetadataExportsValueWorkersDurableObjectTransferredExportType",
           "traits": {
             "smithy.api#documentation": "Marks this entry as a Durable Object export.",
             "smithy.api#required": {}
@@ -3794,7 +3803,7 @@
         }
       }
     },
-    "com.cloudflare.workers_for_platforms#DispatchNamespacesScriptsUpdateRequestMetadataExportsWorkersDurableObjectExpectingTransferExportState": {
+    "com.cloudflare.workers_for_platforms#DispatchNamespacesScriptsUpdateRequestMetadataExportsValueWorkersDurableObjectExpectingTransferExportState": {
       "type": "enum",
       "members": {
         "EXPECTING_TRANSFER": {
@@ -3805,7 +3814,7 @@
         }
       }
     },
-    "com.cloudflare.workers_for_platforms#DispatchNamespacesScriptsUpdateRequestMetadataExportsWorkersDurableObjectExpectingTransferExportStorage": {
+    "com.cloudflare.workers_for_platforms#DispatchNamespacesScriptsUpdateRequestMetadataExportsValueWorkersDurableObjectExpectingTransferExportStorage": {
       "type": "enum",
       "members": {
         "SQLITE": {
@@ -3822,7 +3831,7 @@
         }
       }
     },
-    "com.cloudflare.workers_for_platforms#DispatchNamespacesScriptsUpdateRequestMetadataExportsWorkersDurableObjectExpectingTransferExportType": {
+    "com.cloudflare.workers_for_platforms#DispatchNamespacesScriptsUpdateRequestMetadataExportsValueWorkersDurableObjectExpectingTransferExportType": {
       "type": "enum",
       "members": {
         "DURABLE_OBJECT": {
@@ -3833,18 +3842,18 @@
         }
       }
     },
-    "com.cloudflare.workers_for_platforms#DispatchNamespacesScriptsUpdateRequestMetadataExportsWorkersDurableObjectExpectingTransferExport": {
+    "com.cloudflare.workers_for_platforms#DispatchNamespacesScriptsUpdateRequestMetadataExportsValueWorkersDurableObjectExpectingTransferExport": {
       "type": "structure",
       "members": {
         "state": {
-          "target": "com.cloudflare.workers_for_platforms#DispatchNamespacesScriptsUpdateRequestMetadataExportsWorkersDurableObjectExpectingTransferExportState",
+          "target": "com.cloudflare.workers_for_platforms#DispatchNamespacesScriptsUpdateRequestMetadataExportsValueWorkersDurableObjectExpectingTransferExportState",
           "traits": {
             "smithy.api#documentation": "Target side of a two-phase transfer.",
             "smithy.api#required": {}
           }
         },
         "storage": {
-          "target": "com.cloudflare.workers_for_platforms#DispatchNamespacesScriptsUpdateRequestMetadataExportsWorkersDurableObjectExpectingTransferExportStorage",
+          "target": "com.cloudflare.workers_for_platforms#DispatchNamespacesScriptsUpdateRequestMetadataExportsValueWorkersDurableObjectExpectingTransferExportStorage",
           "traits": {
             "smithy.api#documentation": "Durable Object storage backend. `sqlite` is the recommended (and only) backend for new namespaces. `legacy-kv` is accepted only for a class whose namespace already exists as KV-backed; the `exports` flow never provisions a new `legacy-kv` namespace.",
             "smithy.api#required": {}
@@ -3858,7 +3867,7 @@
           }
         },
         "type": {
-          "target": "com.cloudflare.workers_for_platforms#DispatchNamespacesScriptsUpdateRequestMetadataExportsWorkersDurableObjectExpectingTransferExportType",
+          "target": "com.cloudflare.workers_for_platforms#DispatchNamespacesScriptsUpdateRequestMetadataExportsValueWorkersDurableObjectExpectingTransferExportType",
           "traits": {
             "smithy.api#documentation": "Marks this entry as a Durable Object export.",
             "smithy.api#required": {}
@@ -3872,27 +3881,36 @@
         }
       }
     },
-    "com.cloudflare.workers_for_platforms#DispatchNamespacesScriptsUpdateRequestMetadataExports": {
+    "com.cloudflare.workers_for_platforms#DispatchNamespacesScriptsUpdateRequestMetadataExportsValue": {
       "type": "union",
       "members": {
         "Worker": {
-          "target": "com.cloudflare.workers_for_platforms#DispatchNamespacesScriptsUpdateRequestMetadataExportsWorker"
+          "target": "com.cloudflare.workers_for_platforms#DispatchNamespacesScriptsUpdateRequestMetadataExportsValueWorker"
         },
         "WorkersDurableObjectExport": {
-          "target": "com.cloudflare.workers_for_platforms#DispatchNamespacesScriptsUpdateRequestMetadataExportsWorkersDurableObjectExport"
+          "target": "com.cloudflare.workers_for_platforms#DispatchNamespacesScriptsUpdateRequestMetadataExportsValueWorkersDurableObjectExport"
         },
         "WorkersDurableObjectDeletedExport": {
-          "target": "com.cloudflare.workers_for_platforms#DispatchNamespacesScriptsUpdateRequestMetadataExportsWorkersDurableObjectDeletedExport"
+          "target": "com.cloudflare.workers_for_platforms#DispatchNamespacesScriptsUpdateRequestMetadataExportsValueWorkersDurableObjectDeletedExport"
         },
         "WorkersDurableObjectRenamedExport": {
-          "target": "com.cloudflare.workers_for_platforms#DispatchNamespacesScriptsUpdateRequestMetadataExportsWorkersDurableObjectRenamedExport"
+          "target": "com.cloudflare.workers_for_platforms#DispatchNamespacesScriptsUpdateRequestMetadataExportsValueWorkersDurableObjectRenamedExport"
         },
         "WorkersDurableObjectTransferredExport": {
-          "target": "com.cloudflare.workers_for_platforms#DispatchNamespacesScriptsUpdateRequestMetadataExportsWorkersDurableObjectTransferredExport"
+          "target": "com.cloudflare.workers_for_platforms#DispatchNamespacesScriptsUpdateRequestMetadataExportsValueWorkersDurableObjectTransferredExport"
         },
         "WorkersDurableObjectExpectingTransferExport": {
-          "target": "com.cloudflare.workers_for_platforms#DispatchNamespacesScriptsUpdateRequestMetadataExportsWorkersDurableObjectExpectingTransferExport"
+          "target": "com.cloudflare.workers_for_platforms#DispatchNamespacesScriptsUpdateRequestMetadataExportsValueWorkersDurableObjectExpectingTransferExport"
         }
+      }
+    },
+    "com.cloudflare.workers_for_platforms#DispatchNamespacesScriptsUpdateRequestMetadataExportsMap": {
+      "type": "map",
+      "key": {
+        "target": "smithy.api#String"
+      },
+      "value": {
+        "target": "com.cloudflare.workers_for_platforms#DispatchNamespacesScriptsUpdateRequestMetadataExportsValue"
       }
     },
     "com.cloudflare.workers_for_platforms#DispatchNamespacesScriptsUpdateRequestMetadataExportsReconciliationCreatedList": {
@@ -5658,7 +5676,7 @@
           }
         },
         "exports": {
-          "target": "com.cloudflare.workers_for_platforms#DispatchNamespacesScriptsUpdateRequestMetadataExports",
+          "target": "com.cloudflare.workers_for_platforms#DispatchNamespacesScriptsUpdateRequestMetadataExportsMap",
           "traits": {
             "smithy.api#documentation": "Declarative exports for the Worker. Worker entrypoint entries (`type: worker`) carry cache configuration for that entrypoint."
           }
@@ -5773,7 +5791,7 @@
         "target": "smithy.api#String"
       }
     },
-    "com.cloudflare.workers_for_platforms#DispatchNamespacesScriptsUpdateResponseExportsWorkerType": {
+    "com.cloudflare.workers_for_platforms#DispatchNamespacesScriptsUpdateResponseExportsValueWorkerType": {
       "type": "enum",
       "members": {
         "WORKER": {
@@ -5784,7 +5802,7 @@
         }
       }
     },
-    "com.cloudflare.workers_for_platforms#DispatchNamespacesScriptsUpdateResponseExportsWorkerCache": {
+    "com.cloudflare.workers_for_platforms#DispatchNamespacesScriptsUpdateResponseExportsValueWorkerCache": {
       "type": "structure",
       "members": {
         "enabled": {
@@ -5796,7 +5814,7 @@
         }
       }
     },
-    "com.cloudflare.workers_for_platforms#DispatchNamespacesScriptsUpdateResponseExportsWorkerState": {
+    "com.cloudflare.workers_for_platforms#DispatchNamespacesScriptsUpdateResponseExportsValueWorkerState": {
       "type": "enum",
       "members": {
         "CREATED": {
@@ -5807,31 +5825,31 @@
         }
       }
     },
-    "com.cloudflare.workers_for_platforms#DispatchNamespacesScriptsUpdateResponseExportsWorker": {
+    "com.cloudflare.workers_for_platforms#DispatchNamespacesScriptsUpdateResponseExportsValueWorker": {
       "type": "structure",
       "members": {
         "type": {
-          "target": "com.cloudflare.workers_for_platforms#DispatchNamespacesScriptsUpdateResponseExportsWorkerType",
+          "target": "com.cloudflare.workers_for_platforms#DispatchNamespacesScriptsUpdateResponseExportsValueWorkerType",
           "traits": {
             "smithy.api#documentation": "Marks this entry as a Worker entrypoint export.",
             "smithy.api#required": {}
           }
         },
         "cache": {
-          "target": "com.cloudflare.workers_for_platforms#DispatchNamespacesScriptsUpdateResponseExportsWorkerCache",
+          "target": "com.cloudflare.workers_for_platforms#DispatchNamespacesScriptsUpdateResponseExportsValueWorkerCache",
           "traits": {
             "smithy.api#documentation": "Cache override for this entrypoint. Overrides the Worker's global `cache_options.enabled` for this entrypoint only."
           }
         },
         "state": {
-          "target": "com.cloudflare.workers_for_platforms#DispatchNamespacesScriptsUpdateResponseExportsWorkerState",
+          "target": "com.cloudflare.workers_for_platforms#DispatchNamespacesScriptsUpdateResponseExportsValueWorkerState",
           "traits": {
             "smithy.api#documentation": "Live export. May be omitted; defaults to `created`."
           }
         }
       }
     },
-    "com.cloudflare.workers_for_platforms#DispatchNamespacesScriptsUpdateResponseExportsWorkersDurableObjectExportStorage": {
+    "com.cloudflare.workers_for_platforms#DispatchNamespacesScriptsUpdateResponseExportsValueWorkersDurableObjectExportStorage": {
       "type": "enum",
       "members": {
         "SQLITE": {
@@ -5848,7 +5866,7 @@
         }
       }
     },
-    "com.cloudflare.workers_for_platforms#DispatchNamespacesScriptsUpdateResponseExportsWorkersDurableObjectExportType": {
+    "com.cloudflare.workers_for_platforms#DispatchNamespacesScriptsUpdateResponseExportsValueWorkersDurableObjectExportType": {
       "type": "enum",
       "members": {
         "DURABLE_OBJECT": {
@@ -5859,7 +5877,7 @@
         }
       }
     },
-    "com.cloudflare.workers_for_platforms#DispatchNamespacesScriptsUpdateResponseExportsWorkersDurableObjectExportState": {
+    "com.cloudflare.workers_for_platforms#DispatchNamespacesScriptsUpdateResponseExportsValueWorkersDurableObjectExportState": {
       "type": "enum",
       "members": {
         "CREATED": {
@@ -5870,18 +5888,18 @@
         }
       }
     },
-    "com.cloudflare.workers_for_platforms#DispatchNamespacesScriptsUpdateResponseExportsWorkersDurableObjectExport": {
+    "com.cloudflare.workers_for_platforms#DispatchNamespacesScriptsUpdateResponseExportsValueWorkersDurableObjectExport": {
       "type": "structure",
       "members": {
         "storage": {
-          "target": "com.cloudflare.workers_for_platforms#DispatchNamespacesScriptsUpdateResponseExportsWorkersDurableObjectExportStorage",
+          "target": "com.cloudflare.workers_for_platforms#DispatchNamespacesScriptsUpdateResponseExportsValueWorkersDurableObjectExportStorage",
           "traits": {
             "smithy.api#documentation": "Durable Object storage backend. `sqlite` is the recommended (and only) backend for new namespaces. `legacy-kv` is accepted only for a class whose namespace already exists as KV-backed; the `exports` flow never provisions a new `legacy-kv` namespace.",
             "smithy.api#required": {}
           }
         },
         "type": {
-          "target": "com.cloudflare.workers_for_platforms#DispatchNamespacesScriptsUpdateResponseExportsWorkersDurableObjectExportType",
+          "target": "com.cloudflare.workers_for_platforms#DispatchNamespacesScriptsUpdateResponseExportsValueWorkersDurableObjectExportType",
           "traits": {
             "smithy.api#documentation": "Marks this entry as a Durable Object export.",
             "smithy.api#required": {}
@@ -5894,14 +5912,14 @@
           }
         },
         "state": {
-          "target": "com.cloudflare.workers_for_platforms#DispatchNamespacesScriptsUpdateResponseExportsWorkersDurableObjectExportState",
+          "target": "com.cloudflare.workers_for_platforms#DispatchNamespacesScriptsUpdateResponseExportsValueWorkersDurableObjectExportState",
           "traits": {
             "smithy.api#documentation": "Live export. May be omitted; defaults to `created`."
           }
         }
       }
     },
-    "com.cloudflare.workers_for_platforms#DispatchNamespacesScriptsUpdateResponseExportsWorkersDurableObjectDeletedExportState": {
+    "com.cloudflare.workers_for_platforms#DispatchNamespacesScriptsUpdateResponseExportsValueWorkersDurableObjectDeletedExportState": {
       "type": "enum",
       "members": {
         "DELETED": {
@@ -5912,7 +5930,7 @@
         }
       }
     },
-    "com.cloudflare.workers_for_platforms#DispatchNamespacesScriptsUpdateResponseExportsWorkersDurableObjectDeletedExportType": {
+    "com.cloudflare.workers_for_platforms#DispatchNamespacesScriptsUpdateResponseExportsValueWorkersDurableObjectDeletedExportType": {
       "type": "enum",
       "members": {
         "DURABLE_OBJECT": {
@@ -5923,18 +5941,18 @@
         }
       }
     },
-    "com.cloudflare.workers_for_platforms#DispatchNamespacesScriptsUpdateResponseExportsWorkersDurableObjectDeletedExport": {
+    "com.cloudflare.workers_for_platforms#DispatchNamespacesScriptsUpdateResponseExportsValueWorkersDurableObjectDeletedExport": {
       "type": "structure",
       "members": {
         "state": {
-          "target": "com.cloudflare.workers_for_platforms#DispatchNamespacesScriptsUpdateResponseExportsWorkersDurableObjectDeletedExportState",
+          "target": "com.cloudflare.workers_for_platforms#DispatchNamespacesScriptsUpdateResponseExportsValueWorkersDurableObjectDeletedExportState",
           "traits": {
             "smithy.api#documentation": "Tombstone that deletes the namespace.",
             "smithy.api#required": {}
           }
         },
         "type": {
-          "target": "com.cloudflare.workers_for_platforms#DispatchNamespacesScriptsUpdateResponseExportsWorkersDurableObjectDeletedExportType",
+          "target": "com.cloudflare.workers_for_platforms#DispatchNamespacesScriptsUpdateResponseExportsValueWorkersDurableObjectDeletedExportType",
           "traits": {
             "smithy.api#documentation": "Marks this entry as a Durable Object export.",
             "smithy.api#required": {}
@@ -5942,7 +5960,7 @@
         }
       }
     },
-    "com.cloudflare.workers_for_platforms#DispatchNamespacesScriptsUpdateResponseExportsWorkersDurableObjectRenamedExportState": {
+    "com.cloudflare.workers_for_platforms#DispatchNamespacesScriptsUpdateResponseExportsValueWorkersDurableObjectRenamedExportState": {
       "type": "enum",
       "members": {
         "RENAMED": {
@@ -5953,7 +5971,7 @@
         }
       }
     },
-    "com.cloudflare.workers_for_platforms#DispatchNamespacesScriptsUpdateResponseExportsWorkersDurableObjectRenamedExportType": {
+    "com.cloudflare.workers_for_platforms#DispatchNamespacesScriptsUpdateResponseExportsValueWorkersDurableObjectRenamedExportType": {
       "type": "enum",
       "members": {
         "DURABLE_OBJECT": {
@@ -5964,7 +5982,7 @@
         }
       }
     },
-    "com.cloudflare.workers_for_platforms#DispatchNamespacesScriptsUpdateResponseExportsWorkersDurableObjectRenamedExport": {
+    "com.cloudflare.workers_for_platforms#DispatchNamespacesScriptsUpdateResponseExportsValueWorkersDurableObjectRenamedExport": {
       "type": "structure",
       "members": {
         "renamed_to": {
@@ -5975,14 +5993,14 @@
           }
         },
         "state": {
-          "target": "com.cloudflare.workers_for_platforms#DispatchNamespacesScriptsUpdateResponseExportsWorkersDurableObjectRenamedExportState",
+          "target": "com.cloudflare.workers_for_platforms#DispatchNamespacesScriptsUpdateResponseExportsValueWorkersDurableObjectRenamedExportState",
           "traits": {
             "smithy.api#documentation": "Tombstone that renames the namespace's class.",
             "smithy.api#required": {}
           }
         },
         "type": {
-          "target": "com.cloudflare.workers_for_platforms#DispatchNamespacesScriptsUpdateResponseExportsWorkersDurableObjectRenamedExportType",
+          "target": "com.cloudflare.workers_for_platforms#DispatchNamespacesScriptsUpdateResponseExportsValueWorkersDurableObjectRenamedExportType",
           "traits": {
             "smithy.api#documentation": "Marks this entry as a Durable Object export.",
             "smithy.api#required": {}
@@ -5990,7 +6008,7 @@
         }
       }
     },
-    "com.cloudflare.workers_for_platforms#DispatchNamespacesScriptsUpdateResponseExportsWorkersDurableObjectTransferredExportState": {
+    "com.cloudflare.workers_for_platforms#DispatchNamespacesScriptsUpdateResponseExportsValueWorkersDurableObjectTransferredExportState": {
       "type": "enum",
       "members": {
         "TRANSFERRED": {
@@ -6001,7 +6019,7 @@
         }
       }
     },
-    "com.cloudflare.workers_for_platforms#DispatchNamespacesScriptsUpdateResponseExportsWorkersDurableObjectTransferredExportType": {
+    "com.cloudflare.workers_for_platforms#DispatchNamespacesScriptsUpdateResponseExportsValueWorkersDurableObjectTransferredExportType": {
       "type": "enum",
       "members": {
         "DURABLE_OBJECT": {
@@ -6012,11 +6030,11 @@
         }
       }
     },
-    "com.cloudflare.workers_for_platforms#DispatchNamespacesScriptsUpdateResponseExportsWorkersDurableObjectTransferredExport": {
+    "com.cloudflare.workers_for_platforms#DispatchNamespacesScriptsUpdateResponseExportsValueWorkersDurableObjectTransferredExport": {
       "type": "structure",
       "members": {
         "state": {
-          "target": "com.cloudflare.workers_for_platforms#DispatchNamespacesScriptsUpdateResponseExportsWorkersDurableObjectTransferredExportState",
+          "target": "com.cloudflare.workers_for_platforms#DispatchNamespacesScriptsUpdateResponseExportsValueWorkersDurableObjectTransferredExportState",
           "traits": {
             "smithy.api#documentation": "Tombstone that transfers the namespace to another script.",
             "smithy.api#required": {}
@@ -6030,7 +6048,7 @@
           }
         },
         "type": {
-          "target": "com.cloudflare.workers_for_platforms#DispatchNamespacesScriptsUpdateResponseExportsWorkersDurableObjectTransferredExportType",
+          "target": "com.cloudflare.workers_for_platforms#DispatchNamespacesScriptsUpdateResponseExportsValueWorkersDurableObjectTransferredExportType",
           "traits": {
             "smithy.api#documentation": "Marks this entry as a Durable Object export.",
             "smithy.api#required": {}
@@ -6038,7 +6056,7 @@
         }
       }
     },
-    "com.cloudflare.workers_for_platforms#DispatchNamespacesScriptsUpdateResponseExportsWorkersDurableObjectExpectingTransferExportState": {
+    "com.cloudflare.workers_for_platforms#DispatchNamespacesScriptsUpdateResponseExportsValueWorkersDurableObjectExpectingTransferExportState": {
       "type": "enum",
       "members": {
         "EXPECTING_TRANSFER": {
@@ -6049,7 +6067,7 @@
         }
       }
     },
-    "com.cloudflare.workers_for_platforms#DispatchNamespacesScriptsUpdateResponseExportsWorkersDurableObjectExpectingTransferExportStorage": {
+    "com.cloudflare.workers_for_platforms#DispatchNamespacesScriptsUpdateResponseExportsValueWorkersDurableObjectExpectingTransferExportStorage": {
       "type": "enum",
       "members": {
         "SQLITE": {
@@ -6066,7 +6084,7 @@
         }
       }
     },
-    "com.cloudflare.workers_for_platforms#DispatchNamespacesScriptsUpdateResponseExportsWorkersDurableObjectExpectingTransferExportType": {
+    "com.cloudflare.workers_for_platforms#DispatchNamespacesScriptsUpdateResponseExportsValueWorkersDurableObjectExpectingTransferExportType": {
       "type": "enum",
       "members": {
         "DURABLE_OBJECT": {
@@ -6077,18 +6095,18 @@
         }
       }
     },
-    "com.cloudflare.workers_for_platforms#DispatchNamespacesScriptsUpdateResponseExportsWorkersDurableObjectExpectingTransferExport": {
+    "com.cloudflare.workers_for_platforms#DispatchNamespacesScriptsUpdateResponseExportsValueWorkersDurableObjectExpectingTransferExport": {
       "type": "structure",
       "members": {
         "state": {
-          "target": "com.cloudflare.workers_for_platforms#DispatchNamespacesScriptsUpdateResponseExportsWorkersDurableObjectExpectingTransferExportState",
+          "target": "com.cloudflare.workers_for_platforms#DispatchNamespacesScriptsUpdateResponseExportsValueWorkersDurableObjectExpectingTransferExportState",
           "traits": {
             "smithy.api#documentation": "Target side of a two-phase transfer.",
             "smithy.api#required": {}
           }
         },
         "storage": {
-          "target": "com.cloudflare.workers_for_platforms#DispatchNamespacesScriptsUpdateResponseExportsWorkersDurableObjectExpectingTransferExportStorage",
+          "target": "com.cloudflare.workers_for_platforms#DispatchNamespacesScriptsUpdateResponseExportsValueWorkersDurableObjectExpectingTransferExportStorage",
           "traits": {
             "smithy.api#documentation": "Durable Object storage backend. `sqlite` is the recommended (and only) backend for new namespaces. `legacy-kv` is accepted only for a class whose namespace already exists as KV-backed; the `exports` flow never provisions a new `legacy-kv` namespace.",
             "smithy.api#required": {}
@@ -6102,7 +6120,7 @@
           }
         },
         "type": {
-          "target": "com.cloudflare.workers_for_platforms#DispatchNamespacesScriptsUpdateResponseExportsWorkersDurableObjectExpectingTransferExportType",
+          "target": "com.cloudflare.workers_for_platforms#DispatchNamespacesScriptsUpdateResponseExportsValueWorkersDurableObjectExpectingTransferExportType",
           "traits": {
             "smithy.api#documentation": "Marks this entry as a Durable Object export.",
             "smithy.api#required": {}
@@ -6116,27 +6134,36 @@
         }
       }
     },
-    "com.cloudflare.workers_for_platforms#DispatchNamespacesScriptsUpdateResponseExports": {
+    "com.cloudflare.workers_for_platforms#DispatchNamespacesScriptsUpdateResponseExportsValue": {
       "type": "union",
       "members": {
         "Worker": {
-          "target": "com.cloudflare.workers_for_platforms#DispatchNamespacesScriptsUpdateResponseExportsWorker"
+          "target": "com.cloudflare.workers_for_platforms#DispatchNamespacesScriptsUpdateResponseExportsValueWorker"
         },
         "WorkersDurableObjectExport": {
-          "target": "com.cloudflare.workers_for_platforms#DispatchNamespacesScriptsUpdateResponseExportsWorkersDurableObjectExport"
+          "target": "com.cloudflare.workers_for_platforms#DispatchNamespacesScriptsUpdateResponseExportsValueWorkersDurableObjectExport"
         },
         "WorkersDurableObjectDeletedExport": {
-          "target": "com.cloudflare.workers_for_platforms#DispatchNamespacesScriptsUpdateResponseExportsWorkersDurableObjectDeletedExport"
+          "target": "com.cloudflare.workers_for_platforms#DispatchNamespacesScriptsUpdateResponseExportsValueWorkersDurableObjectDeletedExport"
         },
         "WorkersDurableObjectRenamedExport": {
-          "target": "com.cloudflare.workers_for_platforms#DispatchNamespacesScriptsUpdateResponseExportsWorkersDurableObjectRenamedExport"
+          "target": "com.cloudflare.workers_for_platforms#DispatchNamespacesScriptsUpdateResponseExportsValueWorkersDurableObjectRenamedExport"
         },
         "WorkersDurableObjectTransferredExport": {
-          "target": "com.cloudflare.workers_for_platforms#DispatchNamespacesScriptsUpdateResponseExportsWorkersDurableObjectTransferredExport"
+          "target": "com.cloudflare.workers_for_platforms#DispatchNamespacesScriptsUpdateResponseExportsValueWorkersDurableObjectTransferredExport"
         },
         "WorkersDurableObjectExpectingTransferExport": {
-          "target": "com.cloudflare.workers_for_platforms#DispatchNamespacesScriptsUpdateResponseExportsWorkersDurableObjectExpectingTransferExport"
+          "target": "com.cloudflare.workers_for_platforms#DispatchNamespacesScriptsUpdateResponseExportsValueWorkersDurableObjectExpectingTransferExport"
         }
+      }
+    },
+    "com.cloudflare.workers_for_platforms#DispatchNamespacesScriptsUpdateResponseExportsMap": {
+      "type": "map",
+      "key": {
+        "target": "smithy.api#String"
+      },
+      "value": {
+        "target": "com.cloudflare.workers_for_platforms#DispatchNamespacesScriptsUpdateResponseExportsValue"
       }
     },
     "com.cloudflare.workers_for_platforms#DispatchNamespacesScriptsUpdateResponseHandlersList": {
@@ -8908,7 +8935,7 @@
         "target": "smithy.api#String"
       }
     },
-    "com.cloudflare.workers_for_platforms#DispatchNamespacesScriptsContentUpdateResponseExportsWorkerType": {
+    "com.cloudflare.workers_for_platforms#DispatchNamespacesScriptsContentUpdateResponseExportsValueWorkerType": {
       "type": "enum",
       "members": {
         "WORKER": {
@@ -8919,7 +8946,7 @@
         }
       }
     },
-    "com.cloudflare.workers_for_platforms#DispatchNamespacesScriptsContentUpdateResponseExportsWorkerCache": {
+    "com.cloudflare.workers_for_platforms#DispatchNamespacesScriptsContentUpdateResponseExportsValueWorkerCache": {
       "type": "structure",
       "members": {
         "enabled": {
@@ -8931,7 +8958,7 @@
         }
       }
     },
-    "com.cloudflare.workers_for_platforms#DispatchNamespacesScriptsContentUpdateResponseExportsWorkerState": {
+    "com.cloudflare.workers_for_platforms#DispatchNamespacesScriptsContentUpdateResponseExportsValueWorkerState": {
       "type": "enum",
       "members": {
         "CREATED": {
@@ -8942,31 +8969,31 @@
         }
       }
     },
-    "com.cloudflare.workers_for_platforms#DispatchNamespacesScriptsContentUpdateResponseExportsWorker": {
+    "com.cloudflare.workers_for_platforms#DispatchNamespacesScriptsContentUpdateResponseExportsValueWorker": {
       "type": "structure",
       "members": {
         "type": {
-          "target": "com.cloudflare.workers_for_platforms#DispatchNamespacesScriptsContentUpdateResponseExportsWorkerType",
+          "target": "com.cloudflare.workers_for_platforms#DispatchNamespacesScriptsContentUpdateResponseExportsValueWorkerType",
           "traits": {
             "smithy.api#documentation": "Marks this entry as a Worker entrypoint export.",
             "smithy.api#required": {}
           }
         },
         "cache": {
-          "target": "com.cloudflare.workers_for_platforms#DispatchNamespacesScriptsContentUpdateResponseExportsWorkerCache",
+          "target": "com.cloudflare.workers_for_platforms#DispatchNamespacesScriptsContentUpdateResponseExportsValueWorkerCache",
           "traits": {
             "smithy.api#documentation": "Cache override for this entrypoint. Overrides the Worker's global `cache_options.enabled` for this entrypoint only."
           }
         },
         "state": {
-          "target": "com.cloudflare.workers_for_platforms#DispatchNamespacesScriptsContentUpdateResponseExportsWorkerState",
+          "target": "com.cloudflare.workers_for_platforms#DispatchNamespacesScriptsContentUpdateResponseExportsValueWorkerState",
           "traits": {
             "smithy.api#documentation": "Live export. May be omitted; defaults to `created`."
           }
         }
       }
     },
-    "com.cloudflare.workers_for_platforms#DispatchNamespacesScriptsContentUpdateResponseExportsWorkersDurableObjectExportStorage": {
+    "com.cloudflare.workers_for_platforms#DispatchNamespacesScriptsContentUpdateResponseExportsValueWorkersDurableObjectExportStorage": {
       "type": "enum",
       "members": {
         "SQLITE": {
@@ -8983,7 +9010,7 @@
         }
       }
     },
-    "com.cloudflare.workers_for_platforms#DispatchNamespacesScriptsContentUpdateResponseExportsWorkersDurableObjectExportType": {
+    "com.cloudflare.workers_for_platforms#DispatchNamespacesScriptsContentUpdateResponseExportsValueWorkersDurableObjectExportType": {
       "type": "enum",
       "members": {
         "DURABLE_OBJECT": {
@@ -8994,7 +9021,7 @@
         }
       }
     },
-    "com.cloudflare.workers_for_platforms#DispatchNamespacesScriptsContentUpdateResponseExportsWorkersDurableObjectExportState": {
+    "com.cloudflare.workers_for_platforms#DispatchNamespacesScriptsContentUpdateResponseExportsValueWorkersDurableObjectExportState": {
       "type": "enum",
       "members": {
         "CREATED": {
@@ -9005,18 +9032,18 @@
         }
       }
     },
-    "com.cloudflare.workers_for_platforms#DispatchNamespacesScriptsContentUpdateResponseExportsWorkersDurableObjectExport": {
+    "com.cloudflare.workers_for_platforms#DispatchNamespacesScriptsContentUpdateResponseExportsValueWorkersDurableObjectExport": {
       "type": "structure",
       "members": {
         "storage": {
-          "target": "com.cloudflare.workers_for_platforms#DispatchNamespacesScriptsContentUpdateResponseExportsWorkersDurableObjectExportStorage",
+          "target": "com.cloudflare.workers_for_platforms#DispatchNamespacesScriptsContentUpdateResponseExportsValueWorkersDurableObjectExportStorage",
           "traits": {
             "smithy.api#documentation": "Durable Object storage backend. `sqlite` is the recommended (and only) backend for new namespaces. `legacy-kv` is accepted only for a class whose namespace already exists as KV-backed; the `exports` flow never provisions a new `legacy-kv` namespace.",
             "smithy.api#required": {}
           }
         },
         "type": {
-          "target": "com.cloudflare.workers_for_platforms#DispatchNamespacesScriptsContentUpdateResponseExportsWorkersDurableObjectExportType",
+          "target": "com.cloudflare.workers_for_platforms#DispatchNamespacesScriptsContentUpdateResponseExportsValueWorkersDurableObjectExportType",
           "traits": {
             "smithy.api#documentation": "Marks this entry as a Durable Object export.",
             "smithy.api#required": {}
@@ -9029,14 +9056,14 @@
           }
         },
         "state": {
-          "target": "com.cloudflare.workers_for_platforms#DispatchNamespacesScriptsContentUpdateResponseExportsWorkersDurableObjectExportState",
+          "target": "com.cloudflare.workers_for_platforms#DispatchNamespacesScriptsContentUpdateResponseExportsValueWorkersDurableObjectExportState",
           "traits": {
             "smithy.api#documentation": "Live export. May be omitted; defaults to `created`."
           }
         }
       }
     },
-    "com.cloudflare.workers_for_platforms#DispatchNamespacesScriptsContentUpdateResponseExportsWorkersDurableObjectDeletedExportState": {
+    "com.cloudflare.workers_for_platforms#DispatchNamespacesScriptsContentUpdateResponseExportsValueWorkersDurableObjectDeletedExportState": {
       "type": "enum",
       "members": {
         "DELETED": {
@@ -9047,7 +9074,7 @@
         }
       }
     },
-    "com.cloudflare.workers_for_platforms#DispatchNamespacesScriptsContentUpdateResponseExportsWorkersDurableObjectDeletedExportType": {
+    "com.cloudflare.workers_for_platforms#DispatchNamespacesScriptsContentUpdateResponseExportsValueWorkersDurableObjectDeletedExportType": {
       "type": "enum",
       "members": {
         "DURABLE_OBJECT": {
@@ -9058,18 +9085,18 @@
         }
       }
     },
-    "com.cloudflare.workers_for_platforms#DispatchNamespacesScriptsContentUpdateResponseExportsWorkersDurableObjectDeletedExport": {
+    "com.cloudflare.workers_for_platforms#DispatchNamespacesScriptsContentUpdateResponseExportsValueWorkersDurableObjectDeletedExport": {
       "type": "structure",
       "members": {
         "state": {
-          "target": "com.cloudflare.workers_for_platforms#DispatchNamespacesScriptsContentUpdateResponseExportsWorkersDurableObjectDeletedExportState",
+          "target": "com.cloudflare.workers_for_platforms#DispatchNamespacesScriptsContentUpdateResponseExportsValueWorkersDurableObjectDeletedExportState",
           "traits": {
             "smithy.api#documentation": "Tombstone that deletes the namespace.",
             "smithy.api#required": {}
           }
         },
         "type": {
-          "target": "com.cloudflare.workers_for_platforms#DispatchNamespacesScriptsContentUpdateResponseExportsWorkersDurableObjectDeletedExportType",
+          "target": "com.cloudflare.workers_for_platforms#DispatchNamespacesScriptsContentUpdateResponseExportsValueWorkersDurableObjectDeletedExportType",
           "traits": {
             "smithy.api#documentation": "Marks this entry as a Durable Object export.",
             "smithy.api#required": {}
@@ -9077,7 +9104,7 @@
         }
       }
     },
-    "com.cloudflare.workers_for_platforms#DispatchNamespacesScriptsContentUpdateResponseExportsWorkersDurableObjectRenamedExportState": {
+    "com.cloudflare.workers_for_platforms#DispatchNamespacesScriptsContentUpdateResponseExportsValueWorkersDurableObjectRenamedExportState": {
       "type": "enum",
       "members": {
         "RENAMED": {
@@ -9088,7 +9115,7 @@
         }
       }
     },
-    "com.cloudflare.workers_for_platforms#DispatchNamespacesScriptsContentUpdateResponseExportsWorkersDurableObjectRenamedExportType": {
+    "com.cloudflare.workers_for_platforms#DispatchNamespacesScriptsContentUpdateResponseExportsValueWorkersDurableObjectRenamedExportType": {
       "type": "enum",
       "members": {
         "DURABLE_OBJECT": {
@@ -9099,7 +9126,7 @@
         }
       }
     },
-    "com.cloudflare.workers_for_platforms#DispatchNamespacesScriptsContentUpdateResponseExportsWorkersDurableObjectRenamedExport": {
+    "com.cloudflare.workers_for_platforms#DispatchNamespacesScriptsContentUpdateResponseExportsValueWorkersDurableObjectRenamedExport": {
       "type": "structure",
       "members": {
         "renamed_to": {
@@ -9110,14 +9137,14 @@
           }
         },
         "state": {
-          "target": "com.cloudflare.workers_for_platforms#DispatchNamespacesScriptsContentUpdateResponseExportsWorkersDurableObjectRenamedExportState",
+          "target": "com.cloudflare.workers_for_platforms#DispatchNamespacesScriptsContentUpdateResponseExportsValueWorkersDurableObjectRenamedExportState",
           "traits": {
             "smithy.api#documentation": "Tombstone that renames the namespace's class.",
             "smithy.api#required": {}
           }
         },
         "type": {
-          "target": "com.cloudflare.workers_for_platforms#DispatchNamespacesScriptsContentUpdateResponseExportsWorkersDurableObjectRenamedExportType",
+          "target": "com.cloudflare.workers_for_platforms#DispatchNamespacesScriptsContentUpdateResponseExportsValueWorkersDurableObjectRenamedExportType",
           "traits": {
             "smithy.api#documentation": "Marks this entry as a Durable Object export.",
             "smithy.api#required": {}
@@ -9125,7 +9152,7 @@
         }
       }
     },
-    "com.cloudflare.workers_for_platforms#DispatchNamespacesScriptsContentUpdateResponseExportsWorkersDurableObjectTransferredExportState": {
+    "com.cloudflare.workers_for_platforms#DispatchNamespacesScriptsContentUpdateResponseExportsValueWorkersDurableObjectTransferredExportState": {
       "type": "enum",
       "members": {
         "TRANSFERRED": {
@@ -9136,7 +9163,7 @@
         }
       }
     },
-    "com.cloudflare.workers_for_platforms#DispatchNamespacesScriptsContentUpdateResponseExportsWorkersDurableObjectTransferredExportType": {
+    "com.cloudflare.workers_for_platforms#DispatchNamespacesScriptsContentUpdateResponseExportsValueWorkersDurableObjectTransferredExportType": {
       "type": "enum",
       "members": {
         "DURABLE_OBJECT": {
@@ -9147,11 +9174,11 @@
         }
       }
     },
-    "com.cloudflare.workers_for_platforms#DispatchNamespacesScriptsContentUpdateResponseExportsWorkersDurableObjectTransferredExport": {
+    "com.cloudflare.workers_for_platforms#DispatchNamespacesScriptsContentUpdateResponseExportsValueWorkersDurableObjectTransferredExport": {
       "type": "structure",
       "members": {
         "state": {
-          "target": "com.cloudflare.workers_for_platforms#DispatchNamespacesScriptsContentUpdateResponseExportsWorkersDurableObjectTransferredExportState",
+          "target": "com.cloudflare.workers_for_platforms#DispatchNamespacesScriptsContentUpdateResponseExportsValueWorkersDurableObjectTransferredExportState",
           "traits": {
             "smithy.api#documentation": "Tombstone that transfers the namespace to another script.",
             "smithy.api#required": {}
@@ -9165,7 +9192,7 @@
           }
         },
         "type": {
-          "target": "com.cloudflare.workers_for_platforms#DispatchNamespacesScriptsContentUpdateResponseExportsWorkersDurableObjectTransferredExportType",
+          "target": "com.cloudflare.workers_for_platforms#DispatchNamespacesScriptsContentUpdateResponseExportsValueWorkersDurableObjectTransferredExportType",
           "traits": {
             "smithy.api#documentation": "Marks this entry as a Durable Object export.",
             "smithy.api#required": {}
@@ -9173,7 +9200,7 @@
         }
       }
     },
-    "com.cloudflare.workers_for_platforms#DispatchNamespacesScriptsContentUpdateResponseExportsWorkersDurableObjectExpectingTransferExportState": {
+    "com.cloudflare.workers_for_platforms#DispatchNamespacesScriptsContentUpdateResponseExportsValueWorkersDurableObjectExpectingTransferExportState": {
       "type": "enum",
       "members": {
         "EXPECTING_TRANSFER": {
@@ -9184,7 +9211,7 @@
         }
       }
     },
-    "com.cloudflare.workers_for_platforms#DispatchNamespacesScriptsContentUpdateResponseExportsWorkersDurableObjectExpectingTransferExportStorage": {
+    "com.cloudflare.workers_for_platforms#DispatchNamespacesScriptsContentUpdateResponseExportsValueWorkersDurableObjectExpectingTransferExportStorage": {
       "type": "enum",
       "members": {
         "SQLITE": {
@@ -9201,7 +9228,7 @@
         }
       }
     },
-    "com.cloudflare.workers_for_platforms#DispatchNamespacesScriptsContentUpdateResponseExportsWorkersDurableObjectExpectingTransferExportType": {
+    "com.cloudflare.workers_for_platforms#DispatchNamespacesScriptsContentUpdateResponseExportsValueWorkersDurableObjectExpectingTransferExportType": {
       "type": "enum",
       "members": {
         "DURABLE_OBJECT": {
@@ -9212,18 +9239,18 @@
         }
       }
     },
-    "com.cloudflare.workers_for_platforms#DispatchNamespacesScriptsContentUpdateResponseExportsWorkersDurableObjectExpectingTransferExport": {
+    "com.cloudflare.workers_for_platforms#DispatchNamespacesScriptsContentUpdateResponseExportsValueWorkersDurableObjectExpectingTransferExport": {
       "type": "structure",
       "members": {
         "state": {
-          "target": "com.cloudflare.workers_for_platforms#DispatchNamespacesScriptsContentUpdateResponseExportsWorkersDurableObjectExpectingTransferExportState",
+          "target": "com.cloudflare.workers_for_platforms#DispatchNamespacesScriptsContentUpdateResponseExportsValueWorkersDurableObjectExpectingTransferExportState",
           "traits": {
             "smithy.api#documentation": "Target side of a two-phase transfer.",
             "smithy.api#required": {}
           }
         },
         "storage": {
-          "target": "com.cloudflare.workers_for_platforms#DispatchNamespacesScriptsContentUpdateResponseExportsWorkersDurableObjectExpectingTransferExportStorage",
+          "target": "com.cloudflare.workers_for_platforms#DispatchNamespacesScriptsContentUpdateResponseExportsValueWorkersDurableObjectExpectingTransferExportStorage",
           "traits": {
             "smithy.api#documentation": "Durable Object storage backend. `sqlite` is the recommended (and only) backend for new namespaces. `legacy-kv` is accepted only for a class whose namespace already exists as KV-backed; the `exports` flow never provisions a new `legacy-kv` namespace.",
             "smithy.api#required": {}
@@ -9237,7 +9264,7 @@
           }
         },
         "type": {
-          "target": "com.cloudflare.workers_for_platforms#DispatchNamespacesScriptsContentUpdateResponseExportsWorkersDurableObjectExpectingTransferExportType",
+          "target": "com.cloudflare.workers_for_platforms#DispatchNamespacesScriptsContentUpdateResponseExportsValueWorkersDurableObjectExpectingTransferExportType",
           "traits": {
             "smithy.api#documentation": "Marks this entry as a Durable Object export.",
             "smithy.api#required": {}
@@ -9251,27 +9278,36 @@
         }
       }
     },
-    "com.cloudflare.workers_for_platforms#DispatchNamespacesScriptsContentUpdateResponseExports": {
+    "com.cloudflare.workers_for_platforms#DispatchNamespacesScriptsContentUpdateResponseExportsValue": {
       "type": "union",
       "members": {
         "Worker": {
-          "target": "com.cloudflare.workers_for_platforms#DispatchNamespacesScriptsContentUpdateResponseExportsWorker"
+          "target": "com.cloudflare.workers_for_platforms#DispatchNamespacesScriptsContentUpdateResponseExportsValueWorker"
         },
         "WorkersDurableObjectExport": {
-          "target": "com.cloudflare.workers_for_platforms#DispatchNamespacesScriptsContentUpdateResponseExportsWorkersDurableObjectExport"
+          "target": "com.cloudflare.workers_for_platforms#DispatchNamespacesScriptsContentUpdateResponseExportsValueWorkersDurableObjectExport"
         },
         "WorkersDurableObjectDeletedExport": {
-          "target": "com.cloudflare.workers_for_platforms#DispatchNamespacesScriptsContentUpdateResponseExportsWorkersDurableObjectDeletedExport"
+          "target": "com.cloudflare.workers_for_platforms#DispatchNamespacesScriptsContentUpdateResponseExportsValueWorkersDurableObjectDeletedExport"
         },
         "WorkersDurableObjectRenamedExport": {
-          "target": "com.cloudflare.workers_for_platforms#DispatchNamespacesScriptsContentUpdateResponseExportsWorkersDurableObjectRenamedExport"
+          "target": "com.cloudflare.workers_for_platforms#DispatchNamespacesScriptsContentUpdateResponseExportsValueWorkersDurableObjectRenamedExport"
         },
         "WorkersDurableObjectTransferredExport": {
-          "target": "com.cloudflare.workers_for_platforms#DispatchNamespacesScriptsContentUpdateResponseExportsWorkersDurableObjectTransferredExport"
+          "target": "com.cloudflare.workers_for_platforms#DispatchNamespacesScriptsContentUpdateResponseExportsValueWorkersDurableObjectTransferredExport"
         },
         "WorkersDurableObjectExpectingTransferExport": {
-          "target": "com.cloudflare.workers_for_platforms#DispatchNamespacesScriptsContentUpdateResponseExportsWorkersDurableObjectExpectingTransferExport"
+          "target": "com.cloudflare.workers_for_platforms#DispatchNamespacesScriptsContentUpdateResponseExportsValueWorkersDurableObjectExpectingTransferExport"
         }
+      }
+    },
+    "com.cloudflare.workers_for_platforms#DispatchNamespacesScriptsContentUpdateResponseExportsMap": {
+      "type": "map",
+      "key": {
+        "target": "smithy.api#String"
+      },
+      "value": {
+        "target": "com.cloudflare.workers_for_platforms#DispatchNamespacesScriptsContentUpdateResponseExportsValue"
       }
     },
     "com.cloudflare.workers_for_platforms#DispatchNamespacesScriptsContentUpdateResponseHandlersList": {
@@ -10106,7 +10142,7 @@
         }
       }
     },
-    "com.cloudflare.workers_for_platforms#DispatchNamespacesScriptsSecretsBulkUpdateRequestSecretsSecretTextType": {
+    "com.cloudflare.workers_for_platforms#DispatchNamespacesScriptsSecretsBulkUpdateRequestSecretsValueSecretTextType": {
       "type": "enum",
       "members": {
         "SECRET_TEXT": {
@@ -10117,7 +10153,7 @@
         }
       }
     },
-    "com.cloudflare.workers_for_platforms#DispatchNamespacesScriptsSecretsBulkUpdateRequestSecretsSecretText": {
+    "com.cloudflare.workers_for_platforms#DispatchNamespacesScriptsSecretsBulkUpdateRequestSecretsValueSecretText": {
       "type": "structure",
       "members": {
         "name": {
@@ -10135,7 +10171,7 @@
           }
         },
         "type": {
-          "target": "com.cloudflare.workers_for_platforms#DispatchNamespacesScriptsSecretsBulkUpdateRequestSecretsSecretTextType",
+          "target": "com.cloudflare.workers_for_platforms#DispatchNamespacesScriptsSecretsBulkUpdateRequestSecretsValueSecretTextType",
           "traits": {
             "smithy.api#documentation": "The kind of resource that the binding provides.",
             "smithy.api#required": {}
@@ -10143,7 +10179,7 @@
         }
       }
     },
-    "com.cloudflare.workers_for_platforms#DispatchNamespacesScriptsSecretsBulkUpdateRequestSecretsSecretKeyFormat": {
+    "com.cloudflare.workers_for_platforms#DispatchNamespacesScriptsSecretsBulkUpdateRequestSecretsValueSecretKeyFormat": {
       "type": "enum",
       "members": {
         "RAW": {
@@ -10172,7 +10208,7 @@
         }
       }
     },
-    "com.cloudflare.workers_for_platforms#DispatchNamespacesScriptsSecretsBulkUpdateRequestSecretsSecretKeyType": {
+    "com.cloudflare.workers_for_platforms#DispatchNamespacesScriptsSecretsBulkUpdateRequestSecretsValueSecretKeyType": {
       "type": "enum",
       "members": {
         "SECRET_KEY": {
@@ -10183,7 +10219,7 @@
         }
       }
     },
-    "com.cloudflare.workers_for_platforms#DispatchNamespacesScriptsSecretsBulkUpdateRequestSecretsSecretKeyUsagesItem": {
+    "com.cloudflare.workers_for_platforms#DispatchNamespacesScriptsSecretsBulkUpdateRequestSecretsValueSecretKeyUsagesItem": {
       "type": "enum",
       "members": {
         "ENCRYPT": {
@@ -10236,13 +10272,13 @@
         }
       }
     },
-    "com.cloudflare.workers_for_platforms#DispatchNamespacesScriptsSecretsBulkUpdateRequestSecretsSecretKeyUsagesList": {
+    "com.cloudflare.workers_for_platforms#DispatchNamespacesScriptsSecretsBulkUpdateRequestSecretsValueSecretKeyUsagesList": {
       "type": "list",
       "member": {
-        "target": "com.cloudflare.workers_for_platforms#DispatchNamespacesScriptsSecretsBulkUpdateRequestSecretsSecretKeyUsagesItem"
+        "target": "com.cloudflare.workers_for_platforms#DispatchNamespacesScriptsSecretsBulkUpdateRequestSecretsValueSecretKeyUsagesItem"
       }
     },
-    "com.cloudflare.workers_for_platforms#DispatchNamespacesScriptsSecretsBulkUpdateRequestSecretsSecretKey": {
+    "com.cloudflare.workers_for_platforms#DispatchNamespacesScriptsSecretsBulkUpdateRequestSecretsValueSecretKey": {
       "type": "structure",
       "members": {
         "algorithm": {
@@ -10253,7 +10289,7 @@
           }
         },
         "format": {
-          "target": "com.cloudflare.workers_for_platforms#DispatchNamespacesScriptsSecretsBulkUpdateRequestSecretsSecretKeyFormat",
+          "target": "com.cloudflare.workers_for_platforms#DispatchNamespacesScriptsSecretsBulkUpdateRequestSecretsValueSecretKeyFormat",
           "traits": {
             "smithy.api#documentation": "Data format of the key. [Learn more](https://developer.mozilla.org/en-US/docs/Web/API/SubtleCrypto/importKey#format).",
             "smithy.api#required": {}
@@ -10267,14 +10303,14 @@
           }
         },
         "type": {
-          "target": "com.cloudflare.workers_for_platforms#DispatchNamespacesScriptsSecretsBulkUpdateRequestSecretsSecretKeyType",
+          "target": "com.cloudflare.workers_for_platforms#DispatchNamespacesScriptsSecretsBulkUpdateRequestSecretsValueSecretKeyType",
           "traits": {
             "smithy.api#documentation": "The kind of resource that the binding provides.",
             "smithy.api#required": {}
           }
         },
         "usages": {
-          "target": "com.cloudflare.workers_for_platforms#DispatchNamespacesScriptsSecretsBulkUpdateRequestSecretsSecretKeyUsagesList",
+          "target": "com.cloudflare.workers_for_platforms#DispatchNamespacesScriptsSecretsBulkUpdateRequestSecretsValueSecretKeyUsagesList",
           "traits": {
             "smithy.api#documentation": "Allowed operations with the key. [Learn more](https://developer.mozilla.org/en-US/docs/Web/API/SubtleCrypto/importKey#keyUsages).",
             "smithy.api#required": {}
@@ -10294,15 +10330,24 @@
         }
       }
     },
-    "com.cloudflare.workers_for_platforms#DispatchNamespacesScriptsSecretsBulkUpdateRequestSecrets": {
+    "com.cloudflare.workers_for_platforms#DispatchNamespacesScriptsSecretsBulkUpdateRequestSecretsValue": {
       "type": "union",
       "members": {
         "SecretText": {
-          "target": "com.cloudflare.workers_for_platforms#DispatchNamespacesScriptsSecretsBulkUpdateRequestSecretsSecretText"
+          "target": "com.cloudflare.workers_for_platforms#DispatchNamespacesScriptsSecretsBulkUpdateRequestSecretsValueSecretText"
         },
         "SecretKey": {
-          "target": "com.cloudflare.workers_for_platforms#DispatchNamespacesScriptsSecretsBulkUpdateRequestSecretsSecretKey"
+          "target": "com.cloudflare.workers_for_platforms#DispatchNamespacesScriptsSecretsBulkUpdateRequestSecretsValueSecretKey"
         }
+      }
+    },
+    "com.cloudflare.workers_for_platforms#DispatchNamespacesScriptsSecretsBulkUpdateRequestSecretsMap": {
+      "type": "map",
+      "key": {
+        "target": "smithy.api#String"
+      },
+      "value": {
+        "target": "com.cloudflare.workers_for_platforms#DispatchNamespacesScriptsSecretsBulkUpdateRequestSecretsValue"
       }
     },
     "com.cloudflare.workers_for_platforms#DispatchNamespacesScriptsSecretsBulkUpdateRequestVersionTagsMap": {
@@ -10314,7 +10359,7 @@
         "target": "smithy.api#Document"
       }
     },
-    "com.cloudflare.workers_for_platforms#DispatchNamespacesScriptsSecretsBulkUpdateResultSecretTextType": {
+    "com.cloudflare.workers_for_platforms#DispatchNamespacesScriptsSecretsBulkUpdateResultValueSecretTextType": {
       "type": "enum",
       "members": {
         "SECRET_TEXT": {
@@ -10325,7 +10370,7 @@
         }
       }
     },
-    "com.cloudflare.workers_for_platforms#DispatchNamespacesScriptsSecretsBulkUpdateResultSecretText": {
+    "com.cloudflare.workers_for_platforms#DispatchNamespacesScriptsSecretsBulkUpdateResultValueSecretText": {
       "type": "structure",
       "members": {
         "name": {
@@ -10343,7 +10388,7 @@
           }
         },
         "type": {
-          "target": "com.cloudflare.workers_for_platforms#DispatchNamespacesScriptsSecretsBulkUpdateResultSecretTextType",
+          "target": "com.cloudflare.workers_for_platforms#DispatchNamespacesScriptsSecretsBulkUpdateResultValueSecretTextType",
           "traits": {
             "smithy.api#documentation": "The kind of resource that the binding provides.",
             "smithy.api#required": {}
@@ -10351,7 +10396,7 @@
         }
       }
     },
-    "com.cloudflare.workers_for_platforms#DispatchNamespacesScriptsSecretsBulkUpdateResultSecretKeyFormat": {
+    "com.cloudflare.workers_for_platforms#DispatchNamespacesScriptsSecretsBulkUpdateResultValueSecretKeyFormat": {
       "type": "enum",
       "members": {
         "RAW": {
@@ -10380,7 +10425,7 @@
         }
       }
     },
-    "com.cloudflare.workers_for_platforms#DispatchNamespacesScriptsSecretsBulkUpdateResultSecretKeyType": {
+    "com.cloudflare.workers_for_platforms#DispatchNamespacesScriptsSecretsBulkUpdateResultValueSecretKeyType": {
       "type": "enum",
       "members": {
         "SECRET_KEY": {
@@ -10391,7 +10436,7 @@
         }
       }
     },
-    "com.cloudflare.workers_for_platforms#DispatchNamespacesScriptsSecretsBulkUpdateResultSecretKeyUsagesItem": {
+    "com.cloudflare.workers_for_platforms#DispatchNamespacesScriptsSecretsBulkUpdateResultValueSecretKeyUsagesItem": {
       "type": "enum",
       "members": {
         "ENCRYPT": {
@@ -10444,13 +10489,13 @@
         }
       }
     },
-    "com.cloudflare.workers_for_platforms#DispatchNamespacesScriptsSecretsBulkUpdateResultSecretKeyUsagesList": {
+    "com.cloudflare.workers_for_platforms#DispatchNamespacesScriptsSecretsBulkUpdateResultValueSecretKeyUsagesList": {
       "type": "list",
       "member": {
-        "target": "com.cloudflare.workers_for_platforms#DispatchNamespacesScriptsSecretsBulkUpdateResultSecretKeyUsagesItem"
+        "target": "com.cloudflare.workers_for_platforms#DispatchNamespacesScriptsSecretsBulkUpdateResultValueSecretKeyUsagesItem"
       }
     },
-    "com.cloudflare.workers_for_platforms#DispatchNamespacesScriptsSecretsBulkUpdateResultSecretKey": {
+    "com.cloudflare.workers_for_platforms#DispatchNamespacesScriptsSecretsBulkUpdateResultValueSecretKey": {
       "type": "structure",
       "members": {
         "algorithm": {
@@ -10461,7 +10506,7 @@
           }
         },
         "format": {
-          "target": "com.cloudflare.workers_for_platforms#DispatchNamespacesScriptsSecretsBulkUpdateResultSecretKeyFormat",
+          "target": "com.cloudflare.workers_for_platforms#DispatchNamespacesScriptsSecretsBulkUpdateResultValueSecretKeyFormat",
           "traits": {
             "smithy.api#documentation": "Data format of the key. [Learn more](https://developer.mozilla.org/en-US/docs/Web/API/SubtleCrypto/importKey#format).",
             "smithy.api#required": {}
@@ -10475,14 +10520,14 @@
           }
         },
         "type": {
-          "target": "com.cloudflare.workers_for_platforms#DispatchNamespacesScriptsSecretsBulkUpdateResultSecretKeyType",
+          "target": "com.cloudflare.workers_for_platforms#DispatchNamespacesScriptsSecretsBulkUpdateResultValueSecretKeyType",
           "traits": {
             "smithy.api#documentation": "The kind of resource that the binding provides.",
             "smithy.api#required": {}
           }
         },
         "usages": {
-          "target": "com.cloudflare.workers_for_platforms#DispatchNamespacesScriptsSecretsBulkUpdateResultSecretKeyUsagesList",
+          "target": "com.cloudflare.workers_for_platforms#DispatchNamespacesScriptsSecretsBulkUpdateResultValueSecretKeyUsagesList",
           "traits": {
             "smithy.api#documentation": "Allowed operations with the key. [Learn more](https://developer.mozilla.org/en-US/docs/Web/API/SubtleCrypto/importKey#keyUsages).",
             "smithy.api#required": {}
@@ -10502,15 +10547,24 @@
         }
       }
     },
-    "com.cloudflare.workers_for_platforms#DispatchNamespacesScriptsSecretsBulkUpdateResult": {
+    "com.cloudflare.workers_for_platforms#DispatchNamespacesScriptsSecretsBulkUpdateResultValue": {
       "type": "union",
       "members": {
         "SecretText": {
-          "target": "com.cloudflare.workers_for_platforms#DispatchNamespacesScriptsSecretsBulkUpdateResultSecretText"
+          "target": "com.cloudflare.workers_for_platforms#DispatchNamespacesScriptsSecretsBulkUpdateResultValueSecretText"
         },
         "SecretKey": {
-          "target": "com.cloudflare.workers_for_platforms#DispatchNamespacesScriptsSecretsBulkUpdateResultSecretKey"
+          "target": "com.cloudflare.workers_for_platforms#DispatchNamespacesScriptsSecretsBulkUpdateResultValueSecretKey"
         }
+      }
+    },
+    "com.cloudflare.workers_for_platforms#DispatchNamespacesScriptsSecretsBulkUpdateResultMap": {
+      "type": "map",
+      "key": {
+        "target": "smithy.api#String"
+      },
+      "value": {
+        "target": "com.cloudflare.workers_for_platforms#DispatchNamespacesScriptsSecretsBulkUpdateResultValue"
       }
     },
     "com.cloudflare.workers_for_platforms#DispatchNamespacesScriptsSecretsGetResultSecretTextType": {
@@ -13095,7 +13149,7 @@
         "target": "smithy.api#String"
       }
     },
-    "com.cloudflare.workers_for_platforms#DispatchNamespacesScriptsSettingsEditRequestSettingsExportsWorkerType": {
+    "com.cloudflare.workers_for_platforms#DispatchNamespacesScriptsSettingsEditRequestSettingsExportsValueWorkerType": {
       "type": "enum",
       "members": {
         "WORKER": {
@@ -13106,7 +13160,7 @@
         }
       }
     },
-    "com.cloudflare.workers_for_platforms#DispatchNamespacesScriptsSettingsEditRequestSettingsExportsWorkerCache": {
+    "com.cloudflare.workers_for_platforms#DispatchNamespacesScriptsSettingsEditRequestSettingsExportsValueWorkerCache": {
       "type": "structure",
       "members": {
         "enabled": {
@@ -13118,7 +13172,7 @@
         }
       }
     },
-    "com.cloudflare.workers_for_platforms#DispatchNamespacesScriptsSettingsEditRequestSettingsExportsWorkerState": {
+    "com.cloudflare.workers_for_platforms#DispatchNamespacesScriptsSettingsEditRequestSettingsExportsValueWorkerState": {
       "type": "enum",
       "members": {
         "CREATED": {
@@ -13129,31 +13183,31 @@
         }
       }
     },
-    "com.cloudflare.workers_for_platforms#DispatchNamespacesScriptsSettingsEditRequestSettingsExportsWorker": {
+    "com.cloudflare.workers_for_platforms#DispatchNamespacesScriptsSettingsEditRequestSettingsExportsValueWorker": {
       "type": "structure",
       "members": {
         "type": {
-          "target": "com.cloudflare.workers_for_platforms#DispatchNamespacesScriptsSettingsEditRequestSettingsExportsWorkerType",
+          "target": "com.cloudflare.workers_for_platforms#DispatchNamespacesScriptsSettingsEditRequestSettingsExportsValueWorkerType",
           "traits": {
             "smithy.api#documentation": "Marks this entry as a Worker entrypoint export.",
             "smithy.api#required": {}
           }
         },
         "cache": {
-          "target": "com.cloudflare.workers_for_platforms#DispatchNamespacesScriptsSettingsEditRequestSettingsExportsWorkerCache",
+          "target": "com.cloudflare.workers_for_platforms#DispatchNamespacesScriptsSettingsEditRequestSettingsExportsValueWorkerCache",
           "traits": {
             "smithy.api#documentation": "Cache override for this entrypoint. Overrides the Worker's global `cache_options.enabled` for this entrypoint only."
           }
         },
         "state": {
-          "target": "com.cloudflare.workers_for_platforms#DispatchNamespacesScriptsSettingsEditRequestSettingsExportsWorkerState",
+          "target": "com.cloudflare.workers_for_platforms#DispatchNamespacesScriptsSettingsEditRequestSettingsExportsValueWorkerState",
           "traits": {
             "smithy.api#documentation": "Live export. May be omitted; defaults to `created`."
           }
         }
       }
     },
-    "com.cloudflare.workers_for_platforms#DispatchNamespacesScriptsSettingsEditRequestSettingsExportsWorkersDurableObjectExportStorage": {
+    "com.cloudflare.workers_for_platforms#DispatchNamespacesScriptsSettingsEditRequestSettingsExportsValueWorkersDurableObjectExportStorage": {
       "type": "enum",
       "members": {
         "SQLITE": {
@@ -13170,7 +13224,7 @@
         }
       }
     },
-    "com.cloudflare.workers_for_platforms#DispatchNamespacesScriptsSettingsEditRequestSettingsExportsWorkersDurableObjectExportType": {
+    "com.cloudflare.workers_for_platforms#DispatchNamespacesScriptsSettingsEditRequestSettingsExportsValueWorkersDurableObjectExportType": {
       "type": "enum",
       "members": {
         "DURABLE_OBJECT": {
@@ -13181,7 +13235,7 @@
         }
       }
     },
-    "com.cloudflare.workers_for_platforms#DispatchNamespacesScriptsSettingsEditRequestSettingsExportsWorkersDurableObjectExportState": {
+    "com.cloudflare.workers_for_platforms#DispatchNamespacesScriptsSettingsEditRequestSettingsExportsValueWorkersDurableObjectExportState": {
       "type": "enum",
       "members": {
         "CREATED": {
@@ -13192,18 +13246,18 @@
         }
       }
     },
-    "com.cloudflare.workers_for_platforms#DispatchNamespacesScriptsSettingsEditRequestSettingsExportsWorkersDurableObjectExport": {
+    "com.cloudflare.workers_for_platforms#DispatchNamespacesScriptsSettingsEditRequestSettingsExportsValueWorkersDurableObjectExport": {
       "type": "structure",
       "members": {
         "storage": {
-          "target": "com.cloudflare.workers_for_platforms#DispatchNamespacesScriptsSettingsEditRequestSettingsExportsWorkersDurableObjectExportStorage",
+          "target": "com.cloudflare.workers_for_platforms#DispatchNamespacesScriptsSettingsEditRequestSettingsExportsValueWorkersDurableObjectExportStorage",
           "traits": {
             "smithy.api#documentation": "Durable Object storage backend. `sqlite` is the recommended (and only) backend for new namespaces. `legacy-kv` is accepted only for a class whose namespace already exists as KV-backed; the `exports` flow never provisions a new `legacy-kv` namespace.",
             "smithy.api#required": {}
           }
         },
         "type": {
-          "target": "com.cloudflare.workers_for_platforms#DispatchNamespacesScriptsSettingsEditRequestSettingsExportsWorkersDurableObjectExportType",
+          "target": "com.cloudflare.workers_for_platforms#DispatchNamespacesScriptsSettingsEditRequestSettingsExportsValueWorkersDurableObjectExportType",
           "traits": {
             "smithy.api#documentation": "Marks this entry as a Durable Object export.",
             "smithy.api#required": {}
@@ -13216,14 +13270,14 @@
           }
         },
         "state": {
-          "target": "com.cloudflare.workers_for_platforms#DispatchNamespacesScriptsSettingsEditRequestSettingsExportsWorkersDurableObjectExportState",
+          "target": "com.cloudflare.workers_for_platforms#DispatchNamespacesScriptsSettingsEditRequestSettingsExportsValueWorkersDurableObjectExportState",
           "traits": {
             "smithy.api#documentation": "Live export. May be omitted; defaults to `created`."
           }
         }
       }
     },
-    "com.cloudflare.workers_for_platforms#DispatchNamespacesScriptsSettingsEditRequestSettingsExportsWorkersDurableObjectDeletedExportState": {
+    "com.cloudflare.workers_for_platforms#DispatchNamespacesScriptsSettingsEditRequestSettingsExportsValueWorkersDurableObjectDeletedExportState": {
       "type": "enum",
       "members": {
         "DELETED": {
@@ -13234,7 +13288,7 @@
         }
       }
     },
-    "com.cloudflare.workers_for_platforms#DispatchNamespacesScriptsSettingsEditRequestSettingsExportsWorkersDurableObjectDeletedExportType": {
+    "com.cloudflare.workers_for_platforms#DispatchNamespacesScriptsSettingsEditRequestSettingsExportsValueWorkersDurableObjectDeletedExportType": {
       "type": "enum",
       "members": {
         "DURABLE_OBJECT": {
@@ -13245,18 +13299,18 @@
         }
       }
     },
-    "com.cloudflare.workers_for_platforms#DispatchNamespacesScriptsSettingsEditRequestSettingsExportsWorkersDurableObjectDeletedExport": {
+    "com.cloudflare.workers_for_platforms#DispatchNamespacesScriptsSettingsEditRequestSettingsExportsValueWorkersDurableObjectDeletedExport": {
       "type": "structure",
       "members": {
         "state": {
-          "target": "com.cloudflare.workers_for_platforms#DispatchNamespacesScriptsSettingsEditRequestSettingsExportsWorkersDurableObjectDeletedExportState",
+          "target": "com.cloudflare.workers_for_platforms#DispatchNamespacesScriptsSettingsEditRequestSettingsExportsValueWorkersDurableObjectDeletedExportState",
           "traits": {
             "smithy.api#documentation": "Tombstone that deletes the namespace.",
             "smithy.api#required": {}
           }
         },
         "type": {
-          "target": "com.cloudflare.workers_for_platforms#DispatchNamespacesScriptsSettingsEditRequestSettingsExportsWorkersDurableObjectDeletedExportType",
+          "target": "com.cloudflare.workers_for_platforms#DispatchNamespacesScriptsSettingsEditRequestSettingsExportsValueWorkersDurableObjectDeletedExportType",
           "traits": {
             "smithy.api#documentation": "Marks this entry as a Durable Object export.",
             "smithy.api#required": {}
@@ -13264,7 +13318,7 @@
         }
       }
     },
-    "com.cloudflare.workers_for_platforms#DispatchNamespacesScriptsSettingsEditRequestSettingsExportsWorkersDurableObjectRenamedExportState": {
+    "com.cloudflare.workers_for_platforms#DispatchNamespacesScriptsSettingsEditRequestSettingsExportsValueWorkersDurableObjectRenamedExportState": {
       "type": "enum",
       "members": {
         "RENAMED": {
@@ -13275,7 +13329,7 @@
         }
       }
     },
-    "com.cloudflare.workers_for_platforms#DispatchNamespacesScriptsSettingsEditRequestSettingsExportsWorkersDurableObjectRenamedExportType": {
+    "com.cloudflare.workers_for_platforms#DispatchNamespacesScriptsSettingsEditRequestSettingsExportsValueWorkersDurableObjectRenamedExportType": {
       "type": "enum",
       "members": {
         "DURABLE_OBJECT": {
@@ -13286,7 +13340,7 @@
         }
       }
     },
-    "com.cloudflare.workers_for_platforms#DispatchNamespacesScriptsSettingsEditRequestSettingsExportsWorkersDurableObjectRenamedExport": {
+    "com.cloudflare.workers_for_platforms#DispatchNamespacesScriptsSettingsEditRequestSettingsExportsValueWorkersDurableObjectRenamedExport": {
       "type": "structure",
       "members": {
         "renamed_to": {
@@ -13297,14 +13351,14 @@
           }
         },
         "state": {
-          "target": "com.cloudflare.workers_for_platforms#DispatchNamespacesScriptsSettingsEditRequestSettingsExportsWorkersDurableObjectRenamedExportState",
+          "target": "com.cloudflare.workers_for_platforms#DispatchNamespacesScriptsSettingsEditRequestSettingsExportsValueWorkersDurableObjectRenamedExportState",
           "traits": {
             "smithy.api#documentation": "Tombstone that renames the namespace's class.",
             "smithy.api#required": {}
           }
         },
         "type": {
-          "target": "com.cloudflare.workers_for_platforms#DispatchNamespacesScriptsSettingsEditRequestSettingsExportsWorkersDurableObjectRenamedExportType",
+          "target": "com.cloudflare.workers_for_platforms#DispatchNamespacesScriptsSettingsEditRequestSettingsExportsValueWorkersDurableObjectRenamedExportType",
           "traits": {
             "smithy.api#documentation": "Marks this entry as a Durable Object export.",
             "smithy.api#required": {}
@@ -13312,7 +13366,7 @@
         }
       }
     },
-    "com.cloudflare.workers_for_platforms#DispatchNamespacesScriptsSettingsEditRequestSettingsExportsWorkersDurableObjectTransferredExportState": {
+    "com.cloudflare.workers_for_platforms#DispatchNamespacesScriptsSettingsEditRequestSettingsExportsValueWorkersDurableObjectTransferredExportState": {
       "type": "enum",
       "members": {
         "TRANSFERRED": {
@@ -13323,7 +13377,7 @@
         }
       }
     },
-    "com.cloudflare.workers_for_platforms#DispatchNamespacesScriptsSettingsEditRequestSettingsExportsWorkersDurableObjectTransferredExportType": {
+    "com.cloudflare.workers_for_platforms#DispatchNamespacesScriptsSettingsEditRequestSettingsExportsValueWorkersDurableObjectTransferredExportType": {
       "type": "enum",
       "members": {
         "DURABLE_OBJECT": {
@@ -13334,11 +13388,11 @@
         }
       }
     },
-    "com.cloudflare.workers_for_platforms#DispatchNamespacesScriptsSettingsEditRequestSettingsExportsWorkersDurableObjectTransferredExport": {
+    "com.cloudflare.workers_for_platforms#DispatchNamespacesScriptsSettingsEditRequestSettingsExportsValueWorkersDurableObjectTransferredExport": {
       "type": "structure",
       "members": {
         "state": {
-          "target": "com.cloudflare.workers_for_platforms#DispatchNamespacesScriptsSettingsEditRequestSettingsExportsWorkersDurableObjectTransferredExportState",
+          "target": "com.cloudflare.workers_for_platforms#DispatchNamespacesScriptsSettingsEditRequestSettingsExportsValueWorkersDurableObjectTransferredExportState",
           "traits": {
             "smithy.api#documentation": "Tombstone that transfers the namespace to another script.",
             "smithy.api#required": {}
@@ -13352,7 +13406,7 @@
           }
         },
         "type": {
-          "target": "com.cloudflare.workers_for_platforms#DispatchNamespacesScriptsSettingsEditRequestSettingsExportsWorkersDurableObjectTransferredExportType",
+          "target": "com.cloudflare.workers_for_platforms#DispatchNamespacesScriptsSettingsEditRequestSettingsExportsValueWorkersDurableObjectTransferredExportType",
           "traits": {
             "smithy.api#documentation": "Marks this entry as a Durable Object export.",
             "smithy.api#required": {}
@@ -13360,7 +13414,7 @@
         }
       }
     },
-    "com.cloudflare.workers_for_platforms#DispatchNamespacesScriptsSettingsEditRequestSettingsExportsWorkersDurableObjectExpectingTransferExportState": {
+    "com.cloudflare.workers_for_platforms#DispatchNamespacesScriptsSettingsEditRequestSettingsExportsValueWorkersDurableObjectExpectingTransferExportState": {
       "type": "enum",
       "members": {
         "EXPECTING_TRANSFER": {
@@ -13371,7 +13425,7 @@
         }
       }
     },
-    "com.cloudflare.workers_for_platforms#DispatchNamespacesScriptsSettingsEditRequestSettingsExportsWorkersDurableObjectExpectingTransferExportStorage": {
+    "com.cloudflare.workers_for_platforms#DispatchNamespacesScriptsSettingsEditRequestSettingsExportsValueWorkersDurableObjectExpectingTransferExportStorage": {
       "type": "enum",
       "members": {
         "SQLITE": {
@@ -13388,7 +13442,7 @@
         }
       }
     },
-    "com.cloudflare.workers_for_platforms#DispatchNamespacesScriptsSettingsEditRequestSettingsExportsWorkersDurableObjectExpectingTransferExportType": {
+    "com.cloudflare.workers_for_platforms#DispatchNamespacesScriptsSettingsEditRequestSettingsExportsValueWorkersDurableObjectExpectingTransferExportType": {
       "type": "enum",
       "members": {
         "DURABLE_OBJECT": {
@@ -13399,18 +13453,18 @@
         }
       }
     },
-    "com.cloudflare.workers_for_platforms#DispatchNamespacesScriptsSettingsEditRequestSettingsExportsWorkersDurableObjectExpectingTransferExport": {
+    "com.cloudflare.workers_for_platforms#DispatchNamespacesScriptsSettingsEditRequestSettingsExportsValueWorkersDurableObjectExpectingTransferExport": {
       "type": "structure",
       "members": {
         "state": {
-          "target": "com.cloudflare.workers_for_platforms#DispatchNamespacesScriptsSettingsEditRequestSettingsExportsWorkersDurableObjectExpectingTransferExportState",
+          "target": "com.cloudflare.workers_for_platforms#DispatchNamespacesScriptsSettingsEditRequestSettingsExportsValueWorkersDurableObjectExpectingTransferExportState",
           "traits": {
             "smithy.api#documentation": "Target side of a two-phase transfer.",
             "smithy.api#required": {}
           }
         },
         "storage": {
-          "target": "com.cloudflare.workers_for_platforms#DispatchNamespacesScriptsSettingsEditRequestSettingsExportsWorkersDurableObjectExpectingTransferExportStorage",
+          "target": "com.cloudflare.workers_for_platforms#DispatchNamespacesScriptsSettingsEditRequestSettingsExportsValueWorkersDurableObjectExpectingTransferExportStorage",
           "traits": {
             "smithy.api#documentation": "Durable Object storage backend. `sqlite` is the recommended (and only) backend for new namespaces. `legacy-kv` is accepted only for a class whose namespace already exists as KV-backed; the `exports` flow never provisions a new `legacy-kv` namespace.",
             "smithy.api#required": {}
@@ -13424,7 +13478,7 @@
           }
         },
         "type": {
-          "target": "com.cloudflare.workers_for_platforms#DispatchNamespacesScriptsSettingsEditRequestSettingsExportsWorkersDurableObjectExpectingTransferExportType",
+          "target": "com.cloudflare.workers_for_platforms#DispatchNamespacesScriptsSettingsEditRequestSettingsExportsValueWorkersDurableObjectExpectingTransferExportType",
           "traits": {
             "smithy.api#documentation": "Marks this entry as a Durable Object export.",
             "smithy.api#required": {}
@@ -13438,27 +13492,36 @@
         }
       }
     },
-    "com.cloudflare.workers_for_platforms#DispatchNamespacesScriptsSettingsEditRequestSettingsExports": {
+    "com.cloudflare.workers_for_platforms#DispatchNamespacesScriptsSettingsEditRequestSettingsExportsValue": {
       "type": "union",
       "members": {
         "Worker": {
-          "target": "com.cloudflare.workers_for_platforms#DispatchNamespacesScriptsSettingsEditRequestSettingsExportsWorker"
+          "target": "com.cloudflare.workers_for_platforms#DispatchNamespacesScriptsSettingsEditRequestSettingsExportsValueWorker"
         },
         "WorkersDurableObjectExport": {
-          "target": "com.cloudflare.workers_for_platforms#DispatchNamespacesScriptsSettingsEditRequestSettingsExportsWorkersDurableObjectExport"
+          "target": "com.cloudflare.workers_for_platforms#DispatchNamespacesScriptsSettingsEditRequestSettingsExportsValueWorkersDurableObjectExport"
         },
         "WorkersDurableObjectDeletedExport": {
-          "target": "com.cloudflare.workers_for_platforms#DispatchNamespacesScriptsSettingsEditRequestSettingsExportsWorkersDurableObjectDeletedExport"
+          "target": "com.cloudflare.workers_for_platforms#DispatchNamespacesScriptsSettingsEditRequestSettingsExportsValueWorkersDurableObjectDeletedExport"
         },
         "WorkersDurableObjectRenamedExport": {
-          "target": "com.cloudflare.workers_for_platforms#DispatchNamespacesScriptsSettingsEditRequestSettingsExportsWorkersDurableObjectRenamedExport"
+          "target": "com.cloudflare.workers_for_platforms#DispatchNamespacesScriptsSettingsEditRequestSettingsExportsValueWorkersDurableObjectRenamedExport"
         },
         "WorkersDurableObjectTransferredExport": {
-          "target": "com.cloudflare.workers_for_platforms#DispatchNamespacesScriptsSettingsEditRequestSettingsExportsWorkersDurableObjectTransferredExport"
+          "target": "com.cloudflare.workers_for_platforms#DispatchNamespacesScriptsSettingsEditRequestSettingsExportsValueWorkersDurableObjectTransferredExport"
         },
         "WorkersDurableObjectExpectingTransferExport": {
-          "target": "com.cloudflare.workers_for_platforms#DispatchNamespacesScriptsSettingsEditRequestSettingsExportsWorkersDurableObjectExpectingTransferExport"
+          "target": "com.cloudflare.workers_for_platforms#DispatchNamespacesScriptsSettingsEditRequestSettingsExportsValueWorkersDurableObjectExpectingTransferExport"
         }
+      }
+    },
+    "com.cloudflare.workers_for_platforms#DispatchNamespacesScriptsSettingsEditRequestSettingsExportsMap": {
+      "type": "map",
+      "key": {
+        "target": "smithy.api#String"
+      },
+      "value": {
+        "target": "com.cloudflare.workers_for_platforms#DispatchNamespacesScriptsSettingsEditRequestSettingsExportsValue"
       }
     },
     "com.cloudflare.workers_for_platforms#DispatchNamespacesScriptsSettingsEditRequestSettingsExportsReconciliationCreatedList": {
@@ -14894,7 +14957,7 @@
           }
         },
         "exports": {
-          "target": "com.cloudflare.workers_for_platforms#DispatchNamespacesScriptsSettingsEditRequestSettingsExports",
+          "target": "com.cloudflare.workers_for_platforms#DispatchNamespacesScriptsSettingsEditRequestSettingsExportsMap",
           "traits": {
             "smithy.api#documentation": "Declarative exports for the Worker. Worker entrypoint entries (`type: worker`) carry cache configuration for that entrypoint."
           }
@@ -16829,7 +16892,7 @@
         "target": "smithy.api#String"
       }
     },
-    "com.cloudflare.workers_for_platforms#DispatchNamespacesScriptsSettingsEditResponseExportsWorkerType": {
+    "com.cloudflare.workers_for_platforms#DispatchNamespacesScriptsSettingsEditResponseExportsValueWorkerType": {
       "type": "enum",
       "members": {
         "WORKER": {
@@ -16840,7 +16903,7 @@
         }
       }
     },
-    "com.cloudflare.workers_for_platforms#DispatchNamespacesScriptsSettingsEditResponseExportsWorkerCache": {
+    "com.cloudflare.workers_for_platforms#DispatchNamespacesScriptsSettingsEditResponseExportsValueWorkerCache": {
       "type": "structure",
       "members": {
         "enabled": {
@@ -16852,7 +16915,7 @@
         }
       }
     },
-    "com.cloudflare.workers_for_platforms#DispatchNamespacesScriptsSettingsEditResponseExportsWorkerState": {
+    "com.cloudflare.workers_for_platforms#DispatchNamespacesScriptsSettingsEditResponseExportsValueWorkerState": {
       "type": "enum",
       "members": {
         "CREATED": {
@@ -16863,31 +16926,31 @@
         }
       }
     },
-    "com.cloudflare.workers_for_platforms#DispatchNamespacesScriptsSettingsEditResponseExportsWorker": {
+    "com.cloudflare.workers_for_platforms#DispatchNamespacesScriptsSettingsEditResponseExportsValueWorker": {
       "type": "structure",
       "members": {
         "type": {
-          "target": "com.cloudflare.workers_for_platforms#DispatchNamespacesScriptsSettingsEditResponseExportsWorkerType",
+          "target": "com.cloudflare.workers_for_platforms#DispatchNamespacesScriptsSettingsEditResponseExportsValueWorkerType",
           "traits": {
             "smithy.api#documentation": "Marks this entry as a Worker entrypoint export.",
             "smithy.api#required": {}
           }
         },
         "cache": {
-          "target": "com.cloudflare.workers_for_platforms#DispatchNamespacesScriptsSettingsEditResponseExportsWorkerCache",
+          "target": "com.cloudflare.workers_for_platforms#DispatchNamespacesScriptsSettingsEditResponseExportsValueWorkerCache",
           "traits": {
             "smithy.api#documentation": "Cache override for this entrypoint. Overrides the Worker's global `cache_options.enabled` for this entrypoint only."
           }
         },
         "state": {
-          "target": "com.cloudflare.workers_for_platforms#DispatchNamespacesScriptsSettingsEditResponseExportsWorkerState",
+          "target": "com.cloudflare.workers_for_platforms#DispatchNamespacesScriptsSettingsEditResponseExportsValueWorkerState",
           "traits": {
             "smithy.api#documentation": "Live export. May be omitted; defaults to `created`."
           }
         }
       }
     },
-    "com.cloudflare.workers_for_platforms#DispatchNamespacesScriptsSettingsEditResponseExportsWorkersDurableObjectExportStorage": {
+    "com.cloudflare.workers_for_platforms#DispatchNamespacesScriptsSettingsEditResponseExportsValueWorkersDurableObjectExportStorage": {
       "type": "enum",
       "members": {
         "SQLITE": {
@@ -16904,7 +16967,7 @@
         }
       }
     },
-    "com.cloudflare.workers_for_platforms#DispatchNamespacesScriptsSettingsEditResponseExportsWorkersDurableObjectExportType": {
+    "com.cloudflare.workers_for_platforms#DispatchNamespacesScriptsSettingsEditResponseExportsValueWorkersDurableObjectExportType": {
       "type": "enum",
       "members": {
         "DURABLE_OBJECT": {
@@ -16915,7 +16978,7 @@
         }
       }
     },
-    "com.cloudflare.workers_for_platforms#DispatchNamespacesScriptsSettingsEditResponseExportsWorkersDurableObjectExportState": {
+    "com.cloudflare.workers_for_platforms#DispatchNamespacesScriptsSettingsEditResponseExportsValueWorkersDurableObjectExportState": {
       "type": "enum",
       "members": {
         "CREATED": {
@@ -16926,18 +16989,18 @@
         }
       }
     },
-    "com.cloudflare.workers_for_platforms#DispatchNamespacesScriptsSettingsEditResponseExportsWorkersDurableObjectExport": {
+    "com.cloudflare.workers_for_platforms#DispatchNamespacesScriptsSettingsEditResponseExportsValueWorkersDurableObjectExport": {
       "type": "structure",
       "members": {
         "storage": {
-          "target": "com.cloudflare.workers_for_platforms#DispatchNamespacesScriptsSettingsEditResponseExportsWorkersDurableObjectExportStorage",
+          "target": "com.cloudflare.workers_for_platforms#DispatchNamespacesScriptsSettingsEditResponseExportsValueWorkersDurableObjectExportStorage",
           "traits": {
             "smithy.api#documentation": "Durable Object storage backend. `sqlite` is the recommended (and only) backend for new namespaces. `legacy-kv` is accepted only for a class whose namespace already exists as KV-backed; the `exports` flow never provisions a new `legacy-kv` namespace.",
             "smithy.api#required": {}
           }
         },
         "type": {
-          "target": "com.cloudflare.workers_for_platforms#DispatchNamespacesScriptsSettingsEditResponseExportsWorkersDurableObjectExportType",
+          "target": "com.cloudflare.workers_for_platforms#DispatchNamespacesScriptsSettingsEditResponseExportsValueWorkersDurableObjectExportType",
           "traits": {
             "smithy.api#documentation": "Marks this entry as a Durable Object export.",
             "smithy.api#required": {}
@@ -16950,14 +17013,14 @@
           }
         },
         "state": {
-          "target": "com.cloudflare.workers_for_platforms#DispatchNamespacesScriptsSettingsEditResponseExportsWorkersDurableObjectExportState",
+          "target": "com.cloudflare.workers_for_platforms#DispatchNamespacesScriptsSettingsEditResponseExportsValueWorkersDurableObjectExportState",
           "traits": {
             "smithy.api#documentation": "Live export. May be omitted; defaults to `created`."
           }
         }
       }
     },
-    "com.cloudflare.workers_for_platforms#DispatchNamespacesScriptsSettingsEditResponseExportsWorkersDurableObjectDeletedExportState": {
+    "com.cloudflare.workers_for_platforms#DispatchNamespacesScriptsSettingsEditResponseExportsValueWorkersDurableObjectDeletedExportState": {
       "type": "enum",
       "members": {
         "DELETED": {
@@ -16968,7 +17031,7 @@
         }
       }
     },
-    "com.cloudflare.workers_for_platforms#DispatchNamespacesScriptsSettingsEditResponseExportsWorkersDurableObjectDeletedExportType": {
+    "com.cloudflare.workers_for_platforms#DispatchNamespacesScriptsSettingsEditResponseExportsValueWorkersDurableObjectDeletedExportType": {
       "type": "enum",
       "members": {
         "DURABLE_OBJECT": {
@@ -16979,18 +17042,18 @@
         }
       }
     },
-    "com.cloudflare.workers_for_platforms#DispatchNamespacesScriptsSettingsEditResponseExportsWorkersDurableObjectDeletedExport": {
+    "com.cloudflare.workers_for_platforms#DispatchNamespacesScriptsSettingsEditResponseExportsValueWorkersDurableObjectDeletedExport": {
       "type": "structure",
       "members": {
         "state": {
-          "target": "com.cloudflare.workers_for_platforms#DispatchNamespacesScriptsSettingsEditResponseExportsWorkersDurableObjectDeletedExportState",
+          "target": "com.cloudflare.workers_for_platforms#DispatchNamespacesScriptsSettingsEditResponseExportsValueWorkersDurableObjectDeletedExportState",
           "traits": {
             "smithy.api#documentation": "Tombstone that deletes the namespace.",
             "smithy.api#required": {}
           }
         },
         "type": {
-          "target": "com.cloudflare.workers_for_platforms#DispatchNamespacesScriptsSettingsEditResponseExportsWorkersDurableObjectDeletedExportType",
+          "target": "com.cloudflare.workers_for_platforms#DispatchNamespacesScriptsSettingsEditResponseExportsValueWorkersDurableObjectDeletedExportType",
           "traits": {
             "smithy.api#documentation": "Marks this entry as a Durable Object export.",
             "smithy.api#required": {}
@@ -16998,7 +17061,7 @@
         }
       }
     },
-    "com.cloudflare.workers_for_platforms#DispatchNamespacesScriptsSettingsEditResponseExportsWorkersDurableObjectRenamedExportState": {
+    "com.cloudflare.workers_for_platforms#DispatchNamespacesScriptsSettingsEditResponseExportsValueWorkersDurableObjectRenamedExportState": {
       "type": "enum",
       "members": {
         "RENAMED": {
@@ -17009,7 +17072,7 @@
         }
       }
     },
-    "com.cloudflare.workers_for_platforms#DispatchNamespacesScriptsSettingsEditResponseExportsWorkersDurableObjectRenamedExportType": {
+    "com.cloudflare.workers_for_platforms#DispatchNamespacesScriptsSettingsEditResponseExportsValueWorkersDurableObjectRenamedExportType": {
       "type": "enum",
       "members": {
         "DURABLE_OBJECT": {
@@ -17020,7 +17083,7 @@
         }
       }
     },
-    "com.cloudflare.workers_for_platforms#DispatchNamespacesScriptsSettingsEditResponseExportsWorkersDurableObjectRenamedExport": {
+    "com.cloudflare.workers_for_platforms#DispatchNamespacesScriptsSettingsEditResponseExportsValueWorkersDurableObjectRenamedExport": {
       "type": "structure",
       "members": {
         "renamed_to": {
@@ -17031,14 +17094,14 @@
           }
         },
         "state": {
-          "target": "com.cloudflare.workers_for_platforms#DispatchNamespacesScriptsSettingsEditResponseExportsWorkersDurableObjectRenamedExportState",
+          "target": "com.cloudflare.workers_for_platforms#DispatchNamespacesScriptsSettingsEditResponseExportsValueWorkersDurableObjectRenamedExportState",
           "traits": {
             "smithy.api#documentation": "Tombstone that renames the namespace's class.",
             "smithy.api#required": {}
           }
         },
         "type": {
-          "target": "com.cloudflare.workers_for_platforms#DispatchNamespacesScriptsSettingsEditResponseExportsWorkersDurableObjectRenamedExportType",
+          "target": "com.cloudflare.workers_for_platforms#DispatchNamespacesScriptsSettingsEditResponseExportsValueWorkersDurableObjectRenamedExportType",
           "traits": {
             "smithy.api#documentation": "Marks this entry as a Durable Object export.",
             "smithy.api#required": {}
@@ -17046,7 +17109,7 @@
         }
       }
     },
-    "com.cloudflare.workers_for_platforms#DispatchNamespacesScriptsSettingsEditResponseExportsWorkersDurableObjectTransferredExportState": {
+    "com.cloudflare.workers_for_platforms#DispatchNamespacesScriptsSettingsEditResponseExportsValueWorkersDurableObjectTransferredExportState": {
       "type": "enum",
       "members": {
         "TRANSFERRED": {
@@ -17057,7 +17120,7 @@
         }
       }
     },
-    "com.cloudflare.workers_for_platforms#DispatchNamespacesScriptsSettingsEditResponseExportsWorkersDurableObjectTransferredExportType": {
+    "com.cloudflare.workers_for_platforms#DispatchNamespacesScriptsSettingsEditResponseExportsValueWorkersDurableObjectTransferredExportType": {
       "type": "enum",
       "members": {
         "DURABLE_OBJECT": {
@@ -17068,11 +17131,11 @@
         }
       }
     },
-    "com.cloudflare.workers_for_platforms#DispatchNamespacesScriptsSettingsEditResponseExportsWorkersDurableObjectTransferredExport": {
+    "com.cloudflare.workers_for_platforms#DispatchNamespacesScriptsSettingsEditResponseExportsValueWorkersDurableObjectTransferredExport": {
       "type": "structure",
       "members": {
         "state": {
-          "target": "com.cloudflare.workers_for_platforms#DispatchNamespacesScriptsSettingsEditResponseExportsWorkersDurableObjectTransferredExportState",
+          "target": "com.cloudflare.workers_for_platforms#DispatchNamespacesScriptsSettingsEditResponseExportsValueWorkersDurableObjectTransferredExportState",
           "traits": {
             "smithy.api#documentation": "Tombstone that transfers the namespace to another script.",
             "smithy.api#required": {}
@@ -17086,7 +17149,7 @@
           }
         },
         "type": {
-          "target": "com.cloudflare.workers_for_platforms#DispatchNamespacesScriptsSettingsEditResponseExportsWorkersDurableObjectTransferredExportType",
+          "target": "com.cloudflare.workers_for_platforms#DispatchNamespacesScriptsSettingsEditResponseExportsValueWorkersDurableObjectTransferredExportType",
           "traits": {
             "smithy.api#documentation": "Marks this entry as a Durable Object export.",
             "smithy.api#required": {}
@@ -17094,7 +17157,7 @@
         }
       }
     },
-    "com.cloudflare.workers_for_platforms#DispatchNamespacesScriptsSettingsEditResponseExportsWorkersDurableObjectExpectingTransferExportState": {
+    "com.cloudflare.workers_for_platforms#DispatchNamespacesScriptsSettingsEditResponseExportsValueWorkersDurableObjectExpectingTransferExportState": {
       "type": "enum",
       "members": {
         "EXPECTING_TRANSFER": {
@@ -17105,7 +17168,7 @@
         }
       }
     },
-    "com.cloudflare.workers_for_platforms#DispatchNamespacesScriptsSettingsEditResponseExportsWorkersDurableObjectExpectingTransferExportStorage": {
+    "com.cloudflare.workers_for_platforms#DispatchNamespacesScriptsSettingsEditResponseExportsValueWorkersDurableObjectExpectingTransferExportStorage": {
       "type": "enum",
       "members": {
         "SQLITE": {
@@ -17122,7 +17185,7 @@
         }
       }
     },
-    "com.cloudflare.workers_for_platforms#DispatchNamespacesScriptsSettingsEditResponseExportsWorkersDurableObjectExpectingTransferExportType": {
+    "com.cloudflare.workers_for_platforms#DispatchNamespacesScriptsSettingsEditResponseExportsValueWorkersDurableObjectExpectingTransferExportType": {
       "type": "enum",
       "members": {
         "DURABLE_OBJECT": {
@@ -17133,18 +17196,18 @@
         }
       }
     },
-    "com.cloudflare.workers_for_platforms#DispatchNamespacesScriptsSettingsEditResponseExportsWorkersDurableObjectExpectingTransferExport": {
+    "com.cloudflare.workers_for_platforms#DispatchNamespacesScriptsSettingsEditResponseExportsValueWorkersDurableObjectExpectingTransferExport": {
       "type": "structure",
       "members": {
         "state": {
-          "target": "com.cloudflare.workers_for_platforms#DispatchNamespacesScriptsSettingsEditResponseExportsWorkersDurableObjectExpectingTransferExportState",
+          "target": "com.cloudflare.workers_for_platforms#DispatchNamespacesScriptsSettingsEditResponseExportsValueWorkersDurableObjectExpectingTransferExportState",
           "traits": {
             "smithy.api#documentation": "Target side of a two-phase transfer.",
             "smithy.api#required": {}
           }
         },
         "storage": {
-          "target": "com.cloudflare.workers_for_platforms#DispatchNamespacesScriptsSettingsEditResponseExportsWorkersDurableObjectExpectingTransferExportStorage",
+          "target": "com.cloudflare.workers_for_platforms#DispatchNamespacesScriptsSettingsEditResponseExportsValueWorkersDurableObjectExpectingTransferExportStorage",
           "traits": {
             "smithy.api#documentation": "Durable Object storage backend. `sqlite` is the recommended (and only) backend for new namespaces. `legacy-kv` is accepted only for a class whose namespace already exists as KV-backed; the `exports` flow never provisions a new `legacy-kv` namespace.",
             "smithy.api#required": {}
@@ -17158,7 +17221,7 @@
           }
         },
         "type": {
-          "target": "com.cloudflare.workers_for_platforms#DispatchNamespacesScriptsSettingsEditResponseExportsWorkersDurableObjectExpectingTransferExportType",
+          "target": "com.cloudflare.workers_for_platforms#DispatchNamespacesScriptsSettingsEditResponseExportsValueWorkersDurableObjectExpectingTransferExportType",
           "traits": {
             "smithy.api#documentation": "Marks this entry as a Durable Object export.",
             "smithy.api#required": {}
@@ -17172,27 +17235,36 @@
         }
       }
     },
-    "com.cloudflare.workers_for_platforms#DispatchNamespacesScriptsSettingsEditResponseExports": {
+    "com.cloudflare.workers_for_platforms#DispatchNamespacesScriptsSettingsEditResponseExportsValue": {
       "type": "union",
       "members": {
         "Worker": {
-          "target": "com.cloudflare.workers_for_platforms#DispatchNamespacesScriptsSettingsEditResponseExportsWorker"
+          "target": "com.cloudflare.workers_for_platforms#DispatchNamespacesScriptsSettingsEditResponseExportsValueWorker"
         },
         "WorkersDurableObjectExport": {
-          "target": "com.cloudflare.workers_for_platforms#DispatchNamespacesScriptsSettingsEditResponseExportsWorkersDurableObjectExport"
+          "target": "com.cloudflare.workers_for_platforms#DispatchNamespacesScriptsSettingsEditResponseExportsValueWorkersDurableObjectExport"
         },
         "WorkersDurableObjectDeletedExport": {
-          "target": "com.cloudflare.workers_for_platforms#DispatchNamespacesScriptsSettingsEditResponseExportsWorkersDurableObjectDeletedExport"
+          "target": "com.cloudflare.workers_for_platforms#DispatchNamespacesScriptsSettingsEditResponseExportsValueWorkersDurableObjectDeletedExport"
         },
         "WorkersDurableObjectRenamedExport": {
-          "target": "com.cloudflare.workers_for_platforms#DispatchNamespacesScriptsSettingsEditResponseExportsWorkersDurableObjectRenamedExport"
+          "target": "com.cloudflare.workers_for_platforms#DispatchNamespacesScriptsSettingsEditResponseExportsValueWorkersDurableObjectRenamedExport"
         },
         "WorkersDurableObjectTransferredExport": {
-          "target": "com.cloudflare.workers_for_platforms#DispatchNamespacesScriptsSettingsEditResponseExportsWorkersDurableObjectTransferredExport"
+          "target": "com.cloudflare.workers_for_platforms#DispatchNamespacesScriptsSettingsEditResponseExportsValueWorkersDurableObjectTransferredExport"
         },
         "WorkersDurableObjectExpectingTransferExport": {
-          "target": "com.cloudflare.workers_for_platforms#DispatchNamespacesScriptsSettingsEditResponseExportsWorkersDurableObjectExpectingTransferExport"
+          "target": "com.cloudflare.workers_for_platforms#DispatchNamespacesScriptsSettingsEditResponseExportsValueWorkersDurableObjectExpectingTransferExport"
         }
+      }
+    },
+    "com.cloudflare.workers_for_platforms#DispatchNamespacesScriptsSettingsEditResponseExportsMap": {
+      "type": "map",
+      "key": {
+        "target": "smithy.api#String"
+      },
+      "value": {
+        "target": "com.cloudflare.workers_for_platforms#DispatchNamespacesScriptsSettingsEditResponseExportsValue"
       }
     },
     "com.cloudflare.workers_for_platforms#DispatchNamespacesScriptsSettingsEditResponseExportsReconciliationCreatedList": {
@@ -20474,7 +20546,7 @@
         "target": "smithy.api#String"
       }
     },
-    "com.cloudflare.workers_for_platforms#DispatchNamespacesScriptsSettingsGetResponseExportsWorkerType": {
+    "com.cloudflare.workers_for_platforms#DispatchNamespacesScriptsSettingsGetResponseExportsValueWorkerType": {
       "type": "enum",
       "members": {
         "WORKER": {
@@ -20485,7 +20557,7 @@
         }
       }
     },
-    "com.cloudflare.workers_for_platforms#DispatchNamespacesScriptsSettingsGetResponseExportsWorkerCache": {
+    "com.cloudflare.workers_for_platforms#DispatchNamespacesScriptsSettingsGetResponseExportsValueWorkerCache": {
       "type": "structure",
       "members": {
         "enabled": {
@@ -20497,7 +20569,7 @@
         }
       }
     },
-    "com.cloudflare.workers_for_platforms#DispatchNamespacesScriptsSettingsGetResponseExportsWorkerState": {
+    "com.cloudflare.workers_for_platforms#DispatchNamespacesScriptsSettingsGetResponseExportsValueWorkerState": {
       "type": "enum",
       "members": {
         "CREATED": {
@@ -20508,31 +20580,31 @@
         }
       }
     },
-    "com.cloudflare.workers_for_platforms#DispatchNamespacesScriptsSettingsGetResponseExportsWorker": {
+    "com.cloudflare.workers_for_platforms#DispatchNamespacesScriptsSettingsGetResponseExportsValueWorker": {
       "type": "structure",
       "members": {
         "type": {
-          "target": "com.cloudflare.workers_for_platforms#DispatchNamespacesScriptsSettingsGetResponseExportsWorkerType",
+          "target": "com.cloudflare.workers_for_platforms#DispatchNamespacesScriptsSettingsGetResponseExportsValueWorkerType",
           "traits": {
             "smithy.api#documentation": "Marks this entry as a Worker entrypoint export.",
             "smithy.api#required": {}
           }
         },
         "cache": {
-          "target": "com.cloudflare.workers_for_platforms#DispatchNamespacesScriptsSettingsGetResponseExportsWorkerCache",
+          "target": "com.cloudflare.workers_for_platforms#DispatchNamespacesScriptsSettingsGetResponseExportsValueWorkerCache",
           "traits": {
             "smithy.api#documentation": "Cache override for this entrypoint. Overrides the Worker's global `cache_options.enabled` for this entrypoint only."
           }
         },
         "state": {
-          "target": "com.cloudflare.workers_for_platforms#DispatchNamespacesScriptsSettingsGetResponseExportsWorkerState",
+          "target": "com.cloudflare.workers_for_platforms#DispatchNamespacesScriptsSettingsGetResponseExportsValueWorkerState",
           "traits": {
             "smithy.api#documentation": "Live export. May be omitted; defaults to `created`."
           }
         }
       }
     },
-    "com.cloudflare.workers_for_platforms#DispatchNamespacesScriptsSettingsGetResponseExportsWorkersDurableObjectExportStorage": {
+    "com.cloudflare.workers_for_platforms#DispatchNamespacesScriptsSettingsGetResponseExportsValueWorkersDurableObjectExportStorage": {
       "type": "enum",
       "members": {
         "SQLITE": {
@@ -20549,7 +20621,7 @@
         }
       }
     },
-    "com.cloudflare.workers_for_platforms#DispatchNamespacesScriptsSettingsGetResponseExportsWorkersDurableObjectExportType": {
+    "com.cloudflare.workers_for_platforms#DispatchNamespacesScriptsSettingsGetResponseExportsValueWorkersDurableObjectExportType": {
       "type": "enum",
       "members": {
         "DURABLE_OBJECT": {
@@ -20560,7 +20632,7 @@
         }
       }
     },
-    "com.cloudflare.workers_for_platforms#DispatchNamespacesScriptsSettingsGetResponseExportsWorkersDurableObjectExportState": {
+    "com.cloudflare.workers_for_platforms#DispatchNamespacesScriptsSettingsGetResponseExportsValueWorkersDurableObjectExportState": {
       "type": "enum",
       "members": {
         "CREATED": {
@@ -20571,18 +20643,18 @@
         }
       }
     },
-    "com.cloudflare.workers_for_platforms#DispatchNamespacesScriptsSettingsGetResponseExportsWorkersDurableObjectExport": {
+    "com.cloudflare.workers_for_platforms#DispatchNamespacesScriptsSettingsGetResponseExportsValueWorkersDurableObjectExport": {
       "type": "structure",
       "members": {
         "storage": {
-          "target": "com.cloudflare.workers_for_platforms#DispatchNamespacesScriptsSettingsGetResponseExportsWorkersDurableObjectExportStorage",
+          "target": "com.cloudflare.workers_for_platforms#DispatchNamespacesScriptsSettingsGetResponseExportsValueWorkersDurableObjectExportStorage",
           "traits": {
             "smithy.api#documentation": "Durable Object storage backend. `sqlite` is the recommended (and only) backend for new namespaces. `legacy-kv` is accepted only for a class whose namespace already exists as KV-backed; the `exports` flow never provisions a new `legacy-kv` namespace.",
             "smithy.api#required": {}
           }
         },
         "type": {
-          "target": "com.cloudflare.workers_for_platforms#DispatchNamespacesScriptsSettingsGetResponseExportsWorkersDurableObjectExportType",
+          "target": "com.cloudflare.workers_for_platforms#DispatchNamespacesScriptsSettingsGetResponseExportsValueWorkersDurableObjectExportType",
           "traits": {
             "smithy.api#documentation": "Marks this entry as a Durable Object export.",
             "smithy.api#required": {}
@@ -20595,14 +20667,14 @@
           }
         },
         "state": {
-          "target": "com.cloudflare.workers_for_platforms#DispatchNamespacesScriptsSettingsGetResponseExportsWorkersDurableObjectExportState",
+          "target": "com.cloudflare.workers_for_platforms#DispatchNamespacesScriptsSettingsGetResponseExportsValueWorkersDurableObjectExportState",
           "traits": {
             "smithy.api#documentation": "Live export. May be omitted; defaults to `created`."
           }
         }
       }
     },
-    "com.cloudflare.workers_for_platforms#DispatchNamespacesScriptsSettingsGetResponseExportsWorkersDurableObjectDeletedExportState": {
+    "com.cloudflare.workers_for_platforms#DispatchNamespacesScriptsSettingsGetResponseExportsValueWorkersDurableObjectDeletedExportState": {
       "type": "enum",
       "members": {
         "DELETED": {
@@ -20613,7 +20685,7 @@
         }
       }
     },
-    "com.cloudflare.workers_for_platforms#DispatchNamespacesScriptsSettingsGetResponseExportsWorkersDurableObjectDeletedExportType": {
+    "com.cloudflare.workers_for_platforms#DispatchNamespacesScriptsSettingsGetResponseExportsValueWorkersDurableObjectDeletedExportType": {
       "type": "enum",
       "members": {
         "DURABLE_OBJECT": {
@@ -20624,18 +20696,18 @@
         }
       }
     },
-    "com.cloudflare.workers_for_platforms#DispatchNamespacesScriptsSettingsGetResponseExportsWorkersDurableObjectDeletedExport": {
+    "com.cloudflare.workers_for_platforms#DispatchNamespacesScriptsSettingsGetResponseExportsValueWorkersDurableObjectDeletedExport": {
       "type": "structure",
       "members": {
         "state": {
-          "target": "com.cloudflare.workers_for_platforms#DispatchNamespacesScriptsSettingsGetResponseExportsWorkersDurableObjectDeletedExportState",
+          "target": "com.cloudflare.workers_for_platforms#DispatchNamespacesScriptsSettingsGetResponseExportsValueWorkersDurableObjectDeletedExportState",
           "traits": {
             "smithy.api#documentation": "Tombstone that deletes the namespace.",
             "smithy.api#required": {}
           }
         },
         "type": {
-          "target": "com.cloudflare.workers_for_platforms#DispatchNamespacesScriptsSettingsGetResponseExportsWorkersDurableObjectDeletedExportType",
+          "target": "com.cloudflare.workers_for_platforms#DispatchNamespacesScriptsSettingsGetResponseExportsValueWorkersDurableObjectDeletedExportType",
           "traits": {
             "smithy.api#documentation": "Marks this entry as a Durable Object export.",
             "smithy.api#required": {}
@@ -20643,7 +20715,7 @@
         }
       }
     },
-    "com.cloudflare.workers_for_platforms#DispatchNamespacesScriptsSettingsGetResponseExportsWorkersDurableObjectRenamedExportState": {
+    "com.cloudflare.workers_for_platforms#DispatchNamespacesScriptsSettingsGetResponseExportsValueWorkersDurableObjectRenamedExportState": {
       "type": "enum",
       "members": {
         "RENAMED": {
@@ -20654,7 +20726,7 @@
         }
       }
     },
-    "com.cloudflare.workers_for_platforms#DispatchNamespacesScriptsSettingsGetResponseExportsWorkersDurableObjectRenamedExportType": {
+    "com.cloudflare.workers_for_platforms#DispatchNamespacesScriptsSettingsGetResponseExportsValueWorkersDurableObjectRenamedExportType": {
       "type": "enum",
       "members": {
         "DURABLE_OBJECT": {
@@ -20665,7 +20737,7 @@
         }
       }
     },
-    "com.cloudflare.workers_for_platforms#DispatchNamespacesScriptsSettingsGetResponseExportsWorkersDurableObjectRenamedExport": {
+    "com.cloudflare.workers_for_platforms#DispatchNamespacesScriptsSettingsGetResponseExportsValueWorkersDurableObjectRenamedExport": {
       "type": "structure",
       "members": {
         "renamed_to": {
@@ -20676,14 +20748,14 @@
           }
         },
         "state": {
-          "target": "com.cloudflare.workers_for_platforms#DispatchNamespacesScriptsSettingsGetResponseExportsWorkersDurableObjectRenamedExportState",
+          "target": "com.cloudflare.workers_for_platforms#DispatchNamespacesScriptsSettingsGetResponseExportsValueWorkersDurableObjectRenamedExportState",
           "traits": {
             "smithy.api#documentation": "Tombstone that renames the namespace's class.",
             "smithy.api#required": {}
           }
         },
         "type": {
-          "target": "com.cloudflare.workers_for_platforms#DispatchNamespacesScriptsSettingsGetResponseExportsWorkersDurableObjectRenamedExportType",
+          "target": "com.cloudflare.workers_for_platforms#DispatchNamespacesScriptsSettingsGetResponseExportsValueWorkersDurableObjectRenamedExportType",
           "traits": {
             "smithy.api#documentation": "Marks this entry as a Durable Object export.",
             "smithy.api#required": {}
@@ -20691,7 +20763,7 @@
         }
       }
     },
-    "com.cloudflare.workers_for_platforms#DispatchNamespacesScriptsSettingsGetResponseExportsWorkersDurableObjectTransferredExportState": {
+    "com.cloudflare.workers_for_platforms#DispatchNamespacesScriptsSettingsGetResponseExportsValueWorkersDurableObjectTransferredExportState": {
       "type": "enum",
       "members": {
         "TRANSFERRED": {
@@ -20702,7 +20774,7 @@
         }
       }
     },
-    "com.cloudflare.workers_for_platforms#DispatchNamespacesScriptsSettingsGetResponseExportsWorkersDurableObjectTransferredExportType": {
+    "com.cloudflare.workers_for_platforms#DispatchNamespacesScriptsSettingsGetResponseExportsValueWorkersDurableObjectTransferredExportType": {
       "type": "enum",
       "members": {
         "DURABLE_OBJECT": {
@@ -20713,11 +20785,11 @@
         }
       }
     },
-    "com.cloudflare.workers_for_platforms#DispatchNamespacesScriptsSettingsGetResponseExportsWorkersDurableObjectTransferredExport": {
+    "com.cloudflare.workers_for_platforms#DispatchNamespacesScriptsSettingsGetResponseExportsValueWorkersDurableObjectTransferredExport": {
       "type": "structure",
       "members": {
         "state": {
-          "target": "com.cloudflare.workers_for_platforms#DispatchNamespacesScriptsSettingsGetResponseExportsWorkersDurableObjectTransferredExportState",
+          "target": "com.cloudflare.workers_for_platforms#DispatchNamespacesScriptsSettingsGetResponseExportsValueWorkersDurableObjectTransferredExportState",
           "traits": {
             "smithy.api#documentation": "Tombstone that transfers the namespace to another script.",
             "smithy.api#required": {}
@@ -20731,7 +20803,7 @@
           }
         },
         "type": {
-          "target": "com.cloudflare.workers_for_platforms#DispatchNamespacesScriptsSettingsGetResponseExportsWorkersDurableObjectTransferredExportType",
+          "target": "com.cloudflare.workers_for_platforms#DispatchNamespacesScriptsSettingsGetResponseExportsValueWorkersDurableObjectTransferredExportType",
           "traits": {
             "smithy.api#documentation": "Marks this entry as a Durable Object export.",
             "smithy.api#required": {}
@@ -20739,7 +20811,7 @@
         }
       }
     },
-    "com.cloudflare.workers_for_platforms#DispatchNamespacesScriptsSettingsGetResponseExportsWorkersDurableObjectExpectingTransferExportState": {
+    "com.cloudflare.workers_for_platforms#DispatchNamespacesScriptsSettingsGetResponseExportsValueWorkersDurableObjectExpectingTransferExportState": {
       "type": "enum",
       "members": {
         "EXPECTING_TRANSFER": {
@@ -20750,7 +20822,7 @@
         }
       }
     },
-    "com.cloudflare.workers_for_platforms#DispatchNamespacesScriptsSettingsGetResponseExportsWorkersDurableObjectExpectingTransferExportStorage": {
+    "com.cloudflare.workers_for_platforms#DispatchNamespacesScriptsSettingsGetResponseExportsValueWorkersDurableObjectExpectingTransferExportStorage": {
       "type": "enum",
       "members": {
         "SQLITE": {
@@ -20767,7 +20839,7 @@
         }
       }
     },
-    "com.cloudflare.workers_for_platforms#DispatchNamespacesScriptsSettingsGetResponseExportsWorkersDurableObjectExpectingTransferExportType": {
+    "com.cloudflare.workers_for_platforms#DispatchNamespacesScriptsSettingsGetResponseExportsValueWorkersDurableObjectExpectingTransferExportType": {
       "type": "enum",
       "members": {
         "DURABLE_OBJECT": {
@@ -20778,18 +20850,18 @@
         }
       }
     },
-    "com.cloudflare.workers_for_platforms#DispatchNamespacesScriptsSettingsGetResponseExportsWorkersDurableObjectExpectingTransferExport": {
+    "com.cloudflare.workers_for_platforms#DispatchNamespacesScriptsSettingsGetResponseExportsValueWorkersDurableObjectExpectingTransferExport": {
       "type": "structure",
       "members": {
         "state": {
-          "target": "com.cloudflare.workers_for_platforms#DispatchNamespacesScriptsSettingsGetResponseExportsWorkersDurableObjectExpectingTransferExportState",
+          "target": "com.cloudflare.workers_for_platforms#DispatchNamespacesScriptsSettingsGetResponseExportsValueWorkersDurableObjectExpectingTransferExportState",
           "traits": {
             "smithy.api#documentation": "Target side of a two-phase transfer.",
             "smithy.api#required": {}
           }
         },
         "storage": {
-          "target": "com.cloudflare.workers_for_platforms#DispatchNamespacesScriptsSettingsGetResponseExportsWorkersDurableObjectExpectingTransferExportStorage",
+          "target": "com.cloudflare.workers_for_platforms#DispatchNamespacesScriptsSettingsGetResponseExportsValueWorkersDurableObjectExpectingTransferExportStorage",
           "traits": {
             "smithy.api#documentation": "Durable Object storage backend. `sqlite` is the recommended (and only) backend for new namespaces. `legacy-kv` is accepted only for a class whose namespace already exists as KV-backed; the `exports` flow never provisions a new `legacy-kv` namespace.",
             "smithy.api#required": {}
@@ -20803,7 +20875,7 @@
           }
         },
         "type": {
-          "target": "com.cloudflare.workers_for_platforms#DispatchNamespacesScriptsSettingsGetResponseExportsWorkersDurableObjectExpectingTransferExportType",
+          "target": "com.cloudflare.workers_for_platforms#DispatchNamespacesScriptsSettingsGetResponseExportsValueWorkersDurableObjectExpectingTransferExportType",
           "traits": {
             "smithy.api#documentation": "Marks this entry as a Durable Object export.",
             "smithy.api#required": {}
@@ -20817,27 +20889,36 @@
         }
       }
     },
-    "com.cloudflare.workers_for_platforms#DispatchNamespacesScriptsSettingsGetResponseExports": {
+    "com.cloudflare.workers_for_platforms#DispatchNamespacesScriptsSettingsGetResponseExportsValue": {
       "type": "union",
       "members": {
         "Worker": {
-          "target": "com.cloudflare.workers_for_platforms#DispatchNamespacesScriptsSettingsGetResponseExportsWorker"
+          "target": "com.cloudflare.workers_for_platforms#DispatchNamespacesScriptsSettingsGetResponseExportsValueWorker"
         },
         "WorkersDurableObjectExport": {
-          "target": "com.cloudflare.workers_for_platforms#DispatchNamespacesScriptsSettingsGetResponseExportsWorkersDurableObjectExport"
+          "target": "com.cloudflare.workers_for_platforms#DispatchNamespacesScriptsSettingsGetResponseExportsValueWorkersDurableObjectExport"
         },
         "WorkersDurableObjectDeletedExport": {
-          "target": "com.cloudflare.workers_for_platforms#DispatchNamespacesScriptsSettingsGetResponseExportsWorkersDurableObjectDeletedExport"
+          "target": "com.cloudflare.workers_for_platforms#DispatchNamespacesScriptsSettingsGetResponseExportsValueWorkersDurableObjectDeletedExport"
         },
         "WorkersDurableObjectRenamedExport": {
-          "target": "com.cloudflare.workers_for_platforms#DispatchNamespacesScriptsSettingsGetResponseExportsWorkersDurableObjectRenamedExport"
+          "target": "com.cloudflare.workers_for_platforms#DispatchNamespacesScriptsSettingsGetResponseExportsValueWorkersDurableObjectRenamedExport"
         },
         "WorkersDurableObjectTransferredExport": {
-          "target": "com.cloudflare.workers_for_platforms#DispatchNamespacesScriptsSettingsGetResponseExportsWorkersDurableObjectTransferredExport"
+          "target": "com.cloudflare.workers_for_platforms#DispatchNamespacesScriptsSettingsGetResponseExportsValueWorkersDurableObjectTransferredExport"
         },
         "WorkersDurableObjectExpectingTransferExport": {
-          "target": "com.cloudflare.workers_for_platforms#DispatchNamespacesScriptsSettingsGetResponseExportsWorkersDurableObjectExpectingTransferExport"
+          "target": "com.cloudflare.workers_for_platforms#DispatchNamespacesScriptsSettingsGetResponseExportsValueWorkersDurableObjectExpectingTransferExport"
         }
+      }
+    },
+    "com.cloudflare.workers_for_platforms#DispatchNamespacesScriptsSettingsGetResponseExportsMap": {
+      "type": "map",
+      "key": {
+        "target": "smithy.api#String"
+      },
+      "value": {
+        "target": "com.cloudflare.workers_for_platforms#DispatchNamespacesScriptsSettingsGetResponseExportsValue"
       }
     },
     "com.cloudflare.workers_for_platforms#DispatchNamespacesScriptsSettingsGetResponseExportsReconciliationCreatedList": {
@@ -22657,7 +22738,7 @@
           }
         },
         "secrets": {
-          "target": "com.cloudflare.workers_for_platforms#DispatchNamespacesScriptsSecretsBulkUpdateRequestSecrets",
+          "target": "com.cloudflare.workers_for_platforms#DispatchNamespacesScriptsSecretsBulkUpdateRequestSecretsMap",
           "traits": {
             "smithy.api#documentation": "Map of secret names to secret values:"
           }
@@ -22677,7 +22758,7 @@
       "type": "structure",
       "members": {
         "result": {
-          "target": "com.cloudflare.workers_for_platforms#DispatchNamespacesScriptsSecretsBulkUpdateResult",
+          "target": "com.cloudflare.workers_for_platforms#DispatchNamespacesScriptsSecretsBulkUpdateResultMap",
           "traits": {
             "com.cloudflare.protocols#envelopePayload": {},
             "smithy.api#documentation": "The unwrapped `result` payload of the v4 response envelope."
@@ -23662,7 +23743,7 @@
           }
         },
         "exports": {
-          "target": "com.cloudflare.workers_for_platforms#DispatchNamespacesScriptsSettingsGetResponseExports",
+          "target": "com.cloudflare.workers_for_platforms#DispatchNamespacesScriptsSettingsGetResponseExportsMap",
           "traits": {
             "smithy.api#documentation": "Declarative exports for the Worker. Worker entrypoint entries (`type: worker`) carry cache configuration for that entrypoint."
           }
@@ -24001,7 +24082,7 @@
           }
         },
         "exports": {
-          "target": "com.cloudflare.workers_for_platforms#DispatchNamespacesScriptsSettingsEditResponseExports",
+          "target": "com.cloudflare.workers_for_platforms#DispatchNamespacesScriptsSettingsEditResponseExportsMap",
           "traits": {
             "smithy.api#documentation": "Declarative exports for the Worker. Worker entrypoint entries (`type: worker`) carry cache configuration for that entrypoint."
           }
@@ -24329,7 +24410,7 @@
           }
         },
         "exports": {
-          "target": "com.cloudflare.workers_for_platforms#DispatchNamespacesScriptsUpdateResponseExports",
+          "target": "com.cloudflare.workers_for_platforms#DispatchNamespacesScriptsUpdateResponseExportsMap",
           "traits": {
             "smithy.api#documentation": "Declarative exports for the Worker's most recent version, including Durable Object classes (with their `storage` backend) and named Worker entrypoints. Tombstoned lifecycle entries are omitted, so only live exports (`created` and `expecting-transfer`) are returned."
           }
@@ -24545,7 +24626,7 @@
           }
         },
         "exports": {
-          "target": "com.cloudflare.workers_for_platforms#DispatchNamespacesScriptsContentUpdateResponseExports",
+          "target": "com.cloudflare.workers_for_platforms#DispatchNamespacesScriptsContentUpdateResponseExportsMap",
           "traits": {
             "smithy.api#documentation": "Declarative exports for the Worker's most recent version, including Durable Object classes (with their `storage` backend) and named Worker entrypoints. Tombstoned lifecycle entries are omitted, so only live exports (`created` and `expecting-transfer`) are returned."
           }

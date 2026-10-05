@@ -361,7 +361,7 @@
         }
       }
     },
-    "com.cloudflare.ai_search#InstancesChatCompletionsRequestAiSearchOptionsCustomMetadata": {
+    "com.cloudflare.ai_search#InstancesChatCompletionsRequestAiSearchOptionsCustomMetadataValue": {
       "type": "union",
       "members": {
         "String": {
@@ -373,6 +373,15 @@
         "Boolean": {
           "target": "smithy.api#Boolean"
         }
+      }
+    },
+    "com.cloudflare.ai_search#InstancesChatCompletionsRequestAiSearchOptionsCustomMetadataMap": {
+      "type": "map",
+      "key": {
+        "target": "smithy.api#String"
+      },
+      "value": {
+        "target": "com.cloudflare.ai_search#InstancesChatCompletionsRequestAiSearchOptionsCustomMetadataValue"
       }
     },
     "com.cloudflare.ai_search#InstancesChatCompletionsRequestAiSearchOptionsQueryRewrite": {
@@ -570,7 +579,7 @@
           "target": "com.cloudflare.ai_search#InstancesChatCompletionsRequestAiSearchOptionsCache"
         },
         "custom_metadata": {
-          "target": "com.cloudflare.ai_search#InstancesChatCompletionsRequestAiSearchOptionsCustomMetadata",
+          "target": "com.cloudflare.ai_search#InstancesChatCompletionsRequestAiSearchOptionsCustomMetadataMap",
           "traits": {
             "smithy.api#documentation": "Metadata added to AI Gateway logs for requests triggered by this operation. Accepts up to 2 string, number, or boolean entries. Keys 'ai-search', 'task', 'origin', and keys beginning with 'cf.' are reserved."
           }
@@ -4778,7 +4787,7 @@
         }
       }
     },
-    "com.cloudflare.ai_search#InstancesSearchRequestAiSearchOptionsCustomMetadata": {
+    "com.cloudflare.ai_search#InstancesSearchRequestAiSearchOptionsCustomMetadataValue": {
       "type": "union",
       "members": {
         "String": {
@@ -4790,6 +4799,15 @@
         "Boolean": {
           "target": "smithy.api#Boolean"
         }
+      }
+    },
+    "com.cloudflare.ai_search#InstancesSearchRequestAiSearchOptionsCustomMetadataMap": {
+      "type": "map",
+      "key": {
+        "target": "smithy.api#String"
+      },
+      "value": {
+        "target": "com.cloudflare.ai_search#InstancesSearchRequestAiSearchOptionsCustomMetadataValue"
       }
     },
     "com.cloudflare.ai_search#InstancesSearchRequestAiSearchOptionsQueryRewrite": {
@@ -4987,7 +5005,7 @@
           "target": "com.cloudflare.ai_search#InstancesSearchRequestAiSearchOptionsCache"
         },
         "custom_metadata": {
-          "target": "com.cloudflare.ai_search#InstancesSearchRequestAiSearchOptionsCustomMetadata",
+          "target": "com.cloudflare.ai_search#InstancesSearchRequestAiSearchOptionsCustomMetadataMap",
           "traits": {
             "smithy.api#documentation": "Metadata added to AI Gateway logs for requests triggered by this operation. Accepts up to 2 string, number, or boolean entries. Keys 'ai-search', 'task', 'origin', and keys beginning with 'cf.' are reserved."
           }
@@ -6986,7 +7004,7 @@
         }
       }
     },
-    "com.cloudflare.ai_search#NamespacesChatCompletionsRequestAiSearchOptionsCustomMetadata": {
+    "com.cloudflare.ai_search#NamespacesChatCompletionsRequestAiSearchOptionsCustomMetadataValue": {
       "type": "union",
       "members": {
         "String": {
@@ -6998,6 +7016,15 @@
         "Boolean": {
           "target": "smithy.api#Boolean"
         }
+      }
+    },
+    "com.cloudflare.ai_search#NamespacesChatCompletionsRequestAiSearchOptionsCustomMetadataMap": {
+      "type": "map",
+      "key": {
+        "target": "smithy.api#String"
+      },
+      "value": {
+        "target": "com.cloudflare.ai_search#NamespacesChatCompletionsRequestAiSearchOptionsCustomMetadataValue"
       }
     },
     "com.cloudflare.ai_search#NamespacesChatCompletionsRequestAiSearchOptionsQueryRewrite": {
@@ -7201,7 +7228,7 @@
           "target": "com.cloudflare.ai_search#NamespacesChatCompletionsRequestAiSearchOptionsCache"
         },
         "custom_metadata": {
-          "target": "com.cloudflare.ai_search#NamespacesChatCompletionsRequestAiSearchOptionsCustomMetadata",
+          "target": "com.cloudflare.ai_search#NamespacesChatCompletionsRequestAiSearchOptionsCustomMetadataMap",
           "traits": {
             "smithy.api#documentation": "Metadata added to AI Gateway logs for requests triggered by this operation. Accepts up to 2 string, number, or boolean entries. Keys 'ai-search', 'task', 'origin', and keys beginning with 'cf.' are reserved."
           }
@@ -8331,7 +8358,7 @@
         }
       }
     },
-    "com.cloudflare.ai_search#NamespacesSearchRequestAiSearchOptionsCustomMetadata": {
+    "com.cloudflare.ai_search#NamespacesSearchRequestAiSearchOptionsCustomMetadataValue": {
       "type": "union",
       "members": {
         "String": {
@@ -8343,6 +8370,15 @@
         "Boolean": {
           "target": "smithy.api#Boolean"
         }
+      }
+    },
+    "com.cloudflare.ai_search#NamespacesSearchRequestAiSearchOptionsCustomMetadataMap": {
+      "type": "map",
+      "key": {
+        "target": "smithy.api#String"
+      },
+      "value": {
+        "target": "com.cloudflare.ai_search#NamespacesSearchRequestAiSearchOptionsCustomMetadataValue"
       }
     },
     "com.cloudflare.ai_search#NamespacesSearchRequestAiSearchOptionsQueryRewrite": {
@@ -8546,7 +8582,7 @@
           "target": "com.cloudflare.ai_search#NamespacesSearchRequestAiSearchOptionsCache"
         },
         "custom_metadata": {
-          "target": "com.cloudflare.ai_search#NamespacesSearchRequestAiSearchOptionsCustomMetadata",
+          "target": "com.cloudflare.ai_search#NamespacesSearchRequestAiSearchOptionsCustomMetadataMap",
           "traits": {
             "smithy.api#documentation": "Metadata added to AI Gateway logs for requests triggered by this operation. Accepts up to 2 string, number, or boolean entries. Keys 'ai-search', 'task', 'origin', and keys beginning with 'cf.' are reserved."
           }
@@ -9415,7 +9451,7 @@
         }
       }
     },
-    "com.cloudflare.ai_search#NamespacesInstancesChatCompletionsRequestAiSearchOptionsCustomMetadata": {
+    "com.cloudflare.ai_search#NamespacesInstancesChatCompletionsRequestAiSearchOptionsCustomMetadataValue": {
       "type": "union",
       "members": {
         "String": {
@@ -9427,6 +9463,15 @@
         "Boolean": {
           "target": "smithy.api#Boolean"
         }
+      }
+    },
+    "com.cloudflare.ai_search#NamespacesInstancesChatCompletionsRequestAiSearchOptionsCustomMetadataMap": {
+      "type": "map",
+      "key": {
+        "target": "smithy.api#String"
+      },
+      "value": {
+        "target": "com.cloudflare.ai_search#NamespacesInstancesChatCompletionsRequestAiSearchOptionsCustomMetadataValue"
       }
     },
     "com.cloudflare.ai_search#NamespacesInstancesChatCompletionsRequestAiSearchOptionsQueryRewrite": {
@@ -9624,7 +9669,7 @@
           "target": "com.cloudflare.ai_search#NamespacesInstancesChatCompletionsRequestAiSearchOptionsCache"
         },
         "custom_metadata": {
-          "target": "com.cloudflare.ai_search#NamespacesInstancesChatCompletionsRequestAiSearchOptionsCustomMetadata",
+          "target": "com.cloudflare.ai_search#NamespacesInstancesChatCompletionsRequestAiSearchOptionsCustomMetadataMap",
           "traits": {
             "smithy.api#documentation": "Metadata added to AI Gateway logs for requests triggered by this operation. Accepts up to 2 string, number, or boolean entries. Keys 'ai-search', 'task', 'origin', and keys beginning with 'cf.' are reserved."
           }
@@ -13832,7 +13877,7 @@
         }
       }
     },
-    "com.cloudflare.ai_search#NamespacesInstancesSearchRequestAiSearchOptionsCustomMetadata": {
+    "com.cloudflare.ai_search#NamespacesInstancesSearchRequestAiSearchOptionsCustomMetadataValue": {
       "type": "union",
       "members": {
         "String": {
@@ -13844,6 +13889,15 @@
         "Boolean": {
           "target": "smithy.api#Boolean"
         }
+      }
+    },
+    "com.cloudflare.ai_search#NamespacesInstancesSearchRequestAiSearchOptionsCustomMetadataMap": {
+      "type": "map",
+      "key": {
+        "target": "smithy.api#String"
+      },
+      "value": {
+        "target": "com.cloudflare.ai_search#NamespacesInstancesSearchRequestAiSearchOptionsCustomMetadataValue"
       }
     },
     "com.cloudflare.ai_search#NamespacesInstancesSearchRequestAiSearchOptionsQueryRewrite": {
@@ -14041,7 +14095,7 @@
           "target": "com.cloudflare.ai_search#NamespacesInstancesSearchRequestAiSearchOptionsCache"
         },
         "custom_metadata": {
-          "target": "com.cloudflare.ai_search#NamespacesInstancesSearchRequestAiSearchOptionsCustomMetadata",
+          "target": "com.cloudflare.ai_search#NamespacesInstancesSearchRequestAiSearchOptionsCustomMetadataMap",
           "traits": {
             "smithy.api#documentation": "Metadata added to AI Gateway logs for requests triggered by this operation. Accepts up to 2 string, number, or boolean entries. Keys 'ai-search', 'task', 'origin', and keys beginning with 'cf.' are reserved."
           }
@@ -15942,7 +15996,7 @@
         }
       }
     },
-    "com.cloudflare.ai_search#NamespacesInstancesItemsCreateOrUpdateResponseMetadata": {
+    "com.cloudflare.ai_search#NamespacesInstancesItemsCreateOrUpdateResponseMetadataValue": {
       "type": "union",
       "members": {
         "String": {
@@ -15954,6 +16008,15 @@
         "Boolean": {
           "target": "smithy.api#Boolean"
         }
+      }
+    },
+    "com.cloudflare.ai_search#NamespacesInstancesItemsCreateOrUpdateResponseMetadataMap": {
+      "type": "map",
+      "key": {
+        "target": "smithy.api#String"
+      },
+      "value": {
+        "target": "com.cloudflare.ai_search#NamespacesInstancesItemsCreateOrUpdateResponseMetadataValue"
       }
     },
     "com.cloudflare.ai_search#NamespacesInstancesItemsCreateOrUpdateResponseNextAction": {
@@ -16014,7 +16077,7 @@
         }
       }
     },
-    "com.cloudflare.ai_search#NamespacesInstancesItemsGetResponseMetadata": {
+    "com.cloudflare.ai_search#NamespacesInstancesItemsGetResponseMetadataValue": {
       "type": "union",
       "members": {
         "String": {
@@ -16026,6 +16089,15 @@
         "Boolean": {
           "target": "smithy.api#Boolean"
         }
+      }
+    },
+    "com.cloudflare.ai_search#NamespacesInstancesItemsGetResponseMetadataMap": {
+      "type": "map",
+      "key": {
+        "target": "smithy.api#String"
+      },
+      "value": {
+        "target": "com.cloudflare.ai_search#NamespacesInstancesItemsGetResponseMetadataValue"
       }
     },
     "com.cloudflare.ai_search#NamespacesInstancesItemsGetResponseNextAction": {
@@ -16144,7 +16216,7 @@
         }
       }
     },
-    "com.cloudflare.ai_search#NamespacesInstancesItemsListResultItemMetadata": {
+    "com.cloudflare.ai_search#NamespacesInstancesItemsListResultItemMetadataValue": {
       "type": "union",
       "members": {
         "String": {
@@ -16156,6 +16228,15 @@
         "Boolean": {
           "target": "smithy.api#Boolean"
         }
+      }
+    },
+    "com.cloudflare.ai_search#NamespacesInstancesItemsListResultItemMetadataMap": {
+      "type": "map",
+      "key": {
+        "target": "smithy.api#String"
+      },
+      "value": {
+        "target": "com.cloudflare.ai_search#NamespacesInstancesItemsListResultItemMetadataValue"
       }
     },
     "com.cloudflare.ai_search#NamespacesInstancesItemsListResultItemNextAction": {
@@ -16262,7 +16343,7 @@
           }
         },
         "metadata": {
-          "target": "com.cloudflare.ai_search#NamespacesInstancesItemsListResultItemMetadata",
+          "target": "com.cloudflare.ai_search#NamespacesInstancesItemsListResultItemMetadataMap",
           "traits": {
             "smithy.api#documentation": "Built-in, configured filterable, and retained source metadata for the item.",
             "smithy.api#required": {}
@@ -16368,7 +16449,7 @@
         }
       }
     },
-    "com.cloudflare.ai_search#NamespacesInstancesItemsSyncResponseMetadata": {
+    "com.cloudflare.ai_search#NamespacesInstancesItemsSyncResponseMetadataValue": {
       "type": "union",
       "members": {
         "String": {
@@ -16380,6 +16461,15 @@
         "Boolean": {
           "target": "smithy.api#Boolean"
         }
+      }
+    },
+    "com.cloudflare.ai_search#NamespacesInstancesItemsSyncResponseMetadataMap": {
+      "type": "map",
+      "key": {
+        "target": "smithy.api#String"
+      },
+      "value": {
+        "target": "com.cloudflare.ai_search#NamespacesInstancesItemsSyncResponseMetadataValue"
       }
     },
     "com.cloudflare.ai_search#NamespacesInstancesItemsSyncResponseNextAction": {
@@ -16464,7 +16554,7 @@
         }
       }
     },
-    "com.cloudflare.ai_search#NamespacesInstancesItemsUploadResponseMetadata": {
+    "com.cloudflare.ai_search#NamespacesInstancesItemsUploadResponseMetadataValue": {
       "type": "union",
       "members": {
         "String": {
@@ -16476,6 +16566,15 @@
         "Boolean": {
           "target": "smithy.api#Boolean"
         }
+      }
+    },
+    "com.cloudflare.ai_search#NamespacesInstancesItemsUploadResponseMetadataMap": {
+      "type": "map",
+      "key": {
+        "target": "smithy.api#String"
+      },
+      "value": {
+        "target": "com.cloudflare.ai_search#NamespacesInstancesItemsUploadResponseMetadataValue"
       }
     },
     "com.cloudflare.ai_search#NamespacesInstancesItemsUploadResponseNextAction": {
@@ -18709,7 +18808,7 @@
           }
         },
         "metadata": {
-          "target": "com.cloudflare.ai_search#NamespacesInstancesItemsCreateOrUpdateResponseMetadata",
+          "target": "com.cloudflare.ai_search#NamespacesInstancesItemsCreateOrUpdateResponseMetadataMap",
           "traits": {
             "smithy.api#documentation": "Built-in, configured filterable, and retained source metadata for the item.",
             "smithy.api#required": {}
@@ -19761,7 +19860,7 @@
           }
         },
         "metadata": {
-          "target": "com.cloudflare.ai_search#NamespacesInstancesItemsGetResponseMetadata",
+          "target": "com.cloudflare.ai_search#NamespacesInstancesItemsGetResponseMetadataMap",
           "traits": {
             "smithy.api#documentation": "Built-in, configured filterable, and retained source metadata for the item.",
             "smithy.api#required": {}
@@ -22096,7 +22195,7 @@
           }
         },
         "metadata": {
-          "target": "com.cloudflare.ai_search#NamespacesInstancesItemsSyncResponseMetadata",
+          "target": "com.cloudflare.ai_search#NamespacesInstancesItemsSyncResponseMetadataMap",
           "traits": {
             "smithy.api#documentation": "Built-in, configured filterable, and retained source metadata for the item.",
             "smithy.api#required": {}
@@ -23121,7 +23220,7 @@
           }
         },
         "metadata": {
-          "target": "com.cloudflare.ai_search#NamespacesInstancesItemsUploadResponseMetadata",
+          "target": "com.cloudflare.ai_search#NamespacesInstancesItemsUploadResponseMetadataMap",
           "traits": {
             "smithy.api#documentation": "Built-in, configured filterable, and retained source metadata for the item.",
             "smithy.api#required": {}

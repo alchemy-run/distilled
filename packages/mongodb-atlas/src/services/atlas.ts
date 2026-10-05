@@ -168,6 +168,10 @@ export const AppServiceAlertViewLinksList = /*@__PURE__*/ S.Array(
   Link,
 ) as any as S.Schema<AppServiceAlertViewLinksList>;
 
+/** Severity of the event. */
+export type AppServiceAlertViewSeverity = "INFO" | "WARNING" | "ERROR" | "CRITICAL";
+export const AppServiceAlertViewSeverity = S.String;
+
 /** State of this alert at the time you requested its details. TRACKING indicates the alert condition exists but has not persisted for the minimum notification delay. OPEN indicates the alert condition currently exists. CLOSED indicates the alert condition has been resolved. */
 export type AppServiceAlertViewStatus = "CANCELLED" | "CLOSED" | "OPEN" | "TRACKING";
 export const AppServiceAlertViewStatus = S.String;
@@ -197,6 +201,8 @@ export interface AppServiceAlertView {
   orgId?: string;
   /** Date and time that this alert changed to `"status" : "CLOSED"`. This parameter expresses its value in the ISO 8601 timestamp format in UTC. The resource returns this parameter once `"status" : "CLOSED"`. */
   resolved?: string;
+  /** Severity of the event. */
+  severity?: AppServiceAlertViewSeverity;
   /** State of this alert at the time you requested its details. TRACKING indicates the alert condition exists but has not persisted for the minimum notification delay. OPEN indicates the alert condition currently exists. CLOSED indicates the alert condition has been resolved. */
   status: AppServiceAlertViewStatus;
   /** Date and time when someone last updated this alert. This parameter expresses its value in the ISO 8601 timestamp format in UTC. */
@@ -216,12 +222,11 @@ export const AppServiceAlertView = /*@__PURE__*/ S.suspend(() =>
     links: S.optional(AppServiceAlertViewLinksList),
     orgId: S.optional(S.String),
     resolved: S.optional(S.String),
+    severity: S.optional(AppServiceAlertViewSeverity),
     status: AppServiceAlertViewStatus,
     updated: S.String,
   }),
-).annotate({
-  identifier: "AppServiceAlertView",
-}) as any as S.Schema<AppServiceAlertView>;
+).annotate({ identifier: "AppServiceAlertView" }) as any as S.Schema<AppServiceAlertView>;
 
 /** Event type that triggers an alert. */
 export type ClusterEventTypeViewForNdsGroupAlertable = "CLUSTER_MONGOS_IS_MISSING";
@@ -232,6 +237,10 @@ export type ClusterAlertViewForNdsGroupLinksList = Array<Link>;
 export const ClusterAlertViewForNdsGroupLinksList = /*@__PURE__*/ S.Array(
   Link,
 ) as any as S.Schema<ClusterAlertViewForNdsGroupLinksList>;
+
+/** Severity of the event. */
+export type ClusterAlertViewForNdsGroupSeverity = "INFO" | "WARNING" | "ERROR" | "CRITICAL";
+export const ClusterAlertViewForNdsGroupSeverity = S.String;
 
 /** State of this alert at the time you requested its details. TRACKING indicates the alert condition exists but has not persisted for the minimum notification delay. OPEN indicates the alert condition currently exists. CLOSED indicates the alert condition has been resolved. */
 export type ClusterAlertViewForNdsGroupStatus = "CANCELLED" | "CLOSED" | "OPEN" | "TRACKING";
@@ -264,6 +273,8 @@ export interface ClusterAlertViewForNdsGroup {
   orgId?: string;
   /** Date and time that this alert changed to `"status" : "CLOSED"`. This parameter expresses its value in the ISO 8601 timestamp format in UTC. The resource returns this parameter once `"status" : "CLOSED"`. */
   resolved?: string;
+  /** Severity of the event. */
+  severity?: ClusterAlertViewForNdsGroupSeverity;
   /** State of this alert at the time you requested its details. TRACKING indicates the alert condition exists but has not persisted for the minimum notification delay. OPEN indicates the alert condition currently exists. CLOSED indicates the alert condition has been resolved. */
   status: ClusterAlertViewForNdsGroupStatus;
   /** Date and time when someone last updated this alert. This parameter expresses its value in the ISO 8601 timestamp format in UTC. */
@@ -284,6 +295,7 @@ export const ClusterAlertViewForNdsGroup = /*@__PURE__*/ S.suspend(() =>
     links: S.optional(ClusterAlertViewForNdsGroupLinksList),
     orgId: S.optional(S.String),
     resolved: S.optional(S.String),
+    severity: S.optional(ClusterAlertViewForNdsGroupSeverity),
     status: ClusterAlertViewForNdsGroupStatus,
     updated: S.String,
   }),
@@ -322,6 +334,10 @@ export const HostAlertViewForNdsGroupLinksList = /*@__PURE__*/ S.Array(
   Link,
 ) as any as S.Schema<HostAlertViewForNdsGroupLinksList>;
 
+/** Severity of the event. */
+export type HostAlertViewForNdsGroupSeverity = "INFO" | "WARNING" | "ERROR" | "CRITICAL";
+export const HostAlertViewForNdsGroupSeverity = S.String;
+
 /** State of this alert at the time you requested its details. TRACKING indicates the alert condition exists but has not persisted for the minimum notification delay. OPEN indicates the alert condition currently exists. CLOSED indicates the alert condition has been resolved. */
 export type HostAlertViewForNdsGroupStatus = "CANCELLED" | "CLOSED" | "OPEN" | "TRACKING";
 export const HostAlertViewForNdsGroupStatus = S.String;
@@ -357,6 +373,8 @@ export interface HostAlertViewForNdsGroup {
   replicaSetName?: string;
   /** Date and time that this alert changed to `"status" : "CLOSED"`. This parameter expresses its value in the ISO 8601 timestamp format in UTC. The resource returns this parameter once `"status" : "CLOSED"`. */
   resolved?: string;
+  /** Severity of the event. */
+  severity?: HostAlertViewForNdsGroupSeverity;
   /** State of this alert at the time you requested its details. TRACKING indicates the alert condition exists but has not persisted for the minimum notification delay. OPEN indicates the alert condition currently exists. CLOSED indicates the alert condition has been resolved. */
   status: HostAlertViewForNdsGroupStatus;
   /** Date and time when someone last updated this alert. This parameter expresses its value in the ISO 8601 timestamp format in UTC. */
@@ -379,12 +397,11 @@ export const HostAlertViewForNdsGroup = /*@__PURE__*/ S.suspend(() =>
     orgId: S.optional(S.String),
     replicaSetName: S.optional(S.String),
     resolved: S.optional(S.String),
+    severity: S.optional(HostAlertViewForNdsGroupSeverity),
     status: HostAlertViewForNdsGroupStatus,
     updated: S.String,
   }),
-).annotate({
-  identifier: "HostAlertViewForNdsGroup",
-}) as any as S.Schema<HostAlertViewForNdsGroup>;
+).annotate({ identifier: "HostAlertViewForNdsGroup" }) as any as S.Schema<HostAlertViewForNdsGroup>;
 
 /** Element used to express the quantity in `currentValue.number`. This can be an element of time, storage capacity, and the like. This metric triggered the alert. */
 export type HostMetricValueUnits =
@@ -438,9 +455,7 @@ export const HostMetricValue = /*@__PURE__*/ S.suspend(() =>
     number: S.optional(S.Number),
     units: S.optional(HostMetricValueUnits),
   }),
-).annotate({
-  identifier: "HostMetricValue",
-}) as any as S.Schema<HostMetricValue>;
+).annotate({ identifier: "HostMetricValue" }) as any as S.Schema<HostMetricValue>;
 
 /** Event type that triggers an alert. */
 export type FlexMetricEventTypeViewAlertable = "OUTSIDE_FLEX_METRIC_THRESHOLD";
@@ -451,6 +466,10 @@ export type FlexMetricAlertLinksList = Array<Link>;
 export const FlexMetricAlertLinksList = /*@__PURE__*/ S.Array(
   Link,
 ) as any as S.Schema<FlexMetricAlertLinksList>;
+
+/** Severity of the event. */
+export type FlexMetricAlertSeverity = "INFO" | "WARNING" | "ERROR" | "CRITICAL";
+export const FlexMetricAlertSeverity = S.String;
 
 /** State of this alert at the time you requested its details. TRACKING indicates the alert condition exists but has not persisted for the minimum notification delay. OPEN indicates the alert condition currently exists. CLOSED indicates the alert condition has been resolved. */
 export type FlexMetricAlertStatus = "CANCELLED" | "CLOSED" | "OPEN" | "TRACKING";
@@ -486,6 +505,8 @@ export interface FlexMetricAlert {
   orgId?: string;
   /** Date and time that this alert changed to `"status" : "CLOSED"`. This parameter expresses its value in the ISO 8601 timestamp format in UTC. The resource returns this parameter once `"status" : "CLOSED"`. */
   resolved?: string;
+  /** Severity of the event. */
+  severity?: FlexMetricAlertSeverity;
   /** State of this alert at the time you requested its details. TRACKING indicates the alert condition exists but has not persisted for the minimum notification delay. OPEN indicates the alert condition currently exists. CLOSED indicates the alert condition has been resolved. */
   status: FlexMetricAlertStatus;
   /** Date and time when someone last updated this alert. This parameter expresses its value in the ISO 8601 timestamp format in UTC. */
@@ -508,12 +529,11 @@ export const FlexMetricAlert = /*@__PURE__*/ S.suspend(() =>
     metricName: S.optional(S.String),
     orgId: S.optional(S.String),
     resolved: S.optional(S.String),
+    severity: S.optional(FlexMetricAlertSeverity),
     status: FlexMetricAlertStatus,
     updated: S.String,
   }),
-).annotate({
-  identifier: "FlexMetricAlert",
-}) as any as S.Schema<FlexMetricAlert>;
+).annotate({ identifier: "FlexMetricAlert" }) as any as S.Schema<FlexMetricAlert>;
 
 /** Event type that triggers an alert. */
 export type HostMetricEventTypeViewAlertable = "OUTSIDE_METRIC_THRESHOLD";
@@ -524,6 +544,10 @@ export type HostMetricAlertLinksList = Array<Link>;
 export const HostMetricAlertLinksList = /*@__PURE__*/ S.Array(
   Link,
 ) as any as S.Schema<HostMetricAlertLinksList>;
+
+/** Severity of the event. */
+export type HostMetricAlertSeverity = "INFO" | "WARNING" | "ERROR" | "CRITICAL";
+export const HostMetricAlertSeverity = S.String;
 
 /** State of this alert at the time you requested its details. TRACKING indicates the alert condition exists but has not persisted for the minimum notification delay. OPEN indicates the alert condition currently exists. CLOSED indicates the alert condition has been resolved. */
 export type HostMetricAlertStatus = "CANCELLED" | "CLOSED" | "OPEN" | "TRACKING";
@@ -563,6 +587,8 @@ export interface HostMetricAlert {
   replicaSetName?: string;
   /** Date and time that this alert changed to `"status" : "CLOSED"`. This parameter expresses its value in the ISO 8601 timestamp format in UTC. The resource returns this parameter once `"status" : "CLOSED"`. */
   resolved?: string;
+  /** Severity of the event. */
+  severity?: HostMetricAlertSeverity;
   /** State of this alert at the time you requested its details. TRACKING indicates the alert condition exists but has not persisted for the minimum notification delay. OPEN indicates the alert condition currently exists. CLOSED indicates the alert condition has been resolved. */
   status: HostMetricAlertStatus;
   /** Date and time when someone last updated this alert. This parameter expresses its value in the ISO 8601 timestamp format in UTC. */
@@ -587,12 +613,11 @@ export const HostMetricAlert = /*@__PURE__*/ S.suspend(() =>
     orgId: S.optional(S.String),
     replicaSetName: S.optional(S.String),
     resolved: S.optional(S.String),
+    severity: S.optional(HostMetricAlertSeverity),
     status: HostMetricAlertStatus,
     updated: S.String,
   }),
-).annotate({
-  identifier: "HostMetricAlert",
-}) as any as S.Schema<HostMetricAlert>;
+).annotate({ identifier: "HostMetricAlert" }) as any as S.Schema<HostMetricAlert>;
 
 /** Incident that triggered this alert. */
 export type ReplicaSetEventTypeViewForNdsGroupAlertable =
@@ -615,6 +640,10 @@ export type ReplicaSetAlertViewForNdsGroupNonRunningHostIdsList = Array<string>;
 export const ReplicaSetAlertViewForNdsGroupNonRunningHostIdsList = /*@__PURE__*/ S.Array(
   S.String,
 ) as any as S.Schema<ReplicaSetAlertViewForNdsGroupNonRunningHostIdsList>;
+
+/** Severity of the event. */
+export type ReplicaSetAlertViewForNdsGroupSeverity = "INFO" | "WARNING" | "ERROR" | "CRITICAL";
+export const ReplicaSetAlertViewForNdsGroupSeverity = S.String;
 
 /** State of this alert at the time you requested its details. TRACKING indicates the alert condition exists but has not persisted for the minimum notification delay. OPEN indicates the alert condition currently exists. CLOSED indicates the alert condition has been resolved. */
 export type ReplicaSetAlertViewForNdsGroupStatus = "CANCELLED" | "CLOSED" | "OPEN" | "TRACKING";
@@ -655,6 +684,8 @@ export interface ReplicaSetAlertViewForNdsGroup {
   replicaSetName?: string;
   /** Date and time that this alert changed to `"status" : "CLOSED"`. This parameter expresses its value in the ISO 8601 timestamp format in UTC. The resource returns this parameter once `"status" : "CLOSED"`. */
   resolved?: string;
+  /** Severity of the event. */
+  severity?: ReplicaSetAlertViewForNdsGroupSeverity;
   /** State of this alert at the time you requested its details. TRACKING indicates the alert condition exists but has not persisted for the minimum notification delay. OPEN indicates the alert condition currently exists. CLOSED indicates the alert condition has been resolved. */
   status: ReplicaSetAlertViewForNdsGroupStatus;
   /** Date and time when someone last updated this alert. This parameter expresses its value in the ISO 8601 timestamp format in UTC. */
@@ -679,6 +710,7 @@ export const ReplicaSetAlertViewForNdsGroup = /*@__PURE__*/ S.suspend(() =>
     parentClusterId: S.optional(S.String),
     replicaSetName: S.optional(S.String),
     resolved: S.optional(S.String),
+    severity: S.optional(ReplicaSetAlertViewForNdsGroupSeverity),
     status: ReplicaSetAlertViewForNdsGroupStatus,
     updated: S.String,
   }),
@@ -691,6 +723,10 @@ export type StreamProcessorAlertViewForNdsGroupLinksList = Array<Link>;
 export const StreamProcessorAlertViewForNdsGroupLinksList = /*@__PURE__*/ S.Array(
   Link,
 ) as any as S.Schema<StreamProcessorAlertViewForNdsGroupLinksList>;
+
+/** Severity of the event. */
+export type StreamProcessorAlertViewForNdsGroupSeverity = "INFO" | "WARNING" | "ERROR" | "CRITICAL";
+export const StreamProcessorAlertViewForNdsGroupSeverity = S.String;
 
 /** State of this alert at the time you requested its details. TRACKING indicates the alert condition exists but has not persisted for the minimum notification delay. OPEN indicates the alert condition currently exists. CLOSED indicates the alert condition has been resolved. */
 export type StreamProcessorAlertViewForNdsGroupStatus =
@@ -733,6 +769,8 @@ export interface StreamProcessorAlertViewForNdsGroup {
   processorState?: string;
   /** Date and time that this alert changed to `"status" : "CLOSED"`. This parameter expresses its value in the ISO 8601 timestamp format in UTC. The resource returns this parameter once `"status" : "CLOSED"`. */
   resolved?: string;
+  /** Severity of the event. */
+  severity?: StreamProcessorAlertViewForNdsGroupSeverity;
   /** State of this alert at the time you requested its details. TRACKING indicates the alert condition exists but has not persisted for the minimum notification delay. OPEN indicates the alert condition currently exists. CLOSED indicates the alert condition has been resolved. */
   status: StreamProcessorAlertViewForNdsGroupStatus;
   /** Date and time when someone last updated this alert. This parameter expresses its value in the ISO 8601 timestamp format in UTC. */
@@ -756,6 +794,7 @@ export const StreamProcessorAlertViewForNdsGroup = /*@__PURE__*/ S.suspend(() =>
     processorName: S.optional(S.String),
     processorState: S.optional(S.String),
     resolved: S.optional(S.String),
+    severity: S.optional(StreamProcessorAlertViewForNdsGroupSeverity),
     status: StreamProcessorAlertViewForNdsGroupStatus,
     updated: S.String,
   }),
@@ -900,16 +939,19 @@ export type DefaultAlertViewForNdsGroupEventTypeNameCase15 =
   | "COMPUTE_AUTO_SCALE_MAX_INSTANCE_SIZE_FAIL_ANALYTICS"
   | "COMPUTE_AUTO_SCALE_OPLOG_FAIL_BASE"
   | "COMPUTE_AUTO_SCALE_OPLOG_FAIL_ANALYTICS"
+  | "COMPUTE_AUTO_SCALE_CAPACITY_CONSTRAINT_FAIL_BASE"
+  | "COMPUTE_AUTO_SCALE_CAPACITY_CONSTRAINT_FAIL_ANALYTICS"
   | "DISK_AUTO_SCALE_INITIATED"
   | "DISK_AUTO_SCALE_MAX_DISK_SIZE_FAIL"
   | "DISK_AUTO_SCALE_OPLOG_FAIL"
+  | "COMPUTE_AUTO_SCALE_DOWNSCALE_SKIPPED_FALLBACK_BASE"
+  | "COMPUTE_AUTO_SCALE_DOWNSCALE_SKIPPED_FALLBACK_ANALYTICS"
+  | "CLUSTER_AUTO_SHARDING_INITIATED"
+  | "CLUSTER_RESHARDING_COMPLETED"
   | "PREDICTIVE_COMPUTE_AUTO_SCALE_INITIATED_BASE"
   | "PREDICTIVE_COMPUTE_AUTO_SCALE_MAX_INSTANCE_SIZE_FAIL_BASE"
   | "PREDICTIVE_COMPUTE_AUTO_SCALE_OPLOG_FAIL_BASE"
-  | "CLUSTER_AUTO_SHARDING_INITIATED"
-  | "CLUSTER_RESHARDING_COMPLETED"
-  | "COMPUTE_AUTO_SCALE_DOWNSCALE_SKIPPED_FALLBACK_BASE"
-  | "COMPUTE_AUTO_SCALE_DOWNSCALE_SKIPPED_FALLBACK_ANALYTICS";
+  | "PREDICTIVE_COMPUTE_AUTO_SCALE_CAPACITY_CONSTRAINT_FAIL_BASE";
 export const DefaultAlertViewForNdsGroupEventTypeNameCase15 = S.String;
 
 export type DefaultAlertViewForNdsGroupEventTypeNameCase16 =
@@ -979,6 +1021,10 @@ export const DefaultAlertViewForNdsGroupLinksList = /*@__PURE__*/ S.Array(
   Link,
 ) as any as S.Schema<DefaultAlertViewForNdsGroupLinksList>;
 
+/** Severity of the event. */
+export type DefaultAlertViewForNdsGroupSeverity = "INFO" | "WARNING" | "ERROR" | "CRITICAL";
+export const DefaultAlertViewForNdsGroupSeverity = S.String;
+
 /** State of this alert at the time you requested its details. TRACKING indicates the alert condition exists but has not persisted for the minimum notification delay. OPEN indicates the alert condition currently exists. CLOSED indicates the alert condition has been resolved. */
 export type DefaultAlertViewForNdsGroupStatus = "CANCELLED" | "CLOSED" | "OPEN" | "TRACKING";
 export const DefaultAlertViewForNdsGroupStatus = S.String;
@@ -1009,6 +1055,8 @@ export interface DefaultAlertViewForNdsGroup {
   orgId?: string;
   /** Date and time that this alert changed to `"status" : "CLOSED"`. This parameter expresses its value in the ISO 8601 timestamp format in UTC. The resource returns this parameter once `"status" : "CLOSED"`. */
   resolved?: string;
+  /** Severity of the event. */
+  severity?: DefaultAlertViewForNdsGroupSeverity;
   /** State of this alert at the time you requested its details. TRACKING indicates the alert condition exists but has not persisted for the minimum notification delay. OPEN indicates the alert condition currently exists. CLOSED indicates the alert condition has been resolved. */
   status: DefaultAlertViewForNdsGroupStatus;
   /** Date and time when someone last updated this alert. This parameter expresses its value in the ISO 8601 timestamp format in UTC. */
@@ -1028,6 +1076,7 @@ export const DefaultAlertViewForNdsGroup = /*@__PURE__*/ S.suspend(() =>
     links: S.optional(DefaultAlertViewForNdsGroupLinksList),
     orgId: S.optional(S.String),
     resolved: S.optional(S.String),
+    severity: S.optional(DefaultAlertViewForNdsGroupSeverity),
     status: DefaultAlertViewForNdsGroupStatus,
     updated: S.String,
   }),
@@ -1103,9 +1152,7 @@ export const AddGroupApiKeyRequest = /*@__PURE__*/ S.suspend(() =>
       accept: "application/vnd.atlas.2023-01-01+json",
     }),
   ),
-).annotate({
-  identifier: "AddGroupApiKeyRequest",
-}) as any as S.Schema<AddGroupApiKeyRequest>;
+).annotate({ identifier: "AddGroupApiKeyRequest" }) as any as S.Schema<AddGroupApiKeyRequest>;
 
 export interface AddGroupApiKeyResponse {}
 export const AddGroupApiKeyResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -1159,9 +1206,7 @@ export const AddGroupTeamsRequest = /*@__PURE__*/ S.suspend(() =>
       accept: "application/vnd.atlas.2023-01-01+json",
     }),
   ),
-).annotate({
-  identifier: "AddGroupTeamsRequest",
-}) as any as S.Schema<AddGroupTeamsRequest>;
+).annotate({ identifier: "AddGroupTeamsRequest" }) as any as S.Schema<AddGroupTeamsRequest>;
 
 /** List of one or more Uniform Resource Locators (URLs) that point to API sub-resources, related API resources, or both. RFC 5988 outlines these relationships. */
 export type PaginatedTeamRoleViewLinksList = Array<Link>;
@@ -1206,7 +1251,7 @@ export interface PaginatedTeamRoleView {
   links?: PaginatedTeamRoleViewLinksList;
   /** List of returned documents that MongoDB Cloud provides when completing this request. */
   results: PaginatedTeamRoleViewResultsList;
-  /** Total number of documents available. MongoDB Cloud omits this value if `includeCount` is set to `false`. The total number is an estimate and may not be exact. */
+  /** Total number of documents available. When `includeCount` is set to `false`, MongoDB Cloud may omit this value or return it when the count is available without additional calculation. The total number is an estimate and may not be exact. */
   totalCount?: number;
 }
 export const PaginatedTeamRoleView = /*@__PURE__*/ S.suspend(() =>
@@ -1215,9 +1260,7 @@ export const PaginatedTeamRoleView = /*@__PURE__*/ S.suspend(() =>
     results: PaginatedTeamRoleViewResultsList,
     totalCount: S.optional(S.Number),
   }),
-).annotate({
-  identifier: "PaginatedTeamRoleView",
-}) as any as S.Schema<PaginatedTeamRoleView>;
+).annotate({ identifier: "PaginatedTeamRoleView" }) as any as S.Schema<PaginatedTeamRoleView>;
 
 export interface AddGroupUserRoleRequest {
   /** Unique 24-hexadecimal digit string that identifies your project. Use the [/groups](#tag/Projects/operation/listProjects) endpoint to retrieve all projects to which the authenticated user has access. **NOTE**: Groups and projects are synonymous terms. Your group id is the same as your project id. For existing groups, your group/project id remains the same. The resource and corresponding endpoints use the term groups. */
@@ -1246,9 +1289,7 @@ export const AddGroupUserRoleRequest = /*@__PURE__*/ S.suspend(() =>
       accept: "application/vnd.atlas.2025-02-19+json",
     }),
   ),
-).annotate({
-  identifier: "AddGroupUserRoleRequest",
-}) as any as S.Schema<AddGroupUserRoleRequest>;
+).annotate({ identifier: "AddGroupUserRoleRequest" }) as any as S.Schema<AddGroupUserRoleRequest>;
 
 /** String enum that indicates the user's organization membership status: ACTIVE (member), PENDING (invited), `INVITATION_EXPIRED` (invitation expired), or `INVITATION_REJECTED` (invitation declined). */
 export type GroupPendingUserResponseOrgMembershipStatus =
@@ -1308,9 +1349,7 @@ export const GroupPendingUserResponse = /*@__PURE__*/ S.suspend(() =>
     invitationExpiresAt: S.optional(S.NullOr(S.String)),
     inviterUsername: S.String,
   }),
-).annotate({
-  identifier: "GroupPendingUserResponse",
-}) as any as S.Schema<GroupPendingUserResponse>;
+).annotate({ identifier: "GroupPendingUserResponse" }) as any as S.Schema<GroupPendingUserResponse>;
 
 /** String enum that indicates the user's organization membership status: ACTIVE (member), PENDING (invited), `INVITATION_EXPIRED` (invitation expired), or `INVITATION_REJECTED` (invitation declined). */
 export type GroupActiveUserResponseOrgMembershipStatus =
@@ -1370,9 +1409,7 @@ export const GroupActiveUserResponse = /*@__PURE__*/ S.suspend(() =>
     invitationExpiresAt: S.optional(S.NullOr(S.String)),
     inviterUsername: S.optional(S.String),
   }),
-).annotate({
-  identifier: "GroupActiveUserResponse",
-}) as any as S.Schema<GroupActiveUserResponse>;
+).annotate({ identifier: "GroupActiveUserResponse" }) as any as S.Schema<GroupActiveUserResponse>;
 
 export type GroupUserResponse = GroupPendingUserResponse | GroupActiveUserResponse;
 export const GroupUserResponse = S.Unknown as any as S.Schema<GroupUserResponse>;
@@ -1410,9 +1447,7 @@ export const AddGroupUsersRequest = /*@__PURE__*/ S.suspend(() =>
       accept: "application/vnd.atlas.2025-02-19+json",
     }),
   ),
-).annotate({
-  identifier: "AddGroupUsersRequest",
-}) as any as S.Schema<AddGroupUsersRequest>;
+).annotate({ identifier: "AddGroupUsersRequest" }) as any as S.Schema<AddGroupUsersRequest>;
 
 export interface AddOrgTeamUserRequest {
   /** Unique 24-hexadecimal digit string that identifies the organization that contains your projects. Use the [`/orgs`](#tag/Organizations/operation/listOrganizations) endpoint to retrieve all organizations to which the authenticated user has access. */
@@ -1441,9 +1476,7 @@ export const AddOrgTeamUserRequest = /*@__PURE__*/ S.suspend(() =>
       accept: "application/vnd.atlas.2025-02-19+json",
     }),
   ),
-).annotate({
-  identifier: "AddOrgTeamUserRequest",
-}) as any as S.Schema<AddOrgTeamUserRequest>;
+).annotate({ identifier: "AddOrgTeamUserRequest" }) as any as S.Schema<AddOrgTeamUserRequest>;
 
 /** String enum that indicates the user's organization membership status: ACTIVE (member), PENDING (invited), `INVITATION_EXPIRED` (invitation expired), or `INVITATION_REJECTED` (invitation declined). */
 export type OrgPendingUserResponseOrgMembershipStatus =
@@ -1470,9 +1503,7 @@ export const GroupRoleAssignment = /*@__PURE__*/ S.suspend(() =>
     groupId: S.optional(S.String),
     groupRoles: S.optional(GroupRoleAssignmentGroupRolesList),
   }),
-).annotate({
-  identifier: "GroupRoleAssignment",
-}) as any as S.Schema<GroupRoleAssignment>;
+).annotate({ identifier: "GroupRoleAssignment" }) as any as S.Schema<GroupRoleAssignment>;
 
 /** List of project-level role assignments assigned to the MongoDB Cloud user. */
 export type OrgUserRolesResponseGroupRoleAssignmentsList = Array<GroupRoleAssignment>;
@@ -1509,9 +1540,7 @@ export const OrgUserRolesResponse = /*@__PURE__*/ S.suspend(() =>
     groupRoleAssignments: S.optional(OrgUserRolesResponseGroupRoleAssignmentsList),
     orgRoles: S.optional(OrgUserRolesResponseOrgRolesList),
   }),
-).annotate({
-  identifier: "OrgUserRolesResponse",
-}) as any as S.Schema<OrgUserRolesResponse>;
+).annotate({ identifier: "OrgUserRolesResponse" }) as any as S.Schema<OrgUserRolesResponse>;
 
 /** List of unique 24-hexadecimal digit strings that identifies the teams to which this MongoDB Cloud user belongs. */
 export type OrgPendingUserResponseTeamIdsList = Array<string>;
@@ -1565,9 +1594,7 @@ export const OrgPendingUserResponse = /*@__PURE__*/ S.suspend(() =>
     invitationExpiresAt: S.optional(S.NullOr(S.String)),
     inviterUsername: S.String,
   }),
-).annotate({
-  identifier: "OrgPendingUserResponse",
-}) as any as S.Schema<OrgPendingUserResponse>;
+).annotate({ identifier: "OrgPendingUserResponse" }) as any as S.Schema<OrgPendingUserResponse>;
 
 /** String enum that indicates the user's organization membership status: ACTIVE (member), PENDING (invited), `INVITATION_EXPIRED` (invitation expired), or `INVITATION_REJECTED` (invitation declined). */
 export type OrgActiveUserResponseOrgMembershipStatus =
@@ -1629,9 +1656,7 @@ export const OrgActiveUserResponse = /*@__PURE__*/ S.suspend(() =>
     invitationExpiresAt: S.optional(S.NullOr(S.String)),
     inviterUsername: S.optional(S.String),
   }),
-).annotate({
-  identifier: "OrgActiveUserResponse",
-}) as any as S.Schema<OrgActiveUserResponse>;
+).annotate({ identifier: "OrgActiveUserResponse" }) as any as S.Schema<OrgActiveUserResponse>;
 
 export type OrgUserResponse = OrgPendingUserResponse | OrgActiveUserResponse;
 export const OrgUserResponse = S.Unknown as any as S.Schema<OrgUserResponse>;
@@ -1674,9 +1699,7 @@ export const AddOrgUserRoleRequest = /*@__PURE__*/ S.suspend(() =>
       accept: "application/vnd.atlas.2025-02-19+json",
     }),
   ),
-).annotate({
-  identifier: "AddOrgUserRoleRequest",
-}) as any as S.Schema<AddOrgUserRoleRequest>;
+).annotate({ identifier: "AddOrgUserRoleRequest" }) as any as S.Schema<AddOrgUserRoleRequest>;
 
 /** Human-readable label that identifies the cloud provider of the role. */
 export type AuthorizeGroupCloudProviderAccessRoleRequestProviderName = "AWS" | "AZURE" | "GCP";
@@ -2250,9 +2273,7 @@ export const ConnectedOrgConfig = /*@__PURE__*/ S.suspend(() =>
     roleMappings: S.optional(ConnectedOrgConfigRoleMappingsList),
     userConflicts: S.optional(ConnectedOrgConfigUserConflictsList),
   }),
-).annotate({
-  identifier: "ConnectedOrgConfig",
-}) as any as S.Schema<ConnectedOrgConfig>;
+).annotate({ identifier: "ConnectedOrgConfig" }) as any as S.Schema<ConnectedOrgConfig>;
 
 /** List that contains the connected organization configurations associated with the identity provider. */
 export type FederationOidcWorkforceIdentityProviderAssociatedOrgsList = Array<ConnectedOrgConfig>;
@@ -2475,9 +2496,7 @@ export const CreateGroupRequest = /*@__PURE__*/ S.suspend(() =>
       accept: "application/vnd.atlas.2023-01-01+json",
     }),
   ),
-).annotate({
-  identifier: "CreateGroupRequest",
-}) as any as S.Schema<CreateGroupRequest>;
+).annotate({ identifier: "CreateGroupRequest" }) as any as S.Schema<CreateGroupRequest>;
 
 /** List of one or more Uniform Resource Locators (URLs) that point to API sub-resources, related API resources, or both. RFC 5988 outlines these relationships. */
 export type GroupLinksList = Array<Link>;
@@ -2559,7 +2578,7 @@ export interface CreateGroupAccessListEntryRequest {
   groupId: string;
   /** Flag that indicates whether Application wraps the response in an `envelope` JSON object. Some API clients cannot access the HTTP response headers or status code. To remediate this, set envelope=true in the query. Endpoints that return a list of results use the results object as an envelope. Application adds the status parameter to the response body. */
   envelope?: boolean;
-  /** Flag that indicates whether the response returns the total number of items (`totalCount`) in the response. */
+  /** Flag that indicates whether MongoDB Cloud calculates the total number of items for the response. When set to `false`, MongoDB Cloud may skip an additional count operation. The response may still include `totalCount` when the count is available without additional calculation. */
   includeCount?: boolean;
   /** Number of items that the response returns per page. */
   itemsPerPage?: number;
@@ -2628,9 +2647,7 @@ export const NetworkPermissionEntry = /*@__PURE__*/ S.suspend(() =>
     ipAddress: S.optional(S.String),
     links: S.optional(NetworkPermissionEntryLinksList),
   }),
-).annotate({
-  identifier: "NetworkPermissionEntry",
-}) as any as S.Schema<NetworkPermissionEntry>;
+).annotate({ identifier: "NetworkPermissionEntry" }) as any as S.Schema<NetworkPermissionEntry>;
 
 /** List of returned documents that MongoDB Cloud provides when completing this request. */
 export type PaginatedNetworkAccessViewResultsList = Array<NetworkPermissionEntry>;
@@ -2643,7 +2660,7 @@ export interface PaginatedNetworkAccessView {
   links?: PaginatedNetworkAccessViewLinksList;
   /** List of returned documents that MongoDB Cloud provides when completing this request. */
   results: PaginatedNetworkAccessViewResultsList;
-  /** Total number of documents available. MongoDB Cloud omits this value if `includeCount` is set to `false`. The total number is an estimate and may not be exact. */
+  /** Total number of documents available. When `includeCount` is set to `false`, MongoDB Cloud may omit this value or return it when the count is available without additional calculation. The total number is an estimate and may not be exact. */
   totalCount?: number;
 }
 export const PaginatedNetworkAccessView = /*@__PURE__*/ S.suspend(() =>
@@ -2739,9 +2756,7 @@ export const AiModelApiKeyResponse = /*@__PURE__*/ S.suspend(() =>
     secret: S.optional(S.NullOr(S.String).pipe(T.SensitiveValue({}))),
     status: S.optional(S.String),
   }),
-).annotate({
-  identifier: "AiModelApiKeyResponse",
-}) as any as S.Schema<AiModelApiKeyResponse>;
+).annotate({ identifier: "AiModelApiKeyResponse" }) as any as S.Schema<AiModelApiKeyResponse>;
 
 export type DefaultAlertConfigViewForNdsGroupInputEventTypeNameCase0 =
   "CREDIT_CARD_ABOUT_TO_EXPIRE";
@@ -2863,14 +2878,17 @@ export type DefaultAlertConfigViewForNdsGroupInputEventTypeNameCase12 =
   | "COMPUTE_AUTO_SCALE_MAX_INSTANCE_SIZE_FAIL_ANALYTICS"
   | "COMPUTE_AUTO_SCALE_OPLOG_FAIL_BASE"
   | "COMPUTE_AUTO_SCALE_OPLOG_FAIL_ANALYTICS"
+  | "COMPUTE_AUTO_SCALE_CAPACITY_CONSTRAINT_FAIL_BASE"
+  | "COMPUTE_AUTO_SCALE_CAPACITY_CONSTRAINT_FAIL_ANALYTICS"
   | "DISK_AUTO_SCALE_INITIATED"
   | "DISK_AUTO_SCALE_MAX_DISK_SIZE_FAIL"
   | "DISK_AUTO_SCALE_OPLOG_FAIL"
+  | "CLUSTER_AUTO_SHARDING_INITIATED"
+  | "CLUSTER_RESHARDING_COMPLETED"
   | "PREDICTIVE_COMPUTE_AUTO_SCALE_INITIATED_BASE"
   | "PREDICTIVE_COMPUTE_AUTO_SCALE_MAX_INSTANCE_SIZE_FAIL_BASE"
   | "PREDICTIVE_COMPUTE_AUTO_SCALE_OPLOG_FAIL_BASE"
-  | "CLUSTER_AUTO_SHARDING_INITIATED"
-  | "CLUSTER_RESHARDING_COMPLETED";
+  | "PREDICTIVE_COMPUTE_AUTO_SCALE_CAPACITY_CONSTRAINT_FAIL_BASE";
 export const DefaultAlertConfigViewForNdsGroupInputEventTypeNameCase12 = S.String;
 
 export type DefaultAlertConfigViewForNdsGroupInputEventTypeNameCase13 = "RESOURCE_POLICY_VIOLATED";
@@ -2955,7 +2973,14 @@ export const DefaultAlertConfigViewForNdsGroupInputMatchersList = /*@__PURE__*/ 
 ) as any as S.Schema<DefaultAlertConfigViewForNdsGroupInputMatchersList>;
 
 /** Datadog region that indicates which API Uniform Resource Locator (URL) to use. The resource requires this parameter when `"notifications.[n].typeName" : "DATADOG"`. */
-export type DatadogNotificationDatadogRegion = "US" | "EU" | "US3" | "US5" | "AP1" | "US1_FED";
+export type DatadogNotificationDatadogRegion =
+  | "US"
+  | "EU"
+  | "US3"
+  | "US5"
+  | "AP1"
+  | "AP2"
+  | "US1_FED";
 export const DatadogNotificationDatadogRegion = S.String;
 
 /** Human-readable label that displays the alert notification type. */
@@ -2989,9 +3014,7 @@ export const DatadogNotification = /*@__PURE__*/ S.suspend(() =>
     notifierId: S.optional(S.String),
     typeName: DatadogNotificationTypeName,
   }),
-).annotate({
-  identifier: "DatadogNotification",
-}) as any as S.Schema<DatadogNotification>;
+).annotate({ identifier: "DatadogNotification" }) as any as S.Schema<DatadogNotification>;
 
 /** Human-readable label that displays the alert notification type. */
 export type EmailNotificationTypeName = "EMAIL";
@@ -3018,9 +3041,7 @@ export const EmailNotification = /*@__PURE__*/ S.suspend(() =>
     notifierId: S.optional(S.String),
     typeName: EmailNotificationTypeName,
   }),
-).annotate({
-  identifier: "EmailNotification",
-}) as any as S.Schema<EmailNotification>;
+).annotate({ identifier: "EmailNotification" }) as any as S.Schema<EmailNotification>;
 
 /** List that contains the one or more project roles that receive the configured alert. This parameter is available when `"notifications.[n].typeName" : "GROUP"` or `"notifications.[n].typeName" : "ORG"`. If you include this parameter, MongoDB Cloud sends alerts only to users assigned the roles you specify in the array. If you omit this parameter, MongoDB Cloud sends alerts to users assigned any role. */
 export type GroupNotificationRolesList = Array<string>;
@@ -3059,9 +3080,7 @@ export const GroupNotification = /*@__PURE__*/ S.suspend(() =>
     smsEnabled: S.optional(S.Boolean),
     typeName: GroupNotificationTypeName,
   }),
-).annotate({
-  identifier: "GroupNotification",
-}) as any as S.Schema<GroupNotification>;
+).annotate({ identifier: "GroupNotification" }) as any as S.Schema<GroupNotification>;
 
 /** Human-readable label that displays the alert notification type. */
 export type HipChatNotificationTypeName = "HIP_CHAT";
@@ -3094,9 +3113,7 @@ export const HipChatNotification = /*@__PURE__*/ S.suspend(() =>
     roomName: S.optional(S.String),
     typeName: HipChatNotificationTypeName,
   }),
-).annotate({
-  identifier: "HipChatNotification",
-}) as any as S.Schema<HipChatNotification>;
+).annotate({ identifier: "HipChatNotification" }) as any as S.Schema<HipChatNotification>;
 
 /** Human-readable label that displays the alert notification type. */
 export type MicrosoftTeamsNotificationTypeName = "MICROSOFT_TEAMS";
@@ -3165,9 +3182,7 @@ export const OpsGenieNotification = /*@__PURE__*/ S.suspend(() =>
     opsGenieRegion: S.optional(OpsGenieNotificationOpsGenieRegion),
     typeName: OpsGenieNotificationTypeName,
   }),
-).annotate({
-  identifier: "OpsGenieNotification",
-}) as any as S.Schema<OpsGenieNotification>;
+).annotate({ identifier: "OpsGenieNotification" }) as any as S.Schema<OpsGenieNotification>;
 
 /** One or more organization roles that receive the configured alert. */
 export type OrgNotificationRolesItem =
@@ -3216,9 +3231,7 @@ export const OrgNotification = /*@__PURE__*/ S.suspend(() =>
     smsEnabled: S.optional(S.Boolean),
     typeName: OrgNotificationTypeName,
   }),
-).annotate({
-  identifier: "OrgNotification",
-}) as any as S.Schema<OrgNotification>;
+).annotate({ identifier: "OrgNotification" }) as any as S.Schema<OrgNotification>;
 
 /** PagerDuty region that indicates which API Uniform Resource Locator (URL) to use. */
 export type PagerDutyNotificationRegion = "US" | "EU";
@@ -3255,9 +3268,7 @@ export const PagerDutyNotification = /*@__PURE__*/ S.suspend(() =>
     serviceKey: S.optional(S.String),
     typeName: PagerDutyNotificationTypeName,
   }),
-).annotate({
-  identifier: "PagerDutyNotification",
-}) as any as S.Schema<PagerDutyNotification>;
+).annotate({ identifier: "PagerDutyNotification" }) as any as S.Schema<PagerDutyNotification>;
 
 /** Human-readable label that displays the alert notification type. */
 export type SlackNotificationTypeName = "SLACK";
@@ -3290,9 +3301,7 @@ export const SlackNotification = /*@__PURE__*/ S.suspend(() =>
     notifierId: S.optional(S.String),
     typeName: SlackNotificationTypeName,
   }),
-).annotate({
-  identifier: "SlackNotification",
-}) as any as S.Schema<SlackNotification>;
+).annotate({ identifier: "SlackNotification" }) as any as S.Schema<SlackNotification>;
 
 /** Human-readable label that displays the alert notification type. */
 export type SMSNotificationTypeName = "SMS";
@@ -3319,9 +3328,7 @@ export const SMSNotification = /*@__PURE__*/ S.suspend(() =>
     notifierId: S.optional(S.String),
     typeName: SMSNotificationTypeName,
   }),
-).annotate({
-  identifier: "SMSNotification",
-}) as any as S.Schema<SMSNotification>;
+).annotate({ identifier: "SMSNotification" }) as any as S.Schema<SMSNotification>;
 
 /** Human-readable label that displays the alert notification type. */
 export type TeamNotificationTypeName = "TEAM";
@@ -3357,9 +3364,7 @@ export const TeamNotification = /*@__PURE__*/ S.suspend(() =>
     teamName: S.optional(S.String),
     typeName: TeamNotificationTypeName,
   }),
-).annotate({
-  identifier: "TeamNotification",
-}) as any as S.Schema<TeamNotification>;
+).annotate({ identifier: "TeamNotification" }) as any as S.Schema<TeamNotification>;
 
 /** Human-readable label that displays the alert notification type. */
 export type UserNotificationTypeName = "USER";
@@ -3392,9 +3397,7 @@ export const UserNotification = /*@__PURE__*/ S.suspend(() =>
     typeName: UserNotificationTypeName,
     username: S.optional(S.String),
   }),
-).annotate({
-  identifier: "UserNotification",
-}) as any as S.Schema<UserNotification>;
+).annotate({ identifier: "UserNotification" }) as any as S.Schema<UserNotification>;
 
 /** Human-readable label that displays the alert notification type. */
 export type VictorOpsNotificationTypeName = "VICTOR_OPS";
@@ -3427,9 +3430,7 @@ export const VictorOpsNotification = /*@__PURE__*/ S.suspend(() =>
     victorOpsApiKey: S.optional(S.String),
     victorOpsRoutingKey: S.optional(S.String),
   }),
-).annotate({
-  identifier: "VictorOpsNotification",
-}) as any as S.Schema<VictorOpsNotification>;
+).annotate({ identifier: "VictorOpsNotification" }) as any as S.Schema<VictorOpsNotification>;
 
 /** Human-readable label that displays the alert notification type. */
 export type WebhookNotificationTypeName = "WEBHOOK";
@@ -3468,9 +3469,7 @@ export const WebhookNotification = /*@__PURE__*/ S.suspend(() =>
     webhookSecret: S.optional(S.String),
     webhookUrl: S.optional(S.String),
   }),
-).annotate({
-  identifier: "WebhookNotification",
-}) as any as S.Schema<WebhookNotification>;
+).annotate({ identifier: "WebhookNotification" }) as any as S.Schema<WebhookNotification>;
 
 /** One target that MongoDB Cloud sends notifications when an alert triggers. */
 export type AlertsNotificationRootForGroup =
@@ -3569,9 +3568,7 @@ export const AppServiceMetricMatcher = /*@__PURE__*/ S.suspend(() =>
     operator: AppServiceMetricMatcherOperator,
     value: S.String,
   }),
-).annotate({
-  identifier: "AppServiceMetricMatcher",
-}) as any as S.Schema<AppServiceMetricMatcher>;
+).annotate({ identifier: "AppServiceMetricMatcher" }) as any as S.Schema<AppServiceMetricMatcher>;
 
 /** List of rules that determine whether MongoDB Cloud checks an object for the alert configuration. You can filter using the matchers array if the `eventTypeName` specifies an event for a host, replica set, or sharded cluster. */
 export type AppServiceAlertConfigViewForNdsGroupInputMatchersList = Array<AppServiceMetricMatcher>;
@@ -3651,9 +3648,7 @@ export const RawMetricThresholdView = /*@__PURE__*/ S.suspend(() =>
     threshold: S.optional(S.Number),
     units: S.optional(RawMetricUnits),
   }),
-).annotate({
-  identifier: "RawMetricThresholdView",
-}) as any as S.Schema<RawMetricThresholdView>;
+).annotate({ identifier: "RawMetricThresholdView" }) as any as S.Schema<RawMetricThresholdView>;
 
 /** MongoDB Cloud computes the current metric value as an average. */
 export type DataMetricThresholdViewMode = "AVERAGE";
@@ -3696,9 +3691,7 @@ export const DataMetricThresholdView = /*@__PURE__*/ S.suspend(() =>
     threshold: S.optional(S.Number),
     units: S.optional(DataMetricUnits),
   }),
-).annotate({
-  identifier: "DataMetricThresholdView",
-}) as any as S.Schema<DataMetricThresholdView>;
+).annotate({ identifier: "DataMetricThresholdView" }) as any as S.Schema<DataMetricThresholdView>;
 
 /** MongoDB Cloud computes the current metric value as an average. */
 export type TimeMetricThresholdViewMode = "AVERAGE";
@@ -3738,9 +3731,7 @@ export const TimeMetricThresholdView = /*@__PURE__*/ S.suspend(() =>
     threshold: S.optional(S.Number),
     units: S.optional(TimeMetricUnits),
   }),
-).annotate({
-  identifier: "TimeMetricThresholdView",
-}) as any as S.Schema<TimeMetricThresholdView>;
+).annotate({ identifier: "TimeMetricThresholdView" }) as any as S.Schema<TimeMetricThresholdView>;
 
 /** Threshold for the metric that, when exceeded, triggers an alert. The metric threshold pertains to event types which reflects changes of measurements and metrics in the app services. */
 export type AppServiceMetricThreshold =
@@ -3823,9 +3814,7 @@ export const GreaterThanRawThreshold = /*@__PURE__*/ S.suspend(() =>
     threshold: S.optional(S.Number),
     units: S.optional(RawMetricUnits),
   }),
-).annotate({
-  identifier: "GreaterThanRawThreshold",
-}) as any as S.Schema<GreaterThanRawThreshold>;
+).annotate({ identifier: "GreaterThanRawThreshold" }) as any as S.Schema<GreaterThanRawThreshold>;
 
 /** Billing threshold alert configuration allows to select thresholds for bills and invoices which trigger alerts and how users are notified. */
 export interface BillingThresholdAlertConfigViewForNdsGroupInput {
@@ -3958,9 +3947,7 @@ export const GreaterThanTimeThreshold = /*@__PURE__*/ S.suspend(() =>
     threshold: S.optional(S.Number),
     units: S.optional(TimeMetricUnits),
   }),
-).annotate({
-  identifier: "GreaterThanTimeThreshold",
-}) as any as S.Schema<GreaterThanTimeThreshold>;
+).annotate({ identifier: "GreaterThanTimeThreshold" }) as any as S.Schema<GreaterThanTimeThreshold>;
 
 /** Cps Backup threshold alert configuration allows to select thresholds for conditions of CPS backup or oplogs anomalies which trigger alerts and how users are notified. */
 export interface CpsBackupThresholdAlertConfigViewForNdsGroupInput {
@@ -9475,14 +9462,17 @@ export type NDSAutoScalingAuditTypeViewAlertable =
   | "COMPUTE_AUTO_SCALE_MAX_INSTANCE_SIZE_FAIL_ANALYTICS"
   | "COMPUTE_AUTO_SCALE_OPLOG_FAIL_BASE"
   | "COMPUTE_AUTO_SCALE_OPLOG_FAIL_ANALYTICS"
+  | "COMPUTE_AUTO_SCALE_CAPACITY_CONSTRAINT_FAIL_BASE"
+  | "COMPUTE_AUTO_SCALE_CAPACITY_CONSTRAINT_FAIL_ANALYTICS"
   | "DISK_AUTO_SCALE_INITIATED"
   | "DISK_AUTO_SCALE_MAX_DISK_SIZE_FAIL"
   | "DISK_AUTO_SCALE_OPLOG_FAIL"
+  | "CLUSTER_AUTO_SHARDING_INITIATED"
+  | "CLUSTER_RESHARDING_COMPLETED"
   | "PREDICTIVE_COMPUTE_AUTO_SCALE_INITIATED_BASE"
   | "PREDICTIVE_COMPUTE_AUTO_SCALE_MAX_INSTANCE_SIZE_FAIL_BASE"
   | "PREDICTIVE_COMPUTE_AUTO_SCALE_OPLOG_FAIL_BASE"
-  | "CLUSTER_AUTO_SHARDING_INITIATED"
-  | "CLUSTER_RESHARDING_COMPLETED";
+  | "PREDICTIVE_COMPUTE_AUTO_SCALE_CAPACITY_CONSTRAINT_FAIL_BASE";
 export const NDSAutoScalingAuditTypeViewAlertable = S.String;
 
 /** Name of the parameter in the target object that MongoDB Cloud checks. The parameter must match all rules for MongoDB Cloud to check for alert configurations. */
@@ -9514,9 +9504,7 @@ export const NDSAutoscalingMatcher = /*@__PURE__*/ S.suspend(() =>
     operator: NDSAutoscalingMatcherOperator,
     value: S.String,
   }),
-).annotate({
-  identifier: "NDSAutoscalingMatcher",
-}) as any as S.Schema<NDSAutoscalingMatcher>;
+).annotate({ identifier: "NDSAutoscalingMatcher" }) as any as S.Schema<NDSAutoscalingMatcher>;
 
 /** List of rules that determine whether MongoDB Cloud checks an object for the alert configuration. */
 export type NDSAutoscalingAlertConfigViewForNdsGroupInputMatchersList =
@@ -9666,9 +9654,7 @@ export const ReplicaSetMatcher = /*@__PURE__*/ S.suspend(() =>
     operator: ReplicaSetMatcherOperator,
     value: S.String,
   }),
-).annotate({
-  identifier: "ReplicaSetMatcher",
-}) as any as S.Schema<ReplicaSetMatcher>;
+).annotate({ identifier: "ReplicaSetMatcher" }) as any as S.Schema<ReplicaSetMatcher>;
 
 /** List of rules that determine whether MongoDB Cloud checks an object for the alert configuration. You can filter using the matchers array if the `eventTypeName` specifies an event for a host, replica set, or sharded cluster. */
 export type ReplicaSetAlertConfigViewForNdsGroupInputMatchersList = Array<ReplicaSetMatcher>;
@@ -9741,9 +9727,7 @@ export const AlertsThresholdInteger = /*@__PURE__*/ S.suspend(() =>
     threshold: S.optional(S.Number),
     units: S.optional(AlertsThresholdIntegerUnits),
   }),
-).annotate({
-  identifier: "AlertsThresholdInteger",
-}) as any as S.Schema<AlertsThresholdInteger>;
+).annotate({ identifier: "AlertsThresholdInteger" }) as any as S.Schema<AlertsThresholdInteger>;
 
 /** Replica Set alert configuration allows to select which conditions of mongod replica set trigger alerts and how users are notified. */
 export interface ReplicaSetAlertConfigViewForNdsGroupInput {
@@ -9962,9 +9946,7 @@ export const RPUMetricThresholdView = /*@__PURE__*/ S.suspend(() =>
     threshold: S.optional(S.Number),
     units: S.optional(ServerlessMetricUnits),
   }),
-).annotate({
-  identifier: "RPUMetricThresholdView",
-}) as any as S.Schema<RPUMetricThresholdView>;
+).annotate({ identifier: "RPUMetricThresholdView" }) as any as S.Schema<RPUMetricThresholdView>;
 
 /** MongoDB Cloud computes the current metric value as an average. */
 export type ServerlessOpCounterUpdateRawMetricThresholdViewMode = "AVERAGE";
@@ -11123,14 +11105,17 @@ export type DefaultAlertConfigViewForNdsGroupEventTypeNameCase12 =
   | "COMPUTE_AUTO_SCALE_MAX_INSTANCE_SIZE_FAIL_ANALYTICS"
   | "COMPUTE_AUTO_SCALE_OPLOG_FAIL_BASE"
   | "COMPUTE_AUTO_SCALE_OPLOG_FAIL_ANALYTICS"
+  | "COMPUTE_AUTO_SCALE_CAPACITY_CONSTRAINT_FAIL_BASE"
+  | "COMPUTE_AUTO_SCALE_CAPACITY_CONSTRAINT_FAIL_ANALYTICS"
   | "DISK_AUTO_SCALE_INITIATED"
   | "DISK_AUTO_SCALE_MAX_DISK_SIZE_FAIL"
   | "DISK_AUTO_SCALE_OPLOG_FAIL"
+  | "CLUSTER_AUTO_SHARDING_INITIATED"
+  | "CLUSTER_RESHARDING_COMPLETED"
   | "PREDICTIVE_COMPUTE_AUTO_SCALE_INITIATED_BASE"
   | "PREDICTIVE_COMPUTE_AUTO_SCALE_MAX_INSTANCE_SIZE_FAIL_BASE"
   | "PREDICTIVE_COMPUTE_AUTO_SCALE_OPLOG_FAIL_BASE"
-  | "CLUSTER_AUTO_SHARDING_INITIATED"
-  | "CLUSTER_RESHARDING_COMPLETED";
+  | "PREDICTIVE_COMPUTE_AUTO_SCALE_CAPACITY_CONSTRAINT_FAIL_BASE";
 export const DefaultAlertConfigViewForNdsGroupEventTypeNameCase12 = S.String;
 
 export type DefaultAlertConfigViewForNdsGroupEventTypeNameCase13 = "RESOURCE_POLICY_VIOLATED";
@@ -12294,9 +12279,7 @@ export const CreateGroupApiKeyRequest = /*@__PURE__*/ S.suspend(() =>
       accept: "application/vnd.atlas.2023-01-01+json",
     }),
   ),
-).annotate({
-  identifier: "CreateGroupApiKeyRequest",
-}) as any as S.Schema<CreateGroupApiKeyRequest>;
+).annotate({ identifier: "CreateGroupApiKeyRequest" }) as any as S.Schema<CreateGroupApiKeyRequest>;
 
 /** List of one or more Uniform Resource Locators (URLs) that point to API sub-resources, related API resources, or both. RFC 5988 outlines these relationships. */
 export type ApiKeyUserDetailsLinksList = Array<Link>;
@@ -12353,9 +12336,7 @@ export const ApiKeyUserDetails = /*@__PURE__*/ S.suspend(() =>
     publicKey: S.optional(S.String),
     roles: S.optional(ApiKeyUserDetailsRolesList),
   }),
-).annotate({
-  identifier: "ApiKeyUserDetails",
-}) as any as S.Schema<ApiKeyUserDetails>;
+).annotate({ identifier: "ApiKeyUserDetails" }) as any as S.Schema<ApiKeyUserDetails>;
 
 /** Human-readable label that identifies the cloud provider. */
 export type CreateGroupBackupExportBucketRequestCloudProvider = "AWS" | "AZURE" | "GCP";
@@ -12762,11 +12743,12 @@ export type CreateGroupClusterRequestConfigServerManagementMode =
   | "FIXED_TO_DEDICATED";
 export const CreateGroupClusterRequestConfigServerManagementMode = S.String;
 
+/** Available in Public Preview: Optional field that indicates whether your cluster will be Atlas INFINITE or CORE. You can set it only when you create the cluster, or when you upgrade a Free or Flex cluster to a dedicated cluster. This value is immutable once the dedicated cluster exists; attempting to change it on an update request returns an error. */
+export type CreateGroupClusterRequestDatabaseEdition = "CORE" | "INFINITE";
+export const CreateGroupClusterRequestDatabaseEdition = S.String;
+
 /** Disk warming mode selection. */
-export type CreateGroupClusterRequestDiskWarmingMode =
-  | "FULLY_WARMED"
-  | "VISIBLE_EARLIER"
-  | "ENHANCED_FULLY_WARMED";
+export type CreateGroupClusterRequestDiskWarmingMode = "FULLY_WARMED" | "VISIBLE_EARLIER";
 export const CreateGroupClusterRequestDiskWarmingMode = S.String;
 
 /** Cloud service provider that manages your customer keys to provide an additional layer of encryption at rest for the cluster. To enable customer key management for encryption at rest, the cluster `replicationSpecs[n].regionConfigs[m].{type}Specs.instanceSize` setting must be `M10` or higher and `"backupEnabled" : false` or omitted entirely. */
@@ -12825,19 +12807,30 @@ export const DiskGBAutoScaling = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     enabled: S.optional(S.Boolean),
   }),
-).annotate({
-  identifier: "DiskGBAutoScaling",
-}) as any as S.Schema<DiskGBAutoScaling>;
+).annotate({ identifier: "DiskGBAutoScaling" }) as any as S.Schema<DiskGBAutoScaling>;
+
+export interface StorageConfig {
+  /** Available in Public Preview: Maximum data size that MongoDB Cloud allows each shard of this cluster to reach, expressed in gigabytes. MongoDB Cloud rejects writes to a shard that reaches the limit that it enforces. In `replicationSpecs`, this field reports the limit that you configured, and MongoDB Cloud omits it when you never configured one. In `effectiveReplicationSpecs`, this field reports the limit that MongoDB Cloud enforces: usually the limit that you configured, otherwise the default limit that MongoDB Cloud assigns when it creates or updates the cluster. This value may differ from the limit that you configured due to system-managed changes. This limit applies to every shard of the cluster; set the same value on each region configuration's `autoScaling`, as MongoDB Cloud rejects requests that specify differing values. You can set this only on Atlas INFINITE clusters: MongoDB Cloud rejects any request that names this field, including as `null`, for a cluster or node type that doesn't support it. In a request that includes `replicationSpecs`, omitting `shardSizeLimitGB` or sending it as `null` clears the limit. Omitting `replicationSpecs` preserves it. */
+  shardSizeLimitGB?: number | null;
+}
+export const StorageConfig = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    shardSizeLimitGB: S.optional(S.NullOr(S.Number)),
+  }),
+).annotate({ identifier: "StorageConfig" }) as any as S.Schema<StorageConfig>;
 
 /** Options that determine how this cluster handles resource scaling. */
 export interface AdvancedAutoScalingSettingsInput {
   compute?: AdvancedComputeAutoScalingInput;
   diskGB?: DiskGBAutoScaling;
+  /** Available in Public Preview: Settings that determine the per-shard data-size limit for this cluster. Applies only to Atlas INFINITE clusters. MongoDB Cloud accepts these settings only on `autoScaling` and rejects them on `analyticsAutoScaling`, including when you send them as `null`. In a request that includes `replicationSpecs`, omitting `storageConfig` or sending it as `null` or `{}` clears the limit. Omitting `replicationSpecs` preserves it. */
+  storageConfig?: StorageConfig | null;
 }
 export const AdvancedAutoScalingSettingsInput = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     compute: S.optional(AdvancedComputeAutoScalingInput),
     diskGB: S.optional(DiskGBAutoScaling),
+    storageConfig: S.optional(S.NullOr(StorageConfig)),
   }),
 ).annotate({
   identifier: "AdvancedAutoScalingSettingsInput",
@@ -12889,6 +12882,7 @@ export type AWSHardwareSpec20240805InputInstanceSize =
   | "M140_GEN_2"
   | "M200_GEN_2"
   | "M300_GEN_2"
+  | "M700_GEN_2"
   | "R40_GEN_2"
   | "R50_GEN_2"
   | "R60_GEN_2"
@@ -12978,7 +12972,7 @@ export const AzureHardwareSpec20240805 = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<AzureHardwareSpec20240805>;
 
 /** Hardware specification for the instance sizes in this region in this shard. Each instance size has a default storage and memory capacity. Electable nodes and read-only nodes (known as "base nodes") within a single shard must use the same instance size. Analytics nodes can scale independently from base nodes within a shard. Both base nodes and analytics nodes can scale independently from their equivalents in other shards. */
-export type GCPHardwareSpec20240805InstanceSize =
+export type GCPHardwareSpec20240805InputInstanceSize =
   | "M10"
   | "M20"
   | "M30"
@@ -13006,6 +13000,8 @@ export type GCPHardwareSpec20240805InstanceSize =
   | "M80_GEN_2"
   | "M140_GEN_2"
   | "M200_GEN_2"
+  | "M300_GEN_2"
+  | "M700_GEN_2"
   | "R40_GEN_2"
   | "R50_GEN_2"
   | "R60_GEN_2"
@@ -13013,25 +13009,28 @@ export type GCPHardwareSpec20240805InstanceSize =
   | "R200_GEN_2"
   | "R300_GEN_2"
   | "R400_GEN_2";
-export const GCPHardwareSpec20240805InstanceSize = S.String;
+export const GCPHardwareSpec20240805InputInstanceSize = S.String;
 
-export interface GCPHardwareSpec20240805 {
+export interface GCPHardwareSpec20240805Input {
+  /** Target IOPS (Input/Output Operations Per Second) desired for storage attached to this hardware. Only configurable for Gen 2 instance sizes. Change this parameter if you: - set `"replicationSpecs[n].regionConfigs[m].providerName" : "GCP"`. - set `"replicationSpecs[n].regionConfigs[m].electableSpecs.instanceSize"` to a Gen 2 instance size (`"M30_GEN_2"` or greater). The maximum input/output operations per second (IOPS) depend on the selected `.instanceSize` and `.diskSizeGB`. This parameter defaults to the standard IOPS value for the selected `.diskSizeGB`. Changing this value impacts cluster cost. */
+  diskIOPS?: number;
   /** Storage capacity of instance data volumes expressed in gigabytes. Increase this number to add capacity. This value must be equal for all shards and node types. This value is not configurable on M0/M2/M5 clusters. MongoDB Cloud requires this parameter if you set `replicationSpecs`. If you specify a disk size below the minimum (10 GB), this parameter defaults to the minimum disk size value. Storage charge calculations depend on whether you choose the default value or a custom value. The maximum value for disk storage cannot exceed 50 times the maximum RAM for the selected cluster. If you require more storage space, consider upgrading your cluster to a higher tier. */
   diskSizeGB?: number;
   /** Hardware specification for the instance sizes in this region in this shard. Each instance size has a default storage and memory capacity. Electable nodes and read-only nodes (known as "base nodes") within a single shard must use the same instance size. Analytics nodes can scale independently from base nodes within a shard. Both base nodes and analytics nodes can scale independently from their equivalents in other shards. */
-  instanceSize?: GCPHardwareSpec20240805InstanceSize | (string & {});
+  instanceSize?: GCPHardwareSpec20240805InputInstanceSize | (string & {});
   /** Number of nodes of the given type for MongoDB Cloud to deploy to the region. */
   nodeCount?: number;
 }
-export const GCPHardwareSpec20240805 = /*@__PURE__*/ S.suspend(() =>
+export const GCPHardwareSpec20240805Input = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
+    diskIOPS: S.optional(S.Number),
     diskSizeGB: S.optional(S.Number),
-    instanceSize: S.optional(GCPHardwareSpec20240805InstanceSize),
+    instanceSize: S.optional(GCPHardwareSpec20240805InputInstanceSize),
     nodeCount: S.optional(S.Number),
   }),
 ).annotate({
-  identifier: "GCPHardwareSpec20240805",
-}) as any as S.Schema<GCPHardwareSpec20240805>;
+  identifier: "GCPHardwareSpec20240805Input",
+}) as any as S.Schema<GCPHardwareSpec20240805Input>;
 
 /** Hardware specification for the instances in this M0/M2/M5 tier cluster. */
 export type TenantHardwareSpec20240805InputInstanceSize = "M0" | "M2" | "M5";
@@ -13056,7 +13055,7 @@ export const TenantHardwareSpec20240805Input = /*@__PURE__*/ S.suspend(() =>
 export type HardwareSpec20240805Input =
   | AWSHardwareSpec20240805Input
   | AzureHardwareSpec20240805
-  | GCPHardwareSpec20240805
+  | GCPHardwareSpec20240805Input
   | TenantHardwareSpec20240805Input;
 export const HardwareSpec20240805Input = S.Unknown as any as S.Schema<HardwareSpec20240805Input>;
 
@@ -13923,13 +13922,15 @@ export interface CreateGroupClusterRequest {
   /** Governs adaptive capacity behavior of Azure nodes in single-cloud Azure clusters or multi-cloud clusters that include Azure nodes. Adaptive capacity enables fallback hardware selection when the primary instance family is unavailable. ``ENABLED`` means the cluster explicitly opts in to adaptive capacity. ``DISABLED`` means the cluster explicitly opts out; the cluster receives capacity errors instead of being placed on fallback hardware. ``null`` means the field is unset; Azure clusters use adaptive capacity by default when the feature is enabled at the group level. Setting this field for single-cloud AWS or GCP clusters is a no-op. */
   adaptiveCapacity?: CreateGroupClusterRequestAdaptiveCapacity | (string & {}) | null;
   advancedConfiguration?: ApiAtlasClusterAdvancedConfigurationView;
-  /** Flag that indicates whether the cluster can perform backups. If set to `true`, the cluster can perform backups. You must set this value to `true` for NVMe clusters. Backup uses Cloud Backups for dedicated clusters and [Shared Cluster Backups](https://docs.atlas.mongodb.com/backup/shared-tier/overview/) for tenant clusters. If set to `false`, the cluster doesn't use backups. */
+  /** Flag that indicates whether the cluster can perform backups. If set to `true`, the cluster can perform backups. You must set this value to `true` for NVMe clusters. Backup uses Cloud Backups for dedicated clusters and [Shared Cluster Backups](https://docs.atlas.mongodb.com/backup/shared-tier/overview/) for tenant clusters. If set to `false`, the cluster doesn't use backups. For Atlas Infinite clusters (`databaseEdition: INFINITE`), this flag means Additional Backup Retention rather than whether backups run: backups always run and include a 24-hour continuous window. Set this flag to `true` to retain snapshots beyond that window with a policy you control. Set this flag to `false` to keep only the included window under an Atlas-managed retention policy that you can't edit. This flag defaults to `true` for Atlas Infinite clusters when omitted. A cluster covered by a Data Protection policy has this set to `true` regardless of the requested value. */
   backupEnabled?: boolean;
   biConnector?: BiConnector;
   /** Configuration of nodes that comprise the cluster. */
   clusterType?: CreateGroupClusterRequestClusterType | (string & {});
   /** Config Server Management Mode for creating or updating a sharded cluster. When configured as `ATLAS_MANAGED`, Atlas may automatically switch the cluster's config server type for optimal performance and savings. When configured as `FIXED_TO_DEDICATED`, the cluster will always use a dedicated config server. */
   configServerManagementMode?: CreateGroupClusterRequestConfigServerManagementMode | (string & {});
+  /** Available in Public Preview: Optional field that indicates whether your cluster will be Atlas INFINITE or CORE. You can set it only when you create the cluster, or when you upgrade a Free or Flex cluster to a dedicated cluster. This value is immutable once the dedicated cluster exists; attempting to change it on an update request returns an error. */
+  databaseEdition?: CreateGroupClusterRequestDatabaseEdition | (string & {});
   /** Disk warming mode selection. */
   diskWarmingMode?: CreateGroupClusterRequestDiskWarmingMode | (string & {});
   /** Cloud service provider that manages your customer keys to provide an additional layer of encryption at rest for the cluster. To enable customer key management for encryption at rest, the cluster `replicationSpecs[n].regionConfigs[m].{type}Specs.instanceSize` setting must be `M10` or higher and `"backupEnabled" : false` or omitted entirely. */
@@ -13944,7 +13945,7 @@ export interface CreateGroupClusterRequest {
   name?: string;
   /** Flag that indicates whether the cluster is paused. */
   paused?: boolean;
-  /** Flag that indicates whether the cluster uses continuous cloud backups. */
+  /** Flag that indicates whether the cluster uses continuous cloud backups. Atlas Infinite clusters always use continuous cloud backups. Atlas sets this flag to `true` on create and update for Atlas Infinite clusters and ignores a requested value of `false`. */
   pitEnabled?: boolean;
   /** Enable or disable log redaction. This setting configures the ``mongod`` or ``mongos`` to redact any document field contents from a message accompanying a given log event before logging. This prevents the program from writing potentially sensitive data stored on the database to the diagnostic log. Metadata such as error or operation codes, line numbers, and source file names are still visible in the logs. Use ``redactClientLogData`` in conjunction with Encryption at Rest and TLS/SSL (Transport Encryption) to assist compliance with regulatory requirements. *Note*: changing this setting on a cluster will trigger a rolling restart as soon as the cluster is updated. */
   redactClientLogData?: boolean;
@@ -13977,6 +13978,7 @@ export const CreateGroupClusterRequest = /*@__PURE__*/ S.suspend(() =>
     biConnector: S.optional(BiConnector),
     clusterType: S.optional(CreateGroupClusterRequestClusterType),
     configServerManagementMode: S.optional(CreateGroupClusterRequestConfigServerManagementMode),
+    databaseEdition: S.optional(CreateGroupClusterRequestDatabaseEdition),
     diskWarmingMode: S.optional(CreateGroupClusterRequestDiskWarmingMode),
     encryptionAtRestProvider: S.optional(CreateGroupClusterRequestEncryptionAtRestProvider),
     globalClusterSelfManagedSharding: S.optional(S.Boolean),
@@ -14025,18 +14027,14 @@ export type ClusterDescription20240805ConfigServerType = "DEDICATED" | "EMBEDDED
 export const ClusterDescription20240805ConfigServerType = S.String;
 
 /** Private endpoint-aware connection strings that use AWS-hosted clusters with Amazon Web Services (AWS) PrivateLink. Each key identifies an Amazon Web Services (AWS) interface endpoint. Each value identifies the related `mongodb://` connection string that you use to connect to MongoDB Cloud through the interface endpoint that the key names. */
-export type ClusterConnectionStringsAwsPrivateLinkMap = {
-  [key: string]: string | undefined;
-};
+export type ClusterConnectionStringsAwsPrivateLinkMap = { [key: string]: string | undefined };
 export const ClusterConnectionStringsAwsPrivateLinkMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
 ) as any as S.Schema<ClusterConnectionStringsAwsPrivateLinkMap>;
 
 /** Private endpoint-aware connection strings that use AWS-hosted clusters with Amazon Web Services (AWS) PrivateLink. Each key identifies an Amazon Web Services (AWS) interface endpoint. Each value identifies the related `mongodb://` connection string that you use to connect to Atlas through the interface endpoint that the key names. If the cluster uses an optimized connection string, `awsPrivateLinkSrv` contains the optimized connection string. If the cluster has the non-optimized (legacy) connection string, `awsPrivateLinkSrv` contains the non-optimized connection string even if an optimized connection string is also present. */
-export type ClusterConnectionStringsAwsPrivateLinkSrvMap = {
-  [key: string]: string | undefined;
-};
+export type ClusterConnectionStringsAwsPrivateLinkSrvMap = { [key: string]: string | undefined };
 export const ClusterConnectionStringsAwsPrivateLinkSrvMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -14142,16 +14140,19 @@ export const ClusterConnectionStrings = /*@__PURE__*/ S.suspend(() =>
     standard: S.optional(S.String),
     standardSrv: S.optional(S.String),
   }),
-).annotate({
-  identifier: "ClusterConnectionStrings",
-}) as any as S.Schema<ClusterConnectionStrings>;
+).annotate({ identifier: "ClusterConnectionStrings" }) as any as S.Schema<ClusterConnectionStrings>;
+
+/** Available in Public Preview: Optional field that indicates whether your cluster will be Atlas INFINITE or CORE. You can set it only when you create the cluster, or when you upgrade a Free or Flex cluster to a dedicated cluster. This value is immutable once the dedicated cluster exists; attempting to change it on an update request returns an error. */
+export type ClusterDescription20240805DatabaseEdition = "CORE" | "INFINITE";
+export const ClusterDescription20240805DatabaseEdition = S.String;
 
 /** Disk warming mode selection. */
-export type ClusterDescription20240805DiskWarmingMode =
-  | "FULLY_WARMED"
-  | "VISIBLE_EARLIER"
-  | "ENHANCED_FULLY_WARMED";
+export type ClusterDescription20240805DiskWarmingMode = "FULLY_WARMED" | "VISIBLE_EARLIER";
 export const ClusterDescription20240805DiskWarmingMode = S.String;
+
+/** Available in Public Preview: Field that represents whether your cluster is Atlas INFINITE or CORE. This is read-only and always returned in the response. It reflects the actual cluster state. This value matches `databaseEdition` if it was set, otherwise it reflects the default database edition assigned to the cluster. */
+export type ClusterDescription20240805EffectiveDatabaseEdition = "CORE" | "INFINITE";
+export const ClusterDescription20240805EffectiveDatabaseEdition = S.String;
 
 export type BaseCloudProviderInstanceSizeCase0 =
   | "M10"
@@ -14187,6 +14188,7 @@ export type BaseCloudProviderInstanceSizeCase0 =
   | "M140_GEN_2"
   | "M200_GEN_2"
   | "M300_GEN_2"
+  | "M700_GEN_2"
   | "R40_GEN_2"
   | "R50_GEN_2"
   | "R60_GEN_2"
@@ -14256,6 +14258,8 @@ export type BaseCloudProviderInstanceSizeCase2 =
   | "M80_GEN_2"
   | "M140_GEN_2"
   | "M200_GEN_2"
+  | "M300_GEN_2"
+  | "M700_GEN_2"
   | "R40_GEN_2"
   | "R50_GEN_2"
   | "R60_GEN_2"
@@ -14297,11 +14301,14 @@ export const AdvancedComputeAutoScaling = /*@__PURE__*/ S.suspend(() =>
 export interface AdvancedAutoScalingSettings {
   compute?: AdvancedComputeAutoScaling;
   diskGB?: DiskGBAutoScaling;
+  /** Available in Public Preview: Settings that determine the per-shard data-size limit for this cluster. Applies only to Atlas INFINITE clusters. MongoDB Cloud accepts these settings only on `autoScaling` and rejects them on `analyticsAutoScaling`, including when you send them as `null`. In a request that includes `replicationSpecs`, omitting `storageConfig` or sending it as `null` or `{}` clears the limit. Omitting `replicationSpecs` preserves it. */
+  storageConfig?: StorageConfig | null;
 }
 export const AdvancedAutoScalingSettings = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     compute: S.optional(AdvancedComputeAutoScaling),
     diskGB: S.optional(DiskGBAutoScaling),
+    storageConfig: S.optional(S.NullOr(StorageConfig)),
   }),
 ).annotate({
   identifier: "AdvancedAutoScalingSettings",
@@ -14346,6 +14353,7 @@ export type AWSHardwareSpec20240805InstanceSize =
   | "M140_GEN_2"
   | "M200_GEN_2"
   | "M300_GEN_2"
+  | "M700_GEN_2"
   | "R40_GEN_2"
   | "R50_GEN_2"
   | "R60_GEN_2"
@@ -14386,9 +14394,69 @@ export const AWSHardwareSpec20240805 = /*@__PURE__*/ S.suspend(() =>
     instanceSize: S.optional(AWSHardwareSpec20240805InstanceSize),
     nodeCount: S.optional(S.Number),
   }),
-).annotate({
-  identifier: "AWSHardwareSpec20240805",
-}) as any as S.Schema<AWSHardwareSpec20240805>;
+).annotate({ identifier: "AWSHardwareSpec20240805" }) as any as S.Schema<AWSHardwareSpec20240805>;
+
+/** Hardware specification for the instance sizes in this region in this shard. Each instance size has a default storage and memory capacity. Electable nodes and read-only nodes (known as "base nodes") within a single shard must use the same instance size. Analytics nodes can scale independently from base nodes within a shard. Both base nodes and analytics nodes can scale independently from their equivalents in other shards. */
+export type GCPHardwareSpec20240805InstanceSize =
+  | "M10"
+  | "M20"
+  | "M30"
+  | "M40"
+  | "M50"
+  | "M60"
+  | "M80"
+  | "M140"
+  | "M200"
+  | "M250"
+  | "M300"
+  | "M400"
+  | "R40"
+  | "R50"
+  | "R60"
+  | "R80"
+  | "R200"
+  | "R300"
+  | "R400"
+  | "R600"
+  | "M30_GEN_2"
+  | "M40_GEN_2"
+  | "M50_GEN_2"
+  | "M60_GEN_2"
+  | "M80_GEN_2"
+  | "M140_GEN_2"
+  | "M200_GEN_2"
+  | "M300_GEN_2"
+  | "M700_GEN_2"
+  | "R40_GEN_2"
+  | "R50_GEN_2"
+  | "R60_GEN_2"
+  | "R80_GEN_2"
+  | "R200_GEN_2"
+  | "R300_GEN_2"
+  | "R400_GEN_2";
+export const GCPHardwareSpec20240805InstanceSize = S.String;
+
+export interface GCPHardwareSpec20240805 {
+  /** Target IOPS (Input/Output Operations Per Second) desired for storage attached to this hardware. Only configurable for Gen 2 instance sizes. Change this parameter if you: - set `"replicationSpecs[n].regionConfigs[m].providerName" : "GCP"`. - set `"replicationSpecs[n].regionConfigs[m].electableSpecs.instanceSize"` to a Gen 2 instance size (`"M30_GEN_2"` or greater). The maximum input/output operations per second (IOPS) depend on the selected `.instanceSize` and `.diskSizeGB`. This parameter defaults to the standard IOPS value for the selected `.diskSizeGB`. Changing this value impacts cluster cost. */
+  diskIOPS?: number;
+  /** Storage capacity of instance data volumes expressed in gigabytes. Increase this number to add capacity. This value must be equal for all shards and node types. This value is not configurable on M0/M2/M5 clusters. MongoDB Cloud requires this parameter if you set `replicationSpecs`. If you specify a disk size below the minimum (10 GB), this parameter defaults to the minimum disk size value. Storage charge calculations depend on whether you choose the default value or a custom value. The maximum value for disk storage cannot exceed 50 times the maximum RAM for the selected cluster. If you require more storage space, consider upgrading your cluster to a higher tier. */
+  diskSizeGB?: number;
+  /** Throughput (in MiB/s) provisioned for storage attached to this hardware. Only returned for Gen 2 instance sizes. */
+  diskThroughput?: number;
+  /** Hardware specification for the instance sizes in this region in this shard. Each instance size has a default storage and memory capacity. Electable nodes and read-only nodes (known as "base nodes") within a single shard must use the same instance size. Analytics nodes can scale independently from base nodes within a shard. Both base nodes and analytics nodes can scale independently from their equivalents in other shards. */
+  instanceSize?: GCPHardwareSpec20240805InstanceSize;
+  /** Number of nodes of the given type for MongoDB Cloud to deploy to the region. */
+  nodeCount?: number;
+}
+export const GCPHardwareSpec20240805 = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    diskIOPS: S.optional(S.Number),
+    diskSizeGB: S.optional(S.Number),
+    diskThroughput: S.optional(S.Number),
+    instanceSize: S.optional(GCPHardwareSpec20240805InstanceSize),
+    nodeCount: S.optional(S.Number),
+  }),
+).annotate({ identifier: "GCPHardwareSpec20240805" }) as any as S.Schema<GCPHardwareSpec20240805>;
 
 /** The current hardware specifications for read only nodes in the region. */
 export type DedicatedHardwareSpec20240805 =
@@ -14639,9 +14707,7 @@ export const AWSRegionConfig20240805 = /*@__PURE__*/ S.suspend(() =>
     providerName: S.optional(AWSRegionConfig20240805ProviderName),
     regionName: S.optional(AWSRegionConfig20240805RegionName),
   }),
-).annotate({
-  identifier: "AWSRegionConfig20240805",
-}) as any as S.Schema<AWSRegionConfig20240805>;
+).annotate({ identifier: "AWSRegionConfig20240805" }) as any as S.Schema<AWSRegionConfig20240805>;
 
 /** Cloud service provider on which MongoDB Cloud provisioned the multi-tenant cluster. The resource returns this parameter when `providerName` is `TENANT` and `electableSpecs.instanceSize` is `M0`, `M2` or `M5`. Please note that using an `instanceSize` of `M2` or `M5` will create a Flex cluster instead. Support for the `instanceSize` of `M2` or `M5` will be discontinued in January 2026. We recommend using the Create Flex Cluster API for such configurations moving forward. */
 export type AzureRegionConfig20240805BackingProviderName = "AWS" | "GCP" | "AZURE";
@@ -15061,9 +15127,7 @@ export const GCPRegionConfig20240805 = /*@__PURE__*/ S.suspend(() =>
     providerName: S.optional(GCPRegionConfig20240805ProviderName),
     regionName: S.optional(GCPRegionConfig20240805RegionName),
   }),
-).annotate({
-  identifier: "GCPRegionConfig20240805",
-}) as any as S.Schema<GCPRegionConfig20240805>;
+).annotate({ identifier: "GCPRegionConfig20240805" }) as any as S.Schema<GCPRegionConfig20240805>;
 
 /** Cloud service provider on which MongoDB Cloud provisioned the multi-tenant cluster. The resource returns this parameter when `providerName` is `TENANT` and `electableSpecs.instanceSize` is `M0`, `M2` or `M5`. Please note that using an `instanceSize` of `M2` or `M5` will create a Flex cluster instead. Support for the `instanceSize` of `M2` or `M5` will be discontinued in January 2026. We recommend using the Create Flex Cluster API for such configurations moving forward. */
 export type TenantRegionConfig20240805BackingProviderName = "AWS" | "GCP" | "AZURE";
@@ -15308,9 +15372,7 @@ export const ReplicationSpec20240805 = /*@__PURE__*/ S.suspend(() =>
     zoneId: S.optional(S.String),
     zoneName: S.optional(S.String),
   }),
-).annotate({
-  identifier: "ReplicationSpec20240805",
-}) as any as S.Schema<ReplicationSpec20240805>;
+).annotate({ identifier: "ReplicationSpec20240805" }) as any as S.Schema<ReplicationSpec20240805>;
 
 /** List of settings that represent the actual cluster state. This is read-only and always returned in the response. It reflects the current cluster configuration, which may differ from `replicationSpecs` due to system-managed changes. */
 export type ClusterDescription20240805EffectiveReplicationSpecsList =
@@ -15370,9 +15432,7 @@ export const EmployeeAccessGrantView = /*@__PURE__*/ S.suspend(() =>
     grantType: EmployeeAccessGrantViewGrantType,
     links: S.optional(EmployeeAccessGrantViewLinksList),
   }),
-).annotate({
-  identifier: "EmployeeAccessGrantView",
-}) as any as S.Schema<EmployeeAccessGrantView>;
+).annotate({ identifier: "EmployeeAccessGrantView" }) as any as S.Schema<EmployeeAccessGrantView>;
 
 /** Set this field to configure the replica set scaling mode for your cluster. By default, Atlas scales under `WORKLOAD_TYPE`. This mode allows Atlas to scale your analytics nodes in parallel to your operational nodes. When configured as `SEQUENTIAL`, Atlas scales all nodes sequentially. This mode is intended for steady-state workloads and applications performing latency-sensitive secondary reads. When configured as `NODE_TYPE`, Atlas scales your electable nodes in parallel with your read-only and analytics nodes. This mode is intended for large, dynamic workloads requiring frequent and timely cluster tier scaling. This is the fastest scaling strategy, but it might impact latency of workloads when performing extensive secondary reads. */
 export type ClusterDescription20240805ReplicaSetScalingStrategy =
@@ -15417,7 +15477,7 @@ export interface ClusterDescription20240805 {
   /** Governs adaptive capacity behavior of Azure nodes in single-cloud Azure clusters or multi-cloud clusters that include Azure nodes. Adaptive capacity enables fallback hardware selection when the primary instance family is unavailable. ``ENABLED`` means the cluster explicitly opts in to adaptive capacity. ``DISABLED`` means the cluster explicitly opts out; the cluster receives capacity errors instead of being placed on fallback hardware. ``null`` means the field is unset; Azure clusters use adaptive capacity by default when the feature is enabled at the group level. Setting this field for single-cloud AWS or GCP clusters is a no-op. */
   adaptiveCapacity?: ClusterDescription20240805AdaptiveCapacity | null;
   advancedConfiguration?: ApiAtlasClusterAdvancedConfigurationView;
-  /** Flag that indicates whether the cluster can perform backups. If set to `true`, the cluster can perform backups. You must set this value to `true` for NVMe clusters. Backup uses Cloud Backups for dedicated clusters and [Shared Cluster Backups](https://docs.atlas.mongodb.com/backup/shared-tier/overview/) for tenant clusters. If set to `false`, the cluster doesn't use backups. */
+  /** Flag that indicates whether the cluster can perform backups. If set to `true`, the cluster can perform backups. You must set this value to `true` for NVMe clusters. Backup uses Cloud Backups for dedicated clusters and [Shared Cluster Backups](https://docs.atlas.mongodb.com/backup/shared-tier/overview/) for tenant clusters. If set to `false`, the cluster doesn't use backups. For Atlas Infinite clusters (`databaseEdition: INFINITE`), this flag means Additional Backup Retention rather than whether backups run: backups always run and include a 24-hour continuous window. Set this flag to `true` to retain snapshots beyond that window with a policy you control. Set this flag to `false` to keep only the included window under an Atlas-managed retention policy that you can't edit. This flag defaults to `true` for Atlas Infinite clusters when omitted. A cluster covered by a Data Protection policy has this set to `true` regardless of the requested value. */
   backupEnabled?: boolean;
   biConnector?: BiConnector;
   /** Configuration of nodes that comprise the cluster. */
@@ -15429,8 +15489,12 @@ export interface ClusterDescription20240805 {
   connectionStrings?: ClusterConnectionStrings;
   /** Date and time when MongoDB Cloud created this cluster. This parameter expresses its value in ISO 8601 format in UTC. */
   createDate?: string;
+  /** Available in Public Preview: Optional field that indicates whether your cluster will be Atlas INFINITE or CORE. You can set it only when you create the cluster, or when you upgrade a Free or Flex cluster to a dedicated cluster. This value is immutable once the dedicated cluster exists; attempting to change it on an update request returns an error. */
+  databaseEdition?: ClusterDescription20240805DatabaseEdition;
   /** Disk warming mode selection. */
   diskWarmingMode?: ClusterDescription20240805DiskWarmingMode;
+  /** Available in Public Preview: Field that represents whether your cluster is Atlas INFINITE or CORE. This is read-only and always returned in the response. It reflects the actual cluster state. This value matches `databaseEdition` if it was set, otherwise it reflects the default database edition assigned to the cluster. */
+  effectiveDatabaseEdition?: ClusterDescription20240805EffectiveDatabaseEdition;
   /** List of settings that represent the actual cluster state. This is read-only and always returned in the response. It reflects the current cluster configuration, which may differ from `replicationSpecs` due to system-managed changes. */
   effectiveReplicationSpecs?: ClusterDescription20240805EffectiveReplicationSpecsList;
   /** Cloud service provider that manages your customer keys to provide an additional layer of encryption at rest for the cluster. To enable customer key management for encryption at rest, the cluster `replicationSpecs[n].regionConfigs[m].{type}Specs.instanceSize` setting must be `M10` or higher and `"backupEnabled" : false` or omitted entirely. */
@@ -15460,7 +15524,7 @@ export interface ClusterDescription20240805 {
   name?: string;
   /** Flag that indicates whether the cluster is paused. */
   paused?: boolean;
-  /** Flag that indicates whether the cluster uses continuous cloud backups. */
+  /** Flag that indicates whether the cluster uses continuous cloud backups. Atlas Infinite clusters always use continuous cloud backups. Atlas sets this flag to `true` on create and update for Atlas Infinite clusters and ignores a requested value of `false`. */
   pitEnabled?: boolean;
   /** Enable or disable log redaction. This setting configures the ``mongod`` or ``mongos`` to redact any document field contents from a message accompanying a given log event before logging. This prevents the program from writing potentially sensitive data stored on the database to the diagnostic log. Metadata such as error or operation codes, line numbers, and source file names are still visible in the logs. Use ``redactClientLogData`` in conjunction with Encryption at Rest and TLS/SSL (Transport Encryption) to assist compliance with regulatory requirements. *Note*: changing this setting on a cluster will trigger a rolling restart as soon as the cluster is updated. */
   redactClientLogData?: boolean;
@@ -15495,7 +15559,9 @@ export const ClusterDescription20240805 = /*@__PURE__*/ S.suspend(() =>
     configServerType: S.optional(ClusterDescription20240805ConfigServerType),
     connectionStrings: S.optional(ClusterConnectionStrings),
     createDate: S.optional(S.String),
+    databaseEdition: S.optional(ClusterDescription20240805DatabaseEdition),
     diskWarmingMode: S.optional(ClusterDescription20240805DiskWarmingMode),
+    effectiveDatabaseEdition: S.optional(ClusterDescription20240805EffectiveDatabaseEdition),
     effectiveReplicationSpecs: S.optional(ClusterDescription20240805EffectiveReplicationSpecsList),
     encryptionAtRestProvider: S.optional(ClusterDescription20240805EncryptionAtRestProvider),
     featureCompatibilityVersion: S.optional(S.String),
@@ -15592,9 +15658,7 @@ export const DiskBackupExportMember = /*@__PURE__*/ S.suspend(() =>
     exportId: S.optional(S.String),
     replicaSetName: S.optional(S.String),
   }),
-).annotate({
-  identifier: "DiskBackupExportMember",
-}) as any as S.Schema<DiskBackupExportMember>;
+).annotate({ identifier: "DiskBackupExportMember" }) as any as S.Schema<DiskBackupExportMember>;
 
 /** Information on the export job for each replica set in the sharded cluster. */
 export type DiskBackupExportJobComponentsList = Array<DiskBackupExportMember>;
@@ -15690,9 +15754,7 @@ export const DiskBackupExportJob = /*@__PURE__*/ S.suspend(() =>
     state: S.optional(DiskBackupExportJobState),
     stateReason: S.optional(StateReason),
   }),
-).annotate({
-  identifier: "DiskBackupExportJob",
-}) as any as S.Schema<DiskBackupExportJob>;
+).annotate({ identifier: "DiskBackupExportJob" }) as any as S.Schema<DiskBackupExportJob>;
 
 /** Human-readable label that categorizes the restore job to create. */
 export type CreateGroupClusterBackupRestoreJobRequestDeliveryType =
@@ -15787,9 +15849,7 @@ export const DiskBackupRestoreMember = /*@__PURE__*/ S.suspend(() =>
     privateDownloadDeliveryUrls: S.optional(DiskBackupRestoreMemberPrivateDownloadDeliveryUrlsList),
     replicaSetName: S.optional(S.String),
   }),
-).annotate({
-  identifier: "DiskBackupRestoreMember",
-}) as any as S.Schema<DiskBackupRestoreMember>;
+).annotate({ identifier: "DiskBackupRestoreMember" }) as any as S.Schema<DiskBackupRestoreMember>;
 
 /** Information on the restore job for each replica set in the sharded cluster. */
 export type DiskBackupSnapshotRestoreJobComponentsList = Array<DiskBackupRestoreMember>;
@@ -15819,9 +15879,7 @@ export const ApiBSONTimestampView = /*@__PURE__*/ S.suspend(() =>
     date: S.optional(S.String),
     increment: S.optional(S.Number),
   }),
-).annotate({
-  identifier: "ApiBSONTimestampView",
-}) as any as S.Schema<ApiBSONTimestampView>;
+).annotate({ identifier: "ApiBSONTimestampView" }) as any as S.Schema<ApiBSONTimestampView>;
 
 /** List of one or more Uniform Resource Locators (URLs) that point to API sub-resources, related API resources, or both. RFC 5988 outlines these relationships. */
 export type DiskBackupSnapshotRestoreJobLinksList = Array<Link>;
@@ -15903,34 +15961,50 @@ export const DiskBackupSnapshotRestoreJob = /*@__PURE__*/ S.suspend(() =>
   identifier: "DiskBackupSnapshotRestoreJob",
 }) as any as S.Schema<DiskBackupSnapshotRestoreJob>;
 
-/** Source and optional target namespace for a restore. */
-export interface ApiAtlasRestoreNamespaceView {
-  /** Namespace requested to restore (e.g. database name or `database.collection`). */
+/** Source and optional target collection for a restore. */
+export interface ApiAtlasRestoreCollectionNamespaceView {
+  /** Collection requested to restore, as `database.collection`. */
   sourceNamespace: string;
-  /** Requested target namespace for the restored data; if empty, source namespace is used. */
+  /** Requested target collection as `database.collection`; if empty, source namespace is used. */
   targetNamespace?: string;
 }
-export const ApiAtlasRestoreNamespaceView = /*@__PURE__*/ S.suspend(() =>
+export const ApiAtlasRestoreCollectionNamespaceView = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     sourceNamespace: S.String,
     targetNamespace: S.optional(S.String),
   }),
 ).annotate({
-  identifier: "ApiAtlasRestoreNamespaceView",
-}) as any as S.Schema<ApiAtlasRestoreNamespaceView>;
+  identifier: "ApiAtlasRestoreCollectionNamespaceView",
+}) as any as S.Schema<ApiAtlasRestoreCollectionNamespaceView>;
 
 /** List of collections to restore (up to 100 items). */
 export type CreateGroupClusterCollectionRestoreJobRequestCollectionsList =
-  Array<ApiAtlasRestoreNamespaceView>;
+  Array<ApiAtlasRestoreCollectionNamespaceView>;
 export const CreateGroupClusterCollectionRestoreJobRequestCollectionsList = /*@__PURE__*/ S.Array(
-  ApiAtlasRestoreNamespaceView,
+  ApiAtlasRestoreCollectionNamespaceView,
 ) as any as S.Schema<CreateGroupClusterCollectionRestoreJobRequestCollectionsList>;
+
+/** Source and optional target database for a restore. */
+export interface ApiAtlasRestoreDatabaseNamespaceView {
+  /** Database name requested to restore. */
+  sourceNamespace: string;
+  /** Requested target database name; if empty, source database name is used. */
+  targetNamespace?: string;
+}
+export const ApiAtlasRestoreDatabaseNamespaceView = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    sourceNamespace: S.String,
+    targetNamespace: S.optional(S.String),
+  }),
+).annotate({
+  identifier: "ApiAtlasRestoreDatabaseNamespaceView",
+}) as any as S.Schema<ApiAtlasRestoreDatabaseNamespaceView>;
 
 /** List of databases to restore (up to 100 items). */
 export type CreateGroupClusterCollectionRestoreJobRequestDatabasesList =
-  Array<ApiAtlasRestoreNamespaceView>;
+  Array<ApiAtlasRestoreDatabaseNamespaceView>;
 export const CreateGroupClusterCollectionRestoreJobRequestDatabasesList = /*@__PURE__*/ S.Array(
-  ApiAtlasRestoreNamespaceView,
+  ApiAtlasRestoreDatabaseNamespaceView,
 ) as any as S.Schema<CreateGroupClusterCollectionRestoreJobRequestDatabasesList>;
 
 /** Strategy for restoring indexes (all, none, or all except TTL). */
@@ -16012,15 +16086,16 @@ export const CreateGroupClusterCollectionRestoreJobRequest = /*@__PURE__*/ S.sus
 
 /** List of collections in the restore scope (up to 100 items). */
 export type ApiAtlasCollectionRestoreJobResponseCollectionsList =
-  Array<ApiAtlasRestoreNamespaceView>;
+  Array<ApiAtlasRestoreCollectionNamespaceView>;
 export const ApiAtlasCollectionRestoreJobResponseCollectionsList = /*@__PURE__*/ S.Array(
-  ApiAtlasRestoreNamespaceView,
+  ApiAtlasRestoreCollectionNamespaceView,
 ) as any as S.Schema<ApiAtlasCollectionRestoreJobResponseCollectionsList>;
 
 /** List of databases in the restore scope (up to 100 items). */
-export type ApiAtlasCollectionRestoreJobResponseDatabasesList = Array<ApiAtlasRestoreNamespaceView>;
+export type ApiAtlasCollectionRestoreJobResponseDatabasesList =
+  Array<ApiAtlasRestoreDatabaseNamespaceView>;
 export const ApiAtlasCollectionRestoreJobResponseDatabasesList = /*@__PURE__*/ S.Array(
-  ApiAtlasRestoreNamespaceView,
+  ApiAtlasRestoreDatabaseNamespaceView,
 ) as any as S.Schema<ApiAtlasCollectionRestoreJobResponseDatabasesList>;
 
 /** Index build state indicating the status of index creation during or after a restore operation. */
@@ -16052,7 +16127,7 @@ export const ApiAtlasCollectionRestoreJobIndexStatus = /*@__PURE__*/ S.suspend((
 export type ApiAtlasCollectionRestoreJobResponseIndexStrategy = "ALL" | "NONE" | "ALL_EXCEPT_TTL";
 export const ApiAtlasCollectionRestoreJobResponseIndexStrategy = S.String;
 
-/** Current state of the collection restore job. */
+/** Current state of the collection restore job. A `SUCCESSFUL` job can include individual `UNSUPPORTED` collection restores. Use the restore job collections endpoint to get per-collection detailed states. */
 export type ApiAtlasCollectionRestoreJobResponseState =
   | "INITIALIZING"
   | "IN_PROGRESS"
@@ -16097,7 +16172,7 @@ export interface ApiAtlasCollectionRestoreJobResponse {
   restoredDocuments?: number;
   /** Unique 24-hexadecimal digit string that identifies the snapshot being restored. */
   snapshotId?: string;
-  /** Current state of the collection restore job. */
+  /** Current state of the collection restore job. A `SUCCESSFUL` job can include individual `UNSUPPORTED` collection restores. Use the restore job collections endpoint to get per-collection detailed states. */
   state?: ApiAtlasCollectionRestoreJobResponseState;
   /** Human-readable label that identifies the target cluster. */
   targetClusterName?: string;
@@ -16189,9 +16264,7 @@ export const CreateGroupClusterGlobalWriteCustomZoneMappingRequest = /*@__PURE__
 }) as any as S.Schema<CreateGroupClusterGlobalWriteCustomZoneMappingRequest>;
 
 /** List that contains comma-separated key value pairs to map zones to geographic regions. These pairs map an ISO 3166-1a2 location code, with an ISO 3166-2 subdivision code when possible, to a unique 24-hexadecimal string that identifies the custom zone. The 24-hexadecimal string corresponds to a `Replication Specifications` `zoneId` property. This parameter returns an empty object if no custom zones exist. Example: `{"US-VA": "6716c5a804f4ce77e899bf99", "DE": "6716c5a804f4ce77e899bf9a"}`. */
-export type GeoSharding20240805CustomZoneMappingMap = {
-  [key: string]: string | undefined;
-};
+export type GeoSharding20240805CustomZoneMappingMap = { [key: string]: string | undefined };
 export const GeoSharding20240805CustomZoneMappingMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -16223,9 +16296,7 @@ export const ManagedNamespaces = /*@__PURE__*/ S.suspend(() =>
     numInitialChunks: S.optional(S.Number),
     presplitHashedZones: S.optional(S.Boolean),
   }),
-).annotate({
-  identifier: "ManagedNamespaces",
-}) as any as S.Schema<ManagedNamespaces>;
+).annotate({ identifier: "ManagedNamespaces" }) as any as S.Schema<ManagedNamespaces>;
 
 /** List that contains a namespace for a Global Cluster. MongoDB Cloud manages this cluster. */
 export type GeoSharding20240805ManagedNamespacesList = Array<ManagedNamespaces>;
@@ -16247,9 +16318,7 @@ export const GeoSharding20240805 = /*@__PURE__*/ S.suspend(() =>
     managedNamespaces: S.optional(GeoSharding20240805ManagedNamespacesList),
     selfManagedSharding: S.optional(S.Boolean),
   }),
-).annotate({
-  identifier: "GeoSharding20240805",
-}) as any as S.Schema<GeoSharding20240805>;
+).annotate({ identifier: "GeoSharding20240805" }) as any as S.Schema<GeoSharding20240805>;
 
 export interface CreateGroupClusterGlobalWriteManagedNamespaceRequest {
   /** Unique 24-hexadecimal digit string that identifies your project. Use the [/groups](#tag/Projects/operation/listProjects) endpoint to retrieve all projects to which the authenticated user has access. **NOTE**: Groups and projects are synonymous terms. Your group id is the same as your project id. For existing groups, your group/project id remains the same. The resource and corresponding endpoints use the term groups. */
@@ -16478,27 +16547,21 @@ export const CreateGroupClusterIndexRollingIndexRequestKeysList = /*@__PURE__*/ 
 ) as any as S.Schema<CreateGroupClusterIndexRollingIndexRequestKeysList>;
 
 /** The `columnstoreProjection` document allows to include or exclude sub-schemas schema. One cannot combine inclusion and exclusion statements. Accordingly, the <value> can be either of the following: 1 or true to include the field and recursively all fields it is a prefix of in the index 0 or false to exclude the field and recursively all fields it is a prefix of from the index. */
-export type IndexOptionsColumnstoreProjectionMap = {
-  [key: string]: number | undefined;
-};
+export type IndexOptionsColumnstoreProjectionMap = { [key: string]: number | undefined };
 export const IndexOptionsColumnstoreProjectionMap = /*@__PURE__*/ S.Record(
   S.String,
   S.Number,
 ) as any as S.Schema<IndexOptionsColumnstoreProjectionMap>;
 
 /** Rules that limit the documents that the index references to a filter expression. All MongoDB index types accept a `partialFilterExpression` option. `partialFilterExpression` can include following expressions: - equality (`"parameter" : "value"` or using the `$eq` operator) - `"$exists": true` , maximum: `$gt`, `$gte`, `$lt`, `$lte` comparisons - `$type` - `$and` (top-level only) This option applies to all index types. */
-export type IndexOptionsPartialFilterExpressionMap = {
-  [key: string]: unknown | undefined;
-};
+export type IndexOptionsPartialFilterExpressionMap = { [key: string]: unknown | undefined };
 export const IndexOptionsPartialFilterExpressionMap = /*@__PURE__*/ S.Record(
   S.String,
   S.Unknown,
 ) as any as S.Schema<IndexOptionsPartialFilterExpressionMap>;
 
 /** Storage engine set for the specific index. This value can be set only at creation. This option uses the following format: `"storageEngine" : { "<storage-engine-name>" : "<options>" }` MongoDB validates storage engine configuration options when creating indexes. To support replica sets with members with different storage engines, MongoDB logs these options to the oplog during replication. This option applies to all index types. */
-export type IndexOptionsStorageEngineMap = {
-  [key: string]: unknown | undefined;
-};
+export type IndexOptionsStorageEngineMap = { [key: string]: unknown | undefined };
 export const IndexOptionsStorageEngineMap = /*@__PURE__*/ S.Record(
   S.String,
   S.Unknown,
@@ -16646,9 +16709,7 @@ export const DataExpirationRuleView = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     expireAfterDays: S.optional(S.Number),
   }),
-).annotate({
-  identifier: "DataExpirationRuleView",
-}) as any as S.Schema<DataExpirationRuleView>;
+).annotate({ identifier: "DataExpirationRuleView" }) as any as S.Schema<DataExpirationRuleView>;
 
 /** Human-readable label that identifies the Cloud service provider where you wish to store your archived data. `AZURE` or `GCP` may be selected only if it is the Cloud service provider for the cluster and no archives for any other cloud provider have been created for the cluster. */
 export type CreateDataProcessRegionViewCloudProvider = "AWS" | "AZURE" | "GCP";
@@ -16679,9 +16740,7 @@ export const PartitionFieldViewInput = /*@__PURE__*/ S.suspend(() =>
     fieldName: S.String,
     order: S.Number,
   }),
-).annotate({
-  identifier: "PartitionFieldViewInput",
-}) as any as S.Schema<PartitionFieldViewInput>;
+).annotate({ identifier: "PartitionFieldViewInput" }) as any as S.Schema<PartitionFieldViewInput>;
 
 /** List that contains document parameters to use to logically divide data within a collection. Partitions provide a coarse level of filtering of the underlying collection data. To divide your data, specify parameters that you frequently query. If you specified `criteria.type`: `DATE` in the Create One Online Archive endpoint, then you can specify up to three parameters by which to query. One of these parameters must be the `DATE` value, which is required in this case. If you specified `criteria.type`: `CUSTOM` in the Create One Online Archive endpoint, then you can specify up to two parameters by which to query. Queries that don't use `criteria.type`: `DATE` or `criteria.type`: `CUSTOM` parameters cause MongoDB to scan a full collection of all archived documents. This takes more time and increases your costs. */
 export type CreateGroupClusterOnlineArchiveRequestPartitionFieldsList =
@@ -16720,9 +16779,7 @@ export const DailyScheduleView = /*@__PURE__*/ S.suspend(() =>
     dayOfMonth: S.optional(S.Number),
     type: DailyScheduleViewType,
   }),
-).annotate({
-  identifier: "DailyScheduleView",
-}) as any as S.Schema<DailyScheduleView>;
+).annotate({ identifier: "DailyScheduleView" }) as any as S.Schema<DailyScheduleView>;
 
 /** Type of schedule. */
 export type WeeklyScheduleViewType = "DEFAULT" | "DAILY" | "WEEKLY" | "MONTHLY";
@@ -16754,9 +16811,7 @@ export const WeeklyScheduleView = /*@__PURE__*/ S.suspend(() =>
     dayOfMonth: S.optional(S.Number),
     type: WeeklyScheduleViewType,
   }),
-).annotate({
-  identifier: "WeeklyScheduleView",
-}) as any as S.Schema<WeeklyScheduleView>;
+).annotate({ identifier: "WeeklyScheduleView" }) as any as S.Schema<WeeklyScheduleView>;
 
 /** Type of schedule. */
 export type MonthlyScheduleViewType = "DEFAULT" | "DAILY" | "WEEKLY" | "MONTHLY";
@@ -16788,9 +16843,7 @@ export const MonthlyScheduleView = /*@__PURE__*/ S.suspend(() =>
     dayOfMonth: S.optional(S.Number),
     type: MonthlyScheduleViewType,
   }),
-).annotate({
-  identifier: "MonthlyScheduleView",
-}) as any as S.Schema<MonthlyScheduleView>;
+).annotate({ identifier: "MonthlyScheduleView" }) as any as S.Schema<MonthlyScheduleView>;
 
 /** Regular frequency and duration when archiving process occurs. */
 export type OnlineArchiveSchedule = DailyScheduleView | WeeklyScheduleView | MonthlyScheduleView;
@@ -16864,9 +16917,7 @@ export const DataProcessRegionView = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     cloudProvider: S.optional(DataProcessRegionViewCloudProvider),
   }),
-).annotate({
-  identifier: "DataProcessRegionView",
-}) as any as S.Schema<DataProcessRegionView>;
+).annotate({ identifier: "DataProcessRegionView" }) as any as S.Schema<DataProcessRegionView>;
 
 /** Data type of the parameter that that MongoDB Cloud uses to partition data. Partition parameters of type UUID must be of binary subtype 4. MongoDB Cloud skips partition parameters of type UUID with subtype 3. */
 export type PartitionFieldViewFieldType = "date" | "int" | "long" | "objectId" | "string" | "uuid";
@@ -16887,9 +16938,7 @@ export const PartitionFieldView = /*@__PURE__*/ S.suspend(() =>
     fieldType: S.optional(PartitionFieldViewFieldType),
     order: S.Number,
   }),
-).annotate({
-  identifier: "PartitionFieldView",
-}) as any as S.Schema<PartitionFieldView>;
+).annotate({ identifier: "PartitionFieldView" }) as any as S.Schema<PartitionFieldView>;
 
 /** List that contains document parameters to use to logically divide data within a collection. Partitions provide a coarse level of filtering of the underlying collection data. To divide your data, specify parameters that you frequently query. If you specified `criteria.type`: `DATE` in the Create One Online Archive endpoint, then you can specify up to three parameters by which to query. One of these parameters must be the `DATE` value, which is required in this case. If you specified `criteria.type`: `CUSTOM` in the Create One Online Archive endpoint, then you can specify up to two parameters by which to query. Queries that don't use `criteria.type`: `DATE` or `criteria.type`: `CUSTOM` parameters cause MongoDB to scan a full collection of all archived documents. This takes more time and increases your costs. */
 export type BackupOnlineArchivePartitionFieldsList = Array<PartitionFieldView>;
@@ -16950,9 +16999,7 @@ export const BackupOnlineArchive = /*@__PURE__*/ S.suspend(() =>
     schedule: S.optional(OnlineArchiveSchedule),
     state: S.optional(BackupOnlineArchiveState),
   }),
-).annotate({
-  identifier: "BackupOnlineArchive",
-}) as any as S.Schema<BackupOnlineArchive>;
+).annotate({ identifier: "BackupOnlineArchive" }) as any as S.Schema<BackupOnlineArchive>;
 
 export interface CreateGroupClusterOverloadSimulationRequest {
   /** Unique 24-hexadecimal digit string that identifies your project. Use the [/groups](#tag/Projects/operation/listProjects) endpoint to retrieve all projects to which the authenticated user has access. **NOTE**: Groups and projects are synonymous terms. Your group id is the same as your project id. For existing groups, your group/project id remains the same. The resource and corresponding endpoints use the term groups. */
@@ -17018,6 +17065,76 @@ export const OverloadProtectionSimulationResponse = /*@__PURE__*/ S.suspend(() =
 ).annotate({
   identifier: "OverloadProtectionSimulationResponse",
 }) as any as S.Schema<OverloadProtectionSimulationResponse>;
+
+/** Highest Search Node tier that Atlas can scale up to. Required when `enabled` is `true`. */
+export type ApiSearchComputeAutoScalingViewMaxInstanceTier =
+  | "S10"
+  | "S20"
+  | "S30"
+  | "S40"
+  | "S50"
+  | "S60"
+  | "S70"
+  | "S80"
+  | "S90"
+  | "S100"
+  | "S110"
+  | "S120"
+  | "S130"
+  | "S135"
+  | "S140";
+export const ApiSearchComputeAutoScalingViewMaxInstanceTier = S.String;
+
+/** Lowest Search Node tier that Atlas can scale down to. Required when `scaleDownEnabled` is `true`. Scaling down is not supported yet, so setting this returns an error. */
+export type ApiSearchComputeAutoScalingViewMinInstanceTier =
+  | "S10"
+  | "S20"
+  | "S30"
+  | "S40"
+  | "S50"
+  | "S60"
+  | "S70"
+  | "S80"
+  | "S90"
+  | "S100"
+  | "S110"
+  | "S120"
+  | "S130"
+  | "S135"
+  | "S140";
+export const ApiSearchComputeAutoScalingViewMinInstanceTier = S.String;
+
+/** Settings that control Search Node tier scaling based on load. */
+export interface ApiSearchComputeAutoScalingView {
+  /** Flag that indicates whether Atlas raises the Search Node tier when the nodes are under sustained load. If set to `true`, you must also set `maxInstanceTier`. */
+  enabled?: boolean;
+  /** Highest Search Node tier that Atlas can scale up to. Required when `enabled` is `true`. */
+  maxInstanceTier?: ApiSearchComputeAutoScalingViewMaxInstanceTier | (string & {});
+  /** Lowest Search Node tier that Atlas can scale down to. Required when `scaleDownEnabled` is `true`. Scaling down is not supported yet, so setting this returns an error. */
+  minInstanceTier?: ApiSearchComputeAutoScalingViewMinInstanceTier | (string & {});
+  /** Flag that indicates whether Atlas lowers the Search Node tier when load drops. Takes effect only when `enabled` is `true`. If set to `true`, you must also set `minInstanceTier`. Scaling down is not supported yet, so setting this to `true` returns an error. */
+  scaleDownEnabled?: boolean;
+}
+export const ApiSearchComputeAutoScalingView = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    enabled: S.optional(S.Boolean),
+    maxInstanceTier: S.optional(ApiSearchComputeAutoScalingViewMaxInstanceTier),
+    minInstanceTier: S.optional(ApiSearchComputeAutoScalingViewMinInstanceTier),
+    scaleDownEnabled: S.optional(S.Boolean),
+  }),
+).annotate({
+  identifier: "ApiSearchComputeAutoScalingView",
+}) as any as S.Schema<ApiSearchComputeAutoScalingView>;
+
+/** Settings that let Atlas change the Search Node tier on its own. Bounds apply to the whole deployment, and Atlas scales each region and shard independently within them. Omit to keep autoscaling off. */
+export interface ApiSearchAutoScalingView {
+  compute?: ApiSearchComputeAutoScalingView;
+}
+export const ApiSearchAutoScalingView = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    compute: S.optional(ApiSearchComputeAutoScalingView),
+  }),
+).annotate({ identifier: "ApiSearchAutoScalingView" }) as any as S.Schema<ApiSearchAutoScalingView>;
 
 /** Cloud service provider that hosts the Search Nodes in this region. Required when a region is specified. */
 export type ApiSearchDeploymentRequestSpecViewCloudProvider = "AWS" | "AZURE" | "GCP";
@@ -17090,6 +17207,8 @@ export interface CreateGroupClusterSearchDeploymentRequest {
   envelope?: boolean;
   /** Flag that indicates whether the response body should be in the prettyprint format. */
   pretty?: boolean;
+  /** Settings that let Atlas change the Search Node tier on its own. Bounds apply to the whole deployment, and Atlas scales each region and shard independently within them. Omit to keep autoscaling off. */
+  autoScaling?: ApiSearchAutoScalingView;
   /** Default number of Search Nodes per region. Applied to a region without an explicit override. */
   defaultNodeCount?: number | null;
   /** List of settings that configure the Search Nodes for your cluster. Provide one element per region when configuring asymmetric deployments; a single element applies to all regions. */
@@ -17101,6 +17220,7 @@ export const CreateGroupClusterSearchDeploymentRequest = /*@__PURE__*/ S.suspend
     clusterName: S.String.pipe(T.Label()),
     envelope: S.optional(S.Boolean.pipe(T.Query())),
     pretty: S.optional(S.Boolean.pipe(T.Query())),
+    autoScaling: S.optional(ApiSearchAutoScalingView),
     defaultNodeCount: S.optional(S.NullOr(S.Number)),
     specs: CreateGroupClusterSearchDeploymentRequestSpecsList,
   }).pipe(
@@ -17154,10 +17274,12 @@ export interface ApiSearchDeploymentEffectiveSpecView {
   cloudProvider?: ApiSearchDeploymentEffectiveSpecViewCloudProvider;
   /** Hardware specification for the Search Node instance sizes. */
   instanceSize?: ApiSearchDeploymentEffectiveSpecViewInstanceSize;
-  /** Number of Search Nodes in this region. */
+  /** Number of Search Nodes for this configuration. */
   nodeCount?: number;
   /** Cloud provider region where Search Nodes are provisioned. */
   regionName?: string;
+  /** Shard that owns this Search Node configuration. */
+  shardId?: string;
 }
 export const ApiSearchDeploymentEffectiveSpecView = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -17165,12 +17287,20 @@ export const ApiSearchDeploymentEffectiveSpecView = /*@__PURE__*/ S.suspend(() =
     instanceSize: S.optional(ApiSearchDeploymentEffectiveSpecViewInstanceSize),
     nodeCount: S.optional(S.Number),
     regionName: S.optional(S.String),
+    shardId: S.optional(S.String),
   }),
 ).annotate({
   identifier: "ApiSearchDeploymentEffectiveSpecView",
 }) as any as S.Schema<ApiSearchDeploymentEffectiveSpecView>;
 
-/** List of settings that configure the Search Nodes for your cluster, with per-region detail including the region name and cloud provider. */
+/** List of starting settings for the Search Nodes in each cluster region. */
+export type ApiSearchDeploymentResponseViewBaselineSpecsList =
+  Array<ApiSearchDeploymentEffectiveSpecView>;
+export const ApiSearchDeploymentResponseViewBaselineSpecsList = /*@__PURE__*/ S.Array(
+  ApiSearchDeploymentEffectiveSpecView,
+) as any as S.Schema<ApiSearchDeploymentResponseViewBaselineSpecsList>;
+
+/** List of settings that configure the Search Nodes for your cluster. Each entry describes one region or, when `shardId` is present, one shard in one region. */
 export type ApiSearchDeploymentResponseViewEffectiveSpecsList =
   Array<ApiSearchDeploymentEffectiveSpecView>;
 export const ApiSearchDeploymentResponseViewEffectiveSpecsList = /*@__PURE__*/ S.Array(
@@ -17242,7 +17372,11 @@ export type ApiSearchDeploymentResponseViewStateName = "IDLE" | "PAUSED" | "UPDA
 export const ApiSearchDeploymentResponseViewStateName = S.String;
 
 export interface ApiSearchDeploymentResponseView {
-  /** List of settings that configure the Search Nodes for your cluster, with per-region detail including the region name and cloud provider. */
+  /** Autoscaling settings configured for this Search deployment. */
+  autoScaling?: ApiSearchAutoScalingView;
+  /** List of starting settings for the Search Nodes in each cluster region. */
+  baselineSpecs?: ApiSearchDeploymentResponseViewBaselineSpecsList;
+  /** List of settings that configure the Search Nodes for your cluster. Each entry describes one region or, when `shardId` is present, one shard in one region. */
   effectiveSpecs?: ApiSearchDeploymentResponseViewEffectiveSpecsList;
   /** Cloud service provider that manages your customer keys to provide an additional layer of Encryption At Rest for the cluster. */
   encryptionAtRestProvider?: ApiSearchDeploymentResponseViewEncryptionAtRestProvider | null;
@@ -17257,6 +17391,8 @@ export interface ApiSearchDeploymentResponseView {
 }
 export const ApiSearchDeploymentResponseView = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
+    autoScaling: S.optional(ApiSearchAutoScalingView),
+    baselineSpecs: S.optional(ApiSearchDeploymentResponseViewBaselineSpecsList),
     effectiveSpecs: S.optional(ApiSearchDeploymentResponseViewEffectiveSpecsList),
     encryptionAtRestProvider: S.optional(
       S.NullOr(ApiSearchDeploymentResponseViewEncryptionAtRestProvider),
@@ -17326,9 +17462,7 @@ export const SearchIndexDefinition = /*@__PURE__*/ S.suspend(() =>
     numPartitions: S.optional(S.Number),
     storedSource: S.optional(S.Unknown),
   }),
-).annotate({
-  identifier: "SearchIndexDefinition",
-}) as any as S.Schema<SearchIndexDefinition>;
+).annotate({ identifier: "SearchIndexDefinition" }) as any as S.Schema<SearchIndexDefinition>;
 
 /** Object which includes the version number of the index definition and the time that the index definition was created. */
 export interface SearchIndexDefinitionVersion {
@@ -17454,9 +17588,7 @@ export const SearchHostStatusDetail = /*@__PURE__*/ S.suspend(() =>
     stagedIndex: S.optional(SearchStagedIndexStatusDetail),
     status: S.optional(SearchHostStatusDetailStatus),
   }),
-).annotate({
-  identifier: "SearchHostStatusDetail",
-}) as any as S.Schema<SearchHostStatusDetail>;
+).annotate({ identifier: "SearchHostStatusDetail" }) as any as S.Schema<SearchHostStatusDetail>;
 
 /** List of documents detailing index status on each host. */
 export type SearchIndexResponseStatusDetailList = Array<SearchHostStatusDetail>;
@@ -17501,9 +17633,7 @@ export const SearchIndexResponse = /*@__PURE__*/ S.suspend(() =>
     statusDetail: S.optional(SearchIndexResponseStatusDetailList),
     type: S.optional(SearchIndexResponseType),
   }),
-).annotate({
-  identifier: "SearchIndexResponse",
-}) as any as S.Schema<SearchIndexResponse>;
+).annotate({ identifier: "SearchIndexResponse" }) as any as S.Schema<SearchIndexResponse>;
 
 /** Cloud service provider that serves the requested network peering containers. */
 export type CreateGroupContainerRequestProviderName =
@@ -18300,9 +18430,7 @@ export const DatabasePrivilegeAction = /*@__PURE__*/ S.suspend(() =>
     action: DatabasePrivilegeActionAction,
     resources: DatabasePrivilegeActionResourcesList,
   }),
-).annotate({
-  identifier: "DatabasePrivilegeAction",
-}) as any as S.Schema<DatabasePrivilegeAction>;
+).annotate({ identifier: "DatabasePrivilegeAction" }) as any as S.Schema<DatabasePrivilegeAction>;
 
 /** List of the individual privilege actions that the role grants. */
 export type CreateGroupCustomDbRoleRoleRequestActionsList = Array<DatabasePrivilegeAction>;
@@ -18322,9 +18450,7 @@ export const DatabaseInheritedRole = /*@__PURE__*/ S.suspend(() =>
     db: S.String,
     role: S.String,
   }),
-).annotate({
-  identifier: "DatabaseInheritedRole",
-}) as any as S.Schema<DatabaseInheritedRole>;
+).annotate({ identifier: "DatabaseInheritedRole" }) as any as S.Schema<DatabaseInheritedRole>;
 
 /** List of the built-in roles that this custom role inherits. */
 export type CreateGroupCustomDbRoleRoleRequestInheritedRolesList = Array<DatabaseInheritedRole>;
@@ -18425,9 +18551,7 @@ export const DatabaseUserRole = /*@__PURE__*/ S.suspend(() =>
     databaseName: S.String,
     roleName: DatabaseUserRoleRoleName,
   }),
-).annotate({
-  identifier: "DatabaseUserRole",
-}) as any as S.Schema<DatabaseUserRole>;
+).annotate({ identifier: "DatabaseUserRole" }) as any as S.Schema<DatabaseUserRole>;
 
 /** List that provides the pairings of one role with one applicable database. */
 export type CreateGroupDatabaseUserRequestRolesList = Array<DatabaseUserRole>;
@@ -18609,9 +18733,7 @@ export const CloudDatabaseUserOutput = /*@__PURE__*/ S.suspend(() =>
     username: S.String,
     x509Type: S.optional(CloudDatabaseUserOutputX509Type),
   }),
-).annotate({
-  identifier: "CloudDatabaseUserOutput",
-}) as any as S.Schema<CloudDatabaseUserOutput>;
+).annotate({ identifier: "CloudDatabaseUserOutput" }) as any as S.Schema<CloudDatabaseUserOutput>;
 
 export interface CreateGroupDatabaseUserCertRequest {
   /** Unique 24-hexadecimal digit string that identifies your project. Use the [/groups](#tag/Projects/operation/listProjects) endpoint to retrieve all projects to which the authenticated user has access. **NOTE**: Groups and projects are synonymous terms. Your group id is the same as your project id. For existing groups, your group/project id remains the same. The resource and corresponding endpoints use the term groups. */
@@ -18871,9 +18993,7 @@ export const DataLakeApiBase = /*@__PURE__*/ S.suspend(() =>
     pipeline: S.optional(S.String),
     source: S.optional(S.String),
   }),
-).annotate({
-  identifier: "DataLakeApiBase",
-}) as any as S.Schema<DataLakeApiBase>;
+).annotate({ identifier: "DataLakeApiBase" }) as any as S.Schema<DataLakeApiBase>;
 
 /** Array of aggregation pipelines that apply to the collection. This only applies to S3 data sources. */
 export type DataLakeDatabaseInstanceViewsList = Array<DataLakeApiBase>;
@@ -18899,9 +19019,7 @@ export const DataLakeDatabaseInstance = /*@__PURE__*/ S.suspend(() =>
     name: S.optional(S.String),
     views: S.optional(DataLakeDatabaseInstanceViewsList),
   }),
-).annotate({
-  identifier: "DataLakeDatabaseInstance",
-}) as any as S.Schema<DataLakeDatabaseInstance>;
+).annotate({ identifier: "DataLakeDatabaseInstance" }) as any as S.Schema<DataLakeDatabaseInstance>;
 
 /** Array that contains the queryable databases and collections for this data lake. */
 export type DataLakeStorageInputDatabasesList = Array<DataLakeDatabaseInstance>;
@@ -19221,9 +19339,7 @@ export const DataLakeDLSAWSStoreInput = /*@__PURE__*/ S.suspend(() =>
     additionalStorageClasses: S.optional(DataLakeDLSAWSStoreInputAdditionalStorageClassesList),
     includeTags: S.optional(S.Boolean),
   }),
-).annotate({
-  identifier: "DataLakeDLSAWSStoreInput",
-}) as any as S.Schema<DataLakeDLSAWSStoreInput>;
+).annotate({ identifier: "DataLakeDLSAWSStoreInput" }) as any as S.Schema<DataLakeDLSAWSStoreInput>;
 
 /** Physical location where MongoDB Cloud deploys your AWS-hosted MongoDB cluster nodes. The region you choose can affect network latency for clients accessing your databases. When MongoDB Cloud deploys a dedicated cluster, it checks if a VPC or VPC connection exists for that provider and region. If not, MongoDB Cloud creates them as part of the deployment. MongoDB Cloud assigns the VPC a CIDR block. To limit a new VPC peering connection to one CIDR block and region, create the connection first. Deploy the cluster after the connection starts. */
 export type DataLakeDLSAzureStoreInputRegion =
@@ -19459,9 +19575,7 @@ export const DataLakeDLSGCPStoreInput = /*@__PURE__*/ S.suspend(() =>
     additionalStorageClasses: S.optional(DataLakeDLSGCPStoreInputAdditionalStorageClassesList),
     includeTags: S.optional(S.Boolean),
   }),
-).annotate({
-  identifier: "DataLakeDLSGCPStoreInput",
-}) as any as S.Schema<DataLakeDLSGCPStoreInput>;
+).annotate({ identifier: "DataLakeDLSGCPStoreInput" }) as any as S.Schema<DataLakeDLSGCPStoreInput>;
 
 /** Physical location where MongoDB Cloud deploys your AWS-hosted MongoDB cluster nodes. The region you choose can affect network latency for clients accessing your databases. When MongoDB Cloud deploys a dedicated cluster, it checks if a VPC or VPC connection exists for that provider and region. If not, MongoDB Cloud creates them as part of the deployment. MongoDB Cloud assigns the VPC a CIDR block. To limit a new VPC peering connection to one CIDR block and region, create the connection first. Deploy the cluster after the connection starts. */
 export type DataLakeAtlasStoreInstanceInputRegion =
@@ -19699,9 +19813,7 @@ export const DataLakeHTTPStoreInput = /*@__PURE__*/ S.suspend(() =>
     additionalStorageClasses: S.optional(DataLakeHTTPStoreInputAdditionalStorageClassesList),
     includeTags: S.optional(S.Boolean),
   }),
-).annotate({
-  identifier: "DataLakeHTTPStoreInput",
-}) as any as S.Schema<DataLakeHTTPStoreInput>;
+).annotate({ identifier: "DataLakeHTTPStoreInput" }) as any as S.Schema<DataLakeHTTPStoreInput>;
 
 /** Physical location where MongoDB Cloud deploys your AWS-hosted MongoDB cluster nodes. The region you choose can affect network latency for clients accessing your databases. When MongoDB Cloud deploys a dedicated cluster, it checks if a VPC or VPC connection exists for that provider and region. If not, MongoDB Cloud creates them as part of the deployment. MongoDB Cloud assigns the VPC a CIDR block. To limit a new VPC peering connection to one CIDR block and region, create the connection first. Deploy the cluster after the connection starts. */
 export type DataLakeAzureBlobStoreInputRegion =
@@ -19974,9 +20086,7 @@ export const DataLakeStorageInput = /*@__PURE__*/ S.suspend(() =>
     databases: S.optional(DataLakeStorageInputDatabasesList),
     stores: S.optional(DataLakeStorageInputStoresList),
   }),
-).annotate({
-  identifier: "DataLakeStorageInput",
-}) as any as S.Schema<DataLakeStorageInput>;
+).annotate({ identifier: "DataLakeStorageInput" }) as any as S.Schema<DataLakeStorageInput>;
 
 export interface CreateGroupDataFederationRequest {
   /** Unique 24-hexadecimal digit string that identifies your project. Use the [/groups](#tag/Projects/operation/listProjects) endpoint to retrieve all projects to which the authenticated user has access. **NOTE**: Groups and projects are synonymous terms. Your group id is the same as your project id. For existing groups, your group/project id remains the same. The resource and corresponding endpoints use the term groups. */
@@ -20109,9 +20219,7 @@ export const PrivateEndpointHostname = /*@__PURE__*/ S.suspend(() =>
     hostname: S.optional(S.String),
     privateEndpoint: S.optional(S.String),
   }),
-).annotate({
-  identifier: "PrivateEndpointHostname",
-}) as any as S.Schema<PrivateEndpointHostname>;
+).annotate({ identifier: "PrivateEndpointHostname" }) as any as S.Schema<PrivateEndpointHostname>;
 
 /** List that contains the sets of private endpoints and hostnames. */
 export type DataLakeTenantOutputPrivateEndpointHostnamesList = Array<PrivateEndpointHostname>;
@@ -20246,9 +20354,7 @@ export const DataLakeS3StoreSettings = /*@__PURE__*/ S.suspend(() =>
     additionalStorageClasses: S.optional(DataLakeS3StoreSettingsAdditionalStorageClassesList),
     includeTags: S.optional(S.Boolean),
   }),
-).annotate({
-  identifier: "DataLakeS3StoreSettings",
-}) as any as S.Schema<DataLakeS3StoreSettings>;
+).annotate({ identifier: "DataLakeS3StoreSettings" }) as any as S.Schema<DataLakeS3StoreSettings>;
 
 /** Physical location where MongoDB Cloud deploys your AWS-hosted MongoDB cluster nodes. The region you choose can affect network latency for clients accessing your databases. When MongoDB Cloud deploys a dedicated cluster, it checks if a VPC or VPC connection exists for that provider and region. If not, MongoDB Cloud creates them as part of the deployment. MongoDB Cloud assigns the VPC a CIDR block. To limit a new VPC peering connection to one CIDR block and region, create the connection first. Deploy the cluster after the connection starts. */
 export type DataLakeDLSAWSStoreRegion =
@@ -20367,9 +20473,7 @@ export const DataLakeDLSAWSStore = /*@__PURE__*/ S.suspend(() =>
     additionalStorageClasses: S.optional(DataLakeDLSAWSStoreAdditionalStorageClassesList),
     includeTags: S.optional(S.Boolean),
   }),
-).annotate({
-  identifier: "DataLakeDLSAWSStore",
-}) as any as S.Schema<DataLakeDLSAWSStore>;
+).annotate({ identifier: "DataLakeDLSAWSStore" }) as any as S.Schema<DataLakeDLSAWSStore>;
 
 /** Physical location where MongoDB Cloud deploys your AWS-hosted MongoDB cluster nodes. The region you choose can affect network latency for clients accessing your databases. When MongoDB Cloud deploys a dedicated cluster, it checks if a VPC or VPC connection exists for that provider and region. If not, MongoDB Cloud creates them as part of the deployment. MongoDB Cloud assigns the VPC a CIDR block. To limit a new VPC peering connection to one CIDR block and region, create the connection first. Deploy the cluster after the connection starts. */
 export type DataLakeDLSAzureStoreRegion =
@@ -20488,9 +20592,7 @@ export const DataLakeDLSAzureStore = /*@__PURE__*/ S.suspend(() =>
     additionalStorageClasses: S.optional(DataLakeDLSAzureStoreAdditionalStorageClassesList),
     includeTags: S.optional(S.Boolean),
   }),
-).annotate({
-  identifier: "DataLakeDLSAzureStore",
-}) as any as S.Schema<DataLakeDLSAzureStore>;
+).annotate({ identifier: "DataLakeDLSAzureStore" }) as any as S.Schema<DataLakeDLSAzureStore>;
 
 /** Physical location where MongoDB Cloud deploys your AWS-hosted MongoDB cluster nodes. The region you choose can affect network latency for clients accessing your databases. When MongoDB Cloud deploys a dedicated cluster, it checks if a VPC or VPC connection exists for that provider and region. If not, MongoDB Cloud creates them as part of the deployment. MongoDB Cloud assigns the VPC a CIDR block. To limit a new VPC peering connection to one CIDR block and region, create the connection first. Deploy the cluster after the connection starts. */
 export type DataLakeDLSGCPStoreRegion =
@@ -20609,9 +20711,7 @@ export const DataLakeDLSGCPStore = /*@__PURE__*/ S.suspend(() =>
     additionalStorageClasses: S.optional(DataLakeDLSGCPStoreAdditionalStorageClassesList),
     includeTags: S.optional(S.Boolean),
   }),
-).annotate({
-  identifier: "DataLakeDLSGCPStore",
-}) as any as S.Schema<DataLakeDLSGCPStore>;
+).annotate({ identifier: "DataLakeDLSGCPStore" }) as any as S.Schema<DataLakeDLSGCPStore>;
 
 /** Physical location where MongoDB Cloud deploys your AWS-hosted MongoDB cluster nodes. The region you choose can affect network latency for clients accessing your databases. When MongoDB Cloud deploys a dedicated cluster, it checks if a VPC or VPC connection exists for that provider and region. If not, MongoDB Cloud creates them as part of the deployment. MongoDB Cloud assigns the VPC a CIDR block. To limit a new VPC peering connection to one CIDR block and region, create the connection first. Deploy the cluster after the connection starts. */
 export type DataLakeAtlasStoreInstanceRegion =
@@ -20851,9 +20951,7 @@ export const DataLakeHTTPStore = /*@__PURE__*/ S.suspend(() =>
     additionalStorageClasses: S.optional(DataLakeHTTPStoreAdditionalStorageClassesList),
     includeTags: S.optional(S.Boolean),
   }),
-).annotate({
-  identifier: "DataLakeHTTPStore",
-}) as any as S.Schema<DataLakeHTTPStore>;
+).annotate({ identifier: "DataLakeHTTPStore" }) as any as S.Schema<DataLakeHTTPStore>;
 
 /** Physical location where MongoDB Cloud deploys your AWS-hosted MongoDB cluster nodes. The region you choose can affect network latency for clients accessing your databases. When MongoDB Cloud deploys a dedicated cluster, it checks if a VPC or VPC connection exists for that provider and region. If not, MongoDB Cloud creates them as part of the deployment. MongoDB Cloud assigns the VPC a CIDR block. To limit a new VPC peering connection to one CIDR block and region, create the connection first. Deploy the cluster after the connection starts. */
 export type DataLakeAzureBlobStoreRegion =
@@ -20972,9 +21070,7 @@ export const DataLakeAzureBlobStore = /*@__PURE__*/ S.suspend(() =>
     additionalStorageClasses: S.optional(DataLakeAzureBlobStoreAdditionalStorageClassesList),
     includeTags: S.optional(S.Boolean),
   }),
-).annotate({
-  identifier: "DataLakeAzureBlobStore",
-}) as any as S.Schema<DataLakeAzureBlobStore>;
+).annotate({ identifier: "DataLakeAzureBlobStore" }) as any as S.Schema<DataLakeAzureBlobStore>;
 
 /** Physical location where MongoDB Cloud deploys your AWS-hosted MongoDB cluster nodes. The region you choose can affect network latency for clients accessing your databases. When MongoDB Cloud deploys a dedicated cluster, it checks if a VPC or VPC connection exists for that provider and region. If not, MongoDB Cloud creates them as part of the deployment. MongoDB Cloud assigns the VPC a CIDR block. To limit a new VPC peering connection to one CIDR block and region, create the connection first. Deploy the cluster after the connection starts. */
 export type DataLakeGoogleCloudStorageStoreRegion =
@@ -21129,9 +21225,7 @@ export const DataLakeStorage = /*@__PURE__*/ S.suspend(() =>
     databases: S.optional(DataLakeStorageDatabasesList),
     stores: S.optional(DataLakeStorageStoresList),
   }),
-).annotate({
-  identifier: "DataLakeStorage",
-}) as any as S.Schema<DataLakeStorage>;
+).annotate({ identifier: "DataLakeStorage" }) as any as S.Schema<DataLakeStorage>;
 
 export interface DataLakeTenantOutput {
   cloudProviderConfig?: DataLakeCloudProviderConfigOutput;
@@ -21159,9 +21253,7 @@ export const DataLakeTenantOutput = /*@__PURE__*/ S.suspend(() =>
     state: S.optional(DataLakeTenantOutputState),
     storage: S.optional(DataLakeStorage),
   }),
-).annotate({
-  identifier: "DataLakeTenantOutput",
-}) as any as S.Schema<DataLakeTenantOutput>;
+).annotate({ identifier: "DataLakeTenantOutput" }) as any as S.Schema<DataLakeTenantOutput>;
 
 export type CreateGroupEncryptionAtRestPrivateEndpointRequestCloudProvider = "AZURE" | "AWS";
 export const CreateGroupEncryptionAtRestPrivateEndpointRequestCloudProvider = S.String;
@@ -21314,6 +21406,10 @@ export const CreateGroupEncryptionAtRestPrivateEndpointResponse = /*@__PURE__*/ 
   identifier: "CreateGroupEncryptionAtRestPrivateEndpointResponse",
 }) as any as S.Schema<CreateGroupEncryptionAtRestPrivateEndpointResponse>;
 
+/** Available in Public Preview: Optional field that indicates whether your tenant cluster will be upgraded to Atlas INFINITE or CORE. */
+export type CreateGroupFlexClusterRequestDatabaseEdition = "CORE" | "INFINITE";
+export const CreateGroupFlexClusterRequestDatabaseEdition = S.String;
+
 /** Cloud service provider on which MongoDB Cloud provisioned the flex cluster. */
 export type FlexProviderSettingsCreate20241113InputBackingProviderName = "AWS" | "AZURE" | "GCP";
 export const FlexProviderSettingsCreate20241113InputBackingProviderName = S.String;
@@ -21347,6 +21443,8 @@ export interface CreateGroupFlexClusterRequest {
   envelope?: boolean;
   /** Flag that indicates whether the response body should be in the prettyprint format. */
   pretty?: boolean;
+  /** Available in Public Preview: Optional field that indicates whether your tenant cluster will be upgraded to Atlas INFINITE or CORE. */
+  databaseEdition?: CreateGroupFlexClusterRequestDatabaseEdition | (string & {});
   /** Human-readable label that identifies the instance. */
   name: string;
   providerSettings: FlexProviderSettingsCreate20241113Input;
@@ -21360,6 +21458,7 @@ export const CreateGroupFlexClusterRequest = /*@__PURE__*/ S.suspend(() =>
     groupId: S.String.pipe(T.Label()),
     envelope: S.optional(S.Boolean.pipe(T.Query())),
     pretty: S.optional(S.Boolean.pipe(T.Query())),
+    databaseEdition: S.optional(CreateGroupFlexClusterRequestDatabaseEdition),
     name: S.String,
     providerSettings: FlexProviderSettingsCreate20241113Input,
     tags: S.optional(CreateGroupFlexClusterRequestTagsList),
@@ -21408,6 +21507,10 @@ export const FlexConnectionStrings20241113 = /*@__PURE__*/ S.suspend(() =>
 ).annotate({
   identifier: "FlexConnectionStrings20241113",
 }) as any as S.Schema<FlexConnectionStrings20241113>;
+
+/** Available in Public Preview: Optional field that indicates whether your tenant cluster will be upgraded to Atlas INFINITE or CORE. */
+export type FlexClusterDescription20241113DatabaseEdition = "CORE" | "INFINITE";
+export const FlexClusterDescription20241113DatabaseEdition = S.String;
 
 /** List of one or more Uniform Resource Locators (URLs) that point to API sub-resources, related API resources, or both. RFC 5988 outlines these relationships. */
 export type FlexClusterDescription20241113LinksList = Array<Link>;
@@ -21472,6 +21575,8 @@ export interface FlexClusterDescription20241113 {
   connectionStrings?: FlexConnectionStrings20241113;
   /** Date and time when MongoDB Cloud created this instance. This parameter expresses its value in ISO 8601 format in UTC. */
   createDate?: string;
+  /** Available in Public Preview: Optional field that indicates whether your tenant cluster will be upgraded to Atlas INFINITE or CORE. */
+  databaseEdition?: FlexClusterDescription20241113DatabaseEdition;
   /** Unique 24-hexadecimal character string that identifies the project. */
   groupId?: string;
   /** Unique 24-hexadecimal digit string that identifies the instance. */
@@ -21498,6 +21603,7 @@ export const FlexClusterDescription20241113 = /*@__PURE__*/ S.suspend(() =>
     clusterType: S.optional(FlexClusterDescription20241113ClusterType),
     connectionStrings: S.optional(FlexConnectionStrings20241113),
     createDate: S.optional(S.String),
+    databaseEdition: S.optional(FlexClusterDescription20241113DatabaseEdition),
     groupId: S.optional(S.String),
     id: S.optional(S.String),
     links: S.optional(FlexClusterDescription20241113LinksList),
@@ -21655,7 +21761,7 @@ export interface CreateGroupIntegrationRequest {
   integrationType: CreateGroupIntegrationRequestIntegrationType | (string & {});
   /** Flag that indicates whether Application wraps the response in an `envelope` JSON object. Some API clients cannot access the HTTP response headers or status code. To remediate this, set envelope=true in the query. Endpoints that return a list of results use the results object as an envelope. Application adds the status parameter to the response body. */
   envelope?: boolean;
-  /** Flag that indicates whether the response returns the total number of items (`totalCount`) in the response. */
+  /** Flag that indicates whether MongoDB Cloud calculates the total number of items for the response. When set to `false`, MongoDB Cloud may skip an additional count operation. The response may still include `totalCount` when the count is available without additional calculation. */
   includeCount?: boolean;
   /** Number of items that the response returns per page. */
   itemsPerPage?: number;
@@ -21753,7 +21859,7 @@ export const Slack = /*@__PURE__*/ S.suspend(() =>
 ).annotate({ identifier: "Slack" }) as any as S.Schema<Slack>;
 
 /** Two-letter code that indicates which regional URL MongoDB uses to access the Datadog API. */
-export type DatadogRegion = "US" | "EU" | "US3" | "US5" | "AP1" | "US1_FED";
+export type DatadogRegion = "US" | "EU" | "US3" | "US5" | "AP1" | "AP2" | "US1_FED";
 export const DatadogRegion = S.String;
 
 /** Human-readable label that identifies the service to which you want to integrate with MongoDB Cloud. The value must match the third-party service integration type. */
@@ -21939,9 +22045,7 @@ export const PrometheusOutput = /*@__PURE__*/ S.suspend(() =>
     type: S.optional(PrometheusOutputType),
     username: S.String,
   }),
-).annotate({
-  identifier: "PrometheusOutput",
-}) as any as S.Schema<PrometheusOutput>;
+).annotate({ identifier: "PrometheusOutput" }) as any as S.Schema<PrometheusOutput>;
 
 /** Human-readable label that identifies the service to which you want to integrate with MongoDB Cloud. The value must match the third-party service integration type. */
 export type MicrosoftTeamsType = "MICROSOFT_TEAMS";
@@ -21989,7 +22093,7 @@ export interface PaginatedIntegrationViewOutput {
   links?: PaginatedIntegrationViewOutputLinksList;
   /** List of returned documents that MongoDB Cloud provides when completing this request. */
   results: PaginatedIntegrationViewOutputResultsList;
-  /** Total number of documents available. MongoDB Cloud omits this value if `includeCount` is set to `false`. The total number is an estimate and may not be exact. */
+  /** Total number of documents available. When `includeCount` is set to `false`, MongoDB Cloud may omit this value or return it when the count is available without additional calculation. The total number is an estimate and may not be exact. */
   totalCount?: number;
 }
 export const PaginatedIntegrationViewOutput = /*@__PURE__*/ S.suspend(() =>
@@ -22089,9 +22193,7 @@ export const ShardingRequest = /*@__PURE__*/ S.suspend(() =>
     createSupportingIndexes: S.Boolean,
     shardingEntries: ShardingRequestShardingEntriesList,
   }),
-).annotate({
-  identifier: "ShardingRequest",
-}) as any as S.Schema<ShardingRequest>;
+).annotate({ identifier: "ShardingRequest" }) as any as S.Schema<ShardingRequest>;
 
 /** Document that describes the source of the migration. */
 export interface Source {
@@ -22189,15 +22291,14 @@ export const LiveMigrationResponse = /*@__PURE__*/ S.suspend(() =>
     readyForCutover: S.optional(S.Boolean),
     status: S.optional(S.NullOr(LiveMigrationResponseStatus)),
   }),
-).annotate({
-  identifier: "LiveMigrationResponse",
-}) as any as S.Schema<LiveMigrationResponse>;
+).annotate({ identifier: "LiveMigrationResponse" }) as any as S.Schema<LiveMigrationResponse>;
 
 export type CreateGroupLogIntegrationRequestLogTypesItem =
   | "MONGOD"
   | "MONGOS"
   | "MONGOD_AUDIT"
-  | "MONGOS_AUDIT";
+  | "MONGOS_AUDIT"
+  | "EVENTS";
 export const CreateGroupLogIntegrationRequestLogTypesItem = S.String;
 
 /** Array of log types exported by this integration. */
@@ -22285,7 +22386,8 @@ export type S3LogIntegrationResponseOutputLogTypesItem =
   | "MONGOD"
   | "MONGOS"
   | "MONGOD_AUDIT"
-  | "MONGOS_AUDIT";
+  | "MONGOS_AUDIT"
+  | "EVENTS";
 export const S3LogIntegrationResponseOutputLogTypesItem = S.String;
 
 /** Array of log types exported by this integration. */
@@ -22381,7 +22483,8 @@ export type DatadogLogIntegrationResponseOutputLogTypesItem =
   | "MONGOD"
   | "MONGOS"
   | "MONGOD_AUDIT"
-  | "MONGOS_AUDIT";
+  | "MONGOS_AUDIT"
+  | "EVENTS";
 export const DatadogLogIntegrationResponseOutputLogTypesItem = S.String;
 
 /** Array of log types exported by this integration. */
@@ -22477,7 +22580,8 @@ export type GcsLogIntegrationResponseOutputLogTypesItem =
   | "MONGOD"
   | "MONGOS"
   | "MONGOD_AUDIT"
-  | "MONGOS_AUDIT";
+  | "MONGOS_AUDIT"
+  | "EVENTS";
 export const GcsLogIntegrationResponseOutputLogTypesItem = S.String;
 
 /** Array of log types exported by this integration. */
@@ -22573,7 +22677,8 @@ export type OtelLogIntegrationResponseOutputLogTypesItem =
   | "MONGOD"
   | "MONGOS"
   | "MONGOD_AUDIT"
-  | "MONGOS_AUDIT";
+  | "MONGOS_AUDIT"
+  | "EVENTS";
 export const OtelLogIntegrationResponseOutputLogTypesItem = S.String;
 
 /** Array of log types exported by this integration. */
@@ -22669,7 +22774,8 @@ export type SplunkLogIntegrationResponseOutputLogTypesItem =
   | "MONGOD"
   | "MONGOS"
   | "MONGOD_AUDIT"
-  | "MONGOS_AUDIT";
+  | "MONGOS_AUDIT"
+  | "EVENTS";
 export const SplunkLogIntegrationResponseOutputLogTypesItem = S.String;
 
 /** Array of log types exported by this integration. */
@@ -22765,7 +22871,8 @@ export type AzureLogIntegrationResponseOutputLogTypesItem =
   | "MONGOD"
   | "MONGOS"
   | "MONGOD_AUDIT"
-  | "MONGOS_AUDIT";
+  | "MONGOS_AUDIT"
+  | "EVENTS";
 export const AzureLogIntegrationResponseOutputLogTypesItem = S.String;
 
 /** Array of log types exported by this integration. */
@@ -22965,9 +23072,7 @@ export const GroupMcpConfigResponse = /*@__PURE__*/ S.suspend(() =>
     mcpConfigName: S.optional(S.NullOr(S.String)),
     roles: S.optional(GroupMcpConfigResponseRolesList),
   }),
-).annotate({
-  identifier: "GroupMcpConfigResponse",
-}) as any as S.Schema<GroupMcpConfigResponse>;
+).annotate({ identifier: "GroupMcpConfigResponse" }) as any as S.Schema<GroupMcpConfigResponse>;
 
 export interface CreateGroupMcpConfigSecretRequest {
   /** Unique 24-hexadecimal digit string that identifies your project. Use the [/groups](#tag/Projects/operation/listProjects) endpoint to retrieve all projects to which the authenticated user has access. **NOTE**: Groups and projects are synonymous terms. Your group id is the same as your project id. For existing groups, your group/project id remains the same. The resource and corresponding endpoints use the term groups. */
@@ -23017,16 +23122,14 @@ export const ServiceAccountSecret = /*@__PURE__*/ S.suspend(() =>
     maskedSecretValue: S.optional(S.String),
     secret: S.optional(S.String.pipe(T.SensitiveValue({}))),
   }),
-).annotate({
-  identifier: "ServiceAccountSecret",
-}) as any as S.Schema<ServiceAccountSecret>;
+).annotate({ identifier: "ServiceAccountSecret" }) as any as S.Schema<ServiceAccountSecret>;
 
 /** The temporality to send to the metric integration. */
 export type CreateGroupMetricIntegrationRequestAggregationTemporality = "DELTA" | "CUMULATIVE";
 export const CreateGroupMetricIntegrationRequestAggregationTemporality = S.String;
 
-/** Authentication method the integration uses when exporting metrics to the endpoint. `HEADER` authenticates with the static HTTP headers provided in the `headers` field, which must be set when this value is used. */
-export type CreateGroupMetricIntegrationRequestAuthType = "HEADER";
+/** Authentication method the integration uses when exporting metrics to the endpoint. `HEADER` authenticates with the static HTTP headers provided in the `headers` field, which must be set when this value is used. `OAUTH2` acquires a bearer token from an OAuth 2.0 token endpoint using the `oauth` field. */
+export type CreateGroupMetricIntegrationRequestAuthType = "HEADER" | "OAUTH2";
 export const CreateGroupMetricIntegrationRequestAuthType = S.String;
 
 /** HTTP header with name and value. */
@@ -23067,8 +23170,55 @@ export const CreateGroupMetricIntegrationRequestMetricSelectionList = /*@__PURE_
   CreateGroupMetricIntegrationRequestMetricSelectionItem,
 ) as any as S.Schema<CreateGroupMetricIntegrationRequestMetricSelectionList>;
 
+/** How the client authenticates to the token endpoint. `CLIENT_SECRET` sends a shared secret. `PRIVATE_KEY_JWT` signs a client assertion with an Atlas-generated, Atlas-managed key. Register the returned JWKS URL with your identity provider. */
+export type OAuthConfigRequestClientAuthMethod = "CLIENT_SECRET" | "PRIVATE_KEY_JWT";
+export const OAuthConfigRequestClientAuthMethod = S.String;
+
+/** Optional OAuth 2.0 scopes requested on the token, sent as a space delimited `scope` parameter. Applies to both client authentication methods. */
+export type OAuthConfigRequestScopesList = Array<string>;
+export const OAuthConfigRequestScopesList = /*@__PURE__*/ S.Array(
+  S.String,
+) as any as S.Schema<OAuthConfigRequestScopesList>;
+
+/** Optional provider-specific parameters added to the token request, for example a resource indicator. Applies to both client authentication methods. */
+export type OAuthConfigRequestTokenRequestParamsMap = { [key: string]: string | undefined };
+export const OAuthConfigRequestTokenRequestParamsMap = /*@__PURE__*/ S.Record(
+  S.String,
+  S.String,
+) as any as S.Schema<OAuthConfigRequestTokenRequestParamsMap>;
+
+/** OAuth 2.0 client credentials configuration. Required when `authType` is `OAUTH2`. Secrets are never returned. */
+export interface OAuthConfigRequest {
+  /** How the client authenticates to the token endpoint. `CLIENT_SECRET` sends a shared secret. `PRIVATE_KEY_JWT` signs a client assertion with an Atlas-generated, Atlas-managed key. Register the returned JWKS URL with your identity provider. */
+  clientAuthMethod: OAuthConfigRequestClientAuthMethod | (string & {});
+  /** OAuth 2.0 client identifier registered with the token endpoint. */
+  clientId: string;
+  /** Shared client secret. Required when `clientAuthMethod` is `CLIENT_SECRET`, and rejected for `PRIVATE_KEY_JWT`. Encrypted at rest and never returned. */
+  clientSecret?: string | Redacted.Redacted<string>;
+  /** Optional OAuth 2.0 scopes requested on the token, sent as a space delimited `scope` parameter. Applies to both client authentication methods. */
+  scopes?: OAuthConfigRequestScopesList;
+  /** OAuth 2.0 token endpoint URL. Must use HTTPS. */
+  tokenEndpoint: string;
+  /** Optional provider-specific parameters added to the token request, for example a resource indicator. Applies to both client authentication methods. */
+  tokenRequestParams?: OAuthConfigRequestTokenRequestParamsMap;
+}
+export const OAuthConfigRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    clientAuthMethod: OAuthConfigRequestClientAuthMethod,
+    clientId: S.String,
+    clientSecret: S.optional(S.String.pipe(T.SensitiveValue({}))),
+    scopes: S.optional(OAuthConfigRequestScopesList),
+    tokenEndpoint: S.String,
+    tokenRequestParams: S.optional(OAuthConfigRequestTokenRequestParamsMap),
+  }),
+).annotate({ identifier: "OAuthConfigRequest" }) as any as S.Schema<OAuthConfigRequest>;
+
 /** The provider type for the metric integration. Identifies the third-party service provider. */
-export type CreateGroupMetricIntegrationRequestProviderType = "CUSTOM" | "DYNATRACE" | "NEW_RELIC";
+export type CreateGroupMetricIntegrationRequestProviderType =
+  | "CUSTOM"
+  | "DATADOG"
+  | "DYNATRACE"
+  | "NEW_RELIC";
 export const CreateGroupMetricIntegrationRequestProviderType = S.String;
 
 export interface CreateGroupMetricIntegrationRequest {
@@ -23080,7 +23230,7 @@ export interface CreateGroupMetricIntegrationRequest {
   pretty?: boolean;
   /** The temporality to send to the metric integration. */
   aggregationTemporality: CreateGroupMetricIntegrationRequestAggregationTemporality | (string & {});
-  /** Authentication method the integration uses when exporting metrics to the endpoint. `HEADER` authenticates with the static HTTP headers provided in the `headers` field, which must be set when this value is used. */
+  /** Authentication method the integration uses when exporting metrics to the endpoint. `HEADER` authenticates with the static HTTP headers provided in the `headers` field, which must be set when this value is used. `OAUTH2` acquires a bearer token from an OAuth 2.0 token endpoint using the `oauth` field. */
   authType: CreateGroupMetricIntegrationRequestAuthType | (string & {});
   /** OpenTelemetry collector endpoint URL. Must use HTTPS. */
   endpoint: string;
@@ -23090,6 +23240,7 @@ export interface CreateGroupMetricIntegrationRequest {
   integrationType: CreateGroupMetricIntegrationRequestIntegrationType | (string & {});
   /** Array of metric categories to export. Determines which types of metrics are sent to the integration. */
   metricSelection: CreateGroupMetricIntegrationRequestMetricSelectionList;
+  oauth?: OAuthConfigRequest;
   /** The provider type for the metric integration. Identifies the third-party service provider. */
   providerType: CreateGroupMetricIntegrationRequestProviderType | (string & {});
 }
@@ -23104,6 +23255,7 @@ export const CreateGroupMetricIntegrationRequest = /*@__PURE__*/ S.suspend(() =>
     headers: S.optional(CreateGroupMetricIntegrationRequestHeadersList),
     integrationType: CreateGroupMetricIntegrationRequestIntegrationType,
     metricSelection: CreateGroupMetricIntegrationRequestMetricSelectionList,
+    oauth: S.optional(OAuthConfigRequest),
     providerType: CreateGroupMetricIntegrationRequestProviderType,
   }).pipe(
     T.Http({
@@ -23122,7 +23274,7 @@ export type MetricIntegrationResponseAggregationTemporality = "DELTA" | "CUMULAT
 export const MetricIntegrationResponseAggregationTemporality = S.String;
 
 /** Authentication method the integration uses when exporting metrics to the endpoint. */
-export type MetricIntegrationResponseAuthType = "HEADER";
+export type MetricIntegrationResponseAuthType = "HEADER" | "OAUTH2";
 export const MetricIntegrationResponseAuthType = S.String;
 
 /** HTTP header with a redacted value. */
@@ -23162,8 +23314,74 @@ export const MetricIntegrationResponseMetricSelectionList = /*@__PURE__*/ S.Arra
   MetricIntegrationResponseMetricSelectionItem,
 ) as any as S.Schema<MetricIntegrationResponseMetricSelectionList>;
 
+/** How the client authenticates to the token endpoint. */
+export type OAuthConfigResponseClientAuthMethod = "CLIENT_SECRET" | "PRIVATE_KEY_JWT";
+export const OAuthConfigResponseClientAuthMethod = S.String;
+
+/** OAuth 2.0 scopes requested on the token. */
+export type OAuthConfigResponseScopesList = Array<string>;
+export const OAuthConfigResponseScopesList = /*@__PURE__*/ S.Array(
+  S.String,
+) as any as S.Schema<OAuthConfigResponseScopesList>;
+
+/** Read-only metadata for the Atlas-managed signing key used by `PRIVATE_KEY_JWT`. Present only for that method. Register the `jwksUri` with your identity provider. Atlas rotates the underlying key without changing this URL. */
+export interface OAuthSigningKeyInfo {
+  /** Signing algorithm of the Atlas-managed key. */
+  algorithm?: string;
+  /** When the currently active signing key was created. This parameter expresses its value in the ISO 8601 timestamp format in UTC. */
+  createdAt?: string;
+  /** Public JWKS URL serving this integration's signing keys. Fixed for the lifetime of the integration. */
+  jwksUri?: string;
+  /** Key ID stamped on client assertions, the `SHA-1` thumbprint of the key certificate in uppercase hexadecimal. Changes when Atlas rotates the key. */
+  kid?: string;
+}
+export const OAuthSigningKeyInfo = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    algorithm: S.optional(S.String),
+    createdAt: S.optional(S.String),
+    jwksUri: S.optional(S.String),
+    kid: S.optional(S.String),
+  }),
+).annotate({ identifier: "OAuthSigningKeyInfo" }) as any as S.Schema<OAuthSigningKeyInfo>;
+
+/** Provider-specific parameters added to the token request. */
+export type OAuthConfigResponseTokenRequestParamsMap = { [key: string]: string | undefined };
+export const OAuthConfigResponseTokenRequestParamsMap = /*@__PURE__*/ S.Record(
+  S.String,
+  S.String,
+) as any as S.Schema<OAuthConfigResponseTokenRequestParamsMap>;
+
+/** OAuth 2.0 configuration returned for a metric integration. Secrets are never returned. */
+export interface OAuthConfigResponse {
+  /** How the client authenticates to the token endpoint. */
+  clientAuthMethod: OAuthConfigResponseClientAuthMethod;
+  /** OAuth 2.0 client identifier registered with the token endpoint. */
+  clientId: string;
+  /** OAuth 2.0 scopes requested on the token. */
+  scopes?: OAuthConfigResponseScopesList;
+  signingKeyInfo?: OAuthSigningKeyInfo;
+  /** OAuth 2.0 token endpoint URL. */
+  tokenEndpoint: string;
+  /** Provider-specific parameters added to the token request. */
+  tokenRequestParams?: OAuthConfigResponseTokenRequestParamsMap;
+}
+export const OAuthConfigResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    clientAuthMethod: OAuthConfigResponseClientAuthMethod,
+    clientId: S.String,
+    scopes: S.optional(OAuthConfigResponseScopesList),
+    signingKeyInfo: S.optional(OAuthSigningKeyInfo),
+    tokenEndpoint: S.String,
+    tokenRequestParams: S.optional(OAuthConfigResponseTokenRequestParamsMap),
+  }),
+).annotate({ identifier: "OAuthConfigResponse" }) as any as S.Schema<OAuthConfigResponse>;
+
 /** The provider type for the metric integration. Identifies the third-party service provider. */
-export type MetricIntegrationResponseProviderType = "CUSTOM" | "DYNATRACE" | "NEW_RELIC";
+export type MetricIntegrationResponseProviderType =
+  | "CUSTOM"
+  | "DATADOG"
+  | "DYNATRACE"
+  | "NEW_RELIC";
 export const MetricIntegrationResponseProviderType = S.String;
 
 /** Response schema for metric integration operations. */
@@ -23182,6 +23400,7 @@ export interface MetricIntegrationResponse {
   metricIntegrationId: string;
   /** Array of metric categories to export. Determines which types of metrics are sent to the integration. */
   metricSelection: MetricIntegrationResponseMetricSelectionList;
+  oauth?: OAuthConfigResponse;
   /** The provider type for the metric integration. Identifies the third-party service provider. */
   providerType: MetricIntegrationResponseProviderType;
 }
@@ -23194,6 +23413,7 @@ export const MetricIntegrationResponse = /*@__PURE__*/ S.suspend(() =>
     integrationType: MetricIntegrationResponseIntegrationType,
     metricIntegrationId: S.String,
     metricSelection: MetricIntegrationResponseMetricSelectionList,
+    oauth: S.optional(OAuthConfigResponse),
     providerType: MetricIntegrationResponseProviderType,
   }),
 ).annotate({
@@ -23231,9 +23451,7 @@ export const CreateGroupPeerRequest = /*@__PURE__*/ S.suspend(() =>
       accept: "application/vnd.atlas.2023-01-01+json",
     }),
   ),
-).annotate({
-  identifier: "CreateGroupPeerRequest",
-}) as any as S.Schema<CreateGroupPeerRequest>;
+).annotate({ identifier: "CreateGroupPeerRequest" }) as any as S.Schema<CreateGroupPeerRequest>;
 
 /** Type of error that can be returned when requesting an Amazon Web Services (AWS) peering connection. The resource returns `null` if the request succeeded. */
 export type AwsNetworkPeeringConnectionSettingsErrorStateName =
@@ -23481,9 +23699,7 @@ export const EndpointService = /*@__PURE__*/ S.suspend(() =>
     regionName: S.optional(S.String),
     status: S.optional(EndpointServiceStatus),
   }),
-).annotate({
-  identifier: "EndpointService",
-}) as any as S.Schema<EndpointService>;
+).annotate({ identifier: "EndpointService" }) as any as S.Schema<EndpointService>;
 
 export type CreateGroupPrivateEndpointEndpointServiceEndpointRequestCloudProvider =
   | "AWS"
@@ -23548,9 +23764,7 @@ export const PrivateLinkEndpoint = /*@__PURE__*/ S.suspend(() =>
     errorMessage: S.optional(S.String),
     regionName: S.optional(S.String),
   }),
-).annotate({
-  identifier: "PrivateLinkEndpoint",
-}) as any as S.Schema<PrivateLinkEndpoint>;
+).annotate({ identifier: "PrivateLinkEndpoint" }) as any as S.Schema<PrivateLinkEndpoint>;
 
 /** Human-readable label that identifies the cloud service provider. Atlas Data Lake supports Amazon Web Services and Azure. */
 export type CreateGroupPrivateNetworkSettingEndpointIdRequestProvider = "AWS" | "AZURE";
@@ -23692,7 +23906,7 @@ export interface PaginatedPrivateNetworkEndpointIdEntryView {
   links?: PaginatedPrivateNetworkEndpointIdEntryViewLinksList;
   /** List of returned documents that MongoDB Cloud provides when completing this request. */
   results: PaginatedPrivateNetworkEndpointIdEntryViewResultsList;
-  /** Total number of documents available. MongoDB Cloud omits this value if `includeCount` is set to `false`. The total number is an estimate and may not be exact. */
+  /** Total number of documents available. When `includeCount` is set to `false`, MongoDB Cloud may omit this value or return it when the count is available without additional calculation. The total number is an estimate and may not be exact. */
   totalCount?: number;
 }
 export const PaginatedPrivateNetworkEndpointIdEntryView = /*@__PURE__*/ S.suspend(() =>
@@ -23724,8 +23938,10 @@ export interface CreateGroupServiceAccountRequest {
   name: string;
   /** A list of project-level roles for the Service Account. */
   roles: CreateGroupServiceAccountRequestRolesList;
-  /** The expiration time of the new Service Account secret, provided in hours. The minimum and maximum allowed expiration times are subject to change and are controlled by the organization's settings. */
-  secretExpiresAfterHours: number;
+  /** The expiration time of the new Service Account secret, provided in hours. The minimum and maximum allowed expiration times are subject to change and are controlled by the organization's settings. Required unless `withoutInitialSecret` is true. */
+  secretExpiresAfterHours?: number | null;
+  /** If true, creates the Service Account without generating an initial secret. `secretExpiresAfterHours` must not be set when this is true. Defaults to false, which preserves existing behavior: a secret is generated and returned in the response. Use the `CreateGroupServiceAccountSecret` endpoint to add a secret later. */
+  withoutInitialSecret?: boolean | null;
 }
 export const CreateGroupServiceAccountRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -23735,7 +23951,8 @@ export const CreateGroupServiceAccountRequest = /*@__PURE__*/ S.suspend(() =>
     description: S.String,
     name: S.String,
     roles: CreateGroupServiceAccountRequestRolesList,
-    secretExpiresAfterHours: S.Number,
+    secretExpiresAfterHours: S.optional(S.NullOr(S.Number)),
+    withoutInitialSecret: S.optional(S.NullOr(S.Boolean)),
   }).pipe(
     T.Http({
       method: "POST",
@@ -23773,6 +23990,8 @@ export interface GroupServiceAccount {
   roles?: GroupServiceAccountRolesList;
   /** A list of secrets associated with the specified Service Account. */
   secrets?: GroupServiceAccountSecretsList;
+  /** Indicates whether the Service Account is system managed. */
+  systemManaged: boolean;
 }
 export const GroupServiceAccount = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -23782,10 +24001,9 @@ export const GroupServiceAccount = /*@__PURE__*/ S.suspend(() =>
     name: S.optional(S.String),
     roles: S.optional(GroupServiceAccountRolesList),
     secrets: S.optional(GroupServiceAccountSecretsList),
+    systemManaged: S.Boolean,
   }),
-).annotate({
-  identifier: "GroupServiceAccount",
-}) as any as S.Schema<GroupServiceAccount>;
+).annotate({ identifier: "GroupServiceAccount" }) as any as S.Schema<GroupServiceAccount>;
 
 export type CreateGroupServiceAccountAccessListRequestBodyList =
   Array<ServiceAccountIPAccessListEntryInput>;
@@ -23800,7 +24018,7 @@ export interface CreateGroupServiceAccountAccessListRequest {
   clientId: string;
   /** Flag that indicates whether Application wraps the response in an `envelope` JSON object. Some API clients cannot access the HTTP response headers or status code. To remediate this, set envelope=true in the query. Endpoints that return a list of results use the results object as an envelope. Application adds the status parameter to the response body. */
   envelope?: boolean;
-  /** Flag that indicates whether the response returns the total number of items (`totalCount`) in the response. */
+  /** Flag that indicates whether MongoDB Cloud calculates the total number of items for the response. When set to `false`, MongoDB Cloud may skip an additional count operation. The response may still include `totalCount` when the count is available without additional calculation. */
   includeCount?: boolean;
   /** Number of items that the response returns per page. */
   itemsPerPage?: number;
@@ -23850,7 +24068,7 @@ export interface PaginatedServiceAccountIPAccessEntryView {
   links?: PaginatedServiceAccountIPAccessEntryViewLinksList;
   /** List of returned documents that MongoDB Cloud provides when completing this request. */
   results: PaginatedServiceAccountIPAccessEntryViewResultsList;
-  /** Total number of documents available. MongoDB Cloud omits this value if `includeCount` is set to `false`. The total number is an estimate and may not be exact. */
+  /** Total number of documents available. When `includeCount` is set to `false`, MongoDB Cloud may omit this value or return it when the count is available without additional calculation. The total number is an estimate and may not be exact. */
   totalCount?: number;
 }
 export const PaginatedServiceAccountIPAccessEntryView = /*@__PURE__*/ S.suspend(() =>
@@ -23969,9 +24187,7 @@ export const DBRoleToExecute = /*@__PURE__*/ S.suspend(() =>
     role: S.optional(S.String),
     type: S.optional(DBRoleToExecuteType),
   }),
-).annotate({
-  identifier: "DBRoleToExecute",
-}) as any as S.Schema<DBRoleToExecute>;
+).annotate({ identifier: "DBRoleToExecute" }) as any as S.Schema<DBRoleToExecute>;
 
 /** List of one or more Uniform Resource Locators (URLs) that point to API sub-resources, related API resources, or both. RFC 5988 outlines these relationships. */
 export type StreamsAWSConnectionConfigLinksList = Array<Link>;
@@ -23985,7 +24201,7 @@ export interface StreamsAWSConnectionConfig {
   links?: StreamsAWSConnectionConfigLinksList;
   /** Amazon Resource Name (ARN) that identifies the Amazon Web Services (AWS) Identity and Access Management (IAM) role that MongoDB Cloud assumes when it accesses resources in your AWS account. */
   roleArn?: string;
-  /** The name of an S3 bucket used to check authorization of the passed-in IAM role ARN. */
+  /** The name of an S3 bucket used to check authorization of the passed-in IAM role ARN. This field applies only to S3 connections and is ignored for all other connection types and configurations. */
   testBucket?: string;
 }
 export const StreamsAWSConnectionConfig = /*@__PURE__*/ S.suspend(() =>
@@ -24044,9 +24260,7 @@ export const StreamsKafkaAuthenticationOutput = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<StreamsKafkaAuthenticationOutput>;
 
 /** Map of Kafka key-value pairs for optional configuration. This object is flat, and keys can have '.' characters. */
-export type StreamsClusterConnectionOutputConfigMap = {
-  [key: string]: string | undefined;
-};
+export type StreamsClusterConnectionOutputConfigMap = { [key: string]: string | undefined };
 export const StreamsClusterConnectionOutputConfigMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -24108,9 +24322,7 @@ export const StreamsKafkaNetworking = /*@__PURE__*/ S.suspend(() =>
     access: S.optional(StreamsKafkaNetworkingAccess),
     links: S.optional(StreamsKafkaNetworkingLinksList),
   }),
-).annotate({
-  identifier: "StreamsKafkaNetworking",
-}) as any as S.Schema<StreamsKafkaNetworking>;
+).annotate({ identifier: "StreamsKafkaNetworking" }) as any as S.Schema<StreamsKafkaNetworking>;
 
 /** List of one or more Uniform Resource Locators (URLs) that point to API sub-resources, related API resources, or both. RFC 5988 outlines these relationships. */
 export type StreamsKafkaSecurityLinksList = Array<Link>;
@@ -24133,14 +24345,10 @@ export const StreamsKafkaSecurity = /*@__PURE__*/ S.suspend(() =>
     links: S.optional(StreamsKafkaSecurityLinksList),
     protocol: S.optional(S.String),
   }),
-).annotate({
-  identifier: "StreamsKafkaSecurity",
-}) as any as S.Schema<StreamsKafkaSecurity>;
+).annotate({ identifier: "StreamsKafkaSecurity" }) as any as S.Schema<StreamsKafkaSecurity>;
 
 /** A map of key-value pairs that will be passed as headers for the request. */
-export type StreamsClusterConnectionOutputHeadersMap = {
-  [key: string]: string | undefined;
-};
+export type StreamsClusterConnectionOutputHeadersMap = { [key: string]: string | undefined };
 export const StreamsClusterConnectionOutputHeadersMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -24255,9 +24463,7 @@ export const AzureConnection = /*@__PURE__*/ S.suspend(() =>
     servicePrincipalId: S.optional(S.String),
     storageAccountName: S.optional(S.String),
   }),
-).annotate({
-  identifier: "AzureConnection",
-}) as any as S.Schema<AzureConnection>;
+).annotate({ identifier: "AzureConnection" }) as any as S.Schema<AzureConnection>;
 
 /** List of one or more Uniform Resource Locators (URLs) that point to API sub-resources, related API resources, or both. RFC 5988 outlines these relationships. */
 export type StreamsGCPConnectionConfigLinksList = Array<Link>;
@@ -24374,18 +24580,14 @@ export const StreamsClusterConnectionOutput = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<StreamsClusterConnectionOutput>;
 
 /** Map of Kafka key-value pairs for optional configuration. This object is flat, and keys can have '.' characters. */
-export type StreamsKafkaConnectionOutputConfigMap = {
-  [key: string]: string | undefined;
-};
+export type StreamsKafkaConnectionOutputConfigMap = { [key: string]: string | undefined };
 export const StreamsKafkaConnectionOutputConfigMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
 ) as any as S.Schema<StreamsKafkaConnectionOutputConfigMap>;
 
 /** A map of key-value pairs that will be passed as headers for the request. */
-export type StreamsKafkaConnectionOutputHeadersMap = {
-  [key: string]: string | undefined;
-};
+export type StreamsKafkaConnectionOutputHeadersMap = { [key: string]: string | undefined };
 export const StreamsKafkaConnectionOutputHeadersMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -24494,18 +24696,14 @@ export const StreamsKafkaConnectionOutput = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<StreamsKafkaConnectionOutput>;
 
 /** Map of Kafka key-value pairs for optional configuration. This object is flat, and keys can have '.' characters. */
-export type StreamsHttpsConnectionOutputConfigMap = {
-  [key: string]: string | undefined;
-};
+export type StreamsHttpsConnectionOutputConfigMap = { [key: string]: string | undefined };
 export const StreamsHttpsConnectionOutputConfigMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
 ) as any as S.Schema<StreamsHttpsConnectionOutputConfigMap>;
 
 /** A map of key-value pairs that will be passed as headers for the request. */
-export type StreamsHttpsConnectionOutputHeadersMap = {
-  [key: string]: string | undefined;
-};
+export type StreamsHttpsConnectionOutputHeadersMap = { [key: string]: string | undefined };
 export const StreamsHttpsConnectionOutputHeadersMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -24614,18 +24812,14 @@ export const StreamsHttpsConnectionOutput = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<StreamsHttpsConnectionOutput>;
 
 /** Map of Kafka key-value pairs for optional configuration. This object is flat, and keys can have '.' characters. */
-export type StreamsAWSLambdaConnectionOutputConfigMap = {
-  [key: string]: string | undefined;
-};
+export type StreamsAWSLambdaConnectionOutputConfigMap = { [key: string]: string | undefined };
 export const StreamsAWSLambdaConnectionOutputConfigMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
 ) as any as S.Schema<StreamsAWSLambdaConnectionOutputConfigMap>;
 
 /** A map of key-value pairs that will be passed as headers for the request. */
-export type StreamsAWSLambdaConnectionOutputHeadersMap = {
-  [key: string]: string | undefined;
-};
+export type StreamsAWSLambdaConnectionOutputHeadersMap = { [key: string]: string | undefined };
 export const StreamsAWSLambdaConnectionOutputHeadersMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -24735,18 +24929,14 @@ export const StreamsAWSLambdaConnectionOutput = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<StreamsAWSLambdaConnectionOutput>;
 
 /** Map of Kafka key-value pairs for optional configuration. This object is flat, and keys can have '.' characters. */
-export type StreamsS3ConnectionOutputConfigMap = {
-  [key: string]: string | undefined;
-};
+export type StreamsS3ConnectionOutputConfigMap = { [key: string]: string | undefined };
 export const StreamsS3ConnectionOutputConfigMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
 ) as any as S.Schema<StreamsS3ConnectionOutputConfigMap>;
 
 /** A map of key-value pairs that will be passed as headers for the request. */
-export type StreamsS3ConnectionOutputHeadersMap = {
-  [key: string]: string | undefined;
-};
+export type StreamsS3ConnectionOutputHeadersMap = { [key: string]: string | undefined };
 export const StreamsS3ConnectionOutputHeadersMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -24984,18 +25174,14 @@ export const StreamsAWSKinesisDataStreamsConnectionOutput = /*@__PURE__*/ S.susp
 }) as any as S.Schema<StreamsAWSKinesisDataStreamsConnectionOutput>;
 
 /** Map of Kafka key-value pairs for optional configuration. This object is flat, and keys can have '.' characters. */
-export type StreamsSchemaRegistryConnectionOutputConfigMap = {
-  [key: string]: string | undefined;
-};
+export type StreamsSchemaRegistryConnectionOutputConfigMap = { [key: string]: string | undefined };
 export const StreamsSchemaRegistryConnectionOutputConfigMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
 ) as any as S.Schema<StreamsSchemaRegistryConnectionOutputConfigMap>;
 
 /** A map of key-value pairs that will be passed as headers for the request. */
-export type StreamsSchemaRegistryConnectionOutputHeadersMap = {
-  [key: string]: string | undefined;
-};
+export type StreamsSchemaRegistryConnectionOutputHeadersMap = { [key: string]: string | undefined };
 export const StreamsSchemaRegistryConnectionOutputHeadersMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -25234,18 +25420,14 @@ export const StreamsAzureBlobStorageConnectionOutput = /*@__PURE__*/ S.suspend((
 }) as any as S.Schema<StreamsAzureBlobStorageConnectionOutput>;
 
 /** Map of Kafka key-value pairs for optional configuration. This object is flat, and keys can have '.' characters. */
-export type StreamsGCPPubSubConnectionOutputConfigMap = {
-  [key: string]: string | undefined;
-};
+export type StreamsGCPPubSubConnectionOutputConfigMap = { [key: string]: string | undefined };
 export const StreamsGCPPubSubConnectionOutputConfigMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
 ) as any as S.Schema<StreamsGCPPubSubConnectionOutputConfigMap>;
 
 /** A map of key-value pairs that will be passed as headers for the request. */
-export type StreamsGCPPubSubConnectionOutputHeadersMap = {
-  [key: string]: string | undefined;
-};
+export type StreamsGCPPubSubConnectionOutputHeadersMap = { [key: string]: string | undefined };
 export const StreamsGCPPubSubConnectionOutputHeadersMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -25412,9 +25594,7 @@ export const CreateGroupStreamConnectionFailoverConnectionRequest = /*@__PURE__*
 }) as any as S.Schema<CreateGroupStreamConnectionFailoverConnectionRequest>;
 
 /** Map of Kafka key-value pairs for optional configuration. This object is flat, and keys can have '.' characters. */
-export type StreamsFailoverClusterConnectionOutputConfigMap = {
-  [key: string]: string | undefined;
-};
+export type StreamsFailoverClusterConnectionOutputConfigMap = { [key: string]: string | undefined };
 export const StreamsFailoverClusterConnectionOutputConfigMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -25486,9 +25666,7 @@ export const StreamsFailoverClusterConnectionOutput = /*@__PURE__*/ S.suspend(()
 }) as any as S.Schema<StreamsFailoverClusterConnectionOutput>;
 
 /** Map of Kafka key-value pairs for optional configuration. This object is flat, and keys can have '.' characters. */
-export type StreamsFailoverKafkaConnectionOutputConfigMap = {
-  [key: string]: string | undefined;
-};
+export type StreamsFailoverKafkaConnectionOutputConfigMap = { [key: string]: string | undefined };
 export const StreamsFailoverKafkaConnectionOutputConfigMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -25782,9 +25960,7 @@ export const StreamsAutoscalingInput = /*@__PURE__*/ S.suspend(() =>
     maxTier: S.optional(S.NullOr(StreamsAutoscalingInputMaxTier)),
     minTier: S.optional(S.NullOr(StreamsAutoscalingInputMinTier)),
   }),
-).annotate({
-  identifier: "StreamsAutoscalingInput",
-}) as any as S.Schema<StreamsAutoscalingInput>;
+).annotate({ identifier: "StreamsAutoscalingInput" }) as any as S.Schema<StreamsAutoscalingInput>;
 
 /** Dead letter queue for the stream processor. */
 export interface StreamsDLQInput {
@@ -25801,9 +25977,7 @@ export const StreamsDLQInput = /*@__PURE__*/ S.suspend(() =>
     connectionName: S.optional(S.String),
     db: S.optional(S.String),
   }),
-).annotate({
-  identifier: "StreamsDLQInput",
-}) as any as S.Schema<StreamsDLQInput>;
+).annotate({ identifier: "StreamsDLQInput" }) as any as S.Schema<StreamsDLQInput>;
 
 /** Optional configuration for the stream processor. */
 export interface StreamsOptionsInput {
@@ -25815,9 +25989,7 @@ export const StreamsOptionsInput = /*@__PURE__*/ S.suspend(() =>
     autoscaling: S.optional(S.NullOr(StreamsAutoscalingInput)),
     dlq: S.optional(StreamsDLQInput),
   }),
-).annotate({
-  identifier: "StreamsOptionsInput",
-}) as any as S.Schema<StreamsOptionsInput>;
+).annotate({ identifier: "StreamsOptionsInput" }) as any as S.Schema<StreamsOptionsInput>;
 
 export type Document = { [key: string]: unknown | undefined };
 export const Document = /*@__PURE__*/ S.Record(S.String, S.Unknown) as any as S.Schema<Document>;
@@ -25916,9 +26088,7 @@ export const StreamsAutoscaling = /*@__PURE__*/ S.suspend(() =>
     maxTier: S.optional(S.NullOr(StreamsAutoscalingMaxTier)),
     minTier: S.optional(S.NullOr(StreamsAutoscalingMinTier)),
   }),
-).annotate({
-  identifier: "StreamsAutoscaling",
-}) as any as S.Schema<StreamsAutoscaling>;
+).annotate({ identifier: "StreamsAutoscaling" }) as any as S.Schema<StreamsAutoscaling>;
 
 /** List of one or more Uniform Resource Locators (URLs) that point to API sub-resources, related API resources, or both. RFC 5988 outlines these relationships. */
 export type StreamsDLQLinksList = Array<Link>;
@@ -26006,9 +26176,7 @@ export const StreamsProcessor = /*@__PURE__*/ S.suspend(() =>
     pipeline: S.optional(StreamsProcessorPipelineList),
     tier: S.optional(StreamsProcessorTier),
   }),
-).annotate({
-  identifier: "StreamsProcessor",
-}) as any as S.Schema<StreamsProcessor>;
+).annotate({ identifier: "StreamsProcessor" }) as any as S.Schema<StreamsProcessor>;
 
 /** Human-readable label that identifies the cloud provider. */
 export type StreamsDataProcessRegionInputCloudProvider =
@@ -26116,9 +26284,7 @@ export const StreamConfigInput = /*@__PURE__*/ S.suspend(() =>
     maxTierSize: S.optional(StreamConfigInputMaxTierSize),
     tier: S.optional(StreamConfigInputTier),
   }),
-).annotate({
-  identifier: "StreamConfigInput",
-}) as any as S.Schema<StreamConfigInput>;
+).annotate({ identifier: "StreamConfigInput" }) as any as S.Schema<StreamConfigInput>;
 
 export interface CreateGroupStreamWorkspaceRequest {
   /** Unique 24-hexadecimal digit string that identifies your project. Use the [/groups](#tag/Projects/operation/listProjects) endpoint to retrieve all projects to which the authenticated user has access. **NOTE**: Groups and projects are synonymous terms. Your group id is the same as your project id. For existing groups, your group/project id remains the same. The resource and corresponding endpoints use the term groups. */
@@ -26192,9 +26358,7 @@ export const StreamsDataProcessRegion = /*@__PURE__*/ S.suspend(() =>
     links: S.optional(StreamsDataProcessRegionLinksList),
     region: BaseStreamsRegion,
   }),
-).annotate({
-  identifier: "StreamsDataProcessRegion",
-}) as any as S.Schema<StreamsDataProcessRegion>;
+).annotate({ identifier: "StreamsDataProcessRegion" }) as any as S.Schema<StreamsDataProcessRegion>;
 
 /** List of failover regions configured for the stream workspace. */
 export type StreamsTenantOutputFailoverRegionsList = Array<StreamsDataProcessRegion>;
@@ -26232,9 +26396,7 @@ export const StreamsSampleConnections = /*@__PURE__*/ S.suspend(() =>
     links: S.optional(StreamsSampleConnectionsLinksList),
     solar: S.optional(S.Boolean),
   }),
-).annotate({
-  identifier: "StreamsSampleConnections",
-}) as any as S.Schema<StreamsSampleConnections>;
+).annotate({ identifier: "StreamsSampleConnections" }) as any as S.Schema<StreamsSampleConnections>;
 
 /** List of one or more Uniform Resource Locators (URLs) that point to API sub-resources, related API resources, or both. RFC 5988 outlines these relationships. */
 export type StreamConfigLinksList = Array<Link>;
@@ -26299,9 +26461,7 @@ export const StreamsTenantOutput = /*@__PURE__*/ S.suspend(() =>
     sampleConnections: S.optional(StreamsSampleConnections),
     streamConfig: S.optional(S.NullOr(StreamConfig)),
   }),
-).annotate({
-  identifier: "StreamsTenantOutput",
-}) as any as S.Schema<StreamsTenantOutput>;
+).annotate({ identifier: "StreamsTenantOutput" }) as any as S.Schema<StreamsTenantOutput>;
 
 export type CreateAtlasOrganizationApiKeyRolesItem =
   | "ORG_OWNER"
@@ -26364,19 +26524,20 @@ export interface OrgServiceAccountRequest {
   name: string;
   /** A list of organization-level roles for the Service Account. */
   roles: OrgServiceAccountRequestRolesList;
-  /** The expiration time of the new Service Account secret, provided in hours. The minimum and maximum allowed expiration times are subject to change and are controlled by the organization's settings. */
-  secretExpiresAfterHours: number;
+  /** The expiration time of the new Service Account secret, provided in hours. The minimum and maximum allowed expiration times are subject to change and are controlled by the organization's settings. Required unless `withoutInitialSecret` is true. */
+  secretExpiresAfterHours?: number | null;
+  /** If true, creates the Service Account without generating an initial secret. `secretExpiresAfterHours` must not be set when this is true. Defaults to false, which preserves existing behavior: a secret is generated and returned in the response. Use the `CreateOrgServiceAccountSecret` endpoint to add a secret later. */
+  withoutInitialSecret?: boolean | null;
 }
 export const OrgServiceAccountRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     description: S.String,
     name: S.String,
     roles: OrgServiceAccountRequestRolesList,
-    secretExpiresAfterHours: S.Number,
+    secretExpiresAfterHours: S.optional(S.NullOr(S.Number)),
+    withoutInitialSecret: S.optional(S.NullOr(S.Boolean)),
   }),
-).annotate({
-  identifier: "OrgServiceAccountRequest",
-}) as any as S.Schema<OrgServiceAccountRequest>;
+).annotate({ identifier: "OrgServiceAccountRequest" }) as any as S.Schema<OrgServiceAccountRequest>;
 
 export interface CreateOrgRequest {
   /** Flag that indicates whether Application wraps the response in an `envelope` JSON object. Some API clients cannot access the HTTP response headers or status code. To remediate this, set envelope=true in the query. Endpoints that return a list of results use the results object as an envelope. Application adds the status parameter to the response body. */
@@ -26412,9 +26573,7 @@ export const CreateOrgRequest = /*@__PURE__*/ S.suspend(() =>
       accept: "application/vnd.atlas.2023-01-01+json",
     }),
   ),
-).annotate({
-  identifier: "CreateOrgRequest",
-}) as any as S.Schema<CreateOrgRequest>;
+).annotate({ identifier: "CreateOrgRequest" }) as any as S.Schema<CreateOrgRequest>;
 
 /** List of one or more Uniform Resource Locators (URLs) that point to API sub-resources, related API resources, or both. RFC 5988 outlines these relationships. */
 export type AtlasOrganizationLinksList = Array<Link>;
@@ -26443,9 +26602,7 @@ export const AtlasOrganization = /*@__PURE__*/ S.suspend(() =>
     name: S.String,
     skipDefaultAlertsSettings: S.optional(S.Boolean),
   }),
-).annotate({
-  identifier: "AtlasOrganization",
-}) as any as S.Schema<AtlasOrganization>;
+).annotate({ identifier: "AtlasOrganization" }) as any as S.Schema<AtlasOrganization>;
 
 /** Organization roles available for Service Accounts. */
 export type OrgServiceAccountRolesItem =
@@ -26484,6 +26641,8 @@ export interface OrgServiceAccount {
   roles?: OrgServiceAccountRolesList;
   /** A list of secrets associated with the specified Service Account. */
   secrets?: OrgServiceAccountSecretsList;
+  /** Indicates whether the Service Account is system managed. */
+  systemManaged: boolean;
 }
 export const OrgServiceAccount = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -26493,10 +26652,9 @@ export const OrgServiceAccount = /*@__PURE__*/ S.suspend(() =>
     name: S.optional(S.String),
     roles: S.optional(OrgServiceAccountRolesList),
     secrets: S.optional(OrgServiceAccountSecretsList),
+    systemManaged: S.Boolean,
   }),
-).annotate({
-  identifier: "OrgServiceAccount",
-}) as any as S.Schema<OrgServiceAccount>;
+).annotate({ identifier: "OrgServiceAccount" }) as any as S.Schema<OrgServiceAccount>;
 
 export interface CreateOrganizationResponse {
   apiKey?: ApiKeyUserDetails;
@@ -26567,9 +26725,7 @@ export const CreateOrgApiKeyRequest = /*@__PURE__*/ S.suspend(() =>
       accept: "application/vnd.atlas.2023-01-01+json",
     }),
   ),
-).annotate({
-  identifier: "CreateOrgApiKeyRequest",
-}) as any as S.Schema<CreateOrgApiKeyRequest>;
+).annotate({ identifier: "CreateOrgApiKeyRequest" }) as any as S.Schema<CreateOrgApiKeyRequest>;
 
 export interface UserAccessListRequest {
   /** Range of network addresses that you want to add to the access list for the API key. This parameter requires the range to be expressed in classless inter-domain routing (CIDR) notation of Internet Protocol version 4 or version 6 addresses. You can set a value for this parameter or `ipAddress` but not both in the same request. */
@@ -26582,9 +26738,7 @@ export const UserAccessListRequest = /*@__PURE__*/ S.suspend(() =>
     cidrBlock: S.optional(S.String),
     ipAddress: S.optional(S.String),
   }),
-).annotate({
-  identifier: "UserAccessListRequest",
-}) as any as S.Schema<UserAccessListRequest>;
+).annotate({ identifier: "UserAccessListRequest" }) as any as S.Schema<UserAccessListRequest>;
 
 export type CreateOrgApiKeyAccessListEntryRequestBodyList = Array<UserAccessListRequest>;
 export const CreateOrgApiKeyAccessListEntryRequestBodyList = /*@__PURE__*/ S.Array(
@@ -26598,7 +26752,7 @@ export interface CreateOrgApiKeyAccessListEntryRequest {
   apiUserId: string;
   /** Flag that indicates whether Application wraps the response in an `envelope` JSON object. Some API clients cannot access the HTTP response headers or status code. To remediate this, set envelope=true in the query. Endpoints that return a list of results use the results object as an envelope. Application adds the status parameter to the response body. */
   envelope?: boolean;
-  /** Flag that indicates whether the response returns the total number of items (`totalCount`) in the response. */
+  /** Flag that indicates whether MongoDB Cloud calculates the total number of items for the response. When set to `false`, MongoDB Cloud may skip an additional count operation. The response may still include `totalCount` when the count is available without additional calculation. */
   includeCount?: boolean;
   /** Number of items that the response returns per page. */
   itemsPerPage?: number;
@@ -26668,9 +26822,7 @@ export const UserAccessListResponse = /*@__PURE__*/ S.suspend(() =>
     lastUsedAddress: S.optional(S.String),
     links: S.optional(UserAccessListResponseLinksList),
   }),
-).annotate({
-  identifier: "UserAccessListResponse",
-}) as any as S.Schema<UserAccessListResponse>;
+).annotate({ identifier: "UserAccessListResponse" }) as any as S.Schema<UserAccessListResponse>;
 
 /** List of returned documents that MongoDB Cloud provides when completing this request. */
 export type PaginatedApiUserAccessListResponseViewResultsList = Array<UserAccessListResponse>;
@@ -26683,7 +26835,7 @@ export interface PaginatedApiUserAccessListResponseView {
   links?: PaginatedApiUserAccessListResponseViewLinksList;
   /** List of returned documents that MongoDB Cloud provides when completing this request. */
   results: PaginatedApiUserAccessListResponseViewResultsList;
-  /** Total number of documents available. MongoDB Cloud omits this value if `includeCount` is set to `false`. The total number is an estimate and may not be exact. */
+  /** Total number of documents available. When `includeCount` is set to `false`, MongoDB Cloud may omit this value or return it when the count is available without additional calculation. The total number is an estimate and may not be exact. */
   totalCount?: number;
 }
 export const PaginatedApiUserAccessListResponseView = /*@__PURE__*/ S.suspend(() =>
@@ -26731,8 +26883,6 @@ export type CreateOrgBillingCostExplorerUsageProcessRequestServicesItem =
   | "Backup"
   | "Data Transfer"
   | "BI Connector"
-  | "DSC Compute"
-  | "DSC Storage"
   | "Premium Features"
   | "Atlas Data Federation"
   | "Atlas Stream Processing"
@@ -26894,9 +27044,7 @@ export const InvoiceReportResponse = /*@__PURE__*/ S.suspend(() =>
     reportType: InvoiceReportResponseReportType,
     state: InvoiceReportResponseState,
   }),
-).annotate({
-  identifier: "InvoiceReportResponse",
-}) as any as S.Schema<InvoiceReportResponse>;
+).annotate({ identifier: "InvoiceReportResponse" }) as any as S.Schema<InvoiceReportResponse>;
 
 /** IP address access list entries associated with the API key. */
 export type CreateOrgLiveMigrationLinkTokenRequestAccessListIpsList = Array<string>;
@@ -26941,6 +27089,84 @@ export const TargetOrg = /*@__PURE__*/ S.suspend(() =>
     linkToken: S.String,
   }),
 ).annotate({ identifier: "TargetOrg" }) as any as S.Schema<TargetOrg>;
+
+export type CreateOrgLogIntegrationRequestLogTypesItem = "EVENTS";
+export const CreateOrgLogIntegrationRequestLogTypesItem = S.String;
+
+/** Array of log types exported by this integration. */
+export type CreateOrgLogIntegrationRequestLogTypesList = Array<
+  CreateOrgLogIntegrationRequestLogTypesItem | (string & {})
+>;
+export const CreateOrgLogIntegrationRequestLogTypesList = /*@__PURE__*/ S.Array(
+  CreateOrgLogIntegrationRequestLogTypesItem,
+) as any as S.Schema<CreateOrgLogIntegrationRequestLogTypesList>;
+
+/** Type of log integration. Identifies which service will receive the exported events. This value cannot be modified after the integration is created. */
+export type CreateOrgLogIntegrationRequestType = "OTEL_LOG_EXPORT";
+export const CreateOrgLogIntegrationRequestType = S.String;
+
+export interface CreateOrgLogIntegrationRequest {
+  /** Unique 24-hexadecimal digit string that identifies the organization that contains your projects. Use the [`/orgs`](#tag/Organizations/operation/listOrganizations) endpoint to retrieve all organizations to which the authenticated user has access. */
+  orgId: string;
+  /** Flag that indicates whether Application wraps the response in an `envelope` JSON object. Some API clients cannot access the HTTP response headers or status code. To remediate this, set envelope=true in the query. Endpoints that return a list of results use the results object as an envelope. Application adds the status parameter to the response body. */
+  envelope?: boolean;
+  /** Flag that indicates whether the response body should be in the prettyprint format. */
+  pretty?: boolean;
+  /** Array of log types exported by this integration. */
+  logTypes: CreateOrgLogIntegrationRequestLogTypesList;
+  /** Type of log integration. Identifies which service will receive the exported events. This value cannot be modified after the integration is created. */
+  type: CreateOrgLogIntegrationRequestType | (string & {});
+}
+export const CreateOrgLogIntegrationRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    orgId: S.String.pipe(T.Label()),
+    envelope: S.optional(S.Boolean.pipe(T.Query())),
+    pretty: S.optional(S.Boolean.pipe(T.Query())),
+    logTypes: CreateOrgLogIntegrationRequestLogTypesList,
+    type: CreateOrgLogIntegrationRequestType,
+  }).pipe(
+    T.Http({
+      method: "POST",
+      uri: "/api/atlas/v2/orgs/{orgId}/logIntegrations",
+      code: 200,
+      accept: "application/vnd.atlas.2025-03-12+json",
+    }),
+  ),
+).annotate({
+  identifier: "CreateOrgLogIntegrationRequest",
+}) as any as S.Schema<CreateOrgLogIntegrationRequest>;
+
+export type CreateOrgLogIntegrationResponseLogTypesItem = "EVENTS";
+export const CreateOrgLogIntegrationResponseLogTypesItem = S.String;
+
+/** Array of log types exported by this integration. */
+export type CreateOrgLogIntegrationResponseLogTypesList =
+  Array<CreateOrgLogIntegrationResponseLogTypesItem>;
+export const CreateOrgLogIntegrationResponseLogTypesList = /*@__PURE__*/ S.Array(
+  CreateOrgLogIntegrationResponseLogTypesItem,
+) as any as S.Schema<CreateOrgLogIntegrationResponseLogTypesList>;
+
+/** Type of log integration. Identifies which service will receive the exported events. This value cannot be modified after the integration is created. */
+export type CreateOrgLogIntegrationResponseType = "OTEL_LOG_EXPORT";
+export const CreateOrgLogIntegrationResponseType = S.String;
+
+export interface CreateOrgLogIntegrationResponse {
+  /** Unique 24-character hexadecimal digit string that identifies the log integration configuration. */
+  id: string;
+  /** Array of log types exported by this integration. */
+  logTypes: CreateOrgLogIntegrationResponseLogTypesList;
+  /** Type of log integration. Identifies which service will receive the exported events. This value cannot be modified after the integration is created. */
+  type: CreateOrgLogIntegrationResponseType;
+}
+export const CreateOrgLogIntegrationResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    id: S.String,
+    logTypes: CreateOrgLogIntegrationResponseLogTypesList,
+    type: CreateOrgLogIntegrationResponseType,
+  }),
+).annotate({
+  identifier: "CreateOrgLogIntegrationResponse",
+}) as any as S.Schema<CreateOrgLogIntegrationResponse>;
 
 /** List of IP access list entries that define allowed source addresses for this MCP configuration. */
 export type CreateOrgMcpConfigRequestIpAccessListList = Array<ServiceAccountIPAccessListEntryInput>;
@@ -27041,9 +27267,7 @@ export const OrgMcpConfigResponse = /*@__PURE__*/ S.suspend(() =>
     mcpConfigName: S.optional(S.NullOr(S.String)),
     roles: S.optional(OrgMcpConfigResponseRolesList),
   }),
-).annotate({
-  identifier: "OrgMcpConfigResponse",
-}) as any as S.Schema<OrgMcpConfigResponse>;
+).annotate({ identifier: "OrgMcpConfigResponse" }) as any as S.Schema<OrgMcpConfigResponse>;
 
 export interface CreateOrgMcpConfigSecretRequest {
   /** Unique 24-hexadecimal digit string that identifies the organization that contains your projects. Use the [`/orgs`](#tag/Organizations/operation/listOrganizations) endpoint to retrieve all organizations to which the authenticated user has access. */
@@ -27078,9 +27302,7 @@ export const ApiAtlasPolicyCreateView = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     body: S.String,
   }),
-).annotate({
-  identifier: "ApiAtlasPolicyCreateView",
-}) as any as S.Schema<ApiAtlasPolicyCreateView>;
+).annotate({ identifier: "ApiAtlasPolicyCreateView" }) as any as S.Schema<ApiAtlasPolicyCreateView>;
 
 /** List of policies that make up the atlas resource policy. */
 export type CreateOrgResourcePolicyRequestPoliciesList = Array<ApiAtlasPolicyCreateView>;
@@ -27134,9 +27356,7 @@ export const ApiAtlasUserMetadataView = /*@__PURE__*/ S.suspend(() =>
     id: S.optional(S.String),
     name: S.optional(S.String),
   }),
-).annotate({
-  identifier: "ApiAtlasUserMetadataView",
-}) as any as S.Schema<ApiAtlasUserMetadataView>;
+).annotate({ identifier: "ApiAtlasUserMetadataView" }) as any as S.Schema<ApiAtlasUserMetadataView>;
 
 export interface ApiAtlasPolicyView {
   /** A string that defines the permissions for the policy. The syntax used is the Cedar Policy language. */
@@ -27149,9 +27369,7 @@ export const ApiAtlasPolicyView = /*@__PURE__*/ S.suspend(() =>
     body: S.optional(S.String),
     id: S.optional(S.String),
   }),
-).annotate({
-  identifier: "ApiAtlasPolicyView",
-}) as any as S.Schema<ApiAtlasPolicyView>;
+).annotate({ identifier: "ApiAtlasPolicyView" }) as any as S.Schema<ApiAtlasPolicyView>;
 
 /** List of policies that make up the atlas resource policy. */
 export type ApiAtlasResourcePolicyViewPoliciesList = Array<ApiAtlasPolicyView>;
@@ -27228,8 +27446,10 @@ export interface CreateOrgServiceAccountRequest {
   name: string;
   /** A list of organization-level roles for the Service Account. */
   roles: CreateOrgServiceAccountRequestRolesList;
-  /** The expiration time of the new Service Account secret, provided in hours. The minimum and maximum allowed expiration times are subject to change and are controlled by the organization's settings. */
-  secretExpiresAfterHours: number;
+  /** The expiration time of the new Service Account secret, provided in hours. The minimum and maximum allowed expiration times are subject to change and are controlled by the organization's settings. Required unless `withoutInitialSecret` is true. */
+  secretExpiresAfterHours?: number | null;
+  /** If true, creates the Service Account without generating an initial secret. `secretExpiresAfterHours` must not be set when this is true. Defaults to false, which preserves existing behavior: a secret is generated and returned in the response. Use the `CreateOrgServiceAccountSecret` endpoint to add a secret later. */
+  withoutInitialSecret?: boolean | null;
 }
 export const CreateOrgServiceAccountRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -27239,7 +27459,8 @@ export const CreateOrgServiceAccountRequest = /*@__PURE__*/ S.suspend(() =>
     description: S.String,
     name: S.String,
     roles: CreateOrgServiceAccountRequestRolesList,
-    secretExpiresAfterHours: S.Number,
+    secretExpiresAfterHours: S.optional(S.NullOr(S.Number)),
+    withoutInitialSecret: S.optional(S.NullOr(S.Boolean)),
   }).pipe(
     T.Http({
       method: "POST",
@@ -27265,7 +27486,7 @@ export interface CreateOrgServiceAccountAccessListRequest {
   clientId: string;
   /** Flag that indicates whether Application wraps the response in an `envelope` JSON object. Some API clients cannot access the HTTP response headers or status code. To remediate this, set envelope=true in the query. Endpoints that return a list of results use the results object as an envelope. Application adds the status parameter to the response body. */
   envelope?: boolean;
-  /** Flag that indicates whether the response returns the total number of items (`totalCount`) in the response. */
+  /** Flag that indicates whether MongoDB Cloud calculates the total number of items for the response. When set to `false`, MongoDB Cloud may skip an additional count operation. The response may still include `totalCount` when the count is available without additional calculation. */
   includeCount?: boolean;
   /** Number of items that the response returns per page. */
   itemsPerPage?: number;
@@ -27361,9 +27582,7 @@ export const CreateOrgTeamRequest = /*@__PURE__*/ S.suspend(() =>
       accept: "application/vnd.atlas.2023-01-01+json",
     }),
   ),
-).annotate({
-  identifier: "CreateOrgTeamRequest",
-}) as any as S.Schema<CreateOrgTeamRequest>;
+).annotate({ identifier: "CreateOrgTeamRequest" }) as any as S.Schema<CreateOrgTeamRequest>;
 
 /** List of one or more Uniform Resource Locators (URLs) that point to API sub-resources, related API resources, or both. RFC 5988 outlines these relationships. */
 export type TeamLinksList = Array<Link>;
@@ -27431,9 +27650,7 @@ export const OrgUserRolesRequest = /*@__PURE__*/ S.suspend(() =>
     groupRoleAssignments: S.optional(OrgUserRolesRequestGroupRoleAssignmentsList),
     orgRoles: OrgUserRolesRequestOrgRolesList,
   }),
-).annotate({
-  identifier: "OrgUserRolesRequest",
-}) as any as S.Schema<OrgUserRolesRequest>;
+).annotate({ identifier: "OrgUserRolesRequest" }) as any as S.Schema<OrgUserRolesRequest>;
 
 /** List of unique 24-hexadecimal digit strings that identifies the teams to which this MongoDB Cloud user belongs. */
 export type CreateOrgUserRequestTeamIdsList = Array<string>;
@@ -27470,9 +27687,7 @@ export const CreateOrgUserRequest = /*@__PURE__*/ S.suspend(() =>
       accept: "application/vnd.atlas.2025-02-19+json",
     }),
   ),
-).annotate({
-  identifier: "CreateOrgUserRequest",
-}) as any as S.Schema<CreateOrgUserRequest>;
+).annotate({ identifier: "CreateOrgUserRequest" }) as any as S.Schema<CreateOrgUserRequest>;
 
 export interface CutoverGroupLiveMigrationRequest {
   /** Unique 24-hexadecimal digit string that identifies your project. Use the [/groups](#tag/Projects/operation/listProjects) endpoint to retrieve all projects to which the authenticated user has access. **NOTE**: Groups and projects are synonymous terms. Your group id is the same as your project id. For existing groups, your group/project id remains the same. The resource and corresponding endpoints use the term groups. */
@@ -27600,9 +27815,7 @@ export const DeleteFederationSettingRequest = /*@__PURE__*/ S.suspend(() =>
 
 export interface DeleteFederationSettingResponse {}
 export const DeleteFederationSettingResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate(
-  {
-    identifier: "DeleteFederationSettingResponse",
-  },
+  { identifier: "DeleteFederationSettingResponse" },
 ) as any as S.Schema<DeleteFederationSettingResponse>;
 
 export interface DeleteFederationSettingConnectedOrgConfigRoleMappingRequest {
@@ -27694,9 +27907,7 @@ export const DeleteGroupRequest = /*@__PURE__*/ S.suspend(() =>
       accept: "application/vnd.atlas.2023-01-01+json",
     }),
   ),
-).annotate({
-  identifier: "DeleteGroupRequest",
-}) as any as S.Schema<DeleteGroupRequest>;
+).annotate({ identifier: "DeleteGroupRequest" }) as any as S.Schema<DeleteGroupRequest>;
 
 export interface DeleteGroupResponse {}
 export const DeleteGroupResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -28060,9 +28271,7 @@ export const AutoExportPolicyView = /*@__PURE__*/ S.suspend(() =>
     exportBucketId: S.optional(S.String),
     frequencyType: S.optional(AutoExportPolicyViewFrequencyType),
   }),
-).annotate({
-  identifier: "AutoExportPolicyView",
-}) as any as S.Schema<AutoExportPolicyView>;
+).annotate({ identifier: "AutoExportPolicyView" }) as any as S.Schema<AutoExportPolicyView>;
 
 /** The frequency type for the extra retention settings for the cluster. */
 export type ExtraRetentionSettingFrequencyType =
@@ -28086,9 +28295,7 @@ export const ExtraRetentionSetting = /*@__PURE__*/ S.suspend(() =>
     frequencyType: S.optional(ExtraRetentionSettingFrequencyType),
     retentionDays: S.optional(S.Number),
   }),
-).annotate({
-  identifier: "ExtraRetentionSetting",
-}) as any as S.Schema<ExtraRetentionSetting>;
+).annotate({ identifier: "ExtraRetentionSetting" }) as any as S.Schema<ExtraRetentionSetting>;
 
 /** List that contains a document for each extra retention setting item in the desired backup policy. */
 export type DiskBackupSnapshotSchedule20240805OutputExtraRetentionSettingsList =
@@ -28172,9 +28379,7 @@ export const DiskBackupApiPolicyItem = /*@__PURE__*/ S.suspend(() =>
     retentionUnit: DiskBackupApiPolicyItemRetentionUnit,
     retentionValue: S.Number,
   }),
-).annotate({
-  identifier: "DiskBackupApiPolicyItem",
-}) as any as S.Schema<DiskBackupApiPolicyItem>;
+).annotate({ identifier: "DiskBackupApiPolicyItem" }) as any as S.Schema<DiskBackupApiPolicyItem>;
 
 /** List that contains the specifications for one policy. */
 export type AdvancedDiskBackupSnapshotSchedulePolicyPolicyItemsList =
@@ -28693,9 +28898,7 @@ export const DeleteGroupDatabaseUserRequest = /*@__PURE__*/ S.suspend(() =>
 
 export interface DeleteGroupDatabaseUserResponse {}
 export const DeleteGroupDatabaseUserResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate(
-  {
-    identifier: "DeleteGroupDatabaseUserResponse",
-  },
+  { identifier: "DeleteGroupDatabaseUserResponse" },
 ) as any as S.Schema<DeleteGroupDatabaseUserResponse>;
 
 export interface DeleteGroupDataFederationRequest {
@@ -28873,7 +29076,7 @@ export const DeleteGroupLimitRequestLimitName = S.String;
 export interface DeleteGroupLimitRequest {
   /** Unique 24-hexadecimal digit string that identifies your project. Use the [/groups](#tag/Projects/operation/listProjects) endpoint to retrieve all projects to which the authenticated user has access. **NOTE**: Groups and projects are synonymous terms. Your group id is the same as your project id. For existing groups, your group/project id remains the same. The resource and corresponding endpoints use the term groups. */
   groupId: string;
-  /** Human-readable label that identifies this project limit. | Limit Name | Description | Default | API Override Limit | | --- | --- | --- | --- | | `atlas.project.deployment.clusters` | Limit on the number of clusters in this project | 25 | 100 | | `atlas.project.deployment.nodesPerPrivateLinkRegion` | Limit on AWS PrivateLink addressable target nodes per region in this project. For sharded clusters using optimized (load-balanced) connection strings, `currentUsage` doesn't grow with the number of `mongos` — the load balancer is counted as a single addressable target regardless of how many `mongos` sit behind it. | 50 | 90 | | `atlas.project.security.databaseAccess.customRoles` | Limit on the number of custom roles in this project | 100 | 1400 | | `atlas.project.security.databaseAccess.users` | Limit on the number of database users in this project | 100 | 100 | | `atlas.project.security.networkAccess.crossRegionEntries` | Limit on the number of cross-region network access entries in this project | 40 | 220 | | `atlas.project.security.networkAccess.entries` | Limit on the number of network access entries in this project | 200 | 20 | | `dataFederation.bytesProcessed.query` | Limit on the number of bytes processed during a single Data Federation query | N/A | N/A | | `dataFederation.bytesProcessed.daily` | Limit on the number of bytes processed across all Data Federation tenants for the current day | N/A | N/A | | `dataFederation.bytesProcessed.weekly` | Limit on the number of bytes processed across all Data Federation tenants for the current week | N/A | N/A | | `dataFederation.bytesProcessed.monthly` | Limit on the number of bytes processed across all Data Federation tenants for the current month | N/A | N/A | | `atlas.project.deployment.privateServiceConnectionsPerRegionGroup` | Number of Private Service Connections per Region Group | 50 | 100| | `atlas.project.deployment.privateServiceConnectionsSubnetMask` | Subnet mask for GCP PSC Networks. Has lower limit of 20. | 27 | 27| */
+  /** Human-readable label that identifies this project limit. | Limit Name | Description | Default | API Override Limit | | --- | --- | --- | --- | | `atlas.project.deployment.clusters` | Limit on the number of clusters in this project | 25 | 100 | | `atlas.project.deployment.nodesPerPrivateLinkRegion` | Limit on AWS PrivateLink addressable target nodes per region in this project. For sharded clusters using optimized (load-balanced) connection strings, `currentUsage` doesn't grow with the number of `mongos` — the load balancer is counted as a single addressable target regardless of how many `mongos` sit behind it. | 50 | 90 | | `atlas.project.security.databaseAccess.customRoles` | Limit on the number of custom roles in this project | 100 | 1400 | | `atlas.project.security.databaseAccess.users` | Limit on the number of database users in this project | 100 | 900 | | `atlas.project.security.networkAccess.crossRegionEntries` | Limit on the number of cross-region network access entries in this project | 40 | 220 | | `atlas.project.security.networkAccess.entries` | Limit on the number of network access entries in this project | 200 | 20 | | `dataFederation.bytesProcessed.query` | Limit on the number of bytes processed during a single Data Federation query | N/A | N/A | | `dataFederation.bytesProcessed.daily` | Limit on the number of bytes processed across all Data Federation tenants for the current day | N/A | N/A | | `dataFederation.bytesProcessed.weekly` | Limit on the number of bytes processed across all Data Federation tenants for the current week | N/A | N/A | | `dataFederation.bytesProcessed.monthly` | Limit on the number of bytes processed across all Data Federation tenants for the current month | N/A | N/A | | `atlas.project.deployment.privateServiceConnectionsPerRegionGroup` | Number of Private Service Connections per Region Group | 50 | 100| | `atlas.project.deployment.privateServiceConnectionsSubnetMask` | Subnet mask for GCP PSC Networks. Has lower limit of 20. | 27 | 27| */
   limitName: DeleteGroupLimitRequestLimitName | (string & {});
   /** Flag that indicates whether Application wraps the response in an `envelope` JSON object. Some API clients cannot access the HTTP response headers or status code. To remediate this, set envelope=true in the query. Endpoints that return a list of results use the results object as an envelope. Application adds the status parameter to the response body. */
   envelope?: boolean;
@@ -28894,9 +29097,7 @@ export const DeleteGroupLimitRequest = /*@__PURE__*/ S.suspend(() =>
       accept: "application/vnd.atlas.2023-01-01+json",
     }),
   ),
-).annotate({
-  identifier: "DeleteGroupLimitRequest",
-}) as any as S.Schema<DeleteGroupLimitRequest>;
+).annotate({ identifier: "DeleteGroupLimitRequest" }) as any as S.Schema<DeleteGroupLimitRequest>;
 
 export interface DeleteGroupLimitResponse {}
 export const DeleteGroupLimitResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -29059,9 +29260,7 @@ export const DeleteGroupPeerRequest = /*@__PURE__*/ S.suspend(() =>
       accept: "application/vnd.atlas.2023-01-01+json",
     }),
   ),
-).annotate({
-  identifier: "DeleteGroupPeerRequest",
-}) as any as S.Schema<DeleteGroupPeerRequest>;
+).annotate({ identifier: "DeleteGroupPeerRequest" }) as any as S.Schema<DeleteGroupPeerRequest>;
 
 export interface DeleteGroupPeerResponse {}
 export const DeleteGroupPeerResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -29576,9 +29775,7 @@ export const DeleteOrgRequest = /*@__PURE__*/ S.suspend(() =>
       accept: "application/vnd.atlas.2023-01-01+json",
     }),
   ),
-).annotate({
-  identifier: "DeleteOrgRequest",
-}) as any as S.Schema<DeleteOrgRequest>;
+).annotate({ identifier: "DeleteOrgRequest" }) as any as S.Schema<DeleteOrgRequest>;
 
 export interface DeleteOrgResponse {}
 export const DeleteOrgResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -29609,9 +29806,7 @@ export const DeleteOrgApiKeyRequest = /*@__PURE__*/ S.suspend(() =>
       accept: "application/vnd.atlas.2023-01-01+json",
     }),
   ),
-).annotate({
-  identifier: "DeleteOrgApiKeyRequest",
-}) as any as S.Schema<DeleteOrgApiKeyRequest>;
+).annotate({ identifier: "DeleteOrgApiKeyRequest" }) as any as S.Schema<DeleteOrgApiKeyRequest>;
 
 export interface DeleteOrgApiKeyResponse {}
 export const DeleteOrgApiKeyResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -29684,6 +29879,39 @@ export const DeleteOrgLiveMigrationLinkTokensResponse = /*@__PURE__*/ S.suspend(
 ).annotate({
   identifier: "DeleteOrgLiveMigrationLinkTokensResponse",
 }) as any as S.Schema<DeleteOrgLiveMigrationLinkTokensResponse>;
+
+export interface DeleteOrgLogIntegrationRequest {
+  /** Unique 24-hexadecimal digit string that identifies the organization that contains your projects. Use the [`/orgs`](#tag/Organizations/operation/listOrganizations) endpoint to retrieve all organizations to which the authenticated user has access. */
+  orgId: string;
+  /** Unique identifier of the log integration configuration. */
+  logIntegrationId: string;
+  /** Flag that indicates whether Application wraps the response in an `envelope` JSON object. Some API clients cannot access the HTTP response headers or status code. To remediate this, set envelope=true in the query. Endpoints that return a list of results use the results object as an envelope. Application adds the status parameter to the response body. */
+  envelope?: boolean;
+  /** Flag that indicates whether the response body should be in the prettyprint format. */
+  pretty?: boolean;
+}
+export const DeleteOrgLogIntegrationRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    orgId: S.String.pipe(T.Label()),
+    logIntegrationId: S.String.pipe(T.Label()),
+    envelope: S.optional(S.Boolean.pipe(T.Query())),
+    pretty: S.optional(S.Boolean.pipe(T.Query())),
+  }).pipe(
+    T.Http({
+      method: "DELETE",
+      uri: "/api/atlas/v2/orgs/{orgId}/logIntegrations/{logIntegrationId}",
+      code: 200,
+      accept: "application/vnd.atlas.2025-03-12+json",
+    }),
+  ),
+).annotate({
+  identifier: "DeleteOrgLogIntegrationRequest",
+}) as any as S.Schema<DeleteOrgLogIntegrationRequest>;
+
+export interface DeleteOrgLogIntegrationResponse {}
+export const DeleteOrgLogIntegrationResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate(
+  { identifier: "DeleteOrgLogIntegrationResponse" },
+) as any as S.Schema<DeleteOrgLogIntegrationResponse>;
 
 export interface DeleteOrgMcpConfigRequest {
   /** Unique 24-hexadecimal digit string that identifies the organization that contains your projects. Use the [`/orgs`](#tag/Organizations/operation/listOrganizations) endpoint to retrieve all organizations to which the authenticated user has access. */
@@ -29777,9 +30005,7 @@ export const DeleteOrgResourcePolicyRequest = /*@__PURE__*/ S.suspend(() =>
 
 export interface DeleteOrgResourcePolicyResponse {}
 export const DeleteOrgResourcePolicyResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate(
-  {
-    identifier: "DeleteOrgResourcePolicyResponse",
-  },
+  { identifier: "DeleteOrgResourcePolicyResponse" },
 ) as any as S.Schema<DeleteOrgResourcePolicyResponse>;
 
 export interface DeleteOrgServiceAccountRequest {
@@ -29812,9 +30038,7 @@ export const DeleteOrgServiceAccountRequest = /*@__PURE__*/ S.suspend(() =>
 
 export interface DeleteOrgServiceAccountResponse {}
 export const DeleteOrgServiceAccountResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate(
-  {
-    identifier: "DeleteOrgServiceAccountResponse",
-  },
+  { identifier: "DeleteOrgServiceAccountResponse" },
 ) as any as S.Schema<DeleteOrgServiceAccountResponse>;
 
 export interface DeleteOrgServiceAccountAccessListEntryRequest {
@@ -29917,9 +30141,7 @@ export const DeleteOrgTeamRequest = /*@__PURE__*/ S.suspend(() =>
       accept: "application/vnd.atlas.2023-01-01+json",
     }),
   ),
-).annotate({
-  identifier: "DeleteOrgTeamRequest",
-}) as any as S.Schema<DeleteOrgTeamRequest>;
+).annotate({ identifier: "DeleteOrgTeamRequest" }) as any as S.Schema<DeleteOrgTeamRequest>;
 
 export interface DeleteOrgTeamResponse {}
 export const DeleteOrgTeamResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -30062,9 +30284,7 @@ export const DownloadGroupClusterLogRequest = /*@__PURE__*/ S.suspend(() =>
 
 export interface DownloadGroupClusterLogResponse {}
 export const DownloadGroupClusterLogResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate(
-  {
-    identifier: "DownloadGroupClusterLogResponse",
-  },
+  { identifier: "DownloadGroupClusterLogResponse" },
 ) as any as S.Schema<DownloadGroupClusterLogResponse>;
 
 export interface DownloadGroupClusterOnlineArchiveQueryLogsRequest {
@@ -30385,9 +30605,7 @@ export const ClusterOutageSimulation = /*@__PURE__*/ S.suspend(() =>
     startRequestDate: S.optional(S.String),
     state: S.optional(ClusterOutageSimulationState),
   }),
-).annotate({
-  identifier: "ClusterOutageSimulation",
-}) as any as S.Schema<ClusterOutageSimulation>;
+).annotate({ identifier: "ClusterOutageSimulation" }) as any as S.Schema<ClusterOutageSimulation>;
 
 export interface GetFederationSettingConnectedOrgConfigRequest {
   /** Unique 24-hexadecimal digit string that identifies your federation. */
@@ -30495,9 +30713,7 @@ export const X509Certificate = /*@__PURE__*/ S.suspend(() =>
     notAfter: S.optional(S.String),
     notBefore: S.optional(S.String),
   }),
-).annotate({
-  identifier: "X509Certificate",
-}) as any as S.Schema<X509Certificate>;
+).annotate({ identifier: "X509Certificate" }) as any as S.Schema<X509Certificate>;
 
 /** List of certificates in the file. */
 export type PemFileInfoCertificatesList = Array<X509Certificate>;
@@ -30661,9 +30877,7 @@ export const GetGroupRequest = /*@__PURE__*/ S.suspend(() =>
       accept: "application/vnd.atlas.2023-01-01+json",
     }),
   ),
-).annotate({
-  identifier: "GetGroupRequest",
-}) as any as S.Schema<GetGroupRequest>;
+).annotate({ identifier: "GetGroupRequest" }) as any as S.Schema<GetGroupRequest>;
 
 export interface GetGroupAccessListEntryRequest {
   /** Unique 24-hexadecimal digit string that identifies your project. Use the [/groups](#tag/Projects/operation/listProjects) endpoint to retrieve all projects to which the authenticated user has access. **NOTE**: Groups and projects are synonymous terms. Your group id is the same as your project id. For existing groups, your group/project id remains the same. The resource and corresponding endpoints use the term groups. */
@@ -31121,6 +31335,8 @@ export type EventTypeForNdsGroupCase28 =
   | "PLAN_ABANDONED"
   | "PLAN_DECLINED"
   | "PLAN_FAILURE_COUNT_RESET"
+  | "CAPACITY_RETRY_OVERRIDE_SET"
+  | "CAPACITY_RETRY_OVERRIDE_REMOVED"
   | "PLAN_ASAP_REQUESTED"
   | "INDEPENDENT_SHARD_AUTO_SCALING_AVAILABLE"
   | "INDEPENDENT_SHARD_SCALING_CLUSTER_MIGRATED"
@@ -31238,8 +31454,10 @@ export type EventTypeForNdsGroupCase28 =
   | "SERVERLESS_UPGRADE_TO_DEDICATED_SUCCESSFUL"
   | "SERVERLESS_UPGRADE_TO_DEDICATED_FAILED"
   | "CLUSTER_FORCE_RECONFIG_REQUESTED"
+  | "SLS_LOG_AND_MONGOD_NODES_RECREATION_REQUESTED"
   | "AGENT_FORCE_RESTART_REQUESTED"
   | "CLUSTER_RESET_FORCE_RECONFIG_REQUESTED"
+  | "CLUSTER_FORCE_PAUSE_REQUESTED"
   | "PROJECT_BYPASSED_MAINTENANCE"
   | "FEATURE_FLAG_MAINTENANCE"
   | "DATA_FEDERATION_QUERY_LIMIT_CONFIGURED"
@@ -31331,6 +31549,7 @@ export type EventTypeForNdsGroupCase28 =
   | "MONGOTUNE_WRITE_BLOCK_POLICY_INELIGIBLE"
   | "PREDICTIVE_AUTOSCALING_ENABLED"
   | "PREDICTIVE_AUTOSCALING_DISABLED"
+  | "ADAPTIVE_SETTINGS_LOAD_SHEDDING_UPDATED"
   | "SHADOW_CLUSTER_CREATE_EXPOSURE"
   | "SHADOW_CLUSTER_DELETE_EXPOSURE"
   | "SHADOW_CLUSTER_RECORDING_STATUS_UPDATE"
@@ -31351,7 +31570,12 @@ export type EventTypeForNdsGroupCase28 =
   | "VOLUME_IMPAIRED"
   | "VOLUME_IMPAIRED_RESOLVED"
   | "SQL_INTERFACE_ENABLED"
-  | "SQL_INTERFACE_DISABLED";
+  | "SQL_INTERFACE_DISABLED"
+  | "CLUSTER_OVERLOAD_PROTECTION_SIMULATION_REQUESTED"
+  | "CLUSTER_OVERLOAD_PROTECTION_SIMULATION_STARTED"
+  | "CLUSTER_OVERLOAD_PROTECTION_SIMULATION_FAILED_TO_START"
+  | "CLUSTER_OVERLOAD_PROTECTION_SIMULATION_END_REQUESTED"
+  | "CLUSTER_OVERLOAD_PROTECTION_SIMULATION_ENDED";
 export const EventTypeForNdsGroupCase28 = S.String;
 
 export type EventTypeForNdsGroupCase29 =
@@ -31384,13 +31608,16 @@ export type EventTypeForNdsGroupCase31 =
   | "COMPUTE_AUTO_SCALE_MAX_INSTANCE_SIZE_FAIL_ANALYTICS"
   | "COMPUTE_AUTO_SCALE_OPLOG_FAIL_BASE"
   | "COMPUTE_AUTO_SCALE_OPLOG_FAIL_ANALYTICS"
+  | "COMPUTE_AUTO_SCALE_CAPACITY_CONSTRAINT_FAIL_BASE"
+  | "COMPUTE_AUTO_SCALE_CAPACITY_CONSTRAINT_FAIL_ANALYTICS"
   | "DISK_AUTO_SCALE_MAX_DISK_SIZE_FAIL"
   | "DISK_AUTO_SCALE_OPLOG_FAIL"
+  | "CLUSTER_AUTO_SHARDING_INITIATED"
+  | "CLUSTER_RESHARDING_COMPLETED"
   | "PREDICTIVE_COMPUTE_AUTO_SCALE_INITIATED_BASE"
   | "PREDICTIVE_COMPUTE_AUTO_SCALE_MAX_INSTANCE_SIZE_FAIL_BASE"
   | "PREDICTIVE_COMPUTE_AUTO_SCALE_OPLOG_FAIL_BASE"
-  | "CLUSTER_AUTO_SHARDING_INITIATED"
-  | "CLUSTER_RESHARDING_COMPLETED";
+  | "PREDICTIVE_COMPUTE_AUTO_SCALE_CAPACITY_CONSTRAINT_FAIL_BASE";
 export const EventTypeForNdsGroupCase31 = S.String;
 
 export type EventTypeForNdsGroupCase32 =
@@ -31746,9 +31973,7 @@ export const ActivityFeedLinkResponse = /*@__PURE__*/ S.suspend(() =>
     link: S.String,
     links: S.optional(ActivityFeedLinkResponseLinksList),
   }),
-).annotate({
-  identifier: "ActivityFeedLinkResponse",
-}) as any as S.Schema<ActivityFeedLinkResponse>;
+).annotate({ identifier: "ActivityFeedLinkResponse" }) as any as S.Schema<ActivityFeedLinkResponse>;
 
 export type GetGroupAiModelApiCloudGeographyModelGroupNameRateLimitsRequestCloud = "ANY";
 export const GetGroupAiModelApiCloudGeographyModelGroupNameRateLimitsRequestCloud = S.String;
@@ -31827,9 +32052,7 @@ export const AiModelRateLimitResponse = /*@__PURE__*/ S.suspend(() =>
     requestsPerMinuteLimit: S.optional(S.Number),
     tokensPerMinuteLimit: S.optional(S.Number),
   }),
-).annotate({
-  identifier: "AiModelRateLimitResponse",
-}) as any as S.Schema<AiModelRateLimitResponse>;
+).annotate({ identifier: "AiModelRateLimitResponse" }) as any as S.Schema<AiModelRateLimitResponse>;
 
 export interface GetGroupAiModelApiKeyRequest {
   /** Unique 24-hexadecimal digit string that identifies your project. Use the [/groups](#tag/Projects/operation/listProjects) endpoint to retrieve all projects to which the authenticated user has access. **NOTE**: Groups and projects are synonymous terms. Your group id is the same as your project id. For existing groups, your group/project id remains the same. The resource and corresponding endpoints use the term groups. */
@@ -31908,7 +32131,7 @@ export interface PaginatedAtlasAiModelRateLimitsResponse {
   links?: PaginatedAtlasAiModelRateLimitsResponseLinksList;
   /** List of returned documents that MongoDB Cloud provides when completing this request. */
   results: PaginatedAtlasAiModelRateLimitsResponseResultsList;
-  /** Total number of documents available. MongoDB Cloud omits this value if `includeCount` is set to `false`. The total number is an estimate and may not be exact. */
+  /** Total number of documents available. When `includeCount` is set to `false`, MongoDB Cloud may omit this value or return it when the count is available without additional calculation. The total number is an estimate and may not be exact. */
   totalCount?: number;
 }
 export const PaginatedAtlasAiModelRateLimitsResponse = /*@__PURE__*/ S.suspend(() =>
@@ -31945,16 +32168,12 @@ export const GetGroupAlertRequest = /*@__PURE__*/ S.suspend(() =>
       accept: "application/vnd.atlas.2023-01-01+json",
     }),
   ),
-).annotate({
-  identifier: "GetGroupAlertRequest",
-}) as any as S.Schema<GetGroupAlertRequest>;
+).annotate({ identifier: "GetGroupAlertRequest" }) as any as S.Schema<GetGroupAlertRequest>;
 
 export type GetGroupAlertResponse = AlertViewForNdsGroup;
 export const GetGroupAlertResponse = /*@__PURE__*/ S.suspend(() =>
   AlertViewForNdsGroup.pipe(T.RawResponseRoot()),
-).annotate({
-  identifier: "GetGroupAlertResponse",
-}) as any as S.Schema<GetGroupAlertResponse>;
+).annotate({ identifier: "GetGroupAlertResponse" }) as any as S.Schema<GetGroupAlertResponse>;
 
 export interface GetGroupAlertAlertConfigsRequest {
   /** Unique 24-hexadecimal digit string that identifies your project. Use the [/groups](#tag/Projects/operation/listProjects) endpoint to retrieve all projects to which the authenticated user has access. **NOTE**: Groups and projects are synonymous terms. Your group id is the same as your project id. For existing groups, your group/project id remains the same. The resource and corresponding endpoints use the term groups. */
@@ -31965,7 +32184,7 @@ export interface GetGroupAlertAlertConfigsRequest {
   envelope?: boolean;
   /** Flag that indicates whether the response body should be in the prettyprint format. */
   pretty?: boolean;
-  /** Flag that indicates whether the response returns the total number of items (`totalCount`) in the response. */
+  /** Flag that indicates whether MongoDB Cloud calculates the total number of items for the response. When set to `false`, MongoDB Cloud may skip an additional count operation. The response may still include `totalCount` when the count is available without additional calculation. */
   includeCount?: boolean;
   /** Number of items that the response returns per page. */
   itemsPerPage?: number;
@@ -32010,7 +32229,7 @@ export interface PaginatedAlertConfigView {
   links?: PaginatedAlertConfigViewLinksList;
   /** List of returned documents that MongoDB Cloud provides when completing this request. */
   results: PaginatedAlertConfigViewResultsList;
-  /** Total number of documents available. MongoDB Cloud omits this value if `includeCount` is set to `false`. The total number is an estimate and may not be exact. */
+  /** Total number of documents available. When `includeCount` is set to `false`, MongoDB Cloud may omit this value or return it when the count is available without additional calculation. The total number is an estimate and may not be exact. */
   totalCount?: number;
 }
 export const PaginatedAlertConfigView = /*@__PURE__*/ S.suspend(() =>
@@ -32019,9 +32238,7 @@ export const PaginatedAlertConfigView = /*@__PURE__*/ S.suspend(() =>
     results: PaginatedAlertConfigViewResultsList,
     totalCount: S.optional(S.Number),
   }),
-).annotate({
-  identifier: "PaginatedAlertConfigView",
-}) as any as S.Schema<PaginatedAlertConfigView>;
+).annotate({ identifier: "PaginatedAlertConfigView" }) as any as S.Schema<PaginatedAlertConfigView>;
 
 export interface GetGroupAlertConfigRequest {
   /** Unique 24-hexadecimal digit string that identifies your project. Use the [/groups](#tag/Projects/operation/listProjects) endpoint to retrieve all projects to which the authenticated user has access. **NOTE**: Groups and projects are synonymous terms. Your group id is the same as your project id. For existing groups, your group/project id remains the same. The resource and corresponding endpoints use the term groups. */
@@ -32065,7 +32282,7 @@ export interface GetGroupAlertConfigAlertsRequest {
   alertConfigId: string;
   /** Flag that indicates whether Application wraps the response in an `envelope` JSON object. Some API clients cannot access the HTTP response headers or status code. To remediate this, set envelope=true in the query. Endpoints that return a list of results use the results object as an envelope. Application adds the status parameter to the response body. */
   envelope?: boolean;
-  /** Flag that indicates whether the response returns the total number of items (`totalCount`) in the response. */
+  /** Flag that indicates whether MongoDB Cloud calculates the total number of items for the response. When set to `false`, MongoDB Cloud may skip an additional count operation. The response may still include `totalCount` when the count is available without additional calculation. */
   includeCount?: boolean;
   /** Number of items that the response returns per page. */
   itemsPerPage?: number;
@@ -32112,7 +32329,7 @@ export interface PaginatedAlertView {
   links?: PaginatedAlertViewLinksList;
   /** List of returned documents that MongoDB Cloud provides when completing this request. */
   results: PaginatedAlertViewResultsList;
-  /** Total number of documents available. MongoDB Cloud omits this value if `includeCount` is set to `false`. The total number is an estimate and may not be exact. */
+  /** Total number of documents available. When `includeCount` is set to `false`, MongoDB Cloud may omit this value or return it when the count is available without additional calculation. The total number is an estimate and may not be exact. */
   totalCount?: number;
 }
 export const PaginatedAlertView = /*@__PURE__*/ S.suspend(() =>
@@ -32121,9 +32338,7 @@ export const PaginatedAlertView = /*@__PURE__*/ S.suspend(() =>
     results: PaginatedAlertViewResultsList,
     totalCount: S.optional(S.Number),
   }),
-).annotate({
-  identifier: "PaginatedAlertView",
-}) as any as S.Schema<PaginatedAlertView>;
+).annotate({ identifier: "PaginatedAlertView" }) as any as S.Schema<PaginatedAlertView>;
 
 export interface GetGroupAuditLogRequest {
   /** Unique 24-hexadecimal digit string that identifies your project. Use the [/groups](#tag/Projects/operation/listProjects) endpoint to retrieve all projects to which the authenticated user has access. **NOTE**: Groups and projects are synonymous terms. Your group id is the same as your project id. For existing groups, your group/project id remains the same. The resource and corresponding endpoints use the term groups. */
@@ -32146,9 +32361,7 @@ export const GetGroupAuditLogRequest = /*@__PURE__*/ S.suspend(() =>
       accept: "application/vnd.atlas.2023-01-01+json",
     }),
   ),
-).annotate({
-  identifier: "GetGroupAuditLogRequest",
-}) as any as S.Schema<GetGroupAuditLogRequest>;
+).annotate({ identifier: "GetGroupAuditLogRequest" }) as any as S.Schema<GetGroupAuditLogRequest>;
 
 /** Human-readable label that displays how to configure the audit filter. */
 export type AuditLogConfigurationType = "NONE" | "FILTER_BUILDER" | "FILTER_JSON";
@@ -32206,9 +32419,7 @@ export const AWSCustomDNSEnabledView = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     enabled: S.Boolean,
   }),
-).annotate({
-  identifier: "AWSCustomDNSEnabledView",
-}) as any as S.Schema<AWSCustomDNSEnabledView>;
+).annotate({ identifier: "AWSCustomDNSEnabledView" }) as any as S.Schema<AWSCustomDNSEnabledView>;
 
 export interface GetGroupBackupCompliancePolicyRequest {
   /** Unique 24-hexadecimal digit string that identifies your project. Use the [/groups](#tag/Projects/operation/listProjects) endpoint to retrieve all projects to which the authenticated user has access. **NOTE**: Groups and projects are synonymous terms. Your group id is the same as your project id. For existing groups, your group/project id remains the same. The resource and corresponding endpoints use the term groups. */
@@ -32518,9 +32729,7 @@ export const GetGroupByNameRequest = /*@__PURE__*/ S.suspend(() =>
       accept: "application/vnd.atlas.2023-01-01+json",
     }),
   ),
-).annotate({
-  identifier: "GetGroupByNameRequest",
-}) as any as S.Schema<GetGroupByNameRequest>;
+).annotate({ identifier: "GetGroupByNameRequest" }) as any as S.Schema<GetGroupByNameRequest>;
 
 export interface GetGroupCloudProviderAccessRequest {
   /** Unique 24-hexadecimal digit string that identifies your project. Use the [/groups](#tag/Projects/operation/listProjects) endpoint to retrieve all projects to which the authenticated user has access. **NOTE**: Groups and projects are synonymous terms. Your group id is the same as your project id. For existing groups, your group/project id remains the same. The resource and corresponding endpoints use the term groups. */
@@ -32574,9 +32783,64 @@ export const GetGroupClusterRequest = /*@__PURE__*/ S.suspend(() =>
       accept: "application/vnd.atlas.2024-08-05+json",
     }),
   ),
+).annotate({ identifier: "GetGroupClusterRequest" }) as any as S.Schema<GetGroupClusterRequest>;
+
+export interface GetGroupClusterAdaptiveSettingsRequest {
+  /** Unique 24-hexadecimal digit string that identifies your project. Use the [/groups](#tag/Projects/operation/listProjects) endpoint to retrieve all projects to which the authenticated user has access. **NOTE**: Groups and projects are synonymous terms. Your group id is the same as your project id. For existing groups, your group/project id remains the same. The resource and corresponding endpoints use the term groups. */
+  groupId: string;
+  /** Human-readable label that identifies the cluster. */
+  clusterName: string;
+  /** Flag that indicates whether Application wraps the response in an `envelope` JSON object. Some API clients cannot access the HTTP response headers or status code. To remediate this, set envelope=true in the query. Endpoints that return a list of results use the results object as an envelope. Application adds the status parameter to the response body. */
+  envelope?: boolean;
+  /** Flag that indicates whether the response body should be in the prettyprint format. */
+  pretty?: boolean;
+}
+export const GetGroupClusterAdaptiveSettingsRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    groupId: S.String.pipe(T.Label()),
+    clusterName: S.String.pipe(T.Label()),
+    envelope: S.optional(S.Boolean.pipe(T.Query())),
+    pretty: S.optional(S.Boolean.pipe(T.Query())),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      uri: "/api/atlas/v2/groups/{groupId}/clusters/{clusterName}/adaptiveSettings",
+      code: 200,
+      accept: "application/vnd.atlas.2025-03-12+json",
+    }),
+  ),
 ).annotate({
-  identifier: "GetGroupClusterRequest",
-}) as any as S.Schema<GetGroupClusterRequest>;
+  identifier: "GetGroupClusterAdaptiveSettingsRequest",
+}) as any as S.Schema<GetGroupClusterAdaptiveSettingsRequest>;
+
+/** Map of customer-specified overrides for Adaptive Settings, applied on a best-effort basis. Each supported entry that you specify in this object takes precedence over the corresponding Atlas-managed default. For example, if a setting is enabled by default, you can add an override to disable it for your cluster. */
+export type AdaptiveSettingsOverrides = { [key: string]: unknown | undefined };
+export const AdaptiveSettingsOverrides = /*@__PURE__*/ S.Record(
+  S.String,
+  S.Unknown,
+) as any as S.Schema<AdaptiveSettingsOverrides>;
+
+/** The effective state of Adaptive Settings currently applied to your cluster, based on your overrides and Atlas-managed defaults. Atlas-managed defaults can vary by MongoDB version, so the same setting may default differently across clusters running different versions. If you set an override for a setting that your cluster's current MongoDB version doesn't support, the override doesn't take effect and the effective value reflects the Atlas-managed default instead. */
+export type AdaptiveSettingsResponseEffectiveAdaptiveSettingsMap = {
+  [key: string]: unknown | undefined;
+};
+export const AdaptiveSettingsResponseEffectiveAdaptiveSettingsMap = /*@__PURE__*/ S.Record(
+  S.String,
+  S.Unknown,
+) as any as S.Schema<AdaptiveSettingsResponseEffectiveAdaptiveSettingsMap>;
+
+/** Adaptive Settings for a cluster, including client-provided overrides and the effective settings derived from those overrides and Atlas-managed defaults. */
+export interface AdaptiveSettingsResponse {
+  adaptiveSettingsOverrides?: AdaptiveSettingsOverrides;
+  /** The effective state of Adaptive Settings currently applied to your cluster, based on your overrides and Atlas-managed defaults. Atlas-managed defaults can vary by MongoDB version, so the same setting may default differently across clusters running different versions. If you set an override for a setting that your cluster's current MongoDB version doesn't support, the override doesn't take effect and the effective value reflects the Atlas-managed default instead. */
+  effectiveAdaptiveSettings: AdaptiveSettingsResponseEffectiveAdaptiveSettingsMap;
+}
+export const AdaptiveSettingsResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    adaptiveSettingsOverrides: S.optional(AdaptiveSettingsOverrides),
+    effectiveAdaptiveSettings: AdaptiveSettingsResponseEffectiveAdaptiveSettingsMap,
+  }),
+).annotate({ identifier: "AdaptiveSettingsResponse" }) as any as S.Schema<AdaptiveSettingsResponse>;
 
 export interface GetGroupClusterBackupExportRequest {
   /** Unique 24-hexadecimal digit string that identifies your project. Use the [/groups](#tag/Projects/operation/listProjects) endpoint to retrieve all projects to which the authenticated user has access. **NOTE**: Groups and projects are synonymous terms. Your group id is the same as your project id. For existing groups, your group/project id remains the same. The resource and corresponding endpoints use the term groups. */
@@ -32793,9 +33057,7 @@ export const DiskBackupReplicaSet = /*@__PURE__*/ S.suspend(() =>
     storageSizeBytes: S.optional(S.Number),
     type: S.optional(DiskBackupReplicaSetType),
   }),
-).annotate({
-  identifier: "DiskBackupReplicaSet",
-}) as any as S.Schema<DiskBackupReplicaSet>;
+).annotate({ identifier: "DiskBackupReplicaSet" }) as any as S.Schema<DiskBackupReplicaSet>;
 
 export interface GetGroupClusterBackupSnapshotDatabaseRequest {
   /** Unique 24-hexadecimal digit string that identifies your project. Use the [/groups](#tag/Projects/operation/listProjects) endpoint to retrieve all projects to which the authenticated user has access. **NOTE**: Groups and projects are synonymous terms. Your group id is the same as your project id. For existing groups, your group/project id remains the same. The resource and corresponding endpoints use the term groups. */
@@ -33575,8 +33837,15 @@ export const GetGroupClusterQueryShapeRequest = /*@__PURE__*/ S.suspend(() =>
   identifier: "GetGroupClusterQueryShapeRequest",
 }) as any as S.Schema<GetGroupClusterQueryShapeRequest>;
 
-/** The MongoDB command type issued for a query shape. */
-export type QueryShapeResponseCommand = "FIND" | "DISTINCT" | "AGGREGATE";
+/** The MongoDB command type issued for a query shape. The INSERT, UPDATE, and DELETE commands appear only for clusters running MongoDB 9.0 or later. */
+export type QueryShapeResponseCommand =
+  | "FIND"
+  | "DISTINCT"
+  | "AGGREGATE"
+  | "COUNT"
+  | "INSERT"
+  | "UPDATE"
+  | "DELETE";
 export const QueryShapeResponseCommand = S.String;
 
 /** The rejection status of a query shape. Use REJECTED to prevent the query shape from executing on the cluster, or UNREJECTED to allow it to execute. */
@@ -33585,7 +33854,7 @@ export const QueryShapeResponseStatus = S.String;
 
 /** Response containing the details and status of a query shape. The query shape field may be null if the user lacks PII view access. */
 export interface QueryShapeResponse {
-  /** The MongoDB command type issued for a query shape. */
+  /** The MongoDB command type issued for a query shape. The INSERT, UPDATE, and DELETE commands appear only for clusters running MongoDB 9.0 or later. */
   command?: QueryShapeResponseCommand;
   /** Human-readable label that identifies the namespace on the specified host. The resource expresses this parameter value as `<database>.<collection>`. */
   namespace?: string;
@@ -33604,9 +33873,7 @@ export const QueryShapeResponse = /*@__PURE__*/ S.suspend(() =>
     queryShapeHash: S.String,
     status: QueryShapeResponseStatus,
   }),
-).annotate({
-  identifier: "QueryShapeResponse",
-}) as any as S.Schema<QueryShapeResponse>;
+).annotate({ identifier: "QueryShapeResponse" }) as any as S.Schema<QueryShapeResponse>;
 
 export type GetGroupClusterQueryShapeInsightDetailsRequestProcessIdsList = Array<string>;
 export const GetGroupClusterQueryShapeInsightDetailsRequestProcessIdsList = /*@__PURE__*/ S.Array(
@@ -33673,12 +33940,17 @@ export const QueryShapeSeenMetadata = /*@__PURE__*/ S.suspend(() =>
     driverVersion: S.optional(S.String),
     timestamp: S.optional(S.Number),
   }),
-).annotate({
-  identifier: "QueryShapeSeenMetadata",
-}) as any as S.Schema<QueryShapeSeenMetadata>;
+).annotate({ identifier: "QueryShapeSeenMetadata" }) as any as S.Schema<QueryShapeSeenMetadata>;
 
-/** The MongoDB command issued for this query shape. */
-export type QueryStatsSummaryCommand = "find" | "distinct" | "aggregate";
+/** The MongoDB command issued for this query shape. The insert, update, and delete commands appear only for clusters running MongoDB 9.0 or later. */
+export type QueryStatsSummaryCommand =
+  | "find"
+  | "distinct"
+  | "aggregate"
+  | "count"
+  | "insert"
+  | "update"
+  | "delete";
 export const QueryStatsSummaryCommand = S.String;
 
 /** A summary of execution statistics for a given query shape. */
@@ -33687,7 +33959,7 @@ export interface QueryStatsSummary {
   avgWorkingMillis?: number;
   /** The number of bytes read by the given query shape from the disk to the cache. */
   bytesRead?: number;
-  /** The MongoDB command issued for this query shape. */
+  /** The MongoDB command issued for this query shape. The insert, update, and delete commands appear only for clusters running MongoDB 9.0 or later. */
   command?: QueryStatsSummaryCommand;
   /** Total CPU time in nanoseconds consumed by queries with the given query shape. Available for MDB 8.2 and higher. */
   cpuTime?: number | null;
@@ -33699,12 +33971,26 @@ export interface QueryStatsSummary {
   docsReturned?: number;
   /** Total number of times that queries with the given query shape have been executed. */
   execCount?: number;
+  /** Total number of index keys deleted by queries with the given query shape. Available for MongoDB 9.0+ write commands. */
+  keysDeleted?: number | null;
   /** Total number of in-bounds and out-of-bounds index keys examined by queries with the given query shape. */
   keysExamined?: number;
   /** Ratio of in-bounds and out-of-bounds index keys examined to indexes containing documents returned by queries with the given query shape. */
   keysExaminedRatio?: number;
+  /** Total number of index keys inserted by queries with the given query shape. Available for MongoDB 9.0+ write commands. */
+  keysInserted?: number | null;
   /** Execution runtime in microseconds for the most recent query with the given query shape. */
   lastExecMicros?: number;
+  /** Total number of documents deleted by queries with the given query shape. Available for MongoDB 9.0+ write commands. */
+  nDeleted?: number | null;
+  /** Total number of documents inserted by queries with the given query shape. Available for MongoDB 9.0+ write commands. */
+  nInserted?: number | null;
+  /** Total number of documents matched by queries with the given query shape. Available for MongoDB 9.0+ write commands. */
+  nMatched?: number | null;
+  /** Total number of documents modified by queries with the given query shape. Available for MongoDB 9.0+ write commands. */
+  nModified?: number | null;
+  /** Total number of documents upserted by queries with the given query shape. Available for MongoDB 9.0+ write commands. */
+  nUpserted?: number | null;
   /** Human-readable label that identifies the namespace on the specified host. The resource expresses this parameter value as `<database>.<collection>`. */
   namespace?: string;
   /** The 50th percentile value of execution time in microseconds. This field is deprecated as the values it reports may be inaccurate. It will be removed in a future release. */
@@ -33734,9 +34020,16 @@ export const QueryStatsSummary = /*@__PURE__*/ S.suspend(() =>
     docsExaminedRatio: S.optional(S.Number),
     docsReturned: S.optional(S.Number),
     execCount: S.optional(S.Number),
+    keysDeleted: S.optional(S.NullOr(S.Number)),
     keysExamined: S.optional(S.Number),
     keysExaminedRatio: S.optional(S.Number),
+    keysInserted: S.optional(S.NullOr(S.Number)),
     lastExecMicros: S.optional(S.Number),
+    nDeleted: S.optional(S.NullOr(S.Number)),
+    nInserted: S.optional(S.NullOr(S.Number)),
+    nMatched: S.optional(S.NullOr(S.Number)),
+    nModified: S.optional(S.NullOr(S.Number)),
+    nUpserted: S.optional(S.NullOr(S.Number)),
     namespace: S.optional(S.String),
     p50ExecMicros: S.optional(S.Number),
     p90ExecMicros: S.optional(S.Number),
@@ -33747,21 +34040,74 @@ export const QueryStatsSummary = /*@__PURE__*/ S.suspend(() =>
     totalTimeToResponseMicros: S.optional(S.Number),
     totalWorkingMillis: S.optional(S.Number),
   }),
+).annotate({ identifier: "QueryStatsSummary" }) as any as S.Schema<QueryStatsSummary>;
+
+/** Method used to collect `queryStats` entries on the cluster's processes. */
+export type QueryStatsCollectionSampledResponseMode = "RATE_LIMITED" | "SAMPLED";
+export const QueryStatsCollectionSampledResponseMode = S.String;
+
+/** Entries were collected by sampling each operation. */
+export interface QueryStatsCollectionSampledResponse {
+  /** Maximum read queries recorded per second. */
+  rateLimitPerSecond?: number;
+  /** Method used to collect `queryStats` entries on the cluster's processes. */
+  mode: QueryStatsCollectionSampledResponseMode;
+  /** Fraction of operations recorded. Dividing reported counts by this rate yields an unbiased estimate of the true totals. */
+  sampleRate: number;
+}
+export const QueryStatsCollectionSampledResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    rateLimitPerSecond: S.optional(S.Number),
+    mode: QueryStatsCollectionSampledResponseMode,
+    sampleRate: S.Number,
+  }),
 ).annotate({
-  identifier: "QueryStatsSummary",
-}) as any as S.Schema<QueryStatsSummary>;
+  identifier: "QueryStatsCollectionSampledResponse",
+}) as any as S.Schema<QueryStatsCollectionSampledResponse>;
+
+/** Method used to collect `queryStats` entries on the cluster's processes. */
+export type QueryStatsCollectionRateLimitedResponseMode = "RATE_LIMITED" | "SAMPLED";
+export const QueryStatsCollectionRateLimitedResponseMode = S.String;
+
+/** Entries were collected by rate-limiting read queries. */
+export interface QueryStatsCollectionRateLimitedResponse {
+  /** Maximum read queries recorded per second. */
+  rateLimitPerSecond: number;
+  /** Method used to collect `queryStats` entries on the cluster's processes. */
+  mode: QueryStatsCollectionRateLimitedResponseMode;
+  /** Fraction of operations recorded. Dividing reported counts by this rate yields an unbiased estimate of the true totals. */
+  sampleRate?: number;
+}
+export const QueryStatsCollectionRateLimitedResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    rateLimitPerSecond: S.Number,
+    mode: QueryStatsCollectionRateLimitedResponseMode,
+    sampleRate: S.optional(S.Number),
+  }),
+).annotate({
+  identifier: "QueryStatsCollectionRateLimitedResponse",
+}) as any as S.Schema<QueryStatsCollectionRateLimitedResponse>;
+
+/** How `queryStats` entries were collected on this cluster's processes. Reflects the collection mode of the cluster's processes regardless of any host or process type filters in the request. Omitted when the collection mode cannot be determined. Sample-based collection requires MongoDB 9.0 or later but may not be enabled on every such cluster; this reflects the mode in effect on the cluster. */
+export type QueryStatsCollectionResponse =
+  | QueryStatsCollectionSampledResponse
+  | QueryStatsCollectionRateLimitedResponse;
+export const QueryStatsCollectionResponse =
+  S.Unknown as any as S.Schema<QueryStatsCollectionResponse>;
 
 /** Metadata and summary statistics for a given query shape. */
 export interface QueryStatsDetailsResponse {
   firstSeen?: QueryShapeSeenMetadata;
   lastSeen?: QueryShapeSeenMetadata;
   queryStats?: QueryStatsSummary;
+  queryStatsCollection?: QueryStatsCollectionResponse;
 }
 export const QueryStatsDetailsResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     firstSeen: S.optional(QueryShapeSeenMetadata),
     lastSeen: S.optional(QueryShapeSeenMetadata),
     queryStats: S.optional(QueryStatsSummary),
+    queryStatsCollection: S.optional(QueryStatsCollectionResponse),
   }),
 ).annotate({
   identifier: "QueryStatsDetailsResponse",
@@ -33938,9 +34284,7 @@ export const GetGroupContainerRequest = /*@__PURE__*/ S.suspend(() =>
       accept: "application/vnd.atlas.2023-01-01+json",
     }),
   ),
-).annotate({
-  identifier: "GetGroupContainerRequest",
-}) as any as S.Schema<GetGroupContainerRequest>;
+).annotate({ identifier: "GetGroupContainerRequest" }) as any as S.Schema<GetGroupContainerRequest>;
 
 export interface GetGroupCustomDbRoleRoleRequest {
   /** Unique 24-hexadecimal digit string that identifies your project. Use the [/groups](#tag/Projects/operation/listProjects) endpoint to retrieve all projects to which the authenticated user has access. **NOTE**: Groups and projects are synonymous terms. Your group id is the same as your project id. For existing groups, your group/project id remains the same. The resource and corresponding endpoints use the term groups. */
@@ -33996,9 +34340,7 @@ export const UserCustomDBRole = /*@__PURE__*/ S.suspend(() =>
     inheritedRoles: S.optional(UserCustomDBRoleInheritedRolesList),
     roleName: S.String,
   }),
-).annotate({
-  identifier: "UserCustomDBRole",
-}) as any as S.Schema<UserCustomDBRole>;
+).annotate({ identifier: "UserCustomDBRole" }) as any as S.Schema<UserCustomDBRole>;
 
 export interface GetGroupDatabaseUserRequest {
   /** Unique 24-hexadecimal digit string that identifies your project. Use the [/groups](#tag/Projects/operation/listProjects) endpoint to retrieve all projects to which the authenticated user has access. **NOTE**: Groups and projects are synonymous terms. Your group id is the same as your project id. For existing groups, your group/project id remains the same. The resource and corresponding endpoints use the term groups. */
@@ -34208,9 +34550,7 @@ export const MongoDBAccessLogs = /*@__PURE__*/ S.suspend(() =>
     timestamp: S.optional(S.String),
     username: S.optional(S.String),
   }),
-).annotate({
-  identifier: "MongoDBAccessLogs",
-}) as any as S.Schema<MongoDBAccessLogs>;
+).annotate({ identifier: "MongoDBAccessLogs" }) as any as S.Schema<MongoDBAccessLogs>;
 
 /** Authentication attempt, one per object, made against the cluster. */
 export type MongoDBAccessLogsListAccessLogsList = Array<MongoDBAccessLogs>;
@@ -34226,9 +34566,7 @@ export const MongoDBAccessLogsList = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     accessLogs: S.optional(MongoDBAccessLogsListAccessLogsList),
   }),
-).annotate({
-  identifier: "MongoDBAccessLogsList",
-}) as any as S.Schema<MongoDBAccessLogsList>;
+).annotate({ identifier: "MongoDBAccessLogsList" }) as any as S.Schema<MongoDBAccessLogsList>;
 
 export interface GetGroupDbAccessHistoryProcessRequest {
   /** Unique 24-hexadecimal digit string that identifies your project. Use the [/groups](#tag/Projects/operation/listProjects) endpoint to retrieve all projects to which the authenticated user has access. **NOTE**: Groups and projects are synonymous terms. Your group id is the same as your project id. For existing groups, your group/project id remains the same. The resource and corresponding endpoints use the term groups. */
@@ -34412,9 +34750,7 @@ export const AzureKeyVaultOutput = /*@__PURE__*/ S.suspend(() =>
     tenantID: S.optional(S.String),
     valid: S.optional(S.Boolean),
   }),
-).annotate({
-  identifier: "AzureKeyVaultOutput",
-}) as any as S.Schema<AzureKeyVaultOutput>;
+).annotate({ identifier: "AzureKeyVaultOutput" }) as any as S.Schema<AzureKeyVaultOutput>;
 
 /** Details that define the configuration of Encryption at Rest using Google Cloud Key Management Service (KMS). */
 export interface GoogleCloudKMSOutput {
@@ -34434,9 +34770,7 @@ export const GoogleCloudKMSOutput = /*@__PURE__*/ S.suspend(() =>
     roleId: S.optional(S.String),
     valid: S.optional(S.Boolean),
   }),
-).annotate({
-  identifier: "GoogleCloudKMSOutput",
-}) as any as S.Schema<GoogleCloudKMSOutput>;
+).annotate({ identifier: "GoogleCloudKMSOutput" }) as any as S.Schema<GoogleCloudKMSOutput>;
 
 export interface EncryptionAtRestOutput {
   awsKms?: AWSKMSConfigurationOutput;
@@ -34452,9 +34786,7 @@ export const EncryptionAtRestOutput = /*@__PURE__*/ S.suspend(() =>
     enabledForSearchNodes: S.optional(S.Boolean),
     googleCloudKms: S.optional(GoogleCloudKMSOutput),
   }),
-).annotate({
-  identifier: "EncryptionAtRestOutput",
-}) as any as S.Schema<EncryptionAtRestOutput>;
+).annotate({ identifier: "EncryptionAtRestOutput" }) as any as S.Schema<EncryptionAtRestOutput>;
 
 export type GetGroupEncryptionAtRestPrivateEndpointRequestCloudProvider = "AZURE" | "AWS";
 export const GetGroupEncryptionAtRestPrivateEndpointRequestCloudProvider = S.String;
@@ -34790,9 +35122,7 @@ export const AWSKMSEARPrivateEndpoint = /*@__PURE__*/ S.suspend(() =>
     regionName: S.optional(AWSKMSEARPrivateEndpointRegionName),
     status: S.optional(AWSKMSEARPrivateEndpointStatus),
   }),
-).annotate({
-  identifier: "AWSKMSEARPrivateEndpoint",
-}) as any as S.Schema<AWSKMSEARPrivateEndpoint>;
+).annotate({ identifier: "AWSKMSEARPrivateEndpoint" }) as any as S.Schema<AWSKMSEARPrivateEndpoint>;
 
 /** Encryption At Rest Private Endpoint. */
 export type EARPrivateEndpoint = AzureKeyVaultEARPrivateEndpoint | AWSKMSEARPrivateEndpoint;
@@ -34825,9 +35155,7 @@ export const GetGroupEventRequest = /*@__PURE__*/ S.suspend(() =>
       accept: "application/vnd.atlas.2023-01-01+json",
     }),
   ),
-).annotate({
-  identifier: "GetGroupEventRequest",
-}) as any as S.Schema<GetGroupEventRequest>;
+).annotate({ identifier: "GetGroupEventRequest" }) as any as S.Schema<GetGroupEventRequest>;
 
 /** Information about a principal, such as an OAuth application, that triggered the event through delegated access. */
 export interface Principal {
@@ -35456,9 +35784,7 @@ export const AlertConfigAudit = /*@__PURE__*/ S.suspend(() =>
     userId: S.optional(S.String),
     username: S.optional(S.String),
   }),
-).annotate({
-  identifier: "AlertConfigAudit",
-}) as any as S.Schema<AlertConfigAudit>;
+).annotate({ identifier: "AlertConfigAudit" }) as any as S.Schema<AlertConfigAudit>;
 
 /** Unique identifier of event type. */
 export type ApiUserEventTypeViewForNdsGroup =
@@ -35712,9 +36038,7 @@ export const AppServiceEventView = /*@__PURE__*/ S.suspend(() =>
     orgId: S.optional(S.String),
     raw: S.optional(Raw),
   }),
-).annotate({
-  identifier: "AppServiceEventView",
-}) as any as S.Schema<AppServiceEventView>;
+).annotate({ identifier: "AppServiceEventView" }) as any as S.Schema<AppServiceEventView>;
 
 /** Unique identifier of event type. */
 export type BillingEventTypeViewForNdsGroup =
@@ -35967,9 +36291,7 @@ export const DataExplorerEvent = /*@__PURE__*/ S.suspend(() =>
     userId: S.optional(S.String),
     username: S.optional(S.String),
   }),
-).annotate({
-  identifier: "DataExplorerEvent",
-}) as any as S.Schema<DataExplorerEvent>;
+).annotate({ identifier: "DataExplorerEvent" }) as any as S.Schema<DataExplorerEvent>;
 
 /** Unique identifier of event type. */
 export type FTSIndexAuditTypeView =
@@ -36040,9 +36362,7 @@ export const FTSIndexAuditView = /*@__PURE__*/ S.suspend(() =>
     userId: S.optional(S.String),
     username: S.optional(S.String),
   }),
-).annotate({
-  identifier: "FTSIndexAuditView",
-}) as any as S.Schema<FTSIndexAuditView>;
+).annotate({ identifier: "FTSIndexAuditView" }) as any as S.Schema<FTSIndexAuditView>;
 
 /** Unique identifier of event type. */
 export type HostEventTypeViewForNdsGroup =
@@ -36153,9 +36473,7 @@ export const HostEventViewForNdsGroup = /*@__PURE__*/ S.suspend(() =>
     userId: S.optional(S.String),
     username: S.optional(S.String),
   }),
-).annotate({
-  identifier: "HostEventViewForNdsGroup",
-}) as any as S.Schema<HostEventViewForNdsGroup>;
+).annotate({ identifier: "HostEventViewForNdsGroup" }) as any as S.Schema<HostEventViewForNdsGroup>;
 
 /** Unique identifier of event type. */
 export type HostMetricEventTypeView = "INSIDE_METRIC_THRESHOLD" | "OUTSIDE_METRIC_THRESHOLD";
@@ -36232,9 +36550,7 @@ export const HostMetricEvent = /*@__PURE__*/ S.suspend(() =>
     userId: S.optional(S.String),
     username: S.optional(S.String),
   }),
-).annotate({
-  identifier: "HostMetricEvent",
-}) as any as S.Schema<HostMetricEvent>;
+).annotate({ identifier: "HostMetricEvent" }) as any as S.Schema<HostMetricEvent>;
 
 /** Unique identifier of event type. */
 export type NDSAuditTypeViewForNdsGroup =
@@ -36308,6 +36624,8 @@ export type NDSAuditTypeViewForNdsGroup =
   | "PLAN_ABANDONED"
   | "PLAN_DECLINED"
   | "PLAN_FAILURE_COUNT_RESET"
+  | "CAPACITY_RETRY_OVERRIDE_SET"
+  | "CAPACITY_RETRY_OVERRIDE_REMOVED"
   | "PLAN_ASAP_REQUESTED"
   | "INDEPENDENT_SHARD_AUTO_SCALING_AVAILABLE"
   | "INDEPENDENT_SHARD_SCALING_CLUSTER_MIGRATED"
@@ -36425,8 +36743,10 @@ export type NDSAuditTypeViewForNdsGroup =
   | "SERVERLESS_UPGRADE_TO_DEDICATED_SUCCESSFUL"
   | "SERVERLESS_UPGRADE_TO_DEDICATED_FAILED"
   | "CLUSTER_FORCE_RECONFIG_REQUESTED"
+  | "SLS_LOG_AND_MONGOD_NODES_RECREATION_REQUESTED"
   | "AGENT_FORCE_RESTART_REQUESTED"
   | "CLUSTER_RESET_FORCE_RECONFIG_REQUESTED"
+  | "CLUSTER_FORCE_PAUSE_REQUESTED"
   | "PROJECT_BYPASSED_MAINTENANCE"
   | "FEATURE_FLAG_MAINTENANCE"
   | "DATA_FEDERATION_QUERY_LIMIT_CONFIGURED"
@@ -36518,6 +36838,7 @@ export type NDSAuditTypeViewForNdsGroup =
   | "MONGOTUNE_WRITE_BLOCK_POLICY_INELIGIBLE"
   | "PREDICTIVE_AUTOSCALING_ENABLED"
   | "PREDICTIVE_AUTOSCALING_DISABLED"
+  | "ADAPTIVE_SETTINGS_LOAD_SHEDDING_UPDATED"
   | "SHADOW_CLUSTER_CREATE_EXPOSURE"
   | "SHADOW_CLUSTER_DELETE_EXPOSURE"
   | "SHADOW_CLUSTER_RECORDING_STATUS_UPDATE"
@@ -36538,7 +36859,12 @@ export type NDSAuditTypeViewForNdsGroup =
   | "VOLUME_IMPAIRED"
   | "VOLUME_IMPAIRED_RESOLVED"
   | "SQL_INTERFACE_ENABLED"
-  | "SQL_INTERFACE_DISABLED";
+  | "SQL_INTERFACE_DISABLED"
+  | "CLUSTER_OVERLOAD_PROTECTION_SIMULATION_REQUESTED"
+  | "CLUSTER_OVERLOAD_PROTECTION_SIMULATION_STARTED"
+  | "CLUSTER_OVERLOAD_PROTECTION_SIMULATION_FAILED_TO_START"
+  | "CLUSTER_OVERLOAD_PROTECTION_SIMULATION_END_REQUESTED"
+  | "CLUSTER_OVERLOAD_PROTECTION_SIMULATION_ENDED";
 export const NDSAuditTypeViewForNdsGroup = S.String;
 
 /** List of one or more Uniform Resource Locators (URLs) that point to API sub-resources, related API resources, or both. RFC 5988 outlines these relationships. */
@@ -36598,9 +36924,7 @@ export const NDSAuditViewForNdsGroup = /*@__PURE__*/ S.suspend(() =>
     username: S.optional(S.String),
     whitelistEntry: S.optional(S.String),
   }),
-).annotate({
-  identifier: "NDSAuditViewForNdsGroup",
-}) as any as S.Schema<NDSAuditViewForNdsGroup>;
+).annotate({ identifier: "NDSAuditViewForNdsGroup" }) as any as S.Schema<NDSAuditViewForNdsGroup>;
 
 /** Unique identifier of event type. */
 export type NDSAutoScalingAuditTypeViewForNdsGroup =
@@ -36616,13 +36940,16 @@ export type NDSAutoScalingAuditTypeViewForNdsGroup =
   | "COMPUTE_AUTO_SCALE_MAX_INSTANCE_SIZE_FAIL_ANALYTICS"
   | "COMPUTE_AUTO_SCALE_OPLOG_FAIL_BASE"
   | "COMPUTE_AUTO_SCALE_OPLOG_FAIL_ANALYTICS"
+  | "COMPUTE_AUTO_SCALE_CAPACITY_CONSTRAINT_FAIL_BASE"
+  | "COMPUTE_AUTO_SCALE_CAPACITY_CONSTRAINT_FAIL_ANALYTICS"
   | "DISK_AUTO_SCALE_MAX_DISK_SIZE_FAIL"
   | "DISK_AUTO_SCALE_OPLOG_FAIL"
+  | "CLUSTER_AUTO_SHARDING_INITIATED"
+  | "CLUSTER_RESHARDING_COMPLETED"
   | "PREDICTIVE_COMPUTE_AUTO_SCALE_INITIATED_BASE"
   | "PREDICTIVE_COMPUTE_AUTO_SCALE_MAX_INSTANCE_SIZE_FAIL_BASE"
   | "PREDICTIVE_COMPUTE_AUTO_SCALE_OPLOG_FAIL_BASE"
-  | "CLUSTER_AUTO_SHARDING_INITIATED"
-  | "CLUSTER_RESHARDING_COMPLETED";
+  | "PREDICTIVE_COMPUTE_AUTO_SCALE_CAPACITY_CONSTRAINT_FAIL_BASE";
 export const NDSAutoScalingAuditTypeViewForNdsGroup = S.String;
 
 /** List of one or more Uniform Resource Locators (URLs) that point to API sub-resources, related API resources, or both. RFC 5988 outlines these relationships. */
@@ -37002,9 +37329,7 @@ export const TeamEventViewForNdsGroup = /*@__PURE__*/ S.suspend(() =>
     userId: S.optional(S.String),
     username: S.optional(S.String),
   }),
-).annotate({
-  identifier: "TeamEventViewForNdsGroup",
-}) as any as S.Schema<TeamEventViewForNdsGroup>;
+).annotate({ identifier: "TeamEventViewForNdsGroup" }) as any as S.Schema<TeamEventViewForNdsGroup>;
 
 /** Unique identifier of event type. */
 export type UserEventTypeViewForNdsGroup =
@@ -37072,9 +37397,7 @@ export const UserEventViewForNdsGroup = /*@__PURE__*/ S.suspend(() =>
     userId: S.optional(S.String),
     username: S.optional(S.String),
   }),
-).annotate({
-  identifier: "UserEventViewForNdsGroup",
-}) as any as S.Schema<UserEventViewForNdsGroup>;
+).annotate({ identifier: "UserEventViewForNdsGroup" }) as any as S.Schema<UserEventViewForNdsGroup>;
 
 /** Unique identifier of event type. */
 export type ResourceEventTypeView =
@@ -37429,9 +37752,7 @@ export const EventViewForNdsGroup = S.Unknown as any as S.Schema<EventViewForNds
 export type GetGroupEventResponse = EventViewForNdsGroup;
 export const GetGroupEventResponse = /*@__PURE__*/ S.suspend(() =>
   EventViewForNdsGroup.pipe(T.RawResponseRoot()),
-).annotate({
-  identifier: "GetGroupEventResponse",
-}) as any as S.Schema<GetGroupEventResponse>;
+).annotate({ identifier: "GetGroupEventResponse" }) as any as S.Schema<GetGroupEventResponse>;
 
 export interface GetGroupFlexClusterRequest {
   /** Unique 24-hexadecimal digit string that identifies your project. Use the [/groups](#tag/Projects/operation/listProjects) endpoint to retrieve all projects to which the authenticated user has access. **NOTE**: Groups and projects are synonymous terms. Your group id is the same as your project id. For existing groups, your group/project id remains the same. The resource and corresponding endpoints use the term groups. */
@@ -37661,9 +37982,7 @@ export const MetricDataPoint = /*@__PURE__*/ S.suspend(() =>
     timestamp: S.optional(S.String),
     value: S.optional(S.Number),
   }),
-).annotate({
-  identifier: "MetricDataPoint",
-}) as any as S.Schema<MetricDataPoint>;
+).annotate({ identifier: "MetricDataPoint" }) as any as S.Schema<MetricDataPoint>;
 
 /** List that contains the value of, and metadata provided for, one data point generated at a particular moment in time. If no data point exists for a particular moment in time, the `value` parameter returns `null`. */
 export type MetricsMeasurementDataPointsList = Array<MetricDataPoint>;
@@ -37699,9 +38018,7 @@ export const MetricsMeasurement = /*@__PURE__*/ S.suspend(() =>
     name: S.optional(S.String),
     units: S.optional(MetricsMeasurementUnits),
   }),
-).annotate({
-  identifier: "MetricsMeasurement",
-}) as any as S.Schema<MetricsMeasurement>;
+).annotate({ identifier: "MetricsMeasurement" }) as any as S.Schema<MetricsMeasurement>;
 
 /** List that contains the Atlas Search index stats measurements. */
 export type MeasurementsIndexesIndexStatsMeasurementsList = Array<MetricsMeasurement>;
@@ -37750,9 +38067,7 @@ export const MeasurementsIndexes = /*@__PURE__*/ S.suspend(() =>
     processId: S.optional(S.String),
     start: S.optional(S.String),
   }),
-).annotate({
-  identifier: "MeasurementsIndexes",
-}) as any as S.Schema<MeasurementsIndexes>;
+).annotate({ identifier: "MeasurementsIndexes" }) as any as S.Schema<MeasurementsIndexes>;
 
 export type GetGroupIntegrationRequestIntegrationType =
   | "PAGER_DUTY"
@@ -37865,9 +38180,7 @@ export const ClusterIPAddresses = /*@__PURE__*/ S.suspend(() =>
     inbound: S.optional(ClusterIPAddressesInboundList),
     outbound: S.optional(ClusterIPAddressesOutboundList),
   }),
-).annotate({
-  identifier: "ClusterIPAddresses",
-}) as any as S.Schema<ClusterIPAddresses>;
+).annotate({ identifier: "ClusterIPAddresses" }) as any as S.Schema<ClusterIPAddresses>;
 
 /** IP addresses of clusters. */
 export type GroupServiceClustersList = Array<ClusterIPAddresses>;
@@ -37897,9 +38210,7 @@ export const GroupIPAddresses = /*@__PURE__*/ S.suspend(() =>
     groupId: S.optional(S.String),
     services: S.optional(GroupService),
   }),
-).annotate({
-  identifier: "GroupIPAddresses",
-}) as any as S.Schema<GroupIPAddresses>;
+).annotate({ identifier: "GroupIPAddresses" }) as any as S.Schema<GroupIPAddresses>;
 
 export type GetGroupLimitRequestLimitName =
   | "atlas.project.security.databaseAccess.users"
@@ -37920,7 +38231,7 @@ export const GetGroupLimitRequestLimitName = S.String;
 export interface GetGroupLimitRequest {
   /** Unique 24-hexadecimal digit string that identifies your project. Use the [/groups](#tag/Projects/operation/listProjects) endpoint to retrieve all projects to which the authenticated user has access. **NOTE**: Groups and projects are synonymous terms. Your group id is the same as your project id. For existing groups, your group/project id remains the same. The resource and corresponding endpoints use the term groups. */
   groupId: string;
-  /** Human-readable label that identifies this project limit. | Limit Name | Description | Default | API Override Limit | | --- | --- | --- | --- | | `atlas.project.deployment.clusters` | Limit on the number of clusters in this project | 25 | 100 | | `atlas.project.deployment.nodesPerPrivateLinkRegion` | Limit on AWS PrivateLink addressable target nodes per region in this project. For sharded clusters using optimized (load-balanced) connection strings, `currentUsage` doesn't grow with the number of `mongos` — the load balancer is counted as a single addressable target regardless of how many `mongos` sit behind it. | 50 | 90 | | `atlas.project.security.databaseAccess.customRoles` | Limit on the number of custom roles in this project | 100 | 1400 | | `atlas.project.security.databaseAccess.users` | Limit on the number of database users in this project | 100 | 100 | | `atlas.project.security.networkAccess.crossRegionEntries` | Limit on the number of cross-region network access entries in this project | 40 | 220 | | `atlas.project.security.networkAccess.entries` | Limit on the number of network access entries in this project | 200 | 20 | | `dataFederation.bytesProcessed.query` | Limit on the number of bytes processed during a single Data Federation query | N/A | N/A | | `dataFederation.bytesProcessed.daily` | Limit on the number of bytes processed across all Data Federation tenants for the current day | N/A | N/A | | `dataFederation.bytesProcessed.weekly` | Limit on the number of bytes processed across all Data Federation tenants for the current week | N/A | N/A | | `dataFederation.bytesProcessed.monthly` | Limit on the number of bytes processed across all Data Federation tenants for the current month | N/A | N/A | | `atlas.project.deployment.privateServiceConnectionsPerRegionGroup` | Number of Private Service Connections per Region Group | 50 | 100| | `atlas.project.deployment.privateServiceConnectionsSubnetMask` | Subnet mask for GCP PSC Networks. Has lower limit of 20. | 27 | 27| */
+  /** Human-readable label that identifies this project limit. | Limit Name | Description | Default | API Override Limit | | --- | --- | --- | --- | | `atlas.project.deployment.clusters` | Limit on the number of clusters in this project | 25 | 100 | | `atlas.project.deployment.nodesPerPrivateLinkRegion` | Limit on AWS PrivateLink addressable target nodes per region in this project. For sharded clusters using optimized (load-balanced) connection strings, `currentUsage` doesn't grow with the number of `mongos` — the load balancer is counted as a single addressable target regardless of how many `mongos` sit behind it. | 50 | 90 | | `atlas.project.security.databaseAccess.customRoles` | Limit on the number of custom roles in this project | 100 | 1400 | | `atlas.project.security.databaseAccess.users` | Limit on the number of database users in this project | 100 | 900 | | `atlas.project.security.networkAccess.crossRegionEntries` | Limit on the number of cross-region network access entries in this project | 40 | 220 | | `atlas.project.security.networkAccess.entries` | Limit on the number of network access entries in this project | 200 | 20 | | `dataFederation.bytesProcessed.query` | Limit on the number of bytes processed during a single Data Federation query | N/A | N/A | | `dataFederation.bytesProcessed.daily` | Limit on the number of bytes processed across all Data Federation tenants for the current day | N/A | N/A | | `dataFederation.bytesProcessed.weekly` | Limit on the number of bytes processed across all Data Federation tenants for the current week | N/A | N/A | | `dataFederation.bytesProcessed.monthly` | Limit on the number of bytes processed across all Data Federation tenants for the current month | N/A | N/A | | `atlas.project.deployment.privateServiceConnectionsPerRegionGroup` | Number of Private Service Connections per Region Group | 50 | 100| | `atlas.project.deployment.privateServiceConnectionsSubnetMask` | Subnet mask for GCP PSC Networks. Has lower limit of 20. | 27 | 27| */
   limitName: GetGroupLimitRequestLimitName | (string & {});
   /** Flag that indicates whether Application wraps the response in an `envelope` JSON object. Some API clients cannot access the HTTP response headers or status code. To remediate this, set envelope=true in the query. Endpoints that return a list of results use the results object as an envelope. Application adds the status parameter to the response body. */
   envelope?: boolean;
@@ -37941,9 +38252,7 @@ export const GetGroupLimitRequest = /*@__PURE__*/ S.suspend(() =>
       accept: "application/vnd.atlas.2023-01-01+json",
     }),
   ),
-).annotate({
-  identifier: "GetGroupLimitRequest",
-}) as any as S.Schema<GetGroupLimitRequest>;
+).annotate({ identifier: "GetGroupLimitRequest" }) as any as S.Schema<GetGroupLimitRequest>;
 
 /** Details of user managed limits. */
 export interface DataFederationLimit {
@@ -37966,9 +38275,7 @@ export const DataFederationLimit = /*@__PURE__*/ S.suspend(() =>
     name: S.String,
     value: S.Number,
   }),
-).annotate({
-  identifier: "DataFederationLimit",
-}) as any as S.Schema<DataFederationLimit>;
+).annotate({ identifier: "DataFederationLimit" }) as any as S.Schema<DataFederationLimit>;
 
 export interface GetGroupLiveMigrationRequest {
   /** Unique 24-hexadecimal digit string that identifies your project. Use the [/groups](#tag/Projects/operation/listProjects) endpoint to retrieve all projects to which the authenticated user has access. **NOTE**: Groups and projects are synonymous terms. Your group id is the same as your project id. For existing groups, your group/project id remains the same. The resource and corresponding endpoints use the term groups. */
@@ -38047,9 +38354,7 @@ export const LiveImportValidation = /*@__PURE__*/ S.suspend(() =>
     sourceGroupId: S.optional(S.String),
     status: S.optional(S.NullOr(LiveImportValidationStatus)),
   }),
-).annotate({
-  identifier: "LiveImportValidation",
-}) as any as S.Schema<LiveImportValidation>;
+).annotate({ identifier: "LiveImportValidation" }) as any as S.Schema<LiveImportValidation>;
 
 export interface GetGroupLogIntegrationRequest {
   /** Unique 24-hexadecimal digit string that identifies your project. Use the [/groups](#tag/Projects/operation/listProjects) endpoint to retrieve all projects to which the authenticated user has access. **NOTE**: Groups and projects are synonymous terms. Your group id is the same as your project id. For existing groups, your group/project id remains the same. The resource and corresponding endpoints use the term groups. */
@@ -38122,7 +38427,9 @@ export interface GroupMaintenanceWindow {
   /** Flag that indicates whether MongoDB Cloud should defer all maintenance windows for one week after you enable them. This setting controls the same underlying auto-deferral feature as the `/maintenanceWindow/autoDefer` endpoint. Use either this field (to set a specific value) or that endpoint (to toggle the current value). For most use cases, this field in the PATCH request is preferred because it allows setting an explicit value rather than toggling. */
   autoDeferOnceEnabled?: boolean;
   /** One-based integer that represents the day of the week, in the project's configured time zone (see `timeZoneId`), that the maintenance window starts. - `1`: Sunday. - `2`: Monday. - `3`: Tuesday. - `4`: Wednesday. - `5`: Thursday. - `6`: Friday. - `7`: Saturday. */
-  dayOfWeek: number;
+  dayOfWeek?: number;
+  /** Maintenance wave that Atlas uses when scheduling maintenance for this project. This read-only value can differ from `waveAssignment` in two scenarios: (1) when the organization's `effectiveWaveAssignmentMode` is `ENV_TAG_MAPPING`, the effective wave is derived from environment tags regardless of any explicit assignment; (2) when cross-organization maintenance sequencing is active and this project's organization is a linked non-paying organization, the effective wave reflects the paying organization's mode. */
+  effectiveWaveAssignment?: number;
   /** Zero-based integer that represents the hour of the day, in the project's configured time zone (see `timeZoneId`), that the maintenance window starts according to a 24-hour clock. Use `0` for midnight and `12` for noon. If you haven't changed your project's time zone, this defaults to UTC. */
   hourOfDay?: number;
   /** Number of times the current maintenance event for this project has been deferred. */
@@ -38132,20 +38439,22 @@ export interface GroupMaintenanceWindow {
   startASAP?: boolean;
   /** Identifier for the current time zone of the maintenance window. This can only be updated via the Project Settings UI. */
   timeZoneId?: string;
+  /** Maintenance wave explicitly assigned to this project. Always returned in GET responses when a value has been set, regardless of the organization's `effectiveWaveAssignmentMode`. When the mode is `ENV_TAG_MAPPING`, this stored assignment is preserved but not used for scheduling — the effective wave is derived from environment tags instead. Not editable when the mode is `ENV_TAG_MAPPING`. Switching back to `MANUAL` restores this value as the effective wave. Must be between 1 and 3, inclusive. Pass `null` to clear an explicit assignment. */
+  waveAssignment?: number | null;
 }
 export const GroupMaintenanceWindow = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     autoDeferOnceEnabled: S.optional(S.Boolean),
-    dayOfWeek: S.Number,
+    dayOfWeek: S.optional(S.Number),
+    effectiveWaveAssignment: S.optional(S.Number),
     hourOfDay: S.optional(S.Number),
     numberOfDeferrals: S.optional(S.Number),
     protectedHours: S.optional(ProtectedHours),
     startASAP: S.optional(S.Boolean),
     timeZoneId: S.optional(S.String),
+    waveAssignment: S.optional(S.NullOr(S.Number)),
   }),
-).annotate({
-  identifier: "GroupMaintenanceWindow",
-}) as any as S.Schema<GroupMaintenanceWindow>;
+).annotate({ identifier: "GroupMaintenanceWindow" }) as any as S.Schema<GroupMaintenanceWindow>;
 
 export interface GetGroupManagedSlowMsRequest {
   /** Unique 24-hexadecimal digit string that identifies your project. Use the [/groups](#tag/Projects/operation/listProjects) endpoint to retrieve all projects to which the authenticated user has access. **NOTE**: Groups and projects are synonymous terms. Your group id is the same as your project id. For existing groups, your group/project id remains the same. The resource and corresponding endpoints use the term groups. */
@@ -38203,9 +38512,7 @@ export const GetGroupMcpConfigRequest = /*@__PURE__*/ S.suspend(() =>
       accept: "application/vnd.atlas.2025-03-12+json",
     }),
   ),
-).annotate({
-  identifier: "GetGroupMcpConfigRequest",
-}) as any as S.Schema<GetGroupMcpConfigRequest>;
+).annotate({ identifier: "GetGroupMcpConfigRequest" }) as any as S.Schema<GetGroupMcpConfigRequest>;
 
 export interface GetGroupMcpConfigSecretRequest {
   /** Unique 24-hexadecimal digit string that identifies your project. Use the [/groups](#tag/Projects/operation/listProjects) endpoint to retrieve all projects to which the authenticated user has access. **NOTE**: Groups and projects are synonymous terms. Your group id is the same as your project id. For existing groups, your group/project id remains the same. The resource and corresponding endpoints use the term groups. */
@@ -38351,9 +38658,7 @@ export const MdbAvailableVersion = /*@__PURE__*/ S.suspend(() =>
     links: S.optional(MdbAvailableVersionLinksList),
     version: S.optional(S.String),
   }),
-).annotate({
-  identifier: "MdbAvailableVersion",
-}) as any as S.Schema<MdbAvailableVersion>;
+).annotate({ identifier: "MdbAvailableVersion" }) as any as S.Schema<MdbAvailableVersion>;
 
 /** List of returned documents that MongoDB Cloud provides when completing this request. */
 export type PaginatedAvailableVersionViewResultsList = Array<MdbAvailableVersion>;
@@ -38366,7 +38671,7 @@ export interface PaginatedAvailableVersionView {
   links?: PaginatedAvailableVersionViewLinksList;
   /** List of returned documents that MongoDB Cloud provides when completing this request. */
   results: PaginatedAvailableVersionViewResultsList;
-  /** Total number of documents available. MongoDB Cloud omits this value if `includeCount` is set to `false`. The total number is an estimate and may not be exact. */
+  /** Total number of documents available. When `includeCount` is set to `false`, MongoDB Cloud may omit this value or return it when the count is available without additional calculation. The total number is an estimate and may not be exact. */
   totalCount?: number;
 }
 export const PaginatedAvailableVersionView = /*@__PURE__*/ S.suspend(() =>
@@ -38403,9 +38708,7 @@ export const GetGroupPeerRequest = /*@__PURE__*/ S.suspend(() =>
       accept: "application/vnd.atlas.2023-01-01+json",
     }),
   ),
-).annotate({
-  identifier: "GetGroupPeerRequest",
-}) as any as S.Schema<GetGroupPeerRequest>;
+).annotate({ identifier: "GetGroupPeerRequest" }) as any as S.Schema<GetGroupPeerRequest>;
 
 export type GetGroupPrivateEndpointEndpointServiceRequestCloudProvider = "AWS" | "AZURE" | "GCP";
 export const GetGroupPrivateEndpointEndpointServiceRequestCloudProvider = S.String;
@@ -38516,9 +38819,7 @@ export const ProjectSettingItemView = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     enabled: S.Boolean,
   }),
-).annotate({
-  identifier: "ProjectSettingItemView",
-}) as any as S.Schema<ProjectSettingItemView>;
+).annotate({ identifier: "ProjectSettingItemView" }) as any as S.Schema<ProjectSettingItemView>;
 
 export interface GetGroupPrivateNetworkSettingEndpointIdRequest {
   /** Unique 24-hexadecimal digit string that identifies your project. Use the [/groups](#tag/Projects/operation/listProjects) endpoint to retrieve all projects to which the authenticated user has access. **NOTE**: Groups and projects are synonymous terms. Your group id is the same as your project id. For existing groups, your group/project id remains the same. The resource and corresponding endpoints use the term groups. */
@@ -38572,9 +38873,7 @@ export const GetGroupProcessRequest = /*@__PURE__*/ S.suspend(() =>
       accept: "application/vnd.atlas.2023-01-01+json",
     }),
   ),
-).annotate({
-  identifier: "GetGroupProcessRequest",
-}) as any as S.Schema<GetGroupProcessRequest>;
+).annotate({ identifier: "GetGroupProcessRequest" }) as any as S.Schema<GetGroupProcessRequest>;
 
 export type LinkAtlas = Link;
 export const LinkAtlas = Link;
@@ -38639,9 +38938,7 @@ export const ApiHostViewAtlas = /*@__PURE__*/ S.suspend(() =>
     userAlias: S.optional(S.String),
     version: S.optional(S.String),
   }),
-).annotate({
-  identifier: "ApiHostViewAtlas",
-}) as any as S.Schema<ApiHostViewAtlas>;
+).annotate({ identifier: "ApiHostViewAtlas" }) as any as S.Schema<ApiHostViewAtlas>;
 
 export interface GetGroupProcessCollStatNamespacesRequest {
   /** Unique 24-hexadecimal digit string that identifies your project. Use the [/groups](#tag/Projects/operation/listProjects) endpoint to retrieve all projects to which the authenticated user has access. **NOTE**: Groups and projects are synonymous terms. Your group id is the same as your project id. For existing groups, your group/project id remains the same. The resource and corresponding endpoints use the term groups. */
@@ -38725,9 +39022,7 @@ export const MesurementsDatabase = /*@__PURE__*/ S.suspend(() =>
     databaseName: S.optional(S.String),
     links: S.optional(MesurementsDatabaseLinksList),
   }),
-).annotate({
-  identifier: "MesurementsDatabase",
-}) as any as S.Schema<MesurementsDatabase>;
+).annotate({ identifier: "MesurementsDatabase" }) as any as S.Schema<MesurementsDatabase>;
 
 /** One measurement requested for this MongoDB process. */
 export type GetGroupProcessDatabaseMeasurementsRequestMItem =
@@ -38843,9 +39138,7 @@ export const MetricsMeasurementAtlas = /*@__PURE__*/ S.suspend(() =>
     name: S.optional(S.String),
     units: S.optional(MetricsMeasurementAtlasUnits),
   }),
-).annotate({
-  identifier: "MetricsMeasurementAtlas",
-}) as any as S.Schema<MetricsMeasurementAtlas>;
+).annotate({ identifier: "MetricsMeasurementAtlas" }) as any as S.Schema<MetricsMeasurementAtlas>;
 
 /** List that contains measurements and their data points. */
 export type ApiMeasurementsGeneralViewAtlasMeasurementsList = Array<MetricsMeasurementAtlas>;
@@ -38937,9 +39230,7 @@ export const MeasurementDiskPartition = /*@__PURE__*/ S.suspend(() =>
     links: S.optional(MeasurementDiskPartitionLinksList),
     partitionName: S.optional(S.String),
   }),
-).annotate({
-  identifier: "MeasurementDiskPartition",
-}) as any as S.Schema<MeasurementDiskPartition>;
+).annotate({ identifier: "MeasurementDiskPartition" }) as any as S.Schema<MeasurementDiskPartition>;
 
 /** One measurement requested for this MongoDB process. */
 export type GetGroupProcessDiskMeasurementsRequestMItem =
@@ -39177,11 +39468,22 @@ export type GetGroupProcessMeasurementsRequestMItem =
   | "TRANSACTIONS_CURRENT_ACTIVE"
   | "TRANSACTIONS_CURRENT_INACTIVE"
   | "TRANSACTIONS_CURRENT_OPEN"
-  | "TRANSACTIONS_TOTAL_ABORTED"
-  | "TRANSACTIONS_TOTAL_COMMITTED"
-  | "TRANSACTIONS_TOTAL_STARTED"
+  | "TRANSACTIONS_ABORTED"
+  | "TRANSACTIONS_COMMITTED"
+  | "TRANSACTIONS_STARTED"
   | "CACHE_PRESSURE_PERCENTAGE"
-  | "INGRESS_QUEUE_WAIT_TIME";
+  | "INGRESS_QUEUE_WAIT_TIME"
+  | "CONNECTION_RATE_LIMITING_OFFERED_CONNECTIONS"
+  | "CONNECTION_RATE_LIMITING_SUCCESSFUL_CONNECTIONS"
+  | "CONNECTION_RATE_LIMITING_REJECTED_CONNECTIONS"
+  | "CONNECTION_RATE_LIMITING_INTERRUPTED_IN_QUEUE"
+  | "CONNECTION_RATE_LIMITING_AVERAGE_TIME_QUEUED"
+  | "OPERATION_RATE_LIMITING_OFFERED_OPERATIONS"
+  | "OPERATION_RATE_LIMITING_SUCCESSFUL_OPERATIONS"
+  | "OPERATION_RATE_LIMITING_REJECTED_OPERATIONS"
+  | "OPERATION_RATE_LIMITING_QUEUED_OPERATIONS"
+  | "OPERATION_RATE_LIMITING_CURRENT_QUEUE_DEPTH"
+  | "OPERATION_RATE_LIMITING_QUEUE_TIME_AVG";
 export const GetGroupProcessMeasurementsRequestMItem = S.String;
 
 export type GetGroupProcessMeasurementsRequestMList = Array<
@@ -39286,9 +39588,7 @@ export const SampleDatasetStatus = /*@__PURE__*/ S.suspend(() =>
     errorMessage: S.optional(S.String),
     state: S.optional(SampleDatasetStatusState),
   }),
-).annotate({
-  identifier: "SampleDatasetStatus",
-}) as any as S.Schema<SampleDatasetStatus>;
+).annotate({ identifier: "SampleDatasetStatus" }) as any as S.Schema<SampleDatasetStatus>;
 
 export interface GetGroupServiceAccountRequest {
   /** Unique 24-hexadecimal digit string that identifies your project. Use the [/groups](#tag/Projects/operation/listProjects) endpoint to retrieve all projects to which the authenticated user has access. **NOTE**: Groups and projects are synonymous terms. Your group id is the same as your project id. For existing groups, your group/project id remains the same. The resource and corresponding endpoints use the term groups. */
@@ -39339,9 +39639,7 @@ export const GetGroupSettingsRequest = /*@__PURE__*/ S.suspend(() =>
       accept: "application/vnd.atlas.2023-01-01+json",
     }),
   ),
-).annotate({
-  identifier: "GetGroupSettingsRequest",
-}) as any as S.Schema<GetGroupSettingsRequest>;
+).annotate({ identifier: "GetGroupSettingsRequest" }) as any as S.Schema<GetGroupSettingsRequest>;
 
 /** Collection of settings that configures the project. */
 export interface GroupSettings {
@@ -39441,9 +39739,7 @@ export const AWSAccountDetails = /*@__PURE__*/ S.suspend(() =>
     links: S.optional(AWSAccountDetailsLinksList),
     vpcId: S.optional(S.String),
   }),
-).annotate({
-  identifier: "AWSAccountDetails",
-}) as any as S.Schema<AWSAccountDetails>;
+).annotate({ identifier: "AWSAccountDetails" }) as any as S.Schema<AWSAccountDetails>;
 
 /** List of one or more Uniform Resource Locators (URLs) that point to API sub-resources, related API resources, or both. RFC 5988 outlines these relationships. */
 export type AzureAccountDetailsLinksList = Array<Link>;
@@ -39471,9 +39767,7 @@ export const AzureAccountDetails = /*@__PURE__*/ S.suspend(() =>
     links: S.optional(AzureAccountDetailsLinksList),
     virtualNetworkName: S.optional(S.String),
   }),
-).annotate({
-  identifier: "AzureAccountDetails",
-}) as any as S.Schema<AzureAccountDetails>;
+).annotate({ identifier: "AzureAccountDetails" }) as any as S.Schema<AzureAccountDetails>;
 
 /** List of one or more Uniform Resource Locators (URLs) that point to API sub-resources, related API resources, or both. RFC 5988 outlines these relationships. */
 export type GCPAccountDetailsLinksList = Array<Link>;
@@ -39501,9 +39795,7 @@ export const GCPAccountDetails = /*@__PURE__*/ S.suspend(() =>
     links: S.optional(GCPAccountDetailsLinksList),
     vpcNetworkName: S.optional(S.String),
   }),
-).annotate({
-  identifier: "GCPAccountDetails",
-}) as any as S.Schema<GCPAccountDetails>;
+).annotate({ identifier: "GCPAccountDetails" }) as any as S.Schema<GCPAccountDetails>;
 
 /** Account details for the group, region, and provider. */
 export type AccountDetails = AWSAccountDetails | AzureAccountDetails | GCPAccountDetails;
@@ -39644,9 +39936,7 @@ export const StreamsProcessorWithStatsLinksList = /*@__PURE__*/ S.Array(
   Link,
 ) as any as S.Schema<StreamsProcessorWithStatsLinksList>;
 
-export type StreamsProcessorWithStatsPipelineItemMap = {
-  [key: string]: unknown | undefined;
-};
+export type StreamsProcessorWithStatsPipelineItemMap = { [key: string]: unknown | undefined };
 export const StreamsProcessorWithStatsPipelineItemMap = /*@__PURE__*/ S.Record(
   S.String,
   S.Unknown,
@@ -39659,9 +39949,7 @@ export const StreamsProcessorWithStatsPipelineList = /*@__PURE__*/ S.Array(
 ) as any as S.Schema<StreamsProcessorWithStatsPipelineList>;
 
 /** The stats associated with the stream processor. */
-export type StreamsProcessorWithStatsStatsMap = {
-  [key: string]: unknown | undefined;
-};
+export type StreamsProcessorWithStatsStatsMap = { [key: string]: unknown | undefined };
 export const StreamsProcessorWithStatsStatsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.Unknown,
@@ -39726,7 +40014,7 @@ export interface GetGroupStreamProcessorsRequest {
   itemsPerPage?: number;
   /** Number of the page that displays the current set of the total objects that the response returns. */
   pageNum?: number;
-  /** Flag that indicates whether the response returns the total number of items (`totalCount`) in the response. */
+  /** Flag that indicates whether MongoDB Cloud calculates the total number of items for the response. When set to `false`, MongoDB Cloud may skip an additional count operation. The response may still include `totalCount` when the count is available without additional calculation. */
   includeCount?: boolean;
 }
 export const GetGroupStreamProcessorsRequest = /*@__PURE__*/ S.suspend(() =>
@@ -39768,7 +40056,7 @@ export interface PaginatedApiStreamsStreamProcessorWithStatsView {
   links?: PaginatedApiStreamsStreamProcessorWithStatsViewLinksList;
   /** List of returned documents that MongoDB Cloud provides when completing this request. */
   results: PaginatedApiStreamsStreamProcessorWithStatsViewResultsList;
-  /** Total number of documents available. MongoDB Cloud omits this value if `includeCount` is set to `false`. The total number is an estimate and may not be exact. */
+  /** Total number of documents available. When `includeCount` is set to `false`, MongoDB Cloud may omit this value or return it when the count is available without additional calculation. The total number is an estimate and may not be exact. */
   totalCount?: number;
 }
 export const PaginatedApiStreamsStreamProcessorWithStatsView = /*@__PURE__*/ S.suspend(() =>
@@ -39833,9 +40121,7 @@ export const GetGroupTeamRequest = /*@__PURE__*/ S.suspend(() =>
       accept: "application/vnd.atlas.2023-01-01+json",
     }),
   ),
-).annotate({
-  identifier: "GetGroupTeamRequest",
-}) as any as S.Schema<GetGroupTeamRequest>;
+).annotate({ identifier: "GetGroupTeamRequest" }) as any as S.Schema<GetGroupTeamRequest>;
 
 export type GetGroupUserRequestOrgMembershipStatusesItem =
   | "PENDING"
@@ -39878,9 +40164,7 @@ export const GetGroupUserRequest = /*@__PURE__*/ S.suspend(() =>
       accept: "application/vnd.atlas.2025-02-19+json",
     }),
   ),
-).annotate({
-  identifier: "GetGroupUserRequest",
-}) as any as S.Schema<GetGroupUserRequest>;
+).annotate({ identifier: "GetGroupUserRequest" }) as any as S.Schema<GetGroupUserRequest>;
 
 export interface GetGroupUserSecurityRequest {
   /** Unique 24-hexadecimal digit string that identifies your project. Use the [/groups](#tag/Projects/operation/listProjects) endpoint to retrieve all projects to which the authenticated user has access. **NOTE**: Groups and projects are synonymous terms. Your group id is the same as your project id. For existing groups, your group/project id remains the same. The resource and corresponding endpoints use the term groups. */
@@ -39925,9 +40209,7 @@ export const DBUserTLSX509Settings = /*@__PURE__*/ S.suspend(() =>
     cas: S.optional(S.String),
     links: S.optional(DBUserTLSX509SettingsLinksList),
   }),
-).annotate({
-  identifier: "DBUserTLSX509Settings",
-}) as any as S.Schema<DBUserTLSX509Settings>;
+).annotate({ identifier: "DBUserTLSX509Settings" }) as any as S.Schema<DBUserTLSX509Settings>;
 
 /** List of one or more Uniform Resource Locators (URLs) that point to API sub-resources, related API resources, or both. RFC 5988 outlines these relationships. */
 export type LDAPSecuritySettingsOutputLinksList = Array<Link>;
@@ -39950,9 +40232,7 @@ export const UserToDNMapping = /*@__PURE__*/ S.suspend(() =>
     match: S.String,
     substitution: S.optional(S.String),
   }),
-).annotate({
-  identifier: "UserToDNMapping",
-}) as any as S.Schema<UserToDNMapping>;
+).annotate({ identifier: "UserToDNMapping" }) as any as S.Schema<UserToDNMapping>;
 
 /** User-to-Distinguished Name (DN) map that MongoDB Cloud uses to transform a Lightweight Directory Access Protocol (LDAP) username into an LDAP DN. */
 export type LDAPSecuritySettingsOutputUserToDNMappingList = Array<UserToDNMapping>;
@@ -40015,9 +40295,7 @@ export const UserSecurityOutput = /*@__PURE__*/ S.suspend(() =>
     ldap: S.optional(LDAPSecuritySettingsOutput),
     links: S.optional(UserSecurityOutputLinksList),
   }),
-).annotate({
-  identifier: "UserSecurityOutput",
-}) as any as S.Schema<UserSecurityOutput>;
+).annotate({ identifier: "UserSecurityOutput" }) as any as S.Schema<UserSecurityOutput>;
 
 export interface GetGroupUserSecurityLdapVerifyRequest {
   /** Unique 24-hexadecimal digit string that identifies your project. Use the [/groups](#tag/Projects/operation/listProjects) endpoint to retrieve all projects to which the authenticated user has access. **NOTE**: Groups and projects are synonymous terms. Your group id is the same as your project id. For existing groups, your group/project id remains the same. The resource and corresponding endpoints use the term groups. */
@@ -40229,6 +40507,7 @@ export type EventTypeForOrgCase4 =
   | "CREDIT_PULLED_FWD"
   | "CREDIT_END_DATE_MODIFIED"
   | "PROMO_CODE_APPLIED"
+  | "PAYMENT_METHOD_DEACTIVATED"
   | "PAYMENT_FORGIVEN"
   | "REFUND_ISSUED"
   | "ACCOUNT_DOWNGRADED"
@@ -40321,7 +40600,12 @@ export type EventTypeForOrgCase5 =
   | "RESTRICT_ORG_MEMBERSHIP_DISABLED"
   | "ROLE_MAPPING_CREATED"
   | "ROLE_MAPPING_UPDATED"
-  | "ROLE_MAPPING_DELETED";
+  | "ROLE_MAPPING_DELETED"
+  | "SCIM_CLIENT_CREATED"
+  | "SCIM_CLIENT_UPDATED"
+  | "SCIM_CLIENT_DELETED"
+  | "SCIM_CLIENT_SECRET_CREATED"
+  | "SCIM_CLIENT_SECRET_DELETED";
 export const EventTypeForOrgCase5 = S.String;
 
 export type EventTypeForOrgCase6 = "GROUP_DELETED" | "GROUP_CREATED" | "GROUP_MOVED";
@@ -40350,7 +40634,10 @@ export type EventTypeForOrgCase8 =
   | "ORG_LIMIT_UPDATED"
   | "SHADOW_CLUSTER_ORG_OPT_IN"
   | "SHADOW_CLUSTER_ORG_OPT_OUT"
-  | "ATLAS_MAINTENANCE_FLEET_ACTIVE_WAVE_CLOSED_BY_ADMIN";
+  | "ATLAS_MAINTENANCE_FLEET_ACTIVE_WAVE_CLOSED_BY_ADMIN"
+  | "MAINTENANCE_WAVE_ASSIGNMENT_ADDED"
+  | "MAINTENANCE_WAVE_ASSIGNMENT_MODIFIED"
+  | "MAINTENANCE_WAVE_ASSIGNMENT_REMOVED";
 export const EventTypeForOrgCase8 = S.String;
 
 export type EventTypeForOrgCase9 =
@@ -40705,9 +40992,7 @@ export const GetOrgApiKeyRequest = /*@__PURE__*/ S.suspend(() =>
       accept: "application/vnd.atlas.2023-01-01+json",
     }),
   ),
-).annotate({
-  identifier: "GetOrgApiKeyRequest",
-}) as any as S.Schema<GetOrgApiKeyRequest>;
+).annotate({ identifier: "GetOrgApiKeyRequest" }) as any as S.Schema<GetOrgApiKeyRequest>;
 
 export interface GetOrgApiKeyAccessListEntryRequest {
   /** Unique 24-hexadecimal digit string that identifies the organization that contains your projects. Use the [`/orgs`](#tag/Organizations/operation/listOrganizations) endpoint to retrieve all organizations to which the authenticated user has access. */
@@ -40780,9 +41065,7 @@ export const AssociatedInvoice = /*@__PURE__*/ S.suspend(() =>
     invoiceId: S.optional(S.String),
     orgId: S.optional(S.String),
   }),
-).annotate({
-  identifier: "AssociatedInvoice",
-}) as any as S.Schema<AssociatedInvoice>;
+).annotate({ identifier: "AssociatedInvoice" }) as any as S.Schema<AssociatedInvoice>;
 
 /** List of invoices associated with the organization for the specified period. */
 export type OrgAssociatedInvoiceResponseAssociatedInvoicesList = Array<AssociatedInvoice>;
@@ -40927,9 +41210,7 @@ export const GetOrgEventRequest = /*@__PURE__*/ S.suspend(() =>
       accept: "application/vnd.atlas.2023-01-01+json",
     }),
   ),
-).annotate({
-  identifier: "GetOrgEventRequest",
-}) as any as S.Schema<GetOrgEventRequest>;
+).annotate({ identifier: "GetOrgEventRequest" }) as any as S.Schema<GetOrgEventRequest>;
 
 export type DefaultEventViewForOrgEventTypeNameCase0 =
   | "FEDERATION_SETTINGS_CREATED"
@@ -40955,7 +41236,12 @@ export type DefaultEventViewForOrgEventTypeNameCase0 =
   | "RESTRICT_ORG_MEMBERSHIP_DISABLED"
   | "ROLE_MAPPING_CREATED"
   | "ROLE_MAPPING_UPDATED"
-  | "ROLE_MAPPING_DELETED";
+  | "ROLE_MAPPING_DELETED"
+  | "SCIM_CLIENT_CREATED"
+  | "SCIM_CLIENT_UPDATED"
+  | "SCIM_CLIENT_DELETED"
+  | "SCIM_CLIENT_SECRET_CREATED"
+  | "SCIM_CLIENT_SECRET_DELETED";
 export const DefaultEventViewForOrgEventTypeNameCase0 = S.String;
 
 export type DefaultEventViewForOrgEventTypeNameCase1 =
@@ -41096,9 +41382,7 @@ export const DefaultEventViewForOrg = /*@__PURE__*/ S.suspend(() =>
     userId: S.optional(S.String),
     username: S.optional(S.String),
   }),
-).annotate({
-  identifier: "DefaultEventViewForOrg",
-}) as any as S.Schema<DefaultEventViewForOrg>;
+).annotate({ identifier: "DefaultEventViewForOrg" }) as any as S.Schema<DefaultEventViewForOrg>;
 
 /** Unique identifier of event type. */
 export type ApiUserEventTypeViewForOrg =
@@ -41171,9 +41455,7 @@ export const ApiUserEventViewForOrg = /*@__PURE__*/ S.suspend(() =>
     username: S.optional(S.String),
     whitelistEntry: S.optional(S.NullOr(S.String)),
   }),
-).annotate({
-  identifier: "ApiUserEventViewForOrg",
-}) as any as S.Schema<ApiUserEventViewForOrg>;
+).annotate({ identifier: "ApiUserEventViewForOrg" }) as any as S.Schema<ApiUserEventViewForOrg>;
 
 /** Unique identifier of event type. */
 export type ServiceAccountEventTypeViewForOrg =
@@ -41242,9 +41524,7 @@ export const ServiceAccountOrgEvents = /*@__PURE__*/ S.suspend(() =>
     userId: S.optional(S.String),
     username: S.optional(S.String),
   }),
-).annotate({
-  identifier: "ServiceAccountOrgEvents",
-}) as any as S.Schema<ServiceAccountOrgEvents>;
+).annotate({ identifier: "ServiceAccountOrgEvents" }) as any as S.Schema<ServiceAccountOrgEvents>;
 
 /** Unique identifier of event type. */
 export type BillingEventTypeViewForOrg =
@@ -41262,6 +41542,7 @@ export type BillingEventTypeViewForOrg =
   | "CREDIT_PULLED_FWD"
   | "CREDIT_END_DATE_MODIFIED"
   | "PROMO_CODE_APPLIED"
+  | "PAYMENT_METHOD_DEACTIVATED"
   | "PAYMENT_FORGIVEN"
   | "REFUND_ISSUED"
   | "ACCOUNT_DOWNGRADED"
@@ -41387,16 +41668,17 @@ export const BillingEventViewForOrg = /*@__PURE__*/ S.suspend(() =>
     userId: S.optional(S.String),
     username: S.optional(S.String),
   }),
-).annotate({
-  identifier: "BillingEventViewForOrg",
-}) as any as S.Schema<BillingEventViewForOrg>;
+).annotate({ identifier: "BillingEventViewForOrg" }) as any as S.Schema<BillingEventViewForOrg>;
 
 /** Unique identifier of event type. */
 export type NDSAuditTypeViewForOrg =
   | "ORG_LIMIT_UPDATED"
   | "SHADOW_CLUSTER_ORG_OPT_IN"
   | "SHADOW_CLUSTER_ORG_OPT_OUT"
-  | "ATLAS_MAINTENANCE_FLEET_ACTIVE_WAVE_CLOSED_BY_ADMIN";
+  | "ATLAS_MAINTENANCE_FLEET_ACTIVE_WAVE_CLOSED_BY_ADMIN"
+  | "MAINTENANCE_WAVE_ASSIGNMENT_ADDED"
+  | "MAINTENANCE_WAVE_ASSIGNMENT_MODIFIED"
+  | "MAINTENANCE_WAVE_ASSIGNMENT_REMOVED";
 export const NDSAuditTypeViewForOrg = S.String;
 
 /** List of one or more Uniform Resource Locators (URLs) that point to API sub-resources, related API resources, or both. RFC 5988 outlines these relationships. */
@@ -41456,9 +41738,7 @@ export const NDSAuditViewForOrg = /*@__PURE__*/ S.suspend(() =>
     username: S.optional(S.String),
     whitelistEntry: S.optional(S.String),
   }),
-).annotate({
-  identifier: "NDSAuditViewForOrg",
-}) as any as S.Schema<NDSAuditViewForOrg>;
+).annotate({ identifier: "NDSAuditViewForOrg" }) as any as S.Schema<NDSAuditViewForOrg>;
 
 /** Unique identifier of event type. */
 export type OrgEventTypeViewForOrg =
@@ -41601,9 +41881,7 @@ export const OrgEventViewForOrg = /*@__PURE__*/ S.suspend(() =>
     userId: S.optional(S.String),
     username: S.optional(S.String),
   }),
-).annotate({
-  identifier: "OrgEventViewForOrg",
-}) as any as S.Schema<OrgEventViewForOrg>;
+).annotate({ identifier: "OrgEventViewForOrg" }) as any as S.Schema<OrgEventViewForOrg>;
 
 /** Unique identifier of event type. */
 export type TeamEventTypeView =
@@ -41740,9 +42018,7 @@ export const UserEventViewForOrg = /*@__PURE__*/ S.suspend(() =>
     userId: S.optional(S.String),
     username: S.optional(S.String),
   }),
-).annotate({
-  identifier: "UserEventViewForOrg",
-}) as any as S.Schema<UserEventViewForOrg>;
+).annotate({ identifier: "UserEventViewForOrg" }) as any as S.Schema<UserEventViewForOrg>;
 
 /** Unique identifier of event type. */
 export type ResourceEventTypeViewForOrg = "TAGS_MODIFIED" | "GROUP_TAGS_MODIFIED";
@@ -41805,9 +42081,7 @@ export const ResourceEventViewForOrg = /*@__PURE__*/ S.suspend(() =>
     userId: S.optional(S.String),
     username: S.optional(S.String),
   }),
-).annotate({
-  identifier: "ResourceEventViewForOrg",
-}) as any as S.Schema<ResourceEventViewForOrg>;
+).annotate({ identifier: "ResourceEventViewForOrg" }) as any as S.Schema<ResourceEventViewForOrg>;
 
 /** Unique identifier of event type. */
 export type AtlasResourcePolicyAuditForOrgEventTypeName =
@@ -41894,9 +42168,7 @@ export const EventViewForOrg = S.Unknown as any as S.Schema<EventViewForOrg>;
 export type GetOrgEventResponse = EventViewForOrg;
 export const GetOrgEventResponse = /*@__PURE__*/ S.suspend(() =>
   EventViewForOrg.pipe(T.RawResponseRoot()),
-).annotate({
-  identifier: "GetOrgEventResponse",
-}) as any as S.Schema<GetOrgEventResponse>;
+).annotate({ identifier: "GetOrgEventResponse" }) as any as S.Schema<GetOrgEventResponse>;
 
 export interface GetOrgFederationSettingsRequest {
   /** Unique 24-hexadecimal digit string that identifies the organization that contains your projects. Use the [`/orgs`](#tag/Organizations/operation/listOrganizations) endpoint to retrieve all organizations to which the authenticated user has access. */
@@ -41954,16 +42226,14 @@ export const OrgFederationSettings = /*@__PURE__*/ S.suspend(() =>
     identityProviderId: S.optional(S.String),
     identityProviderStatus: S.optional(OrgFederationSettingsIdentityProviderStatus),
   }),
-).annotate({
-  identifier: "OrgFederationSettings",
-}) as any as S.Schema<OrgFederationSettings>;
+).annotate({ identifier: "OrgFederationSettings" }) as any as S.Schema<OrgFederationSettings>;
 
 export interface GetOrgGroupsRequest {
   /** Unique 24-hexadecimal digit string that identifies the organization that contains your projects. Use the [`/orgs`](#tag/Organizations/operation/listOrganizations) endpoint to retrieve all organizations to which the authenticated user has access. */
   orgId: string;
   /** Flag that indicates whether Application wraps the response in an `envelope` JSON object. Some API clients cannot access the HTTP response headers or status code. To remediate this, set envelope=true in the query. Endpoints that return a list of results use the results object as an envelope. Application adds the status parameter to the response body. */
   envelope?: boolean;
-  /** Flag that indicates whether the response returns the total number of items (`totalCount`) in the response. */
+  /** Flag that indicates whether MongoDB Cloud calculates the total number of items for the response. When set to `false`, MongoDB Cloud may skip an additional count operation. The response may still include `totalCount` when the count is available without additional calculation. */
   includeCount?: boolean;
   /** Number of items that the response returns per page. */
   itemsPerPage?: number;
@@ -41991,9 +42261,7 @@ export const GetOrgGroupsRequest = /*@__PURE__*/ S.suspend(() =>
       accept: "application/vnd.atlas.2023-01-01+json",
     }),
   ),
-).annotate({
-  identifier: "GetOrgGroupsRequest",
-}) as any as S.Schema<GetOrgGroupsRequest>;
+).annotate({ identifier: "GetOrgGroupsRequest" }) as any as S.Schema<GetOrgGroupsRequest>;
 
 /** List of one or more Uniform Resource Locators (URLs) that point to API sub-resources, related API resources, or both. RFC 5988 outlines these relationships. */
 export type PaginatedAtlasGroupViewLinksList = Array<Link>;
@@ -42012,7 +42280,7 @@ export interface PaginatedAtlasGroupView {
   links?: PaginatedAtlasGroupViewLinksList;
   /** List of returned documents that MongoDB Cloud provides when completing this request. */
   results: PaginatedAtlasGroupViewResultsList;
-  /** Total number of documents available. MongoDB Cloud omits this value if `includeCount` is set to `false`. The total number is an estimate and may not be exact. */
+  /** Total number of documents available. When `includeCount` is set to `false`, MongoDB Cloud may omit this value or return it when the count is available without additional calculation. The total number is an estimate and may not be exact. */
   totalCount?: number;
 }
 export const PaginatedAtlasGroupView = /*@__PURE__*/ S.suspend(() =>
@@ -42021,9 +42289,7 @@ export const PaginatedAtlasGroupView = /*@__PURE__*/ S.suspend(() =>
     results: PaginatedAtlasGroupViewResultsList,
     totalCount: S.optional(S.Number),
   }),
-).annotate({
-  identifier: "PaginatedAtlasGroupView",
-}) as any as S.Schema<PaginatedAtlasGroupView>;
+).annotate({ identifier: "PaginatedAtlasGroupView" }) as any as S.Schema<PaginatedAtlasGroupView>;
 
 export interface GetOrgInvoiceRequest {
   /** Unique 24-hexadecimal digit string that identifies the organization that contains your projects. Use the [`/orgs`](#tag/Organizations/operation/listOrganizations) endpoint to retrieve all organizations to which the authenticated user has access. */
@@ -42049,9 +42315,7 @@ export const GetOrgInvoiceRequest = /*@__PURE__*/ S.suspend(() =>
       accept: "application/vnd.atlas.2023-01-01+json",
     }),
   ),
-).annotate({
-  identifier: "GetOrgInvoiceRequest",
-}) as any as S.Schema<GetOrgInvoiceRequest>;
+).annotate({ identifier: "GetOrgInvoiceRequest" }) as any as S.Schema<GetOrgInvoiceRequest>;
 
 /** Code identifying the cloud provider this line item's usage is attributed to. Values map as follows: AWS is Amazon Web Services, GCP is Google Cloud, AZURE is Microsoft Azure, and ATLAS is other Atlas usage not tied to a specific cloud provider. */
 export type InvoiceLineItemCloudProvider = "AWS" | "GCP" | "AZURE" | "ATLAS";
@@ -42064,9 +42328,7 @@ export const InvoiceLineItemTagsValueList = /*@__PURE__*/ S.Array(
 ) as any as S.Schema<InvoiceLineItemTagsValueList>;
 
 /** A map of key-value pairs corresponding to the tags associated with the line item resource. */
-export type InvoiceLineItemTagsMap = {
-  [key: string]: InvoiceLineItemTagsValueList | undefined;
-};
+export type InvoiceLineItemTagsMap = { [key: string]: InvoiceLineItemTagsValueList | undefined };
 export const InvoiceLineItemTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   InvoiceLineItemTagsValueList,
@@ -42135,9 +42397,7 @@ export const InvoiceLineItem = /*@__PURE__*/ S.suspend(() =>
     unit: S.optional(S.String),
     unitPriceDollars: S.optional(S.Number),
   }),
-).annotate({
-  identifier: "InvoiceLineItem",
-}) as any as S.Schema<InvoiceLineItem>;
+).annotate({ identifier: "InvoiceLineItem" }) as any as S.Schema<InvoiceLineItem>;
 
 /** List that contains individual services included in this invoice. */
 export type BillingInvoiceLineItemsList = Array<InvoiceLineItem>;
@@ -42339,9 +42599,7 @@ export const GetOrgInvoiceCsvRequest = /*@__PURE__*/ S.suspend(() =>
       accept: "application/vnd.atlas.2023-01-01+csv",
     }),
   ),
-).annotate({
-  identifier: "GetOrgInvoiceCsvRequest",
-}) as any as S.Schema<GetOrgInvoiceCsvRequest>;
+).annotate({ identifier: "GetOrgInvoiceCsvRequest" }) as any as S.Schema<GetOrgInvoiceCsvRequest>;
 
 export interface GetOrgInvoiceCsvResponse {}
 export const GetOrgInvoiceCsvResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -42373,6 +42631,123 @@ export const GetOrgInvoiceReportRequest = /*@__PURE__*/ S.suspend(() =>
   identifier: "GetOrgInvoiceReportRequest",
 }) as any as S.Schema<GetOrgInvoiceReportRequest>;
 
+export interface GetOrgLogIntegrationRequest {
+  /** Unique 24-hexadecimal digit string that identifies the organization that contains your projects. Use the [`/orgs`](#tag/Organizations/operation/listOrganizations) endpoint to retrieve all organizations to which the authenticated user has access. */
+  orgId: string;
+  /** Unique identifier of the log integration configuration. */
+  logIntegrationId: string;
+  /** Flag that indicates whether Application wraps the response in an `envelope` JSON object. Some API clients cannot access the HTTP response headers or status code. To remediate this, set envelope=true in the query. Endpoints that return a list of results use the results object as an envelope. Application adds the status parameter to the response body. */
+  envelope?: boolean;
+  /** Flag that indicates whether the response body should be in the prettyprint format. */
+  pretty?: boolean;
+}
+export const GetOrgLogIntegrationRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    orgId: S.String.pipe(T.Label()),
+    logIntegrationId: S.String.pipe(T.Label()),
+    envelope: S.optional(S.Boolean.pipe(T.Query())),
+    pretty: S.optional(S.Boolean.pipe(T.Query())),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      uri: "/api/atlas/v2/orgs/{orgId}/logIntegrations/{logIntegrationId}",
+      code: 200,
+      accept: "application/vnd.atlas.2025-03-12+json",
+    }),
+  ),
+).annotate({
+  identifier: "GetOrgLogIntegrationRequest",
+}) as any as S.Schema<GetOrgLogIntegrationRequest>;
+
+export type GetOrgLogIntegrationResponseLogTypesItem = "EVENTS";
+export const GetOrgLogIntegrationResponseLogTypesItem = S.String;
+
+/** Array of log types exported by this integration. */
+export type GetOrgLogIntegrationResponseLogTypesList =
+  Array<GetOrgLogIntegrationResponseLogTypesItem>;
+export const GetOrgLogIntegrationResponseLogTypesList = /*@__PURE__*/ S.Array(
+  GetOrgLogIntegrationResponseLogTypesItem,
+) as any as S.Schema<GetOrgLogIntegrationResponseLogTypesList>;
+
+/** Type of log integration. Identifies which service will receive the exported events. This value cannot be modified after the integration is created. */
+export type GetOrgLogIntegrationResponseType = "OTEL_LOG_EXPORT";
+export const GetOrgLogIntegrationResponseType = S.String;
+
+export interface GetOrgLogIntegrationResponse {
+  /** Unique 24-character hexadecimal digit string that identifies the log integration configuration. */
+  id: string;
+  /** Array of log types exported by this integration. */
+  logTypes: GetOrgLogIntegrationResponseLogTypesList;
+  /** Type of log integration. Identifies which service will receive the exported events. This value cannot be modified after the integration is created. */
+  type: GetOrgLogIntegrationResponseType;
+}
+export const GetOrgLogIntegrationResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    id: S.String,
+    logTypes: GetOrgLogIntegrationResponseLogTypesList,
+    type: GetOrgLogIntegrationResponseType,
+  }),
+).annotate({
+  identifier: "GetOrgLogIntegrationResponse",
+}) as any as S.Schema<GetOrgLogIntegrationResponse>;
+
+export interface GetOrgMaintenanceSettingsRequest {
+  /** Unique 24-hexadecimal digit string that identifies the organization that contains your projects. Use the [`/orgs`](#tag/Organizations/operation/listOrganizations) endpoint to retrieve all organizations to which the authenticated user has access. */
+  orgId: string;
+  /** Flag that indicates whether Application wraps the response in an `envelope` JSON object. Some API clients cannot access the HTTP response headers or status code. To remediate this, set envelope=true in the query. Endpoints that return a list of results use the results object as an envelope. Application adds the status parameter to the response body. */
+  envelope?: boolean;
+  /** Flag that indicates whether the response body should be in the prettyprint format. */
+  pretty?: boolean;
+}
+export const GetOrgMaintenanceSettingsRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    orgId: S.String.pipe(T.Label()),
+    envelope: S.optional(S.Boolean.pipe(T.Query())),
+    pretty: S.optional(S.Boolean.pipe(T.Query())),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      uri: "/api/atlas/v2/orgs/{orgId}/maintenanceSettings",
+      code: 200,
+      accept: "application/vnd.atlas.2025-03-12+json",
+    }),
+  ),
+).annotate({
+  identifier: "GetOrgMaintenanceSettingsRequest",
+}) as any as S.Schema<GetOrgMaintenanceSettingsRequest>;
+
+/** Wave assignment mode that Atlas uses when scheduling maintenance for projects in this organization. This read-only field takes precedence over `waveAssignmentMode` for scheduling. It matches `waveAssignmentMode` except when cross-organization maintenance sequencing is enabled and this organization is a linked non-paying organization, in which case it reflects the paying organization's `waveAssignmentMode`. Possible values are `MANUAL` and `ENV_TAG_MAPPING`. Defaults to `MANUAL` when no mode is configured. Omitted from GET responses when maintenance sequencing is disabled for this organization. */
+export type OrganizationMaintenanceSettingsResponseEffectiveWaveAssignmentMode =
+  | "MANUAL"
+  | "ENV_TAG_MAPPING";
+export const OrganizationMaintenanceSettingsResponseEffectiveWaveAssignmentMode = S.String;
+
+/** Mode explicitly configured for this organization that determines how maintenance waves are assigned to projects. Possible values are `MANUAL` and `ENV_TAG_MAPPING`. Omitted from the response when no explicit preference has been set; in that case `effectiveWaveAssignmentMode` reflects the value the system uses (`MANUAL` by default). Atlas uses read-only `effectiveWaveAssignmentMode` (not this field) for scheduling. In a cross-organization billing hierarchy, a linked non-paying organization cannot update its `effectiveWaveAssignmentMode` field, which inherits from the paying organization's `waveAssignmentMode`. In this case, a linked non-paying organization's `effectiveWaveAssignmentMode` and `waveAssignmentMode` might differ. */
+export type OrganizationMaintenanceSettingsResponseWaveAssignmentMode =
+  | "MANUAL"
+  | "ENV_TAG_MAPPING";
+export const OrganizationMaintenanceSettingsResponseWaveAssignmentMode = S.String;
+
+/** Maintenance configuration settings for an organization. */
+export interface OrganizationMaintenanceSettingsResponse {
+  /** Wave assignment mode that Atlas uses when scheduling maintenance for projects in this organization. This read-only field takes precedence over `waveAssignmentMode` for scheduling. It matches `waveAssignmentMode` except when cross-organization maintenance sequencing is enabled and this organization is a linked non-paying organization, in which case it reflects the paying organization's `waveAssignmentMode`. Possible values are `MANUAL` and `ENV_TAG_MAPPING`. Defaults to `MANUAL` when no mode is configured. Omitted from GET responses when maintenance sequencing is disabled for this organization. */
+  effectiveWaveAssignmentMode?: OrganizationMaintenanceSettingsResponseEffectiveWaveAssignmentMode;
+  /** Mode explicitly configured for this organization that determines how maintenance waves are assigned to projects. Possible values are `MANUAL` and `ENV_TAG_MAPPING`. Omitted from the response when no explicit preference has been set; in that case `effectiveWaveAssignmentMode` reflects the value the system uses (`MANUAL` by default). Atlas uses read-only `effectiveWaveAssignmentMode` (not this field) for scheduling. In a cross-organization billing hierarchy, a linked non-paying organization cannot update its `effectiveWaveAssignmentMode` field, which inherits from the paying organization's `waveAssignmentMode`. In this case, a linked non-paying organization's `effectiveWaveAssignmentMode` and `waveAssignmentMode` might differ. */
+  waveAssignmentMode?: OrganizationMaintenanceSettingsResponseWaveAssignmentMode | null;
+}
+export const OrganizationMaintenanceSettingsResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    effectiveWaveAssignmentMode: S.optional(
+      OrganizationMaintenanceSettingsResponseEffectiveWaveAssignmentMode,
+    ),
+    waveAssignmentMode: S.optional(
+      S.NullOr(OrganizationMaintenanceSettingsResponseWaveAssignmentMode),
+    ),
+  }),
+).annotate({
+  identifier: "OrganizationMaintenanceSettingsResponse",
+}) as any as S.Schema<OrganizationMaintenanceSettingsResponse>;
+
 export interface GetOrgMcpConfigRequest {
   /** Unique 24-hexadecimal digit string that identifies the organization that contains your projects. Use the [`/orgs`](#tag/Organizations/operation/listOrganizations) endpoint to retrieve all organizations to which the authenticated user has access. */
   orgId: string;
@@ -42397,9 +42772,7 @@ export const GetOrgMcpConfigRequest = /*@__PURE__*/ S.suspend(() =>
       accept: "application/vnd.atlas.2025-03-12+json",
     }),
   ),
-).annotate({
-  identifier: "GetOrgMcpConfigRequest",
-}) as any as S.Schema<GetOrgMcpConfigRequest>;
+).annotate({ identifier: "GetOrgMcpConfigRequest" }) as any as S.Schema<GetOrgMcpConfigRequest>;
 
 export interface GetOrgMcpConfigSecretRequest {
   /** Unique 24-hexadecimal digit string that identifies the organization that contains your projects. Use the [`/orgs`](#tag/Organizations/operation/listOrganizations) endpoint to retrieve all organizations to which the authenticated user has access. */
@@ -42664,9 +43037,7 @@ export const ServiceAccountGroup = /*@__PURE__*/ S.suspend(() =>
     groupId: S.optional(S.String),
     roles: S.optional(ServiceAccountGroupRolesList),
   }),
-).annotate({
-  identifier: "ServiceAccountGroup",
-}) as any as S.Schema<ServiceAccountGroup>;
+).annotate({ identifier: "ServiceAccountGroup" }) as any as S.Schema<ServiceAccountGroup>;
 
 /** List of returned documents that MongoDB Cloud provides when completing this request. */
 export type PaginatedServiceAccountGroupResultsList = Array<ServiceAccountGroup>;
@@ -42680,7 +43051,7 @@ export interface PaginatedServiceAccountGroup {
   links?: PaginatedServiceAccountGroupLinksList;
   /** List of returned documents that MongoDB Cloud provides when completing this request. */
   results: PaginatedServiceAccountGroupResultsList;
-  /** Total number of documents available. MongoDB Cloud omits this value if `includeCount` is set to `false`. The total number is an estimate and may not be exact. */
+  /** Total number of documents available. When `includeCount` is set to `false`, MongoDB Cloud may omit this value or return it when the count is available without additional calculation. The total number is an estimate and may not be exact. */
   totalCount?: number;
 }
 export const PaginatedServiceAccountGroup = /*@__PURE__*/ S.suspend(() =>
@@ -42714,9 +43085,7 @@ export const GetOrgSettingsRequest = /*@__PURE__*/ S.suspend(() =>
       accept: "application/vnd.atlas.2023-01-01+json",
     }),
   ),
-).annotate({
-  identifier: "GetOrgSettingsRequest",
-}) as any as S.Schema<GetOrgSettingsRequest>;
+).annotate({ identifier: "GetOrgSettingsRequest" }) as any as S.Schema<GetOrgSettingsRequest>;
 
 /** Defines the session timeout settings for managing user sessions at the organization level. When set to null, the field's value is unset, and the default timeout settings are applied. */
 export interface CustomSessionTimeouts {
@@ -42730,9 +43099,7 @@ export const CustomSessionTimeouts = /*@__PURE__*/ S.suspend(() =>
     absoluteSessionTimeoutInSeconds: S.optional(S.Number),
     idleSessionTimeoutInSeconds: S.optional(S.Number),
   }),
-).annotate({
-  identifier: "CustomSessionTimeouts",
-}) as any as S.Schema<CustomSessionTimeouts>;
+).annotate({ identifier: "CustomSessionTimeouts" }) as any as S.Schema<CustomSessionTimeouts>;
 
 /** Collection of settings that configures the organization. */
 export interface OrganizationSettings {
@@ -42766,9 +43133,7 @@ export const OrganizationSettings = /*@__PURE__*/ S.suspend(() =>
     securityContact: S.optional(S.String),
     streamsCrossGroupEnabled: S.optional(S.Boolean),
   }),
-).annotate({
-  identifier: "OrganizationSettings",
-}) as any as S.Schema<OrganizationSettings>;
+).annotate({ identifier: "OrganizationSettings" }) as any as S.Schema<OrganizationSettings>;
 
 export interface GetOrgTeamRequest {
   /** Unique 24-hexadecimal digit string that identifies the organization that contains your projects. Use the [`/orgs`](#tag/Organizations/operation/listOrganizations) endpoint to retrieve all organizations to which the authenticated user has access. */
@@ -42794,9 +43159,7 @@ export const GetOrgTeamRequest = /*@__PURE__*/ S.suspend(() =>
       accept: "application/vnd.atlas.2023-01-01+json",
     }),
   ),
-).annotate({
-  identifier: "GetOrgTeamRequest",
-}) as any as S.Schema<GetOrgTeamRequest>;
+).annotate({ identifier: "GetOrgTeamRequest" }) as any as S.Schema<GetOrgTeamRequest>;
 
 /** List of one or more Uniform Resource Locators (URLs) that point to API sub-resources, related API resources, or both. RFC 5988 outlines these relationships. */
 export type TeamResponseLinksList = Array<Link>;
@@ -42844,9 +43207,7 @@ export const GetOrgTeamByNameRequest = /*@__PURE__*/ S.suspend(() =>
       accept: "application/vnd.atlas.2023-01-01+json",
     }),
   ),
-).annotate({
-  identifier: "GetOrgTeamByNameRequest",
-}) as any as S.Schema<GetOrgTeamByNameRequest>;
+).annotate({ identifier: "GetOrgTeamByNameRequest" }) as any as S.Schema<GetOrgTeamByNameRequest>;
 
 export type GetOrgUserRequestOrgMembershipStatusesItem =
   | "PENDING"
@@ -42889,9 +43250,7 @@ export const GetOrgUserRequest = /*@__PURE__*/ S.suspend(() =>
       accept: "application/vnd.atlas.2025-02-19+json",
     }),
   ),
-).annotate({
-  identifier: "GetOrgUserRequest",
-}) as any as S.Schema<GetOrgUserRequest>;
+).annotate({ identifier: "GetOrgUserRequest" }) as any as S.Schema<GetOrgUserRequest>;
 
 export interface GetRateLimitRequest {
   /** The ID of the rate limit endpoint set. */
@@ -42926,9 +43285,7 @@ export const GetRateLimitRequest = /*@__PURE__*/ S.suspend(() =>
       accept: "application/vnd.atlas.2025-03-12+json",
     }),
   ),
-).annotate({
-  identifier: "GetRateLimitRequest",
-}) as any as S.Schema<GetRateLimitRequest>;
+).annotate({ identifier: "GetRateLimitRequest" }) as any as S.Schema<GetRateLimitRequest>;
 
 /** The rate limit capacity for the endpoint set. */
 export interface RateLimitEndpointSetCapacity {
@@ -43088,9 +43445,7 @@ export const GetSystemStatusRequest = /*@__PURE__*/ S.suspend(() =>
       accept: "application/vnd.atlas.2023-01-01+json",
     }),
   ),
-).annotate({
-  identifier: "GetSystemStatusRequest",
-}) as any as S.Schema<GetSystemStatusRequest>;
+).annotate({ identifier: "GetSystemStatusRequest" }) as any as S.Schema<GetSystemStatusRequest>;
 
 export interface AccessListItemView {
   /** Range of IP addresses in Classless Inter-Domain Routing (CIDR) notation that found in this project's access list. */
@@ -43103,9 +43458,7 @@ export const AccessListItemView = /*@__PURE__*/ S.suspend(() =>
     cidrBlock: S.optional(S.NullOr(S.String)),
     ipAddress: S.NullOr(S.String),
   }),
-).annotate({
-  identifier: "AccessListItemView",
-}) as any as S.Schema<AccessListItemView>;
+).annotate({ identifier: "AccessListItemView" }) as any as S.Schema<AccessListItemView>;
 
 /** List of network addresses granted access to this API using this API key. */
 export type ApiKeyAccessListList = Array<AccessListItemView>;
@@ -43158,9 +43511,7 @@ export const AuthenticatedUser = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     username: S.optional(S.String),
   }),
-).annotate({
-  identifier: "AuthenticatedUser",
-}) as any as S.Schema<AuthenticatedUser>;
+).annotate({ identifier: "AuthenticatedUser" }) as any as S.Schema<AuthenticatedUser>;
 
 export interface SystemStatus {
   apiKey?: ApiKey | null;
@@ -43352,7 +43703,7 @@ export const ListAlertConfigMatcherFieldNamesResponse = /*@__PURE__*/ S.suspend(
 export interface ListClusterDetailsRequest {
   /** Flag that indicates whether Application wraps the response in an `envelope` JSON object. Some API clients cannot access the HTTP response headers or status code. To remediate this, set envelope=true in the query. Endpoints that return a list of results use the results object as an envelope. Application adds the status parameter to the response body. */
   envelope?: boolean;
-  /** Flag that indicates whether the response returns the total number of items (`totalCount`) in the response. */
+  /** Flag that indicates whether MongoDB Cloud calculates the total number of items for the response. When set to `false`, MongoDB Cloud may skip an additional count operation. The response may still include `totalCount` when the count is available without additional calculation. */
   includeCount?: boolean;
   /** Number of items that the response returns per page. */
   itemsPerPage?: number;
@@ -43492,7 +43843,7 @@ export interface PaginatedOrgGroupView {
   links?: PaginatedOrgGroupViewLinksList;
   /** List of returned documents that MongoDB Cloud provides when completing this request. */
   results: PaginatedOrgGroupViewResultsList;
-  /** Total number of documents available. MongoDB Cloud omits this value if `includeCount` is set to `false`. The total number is an estimate and may not be exact. */
+  /** Total number of documents available. When `includeCount` is set to `false`, MongoDB Cloud may omit this value or return it when the count is available without additional calculation. The total number is an estimate and may not be exact. */
   totalCount?: number;
 }
 export const PaginatedOrgGroupView = /*@__PURE__*/ S.suspend(() =>
@@ -43501,9 +43852,7 @@ export const PaginatedOrgGroupView = /*@__PURE__*/ S.suspend(() =>
     results: PaginatedOrgGroupViewResultsList,
     totalCount: S.optional(S.Number),
   }),
-).annotate({
-  identifier: "PaginatedOrgGroupView",
-}) as any as S.Schema<PaginatedOrgGroupView>;
+).annotate({ identifier: "PaginatedOrgGroupView" }) as any as S.Schema<PaginatedOrgGroupView>;
 
 export interface ListControlPlaneIpAddressesRequest {
   /** Flag that indicates whether Application wraps the response in an `envelope` JSON object. Some API clients cannot access the HTTP response headers or status code. To remediate this, set envelope=true in the query. Endpoints that return a list of results use the results object as an envelope. Application adds the status parameter to the response body. */
@@ -43662,9 +44011,7 @@ export const GatewayIpAddresses = /*@__PURE__*/ S.suspend(() =>
     inbound: S.optional(InboundControlPlaneCloudProviderIPAddresses),
     outbound: S.optional(OutboundControlPlaneCloudProviderIPAddresses),
   }),
-).annotate({
-  identifier: "GatewayIpAddresses",
-}) as any as S.Schema<GatewayIpAddresses>;
+).annotate({ identifier: "GatewayIpAddresses" }) as any as S.Schema<GatewayIpAddresses>;
 
 /** Represents a service-specific gateway, such as the Atlas Gateway, with its IP addresses. */
 export interface Gateway {
@@ -43698,14 +44045,12 @@ export const ControlPlaneIPAddresses = /*@__PURE__*/ S.suspend(() =>
     inbound: S.optional(InboundControlPlaneCloudProviderIPAddresses),
     outbound: S.optional(OutboundControlPlaneCloudProviderIPAddresses),
   }),
-).annotate({
-  identifier: "ControlPlaneIPAddresses",
-}) as any as S.Schema<ControlPlaneIPAddresses>;
+).annotate({ identifier: "ControlPlaneIPAddresses" }) as any as S.Schema<ControlPlaneIPAddresses>;
 
 export interface ListEventTypesRequest {
   /** Flag that indicates whether Application wraps the response in an `envelope` JSON object. Some API clients cannot access the HTTP response headers or status code. To remediate this, set envelope=true in the query. Endpoints that return a list of results use the results object as an envelope. Application adds the status parameter to the response body. */
   envelope?: boolean;
-  /** Flag that indicates whether the response returns the total number of items (`totalCount`) in the response. */
+  /** Flag that indicates whether MongoDB Cloud calculates the total number of items for the response. When set to `false`, MongoDB Cloud may skip an additional count operation. The response may still include `totalCount` when the count is available without additional calculation. */
   includeCount?: boolean;
   /** Number of items that the response returns per page. */
   itemsPerPage?: number;
@@ -43729,9 +44074,7 @@ export const ListEventTypesRequest = /*@__PURE__*/ S.suspend(() =>
       accept: "application/vnd.atlas.2023-01-01+json",
     }),
   ),
-).annotate({
-  identifier: "ListEventTypesRequest",
-}) as any as S.Schema<ListEventTypesRequest>;
+).annotate({ identifier: "ListEventTypesRequest" }) as any as S.Schema<ListEventTypesRequest>;
 
 /** List of one or more Uniform Resource Locators (URLs) that point to API sub-resources, related API resources, or both. RFC 5988 outlines these relationships. */
 export type PaginatedEventTypeDetailsResponseLinksList = Array<Link>;
@@ -43754,9 +44097,7 @@ export const EventTypeDetails = /*@__PURE__*/ S.suspend(() =>
     description: S.optional(S.String),
     eventType: S.optional(S.String),
   }),
-).annotate({
-  identifier: "EventTypeDetails",
-}) as any as S.Schema<EventTypeDetails>;
+).annotate({ identifier: "EventTypeDetails" }) as any as S.Schema<EventTypeDetails>;
 
 /** List of returned documents that MongoDB Cloud provides when completing this request. */
 export type PaginatedEventTypeDetailsResponseResultsList = Array<EventTypeDetails>;
@@ -43769,7 +44110,7 @@ export interface PaginatedEventTypeDetailsResponse {
   links?: PaginatedEventTypeDetailsResponseLinksList;
   /** List of returned documents that MongoDB Cloud provides when completing this request. */
   results: PaginatedEventTypeDetailsResponseResultsList;
-  /** Total number of documents available. MongoDB Cloud omits this value if `includeCount` is set to `false`. The total number is an estimate and may not be exact. */
+  /** Total number of documents available. When `includeCount` is set to `false`, MongoDB Cloud may omit this value or return it when the count is available without additional calculation. The total number is an estimate and may not be exact. */
   totalCount?: number;
 }
 export const PaginatedEventTypeDetailsResponse = /*@__PURE__*/ S.suspend(() =>
@@ -43826,7 +44167,7 @@ export interface PaginatedRoleMappingView {
   links?: PaginatedRoleMappingViewLinksList;
   /** List of returned documents that MongoDB Cloud provides when completing this request. */
   results: PaginatedRoleMappingViewResultsList;
-  /** Total number of documents available. MongoDB Cloud omits this value if `includeCount` is set to `false`. The total number is an estimate and may not be exact. */
+  /** Total number of documents available. When `includeCount` is set to `false`, MongoDB Cloud may omit this value or return it when the count is available without additional calculation. The total number is an estimate and may not be exact. */
   totalCount?: number;
 }
 export const PaginatedRoleMappingView = /*@__PURE__*/ S.suspend(() =>
@@ -43835,9 +44176,7 @@ export const PaginatedRoleMappingView = /*@__PURE__*/ S.suspend(() =>
     results: PaginatedRoleMappingViewResultsList,
     totalCount: S.optional(S.Number),
   }),
-).annotate({
-  identifier: "PaginatedRoleMappingView",
-}) as any as S.Schema<PaginatedRoleMappingView>;
+).annotate({ identifier: "PaginatedRoleMappingView" }) as any as S.Schema<PaginatedRoleMappingView>;
 
 export interface ListFederationSettingConnectedOrgConfigsRequest {
   /** Unique 24-hexadecimal digit string that identifies your federation. */
@@ -43884,7 +44223,7 @@ export interface PaginatedConnectedOrgConfigsView {
   links?: PaginatedConnectedOrgConfigsViewLinksList;
   /** List of returned documents that MongoDB Cloud provides when completing this request. */
   results: PaginatedConnectedOrgConfigsViewResultsList;
-  /** Total number of documents available. MongoDB Cloud omits this value if `includeCount` is set to `false`. The total number is an estimate and may not be exact. */
+  /** Total number of documents available. When `includeCount` is set to `false`, MongoDB Cloud may omit this value or return it when the count is available without additional calculation. The total number is an estimate and may not be exact. */
   totalCount?: number;
 }
 export const PaginatedConnectedOrgConfigsView = /*@__PURE__*/ S.suspend(() =>
@@ -43968,7 +44307,7 @@ export interface PaginatedFederationIdentityProvider {
   links?: PaginatedFederationIdentityProviderLinksList;
   /** List of returned documents that MongoDB Cloud provides when completing this request. */
   results: PaginatedFederationIdentityProviderResultsList;
-  /** Total number of documents available. MongoDB Cloud omits this value if `includeCount` is set to `false`. The total number is an estimate and may not be exact. */
+  /** Total number of documents available. When `includeCount` is set to `false`, MongoDB Cloud may omit this value or return it when the count is available without additional calculation. The total number is an estimate and may not be exact. */
   totalCount?: number;
 }
 export const PaginatedFederationIdentityProvider = /*@__PURE__*/ S.suspend(() =>
@@ -43986,7 +44325,7 @@ export interface ListGroupAccessListEntriesRequest {
   groupId: string;
   /** Flag that indicates whether Application wraps the response in an `envelope` JSON object. Some API clients cannot access the HTTP response headers or status code. To remediate this, set envelope=true in the query. Endpoints that return a list of results use the results object as an envelope. Application adds the status parameter to the response body. */
   envelope?: boolean;
-  /** Flag that indicates whether the response returns the total number of items (`totalCount`) in the response. */
+  /** Flag that indicates whether MongoDB Cloud calculates the total number of items for the response. When set to `false`, MongoDB Cloud may skip an additional count operation. The response may still include `totalCount` when the count is available without additional calculation. */
   includeCount?: boolean;
   /** Number of items that the response returns per page. */
   itemsPerPage?: number;
@@ -44064,7 +44403,7 @@ export interface PaginatedAtlasAiModelApiKeysResponse {
   links?: PaginatedAtlasAiModelApiKeysResponseLinksList;
   /** List of returned documents that MongoDB Cloud provides when completing this request. */
   results: PaginatedAtlasAiModelApiKeysResponseResultsList;
-  /** Total number of documents available. MongoDB Cloud omits this value if `includeCount` is set to `false`. The total number is an estimate and may not be exact. */
+  /** Total number of documents available. When `includeCount` is set to `false`, MongoDB Cloud may omit this value or return it when the count is available without additional calculation. The total number is an estimate and may not be exact. */
   totalCount?: number;
 }
 export const PaginatedAtlasAiModelApiKeysResponse = /*@__PURE__*/ S.suspend(() =>
@@ -44082,7 +44421,7 @@ export interface ListGroupAlertConfigsRequest {
   groupId: string;
   /** Flag that indicates whether Application wraps the response in an `envelope` JSON object. Some API clients cannot access the HTTP response headers or status code. To remediate this, set envelope=true in the query. Endpoints that return a list of results use the results object as an envelope. Application adds the status parameter to the response body. */
   envelope?: boolean;
-  /** Flag that indicates whether the response returns the total number of items (`totalCount`) in the response. */
+  /** Flag that indicates whether MongoDB Cloud calculates the total number of items for the response. When set to `false`, MongoDB Cloud may skip an additional count operation. The response may still include `totalCount` when the count is available without additional calculation. */
   includeCount?: boolean;
   /** Number of items that the response returns per page. */
   itemsPerPage?: number;
@@ -44119,7 +44458,7 @@ export interface ListGroupAlertsRequest {
   groupId: string;
   /** Flag that indicates whether Application wraps the response in an `envelope` JSON object. Some API clients cannot access the HTTP response headers or status code. To remediate this, set envelope=true in the query. Endpoints that return a list of results use the results object as an envelope. Application adds the status parameter to the response body. */
   envelope?: boolean;
-  /** Flag that indicates whether the response returns the total number of items (`totalCount`) in the response. */
+  /** Flag that indicates whether MongoDB Cloud calculates the total number of items for the response. When set to `false`, MongoDB Cloud may skip an additional count operation. The response may still include `totalCount` when the count is available without additional calculation. */
   includeCount?: boolean;
   /** Number of items that the response returns per page. */
   itemsPerPage?: number;
@@ -44147,16 +44486,14 @@ export const ListGroupAlertsRequest = /*@__PURE__*/ S.suspend(() =>
       accept: "application/vnd.atlas.2023-01-01+json",
     }),
   ),
-).annotate({
-  identifier: "ListGroupAlertsRequest",
-}) as any as S.Schema<ListGroupAlertsRequest>;
+).annotate({ identifier: "ListGroupAlertsRequest" }) as any as S.Schema<ListGroupAlertsRequest>;
 
 export interface ListGroupApiKeysRequest {
   /** Unique 24-hexadecimal digit string that identifies your project. Use the [/groups](#tag/Projects/operation/listProjects) endpoint to retrieve all projects to which the authenticated user has access. **NOTE**: Groups and projects are synonymous terms. Your group id is the same as your project id. For existing groups, your group/project id remains the same. The resource and corresponding endpoints use the term groups. */
   groupId: string;
   /** Flag that indicates whether Application wraps the response in an `envelope` JSON object. Some API clients cannot access the HTTP response headers or status code. To remediate this, set envelope=true in the query. Endpoints that return a list of results use the results object as an envelope. Application adds the status parameter to the response body. */
   envelope?: boolean;
-  /** Flag that indicates whether the response returns the total number of items (`totalCount`) in the response. */
+  /** Flag that indicates whether MongoDB Cloud calculates the total number of items for the response. When set to `false`, MongoDB Cloud may skip an additional count operation. The response may still include `totalCount` when the count is available without additional calculation. */
   includeCount?: boolean;
   /** Number of items that the response returns per page. */
   itemsPerPage?: number;
@@ -44181,9 +44518,7 @@ export const ListGroupApiKeysRequest = /*@__PURE__*/ S.suspend(() =>
       accept: "application/vnd.atlas.2023-01-01+json",
     }),
   ),
-).annotate({
-  identifier: "ListGroupApiKeysRequest",
-}) as any as S.Schema<ListGroupApiKeysRequest>;
+).annotate({ identifier: "ListGroupApiKeysRequest" }) as any as S.Schema<ListGroupApiKeysRequest>;
 
 /** List of one or more Uniform Resource Locators (URLs) that point to API sub-resources, related API resources, or both. RFC 5988 outlines these relationships. */
 export type PaginatedApiApiUserViewLinksList = Array<Link>;
@@ -44202,7 +44537,7 @@ export interface PaginatedApiApiUserView {
   links?: PaginatedApiApiUserViewLinksList;
   /** List of returned documents that MongoDB Cloud provides when completing this request. */
   results: PaginatedApiApiUserViewResultsList;
-  /** Total number of documents available. MongoDB Cloud omits this value if `includeCount` is set to `false`. The total number is an estimate and may not be exact. */
+  /** Total number of documents available. When `includeCount` is set to `false`, MongoDB Cloud may omit this value or return it when the count is available without additional calculation. The total number is an estimate and may not be exact. */
   totalCount?: number;
 }
 export const PaginatedApiApiUserView = /*@__PURE__*/ S.suspend(() =>
@@ -44211,16 +44546,14 @@ export const PaginatedApiApiUserView = /*@__PURE__*/ S.suspend(() =>
     results: PaginatedApiApiUserViewResultsList,
     totalCount: S.optional(S.Number),
   }),
-).annotate({
-  identifier: "PaginatedApiApiUserView",
-}) as any as S.Schema<PaginatedApiApiUserView>;
+).annotate({ identifier: "PaginatedApiApiUserView" }) as any as S.Schema<PaginatedApiApiUserView>;
 
 export interface ListGroupBackupExportBucketsRequest {
   /** Unique 24-hexadecimal digit string that identifies your project. Use the [/groups](#tag/Projects/operation/listProjects) endpoint to retrieve all projects to which the authenticated user has access. **NOTE**: Groups and projects are synonymous terms. Your group id is the same as your project id. For existing groups, your group/project id remains the same. The resource and corresponding endpoints use the term groups. */
   groupId: string;
   /** Flag that indicates whether Application wraps the response in an `envelope` JSON object. Some API clients cannot access the HTTP response headers or status code. To remediate this, set envelope=true in the query. Endpoints that return a list of results use the results object as an envelope. Application adds the status parameter to the response body. */
   envelope?: boolean;
-  /** Flag that indicates whether the response returns the total number of items (`totalCount`) in the response. */
+  /** Flag that indicates whether MongoDB Cloud calculates the total number of items for the response. When set to `false`, MongoDB Cloud may skip an additional count operation. The response may still include `totalCount` when the count is available without additional calculation. */
   includeCount?: boolean;
   /** Number of items that the response returns per page. */
   itemsPerPage?: number;
@@ -44267,7 +44600,7 @@ export interface PaginatedBackupSnapshotExportBucketsView {
   links?: PaginatedBackupSnapshotExportBucketsViewLinksList;
   /** List of returned documents that MongoDB Cloud provides when completing this request. */
   results: PaginatedBackupSnapshotExportBucketsViewResultsList;
-  /** Total number of documents available. MongoDB Cloud omits this value if `includeCount` is set to `false`. The total number is an estimate and may not be exact. */
+  /** Total number of documents available. When `includeCount` is set to `false`, MongoDB Cloud may omit this value or return it when the count is available without additional calculation. The total number is an estimate and may not be exact. */
   totalCount?: number;
 }
 export const PaginatedBackupSnapshotExportBucketsView = /*@__PURE__*/ S.suspend(() =>
@@ -44292,7 +44625,7 @@ export interface ListGroupBackupPrivateEndpointsRequest {
   pretty?: boolean;
   /** Flag that indicates whether Application wraps the response in an `envelope` JSON object. Some API clients cannot access the HTTP response headers or status code. To remediate this, set envelope=true in the query. Endpoints that return a list of results use the results object as an envelope. Application adds the status parameter to the response body. */
   envelope?: boolean;
-  /** Flag that indicates whether the response returns the total number of items (`totalCount`) in the response. */
+  /** Flag that indicates whether MongoDB Cloud calculates the total number of items for the response. When set to `false`, MongoDB Cloud may skip an additional count operation. The response may still include `totalCount` when the count is available without additional calculation. */
   includeCount?: boolean;
   /** Number of items that the response returns per page. */
   itemsPerPage?: number;
@@ -44340,7 +44673,7 @@ export interface PaginatedApiAtlasObjectStoragePrivateEndpointResponseView {
   links?: PaginatedApiAtlasObjectStoragePrivateEndpointResponseViewLinksList;
   /** List of returned documents that MongoDB Cloud provides when completing this request. */
   results: PaginatedApiAtlasObjectStoragePrivateEndpointResponseViewResultsList;
-  /** Total number of documents available. MongoDB Cloud omits this value if `includeCount` is set to `false`. The total number is an estimate and may not be exact. */
+  /** Total number of documents available. When `includeCount` is set to `false`, MongoDB Cloud may omit this value or return it when the count is available without additional calculation. The total number is an estimate and may not be exact. */
   totalCount?: number;
 }
 export const PaginatedApiAtlasObjectStoragePrivateEndpointResponseView = /*@__PURE__*/ S.suspend(
@@ -44413,9 +44746,7 @@ export const CloudProviderAccessRoles = /*@__PURE__*/ S.suspend(() =>
     azureServicePrincipals: S.optional(CloudProviderAccessRolesAzureServicePrincipalsList),
     gcpServiceAccounts: S.optional(CloudProviderAccessRolesGcpServiceAccountsList),
   }),
-).annotate({
-  identifier: "CloudProviderAccessRoles",
-}) as any as S.Schema<CloudProviderAccessRoles>;
+).annotate({ identifier: "CloudProviderAccessRoles" }) as any as S.Schema<CloudProviderAccessRoles>;
 
 export interface ListGroupClusterBackupExportsRequest {
   /** Unique 24-hexadecimal digit string that identifies your project. Use the [/groups](#tag/Projects/operation/listProjects) endpoint to retrieve all projects to which the authenticated user has access. **NOTE**: Groups and projects are synonymous terms. Your group id is the same as your project id. For existing groups, your group/project id remains the same. The resource and corresponding endpoints use the term groups. */
@@ -44426,7 +44757,7 @@ export interface ListGroupClusterBackupExportsRequest {
   envelope?: boolean;
   /** Flag that indicates whether the response body should be in the prettyprint format. */
   pretty?: boolean;
-  /** Flag that indicates whether the response returns the total number of items (`totalCount`) in the response. */
+  /** Flag that indicates whether MongoDB Cloud calculates the total number of items for the response. When set to `false`, MongoDB Cloud may skip an additional count operation. The response may still include `totalCount` when the count is available without additional calculation. */
   includeCount?: boolean;
   /** Number of items that the response returns per page. */
   itemsPerPage?: number;
@@ -44471,7 +44802,7 @@ export interface PaginatedApiAtlasDiskBackupExportJobView {
   links?: PaginatedApiAtlasDiskBackupExportJobViewLinksList;
   /** List of returned documents that MongoDB Cloud provides when completing this request. */
   results: PaginatedApiAtlasDiskBackupExportJobViewResultsList;
-  /** Total number of documents available. MongoDB Cloud omits this value if `includeCount` is set to `false`. The total number is an estimate and may not be exact. */
+  /** Total number of documents available. When `includeCount` is set to `false`, MongoDB Cloud may omit this value or return it when the count is available without additional calculation. The total number is an estimate and may not be exact. */
   totalCount?: number;
 }
 export const PaginatedApiAtlasDiskBackupExportJobView = /*@__PURE__*/ S.suspend(() =>
@@ -44491,7 +44822,7 @@ export interface ListGroupClusterBackupRestoreJobsRequest {
   clusterName: string;
   /** Flag that indicates whether Application wraps the response in an `envelope` JSON object. Some API clients cannot access the HTTP response headers or status code. To remediate this, set envelope=true in the query. Endpoints that return a list of results use the results object as an envelope. Application adds the status parameter to the response body. */
   envelope?: boolean;
-  /** Flag that indicates whether the response returns the total number of items (`totalCount`) in the response. */
+  /** Flag that indicates whether MongoDB Cloud calculates the total number of items for the response. When set to `false`, MongoDB Cloud may skip an additional count operation. The response may still include `totalCount` when the count is available without additional calculation. */
   includeCount?: boolean;
   /** Number of items that the response returns per page. */
   itemsPerPage?: number;
@@ -44538,7 +44869,7 @@ export interface PaginatedCloudBackupRestoreJobView {
   links?: PaginatedCloudBackupRestoreJobViewLinksList;
   /** List of returned documents that MongoDB Cloud provides when completing this request. */
   results: PaginatedCloudBackupRestoreJobViewResultsList;
-  /** Total number of documents available. MongoDB Cloud omits this value if `includeCount` is set to `false`. The total number is an estimate and may not be exact. */
+  /** Total number of documents available. When `includeCount` is set to `false`, MongoDB Cloud may omit this value or return it when the count is available without additional calculation. The total number is an estimate and may not be exact. */
   totalCount?: number;
 }
 export const PaginatedCloudBackupRestoreJobView = /*@__PURE__*/ S.suspend(() =>
@@ -44562,7 +44893,7 @@ export interface ListGroupClusterBackupSnapshotDatabaseCollectionsRequest {
   databaseName: string;
   /** Flag that indicates whether Application wraps the response in an `envelope` JSON object. Some API clients cannot access the HTTP response headers or status code. To remediate this, set envelope=true in the query. Endpoints that return a list of results use the results object as an envelope. Application adds the status parameter to the response body. */
   envelope?: boolean;
-  /** Flag that indicates whether the response returns the total number of items (`totalCount`) in the response. */
+  /** Flag that indicates whether MongoDB Cloud calculates the total number of items for the response. When set to `false`, MongoDB Cloud may skip an additional count operation. The response may still include `totalCount` when the count is available without additional calculation. */
   includeCount?: boolean;
   /** Number of items that the response returns per page. */
   itemsPerPage?: number;
@@ -44613,7 +44944,7 @@ export interface PaginatedApiAtlasDiskBackupCollectionView {
   links?: PaginatedApiAtlasDiskBackupCollectionViewLinksList;
   /** List of returned documents that MongoDB Cloud provides when completing this request. */
   results: PaginatedApiAtlasDiskBackupCollectionViewResultsList;
-  /** Total number of documents available. MongoDB Cloud omits this value if `includeCount` is set to `false`. The total number is an estimate and may not be exact. */
+  /** Total number of documents available. When `includeCount` is set to `false`, MongoDB Cloud may omit this value or return it when the count is available without additional calculation. The total number is an estimate and may not be exact. */
   totalCount?: number;
 }
 export const PaginatedApiAtlasDiskBackupCollectionView = /*@__PURE__*/ S.suspend(() =>
@@ -44635,7 +44966,7 @@ export interface ListGroupClusterBackupSnapshotDatabasesRequest {
   snapshotId: string;
   /** Flag that indicates whether Application wraps the response in an `envelope` JSON object. Some API clients cannot access the HTTP response headers or status code. To remediate this, set envelope=true in the query. Endpoints that return a list of results use the results object as an envelope. Application adds the status parameter to the response body. */
   envelope?: boolean;
-  /** Flag that indicates whether the response returns the total number of items (`totalCount`) in the response. */
+  /** Flag that indicates whether MongoDB Cloud calculates the total number of items for the response. When set to `false`, MongoDB Cloud may skip an additional count operation. The response may still include `totalCount` when the count is available without additional calculation. */
   includeCount?: boolean;
   /** Number of items that the response returns per page. */
   itemsPerPage?: number;
@@ -44683,7 +45014,7 @@ export interface PaginatedApiAtlasDiskBackupDatabaseView {
   links?: PaginatedApiAtlasDiskBackupDatabaseViewLinksList;
   /** List of returned documents that MongoDB Cloud provides when completing this request. */
   results: PaginatedApiAtlasDiskBackupDatabaseViewResultsList;
-  /** Total number of documents available. MongoDB Cloud omits this value if `includeCount` is set to `false`. The total number is an estimate and may not be exact. */
+  /** Total number of documents available. When `includeCount` is set to `false`, MongoDB Cloud may omit this value or return it when the count is available without additional calculation. The total number is an estimate and may not be exact. */
   totalCount?: number;
 }
 export const PaginatedApiAtlasDiskBackupDatabaseView = /*@__PURE__*/ S.suspend(() =>
@@ -44703,7 +45034,7 @@ export interface ListGroupClusterBackupSnapshotsRequest {
   clusterName: string;
   /** Flag that indicates whether Application wraps the response in an `envelope` JSON object. Some API clients cannot access the HTTP response headers or status code. To remediate this, set envelope=true in the query. Endpoints that return a list of results use the results object as an envelope. Application adds the status parameter to the response body. */
   envelope?: boolean;
-  /** Flag that indicates whether the response returns the total number of items (`totalCount`) in the response. */
+  /** Flag that indicates whether MongoDB Cloud calculates the total number of items for the response. When set to `false`, MongoDB Cloud may skip an additional count operation. The response may still include `totalCount` when the count is available without additional calculation. */
   includeCount?: boolean;
   /** Number of items that the response returns per page. */
   itemsPerPage?: number;
@@ -44759,7 +45090,7 @@ export interface PaginatedCloudBackupReplicaSetView {
   links?: PaginatedCloudBackupReplicaSetViewLinksList;
   /** List of returned documents that MongoDB Cloud provides when completing this request. */
   results: PaginatedCloudBackupReplicaSetViewResultsList;
-  /** Total number of documents available. MongoDB Cloud omits this value if `includeCount` is set to `false`. The total number is an estimate and may not be exact. */
+  /** Total number of documents available. When `includeCount` is set to `false`, MongoDB Cloud may omit this value or return it when the count is available without additional calculation. The total number is an estimate and may not be exact. */
   totalCount?: number;
 }
 export const PaginatedCloudBackupReplicaSetView = /*@__PURE__*/ S.suspend(() =>
@@ -44818,7 +45149,7 @@ export interface PaginatedCloudBackupShardedClusterSnapshotView {
   links?: PaginatedCloudBackupShardedClusterSnapshotViewLinksList;
   /** List of returned documents that MongoDB Cloud provides when completing this request. */
   results: PaginatedCloudBackupShardedClusterSnapshotViewResultsList;
-  /** Total number of documents available. MongoDB Cloud omits this value if `includeCount` is set to `false`. The total number is an estimate and may not be exact. */
+  /** Total number of documents available. When `includeCount` is set to `false`, MongoDB Cloud may omit this value or return it when the count is available without additional calculation. The total number is an estimate and may not be exact. */
   totalCount?: number;
 }
 export const PaginatedCloudBackupShardedClusterSnapshotView = /*@__PURE__*/ S.suspend(() =>
@@ -44909,7 +45240,7 @@ export interface PaginatedApiAtlasCollectionRestoreCollectionStateView {
   links?: PaginatedApiAtlasCollectionRestoreCollectionStateViewLinksList;
   /** List of returned documents that MongoDB Cloud provides when completing this request. */
   results: PaginatedApiAtlasCollectionRestoreCollectionStateViewResultsList;
-  /** Total number of documents available. MongoDB Cloud omits this value if `includeCount` is set to `false`. The total number is an estimate and may not be exact. */
+  /** Total number of documents available. When `includeCount` is set to `false`, MongoDB Cloud may omit this value or return it when the count is available without additional calculation. The total number is an estimate and may not be exact. */
   totalCount?: number;
 }
 export const PaginatedApiAtlasCollectionRestoreCollectionStateView = /*@__PURE__*/ S.suspend(() =>
@@ -44974,7 +45305,7 @@ export interface PaginatedApiAtlasCollectionRestoreJobView {
   links?: PaginatedApiAtlasCollectionRestoreJobViewLinksList;
   /** List of returned documents that MongoDB Cloud provides when completing this request. */
   results: PaginatedApiAtlasCollectionRestoreJobViewResultsList;
-  /** Total number of documents available. MongoDB Cloud omits this value if `includeCount` is set to `false`. The total number is an estimate and may not be exact. */
+  /** Total number of documents available. When `includeCount` is set to `false`, MongoDB Cloud may omit this value or return it when the count is available without additional calculation. The total number is an estimate and may not be exact. */
   totalCount?: number;
 }
 export const PaginatedApiAtlasCollectionRestoreJobView = /*@__PURE__*/ S.suspend(() =>
@@ -45178,9 +45509,7 @@ export const PinnedNamespaces = /*@__PURE__*/ S.suspend(() =>
     groupId: S.optional(S.String),
     pinnedNamespaces: PinnedNamespacesPinnedNamespacesList,
   }),
-).annotate({
-  identifier: "PinnedNamespaces",
-}) as any as S.Schema<PinnedNamespaces>;
+).annotate({ identifier: "PinnedNamespaces" }) as any as S.Schema<PinnedNamespaces>;
 
 export interface ListGroupClusterOnlineArchivesRequest {
   /** Unique 24-hexadecimal digit string that identifies your project. Use the [/groups](#tag/Projects/operation/listProjects) endpoint to retrieve all projects to which the authenticated user has access. **NOTE**: Groups and projects are synonymous terms. Your group id is the same as your project id. For existing groups, your group/project id remains the same. The resource and corresponding endpoints use the term groups. */
@@ -45189,7 +45518,7 @@ export interface ListGroupClusterOnlineArchivesRequest {
   clusterName: string;
   /** Flag that indicates whether Application wraps the response in an `envelope` JSON object. Some API clients cannot access the HTTP response headers or status code. To remediate this, set envelope=true in the query. Endpoints that return a list of results use the results object as an envelope. Application adds the status parameter to the response body. */
   envelope?: boolean;
-  /** Flag that indicates whether the response returns the total number of items (`totalCount`) in the response. */
+  /** Flag that indicates whether MongoDB Cloud calculates the total number of items for the response. When set to `false`, MongoDB Cloud may skip an additional count operation. The response may still include `totalCount` when the count is available without additional calculation. */
   includeCount?: boolean;
   /** Number of items that the response returns per page. */
   itemsPerPage?: number;
@@ -45236,7 +45565,7 @@ export interface PaginatedOnlineArchiveView {
   links?: PaginatedOnlineArchiveViewLinksList;
   /** List of returned documents that MongoDB Cloud provides when completing this request. */
   results: PaginatedOnlineArchiveViewResultsList;
-  /** Total number of documents available. MongoDB Cloud omits this value if `includeCount` is set to `false`. The total number is an estimate and may not be exact. */
+  /** Total number of documents available. When `includeCount` is set to `false`, MongoDB Cloud may omit this value or return it when the count is available without additional calculation. The total number is an estimate and may not be exact. */
   totalCount?: number;
 }
 export const PaginatedOnlineArchiveView = /*@__PURE__*/ S.suspend(() =>
@@ -45302,7 +45631,7 @@ export interface PaginatedOverloadProtectionSimulationResponse {
   links?: PaginatedOverloadProtectionSimulationResponseLinksList;
   /** List of returned documents that MongoDB Cloud provides when completing this request. */
   results: PaginatedOverloadProtectionSimulationResponseResultsList;
-  /** Total number of documents available. MongoDB Cloud omits this value if `includeCount` is set to `false`. The total number is an estimate and may not be exact. */
+  /** Total number of documents available. When `includeCount` is set to `false`, MongoDB Cloud may omit this value or return it when the count is available without additional calculation. The total number is an estimate and may not be exact. */
   totalCount?: number;
 }
 export const PaginatedOverloadProtectionSimulationResponse = /*@__PURE__*/ S.suspend(() =>
@@ -45341,6 +45670,13 @@ export const ListGroupClusterPerformanceAdvisorDropIndexSuggestionsRequest =
     identifier: "ListGroupClusterPerformanceAdvisorDropIndexSuggestionsRequest",
   }) as any as S.Schema<ListGroupClusterPerformanceAdvisorDropIndexSuggestionsRequest>;
 
+/** Collation this index was built with. An index only serves a query that runs with the same collation. Absent when the index uses the default (simple) collation. */
+export type DropIndexSuggestionsIndexCollationMap = { [key: string]: unknown | undefined };
+export const DropIndexSuggestionsIndexCollationMap = /*@__PURE__*/ S.Record(
+  S.String,
+  S.Unknown,
+) as any as S.Schema<DropIndexSuggestionsIndexCollationMap>;
+
 /** List that contains documents that specify a key in the index and its sort order. */
 export type DropIndexSuggestionsIndexIndexList = Array<unknown>;
 export const DropIndexSuggestionsIndexIndexList = /*@__PURE__*/ S.Array(
@@ -45356,6 +45692,8 @@ export const DropIndexSuggestionsIndexShardsList = /*@__PURE__*/ S.Array(
 export interface DropIndexSuggestionsIndex {
   /** Usage count (since last restart) of index. */
   accessCount?: number;
+  /** Collation this index was built with. An index only serves a query that runs with the same collation. Absent when the index uses the default (simple) collation. */
+  collation?: DropIndexSuggestionsIndexCollationMap;
   /** List that contains documents that specify a key in the index and its sort order. */
   index?: DropIndexSuggestionsIndexIndexList;
   /** Name of index. */
@@ -45372,6 +45710,7 @@ export interface DropIndexSuggestionsIndex {
 export const DropIndexSuggestionsIndex = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     accessCount: S.optional(S.Number),
+    collation: S.optional(DropIndexSuggestionsIndexCollationMap),
     index: S.optional(DropIndexSuggestionsIndexIndexList),
     name: S.optional(S.String),
     namespace: S.optional(S.String),
@@ -45576,9 +45915,7 @@ export const SchemaAdvisorResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     recommendations: S.optional(SchemaAdvisorResponseRecommendationsList),
   }),
-).annotate({
-  identifier: "SchemaAdvisorResponse",
-}) as any as S.Schema<SchemaAdvisorResponse>;
+).annotate({ identifier: "SchemaAdvisorResponse" }) as any as S.Schema<SchemaAdvisorResponse>;
 
 /** List of one or more Uniform Resource Locators (URLs) that point to API sub-resources, related API resources, or both. RFC 5988 outlines these relationships. */
 export type EnvelopedSchemaAdvisorResponseLinksList = Array<Link>;
@@ -45667,7 +46004,7 @@ export const ListGroupClusterPerformanceAdvisorSuggestedIndexesRequest = /*@__PU
   identifier: "ListGroupClusterPerformanceAdvisorSuggestedIndexesRequest",
 }) as any as S.Schema<ListGroupClusterPerformanceAdvisorSuggestedIndexesRequest>;
 
-/** List that contains the search criteria that the query uses. To use the values in key-value pairs in these predicates requires **Project Data Access Read Only** permissions or greater. Otherwise, MongoDB Cloud redacts these values. */
+/** List that contains the search criteria that the query uses. To use the values in key-value pairs in these predicates requires **Project Observability Viewer** or **Project Data Access Read Only** permissions or greater. Otherwise, MongoDB Cloud redacts these values. */
 export type PerformanceAdvisorOperationViewPredicatesList = Array<unknown>;
 export const PerformanceAdvisorOperationViewPredicatesList = /*@__PURE__*/ S.Array(
   S.Unknown,
@@ -45696,13 +46033,16 @@ export const PerformanceAdvisorOpStats = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<PerformanceAdvisorOpStats>;
 
 export interface PerformanceAdvisorOperationView {
-  /** List that contains the search criteria that the query uses. To use the values in key-value pairs in these predicates requires **Project Data Access Read Only** permissions or greater. Otherwise, MongoDB Cloud redacts these values. */
+  /** List that contains the search criteria that the query uses. To use the values in key-value pairs in these predicates requires **Project Observability Viewer** or **Project Data Access Read Only** permissions or greater. Otherwise, MongoDB Cloud redacts these values. */
   predicates?: PerformanceAdvisorOperationViewPredicatesList;
+  /** Opaque serialized raw slow query log line or query shape for the query shape to be improved with index suggestions. The format isn't stable, so don't parse this value. Accessing this value requires **Project Observability Viewer** or **Project Data Access Read Only** permissions or greater. Otherwise, MongoDB Cloud returns `null`. */
+  raw?: string | null;
   stats?: PerformanceAdvisorOpStats;
 }
 export const PerformanceAdvisorOperationView = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     predicates: S.optional(PerformanceAdvisorOperationViewPredicatesList),
+    raw: S.optional(S.NullOr(S.String)),
     stats: S.optional(PerformanceAdvisorOpStats),
   }),
 ).annotate({
@@ -45738,15 +46078,20 @@ export const PerformanceAdvisorShape = /*@__PURE__*/ S.suspend(() =>
     namespace: S.optional(S.String),
     operations: S.optional(PerformanceAdvisorShapeOperationsList),
   }),
-).annotate({
-  identifier: "PerformanceAdvisorShape",
-}) as any as S.Schema<PerformanceAdvisorShape>;
+).annotate({ identifier: "PerformanceAdvisorShape" }) as any as S.Schema<PerformanceAdvisorShape>;
 
 /** List of query predicates, sorts, and projections that the Performance Advisor suggests. */
 export type PerformanceAdvisorResponseShapesList = Array<PerformanceAdvisorShape>;
 export const PerformanceAdvisorResponseShapesList = /*@__PURE__*/ S.Array(
   PerformanceAdvisorShape,
 ) as any as S.Schema<PerformanceAdvisorResponseShapesList>;
+
+/** Collation the queries behind this suggestion run with. An index only serves a query when the two share a collation, so an index created from this suggestion must be created with it. Absent when those queries use the default (simple) collation. */
+export type PerformanceAdvisorIndexCollationMap = { [key: string]: unknown | undefined };
+export const PerformanceAdvisorIndexCollationMap = /*@__PURE__*/ S.Record(
+  S.String,
+  S.Unknown,
+) as any as S.Schema<PerformanceAdvisorIndexCollationMap>;
 
 /** List that contains unique 24-hexadecimal character string that identifies the query shapes in this response that the Performance Advisor suggests. */
 export type PerformanceAdvisorIndexImpactList = Array<string>;
@@ -45776,6 +46121,8 @@ export const PerformanceAdvisorIndexIndexList = /*@__PURE__*/ S.Array(
 export interface PerformanceAdvisorIndex {
   /** The average size of an object in the collection of this index. */
   avgObjSize?: number;
+  /** Collation the queries behind this suggestion run with. An index only serves a query when the two share a collation, so an index created from this suggestion must be created with it. Absent when those queries use the default (simple) collation. */
+  collation?: PerformanceAdvisorIndexCollationMap;
   /** Unique 24-hexadecimal digit string that identifies this index. */
   id?: string;
   /** List that contains unique 24-hexadecimal character string that identifies the query shapes in this response that the Performance Advisor suggests. */
@@ -45790,15 +46137,14 @@ export interface PerformanceAdvisorIndex {
 export const PerformanceAdvisorIndex = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     avgObjSize: S.optional(S.Number),
+    collation: S.optional(PerformanceAdvisorIndexCollationMap),
     id: S.optional(S.String),
     impact: S.optional(PerformanceAdvisorIndexImpactList),
     index: S.optional(PerformanceAdvisorIndexIndexList),
     namespace: S.optional(S.String),
     weight: S.optional(S.Number),
   }),
-).annotate({
-  identifier: "PerformanceAdvisorIndex",
-}) as any as S.Schema<PerformanceAdvisorIndex>;
+).annotate({ identifier: "PerformanceAdvisorIndex" }) as any as S.Schema<PerformanceAdvisorIndex>;
 
 /** List that contains the documents with information about the indexes that the Performance Advisor suggests. */
 export type PerformanceAdvisorResponseSuggestedIndexesList = Array<PerformanceAdvisorIndex>;
@@ -45865,7 +46211,7 @@ export interface ListGroupClusterProviderRegionsRequest {
   groupId: string;
   /** Flag that indicates whether Application wraps the response in an `envelope` JSON object. Some API clients cannot access the HTTP response headers or status code. To remediate this, set envelope=true in the query. Endpoints that return a list of results use the results object as an envelope. Application adds the status parameter to the response body. */
   envelope?: boolean;
-  /** Flag that indicates whether the response returns the total number of items (`totalCount`) in the response. */
+  /** Flag that indicates whether MongoDB Cloud calculates the total number of items for the response. When set to `false`, MongoDB Cloud may skip an additional count operation. The response may still include `totalCount` when the count is available without additional calculation. */
   includeCount?: boolean;
   /** Number of items that the response returns per page. */
   itemsPerPage?: number;
@@ -45964,9 +46310,7 @@ export const CloudProviderRegions = /*@__PURE__*/ S.suspend(() =>
     instanceSizes: S.optional(CloudProviderRegionsInstanceSizesList),
     provider: S.optional(CloudProviderRegionsProvider),
   }),
-).annotate({
-  identifier: "CloudProviderRegions",
-}) as any as S.Schema<CloudProviderRegions>;
+).annotate({ identifier: "CloudProviderRegions" }) as any as S.Schema<CloudProviderRegions>;
 
 /** List of returned documents that MongoDB Cloud provides when completing this request. */
 export type PaginatedApiAtlasProviderRegionsViewResultsList = Array<CloudProviderRegions>;
@@ -45979,7 +46323,7 @@ export interface PaginatedApiAtlasProviderRegionsView {
   links?: PaginatedApiAtlasProviderRegionsViewLinksList;
   /** List of returned documents that MongoDB Cloud provides when completing this request. */
   results: PaginatedApiAtlasProviderRegionsViewResultsList;
-  /** Total number of documents available. MongoDB Cloud omits this value if `includeCount` is set to `false`. The total number is an estimate and may not be exact. */
+  /** Total number of documents available. When `includeCount` is set to `false`, MongoDB Cloud may omit this value or return it when the count is available without additional calculation. The total number is an estimate and may not be exact. */
   totalCount?: number;
 }
 export const PaginatedApiAtlasProviderRegionsView = /*@__PURE__*/ S.suspend(() =>
@@ -46007,7 +46351,11 @@ export const ListGroupClusterQueryShapeInsightSummariesRequestNamespacesList =
 export type ListGroupClusterQueryShapeInsightSummariesRequestCommandsItem =
   | "find"
   | "distinct"
-  | "aggregate";
+  | "aggregate"
+  | "count"
+  | "insert"
+  | "update"
+  | "delete";
 export const ListGroupClusterQueryShapeInsightSummariesRequestCommandsItem = S.String;
 
 /** MongoDB commands from which to retrieve query statistics. To include multiple commands, pass the parameter multiple times delimited with an ampersand (`&`) between each command. Omit this parameter to return results for all supported commands. */
@@ -46033,10 +46381,17 @@ export type ListGroupClusterQueryShapeInsightSummariesRequestSeriesItem =
   | "LAST_EXECUTION_TIME"
   | "P50_EXECUTION_TIME"
   | "P90_EXECUTION_TIME"
-  | "P99_EXECUTION_TIME";
+  | "P99_EXECUTION_TIME"
+  | "DOCS_MATCHED"
+  | "DOCS_MODIFIED"
+  | "DOCS_UPSERTED"
+  | "DOCS_DELETED"
+  | "DOCS_INSERTED"
+  | "KEYS_INSERTED"
+  | "KEYS_DELETED";
 export const ListGroupClusterQueryShapeInsightSummariesRequestSeriesItem = S.String;
 
-/** Query shape statistics data series to retrieve. A series represents a specific metric about query execution. To include multiple series, pass the parameter multiple times delimited with an ampersand (`&`) between each series. Omit this parameter to return results for all available series. The `P50_EXECUTION_TIME`, `P90_EXECUTION_TIME`, and `P99_EXECUTION_TIME` series are deprecated as the values they report may be inaccurate. They will be removed in a future release. */
+/** Query shape statistics data series to retrieve. A series represents a specific metric about query execution. To include multiple series, pass the parameter multiple times delimited with an ampersand (`&`) between each series. Omit this parameter to return results for all available series. The `P50_EXECUTION_TIME`, `P90_EXECUTION_TIME`, and `P99_EXECUTION_TIME` series are deprecated as the values they report may be inaccurate. They will be removed in a future release. The write command series (`DOCS_MATCHED`, `DOCS_MODIFIED`, `DOCS_UPSERTED`, `DOCS_DELETED`, `DOCS_INSERTED`, `KEYS_INSERTED`, `KEYS_DELETED`) return data only for clusters running MongoDB 9.0 or later with write query shape statistics enabled for the project. */
 export type ListGroupClusterQueryShapeInsightSummariesRequestSeriesList = Array<
   ListGroupClusterQueryShapeInsightSummariesRequestSeriesItem | (string & {})
 >;
@@ -46064,7 +46419,7 @@ export interface ListGroupClusterQueryShapeInsightSummariesRequest {
   processIds?: ListGroupClusterQueryShapeInsightSummariesRequestProcessIdsList;
   /** Namespaces from which to retrieve query shape statistics. A namespace consists of one database and one collection resource written as `.`: `<database>.<collection>`. To include multiple namespaces, pass the parameter multiple times delimited with an ampersand (`&`) between each namespace. Omit this parameter to return results for all namespaces. */
   namespaces?: ListGroupClusterQueryShapeInsightSummariesRequestNamespacesList;
-  /** Retrieve query shape statistics matching specified MongoDB commands. To include multiple commands, pass the parameter multiple times delimited with an ampersand (`&`) between each command. The currently supported parameters are find, distinct, and aggregate. Omit this parameter to return results for all supported commands. */
+  /** Retrieve query shape statistics matching specified MongoDB commands. To include multiple commands, pass the parameter multiple times delimited with an ampersand (`&`) between each command. The currently supported parameters are: find, distinct, aggregate, count, insert, update, and delete. The insert, update, and delete commands return results only for clusters running MongoDB 9.0 or later with write query shape statistics enabled for the project. Omit this parameter to return results for all supported commands. */
   commands?: ListGroupClusterQueryShapeInsightSummariesRequestCommandsList;
   /** Maximum number of query statistic summaries to return. */
   nSummaries?: number;
@@ -46118,11 +46473,13 @@ export const QueryStatsSummaryListResponseSummariesList = /*@__PURE__*/ S.Array(
 ) as any as S.Schema<QueryStatsSummaryListResponseSummariesList>;
 
 export interface QueryStatsSummaryListResponse {
+  queryStatsCollection?: QueryStatsCollectionResponse;
   /** List of query shape statistic summaries from Query Shape Insights. */
   summaries?: QueryStatsSummaryListResponseSummariesList;
 }
 export const QueryStatsSummaryListResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
+    queryStatsCollection: S.optional(QueryStatsCollectionResponse),
     summaries: S.optional(QueryStatsSummaryListResponseSummariesList),
   }),
 ).annotate({
@@ -46141,7 +46498,7 @@ export interface ListGroupClusterQueryShapesRequest {
   status?: ListGroupClusterQueryShapesRequestStatus | (string & {});
   /** Flag that indicates whether Application wraps the response in an `envelope` JSON object. Some API clients cannot access the HTTP response headers or status code. To remediate this, set envelope=true in the query. Endpoints that return a list of results use the results object as an envelope. Application adds the status parameter to the response body. */
   envelope?: boolean;
-  /** Flag that indicates whether the response returns the total number of items (`totalCount`) in the response. */
+  /** Flag that indicates whether MongoDB Cloud calculates the total number of items for the response. When set to `false`, MongoDB Cloud may skip an additional count operation. The response may still include `totalCount` when the count is available without additional calculation. */
   includeCount?: boolean;
   /** Number of items that the response returns per page. */
   itemsPerPage?: number;
@@ -46190,7 +46547,7 @@ export interface PaginatedQueryShapes {
   links?: PaginatedQueryShapesLinksList;
   /** List of returned documents that MongoDB Cloud provides when completing this request. */
   results: PaginatedQueryShapesResultsList;
-  /** Total number of documents available. MongoDB Cloud omits this value if `includeCount` is set to `false`. The total number is an estimate and may not be exact. */
+  /** Total number of documents available. When `includeCount` is set to `false`, MongoDB Cloud may omit this value or return it when the count is available without additional calculation. The total number is an estimate and may not be exact. */
   totalCount?: number;
 }
 export const PaginatedQueryShapes = /*@__PURE__*/ S.suspend(() =>
@@ -46199,16 +46556,14 @@ export const PaginatedQueryShapes = /*@__PURE__*/ S.suspend(() =>
     results: PaginatedQueryShapesResultsList,
     totalCount: S.optional(S.Number),
   }),
-).annotate({
-  identifier: "PaginatedQueryShapes",
-}) as any as S.Schema<PaginatedQueryShapes>;
+).annotate({ identifier: "PaginatedQueryShapes" }) as any as S.Schema<PaginatedQueryShapes>;
 
 export interface ListGroupClustersRequest {
   /** Unique 24-hexadecimal digit string that identifies your project. Use the [/groups](#tag/Projects/operation/listProjects) endpoint to retrieve all projects to which the authenticated user has access. **NOTE**: Groups and projects are synonymous terms. Your group id is the same as your project id. For existing groups, your group/project id remains the same. The resource and corresponding endpoints use the term groups. */
   groupId: string;
   /** Flag that indicates whether Application wraps the response in an `envelope` JSON object. Some API clients cannot access the HTTP response headers or status code. To remediate this, set envelope=true in the query. Endpoints that return a list of results use the results object as an envelope. Application adds the status parameter to the response body. */
   envelope?: boolean;
-  /** Flag that indicates whether the response returns the total number of items (`totalCount`) in the response. */
+  /** Flag that indicates whether MongoDB Cloud calculates the total number of items for the response. When set to `false`, MongoDB Cloud may skip an additional count operation. The response may still include `totalCount` when the count is available without additional calculation. */
   includeCount?: boolean;
   /** Number of items that the response returns per page. */
   itemsPerPage?: number;
@@ -46236,9 +46591,7 @@ export const ListGroupClustersRequest = /*@__PURE__*/ S.suspend(() =>
       accept: "application/vnd.atlas.2024-08-05+json",
     }),
   ),
-).annotate({
-  identifier: "ListGroupClustersRequest",
-}) as any as S.Schema<ListGroupClustersRequest>;
+).annotate({ identifier: "ListGroupClustersRequest" }) as any as S.Schema<ListGroupClustersRequest>;
 
 /** List of one or more Uniform Resource Locators (URLs) that point to API sub-resources, related API resources, or both. RFC 5988 outlines these relationships. */
 export type PaginatedClusterDescription20240805LinksList = Array<Link>;
@@ -46257,7 +46610,7 @@ export interface PaginatedClusterDescription20240805 {
   links?: PaginatedClusterDescription20240805LinksList;
   /** List of returned documents that MongoDB Cloud provides when completing this request. */
   results: PaginatedClusterDescription20240805ResultsList;
-  /** Total number of documents available. MongoDB Cloud omits this value if `includeCount` is set to `false`. The total number is an estimate and may not be exact. */
+  /** Total number of documents available. When `includeCount` is set to `false`, MongoDB Cloud may omit this value or return it when the count is available without additional calculation. The total number is an estimate and may not be exact. */
   totalCount?: number;
 }
 export const PaginatedClusterDescription20240805 = /*@__PURE__*/ S.suspend(() =>
@@ -46463,7 +46816,7 @@ export interface ListGroupContainerAllRequest {
   groupId: string;
   /** Flag that indicates whether Application wraps the response in an `envelope` JSON object. Some API clients cannot access the HTTP response headers or status code. To remediate this, set envelope=true in the query. Endpoints that return a list of results use the results object as an envelope. Application adds the status parameter to the response body. */
   envelope?: boolean;
-  /** Flag that indicates whether the response returns the total number of items (`totalCount`) in the response. */
+  /** Flag that indicates whether MongoDB Cloud calculates the total number of items for the response. When set to `false`, MongoDB Cloud may skip an additional count operation. The response may still include `totalCount` when the count is available without additional calculation. */
   includeCount?: boolean;
   /** Number of items that the response returns per page. */
   itemsPerPage?: number;
@@ -46510,7 +46863,7 @@ export interface PaginatedCloudProviderContainerView {
   links?: PaginatedCloudProviderContainerViewLinksList;
   /** List of returned documents that MongoDB Cloud provides when completing this request. */
   results: PaginatedCloudProviderContainerViewResultsList;
-  /** Total number of documents available. MongoDB Cloud omits this value if `includeCount` is set to `false`. The total number is an estimate and may not be exact. */
+  /** Total number of documents available. When `includeCount` is set to `false`, MongoDB Cloud may omit this value or return it when the count is available without additional calculation. The total number is an estimate and may not be exact. */
   totalCount?: number;
 }
 export const PaginatedCloudProviderContainerView = /*@__PURE__*/ S.suspend(() =>
@@ -46531,7 +46884,7 @@ export interface ListGroupContainersRequest {
   groupId: string;
   /** Flag that indicates whether Application wraps the response in an `envelope` JSON object. Some API clients cannot access the HTTP response headers or status code. To remediate this, set envelope=true in the query. Endpoints that return a list of results use the results object as an envelope. Application adds the status parameter to the response body. */
   envelope?: boolean;
-  /** Flag that indicates whether the response returns the total number of items (`totalCount`) in the response. */
+  /** Flag that indicates whether MongoDB Cloud calculates the total number of items for the response. When set to `false`, MongoDB Cloud may skip an additional count operation. The response may still include `totalCount` when the count is available without additional calculation. */
   includeCount?: boolean;
   /** Number of items that the response returns per page. */
   itemsPerPage?: number;
@@ -46607,7 +46960,7 @@ export interface ListGroupDatabaseUserCertsRequest {
   username: string;
   /** Flag that indicates whether Application wraps the response in an `envelope` JSON object. Some API clients cannot access the HTTP response headers or status code. To remediate this, set envelope=true in the query. Endpoints that return a list of results use the results object as an envelope. Application adds the status parameter to the response body. */
   envelope?: boolean;
-  /** Flag that indicates whether the response returns the total number of items (`totalCount`) in the response. */
+  /** Flag that indicates whether MongoDB Cloud calculates the total number of items for the response. When set to `false`, MongoDB Cloud may skip an additional count operation. The response may still include `totalCount` when the count is available without additional calculation. */
   includeCount?: boolean;
   /** Number of items that the response returns per page. */
   itemsPerPage?: number;
@@ -46685,7 +47038,7 @@ export interface PaginatedUserCertViewOutput {
   links?: PaginatedUserCertViewOutputLinksList;
   /** List of returned documents that MongoDB Cloud provides when completing this request. */
   results: PaginatedUserCertViewOutputResultsList;
-  /** Total number of documents available. MongoDB Cloud omits this value if `includeCount` is set to `false`. The total number is an estimate and may not be exact. */
+  /** Total number of documents available. When `includeCount` is set to `false`, MongoDB Cloud may omit this value or return it when the count is available without additional calculation. The total number is an estimate and may not be exact. */
   totalCount?: number;
 }
 export const PaginatedUserCertViewOutput = /*@__PURE__*/ S.suspend(() =>
@@ -46703,7 +47056,7 @@ export interface ListGroupDatabaseUsersRequest {
   groupId: string;
   /** Flag that indicates whether Application wraps the response in an `envelope` JSON object. Some API clients cannot access the HTTP response headers or status code. To remediate this, set envelope=true in the query. Endpoints that return a list of results use the results object as an envelope. Application adds the status parameter to the response body. */
   envelope?: boolean;
-  /** Flag that indicates whether the response returns the total number of items (`totalCount`) in the response. */
+  /** Flag that indicates whether MongoDB Cloud calculates the total number of items for the response. When set to `false`, MongoDB Cloud may skip an additional count operation. The response may still include `totalCount` when the count is available without additional calculation. */
   includeCount?: boolean;
   /** Number of items that the response returns per page. */
   itemsPerPage?: number;
@@ -46750,7 +47103,7 @@ export interface PaginatedApiAtlasDatabaseUserViewOutput {
   links?: PaginatedApiAtlasDatabaseUserViewOutputLinksList;
   /** List of returned documents that MongoDB Cloud provides when completing this request. */
   results: PaginatedApiAtlasDatabaseUserViewOutputResultsList;
-  /** Total number of documents available. MongoDB Cloud omits this value if `includeCount` is set to `false`. The total number is an estimate and may not be exact. */
+  /** Total number of documents available. When `includeCount` is set to `false`, MongoDB Cloud may omit this value or return it when the count is available without additional calculation. The total number is an estimate and may not be exact. */
   totalCount?: number;
 }
 export const PaginatedApiAtlasDatabaseUserViewOutput = /*@__PURE__*/ S.suspend(() =>
@@ -46858,7 +47211,7 @@ export interface ListGroupEncryptionAtRestPrivateEndpointsRequest {
   envelope?: boolean;
   /** Flag that indicates whether the response body should be in the prettyprint format. */
   pretty?: boolean;
-  /** Flag that indicates whether the response returns the total number of items (`totalCount`) in the response. */
+  /** Flag that indicates whether MongoDB Cloud calculates the total number of items for the response. When set to `false`, MongoDB Cloud may skip an additional count operation. The response may still include `totalCount` when the count is available without additional calculation. */
   includeCount?: boolean;
   /** Number of items that the response returns per page. */
   itemsPerPage?: number;
@@ -46903,7 +47256,7 @@ export interface PaginatedApiAtlasEARPrivateEndpointView {
   links?: PaginatedApiAtlasEARPrivateEndpointViewLinksList;
   /** List of returned documents that MongoDB Cloud provides when completing this request. */
   results: PaginatedApiAtlasEARPrivateEndpointViewResultsList;
-  /** Total number of documents available. MongoDB Cloud omits this value if `includeCount` is set to `false`. The total number is an estimate and may not be exact. */
+  /** Total number of documents available. When `includeCount` is set to `false`, MongoDB Cloud may omit this value or return it when the count is available without additional calculation. The total number is an estimate and may not be exact. */
   totalCount?: number;
 }
 export const PaginatedApiAtlasEARPrivateEndpointView = /*@__PURE__*/ S.suspend(() =>
@@ -46936,7 +47289,7 @@ export interface ListGroupEventsRequest {
   groupId: string;
   /** Flag that indicates whether Application wraps the response in an `envelope` JSON object. Some API clients cannot access the HTTP response headers or status code. To remediate this, set envelope=true in the query. Endpoints that return a list of results use the results object as an envelope. Application adds the status parameter to the response body. */
   envelope?: boolean;
-  /** Flag that indicates whether the response returns the total number of items (`totalCount`) in the response. */
+  /** Flag that indicates whether MongoDB Cloud calculates the total number of items for the response. When set to `false`, MongoDB Cloud may skip an additional count operation. The response may still include `totalCount` when the count is available without additional calculation. */
   includeCount?: boolean;
   /** Number of items that the response returns per page. */
   itemsPerPage?: number;
@@ -46979,9 +47332,7 @@ export const ListGroupEventsRequest = /*@__PURE__*/ S.suspend(() =>
       accept: "application/vnd.atlas.2023-01-01+json",
     }),
   ),
-).annotate({
-  identifier: "ListGroupEventsRequest",
-}) as any as S.Schema<ListGroupEventsRequest>;
+).annotate({ identifier: "ListGroupEventsRequest" }) as any as S.Schema<ListGroupEventsRequest>;
 
 /** List of one or more Uniform Resource Locators (URLs) that point to API sub-resources, related API resources, or both. RFC 5988 outlines these relationships. */
 export type GroupPaginatedEventViewLinksList = Array<Link>;
@@ -47000,7 +47351,7 @@ export interface GroupPaginatedEventView {
   links?: GroupPaginatedEventViewLinksList;
   /** List of returned documents that MongoDB Cloud provides when completing this request. */
   results: GroupPaginatedEventViewResultsList;
-  /** Total number of documents available. MongoDB Cloud omits this value if `includeCount` is set to `false`. The total number is an estimate and may not be exact. */
+  /** Total number of documents available. When `includeCount` is set to `false`, MongoDB Cloud may omit this value or return it when the count is available without additional calculation. The total number is an estimate and may not be exact. */
   totalCount?: number;
 }
 export const GroupPaginatedEventView = /*@__PURE__*/ S.suspend(() =>
@@ -47009,9 +47360,7 @@ export const GroupPaginatedEventView = /*@__PURE__*/ S.suspend(() =>
     results: GroupPaginatedEventViewResultsList,
     totalCount: S.optional(S.Number),
   }),
-).annotate({
-  identifier: "GroupPaginatedEventView",
-}) as any as S.Schema<GroupPaginatedEventView>;
+).annotate({ identifier: "GroupPaginatedEventView" }) as any as S.Schema<GroupPaginatedEventView>;
 
 export interface ListGroupFlexClusterBackupRestoreJobsRequest {
   /** Unique 24-hexadecimal digit string that identifies your project. Use the [/groups](#tag/Projects/operation/listProjects) endpoint to retrieve all projects to which the authenticated user has access. **NOTE**: Groups and projects are synonymous terms. Your group id is the same as your project id. For existing groups, your group/project id remains the same. The resource and corresponding endpoints use the term groups. */
@@ -47020,7 +47369,7 @@ export interface ListGroupFlexClusterBackupRestoreJobsRequest {
   name: string;
   /** Flag that indicates whether Application wraps the response in an `envelope` JSON object. Some API clients cannot access the HTTP response headers or status code. To remediate this, set envelope=true in the query. Endpoints that return a list of results use the results object as an envelope. Application adds the status parameter to the response body. */
   envelope?: boolean;
-  /** Flag that indicates whether the response returns the total number of items (`totalCount`) in the response. */
+  /** Flag that indicates whether MongoDB Cloud calculates the total number of items for the response. When set to `false`, MongoDB Cloud may skip an additional count operation. The response may still include `totalCount` when the count is available without additional calculation. */
   includeCount?: boolean;
   /** Number of items that the response returns per page. */
   itemsPerPage?: number;
@@ -47068,7 +47417,7 @@ export interface PaginatedApiAtlasFlexBackupRestoreJob20241113View {
   links?: PaginatedApiAtlasFlexBackupRestoreJob20241113ViewLinksList;
   /** List of returned documents that MongoDB Cloud provides when completing this request. */
   results: PaginatedApiAtlasFlexBackupRestoreJob20241113ViewResultsList;
-  /** Total number of documents available. MongoDB Cloud omits this value if `includeCount` is set to `false`. The total number is an estimate and may not be exact. */
+  /** Total number of documents available. When `includeCount` is set to `false`, MongoDB Cloud may omit this value or return it when the count is available without additional calculation. The total number is an estimate and may not be exact. */
   totalCount?: number;
 }
 export const PaginatedApiAtlasFlexBackupRestoreJob20241113View = /*@__PURE__*/ S.suspend(() =>
@@ -47090,7 +47439,7 @@ export interface ListGroupFlexClusterBackupSnapshotsRequest {
   envelope?: boolean;
   /** Flag that indicates whether the response body should be in the prettyprint format. */
   pretty?: boolean;
-  /** Flag that indicates whether the response returns the total number of items (`totalCount`) in the response. */
+  /** Flag that indicates whether MongoDB Cloud calculates the total number of items for the response. When set to `false`, MongoDB Cloud may skip an additional count operation. The response may still include `totalCount` when the count is available without additional calculation. */
   includeCount?: boolean;
   /** Number of items that the response returns per page. */
   itemsPerPage?: number;
@@ -47136,7 +47485,7 @@ export interface PaginatedApiAtlasFlexBackupSnapshot20241113View {
   links?: PaginatedApiAtlasFlexBackupSnapshot20241113ViewLinksList;
   /** List of returned documents that MongoDB Cloud provides when completing this request. */
   results: PaginatedApiAtlasFlexBackupSnapshot20241113ViewResultsList;
-  /** Total number of documents available. MongoDB Cloud omits this value if `includeCount` is set to `false`. The total number is an estimate and may not be exact. */
+  /** Total number of documents available. When `includeCount` is set to `false`, MongoDB Cloud may omit this value or return it when the count is available without additional calculation. The total number is an estimate and may not be exact. */
   totalCount?: number;
 }
 export const PaginatedApiAtlasFlexBackupSnapshot20241113View = /*@__PURE__*/ S.suspend(() =>
@@ -47154,7 +47503,7 @@ export interface ListGroupFlexClustersRequest {
   groupId: string;
   /** Flag that indicates whether Application wraps the response in an `envelope` JSON object. Some API clients cannot access the HTTP response headers or status code. To remediate this, set envelope=true in the query. Endpoints that return a list of results use the results object as an envelope. Application adds the status parameter to the response body. */
   envelope?: boolean;
-  /** Flag that indicates whether the response returns the total number of items (`totalCount`) in the response. */
+  /** Flag that indicates whether MongoDB Cloud calculates the total number of items for the response. When set to `false`, MongoDB Cloud may skip an additional count operation. The response may still include `totalCount` when the count is available without additional calculation. */
   includeCount?: boolean;
   /** Number of items that the response returns per page. */
   itemsPerPage?: number;
@@ -47200,7 +47549,7 @@ export interface PaginatedFlexClusters20241113 {
   links?: PaginatedFlexClusters20241113LinksList;
   /** List of returned documents that MongoDB Cloud provides when completing this request. */
   results: PaginatedFlexClusters20241113ResultsList;
-  /** Total number of documents available. MongoDB Cloud omits this value if `includeCount` is set to `false`. The total number is an estimate and may not be exact. */
+  /** Total number of documents available. When `includeCount` is set to `false`, MongoDB Cloud may omit this value or return it when the count is available without additional calculation. The total number is an estimate and may not be exact. */
   totalCount?: number;
 }
 export const PaginatedFlexClusters20241113 = /*@__PURE__*/ S.suspend(() =>
@@ -47393,9 +47742,7 @@ export const MeasurementsNonIndex = /*@__PURE__*/ S.suspend(() =>
     start: S.optional(S.String),
     statusMeasurements: S.optional(MeasurementsNonIndexStatusMeasurementsList),
   }),
-).annotate({
-  identifier: "MeasurementsNonIndex",
-}) as any as S.Schema<MeasurementsNonIndex>;
+).annotate({ identifier: "MeasurementsNonIndex" }) as any as S.Schema<MeasurementsNonIndex>;
 
 export interface ListGroupHostFtsMetricsRequest {
   /** Unique 24-hexadecimal digit string that identifies your project. Use the [/groups](#tag/Projects/operation/listProjects) endpoint to retrieve all projects to which the authenticated user has access. **NOTE**: Groups and projects are synonymous terms. Your group id is the same as your project id. For existing groups, your group/project id remains the same. The resource and corresponding endpoints use the term groups. */
@@ -47525,16 +47872,14 @@ export const CloudSearchMetrics = /*@__PURE__*/ S.suspend(() =>
     processId: S.String,
     statusMetrics: CloudSearchMetricsStatusMetricsList,
   }),
-).annotate({
-  identifier: "CloudSearchMetrics",
-}) as any as S.Schema<CloudSearchMetrics>;
+).annotate({ identifier: "CloudSearchMetrics" }) as any as S.Schema<CloudSearchMetrics>;
 
 export interface ListGroupIntegrationsRequest {
   /** Unique 24-hexadecimal digit string that identifies your project. Use the [/groups](#tag/Projects/operation/listProjects) endpoint to retrieve all projects to which the authenticated user has access. **NOTE**: Groups and projects are synonymous terms. Your group id is the same as your project id. For existing groups, your group/project id remains the same. The resource and corresponding endpoints use the term groups. */
   groupId: string;
   /** Flag that indicates whether Application wraps the response in an `envelope` JSON object. Some API clients cannot access the HTTP response headers or status code. To remediate this, set envelope=true in the query. Endpoints that return a list of results use the results object as an envelope. Application adds the status parameter to the response body. */
   envelope?: boolean;
-  /** Flag that indicates whether the response returns the total number of items (`totalCount`) in the response. */
+  /** Flag that indicates whether MongoDB Cloud calculates the total number of items for the response. When set to `false`, MongoDB Cloud may skip an additional count operation. The response may still include `totalCount` when the count is available without additional calculation. */
   includeCount?: boolean;
   /** Number of items that the response returns per page. */
   itemsPerPage?: number;
@@ -47584,9 +47929,7 @@ export const ListGroupLimitsRequest = /*@__PURE__*/ S.suspend(() =>
       accept: "application/vnd.atlas.2023-01-01+json",
     }),
   ),
-).annotate({
-  identifier: "ListGroupLimitsRequest",
-}) as any as S.Schema<ListGroupLimitsRequest>;
+).annotate({ identifier: "ListGroupLimitsRequest" }) as any as S.Schema<ListGroupLimitsRequest>;
 
 export type ListGroupLimitsResponseBodyList = Array<DataFederationLimit>;
 export const ListGroupLimitsResponseBodyList = /*@__PURE__*/ S.Array(
@@ -47596,16 +47939,14 @@ export const ListGroupLimitsResponseBodyList = /*@__PURE__*/ S.Array(
 export type ListGroupLimitsResponse = ListGroupLimitsResponseBodyList;
 export const ListGroupLimitsResponse = /*@__PURE__*/ S.suspend(() =>
   ListGroupLimitsResponseBodyList.pipe(T.RawResponseRoot()),
-).annotate({
-  identifier: "ListGroupLimitsResponse",
-}) as any as S.Schema<ListGroupLimitsResponse>;
+).annotate({ identifier: "ListGroupLimitsResponse" }) as any as S.Schema<ListGroupLimitsResponse>;
 
 export interface ListGroupLogIntegrationsRequest {
   /** Unique 24-hexadecimal digit string that identifies your project. Use the [/groups](#tag/Projects/operation/listProjects) endpoint to retrieve all projects to which the authenticated user has access. **NOTE**: Groups and projects are synonymous terms. Your group id is the same as your project id. For existing groups, your group/project id remains the same. The resource and corresponding endpoints use the term groups. */
   groupId: string;
   /** Flag that indicates whether Application wraps the response in an `envelope` JSON object. Some API clients cannot access the HTTP response headers or status code. To remediate this, set envelope=true in the query. Endpoints that return a list of results use the results object as an envelope. Application adds the status parameter to the response body. */
   envelope?: boolean;
-  /** Flag that indicates whether the response returns the total number of items (`totalCount`) in the response. */
+  /** Flag that indicates whether MongoDB Cloud calculates the total number of items for the response. When set to `false`, MongoDB Cloud may skip an additional count operation. The response may still include `totalCount` when the count is available without additional calculation. */
   includeCount?: boolean;
   /** Number of items that the response returns per page. */
   itemsPerPage?: number;
@@ -47654,7 +47995,7 @@ export interface PaginatedLogIntegrationResponseOutput {
   links?: PaginatedLogIntegrationResponseOutputLinksList;
   /** List of returned documents that MongoDB Cloud provides when completing this request. */
   results: PaginatedLogIntegrationResponseOutputResultsList;
-  /** Total number of documents available. MongoDB Cloud omits this value if `includeCount` is set to `false`. The total number is an estimate and may not be exact. */
+  /** Total number of documents available. When `includeCount` is set to `false`, MongoDB Cloud may omit this value or return it when the count is available without additional calculation. The total number is an estimate and may not be exact. */
   totalCount?: number;
 }
 export const PaginatedLogIntegrationResponseOutput = /*@__PURE__*/ S.suspend(() =>
@@ -47674,7 +48015,7 @@ export interface ListGroupMcpConfigsRequest {
   envelope?: boolean;
   /** Number of items that the response returns per page. */
   itemsPerPage?: number;
-  /** Flag that indicates whether the response returns the total number of items (`totalCount`) in the response. */
+  /** Flag that indicates whether MongoDB Cloud calculates the total number of items for the response. When set to `false`, MongoDB Cloud may skip an additional count operation. The response may still include `totalCount` when the count is available without additional calculation. */
   includeCount?: boolean;
   /** Number of the page that displays the current set of the total objects that the response returns. */
   pageNum?: number;
@@ -47718,7 +48059,7 @@ export interface PaginatedGroupMcpConfigView {
   links?: PaginatedGroupMcpConfigViewLinksList;
   /** List of returned documents that MongoDB Cloud provides when completing this request. */
   results: PaginatedGroupMcpConfigViewResultsList;
-  /** Total number of documents available. MongoDB Cloud omits this value if `includeCount` is set to `false`. The total number is an estimate and may not be exact. */
+  /** Total number of documents available. When `includeCount` is set to `false`, MongoDB Cloud may omit this value or return it when the count is available without additional calculation. The total number is an estimate and may not be exact. */
   totalCount?: number;
 }
 export const PaginatedGroupMcpConfigView = /*@__PURE__*/ S.suspend(() =>
@@ -47740,7 +48081,7 @@ export interface ListGroupMcpConfigSecretsRequest {
   envelope?: boolean;
   /** Number of items that the response returns per page. */
   itemsPerPage?: number;
-  /** Flag that indicates whether the response returns the total number of items (`totalCount`) in the response. */
+  /** Flag that indicates whether MongoDB Cloud calculates the total number of items for the response. When set to `false`, MongoDB Cloud may skip an additional count operation. The response may still include `totalCount` when the count is available without additional calculation. */
   includeCount?: boolean;
   /** Number of the page that displays the current set of the total objects that the response returns. */
   pageNum?: number;
@@ -47785,7 +48126,7 @@ export interface PaginatedMcpConfigSecretView {
   links?: PaginatedMcpConfigSecretViewLinksList;
   /** List of returned documents that MongoDB Cloud provides when completing this request. */
   results: PaginatedMcpConfigSecretViewResultsList;
-  /** Total number of documents available. MongoDB Cloud omits this value if `includeCount` is set to `false`. The total number is an estimate and may not be exact. */
+  /** Total number of documents available. When `includeCount` is set to `false`, MongoDB Cloud may omit this value or return it when the count is available without additional calculation. The total number is an estimate and may not be exact. */
   totalCount?: number;
 }
 export const PaginatedMcpConfigSecretView = /*@__PURE__*/ S.suspend(() =>
@@ -47803,7 +48144,7 @@ export interface ListGroupMetricIntegrationsRequest {
   groupId: string;
   /** Flag that indicates whether Application wraps the response in an `envelope` JSON object. Some API clients cannot access the HTTP response headers or status code. To remediate this, set envelope=true in the query. Endpoints that return a list of results use the results object as an envelope. Application adds the status parameter to the response body. */
   envelope?: boolean;
-  /** Flag that indicates whether the response returns the total number of items (`totalCount`) in the response. */
+  /** Flag that indicates whether MongoDB Cloud calculates the total number of items for the response. When set to `false`, MongoDB Cloud may skip an additional count operation. The response may still include `totalCount` when the count is available without additional calculation. */
   includeCount?: boolean;
   /** Number of items that the response returns per page. */
   itemsPerPage?: number;
@@ -47855,7 +48196,7 @@ export interface PaginatedMetricIntegrationResponse {
   links?: PaginatedMetricIntegrationResponseLinksList;
   /** List of returned documents that MongoDB Cloud provides when completing this request. */
   results: PaginatedMetricIntegrationResponseResultsList;
-  /** Total number of documents available. MongoDB Cloud omits this value if `includeCount` is set to `false`. The total number is an estimate and may not be exact. */
+  /** Total number of documents available. When `includeCount` is set to `false`, MongoDB Cloud may omit this value or return it when the count is available without additional calculation. The total number is an estimate and may not be exact. */
   totalCount?: number;
 }
 export const PaginatedMetricIntegrationResponse = /*@__PURE__*/ S.suspend(() =>
@@ -47876,7 +48217,7 @@ export interface ListGroupPeersRequest {
   groupId: string;
   /** Flag that indicates whether Application wraps the response in an `envelope` JSON object. Some API clients cannot access the HTTP response headers or status code. To remediate this, set envelope=true in the query. Endpoints that return a list of results use the results object as an envelope. Application adds the status parameter to the response body. */
   envelope?: boolean;
-  /** Flag that indicates whether the response returns the total number of items (`totalCount`) in the response. */
+  /** Flag that indicates whether MongoDB Cloud calculates the total number of items for the response. When set to `false`, MongoDB Cloud may skip an additional count operation. The response may still include `totalCount` when the count is available without additional calculation. */
   includeCount?: boolean;
   /** Number of items that the response returns per page. */
   itemsPerPage?: number;
@@ -47904,9 +48245,7 @@ export const ListGroupPeersRequest = /*@__PURE__*/ S.suspend(() =>
       accept: "application/vnd.atlas.2023-01-01+json",
     }),
   ),
-).annotate({
-  identifier: "ListGroupPeersRequest",
-}) as any as S.Schema<ListGroupPeersRequest>;
+).annotate({ identifier: "ListGroupPeersRequest" }) as any as S.Schema<ListGroupPeersRequest>;
 
 /** List of one or more Uniform Resource Locators (URLs) that point to API sub-resources, related API resources, or both. RFC 5988 outlines these relationships. */
 export type PaginatedContainerPeerViewLinksList = Array<Link>;
@@ -47926,7 +48265,7 @@ export interface PaginatedContainerPeerView {
   links?: PaginatedContainerPeerViewLinksList;
   /** List of returned documents that MongoDB Cloud provides when completing this request. */
   results: PaginatedContainerPeerViewResultsList;
-  /** Total number of documents available. MongoDB Cloud omits this value if `includeCount` is set to `false`. The total number is an estimate and may not be exact. */
+  /** Total number of documents available. When `includeCount` is set to `false`, MongoDB Cloud may omit this value or return it when the count is available without additional calculation. The total number is an estimate and may not be exact. */
   totalCount?: number;
 }
 export const PaginatedContainerPeerView = /*@__PURE__*/ S.suspend(() =>
@@ -47988,7 +48327,7 @@ export interface ListGroupPrivateNetworkSettingEndpointIdsRequest {
   groupId: string;
   /** Flag that indicates whether Application wraps the response in an `envelope` JSON object. Some API clients cannot access the HTTP response headers or status code. To remediate this, set envelope=true in the query. Endpoints that return a list of results use the results object as an envelope. Application adds the status parameter to the response body. */
   envelope?: boolean;
-  /** Flag that indicates whether the response returns the total number of items (`totalCount`) in the response. */
+  /** Flag that indicates whether MongoDB Cloud calculates the total number of items for the response. When set to `false`, MongoDB Cloud may skip an additional count operation. The response may still include `totalCount` when the count is available without additional calculation. */
   includeCount?: boolean;
   /** Number of items that the response returns per page. */
   itemsPerPage?: number;
@@ -48154,7 +48493,7 @@ export interface ListGroupProcessDatabasesRequest {
   processId: string;
   /** Flag that indicates whether Application wraps the response in an `envelope` JSON object. Some API clients cannot access the HTTP response headers or status code. To remediate this, set envelope=true in the query. Endpoints that return a list of results use the results object as an envelope. Application adds the status parameter to the response body. */
   envelope?: boolean;
-  /** Flag that indicates whether the response returns the total number of items (`totalCount`) in the response. */
+  /** Flag that indicates whether MongoDB Cloud calculates the total number of items for the response. When set to `false`, MongoDB Cloud may skip an additional count operation. The response may still include `totalCount` when the count is available without additional calculation. */
   includeCount?: boolean;
   /** Number of items that the response returns per page. */
   itemsPerPage?: number;
@@ -48201,7 +48540,7 @@ export interface PaginatedDatabaseView {
   links?: PaginatedDatabaseViewLinksList;
   /** List of returned documents that MongoDB Cloud provides when completing this request. */
   results: PaginatedDatabaseViewResultsList;
-  /** Total number of documents available. MongoDB Cloud omits this value if `includeCount` is set to `false`. The total number is an estimate and may not be exact. */
+  /** Total number of documents available. When `includeCount` is set to `false`, MongoDB Cloud may omit this value or return it when the count is available without additional calculation. The total number is an estimate and may not be exact. */
   totalCount?: number;
 }
 export const PaginatedDatabaseView = /*@__PURE__*/ S.suspend(() =>
@@ -48210,9 +48549,7 @@ export const PaginatedDatabaseView = /*@__PURE__*/ S.suspend(() =>
     results: PaginatedDatabaseViewResultsList,
     totalCount: S.optional(S.Number),
   }),
-).annotate({
-  identifier: "PaginatedDatabaseView",
-}) as any as S.Schema<PaginatedDatabaseView>;
+).annotate({ identifier: "PaginatedDatabaseView" }) as any as S.Schema<PaginatedDatabaseView>;
 
 export interface ListGroupProcessDisksRequest {
   /** Unique 24-hexadecimal digit string that identifies your project. Use the [/groups](#tag/Projects/operation/listProjects) endpoint to retrieve all projects to which the authenticated user has access. **NOTE**: Groups and projects are synonymous terms. Your group id is the same as your project id. For existing groups, your group/project id remains the same. The resource and corresponding endpoints use the term groups. */
@@ -48221,7 +48558,7 @@ export interface ListGroupProcessDisksRequest {
   processId: string;
   /** Flag that indicates whether Application wraps the response in an `envelope` JSON object. Some API clients cannot access the HTTP response headers or status code. To remediate this, set envelope=true in the query. Endpoints that return a list of results use the results object as an envelope. Application adds the status parameter to the response body. */
   envelope?: boolean;
-  /** Flag that indicates whether the response returns the total number of items (`totalCount`) in the response. */
+  /** Flag that indicates whether MongoDB Cloud calculates the total number of items for the response. When set to `false`, MongoDB Cloud may skip an additional count operation. The response may still include `totalCount` when the count is available without additional calculation. */
   includeCount?: boolean;
   /** Number of items that the response returns per page. */
   itemsPerPage?: number;
@@ -48268,7 +48605,7 @@ export interface PaginatedDiskPartitionView {
   links?: PaginatedDiskPartitionViewLinksList;
   /** List of returned documents that MongoDB Cloud provides when completing this request. */
   results: PaginatedDiskPartitionViewResultsList;
-  /** Total number of documents available. MongoDB Cloud omits this value if `includeCount` is set to `false`. The total number is an estimate and may not be exact. */
+  /** Total number of documents available. When `includeCount` is set to `false`, MongoDB Cloud may omit this value or return it when the count is available without additional calculation. The total number is an estimate and may not be exact. */
   totalCount?: number;
 }
 export const PaginatedDiskPartitionView = /*@__PURE__*/ S.suspend(() =>
@@ -48286,7 +48623,7 @@ export interface ListGroupProcessesRequest {
   groupId: string;
   /** Flag that indicates whether Application wraps the response in an `envelope` JSON object. Some API clients cannot access the HTTP response headers or status code. To remediate this, set envelope=true in the query. Endpoints that return a list of results use the results object as an envelope. Application adds the status parameter to the response body. */
   envelope?: boolean;
-  /** Flag that indicates whether the response returns the total number of items (`totalCount`) in the response. */
+  /** Flag that indicates whether MongoDB Cloud calculates the total number of items for the response. When set to `false`, MongoDB Cloud may skip an additional count operation. The response may still include `totalCount` when the count is available without additional calculation. */
   includeCount?: boolean;
   /** Number of items that the response returns per page. */
   itemsPerPage?: number;
@@ -48332,7 +48669,7 @@ export interface PaginatedHostViewAtlas {
   links?: PaginatedHostViewAtlasLinksList;
   /** List of returned documents that MongoDB Cloud provides when completing this request. */
   results: PaginatedHostViewAtlasResultsList;
-  /** Total number of documents available. MongoDB Cloud omits this value if `includeCount` is set to `false`. The total number is an estimate and may not be exact. */
+  /** Total number of documents available. When `includeCount` is set to `false`, MongoDB Cloud may omit this value or return it when the count is available without additional calculation. The total number is an estimate and may not be exact. */
   totalCount?: number;
 }
 export const PaginatedHostViewAtlas = /*@__PURE__*/ S.suspend(() =>
@@ -48341,9 +48678,7 @@ export const PaginatedHostViewAtlas = /*@__PURE__*/ S.suspend(() =>
     results: PaginatedHostViewAtlasResultsList,
     totalCount: S.optional(S.Number),
   }),
-).annotate({
-  identifier: "PaginatedHostViewAtlas",
-}) as any as S.Schema<PaginatedHostViewAtlas>;
+).annotate({ identifier: "PaginatedHostViewAtlas" }) as any as S.Schema<PaginatedHostViewAtlas>;
 
 export interface ListGroupProcessPerformanceAdvisorNamespacesRequest {
   /** Unique 24-hexadecimal digit string that identifies your project. Use the [/groups](#tag/Projects/operation/listProjects) endpoint to retrieve all projects to which the authenticated user has access. **NOTE**: Groups and projects are synonymous terms. Your group id is the same as your project id. For existing groups, your group/project id remains the same. The resource and corresponding endpoints use the term groups. */
@@ -48577,7 +48912,7 @@ export interface ListGroupProcessPerformanceAdvisorSuggestedIndexesRequest {
   processId: string;
   /** Flag that indicates whether Application wraps the response in an `envelope` JSON object. Some API clients cannot access the HTTP response headers or status code. To remediate this, set envelope=true in the query. Endpoints that return a list of results use the results object as an envelope. Application adds the status parameter to the response body. */
   envelope?: boolean;
-  /** Flag that indicates whether the response returns the total number of items (`totalCount`) in the response. */
+  /** Flag that indicates whether MongoDB Cloud calculates the total number of items for the response. When set to `false`, MongoDB Cloud may skip an additional count operation. The response may still include `totalCount` when the count is available without additional calculation. */
   includeCount?: boolean;
   /** Number of items that the response returns per page. */
   itemsPerPage?: number;
@@ -48628,7 +48963,7 @@ export const ListGroupProcessPerformanceAdvisorSuggestedIndexesRequest = /*@__PU
 export interface ListGroupsRequest {
   /** Flag that indicates whether Application wraps the response in an `envelope` JSON object. Some API clients cannot access the HTTP response headers or status code. To remediate this, set envelope=true in the query. Endpoints that return a list of results use the results object as an envelope. Application adds the status parameter to the response body. */
   envelope?: boolean;
-  /** Flag that indicates whether the response returns the total number of items (`totalCount`) in the response. */
+  /** Flag that indicates whether MongoDB Cloud calculates the total number of items for the response. When set to `false`, MongoDB Cloud may skip an additional count operation. The response may still include `totalCount` when the count is available without additional calculation. */
   includeCount?: boolean;
   /** Number of items that the response returns per page. */
   itemsPerPage?: number;
@@ -48652,9 +48987,7 @@ export const ListGroupsRequest = /*@__PURE__*/ S.suspend(() =>
       accept: "application/vnd.atlas.2023-01-01+json",
     }),
   ),
-).annotate({
-  identifier: "ListGroupsRequest",
-}) as any as S.Schema<ListGroupsRequest>;
+).annotate({ identifier: "ListGroupsRequest" }) as any as S.Schema<ListGroupsRequest>;
 
 export interface ListGroupServiceAccountAccessListRequest {
   /** Unique 24-hexadecimal digit string that identifies your project. Use the [/groups](#tag/Projects/operation/listProjects) endpoint to retrieve all projects to which the authenticated user has access. **NOTE**: Groups and projects are synonymous terms. Your group id is the same as your project id. For existing groups, your group/project id remains the same. The resource and corresponding endpoints use the term groups. */
@@ -48663,7 +48996,7 @@ export interface ListGroupServiceAccountAccessListRequest {
   clientId: string;
   /** Flag that indicates whether Application wraps the response in an `envelope` JSON object. Some API clients cannot access the HTTP response headers or status code. To remediate this, set envelope=true in the query. Endpoints that return a list of results use the results object as an envelope. Application adds the status parameter to the response body. */
   envelope?: boolean;
-  /** Flag that indicates whether the response returns the total number of items (`totalCount`) in the response. */
+  /** Flag that indicates whether MongoDB Cloud calculates the total number of items for the response. When set to `false`, MongoDB Cloud may skip an additional count operation. The response may still include `totalCount` when the count is available without additional calculation. */
   includeCount?: boolean;
   /** Number of items that the response returns per page. */
   itemsPerPage?: number;
@@ -48745,7 +49078,7 @@ export interface PaginatedGroupServiceAccounts {
   links?: PaginatedGroupServiceAccountsLinksList;
   /** List of returned documents that MongoDB Cloud provides when completing this request. */
   results: PaginatedGroupServiceAccountsResultsList;
-  /** Total number of documents available. MongoDB Cloud omits this value if `includeCount` is set to `false`. The total number is an estimate and may not be exact. */
+  /** Total number of documents available. When `includeCount` is set to `false`, MongoDB Cloud may omit this value or return it when the count is available without additional calculation. The total number is an estimate and may not be exact. */
   totalCount?: number;
 }
 export const PaginatedGroupServiceAccounts = /*@__PURE__*/ S.suspend(() =>
@@ -48863,9 +49196,7 @@ export const VPCPeeringConnection = /*@__PURE__*/ S.suspend(() =>
     requesterVpcId: S.optional(S.String),
     statusMessage: S.optional(S.String),
   }),
-).annotate({
-  identifier: "VPCPeeringConnection",
-}) as any as S.Schema<VPCPeeringConnection>;
+).annotate({ identifier: "VPCPeeringConnection" }) as any as S.Schema<VPCPeeringConnection>;
 
 /** List of returned documents that MongoDB Cloud provides when completing this request. */
 export type PaginatedApiStreamsVPCPeeringConnectionViewResultsList = Array<VPCPeeringConnection>;
@@ -48878,7 +49209,7 @@ export interface PaginatedApiStreamsVPCPeeringConnectionView {
   links?: PaginatedApiStreamsVPCPeeringConnectionViewLinksList;
   /** List of returned documents that MongoDB Cloud provides when completing this request. */
   results: PaginatedApiStreamsVPCPeeringConnectionViewResultsList;
-  /** Total number of documents available. MongoDB Cloud omits this value if `includeCount` is set to `false`. The total number is an estimate and may not be exact. */
+  /** Total number of documents available. When `includeCount` is set to `false`, MongoDB Cloud may omit this value or return it when the count is available without additional calculation. The total number is an estimate and may not be exact. */
   totalCount?: number;
 }
 export const PaginatedApiStreamsVPCPeeringConnectionView = /*@__PURE__*/ S.suspend(() =>
@@ -48946,7 +49277,7 @@ export interface PaginatedApiStreamsFailoverConnectionOutput {
   links?: PaginatedApiStreamsFailoverConnectionOutputLinksList;
   /** List of returned documents that MongoDB Cloud provides when completing this request. */
   results: PaginatedApiStreamsFailoverConnectionOutputResultsList;
-  /** Total number of documents available. MongoDB Cloud omits this value if `includeCount` is set to `false`. The total number is an estimate and may not be exact. */
+  /** Total number of documents available. When `includeCount` is set to `false`, MongoDB Cloud may omit this value or return it when the count is available without additional calculation. The total number is an estimate and may not be exact. */
   totalCount?: number;
 }
 export const PaginatedApiStreamsFailoverConnectionOutput = /*@__PURE__*/ S.suspend(() =>
@@ -49010,7 +49341,7 @@ export interface PaginatedApiStreamsConnectionViewOutput {
   links?: PaginatedApiStreamsConnectionViewOutputLinksList;
   /** List of returned documents that MongoDB Cloud provides when completing this request. */
   results: PaginatedApiStreamsConnectionViewOutputResultsList;
-  /** Total number of documents available. MongoDB Cloud omits this value if `includeCount` is set to `false`. The total number is an estimate and may not be exact. */
+  /** Total number of documents available. When `includeCount` is set to `false`, MongoDB Cloud may omit this value or return it when the count is available without additional calculation. The total number is an estimate and may not be exact. */
   totalCount?: number;
 }
 export const PaginatedApiStreamsConnectionViewOutput = /*@__PURE__*/ S.suspend(() =>
@@ -49071,7 +49402,7 @@ export interface PaginatedApiStreamsPrivateLinkView {
   links?: PaginatedApiStreamsPrivateLinkViewLinksList;
   /** List of returned documents that MongoDB Cloud provides when completing this request. */
   results: PaginatedApiStreamsPrivateLinkViewResultsList;
-  /** Total number of documents available. MongoDB Cloud omits this value if `includeCount` is set to `false`. The total number is an estimate and may not be exact. */
+  /** Total number of documents available. When `includeCount` is set to `false`, MongoDB Cloud may omit this value or return it when the count is available without additional calculation. The total number is an estimate and may not be exact. */
   totalCount?: number;
 }
 export const PaginatedApiStreamsPrivateLinkView = /*@__PURE__*/ S.suspend(() =>
@@ -49166,7 +49497,7 @@ export interface PaginatedApiStreamsTenantViewOutput {
   links?: PaginatedApiStreamsTenantViewOutputLinksList;
   /** List of returned documents that MongoDB Cloud provides when completing this request. */
   results: PaginatedApiStreamsTenantViewOutputResultsList;
-  /** Total number of documents available. MongoDB Cloud omits this value if `includeCount` is set to `false`. The total number is an estimate and may not be exact. */
+  /** Total number of documents available. When `includeCount` is set to `false`, MongoDB Cloud may omit this value or return it when the count is available without additional calculation. The total number is an estimate and may not be exact. */
   totalCount?: number;
 }
 export const PaginatedApiStreamsTenantViewOutput = /*@__PURE__*/ S.suspend(() =>
@@ -49186,7 +49517,7 @@ export interface ListGroupTeamsRequest {
   envelope?: boolean;
   /** Flag that indicates whether the response body should be in the prettyprint format. */
   pretty?: boolean;
-  /** Flag that indicates whether the response returns the total number of items (`totalCount`) in the response. */
+  /** Flag that indicates whether MongoDB Cloud calculates the total number of items for the response. When set to `false`, MongoDB Cloud may skip an additional count operation. The response may still include `totalCount` when the count is available without additional calculation. */
   includeCount?: boolean;
   /** Number of items that the response returns per page. */
   itemsPerPage?: number;
@@ -49209,9 +49540,7 @@ export const ListGroupTeamsRequest = /*@__PURE__*/ S.suspend(() =>
       accept: "application/vnd.atlas.2023-01-01+json",
     }),
   ),
-).annotate({
-  identifier: "ListGroupTeamsRequest",
-}) as any as S.Schema<ListGroupTeamsRequest>;
+).annotate({ identifier: "ListGroupTeamsRequest" }) as any as S.Schema<ListGroupTeamsRequest>;
 
 export type ListGroupUsersRequestOrgMembershipStatusesItem =
   | "PENDING"
@@ -49232,7 +49561,7 @@ export interface ListGroupUsersRequest {
   groupId: string;
   /** Flag that indicates whether Application wraps the response in an `envelope` JSON object. Some API clients cannot access the HTTP response headers or status code. To remediate this, set envelope=true in the query. Endpoints that return a list of results use the results object as an envelope. Application adds the status parameter to the response body. */
   envelope?: boolean;
-  /** Flag that indicates whether the response returns the total number of items (`totalCount`) in the response. */
+  /** Flag that indicates whether MongoDB Cloud calculates the total number of items for the response. When set to `false`, MongoDB Cloud may skip an additional count operation. The response may still include `totalCount` when the count is available without additional calculation. */
   includeCount?: boolean;
   /** Number of items that the response returns per page. */
   itemsPerPage?: number;
@@ -49274,9 +49603,7 @@ export const ListGroupUsersRequest = /*@__PURE__*/ S.suspend(() =>
       accept: "application/vnd.atlas.2025-02-19+json",
     }),
   ),
-).annotate({
-  identifier: "ListGroupUsersRequest",
-}) as any as S.Schema<ListGroupUsersRequest>;
+).annotate({ identifier: "ListGroupUsersRequest" }) as any as S.Schema<ListGroupUsersRequest>;
 
 /** List of one or more Uniform Resource Locators (URLs) that point to API sub-resources, related API resources, or both. RFC 5988 outlines these relationships. */
 export type PaginatedGroupUserViewLinksList = Array<Link>;
@@ -49295,7 +49622,7 @@ export interface PaginatedGroupUserView {
   links?: PaginatedGroupUserViewLinksList;
   /** List of returned documents that MongoDB Cloud provides when completing this request. */
   results: PaginatedGroupUserViewResultsList;
-  /** Total number of documents available. MongoDB Cloud omits this value if `includeCount` is set to `false`. The total number is an estimate and may not be exact. */
+  /** Total number of documents available. When `includeCount` is set to `false`, MongoDB Cloud may omit this value or return it when the count is available without additional calculation. The total number is an estimate and may not be exact. */
   totalCount?: number;
 }
 export const PaginatedGroupUserView = /*@__PURE__*/ S.suspend(() =>
@@ -49304,9 +49631,7 @@ export const PaginatedGroupUserView = /*@__PURE__*/ S.suspend(() =>
     results: PaginatedGroupUserViewResultsList,
     totalCount: S.optional(S.Number),
   }),
-).annotate({
-  identifier: "PaginatedGroupUserView",
-}) as any as S.Schema<PaginatedGroupUserView>;
+).annotate({ identifier: "PaginatedGroupUserView" }) as any as S.Schema<PaginatedGroupUserView>;
 
 export interface ListOrgAiModelApiKeysRequest {
   /** Unique 24-hexadecimal digit string that identifies the organization that contains your projects. Use the [`/orgs`](#tag/Organizations/operation/listOrganizations) endpoint to retrieve all organizations to which the authenticated user has access. */
@@ -49346,7 +49671,7 @@ export interface ListOrgApiKeyAccessListEntriesRequest {
   apiUserId: string;
   /** Flag that indicates whether Application wraps the response in an `envelope` JSON object. Some API clients cannot access the HTTP response headers or status code. To remediate this, set envelope=true in the query. Endpoints that return a list of results use the results object as an envelope. Application adds the status parameter to the response body. */
   envelope?: boolean;
-  /** Flag that indicates whether the response returns the total number of items (`totalCount`) in the response. */
+  /** Flag that indicates whether MongoDB Cloud calculates the total number of items for the response. When set to `false`, MongoDB Cloud may skip an additional count operation. The response may still include `totalCount` when the count is available without additional calculation. */
   includeCount?: boolean;
   /** Number of items that the response returns per page. */
   itemsPerPage?: number;
@@ -49381,7 +49706,7 @@ export interface ListOrgApiKeysRequest {
   orgId: string;
   /** Flag that indicates whether Application wraps the response in an `envelope` JSON object. Some API clients cannot access the HTTP response headers or status code. To remediate this, set envelope=true in the query. Endpoints that return a list of results use the results object as an envelope. Application adds the status parameter to the response body. */
   envelope?: boolean;
-  /** Flag that indicates whether the response returns the total number of items (`totalCount`) in the response. */
+  /** Flag that indicates whether MongoDB Cloud calculates the total number of items for the response. When set to `false`, MongoDB Cloud may skip an additional count operation. The response may still include `totalCount` when the count is available without additional calculation. */
   includeCount?: boolean;
   /** Number of items that the response returns per page. */
   itemsPerPage?: number;
@@ -49406,9 +49731,7 @@ export const ListOrgApiKeysRequest = /*@__PURE__*/ S.suspend(() =>
       accept: "application/vnd.atlas.2023-01-01+json",
     }),
   ),
-).annotate({
-  identifier: "ListOrgApiKeysRequest",
-}) as any as S.Schema<ListOrgApiKeysRequest>;
+).annotate({ identifier: "ListOrgApiKeysRequest" }) as any as S.Schema<ListOrgApiKeysRequest>;
 
 export type ListOrgEventsRequestEventTypeList = Array<EventTypeForOrg>;
 export const ListOrgEventsRequestEventTypeList = /*@__PURE__*/ S.Array(
@@ -49420,7 +49743,7 @@ export interface ListOrgEventsRequest {
   orgId: string;
   /** Flag that indicates whether Application wraps the response in an `envelope` JSON object. Some API clients cannot access the HTTP response headers or status code. To remediate this, set envelope=true in the query. Endpoints that return a list of results use the results object as an envelope. Application adds the status parameter to the response body. */
   envelope?: boolean;
-  /** Flag that indicates whether the response returns the total number of items (`totalCount`) in the response. */
+  /** Flag that indicates whether MongoDB Cloud calculates the total number of items for the response. When set to `false`, MongoDB Cloud may skip an additional count operation. The response may still include `totalCount` when the count is available without additional calculation. */
   includeCount?: boolean;
   /** Number of items that the response returns per page. */
   itemsPerPage?: number;
@@ -49457,9 +49780,7 @@ export const ListOrgEventsRequest = /*@__PURE__*/ S.suspend(() =>
       accept: "application/vnd.atlas.2023-01-01+json",
     }),
   ),
-).annotate({
-  identifier: "ListOrgEventsRequest",
-}) as any as S.Schema<ListOrgEventsRequest>;
+).annotate({ identifier: "ListOrgEventsRequest" }) as any as S.Schema<ListOrgEventsRequest>;
 
 /** List of one or more Uniform Resource Locators (URLs) that point to API sub-resources, related API resources, or both. RFC 5988 outlines these relationships. */
 export type OrgPaginatedEventViewLinksList = Array<Link>;
@@ -49478,7 +49799,7 @@ export interface OrgPaginatedEventView {
   links?: OrgPaginatedEventViewLinksList;
   /** List of returned documents that MongoDB Cloud provides when completing this request. */
   results: OrgPaginatedEventViewResultsList;
-  /** Total number of documents available. MongoDB Cloud omits this value if `includeCount` is set to `false`. The total number is an estimate and may not be exact. */
+  /** Total number of documents available. When `includeCount` is set to `false`, MongoDB Cloud may omit this value or return it when the count is available without additional calculation. The total number is an estimate and may not be exact. */
   totalCount?: number;
 }
 export const OrgPaginatedEventView = /*@__PURE__*/ S.suspend(() =>
@@ -49487,9 +49808,7 @@ export const OrgPaginatedEventView = /*@__PURE__*/ S.suspend(() =>
     results: OrgPaginatedEventViewResultsList,
     totalCount: S.optional(S.Number),
   }),
-).annotate({
-  identifier: "OrgPaginatedEventView",
-}) as any as S.Schema<OrgPaginatedEventView>;
+).annotate({ identifier: "OrgPaginatedEventView" }) as any as S.Schema<OrgPaginatedEventView>;
 
 export interface ListOrgInvoicePendingRequest {
   /** Unique 24-hexadecimal digit string that identifies the organization that contains your projects. Use the [`/orgs`](#tag/Organizations/operation/listOrganizations) endpoint to retrieve all organizations to which the authenticated user has access. */
@@ -49533,7 +49852,7 @@ export interface PaginatedApiInvoiceView {
   links?: PaginatedApiInvoiceViewLinksList;
   /** List of returned documents that MongoDB Cloud provides when completing this request. */
   results: PaginatedApiInvoiceViewResultsList;
-  /** Total number of documents available. MongoDB Cloud omits this value if `includeCount` is set to `false`. The total number is an estimate and may not be exact. */
+  /** Total number of documents available. When `includeCount` is set to `false`, MongoDB Cloud may omit this value or return it when the count is available without additional calculation. The total number is an estimate and may not be exact. */
   totalCount?: number;
 }
 export const PaginatedApiInvoiceView = /*@__PURE__*/ S.suspend(() =>
@@ -49542,9 +49861,7 @@ export const PaginatedApiInvoiceView = /*@__PURE__*/ S.suspend(() =>
     results: PaginatedApiInvoiceViewResultsList,
     totalCount: S.optional(S.Number),
   }),
-).annotate({
-  identifier: "PaginatedApiInvoiceView",
-}) as any as S.Schema<PaginatedApiInvoiceView>;
+).annotate({ identifier: "PaginatedApiInvoiceView" }) as any as S.Schema<PaginatedApiInvoiceView>;
 
 export interface ListOrgInvoiceReportsRequest {
   /** Unique 24-hexadecimal digit string that identifies the organization that contains your projects. Use the [`/orgs`](#tag/Organizations/operation/listOrganizations) endpoint to retrieve all organizations to which the authenticated user has access. */
@@ -49553,7 +49870,7 @@ export interface ListOrgInvoiceReportsRequest {
   invoiceId: string;
   /** Flag that indicates whether Application wraps the response in an `envelope` JSON object. Some API clients cannot access the HTTP response headers or status code. To remediate this, set envelope=true in the query. Endpoints that return a list of results use the results object as an envelope. Application adds the status parameter to the response body. */
   envelope?: boolean;
-  /** Flag that indicates whether the response returns the total number of items (`totalCount`) in the response. */
+  /** Flag that indicates whether MongoDB Cloud calculates the total number of items for the response. When set to `false`, MongoDB Cloud may skip an additional count operation. The response may still include `totalCount` when the count is available without additional calculation. */
   includeCount?: boolean;
   /** Number of items that the response returns per page. */
   itemsPerPage?: number;
@@ -49600,7 +49917,7 @@ export interface PaginatedInvoiceReportView {
   links?: PaginatedInvoiceReportViewLinksList;
   /** List of returned documents that MongoDB Cloud provides when completing this request. */
   results: PaginatedInvoiceReportViewResultsList;
-  /** Total number of documents available. MongoDB Cloud omits this value if `includeCount` is set to `false`. The total number is an estimate and may not be exact. */
+  /** Total number of documents available. When `includeCount` is set to `false`, MongoDB Cloud may omit this value or return it when the count is available without additional calculation. The total number is an estimate and may not be exact. */
   totalCount?: number;
 }
 export const PaginatedInvoiceReportView = /*@__PURE__*/ S.suspend(() =>
@@ -49642,7 +49959,7 @@ export interface ListOrgInvoicesRequest {
   orgId: string;
   /** Flag that indicates whether Application wraps the response in an `envelope` JSON object. Some API clients cannot access the HTTP response headers or status code. To remediate this, set envelope=true in the query. Endpoints that return a list of results use the results object as an envelope. Application adds the status parameter to the response body. */
   envelope?: boolean;
-  /** Flag that indicates whether the response returns the total number of items (`totalCount`) in the response. */
+  /** Flag that indicates whether MongoDB Cloud calculates the total number of items for the response. When set to `false`, MongoDB Cloud may skip an additional count operation. The response may still include `totalCount` when the count is available without additional calculation. */
   includeCount?: boolean;
   /** Number of items that the response returns per page. */
   itemsPerPage?: number;
@@ -49685,9 +50002,7 @@ export const ListOrgInvoicesRequest = /*@__PURE__*/ S.suspend(() =>
       accept: "application/vnd.atlas.2023-01-01+json",
     }),
   ),
-).annotate({
-  identifier: "ListOrgInvoicesRequest",
-}) as any as S.Schema<ListOrgInvoicesRequest>;
+).annotate({ identifier: "ListOrgInvoicesRequest" }) as any as S.Schema<ListOrgInvoicesRequest>;
 
 /** List of one or more Uniform Resource Locators (URLs) that point to API sub-resources, related API resources, or both. RFC 5988 outlines these relationships. */
 export type PaginatedApiInvoiceMetadataViewLinksList = Array<Link>;
@@ -49769,9 +50084,7 @@ export const BillingInvoiceMetadata = /*@__PURE__*/ S.suspend(() =>
     subtotalCents: S.optional(S.Number),
     updated: S.optional(S.String),
   }),
-).annotate({
-  identifier: "BillingInvoiceMetadata",
-}) as any as S.Schema<BillingInvoiceMetadata>;
+).annotate({ identifier: "BillingInvoiceMetadata" }) as any as S.Schema<BillingInvoiceMetadata>;
 
 /** List of returned documents that MongoDB Cloud provides when completing this request. */
 export type PaginatedApiInvoiceMetadataViewResultsList = Array<BillingInvoiceMetadata>;
@@ -49784,7 +50097,7 @@ export interface PaginatedApiInvoiceMetadataView {
   links?: PaginatedApiInvoiceMetadataViewLinksList;
   /** List of returned documents that MongoDB Cloud provides when completing this request. */
   results: PaginatedApiInvoiceMetadataViewResultsList;
-  /** Total number of documents available. MongoDB Cloud omits this value if `includeCount` is set to `false`. The total number is an estimate and may not be exact. */
+  /** Total number of documents available. When `includeCount` is set to `false`, MongoDB Cloud may omit this value or return it when the count is available without additional calculation. The total number is an estimate and may not be exact. */
   totalCount?: number;
 }
 export const PaginatedApiInvoiceMetadataView = /*@__PURE__*/ S.suspend(() =>
@@ -49912,6 +50225,129 @@ export const ListOrgLiveMigrationAvailableProjectsResponse = /*@__PURE__*/ S.sus
   identifier: "ListOrgLiveMigrationAvailableProjectsResponse",
 }) as any as S.Schema<ListOrgLiveMigrationAvailableProjectsResponse>;
 
+export interface ListOrgLogIntegrationsRequest {
+  /** Unique 24-hexadecimal digit string that identifies the organization that contains your projects. Use the [`/orgs`](#tag/Organizations/operation/listOrganizations) endpoint to retrieve all organizations to which the authenticated user has access. */
+  orgId: string;
+  /** Flag that indicates whether Application wraps the response in an `envelope` JSON object. Some API clients cannot access the HTTP response headers or status code. To remediate this, set envelope=true in the query. Endpoints that return a list of results use the results object as an envelope. Application adds the status parameter to the response body. */
+  envelope?: boolean;
+  /** Flag that indicates whether MongoDB Cloud calculates the total number of items for the response. When set to `false`, MongoDB Cloud may skip an additional count operation. The response may still include `totalCount` when the count is available without additional calculation. */
+  includeCount?: boolean;
+  /** Number of items that the response returns per page. */
+  itemsPerPage?: number;
+  /** Number of the page that displays the current set of the total objects that the response returns. */
+  pageNum?: number;
+  /** Flag that indicates whether the response body should be in the prettyprint format. */
+  pretty?: boolean;
+}
+export const ListOrgLogIntegrationsRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    orgId: S.String.pipe(T.Label()),
+    envelope: S.optional(S.Boolean.pipe(T.Query())),
+    includeCount: S.optional(S.Boolean.pipe(T.Query())),
+    itemsPerPage: S.optional(S.Number.pipe(T.Query())),
+    pageNum: S.optional(S.Number.pipe(T.Query())),
+    pretty: S.optional(S.Boolean.pipe(T.Query())),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      uri: "/api/atlas/v2/orgs/{orgId}/logIntegrations",
+      code: 200,
+      accept: "application/vnd.atlas.2025-03-12+json",
+    }),
+  ),
+).annotate({
+  identifier: "ListOrgLogIntegrationsRequest",
+}) as any as S.Schema<ListOrgLogIntegrationsRequest>;
+
+/** List of one or more Uniform Resource Locators (URLs) that point to API sub-resources, related API resources, or both. RFC 5988 outlines these relationships. */
+export type PaginatedOrgLogIntegrationResponseLinksList = Array<Link>;
+export const PaginatedOrgLogIntegrationResponseLinksList = /*@__PURE__*/ S.Array(
+  Link,
+) as any as S.Schema<PaginatedOrgLogIntegrationResponseLinksList>;
+
+export type OrgOtelLogIntegrationResponseLogTypesItem = "EVENTS";
+export const OrgOtelLogIntegrationResponseLogTypesItem = S.String;
+
+/** Array of log types exported by this integration. */
+export type OrgOtelLogIntegrationResponseLogTypesList =
+  Array<OrgOtelLogIntegrationResponseLogTypesItem>;
+export const OrgOtelLogIntegrationResponseLogTypesList = /*@__PURE__*/ S.Array(
+  OrgOtelLogIntegrationResponseLogTypesItem,
+) as any as S.Schema<OrgOtelLogIntegrationResponseLogTypesList>;
+
+/** Type of log integration. Identifies which service will receive the exported events. This value cannot be modified after the integration is created. */
+export type OrgOtelLogIntegrationResponseType = "OTEL_LOG_EXPORT";
+export const OrgOtelLogIntegrationResponseType = S.String;
+
+/** HTTP header with name and value. */
+export interface OrgLogIntegrationHeader {
+  /** Header name. */
+  name: string;
+  /** Header value. Redacted in responses. */
+  value: string;
+}
+export const OrgLogIntegrationHeader = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    name: S.String,
+    value: S.String,
+  }),
+).annotate({ identifier: "OrgLogIntegrationHeader" }) as any as S.Schema<OrgLogIntegrationHeader>;
+
+/** HTTP headers for authentication and configuration. Maximum 10 headers, total size limit 2KB. Values are redacted. */
+export type OrgOtelLogIntegrationResponseOtelSuppliedHeadersList = Array<OrgLogIntegrationHeader>;
+export const OrgOtelLogIntegrationResponseOtelSuppliedHeadersList = /*@__PURE__*/ S.Array(
+  OrgLogIntegrationHeader,
+) as any as S.Schema<OrgOtelLogIntegrationResponseOtelSuppliedHeadersList>;
+
+/** Details to integrate OpenTelemetry event export with one Atlas organization. */
+export interface OrgOtelLogIntegrationResponse {
+  /** Unique 24-character hexadecimal digit string that identifies the log integration configuration. */
+  id: string;
+  /** Array of log types exported by this integration. */
+  logTypes: OrgOtelLogIntegrationResponseLogTypesList;
+  /** Type of log integration. Identifies which service will receive the exported events. This value cannot be modified after the integration is created. */
+  type: OrgOtelLogIntegrationResponseType;
+  /** OpenTelemetry collector endpoint URL. */
+  otelEndpoint: string;
+  /** HTTP headers for authentication and configuration. Maximum 10 headers, total size limit 2KB. Values are redacted. */
+  otelSuppliedHeaders: OrgOtelLogIntegrationResponseOtelSuppliedHeadersList;
+}
+export const OrgOtelLogIntegrationResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    id: S.String,
+    logTypes: OrgOtelLogIntegrationResponseLogTypesList,
+    type: OrgOtelLogIntegrationResponseType,
+    otelEndpoint: S.String,
+    otelSuppliedHeaders: OrgOtelLogIntegrationResponseOtelSuppliedHeadersList,
+  }),
+).annotate({
+  identifier: "OrgOtelLogIntegrationResponse",
+}) as any as S.Schema<OrgOtelLogIntegrationResponse>;
+
+/** List of returned documents that MongoDB Cloud provides when completing this request. */
+export type PaginatedOrgLogIntegrationResponseResultsList = Array<OrgOtelLogIntegrationResponse>;
+export const PaginatedOrgLogIntegrationResponseResultsList = /*@__PURE__*/ S.Array(
+  OrgOtelLogIntegrationResponse,
+) as any as S.Schema<PaginatedOrgLogIntegrationResponseResultsList>;
+
+export interface PaginatedOrgLogIntegrationResponse {
+  /** List of one or more Uniform Resource Locators (URLs) that point to API sub-resources, related API resources, or both. RFC 5988 outlines these relationships. */
+  links?: PaginatedOrgLogIntegrationResponseLinksList;
+  /** List of returned documents that MongoDB Cloud provides when completing this request. */
+  results: PaginatedOrgLogIntegrationResponseResultsList;
+  /** Total number of documents available. When `includeCount` is set to `false`, MongoDB Cloud may omit this value or return it when the count is available without additional calculation. The total number is an estimate and may not be exact. */
+  totalCount?: number;
+}
+export const PaginatedOrgLogIntegrationResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    links: S.optional(PaginatedOrgLogIntegrationResponseLinksList),
+    results: PaginatedOrgLogIntegrationResponseResultsList,
+    totalCount: S.optional(S.Number),
+  }),
+).annotate({
+  identifier: "PaginatedOrgLogIntegrationResponse",
+}) as any as S.Schema<PaginatedOrgLogIntegrationResponse>;
+
 export interface ListOrgMcpConfigsRequest {
   /** Unique 24-hexadecimal digit string that identifies the organization that contains your projects. Use the [`/orgs`](#tag/Organizations/operation/listOrganizations) endpoint to retrieve all organizations to which the authenticated user has access. */
   orgId: string;
@@ -49919,7 +50355,7 @@ export interface ListOrgMcpConfigsRequest {
   envelope?: boolean;
   /** Number of items that the response returns per page. */
   itemsPerPage?: number;
-  /** Flag that indicates whether the response returns the total number of items (`totalCount`) in the response. */
+  /** Flag that indicates whether MongoDB Cloud calculates the total number of items for the response. When set to `false`, MongoDB Cloud may skip an additional count operation. The response may still include `totalCount` when the count is available without additional calculation. */
   includeCount?: boolean;
   /** Number of the page that displays the current set of the total objects that the response returns. */
   pageNum?: number;
@@ -49942,9 +50378,7 @@ export const ListOrgMcpConfigsRequest = /*@__PURE__*/ S.suspend(() =>
       accept: "application/vnd.atlas.2025-03-12+json",
     }),
   ),
-).annotate({
-  identifier: "ListOrgMcpConfigsRequest",
-}) as any as S.Schema<ListOrgMcpConfigsRequest>;
+).annotate({ identifier: "ListOrgMcpConfigsRequest" }) as any as S.Schema<ListOrgMcpConfigsRequest>;
 
 /** List of one or more Uniform Resource Locators (URLs) that point to API sub-resources, related API resources, or both. RFC 5988 outlines these relationships. */
 export type PaginatedOrgMcpConfigViewLinksList = Array<Link>;
@@ -49963,7 +50397,7 @@ export interface PaginatedOrgMcpConfigView {
   links?: PaginatedOrgMcpConfigViewLinksList;
   /** List of returned documents that MongoDB Cloud provides when completing this request. */
   results: PaginatedOrgMcpConfigViewResultsList;
-  /** Total number of documents available. MongoDB Cloud omits this value if `includeCount` is set to `false`. The total number is an estimate and may not be exact. */
+  /** Total number of documents available. When `includeCount` is set to `false`, MongoDB Cloud may omit this value or return it when the count is available without additional calculation. The total number is an estimate and may not be exact. */
   totalCount?: number;
 }
 export const PaginatedOrgMcpConfigView = /*@__PURE__*/ S.suspend(() =>
@@ -49985,7 +50419,7 @@ export interface ListOrgMcpConfigSecretsRequest {
   envelope?: boolean;
   /** Number of items that the response returns per page. */
   itemsPerPage?: number;
-  /** Flag that indicates whether the response returns the total number of items (`totalCount`) in the response. */
+  /** Flag that indicates whether MongoDB Cloud calculates the total number of items for the response. When set to `false`, MongoDB Cloud may skip an additional count operation. The response may still include `totalCount` when the count is available without additional calculation. */
   includeCount?: boolean;
   /** Number of the page that displays the current set of the total objects that the response returns. */
   pageNum?: number;
@@ -50053,7 +50487,7 @@ export const ListOrgResourcePoliciesResponse = /*@__PURE__*/ S.suspend(() =>
 export interface ListOrgsRequest {
   /** Flag that indicates whether Application wraps the response in an `envelope` JSON object. Some API clients cannot access the HTTP response headers or status code. To remediate this, set envelope=true in the query. Endpoints that return a list of results use the results object as an envelope. Application adds the status parameter to the response body. */
   envelope?: boolean;
-  /** Flag that indicates whether the response returns the total number of items (`totalCount`) in the response. */
+  /** Flag that indicates whether MongoDB Cloud calculates the total number of items for the response. When set to `false`, MongoDB Cloud may skip an additional count operation. The response may still include `totalCount` when the count is available without additional calculation. */
   includeCount?: boolean;
   /** Number of items that the response returns per page. */
   itemsPerPage?: number;
@@ -50080,9 +50514,7 @@ export const ListOrgsRequest = /*@__PURE__*/ S.suspend(() =>
       accept: "application/vnd.atlas.2023-01-01+json",
     }),
   ),
-).annotate({
-  identifier: "ListOrgsRequest",
-}) as any as S.Schema<ListOrgsRequest>;
+).annotate({ identifier: "ListOrgsRequest" }) as any as S.Schema<ListOrgsRequest>;
 
 /** List of one or more Uniform Resource Locators (URLs) that point to API sub-resources, related API resources, or both. RFC 5988 outlines these relationships. */
 export type PaginatedOrganizationViewLinksList = Array<Link>;
@@ -50101,7 +50533,7 @@ export interface PaginatedOrganizationView {
   links?: PaginatedOrganizationViewLinksList;
   /** List of returned documents that MongoDB Cloud provides when completing this request. */
   results: PaginatedOrganizationViewResultsList;
-  /** Total number of documents available. MongoDB Cloud omits this value if `includeCount` is set to `false`. The total number is an estimate and may not be exact. */
+  /** Total number of documents available. When `includeCount` is set to `false`, MongoDB Cloud may omit this value or return it when the count is available without additional calculation. The total number is an estimate and may not be exact. */
   totalCount?: number;
 }
 export const PaginatedOrganizationView = /*@__PURE__*/ S.suspend(() =>
@@ -50121,7 +50553,7 @@ export interface ListOrgServiceAccountAccessListRequest {
   clientId: string;
   /** Flag that indicates whether Application wraps the response in an `envelope` JSON object. Some API clients cannot access the HTTP response headers or status code. To remediate this, set envelope=true in the query. Endpoints that return a list of results use the results object as an envelope. Application adds the status parameter to the response body. */
   envelope?: boolean;
-  /** Flag that indicates whether the response returns the total number of items (`totalCount`) in the response. */
+  /** Flag that indicates whether MongoDB Cloud calculates the total number of items for the response. When set to `false`, MongoDB Cloud may skip an additional count operation. The response may still include `totalCount` when the count is available without additional calculation. */
   includeCount?: boolean;
   /** Number of items that the response returns per page. */
   itemsPerPage?: number;
@@ -50203,7 +50635,7 @@ export interface PaginatedOrgServiceAccounts {
   links?: PaginatedOrgServiceAccountsLinksList;
   /** List of returned documents that MongoDB Cloud provides when completing this request. */
   results: PaginatedOrgServiceAccountsResultsList;
-  /** Total number of documents available. MongoDB Cloud omits this value if `includeCount` is set to `false`. The total number is an estimate and may not be exact. */
+  /** Total number of documents available. When `includeCount` is set to `false`, MongoDB Cloud may omit this value or return it when the count is available without additional calculation. The total number is an estimate and may not be exact. */
   totalCount?: number;
 }
 export const PaginatedOrgServiceAccounts = /*@__PURE__*/ S.suspend(() =>
@@ -50223,7 +50655,7 @@ export interface ListOrgTeamsRequest {
   envelope?: boolean;
   /** Number of items that the response returns per page. */
   itemsPerPage?: number;
-  /** Flag that indicates whether the response returns the total number of items (`totalCount`) in the response. */
+  /** Flag that indicates whether MongoDB Cloud calculates the total number of items for the response. When set to `false`, MongoDB Cloud may skip an additional count operation. The response may still include `totalCount` when the count is available without additional calculation. */
   includeCount?: boolean;
   /** Number of the page that displays the current set of the total objects that the response returns. */
   pageNum?: number;
@@ -50246,9 +50678,7 @@ export const ListOrgTeamsRequest = /*@__PURE__*/ S.suspend(() =>
       accept: "application/vnd.atlas.2023-01-01+json",
     }),
   ),
-).annotate({
-  identifier: "ListOrgTeamsRequest",
-}) as any as S.Schema<ListOrgTeamsRequest>;
+).annotate({ identifier: "ListOrgTeamsRequest" }) as any as S.Schema<ListOrgTeamsRequest>;
 
 /** List of one or more Uniform Resource Locators (URLs) that point to API sub-resources, related API resources, or both. RFC 5988 outlines these relationships. */
 export type PaginatedTeamViewLinksList = Array<Link>;
@@ -50267,7 +50697,7 @@ export interface PaginatedTeamView {
   links?: PaginatedTeamViewLinksList;
   /** List of returned documents that MongoDB Cloud provides when completing this request. */
   results: PaginatedTeamViewResultsList;
-  /** Total number of documents available. MongoDB Cloud omits this value if `includeCount` is set to `false`. The total number is an estimate and may not be exact. */
+  /** Total number of documents available. When `includeCount` is set to `false`, MongoDB Cloud may omit this value or return it when the count is available without additional calculation. The total number is an estimate and may not be exact. */
   totalCount?: number;
 }
 export const PaginatedTeamView = /*@__PURE__*/ S.suspend(() =>
@@ -50276,9 +50706,7 @@ export const PaginatedTeamView = /*@__PURE__*/ S.suspend(() =>
     results: PaginatedTeamViewResultsList,
     totalCount: S.optional(S.Number),
   }),
-).annotate({
-  identifier: "PaginatedTeamView",
-}) as any as S.Schema<PaginatedTeamView>;
+).annotate({ identifier: "PaginatedTeamView" }) as any as S.Schema<PaginatedTeamView>;
 
 export type ListOrgTeamUsersRequestOrgMembershipStatusesItem =
   | "PENDING"
@@ -50338,9 +50766,7 @@ export const ListOrgTeamUsersRequest = /*@__PURE__*/ S.suspend(() =>
       accept: "application/vnd.atlas.2025-02-19+json",
     }),
   ),
-).annotate({
-  identifier: "ListOrgTeamUsersRequest",
-}) as any as S.Schema<ListOrgTeamUsersRequest>;
+).annotate({ identifier: "ListOrgTeamUsersRequest" }) as any as S.Schema<ListOrgTeamUsersRequest>;
 
 /** List of one or more Uniform Resource Locators (URLs) that point to API sub-resources, related API resources, or both. RFC 5988 outlines these relationships. */
 export type PaginatedOrgUserViewLinksList = Array<Link>;
@@ -50359,7 +50785,7 @@ export interface PaginatedOrgUserView {
   links?: PaginatedOrgUserViewLinksList;
   /** List of returned documents that MongoDB Cloud provides when completing this request. */
   results: PaginatedOrgUserViewResultsList;
-  /** Total number of documents available. MongoDB Cloud omits this value if `includeCount` is set to `false`. The total number is an estimate and may not be exact. */
+  /** Total number of documents available. When `includeCount` is set to `false`, MongoDB Cloud may omit this value or return it when the count is available without additional calculation. The total number is an estimate and may not be exact. */
   totalCount?: number;
 }
 export const PaginatedOrgUserView = /*@__PURE__*/ S.suspend(() =>
@@ -50368,9 +50794,7 @@ export const PaginatedOrgUserView = /*@__PURE__*/ S.suspend(() =>
     results: PaginatedOrgUserViewResultsList,
     totalCount: S.optional(S.Number),
   }),
-).annotate({
-  identifier: "PaginatedOrgUserView",
-}) as any as S.Schema<PaginatedOrgUserView>;
+).annotate({ identifier: "PaginatedOrgUserView" }) as any as S.Schema<PaginatedOrgUserView>;
 
 export type ListOrgUsersRequestOrgMembershipStatusesItem =
   | "PENDING"
@@ -50393,7 +50817,7 @@ export interface ListOrgUsersRequest {
   envelope?: boolean;
   /** Flag that indicates whether the response body should be in the prettyprint format. */
   pretty?: boolean;
-  /** Flag that indicates whether the response returns the total number of items (`totalCount`) in the response. */
+  /** Flag that indicates whether MongoDB Cloud calculates the total number of items for the response. When set to `false`, MongoDB Cloud may skip an additional count operation. The response may still include `totalCount` when the count is available without additional calculation. */
   includeCount?: boolean;
   /** Number of items that the response returns per page. */
   itemsPerPage?: number;
@@ -50425,9 +50849,7 @@ export const ListOrgUsersRequest = /*@__PURE__*/ S.suspend(() =>
       accept: "application/vnd.atlas.2025-02-19+json",
     }),
   ),
-).annotate({
-  identifier: "ListOrgUsersRequest",
-}) as any as S.Schema<ListOrgUsersRequest>;
+).annotate({ identifier: "ListOrgUsersRequest" }) as any as S.Schema<ListOrgUsersRequest>;
 
 export interface ListRateLimitsRequest {
   /** Number of items that the response returns per page. */
@@ -50471,9 +50893,7 @@ export const ListRateLimitsRequest = /*@__PURE__*/ S.suspend(() =>
       accept: "application/vnd.atlas.2025-03-12+json",
     }),
   ),
-).annotate({
-  identifier: "ListRateLimitsRequest",
-}) as any as S.Schema<ListRateLimitsRequest>;
+).annotate({ identifier: "ListRateLimitsRequest" }) as any as S.Schema<ListRateLimitsRequest>;
 
 /** List of one or more Uniform Resource Locators (URLs) that point to API sub-resources, related API resources, or both. RFC 5988 outlines these relationships. */
 export type PaginatedRateLimitEndpointSetsLinksList = Array<Link>;
@@ -50493,7 +50913,7 @@ export interface PaginatedRateLimitEndpointSets {
   links?: PaginatedRateLimitEndpointSetsLinksList;
   /** List of returned documents that MongoDB Cloud provides when completing this request. */
   results: PaginatedRateLimitEndpointSetsResultsList;
-  /** Total number of documents available. MongoDB Cloud omits this value if `includeCount` is set to `false`. The total number is an estimate and may not be exact. */
+  /** Total number of documents available. When `includeCount` is set to `false`, MongoDB Cloud may omit this value or return it when the count is available without additional calculation. The total number is an estimate and may not be exact. */
   totalCount?: number;
 }
 export const PaginatedRateLimitEndpointSets = /*@__PURE__*/ S.suspend(() =>
@@ -50509,7 +50929,7 @@ export const PaginatedRateLimitEndpointSets = /*@__PURE__*/ S.suspend(() =>
 export interface ListSkusRequest {
   /** Flag that indicates whether Application wraps the response in an `envelope` JSON object. Some API clients cannot access the HTTP response headers or status code. To remediate this, set envelope=true in the query. Endpoints that return a list of results use the results object as an envelope. Application adds the status parameter to the response body. */
   envelope?: boolean;
-  /** Flag that indicates whether the response returns the total number of items (`totalCount`) in the response. */
+  /** Flag that indicates whether MongoDB Cloud calculates the total number of items for the response. When set to `false`, MongoDB Cloud may skip an additional count operation. The response may still include `totalCount` when the count is available without additional calculation. */
   includeCount?: boolean;
   /** Number of items that the response returns per page. */
   itemsPerPage?: number;
@@ -50533,9 +50953,7 @@ export const ListSkusRequest = /*@__PURE__*/ S.suspend(() =>
       accept: "application/vnd.atlas.2025-03-12+json",
     }),
   ),
-).annotate({
-  identifier: "ListSkusRequest",
-}) as any as S.Schema<ListSkusRequest>;
+).annotate({ identifier: "ListSkusRequest" }) as any as S.Schema<ListSkusRequest>;
 
 /** List of one or more Uniform Resource Locators (URLs) that point to API sub-resources, related API resources, or both. RFC 5988 outlines these relationships. */
 export type PaginatedApiSKUViewLinksList = Array<Link>;
@@ -50554,7 +50972,7 @@ export interface PaginatedApiSKUView {
   links?: PaginatedApiSKUViewLinksList;
   /** List of returned documents that MongoDB Cloud provides when completing this request. */
   results: PaginatedApiSKUViewResultsList;
-  /** Total number of documents available. MongoDB Cloud omits this value if `includeCount` is set to `false`. The total number is an estimate and may not be exact. */
+  /** Total number of documents available. When `includeCount` is set to `false`, MongoDB Cloud may omit this value or return it when the count is available without additional calculation. The total number is an estimate and may not be exact. */
   totalCount?: number;
 }
 export const PaginatedApiSKUView = /*@__PURE__*/ S.suspend(() =>
@@ -50563,9 +50981,7 @@ export const PaginatedApiSKUView = /*@__PURE__*/ S.suspend(() =>
     results: PaginatedApiSKUViewResultsList,
     totalCount: S.optional(S.Number),
   }),
-).annotate({
-  identifier: "PaginatedApiSKUView",
-}) as any as S.Schema<PaginatedApiSKUView>;
+).annotate({ identifier: "PaginatedApiSKUView" }) as any as S.Schema<PaginatedApiSKUView>;
 
 export interface MigrateGroupRequest {
   /** Unique 24-hexadecimal digit string that identifies your project. Use the [/groups](#tag/Projects/operation/listProjects) endpoint to retrieve all projects to which the authenticated user has access. **NOTE**: Groups and projects are synonymous terms. Your group id is the same as your project id. For existing groups, your group/project id remains the same. The resource and corresponding endpoints use the term groups. */
@@ -50594,9 +51010,7 @@ export const MigrateGroupRequest = /*@__PURE__*/ S.suspend(() =>
       accept: "application/vnd.atlas.2024-05-30+json",
     }),
   ),
-).annotate({
-  identifier: "MigrateGroupRequest",
-}) as any as S.Schema<MigrateGroupRequest>;
+).annotate({ identifier: "MigrateGroupRequest" }) as any as S.Schema<MigrateGroupRequest>;
 
 /** List of namespace strings (combination of database and collection) on the specified host or cluster. */
 export type PinGroupClusterCollStatPinnedNamespacesRequestNamespacesList = Array<string>;
@@ -50758,9 +51172,7 @@ export const RemoveGroupApiKeyRequest = /*@__PURE__*/ S.suspend(() =>
       accept: "application/vnd.atlas.2023-01-01+json",
     }),
   ),
-).annotate({
-  identifier: "RemoveGroupApiKeyRequest",
-}) as any as S.Schema<RemoveGroupApiKeyRequest>;
+).annotate({ identifier: "RemoveGroupApiKeyRequest" }) as any as S.Schema<RemoveGroupApiKeyRequest>;
 
 export interface RemoveGroupApiKeyResponse {}
 export const RemoveGroupApiKeyResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -50788,9 +51200,7 @@ export const RemoveGroupTeamRequest = /*@__PURE__*/ S.suspend(() =>
       accept: "application/vnd.atlas.2023-01-01+json",
     }),
   ),
-).annotate({
-  identifier: "RemoveGroupTeamRequest",
-}) as any as S.Schema<RemoveGroupTeamRequest>;
+).annotate({ identifier: "RemoveGroupTeamRequest" }) as any as S.Schema<RemoveGroupTeamRequest>;
 
 export interface RemoveGroupTeamResponse {}
 export const RemoveGroupTeamResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -50821,9 +51231,7 @@ export const RemoveGroupUserRequest = /*@__PURE__*/ S.suspend(() =>
       accept: "application/vnd.atlas.2025-02-19+json",
     }),
   ),
-).annotate({
-  identifier: "RemoveGroupUserRequest",
-}) as any as S.Schema<RemoveGroupUserRequest>;
+).annotate({ identifier: "RemoveGroupUserRequest" }) as any as S.Schema<RemoveGroupUserRequest>;
 
 export interface RemoveGroupUserResponse {}
 export const RemoveGroupUserResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -50888,9 +51296,7 @@ export const RemoveOrgTeamUserRequest = /*@__PURE__*/ S.suspend(() =>
       accept: "application/vnd.atlas.2025-02-19+json",
     }),
   ),
-).annotate({
-  identifier: "RemoveOrgTeamUserRequest",
-}) as any as S.Schema<RemoveOrgTeamUserRequest>;
+).annotate({ identifier: "RemoveOrgTeamUserRequest" }) as any as S.Schema<RemoveOrgTeamUserRequest>;
 
 export interface RemoveOrgUserRequest {
   /** Unique 24-hexadecimal digit string that identifies the organization that contains your projects. Use the [`/orgs`](#tag/Organizations/operation/listOrganizations) endpoint to retrieve all organizations to which the authenticated user has access. */
@@ -50916,9 +51322,7 @@ export const RemoveOrgUserRequest = /*@__PURE__*/ S.suspend(() =>
       accept: "application/vnd.atlas.2025-02-19+json",
     }),
   ),
-).annotate({
-  identifier: "RemoveOrgUserRequest",
-}) as any as S.Schema<RemoveOrgUserRequest>;
+).annotate({ identifier: "RemoveOrgUserRequest" }) as any as S.Schema<RemoveOrgUserRequest>;
 
 export interface RemoveOrgUserResponse {}
 export const RemoveOrgUserResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -50963,9 +51367,7 @@ export const RemoveOrgUserRoleRequest = /*@__PURE__*/ S.suspend(() =>
       accept: "application/vnd.atlas.2025-02-19+json",
     }),
   ),
-).annotate({
-  identifier: "RemoveOrgUserRoleRequest",
-}) as any as S.Schema<RemoveOrgUserRoleRequest>;
+).annotate({ identifier: "RemoveOrgUserRoleRequest" }) as any as S.Schema<RemoveOrgUserRoleRequest>;
 
 export interface RenameOrgTeamRequest {
   /** Unique 24-hexadecimal digit string that identifies the organization that contains your projects. Use the [`/orgs`](#tag/Organizations/operation/listOrganizations) endpoint to retrieve all organizations to which the authenticated user has access. */
@@ -50994,9 +51396,7 @@ export const RenameOrgTeamRequest = /*@__PURE__*/ S.suspend(() =>
       accept: "application/vnd.atlas.2023-01-01+json",
     }),
   ),
-).annotate({
-  identifier: "RenameOrgTeamRequest",
-}) as any as S.Schema<RenameOrgTeamRequest>;
+).annotate({ identifier: "RenameOrgTeamRequest" }) as any as S.Schema<RenameOrgTeamRequest>;
 
 export type RequestGroupEncryptionAtRestPrivateEndpointDeletionRequestCloudProvider =
   | "AZURE"
@@ -51170,6 +51570,31 @@ export const ResetGroupMaintenanceWindowResponse = /*@__PURE__*/ S.suspend(() =>
   identifier: "ResetGroupMaintenanceWindowResponse",
 }) as any as S.Schema<ResetGroupMaintenanceWindowResponse>;
 
+export interface ResetOrgMaintenanceSettingsRequest {
+  /** Unique 24-hexadecimal digit string that identifies the organization that contains your projects. Use the [`/orgs`](#tag/Organizations/operation/listOrganizations) endpoint to retrieve all organizations to which the authenticated user has access. */
+  orgId: string;
+  /** Flag that indicates whether Application wraps the response in an `envelope` JSON object. Some API clients cannot access the HTTP response headers or status code. To remediate this, set envelope=true in the query. Endpoints that return a list of results use the results object as an envelope. Application adds the status parameter to the response body. */
+  envelope?: boolean;
+  /** Flag that indicates whether the response body should be in the prettyprint format. */
+  pretty?: boolean;
+}
+export const ResetOrgMaintenanceSettingsRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    orgId: S.String.pipe(T.Label()),
+    envelope: S.optional(S.Boolean.pipe(T.Query())),
+    pretty: S.optional(S.Boolean.pipe(T.Query())),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      uri: "/api/atlas/v2/orgs/{orgId}/maintenanceSettings:reset",
+      code: 200,
+      accept: "application/vnd.atlas.2025-03-12+json",
+    }),
+  ),
+).annotate({
+  identifier: "ResetOrgMaintenanceSettingsRequest",
+}) as any as S.Schema<ResetOrgMaintenanceSettingsRequest>;
+
 export interface RestartGroupClusterPrimariesRequest {
   /** Unique 24-hexadecimal digit string that identifies your project. Use the [/groups](#tag/Projects/operation/listProjects) endpoint to retrieve all projects to which the authenticated user has access. **NOTE**: Groups and projects are synonymous terms. Your group id is the same as your project id. For existing groups, your group/project id remains the same. The resource and corresponding endpoints use the term groups. */
   groupId: string;
@@ -51292,8 +51717,6 @@ export type UsageDetailsFilterRequestSkuServicesItem =
   | "Backup"
   | "Data Transfer"
   | "BI Connector"
-  | "DSC Compute"
-  | "DSC Storage"
   | "Premium Features"
   | "Atlas Data Federation"
   | "Atlas Stream Processing"
@@ -51479,7 +51902,7 @@ export interface PaginatedPublicApiUsageDetailsLineItemView {
   links?: PaginatedPublicApiUsageDetailsLineItemViewLinksList;
   /** List of returned documents that MongoDB Cloud provides when completing this request. */
   results: PaginatedPublicApiUsageDetailsLineItemViewResultsList;
-  /** Total number of documents available. MongoDB Cloud omits this value if `includeCount` is set to `false`. The total number is an estimate and may not be exact. */
+  /** Total number of documents available. When `includeCount` is set to `false`, MongoDB Cloud may omit this value or return it when the count is available without additional calculation. The total number is an estimate and may not be exact. */
   totalCount?: number;
 }
 export const PaginatedPublicApiUsageDetailsLineItemView = /*@__PURE__*/ S.suspend(() =>
@@ -51556,7 +51979,7 @@ export const SetGroupLimitRequestLimitName = S.String;
 export interface SetGroupLimitRequest {
   /** Unique 24-hexadecimal digit string that identifies your project. Use the [/groups](#tag/Projects/operation/listProjects) endpoint to retrieve all projects to which the authenticated user has access. **NOTE**: Groups and projects are synonymous terms. Your group id is the same as your project id. For existing groups, your group/project id remains the same. The resource and corresponding endpoints use the term groups. */
   groupId: string;
-  /** Human-readable label that identifies this project limit. | Limit Name | Description | Default | API Override Limit | | --- | --- | --- | --- | | `atlas.project.deployment.clusters` | Limit on the number of clusters in this project | 25 | 100 | | `atlas.project.deployment.nodesPerPrivateLinkRegion` | Limit on AWS PrivateLink addressable target nodes per region in this project. For sharded clusters using optimized (load-balanced) connection strings, `currentUsage` doesn't grow with the number of `mongos` — the load balancer is counted as a single addressable target regardless of how many `mongos` sit behind it. | 50 | 90 | | `atlas.project.security.databaseAccess.customRoles` | Limit on the number of custom roles in this project | 100 | 1400 | | `atlas.project.security.databaseAccess.users` | Limit on the number of database users in this project | 100 | 100 | | `atlas.project.security.networkAccess.crossRegionEntries` | Limit on the number of cross-region network access entries in this project | 40 | 220 | | `atlas.project.security.networkAccess.entries` | Limit on the number of network access entries in this project | 200 | 20 | | `dataFederation.bytesProcessed.query` | Limit on the number of bytes processed during a single Data Federation query | N/A | N/A | | `dataFederation.bytesProcessed.daily` | Limit on the number of bytes processed across all Data Federation tenants for the current day | N/A | N/A | | `dataFederation.bytesProcessed.weekly` | Limit on the number of bytes processed across all Data Federation tenants for the current week | N/A | N/A | | `dataFederation.bytesProcessed.monthly` | Limit on the number of bytes processed across all Data Federation tenants for the current month | N/A | N/A | | `atlas.project.deployment.privateServiceConnectionsPerRegionGroup` | Number of Private Service Connections per Region Group | 50 | 100| | `atlas.project.deployment.privateServiceConnectionsSubnetMask` | Subnet mask for GCP PSC Networks. Has lower limit of 20. | 27 | 27| */
+  /** Human-readable label that identifies this project limit. | Limit Name | Description | Default | API Override Limit | | --- | --- | --- | --- | | `atlas.project.deployment.clusters` | Limit on the number of clusters in this project | 25 | 100 | | `atlas.project.deployment.nodesPerPrivateLinkRegion` | Limit on AWS PrivateLink addressable target nodes per region in this project. For sharded clusters using optimized (load-balanced) connection strings, `currentUsage` doesn't grow with the number of `mongos` — the load balancer is counted as a single addressable target regardless of how many `mongos` sit behind it. | 50 | 90 | | `atlas.project.security.databaseAccess.customRoles` | Limit on the number of custom roles in this project | 100 | 1400 | | `atlas.project.security.databaseAccess.users` | Limit on the number of database users in this project | 100 | 900 | | `atlas.project.security.networkAccess.crossRegionEntries` | Limit on the number of cross-region network access entries in this project | 40 | 220 | | `atlas.project.security.networkAccess.entries` | Limit on the number of network access entries in this project | 200 | 20 | | `dataFederation.bytesProcessed.query` | Limit on the number of bytes processed during a single Data Federation query | N/A | N/A | | `dataFederation.bytesProcessed.daily` | Limit on the number of bytes processed across all Data Federation tenants for the current day | N/A | N/A | | `dataFederation.bytesProcessed.weekly` | Limit on the number of bytes processed across all Data Federation tenants for the current week | N/A | N/A | | `dataFederation.bytesProcessed.monthly` | Limit on the number of bytes processed across all Data Federation tenants for the current month | N/A | N/A | | `atlas.project.deployment.privateServiceConnectionsPerRegionGroup` | Number of Private Service Connections per Region Group | 50 | 100| | `atlas.project.deployment.privateServiceConnectionsSubnetMask` | Subnet mask for GCP PSC Networks. Has lower limit of 20. | 27 | 27| */
   limitName: SetGroupLimitRequestLimitName | (string & {});
   /** Flag that indicates whether Application wraps the response in an `envelope` JSON object. Some API clients cannot access the HTTP response headers or status code. To remediate this, set envelope=true in the query. Endpoints that return a list of results use the results object as an envelope. Application adds the status parameter to the response body. */
   envelope?: boolean;
@@ -51580,9 +52003,7 @@ export const SetGroupLimitRequest = /*@__PURE__*/ S.suspend(() =>
       accept: "application/vnd.atlas.2023-01-01+json",
     }),
   ),
-).annotate({
-  identifier: "SetGroupLimitRequest",
-}) as any as S.Schema<SetGroupLimitRequest>;
+).annotate({ identifier: "SetGroupLimitRequest" }) as any as S.Schema<SetGroupLimitRequest>;
 
 /** List of settings that specify the type of cluster outage simulation. */
 export type StartGroupClusterOutageSimulationRequestOutageFiltersList =
@@ -51885,9 +52306,7 @@ export const DiskBackupSnapshot = /*@__PURE__*/ S.suspend(() =>
     storageSizeBytes: S.optional(S.Number),
     type: S.optional(DiskBackupSnapshotType),
   }),
-).annotate({
-  identifier: "DiskBackupSnapshot",
-}) as any as S.Schema<DiskBackupSnapshot>;
+).annotate({ identifier: "DiskBackupSnapshot" }) as any as S.Schema<DiskBackupSnapshot>;
 
 /** Governs adaptive capacity behavior of Azure nodes in single-cloud Azure clusters or multi-cloud clusters that include Azure nodes. Adaptive capacity enables fallback hardware selection when the primary instance family is unavailable. ``ENABLED`` means the cluster explicitly opts in to adaptive capacity. ``DISABLED`` means the cluster explicitly opts out; the cluster receives capacity errors instead of being placed on fallback hardware. ``null`` means the field is unset; Azure clusters use adaptive capacity by default when the feature is enabled at the group level. Setting this field for single-cloud AWS or GCP clusters is a no-op. */
 export type TenantGroupFlexClusterUpgradeRequestAdaptiveCapacity = "ENABLED" | "DISABLED";
@@ -51906,11 +52325,14 @@ export type TenantGroupFlexClusterUpgradeRequestConfigServerManagementMode =
   | "FIXED_TO_DEDICATED";
 export const TenantGroupFlexClusterUpgradeRequestConfigServerManagementMode = S.String;
 
+/** Available in Public Preview: Optional field that indicates whether your cluster will be Atlas INFINITE or CORE. You can set it only when you create the cluster, or when you upgrade a Free or Flex cluster to a dedicated cluster. This value is immutable once the dedicated cluster exists; attempting to change it on an update request returns an error. */
+export type TenantGroupFlexClusterUpgradeRequestDatabaseEdition = "CORE" | "INFINITE";
+export const TenantGroupFlexClusterUpgradeRequestDatabaseEdition = S.String;
+
 /** Disk warming mode selection. */
 export type TenantGroupFlexClusterUpgradeRequestDiskWarmingMode =
   | "FULLY_WARMED"
-  | "VISIBLE_EARLIER"
-  | "ENHANCED_FULLY_WARMED";
+  | "VISIBLE_EARLIER";
 export const TenantGroupFlexClusterUpgradeRequestDiskWarmingMode = S.String;
 
 /** Cloud service provider that manages your customer keys to provide an additional layer of encryption at rest for the cluster. To enable customer key management for encryption at rest, the cluster `replicationSpecs[n].regionConfigs[m].{type}Specs.instanceSize` setting must be `M10` or higher and `"backupEnabled" : false` or omitted entirely. */
@@ -51967,7 +52389,7 @@ export interface TenantGroupFlexClusterUpgradeRequest {
   /** Governs adaptive capacity behavior of Azure nodes in single-cloud Azure clusters or multi-cloud clusters that include Azure nodes. Adaptive capacity enables fallback hardware selection when the primary instance family is unavailable. ``ENABLED`` means the cluster explicitly opts in to adaptive capacity. ``DISABLED`` means the cluster explicitly opts out; the cluster receives capacity errors instead of being placed on fallback hardware. ``null`` means the field is unset; Azure clusters use adaptive capacity by default when the feature is enabled at the group level. Setting this field for single-cloud AWS or GCP clusters is a no-op. */
   adaptiveCapacity?: TenantGroupFlexClusterUpgradeRequestAdaptiveCapacity | (string & {}) | null;
   advancedConfiguration?: ApiAtlasClusterAdvancedConfigurationView;
-  /** Flag that indicates whether the cluster can perform backups. If set to `true`, the cluster can perform backups. You must set this value to `true` for NVMe clusters. Backup uses Cloud Backups for dedicated clusters and [Shared Cluster Backups](https://docs.atlas.mongodb.com/backup/shared-tier/overview/) for tenant clusters. If set to `false`, the cluster doesn't use backups. */
+  /** Flag that indicates whether the cluster can perform backups. If set to `true`, the cluster can perform backups. You must set this value to `true` for NVMe clusters. Backup uses Cloud Backups for dedicated clusters and [Shared Cluster Backups](https://docs.atlas.mongodb.com/backup/shared-tier/overview/) for tenant clusters. If set to `false`, the cluster doesn't use backups. For Atlas Infinite clusters (`databaseEdition: INFINITE`), this flag means Additional Backup Retention rather than whether backups run: backups always run and include a 24-hour continuous window. Set this flag to `true` to retain snapshots beyond that window with a policy you control. Set this flag to `false` to keep only the included window under an Atlas-managed retention policy that you can't edit. This flag defaults to `true` for Atlas Infinite clusters when omitted. A cluster covered by a Data Protection policy has this set to `true` regardless of the requested value. */
   backupEnabled?: boolean;
   biConnector?: BiConnector;
   /** Configuration of nodes that comprise the cluster. */
@@ -51976,6 +52398,8 @@ export interface TenantGroupFlexClusterUpgradeRequest {
   configServerManagementMode?:
     | TenantGroupFlexClusterUpgradeRequestConfigServerManagementMode
     | (string & {});
+  /** Available in Public Preview: Optional field that indicates whether your cluster will be Atlas INFINITE or CORE. You can set it only when you create the cluster, or when you upgrade a Free or Flex cluster to a dedicated cluster. This value is immutable once the dedicated cluster exists; attempting to change it on an update request returns an error. */
+  databaseEdition?: TenantGroupFlexClusterUpgradeRequestDatabaseEdition | (string & {});
   /** Disk warming mode selection. */
   diskWarmingMode?: TenantGroupFlexClusterUpgradeRequestDiskWarmingMode | (string & {});
   /** Cloud service provider that manages your customer keys to provide an additional layer of encryption at rest for the cluster. To enable customer key management for encryption at rest, the cluster `replicationSpecs[n].regionConfigs[m].{type}Specs.instanceSize` setting must be `M10` or higher and `"backupEnabled" : false` or omitted entirely. */
@@ -51992,7 +52416,7 @@ export interface TenantGroupFlexClusterUpgradeRequest {
   name: string;
   /** Flag that indicates whether the cluster is paused. */
   paused?: boolean;
-  /** Flag that indicates whether the cluster uses continuous cloud backups. */
+  /** Flag that indicates whether the cluster uses continuous cloud backups. Atlas Infinite clusters always use continuous cloud backups. Atlas sets this flag to `true` on create and update for Atlas Infinite clusters and ignores a requested value of `false`. */
   pitEnabled?: boolean;
   /** Enable or disable log redaction. This setting configures the ``mongod`` or ``mongos`` to redact any document field contents from a message accompanying a given log event before logging. This prevents the program from writing potentially sensitive data stored on the database to the diagnostic log. Metadata such as error or operation codes, line numbers, and source file names are still visible in the logs. Use ``redactClientLogData`` in conjunction with Encryption at Rest and TLS/SSL (Transport Encryption) to assist compliance with regulatory requirements. *Note*: changing this setting on a cluster will trigger a rolling restart as soon as the cluster is updated. */
   redactClientLogData?: boolean;
@@ -52029,6 +52453,7 @@ export const TenantGroupFlexClusterUpgradeRequest = /*@__PURE__*/ S.suspend(() =
     configServerManagementMode: S.optional(
       TenantGroupFlexClusterUpgradeRequestConfigServerManagementMode,
     ),
+    databaseEdition: S.optional(TenantGroupFlexClusterUpgradeRequestDatabaseEdition),
     diskWarmingMode: S.optional(TenantGroupFlexClusterUpgradeRequestDiskWarmingMode),
     encryptionAtRestProvider: S.optional(
       TenantGroupFlexClusterUpgradeRequestEncryptionAtRestProvider,
@@ -52337,9 +52762,7 @@ export const FederatedUserInput = /*@__PURE__*/ S.suspend(() =>
     firstName: S.String,
     lastName: S.String,
   }),
-).annotate({
-  identifier: "FederatedUserInput",
-}) as any as S.Schema<FederatedUserInput>;
+).annotate({ identifier: "FederatedUserInput" }) as any as S.Schema<FederatedUserInput>;
 
 /** List that contains the users who have an email address that doesn't match any domain on the allowed list. */
 export type UpdateFederationSettingConnectedOrgConfigRequestUserConflictsList =
@@ -52532,9 +52955,7 @@ export const UpdateGroupRequest = /*@__PURE__*/ S.suspend(() =>
       accept: "application/vnd.atlas.2023-01-01+json",
     }),
   ),
-).annotate({
-  identifier: "UpdateGroupRequest",
-}) as any as S.Schema<UpdateGroupRequest>;
+).annotate({ identifier: "UpdateGroupRequest" }) as any as S.Schema<UpdateGroupRequest>;
 
 export type UpdateGroupAiModelApiCloudGeographyModelGroupNameRateLimitsRequestCloud = "ANY";
 export const UpdateGroupAiModelApiCloudGeographyModelGroupNameRateLimitsRequestCloud = S.String;
@@ -52672,7 +53093,7 @@ export interface UpdateGroupApiKeyRolesRequest {
   pageNum?: number;
   /** Number of items that the response returns per page. */
   itemsPerPage?: number;
-  /** Flag that indicates whether the response returns the total number of items (`totalCount`) in the response. */
+  /** Flag that indicates whether MongoDB Cloud calculates the total number of items for the response. When set to `false`, MongoDB Cloud may skip an additional count operation. The response may still include `totalCount` when the count is available without additional calculation. */
   includeCount?: boolean;
   /** Flag that indicates whether the response body should be in the prettyprint format. */
   pretty?: boolean;
@@ -53032,11 +53453,12 @@ export type UpdateGroupClusterRequestConfigServerManagementMode =
   | "FIXED_TO_DEDICATED";
 export const UpdateGroupClusterRequestConfigServerManagementMode = S.String;
 
+/** Available in Public Preview: Optional field that indicates whether your cluster will be Atlas INFINITE or CORE. You can set it only when you create the cluster, or when you upgrade a Free or Flex cluster to a dedicated cluster. This value is immutable once the dedicated cluster exists; attempting to change it on an update request returns an error. */
+export type UpdateGroupClusterRequestDatabaseEdition = "CORE" | "INFINITE";
+export const UpdateGroupClusterRequestDatabaseEdition = S.String;
+
 /** Disk warming mode selection. */
-export type UpdateGroupClusterRequestDiskWarmingMode =
-  | "FULLY_WARMED"
-  | "VISIBLE_EARLIER"
-  | "ENHANCED_FULLY_WARMED";
+export type UpdateGroupClusterRequestDiskWarmingMode = "FULLY_WARMED" | "VISIBLE_EARLIER";
 export const UpdateGroupClusterRequestDiskWarmingMode = S.String;
 
 /** Cloud service provider that manages your customer keys to provide an additional layer of encryption at rest for the cluster. To enable customer key management for encryption at rest, the cluster `replicationSpecs[n].regionConfigs[m].{type}Specs.instanceSize` setting must be `M10` or higher and `"backupEnabled" : false` or omitted entirely. */
@@ -53090,13 +53512,15 @@ export interface UpdateGroupClusterRequest {
   /** Governs adaptive capacity behavior of Azure nodes in single-cloud Azure clusters or multi-cloud clusters that include Azure nodes. Adaptive capacity enables fallback hardware selection when the primary instance family is unavailable. ``ENABLED`` means the cluster explicitly opts in to adaptive capacity. ``DISABLED`` means the cluster explicitly opts out; the cluster receives capacity errors instead of being placed on fallback hardware. ``null`` means the field is unset; Azure clusters use adaptive capacity by default when the feature is enabled at the group level. Setting this field for single-cloud AWS or GCP clusters is a no-op. */
   adaptiveCapacity?: UpdateGroupClusterRequestAdaptiveCapacity | (string & {}) | null;
   advancedConfiguration?: ApiAtlasClusterAdvancedConfigurationView;
-  /** Flag that indicates whether the cluster can perform backups. If set to `true`, the cluster can perform backups. You must set this value to `true` for NVMe clusters. Backup uses Cloud Backups for dedicated clusters and [Shared Cluster Backups](https://docs.atlas.mongodb.com/backup/shared-tier/overview/) for tenant clusters. If set to `false`, the cluster doesn't use backups. */
+  /** Flag that indicates whether the cluster can perform backups. If set to `true`, the cluster can perform backups. You must set this value to `true` for NVMe clusters. Backup uses Cloud Backups for dedicated clusters and [Shared Cluster Backups](https://docs.atlas.mongodb.com/backup/shared-tier/overview/) for tenant clusters. If set to `false`, the cluster doesn't use backups. For Atlas Infinite clusters (`databaseEdition: INFINITE`), this flag means Additional Backup Retention rather than whether backups run: backups always run and include a 24-hour continuous window. Set this flag to `true` to retain snapshots beyond that window with a policy you control. Set this flag to `false` to keep only the included window under an Atlas-managed retention policy that you can't edit. This flag defaults to `true` for Atlas Infinite clusters when omitted. A cluster covered by a Data Protection policy has this set to `true` regardless of the requested value. */
   backupEnabled?: boolean;
   biConnector?: BiConnector;
   /** Configuration of nodes that comprise the cluster. */
   clusterType?: UpdateGroupClusterRequestClusterType | (string & {});
   /** Config Server Management Mode for creating or updating a sharded cluster. When configured as `ATLAS_MANAGED`, Atlas may automatically switch the cluster's config server type for optimal performance and savings. When configured as `FIXED_TO_DEDICATED`, the cluster will always use a dedicated config server. */
   configServerManagementMode?: UpdateGroupClusterRequestConfigServerManagementMode | (string & {});
+  /** Available in Public Preview: Optional field that indicates whether your cluster will be Atlas INFINITE or CORE. You can set it only when you create the cluster, or when you upgrade a Free or Flex cluster to a dedicated cluster. This value is immutable once the dedicated cluster exists; attempting to change it on an update request returns an error. */
+  databaseEdition?: UpdateGroupClusterRequestDatabaseEdition | (string & {});
   /** Disk warming mode selection. */
   diskWarmingMode?: UpdateGroupClusterRequestDiskWarmingMode | (string & {});
   /** Cloud service provider that manages your customer keys to provide an additional layer of encryption at rest for the cluster. To enable customer key management for encryption at rest, the cluster `replicationSpecs[n].regionConfigs[m].{type}Specs.instanceSize` setting must be `M10` or higher and `"backupEnabled" : false` or omitted entirely. */
@@ -53111,7 +53535,7 @@ export interface UpdateGroupClusterRequest {
   name?: string;
   /** Flag that indicates whether the cluster is paused. */
   paused?: boolean;
-  /** Flag that indicates whether the cluster uses continuous cloud backups. */
+  /** Flag that indicates whether the cluster uses continuous cloud backups. Atlas Infinite clusters always use continuous cloud backups. Atlas sets this flag to `true` on create and update for Atlas Infinite clusters and ignores a requested value of `false`. */
   pitEnabled?: boolean;
   /** Enable or disable log redaction. This setting configures the ``mongod`` or ``mongos`` to redact any document field contents from a message accompanying a given log event before logging. This prevents the program from writing potentially sensitive data stored on the database to the diagnostic log. Metadata such as error or operation codes, line numbers, and source file names are still visible in the logs. Use ``redactClientLogData`` in conjunction with Encryption at Rest and TLS/SSL (Transport Encryption) to assist compliance with regulatory requirements. *Note*: changing this setting on a cluster will trigger a rolling restart as soon as the cluster is updated. */
   redactClientLogData?: boolean;
@@ -53145,6 +53569,7 @@ export const UpdateGroupClusterRequest = /*@__PURE__*/ S.suspend(() =>
     biConnector: S.optional(BiConnector),
     clusterType: S.optional(UpdateGroupClusterRequestClusterType),
     configServerManagementMode: S.optional(UpdateGroupClusterRequestConfigServerManagementMode),
+    databaseEdition: S.optional(UpdateGroupClusterRequestDatabaseEdition),
     diskWarmingMode: S.optional(UpdateGroupClusterRequestDiskWarmingMode),
     encryptionAtRestProvider: S.optional(UpdateGroupClusterRequestEncryptionAtRestProvider),
     globalClusterSelfManagedSharding: S.optional(S.Boolean),
@@ -53173,6 +53598,36 @@ export const UpdateGroupClusterRequest = /*@__PURE__*/ S.suspend(() =>
 ).annotate({
   identifier: "UpdateGroupClusterRequest",
 }) as any as S.Schema<UpdateGroupClusterRequest>;
+
+export interface UpdateGroupClusterAdaptiveSettingsRequest {
+  /** Unique 24-hexadecimal digit string that identifies your project. Use the [/groups](#tag/Projects/operation/listProjects) endpoint to retrieve all projects to which the authenticated user has access. **NOTE**: Groups and projects are synonymous terms. Your group id is the same as your project id. For existing groups, your group/project id remains the same. The resource and corresponding endpoints use the term groups. */
+  groupId: string;
+  /** Human-readable label that identifies the cluster. */
+  clusterName: string;
+  /** Flag that indicates whether Application wraps the response in an `envelope` JSON object. Some API clients cannot access the HTTP response headers or status code. To remediate this, set envelope=true in the query. Endpoints that return a list of results use the results object as an envelope. Application adds the status parameter to the response body. */
+  envelope?: boolean;
+  /** Flag that indicates whether the response body should be in the prettyprint format. */
+  pretty?: boolean;
+  adaptiveSettingsOverrides?: AdaptiveSettingsOverrides;
+}
+export const UpdateGroupClusterAdaptiveSettingsRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    groupId: S.String.pipe(T.Label()),
+    clusterName: S.String.pipe(T.Label()),
+    envelope: S.optional(S.Boolean.pipe(T.Query())),
+    pretty: S.optional(S.Boolean.pipe(T.Query())),
+    adaptiveSettingsOverrides: S.optional(AdaptiveSettingsOverrides),
+  }).pipe(
+    T.Http({
+      method: "PATCH",
+      uri: "/api/atlas/v2/groups/{groupId}/clusters/{clusterName}/adaptiveSettings",
+      code: 200,
+      accept: "application/vnd.atlas.2025-03-12+json",
+    }),
+  ),
+).annotate({
+  identifier: "UpdateGroupClusterAdaptiveSettingsRequest",
+}) as any as S.Schema<UpdateGroupClusterAdaptiveSettingsRequest>;
 
 /** Human-readable label that identifies the cloud provider that stores the snapshot copy. */
 export type DiskBackupCopySetting20240805InputCloudProvider = "AWS" | "AZURE" | "GCP";
@@ -53796,6 +54251,8 @@ export interface UpdateGroupClusterSearchDeploymentRequest {
   envelope?: boolean;
   /** Flag that indicates whether the response body should be in the prettyprint format. */
   pretty?: boolean;
+  /** Settings that let Atlas change the Search Node tier on its own. Bounds apply to the whole deployment, and Atlas scales each region and shard independently within them. Omit to keep autoscaling off. */
+  autoScaling?: ApiSearchAutoScalingView;
   /** Default number of Search Nodes per region. Applied to a region without an explicit override. */
   defaultNodeCount?: number | null;
   /** List of settings that configure the Search Nodes for your cluster. Provide one element per region when configuring asymmetric deployments; a single element applies to all regions. */
@@ -53807,6 +54264,7 @@ export const UpdateGroupClusterSearchDeploymentRequest = /*@__PURE__*/ S.suspend
     clusterName: S.String.pipe(T.Label()),
     envelope: S.optional(S.Boolean.pipe(T.Query())),
     pretty: S.optional(S.Boolean.pipe(T.Query())),
+    autoScaling: S.optional(ApiSearchAutoScalingView),
     defaultNodeCount: S.optional(S.NullOr(S.Number)),
     specs: UpdateGroupClusterSearchDeploymentRequestSpecsList,
   }).pipe(
@@ -53890,9 +54348,7 @@ export const AtlasSearchAnalyzerTokenFiltersList = /*@__PURE__*/ S.Array(
 ) as any as S.Schema<AtlasSearchAnalyzerTokenFiltersList>;
 
 /** Tokenizer that you want to use to create tokens. Tokens determine how Atlas Search splits up text into discrete chunks for indexing. */
-export type AtlasSearchAnalyzerTokenizerMap = {
-  [key: string]: unknown | undefined;
-};
+export type AtlasSearchAnalyzerTokenizerMap = { [key: string]: unknown | undefined };
 export const AtlasSearchAnalyzerTokenizerMap = /*@__PURE__*/ S.Record(
   S.String,
   S.Unknown,
@@ -53915,9 +54371,7 @@ export const AtlasSearchAnalyzer = /*@__PURE__*/ S.suspend(() =>
     tokenFilters: S.optional(AtlasSearchAnalyzerTokenFiltersList),
     tokenizer: AtlasSearchAnalyzerTokenizerMap,
   }),
-).annotate({
-  identifier: "AtlasSearchAnalyzer",
-}) as any as S.Schema<AtlasSearchAnalyzer>;
+).annotate({ identifier: "AtlasSearchAnalyzer" }) as any as S.Schema<AtlasSearchAnalyzer>;
 
 /** List of user-defined methods to convert database field text into searchable words. */
 export type TextSearchIndexDefinitionAnalyzersList = Array<AtlasSearchAnalyzer>;
@@ -54550,9 +55004,7 @@ export const AWSKMSConfigurationInput = /*@__PURE__*/ S.suspend(() =>
     roleId: S.optional(S.String),
     secretAccessKey: S.optional(S.String.pipe(T.SensitiveValue({}))),
   }),
-).annotate({
-  identifier: "AWSKMSConfigurationInput",
-}) as any as S.Schema<AWSKMSConfigurationInput>;
+).annotate({ identifier: "AWSKMSConfigurationInput" }) as any as S.Schema<AWSKMSConfigurationInput>;
 
 /** Azure environment in which your account credentials reside. */
 export type AzureKeyVaultInputAzureEnvironment = "AZURE" | "AZURE_CHINA" | "AZURE_US_GOVERNMENT";
@@ -54597,9 +55049,7 @@ export const AzureKeyVaultInput = /*@__PURE__*/ S.suspend(() =>
     subscriptionID: S.optional(S.String),
     tenantID: S.optional(S.String),
   }),
-).annotate({
-  identifier: "AzureKeyVaultInput",
-}) as any as S.Schema<AzureKeyVaultInput>;
+).annotate({ identifier: "AzureKeyVaultInput" }) as any as S.Schema<AzureKeyVaultInput>;
 
 /** Details that define the configuration of Encryption at Rest using Google Cloud Key Management Service (KMS). */
 export interface GoogleCloudKMSInput {
@@ -54619,9 +55069,7 @@ export const GoogleCloudKMSInput = /*@__PURE__*/ S.suspend(() =>
     roleId: S.optional(S.String),
     serviceAccountKey: S.optional(S.String),
   }),
-).annotate({
-  identifier: "GoogleCloudKMSInput",
-}) as any as S.Schema<GoogleCloudKMSInput>;
+).annotate({ identifier: "GoogleCloudKMSInput" }) as any as S.Schema<GoogleCloudKMSInput>;
 
 export interface UpdateGroupEncryptionAtRestRequest {
   /** Unique 24-hexadecimal digit string that identifies your project. Use the [/groups](#tag/Projects/operation/listProjects) endpoint to retrieve all projects to which the authenticated user has access. **NOTE**: Groups and projects are synonymous terms. Your group id is the same as your project id. For existing groups, your group/project id remains the same. The resource and corresponding endpoints use the term groups. */
@@ -54657,6 +55105,10 @@ export const UpdateGroupEncryptionAtRestRequest = /*@__PURE__*/ S.suspend(() =>
   identifier: "UpdateGroupEncryptionAtRestRequest",
 }) as any as S.Schema<UpdateGroupEncryptionAtRestRequest>;
 
+/** Available in Public Preview: Optional field that indicates whether your tenant cluster will be upgraded to Atlas INFINITE or CORE. */
+export type UpdateGroupFlexClusterRequestDatabaseEdition = "CORE" | "INFINITE";
+export const UpdateGroupFlexClusterRequestDatabaseEdition = S.String;
+
 /** List that contains key-value pairs between 1 to 255 characters in length for tagging and categorizing the instance. */
 export type UpdateGroupFlexClusterRequestTagsList = Array<ResourceTag>;
 export const UpdateGroupFlexClusterRequestTagsList = /*@__PURE__*/ S.Array(
@@ -54672,6 +55124,8 @@ export interface UpdateGroupFlexClusterRequest {
   envelope?: boolean;
   /** Flag that indicates whether the response body should be in the prettyprint format. */
   pretty?: boolean;
+  /** Available in Public Preview: Optional field that indicates whether your tenant cluster will be upgraded to Atlas INFINITE or CORE. */
+  databaseEdition?: UpdateGroupFlexClusterRequestDatabaseEdition | (string & {});
   /** List that contains key-value pairs between 1 to 255 characters in length for tagging and categorizing the instance. */
   tags?: UpdateGroupFlexClusterRequestTagsList;
   /** Flag that indicates whether termination protection is enabled on the cluster. If set to `true`, MongoDB Cloud won't delete the cluster. If set to `false`, MongoDB Cloud will delete the cluster. */
@@ -54683,6 +55137,7 @@ export const UpdateGroupFlexClusterRequest = /*@__PURE__*/ S.suspend(() =>
     name: S.String.pipe(T.Label()),
     envelope: S.optional(S.Boolean.pipe(T.Query())),
     pretty: S.optional(S.Boolean.pipe(T.Query())),
+    databaseEdition: S.optional(UpdateGroupFlexClusterRequestDatabaseEdition),
     tags: S.optional(UpdateGroupFlexClusterRequestTagsList),
     terminationProtectionEnabled: S.optional(S.Boolean),
   }).pipe(
@@ -54731,7 +55186,7 @@ export interface UpdateGroupIntegrationRequest {
   integrationType: UpdateGroupIntegrationRequestIntegrationType | (string & {});
   /** Flag that indicates whether Application wraps the response in an `envelope` JSON object. Some API clients cannot access the HTTP response headers or status code. To remediate this, set envelope=true in the query. Endpoints that return a list of results use the results object as an envelope. Application adds the status parameter to the response body. */
   envelope?: boolean;
-  /** Flag that indicates whether the response returns the total number of items (`totalCount`) in the response. */
+  /** Flag that indicates whether MongoDB Cloud calculates the total number of items for the response. When set to `false`, MongoDB Cloud may skip an additional count operation. The response may still include `totalCount` when the count is available without additional calculation. */
   includeCount?: boolean;
   /** Number of items that the response returns per page. */
   itemsPerPage?: number;
@@ -54771,7 +55226,8 @@ export type UpdateGroupLogIntegrationRequestLogTypesItem =
   | "MONGOD"
   | "MONGOS"
   | "MONGOD_AUDIT"
-  | "MONGOS_AUDIT";
+  | "MONGOS_AUDIT"
+  | "EVENTS";
 export const UpdateGroupLogIntegrationRequestLogTypesItem = S.String;
 
 /** Array of log types exported by this integration. */
@@ -54834,22 +55290,25 @@ export interface UpdateGroupMaintenanceWindowRequest {
   /** Flag that indicates whether MongoDB Cloud should defer all maintenance windows for one week after you enable them. This setting controls the same underlying auto-deferral feature as the `/maintenanceWindow/autoDefer` endpoint. Use either this field (to set a specific value) or that endpoint (to toggle the current value). For most use cases, this field in the PATCH request is preferred because it allows setting an explicit value rather than toggling. */
   autoDeferOnceEnabled?: boolean;
   /** One-based integer that represents the day of the week, in the project's configured time zone (see `timeZoneId`), that the maintenance window starts. - `1`: Sunday. - `2`: Monday. - `3`: Tuesday. - `4`: Wednesday. - `5`: Thursday. - `6`: Friday. - `7`: Saturday. */
-  dayOfWeek: number;
+  dayOfWeek?: number;
   /** Zero-based integer that represents the hour of the day, in the project's configured time zone (see `timeZoneId`), that the maintenance window starts according to a 24-hour clock. Use `0` for midnight and `12` for noon. If you haven't changed your project's time zone, this defaults to UTC. */
   hourOfDay?: number;
   protectedHours?: ProtectedHours;
   /** Flag that indicates whether MongoDB Cloud starts the maintenance window immediately upon receiving this request. To start the maintenance window immediately for your project, MongoDB Cloud must have maintenance scheduled and you must set a maintenance window. This flag resets to `false` after MongoDB Cloud completes maintenance. */
   startASAP?: boolean;
+  /** Maintenance wave explicitly assigned to this project. Always returned in GET responses when a value has been set, regardless of the organization's `effectiveWaveAssignmentMode`. When the mode is `ENV_TAG_MAPPING`, this stored assignment is preserved but not used for scheduling — the effective wave is derived from environment tags instead. Not editable when the mode is `ENV_TAG_MAPPING`. Switching back to `MANUAL` restores this value as the effective wave. Must be between 1 and 3, inclusive. Pass `null` to clear an explicit assignment. */
+  waveAssignment?: number | null;
 }
 export const UpdateGroupMaintenanceWindowRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     groupId: S.String.pipe(T.Label()),
     envelope: S.optional(S.Boolean.pipe(T.Query())),
     autoDeferOnceEnabled: S.optional(S.Boolean),
-    dayOfWeek: S.Number,
+    dayOfWeek: S.optional(S.Number),
     hourOfDay: S.optional(S.Number),
     protectedHours: S.optional(ProtectedHours),
     startASAP: S.optional(S.Boolean),
+    waveAssignment: S.optional(S.NullOr(S.Number)),
   }).pipe(
     T.Http({
       method: "PATCH",
@@ -54920,8 +55379,8 @@ export const UpdateGroupMcpConfigRequest = /*@__PURE__*/ S.suspend(() =>
 export type UpdateGroupMetricIntegrationRequestAggregationTemporality = "DELTA" | "CUMULATIVE";
 export const UpdateGroupMetricIntegrationRequestAggregationTemporality = S.String;
 
-/** Authentication method the integration uses when exporting metrics to the endpoint. `HEADER` authenticates with the static HTTP headers provided in the `headers` field, which must be set when this value is used. */
-export type UpdateGroupMetricIntegrationRequestAuthType = "HEADER";
+/** Authentication method the integration uses when exporting metrics to the endpoint. `HEADER` authenticates with the static HTTP headers provided in the `headers` field, which must be set when this value is used. `OAUTH2` acquires a bearer token from an OAuth 2.0 token endpoint using the `oauth` field. */
+export type UpdateGroupMetricIntegrationRequestAuthType = "HEADER" | "OAUTH2";
 export const UpdateGroupMetricIntegrationRequestAuthType = S.String;
 
 /** HTTP headers for authentication and configuration. Total size limit 2KB. Required when `authType` is `HEADER`. */
@@ -54949,7 +55408,11 @@ export const UpdateGroupMetricIntegrationRequestMetricSelectionList = /*@__PURE_
 ) as any as S.Schema<UpdateGroupMetricIntegrationRequestMetricSelectionList>;
 
 /** The provider type for the metric integration. Identifies the third-party service provider. */
-export type UpdateGroupMetricIntegrationRequestProviderType = "CUSTOM" | "DYNATRACE" | "NEW_RELIC";
+export type UpdateGroupMetricIntegrationRequestProviderType =
+  | "CUSTOM"
+  | "DATADOG"
+  | "DYNATRACE"
+  | "NEW_RELIC";
 export const UpdateGroupMetricIntegrationRequestProviderType = S.String;
 
 export interface UpdateGroupMetricIntegrationRequest {
@@ -54963,7 +55426,7 @@ export interface UpdateGroupMetricIntegrationRequest {
   pretty?: boolean;
   /** The temporality to send to the metric integration. */
   aggregationTemporality: UpdateGroupMetricIntegrationRequestAggregationTemporality | (string & {});
-  /** Authentication method the integration uses when exporting metrics to the endpoint. `HEADER` authenticates with the static HTTP headers provided in the `headers` field, which must be set when this value is used. */
+  /** Authentication method the integration uses when exporting metrics to the endpoint. `HEADER` authenticates with the static HTTP headers provided in the `headers` field, which must be set when this value is used. `OAUTH2` acquires a bearer token from an OAuth 2.0 token endpoint using the `oauth` field. */
   authType: UpdateGroupMetricIntegrationRequestAuthType | (string & {});
   /** OpenTelemetry collector endpoint URL. Must use HTTPS. */
   endpoint: string;
@@ -54973,6 +55436,7 @@ export interface UpdateGroupMetricIntegrationRequest {
   integrationType: UpdateGroupMetricIntegrationRequestIntegrationType | (string & {});
   /** Array of metric categories to export. Determines which types of metrics are sent to the integration. */
   metricSelection: UpdateGroupMetricIntegrationRequestMetricSelectionList;
+  oauth?: OAuthConfigRequest;
   /** The provider type for the metric integration. Identifies the third-party service provider. */
   providerType: UpdateGroupMetricIntegrationRequestProviderType | (string & {});
 }
@@ -54988,6 +55452,7 @@ export const UpdateGroupMetricIntegrationRequest = /*@__PURE__*/ S.suspend(() =>
     headers: S.optional(UpdateGroupMetricIntegrationRequestHeadersList),
     integrationType: UpdateGroupMetricIntegrationRequestIntegrationType,
     metricSelection: UpdateGroupMetricIntegrationRequestMetricSelectionList,
+    oauth: S.optional(OAuthConfigRequest),
     providerType: UpdateGroupMetricIntegrationRequestProviderType,
   }).pipe(
     T.Http({
@@ -55035,9 +55500,7 @@ export const UpdateGroupPeerRequest = /*@__PURE__*/ S.suspend(() =>
       accept: "application/vnd.atlas.2023-01-01+json",
     }),
   ),
-).annotate({
-  identifier: "UpdateGroupPeerRequest",
-}) as any as S.Schema<UpdateGroupPeerRequest>;
+).annotate({ identifier: "UpdateGroupPeerRequest" }) as any as S.Schema<UpdateGroupPeerRequest>;
 
 /** Human-readable label that identifies the cloud service provider for the private endpoint service which you want to update. */
 export type UpdateGroupPrivateEndpointEndpointServiceRequestCloudProvider = "AWS";
@@ -55510,9 +55973,7 @@ export const UpdateGroupTeamRequest = /*@__PURE__*/ S.suspend(() =>
       accept: "application/vnd.atlas.2023-01-01+json",
     }),
   ),
-).annotate({
-  identifier: "UpdateGroupTeamRequest",
-}) as any as S.Schema<UpdateGroupTeamRequest>;
+).annotate({ identifier: "UpdateGroupTeamRequest" }) as any as S.Schema<UpdateGroupTeamRequest>;
 
 /** Settings to configure TLS Certificates for database users. */
 export interface DBUserTLSX509SettingsInput {
@@ -55601,9 +56062,7 @@ export const UpdateGroupUserSecurityRequest = /*@__PURE__*/ S.suspend(() =>
 
 export interface UpdateGroupUserSecurityResponse {}
 export const UpdateGroupUserSecurityResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate(
-  {
-    identifier: "UpdateGroupUserSecurityResponse",
-  },
+  { identifier: "UpdateGroupUserSecurityResponse" },
 ) as any as S.Schema<UpdateGroupUserSecurityResponse>;
 
 export interface UpdateOrgRequest {
@@ -55633,9 +56092,7 @@ export const UpdateOrgRequest = /*@__PURE__*/ S.suspend(() =>
       accept: "application/vnd.atlas.2023-01-01+json",
     }),
   ),
-).annotate({
-  identifier: "UpdateOrgRequest",
-}) as any as S.Schema<UpdateOrgRequest>;
+).annotate({ identifier: "UpdateOrgRequest" }) as any as S.Schema<UpdateOrgRequest>;
 
 export type UpdateOrgApiKeyRequestRolesItem =
   | "ORG_OWNER"
@@ -55685,9 +56142,7 @@ export const UpdateOrgApiKeyRequest = /*@__PURE__*/ S.suspend(() =>
       accept: "application/vnd.atlas.2023-01-01+json",
     }),
   ),
-).annotate({
-  identifier: "UpdateOrgApiKeyRequest",
-}) as any as S.Schema<UpdateOrgApiKeyRequest>;
+).annotate({ identifier: "UpdateOrgApiKeyRequest" }) as any as S.Schema<UpdateOrgApiKeyRequest>;
 
 /** Policy that controls how MCP (Model Context Protocol) delegated access is permitted within this organization. Possible values are `DISALLOWED`, `READ_ONLY`, and `READ_WRITE`. Defaults to `DISALLOWED`. */
 export type UpdateOrgDelegationSettingsRequestDelegatedMcpAccess =
@@ -55741,6 +56196,119 @@ export const UpdateOrgDelegationSettingsRequest = /*@__PURE__*/ S.suspend(() =>
 ).annotate({
   identifier: "UpdateOrgDelegationSettingsRequest",
 }) as any as S.Schema<UpdateOrgDelegationSettingsRequest>;
+
+export type UpdateOrgLogIntegrationRequestLogTypesItem = "EVENTS";
+export const UpdateOrgLogIntegrationRequestLogTypesItem = S.String;
+
+/** Array of log types exported by this integration. */
+export type UpdateOrgLogIntegrationRequestLogTypesList = Array<
+  UpdateOrgLogIntegrationRequestLogTypesItem | (string & {})
+>;
+export const UpdateOrgLogIntegrationRequestLogTypesList = /*@__PURE__*/ S.Array(
+  UpdateOrgLogIntegrationRequestLogTypesItem,
+) as any as S.Schema<UpdateOrgLogIntegrationRequestLogTypesList>;
+
+/** Type of log integration. Identifies which service will receive the exported events. This value cannot be modified after the integration is created. */
+export type UpdateOrgLogIntegrationRequestType = "OTEL_LOG_EXPORT";
+export const UpdateOrgLogIntegrationRequestType = S.String;
+
+export interface UpdateOrgLogIntegrationRequest {
+  /** Unique 24-hexadecimal digit string that identifies the organization that contains your projects. Use the [`/orgs`](#tag/Organizations/operation/listOrganizations) endpoint to retrieve all organizations to which the authenticated user has access. */
+  orgId: string;
+  /** Unique identifier of the log integration configuration. */
+  logIntegrationId: string;
+  /** Flag that indicates whether Application wraps the response in an `envelope` JSON object. Some API clients cannot access the HTTP response headers or status code. To remediate this, set envelope=true in the query. Endpoints that return a list of results use the results object as an envelope. Application adds the status parameter to the response body. */
+  envelope?: boolean;
+  /** Flag that indicates whether the response body should be in the prettyprint format. */
+  pretty?: boolean;
+  /** Array of log types exported by this integration. */
+  logTypes: UpdateOrgLogIntegrationRequestLogTypesList;
+  /** Type of log integration. Identifies which service will receive the exported events. This value cannot be modified after the integration is created. */
+  type: UpdateOrgLogIntegrationRequestType | (string & {});
+}
+export const UpdateOrgLogIntegrationRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    orgId: S.String.pipe(T.Label()),
+    logIntegrationId: S.String.pipe(T.Label()),
+    envelope: S.optional(S.Boolean.pipe(T.Query())),
+    pretty: S.optional(S.Boolean.pipe(T.Query())),
+    logTypes: UpdateOrgLogIntegrationRequestLogTypesList,
+    type: UpdateOrgLogIntegrationRequestType,
+  }).pipe(
+    T.Http({
+      method: "PUT",
+      uri: "/api/atlas/v2/orgs/{orgId}/logIntegrations/{logIntegrationId}",
+      code: 200,
+      accept: "application/vnd.atlas.2025-03-12+json",
+    }),
+  ),
+).annotate({
+  identifier: "UpdateOrgLogIntegrationRequest",
+}) as any as S.Schema<UpdateOrgLogIntegrationRequest>;
+
+export type UpdateOrgLogIntegrationResponseLogTypesItem = "EVENTS";
+export const UpdateOrgLogIntegrationResponseLogTypesItem = S.String;
+
+/** Array of log types exported by this integration. */
+export type UpdateOrgLogIntegrationResponseLogTypesList =
+  Array<UpdateOrgLogIntegrationResponseLogTypesItem>;
+export const UpdateOrgLogIntegrationResponseLogTypesList = /*@__PURE__*/ S.Array(
+  UpdateOrgLogIntegrationResponseLogTypesItem,
+) as any as S.Schema<UpdateOrgLogIntegrationResponseLogTypesList>;
+
+/** Type of log integration. Identifies which service will receive the exported events. This value cannot be modified after the integration is created. */
+export type UpdateOrgLogIntegrationResponseType = "OTEL_LOG_EXPORT";
+export const UpdateOrgLogIntegrationResponseType = S.String;
+
+export interface UpdateOrgLogIntegrationResponse {
+  /** Unique 24-character hexadecimal digit string that identifies the log integration configuration. */
+  id: string;
+  /** Array of log types exported by this integration. */
+  logTypes: UpdateOrgLogIntegrationResponseLogTypesList;
+  /** Type of log integration. Identifies which service will receive the exported events. This value cannot be modified after the integration is created. */
+  type: UpdateOrgLogIntegrationResponseType;
+}
+export const UpdateOrgLogIntegrationResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    id: S.String,
+    logTypes: UpdateOrgLogIntegrationResponseLogTypesList,
+    type: UpdateOrgLogIntegrationResponseType,
+  }),
+).annotate({
+  identifier: "UpdateOrgLogIntegrationResponse",
+}) as any as S.Schema<UpdateOrgLogIntegrationResponse>;
+
+/** Mode configured for this organization that determines how maintenance waves are assigned to projects. Possible values are `MANUAL` and `ENV_TAG_MAPPING`. Defaults to `MANUAL` when unset. Set the organization to `ENV_TAG_MAPPING` mode to have Atlas derive the maintenance wave from each project's environment tag. The tag key must be `environment`. The tag value determines the wave: `development` or `test` maps to Wave 1, `staging` maps to Wave 2, and `production` maps to Wave 3. Only this field can be updated; Atlas derives read-only `effectiveWaveAssignmentMode` on GET responses and uses that value for scheduling when it differs from `waveAssignmentMode`. Omit this field to leave the current value unchanged. Specify null to reset to the default value (`MANUAL`). */
+export type UpdateOrgMaintenanceSettingsRequestWaveAssignmentMode = "MANUAL" | "ENV_TAG_MAPPING";
+export const UpdateOrgMaintenanceSettingsRequestWaveAssignmentMode = S.String;
+
+export interface UpdateOrgMaintenanceSettingsRequest {
+  /** Unique 24-hexadecimal digit string that identifies the organization that contains your projects. Use the [`/orgs`](#tag/Organizations/operation/listOrganizations) endpoint to retrieve all organizations to which the authenticated user has access. */
+  orgId: string;
+  /** Flag that indicates whether Application wraps the response in an `envelope` JSON object. Some API clients cannot access the HTTP response headers or status code. To remediate this, set envelope=true in the query. Endpoints that return a list of results use the results object as an envelope. Application adds the status parameter to the response body. */
+  envelope?: boolean;
+  /** Flag that indicates whether the response body should be in the prettyprint format. */
+  pretty?: boolean;
+  /** Mode configured for this organization that determines how maintenance waves are assigned to projects. Possible values are `MANUAL` and `ENV_TAG_MAPPING`. Defaults to `MANUAL` when unset. Set the organization to `ENV_TAG_MAPPING` mode to have Atlas derive the maintenance wave from each project's environment tag. The tag key must be `environment`. The tag value determines the wave: `development` or `test` maps to Wave 1, `staging` maps to Wave 2, and `production` maps to Wave 3. Only this field can be updated; Atlas derives read-only `effectiveWaveAssignmentMode` on GET responses and uses that value for scheduling when it differs from `waveAssignmentMode`. Omit this field to leave the current value unchanged. Specify null to reset to the default value (`MANUAL`). */
+  waveAssignmentMode?: UpdateOrgMaintenanceSettingsRequestWaveAssignmentMode | (string & {});
+}
+export const UpdateOrgMaintenanceSettingsRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    orgId: S.String.pipe(T.Label()),
+    envelope: S.optional(S.Boolean.pipe(T.Query())),
+    pretty: S.optional(S.Boolean.pipe(T.Query())),
+    waveAssignmentMode: S.optional(UpdateOrgMaintenanceSettingsRequestWaveAssignmentMode),
+  }).pipe(
+    T.Http({
+      method: "PATCH",
+      uri: "/api/atlas/v2/orgs/{orgId}/maintenanceSettings",
+      code: 200,
+      accept: "application/vnd.atlas.2025-03-12+json",
+    }),
+  ),
+).annotate({
+  identifier: "UpdateOrgMaintenanceSettingsRequest",
+}) as any as S.Schema<UpdateOrgMaintenanceSettingsRequest>;
 
 /** List of IP access list entries that define allowed source addresses for this MCP configuration. If provided, replaces the existing IP access list. */
 export type UpdateOrgMcpConfigRequestIpAccessListList = Array<ServiceAccountIPAccessListEntryInput>;
@@ -55947,9 +56515,7 @@ export const UpdateOrgSettingsRequest = /*@__PURE__*/ S.suspend(() =>
       accept: "application/vnd.atlas.2023-01-01+json",
     }),
   ),
-).annotate({
-  identifier: "UpdateOrgSettingsRequest",
-}) as any as S.Schema<UpdateOrgSettingsRequest>;
+).annotate({ identifier: "UpdateOrgSettingsRequest" }) as any as S.Schema<UpdateOrgSettingsRequest>;
 
 /** List of unique 24-hexadecimal digit strings that identifies the teams to assign the MongoDB Cloud user. */
 export type UpdateOrgUserRequestTeamIdsList = Array<string>;
@@ -55986,9 +56552,7 @@ export const UpdateOrgUserRequest = /*@__PURE__*/ S.suspend(() =>
       accept: "application/vnd.atlas.2025-02-19+json",
     }),
   ),
-).annotate({
-  identifier: "UpdateOrgUserRequest",
-}) as any as S.Schema<UpdateOrgUserRequest>;
+).annotate({ identifier: "UpdateOrgUserRequest" }) as any as S.Schema<UpdateOrgUserRequest>;
 
 /** Collection of settings that configures how a cluster might scale its cluster tier and whether the cluster can scale down. Cluster tier auto-scaling is unavailable for clusters using Low CPU or NVME storage classes. */
 export interface ClusterComputeAutoScaling {
@@ -56034,11 +56598,14 @@ export type UpgradeGroupClusterTenantUpgradeRequestConfigServerManagementMode =
   | "FIXED_TO_DEDICATED";
 export const UpgradeGroupClusterTenantUpgradeRequestConfigServerManagementMode = S.String;
 
+/** Available in Public Preview: Optional field that indicates whether your cluster will be Atlas INFINITE or CORE. This field applies only to flex and shared clusters. You can set it only when you create the cluster, or when you upgrade a flex cluster to a dedicated cluster. This value is immutable once the dedicated cluster exists; attempting to change it on an update request returns an error. */
+export type UpgradeGroupClusterTenantUpgradeRequestDatabaseEdition = "CORE" | "INFINITE";
+export const UpgradeGroupClusterTenantUpgradeRequestDatabaseEdition = S.String;
+
 /** Disk warming mode selection. */
 export type UpgradeGroupClusterTenantUpgradeRequestDiskWarmingMode =
   | "FULLY_WARMED"
-  | "VISIBLE_EARLIER"
-  | "ENHANCED_FULLY_WARMED";
+  | "VISIBLE_EARLIER";
 export const UpgradeGroupClusterTenantUpgradeRequestDiskWarmingMode = S.String;
 
 /** Cloud service provider that manages your customer keys to provide an additional layer of encryption at rest for the cluster. To enable customer key management for encryption at rest, the cluster `replicationSpecs[n].regionConfigs[m].{type}Specs.instanceSize` setting must be `M10` or higher and `"backupEnabled" : false` or omitted entirely. */
@@ -56937,9 +57504,7 @@ export const LegacyReplicationSpec = /*@__PURE__*/ S.suspend(() =>
     regionsConfig: S.optional(LegacyRegionsConfig),
     zoneName: S.optional(S.String),
   }),
-).annotate({
-  identifier: "LegacyReplicationSpec",
-}) as any as S.Schema<LegacyReplicationSpec>;
+).annotate({ identifier: "LegacyReplicationSpec" }) as any as S.Schema<LegacyReplicationSpec>;
 
 /** List of settings that configure your cluster regions. - For Global Clusters, each object in the array represents one zone where MongoDB Cloud deploys your clusters nodes. - For non-Global sharded clusters and replica sets, the single object represents where MongoDB Cloud deploys your clusters nodes. */
 export type UpgradeGroupClusterTenantUpgradeRequestReplicationSpecsList =
@@ -56982,6 +57547,8 @@ export interface UpgradeGroupClusterTenantUpgradeRequest {
   configServerManagementMode?:
     | UpgradeGroupClusterTenantUpgradeRequestConfigServerManagementMode
     | (string & {});
+  /** Available in Public Preview: Optional field that indicates whether your cluster will be Atlas INFINITE or CORE. This field applies only to flex and shared clusters. You can set it only when you create the cluster, or when you upgrade a flex cluster to a dedicated cluster. This value is immutable once the dedicated cluster exists; attempting to change it on an update request returns an error. */
+  databaseEdition?: UpgradeGroupClusterTenantUpgradeRequestDatabaseEdition | (string & {});
   /** Number of hours after cluster creation that this cluster will be automatically deleted. This field is used to derive `deleteAfterDate` relative to `createDate`. When set to null or zero on cluster creation, the cluster will not be automatically deleted. When set to a positive value on cluster creation, the cluster will be automatically deleted after the specified number of hours. When updating this field on an existing (non-deleted) cluster, and this is set to null, then existing values are preserved for this & `deleteAfterDate`. When updating this field on an existing (non-deleted) cluster, and this is set to zero, then `deleteAfterDate` is reset to null (disable auto deletion) regardless of previous configurations. When updating this field on an existing (non-deleted) cluster, and this is set to a positive value, then `createDate` + `deleteAfterCreationHours` must be later than now else the field update is ignored and existing values are preserved for this & `deleteAfterDate`. */
   deleteAfterCreationHours?: number;
   /** Storage capacity of instance data volumes expressed in gigabytes. Increase this number to add capacity. This value is not configurable on M0/M2/M5 clusters. MongoDB Cloud requires this parameter if you set `replicationSpecs`. If you specify a disk size below the minimum (10 GB), this parameter defaults to the minimum disk size value. Storage charge calculations depend on whether you choose the default value or a custom value. The maximum value for disk storage cannot exceed 50 times the maximum RAM for the selected cluster. If you require more storage space, consider upgrading your cluster to a higher tier. */
@@ -57046,6 +57613,7 @@ export const UpgradeGroupClusterTenantUpgradeRequest = /*@__PURE__*/ S.suspend((
     configServerManagementMode: S.optional(
       UpgradeGroupClusterTenantUpgradeRequestConfigServerManagementMode,
     ),
+    databaseEdition: S.optional(UpgradeGroupClusterTenantUpgradeRequestDatabaseEdition),
     deleteAfterCreationHours: S.optional(S.Number),
     diskSizeGB: S.optional(S.Number),
     diskWarmingMode: S.optional(UpgradeGroupClusterTenantUpgradeRequestDiskWarmingMode),
@@ -57096,12 +57664,17 @@ export const LegacyAtlasClusterConfigServerManagementMode = S.String;
 export type LegacyAtlasClusterConfigServerType = "DEDICATED" | "EMBEDDED";
 export const LegacyAtlasClusterConfigServerType = S.String;
 
+/** Available in Public Preview: Optional field that indicates whether your cluster will be Atlas INFINITE or CORE. This field applies only to flex and shared clusters. You can set it only when you create the cluster, or when you upgrade a flex cluster to a dedicated cluster. This value is immutable once the dedicated cluster exists; attempting to change it on an update request returns an error. */
+export type LegacyAtlasClusterDatabaseEdition = "CORE" | "INFINITE";
+export const LegacyAtlasClusterDatabaseEdition = S.String;
+
 /** Disk warming mode selection. */
-export type LegacyAtlasClusterDiskWarmingMode =
-  | "FULLY_WARMED"
-  | "VISIBLE_EARLIER"
-  | "ENHANCED_FULLY_WARMED";
+export type LegacyAtlasClusterDiskWarmingMode = "FULLY_WARMED" | "VISIBLE_EARLIER";
 export const LegacyAtlasClusterDiskWarmingMode = S.String;
+
+/** Available in Public Preview: Field that represents whether your cluster is Atlas INFINITE or CORE. This field applies only to flex and shared clusters. This is read-only and always returned in the response. It reflects the actual cluster state. This value matches `databaseEdition` if it was set, otherwise it reflects the default database edition assigned to the cluster. */
+export type LegacyAtlasClusterEffectiveDatabaseEdition = "CORE" | "INFINITE";
+export const LegacyAtlasClusterEffectiveDatabaseEdition = S.String;
 
 /** Cloud service provider that manages your customer keys to provide an additional layer of encryption at rest for the cluster. To enable customer key management for encryption at rest, the cluster `replicationSpecs[n].regionConfigs[m].{type}Specs.instanceSize` setting must be `M10` or higher and `"backupEnabled" : false` or omitted entirely. */
 export type LegacyAtlasClusterEncryptionAtRestProvider = "NONE" | "AWS" | "AZURE" | "GCP";
@@ -57264,9 +57837,7 @@ export const AWSCloudProviderSettings = /*@__PURE__*/ S.suspend(() =>
     encryptEBSVolume: S.optional(S.Boolean),
     volumeType: S.optional(AWSCloudProviderSettingsVolumeType),
   }),
-).annotate({
-  identifier: "AWSCloudProviderSettings",
-}) as any as S.Schema<AWSCloudProviderSettings>;
+).annotate({ identifier: "AWSCloudProviderSettings" }) as any as S.Schema<AWSCloudProviderSettings>;
 
 /** Disk type that corresponds to the host's root volume for Azure instances. If omitted, the default disk type for the selected `providerSettings.instanceSizeName` applies. */
 export type AzureCloudProviderSettingsDiskTypeName =
@@ -57562,9 +58133,7 @@ export const CloudGCPProviderSettings = /*@__PURE__*/ S.suspend(() =>
     encryptEBSVolume: S.optional(S.Boolean),
     volumeType: S.optional(CloudGCPProviderSettingsVolumeType),
   }),
-).annotate({
-  identifier: "CloudGCPProviderSettings",
-}) as any as S.Schema<CloudGCPProviderSettings>;
+).annotate({ identifier: "CloudGCPProviderSettings" }) as any as S.Schema<CloudGCPProviderSettings>;
 
 /** Disk type that corresponds to the host's root volume for Azure instances. If omitted, the default disk type for the selected `providerSettings.instanceSizeName` applies. */
 export type ClusterFreeProviderSettingsDiskTypeName =
@@ -57885,9 +58454,7 @@ export type LegacyAtlasClusterReplicationFactor = 3 | 5 | 7;
 export const LegacyAtlasClusterReplicationFactor = S.Number;
 
 /** Physical location where MongoDB Cloud provisions cluster nodes. */
-export type LegacyAtlasClusterReplicationSpecMap = {
-  [key: string]: RegionSpec | undefined;
-};
+export type LegacyAtlasClusterReplicationSpecMap = { [key: string]: RegionSpec | undefined };
 export const LegacyAtlasClusterReplicationSpecMap = /*@__PURE__*/ S.Record(
   S.String,
   RegionSpec,
@@ -57940,6 +58507,8 @@ export interface LegacyAtlasCluster {
   connectionStrings?: ClusterConnectionStrings;
   /** Date and time when MongoDB Cloud created this serverless instance. MongoDB Cloud represents this timestamp in ISO 8601 format in UTC. */
   createDate?: string;
+  /** Available in Public Preview: Optional field that indicates whether your cluster will be Atlas INFINITE or CORE. This field applies only to flex and shared clusters. You can set it only when you create the cluster, or when you upgrade a flex cluster to a dedicated cluster. This value is immutable once the dedicated cluster exists; attempting to change it on an update request returns an error. */
+  databaseEdition?: LegacyAtlasClusterDatabaseEdition;
   /** Number of hours after cluster creation that this cluster will be automatically deleted. This field is used to derive `deleteAfterDate` relative to `createDate`. When set to null or zero on cluster creation, the cluster will not be automatically deleted. When set to a positive value on cluster creation, the cluster will be automatically deleted after the specified number of hours. When updating this field on an existing (non-deleted) cluster, and this is set to null, then existing values are preserved for this & `deleteAfterDate`. When updating this field on an existing (non-deleted) cluster, and this is set to zero, then `deleteAfterDate` is reset to null (disable auto deletion) regardless of previous configurations. When updating this field on an existing (non-deleted) cluster, and this is set to a positive value, then `createDate` + `deleteAfterCreationHours` must be later than now else the field update is ignored and existing values are preserved for this & `deleteAfterDate`. */
   deleteAfterCreationHours?: number;
   /** The date at which this cluster will be automatically deleted. This parameter expresses its value in the ISO 8601 timestamp format in UTC and is derived based on the `createDate` + `deleteAfterCreationHours`. */
@@ -57948,6 +58517,8 @@ export interface LegacyAtlasCluster {
   diskSizeGB?: number;
   /** Disk warming mode selection. */
   diskWarmingMode?: LegacyAtlasClusterDiskWarmingMode;
+  /** Available in Public Preview: Field that represents whether your cluster is Atlas INFINITE or CORE. This field applies only to flex and shared clusters. This is read-only and always returned in the response. It reflects the actual cluster state. This value matches `databaseEdition` if it was set, otherwise it reflects the default database edition assigned to the cluster. */
+  effectiveDatabaseEdition?: LegacyAtlasClusterEffectiveDatabaseEdition;
   /** Cloud service provider that manages your customer keys to provide an additional layer of encryption at rest for the cluster. To enable customer key management for encryption at rest, the cluster `replicationSpecs[n].regionConfigs[m].{type}Specs.instanceSize` setting must be `M10` or higher and `"backupEnabled" : false` or omitted entirely. */
   encryptionAtRestProvider?: LegacyAtlasClusterEncryptionAtRestProvider;
   /** Feature compatibility version of the cluster. */
@@ -58019,10 +58590,12 @@ export const LegacyAtlasCluster = /*@__PURE__*/ S.suspend(() =>
     configServerType: S.optional(LegacyAtlasClusterConfigServerType),
     connectionStrings: S.optional(ClusterConnectionStrings),
     createDate: S.optional(S.String),
+    databaseEdition: S.optional(LegacyAtlasClusterDatabaseEdition),
     deleteAfterCreationHours: S.optional(S.Number),
     deleteAfterDate: S.optional(S.String),
     diskSizeGB: S.optional(S.Number),
     diskWarmingMode: S.optional(LegacyAtlasClusterDiskWarmingMode),
+    effectiveDatabaseEdition: S.optional(LegacyAtlasClusterEffectiveDatabaseEdition),
     encryptionAtRestProvider: S.optional(LegacyAtlasClusterEncryptionAtRestProvider),
     featureCompatibilityVersion: S.optional(S.String),
     featureCompatibilityVersionExpirationDate: S.optional(S.String),
@@ -58054,9 +58627,7 @@ export const LegacyAtlasCluster = /*@__PURE__*/ S.suspend(() =>
     terminationProtectionEnabled: S.optional(S.Boolean),
     versionReleaseSystem: S.optional(LegacyAtlasClusterVersionReleaseSystem),
   }),
-).annotate({
-  identifier: "LegacyAtlasCluster",
-}) as any as S.Schema<LegacyAtlasCluster>;
+).annotate({ identifier: "LegacyAtlasCluster" }) as any as S.Schema<LegacyAtlasCluster>;
 
 /** List of migration hosts used for this migration. */
 export type ValidateGroupLiveMigrationsRequestMigrationHostsList = Array<string>;
@@ -58814,7 +59385,7 @@ export type CreateGroupDatabaseUserError =
   | NotFound
   | Conflict
   | MongodbAtlasOpError;
-/** Create One Database User in One Project Creates one database user in the specified project. This MongoDB Cloud supports a maximum of 100 database users per project. If you require more than 100 database users on a project, contact Support. */
+/** Create One Database User in One Project Creates one database user in the specified project. This MongoDB Cloud supports a default limit of 100 and a maximum of 900 database users per project. If you require more than 900 database users on a project, contact Support. */
 export const createGroupDatabaseUser: API.OperationMethod<
   CreateGroupDatabaseUserRequest,
   CloudDatabaseUserOutput,
@@ -59373,6 +59944,21 @@ export const createOrgLiveMigrationLinkToken: API.OperationMethod<
   retry: Retry.Retry,
 }));
 
+export type CreateOrgLogIntegrationError = BadRequest | Forbidden | NotFound | MongodbAtlasOpError;
+/** Create One Organization Log Integration Creates a new organization-level log integration configuration identified by a unique ID. */
+export const createOrgLogIntegration: API.OperationMethod<
+  CreateOrgLogIntegrationRequest,
+  CreateOrgLogIntegrationResponse,
+  CreateOrgLogIntegrationError,
+  MongodbAtlasOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: CreateOrgLogIntegrationRequest,
+  output: CreateOrgLogIntegrationResponse,
+  errors: [BadRequest, Forbidden, NotFound, UnknownMongodbAtlasError],
+  protocol: MongodbAtlasProtocol,
+  retry: Retry.Retry,
+}));
+
 export type CreateOrgMcpConfigError = BadRequest | Forbidden | NotFound | MongodbAtlasOpError;
 /** Create One MCP Configuration for One Organization Creates an MCP configuration for the specified organization. Returns the configuration ID and ingress credentials. */
 export const createOrgMcpConfig: API.OperationMethod<
@@ -59632,7 +60218,11 @@ export const deleteGroup: API.OperationMethod<
   retry: Retry.Retry,
 }));
 
-export type DeleteGroupAccessListEntryError = Forbidden | NotFound | MongodbAtlasOpError;
+export type DeleteGroupAccessListEntryError =
+  | BadRequest
+  | Forbidden
+  | NotFound
+  | MongodbAtlasOpError;
 /** Remove One Entry from One Project IP Access List Removes one access list entry from the specified project's IP access list. Each entry in the project's IP access list contains one IP address, one CIDR-notated block of IP addresses, or one AWS Security Group ID. MongoDB Cloud only allows client connections to the cluster from entries in the project's IP access list. This resource replaces the whitelist resource. MongoDB Cloud removed whitelists in July 2021. Update your applications to use this new resource. The `/groups/{GROUP-ID}/accessList` endpoint manages the database IP access list. This endpoint is distinct from the `orgs/{ORG-ID}/apiKeys/{API-KEY-ID}/accesslist` endpoint, which manages the access list for MongoDB Cloud organizations. */
 export const deleteGroupAccessListEntry: API.OperationMethod<
   DeleteGroupAccessListEntryRequest,
@@ -59642,7 +60232,7 @@ export const deleteGroupAccessListEntry: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: DeleteGroupAccessListEntryRequest,
   output: DeleteGroupAccessListEntryResponse,
-  errors: [Forbidden, NotFound, UnknownMongodbAtlasError],
+  errors: [BadRequest, Forbidden, NotFound, UnknownMongodbAtlasError],
   protocol: MongodbAtlasProtocol,
   retry: Retry.Retry,
 }));
@@ -60220,7 +60810,7 @@ export type DeleteGroupServiceAccountAccessListEntryError =
   | Forbidden
   | NotFound
   | MongodbAtlasOpError;
-/** Remove One Access List Entry from One Project Service Account Removes the specified access list entry from the specified Service Account for the project. You can't remove the requesting IP address from the access list. */
+/** Remove One Access List Entry from One Project Service Account Removes the specified access list entry from the specified Service Account for the project. A Service Account cannot remove its own IP address from its access list. */
 export const deleteGroupServiceAccountAccessListEntry: API.OperationMethod<
   DeleteGroupServiceAccountAccessListEntryRequest,
   DeleteGroupServiceAccountAccessListEntryResponse,
@@ -60441,6 +61031,21 @@ export const deleteOrgLiveMigrationLinkTokens: API.OperationMethod<
   retry: Retry.Retry,
 }));
 
+export type DeleteOrgLogIntegrationError = BadRequest | Forbidden | NotFound | MongodbAtlasOpError;
+/** Remove One Organization Log Integration Removes one organization-level log integration configuration identified by its unique ID. */
+export const deleteOrgLogIntegration: API.OperationMethod<
+  DeleteOrgLogIntegrationRequest,
+  DeleteOrgLogIntegrationResponse,
+  DeleteOrgLogIntegrationError,
+  MongodbAtlasOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: DeleteOrgLogIntegrationRequest,
+  output: DeleteOrgLogIntegrationResponse,
+  errors: [BadRequest, Forbidden, NotFound, UnknownMongodbAtlasError],
+  protocol: MongodbAtlasProtocol,
+  retry: Retry.Retry,
+}));
+
 export type DeleteOrgMcpConfigError = BadRequest | Forbidden | NotFound | MongodbAtlasOpError;
 /** Delete One MCP Configuration for One Organization Deletes the MCP configuration with the specified ID for the specified organization. */
 export const deleteOrgMcpConfig: API.OperationMethod<
@@ -60506,7 +61111,7 @@ export type DeleteOrgServiceAccountAccessListEntryError =
   | Forbidden
   | NotFound
   | MongodbAtlasOpError;
-/** Remove One Access List Entry from One Organization Service Account Removes the specified access list entry from the specified Service Account for the organization. You can't remove the requesting IP address from the access list. */
+/** Remove One Access List Entry from One Organization Service Account Removes the specified access list entry from the specified Service Account for the organization. A Service Account cannot remove its own IP address from its access list. */
 export const deleteOrgServiceAccountAccessListEntry: API.OperationMethod<
   DeleteOrgServiceAccountAccessListEntryRequest,
   DeleteOrgServiceAccountAccessListEntryResponse,
@@ -61117,6 +61722,25 @@ export const getGroupCluster: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: GetGroupClusterRequest,
   output: ClusterDescription20240805,
+  errors: [Forbidden, NotFound, Conflict, UnknownMongodbAtlasError],
+  protocol: MongodbAtlasProtocol,
+  retry: Retry.Retry,
+}));
+
+export type GetGroupClusterAdaptiveSettingsError =
+  | Forbidden
+  | NotFound
+  | Conflict
+  | MongodbAtlasOpError;
+/** Return Adaptive Settings for One Cluster Returns the Adaptive Settings for the specified cluster, including client-provided overrides and the effective settings derived from those overrides and Atlas-managed defaults. To use this resource, the requesting Service Account or API Key must have the Project Read Only role. */
+export const getGroupClusterAdaptiveSettings: API.OperationMethod<
+  GetGroupClusterAdaptiveSettingsRequest,
+  AdaptiveSettingsResponse,
+  GetGroupClusterAdaptiveSettingsError,
+  MongodbAtlasOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: GetGroupClusterAdaptiveSettingsRequest,
+  output: AdaptiveSettingsResponse,
   errors: [Forbidden, NotFound, Conflict, UnknownMongodbAtlasError],
   protocol: MongodbAtlasProtocol,
   retry: Retry.Retry,
@@ -62567,6 +63191,40 @@ export const getOrgInvoiceReport: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: GetOrgInvoiceReportRequest,
   output: InvoiceReportResponse,
+  errors: [BadRequest, Forbidden, NotFound, UnknownMongodbAtlasError],
+  protocol: MongodbAtlasProtocol,
+  retry: Retry.Retry,
+}));
+
+export type GetOrgLogIntegrationError = BadRequest | Forbidden | NotFound | MongodbAtlasOpError;
+/** Return One Organization Log Integration Returns the configuration for one organization-level log integration identified by its unique ID. */
+export const getOrgLogIntegration: API.OperationMethod<
+  GetOrgLogIntegrationRequest,
+  GetOrgLogIntegrationResponse,
+  GetOrgLogIntegrationError,
+  MongodbAtlasOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: GetOrgLogIntegrationRequest,
+  output: GetOrgLogIntegrationResponse,
+  errors: [BadRequest, Forbidden, NotFound, UnknownMongodbAtlasError],
+  protocol: MongodbAtlasProtocol,
+  retry: Retry.Retry,
+}));
+
+export type GetOrgMaintenanceSettingsError =
+  | BadRequest
+  | Forbidden
+  | NotFound
+  | MongodbAtlasOpError;
+/** Return Maintenance Settings for One Organization Returns maintenance settings for the specified organization. */
+export const getOrgMaintenanceSettings: API.OperationMethod<
+  GetOrgMaintenanceSettingsRequest,
+  OrganizationMaintenanceSettingsResponse,
+  GetOrgMaintenanceSettingsError,
+  MongodbAtlasOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: GetOrgMaintenanceSettingsRequest,
+  output: OrganizationMaintenanceSettingsResponse,
   errors: [BadRequest, Forbidden, NotFound, UnknownMongodbAtlasError],
   protocol: MongodbAtlasProtocol,
   retry: Retry.Retry,
@@ -64251,6 +64909,21 @@ export const listOrgLiveMigrationAvailableProjects: API.OperationMethod<
   retry: Retry.Retry,
 }));
 
+export type ListOrgLogIntegrationsError = BadRequest | Forbidden | NotFound | MongodbAtlasOpError;
+/** Return All Organization Log Integrations Returns all log integration configurations for the organization. */
+export const listOrgLogIntegrations: API.OperationMethod<
+  ListOrgLogIntegrationsRequest,
+  PaginatedOrgLogIntegrationResponse,
+  ListOrgLogIntegrationsError,
+  MongodbAtlasOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: ListOrgLogIntegrationsRequest,
+  output: PaginatedOrgLogIntegrationResponse,
+  errors: [BadRequest, Forbidden, NotFound, UnknownMongodbAtlasError],
+  protocol: MongodbAtlasProtocol,
+  retry: Retry.Retry,
+}));
+
 export type ListOrgMcpConfigsError = Forbidden | NotFound | MongodbAtlasOpError;
 /** Return All MCP Configurations for One Organization Returns all MCP configurations associated with the specified organization. */
 export const listOrgMcpConfigs: API.OperationMethod<
@@ -64725,6 +65398,25 @@ export const resetGroupMaintenanceWindow: API.OperationMethod<
   retry: Retry.Retry,
 }));
 
+export type ResetOrgMaintenanceSettingsError =
+  | BadRequest
+  | Forbidden
+  | NotFound
+  | MongodbAtlasOpError;
+/** Reset Maintenance Settings for One Organization Resets maintenance settings for the specified organization to their default values. Restores the wave assignment mode to the default manual mode. */
+export const resetOrgMaintenanceSettings: API.OperationMethod<
+  ResetOrgMaintenanceSettingsRequest,
+  OrganizationMaintenanceSettingsResponse,
+  ResetOrgMaintenanceSettingsError,
+  MongodbAtlasOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: ResetOrgMaintenanceSettingsRequest,
+  output: OrganizationMaintenanceSettingsResponse,
+  errors: [BadRequest, Forbidden, NotFound, UnknownMongodbAtlasError],
+  protocol: MongodbAtlasProtocol,
+  retry: Retry.Retry,
+}));
+
 export type RestartGroupClusterPrimariesError = Forbidden | NotFound | MongodbAtlasOpError;
 /** Test Failover for One Cluster Starts a failover test for the specified cluster in the specified project. Clusters contain a group of hosts that maintain the same data set. A failover test checks how MongoDB Cloud handles the failure of the cluster's primary node. During the test, MongoDB Cloud shuts down the primary node and elects a new primary. Deprecated versions: v2-{2023-01-01} */
 export const restartGroupClusterPrimaries: API.OperationMethod<
@@ -64836,6 +65528,7 @@ export type StartGroupClusterOutageSimulationError =
   | BadRequest
   | Forbidden
   | NotFound
+  | Conflict
   | MongodbAtlasOpError;
 /** Start One Outage Simulation Starts a cluster outage simulation. */
 export const startGroupClusterOutageSimulation: API.OperationMethod<
@@ -64846,7 +65539,7 @@ export const startGroupClusterOutageSimulation: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: StartGroupClusterOutageSimulationRequest,
   output: ClusterOutageSimulation,
-  errors: [BadRequest, Forbidden, NotFound, UnknownMongodbAtlasError],
+  errors: [BadRequest, Forbidden, NotFound, Conflict, UnknownMongodbAtlasError],
   protocol: MongodbAtlasProtocol,
   retry: Retry.Retry,
 }));
@@ -65252,6 +65945,26 @@ export const updateGroupCluster: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: UpdateGroupClusterRequest,
   output: ClusterDescription20240805,
+  errors: [BadRequest, Forbidden, NotFound, Conflict, UnknownMongodbAtlasError],
+  protocol: MongodbAtlasProtocol,
+  retry: Retry.Retry,
+}));
+
+export type UpdateGroupClusterAdaptiveSettingsError =
+  | BadRequest
+  | Forbidden
+  | NotFound
+  | Conflict
+  | MongodbAtlasOpError;
+/** Update Adaptive Settings for One Cluster Updates the client-provided Adaptive Settings overrides for the specified cluster and returns the resulting Adaptive Settings, including the effective settings derived from those overrides and Atlas-managed defaults. To use this resource, the requesting Service Account or API Key must have the Project Owner role. */
+export const updateGroupClusterAdaptiveSettings: API.OperationMethod<
+  UpdateGroupClusterAdaptiveSettingsRequest,
+  AdaptiveSettingsResponse,
+  UpdateGroupClusterAdaptiveSettingsError,
+  MongodbAtlasOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: UpdateGroupClusterAdaptiveSettingsRequest,
+  output: AdaptiveSettingsResponse,
   errors: [BadRequest, Forbidden, NotFound, Conflict, UnknownMongodbAtlasError],
   protocol: MongodbAtlasProtocol,
   retry: Retry.Retry,
@@ -65882,6 +66595,40 @@ export const updateOrgDelegationSettings: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: UpdateOrgDelegationSettingsRequest,
   output: OrgDelegationSettingsResponse,
+  errors: [BadRequest, Forbidden, NotFound, UnknownMongodbAtlasError],
+  protocol: MongodbAtlasProtocol,
+  retry: Retry.Retry,
+}));
+
+export type UpdateOrgLogIntegrationError = BadRequest | Forbidden | NotFound | MongodbAtlasOpError;
+/** Update One Organization Log Integration Updates one organization-level log integration configuration identified by its unique ID. Read endpoints redact header values; a redacted value sent back unchanged leaves the stored value in place, so supply a header value in full only when changing it. */
+export const updateOrgLogIntegration: API.OperationMethod<
+  UpdateOrgLogIntegrationRequest,
+  UpdateOrgLogIntegrationResponse,
+  UpdateOrgLogIntegrationError,
+  MongodbAtlasOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: UpdateOrgLogIntegrationRequest,
+  output: UpdateOrgLogIntegrationResponse,
+  errors: [BadRequest, Forbidden, NotFound, UnknownMongodbAtlasError],
+  protocol: MongodbAtlasProtocol,
+  retry: Retry.Retry,
+}));
+
+export type UpdateOrgMaintenanceSettingsError =
+  | BadRequest
+  | Forbidden
+  | NotFound
+  | MongodbAtlasOpError;
+/** Update Maintenance Settings for One Organization Updates maintenance settings for the specified organization. Omit optional fields from the request body to leave their current values unchanged. Specify null on an optional field to reset it to its default value. */
+export const updateOrgMaintenanceSettings: API.OperationMethod<
+  UpdateOrgMaintenanceSettingsRequest,
+  OrganizationMaintenanceSettingsResponse,
+  UpdateOrgMaintenanceSettingsError,
+  MongodbAtlasOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: UpdateOrgMaintenanceSettingsRequest,
+  output: OrganizationMaintenanceSettingsResponse,
   errors: [BadRequest, Forbidden, NotFound, UnknownMongodbAtlasError],
   protocol: MongodbAtlasProtocol,
   retry: Retry.Retry,

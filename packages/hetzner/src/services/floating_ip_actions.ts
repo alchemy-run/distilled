@@ -19,16 +19,8 @@ export const AssignFloatingIpRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     id: S.Number.pipe(T.Label()),
     server: S.NullOr(S.Number),
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/floating_ips/{id}/actions/assign",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "AssignFloatingIpRequest",
-}) as any as S.Schema<AssignFloatingIpRequest>;
+  }).pipe(T.Http({ method: "POST", uri: "/floating_ips/{id}/actions/assign", code: 200 })),
+).annotate({ identifier: "AssignFloatingIpRequest" }) as any as S.Schema<AssignFloatingIpRequest>;
 
 /** Status of the Action. */
 export type AssignFloatingIpResponseActionStatus = "running" | "success" | "error";
@@ -112,9 +104,7 @@ export const AssignFloatingIpResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     action: AssignFloatingIpResponseAction,
   }),
-).annotate({
-  identifier: "AssignFloatingIpResponse",
-}) as any as S.Schema<AssignFloatingIpResponse>;
+).annotate({ identifier: "AssignFloatingIpResponse" }) as any as S.Schema<AssignFloatingIpResponse>;
 
 export interface ChangeFloatingIpDnsPtrRequest {
   /** ID of the Floating IP. */
@@ -122,20 +112,14 @@ export interface ChangeFloatingIpDnsPtrRequest {
   /** Single IPv4 or IPv6 address to create pointer for. */
   ip: string;
   /** Domain Name to point to. PTR record content used for reverse DNS. Set to null to reset (IPv4) to the default value or remove (IPv6) the record. */
-  dns_ptr?: string | null;
+  dns_ptr: string | null;
 }
 export const ChangeFloatingIpDnsPtrRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     id: S.Number.pipe(T.Label()),
     ip: S.String,
-    dns_ptr: S.optional(S.NullOr(S.String)),
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/floating_ips/{id}/actions/change_dns_ptr",
-      code: 200,
-    }),
-  ),
+    dns_ptr: S.NullOr(S.String),
+  }).pipe(T.Http({ method: "POST", uri: "/floating_ips/{id}/actions/change_dns_ptr", code: 200 })),
 ).annotate({
   identifier: "ChangeFloatingIpDnsPtrRequest",
 }) as any as S.Schema<ChangeFloatingIpDnsPtrRequest>;
@@ -215,11 +199,7 @@ export const ChangeFloatingIpProtectionRequest = /*@__PURE__*/ S.suspend(() =>
     id: S.Number.pipe(T.Label()),
     delete: S.Boolean,
   }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/floating_ips/{id}/actions/change_protection",
-      code: 200,
-    }),
+    T.Http({ method: "POST", uri: "/floating_ips/{id}/actions/change_protection", code: 200 }),
   ),
 ).annotate({
   identifier: "ChangeFloatingIpProtectionRequest",
@@ -690,13 +670,7 @@ export interface UnassignFloatingIpRequest {
 export const UnassignFloatingIpRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     id: S.Number.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/floating_ips/{id}/actions/unassign",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "POST", uri: "/floating_ips/{id}/actions/unassign", code: 200 })),
 ).annotate({
   identifier: "UnassignFloatingIpRequest",
 }) as any as S.Schema<UnassignFloatingIpRequest>;

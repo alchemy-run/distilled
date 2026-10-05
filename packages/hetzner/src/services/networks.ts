@@ -10,9 +10,7 @@ import * as T from "../traits.ts";
 export type { HetznerOpError, HetznerOpContext };
 
 /** User-defined labels (`key/value` pairs) for the Resource. For more information, see "[Labels](#description/labels)". */
-export type CreateNetworkRequestLabelsMap = {
-  [key: string]: string | undefined;
-};
+export type CreateNetworkRequestLabelsMap = { [key: string]: string | undefined };
 export const CreateNetworkRequestLabelsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -93,9 +91,7 @@ export const CreateNetworkRequest = /*@__PURE__*/ S.suspend(() =>
     routes: S.optional(CreateNetworkRequestRoutesList),
     expose_routes_to_vswitch: S.optional(S.Boolean),
   }).pipe(T.Http({ method: "POST", uri: "/networks", code: 200 })),
-).annotate({
-  identifier: "CreateNetworkRequest",
-}) as any as S.Schema<CreateNetworkRequest>;
+).annotate({ identifier: "CreateNetworkRequest" }) as any as S.Schema<CreateNetworkRequest>;
 
 /** Type of subnet. */
 export type CreateNetworkResponseNetworkSubnetsItemType = "cloud" | "server" | "vswitch";
@@ -167,9 +163,7 @@ export const CreateNetworkResponseNetworkProtection = /*@__PURE__*/ S.suspend(()
 }) as any as S.Schema<CreateNetworkResponseNetworkProtection>;
 
 /** User-defined labels (`key/value` pairs) for the Resource. For more information, see "[Labels](#description/labels)". */
-export type CreateNetworkResponseNetworkLabelsMap = {
-  [key: string]: string | undefined;
-};
+export type CreateNetworkResponseNetworkLabelsMap = { [key: string]: string | undefined };
 export const CreateNetworkResponseNetworkLabelsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -224,9 +218,7 @@ export const CreateNetworkResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     network: S.optional(CreateNetworkResponseNetwork),
   }),
-).annotate({
-  identifier: "CreateNetworkResponse",
-}) as any as S.Schema<CreateNetworkResponse>;
+).annotate({ identifier: "CreateNetworkResponse" }) as any as S.Schema<CreateNetworkResponse>;
 
 export interface DeleteNetworkRequest {
   /** ID of the Network. */
@@ -236,9 +228,7 @@ export const DeleteNetworkRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     id: S.Number.pipe(T.Label()),
   }).pipe(T.Http({ method: "DELETE", uri: "/networks/{id}", code: 200 })),
-).annotate({
-  identifier: "DeleteNetworkRequest",
-}) as any as S.Schema<DeleteNetworkRequest>;
+).annotate({ identifier: "DeleteNetworkRequest" }) as any as S.Schema<DeleteNetworkRequest>;
 
 export interface DeleteNetworkResponse {}
 export const DeleteNetworkResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -253,9 +243,7 @@ export const GetNetworkRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     id: S.Number.pipe(T.Label()),
   }).pipe(T.Http({ method: "GET", uri: "/networks/{id}", code: 200 })),
-).annotate({
-  identifier: "GetNetworkRequest",
-}) as any as S.Schema<GetNetworkRequest>;
+).annotate({ identifier: "GetNetworkRequest" }) as any as S.Schema<GetNetworkRequest>;
 
 /** Type of subnet. */
 export type GetNetworkResponseNetworkSubnetsItemType = "cloud" | "server" | "vswitch";
@@ -317,9 +305,7 @@ export type GetNetworkResponseNetworkProtection = CreateNetworkResponseNetworkPr
 export const GetNetworkResponseNetworkProtection = CreateNetworkResponseNetworkProtection;
 
 /** User-defined labels (`key/value` pairs) for the Resource. For more information, see "[Labels](#description/labels)". */
-export type GetNetworkResponseNetworkLabelsMap = {
-  [key: string]: string | undefined;
-};
+export type GetNetworkResponseNetworkLabelsMap = { [key: string]: string | undefined };
 export const GetNetworkResponseNetworkLabelsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -374,9 +360,195 @@ export const GetNetworkResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     network: S.optional(GetNetworkResponseNetwork),
   }),
+).annotate({ identifier: "GetNetworkResponse" }) as any as S.Schema<GetNetworkResponse>;
+
+/** Type of the resource attached to the [Network](#tag/networks). */
+export type ListNetworkMembersRequestTypeItem = "server" | "load_balancer";
+export const ListNetworkMembersRequestTypeItem = S.String;
+
+export type ListNetworkMembersRequestTypeList = Array<
+  ListNetworkMembersRequestTypeItem | (string & {})
+>;
+export const ListNetworkMembersRequestTypeList = /*@__PURE__*/ S.Array(
+  ListNetworkMembersRequestTypeItem,
+) as any as S.Schema<ListNetworkMembersRequestTypeList>;
+
+export type ListNetworkMembersRequestSubnetList = Array<string>;
+export const ListNetworkMembersRequestSubnetList = /*@__PURE__*/ S.Array(
+  S.String,
+) as any as S.Schema<ListNetworkMembersRequestSubnetList>;
+
+/** Status of the resource within the [Network](#tag/networks). */
+export type ListNetworkMembersRequestStatusItem =
+  | "ok"
+  | "attaching"
+  | "detaching"
+  | "updating"
+  | "error";
+export const ListNetworkMembersRequestStatusItem = S.String;
+
+export type ListNetworkMembersRequestStatusList = Array<
+  ListNetworkMembersRequestStatusItem | (string & {})
+>;
+export const ListNetworkMembersRequestStatusList = /*@__PURE__*/ S.Array(
+  ListNetworkMembersRequestStatusItem,
+) as any as S.Schema<ListNetworkMembersRequestStatusList>;
+
+export type ListNetworkMembersRequestSortItem =
+  | "id"
+  | "id:asc"
+  | "id:desc"
+  | "type"
+  | "type:asc"
+  | "type:desc"
+  | "status"
+  | "status:asc"
+  | "status:desc"
+  | "ip"
+  | "ip:asc"
+  | "ip:desc";
+export const ListNetworkMembersRequestSortItem = S.String;
+
+export type ListNetworkMembersRequestSortList = Array<
+  ListNetworkMembersRequestSortItem | (string & {})
+>;
+export const ListNetworkMembersRequestSortList = /*@__PURE__*/ S.Array(
+  ListNetworkMembersRequestSortItem,
+) as any as S.Schema<ListNetworkMembersRequestSortList>;
+
+export interface ListNetworkMembersRequest {
+  /** ID of the Network. */
+  id: number;
+  /** Filter members by type. May be used multiple times. The response will only contain members matching the specified types. */
+  type?: ListNetworkMembersRequestTypeList;
+  /** Filter members by the subnet they are attached to. May be used multiple times. The response will only contain members attached to the subnets with the specified IP ranges. Uses CIDR notation. */
+  subnet?: ListNetworkMembersRequestSubnetList;
+  /** Filter members by status. May be used multiple times. The response will only contain members matching the specified statuses. */
+  status?: ListNetworkMembersRequestStatusList;
+  /** Sort resources by field and direction. May be used multiple times. For more information, see "[Sorting](#description/sorting)". */
+  sort?: ListNetworkMembersRequestSortList;
+  /** Page number to return. For more information, see "[Pagination](#description/pagination)". */
+  page?: number;
+  /** Maximum number of entries returned per page. For more information, see "[Pagination](#description/pagination)". */
+  per_page?: number;
+}
+export const ListNetworkMembersRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    id: S.Number.pipe(T.Label()),
+    type: S.optional(ListNetworkMembersRequestTypeList.pipe(T.Query())),
+    subnet: S.optional(ListNetworkMembersRequestSubnetList.pipe(T.Query())),
+    status: S.optional(ListNetworkMembersRequestStatusList.pipe(T.Query())),
+    sort: S.optional(ListNetworkMembersRequestSortList.pipe(T.Query())),
+    page: S.optional(S.Number.pipe(T.Query())),
+    per_page: S.optional(S.Number.pipe(T.Query())),
+  }).pipe(T.Http({ method: "GET", uri: "/networks/{id}/members", code: 200 })),
 ).annotate({
-  identifier: "GetNetworkResponse",
-}) as any as S.Schema<GetNetworkResponse>;
+  identifier: "ListNetworkMembersRequest",
+}) as any as S.Schema<ListNetworkMembersRequest>;
+
+/** Type of the resource attached to the [Network](#tag/networks). */
+export type ListNetworkMembersResponseMembersItemType = "server" | "load_balancer";
+export const ListNetworkMembersResponseMembersItemType = S.String;
+
+/** Status of the resource within the [Network](#tag/networks). */
+export type ListNetworkMembersResponseMembersItemStatus =
+  | "ok"
+  | "attaching"
+  | "detaching"
+  | "updating"
+  | "error";
+export const ListNetworkMembersResponseMembersItemStatus = S.String;
+
+/** Additional IP addresses of the resource within the [Network](#tag/networks). */
+export type ListNetworkMembersResponseMembersItemAliasIpsList = Array<string>;
+export const ListNetworkMembersResponseMembersItemAliasIpsList = /*@__PURE__*/ S.Array(
+  S.String,
+) as any as S.Schema<ListNetworkMembersResponseMembersItemAliasIpsList>;
+
+export interface ListNetworkMembersResponseMembersItem {
+  /** Type of the resource attached to the [Network](#tag/networks). */
+  type: ListNetworkMembersResponseMembersItemType;
+  /** ID of the attached resource. */
+  id: number;
+  /** IP address of the resource within the [Network](#tag/networks). */
+  ip: string;
+  /** Status of the resource within the [Network](#tag/networks). */
+  status: ListNetworkMembersResponseMembersItemStatus;
+  /** Additional IP addresses of the resource within the [Network](#tag/networks). */
+  alias_ips: ListNetworkMembersResponseMembersItemAliasIpsList;
+  /** IP range of the subnet the resource is attached to. Uses CIDR notation. */
+  subnet: string;
+}
+export const ListNetworkMembersResponseMembersItem = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    type: ListNetworkMembersResponseMembersItemType,
+    id: S.Number,
+    ip: S.String,
+    status: ListNetworkMembersResponseMembersItemStatus,
+    alias_ips: ListNetworkMembersResponseMembersItemAliasIpsList,
+    subnet: S.String,
+  }),
+).annotate({
+  identifier: "ListNetworkMembersResponseMembersItem",
+}) as any as S.Schema<ListNetworkMembersResponseMembersItem>;
+
+export type ListNetworkMembersResponseMembersList = Array<ListNetworkMembersResponseMembersItem>;
+export const ListNetworkMembersResponseMembersList = /*@__PURE__*/ S.Array(
+  ListNetworkMembersResponseMembersItem,
+) as any as S.Schema<ListNetworkMembersResponseMembersList>;
+
+/** See "[Pagination](#description/pagination)" for more information. */
+export interface ListNetworkMembersResponseMetaPagination {
+  /** Current page number. */
+  page: number;
+  /** Maximum number of entries returned per page. */
+  per_page: number;
+  /** Page number of the previous page. Can be null if the current page is the first one. */
+  previous_page: number | null;
+  /** Page number of the next page. Can be null if the current page is the last one. */
+  next_page: number | null;
+  /** Page number of the last page available. Can be null if the current page is the last one. */
+  last_page: number | null;
+  /** Total number of entries that exist for this query. Can be null if unknown. */
+  total_entries: number | null;
+}
+export const ListNetworkMembersResponseMetaPagination = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    page: S.Number,
+    per_page: S.Number,
+    previous_page: S.NullOr(S.Number),
+    next_page: S.NullOr(S.Number),
+    last_page: S.NullOr(S.Number),
+    total_entries: S.NullOr(S.Number),
+  }),
+).annotate({
+  identifier: "ListNetworkMembersResponseMetaPagination",
+}) as any as S.Schema<ListNetworkMembersResponseMetaPagination>;
+
+export interface ListNetworkMembersResponseMeta {
+  /** See "[Pagination](#description/pagination)" for more information. */
+  pagination: ListNetworkMembersResponseMetaPagination;
+}
+export const ListNetworkMembersResponseMeta = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    pagination: ListNetworkMembersResponseMetaPagination,
+  }),
+).annotate({
+  identifier: "ListNetworkMembersResponseMeta",
+}) as any as S.Schema<ListNetworkMembersResponseMeta>;
+
+export interface ListNetworkMembersResponse {
+  members: ListNetworkMembersResponseMembersList;
+  meta: ListNetworkMembersResponseMeta;
+}
+export const ListNetworkMembersResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    members: ListNetworkMembersResponseMembersList,
+    meta: ListNetworkMembersResponseMeta,
+  }),
+).annotate({
+  identifier: "ListNetworkMembersResponse",
+}) as any as S.Schema<ListNetworkMembersResponse>;
 
 export type ListNetworksRequestSortItem =
   | "id"
@@ -415,9 +587,7 @@ export const ListNetworksRequest = /*@__PURE__*/ S.suspend(() =>
     page: S.optional(S.Number.pipe(T.Query())),
     per_page: S.optional(S.Number.pipe(T.Query())),
   }).pipe(T.Http({ method: "GET", uri: "/networks", code: 200 })),
-).annotate({
-  identifier: "ListNetworksRequest",
-}) as any as S.Schema<ListNetworksRequest>;
+).annotate({ identifier: "ListNetworksRequest" }) as any as S.Schema<ListNetworksRequest>;
 
 /** Type of subnet. */
 export type ListNetworksResponseNetworksItemSubnetsItemType = "cloud" | "server" | "vswitch";
@@ -480,9 +650,7 @@ export type ListNetworksResponseNetworksItemProtection = CreateNetworkResponseNe
 export const ListNetworksResponseNetworksItemProtection = CreateNetworkResponseNetworkProtection;
 
 /** User-defined labels (`key/value` pairs) for the Resource. For more information, see "[Labels](#description/labels)". */
-export type ListNetworksResponseNetworksItemLabelsMap = {
-  [key: string]: string | undefined;
-};
+export type ListNetworksResponseNetworksItemLabelsMap = { [key: string]: string | undefined };
 export const ListNetworksResponseNetworksItemLabelsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -536,62 +704,25 @@ export const ListNetworksResponseNetworksList = /*@__PURE__*/ S.Array(
 ) as any as S.Schema<ListNetworksResponseNetworksList>;
 
 /** See "[Pagination](#description/pagination)" for more information. */
-export interface ListNetworksResponseMetaPagination {
-  /** Current page number. */
-  page: number;
-  /** Maximum number of entries returned per page. */
-  per_page: number;
-  /** Page number of the previous page. Can be null if the current page is the first one. */
-  previous_page: number | null;
-  /** Page number of the next page. Can be null if the current page is the last one. */
-  next_page: number | null;
-  /** Page number of the last page available. Can be null if the current page is the last one. */
-  last_page: number | null;
-  /** Total number of entries that exist for this query. Can be null if unknown. */
-  total_entries: number | null;
-}
-export const ListNetworksResponseMetaPagination = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    page: S.Number,
-    per_page: S.Number,
-    previous_page: S.NullOr(S.Number),
-    next_page: S.NullOr(S.Number),
-    last_page: S.NullOr(S.Number),
-    total_entries: S.NullOr(S.Number),
-  }),
-).annotate({
-  identifier: "ListNetworksResponseMetaPagination",
-}) as any as S.Schema<ListNetworksResponseMetaPagination>;
+export type ListNetworksResponseMetaPagination = ListNetworkMembersResponseMetaPagination;
+export const ListNetworksResponseMetaPagination = ListNetworkMembersResponseMetaPagination;
 
-export interface ListNetworksResponseMeta {
-  /** See "[Pagination](#description/pagination)" for more information. */
-  pagination: ListNetworksResponseMetaPagination;
-}
-export const ListNetworksResponseMeta = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    pagination: ListNetworksResponseMetaPagination,
-  }),
-).annotate({
-  identifier: "ListNetworksResponseMeta",
-}) as any as S.Schema<ListNetworksResponseMeta>;
+export type ListNetworksResponseMeta = ListNetworkMembersResponseMeta;
+export const ListNetworksResponseMeta = ListNetworkMembersResponseMeta;
 
 export interface ListNetworksResponse {
   networks: ListNetworksResponseNetworksList;
-  meta: ListNetworksResponseMeta;
+  meta: ListNetworkMembersResponseMeta;
 }
 export const ListNetworksResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     networks: ListNetworksResponseNetworksList,
-    meta: ListNetworksResponseMeta,
+    meta: ListNetworkMembersResponseMeta,
   }),
-).annotate({
-  identifier: "ListNetworksResponse",
-}) as any as S.Schema<ListNetworksResponse>;
+).annotate({ identifier: "ListNetworksResponse" }) as any as S.Schema<ListNetworksResponse>;
 
 /** User-defined labels (`key/value` pairs) for the Resource. Note that the set of [Labels](#description/labels) provided in the request will overwrite the existing one. For more information, see "[Labels](#description/labels)". */
-export type UpdateNetworkRequestLabelsMap = {
-  [key: string]: string | undefined;
-};
+export type UpdateNetworkRequestLabelsMap = { [key: string]: string | undefined };
 export const UpdateNetworkRequestLabelsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -614,9 +745,7 @@ export const UpdateNetworkRequest = /*@__PURE__*/ S.suspend(() =>
     labels: S.optional(UpdateNetworkRequestLabelsMap),
     expose_routes_to_vswitch: S.optional(S.Boolean),
   }).pipe(T.Http({ method: "PUT", uri: "/networks/{id}", code: 200 })),
-).annotate({
-  identifier: "UpdateNetworkRequest",
-}) as any as S.Schema<UpdateNetworkRequest>;
+).annotate({ identifier: "UpdateNetworkRequest" }) as any as S.Schema<UpdateNetworkRequest>;
 
 /** Type of subnet. */
 export type UpdateNetworkResponseNetworkSubnetsItemType = "cloud" | "server" | "vswitch";
@@ -679,9 +808,7 @@ export type UpdateNetworkResponseNetworkProtection = CreateNetworkResponseNetwor
 export const UpdateNetworkResponseNetworkProtection = CreateNetworkResponseNetworkProtection;
 
 /** User-defined labels (`key/value` pairs) for the Resource. For more information, see "[Labels](#description/labels)". */
-export type UpdateNetworkResponseNetworkLabelsMap = {
-  [key: string]: string | undefined;
-};
+export type UpdateNetworkResponseNetworkLabelsMap = { [key: string]: string | undefined };
 export const UpdateNetworkResponseNetworkLabelsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -736,9 +863,7 @@ export const UpdateNetworkResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     network: S.optional(UpdateNetworkResponseNetwork),
   }),
-).annotate({
-  identifier: "UpdateNetworkResponse",
-}) as any as S.Schema<UpdateNetworkResponse>;
+).annotate({ identifier: "UpdateNetworkResponse" }) as any as S.Schema<UpdateNetworkResponse>;
 
 export type CreateNetworkError = HetznerOpError;
 /** Create a Network Creates a [Network](#tag/networks). The provided `ip_range` can only be extended later on, but not reduced. Subnets can be added now or later on using the [add subnet action](#tag/network-actions/add_network_subnet). If you do not specify an `ip_range` for the subnet the first available /24 range will be used. Routes can be added now or later by using the [add route action](#tag/network-actions/add_network_route). */
@@ -784,6 +909,32 @@ export const getNetwork: API.OperationMethod<
   protocol: HetznerProtocol,
   retry: Retry.Retry,
 }));
+
+export type ListNetworkMembersError = HetznerOpError;
+/** List Members of a Network List the resources attached to a specific [Network](#tag/networks). Use the provided URI parameters to modify the result. */
+export const listNetworkMembers: API.PaginatedOperationMethod<
+  ListNetworkMembersRequest,
+  ListNetworkMembersResponse,
+  ListNetworkMembersError,
+  HetznerOpContext,
+  ListNetworkMembersResponseMembersItem
+> = /*@__PURE__*/ API.makePaginated(
+  () => ({
+    input: ListNetworkMembersRequest,
+    output: ListNetworkMembersResponse,
+    errors: [UnknownHetznerError],
+    protocol: HetznerProtocol,
+    retry: Retry.Retry,
+    pagination: {
+      mode: "page",
+      inputToken: "page",
+      outputToken: "meta.pagination.next_page",
+      items: "members",
+      pageSize: "per_page",
+    } as const,
+  }),
+  paginatePageNumber,
+) as any;
 
 export type ListNetworksError = HetznerOpError;
 /** List Networks List multiple [Networks](#tag/networks). Use the provided URI parameters to modify the result. */

@@ -247,7 +247,7 @@
           "target": "smithy.api#Integer"
         },
         "Case1": {
-          "target": "smithy.api#Document"
+          "target": "smithy.api#Double"
         }
       },
       "traits": {}
@@ -591,7 +591,7 @@
         "smithy.api#documentation": "Duplication status"
       }
     },
-    "com.huggingface.repos#CreateNewRepositoryRequestRegion": {
+    "com.huggingface.repos#CreateRepositoryRequestBodyCase0Region": {
       "type": "enum",
       "members": {
         "US": {
@@ -611,7 +611,7 @@
         "smithy.api#documentation": "The region where the repository is hosted."
       }
     },
-    "com.huggingface.repos#CreateNewRepositoryRequestLicense": {
+    "com.huggingface.repos#CreateRepositoryRequestBodyCase0License": {
       "type": "enum",
       "members": {
         "APACHE_2_0": {
@@ -1117,19 +1117,7 @@
         "smithy.api#documentation": "The license of the repository. You can select 'Other' if your license is not in the list"
       }
     },
-    "com.huggingface.repos#CreateNewRepositoryRequestLicenseLink": {
-      "type": "union",
-      "members": {
-        "Case0": {
-          "target": "smithy.api#Document"
-        },
-        "Case2": {
-          "target": "smithy.api#String"
-        }
-      },
-      "traits": {}
-    },
-    "com.huggingface.repos#CreateNewRepositoryRequestVisibility": {
+    "com.huggingface.repos#CreateRepositoryRequestBodyCase0Visibility": {
       "type": "enum",
       "members": {
         "PRIVATE": {
@@ -1155,7 +1143,7 @@
         "smithy.api#documentation": "Repository visibility. `protected` is only supported for Spaces. Cannot be specified along with private."
       }
     },
-    "com.huggingface.repos#CreateNewRepositoryRequestFilesItemEncoding": {
+    "com.huggingface.repos#CreateRepositoryRequestBodyCase0FilesItemEncoding": {
       "type": "enum",
       "members": {
         "UTF_8": {
@@ -1173,7 +1161,7 @@
       },
       "traits": {}
     },
-    "com.huggingface.repos#CreateNewRepositoryRequestFilesItem": {
+    "com.huggingface.repos#CreateRepositoryRequestBodyCase0FilesItem": {
       "type": "structure",
       "members": {
         "content": {
@@ -1189,19 +1177,2002 @@
           }
         },
         "encoding": {
-          "target": "com.huggingface.repos#CreateNewRepositoryRequestFilesItemEncoding"
+          "target": "com.huggingface.repos#CreateRepositoryRequestBodyCase0FilesItemEncoding"
         }
       },
       "traits": {}
     },
-    "com.huggingface.repos#CreateNewRepositoryRequestFilesList": {
+    "com.huggingface.repos#CreateRepositoryRequestBodyCase0FilesList": {
       "type": "list",
       "member": {
-        "target": "com.huggingface.repos#CreateNewRepositoryRequestFilesItem"
+        "target": "com.huggingface.repos#CreateRepositoryRequestBodyCase0FilesItem"
       },
       "traits": {}
     },
-    "com.huggingface.repos#CreateNewRepositoryRequestHardware": {
+    "com.huggingface.repos#CreateRepositoryRequestBodyCase0": {
+      "type": "structure",
+      "members": {
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "organization": {
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "region": {
+          "target": "com.huggingface.repos#CreateRepositoryRequestBodyCase0Region",
+          "traits": {
+            "smithy.api#documentation": "The region where the repository is hosted."
+          }
+        },
+        "license": {
+          "target": "com.huggingface.repos#CreateRepositoryRequestBodyCase0License",
+          "traits": {
+            "smithy.api#documentation": "The license of the repository. You can select 'Other' if your license is not in the list"
+          }
+        },
+        "license_name": {
+          "target": "smithy.api#String"
+        },
+        "license_link": {
+          "target": "smithy.api#String"
+        },
+        "private": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Repository visibility. Defaults to public. Cannot be specified along with visibility.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "visibility": {
+          "target": "com.huggingface.repos#CreateRepositoryRequestBodyCase0Visibility",
+          "traits": {
+            "smithy.api#documentation": "Repository visibility. `protected` is only supported for Spaces. Cannot be specified along with private."
+          }
+        },
+        "resourceGroupId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "files": {
+          "target": "com.huggingface.repos#CreateRepositoryRequestBodyCase0FilesList"
+        },
+        "type": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.huggingface.repos#CreateRepositoryRequestBodyCase1Region": {
+      "type": "enum",
+      "members": {
+        "US": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "us"
+          }
+        },
+        "EU": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "eu"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The region where the repository is hosted."
+      }
+    },
+    "com.huggingface.repos#CreateRepositoryRequestBodyCase1License": {
+      "type": "enum",
+      "members": {
+        "APACHE_2_0": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "apache-2.0"
+          }
+        },
+        "MIT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "mit"
+          }
+        },
+        "OPENRAIL": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "openrail"
+          }
+        },
+        "BIGSCIENCE_OPENRAIL_M": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "bigscience-openrail-m"
+          }
+        },
+        "CREATIVEML_OPENRAIL_M": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "creativeml-openrail-m"
+          }
+        },
+        "BIGSCIENCE_BLOOM_RAIL_1_0": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "bigscience-bloom-rail-1.0"
+          }
+        },
+        "BIGCODE_OPENRAIL_M": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "bigcode-openrail-m"
+          }
+        },
+        "AFL_3_0": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "afl-3.0"
+          }
+        },
+        "ARTISTIC_2_0": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "artistic-2.0"
+          }
+        },
+        "BSL_1_0": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "bsl-1.0"
+          }
+        },
+        "BSD": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "bsd"
+          }
+        },
+        "BSD_2_CLAUSE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "bsd-2-clause"
+          }
+        },
+        "BSD_3_CLAUSE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "bsd-3-clause"
+          }
+        },
+        "BSD_3_CLAUSE_CLEAR": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "bsd-3-clause-clear"
+          }
+        },
+        "C_UDA": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "c-uda"
+          }
+        },
+        "CC": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "cc"
+          }
+        },
+        "CC0_1_0": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "cc0-1.0"
+          }
+        },
+        "CC_BY_2_0": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "cc-by-2.0"
+          }
+        },
+        "CC_BY_2_5": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "cc-by-2.5"
+          }
+        },
+        "CC_BY_3_0": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "cc-by-3.0"
+          }
+        },
+        "CC_BY_4_0": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "cc-by-4.0"
+          }
+        },
+        "CC_BY_SA_3_0": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "cc-by-sa-3.0"
+          }
+        },
+        "CC_BY_SA_4_0": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "cc-by-sa-4.0"
+          }
+        },
+        "CC_BY_NC_2_0": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "cc-by-nc-2.0"
+          }
+        },
+        "CC_BY_NC_3_0": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "cc-by-nc-3.0"
+          }
+        },
+        "CC_BY_NC_4_0": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "cc-by-nc-4.0"
+          }
+        },
+        "CC_BY_ND_4_0": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "cc-by-nd-4.0"
+          }
+        },
+        "CC_BY_NC_ND_3_0": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "cc-by-nc-nd-3.0"
+          }
+        },
+        "CC_BY_NC_ND_4_0": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "cc-by-nc-nd-4.0"
+          }
+        },
+        "CC_BY_NC_SA_2_0": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "cc-by-nc-sa-2.0"
+          }
+        },
+        "CC_BY_NC_SA_3_0": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "cc-by-nc-sa-3.0"
+          }
+        },
+        "CC_BY_NC_SA_4_0": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "cc-by-nc-sa-4.0"
+          }
+        },
+        "CDLA_SHARING_1_0": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "cdla-sharing-1.0"
+          }
+        },
+        "CDLA_PERMISSIVE_1_0": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "cdla-permissive-1.0"
+          }
+        },
+        "CDLA_PERMISSIVE_2_0": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "cdla-permissive-2.0"
+          }
+        },
+        "WTFPL": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "wtfpl"
+          }
+        },
+        "ECL_2_0": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "ecl-2.0"
+          }
+        },
+        "EPL_1_0": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "epl-1.0"
+          }
+        },
+        "EPL_2_0": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "epl-2.0"
+          }
+        },
+        "ETALAB_2_0": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "etalab-2.0"
+          }
+        },
+        "EUPL_1_1": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "eupl-1.1"
+          }
+        },
+        "EUPL_1_2": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "eupl-1.2"
+          }
+        },
+        "AGPL_3_0": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "agpl-3.0"
+          }
+        },
+        "GFDL": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "gfdl"
+          }
+        },
+        "GPL": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "gpl"
+          }
+        },
+        "GPL_2_0": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "gpl-2.0"
+          }
+        },
+        "GPL_3_0": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "gpl-3.0"
+          }
+        },
+        "LGPL": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "lgpl"
+          }
+        },
+        "LGPL_2_1": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "lgpl-2.1"
+          }
+        },
+        "LGPL_3_0": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "lgpl-3.0"
+          }
+        },
+        "ISC": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "isc"
+          }
+        },
+        "H_RESEARCH": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "h-research"
+          }
+        },
+        "INTEL_RESEARCH": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "intel-research"
+          }
+        },
+        "LPPL_1_3C": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "lppl-1.3c"
+          }
+        },
+        "MS_PL": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "ms-pl"
+          }
+        },
+        "APPLE_ASCL": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "apple-ascl"
+          }
+        },
+        "APPLE_AMLR": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "apple-amlr"
+          }
+        },
+        "MPL_2_0": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "mpl-2.0"
+          }
+        },
+        "ODC_BY": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "odc-by"
+          }
+        },
+        "ODBL": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "odbl"
+          }
+        },
+        "OPENMDW_1_0": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "openmdw-1.0"
+          }
+        },
+        "OPENMDW_1_1": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "openmdw-1.1"
+          }
+        },
+        "OPENRAIL_2": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "openrail++"
+          }
+        },
+        "OSL_3_0": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "osl-3.0"
+          }
+        },
+        "POSTGRESQL": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "postgresql"
+          }
+        },
+        "OFL_1_1": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "ofl-1.1"
+          }
+        },
+        "NCSA": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "ncsa"
+          }
+        },
+        "UNLICENSE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "unlicense"
+          }
+        },
+        "ZLIB": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "zlib"
+          }
+        },
+        "PDDL": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "pddl"
+          }
+        },
+        "LGPL_LR": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "lgpl-lr"
+          }
+        },
+        "DEEPFLOYD_IF_LICENSE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "deepfloyd-if-license"
+          }
+        },
+        "FAIR_NONCOMMERCIAL_RESEARCH_LICENSE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "fair-noncommercial-research-license"
+          }
+        },
+        "LLAMA2": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "llama2"
+          }
+        },
+        "LLAMA3": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "llama3"
+          }
+        },
+        "LLAMA3_1": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "llama3.1"
+          }
+        },
+        "LLAMA3_2": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "llama3.2"
+          }
+        },
+        "LLAMA3_3": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "llama3.3"
+          }
+        },
+        "LLAMA4": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "llama4"
+          }
+        },
+        "GROK2_COMMUNITY": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "grok2-community"
+          }
+        },
+        "GEMMA": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "gemma"
+          }
+        },
+        "UNKNOWN": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "unknown"
+          }
+        },
+        "OTHER": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "other"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The license of the repository. You can select 'Other' if your license is not in the list"
+      }
+    },
+    "com.huggingface.repos#CreateRepositoryRequestBodyCase1Visibility": {
+      "type": "enum",
+      "members": {
+        "PRIVATE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "private"
+          }
+        },
+        "PUBLIC": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "public"
+          }
+        },
+        "PROTECTED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "protected"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Repository visibility. `protected` is only supported for Spaces. Cannot be specified along with private."
+      }
+    },
+    "com.huggingface.repos#CreateRepositoryRequestBodyCase1FilesItemEncoding": {
+      "type": "enum",
+      "members": {
+        "UTF_8": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "utf-8"
+          }
+        },
+        "BASE64": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "base64"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.huggingface.repos#CreateRepositoryRequestBodyCase1FilesItem": {
+      "type": "structure",
+      "members": {
+        "content": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "path": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "encoding": {
+          "target": "com.huggingface.repos#CreateRepositoryRequestBodyCase1FilesItemEncoding"
+        }
+      },
+      "traits": {}
+    },
+    "com.huggingface.repos#CreateRepositoryRequestBodyCase1FilesList": {
+      "type": "list",
+      "member": {
+        "target": "com.huggingface.repos#CreateRepositoryRequestBodyCase1FilesItem"
+      },
+      "traits": {}
+    },
+    "com.huggingface.repos#CreateRepositoryRequestBodyCase1": {
+      "type": "structure",
+      "members": {
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "organization": {
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "region": {
+          "target": "com.huggingface.repos#CreateRepositoryRequestBodyCase1Region",
+          "traits": {
+            "smithy.api#documentation": "The region where the repository is hosted."
+          }
+        },
+        "license": {
+          "target": "com.huggingface.repos#CreateRepositoryRequestBodyCase1License",
+          "traits": {
+            "smithy.api#documentation": "The license of the repository. You can select 'Other' if your license is not in the list"
+          }
+        },
+        "license_name": {
+          "target": "smithy.api#String"
+        },
+        "license_link": {
+          "target": "smithy.api#String"
+        },
+        "private": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Repository visibility. Defaults to public. Cannot be specified along with visibility.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "visibility": {
+          "target": "com.huggingface.repos#CreateRepositoryRequestBodyCase1Visibility",
+          "traits": {
+            "smithy.api#documentation": "Repository visibility. `protected` is only supported for Spaces. Cannot be specified along with private."
+          }
+        },
+        "resourceGroupId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "files": {
+          "target": "com.huggingface.repos#CreateRepositoryRequestBodyCase1FilesList"
+        },
+        "type": {
+          "target": "smithy.api#String"
+        }
+      },
+      "traits": {}
+    },
+    "com.huggingface.repos#CreateRepositoryRequestBodyCase2Region": {
+      "type": "enum",
+      "members": {
+        "US": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "us"
+          }
+        },
+        "EU": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "eu"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The region where the repository is hosted."
+      }
+    },
+    "com.huggingface.repos#CreateRepositoryRequestBodyCase2License": {
+      "type": "enum",
+      "members": {
+        "APACHE_2_0": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "apache-2.0"
+          }
+        },
+        "MIT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "mit"
+          }
+        },
+        "OPENRAIL": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "openrail"
+          }
+        },
+        "BIGSCIENCE_OPENRAIL_M": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "bigscience-openrail-m"
+          }
+        },
+        "CREATIVEML_OPENRAIL_M": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "creativeml-openrail-m"
+          }
+        },
+        "BIGSCIENCE_BLOOM_RAIL_1_0": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "bigscience-bloom-rail-1.0"
+          }
+        },
+        "BIGCODE_OPENRAIL_M": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "bigcode-openrail-m"
+          }
+        },
+        "AFL_3_0": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "afl-3.0"
+          }
+        },
+        "ARTISTIC_2_0": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "artistic-2.0"
+          }
+        },
+        "BSL_1_0": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "bsl-1.0"
+          }
+        },
+        "BSD": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "bsd"
+          }
+        },
+        "BSD_2_CLAUSE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "bsd-2-clause"
+          }
+        },
+        "BSD_3_CLAUSE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "bsd-3-clause"
+          }
+        },
+        "BSD_3_CLAUSE_CLEAR": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "bsd-3-clause-clear"
+          }
+        },
+        "C_UDA": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "c-uda"
+          }
+        },
+        "CC": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "cc"
+          }
+        },
+        "CC0_1_0": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "cc0-1.0"
+          }
+        },
+        "CC_BY_2_0": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "cc-by-2.0"
+          }
+        },
+        "CC_BY_2_5": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "cc-by-2.5"
+          }
+        },
+        "CC_BY_3_0": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "cc-by-3.0"
+          }
+        },
+        "CC_BY_4_0": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "cc-by-4.0"
+          }
+        },
+        "CC_BY_SA_3_0": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "cc-by-sa-3.0"
+          }
+        },
+        "CC_BY_SA_4_0": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "cc-by-sa-4.0"
+          }
+        },
+        "CC_BY_NC_2_0": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "cc-by-nc-2.0"
+          }
+        },
+        "CC_BY_NC_3_0": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "cc-by-nc-3.0"
+          }
+        },
+        "CC_BY_NC_4_0": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "cc-by-nc-4.0"
+          }
+        },
+        "CC_BY_ND_4_0": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "cc-by-nd-4.0"
+          }
+        },
+        "CC_BY_NC_ND_3_0": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "cc-by-nc-nd-3.0"
+          }
+        },
+        "CC_BY_NC_ND_4_0": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "cc-by-nc-nd-4.0"
+          }
+        },
+        "CC_BY_NC_SA_2_0": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "cc-by-nc-sa-2.0"
+          }
+        },
+        "CC_BY_NC_SA_3_0": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "cc-by-nc-sa-3.0"
+          }
+        },
+        "CC_BY_NC_SA_4_0": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "cc-by-nc-sa-4.0"
+          }
+        },
+        "CDLA_SHARING_1_0": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "cdla-sharing-1.0"
+          }
+        },
+        "CDLA_PERMISSIVE_1_0": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "cdla-permissive-1.0"
+          }
+        },
+        "CDLA_PERMISSIVE_2_0": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "cdla-permissive-2.0"
+          }
+        },
+        "WTFPL": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "wtfpl"
+          }
+        },
+        "ECL_2_0": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "ecl-2.0"
+          }
+        },
+        "EPL_1_0": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "epl-1.0"
+          }
+        },
+        "EPL_2_0": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "epl-2.0"
+          }
+        },
+        "ETALAB_2_0": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "etalab-2.0"
+          }
+        },
+        "EUPL_1_1": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "eupl-1.1"
+          }
+        },
+        "EUPL_1_2": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "eupl-1.2"
+          }
+        },
+        "AGPL_3_0": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "agpl-3.0"
+          }
+        },
+        "GFDL": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "gfdl"
+          }
+        },
+        "GPL": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "gpl"
+          }
+        },
+        "GPL_2_0": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "gpl-2.0"
+          }
+        },
+        "GPL_3_0": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "gpl-3.0"
+          }
+        },
+        "LGPL": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "lgpl"
+          }
+        },
+        "LGPL_2_1": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "lgpl-2.1"
+          }
+        },
+        "LGPL_3_0": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "lgpl-3.0"
+          }
+        },
+        "ISC": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "isc"
+          }
+        },
+        "H_RESEARCH": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "h-research"
+          }
+        },
+        "INTEL_RESEARCH": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "intel-research"
+          }
+        },
+        "LPPL_1_3C": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "lppl-1.3c"
+          }
+        },
+        "MS_PL": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "ms-pl"
+          }
+        },
+        "APPLE_ASCL": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "apple-ascl"
+          }
+        },
+        "APPLE_AMLR": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "apple-amlr"
+          }
+        },
+        "MPL_2_0": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "mpl-2.0"
+          }
+        },
+        "ODC_BY": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "odc-by"
+          }
+        },
+        "ODBL": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "odbl"
+          }
+        },
+        "OPENMDW_1_0": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "openmdw-1.0"
+          }
+        },
+        "OPENMDW_1_1": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "openmdw-1.1"
+          }
+        },
+        "OPENRAIL_2": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "openrail++"
+          }
+        },
+        "OSL_3_0": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "osl-3.0"
+          }
+        },
+        "POSTGRESQL": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "postgresql"
+          }
+        },
+        "OFL_1_1": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "ofl-1.1"
+          }
+        },
+        "NCSA": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "ncsa"
+          }
+        },
+        "UNLICENSE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "unlicense"
+          }
+        },
+        "ZLIB": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "zlib"
+          }
+        },
+        "PDDL": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "pddl"
+          }
+        },
+        "LGPL_LR": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "lgpl-lr"
+          }
+        },
+        "DEEPFLOYD_IF_LICENSE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "deepfloyd-if-license"
+          }
+        },
+        "FAIR_NONCOMMERCIAL_RESEARCH_LICENSE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "fair-noncommercial-research-license"
+          }
+        },
+        "LLAMA2": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "llama2"
+          }
+        },
+        "LLAMA3": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "llama3"
+          }
+        },
+        "LLAMA3_1": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "llama3.1"
+          }
+        },
+        "LLAMA3_2": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "llama3.2"
+          }
+        },
+        "LLAMA3_3": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "llama3.3"
+          }
+        },
+        "LLAMA4": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "llama4"
+          }
+        },
+        "GROK2_COMMUNITY": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "grok2-community"
+          }
+        },
+        "GEMMA": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "gemma"
+          }
+        },
+        "UNKNOWN": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "unknown"
+          }
+        },
+        "OTHER": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "other"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The license of the repository. You can select 'Other' if your license is not in the list"
+      }
+    },
+    "com.huggingface.repos#CreateRepositoryRequestBodyCase2Visibility": {
+      "type": "enum",
+      "members": {
+        "PRIVATE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "private"
+          }
+        },
+        "PUBLIC": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "public"
+          }
+        },
+        "PROTECTED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "protected"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Repository visibility. `protected` is only supported for Spaces. Cannot be specified along with private."
+      }
+    },
+    "com.huggingface.repos#CreateRepositoryRequestBodyCase2FilesItemEncoding": {
+      "type": "enum",
+      "members": {
+        "UTF_8": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "utf-8"
+          }
+        },
+        "BASE64": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "base64"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.huggingface.repos#CreateRepositoryRequestBodyCase2FilesItem": {
+      "type": "structure",
+      "members": {
+        "content": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "path": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "encoding": {
+          "target": "com.huggingface.repos#CreateRepositoryRequestBodyCase2FilesItemEncoding"
+        }
+      },
+      "traits": {}
+    },
+    "com.huggingface.repos#CreateRepositoryRequestBodyCase2FilesList": {
+      "type": "list",
+      "member": {
+        "target": "com.huggingface.repos#CreateRepositoryRequestBodyCase2FilesItem"
+      },
+      "traits": {}
+    },
+    "com.huggingface.repos#CreateRepositoryRequestBodyCase2": {
+      "type": "structure",
+      "members": {
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "organization": {
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "region": {
+          "target": "com.huggingface.repos#CreateRepositoryRequestBodyCase2Region",
+          "traits": {
+            "smithy.api#documentation": "The region where the repository is hosted."
+          }
+        },
+        "license": {
+          "target": "com.huggingface.repos#CreateRepositoryRequestBodyCase2License",
+          "traits": {
+            "smithy.api#documentation": "The license of the repository. You can select 'Other' if your license is not in the list"
+          }
+        },
+        "license_name": {
+          "target": "smithy.api#String"
+        },
+        "license_link": {
+          "target": "smithy.api#String"
+        },
+        "private": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Repository visibility. Defaults to public. Cannot be specified along with visibility.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "visibility": {
+          "target": "com.huggingface.repos#CreateRepositoryRequestBodyCase2Visibility",
+          "traits": {
+            "smithy.api#documentation": "Repository visibility. `protected` is only supported for Spaces. Cannot be specified along with private."
+          }
+        },
+        "resourceGroupId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "files": {
+          "target": "com.huggingface.repos#CreateRepositoryRequestBodyCase2FilesList"
+        },
+        "type": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.huggingface.repos#CreateRepositoryRequestBodyCase3Region": {
+      "type": "enum",
+      "members": {
+        "US": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "us"
+          }
+        },
+        "EU": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "eu"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The region where the repository is hosted."
+      }
+    },
+    "com.huggingface.repos#CreateRepositoryRequestBodyCase3License": {
+      "type": "enum",
+      "members": {
+        "APACHE_2_0": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "apache-2.0"
+          }
+        },
+        "MIT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "mit"
+          }
+        },
+        "OPENRAIL": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "openrail"
+          }
+        },
+        "BIGSCIENCE_OPENRAIL_M": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "bigscience-openrail-m"
+          }
+        },
+        "CREATIVEML_OPENRAIL_M": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "creativeml-openrail-m"
+          }
+        },
+        "BIGSCIENCE_BLOOM_RAIL_1_0": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "bigscience-bloom-rail-1.0"
+          }
+        },
+        "BIGCODE_OPENRAIL_M": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "bigcode-openrail-m"
+          }
+        },
+        "AFL_3_0": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "afl-3.0"
+          }
+        },
+        "ARTISTIC_2_0": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "artistic-2.0"
+          }
+        },
+        "BSL_1_0": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "bsl-1.0"
+          }
+        },
+        "BSD": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "bsd"
+          }
+        },
+        "BSD_2_CLAUSE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "bsd-2-clause"
+          }
+        },
+        "BSD_3_CLAUSE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "bsd-3-clause"
+          }
+        },
+        "BSD_3_CLAUSE_CLEAR": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "bsd-3-clause-clear"
+          }
+        },
+        "C_UDA": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "c-uda"
+          }
+        },
+        "CC": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "cc"
+          }
+        },
+        "CC0_1_0": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "cc0-1.0"
+          }
+        },
+        "CC_BY_2_0": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "cc-by-2.0"
+          }
+        },
+        "CC_BY_2_5": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "cc-by-2.5"
+          }
+        },
+        "CC_BY_3_0": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "cc-by-3.0"
+          }
+        },
+        "CC_BY_4_0": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "cc-by-4.0"
+          }
+        },
+        "CC_BY_SA_3_0": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "cc-by-sa-3.0"
+          }
+        },
+        "CC_BY_SA_4_0": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "cc-by-sa-4.0"
+          }
+        },
+        "CC_BY_NC_2_0": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "cc-by-nc-2.0"
+          }
+        },
+        "CC_BY_NC_3_0": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "cc-by-nc-3.0"
+          }
+        },
+        "CC_BY_NC_4_0": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "cc-by-nc-4.0"
+          }
+        },
+        "CC_BY_ND_4_0": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "cc-by-nd-4.0"
+          }
+        },
+        "CC_BY_NC_ND_3_0": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "cc-by-nc-nd-3.0"
+          }
+        },
+        "CC_BY_NC_ND_4_0": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "cc-by-nc-nd-4.0"
+          }
+        },
+        "CC_BY_NC_SA_2_0": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "cc-by-nc-sa-2.0"
+          }
+        },
+        "CC_BY_NC_SA_3_0": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "cc-by-nc-sa-3.0"
+          }
+        },
+        "CC_BY_NC_SA_4_0": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "cc-by-nc-sa-4.0"
+          }
+        },
+        "CDLA_SHARING_1_0": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "cdla-sharing-1.0"
+          }
+        },
+        "CDLA_PERMISSIVE_1_0": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "cdla-permissive-1.0"
+          }
+        },
+        "CDLA_PERMISSIVE_2_0": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "cdla-permissive-2.0"
+          }
+        },
+        "WTFPL": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "wtfpl"
+          }
+        },
+        "ECL_2_0": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "ecl-2.0"
+          }
+        },
+        "EPL_1_0": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "epl-1.0"
+          }
+        },
+        "EPL_2_0": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "epl-2.0"
+          }
+        },
+        "ETALAB_2_0": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "etalab-2.0"
+          }
+        },
+        "EUPL_1_1": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "eupl-1.1"
+          }
+        },
+        "EUPL_1_2": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "eupl-1.2"
+          }
+        },
+        "AGPL_3_0": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "agpl-3.0"
+          }
+        },
+        "GFDL": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "gfdl"
+          }
+        },
+        "GPL": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "gpl"
+          }
+        },
+        "GPL_2_0": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "gpl-2.0"
+          }
+        },
+        "GPL_3_0": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "gpl-3.0"
+          }
+        },
+        "LGPL": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "lgpl"
+          }
+        },
+        "LGPL_2_1": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "lgpl-2.1"
+          }
+        },
+        "LGPL_3_0": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "lgpl-3.0"
+          }
+        },
+        "ISC": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "isc"
+          }
+        },
+        "H_RESEARCH": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "h-research"
+          }
+        },
+        "INTEL_RESEARCH": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "intel-research"
+          }
+        },
+        "LPPL_1_3C": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "lppl-1.3c"
+          }
+        },
+        "MS_PL": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "ms-pl"
+          }
+        },
+        "APPLE_ASCL": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "apple-ascl"
+          }
+        },
+        "APPLE_AMLR": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "apple-amlr"
+          }
+        },
+        "MPL_2_0": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "mpl-2.0"
+          }
+        },
+        "ODC_BY": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "odc-by"
+          }
+        },
+        "ODBL": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "odbl"
+          }
+        },
+        "OPENMDW_1_0": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "openmdw-1.0"
+          }
+        },
+        "OPENMDW_1_1": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "openmdw-1.1"
+          }
+        },
+        "OPENRAIL_2": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "openrail++"
+          }
+        },
+        "OSL_3_0": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "osl-3.0"
+          }
+        },
+        "POSTGRESQL": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "postgresql"
+          }
+        },
+        "OFL_1_1": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "ofl-1.1"
+          }
+        },
+        "NCSA": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "ncsa"
+          }
+        },
+        "UNLICENSE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "unlicense"
+          }
+        },
+        "ZLIB": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "zlib"
+          }
+        },
+        "PDDL": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "pddl"
+          }
+        },
+        "LGPL_LR": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "lgpl-lr"
+          }
+        },
+        "DEEPFLOYD_IF_LICENSE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "deepfloyd-if-license"
+          }
+        },
+        "FAIR_NONCOMMERCIAL_RESEARCH_LICENSE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "fair-noncommercial-research-license"
+          }
+        },
+        "LLAMA2": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "llama2"
+          }
+        },
+        "LLAMA3": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "llama3"
+          }
+        },
+        "LLAMA3_1": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "llama3.1"
+          }
+        },
+        "LLAMA3_2": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "llama3.2"
+          }
+        },
+        "LLAMA3_3": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "llama3.3"
+          }
+        },
+        "LLAMA4": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "llama4"
+          }
+        },
+        "GROK2_COMMUNITY": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "grok2-community"
+          }
+        },
+        "GEMMA": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "gemma"
+          }
+        },
+        "UNKNOWN": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "unknown"
+          }
+        },
+        "OTHER": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "other"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The license of the repository. You can select 'Other' if your license is not in the list"
+      }
+    },
+    "com.huggingface.repos#CreateRepositoryRequestBodyCase3Visibility": {
+      "type": "enum",
+      "members": {
+        "PRIVATE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "private"
+          }
+        },
+        "PUBLIC": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "public"
+          }
+        },
+        "PROTECTED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "protected"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Repository visibility. `protected` is only supported for Spaces. Cannot be specified along with private."
+      }
+    },
+    "com.huggingface.repos#CreateRepositoryRequestBodyCase3FilesItemEncoding": {
+      "type": "enum",
+      "members": {
+        "UTF_8": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "utf-8"
+          }
+        },
+        "BASE64": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "base64"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.huggingface.repos#CreateRepositoryRequestBodyCase3FilesItem": {
+      "type": "structure",
+      "members": {
+        "content": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "path": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "encoding": {
+          "target": "com.huggingface.repos#CreateRepositoryRequestBodyCase3FilesItemEncoding"
+        }
+      },
+      "traits": {}
+    },
+    "com.huggingface.repos#CreateRepositoryRequestBodyCase3FilesList": {
+      "type": "list",
+      "member": {
+        "target": "com.huggingface.repos#CreateRepositoryRequestBodyCase3FilesItem"
+      },
+      "traits": {}
+    },
+    "com.huggingface.repos#CreateRepositoryRequestBodyCase3Hardware": {
       "type": "enum",
       "members": {
         "CPU_BASIC": {
@@ -1389,7 +3360,7 @@
         "smithy.api#documentation": "The hardware flavor of the space. If you select 'zero-a10g' or 'zerogpu', the SDK must be Gradio."
       }
     },
-    "com.huggingface.repos#CreateNewRepositoryRequestSecretsItem": {
+    "com.huggingface.repos#CreateRepositoryRequestBodyCase3SecretsItem": {
       "type": "structure",
       "members": {
         "key": {
@@ -1410,14 +3381,14 @@
       },
       "traits": {}
     },
-    "com.huggingface.repos#CreateNewRepositoryRequestSecretsList": {
+    "com.huggingface.repos#CreateRepositoryRequestBodyCase3SecretsList": {
       "type": "list",
       "member": {
-        "target": "com.huggingface.repos#CreateNewRepositoryRequestSecretsItem"
+        "target": "com.huggingface.repos#CreateRepositoryRequestBodyCase3SecretsItem"
       },
       "traits": {}
     },
-    "com.huggingface.repos#CreateNewRepositoryRequestVariablesItem": {
+    "com.huggingface.repos#CreateRepositoryRequestBodyCase3VariablesItem": {
       "type": "structure",
       "members": {
         "key": {
@@ -1438,26 +3409,26 @@
       },
       "traits": {}
     },
-    "com.huggingface.repos#CreateNewRepositoryRequestVariablesList": {
+    "com.huggingface.repos#CreateRepositoryRequestBodyCase3VariablesList": {
       "type": "list",
       "member": {
-        "target": "com.huggingface.repos#CreateNewRepositoryRequestVariablesItem"
+        "target": "com.huggingface.repos#CreateRepositoryRequestBodyCase3VariablesItem"
       },
       "traits": {}
     },
-    "com.huggingface.repos#CreateNewRepositoryRequestSleepTimeSeconds": {
+    "com.huggingface.repos#CreateRepositoryRequestBodyCase3SleepTimeSeconds": {
       "type": "union",
       "members": {
         "Case0": {
           "target": "smithy.api#Integer"
         },
         "Case1": {
-          "target": "smithy.api#Document"
+          "target": "smithy.api#Double"
         }
       },
       "traits": {}
     },
-    "com.huggingface.repos#CreateNewRepositoryRequestVolumesItemType": {
+    "com.huggingface.repos#CreateRepositoryRequestBodyCase3VolumesItemType": {
       "type": "enum",
       "members": {
         "BUCKET": {
@@ -1487,11 +3458,11 @@
       },
       "traits": {}
     },
-    "com.huggingface.repos#CreateNewRepositoryRequestVolumesItem": {
+    "com.huggingface.repos#CreateRepositoryRequestBodyCase3VolumesItem": {
       "type": "structure",
       "members": {
         "type": {
-          "target": "com.huggingface.repos#CreateNewRepositoryRequestVolumesItemType",
+          "target": "com.huggingface.repos#CreateRepositoryRequestBodyCase3VolumesItemType",
           "traits": {
             "smithy.api#required": {}
           }
@@ -1531,16 +3502,16 @@
       },
       "traits": {}
     },
-    "com.huggingface.repos#CreateNewRepositoryRequestVolumesList": {
+    "com.huggingface.repos#CreateRepositoryRequestBodyCase3VolumesList": {
       "type": "list",
       "member": {
-        "target": "com.huggingface.repos#CreateNewRepositoryRequestVolumesItem"
+        "target": "com.huggingface.repos#CreateRepositoryRequestBodyCase3VolumesItem"
       },
       "traits": {
         "smithy.api#documentation": "HuggingFace Buckets or Repos to mount as volumes in the Space container."
       }
     },
-    "com.huggingface.repos#CreateNewRepositoryRequestSdk": {
+    "com.huggingface.repos#CreateRepositoryRequestBodyCase3Sdk": {
       "type": "enum",
       "members": {
         "GRADIO": {
@@ -1566,7 +3537,7 @@
         "smithy.api#documentation": "The Space SDK. `static` is free for everyone. `gradio` and `docker` run on compute: on the free `cpu-basic` flavor they require a subscription (PRO for users, Team/Enterprise for orgs), while paid hardware only requires billing (a payment method and prepaid credits)."
       }
     },
-    "com.huggingface.repos#CreateNewRepositoryRequest": {
+    "com.huggingface.repos#CreateRepositoryRequestBodyCase3": {
       "type": "structure",
       "members": {
         "name": {
@@ -1582,13 +3553,13 @@
           }
         },
         "region": {
-          "target": "com.huggingface.repos#CreateNewRepositoryRequestRegion",
+          "target": "com.huggingface.repos#CreateRepositoryRequestBodyCase3Region",
           "traits": {
             "smithy.api#documentation": "The region where the repository is hosted."
           }
         },
         "license": {
-          "target": "com.huggingface.repos#CreateNewRepositoryRequestLicense",
+          "target": "com.huggingface.repos#CreateRepositoryRequestBodyCase3License",
           "traits": {
             "smithy.api#documentation": "The license of the repository. You can select 'Other' if your license is not in the list"
           }
@@ -1597,7 +3568,7 @@
           "target": "smithy.api#String"
         },
         "license_link": {
-          "target": "com.huggingface.repos#CreateNewRepositoryRequestLicenseLink"
+          "target": "smithy.api#String"
         },
         "private": {
           "target": "smithy.api#Boolean",
@@ -1607,7 +3578,7 @@
           }
         },
         "visibility": {
-          "target": "com.huggingface.repos#CreateNewRepositoryRequestVisibility",
+          "target": "com.huggingface.repos#CreateRepositoryRequestBodyCase3Visibility",
           "traits": {
             "smithy.api#documentation": "Repository visibility. `protected` is only supported for Spaces. Cannot be specified along with private."
           }
@@ -1619,10 +3590,13 @@
           }
         },
         "files": {
-          "target": "com.huggingface.repos#CreateNewRepositoryRequestFilesList"
+          "target": "com.huggingface.repos#CreateRepositoryRequestBodyCase3FilesList"
         },
         "type": {
-          "target": "smithy.api#Document"
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
         },
         "template": {
           "target": "smithy.api#String"
@@ -1631,30 +3605,31 @@
           "target": "smithy.api#String"
         },
         "hardware": {
-          "target": "com.huggingface.repos#CreateNewRepositoryRequestHardware",
+          "target": "com.huggingface.repos#CreateRepositoryRequestBodyCase3Hardware",
           "traits": {
             "smithy.api#documentation": "The hardware flavor of the space. If you select 'zero-a10g' or 'zerogpu', the SDK must be Gradio."
           }
         },
         "secrets": {
-          "target": "com.huggingface.repos#CreateNewRepositoryRequestSecretsList"
+          "target": "com.huggingface.repos#CreateRepositoryRequestBodyCase3SecretsList"
         },
         "variables": {
-          "target": "com.huggingface.repos#CreateNewRepositoryRequestVariablesList"
+          "target": "com.huggingface.repos#CreateRepositoryRequestBodyCase3VariablesList"
         },
         "sleepTimeSeconds": {
-          "target": "com.huggingface.repos#CreateNewRepositoryRequestSleepTimeSeconds"
+          "target": "com.huggingface.repos#CreateRepositoryRequestBodyCase3SleepTimeSeconds"
         },
         "volumes": {
-          "target": "com.huggingface.repos#CreateNewRepositoryRequestVolumesList",
+          "target": "com.huggingface.repos#CreateRepositoryRequestBodyCase3VolumesList",
           "traits": {
             "smithy.api#documentation": "HuggingFace Buckets or Repos to mount as volumes in the Space container."
           }
         },
         "sdk": {
-          "target": "com.huggingface.repos#CreateNewRepositoryRequestSdk",
+          "target": "com.huggingface.repos#CreateRepositoryRequestBodyCase3Sdk",
           "traits": {
-            "smithy.api#documentation": "The Space SDK. `static` is free for everyone. `gradio` and `docker` run on compute: on the free `cpu-basic` flavor they require a subscription (PRO for users, Team/Enterprise for orgs), while paid hardware only requires billing (a payment method and prepaid credits)."
+            "smithy.api#documentation": "The Space SDK. `static` is free for everyone. `gradio` and `docker` run on compute: on the free `cpu-basic` flavor they require a subscription (PRO for users, Team/Enterprise for orgs), while paid hardware only requires billing (a payment method and prepaid credits).",
+            "smithy.api#required": {}
           }
         },
         "sdkVersion": {
@@ -1667,11 +3642,41 @@
           "target": "smithy.api#Boolean"
         }
       },
+      "traits": {}
+    },
+    "com.huggingface.repos#CreateRepositoryRequestBody": {
+      "type": "union",
+      "members": {
+        "Case0": {
+          "target": "com.huggingface.repos#CreateRepositoryRequestBodyCase0"
+        },
+        "Case1": {
+          "target": "com.huggingface.repos#CreateRepositoryRequestBodyCase1"
+        },
+        "Case2": {
+          "target": "com.huggingface.repos#CreateRepositoryRequestBodyCase2"
+        },
+        "Case3": {
+          "target": "com.huggingface.repos#CreateRepositoryRequestBodyCase3"
+        }
+      },
+      "traits": {}
+    },
+    "com.huggingface.repos#CreateRepositoryRequest": {
+      "type": "structure",
+      "members": {
+        "body": {
+          "target": "com.huggingface.repos#CreateRepositoryRequestBody",
+          "traits": {
+            "smithy.api#httpPayload": {}
+          }
+        }
+      },
       "traits": {
         "smithy.api#input": {}
       }
     },
-    "com.huggingface.repos#CreateNewRepositoryResponse": {
+    "com.huggingface.repos#CreateRepositoryResponse": {
       "type": "structure",
       "members": {
         "url": {
@@ -1689,6 +3694,7 @@
         "id": {
           "target": "smithy.api#String",
           "traits": {
+            "smithy.api#documentation": "A hex string of 24 characters representing an ObjectId.",
             "smithy.api#required": {}
           }
         },
@@ -1700,13 +3706,13 @@
         "smithy.api#output": {}
       }
     },
-    "com.huggingface.repos#CreateNewRepository": {
+    "com.huggingface.repos#CreateRepository": {
       "type": "operation",
       "input": {
-        "target": "com.huggingface.repos#CreateNewRepositoryRequest"
+        "target": "com.huggingface.repos#CreateRepositoryRequest"
       },
       "output": {
-        "target": "com.huggingface.repos#CreateNewRepositoryResponse"
+        "target": "com.huggingface.repos#CreateRepositoryResponse"
       },
       "errors": [
         {
@@ -1719,7 +3725,7 @@
           "uri": "/api/repos/create",
           "code": 200
         },
-        "smithy.api#documentation": "Create a new repository"
+        "smithy.api#documentation": "Create repository"
       }
     },
     "com.huggingface.repos#MoveRepoRequestType": {
@@ -1753,6 +3759,12 @@
           "target": "smithy.api#Unit",
           "traits": {
             "smithy.api#enumValue": "kernel"
+          }
+        },
+        "CONTAINER": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "container"
           }
         }
       },
@@ -1822,7 +3834,7 @@
           "target": "com.huggingface.repos#DuplicationStatus"
         },
         {
-          "target": "com.huggingface.repos#CreateNewRepository"
+          "target": "com.huggingface.repos#CreateRepository"
         },
         {
           "target": "com.huggingface.repos#MoveRepo"

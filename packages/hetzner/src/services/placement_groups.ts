@@ -10,9 +10,7 @@ import * as T from "../traits.ts";
 export type { HetznerOpError, HetznerOpContext };
 
 /** User-defined labels (`key/value` pairs) for the Resource. For more information, see "[Labels](#description/labels)". */
-export type CreatePlacementGroupRequestLabelsMap = {
-  [key: string]: string | undefined;
-};
+export type CreatePlacementGroupRequestLabelsMap = { [key: string]: string | undefined };
 export const CreatePlacementGroupRequestLabelsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -199,9 +197,7 @@ export const GetPlacementGroupRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     id: S.Number.pipe(T.Label()),
   }).pipe(T.Http({ method: "GET", uri: "/placement_groups/{id}", code: 200 })),
-).annotate({
-  identifier: "GetPlacementGroupRequest",
-}) as any as S.Schema<GetPlacementGroupRequest>;
+).annotate({ identifier: "GetPlacementGroupRequest" }) as any as S.Schema<GetPlacementGroupRequest>;
 
 /** User-defined labels (`key/value` pairs) for the Resource. For more information, see "[Labels](#description/labels)". */
 export type GetPlacementGroupResponsePlacementGroupLabelsMap = {
@@ -423,9 +419,7 @@ export const ListPlacementGroupsResponse = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<ListPlacementGroupsResponse>;
 
 /** User-defined labels (`key/value` pairs) for the Resource. Note that the set of [Labels](#description/labels) provided in the request will overwrite the existing one. For more information, see "[Labels](#description/labels)". */
-export type UpdatePlacementGroupRequestLabelsMap = {
-  [key: string]: string | undefined;
-};
+export type UpdatePlacementGroupRequestLabelsMap = { [key: string]: string | undefined };
 export const UpdatePlacementGroupRequestLabelsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,

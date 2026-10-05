@@ -623,7 +623,7 @@
         }
       }
     },
-    "com.cloudflare.page_rules#CreateRequestActionsItemCacheTTLByStatusValueCase0": {
+    "com.cloudflare.page_rules#CreateRequestActionsItemCacheTTLByStatusValueValueCase0": {
       "type": "enum",
       "members": {
         "NO_CACHE": {
@@ -640,15 +640,24 @@
         }
       }
     },
-    "com.cloudflare.page_rules#CreateRequestActionsItemCacheTTLByStatusValue": {
+    "com.cloudflare.page_rules#CreateRequestActionsItemCacheTTLByStatusValueValue": {
       "type": "union",
       "members": {
         "Double": {
           "target": "smithy.api#Double"
         },
-        "CreateRequestActionsItemCacheTTLByStatusValueCase0": {
-          "target": "com.cloudflare.page_rules#CreateRequestActionsItemCacheTTLByStatusValueCase0"
+        "CreateRequestActionsItemCacheTTLByStatusValueValueCase0": {
+          "target": "com.cloudflare.page_rules#CreateRequestActionsItemCacheTTLByStatusValueValueCase0"
         }
+      }
+    },
+    "com.cloudflare.page_rules#CreateRequestActionsItemCacheTTLByStatusValueMap": {
+      "type": "map",
+      "key": {
+        "target": "smithy.api#String"
+      },
+      "value": {
+        "target": "com.cloudflare.page_rules#CreateRequestActionsItemCacheTTLByStatusValueValue"
       }
     },
     "com.cloudflare.page_rules#CreateRequestActionsItemCacheTTLByStatus": {
@@ -661,7 +670,7 @@
           }
         },
         "value": {
-          "target": "com.cloudflare.page_rules#CreateRequestActionsItemCacheTTLByStatusValue",
+          "target": "com.cloudflare.page_rules#CreateRequestActionsItemCacheTTLByStatusValueMap",
           "traits": {
             "smithy.api#documentation": "A JSON object containing status codes and their corresponding TTLs. Each key-value pair in the cache TTL by status cache rule has the following syntax"
           }
@@ -2431,7 +2440,7 @@
         }
       }
     },
-    "com.cloudflare.page_rules#CreateResponseActionsItemCacheTTLByStatusValueCase0": {
+    "com.cloudflare.page_rules#CreateResponseActionsItemCacheTTLByStatusValueValueCase0": {
       "type": "enum",
       "members": {
         "NO_CACHE": {
@@ -2448,15 +2457,24 @@
         }
       }
     },
-    "com.cloudflare.page_rules#CreateResponseActionsItemCacheTTLByStatusValue": {
+    "com.cloudflare.page_rules#CreateResponseActionsItemCacheTTLByStatusValueValue": {
       "type": "union",
       "members": {
         "Double": {
           "target": "smithy.api#Double"
         },
-        "CreateResponseActionsItemCacheTTLByStatusValueCase0": {
-          "target": "com.cloudflare.page_rules#CreateResponseActionsItemCacheTTLByStatusValueCase0"
+        "CreateResponseActionsItemCacheTTLByStatusValueValueCase0": {
+          "target": "com.cloudflare.page_rules#CreateResponseActionsItemCacheTTLByStatusValueValueCase0"
         }
+      }
+    },
+    "com.cloudflare.page_rules#CreateResponseActionsItemCacheTTLByStatusValueMap": {
+      "type": "map",
+      "key": {
+        "target": "smithy.api#String"
+      },
+      "value": {
+        "target": "com.cloudflare.page_rules#CreateResponseActionsItemCacheTTLByStatusValueValue"
       }
     },
     "com.cloudflare.page_rules#CreateResponseActionsItemCacheTTLByStatus": {
@@ -2469,7 +2487,7 @@
           }
         },
         "value": {
-          "target": "com.cloudflare.page_rules#CreateResponseActionsItemCacheTTLByStatusValue",
+          "target": "com.cloudflare.page_rules#CreateResponseActionsItemCacheTTLByStatusValueMap",
           "traits": {
             "smithy.api#documentation": "A JSON object containing status codes and their corresponding TTLs. Each key-value pair in the cache TTL by status cache rule has the following syntax"
           }
@@ -4239,7 +4257,7 @@
         }
       }
     },
-    "com.cloudflare.page_rules#EditRequestActionsItemCacheTTLByStatusValueCase0": {
+    "com.cloudflare.page_rules#EditRequestActionsItemCacheTTLByStatusValueValueCase0": {
       "type": "enum",
       "members": {
         "NO_CACHE": {
@@ -4256,15 +4274,24 @@
         }
       }
     },
-    "com.cloudflare.page_rules#EditRequestActionsItemCacheTTLByStatusValue": {
+    "com.cloudflare.page_rules#EditRequestActionsItemCacheTTLByStatusValueValue": {
       "type": "union",
       "members": {
         "Double": {
           "target": "smithy.api#Double"
         },
-        "EditRequestActionsItemCacheTTLByStatusValueCase0": {
-          "target": "com.cloudflare.page_rules#EditRequestActionsItemCacheTTLByStatusValueCase0"
+        "EditRequestActionsItemCacheTTLByStatusValueValueCase0": {
+          "target": "com.cloudflare.page_rules#EditRequestActionsItemCacheTTLByStatusValueValueCase0"
         }
+      }
+    },
+    "com.cloudflare.page_rules#EditRequestActionsItemCacheTTLByStatusValueMap": {
+      "type": "map",
+      "key": {
+        "target": "smithy.api#String"
+      },
+      "value": {
+        "target": "com.cloudflare.page_rules#EditRequestActionsItemCacheTTLByStatusValueValue"
       }
     },
     "com.cloudflare.page_rules#EditRequestActionsItemCacheTTLByStatus": {
@@ -4277,7 +4304,7 @@
           }
         },
         "value": {
-          "target": "com.cloudflare.page_rules#EditRequestActionsItemCacheTTLByStatusValue",
+          "target": "com.cloudflare.page_rules#EditRequestActionsItemCacheTTLByStatusValueMap",
           "traits": {
             "smithy.api#documentation": "A JSON object containing status codes and their corresponding TTLs. Each key-value pair in the cache TTL by status cache rule has the following syntax"
           }
@@ -6047,7 +6074,7 @@
         }
       }
     },
-    "com.cloudflare.page_rules#EditResponseActionsItemCacheTTLByStatusValueCase0": {
+    "com.cloudflare.page_rules#EditResponseActionsItemCacheTTLByStatusValueValueCase0": {
       "type": "enum",
       "members": {
         "NO_CACHE": {
@@ -6064,15 +6091,24 @@
         }
       }
     },
-    "com.cloudflare.page_rules#EditResponseActionsItemCacheTTLByStatusValue": {
+    "com.cloudflare.page_rules#EditResponseActionsItemCacheTTLByStatusValueValue": {
       "type": "union",
       "members": {
         "Double": {
           "target": "smithy.api#Double"
         },
-        "EditResponseActionsItemCacheTTLByStatusValueCase0": {
-          "target": "com.cloudflare.page_rules#EditResponseActionsItemCacheTTLByStatusValueCase0"
+        "EditResponseActionsItemCacheTTLByStatusValueValueCase0": {
+          "target": "com.cloudflare.page_rules#EditResponseActionsItemCacheTTLByStatusValueValueCase0"
         }
+      }
+    },
+    "com.cloudflare.page_rules#EditResponseActionsItemCacheTTLByStatusValueMap": {
+      "type": "map",
+      "key": {
+        "target": "smithy.api#String"
+      },
+      "value": {
+        "target": "com.cloudflare.page_rules#EditResponseActionsItemCacheTTLByStatusValueValue"
       }
     },
     "com.cloudflare.page_rules#EditResponseActionsItemCacheTTLByStatus": {
@@ -6085,7 +6121,7 @@
           }
         },
         "value": {
-          "target": "com.cloudflare.page_rules#EditResponseActionsItemCacheTTLByStatusValue",
+          "target": "com.cloudflare.page_rules#EditResponseActionsItemCacheTTLByStatusValueMap",
           "traits": {
             "smithy.api#documentation": "A JSON object containing status codes and their corresponding TTLs. Each key-value pair in the cache TTL by status cache rule has the following syntax"
           }
@@ -7855,7 +7891,7 @@
         }
       }
     },
-    "com.cloudflare.page_rules#GetResponseActionsItemCacheTTLByStatusValueCase0": {
+    "com.cloudflare.page_rules#GetResponseActionsItemCacheTTLByStatusValueValueCase0": {
       "type": "enum",
       "members": {
         "NO_CACHE": {
@@ -7872,15 +7908,24 @@
         }
       }
     },
-    "com.cloudflare.page_rules#GetResponseActionsItemCacheTTLByStatusValue": {
+    "com.cloudflare.page_rules#GetResponseActionsItemCacheTTLByStatusValueValue": {
       "type": "union",
       "members": {
         "Double": {
           "target": "smithy.api#Double"
         },
-        "GetResponseActionsItemCacheTTLByStatusValueCase0": {
-          "target": "com.cloudflare.page_rules#GetResponseActionsItemCacheTTLByStatusValueCase0"
+        "GetResponseActionsItemCacheTTLByStatusValueValueCase0": {
+          "target": "com.cloudflare.page_rules#GetResponseActionsItemCacheTTLByStatusValueValueCase0"
         }
+      }
+    },
+    "com.cloudflare.page_rules#GetResponseActionsItemCacheTTLByStatusValueMap": {
+      "type": "map",
+      "key": {
+        "target": "smithy.api#String"
+      },
+      "value": {
+        "target": "com.cloudflare.page_rules#GetResponseActionsItemCacheTTLByStatusValueValue"
       }
     },
     "com.cloudflare.page_rules#GetResponseActionsItemCacheTTLByStatus": {
@@ -7893,7 +7938,7 @@
           }
         },
         "value": {
-          "target": "com.cloudflare.page_rules#GetResponseActionsItemCacheTTLByStatusValue",
+          "target": "com.cloudflare.page_rules#GetResponseActionsItemCacheTTLByStatusValueMap",
           "traits": {
             "smithy.api#documentation": "A JSON object containing status codes and their corresponding TTLs. Each key-value pair in the cache TTL by status cache rule has the following syntax"
           }
@@ -9731,7 +9776,7 @@
         }
       }
     },
-    "com.cloudflare.page_rules#ListResultItemActionsItemCacheTTLByStatusValueCase0": {
+    "com.cloudflare.page_rules#ListResultItemActionsItemCacheTTLByStatusValueValueCase0": {
       "type": "enum",
       "members": {
         "NO_CACHE": {
@@ -9748,15 +9793,24 @@
         }
       }
     },
-    "com.cloudflare.page_rules#ListResultItemActionsItemCacheTTLByStatusValue": {
+    "com.cloudflare.page_rules#ListResultItemActionsItemCacheTTLByStatusValueValue": {
       "type": "union",
       "members": {
         "Double": {
           "target": "smithy.api#Double"
         },
-        "ListResultItemActionsItemCacheTTLByStatusValueCase0": {
-          "target": "com.cloudflare.page_rules#ListResultItemActionsItemCacheTTLByStatusValueCase0"
+        "ListResultItemActionsItemCacheTTLByStatusValueValueCase0": {
+          "target": "com.cloudflare.page_rules#ListResultItemActionsItemCacheTTLByStatusValueValueCase0"
         }
+      }
+    },
+    "com.cloudflare.page_rules#ListResultItemActionsItemCacheTTLByStatusValueMap": {
+      "type": "map",
+      "key": {
+        "target": "smithy.api#String"
+      },
+      "value": {
+        "target": "com.cloudflare.page_rules#ListResultItemActionsItemCacheTTLByStatusValueValue"
       }
     },
     "com.cloudflare.page_rules#ListResultItemActionsItemCacheTTLByStatus": {
@@ -9769,7 +9823,7 @@
           }
         },
         "value": {
-          "target": "com.cloudflare.page_rules#ListResultItemActionsItemCacheTTLByStatusValue",
+          "target": "com.cloudflare.page_rules#ListResultItemActionsItemCacheTTLByStatusValueMap",
           "traits": {
             "smithy.api#documentation": "A JSON object containing status codes and their corresponding TTLs. Each key-value pair in the cache TTL by status cache rule has the following syntax"
           }
@@ -11599,7 +11653,7 @@
         }
       }
     },
-    "com.cloudflare.page_rules#UpdateRequestActionsItemCacheTTLByStatusValueCase0": {
+    "com.cloudflare.page_rules#UpdateRequestActionsItemCacheTTLByStatusValueValueCase0": {
       "type": "enum",
       "members": {
         "NO_CACHE": {
@@ -11616,15 +11670,24 @@
         }
       }
     },
-    "com.cloudflare.page_rules#UpdateRequestActionsItemCacheTTLByStatusValue": {
+    "com.cloudflare.page_rules#UpdateRequestActionsItemCacheTTLByStatusValueValue": {
       "type": "union",
       "members": {
         "Double": {
           "target": "smithy.api#Double"
         },
-        "UpdateRequestActionsItemCacheTTLByStatusValueCase0": {
-          "target": "com.cloudflare.page_rules#UpdateRequestActionsItemCacheTTLByStatusValueCase0"
+        "UpdateRequestActionsItemCacheTTLByStatusValueValueCase0": {
+          "target": "com.cloudflare.page_rules#UpdateRequestActionsItemCacheTTLByStatusValueValueCase0"
         }
+      }
+    },
+    "com.cloudflare.page_rules#UpdateRequestActionsItemCacheTTLByStatusValueMap": {
+      "type": "map",
+      "key": {
+        "target": "smithy.api#String"
+      },
+      "value": {
+        "target": "com.cloudflare.page_rules#UpdateRequestActionsItemCacheTTLByStatusValueValue"
       }
     },
     "com.cloudflare.page_rules#UpdateRequestActionsItemCacheTTLByStatus": {
@@ -11637,7 +11700,7 @@
           }
         },
         "value": {
-          "target": "com.cloudflare.page_rules#UpdateRequestActionsItemCacheTTLByStatusValue",
+          "target": "com.cloudflare.page_rules#UpdateRequestActionsItemCacheTTLByStatusValueMap",
           "traits": {
             "smithy.api#documentation": "A JSON object containing status codes and their corresponding TTLs. Each key-value pair in the cache TTL by status cache rule has the following syntax"
           }
@@ -13407,7 +13470,7 @@
         }
       }
     },
-    "com.cloudflare.page_rules#UpdateResponseActionsItemCacheTTLByStatusValueCase0": {
+    "com.cloudflare.page_rules#UpdateResponseActionsItemCacheTTLByStatusValueValueCase0": {
       "type": "enum",
       "members": {
         "NO_CACHE": {
@@ -13424,15 +13487,24 @@
         }
       }
     },
-    "com.cloudflare.page_rules#UpdateResponseActionsItemCacheTTLByStatusValue": {
+    "com.cloudflare.page_rules#UpdateResponseActionsItemCacheTTLByStatusValueValue": {
       "type": "union",
       "members": {
         "Double": {
           "target": "smithy.api#Double"
         },
-        "UpdateResponseActionsItemCacheTTLByStatusValueCase0": {
-          "target": "com.cloudflare.page_rules#UpdateResponseActionsItemCacheTTLByStatusValueCase0"
+        "UpdateResponseActionsItemCacheTTLByStatusValueValueCase0": {
+          "target": "com.cloudflare.page_rules#UpdateResponseActionsItemCacheTTLByStatusValueValueCase0"
         }
+      }
+    },
+    "com.cloudflare.page_rules#UpdateResponseActionsItemCacheTTLByStatusValueMap": {
+      "type": "map",
+      "key": {
+        "target": "smithy.api#String"
+      },
+      "value": {
+        "target": "com.cloudflare.page_rules#UpdateResponseActionsItemCacheTTLByStatusValueValue"
       }
     },
     "com.cloudflare.page_rules#UpdateResponseActionsItemCacheTTLByStatus": {
@@ -13445,7 +13517,7 @@
           }
         },
         "value": {
-          "target": "com.cloudflare.page_rules#UpdateResponseActionsItemCacheTTLByStatusValue",
+          "target": "com.cloudflare.page_rules#UpdateResponseActionsItemCacheTTLByStatusValueMap",
           "traits": {
             "smithy.api#documentation": "A JSON object containing status codes and their corresponding TTLs. Each key-value pair in the cache TTL by status cache rule has the following syntax"
           }

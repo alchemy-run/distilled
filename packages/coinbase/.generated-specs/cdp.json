@@ -907,7 +907,7 @@
         "url": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "Canonical, language-agnostic URL where the Terms of Service\ndocument is hosted (for example,\n`https://docs.cdp.coinbase.com/legal/terms/us_individual`).\nAppend `?lang=<tag>` (where `<tag>` is one of `languages`) to\nretrieve a specific translation; without the parameter, the\ndocumentation site renders a default translation.\n",
+            "smithy.api#documentation": "Canonical, language-agnostic URL where the Terms of Service\ndocument is hosted (for example,\n`https://www.coinbase.com/legal/user-agreements-third-party-provider`).\nAppend `?lang=<tag>` (where `<tag>` is one of `languages`) to\nretrieve a specific translation; without the parameter, the\ndocumentation site renders a default translation.\n",
             "smithy.api#required": {}
           }
         }
@@ -2074,6 +2074,83 @@
         "smithy.api#documentation": "Create a customer\n\nCreate a new customer record. You can optionally request capabilities\nand submit verification requirements in the same request.\n\nThis endpoint supports creating a customer with:\n- Minimal data (customer type only)\n- Capability requests\n- KYC data submission\n- Combined request for capability and required info for verification"
       }
     },
+    "com.coinbase.cdp#GetCustomerRequirementsRequestCapabilitiesList": {
+      "type": "list",
+      "member": {
+        "target": "com.coinbase.cdp#CapabilityName"
+      },
+      "traits": {}
+    },
+    "com.coinbase.cdp#GetCustomerRequirementsRequest": {
+      "type": "structure",
+      "members": {
+        "customerType": {
+          "target": "com.coinbase.cdp#CustomerType",
+          "traits": {
+            "smithy.api#httpQuery": "customerType",
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The type of the hypothetical customer."
+          }
+        },
+        "capabilities": {
+          "target": "com.coinbase.cdp#GetCustomerRequirementsRequestCapabilitiesList",
+          "traits": {
+            "smithy.api#httpQuery": "capabilities",
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The capabilities the hypothetical customer would request.\nRepeat the parameter to specify multiple capabilities, for\nexample `capabilities=custodyCrypto&capabilities=transferCrypto`.\n"
+          }
+        },
+        "countryCode": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "countryCode",
+            "smithy.api#documentation": "The hypothetical customer's country of residence. At least one\nof `countryCode` or `citizenship` is required. When both are\npresent, `countryCode` takes precedence.\n"
+          }
+        },
+        "citizenship": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "citizenship",
+            "smithy.api#documentation": "The hypothetical customer's citizenship. At least one of\n`countryCode` or `citizenship` is required.\n"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.coinbase.cdp#GetCustomerRequirementsResponse": {
+      "type": "structure",
+      "members": {
+        "body": {
+          "target": "com.coinbase.cdp#RequirementsMap",
+          "traits": {
+            "com.distilled.openapi#rawResponse": {},
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
+      }
+    },
+    "com.coinbase.cdp#GetCustomerRequirements": {
+      "type": "operation",
+      "input": {
+        "target": "com.coinbase.cdp#GetCustomerRequirementsRequest"
+      },
+      "output": {
+        "target": "com.coinbase.cdp#GetCustomerRequirementsResponse"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/v2/customers/requirements",
+          "code": 200
+        },
+        "smithy.api#documentation": "Get customer requirements\n\nPreview the requirements a hypothetical customer of the given\n`customerType` and jurisdiction would need to satisfy to enable the\nrequested `capabilities`, without creating a customer record.\nPartner onboarding UIs can use this to render the collection flow\nbefore any customer state exists.\n\nToday this endpoint only previews the Terms of Service requirement:\nthe response's `RequirementsMap` will only ever contain a `tos` key.\nOther requirement families (PII / CDD inputs) are not yet available\nthrough this endpoint; use `POST /v2/customers` or\n`PUT /v2/customers/{customerId}` to discover those via\n`Customer.requirements`.\n\nOnly `customerType: individual` customers resident in or citizens\nof the US are currently supported; every other combination returns\n`400 invalid_request`."
+      }
+    },
     "com.coinbase.cdp#GetCustomerRequest": {
       "type": "structure",
       "members": {
@@ -2718,7 +2795,6 @@
         "accountNumber": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "The bank account number.",
             "smithy.api#required": {}
           }
         },
@@ -2897,7 +2973,9 @@
           }
         }
       },
-      "traits": {}
+      "traits": {
+        "smithy.api#documentation": "Request to create a new crypto deposit destination. Provide the crypto-specific details."
+      }
     },
     "com.coinbase.cdp#CreateDepositDestinationCrypto": {
       "type": "structure",
@@ -5717,7 +5795,7 @@
           "target": "smithy.api#String",
           "traits": {
             "smithy.api#httpQuery": "asset",
-            "smithy.api#documentation": "Optional filter to restrict options to a specific asset."
+            "smithy.api#documentation": "Filter options by asset. Currently, only `usdc` and `usdt` return results."
           }
         }
       },
@@ -8688,6 +8766,485 @@
         "smithy.api#documentation": "Import end user private key\n\nImports an existing private key for an end user into the developer's CDP Project. The private key must be encrypted using the CDP SDK's encryption scheme before being sent to this endpoint. This API should be called from the [CDP SDK](https://github.com/coinbase/cdp-sdk) to ensure that the associated private key is properly encrypted.\n\nThis endpoint allows developers to import existing keys for their end users, supporting both EVM and Solana key types. The end user must have at least one authentication method configured."
       }
     },
+    "com.coinbase.cdp#BorrowProductNetwork": {
+      "type": "enum",
+      "members": {
+        "BASE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "base"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The name of the EVM network that a borrow product is deployed on."
+      }
+    },
+    "com.coinbase.cdp#BorrowProductProtocol": {
+      "type": "enum",
+      "members": {
+        "MORPHO_BLUE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "morpho_blue"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The lending protocol that operates the borrow product."
+      }
+    },
+    "com.coinbase.cdp#ListEvmBorrowProductsRequest": {
+      "type": "structure",
+      "members": {
+        "projectID": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "projectID",
+            "smithy.api#documentation": "The ID of the CDP Project. Required for end users authenticated using custom auth (i.e. a non-CDP JWT provider)."
+          }
+        },
+        "network": {
+          "target": "com.coinbase.cdp#BorrowProductNetwork",
+          "traits": {
+            "smithy.api#httpQuery": "network",
+            "smithy.api#documentation": "The EVM network name to list borrow products for."
+          }
+        },
+        "protocol": {
+          "target": "com.coinbase.cdp#BorrowProductProtocol",
+          "traits": {
+            "smithy.api#httpQuery": "protocol",
+            "smithy.api#documentation": "The lending protocol whose borrow products to list."
+          }
+        },
+        "pageSize": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpQuery": "pageSize",
+            "smithy.api#documentation": "The number of resources to return per page."
+          }
+        },
+        "pageToken": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "pageToken",
+            "smithy.api#documentation": "The token for the next page of resources, if any."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.coinbase.cdp#BorrowProduct": {
+      "type": "structure",
+      "members": {
+        "borrowProductId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "network": {
+          "target": "com.coinbase.cdp#BorrowProductNetwork",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "A human-readable name for the product, typically derived from its loan and collateral tokens.",
+            "smithy.api#required": {}
+          }
+        },
+        "venue": {
+          "target": "com.coinbase.cdp#BorrowProductVenue",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "assets": {
+          "target": "com.coinbase.cdp#BorrowProductAssetsList",
+          "traits": {
+            "smithy.api#documentation": "The assets available to be borrowed or borrowed against in this market.",
+            "smithy.api#required": {}
+          }
+        },
+        "snapshot": {
+          "target": "com.coinbase.cdp#BorrowProductSnapshot",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "protocolDetails": {
+          "target": "com.coinbase.cdp#MorphoBlueProtocolDetails",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "A borrow product on an EVM network, operated by a lending protocol such as Morpho Blue. \nA borrow product is a protocol-native representation of a borrowable market,  describing the venue that hosts it, the assets that are borrowed or borrowed against  in it, a point-in-time snapshot of its onchain state, and the protocol-specific  immutable parameters that uniquely define it."
+      }
+    },
+    "com.coinbase.cdp#BorrowProductVenue": {
+      "type": "structure",
+      "members": {
+        "venueId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "A stable identifier for the venue, which is a UUID prefixed with the string `bp_venue_`.",
+            "smithy.api#required": {}
+          }
+        },
+        "entrypointAddress": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The contract address of the venue's entrypoint.",
+            "smithy.api#required": {}
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "A human-readable name for the venue.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The onchain venue that hosts a borrow product. The venue comprises the protocol and  network the product is deployed on. An example of a venue would be Morpho Blue on  Base Mainnet."
+      }
+    },
+    "com.coinbase.cdp#BorrowProductAsset": {
+      "type": "structure",
+      "members": {
+        "assetId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "A stable identifier for the asset within the product, which is a UUID prefixed with the string `bp_asset_`.",
+            "smithy.api#required": {}
+          }
+        },
+        "token": {
+          "target": "com.coinbase.cdp#BorrowProductToken",
+          "traits": {
+            "smithy.api#documentation": "The onchain token that can be used as collateral or debt.",
+            "smithy.api#required": {}
+          }
+        },
+        "capabilities": {
+          "target": "com.coinbase.cdp#BorrowProductAssetCapabilitiesList",
+          "traits": {
+            "smithy.api#documentation": "The capabilities this asset provides within the borrow product. An asset may be used as collateral and/or debt.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The assets available to be borrowed or borrowed against in this market, together with the capabilities (collateral and/or debt) they provide."
+      }
+    },
+    "com.coinbase.cdp#BorrowProductToken": {
+      "type": "structure",
+      "members": {
+        "address": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The contract address of the token.",
+            "smithy.api#required": {}
+          }
+        },
+        "symbol": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The symbol of the token (e.g. USDC, WETH).",
+            "smithy.api#required": {}
+          }
+        },
+        "decimals": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "The number of decimal places used by the token.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "A token on an EVM borrow product network."
+      }
+    },
+    "com.coinbase.cdp#BorrowProductAssetCapability": {
+      "type": "structure",
+      "members": {
+        "type": {
+          "target": "com.coinbase.cdp#BorrowProductAssetCapabilityType",
+          "traits": {
+            "smithy.api#documentation": "The role the asset plays within the product. `collateral` indicates the asset can be posted as collateral, and `debt` indicates the asset can be borrowed.",
+            "smithy.api#required": {}
+          }
+        },
+        "enabled": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Whether this capability is currently active. For example, an asset with a `collateral` capability and `enabled: false` cannot currently be borrowed against.\nSome venues may temporarily disable an asset's capability, which will be  reflected in the `enabled` field. This would not affect any user's existing  borrow positions.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "A capability an asset provides within a borrow product, describing the role the asset plays, either as collateral or debt, and whether that capability is currently active."
+      }
+    },
+    "com.coinbase.cdp#BorrowProductAssetCapabilityType": {
+      "type": "enum",
+      "members": {
+        "COLLATERAL": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "collateral"
+          }
+        },
+        "DEBT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "debt"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The role the asset plays within the product. `collateral` indicates the asset can be posted as collateral, and `debt` indicates the asset can be borrowed."
+      }
+    },
+    "com.coinbase.cdp#BorrowProductAssetCapabilitiesList": {
+      "type": "list",
+      "member": {
+        "target": "com.coinbase.cdp#BorrowProductAssetCapability"
+      },
+      "traits": {
+        "smithy.api#documentation": "The capabilities this asset provides within the borrow product. An asset may be used as collateral and/or debt."
+      }
+    },
+    "com.coinbase.cdp#BorrowProductAssetsList": {
+      "type": "list",
+      "member": {
+        "target": "com.coinbase.cdp#BorrowProductAsset"
+      },
+      "traits": {
+        "smithy.api#documentation": "The assets available to be borrowed or borrowed against in this market."
+      }
+    },
+    "com.coinbase.cdp#BorrowProductSnapshot": {
+      "type": "structure",
+      "members": {
+        "blockNumber": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "The block number at which the state was observed.",
+            "smithy.api#required": {}
+          }
+        },
+        "blockHash": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The hash of the block at which the state was observed.",
+            "smithy.api#required": {}
+          }
+        },
+        "blockTimestamp": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "The onchain block timestamp at which the state was observed in Unix seconds.",
+            "smithy.api#required": {}
+          }
+        },
+        "observedAt": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The timestamp at which the state was observed.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The point-in-time at which onchain state, such as a borrow product or borrow position, was captured. This is when the data was last read from the chain."
+      }
+    },
+    "com.coinbase.cdp#MorphoBlueProtocolDetails": {
+      "type": "structure",
+      "members": {
+        "type": {
+          "target": "com.coinbase.cdp#MorphoBlueProtocolDetailsType",
+          "traits": {
+            "smithy.api#documentation": "The protocol type, used to discriminate the protocol details schema.",
+            "smithy.api#required": {}
+          }
+        },
+        "marketParams": {
+          "target": "com.coinbase.cdp#MorphoBlueMarketParams",
+          "traits": {
+            "smithy.api#documentation": "The Morpho Blue market parameters that uniquely define the product onchain.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Morpho Blue-specific immutable onchain protocol details that uniquely define a borrow product."
+      }
+    },
+    "com.coinbase.cdp#MorphoBlueProtocolDetailsType": {
+      "type": "enum",
+      "members": {
+        "MORPHO_BLUE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "morpho_blue"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The protocol type, used to discriminate the protocol details schema."
+      }
+    },
+    "com.coinbase.cdp#MorphoBlueMarketParams": {
+      "type": "structure",
+      "members": {
+        "onchainMarketId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The Morpho Blue native bytes32 market ID that uniquely identifies  the underlying market onchain.",
+            "smithy.api#required": {}
+          }
+        },
+        "loanToken": {
+          "target": "com.coinbase.cdp#BorrowProductToken",
+          "traits": {
+            "smithy.api#documentation": "The token that is borrowed in the product.",
+            "smithy.api#required": {}
+          }
+        },
+        "collateralToken": {
+          "target": "com.coinbase.cdp#BorrowProductToken",
+          "traits": {
+            "smithy.api#documentation": "The token posted as collateral in the product.",
+            "smithy.api#required": {}
+          }
+        },
+        "oracleAddress": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The contract address of the oracle used to price the collateral token against the loan token.",
+            "smithy.api#required": {}
+          }
+        },
+        "interestRateModelAddress": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The contract address of the interest rate model that governs the product's borrow rate.",
+            "smithy.api#required": {}
+          }
+        },
+        "lltvBps": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "The liquidation loan-to-value of the product, expressed in basis points. For example, `9150` represents an LLTV of 91.5%.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Morpho Blue's immutable onchain market parameters that uniquely define a borrow product."
+      }
+    },
+    "com.coinbase.cdp#ListEvmBorrowProductsResponseBorrowProductsList": {
+      "type": "list",
+      "member": {
+        "target": "com.coinbase.cdp#BorrowProduct"
+      },
+      "traits": {
+        "smithy.api#documentation": "The list of borrow products, optionally filtered by the supplied network and/or protocol."
+      }
+    },
+    "com.coinbase.cdp#ListEvmBorrowProductsResponse": {
+      "type": "structure",
+      "members": {
+        "borrowProducts": {
+          "target": "com.coinbase.cdp#ListEvmBorrowProductsResponseBorrowProductsList",
+          "traits": {
+            "smithy.api#documentation": "The list of borrow products, optionally filtered by the supplied network and/or protocol.",
+            "smithy.api#required": {}
+          }
+        },
+        "nextPageToken": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The token for the next page of items, if any."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
+      }
+    },
+    "com.coinbase.cdp#ListEvmBorrowProducts": {
+      "type": "operation",
+      "input": {
+        "target": "com.coinbase.cdp#ListEvmBorrowProductsRequest"
+      },
+      "output": {
+        "target": "com.coinbase.cdp#ListEvmBorrowProductsResponse"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/v2/embedded-wallet-api/evm/borrow-products",
+          "code": 200
+        },
+        "smithy.api#documentation": "List borrow products\n\nLists the borrow products available across all supported networks and protocols. If a network and/or protocol query parameter is supplied, then borrow products are filtered and returned accordingly.\nA borrow product is a protocol-native representation of a borrowable market, describing the venue that hosts it, the assets that can be borrowed or posted as collateral, and their collateral and debt capabilities. For example, a Morpho Blue market that lends USDC against cbBTC."
+      }
+    },
+    "com.coinbase.cdp#GetEvmBorrowProductRequest": {
+      "type": "structure",
+      "members": {
+        "borrowProductId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The globally unique ID of the borrow product."
+          }
+        },
+        "projectID": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "projectID",
+            "smithy.api#documentation": "The ID of the CDP Project. Required for end users authenticated using custom auth (i.e. a non-CDP JWT provider)."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.coinbase.cdp#GetEvmBorrowProduct": {
+      "type": "operation",
+      "input": {
+        "target": "com.coinbase.cdp#GetEvmBorrowProductRequest"
+      },
+      "output": {
+        "target": "com.coinbase.cdp#BorrowProduct"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/v2/embedded-wallet-api/evm/borrow-products/{borrowProductId}",
+          "code": 200
+        },
+        "smithy.api#documentation": "Get a borrow product\n\nGets a single borrow product by its ID.\nThe ID is a stable identifier that uniquely identifies a single borrow product based on the product's onchain parameters. A borrow product is a protocol-native representation of a borrowable market, describing the venue that hosts it and the assets that participate in it together with their collateral and debt capabilities."
+      }
+    },
     "com.coinbase.cdp#SignEvmTransactionWithEndUserAccountRequest": {
       "type": "structure",
       "members": {
@@ -9699,6 +10256,98 @@
         "smithy.api#documentation": "Create EIP-7702 delegation for end user EVM account\n\nCreates an EIP-7702 delegation for an end user's EVM EOA account, upgrading it with smart account capabilities.\n\nThis endpoint:\n- Retrieves delegation artifacts from onchain\n- Signs the EIP-7702 authorization for delegation\n- Assembles and submits a Type 4 transaction\n- Creates an associated smart account object\n\nThe delegation allows the EVM EOA to be used as a smart account, which enables batched transactions and gas sponsorship via paymaster."
       }
     },
+    "com.coinbase.cdp#GetUserOperationWithEndUserAccountRequest": {
+      "type": "structure",
+      "members": {
+        "userId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The ID of the end user."
+          }
+        },
+        "address": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The address of the Smart Account the user operation belongs to."
+          }
+        },
+        "userOpHash": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The hash of the user operation to fetch."
+          }
+        },
+        "projectID": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "projectID",
+            "smithy.api#documentation": "The ID of the CDP Project. Required for end users authenticated using custom auth (i.e. a non-CDP JWT provider)."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.coinbase.cdp#EvmUserOperation": {
+      "type": "structure",
+      "members": {
+        "network": {
+          "target": "com.coinbase.cdp#EvmUserOperationNetwork",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "userOpHash": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The hash of the user operation. This is not the transaction hash, as a transaction consists of multiple user operations. The user operation hash is the hash of this particular user operation which gets signed by the owner of the Smart Account.",
+            "smithy.api#required": {}
+          }
+        },
+        "calls": {
+          "target": "com.coinbase.cdp#EvmUserOperationCallsList",
+          "traits": {
+            "smithy.api#documentation": "The list of calls in the user operation.",
+            "smithy.api#required": {}
+          }
+        },
+        "status": {
+          "target": "com.coinbase.cdp#EvmUserOperationStatus",
+          "traits": {
+            "smithy.api#documentation": "The status of the user operation.",
+            "smithy.api#required": {}
+          }
+        },
+        "transactionHash": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The hash of the transaction that included this particular user operation. This gets set after the user operation is broadcasted and the transaction is included in a block."
+          }
+        },
+        "receipts": {
+          "target": "com.coinbase.cdp#EvmUserOperationReceiptsList",
+          "traits": {
+            "smithy.api#documentation": "The list of receipts associated with the user operation."
+          }
+        },
+        "expiresAt": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The timestamp at which the prepared user operation expires."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "A smart account operation response."
+      }
+    },
     "com.coinbase.cdp#EvmUserOperationNetwork": {
       "type": "enum",
       "members": {
@@ -9799,140 +10448,6 @@
         }
       },
       "traits": {}
-    },
-    "com.coinbase.cdp#SendUserOperationWithEndUserAccountRequestCallsList": {
-      "type": "list",
-      "member": {
-        "target": "com.coinbase.cdp#EvmCall"
-      },
-      "traits": {
-        "smithy.api#documentation": "The list of calls to make from the Smart Account."
-      }
-    },
-    "com.coinbase.cdp#SendUserOperationWithEndUserAccountRequest": {
-      "type": "structure",
-      "members": {
-        "userId": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#httpLabel": {},
-            "smithy.api#required": {},
-            "smithy.api#documentation": "The ID of the end user."
-          }
-        },
-        "address": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#httpLabel": {},
-            "smithy.api#required": {},
-            "smithy.api#documentation": "The address of the EVM Smart Account to execute the user operation from."
-          }
-        },
-        "projectID": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#httpQuery": "projectID",
-            "smithy.api#documentation": "The ID of the CDP Project. Required for end users authenticated using custom auth (i.e. a non-CDP JWT provider)."
-          }
-        },
-        "network": {
-          "target": "com.coinbase.cdp#EvmUserOperationNetwork",
-          "traits": {
-            "smithy.api#required": {}
-          }
-        },
-        "calls": {
-          "target": "com.coinbase.cdp#SendUserOperationWithEndUserAccountRequestCallsList",
-          "traits": {
-            "smithy.api#documentation": "The list of calls to make from the Smart Account.",
-            "smithy.api#required": {}
-          }
-        },
-        "useCdpPaymaster": {
-          "target": "smithy.api#Boolean",
-          "traits": {
-            "smithy.api#documentation": "Whether to use the CDP Paymaster for the user operation.",
-            "smithy.api#required": {}
-          }
-        },
-        "paymasterUrl": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "The URL of the paymaster to use for the user operation. If using the CDP Paymaster, use the `useCdpPaymaster` option."
-          }
-        },
-        "paymasterContext": {
-          "target": "com.coinbase.cdp#PaymasterContext"
-        },
-        "walletSecretId": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "Required when not using delegated signing. The ID of the Temporary Wallet Secret that was used to sign the X-Wallet-Auth Header."
-          }
-        },
-        "dataSuffix": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "The EIP-8021 data suffix (hex-encoded) that enables transaction attribution for the user operation."
-          }
-        }
-      },
-      "traits": {
-        "smithy.api#input": {}
-      }
-    },
-    "com.coinbase.cdp#EvmUserOperation": {
-      "type": "structure",
-      "members": {
-        "network": {
-          "target": "com.coinbase.cdp#EvmUserOperationNetwork",
-          "traits": {
-            "smithy.api#required": {}
-          }
-        },
-        "userOpHash": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "The hash of the user operation. This is not the transaction hash, as a transaction consists of multiple user operations. The user operation hash is the hash of this particular user operation which gets signed by the owner of the Smart Account.",
-            "smithy.api#required": {}
-          }
-        },
-        "calls": {
-          "target": "com.coinbase.cdp#EvmUserOperationCallsList",
-          "traits": {
-            "smithy.api#documentation": "The list of calls in the user operation.",
-            "smithy.api#required": {}
-          }
-        },
-        "status": {
-          "target": "com.coinbase.cdp#EvmUserOperationStatus",
-          "traits": {
-            "smithy.api#documentation": "The status of the user operation.",
-            "smithy.api#required": {}
-          }
-        },
-        "transactionHash": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "The hash of the transaction that included this particular user operation. This gets set after the user operation is broadcasted and the transaction is included in a block."
-          }
-        },
-        "receipts": {
-          "target": "com.coinbase.cdp#EvmUserOperationReceiptsList",
-          "traits": {
-            "smithy.api#documentation": "The list of receipts associated with the user operation."
-          }
-        },
-        "expiresAt": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "The timestamp at which the prepared user operation expires."
-          }
-        }
-      },
-      "traits": {
-        "smithy.api#documentation": "A smart account operation response."
-      }
     },
     "com.coinbase.cdp#EvmUserOperationCallsList": {
       "type": "list",
@@ -10053,6 +10568,104 @@
         "smithy.api#documentation": "The list of receipts associated with the user operation."
       }
     },
+    "com.coinbase.cdp#GetUserOperationWithEndUserAccount": {
+      "type": "operation",
+      "input": {
+        "target": "com.coinbase.cdp#GetUserOperationWithEndUserAccountRequest"
+      },
+      "output": {
+        "target": "com.coinbase.cdp#EvmUserOperation"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/v2/embedded-wallet-api/end-users/{userId}/evm/smart-accounts/{address}/user-operations/{userOpHash}",
+          "code": 200
+        },
+        "smithy.api#documentation": "Get a user operation for end user EVM Smart Account\n\nGets a user operation by its hash for an end user's EVM Smart Account."
+      }
+    },
+    "com.coinbase.cdp#SendUserOperationWithEndUserAccountRequestCallsList": {
+      "type": "list",
+      "member": {
+        "target": "com.coinbase.cdp#EvmCall"
+      },
+      "traits": {
+        "smithy.api#documentation": "The list of calls to make from the Smart Account."
+      }
+    },
+    "com.coinbase.cdp#SendUserOperationWithEndUserAccountRequest": {
+      "type": "structure",
+      "members": {
+        "userId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The ID of the end user."
+          }
+        },
+        "address": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The address of the EVM Smart Account to execute the user operation from."
+          }
+        },
+        "projectID": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "projectID",
+            "smithy.api#documentation": "The ID of the CDP Project. Required for end users authenticated using custom auth (i.e. a non-CDP JWT provider)."
+          }
+        },
+        "network": {
+          "target": "com.coinbase.cdp#EvmUserOperationNetwork",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "calls": {
+          "target": "com.coinbase.cdp#SendUserOperationWithEndUserAccountRequestCallsList",
+          "traits": {
+            "smithy.api#documentation": "The list of calls to make from the Smart Account.",
+            "smithy.api#required": {}
+          }
+        },
+        "useCdpPaymaster": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Whether to use the CDP Paymaster for the user operation.",
+            "smithy.api#required": {}
+          }
+        },
+        "paymasterUrl": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The URL of the paymaster to use for the user operation. If using the CDP Paymaster, use the `useCdpPaymaster` option."
+          }
+        },
+        "paymasterContext": {
+          "target": "com.coinbase.cdp#PaymasterContext"
+        },
+        "walletSecretId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Required when not using delegated signing. The ID of the Temporary Wallet Secret that was used to sign the X-Wallet-Auth Header."
+          }
+        },
+        "dataSuffix": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The EIP-8021 data suffix (hex-encoded) that enables transaction attribution for the user operation."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
     "com.coinbase.cdp#SendUserOperationWithEndUserAccount": {
       "type": "operation",
       "input": {
@@ -10068,6 +10681,576 @@
           "code": 200
         },
         "smithy.api#documentation": "Send user operation for end user Smart Account\n\nPrepares, signs, and sends a user operation for an end user's Smart Account."
+      }
+    },
+    "com.coinbase.cdp#ListBorrowPositionsWithEndUserAccountRequest": {
+      "type": "structure",
+      "members": {
+        "userId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The ID of the end user."
+          }
+        },
+        "address": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The address of the EVM Smart Account to list borrow positions for."
+          }
+        },
+        "pageSize": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpQuery": "pageSize",
+            "smithy.api#documentation": "The number of resources to return per page."
+          }
+        },
+        "pageToken": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "pageToken",
+            "smithy.api#documentation": "The token for the next page of resources, if any."
+          }
+        },
+        "projectID": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "projectID",
+            "smithy.api#documentation": "The ID of the CDP Project. Required for end users authenticated using custom auth (i.e. a non-CDP JWT provider)."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.coinbase.cdp#BorrowPosition": {
+      "type": "structure",
+      "members": {
+        "borrowProductId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "address": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The smart account address that owns the borrow position.",
+            "smithy.api#required": {}
+          }
+        },
+        "network": {
+          "target": "com.coinbase.cdp#BorrowProductNetwork",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "snapshot": {
+          "target": "com.coinbase.cdp#BorrowProductSnapshot",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "onchainState": {
+          "target": "com.coinbase.cdp#MorphoBlueOnchainState",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "A borrow position held by a smart account in a borrow product, together with its live onchain state read at a point-in-time snapshot."
+      }
+    },
+    "com.coinbase.cdp#MorphoBlueOnchainState": {
+      "type": "structure",
+      "members": {
+        "type": {
+          "target": "com.coinbase.cdp#BorrowProductProtocol",
+          "traits": {
+            "smithy.api#documentation": "The protocol type, used to discriminate the onchain state schema.",
+            "smithy.api#required": {}
+          }
+        },
+        "collateral": {
+          "target": "com.coinbase.cdp#MorphoBlueOnchainStateCollateralList",
+          "traits": {
+            "smithy.api#documentation": "The non-zero collateral balances securing the position.",
+            "smithy.api#required": {}
+          }
+        },
+        "debt": {
+          "target": "com.coinbase.cdp#MorphoBlueOnchainStateDebtList",
+          "traits": {
+            "smithy.api#documentation": "The non-zero debt balances owed by the position.",
+            "smithy.api#required": {}
+          }
+        },
+        "healthFactor": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The position's liquidation headroom as a decimal string, where `1.0` is the liquidation boundary and higher is safer. For example, `1.79` means the position's weighted collateral is 1.79x its debt. Omitted when the position has no debt."
+          }
+        },
+        "currentLtvBps": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "The position's current loan-to-value, expressed in basis points. For example, `5000` represents a current LTV of 50%. Omitted when the position has no debt."
+          }
+        },
+        "liquidationThresholdBps": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "The loan-to-value at which the position becomes eligible for liquidation, expressed in basis points. For example, `8250` represents 82.5%. Omitted when the position has no debt."
+          }
+        },
+        "healthStatus": {
+          "target": "com.coinbase.cdp#BorrowPositionHealthStatus",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The live onchain state of a Morpho Blue borrow position, read at the block described by the position's snapshot."
+      }
+    },
+    "com.coinbase.cdp#BorrowPositionAssetAmount": {
+      "type": "structure",
+      "members": {
+        "assetId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The stable identifier for the asset within the borrow product, which is a UUID prefixed with the string `bp_asset_`. This matches the `assetId` of the corresponding asset on the borrow product.",
+            "smithy.api#required": {}
+          }
+        },
+        "token": {
+          "target": "com.coinbase.cdp#BorrowProductToken",
+          "traits": {
+            "smithy.api#documentation": "The onchain token this balance is denominated in.",
+            "smithy.api#required": {}
+          }
+        },
+        "amount": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The token balance as a decimal string in the token's standard unit denomination (i.e. \"5000\" for 5000 mGLO).",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The balance of either the collateral or debt token for a borrow position, as a decimal string in the token's standard unit denomination."
+      }
+    },
+    "com.coinbase.cdp#MorphoBlueOnchainStateCollateralList": {
+      "type": "list",
+      "member": {
+        "target": "com.coinbase.cdp#BorrowPositionAssetAmount"
+      },
+      "traits": {
+        "smithy.api#documentation": "The non-zero collateral balances securing the position."
+      }
+    },
+    "com.coinbase.cdp#BorrowPositionDebt": {
+      "type": "structure",
+      "members": {
+        "assetId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The stable identifier for the asset within the borrow product, which is a UUID prefixed with the string `bp_asset_`. This matches the `assetId` of the corresponding asset on the borrow product.",
+            "smithy.api#required": {}
+          }
+        },
+        "token": {
+          "target": "com.coinbase.cdp#BorrowProductToken",
+          "traits": {
+            "smithy.api#documentation": "The onchain token this balance is denominated in.",
+            "smithy.api#required": {}
+          }
+        },
+        "amount": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The token balance as a decimal string in the token's standard unit denomination (i.e. \"5000\" for 5000 mGLO).",
+            "smithy.api#required": {}
+          }
+        },
+        "borrowApyBps": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "The current annualized borrow rate for the debt, expressed in basis points. For example, `525` represents a borrow APY of 5.25%. Omitted when the rate is unavailable."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The debt balance for a borrow position, including accrued interest, plus its current borrow rate."
+      }
+    },
+    "com.coinbase.cdp#MorphoBlueOnchainStateDebtList": {
+      "type": "list",
+      "member": {
+        "target": "com.coinbase.cdp#BorrowPositionDebt"
+      },
+      "traits": {
+        "smithy.api#documentation": "The non-zero debt balances owed by the position."
+      }
+    },
+    "com.coinbase.cdp#BorrowPositionHealthStatus": {
+      "type": "enum",
+      "members": {
+        "NO_DEBT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "no_debt"
+          }
+        },
+        "HEALTHY": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "healthy"
+          }
+        },
+        "UNDERCOLLATERALIZED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "undercollateralized"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The aggregate health of a borrow position.\n\n- `no_debt`: the position has no outstanding debt.\n- `healthy`: the position has debt and is above its liquidation threshold.\n- `undercollateralized`: the position is at or below its liquidation threshold and may be eligible for liquidation."
+      }
+    },
+    "com.coinbase.cdp#ListBorrowPositionsWithEndUserAccountResponseBorrowPositionsList": {
+      "type": "list",
+      "member": {
+        "target": "com.coinbase.cdp#BorrowPosition"
+      },
+      "traits": {
+        "smithy.api#documentation": "The borrow positions held by the smart account."
+      }
+    },
+    "com.coinbase.cdp#ListBorrowPositionsWithEndUserAccountResponse": {
+      "type": "structure",
+      "members": {
+        "borrowPositions": {
+          "target": "com.coinbase.cdp#ListBorrowPositionsWithEndUserAccountResponseBorrowPositionsList",
+          "traits": {
+            "smithy.api#documentation": "The borrow positions held by the smart account.",
+            "smithy.api#required": {}
+          }
+        },
+        "nextPageToken": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The token for the next page of items, if any."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
+      }
+    },
+    "com.coinbase.cdp#ListBorrowPositionsWithEndUserAccount": {
+      "type": "operation",
+      "input": {
+        "target": "com.coinbase.cdp#ListBorrowPositionsWithEndUserAccountRequest"
+      },
+      "output": {
+        "target": "com.coinbase.cdp#ListBorrowPositionsWithEndUserAccountResponse"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/v2/embedded-wallet-api/end-users/{userId}/evm/smart-accounts/{address}/borrow-positions",
+          "code": 200
+        },
+        "smithy.api#documentation": "List borrow positions for an end user smart account\n\nLists the borrow positions held by an end user smart account, with the live onchain state of each position read at a point-in-time snapshot.\nA borrow position represents collateral posted and a loan borrowed against it in a borrow product, such as a Morpho Blue market that lends USDC against cbBTC. Each position reports its current collateral and debt balances, its health factor, and its health status. Returns an empty list if the smart account has no borrow positions."
+      }
+    },
+    "com.coinbase.cdp#CreateBorrowPositionWithEndUserAccountRequest": {
+      "type": "structure",
+      "members": {
+        "userId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The ID of the end user."
+          }
+        },
+        "address": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The address of the EVM Smart Account to open the borrow position from."
+          }
+        },
+        "projectID": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "projectID",
+            "smithy.api#documentation": "The ID of the CDP Project. Required for end users authenticated using custom auth (i.e. a non-CDP JWT provider)."
+          }
+        },
+        "borrowProductId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "collateralAmount": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The amount of collateral to post, as a decimal string in standard unit denomination of the collateral token (i.e. \"1\" for 1 cbBTC).",
+            "smithy.api#required": {}
+          }
+        },
+        "loanAmount": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The amount of the loan token to borrow, as a decimal string in standard unit denomination of the loan token (i.e. \"100\" for 100 USDC).",
+            "smithy.api#required": {}
+          }
+        },
+        "walletSecretId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The ID of the Temporary Wallet Secret that was used to sign the X-Wallet-Auth header.",
+            "smithy.api#required": {}
+          }
+        },
+        "useCdpPaymaster": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Whether to use the CDP Paymaster for the user operation. When `true`, `paymasterUrl` must not be set.",
+            "smithy.api#required": {}
+          }
+        },
+        "paymasterUrl": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Paymaster URL to use for the user operation. Must not be set when `useCdpPaymaster` is `true`.\nIf `useCdpPaymaster` is `false` and no `paymasterUrl` is set, the smart account must have sufficient funds to cover network fees."
+          }
+        },
+        "paymasterContext": {
+          "target": "com.coinbase.cdp#PaymasterContext",
+          "traits": {
+            "smithy.api#documentation": "Optional paymaster metadata forwarded to the configured paymaster service. Valid only when a paymaster is configured via `useCdpPaymaster: true` or a `paymasterUrl`."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.coinbase.cdp#CreateBorrowPositionWithEndUserAccount": {
+      "type": "operation",
+      "input": {
+        "target": "com.coinbase.cdp#CreateBorrowPositionWithEndUserAccountRequest"
+      },
+      "output": {
+        "target": "com.coinbase.cdp#EvmUserOperation"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/v2/embedded-wallet-api/end-users/{userId}/evm/smart-accounts/{address}/borrow-positions",
+          "code": 200
+        },
+        "smithy.api#documentation": "Create a borrow position for an end user smart account\n\nCreates a borrow position for a specific borrow product, by posting collateral from an end user smart account and borrowing a loan against it. One position can be opened per borrow product for a given smart account.\nA borrow product is a protocol-native representation of a borrowable market, such as a Morpho Blue market that lends USDC against cbBTC. The `borrowProductId` identifies the product to borrow against, and the `collateralAmount` and `loanAmount` specify the collateral to post and the loan to take, both expressed as decimal strings in standard unit denomination of their respective tokens.\nA user operation is broadcast to open the position onchain. Poll `getUserOperationWithEndUserAccount` with the returned `userOpHash` until it reaches a terminal state. Once the user operation succeeds onchain, use the borrow positions list endpoint to view the user's active positions."
+      }
+    },
+    "com.coinbase.cdp#AdjustBorrowPositionWithEndUserAccountRequest": {
+      "type": "structure",
+      "members": {
+        "userId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The ID of the end user."
+          }
+        },
+        "address": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The address of the EVM Smart Account to adjust the borrow position for."
+          }
+        },
+        "projectID": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "projectID",
+            "smithy.api#documentation": "The ID of the CDP Project. Required for end users authenticated using custom auth (i.e. a non-CDP JWT provider)."
+          }
+        },
+        "borrowProductId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "addCollateralAmount": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The amount of collateral to add to the position, as a decimal string in standard unit denomination of the collateral token (i.e. \"1\" for 1 cbBTC). Must not be combined with `removeCollateralAmount` or `repayLoanAmount`."
+          }
+        },
+        "removeCollateralAmount": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The amount of collateral to withdraw from the position, as a decimal string in standard unit denomination of the collateral token (i.e. \"1\" for 1 cbBTC).  Must not be combined with `addCollateralAmount` or `borrowLoanAmount`."
+          }
+        },
+        "repayLoanAmount": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The amount of the loan token to repay, as a decimal string in standard unit denomination of the loan token (i.e. \"100\" for 100 USDC).  Must not be combined with `borrowLoanAmount` or `addCollateralAmount`."
+          }
+        },
+        "borrowLoanAmount": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The amount of the loan token to borrow, as a decimal string in standard unit denomination of the loan token (i.e. \"100\" for 100 USDC).  Must not be combined with `repayLoanAmount` or `removeCollateralAmount`."
+          }
+        },
+        "walletSecretId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The ID of the Temporary Wallet Secret that was used to sign the X-Wallet-Auth header.",
+            "smithy.api#required": {}
+          }
+        },
+        "useCdpPaymaster": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Whether to use the CDP Paymaster for the user operation. When `true`, `paymasterUrl` must not be set.",
+            "smithy.api#required": {}
+          }
+        },
+        "paymasterUrl": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Paymaster URL to use for the user operation. Must not be set when `useCdpPaymaster` is `true`.\nIf `useCdpPaymaster` is `false` and no `paymasterUrl` is set, the smart account must have sufficient funds to cover network fees."
+          }
+        },
+        "paymasterContext": {
+          "target": "com.coinbase.cdp#PaymasterContext",
+          "traits": {
+            "smithy.api#documentation": "Optional paymaster metadata forwarded to the configured paymaster service. Valid only when a paymaster is configured via `useCdpPaymaster: true` or a `paymasterUrl`."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.coinbase.cdp#AdjustBorrowPositionWithEndUserAccount": {
+      "type": "operation",
+      "input": {
+        "target": "com.coinbase.cdp#AdjustBorrowPositionWithEndUserAccountRequest"
+      },
+      "output": {
+        "target": "com.coinbase.cdp#EvmUserOperation"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/v2/embedded-wallet-api/end-users/{userId}/evm/smart-accounts/{address}/borrow-positions/adjust",
+          "code": 200
+        },
+        "smithy.api#documentation": "Adjust a borrow position for an end user smart account\n\nAdjusts an existing borrow position for a specific borrow product by supplying collateral, withdrawing collateral, repaying debt, and/or borrowing more of the loan asset from an end user smart account.\nThe `borrowProductId` identifies the product whose position to adjust, and the `addCollateralAmount`, `removeCollateralAmount`, `repayLoanAmount`, and `borrowLoanAmount` fields specify the changes to apply, each expressed as a decimal string in standard unit denomination of the respective token.\nA single request must not combine `addCollateralAmount` with `removeCollateralAmount` or `repayLoanAmount`, and must not combine `borrowLoanAmount` with `repayLoanAmount` or `removeCollateralAmount`. Otherwise any subset of the four amount fields may be supplied; at least one is required.\nA user operation is broadcast to adjust the position onchain. Poll `getUserOperationWithEndUserAccount` with the returned `userOpHash` until it reaches a terminal state. Once the user operation succeeds onchain, use the borrow positions list endpoint to view the user's adjusted positions."
+      }
+    },
+    "com.coinbase.cdp#CloseBorrowPositionWithEndUserAccountRequest": {
+      "type": "structure",
+      "members": {
+        "userId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The ID of the end user."
+          }
+        },
+        "address": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The address of the EVM Smart Account that holds the borrow position."
+          }
+        },
+        "projectID": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "projectID",
+            "smithy.api#documentation": "The ID of the CDP Project. Required for end users authenticated using custom auth (i.e. a non-CDP JWT provider)."
+          }
+        },
+        "borrowProductId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "walletSecretId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The ID of the Temporary Wallet Secret that was used to sign the X-Wallet-Auth header.",
+            "smithy.api#required": {}
+          }
+        },
+        "useCdpPaymaster": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Whether to use the CDP Paymaster for the user operation. When `true`, `paymasterUrl` must not be set.",
+            "smithy.api#required": {}
+          }
+        },
+        "paymasterUrl": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Paymaster URL to use for the user operation. Must not be set when `useCdpPaymaster` is `true`.\nIf `useCdpPaymaster` is `false` and no `paymasterUrl` is set, the smart account must have sufficient funds to cover network fees."
+          }
+        },
+        "paymasterContext": {
+          "target": "com.coinbase.cdp#PaymasterContext",
+          "traits": {
+            "smithy.api#documentation": "Optional paymaster metadata forwarded to the configured paymaster service. Valid only when a paymaster is configured via `useCdpPaymaster: true` or a `paymasterUrl`."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.coinbase.cdp#CloseBorrowPositionWithEndUserAccount": {
+      "type": "operation",
+      "input": {
+        "target": "com.coinbase.cdp#CloseBorrowPositionWithEndUserAccountRequest"
+      },
+      "output": {
+        "target": "com.coinbase.cdp#EvmUserOperation"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/v2/embedded-wallet-api/end-users/{userId}/evm/smart-accounts/{address}/borrow-positions/close",
+          "code": 200
+        },
+        "smithy.api#documentation": "Close a borrow position for an end user smart account\n\nCloses an end user smart account's borrow position by fully repaying its outstanding loan and withdrawing all remaining collateral back to the smart account, in a single user operation.\nA borrow position is identified by the smart account `address` and the `borrowProductId` in the request body, since a smart account holds at most one position per borrow product. Closing repays the entire accrued debt and withdraws the full collateral balance; there is no partial close. To adjust a position without closing it, use `adjustBorrowPositionWithEndUserAccount` instead.\nA user operation is broadcast to close the position onchain. Poll `getUserOperationWithEndUserAccount` with the returned `userOpHash` until it reaches a terminal state. Once the user operation succeeds onchain, the position is closed and no longer appears in the borrow positions list."
       }
     },
     "com.coinbase.cdp#SignSolanaMessageWithEndUserAccountRequest": {
@@ -10145,6 +11328,26 @@
         "smithy.api#documentation": "Sign Base64-encoded message\n\nSigns an arbitrary Base64 encoded message with the given Solana account.\n**WARNING:**  Never sign a message that you didn't generate as it may put your funds at risk."
       }
     },
+    "com.coinbase.cdp#SignSolanaTransactionWithEndUserAccountRequestNetwork": {
+      "type": "enum",
+      "members": {
+        "SOLANA": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "solana"
+          }
+        },
+        "SOLANA_DEVNET": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "solana-devnet"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The Solana network the transaction targets. Required when using versioned transactions that reference address lookup tables, since resolving those tables requires querying a specific network. Optional otherwise."
+      }
+    },
     "com.coinbase.cdp#SignSolanaTransactionWithEndUserAccountRequest": {
       "type": "structure",
       "members": {
@@ -10168,6 +11371,12 @@
           "traits": {
             "smithy.api#documentation": "The base58 encoded address of the Solana account belonging to the end user.",
             "smithy.api#required": {}
+          }
+        },
+        "network": {
+          "target": "com.coinbase.cdp#SignSolanaTransactionWithEndUserAccountRequestNetwork",
+          "traits": {
+            "smithy.api#documentation": "The Solana network the transaction targets. Required when using versioned transactions that reference address lookup tables, since resolving those tables requires querying a specific network. Optional otherwise."
           }
         },
         "transaction": {
@@ -14883,9 +16092,8 @@
           }
         },
         "rules": {
-          "target": "com.coinbase.cdp#PolicyRulesList",
+          "target": "com.coinbase.cdp#PolicyRules",
           "traits": {
-            "smithy.api#documentation": "A list of rules that comprise the policy.",
             "smithy.api#required": {}
           }
         },
@@ -14924,6 +16132,15 @@
       },
       "traits": {
         "smithy.api#documentation": "The scope of the policy. Only one project-level policy can exist at any time."
+      }
+    },
+    "com.coinbase.cdp#PolicyRules": {
+      "type": "list",
+      "member": {
+        "target": "com.coinbase.cdp#Rule"
+      },
+      "traits": {
+        "smithy.api#documentation": "A list of rules that comprise the policy. Each policy is limited to 100 rules and a total serialized size of 8 MiB."
       }
     },
     "com.coinbase.cdp#Rule": {
@@ -19120,15 +20337,6 @@
       },
       "traits": {}
     },
-    "com.coinbase.cdp#PolicyRulesList": {
-      "type": "list",
-      "member": {
-        "target": "com.coinbase.cdp#Rule"
-      },
-      "traits": {
-        "smithy.api#documentation": "A list of rules that comprise the policy."
-      }
-    },
     "com.coinbase.cdp#ListPoliciesResponsePoliciesList": {
       "type": "list",
       "member": {
@@ -19196,15 +20404,6 @@
         "smithy.api#documentation": "The scope of the policy."
       }
     },
-    "com.coinbase.cdp#CreatePolicyRequestRulesList": {
-      "type": "list",
-      "member": {
-        "target": "com.coinbase.cdp#Rule"
-      },
-      "traits": {
-        "smithy.api#documentation": "A list of rules that comprise the policy. There is a limit of 10 rules per policy."
-      }
-    },
     "com.coinbase.cdp#CreatePolicyRequest": {
       "type": "structure",
       "members": {
@@ -19222,9 +20421,8 @@
           }
         },
         "rules": {
-          "target": "com.coinbase.cdp#CreatePolicyRequestRulesList",
+          "target": "com.coinbase.cdp#PolicyRules",
           "traits": {
-            "smithy.api#documentation": "A list of rules that comprise the policy. There is a limit of 10 rules per policy.",
             "smithy.api#required": {}
           }
         }
@@ -19283,15 +20481,6 @@
         "smithy.api#documentation": "Get policy by ID\n\nGet a policy by its ID."
       }
     },
-    "com.coinbase.cdp#UpdatePolicyRequestRulesList": {
-      "type": "list",
-      "member": {
-        "target": "com.coinbase.cdp#Rule"
-      },
-      "traits": {
-        "smithy.api#documentation": "A list of rules that comprise the policy. There is a limit of 10 rules per policy."
-      }
-    },
     "com.coinbase.cdp#UpdatePolicyRequest": {
       "type": "structure",
       "members": {
@@ -19310,9 +20499,8 @@
           }
         },
         "rules": {
-          "target": "com.coinbase.cdp#UpdatePolicyRequestRulesList",
+          "target": "com.coinbase.cdp#PolicyRules",
           "traits": {
-            "smithy.api#documentation": "A list of rules that comprise the policy. There is a limit of 10 rules per policy.",
             "smithy.api#required": {}
           }
         }
@@ -19782,6 +20970,26 @@
         "smithy.api#documentation": "Export Solana account by name\n\nExport an existing Solana account's private key by its name. It is important to store the private key in a secure place after it's exported."
       }
     },
+    "com.coinbase.cdp#SignSolanaTransactionRequestNetwork": {
+      "type": "enum",
+      "members": {
+        "SOLANA": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "solana"
+          }
+        },
+        "SOLANA_DEVNET": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "solana-devnet"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The Solana network the transaction targets. Required when using versioned transactions that reference address lookup tables, since resolving those tables requires querying a specific network. Optional otherwise."
+      }
+    },
     "com.coinbase.cdp#SignSolanaTransactionRequest": {
       "type": "structure",
       "members": {
@@ -19791,6 +20999,12 @@
             "smithy.api#httpLabel": {},
             "smithy.api#required": {},
             "smithy.api#documentation": "The base58 encoded address of the Solana account."
+          }
+        },
+        "network": {
+          "target": "com.coinbase.cdp#SignSolanaTransactionRequestNetwork",
+          "traits": {
+            "smithy.api#documentation": "The Solana network the transaction targets. Required when using versioned transactions that reference address lookup tables, since resolving those tables requires querying a specific network. Optional otherwise."
           }
         },
         "transaction": {
@@ -19837,6 +21051,26 @@
         "smithy.api#documentation": "Sign transaction\n\nSigns a transaction with the given Solana account.\nThe unsigned transaction should be serialized into a byte array and then encoded as base64.\n\n**Transaction types**\n\nThe following transaction types are supported:\n* [Legacy transactions](https://solana-labs.github.io/solana-web3.js/classes/Transaction.html)\n* [Versioned transactions](https://solana-labs.github.io/solana-web3.js/classes/VersionedTransaction.html)\n\nThe developer is responsible for ensuring that the unsigned transaction is valid, as the API will not validate the transaction."
       }
     },
+    "com.coinbase.cdp#SignSolanaMessageRequestEncoding": {
+      "type": "enum",
+      "members": {
+        "UTF8": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "utf8"
+          }
+        },
+        "BASE64": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "base64"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The encoding of the message. Use `utf8` to sign the literal UTF-8 bytes of the message, or `base64` to decode an RFC 4648 standard Base64 string before signing. Base64 input must use the standard `+` and `/` alphabet with `=` padding where required. If omitted, the message is interpreted as UTF-8."
+      }
+    },
     "com.coinbase.cdp#SignSolanaMessageRequest": {
       "type": "structure",
       "members": {
@@ -19853,6 +21087,12 @@
           "traits": {
             "smithy.api#documentation": "The arbitrary message to sign.",
             "smithy.api#required": {}
+          }
+        },
+        "encoding": {
+          "target": "com.coinbase.cdp#SignSolanaMessageRequestEncoding",
+          "traits": {
+            "smithy.api#documentation": "The encoding of the message. Use `utf8` to sign the literal UTF-8 bytes of the message, or `base64` to decode an RFC 4648 standard Base64 string before signing. Base64 input must use the standard `+` and `/` alphabet with `=` padding where required. If omitted, the message is interpreted as UTF-8."
           }
         }
       },
@@ -21009,10 +22249,7 @@
           }
         },
         "labels": {
-          "target": "com.coinbase.cdp#WebhookSubscriptionResponseLabelsMap",
-          "traits": {
-            "smithy.api#documentation": "Multi-label filters using total overlap logic. Total overlap means the subscription only triggers when events contain ALL these key-value pairs.\nPresent when subscription uses multi-label format.\n"
-          }
+          "target": "com.coinbase.cdp#WebhookResponseLabels"
         }
       },
       "traits": {
@@ -21408,7 +22645,7 @@
         "smithy.api#documentation": "Additional headers to include in webhook requests."
       }
     },
-    "com.coinbase.cdp#WebhookSubscriptionResponseLabelsMap": {
+    "com.coinbase.cdp#WebhookResponseLabels": {
       "type": "map",
       "key": {
         "target": "smithy.api#String"
@@ -21417,7 +22654,7 @@
         "target": "smithy.api#String"
       },
       "traits": {
-        "smithy.api#documentation": "Multi-label filters using total overlap logic. Total overlap means the subscription only triggers when events contain ALL these key-value pairs.\nPresent when subscription uses multi-label format.\n"
+        "smithy.api#documentation": "Effective filters stored on the webhook subscription. The response includes\nclient-supplied labels plus labels defaulted or injected by the server.\n\n* `onchain.activity.detected`, `wallet.activity.detected`, and `wallet.activity.multi`\n  include `network`. It defaults to `base-mainnet` when omitted from the request.\n* `wallet.activity.multi` includes the requested comma-separated `wallet_addresses`.\n* `health.*` includes the requested `service`.\n* Project-scoped events include the authenticated `project`.\n* Entity-scoped events include the authenticated `entity`.\n* User-scoped events include the authenticated `user_uuid` and a `sandbox` value.\n"
       }
     },
     "com.coinbase.cdp#ListWebhookSubscriptionsResponseSubscriptionsList": {
@@ -21476,7 +22713,7 @@
         "smithy.api#documentation": "Types of events to subscribe to. Event types follow a dot-separated format:\nservice.resource.verb (e.g., \"onchain.activity.detected\", \"wallet.activity.detected\", \"onramp.transaction.created\",\n\"acceptance.payment_session.authorization_succeeded\").\nThe subscription will only receive events matching these types AND the label filter(s).\n"
       }
     },
-    "com.coinbase.cdp#CreateWebhookSubscriptionRequestLabelsMap": {
+    "com.coinbase.cdp#WebhookMetadata": {
       "type": "map",
       "key": {
         "target": "smithy.api#String"
@@ -21485,7 +22722,19 @@
         "target": "smithy.api#String"
       },
       "traits": {
-        "smithy.api#documentation": "Optional. Multi-label filters using total overlap logic. Total overlap means the subscription will only trigger when\nan event contains ALL the key-value pairs specified here. Additional labels on\nthe event are allowed and will not prevent matching. Omit to receive all events for the selected event types.\n\n**Note:** Currently, labels are supported for onchain webhooks only (max 20 labels per subscription).\n\n**Allowed labels for `onchain.activity.detected`** (all in snake_case format):\n- `network` (required) — Blockchain network\n- `contract_address` — Smart contract address\n- `event_name` — Event name (e.g., \"Transfer\", \"Burn\")\n- `event_signature` — Event signature hash\n- `transaction_from` — Transaction sender address\n- `transaction_to` — Transaction recipient address\n- `params.*` — Any event parameter (e.g., `params.from`, `params.to`, `params.sender`, `params.tokenId`)\n"
+        "smithy.api#documentation": "Optional subscription metadata. Up to 10 key/value pairs may be provided. Keys and values must each contain between 1 and 50 characters."
+      }
+    },
+    "com.coinbase.cdp#WebhookRequestLabels": {
+      "type": "map",
+      "key": {
+        "target": "smithy.api#String"
+      },
+      "value": {
+        "target": "smithy.api#String"
+      },
+      "traits": {
+        "smithy.api#documentation": "String-valued filters supplied when creating or updating a webhook subscription.\nThe subscription's `eventTypes` determine whether labels are required and which\nlabel keys are accepted. A subscription accepts at most 20 client-supplied labels.\n\n#### Label Behavior\n\nAn event must match ALL labels to fire to your subscription `targetURL`. When multiple labels are supplied, the event must match ALL labels to fire to your subscription `targetURL`.\n"
       }
     },
     "com.coinbase.cdp#CreateWebhookSubscriptionRequest": {
@@ -21515,13 +22764,10 @@
           }
         },
         "metadata": {
-          "target": "com.coinbase.cdp#Metadata"
+          "target": "com.coinbase.cdp#WebhookMetadata"
         },
         "labels": {
-          "target": "com.coinbase.cdp#CreateWebhookSubscriptionRequestLabelsMap",
-          "traits": {
-            "smithy.api#documentation": "Optional. Multi-label filters using total overlap logic. Total overlap means the subscription will only trigger when\nan event contains ALL the key-value pairs specified here. Additional labels on\nthe event are allowed and will not prevent matching. Omit to receive all events for the selected event types.\n\n**Note:** Currently, labels are supported for onchain webhooks only (max 20 labels per subscription).\n\n**Allowed labels for `onchain.activity.detected`** (all in snake_case format):\n- `network` (required) — Blockchain network\n- `contract_address` — Smart contract address\n- `event_name` — Event name (e.g., \"Transfer\", \"Burn\")\n- `event_signature` — Event signature hash\n- `transaction_from` — Transaction sender address\n- `transaction_to` — Transaction recipient address\n- `params.*` — Any event parameter (e.g., `params.from`, `params.to`, `params.sender`, `params.tokenId`)\n"
-          }
+          "target": "com.coinbase.cdp#WebhookRequestLabels"
         }
       },
       "traits": {
@@ -21542,7 +22788,7 @@
           "uri": "/v2/data/webhooks/subscriptions",
           "code": 200
         },
-        "smithy.api#documentation": "Create webhook subscription\n\nSubscribe to real-time events across CDP products.\n\n### Filtering\n\nOnchain events can utilize multi-label filtering to only receive events that match all the specified labels.\n\nAllows labels are:\n- `network` (required) — Blockchain network\n- `contract_address` — Smart contract address\n- `event_name` — Event name (e.g., \"Transfer\", \"Burn\")\n- `event_signature` — Event signature (e.g., \"Transfer(address,address,uint256)\")\n- `transaction_from` — Transaction sender address\n- `transaction_to` — Transaction recipient address\n- `params.*` — Any event parameter from the log event (e.g., `params.from`, `params.to`, `params.sender`, `params.tokenId`)\n\nFor webhook types that aren't `onchain.*`, labels are ignored.\n\n### Webhook Signature Verification\n\nAll webhooks include an HMAC-SHA256 signed header for security. The signature is signed with the secret that is returned in the `secret` field when creating a subscription.\n\nDo not lose the secret, as you will not be able to recreate it. If you lose the secret, you will need to create a new subscription.\n\nSee the [verification guide](https://docs.cdp.coinbase.com/onramp-&-offramp/webhooks#webhook-signature-verification) for implementation details."
+        "smithy.api#documentation": "Create webhook subscription\n\nSubscribe to real-time events across CDP products. A webhook subscription provides a `targetURL` and other relevant endpoint configuration to enable receiving webhooks when events occur.\n\n### Webhook Signature Verification\n\nAll webhooks include an HMAC-SHA256 signed header for security. The signature is signed with the secret that is returned in the `secret` field when creating a subscription.\n\nDo not lose the secret, as you will not be able to recreate it. If you lose the secret, you will need to create a new subscription.\n\nSee the [verification guide](https://docs.cdp.coinbase.com/onramp-&-offramp/webhooks#webhook-signature-verification) for implementation details."
       }
     },
     "com.coinbase.cdp#GetWebhookSubscriptionRequest": {
@@ -21587,18 +22833,6 @@
         "smithy.api#documentation": "Types of events to subscribe to. Event types follow a three-part dot-separated format:\nservice.resource.verb (e.g., \"onchain.activity.detected\", \"wallet.activity.detected\", \"onramp.transaction.created\").\n"
       }
     },
-    "com.coinbase.cdp#UpdateWebhookSubscriptionRequestLabelsMap": {
-      "type": "map",
-      "key": {
-        "target": "smithy.api#String"
-      },
-      "value": {
-        "target": "smithy.api#String"
-      },
-      "traits": {
-        "smithy.api#documentation": "Optional. Multi-label filters that trigger only when an event contains ALL of these key-value pairs.\nOmit to receive all events for the selected event types.\n\n**Note:** Currently, labels are supported for onchain webhooks only (max 20 labels per subscription).\n\n**Allowed labels for `onchain.activity.detected`** (all in snake_case format):\n- `network` (required) — Blockchain network\n- `contract_address` — Smart contract address\n- `event_name` — Event name (e.g., \"Transfer\", \"Burn\")\n- `event_signature` — Event signature hash\n- `transaction_from` — Transaction sender address\n- `transaction_to` — Transaction recipient address\n- `params.*` — Any event parameter (e.g., `params.from`, `params.to`, `params.sender`, `params.tokenId`)\n"
-      }
-    },
     "com.coinbase.cdp#UpdateWebhookSubscriptionRequest": {
       "type": "structure",
       "members": {
@@ -21634,13 +22868,10 @@
           }
         },
         "metadata": {
-          "target": "com.coinbase.cdp#Metadata"
+          "target": "com.coinbase.cdp#WebhookMetadata"
         },
         "labels": {
-          "target": "com.coinbase.cdp#UpdateWebhookSubscriptionRequestLabelsMap",
-          "traits": {
-            "smithy.api#documentation": "Optional. Multi-label filters that trigger only when an event contains ALL of these key-value pairs.\nOmit to receive all events for the selected event types.\n\n**Note:** Currently, labels are supported for onchain webhooks only (max 20 labels per subscription).\n\n**Allowed labels for `onchain.activity.detected`** (all in snake_case format):\n- `network` (required) — Blockchain network\n- `contract_address` — Smart contract address\n- `event_name` — Event name (e.g., \"Transfer\", \"Burn\")\n- `event_signature` — Event signature hash\n- `transaction_from` — Transaction sender address\n- `transaction_to` — Transaction recipient address\n- `params.*` — Any event parameter (e.g., `params.from`, `params.to`, `params.sender`, `params.tokenId`)\n"
-          }
+          "target": "com.coinbase.cdp#WebhookRequestLabels"
         }
       },
       "traits": {
@@ -26291,7 +27522,7 @@
         "partnerUserRef": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "A unique string that represents the user in your app. This can be used to link individual transactions  together so you can retrieve the transaction history for your users. Prefix this string with “sandbox-”  (e.g. \"sandbox-user-1234\") to perform a sandbox transaction which will allow you to test your integration  without any real transfer of funds.\n\nThis value can be used with with [Onramp User Transactions API](https://docs.cdp.coinbase.com/api-reference/rest-api/onramp-offramp/get-onramp-transactions-by-id) to retrieve all transactions created by the user.",
+            "smithy.api#documentation": "A unique string that represents the user in your app. This can be used to link individual transactions together so you can retrieve the transaction history for your users. Prefix this string with \"sandbox-\" (e.g. \"sandbox-user-1234\") to perform a sandbox transaction which will allow you to test your integration without any real transfer of funds.\n\nThis value can be used with the [Onramp User Transactions API](https://docs.cdp.coinbase.com/api-reference/rest-api/onramp-offramp/get-onramp-transactions-by-id) to retrieve all transactions created by the user.",
             "smithy.api#required": {}
           }
         },
@@ -27832,6 +29063,9 @@
           "target": "com.coinbase.cdp#CreateCustomer"
         },
         {
+          "target": "com.coinbase.cdp#GetCustomerRequirements"
+        },
+        {
           "target": "com.coinbase.cdp#GetCustomer"
         },
         {
@@ -27958,6 +29192,12 @@
           "target": "com.coinbase.cdp#ImportEndUser"
         },
         {
+          "target": "com.coinbase.cdp#ListEvmBorrowProducts"
+        },
+        {
+          "target": "com.coinbase.cdp#GetEvmBorrowProduct"
+        },
+        {
           "target": "com.coinbase.cdp#SignEvmTransactionWithEndUserAccount"
         },
         {
@@ -27991,7 +29231,22 @@
           "target": "com.coinbase.cdp#CreateEvmEip7702DelegationWithEndUserAccount"
         },
         {
+          "target": "com.coinbase.cdp#GetUserOperationWithEndUserAccount"
+        },
+        {
           "target": "com.coinbase.cdp#SendUserOperationWithEndUserAccount"
+        },
+        {
+          "target": "com.coinbase.cdp#ListBorrowPositionsWithEndUserAccount"
+        },
+        {
+          "target": "com.coinbase.cdp#CreateBorrowPositionWithEndUserAccount"
+        },
+        {
+          "target": "com.coinbase.cdp#AdjustBorrowPositionWithEndUserAccount"
+        },
+        {
+          "target": "com.coinbase.cdp#CloseBorrowPositionWithEndUserAccount"
         },
         {
           "target": "com.coinbase.cdp#SignSolanaMessageWithEndUserAccount"

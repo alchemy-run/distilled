@@ -410,7 +410,7 @@
         "target": "com.cloudflare.pages#ProjectsCreateRequestDeploymentConfigsPreviewDurableObjectNamespacesValue"
       }
     },
-    "com.cloudflare.pages#ProjectsCreateRequestDeploymentConfigsPreviewEnvVarsPlainTextType": {
+    "com.cloudflare.pages#ProjectsCreateRequestDeploymentConfigsPreviewEnvVarsValuePlainTextType": {
       "type": "enum",
       "members": {
         "PLAIN_TEXT": {
@@ -421,11 +421,11 @@
         }
       }
     },
-    "com.cloudflare.pages#ProjectsCreateRequestDeploymentConfigsPreviewEnvVarsPlainText": {
+    "com.cloudflare.pages#ProjectsCreateRequestDeploymentConfigsPreviewEnvVarsValuePlainText": {
       "type": "structure",
       "members": {
         "type": {
-          "target": "com.cloudflare.pages#ProjectsCreateRequestDeploymentConfigsPreviewEnvVarsPlainTextType",
+          "target": "com.cloudflare.pages#ProjectsCreateRequestDeploymentConfigsPreviewEnvVarsValuePlainTextType",
           "traits": {
             "smithy.api#required": {}
           }
@@ -439,7 +439,7 @@
         }
       }
     },
-    "com.cloudflare.pages#ProjectsCreateRequestDeploymentConfigsPreviewEnvVarsSecretTextType": {
+    "com.cloudflare.pages#ProjectsCreateRequestDeploymentConfigsPreviewEnvVarsValueSecretTextType": {
       "type": "enum",
       "members": {
         "SECRET_TEXT": {
@@ -450,11 +450,11 @@
         }
       }
     },
-    "com.cloudflare.pages#ProjectsCreateRequestDeploymentConfigsPreviewEnvVarsSecretText": {
+    "com.cloudflare.pages#ProjectsCreateRequestDeploymentConfigsPreviewEnvVarsValueSecretText": {
       "type": "structure",
       "members": {
         "type": {
-          "target": "com.cloudflare.pages#ProjectsCreateRequestDeploymentConfigsPreviewEnvVarsSecretTextType",
+          "target": "com.cloudflare.pages#ProjectsCreateRequestDeploymentConfigsPreviewEnvVarsValueSecretTextType",
           "traits": {
             "smithy.api#required": {}
           }
@@ -468,15 +468,24 @@
         }
       }
     },
-    "com.cloudflare.pages#ProjectsCreateRequestDeploymentConfigsPreviewEnvVars": {
+    "com.cloudflare.pages#ProjectsCreateRequestDeploymentConfigsPreviewEnvVarsValue": {
       "type": "union",
       "members": {
         "PlainText": {
-          "target": "com.cloudflare.pages#ProjectsCreateRequestDeploymentConfigsPreviewEnvVarsPlainText"
+          "target": "com.cloudflare.pages#ProjectsCreateRequestDeploymentConfigsPreviewEnvVarsValuePlainText"
         },
         "SecretText": {
-          "target": "com.cloudflare.pages#ProjectsCreateRequestDeploymentConfigsPreviewEnvVarsSecretText"
+          "target": "com.cloudflare.pages#ProjectsCreateRequestDeploymentConfigsPreviewEnvVarsValueSecretText"
         }
+      }
+    },
+    "com.cloudflare.pages#ProjectsCreateRequestDeploymentConfigsPreviewEnvVarsMap": {
+      "type": "map",
+      "key": {
+        "target": "smithy.api#String"
+      },
+      "value": {
+        "target": "com.cloudflare.pages#ProjectsCreateRequestDeploymentConfigsPreviewEnvVarsValue"
       }
     },
     "com.cloudflare.pages#ProjectsCreateRequestDeploymentConfigsPreviewHyperdriveBindingsValue": {
@@ -923,7 +932,7 @@
         "target": "com.cloudflare.pages#ProjectsCreateRequestDeploymentConfigsProductionDurableObjectNamespacesValue"
       }
     },
-    "com.cloudflare.pages#ProjectsCreateRequestDeploymentConfigsProductionEnvVarsPlainTextType": {
+    "com.cloudflare.pages#ProjectsCreateRequestDeploymentConfigsProductionEnvVarsValuePlainTextType": {
       "type": "enum",
       "members": {
         "PLAIN_TEXT": {
@@ -934,11 +943,11 @@
         }
       }
     },
-    "com.cloudflare.pages#ProjectsCreateRequestDeploymentConfigsProductionEnvVarsPlainText": {
+    "com.cloudflare.pages#ProjectsCreateRequestDeploymentConfigsProductionEnvVarsValuePlainText": {
       "type": "structure",
       "members": {
         "type": {
-          "target": "com.cloudflare.pages#ProjectsCreateRequestDeploymentConfigsProductionEnvVarsPlainTextType",
+          "target": "com.cloudflare.pages#ProjectsCreateRequestDeploymentConfigsProductionEnvVarsValuePlainTextType",
           "traits": {
             "smithy.api#required": {}
           }
@@ -952,7 +961,7 @@
         }
       }
     },
-    "com.cloudflare.pages#ProjectsCreateRequestDeploymentConfigsProductionEnvVarsSecretTextType": {
+    "com.cloudflare.pages#ProjectsCreateRequestDeploymentConfigsProductionEnvVarsValueSecretTextType": {
       "type": "enum",
       "members": {
         "SECRET_TEXT": {
@@ -963,11 +972,11 @@
         }
       }
     },
-    "com.cloudflare.pages#ProjectsCreateRequestDeploymentConfigsProductionEnvVarsSecretText": {
+    "com.cloudflare.pages#ProjectsCreateRequestDeploymentConfigsProductionEnvVarsValueSecretText": {
       "type": "structure",
       "members": {
         "type": {
-          "target": "com.cloudflare.pages#ProjectsCreateRequestDeploymentConfigsProductionEnvVarsSecretTextType",
+          "target": "com.cloudflare.pages#ProjectsCreateRequestDeploymentConfigsProductionEnvVarsValueSecretTextType",
           "traits": {
             "smithy.api#required": {}
           }
@@ -981,15 +990,24 @@
         }
       }
     },
-    "com.cloudflare.pages#ProjectsCreateRequestDeploymentConfigsProductionEnvVars": {
+    "com.cloudflare.pages#ProjectsCreateRequestDeploymentConfigsProductionEnvVarsValue": {
       "type": "union",
       "members": {
         "PlainText": {
-          "target": "com.cloudflare.pages#ProjectsCreateRequestDeploymentConfigsProductionEnvVarsPlainText"
+          "target": "com.cloudflare.pages#ProjectsCreateRequestDeploymentConfigsProductionEnvVarsValuePlainText"
         },
         "SecretText": {
-          "target": "com.cloudflare.pages#ProjectsCreateRequestDeploymentConfigsProductionEnvVarsSecretText"
+          "target": "com.cloudflare.pages#ProjectsCreateRequestDeploymentConfigsProductionEnvVarsValueSecretText"
         }
+      }
+    },
+    "com.cloudflare.pages#ProjectsCreateRequestDeploymentConfigsProductionEnvVarsMap": {
+      "type": "map",
+      "key": {
+        "target": "smithy.api#String"
+      },
+      "value": {
+        "target": "com.cloudflare.pages#ProjectsCreateRequestDeploymentConfigsProductionEnvVarsValue"
       }
     },
     "com.cloudflare.pages#ProjectsCreateRequestDeploymentConfigsProductionHyperdriveBindingsValue": {
@@ -1644,7 +1662,7 @@
         }
       }
     },
-    "com.cloudflare.pages#ProjectsCreateResponseCanonicalDeploymentEnvVarsPlainTextType": {
+    "com.cloudflare.pages#ProjectsCreateResponseCanonicalDeploymentEnvVarsValuePlainTextType": {
       "type": "enum",
       "members": {
         "PLAIN_TEXT": {
@@ -1655,11 +1673,11 @@
         }
       }
     },
-    "com.cloudflare.pages#ProjectsCreateResponseCanonicalDeploymentEnvVarsPlainText": {
+    "com.cloudflare.pages#ProjectsCreateResponseCanonicalDeploymentEnvVarsValuePlainText": {
       "type": "structure",
       "members": {
         "type": {
-          "target": "com.cloudflare.pages#ProjectsCreateResponseCanonicalDeploymentEnvVarsPlainTextType",
+          "target": "com.cloudflare.pages#ProjectsCreateResponseCanonicalDeploymentEnvVarsValuePlainTextType",
           "traits": {
             "smithy.api#required": {}
           }
@@ -1673,7 +1691,7 @@
         }
       }
     },
-    "com.cloudflare.pages#ProjectsCreateResponseCanonicalDeploymentEnvVarsSecretTextType": {
+    "com.cloudflare.pages#ProjectsCreateResponseCanonicalDeploymentEnvVarsValueSecretTextType": {
       "type": "enum",
       "members": {
         "SECRET_TEXT": {
@@ -1684,11 +1702,11 @@
         }
       }
     },
-    "com.cloudflare.pages#ProjectsCreateResponseCanonicalDeploymentEnvVarsSecretText": {
+    "com.cloudflare.pages#ProjectsCreateResponseCanonicalDeploymentEnvVarsValueSecretText": {
       "type": "structure",
       "members": {
         "type": {
-          "target": "com.cloudflare.pages#ProjectsCreateResponseCanonicalDeploymentEnvVarsSecretTextType",
+          "target": "com.cloudflare.pages#ProjectsCreateResponseCanonicalDeploymentEnvVarsValueSecretTextType",
           "traits": {
             "smithy.api#required": {}
           }
@@ -1702,15 +1720,24 @@
         }
       }
     },
-    "com.cloudflare.pages#ProjectsCreateResponseCanonicalDeploymentEnvVars": {
+    "com.cloudflare.pages#ProjectsCreateResponseCanonicalDeploymentEnvVarsValue": {
       "type": "union",
       "members": {
         "PlainText": {
-          "target": "com.cloudflare.pages#ProjectsCreateResponseCanonicalDeploymentEnvVarsPlainText"
+          "target": "com.cloudflare.pages#ProjectsCreateResponseCanonicalDeploymentEnvVarsValuePlainText"
         },
         "SecretText": {
-          "target": "com.cloudflare.pages#ProjectsCreateResponseCanonicalDeploymentEnvVarsSecretText"
+          "target": "com.cloudflare.pages#ProjectsCreateResponseCanonicalDeploymentEnvVarsValueSecretText"
         }
+      }
+    },
+    "com.cloudflare.pages#ProjectsCreateResponseCanonicalDeploymentEnvVarsMap": {
+      "type": "map",
+      "key": {
+        "target": "smithy.api#String"
+      },
+      "value": {
+        "target": "com.cloudflare.pages#ProjectsCreateResponseCanonicalDeploymentEnvVarsValue"
       }
     },
     "com.cloudflare.pages#ProjectsCreateResponseCanonicalDeploymentEnvironment": {
@@ -2314,7 +2341,7 @@
         "target": "smithy.api#String"
       }
     },
-    "com.cloudflare.pages#ProjectsCreateResponseDeploymentConfigsPreviewEnvVarsPlainTextType": {
+    "com.cloudflare.pages#ProjectsCreateResponseDeploymentConfigsPreviewEnvVarsValuePlainTextType": {
       "type": "enum",
       "members": {
         "PLAIN_TEXT": {
@@ -2325,11 +2352,11 @@
         }
       }
     },
-    "com.cloudflare.pages#ProjectsCreateResponseDeploymentConfigsPreviewEnvVarsPlainText": {
+    "com.cloudflare.pages#ProjectsCreateResponseDeploymentConfigsPreviewEnvVarsValuePlainText": {
       "type": "structure",
       "members": {
         "type": {
-          "target": "com.cloudflare.pages#ProjectsCreateResponseDeploymentConfigsPreviewEnvVarsPlainTextType",
+          "target": "com.cloudflare.pages#ProjectsCreateResponseDeploymentConfigsPreviewEnvVarsValuePlainTextType",
           "traits": {
             "smithy.api#required": {}
           }
@@ -2343,7 +2370,7 @@
         }
       }
     },
-    "com.cloudflare.pages#ProjectsCreateResponseDeploymentConfigsPreviewEnvVarsSecretTextType": {
+    "com.cloudflare.pages#ProjectsCreateResponseDeploymentConfigsPreviewEnvVarsValueSecretTextType": {
       "type": "enum",
       "members": {
         "SECRET_TEXT": {
@@ -2354,11 +2381,11 @@
         }
       }
     },
-    "com.cloudflare.pages#ProjectsCreateResponseDeploymentConfigsPreviewEnvVarsSecretText": {
+    "com.cloudflare.pages#ProjectsCreateResponseDeploymentConfigsPreviewEnvVarsValueSecretText": {
       "type": "structure",
       "members": {
         "type": {
-          "target": "com.cloudflare.pages#ProjectsCreateResponseDeploymentConfigsPreviewEnvVarsSecretTextType",
+          "target": "com.cloudflare.pages#ProjectsCreateResponseDeploymentConfigsPreviewEnvVarsValueSecretTextType",
           "traits": {
             "smithy.api#required": {}
           }
@@ -2372,15 +2399,24 @@
         }
       }
     },
-    "com.cloudflare.pages#ProjectsCreateResponseDeploymentConfigsPreviewEnvVars": {
+    "com.cloudflare.pages#ProjectsCreateResponseDeploymentConfigsPreviewEnvVarsValue": {
       "type": "union",
       "members": {
         "PlainText": {
-          "target": "com.cloudflare.pages#ProjectsCreateResponseDeploymentConfigsPreviewEnvVarsPlainText"
+          "target": "com.cloudflare.pages#ProjectsCreateResponseDeploymentConfigsPreviewEnvVarsValuePlainText"
         },
         "SecretText": {
-          "target": "com.cloudflare.pages#ProjectsCreateResponseDeploymentConfigsPreviewEnvVarsSecretText"
+          "target": "com.cloudflare.pages#ProjectsCreateResponseDeploymentConfigsPreviewEnvVarsValueSecretText"
         }
+      }
+    },
+    "com.cloudflare.pages#ProjectsCreateResponseDeploymentConfigsPreviewEnvVarsMap": {
+      "type": "map",
+      "key": {
+        "target": "smithy.api#String"
+      },
+      "value": {
+        "target": "com.cloudflare.pages#ProjectsCreateResponseDeploymentConfigsPreviewEnvVarsValue"
       }
     },
     "com.cloudflare.pages#ProjectsCreateResponseDeploymentConfigsPreviewUsageModel": {
@@ -2835,7 +2871,7 @@
         "target": "smithy.api#String"
       }
     },
-    "com.cloudflare.pages#ProjectsCreateResponseDeploymentConfigsProductionEnvVarsPlainTextType": {
+    "com.cloudflare.pages#ProjectsCreateResponseDeploymentConfigsProductionEnvVarsValuePlainTextType": {
       "type": "enum",
       "members": {
         "PLAIN_TEXT": {
@@ -2846,11 +2882,11 @@
         }
       }
     },
-    "com.cloudflare.pages#ProjectsCreateResponseDeploymentConfigsProductionEnvVarsPlainText": {
+    "com.cloudflare.pages#ProjectsCreateResponseDeploymentConfigsProductionEnvVarsValuePlainText": {
       "type": "structure",
       "members": {
         "type": {
-          "target": "com.cloudflare.pages#ProjectsCreateResponseDeploymentConfigsProductionEnvVarsPlainTextType",
+          "target": "com.cloudflare.pages#ProjectsCreateResponseDeploymentConfigsProductionEnvVarsValuePlainTextType",
           "traits": {
             "smithy.api#required": {}
           }
@@ -2864,7 +2900,7 @@
         }
       }
     },
-    "com.cloudflare.pages#ProjectsCreateResponseDeploymentConfigsProductionEnvVarsSecretTextType": {
+    "com.cloudflare.pages#ProjectsCreateResponseDeploymentConfigsProductionEnvVarsValueSecretTextType": {
       "type": "enum",
       "members": {
         "SECRET_TEXT": {
@@ -2875,11 +2911,11 @@
         }
       }
     },
-    "com.cloudflare.pages#ProjectsCreateResponseDeploymentConfigsProductionEnvVarsSecretText": {
+    "com.cloudflare.pages#ProjectsCreateResponseDeploymentConfigsProductionEnvVarsValueSecretText": {
       "type": "structure",
       "members": {
         "type": {
-          "target": "com.cloudflare.pages#ProjectsCreateResponseDeploymentConfigsProductionEnvVarsSecretTextType",
+          "target": "com.cloudflare.pages#ProjectsCreateResponseDeploymentConfigsProductionEnvVarsValueSecretTextType",
           "traits": {
             "smithy.api#required": {}
           }
@@ -2893,15 +2929,24 @@
         }
       }
     },
-    "com.cloudflare.pages#ProjectsCreateResponseDeploymentConfigsProductionEnvVars": {
+    "com.cloudflare.pages#ProjectsCreateResponseDeploymentConfigsProductionEnvVarsValue": {
       "type": "union",
       "members": {
         "PlainText": {
-          "target": "com.cloudflare.pages#ProjectsCreateResponseDeploymentConfigsProductionEnvVarsPlainText"
+          "target": "com.cloudflare.pages#ProjectsCreateResponseDeploymentConfigsProductionEnvVarsValuePlainText"
         },
         "SecretText": {
-          "target": "com.cloudflare.pages#ProjectsCreateResponseDeploymentConfigsProductionEnvVarsSecretText"
+          "target": "com.cloudflare.pages#ProjectsCreateResponseDeploymentConfigsProductionEnvVarsValueSecretText"
         }
+      }
+    },
+    "com.cloudflare.pages#ProjectsCreateResponseDeploymentConfigsProductionEnvVarsMap": {
+      "type": "map",
+      "key": {
+        "target": "smithy.api#String"
+      },
+      "value": {
+        "target": "com.cloudflare.pages#ProjectsCreateResponseDeploymentConfigsProductionEnvVarsValue"
       }
     },
     "com.cloudflare.pages#ProjectsCreateResponseDeploymentConfigsProductionUsageModel": {
@@ -3493,7 +3538,7 @@
         }
       }
     },
-    "com.cloudflare.pages#ProjectsCreateResponseLatestDeploymentEnvVarsPlainTextType": {
+    "com.cloudflare.pages#ProjectsCreateResponseLatestDeploymentEnvVarsValuePlainTextType": {
       "type": "enum",
       "members": {
         "PLAIN_TEXT": {
@@ -3504,11 +3549,11 @@
         }
       }
     },
-    "com.cloudflare.pages#ProjectsCreateResponseLatestDeploymentEnvVarsPlainText": {
+    "com.cloudflare.pages#ProjectsCreateResponseLatestDeploymentEnvVarsValuePlainText": {
       "type": "structure",
       "members": {
         "type": {
-          "target": "com.cloudflare.pages#ProjectsCreateResponseLatestDeploymentEnvVarsPlainTextType",
+          "target": "com.cloudflare.pages#ProjectsCreateResponseLatestDeploymentEnvVarsValuePlainTextType",
           "traits": {
             "smithy.api#required": {}
           }
@@ -3522,7 +3567,7 @@
         }
       }
     },
-    "com.cloudflare.pages#ProjectsCreateResponseLatestDeploymentEnvVarsSecretTextType": {
+    "com.cloudflare.pages#ProjectsCreateResponseLatestDeploymentEnvVarsValueSecretTextType": {
       "type": "enum",
       "members": {
         "SECRET_TEXT": {
@@ -3533,11 +3578,11 @@
         }
       }
     },
-    "com.cloudflare.pages#ProjectsCreateResponseLatestDeploymentEnvVarsSecretText": {
+    "com.cloudflare.pages#ProjectsCreateResponseLatestDeploymentEnvVarsValueSecretText": {
       "type": "structure",
       "members": {
         "type": {
-          "target": "com.cloudflare.pages#ProjectsCreateResponseLatestDeploymentEnvVarsSecretTextType",
+          "target": "com.cloudflare.pages#ProjectsCreateResponseLatestDeploymentEnvVarsValueSecretTextType",
           "traits": {
             "smithy.api#required": {}
           }
@@ -3551,15 +3596,24 @@
         }
       }
     },
-    "com.cloudflare.pages#ProjectsCreateResponseLatestDeploymentEnvVars": {
+    "com.cloudflare.pages#ProjectsCreateResponseLatestDeploymentEnvVarsValue": {
       "type": "union",
       "members": {
         "PlainText": {
-          "target": "com.cloudflare.pages#ProjectsCreateResponseLatestDeploymentEnvVarsPlainText"
+          "target": "com.cloudflare.pages#ProjectsCreateResponseLatestDeploymentEnvVarsValuePlainText"
         },
         "SecretText": {
-          "target": "com.cloudflare.pages#ProjectsCreateResponseLatestDeploymentEnvVarsSecretText"
+          "target": "com.cloudflare.pages#ProjectsCreateResponseLatestDeploymentEnvVarsValueSecretText"
         }
+      }
+    },
+    "com.cloudflare.pages#ProjectsCreateResponseLatestDeploymentEnvVarsMap": {
+      "type": "map",
+      "key": {
+        "target": "smithy.api#String"
+      },
+      "value": {
+        "target": "com.cloudflare.pages#ProjectsCreateResponseLatestDeploymentEnvVarsValue"
       }
     },
     "com.cloudflare.pages#ProjectsCreateResponseLatestDeploymentEnvironment": {
@@ -4067,7 +4121,7 @@
           }
         },
         "env_vars": {
-          "target": "com.cloudflare.pages#ProjectsCreateResponseLatestDeploymentEnvVars",
+          "target": "com.cloudflare.pages#ProjectsCreateResponseLatestDeploymentEnvVarsMap",
           "traits": {
             "smithy.api#documentation": "Environment variables used for builds and Pages Functions.",
             "smithy.api#required": {}
@@ -4523,7 +4577,7 @@
         "target": "com.cloudflare.pages#ProjectsEditRequestDeploymentConfigsPreviewDurableObjectNamespacesValue"
       }
     },
-    "com.cloudflare.pages#ProjectsEditRequestDeploymentConfigsPreviewEnvVarsPlainTextType": {
+    "com.cloudflare.pages#ProjectsEditRequestDeploymentConfigsPreviewEnvVarsValuePlainTextType": {
       "type": "enum",
       "members": {
         "PLAIN_TEXT": {
@@ -4534,11 +4588,11 @@
         }
       }
     },
-    "com.cloudflare.pages#ProjectsEditRequestDeploymentConfigsPreviewEnvVarsPlainText": {
+    "com.cloudflare.pages#ProjectsEditRequestDeploymentConfigsPreviewEnvVarsValuePlainText": {
       "type": "structure",
       "members": {
         "type": {
-          "target": "com.cloudflare.pages#ProjectsEditRequestDeploymentConfigsPreviewEnvVarsPlainTextType",
+          "target": "com.cloudflare.pages#ProjectsEditRequestDeploymentConfigsPreviewEnvVarsValuePlainTextType",
           "traits": {
             "smithy.api#required": {}
           }
@@ -4552,7 +4606,7 @@
         }
       }
     },
-    "com.cloudflare.pages#ProjectsEditRequestDeploymentConfigsPreviewEnvVarsSecretTextType": {
+    "com.cloudflare.pages#ProjectsEditRequestDeploymentConfigsPreviewEnvVarsValueSecretTextType": {
       "type": "enum",
       "members": {
         "SECRET_TEXT": {
@@ -4563,11 +4617,11 @@
         }
       }
     },
-    "com.cloudflare.pages#ProjectsEditRequestDeploymentConfigsPreviewEnvVarsSecretText": {
+    "com.cloudflare.pages#ProjectsEditRequestDeploymentConfigsPreviewEnvVarsValueSecretText": {
       "type": "structure",
       "members": {
         "type": {
-          "target": "com.cloudflare.pages#ProjectsEditRequestDeploymentConfigsPreviewEnvVarsSecretTextType",
+          "target": "com.cloudflare.pages#ProjectsEditRequestDeploymentConfigsPreviewEnvVarsValueSecretTextType",
           "traits": {
             "smithy.api#required": {}
           }
@@ -4581,15 +4635,24 @@
         }
       }
     },
-    "com.cloudflare.pages#ProjectsEditRequestDeploymentConfigsPreviewEnvVars": {
+    "com.cloudflare.pages#ProjectsEditRequestDeploymentConfigsPreviewEnvVarsValue": {
       "type": "union",
       "members": {
         "PlainText": {
-          "target": "com.cloudflare.pages#ProjectsEditRequestDeploymentConfigsPreviewEnvVarsPlainText"
+          "target": "com.cloudflare.pages#ProjectsEditRequestDeploymentConfigsPreviewEnvVarsValuePlainText"
         },
         "SecretText": {
-          "target": "com.cloudflare.pages#ProjectsEditRequestDeploymentConfigsPreviewEnvVarsSecretText"
+          "target": "com.cloudflare.pages#ProjectsEditRequestDeploymentConfigsPreviewEnvVarsValueSecretText"
         }
+      }
+    },
+    "com.cloudflare.pages#ProjectsEditRequestDeploymentConfigsPreviewEnvVarsMap": {
+      "type": "map",
+      "key": {
+        "target": "smithy.api#String"
+      },
+      "value": {
+        "target": "com.cloudflare.pages#ProjectsEditRequestDeploymentConfigsPreviewEnvVarsValue"
       }
     },
     "com.cloudflare.pages#ProjectsEditRequestDeploymentConfigsPreviewHyperdriveBindingsValue": {
@@ -5036,7 +5099,7 @@
         "target": "com.cloudflare.pages#ProjectsEditRequestDeploymentConfigsProductionDurableObjectNamespacesValue"
       }
     },
-    "com.cloudflare.pages#ProjectsEditRequestDeploymentConfigsProductionEnvVarsPlainTextType": {
+    "com.cloudflare.pages#ProjectsEditRequestDeploymentConfigsProductionEnvVarsValuePlainTextType": {
       "type": "enum",
       "members": {
         "PLAIN_TEXT": {
@@ -5047,11 +5110,11 @@
         }
       }
     },
-    "com.cloudflare.pages#ProjectsEditRequestDeploymentConfigsProductionEnvVarsPlainText": {
+    "com.cloudflare.pages#ProjectsEditRequestDeploymentConfigsProductionEnvVarsValuePlainText": {
       "type": "structure",
       "members": {
         "type": {
-          "target": "com.cloudflare.pages#ProjectsEditRequestDeploymentConfigsProductionEnvVarsPlainTextType",
+          "target": "com.cloudflare.pages#ProjectsEditRequestDeploymentConfigsProductionEnvVarsValuePlainTextType",
           "traits": {
             "smithy.api#required": {}
           }
@@ -5065,7 +5128,7 @@
         }
       }
     },
-    "com.cloudflare.pages#ProjectsEditRequestDeploymentConfigsProductionEnvVarsSecretTextType": {
+    "com.cloudflare.pages#ProjectsEditRequestDeploymentConfigsProductionEnvVarsValueSecretTextType": {
       "type": "enum",
       "members": {
         "SECRET_TEXT": {
@@ -5076,11 +5139,11 @@
         }
       }
     },
-    "com.cloudflare.pages#ProjectsEditRequestDeploymentConfigsProductionEnvVarsSecretText": {
+    "com.cloudflare.pages#ProjectsEditRequestDeploymentConfigsProductionEnvVarsValueSecretText": {
       "type": "structure",
       "members": {
         "type": {
-          "target": "com.cloudflare.pages#ProjectsEditRequestDeploymentConfigsProductionEnvVarsSecretTextType",
+          "target": "com.cloudflare.pages#ProjectsEditRequestDeploymentConfigsProductionEnvVarsValueSecretTextType",
           "traits": {
             "smithy.api#required": {}
           }
@@ -5094,15 +5157,24 @@
         }
       }
     },
-    "com.cloudflare.pages#ProjectsEditRequestDeploymentConfigsProductionEnvVars": {
+    "com.cloudflare.pages#ProjectsEditRequestDeploymentConfigsProductionEnvVarsValue": {
       "type": "union",
       "members": {
         "PlainText": {
-          "target": "com.cloudflare.pages#ProjectsEditRequestDeploymentConfigsProductionEnvVarsPlainText"
+          "target": "com.cloudflare.pages#ProjectsEditRequestDeploymentConfigsProductionEnvVarsValuePlainText"
         },
         "SecretText": {
-          "target": "com.cloudflare.pages#ProjectsEditRequestDeploymentConfigsProductionEnvVarsSecretText"
+          "target": "com.cloudflare.pages#ProjectsEditRequestDeploymentConfigsProductionEnvVarsValueSecretText"
         }
+      }
+    },
+    "com.cloudflare.pages#ProjectsEditRequestDeploymentConfigsProductionEnvVarsMap": {
+      "type": "map",
+      "key": {
+        "target": "smithy.api#String"
+      },
+      "value": {
+        "target": "com.cloudflare.pages#ProjectsEditRequestDeploymentConfigsProductionEnvVarsValue"
       }
     },
     "com.cloudflare.pages#ProjectsEditRequestDeploymentConfigsProductionHyperdriveBindingsValue": {
@@ -5757,7 +5829,7 @@
         }
       }
     },
-    "com.cloudflare.pages#ProjectsEditResponseCanonicalDeploymentEnvVarsPlainTextType": {
+    "com.cloudflare.pages#ProjectsEditResponseCanonicalDeploymentEnvVarsValuePlainTextType": {
       "type": "enum",
       "members": {
         "PLAIN_TEXT": {
@@ -5768,11 +5840,11 @@
         }
       }
     },
-    "com.cloudflare.pages#ProjectsEditResponseCanonicalDeploymentEnvVarsPlainText": {
+    "com.cloudflare.pages#ProjectsEditResponseCanonicalDeploymentEnvVarsValuePlainText": {
       "type": "structure",
       "members": {
         "type": {
-          "target": "com.cloudflare.pages#ProjectsEditResponseCanonicalDeploymentEnvVarsPlainTextType",
+          "target": "com.cloudflare.pages#ProjectsEditResponseCanonicalDeploymentEnvVarsValuePlainTextType",
           "traits": {
             "smithy.api#required": {}
           }
@@ -5786,7 +5858,7 @@
         }
       }
     },
-    "com.cloudflare.pages#ProjectsEditResponseCanonicalDeploymentEnvVarsSecretTextType": {
+    "com.cloudflare.pages#ProjectsEditResponseCanonicalDeploymentEnvVarsValueSecretTextType": {
       "type": "enum",
       "members": {
         "SECRET_TEXT": {
@@ -5797,11 +5869,11 @@
         }
       }
     },
-    "com.cloudflare.pages#ProjectsEditResponseCanonicalDeploymentEnvVarsSecretText": {
+    "com.cloudflare.pages#ProjectsEditResponseCanonicalDeploymentEnvVarsValueSecretText": {
       "type": "structure",
       "members": {
         "type": {
-          "target": "com.cloudflare.pages#ProjectsEditResponseCanonicalDeploymentEnvVarsSecretTextType",
+          "target": "com.cloudflare.pages#ProjectsEditResponseCanonicalDeploymentEnvVarsValueSecretTextType",
           "traits": {
             "smithy.api#required": {}
           }
@@ -5815,15 +5887,24 @@
         }
       }
     },
-    "com.cloudflare.pages#ProjectsEditResponseCanonicalDeploymentEnvVars": {
+    "com.cloudflare.pages#ProjectsEditResponseCanonicalDeploymentEnvVarsValue": {
       "type": "union",
       "members": {
         "PlainText": {
-          "target": "com.cloudflare.pages#ProjectsEditResponseCanonicalDeploymentEnvVarsPlainText"
+          "target": "com.cloudflare.pages#ProjectsEditResponseCanonicalDeploymentEnvVarsValuePlainText"
         },
         "SecretText": {
-          "target": "com.cloudflare.pages#ProjectsEditResponseCanonicalDeploymentEnvVarsSecretText"
+          "target": "com.cloudflare.pages#ProjectsEditResponseCanonicalDeploymentEnvVarsValueSecretText"
         }
+      }
+    },
+    "com.cloudflare.pages#ProjectsEditResponseCanonicalDeploymentEnvVarsMap": {
+      "type": "map",
+      "key": {
+        "target": "smithy.api#String"
+      },
+      "value": {
+        "target": "com.cloudflare.pages#ProjectsEditResponseCanonicalDeploymentEnvVarsValue"
       }
     },
     "com.cloudflare.pages#ProjectsEditResponseCanonicalDeploymentEnvironment": {
@@ -6427,7 +6508,7 @@
         "target": "smithy.api#String"
       }
     },
-    "com.cloudflare.pages#ProjectsEditResponseDeploymentConfigsPreviewEnvVarsPlainTextType": {
+    "com.cloudflare.pages#ProjectsEditResponseDeploymentConfigsPreviewEnvVarsValuePlainTextType": {
       "type": "enum",
       "members": {
         "PLAIN_TEXT": {
@@ -6438,11 +6519,11 @@
         }
       }
     },
-    "com.cloudflare.pages#ProjectsEditResponseDeploymentConfigsPreviewEnvVarsPlainText": {
+    "com.cloudflare.pages#ProjectsEditResponseDeploymentConfigsPreviewEnvVarsValuePlainText": {
       "type": "structure",
       "members": {
         "type": {
-          "target": "com.cloudflare.pages#ProjectsEditResponseDeploymentConfigsPreviewEnvVarsPlainTextType",
+          "target": "com.cloudflare.pages#ProjectsEditResponseDeploymentConfigsPreviewEnvVarsValuePlainTextType",
           "traits": {
             "smithy.api#required": {}
           }
@@ -6456,7 +6537,7 @@
         }
       }
     },
-    "com.cloudflare.pages#ProjectsEditResponseDeploymentConfigsPreviewEnvVarsSecretTextType": {
+    "com.cloudflare.pages#ProjectsEditResponseDeploymentConfigsPreviewEnvVarsValueSecretTextType": {
       "type": "enum",
       "members": {
         "SECRET_TEXT": {
@@ -6467,11 +6548,11 @@
         }
       }
     },
-    "com.cloudflare.pages#ProjectsEditResponseDeploymentConfigsPreviewEnvVarsSecretText": {
+    "com.cloudflare.pages#ProjectsEditResponseDeploymentConfigsPreviewEnvVarsValueSecretText": {
       "type": "structure",
       "members": {
         "type": {
-          "target": "com.cloudflare.pages#ProjectsEditResponseDeploymentConfigsPreviewEnvVarsSecretTextType",
+          "target": "com.cloudflare.pages#ProjectsEditResponseDeploymentConfigsPreviewEnvVarsValueSecretTextType",
           "traits": {
             "smithy.api#required": {}
           }
@@ -6485,15 +6566,24 @@
         }
       }
     },
-    "com.cloudflare.pages#ProjectsEditResponseDeploymentConfigsPreviewEnvVars": {
+    "com.cloudflare.pages#ProjectsEditResponseDeploymentConfigsPreviewEnvVarsValue": {
       "type": "union",
       "members": {
         "PlainText": {
-          "target": "com.cloudflare.pages#ProjectsEditResponseDeploymentConfigsPreviewEnvVarsPlainText"
+          "target": "com.cloudflare.pages#ProjectsEditResponseDeploymentConfigsPreviewEnvVarsValuePlainText"
         },
         "SecretText": {
-          "target": "com.cloudflare.pages#ProjectsEditResponseDeploymentConfigsPreviewEnvVarsSecretText"
+          "target": "com.cloudflare.pages#ProjectsEditResponseDeploymentConfigsPreviewEnvVarsValueSecretText"
         }
+      }
+    },
+    "com.cloudflare.pages#ProjectsEditResponseDeploymentConfigsPreviewEnvVarsMap": {
+      "type": "map",
+      "key": {
+        "target": "smithy.api#String"
+      },
+      "value": {
+        "target": "com.cloudflare.pages#ProjectsEditResponseDeploymentConfigsPreviewEnvVarsValue"
       }
     },
     "com.cloudflare.pages#ProjectsEditResponseDeploymentConfigsPreviewUsageModel": {
@@ -6948,7 +7038,7 @@
         "target": "smithy.api#String"
       }
     },
-    "com.cloudflare.pages#ProjectsEditResponseDeploymentConfigsProductionEnvVarsPlainTextType": {
+    "com.cloudflare.pages#ProjectsEditResponseDeploymentConfigsProductionEnvVarsValuePlainTextType": {
       "type": "enum",
       "members": {
         "PLAIN_TEXT": {
@@ -6959,11 +7049,11 @@
         }
       }
     },
-    "com.cloudflare.pages#ProjectsEditResponseDeploymentConfigsProductionEnvVarsPlainText": {
+    "com.cloudflare.pages#ProjectsEditResponseDeploymentConfigsProductionEnvVarsValuePlainText": {
       "type": "structure",
       "members": {
         "type": {
-          "target": "com.cloudflare.pages#ProjectsEditResponseDeploymentConfigsProductionEnvVarsPlainTextType",
+          "target": "com.cloudflare.pages#ProjectsEditResponseDeploymentConfigsProductionEnvVarsValuePlainTextType",
           "traits": {
             "smithy.api#required": {}
           }
@@ -6977,7 +7067,7 @@
         }
       }
     },
-    "com.cloudflare.pages#ProjectsEditResponseDeploymentConfigsProductionEnvVarsSecretTextType": {
+    "com.cloudflare.pages#ProjectsEditResponseDeploymentConfigsProductionEnvVarsValueSecretTextType": {
       "type": "enum",
       "members": {
         "SECRET_TEXT": {
@@ -6988,11 +7078,11 @@
         }
       }
     },
-    "com.cloudflare.pages#ProjectsEditResponseDeploymentConfigsProductionEnvVarsSecretText": {
+    "com.cloudflare.pages#ProjectsEditResponseDeploymentConfigsProductionEnvVarsValueSecretText": {
       "type": "structure",
       "members": {
         "type": {
-          "target": "com.cloudflare.pages#ProjectsEditResponseDeploymentConfigsProductionEnvVarsSecretTextType",
+          "target": "com.cloudflare.pages#ProjectsEditResponseDeploymentConfigsProductionEnvVarsValueSecretTextType",
           "traits": {
             "smithy.api#required": {}
           }
@@ -7006,15 +7096,24 @@
         }
       }
     },
-    "com.cloudflare.pages#ProjectsEditResponseDeploymentConfigsProductionEnvVars": {
+    "com.cloudflare.pages#ProjectsEditResponseDeploymentConfigsProductionEnvVarsValue": {
       "type": "union",
       "members": {
         "PlainText": {
-          "target": "com.cloudflare.pages#ProjectsEditResponseDeploymentConfigsProductionEnvVarsPlainText"
+          "target": "com.cloudflare.pages#ProjectsEditResponseDeploymentConfigsProductionEnvVarsValuePlainText"
         },
         "SecretText": {
-          "target": "com.cloudflare.pages#ProjectsEditResponseDeploymentConfigsProductionEnvVarsSecretText"
+          "target": "com.cloudflare.pages#ProjectsEditResponseDeploymentConfigsProductionEnvVarsValueSecretText"
         }
+      }
+    },
+    "com.cloudflare.pages#ProjectsEditResponseDeploymentConfigsProductionEnvVarsMap": {
+      "type": "map",
+      "key": {
+        "target": "smithy.api#String"
+      },
+      "value": {
+        "target": "com.cloudflare.pages#ProjectsEditResponseDeploymentConfigsProductionEnvVarsValue"
       }
     },
     "com.cloudflare.pages#ProjectsEditResponseDeploymentConfigsProductionUsageModel": {
@@ -7606,7 +7705,7 @@
         }
       }
     },
-    "com.cloudflare.pages#ProjectsEditResponseLatestDeploymentEnvVarsPlainTextType": {
+    "com.cloudflare.pages#ProjectsEditResponseLatestDeploymentEnvVarsValuePlainTextType": {
       "type": "enum",
       "members": {
         "PLAIN_TEXT": {
@@ -7617,11 +7716,11 @@
         }
       }
     },
-    "com.cloudflare.pages#ProjectsEditResponseLatestDeploymentEnvVarsPlainText": {
+    "com.cloudflare.pages#ProjectsEditResponseLatestDeploymentEnvVarsValuePlainText": {
       "type": "structure",
       "members": {
         "type": {
-          "target": "com.cloudflare.pages#ProjectsEditResponseLatestDeploymentEnvVarsPlainTextType",
+          "target": "com.cloudflare.pages#ProjectsEditResponseLatestDeploymentEnvVarsValuePlainTextType",
           "traits": {
             "smithy.api#required": {}
           }
@@ -7635,7 +7734,7 @@
         }
       }
     },
-    "com.cloudflare.pages#ProjectsEditResponseLatestDeploymentEnvVarsSecretTextType": {
+    "com.cloudflare.pages#ProjectsEditResponseLatestDeploymentEnvVarsValueSecretTextType": {
       "type": "enum",
       "members": {
         "SECRET_TEXT": {
@@ -7646,11 +7745,11 @@
         }
       }
     },
-    "com.cloudflare.pages#ProjectsEditResponseLatestDeploymentEnvVarsSecretText": {
+    "com.cloudflare.pages#ProjectsEditResponseLatestDeploymentEnvVarsValueSecretText": {
       "type": "structure",
       "members": {
         "type": {
-          "target": "com.cloudflare.pages#ProjectsEditResponseLatestDeploymentEnvVarsSecretTextType",
+          "target": "com.cloudflare.pages#ProjectsEditResponseLatestDeploymentEnvVarsValueSecretTextType",
           "traits": {
             "smithy.api#required": {}
           }
@@ -7664,15 +7763,24 @@
         }
       }
     },
-    "com.cloudflare.pages#ProjectsEditResponseLatestDeploymentEnvVars": {
+    "com.cloudflare.pages#ProjectsEditResponseLatestDeploymentEnvVarsValue": {
       "type": "union",
       "members": {
         "PlainText": {
-          "target": "com.cloudflare.pages#ProjectsEditResponseLatestDeploymentEnvVarsPlainText"
+          "target": "com.cloudflare.pages#ProjectsEditResponseLatestDeploymentEnvVarsValuePlainText"
         },
         "SecretText": {
-          "target": "com.cloudflare.pages#ProjectsEditResponseLatestDeploymentEnvVarsSecretText"
+          "target": "com.cloudflare.pages#ProjectsEditResponseLatestDeploymentEnvVarsValueSecretText"
         }
+      }
+    },
+    "com.cloudflare.pages#ProjectsEditResponseLatestDeploymentEnvVarsMap": {
+      "type": "map",
+      "key": {
+        "target": "smithy.api#String"
+      },
+      "value": {
+        "target": "com.cloudflare.pages#ProjectsEditResponseLatestDeploymentEnvVarsValue"
       }
     },
     "com.cloudflare.pages#ProjectsEditResponseLatestDeploymentEnvironment": {
@@ -8180,7 +8288,7 @@
           }
         },
         "env_vars": {
-          "target": "com.cloudflare.pages#ProjectsEditResponseLatestDeploymentEnvVars",
+          "target": "com.cloudflare.pages#ProjectsEditResponseLatestDeploymentEnvVarsMap",
           "traits": {
             "smithy.api#documentation": "Environment variables used for builds and Pages Functions.",
             "smithy.api#required": {}
@@ -8621,7 +8729,7 @@
         }
       }
     },
-    "com.cloudflare.pages#ProjectsGetResponseCanonicalDeploymentEnvVarsPlainTextType": {
+    "com.cloudflare.pages#ProjectsGetResponseCanonicalDeploymentEnvVarsValuePlainTextType": {
       "type": "enum",
       "members": {
         "PLAIN_TEXT": {
@@ -8632,11 +8740,11 @@
         }
       }
     },
-    "com.cloudflare.pages#ProjectsGetResponseCanonicalDeploymentEnvVarsPlainText": {
+    "com.cloudflare.pages#ProjectsGetResponseCanonicalDeploymentEnvVarsValuePlainText": {
       "type": "structure",
       "members": {
         "type": {
-          "target": "com.cloudflare.pages#ProjectsGetResponseCanonicalDeploymentEnvVarsPlainTextType",
+          "target": "com.cloudflare.pages#ProjectsGetResponseCanonicalDeploymentEnvVarsValuePlainTextType",
           "traits": {
             "smithy.api#required": {}
           }
@@ -8650,7 +8758,7 @@
         }
       }
     },
-    "com.cloudflare.pages#ProjectsGetResponseCanonicalDeploymentEnvVarsSecretTextType": {
+    "com.cloudflare.pages#ProjectsGetResponseCanonicalDeploymentEnvVarsValueSecretTextType": {
       "type": "enum",
       "members": {
         "SECRET_TEXT": {
@@ -8661,11 +8769,11 @@
         }
       }
     },
-    "com.cloudflare.pages#ProjectsGetResponseCanonicalDeploymentEnvVarsSecretText": {
+    "com.cloudflare.pages#ProjectsGetResponseCanonicalDeploymentEnvVarsValueSecretText": {
       "type": "structure",
       "members": {
         "type": {
-          "target": "com.cloudflare.pages#ProjectsGetResponseCanonicalDeploymentEnvVarsSecretTextType",
+          "target": "com.cloudflare.pages#ProjectsGetResponseCanonicalDeploymentEnvVarsValueSecretTextType",
           "traits": {
             "smithy.api#required": {}
           }
@@ -8679,15 +8787,24 @@
         }
       }
     },
-    "com.cloudflare.pages#ProjectsGetResponseCanonicalDeploymentEnvVars": {
+    "com.cloudflare.pages#ProjectsGetResponseCanonicalDeploymentEnvVarsValue": {
       "type": "union",
       "members": {
         "PlainText": {
-          "target": "com.cloudflare.pages#ProjectsGetResponseCanonicalDeploymentEnvVarsPlainText"
+          "target": "com.cloudflare.pages#ProjectsGetResponseCanonicalDeploymentEnvVarsValuePlainText"
         },
         "SecretText": {
-          "target": "com.cloudflare.pages#ProjectsGetResponseCanonicalDeploymentEnvVarsSecretText"
+          "target": "com.cloudflare.pages#ProjectsGetResponseCanonicalDeploymentEnvVarsValueSecretText"
         }
+      }
+    },
+    "com.cloudflare.pages#ProjectsGetResponseCanonicalDeploymentEnvVarsMap": {
+      "type": "map",
+      "key": {
+        "target": "smithy.api#String"
+      },
+      "value": {
+        "target": "com.cloudflare.pages#ProjectsGetResponseCanonicalDeploymentEnvVarsValue"
       }
     },
     "com.cloudflare.pages#ProjectsGetResponseCanonicalDeploymentEnvironment": {
@@ -9291,7 +9408,7 @@
         "target": "smithy.api#String"
       }
     },
-    "com.cloudflare.pages#ProjectsGetResponseDeploymentConfigsPreviewEnvVarsPlainTextType": {
+    "com.cloudflare.pages#ProjectsGetResponseDeploymentConfigsPreviewEnvVarsValuePlainTextType": {
       "type": "enum",
       "members": {
         "PLAIN_TEXT": {
@@ -9302,11 +9419,11 @@
         }
       }
     },
-    "com.cloudflare.pages#ProjectsGetResponseDeploymentConfigsPreviewEnvVarsPlainText": {
+    "com.cloudflare.pages#ProjectsGetResponseDeploymentConfigsPreviewEnvVarsValuePlainText": {
       "type": "structure",
       "members": {
         "type": {
-          "target": "com.cloudflare.pages#ProjectsGetResponseDeploymentConfigsPreviewEnvVarsPlainTextType",
+          "target": "com.cloudflare.pages#ProjectsGetResponseDeploymentConfigsPreviewEnvVarsValuePlainTextType",
           "traits": {
             "smithy.api#required": {}
           }
@@ -9320,7 +9437,7 @@
         }
       }
     },
-    "com.cloudflare.pages#ProjectsGetResponseDeploymentConfigsPreviewEnvVarsSecretTextType": {
+    "com.cloudflare.pages#ProjectsGetResponseDeploymentConfigsPreviewEnvVarsValueSecretTextType": {
       "type": "enum",
       "members": {
         "SECRET_TEXT": {
@@ -9331,11 +9448,11 @@
         }
       }
     },
-    "com.cloudflare.pages#ProjectsGetResponseDeploymentConfigsPreviewEnvVarsSecretText": {
+    "com.cloudflare.pages#ProjectsGetResponseDeploymentConfigsPreviewEnvVarsValueSecretText": {
       "type": "structure",
       "members": {
         "type": {
-          "target": "com.cloudflare.pages#ProjectsGetResponseDeploymentConfigsPreviewEnvVarsSecretTextType",
+          "target": "com.cloudflare.pages#ProjectsGetResponseDeploymentConfigsPreviewEnvVarsValueSecretTextType",
           "traits": {
             "smithy.api#required": {}
           }
@@ -9349,15 +9466,24 @@
         }
       }
     },
-    "com.cloudflare.pages#ProjectsGetResponseDeploymentConfigsPreviewEnvVars": {
+    "com.cloudflare.pages#ProjectsGetResponseDeploymentConfigsPreviewEnvVarsValue": {
       "type": "union",
       "members": {
         "PlainText": {
-          "target": "com.cloudflare.pages#ProjectsGetResponseDeploymentConfigsPreviewEnvVarsPlainText"
+          "target": "com.cloudflare.pages#ProjectsGetResponseDeploymentConfigsPreviewEnvVarsValuePlainText"
         },
         "SecretText": {
-          "target": "com.cloudflare.pages#ProjectsGetResponseDeploymentConfigsPreviewEnvVarsSecretText"
+          "target": "com.cloudflare.pages#ProjectsGetResponseDeploymentConfigsPreviewEnvVarsValueSecretText"
         }
+      }
+    },
+    "com.cloudflare.pages#ProjectsGetResponseDeploymentConfigsPreviewEnvVarsMap": {
+      "type": "map",
+      "key": {
+        "target": "smithy.api#String"
+      },
+      "value": {
+        "target": "com.cloudflare.pages#ProjectsGetResponseDeploymentConfigsPreviewEnvVarsValue"
       }
     },
     "com.cloudflare.pages#ProjectsGetResponseDeploymentConfigsPreviewUsageModel": {
@@ -9812,7 +9938,7 @@
         "target": "smithy.api#String"
       }
     },
-    "com.cloudflare.pages#ProjectsGetResponseDeploymentConfigsProductionEnvVarsPlainTextType": {
+    "com.cloudflare.pages#ProjectsGetResponseDeploymentConfigsProductionEnvVarsValuePlainTextType": {
       "type": "enum",
       "members": {
         "PLAIN_TEXT": {
@@ -9823,11 +9949,11 @@
         }
       }
     },
-    "com.cloudflare.pages#ProjectsGetResponseDeploymentConfigsProductionEnvVarsPlainText": {
+    "com.cloudflare.pages#ProjectsGetResponseDeploymentConfigsProductionEnvVarsValuePlainText": {
       "type": "structure",
       "members": {
         "type": {
-          "target": "com.cloudflare.pages#ProjectsGetResponseDeploymentConfigsProductionEnvVarsPlainTextType",
+          "target": "com.cloudflare.pages#ProjectsGetResponseDeploymentConfigsProductionEnvVarsValuePlainTextType",
           "traits": {
             "smithy.api#required": {}
           }
@@ -9841,7 +9967,7 @@
         }
       }
     },
-    "com.cloudflare.pages#ProjectsGetResponseDeploymentConfigsProductionEnvVarsSecretTextType": {
+    "com.cloudflare.pages#ProjectsGetResponseDeploymentConfigsProductionEnvVarsValueSecretTextType": {
       "type": "enum",
       "members": {
         "SECRET_TEXT": {
@@ -9852,11 +9978,11 @@
         }
       }
     },
-    "com.cloudflare.pages#ProjectsGetResponseDeploymentConfigsProductionEnvVarsSecretText": {
+    "com.cloudflare.pages#ProjectsGetResponseDeploymentConfigsProductionEnvVarsValueSecretText": {
       "type": "structure",
       "members": {
         "type": {
-          "target": "com.cloudflare.pages#ProjectsGetResponseDeploymentConfigsProductionEnvVarsSecretTextType",
+          "target": "com.cloudflare.pages#ProjectsGetResponseDeploymentConfigsProductionEnvVarsValueSecretTextType",
           "traits": {
             "smithy.api#required": {}
           }
@@ -9870,15 +9996,24 @@
         }
       }
     },
-    "com.cloudflare.pages#ProjectsGetResponseDeploymentConfigsProductionEnvVars": {
+    "com.cloudflare.pages#ProjectsGetResponseDeploymentConfigsProductionEnvVarsValue": {
       "type": "union",
       "members": {
         "PlainText": {
-          "target": "com.cloudflare.pages#ProjectsGetResponseDeploymentConfigsProductionEnvVarsPlainText"
+          "target": "com.cloudflare.pages#ProjectsGetResponseDeploymentConfigsProductionEnvVarsValuePlainText"
         },
         "SecretText": {
-          "target": "com.cloudflare.pages#ProjectsGetResponseDeploymentConfigsProductionEnvVarsSecretText"
+          "target": "com.cloudflare.pages#ProjectsGetResponseDeploymentConfigsProductionEnvVarsValueSecretText"
         }
+      }
+    },
+    "com.cloudflare.pages#ProjectsGetResponseDeploymentConfigsProductionEnvVarsMap": {
+      "type": "map",
+      "key": {
+        "target": "smithy.api#String"
+      },
+      "value": {
+        "target": "com.cloudflare.pages#ProjectsGetResponseDeploymentConfigsProductionEnvVarsValue"
       }
     },
     "com.cloudflare.pages#ProjectsGetResponseDeploymentConfigsProductionUsageModel": {
@@ -10470,7 +10605,7 @@
         }
       }
     },
-    "com.cloudflare.pages#ProjectsGetResponseLatestDeploymentEnvVarsPlainTextType": {
+    "com.cloudflare.pages#ProjectsGetResponseLatestDeploymentEnvVarsValuePlainTextType": {
       "type": "enum",
       "members": {
         "PLAIN_TEXT": {
@@ -10481,11 +10616,11 @@
         }
       }
     },
-    "com.cloudflare.pages#ProjectsGetResponseLatestDeploymentEnvVarsPlainText": {
+    "com.cloudflare.pages#ProjectsGetResponseLatestDeploymentEnvVarsValuePlainText": {
       "type": "structure",
       "members": {
         "type": {
-          "target": "com.cloudflare.pages#ProjectsGetResponseLatestDeploymentEnvVarsPlainTextType",
+          "target": "com.cloudflare.pages#ProjectsGetResponseLatestDeploymentEnvVarsValuePlainTextType",
           "traits": {
             "smithy.api#required": {}
           }
@@ -10499,7 +10634,7 @@
         }
       }
     },
-    "com.cloudflare.pages#ProjectsGetResponseLatestDeploymentEnvVarsSecretTextType": {
+    "com.cloudflare.pages#ProjectsGetResponseLatestDeploymentEnvVarsValueSecretTextType": {
       "type": "enum",
       "members": {
         "SECRET_TEXT": {
@@ -10510,11 +10645,11 @@
         }
       }
     },
-    "com.cloudflare.pages#ProjectsGetResponseLatestDeploymentEnvVarsSecretText": {
+    "com.cloudflare.pages#ProjectsGetResponseLatestDeploymentEnvVarsValueSecretText": {
       "type": "structure",
       "members": {
         "type": {
-          "target": "com.cloudflare.pages#ProjectsGetResponseLatestDeploymentEnvVarsSecretTextType",
+          "target": "com.cloudflare.pages#ProjectsGetResponseLatestDeploymentEnvVarsValueSecretTextType",
           "traits": {
             "smithy.api#required": {}
           }
@@ -10528,15 +10663,24 @@
         }
       }
     },
-    "com.cloudflare.pages#ProjectsGetResponseLatestDeploymentEnvVars": {
+    "com.cloudflare.pages#ProjectsGetResponseLatestDeploymentEnvVarsValue": {
       "type": "union",
       "members": {
         "PlainText": {
-          "target": "com.cloudflare.pages#ProjectsGetResponseLatestDeploymentEnvVarsPlainText"
+          "target": "com.cloudflare.pages#ProjectsGetResponseLatestDeploymentEnvVarsValuePlainText"
         },
         "SecretText": {
-          "target": "com.cloudflare.pages#ProjectsGetResponseLatestDeploymentEnvVarsSecretText"
+          "target": "com.cloudflare.pages#ProjectsGetResponseLatestDeploymentEnvVarsValueSecretText"
         }
+      }
+    },
+    "com.cloudflare.pages#ProjectsGetResponseLatestDeploymentEnvVarsMap": {
+      "type": "map",
+      "key": {
+        "target": "smithy.api#String"
+      },
+      "value": {
+        "target": "com.cloudflare.pages#ProjectsGetResponseLatestDeploymentEnvVarsValue"
       }
     },
     "com.cloudflare.pages#ProjectsGetResponseLatestDeploymentEnvironment": {
@@ -11044,7 +11188,7 @@
           }
         },
         "env_vars": {
-          "target": "com.cloudflare.pages#ProjectsGetResponseLatestDeploymentEnvVars",
+          "target": "com.cloudflare.pages#ProjectsGetResponseLatestDeploymentEnvVarsMap",
           "traits": {
             "smithy.api#documentation": "Environment variables used for builds and Pages Functions.",
             "smithy.api#required": {}
@@ -11543,7 +11687,7 @@
         }
       }
     },
-    "com.cloudflare.pages#ProjectsListResultItemCanonicalDeploymentEnvVarsPlainTextType": {
+    "com.cloudflare.pages#ProjectsListResultItemCanonicalDeploymentEnvVarsValuePlainTextType": {
       "type": "enum",
       "members": {
         "PLAIN_TEXT": {
@@ -11554,11 +11698,11 @@
         }
       }
     },
-    "com.cloudflare.pages#ProjectsListResultItemCanonicalDeploymentEnvVarsPlainText": {
+    "com.cloudflare.pages#ProjectsListResultItemCanonicalDeploymentEnvVarsValuePlainText": {
       "type": "structure",
       "members": {
         "type": {
-          "target": "com.cloudflare.pages#ProjectsListResultItemCanonicalDeploymentEnvVarsPlainTextType",
+          "target": "com.cloudflare.pages#ProjectsListResultItemCanonicalDeploymentEnvVarsValuePlainTextType",
           "traits": {
             "smithy.api#required": {}
           }
@@ -11572,7 +11716,7 @@
         }
       }
     },
-    "com.cloudflare.pages#ProjectsListResultItemCanonicalDeploymentEnvVarsSecretTextType": {
+    "com.cloudflare.pages#ProjectsListResultItemCanonicalDeploymentEnvVarsValueSecretTextType": {
       "type": "enum",
       "members": {
         "SECRET_TEXT": {
@@ -11583,11 +11727,11 @@
         }
       }
     },
-    "com.cloudflare.pages#ProjectsListResultItemCanonicalDeploymentEnvVarsSecretText": {
+    "com.cloudflare.pages#ProjectsListResultItemCanonicalDeploymentEnvVarsValueSecretText": {
       "type": "structure",
       "members": {
         "type": {
-          "target": "com.cloudflare.pages#ProjectsListResultItemCanonicalDeploymentEnvVarsSecretTextType",
+          "target": "com.cloudflare.pages#ProjectsListResultItemCanonicalDeploymentEnvVarsValueSecretTextType",
           "traits": {
             "smithy.api#required": {}
           }
@@ -11601,15 +11745,24 @@
         }
       }
     },
-    "com.cloudflare.pages#ProjectsListResultItemCanonicalDeploymentEnvVars": {
+    "com.cloudflare.pages#ProjectsListResultItemCanonicalDeploymentEnvVarsValue": {
       "type": "union",
       "members": {
         "PlainText": {
-          "target": "com.cloudflare.pages#ProjectsListResultItemCanonicalDeploymentEnvVarsPlainText"
+          "target": "com.cloudflare.pages#ProjectsListResultItemCanonicalDeploymentEnvVarsValuePlainText"
         },
         "SecretText": {
-          "target": "com.cloudflare.pages#ProjectsListResultItemCanonicalDeploymentEnvVarsSecretText"
+          "target": "com.cloudflare.pages#ProjectsListResultItemCanonicalDeploymentEnvVarsValueSecretText"
         }
+      }
+    },
+    "com.cloudflare.pages#ProjectsListResultItemCanonicalDeploymentEnvVarsMap": {
+      "type": "map",
+      "key": {
+        "target": "smithy.api#String"
+      },
+      "value": {
+        "target": "com.cloudflare.pages#ProjectsListResultItemCanonicalDeploymentEnvVarsValue"
       }
     },
     "com.cloudflare.pages#ProjectsListResultItemCanonicalDeploymentEnvironment": {
@@ -12213,7 +12366,7 @@
         "target": "smithy.api#String"
       }
     },
-    "com.cloudflare.pages#ProjectsListResultItemDeploymentConfigsPreviewEnvVarsPlainTextType": {
+    "com.cloudflare.pages#ProjectsListResultItemDeploymentConfigsPreviewEnvVarsValuePlainTextType": {
       "type": "enum",
       "members": {
         "PLAIN_TEXT": {
@@ -12224,11 +12377,11 @@
         }
       }
     },
-    "com.cloudflare.pages#ProjectsListResultItemDeploymentConfigsPreviewEnvVarsPlainText": {
+    "com.cloudflare.pages#ProjectsListResultItemDeploymentConfigsPreviewEnvVarsValuePlainText": {
       "type": "structure",
       "members": {
         "type": {
-          "target": "com.cloudflare.pages#ProjectsListResultItemDeploymentConfigsPreviewEnvVarsPlainTextType",
+          "target": "com.cloudflare.pages#ProjectsListResultItemDeploymentConfigsPreviewEnvVarsValuePlainTextType",
           "traits": {
             "smithy.api#required": {}
           }
@@ -12242,7 +12395,7 @@
         }
       }
     },
-    "com.cloudflare.pages#ProjectsListResultItemDeploymentConfigsPreviewEnvVarsSecretTextType": {
+    "com.cloudflare.pages#ProjectsListResultItemDeploymentConfigsPreviewEnvVarsValueSecretTextType": {
       "type": "enum",
       "members": {
         "SECRET_TEXT": {
@@ -12253,11 +12406,11 @@
         }
       }
     },
-    "com.cloudflare.pages#ProjectsListResultItemDeploymentConfigsPreviewEnvVarsSecretText": {
+    "com.cloudflare.pages#ProjectsListResultItemDeploymentConfigsPreviewEnvVarsValueSecretText": {
       "type": "structure",
       "members": {
         "type": {
-          "target": "com.cloudflare.pages#ProjectsListResultItemDeploymentConfigsPreviewEnvVarsSecretTextType",
+          "target": "com.cloudflare.pages#ProjectsListResultItemDeploymentConfigsPreviewEnvVarsValueSecretTextType",
           "traits": {
             "smithy.api#required": {}
           }
@@ -12271,15 +12424,24 @@
         }
       }
     },
-    "com.cloudflare.pages#ProjectsListResultItemDeploymentConfigsPreviewEnvVars": {
+    "com.cloudflare.pages#ProjectsListResultItemDeploymentConfigsPreviewEnvVarsValue": {
       "type": "union",
       "members": {
         "PlainText": {
-          "target": "com.cloudflare.pages#ProjectsListResultItemDeploymentConfigsPreviewEnvVarsPlainText"
+          "target": "com.cloudflare.pages#ProjectsListResultItemDeploymentConfigsPreviewEnvVarsValuePlainText"
         },
         "SecretText": {
-          "target": "com.cloudflare.pages#ProjectsListResultItemDeploymentConfigsPreviewEnvVarsSecretText"
+          "target": "com.cloudflare.pages#ProjectsListResultItemDeploymentConfigsPreviewEnvVarsValueSecretText"
         }
+      }
+    },
+    "com.cloudflare.pages#ProjectsListResultItemDeploymentConfigsPreviewEnvVarsMap": {
+      "type": "map",
+      "key": {
+        "target": "smithy.api#String"
+      },
+      "value": {
+        "target": "com.cloudflare.pages#ProjectsListResultItemDeploymentConfigsPreviewEnvVarsValue"
       }
     },
     "com.cloudflare.pages#ProjectsListResultItemDeploymentConfigsPreviewUsageModel": {
@@ -12734,7 +12896,7 @@
         "target": "smithy.api#String"
       }
     },
-    "com.cloudflare.pages#ProjectsListResultItemDeploymentConfigsProductionEnvVarsPlainTextType": {
+    "com.cloudflare.pages#ProjectsListResultItemDeploymentConfigsProductionEnvVarsValuePlainTextType": {
       "type": "enum",
       "members": {
         "PLAIN_TEXT": {
@@ -12745,11 +12907,11 @@
         }
       }
     },
-    "com.cloudflare.pages#ProjectsListResultItemDeploymentConfigsProductionEnvVarsPlainText": {
+    "com.cloudflare.pages#ProjectsListResultItemDeploymentConfigsProductionEnvVarsValuePlainText": {
       "type": "structure",
       "members": {
         "type": {
-          "target": "com.cloudflare.pages#ProjectsListResultItemDeploymentConfigsProductionEnvVarsPlainTextType",
+          "target": "com.cloudflare.pages#ProjectsListResultItemDeploymentConfigsProductionEnvVarsValuePlainTextType",
           "traits": {
             "smithy.api#required": {}
           }
@@ -12763,7 +12925,7 @@
         }
       }
     },
-    "com.cloudflare.pages#ProjectsListResultItemDeploymentConfigsProductionEnvVarsSecretTextType": {
+    "com.cloudflare.pages#ProjectsListResultItemDeploymentConfigsProductionEnvVarsValueSecretTextType": {
       "type": "enum",
       "members": {
         "SECRET_TEXT": {
@@ -12774,11 +12936,11 @@
         }
       }
     },
-    "com.cloudflare.pages#ProjectsListResultItemDeploymentConfigsProductionEnvVarsSecretText": {
+    "com.cloudflare.pages#ProjectsListResultItemDeploymentConfigsProductionEnvVarsValueSecretText": {
       "type": "structure",
       "members": {
         "type": {
-          "target": "com.cloudflare.pages#ProjectsListResultItemDeploymentConfigsProductionEnvVarsSecretTextType",
+          "target": "com.cloudflare.pages#ProjectsListResultItemDeploymentConfigsProductionEnvVarsValueSecretTextType",
           "traits": {
             "smithy.api#required": {}
           }
@@ -12792,15 +12954,24 @@
         }
       }
     },
-    "com.cloudflare.pages#ProjectsListResultItemDeploymentConfigsProductionEnvVars": {
+    "com.cloudflare.pages#ProjectsListResultItemDeploymentConfigsProductionEnvVarsValue": {
       "type": "union",
       "members": {
         "PlainText": {
-          "target": "com.cloudflare.pages#ProjectsListResultItemDeploymentConfigsProductionEnvVarsPlainText"
+          "target": "com.cloudflare.pages#ProjectsListResultItemDeploymentConfigsProductionEnvVarsValuePlainText"
         },
         "SecretText": {
-          "target": "com.cloudflare.pages#ProjectsListResultItemDeploymentConfigsProductionEnvVarsSecretText"
+          "target": "com.cloudflare.pages#ProjectsListResultItemDeploymentConfigsProductionEnvVarsValueSecretText"
         }
+      }
+    },
+    "com.cloudflare.pages#ProjectsListResultItemDeploymentConfigsProductionEnvVarsMap": {
+      "type": "map",
+      "key": {
+        "target": "smithy.api#String"
+      },
+      "value": {
+        "target": "com.cloudflare.pages#ProjectsListResultItemDeploymentConfigsProductionEnvVarsValue"
       }
     },
     "com.cloudflare.pages#ProjectsListResultItemDeploymentConfigsProductionUsageModel": {
@@ -13392,7 +13563,7 @@
         }
       }
     },
-    "com.cloudflare.pages#ProjectsListResultItemLatestDeploymentEnvVarsPlainTextType": {
+    "com.cloudflare.pages#ProjectsListResultItemLatestDeploymentEnvVarsValuePlainTextType": {
       "type": "enum",
       "members": {
         "PLAIN_TEXT": {
@@ -13403,11 +13574,11 @@
         }
       }
     },
-    "com.cloudflare.pages#ProjectsListResultItemLatestDeploymentEnvVarsPlainText": {
+    "com.cloudflare.pages#ProjectsListResultItemLatestDeploymentEnvVarsValuePlainText": {
       "type": "structure",
       "members": {
         "type": {
-          "target": "com.cloudflare.pages#ProjectsListResultItemLatestDeploymentEnvVarsPlainTextType",
+          "target": "com.cloudflare.pages#ProjectsListResultItemLatestDeploymentEnvVarsValuePlainTextType",
           "traits": {
             "smithy.api#required": {}
           }
@@ -13421,7 +13592,7 @@
         }
       }
     },
-    "com.cloudflare.pages#ProjectsListResultItemLatestDeploymentEnvVarsSecretTextType": {
+    "com.cloudflare.pages#ProjectsListResultItemLatestDeploymentEnvVarsValueSecretTextType": {
       "type": "enum",
       "members": {
         "SECRET_TEXT": {
@@ -13432,11 +13603,11 @@
         }
       }
     },
-    "com.cloudflare.pages#ProjectsListResultItemLatestDeploymentEnvVarsSecretText": {
+    "com.cloudflare.pages#ProjectsListResultItemLatestDeploymentEnvVarsValueSecretText": {
       "type": "structure",
       "members": {
         "type": {
-          "target": "com.cloudflare.pages#ProjectsListResultItemLatestDeploymentEnvVarsSecretTextType",
+          "target": "com.cloudflare.pages#ProjectsListResultItemLatestDeploymentEnvVarsValueSecretTextType",
           "traits": {
             "smithy.api#required": {}
           }
@@ -13450,15 +13621,24 @@
         }
       }
     },
-    "com.cloudflare.pages#ProjectsListResultItemLatestDeploymentEnvVars": {
+    "com.cloudflare.pages#ProjectsListResultItemLatestDeploymentEnvVarsValue": {
       "type": "union",
       "members": {
         "PlainText": {
-          "target": "com.cloudflare.pages#ProjectsListResultItemLatestDeploymentEnvVarsPlainText"
+          "target": "com.cloudflare.pages#ProjectsListResultItemLatestDeploymentEnvVarsValuePlainText"
         },
         "SecretText": {
-          "target": "com.cloudflare.pages#ProjectsListResultItemLatestDeploymentEnvVarsSecretText"
+          "target": "com.cloudflare.pages#ProjectsListResultItemLatestDeploymentEnvVarsValueSecretText"
         }
+      }
+    },
+    "com.cloudflare.pages#ProjectsListResultItemLatestDeploymentEnvVarsMap": {
+      "type": "map",
+      "key": {
+        "target": "smithy.api#String"
+      },
+      "value": {
+        "target": "com.cloudflare.pages#ProjectsListResultItemLatestDeploymentEnvVarsValue"
       }
     },
     "com.cloudflare.pages#ProjectsListResultItemLatestDeploymentEnvironment": {
@@ -13966,7 +14146,7 @@
           }
         },
         "env_vars": {
-          "target": "com.cloudflare.pages#ProjectsListResultItemLatestDeploymentEnvVars",
+          "target": "com.cloudflare.pages#ProjectsListResultItemLatestDeploymentEnvVarsMap",
           "traits": {
             "smithy.api#documentation": "Environment variables used for builds and Pages Functions.",
             "smithy.api#required": {}
@@ -14543,7 +14723,7 @@
         }
       }
     },
-    "com.cloudflare.pages#ProjectsDeploymentsCreateResponseEnvVarsPlainTextType": {
+    "com.cloudflare.pages#ProjectsDeploymentsCreateResponseEnvVarsValuePlainTextType": {
       "type": "enum",
       "members": {
         "PLAIN_TEXT": {
@@ -14554,11 +14734,11 @@
         }
       }
     },
-    "com.cloudflare.pages#ProjectsDeploymentsCreateResponseEnvVarsPlainText": {
+    "com.cloudflare.pages#ProjectsDeploymentsCreateResponseEnvVarsValuePlainText": {
       "type": "structure",
       "members": {
         "type": {
-          "target": "com.cloudflare.pages#ProjectsDeploymentsCreateResponseEnvVarsPlainTextType",
+          "target": "com.cloudflare.pages#ProjectsDeploymentsCreateResponseEnvVarsValuePlainTextType",
           "traits": {
             "smithy.api#required": {}
           }
@@ -14572,7 +14752,7 @@
         }
       }
     },
-    "com.cloudflare.pages#ProjectsDeploymentsCreateResponseEnvVarsSecretTextType": {
+    "com.cloudflare.pages#ProjectsDeploymentsCreateResponseEnvVarsValueSecretTextType": {
       "type": "enum",
       "members": {
         "SECRET_TEXT": {
@@ -14583,11 +14763,11 @@
         }
       }
     },
-    "com.cloudflare.pages#ProjectsDeploymentsCreateResponseEnvVarsSecretText": {
+    "com.cloudflare.pages#ProjectsDeploymentsCreateResponseEnvVarsValueSecretText": {
       "type": "structure",
       "members": {
         "type": {
-          "target": "com.cloudflare.pages#ProjectsDeploymentsCreateResponseEnvVarsSecretTextType",
+          "target": "com.cloudflare.pages#ProjectsDeploymentsCreateResponseEnvVarsValueSecretTextType",
           "traits": {
             "smithy.api#required": {}
           }
@@ -14601,15 +14781,24 @@
         }
       }
     },
-    "com.cloudflare.pages#ProjectsDeploymentsCreateResponseEnvVars": {
+    "com.cloudflare.pages#ProjectsDeploymentsCreateResponseEnvVarsValue": {
       "type": "union",
       "members": {
         "PlainText": {
-          "target": "com.cloudflare.pages#ProjectsDeploymentsCreateResponseEnvVarsPlainText"
+          "target": "com.cloudflare.pages#ProjectsDeploymentsCreateResponseEnvVarsValuePlainText"
         },
         "SecretText": {
-          "target": "com.cloudflare.pages#ProjectsDeploymentsCreateResponseEnvVarsSecretText"
+          "target": "com.cloudflare.pages#ProjectsDeploymentsCreateResponseEnvVarsValueSecretText"
         }
+      }
+    },
+    "com.cloudflare.pages#ProjectsDeploymentsCreateResponseEnvVarsMap": {
+      "type": "map",
+      "key": {
+        "target": "smithy.api#String"
+      },
+      "value": {
+        "target": "com.cloudflare.pages#ProjectsDeploymentsCreateResponseEnvVarsValue"
       }
     },
     "com.cloudflare.pages#ProjectsDeploymentsCreateResponseEnvironment": {
@@ -15202,7 +15391,7 @@
         }
       }
     },
-    "com.cloudflare.pages#ProjectsDeploymentsGetResponseEnvVarsPlainTextType": {
+    "com.cloudflare.pages#ProjectsDeploymentsGetResponseEnvVarsValuePlainTextType": {
       "type": "enum",
       "members": {
         "PLAIN_TEXT": {
@@ -15213,11 +15402,11 @@
         }
       }
     },
-    "com.cloudflare.pages#ProjectsDeploymentsGetResponseEnvVarsPlainText": {
+    "com.cloudflare.pages#ProjectsDeploymentsGetResponseEnvVarsValuePlainText": {
       "type": "structure",
       "members": {
         "type": {
-          "target": "com.cloudflare.pages#ProjectsDeploymentsGetResponseEnvVarsPlainTextType",
+          "target": "com.cloudflare.pages#ProjectsDeploymentsGetResponseEnvVarsValuePlainTextType",
           "traits": {
             "smithy.api#required": {}
           }
@@ -15231,7 +15420,7 @@
         }
       }
     },
-    "com.cloudflare.pages#ProjectsDeploymentsGetResponseEnvVarsSecretTextType": {
+    "com.cloudflare.pages#ProjectsDeploymentsGetResponseEnvVarsValueSecretTextType": {
       "type": "enum",
       "members": {
         "SECRET_TEXT": {
@@ -15242,11 +15431,11 @@
         }
       }
     },
-    "com.cloudflare.pages#ProjectsDeploymentsGetResponseEnvVarsSecretText": {
+    "com.cloudflare.pages#ProjectsDeploymentsGetResponseEnvVarsValueSecretText": {
       "type": "structure",
       "members": {
         "type": {
-          "target": "com.cloudflare.pages#ProjectsDeploymentsGetResponseEnvVarsSecretTextType",
+          "target": "com.cloudflare.pages#ProjectsDeploymentsGetResponseEnvVarsValueSecretTextType",
           "traits": {
             "smithy.api#required": {}
           }
@@ -15260,15 +15449,24 @@
         }
       }
     },
-    "com.cloudflare.pages#ProjectsDeploymentsGetResponseEnvVars": {
+    "com.cloudflare.pages#ProjectsDeploymentsGetResponseEnvVarsValue": {
       "type": "union",
       "members": {
         "PlainText": {
-          "target": "com.cloudflare.pages#ProjectsDeploymentsGetResponseEnvVarsPlainText"
+          "target": "com.cloudflare.pages#ProjectsDeploymentsGetResponseEnvVarsValuePlainText"
         },
         "SecretText": {
-          "target": "com.cloudflare.pages#ProjectsDeploymentsGetResponseEnvVarsSecretText"
+          "target": "com.cloudflare.pages#ProjectsDeploymentsGetResponseEnvVarsValueSecretText"
         }
+      }
+    },
+    "com.cloudflare.pages#ProjectsDeploymentsGetResponseEnvVarsMap": {
+      "type": "map",
+      "key": {
+        "target": "smithy.api#String"
+      },
+      "value": {
+        "target": "com.cloudflare.pages#ProjectsDeploymentsGetResponseEnvVarsValue"
       }
     },
     "com.cloudflare.pages#ProjectsDeploymentsGetResponseEnvironment": {
@@ -15878,7 +16076,7 @@
         }
       }
     },
-    "com.cloudflare.pages#ProjectsDeploymentsListResultItemEnvVarsPlainTextType": {
+    "com.cloudflare.pages#ProjectsDeploymentsListResultItemEnvVarsValuePlainTextType": {
       "type": "enum",
       "members": {
         "PLAIN_TEXT": {
@@ -15889,11 +16087,11 @@
         }
       }
     },
-    "com.cloudflare.pages#ProjectsDeploymentsListResultItemEnvVarsPlainText": {
+    "com.cloudflare.pages#ProjectsDeploymentsListResultItemEnvVarsValuePlainText": {
       "type": "structure",
       "members": {
         "type": {
-          "target": "com.cloudflare.pages#ProjectsDeploymentsListResultItemEnvVarsPlainTextType",
+          "target": "com.cloudflare.pages#ProjectsDeploymentsListResultItemEnvVarsValuePlainTextType",
           "traits": {
             "smithy.api#required": {}
           }
@@ -15907,7 +16105,7 @@
         }
       }
     },
-    "com.cloudflare.pages#ProjectsDeploymentsListResultItemEnvVarsSecretTextType": {
+    "com.cloudflare.pages#ProjectsDeploymentsListResultItemEnvVarsValueSecretTextType": {
       "type": "enum",
       "members": {
         "SECRET_TEXT": {
@@ -15918,11 +16116,11 @@
         }
       }
     },
-    "com.cloudflare.pages#ProjectsDeploymentsListResultItemEnvVarsSecretText": {
+    "com.cloudflare.pages#ProjectsDeploymentsListResultItemEnvVarsValueSecretText": {
       "type": "structure",
       "members": {
         "type": {
-          "target": "com.cloudflare.pages#ProjectsDeploymentsListResultItemEnvVarsSecretTextType",
+          "target": "com.cloudflare.pages#ProjectsDeploymentsListResultItemEnvVarsValueSecretTextType",
           "traits": {
             "smithy.api#required": {}
           }
@@ -15936,15 +16134,24 @@
         }
       }
     },
-    "com.cloudflare.pages#ProjectsDeploymentsListResultItemEnvVars": {
+    "com.cloudflare.pages#ProjectsDeploymentsListResultItemEnvVarsValue": {
       "type": "union",
       "members": {
         "PlainText": {
-          "target": "com.cloudflare.pages#ProjectsDeploymentsListResultItemEnvVarsPlainText"
+          "target": "com.cloudflare.pages#ProjectsDeploymentsListResultItemEnvVarsValuePlainText"
         },
         "SecretText": {
-          "target": "com.cloudflare.pages#ProjectsDeploymentsListResultItemEnvVarsSecretText"
+          "target": "com.cloudflare.pages#ProjectsDeploymentsListResultItemEnvVarsValueSecretText"
         }
+      }
+    },
+    "com.cloudflare.pages#ProjectsDeploymentsListResultItemEnvVarsMap": {
+      "type": "map",
+      "key": {
+        "target": "smithy.api#String"
+      },
+      "value": {
+        "target": "com.cloudflare.pages#ProjectsDeploymentsListResultItemEnvVarsValue"
       }
     },
     "com.cloudflare.pages#ProjectsDeploymentsListResultItemEnvironment": {
@@ -16672,7 +16879,7 @@
         }
       }
     },
-    "com.cloudflare.pages#ProjectsDeploymentsRetryResponseEnvVarsPlainTextType": {
+    "com.cloudflare.pages#ProjectsDeploymentsRetryResponseEnvVarsValuePlainTextType": {
       "type": "enum",
       "members": {
         "PLAIN_TEXT": {
@@ -16683,11 +16890,11 @@
         }
       }
     },
-    "com.cloudflare.pages#ProjectsDeploymentsRetryResponseEnvVarsPlainText": {
+    "com.cloudflare.pages#ProjectsDeploymentsRetryResponseEnvVarsValuePlainText": {
       "type": "structure",
       "members": {
         "type": {
-          "target": "com.cloudflare.pages#ProjectsDeploymentsRetryResponseEnvVarsPlainTextType",
+          "target": "com.cloudflare.pages#ProjectsDeploymentsRetryResponseEnvVarsValuePlainTextType",
           "traits": {
             "smithy.api#required": {}
           }
@@ -16701,7 +16908,7 @@
         }
       }
     },
-    "com.cloudflare.pages#ProjectsDeploymentsRetryResponseEnvVarsSecretTextType": {
+    "com.cloudflare.pages#ProjectsDeploymentsRetryResponseEnvVarsValueSecretTextType": {
       "type": "enum",
       "members": {
         "SECRET_TEXT": {
@@ -16712,11 +16919,11 @@
         }
       }
     },
-    "com.cloudflare.pages#ProjectsDeploymentsRetryResponseEnvVarsSecretText": {
+    "com.cloudflare.pages#ProjectsDeploymentsRetryResponseEnvVarsValueSecretText": {
       "type": "structure",
       "members": {
         "type": {
-          "target": "com.cloudflare.pages#ProjectsDeploymentsRetryResponseEnvVarsSecretTextType",
+          "target": "com.cloudflare.pages#ProjectsDeploymentsRetryResponseEnvVarsValueSecretTextType",
           "traits": {
             "smithy.api#required": {}
           }
@@ -16730,15 +16937,24 @@
         }
       }
     },
-    "com.cloudflare.pages#ProjectsDeploymentsRetryResponseEnvVars": {
+    "com.cloudflare.pages#ProjectsDeploymentsRetryResponseEnvVarsValue": {
       "type": "union",
       "members": {
         "PlainText": {
-          "target": "com.cloudflare.pages#ProjectsDeploymentsRetryResponseEnvVarsPlainText"
+          "target": "com.cloudflare.pages#ProjectsDeploymentsRetryResponseEnvVarsValuePlainText"
         },
         "SecretText": {
-          "target": "com.cloudflare.pages#ProjectsDeploymentsRetryResponseEnvVarsSecretText"
+          "target": "com.cloudflare.pages#ProjectsDeploymentsRetryResponseEnvVarsValueSecretText"
         }
+      }
+    },
+    "com.cloudflare.pages#ProjectsDeploymentsRetryResponseEnvVarsMap": {
+      "type": "map",
+      "key": {
+        "target": "smithy.api#String"
+      },
+      "value": {
+        "target": "com.cloudflare.pages#ProjectsDeploymentsRetryResponseEnvVarsValue"
       }
     },
     "com.cloudflare.pages#ProjectsDeploymentsRetryResponseEnvironment": {
@@ -17331,7 +17547,7 @@
         }
       }
     },
-    "com.cloudflare.pages#ProjectsDeploymentsRollbackResponseEnvVarsPlainTextType": {
+    "com.cloudflare.pages#ProjectsDeploymentsRollbackResponseEnvVarsValuePlainTextType": {
       "type": "enum",
       "members": {
         "PLAIN_TEXT": {
@@ -17342,11 +17558,11 @@
         }
       }
     },
-    "com.cloudflare.pages#ProjectsDeploymentsRollbackResponseEnvVarsPlainText": {
+    "com.cloudflare.pages#ProjectsDeploymentsRollbackResponseEnvVarsValuePlainText": {
       "type": "structure",
       "members": {
         "type": {
-          "target": "com.cloudflare.pages#ProjectsDeploymentsRollbackResponseEnvVarsPlainTextType",
+          "target": "com.cloudflare.pages#ProjectsDeploymentsRollbackResponseEnvVarsValuePlainTextType",
           "traits": {
             "smithy.api#required": {}
           }
@@ -17360,7 +17576,7 @@
         }
       }
     },
-    "com.cloudflare.pages#ProjectsDeploymentsRollbackResponseEnvVarsSecretTextType": {
+    "com.cloudflare.pages#ProjectsDeploymentsRollbackResponseEnvVarsValueSecretTextType": {
       "type": "enum",
       "members": {
         "SECRET_TEXT": {
@@ -17371,11 +17587,11 @@
         }
       }
     },
-    "com.cloudflare.pages#ProjectsDeploymentsRollbackResponseEnvVarsSecretText": {
+    "com.cloudflare.pages#ProjectsDeploymentsRollbackResponseEnvVarsValueSecretText": {
       "type": "structure",
       "members": {
         "type": {
-          "target": "com.cloudflare.pages#ProjectsDeploymentsRollbackResponseEnvVarsSecretTextType",
+          "target": "com.cloudflare.pages#ProjectsDeploymentsRollbackResponseEnvVarsValueSecretTextType",
           "traits": {
             "smithy.api#required": {}
           }
@@ -17389,15 +17605,24 @@
         }
       }
     },
-    "com.cloudflare.pages#ProjectsDeploymentsRollbackResponseEnvVars": {
+    "com.cloudflare.pages#ProjectsDeploymentsRollbackResponseEnvVarsValue": {
       "type": "union",
       "members": {
         "PlainText": {
-          "target": "com.cloudflare.pages#ProjectsDeploymentsRollbackResponseEnvVarsPlainText"
+          "target": "com.cloudflare.pages#ProjectsDeploymentsRollbackResponseEnvVarsValuePlainText"
         },
         "SecretText": {
-          "target": "com.cloudflare.pages#ProjectsDeploymentsRollbackResponseEnvVarsSecretText"
+          "target": "com.cloudflare.pages#ProjectsDeploymentsRollbackResponseEnvVarsValueSecretText"
         }
+      }
+    },
+    "com.cloudflare.pages#ProjectsDeploymentsRollbackResponseEnvVarsMap": {
+      "type": "map",
+      "key": {
+        "target": "smithy.api#String"
+      },
+      "value": {
+        "target": "com.cloudflare.pages#ProjectsDeploymentsRollbackResponseEnvVarsValue"
       }
     },
     "com.cloudflare.pages#ProjectsDeploymentsRollbackResponseEnvironment": {

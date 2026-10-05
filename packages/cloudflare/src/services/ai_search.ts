@@ -416,12 +416,21 @@ export const InstancesChatCompletionsRequestAiSearchOptionsCache = /*@__PURE__*/
   identifier: "InstancesChatCompletionsRequestAiSearchOptionsCache",
 }) as any as S.Schema<InstancesChatCompletionsRequestAiSearchOptionsCache>;
 
-export type InstancesChatCompletionsRequestAiSearchOptionsCustomMetadata =
+export type InstancesChatCompletionsRequestAiSearchOptionsCustomMetadataValue =
   | string
   | number
   | boolean;
-export const InstancesChatCompletionsRequestAiSearchOptionsCustomMetadata =
+export const InstancesChatCompletionsRequestAiSearchOptionsCustomMetadataValue =
   /*@__PURE__*/ S.Unknown.pipe(T.UnionCases([[], [], []]));
+
+export type InstancesChatCompletionsRequestAiSearchOptionsCustomMetadataMap = {
+  [key: string]: InstancesChatCompletionsRequestAiSearchOptionsCustomMetadataValue | undefined;
+};
+export const InstancesChatCompletionsRequestAiSearchOptionsCustomMetadataMap =
+  /*@__PURE__*/ S.Record(
+    S.String,
+    InstancesChatCompletionsRequestAiSearchOptionsCustomMetadataValue,
+  ) as any as S.Schema<InstancesChatCompletionsRequestAiSearchOptionsCustomMetadataMap>;
 
 export interface InstancesChatCompletionsRequestAiSearchOptionsQueryRewrite {
   enabled?: boolean;
@@ -562,7 +571,7 @@ export const InstancesChatCompletionsRequestAiSearchOptionsRetrieval = /*@__PURE
 export interface InstancesChatCompletionsRequestAiSearchOptions {
   cache?: InstancesChatCompletionsRequestAiSearchOptionsCache;
   /** Metadata added to AI Gateway logs for requests triggered by this operation. Accepts up to 2 string, number, or boolean entries. Keys 'ai-search', 'task', 'origin', and keys beginning with 'cf.' are reserved. */
-  customMetadata?: InstancesChatCompletionsRequestAiSearchOptionsCustomMetadata;
+  customMetadata?: InstancesChatCompletionsRequestAiSearchOptionsCustomMetadataMap;
   queryRewrite?: InstancesChatCompletionsRequestAiSearchOptionsQueryRewrite;
   reranking?: InstancesChatCompletionsRequestAiSearchOptionsReranking;
   retrieval?: InstancesChatCompletionsRequestAiSearchOptionsRetrieval;
@@ -571,7 +580,9 @@ export const InstancesChatCompletionsRequestAiSearchOptions = /*@__PURE__*/ S.su
   S.Struct({
     cache: S.optional(InstancesChatCompletionsRequestAiSearchOptionsCache),
     customMetadata: S.optional(
-      InstancesChatCompletionsRequestAiSearchOptionsCustomMetadata.pipe(T.Body("custom_metadata")),
+      InstancesChatCompletionsRequestAiSearchOptionsCustomMetadataMap.pipe(
+        T.Body("custom_metadata"),
+      ),
     ),
     queryRewrite: S.optional(
       InstancesChatCompletionsRequestAiSearchOptionsQueryRewrite.pipe(T.Body("query_rewrite")),
@@ -894,12 +905,21 @@ export const NamespacesChatCompletionsRequestAiSearchOptionsCache = /*@__PURE__*
   identifier: "NamespacesChatCompletionsRequestAiSearchOptionsCache",
 }) as any as S.Schema<NamespacesChatCompletionsRequestAiSearchOptionsCache>;
 
-export type NamespacesChatCompletionsRequestAiSearchOptionsCustomMetadata =
+export type NamespacesChatCompletionsRequestAiSearchOptionsCustomMetadataValue =
   | string
   | number
   | boolean;
-export const NamespacesChatCompletionsRequestAiSearchOptionsCustomMetadata =
+export const NamespacesChatCompletionsRequestAiSearchOptionsCustomMetadataValue =
   /*@__PURE__*/ S.Unknown.pipe(T.UnionCases([[], [], []]));
+
+export type NamespacesChatCompletionsRequestAiSearchOptionsCustomMetadataMap = {
+  [key: string]: NamespacesChatCompletionsRequestAiSearchOptionsCustomMetadataValue | undefined;
+};
+export const NamespacesChatCompletionsRequestAiSearchOptionsCustomMetadataMap =
+  /*@__PURE__*/ S.Record(
+    S.String,
+    NamespacesChatCompletionsRequestAiSearchOptionsCustomMetadataValue,
+  ) as any as S.Schema<NamespacesChatCompletionsRequestAiSearchOptionsCustomMetadataMap>;
 
 export type NamespacesChatCompletionsRequestAiSearchOptionsQueryRewrite =
   InstancesChatCompletionsRequestAiSearchOptionsQueryRewrite;
@@ -1023,7 +1043,7 @@ export interface NamespacesChatCompletionsRequestAiSearchOptions {
   instanceIds: NamespacesChatCompletionsRequestAiSearchOptionsInstanceIdsList;
   cache?: NamespacesChatCompletionsRequestAiSearchOptionsCache;
   /** Metadata added to AI Gateway logs for requests triggered by this operation. Accepts up to 2 string, number, or boolean entries. Keys 'ai-search', 'task', 'origin', and keys beginning with 'cf.' are reserved. */
-  customMetadata?: NamespacesChatCompletionsRequestAiSearchOptionsCustomMetadata;
+  customMetadata?: NamespacesChatCompletionsRequestAiSearchOptionsCustomMetadataMap;
   queryRewrite?: InstancesChatCompletionsRequestAiSearchOptionsQueryRewrite;
   reranking?: InstancesChatCompletionsRequestAiSearchOptionsReranking;
   retrieval?: NamespacesChatCompletionsRequestAiSearchOptionsRetrieval;
@@ -1035,7 +1055,9 @@ export const NamespacesChatCompletionsRequestAiSearchOptions = /*@__PURE__*/ S.s
     ),
     cache: S.optional(NamespacesChatCompletionsRequestAiSearchOptionsCache),
     customMetadata: S.optional(
-      NamespacesChatCompletionsRequestAiSearchOptionsCustomMetadata.pipe(T.Body("custom_metadata")),
+      NamespacesChatCompletionsRequestAiSearchOptionsCustomMetadataMap.pipe(
+        T.Body("custom_metadata"),
+      ),
     ),
     queryRewrite: S.optional(
       InstancesChatCompletionsRequestAiSearchOptionsQueryRewrite.pipe(T.Body("query_rewrite")),
@@ -1589,12 +1611,23 @@ export const NamespacesInstancesChatCompletionsRequestAiSearchOptionsCache =
     identifier: "NamespacesInstancesChatCompletionsRequestAiSearchOptionsCache",
   }) as any as S.Schema<NamespacesInstancesChatCompletionsRequestAiSearchOptionsCache>;
 
-export type NamespacesInstancesChatCompletionsRequestAiSearchOptionsCustomMetadata =
+export type NamespacesInstancesChatCompletionsRequestAiSearchOptionsCustomMetadataValue =
   | string
   | number
   | boolean;
-export const NamespacesInstancesChatCompletionsRequestAiSearchOptionsCustomMetadata =
+export const NamespacesInstancesChatCompletionsRequestAiSearchOptionsCustomMetadataValue =
   /*@__PURE__*/ S.Unknown.pipe(T.UnionCases([[], [], []]));
+
+export type NamespacesInstancesChatCompletionsRequestAiSearchOptionsCustomMetadataMap = {
+  [key: string]:
+    | NamespacesInstancesChatCompletionsRequestAiSearchOptionsCustomMetadataValue
+    | undefined;
+};
+export const NamespacesInstancesChatCompletionsRequestAiSearchOptionsCustomMetadataMap =
+  /*@__PURE__*/ S.Record(
+    S.String,
+    NamespacesInstancesChatCompletionsRequestAiSearchOptionsCustomMetadataValue,
+  ) as any as S.Schema<NamespacesInstancesChatCompletionsRequestAiSearchOptionsCustomMetadataMap>;
 
 export type NamespacesInstancesChatCompletionsRequestAiSearchOptionsQueryRewrite =
   InstancesChatCompletionsRequestAiSearchOptionsQueryRewrite;
@@ -1726,7 +1759,7 @@ export const NamespacesInstancesChatCompletionsRequestAiSearchOptionsRetrieval =
 export interface NamespacesInstancesChatCompletionsRequestAiSearchOptions {
   cache?: NamespacesInstancesChatCompletionsRequestAiSearchOptionsCache;
   /** Metadata added to AI Gateway logs for requests triggered by this operation. Accepts up to 2 string, number, or boolean entries. Keys 'ai-search', 'task', 'origin', and keys beginning with 'cf.' are reserved. */
-  customMetadata?: NamespacesInstancesChatCompletionsRequestAiSearchOptionsCustomMetadata;
+  customMetadata?: NamespacesInstancesChatCompletionsRequestAiSearchOptionsCustomMetadataMap;
   queryRewrite?: InstancesChatCompletionsRequestAiSearchOptionsQueryRewrite;
   reranking?: InstancesChatCompletionsRequestAiSearchOptionsReranking;
   retrieval?: NamespacesInstancesChatCompletionsRequestAiSearchOptionsRetrieval;
@@ -1736,7 +1769,7 @@ export const NamespacesInstancesChatCompletionsRequestAiSearchOptions = /*@__PUR
     S.Struct({
       cache: S.optional(NamespacesInstancesChatCompletionsRequestAiSearchOptionsCache),
       customMetadata: S.optional(
-        NamespacesInstancesChatCompletionsRequestAiSearchOptionsCustomMetadata.pipe(
+        NamespacesInstancesChatCompletionsRequestAiSearchOptionsCustomMetadataMap.pipe(
           T.Body("custom_metadata"),
         ),
       ),
@@ -4658,10 +4691,17 @@ export const CreateOrUpdateNamespaceInstanceItemRequest = /*@__PURE__*/ S.suspen
   identifier: "CreateOrUpdateNamespaceInstanceItemRequest",
 }) as any as S.Schema<CreateOrUpdateNamespaceInstanceItemRequest>;
 
-export type NamespacesInstancesItemsCreateOrUpdateResponseMetadata = string | number | boolean;
-export const NamespacesInstancesItemsCreateOrUpdateResponseMetadata = /*@__PURE__*/ S.Unknown.pipe(
-  T.UnionCases([[], [], []]),
-);
+export type NamespacesInstancesItemsCreateOrUpdateResponseMetadataValue = string | number | boolean;
+export const NamespacesInstancesItemsCreateOrUpdateResponseMetadataValue =
+  /*@__PURE__*/ S.Unknown.pipe(T.UnionCases([[], [], []]));
+
+export type NamespacesInstancesItemsCreateOrUpdateResponseMetadataMap = {
+  [key: string]: NamespacesInstancesItemsCreateOrUpdateResponseMetadataValue | undefined;
+};
+export const NamespacesInstancesItemsCreateOrUpdateResponseMetadataMap = /*@__PURE__*/ S.Record(
+  S.String,
+  NamespacesInstancesItemsCreateOrUpdateResponseMetadataValue,
+) as any as S.Schema<NamespacesInstancesItemsCreateOrUpdateResponseMetadataMap>;
 
 export type NamespacesInstancesItemsCreateOrUpdateResponseNextAction = "INDEX" | "DELETE";
 export const NamespacesInstancesItemsCreateOrUpdateResponseNextAction = S.String;
@@ -4685,7 +4725,7 @@ export interface CreateOrUpdateNamespaceInstanceItemResponse {
   key: string;
   lastSeenAt: string;
   /** Built-in, configured filterable, and retained source metadata for the item. */
-  metadata: NamespacesInstancesItemsCreateOrUpdateResponseMetadata;
+  metadata: NamespacesInstancesItemsCreateOrUpdateResponseMetadataMap;
   namespace: string;
   nextAction: NamespacesInstancesItemsCreateOrUpdateResponseNextAction;
   /** Identifies which data source this item belongs to. "builtin" for uploaded files, "{type}:{source}" for external sources, null for legacy items. */
@@ -4702,7 +4742,7 @@ export const CreateOrUpdateNamespaceInstanceItemResponse = /*@__PURE__*/ S.suspe
     fileSize: S.Number.pipe(T.Body("file_size")),
     key: S.String,
     lastSeenAt: S.String.pipe(T.Body("last_seen_at")),
-    metadata: NamespacesInstancesItemsCreateOrUpdateResponseMetadata,
+    metadata: NamespacesInstancesItemsCreateOrUpdateResponseMetadataMap,
     namespace: S.String,
     nextAction: NamespacesInstancesItemsCreateOrUpdateResponseNextAction.pipe(
       T.Body("next_action"),
@@ -6044,10 +6084,18 @@ export const GetNamespaceInstanceItemRequest = /*@__PURE__*/ S.suspend(() =>
   identifier: "GetNamespaceInstanceItemRequest",
 }) as any as S.Schema<GetNamespaceInstanceItemRequest>;
 
-export type NamespacesInstancesItemsGetResponseMetadata = string | number | boolean;
-export const NamespacesInstancesItemsGetResponseMetadata = /*@__PURE__*/ S.Unknown.pipe(
+export type NamespacesInstancesItemsGetResponseMetadataValue = string | number | boolean;
+export const NamespacesInstancesItemsGetResponseMetadataValue = /*@__PURE__*/ S.Unknown.pipe(
   T.UnionCases([[], [], []]),
 );
+
+export type NamespacesInstancesItemsGetResponseMetadataMap = {
+  [key: string]: NamespacesInstancesItemsGetResponseMetadataValue | undefined;
+};
+export const NamespacesInstancesItemsGetResponseMetadataMap = /*@__PURE__*/ S.Record(
+  S.String,
+  NamespacesInstancesItemsGetResponseMetadataValue,
+) as any as S.Schema<NamespacesInstancesItemsGetResponseMetadataMap>;
 
 export type NamespacesInstancesItemsGetResponseNextAction = "INDEX" | "DELETE";
 export const NamespacesInstancesItemsGetResponseNextAction = S.String;
@@ -6071,7 +6119,7 @@ export interface GetNamespaceInstanceItemResponse {
   key: string;
   lastSeenAt: string;
   /** Built-in, configured filterable, and retained source metadata for the item. */
-  metadata: NamespacesInstancesItemsGetResponseMetadata;
+  metadata: NamespacesInstancesItemsGetResponseMetadataMap;
   namespace: string;
   nextAction: NamespacesInstancesItemsGetResponseNextAction;
   /** Identifies which data source this item belongs to. "builtin" for uploaded files, "{type}:{source}" for external sources, null for legacy items. */
@@ -6088,7 +6136,7 @@ export const GetNamespaceInstanceItemResponse = /*@__PURE__*/ S.suspend(() =>
     fileSize: S.Number.pipe(T.Body("file_size")),
     key: S.String,
     lastSeenAt: S.String.pipe(T.Body("last_seen_at")),
-    metadata: NamespacesInstancesItemsGetResponseMetadata,
+    metadata: NamespacesInstancesItemsGetResponseMetadataMap,
     namespace: S.String,
     nextAction: NamespacesInstancesItemsGetResponseNextAction.pipe(T.Body("next_action")),
     sourceId: S.String.pipe(T.Body("source_id")),
@@ -6859,10 +6907,18 @@ export const ListNamespaceInstanceItemsRequest = /*@__PURE__*/ S.suspend(() =>
   identifier: "ListNamespaceInstanceItemsRequest",
 }) as any as S.Schema<ListNamespaceInstanceItemsRequest>;
 
-export type NamespacesInstancesItemsListResultItemMetadata = string | number | boolean;
-export const NamespacesInstancesItemsListResultItemMetadata = /*@__PURE__*/ S.Unknown.pipe(
+export type NamespacesInstancesItemsListResultItemMetadataValue = string | number | boolean;
+export const NamespacesInstancesItemsListResultItemMetadataValue = /*@__PURE__*/ S.Unknown.pipe(
   T.UnionCases([[], [], []]),
 );
+
+export type NamespacesInstancesItemsListResultItemMetadataMap = {
+  [key: string]: NamespacesInstancesItemsListResultItemMetadataValue | undefined;
+};
+export const NamespacesInstancesItemsListResultItemMetadataMap = /*@__PURE__*/ S.Record(
+  S.String,
+  NamespacesInstancesItemsListResultItemMetadataValue,
+) as any as S.Schema<NamespacesInstancesItemsListResultItemMetadataMap>;
 
 export type NamespacesInstancesItemsListResultItemNextAction = "INDEX" | "DELETE";
 export const NamespacesInstancesItemsListResultItemNextAction = S.String;
@@ -6885,7 +6941,7 @@ export interface NamespacesInstancesItemsListResultItem {
   key: string;
   lastSeenAt: string;
   /** Built-in, configured filterable, and retained source metadata for the item. */
-  metadata: NamespacesInstancesItemsListResultItemMetadata;
+  metadata: NamespacesInstancesItemsListResultItemMetadataMap;
   namespace: string;
   nextAction: NamespacesInstancesItemsListResultItemNextAction;
   /** Identifies which data source this item belongs to. "builtin" for uploaded files, "{type}:{source}" for external sources, null for legacy items. */
@@ -6902,7 +6958,7 @@ export const NamespacesInstancesItemsListResultItem = /*@__PURE__*/ S.suspend(()
     fileSize: S.Number.pipe(T.Body("file_size")),
     key: S.String,
     lastSeenAt: S.String.pipe(T.Body("last_seen_at")),
-    metadata: NamespacesInstancesItemsListResultItemMetadata,
+    metadata: NamespacesInstancesItemsListResultItemMetadataMap,
     namespace: S.String,
     nextAction: NamespacesInstancesItemsListResultItemNextAction.pipe(T.Body("next_action")),
     sourceId: S.String.pipe(T.Body("source_id")),
@@ -9335,10 +9391,17 @@ export const InstancesSearchRequestAiSearchOptionsCache = /*@__PURE__*/ S.suspen
   identifier: "InstancesSearchRequestAiSearchOptionsCache",
 }) as any as S.Schema<InstancesSearchRequestAiSearchOptionsCache>;
 
-export type InstancesSearchRequestAiSearchOptionsCustomMetadata = string | number | boolean;
-export const InstancesSearchRequestAiSearchOptionsCustomMetadata = /*@__PURE__*/ S.Unknown.pipe(
-  T.UnionCases([[], [], []]),
-);
+export type InstancesSearchRequestAiSearchOptionsCustomMetadataValue = string | number | boolean;
+export const InstancesSearchRequestAiSearchOptionsCustomMetadataValue =
+  /*@__PURE__*/ S.Unknown.pipe(T.UnionCases([[], [], []]));
+
+export type InstancesSearchRequestAiSearchOptionsCustomMetadataMap = {
+  [key: string]: InstancesSearchRequestAiSearchOptionsCustomMetadataValue | undefined;
+};
+export const InstancesSearchRequestAiSearchOptionsCustomMetadataMap = /*@__PURE__*/ S.Record(
+  S.String,
+  InstancesSearchRequestAiSearchOptionsCustomMetadataValue,
+) as any as S.Schema<InstancesSearchRequestAiSearchOptionsCustomMetadataMap>;
 
 export type InstancesSearchRequestAiSearchOptionsQueryRewrite =
   InstancesChatCompletionsRequestAiSearchOptionsQueryRewrite;
@@ -9441,7 +9504,7 @@ export const InstancesSearchRequestAiSearchOptionsRetrieval = /*@__PURE__*/ S.su
 export interface InstancesSearchRequestAiSearchOptions {
   cache?: InstancesSearchRequestAiSearchOptionsCache;
   /** Metadata added to AI Gateway logs for requests triggered by this operation. Accepts up to 2 string, number, or boolean entries. Keys 'ai-search', 'task', 'origin', and keys beginning with 'cf.' are reserved. */
-  customMetadata?: InstancesSearchRequestAiSearchOptionsCustomMetadata;
+  customMetadata?: InstancesSearchRequestAiSearchOptionsCustomMetadataMap;
   queryRewrite?: InstancesChatCompletionsRequestAiSearchOptionsQueryRewrite;
   reranking?: InstancesChatCompletionsRequestAiSearchOptionsReranking;
   retrieval?: InstancesSearchRequestAiSearchOptionsRetrieval;
@@ -9450,7 +9513,7 @@ export const InstancesSearchRequestAiSearchOptions = /*@__PURE__*/ S.suspend(() 
   S.Struct({
     cache: S.optional(InstancesSearchRequestAiSearchOptionsCache),
     customMetadata: S.optional(
-      InstancesSearchRequestAiSearchOptionsCustomMetadata.pipe(T.Body("custom_metadata")),
+      InstancesSearchRequestAiSearchOptionsCustomMetadataMap.pipe(T.Body("custom_metadata")),
     ),
     queryRewrite: S.optional(
       InstancesChatCompletionsRequestAiSearchOptionsQueryRewrite.pipe(T.Body("query_rewrite")),
@@ -9729,10 +9792,17 @@ export const NamespacesSearchRequestAiSearchOptionsCache = /*@__PURE__*/ S.suspe
   identifier: "NamespacesSearchRequestAiSearchOptionsCache",
 }) as any as S.Schema<NamespacesSearchRequestAiSearchOptionsCache>;
 
-export type NamespacesSearchRequestAiSearchOptionsCustomMetadata = string | number | boolean;
-export const NamespacesSearchRequestAiSearchOptionsCustomMetadata = /*@__PURE__*/ S.Unknown.pipe(
-  T.UnionCases([[], [], []]),
-);
+export type NamespacesSearchRequestAiSearchOptionsCustomMetadataValue = string | number | boolean;
+export const NamespacesSearchRequestAiSearchOptionsCustomMetadataValue =
+  /*@__PURE__*/ S.Unknown.pipe(T.UnionCases([[], [], []]));
+
+export type NamespacesSearchRequestAiSearchOptionsCustomMetadataMap = {
+  [key: string]: NamespacesSearchRequestAiSearchOptionsCustomMetadataValue | undefined;
+};
+export const NamespacesSearchRequestAiSearchOptionsCustomMetadataMap = /*@__PURE__*/ S.Record(
+  S.String,
+  NamespacesSearchRequestAiSearchOptionsCustomMetadataValue,
+) as any as S.Schema<NamespacesSearchRequestAiSearchOptionsCustomMetadataMap>;
 
 export type NamespacesSearchRequestAiSearchOptionsQueryRewrite =
   InstancesChatCompletionsRequestAiSearchOptionsQueryRewrite;
@@ -9838,7 +9908,7 @@ export interface NamespacesSearchRequestAiSearchOptions {
   instanceIds: NamespacesSearchRequestAiSearchOptionsInstanceIdsList;
   cache?: NamespacesSearchRequestAiSearchOptionsCache;
   /** Metadata added to AI Gateway logs for requests triggered by this operation. Accepts up to 2 string, number, or boolean entries. Keys 'ai-search', 'task', 'origin', and keys beginning with 'cf.' are reserved. */
-  customMetadata?: NamespacesSearchRequestAiSearchOptionsCustomMetadata;
+  customMetadata?: NamespacesSearchRequestAiSearchOptionsCustomMetadataMap;
   queryRewrite?: InstancesChatCompletionsRequestAiSearchOptionsQueryRewrite;
   reranking?: InstancesChatCompletionsRequestAiSearchOptionsReranking;
   retrieval?: NamespacesSearchRequestAiSearchOptionsRetrieval;
@@ -9848,7 +9918,7 @@ export const NamespacesSearchRequestAiSearchOptions = /*@__PURE__*/ S.suspend(()
     instanceIds: NamespacesSearchRequestAiSearchOptionsInstanceIdsList.pipe(T.Body("instance_ids")),
     cache: S.optional(NamespacesSearchRequestAiSearchOptionsCache),
     customMetadata: S.optional(
-      NamespacesSearchRequestAiSearchOptionsCustomMetadata.pipe(T.Body("custom_metadata")),
+      NamespacesSearchRequestAiSearchOptionsCustomMetadataMap.pipe(T.Body("custom_metadata")),
     ),
     queryRewrite: S.optional(
       InstancesChatCompletionsRequestAiSearchOptionsQueryRewrite.pipe(T.Body("query_rewrite")),
@@ -10148,12 +10218,21 @@ export const NamespacesInstancesSearchRequestAiSearchOptionsCache = /*@__PURE__*
   identifier: "NamespacesInstancesSearchRequestAiSearchOptionsCache",
 }) as any as S.Schema<NamespacesInstancesSearchRequestAiSearchOptionsCache>;
 
-export type NamespacesInstancesSearchRequestAiSearchOptionsCustomMetadata =
+export type NamespacesInstancesSearchRequestAiSearchOptionsCustomMetadataValue =
   | string
   | number
   | boolean;
-export const NamespacesInstancesSearchRequestAiSearchOptionsCustomMetadata =
+export const NamespacesInstancesSearchRequestAiSearchOptionsCustomMetadataValue =
   /*@__PURE__*/ S.Unknown.pipe(T.UnionCases([[], [], []]));
+
+export type NamespacesInstancesSearchRequestAiSearchOptionsCustomMetadataMap = {
+  [key: string]: NamespacesInstancesSearchRequestAiSearchOptionsCustomMetadataValue | undefined;
+};
+export const NamespacesInstancesSearchRequestAiSearchOptionsCustomMetadataMap =
+  /*@__PURE__*/ S.Record(
+    S.String,
+    NamespacesInstancesSearchRequestAiSearchOptionsCustomMetadataValue,
+  ) as any as S.Schema<NamespacesInstancesSearchRequestAiSearchOptionsCustomMetadataMap>;
 
 export type NamespacesInstancesSearchRequestAiSearchOptionsQueryRewrite =
   InstancesChatCompletionsRequestAiSearchOptionsQueryRewrite;
@@ -10276,7 +10355,7 @@ export const NamespacesInstancesSearchRequestAiSearchOptionsRetrieval = /*@__PUR
 export interface NamespacesInstancesSearchRequestAiSearchOptions {
   cache?: NamespacesInstancesSearchRequestAiSearchOptionsCache;
   /** Metadata added to AI Gateway logs for requests triggered by this operation. Accepts up to 2 string, number, or boolean entries. Keys 'ai-search', 'task', 'origin', and keys beginning with 'cf.' are reserved. */
-  customMetadata?: NamespacesInstancesSearchRequestAiSearchOptionsCustomMetadata;
+  customMetadata?: NamespacesInstancesSearchRequestAiSearchOptionsCustomMetadataMap;
   queryRewrite?: InstancesChatCompletionsRequestAiSearchOptionsQueryRewrite;
   reranking?: InstancesChatCompletionsRequestAiSearchOptionsReranking;
   retrieval?: NamespacesInstancesSearchRequestAiSearchOptionsRetrieval;
@@ -10285,7 +10364,9 @@ export const NamespacesInstancesSearchRequestAiSearchOptions = /*@__PURE__*/ S.s
   S.Struct({
     cache: S.optional(NamespacesInstancesSearchRequestAiSearchOptionsCache),
     customMetadata: S.optional(
-      NamespacesInstancesSearchRequestAiSearchOptionsCustomMetadata.pipe(T.Body("custom_metadata")),
+      NamespacesInstancesSearchRequestAiSearchOptionsCustomMetadataMap.pipe(
+        T.Body("custom_metadata"),
+      ),
     ),
     queryRewrite: S.optional(
       InstancesChatCompletionsRequestAiSearchOptionsQueryRewrite.pipe(T.Body("query_rewrite")),
@@ -10789,10 +10870,18 @@ export const SyncNamespaceInstanceItemRequest = /*@__PURE__*/ S.suspend(() =>
   identifier: "SyncNamespaceInstanceItemRequest",
 }) as any as S.Schema<SyncNamespaceInstanceItemRequest>;
 
-export type NamespacesInstancesItemsSyncResponseMetadata = string | number | boolean;
-export const NamespacesInstancesItemsSyncResponseMetadata = /*@__PURE__*/ S.Unknown.pipe(
+export type NamespacesInstancesItemsSyncResponseMetadataValue = string | number | boolean;
+export const NamespacesInstancesItemsSyncResponseMetadataValue = /*@__PURE__*/ S.Unknown.pipe(
   T.UnionCases([[], [], []]),
 );
+
+export type NamespacesInstancesItemsSyncResponseMetadataMap = {
+  [key: string]: NamespacesInstancesItemsSyncResponseMetadataValue | undefined;
+};
+export const NamespacesInstancesItemsSyncResponseMetadataMap = /*@__PURE__*/ S.Record(
+  S.String,
+  NamespacesInstancesItemsSyncResponseMetadataValue,
+) as any as S.Schema<NamespacesInstancesItemsSyncResponseMetadataMap>;
 
 export type NamespacesInstancesItemsSyncResponseNextAction = "INDEX" | "DELETE";
 export const NamespacesInstancesItemsSyncResponseNextAction = S.String;
@@ -10816,7 +10905,7 @@ export interface SyncNamespaceInstanceItemResponse {
   key: string;
   lastSeenAt: string;
   /** Built-in, configured filterable, and retained source metadata for the item. */
-  metadata: NamespacesInstancesItemsSyncResponseMetadata;
+  metadata: NamespacesInstancesItemsSyncResponseMetadataMap;
   namespace: string;
   nextAction: NamespacesInstancesItemsSyncResponseNextAction;
   /** Identifies which data source this item belongs to. "builtin" for uploaded files, "{type}:{source}" for external sources, null for legacy items. */
@@ -10833,7 +10922,7 @@ export const SyncNamespaceInstanceItemResponse = /*@__PURE__*/ S.suspend(() =>
     fileSize: S.Number.pipe(T.Body("file_size")),
     key: S.String,
     lastSeenAt: S.String.pipe(T.Body("last_seen_at")),
-    metadata: NamespacesInstancesItemsSyncResponseMetadata,
+    metadata: NamespacesInstancesItemsSyncResponseMetadataMap,
     namespace: S.String,
     nextAction: NamespacesInstancesItemsSyncResponseNextAction.pipe(T.Body("next_action")),
     sourceId: S.String.pipe(T.Body("source_id")),
@@ -13233,10 +13322,18 @@ export const UploadNamespaceInstanceItemRequest = /*@__PURE__*/ S.suspend(() =>
   identifier: "UploadNamespaceInstanceItemRequest",
 }) as any as S.Schema<UploadNamespaceInstanceItemRequest>;
 
-export type NamespacesInstancesItemsUploadResponseMetadata = string | number | boolean;
-export const NamespacesInstancesItemsUploadResponseMetadata = /*@__PURE__*/ S.Unknown.pipe(
+export type NamespacesInstancesItemsUploadResponseMetadataValue = string | number | boolean;
+export const NamespacesInstancesItemsUploadResponseMetadataValue = /*@__PURE__*/ S.Unknown.pipe(
   T.UnionCases([[], [], []]),
 );
+
+export type NamespacesInstancesItemsUploadResponseMetadataMap = {
+  [key: string]: NamespacesInstancesItemsUploadResponseMetadataValue | undefined;
+};
+export const NamespacesInstancesItemsUploadResponseMetadataMap = /*@__PURE__*/ S.Record(
+  S.String,
+  NamespacesInstancesItemsUploadResponseMetadataValue,
+) as any as S.Schema<NamespacesInstancesItemsUploadResponseMetadataMap>;
 
 export type NamespacesInstancesItemsUploadResponseNextAction = "INDEX" | "DELETE";
 export const NamespacesInstancesItemsUploadResponseNextAction = S.String;
@@ -13327,7 +13424,7 @@ export interface UploadNamespaceInstanceItemResponse {
   key: string;
   lastSeenAt: string;
   /** Built-in, configured filterable, and retained source metadata for the item. */
-  metadata: NamespacesInstancesItemsUploadResponseMetadata;
+  metadata: NamespacesInstancesItemsUploadResponseMetadataMap;
   namespace: string;
   nextAction: NamespacesInstancesItemsUploadResponseNextAction;
   /** Identifies which data source this item belongs to. "builtin" for uploaded files, "{type}:{source}" for external sources, null for legacy items. */
@@ -13345,7 +13442,7 @@ export const UploadNamespaceInstanceItemResponse = /*@__PURE__*/ S.suspend(() =>
     fileSize: S.Number.pipe(T.Body("file_size")),
     key: S.String,
     lastSeenAt: S.String.pipe(T.Body("last_seen_at")),
-    metadata: NamespacesInstancesItemsUploadResponseMetadata,
+    metadata: NamespacesInstancesItemsUploadResponseMetadataMap,
     namespace: S.String,
     nextAction: NamespacesInstancesItemsUploadResponseNextAction.pipe(T.Body("next_action")),
     sourceId: S.String.pipe(T.Body("source_id")),

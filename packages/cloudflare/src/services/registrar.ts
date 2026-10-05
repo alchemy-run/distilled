@@ -1510,7 +1510,7 @@ export const TransferCheckRequest = /*@__PURE__*/ S.suspend(() =>
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
 ).annotate({ identifier: "TransferCheckRequest" }) as any as S.Schema<TransferCheckRequest>;
 
-export interface TransferCheckResponseDomainsTransferableResultPricing {
+export interface TransferCheckResponseDomainsValueTransferableResultPricing {
   /** ISO-4217 currency code for the prices (e.g., "USD", "EUR", "GBP"). */
   currency: string;
   /** Per-year renewal cost for this domain. Applied to each year beyond the first year of a multi-year registration, and to each annual auto-renewal thereafter. May differ from `registration_cost`, especially for premium domains where initial registration often costs more than renewals. */
@@ -1518,17 +1518,18 @@ export interface TransferCheckResponseDomainsTransferableResultPricing {
   /** The first-year cost to transfer this domain. */
   transferCost: string;
 }
-export const TransferCheckResponseDomainsTransferableResultPricing = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    currency: S.String,
-    renewalCost: S.String.pipe(T.Body("renewal_cost")),
-    transferCost: S.String.pipe(T.Body("transfer_cost")),
-  }),
+export const TransferCheckResponseDomainsValueTransferableResultPricing = /*@__PURE__*/ S.suspend(
+  () =>
+    S.Struct({
+      currency: S.String,
+      renewalCost: S.String.pipe(T.Body("renewal_cost")),
+      transferCost: S.String.pipe(T.Body("transfer_cost")),
+    }),
 ).annotate({
-  identifier: "TransferCheckResponseDomainsTransferableResultPricing",
-}) as any as S.Schema<TransferCheckResponseDomainsTransferableResultPricing>;
+  identifier: "TransferCheckResponseDomainsValueTransferableResultPricing",
+}) as any as S.Schema<TransferCheckResponseDomainsValueTransferableResultPricing>;
 
-export type TransferCheckResponseDomainsTransferableResultReasonsItemCode =
+export type TransferCheckResponseDomainsValueTransferableResultReasonsItemCode =
   | "extension_not_supported_via_api"
   | "extension_not_supported"
   | "domain_premium"
@@ -1546,52 +1547,52 @@ export type TransferCheckResponseDomainsTransferableResultReasonsItemCode =
   | "zone_status_invalid"
   | "invalid_zone_plan"
   | "domain_unsupported";
-export const TransferCheckResponseDomainsTransferableResultReasonsItemCode = S.String;
+export const TransferCheckResponseDomainsValueTransferableResultReasonsItemCode = S.String;
 
-export interface TransferCheckResponseDomainsTransferableResultReasonsItem {
+export interface TransferCheckResponseDomainsValueTransferableResultReasonsItem {
   /** Transfer eligibility reason code. */
-  code: TransferCheckResponseDomainsTransferableResultReasonsItemCode;
+  code: TransferCheckResponseDomainsValueTransferableResultReasonsItemCode;
 }
-export const TransferCheckResponseDomainsTransferableResultReasonsItem = /*@__PURE__*/ S.suspend(
-  () =>
+export const TransferCheckResponseDomainsValueTransferableResultReasonsItem =
+  /*@__PURE__*/ S.suspend(() =>
     S.Struct({
-      code: TransferCheckResponseDomainsTransferableResultReasonsItemCode,
+      code: TransferCheckResponseDomainsValueTransferableResultReasonsItemCode,
     }),
-).annotate({
-  identifier: "TransferCheckResponseDomainsTransferableResultReasonsItem",
-}) as any as S.Schema<TransferCheckResponseDomainsTransferableResultReasonsItem>;
+  ).annotate({
+    identifier: "TransferCheckResponseDomainsValueTransferableResultReasonsItem",
+  }) as any as S.Schema<TransferCheckResponseDomainsValueTransferableResultReasonsItem>;
 
-export type TransferCheckResponseDomainsTransferableResultReasonsList =
-  Array<TransferCheckResponseDomainsTransferableResultReasonsItem>;
-export const TransferCheckResponseDomainsTransferableResultReasonsList = /*@__PURE__*/ S.Array(
-  TransferCheckResponseDomainsTransferableResultReasonsItem,
-) as any as S.Schema<TransferCheckResponseDomainsTransferableResultReasonsList>;
+export type TransferCheckResponseDomainsValueTransferableResultReasonsList =
+  Array<TransferCheckResponseDomainsValueTransferableResultReasonsItem>;
+export const TransferCheckResponseDomainsValueTransferableResultReasonsList = /*@__PURE__*/ S.Array(
+  TransferCheckResponseDomainsValueTransferableResultReasonsItem,
+) as any as S.Schema<TransferCheckResponseDomainsValueTransferableResultReasonsList>;
 
-export interface TransferCheckResponseDomainsTransferableResult {
+export interface TransferCheckResponseDomainsValueTransferableResult {
   /** Provides annual pricing information for a given domain. The API returns all per-year prices as strings to preserve decimal precision. */
-  pricing: TransferCheckResponseDomainsTransferableResultPricing;
+  pricing: TransferCheckResponseDomainsValueTransferableResultPricing;
   transferable: boolean;
   /** The check evaluates this domain name. */
   name?: string | null;
-  reasons?: TransferCheckResponseDomainsTransferableResultReasonsList | null;
+  reasons?: TransferCheckResponseDomainsValueTransferableResultReasonsList | null;
 }
-export const TransferCheckResponseDomainsTransferableResult = /*@__PURE__*/ S.suspend(() =>
+export const TransferCheckResponseDomainsValueTransferableResult = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    pricing: TransferCheckResponseDomainsTransferableResultPricing,
+    pricing: TransferCheckResponseDomainsValueTransferableResultPricing,
     transferable: S.Boolean,
     name: S.optional(S.NullOr(S.String)),
-    reasons: S.optional(S.NullOr(TransferCheckResponseDomainsTransferableResultReasonsList)),
+    reasons: S.optional(S.NullOr(TransferCheckResponseDomainsValueTransferableResultReasonsList)),
   }),
 ).annotate({
-  identifier: "TransferCheckResponseDomainsTransferableResult",
-}) as any as S.Schema<TransferCheckResponseDomainsTransferableResult>;
+  identifier: "TransferCheckResponseDomainsValueTransferableResult",
+}) as any as S.Schema<TransferCheckResponseDomainsValueTransferableResult>;
 
-export type TransferCheckResponseDomainsNonTransferableResultPricing =
-  TransferCheckResponseDomainsTransferableResultPricing;
-export const TransferCheckResponseDomainsNonTransferableResultPricing =
-  TransferCheckResponseDomainsTransferableResultPricing;
+export type TransferCheckResponseDomainsValueNonTransferableResultPricing =
+  TransferCheckResponseDomainsValueTransferableResultPricing;
+export const TransferCheckResponseDomainsValueNonTransferableResultPricing =
+  TransferCheckResponseDomainsValueTransferableResultPricing;
 
-export type TransferCheckResponseDomainsNonTransferableResultReasonsItemCode =
+export type TransferCheckResponseDomainsValueNonTransferableResultReasonsItemCode =
   | "extension_not_supported_via_api"
   | "extension_not_supported"
   | "domain_premium"
@@ -1609,64 +1610,75 @@ export type TransferCheckResponseDomainsNonTransferableResultReasonsItemCode =
   | "zone_status_invalid"
   | "invalid_zone_plan"
   | "domain_unsupported";
-export const TransferCheckResponseDomainsNonTransferableResultReasonsItemCode = S.String;
+export const TransferCheckResponseDomainsValueNonTransferableResultReasonsItemCode = S.String;
 
-export interface TransferCheckResponseDomainsNonTransferableResultReasonsItem {
+export interface TransferCheckResponseDomainsValueNonTransferableResultReasonsItem {
   /** Transfer eligibility reason code. */
-  code: TransferCheckResponseDomainsNonTransferableResultReasonsItemCode;
+  code: TransferCheckResponseDomainsValueNonTransferableResultReasonsItemCode;
 }
-export const TransferCheckResponseDomainsNonTransferableResultReasonsItem = /*@__PURE__*/ S.suspend(
-  () =>
+export const TransferCheckResponseDomainsValueNonTransferableResultReasonsItem =
+  /*@__PURE__*/ S.suspend(() =>
     S.Struct({
-      code: TransferCheckResponseDomainsNonTransferableResultReasonsItemCode,
+      code: TransferCheckResponseDomainsValueNonTransferableResultReasonsItemCode,
     }),
-).annotate({
-  identifier: "TransferCheckResponseDomainsNonTransferableResultReasonsItem",
-}) as any as S.Schema<TransferCheckResponseDomainsNonTransferableResultReasonsItem>;
+  ).annotate({
+    identifier: "TransferCheckResponseDomainsValueNonTransferableResultReasonsItem",
+  }) as any as S.Schema<TransferCheckResponseDomainsValueNonTransferableResultReasonsItem>;
 
-export type TransferCheckResponseDomainsNonTransferableResultReasonsList =
-  Array<TransferCheckResponseDomainsNonTransferableResultReasonsItem>;
-export const TransferCheckResponseDomainsNonTransferableResultReasonsList = /*@__PURE__*/ S.Array(
-  TransferCheckResponseDomainsNonTransferableResultReasonsItem,
-) as any as S.Schema<TransferCheckResponseDomainsNonTransferableResultReasonsList>;
+export type TransferCheckResponseDomainsValueNonTransferableResultReasonsList =
+  Array<TransferCheckResponseDomainsValueNonTransferableResultReasonsItem>;
+export const TransferCheckResponseDomainsValueNonTransferableResultReasonsList =
+  /*@__PURE__*/ S.Array(
+    TransferCheckResponseDomainsValueNonTransferableResultReasonsItem,
+  ) as any as S.Schema<TransferCheckResponseDomainsValueNonTransferableResultReasonsList>;
 
-export interface TransferCheckResponseDomainsNonTransferableResult {
+export interface TransferCheckResponseDomainsValueNonTransferableResult {
   transferable: boolean;
   /** The check evaluates this domain name. */
   name?: string | null;
   /** Provides annual pricing information for a given domain. The API returns all per-year prices as strings to preserve decimal precision. */
-  pricing?: TransferCheckResponseDomainsTransferableResultPricing | null;
-  reasons?: TransferCheckResponseDomainsNonTransferableResultReasonsList | null;
+  pricing?: TransferCheckResponseDomainsValueTransferableResultPricing | null;
+  reasons?: TransferCheckResponseDomainsValueNonTransferableResultReasonsList | null;
 }
-export const TransferCheckResponseDomainsNonTransferableResult = /*@__PURE__*/ S.suspend(() =>
+export const TransferCheckResponseDomainsValueNonTransferableResult = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     transferable: S.Boolean,
     name: S.optional(S.NullOr(S.String)),
-    pricing: S.optional(S.NullOr(TransferCheckResponseDomainsTransferableResultPricing)),
-    reasons: S.optional(S.NullOr(TransferCheckResponseDomainsNonTransferableResultReasonsList)),
+    pricing: S.optional(S.NullOr(TransferCheckResponseDomainsValueTransferableResultPricing)),
+    reasons: S.optional(
+      S.NullOr(TransferCheckResponseDomainsValueNonTransferableResultReasonsList),
+    ),
   }),
 ).annotate({
-  identifier: "TransferCheckResponseDomainsNonTransferableResult",
-}) as any as S.Schema<TransferCheckResponseDomainsNonTransferableResult>;
+  identifier: "TransferCheckResponseDomainsValueNonTransferableResult",
+}) as any as S.Schema<TransferCheckResponseDomainsValueNonTransferableResult>;
 
-export type TransferCheckResponseDomains =
-  | TransferCheckResponseDomainsTransferableResult
-  | TransferCheckResponseDomainsNonTransferableResult;
-export const TransferCheckResponseDomains = /*@__PURE__*/ S.Unknown.pipe(
+export type TransferCheckResponseDomainsValue =
+  | TransferCheckResponseDomainsValueTransferableResult
+  | TransferCheckResponseDomainsValueNonTransferableResult;
+export const TransferCheckResponseDomainsValue = /*@__PURE__*/ S.Unknown.pipe(
   T.UnionCases([
     ["pricing", "transferable", "name", "reasons"],
     ["transferable", "name", "pricing", "reasons"],
   ]),
 );
 
+export type TransferCheckResponseDomainsMap = {
+  [key: string]: TransferCheckResponseDomainsValue | undefined;
+};
+export const TransferCheckResponseDomainsMap = /*@__PURE__*/ S.Record(
+  S.String,
+  TransferCheckResponseDomainsValue,
+) as any as S.Schema<TransferCheckResponseDomainsMap>;
+
 /** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
 export interface TransferCheckResponse {
   /** Maps domain names to transfer eligibility results. Each value contains `name`, `transferable`, and `reasons`. */
-  domains: TransferCheckResponseDomains;
+  domains: TransferCheckResponseDomainsMap;
 }
 export const TransferCheckResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    domains: TransferCheckResponseDomains,
+    domains: TransferCheckResponseDomainsMap,
   }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
 ).annotate({ identifier: "TransferCheckResponse" }) as any as S.Schema<TransferCheckResponse>;
 

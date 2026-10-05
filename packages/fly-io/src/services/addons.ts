@@ -58,9 +58,7 @@ export const AddOnResponseAddOnPlan = /*@__PURE__*/ S.suspend(() =>
     maxDataSize: S.NullOr(S.String),
     pricePerMonth: S.NullOr(S.Number),
   }),
-).annotate({
-  identifier: "AddOnResponseAddOnPlan",
-}) as any as S.Schema<AddOnResponseAddOnPlan>;
+).annotate({ identifier: "AddOnResponseAddOnPlan" }) as any as S.Schema<AddOnResponseAddOnPlan>;
 
 export interface AddOnResponseAddOnProvider {
   id: string;
@@ -135,9 +133,7 @@ export const AddOnResponseApp = /*@__PURE__*/ S.suspend(() =>
     id: S.String,
     name: S.NullOr(S.String),
   }),
-).annotate({
-  identifier: "AddOnResponseApp",
-}) as any as S.Schema<AddOnResponseApp>;
+).annotate({ identifier: "AddOnResponseApp" }) as any as S.Schema<AddOnResponseApp>;
 
 /** Selection set for `addOn` (unwrapped from the GraphQL `data` envelope). */
 export interface AddOnResponse {
@@ -226,9 +222,7 @@ export const AddOnPlansRequest = /*@__PURE__*/ S.suspend(() =>
         type: "query",
       }),
     ),
-).annotate({
-  identifier: "AddOnPlansRequest",
-}) as any as S.Schema<AddOnPlansRequest>;
+).annotate({ identifier: "AddOnPlansRequest" }) as any as S.Schema<AddOnPlansRequest>;
 
 export type AddOnPlansResponseEdgesItemNode = AddOnResponseAddOnPlan;
 export const AddOnPlansResponseEdgesItemNode = AddOnResponseAddOnPlan;
@@ -290,9 +284,7 @@ export const AddOnPlansResponse = /*@__PURE__*/ S.suspend(() =>
     pageInfo: AddOnPlansResponsePageInfo,
     totalCount: S.Number,
   }).pipe(T.ResponsePath("addOnPlans")),
-).annotate({
-  identifier: "AddOnPlansResponse",
-}) as any as S.Schema<AddOnPlansResponse>;
+).annotate({ identifier: "AddOnPlansResponse" }) as any as S.Schema<AddOnPlansResponse>;
 
 export interface AddOnProviderRequest {
   name: string;
@@ -310,9 +302,7 @@ export const AddOnProviderRequest = /*@__PURE__*/ S.suspend(() =>
         type: "query",
       }),
     ),
-).annotate({
-  identifier: "AddOnProviderRequest",
-}) as any as S.Schema<AddOnProviderRequest>;
+).annotate({ identifier: "AddOnProviderRequest" }) as any as S.Schema<AddOnProviderRequest>;
 
 /** Selection set for `addOnProvider` (unwrapped from the GraphQL `data` envelope). */
 export interface AddOnProviderResponse {
@@ -352,9 +342,7 @@ export const AddOnProviderResponse = /*@__PURE__*/ S.suspend(() =>
     nameSuffix: S.NullOr(S.String),
     provisioningInstructions: S.NullOr(S.String),
   }).pipe(T.ResponsePath("addOnProvider")),
-).annotate({
-  identifier: "AddOnProviderResponse",
-}) as any as S.Schema<AddOnProviderResponse>;
+).annotate({ identifier: "AddOnProviderResponse" }) as any as S.Schema<AddOnProviderResponse>;
 
 export interface AddOnsRequest {
   after?: string | null;
@@ -457,9 +445,7 @@ export const AddOnsResponseEdgesItem = /*@__PURE__*/ S.suspend(() =>
     cursor: S.String,
     node: S.NullOr(AddOnsResponseEdgesItemNode),
   }),
-).annotate({
-  identifier: "AddOnsResponseEdgesItem",
-}) as any as S.Schema<AddOnsResponseEdgesItem>;
+).annotate({ identifier: "AddOnsResponseEdgesItem" }) as any as S.Schema<AddOnsResponseEdgesItem>;
 
 export type AddOnsResponseEdgesList = (AddOnsResponseEdgesItem | null)[];
 export const AddOnsResponseEdgesList = /*@__PURE__*/ S.Array(
@@ -508,9 +494,7 @@ export const AddOnsResponseNodesItem = /*@__PURE__*/ S.suspend(() =>
     updatedAt: S.String,
     addOnPlanName: S.NullOr(S.String),
   }),
-).annotate({
-  identifier: "AddOnsResponseNodesItem",
-}) as any as S.Schema<AddOnsResponseNodesItem>;
+).annotate({ identifier: "AddOnsResponseNodesItem" }) as any as S.Schema<AddOnsResponseNodesItem>;
 
 export type AddOnsResponseNodesList = (AddOnsResponseNodesItem | null)[];
 export const AddOnsResponseNodesList = /*@__PURE__*/ S.Array(
@@ -596,9 +580,7 @@ export const CreateAddOnInput = /*@__PURE__*/ S.suspend(() =>
     organizationPlanId: S.optional(S.NullOr(S.String)),
     clientMutationId: S.optional(S.NullOr(S.String)),
   }),
-).annotate({
-  identifier: "CreateAddOnInput",
-}) as any as S.Schema<CreateAddOnInput>;
+).annotate({ identifier: "CreateAddOnInput" }) as any as S.Schema<CreateAddOnInput>;
 
 export interface CreateAddOnRequest {
   input: CreateAddOnInput;
@@ -616,9 +598,7 @@ export const CreateAddOnRequest = /*@__PURE__*/ S.suspend(() =>
         type: "mutation",
       }),
     ),
-).annotate({
-  identifier: "CreateAddOnRequest",
-}) as any as S.Schema<CreateAddOnRequest>;
+).annotate({ identifier: "CreateAddOnRequest" }) as any as S.Schema<CreateAddOnRequest>;
 
 export type CreateAddOnResponseAddOnReadRegionsList = Array<string>;
 export const CreateAddOnResponseAddOnReadRegionsList = /*@__PURE__*/ S.Array(
@@ -662,9 +642,7 @@ export const CreateAddOnResponseAddOn = /*@__PURE__*/ S.suspend(() =>
     updatedAt: S.String,
     addOnPlanName: S.NullOr(S.String),
   }),
-).annotate({
-  identifier: "CreateAddOnResponseAddOn",
-}) as any as S.Schema<CreateAddOnResponseAddOn>;
+).annotate({ identifier: "CreateAddOnResponseAddOn" }) as any as S.Schema<CreateAddOnResponseAddOn>;
 
 /** Selection set for `createAddOn` (unwrapped from the GraphQL `data` envelope). */
 export interface CreateAddOnResponse {
@@ -676,9 +654,7 @@ export const CreateAddOnResponse = /*@__PURE__*/ S.suspend(() =>
     addOn: CreateAddOnResponseAddOn,
     clientMutationId: S.NullOr(S.String),
   }).pipe(T.ResponsePath("createAddOn")),
-).annotate({
-  identifier: "CreateAddOnResponse",
-}) as any as S.Schema<CreateAddOnResponse>;
+).annotate({ identifier: "CreateAddOnResponse" }) as any as S.Schema<CreateAddOnResponse>;
 
 export interface CreateExtensionTosAgreementInput {
   addOnProviderName: string;
@@ -740,9 +716,7 @@ export const DeleteAddOnInput = /*@__PURE__*/ S.suspend(() =>
     provider: S.optional(S.NullOr(S.String)),
     clientMutationId: S.optional(S.NullOr(S.String)),
   }),
-).annotate({
-  identifier: "DeleteAddOnInput",
-}) as any as S.Schema<DeleteAddOnInput>;
+).annotate({ identifier: "DeleteAddOnInput" }) as any as S.Schema<DeleteAddOnInput>;
 
 export interface DeleteAddOnRequest {
   input: DeleteAddOnInput;
@@ -760,9 +734,7 @@ export const DeleteAddOnRequest = /*@__PURE__*/ S.suspend(() =>
         type: "mutation",
       }),
     ),
-).annotate({
-  identifier: "DeleteAddOnRequest",
-}) as any as S.Schema<DeleteAddOnRequest>;
+).annotate({ identifier: "DeleteAddOnRequest" }) as any as S.Schema<DeleteAddOnRequest>;
 
 /** Selection set for `deleteAddOn` (unwrapped from the GraphQL `data` envelope). */
 export interface DeleteAddOnResponse {
@@ -774,9 +746,7 @@ export const DeleteAddOnResponse = /*@__PURE__*/ S.suspend(() =>
     deletedAddOnName: S.NullOr(S.String),
     clientMutationId: S.NullOr(S.String),
   }).pipe(T.ResponsePath("deleteAddOn")),
-).annotate({
-  identifier: "DeleteAddOnResponse",
-}) as any as S.Schema<DeleteAddOnResponse>;
+).annotate({ identifier: "DeleteAddOnResponse" }) as any as S.Schema<DeleteAddOnResponse>;
 
 export interface OrganizationRequest {
   id?: string | null;
@@ -798,9 +768,7 @@ export const OrganizationRequest = /*@__PURE__*/ S.suspend(() =>
         type: "query",
       }),
     ),
-).annotate({
-  identifier: "OrganizationRequest",
-}) as any as S.Schema<OrganizationRequest>;
+).annotate({ identifier: "OrganizationRequest" }) as any as S.Schema<OrganizationRequest>;
 
 export type OrganizationResponseAddOnsEdgesItemNodeReadRegionsList = Array<string>;
 export const OrganizationResponseAddOnsEdgesItemNodeReadRegionsList = /*@__PURE__*/ S.Array(
@@ -906,9 +874,7 @@ export const OrganizationResponse = /*@__PURE__*/ S.suspend(() =>
     provisionsBetaExtensions: S.Boolean,
     addOns: OrganizationResponseAddOns,
   }).pipe(T.ResponsePath("organization")),
-).annotate({
-  identifier: "OrganizationResponse",
-}) as any as S.Schema<OrganizationResponse>;
+).annotate({ identifier: "OrganizationResponse" }) as any as S.Schema<OrganizationResponse>;
 
 export interface ResetAddOnPasswordInput {
   name: string;
@@ -919,9 +885,7 @@ export const ResetAddOnPasswordInput = /*@__PURE__*/ S.suspend(() =>
     name: S.String,
     clientMutationId: S.optional(S.NullOr(S.String)),
   }),
-).annotate({
-  identifier: "ResetAddOnPasswordInput",
-}) as any as S.Schema<ResetAddOnPasswordInput>;
+).annotate({ identifier: "ResetAddOnPasswordInput" }) as any as S.Schema<ResetAddOnPasswordInput>;
 
 export interface ResetAddOnPasswordRequest {
   input: ResetAddOnPasswordInput;
@@ -1026,9 +990,7 @@ export const UpdateAddOnInput = /*@__PURE__*/ S.suspend(() =>
     prodPack: S.optional(S.NullOr(S.Boolean)),
     clientMutationId: S.optional(S.NullOr(S.String)),
   }),
-).annotate({
-  identifier: "UpdateAddOnInput",
-}) as any as S.Schema<UpdateAddOnInput>;
+).annotate({ identifier: "UpdateAddOnInput" }) as any as S.Schema<UpdateAddOnInput>;
 
 export interface UpdateAddOnRequest {
   input: UpdateAddOnInput;
@@ -1046,9 +1008,7 @@ export const UpdateAddOnRequest = /*@__PURE__*/ S.suspend(() =>
         type: "mutation",
       }),
     ),
-).annotate({
-  identifier: "UpdateAddOnRequest",
-}) as any as S.Schema<UpdateAddOnRequest>;
+).annotate({ identifier: "UpdateAddOnRequest" }) as any as S.Schema<UpdateAddOnRequest>;
 
 export type UpdateAddOnResponseAddOnReadRegionsList = Array<string>;
 export const UpdateAddOnResponseAddOnReadRegionsList = /*@__PURE__*/ S.Array(
@@ -1092,9 +1052,7 @@ export const UpdateAddOnResponseAddOn = /*@__PURE__*/ S.suspend(() =>
     updatedAt: S.String,
     addOnPlanName: S.NullOr(S.String),
   }),
-).annotate({
-  identifier: "UpdateAddOnResponseAddOn",
-}) as any as S.Schema<UpdateAddOnResponseAddOn>;
+).annotate({ identifier: "UpdateAddOnResponseAddOn" }) as any as S.Schema<UpdateAddOnResponseAddOn>;
 
 /** Selection set for `updateAddOn` (unwrapped from the GraphQL `data` envelope). */
 export interface UpdateAddOnResponse {
@@ -1106,9 +1064,7 @@ export const UpdateAddOnResponse = /*@__PURE__*/ S.suspend(() =>
     addOn: UpdateAddOnResponseAddOn,
     clientMutationId: S.NullOr(S.String),
   }).pipe(T.ResponsePath("updateAddOn")),
-).annotate({
-  identifier: "UpdateAddOnResponse",
-}) as any as S.Schema<UpdateAddOnResponse>;
+).annotate({ identifier: "UpdateAddOnResponse" }) as any as S.Schema<UpdateAddOnResponse>;
 
 export type AddOnError = FlyIoOpError;
 export const addOn: API.OperationMethod<AddOnRequest, AddOnResponse, AddOnError, FlyIoOpContext> =

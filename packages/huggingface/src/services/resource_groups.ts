@@ -80,9 +80,7 @@ export const AddUsersRequest = /*@__PURE__*/ S.suspend(() =>
       code: 200,
     }),
   ),
-).annotate({
-  identifier: "AddUsersRequest",
-}) as any as S.Schema<AddUsersRequest>;
+).annotate({ identifier: "AddUsersRequest" }) as any as S.Schema<AddUsersRequest>;
 
 export type AddUsersResponseAutoJoinCase0Role =
   | "admin"
@@ -96,13 +94,13 @@ export type AddUsersResponseAutoJoinCase0Scope = "all" | "read_plus";
 export const AddUsersResponseAutoJoinCase0Scope = S.String;
 
 export interface AddUsersResponseAutoJoinCase0 {
-  enabled: unknown;
+  enabled: boolean;
   role: AddUsersResponseAutoJoinCase0Role;
   scope?: AddUsersResponseAutoJoinCase0Scope;
 }
 export const AddUsersResponseAutoJoinCase0 = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    enabled: S.Unknown,
+    enabled: S.Boolean,
     role: AddUsersResponseAutoJoinCase0Role,
     scope: S.optional(AddUsersResponseAutoJoinCase0Scope),
   }),
@@ -111,11 +109,11 @@ export const AddUsersResponseAutoJoinCase0 = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<AddUsersResponseAutoJoinCase0>;
 
 export interface AddUsersResponseAutoJoinCase1 {
-  enabled: unknown;
+  enabled: boolean;
 }
 export const AddUsersResponseAutoJoinCase1 = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    enabled: S.Unknown,
+    enabled: S.Boolean,
   }),
 ).annotate({
   identifier: "AddUsersResponseAutoJoinCase1",
@@ -153,23 +151,34 @@ export type AddUsersResponseUsersItemRole =
   | "no_access";
 export const AddUsersResponseUsersItemRole = S.String;
 
+export type AddUsersResponseUsersItemOrgRole =
+  | "admin"
+  | "write"
+  | "contributor"
+  | "read"
+  | "no_access";
+export const AddUsersResponseUsersItemOrgRole = S.String;
+
 export interface AddUsersResponseUsersItem {
-  type: unknown;
+  type: string;
+  /** A hex string of 24 characters representing an ObjectId. */
   _id: string;
   fullname: string;
   name: string;
   avatarUrl: string;
   role: AddUsersResponseUsersItemRole;
+  orgRole: AddUsersResponseUsersItemOrgRole;
   addedBy?: string;
 }
 export const AddUsersResponseUsersItem = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    type: S.Unknown,
+    type: S.String,
     _id: S.String,
     fullname: S.String,
     name: S.String,
     avatarUrl: S.String,
     role: AddUsersResponseUsersItemRole,
+    orgRole: AddUsersResponseUsersItemOrgRole,
     addedBy: S.optional(S.String),
   }),
 ).annotate({
@@ -186,7 +195,8 @@ export type AddUsersResponseResourcesItemCase0Type =
   | "model"
   | "space"
   | "bucket"
-  | "kernel";
+  | "kernel"
+  | "container";
 export const AddUsersResponseResourcesItemCase0Type = S.String;
 
 export interface AddUsersResponseResourcesItemCase0 {
@@ -207,7 +217,8 @@ export const AddUsersResponseResourcesItemCase0 = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<AddUsersResponseResourcesItemCase0>;
 
 export interface AddUsersResponseResourcesItemCase1 {
-  type: unknown;
+  type: string;
+  /** A hex string of 24 characters representing an ObjectId. */
   id: string;
   slug: string;
   title: string;
@@ -216,7 +227,7 @@ export interface AddUsersResponseResourcesItemCase1 {
 }
 export const AddUsersResponseResourcesItemCase1 = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    type: S.Unknown,
+    type: S.String,
     id: S.String,
     slug: S.String,
     title: S.String,
@@ -231,14 +242,14 @@ export type AddUsersResponseResourcesItemCase2 = AddUsersResponseResourcesItemCa
 export const AddUsersResponseResourcesItemCase2 = AddUsersResponseResourcesItemCase1;
 
 export interface AddUsersResponseResourcesItemCase3 {
-  type: unknown;
+  type: string;
   id: string;
   name?: string;
   addedBy?: string;
 }
 export const AddUsersResponseResourcesItemCase3 = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    type: S.Unknown,
+    type: S.String,
     id: S.String,
     name: S.optional(S.String),
     addedBy: S.optional(S.String),
@@ -265,6 +276,7 @@ export const AddUsersResponseResourcesList = /*@__PURE__*/ S.Array(
 ) as any as S.Schema<AddUsersResponseResourcesList>;
 
 export interface AddUsersResponse {
+  /** A hex string of 24 characters representing an ObjectId. */
   id: string;
   name: string;
   description?: string | null;
@@ -283,9 +295,7 @@ export const AddUsersResponse = /*@__PURE__*/ S.suspend(() =>
     users: AddUsersResponseUsersList,
     resources: AddUsersResponseResourcesList,
   }),
-).annotate({
-  identifier: "AddUsersResponse",
-}) as any as S.Schema<AddUsersResponse>;
+).annotate({ identifier: "AddUsersResponse" }) as any as S.Schema<AddUsersResponse>;
 
 export type ChangeUserRoleRequestRole = "admin" | "write" | "contributor" | "read" | "no_access";
 export const ChangeUserRoleRequestRole = S.String;
@@ -309,9 +319,7 @@ export const ChangeUserRoleRequest = /*@__PURE__*/ S.suspend(() =>
       code: 200,
     }),
   ),
-).annotate({
-  identifier: "ChangeUserRoleRequest",
-}) as any as S.Schema<ChangeUserRoleRequest>;
+).annotate({ identifier: "ChangeUserRoleRequest" }) as any as S.Schema<ChangeUserRoleRequest>;
 
 export type ChangeUserRoleResponseAutoJoinCase0Role =
   | "admin"
@@ -325,13 +333,13 @@ export type ChangeUserRoleResponseAutoJoinCase0Scope = "all" | "read_plus";
 export const ChangeUserRoleResponseAutoJoinCase0Scope = S.String;
 
 export interface ChangeUserRoleResponseAutoJoinCase0 {
-  enabled: unknown;
+  enabled: boolean;
   role: ChangeUserRoleResponseAutoJoinCase0Role;
   scope?: ChangeUserRoleResponseAutoJoinCase0Scope;
 }
 export const ChangeUserRoleResponseAutoJoinCase0 = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    enabled: S.Unknown,
+    enabled: S.Boolean,
     role: ChangeUserRoleResponseAutoJoinCase0Role,
     scope: S.optional(ChangeUserRoleResponseAutoJoinCase0Scope),
   }),
@@ -359,23 +367,34 @@ export type ChangeUserRoleResponseUsersItemRole =
   | "no_access";
 export const ChangeUserRoleResponseUsersItemRole = S.String;
 
+export type ChangeUserRoleResponseUsersItemOrgRole =
+  | "admin"
+  | "write"
+  | "contributor"
+  | "read"
+  | "no_access";
+export const ChangeUserRoleResponseUsersItemOrgRole = S.String;
+
 export interface ChangeUserRoleResponseUsersItem {
-  type: unknown;
+  type: string;
+  /** A hex string of 24 characters representing an ObjectId. */
   _id: string;
   fullname: string;
   name: string;
   avatarUrl: string;
   role: ChangeUserRoleResponseUsersItemRole;
+  orgRole: ChangeUserRoleResponseUsersItemOrgRole;
   addedBy?: string;
 }
 export const ChangeUserRoleResponseUsersItem = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    type: S.Unknown,
+    type: S.String,
     _id: S.String,
     fullname: S.String,
     name: S.String,
     avatarUrl: S.String,
     role: ChangeUserRoleResponseUsersItemRole,
+    orgRole: ChangeUserRoleResponseUsersItemOrgRole,
     addedBy: S.optional(S.String),
   }),
 ).annotate({
@@ -392,7 +411,8 @@ export type ChangeUserRoleResponseResourcesItemCase0Type =
   | "model"
   | "space"
   | "bucket"
-  | "kernel";
+  | "kernel"
+  | "container";
 export const ChangeUserRoleResponseResourcesItemCase0Type = S.String;
 
 export interface ChangeUserRoleResponseResourcesItemCase0 {
@@ -439,6 +459,7 @@ export const ChangeUserRoleResponseResourcesList = /*@__PURE__*/ S.Array(
 ) as any as S.Schema<ChangeUserRoleResponseResourcesList>;
 
 export interface ChangeUserRoleResponse {
+  /** A hex string of 24 characters representing an ObjectId. */
   id: string;
   name: string;
   description?: string | null;
@@ -457,9 +478,7 @@ export const ChangeUserRoleResponse = /*@__PURE__*/ S.suspend(() =>
     users: ChangeUserRoleResponseUsersList,
     resources: ChangeUserRoleResponseResourcesList,
   }),
-).annotate({
-  identifier: "ChangeUserRoleResponse",
-}) as any as S.Schema<ChangeUserRoleResponse>;
+).annotate({ identifier: "ChangeUserRoleResponse" }) as any as S.Schema<ChangeUserRoleResponse>;
 
 export type CreateResourceGroupRequestUsersItemRole =
   | "admin"
@@ -487,7 +506,7 @@ export const CreateResourceGroupRequestUsersList = /*@__PURE__*/ S.Array(
   CreateResourceGroupRequestUsersItem,
 ) as any as S.Schema<CreateResourceGroupRequestUsersList>;
 
-export type RepoIdType = "dataset" | "model" | "space" | "bucket" | "kernel";
+export type RepoIdType = "dataset" | "model" | "space" | "bucket" | "kernel" | "container";
 export const RepoIdType = S.String;
 
 export interface RepoId {
@@ -518,13 +537,13 @@ export type CreateResourceGroupRequestAutoJoinCase0Scope = "all" | "read_plus";
 export const CreateResourceGroupRequestAutoJoinCase0Scope = S.String;
 
 export interface CreateResourceGroupRequestAutoJoinCase0 {
-  enabled: unknown;
+  enabled: boolean;
   role: CreateResourceGroupRequestAutoJoinCase0Role | (string & {});
   scope?: CreateResourceGroupRequestAutoJoinCase0Scope | (string & {});
 }
 export const CreateResourceGroupRequestAutoJoinCase0 = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    enabled: S.Unknown,
+    enabled: S.Boolean,
     role: CreateResourceGroupRequestAutoJoinCase0Role,
     scope: S.optional(CreateResourceGroupRequestAutoJoinCase0Scope),
   }),
@@ -555,13 +574,7 @@ export const CreateResourceGroupRequest = /*@__PURE__*/ S.suspend(() =>
     users: S.optional(CreateResourceGroupRequestUsersList),
     repos: S.optional(CreateResourceGroupRequestReposList),
     autoJoin: S.optional(CreateResourceGroupRequestAutoJoin),
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/api/organizations/{name}/resource-groups",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "POST", uri: "/api/organizations/{name}/resource-groups", code: 200 })),
 ).annotate({
   identifier: "CreateResourceGroupRequest",
 }) as any as S.Schema<CreateResourceGroupRequest>;
@@ -578,13 +591,13 @@ export type CreateResourceGroupResponseAutoJoinCase0Scope = "all" | "read_plus";
 export const CreateResourceGroupResponseAutoJoinCase0Scope = S.String;
 
 export interface CreateResourceGroupResponseAutoJoinCase0 {
-  enabled: unknown;
+  enabled: boolean;
   role: CreateResourceGroupResponseAutoJoinCase0Role;
   scope?: CreateResourceGroupResponseAutoJoinCase0Scope;
 }
 export const CreateResourceGroupResponseAutoJoinCase0 = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    enabled: S.Unknown,
+    enabled: S.Boolean,
     role: CreateResourceGroupResponseAutoJoinCase0Role,
     scope: S.optional(CreateResourceGroupResponseAutoJoinCase0Scope),
   }),
@@ -612,23 +625,34 @@ export type CreateResourceGroupResponseUsersItemRole =
   | "no_access";
 export const CreateResourceGroupResponseUsersItemRole = S.String;
 
+export type CreateResourceGroupResponseUsersItemOrgRole =
+  | "admin"
+  | "write"
+  | "contributor"
+  | "read"
+  | "no_access";
+export const CreateResourceGroupResponseUsersItemOrgRole = S.String;
+
 export interface CreateResourceGroupResponseUsersItem {
-  type: unknown;
+  type: string;
+  /** A hex string of 24 characters representing an ObjectId. */
   _id: string;
   fullname: string;
   name: string;
   avatarUrl: string;
   role: CreateResourceGroupResponseUsersItemRole;
+  orgRole: CreateResourceGroupResponseUsersItemOrgRole;
   addedBy?: string;
 }
 export const CreateResourceGroupResponseUsersItem = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    type: S.Unknown,
+    type: S.String,
     _id: S.String,
     fullname: S.String,
     name: S.String,
     avatarUrl: S.String,
     role: CreateResourceGroupResponseUsersItemRole,
+    orgRole: CreateResourceGroupResponseUsersItemOrgRole,
     addedBy: S.optional(S.String),
   }),
 ).annotate({
@@ -645,7 +669,8 @@ export type CreateResourceGroupResponseResourcesItemCase0Type =
   | "model"
   | "space"
   | "bucket"
-  | "kernel";
+  | "kernel"
+  | "container";
 export const CreateResourceGroupResponseResourcesItemCase0Type = S.String;
 
 export interface CreateResourceGroupResponseResourcesItemCase0 {
@@ -693,6 +718,7 @@ export const CreateResourceGroupResponseResourcesList = /*@__PURE__*/ S.Array(
 ) as any as S.Schema<CreateResourceGroupResponseResourcesList>;
 
 export interface CreateResourceGroupResponse {
+  /** A hex string of 24 characters representing an ObjectId. */
   id: string;
   name: string;
   description?: string | null;
@@ -760,9 +786,7 @@ export const GetResourceGroupRequest = /*@__PURE__*/ S.suspend(() =>
       code: 200,
     }),
   ),
-).annotate({
-  identifier: "GetResourceGroupRequest",
-}) as any as S.Schema<GetResourceGroupRequest>;
+).annotate({ identifier: "GetResourceGroupRequest" }) as any as S.Schema<GetResourceGroupRequest>;
 
 export type GetResourceGroupResponseAutoJoinCase0Role =
   | "admin"
@@ -776,13 +800,13 @@ export type GetResourceGroupResponseAutoJoinCase0Scope = "all" | "read_plus";
 export const GetResourceGroupResponseAutoJoinCase0Scope = S.String;
 
 export interface GetResourceGroupResponseAutoJoinCase0 {
-  enabled: unknown;
+  enabled: boolean;
   role: GetResourceGroupResponseAutoJoinCase0Role;
   scope?: GetResourceGroupResponseAutoJoinCase0Scope;
 }
 export const GetResourceGroupResponseAutoJoinCase0 = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    enabled: S.Unknown,
+    enabled: S.Boolean,
     role: GetResourceGroupResponseAutoJoinCase0Role,
     scope: S.optional(GetResourceGroupResponseAutoJoinCase0Scope),
   }),
@@ -810,23 +834,34 @@ export type GetResourceGroupResponseUsersItemRole =
   | "no_access";
 export const GetResourceGroupResponseUsersItemRole = S.String;
 
+export type GetResourceGroupResponseUsersItemOrgRole =
+  | "admin"
+  | "write"
+  | "contributor"
+  | "read"
+  | "no_access";
+export const GetResourceGroupResponseUsersItemOrgRole = S.String;
+
 export interface GetResourceGroupResponseUsersItem {
-  type: unknown;
+  type: string;
+  /** A hex string of 24 characters representing an ObjectId. */
   _id: string;
   fullname: string;
   name: string;
   avatarUrl: string;
   role: GetResourceGroupResponseUsersItemRole;
+  orgRole: GetResourceGroupResponseUsersItemOrgRole;
   addedBy?: string;
 }
 export const GetResourceGroupResponseUsersItem = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    type: S.Unknown,
+    type: S.String,
     _id: S.String,
     fullname: S.String,
     name: S.String,
     avatarUrl: S.String,
     role: GetResourceGroupResponseUsersItemRole,
+    orgRole: GetResourceGroupResponseUsersItemOrgRole,
     addedBy: S.optional(S.String),
   }),
 ).annotate({
@@ -843,7 +878,8 @@ export type GetResourceGroupResponseResourcesItemCase0Type =
   | "model"
   | "space"
   | "bucket"
-  | "kernel";
+  | "kernel"
+  | "container";
 export const GetResourceGroupResponseResourcesItemCase0Type = S.String;
 
 export interface GetResourceGroupResponseResourcesItemCase0 {
@@ -890,6 +926,7 @@ export const GetResourceGroupResponseResourcesList = /*@__PURE__*/ S.Array(
 ) as any as S.Schema<GetResourceGroupResponseResourcesList>;
 
 export interface GetResourceGroupResponse {
+  /** A hex string of 24 characters representing an ObjectId. */
   id: string;
   name: string;
   description?: string | null;
@@ -908,9 +945,7 @@ export const GetResourceGroupResponse = /*@__PURE__*/ S.suspend(() =>
     users: GetResourceGroupResponseUsersList,
     resources: GetResourceGroupResponseResourcesList,
   }),
-).annotate({
-  identifier: "GetResourceGroupResponse",
-}) as any as S.Schema<GetResourceGroupResponse>;
+).annotate({ identifier: "GetResourceGroupResponse" }) as any as S.Schema<GetResourceGroupResponse>;
 
 export interface GetResourceGroupsRequest {
   name: string;
@@ -918,16 +953,8 @@ export interface GetResourceGroupsRequest {
 export const GetResourceGroupsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     name: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/api/organizations/{name}/resource-groups",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "GetResourceGroupsRequest",
-}) as any as S.Schema<GetResourceGroupsRequest>;
+  }).pipe(T.Http({ method: "GET", uri: "/api/organizations/{name}/resource-groups", code: 200 })),
+).annotate({ identifier: "GetResourceGroupsRequest" }) as any as S.Schema<GetResourceGroupsRequest>;
 
 export type GetResourceGroupsResponseBodyItemAutoJoinCase0Role =
   | "admin"
@@ -941,13 +968,13 @@ export type GetResourceGroupsResponseBodyItemAutoJoinCase0Scope = "all" | "read_
 export const GetResourceGroupsResponseBodyItemAutoJoinCase0Scope = S.String;
 
 export interface GetResourceGroupsResponseBodyItemAutoJoinCase0 {
-  enabled: unknown;
+  enabled: boolean;
   role: GetResourceGroupsResponseBodyItemAutoJoinCase0Role;
   scope?: GetResourceGroupsResponseBodyItemAutoJoinCase0Scope;
 }
 export const GetResourceGroupsResponseBodyItemAutoJoinCase0 = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    enabled: S.Unknown,
+    enabled: S.Boolean,
     role: GetResourceGroupsResponseBodyItemAutoJoinCase0Role,
     scope: S.optional(GetResourceGroupsResponseBodyItemAutoJoinCase0Scope),
   }),
@@ -975,23 +1002,34 @@ export type GetResourceGroupsResponseBodyItemUsersItemRole =
   | "no_access";
 export const GetResourceGroupsResponseBodyItemUsersItemRole = S.String;
 
+export type GetResourceGroupsResponseBodyItemUsersItemOrgRole =
+  | "admin"
+  | "write"
+  | "contributor"
+  | "read"
+  | "no_access";
+export const GetResourceGroupsResponseBodyItemUsersItemOrgRole = S.String;
+
 export interface GetResourceGroupsResponseBodyItemUsersItem {
-  type: unknown;
+  type: string;
+  /** A hex string of 24 characters representing an ObjectId. */
   _id: string;
   fullname: string;
   name: string;
   avatarUrl: string;
   role: GetResourceGroupsResponseBodyItemUsersItemRole;
+  orgRole: GetResourceGroupsResponseBodyItemUsersItemOrgRole;
   addedBy?: string;
 }
 export const GetResourceGroupsResponseBodyItemUsersItem = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    type: S.Unknown,
+    type: S.String,
     _id: S.String,
     fullname: S.String,
     name: S.String,
     avatarUrl: S.String,
     role: GetResourceGroupsResponseBodyItemUsersItemRole,
+    orgRole: GetResourceGroupsResponseBodyItemUsersItemOrgRole,
     addedBy: S.optional(S.String),
   }),
 ).annotate({
@@ -1009,7 +1047,8 @@ export type GetResourceGroupsResponseBodyItemResourcesItemCase0Type =
   | "model"
   | "space"
   | "bucket"
-  | "kernel";
+  | "kernel"
+  | "container";
 export const GetResourceGroupsResponseBodyItemResourcesItemCase0Type = S.String;
 
 export interface GetResourceGroupsResponseBodyItemResourcesItemCase0 {
@@ -1065,6 +1104,7 @@ export const GetResourceGroupsResponseBodyItemResourcesList = /*@__PURE__*/ S.Ar
 ) as any as S.Schema<GetResourceGroupsResponseBodyItemResourcesList>;
 
 export interface GetResourceGroupsResponseBodyItem {
+  /** A hex string of 24 characters representing an ObjectId. */
   id: string;
   name: string;
   description?: string | null;
@@ -1099,6 +1139,10 @@ export const GetResourceGroupsResponse = /*@__PURE__*/ S.suspend(() =>
   identifier: "GetResourceGroupsResponse",
 }) as any as S.Schema<GetResourceGroupsResponse>;
 
+export type JoinConfigureAutoRequestAutoJoinCase0Enabled = boolean | string;
+export const JoinConfigureAutoRequestAutoJoinCase0Enabled =
+  S.Unknown as any as S.Schema<JoinConfigureAutoRequestAutoJoinCase0Enabled>;
+
 export type JoinConfigureAutoRequestAutoJoinCase0Role =
   | "admin"
   | "write"
@@ -1111,13 +1155,13 @@ export type JoinConfigureAutoRequestAutoJoinCase0Scope = "all" | "read_plus";
 export const JoinConfigureAutoRequestAutoJoinCase0Scope = S.String;
 
 export interface JoinConfigureAutoRequestAutoJoinCase0 {
-  enabled: unknown;
+  enabled: JoinConfigureAutoRequestAutoJoinCase0Enabled;
   role: JoinConfigureAutoRequestAutoJoinCase0Role | (string & {});
   scope?: JoinConfigureAutoRequestAutoJoinCase0Scope | (string & {});
 }
 export const JoinConfigureAutoRequestAutoJoinCase0 = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    enabled: S.Unknown,
+    enabled: JoinConfigureAutoRequestAutoJoinCase0Enabled,
     role: JoinConfigureAutoRequestAutoJoinCase0Role,
     scope: S.optional(JoinConfigureAutoRequestAutoJoinCase0Scope),
   }),
@@ -1125,12 +1169,24 @@ export const JoinConfigureAutoRequestAutoJoinCase0 = /*@__PURE__*/ S.suspend(() 
   identifier: "JoinConfigureAutoRequestAutoJoinCase0",
 }) as any as S.Schema<JoinConfigureAutoRequestAutoJoinCase0>;
 
-export type JoinConfigureAutoRequestAutoJoinCase1 = AddUsersResponseAutoJoinCase1;
-export const JoinConfigureAutoRequestAutoJoinCase1 = AddUsersResponseAutoJoinCase1;
+export type JoinConfigureAutoRequestAutoJoinCase1Enabled = boolean | string;
+export const JoinConfigureAutoRequestAutoJoinCase1Enabled =
+  S.Unknown as any as S.Schema<JoinConfigureAutoRequestAutoJoinCase1Enabled>;
+
+export interface JoinConfigureAutoRequestAutoJoinCase1 {
+  enabled: JoinConfigureAutoRequestAutoJoinCase1Enabled;
+}
+export const JoinConfigureAutoRequestAutoJoinCase1 = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    enabled: JoinConfigureAutoRequestAutoJoinCase1Enabled,
+  }),
+).annotate({
+  identifier: "JoinConfigureAutoRequestAutoJoinCase1",
+}) as any as S.Schema<JoinConfigureAutoRequestAutoJoinCase1>;
 
 export type JoinConfigureAutoRequestAutoJoin =
   | JoinConfigureAutoRequestAutoJoinCase0
-  | AddUsersResponseAutoJoinCase1;
+  | JoinConfigureAutoRequestAutoJoinCase1;
 export const JoinConfigureAutoRequestAutoJoin =
   S.Unknown as any as S.Schema<JoinConfigureAutoRequestAutoJoin>;
 
@@ -1151,9 +1207,7 @@ export const JoinConfigureAutoRequest = /*@__PURE__*/ S.suspend(() =>
       code: 200,
     }),
   ),
-).annotate({
-  identifier: "JoinConfigureAutoRequest",
-}) as any as S.Schema<JoinConfigureAutoRequest>;
+).annotate({ identifier: "JoinConfigureAutoRequest" }) as any as S.Schema<JoinConfigureAutoRequest>;
 
 export type JoinConfigureAutoResponseAutoJoinCase0Role =
   | "admin"
@@ -1167,13 +1221,13 @@ export type JoinConfigureAutoResponseAutoJoinCase0Scope = "all" | "read_plus";
 export const JoinConfigureAutoResponseAutoJoinCase0Scope = S.String;
 
 export interface JoinConfigureAutoResponseAutoJoinCase0 {
-  enabled: unknown;
+  enabled: boolean;
   role: JoinConfigureAutoResponseAutoJoinCase0Role;
   scope?: JoinConfigureAutoResponseAutoJoinCase0Scope;
 }
 export const JoinConfigureAutoResponseAutoJoinCase0 = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    enabled: S.Unknown,
+    enabled: S.Boolean,
     role: JoinConfigureAutoResponseAutoJoinCase0Role,
     scope: S.optional(JoinConfigureAutoResponseAutoJoinCase0Scope),
   }),
@@ -1201,23 +1255,34 @@ export type JoinConfigureAutoResponseUsersItemRole =
   | "no_access";
 export const JoinConfigureAutoResponseUsersItemRole = S.String;
 
+export type JoinConfigureAutoResponseUsersItemOrgRole =
+  | "admin"
+  | "write"
+  | "contributor"
+  | "read"
+  | "no_access";
+export const JoinConfigureAutoResponseUsersItemOrgRole = S.String;
+
 export interface JoinConfigureAutoResponseUsersItem {
-  type: unknown;
+  type: string;
+  /** A hex string of 24 characters representing an ObjectId. */
   _id: string;
   fullname: string;
   name: string;
   avatarUrl: string;
   role: JoinConfigureAutoResponseUsersItemRole;
+  orgRole: JoinConfigureAutoResponseUsersItemOrgRole;
   addedBy?: string;
 }
 export const JoinConfigureAutoResponseUsersItem = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    type: S.Unknown,
+    type: S.String,
     _id: S.String,
     fullname: S.String,
     name: S.String,
     avatarUrl: S.String,
     role: JoinConfigureAutoResponseUsersItemRole,
+    orgRole: JoinConfigureAutoResponseUsersItemOrgRole,
     addedBy: S.optional(S.String),
   }),
 ).annotate({
@@ -1234,7 +1299,8 @@ export type JoinConfigureAutoResponseResourcesItemCase0Type =
   | "model"
   | "space"
   | "bucket"
-  | "kernel";
+  | "kernel"
+  | "container";
 export const JoinConfigureAutoResponseResourcesItemCase0Type = S.String;
 
 export interface JoinConfigureAutoResponseResourcesItemCase0 {
@@ -1281,6 +1347,7 @@ export const JoinConfigureAutoResponseResourcesList = /*@__PURE__*/ S.Array(
 ) as any as S.Schema<JoinConfigureAutoResponseResourcesList>;
 
 export interface JoinConfigureAutoResponse {
+  /** A hex string of 24 characters representing an ObjectId. */
   id: string;
   name: string;
   description?: string | null;
@@ -1320,9 +1387,7 @@ export const RemoveUserRequest = /*@__PURE__*/ S.suspend(() =>
       code: 200,
     }),
   ),
-).annotate({
-  identifier: "RemoveUserRequest",
-}) as any as S.Schema<RemoveUserRequest>;
+).annotate({ identifier: "RemoveUserRequest" }) as any as S.Schema<RemoveUserRequest>;
 
 export type RemoveUserResponseAutoJoinCase0Role =
   | "admin"
@@ -1336,13 +1401,13 @@ export type RemoveUserResponseAutoJoinCase0Scope = "all" | "read_plus";
 export const RemoveUserResponseAutoJoinCase0Scope = S.String;
 
 export interface RemoveUserResponseAutoJoinCase0 {
-  enabled: unknown;
+  enabled: boolean;
   role: RemoveUserResponseAutoJoinCase0Role;
   scope?: RemoveUserResponseAutoJoinCase0Scope;
 }
 export const RemoveUserResponseAutoJoinCase0 = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    enabled: S.Unknown,
+    enabled: S.Boolean,
     role: RemoveUserResponseAutoJoinCase0Role,
     scope: S.optional(RemoveUserResponseAutoJoinCase0Scope),
   }),
@@ -1369,23 +1434,34 @@ export type RemoveUserResponseUsersItemRole =
   | "no_access";
 export const RemoveUserResponseUsersItemRole = S.String;
 
+export type RemoveUserResponseUsersItemOrgRole =
+  | "admin"
+  | "write"
+  | "contributor"
+  | "read"
+  | "no_access";
+export const RemoveUserResponseUsersItemOrgRole = S.String;
+
 export interface RemoveUserResponseUsersItem {
-  type: unknown;
+  type: string;
+  /** A hex string of 24 characters representing an ObjectId. */
   _id: string;
   fullname: string;
   name: string;
   avatarUrl: string;
   role: RemoveUserResponseUsersItemRole;
+  orgRole: RemoveUserResponseUsersItemOrgRole;
   addedBy?: string;
 }
 export const RemoveUserResponseUsersItem = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    type: S.Unknown,
+    type: S.String,
     _id: S.String,
     fullname: S.String,
     name: S.String,
     avatarUrl: S.String,
     role: RemoveUserResponseUsersItemRole,
+    orgRole: RemoveUserResponseUsersItemOrgRole,
     addedBy: S.optional(S.String),
   }),
 ).annotate({
@@ -1402,7 +1478,8 @@ export type RemoveUserResponseResourcesItemCase0Type =
   | "model"
   | "space"
   | "bucket"
-  | "kernel";
+  | "kernel"
+  | "container";
 export const RemoveUserResponseResourcesItemCase0Type = S.String;
 
 export interface RemoveUserResponseResourcesItemCase0 {
@@ -1449,6 +1526,7 @@ export const RemoveUserResponseResourcesList = /*@__PURE__*/ S.Array(
 ) as any as S.Schema<RemoveUserResponseResourcesList>;
 
 export interface RemoveUserResponse {
+  /** A hex string of 24 characters representing an ObjectId. */
   id: string;
   name: string;
   description?: string | null;
@@ -1467,9 +1545,7 @@ export const RemoveUserResponse = /*@__PURE__*/ S.suspend(() =>
     users: RemoveUserResponseUsersList,
     resources: RemoveUserResponseResourcesList,
   }),
-).annotate({
-  identifier: "RemoveUserResponse",
-}) as any as S.Schema<RemoveUserResponse>;
+).annotate({ identifier: "RemoveUserResponse" }) as any as S.Schema<RemoveUserResponse>;
 
 export interface UpdateResourceGroupRequestSpendLimits {
   total?: number | null;
@@ -1525,13 +1601,13 @@ export type UpdateResourceGroupResponseAutoJoinCase0Scope = "all" | "read_plus";
 export const UpdateResourceGroupResponseAutoJoinCase0Scope = S.String;
 
 export interface UpdateResourceGroupResponseAutoJoinCase0 {
-  enabled: unknown;
+  enabled: boolean;
   role: UpdateResourceGroupResponseAutoJoinCase0Role;
   scope?: UpdateResourceGroupResponseAutoJoinCase0Scope;
 }
 export const UpdateResourceGroupResponseAutoJoinCase0 = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    enabled: S.Unknown,
+    enabled: S.Boolean,
     role: UpdateResourceGroupResponseAutoJoinCase0Role,
     scope: S.optional(UpdateResourceGroupResponseAutoJoinCase0Scope),
   }),
@@ -1559,23 +1635,34 @@ export type UpdateResourceGroupResponseUsersItemRole =
   | "no_access";
 export const UpdateResourceGroupResponseUsersItemRole = S.String;
 
+export type UpdateResourceGroupResponseUsersItemOrgRole =
+  | "admin"
+  | "write"
+  | "contributor"
+  | "read"
+  | "no_access";
+export const UpdateResourceGroupResponseUsersItemOrgRole = S.String;
+
 export interface UpdateResourceGroupResponseUsersItem {
-  type: unknown;
+  type: string;
+  /** A hex string of 24 characters representing an ObjectId. */
   _id: string;
   fullname: string;
   name: string;
   avatarUrl: string;
   role: UpdateResourceGroupResponseUsersItemRole;
+  orgRole: UpdateResourceGroupResponseUsersItemOrgRole;
   addedBy?: string;
 }
 export const UpdateResourceGroupResponseUsersItem = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    type: S.Unknown,
+    type: S.String,
     _id: S.String,
     fullname: S.String,
     name: S.String,
     avatarUrl: S.String,
     role: UpdateResourceGroupResponseUsersItemRole,
+    orgRole: UpdateResourceGroupResponseUsersItemOrgRole,
     addedBy: S.optional(S.String),
   }),
 ).annotate({
@@ -1592,7 +1679,8 @@ export type UpdateResourceGroupResponseResourcesItemCase0Type =
   | "model"
   | "space"
   | "bucket"
-  | "kernel";
+  | "kernel"
+  | "container";
 export const UpdateResourceGroupResponseResourcesItemCase0Type = S.String;
 
 export interface UpdateResourceGroupResponseResourcesItemCase0 {
@@ -1640,6 +1728,7 @@ export const UpdateResourceGroupResponseResourcesList = /*@__PURE__*/ S.Array(
 ) as any as S.Schema<UpdateResourceGroupResponseResourcesList>;
 
 export interface UpdateResourceGroupResponse {
+  /** A hex string of 24 characters representing an ObjectId. */
   id: string;
   name: string;
   description?: string | null;

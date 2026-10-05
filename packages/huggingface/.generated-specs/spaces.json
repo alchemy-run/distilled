@@ -18,6 +18,70 @@
     "distilled.finalized": true
   },
   "shapes": {
+    "com.huggingface.spaces#ListLikersRequestExpandItem": {
+      "type": "enum",
+      "members": {
+        "LIKEDAT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "likedAt"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.huggingface.spaces#ListLikersRequestExpandList": {
+      "type": "list",
+      "member": {
+        "target": "com.huggingface.spaces#ListLikersRequestExpandItem"
+      },
+      "traits": {}
+    },
+    "com.huggingface.spaces#ListLikersRequest": {
+      "type": "structure",
+      "members": {
+        "namespace": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        },
+        "repo": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        },
+        "expand": {
+          "target": "com.huggingface.spaces#ListLikersRequestExpandList",
+          "traits": {
+            "smithy.api#httpQuery": "expand"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.huggingface.spaces#ListLikers": {
+      "type": "operation",
+      "input": {
+        "target": "com.huggingface.spaces#ListLikersRequest"
+      },
+      "output": {
+        "target": "smithy.api#Unit"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/api/spaces/{namespace}/{repo}/likers",
+          "code": 200
+        },
+        "smithy.api#documentation": "List likers"
+      }
+    },
     "com.huggingface.spaces#GetFolderSizeRequest": {
       "type": "structure",
       "members": {
@@ -171,7 +235,7 @@
           }
         },
         "xet": {
-          "target": "smithy.api#Document",
+          "target": "smithy.api#String",
           "traits": {
             "smithy.api#httpQuery": "xet"
           }
@@ -269,7 +333,7 @@
           }
         },
         "type": {
-          "target": "smithy.api#Document",
+          "target": "smithy.api#String",
           "traits": {
             "smithy.api#required": {}
           }
@@ -307,6 +371,7 @@
         "_id": {
           "target": "smithy.api#String",
           "traits": {
+            "smithy.api#documentation": "A hex string of 24 characters representing an ObjectId.",
             "smithy.api#required": {}
           }
         },
@@ -350,7 +415,7 @@
           "target": "smithy.api#Double"
         },
         "type": {
-          "target": "smithy.api#Document",
+          "target": "smithy.api#String",
           "traits": {
             "smithy.api#required": {}
           }
@@ -546,7 +611,7 @@
           }
         },
         "rewriteHistory": {
-          "target": "smithy.api#Document",
+          "target": "smithy.api#String",
           "traits": {
             "smithy.api#httpQuery": "rewriteHistory"
           }
@@ -576,12 +641,6 @@
     "com.huggingface.spaces#DuplicateXetFilesRequestTargetType": {
       "type": "enum",
       "members": {
-        "DATASET": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "dataset"
-          }
-        },
         "MODEL": {
           "target": "smithy.api#Unit",
           "traits": {
@@ -592,6 +651,12 @@
           "target": "smithy.api#Unit",
           "traits": {
             "smithy.api#enumValue": "space"
+          }
+        },
+        "DATASET": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "dataset"
           }
         },
         "KERNEL": {
@@ -976,7 +1041,7 @@
           }
         },
         "include_prs": {
-          "target": "smithy.api#Document",
+          "target": "smithy.api#String",
           "traits": {
             "smithy.api#httpQuery": "include_prs"
           }
@@ -1181,7 +1246,7 @@
           }
         },
         "raw": {
-          "target": "smithy.api#Document",
+          "target": "smithy.api#String",
           "traits": {
             "smithy.api#httpQuery": "raw"
           }
@@ -1220,7 +1285,7 @@
           "uri": "/api/spaces/{namespace}/{repo}/compare/{compare}",
           "code": 200
         },
-        "smithy.api#documentation": "Get a compare rev"
+        "smithy.api#documentation": "Get compare rev"
       }
     },
     "com.huggingface.spaces#ListPathsInfoRequestPathsCase0List": {
@@ -1246,7 +1311,7 @@
       "type": "union",
       "members": {
         "Case0": {
-          "target": "smithy.api#Document"
+          "target": "smithy.api#String"
         },
         "Case1": {
           "target": "smithy.api#Boolean"
@@ -1289,8 +1354,7 @@
         "expand": {
           "target": "com.huggingface.spaces#ListPathsInfoRequestExpand",
           "traits": {
-            "smithy.api#documentation": "Expand the response with the last commit and security file status",
-            "smithy.api#required": {}
+            "smithy.api#documentation": "Expand the response with the last commit and security file status"
           }
         }
       },
@@ -2536,13 +2600,13 @@
           }
         },
         "create_pr": {
-          "target": "smithy.api#Document",
+          "target": "smithy.api#String",
           "traits": {
             "smithy.api#httpQuery": "create_pr"
           }
         },
         "hot_reload": {
-          "target": "smithy.api#Document",
+          "target": "smithy.api#String",
           "traits": {
             "smithy.api#httpQuery": "hot_reload"
           }
@@ -2856,6 +2920,7 @@
         "id": {
           "target": "smithy.api#String",
           "traits": {
+            "smithy.api#documentation": "A hex string of 24 characters representing an ObjectId.",
             "smithy.api#required": {}
           }
         },
@@ -2951,6 +3016,12 @@
           "target": "smithy.api#Unit",
           "traits": {
             "smithy.api#enumValue": "kernel"
+          }
+        },
+        "CONTAINER": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "container"
           }
         }
       },
@@ -3141,7 +3212,7 @@
       "type": "union",
       "members": {
         "Case0": {
-          "target": "smithy.api#Document"
+          "target": "smithy.api#Boolean"
         },
         "Case1": {
           "target": "com.huggingface.spaces#UpdateRepoSettingsRequestGatedCase1"
@@ -3291,7 +3362,7 @@
       "type": "union",
       "members": {
         "Case0": {
-          "target": "smithy.api#Document"
+          "target": "smithy.api#Boolean"
         },
         "Case1": {
           "target": "com.huggingface.spaces#UpdateRepoSettingsResponseGatedCase1"
@@ -3404,13 +3475,13 @@
           }
         },
         "expand": {
-          "target": "smithy.api#Document",
+          "target": "smithy.api#String",
           "traits": {
             "smithy.api#httpQuery": "expand"
           }
         },
         "recursive": {
-          "target": "smithy.api#Document",
+          "target": "smithy.api#String",
           "traits": {
             "smithy.api#httpQuery": "recursive"
           }
@@ -4362,7 +4433,7 @@
       "type": "structure",
       "members": {
         "notInCache": {
-          "target": "smithy.api#Document",
+          "target": "smithy.api#Boolean",
           "traits": {
             "smithy.api#required": {}
           }
@@ -4579,7 +4650,7 @@
           }
         },
         "write": {
-          "target": "smithy.api#Document",
+          "target": "smithy.api#String",
           "traits": {
             "smithy.api#httpQuery": "write"
           }
@@ -4597,25 +4668,25 @@
           }
         },
         "encrypted": {
-          "target": "smithy.api#Document",
+          "target": "smithy.api#String",
           "traits": {
             "smithy.api#httpQuery": "encrypted"
           }
         },
         "inference_api": {
-          "target": "smithy.api#Document",
+          "target": "smithy.api#String",
           "traits": {
             "smithy.api#httpQuery": "inference_api"
           }
         },
         "include_pro_status": {
-          "target": "smithy.api#Document",
+          "target": "smithy.api#String",
           "traits": {
             "smithy.api#httpQuery": "include_pro_status"
           }
         },
         "billing_details": {
-          "target": "smithy.api#Document",
+          "target": "smithy.api#String",
           "traits": {
             "smithy.api#httpQuery": "billing_details"
           }
@@ -5456,7 +5527,7 @@
           }
         },
         "accept": {
-          "target": "smithy.api#Document",
+          "target": "smithy.api#String",
           "traits": {
             "smithy.api#httpHeader": "Accept"
           }
@@ -5564,7 +5635,7 @@
           }
         },
         "accept": {
-          "target": "smithy.api#Document",
+          "target": "smithy.api#String",
           "traits": {
             "smithy.api#httpHeader": "Accept"
           }
@@ -5799,6 +5870,303 @@
         "smithy.api#documentation": "Delete Space volumes"
       }
     },
+    "com.huggingface.spaces#UpdateHardwareFlavorRequestFlavor": {
+      "type": "enum",
+      "members": {
+        "CPU_BASIC": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "cpu-basic"
+          }
+        },
+        "CPU_UPGRADE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "cpu-upgrade"
+          }
+        },
+        "CPU_PERFORMANCE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "cpu-performance"
+          }
+        },
+        "CPU_XL": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "cpu-xl"
+          }
+        },
+        "SPRX8": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "sprx8"
+          }
+        },
+        "ZERO_A10G": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "zero-a10g"
+          }
+        },
+        "T4_SMALL": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "t4-small"
+          }
+        },
+        "T4_MEDIUM": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "t4-medium"
+          }
+        },
+        "L4X1": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "l4x1"
+          }
+        },
+        "L4X4": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "l4x4"
+          }
+        },
+        "L40SX1": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "l40sx1"
+          }
+        },
+        "L40SX4": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "l40sx4"
+          }
+        },
+        "L40SX8": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "l40sx8"
+          }
+        },
+        "A10G_SMALL": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "a10g-small"
+          }
+        },
+        "A10G_LARGE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "a10g-large"
+          }
+        },
+        "A10G_LARGEX2": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "a10g-largex2"
+          }
+        },
+        "A10G_LARGEX4": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "a10g-largex4"
+          }
+        },
+        "A100_LARGE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "a100-large"
+          }
+        },
+        "A100X4": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "a100x4"
+          }
+        },
+        "A100X8": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "a100x8"
+          }
+        },
+        "H200": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "h200"
+          }
+        },
+        "H200X2": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "h200x2"
+          }
+        },
+        "H200X4": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "h200x4"
+          }
+        },
+        "H200X8": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "h200x8"
+          }
+        },
+        "RTX_PRO_6000": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "rtx-pro-6000"
+          }
+        },
+        "RTX_PRO_6000X2": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "rtx-pro-6000x2"
+          }
+        },
+        "RTX_PRO_6000X4": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "rtx-pro-6000x4"
+          }
+        },
+        "RTX_PRO_6000X8": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "rtx-pro-6000x8"
+          }
+        },
+        "INF2X6": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "inf2x6"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.huggingface.spaces#UpdateHardwareFlavorRequestSleepTimeSeconds": {
+      "type": "union",
+      "members": {
+        "Case0": {
+          "target": "smithy.api#Integer"
+        },
+        "Case1": {
+          "target": "smithy.api#Double"
+        }
+      },
+      "traits": {}
+    },
+    "com.huggingface.spaces#UpdateHardwareFlavorRequest": {
+      "type": "structure",
+      "members": {
+        "namespace": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        },
+        "repo": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        },
+        "flavor": {
+          "target": "com.huggingface.spaces#UpdateHardwareFlavorRequestFlavor",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "sleepTimeSeconds": {
+          "target": "com.huggingface.spaces#UpdateHardwareFlavorRequestSleepTimeSeconds"
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.huggingface.spaces#UpdateHardwareFlavor": {
+      "type": "operation",
+      "input": {
+        "target": "com.huggingface.spaces#UpdateHardwareFlavorRequest"
+      },
+      "output": {
+        "target": "smithy.api#Unit"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/api/spaces/{namespace}/{repo}/hardware",
+          "code": 200
+        },
+        "smithy.api#documentation": "Update hardware flavor"
+      }
+    },
+    "com.huggingface.spaces#SetSleepTimeRequestSeconds": {
+      "type": "union",
+      "members": {
+        "Case0": {
+          "target": "smithy.api#Integer"
+        },
+        "Case1": {
+          "target": "smithy.api#Double"
+        }
+      },
+      "traits": {}
+    },
+    "com.huggingface.spaces#SetSleepTimeRequest": {
+      "type": "structure",
+      "members": {
+        "namespace": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        },
+        "repo": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        },
+        "seconds": {
+          "target": "com.huggingface.spaces#SetSleepTimeRequestSeconds",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.huggingface.spaces#SetSleepTime": {
+      "type": "operation",
+      "input": {
+        "target": "com.huggingface.spaces#SetSleepTimeRequest"
+      },
+      "output": {
+        "target": "smithy.api#Unit"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/api/spaces/{namespace}/{repo}/sleeptime",
+          "code": 200
+        },
+        "smithy.api#documentation": "Set sleep time"
+      }
+    },
     "com.huggingface.spaces#StreamLogsRequestLogType": {
       "type": "enum",
       "members": {
@@ -5953,6 +6321,466 @@
         "smithy.api#documentation": "Stream metrics\n\nGet live metrics for a specific Space in a streaming fashion, with SSE protocol, such as current Zero-GPU usage"
       }
     },
+    "com.huggingface.spaces#ToggleDevModeRequest": {
+      "type": "structure",
+      "members": {
+        "namespace": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        },
+        "repo": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        },
+        "enabled": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.huggingface.spaces#ToggleDevMode": {
+      "type": "operation",
+      "input": {
+        "target": "com.huggingface.spaces#ToggleDevModeRequest"
+      },
+      "output": {
+        "target": "smithy.api#Unit"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/api/spaces/{namespace}/{repo}/dev-mode",
+          "code": 200
+        },
+        "smithy.api#documentation": "Toggle dev mode"
+      }
+    },
+    "com.huggingface.spaces#SetCustomDomainRequest": {
+      "type": "structure",
+      "members": {
+        "namespace": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        },
+        "repo": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        },
+        "domain": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.huggingface.spaces#SetCustomDomain": {
+      "type": "operation",
+      "input": {
+        "target": "com.huggingface.spaces#SetCustomDomainRequest"
+      },
+      "output": {
+        "target": "smithy.api#Unit"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/api/spaces/{namespace}/{repo}/custom-domain",
+          "code": 200
+        },
+        "smithy.api#documentation": "Set custom domain"
+      }
+    },
+    "com.huggingface.spaces#SearchSemanticRequestCategory": {
+      "type": "enum",
+      "members": {
+        "IMAGE_GENERATION": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "image-generation"
+          }
+        },
+        "VIDEO_GENERATION": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "video-generation"
+          }
+        },
+        "TEXT_GENERATION": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "text-generation"
+          }
+        },
+        "LANGUAGE_TRANSLATION": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "language-translation"
+          }
+        },
+        "SPEECH_SYNTHESIS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "speech-synthesis"
+          }
+        },
+        "VOICE_CLONING": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "voice-cloning"
+          }
+        },
+        "FACE_RECOGNITION": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "face-recognition"
+          }
+        },
+        "OBJECT_DETECTION": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "object-detection"
+          }
+        },
+        "POSE_ESTIMATION": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "pose-estimation"
+          }
+        },
+        "TEXT_ANALYSIS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "text-analysis"
+          }
+        },
+        "SENTIMENT_ANALYSIS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "sentiment-analysis"
+          }
+        },
+        "QUESTION_ANSWERING": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "question-answering"
+          }
+        },
+        "CODE_GENERATION": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "code-generation"
+          }
+        },
+        "DATA_VISUALIZATION": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "data-visualization"
+          }
+        },
+        "_3D_MODELING": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "3d-modeling"
+          }
+        },
+        "IMAGE_EDITING": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "image-editing"
+          }
+        },
+        "BACKGROUND_REMOVAL": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "background-removal"
+          }
+        },
+        "IMAGE_UPSCALING": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "image-upscaling"
+          }
+        },
+        "OCR": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "ocr"
+          }
+        },
+        "DOCUMENT_ANALYSIS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "document-analysis"
+          }
+        },
+        "VISUAL_QA": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "visual-qa"
+          }
+        },
+        "IMAGE_CAPTIONING": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "image-captioning"
+          }
+        },
+        "CHATBOTS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "chatbots"
+          }
+        },
+        "TEXT_SUMMARIZATION": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "text-summarization"
+          }
+        },
+        "MUSIC_GENERATION": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "music-generation"
+          }
+        },
+        "MEDICAL_IMAGING": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "medical-imaging"
+          }
+        },
+        "FINANCIAL_ANALYSIS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "financial-analysis"
+          }
+        },
+        "GAME_AI": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "game-ai"
+          }
+        },
+        "MODEL_BENCHMARKING": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "model-benchmarking"
+          }
+        },
+        "FINE_TUNING_TOOLS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "fine-tuning-tools"
+          }
+        },
+        "DATASET_CREATION": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "dataset-creation"
+          }
+        },
+        "ANOMALY_DETECTION": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "anomaly-detection"
+          }
+        },
+        "RECOMMENDATION_SYSTEMS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "recommendation-systems"
+          }
+        },
+        "CHARACTER_ANIMATION": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "character-animation"
+          }
+        },
+        "STYLE_TRANSFER": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "style-transfer"
+          }
+        },
+        "AGENT_ENVIRONMENT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "agent-environment"
+          }
+        },
+        "IMAGE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "image"
+          }
+        },
+        "OTHER": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "other"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.huggingface.spaces#SearchSemanticRequestSdkItem": {
+      "type": "enum",
+      "members": {
+        "GRADIO": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "gradio"
+          }
+        },
+        "DOCKER": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "docker"
+          }
+        },
+        "STATIC": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "static"
+          }
+        },
+        "STREAMLIT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "streamlit"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.huggingface.spaces#SearchSemanticRequestSdkList": {
+      "type": "list",
+      "member": {
+        "target": "com.huggingface.spaces#SearchSemanticRequestSdkItem"
+      },
+      "traits": {}
+    },
+    "com.huggingface.spaces#SearchSemanticRequestFilterList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {}
+    },
+    "com.huggingface.spaces#SearchSemanticRequest": {
+      "type": "structure",
+      "members": {
+        "q": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "q"
+          }
+        },
+        "category": {
+          "target": "com.huggingface.spaces#SearchSemanticRequestCategory",
+          "traits": {
+            "smithy.api#httpQuery": "category"
+          }
+        },
+        "includeNonRunning": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#httpQuery": "includeNonRunning"
+          }
+        },
+        "sdk": {
+          "target": "com.huggingface.spaces#SearchSemanticRequestSdkList",
+          "traits": {
+            "smithy.api#httpQuery": "sdk"
+          }
+        },
+        "filter": {
+          "target": "com.huggingface.spaces#SearchSemanticRequestFilterList",
+          "traits": {
+            "smithy.api#httpQuery": "filter"
+          }
+        },
+        "agents": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#httpQuery": "agents"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.huggingface.spaces#SearchSemantic": {
+      "type": "operation",
+      "input": {
+        "target": "com.huggingface.spaces#SearchSemanticRequest"
+      },
+      "output": {
+        "target": "smithy.api#Unit"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/api/spaces/semantic-search",
+          "code": 200
+        },
+        "smithy.api#documentation": "Semantic search"
+      }
+    },
+    "com.huggingface.spaces#FeaturedSpacesRequest": {
+      "type": "structure",
+      "members": {
+        "date": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "date"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.huggingface.spaces#FeaturedSpaces": {
+      "type": "operation",
+      "input": {
+        "target": "com.huggingface.spaces#FeaturedSpacesRequest"
+      },
+      "output": {
+        "target": "smithy.api#Unit"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/api/spaces/featured",
+          "code": 200
+        },
+        "smithy.api#documentation": "Featured spaces"
+      }
+    },
     "com.huggingface.spaces#UnprocessableEntity": {
       "type": "structure",
       "members": {},
@@ -5970,6 +6798,9 @@
       "type": "service",
       "version": "0.0.1",
       "operations": [
+        {
+          "target": "com.huggingface.spaces#ListLikers"
+        },
         {
           "target": "com.huggingface.spaces#GetFolderSize"
         },
@@ -6085,6 +6916,12 @@
           "target": "com.huggingface.spaces#DeleteSpaceVolumes"
         },
         {
+          "target": "com.huggingface.spaces#UpdateHardwareFlavor"
+        },
+        {
+          "target": "com.huggingface.spaces#SetSleepTime"
+        },
+        {
           "target": "com.huggingface.spaces#StreamLogs"
         },
         {
@@ -6092,6 +6929,18 @@
         },
         {
           "target": "com.huggingface.spaces#StreamMetrics"
+        },
+        {
+          "target": "com.huggingface.spaces#ToggleDevMode"
+        },
+        {
+          "target": "com.huggingface.spaces#SetCustomDomain"
+        },
+        {
+          "target": "com.huggingface.spaces#SearchSemantic"
+        },
+        {
+          "target": "com.huggingface.spaces#FeaturedSpaces"
         }
       ],
       "traits": {

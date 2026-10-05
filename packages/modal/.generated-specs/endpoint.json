@@ -228,6 +228,9 @@
         },
         "servingMode": {
           "target": "com.modal.endpoint#EndpointServingMode"
+        },
+        "sharedEndpointNoticeAcknowledged": {
+          "target": "smithy.api#Boolean"
         }
       },
       "traits": {
@@ -312,7 +315,7 @@
         }
       }
     },
-    "com.modal.endpoint#EndpointGetLifecycleRequest": {
+    "com.modal.endpoint#EndpointGetInfoRequest": {
       "type": "structure",
       "members": {
         "endpointId": {
@@ -321,6 +324,91 @@
       },
       "traits": {
         "smithy.api#input": {}
+      }
+    },
+    "com.modal.endpoint#EndpointGetInfoResponseEndpointInfoSummary": {
+      "type": "structure",
+      "members": {
+        "name": {
+          "target": "smithy.api#String"
+        },
+        "repoId": {
+          "target": "smithy.api#String"
+        },
+        "revision": {
+          "target": "smithy.api#String"
+        },
+        "serviceUrl": {
+          "target": "smithy.api#String"
+        },
+        "requiresProxyAuth": {
+          "target": "smithy.api#Boolean"
+        },
+        "servingMode": {
+          "target": "com.modal.endpoint#EndpointServingMode"
+        },
+        "status": {
+          "target": "com.modal.endpoint#EndpointGetInfoResponseEndpointStatus"
+        },
+        "lifecycle": {
+          "target": "com.modal.endpoint#EndpointLifecycle"
+        },
+        "volumeId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "set only when the model is served from a modal volume"
+          }
+        },
+        "modelPath": {
+          "target": "smithy.api#String"
+        }
+      }
+    },
+    "com.modal.endpoint#EndpointGetInfoResponseEndpointStatus": {
+      "type": "enum",
+      "members": {
+        "ENDPOINT_STATUS_UNSPECIFIED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "ENDPOINT_STATUS_UNSPECIFIED"
+          }
+        },
+        "ENDPOINT_STATUS_PROVISIONING": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "ENDPOINT_STATUS_PROVISIONING"
+          }
+        },
+        "ENDPOINT_STATUS_LIVE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "ENDPOINT_STATUS_LIVE"
+          }
+        },
+        "ENDPOINT_STATUS_FAILED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "ENDPOINT_STATUS_FAILED"
+          }
+        },
+        "ENDPOINT_STATUS_CANCELLING": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "ENDPOINT_STATUS_CANCELLING"
+          }
+        },
+        "ENDPOINT_STATUS_CANCELLED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "ENDPOINT_STATUS_CANCELLED"
+          }
+        },
+        "ENDPOINT_STATUS_STOPPED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "ENDPOINT_STATUS_STOPPED"
+          }
+        }
       }
     },
     "com.modal.endpoint#EndpointLifecycle": {
@@ -376,6 +464,61 @@
             "smithy.api#enumValue": "ENDPOINT_LIFECYCLE_STATUS_STOPPED"
           }
         }
+      }
+    },
+    "com.modal.endpoint#EndpointGetInfoResponseEndpointHandleMetadata": {
+      "type": "structure",
+      "members": {
+        "appId": {
+          "target": "smithy.api#String"
+        },
+        "serverId": {
+          "target": "smithy.api#String"
+        },
+        "environmentName": {
+          "target": "smithy.api#String"
+        }
+      }
+    },
+    "com.modal.endpoint#EndpointGetInfoResponse": {
+      "type": "structure",
+      "members": {
+        "info": {
+          "target": "com.modal.endpoint#EndpointGetInfoResponseEndpointInfoSummary"
+        },
+        "metadata": {
+          "target": "com.modal.endpoint#EndpointGetInfoResponseEndpointHandleMetadata"
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
+      }
+    },
+    "com.modal.endpoint#EndpointGetInfo": {
+      "type": "operation",
+      "input": {
+        "target": "com.modal.endpoint#EndpointGetInfoRequest"
+      },
+      "output": {
+        "target": "com.modal.endpoint#EndpointGetInfoResponse"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/modal.client.ModalClient/EndpointGetInfo",
+          "code": 200
+        }
+      }
+    },
+    "com.modal.endpoint#EndpointGetLifecycleRequest": {
+      "type": "structure",
+      "members": {
+        "endpointId": {
+          "target": "smithy.api#String"
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
       }
     },
     "com.modal.endpoint#EndpointGetLifecycleResponse": {
@@ -468,6 +611,9 @@
         },
         "servingMode": {
           "target": "com.modal.endpoint#EndpointServingMode"
+        },
+        "unauthenticated": {
+          "target": "smithy.api#Boolean"
         }
       }
     },
@@ -728,6 +874,9 @@
         },
         {
           "target": "com.modal.endpoint#EndpointGetByName"
+        },
+        {
+          "target": "com.modal.endpoint#EndpointGetInfo"
         },
         {
           "target": "com.modal.endpoint#EndpointGetLifecycle"

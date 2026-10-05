@@ -22,16 +22,8 @@ export const AddNetworkRouteRequest = /*@__PURE__*/ S.suspend(() =>
     id: S.Number.pipe(T.Label()),
     destination: S.String,
     gateway: S.String,
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/networks/{id}/actions/add_route",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "AddNetworkRouteRequest",
-}) as any as S.Schema<AddNetworkRouteRequest>;
+  }).pipe(T.Http({ method: "POST", uri: "/networks/{id}/actions/add_route", code: 200 })),
+).annotate({ identifier: "AddNetworkRouteRequest" }) as any as S.Schema<AddNetworkRouteRequest>;
 
 /** Status of the Action. */
 export type AddNetworkRouteResponseActionStatus = "running" | "success" | "error";
@@ -115,9 +107,7 @@ export const AddNetworkRouteResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     action: AddNetworkRouteResponseAction,
   }),
-).annotate({
-  identifier: "AddNetworkRouteResponse",
-}) as any as S.Schema<AddNetworkRouteResponse>;
+).annotate({ identifier: "AddNetworkRouteResponse" }) as any as S.Schema<AddNetworkRouteResponse>;
 
 /** Type of subnet. */
 export type AddNetworkSubnetRequestType = "cloud" | "server" | "vswitch";
@@ -142,16 +132,8 @@ export const AddNetworkSubnetRequest = /*@__PURE__*/ S.suspend(() =>
     ip_range: S.optional(S.String),
     network_zone: S.String,
     vswitch_id: S.optional(S.Number),
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/networks/{id}/actions/add_subnet",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "AddNetworkSubnetRequest",
-}) as any as S.Schema<AddNetworkSubnetRequest>;
+  }).pipe(T.Http({ method: "POST", uri: "/networks/{id}/actions/add_subnet", code: 200 })),
+).annotate({ identifier: "AddNetworkSubnetRequest" }) as any as S.Schema<AddNetworkSubnetRequest>;
 
 /** Status of the Action. */
 export type AddNetworkSubnetResponseActionStatus = "running" | "success" | "error";
@@ -213,9 +195,7 @@ export const AddNetworkSubnetResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     action: AddNetworkSubnetResponseAction,
   }),
-).annotate({
-  identifier: "AddNetworkSubnetResponse",
-}) as any as S.Schema<AddNetworkSubnetResponse>;
+).annotate({ identifier: "AddNetworkSubnetResponse" }) as any as S.Schema<AddNetworkSubnetResponse>;
 
 export interface ChangeNetworkIpRangeRequest {
   /** ID of the Network. */
@@ -227,13 +207,7 @@ export const ChangeNetworkIpRangeRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     id: S.Number.pipe(T.Label()),
     ip_range: S.String,
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/networks/{id}/actions/change_ip_range",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "POST", uri: "/networks/{id}/actions/change_ip_range", code: 200 })),
 ).annotate({
   identifier: "ChangeNetworkIpRangeRequest",
 }) as any as S.Schema<ChangeNetworkIpRangeRequest>;
@@ -312,13 +286,7 @@ export const ChangeNetworkProtectionRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     id: S.Number.pipe(T.Label()),
     delete: S.optional(S.Boolean),
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/networks/{id}/actions/change_protection",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "POST", uri: "/networks/{id}/actions/change_protection", code: 200 })),
 ).annotate({
   identifier: "ChangeNetworkProtectionRequest",
 }) as any as S.Schema<ChangeNetworkProtectionRequest>;
@@ -400,13 +368,7 @@ export const DeleteNetworkRouteRequest = /*@__PURE__*/ S.suspend(() =>
     id: S.Number.pipe(T.Label()),
     destination: S.String,
     gateway: S.String,
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/networks/{id}/actions/delete_route",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "POST", uri: "/networks/{id}/actions/delete_route", code: 200 })),
 ).annotate({
   identifier: "DeleteNetworkRouteRequest",
 }) as any as S.Schema<DeleteNetworkRouteRequest>;
@@ -485,13 +447,7 @@ export const DeleteNetworkSubnetRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     id: S.Number.pipe(T.Label()),
     ip_range: S.String,
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/networks/{id}/actions/delete_subnet",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "POST", uri: "/networks/{id}/actions/delete_subnet", code: 200 })),
 ).annotate({
   identifier: "DeleteNetworkSubnetRequest",
 }) as any as S.Schema<DeleteNetworkSubnetRequest>;
@@ -568,9 +524,7 @@ export const GetNetworksActionRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     id: S.Number.pipe(T.Label()),
   }).pipe(T.Http({ method: "GET", uri: "/networks/actions/{id}", code: 200 })),
-).annotate({
-  identifier: "GetNetworksActionRequest",
-}) as any as S.Schema<GetNetworksActionRequest>;
+).annotate({ identifier: "GetNetworksActionRequest" }) as any as S.Schema<GetNetworksActionRequest>;
 
 /** Status of the Action. */
 export type GetNetworksActionResponseActionStatus = "running" | "success" | "error";

@@ -514,38 +514,38 @@ export class WorkerVersionNotFound
     [{ code: 10071 }],
   ) {}
 
-export type ScriptsSecretsBulkUpdateRequestSecretsSecretTextType = "secret_text";
-export const ScriptsSecretsBulkUpdateRequestSecretsSecretTextType = S.String;
+export type ScriptsSecretsBulkUpdateRequestSecretsValueSecretTextType = "secret_text";
+export const ScriptsSecretsBulkUpdateRequestSecretsValueSecretTextType = S.String;
 
-export interface ScriptsSecretsBulkUpdateRequestSecretsSecretText {
+export interface ScriptsSecretsBulkUpdateRequestSecretsValueSecretText {
   /** A JavaScript variable name for the binding. */
   name: string;
   /** The secret value to use. */
   text: string;
   /** The kind of resource that the binding provides. */
-  type: ScriptsSecretsBulkUpdateRequestSecretsSecretTextType;
+  type: ScriptsSecretsBulkUpdateRequestSecretsValueSecretTextType;
 }
-export const ScriptsSecretsBulkUpdateRequestSecretsSecretText = /*@__PURE__*/ S.suspend(() =>
+export const ScriptsSecretsBulkUpdateRequestSecretsValueSecretText = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     name: S.String,
     text: S.String,
-    type: ScriptsSecretsBulkUpdateRequestSecretsSecretTextType,
+    type: ScriptsSecretsBulkUpdateRequestSecretsValueSecretTextType,
   }),
 ).annotate({
-  identifier: "ScriptsSecretsBulkUpdateRequestSecretsSecretText",
-}) as any as S.Schema<ScriptsSecretsBulkUpdateRequestSecretsSecretText>;
+  identifier: "ScriptsSecretsBulkUpdateRequestSecretsValueSecretText",
+}) as any as S.Schema<ScriptsSecretsBulkUpdateRequestSecretsValueSecretText>;
 
-export type ScriptsSecretsBulkUpdateRequestSecretsSecretKeyFormat =
+export type ScriptsSecretsBulkUpdateRequestSecretsValueSecretKeyFormat =
   | "raw"
   | "pkcs8"
   | "spki"
   | "jwk";
-export const ScriptsSecretsBulkUpdateRequestSecretsSecretKeyFormat = S.String;
+export const ScriptsSecretsBulkUpdateRequestSecretsValueSecretKeyFormat = S.String;
 
-export type ScriptsSecretsBulkUpdateRequestSecretsSecretKeyType = "secret_key";
-export const ScriptsSecretsBulkUpdateRequestSecretsSecretKeyType = S.String;
+export type ScriptsSecretsBulkUpdateRequestSecretsValueSecretKeyType = "secret_key";
+export const ScriptsSecretsBulkUpdateRequestSecretsValueSecretKeyType = S.String;
 
-export type ScriptsSecretsBulkUpdateRequestSecretsSecretKeyUsagesItem =
+export type ScriptsSecretsBulkUpdateRequestSecretsValueSecretKeyUsagesItem =
   | "encrypt"
   | "decrypt"
   | "sign"
@@ -554,49 +554,49 @@ export type ScriptsSecretsBulkUpdateRequestSecretsSecretKeyUsagesItem =
   | "deriveBits"
   | "wrapKey"
   | "unwrapKey";
-export const ScriptsSecretsBulkUpdateRequestSecretsSecretKeyUsagesItem = S.String;
+export const ScriptsSecretsBulkUpdateRequestSecretsValueSecretKeyUsagesItem = S.String;
 
-export type ScriptsSecretsBulkUpdateRequestSecretsSecretKeyUsagesList = Array<
-  ScriptsSecretsBulkUpdateRequestSecretsSecretKeyUsagesItem | (string & {})
+export type ScriptsSecretsBulkUpdateRequestSecretsValueSecretKeyUsagesList = Array<
+  ScriptsSecretsBulkUpdateRequestSecretsValueSecretKeyUsagesItem | (string & {})
 >;
-export const ScriptsSecretsBulkUpdateRequestSecretsSecretKeyUsagesList = /*@__PURE__*/ S.Array(
-  ScriptsSecretsBulkUpdateRequestSecretsSecretKeyUsagesItem,
-) as any as S.Schema<ScriptsSecretsBulkUpdateRequestSecretsSecretKeyUsagesList>;
+export const ScriptsSecretsBulkUpdateRequestSecretsValueSecretKeyUsagesList = /*@__PURE__*/ S.Array(
+  ScriptsSecretsBulkUpdateRequestSecretsValueSecretKeyUsagesItem,
+) as any as S.Schema<ScriptsSecretsBulkUpdateRequestSecretsValueSecretKeyUsagesList>;
 
-export interface ScriptsSecretsBulkUpdateRequestSecretsSecretKey {
+export interface ScriptsSecretsBulkUpdateRequestSecretsValueSecretKey {
   /** Algorithm-specific key parameters. [Learn more](https://developer.mozilla.org/en-US/docs/Web/API/SubtleCrypto/importKey#algorithm). */
   algorithm: unknown;
   /** Data format of the key. [Learn more](https://developer.mozilla.org/en-US/docs/Web/API/SubtleCrypto/importKey#format). */
-  format: ScriptsSecretsBulkUpdateRequestSecretsSecretKeyFormat | (string & {});
+  format: ScriptsSecretsBulkUpdateRequestSecretsValueSecretKeyFormat | (string & {});
   /** A JavaScript variable name for the binding. */
   name: string;
   /** The kind of resource that the binding provides. */
-  type: ScriptsSecretsBulkUpdateRequestSecretsSecretKeyType;
+  type: ScriptsSecretsBulkUpdateRequestSecretsValueSecretKeyType;
   /** Allowed operations with the key. [Learn more](https://developer.mozilla.org/en-US/docs/Web/API/SubtleCrypto/importKey#keyUsages). */
-  usages: ScriptsSecretsBulkUpdateRequestSecretsSecretKeyUsagesList;
+  usages: ScriptsSecretsBulkUpdateRequestSecretsValueSecretKeyUsagesList;
   /** Base64-encoded key data. Required if `format` is "raw", "pkcs8", or "spki". */
   keyBase64?: string;
   /** Key data in [JSON Web Key](https://developer.mozilla.org/en-US/docs/Web/API/SubtleCrypto/importKey#json_web_key) format. Required if `format` is "jwk". */
   keyJwk?: unknown;
 }
-export const ScriptsSecretsBulkUpdateRequestSecretsSecretKey = /*@__PURE__*/ S.suspend(() =>
+export const ScriptsSecretsBulkUpdateRequestSecretsValueSecretKey = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     algorithm: S.Unknown,
-    format: ScriptsSecretsBulkUpdateRequestSecretsSecretKeyFormat,
+    format: ScriptsSecretsBulkUpdateRequestSecretsValueSecretKeyFormat,
     name: S.String,
-    type: ScriptsSecretsBulkUpdateRequestSecretsSecretKeyType,
-    usages: ScriptsSecretsBulkUpdateRequestSecretsSecretKeyUsagesList,
+    type: ScriptsSecretsBulkUpdateRequestSecretsValueSecretKeyType,
+    usages: ScriptsSecretsBulkUpdateRequestSecretsValueSecretKeyUsagesList,
     keyBase64: S.optional(S.String.pipe(T.Body("key_base64"))),
     keyJwk: S.optional(S.Unknown.pipe(T.Body("key_jwk"))),
   }),
 ).annotate({
-  identifier: "ScriptsSecretsBulkUpdateRequestSecretsSecretKey",
-}) as any as S.Schema<ScriptsSecretsBulkUpdateRequestSecretsSecretKey>;
+  identifier: "ScriptsSecretsBulkUpdateRequestSecretsValueSecretKey",
+}) as any as S.Schema<ScriptsSecretsBulkUpdateRequestSecretsValueSecretKey>;
 
-export type ScriptsSecretsBulkUpdateRequestSecrets =
-  | ScriptsSecretsBulkUpdateRequestSecretsSecretText
-  | ScriptsSecretsBulkUpdateRequestSecretsSecretKey;
-export const ScriptsSecretsBulkUpdateRequestSecrets = /*@__PURE__*/ S.Unknown.pipe(
+export type ScriptsSecretsBulkUpdateRequestSecretsValue =
+  | ScriptsSecretsBulkUpdateRequestSecretsValueSecretText
+  | ScriptsSecretsBulkUpdateRequestSecretsValueSecretKey;
+export const ScriptsSecretsBulkUpdateRequestSecretsValue = /*@__PURE__*/ S.Unknown.pipe(
   T.UnionCases(
     [
       ["name", "text", "type"],
@@ -605,6 +605,14 @@ export const ScriptsSecretsBulkUpdateRequestSecrets = /*@__PURE__*/ S.Unknown.pi
     { key: "type", values: ["secret_text", "secret_key"] },
   ),
 );
+
+export type ScriptsSecretsBulkUpdateRequestSecretsMap = {
+  [key: string]: ScriptsSecretsBulkUpdateRequestSecretsValue | undefined;
+};
+export const ScriptsSecretsBulkUpdateRequestSecretsMap = /*@__PURE__*/ S.Record(
+  S.String,
+  ScriptsSecretsBulkUpdateRequestSecretsValue,
+) as any as S.Schema<ScriptsSecretsBulkUpdateRequestSecretsMap>;
 
 export type ScriptsSecretsBulkUpdateRequestVersionTagsMap = { [key: string]: unknown | undefined };
 export const ScriptsSecretsBulkUpdateRequestVersionTagsMap = /*@__PURE__*/ S.Record(
@@ -618,7 +626,7 @@ export interface BulkUpdateScriptSecretsRequest {
   /** Name of the script. */
   scriptName: string;
   /** Map of secret names to secret values: */
-  secrets?: ScriptsSecretsBulkUpdateRequestSecrets;
+  secrets?: ScriptsSecretsBulkUpdateRequestSecretsMap;
   /** Optional version tags to apply to the new script version. */
   versionTags?: ScriptsSecretsBulkUpdateRequestVersionTagsMap;
 }
@@ -626,7 +634,7 @@ export const BulkUpdateScriptSecretsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     accountId: S.String.pipe(T.Label("account_id")),
     scriptName: S.String.pipe(T.Label("script_name")),
-    secrets: S.optional(ScriptsSecretsBulkUpdateRequestSecrets),
+    secrets: S.optional(ScriptsSecretsBulkUpdateRequestSecretsMap),
     versionTags: S.optional(
       ScriptsSecretsBulkUpdateRequestVersionTagsMap.pipe(T.Body("version_tags")),
     ),
@@ -643,34 +651,34 @@ export const BulkUpdateScriptSecretsRequest = /*@__PURE__*/ S.suspend(() =>
   identifier: "BulkUpdateScriptSecretsRequest",
 }) as any as S.Schema<BulkUpdateScriptSecretsRequest>;
 
-export type ScriptsSecretsBulkUpdateResultSecretTextType = "secret_text";
-export const ScriptsSecretsBulkUpdateResultSecretTextType = S.String;
+export type ScriptsSecretsBulkUpdateResultValueSecretTextType = "secret_text";
+export const ScriptsSecretsBulkUpdateResultValueSecretTextType = S.String;
 
-export interface ScriptsSecretsBulkUpdateResultSecretText {
+export interface ScriptsSecretsBulkUpdateResultValueSecretText {
   /** A JavaScript variable name for the binding. */
   name: string;
   /** The secret value to use. */
   text: string;
   /** The kind of resource that the binding provides. */
-  type: ScriptsSecretsBulkUpdateResultSecretTextType;
+  type: ScriptsSecretsBulkUpdateResultValueSecretTextType;
 }
-export const ScriptsSecretsBulkUpdateResultSecretText = /*@__PURE__*/ S.suspend(() =>
+export const ScriptsSecretsBulkUpdateResultValueSecretText = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     name: S.String,
     text: S.String,
-    type: ScriptsSecretsBulkUpdateResultSecretTextType,
+    type: ScriptsSecretsBulkUpdateResultValueSecretTextType,
   }),
 ).annotate({
-  identifier: "ScriptsSecretsBulkUpdateResultSecretText",
-}) as any as S.Schema<ScriptsSecretsBulkUpdateResultSecretText>;
+  identifier: "ScriptsSecretsBulkUpdateResultValueSecretText",
+}) as any as S.Schema<ScriptsSecretsBulkUpdateResultValueSecretText>;
 
-export type ScriptsSecretsBulkUpdateResultSecretKeyFormat = "raw" | "pkcs8" | "spki" | "jwk";
-export const ScriptsSecretsBulkUpdateResultSecretKeyFormat = S.String;
+export type ScriptsSecretsBulkUpdateResultValueSecretKeyFormat = "raw" | "pkcs8" | "spki" | "jwk";
+export const ScriptsSecretsBulkUpdateResultValueSecretKeyFormat = S.String;
 
-export type ScriptsSecretsBulkUpdateResultSecretKeyType = "secret_key";
-export const ScriptsSecretsBulkUpdateResultSecretKeyType = S.String;
+export type ScriptsSecretsBulkUpdateResultValueSecretKeyType = "secret_key";
+export const ScriptsSecretsBulkUpdateResultValueSecretKeyType = S.String;
 
-export type ScriptsSecretsBulkUpdateResultSecretKeyUsagesItem =
+export type ScriptsSecretsBulkUpdateResultValueSecretKeyUsagesItem =
   | "encrypt"
   | "decrypt"
   | "sign"
@@ -679,48 +687,48 @@ export type ScriptsSecretsBulkUpdateResultSecretKeyUsagesItem =
   | "deriveBits"
   | "wrapKey"
   | "unwrapKey";
-export const ScriptsSecretsBulkUpdateResultSecretKeyUsagesItem = S.String;
+export const ScriptsSecretsBulkUpdateResultValueSecretKeyUsagesItem = S.String;
 
-export type ScriptsSecretsBulkUpdateResultSecretKeyUsagesList =
-  Array<ScriptsSecretsBulkUpdateResultSecretKeyUsagesItem>;
-export const ScriptsSecretsBulkUpdateResultSecretKeyUsagesList = /*@__PURE__*/ S.Array(
-  ScriptsSecretsBulkUpdateResultSecretKeyUsagesItem,
-) as any as S.Schema<ScriptsSecretsBulkUpdateResultSecretKeyUsagesList>;
+export type ScriptsSecretsBulkUpdateResultValueSecretKeyUsagesList =
+  Array<ScriptsSecretsBulkUpdateResultValueSecretKeyUsagesItem>;
+export const ScriptsSecretsBulkUpdateResultValueSecretKeyUsagesList = /*@__PURE__*/ S.Array(
+  ScriptsSecretsBulkUpdateResultValueSecretKeyUsagesItem,
+) as any as S.Schema<ScriptsSecretsBulkUpdateResultValueSecretKeyUsagesList>;
 
-export interface ScriptsSecretsBulkUpdateResultSecretKey {
+export interface ScriptsSecretsBulkUpdateResultValueSecretKey {
   /** Algorithm-specific key parameters. [Learn more](https://developer.mozilla.org/en-US/docs/Web/API/SubtleCrypto/importKey#algorithm). */
   algorithm: unknown;
   /** Data format of the key. [Learn more](https://developer.mozilla.org/en-US/docs/Web/API/SubtleCrypto/importKey#format). */
-  format: ScriptsSecretsBulkUpdateResultSecretKeyFormat;
+  format: ScriptsSecretsBulkUpdateResultValueSecretKeyFormat;
   /** A JavaScript variable name for the binding. */
   name: string;
   /** The kind of resource that the binding provides. */
-  type: ScriptsSecretsBulkUpdateResultSecretKeyType;
+  type: ScriptsSecretsBulkUpdateResultValueSecretKeyType;
   /** Allowed operations with the key. [Learn more](https://developer.mozilla.org/en-US/docs/Web/API/SubtleCrypto/importKey#keyUsages). */
-  usages: ScriptsSecretsBulkUpdateResultSecretKeyUsagesList;
+  usages: ScriptsSecretsBulkUpdateResultValueSecretKeyUsagesList;
   /** Base64-encoded key data. Required if `format` is "raw", "pkcs8", or "spki". */
   keyBase64?: string | null;
   /** Key data in [JSON Web Key](https://developer.mozilla.org/en-US/docs/Web/API/SubtleCrypto/importKey#json_web_key) format. Required if `format` is "jwk". */
   keyJwk?: unknown | null;
 }
-export const ScriptsSecretsBulkUpdateResultSecretKey = /*@__PURE__*/ S.suspend(() =>
+export const ScriptsSecretsBulkUpdateResultValueSecretKey = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     algorithm: S.Unknown,
-    format: ScriptsSecretsBulkUpdateResultSecretKeyFormat,
+    format: ScriptsSecretsBulkUpdateResultValueSecretKeyFormat,
     name: S.String,
-    type: ScriptsSecretsBulkUpdateResultSecretKeyType,
-    usages: ScriptsSecretsBulkUpdateResultSecretKeyUsagesList,
+    type: ScriptsSecretsBulkUpdateResultValueSecretKeyType,
+    usages: ScriptsSecretsBulkUpdateResultValueSecretKeyUsagesList,
     keyBase64: S.optional(S.NullOr(S.String).pipe(T.Body("key_base64"))),
     keyJwk: S.optional(S.NullOr(S.Unknown).pipe(T.Body("key_jwk"))),
   }),
 ).annotate({
-  identifier: "ScriptsSecretsBulkUpdateResultSecretKey",
-}) as any as S.Schema<ScriptsSecretsBulkUpdateResultSecretKey>;
+  identifier: "ScriptsSecretsBulkUpdateResultValueSecretKey",
+}) as any as S.Schema<ScriptsSecretsBulkUpdateResultValueSecretKey>;
 
-export type ScriptsSecretsBulkUpdateResult =
-  | ScriptsSecretsBulkUpdateResultSecretText
-  | ScriptsSecretsBulkUpdateResultSecretKey;
-export const ScriptsSecretsBulkUpdateResult = /*@__PURE__*/ S.Unknown.pipe(
+export type ScriptsSecretsBulkUpdateResultValue =
+  | ScriptsSecretsBulkUpdateResultValueSecretText
+  | ScriptsSecretsBulkUpdateResultValueSecretKey;
+export const ScriptsSecretsBulkUpdateResultValue = /*@__PURE__*/ S.Unknown.pipe(
   T.UnionCases(
     [
       ["name", "text", "type"],
@@ -730,9 +738,17 @@ export const ScriptsSecretsBulkUpdateResult = /*@__PURE__*/ S.Unknown.pipe(
   ),
 );
 
-export type BulkUpdateScriptSecretsResponse = ScriptsSecretsBulkUpdateResult;
+export type ScriptsSecretsBulkUpdateResultMap = {
+  [key: string]: ScriptsSecretsBulkUpdateResultValue | undefined;
+};
+export const ScriptsSecretsBulkUpdateResultMap = /*@__PURE__*/ S.Record(
+  S.String,
+  ScriptsSecretsBulkUpdateResultValue,
+) as any as S.Schema<ScriptsSecretsBulkUpdateResultMap>;
+
+export type BulkUpdateScriptSecretsResponse = ScriptsSecretsBulkUpdateResultMap;
 export const BulkUpdateScriptSecretsResponse = /*@__PURE__*/ S.suspend(() =>
-  ScriptsSecretsBulkUpdateResult.pipe(T.EnvelopePayloadRoot(), T.KeyDictionary(KEY_DICTIONARY)),
+  ScriptsSecretsBulkUpdateResultMap.pipe(T.EnvelopePayloadRoot(), T.KeyDictionary(KEY_DICTIONARY)),
 ).annotate({
   identifier: "BulkUpdateScriptSecretsResponse",
 }) as any as S.Schema<BulkUpdateScriptSecretsResponse>;
@@ -3345,214 +3361,221 @@ export const BetaWorkersVersionsCreateRequestContainersList = /*@__PURE__*/ S.Ar
   BetaWorkersVersionsCreateRequestContainersItem,
 ) as any as S.Schema<BetaWorkersVersionsCreateRequestContainersList>;
 
-export type BetaWorkersVersionsCreateRequestExportsWorkerType = "worker";
-export const BetaWorkersVersionsCreateRequestExportsWorkerType = S.String;
+export type BetaWorkersVersionsCreateRequestExportsValueWorkerType = "worker";
+export const BetaWorkersVersionsCreateRequestExportsValueWorkerType = S.String;
 
-export interface BetaWorkersVersionsCreateRequestExportsWorkerCache {
+export interface BetaWorkersVersionsCreateRequestExportsValueWorkerCache {
   /** Whether caching is enabled for this entrypoint. */
   enabled: boolean;
 }
-export const BetaWorkersVersionsCreateRequestExportsWorkerCache = /*@__PURE__*/ S.suspend(() =>
+export const BetaWorkersVersionsCreateRequestExportsValueWorkerCache = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     enabled: S.Boolean,
   }),
 ).annotate({
-  identifier: "BetaWorkersVersionsCreateRequestExportsWorkerCache",
-}) as any as S.Schema<BetaWorkersVersionsCreateRequestExportsWorkerCache>;
+  identifier: "BetaWorkersVersionsCreateRequestExportsValueWorkerCache",
+}) as any as S.Schema<BetaWorkersVersionsCreateRequestExportsValueWorkerCache>;
 
-export type BetaWorkersVersionsCreateRequestExportsWorkerState = "created";
-export const BetaWorkersVersionsCreateRequestExportsWorkerState = S.String;
+export type BetaWorkersVersionsCreateRequestExportsValueWorkerState = "created";
+export const BetaWorkersVersionsCreateRequestExportsValueWorkerState = S.String;
 
-export interface BetaWorkersVersionsCreateRequestExportsWorker {
+export interface BetaWorkersVersionsCreateRequestExportsValueWorker {
   /** Marks this entry as a Worker entrypoint export. */
-  type: BetaWorkersVersionsCreateRequestExportsWorkerType;
+  type: BetaWorkersVersionsCreateRequestExportsValueWorkerType;
   /** Cache override for this entrypoint. Overrides the Worker's global `cache_options.enabled` for this entrypoint only. */
-  cache?: BetaWorkersVersionsCreateRequestExportsWorkerCache;
+  cache?: BetaWorkersVersionsCreateRequestExportsValueWorkerCache;
   /** Live export. May be omitted; defaults to `created`. */
-  state?: BetaWorkersVersionsCreateRequestExportsWorkerState | (string & {});
+  state?: BetaWorkersVersionsCreateRequestExportsValueWorkerState | (string & {});
 }
-export const BetaWorkersVersionsCreateRequestExportsWorker = /*@__PURE__*/ S.suspend(() =>
+export const BetaWorkersVersionsCreateRequestExportsValueWorker = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    type: BetaWorkersVersionsCreateRequestExportsWorkerType,
-    cache: S.optional(BetaWorkersVersionsCreateRequestExportsWorkerCache),
-    state: S.optional(BetaWorkersVersionsCreateRequestExportsWorkerState),
+    type: BetaWorkersVersionsCreateRequestExportsValueWorkerType,
+    cache: S.optional(BetaWorkersVersionsCreateRequestExportsValueWorkerCache),
+    state: S.optional(BetaWorkersVersionsCreateRequestExportsValueWorkerState),
   }),
 ).annotate({
-  identifier: "BetaWorkersVersionsCreateRequestExportsWorker",
-}) as any as S.Schema<BetaWorkersVersionsCreateRequestExportsWorker>;
+  identifier: "BetaWorkersVersionsCreateRequestExportsValueWorker",
+}) as any as S.Schema<BetaWorkersVersionsCreateRequestExportsValueWorker>;
 
-export type BetaWorkersVersionsCreateRequestExportsWorkersDurableObjectExportStorage =
+export type BetaWorkersVersionsCreateRequestExportsValueWorkersDurableObjectExportStorage =
   | "sqlite"
   | "legacy-kv";
-export const BetaWorkersVersionsCreateRequestExportsWorkersDurableObjectExportStorage = S.String;
+export const BetaWorkersVersionsCreateRequestExportsValueWorkersDurableObjectExportStorage =
+  S.String;
 
-export type BetaWorkersVersionsCreateRequestExportsWorkersDurableObjectExportType =
+export type BetaWorkersVersionsCreateRequestExportsValueWorkersDurableObjectExportType =
   "durable-object";
-export const BetaWorkersVersionsCreateRequestExportsWorkersDurableObjectExportType = S.String;
+export const BetaWorkersVersionsCreateRequestExportsValueWorkersDurableObjectExportType = S.String;
 
-export type BetaWorkersVersionsCreateRequestExportsWorkersDurableObjectExportState = "created";
-export const BetaWorkersVersionsCreateRequestExportsWorkersDurableObjectExportState = S.String;
+export type BetaWorkersVersionsCreateRequestExportsValueWorkersDurableObjectExportState = "created";
+export const BetaWorkersVersionsCreateRequestExportsValueWorkersDurableObjectExportState = S.String;
 
-export interface BetaWorkersVersionsCreateRequestExportsWorkersDurableObjectExport {
+export interface BetaWorkersVersionsCreateRequestExportsValueWorkersDurableObjectExport {
   /** Durable Object storage backend. `sqlite` is the recommended (and only) backend for new namespaces. `legacy-kv` is accepted only for a class whose namespace already exists as KV-backed; the `exports` flow never provisions a new `legacy-kv` namespace. */
-  storage: BetaWorkersVersionsCreateRequestExportsWorkersDurableObjectExportStorage | (string & {});
+  storage:
+    | BetaWorkersVersionsCreateRequestExportsValueWorkersDurableObjectExportStorage
+    | (string & {});
   /** Marks this entry as a Durable Object export. */
-  type: BetaWorkersVersionsCreateRequestExportsWorkersDurableObjectExportType;
+  type: BetaWorkersVersionsCreateRequestExportsValueWorkersDurableObjectExportType;
   /** Name of the container (declared in the upload's `metadata.containers`) that backs this Durable Object. When set, the namespace is container-enabled. Valid only on live entries. */
   container?: string;
   /** Live export. May be omitted; defaults to `created`. */
-  state?: BetaWorkersVersionsCreateRequestExportsWorkersDurableObjectExportState | (string & {});
+  state?:
+    | BetaWorkersVersionsCreateRequestExportsValueWorkersDurableObjectExportState
+    | (string & {});
 }
-export const BetaWorkersVersionsCreateRequestExportsWorkersDurableObjectExport =
+export const BetaWorkersVersionsCreateRequestExportsValueWorkersDurableObjectExport =
   /*@__PURE__*/ S.suspend(() =>
     S.Struct({
-      storage: BetaWorkersVersionsCreateRequestExportsWorkersDurableObjectExportStorage,
-      type: BetaWorkersVersionsCreateRequestExportsWorkersDurableObjectExportType,
+      storage: BetaWorkersVersionsCreateRequestExportsValueWorkersDurableObjectExportStorage,
+      type: BetaWorkersVersionsCreateRequestExportsValueWorkersDurableObjectExportType,
       container: S.optional(S.String),
-      state: S.optional(BetaWorkersVersionsCreateRequestExportsWorkersDurableObjectExportState),
+      state: S.optional(
+        BetaWorkersVersionsCreateRequestExportsValueWorkersDurableObjectExportState,
+      ),
     }),
   ).annotate({
-    identifier: "BetaWorkersVersionsCreateRequestExportsWorkersDurableObjectExport",
-  }) as any as S.Schema<BetaWorkersVersionsCreateRequestExportsWorkersDurableObjectExport>;
+    identifier: "BetaWorkersVersionsCreateRequestExportsValueWorkersDurableObjectExport",
+  }) as any as S.Schema<BetaWorkersVersionsCreateRequestExportsValueWorkersDurableObjectExport>;
 
-export type BetaWorkersVersionsCreateRequestExportsWorkersDurableObjectDeletedExportState =
+export type BetaWorkersVersionsCreateRequestExportsValueWorkersDurableObjectDeletedExportState =
   "deleted";
-export const BetaWorkersVersionsCreateRequestExportsWorkersDurableObjectDeletedExportState =
+export const BetaWorkersVersionsCreateRequestExportsValueWorkersDurableObjectDeletedExportState =
   S.String;
 
-export type BetaWorkersVersionsCreateRequestExportsWorkersDurableObjectDeletedExportType =
+export type BetaWorkersVersionsCreateRequestExportsValueWorkersDurableObjectDeletedExportType =
   "durable-object";
-export const BetaWorkersVersionsCreateRequestExportsWorkersDurableObjectDeletedExportType =
+export const BetaWorkersVersionsCreateRequestExportsValueWorkersDurableObjectDeletedExportType =
   S.String;
 
-export interface BetaWorkersVersionsCreateRequestExportsWorkersDurableObjectDeletedExport {
+export interface BetaWorkersVersionsCreateRequestExportsValueWorkersDurableObjectDeletedExport {
   /** Tombstone that deletes the namespace. */
-  state: BetaWorkersVersionsCreateRequestExportsWorkersDurableObjectDeletedExportState;
+  state: BetaWorkersVersionsCreateRequestExportsValueWorkersDurableObjectDeletedExportState;
   /** Marks this entry as a Durable Object export. */
-  type: BetaWorkersVersionsCreateRequestExportsWorkersDurableObjectDeletedExportType;
+  type: BetaWorkersVersionsCreateRequestExportsValueWorkersDurableObjectDeletedExportType;
 }
-export const BetaWorkersVersionsCreateRequestExportsWorkersDurableObjectDeletedExport =
+export const BetaWorkersVersionsCreateRequestExportsValueWorkersDurableObjectDeletedExport =
   /*@__PURE__*/ S.suspend(() =>
     S.Struct({
-      state: BetaWorkersVersionsCreateRequestExportsWorkersDurableObjectDeletedExportState,
-      type: BetaWorkersVersionsCreateRequestExportsWorkersDurableObjectDeletedExportType,
+      state: BetaWorkersVersionsCreateRequestExportsValueWorkersDurableObjectDeletedExportState,
+      type: BetaWorkersVersionsCreateRequestExportsValueWorkersDurableObjectDeletedExportType,
     }),
   ).annotate({
-    identifier: "BetaWorkersVersionsCreateRequestExportsWorkersDurableObjectDeletedExport",
-  }) as any as S.Schema<BetaWorkersVersionsCreateRequestExportsWorkersDurableObjectDeletedExport>;
+    identifier: "BetaWorkersVersionsCreateRequestExportsValueWorkersDurableObjectDeletedExport",
+  }) as any as S.Schema<BetaWorkersVersionsCreateRequestExportsValueWorkersDurableObjectDeletedExport>;
 
-export type BetaWorkersVersionsCreateRequestExportsWorkersDurableObjectRenamedExportState =
+export type BetaWorkersVersionsCreateRequestExportsValueWorkersDurableObjectRenamedExportState =
   "renamed";
-export const BetaWorkersVersionsCreateRequestExportsWorkersDurableObjectRenamedExportState =
+export const BetaWorkersVersionsCreateRequestExportsValueWorkersDurableObjectRenamedExportState =
   S.String;
 
-export type BetaWorkersVersionsCreateRequestExportsWorkersDurableObjectRenamedExportType =
+export type BetaWorkersVersionsCreateRequestExportsValueWorkersDurableObjectRenamedExportType =
   "durable-object";
-export const BetaWorkersVersionsCreateRequestExportsWorkersDurableObjectRenamedExportType =
+export const BetaWorkersVersionsCreateRequestExportsValueWorkersDurableObjectRenamedExportType =
   S.String;
 
-export interface BetaWorkersVersionsCreateRequestExportsWorkersDurableObjectRenamedExport {
+export interface BetaWorkersVersionsCreateRequestExportsValueWorkersDurableObjectRenamedExport {
   /** The destination class name. Must differ from the source class (the map key) and must be declared as a live (`created`) entry in the same `exports` map. Write-only: never present in GET responses. */
   renamedTo: string;
   /** Tombstone that renames the namespace's class. */
-  state: BetaWorkersVersionsCreateRequestExportsWorkersDurableObjectRenamedExportState;
+  state: BetaWorkersVersionsCreateRequestExportsValueWorkersDurableObjectRenamedExportState;
   /** Marks this entry as a Durable Object export. */
-  type: BetaWorkersVersionsCreateRequestExportsWorkersDurableObjectRenamedExportType;
+  type: BetaWorkersVersionsCreateRequestExportsValueWorkersDurableObjectRenamedExportType;
 }
-export const BetaWorkersVersionsCreateRequestExportsWorkersDurableObjectRenamedExport =
+export const BetaWorkersVersionsCreateRequestExportsValueWorkersDurableObjectRenamedExport =
   /*@__PURE__*/ S.suspend(() =>
     S.Struct({
       renamedTo: S.String.pipe(T.Body("renamed_to")),
-      state: BetaWorkersVersionsCreateRequestExportsWorkersDurableObjectRenamedExportState,
-      type: BetaWorkersVersionsCreateRequestExportsWorkersDurableObjectRenamedExportType,
+      state: BetaWorkersVersionsCreateRequestExportsValueWorkersDurableObjectRenamedExportState,
+      type: BetaWorkersVersionsCreateRequestExportsValueWorkersDurableObjectRenamedExportType,
     }),
   ).annotate({
-    identifier: "BetaWorkersVersionsCreateRequestExportsWorkersDurableObjectRenamedExport",
-  }) as any as S.Schema<BetaWorkersVersionsCreateRequestExportsWorkersDurableObjectRenamedExport>;
+    identifier: "BetaWorkersVersionsCreateRequestExportsValueWorkersDurableObjectRenamedExport",
+  }) as any as S.Schema<BetaWorkersVersionsCreateRequestExportsValueWorkersDurableObjectRenamedExport>;
 
-export type BetaWorkersVersionsCreateRequestExportsWorkersDurableObjectTransferredExportState =
+export type BetaWorkersVersionsCreateRequestExportsValueWorkersDurableObjectTransferredExportState =
   "transferred";
-export const BetaWorkersVersionsCreateRequestExportsWorkersDurableObjectTransferredExportState =
+export const BetaWorkersVersionsCreateRequestExportsValueWorkersDurableObjectTransferredExportState =
   S.String;
 
-export type BetaWorkersVersionsCreateRequestExportsWorkersDurableObjectTransferredExportType =
+export type BetaWorkersVersionsCreateRequestExportsValueWorkersDurableObjectTransferredExportType =
   "durable-object";
-export const BetaWorkersVersionsCreateRequestExportsWorkersDurableObjectTransferredExportType =
+export const BetaWorkersVersionsCreateRequestExportsValueWorkersDurableObjectTransferredExportType =
   S.String;
 
-export interface BetaWorkersVersionsCreateRequestExportsWorkersDurableObjectTransferredExport {
+export interface BetaWorkersVersionsCreateRequestExportsValueWorkersDurableObjectTransferredExport {
   /** Tombstone that transfers the namespace to another script. */
-  state: BetaWorkersVersionsCreateRequestExportsWorkersDurableObjectTransferredExportState;
+  state: BetaWorkersVersionsCreateRequestExportsValueWorkersDurableObjectTransferredExportState;
   /** The destination script name. Must be in the same account and the same dispatch-namespace context (or both non-dispatch). Cross-dispatch-namespace transfers are rejected. Write-only: never present in GET responses. */
   transferredTo: string;
   /** Marks this entry as a Durable Object export. */
-  type: BetaWorkersVersionsCreateRequestExportsWorkersDurableObjectTransferredExportType;
+  type: BetaWorkersVersionsCreateRequestExportsValueWorkersDurableObjectTransferredExportType;
 }
-export const BetaWorkersVersionsCreateRequestExportsWorkersDurableObjectTransferredExport =
+export const BetaWorkersVersionsCreateRequestExportsValueWorkersDurableObjectTransferredExport =
   /*@__PURE__*/ S.suspend(() =>
     S.Struct({
-      state: BetaWorkersVersionsCreateRequestExportsWorkersDurableObjectTransferredExportState,
+      state: BetaWorkersVersionsCreateRequestExportsValueWorkersDurableObjectTransferredExportState,
       transferredTo: S.String.pipe(T.Body("transferred_to")),
-      type: BetaWorkersVersionsCreateRequestExportsWorkersDurableObjectTransferredExportType,
+      type: BetaWorkersVersionsCreateRequestExportsValueWorkersDurableObjectTransferredExportType,
     }),
   ).annotate({
-    identifier: "BetaWorkersVersionsCreateRequestExportsWorkersDurableObjectTransferredExport",
-  }) as any as S.Schema<BetaWorkersVersionsCreateRequestExportsWorkersDurableObjectTransferredExport>;
+    identifier: "BetaWorkersVersionsCreateRequestExportsValueWorkersDurableObjectTransferredExport",
+  }) as any as S.Schema<BetaWorkersVersionsCreateRequestExportsValueWorkersDurableObjectTransferredExport>;
 
-export type BetaWorkersVersionsCreateRequestExportsWorkersDurableObjectExpectingTransferExportState =
+export type BetaWorkersVersionsCreateRequestExportsValueWorkersDurableObjectExpectingTransferExportState =
   "expecting-transfer";
-export const BetaWorkersVersionsCreateRequestExportsWorkersDurableObjectExpectingTransferExportState =
+export const BetaWorkersVersionsCreateRequestExportsValueWorkersDurableObjectExpectingTransferExportState =
   S.String;
 
-export type BetaWorkersVersionsCreateRequestExportsWorkersDurableObjectExpectingTransferExportStorage =
+export type BetaWorkersVersionsCreateRequestExportsValueWorkersDurableObjectExpectingTransferExportStorage =
   | "sqlite"
   | "legacy-kv";
-export const BetaWorkersVersionsCreateRequestExportsWorkersDurableObjectExpectingTransferExportStorage =
+export const BetaWorkersVersionsCreateRequestExportsValueWorkersDurableObjectExpectingTransferExportStorage =
   S.String;
 
-export type BetaWorkersVersionsCreateRequestExportsWorkersDurableObjectExpectingTransferExportType =
+export type BetaWorkersVersionsCreateRequestExportsValueWorkersDurableObjectExpectingTransferExportType =
   "durable-object";
-export const BetaWorkersVersionsCreateRequestExportsWorkersDurableObjectExpectingTransferExportType =
+export const BetaWorkersVersionsCreateRequestExportsValueWorkersDurableObjectExpectingTransferExportType =
   S.String;
 
-export interface BetaWorkersVersionsCreateRequestExportsWorkersDurableObjectExpectingTransferExport {
+export interface BetaWorkersVersionsCreateRequestExportsValueWorkersDurableObjectExpectingTransferExport {
   /** Target side of a two-phase transfer. */
-  state: BetaWorkersVersionsCreateRequestExportsWorkersDurableObjectExpectingTransferExportState;
+  state: BetaWorkersVersionsCreateRequestExportsValueWorkersDurableObjectExpectingTransferExportState;
   /** Durable Object storage backend. `sqlite` is the recommended (and only) backend for new namespaces. `legacy-kv` is accepted only for a class whose namespace already exists as KV-backed; the `exports` flow never provisions a new `legacy-kv` namespace. */
   storage:
-    | BetaWorkersVersionsCreateRequestExportsWorkersDurableObjectExpectingTransferExportStorage
+    | BetaWorkersVersionsCreateRequestExportsValueWorkersDurableObjectExpectingTransferExportStorage
     | (string & {});
   /** The source script name to receive the namespace from. Must be in the same account and dispatch-namespace context. Present on reads for `expecting-transfer` entries. */
   transferFrom: string;
   /** Marks this entry as a Durable Object export. */
-  type: BetaWorkersVersionsCreateRequestExportsWorkersDurableObjectExpectingTransferExportType;
+  type: BetaWorkersVersionsCreateRequestExportsValueWorkersDurableObjectExpectingTransferExportType;
   /** Name of the container (declared in the upload's `metadata.containers`) that backs this Durable Object once the transfer settles. Valid only on live entries. */
   container?: string;
 }
-export const BetaWorkersVersionsCreateRequestExportsWorkersDurableObjectExpectingTransferExport =
+export const BetaWorkersVersionsCreateRequestExportsValueWorkersDurableObjectExpectingTransferExport =
   /*@__PURE__*/ S.suspend(() =>
     S.Struct({
       state:
-        BetaWorkersVersionsCreateRequestExportsWorkersDurableObjectExpectingTransferExportState,
+        BetaWorkersVersionsCreateRequestExportsValueWorkersDurableObjectExpectingTransferExportState,
       storage:
-        BetaWorkersVersionsCreateRequestExportsWorkersDurableObjectExpectingTransferExportStorage,
+        BetaWorkersVersionsCreateRequestExportsValueWorkersDurableObjectExpectingTransferExportStorage,
       transferFrom: S.String.pipe(T.Body("transfer_from")),
-      type: BetaWorkersVersionsCreateRequestExportsWorkersDurableObjectExpectingTransferExportType,
+      type: BetaWorkersVersionsCreateRequestExportsValueWorkersDurableObjectExpectingTransferExportType,
       container: S.optional(S.String),
     }),
   ).annotate({
     identifier:
-      "BetaWorkersVersionsCreateRequestExportsWorkersDurableObjectExpectingTransferExport",
-  }) as any as S.Schema<BetaWorkersVersionsCreateRequestExportsWorkersDurableObjectExpectingTransferExport>;
+      "BetaWorkersVersionsCreateRequestExportsValueWorkersDurableObjectExpectingTransferExport",
+  }) as any as S.Schema<BetaWorkersVersionsCreateRequestExportsValueWorkersDurableObjectExpectingTransferExport>;
 
-export type BetaWorkersVersionsCreateRequestExports =
-  | BetaWorkersVersionsCreateRequestExportsWorker
-  | BetaWorkersVersionsCreateRequestExportsWorkersDurableObjectExport
-  | BetaWorkersVersionsCreateRequestExportsWorkersDurableObjectDeletedExport
-  | BetaWorkersVersionsCreateRequestExportsWorkersDurableObjectRenamedExport
-  | BetaWorkersVersionsCreateRequestExportsWorkersDurableObjectTransferredExport
-  | BetaWorkersVersionsCreateRequestExportsWorkersDurableObjectExpectingTransferExport;
-export const BetaWorkersVersionsCreateRequestExports = /*@__PURE__*/ S.Unknown.pipe(
+export type BetaWorkersVersionsCreateRequestExportsValue =
+  | BetaWorkersVersionsCreateRequestExportsValueWorker
+  | BetaWorkersVersionsCreateRequestExportsValueWorkersDurableObjectExport
+  | BetaWorkersVersionsCreateRequestExportsValueWorkersDurableObjectDeletedExport
+  | BetaWorkersVersionsCreateRequestExportsValueWorkersDurableObjectRenamedExport
+  | BetaWorkersVersionsCreateRequestExportsValueWorkersDurableObjectTransferredExport
+  | BetaWorkersVersionsCreateRequestExportsValueWorkersDurableObjectExpectingTransferExport;
+export const BetaWorkersVersionsCreateRequestExportsValue = /*@__PURE__*/ S.Unknown.pipe(
   T.UnionCases([
     ["type", "cache", "state"],
     ["storage", "type", "container", "state"],
@@ -3562,6 +3585,14 @@ export const BetaWorkersVersionsCreateRequestExports = /*@__PURE__*/ S.Unknown.p
     ["state", "storage", "transferFrom", "type", "container"],
   ]),
 );
+
+export type BetaWorkersVersionsCreateRequestExportsMap = {
+  [key: string]: BetaWorkersVersionsCreateRequestExportsValue | undefined;
+};
+export const BetaWorkersVersionsCreateRequestExportsMap = /*@__PURE__*/ S.Record(
+  S.String,
+  BetaWorkersVersionsCreateRequestExportsValue,
+) as any as S.Schema<BetaWorkersVersionsCreateRequestExportsMap>;
 
 export interface BetaWorkersVersionsCreateRequestLimits {
   /** CPU time limit in milliseconds. */
@@ -4056,7 +4087,7 @@ export interface CreateBetaWorkerVersionRequest {
   /** List of containers attached to a Worker. Containers can only be attached to Durable Object classes of this Worker script. */
   containers?: BetaWorkersVersionsCreateRequestContainersList;
   /** Declarative exports for the version, including Durable Object classes (with their `storage` backend) and named Worker entrypoints. On reads, tombstoned lifecycle entries are omitted, so only live exports (`created` and `expecting-transfer`) are returned. `exports` and `migrations` are mutually exclusive on upload. */
-  exports?: BetaWorkersVersionsCreateRequestExports;
+  exports?: BetaWorkersVersionsCreateRequestExportsMap;
   /** Resource limits enforced at runtime. */
   limits?: BetaWorkersVersionsCreateRequestLimits;
   /** The name of the main module in the `modules` array (e.g. the name of the module that exports a `fetch` handler). */
@@ -4088,7 +4119,7 @@ export const CreateBetaWorkerVersionRequest = /*@__PURE__*/ S.suspend(() =>
       BetaWorkersVersionsCreateRequestCompatibilityFlagsList.pipe(T.Body("compatibility_flags")),
     ),
     containers: S.optional(BetaWorkersVersionsCreateRequestContainersList),
-    exports: S.optional(BetaWorkersVersionsCreateRequestExports),
+    exports: S.optional(BetaWorkersVersionsCreateRequestExportsMap),
     limits: S.optional(BetaWorkersVersionsCreateRequestLimits),
     mainModule: S.optional(S.String.pipe(T.Body("main_module"))),
     migrations: S.optional(BetaWorkersVersionsCreateRequestMigrations),
@@ -5367,207 +5398,212 @@ export const BetaWorkersVersionsCreateResponseContainersList = /*@__PURE__*/ S.A
   BetaWorkersVersionsCreateRequestContainersItem,
 ) as any as S.Schema<BetaWorkersVersionsCreateResponseContainersList>;
 
-export type BetaWorkersVersionsCreateResponseExportsWorkerType = "worker";
-export const BetaWorkersVersionsCreateResponseExportsWorkerType = S.String;
+export type BetaWorkersVersionsCreateResponseExportsValueWorkerType = "worker";
+export const BetaWorkersVersionsCreateResponseExportsValueWorkerType = S.String;
 
-export type BetaWorkersVersionsCreateResponseExportsWorkerCache =
-  BetaWorkersVersionsCreateRequestExportsWorkerCache;
-export const BetaWorkersVersionsCreateResponseExportsWorkerCache =
-  BetaWorkersVersionsCreateRequestExportsWorkerCache;
+export type BetaWorkersVersionsCreateResponseExportsValueWorkerCache =
+  BetaWorkersVersionsCreateRequestExportsValueWorkerCache;
+export const BetaWorkersVersionsCreateResponseExportsValueWorkerCache =
+  BetaWorkersVersionsCreateRequestExportsValueWorkerCache;
 
-export type BetaWorkersVersionsCreateResponseExportsWorkerState = "created";
-export const BetaWorkersVersionsCreateResponseExportsWorkerState = S.String;
+export type BetaWorkersVersionsCreateResponseExportsValueWorkerState = "created";
+export const BetaWorkersVersionsCreateResponseExportsValueWorkerState = S.String;
 
-export interface BetaWorkersVersionsCreateResponseExportsWorker {
+export interface BetaWorkersVersionsCreateResponseExportsValueWorker {
   /** Marks this entry as a Worker entrypoint export. */
-  type: BetaWorkersVersionsCreateResponseExportsWorkerType;
+  type: BetaWorkersVersionsCreateResponseExportsValueWorkerType;
   /** Cache override for this entrypoint. Overrides the Worker's global `cache_options.enabled` for this entrypoint only. */
-  cache?: BetaWorkersVersionsCreateRequestExportsWorkerCache | null;
+  cache?: BetaWorkersVersionsCreateRequestExportsValueWorkerCache | null;
   /** Live export. May be omitted; defaults to `created`. */
-  state?: BetaWorkersVersionsCreateResponseExportsWorkerState | null;
+  state?: BetaWorkersVersionsCreateResponseExportsValueWorkerState | null;
 }
-export const BetaWorkersVersionsCreateResponseExportsWorker = /*@__PURE__*/ S.suspend(() =>
+export const BetaWorkersVersionsCreateResponseExportsValueWorker = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    type: BetaWorkersVersionsCreateResponseExportsWorkerType,
-    cache: S.optional(S.NullOr(BetaWorkersVersionsCreateRequestExportsWorkerCache)),
-    state: S.optional(S.NullOr(BetaWorkersVersionsCreateResponseExportsWorkerState)),
+    type: BetaWorkersVersionsCreateResponseExportsValueWorkerType,
+    cache: S.optional(S.NullOr(BetaWorkersVersionsCreateRequestExportsValueWorkerCache)),
+    state: S.optional(S.NullOr(BetaWorkersVersionsCreateResponseExportsValueWorkerState)),
   }),
 ).annotate({
-  identifier: "BetaWorkersVersionsCreateResponseExportsWorker",
-}) as any as S.Schema<BetaWorkersVersionsCreateResponseExportsWorker>;
+  identifier: "BetaWorkersVersionsCreateResponseExportsValueWorker",
+}) as any as S.Schema<BetaWorkersVersionsCreateResponseExportsValueWorker>;
 
-export type BetaWorkersVersionsCreateResponseExportsWorkersDurableObjectExportStorage =
+export type BetaWorkersVersionsCreateResponseExportsValueWorkersDurableObjectExportStorage =
   | "sqlite"
   | "legacy-kv";
-export const BetaWorkersVersionsCreateResponseExportsWorkersDurableObjectExportStorage = S.String;
+export const BetaWorkersVersionsCreateResponseExportsValueWorkersDurableObjectExportStorage =
+  S.String;
 
-export type BetaWorkersVersionsCreateResponseExportsWorkersDurableObjectExportType =
+export type BetaWorkersVersionsCreateResponseExportsValueWorkersDurableObjectExportType =
   "durable-object";
-export const BetaWorkersVersionsCreateResponseExportsWorkersDurableObjectExportType = S.String;
+export const BetaWorkersVersionsCreateResponseExportsValueWorkersDurableObjectExportType = S.String;
 
-export type BetaWorkersVersionsCreateResponseExportsWorkersDurableObjectExportState = "created";
-export const BetaWorkersVersionsCreateResponseExportsWorkersDurableObjectExportState = S.String;
+export type BetaWorkersVersionsCreateResponseExportsValueWorkersDurableObjectExportState =
+  "created";
+export const BetaWorkersVersionsCreateResponseExportsValueWorkersDurableObjectExportState =
+  S.String;
 
-export interface BetaWorkersVersionsCreateResponseExportsWorkersDurableObjectExport {
+export interface BetaWorkersVersionsCreateResponseExportsValueWorkersDurableObjectExport {
   /** Durable Object storage backend. `sqlite` is the recommended (and only) backend for new namespaces. `legacy-kv` is accepted only for a class whose namespace already exists as KV-backed; the `exports` flow never provisions a new `legacy-kv` namespace. */
-  storage: BetaWorkersVersionsCreateResponseExportsWorkersDurableObjectExportStorage;
+  storage: BetaWorkersVersionsCreateResponseExportsValueWorkersDurableObjectExportStorage;
   /** Marks this entry as a Durable Object export. */
-  type: BetaWorkersVersionsCreateResponseExportsWorkersDurableObjectExportType;
+  type: BetaWorkersVersionsCreateResponseExportsValueWorkersDurableObjectExportType;
   /** Name of the container (declared in the upload's `metadata.containers`) that backs this Durable Object. When set, the namespace is container-enabled. Valid only on live entries. */
   container?: string | null;
   /** Live export. May be omitted; defaults to `created`. */
-  state?: BetaWorkersVersionsCreateResponseExportsWorkersDurableObjectExportState | null;
+  state?: BetaWorkersVersionsCreateResponseExportsValueWorkersDurableObjectExportState | null;
 }
-export const BetaWorkersVersionsCreateResponseExportsWorkersDurableObjectExport =
+export const BetaWorkersVersionsCreateResponseExportsValueWorkersDurableObjectExport =
   /*@__PURE__*/ S.suspend(() =>
     S.Struct({
-      storage: BetaWorkersVersionsCreateResponseExportsWorkersDurableObjectExportStorage,
-      type: BetaWorkersVersionsCreateResponseExportsWorkersDurableObjectExportType,
+      storage: BetaWorkersVersionsCreateResponseExportsValueWorkersDurableObjectExportStorage,
+      type: BetaWorkersVersionsCreateResponseExportsValueWorkersDurableObjectExportType,
       container: S.optional(S.NullOr(S.String)),
       state: S.optional(
-        S.NullOr(BetaWorkersVersionsCreateResponseExportsWorkersDurableObjectExportState),
+        S.NullOr(BetaWorkersVersionsCreateResponseExportsValueWorkersDurableObjectExportState),
       ),
     }),
   ).annotate({
-    identifier: "BetaWorkersVersionsCreateResponseExportsWorkersDurableObjectExport",
-  }) as any as S.Schema<BetaWorkersVersionsCreateResponseExportsWorkersDurableObjectExport>;
+    identifier: "BetaWorkersVersionsCreateResponseExportsValueWorkersDurableObjectExport",
+  }) as any as S.Schema<BetaWorkersVersionsCreateResponseExportsValueWorkersDurableObjectExport>;
 
-export type BetaWorkersVersionsCreateResponseExportsWorkersDurableObjectDeletedExportState =
+export type BetaWorkersVersionsCreateResponseExportsValueWorkersDurableObjectDeletedExportState =
   "deleted";
-export const BetaWorkersVersionsCreateResponseExportsWorkersDurableObjectDeletedExportState =
+export const BetaWorkersVersionsCreateResponseExportsValueWorkersDurableObjectDeletedExportState =
   S.String;
 
-export type BetaWorkersVersionsCreateResponseExportsWorkersDurableObjectDeletedExportType =
+export type BetaWorkersVersionsCreateResponseExportsValueWorkersDurableObjectDeletedExportType =
   "durable-object";
-export const BetaWorkersVersionsCreateResponseExportsWorkersDurableObjectDeletedExportType =
+export const BetaWorkersVersionsCreateResponseExportsValueWorkersDurableObjectDeletedExportType =
   S.String;
 
-export interface BetaWorkersVersionsCreateResponseExportsWorkersDurableObjectDeletedExport {
+export interface BetaWorkersVersionsCreateResponseExportsValueWorkersDurableObjectDeletedExport {
   /** Tombstone that deletes the namespace. */
-  state: BetaWorkersVersionsCreateResponseExportsWorkersDurableObjectDeletedExportState;
+  state: BetaWorkersVersionsCreateResponseExportsValueWorkersDurableObjectDeletedExportState;
   /** Marks this entry as a Durable Object export. */
-  type: BetaWorkersVersionsCreateResponseExportsWorkersDurableObjectDeletedExportType;
+  type: BetaWorkersVersionsCreateResponseExportsValueWorkersDurableObjectDeletedExportType;
 }
-export const BetaWorkersVersionsCreateResponseExportsWorkersDurableObjectDeletedExport =
+export const BetaWorkersVersionsCreateResponseExportsValueWorkersDurableObjectDeletedExport =
   /*@__PURE__*/ S.suspend(() =>
     S.Struct({
-      state: BetaWorkersVersionsCreateResponseExportsWorkersDurableObjectDeletedExportState,
-      type: BetaWorkersVersionsCreateResponseExportsWorkersDurableObjectDeletedExportType,
+      state: BetaWorkersVersionsCreateResponseExportsValueWorkersDurableObjectDeletedExportState,
+      type: BetaWorkersVersionsCreateResponseExportsValueWorkersDurableObjectDeletedExportType,
     }),
   ).annotate({
-    identifier: "BetaWorkersVersionsCreateResponseExportsWorkersDurableObjectDeletedExport",
-  }) as any as S.Schema<BetaWorkersVersionsCreateResponseExportsWorkersDurableObjectDeletedExport>;
+    identifier: "BetaWorkersVersionsCreateResponseExportsValueWorkersDurableObjectDeletedExport",
+  }) as any as S.Schema<BetaWorkersVersionsCreateResponseExportsValueWorkersDurableObjectDeletedExport>;
 
-export type BetaWorkersVersionsCreateResponseExportsWorkersDurableObjectRenamedExportState =
+export type BetaWorkersVersionsCreateResponseExportsValueWorkersDurableObjectRenamedExportState =
   "renamed";
-export const BetaWorkersVersionsCreateResponseExportsWorkersDurableObjectRenamedExportState =
+export const BetaWorkersVersionsCreateResponseExportsValueWorkersDurableObjectRenamedExportState =
   S.String;
 
-export type BetaWorkersVersionsCreateResponseExportsWorkersDurableObjectRenamedExportType =
+export type BetaWorkersVersionsCreateResponseExportsValueWorkersDurableObjectRenamedExportType =
   "durable-object";
-export const BetaWorkersVersionsCreateResponseExportsWorkersDurableObjectRenamedExportType =
+export const BetaWorkersVersionsCreateResponseExportsValueWorkersDurableObjectRenamedExportType =
   S.String;
 
-export interface BetaWorkersVersionsCreateResponseExportsWorkersDurableObjectRenamedExport {
+export interface BetaWorkersVersionsCreateResponseExportsValueWorkersDurableObjectRenamedExport {
   /** The destination class name. Must differ from the source class (the map key) and must be declared as a live (`created`) entry in the same `exports` map. Write-only: never present in GET responses. */
   renamedTo: string;
   /** Tombstone that renames the namespace's class. */
-  state: BetaWorkersVersionsCreateResponseExportsWorkersDurableObjectRenamedExportState;
+  state: BetaWorkersVersionsCreateResponseExportsValueWorkersDurableObjectRenamedExportState;
   /** Marks this entry as a Durable Object export. */
-  type: BetaWorkersVersionsCreateResponseExportsWorkersDurableObjectRenamedExportType;
+  type: BetaWorkersVersionsCreateResponseExportsValueWorkersDurableObjectRenamedExportType;
 }
-export const BetaWorkersVersionsCreateResponseExportsWorkersDurableObjectRenamedExport =
+export const BetaWorkersVersionsCreateResponseExportsValueWorkersDurableObjectRenamedExport =
   /*@__PURE__*/ S.suspend(() =>
     S.Struct({
       renamedTo: S.String.pipe(T.Body("renamed_to")),
-      state: BetaWorkersVersionsCreateResponseExportsWorkersDurableObjectRenamedExportState,
-      type: BetaWorkersVersionsCreateResponseExportsWorkersDurableObjectRenamedExportType,
+      state: BetaWorkersVersionsCreateResponseExportsValueWorkersDurableObjectRenamedExportState,
+      type: BetaWorkersVersionsCreateResponseExportsValueWorkersDurableObjectRenamedExportType,
     }),
   ).annotate({
-    identifier: "BetaWorkersVersionsCreateResponseExportsWorkersDurableObjectRenamedExport",
-  }) as any as S.Schema<BetaWorkersVersionsCreateResponseExportsWorkersDurableObjectRenamedExport>;
+    identifier: "BetaWorkersVersionsCreateResponseExportsValueWorkersDurableObjectRenamedExport",
+  }) as any as S.Schema<BetaWorkersVersionsCreateResponseExportsValueWorkersDurableObjectRenamedExport>;
 
-export type BetaWorkersVersionsCreateResponseExportsWorkersDurableObjectTransferredExportState =
+export type BetaWorkersVersionsCreateResponseExportsValueWorkersDurableObjectTransferredExportState =
   "transferred";
-export const BetaWorkersVersionsCreateResponseExportsWorkersDurableObjectTransferredExportState =
+export const BetaWorkersVersionsCreateResponseExportsValueWorkersDurableObjectTransferredExportState =
   S.String;
 
-export type BetaWorkersVersionsCreateResponseExportsWorkersDurableObjectTransferredExportType =
+export type BetaWorkersVersionsCreateResponseExportsValueWorkersDurableObjectTransferredExportType =
   "durable-object";
-export const BetaWorkersVersionsCreateResponseExportsWorkersDurableObjectTransferredExportType =
+export const BetaWorkersVersionsCreateResponseExportsValueWorkersDurableObjectTransferredExportType =
   S.String;
 
-export interface BetaWorkersVersionsCreateResponseExportsWorkersDurableObjectTransferredExport {
+export interface BetaWorkersVersionsCreateResponseExportsValueWorkersDurableObjectTransferredExport {
   /** Tombstone that transfers the namespace to another script. */
-  state: BetaWorkersVersionsCreateResponseExportsWorkersDurableObjectTransferredExportState;
+  state: BetaWorkersVersionsCreateResponseExportsValueWorkersDurableObjectTransferredExportState;
   /** The destination script name. Must be in the same account and the same dispatch-namespace context (or both non-dispatch). Cross-dispatch-namespace transfers are rejected. Write-only: never present in GET responses. */
   transferredTo: string;
   /** Marks this entry as a Durable Object export. */
-  type: BetaWorkersVersionsCreateResponseExportsWorkersDurableObjectTransferredExportType;
+  type: BetaWorkersVersionsCreateResponseExportsValueWorkersDurableObjectTransferredExportType;
 }
-export const BetaWorkersVersionsCreateResponseExportsWorkersDurableObjectTransferredExport =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      state: BetaWorkersVersionsCreateResponseExportsWorkersDurableObjectTransferredExportState,
-      transferredTo: S.String.pipe(T.Body("transferred_to")),
-      type: BetaWorkersVersionsCreateResponseExportsWorkersDurableObjectTransferredExportType,
-    }),
-  ).annotate({
-    identifier: "BetaWorkersVersionsCreateResponseExportsWorkersDurableObjectTransferredExport",
-  }) as any as S.Schema<BetaWorkersVersionsCreateResponseExportsWorkersDurableObjectTransferredExport>;
-
-export type BetaWorkersVersionsCreateResponseExportsWorkersDurableObjectExpectingTransferExportState =
-  "expecting-transfer";
-export const BetaWorkersVersionsCreateResponseExportsWorkersDurableObjectExpectingTransferExportState =
-  S.String;
-
-export type BetaWorkersVersionsCreateResponseExportsWorkersDurableObjectExpectingTransferExportStorage =
-  | "sqlite"
-  | "legacy-kv";
-export const BetaWorkersVersionsCreateResponseExportsWorkersDurableObjectExpectingTransferExportStorage =
-  S.String;
-
-export type BetaWorkersVersionsCreateResponseExportsWorkersDurableObjectExpectingTransferExportType =
-  "durable-object";
-export const BetaWorkersVersionsCreateResponseExportsWorkersDurableObjectExpectingTransferExportType =
-  S.String;
-
-export interface BetaWorkersVersionsCreateResponseExportsWorkersDurableObjectExpectingTransferExport {
-  /** Target side of a two-phase transfer. */
-  state: BetaWorkersVersionsCreateResponseExportsWorkersDurableObjectExpectingTransferExportState;
-  /** Durable Object storage backend. `sqlite` is the recommended (and only) backend for new namespaces. `legacy-kv` is accepted only for a class whose namespace already exists as KV-backed; the `exports` flow never provisions a new `legacy-kv` namespace. */
-  storage: BetaWorkersVersionsCreateResponseExportsWorkersDurableObjectExpectingTransferExportStorage;
-  /** The source script name to receive the namespace from. Must be in the same account and dispatch-namespace context. Present on reads for `expecting-transfer` entries. */
-  transferFrom: string;
-  /** Marks this entry as a Durable Object export. */
-  type: BetaWorkersVersionsCreateResponseExportsWorkersDurableObjectExpectingTransferExportType;
-  /** Name of the container (declared in the upload's `metadata.containers`) that backs this Durable Object once the transfer settles. Valid only on live entries. */
-  container?: string | null;
-}
-export const BetaWorkersVersionsCreateResponseExportsWorkersDurableObjectExpectingTransferExport =
+export const BetaWorkersVersionsCreateResponseExportsValueWorkersDurableObjectTransferredExport =
   /*@__PURE__*/ S.suspend(() =>
     S.Struct({
       state:
-        BetaWorkersVersionsCreateResponseExportsWorkersDurableObjectExpectingTransferExportState,
+        BetaWorkersVersionsCreateResponseExportsValueWorkersDurableObjectTransferredExportState,
+      transferredTo: S.String.pipe(T.Body("transferred_to")),
+      type: BetaWorkersVersionsCreateResponseExportsValueWorkersDurableObjectTransferredExportType,
+    }),
+  ).annotate({
+    identifier:
+      "BetaWorkersVersionsCreateResponseExportsValueWorkersDurableObjectTransferredExport",
+  }) as any as S.Schema<BetaWorkersVersionsCreateResponseExportsValueWorkersDurableObjectTransferredExport>;
+
+export type BetaWorkersVersionsCreateResponseExportsValueWorkersDurableObjectExpectingTransferExportState =
+  "expecting-transfer";
+export const BetaWorkersVersionsCreateResponseExportsValueWorkersDurableObjectExpectingTransferExportState =
+  S.String;
+
+export type BetaWorkersVersionsCreateResponseExportsValueWorkersDurableObjectExpectingTransferExportStorage =
+  | "sqlite"
+  | "legacy-kv";
+export const BetaWorkersVersionsCreateResponseExportsValueWorkersDurableObjectExpectingTransferExportStorage =
+  S.String;
+
+export type BetaWorkersVersionsCreateResponseExportsValueWorkersDurableObjectExpectingTransferExportType =
+  "durable-object";
+export const BetaWorkersVersionsCreateResponseExportsValueWorkersDurableObjectExpectingTransferExportType =
+  S.String;
+
+export interface BetaWorkersVersionsCreateResponseExportsValueWorkersDurableObjectExpectingTransferExport {
+  /** Target side of a two-phase transfer. */
+  state: BetaWorkersVersionsCreateResponseExportsValueWorkersDurableObjectExpectingTransferExportState;
+  /** Durable Object storage backend. `sqlite` is the recommended (and only) backend for new namespaces. `legacy-kv` is accepted only for a class whose namespace already exists as KV-backed; the `exports` flow never provisions a new `legacy-kv` namespace. */
+  storage: BetaWorkersVersionsCreateResponseExportsValueWorkersDurableObjectExpectingTransferExportStorage;
+  /** The source script name to receive the namespace from. Must be in the same account and dispatch-namespace context. Present on reads for `expecting-transfer` entries. */
+  transferFrom: string;
+  /** Marks this entry as a Durable Object export. */
+  type: BetaWorkersVersionsCreateResponseExportsValueWorkersDurableObjectExpectingTransferExportType;
+  /** Name of the container (declared in the upload's `metadata.containers`) that backs this Durable Object once the transfer settles. Valid only on live entries. */
+  container?: string | null;
+}
+export const BetaWorkersVersionsCreateResponseExportsValueWorkersDurableObjectExpectingTransferExport =
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      state:
+        BetaWorkersVersionsCreateResponseExportsValueWorkersDurableObjectExpectingTransferExportState,
       storage:
-        BetaWorkersVersionsCreateResponseExportsWorkersDurableObjectExpectingTransferExportStorage,
+        BetaWorkersVersionsCreateResponseExportsValueWorkersDurableObjectExpectingTransferExportStorage,
       transferFrom: S.String.pipe(T.Body("transfer_from")),
-      type: BetaWorkersVersionsCreateResponseExportsWorkersDurableObjectExpectingTransferExportType,
+      type: BetaWorkersVersionsCreateResponseExportsValueWorkersDurableObjectExpectingTransferExportType,
       container: S.optional(S.NullOr(S.String)),
     }),
   ).annotate({
     identifier:
-      "BetaWorkersVersionsCreateResponseExportsWorkersDurableObjectExpectingTransferExport",
-  }) as any as S.Schema<BetaWorkersVersionsCreateResponseExportsWorkersDurableObjectExpectingTransferExport>;
+      "BetaWorkersVersionsCreateResponseExportsValueWorkersDurableObjectExpectingTransferExport",
+  }) as any as S.Schema<BetaWorkersVersionsCreateResponseExportsValueWorkersDurableObjectExpectingTransferExport>;
 
-export type BetaWorkersVersionsCreateResponseExports =
-  | BetaWorkersVersionsCreateResponseExportsWorker
-  | BetaWorkersVersionsCreateResponseExportsWorkersDurableObjectExport
-  | BetaWorkersVersionsCreateResponseExportsWorkersDurableObjectDeletedExport
-  | BetaWorkersVersionsCreateResponseExportsWorkersDurableObjectRenamedExport
-  | BetaWorkersVersionsCreateResponseExportsWorkersDurableObjectTransferredExport
-  | BetaWorkersVersionsCreateResponseExportsWorkersDurableObjectExpectingTransferExport;
-export const BetaWorkersVersionsCreateResponseExports = /*@__PURE__*/ S.Unknown.pipe(
+export type BetaWorkersVersionsCreateResponseExportsValue =
+  | BetaWorkersVersionsCreateResponseExportsValueWorker
+  | BetaWorkersVersionsCreateResponseExportsValueWorkersDurableObjectExport
+  | BetaWorkersVersionsCreateResponseExportsValueWorkersDurableObjectDeletedExport
+  | BetaWorkersVersionsCreateResponseExportsValueWorkersDurableObjectRenamedExport
+  | BetaWorkersVersionsCreateResponseExportsValueWorkersDurableObjectTransferredExport
+  | BetaWorkersVersionsCreateResponseExportsValueWorkersDurableObjectExpectingTransferExport;
+export const BetaWorkersVersionsCreateResponseExportsValue = /*@__PURE__*/ S.Unknown.pipe(
   T.UnionCases([
     ["type", "cache", "state"],
     ["storage", "type", "container", "state"],
@@ -5577,6 +5613,14 @@ export const BetaWorkersVersionsCreateResponseExports = /*@__PURE__*/ S.Unknown.
     ["state", "storage", "transferFrom", "type", "container"],
   ]),
 );
+
+export type BetaWorkersVersionsCreateResponseExportsMap = {
+  [key: string]: BetaWorkersVersionsCreateResponseExportsValue | undefined;
+};
+export const BetaWorkersVersionsCreateResponseExportsMap = /*@__PURE__*/ S.Record(
+  S.String,
+  BetaWorkersVersionsCreateResponseExportsValue,
+) as any as S.Schema<BetaWorkersVersionsCreateResponseExportsMap>;
 
 export type BetaWorkersVersionsCreateResponseExportsReconciliationCreatedList = Array<string>;
 export const BetaWorkersVersionsCreateResponseExportsReconciliationCreatedList =
@@ -6337,7 +6381,7 @@ export interface CreateBetaWorkerVersionResponse {
   /** List of containers attached to a Worker. Containers can only be attached to Durable Object classes of this Worker script. */
   containers?: BetaWorkersVersionsCreateResponseContainersList | null;
   /** Declarative exports for the version, including Durable Object classes (with their `storage` backend) and named Worker entrypoints. On reads, tombstoned lifecycle entries are omitted, so only live exports (`created` and `expecting-transfer`) are returned. `exports` and `migrations` are mutually exclusive on upload. */
-  exports?: BetaWorkersVersionsCreateResponseExports | null;
+  exports?: BetaWorkersVersionsCreateResponseExportsMap | null;
   /** Summary of the declarative exports reconciliation that ran on this upload. Populated only when the uploaded metadata included an `exports` block. Durable Object entries drive reconciliation; `type: worker` entries do not contribute to this summary. */
   exportsReconciliation?: BetaWorkersVersionsCreateResponseExportsReconciliation | null;
   /** Resource limits enforced at runtime. */
@@ -6384,7 +6428,7 @@ export const CreateBetaWorkerVersionResponse = /*@__PURE__*/ S.suspend(() =>
       ),
     ),
     containers: S.optional(S.NullOr(BetaWorkersVersionsCreateResponseContainersList)),
-    exports: S.optional(S.NullOr(BetaWorkersVersionsCreateResponseExports)),
+    exports: S.optional(S.NullOr(BetaWorkersVersionsCreateResponseExportsMap)),
     exportsReconciliation: S.optional(
       S.NullOr(BetaWorkersVersionsCreateResponseExportsReconciliation).pipe(
         T.Body("exports_reconciliation"),
@@ -11342,6 +11386,46 @@ export const PutScriptMetadataStreamingTailConsumersList = /*@__PURE__*/ S.Array
   PutScriptTailConsumer,
 ) as any as S.Schema<PutScriptMetadataStreamingTailConsumersList>;
 
+export type PutScriptMetadataExportType = "worker" | "durable-object";
+export const PutScriptMetadataExportType = S.String;
+
+export type PutScriptMetadataExportState =
+  | "created"
+  | "deleted"
+  | "renamed"
+  | "transferred"
+  | "expecting-transfer";
+export const PutScriptMetadataExportState = S.String;
+
+export interface PutScriptMetadataExport {
+  type?: PutScriptMetadataExportType | (string & {});
+  cache?: PutScriptMetadataCache;
+  storage?: string;
+  container?: string;
+  state?: PutScriptMetadataExportState | (string & {});
+  renamedTo?: string;
+  transferredTo?: string;
+  transferFrom?: string;
+}
+export const PutScriptMetadataExport = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    type: S.optional(PutScriptMetadataExportType),
+    cache: S.optional(PutScriptMetadataCache),
+    storage: S.optional(S.String),
+    container: S.optional(S.String),
+    state: S.optional(PutScriptMetadataExportState),
+    renamedTo: S.optional(S.String.pipe(T.Body("renamed_to"))),
+    transferredTo: S.optional(S.String.pipe(T.Body("transferred_to"))),
+    transferFrom: S.optional(S.String.pipe(T.Body("transfer_from"))),
+  }),
+).annotate({ identifier: "PutScriptMetadataExport" }) as any as S.Schema<PutScriptMetadataExport>;
+
+export type PutScriptMetadataExports = { [key: string]: PutScriptMetadataExport | undefined };
+export const PutScriptMetadataExports = /*@__PURE__*/ S.Record(
+  S.String,
+  PutScriptMetadataExport,
+) as any as S.Schema<PutScriptMetadataExports>;
+
 export interface PutScriptMetadata {
   annotations?: PutScriptMetadataAnnotations;
   assets?: PutScriptMetadataAssets;
@@ -11363,6 +11447,8 @@ export interface PutScriptMetadata {
   usageModel?: PutScriptMetadataUsageModel | (string & {});
   cacheOptions?: PutScriptMetadataCache;
   streamingTailConsumers?: PutScriptMetadataStreamingTailConsumersList | null;
+  /** Per-export settings keyed by the verbatim export name (default for the default export). */
+  exports?: PutScriptMetadataExports;
 }
 export const PutScriptMetadata = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -11392,6 +11478,7 @@ export const PutScriptMetadata = /*@__PURE__*/ S.suspend(() =>
         T.Body("streaming_tail_consumers"),
       ),
     ),
+    exports: S.optional(PutScriptMetadataExports.pipe(T.KeyDictionary({}))),
   }),
 ).annotate({ identifier: "PutScriptMetadata" }) as any as S.Schema<PutScriptMetadata>;
 
@@ -11515,6 +11602,9 @@ export const CreateScriptVersionRequest = /*@__PURE__*/ S.suspend(() =>
         workflowName: "workflow_name",
         zoneId: "zone_id",
         zoneName: "zone_name",
+        renamedTo: "renamed_to",
+        transferredTo: "transferred_to",
+        transferFrom: "transfer_from",
       }),
     ),
     files: S.optional(S.Unknown.pipe(T.FormDataFile())),
@@ -11600,224 +11690,224 @@ export const ScriptsVersionsCreateResponseResourcesScriptRuntimeCompatibilityFla
     S.String,
   ) as any as S.Schema<ScriptsVersionsCreateResponseResourcesScriptRuntimeCompatibilityFlagsList>;
 
-export type ScriptsVersionsCreateResponseResourcesScriptRuntimeExportsWorkerType = "worker";
-export const ScriptsVersionsCreateResponseResourcesScriptRuntimeExportsWorkerType = S.String;
+export type ScriptsVersionsCreateResponseResourcesScriptRuntimeExportsValueWorkerType = "worker";
+export const ScriptsVersionsCreateResponseResourcesScriptRuntimeExportsValueWorkerType = S.String;
 
-export type ScriptsVersionsCreateResponseResourcesScriptRuntimeExportsWorkerCache =
-  BetaWorkersVersionsCreateRequestExportsWorkerCache;
-export const ScriptsVersionsCreateResponseResourcesScriptRuntimeExportsWorkerCache =
-  BetaWorkersVersionsCreateRequestExportsWorkerCache;
+export type ScriptsVersionsCreateResponseResourcesScriptRuntimeExportsValueWorkerCache =
+  BetaWorkersVersionsCreateRequestExportsValueWorkerCache;
+export const ScriptsVersionsCreateResponseResourcesScriptRuntimeExportsValueWorkerCache =
+  BetaWorkersVersionsCreateRequestExportsValueWorkerCache;
 
-export type ScriptsVersionsCreateResponseResourcesScriptRuntimeExportsWorkerState = "created";
-export const ScriptsVersionsCreateResponseResourcesScriptRuntimeExportsWorkerState = S.String;
+export type ScriptsVersionsCreateResponseResourcesScriptRuntimeExportsValueWorkerState = "created";
+export const ScriptsVersionsCreateResponseResourcesScriptRuntimeExportsValueWorkerState = S.String;
 
-export interface ScriptsVersionsCreateResponseResourcesScriptRuntimeExportsWorker {
+export interface ScriptsVersionsCreateResponseResourcesScriptRuntimeExportsValueWorker {
   /** Marks this entry as a Worker entrypoint export. */
-  type: ScriptsVersionsCreateResponseResourcesScriptRuntimeExportsWorkerType;
+  type: ScriptsVersionsCreateResponseResourcesScriptRuntimeExportsValueWorkerType;
   /** Cache override for this entrypoint. Overrides the Worker's global `cache_options.enabled` for this entrypoint only. */
-  cache?: BetaWorkersVersionsCreateRequestExportsWorkerCache | null;
+  cache?: BetaWorkersVersionsCreateRequestExportsValueWorkerCache | null;
   /** Live export. May be omitted; defaults to `created`. */
-  state?: ScriptsVersionsCreateResponseResourcesScriptRuntimeExportsWorkerState | null;
+  state?: ScriptsVersionsCreateResponseResourcesScriptRuntimeExportsValueWorkerState | null;
 }
-export const ScriptsVersionsCreateResponseResourcesScriptRuntimeExportsWorker =
+export const ScriptsVersionsCreateResponseResourcesScriptRuntimeExportsValueWorker =
   /*@__PURE__*/ S.suspend(() =>
     S.Struct({
-      type: ScriptsVersionsCreateResponseResourcesScriptRuntimeExportsWorkerType,
-      cache: S.optional(S.NullOr(BetaWorkersVersionsCreateRequestExportsWorkerCache)),
+      type: ScriptsVersionsCreateResponseResourcesScriptRuntimeExportsValueWorkerType,
+      cache: S.optional(S.NullOr(BetaWorkersVersionsCreateRequestExportsValueWorkerCache)),
       state: S.optional(
-        S.NullOr(ScriptsVersionsCreateResponseResourcesScriptRuntimeExportsWorkerState),
+        S.NullOr(ScriptsVersionsCreateResponseResourcesScriptRuntimeExportsValueWorkerState),
       ),
     }),
   ).annotate({
-    identifier: "ScriptsVersionsCreateResponseResourcesScriptRuntimeExportsWorker",
-  }) as any as S.Schema<ScriptsVersionsCreateResponseResourcesScriptRuntimeExportsWorker>;
+    identifier: "ScriptsVersionsCreateResponseResourcesScriptRuntimeExportsValueWorker",
+  }) as any as S.Schema<ScriptsVersionsCreateResponseResourcesScriptRuntimeExportsValueWorker>;
 
-export type ScriptsVersionsCreateResponseResourcesScriptRuntimeExportsWorkersDurableObjectExportStorage =
+export type ScriptsVersionsCreateResponseResourcesScriptRuntimeExportsValueWorkersDurableObjectExportStorage =
   | "sqlite"
   | "legacy-kv";
-export const ScriptsVersionsCreateResponseResourcesScriptRuntimeExportsWorkersDurableObjectExportStorage =
+export const ScriptsVersionsCreateResponseResourcesScriptRuntimeExportsValueWorkersDurableObjectExportStorage =
   S.String;
 
-export type ScriptsVersionsCreateResponseResourcesScriptRuntimeExportsWorkersDurableObjectExportType =
+export type ScriptsVersionsCreateResponseResourcesScriptRuntimeExportsValueWorkersDurableObjectExportType =
   "durable-object";
-export const ScriptsVersionsCreateResponseResourcesScriptRuntimeExportsWorkersDurableObjectExportType =
+export const ScriptsVersionsCreateResponseResourcesScriptRuntimeExportsValueWorkersDurableObjectExportType =
   S.String;
 
-export type ScriptsVersionsCreateResponseResourcesScriptRuntimeExportsWorkersDurableObjectExportState =
+export type ScriptsVersionsCreateResponseResourcesScriptRuntimeExportsValueWorkersDurableObjectExportState =
   "created";
-export const ScriptsVersionsCreateResponseResourcesScriptRuntimeExportsWorkersDurableObjectExportState =
+export const ScriptsVersionsCreateResponseResourcesScriptRuntimeExportsValueWorkersDurableObjectExportState =
   S.String;
 
-export interface ScriptsVersionsCreateResponseResourcesScriptRuntimeExportsWorkersDurableObjectExport {
+export interface ScriptsVersionsCreateResponseResourcesScriptRuntimeExportsValueWorkersDurableObjectExport {
   /** Durable Object storage backend. `sqlite` is the recommended (and only) backend for new namespaces. `legacy-kv` is accepted only for a class whose namespace already exists as KV-backed; the `exports` flow never provisions a new `legacy-kv` namespace. */
-  storage: ScriptsVersionsCreateResponseResourcesScriptRuntimeExportsWorkersDurableObjectExportStorage;
+  storage: ScriptsVersionsCreateResponseResourcesScriptRuntimeExportsValueWorkersDurableObjectExportStorage;
   /** Marks this entry as a Durable Object export. */
-  type: ScriptsVersionsCreateResponseResourcesScriptRuntimeExportsWorkersDurableObjectExportType;
+  type: ScriptsVersionsCreateResponseResourcesScriptRuntimeExportsValueWorkersDurableObjectExportType;
   /** Name of the container (declared in the upload's `metadata.containers`) that backs this Durable Object. When set, the namespace is container-enabled. Valid only on live entries. */
   container?: string | null;
   /** Live export. May be omitted; defaults to `created`. */
-  state?: ScriptsVersionsCreateResponseResourcesScriptRuntimeExportsWorkersDurableObjectExportState | null;
+  state?: ScriptsVersionsCreateResponseResourcesScriptRuntimeExportsValueWorkersDurableObjectExportState | null;
 }
-export const ScriptsVersionsCreateResponseResourcesScriptRuntimeExportsWorkersDurableObjectExport =
+export const ScriptsVersionsCreateResponseResourcesScriptRuntimeExportsValueWorkersDurableObjectExport =
   /*@__PURE__*/ S.suspend(() =>
     S.Struct({
       storage:
-        ScriptsVersionsCreateResponseResourcesScriptRuntimeExportsWorkersDurableObjectExportStorage,
-      type: ScriptsVersionsCreateResponseResourcesScriptRuntimeExportsWorkersDurableObjectExportType,
+        ScriptsVersionsCreateResponseResourcesScriptRuntimeExportsValueWorkersDurableObjectExportStorage,
+      type: ScriptsVersionsCreateResponseResourcesScriptRuntimeExportsValueWorkersDurableObjectExportType,
       container: S.optional(S.NullOr(S.String)),
       state: S.optional(
         S.NullOr(
-          ScriptsVersionsCreateResponseResourcesScriptRuntimeExportsWorkersDurableObjectExportState,
+          ScriptsVersionsCreateResponseResourcesScriptRuntimeExportsValueWorkersDurableObjectExportState,
         ),
       ),
     }),
   ).annotate({
     identifier:
-      "ScriptsVersionsCreateResponseResourcesScriptRuntimeExportsWorkersDurableObjectExport",
-  }) as any as S.Schema<ScriptsVersionsCreateResponseResourcesScriptRuntimeExportsWorkersDurableObjectExport>;
+      "ScriptsVersionsCreateResponseResourcesScriptRuntimeExportsValueWorkersDurableObjectExport",
+  }) as any as S.Schema<ScriptsVersionsCreateResponseResourcesScriptRuntimeExportsValueWorkersDurableObjectExport>;
 
-export type ScriptsVersionsCreateResponseResourcesScriptRuntimeExportsWorkersDurableObjectDeletedExportState =
+export type ScriptsVersionsCreateResponseResourcesScriptRuntimeExportsValueWorkersDurableObjectDeletedExportState =
   "deleted";
-export const ScriptsVersionsCreateResponseResourcesScriptRuntimeExportsWorkersDurableObjectDeletedExportState =
+export const ScriptsVersionsCreateResponseResourcesScriptRuntimeExportsValueWorkersDurableObjectDeletedExportState =
   S.String;
 
-export type ScriptsVersionsCreateResponseResourcesScriptRuntimeExportsWorkersDurableObjectDeletedExportType =
+export type ScriptsVersionsCreateResponseResourcesScriptRuntimeExportsValueWorkersDurableObjectDeletedExportType =
   "durable-object";
-export const ScriptsVersionsCreateResponseResourcesScriptRuntimeExportsWorkersDurableObjectDeletedExportType =
+export const ScriptsVersionsCreateResponseResourcesScriptRuntimeExportsValueWorkersDurableObjectDeletedExportType =
   S.String;
 
-export interface ScriptsVersionsCreateResponseResourcesScriptRuntimeExportsWorkersDurableObjectDeletedExport {
+export interface ScriptsVersionsCreateResponseResourcesScriptRuntimeExportsValueWorkersDurableObjectDeletedExport {
   /** Tombstone that deletes the namespace. */
-  state: ScriptsVersionsCreateResponseResourcesScriptRuntimeExportsWorkersDurableObjectDeletedExportState;
+  state: ScriptsVersionsCreateResponseResourcesScriptRuntimeExportsValueWorkersDurableObjectDeletedExportState;
   /** Marks this entry as a Durable Object export. */
-  type: ScriptsVersionsCreateResponseResourcesScriptRuntimeExportsWorkersDurableObjectDeletedExportType;
+  type: ScriptsVersionsCreateResponseResourcesScriptRuntimeExportsValueWorkersDurableObjectDeletedExportType;
 }
-export const ScriptsVersionsCreateResponseResourcesScriptRuntimeExportsWorkersDurableObjectDeletedExport =
+export const ScriptsVersionsCreateResponseResourcesScriptRuntimeExportsValueWorkersDurableObjectDeletedExport =
   /*@__PURE__*/ S.suspend(() =>
     S.Struct({
       state:
-        ScriptsVersionsCreateResponseResourcesScriptRuntimeExportsWorkersDurableObjectDeletedExportState,
-      type: ScriptsVersionsCreateResponseResourcesScriptRuntimeExportsWorkersDurableObjectDeletedExportType,
+        ScriptsVersionsCreateResponseResourcesScriptRuntimeExportsValueWorkersDurableObjectDeletedExportState,
+      type: ScriptsVersionsCreateResponseResourcesScriptRuntimeExportsValueWorkersDurableObjectDeletedExportType,
     }),
   ).annotate({
     identifier:
-      "ScriptsVersionsCreateResponseResourcesScriptRuntimeExportsWorkersDurableObjectDeletedExport",
-  }) as any as S.Schema<ScriptsVersionsCreateResponseResourcesScriptRuntimeExportsWorkersDurableObjectDeletedExport>;
+      "ScriptsVersionsCreateResponseResourcesScriptRuntimeExportsValueWorkersDurableObjectDeletedExport",
+  }) as any as S.Schema<ScriptsVersionsCreateResponseResourcesScriptRuntimeExportsValueWorkersDurableObjectDeletedExport>;
 
-export type ScriptsVersionsCreateResponseResourcesScriptRuntimeExportsWorkersDurableObjectRenamedExportState =
+export type ScriptsVersionsCreateResponseResourcesScriptRuntimeExportsValueWorkersDurableObjectRenamedExportState =
   "renamed";
-export const ScriptsVersionsCreateResponseResourcesScriptRuntimeExportsWorkersDurableObjectRenamedExportState =
+export const ScriptsVersionsCreateResponseResourcesScriptRuntimeExportsValueWorkersDurableObjectRenamedExportState =
   S.String;
 
-export type ScriptsVersionsCreateResponseResourcesScriptRuntimeExportsWorkersDurableObjectRenamedExportType =
+export type ScriptsVersionsCreateResponseResourcesScriptRuntimeExportsValueWorkersDurableObjectRenamedExportType =
   "durable-object";
-export const ScriptsVersionsCreateResponseResourcesScriptRuntimeExportsWorkersDurableObjectRenamedExportType =
+export const ScriptsVersionsCreateResponseResourcesScriptRuntimeExportsValueWorkersDurableObjectRenamedExportType =
   S.String;
 
-export interface ScriptsVersionsCreateResponseResourcesScriptRuntimeExportsWorkersDurableObjectRenamedExport {
+export interface ScriptsVersionsCreateResponseResourcesScriptRuntimeExportsValueWorkersDurableObjectRenamedExport {
   /** The destination class name. Must differ from the source class (the map key) and must be declared as a live (`created`) entry in the same `exports` map. Write-only: never present in GET responses. */
   renamedTo: string;
   /** Tombstone that renames the namespace's class. */
-  state: ScriptsVersionsCreateResponseResourcesScriptRuntimeExportsWorkersDurableObjectRenamedExportState;
+  state: ScriptsVersionsCreateResponseResourcesScriptRuntimeExportsValueWorkersDurableObjectRenamedExportState;
   /** Marks this entry as a Durable Object export. */
-  type: ScriptsVersionsCreateResponseResourcesScriptRuntimeExportsWorkersDurableObjectRenamedExportType;
+  type: ScriptsVersionsCreateResponseResourcesScriptRuntimeExportsValueWorkersDurableObjectRenamedExportType;
 }
-export const ScriptsVersionsCreateResponseResourcesScriptRuntimeExportsWorkersDurableObjectRenamedExport =
+export const ScriptsVersionsCreateResponseResourcesScriptRuntimeExportsValueWorkersDurableObjectRenamedExport =
   /*@__PURE__*/ S.suspend(() =>
     S.Struct({
       renamedTo: S.String.pipe(T.Body("renamed_to")),
       state:
-        ScriptsVersionsCreateResponseResourcesScriptRuntimeExportsWorkersDurableObjectRenamedExportState,
-      type: ScriptsVersionsCreateResponseResourcesScriptRuntimeExportsWorkersDurableObjectRenamedExportType,
+        ScriptsVersionsCreateResponseResourcesScriptRuntimeExportsValueWorkersDurableObjectRenamedExportState,
+      type: ScriptsVersionsCreateResponseResourcesScriptRuntimeExportsValueWorkersDurableObjectRenamedExportType,
     }),
   ).annotate({
     identifier:
-      "ScriptsVersionsCreateResponseResourcesScriptRuntimeExportsWorkersDurableObjectRenamedExport",
-  }) as any as S.Schema<ScriptsVersionsCreateResponseResourcesScriptRuntimeExportsWorkersDurableObjectRenamedExport>;
+      "ScriptsVersionsCreateResponseResourcesScriptRuntimeExportsValueWorkersDurableObjectRenamedExport",
+  }) as any as S.Schema<ScriptsVersionsCreateResponseResourcesScriptRuntimeExportsValueWorkersDurableObjectRenamedExport>;
 
-export type ScriptsVersionsCreateResponseResourcesScriptRuntimeExportsWorkersDurableObjectTransferredExportState =
+export type ScriptsVersionsCreateResponseResourcesScriptRuntimeExportsValueWorkersDurableObjectTransferredExportState =
   "transferred";
-export const ScriptsVersionsCreateResponseResourcesScriptRuntimeExportsWorkersDurableObjectTransferredExportState =
+export const ScriptsVersionsCreateResponseResourcesScriptRuntimeExportsValueWorkersDurableObjectTransferredExportState =
   S.String;
 
-export type ScriptsVersionsCreateResponseResourcesScriptRuntimeExportsWorkersDurableObjectTransferredExportType =
+export type ScriptsVersionsCreateResponseResourcesScriptRuntimeExportsValueWorkersDurableObjectTransferredExportType =
   "durable-object";
-export const ScriptsVersionsCreateResponseResourcesScriptRuntimeExportsWorkersDurableObjectTransferredExportType =
+export const ScriptsVersionsCreateResponseResourcesScriptRuntimeExportsValueWorkersDurableObjectTransferredExportType =
   S.String;
 
-export interface ScriptsVersionsCreateResponseResourcesScriptRuntimeExportsWorkersDurableObjectTransferredExport {
+export interface ScriptsVersionsCreateResponseResourcesScriptRuntimeExportsValueWorkersDurableObjectTransferredExport {
   /** Tombstone that transfers the namespace to another script. */
-  state: ScriptsVersionsCreateResponseResourcesScriptRuntimeExportsWorkersDurableObjectTransferredExportState;
+  state: ScriptsVersionsCreateResponseResourcesScriptRuntimeExportsValueWorkersDurableObjectTransferredExportState;
   /** The destination script name. Must be in the same account and the same dispatch-namespace context (or both non-dispatch). Cross-dispatch-namespace transfers are rejected. Write-only: never present in GET responses. */
   transferredTo: string;
   /** Marks this entry as a Durable Object export. */
-  type: ScriptsVersionsCreateResponseResourcesScriptRuntimeExportsWorkersDurableObjectTransferredExportType;
+  type: ScriptsVersionsCreateResponseResourcesScriptRuntimeExportsValueWorkersDurableObjectTransferredExportType;
 }
-export const ScriptsVersionsCreateResponseResourcesScriptRuntimeExportsWorkersDurableObjectTransferredExport =
+export const ScriptsVersionsCreateResponseResourcesScriptRuntimeExportsValueWorkersDurableObjectTransferredExport =
   /*@__PURE__*/ S.suspend(() =>
     S.Struct({
       state:
-        ScriptsVersionsCreateResponseResourcesScriptRuntimeExportsWorkersDurableObjectTransferredExportState,
+        ScriptsVersionsCreateResponseResourcesScriptRuntimeExportsValueWorkersDurableObjectTransferredExportState,
       transferredTo: S.String.pipe(T.Body("transferred_to")),
-      type: ScriptsVersionsCreateResponseResourcesScriptRuntimeExportsWorkersDurableObjectTransferredExportType,
+      type: ScriptsVersionsCreateResponseResourcesScriptRuntimeExportsValueWorkersDurableObjectTransferredExportType,
     }),
   ).annotate({
     identifier:
-      "ScriptsVersionsCreateResponseResourcesScriptRuntimeExportsWorkersDurableObjectTransferredExport",
-  }) as any as S.Schema<ScriptsVersionsCreateResponseResourcesScriptRuntimeExportsWorkersDurableObjectTransferredExport>;
+      "ScriptsVersionsCreateResponseResourcesScriptRuntimeExportsValueWorkersDurableObjectTransferredExport",
+  }) as any as S.Schema<ScriptsVersionsCreateResponseResourcesScriptRuntimeExportsValueWorkersDurableObjectTransferredExport>;
 
-export type ScriptsVersionsCreateResponseResourcesScriptRuntimeExportsWorkersDurableObjectExpectingTransferExportState =
+export type ScriptsVersionsCreateResponseResourcesScriptRuntimeExportsValueWorkersDurableObjectExpectingTransferExportState =
   "expecting-transfer";
-export const ScriptsVersionsCreateResponseResourcesScriptRuntimeExportsWorkersDurableObjectExpectingTransferExportState =
+export const ScriptsVersionsCreateResponseResourcesScriptRuntimeExportsValueWorkersDurableObjectExpectingTransferExportState =
   S.String;
 
-export type ScriptsVersionsCreateResponseResourcesScriptRuntimeExportsWorkersDurableObjectExpectingTransferExportStorage =
+export type ScriptsVersionsCreateResponseResourcesScriptRuntimeExportsValueWorkersDurableObjectExpectingTransferExportStorage =
   | "sqlite"
   | "legacy-kv";
-export const ScriptsVersionsCreateResponseResourcesScriptRuntimeExportsWorkersDurableObjectExpectingTransferExportStorage =
+export const ScriptsVersionsCreateResponseResourcesScriptRuntimeExportsValueWorkersDurableObjectExpectingTransferExportStorage =
   S.String;
 
-export type ScriptsVersionsCreateResponseResourcesScriptRuntimeExportsWorkersDurableObjectExpectingTransferExportType =
+export type ScriptsVersionsCreateResponseResourcesScriptRuntimeExportsValueWorkersDurableObjectExpectingTransferExportType =
   "durable-object";
-export const ScriptsVersionsCreateResponseResourcesScriptRuntimeExportsWorkersDurableObjectExpectingTransferExportType =
+export const ScriptsVersionsCreateResponseResourcesScriptRuntimeExportsValueWorkersDurableObjectExpectingTransferExportType =
   S.String;
 
-export interface ScriptsVersionsCreateResponseResourcesScriptRuntimeExportsWorkersDurableObjectExpectingTransferExport {
+export interface ScriptsVersionsCreateResponseResourcesScriptRuntimeExportsValueWorkersDurableObjectExpectingTransferExport {
   /** Target side of a two-phase transfer. */
-  state: ScriptsVersionsCreateResponseResourcesScriptRuntimeExportsWorkersDurableObjectExpectingTransferExportState;
+  state: ScriptsVersionsCreateResponseResourcesScriptRuntimeExportsValueWorkersDurableObjectExpectingTransferExportState;
   /** Durable Object storage backend. `sqlite` is the recommended (and only) backend for new namespaces. `legacy-kv` is accepted only for a class whose namespace already exists as KV-backed; the `exports` flow never provisions a new `legacy-kv` namespace. */
-  storage: ScriptsVersionsCreateResponseResourcesScriptRuntimeExportsWorkersDurableObjectExpectingTransferExportStorage;
+  storage: ScriptsVersionsCreateResponseResourcesScriptRuntimeExportsValueWorkersDurableObjectExpectingTransferExportStorage;
   /** The source script name to receive the namespace from. Must be in the same account and dispatch-namespace context. Present on reads for `expecting-transfer` entries. */
   transferFrom: string;
   /** Marks this entry as a Durable Object export. */
-  type: ScriptsVersionsCreateResponseResourcesScriptRuntimeExportsWorkersDurableObjectExpectingTransferExportType;
+  type: ScriptsVersionsCreateResponseResourcesScriptRuntimeExportsValueWorkersDurableObjectExpectingTransferExportType;
   /** Name of the container (declared in the upload's `metadata.containers`) that backs this Durable Object once the transfer settles. Valid only on live entries. */
   container?: string | null;
 }
-export const ScriptsVersionsCreateResponseResourcesScriptRuntimeExportsWorkersDurableObjectExpectingTransferExport =
+export const ScriptsVersionsCreateResponseResourcesScriptRuntimeExportsValueWorkersDurableObjectExpectingTransferExport =
   /*@__PURE__*/ S.suspend(() =>
     S.Struct({
       state:
-        ScriptsVersionsCreateResponseResourcesScriptRuntimeExportsWorkersDurableObjectExpectingTransferExportState,
+        ScriptsVersionsCreateResponseResourcesScriptRuntimeExportsValueWorkersDurableObjectExpectingTransferExportState,
       storage:
-        ScriptsVersionsCreateResponseResourcesScriptRuntimeExportsWorkersDurableObjectExpectingTransferExportStorage,
+        ScriptsVersionsCreateResponseResourcesScriptRuntimeExportsValueWorkersDurableObjectExpectingTransferExportStorage,
       transferFrom: S.String.pipe(T.Body("transfer_from")),
-      type: ScriptsVersionsCreateResponseResourcesScriptRuntimeExportsWorkersDurableObjectExpectingTransferExportType,
+      type: ScriptsVersionsCreateResponseResourcesScriptRuntimeExportsValueWorkersDurableObjectExpectingTransferExportType,
       container: S.optional(S.NullOr(S.String)),
     }),
   ).annotate({
     identifier:
-      "ScriptsVersionsCreateResponseResourcesScriptRuntimeExportsWorkersDurableObjectExpectingTransferExport",
-  }) as any as S.Schema<ScriptsVersionsCreateResponseResourcesScriptRuntimeExportsWorkersDurableObjectExpectingTransferExport>;
+      "ScriptsVersionsCreateResponseResourcesScriptRuntimeExportsValueWorkersDurableObjectExpectingTransferExport",
+  }) as any as S.Schema<ScriptsVersionsCreateResponseResourcesScriptRuntimeExportsValueWorkersDurableObjectExpectingTransferExport>;
 
-export type ScriptsVersionsCreateResponseResourcesScriptRuntimeExports =
-  | ScriptsVersionsCreateResponseResourcesScriptRuntimeExportsWorker
-  | ScriptsVersionsCreateResponseResourcesScriptRuntimeExportsWorkersDurableObjectExport
-  | ScriptsVersionsCreateResponseResourcesScriptRuntimeExportsWorkersDurableObjectDeletedExport
-  | ScriptsVersionsCreateResponseResourcesScriptRuntimeExportsWorkersDurableObjectRenamedExport
-  | ScriptsVersionsCreateResponseResourcesScriptRuntimeExportsWorkersDurableObjectTransferredExport
-  | ScriptsVersionsCreateResponseResourcesScriptRuntimeExportsWorkersDurableObjectExpectingTransferExport;
-export const ScriptsVersionsCreateResponseResourcesScriptRuntimeExports =
+export type ScriptsVersionsCreateResponseResourcesScriptRuntimeExportsValue =
+  | ScriptsVersionsCreateResponseResourcesScriptRuntimeExportsValueWorker
+  | ScriptsVersionsCreateResponseResourcesScriptRuntimeExportsValueWorkersDurableObjectExport
+  | ScriptsVersionsCreateResponseResourcesScriptRuntimeExportsValueWorkersDurableObjectDeletedExport
+  | ScriptsVersionsCreateResponseResourcesScriptRuntimeExportsValueWorkersDurableObjectRenamedExport
+  | ScriptsVersionsCreateResponseResourcesScriptRuntimeExportsValueWorkersDurableObjectTransferredExport
+  | ScriptsVersionsCreateResponseResourcesScriptRuntimeExportsValueWorkersDurableObjectExpectingTransferExport;
+export const ScriptsVersionsCreateResponseResourcesScriptRuntimeExportsValue =
   /*@__PURE__*/ S.Unknown.pipe(
     T.UnionCases([
       ["type", "cache", "state"],
@@ -11828,6 +11918,14 @@ export const ScriptsVersionsCreateResponseResourcesScriptRuntimeExports =
       ["state", "storage", "transferFrom", "type", "container"],
     ]),
   );
+
+export type ScriptsVersionsCreateResponseResourcesScriptRuntimeExportsMap = {
+  [key: string]: ScriptsVersionsCreateResponseResourcesScriptRuntimeExportsValue | undefined;
+};
+export const ScriptsVersionsCreateResponseResourcesScriptRuntimeExportsMap = /*@__PURE__*/ S.Record(
+  S.String,
+  ScriptsVersionsCreateResponseResourcesScriptRuntimeExportsValue,
+) as any as S.Schema<ScriptsVersionsCreateResponseResourcesScriptRuntimeExportsMap>;
 
 export interface ScriptsVersionsCreateResponseResourcesScriptRuntimeLimits {
   /** The amount of CPU time this Worker can use in milliseconds. */
@@ -11854,7 +11952,7 @@ export interface ScriptsVersionsCreateResponseResourcesScriptRuntime {
   /** Flags that enable or disable certain features in the Workers runtime. */
   compatibilityFlags?: ScriptsVersionsCreateResponseResourcesScriptRuntimeCompatibilityFlagsList | null;
   /** Declarative exports for this version, including Durable Object classes (with their `storage` backend) and named Worker entrypoints. Tombstoned lifecycle entries are omitted, so only live exports (`created` and `expecting-transfer`) are returned. */
-  exports?: ScriptsVersionsCreateResponseResourcesScriptRuntimeExports | null;
+  exports?: ScriptsVersionsCreateResponseResourcesScriptRuntimeExportsMap | null;
   /** Resource limits for the Worker. */
   limits?: ScriptsVersionsCreateResponseResourcesScriptRuntimeLimits | null;
   /** The tag of the Durable Object migration that was most recently applied for this Worker. */
@@ -11870,7 +11968,7 @@ export const ScriptsVersionsCreateResponseResourcesScriptRuntime = /*@__PURE__*/
         T.Body("compatibility_flags"),
       ),
     ),
-    exports: S.optional(S.NullOr(ScriptsVersionsCreateResponseResourcesScriptRuntimeExports)),
+    exports: S.optional(S.NullOr(ScriptsVersionsCreateResponseResourcesScriptRuntimeExportsMap)),
     limits: S.optional(S.NullOr(ScriptsVersionsCreateResponseResourcesScriptRuntimeLimits)),
     migrationTag: S.optional(S.NullOr(S.String).pipe(T.Body("migration_tag"))),
     usageModel: S.optional(
@@ -14618,198 +14716,207 @@ export const BetaWorkersVersionsGetResponseContainersList = /*@__PURE__*/ S.Arra
   BetaWorkersVersionsCreateRequestContainersItem,
 ) as any as S.Schema<BetaWorkersVersionsGetResponseContainersList>;
 
-export type BetaWorkersVersionsGetResponseExportsWorkerType = "worker";
-export const BetaWorkersVersionsGetResponseExportsWorkerType = S.String;
+export type BetaWorkersVersionsGetResponseExportsValueWorkerType = "worker";
+export const BetaWorkersVersionsGetResponseExportsValueWorkerType = S.String;
 
-export type BetaWorkersVersionsGetResponseExportsWorkerCache =
-  BetaWorkersVersionsCreateRequestExportsWorkerCache;
-export const BetaWorkersVersionsGetResponseExportsWorkerCache =
-  BetaWorkersVersionsCreateRequestExportsWorkerCache;
+export type BetaWorkersVersionsGetResponseExportsValueWorkerCache =
+  BetaWorkersVersionsCreateRequestExportsValueWorkerCache;
+export const BetaWorkersVersionsGetResponseExportsValueWorkerCache =
+  BetaWorkersVersionsCreateRequestExportsValueWorkerCache;
 
-export type BetaWorkersVersionsGetResponseExportsWorkerState = "created";
-export const BetaWorkersVersionsGetResponseExportsWorkerState = S.String;
+export type BetaWorkersVersionsGetResponseExportsValueWorkerState = "created";
+export const BetaWorkersVersionsGetResponseExportsValueWorkerState = S.String;
 
-export interface BetaWorkersVersionsGetResponseExportsWorker {
+export interface BetaWorkersVersionsGetResponseExportsValueWorker {
   /** Marks this entry as a Worker entrypoint export. */
-  type: BetaWorkersVersionsGetResponseExportsWorkerType;
+  type: BetaWorkersVersionsGetResponseExportsValueWorkerType;
   /** Cache override for this entrypoint. Overrides the Worker's global `cache_options.enabled` for this entrypoint only. */
-  cache?: BetaWorkersVersionsCreateRequestExportsWorkerCache | null;
+  cache?: BetaWorkersVersionsCreateRequestExportsValueWorkerCache | null;
   /** Live export. May be omitted; defaults to `created`. */
-  state?: BetaWorkersVersionsGetResponseExportsWorkerState | null;
+  state?: BetaWorkersVersionsGetResponseExportsValueWorkerState | null;
 }
-export const BetaWorkersVersionsGetResponseExportsWorker = /*@__PURE__*/ S.suspend(() =>
+export const BetaWorkersVersionsGetResponseExportsValueWorker = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    type: BetaWorkersVersionsGetResponseExportsWorkerType,
-    cache: S.optional(S.NullOr(BetaWorkersVersionsCreateRequestExportsWorkerCache)),
-    state: S.optional(S.NullOr(BetaWorkersVersionsGetResponseExportsWorkerState)),
+    type: BetaWorkersVersionsGetResponseExportsValueWorkerType,
+    cache: S.optional(S.NullOr(BetaWorkersVersionsCreateRequestExportsValueWorkerCache)),
+    state: S.optional(S.NullOr(BetaWorkersVersionsGetResponseExportsValueWorkerState)),
   }),
 ).annotate({
-  identifier: "BetaWorkersVersionsGetResponseExportsWorker",
-}) as any as S.Schema<BetaWorkersVersionsGetResponseExportsWorker>;
+  identifier: "BetaWorkersVersionsGetResponseExportsValueWorker",
+}) as any as S.Schema<BetaWorkersVersionsGetResponseExportsValueWorker>;
 
-export type BetaWorkersVersionsGetResponseExportsWorkersDurableObjectExportStorage =
+export type BetaWorkersVersionsGetResponseExportsValueWorkersDurableObjectExportStorage =
   | "sqlite"
   | "legacy-kv";
-export const BetaWorkersVersionsGetResponseExportsWorkersDurableObjectExportStorage = S.String;
+export const BetaWorkersVersionsGetResponseExportsValueWorkersDurableObjectExportStorage = S.String;
 
-export type BetaWorkersVersionsGetResponseExportsWorkersDurableObjectExportType = "durable-object";
-export const BetaWorkersVersionsGetResponseExportsWorkersDurableObjectExportType = S.String;
+export type BetaWorkersVersionsGetResponseExportsValueWorkersDurableObjectExportType =
+  "durable-object";
+export const BetaWorkersVersionsGetResponseExportsValueWorkersDurableObjectExportType = S.String;
 
-export type BetaWorkersVersionsGetResponseExportsWorkersDurableObjectExportState = "created";
-export const BetaWorkersVersionsGetResponseExportsWorkersDurableObjectExportState = S.String;
+export type BetaWorkersVersionsGetResponseExportsValueWorkersDurableObjectExportState = "created";
+export const BetaWorkersVersionsGetResponseExportsValueWorkersDurableObjectExportState = S.String;
 
-export interface BetaWorkersVersionsGetResponseExportsWorkersDurableObjectExport {
+export interface BetaWorkersVersionsGetResponseExportsValueWorkersDurableObjectExport {
   /** Durable Object storage backend. `sqlite` is the recommended (and only) backend for new namespaces. `legacy-kv` is accepted only for a class whose namespace already exists as KV-backed; the `exports` flow never provisions a new `legacy-kv` namespace. */
-  storage: BetaWorkersVersionsGetResponseExportsWorkersDurableObjectExportStorage;
+  storage: BetaWorkersVersionsGetResponseExportsValueWorkersDurableObjectExportStorage;
   /** Marks this entry as a Durable Object export. */
-  type: BetaWorkersVersionsGetResponseExportsWorkersDurableObjectExportType;
+  type: BetaWorkersVersionsGetResponseExportsValueWorkersDurableObjectExportType;
   /** Name of the container (declared in the upload's `metadata.containers`) that backs this Durable Object. When set, the namespace is container-enabled. Valid only on live entries. */
   container?: string | null;
   /** Live export. May be omitted; defaults to `created`. */
-  state?: BetaWorkersVersionsGetResponseExportsWorkersDurableObjectExportState | null;
+  state?: BetaWorkersVersionsGetResponseExportsValueWorkersDurableObjectExportState | null;
 }
-export const BetaWorkersVersionsGetResponseExportsWorkersDurableObjectExport =
+export const BetaWorkersVersionsGetResponseExportsValueWorkersDurableObjectExport =
   /*@__PURE__*/ S.suspend(() =>
     S.Struct({
-      storage: BetaWorkersVersionsGetResponseExportsWorkersDurableObjectExportStorage,
-      type: BetaWorkersVersionsGetResponseExportsWorkersDurableObjectExportType,
+      storage: BetaWorkersVersionsGetResponseExportsValueWorkersDurableObjectExportStorage,
+      type: BetaWorkersVersionsGetResponseExportsValueWorkersDurableObjectExportType,
       container: S.optional(S.NullOr(S.String)),
       state: S.optional(
-        S.NullOr(BetaWorkersVersionsGetResponseExportsWorkersDurableObjectExportState),
+        S.NullOr(BetaWorkersVersionsGetResponseExportsValueWorkersDurableObjectExportState),
       ),
     }),
   ).annotate({
-    identifier: "BetaWorkersVersionsGetResponseExportsWorkersDurableObjectExport",
-  }) as any as S.Schema<BetaWorkersVersionsGetResponseExportsWorkersDurableObjectExport>;
+    identifier: "BetaWorkersVersionsGetResponseExportsValueWorkersDurableObjectExport",
+  }) as any as S.Schema<BetaWorkersVersionsGetResponseExportsValueWorkersDurableObjectExport>;
 
-export type BetaWorkersVersionsGetResponseExportsWorkersDurableObjectDeletedExportState = "deleted";
-export const BetaWorkersVersionsGetResponseExportsWorkersDurableObjectDeletedExportState = S.String;
+export type BetaWorkersVersionsGetResponseExportsValueWorkersDurableObjectDeletedExportState =
+  "deleted";
+export const BetaWorkersVersionsGetResponseExportsValueWorkersDurableObjectDeletedExportState =
+  S.String;
 
-export type BetaWorkersVersionsGetResponseExportsWorkersDurableObjectDeletedExportType =
+export type BetaWorkersVersionsGetResponseExportsValueWorkersDurableObjectDeletedExportType =
   "durable-object";
-export const BetaWorkersVersionsGetResponseExportsWorkersDurableObjectDeletedExportType = S.String;
+export const BetaWorkersVersionsGetResponseExportsValueWorkersDurableObjectDeletedExportType =
+  S.String;
 
-export interface BetaWorkersVersionsGetResponseExportsWorkersDurableObjectDeletedExport {
+export interface BetaWorkersVersionsGetResponseExportsValueWorkersDurableObjectDeletedExport {
   /** Tombstone that deletes the namespace. */
-  state: BetaWorkersVersionsGetResponseExportsWorkersDurableObjectDeletedExportState;
+  state: BetaWorkersVersionsGetResponseExportsValueWorkersDurableObjectDeletedExportState;
   /** Marks this entry as a Durable Object export. */
-  type: BetaWorkersVersionsGetResponseExportsWorkersDurableObjectDeletedExportType;
+  type: BetaWorkersVersionsGetResponseExportsValueWorkersDurableObjectDeletedExportType;
 }
-export const BetaWorkersVersionsGetResponseExportsWorkersDurableObjectDeletedExport =
+export const BetaWorkersVersionsGetResponseExportsValueWorkersDurableObjectDeletedExport =
   /*@__PURE__*/ S.suspend(() =>
     S.Struct({
-      state: BetaWorkersVersionsGetResponseExportsWorkersDurableObjectDeletedExportState,
-      type: BetaWorkersVersionsGetResponseExportsWorkersDurableObjectDeletedExportType,
+      state: BetaWorkersVersionsGetResponseExportsValueWorkersDurableObjectDeletedExportState,
+      type: BetaWorkersVersionsGetResponseExportsValueWorkersDurableObjectDeletedExportType,
     }),
   ).annotate({
-    identifier: "BetaWorkersVersionsGetResponseExportsWorkersDurableObjectDeletedExport",
-  }) as any as S.Schema<BetaWorkersVersionsGetResponseExportsWorkersDurableObjectDeletedExport>;
+    identifier: "BetaWorkersVersionsGetResponseExportsValueWorkersDurableObjectDeletedExport",
+  }) as any as S.Schema<BetaWorkersVersionsGetResponseExportsValueWorkersDurableObjectDeletedExport>;
 
-export type BetaWorkersVersionsGetResponseExportsWorkersDurableObjectRenamedExportState = "renamed";
-export const BetaWorkersVersionsGetResponseExportsWorkersDurableObjectRenamedExportState = S.String;
+export type BetaWorkersVersionsGetResponseExportsValueWorkersDurableObjectRenamedExportState =
+  "renamed";
+export const BetaWorkersVersionsGetResponseExportsValueWorkersDurableObjectRenamedExportState =
+  S.String;
 
-export type BetaWorkersVersionsGetResponseExportsWorkersDurableObjectRenamedExportType =
+export type BetaWorkersVersionsGetResponseExportsValueWorkersDurableObjectRenamedExportType =
   "durable-object";
-export const BetaWorkersVersionsGetResponseExportsWorkersDurableObjectRenamedExportType = S.String;
+export const BetaWorkersVersionsGetResponseExportsValueWorkersDurableObjectRenamedExportType =
+  S.String;
 
-export interface BetaWorkersVersionsGetResponseExportsWorkersDurableObjectRenamedExport {
+export interface BetaWorkersVersionsGetResponseExportsValueWorkersDurableObjectRenamedExport {
   /** The destination class name. Must differ from the source class (the map key) and must be declared as a live (`created`) entry in the same `exports` map. Write-only: never present in GET responses. */
   renamedTo: string;
   /** Tombstone that renames the namespace's class. */
-  state: BetaWorkersVersionsGetResponseExportsWorkersDurableObjectRenamedExportState;
+  state: BetaWorkersVersionsGetResponseExportsValueWorkersDurableObjectRenamedExportState;
   /** Marks this entry as a Durable Object export. */
-  type: BetaWorkersVersionsGetResponseExportsWorkersDurableObjectRenamedExportType;
+  type: BetaWorkersVersionsGetResponseExportsValueWorkersDurableObjectRenamedExportType;
 }
-export const BetaWorkersVersionsGetResponseExportsWorkersDurableObjectRenamedExport =
+export const BetaWorkersVersionsGetResponseExportsValueWorkersDurableObjectRenamedExport =
   /*@__PURE__*/ S.suspend(() =>
     S.Struct({
       renamedTo: S.String.pipe(T.Body("renamed_to")),
-      state: BetaWorkersVersionsGetResponseExportsWorkersDurableObjectRenamedExportState,
-      type: BetaWorkersVersionsGetResponseExportsWorkersDurableObjectRenamedExportType,
+      state: BetaWorkersVersionsGetResponseExportsValueWorkersDurableObjectRenamedExportState,
+      type: BetaWorkersVersionsGetResponseExportsValueWorkersDurableObjectRenamedExportType,
     }),
   ).annotate({
-    identifier: "BetaWorkersVersionsGetResponseExportsWorkersDurableObjectRenamedExport",
-  }) as any as S.Schema<BetaWorkersVersionsGetResponseExportsWorkersDurableObjectRenamedExport>;
+    identifier: "BetaWorkersVersionsGetResponseExportsValueWorkersDurableObjectRenamedExport",
+  }) as any as S.Schema<BetaWorkersVersionsGetResponseExportsValueWorkersDurableObjectRenamedExport>;
 
-export type BetaWorkersVersionsGetResponseExportsWorkersDurableObjectTransferredExportState =
+export type BetaWorkersVersionsGetResponseExportsValueWorkersDurableObjectTransferredExportState =
   "transferred";
-export const BetaWorkersVersionsGetResponseExportsWorkersDurableObjectTransferredExportState =
+export const BetaWorkersVersionsGetResponseExportsValueWorkersDurableObjectTransferredExportState =
   S.String;
 
-export type BetaWorkersVersionsGetResponseExportsWorkersDurableObjectTransferredExportType =
+export type BetaWorkersVersionsGetResponseExportsValueWorkersDurableObjectTransferredExportType =
   "durable-object";
-export const BetaWorkersVersionsGetResponseExportsWorkersDurableObjectTransferredExportType =
+export const BetaWorkersVersionsGetResponseExportsValueWorkersDurableObjectTransferredExportType =
   S.String;
 
-export interface BetaWorkersVersionsGetResponseExportsWorkersDurableObjectTransferredExport {
+export interface BetaWorkersVersionsGetResponseExportsValueWorkersDurableObjectTransferredExport {
   /** Tombstone that transfers the namespace to another script. */
-  state: BetaWorkersVersionsGetResponseExportsWorkersDurableObjectTransferredExportState;
+  state: BetaWorkersVersionsGetResponseExportsValueWorkersDurableObjectTransferredExportState;
   /** The destination script name. Must be in the same account and the same dispatch-namespace context (or both non-dispatch). Cross-dispatch-namespace transfers are rejected. Write-only: never present in GET responses. */
   transferredTo: string;
   /** Marks this entry as a Durable Object export. */
-  type: BetaWorkersVersionsGetResponseExportsWorkersDurableObjectTransferredExportType;
+  type: BetaWorkersVersionsGetResponseExportsValueWorkersDurableObjectTransferredExportType;
 }
-export const BetaWorkersVersionsGetResponseExportsWorkersDurableObjectTransferredExport =
+export const BetaWorkersVersionsGetResponseExportsValueWorkersDurableObjectTransferredExport =
   /*@__PURE__*/ S.suspend(() =>
     S.Struct({
-      state: BetaWorkersVersionsGetResponseExportsWorkersDurableObjectTransferredExportState,
+      state: BetaWorkersVersionsGetResponseExportsValueWorkersDurableObjectTransferredExportState,
       transferredTo: S.String.pipe(T.Body("transferred_to")),
-      type: BetaWorkersVersionsGetResponseExportsWorkersDurableObjectTransferredExportType,
+      type: BetaWorkersVersionsGetResponseExportsValueWorkersDurableObjectTransferredExportType,
     }),
   ).annotate({
-    identifier: "BetaWorkersVersionsGetResponseExportsWorkersDurableObjectTransferredExport",
-  }) as any as S.Schema<BetaWorkersVersionsGetResponseExportsWorkersDurableObjectTransferredExport>;
+    identifier: "BetaWorkersVersionsGetResponseExportsValueWorkersDurableObjectTransferredExport",
+  }) as any as S.Schema<BetaWorkersVersionsGetResponseExportsValueWorkersDurableObjectTransferredExport>;
 
-export type BetaWorkersVersionsGetResponseExportsWorkersDurableObjectExpectingTransferExportState =
+export type BetaWorkersVersionsGetResponseExportsValueWorkersDurableObjectExpectingTransferExportState =
   "expecting-transfer";
-export const BetaWorkersVersionsGetResponseExportsWorkersDurableObjectExpectingTransferExportState =
+export const BetaWorkersVersionsGetResponseExportsValueWorkersDurableObjectExpectingTransferExportState =
   S.String;
 
-export type BetaWorkersVersionsGetResponseExportsWorkersDurableObjectExpectingTransferExportStorage =
+export type BetaWorkersVersionsGetResponseExportsValueWorkersDurableObjectExpectingTransferExportStorage =
   | "sqlite"
   | "legacy-kv";
-export const BetaWorkersVersionsGetResponseExportsWorkersDurableObjectExpectingTransferExportStorage =
+export const BetaWorkersVersionsGetResponseExportsValueWorkersDurableObjectExpectingTransferExportStorage =
   S.String;
 
-export type BetaWorkersVersionsGetResponseExportsWorkersDurableObjectExpectingTransferExportType =
+export type BetaWorkersVersionsGetResponseExportsValueWorkersDurableObjectExpectingTransferExportType =
   "durable-object";
-export const BetaWorkersVersionsGetResponseExportsWorkersDurableObjectExpectingTransferExportType =
+export const BetaWorkersVersionsGetResponseExportsValueWorkersDurableObjectExpectingTransferExportType =
   S.String;
 
-export interface BetaWorkersVersionsGetResponseExportsWorkersDurableObjectExpectingTransferExport {
+export interface BetaWorkersVersionsGetResponseExportsValueWorkersDurableObjectExpectingTransferExport {
   /** Target side of a two-phase transfer. */
-  state: BetaWorkersVersionsGetResponseExportsWorkersDurableObjectExpectingTransferExportState;
+  state: BetaWorkersVersionsGetResponseExportsValueWorkersDurableObjectExpectingTransferExportState;
   /** Durable Object storage backend. `sqlite` is the recommended (and only) backend for new namespaces. `legacy-kv` is accepted only for a class whose namespace already exists as KV-backed; the `exports` flow never provisions a new `legacy-kv` namespace. */
-  storage: BetaWorkersVersionsGetResponseExportsWorkersDurableObjectExpectingTransferExportStorage;
+  storage: BetaWorkersVersionsGetResponseExportsValueWorkersDurableObjectExpectingTransferExportStorage;
   /** The source script name to receive the namespace from. Must be in the same account and dispatch-namespace context. Present on reads for `expecting-transfer` entries. */
   transferFrom: string;
   /** Marks this entry as a Durable Object export. */
-  type: BetaWorkersVersionsGetResponseExportsWorkersDurableObjectExpectingTransferExportType;
+  type: BetaWorkersVersionsGetResponseExportsValueWorkersDurableObjectExpectingTransferExportType;
   /** Name of the container (declared in the upload's `metadata.containers`) that backs this Durable Object once the transfer settles. Valid only on live entries. */
   container?: string | null;
 }
-export const BetaWorkersVersionsGetResponseExportsWorkersDurableObjectExpectingTransferExport =
+export const BetaWorkersVersionsGetResponseExportsValueWorkersDurableObjectExpectingTransferExport =
   /*@__PURE__*/ S.suspend(() =>
     S.Struct({
-      state: BetaWorkersVersionsGetResponseExportsWorkersDurableObjectExpectingTransferExportState,
+      state:
+        BetaWorkersVersionsGetResponseExportsValueWorkersDurableObjectExpectingTransferExportState,
       storage:
-        BetaWorkersVersionsGetResponseExportsWorkersDurableObjectExpectingTransferExportStorage,
+        BetaWorkersVersionsGetResponseExportsValueWorkersDurableObjectExpectingTransferExportStorage,
       transferFrom: S.String.pipe(T.Body("transfer_from")),
-      type: BetaWorkersVersionsGetResponseExportsWorkersDurableObjectExpectingTransferExportType,
+      type: BetaWorkersVersionsGetResponseExportsValueWorkersDurableObjectExpectingTransferExportType,
       container: S.optional(S.NullOr(S.String)),
     }),
   ).annotate({
-    identifier: "BetaWorkersVersionsGetResponseExportsWorkersDurableObjectExpectingTransferExport",
-  }) as any as S.Schema<BetaWorkersVersionsGetResponseExportsWorkersDurableObjectExpectingTransferExport>;
+    identifier:
+      "BetaWorkersVersionsGetResponseExportsValueWorkersDurableObjectExpectingTransferExport",
+  }) as any as S.Schema<BetaWorkersVersionsGetResponseExportsValueWorkersDurableObjectExpectingTransferExport>;
 
-export type BetaWorkersVersionsGetResponseExports =
-  | BetaWorkersVersionsGetResponseExportsWorker
-  | BetaWorkersVersionsGetResponseExportsWorkersDurableObjectExport
-  | BetaWorkersVersionsGetResponseExportsWorkersDurableObjectDeletedExport
-  | BetaWorkersVersionsGetResponseExportsWorkersDurableObjectRenamedExport
-  | BetaWorkersVersionsGetResponseExportsWorkersDurableObjectTransferredExport
-  | BetaWorkersVersionsGetResponseExportsWorkersDurableObjectExpectingTransferExport;
-export const BetaWorkersVersionsGetResponseExports = /*@__PURE__*/ S.Unknown.pipe(
+export type BetaWorkersVersionsGetResponseExportsValue =
+  | BetaWorkersVersionsGetResponseExportsValueWorker
+  | BetaWorkersVersionsGetResponseExportsValueWorkersDurableObjectExport
+  | BetaWorkersVersionsGetResponseExportsValueWorkersDurableObjectDeletedExport
+  | BetaWorkersVersionsGetResponseExportsValueWorkersDurableObjectRenamedExport
+  | BetaWorkersVersionsGetResponseExportsValueWorkersDurableObjectTransferredExport
+  | BetaWorkersVersionsGetResponseExportsValueWorkersDurableObjectExpectingTransferExport;
+export const BetaWorkersVersionsGetResponseExportsValue = /*@__PURE__*/ S.Unknown.pipe(
   T.UnionCases([
     ["type", "cache", "state"],
     ["storage", "type", "container", "state"],
@@ -14819,6 +14926,14 @@ export const BetaWorkersVersionsGetResponseExports = /*@__PURE__*/ S.Unknown.pip
     ["state", "storage", "transferFrom", "type", "container"],
   ]),
 );
+
+export type BetaWorkersVersionsGetResponseExportsMap = {
+  [key: string]: BetaWorkersVersionsGetResponseExportsValue | undefined;
+};
+export const BetaWorkersVersionsGetResponseExportsMap = /*@__PURE__*/ S.Record(
+  S.String,
+  BetaWorkersVersionsGetResponseExportsValue,
+) as any as S.Schema<BetaWorkersVersionsGetResponseExportsMap>;
 
 export type BetaWorkersVersionsGetResponseExportsReconciliationCreatedList = Array<string>;
 export const BetaWorkersVersionsGetResponseExportsReconciliationCreatedList = /*@__PURE__*/ S.Array(
@@ -15517,7 +15632,7 @@ export interface GetBetaWorkerVersionResponse {
   /** List of containers attached to a Worker. Containers can only be attached to Durable Object classes of this Worker script. */
   containers?: BetaWorkersVersionsGetResponseContainersList | null;
   /** Declarative exports for the version, including Durable Object classes (with their `storage` backend) and named Worker entrypoints. On reads, tombstoned lifecycle entries are omitted, so only live exports (`created` and `expecting-transfer`) are returned. `exports` and `migrations` are mutually exclusive on upload. */
-  exports?: BetaWorkersVersionsGetResponseExports | null;
+  exports?: BetaWorkersVersionsGetResponseExportsMap | null;
   /** Summary of the declarative exports reconciliation that ran on this upload. Populated only when the uploaded metadata included an `exports` block. Durable Object entries drive reconciliation; `type: worker` entries do not contribute to this summary. */
   exportsReconciliation?: BetaWorkersVersionsGetResponseExportsReconciliation | null;
   /** Resource limits enforced at runtime. */
@@ -15564,7 +15679,7 @@ export const GetBetaWorkerVersionResponse = /*@__PURE__*/ S.suspend(() =>
       ),
     ),
     containers: S.optional(S.NullOr(BetaWorkersVersionsGetResponseContainersList)),
-    exports: S.optional(S.NullOr(BetaWorkersVersionsGetResponseExports)),
+    exports: S.optional(S.NullOr(BetaWorkersVersionsGetResponseExportsMap)),
     exportsReconciliation: S.optional(
       S.NullOr(BetaWorkersVersionsGetResponseExportsReconciliation).pipe(
         T.Body("exports_reconciliation"),
@@ -17175,12 +17290,23 @@ export const ObservabilitySharedQueriesGetResponseEventsSeriesItemDataItemAggreg
     identifier: "ObservabilitySharedQueriesGetResponseEventsSeriesItemDataItemAggregates",
   }) as any as S.Schema<ObservabilitySharedQueriesGetResponseEventsSeriesItemDataItemAggregates>;
 
-export type ObservabilitySharedQueriesGetResponseEventsSeriesItemDataItemGroups =
+export type ObservabilitySharedQueriesGetResponseEventsSeriesItemDataItemGroupsValue =
   | string
   | number
   | boolean;
-export const ObservabilitySharedQueriesGetResponseEventsSeriesItemDataItemGroups =
+export const ObservabilitySharedQueriesGetResponseEventsSeriesItemDataItemGroupsValue =
   /*@__PURE__*/ S.Unknown.pipe(T.UnionCases([[], [], []]));
+
+export type ObservabilitySharedQueriesGetResponseEventsSeriesItemDataItemGroupsMap = {
+  [key: string]:
+    | ObservabilitySharedQueriesGetResponseEventsSeriesItemDataItemGroupsValue
+    | undefined;
+};
+export const ObservabilitySharedQueriesGetResponseEventsSeriesItemDataItemGroupsMap =
+  /*@__PURE__*/ S.Record(
+    S.String,
+    ObservabilitySharedQueriesGetResponseEventsSeriesItemDataItemGroupsValue,
+  ) as any as S.Schema<ObservabilitySharedQueriesGetResponseEventsSeriesItemDataItemGroupsMap>;
 
 export interface ObservabilitySharedQueriesGetResponseEventsSeriesItemDataItem {
   aggregates: ObservabilitySharedQueriesGetResponseEventsSeriesItemDataItemAggregates;
@@ -17192,7 +17318,7 @@ export interface ObservabilitySharedQueriesGetResponseEventsSeriesItemDataItem {
   sampleInterval: number;
   errors?: number | null;
   /** Groups in the query results. */
-  groups?: ObservabilitySharedQueriesGetResponseEventsSeriesItemDataItemGroups | null;
+  groups?: ObservabilitySharedQueriesGetResponseEventsSeriesItemDataItemGroupsMap | null;
 }
 export const ObservabilitySharedQueriesGetResponseEventsSeriesItemDataItem =
   /*@__PURE__*/ S.suspend(() =>
@@ -17203,7 +17329,7 @@ export const ObservabilitySharedQueriesGetResponseEventsSeriesItemDataItem =
       sampleInterval: S.Number,
       errors: S.optional(S.NullOr(S.Number)),
       groups: S.optional(
-        S.NullOr(ObservabilitySharedQueriesGetResponseEventsSeriesItemDataItemGroups),
+        S.NullOr(ObservabilitySharedQueriesGetResponseEventsSeriesItemDataItemGroupsMap),
       ),
     }),
   ).annotate({
@@ -19213,217 +19339,223 @@ export const ScriptsScriptAndVersionSettingsGetResponseCompatibilityFlagsList =
     S.String,
   ) as any as S.Schema<ScriptsScriptAndVersionSettingsGetResponseCompatibilityFlagsList>;
 
-export type ScriptsScriptAndVersionSettingsGetResponseExportsWorkerType = "worker";
-export const ScriptsScriptAndVersionSettingsGetResponseExportsWorkerType = S.String;
+export type ScriptsScriptAndVersionSettingsGetResponseExportsValueWorkerType = "worker";
+export const ScriptsScriptAndVersionSettingsGetResponseExportsValueWorkerType = S.String;
 
-export type ScriptsScriptAndVersionSettingsGetResponseExportsWorkerCache =
-  BetaWorkersVersionsCreateRequestExportsWorkerCache;
-export const ScriptsScriptAndVersionSettingsGetResponseExportsWorkerCache =
-  BetaWorkersVersionsCreateRequestExportsWorkerCache;
+export type ScriptsScriptAndVersionSettingsGetResponseExportsValueWorkerCache =
+  BetaWorkersVersionsCreateRequestExportsValueWorkerCache;
+export const ScriptsScriptAndVersionSettingsGetResponseExportsValueWorkerCache =
+  BetaWorkersVersionsCreateRequestExportsValueWorkerCache;
 
-export type ScriptsScriptAndVersionSettingsGetResponseExportsWorkerState = "created";
-export const ScriptsScriptAndVersionSettingsGetResponseExportsWorkerState = S.String;
+export type ScriptsScriptAndVersionSettingsGetResponseExportsValueWorkerState = "created";
+export const ScriptsScriptAndVersionSettingsGetResponseExportsValueWorkerState = S.String;
 
-export interface ScriptsScriptAndVersionSettingsGetResponseExportsWorker {
+export interface ScriptsScriptAndVersionSettingsGetResponseExportsValueWorker {
   /** Marks this entry as a Worker entrypoint export. */
-  type: ScriptsScriptAndVersionSettingsGetResponseExportsWorkerType;
+  type: ScriptsScriptAndVersionSettingsGetResponseExportsValueWorkerType;
   /** Cache override for this entrypoint. Overrides the Worker's global `cache_options.enabled` for this entrypoint only. */
-  cache?: BetaWorkersVersionsCreateRequestExportsWorkerCache | null;
+  cache?: BetaWorkersVersionsCreateRequestExportsValueWorkerCache | null;
   /** Live export. May be omitted; defaults to `created`. */
-  state?: ScriptsScriptAndVersionSettingsGetResponseExportsWorkerState | null;
+  state?: ScriptsScriptAndVersionSettingsGetResponseExportsValueWorkerState | null;
 }
-export const ScriptsScriptAndVersionSettingsGetResponseExportsWorker = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    type: ScriptsScriptAndVersionSettingsGetResponseExportsWorkerType,
-    cache: S.optional(S.NullOr(BetaWorkersVersionsCreateRequestExportsWorkerCache)),
-    state: S.optional(S.NullOr(ScriptsScriptAndVersionSettingsGetResponseExportsWorkerState)),
-  }),
+export const ScriptsScriptAndVersionSettingsGetResponseExportsValueWorker = /*@__PURE__*/ S.suspend(
+  () =>
+    S.Struct({
+      type: ScriptsScriptAndVersionSettingsGetResponseExportsValueWorkerType,
+      cache: S.optional(S.NullOr(BetaWorkersVersionsCreateRequestExportsValueWorkerCache)),
+      state: S.optional(
+        S.NullOr(ScriptsScriptAndVersionSettingsGetResponseExportsValueWorkerState),
+      ),
+    }),
 ).annotate({
-  identifier: "ScriptsScriptAndVersionSettingsGetResponseExportsWorker",
-}) as any as S.Schema<ScriptsScriptAndVersionSettingsGetResponseExportsWorker>;
+  identifier: "ScriptsScriptAndVersionSettingsGetResponseExportsValueWorker",
+}) as any as S.Schema<ScriptsScriptAndVersionSettingsGetResponseExportsValueWorker>;
 
-export type ScriptsScriptAndVersionSettingsGetResponseExportsWorkersDurableObjectExportStorage =
+export type ScriptsScriptAndVersionSettingsGetResponseExportsValueWorkersDurableObjectExportStorage =
   | "sqlite"
   | "legacy-kv";
-export const ScriptsScriptAndVersionSettingsGetResponseExportsWorkersDurableObjectExportStorage =
+export const ScriptsScriptAndVersionSettingsGetResponseExportsValueWorkersDurableObjectExportStorage =
   S.String;
 
-export type ScriptsScriptAndVersionSettingsGetResponseExportsWorkersDurableObjectExportType =
+export type ScriptsScriptAndVersionSettingsGetResponseExportsValueWorkersDurableObjectExportType =
   "durable-object";
-export const ScriptsScriptAndVersionSettingsGetResponseExportsWorkersDurableObjectExportType =
+export const ScriptsScriptAndVersionSettingsGetResponseExportsValueWorkersDurableObjectExportType =
   S.String;
 
-export type ScriptsScriptAndVersionSettingsGetResponseExportsWorkersDurableObjectExportState =
+export type ScriptsScriptAndVersionSettingsGetResponseExportsValueWorkersDurableObjectExportState =
   "created";
-export const ScriptsScriptAndVersionSettingsGetResponseExportsWorkersDurableObjectExportState =
+export const ScriptsScriptAndVersionSettingsGetResponseExportsValueWorkersDurableObjectExportState =
   S.String;
 
-export interface ScriptsScriptAndVersionSettingsGetResponseExportsWorkersDurableObjectExport {
+export interface ScriptsScriptAndVersionSettingsGetResponseExportsValueWorkersDurableObjectExport {
   /** Durable Object storage backend. `sqlite` is the recommended (and only) backend for new namespaces. `legacy-kv` is accepted only for a class whose namespace already exists as KV-backed; the `exports` flow never provisions a new `legacy-kv` namespace. */
-  storage: ScriptsScriptAndVersionSettingsGetResponseExportsWorkersDurableObjectExportStorage;
+  storage: ScriptsScriptAndVersionSettingsGetResponseExportsValueWorkersDurableObjectExportStorage;
   /** Marks this entry as a Durable Object export. */
-  type: ScriptsScriptAndVersionSettingsGetResponseExportsWorkersDurableObjectExportType;
+  type: ScriptsScriptAndVersionSettingsGetResponseExportsValueWorkersDurableObjectExportType;
   /** Name of the container (declared in the upload's `metadata.containers`) that backs this Durable Object. When set, the namespace is container-enabled. Valid only on live entries. */
   container?: string | null;
   /** Live export. May be omitted; defaults to `created`. */
-  state?: ScriptsScriptAndVersionSettingsGetResponseExportsWorkersDurableObjectExportState | null;
+  state?: ScriptsScriptAndVersionSettingsGetResponseExportsValueWorkersDurableObjectExportState | null;
 }
-export const ScriptsScriptAndVersionSettingsGetResponseExportsWorkersDurableObjectExport =
+export const ScriptsScriptAndVersionSettingsGetResponseExportsValueWorkersDurableObjectExport =
   /*@__PURE__*/ S.suspend(() =>
     S.Struct({
-      storage: ScriptsScriptAndVersionSettingsGetResponseExportsWorkersDurableObjectExportStorage,
-      type: ScriptsScriptAndVersionSettingsGetResponseExportsWorkersDurableObjectExportType,
+      storage:
+        ScriptsScriptAndVersionSettingsGetResponseExportsValueWorkersDurableObjectExportStorage,
+      type: ScriptsScriptAndVersionSettingsGetResponseExportsValueWorkersDurableObjectExportType,
       container: S.optional(S.NullOr(S.String)),
       state: S.optional(
-        S.NullOr(ScriptsScriptAndVersionSettingsGetResponseExportsWorkersDurableObjectExportState),
+        S.NullOr(
+          ScriptsScriptAndVersionSettingsGetResponseExportsValueWorkersDurableObjectExportState,
+        ),
       ),
     }),
   ).annotate({
-    identifier: "ScriptsScriptAndVersionSettingsGetResponseExportsWorkersDurableObjectExport",
-  }) as any as S.Schema<ScriptsScriptAndVersionSettingsGetResponseExportsWorkersDurableObjectExport>;
+    identifier: "ScriptsScriptAndVersionSettingsGetResponseExportsValueWorkersDurableObjectExport",
+  }) as any as S.Schema<ScriptsScriptAndVersionSettingsGetResponseExportsValueWorkersDurableObjectExport>;
 
-export type ScriptsScriptAndVersionSettingsGetResponseExportsWorkersDurableObjectDeletedExportState =
+export type ScriptsScriptAndVersionSettingsGetResponseExportsValueWorkersDurableObjectDeletedExportState =
   "deleted";
-export const ScriptsScriptAndVersionSettingsGetResponseExportsWorkersDurableObjectDeletedExportState =
+export const ScriptsScriptAndVersionSettingsGetResponseExportsValueWorkersDurableObjectDeletedExportState =
   S.String;
 
-export type ScriptsScriptAndVersionSettingsGetResponseExportsWorkersDurableObjectDeletedExportType =
+export type ScriptsScriptAndVersionSettingsGetResponseExportsValueWorkersDurableObjectDeletedExportType =
   "durable-object";
-export const ScriptsScriptAndVersionSettingsGetResponseExportsWorkersDurableObjectDeletedExportType =
+export const ScriptsScriptAndVersionSettingsGetResponseExportsValueWorkersDurableObjectDeletedExportType =
   S.String;
 
-export interface ScriptsScriptAndVersionSettingsGetResponseExportsWorkersDurableObjectDeletedExport {
+export interface ScriptsScriptAndVersionSettingsGetResponseExportsValueWorkersDurableObjectDeletedExport {
   /** Tombstone that deletes the namespace. */
-  state: ScriptsScriptAndVersionSettingsGetResponseExportsWorkersDurableObjectDeletedExportState;
+  state: ScriptsScriptAndVersionSettingsGetResponseExportsValueWorkersDurableObjectDeletedExportState;
   /** Marks this entry as a Durable Object export. */
-  type: ScriptsScriptAndVersionSettingsGetResponseExportsWorkersDurableObjectDeletedExportType;
+  type: ScriptsScriptAndVersionSettingsGetResponseExportsValueWorkersDurableObjectDeletedExportType;
 }
-export const ScriptsScriptAndVersionSettingsGetResponseExportsWorkersDurableObjectDeletedExport =
+export const ScriptsScriptAndVersionSettingsGetResponseExportsValueWorkersDurableObjectDeletedExport =
   /*@__PURE__*/ S.suspend(() =>
     S.Struct({
       state:
-        ScriptsScriptAndVersionSettingsGetResponseExportsWorkersDurableObjectDeletedExportState,
-      type: ScriptsScriptAndVersionSettingsGetResponseExportsWorkersDurableObjectDeletedExportType,
+        ScriptsScriptAndVersionSettingsGetResponseExportsValueWorkersDurableObjectDeletedExportState,
+      type: ScriptsScriptAndVersionSettingsGetResponseExportsValueWorkersDurableObjectDeletedExportType,
     }),
   ).annotate({
     identifier:
-      "ScriptsScriptAndVersionSettingsGetResponseExportsWorkersDurableObjectDeletedExport",
-  }) as any as S.Schema<ScriptsScriptAndVersionSettingsGetResponseExportsWorkersDurableObjectDeletedExport>;
+      "ScriptsScriptAndVersionSettingsGetResponseExportsValueWorkersDurableObjectDeletedExport",
+  }) as any as S.Schema<ScriptsScriptAndVersionSettingsGetResponseExportsValueWorkersDurableObjectDeletedExport>;
 
-export type ScriptsScriptAndVersionSettingsGetResponseExportsWorkersDurableObjectRenamedExportState =
+export type ScriptsScriptAndVersionSettingsGetResponseExportsValueWorkersDurableObjectRenamedExportState =
   "renamed";
-export const ScriptsScriptAndVersionSettingsGetResponseExportsWorkersDurableObjectRenamedExportState =
+export const ScriptsScriptAndVersionSettingsGetResponseExportsValueWorkersDurableObjectRenamedExportState =
   S.String;
 
-export type ScriptsScriptAndVersionSettingsGetResponseExportsWorkersDurableObjectRenamedExportType =
+export type ScriptsScriptAndVersionSettingsGetResponseExportsValueWorkersDurableObjectRenamedExportType =
   "durable-object";
-export const ScriptsScriptAndVersionSettingsGetResponseExportsWorkersDurableObjectRenamedExportType =
+export const ScriptsScriptAndVersionSettingsGetResponseExportsValueWorkersDurableObjectRenamedExportType =
   S.String;
 
-export interface ScriptsScriptAndVersionSettingsGetResponseExportsWorkersDurableObjectRenamedExport {
+export interface ScriptsScriptAndVersionSettingsGetResponseExportsValueWorkersDurableObjectRenamedExport {
   /** The destination class name. Must differ from the source class (the map key) and must be declared as a live (`created`) entry in the same `exports` map. Write-only: never present in GET responses. */
   renamedTo: string;
   /** Tombstone that renames the namespace's class. */
-  state: ScriptsScriptAndVersionSettingsGetResponseExportsWorkersDurableObjectRenamedExportState;
+  state: ScriptsScriptAndVersionSettingsGetResponseExportsValueWorkersDurableObjectRenamedExportState;
   /** Marks this entry as a Durable Object export. */
-  type: ScriptsScriptAndVersionSettingsGetResponseExportsWorkersDurableObjectRenamedExportType;
+  type: ScriptsScriptAndVersionSettingsGetResponseExportsValueWorkersDurableObjectRenamedExportType;
 }
-export const ScriptsScriptAndVersionSettingsGetResponseExportsWorkersDurableObjectRenamedExport =
+export const ScriptsScriptAndVersionSettingsGetResponseExportsValueWorkersDurableObjectRenamedExport =
   /*@__PURE__*/ S.suspend(() =>
     S.Struct({
       renamedTo: S.String.pipe(T.Body("renamed_to")),
       state:
-        ScriptsScriptAndVersionSettingsGetResponseExportsWorkersDurableObjectRenamedExportState,
-      type: ScriptsScriptAndVersionSettingsGetResponseExportsWorkersDurableObjectRenamedExportType,
+        ScriptsScriptAndVersionSettingsGetResponseExportsValueWorkersDurableObjectRenamedExportState,
+      type: ScriptsScriptAndVersionSettingsGetResponseExportsValueWorkersDurableObjectRenamedExportType,
     }),
   ).annotate({
     identifier:
-      "ScriptsScriptAndVersionSettingsGetResponseExportsWorkersDurableObjectRenamedExport",
-  }) as any as S.Schema<ScriptsScriptAndVersionSettingsGetResponseExportsWorkersDurableObjectRenamedExport>;
+      "ScriptsScriptAndVersionSettingsGetResponseExportsValueWorkersDurableObjectRenamedExport",
+  }) as any as S.Schema<ScriptsScriptAndVersionSettingsGetResponseExportsValueWorkersDurableObjectRenamedExport>;
 
-export type ScriptsScriptAndVersionSettingsGetResponseExportsWorkersDurableObjectTransferredExportState =
+export type ScriptsScriptAndVersionSettingsGetResponseExportsValueWorkersDurableObjectTransferredExportState =
   "transferred";
-export const ScriptsScriptAndVersionSettingsGetResponseExportsWorkersDurableObjectTransferredExportState =
+export const ScriptsScriptAndVersionSettingsGetResponseExportsValueWorkersDurableObjectTransferredExportState =
   S.String;
 
-export type ScriptsScriptAndVersionSettingsGetResponseExportsWorkersDurableObjectTransferredExportType =
+export type ScriptsScriptAndVersionSettingsGetResponseExportsValueWorkersDurableObjectTransferredExportType =
   "durable-object";
-export const ScriptsScriptAndVersionSettingsGetResponseExportsWorkersDurableObjectTransferredExportType =
+export const ScriptsScriptAndVersionSettingsGetResponseExportsValueWorkersDurableObjectTransferredExportType =
   S.String;
 
-export interface ScriptsScriptAndVersionSettingsGetResponseExportsWorkersDurableObjectTransferredExport {
+export interface ScriptsScriptAndVersionSettingsGetResponseExportsValueWorkersDurableObjectTransferredExport {
   /** Tombstone that transfers the namespace to another script. */
-  state: ScriptsScriptAndVersionSettingsGetResponseExportsWorkersDurableObjectTransferredExportState;
+  state: ScriptsScriptAndVersionSettingsGetResponseExportsValueWorkersDurableObjectTransferredExportState;
   /** The destination script name. Must be in the same account and the same dispatch-namespace context (or both non-dispatch). Cross-dispatch-namespace transfers are rejected. Write-only: never present in GET responses. */
   transferredTo: string;
   /** Marks this entry as a Durable Object export. */
-  type: ScriptsScriptAndVersionSettingsGetResponseExportsWorkersDurableObjectTransferredExportType;
+  type: ScriptsScriptAndVersionSettingsGetResponseExportsValueWorkersDurableObjectTransferredExportType;
 }
-export const ScriptsScriptAndVersionSettingsGetResponseExportsWorkersDurableObjectTransferredExport =
+export const ScriptsScriptAndVersionSettingsGetResponseExportsValueWorkersDurableObjectTransferredExport =
   /*@__PURE__*/ S.suspend(() =>
     S.Struct({
       state:
-        ScriptsScriptAndVersionSettingsGetResponseExportsWorkersDurableObjectTransferredExportState,
+        ScriptsScriptAndVersionSettingsGetResponseExportsValueWorkersDurableObjectTransferredExportState,
       transferredTo: S.String.pipe(T.Body("transferred_to")),
-      type: ScriptsScriptAndVersionSettingsGetResponseExportsWorkersDurableObjectTransferredExportType,
+      type: ScriptsScriptAndVersionSettingsGetResponseExportsValueWorkersDurableObjectTransferredExportType,
     }),
   ).annotate({
     identifier:
-      "ScriptsScriptAndVersionSettingsGetResponseExportsWorkersDurableObjectTransferredExport",
-  }) as any as S.Schema<ScriptsScriptAndVersionSettingsGetResponseExportsWorkersDurableObjectTransferredExport>;
+      "ScriptsScriptAndVersionSettingsGetResponseExportsValueWorkersDurableObjectTransferredExport",
+  }) as any as S.Schema<ScriptsScriptAndVersionSettingsGetResponseExportsValueWorkersDurableObjectTransferredExport>;
 
-export type ScriptsScriptAndVersionSettingsGetResponseExportsWorkersDurableObjectExpectingTransferExportState =
+export type ScriptsScriptAndVersionSettingsGetResponseExportsValueWorkersDurableObjectExpectingTransferExportState =
   "expecting-transfer";
-export const ScriptsScriptAndVersionSettingsGetResponseExportsWorkersDurableObjectExpectingTransferExportState =
+export const ScriptsScriptAndVersionSettingsGetResponseExportsValueWorkersDurableObjectExpectingTransferExportState =
   S.String;
 
-export type ScriptsScriptAndVersionSettingsGetResponseExportsWorkersDurableObjectExpectingTransferExportStorage =
+export type ScriptsScriptAndVersionSettingsGetResponseExportsValueWorkersDurableObjectExpectingTransferExportStorage =
   | "sqlite"
   | "legacy-kv";
-export const ScriptsScriptAndVersionSettingsGetResponseExportsWorkersDurableObjectExpectingTransferExportStorage =
+export const ScriptsScriptAndVersionSettingsGetResponseExportsValueWorkersDurableObjectExpectingTransferExportStorage =
   S.String;
 
-export type ScriptsScriptAndVersionSettingsGetResponseExportsWorkersDurableObjectExpectingTransferExportType =
+export type ScriptsScriptAndVersionSettingsGetResponseExportsValueWorkersDurableObjectExpectingTransferExportType =
   "durable-object";
-export const ScriptsScriptAndVersionSettingsGetResponseExportsWorkersDurableObjectExpectingTransferExportType =
+export const ScriptsScriptAndVersionSettingsGetResponseExportsValueWorkersDurableObjectExpectingTransferExportType =
   S.String;
 
-export interface ScriptsScriptAndVersionSettingsGetResponseExportsWorkersDurableObjectExpectingTransferExport {
+export interface ScriptsScriptAndVersionSettingsGetResponseExportsValueWorkersDurableObjectExpectingTransferExport {
   /** Target side of a two-phase transfer. */
-  state: ScriptsScriptAndVersionSettingsGetResponseExportsWorkersDurableObjectExpectingTransferExportState;
+  state: ScriptsScriptAndVersionSettingsGetResponseExportsValueWorkersDurableObjectExpectingTransferExportState;
   /** Durable Object storage backend. `sqlite` is the recommended (and only) backend for new namespaces. `legacy-kv` is accepted only for a class whose namespace already exists as KV-backed; the `exports` flow never provisions a new `legacy-kv` namespace. */
-  storage: ScriptsScriptAndVersionSettingsGetResponseExportsWorkersDurableObjectExpectingTransferExportStorage;
+  storage: ScriptsScriptAndVersionSettingsGetResponseExportsValueWorkersDurableObjectExpectingTransferExportStorage;
   /** The source script name to receive the namespace from. Must be in the same account and dispatch-namespace context. Present on reads for `expecting-transfer` entries. */
   transferFrom: string;
   /** Marks this entry as a Durable Object export. */
-  type: ScriptsScriptAndVersionSettingsGetResponseExportsWorkersDurableObjectExpectingTransferExportType;
+  type: ScriptsScriptAndVersionSettingsGetResponseExportsValueWorkersDurableObjectExpectingTransferExportType;
   /** Name of the container (declared in the upload's `metadata.containers`) that backs this Durable Object once the transfer settles. Valid only on live entries. */
   container?: string | null;
 }
-export const ScriptsScriptAndVersionSettingsGetResponseExportsWorkersDurableObjectExpectingTransferExport =
+export const ScriptsScriptAndVersionSettingsGetResponseExportsValueWorkersDurableObjectExpectingTransferExport =
   /*@__PURE__*/ S.suspend(() =>
     S.Struct({
       state:
-        ScriptsScriptAndVersionSettingsGetResponseExportsWorkersDurableObjectExpectingTransferExportState,
+        ScriptsScriptAndVersionSettingsGetResponseExportsValueWorkersDurableObjectExpectingTransferExportState,
       storage:
-        ScriptsScriptAndVersionSettingsGetResponseExportsWorkersDurableObjectExpectingTransferExportStorage,
+        ScriptsScriptAndVersionSettingsGetResponseExportsValueWorkersDurableObjectExpectingTransferExportStorage,
       transferFrom: S.String.pipe(T.Body("transfer_from")),
-      type: ScriptsScriptAndVersionSettingsGetResponseExportsWorkersDurableObjectExpectingTransferExportType,
+      type: ScriptsScriptAndVersionSettingsGetResponseExportsValueWorkersDurableObjectExpectingTransferExportType,
       container: S.optional(S.NullOr(S.String)),
     }),
   ).annotate({
     identifier:
-      "ScriptsScriptAndVersionSettingsGetResponseExportsWorkersDurableObjectExpectingTransferExport",
-  }) as any as S.Schema<ScriptsScriptAndVersionSettingsGetResponseExportsWorkersDurableObjectExpectingTransferExport>;
+      "ScriptsScriptAndVersionSettingsGetResponseExportsValueWorkersDurableObjectExpectingTransferExport",
+  }) as any as S.Schema<ScriptsScriptAndVersionSettingsGetResponseExportsValueWorkersDurableObjectExpectingTransferExport>;
 
-export type ScriptsScriptAndVersionSettingsGetResponseExports =
-  | ScriptsScriptAndVersionSettingsGetResponseExportsWorker
-  | ScriptsScriptAndVersionSettingsGetResponseExportsWorkersDurableObjectExport
-  | ScriptsScriptAndVersionSettingsGetResponseExportsWorkersDurableObjectDeletedExport
-  | ScriptsScriptAndVersionSettingsGetResponseExportsWorkersDurableObjectRenamedExport
-  | ScriptsScriptAndVersionSettingsGetResponseExportsWorkersDurableObjectTransferredExport
-  | ScriptsScriptAndVersionSettingsGetResponseExportsWorkersDurableObjectExpectingTransferExport;
-export const ScriptsScriptAndVersionSettingsGetResponseExports = /*@__PURE__*/ S.Unknown.pipe(
+export type ScriptsScriptAndVersionSettingsGetResponseExportsValue =
+  | ScriptsScriptAndVersionSettingsGetResponseExportsValueWorker
+  | ScriptsScriptAndVersionSettingsGetResponseExportsValueWorkersDurableObjectExport
+  | ScriptsScriptAndVersionSettingsGetResponseExportsValueWorkersDurableObjectDeletedExport
+  | ScriptsScriptAndVersionSettingsGetResponseExportsValueWorkersDurableObjectRenamedExport
+  | ScriptsScriptAndVersionSettingsGetResponseExportsValueWorkersDurableObjectTransferredExport
+  | ScriptsScriptAndVersionSettingsGetResponseExportsValueWorkersDurableObjectExpectingTransferExport;
+export const ScriptsScriptAndVersionSettingsGetResponseExportsValue = /*@__PURE__*/ S.Unknown.pipe(
   T.UnionCases([
     ["type", "cache", "state"],
     ["storage", "type", "container", "state"],
@@ -19433,6 +19565,14 @@ export const ScriptsScriptAndVersionSettingsGetResponseExports = /*@__PURE__*/ S
     ["state", "storage", "transferFrom", "type", "container"],
   ]),
 );
+
+export type ScriptsScriptAndVersionSettingsGetResponseExportsMap = {
+  [key: string]: ScriptsScriptAndVersionSettingsGetResponseExportsValue | undefined;
+};
+export const ScriptsScriptAndVersionSettingsGetResponseExportsMap = /*@__PURE__*/ S.Record(
+  S.String,
+  ScriptsScriptAndVersionSettingsGetResponseExportsValue,
+) as any as S.Schema<ScriptsScriptAndVersionSettingsGetResponseExportsMap>;
 
 export type ScriptsScriptAndVersionSettingsGetResponseExportsReconciliationCreatedList =
   Array<string>;
@@ -20262,7 +20402,7 @@ export interface GetScriptScriptAndVersionSettingResponse {
   /** Flags that enable or disable certain features in the Workers runtime. Used to enable upcoming features or opt in or out of specific changes not included in a `compatibility_date`. */
   compatibilityFlags?: ScriptsScriptAndVersionSettingsGetResponseCompatibilityFlagsList | null;
   /** Declarative exports for the Worker. Worker entrypoint entries (`type: worker`) carry cache configuration for that entrypoint. */
-  exports?: ScriptsScriptAndVersionSettingsGetResponseExports | null;
+  exports?: ScriptsScriptAndVersionSettingsGetResponseExportsMap | null;
   /** Summary of the declarative exports reconciliation that ran on this upload. Populated only when the uploaded metadata included an `exports` block. Durable Object entries drive reconciliation; `type: worker` entries do not contribute to this summary. */
   exportsReconciliation?: ScriptsScriptAndVersionSettingsGetResponseExportsReconciliation | null;
   /** Limits to apply for this Worker. */
@@ -20297,7 +20437,7 @@ export const GetScriptScriptAndVersionSettingResponse = /*@__PURE__*/ S.suspend(
         T.Body("compatibility_flags"),
       ),
     ),
-    exports: S.optional(S.NullOr(ScriptsScriptAndVersionSettingsGetResponseExports)),
+    exports: S.optional(S.NullOr(ScriptsScriptAndVersionSettingsGetResponseExportsMap)),
     exportsReconciliation: S.optional(
       S.NullOr(ScriptsScriptAndVersionSettingsGetResponseExportsReconciliation).pipe(
         T.Body("exports_reconciliation"),
@@ -20765,232 +20905,242 @@ export const ScriptsVersionsGetResponseResourcesScriptRuntimeCompatibilityFlagsL
     S.String,
   ) as any as S.Schema<ScriptsVersionsGetResponseResourcesScriptRuntimeCompatibilityFlagsList>;
 
-export type ScriptsVersionsGetResponseResourcesScriptRuntimeExportsWorkerType = "worker";
-export const ScriptsVersionsGetResponseResourcesScriptRuntimeExportsWorkerType = S.String;
+export type ScriptsVersionsGetResponseResourcesScriptRuntimeExportsValueWorkerType = "worker";
+export const ScriptsVersionsGetResponseResourcesScriptRuntimeExportsValueWorkerType = S.String;
 
-export type ScriptsVersionsGetResponseResourcesScriptRuntimeExportsWorkerCache =
-  BetaWorkersVersionsCreateRequestExportsWorkerCache;
-export const ScriptsVersionsGetResponseResourcesScriptRuntimeExportsWorkerCache =
-  BetaWorkersVersionsCreateRequestExportsWorkerCache;
+export type ScriptsVersionsGetResponseResourcesScriptRuntimeExportsValueWorkerCache =
+  BetaWorkersVersionsCreateRequestExportsValueWorkerCache;
+export const ScriptsVersionsGetResponseResourcesScriptRuntimeExportsValueWorkerCache =
+  BetaWorkersVersionsCreateRequestExportsValueWorkerCache;
 
-export type ScriptsVersionsGetResponseResourcesScriptRuntimeExportsWorkerState = "created";
-export const ScriptsVersionsGetResponseResourcesScriptRuntimeExportsWorkerState = S.String;
+export type ScriptsVersionsGetResponseResourcesScriptRuntimeExportsValueWorkerState = "created";
+export const ScriptsVersionsGetResponseResourcesScriptRuntimeExportsValueWorkerState = S.String;
 
-export interface ScriptsVersionsGetResponseResourcesScriptRuntimeExportsWorker {
+export interface ScriptsVersionsGetResponseResourcesScriptRuntimeExportsValueWorker {
   /** Marks this entry as a Worker entrypoint export. */
-  type: ScriptsVersionsGetResponseResourcesScriptRuntimeExportsWorkerType;
+  type: ScriptsVersionsGetResponseResourcesScriptRuntimeExportsValueWorkerType;
   /** Cache override for this entrypoint. Overrides the Worker's global `cache_options.enabled` for this entrypoint only. */
-  cache?: BetaWorkersVersionsCreateRequestExportsWorkerCache | null;
+  cache?: BetaWorkersVersionsCreateRequestExportsValueWorkerCache | null;
   /** Live export. May be omitted; defaults to `created`. */
-  state?: ScriptsVersionsGetResponseResourcesScriptRuntimeExportsWorkerState | null;
+  state?: ScriptsVersionsGetResponseResourcesScriptRuntimeExportsValueWorkerState | null;
 }
-export const ScriptsVersionsGetResponseResourcesScriptRuntimeExportsWorker =
+export const ScriptsVersionsGetResponseResourcesScriptRuntimeExportsValueWorker =
   /*@__PURE__*/ S.suspend(() =>
     S.Struct({
-      type: ScriptsVersionsGetResponseResourcesScriptRuntimeExportsWorkerType,
-      cache: S.optional(S.NullOr(BetaWorkersVersionsCreateRequestExportsWorkerCache)),
+      type: ScriptsVersionsGetResponseResourcesScriptRuntimeExportsValueWorkerType,
+      cache: S.optional(S.NullOr(BetaWorkersVersionsCreateRequestExportsValueWorkerCache)),
       state: S.optional(
-        S.NullOr(ScriptsVersionsGetResponseResourcesScriptRuntimeExportsWorkerState),
+        S.NullOr(ScriptsVersionsGetResponseResourcesScriptRuntimeExportsValueWorkerState),
       ),
     }),
   ).annotate({
-    identifier: "ScriptsVersionsGetResponseResourcesScriptRuntimeExportsWorker",
-  }) as any as S.Schema<ScriptsVersionsGetResponseResourcesScriptRuntimeExportsWorker>;
+    identifier: "ScriptsVersionsGetResponseResourcesScriptRuntimeExportsValueWorker",
+  }) as any as S.Schema<ScriptsVersionsGetResponseResourcesScriptRuntimeExportsValueWorker>;
 
-export type ScriptsVersionsGetResponseResourcesScriptRuntimeExportsWorkersDurableObjectExportStorage =
+export type ScriptsVersionsGetResponseResourcesScriptRuntimeExportsValueWorkersDurableObjectExportStorage =
   | "sqlite"
   | "legacy-kv";
-export const ScriptsVersionsGetResponseResourcesScriptRuntimeExportsWorkersDurableObjectExportStorage =
+export const ScriptsVersionsGetResponseResourcesScriptRuntimeExportsValueWorkersDurableObjectExportStorage =
   S.String;
 
-export type ScriptsVersionsGetResponseResourcesScriptRuntimeExportsWorkersDurableObjectExportType =
+export type ScriptsVersionsGetResponseResourcesScriptRuntimeExportsValueWorkersDurableObjectExportType =
   "durable-object";
-export const ScriptsVersionsGetResponseResourcesScriptRuntimeExportsWorkersDurableObjectExportType =
+export const ScriptsVersionsGetResponseResourcesScriptRuntimeExportsValueWorkersDurableObjectExportType =
   S.String;
 
-export type ScriptsVersionsGetResponseResourcesScriptRuntimeExportsWorkersDurableObjectExportState =
+export type ScriptsVersionsGetResponseResourcesScriptRuntimeExportsValueWorkersDurableObjectExportState =
   "created";
-export const ScriptsVersionsGetResponseResourcesScriptRuntimeExportsWorkersDurableObjectExportState =
+export const ScriptsVersionsGetResponseResourcesScriptRuntimeExportsValueWorkersDurableObjectExportState =
   S.String;
 
-export interface ScriptsVersionsGetResponseResourcesScriptRuntimeExportsWorkersDurableObjectExport {
+export interface ScriptsVersionsGetResponseResourcesScriptRuntimeExportsValueWorkersDurableObjectExport {
   /** Durable Object storage backend. `sqlite` is the recommended (and only) backend for new namespaces. `legacy-kv` is accepted only for a class whose namespace already exists as KV-backed; the `exports` flow never provisions a new `legacy-kv` namespace. */
-  storage: ScriptsVersionsGetResponseResourcesScriptRuntimeExportsWorkersDurableObjectExportStorage;
+  storage: ScriptsVersionsGetResponseResourcesScriptRuntimeExportsValueWorkersDurableObjectExportStorage;
   /** Marks this entry as a Durable Object export. */
-  type: ScriptsVersionsGetResponseResourcesScriptRuntimeExportsWorkersDurableObjectExportType;
+  type: ScriptsVersionsGetResponseResourcesScriptRuntimeExportsValueWorkersDurableObjectExportType;
   /** Name of the container (declared in the upload's `metadata.containers`) that backs this Durable Object. When set, the namespace is container-enabled. Valid only on live entries. */
   container?: string | null;
   /** Live export. May be omitted; defaults to `created`. */
-  state?: ScriptsVersionsGetResponseResourcesScriptRuntimeExportsWorkersDurableObjectExportState | null;
+  state?: ScriptsVersionsGetResponseResourcesScriptRuntimeExportsValueWorkersDurableObjectExportState | null;
 }
-export const ScriptsVersionsGetResponseResourcesScriptRuntimeExportsWorkersDurableObjectExport =
+export const ScriptsVersionsGetResponseResourcesScriptRuntimeExportsValueWorkersDurableObjectExport =
   /*@__PURE__*/ S.suspend(() =>
     S.Struct({
       storage:
-        ScriptsVersionsGetResponseResourcesScriptRuntimeExportsWorkersDurableObjectExportStorage,
-      type: ScriptsVersionsGetResponseResourcesScriptRuntimeExportsWorkersDurableObjectExportType,
+        ScriptsVersionsGetResponseResourcesScriptRuntimeExportsValueWorkersDurableObjectExportStorage,
+      type: ScriptsVersionsGetResponseResourcesScriptRuntimeExportsValueWorkersDurableObjectExportType,
       container: S.optional(S.NullOr(S.String)),
       state: S.optional(
         S.NullOr(
-          ScriptsVersionsGetResponseResourcesScriptRuntimeExportsWorkersDurableObjectExportState,
+          ScriptsVersionsGetResponseResourcesScriptRuntimeExportsValueWorkersDurableObjectExportState,
         ),
       ),
     }),
   ).annotate({
-    identifier: "ScriptsVersionsGetResponseResourcesScriptRuntimeExportsWorkersDurableObjectExport",
-  }) as any as S.Schema<ScriptsVersionsGetResponseResourcesScriptRuntimeExportsWorkersDurableObjectExport>;
+    identifier:
+      "ScriptsVersionsGetResponseResourcesScriptRuntimeExportsValueWorkersDurableObjectExport",
+  }) as any as S.Schema<ScriptsVersionsGetResponseResourcesScriptRuntimeExportsValueWorkersDurableObjectExport>;
 
-export type ScriptsVersionsGetResponseResourcesScriptRuntimeExportsWorkersDurableObjectDeletedExportState =
+export type ScriptsVersionsGetResponseResourcesScriptRuntimeExportsValueWorkersDurableObjectDeletedExportState =
   "deleted";
-export const ScriptsVersionsGetResponseResourcesScriptRuntimeExportsWorkersDurableObjectDeletedExportState =
+export const ScriptsVersionsGetResponseResourcesScriptRuntimeExportsValueWorkersDurableObjectDeletedExportState =
   S.String;
 
-export type ScriptsVersionsGetResponseResourcesScriptRuntimeExportsWorkersDurableObjectDeletedExportType =
+export type ScriptsVersionsGetResponseResourcesScriptRuntimeExportsValueWorkersDurableObjectDeletedExportType =
   "durable-object";
-export const ScriptsVersionsGetResponseResourcesScriptRuntimeExportsWorkersDurableObjectDeletedExportType =
+export const ScriptsVersionsGetResponseResourcesScriptRuntimeExportsValueWorkersDurableObjectDeletedExportType =
   S.String;
 
-export interface ScriptsVersionsGetResponseResourcesScriptRuntimeExportsWorkersDurableObjectDeletedExport {
+export interface ScriptsVersionsGetResponseResourcesScriptRuntimeExportsValueWorkersDurableObjectDeletedExport {
   /** Tombstone that deletes the namespace. */
-  state: ScriptsVersionsGetResponseResourcesScriptRuntimeExportsWorkersDurableObjectDeletedExportState;
+  state: ScriptsVersionsGetResponseResourcesScriptRuntimeExportsValueWorkersDurableObjectDeletedExportState;
   /** Marks this entry as a Durable Object export. */
-  type: ScriptsVersionsGetResponseResourcesScriptRuntimeExportsWorkersDurableObjectDeletedExportType;
+  type: ScriptsVersionsGetResponseResourcesScriptRuntimeExportsValueWorkersDurableObjectDeletedExportType;
 }
-export const ScriptsVersionsGetResponseResourcesScriptRuntimeExportsWorkersDurableObjectDeletedExport =
+export const ScriptsVersionsGetResponseResourcesScriptRuntimeExportsValueWorkersDurableObjectDeletedExport =
   /*@__PURE__*/ S.suspend(() =>
     S.Struct({
       state:
-        ScriptsVersionsGetResponseResourcesScriptRuntimeExportsWorkersDurableObjectDeletedExportState,
-      type: ScriptsVersionsGetResponseResourcesScriptRuntimeExportsWorkersDurableObjectDeletedExportType,
+        ScriptsVersionsGetResponseResourcesScriptRuntimeExportsValueWorkersDurableObjectDeletedExportState,
+      type: ScriptsVersionsGetResponseResourcesScriptRuntimeExportsValueWorkersDurableObjectDeletedExportType,
     }),
   ).annotate({
     identifier:
-      "ScriptsVersionsGetResponseResourcesScriptRuntimeExportsWorkersDurableObjectDeletedExport",
-  }) as any as S.Schema<ScriptsVersionsGetResponseResourcesScriptRuntimeExportsWorkersDurableObjectDeletedExport>;
+      "ScriptsVersionsGetResponseResourcesScriptRuntimeExportsValueWorkersDurableObjectDeletedExport",
+  }) as any as S.Schema<ScriptsVersionsGetResponseResourcesScriptRuntimeExportsValueWorkersDurableObjectDeletedExport>;
 
-export type ScriptsVersionsGetResponseResourcesScriptRuntimeExportsWorkersDurableObjectRenamedExportState =
+export type ScriptsVersionsGetResponseResourcesScriptRuntimeExportsValueWorkersDurableObjectRenamedExportState =
   "renamed";
-export const ScriptsVersionsGetResponseResourcesScriptRuntimeExportsWorkersDurableObjectRenamedExportState =
+export const ScriptsVersionsGetResponseResourcesScriptRuntimeExportsValueWorkersDurableObjectRenamedExportState =
   S.String;
 
-export type ScriptsVersionsGetResponseResourcesScriptRuntimeExportsWorkersDurableObjectRenamedExportType =
+export type ScriptsVersionsGetResponseResourcesScriptRuntimeExportsValueWorkersDurableObjectRenamedExportType =
   "durable-object";
-export const ScriptsVersionsGetResponseResourcesScriptRuntimeExportsWorkersDurableObjectRenamedExportType =
+export const ScriptsVersionsGetResponseResourcesScriptRuntimeExportsValueWorkersDurableObjectRenamedExportType =
   S.String;
 
-export interface ScriptsVersionsGetResponseResourcesScriptRuntimeExportsWorkersDurableObjectRenamedExport {
+export interface ScriptsVersionsGetResponseResourcesScriptRuntimeExportsValueWorkersDurableObjectRenamedExport {
   /** The destination class name. Must differ from the source class (the map key) and must be declared as a live (`created`) entry in the same `exports` map. Write-only: never present in GET responses. */
   renamedTo: string;
   /** Tombstone that renames the namespace's class. */
-  state: ScriptsVersionsGetResponseResourcesScriptRuntimeExportsWorkersDurableObjectRenamedExportState;
+  state: ScriptsVersionsGetResponseResourcesScriptRuntimeExportsValueWorkersDurableObjectRenamedExportState;
   /** Marks this entry as a Durable Object export. */
-  type: ScriptsVersionsGetResponseResourcesScriptRuntimeExportsWorkersDurableObjectRenamedExportType;
+  type: ScriptsVersionsGetResponseResourcesScriptRuntimeExportsValueWorkersDurableObjectRenamedExportType;
 }
-export const ScriptsVersionsGetResponseResourcesScriptRuntimeExportsWorkersDurableObjectRenamedExport =
+export const ScriptsVersionsGetResponseResourcesScriptRuntimeExportsValueWorkersDurableObjectRenamedExport =
   /*@__PURE__*/ S.suspend(() =>
     S.Struct({
       renamedTo: S.String.pipe(T.Body("renamed_to")),
       state:
-        ScriptsVersionsGetResponseResourcesScriptRuntimeExportsWorkersDurableObjectRenamedExportState,
-      type: ScriptsVersionsGetResponseResourcesScriptRuntimeExportsWorkersDurableObjectRenamedExportType,
+        ScriptsVersionsGetResponseResourcesScriptRuntimeExportsValueWorkersDurableObjectRenamedExportState,
+      type: ScriptsVersionsGetResponseResourcesScriptRuntimeExportsValueWorkersDurableObjectRenamedExportType,
     }),
   ).annotate({
     identifier:
-      "ScriptsVersionsGetResponseResourcesScriptRuntimeExportsWorkersDurableObjectRenamedExport",
-  }) as any as S.Schema<ScriptsVersionsGetResponseResourcesScriptRuntimeExportsWorkersDurableObjectRenamedExport>;
+      "ScriptsVersionsGetResponseResourcesScriptRuntimeExportsValueWorkersDurableObjectRenamedExport",
+  }) as any as S.Schema<ScriptsVersionsGetResponseResourcesScriptRuntimeExportsValueWorkersDurableObjectRenamedExport>;
 
-export type ScriptsVersionsGetResponseResourcesScriptRuntimeExportsWorkersDurableObjectTransferredExportState =
+export type ScriptsVersionsGetResponseResourcesScriptRuntimeExportsValueWorkersDurableObjectTransferredExportState =
   "transferred";
-export const ScriptsVersionsGetResponseResourcesScriptRuntimeExportsWorkersDurableObjectTransferredExportState =
+export const ScriptsVersionsGetResponseResourcesScriptRuntimeExportsValueWorkersDurableObjectTransferredExportState =
   S.String;
 
-export type ScriptsVersionsGetResponseResourcesScriptRuntimeExportsWorkersDurableObjectTransferredExportType =
+export type ScriptsVersionsGetResponseResourcesScriptRuntimeExportsValueWorkersDurableObjectTransferredExportType =
   "durable-object";
-export const ScriptsVersionsGetResponseResourcesScriptRuntimeExportsWorkersDurableObjectTransferredExportType =
+export const ScriptsVersionsGetResponseResourcesScriptRuntimeExportsValueWorkersDurableObjectTransferredExportType =
   S.String;
 
-export interface ScriptsVersionsGetResponseResourcesScriptRuntimeExportsWorkersDurableObjectTransferredExport {
+export interface ScriptsVersionsGetResponseResourcesScriptRuntimeExportsValueWorkersDurableObjectTransferredExport {
   /** Tombstone that transfers the namespace to another script. */
-  state: ScriptsVersionsGetResponseResourcesScriptRuntimeExportsWorkersDurableObjectTransferredExportState;
+  state: ScriptsVersionsGetResponseResourcesScriptRuntimeExportsValueWorkersDurableObjectTransferredExportState;
   /** The destination script name. Must be in the same account and the same dispatch-namespace context (or both non-dispatch). Cross-dispatch-namespace transfers are rejected. Write-only: never present in GET responses. */
   transferredTo: string;
   /** Marks this entry as a Durable Object export. */
-  type: ScriptsVersionsGetResponseResourcesScriptRuntimeExportsWorkersDurableObjectTransferredExportType;
+  type: ScriptsVersionsGetResponseResourcesScriptRuntimeExportsValueWorkersDurableObjectTransferredExportType;
 }
-export const ScriptsVersionsGetResponseResourcesScriptRuntimeExportsWorkersDurableObjectTransferredExport =
+export const ScriptsVersionsGetResponseResourcesScriptRuntimeExportsValueWorkersDurableObjectTransferredExport =
   /*@__PURE__*/ S.suspend(() =>
     S.Struct({
       state:
-        ScriptsVersionsGetResponseResourcesScriptRuntimeExportsWorkersDurableObjectTransferredExportState,
+        ScriptsVersionsGetResponseResourcesScriptRuntimeExportsValueWorkersDurableObjectTransferredExportState,
       transferredTo: S.String.pipe(T.Body("transferred_to")),
-      type: ScriptsVersionsGetResponseResourcesScriptRuntimeExportsWorkersDurableObjectTransferredExportType,
+      type: ScriptsVersionsGetResponseResourcesScriptRuntimeExportsValueWorkersDurableObjectTransferredExportType,
     }),
   ).annotate({
     identifier:
-      "ScriptsVersionsGetResponseResourcesScriptRuntimeExportsWorkersDurableObjectTransferredExport",
-  }) as any as S.Schema<ScriptsVersionsGetResponseResourcesScriptRuntimeExportsWorkersDurableObjectTransferredExport>;
+      "ScriptsVersionsGetResponseResourcesScriptRuntimeExportsValueWorkersDurableObjectTransferredExport",
+  }) as any as S.Schema<ScriptsVersionsGetResponseResourcesScriptRuntimeExportsValueWorkersDurableObjectTransferredExport>;
 
-export type ScriptsVersionsGetResponseResourcesScriptRuntimeExportsWorkersDurableObjectExpectingTransferExportState =
+export type ScriptsVersionsGetResponseResourcesScriptRuntimeExportsValueWorkersDurableObjectExpectingTransferExportState =
   "expecting-transfer";
-export const ScriptsVersionsGetResponseResourcesScriptRuntimeExportsWorkersDurableObjectExpectingTransferExportState =
+export const ScriptsVersionsGetResponseResourcesScriptRuntimeExportsValueWorkersDurableObjectExpectingTransferExportState =
   S.String;
 
-export type ScriptsVersionsGetResponseResourcesScriptRuntimeExportsWorkersDurableObjectExpectingTransferExportStorage =
+export type ScriptsVersionsGetResponseResourcesScriptRuntimeExportsValueWorkersDurableObjectExpectingTransferExportStorage =
   | "sqlite"
   | "legacy-kv";
-export const ScriptsVersionsGetResponseResourcesScriptRuntimeExportsWorkersDurableObjectExpectingTransferExportStorage =
+export const ScriptsVersionsGetResponseResourcesScriptRuntimeExportsValueWorkersDurableObjectExpectingTransferExportStorage =
   S.String;
 
-export type ScriptsVersionsGetResponseResourcesScriptRuntimeExportsWorkersDurableObjectExpectingTransferExportType =
+export type ScriptsVersionsGetResponseResourcesScriptRuntimeExportsValueWorkersDurableObjectExpectingTransferExportType =
   "durable-object";
-export const ScriptsVersionsGetResponseResourcesScriptRuntimeExportsWorkersDurableObjectExpectingTransferExportType =
+export const ScriptsVersionsGetResponseResourcesScriptRuntimeExportsValueWorkersDurableObjectExpectingTransferExportType =
   S.String;
 
-export interface ScriptsVersionsGetResponseResourcesScriptRuntimeExportsWorkersDurableObjectExpectingTransferExport {
+export interface ScriptsVersionsGetResponseResourcesScriptRuntimeExportsValueWorkersDurableObjectExpectingTransferExport {
   /** Target side of a two-phase transfer. */
-  state: ScriptsVersionsGetResponseResourcesScriptRuntimeExportsWorkersDurableObjectExpectingTransferExportState;
+  state: ScriptsVersionsGetResponseResourcesScriptRuntimeExportsValueWorkersDurableObjectExpectingTransferExportState;
   /** Durable Object storage backend. `sqlite` is the recommended (and only) backend for new namespaces. `legacy-kv` is accepted only for a class whose namespace already exists as KV-backed; the `exports` flow never provisions a new `legacy-kv` namespace. */
-  storage: ScriptsVersionsGetResponseResourcesScriptRuntimeExportsWorkersDurableObjectExpectingTransferExportStorage;
+  storage: ScriptsVersionsGetResponseResourcesScriptRuntimeExportsValueWorkersDurableObjectExpectingTransferExportStorage;
   /** The source script name to receive the namespace from. Must be in the same account and dispatch-namespace context. Present on reads for `expecting-transfer` entries. */
   transferFrom: string;
   /** Marks this entry as a Durable Object export. */
-  type: ScriptsVersionsGetResponseResourcesScriptRuntimeExportsWorkersDurableObjectExpectingTransferExportType;
+  type: ScriptsVersionsGetResponseResourcesScriptRuntimeExportsValueWorkersDurableObjectExpectingTransferExportType;
   /** Name of the container (declared in the upload's `metadata.containers`) that backs this Durable Object once the transfer settles. Valid only on live entries. */
   container?: string | null;
 }
-export const ScriptsVersionsGetResponseResourcesScriptRuntimeExportsWorkersDurableObjectExpectingTransferExport =
+export const ScriptsVersionsGetResponseResourcesScriptRuntimeExportsValueWorkersDurableObjectExpectingTransferExport =
   /*@__PURE__*/ S.suspend(() =>
     S.Struct({
       state:
-        ScriptsVersionsGetResponseResourcesScriptRuntimeExportsWorkersDurableObjectExpectingTransferExportState,
+        ScriptsVersionsGetResponseResourcesScriptRuntimeExportsValueWorkersDurableObjectExpectingTransferExportState,
       storage:
-        ScriptsVersionsGetResponseResourcesScriptRuntimeExportsWorkersDurableObjectExpectingTransferExportStorage,
+        ScriptsVersionsGetResponseResourcesScriptRuntimeExportsValueWorkersDurableObjectExpectingTransferExportStorage,
       transferFrom: S.String.pipe(T.Body("transfer_from")),
-      type: ScriptsVersionsGetResponseResourcesScriptRuntimeExportsWorkersDurableObjectExpectingTransferExportType,
+      type: ScriptsVersionsGetResponseResourcesScriptRuntimeExportsValueWorkersDurableObjectExpectingTransferExportType,
       container: S.optional(S.NullOr(S.String)),
     }),
   ).annotate({
     identifier:
-      "ScriptsVersionsGetResponseResourcesScriptRuntimeExportsWorkersDurableObjectExpectingTransferExport",
-  }) as any as S.Schema<ScriptsVersionsGetResponseResourcesScriptRuntimeExportsWorkersDurableObjectExpectingTransferExport>;
+      "ScriptsVersionsGetResponseResourcesScriptRuntimeExportsValueWorkersDurableObjectExpectingTransferExport",
+  }) as any as S.Schema<ScriptsVersionsGetResponseResourcesScriptRuntimeExportsValueWorkersDurableObjectExpectingTransferExport>;
 
-export type ScriptsVersionsGetResponseResourcesScriptRuntimeExports =
-  | ScriptsVersionsGetResponseResourcesScriptRuntimeExportsWorker
-  | ScriptsVersionsGetResponseResourcesScriptRuntimeExportsWorkersDurableObjectExport
-  | ScriptsVersionsGetResponseResourcesScriptRuntimeExportsWorkersDurableObjectDeletedExport
-  | ScriptsVersionsGetResponseResourcesScriptRuntimeExportsWorkersDurableObjectRenamedExport
-  | ScriptsVersionsGetResponseResourcesScriptRuntimeExportsWorkersDurableObjectTransferredExport
-  | ScriptsVersionsGetResponseResourcesScriptRuntimeExportsWorkersDurableObjectExpectingTransferExport;
-export const ScriptsVersionsGetResponseResourcesScriptRuntimeExports = /*@__PURE__*/ S.Unknown.pipe(
-  T.UnionCases([
-    ["type", "cache", "state"],
-    ["storage", "type", "container", "state"],
-    ["state", "type"],
-    ["renamedTo", "state", "type"],
-    ["state", "transferredTo", "type"],
-    ["state", "storage", "transferFrom", "type", "container"],
-  ]),
-);
+export type ScriptsVersionsGetResponseResourcesScriptRuntimeExportsValue =
+  | ScriptsVersionsGetResponseResourcesScriptRuntimeExportsValueWorker
+  | ScriptsVersionsGetResponseResourcesScriptRuntimeExportsValueWorkersDurableObjectExport
+  | ScriptsVersionsGetResponseResourcesScriptRuntimeExportsValueWorkersDurableObjectDeletedExport
+  | ScriptsVersionsGetResponseResourcesScriptRuntimeExportsValueWorkersDurableObjectRenamedExport
+  | ScriptsVersionsGetResponseResourcesScriptRuntimeExportsValueWorkersDurableObjectTransferredExport
+  | ScriptsVersionsGetResponseResourcesScriptRuntimeExportsValueWorkersDurableObjectExpectingTransferExport;
+export const ScriptsVersionsGetResponseResourcesScriptRuntimeExportsValue =
+  /*@__PURE__*/ S.Unknown.pipe(
+    T.UnionCases([
+      ["type", "cache", "state"],
+      ["storage", "type", "container", "state"],
+      ["state", "type"],
+      ["renamedTo", "state", "type"],
+      ["state", "transferredTo", "type"],
+      ["state", "storage", "transferFrom", "type", "container"],
+    ]),
+  );
+
+export type ScriptsVersionsGetResponseResourcesScriptRuntimeExportsMap = {
+  [key: string]: ScriptsVersionsGetResponseResourcesScriptRuntimeExportsValue | undefined;
+};
+export const ScriptsVersionsGetResponseResourcesScriptRuntimeExportsMap = /*@__PURE__*/ S.Record(
+  S.String,
+  ScriptsVersionsGetResponseResourcesScriptRuntimeExportsValue,
+) as any as S.Schema<ScriptsVersionsGetResponseResourcesScriptRuntimeExportsMap>;
 
 export type ScriptsVersionsGetResponseResourcesScriptRuntimeLimits =
   ScriptsVersionsCreateResponseResourcesScriptRuntimeLimits;
@@ -21009,7 +21159,7 @@ export interface ScriptsVersionsGetResponseResourcesScriptRuntime {
   /** Flags that enable or disable certain features in the Workers runtime. */
   compatibilityFlags?: ScriptsVersionsGetResponseResourcesScriptRuntimeCompatibilityFlagsList | null;
   /** Declarative exports for this version, including Durable Object classes (with their `storage` backend) and named Worker entrypoints. Tombstoned lifecycle entries are omitted, so only live exports (`created` and `expecting-transfer`) are returned. */
-  exports?: ScriptsVersionsGetResponseResourcesScriptRuntimeExports | null;
+  exports?: ScriptsVersionsGetResponseResourcesScriptRuntimeExportsMap | null;
   /** Resource limits for the Worker. */
   limits?: ScriptsVersionsCreateResponseResourcesScriptRuntimeLimits | null;
   /** The tag of the Durable Object migration that was most recently applied for this Worker. */
@@ -21025,7 +21175,7 @@ export const ScriptsVersionsGetResponseResourcesScriptRuntime = /*@__PURE__*/ S.
         T.Body("compatibility_flags"),
       ),
     ),
-    exports: S.optional(S.NullOr(ScriptsVersionsGetResponseResourcesScriptRuntimeExports)),
+    exports: S.optional(S.NullOr(ScriptsVersionsGetResponseResourcesScriptRuntimeExportsMap)),
     limits: S.optional(S.NullOr(ScriptsVersionsCreateResponseResourcesScriptRuntimeLimits)),
     migrationTag: S.optional(S.NullOr(S.String).pipe(T.Body("migration_tag"))),
     usageModel: S.optional(
@@ -23432,207 +23582,212 @@ export const BetaWorkersVersionsListResultItemContainersList = /*@__PURE__*/ S.A
   BetaWorkersVersionsCreateRequestContainersItem,
 ) as any as S.Schema<BetaWorkersVersionsListResultItemContainersList>;
 
-export type BetaWorkersVersionsListResultItemExportsWorkerType = "worker";
-export const BetaWorkersVersionsListResultItemExportsWorkerType = S.String;
+export type BetaWorkersVersionsListResultItemExportsValueWorkerType = "worker";
+export const BetaWorkersVersionsListResultItemExportsValueWorkerType = S.String;
 
-export type BetaWorkersVersionsListResultItemExportsWorkerCache =
-  BetaWorkersVersionsCreateRequestExportsWorkerCache;
-export const BetaWorkersVersionsListResultItemExportsWorkerCache =
-  BetaWorkersVersionsCreateRequestExportsWorkerCache;
+export type BetaWorkersVersionsListResultItemExportsValueWorkerCache =
+  BetaWorkersVersionsCreateRequestExportsValueWorkerCache;
+export const BetaWorkersVersionsListResultItemExportsValueWorkerCache =
+  BetaWorkersVersionsCreateRequestExportsValueWorkerCache;
 
-export type BetaWorkersVersionsListResultItemExportsWorkerState = "created";
-export const BetaWorkersVersionsListResultItemExportsWorkerState = S.String;
+export type BetaWorkersVersionsListResultItemExportsValueWorkerState = "created";
+export const BetaWorkersVersionsListResultItemExportsValueWorkerState = S.String;
 
-export interface BetaWorkersVersionsListResultItemExportsWorker {
+export interface BetaWorkersVersionsListResultItemExportsValueWorker {
   /** Marks this entry as a Worker entrypoint export. */
-  type: BetaWorkersVersionsListResultItemExportsWorkerType;
+  type: BetaWorkersVersionsListResultItemExportsValueWorkerType;
   /** Cache override for this entrypoint. Overrides the Worker's global `cache_options.enabled` for this entrypoint only. */
-  cache?: BetaWorkersVersionsCreateRequestExportsWorkerCache | null;
+  cache?: BetaWorkersVersionsCreateRequestExportsValueWorkerCache | null;
   /** Live export. May be omitted; defaults to `created`. */
-  state?: BetaWorkersVersionsListResultItemExportsWorkerState | null;
+  state?: BetaWorkersVersionsListResultItemExportsValueWorkerState | null;
 }
-export const BetaWorkersVersionsListResultItemExportsWorker = /*@__PURE__*/ S.suspend(() =>
+export const BetaWorkersVersionsListResultItemExportsValueWorker = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    type: BetaWorkersVersionsListResultItemExportsWorkerType,
-    cache: S.optional(S.NullOr(BetaWorkersVersionsCreateRequestExportsWorkerCache)),
-    state: S.optional(S.NullOr(BetaWorkersVersionsListResultItemExportsWorkerState)),
+    type: BetaWorkersVersionsListResultItemExportsValueWorkerType,
+    cache: S.optional(S.NullOr(BetaWorkersVersionsCreateRequestExportsValueWorkerCache)),
+    state: S.optional(S.NullOr(BetaWorkersVersionsListResultItemExportsValueWorkerState)),
   }),
 ).annotate({
-  identifier: "BetaWorkersVersionsListResultItemExportsWorker",
-}) as any as S.Schema<BetaWorkersVersionsListResultItemExportsWorker>;
+  identifier: "BetaWorkersVersionsListResultItemExportsValueWorker",
+}) as any as S.Schema<BetaWorkersVersionsListResultItemExportsValueWorker>;
 
-export type BetaWorkersVersionsListResultItemExportsWorkersDurableObjectExportStorage =
+export type BetaWorkersVersionsListResultItemExportsValueWorkersDurableObjectExportStorage =
   | "sqlite"
   | "legacy-kv";
-export const BetaWorkersVersionsListResultItemExportsWorkersDurableObjectExportStorage = S.String;
+export const BetaWorkersVersionsListResultItemExportsValueWorkersDurableObjectExportStorage =
+  S.String;
 
-export type BetaWorkersVersionsListResultItemExportsWorkersDurableObjectExportType =
+export type BetaWorkersVersionsListResultItemExportsValueWorkersDurableObjectExportType =
   "durable-object";
-export const BetaWorkersVersionsListResultItemExportsWorkersDurableObjectExportType = S.String;
+export const BetaWorkersVersionsListResultItemExportsValueWorkersDurableObjectExportType = S.String;
 
-export type BetaWorkersVersionsListResultItemExportsWorkersDurableObjectExportState = "created";
-export const BetaWorkersVersionsListResultItemExportsWorkersDurableObjectExportState = S.String;
+export type BetaWorkersVersionsListResultItemExportsValueWorkersDurableObjectExportState =
+  "created";
+export const BetaWorkersVersionsListResultItemExportsValueWorkersDurableObjectExportState =
+  S.String;
 
-export interface BetaWorkersVersionsListResultItemExportsWorkersDurableObjectExport {
+export interface BetaWorkersVersionsListResultItemExportsValueWorkersDurableObjectExport {
   /** Durable Object storage backend. `sqlite` is the recommended (and only) backend for new namespaces. `legacy-kv` is accepted only for a class whose namespace already exists as KV-backed; the `exports` flow never provisions a new `legacy-kv` namespace. */
-  storage: BetaWorkersVersionsListResultItemExportsWorkersDurableObjectExportStorage;
+  storage: BetaWorkersVersionsListResultItemExportsValueWorkersDurableObjectExportStorage;
   /** Marks this entry as a Durable Object export. */
-  type: BetaWorkersVersionsListResultItemExportsWorkersDurableObjectExportType;
+  type: BetaWorkersVersionsListResultItemExportsValueWorkersDurableObjectExportType;
   /** Name of the container (declared in the upload's `metadata.containers`) that backs this Durable Object. When set, the namespace is container-enabled. Valid only on live entries. */
   container?: string | null;
   /** Live export. May be omitted; defaults to `created`. */
-  state?: BetaWorkersVersionsListResultItemExportsWorkersDurableObjectExportState | null;
+  state?: BetaWorkersVersionsListResultItemExportsValueWorkersDurableObjectExportState | null;
 }
-export const BetaWorkersVersionsListResultItemExportsWorkersDurableObjectExport =
+export const BetaWorkersVersionsListResultItemExportsValueWorkersDurableObjectExport =
   /*@__PURE__*/ S.suspend(() =>
     S.Struct({
-      storage: BetaWorkersVersionsListResultItemExportsWorkersDurableObjectExportStorage,
-      type: BetaWorkersVersionsListResultItemExportsWorkersDurableObjectExportType,
+      storage: BetaWorkersVersionsListResultItemExportsValueWorkersDurableObjectExportStorage,
+      type: BetaWorkersVersionsListResultItemExportsValueWorkersDurableObjectExportType,
       container: S.optional(S.NullOr(S.String)),
       state: S.optional(
-        S.NullOr(BetaWorkersVersionsListResultItemExportsWorkersDurableObjectExportState),
+        S.NullOr(BetaWorkersVersionsListResultItemExportsValueWorkersDurableObjectExportState),
       ),
     }),
   ).annotate({
-    identifier: "BetaWorkersVersionsListResultItemExportsWorkersDurableObjectExport",
-  }) as any as S.Schema<BetaWorkersVersionsListResultItemExportsWorkersDurableObjectExport>;
+    identifier: "BetaWorkersVersionsListResultItemExportsValueWorkersDurableObjectExport",
+  }) as any as S.Schema<BetaWorkersVersionsListResultItemExportsValueWorkersDurableObjectExport>;
 
-export type BetaWorkersVersionsListResultItemExportsWorkersDurableObjectDeletedExportState =
+export type BetaWorkersVersionsListResultItemExportsValueWorkersDurableObjectDeletedExportState =
   "deleted";
-export const BetaWorkersVersionsListResultItemExportsWorkersDurableObjectDeletedExportState =
+export const BetaWorkersVersionsListResultItemExportsValueWorkersDurableObjectDeletedExportState =
   S.String;
 
-export type BetaWorkersVersionsListResultItemExportsWorkersDurableObjectDeletedExportType =
+export type BetaWorkersVersionsListResultItemExportsValueWorkersDurableObjectDeletedExportType =
   "durable-object";
-export const BetaWorkersVersionsListResultItemExportsWorkersDurableObjectDeletedExportType =
+export const BetaWorkersVersionsListResultItemExportsValueWorkersDurableObjectDeletedExportType =
   S.String;
 
-export interface BetaWorkersVersionsListResultItemExportsWorkersDurableObjectDeletedExport {
+export interface BetaWorkersVersionsListResultItemExportsValueWorkersDurableObjectDeletedExport {
   /** Tombstone that deletes the namespace. */
-  state: BetaWorkersVersionsListResultItemExportsWorkersDurableObjectDeletedExportState;
+  state: BetaWorkersVersionsListResultItemExportsValueWorkersDurableObjectDeletedExportState;
   /** Marks this entry as a Durable Object export. */
-  type: BetaWorkersVersionsListResultItemExportsWorkersDurableObjectDeletedExportType;
+  type: BetaWorkersVersionsListResultItemExportsValueWorkersDurableObjectDeletedExportType;
 }
-export const BetaWorkersVersionsListResultItemExportsWorkersDurableObjectDeletedExport =
+export const BetaWorkersVersionsListResultItemExportsValueWorkersDurableObjectDeletedExport =
   /*@__PURE__*/ S.suspend(() =>
     S.Struct({
-      state: BetaWorkersVersionsListResultItemExportsWorkersDurableObjectDeletedExportState,
-      type: BetaWorkersVersionsListResultItemExportsWorkersDurableObjectDeletedExportType,
+      state: BetaWorkersVersionsListResultItemExportsValueWorkersDurableObjectDeletedExportState,
+      type: BetaWorkersVersionsListResultItemExportsValueWorkersDurableObjectDeletedExportType,
     }),
   ).annotate({
-    identifier: "BetaWorkersVersionsListResultItemExportsWorkersDurableObjectDeletedExport",
-  }) as any as S.Schema<BetaWorkersVersionsListResultItemExportsWorkersDurableObjectDeletedExport>;
+    identifier: "BetaWorkersVersionsListResultItemExportsValueWorkersDurableObjectDeletedExport",
+  }) as any as S.Schema<BetaWorkersVersionsListResultItemExportsValueWorkersDurableObjectDeletedExport>;
 
-export type BetaWorkersVersionsListResultItemExportsWorkersDurableObjectRenamedExportState =
+export type BetaWorkersVersionsListResultItemExportsValueWorkersDurableObjectRenamedExportState =
   "renamed";
-export const BetaWorkersVersionsListResultItemExportsWorkersDurableObjectRenamedExportState =
+export const BetaWorkersVersionsListResultItemExportsValueWorkersDurableObjectRenamedExportState =
   S.String;
 
-export type BetaWorkersVersionsListResultItemExportsWorkersDurableObjectRenamedExportType =
+export type BetaWorkersVersionsListResultItemExportsValueWorkersDurableObjectRenamedExportType =
   "durable-object";
-export const BetaWorkersVersionsListResultItemExportsWorkersDurableObjectRenamedExportType =
+export const BetaWorkersVersionsListResultItemExportsValueWorkersDurableObjectRenamedExportType =
   S.String;
 
-export interface BetaWorkersVersionsListResultItemExportsWorkersDurableObjectRenamedExport {
+export interface BetaWorkersVersionsListResultItemExportsValueWorkersDurableObjectRenamedExport {
   /** The destination class name. Must differ from the source class (the map key) and must be declared as a live (`created`) entry in the same `exports` map. Write-only: never present in GET responses. */
   renamedTo: string;
   /** Tombstone that renames the namespace's class. */
-  state: BetaWorkersVersionsListResultItemExportsWorkersDurableObjectRenamedExportState;
+  state: BetaWorkersVersionsListResultItemExportsValueWorkersDurableObjectRenamedExportState;
   /** Marks this entry as a Durable Object export. */
-  type: BetaWorkersVersionsListResultItemExportsWorkersDurableObjectRenamedExportType;
+  type: BetaWorkersVersionsListResultItemExportsValueWorkersDurableObjectRenamedExportType;
 }
-export const BetaWorkersVersionsListResultItemExportsWorkersDurableObjectRenamedExport =
+export const BetaWorkersVersionsListResultItemExportsValueWorkersDurableObjectRenamedExport =
   /*@__PURE__*/ S.suspend(() =>
     S.Struct({
       renamedTo: S.String.pipe(T.Body("renamed_to")),
-      state: BetaWorkersVersionsListResultItemExportsWorkersDurableObjectRenamedExportState,
-      type: BetaWorkersVersionsListResultItemExportsWorkersDurableObjectRenamedExportType,
+      state: BetaWorkersVersionsListResultItemExportsValueWorkersDurableObjectRenamedExportState,
+      type: BetaWorkersVersionsListResultItemExportsValueWorkersDurableObjectRenamedExportType,
     }),
   ).annotate({
-    identifier: "BetaWorkersVersionsListResultItemExportsWorkersDurableObjectRenamedExport",
-  }) as any as S.Schema<BetaWorkersVersionsListResultItemExportsWorkersDurableObjectRenamedExport>;
+    identifier: "BetaWorkersVersionsListResultItemExportsValueWorkersDurableObjectRenamedExport",
+  }) as any as S.Schema<BetaWorkersVersionsListResultItemExportsValueWorkersDurableObjectRenamedExport>;
 
-export type BetaWorkersVersionsListResultItemExportsWorkersDurableObjectTransferredExportState =
+export type BetaWorkersVersionsListResultItemExportsValueWorkersDurableObjectTransferredExportState =
   "transferred";
-export const BetaWorkersVersionsListResultItemExportsWorkersDurableObjectTransferredExportState =
+export const BetaWorkersVersionsListResultItemExportsValueWorkersDurableObjectTransferredExportState =
   S.String;
 
-export type BetaWorkersVersionsListResultItemExportsWorkersDurableObjectTransferredExportType =
+export type BetaWorkersVersionsListResultItemExportsValueWorkersDurableObjectTransferredExportType =
   "durable-object";
-export const BetaWorkersVersionsListResultItemExportsWorkersDurableObjectTransferredExportType =
+export const BetaWorkersVersionsListResultItemExportsValueWorkersDurableObjectTransferredExportType =
   S.String;
 
-export interface BetaWorkersVersionsListResultItemExportsWorkersDurableObjectTransferredExport {
+export interface BetaWorkersVersionsListResultItemExportsValueWorkersDurableObjectTransferredExport {
   /** Tombstone that transfers the namespace to another script. */
-  state: BetaWorkersVersionsListResultItemExportsWorkersDurableObjectTransferredExportState;
+  state: BetaWorkersVersionsListResultItemExportsValueWorkersDurableObjectTransferredExportState;
   /** The destination script name. Must be in the same account and the same dispatch-namespace context (or both non-dispatch). Cross-dispatch-namespace transfers are rejected. Write-only: never present in GET responses. */
   transferredTo: string;
   /** Marks this entry as a Durable Object export. */
-  type: BetaWorkersVersionsListResultItemExportsWorkersDurableObjectTransferredExportType;
+  type: BetaWorkersVersionsListResultItemExportsValueWorkersDurableObjectTransferredExportType;
 }
-export const BetaWorkersVersionsListResultItemExportsWorkersDurableObjectTransferredExport =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      state: BetaWorkersVersionsListResultItemExportsWorkersDurableObjectTransferredExportState,
-      transferredTo: S.String.pipe(T.Body("transferred_to")),
-      type: BetaWorkersVersionsListResultItemExportsWorkersDurableObjectTransferredExportType,
-    }),
-  ).annotate({
-    identifier: "BetaWorkersVersionsListResultItemExportsWorkersDurableObjectTransferredExport",
-  }) as any as S.Schema<BetaWorkersVersionsListResultItemExportsWorkersDurableObjectTransferredExport>;
-
-export type BetaWorkersVersionsListResultItemExportsWorkersDurableObjectExpectingTransferExportState =
-  "expecting-transfer";
-export const BetaWorkersVersionsListResultItemExportsWorkersDurableObjectExpectingTransferExportState =
-  S.String;
-
-export type BetaWorkersVersionsListResultItemExportsWorkersDurableObjectExpectingTransferExportStorage =
-  | "sqlite"
-  | "legacy-kv";
-export const BetaWorkersVersionsListResultItemExportsWorkersDurableObjectExpectingTransferExportStorage =
-  S.String;
-
-export type BetaWorkersVersionsListResultItemExportsWorkersDurableObjectExpectingTransferExportType =
-  "durable-object";
-export const BetaWorkersVersionsListResultItemExportsWorkersDurableObjectExpectingTransferExportType =
-  S.String;
-
-export interface BetaWorkersVersionsListResultItemExportsWorkersDurableObjectExpectingTransferExport {
-  /** Target side of a two-phase transfer. */
-  state: BetaWorkersVersionsListResultItemExportsWorkersDurableObjectExpectingTransferExportState;
-  /** Durable Object storage backend. `sqlite` is the recommended (and only) backend for new namespaces. `legacy-kv` is accepted only for a class whose namespace already exists as KV-backed; the `exports` flow never provisions a new `legacy-kv` namespace. */
-  storage: BetaWorkersVersionsListResultItemExportsWorkersDurableObjectExpectingTransferExportStorage;
-  /** The source script name to receive the namespace from. Must be in the same account and dispatch-namespace context. Present on reads for `expecting-transfer` entries. */
-  transferFrom: string;
-  /** Marks this entry as a Durable Object export. */
-  type: BetaWorkersVersionsListResultItemExportsWorkersDurableObjectExpectingTransferExportType;
-  /** Name of the container (declared in the upload's `metadata.containers`) that backs this Durable Object once the transfer settles. Valid only on live entries. */
-  container?: string | null;
-}
-export const BetaWorkersVersionsListResultItemExportsWorkersDurableObjectExpectingTransferExport =
+export const BetaWorkersVersionsListResultItemExportsValueWorkersDurableObjectTransferredExport =
   /*@__PURE__*/ S.suspend(() =>
     S.Struct({
       state:
-        BetaWorkersVersionsListResultItemExportsWorkersDurableObjectExpectingTransferExportState,
+        BetaWorkersVersionsListResultItemExportsValueWorkersDurableObjectTransferredExportState,
+      transferredTo: S.String.pipe(T.Body("transferred_to")),
+      type: BetaWorkersVersionsListResultItemExportsValueWorkersDurableObjectTransferredExportType,
+    }),
+  ).annotate({
+    identifier:
+      "BetaWorkersVersionsListResultItemExportsValueWorkersDurableObjectTransferredExport",
+  }) as any as S.Schema<BetaWorkersVersionsListResultItemExportsValueWorkersDurableObjectTransferredExport>;
+
+export type BetaWorkersVersionsListResultItemExportsValueWorkersDurableObjectExpectingTransferExportState =
+  "expecting-transfer";
+export const BetaWorkersVersionsListResultItemExportsValueWorkersDurableObjectExpectingTransferExportState =
+  S.String;
+
+export type BetaWorkersVersionsListResultItemExportsValueWorkersDurableObjectExpectingTransferExportStorage =
+  | "sqlite"
+  | "legacy-kv";
+export const BetaWorkersVersionsListResultItemExportsValueWorkersDurableObjectExpectingTransferExportStorage =
+  S.String;
+
+export type BetaWorkersVersionsListResultItemExportsValueWorkersDurableObjectExpectingTransferExportType =
+  "durable-object";
+export const BetaWorkersVersionsListResultItemExportsValueWorkersDurableObjectExpectingTransferExportType =
+  S.String;
+
+export interface BetaWorkersVersionsListResultItemExportsValueWorkersDurableObjectExpectingTransferExport {
+  /** Target side of a two-phase transfer. */
+  state: BetaWorkersVersionsListResultItemExportsValueWorkersDurableObjectExpectingTransferExportState;
+  /** Durable Object storage backend. `sqlite` is the recommended (and only) backend for new namespaces. `legacy-kv` is accepted only for a class whose namespace already exists as KV-backed; the `exports` flow never provisions a new `legacy-kv` namespace. */
+  storage: BetaWorkersVersionsListResultItemExportsValueWorkersDurableObjectExpectingTransferExportStorage;
+  /** The source script name to receive the namespace from. Must be in the same account and dispatch-namespace context. Present on reads for `expecting-transfer` entries. */
+  transferFrom: string;
+  /** Marks this entry as a Durable Object export. */
+  type: BetaWorkersVersionsListResultItemExportsValueWorkersDurableObjectExpectingTransferExportType;
+  /** Name of the container (declared in the upload's `metadata.containers`) that backs this Durable Object once the transfer settles. Valid only on live entries. */
+  container?: string | null;
+}
+export const BetaWorkersVersionsListResultItemExportsValueWorkersDurableObjectExpectingTransferExport =
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      state:
+        BetaWorkersVersionsListResultItemExportsValueWorkersDurableObjectExpectingTransferExportState,
       storage:
-        BetaWorkersVersionsListResultItemExportsWorkersDurableObjectExpectingTransferExportStorage,
+        BetaWorkersVersionsListResultItemExportsValueWorkersDurableObjectExpectingTransferExportStorage,
       transferFrom: S.String.pipe(T.Body("transfer_from")),
-      type: BetaWorkersVersionsListResultItemExportsWorkersDurableObjectExpectingTransferExportType,
+      type: BetaWorkersVersionsListResultItemExportsValueWorkersDurableObjectExpectingTransferExportType,
       container: S.optional(S.NullOr(S.String)),
     }),
   ).annotate({
     identifier:
-      "BetaWorkersVersionsListResultItemExportsWorkersDurableObjectExpectingTransferExport",
-  }) as any as S.Schema<BetaWorkersVersionsListResultItemExportsWorkersDurableObjectExpectingTransferExport>;
+      "BetaWorkersVersionsListResultItemExportsValueWorkersDurableObjectExpectingTransferExport",
+  }) as any as S.Schema<BetaWorkersVersionsListResultItemExportsValueWorkersDurableObjectExpectingTransferExport>;
 
-export type BetaWorkersVersionsListResultItemExports =
-  | BetaWorkersVersionsListResultItemExportsWorker
-  | BetaWorkersVersionsListResultItemExportsWorkersDurableObjectExport
-  | BetaWorkersVersionsListResultItemExportsWorkersDurableObjectDeletedExport
-  | BetaWorkersVersionsListResultItemExportsWorkersDurableObjectRenamedExport
-  | BetaWorkersVersionsListResultItemExportsWorkersDurableObjectTransferredExport
-  | BetaWorkersVersionsListResultItemExportsWorkersDurableObjectExpectingTransferExport;
-export const BetaWorkersVersionsListResultItemExports = /*@__PURE__*/ S.Unknown.pipe(
+export type BetaWorkersVersionsListResultItemExportsValue =
+  | BetaWorkersVersionsListResultItemExportsValueWorker
+  | BetaWorkersVersionsListResultItemExportsValueWorkersDurableObjectExport
+  | BetaWorkersVersionsListResultItemExportsValueWorkersDurableObjectDeletedExport
+  | BetaWorkersVersionsListResultItemExportsValueWorkersDurableObjectRenamedExport
+  | BetaWorkersVersionsListResultItemExportsValueWorkersDurableObjectTransferredExport
+  | BetaWorkersVersionsListResultItemExportsValueWorkersDurableObjectExpectingTransferExport;
+export const BetaWorkersVersionsListResultItemExportsValue = /*@__PURE__*/ S.Unknown.pipe(
   T.UnionCases([
     ["type", "cache", "state"],
     ["storage", "type", "container", "state"],
@@ -23642,6 +23797,14 @@ export const BetaWorkersVersionsListResultItemExports = /*@__PURE__*/ S.Unknown.
     ["state", "storage", "transferFrom", "type", "container"],
   ]),
 );
+
+export type BetaWorkersVersionsListResultItemExportsMap = {
+  [key: string]: BetaWorkersVersionsListResultItemExportsValue | undefined;
+};
+export const BetaWorkersVersionsListResultItemExportsMap = /*@__PURE__*/ S.Record(
+  S.String,
+  BetaWorkersVersionsListResultItemExportsValue,
+) as any as S.Schema<BetaWorkersVersionsListResultItemExportsMap>;
 
 export type BetaWorkersVersionsListResultItemExportsReconciliationCreatedList = Array<string>;
 export const BetaWorkersVersionsListResultItemExportsReconciliationCreatedList =
@@ -24346,7 +24509,7 @@ export interface BetaWorkersVersionsListResultItem {
   /** List of containers attached to a Worker. Containers can only be attached to Durable Object classes of this Worker script. */
   containers?: BetaWorkersVersionsListResultItemContainersList | null;
   /** Declarative exports for the version, including Durable Object classes (with their `storage` backend) and named Worker entrypoints. On reads, tombstoned lifecycle entries are omitted, so only live exports (`created` and `expecting-transfer`) are returned. `exports` and `migrations` are mutually exclusive on upload. */
-  exports?: BetaWorkersVersionsListResultItemExports | null;
+  exports?: BetaWorkersVersionsListResultItemExportsMap | null;
   /** Summary of the declarative exports reconciliation that ran on this upload. Populated only when the uploaded metadata included an `exports` block. Durable Object entries drive reconciliation; `type: worker` entries do not contribute to this summary. */
   exportsReconciliation?: BetaWorkersVersionsListResultItemExportsReconciliation | null;
   /** Resource limits enforced at runtime. */
@@ -24393,7 +24556,7 @@ export const BetaWorkersVersionsListResultItem = /*@__PURE__*/ S.suspend(() =>
       ),
     ),
     containers: S.optional(S.NullOr(BetaWorkersVersionsListResultItemContainersList)),
-    exports: S.optional(S.NullOr(BetaWorkersVersionsListResultItemExports)),
+    exports: S.optional(S.NullOr(BetaWorkersVersionsListResultItemExportsMap)),
     exportsReconciliation: S.optional(
       S.NullOr(BetaWorkersVersionsListResultItemExportsReconciliation).pipe(
         T.Body("exports_reconciliation"),
@@ -25299,186 +25462,193 @@ export const ScriptsListResultItemCompatibilityFlagsList = /*@__PURE__*/ S.Array
   S.String,
 ) as any as S.Schema<ScriptsListResultItemCompatibilityFlagsList>;
 
-export type ScriptsListResultItemExportsWorkerType = "worker";
-export const ScriptsListResultItemExportsWorkerType = S.String;
+export type ScriptsListResultItemExportsValueWorkerType = "worker";
+export const ScriptsListResultItemExportsValueWorkerType = S.String;
 
-export type ScriptsListResultItemExportsWorkerCache =
-  BetaWorkersVersionsCreateRequestExportsWorkerCache;
-export const ScriptsListResultItemExportsWorkerCache =
-  BetaWorkersVersionsCreateRequestExportsWorkerCache;
+export type ScriptsListResultItemExportsValueWorkerCache =
+  BetaWorkersVersionsCreateRequestExportsValueWorkerCache;
+export const ScriptsListResultItemExportsValueWorkerCache =
+  BetaWorkersVersionsCreateRequestExportsValueWorkerCache;
 
-export type ScriptsListResultItemExportsWorkerState = "created";
-export const ScriptsListResultItemExportsWorkerState = S.String;
+export type ScriptsListResultItemExportsValueWorkerState = "created";
+export const ScriptsListResultItemExportsValueWorkerState = S.String;
 
-export interface ScriptsListResultItemExportsWorker {
+export interface ScriptsListResultItemExportsValueWorker {
   /** Marks this entry as a Worker entrypoint export. */
-  type: ScriptsListResultItemExportsWorkerType;
+  type: ScriptsListResultItemExportsValueWorkerType;
   /** Cache override for this entrypoint. Overrides the Worker's global `cache_options.enabled` for this entrypoint only. */
-  cache?: BetaWorkersVersionsCreateRequestExportsWorkerCache | null;
+  cache?: BetaWorkersVersionsCreateRequestExportsValueWorkerCache | null;
   /** Live export. May be omitted; defaults to `created`. */
-  state?: ScriptsListResultItemExportsWorkerState | null;
+  state?: ScriptsListResultItemExportsValueWorkerState | null;
 }
-export const ScriptsListResultItemExportsWorker = /*@__PURE__*/ S.suspend(() =>
+export const ScriptsListResultItemExportsValueWorker = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    type: ScriptsListResultItemExportsWorkerType,
-    cache: S.optional(S.NullOr(BetaWorkersVersionsCreateRequestExportsWorkerCache)),
-    state: S.optional(S.NullOr(ScriptsListResultItemExportsWorkerState)),
+    type: ScriptsListResultItemExportsValueWorkerType,
+    cache: S.optional(S.NullOr(BetaWorkersVersionsCreateRequestExportsValueWorkerCache)),
+    state: S.optional(S.NullOr(ScriptsListResultItemExportsValueWorkerState)),
   }),
 ).annotate({
-  identifier: "ScriptsListResultItemExportsWorker",
-}) as any as S.Schema<ScriptsListResultItemExportsWorker>;
+  identifier: "ScriptsListResultItemExportsValueWorker",
+}) as any as S.Schema<ScriptsListResultItemExportsValueWorker>;
 
-export type ScriptsListResultItemExportsWorkersDurableObjectExportStorage = "sqlite" | "legacy-kv";
-export const ScriptsListResultItemExportsWorkersDurableObjectExportStorage = S.String;
+export type ScriptsListResultItemExportsValueWorkersDurableObjectExportStorage =
+  | "sqlite"
+  | "legacy-kv";
+export const ScriptsListResultItemExportsValueWorkersDurableObjectExportStorage = S.String;
 
-export type ScriptsListResultItemExportsWorkersDurableObjectExportType = "durable-object";
-export const ScriptsListResultItemExportsWorkersDurableObjectExportType = S.String;
+export type ScriptsListResultItemExportsValueWorkersDurableObjectExportType = "durable-object";
+export const ScriptsListResultItemExportsValueWorkersDurableObjectExportType = S.String;
 
-export type ScriptsListResultItemExportsWorkersDurableObjectExportState = "created";
-export const ScriptsListResultItemExportsWorkersDurableObjectExportState = S.String;
+export type ScriptsListResultItemExportsValueWorkersDurableObjectExportState = "created";
+export const ScriptsListResultItemExportsValueWorkersDurableObjectExportState = S.String;
 
-export interface ScriptsListResultItemExportsWorkersDurableObjectExport {
+export interface ScriptsListResultItemExportsValueWorkersDurableObjectExport {
   /** Durable Object storage backend. `sqlite` is the recommended (and only) backend for new namespaces. `legacy-kv` is accepted only for a class whose namespace already exists as KV-backed; the `exports` flow never provisions a new `legacy-kv` namespace. */
-  storage: ScriptsListResultItemExportsWorkersDurableObjectExportStorage;
+  storage: ScriptsListResultItemExportsValueWorkersDurableObjectExportStorage;
   /** Marks this entry as a Durable Object export. */
-  type: ScriptsListResultItemExportsWorkersDurableObjectExportType;
+  type: ScriptsListResultItemExportsValueWorkersDurableObjectExportType;
   /** Name of the container (declared in the upload's `metadata.containers`) that backs this Durable Object. When set, the namespace is container-enabled. Valid only on live entries. */
   container?: string | null;
   /** Live export. May be omitted; defaults to `created`. */
-  state?: ScriptsListResultItemExportsWorkersDurableObjectExportState | null;
+  state?: ScriptsListResultItemExportsValueWorkersDurableObjectExportState | null;
 }
-export const ScriptsListResultItemExportsWorkersDurableObjectExport = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    storage: ScriptsListResultItemExportsWorkersDurableObjectExportStorage,
-    type: ScriptsListResultItemExportsWorkersDurableObjectExportType,
-    container: S.optional(S.NullOr(S.String)),
-    state: S.optional(S.NullOr(ScriptsListResultItemExportsWorkersDurableObjectExportState)),
-  }),
+export const ScriptsListResultItemExportsValueWorkersDurableObjectExport = /*@__PURE__*/ S.suspend(
+  () =>
+    S.Struct({
+      storage: ScriptsListResultItemExportsValueWorkersDurableObjectExportStorage,
+      type: ScriptsListResultItemExportsValueWorkersDurableObjectExportType,
+      container: S.optional(S.NullOr(S.String)),
+      state: S.optional(S.NullOr(ScriptsListResultItemExportsValueWorkersDurableObjectExportState)),
+    }),
 ).annotate({
-  identifier: "ScriptsListResultItemExportsWorkersDurableObjectExport",
-}) as any as S.Schema<ScriptsListResultItemExportsWorkersDurableObjectExport>;
+  identifier: "ScriptsListResultItemExportsValueWorkersDurableObjectExport",
+}) as any as S.Schema<ScriptsListResultItemExportsValueWorkersDurableObjectExport>;
 
-export type ScriptsListResultItemExportsWorkersDurableObjectDeletedExportState = "deleted";
-export const ScriptsListResultItemExportsWorkersDurableObjectDeletedExportState = S.String;
+export type ScriptsListResultItemExportsValueWorkersDurableObjectDeletedExportState = "deleted";
+export const ScriptsListResultItemExportsValueWorkersDurableObjectDeletedExportState = S.String;
 
-export type ScriptsListResultItemExportsWorkersDurableObjectDeletedExportType = "durable-object";
-export const ScriptsListResultItemExportsWorkersDurableObjectDeletedExportType = S.String;
+export type ScriptsListResultItemExportsValueWorkersDurableObjectDeletedExportType =
+  "durable-object";
+export const ScriptsListResultItemExportsValueWorkersDurableObjectDeletedExportType = S.String;
 
-export interface ScriptsListResultItemExportsWorkersDurableObjectDeletedExport {
+export interface ScriptsListResultItemExportsValueWorkersDurableObjectDeletedExport {
   /** Tombstone that deletes the namespace. */
-  state: ScriptsListResultItemExportsWorkersDurableObjectDeletedExportState;
+  state: ScriptsListResultItemExportsValueWorkersDurableObjectDeletedExportState;
   /** Marks this entry as a Durable Object export. */
-  type: ScriptsListResultItemExportsWorkersDurableObjectDeletedExportType;
+  type: ScriptsListResultItemExportsValueWorkersDurableObjectDeletedExportType;
 }
-export const ScriptsListResultItemExportsWorkersDurableObjectDeletedExport =
+export const ScriptsListResultItemExportsValueWorkersDurableObjectDeletedExport =
   /*@__PURE__*/ S.suspend(() =>
     S.Struct({
-      state: ScriptsListResultItemExportsWorkersDurableObjectDeletedExportState,
-      type: ScriptsListResultItemExportsWorkersDurableObjectDeletedExportType,
+      state: ScriptsListResultItemExportsValueWorkersDurableObjectDeletedExportState,
+      type: ScriptsListResultItemExportsValueWorkersDurableObjectDeletedExportType,
     }),
   ).annotate({
-    identifier: "ScriptsListResultItemExportsWorkersDurableObjectDeletedExport",
-  }) as any as S.Schema<ScriptsListResultItemExportsWorkersDurableObjectDeletedExport>;
+    identifier: "ScriptsListResultItemExportsValueWorkersDurableObjectDeletedExport",
+  }) as any as S.Schema<ScriptsListResultItemExportsValueWorkersDurableObjectDeletedExport>;
 
-export type ScriptsListResultItemExportsWorkersDurableObjectRenamedExportState = "renamed";
-export const ScriptsListResultItemExportsWorkersDurableObjectRenamedExportState = S.String;
+export type ScriptsListResultItemExportsValueWorkersDurableObjectRenamedExportState = "renamed";
+export const ScriptsListResultItemExportsValueWorkersDurableObjectRenamedExportState = S.String;
 
-export type ScriptsListResultItemExportsWorkersDurableObjectRenamedExportType = "durable-object";
-export const ScriptsListResultItemExportsWorkersDurableObjectRenamedExportType = S.String;
+export type ScriptsListResultItemExportsValueWorkersDurableObjectRenamedExportType =
+  "durable-object";
+export const ScriptsListResultItemExportsValueWorkersDurableObjectRenamedExportType = S.String;
 
-export interface ScriptsListResultItemExportsWorkersDurableObjectRenamedExport {
+export interface ScriptsListResultItemExportsValueWorkersDurableObjectRenamedExport {
   /** The destination class name. Must differ from the source class (the map key) and must be declared as a live (`created`) entry in the same `exports` map. Write-only: never present in GET responses. */
   renamedTo: string;
   /** Tombstone that renames the namespace's class. */
-  state: ScriptsListResultItemExportsWorkersDurableObjectRenamedExportState;
+  state: ScriptsListResultItemExportsValueWorkersDurableObjectRenamedExportState;
   /** Marks this entry as a Durable Object export. */
-  type: ScriptsListResultItemExportsWorkersDurableObjectRenamedExportType;
+  type: ScriptsListResultItemExportsValueWorkersDurableObjectRenamedExportType;
 }
-export const ScriptsListResultItemExportsWorkersDurableObjectRenamedExport =
+export const ScriptsListResultItemExportsValueWorkersDurableObjectRenamedExport =
   /*@__PURE__*/ S.suspend(() =>
     S.Struct({
       renamedTo: S.String.pipe(T.Body("renamed_to")),
-      state: ScriptsListResultItemExportsWorkersDurableObjectRenamedExportState,
-      type: ScriptsListResultItemExportsWorkersDurableObjectRenamedExportType,
+      state: ScriptsListResultItemExportsValueWorkersDurableObjectRenamedExportState,
+      type: ScriptsListResultItemExportsValueWorkersDurableObjectRenamedExportType,
     }),
   ).annotate({
-    identifier: "ScriptsListResultItemExportsWorkersDurableObjectRenamedExport",
-  }) as any as S.Schema<ScriptsListResultItemExportsWorkersDurableObjectRenamedExport>;
+    identifier: "ScriptsListResultItemExportsValueWorkersDurableObjectRenamedExport",
+  }) as any as S.Schema<ScriptsListResultItemExportsValueWorkersDurableObjectRenamedExport>;
 
-export type ScriptsListResultItemExportsWorkersDurableObjectTransferredExportState = "transferred";
-export const ScriptsListResultItemExportsWorkersDurableObjectTransferredExportState = S.String;
+export type ScriptsListResultItemExportsValueWorkersDurableObjectTransferredExportState =
+  "transferred";
+export const ScriptsListResultItemExportsValueWorkersDurableObjectTransferredExportState = S.String;
 
-export type ScriptsListResultItemExportsWorkersDurableObjectTransferredExportType =
+export type ScriptsListResultItemExportsValueWorkersDurableObjectTransferredExportType =
   "durable-object";
-export const ScriptsListResultItemExportsWorkersDurableObjectTransferredExportType = S.String;
+export const ScriptsListResultItemExportsValueWorkersDurableObjectTransferredExportType = S.String;
 
-export interface ScriptsListResultItemExportsWorkersDurableObjectTransferredExport {
+export interface ScriptsListResultItemExportsValueWorkersDurableObjectTransferredExport {
   /** Tombstone that transfers the namespace to another script. */
-  state: ScriptsListResultItemExportsWorkersDurableObjectTransferredExportState;
+  state: ScriptsListResultItemExportsValueWorkersDurableObjectTransferredExportState;
   /** The destination script name. Must be in the same account and the same dispatch-namespace context (or both non-dispatch). Cross-dispatch-namespace transfers are rejected. Write-only: never present in GET responses. */
   transferredTo: string;
   /** Marks this entry as a Durable Object export. */
-  type: ScriptsListResultItemExportsWorkersDurableObjectTransferredExportType;
+  type: ScriptsListResultItemExportsValueWorkersDurableObjectTransferredExportType;
 }
-export const ScriptsListResultItemExportsWorkersDurableObjectTransferredExport =
+export const ScriptsListResultItemExportsValueWorkersDurableObjectTransferredExport =
   /*@__PURE__*/ S.suspend(() =>
     S.Struct({
-      state: ScriptsListResultItemExportsWorkersDurableObjectTransferredExportState,
+      state: ScriptsListResultItemExportsValueWorkersDurableObjectTransferredExportState,
       transferredTo: S.String.pipe(T.Body("transferred_to")),
-      type: ScriptsListResultItemExportsWorkersDurableObjectTransferredExportType,
+      type: ScriptsListResultItemExportsValueWorkersDurableObjectTransferredExportType,
     }),
   ).annotate({
-    identifier: "ScriptsListResultItemExportsWorkersDurableObjectTransferredExport",
-  }) as any as S.Schema<ScriptsListResultItemExportsWorkersDurableObjectTransferredExport>;
+    identifier: "ScriptsListResultItemExportsValueWorkersDurableObjectTransferredExport",
+  }) as any as S.Schema<ScriptsListResultItemExportsValueWorkersDurableObjectTransferredExport>;
 
-export type ScriptsListResultItemExportsWorkersDurableObjectExpectingTransferExportState =
+export type ScriptsListResultItemExportsValueWorkersDurableObjectExpectingTransferExportState =
   "expecting-transfer";
-export const ScriptsListResultItemExportsWorkersDurableObjectExpectingTransferExportState =
+export const ScriptsListResultItemExportsValueWorkersDurableObjectExpectingTransferExportState =
   S.String;
 
-export type ScriptsListResultItemExportsWorkersDurableObjectExpectingTransferExportStorage =
+export type ScriptsListResultItemExportsValueWorkersDurableObjectExpectingTransferExportStorage =
   | "sqlite"
   | "legacy-kv";
-export const ScriptsListResultItemExportsWorkersDurableObjectExpectingTransferExportStorage =
+export const ScriptsListResultItemExportsValueWorkersDurableObjectExpectingTransferExportStorage =
   S.String;
 
-export type ScriptsListResultItemExportsWorkersDurableObjectExpectingTransferExportType =
+export type ScriptsListResultItemExportsValueWorkersDurableObjectExpectingTransferExportType =
   "durable-object";
-export const ScriptsListResultItemExportsWorkersDurableObjectExpectingTransferExportType = S.String;
+export const ScriptsListResultItemExportsValueWorkersDurableObjectExpectingTransferExportType =
+  S.String;
 
-export interface ScriptsListResultItemExportsWorkersDurableObjectExpectingTransferExport {
+export interface ScriptsListResultItemExportsValueWorkersDurableObjectExpectingTransferExport {
   /** Target side of a two-phase transfer. */
-  state: ScriptsListResultItemExportsWorkersDurableObjectExpectingTransferExportState;
+  state: ScriptsListResultItemExportsValueWorkersDurableObjectExpectingTransferExportState;
   /** Durable Object storage backend. `sqlite` is the recommended (and only) backend for new namespaces. `legacy-kv` is accepted only for a class whose namespace already exists as KV-backed; the `exports` flow never provisions a new `legacy-kv` namespace. */
-  storage: ScriptsListResultItemExportsWorkersDurableObjectExpectingTransferExportStorage;
+  storage: ScriptsListResultItemExportsValueWorkersDurableObjectExpectingTransferExportStorage;
   /** The source script name to receive the namespace from. Must be in the same account and dispatch-namespace context. Present on reads for `expecting-transfer` entries. */
   transferFrom: string;
   /** Marks this entry as a Durable Object export. */
-  type: ScriptsListResultItemExportsWorkersDurableObjectExpectingTransferExportType;
+  type: ScriptsListResultItemExportsValueWorkersDurableObjectExpectingTransferExportType;
   /** Name of the container (declared in the upload's `metadata.containers`) that backs this Durable Object once the transfer settles. Valid only on live entries. */
   container?: string | null;
 }
-export const ScriptsListResultItemExportsWorkersDurableObjectExpectingTransferExport =
+export const ScriptsListResultItemExportsValueWorkersDurableObjectExpectingTransferExport =
   /*@__PURE__*/ S.suspend(() =>
     S.Struct({
-      state: ScriptsListResultItemExportsWorkersDurableObjectExpectingTransferExportState,
-      storage: ScriptsListResultItemExportsWorkersDurableObjectExpectingTransferExportStorage,
+      state: ScriptsListResultItemExportsValueWorkersDurableObjectExpectingTransferExportState,
+      storage: ScriptsListResultItemExportsValueWorkersDurableObjectExpectingTransferExportStorage,
       transferFrom: S.String.pipe(T.Body("transfer_from")),
-      type: ScriptsListResultItemExportsWorkersDurableObjectExpectingTransferExportType,
+      type: ScriptsListResultItemExportsValueWorkersDurableObjectExpectingTransferExportType,
       container: S.optional(S.NullOr(S.String)),
     }),
   ).annotate({
-    identifier: "ScriptsListResultItemExportsWorkersDurableObjectExpectingTransferExport",
-  }) as any as S.Schema<ScriptsListResultItemExportsWorkersDurableObjectExpectingTransferExport>;
+    identifier: "ScriptsListResultItemExportsValueWorkersDurableObjectExpectingTransferExport",
+  }) as any as S.Schema<ScriptsListResultItemExportsValueWorkersDurableObjectExpectingTransferExport>;
 
-export type ScriptsListResultItemExports =
-  | ScriptsListResultItemExportsWorker
-  | ScriptsListResultItemExportsWorkersDurableObjectExport
-  | ScriptsListResultItemExportsWorkersDurableObjectDeletedExport
-  | ScriptsListResultItemExportsWorkersDurableObjectRenamedExport
-  | ScriptsListResultItemExportsWorkersDurableObjectTransferredExport
-  | ScriptsListResultItemExportsWorkersDurableObjectExpectingTransferExport;
-export const ScriptsListResultItemExports = /*@__PURE__*/ S.Unknown.pipe(
+export type ScriptsListResultItemExportsValue =
+  | ScriptsListResultItemExportsValueWorker
+  | ScriptsListResultItemExportsValueWorkersDurableObjectExport
+  | ScriptsListResultItemExportsValueWorkersDurableObjectDeletedExport
+  | ScriptsListResultItemExportsValueWorkersDurableObjectRenamedExport
+  | ScriptsListResultItemExportsValueWorkersDurableObjectTransferredExport
+  | ScriptsListResultItemExportsValueWorkersDurableObjectExpectingTransferExport;
+export const ScriptsListResultItemExportsValue = /*@__PURE__*/ S.Unknown.pipe(
   T.UnionCases([
     ["type", "cache", "state"],
     ["storage", "type", "container", "state"],
@@ -25488,6 +25658,14 @@ export const ScriptsListResultItemExports = /*@__PURE__*/ S.Unknown.pipe(
     ["state", "storage", "transferFrom", "type", "container"],
   ]),
 );
+
+export type ScriptsListResultItemExportsMap = {
+  [key: string]: ScriptsListResultItemExportsValue | undefined;
+};
+export const ScriptsListResultItemExportsMap = /*@__PURE__*/ S.Record(
+  S.String,
+  ScriptsListResultItemExportsValue,
+) as any as S.Schema<ScriptsListResultItemExportsMap>;
 
 export type ScriptsListResultItemHandlersList = Array<string>;
 export const ScriptsListResultItemHandlersList = /*@__PURE__*/ S.Array(
@@ -25935,7 +26113,7 @@ export interface ScriptsListResultItem {
   /** Hashed script content, can be used in a If-None-Match header when updating. */
   etag?: string | null;
   /** Declarative exports for the Worker's most recent version, including Durable Object classes (with their `storage` backend) and named Worker entrypoints. Tombstoned lifecycle entries are omitted, so only live exports (`created` and `expecting-transfer`) are returned. */
-  exports?: ScriptsListResultItemExports | null;
+  exports?: ScriptsListResultItemExportsMap | null;
   /** The names of handlers exported as part of the default export. */
   handlers?: ScriptsListResultItemHandlersList | null;
   /** Whether a Worker contains assets. */
@@ -25983,7 +26161,7 @@ export const ScriptsListResultItem = /*@__PURE__*/ S.suspend(() =>
     ),
     createdOn: S.optional(S.NullOr(S.String).pipe(T.Body("created_on"))),
     etag: S.optional(S.NullOr(S.String)),
-    exports: S.optional(S.NullOr(ScriptsListResultItemExports)),
+    exports: S.optional(S.NullOr(ScriptsListResultItemExportsMap)),
     handlers: S.optional(S.NullOr(ScriptsListResultItemHandlersList)),
     hasAssets: S.optional(S.NullOr(S.Boolean).pipe(T.Body("has_assets"))),
     hasModules: S.optional(S.NullOr(S.Boolean).pipe(T.Body("has_modules"))),
@@ -28993,218 +29171,223 @@ export const ScriptsScriptAndVersionSettingsEditResponseCompatibilityFlagsList =
     S.String,
   ) as any as S.Schema<ScriptsScriptAndVersionSettingsEditResponseCompatibilityFlagsList>;
 
-export type ScriptsScriptAndVersionSettingsEditResponseExportsWorkerType = "worker";
-export const ScriptsScriptAndVersionSettingsEditResponseExportsWorkerType = S.String;
+export type ScriptsScriptAndVersionSettingsEditResponseExportsValueWorkerType = "worker";
+export const ScriptsScriptAndVersionSettingsEditResponseExportsValueWorkerType = S.String;
 
-export type ScriptsScriptAndVersionSettingsEditResponseExportsWorkerCache =
-  BetaWorkersVersionsCreateRequestExportsWorkerCache;
-export const ScriptsScriptAndVersionSettingsEditResponseExportsWorkerCache =
-  BetaWorkersVersionsCreateRequestExportsWorkerCache;
+export type ScriptsScriptAndVersionSettingsEditResponseExportsValueWorkerCache =
+  BetaWorkersVersionsCreateRequestExportsValueWorkerCache;
+export const ScriptsScriptAndVersionSettingsEditResponseExportsValueWorkerCache =
+  BetaWorkersVersionsCreateRequestExportsValueWorkerCache;
 
-export type ScriptsScriptAndVersionSettingsEditResponseExportsWorkerState = "created";
-export const ScriptsScriptAndVersionSettingsEditResponseExportsWorkerState = S.String;
+export type ScriptsScriptAndVersionSettingsEditResponseExportsValueWorkerState = "created";
+export const ScriptsScriptAndVersionSettingsEditResponseExportsValueWorkerState = S.String;
 
-export interface ScriptsScriptAndVersionSettingsEditResponseExportsWorker {
+export interface ScriptsScriptAndVersionSettingsEditResponseExportsValueWorker {
   /** Marks this entry as a Worker entrypoint export. */
-  type: ScriptsScriptAndVersionSettingsEditResponseExportsWorkerType;
+  type: ScriptsScriptAndVersionSettingsEditResponseExportsValueWorkerType;
   /** Cache override for this entrypoint. Overrides the Worker's global `cache_options.enabled` for this entrypoint only. */
-  cache?: BetaWorkersVersionsCreateRequestExportsWorkerCache | null;
+  cache?: BetaWorkersVersionsCreateRequestExportsValueWorkerCache | null;
   /** Live export. May be omitted; defaults to `created`. */
-  state?: ScriptsScriptAndVersionSettingsEditResponseExportsWorkerState | null;
+  state?: ScriptsScriptAndVersionSettingsEditResponseExportsValueWorkerState | null;
 }
-export const ScriptsScriptAndVersionSettingsEditResponseExportsWorker = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      type: ScriptsScriptAndVersionSettingsEditResponseExportsWorkerType,
-      cache: S.optional(S.NullOr(BetaWorkersVersionsCreateRequestExportsWorkerCache)),
-      state: S.optional(S.NullOr(ScriptsScriptAndVersionSettingsEditResponseExportsWorkerState)),
-    }),
-).annotate({
-  identifier: "ScriptsScriptAndVersionSettingsEditResponseExportsWorker",
-}) as any as S.Schema<ScriptsScriptAndVersionSettingsEditResponseExportsWorker>;
-
-export type ScriptsScriptAndVersionSettingsEditResponseExportsWorkersDurableObjectExportStorage =
-  | "sqlite"
-  | "legacy-kv";
-export const ScriptsScriptAndVersionSettingsEditResponseExportsWorkersDurableObjectExportStorage =
-  S.String;
-
-export type ScriptsScriptAndVersionSettingsEditResponseExportsWorkersDurableObjectExportType =
-  "durable-object";
-export const ScriptsScriptAndVersionSettingsEditResponseExportsWorkersDurableObjectExportType =
-  S.String;
-
-export type ScriptsScriptAndVersionSettingsEditResponseExportsWorkersDurableObjectExportState =
-  "created";
-export const ScriptsScriptAndVersionSettingsEditResponseExportsWorkersDurableObjectExportState =
-  S.String;
-
-export interface ScriptsScriptAndVersionSettingsEditResponseExportsWorkersDurableObjectExport {
-  /** Durable Object storage backend. `sqlite` is the recommended (and only) backend for new namespaces. `legacy-kv` is accepted only for a class whose namespace already exists as KV-backed; the `exports` flow never provisions a new `legacy-kv` namespace. */
-  storage: ScriptsScriptAndVersionSettingsEditResponseExportsWorkersDurableObjectExportStorage;
-  /** Marks this entry as a Durable Object export. */
-  type: ScriptsScriptAndVersionSettingsEditResponseExportsWorkersDurableObjectExportType;
-  /** Name of the container (declared in the upload's `metadata.containers`) that backs this Durable Object. When set, the namespace is container-enabled. Valid only on live entries. */
-  container?: string | null;
-  /** Live export. May be omitted; defaults to `created`. */
-  state?: ScriptsScriptAndVersionSettingsEditResponseExportsWorkersDurableObjectExportState | null;
-}
-export const ScriptsScriptAndVersionSettingsEditResponseExportsWorkersDurableObjectExport =
+export const ScriptsScriptAndVersionSettingsEditResponseExportsValueWorker =
   /*@__PURE__*/ S.suspend(() =>
     S.Struct({
-      storage: ScriptsScriptAndVersionSettingsEditResponseExportsWorkersDurableObjectExportStorage,
-      type: ScriptsScriptAndVersionSettingsEditResponseExportsWorkersDurableObjectExportType,
-      container: S.optional(S.NullOr(S.String)),
+      type: ScriptsScriptAndVersionSettingsEditResponseExportsValueWorkerType,
+      cache: S.optional(S.NullOr(BetaWorkersVersionsCreateRequestExportsValueWorkerCache)),
       state: S.optional(
-        S.NullOr(ScriptsScriptAndVersionSettingsEditResponseExportsWorkersDurableObjectExportState),
+        S.NullOr(ScriptsScriptAndVersionSettingsEditResponseExportsValueWorkerState),
       ),
     }),
   ).annotate({
-    identifier: "ScriptsScriptAndVersionSettingsEditResponseExportsWorkersDurableObjectExport",
-  }) as any as S.Schema<ScriptsScriptAndVersionSettingsEditResponseExportsWorkersDurableObjectExport>;
+    identifier: "ScriptsScriptAndVersionSettingsEditResponseExportsValueWorker",
+  }) as any as S.Schema<ScriptsScriptAndVersionSettingsEditResponseExportsValueWorker>;
 
-export type ScriptsScriptAndVersionSettingsEditResponseExportsWorkersDurableObjectDeletedExportState =
-  "deleted";
-export const ScriptsScriptAndVersionSettingsEditResponseExportsWorkersDurableObjectDeletedExportState =
+export type ScriptsScriptAndVersionSettingsEditResponseExportsValueWorkersDurableObjectExportStorage =
+  | "sqlite"
+  | "legacy-kv";
+export const ScriptsScriptAndVersionSettingsEditResponseExportsValueWorkersDurableObjectExportStorage =
   S.String;
 
-export type ScriptsScriptAndVersionSettingsEditResponseExportsWorkersDurableObjectDeletedExportType =
+export type ScriptsScriptAndVersionSettingsEditResponseExportsValueWorkersDurableObjectExportType =
   "durable-object";
-export const ScriptsScriptAndVersionSettingsEditResponseExportsWorkersDurableObjectDeletedExportType =
+export const ScriptsScriptAndVersionSettingsEditResponseExportsValueWorkersDurableObjectExportType =
   S.String;
 
-export interface ScriptsScriptAndVersionSettingsEditResponseExportsWorkersDurableObjectDeletedExport {
-  /** Tombstone that deletes the namespace. */
-  state: ScriptsScriptAndVersionSettingsEditResponseExportsWorkersDurableObjectDeletedExportState;
+export type ScriptsScriptAndVersionSettingsEditResponseExportsValueWorkersDurableObjectExportState =
+  "created";
+export const ScriptsScriptAndVersionSettingsEditResponseExportsValueWorkersDurableObjectExportState =
+  S.String;
+
+export interface ScriptsScriptAndVersionSettingsEditResponseExportsValueWorkersDurableObjectExport {
+  /** Durable Object storage backend. `sqlite` is the recommended (and only) backend for new namespaces. `legacy-kv` is accepted only for a class whose namespace already exists as KV-backed; the `exports` flow never provisions a new `legacy-kv` namespace. */
+  storage: ScriptsScriptAndVersionSettingsEditResponseExportsValueWorkersDurableObjectExportStorage;
   /** Marks this entry as a Durable Object export. */
-  type: ScriptsScriptAndVersionSettingsEditResponseExportsWorkersDurableObjectDeletedExportType;
+  type: ScriptsScriptAndVersionSettingsEditResponseExportsValueWorkersDurableObjectExportType;
+  /** Name of the container (declared in the upload's `metadata.containers`) that backs this Durable Object. When set, the namespace is container-enabled. Valid only on live entries. */
+  container?: string | null;
+  /** Live export. May be omitted; defaults to `created`. */
+  state?: ScriptsScriptAndVersionSettingsEditResponseExportsValueWorkersDurableObjectExportState | null;
 }
-export const ScriptsScriptAndVersionSettingsEditResponseExportsWorkersDurableObjectDeletedExport =
+export const ScriptsScriptAndVersionSettingsEditResponseExportsValueWorkersDurableObjectExport =
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      storage:
+        ScriptsScriptAndVersionSettingsEditResponseExportsValueWorkersDurableObjectExportStorage,
+      type: ScriptsScriptAndVersionSettingsEditResponseExportsValueWorkersDurableObjectExportType,
+      container: S.optional(S.NullOr(S.String)),
+      state: S.optional(
+        S.NullOr(
+          ScriptsScriptAndVersionSettingsEditResponseExportsValueWorkersDurableObjectExportState,
+        ),
+      ),
+    }),
+  ).annotate({
+    identifier: "ScriptsScriptAndVersionSettingsEditResponseExportsValueWorkersDurableObjectExport",
+  }) as any as S.Schema<ScriptsScriptAndVersionSettingsEditResponseExportsValueWorkersDurableObjectExport>;
+
+export type ScriptsScriptAndVersionSettingsEditResponseExportsValueWorkersDurableObjectDeletedExportState =
+  "deleted";
+export const ScriptsScriptAndVersionSettingsEditResponseExportsValueWorkersDurableObjectDeletedExportState =
+  S.String;
+
+export type ScriptsScriptAndVersionSettingsEditResponseExportsValueWorkersDurableObjectDeletedExportType =
+  "durable-object";
+export const ScriptsScriptAndVersionSettingsEditResponseExportsValueWorkersDurableObjectDeletedExportType =
+  S.String;
+
+export interface ScriptsScriptAndVersionSettingsEditResponseExportsValueWorkersDurableObjectDeletedExport {
+  /** Tombstone that deletes the namespace. */
+  state: ScriptsScriptAndVersionSettingsEditResponseExportsValueWorkersDurableObjectDeletedExportState;
+  /** Marks this entry as a Durable Object export. */
+  type: ScriptsScriptAndVersionSettingsEditResponseExportsValueWorkersDurableObjectDeletedExportType;
+}
+export const ScriptsScriptAndVersionSettingsEditResponseExportsValueWorkersDurableObjectDeletedExport =
   /*@__PURE__*/ S.suspend(() =>
     S.Struct({
       state:
-        ScriptsScriptAndVersionSettingsEditResponseExportsWorkersDurableObjectDeletedExportState,
-      type: ScriptsScriptAndVersionSettingsEditResponseExportsWorkersDurableObjectDeletedExportType,
+        ScriptsScriptAndVersionSettingsEditResponseExportsValueWorkersDurableObjectDeletedExportState,
+      type: ScriptsScriptAndVersionSettingsEditResponseExportsValueWorkersDurableObjectDeletedExportType,
     }),
   ).annotate({
     identifier:
-      "ScriptsScriptAndVersionSettingsEditResponseExportsWorkersDurableObjectDeletedExport",
-  }) as any as S.Schema<ScriptsScriptAndVersionSettingsEditResponseExportsWorkersDurableObjectDeletedExport>;
+      "ScriptsScriptAndVersionSettingsEditResponseExportsValueWorkersDurableObjectDeletedExport",
+  }) as any as S.Schema<ScriptsScriptAndVersionSettingsEditResponseExportsValueWorkersDurableObjectDeletedExport>;
 
-export type ScriptsScriptAndVersionSettingsEditResponseExportsWorkersDurableObjectRenamedExportState =
+export type ScriptsScriptAndVersionSettingsEditResponseExportsValueWorkersDurableObjectRenamedExportState =
   "renamed";
-export const ScriptsScriptAndVersionSettingsEditResponseExportsWorkersDurableObjectRenamedExportState =
+export const ScriptsScriptAndVersionSettingsEditResponseExportsValueWorkersDurableObjectRenamedExportState =
   S.String;
 
-export type ScriptsScriptAndVersionSettingsEditResponseExportsWorkersDurableObjectRenamedExportType =
+export type ScriptsScriptAndVersionSettingsEditResponseExportsValueWorkersDurableObjectRenamedExportType =
   "durable-object";
-export const ScriptsScriptAndVersionSettingsEditResponseExportsWorkersDurableObjectRenamedExportType =
+export const ScriptsScriptAndVersionSettingsEditResponseExportsValueWorkersDurableObjectRenamedExportType =
   S.String;
 
-export interface ScriptsScriptAndVersionSettingsEditResponseExportsWorkersDurableObjectRenamedExport {
+export interface ScriptsScriptAndVersionSettingsEditResponseExportsValueWorkersDurableObjectRenamedExport {
   /** The destination class name. Must differ from the source class (the map key) and must be declared as a live (`created`) entry in the same `exports` map. Write-only: never present in GET responses. */
   renamedTo: string;
   /** Tombstone that renames the namespace's class. */
-  state: ScriptsScriptAndVersionSettingsEditResponseExportsWorkersDurableObjectRenamedExportState;
+  state: ScriptsScriptAndVersionSettingsEditResponseExportsValueWorkersDurableObjectRenamedExportState;
   /** Marks this entry as a Durable Object export. */
-  type: ScriptsScriptAndVersionSettingsEditResponseExportsWorkersDurableObjectRenamedExportType;
+  type: ScriptsScriptAndVersionSettingsEditResponseExportsValueWorkersDurableObjectRenamedExportType;
 }
-export const ScriptsScriptAndVersionSettingsEditResponseExportsWorkersDurableObjectRenamedExport =
+export const ScriptsScriptAndVersionSettingsEditResponseExportsValueWorkersDurableObjectRenamedExport =
   /*@__PURE__*/ S.suspend(() =>
     S.Struct({
       renamedTo: S.String.pipe(T.Body("renamed_to")),
       state:
-        ScriptsScriptAndVersionSettingsEditResponseExportsWorkersDurableObjectRenamedExportState,
-      type: ScriptsScriptAndVersionSettingsEditResponseExportsWorkersDurableObjectRenamedExportType,
+        ScriptsScriptAndVersionSettingsEditResponseExportsValueWorkersDurableObjectRenamedExportState,
+      type: ScriptsScriptAndVersionSettingsEditResponseExportsValueWorkersDurableObjectRenamedExportType,
     }),
   ).annotate({
     identifier:
-      "ScriptsScriptAndVersionSettingsEditResponseExportsWorkersDurableObjectRenamedExport",
-  }) as any as S.Schema<ScriptsScriptAndVersionSettingsEditResponseExportsWorkersDurableObjectRenamedExport>;
+      "ScriptsScriptAndVersionSettingsEditResponseExportsValueWorkersDurableObjectRenamedExport",
+  }) as any as S.Schema<ScriptsScriptAndVersionSettingsEditResponseExportsValueWorkersDurableObjectRenamedExport>;
 
-export type ScriptsScriptAndVersionSettingsEditResponseExportsWorkersDurableObjectTransferredExportState =
+export type ScriptsScriptAndVersionSettingsEditResponseExportsValueWorkersDurableObjectTransferredExportState =
   "transferred";
-export const ScriptsScriptAndVersionSettingsEditResponseExportsWorkersDurableObjectTransferredExportState =
+export const ScriptsScriptAndVersionSettingsEditResponseExportsValueWorkersDurableObjectTransferredExportState =
   S.String;
 
-export type ScriptsScriptAndVersionSettingsEditResponseExportsWorkersDurableObjectTransferredExportType =
+export type ScriptsScriptAndVersionSettingsEditResponseExportsValueWorkersDurableObjectTransferredExportType =
   "durable-object";
-export const ScriptsScriptAndVersionSettingsEditResponseExportsWorkersDurableObjectTransferredExportType =
+export const ScriptsScriptAndVersionSettingsEditResponseExportsValueWorkersDurableObjectTransferredExportType =
   S.String;
 
-export interface ScriptsScriptAndVersionSettingsEditResponseExportsWorkersDurableObjectTransferredExport {
+export interface ScriptsScriptAndVersionSettingsEditResponseExportsValueWorkersDurableObjectTransferredExport {
   /** Tombstone that transfers the namespace to another script. */
-  state: ScriptsScriptAndVersionSettingsEditResponseExportsWorkersDurableObjectTransferredExportState;
+  state: ScriptsScriptAndVersionSettingsEditResponseExportsValueWorkersDurableObjectTransferredExportState;
   /** The destination script name. Must be in the same account and the same dispatch-namespace context (or both non-dispatch). Cross-dispatch-namespace transfers are rejected. Write-only: never present in GET responses. */
   transferredTo: string;
   /** Marks this entry as a Durable Object export. */
-  type: ScriptsScriptAndVersionSettingsEditResponseExportsWorkersDurableObjectTransferredExportType;
+  type: ScriptsScriptAndVersionSettingsEditResponseExportsValueWorkersDurableObjectTransferredExportType;
 }
-export const ScriptsScriptAndVersionSettingsEditResponseExportsWorkersDurableObjectTransferredExport =
+export const ScriptsScriptAndVersionSettingsEditResponseExportsValueWorkersDurableObjectTransferredExport =
   /*@__PURE__*/ S.suspend(() =>
     S.Struct({
       state:
-        ScriptsScriptAndVersionSettingsEditResponseExportsWorkersDurableObjectTransferredExportState,
+        ScriptsScriptAndVersionSettingsEditResponseExportsValueWorkersDurableObjectTransferredExportState,
       transferredTo: S.String.pipe(T.Body("transferred_to")),
-      type: ScriptsScriptAndVersionSettingsEditResponseExportsWorkersDurableObjectTransferredExportType,
+      type: ScriptsScriptAndVersionSettingsEditResponseExportsValueWorkersDurableObjectTransferredExportType,
     }),
   ).annotate({
     identifier:
-      "ScriptsScriptAndVersionSettingsEditResponseExportsWorkersDurableObjectTransferredExport",
-  }) as any as S.Schema<ScriptsScriptAndVersionSettingsEditResponseExportsWorkersDurableObjectTransferredExport>;
+      "ScriptsScriptAndVersionSettingsEditResponseExportsValueWorkersDurableObjectTransferredExport",
+  }) as any as S.Schema<ScriptsScriptAndVersionSettingsEditResponseExportsValueWorkersDurableObjectTransferredExport>;
 
-export type ScriptsScriptAndVersionSettingsEditResponseExportsWorkersDurableObjectExpectingTransferExportState =
+export type ScriptsScriptAndVersionSettingsEditResponseExportsValueWorkersDurableObjectExpectingTransferExportState =
   "expecting-transfer";
-export const ScriptsScriptAndVersionSettingsEditResponseExportsWorkersDurableObjectExpectingTransferExportState =
+export const ScriptsScriptAndVersionSettingsEditResponseExportsValueWorkersDurableObjectExpectingTransferExportState =
   S.String;
 
-export type ScriptsScriptAndVersionSettingsEditResponseExportsWorkersDurableObjectExpectingTransferExportStorage =
+export type ScriptsScriptAndVersionSettingsEditResponseExportsValueWorkersDurableObjectExpectingTransferExportStorage =
   | "sqlite"
   | "legacy-kv";
-export const ScriptsScriptAndVersionSettingsEditResponseExportsWorkersDurableObjectExpectingTransferExportStorage =
+export const ScriptsScriptAndVersionSettingsEditResponseExportsValueWorkersDurableObjectExpectingTransferExportStorage =
   S.String;
 
-export type ScriptsScriptAndVersionSettingsEditResponseExportsWorkersDurableObjectExpectingTransferExportType =
+export type ScriptsScriptAndVersionSettingsEditResponseExportsValueWorkersDurableObjectExpectingTransferExportType =
   "durable-object";
-export const ScriptsScriptAndVersionSettingsEditResponseExportsWorkersDurableObjectExpectingTransferExportType =
+export const ScriptsScriptAndVersionSettingsEditResponseExportsValueWorkersDurableObjectExpectingTransferExportType =
   S.String;
 
-export interface ScriptsScriptAndVersionSettingsEditResponseExportsWorkersDurableObjectExpectingTransferExport {
+export interface ScriptsScriptAndVersionSettingsEditResponseExportsValueWorkersDurableObjectExpectingTransferExport {
   /** Target side of a two-phase transfer. */
-  state: ScriptsScriptAndVersionSettingsEditResponseExportsWorkersDurableObjectExpectingTransferExportState;
+  state: ScriptsScriptAndVersionSettingsEditResponseExportsValueWorkersDurableObjectExpectingTransferExportState;
   /** Durable Object storage backend. `sqlite` is the recommended (and only) backend for new namespaces. `legacy-kv` is accepted only for a class whose namespace already exists as KV-backed; the `exports` flow never provisions a new `legacy-kv` namespace. */
-  storage: ScriptsScriptAndVersionSettingsEditResponseExportsWorkersDurableObjectExpectingTransferExportStorage;
+  storage: ScriptsScriptAndVersionSettingsEditResponseExportsValueWorkersDurableObjectExpectingTransferExportStorage;
   /** The source script name to receive the namespace from. Must be in the same account and dispatch-namespace context. Present on reads for `expecting-transfer` entries. */
   transferFrom: string;
   /** Marks this entry as a Durable Object export. */
-  type: ScriptsScriptAndVersionSettingsEditResponseExportsWorkersDurableObjectExpectingTransferExportType;
+  type: ScriptsScriptAndVersionSettingsEditResponseExportsValueWorkersDurableObjectExpectingTransferExportType;
   /** Name of the container (declared in the upload's `metadata.containers`) that backs this Durable Object once the transfer settles. Valid only on live entries. */
   container?: string | null;
 }
-export const ScriptsScriptAndVersionSettingsEditResponseExportsWorkersDurableObjectExpectingTransferExport =
+export const ScriptsScriptAndVersionSettingsEditResponseExportsValueWorkersDurableObjectExpectingTransferExport =
   /*@__PURE__*/ S.suspend(() =>
     S.Struct({
       state:
-        ScriptsScriptAndVersionSettingsEditResponseExportsWorkersDurableObjectExpectingTransferExportState,
+        ScriptsScriptAndVersionSettingsEditResponseExportsValueWorkersDurableObjectExpectingTransferExportState,
       storage:
-        ScriptsScriptAndVersionSettingsEditResponseExportsWorkersDurableObjectExpectingTransferExportStorage,
+        ScriptsScriptAndVersionSettingsEditResponseExportsValueWorkersDurableObjectExpectingTransferExportStorage,
       transferFrom: S.String.pipe(T.Body("transfer_from")),
-      type: ScriptsScriptAndVersionSettingsEditResponseExportsWorkersDurableObjectExpectingTransferExportType,
+      type: ScriptsScriptAndVersionSettingsEditResponseExportsValueWorkersDurableObjectExpectingTransferExportType,
       container: S.optional(S.NullOr(S.String)),
     }),
   ).annotate({
     identifier:
-      "ScriptsScriptAndVersionSettingsEditResponseExportsWorkersDurableObjectExpectingTransferExport",
-  }) as any as S.Schema<ScriptsScriptAndVersionSettingsEditResponseExportsWorkersDurableObjectExpectingTransferExport>;
+      "ScriptsScriptAndVersionSettingsEditResponseExportsValueWorkersDurableObjectExpectingTransferExport",
+  }) as any as S.Schema<ScriptsScriptAndVersionSettingsEditResponseExportsValueWorkersDurableObjectExpectingTransferExport>;
 
-export type ScriptsScriptAndVersionSettingsEditResponseExports =
-  | ScriptsScriptAndVersionSettingsEditResponseExportsWorker
-  | ScriptsScriptAndVersionSettingsEditResponseExportsWorkersDurableObjectExport
-  | ScriptsScriptAndVersionSettingsEditResponseExportsWorkersDurableObjectDeletedExport
-  | ScriptsScriptAndVersionSettingsEditResponseExportsWorkersDurableObjectRenamedExport
-  | ScriptsScriptAndVersionSettingsEditResponseExportsWorkersDurableObjectTransferredExport
-  | ScriptsScriptAndVersionSettingsEditResponseExportsWorkersDurableObjectExpectingTransferExport;
-export const ScriptsScriptAndVersionSettingsEditResponseExports = /*@__PURE__*/ S.Unknown.pipe(
+export type ScriptsScriptAndVersionSettingsEditResponseExportsValue =
+  | ScriptsScriptAndVersionSettingsEditResponseExportsValueWorker
+  | ScriptsScriptAndVersionSettingsEditResponseExportsValueWorkersDurableObjectExport
+  | ScriptsScriptAndVersionSettingsEditResponseExportsValueWorkersDurableObjectDeletedExport
+  | ScriptsScriptAndVersionSettingsEditResponseExportsValueWorkersDurableObjectRenamedExport
+  | ScriptsScriptAndVersionSettingsEditResponseExportsValueWorkersDurableObjectTransferredExport
+  | ScriptsScriptAndVersionSettingsEditResponseExportsValueWorkersDurableObjectExpectingTransferExport;
+export const ScriptsScriptAndVersionSettingsEditResponseExportsValue = /*@__PURE__*/ S.Unknown.pipe(
   T.UnionCases([
     ["type", "cache", "state"],
     ["storage", "type", "container", "state"],
@@ -29214,6 +29397,14 @@ export const ScriptsScriptAndVersionSettingsEditResponseExports = /*@__PURE__*/ 
     ["state", "storage", "transferFrom", "type", "container"],
   ]),
 );
+
+export type ScriptsScriptAndVersionSettingsEditResponseExportsMap = {
+  [key: string]: ScriptsScriptAndVersionSettingsEditResponseExportsValue | undefined;
+};
+export const ScriptsScriptAndVersionSettingsEditResponseExportsMap = /*@__PURE__*/ S.Record(
+  S.String,
+  ScriptsScriptAndVersionSettingsEditResponseExportsValue,
+) as any as S.Schema<ScriptsScriptAndVersionSettingsEditResponseExportsMap>;
 
 export type ScriptsScriptAndVersionSettingsEditResponseExportsReconciliationCreatedList =
   Array<string>;
@@ -30033,7 +30224,7 @@ export interface PatchScriptScriptAndVersionSettingResponse {
   /** Flags that enable or disable certain features in the Workers runtime. Used to enable upcoming features or opt in or out of specific changes not included in a `compatibility_date`. */
   compatibilityFlags?: ScriptsScriptAndVersionSettingsEditResponseCompatibilityFlagsList | null;
   /** Declarative exports for the Worker. Worker entrypoint entries (`type: worker`) carry cache configuration for that entrypoint. */
-  exports?: ScriptsScriptAndVersionSettingsEditResponseExports | null;
+  exports?: ScriptsScriptAndVersionSettingsEditResponseExportsMap | null;
   /** Summary of the declarative exports reconciliation that ran on this upload. Populated only when the uploaded metadata included an `exports` block. Durable Object entries drive reconciliation; `type: worker` entries do not contribute to this summary. */
   exportsReconciliation?: ScriptsScriptAndVersionSettingsEditResponseExportsReconciliation | null;
   /** Limits to apply for this Worker. */
@@ -30068,7 +30259,7 @@ export const PatchScriptScriptAndVersionSettingResponse = /*@__PURE__*/ S.suspen
         T.Body("compatibility_flags"),
       ),
     ),
-    exports: S.optional(S.NullOr(ScriptsScriptAndVersionSettingsEditResponseExports)),
+    exports: S.optional(S.NullOr(ScriptsScriptAndVersionSettingsEditResponseExportsMap)),
     exportsReconciliation: S.optional(
       S.NullOr(ScriptsScriptAndVersionSettingsEditResponseExportsReconciliation).pipe(
         T.Body("exports_reconciliation"),
@@ -30617,6 +30808,9 @@ export const PutScriptRequest = /*@__PURE__*/ S.suspend(() =>
         workflowName: "workflow_name",
         zoneId: "zone_id",
         zoneName: "zone_name",
+        renamedTo: "renamed_to",
+        transferredTo: "transferred_to",
+        transferFrom: "transfer_from",
       }),
     ),
     files: S.optional(S.Unknown.pipe(T.FormDataFile())),
@@ -30642,186 +30836,193 @@ export const ScriptsUpdateResponseCompatibilityFlagsList = /*@__PURE__*/ S.Array
   S.String,
 ) as any as S.Schema<ScriptsUpdateResponseCompatibilityFlagsList>;
 
-export type ScriptsUpdateResponseExportsWorkerType = "worker";
-export const ScriptsUpdateResponseExportsWorkerType = S.String;
+export type ScriptsUpdateResponseExportsValueWorkerType = "worker";
+export const ScriptsUpdateResponseExportsValueWorkerType = S.String;
 
-export type ScriptsUpdateResponseExportsWorkerCache =
-  BetaWorkersVersionsCreateRequestExportsWorkerCache;
-export const ScriptsUpdateResponseExportsWorkerCache =
-  BetaWorkersVersionsCreateRequestExportsWorkerCache;
+export type ScriptsUpdateResponseExportsValueWorkerCache =
+  BetaWorkersVersionsCreateRequestExportsValueWorkerCache;
+export const ScriptsUpdateResponseExportsValueWorkerCache =
+  BetaWorkersVersionsCreateRequestExportsValueWorkerCache;
 
-export type ScriptsUpdateResponseExportsWorkerState = "created";
-export const ScriptsUpdateResponseExportsWorkerState = S.String;
+export type ScriptsUpdateResponseExportsValueWorkerState = "created";
+export const ScriptsUpdateResponseExportsValueWorkerState = S.String;
 
-export interface ScriptsUpdateResponseExportsWorker {
+export interface ScriptsUpdateResponseExportsValueWorker {
   /** Marks this entry as a Worker entrypoint export. */
-  type: ScriptsUpdateResponseExportsWorkerType;
+  type: ScriptsUpdateResponseExportsValueWorkerType;
   /** Cache override for this entrypoint. Overrides the Worker's global `cache_options.enabled` for this entrypoint only. */
-  cache?: BetaWorkersVersionsCreateRequestExportsWorkerCache | null;
+  cache?: BetaWorkersVersionsCreateRequestExportsValueWorkerCache | null;
   /** Live export. May be omitted; defaults to `created`. */
-  state?: ScriptsUpdateResponseExportsWorkerState | null;
+  state?: ScriptsUpdateResponseExportsValueWorkerState | null;
 }
-export const ScriptsUpdateResponseExportsWorker = /*@__PURE__*/ S.suspend(() =>
+export const ScriptsUpdateResponseExportsValueWorker = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    type: ScriptsUpdateResponseExportsWorkerType,
-    cache: S.optional(S.NullOr(BetaWorkersVersionsCreateRequestExportsWorkerCache)),
-    state: S.optional(S.NullOr(ScriptsUpdateResponseExportsWorkerState)),
+    type: ScriptsUpdateResponseExportsValueWorkerType,
+    cache: S.optional(S.NullOr(BetaWorkersVersionsCreateRequestExportsValueWorkerCache)),
+    state: S.optional(S.NullOr(ScriptsUpdateResponseExportsValueWorkerState)),
   }),
 ).annotate({
-  identifier: "ScriptsUpdateResponseExportsWorker",
-}) as any as S.Schema<ScriptsUpdateResponseExportsWorker>;
+  identifier: "ScriptsUpdateResponseExportsValueWorker",
+}) as any as S.Schema<ScriptsUpdateResponseExportsValueWorker>;
 
-export type ScriptsUpdateResponseExportsWorkersDurableObjectExportStorage = "sqlite" | "legacy-kv";
-export const ScriptsUpdateResponseExportsWorkersDurableObjectExportStorage = S.String;
+export type ScriptsUpdateResponseExportsValueWorkersDurableObjectExportStorage =
+  | "sqlite"
+  | "legacy-kv";
+export const ScriptsUpdateResponseExportsValueWorkersDurableObjectExportStorage = S.String;
 
-export type ScriptsUpdateResponseExportsWorkersDurableObjectExportType = "durable-object";
-export const ScriptsUpdateResponseExportsWorkersDurableObjectExportType = S.String;
+export type ScriptsUpdateResponseExportsValueWorkersDurableObjectExportType = "durable-object";
+export const ScriptsUpdateResponseExportsValueWorkersDurableObjectExportType = S.String;
 
-export type ScriptsUpdateResponseExportsWorkersDurableObjectExportState = "created";
-export const ScriptsUpdateResponseExportsWorkersDurableObjectExportState = S.String;
+export type ScriptsUpdateResponseExportsValueWorkersDurableObjectExportState = "created";
+export const ScriptsUpdateResponseExportsValueWorkersDurableObjectExportState = S.String;
 
-export interface ScriptsUpdateResponseExportsWorkersDurableObjectExport {
+export interface ScriptsUpdateResponseExportsValueWorkersDurableObjectExport {
   /** Durable Object storage backend. `sqlite` is the recommended (and only) backend for new namespaces. `legacy-kv` is accepted only for a class whose namespace already exists as KV-backed; the `exports` flow never provisions a new `legacy-kv` namespace. */
-  storage: ScriptsUpdateResponseExportsWorkersDurableObjectExportStorage;
+  storage: ScriptsUpdateResponseExportsValueWorkersDurableObjectExportStorage;
   /** Marks this entry as a Durable Object export. */
-  type: ScriptsUpdateResponseExportsWorkersDurableObjectExportType;
+  type: ScriptsUpdateResponseExportsValueWorkersDurableObjectExportType;
   /** Name of the container (declared in the upload's `metadata.containers`) that backs this Durable Object. When set, the namespace is container-enabled. Valid only on live entries. */
   container?: string | null;
   /** Live export. May be omitted; defaults to `created`. */
-  state?: ScriptsUpdateResponseExportsWorkersDurableObjectExportState | null;
+  state?: ScriptsUpdateResponseExportsValueWorkersDurableObjectExportState | null;
 }
-export const ScriptsUpdateResponseExportsWorkersDurableObjectExport = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    storage: ScriptsUpdateResponseExportsWorkersDurableObjectExportStorage,
-    type: ScriptsUpdateResponseExportsWorkersDurableObjectExportType,
-    container: S.optional(S.NullOr(S.String)),
-    state: S.optional(S.NullOr(ScriptsUpdateResponseExportsWorkersDurableObjectExportState)),
-  }),
+export const ScriptsUpdateResponseExportsValueWorkersDurableObjectExport = /*@__PURE__*/ S.suspend(
+  () =>
+    S.Struct({
+      storage: ScriptsUpdateResponseExportsValueWorkersDurableObjectExportStorage,
+      type: ScriptsUpdateResponseExportsValueWorkersDurableObjectExportType,
+      container: S.optional(S.NullOr(S.String)),
+      state: S.optional(S.NullOr(ScriptsUpdateResponseExportsValueWorkersDurableObjectExportState)),
+    }),
 ).annotate({
-  identifier: "ScriptsUpdateResponseExportsWorkersDurableObjectExport",
-}) as any as S.Schema<ScriptsUpdateResponseExportsWorkersDurableObjectExport>;
+  identifier: "ScriptsUpdateResponseExportsValueWorkersDurableObjectExport",
+}) as any as S.Schema<ScriptsUpdateResponseExportsValueWorkersDurableObjectExport>;
 
-export type ScriptsUpdateResponseExportsWorkersDurableObjectDeletedExportState = "deleted";
-export const ScriptsUpdateResponseExportsWorkersDurableObjectDeletedExportState = S.String;
+export type ScriptsUpdateResponseExportsValueWorkersDurableObjectDeletedExportState = "deleted";
+export const ScriptsUpdateResponseExportsValueWorkersDurableObjectDeletedExportState = S.String;
 
-export type ScriptsUpdateResponseExportsWorkersDurableObjectDeletedExportType = "durable-object";
-export const ScriptsUpdateResponseExportsWorkersDurableObjectDeletedExportType = S.String;
+export type ScriptsUpdateResponseExportsValueWorkersDurableObjectDeletedExportType =
+  "durable-object";
+export const ScriptsUpdateResponseExportsValueWorkersDurableObjectDeletedExportType = S.String;
 
-export interface ScriptsUpdateResponseExportsWorkersDurableObjectDeletedExport {
+export interface ScriptsUpdateResponseExportsValueWorkersDurableObjectDeletedExport {
   /** Tombstone that deletes the namespace. */
-  state: ScriptsUpdateResponseExportsWorkersDurableObjectDeletedExportState;
+  state: ScriptsUpdateResponseExportsValueWorkersDurableObjectDeletedExportState;
   /** Marks this entry as a Durable Object export. */
-  type: ScriptsUpdateResponseExportsWorkersDurableObjectDeletedExportType;
+  type: ScriptsUpdateResponseExportsValueWorkersDurableObjectDeletedExportType;
 }
-export const ScriptsUpdateResponseExportsWorkersDurableObjectDeletedExport =
+export const ScriptsUpdateResponseExportsValueWorkersDurableObjectDeletedExport =
   /*@__PURE__*/ S.suspend(() =>
     S.Struct({
-      state: ScriptsUpdateResponseExportsWorkersDurableObjectDeletedExportState,
-      type: ScriptsUpdateResponseExportsWorkersDurableObjectDeletedExportType,
+      state: ScriptsUpdateResponseExportsValueWorkersDurableObjectDeletedExportState,
+      type: ScriptsUpdateResponseExportsValueWorkersDurableObjectDeletedExportType,
     }),
   ).annotate({
-    identifier: "ScriptsUpdateResponseExportsWorkersDurableObjectDeletedExport",
-  }) as any as S.Schema<ScriptsUpdateResponseExportsWorkersDurableObjectDeletedExport>;
+    identifier: "ScriptsUpdateResponseExportsValueWorkersDurableObjectDeletedExport",
+  }) as any as S.Schema<ScriptsUpdateResponseExportsValueWorkersDurableObjectDeletedExport>;
 
-export type ScriptsUpdateResponseExportsWorkersDurableObjectRenamedExportState = "renamed";
-export const ScriptsUpdateResponseExportsWorkersDurableObjectRenamedExportState = S.String;
+export type ScriptsUpdateResponseExportsValueWorkersDurableObjectRenamedExportState = "renamed";
+export const ScriptsUpdateResponseExportsValueWorkersDurableObjectRenamedExportState = S.String;
 
-export type ScriptsUpdateResponseExportsWorkersDurableObjectRenamedExportType = "durable-object";
-export const ScriptsUpdateResponseExportsWorkersDurableObjectRenamedExportType = S.String;
+export type ScriptsUpdateResponseExportsValueWorkersDurableObjectRenamedExportType =
+  "durable-object";
+export const ScriptsUpdateResponseExportsValueWorkersDurableObjectRenamedExportType = S.String;
 
-export interface ScriptsUpdateResponseExportsWorkersDurableObjectRenamedExport {
+export interface ScriptsUpdateResponseExportsValueWorkersDurableObjectRenamedExport {
   /** The destination class name. Must differ from the source class (the map key) and must be declared as a live (`created`) entry in the same `exports` map. Write-only: never present in GET responses. */
   renamedTo: string;
   /** Tombstone that renames the namespace's class. */
-  state: ScriptsUpdateResponseExportsWorkersDurableObjectRenamedExportState;
+  state: ScriptsUpdateResponseExportsValueWorkersDurableObjectRenamedExportState;
   /** Marks this entry as a Durable Object export. */
-  type: ScriptsUpdateResponseExportsWorkersDurableObjectRenamedExportType;
+  type: ScriptsUpdateResponseExportsValueWorkersDurableObjectRenamedExportType;
 }
-export const ScriptsUpdateResponseExportsWorkersDurableObjectRenamedExport =
+export const ScriptsUpdateResponseExportsValueWorkersDurableObjectRenamedExport =
   /*@__PURE__*/ S.suspend(() =>
     S.Struct({
       renamedTo: S.String.pipe(T.Body("renamed_to")),
-      state: ScriptsUpdateResponseExportsWorkersDurableObjectRenamedExportState,
-      type: ScriptsUpdateResponseExportsWorkersDurableObjectRenamedExportType,
+      state: ScriptsUpdateResponseExportsValueWorkersDurableObjectRenamedExportState,
+      type: ScriptsUpdateResponseExportsValueWorkersDurableObjectRenamedExportType,
     }),
   ).annotate({
-    identifier: "ScriptsUpdateResponseExportsWorkersDurableObjectRenamedExport",
-  }) as any as S.Schema<ScriptsUpdateResponseExportsWorkersDurableObjectRenamedExport>;
+    identifier: "ScriptsUpdateResponseExportsValueWorkersDurableObjectRenamedExport",
+  }) as any as S.Schema<ScriptsUpdateResponseExportsValueWorkersDurableObjectRenamedExport>;
 
-export type ScriptsUpdateResponseExportsWorkersDurableObjectTransferredExportState = "transferred";
-export const ScriptsUpdateResponseExportsWorkersDurableObjectTransferredExportState = S.String;
+export type ScriptsUpdateResponseExportsValueWorkersDurableObjectTransferredExportState =
+  "transferred";
+export const ScriptsUpdateResponseExportsValueWorkersDurableObjectTransferredExportState = S.String;
 
-export type ScriptsUpdateResponseExportsWorkersDurableObjectTransferredExportType =
+export type ScriptsUpdateResponseExportsValueWorkersDurableObjectTransferredExportType =
   "durable-object";
-export const ScriptsUpdateResponseExportsWorkersDurableObjectTransferredExportType = S.String;
+export const ScriptsUpdateResponseExportsValueWorkersDurableObjectTransferredExportType = S.String;
 
-export interface ScriptsUpdateResponseExportsWorkersDurableObjectTransferredExport {
+export interface ScriptsUpdateResponseExportsValueWorkersDurableObjectTransferredExport {
   /** Tombstone that transfers the namespace to another script. */
-  state: ScriptsUpdateResponseExportsWorkersDurableObjectTransferredExportState;
+  state: ScriptsUpdateResponseExportsValueWorkersDurableObjectTransferredExportState;
   /** The destination script name. Must be in the same account and the same dispatch-namespace context (or both non-dispatch). Cross-dispatch-namespace transfers are rejected. Write-only: never present in GET responses. */
   transferredTo: string;
   /** Marks this entry as a Durable Object export. */
-  type: ScriptsUpdateResponseExportsWorkersDurableObjectTransferredExportType;
+  type: ScriptsUpdateResponseExportsValueWorkersDurableObjectTransferredExportType;
 }
-export const ScriptsUpdateResponseExportsWorkersDurableObjectTransferredExport =
+export const ScriptsUpdateResponseExportsValueWorkersDurableObjectTransferredExport =
   /*@__PURE__*/ S.suspend(() =>
     S.Struct({
-      state: ScriptsUpdateResponseExportsWorkersDurableObjectTransferredExportState,
+      state: ScriptsUpdateResponseExportsValueWorkersDurableObjectTransferredExportState,
       transferredTo: S.String.pipe(T.Body("transferred_to")),
-      type: ScriptsUpdateResponseExportsWorkersDurableObjectTransferredExportType,
+      type: ScriptsUpdateResponseExportsValueWorkersDurableObjectTransferredExportType,
     }),
   ).annotate({
-    identifier: "ScriptsUpdateResponseExportsWorkersDurableObjectTransferredExport",
-  }) as any as S.Schema<ScriptsUpdateResponseExportsWorkersDurableObjectTransferredExport>;
+    identifier: "ScriptsUpdateResponseExportsValueWorkersDurableObjectTransferredExport",
+  }) as any as S.Schema<ScriptsUpdateResponseExportsValueWorkersDurableObjectTransferredExport>;
 
-export type ScriptsUpdateResponseExportsWorkersDurableObjectExpectingTransferExportState =
+export type ScriptsUpdateResponseExportsValueWorkersDurableObjectExpectingTransferExportState =
   "expecting-transfer";
-export const ScriptsUpdateResponseExportsWorkersDurableObjectExpectingTransferExportState =
+export const ScriptsUpdateResponseExportsValueWorkersDurableObjectExpectingTransferExportState =
   S.String;
 
-export type ScriptsUpdateResponseExportsWorkersDurableObjectExpectingTransferExportStorage =
+export type ScriptsUpdateResponseExportsValueWorkersDurableObjectExpectingTransferExportStorage =
   | "sqlite"
   | "legacy-kv";
-export const ScriptsUpdateResponseExportsWorkersDurableObjectExpectingTransferExportStorage =
+export const ScriptsUpdateResponseExportsValueWorkersDurableObjectExpectingTransferExportStorage =
   S.String;
 
-export type ScriptsUpdateResponseExportsWorkersDurableObjectExpectingTransferExportType =
+export type ScriptsUpdateResponseExportsValueWorkersDurableObjectExpectingTransferExportType =
   "durable-object";
-export const ScriptsUpdateResponseExportsWorkersDurableObjectExpectingTransferExportType = S.String;
+export const ScriptsUpdateResponseExportsValueWorkersDurableObjectExpectingTransferExportType =
+  S.String;
 
-export interface ScriptsUpdateResponseExportsWorkersDurableObjectExpectingTransferExport {
+export interface ScriptsUpdateResponseExportsValueWorkersDurableObjectExpectingTransferExport {
   /** Target side of a two-phase transfer. */
-  state: ScriptsUpdateResponseExportsWorkersDurableObjectExpectingTransferExportState;
+  state: ScriptsUpdateResponseExportsValueWorkersDurableObjectExpectingTransferExportState;
   /** Durable Object storage backend. `sqlite` is the recommended (and only) backend for new namespaces. `legacy-kv` is accepted only for a class whose namespace already exists as KV-backed; the `exports` flow never provisions a new `legacy-kv` namespace. */
-  storage: ScriptsUpdateResponseExportsWorkersDurableObjectExpectingTransferExportStorage;
+  storage: ScriptsUpdateResponseExportsValueWorkersDurableObjectExpectingTransferExportStorage;
   /** The source script name to receive the namespace from. Must be in the same account and dispatch-namespace context. Present on reads for `expecting-transfer` entries. */
   transferFrom: string;
   /** Marks this entry as a Durable Object export. */
-  type: ScriptsUpdateResponseExportsWorkersDurableObjectExpectingTransferExportType;
+  type: ScriptsUpdateResponseExportsValueWorkersDurableObjectExpectingTransferExportType;
   /** Name of the container (declared in the upload's `metadata.containers`) that backs this Durable Object once the transfer settles. Valid only on live entries. */
   container?: string | null;
 }
-export const ScriptsUpdateResponseExportsWorkersDurableObjectExpectingTransferExport =
+export const ScriptsUpdateResponseExportsValueWorkersDurableObjectExpectingTransferExport =
   /*@__PURE__*/ S.suspend(() =>
     S.Struct({
-      state: ScriptsUpdateResponseExportsWorkersDurableObjectExpectingTransferExportState,
-      storage: ScriptsUpdateResponseExportsWorkersDurableObjectExpectingTransferExportStorage,
+      state: ScriptsUpdateResponseExportsValueWorkersDurableObjectExpectingTransferExportState,
+      storage: ScriptsUpdateResponseExportsValueWorkersDurableObjectExpectingTransferExportStorage,
       transferFrom: S.String.pipe(T.Body("transfer_from")),
-      type: ScriptsUpdateResponseExportsWorkersDurableObjectExpectingTransferExportType,
+      type: ScriptsUpdateResponseExportsValueWorkersDurableObjectExpectingTransferExportType,
       container: S.optional(S.NullOr(S.String)),
     }),
   ).annotate({
-    identifier: "ScriptsUpdateResponseExportsWorkersDurableObjectExpectingTransferExport",
-  }) as any as S.Schema<ScriptsUpdateResponseExportsWorkersDurableObjectExpectingTransferExport>;
+    identifier: "ScriptsUpdateResponseExportsValueWorkersDurableObjectExpectingTransferExport",
+  }) as any as S.Schema<ScriptsUpdateResponseExportsValueWorkersDurableObjectExpectingTransferExport>;
 
-export type ScriptsUpdateResponseExports =
-  | ScriptsUpdateResponseExportsWorker
-  | ScriptsUpdateResponseExportsWorkersDurableObjectExport
-  | ScriptsUpdateResponseExportsWorkersDurableObjectDeletedExport
-  | ScriptsUpdateResponseExportsWorkersDurableObjectRenamedExport
-  | ScriptsUpdateResponseExportsWorkersDurableObjectTransferredExport
-  | ScriptsUpdateResponseExportsWorkersDurableObjectExpectingTransferExport;
-export const ScriptsUpdateResponseExports = /*@__PURE__*/ S.Unknown.pipe(
+export type ScriptsUpdateResponseExportsValue =
+  | ScriptsUpdateResponseExportsValueWorker
+  | ScriptsUpdateResponseExportsValueWorkersDurableObjectExport
+  | ScriptsUpdateResponseExportsValueWorkersDurableObjectDeletedExport
+  | ScriptsUpdateResponseExportsValueWorkersDurableObjectRenamedExport
+  | ScriptsUpdateResponseExportsValueWorkersDurableObjectTransferredExport
+  | ScriptsUpdateResponseExportsValueWorkersDurableObjectExpectingTransferExport;
+export const ScriptsUpdateResponseExportsValue = /*@__PURE__*/ S.Unknown.pipe(
   T.UnionCases([
     ["type", "cache", "state"],
     ["storage", "type", "container", "state"],
@@ -30831,6 +31032,14 @@ export const ScriptsUpdateResponseExports = /*@__PURE__*/ S.Unknown.pipe(
     ["state", "storage", "transferFrom", "type", "container"],
   ]),
 );
+
+export type ScriptsUpdateResponseExportsMap = {
+  [key: string]: ScriptsUpdateResponseExportsValue | undefined;
+};
+export const ScriptsUpdateResponseExportsMap = /*@__PURE__*/ S.Record(
+  S.String,
+  ScriptsUpdateResponseExportsValue,
+) as any as S.Schema<ScriptsUpdateResponseExportsMap>;
 
 export type ScriptsUpdateResponseHandlersList = Array<string>;
 export const ScriptsUpdateResponseHandlersList = /*@__PURE__*/ S.Array(
@@ -31288,7 +31497,7 @@ export interface PutScriptResponse {
   /** Hashed script content, can be used in a If-None-Match header when updating. */
   etag?: string | null;
   /** Declarative exports for the Worker's most recent version, including Durable Object classes (with their `storage` backend) and named Worker entrypoints. Tombstoned lifecycle entries are omitted, so only live exports (`created` and `expecting-transfer`) are returned. */
-  exports?: ScriptsUpdateResponseExports | null;
+  exports?: ScriptsUpdateResponseExportsMap | null;
   /** The names of handlers exported as part of the default export. */
   handlers?: ScriptsUpdateResponseHandlersList | null;
   /** Whether a Worker contains assets. */
@@ -31336,7 +31545,7 @@ export const PutScriptResponse = /*@__PURE__*/ S.suspend(() =>
     createdOn: S.optional(S.NullOr(S.String).pipe(T.Body("created_on"))),
     entryPoint: S.optional(S.NullOr(S.String).pipe(T.Body("entry_point"))),
     etag: S.optional(S.NullOr(S.String)),
-    exports: S.optional(S.NullOr(ScriptsUpdateResponseExports)),
+    exports: S.optional(S.NullOr(ScriptsUpdateResponseExportsMap)),
     handlers: S.optional(S.NullOr(ScriptsUpdateResponseHandlersList)),
     hasAssets: S.optional(S.NullOr(S.Boolean).pipe(T.Body("has_assets"))),
     hasModules: S.optional(S.NullOr(S.Boolean).pipe(T.Body("has_modules"))),
@@ -31425,198 +31634,207 @@ export const ScriptsContentUpdateResponseCompatibilityFlagsList = /*@__PURE__*/ 
   S.String,
 ) as any as S.Schema<ScriptsContentUpdateResponseCompatibilityFlagsList>;
 
-export type ScriptsContentUpdateResponseExportsWorkerType = "worker";
-export const ScriptsContentUpdateResponseExportsWorkerType = S.String;
+export type ScriptsContentUpdateResponseExportsValueWorkerType = "worker";
+export const ScriptsContentUpdateResponseExportsValueWorkerType = S.String;
 
-export type ScriptsContentUpdateResponseExportsWorkerCache =
-  BetaWorkersVersionsCreateRequestExportsWorkerCache;
-export const ScriptsContentUpdateResponseExportsWorkerCache =
-  BetaWorkersVersionsCreateRequestExportsWorkerCache;
+export type ScriptsContentUpdateResponseExportsValueWorkerCache =
+  BetaWorkersVersionsCreateRequestExportsValueWorkerCache;
+export const ScriptsContentUpdateResponseExportsValueWorkerCache =
+  BetaWorkersVersionsCreateRequestExportsValueWorkerCache;
 
-export type ScriptsContentUpdateResponseExportsWorkerState = "created";
-export const ScriptsContentUpdateResponseExportsWorkerState = S.String;
+export type ScriptsContentUpdateResponseExportsValueWorkerState = "created";
+export const ScriptsContentUpdateResponseExportsValueWorkerState = S.String;
 
-export interface ScriptsContentUpdateResponseExportsWorker {
+export interface ScriptsContentUpdateResponseExportsValueWorker {
   /** Marks this entry as a Worker entrypoint export. */
-  type: ScriptsContentUpdateResponseExportsWorkerType;
+  type: ScriptsContentUpdateResponseExportsValueWorkerType;
   /** Cache override for this entrypoint. Overrides the Worker's global `cache_options.enabled` for this entrypoint only. */
-  cache?: BetaWorkersVersionsCreateRequestExportsWorkerCache | null;
+  cache?: BetaWorkersVersionsCreateRequestExportsValueWorkerCache | null;
   /** Live export. May be omitted; defaults to `created`. */
-  state?: ScriptsContentUpdateResponseExportsWorkerState | null;
+  state?: ScriptsContentUpdateResponseExportsValueWorkerState | null;
 }
-export const ScriptsContentUpdateResponseExportsWorker = /*@__PURE__*/ S.suspend(() =>
+export const ScriptsContentUpdateResponseExportsValueWorker = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    type: ScriptsContentUpdateResponseExportsWorkerType,
-    cache: S.optional(S.NullOr(BetaWorkersVersionsCreateRequestExportsWorkerCache)),
-    state: S.optional(S.NullOr(ScriptsContentUpdateResponseExportsWorkerState)),
+    type: ScriptsContentUpdateResponseExportsValueWorkerType,
+    cache: S.optional(S.NullOr(BetaWorkersVersionsCreateRequestExportsValueWorkerCache)),
+    state: S.optional(S.NullOr(ScriptsContentUpdateResponseExportsValueWorkerState)),
   }),
 ).annotate({
-  identifier: "ScriptsContentUpdateResponseExportsWorker",
-}) as any as S.Schema<ScriptsContentUpdateResponseExportsWorker>;
+  identifier: "ScriptsContentUpdateResponseExportsValueWorker",
+}) as any as S.Schema<ScriptsContentUpdateResponseExportsValueWorker>;
 
-export type ScriptsContentUpdateResponseExportsWorkersDurableObjectExportStorage =
+export type ScriptsContentUpdateResponseExportsValueWorkersDurableObjectExportStorage =
   | "sqlite"
   | "legacy-kv";
-export const ScriptsContentUpdateResponseExportsWorkersDurableObjectExportStorage = S.String;
+export const ScriptsContentUpdateResponseExportsValueWorkersDurableObjectExportStorage = S.String;
 
-export type ScriptsContentUpdateResponseExportsWorkersDurableObjectExportType = "durable-object";
-export const ScriptsContentUpdateResponseExportsWorkersDurableObjectExportType = S.String;
+export type ScriptsContentUpdateResponseExportsValueWorkersDurableObjectExportType =
+  "durable-object";
+export const ScriptsContentUpdateResponseExportsValueWorkersDurableObjectExportType = S.String;
 
-export type ScriptsContentUpdateResponseExportsWorkersDurableObjectExportState = "created";
-export const ScriptsContentUpdateResponseExportsWorkersDurableObjectExportState = S.String;
+export type ScriptsContentUpdateResponseExportsValueWorkersDurableObjectExportState = "created";
+export const ScriptsContentUpdateResponseExportsValueWorkersDurableObjectExportState = S.String;
 
-export interface ScriptsContentUpdateResponseExportsWorkersDurableObjectExport {
+export interface ScriptsContentUpdateResponseExportsValueWorkersDurableObjectExport {
   /** Durable Object storage backend. `sqlite` is the recommended (and only) backend for new namespaces. `legacy-kv` is accepted only for a class whose namespace already exists as KV-backed; the `exports` flow never provisions a new `legacy-kv` namespace. */
-  storage: ScriptsContentUpdateResponseExportsWorkersDurableObjectExportStorage;
+  storage: ScriptsContentUpdateResponseExportsValueWorkersDurableObjectExportStorage;
   /** Marks this entry as a Durable Object export. */
-  type: ScriptsContentUpdateResponseExportsWorkersDurableObjectExportType;
+  type: ScriptsContentUpdateResponseExportsValueWorkersDurableObjectExportType;
   /** Name of the container (declared in the upload's `metadata.containers`) that backs this Durable Object. When set, the namespace is container-enabled. Valid only on live entries. */
   container?: string | null;
   /** Live export. May be omitted; defaults to `created`. */
-  state?: ScriptsContentUpdateResponseExportsWorkersDurableObjectExportState | null;
+  state?: ScriptsContentUpdateResponseExportsValueWorkersDurableObjectExportState | null;
 }
-export const ScriptsContentUpdateResponseExportsWorkersDurableObjectExport =
+export const ScriptsContentUpdateResponseExportsValueWorkersDurableObjectExport =
   /*@__PURE__*/ S.suspend(() =>
     S.Struct({
-      storage: ScriptsContentUpdateResponseExportsWorkersDurableObjectExportStorage,
-      type: ScriptsContentUpdateResponseExportsWorkersDurableObjectExportType,
+      storage: ScriptsContentUpdateResponseExportsValueWorkersDurableObjectExportStorage,
+      type: ScriptsContentUpdateResponseExportsValueWorkersDurableObjectExportType,
       container: S.optional(S.NullOr(S.String)),
       state: S.optional(
-        S.NullOr(ScriptsContentUpdateResponseExportsWorkersDurableObjectExportState),
+        S.NullOr(ScriptsContentUpdateResponseExportsValueWorkersDurableObjectExportState),
       ),
     }),
   ).annotate({
-    identifier: "ScriptsContentUpdateResponseExportsWorkersDurableObjectExport",
-  }) as any as S.Schema<ScriptsContentUpdateResponseExportsWorkersDurableObjectExport>;
+    identifier: "ScriptsContentUpdateResponseExportsValueWorkersDurableObjectExport",
+  }) as any as S.Schema<ScriptsContentUpdateResponseExportsValueWorkersDurableObjectExport>;
 
-export type ScriptsContentUpdateResponseExportsWorkersDurableObjectDeletedExportState = "deleted";
-export const ScriptsContentUpdateResponseExportsWorkersDurableObjectDeletedExportState = S.String;
+export type ScriptsContentUpdateResponseExportsValueWorkersDurableObjectDeletedExportState =
+  "deleted";
+export const ScriptsContentUpdateResponseExportsValueWorkersDurableObjectDeletedExportState =
+  S.String;
 
-export type ScriptsContentUpdateResponseExportsWorkersDurableObjectDeletedExportType =
+export type ScriptsContentUpdateResponseExportsValueWorkersDurableObjectDeletedExportType =
   "durable-object";
-export const ScriptsContentUpdateResponseExportsWorkersDurableObjectDeletedExportType = S.String;
+export const ScriptsContentUpdateResponseExportsValueWorkersDurableObjectDeletedExportType =
+  S.String;
 
-export interface ScriptsContentUpdateResponseExportsWorkersDurableObjectDeletedExport {
+export interface ScriptsContentUpdateResponseExportsValueWorkersDurableObjectDeletedExport {
   /** Tombstone that deletes the namespace. */
-  state: ScriptsContentUpdateResponseExportsWorkersDurableObjectDeletedExportState;
+  state: ScriptsContentUpdateResponseExportsValueWorkersDurableObjectDeletedExportState;
   /** Marks this entry as a Durable Object export. */
-  type: ScriptsContentUpdateResponseExportsWorkersDurableObjectDeletedExportType;
+  type: ScriptsContentUpdateResponseExportsValueWorkersDurableObjectDeletedExportType;
 }
-export const ScriptsContentUpdateResponseExportsWorkersDurableObjectDeletedExport =
+export const ScriptsContentUpdateResponseExportsValueWorkersDurableObjectDeletedExport =
   /*@__PURE__*/ S.suspend(() =>
     S.Struct({
-      state: ScriptsContentUpdateResponseExportsWorkersDurableObjectDeletedExportState,
-      type: ScriptsContentUpdateResponseExportsWorkersDurableObjectDeletedExportType,
+      state: ScriptsContentUpdateResponseExportsValueWorkersDurableObjectDeletedExportState,
+      type: ScriptsContentUpdateResponseExportsValueWorkersDurableObjectDeletedExportType,
     }),
   ).annotate({
-    identifier: "ScriptsContentUpdateResponseExportsWorkersDurableObjectDeletedExport",
-  }) as any as S.Schema<ScriptsContentUpdateResponseExportsWorkersDurableObjectDeletedExport>;
+    identifier: "ScriptsContentUpdateResponseExportsValueWorkersDurableObjectDeletedExport",
+  }) as any as S.Schema<ScriptsContentUpdateResponseExportsValueWorkersDurableObjectDeletedExport>;
 
-export type ScriptsContentUpdateResponseExportsWorkersDurableObjectRenamedExportState = "renamed";
-export const ScriptsContentUpdateResponseExportsWorkersDurableObjectRenamedExportState = S.String;
+export type ScriptsContentUpdateResponseExportsValueWorkersDurableObjectRenamedExportState =
+  "renamed";
+export const ScriptsContentUpdateResponseExportsValueWorkersDurableObjectRenamedExportState =
+  S.String;
 
-export type ScriptsContentUpdateResponseExportsWorkersDurableObjectRenamedExportType =
+export type ScriptsContentUpdateResponseExportsValueWorkersDurableObjectRenamedExportType =
   "durable-object";
-export const ScriptsContentUpdateResponseExportsWorkersDurableObjectRenamedExportType = S.String;
+export const ScriptsContentUpdateResponseExportsValueWorkersDurableObjectRenamedExportType =
+  S.String;
 
-export interface ScriptsContentUpdateResponseExportsWorkersDurableObjectRenamedExport {
+export interface ScriptsContentUpdateResponseExportsValueWorkersDurableObjectRenamedExport {
   /** The destination class name. Must differ from the source class (the map key) and must be declared as a live (`created`) entry in the same `exports` map. Write-only: never present in GET responses. */
   renamedTo: string;
   /** Tombstone that renames the namespace's class. */
-  state: ScriptsContentUpdateResponseExportsWorkersDurableObjectRenamedExportState;
+  state: ScriptsContentUpdateResponseExportsValueWorkersDurableObjectRenamedExportState;
   /** Marks this entry as a Durable Object export. */
-  type: ScriptsContentUpdateResponseExportsWorkersDurableObjectRenamedExportType;
+  type: ScriptsContentUpdateResponseExportsValueWorkersDurableObjectRenamedExportType;
 }
-export const ScriptsContentUpdateResponseExportsWorkersDurableObjectRenamedExport =
+export const ScriptsContentUpdateResponseExportsValueWorkersDurableObjectRenamedExport =
   /*@__PURE__*/ S.suspend(() =>
     S.Struct({
       renamedTo: S.String.pipe(T.Body("renamed_to")),
-      state: ScriptsContentUpdateResponseExportsWorkersDurableObjectRenamedExportState,
-      type: ScriptsContentUpdateResponseExportsWorkersDurableObjectRenamedExportType,
+      state: ScriptsContentUpdateResponseExportsValueWorkersDurableObjectRenamedExportState,
+      type: ScriptsContentUpdateResponseExportsValueWorkersDurableObjectRenamedExportType,
     }),
   ).annotate({
-    identifier: "ScriptsContentUpdateResponseExportsWorkersDurableObjectRenamedExport",
-  }) as any as S.Schema<ScriptsContentUpdateResponseExportsWorkersDurableObjectRenamedExport>;
+    identifier: "ScriptsContentUpdateResponseExportsValueWorkersDurableObjectRenamedExport",
+  }) as any as S.Schema<ScriptsContentUpdateResponseExportsValueWorkersDurableObjectRenamedExport>;
 
-export type ScriptsContentUpdateResponseExportsWorkersDurableObjectTransferredExportState =
+export type ScriptsContentUpdateResponseExportsValueWorkersDurableObjectTransferredExportState =
   "transferred";
-export const ScriptsContentUpdateResponseExportsWorkersDurableObjectTransferredExportState =
+export const ScriptsContentUpdateResponseExportsValueWorkersDurableObjectTransferredExportState =
   S.String;
 
-export type ScriptsContentUpdateResponseExportsWorkersDurableObjectTransferredExportType =
+export type ScriptsContentUpdateResponseExportsValueWorkersDurableObjectTransferredExportType =
   "durable-object";
-export const ScriptsContentUpdateResponseExportsWorkersDurableObjectTransferredExportType =
+export const ScriptsContentUpdateResponseExportsValueWorkersDurableObjectTransferredExportType =
   S.String;
 
-export interface ScriptsContentUpdateResponseExportsWorkersDurableObjectTransferredExport {
+export interface ScriptsContentUpdateResponseExportsValueWorkersDurableObjectTransferredExport {
   /** Tombstone that transfers the namespace to another script. */
-  state: ScriptsContentUpdateResponseExportsWorkersDurableObjectTransferredExportState;
+  state: ScriptsContentUpdateResponseExportsValueWorkersDurableObjectTransferredExportState;
   /** The destination script name. Must be in the same account and the same dispatch-namespace context (or both non-dispatch). Cross-dispatch-namespace transfers are rejected. Write-only: never present in GET responses. */
   transferredTo: string;
   /** Marks this entry as a Durable Object export. */
-  type: ScriptsContentUpdateResponseExportsWorkersDurableObjectTransferredExportType;
+  type: ScriptsContentUpdateResponseExportsValueWorkersDurableObjectTransferredExportType;
 }
-export const ScriptsContentUpdateResponseExportsWorkersDurableObjectTransferredExport =
+export const ScriptsContentUpdateResponseExportsValueWorkersDurableObjectTransferredExport =
   /*@__PURE__*/ S.suspend(() =>
     S.Struct({
-      state: ScriptsContentUpdateResponseExportsWorkersDurableObjectTransferredExportState,
+      state: ScriptsContentUpdateResponseExportsValueWorkersDurableObjectTransferredExportState,
       transferredTo: S.String.pipe(T.Body("transferred_to")),
-      type: ScriptsContentUpdateResponseExportsWorkersDurableObjectTransferredExportType,
+      type: ScriptsContentUpdateResponseExportsValueWorkersDurableObjectTransferredExportType,
     }),
   ).annotate({
-    identifier: "ScriptsContentUpdateResponseExportsWorkersDurableObjectTransferredExport",
-  }) as any as S.Schema<ScriptsContentUpdateResponseExportsWorkersDurableObjectTransferredExport>;
+    identifier: "ScriptsContentUpdateResponseExportsValueWorkersDurableObjectTransferredExport",
+  }) as any as S.Schema<ScriptsContentUpdateResponseExportsValueWorkersDurableObjectTransferredExport>;
 
-export type ScriptsContentUpdateResponseExportsWorkersDurableObjectExpectingTransferExportState =
+export type ScriptsContentUpdateResponseExportsValueWorkersDurableObjectExpectingTransferExportState =
   "expecting-transfer";
-export const ScriptsContentUpdateResponseExportsWorkersDurableObjectExpectingTransferExportState =
+export const ScriptsContentUpdateResponseExportsValueWorkersDurableObjectExpectingTransferExportState =
   S.String;
 
-export type ScriptsContentUpdateResponseExportsWorkersDurableObjectExpectingTransferExportStorage =
+export type ScriptsContentUpdateResponseExportsValueWorkersDurableObjectExpectingTransferExportStorage =
   | "sqlite"
   | "legacy-kv";
-export const ScriptsContentUpdateResponseExportsWorkersDurableObjectExpectingTransferExportStorage =
+export const ScriptsContentUpdateResponseExportsValueWorkersDurableObjectExpectingTransferExportStorage =
   S.String;
 
-export type ScriptsContentUpdateResponseExportsWorkersDurableObjectExpectingTransferExportType =
+export type ScriptsContentUpdateResponseExportsValueWorkersDurableObjectExpectingTransferExportType =
   "durable-object";
-export const ScriptsContentUpdateResponseExportsWorkersDurableObjectExpectingTransferExportType =
+export const ScriptsContentUpdateResponseExportsValueWorkersDurableObjectExpectingTransferExportType =
   S.String;
 
-export interface ScriptsContentUpdateResponseExportsWorkersDurableObjectExpectingTransferExport {
+export interface ScriptsContentUpdateResponseExportsValueWorkersDurableObjectExpectingTransferExport {
   /** Target side of a two-phase transfer. */
-  state: ScriptsContentUpdateResponseExportsWorkersDurableObjectExpectingTransferExportState;
+  state: ScriptsContentUpdateResponseExportsValueWorkersDurableObjectExpectingTransferExportState;
   /** Durable Object storage backend. `sqlite` is the recommended (and only) backend for new namespaces. `legacy-kv` is accepted only for a class whose namespace already exists as KV-backed; the `exports` flow never provisions a new `legacy-kv` namespace. */
-  storage: ScriptsContentUpdateResponseExportsWorkersDurableObjectExpectingTransferExportStorage;
+  storage: ScriptsContentUpdateResponseExportsValueWorkersDurableObjectExpectingTransferExportStorage;
   /** The source script name to receive the namespace from. Must be in the same account and dispatch-namespace context. Present on reads for `expecting-transfer` entries. */
   transferFrom: string;
   /** Marks this entry as a Durable Object export. */
-  type: ScriptsContentUpdateResponseExportsWorkersDurableObjectExpectingTransferExportType;
+  type: ScriptsContentUpdateResponseExportsValueWorkersDurableObjectExpectingTransferExportType;
   /** Name of the container (declared in the upload's `metadata.containers`) that backs this Durable Object once the transfer settles. Valid only on live entries. */
   container?: string | null;
 }
-export const ScriptsContentUpdateResponseExportsWorkersDurableObjectExpectingTransferExport =
+export const ScriptsContentUpdateResponseExportsValueWorkersDurableObjectExpectingTransferExport =
   /*@__PURE__*/ S.suspend(() =>
     S.Struct({
-      state: ScriptsContentUpdateResponseExportsWorkersDurableObjectExpectingTransferExportState,
+      state:
+        ScriptsContentUpdateResponseExportsValueWorkersDurableObjectExpectingTransferExportState,
       storage:
-        ScriptsContentUpdateResponseExportsWorkersDurableObjectExpectingTransferExportStorage,
+        ScriptsContentUpdateResponseExportsValueWorkersDurableObjectExpectingTransferExportStorage,
       transferFrom: S.String.pipe(T.Body("transfer_from")),
-      type: ScriptsContentUpdateResponseExportsWorkersDurableObjectExpectingTransferExportType,
+      type: ScriptsContentUpdateResponseExportsValueWorkersDurableObjectExpectingTransferExportType,
       container: S.optional(S.NullOr(S.String)),
     }),
   ).annotate({
-    identifier: "ScriptsContentUpdateResponseExportsWorkersDurableObjectExpectingTransferExport",
-  }) as any as S.Schema<ScriptsContentUpdateResponseExportsWorkersDurableObjectExpectingTransferExport>;
+    identifier:
+      "ScriptsContentUpdateResponseExportsValueWorkersDurableObjectExpectingTransferExport",
+  }) as any as S.Schema<ScriptsContentUpdateResponseExportsValueWorkersDurableObjectExpectingTransferExport>;
 
-export type ScriptsContentUpdateResponseExports =
-  | ScriptsContentUpdateResponseExportsWorker
-  | ScriptsContentUpdateResponseExportsWorkersDurableObjectExport
-  | ScriptsContentUpdateResponseExportsWorkersDurableObjectDeletedExport
-  | ScriptsContentUpdateResponseExportsWorkersDurableObjectRenamedExport
-  | ScriptsContentUpdateResponseExportsWorkersDurableObjectTransferredExport
-  | ScriptsContentUpdateResponseExportsWorkersDurableObjectExpectingTransferExport;
-export const ScriptsContentUpdateResponseExports = /*@__PURE__*/ S.Unknown.pipe(
+export type ScriptsContentUpdateResponseExportsValue =
+  | ScriptsContentUpdateResponseExportsValueWorker
+  | ScriptsContentUpdateResponseExportsValueWorkersDurableObjectExport
+  | ScriptsContentUpdateResponseExportsValueWorkersDurableObjectDeletedExport
+  | ScriptsContentUpdateResponseExportsValueWorkersDurableObjectRenamedExport
+  | ScriptsContentUpdateResponseExportsValueWorkersDurableObjectTransferredExport
+  | ScriptsContentUpdateResponseExportsValueWorkersDurableObjectExpectingTransferExport;
+export const ScriptsContentUpdateResponseExportsValue = /*@__PURE__*/ S.Unknown.pipe(
   T.UnionCases([
     ["type", "cache", "state"],
     ["storage", "type", "container", "state"],
@@ -31626,6 +31844,14 @@ export const ScriptsContentUpdateResponseExports = /*@__PURE__*/ S.Unknown.pipe(
     ["state", "storage", "transferFrom", "type", "container"],
   ]),
 );
+
+export type ScriptsContentUpdateResponseExportsMap = {
+  [key: string]: ScriptsContentUpdateResponseExportsValue | undefined;
+};
+export const ScriptsContentUpdateResponseExportsMap = /*@__PURE__*/ S.Record(
+  S.String,
+  ScriptsContentUpdateResponseExportsValue,
+) as any as S.Schema<ScriptsContentUpdateResponseExportsMap>;
 
 export type ScriptsContentUpdateResponseHandlersList = Array<string>;
 export const ScriptsContentUpdateResponseHandlersList = /*@__PURE__*/ S.Array(
@@ -32075,7 +32301,7 @@ export interface PutScriptContentResponse {
   /** Hashed script content, can be used in a If-None-Match header when updating. */
   etag?: string | null;
   /** Declarative exports for the Worker's most recent version, including Durable Object classes (with their `storage` backend) and named Worker entrypoints. Tombstoned lifecycle entries are omitted, so only live exports (`created` and `expecting-transfer`) are returned. */
-  exports?: ScriptsContentUpdateResponseExports | null;
+  exports?: ScriptsContentUpdateResponseExportsMap | null;
   /** The names of handlers exported as part of the default export. */
   handlers?: ScriptsContentUpdateResponseHandlersList | null;
   /** Whether a Worker contains assets. */
@@ -32125,7 +32351,7 @@ export const PutScriptContentResponse = /*@__PURE__*/ S.suspend(() =>
     ),
     createdOn: S.optional(S.NullOr(S.String).pipe(T.Body("created_on"))),
     etag: S.optional(S.NullOr(S.String)),
-    exports: S.optional(S.NullOr(ScriptsContentUpdateResponseExports)),
+    exports: S.optional(S.NullOr(ScriptsContentUpdateResponseExportsMap)),
     handlers: S.optional(S.NullOr(ScriptsContentUpdateResponseHandlersList)),
     hasAssets: S.optional(S.NullOr(S.Boolean).pipe(T.Body("has_assets"))),
     hasModules: S.optional(S.NullOr(S.Boolean).pipe(T.Body("has_modules"))),
@@ -34376,12 +34602,21 @@ export type ObservabilityTelemetryQueryResponseEventsSeriesItemDataItemAggregate
 export const ObservabilityTelemetryQueryResponseEventsSeriesItemDataItemAggregates =
   ObservabilitySharedQueriesGetResponseEventsSeriesItemDataItemAggregates;
 
-export type ObservabilityTelemetryQueryResponseEventsSeriesItemDataItemGroups =
+export type ObservabilityTelemetryQueryResponseEventsSeriesItemDataItemGroupsValue =
   | string
   | number
   | boolean;
-export const ObservabilityTelemetryQueryResponseEventsSeriesItemDataItemGroups =
+export const ObservabilityTelemetryQueryResponseEventsSeriesItemDataItemGroupsValue =
   /*@__PURE__*/ S.Unknown.pipe(T.UnionCases([[], [], []]));
+
+export type ObservabilityTelemetryQueryResponseEventsSeriesItemDataItemGroupsMap = {
+  [key: string]: ObservabilityTelemetryQueryResponseEventsSeriesItemDataItemGroupsValue | undefined;
+};
+export const ObservabilityTelemetryQueryResponseEventsSeriesItemDataItemGroupsMap =
+  /*@__PURE__*/ S.Record(
+    S.String,
+    ObservabilityTelemetryQueryResponseEventsSeriesItemDataItemGroupsValue,
+  ) as any as S.Schema<ObservabilityTelemetryQueryResponseEventsSeriesItemDataItemGroupsMap>;
 
 export interface ObservabilityTelemetryQueryResponseEventsSeriesItemDataItem {
   aggregates: ObservabilitySharedQueriesGetResponseEventsSeriesItemDataItemAggregates;
@@ -34393,7 +34628,7 @@ export interface ObservabilityTelemetryQueryResponseEventsSeriesItemDataItem {
   sampleInterval: number;
   errors?: number | null;
   /** Groups in the query results. */
-  groups?: ObservabilityTelemetryQueryResponseEventsSeriesItemDataItemGroups | null;
+  groups?: ObservabilityTelemetryQueryResponseEventsSeriesItemDataItemGroupsMap | null;
 }
 export const ObservabilityTelemetryQueryResponseEventsSeriesItemDataItem = /*@__PURE__*/ S.suspend(
   () =>
@@ -34404,7 +34639,7 @@ export const ObservabilityTelemetryQueryResponseEventsSeriesItemDataItem = /*@__
       sampleInterval: S.Number,
       errors: S.optional(S.NullOr(S.Number)),
       groups: S.optional(
-        S.NullOr(ObservabilityTelemetryQueryResponseEventsSeriesItemDataItemGroups),
+        S.NullOr(ObservabilityTelemetryQueryResponseEventsSeriesItemDataItemGroupsMap),
       ),
     }),
 ).annotate({

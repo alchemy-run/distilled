@@ -709,8 +709,14 @@ export const UsageGetResultItemChargeFrequency = S.String;
 export type UsageGetResultItemChargeClass = "Correction";
 export const UsageGetResultItemChargeClass = S.String;
 
-export type UsageGetResultItemTags = string | boolean;
-export const UsageGetResultItemTags = /*@__PURE__*/ S.Unknown.pipe(T.UnionCases([[], []]));
+export type UsageGetResultItemTagsValue = string | boolean;
+export const UsageGetResultItemTagsValue = /*@__PURE__*/ S.Unknown.pipe(T.UnionCases([[], []]));
+
+export type UsageGetResultItemTagsMap = { [key: string]: UsageGetResultItemTagsValue | undefined };
+export const UsageGetResultItemTagsMap = /*@__PURE__*/ S.Record(
+  S.String,
+  UsageGetResultItemTagsValue,
+) as any as S.Schema<UsageGetResultItemTagsMap>;
 
 export interface UsageGetResultItem {
   /** Highest-level classification of a charge based on the nature of how it gets billed. Currently only "Usage" is supported. */
@@ -772,7 +778,7 @@ export interface UsageGetResultItem {
   /** Name assigned to a grouping of services. For Cloudflare, this is the subscription or contract display name. */
   subAccountName?: string | null;
   /** Tag values for the requested `GroupBy` keys. Omitted when `GroupBy` is not provided. Missing keys are omitted, and key-only tags are returned as boolean `true`. All other tag values are strings. */
-  tags?: UsageGetResultItemTags | null;
+  tags?: UsageGetResultItemTagsMap | null;
   /** The display name of the billable metric. Cloudflare extension; replaces FOCUS SkuMeter. */
   xBillableMetricName?: string | null;
   /** The product category the charge belongs to (e.g., "Developer", "Cloudflare One"). Cloudflare extension; replaces FOCUS ServiceCategory. */
@@ -817,7 +823,7 @@ export const UsageGetResultItem = /*@__PURE__*/ S.suspend(() =>
     regionName: S.optional(S.NullOr(S.String).pipe(T.Body("RegionName"))),
     subAccountId: S.optional(S.NullOr(S.String).pipe(T.Body("SubAccountId"))),
     subAccountName: S.optional(S.NullOr(S.String).pipe(T.Body("SubAccountName"))),
-    tags: S.optional(S.NullOr(UsageGetResultItemTags).pipe(T.Body("Tags"))),
+    tags: S.optional(S.NullOr(UsageGetResultItemTagsMap).pipe(T.Body("Tags"))),
     xBillableMetricName: S.optional(S.NullOr(S.String).pipe(T.Body("x_BillableMetricName"))),
     xProductCategoryName: S.optional(S.NullOr(S.String).pipe(T.Body("x_ProductCategoryName"))),
     xProductFamilyId: S.optional(S.NullOr(S.String).pipe(T.Body("x_ProductFamilyId"))),
@@ -1462,10 +1468,18 @@ export const UsageGetAccountUsageV2ResultItemChargeFrequency = S.String;
 export type UsageGetAccountUsageV2ResultItemChargeClass = "Correction";
 export const UsageGetAccountUsageV2ResultItemChargeClass = S.String;
 
-export type UsageGetAccountUsageV2ResultItemTags = string | boolean;
-export const UsageGetAccountUsageV2ResultItemTags = /*@__PURE__*/ S.Unknown.pipe(
+export type UsageGetAccountUsageV2ResultItemTagsValue = string | boolean;
+export const UsageGetAccountUsageV2ResultItemTagsValue = /*@__PURE__*/ S.Unknown.pipe(
   T.UnionCases([[], []]),
 );
+
+export type UsageGetAccountUsageV2ResultItemTagsMap = {
+  [key: string]: UsageGetAccountUsageV2ResultItemTagsValue | undefined;
+};
+export const UsageGetAccountUsageV2ResultItemTagsMap = /*@__PURE__*/ S.Record(
+  S.String,
+  UsageGetAccountUsageV2ResultItemTagsValue,
+) as any as S.Schema<UsageGetAccountUsageV2ResultItemTagsMap>;
 
 export interface UsageGetAccountUsageV2ResultItem {
   /** Highest-level classification of a charge based on the nature of how it gets billed. Currently only "Usage" is supported. */
@@ -1527,7 +1541,7 @@ export interface UsageGetAccountUsageV2ResultItem {
   /** Name assigned to a grouping of services. For Cloudflare, this is the subscription or contract display name. */
   subAccountName?: string | null;
   /** Tag values for the requested `GroupBy` keys. Omitted when `GroupBy` is not provided. Missing keys are omitted, and key-only tags are returned as boolean `true`. All other tag values are strings. */
-  tags?: UsageGetAccountUsageV2ResultItemTags | null;
+  tags?: UsageGetAccountUsageV2ResultItemTagsMap | null;
   /** The display name of the billable metric. Cloudflare extension; replaces FOCUS SkuMeter. */
   xBillableMetricName?: string | null;
   /** The product category the charge belongs to (e.g., "Developer", "Cloudflare One"). Cloudflare extension; replaces FOCUS ServiceCategory. */
@@ -1576,7 +1590,7 @@ export const UsageGetAccountUsageV2ResultItem = /*@__PURE__*/ S.suspend(() =>
     regionName: S.optional(S.NullOr(S.String).pipe(T.Body("RegionName"))),
     subAccountId: S.optional(S.NullOr(S.String).pipe(T.Body("SubAccountId"))),
     subAccountName: S.optional(S.NullOr(S.String).pipe(T.Body("SubAccountName"))),
-    tags: S.optional(S.NullOr(UsageGetAccountUsageV2ResultItemTags).pipe(T.Body("Tags"))),
+    tags: S.optional(S.NullOr(UsageGetAccountUsageV2ResultItemTagsMap).pipe(T.Body("Tags"))),
     xBillableMetricName: S.optional(S.NullOr(S.String).pipe(T.Body("x_BillableMetricName"))),
     xProductCategoryName: S.optional(S.NullOr(S.String).pipe(T.Body("x_ProductCategoryName"))),
     xProductFamilyId: S.optional(S.NullOr(S.String).pipe(T.Body("x_ProductFamilyId"))),

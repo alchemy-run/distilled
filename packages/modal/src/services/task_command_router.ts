@@ -80,6 +80,34 @@ export const PTYInfo = /*@__PURE__*/ S.suspend(() =>
   }),
 ).annotate({ identifier: "PTYInfo" }) as any as S.Schema<PTYInfo>;
 
+export interface StringMap2 {
+  contents?: StringMap;
+}
+export const StringMap2 = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    contents: S.optional(StringMap),
+  }),
+).annotate({ identifier: "StringMap2" }) as any as S.Schema<StringMap2>;
+
+/** One source of environment variables for a Sandbox container or exec. */
+export interface SecretSource {
+  /** Server-side Secret, resolved on the worker. */
+  secretId?: string;
+  /** Plaintext values sent directly to the worker. Must not be persisted. */
+  env?: StringMap2;
+}
+export const SecretSource = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    secretId: S.optional(S.String),
+    env: S.optional(StringMap2),
+  }),
+).annotate({ identifier: "SecretSource" }) as any as S.Schema<SecretSource>;
+
+export type SecretSourceList = Array<SecretSource>;
+export const SecretSourceList = /*@__PURE__*/ S.Array(
+  SecretSource,
+) as any as S.Schema<SecretSourceList>;
+
 export interface CreateTaskContainerRequest {
   taskId?: string;
   /** Logical container name. */
@@ -96,6 +124,10 @@ export interface CreateTaskContainerRequest {
   networkAccess?: NetworkAccess;
   /** Optional PTY info for sidecar. */
   ptyInfo?: PTYInfo;
+  /** Memory, in MiB, the sidecar consumes from the sandbox's sidecar memory reserve (experimental option vm_sidecar_memory_reserve_mib); unset consumes whatever is left of it. Ignored without a reserve. */
+  memoryReserveConsumeMib?: number;
+  /** Applied in order. Cannot be combined with secret_ids or env. */
+  secretSources?: SecretSourceList;
 }
 export const CreateTaskContainerRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -109,6 +141,8 @@ export const CreateTaskContainerRequest = /*@__PURE__*/ S.suspend(() =>
     volumeMounts: S.optional(VolumeMountList),
     networkAccess: S.optional(NetworkAccess),
     ptyInfo: S.optional(PTYInfo),
+    memoryReserveConsumeMib: S.optional(S.Number),
+    secretSources: S.optional(SecretSourceList),
   }).pipe(
     T.Http({
       method: "POST",
@@ -153,9 +187,7 @@ export const GetTaskContainerRequest = /*@__PURE__*/ S.suspend(() =>
       code: 200,
     }),
   ),
-).annotate({
-  identifier: "GetTaskContainerRequest",
-}) as any as S.Schema<GetTaskContainerRequest>;
+).annotate({ identifier: "GetTaskContainerRequest" }) as any as S.Schema<GetTaskContainerRequest>;
 
 /** Used for both tasks and function outputs */
 export type GenericResultGenericStatus =
@@ -217,9 +249,7 @@ export const TaskContainerInfo = /*@__PURE__*/ S.suspend(() =>
     status: S.optional(S.String),
     result: S.optional(GenericResult),
   }),
-).annotate({
-  identifier: "TaskContainerInfo",
-}) as any as S.Schema<TaskContainerInfo>;
+).annotate({ identifier: "TaskContainerInfo" }) as any as S.Schema<TaskContainerInfo>;
 
 export interface GetTaskContainerResponse {
   container?: TaskContainerInfo;
@@ -228,9 +258,7 @@ export const GetTaskContainerResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     container: S.optional(TaskContainerInfo),
   }),
-).annotate({
-  identifier: "GetTaskContainerResponse",
-}) as any as S.Schema<GetTaskContainerResponse>;
+).annotate({ identifier: "GetTaskContainerResponse" }) as any as S.Schema<GetTaskContainerResponse>;
 
 export interface ListTaskContainerRequest {
   taskId?: string;
@@ -248,9 +276,7 @@ export const ListTaskContainerRequest = /*@__PURE__*/ S.suspend(() =>
       code: 200,
     }),
   ),
-).annotate({
-  identifier: "ListTaskContainerRequest",
-}) as any as S.Schema<ListTaskContainerRequest>;
+).annotate({ identifier: "ListTaskContainerRequest" }) as any as S.Schema<ListTaskContainerRequest>;
 
 export type TaskContainerInfoList = Array<TaskContainerInfo>;
 export const TaskContainerInfoList = /*@__PURE__*/ S.Array(
@@ -343,9 +369,7 @@ export const TaskExecPollRequest = /*@__PURE__*/ S.suspend(() =>
       code: 200,
     }),
   ),
-).annotate({
-  identifier: "TaskExecPollRequest",
-}) as any as S.Schema<TaskExecPollRequest>;
+).annotate({ identifier: "TaskExecPollRequest" }) as any as S.Schema<TaskExecPollRequest>;
 
 export interface TaskExecPollResponse {
   /** The exit code of the command. */
@@ -358,9 +382,7 @@ export const TaskExecPollResponse = /*@__PURE__*/ S.suspend(() =>
     code: S.optional(S.Number),
     signal: S.optional(S.Number),
   }),
-).annotate({
-  identifier: "TaskExecPollResponse",
-}) as any as S.Schema<TaskExecPollResponse>;
+).annotate({ identifier: "TaskExecPollResponse" }) as any as S.Schema<TaskExecPollResponse>;
 
 export type TaskExecStdoutConfig =
   | "TASK_EXEC_STDOUT_CONFIG_DEVNULL"
@@ -398,6 +420,8 @@ export interface TaskExecStartRequest {
   containerId?: string;
   /** Environment variables to set directly for the exec'd command. */
   env?: StringMap;
+  /** Applied in order. Cannot be combined with secret_ids or env. */
+  secretSources?: SecretSourceList;
 }
 export const TaskExecStartRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -413,6 +437,7 @@ export const TaskExecStartRequest = /*@__PURE__*/ S.suspend(() =>
     runtimeDebug: S.optional(S.Boolean),
     containerId: S.optional(S.String),
     env: S.optional(StringMap),
+    secretSources: S.optional(SecretSourceList),
   }).pipe(
     T.Http({
       method: "POST",
@@ -420,9 +445,7 @@ export const TaskExecStartRequest = /*@__PURE__*/ S.suspend(() =>
       code: 200,
     }),
   ),
-).annotate({
-  identifier: "TaskExecStartRequest",
-}) as any as S.Schema<TaskExecStartRequest>;
+).annotate({ identifier: "TaskExecStartRequest" }) as any as S.Schema<TaskExecStartRequest>;
 
 export interface TaskExecStartResponse {}
 export const TaskExecStartResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -516,9 +539,7 @@ export const TaskExecWaitRequest = /*@__PURE__*/ S.suspend(() =>
       code: 200,
     }),
   ),
-).annotate({
-  identifier: "TaskExecWaitRequest",
-}) as any as S.Schema<TaskExecWaitRequest>;
+).annotate({ identifier: "TaskExecWaitRequest" }) as any as S.Schema<TaskExecWaitRequest>;
 
 export interface TaskExecWaitResponse {
   /** The exit code of the command. */
@@ -531,9 +552,7 @@ export const TaskExecWaitResponse = /*@__PURE__*/ S.suspend(() =>
     code: S.optional(S.Number),
     signal: S.optional(S.Number),
   }),
-).annotate({
-  identifier: "TaskExecWaitResponse",
-}) as any as S.Schema<TaskExecWaitResponse>;
+).annotate({ identifier: "TaskExecWaitResponse" }) as any as S.Schema<TaskExecWaitResponse>;
 
 export interface TaskMountDirectoryRequest {
   taskId?: string;
@@ -583,9 +602,7 @@ export const TaskReloadVolumesRequest = /*@__PURE__*/ S.suspend(() =>
       code: 200,
     }),
   ),
-).annotate({
-  identifier: "TaskReloadVolumesRequest",
-}) as any as S.Schema<TaskReloadVolumesRequest>;
+).annotate({ identifier: "TaskReloadVolumesRequest" }) as any as S.Schema<TaskReloadVolumesRequest>;
 
 export interface TaskReloadVolumesResponse {}
 export const TaskReloadVolumesResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -616,6 +633,65 @@ export interface TaskSetNetworkAccessResponse {}
 export const TaskSetNetworkAccessResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
   identifier: "TaskSetNetworkAccessResponse",
 }) as any as S.Schema<TaskSetNetworkAccessResponse>;
+
+export interface OutboundPolicyHeaderReplacement {
+  /** Domain that the header replacements are scoped to. Supports wildcards in subdomain positions. */
+  domain?: string;
+  /** Reference to a secret usable in the header value templates. Can be empty if no secret value is used. */
+  secretId?: string;
+  /** Header name -> header value. Values support templating with keys in the stanza's secret_id: a $-prefixed key name in the secret will be replaced with the secret value. Literal $ characters can be represented by two dollars: `$$`. */
+  headers?: StringMap;
+}
+export const OutboundPolicyHeaderReplacement = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    domain: S.optional(S.String),
+    secretId: S.optional(S.String),
+    headers: S.optional(StringMap),
+  }),
+).annotate({
+  identifier: "OutboundPolicyHeaderReplacement",
+}) as any as S.Schema<OutboundPolicyHeaderReplacement>;
+
+export type OutboundPolicyHeaderReplacementList = Array<OutboundPolicyHeaderReplacement>;
+export const OutboundPolicyHeaderReplacementList = /*@__PURE__*/ S.Array(
+  OutboundPolicyHeaderReplacement,
+) as any as S.Schema<OutboundPolicyHeaderReplacementList>;
+
+/** Policy for outbound traffic from a sandbox. */
+export interface OutboundPolicy {
+  /** Replace headers in outbound HTTPS requests, potentially with secret values. */
+  headerReplacements?: OutboundPolicyHeaderReplacementList;
+}
+export const OutboundPolicy = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    headerReplacements: S.optional(OutboundPolicyHeaderReplacementList),
+  }),
+).annotate({ identifier: "OutboundPolicy" }) as any as S.Schema<OutboundPolicy>;
+
+export interface TaskSetOutboundPolicyRequest {
+  taskId?: string;
+  /** Replaces the task's outbound policy. */
+  outboundPolicy?: OutboundPolicy;
+}
+export const TaskSetOutboundPolicyRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    taskId: S.optional(S.String),
+    outboundPolicy: S.optional(OutboundPolicy),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      uri: "/modal.task_command_router.TaskCommandRouter/TaskSetOutboundPolicy",
+      code: 200,
+    }),
+  ),
+).annotate({
+  identifier: "TaskSetOutboundPolicyRequest",
+}) as any as S.Schema<TaskSetOutboundPolicyRequest>;
+
+export interface TaskSetOutboundPolicyResponse {}
+export const TaskSetOutboundPolicyResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
+  identifier: "TaskSetOutboundPolicyResponse",
+}) as any as S.Schema<TaskSetOutboundPolicyResponse>;
 
 export interface TaskSnapshotDirectoryRequest {
   taskId?: string;
@@ -797,9 +873,7 @@ export const WaitTaskContainerRequest = /*@__PURE__*/ S.suspend(() =>
       code: 200,
     }),
   ),
-).annotate({
-  identifier: "WaitTaskContainerRequest",
-}) as any as S.Schema<WaitTaskContainerRequest>;
+).annotate({ identifier: "WaitTaskContainerRequest" }) as any as S.Schema<WaitTaskContainerRequest>;
 
 export interface WaitTaskContainerResponse {
   result?: GenericResult;
@@ -1000,6 +1074,21 @@ export const taskSetNetworkAccess: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: TaskSetNetworkAccessRequest,
   output: TaskSetNetworkAccessResponse,
+  errors: [UnknownModalError],
+  protocol: ModalProtocol,
+  retry: Retry.Retry,
+}));
+
+export type TaskSetOutboundPolicyError = ModalOpError;
+/** Replace the task's outbound policy. */
+export const taskSetOutboundPolicy: API.OperationMethod<
+  TaskSetOutboundPolicyRequest,
+  TaskSetOutboundPolicyResponse,
+  TaskSetOutboundPolicyError,
+  ModalOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: TaskSetOutboundPolicyRequest,
+  output: TaskSetOutboundPolicyResponse,
   errors: [UnknownModalError],
   protocol: ModalProtocol,
   retry: Retry.Retry,

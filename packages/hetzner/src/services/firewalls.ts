@@ -10,9 +10,7 @@ import * as T from "../traits.ts";
 export type { HetznerOpError, HetznerOpContext };
 
 /** User-defined labels (`key/value` pairs) for the Resource. For more information, see "[Labels](#description/labels)". */
-export type CreateFirewallRequestLabelsMap = {
-  [key: string]: string | undefined;
-};
+export type CreateFirewallRequestLabelsMap = { [key: string]: string | undefined };
 export const CreateFirewallRequestLabelsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -142,14 +140,10 @@ export const CreateFirewallRequest = /*@__PURE__*/ S.suspend(() =>
     rules: S.optional(CreateFirewallRequestRulesList),
     apply_to: S.optional(CreateFirewallRequestApplyToList),
   }).pipe(T.Http({ method: "POST", uri: "/firewalls", code: 200 })),
-).annotate({
-  identifier: "CreateFirewallRequest",
-}) as any as S.Schema<CreateFirewallRequest>;
+).annotate({ identifier: "CreateFirewallRequest" }) as any as S.Schema<CreateFirewallRequest>;
 
 /** User-defined labels (`key/value` pairs) for the Resource. For more information, see "[Labels](#description/labels)". */
-export type CreateFirewallResponseFirewallLabelsMap = {
-  [key: string]: string | undefined;
-};
+export type CreateFirewallResponseFirewallLabelsMap = { [key: string]: string | undefined };
 export const CreateFirewallResponseFirewallLabelsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -406,9 +400,7 @@ export const CreateFirewallResponse = /*@__PURE__*/ S.suspend(() =>
     firewall: S.optional(CreateFirewallResponseFirewall),
     actions: S.optional(CreateFirewallResponseActionsList),
   }),
-).annotate({
-  identifier: "CreateFirewallResponse",
-}) as any as S.Schema<CreateFirewallResponse>;
+).annotate({ identifier: "CreateFirewallResponse" }) as any as S.Schema<CreateFirewallResponse>;
 
 export interface DeleteFirewallRequest {
   /** ID of the Firewall. */
@@ -418,9 +410,7 @@ export const DeleteFirewallRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     id: S.Number.pipe(T.Label()),
   }).pipe(T.Http({ method: "DELETE", uri: "/firewalls/{id}", code: 200 })),
-).annotate({
-  identifier: "DeleteFirewallRequest",
-}) as any as S.Schema<DeleteFirewallRequest>;
+).annotate({ identifier: "DeleteFirewallRequest" }) as any as S.Schema<DeleteFirewallRequest>;
 
 export interface DeleteFirewallResponse {}
 export const DeleteFirewallResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -435,14 +425,10 @@ export const GetFirewallRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     id: S.Number.pipe(T.Label()),
   }).pipe(T.Http({ method: "GET", uri: "/firewalls/{id}", code: 200 })),
-).annotate({
-  identifier: "GetFirewallRequest",
-}) as any as S.Schema<GetFirewallRequest>;
+).annotate({ identifier: "GetFirewallRequest" }) as any as S.Schema<GetFirewallRequest>;
 
 /** User-defined labels (`key/value` pairs) for the Resource. For more information, see "[Labels](#description/labels)". */
-export type GetFirewallResponseFirewallLabelsMap = {
-  [key: string]: string | undefined;
-};
+export type GetFirewallResponseFirewallLabelsMap = { [key: string]: string | undefined };
 export const GetFirewallResponseFirewallLabelsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -609,9 +595,7 @@ export const GetFirewallResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     firewall: GetFirewallResponseFirewall,
   }),
-).annotate({
-  identifier: "GetFirewallResponse",
-}) as any as S.Schema<GetFirewallResponse>;
+).annotate({ identifier: "GetFirewallResponse" }) as any as S.Schema<GetFirewallResponse>;
 
 export type ListFirewallsRequestSortItem =
   | "id"
@@ -650,14 +634,10 @@ export const ListFirewallsRequest = /*@__PURE__*/ S.suspend(() =>
     page: S.optional(S.Number.pipe(T.Query())),
     per_page: S.optional(S.Number.pipe(T.Query())),
   }).pipe(T.Http({ method: "GET", uri: "/firewalls", code: 200 })),
-).annotate({
-  identifier: "ListFirewallsRequest",
-}) as any as S.Schema<ListFirewallsRequest>;
+).annotate({ identifier: "ListFirewallsRequest" }) as any as S.Schema<ListFirewallsRequest>;
 
 /** User-defined labels (`key/value` pairs) for the Resource. For more information, see "[Labels](#description/labels)". */
-export type ListFirewallsResponseFirewallsItemLabelsMap = {
-  [key: string]: string | undefined;
-};
+export type ListFirewallsResponseFirewallsItemLabelsMap = { [key: string]: string | undefined };
 export const ListFirewallsResponseFirewallsItemLabelsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -879,14 +859,10 @@ export const ListFirewallsResponse = /*@__PURE__*/ S.suspend(() =>
     firewalls: ListFirewallsResponseFirewallsList,
     meta: ListFirewallsResponseMeta,
   }),
-).annotate({
-  identifier: "ListFirewallsResponse",
-}) as any as S.Schema<ListFirewallsResponse>;
+).annotate({ identifier: "ListFirewallsResponse" }) as any as S.Schema<ListFirewallsResponse>;
 
 /** User-defined labels (`key/value` pairs) for the Resource. Note that the set of [Labels](#description/labels) provided in the request will overwrite the existing one. For more information, see "[Labels](#description/labels)". */
-export type UpdateFirewallRequestLabelsMap = {
-  [key: string]: string | undefined;
-};
+export type UpdateFirewallRequestLabelsMap = { [key: string]: string | undefined };
 export const UpdateFirewallRequestLabelsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -906,14 +882,10 @@ export const UpdateFirewallRequest = /*@__PURE__*/ S.suspend(() =>
     name: S.optional(S.String),
     labels: S.optional(UpdateFirewallRequestLabelsMap),
   }).pipe(T.Http({ method: "PUT", uri: "/firewalls/{id}", code: 200 })),
-).annotate({
-  identifier: "UpdateFirewallRequest",
-}) as any as S.Schema<UpdateFirewallRequest>;
+).annotate({ identifier: "UpdateFirewallRequest" }) as any as S.Schema<UpdateFirewallRequest>;
 
 /** User-defined labels (`key/value` pairs) for the Resource. For more information, see "[Labels](#description/labels)". */
-export type UpdateFirewallResponseFirewallLabelsMap = {
-  [key: string]: string | undefined;
-};
+export type UpdateFirewallResponseFirewallLabelsMap = { [key: string]: string | undefined };
 export const UpdateFirewallResponseFirewallLabelsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -1088,9 +1060,7 @@ export const UpdateFirewallResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     firewall: UpdateFirewallResponseFirewall,
   }),
-).annotate({
-  identifier: "UpdateFirewallResponse",
-}) as any as S.Schema<UpdateFirewallResponse>;
+).annotate({ identifier: "UpdateFirewallResponse" }) as any as S.Schema<UpdateFirewallResponse>;
 
 export type CreateFirewallError = HetznerOpError;
 /** Create a Firewall Create a [Firewall](#tag/firewalls). #### Operation specific errors */

@@ -436,16 +436,8 @@ export interface RetryCertificateRequest {
 export const RetryCertificateRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     id: S.Number.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/certificates/{id}/actions/retry",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "RetryCertificateRequest",
-}) as any as S.Schema<RetryCertificateRequest>;
+  }).pipe(T.Http({ method: "POST", uri: "/certificates/{id}/actions/retry", code: 200 })),
+).annotate({ identifier: "RetryCertificateRequest" }) as any as S.Schema<RetryCertificateRequest>;
 
 /** Status of the Action. */
 export type RetryCertificateResponseActionStatus = "running" | "success" | "error";
@@ -507,9 +499,7 @@ export const RetryCertificateResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     action: RetryCertificateResponseAction,
   }),
-).annotate({
-  identifier: "RetryCertificateResponse",
-}) as any as S.Schema<RetryCertificateResponse>;
+).annotate({ identifier: "RetryCertificateResponse" }) as any as S.Schema<RetryCertificateResponse>;
 
 export type GetCertificatesActionError = HetznerOpError;
 /** Get an Action Returns a specific Action object. */

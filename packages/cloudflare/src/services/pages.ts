@@ -2039,44 +2039,46 @@ export const ProjectsCreateResponseLatestDeploymentDeploymentTrigger = /*@__PURE
   identifier: "ProjectsCreateResponseLatestDeploymentDeploymentTrigger",
 }) as any as S.Schema<ProjectsCreateResponseLatestDeploymentDeploymentTrigger>;
 
-export type ProjectsCreateResponseLatestDeploymentEnvVarsPlainTextType = "plain_text";
-export const ProjectsCreateResponseLatestDeploymentEnvVarsPlainTextType = S.String;
+export type ProjectsCreateResponseLatestDeploymentEnvVarsValuePlainTextType = "plain_text";
+export const ProjectsCreateResponseLatestDeploymentEnvVarsValuePlainTextType = S.String;
 
-export interface ProjectsCreateResponseLatestDeploymentEnvVarsPlainText {
-  type: ProjectsCreateResponseLatestDeploymentEnvVarsPlainTextType;
+export interface ProjectsCreateResponseLatestDeploymentEnvVarsValuePlainText {
+  type: ProjectsCreateResponseLatestDeploymentEnvVarsValuePlainTextType;
   /** Environment variable value. */
   value: string;
 }
-export const ProjectsCreateResponseLatestDeploymentEnvVarsPlainText = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    type: ProjectsCreateResponseLatestDeploymentEnvVarsPlainTextType,
-    value: S.String,
-  }),
+export const ProjectsCreateResponseLatestDeploymentEnvVarsValuePlainText = /*@__PURE__*/ S.suspend(
+  () =>
+    S.Struct({
+      type: ProjectsCreateResponseLatestDeploymentEnvVarsValuePlainTextType,
+      value: S.String,
+    }),
 ).annotate({
-  identifier: "ProjectsCreateResponseLatestDeploymentEnvVarsPlainText",
-}) as any as S.Schema<ProjectsCreateResponseLatestDeploymentEnvVarsPlainText>;
+  identifier: "ProjectsCreateResponseLatestDeploymentEnvVarsValuePlainText",
+}) as any as S.Schema<ProjectsCreateResponseLatestDeploymentEnvVarsValuePlainText>;
 
-export type ProjectsCreateResponseLatestDeploymentEnvVarsSecretTextType = "secret_text";
-export const ProjectsCreateResponseLatestDeploymentEnvVarsSecretTextType = S.String;
+export type ProjectsCreateResponseLatestDeploymentEnvVarsValueSecretTextType = "secret_text";
+export const ProjectsCreateResponseLatestDeploymentEnvVarsValueSecretTextType = S.String;
 
-export interface ProjectsCreateResponseLatestDeploymentEnvVarsSecretText {
-  type: ProjectsCreateResponseLatestDeploymentEnvVarsSecretTextType;
+export interface ProjectsCreateResponseLatestDeploymentEnvVarsValueSecretText {
+  type: ProjectsCreateResponseLatestDeploymentEnvVarsValueSecretTextType;
   /** Secret value. */
   value: string;
 }
-export const ProjectsCreateResponseLatestDeploymentEnvVarsSecretText = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    type: ProjectsCreateResponseLatestDeploymentEnvVarsSecretTextType,
-    value: S.String,
-  }),
+export const ProjectsCreateResponseLatestDeploymentEnvVarsValueSecretText = /*@__PURE__*/ S.suspend(
+  () =>
+    S.Struct({
+      type: ProjectsCreateResponseLatestDeploymentEnvVarsValueSecretTextType,
+      value: S.String,
+    }),
 ).annotate({
-  identifier: "ProjectsCreateResponseLatestDeploymentEnvVarsSecretText",
-}) as any as S.Schema<ProjectsCreateResponseLatestDeploymentEnvVarsSecretText>;
+  identifier: "ProjectsCreateResponseLatestDeploymentEnvVarsValueSecretText",
+}) as any as S.Schema<ProjectsCreateResponseLatestDeploymentEnvVarsValueSecretText>;
 
-export type ProjectsCreateResponseLatestDeploymentEnvVars =
-  | ProjectsCreateResponseLatestDeploymentEnvVarsPlainText
-  | ProjectsCreateResponseLatestDeploymentEnvVarsSecretText;
-export const ProjectsCreateResponseLatestDeploymentEnvVars = /*@__PURE__*/ S.Unknown.pipe(
+export type ProjectsCreateResponseLatestDeploymentEnvVarsValue =
+  | ProjectsCreateResponseLatestDeploymentEnvVarsValuePlainText
+  | ProjectsCreateResponseLatestDeploymentEnvVarsValueSecretText;
+export const ProjectsCreateResponseLatestDeploymentEnvVarsValue = /*@__PURE__*/ S.Unknown.pipe(
   T.UnionCases(
     [
       ["type", "value"],
@@ -2085,6 +2087,14 @@ export const ProjectsCreateResponseLatestDeploymentEnvVars = /*@__PURE__*/ S.Unk
     { key: "type", values: ["plain_text", "secret_text"] },
   ),
 );
+
+export type ProjectsCreateResponseLatestDeploymentEnvVarsMap = {
+  [key: string]: ProjectsCreateResponseLatestDeploymentEnvVarsValue | undefined;
+};
+export const ProjectsCreateResponseLatestDeploymentEnvVarsMap = /*@__PURE__*/ S.Record(
+  S.String,
+  ProjectsCreateResponseLatestDeploymentEnvVarsValue,
+) as any as S.Schema<ProjectsCreateResponseLatestDeploymentEnvVarsMap>;
 
 export type ProjectsCreateResponseLatestDeploymentEnvironment = "preview" | "production";
 export const ProjectsCreateResponseLatestDeploymentEnvironment = S.String;
@@ -2303,7 +2313,7 @@ export interface ProjectsCreateResponseLatestDeployment {
   /** Info about what caused the deployment. */
   deploymentTrigger: ProjectsCreateResponseLatestDeploymentDeploymentTrigger;
   /** Environment variables used for builds and Pages Functions. */
-  envVars: ProjectsCreateResponseLatestDeploymentEnvVars;
+  envVars: ProjectsCreateResponseLatestDeploymentEnvVarsMap;
   /** Type of deploy. */
   environment: ProjectsCreateResponseLatestDeploymentEnvironment;
   /** Whether the deployment was skipped. */
@@ -2338,7 +2348,7 @@ export const ProjectsCreateResponseLatestDeployment = /*@__PURE__*/ S.suspend(()
     deploymentTrigger: ProjectsCreateResponseLatestDeploymentDeploymentTrigger.pipe(
       T.Body("deployment_trigger"),
     ),
-    envVars: ProjectsCreateResponseLatestDeploymentEnvVars.pipe(T.Body("env_vars")),
+    envVars: ProjectsCreateResponseLatestDeploymentEnvVarsMap.pipe(T.Body("env_vars")),
     environment: ProjectsCreateResponseLatestDeploymentEnvironment,
     isSkipped: S.Boolean.pipe(T.Body("is_skipped")),
     latestStage: ProjectsCreateResponseLatestDeploymentLatestStage.pipe(T.Body("latest_stage")),
@@ -4157,44 +4167,46 @@ export const ProjectsGetResponseLatestDeploymentDeploymentTrigger = /*@__PURE__*
   identifier: "ProjectsGetResponseLatestDeploymentDeploymentTrigger",
 }) as any as S.Schema<ProjectsGetResponseLatestDeploymentDeploymentTrigger>;
 
-export type ProjectsGetResponseLatestDeploymentEnvVarsPlainTextType = "plain_text";
-export const ProjectsGetResponseLatestDeploymentEnvVarsPlainTextType = S.String;
+export type ProjectsGetResponseLatestDeploymentEnvVarsValuePlainTextType = "plain_text";
+export const ProjectsGetResponseLatestDeploymentEnvVarsValuePlainTextType = S.String;
 
-export interface ProjectsGetResponseLatestDeploymentEnvVarsPlainText {
-  type: ProjectsGetResponseLatestDeploymentEnvVarsPlainTextType;
+export interface ProjectsGetResponseLatestDeploymentEnvVarsValuePlainText {
+  type: ProjectsGetResponseLatestDeploymentEnvVarsValuePlainTextType;
   /** Environment variable value. */
   value: string;
 }
-export const ProjectsGetResponseLatestDeploymentEnvVarsPlainText = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    type: ProjectsGetResponseLatestDeploymentEnvVarsPlainTextType,
-    value: S.String,
-  }),
+export const ProjectsGetResponseLatestDeploymentEnvVarsValuePlainText = /*@__PURE__*/ S.suspend(
+  () =>
+    S.Struct({
+      type: ProjectsGetResponseLatestDeploymentEnvVarsValuePlainTextType,
+      value: S.String,
+    }),
 ).annotate({
-  identifier: "ProjectsGetResponseLatestDeploymentEnvVarsPlainText",
-}) as any as S.Schema<ProjectsGetResponseLatestDeploymentEnvVarsPlainText>;
+  identifier: "ProjectsGetResponseLatestDeploymentEnvVarsValuePlainText",
+}) as any as S.Schema<ProjectsGetResponseLatestDeploymentEnvVarsValuePlainText>;
 
-export type ProjectsGetResponseLatestDeploymentEnvVarsSecretTextType = "secret_text";
-export const ProjectsGetResponseLatestDeploymentEnvVarsSecretTextType = S.String;
+export type ProjectsGetResponseLatestDeploymentEnvVarsValueSecretTextType = "secret_text";
+export const ProjectsGetResponseLatestDeploymentEnvVarsValueSecretTextType = S.String;
 
-export interface ProjectsGetResponseLatestDeploymentEnvVarsSecretText {
-  type: ProjectsGetResponseLatestDeploymentEnvVarsSecretTextType;
+export interface ProjectsGetResponseLatestDeploymentEnvVarsValueSecretText {
+  type: ProjectsGetResponseLatestDeploymentEnvVarsValueSecretTextType;
   /** Secret value. */
   value: string;
 }
-export const ProjectsGetResponseLatestDeploymentEnvVarsSecretText = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    type: ProjectsGetResponseLatestDeploymentEnvVarsSecretTextType,
-    value: S.String,
-  }),
+export const ProjectsGetResponseLatestDeploymentEnvVarsValueSecretText = /*@__PURE__*/ S.suspend(
+  () =>
+    S.Struct({
+      type: ProjectsGetResponseLatestDeploymentEnvVarsValueSecretTextType,
+      value: S.String,
+    }),
 ).annotate({
-  identifier: "ProjectsGetResponseLatestDeploymentEnvVarsSecretText",
-}) as any as S.Schema<ProjectsGetResponseLatestDeploymentEnvVarsSecretText>;
+  identifier: "ProjectsGetResponseLatestDeploymentEnvVarsValueSecretText",
+}) as any as S.Schema<ProjectsGetResponseLatestDeploymentEnvVarsValueSecretText>;
 
-export type ProjectsGetResponseLatestDeploymentEnvVars =
-  | ProjectsGetResponseLatestDeploymentEnvVarsPlainText
-  | ProjectsGetResponseLatestDeploymentEnvVarsSecretText;
-export const ProjectsGetResponseLatestDeploymentEnvVars = /*@__PURE__*/ S.Unknown.pipe(
+export type ProjectsGetResponseLatestDeploymentEnvVarsValue =
+  | ProjectsGetResponseLatestDeploymentEnvVarsValuePlainText
+  | ProjectsGetResponseLatestDeploymentEnvVarsValueSecretText;
+export const ProjectsGetResponseLatestDeploymentEnvVarsValue = /*@__PURE__*/ S.Unknown.pipe(
   T.UnionCases(
     [
       ["type", "value"],
@@ -4203,6 +4215,14 @@ export const ProjectsGetResponseLatestDeploymentEnvVars = /*@__PURE__*/ S.Unknow
     { key: "type", values: ["plain_text", "secret_text"] },
   ),
 );
+
+export type ProjectsGetResponseLatestDeploymentEnvVarsMap = {
+  [key: string]: ProjectsGetResponseLatestDeploymentEnvVarsValue | undefined;
+};
+export const ProjectsGetResponseLatestDeploymentEnvVarsMap = /*@__PURE__*/ S.Record(
+  S.String,
+  ProjectsGetResponseLatestDeploymentEnvVarsValue,
+) as any as S.Schema<ProjectsGetResponseLatestDeploymentEnvVarsMap>;
 
 export type ProjectsGetResponseLatestDeploymentEnvironment = "preview" | "production";
 export const ProjectsGetResponseLatestDeploymentEnvironment = S.String;
@@ -4421,7 +4441,7 @@ export interface ProjectsGetResponseLatestDeployment {
   /** Info about what caused the deployment. */
   deploymentTrigger: ProjectsGetResponseLatestDeploymentDeploymentTrigger;
   /** Environment variables used for builds and Pages Functions. */
-  envVars: ProjectsGetResponseLatestDeploymentEnvVars;
+  envVars: ProjectsGetResponseLatestDeploymentEnvVarsMap;
   /** Type of deploy. */
   environment: ProjectsGetResponseLatestDeploymentEnvironment;
   /** Whether the deployment was skipped. */
@@ -4456,7 +4476,7 @@ export const ProjectsGetResponseLatestDeployment = /*@__PURE__*/ S.suspend(() =>
     deploymentTrigger: ProjectsGetResponseLatestDeploymentDeploymentTrigger.pipe(
       T.Body("deployment_trigger"),
     ),
-    envVars: ProjectsGetResponseLatestDeploymentEnvVars.pipe(T.Body("env_vars")),
+    envVars: ProjectsGetResponseLatestDeploymentEnvVarsMap.pipe(T.Body("env_vars")),
     environment: ProjectsGetResponseLatestDeploymentEnvironment,
     isSkipped: S.Boolean.pipe(T.Body("is_skipped")),
     latestStage: ProjectsGetResponseLatestDeploymentLatestStage.pipe(T.Body("latest_stage")),
@@ -6602,44 +6622,46 @@ export const ProjectsListResultItemLatestDeploymentDeploymentTrigger = /*@__PURE
   identifier: "ProjectsListResultItemLatestDeploymentDeploymentTrigger",
 }) as any as S.Schema<ProjectsListResultItemLatestDeploymentDeploymentTrigger>;
 
-export type ProjectsListResultItemLatestDeploymentEnvVarsPlainTextType = "plain_text";
-export const ProjectsListResultItemLatestDeploymentEnvVarsPlainTextType = S.String;
+export type ProjectsListResultItemLatestDeploymentEnvVarsValuePlainTextType = "plain_text";
+export const ProjectsListResultItemLatestDeploymentEnvVarsValuePlainTextType = S.String;
 
-export interface ProjectsListResultItemLatestDeploymentEnvVarsPlainText {
-  type: ProjectsListResultItemLatestDeploymentEnvVarsPlainTextType;
+export interface ProjectsListResultItemLatestDeploymentEnvVarsValuePlainText {
+  type: ProjectsListResultItemLatestDeploymentEnvVarsValuePlainTextType;
   /** Environment variable value. */
   value: string;
 }
-export const ProjectsListResultItemLatestDeploymentEnvVarsPlainText = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    type: ProjectsListResultItemLatestDeploymentEnvVarsPlainTextType,
-    value: S.String,
-  }),
+export const ProjectsListResultItemLatestDeploymentEnvVarsValuePlainText = /*@__PURE__*/ S.suspend(
+  () =>
+    S.Struct({
+      type: ProjectsListResultItemLatestDeploymentEnvVarsValuePlainTextType,
+      value: S.String,
+    }),
 ).annotate({
-  identifier: "ProjectsListResultItemLatestDeploymentEnvVarsPlainText",
-}) as any as S.Schema<ProjectsListResultItemLatestDeploymentEnvVarsPlainText>;
+  identifier: "ProjectsListResultItemLatestDeploymentEnvVarsValuePlainText",
+}) as any as S.Schema<ProjectsListResultItemLatestDeploymentEnvVarsValuePlainText>;
 
-export type ProjectsListResultItemLatestDeploymentEnvVarsSecretTextType = "secret_text";
-export const ProjectsListResultItemLatestDeploymentEnvVarsSecretTextType = S.String;
+export type ProjectsListResultItemLatestDeploymentEnvVarsValueSecretTextType = "secret_text";
+export const ProjectsListResultItemLatestDeploymentEnvVarsValueSecretTextType = S.String;
 
-export interface ProjectsListResultItemLatestDeploymentEnvVarsSecretText {
-  type: ProjectsListResultItemLatestDeploymentEnvVarsSecretTextType;
+export interface ProjectsListResultItemLatestDeploymentEnvVarsValueSecretText {
+  type: ProjectsListResultItemLatestDeploymentEnvVarsValueSecretTextType;
   /** Secret value. */
   value: string;
 }
-export const ProjectsListResultItemLatestDeploymentEnvVarsSecretText = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    type: ProjectsListResultItemLatestDeploymentEnvVarsSecretTextType,
-    value: S.String,
-  }),
+export const ProjectsListResultItemLatestDeploymentEnvVarsValueSecretText = /*@__PURE__*/ S.suspend(
+  () =>
+    S.Struct({
+      type: ProjectsListResultItemLatestDeploymentEnvVarsValueSecretTextType,
+      value: S.String,
+    }),
 ).annotate({
-  identifier: "ProjectsListResultItemLatestDeploymentEnvVarsSecretText",
-}) as any as S.Schema<ProjectsListResultItemLatestDeploymentEnvVarsSecretText>;
+  identifier: "ProjectsListResultItemLatestDeploymentEnvVarsValueSecretText",
+}) as any as S.Schema<ProjectsListResultItemLatestDeploymentEnvVarsValueSecretText>;
 
-export type ProjectsListResultItemLatestDeploymentEnvVars =
-  | ProjectsListResultItemLatestDeploymentEnvVarsPlainText
-  | ProjectsListResultItemLatestDeploymentEnvVarsSecretText;
-export const ProjectsListResultItemLatestDeploymentEnvVars = /*@__PURE__*/ S.Unknown.pipe(
+export type ProjectsListResultItemLatestDeploymentEnvVarsValue =
+  | ProjectsListResultItemLatestDeploymentEnvVarsValuePlainText
+  | ProjectsListResultItemLatestDeploymentEnvVarsValueSecretText;
+export const ProjectsListResultItemLatestDeploymentEnvVarsValue = /*@__PURE__*/ S.Unknown.pipe(
   T.UnionCases(
     [
       ["type", "value"],
@@ -6648,6 +6670,14 @@ export const ProjectsListResultItemLatestDeploymentEnvVars = /*@__PURE__*/ S.Unk
     { key: "type", values: ["plain_text", "secret_text"] },
   ),
 );
+
+export type ProjectsListResultItemLatestDeploymentEnvVarsMap = {
+  [key: string]: ProjectsListResultItemLatestDeploymentEnvVarsValue | undefined;
+};
+export const ProjectsListResultItemLatestDeploymentEnvVarsMap = /*@__PURE__*/ S.Record(
+  S.String,
+  ProjectsListResultItemLatestDeploymentEnvVarsValue,
+) as any as S.Schema<ProjectsListResultItemLatestDeploymentEnvVarsMap>;
 
 export type ProjectsListResultItemLatestDeploymentEnvironment = "preview" | "production";
 export const ProjectsListResultItemLatestDeploymentEnvironment = S.String;
@@ -6866,7 +6896,7 @@ export interface ProjectsListResultItemLatestDeployment {
   /** Info about what caused the deployment. */
   deploymentTrigger: ProjectsListResultItemLatestDeploymentDeploymentTrigger;
   /** Environment variables used for builds and Pages Functions. */
-  envVars: ProjectsListResultItemLatestDeploymentEnvVars;
+  envVars: ProjectsListResultItemLatestDeploymentEnvVarsMap;
   /** Type of deploy. */
   environment: ProjectsListResultItemLatestDeploymentEnvironment;
   /** Whether the deployment was skipped. */
@@ -6901,7 +6931,7 @@ export const ProjectsListResultItemLatestDeployment = /*@__PURE__*/ S.suspend(()
     deploymentTrigger: ProjectsListResultItemLatestDeploymentDeploymentTrigger.pipe(
       T.Body("deployment_trigger"),
     ),
-    envVars: ProjectsListResultItemLatestDeploymentEnvVars.pipe(T.Body("env_vars")),
+    envVars: ProjectsListResultItemLatestDeploymentEnvVarsMap.pipe(T.Body("env_vars")),
     environment: ProjectsListResultItemLatestDeploymentEnvironment,
     isSkipped: S.Boolean.pipe(T.Body("is_skipped")),
     latestStage: ProjectsListResultItemLatestDeploymentLatestStage.pipe(T.Body("latest_stage")),
@@ -8763,44 +8793,46 @@ export const ProjectsEditResponseLatestDeploymentDeploymentTrigger = /*@__PURE__
   identifier: "ProjectsEditResponseLatestDeploymentDeploymentTrigger",
 }) as any as S.Schema<ProjectsEditResponseLatestDeploymentDeploymentTrigger>;
 
-export type ProjectsEditResponseLatestDeploymentEnvVarsPlainTextType = "plain_text";
-export const ProjectsEditResponseLatestDeploymentEnvVarsPlainTextType = S.String;
+export type ProjectsEditResponseLatestDeploymentEnvVarsValuePlainTextType = "plain_text";
+export const ProjectsEditResponseLatestDeploymentEnvVarsValuePlainTextType = S.String;
 
-export interface ProjectsEditResponseLatestDeploymentEnvVarsPlainText {
-  type: ProjectsEditResponseLatestDeploymentEnvVarsPlainTextType;
+export interface ProjectsEditResponseLatestDeploymentEnvVarsValuePlainText {
+  type: ProjectsEditResponseLatestDeploymentEnvVarsValuePlainTextType;
   /** Environment variable value. */
   value: string;
 }
-export const ProjectsEditResponseLatestDeploymentEnvVarsPlainText = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    type: ProjectsEditResponseLatestDeploymentEnvVarsPlainTextType,
-    value: S.String,
-  }),
+export const ProjectsEditResponseLatestDeploymentEnvVarsValuePlainText = /*@__PURE__*/ S.suspend(
+  () =>
+    S.Struct({
+      type: ProjectsEditResponseLatestDeploymentEnvVarsValuePlainTextType,
+      value: S.String,
+    }),
 ).annotate({
-  identifier: "ProjectsEditResponseLatestDeploymentEnvVarsPlainText",
-}) as any as S.Schema<ProjectsEditResponseLatestDeploymentEnvVarsPlainText>;
+  identifier: "ProjectsEditResponseLatestDeploymentEnvVarsValuePlainText",
+}) as any as S.Schema<ProjectsEditResponseLatestDeploymentEnvVarsValuePlainText>;
 
-export type ProjectsEditResponseLatestDeploymentEnvVarsSecretTextType = "secret_text";
-export const ProjectsEditResponseLatestDeploymentEnvVarsSecretTextType = S.String;
+export type ProjectsEditResponseLatestDeploymentEnvVarsValueSecretTextType = "secret_text";
+export const ProjectsEditResponseLatestDeploymentEnvVarsValueSecretTextType = S.String;
 
-export interface ProjectsEditResponseLatestDeploymentEnvVarsSecretText {
-  type: ProjectsEditResponseLatestDeploymentEnvVarsSecretTextType;
+export interface ProjectsEditResponseLatestDeploymentEnvVarsValueSecretText {
+  type: ProjectsEditResponseLatestDeploymentEnvVarsValueSecretTextType;
   /** Secret value. */
   value: string;
 }
-export const ProjectsEditResponseLatestDeploymentEnvVarsSecretText = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    type: ProjectsEditResponseLatestDeploymentEnvVarsSecretTextType,
-    value: S.String,
-  }),
+export const ProjectsEditResponseLatestDeploymentEnvVarsValueSecretText = /*@__PURE__*/ S.suspend(
+  () =>
+    S.Struct({
+      type: ProjectsEditResponseLatestDeploymentEnvVarsValueSecretTextType,
+      value: S.String,
+    }),
 ).annotate({
-  identifier: "ProjectsEditResponseLatestDeploymentEnvVarsSecretText",
-}) as any as S.Schema<ProjectsEditResponseLatestDeploymentEnvVarsSecretText>;
+  identifier: "ProjectsEditResponseLatestDeploymentEnvVarsValueSecretText",
+}) as any as S.Schema<ProjectsEditResponseLatestDeploymentEnvVarsValueSecretText>;
 
-export type ProjectsEditResponseLatestDeploymentEnvVars =
-  | ProjectsEditResponseLatestDeploymentEnvVarsPlainText
-  | ProjectsEditResponseLatestDeploymentEnvVarsSecretText;
-export const ProjectsEditResponseLatestDeploymentEnvVars = /*@__PURE__*/ S.Unknown.pipe(
+export type ProjectsEditResponseLatestDeploymentEnvVarsValue =
+  | ProjectsEditResponseLatestDeploymentEnvVarsValuePlainText
+  | ProjectsEditResponseLatestDeploymentEnvVarsValueSecretText;
+export const ProjectsEditResponseLatestDeploymentEnvVarsValue = /*@__PURE__*/ S.Unknown.pipe(
   T.UnionCases(
     [
       ["type", "value"],
@@ -8809,6 +8841,14 @@ export const ProjectsEditResponseLatestDeploymentEnvVars = /*@__PURE__*/ S.Unkno
     { key: "type", values: ["plain_text", "secret_text"] },
   ),
 );
+
+export type ProjectsEditResponseLatestDeploymentEnvVarsMap = {
+  [key: string]: ProjectsEditResponseLatestDeploymentEnvVarsValue | undefined;
+};
+export const ProjectsEditResponseLatestDeploymentEnvVarsMap = /*@__PURE__*/ S.Record(
+  S.String,
+  ProjectsEditResponseLatestDeploymentEnvVarsValue,
+) as any as S.Schema<ProjectsEditResponseLatestDeploymentEnvVarsMap>;
 
 export type ProjectsEditResponseLatestDeploymentEnvironment = "preview" | "production";
 export const ProjectsEditResponseLatestDeploymentEnvironment = S.String;
@@ -9027,7 +9067,7 @@ export interface ProjectsEditResponseLatestDeployment {
   /** Info about what caused the deployment. */
   deploymentTrigger: ProjectsEditResponseLatestDeploymentDeploymentTrigger;
   /** Environment variables used for builds and Pages Functions. */
-  envVars: ProjectsEditResponseLatestDeploymentEnvVars;
+  envVars: ProjectsEditResponseLatestDeploymentEnvVarsMap;
   /** Type of deploy. */
   environment: ProjectsEditResponseLatestDeploymentEnvironment;
   /** Whether the deployment was skipped. */
@@ -9062,7 +9102,7 @@ export const ProjectsEditResponseLatestDeployment = /*@__PURE__*/ S.suspend(() =
     deploymentTrigger: ProjectsEditResponseLatestDeploymentDeploymentTrigger.pipe(
       T.Body("deployment_trigger"),
     ),
-    envVars: ProjectsEditResponseLatestDeploymentEnvVars.pipe(T.Body("env_vars")),
+    envVars: ProjectsEditResponseLatestDeploymentEnvVarsMap.pipe(T.Body("env_vars")),
     environment: ProjectsEditResponseLatestDeploymentEnvironment,
     isSkipped: S.Boolean.pipe(T.Body("is_skipped")),
     latestStage: ProjectsEditResponseLatestDeploymentLatestStage.pipe(T.Body("latest_stage")),

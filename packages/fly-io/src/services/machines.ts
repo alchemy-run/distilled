@@ -20,12 +20,7 @@ export class MachineReplacing
     /*@__PURE__*/ S.TaggedError<MachineReplacing>()("MachineReplacing", {
       message: S.String,
     }),
-    [
-      {
-        status: 412,
-        message: "failed_precondition: machine getting replaced, refusing to start",
-      },
-    ],
+    [{ status: 412, message: "failed_precondition: machine getting replaced, refusing to start" }],
   ) {}
 
 export class MachineStartFromCreatedState
@@ -33,11 +28,7 @@ export class MachineStartFromCreatedState
     /*@__PURE__*/ S.TaggedError<MachineStartFromCreatedState>()("MachineStartFromCreatedState", {
       message: S.String,
     }),
-    [
-      {
-        message: "failed_precondition: unable to start machine from current state: 'created'",
-      },
-    ],
+    [{ message: "failed_precondition: unable to start machine from current state: 'created'" }],
   ) {}
 
 export class MachineWaitTimeout
@@ -68,13 +59,7 @@ export class VolumeAttached
     /*@__PURE__*/ S.TaggedError<VolumeAttached>()("VolumeAttached", {
       message: S.String,
     }),
-    [
-      {
-        message: {
-          includes: "failed_precondition: volume is currently bound to machine:",
-        },
-      },
-    ],
+    [{ message: { includes: "failed_precondition: volume is currently bound to machine:" } }],
   ) {}
 
 export interface AuthenticateTokenRequest {
@@ -84,9 +69,7 @@ export const AuthenticateTokenRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     header: S.optional(S.String),
   }).pipe(T.Http({ method: "POST", uri: "/v1/tokens/authenticate", code: 200 })),
-).annotate({
-  identifier: "AuthenticateTokenRequest",
-}) as any as S.Schema<AuthenticateTokenRequest>;
+).annotate({ identifier: "AuthenticateTokenRequest" }) as any as S.Schema<AuthenticateTokenRequest>;
 
 export type MacaroonCaveatSetCaveatsList = Array<unknown>;
 export const MacaroonCaveatSetCaveatsList = /*@__PURE__*/ S.Array(
@@ -100,9 +83,7 @@ export const MacaroonCaveatSet = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     caveats: S.optional(MacaroonCaveatSetCaveatsList),
   }),
-).annotate({
-  identifier: "MacaroonCaveatSet",
-}) as any as S.Schema<MacaroonCaveatSet>;
+).annotate({ identifier: "MacaroonCaveatSet" }) as any as S.Schema<MacaroonCaveatSet>;
 
 export type MacaroonNonceKidList = Array<number>;
 export const MacaroonNonceKidList = /*@__PURE__*/ S.Array(
@@ -145,9 +126,7 @@ export const RootVerifiedToken = /*@__PURE__*/ S.suspend(() =>
     nonce: S.optional(MacaroonNonce),
     permission_token: S.optional(RootVerifiedTokenPermissionTokenList),
   }),
-).annotate({
-  identifier: "RootVerifiedToken",
-}) as any as S.Schema<RootVerifiedToken>;
+).annotate({ identifier: "RootVerifiedToken" }) as any as S.Schema<RootVerifiedToken>;
 
 export type AuthenticateTokenResponseBodyList = Array<RootVerifiedToken>;
 export const AuthenticateTokenResponseBodyList = /*@__PURE__*/ S.Array(
@@ -211,9 +190,7 @@ export const MainTokenAccess = /*@__PURE__*/ S.suspend(() =>
     storage_object: S.optional(S.String),
     volume_id: S.optional(S.String),
   }),
-).annotate({
-  identifier: "MainTokenAccess",
-}) as any as S.Schema<MainTokenAccess>;
+).annotate({ identifier: "MainTokenAccess" }) as any as S.Schema<MainTokenAccess>;
 
 export interface AuthorizeTokenRequest {
   access?: MainTokenAccess;
@@ -224,9 +201,7 @@ export const AuthorizeTokenRequest = /*@__PURE__*/ S.suspend(() =>
     access: S.optional(MainTokenAccess),
     header: S.optional(S.String),
   }).pipe(T.Http({ method: "POST", uri: "/v1/tokens/authorize", code: 200 })),
-).annotate({
-  identifier: "AuthorizeTokenRequest",
-}) as any as S.Schema<AuthorizeTokenRequest>;
+).annotate({ identifier: "AuthorizeTokenRequest" }) as any as S.Schema<AuthorizeTokenRequest>;
 
 export type FlyioAccessCommandList = Array<string>;
 export const FlyioAccessCommandList = /*@__PURE__*/ S.Array(
@@ -279,9 +254,7 @@ export const AuthorizeResponse = /*@__PURE__*/ S.suspend(() =>
     access: S.optional(FlyioAccess),
     verified_token: S.optional(RootVerifiedToken),
   }),
-).annotate({
-  identifier: "AuthorizeResponse",
-}) as any as S.Schema<AuthorizeResponse>;
+).annotate({ identifier: "AuthorizeResponse" }) as any as S.Schema<AuthorizeResponse>;
 
 export interface CheckAppCertificateRequest {
   /** Fly App Name */
@@ -294,11 +267,7 @@ export const CheckAppCertificateRequest = /*@__PURE__*/ S.suspend(() =>
     app_name: S.String.pipe(T.Label()),
     hostname: S.String.pipe(T.Label()),
   }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/v1/apps/{app_name}/certificates/{hostname}/check",
-      code: 200,
-    }),
+    T.Http({ method: "POST", uri: "/v1/apps/{app_name}/certificates/{hostname}/check", code: 200 }),
   ),
 ).annotate({
   identifier: "CheckAppCertificateRequest",
@@ -318,9 +287,7 @@ export const IssuedCertificate = /*@__PURE__*/ S.suspend(() =>
     expires_at: S.optional(S.String),
     type: S.optional(IssuedCertificateType),
   }),
-).annotate({
-  identifier: "IssuedCertificate",
-}) as any as S.Schema<IssuedCertificate>;
+).annotate({ identifier: "IssuedCertificate" }) as any as S.Schema<IssuedCertificate>;
 
 export type CertificateEntryIssuedList = Array<IssuedCertificate>;
 export const CertificateEntryIssuedList = /*@__PURE__*/ S.Array(
@@ -350,9 +317,7 @@ export const CertificateEntry = /*@__PURE__*/ S.suspend(() =>
     source: S.optional(CertificateEntrySource),
     status: S.optional(CertificateEntryStatus),
   }),
-).annotate({
-  identifier: "CertificateEntry",
-}) as any as S.Schema<CertificateEntry>;
+).annotate({ identifier: "CertificateEntry" }) as any as S.Schema<CertificateEntry>;
 
 export type CertificateCheckResponseCertificatesList = Array<CertificateEntry>;
 export const CertificateCheckResponseCertificatesList = /*@__PURE__*/ S.Array(
@@ -430,9 +395,7 @@ export const OwnershipVerification = /*@__PURE__*/ S.suspend(() =>
     name: S.optional(S.String),
     org_value: S.optional(S.String),
   }),
-).annotate({
-  identifier: "OwnershipVerification",
-}) as any as S.Schema<OwnershipVerification>;
+).annotate({ identifier: "OwnershipVerification" }) as any as S.Schema<OwnershipVerification>;
 
 export interface DNSRequirements {
   a?: DNSRequirementsAList;
@@ -449,9 +412,7 @@ export const DNSRequirements = /*@__PURE__*/ S.suspend(() =>
     cname: S.optional(S.String),
     ownership: S.optional(OwnershipVerification),
   }),
-).annotate({
-  identifier: "DNSRequirements",
-}) as any as S.Schema<DNSRequirements>;
+).annotate({ identifier: "DNSRequirements" }) as any as S.Schema<DNSRequirements>;
 
 export interface CertificateValidation {
   alpn_configured?: boolean;
@@ -466,9 +427,7 @@ export const CertificateValidation = /*@__PURE__*/ S.suspend(() =>
     http_configured: S.optional(S.Boolean),
     ownership_txt_configured: S.optional(S.Boolean),
   }),
-).annotate({
-  identifier: "CertificateValidation",
-}) as any as S.Schema<CertificateValidation>;
+).annotate({ identifier: "CertificateValidation" }) as any as S.Schema<CertificateValidation>;
 
 export interface CertificateValidationError {
   code?: string;
@@ -519,9 +478,7 @@ export const CertificateCheckResponse = /*@__PURE__*/ S.suspend(() =>
     validation: S.optional(CertificateValidation),
     validation_errors: S.optional(CertificateCheckResponseValidationErrorsList),
   }),
-).annotate({
-  identifier: "CertificateCheckResponse",
-}) as any as S.Schema<CertificateCheckResponse>;
+).annotate({ identifier: "CertificateCheckResponse" }) as any as S.Schema<CertificateCheckResponse>;
 
 export interface CordonMachineRequest {
   /** Fly App Name */
@@ -536,15 +493,9 @@ export const CordonMachineRequest = /*@__PURE__*/ S.suspend(() =>
     machine_id: S.String.pipe(T.Label()),
     lease_nonce: S.optional(S.String.pipe(T.Header("fly-machine-lease-nonce"))),
   }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/v1/apps/{app_name}/machines/{machine_id}/cordon",
-      code: 200,
-    }),
+    T.Http({ method: "POST", uri: "/v1/apps/{app_name}/machines/{machine_id}/cordon", code: 200 }),
   ),
-).annotate({
-  identifier: "CordonMachineRequest",
-}) as any as S.Schema<CordonMachineRequest>;
+).annotate({ identifier: "CordonMachineRequest" }) as any as S.Schema<CordonMachineRequest>;
 
 export interface CordonMachineResponse {}
 export const CordonMachineResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -567,9 +518,7 @@ export const CreateAppRequest = /*@__PURE__*/ S.suspend(() =>
     network: S.optional(S.String),
     org_slug: S.optional(S.String),
   }).pipe(T.Http({ method: "POST", uri: "/v1/apps", code: 200 })),
-).annotate({
-  identifier: "CreateAppRequest",
-}) as any as S.Schema<CreateAppRequest>;
+).annotate({ identifier: "CreateAppRequest" }) as any as S.Schema<CreateAppRequest>;
 
 export interface CreateAppResponse {
   created_at?: number;
@@ -580,9 +529,7 @@ export const CreateAppResponse = /*@__PURE__*/ S.suspend(() =>
     created_at: S.optional(S.Number),
     id: S.optional(S.String),
   }),
-).annotate({
-  identifier: "CreateAppResponse",
-}) as any as S.Schema<CreateAppResponse>;
+).annotate({ identifier: "CreateAppResponse" }) as any as S.Schema<CreateAppResponse>;
 
 export interface CreateAppAcmeCertificateRequest {
   /** Fly App Name */
@@ -593,13 +540,7 @@ export const CreateAppAcmeCertificateRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     app_name: S.String.pipe(T.Label()),
     hostname: S.optional(S.String),
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/v1/apps/{app_name}/certificates/acme",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "POST", uri: "/v1/apps/{app_name}/certificates/acme", code: 200 })),
 ).annotate({
   identifier: "CreateAppAcmeCertificateRequest",
 }) as any as S.Schema<CreateAppAcmeCertificateRequest>;
@@ -639,9 +580,7 @@ export const CertificateDetail = /*@__PURE__*/ S.suspend(() =>
     validation: S.optional(CertificateValidation),
     validation_errors: S.optional(CertificateDetailValidationErrorsList),
   }),
-).annotate({
-  identifier: "CertificateDetail",
-}) as any as S.Schema<CertificateDetail>;
+).annotate({ identifier: "CertificateDetail" }) as any as S.Schema<CertificateDetail>;
 
 export interface CreateAppCustomCertificateRequest {
   /** Fly App Name */
@@ -656,13 +595,7 @@ export const CreateAppCustomCertificateRequest = /*@__PURE__*/ S.suspend(() =>
     fullchain: S.optional(S.String),
     hostname: S.optional(S.String),
     private_key: S.optional(S.String.pipe(T.SensitiveValue({}))),
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/v1/apps/{app_name}/certificates/custom",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "POST", uri: "/v1/apps/{app_name}/certificates/custom", code: 200 })),
 ).annotate({
   identifier: "CreateAppCustomCertificateRequest",
 }) as any as S.Schema<CreateAppCustomCertificateRequest>;
@@ -676,13 +609,7 @@ export const CreateAppDeployTokenRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     app_name: S.String.pipe(T.Label()),
     expiry: S.optional(S.String),
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/v1/apps/{app_name}/deploy_token",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "POST", uri: "/v1/apps/{app_name}/deploy_token", code: 200 })),
 ).annotate({
   identifier: "CreateAppDeployTokenRequest",
 }) as any as S.Schema<CreateAppDeployTokenRequest>;
@@ -726,13 +653,7 @@ export const CreateAppIPAssignmentRequest = /*@__PURE__*/ S.suspend(() =>
     region: S.optional(S.String),
     service_name: S.optional(S.String),
     type: S.optional(IPAssignmentType),
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/v1/apps/{app_name}/ip_assignments",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "POST", uri: "/v1/apps/{app_name}/ip_assignments", code: 200 })),
 ).annotate({
   identifier: "CreateAppIPAssignmentRequest",
 }) as any as S.Schema<CreateAppIPAssignmentRequest>;
@@ -759,9 +680,7 @@ export const IPAssignmentNetwork = /*@__PURE__*/ S.suspend(() =>
     name: S.optional(S.String),
     org_slug: S.optional(S.String),
   }),
-).annotate({
-  identifier: "IPAssignmentNetwork",
-}) as any as S.Schema<IPAssignmentNetwork>;
+).annotate({ identifier: "IPAssignmentNetwork" }) as any as S.Schema<IPAssignmentNetwork>;
 
 export interface AssignIPResponse {
   created_at?: string;
@@ -785,9 +704,7 @@ export const AssignIPResponse = /*@__PURE__*/ S.suspend(() =>
     service_name: S.optional(S.String),
     shared: S.optional(S.Boolean),
   }),
-).annotate({
-  identifier: "AssignIPResponse",
-}) as any as S.Schema<AssignIPResponse>;
+).annotate({ identifier: "AssignIPResponse" }) as any as S.Schema<AssignIPResponse>;
 
 export interface FlyMachineCacheDrive {
   size_mb?: number;
@@ -796,9 +713,7 @@ export const FlyMachineCacheDrive = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     size_mb: S.optional(S.Number),
   }),
-).annotate({
-  identifier: "FlyMachineCacheDrive",
-}) as any as S.Schema<FlyMachineCacheDrive>;
+).annotate({ identifier: "FlyMachineCacheDrive" }) as any as S.Schema<FlyMachineCacheDrive>;
 
 /** The header value */
 export type FlyMachineHTTPHeaderValuesList = Array<string>;
@@ -818,9 +733,7 @@ export const FlyMachineHTTPHeader = /*@__PURE__*/ S.suspend(() =>
     name: S.optional(S.String),
     values: S.optional(FlyMachineHTTPHeaderValuesList),
   }),
-).annotate({
-  identifier: "FlyMachineHTTPHeader",
-}) as any as S.Schema<FlyMachineHTTPHeader>;
+).annotate({ identifier: "FlyMachineHTTPHeader" }) as any as S.Schema<FlyMachineHTTPHeader>;
 
 export type FlyMachineCheckHeadersList = Array<FlyMachineHTTPHeader>;
 export const FlyMachineCheckHeadersList = /*@__PURE__*/ S.Array(
@@ -871,14 +784,10 @@ export const FlyMachineCheck = /*@__PURE__*/ S.suspend(() =>
     tls_skip_verify: S.optional(S.Boolean),
     type: S.optional(S.String),
   }),
-).annotate({
-  identifier: "FlyMachineCheck",
-}) as any as S.Schema<FlyMachineCheck>;
+).annotate({ identifier: "FlyMachineCheck" }) as any as S.Schema<FlyMachineCheck>;
 
 /** An optional object that defines one or more named top-level checks. The key for each check is the check name. */
-export type FlyMachineConfigChecksMap = {
-  [key: string]: FlyMachineCheck | undefined;
-};
+export type FlyMachineConfigChecksMap = { [key: string]: FlyMachineCheck | undefined };
 export const FlyMachineConfigChecksMap = /*@__PURE__*/ S.Record(
   S.String,
   FlyMachineCheck,
@@ -902,9 +811,7 @@ export const FlyContainerDependency = /*@__PURE__*/ S.suspend(() =>
     condition: S.optional(FlyContainerDependencyCondition),
     name: S.optional(S.String),
   }),
-).annotate({
-  identifier: "FlyContainerDependency",
-}) as any as S.Schema<FlyContainerDependency>;
+).annotate({ identifier: "FlyContainerDependency" }) as any as S.Schema<FlyContainerDependency>;
 
 /** DependsOn can be used to define dependencies between containers. The container will only be started after all of its dependent conditions have been satisfied. */
 export type FlyContainerConfigDependsOnList = Array<FlyContainerDependency>;
@@ -998,9 +905,7 @@ export const FlyExecHealthcheck = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     command: S.optional(FlyExecHealthcheckCommandList),
   }),
-).annotate({
-  identifier: "FlyExecHealthcheck",
-}) as any as S.Schema<FlyExecHealthcheck>;
+).annotate({ identifier: "FlyExecHealthcheck" }) as any as S.Schema<FlyExecHealthcheck>;
 
 /** Additional headers to send with the request */
 export type FlyHTTPHealthcheckHeadersList = Array<FlyMachineHTTPHeader>;
@@ -1037,9 +942,7 @@ export const FlyHTTPHealthcheck = /*@__PURE__*/ S.suspend(() =>
     tls_server_name: S.optional(S.String),
     tls_skip_verify: S.optional(S.Boolean),
   }),
-).annotate({
-  identifier: "FlyHTTPHealthcheck",
-}) as any as S.Schema<FlyHTTPHealthcheck>;
+).annotate({ identifier: "FlyHTTPHealthcheck" }) as any as S.Schema<FlyHTTPHealthcheck>;
 
 export type FlyContainerHealthcheckKind = "readiness" | "liveness";
 export const FlyContainerHealthcheckKind = S.String;
@@ -1052,9 +955,7 @@ export const FlyTCPHealthcheck = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     port: S.optional(S.Number),
   }),
-).annotate({
-  identifier: "FlyTCPHealthcheck",
-}) as any as S.Schema<FlyTCPHealthcheck>;
+).annotate({ identifier: "FlyTCPHealthcheck" }) as any as S.Schema<FlyTCPHealthcheck>;
 
 export type FlyUnhealthyPolicy = "stop";
 export const FlyUnhealthyPolicy = S.String;
@@ -1094,9 +995,7 @@ export const FlyContainerHealthcheck = /*@__PURE__*/ S.suspend(() =>
     timeout: S.optional(S.Number),
     unhealthy: S.optional(FlyUnhealthyPolicy),
   }),
-).annotate({
-  identifier: "FlyContainerHealthcheck",
-}) as any as S.Schema<FlyContainerHealthcheck>;
+).annotate({ identifier: "FlyContainerHealthcheck" }) as any as S.Schema<FlyContainerHealthcheck>;
 
 /** Healthchecks determine the health of your containers. Healthchecks can use HTTP, TCP or an Exec command. */
 export type FlyContainerConfigHealthchecksList = Array<FlyContainerHealthcheck>;
@@ -1120,9 +1019,7 @@ export const FlyMachineRestart = /*@__PURE__*/ S.suspend(() =>
     max_retries: S.optional(S.Number),
     policy: S.optional(FlyMachineRestartPolicy),
   }),
-).annotate({
-  identifier: "FlyMachineRestart",
-}) as any as S.Schema<FlyMachineRestart>;
+).annotate({ identifier: "FlyMachineRestart" }) as any as S.Schema<FlyMachineRestart>;
 
 /** A Secret needing to be set in the environment of the Machine. env_var is required */
 export interface FlyMachineSecret {
@@ -1136,9 +1033,7 @@ export const FlyMachineSecret = /*@__PURE__*/ S.suspend(() =>
     env_var: S.optional(S.String),
     name: S.optional(S.String),
   }),
-).annotate({
-  identifier: "FlyMachineSecret",
-}) as any as S.Schema<FlyMachineSecret>;
+).annotate({ identifier: "FlyMachineSecret" }) as any as S.Schema<FlyMachineSecret>;
 
 /** Secrets can be provided at the process level to explicitly indicate which secrets should be used for the process. If not provided, the secrets provided at the machine level will be used. */
 export type FlyContainerConfigSecretsList = Array<FlyMachineSecret>;
@@ -1214,9 +1109,7 @@ export const FlyContainerConfig = /*@__PURE__*/ S.suspend(() =>
     stop: S.optional(FlyStopConfig),
     user: S.optional(S.String),
   }),
-).annotate({
-  identifier: "FlyContainerConfig",
-}) as any as S.Schema<FlyContainerConfig>;
+).annotate({ identifier: "FlyContainerConfig" }) as any as S.Schema<FlyContainerConfig>;
 
 /** Containers are a list of containers that will run in the machine. Currently restricted to only specific organizations. */
 export type FlyMachineConfigContainersList = Array<FlyContainerConfig>;
@@ -1233,9 +1126,7 @@ export const FlyDnsForwardRule = /*@__PURE__*/ S.suspend(() =>
     addr: S.optional(S.String),
     basename: S.optional(S.String),
   }),
-).annotate({
-  identifier: "FlyDnsForwardRule",
-}) as any as S.Schema<FlyDnsForwardRule>;
+).annotate({ identifier: "FlyDnsForwardRule" }) as any as S.Schema<FlyDnsForwardRule>;
 
 export type FlyDNSConfigDnsForwardRulesList = Array<FlyDnsForwardRule>;
 export const FlyDNSConfigDnsForwardRulesList = /*@__PURE__*/ S.Array(
@@ -1341,9 +1232,7 @@ export const FlyMachineGuest = /*@__PURE__*/ S.suspend(() =>
     persist_rootfs: S.optional(FlyMachineGuestPersistRootfs),
     required_host_features: S.optional(FlyMachineGuestRequiredHostFeaturesList),
   }),
-).annotate({
-  identifier: "FlyMachineGuest",
-}) as any as S.Schema<FlyMachineGuest>;
+).annotate({ identifier: "FlyMachineGuest" }) as any as S.Schema<FlyMachineGuest>;
 
 export type FlyMachineInitCmdList = Array<string>;
 export const FlyMachineInitCmdList = /*@__PURE__*/ S.Array(
@@ -1401,9 +1290,7 @@ export const FlyMachineMetrics = /*@__PURE__*/ S.suspend(() =>
     path: S.optional(S.String),
     port: S.optional(S.Number),
   }),
-).annotate({
-  identifier: "FlyMachineMetrics",
-}) as any as S.Schema<FlyMachineMetrics>;
+).annotate({ identifier: "FlyMachineMetrics" }) as any as S.Schema<FlyMachineMetrics>;
 
 export interface FlyMachineMount {
   add_size_gb?: number;
@@ -1432,9 +1319,7 @@ export const FlyMachineMount = /*@__PURE__*/ S.suspend(() =>
     size_gb_limit: S.optional(S.Number),
     volume: S.optional(S.String),
   }),
-).annotate({
-  identifier: "FlyMachineMount",
-}) as any as S.Schema<FlyMachineMount>;
+).annotate({ identifier: "FlyMachineMount" }) as any as S.Schema<FlyMachineMount>;
 
 export type FlyMachineConfigMountsList = Array<FlyMachineMount>;
 export const FlyMachineConfigMountsList = /*@__PURE__*/ S.Array(
@@ -1498,9 +1383,7 @@ export const FlyMachineProcess = /*@__PURE__*/ S.suspend(() =>
     secrets: S.optional(FlyMachineProcessSecretsList),
     user: S.optional(S.String),
   }),
-).annotate({
-  identifier: "FlyMachineProcess",
-}) as any as S.Schema<FlyMachineProcess>;
+).annotate({ identifier: "FlyMachineProcess" }) as any as S.Schema<FlyMachineProcess>;
 
 export type FlyMachineConfigProcessesList = Array<FlyMachineProcess>;
 export const FlyMachineConfigProcessesList = /*@__PURE__*/ S.Array(
@@ -1519,9 +1402,7 @@ export const FlyMachineRootfs = /*@__PURE__*/ S.suspend(() =>
     persist: S.optional(FlyMachineRootfsPersist),
     size_gb: S.optional(S.Number),
   }),
-).annotate({
-  identifier: "FlyMachineRootfs",
-}) as any as S.Schema<FlyMachineRootfs>;
+).annotate({ identifier: "FlyMachineRootfs" }) as any as S.Schema<FlyMachineRootfs>;
 
 /** Accepts a string (new format) or a boolean (old format). For backward compatibility with older clients, the API continues to use booleans for "off" and "stop" in responses. * "off" or false - Do not autostop the Machine. * "stop" or true - Automatically stop the Machine. * "suspend" - Automatically suspend the Machine, falling back to a full stop if this is not possible. */
 export type FlyMachineServiceAutostopMode = "off" | "stop" | "suspend";
@@ -1576,9 +1457,7 @@ export const FlyMachineServiceCheck = /*@__PURE__*/ S.suspend(() =>
     tls_skip_verify: S.optional(S.Boolean),
     type: S.optional(S.String),
   }),
-).annotate({
-  identifier: "FlyMachineServiceCheck",
-}) as any as S.Schema<FlyMachineServiceCheck>;
+).annotate({ identifier: "FlyMachineServiceCheck" }) as any as S.Schema<FlyMachineServiceCheck>;
 
 /** An optional list of service checks */
 export type FlyMachineServiceChecksList = Array<FlyMachineServiceCheck>;
@@ -1634,9 +1513,7 @@ export const FlyHTTPOptionsReplayCacheList = /*@__PURE__*/ S.Array(
   FlyReplayCache,
 ) as any as S.Schema<FlyHTTPOptionsReplayCacheList>;
 
-export type FlyHTTPResponseOptionsHeadersMap = {
-  [key: string]: unknown | undefined;
-};
+export type FlyHTTPResponseOptionsHeadersMap = { [key: string]: unknown | undefined };
 export const FlyHTTPResponseOptionsHeadersMap = /*@__PURE__*/ S.Record(
   S.String,
   S.Unknown,
@@ -1651,9 +1528,7 @@ export const FlyHTTPResponseOptions = /*@__PURE__*/ S.suspend(() =>
     headers: S.optional(FlyHTTPResponseOptionsHeadersMap),
     pristine: S.optional(S.Boolean),
   }),
-).annotate({
-  identifier: "FlyHTTPResponseOptions",
-}) as any as S.Schema<FlyHTTPResponseOptions>;
+).annotate({ identifier: "FlyHTTPResponseOptions" }) as any as S.Schema<FlyHTTPResponseOptions>;
 
 export interface FlyHTTPOptions {
   compress?: boolean;
@@ -1681,9 +1556,7 @@ export const FlyProxyProtoOptions = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     version: S.optional(S.String),
   }),
-).annotate({
-  identifier: "FlyProxyProtoOptions",
-}) as any as S.Schema<FlyProxyProtoOptions>;
+).annotate({ identifier: "FlyProxyProtoOptions" }) as any as S.Schema<FlyProxyProtoOptions>;
 
 export type FlyTLSOptionsAlpnList = Array<string>;
 export const FlyTLSOptionsAlpnList = /*@__PURE__*/ S.Array(
@@ -1763,9 +1636,7 @@ export const FlyMachineService = /*@__PURE__*/ S.suspend(() =>
     ports: S.optional(FlyMachineServicePortsList),
     protocol: S.optional(S.String),
   }),
-).annotate({
-  identifier: "FlyMachineService",
-}) as any as S.Schema<FlyMachineService>;
+).annotate({ identifier: "FlyMachineService" }) as any as S.Schema<FlyMachineService>;
 
 export type FlyMachineConfigServicesList = Array<FlyMachineService>;
 export const FlyMachineConfigServicesList = /*@__PURE__*/ S.Array(
@@ -1869,9 +1740,7 @@ export const FlyMachineConfig = /*@__PURE__*/ S.suspend(() =>
     statics: S.optional(FlyMachineConfigStaticsList),
     stop_config: S.optional(FlyStopConfig),
   }),
-).annotate({
-  identifier: "FlyMachineConfig",
-}) as any as S.Schema<FlyMachineConfig>;
+).annotate({ identifier: "FlyMachineConfig" }) as any as S.Schema<FlyMachineConfig>;
 
 export interface CreateMachineRequest {
   /** Fly App Name */
@@ -1900,9 +1769,7 @@ export const CreateMachineRequest = /*@__PURE__*/ S.suspend(() =>
     skip_secrets: S.optional(S.Boolean),
     skip_service_registration: S.optional(S.Boolean),
   }).pipe(T.Http({ method: "POST", uri: "/v1/apps/{app_name}/machines", code: 200 })),
-).annotate({
-  identifier: "CreateMachineRequest",
-}) as any as S.Schema<CreateMachineRequest>;
+).annotate({ identifier: "CreateMachineRequest" }) as any as S.Schema<CreateMachineRequest>;
 
 export interface CheckStatus {
   name?: string;
@@ -2060,11 +1927,7 @@ export const CreateMachineLeaseRequest = /*@__PURE__*/ S.suspend(() =>
     ttl: S.optional(S.Number.pipe(T.Query())),
     lease_nonce: S.optional(S.String.pipe(T.Header("fly-machine-lease-nonce"))),
   }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/v1/apps/{app_name}/machines/{machine_id}/lease",
-      code: 200,
-    }),
+    T.Http({ method: "POST", uri: "/v1/apps/{app_name}/machines/{machine_id}/lease", code: 200 }),
   ),
 ).annotate({
   identifier: "CreateMachineLeaseRequest",
@@ -2144,9 +2007,7 @@ export const CreatePostgresRequest = /*@__PURE__*/ S.suspend(() =>
     postgis_enabled: S.optional(S.Boolean),
     region: S.String,
   }).pipe(T.Http({ method: "POST", uri: "/v1/postgres", code: 200 })),
-).annotate({
-  identifier: "CreatePostgresRequest",
-}) as any as S.Schema<CreatePostgresRequest>;
+).annotate({ identifier: "CreatePostgresRequest" }) as any as S.Schema<CreatePostgresRequest>;
 
 export interface PostgresAttachedApp {
   /** Attached Fly app name. */
@@ -2156,9 +2017,7 @@ export const PostgresAttachedApp = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     name: S.optional(S.String),
   }),
-).annotate({
-  identifier: "PostgresAttachedApp",
-}) as any as S.Schema<PostgresAttachedApp>;
+).annotate({ identifier: "PostgresAttachedApp" }) as any as S.Schema<PostgresAttachedApp>;
 
 /** Apps attached to the cluster. */
 export type PostgresClusterAttachedAppsList = Array<PostgresAttachedApp>;
@@ -2181,9 +2040,7 @@ export const PostgresEndpoint = /*@__PURE__*/ S.suspend(() =>
     host: S.optional(S.String),
     port: S.optional(S.Number),
   }),
-).annotate({
-  identifier: "PostgresEndpoint",
-}) as any as S.Schema<PostgresEndpoint>;
+).annotate({ identifier: "PostgresEndpoint" }) as any as S.Schema<PostgresEndpoint>;
 
 export interface PostgresNodeEndpoints {
   /** Unpooled connection to the cluster node. */
@@ -2196,9 +2053,7 @@ export const PostgresNodeEndpoints = /*@__PURE__*/ S.suspend(() =>
     direct: S.optional(PostgresEndpoint),
     pooler: S.optional(PostgresEndpoint),
   }),
-).annotate({
-  identifier: "PostgresNodeEndpoints",
-}) as any as S.Schema<PostgresNodeEndpoints>;
+).annotate({ identifier: "PostgresNodeEndpoints" }) as any as S.Schema<PostgresNodeEndpoints>;
 
 export interface PostgresClusterEndpoints {
   /** Endpoints for connecting to the primary node. */
@@ -2208,9 +2063,7 @@ export const PostgresClusterEndpoints = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     primary: S.optional(PostgresNodeEndpoints),
   }),
-).annotate({
-  identifier: "PostgresClusterEndpoints",
-}) as any as S.Schema<PostgresClusterEndpoints>;
+).annotate({ identifier: "PostgresClusterEndpoints" }) as any as S.Schema<PostgresClusterEndpoints>;
 
 export interface OrganizationRef {
   /** Organization name. */
@@ -2223,9 +2076,7 @@ export const OrganizationRef = /*@__PURE__*/ S.suspend(() =>
     name: S.optional(S.String),
     slug: S.optional(S.String),
   }),
-).annotate({
-  identifier: "OrganizationRef",
-}) as any as S.Schema<OrganizationRef>;
+).annotate({ identifier: "OrganizationRef" }) as any as S.Schema<OrganizationRef>;
 
 /** Postgres major version. */
 export type PostgresClusterPgMajorVersion = "16" | "17";
@@ -2303,9 +2154,7 @@ export const PostgresCluster = /*@__PURE__*/ S.suspend(() =>
     storage_provisioned_bytes: S.optional(S.NullOr(S.Number)),
     storage_used_bytes: S.optional(S.NullOr(S.Number)),
   }),
-).annotate({
-  identifier: "PostgresCluster",
-}) as any as S.Schema<PostgresCluster>;
+).annotate({ identifier: "PostgresCluster" }) as any as S.Schema<PostgresCluster>;
 
 export interface ShowPostgresClusterResponse {
   data?: PostgresCluster;
@@ -2329,11 +2178,7 @@ export const CreatePostgresAttachmentRequest = /*@__PURE__*/ S.suspend(() =>
     postgres_cluster_id: S.String.pipe(T.Label()),
     app_name: S.String,
   }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/v1/postgres/{postgres_cluster_id}/attachments",
-      code: 200,
-    }),
+    T.Http({ method: "POST", uri: "/v1/postgres/{postgres_cluster_id}/attachments", code: 200 }),
   ),
 ).annotate({
   identifier: "CreatePostgresAttachmentRequest",
@@ -2353,9 +2198,7 @@ export const PostgresAttachment = /*@__PURE__*/ S.suspend(() =>
     attached_at: S.optional(S.String),
     postgres_cluster_id: S.optional(S.String),
   }),
-).annotate({
-  identifier: "PostgresAttachment",
-}) as any as S.Schema<PostgresAttachment>;
+).annotate({ identifier: "PostgresAttachment" }) as any as S.Schema<PostgresAttachment>;
 
 export interface CreatePostgresAttachmentResponse {
   data?: PostgresAttachment;
@@ -2382,13 +2225,7 @@ export const CreatePostgresBackupRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     postgres_cluster_id: S.String.pipe(T.Label()),
     type: CreatePostgresBackupRequestType,
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/v1/postgres/{postgres_cluster_id}/backups",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "POST", uri: "/v1/postgres/{postgres_cluster_id}/backups", code: 200 })),
 ).annotate({
   identifier: "CreatePostgresBackupRequest",
 }) as any as S.Schema<CreatePostgresBackupRequest>;
@@ -2409,11 +2246,7 @@ export const CreatePostgresDatabaseRequest = /*@__PURE__*/ S.suspend(() =>
     postgres_cluster_id: S.String.pipe(T.Label()),
     name: S.String,
   }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/v1/postgres/{postgres_cluster_id}/databases",
-      code: 200,
-    }),
+    T.Http({ method: "POST", uri: "/v1/postgres/{postgres_cluster_id}/databases", code: 200 }),
   ),
 ).annotate({
   identifier: "CreatePostgresDatabaseRequest",
@@ -2427,9 +2260,7 @@ export const PostgresDatabase = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     name: S.optional(S.String),
   }),
-).annotate({
-  identifier: "PostgresDatabase",
-}) as any as S.Schema<PostgresDatabase>;
+).annotate({ identifier: "PostgresDatabase" }) as any as S.Schema<PostgresDatabase>;
 
 export interface PostgresDatabaseResponse {
   data?: PostgresDatabase;
@@ -2438,9 +2269,7 @@ export const PostgresDatabaseResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     data: S.optional(PostgresDatabase),
   }),
-).annotate({
-  identifier: "PostgresDatabaseResponse",
-}) as any as S.Schema<PostgresDatabaseResponse>;
+).annotate({ identifier: "PostgresDatabaseResponse" }) as any as S.Schema<PostgresDatabaseResponse>;
 
 /** Role to grant the user. */
 export type CreatePostgresUserRequestRole = "schema_admin" | "writer" | "reader";
@@ -2459,13 +2288,7 @@ export const CreatePostgresUserRequest = /*@__PURE__*/ S.suspend(() =>
     postgres_cluster_id: S.String.pipe(T.Label()),
     role: CreatePostgresUserRequestRole,
     username: S.String,
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/v1/postgres/{postgres_cluster_id}/users",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "POST", uri: "/v1/postgres/{postgres_cluster_id}/users", code: 200 })),
 ).annotate({
   identifier: "CreatePostgresUserRequest",
 }) as any as S.Schema<CreatePostgresUserRequest>;
@@ -2510,16 +2333,8 @@ export const CreateSecretRequest = /*@__PURE__*/ S.suspend(() =>
     app_name: S.String.pipe(T.Label()),
     secret_name: S.String.pipe(T.Label()),
     value: S.optional(S.String),
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/v1/apps/{app_name}/secrets/{secret_name}",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "CreateSecretRequest",
-}) as any as S.Schema<CreateSecretRequest>;
+  }).pipe(T.Http({ method: "POST", uri: "/v1/apps/{app_name}/secrets/{secret_name}", code: 200 })),
+).annotate({ identifier: "CreateSecretRequest" }) as any as S.Schema<CreateSecretRequest>;
 
 export interface SetAppSecretResponse {
   /** DEPRECATED */
@@ -2541,9 +2356,7 @@ export const SetAppSecretResponse = /*@__PURE__*/ S.suspend(() =>
     value: S.optional(S.String),
     version: S.optional(S.Number),
   }),
-).annotate({
-  identifier: "SetAppSecretResponse",
-}) as any as S.Schema<SetAppSecretResponse>;
+).annotate({ identifier: "SetAppSecretResponse" }) as any as S.Schema<SetAppSecretResponse>;
 
 export interface CreateVolumeRequest {
   /** Fly App Name */
@@ -2582,9 +2395,7 @@ export const CreateVolumeRequest = /*@__PURE__*/ S.suspend(() =>
     source_volume_id: S.optional(S.String),
     unique_zone_app_wide: S.optional(S.Boolean),
   }).pipe(T.Http({ method: "POST", uri: "/v1/apps/{app_name}/volumes", code: 200 })),
-).annotate({
-  identifier: "CreateVolumeRequest",
-}) as any as S.Schema<CreateVolumeRequest>;
+).annotate({ identifier: "CreateVolumeRequest" }) as any as S.Schema<CreateVolumeRequest>;
 
 export type VolumeHostFeaturesList = Array<string>;
 export const VolumeHostFeaturesList = /*@__PURE__*/ S.Array(
@@ -2666,11 +2477,7 @@ export const CreateVolumeSnapshotRequest = /*@__PURE__*/ S.suspend(() =>
     app_name: S.String.pipe(T.Label()),
     volume_id: S.String.pipe(T.Label()),
   }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/v1/apps/{app_name}/volumes/{volume_id}/snapshots",
-      code: 200,
-    }),
+    T.Http({ method: "POST", uri: "/v1/apps/{app_name}/volumes/{volume_id}/snapshots", code: 200 }),
   ),
 ).annotate({
   identifier: "CreateVolumeSnapshotRequest",
@@ -2705,9 +2512,7 @@ export const DecryptSecretKeyRequest = /*@__PURE__*/ S.suspend(() =>
       code: 200,
     }),
   ),
-).annotate({
-  identifier: "DecryptSecretKeyRequest",
-}) as any as S.Schema<DecryptSecretKeyRequest>;
+).annotate({ identifier: "DecryptSecretKeyRequest" }) as any as S.Schema<DecryptSecretKeyRequest>;
 
 export interface DecryptSecretkeyResponse {
   plaintext?: string;
@@ -2716,9 +2521,7 @@ export const DecryptSecretkeyResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     plaintext: S.optional(S.String.pipe(T.SensitiveValue({}))),
   }),
-).annotate({
-  identifier: "DecryptSecretkeyResponse",
-}) as any as S.Schema<DecryptSecretkeyResponse>;
+).annotate({ identifier: "DecryptSecretkeyResponse" }) as any as S.Schema<DecryptSecretkeyResponse>;
 
 export interface DeleteAppRequest {
   /** Fly App Name */
@@ -2728,9 +2531,7 @@ export const DeleteAppRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     app_name: S.String.pipe(T.Label()),
   }).pipe(T.Http({ method: "DELETE", uri: "/v1/apps/{app_name}", code: 200 })),
-).annotate({
-  identifier: "DeleteAppRequest",
-}) as any as S.Schema<DeleteAppRequest>;
+).annotate({ identifier: "DeleteAppRequest" }) as any as S.Schema<DeleteAppRequest>;
 
 export interface DeleteAppResponse {}
 export const DeleteAppResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -2769,11 +2570,7 @@ export const DeleteAppCertificateRequest = /*@__PURE__*/ S.suspend(() =>
     app_name: S.String.pipe(T.Label()),
     hostname: S.String.pipe(T.Label()),
   }).pipe(
-    T.Http({
-      method: "DELETE",
-      uri: "/v1/apps/{app_name}/certificates/{hostname}",
-      code: 200,
-    }),
+    T.Http({ method: "DELETE", uri: "/v1/apps/{app_name}/certificates/{hostname}", code: 200 }),
   ),
 ).annotate({
   identifier: "DeleteAppCertificateRequest",
@@ -2857,13 +2654,7 @@ export const DeleteAppIPAssignmentRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     app_name: S.String.pipe(T.Label()),
     ip: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "DELETE",
-      uri: "/v1/apps/{app_name}/ip_assignments/{ip}",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "DELETE", uri: "/v1/apps/{app_name}/ip_assignments/{ip}", code: 200 })),
 ).annotate({
   identifier: "DeleteAppIPAssignmentRequest",
 }) as any as S.Schema<DeleteAppIPAssignmentRequest>;
@@ -2889,15 +2680,9 @@ export const DeleteMachineRequest = /*@__PURE__*/ S.suspend(() =>
     force: S.optional(S.Boolean.pipe(T.Query())),
     lease_nonce: S.optional(S.String.pipe(T.Header("fly-machine-lease-nonce"))),
   }).pipe(
-    T.Http({
-      method: "DELETE",
-      uri: "/v1/apps/{app_name}/machines/{machine_id}",
-      code: 200,
-    }),
+    T.Http({ method: "DELETE", uri: "/v1/apps/{app_name}/machines/{machine_id}", code: 200 }),
   ),
-).annotate({
-  identifier: "DeleteMachineRequest",
-}) as any as S.Schema<DeleteMachineRequest>;
+).annotate({ identifier: "DeleteMachineRequest" }) as any as S.Schema<DeleteMachineRequest>;
 
 export interface DeleteMachineResponse {}
 export const DeleteMachineResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -2940,16 +2725,8 @@ export interface DeletePostgresRequest {
 export const DeletePostgresRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     postgres_cluster_id: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "DELETE",
-      uri: "/v1/postgres/{postgres_cluster_id}",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "DeletePostgresRequest",
-}) as any as S.Schema<DeletePostgresRequest>;
+  }).pipe(T.Http({ method: "DELETE", uri: "/v1/postgres/{postgres_cluster_id}", code: 200 })),
+).annotate({ identifier: "DeletePostgresRequest" }) as any as S.Schema<DeletePostgresRequest>;
 
 export interface DeletePostgresResponse {}
 export const DeletePostgresResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -3042,15 +2819,9 @@ export const DeleteSecretRequest = /*@__PURE__*/ S.suspend(() =>
     app_name: S.String.pipe(T.Label()),
     secret_name: S.String.pipe(T.Label()),
   }).pipe(
-    T.Http({
-      method: "DELETE",
-      uri: "/v1/apps/{app_name}/secrets/{secret_name}",
-      code: 200,
-    }),
+    T.Http({ method: "DELETE", uri: "/v1/apps/{app_name}/secrets/{secret_name}", code: 200 }),
   ),
-).annotate({
-  identifier: "DeleteSecretRequest",
-}) as any as S.Schema<DeleteSecretRequest>;
+).annotate({ identifier: "DeleteSecretRequest" }) as any as S.Schema<DeleteSecretRequest>;
 
 export interface DeleteAppSecretResponse {
   /** DEPRECATED */
@@ -3062,9 +2833,7 @@ export const DeleteAppSecretResponse = /*@__PURE__*/ S.suspend(() =>
     Version: S.optional(S.Number),
     version: S.optional(S.Number),
   }),
-).annotate({
-  identifier: "DeleteAppSecretResponse",
-}) as any as S.Schema<DeleteAppSecretResponse>;
+).annotate({ identifier: "DeleteAppSecretResponse" }) as any as S.Schema<DeleteAppSecretResponse>;
 
 export interface DeleteSecretKeyRequest {
   /** Fly App Name */
@@ -3077,15 +2846,9 @@ export const DeleteSecretKeyRequest = /*@__PURE__*/ S.suspend(() =>
     app_name: S.String.pipe(T.Label()),
     secret_name: S.String.pipe(T.Label()),
   }).pipe(
-    T.Http({
-      method: "DELETE",
-      uri: "/v1/apps/{app_name}/secretkeys/{secret_name}",
-      code: 200,
-    }),
+    T.Http({ method: "DELETE", uri: "/v1/apps/{app_name}/secretkeys/{secret_name}", code: 200 }),
   ),
-).annotate({
-  identifier: "DeleteSecretKeyRequest",
-}) as any as S.Schema<DeleteSecretKeyRequest>;
+).annotate({ identifier: "DeleteSecretKeyRequest" }) as any as S.Schema<DeleteSecretKeyRequest>;
 
 export interface DeleteSecretkeyResponse {
   /** DEPRECATED */
@@ -3097,9 +2860,7 @@ export const DeleteSecretkeyResponse = /*@__PURE__*/ S.suspend(() =>
     Version: S.optional(S.Number),
     version: S.optional(S.Number),
   }),
-).annotate({
-  identifier: "DeleteSecretkeyResponse",
-}) as any as S.Schema<DeleteSecretkeyResponse>;
+).annotate({ identifier: "DeleteSecretkeyResponse" }) as any as S.Schema<DeleteSecretkeyResponse>;
 
 export interface DeleteVolumeRequest {
   /** Fly App Name */
@@ -3111,16 +2872,8 @@ export const DeleteVolumeRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     app_name: S.String.pipe(T.Label()),
     volume_id: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "DELETE",
-      uri: "/v1/apps/{app_name}/volumes/{volume_id}",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "DeleteVolumeRequest",
-}) as any as S.Schema<DeleteVolumeRequest>;
+  }).pipe(T.Http({ method: "DELETE", uri: "/v1/apps/{app_name}/volumes/{volume_id}", code: 200 })),
+).annotate({ identifier: "DeleteVolumeRequest" }) as any as S.Schema<DeleteVolumeRequest>;
 
 export interface DisablePostgresExtensionRequest {
   /** Managed Postgres Cluster ID */
@@ -3188,9 +2941,7 @@ export const EnablePostgresExtensionRequest = /*@__PURE__*/ S.suspend(() =>
 
 export interface EnablePostgresExtensionResponse {}
 export const EnablePostgresExtensionResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate(
-  {
-    identifier: "EnablePostgresExtensionResponse",
-  },
+  { identifier: "EnablePostgresExtensionResponse" },
 ) as any as S.Schema<EnablePostgresExtensionResponse>;
 
 export interface EncryptSecretKeyRequest {
@@ -3217,9 +2968,7 @@ export const EncryptSecretKeyRequest = /*@__PURE__*/ S.suspend(() =>
       code: 200,
     }),
   ),
-).annotate({
-  identifier: "EncryptSecretKeyRequest",
-}) as any as S.Schema<EncryptSecretKeyRequest>;
+).annotate({ identifier: "EncryptSecretKeyRequest" }) as any as S.Schema<EncryptSecretKeyRequest>;
 
 export interface EncryptSecretkeyResponse {
   ciphertext?: string;
@@ -3228,9 +2977,7 @@ export const EncryptSecretkeyResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     ciphertext: S.optional(S.String),
   }),
-).annotate({
-  identifier: "EncryptSecretkeyResponse",
-}) as any as S.Schema<EncryptSecretkeyResponse>;
+).annotate({ identifier: "EncryptSecretkeyResponse" }) as any as S.Schema<EncryptSecretkeyResponse>;
 
 export type ExecMachineRequestCommandList = Array<string>;
 export const ExecMachineRequestCommandList = /*@__PURE__*/ S.Array(
@@ -3262,15 +3009,9 @@ export const ExecMachineRequest = /*@__PURE__*/ S.suspend(() =>
     stdin: S.optional(S.String),
     timeout: S.optional(S.Number),
   }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/v1/apps/{app_name}/machines/{machine_id}/exec",
-      code: 200,
-    }),
+    T.Http({ method: "POST", uri: "/v1/apps/{app_name}/machines/{machine_id}/exec", code: 200 }),
   ),
-).annotate({
-  identifier: "ExecMachineRequest",
-}) as any as S.Schema<ExecMachineRequest>;
+).annotate({ identifier: "ExecMachineRequest" }) as any as S.Schema<ExecMachineRequest>;
 
 export interface Flydv1ExecResponse {
   exit_code?: number;
@@ -3285,9 +3026,7 @@ export const Flydv1ExecResponse = /*@__PURE__*/ S.suspend(() =>
     stderr: S.optional(S.String),
     stdout: S.optional(S.String),
   }),
-).annotate({
-  identifier: "Flydv1ExecResponse",
-}) as any as S.Schema<Flydv1ExecResponse>;
+).annotate({ identifier: "Flydv1ExecResponse" }) as any as S.Schema<Flydv1ExecResponse>;
 
 export interface ExtendVolumeRequest {
   /** Fly App Name */
@@ -3302,15 +3041,9 @@ export const ExtendVolumeRequest = /*@__PURE__*/ S.suspend(() =>
     volume_id: S.String.pipe(T.Label()),
     size_gb: S.optional(S.Number),
   }).pipe(
-    T.Http({
-      method: "PUT",
-      uri: "/v1/apps/{app_name}/volumes/{volume_id}/extend",
-      code: 200,
-    }),
+    T.Http({ method: "PUT", uri: "/v1/apps/{app_name}/volumes/{volume_id}/extend", code: 200 }),
   ),
-).annotate({
-  identifier: "ExtendVolumeRequest",
-}) as any as S.Schema<ExtendVolumeRequest>;
+).annotate({ identifier: "ExtendVolumeRequest" }) as any as S.Schema<ExtendVolumeRequest>;
 
 export interface ExtendVolumeResponse {
   needs_restart?: boolean;
@@ -3321,9 +3054,7 @@ export const ExtendVolumeResponse = /*@__PURE__*/ S.suspend(() =>
     needs_restart: S.optional(S.Boolean),
     volume: S.optional(Volume),
   }),
-).annotate({
-  identifier: "ExtendVolumeResponse",
-}) as any as S.Schema<ExtendVolumeResponse>;
+).annotate({ identifier: "ExtendVolumeResponse" }) as any as S.Schema<ExtendVolumeResponse>;
 
 export interface ForkPostgresRequest {
   /** Managed Postgres Cluster ID */
@@ -3335,16 +3066,8 @@ export const ForkPostgresRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     postgres_cluster_id: S.String.pipe(T.Label()),
     name: S.optional(S.String),
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/v1/postgres/{postgres_cluster_id}/fork",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "ForkPostgresRequest",
-}) as any as S.Schema<ForkPostgresRequest>;
+  }).pipe(T.Http({ method: "POST", uri: "/v1/postgres/{postgres_cluster_id}/fork", code: 200 })),
+).annotate({ identifier: "ForkPostgresRequest" }) as any as S.Schema<ForkPostgresRequest>;
 
 export type GenerateSecretKeyRequestValueList = Array<number>;
 export const GenerateSecretKeyRequestValueList = /*@__PURE__*/ S.Array(
@@ -3372,9 +3095,7 @@ export const GenerateSecretKeyRequest = /*@__PURE__*/ S.suspend(() =>
       code: 200,
     }),
   ),
-).annotate({
-  identifier: "GenerateSecretKeyRequest",
-}) as any as S.Schema<GenerateSecretKeyRequest>;
+).annotate({ identifier: "GenerateSecretKeyRequest" }) as any as S.Schema<GenerateSecretKeyRequest>;
 
 export interface SetSecretkeyResponse {
   /** DEPRECATED */
@@ -3396,9 +3117,7 @@ export const SetSecretkeyResponse = /*@__PURE__*/ S.suspend(() =>
     updated_at: S.optional(S.String),
     version: S.optional(S.Number),
   }),
-).annotate({
-  identifier: "SetSecretkeyResponse",
-}) as any as S.Schema<SetSecretkeyResponse>;
+).annotate({ identifier: "SetSecretkeyResponse" }) as any as S.Schema<SetSecretkeyResponse>;
 
 export interface GetAppRequest {
   /** Fly App Name */
@@ -3421,9 +3140,7 @@ export const AppOrganizationInfo = /*@__PURE__*/ S.suspend(() =>
     name: S.optional(S.String),
     slug: S.optional(S.String),
   }),
-).annotate({
-  identifier: "AppOrganizationInfo",
-}) as any as S.Schema<AppOrganizationInfo>;
+).annotate({ identifier: "AppOrganizationInfo" }) as any as S.Schema<AppOrganizationInfo>;
 
 export interface App {
   id?: string;
@@ -3460,23 +3177,13 @@ export const GetAppCertificateRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     app_name: S.String.pipe(T.Label()),
     hostname: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/v1/apps/{app_name}/certificates/{hostname}",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "GetAppCertificateRequest",
-}) as any as S.Schema<GetAppCertificateRequest>;
+  }).pipe(T.Http({ method: "GET", uri: "/v1/apps/{app_name}/certificates/{hostname}", code: 200 })),
+).annotate({ identifier: "GetAppCertificateRequest" }) as any as S.Schema<GetAppCertificateRequest>;
 
 export interface GetCurrentTokenRequest {}
 export const GetCurrentTokenRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({}).pipe(T.Http({ method: "GET", uri: "/v1/tokens/current", code: 200 })),
-).annotate({
-  identifier: "GetCurrentTokenRequest",
-}) as any as S.Schema<GetCurrentTokenRequest>;
+).annotate({ identifier: "GetCurrentTokenRequest" }) as any as S.Schema<GetCurrentTokenRequest>;
 
 export type MainTokenInfoAppsList = Array<string>;
 export const MainTokenInfoAppsList = /*@__PURE__*/ S.Array(
@@ -3519,9 +3226,7 @@ export const CurrentTokenResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     tokens: S.optional(CurrentTokenResponseTokensList),
   }),
-).annotate({
-  identifier: "CurrentTokenResponse",
-}) as any as S.Schema<CurrentTokenResponse>;
+).annotate({ identifier: "CurrentTokenResponse" }) as any as S.Schema<CurrentTokenResponse>;
 
 export interface GetMachineRequest {
   /** Fly App Name */
@@ -3539,16 +3244,8 @@ export const GetMachineRequest = /*@__PURE__*/ S.suspend(() =>
     machine_id: S.String.pipe(T.Label()),
     version: S.optional(S.String.pipe(T.Query())),
     include_leases: S.optional(S.Boolean.pipe(T.Query())),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/v1/apps/{app_name}/machines/{machine_id}",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "GetMachineRequest",
-}) as any as S.Schema<GetMachineRequest>;
+  }).pipe(T.Http({ method: "GET", uri: "/v1/apps/{app_name}/machines/{machine_id}", code: 200 })),
+).annotate({ identifier: "GetMachineRequest" }) as any as S.Schema<GetMachineRequest>;
 
 export interface GetMachineLeaseRequest {
   /** Fly App Name */
@@ -3561,15 +3258,9 @@ export const GetMachineLeaseRequest = /*@__PURE__*/ S.suspend(() =>
     app_name: S.String.pipe(T.Label()),
     machine_id: S.String.pipe(T.Label()),
   }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/v1/apps/{app_name}/machines/{machine_id}/lease",
-      code: 200,
-    }),
+    T.Http({ method: "GET", uri: "/v1/apps/{app_name}/machines/{machine_id}/lease", code: 200 }),
   ),
-).annotate({
-  identifier: "GetMachineLeaseRequest",
-}) as any as S.Schema<GetMachineLeaseRequest>;
+).annotate({ identifier: "GetMachineLeaseRequest" }) as any as S.Schema<GetMachineLeaseRequest>;
 
 export interface GetMachineMemoryRequest {
   /** Fly App Name */
@@ -3582,15 +3273,9 @@ export const GetMachineMemoryRequest = /*@__PURE__*/ S.suspend(() =>
     app_name: S.String.pipe(T.Label()),
     machine_id: S.String.pipe(T.Label()),
   }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/v1/apps/{app_name}/machines/{machine_id}/memory",
-      code: 200,
-    }),
+    T.Http({ method: "GET", uri: "/v1/apps/{app_name}/machines/{machine_id}/memory", code: 200 }),
   ),
-).annotate({
-  identifier: "GetMachineMemoryRequest",
-}) as any as S.Schema<GetMachineMemoryRequest>;
+).annotate({ identifier: "GetMachineMemoryRequest" }) as any as S.Schema<GetMachineMemoryRequest>;
 
 export interface MainMemoryResponse {
   available_mb?: number;
@@ -3601,9 +3286,7 @@ export const MainMemoryResponse = /*@__PURE__*/ S.suspend(() =>
     available_mb: S.optional(S.Number),
     limit_mb: S.optional(S.Number),
   }),
-).annotate({
-  identifier: "MainMemoryResponse",
-}) as any as S.Schema<MainMemoryResponse>;
+).annotate({ identifier: "MainMemoryResponse" }) as any as S.Schema<MainMemoryResponse>;
 
 export interface GetMachineMetadataRequest {
   /** Fly App Name */
@@ -3616,19 +3299,13 @@ export const GetMachineMetadataRequest = /*@__PURE__*/ S.suspend(() =>
     app_name: S.String.pipe(T.Label()),
     machine_id: S.String.pipe(T.Label()),
   }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/v1/apps/{app_name}/machines/{machine_id}/metadata",
-      code: 200,
-    }),
+    T.Http({ method: "GET", uri: "/v1/apps/{app_name}/machines/{machine_id}/metadata", code: 200 }),
   ),
 ).annotate({
   identifier: "GetMachineMetadataRequest",
 }) as any as S.Schema<GetMachineMetadataRequest>;
 
-export type GetMachineMetadataResponseBodyMap = {
-  [key: string]: string | undefined;
-};
+export type GetMachineMetadataResponseBodyMap = { [key: string]: string | undefined };
 export const GetMachineMetadataResponseBodyMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -3672,9 +3349,7 @@ export const MetadataValueResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     value: S.optional(S.String),
   }),
-).annotate({
-  identifier: "MetadataValueResponse",
-}) as any as S.Schema<MetadataValueResponse>;
+).annotate({ identifier: "MetadataValueResponse" }) as any as S.Schema<MetadataValueResponse>;
 
 export type PlacementWeights = { [key: string]: number | undefined };
 export const PlacementWeights = /*@__PURE__*/ S.Record(
@@ -3705,9 +3380,7 @@ export const GetPlacementsRequest = /*@__PURE__*/ S.suspend(() =>
     volume_size_bytes: S.optional(S.Number),
     weights: S.optional(PlacementWeights),
   }).pipe(T.Http({ method: "POST", uri: "/v1/platform/placements", code: 200 })),
-).annotate({
-  identifier: "GetPlacementsRequest",
-}) as any as S.Schema<GetPlacementsRequest>;
+).annotate({ identifier: "GetPlacementsRequest" }) as any as S.Schema<GetPlacementsRequest>;
 
 export interface PlacementRegionPlacement {
   concurrency?: number;
@@ -3720,9 +3393,7 @@ export const PlacementRegionPlacement = /*@__PURE__*/ S.suspend(() =>
     count: S.optional(S.Number),
     region: S.optional(S.String),
   }),
-).annotate({
-  identifier: "PlacementRegionPlacement",
-}) as any as S.Schema<PlacementRegionPlacement>;
+).annotate({ identifier: "PlacementRegionPlacement" }) as any as S.Schema<PlacementRegionPlacement>;
 
 export type MainGetPlacementsResponseRegionsList = Array<PlacementRegionPlacement>;
 export const MainGetPlacementsResponseRegionsList = /*@__PURE__*/ S.Array(
@@ -3747,23 +3418,13 @@ export interface GetPostgresRequest {
 export const GetPostgresRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     postgres_cluster_id: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/v1/postgres/{postgres_cluster_id}",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "GetPostgresRequest",
-}) as any as S.Schema<GetPostgresRequest>;
+  }).pipe(T.Http({ method: "GET", uri: "/v1/postgres/{postgres_cluster_id}", code: 200 })),
+).annotate({ identifier: "GetPostgresRequest" }) as any as S.Schema<GetPostgresRequest>;
 
 export interface GetRegionsRequest {}
 export const GetRegionsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({}).pipe(T.Http({ method: "GET", uri: "/v1/platform/regions", code: 200 })),
-).annotate({
-  identifier: "GetRegionsRequest",
-}) as any as S.Schema<GetRegionsRequest>;
+).annotate({ identifier: "GetRegionsRequest" }) as any as S.Schema<GetRegionsRequest>;
 
 export interface MainRegionRow {
   code?: string;
@@ -3804,9 +3465,7 @@ export const MainRegionResponse = /*@__PURE__*/ S.suspend(() =>
     nearest: S.optional(S.String),
     regions: S.optional(MainRegionResponseRegionsList),
   }),
-).annotate({
-  identifier: "MainRegionResponse",
-}) as any as S.Schema<MainRegionResponse>;
+).annotate({ identifier: "MainRegionResponse" }) as any as S.Schema<MainRegionResponse>;
 
 export interface GetSecretRequest {
   /** Fly App Name */
@@ -3824,16 +3483,8 @@ export const GetSecretRequest = /*@__PURE__*/ S.suspend(() =>
     secret_name: S.String.pipe(T.Label()),
     min_version: S.optional(S.String.pipe(T.Query())),
     show_secrets: S.optional(S.Boolean.pipe(T.Query())),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/v1/apps/{app_name}/secrets/{secret_name}",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "GetSecretRequest",
-}) as any as S.Schema<GetSecretRequest>;
+  }).pipe(T.Http({ method: "GET", uri: "/v1/apps/{app_name}/secrets/{secret_name}", code: 200 })),
+).annotate({ identifier: "GetSecretRequest" }) as any as S.Schema<GetSecretRequest>;
 
 export interface AppSecret {
   created_at?: string;
@@ -3866,15 +3517,9 @@ export const GetSecretKeyRequest = /*@__PURE__*/ S.suspend(() =>
     secret_name: S.String.pipe(T.Label()),
     min_version: S.optional(S.String.pipe(T.Query())),
   }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/v1/apps/{app_name}/secretkeys/{secret_name}",
-      code: 200,
-    }),
+    T.Http({ method: "GET", uri: "/v1/apps/{app_name}/secretkeys/{secret_name}", code: 200 }),
   ),
-).annotate({
-  identifier: "GetSecretKeyRequest",
-}) as any as S.Schema<GetSecretKeyRequest>;
+).annotate({ identifier: "GetSecretKeyRequest" }) as any as S.Schema<GetSecretKeyRequest>;
 
 export interface SecretKey {
   created_at?: string;
@@ -3903,16 +3548,8 @@ export const GetVolumeByIdRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     app_name: S.String.pipe(T.Label()),
     volume_id: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/v1/apps/{app_name}/volumes/{volume_id}",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "GetVolumeByIdRequest",
-}) as any as S.Schema<GetVolumeByIdRequest>;
+  }).pipe(T.Http({ method: "GET", uri: "/v1/apps/{app_name}/volumes/{volume_id}", code: 200 })),
+).annotate({ identifier: "GetVolumeByIdRequest" }) as any as S.Schema<GetVolumeByIdRequest>;
 
 export interface ListAppCertificatesRequest {
   /** Fly App Name */
@@ -3930,13 +3567,7 @@ export const ListAppCertificatesRequest = /*@__PURE__*/ S.suspend(() =>
     filter: S.optional(S.String.pipe(T.Query())),
     cursor: S.optional(S.String.pipe(T.Query())),
     limit: S.optional(S.Number.pipe(T.Query())),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/v1/apps/{app_name}/certificates",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/v1/apps/{app_name}/certificates", code: 200 })),
 ).annotate({
   identifier: "ListAppCertificatesRequest",
 }) as any as S.Schema<ListAppCertificatesRequest>;
@@ -3972,9 +3603,7 @@ export const CertificateSummary = /*@__PURE__*/ S.suspend(() =>
     status: S.optional(S.String),
     updated_at: S.optional(S.String),
   }),
-).annotate({
-  identifier: "CertificateSummary",
-}) as any as S.Schema<CertificateSummary>;
+).annotate({ identifier: "CertificateSummary" }) as any as S.Schema<CertificateSummary>;
 
 export type ListCertificatesResponseCertificatesList = Array<CertificateSummary>;
 export const ListCertificatesResponseCertificatesList = /*@__PURE__*/ S.Array(
@@ -3992,9 +3621,7 @@ export const ListCertificatesResponse = /*@__PURE__*/ S.suspend(() =>
     next_cursor: S.optional(S.String),
     total_count: S.optional(S.Number),
   }),
-).annotate({
-  identifier: "ListCertificatesResponse",
-}) as any as S.Schema<ListCertificatesResponse>;
+).annotate({ identifier: "ListCertificatesResponse" }) as any as S.Schema<ListCertificatesResponse>;
 
 export interface ListAppIPAssignmentsRequest {
   /** Fly App Name */
@@ -4003,13 +3630,7 @@ export interface ListAppIPAssignmentsRequest {
 export const ListAppIPAssignmentsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     app_name: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/v1/apps/{app_name}/ip_assignments",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/v1/apps/{app_name}/ip_assignments", code: 200 })),
 ).annotate({
   identifier: "ListAppIPAssignmentsRequest",
 }) as any as S.Schema<ListAppIPAssignmentsRequest>;
@@ -4064,9 +3685,7 @@ export const ListAppsRequest = /*@__PURE__*/ S.suspend(() =>
     org_slug: S.String.pipe(T.Query()),
     app_role: S.optional(S.String.pipe(T.Query())),
   }).pipe(T.Http({ method: "GET", uri: "/v1/apps", code: 200 })),
-).annotate({
-  identifier: "ListAppsRequest",
-}) as any as S.Schema<ListAppsRequest>;
+).annotate({ identifier: "ListAppsRequest" }) as any as S.Schema<ListAppsRequest>;
 
 export type ListAppsResponseAppsList = Array<App>;
 export const ListAppsResponseAppsList = /*@__PURE__*/ S.Array(
@@ -4082,9 +3701,7 @@ export const ListAppsResponse = /*@__PURE__*/ S.suspend(() =>
     apps: S.optional(ListAppsResponseAppsList),
     total_apps: S.optional(S.Number),
   }),
-).annotate({
-  identifier: "ListAppsResponse",
-}) as any as S.Schema<ListAppsResponse>;
+).annotate({ identifier: "ListAppsResponse" }) as any as S.Schema<ListAppsResponse>;
 
 export interface ListMachineEventsRequest {
   /** Fly App Name */
@@ -4100,15 +3717,9 @@ export const ListMachineEventsRequest = /*@__PURE__*/ S.suspend(() =>
     machine_id: S.String.pipe(T.Label()),
     limit: S.optional(S.Number.pipe(T.Query())),
   }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/v1/apps/{app_name}/machines/{machine_id}/events",
-      code: 200,
-    }),
+    T.Http({ method: "GET", uri: "/v1/apps/{app_name}/machines/{machine_id}/events", code: 200 }),
   ),
-).annotate({
-  identifier: "ListMachineEventsRequest",
-}) as any as S.Schema<ListMachineEventsRequest>;
+).annotate({ identifier: "ListMachineEventsRequest" }) as any as S.Schema<ListMachineEventsRequest>;
 
 export type ListMachineEventsResponseBodyList = Array<MachineEvent>;
 export const ListMachineEventsResponseBodyList = /*@__PURE__*/ S.Array(
@@ -4139,11 +3750,7 @@ export const ListMachineProcessesRequest = /*@__PURE__*/ S.suspend(() =>
     sort_by: S.optional(S.String.pipe(T.Query())),
     order: S.optional(S.String.pipe(T.Query())),
   }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/v1/apps/{app_name}/machines/{machine_id}/ps",
-      code: 200,
-    }),
+    T.Http({ method: "GET", uri: "/v1/apps/{app_name}/machines/{machine_id}/ps", code: 200 }),
   ),
 ).annotate({
   identifier: "ListMachineProcessesRequest",
@@ -4232,9 +3839,7 @@ export const ListMachinesRequest = /*@__PURE__*/ S.suspend(() =>
     cursor: S.optional(S.String.pipe(T.Query())),
     limit: S.optional(S.Number.pipe(T.Query())),
   }).pipe(T.Http({ method: "GET", uri: "/v1/apps/{app_name}/machines", code: 200 })),
-).annotate({
-  identifier: "ListMachinesRequest",
-}) as any as S.Schema<ListMachinesRequest>;
+).annotate({ identifier: "ListMachinesRequest" }) as any as S.Schema<ListMachinesRequest>;
 
 export type ListMachinesResponseBodyList = Array<Machine>;
 export const ListMachinesResponseBodyList = /*@__PURE__*/ S.Array(
@@ -4244,9 +3849,7 @@ export const ListMachinesResponseBodyList = /*@__PURE__*/ S.Array(
 export type ListMachinesResponse = ListMachinesResponseBodyList;
 export const ListMachinesResponse = /*@__PURE__*/ S.suspend(() =>
   ListMachinesResponseBodyList.pipe(T.RawResponseRoot()),
-).annotate({
-  identifier: "ListMachinesResponse",
-}) as any as S.Schema<ListMachinesResponse>;
+).annotate({ identifier: "ListMachinesResponse" }) as any as S.Schema<ListMachinesResponse>;
 
 export interface ListMachinesOrgRequest {
   /** Fly Organization Slug */
@@ -4277,18 +3880,14 @@ export const ListMachinesOrgRequest = /*@__PURE__*/ S.suspend(() =>
     cursor: S.optional(S.String.pipe(T.Query())),
     limit: S.optional(S.Number.pipe(T.Query())),
   }).pipe(T.Http({ method: "GET", uri: "/v1/orgs/{org_slug}/machines", code: 200 })),
-).annotate({
-  identifier: "ListMachinesOrgRequest",
-}) as any as S.Schema<ListMachinesOrgRequest>;
+).annotate({ identifier: "ListMachinesOrgRequest" }) as any as S.Schema<ListMachinesOrgRequest>;
 
 export type OrgMachinesResponseErrorRegionsList = Array<string>;
 export const OrgMachinesResponseErrorRegionsList = /*@__PURE__*/ S.Array(
   S.String,
 ) as any as S.Schema<OrgMachinesResponseErrorRegionsList>;
 
-export type MachineOverviewConfigMetadataMap = {
-  [key: string]: string | undefined;
-};
+export type MachineOverviewConfigMetadataMap = { [key: string]: string | undefined };
 export const MachineOverviewConfigMetadataMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -4305,9 +3904,7 @@ export const MachineOverviewConfig = /*@__PURE__*/ S.suspend(() =>
     image: S.optional(S.String),
     metadata: S.optional(MachineOverviewConfigMetadataMap),
   }),
-).annotate({
-  identifier: "MachineOverviewConfig",
-}) as any as S.Schema<MachineOverviewConfig>;
+).annotate({ identifier: "MachineOverviewConfig" }) as any as S.Schema<MachineOverviewConfig>;
 
 export interface OrgMachine {
   app_name?: string;
@@ -4356,9 +3953,7 @@ export const OrgMachinesResponse = /*@__PURE__*/ S.suspend(() =>
     machines: S.optional(OrgMachinesResponseMachinesList),
     next_cursor: S.optional(S.String),
   }),
-).annotate({
-  identifier: "OrgMachinesResponse",
-}) as any as S.Schema<OrgMachinesResponse>;
+).annotate({ identifier: "OrgMachinesResponse" }) as any as S.Schema<OrgMachinesResponse>;
 
 export interface ListMachineVersionsRequest {
   /** Fly App Name */
@@ -4371,11 +3966,7 @@ export const ListMachineVersionsRequest = /*@__PURE__*/ S.suspend(() =>
     app_name: S.String.pipe(T.Label()),
     machine_id: S.String.pipe(T.Label()),
   }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/v1/apps/{app_name}/machines/{machine_id}/versions",
-      code: 200,
-    }),
+    T.Http({ method: "GET", uri: "/v1/apps/{app_name}/machines/{machine_id}/versions", code: 200 }),
   ),
 ).annotate({
   identifier: "ListMachineVersionsRequest",
@@ -4415,9 +4006,7 @@ export const ListPostgresRequest = /*@__PURE__*/ S.suspend(() =>
     org_slug: S.String.pipe(T.Query()),
     include_deleted: S.optional(S.Boolean.pipe(T.Query())),
   }).pipe(T.Http({ method: "GET", uri: "/v1/postgres", code: 200 })),
-).annotate({
-  identifier: "ListPostgresRequest",
-}) as any as S.Schema<ListPostgresRequest>;
+).annotate({ identifier: "ListPostgresRequest" }) as any as S.Schema<ListPostgresRequest>;
 
 /** Apps attached to the cluster. */
 export type PostgresClusterSummaryAttachedAppsList = Array<PostgresAttachedApp>;
@@ -4468,9 +4057,7 @@ export const PostgresClusterSummary = /*@__PURE__*/ S.suspend(() =>
     region: S.optional(S.String),
     status: S.optional(PostgresClusterSummaryStatus),
   }),
-).annotate({
-  identifier: "PostgresClusterSummary",
-}) as any as S.Schema<PostgresClusterSummary>;
+).annotate({ identifier: "PostgresClusterSummary" }) as any as S.Schema<PostgresClusterSummary>;
 
 export type ListPostgresClustersResponseDataList = Array<PostgresClusterSummary>;
 export const ListPostgresClustersResponseDataList = /*@__PURE__*/ S.Array(
@@ -4495,13 +4082,7 @@ export interface ListPostgresBackupsRequest {
 export const ListPostgresBackupsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     postgres_cluster_id: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/v1/postgres/{postgres_cluster_id}/backups",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/v1/postgres/{postgres_cluster_id}/backups", code: 200 })),
 ).annotate({
   identifier: "ListPostgresBackupsRequest",
 }) as any as S.Schema<ListPostgresBackupsRequest>;
@@ -4559,11 +4140,7 @@ export const ListPostgresDatabasesRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     postgres_cluster_id: S.String.pipe(T.Label()),
   }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/v1/postgres/{postgres_cluster_id}/databases",
-      code: 200,
-    }),
+    T.Http({ method: "GET", uri: "/v1/postgres/{postgres_cluster_id}/databases", code: 200 }),
   ),
 ).annotate({
   identifier: "ListPostgresDatabasesRequest",
@@ -4642,9 +4219,7 @@ export const PostgresExtension = /*@__PURE__*/ S.suspend(() =>
     name: S.optional(S.String),
     system: S.optional(S.Boolean),
   }),
-).annotate({
-  identifier: "PostgresExtension",
-}) as any as S.Schema<PostgresExtension>;
+).annotate({ identifier: "PostgresExtension" }) as any as S.Schema<PostgresExtension>;
 
 export type ListPostgresExtensionsResponseDataList = Array<PostgresExtension>;
 export const ListPostgresExtensionsResponseDataList = /*@__PURE__*/ S.Array(
@@ -4669,16 +4244,8 @@ export interface ListPostgresUsersRequest {
 export const ListPostgresUsersRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     postgres_cluster_id: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/v1/postgres/{postgres_cluster_id}/users",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "ListPostgresUsersRequest",
-}) as any as S.Schema<ListPostgresUsersRequest>;
+  }).pipe(T.Http({ method: "GET", uri: "/v1/postgres/{postgres_cluster_id}/users", code: 200 })),
+).annotate({ identifier: "ListPostgresUsersRequest" }) as any as S.Schema<ListPostgresUsersRequest>;
 
 export type ListPostgresUsersResponseDataList = Array<PostgresUser>;
 export const ListPostgresUsersResponseDataList = /*@__PURE__*/ S.Array(
@@ -4710,9 +4277,7 @@ export const ListSecretKeysRequest = /*@__PURE__*/ S.suspend(() =>
     min_version: S.optional(S.String.pipe(T.Query())),
     types: S.optional(S.String.pipe(T.Query())),
   }).pipe(T.Http({ method: "GET", uri: "/v1/apps/{app_name}/secretkeys", code: 200 })),
-).annotate({
-  identifier: "ListSecretKeysRequest",
-}) as any as S.Schema<ListSecretKeysRequest>;
+).annotate({ identifier: "ListSecretKeysRequest" }) as any as S.Schema<ListSecretKeysRequest>;
 
 export type SecretKeysSecretKeysList = Array<SecretKey>;
 export const SecretKeysSecretKeysList = /*@__PURE__*/ S.Array(
@@ -4742,9 +4307,7 @@ export const ListSecretsRequest = /*@__PURE__*/ S.suspend(() =>
     min_version: S.optional(S.String.pipe(T.Query())),
     show_secrets: S.optional(S.Boolean.pipe(T.Query())),
   }).pipe(T.Http({ method: "GET", uri: "/v1/apps/{app_name}/secrets", code: 200 })),
-).annotate({
-  identifier: "ListSecretsRequest",
-}) as any as S.Schema<ListSecretsRequest>;
+).annotate({ identifier: "ListSecretsRequest" }) as any as S.Schema<ListSecretsRequest>;
 
 export type AppSecretsSecretsList = Array<AppSecret>;
 export const AppSecretsSecretsList = /*@__PURE__*/ S.Array(
@@ -4771,9 +4334,7 @@ export const ListVolumesRequest = /*@__PURE__*/ S.suspend(() =>
     app_name: S.String.pipe(T.Label()),
     summary: S.optional(S.Boolean.pipe(T.Query())),
   }).pipe(T.Http({ method: "GET", uri: "/v1/apps/{app_name}/volumes", code: 200 })),
-).annotate({
-  identifier: "ListVolumesRequest",
-}) as any as S.Schema<ListVolumesRequest>;
+).annotate({ identifier: "ListVolumesRequest" }) as any as S.Schema<ListVolumesRequest>;
 
 export type ListVolumesResponseBodyList = Array<Volume>;
 export const ListVolumesResponseBodyList = /*@__PURE__*/ S.Array(
@@ -4783,9 +4344,7 @@ export const ListVolumesResponseBodyList = /*@__PURE__*/ S.Array(
 export type ListVolumesResponse = ListVolumesResponseBodyList;
 export const ListVolumesResponse = /*@__PURE__*/ S.suspend(() =>
   ListVolumesResponseBodyList.pipe(T.RawResponseRoot()),
-).annotate({
-  identifier: "ListVolumesResponse",
-}) as any as S.Schema<ListVolumesResponse>;
+).annotate({ identifier: "ListVolumesResponse" }) as any as S.Schema<ListVolumesResponse>;
 
 export interface ListVolumeSnapshotsRequest {
   /** Fly App Name */
@@ -4798,11 +4357,7 @@ export const ListVolumeSnapshotsRequest = /*@__PURE__*/ S.suspend(() =>
     app_name: S.String.pipe(T.Label()),
     volume_id: S.String.pipe(T.Label()),
   }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/v1/apps/{app_name}/volumes/{volume_id}/snapshots",
-      code: 200,
-    }),
+    T.Http({ method: "GET", uri: "/v1/apps/{app_name}/volumes/{volume_id}/snapshots", code: 200 }),
   ),
 ).annotate({
   identifier: "ListVolumeSnapshotsRequest",
@@ -4870,9 +4425,7 @@ export const ListVolumesOrgRequest = /*@__PURE__*/ S.suspend(() =>
     cursor: S.optional(S.String.pipe(T.Query())),
     limit: S.optional(S.Number.pipe(T.Query())),
   }).pipe(T.Http({ method: "GET", uri: "/v1/orgs/{org_slug}/volumes", code: 200 })),
-).annotate({
-  identifier: "ListVolumesOrgRequest",
-}) as any as S.Schema<ListVolumesOrgRequest>;
+).annotate({ identifier: "ListVolumesOrgRequest" }) as any as S.Schema<ListVolumesOrgRequest>;
 
 export type OrgVolumeHostFeaturesList = Array<string>;
 export const OrgVolumeHostFeaturesList = /*@__PURE__*/ S.Array(
@@ -4965,9 +4518,7 @@ export const OrgVolumesResponse = /*@__PURE__*/ S.suspend(() =>
     next_cursor: S.optional(S.String),
     volumes: S.optional(OrgVolumesResponseVolumesList),
   }),
-).annotate({
-  identifier: "OrgVolumesResponse",
-}) as any as S.Schema<OrgVolumesResponse>;
+).annotate({ identifier: "OrgVolumesResponse" }) as any as S.Schema<OrgVolumesResponse>;
 
 export interface MachinesReleaseLeaseRequest {
   /** Fly App Name */
@@ -4983,11 +4534,7 @@ export const MachinesReleaseLeaseRequest = /*@__PURE__*/ S.suspend(() =>
     machine_id: S.String.pipe(T.Label()),
     lease_nonce: S.String.pipe(T.Header("fly-machine-lease-nonce")),
   }).pipe(
-    T.Http({
-      method: "DELETE",
-      uri: "/v1/apps/{app_name}/machines/{machine_id}/lease",
-      code: 200,
-    }),
+    T.Http({ method: "DELETE", uri: "/v1/apps/{app_name}/machines/{machine_id}/lease", code: 200 }),
   ),
 ).annotate({
   identifier: "MachinesReleaseLeaseRequest",
@@ -4998,9 +4545,7 @@ export const MachinesReleaseLeaseResponse = /*@__PURE__*/ S.suspend(() => S.Stru
   identifier: "MachinesReleaseLeaseResponse",
 }) as any as S.Schema<MachinesReleaseLeaseResponse>;
 
-export type PatchMachineMetadataRequestMetadataMap = {
-  [key: string]: string | undefined;
-};
+export type PatchMachineMetadataRequestMetadataMap = { [key: string]: string | undefined };
 export const PatchMachineMetadataRequestMetadataMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -5049,11 +4594,7 @@ export const PostgresQueriesActiveRequest = /*@__PURE__*/ S.suspend(() =>
     postgres_cluster_id: S.String.pipe(T.Label()),
     database: S.String.pipe(T.Query()),
   }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/v1/postgres/{postgres_cluster_id}/queries/active",
-      code: 200,
-    }),
+    T.Http({ method: "GET", uri: "/v1/postgres/{postgres_cluster_id}/queries/active", code: 200 }),
   ),
 ).annotate({
   identifier: "PostgresQueriesActiveRequest",
@@ -5097,9 +4638,7 @@ export const PostgresActiveQuery = /*@__PURE__*/ S.suspend(() =>
     wait_event: S.optional(S.String),
     wait_event_type: S.optional(S.String),
   }),
-).annotate({
-  identifier: "PostgresActiveQuery",
-}) as any as S.Schema<PostgresActiveQuery>;
+).annotate({ identifier: "PostgresActiveQuery" }) as any as S.Schema<PostgresActiveQuery>;
 
 export type ListPostgresActiveQueriesResponseDataList = Array<PostgresActiveQuery>;
 export const ListPostgresActiveQueriesResponseDataList = /*@__PURE__*/ S.Array(
@@ -5128,11 +4667,7 @@ export const PostgresQueriesSlowRequest = /*@__PURE__*/ S.suspend(() =>
     postgres_cluster_id: S.String.pipe(T.Label()),
     range: S.optional(S.Number.pipe(T.Query())),
   }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/v1/postgres/{postgres_cluster_id}/queries/slow",
-      code: 200,
-    }),
+    T.Http({ method: "GET", uri: "/v1/postgres/{postgres_cluster_id}/queries/slow", code: 200 }),
   ),
 ).annotate({
   identifier: "PostgresQueriesSlowRequest",
@@ -5167,9 +4702,7 @@ export const PostgresSlowQuery = /*@__PURE__*/ S.suspend(() =>
     total_exec_time_seconds: S.optional(S.Number),
     user: S.optional(S.String),
   }),
-).annotate({
-  identifier: "PostgresSlowQuery",
-}) as any as S.Schema<PostgresSlowQuery>;
+).annotate({ identifier: "PostgresSlowQuery" }) as any as S.Schema<PostgresSlowQuery>;
 
 export type ListPostgresSlowQueriesResponseDataList = Array<PostgresSlowQuery>;
 export const ListPostgresSlowQueriesResponseDataList = /*@__PURE__*/ S.Array(
@@ -5219,9 +4752,7 @@ export const PostgresUserCredentials = /*@__PURE__*/ S.suspend(() =>
     password: S.optional(S.String.pipe(T.SensitiveValue({}))),
     username: S.optional(S.String),
   }),
-).annotate({
-  identifier: "PostgresUserCredentials",
-}) as any as S.Schema<PostgresUserCredentials>;
+).annotate({ identifier: "PostgresUserCredentials" }) as any as S.Schema<PostgresUserCredentials>;
 
 export interface GetPostgresUserCredentialsResponse {
   data?: PostgresUserCredentials;
@@ -5271,9 +4802,7 @@ export const MainReclaimMemoryResponse = /*@__PURE__*/ S.suspend(() =>
 export interface RequestKmsTokenRequest {}
 export const RequestKmsTokenRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({}).pipe(T.Http({ method: "POST", uri: "/v1/tokens/kms", code: 200 })),
-).annotate({
-  identifier: "RequestKmsTokenRequest",
-}) as any as S.Schema<RequestKmsTokenRequest>;
+).annotate({ identifier: "RequestKmsTokenRequest" }) as any as S.Schema<RequestKmsTokenRequest>;
 
 export interface RequestKmsTokenResponse {}
 export const RequestKmsTokenResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -5289,9 +4818,7 @@ export const RequestOidcTokenRequest = /*@__PURE__*/ S.suspend(() =>
     aud: S.optional(S.String),
     aws_principal_tags: S.optional(S.Boolean),
   }).pipe(T.Http({ method: "POST", uri: "/v1/tokens/oidc", code: 200 })),
-).annotate({
-  identifier: "RequestOidcTokenRequest",
-}) as any as S.Schema<RequestOidcTokenRequest>;
+).annotate({ identifier: "RequestOidcTokenRequest" }) as any as S.Schema<RequestOidcTokenRequest>;
 
 export interface RequestOidcTokenResponse {}
 export const RequestOidcTokenResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -5327,15 +4854,9 @@ export const RestartMachineRequest = /*@__PURE__*/ S.suspend(() =>
     signal: S.optional(RestartMachineRequestSignal.pipe(T.Query())),
     lease_nonce: S.optional(S.String.pipe(T.Header("fly-machine-lease-nonce"))),
   }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/v1/apps/{app_name}/machines/{machine_id}/restart",
-      code: 200,
-    }),
+    T.Http({ method: "POST", uri: "/v1/apps/{app_name}/machines/{machine_id}/restart", code: 200 }),
   ),
-).annotate({
-  identifier: "RestartMachineRequest",
-}) as any as S.Schema<RestartMachineRequest>;
+).annotate({ identifier: "RestartMachineRequest" }) as any as S.Schema<RestartMachineRequest>;
 
 export interface RestartMachineResponse {}
 export const RestartMachineResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -5358,16 +4879,8 @@ export const RestorePostgresRequest = /*@__PURE__*/ S.suspend(() =>
     backup_id: S.optional(S.String),
     name: S.optional(S.String),
     pitr_time: S.optional(S.String),
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/v1/postgres/{postgres_cluster_id}/restore",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "RestorePostgresRequest",
-}) as any as S.Schema<RestorePostgresRequest>;
+  }).pipe(T.Http({ method: "POST", uri: "/v1/postgres/{postgres_cluster_id}/restore", code: 200 })),
+).annotate({ identifier: "RestorePostgresRequest" }) as any as S.Schema<RestorePostgresRequest>;
 
 export interface RotatePostgresUserPasswordRequest {
   /** Managed Postgres Cluster ID */
@@ -5417,11 +4930,7 @@ export const SetMachineMemoryLimitRequest = /*@__PURE__*/ S.suspend(() =>
     machine_id: S.String.pipe(T.Label()),
     limit_mb: S.optional(S.Number),
   }).pipe(
-    T.Http({
-      method: "PUT",
-      uri: "/v1/apps/{app_name}/machines/{machine_id}/memory",
-      code: 200,
-    }),
+    T.Http({ method: "PUT", uri: "/v1/apps/{app_name}/machines/{machine_id}/memory", code: 200 }),
   ),
 ).annotate({
   identifier: "SetMachineMemoryLimitRequest",
@@ -5447,15 +4956,9 @@ export const SetSecretKeyRequest = /*@__PURE__*/ S.suspend(() =>
     type: S.optional(S.String),
     value: S.optional(SetSecretKeyRequestValueList),
   }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/v1/apps/{app_name}/secretkeys/{secret_name}",
-      code: 200,
-    }),
+    T.Http({ method: "POST", uri: "/v1/apps/{app_name}/secretkeys/{secret_name}", code: 200 }),
   ),
-).annotate({
-  identifier: "SetSecretKeyRequest",
-}) as any as S.Schema<SetSecretKeyRequest>;
+).annotate({ identifier: "SetSecretKeyRequest" }) as any as S.Schema<SetSecretKeyRequest>;
 
 export type SignalMachineRequestSignal =
   | "SIGABRT"
@@ -5487,15 +4990,9 @@ export const SignalMachineRequest = /*@__PURE__*/ S.suspend(() =>
     machine_id: S.String.pipe(T.Label()),
     signal: S.optional(SignalMachineRequestSignal),
   }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/v1/apps/{app_name}/machines/{machine_id}/signal",
-      code: 200,
-    }),
+    T.Http({ method: "POST", uri: "/v1/apps/{app_name}/machines/{machine_id}/signal", code: 200 }),
   ),
-).annotate({
-  identifier: "SignalMachineRequest",
-}) as any as S.Schema<SignalMachineRequest>;
+).annotate({ identifier: "SignalMachineRequest" }) as any as S.Schema<SignalMachineRequest>;
 
 export interface SignalMachineResponse {}
 export const SignalMachineResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -5518,15 +5015,9 @@ export const SignSecretKeyRequest = /*@__PURE__*/ S.suspend(() =>
     min_version: S.optional(S.String.pipe(T.Query())),
     plaintext: S.optional(S.String.pipe(T.SensitiveValue({}))),
   }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/v1/apps/{app_name}/secretkeys/{secret_name}/sign",
-      code: 200,
-    }),
+    T.Http({ method: "POST", uri: "/v1/apps/{app_name}/secretkeys/{secret_name}/sign", code: 200 }),
   ),
-).annotate({
-  identifier: "SignSecretKeyRequest",
-}) as any as S.Schema<SignSecretKeyRequest>;
+).annotate({ identifier: "SignSecretKeyRequest" }) as any as S.Schema<SignSecretKeyRequest>;
 
 export interface SignSecretkeyResponse {
   signature?: string;
@@ -5535,9 +5026,7 @@ export const SignSecretkeyResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     signature: S.optional(S.String),
   }),
-).annotate({
-  identifier: "SignSecretkeyResponse",
-}) as any as S.Schema<SignSecretkeyResponse>;
+).annotate({ identifier: "SignSecretkeyResponse" }) as any as S.Schema<SignSecretkeyResponse>;
 
 export interface StartMachineRequest {
   /** Fly App Name */
@@ -5552,15 +5041,9 @@ export const StartMachineRequest = /*@__PURE__*/ S.suspend(() =>
     machine_id: S.String.pipe(T.Label()),
     lease_nonce: S.optional(S.String.pipe(T.Header("fly-machine-lease-nonce"))),
   }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/v1/apps/{app_name}/machines/{machine_id}/start",
-      code: 200,
-    }),
+    T.Http({ method: "POST", uri: "/v1/apps/{app_name}/machines/{machine_id}/start", code: 200 }),
   ),
-).annotate({
-  identifier: "StartMachineRequest",
-}) as any as S.Schema<StartMachineRequest>;
+).annotate({ identifier: "StartMachineRequest" }) as any as S.Schema<StartMachineRequest>;
 
 export interface StartMachineResponse {}
 export const StartMachineResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -5594,15 +5077,9 @@ export const StopMachineRequest = /*@__PURE__*/ S.suspend(() =>
     timeout: S.optional(S.String),
     lease_nonce: S.optional(S.String.pipe(T.Header("fly-machine-lease-nonce"))),
   }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/v1/apps/{app_name}/machines/{machine_id}/stop",
-      code: 200,
-    }),
+    T.Http({ method: "POST", uri: "/v1/apps/{app_name}/machines/{machine_id}/stop", code: 200 }),
   ),
-).annotate({
-  identifier: "StopMachineRequest",
-}) as any as S.Schema<StopMachineRequest>;
+).annotate({ identifier: "StopMachineRequest" }) as any as S.Schema<StopMachineRequest>;
 
 export interface StopMachineResponse {}
 export const StopMachineResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -5622,15 +5099,9 @@ export const SuspendMachineRequest = /*@__PURE__*/ S.suspend(() =>
     machine_id: S.String.pipe(T.Label()),
     lease_nonce: S.optional(S.String.pipe(T.Header("fly-machine-lease-nonce"))),
   }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/v1/apps/{app_name}/machines/{machine_id}/suspend",
-      code: 200,
-    }),
+    T.Http({ method: "POST", uri: "/v1/apps/{app_name}/machines/{machine_id}/suspend", code: 200 }),
   ),
-).annotate({
-  identifier: "SuspendMachineRequest",
-}) as any as S.Schema<SuspendMachineRequest>;
+).annotate({ identifier: "SuspendMachineRequest" }) as any as S.Schema<SuspendMachineRequest>;
 
 export interface SuspendMachineResponse {}
 export const SuspendMachineResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -5656,9 +5127,7 @@ export const UncordonMachineRequest = /*@__PURE__*/ S.suspend(() =>
       code: 200,
     }),
   ),
-).annotate({
-  identifier: "UncordonMachineRequest",
-}) as any as S.Schema<UncordonMachineRequest>;
+).annotate({ identifier: "UncordonMachineRequest" }) as any as S.Schema<UncordonMachineRequest>;
 
 export interface UncordonMachineResponse {}
 export const UncordonMachineResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -5699,16 +5168,8 @@ export const UpdateMachineRequest = /*@__PURE__*/ S.suspend(() =>
     skip_secrets: S.optional(S.Boolean),
     skip_service_registration: S.optional(S.Boolean),
     lease_nonce: S.optional(S.String.pipe(T.Header("fly-machine-lease-nonce"))),
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/v1/apps/{app_name}/machines/{machine_id}",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "UpdateMachineRequest",
-}) as any as S.Schema<UpdateMachineRequest>;
+  }).pipe(T.Http({ method: "POST", uri: "/v1/apps/{app_name}/machines/{machine_id}", code: 200 })),
+).annotate({ identifier: "UpdateMachineRequest" }) as any as S.Schema<UpdateMachineRequest>;
 
 /** New role for the user. */
 export type UpdatePostgresUserRoleRequestRole = "schema_admin" | "writer" | "reader";
@@ -5743,9 +5204,7 @@ export const UpdatePostgresUserRoleResponse = /*@__PURE__*/ S.suspend(() => S.St
   identifier: "UpdatePostgresUserRoleResponse",
 }) as any as S.Schema<UpdatePostgresUserRoleResponse>;
 
-export type UpdateSecretsRequestValuesMap = {
-  [key: string]: string | undefined;
-};
+export type UpdateSecretsRequestValuesMap = { [key: string]: string | undefined };
 export const UpdateSecretsRequestValuesMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -5761,9 +5220,7 @@ export const UpdateSecretsRequest = /*@__PURE__*/ S.suspend(() =>
     app_name: S.String.pipe(T.Label()),
     values: S.optional(UpdateSecretsRequestValuesMap),
   }).pipe(T.Http({ method: "POST", uri: "/v1/apps/{app_name}/secrets", code: 200 })),
-).annotate({
-  identifier: "UpdateSecretsRequest",
-}) as any as S.Schema<UpdateSecretsRequest>;
+).annotate({ identifier: "UpdateSecretsRequest" }) as any as S.Schema<UpdateSecretsRequest>;
 
 export type AppSecretsUpdateRespSecretsList = Array<AppSecret>;
 export const AppSecretsUpdateRespSecretsList = /*@__PURE__*/ S.Array(
@@ -5782,9 +5239,7 @@ export const AppSecretsUpdateResp = /*@__PURE__*/ S.suspend(() =>
     secrets: S.optional(AppSecretsUpdateRespSecretsList),
     version: S.optional(S.Number),
   }),
-).annotate({
-  identifier: "AppSecretsUpdateResp",
-}) as any as S.Schema<AppSecretsUpdateResp>;
+).annotate({ identifier: "AppSecretsUpdateResp" }) as any as S.Schema<AppSecretsUpdateResp>;
 
 export interface UpdateVolumeRequest {
   /** Fly App Name */
@@ -5800,16 +5255,8 @@ export const UpdateVolumeRequest = /*@__PURE__*/ S.suspend(() =>
     volume_id: S.String.pipe(T.Label()),
     auto_backup_enabled: S.optional(S.Boolean),
     snapshot_retention: S.optional(S.Number),
-  }).pipe(
-    T.Http({
-      method: "PUT",
-      uri: "/v1/apps/{app_name}/volumes/{volume_id}",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "UpdateVolumeRequest",
-}) as any as S.Schema<UpdateVolumeRequest>;
+  }).pipe(T.Http({ method: "PUT", uri: "/v1/apps/{app_name}/volumes/{volume_id}", code: 200 })),
+).annotate({ identifier: "UpdateVolumeRequest" }) as any as S.Schema<UpdateVolumeRequest>;
 
 export interface UpsertMachineMetadataRequest {
   /** Fly App Name */
@@ -5868,9 +5315,7 @@ export const VerifySecretKeyRequest = /*@__PURE__*/ S.suspend(() =>
       code: 200,
     }),
   ),
-).annotate({
-  identifier: "VerifySecretKeyRequest",
-}) as any as S.Schema<VerifySecretKeyRequest>;
+).annotate({ identifier: "VerifySecretKeyRequest" }) as any as S.Schema<VerifySecretKeyRequest>;
 
 export interface VerifySecretKeyResponse {}
 export const VerifySecretKeyResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -5912,15 +5357,9 @@ export const WaitMachineRequest = /*@__PURE__*/ S.suspend(() =>
     timeout: S.optional(S.Number.pipe(T.Query())),
     state: S.optional(WaitMachineRequestState.pipe(T.Query())),
   }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/v1/apps/{app_name}/machines/{machine_id}/wait",
-      code: 200,
-    }),
+    T.Http({ method: "GET", uri: "/v1/apps/{app_name}/machines/{machine_id}/wait", code: 200 }),
   ),
-).annotate({
-  identifier: "WaitMachineRequest",
-}) as any as S.Schema<WaitMachineRequest>;
+).annotate({ identifier: "WaitMachineRequest" }) as any as S.Schema<WaitMachineRequest>;
 
 export interface WaitMachineResponse {
   event_id?: string;
@@ -5935,9 +5374,7 @@ export const WaitMachineResponse = /*@__PURE__*/ S.suspend(() =>
     state: S.optional(S.String),
     version: S.optional(S.String),
   }),
-).annotate({
-  identifier: "WaitMachineResponse",
-}) as any as S.Schema<WaitMachineResponse>;
+).annotate({ identifier: "WaitMachineResponse" }) as any as S.Schema<WaitMachineResponse>;
 
 export type AuthenticateTokenError = BadRequest | FlyIoOpError;
 /** Authenticate token header Verify a token header without checking resource access. */

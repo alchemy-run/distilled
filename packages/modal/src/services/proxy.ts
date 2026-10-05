@@ -18,16 +18,8 @@ export const CreateProxyRequest = /*@__PURE__*/ S.suspend(() =>
     name: S.optional(S.String),
     environmentName: S.optional(S.String),
     region: S.optional(S.String),
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/modal.client.ModalClient/ProxyCreate",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "CreateProxyRequest",
-}) as any as S.Schema<CreateProxyRequest>;
+  }).pipe(T.Http({ method: "POST", uri: "/modal.client.ModalClient/ProxyCreate", code: 200 })),
+).annotate({ identifier: "CreateProxyRequest" }) as any as S.Schema<CreateProxyRequest>;
 
 /** TODO(erikbern): needs_prefix */
 export type ProxyIpStatus =
@@ -82,9 +74,7 @@ export const CreateProxyResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     proxy: S.optional(Proxy),
   }),
-).annotate({
-  identifier: "CreateProxyResponse",
-}) as any as S.Schema<CreateProxyResponse>;
+).annotate({ identifier: "CreateProxyResponse" }) as any as S.Schema<CreateProxyResponse>;
 
 export interface DeleteProxyRequest {
   proxyId?: string;
@@ -92,16 +82,8 @@ export interface DeleteProxyRequest {
 export const DeleteProxyRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     proxyId: S.optional(S.String),
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/modal.client.ModalClient/ProxyDelete",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "DeleteProxyRequest",
-}) as any as S.Schema<DeleteProxyRequest>;
+  }).pipe(T.Http({ method: "POST", uri: "/modal.client.ModalClient/ProxyDelete", code: 200 })),
+).annotate({ identifier: "DeleteProxyRequest" }) as any as S.Schema<DeleteProxyRequest>;
 
 export interface DeleteProxyResponse {}
 export const DeleteProxyResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -116,16 +98,8 @@ export const GetProxyRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     name: S.optional(S.String),
     environmentName: S.optional(S.String),
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/modal.client.ModalClient/ProxyGet",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "GetProxyRequest",
-}) as any as S.Schema<GetProxyRequest>;
+  }).pipe(T.Http({ method: "POST", uri: "/modal.client.ModalClient/ProxyGet", code: 200 })),
+).annotate({ identifier: "GetProxyRequest" }) as any as S.Schema<GetProxyRequest>;
 
 export interface GetProxyResponse {
   proxy?: Proxy;
@@ -134,22 +108,14 @@ export const GetProxyResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     proxy: S.optional(Proxy),
   }),
-).annotate({
-  identifier: "GetProxyResponse",
-}) as any as S.Schema<GetProxyResponse>;
+).annotate({ identifier: "GetProxyResponse" }) as any as S.Schema<GetProxyResponse>;
 
 export interface ListProxyRequest {}
 export const ListProxyRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({}).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/modal.client.ModalClient/ProxyList",
-      code: 200,
-    }),
+    T.Http({ method: "POST", uri: "/modal.client.ModalClient/ProxyList", code: 200 }),
   ),
-).annotate({
-  identifier: "ListProxyRequest",
-}) as any as S.Schema<ListProxyRequest>;
+).annotate({ identifier: "ListProxyRequest" }) as any as S.Schema<ListProxyRequest>;
 
 export type ProxyList2 = Array<Proxy>;
 export const ProxyList2 = /*@__PURE__*/ S.Array(Proxy) as any as S.Schema<ProxyList2>;
@@ -161,9 +127,7 @@ export const ListProxyResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     proxies: S.optional(ProxyList2),
   }),
-).annotate({
-  identifier: "ListProxyResponse",
-}) as any as S.Schema<ListProxyResponse>;
+).annotate({ identifier: "ListProxyResponse" }) as any as S.Schema<ListProxyResponse>;
 
 export interface ProxyAddIpRequest {
   proxyId?: string;
@@ -171,16 +135,8 @@ export interface ProxyAddIpRequest {
 export const ProxyAddIpRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     proxyId: S.optional(S.String),
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/modal.client.ModalClient/ProxyAddIp",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "ProxyAddIpRequest",
-}) as any as S.Schema<ProxyAddIpRequest>;
+  }).pipe(T.Http({ method: "POST", uri: "/modal.client.ModalClient/ProxyAddIp", code: 200 })),
+).annotate({ identifier: "ProxyAddIpRequest" }) as any as S.Schema<ProxyAddIpRequest>;
 
 export interface ProxyAddIpResponse {
   proxyIp?: ProxyIp;
@@ -189,9 +145,7 @@ export const ProxyAddIpResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     proxyIp: S.optional(ProxyIp),
   }),
-).annotate({
-  identifier: "ProxyAddIpResponse",
-}) as any as S.Schema<ProxyAddIpResponse>;
+).annotate({ identifier: "ProxyAddIpResponse" }) as any as S.Schema<ProxyAddIpResponse>;
 
 export type ObjectCreationType =
   | "OBJECT_CREATION_TYPE_UNSPECIFIED"
@@ -213,16 +167,8 @@ export const ProxyGetOrCreateRequest = /*@__PURE__*/ S.suspend(() =>
     deploymentName: S.optional(S.String),
     environmentName: S.optional(S.String),
     objectCreationType: S.optional(ObjectCreationType),
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/modal.client.ModalClient/ProxyGetOrCreate",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "ProxyGetOrCreateRequest",
-}) as any as S.Schema<ProxyGetOrCreateRequest>;
+  }).pipe(T.Http({ method: "POST", uri: "/modal.client.ModalClient/ProxyGetOrCreate", code: 200 })),
+).annotate({ identifier: "ProxyGetOrCreateRequest" }) as any as S.Schema<ProxyGetOrCreateRequest>;
 
 export interface ProxyGetOrCreateResponse {
   proxyId?: string;
@@ -231,9 +177,7 @@ export const ProxyGetOrCreateResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     proxyId: S.optional(S.String),
   }),
-).annotate({
-  identifier: "ProxyGetOrCreateResponse",
-}) as any as S.Schema<ProxyGetOrCreateResponse>;
+).annotate({ identifier: "ProxyGetOrCreateResponse" }) as any as S.Schema<ProxyGetOrCreateResponse>;
 
 export interface ProxyRemoveIpRequest {
   proxyIp?: string;
@@ -241,16 +185,8 @@ export interface ProxyRemoveIpRequest {
 export const ProxyRemoveIpRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     proxyIp: S.optional(S.String),
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/modal.client.ModalClient/ProxyRemoveIp",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "ProxyRemoveIpRequest",
-}) as any as S.Schema<ProxyRemoveIpRequest>;
+  }).pipe(T.Http({ method: "POST", uri: "/modal.client.ModalClient/ProxyRemoveIp", code: 200 })),
+).annotate({ identifier: "ProxyRemoveIpRequest" }) as any as S.Schema<ProxyRemoveIpRequest>;
 
 export interface ProxyRemoveIpResponse {}
 export const ProxyRemoveIpResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({

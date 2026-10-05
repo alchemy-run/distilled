@@ -68,6 +68,12 @@
           "traits": {
             "smithy.api#enumValue": "kernel"
           }
+        },
+        "CONTAINER": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "container"
+          }
         }
       },
       "traits": {}
@@ -164,6 +170,7 @@
         "_id": {
           "target": "smithy.api#String",
           "traits": {
+            "smithy.api#documentation": "A hex string of 24 characters representing an ObjectId.",
             "smithy.api#required": {}
           }
         },
@@ -182,6 +189,7 @@
         "_id": {
           "target": "smithy.api#String",
           "traits": {
+            "smithy.api#documentation": "A hex string of 24 characters representing an ObjectId.",
             "smithy.api#required": {}
           }
         },
@@ -225,6 +233,7 @@
         "paperId": {
           "target": "smithy.api#String",
           "traits": {
+            "smithy.api#documentation": "A hex string of 24 characters representing an ObjectId.",
             "smithy.api#required": {}
           }
         }
@@ -235,7 +244,7 @@
       "type": "structure",
       "members": {
         "type": {
-          "target": "smithy.api#Document",
+          "target": "smithy.api#String",
           "traits": {
             "smithy.api#required": {}
           }
@@ -320,6 +329,12 @@
           "traits": {
             "smithy.api#enumValue": "kernel"
           }
+        },
+        "CONTAINER": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "container"
+          }
         }
       },
       "traits": {}
@@ -360,6 +375,7 @@
         "_id": {
           "target": "smithy.api#String",
           "traits": {
+            "smithy.api#documentation": "A hex string of 24 characters representing an ObjectId.",
             "smithy.api#required": {}
           }
         },
@@ -409,6 +425,7 @@
         "id": {
           "target": "smithy.api#String",
           "traits": {
+            "smithy.api#documentation": "A hex string of 24 characters representing an ObjectId.",
             "smithy.api#required": {}
           }
         },
@@ -431,7 +448,7 @@
       "type": "structure",
       "members": {
         "type": {
-          "target": "smithy.api#Document",
+          "target": "smithy.api#String",
           "traits": {
             "smithy.api#required": {}
           }
@@ -472,6 +489,7 @@
         "_id": {
           "target": "smithy.api#String",
           "traits": {
+            "smithy.api#documentation": "A hex string of 24 characters representing an ObjectId.",
             "smithy.api#required": {}
           }
         },
@@ -537,7 +555,7 @@
       "type": "structure",
       "members": {
         "type": {
-          "target": "smithy.api#Document",
+          "target": "smithy.api#String",
           "traits": {
             "smithy.api#required": {}
           }
@@ -572,6 +590,7 @@
         "_id": {
           "target": "smithy.api#String",
           "traits": {
+            "smithy.api#documentation": "A hex string of 24 characters representing an ObjectId.",
             "smithy.api#required": {}
           }
         },
@@ -640,7 +659,7 @@
       "type": "structure",
       "members": {
         "type": {
-          "target": "smithy.api#Document",
+          "target": "smithy.api#String",
           "traits": {
             "smithy.api#required": {}
           }
@@ -811,6 +830,12 @@
           "traits": {
             "smithy.api#enumValue": "kernel"
           }
+        },
+        "CONTAINER": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "container"
+          }
         }
       },
       "traits": {}
@@ -904,7 +929,7 @@
           }
         },
         "applyToAll": {
-          "target": "smithy.api#Document",
+          "target": "smithy.api#String",
           "traits": {
             "smithy.api#httpQuery": "applyToAll"
           }
@@ -983,6 +1008,12 @@
           "target": "smithy.api#Unit",
           "traits": {
             "smithy.api#enumValue": "kernel"
+          }
+        },
+        "CONTAINER": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "container"
           }
         }
       },
@@ -1077,7 +1108,7 @@
           }
         },
         "applyToAll": {
-          "target": "smithy.api#Document",
+          "target": "smithy.api#String",
           "traits": {
             "smithy.api#httpQuery": "applyToAll"
           }
@@ -1117,6 +1148,9 @@
           "target": "smithy.api#Boolean"
         },
         "arxiv_paper_activity": {
+          "target": "smithy.api#Boolean"
+        },
+        "content_access_policy_request": {
           "target": "smithy.api#Boolean"
         },
         "daily_papers_digest": {

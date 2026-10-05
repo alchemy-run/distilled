@@ -531,47 +531,55 @@ export const CreateRequestRetryBackoff = S.String;
 export type CreateRequestSpendLimitsRulesItemLimitType = "cost";
 export const CreateRequestSpendLimitsRulesItemLimitType = S.String;
 
-export type CreateRequestSpendLimitsRulesItemMetadataModeMode = "partition";
-export const CreateRequestSpendLimitsRulesItemMetadataModeMode = S.String;
+export type CreateRequestSpendLimitsRulesItemMetadataValueModeMode = "partition";
+export const CreateRequestSpendLimitsRulesItemMetadataValueModeMode = S.String;
 
-export interface CreateRequestSpendLimitsRulesItemMetadataMode {
-  mode: CreateRequestSpendLimitsRulesItemMetadataModeMode;
+export interface CreateRequestSpendLimitsRulesItemMetadataValueMode {
+  mode: CreateRequestSpendLimitsRulesItemMetadataValueModeMode;
 }
-export const CreateRequestSpendLimitsRulesItemMetadataMode = /*@__PURE__*/ S.suspend(() =>
+export const CreateRequestSpendLimitsRulesItemMetadataValueMode = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    mode: CreateRequestSpendLimitsRulesItemMetadataModeMode,
+    mode: CreateRequestSpendLimitsRulesItemMetadataValueModeMode,
   }),
 ).annotate({
-  identifier: "CreateRequestSpendLimitsRulesItemMetadataMode",
-}) as any as S.Schema<CreateRequestSpendLimitsRulesItemMetadataMode>;
+  identifier: "CreateRequestSpendLimitsRulesItemMetadataValueMode",
+}) as any as S.Schema<CreateRequestSpendLimitsRulesItemMetadataValueMode>;
 
-export type CreateRequestSpendLimitsRulesItemMetadataCase1Mode = "filter";
-export const CreateRequestSpendLimitsRulesItemMetadataCase1Mode = S.String;
+export type CreateRequestSpendLimitsRulesItemMetadataValueCase1Mode = "filter";
+export const CreateRequestSpendLimitsRulesItemMetadataValueCase1Mode = S.String;
 
-export type CreateRequestSpendLimitsRulesItemMetadataCase1ValuesList = Array<string>;
-export const CreateRequestSpendLimitsRulesItemMetadataCase1ValuesList = /*@__PURE__*/ S.Array(
+export type CreateRequestSpendLimitsRulesItemMetadataValueCase1ValuesList = Array<string>;
+export const CreateRequestSpendLimitsRulesItemMetadataValueCase1ValuesList = /*@__PURE__*/ S.Array(
   S.String,
-) as any as S.Schema<CreateRequestSpendLimitsRulesItemMetadataCase1ValuesList>;
+) as any as S.Schema<CreateRequestSpendLimitsRulesItemMetadataValueCase1ValuesList>;
 
-export interface CreateRequestSpendLimitsRulesItemMetadataCase1 {
-  mode: CreateRequestSpendLimitsRulesItemMetadataCase1Mode;
-  values: CreateRequestSpendLimitsRulesItemMetadataCase1ValuesList;
+export interface CreateRequestSpendLimitsRulesItemMetadataValueCase1 {
+  mode: CreateRequestSpendLimitsRulesItemMetadataValueCase1Mode;
+  values: CreateRequestSpendLimitsRulesItemMetadataValueCase1ValuesList;
 }
-export const CreateRequestSpendLimitsRulesItemMetadataCase1 = /*@__PURE__*/ S.suspend(() =>
+export const CreateRequestSpendLimitsRulesItemMetadataValueCase1 = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    mode: CreateRequestSpendLimitsRulesItemMetadataCase1Mode,
-    values: CreateRequestSpendLimitsRulesItemMetadataCase1ValuesList,
+    mode: CreateRequestSpendLimitsRulesItemMetadataValueCase1Mode,
+    values: CreateRequestSpendLimitsRulesItemMetadataValueCase1ValuesList,
   }),
 ).annotate({
-  identifier: "CreateRequestSpendLimitsRulesItemMetadataCase1",
-}) as any as S.Schema<CreateRequestSpendLimitsRulesItemMetadataCase1>;
+  identifier: "CreateRequestSpendLimitsRulesItemMetadataValueCase1",
+}) as any as S.Schema<CreateRequestSpendLimitsRulesItemMetadataValueCase1>;
 
-export type CreateRequestSpendLimitsRulesItemMetadata =
-  | CreateRequestSpendLimitsRulesItemMetadataMode
-  | CreateRequestSpendLimitsRulesItemMetadataCase1;
-export const CreateRequestSpendLimitsRulesItemMetadata = /*@__PURE__*/ S.Unknown.pipe(
+export type CreateRequestSpendLimitsRulesItemMetadataValue =
+  | CreateRequestSpendLimitsRulesItemMetadataValueMode
+  | CreateRequestSpendLimitsRulesItemMetadataValueCase1;
+export const CreateRequestSpendLimitsRulesItemMetadataValue = /*@__PURE__*/ S.Unknown.pipe(
   T.UnionCases([["mode"], ["mode", "values"]], { key: "mode", values: ["partition", "filter"] }),
 );
+
+export type CreateRequestSpendLimitsRulesItemMetadataMap = {
+  [key: string]: CreateRequestSpendLimitsRulesItemMetadataValue | undefined;
+};
+export const CreateRequestSpendLimitsRulesItemMetadataMap = /*@__PURE__*/ S.Record(
+  S.String,
+  CreateRequestSpendLimitsRulesItemMetadataValue,
+) as any as S.Schema<CreateRequestSpendLimitsRulesItemMetadataMap>;
 
 export type CreateRequestSpendLimitsRulesItemModelMode = "filter";
 export const CreateRequestSpendLimitsRulesItemModelMode = S.String;
@@ -626,7 +634,7 @@ export interface CreateRequestSpendLimitsRulesItem {
   window: number;
   id?: string;
   enabled?: boolean;
-  metadata?: CreateRequestSpendLimitsRulesItemMetadata;
+  metadata?: CreateRequestSpendLimitsRulesItemMetadataMap;
   model?: CreateRequestSpendLimitsRulesItemModel;
   provider?: CreateRequestSpendLimitsRulesItemProvider;
   technique?: CreateRequestSpendLimitsRulesItemTechnique | (string & {});
@@ -638,7 +646,7 @@ export const CreateRequestSpendLimitsRulesItem = /*@__PURE__*/ S.suspend(() =>
     window: S.Number,
     id: S.optional(S.String),
     enabled: S.optional(S.Boolean),
-    metadata: S.optional(CreateRequestSpendLimitsRulesItemMetadata),
+    metadata: S.optional(CreateRequestSpendLimitsRulesItemMetadataMap),
     model: S.optional(CreateRequestSpendLimitsRulesItemModel),
     provider: S.optional(CreateRequestSpendLimitsRulesItemProvider),
     technique: S.optional(CreateRequestSpendLimitsRulesItemTechnique),
@@ -8541,8 +8549,18 @@ export const PatchDynamicRoutingResponse = /*@__PURE__*/ S.suspend(() =>
   identifier: "PatchDynamicRoutingResponse",
 }) as any as S.Schema<PatchDynamicRoutingResponse>;
 
-export type LogsEditRequestMetadata = string | number | boolean;
-export const LogsEditRequestMetadata = /*@__PURE__*/ S.Unknown.pipe(T.UnionCases([[], [], []]));
+export type LogsEditRequestMetadataValue = string | number | boolean;
+export const LogsEditRequestMetadataValue = /*@__PURE__*/ S.Unknown.pipe(
+  T.UnionCases([[], [], []]),
+);
+
+export type LogsEditRequestMetadataMap = {
+  [key: string]: LogsEditRequestMetadataValue | undefined;
+};
+export const LogsEditRequestMetadataMap = /*@__PURE__*/ S.Record(
+  S.String,
+  LogsEditRequestMetadataValue,
+) as any as S.Schema<LogsEditRequestMetadataMap>;
 
 export interface PatchLogRequest {
   accountId: string;
@@ -8550,7 +8568,7 @@ export interface PatchLogRequest {
   gatewayId: string;
   id: string;
   feedback?: number;
-  metadata?: LogsEditRequestMetadata;
+  metadata?: LogsEditRequestMetadataMap;
   score?: number;
 }
 export const PatchLogRequest = /*@__PURE__*/ S.suspend(() =>
@@ -8559,7 +8577,7 @@ export const PatchLogRequest = /*@__PURE__*/ S.suspend(() =>
     gatewayId: S.String.pipe(T.Label("gateway_id")),
     id: S.String.pipe(T.Label()),
     feedback: S.optional(S.Number),
-    metadata: S.optional(LogsEditRequestMetadata),
+    metadata: S.optional(LogsEditRequestMetadataMap),
     score: S.optional(S.Number),
   })
     .pipe(

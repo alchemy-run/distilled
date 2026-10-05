@@ -89,9 +89,7 @@ export const ServiceTCPHealthCheck = /*@__PURE__*/ S.suspend(() =>
     retries: S.Number,
     http: S.optional(ServiceTCPHealthCheckHttp),
   }),
-).annotate({
-  identifier: "ServiceTCPHealthCheck",
-}) as any as S.Schema<ServiceTCPHealthCheck>;
+).annotate({ identifier: "ServiceTCPHealthCheck" }) as any as S.Schema<ServiceTCPHealthCheck>;
 
 export interface ServiceTCP {
   /** Protocol of the Load Balancer. */
@@ -200,9 +198,7 @@ export const ServiceHTTPProtocolHttp = /*@__PURE__*/ S.suspend(() =>
     timeout_idle: S.Number,
     sticky_sessions: S.Boolean,
   }),
-).annotate({
-  identifier: "ServiceHTTPProtocolHttp",
-}) as any as S.Schema<ServiceHTTPProtocolHttp>;
+).annotate({ identifier: "ServiceHTTPProtocolHttp" }) as any as S.Schema<ServiceHTTPProtocolHttp>;
 
 export interface ServiceHTTPProtocol {
   /** Protocol of the Load Balancer. */
@@ -227,9 +223,7 @@ export const ServiceHTTPProtocol = /*@__PURE__*/ S.suspend(() =>
     health_check: ServiceHTTPProtocolHealthCheck,
     http: ServiceHTTPProtocolHttp,
   }),
-).annotate({
-  identifier: "ServiceHTTPProtocol",
-}) as any as S.Schema<ServiceHTTPProtocol>;
+).annotate({ identifier: "ServiceHTTPProtocol" }) as any as S.Schema<ServiceHTTPProtocol>;
 
 /** Protocol of the Load Balancer. */
 export type ServiceHTTPSProtocolProtocol = "tcp" | "http" | "https";
@@ -328,9 +322,7 @@ export const ServiceHTTPSProtocolHttp = /*@__PURE__*/ S.suspend(() =>
     redirect_http: S.Boolean,
     sticky_sessions: S.Boolean,
   }),
-).annotate({
-  identifier: "ServiceHTTPSProtocolHttp",
-}) as any as S.Schema<ServiceHTTPSProtocolHttp>;
+).annotate({ identifier: "ServiceHTTPSProtocolHttp" }) as any as S.Schema<ServiceHTTPSProtocolHttp>;
 
 export interface ServiceHTTPSProtocol {
   /** Protocol of the Load Balancer. */
@@ -355,9 +347,7 @@ export const ServiceHTTPSProtocol = /*@__PURE__*/ S.suspend(() =>
     health_check: ServiceHTTPSProtocolHealthCheck,
     http: ServiceHTTPSProtocolHttp,
   }),
-).annotate({
-  identifier: "ServiceHTTPSProtocol",
-}) as any as S.Schema<ServiceHTTPSProtocol>;
+).annotate({ identifier: "ServiceHTTPSProtocol" }) as any as S.Schema<ServiceHTTPSProtocol>;
 
 export type CreateLoadBalancerRequestServicesItem =
   | ServiceTCP
@@ -449,9 +439,7 @@ export const CreateLoadBalancerRequestTargetsList = /*@__PURE__*/ S.Array(
 ) as any as S.Schema<CreateLoadBalancerRequestTargetsList>;
 
 /** User-defined labels (`key/value` pairs) for the Resource. For more information, see "[Labels](#description/labels)". */
-export type CreateLoadBalancerRequestLabelsMap = {
-  [key: string]: string | undefined;
-};
+export type CreateLoadBalancerRequestLabelsMap = { [key: string]: string | undefined };
 export const CreateLoadBalancerRequestLabelsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -735,9 +723,7 @@ export const CreateLoadBalancerResponseLoadBalancerProtection = /*@__PURE__*/ S.
 }) as any as S.Schema<CreateLoadBalancerResponseLoadBalancerProtection>;
 
 /** User-defined labels (`key/value` pairs) for the Resource. For more information, see "[Labels](#description/labels)". */
-export type CreateLoadBalancerResponseLoadBalancerLabelsMap = {
-  [key: string]: string | undefined;
-};
+export type CreateLoadBalancerResponseLoadBalancerLabelsMap = { [key: string]: string | undefined };
 export const CreateLoadBalancerResponseLoadBalancerLabelsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -773,21 +759,35 @@ export const TargetTypeServerServer = /*@__PURE__*/ S.suspend(() =>
     id: S.Number,
     ip: S.String,
   }),
-).annotate({
-  identifier: "TargetTypeServerServer",
-}) as any as S.Schema<TargetTypeServerServer>;
+).annotate({ identifier: "TargetTypeServerServer" }) as any as S.Schema<TargetTypeServerServer>;
 
 export type TargetTypeServerHealthStatusItemStatus = "healthy" | "unhealthy" | "unknown";
 export const TargetTypeServerHealthStatusItemStatus = S.String;
 
+/** Additional details about why the health check failed. Only present when `status` is `unhealthy`. */
+export type TargetTypeServerHealthStatusItemDetail =
+  | "unspecified"
+  | "layer4_no_connection"
+  | "layer4_timeout"
+  | "layer7_timeout"
+  | "unexpected_http_status"
+  | "unexpected_http_content";
+export const TargetTypeServerHealthStatusItemDetail = S.String;
+
 export interface TargetTypeServerHealthStatusItem {
   listen_port: number;
   status: TargetTypeServerHealthStatusItemStatus;
+  /** Additional details about why the health check failed. Only present when `status` is `unhealthy`. */
+  detail?: TargetTypeServerHealthStatusItemDetail;
+  /** HTTP status code returned by the target during the last health check. Only present when `status` is `unhealthy` and `detail` is `unexpected_http_status`. */
+  http_status_code?: number;
 }
 export const TargetTypeServerHealthStatusItem = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     listen_port: S.Number,
     status: TargetTypeServerHealthStatusItemStatus,
+    detail: S.optional(TargetTypeServerHealthStatusItemDetail),
+    http_status_code: S.optional(S.Number),
   }),
 ).annotate({
   identifier: "TargetTypeServerHealthStatusItem",
@@ -816,9 +816,7 @@ export const TargetTypeServer = /*@__PURE__*/ S.suspend(() =>
     health_status: TargetTypeServerHealthStatusList,
     use_private_ip: S.Boolean,
   }),
-).annotate({
-  identifier: "TargetTypeServer",
-}) as any as S.Schema<TargetTypeServer>;
+).annotate({ identifier: "TargetTypeServer" }) as any as S.Schema<TargetTypeServer>;
 
 /** Type of the resource. */
 export type TargetTypeLabelSelectorType = "server" | "label_selector" | "ip";
@@ -840,14 +838,30 @@ export type TargetTypeLabelSelectorTargetsItemHealthStatusItemStatus =
   | "unknown";
 export const TargetTypeLabelSelectorTargetsItemHealthStatusItemStatus = S.String;
 
+/** Additional details about why the health check failed. Only present when `status` is `unhealthy`. */
+export type TargetTypeLabelSelectorTargetsItemHealthStatusItemDetail =
+  | "unspecified"
+  | "layer4_no_connection"
+  | "layer4_timeout"
+  | "layer7_timeout"
+  | "unexpected_http_status"
+  | "unexpected_http_content";
+export const TargetTypeLabelSelectorTargetsItemHealthStatusItemDetail = S.String;
+
 export interface TargetTypeLabelSelectorTargetsItemHealthStatusItem {
   listen_port: number;
   status: TargetTypeLabelSelectorTargetsItemHealthStatusItemStatus;
+  /** Additional details about why the health check failed. Only present when `status` is `unhealthy`. */
+  detail?: TargetTypeLabelSelectorTargetsItemHealthStatusItemDetail;
+  /** HTTP status code returned by the target during the last health check. Only present when `status` is `unhealthy` and `detail` is `unexpected_http_status`. */
+  http_status_code?: number;
 }
 export const TargetTypeLabelSelectorTargetsItemHealthStatusItem = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     listen_port: S.Number,
     status: TargetTypeLabelSelectorTargetsItemHealthStatusItemStatus,
+    detail: S.optional(TargetTypeLabelSelectorTargetsItemHealthStatusItemDetail),
+    http_status_code: S.optional(S.Number),
   }),
 ).annotate({
   identifier: "TargetTypeLabelSelectorTargetsItemHealthStatusItem",
@@ -904,9 +918,7 @@ export const TargetTypeLabelSelector = /*@__PURE__*/ S.suspend(() =>
     targets: TargetTypeLabelSelectorTargetsList,
     use_private_ip: S.Boolean,
   }),
-).annotate({
-  identifier: "TargetTypeLabelSelector",
-}) as any as S.Schema<TargetTypeLabelSelector>;
+).annotate({ identifier: "TargetTypeLabelSelector" }) as any as S.Schema<TargetTypeLabelSelector>;
 
 /** Type of the resource. */
 export type TargetTypeIPType = "server" | "label_selector" | "ip";
@@ -919,14 +931,30 @@ export const TargetTypeIPIp = CreateLoadBalancerRequestTargetsItemIp;
 export type TargetTypeIPHealthStatusItemStatus = "healthy" | "unhealthy" | "unknown";
 export const TargetTypeIPHealthStatusItemStatus = S.String;
 
+/** Additional details about why the health check failed. Only present when `status` is `unhealthy`. */
+export type TargetTypeIPHealthStatusItemDetail =
+  | "unspecified"
+  | "layer4_no_connection"
+  | "layer4_timeout"
+  | "layer7_timeout"
+  | "unexpected_http_status"
+  | "unexpected_http_content";
+export const TargetTypeIPHealthStatusItemDetail = S.String;
+
 export interface TargetTypeIPHealthStatusItem {
   listen_port: number;
   status: TargetTypeIPHealthStatusItemStatus;
+  /** Additional details about why the health check failed. Only present when `status` is `unhealthy`. */
+  detail?: TargetTypeIPHealthStatusItemDetail;
+  /** HTTP status code returned by the target during the last health check. Only present when `status` is `unhealthy` and `detail` is `unexpected_http_status`. */
+  http_status_code?: number;
 }
 export const TargetTypeIPHealthStatusItem = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     listen_port: S.Number,
     status: TargetTypeIPHealthStatusItemStatus,
+    detail: S.optional(TargetTypeIPHealthStatusItemDetail),
+    http_status_code: S.optional(S.Number),
   }),
 ).annotate({
   identifier: "TargetTypeIPHealthStatusItem",
@@ -1152,9 +1180,7 @@ export const GetLoadBalancerRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     id: S.Number.pipe(T.Label()),
   }).pipe(T.Http({ method: "GET", uri: "/load_balancers/{id}", code: 200 })),
-).annotate({
-  identifier: "GetLoadBalancerRequest",
-}) as any as S.Schema<GetLoadBalancerRequest>;
+).annotate({ identifier: "GetLoadBalancerRequest" }) as any as S.Schema<GetLoadBalancerRequest>;
 
 /** IP address (v4). */
 export type GetLoadBalancerResponseLoadBalancerPublicNetIpv4 =
@@ -1273,9 +1299,7 @@ export const GetLoadBalancerResponseLoadBalancerProtection =
   CreateLoadBalancerResponseLoadBalancerProtection;
 
 /** User-defined labels (`key/value` pairs) for the Resource. For more information, see "[Labels](#description/labels)". */
-export type GetLoadBalancerResponseLoadBalancerLabelsMap = {
-  [key: string]: string | undefined;
-};
+export type GetLoadBalancerResponseLoadBalancerLabelsMap = { [key: string]: string | undefined };
 export const GetLoadBalancerResponseLoadBalancerLabelsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -1385,9 +1409,7 @@ export const GetLoadBalancerResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     load_balancer: GetLoadBalancerResponseLoadBalancer,
   }),
-).annotate({
-  identifier: "GetLoadBalancerResponse",
-}) as any as S.Schema<GetLoadBalancerResponse>;
+).annotate({ identifier: "GetLoadBalancerResponse" }) as any as S.Schema<GetLoadBalancerResponse>;
 
 export type GetLoadBalancerMetricsRequestTypeItem =
   | "open_connections"
@@ -1532,9 +1554,7 @@ export const ListLoadBalancersRequest = /*@__PURE__*/ S.suspend(() =>
     page: S.optional(S.Number.pipe(T.Query())),
     per_page: S.optional(S.Number.pipe(T.Query())),
   }).pipe(T.Http({ method: "GET", uri: "/load_balancers", code: 200 })),
-).annotate({
-  identifier: "ListLoadBalancersRequest",
-}) as any as S.Schema<ListLoadBalancersRequest>;
+).annotate({ identifier: "ListLoadBalancersRequest" }) as any as S.Schema<ListLoadBalancersRequest>;
 
 /** IP address (v4). */
 export type ListLoadBalancersResponseLoadBalancersItemPublicNetIpv4 =
@@ -1822,9 +1842,7 @@ export const ListLoadBalancersResponse = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<ListLoadBalancersResponse>;
 
 /** User-defined labels (`key/value` pairs) for the Resource. Note that the set of [Labels](#description/labels) provided in the request will overwrite the existing one. For more information, see "[Labels](#description/labels)". */
-export type UpdateLoadBalancerRequestLabelsMap = {
-  [key: string]: string | undefined;
-};
+export type UpdateLoadBalancerRequestLabelsMap = { [key: string]: string | undefined };
 export const UpdateLoadBalancerRequestLabelsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -1966,9 +1984,7 @@ export const UpdateLoadBalancerResponseLoadBalancerProtection =
   CreateLoadBalancerResponseLoadBalancerProtection;
 
 /** User-defined labels (`key/value` pairs) for the Resource. For more information, see "[Labels](#description/labels)". */
-export type UpdateLoadBalancerResponseLoadBalancerLabelsMap = {
-  [key: string]: string | undefined;
-};
+export type UpdateLoadBalancerResponseLoadBalancerLabelsMap = { [key: string]: string | undefined };
 export const UpdateLoadBalancerResponseLoadBalancerLabelsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,

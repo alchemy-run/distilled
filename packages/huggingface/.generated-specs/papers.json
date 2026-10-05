@@ -858,7 +858,7 @@
         "smithy.api#documentation": "Search papers\n\nPerform a hybrid semantic / full-text-search on papers"
       }
     },
-    "com.huggingface.papers#ListPaperRequest": {
+    "com.huggingface.papers#IndexPaperRequest": {
       "type": "structure",
       "members": {
         "arxivId": {
@@ -873,7 +873,7 @@
         "smithy.api#input": {}
       }
     },
-    "com.huggingface.papers#ListPaperResponse": {
+    "com.huggingface.papers#IndexPaperResponse": {
       "type": "structure",
       "members": {
         "body": {
@@ -888,13 +888,13 @@
         "smithy.api#output": {}
       }
     },
-    "com.huggingface.papers#ListPaper": {
+    "com.huggingface.papers#IndexPaper": {
       "type": "operation",
       "input": {
-        "target": "com.huggingface.papers#ListPaperRequest"
+        "target": "com.huggingface.papers#IndexPaperRequest"
       },
       "output": {
-        "target": "com.huggingface.papers#ListPaperResponse"
+        "target": "com.huggingface.papers#IndexPaperResponse"
       },
       "traits": {
         "smithy.api#http": {
@@ -1723,7 +1723,7 @@
           }
         },
         "adapterType": {
-          "target": "smithy.api#Document"
+          "target": "smithy.api#String"
         },
         "adapterWeightsPath": {
           "target": "smithy.api#String"
@@ -1790,7 +1790,7 @@
       "type": "union",
       "members": {
         "Case0": {
-          "target": "smithy.api#Document"
+          "target": "smithy.api#Boolean"
         },
         "Case1": {
           "target": "com.huggingface.papers#GetPaperResponseLinkedModelsItemGatedCase1"
@@ -1804,6 +1804,7 @@
         "id": {
           "target": "smithy.api#String",
           "traits": {
+            "smithy.api#documentation": "A hex string of 24 characters representing an ObjectId.",
             "smithy.api#required": {}
           }
         },
@@ -1855,6 +1856,7 @@
         "_id": {
           "target": "smithy.api#String",
           "traits": {
+            "smithy.api#documentation": "A hex string of 24 characters representing an ObjectId.",
             "smithy.api#required": {}
           }
         },
@@ -1898,7 +1900,7 @@
           "target": "smithy.api#Double"
         },
         "type": {
-          "target": "smithy.api#Document",
+          "target": "smithy.api#String",
           "traits": {
             "smithy.api#required": {}
           }
@@ -2000,7 +2002,7 @@
           }
         },
         "type": {
-          "target": "smithy.api#Document",
+          "target": "smithy.api#String",
           "traits": {
             "smithy.api#required": {}
           }
@@ -2038,6 +2040,7 @@
         "_id": {
           "target": "smithy.api#String",
           "traits": {
+            "smithy.api#documentation": "A hex string of 24 characters representing an ObjectId.",
             "smithy.api#required": {}
           }
         },
@@ -2081,7 +2084,7 @@
           "target": "smithy.api#Double"
         },
         "type": {
-          "target": "smithy.api#Document",
+          "target": "smithy.api#String",
           "traits": {
             "smithy.api#required": {}
           }
@@ -2175,7 +2178,7 @@
           }
         },
         "repoType": {
-          "target": "smithy.api#Document",
+          "target": "smithy.api#String",
           "traits": {
             "smithy.api#required": {}
           }
@@ -2199,7 +2202,7 @@
           "target": "com.huggingface.papers#GetPaperResponseLinkedModelsItemWidgetOutputUrlsList"
         },
         "isPreRelease": {
-          "target": "smithy.api#Document"
+          "target": "smithy.api#Boolean"
         }
       },
       "traits": {}
@@ -2308,6 +2311,30 @@
           "target": "smithy.api#Unit",
           "traits": {
             "smithy.api#enumValue": "datadesigner"
+          }
+        },
+        "HARBOR": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "harbor"
+          }
+        },
+        "VERIFIERS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "verifiers"
+          }
+        },
+        "OPENENV": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "openenv"
+          }
+        },
+        "NEMO_GYM": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "nemo-gym"
           }
         }
       },
@@ -2519,7 +2546,7 @@
       "type": "union",
       "members": {
         "Case0": {
-          "target": "smithy.api#Document"
+          "target": "smithy.api#Boolean"
         },
         "Case1": {
           "target": "com.huggingface.papers#GetPaperResponseLinkedDatasetsItemGatedCase1"
@@ -2533,6 +2560,7 @@
         "id": {
           "target": "smithy.api#String",
           "traits": {
+            "smithy.api#documentation": "A hex string of 24 characters representing an ObjectId.",
             "smithy.api#required": {}
           }
         },
@@ -2585,7 +2613,7 @@
           }
         },
         "repoType": {
-          "target": "smithy.api#Document",
+          "target": "smithy.api#String",
           "traits": {
             "smithy.api#required": {}
           }
@@ -2615,6 +2643,9 @@
           "target": "smithy.api#Boolean"
         },
         "isTraces": {
+          "target": "smithy.api#Boolean"
+        },
+        "isEnvironment": {
           "target": "smithy.api#Boolean"
         }
       },
@@ -2667,7 +2698,52 @@
       },
       "traits": {}
     },
-    "com.huggingface.papers#GetPaperResponseCommentsItemAuthorPlan": {
+    "com.huggingface.papers#GetPaperResponseCommentsItemAuthorCase0OauthAppImageData": {
+      "type": "structure",
+      "members": {
+        "emoji": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "colorFrom": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "colorTo": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.huggingface.papers#GetPaperResponseCommentsItemAuthorCase0OauthApp": {
+      "type": "structure",
+      "members": {
+        "imageUrl": {
+          "target": "smithy.api#String"
+        },
+        "imageData": {
+          "target": "com.huggingface.papers#GetPaperResponseCommentsItemAuthorCase0OauthAppImageData"
+        },
+        "url": {
+          "target": "smithy.api#String"
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.huggingface.papers#GetPaperResponseCommentsItemAuthorCase0Plan": {
       "type": "enum",
       "members": {
         "TEAM": {
@@ -2697,7 +2773,128 @@
       },
       "traits": {}
     },
-    "com.huggingface.papers#GetPaperResponseCommentsItemAuthorPrimaryOrgPlan": {
+    "com.huggingface.papers#GetPaperResponseCommentsItemAuthorCase0": {
+      "type": "structure",
+      "members": {
+        "isOwner": {
+          "target": "smithy.api#Boolean"
+        },
+        "isOrgMember": {
+          "target": "smithy.api#Boolean"
+        },
+        "isBlockedByMe": {
+          "target": "smithy.api#Boolean"
+        },
+        "oauthApp": {
+          "target": "com.huggingface.papers#GetPaperResponseCommentsItemAuthorCase0OauthApp"
+        },
+        "_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "A hex string of 24 characters representing an ObjectId.",
+            "smithy.api#required": {}
+          }
+        },
+        "avatarUrl": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "fullname": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "isHf": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "isHfAdmin": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "isMod": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "followerCount": {
+          "target": "smithy.api#Double"
+        },
+        "type": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "plan": {
+          "target": "com.huggingface.papers#GetPaperResponseCommentsItemAuthorCase0Plan"
+        },
+        "isUserFollowing": {
+          "target": "smithy.api#Boolean"
+        }
+      },
+      "traits": {}
+    },
+    "com.huggingface.papers#GetPaperResponseCommentsItemAuthorCase1OauthAppImageData": {
+      "type": "structure",
+      "members": {
+        "emoji": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "colorFrom": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "colorTo": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.huggingface.papers#GetPaperResponseCommentsItemAuthorCase1OauthApp": {
+      "type": "structure",
+      "members": {
+        "imageUrl": {
+          "target": "smithy.api#String"
+        },
+        "imageData": {
+          "target": "com.huggingface.papers#GetPaperResponseCommentsItemAuthorCase1OauthAppImageData"
+        },
+        "url": {
+          "target": "smithy.api#String"
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.huggingface.papers#GetPaperResponseCommentsItemAuthorCase1PrimaryOrgPlan": {
       "type": "enum",
       "members": {
         "TEAM": {
@@ -2727,7 +2924,7 @@
       },
       "traits": {}
     },
-    "com.huggingface.papers#GetPaperResponseCommentsItemAuthorPrimaryOrgUserRole": {
+    "com.huggingface.papers#GetPaperResponseCommentsItemAuthorCase1PrimaryOrgUserRole": {
       "type": "enum",
       "members": {
         "ADMIN": {
@@ -2763,7 +2960,7 @@
       },
       "traits": {}
     },
-    "com.huggingface.papers#GetPaperResponseCommentsItemAuthorPrimaryOrg": {
+    "com.huggingface.papers#GetPaperResponseCommentsItemAuthorCase1PrimaryOrg": {
       "type": "structure",
       "members": {
         "avatarUrl": {
@@ -2785,7 +2982,7 @@
           }
         },
         "type": {
-          "target": "smithy.api#Document",
+          "target": "smithy.api#String",
           "traits": {
             "smithy.api#required": {}
           }
@@ -2800,7 +2997,7 @@
           "target": "smithy.api#Boolean"
         },
         "plan": {
-          "target": "com.huggingface.papers#GetPaperResponseCommentsItemAuthorPrimaryOrgPlan"
+          "target": "com.huggingface.papers#GetPaperResponseCommentsItemAuthorCase1PrimaryOrgPlan"
         },
         "details": {
           "target": "smithy.api#String"
@@ -2809,7 +3006,7 @@
           "target": "smithy.api#Boolean"
         },
         "userRole": {
-          "target": "com.huggingface.papers#GetPaperResponseCommentsItemAuthorPrimaryOrgUserRole"
+          "target": "com.huggingface.papers#GetPaperResponseCommentsItemAuthorCase1PrimaryOrgUserRole"
         },
         "numUsers": {
           "target": "smithy.api#Double"
@@ -2817,93 +3014,9 @@
       },
       "traits": {}
     },
-    "com.huggingface.papers#GetPaperResponseCommentsItemAuthorOauthAppImageData": {
+    "com.huggingface.papers#GetPaperResponseCommentsItemAuthorCase1": {
       "type": "structure",
       "members": {
-        "emoji": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#required": {}
-          }
-        },
-        "colorFrom": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#required": {}
-          }
-        },
-        "colorTo": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#required": {}
-          }
-        }
-      },
-      "traits": {}
-    },
-    "com.huggingface.papers#GetPaperResponseCommentsItemAuthorOauthApp": {
-      "type": "structure",
-      "members": {
-        "imageUrl": {
-          "target": "smithy.api#String"
-        },
-        "imageData": {
-          "target": "com.huggingface.papers#GetPaperResponseCommentsItemAuthorOauthAppImageData"
-        },
-        "url": {
-          "target": "smithy.api#String"
-        },
-        "name": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#required": {}
-          }
-        }
-      },
-      "traits": {}
-    },
-    "com.huggingface.papers#GetPaperResponseCommentsItemAuthor": {
-      "type": "structure",
-      "members": {
-        "_id": {
-          "target": "smithy.api#String"
-        },
-        "avatarUrl": {
-          "target": "smithy.api#String"
-        },
-        "fullname": {
-          "target": "smithy.api#String"
-        },
-        "name": {
-          "target": "smithy.api#String"
-        },
-        "isHf": {
-          "target": "smithy.api#Boolean"
-        },
-        "isHfAdmin": {
-          "target": "smithy.api#Boolean"
-        },
-        "isMod": {
-          "target": "smithy.api#Boolean"
-        },
-        "followerCount": {
-          "target": "smithy.api#Double"
-        },
-        "type": {
-          "target": "smithy.api#Document"
-        },
-        "plan": {
-          "target": "com.huggingface.papers#GetPaperResponseCommentsItemAuthorPlan"
-        },
-        "isUserFollowing": {
-          "target": "smithy.api#Boolean"
-        },
-        "isPro": {
-          "target": "smithy.api#Boolean"
-        },
-        "primaryOrg": {
-          "target": "com.huggingface.papers#GetPaperResponseCommentsItemAuthorPrimaryOrg"
-        },
         "isOwner": {
           "target": "smithy.api#Boolean"
         },
@@ -2914,7 +3027,83 @@
           "target": "smithy.api#Boolean"
         },
         "oauthApp": {
-          "target": "com.huggingface.papers#GetPaperResponseCommentsItemAuthorOauthApp"
+          "target": "com.huggingface.papers#GetPaperResponseCommentsItemAuthorCase1OauthApp"
+        },
+        "_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "A hex string of 24 characters representing an ObjectId.",
+            "smithy.api#required": {}
+          }
+        },
+        "avatarUrl": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "fullname": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "isHf": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "isHfAdmin": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "isMod": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "followerCount": {
+          "target": "smithy.api#Double"
+        },
+        "type": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "isPro": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "isUserFollowing": {
+          "target": "smithy.api#Boolean"
+        },
+        "primaryOrg": {
+          "target": "com.huggingface.papers#GetPaperResponseCommentsItemAuthorCase1PrimaryOrg"
+        }
+      },
+      "traits": {}
+    },
+    "com.huggingface.papers#GetPaperResponseCommentsItemAuthor": {
+      "type": "union",
+      "members": {
+        "Case0": {
+          "target": "com.huggingface.papers#GetPaperResponseCommentsItemAuthorCase0"
+        },
+        "Case1": {
+          "target": "com.huggingface.papers#GetPaperResponseCommentsItemAuthorCase1"
         }
       },
       "traits": {}
@@ -2997,6 +3186,7 @@
         "_id": {
           "target": "smithy.api#String",
           "traits": {
+            "smithy.api#documentation": "A hex string of 24 characters representing an ObjectId.",
             "smithy.api#required": {}
           }
         },
@@ -3040,7 +3230,7 @@
           "target": "smithy.api#Double"
         },
         "type": {
-          "target": "smithy.api#Document",
+          "target": "smithy.api#String",
           "traits": {
             "smithy.api#required": {}
           }
@@ -3142,7 +3332,7 @@
           }
         },
         "type": {
-          "target": "smithy.api#Document",
+          "target": "smithy.api#String",
           "traits": {
             "smithy.api#required": {}
           }
@@ -3180,6 +3370,7 @@
         "_id": {
           "target": "smithy.api#String",
           "traits": {
+            "smithy.api#documentation": "A hex string of 24 characters representing an ObjectId.",
             "smithy.api#required": {}
           }
         },
@@ -3223,7 +3414,7 @@
           "target": "smithy.api#Double"
         },
         "type": {
-          "target": "smithy.api#Document",
+          "target": "smithy.api#String",
           "traits": {
             "smithy.api#required": {}
           }
@@ -3515,7 +3706,7 @@
           "target": "com.huggingface.papers#GetPaperResponseCommentsItemAuthor"
         },
         "type": {
-          "target": "smithy.api#Document",
+          "target": "smithy.api#String",
           "traits": {
             "smithy.api#required": {}
           }
@@ -3768,7 +3959,7 @@
           "target": "com.huggingface.papers#SearchPapers"
         },
         {
-          "target": "com.huggingface.papers#ListPaper"
+          "target": "com.huggingface.papers#IndexPaper"
         },
         {
           "target": "com.huggingface.papers#GetPaper"

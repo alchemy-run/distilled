@@ -26,6 +26,8 @@ export interface AppCountLogsRequest {
   until?: string;
   bucketSecs?: number;
   source?: FileDescriptor | (string & {});
+  /** Restrict logs to this exact Function ID, including when it is the base Function. */
+  parametrizedFunctionId?: string;
 }
 export const AppCountLogsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -39,16 +41,9 @@ export const AppCountLogsRequest = /*@__PURE__*/ S.suspend(() =>
     until: S.optional(S.String),
     bucketSecs: S.optional(S.Number),
     source: S.optional(FileDescriptor),
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/modal.client.ModalClient/AppCountLogs",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "AppCountLogsRequest",
-}) as any as S.Schema<AppCountLogsRequest>;
+    parametrizedFunctionId: S.optional(S.String),
+  }).pipe(T.Http({ method: "POST", uri: "/modal.client.ModalClient/AppCountLogs", code: 200 })),
+).annotate({ identifier: "AppCountLogsRequest" }) as any as S.Schema<AppCountLogsRequest>;
 
 export interface AppCountLogsResponseLogBucket {
   bucketStartAt?: string;
@@ -81,9 +76,7 @@ export const AppCountLogsResponse = /*@__PURE__*/ S.suspend(() =>
     appId: S.optional(S.String),
     buckets: S.optional(AppCountLogsResponseLogBucketList),
   }),
-).annotate({
-  identifier: "AppCountLogsResponse",
-}) as any as S.Schema<AppCountLogsResponse>;
+).annotate({ identifier: "AppCountLogsResponse" }) as any as S.Schema<AppCountLogsResponse>;
 
 export interface AppDeploymentHistoryRequest {
   appId?: string;
@@ -92,11 +85,7 @@ export const AppDeploymentHistoryRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     appId: S.optional(S.String),
   }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/modal.client.ModalClient/AppDeploymentHistory",
-      code: 200,
-    }),
+    T.Http({ method: "POST", uri: "/modal.client.ModalClient/AppDeploymentHistory", code: 200 }),
   ),
 ).annotate({
   identifier: "AppDeploymentHistoryRequest",
@@ -162,9 +151,7 @@ export const AppDeploymentHistory2 = /*@__PURE__*/ S.suspend(() =>
     commitInfo: S.optional(CommitInfo),
     deploymentType: S.optional(DeploymentType),
   }),
-).annotate({
-  identifier: "AppDeploymentHistory2",
-}) as any as S.Schema<AppDeploymentHistory2>;
+).annotate({ identifier: "AppDeploymentHistory2" }) as any as S.Schema<AppDeploymentHistory2>;
 
 export type AppDeploymentHistory2List = Array<AppDeploymentHistory2>;
 export const AppDeploymentHistory2List = /*@__PURE__*/ S.Array(
@@ -195,6 +182,8 @@ export interface AppFetchLogsRequest {
   taskId?: string;
   sandboxId?: string;
   searchText?: string;
+  /** Restrict logs to this exact Function ID, including when it is the base Function. */
+  parametrizedFunctionId?: string;
 }
 export const AppFetchLogsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -208,16 +197,9 @@ export const AppFetchLogsRequest = /*@__PURE__*/ S.suspend(() =>
     taskId: S.optional(S.String),
     sandboxId: S.optional(S.String),
     searchText: S.optional(S.String),
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/modal.client.ModalClient/AppFetchLogs",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "AppFetchLogsRequest",
-}) as any as S.Schema<AppFetchLogsRequest>;
+    parametrizedFunctionId: S.optional(S.String),
+  }).pipe(T.Http({ method: "POST", uri: "/modal.client.ModalClient/AppFetchLogs", code: 200 })),
+).annotate({ identifier: "AppFetchLogsRequest" }) as any as S.Schema<AppFetchLogsRequest>;
 
 export type TaskState =
   | "TASK_STATE_UNSPECIFIED"
@@ -296,6 +278,7 @@ export interface TaskLogsBatch {
   /** Used for interactive functions */
   rootFunctionId?: string;
   ttlDays?: number;
+  sandboxId?: string;
 }
 export const TaskLogsBatch = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -310,6 +293,7 @@ export const TaskLogsBatch = /*@__PURE__*/ S.suspend(() =>
     ptyExecId: S.optional(S.String),
     rootFunctionId: S.optional(S.String),
     ttlDays: S.optional(S.Number),
+    sandboxId: S.optional(S.String),
   }),
 ).annotate({ identifier: "TaskLogsBatch" }) as any as S.Schema<TaskLogsBatch>;
 
@@ -325,9 +309,7 @@ export const AppFetchLogsResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     batches: S.optional(TaskLogsBatchList),
   }),
-).annotate({
-  identifier: "AppFetchLogsResponse",
-}) as any as S.Schema<AppFetchLogsResponse>;
+).annotate({ identifier: "AppFetchLogsResponse" }) as any as S.Schema<AppFetchLogsResponse>;
 
 export interface AppGetByDeploymentNameRequest {
   /** removed namespace */
@@ -339,11 +321,7 @@ export const AppGetByDeploymentNameRequest = /*@__PURE__*/ S.suspend(() =>
     name: S.optional(S.String),
     environmentName: S.optional(S.String),
   }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/modal.client.ModalClient/AppGetByDeploymentName",
-      code: 200,
-    }),
+    T.Http({ method: "POST", uri: "/modal.client.ModalClient/AppGetByDeploymentName", code: 200 }),
   ),
 ).annotate({
   identifier: "AppGetByDeploymentNameRequest",
@@ -418,16 +396,8 @@ export interface AppGetInfoRequest {
 export const AppGetInfoRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     appId: S.optional(S.String),
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/modal.client.ModalClient/AppGetInfo",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "AppGetInfoRequest",
-}) as any as S.Schema<AppGetInfoRequest>;
+  }).pipe(T.Http({ method: "POST", uri: "/modal.client.ModalClient/AppGetInfo", code: 200 })),
+).annotate({ identifier: "AppGetInfoRequest" }) as any as S.Schema<AppGetInfoRequest>;
 
 export type StringMap = { [key: string]: string | undefined };
 export const StringMap = /*@__PURE__*/ S.Record(S.String, S.String) as any as S.Schema<StringMap>;
@@ -450,20 +420,120 @@ export const AppHandleMetadata = /*@__PURE__*/ S.suspend(() =>
     functions: S.optional(StringMap),
     servers: S.optional(StringMap),
   }),
+).annotate({ identifier: "AppHandleMetadata" }) as any as S.Schema<AppHandleMetadata>;
+
+export type GPUType =
+  | "GPU_TYPE_UNSPECIFIED"
+  | "GPU_TYPE_T4"
+  | "GPU_TYPE_A100"
+  | "GPU_TYPE_A10G"
+  | "GPU_TYPE_ANY"
+  | "GPU_TYPE_A100_80GB"
+  | "GPU_TYPE_L4"
+  | "GPU_TYPE_H100"
+  | "GPU_TYPE_L40S"
+  | "GPU_TYPE_H200";
+export const GPUType = S.String;
+
+export interface GPUConfig {
+  type?: GPUType;
+  /** Deprecated, at some point */
+  count?: number;
+  gpuType?: string;
+}
+export const GPUConfig = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    type: S.optional(GPUType),
+    count: S.optional(S.Number),
+    gpuType: S.optional(S.String),
+  }),
+).annotate({ identifier: "GPUConfig" }) as any as S.Schema<GPUConfig>;
+
+export type GPUConfigList = Array<GPUConfig>;
+export const GPUConfigList = /*@__PURE__*/ S.Array(GPUConfig) as any as S.Schema<GPUConfigList>;
+
+export interface ScheduleCron {
+  cronString?: string;
+  timezone?: string;
+}
+export const ScheduleCron = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    cronString: S.optional(S.String),
+    timezone: S.optional(S.String),
+  }),
+).annotate({ identifier: "ScheduleCron" }) as any as S.Schema<ScheduleCron>;
+
+export interface SchedulePeriod {
+  years?: number;
+  months?: number;
+  weeks?: number;
+  days?: number;
+  hours?: number;
+  minutes?: number;
+  seconds?: number;
+}
+export const SchedulePeriod = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    years: S.optional(S.Number),
+    months: S.optional(S.Number),
+    weeks: S.optional(S.Number),
+    days: S.optional(S.Number),
+    hours: S.optional(S.Number),
+    minutes: S.optional(S.Number),
+    seconds: S.optional(S.Number),
+  }),
+).annotate({ identifier: "SchedulePeriod" }) as any as S.Schema<SchedulePeriod>;
+
+export interface Schedule {
+  cron?: ScheduleCron;
+  period?: SchedulePeriod;
+}
+export const Schedule = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    cron: S.optional(ScheduleCron),
+    period: S.optional(SchedulePeriod),
+  }),
+).annotate({ identifier: "Schedule" }) as any as S.Schema<Schedule>;
+
+export interface AppGetInfoResponseFunctionInfoSummary {
+  gpuConfig?: GPUConfigList;
+  schedule?: Schedule;
+  /** True for Web Functions and classes with web methods; false for Servers. */
+  webFunction?: boolean;
+  requiresProxyAuth?: boolean;
+  /** True for Sessioned Servers. */
+  isSessioned?: boolean;
+}
+export const AppGetInfoResponseFunctionInfoSummary = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    gpuConfig: S.optional(GPUConfigList),
+    schedule: S.optional(Schedule),
+    webFunction: S.optional(S.Boolean),
+    requiresProxyAuth: S.optional(S.Boolean),
+    isSessioned: S.optional(S.Boolean),
+  }),
 ).annotate({
-  identifier: "AppHandleMetadata",
-}) as any as S.Schema<AppHandleMetadata>;
+  identifier: "AppGetInfoResponseFunctionInfoSummary",
+}) as any as S.Schema<AppGetInfoResponseFunctionInfoSummary>;
+
+export type AppGetInfoResponseFunctionInfoSummaryMap = {
+  [key: string]: AppGetInfoResponseFunctionInfoSummary | undefined;
+};
+export const AppGetInfoResponseFunctionInfoSummaryMap = /*@__PURE__*/ S.Record(
+  S.String,
+  AppGetInfoResponseFunctionInfoSummary,
+) as any as S.Schema<AppGetInfoResponseFunctionInfoSummaryMap>;
 
 export interface AppGetInfoResponse {
   info?: AppHandleMetadata;
+  functionInfoSummaries?: AppGetInfoResponseFunctionInfoSummaryMap;
 }
 export const AppGetInfoResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     info: S.optional(AppHandleMetadata),
+    functionInfoSummaries: S.optional(AppGetInfoResponseFunctionInfoSummaryMap),
   }),
-).annotate({
-  identifier: "AppGetInfoResponse",
-}) as any as S.Schema<AppGetInfoResponse>;
+).annotate({ identifier: "AppGetInfoResponse" }) as any as S.Schema<AppGetInfoResponse>;
 
 export interface AppGetLayoutRequest {
   appId?: string;
@@ -471,16 +541,8 @@ export interface AppGetLayoutRequest {
 export const AppGetLayoutRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     appId: S.optional(S.String),
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/modal.client.ModalClient/AppGetLayout",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "AppGetLayoutRequest",
-}) as any as S.Schema<AppGetLayoutRequest>;
+  }).pipe(T.Http({ method: "POST", uri: "/modal.client.ModalClient/AppGetLayout", code: 200 })),
+).annotate({ identifier: "AppGetLayoutRequest" }) as any as S.Schema<AppGetLayoutRequest>;
 
 export type FunctionFunctionType =
   | "FUNCTION_TYPE_UNSPECIFIED"
@@ -521,9 +583,7 @@ export const GenericPayloadType = /*@__PURE__*/ S.suspend(() =>
     baseType: S.optional(ParameterType),
     subTypes: S.optional(GenericPayloadTypeList),
   }),
-).annotate({
-  identifier: "GenericPayloadType",
-}) as any as S.Schema<GenericPayloadType>;
+).annotate({ identifier: "GenericPayloadType" }) as any as S.Schema<GenericPayloadType>;
 
 export interface ClassParameterSpec {
   /** TODO: rename into NamedPayloadType or similar */
@@ -551,9 +611,7 @@ export const ClassParameterSpec = /*@__PURE__*/ S.suspend(() =>
     boolDefault: S.optional(S.Boolean),
     fullType: S.optional(GenericPayloadType),
   }),
-).annotate({
-  identifier: "ClassParameterSpec",
-}) as any as S.Schema<ClassParameterSpec>;
+).annotate({ identifier: "ClassParameterSpec" }) as any as S.Schema<ClassParameterSpec>;
 
 export type ClassParameterSpecList = Array<ClassParameterSpec>;
 export const ClassParameterSpecList = /*@__PURE__*/ S.Array(
@@ -570,13 +628,9 @@ export const ClassParameterInfo = /*@__PURE__*/ S.suspend(() =>
     format: S.optional(ClassParameterInfoParameterSerializationFormat),
     schema: S.optional(ClassParameterSpecList),
   }),
-).annotate({
-  identifier: "ClassParameterInfo",
-}) as any as S.Schema<ClassParameterInfo>;
+).annotate({ identifier: "ClassParameterInfo" }) as any as S.Schema<ClassParameterInfo>;
 
-export type FunctionHandleMetadataMap = {
-  [key: string]: FunctionHandleMetadata | undefined;
-};
+export type FunctionHandleMetadataMap = { [key: string]: FunctionHandleMetadata | undefined };
 export const FunctionHandleMetadataMap = /*@__PURE__*/ S.Record(
   S.String,
   S.suspend(() => FunctionHandleMetadata),
@@ -620,8 +674,7 @@ export interface FunctionHandleMetadata {
   functionType?: FunctionFunctionType;
   webUrl?: string;
   isMethod?: boolean;
-  useFunctionId?: string;
-  /** used for methods */
+  /** use_function_id, pre-0.67 class method placeholders */
   useMethodName?: string;
   /** used for methods */
   definitionId?: string;
@@ -639,6 +692,8 @@ export interface FunctionHandleMetadata {
   supportedInputFormats?: DataFormatList;
   supportedOutputFormats?: DataFormatList;
   appId?: string;
+  /** The base Function ID for a variant, or the Function's own ID otherwise. */
+  baseFunctionId?: string;
 }
 export const FunctionHandleMetadata = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -646,7 +701,6 @@ export const FunctionHandleMetadata = /*@__PURE__*/ S.suspend(() =>
     functionType: S.optional(FunctionFunctionType),
     webUrl: S.optional(S.String),
     isMethod: S.optional(S.Boolean),
-    useFunctionId: S.optional(S.String),
     useMethodName: S.optional(S.String),
     definitionId: S.optional(S.String),
     classParameterInfo: S.optional(ClassParameterInfo),
@@ -660,10 +714,9 @@ export const FunctionHandleMetadata = /*@__PURE__*/ S.suspend(() =>
     supportedInputFormats: S.optional(DataFormatList),
     supportedOutputFormats: S.optional(DataFormatList),
     appId: S.optional(S.String),
+    baseFunctionId: S.optional(S.String),
   }),
-).annotate({
-  identifier: "FunctionHandleMetadata",
-}) as any as S.Schema<FunctionHandleMetadata>;
+).annotate({ identifier: "FunctionHandleMetadata" }) as any as S.Schema<FunctionHandleMetadata>;
 
 export interface MountHandleMetadata {
   contentChecksumSha256Hex?: string;
@@ -672,9 +725,7 @@ export const MountHandleMetadata = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     contentChecksumSha256Hex: S.optional(S.String),
   }),
-).annotate({
-  identifier: "MountHandleMetadata",
-}) as any as S.Schema<MountHandleMetadata>;
+).annotate({ identifier: "MountHandleMetadata" }) as any as S.Schema<MountHandleMetadata>;
 
 export interface ClassMethod {
   functionName?: string;
@@ -706,9 +757,7 @@ export const ClassHandleMetadata = /*@__PURE__*/ S.suspend(() =>
     classFunctionId: S.optional(S.String),
     classFunctionMetadata: S.optional(FunctionHandleMetadata),
   }),
-).annotate({
-  identifier: "ClassHandleMetadata",
-}) as any as S.Schema<ClassHandleMetadata>;
+).annotate({ identifier: "ClassHandleMetadata" }) as any as S.Schema<ClassHandleMetadata>;
 
 /** Used for both tasks and function outputs */
 export type GenericResultGenericStatus =
@@ -766,9 +815,7 @@ export const SandboxHandleMetadata = /*@__PURE__*/ S.suspend(() =>
     result: S.optional(GenericResult),
     appId: S.optional(S.String),
   }),
-).annotate({
-  identifier: "SandboxHandleMetadata",
-}) as any as S.Schema<SandboxHandleMetadata>;
+).annotate({ identifier: "SandboxHandleMetadata" }) as any as S.Schema<SandboxHandleMetadata>;
 
 /** HTTP/2 tunnel */
 export type VolumeFsVersion =
@@ -846,9 +893,7 @@ export const AppGetLayoutResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     appLayout: S.optional(AppLayout),
   }),
-).annotate({
-  identifier: "AppGetLayoutResponse",
-}) as any as S.Schema<AppGetLayoutResponse>;
+).annotate({ identifier: "AppGetLayoutResponse" }) as any as S.Schema<AppGetLayoutResponse>;
 
 export interface AppGetLifecycleRequest {
   appId?: string;
@@ -856,16 +901,8 @@ export interface AppGetLifecycleRequest {
 export const AppGetLifecycleRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     appId: S.optional(S.String),
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/modal.client.ModalClient/AppGetLifecycle",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "AppGetLifecycleRequest",
-}) as any as S.Schema<AppGetLifecycleRequest>;
+  }).pipe(T.Http({ method: "POST", uri: "/modal.client.ModalClient/AppGetLifecycle", code: 200 })),
+).annotate({ identifier: "AppGetLifecycleRequest" }) as any as S.Schema<AppGetLifecycleRequest>;
 
 export interface AppGetLifecycleResponse {
   lifecycle?: AppLifecycle;
@@ -874,9 +911,7 @@ export const AppGetLifecycleResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     lifecycle: S.optional(AppLifecycle),
   }),
-).annotate({
-  identifier: "AppGetLifecycleResponse",
-}) as any as S.Schema<AppGetLifecycleResponse>;
+).annotate({ identifier: "AppGetLifecycleResponse" }) as any as S.Schema<AppGetLifecycleResponse>;
 
 export interface AppGetObjectsRequest {
   appId?: string;
@@ -888,16 +923,8 @@ export const AppGetObjectsRequest = /*@__PURE__*/ S.suspend(() =>
     appId: S.optional(S.String),
     includeUnindexed: S.optional(S.Boolean),
     onlyClassFunction: S.optional(S.Boolean),
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/modal.client.ModalClient/AppGetObjects",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "AppGetObjectsRequest",
-}) as any as S.Schema<AppGetObjectsRequest>;
+  }).pipe(T.Http({ method: "POST", uri: "/modal.client.ModalClient/AppGetObjects", code: 200 })),
+).annotate({ identifier: "AppGetObjectsRequest" }) as any as S.Schema<AppGetObjectsRequest>;
 
 export interface AppGetObjectsItem {
   tag?: string;
@@ -908,9 +935,7 @@ export const AppGetObjectsItem = /*@__PURE__*/ S.suspend(() =>
     tag: S.optional(S.String),
     object: S.optional(Object),
   }),
-).annotate({
-  identifier: "AppGetObjectsItem",
-}) as any as S.Schema<AppGetObjectsItem>;
+).annotate({ identifier: "AppGetObjectsItem" }) as any as S.Schema<AppGetObjectsItem>;
 
 export type AppGetObjectsItemList = Array<AppGetObjectsItem>;
 export const AppGetObjectsItemList = /*@__PURE__*/ S.Array(
@@ -924,9 +949,7 @@ export const AppGetObjectsResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     items: S.optional(AppGetObjectsItemList),
   }),
-).annotate({
-  identifier: "AppGetObjectsResponse",
-}) as any as S.Schema<AppGetObjectsResponse>;
+).annotate({ identifier: "AppGetObjectsResponse" }) as any as S.Schema<AppGetObjectsResponse>;
 
 export type ObjectCreationType =
   | "OBJECT_CREATION_TYPE_UNSPECIFIED"
@@ -947,16 +970,8 @@ export const AppGetOrCreateRequest = /*@__PURE__*/ S.suspend(() =>
     appName: S.optional(S.String),
     environmentName: S.optional(S.String),
     objectCreationType: S.optional(ObjectCreationType),
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/modal.client.ModalClient/AppGetOrCreate",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "AppGetOrCreateRequest",
-}) as any as S.Schema<AppGetOrCreateRequest>;
+  }).pipe(T.Http({ method: "POST", uri: "/modal.client.ModalClient/AppGetOrCreate", code: 200 })),
+).annotate({ identifier: "AppGetOrCreateRequest" }) as any as S.Schema<AppGetOrCreateRequest>;
 
 export interface AppGetOrCreateResponse {
   appId?: string;
@@ -967,9 +982,7 @@ export const AppGetOrCreateResponse = /*@__PURE__*/ S.suspend(() =>
     appId: S.optional(S.String),
     handleMetadata: S.optional(AppHandleMetadata),
   }),
-).annotate({
-  identifier: "AppGetOrCreateResponse",
-}) as any as S.Schema<AppGetOrCreateResponse>;
+).annotate({ identifier: "AppGetOrCreateResponse" }) as any as S.Schema<AppGetOrCreateResponse>;
 
 export interface AppGetTagsRequest {
   appId?: string;
@@ -977,16 +990,8 @@ export interface AppGetTagsRequest {
 export const AppGetTagsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     appId: S.optional(S.String),
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/modal.client.ModalClient/AppGetTags",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "AppGetTagsRequest",
-}) as any as S.Schema<AppGetTagsRequest>;
+  }).pipe(T.Http({ method: "POST", uri: "/modal.client.ModalClient/AppGetTags", code: 200 })),
+).annotate({ identifier: "AppGetTagsRequest" }) as any as S.Schema<AppGetTagsRequest>;
 
 export interface AppGetTagsResponse {
   tags?: StringMap;
@@ -995,9 +1000,7 @@ export const AppGetTagsResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     tags: S.optional(StringMap),
   }),
-).annotate({
-  identifier: "AppGetTagsResponse",
-}) as any as S.Schema<AppGetTagsResponse>;
+).annotate({ identifier: "AppGetTagsResponse" }) as any as S.Schema<AppGetTagsResponse>;
 
 export interface AppHeartbeatRequest {
   appId?: string;
@@ -1005,16 +1008,8 @@ export interface AppHeartbeatRequest {
 export const AppHeartbeatRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     appId: S.optional(S.String),
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/modal.client.ModalClient/AppHeartbeat",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "AppHeartbeatRequest",
-}) as any as S.Schema<AppHeartbeatRequest>;
+  }).pipe(T.Http({ method: "POST", uri: "/modal.client.ModalClient/AppHeartbeat", code: 200 })),
+).annotate({ identifier: "AppHeartbeatRequest" }) as any as S.Schema<AppHeartbeatRequest>;
 
 export interface AppHeartbeatResponse {}
 export const AppHeartbeatResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -1029,16 +1024,8 @@ export const AppRollbackRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     appId: S.optional(S.String),
     version: S.optional(S.Number),
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/modal.client.ModalClient/AppRollback",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "AppRollbackRequest",
-}) as any as S.Schema<AppRollbackRequest>;
+  }).pipe(T.Http({ method: "POST", uri: "/modal.client.ModalClient/AppRollback", code: 200 })),
+).annotate({ identifier: "AppRollbackRequest" }) as any as S.Schema<AppRollbackRequest>;
 
 export type WarningWarningType =
   | "WARNING_TYPE_UNSPECIFIED"
@@ -1072,9 +1059,7 @@ export const AppRollbackResponse = /*@__PURE__*/ S.suspend(() =>
     serverWarnings: S.optional(WarningList),
     deployedAt: S.optional(S.Number),
   }),
-).annotate({
-  identifier: "AppRollbackResponse",
-}) as any as S.Schema<AppRollbackResponse>;
+).annotate({ identifier: "AppRollbackResponse" }) as any as S.Schema<AppRollbackResponse>;
 
 export interface AppRolloverRequest {
   appId?: string;
@@ -1082,16 +1067,8 @@ export interface AppRolloverRequest {
 export const AppRolloverRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     appId: S.optional(S.String),
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/modal.client.ModalClient/AppRollover",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "AppRolloverRequest",
-}) as any as S.Schema<AppRolloverRequest>;
+  }).pipe(T.Http({ method: "POST", uri: "/modal.client.ModalClient/AppRollover", code: 200 })),
+).annotate({ identifier: "AppRolloverRequest" }) as any as S.Schema<AppRolloverRequest>;
 
 export interface AppRolloverResponse {
   url?: string;
@@ -1104,9 +1081,7 @@ export const AppRolloverResponse = /*@__PURE__*/ S.suspend(() =>
     serverWarnings: S.optional(WarningList),
     deployedAt: S.optional(S.Number),
   }),
-).annotate({
-  identifier: "AppRolloverResponse",
-}) as any as S.Schema<AppRolloverResponse>;
+).annotate({ identifier: "AppRolloverResponse" }) as any as S.Schema<AppRolloverResponse>;
 
 export interface AppSetObjectsRequest {
   appId?: string;
@@ -1122,16 +1097,8 @@ export const AppSetObjectsRequest = /*@__PURE__*/ S.suspend(() =>
     clientId: S.optional(S.String),
     unindexedObjectIds: S.optional(StringList),
     newAppState: S.optional(AppState),
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/modal.client.ModalClient/AppSetObjects",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "AppSetObjectsRequest",
-}) as any as S.Schema<AppSetObjectsRequest>;
+  }).pipe(T.Http({ method: "POST", uri: "/modal.client.ModalClient/AppSetObjects", code: 200 })),
+).annotate({ identifier: "AppSetObjectsRequest" }) as any as S.Schema<AppSetObjectsRequest>;
 
 export interface AppSetObjectsResponse {}
 export const AppSetObjectsResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -1146,16 +1113,8 @@ export const AppSetTagsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     appId: S.optional(S.String),
     tags: S.optional(StringMap),
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/modal.client.ModalClient/AppSetTags",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "AppSetTagsRequest",
-}) as any as S.Schema<AppSetTagsRequest>;
+  }).pipe(T.Http({ method: "POST", uri: "/modal.client.ModalClient/AppSetTags", code: 200 })),
+).annotate({ identifier: "AppSetTagsRequest" }) as any as S.Schema<AppSetTagsRequest>;
 
 export interface AppSetTagsResponse {}
 export const AppSetTagsResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -1177,16 +1136,8 @@ export const CreateAppRequest = /*@__PURE__*/ S.suspend(() =>
     environmentName: S.optional(S.String),
     appState: S.optional(AppState),
     tags: S.optional(StringMap),
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/modal.client.ModalClient/AppCreate",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "CreateAppRequest",
-}) as any as S.Schema<CreateAppRequest>;
+  }).pipe(T.Http({ method: "POST", uri: "/modal.client.ModalClient/AppCreate", code: 200 })),
+).annotate({ identifier: "CreateAppRequest" }) as any as S.Schema<CreateAppRequest>;
 
 export interface CreateAppResponse {
   appId?: string;
@@ -1199,9 +1150,7 @@ export const CreateAppResponse = /*@__PURE__*/ S.suspend(() =>
     appPageUrl: S.optional(S.String),
     appLogsUrl: S.optional(S.String),
   }),
-).annotate({
-  identifier: "CreateAppResponse",
-}) as any as S.Schema<CreateAppResponse>;
+).annotate({ identifier: "CreateAppResponse" }) as any as S.Schema<CreateAppResponse>;
 
 /** gRPC protos for Modal's public API surface. Warning: direct usage of Modal's gRPC API is discouraged, and no support or compatibility guarantees are provided. Message fields or entire RPCs may be changed or removed without notice. We recommend using official SDKs instead. */
 export type AppDeployVisibility =
@@ -1225,16 +1174,8 @@ export const DeployAppRequest = /*@__PURE__*/ S.suspend(() =>
     objectEntity: S.optional(S.String),
     visibility: S.optional(AppDeployVisibility),
     tag: S.optional(S.String),
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/modal.client.ModalClient/AppDeploy",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "DeployAppRequest",
-}) as any as S.Schema<DeployAppRequest>;
+  }).pipe(T.Http({ method: "POST", uri: "/modal.client.ModalClient/AppDeploy", code: 200 })),
+).annotate({ identifier: "DeployAppRequest" }) as any as S.Schema<DeployAppRequest>;
 
 export interface DeployAppResponse {
   url?: string;
@@ -1243,9 +1184,7 @@ export const DeployAppResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     url: S.optional(S.String),
   }),
-).annotate({
-  identifier: "DeployAppResponse",
-}) as any as S.Schema<DeployAppResponse>;
+).annotate({ identifier: "DeployAppResponse" }) as any as S.Schema<DeployAppResponse>;
 
 export type AppDisconnectReason =
   | "APP_DISCONNECT_REASON_UNSPECIFIED"
@@ -1267,11 +1206,7 @@ export const DisconnectAppClientRequest = /*@__PURE__*/ S.suspend(() =>
     reason: S.optional(AppDisconnectReason),
     exception: S.optional(S.String),
   }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/modal.client.ModalClient/AppClientDisconnect",
-      code: 200,
-    }),
+    T.Http({ method: "POST", uri: "/modal.client.ModalClient/AppClientDisconnect", code: 200 }),
   ),
 ).annotate({
   identifier: "DisconnectAppClientRequest",
@@ -1288,13 +1223,7 @@ export interface ListAppRequest {
 export const ListAppRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     environmentName: S.optional(S.String),
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/modal.client.ModalClient/AppList",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "POST", uri: "/modal.client.ModalClient/AppList", code: 200 })),
 ).annotate({ identifier: "ListAppRequest" }) as any as S.Schema<ListAppRequest>;
 
 export interface ListAppResponseAppListItem {
@@ -1305,6 +1234,7 @@ export interface ListAppResponseAppListItem {
   stoppedAt?: number;
   nRunningTasks?: number;
   name?: string;
+  metadata?: AppHandleMetadata;
 }
 export const ListAppResponseAppListItem = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -1315,6 +1245,7 @@ export const ListAppResponseAppListItem = /*@__PURE__*/ S.suspend(() =>
     stoppedAt: S.optional(S.Number),
     nRunningTasks: S.optional(S.Number),
     name: S.optional(S.String),
+    metadata: S.optional(AppHandleMetadata),
   }),
 ).annotate({
   identifier: "ListAppResponseAppListItem",
@@ -1332,9 +1263,7 @@ export const ListAppResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     apps: S.optional(ListAppResponseAppListItemList),
   }),
-).annotate({
-  identifier: "ListAppResponse",
-}) as any as S.Schema<ListAppResponse>;
+).annotate({ identifier: "ListAppResponse" }) as any as S.Schema<ListAppResponse>;
 
 export interface LookupAppRequest {
   appName?: string;
@@ -1344,16 +1273,8 @@ export const LookupAppRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     appName: S.optional(S.String),
     environmentName: S.optional(S.String),
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/modal.client.ModalClient/AppLookup",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "LookupAppRequest",
-}) as any as S.Schema<LookupAppRequest>;
+  }).pipe(T.Http({ method: "POST", uri: "/modal.client.ModalClient/AppLookup", code: 200 })),
+).annotate({ identifier: "LookupAppRequest" }) as any as S.Schema<LookupAppRequest>;
 
 export interface LookupAppResponse {
   appId?: string;
@@ -1362,9 +1283,7 @@ export const LookupAppResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     appId: S.optional(S.String),
   }),
-).annotate({
-  identifier: "LookupAppResponse",
-}) as any as S.Schema<LookupAppResponse>;
+).annotate({ identifier: "LookupAppResponse" }) as any as S.Schema<LookupAppResponse>;
 
 export interface PromoteAppRequest {
   appId?: string;
@@ -1374,16 +1293,8 @@ export const PromoteAppRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     appId: S.optional(S.String),
     version: S.optional(S.Number),
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/modal.client.ModalClient/AppPromote",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "PromoteAppRequest",
-}) as any as S.Schema<PromoteAppRequest>;
+  }).pipe(T.Http({ method: "POST", uri: "/modal.client.ModalClient/AppPromote", code: 200 })),
+).annotate({ identifier: "PromoteAppRequest" }) as any as S.Schema<PromoteAppRequest>;
 
 export interface PromoteAppResponse {
   url?: string;
@@ -1396,9 +1307,7 @@ export const PromoteAppResponse = /*@__PURE__*/ S.suspend(() =>
     serverWarnings: S.optional(WarningList),
     deployedAt: S.optional(S.Number),
   }),
-).annotate({
-  identifier: "PromoteAppResponse",
-}) as any as S.Schema<PromoteAppResponse>;
+).annotate({ identifier: "PromoteAppResponse" }) as any as S.Schema<PromoteAppResponse>;
 
 export interface PublishAppRequest {
   appId?: string;
@@ -1439,16 +1348,8 @@ export const PublishAppRequest = /*@__PURE__*/ S.suspend(() =>
     tags: S.optional(StringMap),
     staged: S.optional(S.Boolean),
     deploymentType: S.optional(DeploymentType),
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/modal.client.ModalClient/AppPublish",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "PublishAppRequest",
-}) as any as S.Schema<PublishAppRequest>;
+  }).pipe(T.Http({ method: "POST", uri: "/modal.client.ModalClient/AppPublish", code: 200 })),
+).annotate({ identifier: "PublishAppRequest" }) as any as S.Schema<PublishAppRequest>;
 
 export interface PublishAppResponse {
   url?: string;
@@ -1461,9 +1362,7 @@ export const PublishAppResponse = /*@__PURE__*/ S.suspend(() =>
     serverWarnings: S.optional(WarningList),
     deployedAt: S.optional(S.Number),
   }),
-).annotate({
-  identifier: "PublishAppResponse",
-}) as any as S.Schema<PublishAppResponse>;
+).annotate({ identifier: "PublishAppResponse" }) as any as S.Schema<PublishAppResponse>;
 
 export type AppStopSource =
   | "APP_STOP_SOURCE_UNSPECIFIED"
@@ -1480,13 +1379,7 @@ export const StopAppRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     appId: S.optional(S.String),
     source: S.optional(AppStopSource),
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/modal.client.ModalClient/AppStop",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "POST", uri: "/modal.client.ModalClient/AppStop", code: 200 })),
 ).annotate({ identifier: "StopAppRequest" }) as any as S.Schema<StopAppRequest>;
 
 export interface StopAppResponse {}

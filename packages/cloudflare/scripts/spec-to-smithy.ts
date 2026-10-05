@@ -1231,17 +1231,24 @@ const resolveDesc = (bag: Bag, descRaw: string, children: FieldNode[], hint: str
   if (armChildren.length > 0) {
     // `array of A or B` lists the ITEM cases as children — unless a child is
     // itself an array arm, which means the union is at the top level
-    // (`array of string or boolean`).
+    // (`array of string or boolean`). `map[A or B]` likewise lists the VALUE
+    // cases (Worker `exports: map[object {…} or object {…}]`).
     const itemLevel = isArrayDesc && !armChildren.some((c) => /^array\b/.test(c.typeStr));
-    const armHint = itemLevel ? `${hint}Item` : hint;
+    const valueLevel =
+      mapValueDesc(desc) !== undefined &&
+      parts.length === 1 &&
+      !armChildren.some((c) => stripOptional(c.typeStr).core.startsWith("map["));
+    const armHint = itemLevel ? `${hint}Item` : valueLevel ? `${hint}Value` : hint;
     const arms = armChildren.map((c, i) => parseArmNode(bag, c, armHint, i));
     const r = armsToResolved(bag, arms, armHint);
     // A named def whose arms this page just enumerated (`ttl: TTL`,
     // `value: SettingValue`) — remember it for later bare references.
-    if (!itemLevel && parts.length === 1 && NAMED_TYPE.test(desc)) {
+    if (!itemLevel && !valueLevel && parts.length === 1 && NAMED_TYPE.test(desc)) {
       namedTypeRegistry.set(desc, r.target);
     }
-    return itemLevel ? { target: listOf(bag, r.target, hint), nullable: false } : r;
+    if (itemLevel) return { target: listOf(bag, r.target, hint), nullable: false };
+    if (valueLevel) return { target: mapOf(bag, r.target, hint), nullable: false };
+    return r;
   }
 
   if (parts.length > 1) {

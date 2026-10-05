@@ -989,7 +989,7 @@
         }
       }
     },
-    "com.cloudflare.ai_gateway#CreateRequestSpendLimitsRulesItemMetadataModeMode": {
+    "com.cloudflare.ai_gateway#CreateRequestSpendLimitsRulesItemMetadataValueModeMode": {
       "type": "enum",
       "members": {
         "PARTITION": {
@@ -1000,18 +1000,18 @@
         }
       }
     },
-    "com.cloudflare.ai_gateway#CreateRequestSpendLimitsRulesItemMetadataMode": {
+    "com.cloudflare.ai_gateway#CreateRequestSpendLimitsRulesItemMetadataValueMode": {
       "type": "structure",
       "members": {
         "mode": {
-          "target": "com.cloudflare.ai_gateway#CreateRequestSpendLimitsRulesItemMetadataModeMode",
+          "target": "com.cloudflare.ai_gateway#CreateRequestSpendLimitsRulesItemMetadataValueModeMode",
           "traits": {
             "smithy.api#required": {}
           }
         }
       }
     },
-    "com.cloudflare.ai_gateway#CreateRequestSpendLimitsRulesItemMetadataCase1Mode": {
+    "com.cloudflare.ai_gateway#CreateRequestSpendLimitsRulesItemMetadataValueCase1Mode": {
       "type": "enum",
       "members": {
         "FILTER": {
@@ -1022,38 +1022,47 @@
         }
       }
     },
-    "com.cloudflare.ai_gateway#CreateRequestSpendLimitsRulesItemMetadataCase1ValuesList": {
+    "com.cloudflare.ai_gateway#CreateRequestSpendLimitsRulesItemMetadataValueCase1ValuesList": {
       "type": "list",
       "member": {
         "target": "smithy.api#String"
       }
     },
-    "com.cloudflare.ai_gateway#CreateRequestSpendLimitsRulesItemMetadataCase1": {
+    "com.cloudflare.ai_gateway#CreateRequestSpendLimitsRulesItemMetadataValueCase1": {
       "type": "structure",
       "members": {
         "mode": {
-          "target": "com.cloudflare.ai_gateway#CreateRequestSpendLimitsRulesItemMetadataCase1Mode",
+          "target": "com.cloudflare.ai_gateway#CreateRequestSpendLimitsRulesItemMetadataValueCase1Mode",
           "traits": {
             "smithy.api#required": {}
           }
         },
         "values": {
-          "target": "com.cloudflare.ai_gateway#CreateRequestSpendLimitsRulesItemMetadataCase1ValuesList",
+          "target": "com.cloudflare.ai_gateway#CreateRequestSpendLimitsRulesItemMetadataValueCase1ValuesList",
           "traits": {
             "smithy.api#required": {}
           }
         }
       }
     },
-    "com.cloudflare.ai_gateway#CreateRequestSpendLimitsRulesItemMetadata": {
+    "com.cloudflare.ai_gateway#CreateRequestSpendLimitsRulesItemMetadataValue": {
       "type": "union",
       "members": {
         "Mode": {
-          "target": "com.cloudflare.ai_gateway#CreateRequestSpendLimitsRulesItemMetadataMode"
+          "target": "com.cloudflare.ai_gateway#CreateRequestSpendLimitsRulesItemMetadataValueMode"
         },
-        "CreateRequestSpendLimitsRulesItemMetadataCase1": {
-          "target": "com.cloudflare.ai_gateway#CreateRequestSpendLimitsRulesItemMetadataCase1"
+        "CreateRequestSpendLimitsRulesItemMetadataValueCase1": {
+          "target": "com.cloudflare.ai_gateway#CreateRequestSpendLimitsRulesItemMetadataValueCase1"
         }
+      }
+    },
+    "com.cloudflare.ai_gateway#CreateRequestSpendLimitsRulesItemMetadataMap": {
+      "type": "map",
+      "key": {
+        "target": "smithy.api#String"
+      },
+      "value": {
+        "target": "com.cloudflare.ai_gateway#CreateRequestSpendLimitsRulesItemMetadataValue"
       }
     },
     "com.cloudflare.ai_gateway#CreateRequestSpendLimitsRulesItemModelMode": {
@@ -1171,7 +1180,7 @@
           "target": "smithy.api#Boolean"
         },
         "metadata": {
-          "target": "com.cloudflare.ai_gateway#CreateRequestSpendLimitsRulesItemMetadata"
+          "target": "com.cloudflare.ai_gateway#CreateRequestSpendLimitsRulesItemMetadataMap"
         },
         "model": {
           "target": "com.cloudflare.ai_gateway#CreateRequestSpendLimitsRulesItemModel"
@@ -2123,7 +2132,7 @@
         }
       }
     },
-    "com.cloudflare.ai_gateway#CreateResponseSpendLimitsRulesItemMetadataModeMode": {
+    "com.cloudflare.ai_gateway#CreateResponseSpendLimitsRulesItemMetadataValueModeMode": {
       "type": "enum",
       "members": {
         "PARTITION": {
@@ -2134,18 +2143,18 @@
         }
       }
     },
-    "com.cloudflare.ai_gateway#CreateResponseSpendLimitsRulesItemMetadataMode": {
+    "com.cloudflare.ai_gateway#CreateResponseSpendLimitsRulesItemMetadataValueMode": {
       "type": "structure",
       "members": {
         "mode": {
-          "target": "com.cloudflare.ai_gateway#CreateResponseSpendLimitsRulesItemMetadataModeMode",
+          "target": "com.cloudflare.ai_gateway#CreateResponseSpendLimitsRulesItemMetadataValueModeMode",
           "traits": {
             "smithy.api#required": {}
           }
         }
       }
     },
-    "com.cloudflare.ai_gateway#CreateResponseSpendLimitsRulesItemMetadataCase1Mode": {
+    "com.cloudflare.ai_gateway#CreateResponseSpendLimitsRulesItemMetadataValueCase1Mode": {
       "type": "enum",
       "members": {
         "FILTER": {
@@ -2156,38 +2165,47 @@
         }
       }
     },
-    "com.cloudflare.ai_gateway#CreateResponseSpendLimitsRulesItemMetadataCase1ValuesList": {
+    "com.cloudflare.ai_gateway#CreateResponseSpendLimitsRulesItemMetadataValueCase1ValuesList": {
       "type": "list",
       "member": {
         "target": "smithy.api#String"
       }
     },
-    "com.cloudflare.ai_gateway#CreateResponseSpendLimitsRulesItemMetadataCase1": {
+    "com.cloudflare.ai_gateway#CreateResponseSpendLimitsRulesItemMetadataValueCase1": {
       "type": "structure",
       "members": {
         "mode": {
-          "target": "com.cloudflare.ai_gateway#CreateResponseSpendLimitsRulesItemMetadataCase1Mode",
+          "target": "com.cloudflare.ai_gateway#CreateResponseSpendLimitsRulesItemMetadataValueCase1Mode",
           "traits": {
             "smithy.api#required": {}
           }
         },
         "values": {
-          "target": "com.cloudflare.ai_gateway#CreateResponseSpendLimitsRulesItemMetadataCase1ValuesList",
+          "target": "com.cloudflare.ai_gateway#CreateResponseSpendLimitsRulesItemMetadataValueCase1ValuesList",
           "traits": {
             "smithy.api#required": {}
           }
         }
       }
     },
-    "com.cloudflare.ai_gateway#CreateResponseSpendLimitsRulesItemMetadata": {
+    "com.cloudflare.ai_gateway#CreateResponseSpendLimitsRulesItemMetadataValue": {
       "type": "union",
       "members": {
         "Mode": {
-          "target": "com.cloudflare.ai_gateway#CreateResponseSpendLimitsRulesItemMetadataMode"
+          "target": "com.cloudflare.ai_gateway#CreateResponseSpendLimitsRulesItemMetadataValueMode"
         },
-        "CreateResponseSpendLimitsRulesItemMetadataCase1": {
-          "target": "com.cloudflare.ai_gateway#CreateResponseSpendLimitsRulesItemMetadataCase1"
+        "CreateResponseSpendLimitsRulesItemMetadataValueCase1": {
+          "target": "com.cloudflare.ai_gateway#CreateResponseSpendLimitsRulesItemMetadataValueCase1"
         }
+      }
+    },
+    "com.cloudflare.ai_gateway#CreateResponseSpendLimitsRulesItemMetadataMap": {
+      "type": "map",
+      "key": {
+        "target": "smithy.api#String"
+      },
+      "value": {
+        "target": "com.cloudflare.ai_gateway#CreateResponseSpendLimitsRulesItemMetadataValue"
       }
     },
     "com.cloudflare.ai_gateway#CreateResponseSpendLimitsRulesItemModelMode": {
@@ -3257,7 +3275,7 @@
         }
       }
     },
-    "com.cloudflare.ai_gateway#DeleteResponseSpendLimitsRulesItemMetadataModeMode": {
+    "com.cloudflare.ai_gateway#DeleteResponseSpendLimitsRulesItemMetadataValueModeMode": {
       "type": "enum",
       "members": {
         "PARTITION": {
@@ -3268,18 +3286,18 @@
         }
       }
     },
-    "com.cloudflare.ai_gateway#DeleteResponseSpendLimitsRulesItemMetadataMode": {
+    "com.cloudflare.ai_gateway#DeleteResponseSpendLimitsRulesItemMetadataValueMode": {
       "type": "structure",
       "members": {
         "mode": {
-          "target": "com.cloudflare.ai_gateway#DeleteResponseSpendLimitsRulesItemMetadataModeMode",
+          "target": "com.cloudflare.ai_gateway#DeleteResponseSpendLimitsRulesItemMetadataValueModeMode",
           "traits": {
             "smithy.api#required": {}
           }
         }
       }
     },
-    "com.cloudflare.ai_gateway#DeleteResponseSpendLimitsRulesItemMetadataCase1Mode": {
+    "com.cloudflare.ai_gateway#DeleteResponseSpendLimitsRulesItemMetadataValueCase1Mode": {
       "type": "enum",
       "members": {
         "FILTER": {
@@ -3290,38 +3308,47 @@
         }
       }
     },
-    "com.cloudflare.ai_gateway#DeleteResponseSpendLimitsRulesItemMetadataCase1ValuesList": {
+    "com.cloudflare.ai_gateway#DeleteResponseSpendLimitsRulesItemMetadataValueCase1ValuesList": {
       "type": "list",
       "member": {
         "target": "smithy.api#String"
       }
     },
-    "com.cloudflare.ai_gateway#DeleteResponseSpendLimitsRulesItemMetadataCase1": {
+    "com.cloudflare.ai_gateway#DeleteResponseSpendLimitsRulesItemMetadataValueCase1": {
       "type": "structure",
       "members": {
         "mode": {
-          "target": "com.cloudflare.ai_gateway#DeleteResponseSpendLimitsRulesItemMetadataCase1Mode",
+          "target": "com.cloudflare.ai_gateway#DeleteResponseSpendLimitsRulesItemMetadataValueCase1Mode",
           "traits": {
             "smithy.api#required": {}
           }
         },
         "values": {
-          "target": "com.cloudflare.ai_gateway#DeleteResponseSpendLimitsRulesItemMetadataCase1ValuesList",
+          "target": "com.cloudflare.ai_gateway#DeleteResponseSpendLimitsRulesItemMetadataValueCase1ValuesList",
           "traits": {
             "smithy.api#required": {}
           }
         }
       }
     },
-    "com.cloudflare.ai_gateway#DeleteResponseSpendLimitsRulesItemMetadata": {
+    "com.cloudflare.ai_gateway#DeleteResponseSpendLimitsRulesItemMetadataValue": {
       "type": "union",
       "members": {
         "Mode": {
-          "target": "com.cloudflare.ai_gateway#DeleteResponseSpendLimitsRulesItemMetadataMode"
+          "target": "com.cloudflare.ai_gateway#DeleteResponseSpendLimitsRulesItemMetadataValueMode"
         },
-        "DeleteResponseSpendLimitsRulesItemMetadataCase1": {
-          "target": "com.cloudflare.ai_gateway#DeleteResponseSpendLimitsRulesItemMetadataCase1"
+        "DeleteResponseSpendLimitsRulesItemMetadataValueCase1": {
+          "target": "com.cloudflare.ai_gateway#DeleteResponseSpendLimitsRulesItemMetadataValueCase1"
         }
+      }
+    },
+    "com.cloudflare.ai_gateway#DeleteResponseSpendLimitsRulesItemMetadataMap": {
+      "type": "map",
+      "key": {
+        "target": "smithy.api#String"
+      },
+      "value": {
+        "target": "com.cloudflare.ai_gateway#DeleteResponseSpendLimitsRulesItemMetadataValue"
       }
     },
     "com.cloudflare.ai_gateway#DeleteResponseSpendLimitsRulesItemModelMode": {
@@ -4391,7 +4418,7 @@
         }
       }
     },
-    "com.cloudflare.ai_gateway#GetResponseSpendLimitsRulesItemMetadataModeMode": {
+    "com.cloudflare.ai_gateway#GetResponseSpendLimitsRulesItemMetadataValueModeMode": {
       "type": "enum",
       "members": {
         "PARTITION": {
@@ -4402,18 +4429,18 @@
         }
       }
     },
-    "com.cloudflare.ai_gateway#GetResponseSpendLimitsRulesItemMetadataMode": {
+    "com.cloudflare.ai_gateway#GetResponseSpendLimitsRulesItemMetadataValueMode": {
       "type": "structure",
       "members": {
         "mode": {
-          "target": "com.cloudflare.ai_gateway#GetResponseSpendLimitsRulesItemMetadataModeMode",
+          "target": "com.cloudflare.ai_gateway#GetResponseSpendLimitsRulesItemMetadataValueModeMode",
           "traits": {
             "smithy.api#required": {}
           }
         }
       }
     },
-    "com.cloudflare.ai_gateway#GetResponseSpendLimitsRulesItemMetadataCase1Mode": {
+    "com.cloudflare.ai_gateway#GetResponseSpendLimitsRulesItemMetadataValueCase1Mode": {
       "type": "enum",
       "members": {
         "FILTER": {
@@ -4424,38 +4451,47 @@
         }
       }
     },
-    "com.cloudflare.ai_gateway#GetResponseSpendLimitsRulesItemMetadataCase1ValuesList": {
+    "com.cloudflare.ai_gateway#GetResponseSpendLimitsRulesItemMetadataValueCase1ValuesList": {
       "type": "list",
       "member": {
         "target": "smithy.api#String"
       }
     },
-    "com.cloudflare.ai_gateway#GetResponseSpendLimitsRulesItemMetadataCase1": {
+    "com.cloudflare.ai_gateway#GetResponseSpendLimitsRulesItemMetadataValueCase1": {
       "type": "structure",
       "members": {
         "mode": {
-          "target": "com.cloudflare.ai_gateway#GetResponseSpendLimitsRulesItemMetadataCase1Mode",
+          "target": "com.cloudflare.ai_gateway#GetResponseSpendLimitsRulesItemMetadataValueCase1Mode",
           "traits": {
             "smithy.api#required": {}
           }
         },
         "values": {
-          "target": "com.cloudflare.ai_gateway#GetResponseSpendLimitsRulesItemMetadataCase1ValuesList",
+          "target": "com.cloudflare.ai_gateway#GetResponseSpendLimitsRulesItemMetadataValueCase1ValuesList",
           "traits": {
             "smithy.api#required": {}
           }
         }
       }
     },
-    "com.cloudflare.ai_gateway#GetResponseSpendLimitsRulesItemMetadata": {
+    "com.cloudflare.ai_gateway#GetResponseSpendLimitsRulesItemMetadataValue": {
       "type": "union",
       "members": {
         "Mode": {
-          "target": "com.cloudflare.ai_gateway#GetResponseSpendLimitsRulesItemMetadataMode"
+          "target": "com.cloudflare.ai_gateway#GetResponseSpendLimitsRulesItemMetadataValueMode"
         },
-        "GetResponseSpendLimitsRulesItemMetadataCase1": {
-          "target": "com.cloudflare.ai_gateway#GetResponseSpendLimitsRulesItemMetadataCase1"
+        "GetResponseSpendLimitsRulesItemMetadataValueCase1": {
+          "target": "com.cloudflare.ai_gateway#GetResponseSpendLimitsRulesItemMetadataValueCase1"
         }
+      }
+    },
+    "com.cloudflare.ai_gateway#GetResponseSpendLimitsRulesItemMetadataMap": {
+      "type": "map",
+      "key": {
+        "target": "smithy.api#String"
+      },
+      "value": {
+        "target": "com.cloudflare.ai_gateway#GetResponseSpendLimitsRulesItemMetadataValue"
       }
     },
     "com.cloudflare.ai_gateway#GetResponseSpendLimitsRulesItemModelMode": {
@@ -5525,7 +5561,7 @@
         }
       }
     },
-    "com.cloudflare.ai_gateway#ListResultItemSpendLimitsRulesItemMetadataModeMode": {
+    "com.cloudflare.ai_gateway#ListResultItemSpendLimitsRulesItemMetadataValueModeMode": {
       "type": "enum",
       "members": {
         "PARTITION": {
@@ -5536,18 +5572,18 @@
         }
       }
     },
-    "com.cloudflare.ai_gateway#ListResultItemSpendLimitsRulesItemMetadataMode": {
+    "com.cloudflare.ai_gateway#ListResultItemSpendLimitsRulesItemMetadataValueMode": {
       "type": "structure",
       "members": {
         "mode": {
-          "target": "com.cloudflare.ai_gateway#ListResultItemSpendLimitsRulesItemMetadataModeMode",
+          "target": "com.cloudflare.ai_gateway#ListResultItemSpendLimitsRulesItemMetadataValueModeMode",
           "traits": {
             "smithy.api#required": {}
           }
         }
       }
     },
-    "com.cloudflare.ai_gateway#ListResultItemSpendLimitsRulesItemMetadataCase1Mode": {
+    "com.cloudflare.ai_gateway#ListResultItemSpendLimitsRulesItemMetadataValueCase1Mode": {
       "type": "enum",
       "members": {
         "FILTER": {
@@ -5558,38 +5594,47 @@
         }
       }
     },
-    "com.cloudflare.ai_gateway#ListResultItemSpendLimitsRulesItemMetadataCase1ValuesList": {
+    "com.cloudflare.ai_gateway#ListResultItemSpendLimitsRulesItemMetadataValueCase1ValuesList": {
       "type": "list",
       "member": {
         "target": "smithy.api#String"
       }
     },
-    "com.cloudflare.ai_gateway#ListResultItemSpendLimitsRulesItemMetadataCase1": {
+    "com.cloudflare.ai_gateway#ListResultItemSpendLimitsRulesItemMetadataValueCase1": {
       "type": "structure",
       "members": {
         "mode": {
-          "target": "com.cloudflare.ai_gateway#ListResultItemSpendLimitsRulesItemMetadataCase1Mode",
+          "target": "com.cloudflare.ai_gateway#ListResultItemSpendLimitsRulesItemMetadataValueCase1Mode",
           "traits": {
             "smithy.api#required": {}
           }
         },
         "values": {
-          "target": "com.cloudflare.ai_gateway#ListResultItemSpendLimitsRulesItemMetadataCase1ValuesList",
+          "target": "com.cloudflare.ai_gateway#ListResultItemSpendLimitsRulesItemMetadataValueCase1ValuesList",
           "traits": {
             "smithy.api#required": {}
           }
         }
       }
     },
-    "com.cloudflare.ai_gateway#ListResultItemSpendLimitsRulesItemMetadata": {
+    "com.cloudflare.ai_gateway#ListResultItemSpendLimitsRulesItemMetadataValue": {
       "type": "union",
       "members": {
         "Mode": {
-          "target": "com.cloudflare.ai_gateway#ListResultItemSpendLimitsRulesItemMetadataMode"
+          "target": "com.cloudflare.ai_gateway#ListResultItemSpendLimitsRulesItemMetadataValueMode"
         },
-        "ListResultItemSpendLimitsRulesItemMetadataCase1": {
-          "target": "com.cloudflare.ai_gateway#ListResultItemSpendLimitsRulesItemMetadataCase1"
+        "ListResultItemSpendLimitsRulesItemMetadataValueCase1": {
+          "target": "com.cloudflare.ai_gateway#ListResultItemSpendLimitsRulesItemMetadataValueCase1"
         }
+      }
+    },
+    "com.cloudflare.ai_gateway#ListResultItemSpendLimitsRulesItemMetadataMap": {
+      "type": "map",
+      "key": {
+        "target": "smithy.api#String"
+      },
+      "value": {
+        "target": "com.cloudflare.ai_gateway#ListResultItemSpendLimitsRulesItemMetadataValue"
       }
     },
     "com.cloudflare.ai_gateway#ListResultItemSpendLimitsRulesItemModelMode": {
@@ -6794,7 +6839,7 @@
         }
       }
     },
-    "com.cloudflare.ai_gateway#UpdateRequestSpendLimitsRulesItemMetadataModeMode": {
+    "com.cloudflare.ai_gateway#UpdateRequestSpendLimitsRulesItemMetadataValueModeMode": {
       "type": "enum",
       "members": {
         "PARTITION": {
@@ -6805,18 +6850,18 @@
         }
       }
     },
-    "com.cloudflare.ai_gateway#UpdateRequestSpendLimitsRulesItemMetadataMode": {
+    "com.cloudflare.ai_gateway#UpdateRequestSpendLimitsRulesItemMetadataValueMode": {
       "type": "structure",
       "members": {
         "mode": {
-          "target": "com.cloudflare.ai_gateway#UpdateRequestSpendLimitsRulesItemMetadataModeMode",
+          "target": "com.cloudflare.ai_gateway#UpdateRequestSpendLimitsRulesItemMetadataValueModeMode",
           "traits": {
             "smithy.api#required": {}
           }
         }
       }
     },
-    "com.cloudflare.ai_gateway#UpdateRequestSpendLimitsRulesItemMetadataCase1Mode": {
+    "com.cloudflare.ai_gateway#UpdateRequestSpendLimitsRulesItemMetadataValueCase1Mode": {
       "type": "enum",
       "members": {
         "FILTER": {
@@ -6827,38 +6872,47 @@
         }
       }
     },
-    "com.cloudflare.ai_gateway#UpdateRequestSpendLimitsRulesItemMetadataCase1ValuesList": {
+    "com.cloudflare.ai_gateway#UpdateRequestSpendLimitsRulesItemMetadataValueCase1ValuesList": {
       "type": "list",
       "member": {
         "target": "smithy.api#String"
       }
     },
-    "com.cloudflare.ai_gateway#UpdateRequestSpendLimitsRulesItemMetadataCase1": {
+    "com.cloudflare.ai_gateway#UpdateRequestSpendLimitsRulesItemMetadataValueCase1": {
       "type": "structure",
       "members": {
         "mode": {
-          "target": "com.cloudflare.ai_gateway#UpdateRequestSpendLimitsRulesItemMetadataCase1Mode",
+          "target": "com.cloudflare.ai_gateway#UpdateRequestSpendLimitsRulesItemMetadataValueCase1Mode",
           "traits": {
             "smithy.api#required": {}
           }
         },
         "values": {
-          "target": "com.cloudflare.ai_gateway#UpdateRequestSpendLimitsRulesItemMetadataCase1ValuesList",
+          "target": "com.cloudflare.ai_gateway#UpdateRequestSpendLimitsRulesItemMetadataValueCase1ValuesList",
           "traits": {
             "smithy.api#required": {}
           }
         }
       }
     },
-    "com.cloudflare.ai_gateway#UpdateRequestSpendLimitsRulesItemMetadata": {
+    "com.cloudflare.ai_gateway#UpdateRequestSpendLimitsRulesItemMetadataValue": {
       "type": "union",
       "members": {
         "Mode": {
-          "target": "com.cloudflare.ai_gateway#UpdateRequestSpendLimitsRulesItemMetadataMode"
+          "target": "com.cloudflare.ai_gateway#UpdateRequestSpendLimitsRulesItemMetadataValueMode"
         },
-        "UpdateRequestSpendLimitsRulesItemMetadataCase1": {
-          "target": "com.cloudflare.ai_gateway#UpdateRequestSpendLimitsRulesItemMetadataCase1"
+        "UpdateRequestSpendLimitsRulesItemMetadataValueCase1": {
+          "target": "com.cloudflare.ai_gateway#UpdateRequestSpendLimitsRulesItemMetadataValueCase1"
         }
+      }
+    },
+    "com.cloudflare.ai_gateway#UpdateRequestSpendLimitsRulesItemMetadataMap": {
+      "type": "map",
+      "key": {
+        "target": "smithy.api#String"
+      },
+      "value": {
+        "target": "com.cloudflare.ai_gateway#UpdateRequestSpendLimitsRulesItemMetadataValue"
       }
     },
     "com.cloudflare.ai_gateway#UpdateRequestSpendLimitsRulesItemModelMode": {
@@ -7928,7 +7982,7 @@
         }
       }
     },
-    "com.cloudflare.ai_gateway#UpdateResponseSpendLimitsRulesItemMetadataModeMode": {
+    "com.cloudflare.ai_gateway#UpdateResponseSpendLimitsRulesItemMetadataValueModeMode": {
       "type": "enum",
       "members": {
         "PARTITION": {
@@ -7939,18 +7993,18 @@
         }
       }
     },
-    "com.cloudflare.ai_gateway#UpdateResponseSpendLimitsRulesItemMetadataMode": {
+    "com.cloudflare.ai_gateway#UpdateResponseSpendLimitsRulesItemMetadataValueMode": {
       "type": "structure",
       "members": {
         "mode": {
-          "target": "com.cloudflare.ai_gateway#UpdateResponseSpendLimitsRulesItemMetadataModeMode",
+          "target": "com.cloudflare.ai_gateway#UpdateResponseSpendLimitsRulesItemMetadataValueModeMode",
           "traits": {
             "smithy.api#required": {}
           }
         }
       }
     },
-    "com.cloudflare.ai_gateway#UpdateResponseSpendLimitsRulesItemMetadataCase1Mode": {
+    "com.cloudflare.ai_gateway#UpdateResponseSpendLimitsRulesItemMetadataValueCase1Mode": {
       "type": "enum",
       "members": {
         "FILTER": {
@@ -7961,38 +8015,47 @@
         }
       }
     },
-    "com.cloudflare.ai_gateway#UpdateResponseSpendLimitsRulesItemMetadataCase1ValuesList": {
+    "com.cloudflare.ai_gateway#UpdateResponseSpendLimitsRulesItemMetadataValueCase1ValuesList": {
       "type": "list",
       "member": {
         "target": "smithy.api#String"
       }
     },
-    "com.cloudflare.ai_gateway#UpdateResponseSpendLimitsRulesItemMetadataCase1": {
+    "com.cloudflare.ai_gateway#UpdateResponseSpendLimitsRulesItemMetadataValueCase1": {
       "type": "structure",
       "members": {
         "mode": {
-          "target": "com.cloudflare.ai_gateway#UpdateResponseSpendLimitsRulesItemMetadataCase1Mode",
+          "target": "com.cloudflare.ai_gateway#UpdateResponseSpendLimitsRulesItemMetadataValueCase1Mode",
           "traits": {
             "smithy.api#required": {}
           }
         },
         "values": {
-          "target": "com.cloudflare.ai_gateway#UpdateResponseSpendLimitsRulesItemMetadataCase1ValuesList",
+          "target": "com.cloudflare.ai_gateway#UpdateResponseSpendLimitsRulesItemMetadataValueCase1ValuesList",
           "traits": {
             "smithy.api#required": {}
           }
         }
       }
     },
-    "com.cloudflare.ai_gateway#UpdateResponseSpendLimitsRulesItemMetadata": {
+    "com.cloudflare.ai_gateway#UpdateResponseSpendLimitsRulesItemMetadataValue": {
       "type": "union",
       "members": {
         "Mode": {
-          "target": "com.cloudflare.ai_gateway#UpdateResponseSpendLimitsRulesItemMetadataMode"
+          "target": "com.cloudflare.ai_gateway#UpdateResponseSpendLimitsRulesItemMetadataValueMode"
         },
-        "UpdateResponseSpendLimitsRulesItemMetadataCase1": {
-          "target": "com.cloudflare.ai_gateway#UpdateResponseSpendLimitsRulesItemMetadataCase1"
+        "UpdateResponseSpendLimitsRulesItemMetadataValueCase1": {
+          "target": "com.cloudflare.ai_gateway#UpdateResponseSpendLimitsRulesItemMetadataValueCase1"
         }
+      }
+    },
+    "com.cloudflare.ai_gateway#UpdateResponseSpendLimitsRulesItemMetadataMap": {
+      "type": "map",
+      "key": {
+        "target": "smithy.api#String"
+      },
+      "value": {
+        "target": "com.cloudflare.ai_gateway#UpdateResponseSpendLimitsRulesItemMetadataValue"
       }
     },
     "com.cloudflare.ai_gateway#UpdateResponseSpendLimitsRulesItemModelMode": {
@@ -17041,7 +17104,7 @@
         }
       }
     },
-    "com.cloudflare.ai_gateway#LogsEditRequestMetadata": {
+    "com.cloudflare.ai_gateway#LogsEditRequestMetadataValue": {
       "type": "union",
       "members": {
         "String": {
@@ -17053,6 +17116,15 @@
         "Boolean": {
           "target": "smithy.api#Boolean"
         }
+      }
+    },
+    "com.cloudflare.ai_gateway#LogsEditRequestMetadataMap": {
+      "type": "map",
+      "key": {
+        "target": "smithy.api#String"
+      },
+      "value": {
+        "target": "com.cloudflare.ai_gateway#LogsEditRequestMetadataValue"
       }
     },
     "com.cloudflare.ai_gateway#LogsListRequestDirection": {
@@ -22283,7 +22355,7 @@
           "target": "smithy.api#Double"
         },
         "metadata": {
-          "target": "com.cloudflare.ai_gateway#LogsEditRequestMetadata"
+          "target": "com.cloudflare.ai_gateway#LogsEditRequestMetadataMap"
         },
         "score": {
           "target": "smithy.api#Double"

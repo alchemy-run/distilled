@@ -99,9 +99,7 @@ export const CreateZoneRequestRrsetsItemRecordsList = /*@__PURE__*/ S.Array(
 ) as any as S.Schema<CreateZoneRequestRrsetsItemRecordsList>;
 
 /** User-defined labels (`key/value` pairs) for the Resource. For more information, see "[Labels](#description/labels)". */
-export type CreateZoneRequestRrsetsItemLabelsMap = {
-  [key: string]: string | undefined;
-};
+export type CreateZoneRequestRrsetsItemLabelsMap = { [key: string]: string | undefined };
 export const CreateZoneRequestRrsetsItemLabelsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -163,9 +161,7 @@ export const CreateZoneRequest = /*@__PURE__*/ S.suspend(() =>
     rrsets: S.optional(CreateZoneRequestRrsetsList),
     zonefile: S.optional(S.String),
   }).pipe(T.Http({ method: "POST", uri: "/zones", code: 200 })),
-).annotate({
-  identifier: "CreateZoneRequest",
-}) as any as S.Schema<CreateZoneRequest>;
+).annotate({ identifier: "CreateZoneRequest" }) as any as S.Schema<CreateZoneRequest>;
 
 /** [Transaction signature (TSIG)](https://en.wikipedia.org/wiki/TSIG) algorithm used to generate the TSIG key. */
 export type ZonePrimaryPrimaryNameserversItemTsigAlgorithm =
@@ -218,9 +214,7 @@ export const ZonePrimaryProtection = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     delete: S.Boolean,
   }),
-).annotate({
-  identifier: "ZonePrimaryProtection",
-}) as any as S.Schema<ZonePrimaryProtection>;
+).annotate({ identifier: "ZonePrimaryProtection" }) as any as S.Schema<ZonePrimaryProtection>;
 
 /** Status of the [Zone](#tag/zones). */
 export type ZonePrimaryStatus = "ok" | "updating" | "error";
@@ -535,9 +529,7 @@ export const CreateZoneResponseAction = /*@__PURE__*/ S.suspend(() =>
     resources: CreateZoneResponseActionResourcesList,
     error: S.NullOr(CreateZoneResponseActionError),
   }),
-).annotate({
-  identifier: "CreateZoneResponseAction",
-}) as any as S.Schema<CreateZoneResponseAction>;
+).annotate({ identifier: "CreateZoneResponseAction" }) as any as S.Schema<CreateZoneResponseAction>;
 
 export interface CreateZoneResponse {
   zone: CreateZoneResponseZone;
@@ -548,9 +540,7 @@ export const CreateZoneResponse = /*@__PURE__*/ S.suspend(() =>
     zone: CreateZoneResponseZone,
     action: CreateZoneResponseAction,
   }),
-).annotate({
-  identifier: "CreateZoneResponse",
-}) as any as S.Schema<CreateZoneResponse>;
+).annotate({ identifier: "CreateZoneResponse" }) as any as S.Schema<CreateZoneResponse>;
 
 export interface DeleteZoneRequest {
   /** ID or Name of the Zone. */
@@ -560,9 +550,7 @@ export const DeleteZoneRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     id_or_name: S.String.pipe(T.Label()),
   }).pipe(T.Http({ method: "DELETE", uri: "/zones/{id_or_name}", code: 200 })),
-).annotate({
-  identifier: "DeleteZoneRequest",
-}) as any as S.Schema<DeleteZoneRequest>;
+).annotate({ identifier: "DeleteZoneRequest" }) as any as S.Schema<DeleteZoneRequest>;
 
 /** Status of the Action. */
 export type DeleteZoneResponseActionStatus = "running" | "success" | "error";
@@ -610,9 +598,7 @@ export const DeleteZoneResponseAction = /*@__PURE__*/ S.suspend(() =>
     resources: DeleteZoneResponseActionResourcesList,
     error: S.NullOr(CreateZoneResponseActionError),
   }),
-).annotate({
-  identifier: "DeleteZoneResponseAction",
-}) as any as S.Schema<DeleteZoneResponseAction>;
+).annotate({ identifier: "DeleteZoneResponseAction" }) as any as S.Schema<DeleteZoneResponseAction>;
 
 export interface DeleteZoneResponse {
   action: DeleteZoneResponseAction;
@@ -621,9 +607,7 @@ export const DeleteZoneResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     action: DeleteZoneResponseAction,
   }),
-).annotate({
-  identifier: "DeleteZoneResponse",
-}) as any as S.Schema<DeleteZoneResponse>;
+).annotate({ identifier: "DeleteZoneResponse" }) as any as S.Schema<DeleteZoneResponse>;
 
 export interface GetZoneRequest {
   /** ID or Name of the Zone. */
@@ -645,9 +629,7 @@ export const GetZoneResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     zone: GetZoneResponseZone,
   }),
-).annotate({
-  identifier: "GetZoneResponse",
-}) as any as S.Schema<GetZoneResponse>;
+).annotate({ identifier: "GetZoneResponse" }) as any as S.Schema<GetZoneResponse>;
 
 export interface GetZoneZonefileRequest {
   /** ID or Name of the Zone. */
@@ -657,9 +639,7 @@ export const GetZoneZonefileRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     id_or_name: S.String.pipe(T.Label()),
   }).pipe(T.Http({ method: "GET", uri: "/zones/{id_or_name}/zonefile", code: 200 })),
-).annotate({
-  identifier: "GetZoneZonefileRequest",
-}) as any as S.Schema<GetZoneZonefileRequest>;
+).annotate({ identifier: "GetZoneZonefileRequest" }) as any as S.Schema<GetZoneZonefileRequest>;
 
 export interface GetZoneZonefileResponse {
   /** Generated zone file. Example: ```dns $ORIGIN example.com. $TTL 3600 @ IN SOA hydrogen.ns.hetzner.com. dns.hetzner.com. 2024010100 86400 10800 3600000 3600 @ IN 10800 NS hydrogen.ns.hetzner.com. ; Some comment. @ IN 10800 NS oxygen.ns.hetzner.com. @ IN 10800 NS helium.ns.hetzner.de. ``` */
@@ -669,9 +649,7 @@ export const GetZoneZonefileResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     zonefile: S.String,
   }),
-).annotate({
-  identifier: "GetZoneZonefileResponse",
-}) as any as S.Schema<GetZoneZonefileResponse>;
+).annotate({ identifier: "GetZoneZonefileResponse" }) as any as S.Schema<GetZoneZonefileResponse>;
 
 /** Mode of the [Zone](#tag/zones). For more information, see [Zone Modes](#tag/zones/zone-modes). */
 export type ListZonesRequestMode = "primary" | "secondary";
@@ -717,9 +695,7 @@ export const ListZonesRequest = /*@__PURE__*/ S.suspend(() =>
     page: S.optional(S.Number.pipe(T.Query())),
     per_page: S.optional(S.Number.pipe(T.Query())),
   }).pipe(T.Http({ method: "GET", uri: "/zones", code: 200 })),
-).annotate({
-  identifier: "ListZonesRequest",
-}) as any as S.Schema<ListZonesRequest>;
+).annotate({ identifier: "ListZonesRequest" }) as any as S.Schema<ListZonesRequest>;
 
 export type ListZonesResponseZonesItem = ZonePrimary | ZoneSecondary;
 export const ListZonesResponseZonesItem = S.Unknown as any as S.Schema<ListZonesResponseZonesItem>;
@@ -765,9 +741,7 @@ export const ListZonesResponseMeta = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     pagination: ListZonesResponseMetaPagination,
   }),
-).annotate({
-  identifier: "ListZonesResponseMeta",
-}) as any as S.Schema<ListZonesResponseMeta>;
+).annotate({ identifier: "ListZonesResponseMeta" }) as any as S.Schema<ListZonesResponseMeta>;
 
 export interface ListZonesResponse {
   zones: ListZonesResponseZonesList;
@@ -778,9 +752,7 @@ export const ListZonesResponse = /*@__PURE__*/ S.suspend(() =>
     zones: ListZonesResponseZonesList,
     meta: ListZonesResponseMeta,
   }),
-).annotate({
-  identifier: "ListZonesResponse",
-}) as any as S.Schema<ListZonesResponse>;
+).annotate({ identifier: "ListZonesResponse" }) as any as S.Schema<ListZonesResponse>;
 
 /** User-defined labels (`key/value` pairs) for the Resource. Note that the set of [Labels](#description/labels) provided in the request will overwrite the existing one. For more information, see "[Labels](#description/labels)". */
 export type UpdateZoneRequestLabelsMap = { [key: string]: string | undefined };
@@ -800,9 +772,7 @@ export const UpdateZoneRequest = /*@__PURE__*/ S.suspend(() =>
     id_or_name: S.String.pipe(T.Label()),
     labels: S.optional(UpdateZoneRequestLabelsMap),
   }).pipe(T.Http({ method: "PUT", uri: "/zones/{id_or_name}", code: 200 })),
-).annotate({
-  identifier: "UpdateZoneRequest",
-}) as any as S.Schema<UpdateZoneRequest>;
+).annotate({ identifier: "UpdateZoneRequest" }) as any as S.Schema<UpdateZoneRequest>;
 
 export type UpdateZoneResponseZone = ZonePrimary | ZoneSecondary;
 export const UpdateZoneResponseZone = S.Unknown as any as S.Schema<UpdateZoneResponseZone>;
@@ -814,9 +784,7 @@ export const UpdateZoneResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     zone: UpdateZoneResponseZone,
   }),
-).annotate({
-  identifier: "UpdateZoneResponse",
-}) as any as S.Schema<UpdateZoneResponse>;
+).annotate({ identifier: "UpdateZoneResponse" }) as any as S.Schema<UpdateZoneResponse>;
 
 export type CreateZoneError = HetznerOpError;
 /** Create a Zone Creates a [Zone](#tag/zones). A default `SOA` and three `NS` resource records with the assigned Hetzner nameservers are created automatically. */

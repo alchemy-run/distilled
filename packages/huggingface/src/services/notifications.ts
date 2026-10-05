@@ -14,7 +14,13 @@ export type { HuggingFaceOpError, HuggingFaceOpContext };
 export type ChangeReadStatusRequestReadStatus = "all" | "unread";
 export const ChangeReadStatusRequestReadStatus = S.String;
 
-export type ChangeReadStatusRequestRepoType = "dataset" | "model" | "space" | "bucket" | "kernel";
+export type ChangeReadStatusRequestRepoType =
+  | "dataset"
+  | "model"
+  | "space"
+  | "bucket"
+  | "kernel"
+  | "container";
 export const ChangeReadStatusRequestRepoType = S.String;
 
 export type ChangeReadStatusRequestMention = "all" | "participating" | "mentions";
@@ -35,7 +41,7 @@ export interface ChangeReadStatusRequest {
   articleId?: string;
   mention?: ChangeReadStatusRequestMention | (string & {});
   lastUpdate?: string;
-  applyToAll?: unknown;
+  applyToAll?: string;
   discussionIds?: ChangeReadStatusRequestDiscussionIdsList;
   read?: boolean;
 }
@@ -50,19 +56,11 @@ export const ChangeReadStatusRequest = /*@__PURE__*/ S.suspend(() =>
     articleId: S.optional(S.String.pipe(T.Query())),
     mention: S.optional(ChangeReadStatusRequestMention.pipe(T.Query())),
     lastUpdate: S.optional(S.String.pipe(T.Query())),
-    applyToAll: S.optional(S.Unknown.pipe(T.Query())),
+    applyToAll: S.optional(S.String.pipe(T.Query())),
     discussionIds: S.optional(ChangeReadStatusRequestDiscussionIdsList),
     read: S.optional(S.Boolean),
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/api/notifications/mark-as-read",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "ChangeReadStatusRequest",
-}) as any as S.Schema<ChangeReadStatusRequest>;
+  }).pipe(T.Http({ method: "POST", uri: "/api/notifications/mark-as-read", code: 200 })),
+).annotate({ identifier: "ChangeReadStatusRequest" }) as any as S.Schema<ChangeReadStatusRequest>;
 
 export interface ChangeReadStatusResponse {}
 export const ChangeReadStatusResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -77,7 +75,8 @@ export type DeleteNotificationsRequestRepoType =
   | "model"
   | "space"
   | "bucket"
-  | "kernel";
+  | "kernel"
+  | "container";
 export const DeleteNotificationsRequestRepoType = S.String;
 
 export type DeleteNotificationsRequestMention = "all" | "participating" | "mentions";
@@ -98,7 +97,7 @@ export interface DeleteNotificationsRequest {
   articleId?: string;
   mention?: DeleteNotificationsRequestMention | (string & {});
   lastUpdate?: string;
-  applyToAll?: unknown;
+  applyToAll?: string;
   discussionIds?: DeleteNotificationsRequestDiscussionIdsList;
 }
 export const DeleteNotificationsRequest = /*@__PURE__*/ S.suspend(() =>
@@ -112,7 +111,7 @@ export const DeleteNotificationsRequest = /*@__PURE__*/ S.suspend(() =>
     articleId: S.optional(S.String.pipe(T.Query())),
     mention: S.optional(DeleteNotificationsRequestMention.pipe(T.Query())),
     lastUpdate: S.optional(S.String.pipe(T.Query())),
-    applyToAll: S.optional(S.Unknown.pipe(T.Query())),
+    applyToAll: S.optional(S.String.pipe(T.Query())),
     discussionIds: S.optional(DeleteNotificationsRequestDiscussionIdsList),
   }).pipe(T.Http({ method: "DELETE", uri: "/api/notifications", code: 200 })),
 ).annotate({
@@ -127,7 +126,13 @@ export const DeleteNotificationsResponse = /*@__PURE__*/ S.suspend(() => S.Struc
 export type ListNotificationsRequestReadStatus = "all" | "unread";
 export const ListNotificationsRequestReadStatus = S.String;
 
-export type ListNotificationsRequestRepoType = "dataset" | "model" | "space" | "bucket" | "kernel";
+export type ListNotificationsRequestRepoType =
+  | "dataset"
+  | "model"
+  | "space"
+  | "bucket"
+  | "kernel"
+  | "container";
 export const ListNotificationsRequestRepoType = S.String;
 
 export type ListNotificationsRequestMention = "all" | "participating" | "mentions";
@@ -156,11 +161,10 @@ export const ListNotificationsRequest = /*@__PURE__*/ S.suspend(() =>
     mention: S.optional(ListNotificationsRequestMention.pipe(T.Query())),
     lastUpdate: S.optional(S.String.pipe(T.Query())),
   }).pipe(T.Http({ method: "GET", uri: "/api/notifications", code: 200 })),
-).annotate({
-  identifier: "ListNotificationsRequest",
-}) as any as S.Schema<ListNotificationsRequest>;
+).annotate({ identifier: "ListNotificationsRequest" }) as any as S.Schema<ListNotificationsRequest>;
 
 export interface ListNotificationsResponseNotificationsItemCase0Paper {
+  /** A hex string of 24 characters representing an ObjectId. */
   _id: string;
   title: string;
 }
@@ -174,6 +178,7 @@ export const ListNotificationsResponseNotificationsItemCase0Paper = /*@__PURE__*
 }) as any as S.Schema<ListNotificationsResponseNotificationsItemCase0Paper>;
 
 export interface ListNotificationsResponseNotificationsItemCase0PaperDiscussionParticipatingItem {
+  /** A hex string of 24 characters representing an ObjectId. */
   _id: string;
   avatar: string;
   user: string;
@@ -199,6 +204,7 @@ export const ListNotificationsResponseNotificationsItemCase0PaperDiscussionParti
 export interface ListNotificationsResponseNotificationsItemCase0PaperDiscussion {
   id: string;
   participating: ListNotificationsResponseNotificationsItemCase0PaperDiscussionParticipatingList;
+  /** A hex string of 24 characters representing an ObjectId. */
   paperId: string;
 }
 export const ListNotificationsResponseNotificationsItemCase0PaperDiscussion =
@@ -214,7 +220,7 @@ export const ListNotificationsResponseNotificationsItemCase0PaperDiscussion =
   }) as any as S.Schema<ListNotificationsResponseNotificationsItemCase0PaperDiscussion>;
 
 export interface ListNotificationsResponseNotificationsItemCase0 {
-  type: unknown;
+  type: string;
   updatedAt: string;
   read: boolean;
   discussionEventId?: string;
@@ -223,7 +229,7 @@ export interface ListNotificationsResponseNotificationsItemCase0 {
 }
 export const ListNotificationsResponseNotificationsItemCase0 = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    type: S.Unknown,
+    type: S.String,
     updatedAt: S.String,
     read: S.Boolean,
     discussionEventId: S.optional(S.String),
@@ -234,7 +240,7 @@ export const ListNotificationsResponseNotificationsItemCase0 = /*@__PURE__*/ S.s
   identifier: "ListNotificationsResponseNotificationsItemCase0",
 }) as any as S.Schema<ListNotificationsResponseNotificationsItemCase0>;
 
-export type RepoIdType = "dataset" | "model" | "space" | "bucket" | "kernel";
+export type RepoIdType = "dataset" | "model" | "space" | "bucket" | "kernel" | "container";
 export const RepoIdType = S.String;
 
 export interface RepoId {
@@ -271,6 +277,7 @@ export interface ListNotificationsResponseNotificationsItemCase1Discussion {
   num: number;
   title: string;
   status: ListNotificationsResponseNotificationsItemCase1DiscussionStatus;
+  /** A hex string of 24 characters representing an ObjectId. */
   id: string;
   isPullRequest: boolean;
   participating: ListNotificationsResponseNotificationsItemCase1DiscussionParticipatingList;
@@ -290,7 +297,7 @@ export const ListNotificationsResponseNotificationsItemCase1Discussion = /*@__PU
 }) as any as S.Schema<ListNotificationsResponseNotificationsItemCase1Discussion>;
 
 export interface ListNotificationsResponseNotificationsItemCase1 {
-  type: unknown;
+  type: string;
   updatedAt: string;
   read: boolean;
   discussionEventId?: string;
@@ -299,7 +306,7 @@ export interface ListNotificationsResponseNotificationsItemCase1 {
 }
 export const ListNotificationsResponseNotificationsItemCase1 = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    type: S.Unknown,
+    type: S.String,
     updatedAt: S.String,
     read: S.Boolean,
     discussionEventId: S.optional(S.String),
@@ -342,7 +349,7 @@ export const ListNotificationsResponseNotificationsItemCase2Post = /*@__PURE__*/
 }) as any as S.Schema<ListNotificationsResponseNotificationsItemCase2Post>;
 
 export interface ListNotificationsResponseNotificationsItemCase2 {
-  type: unknown;
+  type: string;
   updatedAt: string;
   read: boolean;
   discussionEventId?: string;
@@ -350,7 +357,7 @@ export interface ListNotificationsResponseNotificationsItemCase2 {
 }
 export const ListNotificationsResponseNotificationsItemCase2 = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    type: S.Unknown,
+    type: S.String,
     updatedAt: S.String,
     read: S.Boolean,
     discussionEventId: S.optional(S.String),
@@ -394,7 +401,7 @@ export const ListNotificationsResponseNotificationsItemCase3Blog = /*@__PURE__*/
 }) as any as S.Schema<ListNotificationsResponseNotificationsItemCase3Blog>;
 
 export interface ListNotificationsResponseNotificationsItemCase3 {
-  type: unknown;
+  type: string;
   updatedAt: string;
   read: boolean;
   discussionEventId?: string;
@@ -402,7 +409,7 @@ export interface ListNotificationsResponseNotificationsItemCase3 {
 }
 export const ListNotificationsResponseNotificationsItemCase3 = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    type: S.Unknown,
+    type: S.String,
     updatedAt: S.String,
     read: S.Boolean,
     discussionEventId: S.optional(S.String),
@@ -459,6 +466,7 @@ export const ListNotificationsResponse = /*@__PURE__*/ S.suspend(() =>
 export interface UpdateNotificationSettingsRequestNotifications {
   announcements?: boolean;
   arxiv_paper_activity?: boolean;
+  content_access_policy_request?: boolean;
   daily_papers_digest?: boolean;
   discussions_participating?: boolean;
   discussions_watched?: boolean;
@@ -488,6 +496,7 @@ export const UpdateNotificationSettingsRequestNotifications = /*@__PURE__*/ S.su
   S.Struct({
     announcements: S.optional(S.Boolean),
     arxiv_paper_activity: S.optional(S.Boolean),
+    content_access_policy_request: S.optional(S.Boolean),
     daily_papers_digest: S.optional(S.Boolean),
     discussions_participating: S.optional(S.Boolean),
     discussions_watched: S.optional(S.Boolean),

@@ -19,16 +19,8 @@ export const CreateBlobRequest = /*@__PURE__*/ S.suspend(() =>
     contentMd5: S.optional(S.String),
     contentSha256Base64: S.optional(S.String),
     contentLength: S.optional(S.String),
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/modal.client.ModalClient/BlobCreate",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "CreateBlobRequest",
-}) as any as S.Schema<CreateBlobRequest>;
+  }).pipe(T.Http({ method: "POST", uri: "/modal.client.ModalClient/BlobCreate", code: 200 })),
+).annotate({ identifier: "CreateBlobRequest" }) as any as S.Schema<CreateBlobRequest>;
 
 export type StringList = Array<string>;
 export const StringList = /*@__PURE__*/ S.Array(S.String) as any as S.Schema<StringList>;
@@ -45,9 +37,7 @@ export const MultiPartUpload = /*@__PURE__*/ S.suspend(() =>
     uploadUrls: S.optional(StringList),
     completionUrl: S.optional(S.String),
   }),
-).annotate({
-  identifier: "MultiPartUpload",
-}) as any as S.Schema<MultiPartUpload>;
+).annotate({ identifier: "MultiPartUpload" }) as any as S.Schema<MultiPartUpload>;
 
 export interface UploadUrlList {
   items?: StringList;
@@ -70,9 +60,7 @@ export const MultiPartUploadList = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     items: S.optional(MultiPartUploadList2),
   }),
-).annotate({
-  identifier: "MultiPartUploadList",
-}) as any as S.Schema<MultiPartUploadList>;
+).annotate({ identifier: "MultiPartUploadList" }) as any as S.Schema<MultiPartUploadList>;
 
 export interface CreateBlobResponse {
   blobId?: string;
@@ -91,9 +79,7 @@ export const CreateBlobResponse = /*@__PURE__*/ S.suspend(() =>
     uploadUrls: S.optional(UploadUrlList),
     multiparts: S.optional(MultiPartUploadList),
   }),
-).annotate({
-  identifier: "CreateBlobResponse",
-}) as any as S.Schema<CreateBlobResponse>;
+).annotate({ identifier: "CreateBlobResponse" }) as any as S.Schema<CreateBlobResponse>;
 
 export interface GetBlobRequest {
   blobId?: string;
@@ -101,13 +87,7 @@ export interface GetBlobRequest {
 export const GetBlobRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     blobId: S.optional(S.String),
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/modal.client.ModalClient/BlobGet",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "POST", uri: "/modal.client.ModalClient/BlobGet", code: 200 })),
 ).annotate({ identifier: "GetBlobRequest" }) as any as S.Schema<GetBlobRequest>;
 
 export interface GetBlobResponse {
@@ -117,9 +97,7 @@ export const GetBlobResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     downloadUrl: S.optional(S.String),
   }),
-).annotate({
-  identifier: "GetBlobResponse",
-}) as any as S.Schema<GetBlobResponse>;
+).annotate({ identifier: "GetBlobResponse" }) as any as S.Schema<GetBlobResponse>;
 
 export type CreateBlobError = ModalOpError;
 /** Blobs */

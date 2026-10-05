@@ -15,11 +15,7 @@ export const DeleteSharedVolumeRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     sharedVolumeId: S.optional(S.String),
   }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/modal.client.ModalClient/SharedVolumeDelete",
-      code: 200,
-    }),
+    T.Http({ method: "POST", uri: "/modal.client.ModalClient/SharedVolumeDelete", code: 200 }),
   ),
 ).annotate({
   identifier: "DeleteSharedVolumeRequest",
@@ -36,16 +32,8 @@ export interface ListSharedVolumeRequest {
 export const ListSharedVolumeRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     environmentName: S.optional(S.String),
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/modal.client.ModalClient/SharedVolumeList",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "ListSharedVolumeRequest",
-}) as any as S.Schema<ListSharedVolumeRequest>;
+  }).pipe(T.Http({ method: "POST", uri: "/modal.client.ModalClient/SharedVolumeList", code: 200 })),
+).annotate({ identifier: "ListSharedVolumeRequest" }) as any as S.Schema<ListSharedVolumeRequest>;
 
 /** libmodal/modal-go: Go SDK, since version modal-go/v0.0.15 */
 export type CloudProvider =
@@ -70,9 +58,7 @@ export const SharedVolumeListItem = /*@__PURE__*/ S.suspend(() =>
     createdAt: S.optional(S.Number),
     cloudProvider: S.optional(CloudProvider),
   }),
-).annotate({
-  identifier: "SharedVolumeListItem",
-}) as any as S.Schema<SharedVolumeListItem>;
+).annotate({ identifier: "SharedVolumeListItem" }) as any as S.Schema<SharedVolumeListItem>;
 
 export type SharedVolumeListItemList = Array<SharedVolumeListItem>;
 export const SharedVolumeListItemList = /*@__PURE__*/ S.Array(
@@ -88,9 +74,7 @@ export const ListSharedVolumeResponse = /*@__PURE__*/ S.suspend(() =>
     items: S.optional(SharedVolumeListItemList),
     environmentName: S.optional(S.String),
   }),
-).annotate({
-  identifier: "ListSharedVolumeResponse",
-}) as any as S.Schema<ListSharedVolumeResponse>;
+).annotate({ identifier: "ListSharedVolumeResponse" }) as any as S.Schema<ListSharedVolumeResponse>;
 
 export interface SharedVolumeGetFileRequest {
   sharedVolumeId?: string;
@@ -101,11 +85,7 @@ export const SharedVolumeGetFileRequest = /*@__PURE__*/ S.suspend(() =>
     sharedVolumeId: S.optional(S.String),
     path: S.optional(S.String),
   }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/modal.client.ModalClient/SharedVolumeGetFile",
-      code: 200,
-    }),
+    T.Http({ method: "POST", uri: "/modal.client.ModalClient/SharedVolumeGetFile", code: 200 }),
   ),
 ).annotate({
   identifier: "SharedVolumeGetFileRequest",
@@ -147,11 +127,7 @@ export const SharedVolumeGetOrCreateRequest = /*@__PURE__*/ S.suspend(() =>
     objectCreationType: S.optional(ObjectCreationType),
     appId: S.optional(S.String),
   }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/modal.client.ModalClient/SharedVolumeGetOrCreate",
-      code: 200,
-    }),
+    T.Http({ method: "POST", uri: "/modal.client.ModalClient/SharedVolumeGetOrCreate", code: 200 }),
   ),
 ).annotate({
   identifier: "SharedVolumeGetOrCreateRequest",
@@ -175,11 +151,7 @@ export const SharedVolumeHeartbeatRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     sharedVolumeId: S.optional(S.String),
   }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/modal.client.ModalClient/SharedVolumeHeartbeat",
-      code: 200,
-    }),
+    T.Http({ method: "POST", uri: "/modal.client.ModalClient/SharedVolumeHeartbeat", code: 200 }),
   ),
 ).annotate({
   identifier: "SharedVolumeHeartbeatRequest",
@@ -199,11 +171,7 @@ export const SharedVolumeListFilesRequest = /*@__PURE__*/ S.suspend(() =>
     sharedVolumeId: S.optional(S.String),
     path: S.optional(S.String),
   }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/modal.client.ModalClient/SharedVolumeListFiles",
-      code: 200,
-    }),
+    T.Http({ method: "POST", uri: "/modal.client.ModalClient/SharedVolumeListFiles", code: 200 }),
   ),
 ).annotate({
   identifier: "SharedVolumeListFilesRequest",
@@ -265,11 +233,7 @@ export const SharedVolumePutFileRequest = /*@__PURE__*/ S.suspend(() =>
     dataBlobId: S.optional(S.String),
     resumable: S.optional(S.Boolean),
   }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/modal.client.ModalClient/SharedVolumePutFile",
-      code: 200,
-    }),
+    T.Http({ method: "POST", uri: "/modal.client.ModalClient/SharedVolumePutFile", code: 200 }),
   ),
 ).annotate({
   identifier: "SharedVolumePutFileRequest",
@@ -297,11 +261,7 @@ export const SharedVolumeRemoveFileRequest = /*@__PURE__*/ S.suspend(() =>
     path: S.optional(S.String),
     recursive: S.optional(S.Boolean),
   }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/modal.client.ModalClient/SharedVolumeRemoveFile",
-      code: 200,
-    }),
+    T.Http({ method: "POST", uri: "/modal.client.ModalClient/SharedVolumeRemoveFile", code: 200 }),
   ),
 ).annotate({
   identifier: "SharedVolumeRemoveFileRequest",

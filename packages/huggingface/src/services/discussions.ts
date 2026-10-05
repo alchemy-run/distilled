@@ -40,133 +40,191 @@ export const ChangeStatusRequest = /*@__PURE__*/ S.suspend(() =>
       code: 200,
     }),
   ),
+).annotate({ identifier: "ChangeStatusRequest" }) as any as S.Schema<ChangeStatusRequest>;
+
+export interface ChangeStatusResponseNewStatusAuthorCase0OauthAppImageData {
+  emoji: string;
+  colorFrom: string;
+  colorTo: string;
+}
+export const ChangeStatusResponseNewStatusAuthorCase0OauthAppImageData = /*@__PURE__*/ S.suspend(
+  () =>
+    S.Struct({
+      emoji: S.String,
+      colorFrom: S.String,
+      colorTo: S.String,
+    }),
 ).annotate({
-  identifier: "ChangeStatusRequest",
-}) as any as S.Schema<ChangeStatusRequest>;
+  identifier: "ChangeStatusResponseNewStatusAuthorCase0OauthAppImageData",
+}) as any as S.Schema<ChangeStatusResponseNewStatusAuthorCase0OauthAppImageData>;
 
-export type ChangeStatusResponseNewStatusAuthorPlan = "team" | "enterprise" | "plus" | "academia";
-export const ChangeStatusResponseNewStatusAuthorPlan = S.String;
+export interface ChangeStatusResponseNewStatusAuthorCase0OauthApp {
+  imageUrl?: string;
+  imageData?: ChangeStatusResponseNewStatusAuthorCase0OauthAppImageData;
+  url?: string;
+  name: string;
+}
+export const ChangeStatusResponseNewStatusAuthorCase0OauthApp = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    imageUrl: S.optional(S.String),
+    imageData: S.optional(ChangeStatusResponseNewStatusAuthorCase0OauthAppImageData),
+    url: S.optional(S.String),
+    name: S.String,
+  }),
+).annotate({
+  identifier: "ChangeStatusResponseNewStatusAuthorCase0OauthApp",
+}) as any as S.Schema<ChangeStatusResponseNewStatusAuthorCase0OauthApp>;
 
-export type ChangeStatusResponseNewStatusAuthorPrimaryOrgPlan =
+export type ChangeStatusResponseNewStatusAuthorCase0Plan =
   | "team"
   | "enterprise"
   | "plus"
   | "academia";
-export const ChangeStatusResponseNewStatusAuthorPrimaryOrgPlan = S.String;
+export const ChangeStatusResponseNewStatusAuthorCase0Plan = S.String;
 
-export type ChangeStatusResponseNewStatusAuthorPrimaryOrgUserRole =
+export interface ChangeStatusResponseNewStatusAuthorCase0 {
+  isOwner?: boolean;
+  isOrgMember?: boolean;
+  isBlockedByMe?: boolean;
+  oauthApp?: ChangeStatusResponseNewStatusAuthorCase0OauthApp;
+  /** A hex string of 24 characters representing an ObjectId. */
+  _id: string;
+  avatarUrl: string;
+  fullname: string;
+  name: string;
+  isHf: boolean;
+  isHfAdmin: boolean;
+  isMod: boolean;
+  followerCount?: number;
+  type: string;
+  plan?: ChangeStatusResponseNewStatusAuthorCase0Plan;
+  isUserFollowing?: boolean;
+}
+export const ChangeStatusResponseNewStatusAuthorCase0 = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    isOwner: S.optional(S.Boolean),
+    isOrgMember: S.optional(S.Boolean),
+    isBlockedByMe: S.optional(S.Boolean),
+    oauthApp: S.optional(ChangeStatusResponseNewStatusAuthorCase0OauthApp),
+    _id: S.String,
+    avatarUrl: S.String,
+    fullname: S.String,
+    name: S.String,
+    isHf: S.Boolean,
+    isHfAdmin: S.Boolean,
+    isMod: S.Boolean,
+    followerCount: S.optional(S.Number),
+    type: S.String,
+    plan: S.optional(ChangeStatusResponseNewStatusAuthorCase0Plan),
+    isUserFollowing: S.optional(S.Boolean),
+  }),
+).annotate({
+  identifier: "ChangeStatusResponseNewStatusAuthorCase0",
+}) as any as S.Schema<ChangeStatusResponseNewStatusAuthorCase0>;
+
+export type ChangeStatusResponseNewStatusAuthorCase1OauthAppImageData =
+  ChangeStatusResponseNewStatusAuthorCase0OauthAppImageData;
+export const ChangeStatusResponseNewStatusAuthorCase1OauthAppImageData =
+  ChangeStatusResponseNewStatusAuthorCase0OauthAppImageData;
+
+export type ChangeStatusResponseNewStatusAuthorCase1OauthApp =
+  ChangeStatusResponseNewStatusAuthorCase0OauthApp;
+export const ChangeStatusResponseNewStatusAuthorCase1OauthApp =
+  ChangeStatusResponseNewStatusAuthorCase0OauthApp;
+
+export type ChangeStatusResponseNewStatusAuthorCase1PrimaryOrgPlan =
+  | "team"
+  | "enterprise"
+  | "plus"
+  | "academia";
+export const ChangeStatusResponseNewStatusAuthorCase1PrimaryOrgPlan = S.String;
+
+export type ChangeStatusResponseNewStatusAuthorCase1PrimaryOrgUserRole =
   | "admin"
   | "write"
   | "contributor"
   | "read"
   | "no_access";
-export const ChangeStatusResponseNewStatusAuthorPrimaryOrgUserRole = S.String;
+export const ChangeStatusResponseNewStatusAuthorCase1PrimaryOrgUserRole = S.String;
 
-export interface ChangeStatusResponseNewStatusAuthorPrimaryOrg {
+export interface ChangeStatusResponseNewStatusAuthorCase1PrimaryOrg {
   avatarUrl: string;
   fullname: string;
   name: string;
-  type: unknown;
+  type: string;
   isHf: boolean;
   isFollowing?: boolean;
-  plan?: ChangeStatusResponseNewStatusAuthorPrimaryOrgPlan;
+  plan?: ChangeStatusResponseNewStatusAuthorCase1PrimaryOrgPlan;
   details?: string;
   hasPrivateMembersList?: boolean;
-  userRole?: ChangeStatusResponseNewStatusAuthorPrimaryOrgUserRole;
+  userRole?: ChangeStatusResponseNewStatusAuthorCase1PrimaryOrgUserRole;
   numUsers?: number;
 }
-export const ChangeStatusResponseNewStatusAuthorPrimaryOrg = /*@__PURE__*/ S.suspend(() =>
+export const ChangeStatusResponseNewStatusAuthorCase1PrimaryOrg = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     avatarUrl: S.String,
     fullname: S.String,
     name: S.String,
-    type: S.Unknown,
+    type: S.String,
     isHf: S.Boolean,
     isFollowing: S.optional(S.Boolean),
-    plan: S.optional(ChangeStatusResponseNewStatusAuthorPrimaryOrgPlan),
+    plan: S.optional(ChangeStatusResponseNewStatusAuthorCase1PrimaryOrgPlan),
     details: S.optional(S.String),
     hasPrivateMembersList: S.optional(S.Boolean),
-    userRole: S.optional(ChangeStatusResponseNewStatusAuthorPrimaryOrgUserRole),
+    userRole: S.optional(ChangeStatusResponseNewStatusAuthorCase1PrimaryOrgUserRole),
     numUsers: S.optional(S.Number),
   }),
 ).annotate({
-  identifier: "ChangeStatusResponseNewStatusAuthorPrimaryOrg",
-}) as any as S.Schema<ChangeStatusResponseNewStatusAuthorPrimaryOrg>;
+  identifier: "ChangeStatusResponseNewStatusAuthorCase1PrimaryOrg",
+}) as any as S.Schema<ChangeStatusResponseNewStatusAuthorCase1PrimaryOrg>;
 
-export interface ChangeStatusResponseNewStatusAuthorOauthAppImageData {
-  emoji: string;
-  colorFrom: string;
-  colorTo: string;
-}
-export const ChangeStatusResponseNewStatusAuthorOauthAppImageData = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    emoji: S.String,
-    colorFrom: S.String,
-    colorTo: S.String,
-  }),
-).annotate({
-  identifier: "ChangeStatusResponseNewStatusAuthorOauthAppImageData",
-}) as any as S.Schema<ChangeStatusResponseNewStatusAuthorOauthAppImageData>;
-
-export interface ChangeStatusResponseNewStatusAuthorOauthApp {
-  imageUrl?: string;
-  imageData?: ChangeStatusResponseNewStatusAuthorOauthAppImageData;
-  url?: string;
-  name: string;
-}
-export const ChangeStatusResponseNewStatusAuthorOauthApp = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    imageUrl: S.optional(S.String),
-    imageData: S.optional(ChangeStatusResponseNewStatusAuthorOauthAppImageData),
-    url: S.optional(S.String),
-    name: S.String,
-  }),
-).annotate({
-  identifier: "ChangeStatusResponseNewStatusAuthorOauthApp",
-}) as any as S.Schema<ChangeStatusResponseNewStatusAuthorOauthApp>;
-
-export interface ChangeStatusResponseNewStatusAuthor {
-  _id?: string;
-  avatarUrl?: string;
-  fullname?: string;
-  name?: string;
-  isHf?: boolean;
-  isHfAdmin?: boolean;
-  isMod?: boolean;
-  followerCount?: number;
-  type?: unknown;
-  plan?: ChangeStatusResponseNewStatusAuthorPlan;
-  isUserFollowing?: boolean;
-  isPro?: boolean;
-  primaryOrg?: ChangeStatusResponseNewStatusAuthorPrimaryOrg;
+export interface ChangeStatusResponseNewStatusAuthorCase1 {
   isOwner?: boolean;
   isOrgMember?: boolean;
   isBlockedByMe?: boolean;
-  oauthApp?: ChangeStatusResponseNewStatusAuthorOauthApp;
+  oauthApp?: ChangeStatusResponseNewStatusAuthorCase0OauthApp;
+  /** A hex string of 24 characters representing an ObjectId. */
+  _id: string;
+  avatarUrl: string;
+  fullname: string;
+  name: string;
+  isHf: boolean;
+  isHfAdmin: boolean;
+  isMod: boolean;
+  followerCount?: number;
+  type: string;
+  isPro: boolean;
+  isUserFollowing?: boolean;
+  primaryOrg?: ChangeStatusResponseNewStatusAuthorCase1PrimaryOrg;
 }
-export const ChangeStatusResponseNewStatusAuthor = /*@__PURE__*/ S.suspend(() =>
+export const ChangeStatusResponseNewStatusAuthorCase1 = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    _id: S.optional(S.String),
-    avatarUrl: S.optional(S.String),
-    fullname: S.optional(S.String),
-    name: S.optional(S.String),
-    isHf: S.optional(S.Boolean),
-    isHfAdmin: S.optional(S.Boolean),
-    isMod: S.optional(S.Boolean),
-    followerCount: S.optional(S.Number),
-    type: S.optional(S.Unknown),
-    plan: S.optional(ChangeStatusResponseNewStatusAuthorPlan),
-    isUserFollowing: S.optional(S.Boolean),
-    isPro: S.optional(S.Boolean),
-    primaryOrg: S.optional(ChangeStatusResponseNewStatusAuthorPrimaryOrg),
     isOwner: S.optional(S.Boolean),
     isOrgMember: S.optional(S.Boolean),
     isBlockedByMe: S.optional(S.Boolean),
-    oauthApp: S.optional(ChangeStatusResponseNewStatusAuthorOauthApp),
+    oauthApp: S.optional(ChangeStatusResponseNewStatusAuthorCase0OauthApp),
+    _id: S.String,
+    avatarUrl: S.String,
+    fullname: S.String,
+    name: S.String,
+    isHf: S.Boolean,
+    isHfAdmin: S.Boolean,
+    isMod: S.Boolean,
+    followerCount: S.optional(S.Number),
+    type: S.String,
+    isPro: S.Boolean,
+    isUserFollowing: S.optional(S.Boolean),
+    primaryOrg: S.optional(ChangeStatusResponseNewStatusAuthorCase1PrimaryOrg),
   }),
 ).annotate({
-  identifier: "ChangeStatusResponseNewStatusAuthor",
-}) as any as S.Schema<ChangeStatusResponseNewStatusAuthor>;
+  identifier: "ChangeStatusResponseNewStatusAuthorCase1",
+}) as any as S.Schema<ChangeStatusResponseNewStatusAuthorCase1>;
+
+export type ChangeStatusResponseNewStatusAuthor =
+  | ChangeStatusResponseNewStatusAuthorCase0
+  | ChangeStatusResponseNewStatusAuthorCase1;
+export const ChangeStatusResponseNewStatusAuthor =
+  S.Unknown as any as S.Schema<ChangeStatusResponseNewStatusAuthor>;
 
 export type ChangeStatusResponseNewStatusDataStatus = "draft" | "open" | "closed" | "merged";
 export const ChangeStatusResponseNewStatusDataStatus = S.String;
@@ -188,7 +246,7 @@ export interface ChangeStatusResponseNewStatus {
   id: string;
   createdAt: string;
   author?: ChangeStatusResponseNewStatusAuthor;
-  type: unknown;
+  type: string;
   data: ChangeStatusResponseNewStatusData;
 }
 export const ChangeStatusResponseNewStatus = /*@__PURE__*/ S.suspend(() =>
@@ -196,7 +254,7 @@ export const ChangeStatusResponseNewStatus = /*@__PURE__*/ S.suspend(() =>
     id: S.String,
     createdAt: S.String,
     author: S.optional(ChangeStatusResponseNewStatusAuthor),
-    type: S.Unknown,
+    type: S.String,
     data: ChangeStatusResponseNewStatusData,
   }),
 ).annotate({
@@ -210,9 +268,7 @@ export const ChangeStatusResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     newStatus: ChangeStatusResponseNewStatus,
   }),
-).annotate({
-  identifier: "ChangeStatusResponse",
-}) as any as S.Schema<ChangeStatusResponse>;
+).annotate({ identifier: "ChangeStatusResponse" }) as any as S.Schema<ChangeStatusResponse>;
 
 export type ChangeTitleRequestRepoType = "models" | "spaces" | "datasets" | "kernels";
 export const ChangeTitleRequestRepoType = S.String;
@@ -238,110 +294,168 @@ export const ChangeTitleRequest = /*@__PURE__*/ S.suspend(() =>
       code: 200,
     }),
   ),
-).annotate({
-  identifier: "ChangeTitleRequest",
-}) as any as S.Schema<ChangeTitleRequest>;
+).annotate({ identifier: "ChangeTitleRequest" }) as any as S.Schema<ChangeTitleRequest>;
 
-export type ChangeTitleResponseNewTitleAuthorPlan = "team" | "enterprise" | "plus" | "academia";
-export const ChangeTitleResponseNewTitleAuthorPlan = S.String;
+export type ChangeTitleResponseNewTitleAuthorCase0OauthAppImageData =
+  ChangeStatusResponseNewStatusAuthorCase0OauthAppImageData;
+export const ChangeTitleResponseNewTitleAuthorCase0OauthAppImageData =
+  ChangeStatusResponseNewStatusAuthorCase0OauthAppImageData;
 
-export type ChangeTitleResponseNewTitleAuthorPrimaryOrgPlan =
+export type ChangeTitleResponseNewTitleAuthorCase0OauthApp =
+  ChangeStatusResponseNewStatusAuthorCase0OauthApp;
+export const ChangeTitleResponseNewTitleAuthorCase0OauthApp =
+  ChangeStatusResponseNewStatusAuthorCase0OauthApp;
+
+export type ChangeTitleResponseNewTitleAuthorCase0Plan =
   | "team"
   | "enterprise"
   | "plus"
   | "academia";
-export const ChangeTitleResponseNewTitleAuthorPrimaryOrgPlan = S.String;
+export const ChangeTitleResponseNewTitleAuthorCase0Plan = S.String;
 
-export type ChangeTitleResponseNewTitleAuthorPrimaryOrgUserRole =
+export interface ChangeTitleResponseNewTitleAuthorCase0 {
+  isOwner?: boolean;
+  isOrgMember?: boolean;
+  isBlockedByMe?: boolean;
+  oauthApp?: ChangeStatusResponseNewStatusAuthorCase0OauthApp;
+  /** A hex string of 24 characters representing an ObjectId. */
+  _id: string;
+  avatarUrl: string;
+  fullname: string;
+  name: string;
+  isHf: boolean;
+  isHfAdmin: boolean;
+  isMod: boolean;
+  followerCount?: number;
+  type: string;
+  plan?: ChangeTitleResponseNewTitleAuthorCase0Plan;
+  isUserFollowing?: boolean;
+}
+export const ChangeTitleResponseNewTitleAuthorCase0 = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    isOwner: S.optional(S.Boolean),
+    isOrgMember: S.optional(S.Boolean),
+    isBlockedByMe: S.optional(S.Boolean),
+    oauthApp: S.optional(ChangeStatusResponseNewStatusAuthorCase0OauthApp),
+    _id: S.String,
+    avatarUrl: S.String,
+    fullname: S.String,
+    name: S.String,
+    isHf: S.Boolean,
+    isHfAdmin: S.Boolean,
+    isMod: S.Boolean,
+    followerCount: S.optional(S.Number),
+    type: S.String,
+    plan: S.optional(ChangeTitleResponseNewTitleAuthorCase0Plan),
+    isUserFollowing: S.optional(S.Boolean),
+  }),
+).annotate({
+  identifier: "ChangeTitleResponseNewTitleAuthorCase0",
+}) as any as S.Schema<ChangeTitleResponseNewTitleAuthorCase0>;
+
+export type ChangeTitleResponseNewTitleAuthorCase1OauthAppImageData =
+  ChangeStatusResponseNewStatusAuthorCase0OauthAppImageData;
+export const ChangeTitleResponseNewTitleAuthorCase1OauthAppImageData =
+  ChangeStatusResponseNewStatusAuthorCase0OauthAppImageData;
+
+export type ChangeTitleResponseNewTitleAuthorCase1OauthApp =
+  ChangeStatusResponseNewStatusAuthorCase0OauthApp;
+export const ChangeTitleResponseNewTitleAuthorCase1OauthApp =
+  ChangeStatusResponseNewStatusAuthorCase0OauthApp;
+
+export type ChangeTitleResponseNewTitleAuthorCase1PrimaryOrgPlan =
+  | "team"
+  | "enterprise"
+  | "plus"
+  | "academia";
+export const ChangeTitleResponseNewTitleAuthorCase1PrimaryOrgPlan = S.String;
+
+export type ChangeTitleResponseNewTitleAuthorCase1PrimaryOrgUserRole =
   | "admin"
   | "write"
   | "contributor"
   | "read"
   | "no_access";
-export const ChangeTitleResponseNewTitleAuthorPrimaryOrgUserRole = S.String;
+export const ChangeTitleResponseNewTitleAuthorCase1PrimaryOrgUserRole = S.String;
 
-export interface ChangeTitleResponseNewTitleAuthorPrimaryOrg {
+export interface ChangeTitleResponseNewTitleAuthorCase1PrimaryOrg {
   avatarUrl: string;
   fullname: string;
   name: string;
-  type: unknown;
+  type: string;
   isHf: boolean;
   isFollowing?: boolean;
-  plan?: ChangeTitleResponseNewTitleAuthorPrimaryOrgPlan;
+  plan?: ChangeTitleResponseNewTitleAuthorCase1PrimaryOrgPlan;
   details?: string;
   hasPrivateMembersList?: boolean;
-  userRole?: ChangeTitleResponseNewTitleAuthorPrimaryOrgUserRole;
+  userRole?: ChangeTitleResponseNewTitleAuthorCase1PrimaryOrgUserRole;
   numUsers?: number;
 }
-export const ChangeTitleResponseNewTitleAuthorPrimaryOrg = /*@__PURE__*/ S.suspend(() =>
+export const ChangeTitleResponseNewTitleAuthorCase1PrimaryOrg = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     avatarUrl: S.String,
     fullname: S.String,
     name: S.String,
-    type: S.Unknown,
+    type: S.String,
     isHf: S.Boolean,
     isFollowing: S.optional(S.Boolean),
-    plan: S.optional(ChangeTitleResponseNewTitleAuthorPrimaryOrgPlan),
+    plan: S.optional(ChangeTitleResponseNewTitleAuthorCase1PrimaryOrgPlan),
     details: S.optional(S.String),
     hasPrivateMembersList: S.optional(S.Boolean),
-    userRole: S.optional(ChangeTitleResponseNewTitleAuthorPrimaryOrgUserRole),
+    userRole: S.optional(ChangeTitleResponseNewTitleAuthorCase1PrimaryOrgUserRole),
     numUsers: S.optional(S.Number),
   }),
 ).annotate({
-  identifier: "ChangeTitleResponseNewTitleAuthorPrimaryOrg",
-}) as any as S.Schema<ChangeTitleResponseNewTitleAuthorPrimaryOrg>;
+  identifier: "ChangeTitleResponseNewTitleAuthorCase1PrimaryOrg",
+}) as any as S.Schema<ChangeTitleResponseNewTitleAuthorCase1PrimaryOrg>;
 
-export type ChangeTitleResponseNewTitleAuthorOauthAppImageData =
-  ChangeStatusResponseNewStatusAuthorOauthAppImageData;
-export const ChangeTitleResponseNewTitleAuthorOauthAppImageData =
-  ChangeStatusResponseNewStatusAuthorOauthAppImageData;
-
-export type ChangeTitleResponseNewTitleAuthorOauthApp = ChangeStatusResponseNewStatusAuthorOauthApp;
-export const ChangeTitleResponseNewTitleAuthorOauthApp =
-  ChangeStatusResponseNewStatusAuthorOauthApp;
-
-export interface ChangeTitleResponseNewTitleAuthor {
-  _id?: string;
-  avatarUrl?: string;
-  fullname?: string;
-  name?: string;
-  isHf?: boolean;
-  isHfAdmin?: boolean;
-  isMod?: boolean;
-  followerCount?: number;
-  type?: unknown;
-  plan?: ChangeTitleResponseNewTitleAuthorPlan;
-  isUserFollowing?: boolean;
-  isPro?: boolean;
-  primaryOrg?: ChangeTitleResponseNewTitleAuthorPrimaryOrg;
+export interface ChangeTitleResponseNewTitleAuthorCase1 {
   isOwner?: boolean;
   isOrgMember?: boolean;
   isBlockedByMe?: boolean;
-  oauthApp?: ChangeStatusResponseNewStatusAuthorOauthApp;
+  oauthApp?: ChangeStatusResponseNewStatusAuthorCase0OauthApp;
+  /** A hex string of 24 characters representing an ObjectId. */
+  _id: string;
+  avatarUrl: string;
+  fullname: string;
+  name: string;
+  isHf: boolean;
+  isHfAdmin: boolean;
+  isMod: boolean;
+  followerCount?: number;
+  type: string;
+  isPro: boolean;
+  isUserFollowing?: boolean;
+  primaryOrg?: ChangeTitleResponseNewTitleAuthorCase1PrimaryOrg;
 }
-export const ChangeTitleResponseNewTitleAuthor = /*@__PURE__*/ S.suspend(() =>
+export const ChangeTitleResponseNewTitleAuthorCase1 = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    _id: S.optional(S.String),
-    avatarUrl: S.optional(S.String),
-    fullname: S.optional(S.String),
-    name: S.optional(S.String),
-    isHf: S.optional(S.Boolean),
-    isHfAdmin: S.optional(S.Boolean),
-    isMod: S.optional(S.Boolean),
-    followerCount: S.optional(S.Number),
-    type: S.optional(S.Unknown),
-    plan: S.optional(ChangeTitleResponseNewTitleAuthorPlan),
-    isUserFollowing: S.optional(S.Boolean),
-    isPro: S.optional(S.Boolean),
-    primaryOrg: S.optional(ChangeTitleResponseNewTitleAuthorPrimaryOrg),
     isOwner: S.optional(S.Boolean),
     isOrgMember: S.optional(S.Boolean),
     isBlockedByMe: S.optional(S.Boolean),
-    oauthApp: S.optional(ChangeStatusResponseNewStatusAuthorOauthApp),
+    oauthApp: S.optional(ChangeStatusResponseNewStatusAuthorCase0OauthApp),
+    _id: S.String,
+    avatarUrl: S.String,
+    fullname: S.String,
+    name: S.String,
+    isHf: S.Boolean,
+    isHfAdmin: S.Boolean,
+    isMod: S.Boolean,
+    followerCount: S.optional(S.Number),
+    type: S.String,
+    isPro: S.Boolean,
+    isUserFollowing: S.optional(S.Boolean),
+    primaryOrg: S.optional(ChangeTitleResponseNewTitleAuthorCase1PrimaryOrg),
   }),
 ).annotate({
-  identifier: "ChangeTitleResponseNewTitleAuthor",
-}) as any as S.Schema<ChangeTitleResponseNewTitleAuthor>;
+  identifier: "ChangeTitleResponseNewTitleAuthorCase1",
+}) as any as S.Schema<ChangeTitleResponseNewTitleAuthorCase1>;
+
+export type ChangeTitleResponseNewTitleAuthor =
+  | ChangeTitleResponseNewTitleAuthorCase0
+  | ChangeTitleResponseNewTitleAuthorCase1;
+export const ChangeTitleResponseNewTitleAuthor =
+  S.Unknown as any as S.Schema<ChangeTitleResponseNewTitleAuthor>;
 
 export interface ChangeTitleResponseNewTitleData {
   from: string;
@@ -360,7 +474,7 @@ export interface ChangeTitleResponseNewTitle {
   id: string;
   createdAt: string;
   author?: ChangeTitleResponseNewTitleAuthor;
-  type: unknown;
+  type: string;
   data: ChangeTitleResponseNewTitleData;
 }
 export const ChangeTitleResponseNewTitle = /*@__PURE__*/ S.suspend(() =>
@@ -368,7 +482,7 @@ export const ChangeTitleResponseNewTitle = /*@__PURE__*/ S.suspend(() =>
     id: S.String,
     createdAt: S.String,
     author: S.optional(ChangeTitleResponseNewTitleAuthor),
-    type: S.Unknown,
+    type: S.String,
     data: ChangeTitleResponseNewTitleData,
   }),
 ).annotate({
@@ -382,9 +496,7 @@ export const ChangeTitleResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     newTitle: ChangeTitleResponseNewTitle,
   }),
-).annotate({
-  identifier: "ChangeTitleResponse",
-}) as any as S.Schema<ChangeTitleResponse>;
+).annotate({ identifier: "ChangeTitleResponse" }) as any as S.Schema<ChangeTitleResponse>;
 
 export interface CreateBlogCommentRequest {
   slug: string;
@@ -395,115 +507,169 @@ export const CreateBlogCommentRequest = /*@__PURE__*/ S.suspend(() =>
     slug: S.String.pipe(T.Label()),
     comment: S.String,
   }).pipe(T.Http({ method: "POST", uri: "/api/blog/{slug}/comment", code: 200 })),
+).annotate({ identifier: "CreateBlogCommentRequest" }) as any as S.Schema<CreateBlogCommentRequest>;
+
+export type CreateBlogCommentResponseNewMessageAuthorCase0OauthAppImageData =
+  ChangeStatusResponseNewStatusAuthorCase0OauthAppImageData;
+export const CreateBlogCommentResponseNewMessageAuthorCase0OauthAppImageData =
+  ChangeStatusResponseNewStatusAuthorCase0OauthAppImageData;
+
+export type CreateBlogCommentResponseNewMessageAuthorCase0OauthApp =
+  ChangeStatusResponseNewStatusAuthorCase0OauthApp;
+export const CreateBlogCommentResponseNewMessageAuthorCase0OauthApp =
+  ChangeStatusResponseNewStatusAuthorCase0OauthApp;
+
+export type CreateBlogCommentResponseNewMessageAuthorCase0Plan =
+  | "team"
+  | "enterprise"
+  | "plus"
+  | "academia";
+export const CreateBlogCommentResponseNewMessageAuthorCase0Plan = S.String;
+
+export interface CreateBlogCommentResponseNewMessageAuthorCase0 {
+  isOwner?: boolean;
+  isOrgMember?: boolean;
+  isBlockedByMe?: boolean;
+  oauthApp?: ChangeStatusResponseNewStatusAuthorCase0OauthApp;
+  /** A hex string of 24 characters representing an ObjectId. */
+  _id: string;
+  avatarUrl: string;
+  fullname: string;
+  name: string;
+  isHf: boolean;
+  isHfAdmin: boolean;
+  isMod: boolean;
+  followerCount?: number;
+  type: string;
+  plan?: CreateBlogCommentResponseNewMessageAuthorCase0Plan;
+  isUserFollowing?: boolean;
+}
+export const CreateBlogCommentResponseNewMessageAuthorCase0 = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    isOwner: S.optional(S.Boolean),
+    isOrgMember: S.optional(S.Boolean),
+    isBlockedByMe: S.optional(S.Boolean),
+    oauthApp: S.optional(ChangeStatusResponseNewStatusAuthorCase0OauthApp),
+    _id: S.String,
+    avatarUrl: S.String,
+    fullname: S.String,
+    name: S.String,
+    isHf: S.Boolean,
+    isHfAdmin: S.Boolean,
+    isMod: S.Boolean,
+    followerCount: S.optional(S.Number),
+    type: S.String,
+    plan: S.optional(CreateBlogCommentResponseNewMessageAuthorCase0Plan),
+    isUserFollowing: S.optional(S.Boolean),
+  }),
 ).annotate({
-  identifier: "CreateBlogCommentRequest",
-}) as any as S.Schema<CreateBlogCommentRequest>;
+  identifier: "CreateBlogCommentResponseNewMessageAuthorCase0",
+}) as any as S.Schema<CreateBlogCommentResponseNewMessageAuthorCase0>;
 
-export type CreateBlogCommentResponseNewMessageAuthorPlan =
+export type CreateBlogCommentResponseNewMessageAuthorCase1OauthAppImageData =
+  ChangeStatusResponseNewStatusAuthorCase0OauthAppImageData;
+export const CreateBlogCommentResponseNewMessageAuthorCase1OauthAppImageData =
+  ChangeStatusResponseNewStatusAuthorCase0OauthAppImageData;
+
+export type CreateBlogCommentResponseNewMessageAuthorCase1OauthApp =
+  ChangeStatusResponseNewStatusAuthorCase0OauthApp;
+export const CreateBlogCommentResponseNewMessageAuthorCase1OauthApp =
+  ChangeStatusResponseNewStatusAuthorCase0OauthApp;
+
+export type CreateBlogCommentResponseNewMessageAuthorCase1PrimaryOrgPlan =
   | "team"
   | "enterprise"
   | "plus"
   | "academia";
-export const CreateBlogCommentResponseNewMessageAuthorPlan = S.String;
+export const CreateBlogCommentResponseNewMessageAuthorCase1PrimaryOrgPlan = S.String;
 
-export type CreateBlogCommentResponseNewMessageAuthorPrimaryOrgPlan =
-  | "team"
-  | "enterprise"
-  | "plus"
-  | "academia";
-export const CreateBlogCommentResponseNewMessageAuthorPrimaryOrgPlan = S.String;
-
-export type CreateBlogCommentResponseNewMessageAuthorPrimaryOrgUserRole =
+export type CreateBlogCommentResponseNewMessageAuthorCase1PrimaryOrgUserRole =
   | "admin"
   | "write"
   | "contributor"
   | "read"
   | "no_access";
-export const CreateBlogCommentResponseNewMessageAuthorPrimaryOrgUserRole = S.String;
+export const CreateBlogCommentResponseNewMessageAuthorCase1PrimaryOrgUserRole = S.String;
 
-export interface CreateBlogCommentResponseNewMessageAuthorPrimaryOrg {
+export interface CreateBlogCommentResponseNewMessageAuthorCase1PrimaryOrg {
   avatarUrl: string;
   fullname: string;
   name: string;
-  type: unknown;
+  type: string;
   isHf: boolean;
   isFollowing?: boolean;
-  plan?: CreateBlogCommentResponseNewMessageAuthorPrimaryOrgPlan;
+  plan?: CreateBlogCommentResponseNewMessageAuthorCase1PrimaryOrgPlan;
   details?: string;
   hasPrivateMembersList?: boolean;
-  userRole?: CreateBlogCommentResponseNewMessageAuthorPrimaryOrgUserRole;
+  userRole?: CreateBlogCommentResponseNewMessageAuthorCase1PrimaryOrgUserRole;
   numUsers?: number;
 }
-export const CreateBlogCommentResponseNewMessageAuthorPrimaryOrg = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    avatarUrl: S.String,
-    fullname: S.String,
-    name: S.String,
-    type: S.Unknown,
-    isHf: S.Boolean,
-    isFollowing: S.optional(S.Boolean),
-    plan: S.optional(CreateBlogCommentResponseNewMessageAuthorPrimaryOrgPlan),
-    details: S.optional(S.String),
-    hasPrivateMembersList: S.optional(S.Boolean),
-    userRole: S.optional(CreateBlogCommentResponseNewMessageAuthorPrimaryOrgUserRole),
-    numUsers: S.optional(S.Number),
-  }),
+export const CreateBlogCommentResponseNewMessageAuthorCase1PrimaryOrg = /*@__PURE__*/ S.suspend(
+  () =>
+    S.Struct({
+      avatarUrl: S.String,
+      fullname: S.String,
+      name: S.String,
+      type: S.String,
+      isHf: S.Boolean,
+      isFollowing: S.optional(S.Boolean),
+      plan: S.optional(CreateBlogCommentResponseNewMessageAuthorCase1PrimaryOrgPlan),
+      details: S.optional(S.String),
+      hasPrivateMembersList: S.optional(S.Boolean),
+      userRole: S.optional(CreateBlogCommentResponseNewMessageAuthorCase1PrimaryOrgUserRole),
+      numUsers: S.optional(S.Number),
+    }),
 ).annotate({
-  identifier: "CreateBlogCommentResponseNewMessageAuthorPrimaryOrg",
-}) as any as S.Schema<CreateBlogCommentResponseNewMessageAuthorPrimaryOrg>;
+  identifier: "CreateBlogCommentResponseNewMessageAuthorCase1PrimaryOrg",
+}) as any as S.Schema<CreateBlogCommentResponseNewMessageAuthorCase1PrimaryOrg>;
 
-export type CreateBlogCommentResponseNewMessageAuthorOauthAppImageData =
-  ChangeStatusResponseNewStatusAuthorOauthAppImageData;
-export const CreateBlogCommentResponseNewMessageAuthorOauthAppImageData =
-  ChangeStatusResponseNewStatusAuthorOauthAppImageData;
-
-export type CreateBlogCommentResponseNewMessageAuthorOauthApp =
-  ChangeStatusResponseNewStatusAuthorOauthApp;
-export const CreateBlogCommentResponseNewMessageAuthorOauthApp =
-  ChangeStatusResponseNewStatusAuthorOauthApp;
-
-export interface CreateBlogCommentResponseNewMessageAuthor {
-  _id?: string;
-  avatarUrl?: string;
-  fullname?: string;
-  name?: string;
-  isHf?: boolean;
-  isHfAdmin?: boolean;
-  isMod?: boolean;
-  followerCount?: number;
-  type?: unknown;
-  plan?: CreateBlogCommentResponseNewMessageAuthorPlan;
-  isUserFollowing?: boolean;
-  isPro?: boolean;
-  primaryOrg?: CreateBlogCommentResponseNewMessageAuthorPrimaryOrg;
+export interface CreateBlogCommentResponseNewMessageAuthorCase1 {
   isOwner?: boolean;
   isOrgMember?: boolean;
   isBlockedByMe?: boolean;
-  oauthApp?: ChangeStatusResponseNewStatusAuthorOauthApp;
+  oauthApp?: ChangeStatusResponseNewStatusAuthorCase0OauthApp;
+  /** A hex string of 24 characters representing an ObjectId. */
+  _id: string;
+  avatarUrl: string;
+  fullname: string;
+  name: string;
+  isHf: boolean;
+  isHfAdmin: boolean;
+  isMod: boolean;
+  followerCount?: number;
+  type: string;
+  isPro: boolean;
+  isUserFollowing?: boolean;
+  primaryOrg?: CreateBlogCommentResponseNewMessageAuthorCase1PrimaryOrg;
 }
-export const CreateBlogCommentResponseNewMessageAuthor = /*@__PURE__*/ S.suspend(() =>
+export const CreateBlogCommentResponseNewMessageAuthorCase1 = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    _id: S.optional(S.String),
-    avatarUrl: S.optional(S.String),
-    fullname: S.optional(S.String),
-    name: S.optional(S.String),
-    isHf: S.optional(S.Boolean),
-    isHfAdmin: S.optional(S.Boolean),
-    isMod: S.optional(S.Boolean),
-    followerCount: S.optional(S.Number),
-    type: S.optional(S.Unknown),
-    plan: S.optional(CreateBlogCommentResponseNewMessageAuthorPlan),
-    isUserFollowing: S.optional(S.Boolean),
-    isPro: S.optional(S.Boolean),
-    primaryOrg: S.optional(CreateBlogCommentResponseNewMessageAuthorPrimaryOrg),
     isOwner: S.optional(S.Boolean),
     isOrgMember: S.optional(S.Boolean),
     isBlockedByMe: S.optional(S.Boolean),
-    oauthApp: S.optional(ChangeStatusResponseNewStatusAuthorOauthApp),
+    oauthApp: S.optional(ChangeStatusResponseNewStatusAuthorCase0OauthApp),
+    _id: S.String,
+    avatarUrl: S.String,
+    fullname: S.String,
+    name: S.String,
+    isHf: S.Boolean,
+    isHfAdmin: S.Boolean,
+    isMod: S.Boolean,
+    followerCount: S.optional(S.Number),
+    type: S.String,
+    isPro: S.Boolean,
+    isUserFollowing: S.optional(S.Boolean),
+    primaryOrg: S.optional(CreateBlogCommentResponseNewMessageAuthorCase1PrimaryOrg),
   }),
 ).annotate({
-  identifier: "CreateBlogCommentResponseNewMessageAuthor",
-}) as any as S.Schema<CreateBlogCommentResponseNewMessageAuthor>;
+  identifier: "CreateBlogCommentResponseNewMessageAuthorCase1",
+}) as any as S.Schema<CreateBlogCommentResponseNewMessageAuthorCase1>;
+
+export type CreateBlogCommentResponseNewMessageAuthor =
+  | CreateBlogCommentResponseNewMessageAuthorCase0
+  | CreateBlogCommentResponseNewMessageAuthorCase1;
+export const CreateBlogCommentResponseNewMessageAuthor =
+  S.Unknown as any as S.Schema<CreateBlogCommentResponseNewMessageAuthor>;
 
 export type CreateBlogCommentResponseNewMessageDataHiddenReason =
   | "Spam"
@@ -522,6 +688,7 @@ export type CreateBlogCommentResponseNewMessageDataLatestAuthorCase0Plan =
 export const CreateBlogCommentResponseNewMessageDataLatestAuthorCase0Plan = S.String;
 
 export interface CreateBlogCommentResponseNewMessageDataLatestAuthorCase0 {
+  /** A hex string of 24 characters representing an ObjectId. */
   _id: string;
   avatarUrl: string;
   fullname: string;
@@ -530,7 +697,7 @@ export interface CreateBlogCommentResponseNewMessageDataLatestAuthorCase0 {
   isHfAdmin: boolean;
   isMod: boolean;
   followerCount?: number;
-  type: unknown;
+  type: string;
   plan?: CreateBlogCommentResponseNewMessageDataLatestAuthorCase0Plan;
   isUserFollowing?: boolean;
 }
@@ -545,7 +712,7 @@ export const CreateBlogCommentResponseNewMessageDataLatestAuthorCase0 = /*@__PUR
       isHfAdmin: S.Boolean,
       isMod: S.Boolean,
       followerCount: S.optional(S.Number),
-      type: S.Unknown,
+      type: S.String,
       plan: S.optional(CreateBlogCommentResponseNewMessageDataLatestAuthorCase0Plan),
       isUserFollowing: S.optional(S.Boolean),
     }),
@@ -572,7 +739,7 @@ export interface CreateBlogCommentResponseNewMessageDataLatestAuthorCase1Primary
   avatarUrl: string;
   fullname: string;
   name: string;
-  type: unknown;
+  type: string;
   isHf: boolean;
   isFollowing?: boolean;
   plan?: CreateBlogCommentResponseNewMessageDataLatestAuthorCase1PrimaryOrgPlan;
@@ -587,7 +754,7 @@ export const CreateBlogCommentResponseNewMessageDataLatestAuthorCase1PrimaryOrg 
       avatarUrl: S.String,
       fullname: S.String,
       name: S.String,
-      type: S.Unknown,
+      type: S.String,
       isHf: S.Boolean,
       isFollowing: S.optional(S.Boolean),
       plan: S.optional(CreateBlogCommentResponseNewMessageDataLatestAuthorCase1PrimaryOrgPlan),
@@ -603,6 +770,7 @@ export const CreateBlogCommentResponseNewMessageDataLatestAuthorCase1PrimaryOrg 
   }) as any as S.Schema<CreateBlogCommentResponseNewMessageDataLatestAuthorCase1PrimaryOrg>;
 
 export interface CreateBlogCommentResponseNewMessageDataLatestAuthorCase1 {
+  /** A hex string of 24 characters representing an ObjectId. */
   _id: string;
   avatarUrl: string;
   fullname: string;
@@ -611,7 +779,7 @@ export interface CreateBlogCommentResponseNewMessageDataLatestAuthorCase1 {
   isHfAdmin: boolean;
   isMod: boolean;
   followerCount?: number;
-  type: unknown;
+  type: string;
   isPro: boolean;
   isUserFollowing?: boolean;
   primaryOrg?: CreateBlogCommentResponseNewMessageDataLatestAuthorCase1PrimaryOrg;
@@ -627,7 +795,7 @@ export const CreateBlogCommentResponseNewMessageDataLatestAuthorCase1 = /*@__PUR
       isHfAdmin: S.Boolean,
       isMod: S.Boolean,
       followerCount: S.optional(S.Number),
-      type: S.Unknown,
+      type: S.String,
       isPro: S.Boolean,
       isUserFollowing: S.optional(S.Boolean),
       primaryOrg: S.optional(CreateBlogCommentResponseNewMessageDataLatestAuthorCase1PrimaryOrg),
@@ -763,7 +931,7 @@ export interface CreateBlogCommentResponseNewMessage {
   id: string;
   createdAt: string;
   author?: CreateBlogCommentResponseNewMessageAuthor;
-  type: unknown;
+  type: string;
   data: CreateBlogCommentResponseNewMessageData;
 }
 export const CreateBlogCommentResponseNewMessage = /*@__PURE__*/ S.suspend(() =>
@@ -771,7 +939,7 @@ export const CreateBlogCommentResponseNewMessage = /*@__PURE__*/ S.suspend(() =>
     id: S.String,
     createdAt: S.String,
     author: S.optional(CreateBlogCommentResponseNewMessageAuthor),
-    type: S.Unknown,
+    type: S.String,
     data: CreateBlogCommentResponseNewMessageData,
   }),
 ).annotate({
@@ -799,123 +967,174 @@ export const CreateCommunityBlogCommentRequest = /*@__PURE__*/ S.suspend(() =>
     namespace: S.String.pipe(T.Label()),
     slug: S.String.pipe(T.Label()),
     comment: S.String,
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/api/blog/{namespace}/{slug}/comment",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "POST", uri: "/api/blog/{namespace}/{slug}/comment", code: 200 })),
 ).annotate({
   identifier: "CreateCommunityBlogCommentRequest",
 }) as any as S.Schema<CreateCommunityBlogCommentRequest>;
 
-export type CreateCommunityBlogCommentResponseNewMessageAuthorPlan =
+export type CreateCommunityBlogCommentResponseNewMessageAuthorCase0OauthAppImageData =
+  ChangeStatusResponseNewStatusAuthorCase0OauthAppImageData;
+export const CreateCommunityBlogCommentResponseNewMessageAuthorCase0OauthAppImageData =
+  ChangeStatusResponseNewStatusAuthorCase0OauthAppImageData;
+
+export type CreateCommunityBlogCommentResponseNewMessageAuthorCase0OauthApp =
+  ChangeStatusResponseNewStatusAuthorCase0OauthApp;
+export const CreateCommunityBlogCommentResponseNewMessageAuthorCase0OauthApp =
+  ChangeStatusResponseNewStatusAuthorCase0OauthApp;
+
+export type CreateCommunityBlogCommentResponseNewMessageAuthorCase0Plan =
   | "team"
   | "enterprise"
   | "plus"
   | "academia";
-export const CreateCommunityBlogCommentResponseNewMessageAuthorPlan = S.String;
+export const CreateCommunityBlogCommentResponseNewMessageAuthorCase0Plan = S.String;
 
-export type CreateCommunityBlogCommentResponseNewMessageAuthorPrimaryOrgPlan =
+export interface CreateCommunityBlogCommentResponseNewMessageAuthorCase0 {
+  isOwner?: boolean;
+  isOrgMember?: boolean;
+  isBlockedByMe?: boolean;
+  oauthApp?: ChangeStatusResponseNewStatusAuthorCase0OauthApp;
+  /** A hex string of 24 characters representing an ObjectId. */
+  _id: string;
+  avatarUrl: string;
+  fullname: string;
+  name: string;
+  isHf: boolean;
+  isHfAdmin: boolean;
+  isMod: boolean;
+  followerCount?: number;
+  type: string;
+  plan?: CreateCommunityBlogCommentResponseNewMessageAuthorCase0Plan;
+  isUserFollowing?: boolean;
+}
+export const CreateCommunityBlogCommentResponseNewMessageAuthorCase0 = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    isOwner: S.optional(S.Boolean),
+    isOrgMember: S.optional(S.Boolean),
+    isBlockedByMe: S.optional(S.Boolean),
+    oauthApp: S.optional(ChangeStatusResponseNewStatusAuthorCase0OauthApp),
+    _id: S.String,
+    avatarUrl: S.String,
+    fullname: S.String,
+    name: S.String,
+    isHf: S.Boolean,
+    isHfAdmin: S.Boolean,
+    isMod: S.Boolean,
+    followerCount: S.optional(S.Number),
+    type: S.String,
+    plan: S.optional(CreateCommunityBlogCommentResponseNewMessageAuthorCase0Plan),
+    isUserFollowing: S.optional(S.Boolean),
+  }),
+).annotate({
+  identifier: "CreateCommunityBlogCommentResponseNewMessageAuthorCase0",
+}) as any as S.Schema<CreateCommunityBlogCommentResponseNewMessageAuthorCase0>;
+
+export type CreateCommunityBlogCommentResponseNewMessageAuthorCase1OauthAppImageData =
+  ChangeStatusResponseNewStatusAuthorCase0OauthAppImageData;
+export const CreateCommunityBlogCommentResponseNewMessageAuthorCase1OauthAppImageData =
+  ChangeStatusResponseNewStatusAuthorCase0OauthAppImageData;
+
+export type CreateCommunityBlogCommentResponseNewMessageAuthorCase1OauthApp =
+  ChangeStatusResponseNewStatusAuthorCase0OauthApp;
+export const CreateCommunityBlogCommentResponseNewMessageAuthorCase1OauthApp =
+  ChangeStatusResponseNewStatusAuthorCase0OauthApp;
+
+export type CreateCommunityBlogCommentResponseNewMessageAuthorCase1PrimaryOrgPlan =
   | "team"
   | "enterprise"
   | "plus"
   | "academia";
-export const CreateCommunityBlogCommentResponseNewMessageAuthorPrimaryOrgPlan = S.String;
+export const CreateCommunityBlogCommentResponseNewMessageAuthorCase1PrimaryOrgPlan = S.String;
 
-export type CreateCommunityBlogCommentResponseNewMessageAuthorPrimaryOrgUserRole =
+export type CreateCommunityBlogCommentResponseNewMessageAuthorCase1PrimaryOrgUserRole =
   | "admin"
   | "write"
   | "contributor"
   | "read"
   | "no_access";
-export const CreateCommunityBlogCommentResponseNewMessageAuthorPrimaryOrgUserRole = S.String;
+export const CreateCommunityBlogCommentResponseNewMessageAuthorCase1PrimaryOrgUserRole = S.String;
 
-export interface CreateCommunityBlogCommentResponseNewMessageAuthorPrimaryOrg {
+export interface CreateCommunityBlogCommentResponseNewMessageAuthorCase1PrimaryOrg {
   avatarUrl: string;
   fullname: string;
   name: string;
-  type: unknown;
+  type: string;
   isHf: boolean;
   isFollowing?: boolean;
-  plan?: CreateCommunityBlogCommentResponseNewMessageAuthorPrimaryOrgPlan;
+  plan?: CreateCommunityBlogCommentResponseNewMessageAuthorCase1PrimaryOrgPlan;
   details?: string;
   hasPrivateMembersList?: boolean;
-  userRole?: CreateCommunityBlogCommentResponseNewMessageAuthorPrimaryOrgUserRole;
+  userRole?: CreateCommunityBlogCommentResponseNewMessageAuthorCase1PrimaryOrgUserRole;
   numUsers?: number;
 }
-export const CreateCommunityBlogCommentResponseNewMessageAuthorPrimaryOrg = /*@__PURE__*/ S.suspend(
-  () =>
+export const CreateCommunityBlogCommentResponseNewMessageAuthorCase1PrimaryOrg =
+  /*@__PURE__*/ S.suspend(() =>
     S.Struct({
       avatarUrl: S.String,
       fullname: S.String,
       name: S.String,
-      type: S.Unknown,
+      type: S.String,
       isHf: S.Boolean,
       isFollowing: S.optional(S.Boolean),
-      plan: S.optional(CreateCommunityBlogCommentResponseNewMessageAuthorPrimaryOrgPlan),
+      plan: S.optional(CreateCommunityBlogCommentResponseNewMessageAuthorCase1PrimaryOrgPlan),
       details: S.optional(S.String),
       hasPrivateMembersList: S.optional(S.Boolean),
-      userRole: S.optional(CreateCommunityBlogCommentResponseNewMessageAuthorPrimaryOrgUserRole),
+      userRole: S.optional(
+        CreateCommunityBlogCommentResponseNewMessageAuthorCase1PrimaryOrgUserRole,
+      ),
       numUsers: S.optional(S.Number),
     }),
-).annotate({
-  identifier: "CreateCommunityBlogCommentResponseNewMessageAuthorPrimaryOrg",
-}) as any as S.Schema<CreateCommunityBlogCommentResponseNewMessageAuthorPrimaryOrg>;
+  ).annotate({
+    identifier: "CreateCommunityBlogCommentResponseNewMessageAuthorCase1PrimaryOrg",
+  }) as any as S.Schema<CreateCommunityBlogCommentResponseNewMessageAuthorCase1PrimaryOrg>;
 
-export type CreateCommunityBlogCommentResponseNewMessageAuthorOauthAppImageData =
-  ChangeStatusResponseNewStatusAuthorOauthAppImageData;
-export const CreateCommunityBlogCommentResponseNewMessageAuthorOauthAppImageData =
-  ChangeStatusResponseNewStatusAuthorOauthAppImageData;
-
-export type CreateCommunityBlogCommentResponseNewMessageAuthorOauthApp =
-  ChangeStatusResponseNewStatusAuthorOauthApp;
-export const CreateCommunityBlogCommentResponseNewMessageAuthorOauthApp =
-  ChangeStatusResponseNewStatusAuthorOauthApp;
-
-export interface CreateCommunityBlogCommentResponseNewMessageAuthor {
-  _id?: string;
-  avatarUrl?: string;
-  fullname?: string;
-  name?: string;
-  isHf?: boolean;
-  isHfAdmin?: boolean;
-  isMod?: boolean;
-  followerCount?: number;
-  type?: unknown;
-  plan?: CreateCommunityBlogCommentResponseNewMessageAuthorPlan;
-  isUserFollowing?: boolean;
-  isPro?: boolean;
-  primaryOrg?: CreateCommunityBlogCommentResponseNewMessageAuthorPrimaryOrg;
+export interface CreateCommunityBlogCommentResponseNewMessageAuthorCase1 {
   isOwner?: boolean;
   isOrgMember?: boolean;
   isBlockedByMe?: boolean;
-  oauthApp?: ChangeStatusResponseNewStatusAuthorOauthApp;
+  oauthApp?: ChangeStatusResponseNewStatusAuthorCase0OauthApp;
+  /** A hex string of 24 characters representing an ObjectId. */
+  _id: string;
+  avatarUrl: string;
+  fullname: string;
+  name: string;
+  isHf: boolean;
+  isHfAdmin: boolean;
+  isMod: boolean;
+  followerCount?: number;
+  type: string;
+  isPro: boolean;
+  isUserFollowing?: boolean;
+  primaryOrg?: CreateCommunityBlogCommentResponseNewMessageAuthorCase1PrimaryOrg;
 }
-export const CreateCommunityBlogCommentResponseNewMessageAuthor = /*@__PURE__*/ S.suspend(() =>
+export const CreateCommunityBlogCommentResponseNewMessageAuthorCase1 = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    _id: S.optional(S.String),
-    avatarUrl: S.optional(S.String),
-    fullname: S.optional(S.String),
-    name: S.optional(S.String),
-    isHf: S.optional(S.Boolean),
-    isHfAdmin: S.optional(S.Boolean),
-    isMod: S.optional(S.Boolean),
-    followerCount: S.optional(S.Number),
-    type: S.optional(S.Unknown),
-    plan: S.optional(CreateCommunityBlogCommentResponseNewMessageAuthorPlan),
-    isUserFollowing: S.optional(S.Boolean),
-    isPro: S.optional(S.Boolean),
-    primaryOrg: S.optional(CreateCommunityBlogCommentResponseNewMessageAuthorPrimaryOrg),
     isOwner: S.optional(S.Boolean),
     isOrgMember: S.optional(S.Boolean),
     isBlockedByMe: S.optional(S.Boolean),
-    oauthApp: S.optional(ChangeStatusResponseNewStatusAuthorOauthApp),
+    oauthApp: S.optional(ChangeStatusResponseNewStatusAuthorCase0OauthApp),
+    _id: S.String,
+    avatarUrl: S.String,
+    fullname: S.String,
+    name: S.String,
+    isHf: S.Boolean,
+    isHfAdmin: S.Boolean,
+    isMod: S.Boolean,
+    followerCount: S.optional(S.Number),
+    type: S.String,
+    isPro: S.Boolean,
+    isUserFollowing: S.optional(S.Boolean),
+    primaryOrg: S.optional(CreateCommunityBlogCommentResponseNewMessageAuthorCase1PrimaryOrg),
   }),
 ).annotate({
-  identifier: "CreateCommunityBlogCommentResponseNewMessageAuthor",
-}) as any as S.Schema<CreateCommunityBlogCommentResponseNewMessageAuthor>;
+  identifier: "CreateCommunityBlogCommentResponseNewMessageAuthorCase1",
+}) as any as S.Schema<CreateCommunityBlogCommentResponseNewMessageAuthorCase1>;
+
+export type CreateCommunityBlogCommentResponseNewMessageAuthor =
+  | CreateCommunityBlogCommentResponseNewMessageAuthorCase0
+  | CreateCommunityBlogCommentResponseNewMessageAuthorCase1;
+export const CreateCommunityBlogCommentResponseNewMessageAuthor =
+  S.Unknown as any as S.Schema<CreateCommunityBlogCommentResponseNewMessageAuthor>;
 
 export type CreateCommunityBlogCommentResponseNewMessageDataHiddenReason =
   | "Spam"
@@ -934,6 +1153,7 @@ export type CreateCommunityBlogCommentResponseNewMessageDataLatestAuthorCase0Pla
 export const CreateCommunityBlogCommentResponseNewMessageDataLatestAuthorCase0Plan = S.String;
 
 export interface CreateCommunityBlogCommentResponseNewMessageDataLatestAuthorCase0 {
+  /** A hex string of 24 characters representing an ObjectId. */
   _id: string;
   avatarUrl: string;
   fullname: string;
@@ -942,7 +1162,7 @@ export interface CreateCommunityBlogCommentResponseNewMessageDataLatestAuthorCas
   isHfAdmin: boolean;
   isMod: boolean;
   followerCount?: number;
-  type: unknown;
+  type: string;
   plan?: CreateCommunityBlogCommentResponseNewMessageDataLatestAuthorCase0Plan;
   isUserFollowing?: boolean;
 }
@@ -957,7 +1177,7 @@ export const CreateCommunityBlogCommentResponseNewMessageDataLatestAuthorCase0 =
       isHfAdmin: S.Boolean,
       isMod: S.Boolean,
       followerCount: S.optional(S.Number),
-      type: S.Unknown,
+      type: S.String,
       plan: S.optional(CreateCommunityBlogCommentResponseNewMessageDataLatestAuthorCase0Plan),
       isUserFollowing: S.optional(S.Boolean),
     }),
@@ -986,7 +1206,7 @@ export interface CreateCommunityBlogCommentResponseNewMessageDataLatestAuthorCas
   avatarUrl: string;
   fullname: string;
   name: string;
-  type: unknown;
+  type: string;
   isHf: boolean;
   isFollowing?: boolean;
   plan?: CreateCommunityBlogCommentResponseNewMessageDataLatestAuthorCase1PrimaryOrgPlan;
@@ -1001,7 +1221,7 @@ export const CreateCommunityBlogCommentResponseNewMessageDataLatestAuthorCase1Pr
       avatarUrl: S.String,
       fullname: S.String,
       name: S.String,
-      type: S.Unknown,
+      type: S.String,
       isHf: S.Boolean,
       isFollowing: S.optional(S.Boolean),
       plan: S.optional(
@@ -1019,6 +1239,7 @@ export const CreateCommunityBlogCommentResponseNewMessageDataLatestAuthorCase1Pr
   }) as any as S.Schema<CreateCommunityBlogCommentResponseNewMessageDataLatestAuthorCase1PrimaryOrg>;
 
 export interface CreateCommunityBlogCommentResponseNewMessageDataLatestAuthorCase1 {
+  /** A hex string of 24 characters representing an ObjectId. */
   _id: string;
   avatarUrl: string;
   fullname: string;
@@ -1027,7 +1248,7 @@ export interface CreateCommunityBlogCommentResponseNewMessageDataLatestAuthorCas
   isHfAdmin: boolean;
   isMod: boolean;
   followerCount?: number;
-  type: unknown;
+  type: string;
   isPro: boolean;
   isUserFollowing?: boolean;
   primaryOrg?: CreateCommunityBlogCommentResponseNewMessageDataLatestAuthorCase1PrimaryOrg;
@@ -1043,7 +1264,7 @@ export const CreateCommunityBlogCommentResponseNewMessageDataLatestAuthorCase1 =
       isHfAdmin: S.Boolean,
       isMod: S.Boolean,
       followerCount: S.optional(S.Number),
-      type: S.Unknown,
+      type: S.String,
       isPro: S.Boolean,
       isUserFollowing: S.optional(S.Boolean),
       primaryOrg: S.optional(
@@ -1175,7 +1396,7 @@ export interface CreateCommunityBlogCommentResponseNewMessage {
   id: string;
   createdAt: string;
   author?: CreateCommunityBlogCommentResponseNewMessageAuthor;
-  type: unknown;
+  type: string;
   data: CreateCommunityBlogCommentResponseNewMessageData;
 }
 export const CreateCommunityBlogCommentResponseNewMessage = /*@__PURE__*/ S.suspend(() =>
@@ -1183,7 +1404,7 @@ export const CreateCommunityBlogCommentResponseNewMessage = /*@__PURE__*/ S.susp
     id: S.String,
     createdAt: S.String,
     author: S.optional(CreateCommunityBlogCommentResponseNewMessageAuthor),
-    type: S.Unknown,
+    type: S.String,
     data: CreateCommunityBlogCommentResponseNewMessageData,
   }),
 ).annotate({
@@ -1200,6 +1421,58 @@ export const CreateCommunityBlogCommentResponse = /*@__PURE__*/ S.suspend(() =>
 ).annotate({
   identifier: "CreateCommunityBlogCommentResponse",
 }) as any as S.Schema<CreateCommunityBlogCommentResponse>;
+
+export type CreateDiscussionRequestRepoType = "models" | "spaces" | "datasets" | "kernels";
+export const CreateDiscussionRequestRepoType = S.String;
+
+export interface CreateDiscussionRequest {
+  repoType: CreateDiscussionRequestRepoType | (string & {});
+  namespace: string;
+  repo: string;
+  title: string;
+  description: string;
+  pullRequest?: boolean;
+}
+export const CreateDiscussionRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    repoType: CreateDiscussionRequestRepoType.pipe(T.Label()),
+    namespace: S.String.pipe(T.Label()),
+    repo: S.String.pipe(T.Label()),
+    title: S.String,
+    description: S.String,
+    pullRequest: S.optional(S.Boolean),
+  }).pipe(
+    T.Http({ method: "POST", uri: "/api/{repoType}/{namespace}/{repo}/discussions", code: 200 }),
+  ),
+).annotate({ identifier: "CreateDiscussionRequest" }) as any as S.Schema<CreateDiscussionRequest>;
+
+export interface CreateDiscussionResponseReferences {
+  base: string;
+  mergeCommitId?: string;
+}
+export const CreateDiscussionResponseReferences = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    base: S.String,
+    mergeCommitId: S.optional(S.String),
+  }),
+).annotate({
+  identifier: "CreateDiscussionResponseReferences",
+}) as any as S.Schema<CreateDiscussionResponseReferences>;
+
+export interface CreateDiscussionResponse {
+  url: string;
+  num: number;
+  pullRequest: boolean;
+  references?: CreateDiscussionResponseReferences;
+}
+export const CreateDiscussionResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    url: S.String,
+    num: S.Number,
+    pullRequest: S.Boolean,
+    references: S.optional(CreateDiscussionResponseReferences),
+  }),
+).annotate({ identifier: "CreateDiscussionResponse" }) as any as S.Schema<CreateDiscussionResponse>;
 
 export type CreateDiscussionCommentRequestRepoType = "models" | "spaces" | "datasets" | "kernels";
 export const CreateDiscussionCommentRequestRepoType = S.String;
@@ -1229,112 +1502,167 @@ export const CreateDiscussionCommentRequest = /*@__PURE__*/ S.suspend(() =>
   identifier: "CreateDiscussionCommentRequest",
 }) as any as S.Schema<CreateDiscussionCommentRequest>;
 
-export type CreateDiscussionCommentResponseNewMessageAuthorPlan =
+export type CreateDiscussionCommentResponseNewMessageAuthorCase0OauthAppImageData =
+  ChangeStatusResponseNewStatusAuthorCase0OauthAppImageData;
+export const CreateDiscussionCommentResponseNewMessageAuthorCase0OauthAppImageData =
+  ChangeStatusResponseNewStatusAuthorCase0OauthAppImageData;
+
+export type CreateDiscussionCommentResponseNewMessageAuthorCase0OauthApp =
+  ChangeStatusResponseNewStatusAuthorCase0OauthApp;
+export const CreateDiscussionCommentResponseNewMessageAuthorCase0OauthApp =
+  ChangeStatusResponseNewStatusAuthorCase0OauthApp;
+
+export type CreateDiscussionCommentResponseNewMessageAuthorCase0Plan =
   | "team"
   | "enterprise"
   | "plus"
   | "academia";
-export const CreateDiscussionCommentResponseNewMessageAuthorPlan = S.String;
+export const CreateDiscussionCommentResponseNewMessageAuthorCase0Plan = S.String;
 
-export type CreateDiscussionCommentResponseNewMessageAuthorPrimaryOrgPlan =
+export interface CreateDiscussionCommentResponseNewMessageAuthorCase0 {
+  isOwner?: boolean;
+  isOrgMember?: boolean;
+  isBlockedByMe?: boolean;
+  oauthApp?: ChangeStatusResponseNewStatusAuthorCase0OauthApp;
+  /** A hex string of 24 characters representing an ObjectId. */
+  _id: string;
+  avatarUrl: string;
+  fullname: string;
+  name: string;
+  isHf: boolean;
+  isHfAdmin: boolean;
+  isMod: boolean;
+  followerCount?: number;
+  type: string;
+  plan?: CreateDiscussionCommentResponseNewMessageAuthorCase0Plan;
+  isUserFollowing?: boolean;
+}
+export const CreateDiscussionCommentResponseNewMessageAuthorCase0 = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    isOwner: S.optional(S.Boolean),
+    isOrgMember: S.optional(S.Boolean),
+    isBlockedByMe: S.optional(S.Boolean),
+    oauthApp: S.optional(ChangeStatusResponseNewStatusAuthorCase0OauthApp),
+    _id: S.String,
+    avatarUrl: S.String,
+    fullname: S.String,
+    name: S.String,
+    isHf: S.Boolean,
+    isHfAdmin: S.Boolean,
+    isMod: S.Boolean,
+    followerCount: S.optional(S.Number),
+    type: S.String,
+    plan: S.optional(CreateDiscussionCommentResponseNewMessageAuthorCase0Plan),
+    isUserFollowing: S.optional(S.Boolean),
+  }),
+).annotate({
+  identifier: "CreateDiscussionCommentResponseNewMessageAuthorCase0",
+}) as any as S.Schema<CreateDiscussionCommentResponseNewMessageAuthorCase0>;
+
+export type CreateDiscussionCommentResponseNewMessageAuthorCase1OauthAppImageData =
+  ChangeStatusResponseNewStatusAuthorCase0OauthAppImageData;
+export const CreateDiscussionCommentResponseNewMessageAuthorCase1OauthAppImageData =
+  ChangeStatusResponseNewStatusAuthorCase0OauthAppImageData;
+
+export type CreateDiscussionCommentResponseNewMessageAuthorCase1OauthApp =
+  ChangeStatusResponseNewStatusAuthorCase0OauthApp;
+export const CreateDiscussionCommentResponseNewMessageAuthorCase1OauthApp =
+  ChangeStatusResponseNewStatusAuthorCase0OauthApp;
+
+export type CreateDiscussionCommentResponseNewMessageAuthorCase1PrimaryOrgPlan =
   | "team"
   | "enterprise"
   | "plus"
   | "academia";
-export const CreateDiscussionCommentResponseNewMessageAuthorPrimaryOrgPlan = S.String;
+export const CreateDiscussionCommentResponseNewMessageAuthorCase1PrimaryOrgPlan = S.String;
 
-export type CreateDiscussionCommentResponseNewMessageAuthorPrimaryOrgUserRole =
+export type CreateDiscussionCommentResponseNewMessageAuthorCase1PrimaryOrgUserRole =
   | "admin"
   | "write"
   | "contributor"
   | "read"
   | "no_access";
-export const CreateDiscussionCommentResponseNewMessageAuthorPrimaryOrgUserRole = S.String;
+export const CreateDiscussionCommentResponseNewMessageAuthorCase1PrimaryOrgUserRole = S.String;
 
-export interface CreateDiscussionCommentResponseNewMessageAuthorPrimaryOrg {
+export interface CreateDiscussionCommentResponseNewMessageAuthorCase1PrimaryOrg {
   avatarUrl: string;
   fullname: string;
   name: string;
-  type: unknown;
+  type: string;
   isHf: boolean;
   isFollowing?: boolean;
-  plan?: CreateDiscussionCommentResponseNewMessageAuthorPrimaryOrgPlan;
+  plan?: CreateDiscussionCommentResponseNewMessageAuthorCase1PrimaryOrgPlan;
   details?: string;
   hasPrivateMembersList?: boolean;
-  userRole?: CreateDiscussionCommentResponseNewMessageAuthorPrimaryOrgUserRole;
+  userRole?: CreateDiscussionCommentResponseNewMessageAuthorCase1PrimaryOrgUserRole;
   numUsers?: number;
 }
-export const CreateDiscussionCommentResponseNewMessageAuthorPrimaryOrg = /*@__PURE__*/ S.suspend(
-  () =>
+export const CreateDiscussionCommentResponseNewMessageAuthorCase1PrimaryOrg =
+  /*@__PURE__*/ S.suspend(() =>
     S.Struct({
       avatarUrl: S.String,
       fullname: S.String,
       name: S.String,
-      type: S.Unknown,
+      type: S.String,
       isHf: S.Boolean,
       isFollowing: S.optional(S.Boolean),
-      plan: S.optional(CreateDiscussionCommentResponseNewMessageAuthorPrimaryOrgPlan),
+      plan: S.optional(CreateDiscussionCommentResponseNewMessageAuthorCase1PrimaryOrgPlan),
       details: S.optional(S.String),
       hasPrivateMembersList: S.optional(S.Boolean),
-      userRole: S.optional(CreateDiscussionCommentResponseNewMessageAuthorPrimaryOrgUserRole),
+      userRole: S.optional(CreateDiscussionCommentResponseNewMessageAuthorCase1PrimaryOrgUserRole),
       numUsers: S.optional(S.Number),
     }),
-).annotate({
-  identifier: "CreateDiscussionCommentResponseNewMessageAuthorPrimaryOrg",
-}) as any as S.Schema<CreateDiscussionCommentResponseNewMessageAuthorPrimaryOrg>;
+  ).annotate({
+    identifier: "CreateDiscussionCommentResponseNewMessageAuthorCase1PrimaryOrg",
+  }) as any as S.Schema<CreateDiscussionCommentResponseNewMessageAuthorCase1PrimaryOrg>;
 
-export type CreateDiscussionCommentResponseNewMessageAuthorOauthAppImageData =
-  ChangeStatusResponseNewStatusAuthorOauthAppImageData;
-export const CreateDiscussionCommentResponseNewMessageAuthorOauthAppImageData =
-  ChangeStatusResponseNewStatusAuthorOauthAppImageData;
-
-export type CreateDiscussionCommentResponseNewMessageAuthorOauthApp =
-  ChangeStatusResponseNewStatusAuthorOauthApp;
-export const CreateDiscussionCommentResponseNewMessageAuthorOauthApp =
-  ChangeStatusResponseNewStatusAuthorOauthApp;
-
-export interface CreateDiscussionCommentResponseNewMessageAuthor {
-  _id?: string;
-  avatarUrl?: string;
-  fullname?: string;
-  name?: string;
-  isHf?: boolean;
-  isHfAdmin?: boolean;
-  isMod?: boolean;
-  followerCount?: number;
-  type?: unknown;
-  plan?: CreateDiscussionCommentResponseNewMessageAuthorPlan;
-  isUserFollowing?: boolean;
-  isPro?: boolean;
-  primaryOrg?: CreateDiscussionCommentResponseNewMessageAuthorPrimaryOrg;
+export interface CreateDiscussionCommentResponseNewMessageAuthorCase1 {
   isOwner?: boolean;
   isOrgMember?: boolean;
   isBlockedByMe?: boolean;
-  oauthApp?: ChangeStatusResponseNewStatusAuthorOauthApp;
+  oauthApp?: ChangeStatusResponseNewStatusAuthorCase0OauthApp;
+  /** A hex string of 24 characters representing an ObjectId. */
+  _id: string;
+  avatarUrl: string;
+  fullname: string;
+  name: string;
+  isHf: boolean;
+  isHfAdmin: boolean;
+  isMod: boolean;
+  followerCount?: number;
+  type: string;
+  isPro: boolean;
+  isUserFollowing?: boolean;
+  primaryOrg?: CreateDiscussionCommentResponseNewMessageAuthorCase1PrimaryOrg;
 }
-export const CreateDiscussionCommentResponseNewMessageAuthor = /*@__PURE__*/ S.suspend(() =>
+export const CreateDiscussionCommentResponseNewMessageAuthorCase1 = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    _id: S.optional(S.String),
-    avatarUrl: S.optional(S.String),
-    fullname: S.optional(S.String),
-    name: S.optional(S.String),
-    isHf: S.optional(S.Boolean),
-    isHfAdmin: S.optional(S.Boolean),
-    isMod: S.optional(S.Boolean),
-    followerCount: S.optional(S.Number),
-    type: S.optional(S.Unknown),
-    plan: S.optional(CreateDiscussionCommentResponseNewMessageAuthorPlan),
-    isUserFollowing: S.optional(S.Boolean),
-    isPro: S.optional(S.Boolean),
-    primaryOrg: S.optional(CreateDiscussionCommentResponseNewMessageAuthorPrimaryOrg),
     isOwner: S.optional(S.Boolean),
     isOrgMember: S.optional(S.Boolean),
     isBlockedByMe: S.optional(S.Boolean),
-    oauthApp: S.optional(ChangeStatusResponseNewStatusAuthorOauthApp),
+    oauthApp: S.optional(ChangeStatusResponseNewStatusAuthorCase0OauthApp),
+    _id: S.String,
+    avatarUrl: S.String,
+    fullname: S.String,
+    name: S.String,
+    isHf: S.Boolean,
+    isHfAdmin: S.Boolean,
+    isMod: S.Boolean,
+    followerCount: S.optional(S.Number),
+    type: S.String,
+    isPro: S.Boolean,
+    isUserFollowing: S.optional(S.Boolean),
+    primaryOrg: S.optional(CreateDiscussionCommentResponseNewMessageAuthorCase1PrimaryOrg),
   }),
 ).annotate({
-  identifier: "CreateDiscussionCommentResponseNewMessageAuthor",
-}) as any as S.Schema<CreateDiscussionCommentResponseNewMessageAuthor>;
+  identifier: "CreateDiscussionCommentResponseNewMessageAuthorCase1",
+}) as any as S.Schema<CreateDiscussionCommentResponseNewMessageAuthorCase1>;
+
+export type CreateDiscussionCommentResponseNewMessageAuthor =
+  | CreateDiscussionCommentResponseNewMessageAuthorCase0
+  | CreateDiscussionCommentResponseNewMessageAuthorCase1;
+export const CreateDiscussionCommentResponseNewMessageAuthor =
+  S.Unknown as any as S.Schema<CreateDiscussionCommentResponseNewMessageAuthor>;
 
 export type CreateDiscussionCommentResponseNewMessageDataHiddenReason =
   | "Spam"
@@ -1353,6 +1681,7 @@ export type CreateDiscussionCommentResponseNewMessageDataLatestAuthorCase0Plan =
 export const CreateDiscussionCommentResponseNewMessageDataLatestAuthorCase0Plan = S.String;
 
 export interface CreateDiscussionCommentResponseNewMessageDataLatestAuthorCase0 {
+  /** A hex string of 24 characters representing an ObjectId. */
   _id: string;
   avatarUrl: string;
   fullname: string;
@@ -1361,7 +1690,7 @@ export interface CreateDiscussionCommentResponseNewMessageDataLatestAuthorCase0 
   isHfAdmin: boolean;
   isMod: boolean;
   followerCount?: number;
-  type: unknown;
+  type: string;
   plan?: CreateDiscussionCommentResponseNewMessageDataLatestAuthorCase0Plan;
   isUserFollowing?: boolean;
 }
@@ -1376,7 +1705,7 @@ export const CreateDiscussionCommentResponseNewMessageDataLatestAuthorCase0 =
       isHfAdmin: S.Boolean,
       isMod: S.Boolean,
       followerCount: S.optional(S.Number),
-      type: S.Unknown,
+      type: S.String,
       plan: S.optional(CreateDiscussionCommentResponseNewMessageDataLatestAuthorCase0Plan),
       isUserFollowing: S.optional(S.Boolean),
     }),
@@ -1405,7 +1734,7 @@ export interface CreateDiscussionCommentResponseNewMessageDataLatestAuthorCase1P
   avatarUrl: string;
   fullname: string;
   name: string;
-  type: unknown;
+  type: string;
   isHf: boolean;
   isFollowing?: boolean;
   plan?: CreateDiscussionCommentResponseNewMessageDataLatestAuthorCase1PrimaryOrgPlan;
@@ -1420,7 +1749,7 @@ export const CreateDiscussionCommentResponseNewMessageDataLatestAuthorCase1Prima
       avatarUrl: S.String,
       fullname: S.String,
       name: S.String,
-      type: S.Unknown,
+      type: S.String,
       isHf: S.Boolean,
       isFollowing: S.optional(S.Boolean),
       plan: S.optional(
@@ -1438,6 +1767,7 @@ export const CreateDiscussionCommentResponseNewMessageDataLatestAuthorCase1Prima
   }) as any as S.Schema<CreateDiscussionCommentResponseNewMessageDataLatestAuthorCase1PrimaryOrg>;
 
 export interface CreateDiscussionCommentResponseNewMessageDataLatestAuthorCase1 {
+  /** A hex string of 24 characters representing an ObjectId. */
   _id: string;
   avatarUrl: string;
   fullname: string;
@@ -1446,7 +1776,7 @@ export interface CreateDiscussionCommentResponseNewMessageDataLatestAuthorCase1 
   isHfAdmin: boolean;
   isMod: boolean;
   followerCount?: number;
-  type: unknown;
+  type: string;
   isPro: boolean;
   isUserFollowing?: boolean;
   primaryOrg?: CreateDiscussionCommentResponseNewMessageDataLatestAuthorCase1PrimaryOrg;
@@ -1462,7 +1792,7 @@ export const CreateDiscussionCommentResponseNewMessageDataLatestAuthorCase1 =
       isHfAdmin: S.Boolean,
       isMod: S.Boolean,
       followerCount: S.optional(S.Number),
-      type: S.Unknown,
+      type: S.String,
       isPro: S.Boolean,
       isUserFollowing: S.optional(S.Boolean),
       primaryOrg: S.optional(
@@ -1594,7 +1924,7 @@ export interface CreateDiscussionCommentResponseNewMessage {
   id: string;
   createdAt: string;
   author?: CreateDiscussionCommentResponseNewMessageAuthor;
-  type: unknown;
+  type: string;
   data: CreateDiscussionCommentResponseNewMessageData;
 }
 export const CreateDiscussionCommentResponseNewMessage = /*@__PURE__*/ S.suspend(() =>
@@ -1602,7 +1932,7 @@ export const CreateDiscussionCommentResponseNewMessage = /*@__PURE__*/ S.suspend
     id: S.String,
     createdAt: S.String,
     author: S.optional(CreateDiscussionCommentResponseNewMessageAuthor),
-    type: S.Unknown,
+    type: S.String,
     data: CreateDiscussionCommentResponseNewMessageData,
   }),
 ).annotate({
@@ -1620,66 +1950,6 @@ export const CreateDiscussionCommentResponse = /*@__PURE__*/ S.suspend(() =>
   identifier: "CreateDiscussionCommentResponse",
 }) as any as S.Schema<CreateDiscussionCommentResponse>;
 
-export type CreateNewDiscussionRequestRepoType = "models" | "spaces" | "datasets" | "kernels";
-export const CreateNewDiscussionRequestRepoType = S.String;
-
-export interface CreateNewDiscussionRequest {
-  repoType: CreateNewDiscussionRequestRepoType | (string & {});
-  namespace: string;
-  repo: string;
-  title: string;
-  description: string;
-  pullRequest?: boolean;
-}
-export const CreateNewDiscussionRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    repoType: CreateNewDiscussionRequestRepoType.pipe(T.Label()),
-    namespace: S.String.pipe(T.Label()),
-    repo: S.String.pipe(T.Label()),
-    title: S.String,
-    description: S.String,
-    pullRequest: S.optional(S.Boolean),
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/api/{repoType}/{namespace}/{repo}/discussions",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "CreateNewDiscussionRequest",
-}) as any as S.Schema<CreateNewDiscussionRequest>;
-
-export interface CreateNewDiscussionResponseReferences {
-  base: string;
-  mergeCommitId?: string;
-}
-export const CreateNewDiscussionResponseReferences = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    base: S.String,
-    mergeCommitId: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "CreateNewDiscussionResponseReferences",
-}) as any as S.Schema<CreateNewDiscussionResponseReferences>;
-
-export interface CreateNewDiscussionResponse {
-  url: string;
-  num: number;
-  pullRequest: boolean;
-  references?: CreateNewDiscussionResponseReferences;
-}
-export const CreateNewDiscussionResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    url: S.String,
-    num: S.Number,
-    pullRequest: S.Boolean,
-    references: S.optional(CreateNewDiscussionResponseReferences),
-  }),
-).annotate({
-  identifier: "CreateNewDiscussionResponse",
-}) as any as S.Schema<CreateNewDiscussionResponse>;
-
 export interface CreatePaperCommentRequest {
   paperId: string;
   comment: string;
@@ -1693,111 +1963,167 @@ export const CreatePaperCommentRequest = /*@__PURE__*/ S.suspend(() =>
   identifier: "CreatePaperCommentRequest",
 }) as any as S.Schema<CreatePaperCommentRequest>;
 
-export type CreatePaperCommentResponseNewMessageAuthorPlan =
+export type CreatePaperCommentResponseNewMessageAuthorCase0OauthAppImageData =
+  ChangeStatusResponseNewStatusAuthorCase0OauthAppImageData;
+export const CreatePaperCommentResponseNewMessageAuthorCase0OauthAppImageData =
+  ChangeStatusResponseNewStatusAuthorCase0OauthAppImageData;
+
+export type CreatePaperCommentResponseNewMessageAuthorCase0OauthApp =
+  ChangeStatusResponseNewStatusAuthorCase0OauthApp;
+export const CreatePaperCommentResponseNewMessageAuthorCase0OauthApp =
+  ChangeStatusResponseNewStatusAuthorCase0OauthApp;
+
+export type CreatePaperCommentResponseNewMessageAuthorCase0Plan =
   | "team"
   | "enterprise"
   | "plus"
   | "academia";
-export const CreatePaperCommentResponseNewMessageAuthorPlan = S.String;
+export const CreatePaperCommentResponseNewMessageAuthorCase0Plan = S.String;
 
-export type CreatePaperCommentResponseNewMessageAuthorPrimaryOrgPlan =
+export interface CreatePaperCommentResponseNewMessageAuthorCase0 {
+  isOwner?: boolean;
+  isOrgMember?: boolean;
+  isBlockedByMe?: boolean;
+  oauthApp?: ChangeStatusResponseNewStatusAuthorCase0OauthApp;
+  /** A hex string of 24 characters representing an ObjectId. */
+  _id: string;
+  avatarUrl: string;
+  fullname: string;
+  name: string;
+  isHf: boolean;
+  isHfAdmin: boolean;
+  isMod: boolean;
+  followerCount?: number;
+  type: string;
+  plan?: CreatePaperCommentResponseNewMessageAuthorCase0Plan;
+  isUserFollowing?: boolean;
+}
+export const CreatePaperCommentResponseNewMessageAuthorCase0 = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    isOwner: S.optional(S.Boolean),
+    isOrgMember: S.optional(S.Boolean),
+    isBlockedByMe: S.optional(S.Boolean),
+    oauthApp: S.optional(ChangeStatusResponseNewStatusAuthorCase0OauthApp),
+    _id: S.String,
+    avatarUrl: S.String,
+    fullname: S.String,
+    name: S.String,
+    isHf: S.Boolean,
+    isHfAdmin: S.Boolean,
+    isMod: S.Boolean,
+    followerCount: S.optional(S.Number),
+    type: S.String,
+    plan: S.optional(CreatePaperCommentResponseNewMessageAuthorCase0Plan),
+    isUserFollowing: S.optional(S.Boolean),
+  }),
+).annotate({
+  identifier: "CreatePaperCommentResponseNewMessageAuthorCase0",
+}) as any as S.Schema<CreatePaperCommentResponseNewMessageAuthorCase0>;
+
+export type CreatePaperCommentResponseNewMessageAuthorCase1OauthAppImageData =
+  ChangeStatusResponseNewStatusAuthorCase0OauthAppImageData;
+export const CreatePaperCommentResponseNewMessageAuthorCase1OauthAppImageData =
+  ChangeStatusResponseNewStatusAuthorCase0OauthAppImageData;
+
+export type CreatePaperCommentResponseNewMessageAuthorCase1OauthApp =
+  ChangeStatusResponseNewStatusAuthorCase0OauthApp;
+export const CreatePaperCommentResponseNewMessageAuthorCase1OauthApp =
+  ChangeStatusResponseNewStatusAuthorCase0OauthApp;
+
+export type CreatePaperCommentResponseNewMessageAuthorCase1PrimaryOrgPlan =
   | "team"
   | "enterprise"
   | "plus"
   | "academia";
-export const CreatePaperCommentResponseNewMessageAuthorPrimaryOrgPlan = S.String;
+export const CreatePaperCommentResponseNewMessageAuthorCase1PrimaryOrgPlan = S.String;
 
-export type CreatePaperCommentResponseNewMessageAuthorPrimaryOrgUserRole =
+export type CreatePaperCommentResponseNewMessageAuthorCase1PrimaryOrgUserRole =
   | "admin"
   | "write"
   | "contributor"
   | "read"
   | "no_access";
-export const CreatePaperCommentResponseNewMessageAuthorPrimaryOrgUserRole = S.String;
+export const CreatePaperCommentResponseNewMessageAuthorCase1PrimaryOrgUserRole = S.String;
 
-export interface CreatePaperCommentResponseNewMessageAuthorPrimaryOrg {
+export interface CreatePaperCommentResponseNewMessageAuthorCase1PrimaryOrg {
   avatarUrl: string;
   fullname: string;
   name: string;
-  type: unknown;
+  type: string;
   isHf: boolean;
   isFollowing?: boolean;
-  plan?: CreatePaperCommentResponseNewMessageAuthorPrimaryOrgPlan;
+  plan?: CreatePaperCommentResponseNewMessageAuthorCase1PrimaryOrgPlan;
   details?: string;
   hasPrivateMembersList?: boolean;
-  userRole?: CreatePaperCommentResponseNewMessageAuthorPrimaryOrgUserRole;
+  userRole?: CreatePaperCommentResponseNewMessageAuthorCase1PrimaryOrgUserRole;
   numUsers?: number;
 }
-export const CreatePaperCommentResponseNewMessageAuthorPrimaryOrg = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    avatarUrl: S.String,
-    fullname: S.String,
-    name: S.String,
-    type: S.Unknown,
-    isHf: S.Boolean,
-    isFollowing: S.optional(S.Boolean),
-    plan: S.optional(CreatePaperCommentResponseNewMessageAuthorPrimaryOrgPlan),
-    details: S.optional(S.String),
-    hasPrivateMembersList: S.optional(S.Boolean),
-    userRole: S.optional(CreatePaperCommentResponseNewMessageAuthorPrimaryOrgUserRole),
-    numUsers: S.optional(S.Number),
-  }),
+export const CreatePaperCommentResponseNewMessageAuthorCase1PrimaryOrg = /*@__PURE__*/ S.suspend(
+  () =>
+    S.Struct({
+      avatarUrl: S.String,
+      fullname: S.String,
+      name: S.String,
+      type: S.String,
+      isHf: S.Boolean,
+      isFollowing: S.optional(S.Boolean),
+      plan: S.optional(CreatePaperCommentResponseNewMessageAuthorCase1PrimaryOrgPlan),
+      details: S.optional(S.String),
+      hasPrivateMembersList: S.optional(S.Boolean),
+      userRole: S.optional(CreatePaperCommentResponseNewMessageAuthorCase1PrimaryOrgUserRole),
+      numUsers: S.optional(S.Number),
+    }),
 ).annotate({
-  identifier: "CreatePaperCommentResponseNewMessageAuthorPrimaryOrg",
-}) as any as S.Schema<CreatePaperCommentResponseNewMessageAuthorPrimaryOrg>;
+  identifier: "CreatePaperCommentResponseNewMessageAuthorCase1PrimaryOrg",
+}) as any as S.Schema<CreatePaperCommentResponseNewMessageAuthorCase1PrimaryOrg>;
 
-export type CreatePaperCommentResponseNewMessageAuthorOauthAppImageData =
-  ChangeStatusResponseNewStatusAuthorOauthAppImageData;
-export const CreatePaperCommentResponseNewMessageAuthorOauthAppImageData =
-  ChangeStatusResponseNewStatusAuthorOauthAppImageData;
-
-export type CreatePaperCommentResponseNewMessageAuthorOauthApp =
-  ChangeStatusResponseNewStatusAuthorOauthApp;
-export const CreatePaperCommentResponseNewMessageAuthorOauthApp =
-  ChangeStatusResponseNewStatusAuthorOauthApp;
-
-export interface CreatePaperCommentResponseNewMessageAuthor {
-  _id?: string;
-  avatarUrl?: string;
-  fullname?: string;
-  name?: string;
-  isHf?: boolean;
-  isHfAdmin?: boolean;
-  isMod?: boolean;
-  followerCount?: number;
-  type?: unknown;
-  plan?: CreatePaperCommentResponseNewMessageAuthorPlan;
-  isUserFollowing?: boolean;
-  isPro?: boolean;
-  primaryOrg?: CreatePaperCommentResponseNewMessageAuthorPrimaryOrg;
+export interface CreatePaperCommentResponseNewMessageAuthorCase1 {
   isOwner?: boolean;
   isOrgMember?: boolean;
   isBlockedByMe?: boolean;
-  oauthApp?: ChangeStatusResponseNewStatusAuthorOauthApp;
+  oauthApp?: ChangeStatusResponseNewStatusAuthorCase0OauthApp;
+  /** A hex string of 24 characters representing an ObjectId. */
+  _id: string;
+  avatarUrl: string;
+  fullname: string;
+  name: string;
+  isHf: boolean;
+  isHfAdmin: boolean;
+  isMod: boolean;
+  followerCount?: number;
+  type: string;
+  isPro: boolean;
+  isUserFollowing?: boolean;
+  primaryOrg?: CreatePaperCommentResponseNewMessageAuthorCase1PrimaryOrg;
 }
-export const CreatePaperCommentResponseNewMessageAuthor = /*@__PURE__*/ S.suspend(() =>
+export const CreatePaperCommentResponseNewMessageAuthorCase1 = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    _id: S.optional(S.String),
-    avatarUrl: S.optional(S.String),
-    fullname: S.optional(S.String),
-    name: S.optional(S.String),
-    isHf: S.optional(S.Boolean),
-    isHfAdmin: S.optional(S.Boolean),
-    isMod: S.optional(S.Boolean),
-    followerCount: S.optional(S.Number),
-    type: S.optional(S.Unknown),
-    plan: S.optional(CreatePaperCommentResponseNewMessageAuthorPlan),
-    isUserFollowing: S.optional(S.Boolean),
-    isPro: S.optional(S.Boolean),
-    primaryOrg: S.optional(CreatePaperCommentResponseNewMessageAuthorPrimaryOrg),
     isOwner: S.optional(S.Boolean),
     isOrgMember: S.optional(S.Boolean),
     isBlockedByMe: S.optional(S.Boolean),
-    oauthApp: S.optional(ChangeStatusResponseNewStatusAuthorOauthApp),
+    oauthApp: S.optional(ChangeStatusResponseNewStatusAuthorCase0OauthApp),
+    _id: S.String,
+    avatarUrl: S.String,
+    fullname: S.String,
+    name: S.String,
+    isHf: S.Boolean,
+    isHfAdmin: S.Boolean,
+    isMod: S.Boolean,
+    followerCount: S.optional(S.Number),
+    type: S.String,
+    isPro: S.Boolean,
+    isUserFollowing: S.optional(S.Boolean),
+    primaryOrg: S.optional(CreatePaperCommentResponseNewMessageAuthorCase1PrimaryOrg),
   }),
 ).annotate({
-  identifier: "CreatePaperCommentResponseNewMessageAuthor",
-}) as any as S.Schema<CreatePaperCommentResponseNewMessageAuthor>;
+  identifier: "CreatePaperCommentResponseNewMessageAuthorCase1",
+}) as any as S.Schema<CreatePaperCommentResponseNewMessageAuthorCase1>;
+
+export type CreatePaperCommentResponseNewMessageAuthor =
+  | CreatePaperCommentResponseNewMessageAuthorCase0
+  | CreatePaperCommentResponseNewMessageAuthorCase1;
+export const CreatePaperCommentResponseNewMessageAuthor =
+  S.Unknown as any as S.Schema<CreatePaperCommentResponseNewMessageAuthor>;
 
 export type CreatePaperCommentResponseNewMessageDataHiddenReason =
   | "Spam"
@@ -1816,6 +2142,7 @@ export type CreatePaperCommentResponseNewMessageDataLatestAuthorCase0Plan =
 export const CreatePaperCommentResponseNewMessageDataLatestAuthorCase0Plan = S.String;
 
 export interface CreatePaperCommentResponseNewMessageDataLatestAuthorCase0 {
+  /** A hex string of 24 characters representing an ObjectId. */
   _id: string;
   avatarUrl: string;
   fullname: string;
@@ -1824,7 +2151,7 @@ export interface CreatePaperCommentResponseNewMessageDataLatestAuthorCase0 {
   isHfAdmin: boolean;
   isMod: boolean;
   followerCount?: number;
-  type: unknown;
+  type: string;
   plan?: CreatePaperCommentResponseNewMessageDataLatestAuthorCase0Plan;
   isUserFollowing?: boolean;
 }
@@ -1839,7 +2166,7 @@ export const CreatePaperCommentResponseNewMessageDataLatestAuthorCase0 = /*@__PU
       isHfAdmin: S.Boolean,
       isMod: S.Boolean,
       followerCount: S.optional(S.Number),
-      type: S.Unknown,
+      type: S.String,
       plan: S.optional(CreatePaperCommentResponseNewMessageDataLatestAuthorCase0Plan),
       isUserFollowing: S.optional(S.Boolean),
     }),
@@ -1866,7 +2193,7 @@ export interface CreatePaperCommentResponseNewMessageDataLatestAuthorCase1Primar
   avatarUrl: string;
   fullname: string;
   name: string;
-  type: unknown;
+  type: string;
   isHf: boolean;
   isFollowing?: boolean;
   plan?: CreatePaperCommentResponseNewMessageDataLatestAuthorCase1PrimaryOrgPlan;
@@ -1881,7 +2208,7 @@ export const CreatePaperCommentResponseNewMessageDataLatestAuthorCase1PrimaryOrg
       avatarUrl: S.String,
       fullname: S.String,
       name: S.String,
-      type: S.Unknown,
+      type: S.String,
       isHf: S.Boolean,
       isFollowing: S.optional(S.Boolean),
       plan: S.optional(CreatePaperCommentResponseNewMessageDataLatestAuthorCase1PrimaryOrgPlan),
@@ -1897,6 +2224,7 @@ export const CreatePaperCommentResponseNewMessageDataLatestAuthorCase1PrimaryOrg
   }) as any as S.Schema<CreatePaperCommentResponseNewMessageDataLatestAuthorCase1PrimaryOrg>;
 
 export interface CreatePaperCommentResponseNewMessageDataLatestAuthorCase1 {
+  /** A hex string of 24 characters representing an ObjectId. */
   _id: string;
   avatarUrl: string;
   fullname: string;
@@ -1905,7 +2233,7 @@ export interface CreatePaperCommentResponseNewMessageDataLatestAuthorCase1 {
   isHfAdmin: boolean;
   isMod: boolean;
   followerCount?: number;
-  type: unknown;
+  type: string;
   isPro: boolean;
   isUserFollowing?: boolean;
   primaryOrg?: CreatePaperCommentResponseNewMessageDataLatestAuthorCase1PrimaryOrg;
@@ -1921,7 +2249,7 @@ export const CreatePaperCommentResponseNewMessageDataLatestAuthorCase1 = /*@__PU
       isHfAdmin: S.Boolean,
       isMod: S.Boolean,
       followerCount: S.optional(S.Number),
-      type: S.Unknown,
+      type: S.String,
       isPro: S.Boolean,
       isUserFollowing: S.optional(S.Boolean),
       primaryOrg: S.optional(CreatePaperCommentResponseNewMessageDataLatestAuthorCase1PrimaryOrg),
@@ -2048,7 +2376,7 @@ export interface CreatePaperCommentResponseNewMessage {
   id: string;
   createdAt: string;
   author?: CreatePaperCommentResponseNewMessageAuthor;
-  type: unknown;
+  type: string;
   data: CreatePaperCommentResponseNewMessageData;
 }
 export const CreatePaperCommentResponseNewMessage = /*@__PURE__*/ S.suspend(() =>
@@ -2056,7 +2384,7 @@ export const CreatePaperCommentResponseNewMessage = /*@__PURE__*/ S.suspend(() =
     id: S.String,
     createdAt: S.String,
     author: S.optional(CreatePaperCommentResponseNewMessageAuthor),
-    type: S.Unknown,
+    type: S.String,
     data: CreatePaperCommentResponseNewMessageData,
   }),
 ).annotate({
@@ -2084,122 +2412,170 @@ export const CreatePostCommentRequest = /*@__PURE__*/ S.suspend(() =>
     username: S.String.pipe(T.Label()),
     postSlug: S.String.pipe(T.Label()),
     comment: S.String,
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/api/posts/{username}/{postSlug}/comment",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "POST", uri: "/api/posts/{username}/{postSlug}/comment", code: 200 })),
+).annotate({ identifier: "CreatePostCommentRequest" }) as any as S.Schema<CreatePostCommentRequest>;
+
+export type CreatePostCommentResponseNewMessageAuthorCase0OauthAppImageData =
+  ChangeStatusResponseNewStatusAuthorCase0OauthAppImageData;
+export const CreatePostCommentResponseNewMessageAuthorCase0OauthAppImageData =
+  ChangeStatusResponseNewStatusAuthorCase0OauthAppImageData;
+
+export type CreatePostCommentResponseNewMessageAuthorCase0OauthApp =
+  ChangeStatusResponseNewStatusAuthorCase0OauthApp;
+export const CreatePostCommentResponseNewMessageAuthorCase0OauthApp =
+  ChangeStatusResponseNewStatusAuthorCase0OauthApp;
+
+export type CreatePostCommentResponseNewMessageAuthorCase0Plan =
+  | "team"
+  | "enterprise"
+  | "plus"
+  | "academia";
+export const CreatePostCommentResponseNewMessageAuthorCase0Plan = S.String;
+
+export interface CreatePostCommentResponseNewMessageAuthorCase0 {
+  isOwner?: boolean;
+  isOrgMember?: boolean;
+  isBlockedByMe?: boolean;
+  oauthApp?: ChangeStatusResponseNewStatusAuthorCase0OauthApp;
+  /** A hex string of 24 characters representing an ObjectId. */
+  _id: string;
+  avatarUrl: string;
+  fullname: string;
+  name: string;
+  isHf: boolean;
+  isHfAdmin: boolean;
+  isMod: boolean;
+  followerCount?: number;
+  type: string;
+  plan?: CreatePostCommentResponseNewMessageAuthorCase0Plan;
+  isUserFollowing?: boolean;
+}
+export const CreatePostCommentResponseNewMessageAuthorCase0 = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    isOwner: S.optional(S.Boolean),
+    isOrgMember: S.optional(S.Boolean),
+    isBlockedByMe: S.optional(S.Boolean),
+    oauthApp: S.optional(ChangeStatusResponseNewStatusAuthorCase0OauthApp),
+    _id: S.String,
+    avatarUrl: S.String,
+    fullname: S.String,
+    name: S.String,
+    isHf: S.Boolean,
+    isHfAdmin: S.Boolean,
+    isMod: S.Boolean,
+    followerCount: S.optional(S.Number),
+    type: S.String,
+    plan: S.optional(CreatePostCommentResponseNewMessageAuthorCase0Plan),
+    isUserFollowing: S.optional(S.Boolean),
+  }),
 ).annotate({
-  identifier: "CreatePostCommentRequest",
-}) as any as S.Schema<CreatePostCommentRequest>;
+  identifier: "CreatePostCommentResponseNewMessageAuthorCase0",
+}) as any as S.Schema<CreatePostCommentResponseNewMessageAuthorCase0>;
 
-export type CreatePostCommentResponseNewMessageAuthorPlan =
+export type CreatePostCommentResponseNewMessageAuthorCase1OauthAppImageData =
+  ChangeStatusResponseNewStatusAuthorCase0OauthAppImageData;
+export const CreatePostCommentResponseNewMessageAuthorCase1OauthAppImageData =
+  ChangeStatusResponseNewStatusAuthorCase0OauthAppImageData;
+
+export type CreatePostCommentResponseNewMessageAuthorCase1OauthApp =
+  ChangeStatusResponseNewStatusAuthorCase0OauthApp;
+export const CreatePostCommentResponseNewMessageAuthorCase1OauthApp =
+  ChangeStatusResponseNewStatusAuthorCase0OauthApp;
+
+export type CreatePostCommentResponseNewMessageAuthorCase1PrimaryOrgPlan =
   | "team"
   | "enterprise"
   | "plus"
   | "academia";
-export const CreatePostCommentResponseNewMessageAuthorPlan = S.String;
+export const CreatePostCommentResponseNewMessageAuthorCase1PrimaryOrgPlan = S.String;
 
-export type CreatePostCommentResponseNewMessageAuthorPrimaryOrgPlan =
-  | "team"
-  | "enterprise"
-  | "plus"
-  | "academia";
-export const CreatePostCommentResponseNewMessageAuthorPrimaryOrgPlan = S.String;
-
-export type CreatePostCommentResponseNewMessageAuthorPrimaryOrgUserRole =
+export type CreatePostCommentResponseNewMessageAuthorCase1PrimaryOrgUserRole =
   | "admin"
   | "write"
   | "contributor"
   | "read"
   | "no_access";
-export const CreatePostCommentResponseNewMessageAuthorPrimaryOrgUserRole = S.String;
+export const CreatePostCommentResponseNewMessageAuthorCase1PrimaryOrgUserRole = S.String;
 
-export interface CreatePostCommentResponseNewMessageAuthorPrimaryOrg {
+export interface CreatePostCommentResponseNewMessageAuthorCase1PrimaryOrg {
   avatarUrl: string;
   fullname: string;
   name: string;
-  type: unknown;
+  type: string;
   isHf: boolean;
   isFollowing?: boolean;
-  plan?: CreatePostCommentResponseNewMessageAuthorPrimaryOrgPlan;
+  plan?: CreatePostCommentResponseNewMessageAuthorCase1PrimaryOrgPlan;
   details?: string;
   hasPrivateMembersList?: boolean;
-  userRole?: CreatePostCommentResponseNewMessageAuthorPrimaryOrgUserRole;
+  userRole?: CreatePostCommentResponseNewMessageAuthorCase1PrimaryOrgUserRole;
   numUsers?: number;
 }
-export const CreatePostCommentResponseNewMessageAuthorPrimaryOrg = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    avatarUrl: S.String,
-    fullname: S.String,
-    name: S.String,
-    type: S.Unknown,
-    isHf: S.Boolean,
-    isFollowing: S.optional(S.Boolean),
-    plan: S.optional(CreatePostCommentResponseNewMessageAuthorPrimaryOrgPlan),
-    details: S.optional(S.String),
-    hasPrivateMembersList: S.optional(S.Boolean),
-    userRole: S.optional(CreatePostCommentResponseNewMessageAuthorPrimaryOrgUserRole),
-    numUsers: S.optional(S.Number),
-  }),
+export const CreatePostCommentResponseNewMessageAuthorCase1PrimaryOrg = /*@__PURE__*/ S.suspend(
+  () =>
+    S.Struct({
+      avatarUrl: S.String,
+      fullname: S.String,
+      name: S.String,
+      type: S.String,
+      isHf: S.Boolean,
+      isFollowing: S.optional(S.Boolean),
+      plan: S.optional(CreatePostCommentResponseNewMessageAuthorCase1PrimaryOrgPlan),
+      details: S.optional(S.String),
+      hasPrivateMembersList: S.optional(S.Boolean),
+      userRole: S.optional(CreatePostCommentResponseNewMessageAuthorCase1PrimaryOrgUserRole),
+      numUsers: S.optional(S.Number),
+    }),
 ).annotate({
-  identifier: "CreatePostCommentResponseNewMessageAuthorPrimaryOrg",
-}) as any as S.Schema<CreatePostCommentResponseNewMessageAuthorPrimaryOrg>;
+  identifier: "CreatePostCommentResponseNewMessageAuthorCase1PrimaryOrg",
+}) as any as S.Schema<CreatePostCommentResponseNewMessageAuthorCase1PrimaryOrg>;
 
-export type CreatePostCommentResponseNewMessageAuthorOauthAppImageData =
-  ChangeStatusResponseNewStatusAuthorOauthAppImageData;
-export const CreatePostCommentResponseNewMessageAuthorOauthAppImageData =
-  ChangeStatusResponseNewStatusAuthorOauthAppImageData;
-
-export type CreatePostCommentResponseNewMessageAuthorOauthApp =
-  ChangeStatusResponseNewStatusAuthorOauthApp;
-export const CreatePostCommentResponseNewMessageAuthorOauthApp =
-  ChangeStatusResponseNewStatusAuthorOauthApp;
-
-export interface CreatePostCommentResponseNewMessageAuthor {
-  _id?: string;
-  avatarUrl?: string;
-  fullname?: string;
-  name?: string;
-  isHf?: boolean;
-  isHfAdmin?: boolean;
-  isMod?: boolean;
-  followerCount?: number;
-  type?: unknown;
-  plan?: CreatePostCommentResponseNewMessageAuthorPlan;
-  isUserFollowing?: boolean;
-  isPro?: boolean;
-  primaryOrg?: CreatePostCommentResponseNewMessageAuthorPrimaryOrg;
+export interface CreatePostCommentResponseNewMessageAuthorCase1 {
   isOwner?: boolean;
   isOrgMember?: boolean;
   isBlockedByMe?: boolean;
-  oauthApp?: ChangeStatusResponseNewStatusAuthorOauthApp;
+  oauthApp?: ChangeStatusResponseNewStatusAuthorCase0OauthApp;
+  /** A hex string of 24 characters representing an ObjectId. */
+  _id: string;
+  avatarUrl: string;
+  fullname: string;
+  name: string;
+  isHf: boolean;
+  isHfAdmin: boolean;
+  isMod: boolean;
+  followerCount?: number;
+  type: string;
+  isPro: boolean;
+  isUserFollowing?: boolean;
+  primaryOrg?: CreatePostCommentResponseNewMessageAuthorCase1PrimaryOrg;
 }
-export const CreatePostCommentResponseNewMessageAuthor = /*@__PURE__*/ S.suspend(() =>
+export const CreatePostCommentResponseNewMessageAuthorCase1 = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    _id: S.optional(S.String),
-    avatarUrl: S.optional(S.String),
-    fullname: S.optional(S.String),
-    name: S.optional(S.String),
-    isHf: S.optional(S.Boolean),
-    isHfAdmin: S.optional(S.Boolean),
-    isMod: S.optional(S.Boolean),
-    followerCount: S.optional(S.Number),
-    type: S.optional(S.Unknown),
-    plan: S.optional(CreatePostCommentResponseNewMessageAuthorPlan),
-    isUserFollowing: S.optional(S.Boolean),
-    isPro: S.optional(S.Boolean),
-    primaryOrg: S.optional(CreatePostCommentResponseNewMessageAuthorPrimaryOrg),
     isOwner: S.optional(S.Boolean),
     isOrgMember: S.optional(S.Boolean),
     isBlockedByMe: S.optional(S.Boolean),
-    oauthApp: S.optional(ChangeStatusResponseNewStatusAuthorOauthApp),
+    oauthApp: S.optional(ChangeStatusResponseNewStatusAuthorCase0OauthApp),
+    _id: S.String,
+    avatarUrl: S.String,
+    fullname: S.String,
+    name: S.String,
+    isHf: S.Boolean,
+    isHfAdmin: S.Boolean,
+    isMod: S.Boolean,
+    followerCount: S.optional(S.Number),
+    type: S.String,
+    isPro: S.Boolean,
+    isUserFollowing: S.optional(S.Boolean),
+    primaryOrg: S.optional(CreatePostCommentResponseNewMessageAuthorCase1PrimaryOrg),
   }),
 ).annotate({
-  identifier: "CreatePostCommentResponseNewMessageAuthor",
-}) as any as S.Schema<CreatePostCommentResponseNewMessageAuthor>;
+  identifier: "CreatePostCommentResponseNewMessageAuthorCase1",
+}) as any as S.Schema<CreatePostCommentResponseNewMessageAuthorCase1>;
+
+export type CreatePostCommentResponseNewMessageAuthor =
+  | CreatePostCommentResponseNewMessageAuthorCase0
+  | CreatePostCommentResponseNewMessageAuthorCase1;
+export const CreatePostCommentResponseNewMessageAuthor =
+  S.Unknown as any as S.Schema<CreatePostCommentResponseNewMessageAuthor>;
 
 export type CreatePostCommentResponseNewMessageDataHiddenReason =
   | "Spam"
@@ -2218,6 +2594,7 @@ export type CreatePostCommentResponseNewMessageDataLatestAuthorCase0Plan =
 export const CreatePostCommentResponseNewMessageDataLatestAuthorCase0Plan = S.String;
 
 export interface CreatePostCommentResponseNewMessageDataLatestAuthorCase0 {
+  /** A hex string of 24 characters representing an ObjectId. */
   _id: string;
   avatarUrl: string;
   fullname: string;
@@ -2226,7 +2603,7 @@ export interface CreatePostCommentResponseNewMessageDataLatestAuthorCase0 {
   isHfAdmin: boolean;
   isMod: boolean;
   followerCount?: number;
-  type: unknown;
+  type: string;
   plan?: CreatePostCommentResponseNewMessageDataLatestAuthorCase0Plan;
   isUserFollowing?: boolean;
 }
@@ -2241,7 +2618,7 @@ export const CreatePostCommentResponseNewMessageDataLatestAuthorCase0 = /*@__PUR
       isHfAdmin: S.Boolean,
       isMod: S.Boolean,
       followerCount: S.optional(S.Number),
-      type: S.Unknown,
+      type: S.String,
       plan: S.optional(CreatePostCommentResponseNewMessageDataLatestAuthorCase0Plan),
       isUserFollowing: S.optional(S.Boolean),
     }),
@@ -2268,7 +2645,7 @@ export interface CreatePostCommentResponseNewMessageDataLatestAuthorCase1Primary
   avatarUrl: string;
   fullname: string;
   name: string;
-  type: unknown;
+  type: string;
   isHf: boolean;
   isFollowing?: boolean;
   plan?: CreatePostCommentResponseNewMessageDataLatestAuthorCase1PrimaryOrgPlan;
@@ -2283,7 +2660,7 @@ export const CreatePostCommentResponseNewMessageDataLatestAuthorCase1PrimaryOrg 
       avatarUrl: S.String,
       fullname: S.String,
       name: S.String,
-      type: S.Unknown,
+      type: S.String,
       isHf: S.Boolean,
       isFollowing: S.optional(S.Boolean),
       plan: S.optional(CreatePostCommentResponseNewMessageDataLatestAuthorCase1PrimaryOrgPlan),
@@ -2299,6 +2676,7 @@ export const CreatePostCommentResponseNewMessageDataLatestAuthorCase1PrimaryOrg 
   }) as any as S.Schema<CreatePostCommentResponseNewMessageDataLatestAuthorCase1PrimaryOrg>;
 
 export interface CreatePostCommentResponseNewMessageDataLatestAuthorCase1 {
+  /** A hex string of 24 characters representing an ObjectId. */
   _id: string;
   avatarUrl: string;
   fullname: string;
@@ -2307,7 +2685,7 @@ export interface CreatePostCommentResponseNewMessageDataLatestAuthorCase1 {
   isHfAdmin: boolean;
   isMod: boolean;
   followerCount?: number;
-  type: unknown;
+  type: string;
   isPro: boolean;
   isUserFollowing?: boolean;
   primaryOrg?: CreatePostCommentResponseNewMessageDataLatestAuthorCase1PrimaryOrg;
@@ -2323,7 +2701,7 @@ export const CreatePostCommentResponseNewMessageDataLatestAuthorCase1 = /*@__PUR
       isHfAdmin: S.Boolean,
       isMod: S.Boolean,
       followerCount: S.optional(S.Number),
-      type: S.Unknown,
+      type: S.String,
       isPro: S.Boolean,
       isUserFollowing: S.optional(S.Boolean),
       primaryOrg: S.optional(CreatePostCommentResponseNewMessageDataLatestAuthorCase1PrimaryOrg),
@@ -2450,7 +2828,7 @@ export interface CreatePostCommentResponseNewMessage {
   id: string;
   createdAt: string;
   author?: CreatePostCommentResponseNewMessageAuthor;
-  type: unknown;
+  type: string;
   data: CreatePostCommentResponseNewMessageData;
 }
 export const CreatePostCommentResponseNewMessage = /*@__PURE__*/ S.suspend(() =>
@@ -2458,7 +2836,7 @@ export const CreatePostCommentResponseNewMessage = /*@__PURE__*/ S.suspend(() =>
     id: S.String,
     createdAt: S.String,
     author: S.optional(CreatePostCommentResponseNewMessageAuthor),
-    type: S.Unknown,
+    type: S.String,
     data: CreatePostCommentResponseNewMessageData,
   }),
 ).annotate({
@@ -2498,9 +2876,7 @@ export const DeleteDiscussionRequest = /*@__PURE__*/ S.suspend(() =>
       code: 200,
     }),
   ),
-).annotate({
-  identifier: "DeleteDiscussionRequest",
-}) as any as S.Schema<DeleteDiscussionRequest>;
+).annotate({ identifier: "DeleteDiscussionRequest" }) as any as S.Schema<DeleteDiscussionRequest>;
 
 export interface DeleteDiscussionResponse {}
 export const DeleteDiscussionResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -2515,16 +2891,8 @@ export const DeletePostRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     username: S.String.pipe(T.Label()),
     postSlug: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "DELETE",
-      uri: "/api/posts/{username}/{postSlug}",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "DeletePostRequest",
-}) as any as S.Schema<DeletePostRequest>;
+  }).pipe(T.Http({ method: "DELETE", uri: "/api/posts/{username}/{postSlug}", code: 200 })),
+).annotate({ identifier: "DeletePostRequest" }) as any as S.Schema<DeletePostRequest>;
 
 export interface DeletePostResponse {}
 export const DeletePostResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -2553,9 +2921,7 @@ export const DeletePrRefRequest = /*@__PURE__*/ S.suspend(() =>
       code: 200,
     }),
   ),
-).annotate({
-  identifier: "DeletePrRefRequest",
-}) as any as S.Schema<DeletePrRefRequest>;
+).annotate({ identifier: "DeletePrRefRequest" }) as any as S.Schema<DeletePrRefRequest>;
 
 export interface DeletePrRefResponse {}
 export const DeletePrRefResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -2588,14 +2954,15 @@ export const GetDiscussionDetailsRequest = /*@__PURE__*/ S.suspend(() =>
   identifier: "GetDiscussionDetailsRequest",
 }) as any as S.Schema<GetDiscussionDetailsRequest>;
 
-export type GetDiscussionDetailsResponseAuthorCase0Plan =
+export type GetDiscussionDetailsResponseBodyCase0AuthorCase0Plan =
   | "team"
   | "enterprise"
   | "plus"
   | "academia";
-export const GetDiscussionDetailsResponseAuthorCase0Plan = S.String;
+export const GetDiscussionDetailsResponseBodyCase0AuthorCase0Plan = S.String;
 
-export interface GetDiscussionDetailsResponseAuthorCase0 {
+export interface GetDiscussionDetailsResponseBodyCase0AuthorCase0 {
+  /** A hex string of 24 characters representing an ObjectId. */
   _id: string;
   avatarUrl: string;
   fullname: string;
@@ -2604,11 +2971,11 @@ export interface GetDiscussionDetailsResponseAuthorCase0 {
   isHfAdmin: boolean;
   isMod: boolean;
   followerCount?: number;
-  type: unknown;
-  plan?: GetDiscussionDetailsResponseAuthorCase0Plan;
+  type: string;
+  plan?: GetDiscussionDetailsResponseBodyCase0AuthorCase0Plan;
   isUserFollowing?: boolean;
 }
-export const GetDiscussionDetailsResponseAuthorCase0 = /*@__PURE__*/ S.suspend(() =>
+export const GetDiscussionDetailsResponseBodyCase0AuthorCase0 = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     _id: S.String,
     avatarUrl: S.String,
@@ -2618,61 +2985,63 @@ export const GetDiscussionDetailsResponseAuthorCase0 = /*@__PURE__*/ S.suspend((
     isHfAdmin: S.Boolean,
     isMod: S.Boolean,
     followerCount: S.optional(S.Number),
-    type: S.Unknown,
-    plan: S.optional(GetDiscussionDetailsResponseAuthorCase0Plan),
+    type: S.String,
+    plan: S.optional(GetDiscussionDetailsResponseBodyCase0AuthorCase0Plan),
     isUserFollowing: S.optional(S.Boolean),
   }),
 ).annotate({
-  identifier: "GetDiscussionDetailsResponseAuthorCase0",
-}) as any as S.Schema<GetDiscussionDetailsResponseAuthorCase0>;
+  identifier: "GetDiscussionDetailsResponseBodyCase0AuthorCase0",
+}) as any as S.Schema<GetDiscussionDetailsResponseBodyCase0AuthorCase0>;
 
-export type GetDiscussionDetailsResponseAuthorCase1PrimaryOrgPlan =
+export type GetDiscussionDetailsResponseBodyCase0AuthorCase1PrimaryOrgPlan =
   | "team"
   | "enterprise"
   | "plus"
   | "academia";
-export const GetDiscussionDetailsResponseAuthorCase1PrimaryOrgPlan = S.String;
+export const GetDiscussionDetailsResponseBodyCase0AuthorCase1PrimaryOrgPlan = S.String;
 
-export type GetDiscussionDetailsResponseAuthorCase1PrimaryOrgUserRole =
+export type GetDiscussionDetailsResponseBodyCase0AuthorCase1PrimaryOrgUserRole =
   | "admin"
   | "write"
   | "contributor"
   | "read"
   | "no_access";
-export const GetDiscussionDetailsResponseAuthorCase1PrimaryOrgUserRole = S.String;
+export const GetDiscussionDetailsResponseBodyCase0AuthorCase1PrimaryOrgUserRole = S.String;
 
-export interface GetDiscussionDetailsResponseAuthorCase1PrimaryOrg {
+export interface GetDiscussionDetailsResponseBodyCase0AuthorCase1PrimaryOrg {
   avatarUrl: string;
   fullname: string;
   name: string;
-  type: unknown;
+  type: string;
   isHf: boolean;
   isFollowing?: boolean;
-  plan?: GetDiscussionDetailsResponseAuthorCase1PrimaryOrgPlan;
+  plan?: GetDiscussionDetailsResponseBodyCase0AuthorCase1PrimaryOrgPlan;
   details?: string;
   hasPrivateMembersList?: boolean;
-  userRole?: GetDiscussionDetailsResponseAuthorCase1PrimaryOrgUserRole;
+  userRole?: GetDiscussionDetailsResponseBodyCase0AuthorCase1PrimaryOrgUserRole;
   numUsers?: number;
 }
-export const GetDiscussionDetailsResponseAuthorCase1PrimaryOrg = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    avatarUrl: S.String,
-    fullname: S.String,
-    name: S.String,
-    type: S.Unknown,
-    isHf: S.Boolean,
-    isFollowing: S.optional(S.Boolean),
-    plan: S.optional(GetDiscussionDetailsResponseAuthorCase1PrimaryOrgPlan),
-    details: S.optional(S.String),
-    hasPrivateMembersList: S.optional(S.Boolean),
-    userRole: S.optional(GetDiscussionDetailsResponseAuthorCase1PrimaryOrgUserRole),
-    numUsers: S.optional(S.Number),
-  }),
+export const GetDiscussionDetailsResponseBodyCase0AuthorCase1PrimaryOrg = /*@__PURE__*/ S.suspend(
+  () =>
+    S.Struct({
+      avatarUrl: S.String,
+      fullname: S.String,
+      name: S.String,
+      type: S.String,
+      isHf: S.Boolean,
+      isFollowing: S.optional(S.Boolean),
+      plan: S.optional(GetDiscussionDetailsResponseBodyCase0AuthorCase1PrimaryOrgPlan),
+      details: S.optional(S.String),
+      hasPrivateMembersList: S.optional(S.Boolean),
+      userRole: S.optional(GetDiscussionDetailsResponseBodyCase0AuthorCase1PrimaryOrgUserRole),
+      numUsers: S.optional(S.Number),
+    }),
 ).annotate({
-  identifier: "GetDiscussionDetailsResponseAuthorCase1PrimaryOrg",
-}) as any as S.Schema<GetDiscussionDetailsResponseAuthorCase1PrimaryOrg>;
+  identifier: "GetDiscussionDetailsResponseBodyCase0AuthorCase1PrimaryOrg",
+}) as any as S.Schema<GetDiscussionDetailsResponseBodyCase0AuthorCase1PrimaryOrg>;
 
-export interface GetDiscussionDetailsResponseAuthorCase1 {
+export interface GetDiscussionDetailsResponseBodyCase0AuthorCase1 {
+  /** A hex string of 24 characters representing an ObjectId. */
   _id: string;
   avatarUrl: string;
   fullname: string;
@@ -2681,12 +3050,12 @@ export interface GetDiscussionDetailsResponseAuthorCase1 {
   isHfAdmin: boolean;
   isMod: boolean;
   followerCount?: number;
-  type: unknown;
+  type: string;
   isPro: boolean;
   isUserFollowing?: boolean;
-  primaryOrg?: GetDiscussionDetailsResponseAuthorCase1PrimaryOrg;
+  primaryOrg?: GetDiscussionDetailsResponseBodyCase0AuthorCase1PrimaryOrg;
 }
-export const GetDiscussionDetailsResponseAuthorCase1 = /*@__PURE__*/ S.suspend(() =>
+export const GetDiscussionDetailsResponseBodyCase0AuthorCase1 = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     _id: S.String,
     avatarUrl: S.String,
@@ -2696,54 +3065,58 @@ export const GetDiscussionDetailsResponseAuthorCase1 = /*@__PURE__*/ S.suspend((
     isHfAdmin: S.Boolean,
     isMod: S.Boolean,
     followerCount: S.optional(S.Number),
-    type: S.Unknown,
+    type: S.String,
     isPro: S.Boolean,
     isUserFollowing: S.optional(S.Boolean),
-    primaryOrg: S.optional(GetDiscussionDetailsResponseAuthorCase1PrimaryOrg),
+    primaryOrg: S.optional(GetDiscussionDetailsResponseBodyCase0AuthorCase1PrimaryOrg),
   }),
 ).annotate({
-  identifier: "GetDiscussionDetailsResponseAuthorCase1",
-}) as any as S.Schema<GetDiscussionDetailsResponseAuthorCase1>;
+  identifier: "GetDiscussionDetailsResponseBodyCase0AuthorCase1",
+}) as any as S.Schema<GetDiscussionDetailsResponseBodyCase0AuthorCase1>;
 
-export type GetDiscussionDetailsResponseAuthor =
-  | GetDiscussionDetailsResponseAuthorCase0
-  | GetDiscussionDetailsResponseAuthorCase1;
-export const GetDiscussionDetailsResponseAuthor =
-  S.Unknown as any as S.Schema<GetDiscussionDetailsResponseAuthor>;
+export type GetDiscussionDetailsResponseBodyCase0Author =
+  | GetDiscussionDetailsResponseBodyCase0AuthorCase0
+  | GetDiscussionDetailsResponseBodyCase0AuthorCase1;
+export const GetDiscussionDetailsResponseBodyCase0Author =
+  S.Unknown as any as S.Schema<GetDiscussionDetailsResponseBodyCase0Author>;
 
-export type GetDiscussionDetailsResponseOrgPlan = "team" | "enterprise" | "plus" | "academia";
-export const GetDiscussionDetailsResponseOrgPlan = S.String;
+export type GetDiscussionDetailsResponseBodyCase0OrgPlan =
+  | "team"
+  | "enterprise"
+  | "plus"
+  | "academia";
+export const GetDiscussionDetailsResponseBodyCase0OrgPlan = S.String;
 
-export interface GetDiscussionDetailsResponseOrg {
+export interface GetDiscussionDetailsResponseBodyCase0Org {
   avatarUrl: string;
   email?: string;
   fullname: string;
   name: string;
-  type: unknown;
+  type: string;
   isHf: boolean;
-  plan?: GetDiscussionDetailsResponseOrgPlan;
+  plan?: GetDiscussionDetailsResponseBodyCase0OrgPlan;
   details?: string;
   hasPrivateMembersList?: boolean;
   requiresSSO?: boolean;
 }
-export const GetDiscussionDetailsResponseOrg = /*@__PURE__*/ S.suspend(() =>
+export const GetDiscussionDetailsResponseBodyCase0Org = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     avatarUrl: S.String,
     email: S.optional(S.String),
     fullname: S.String,
     name: S.String,
-    type: S.Unknown,
+    type: S.String,
     isHf: S.Boolean,
-    plan: S.optional(GetDiscussionDetailsResponseOrgPlan),
+    plan: S.optional(GetDiscussionDetailsResponseBodyCase0OrgPlan),
     details: S.optional(S.String),
     hasPrivateMembersList: S.optional(S.Boolean),
     requiresSSO: S.optional(S.Boolean),
   }),
 ).annotate({
-  identifier: "GetDiscussionDetailsResponseOrg",
-}) as any as S.Schema<GetDiscussionDetailsResponseOrg>;
+  identifier: "GetDiscussionDetailsResponseBodyCase0Org",
+}) as any as S.Schema<GetDiscussionDetailsResponseBodyCase0Org>;
 
-export type RepoIdType = "dataset" | "model" | "space" | "bucket" | "kernel";
+export type RepoIdType = "dataset" | "model" | "space" | "bucket" | "kernel" | "container";
 export const RepoIdType = S.String;
 
 export interface RepoId {
@@ -2757,133 +3130,200 @@ export const RepoId = /*@__PURE__*/ S.suspend(() =>
   }),
 ).annotate({ identifier: "RepoId" }) as any as S.Schema<RepoId>;
 
-export type GetDiscussionDetailsResponseStatus = "draft" | "open" | "closed" | "merged";
-export const GetDiscussionDetailsResponseStatus = S.String;
+export type GetDiscussionDetailsResponseBodyCase0Status = "draft" | "open" | "closed" | "merged";
+export const GetDiscussionDetailsResponseBodyCase0Status = S.String;
 
-export type GetDiscussionDetailsResponseEventsItemCase0AuthorPlan =
+export type GetDiscussionDetailsResponseBodyCase0EventsItemCase0AuthorCase0OauthAppImageData =
+  ChangeStatusResponseNewStatusAuthorCase0OauthAppImageData;
+export const GetDiscussionDetailsResponseBodyCase0EventsItemCase0AuthorCase0OauthAppImageData =
+  ChangeStatusResponseNewStatusAuthorCase0OauthAppImageData;
+
+export type GetDiscussionDetailsResponseBodyCase0EventsItemCase0AuthorCase0OauthApp =
+  ChangeStatusResponseNewStatusAuthorCase0OauthApp;
+export const GetDiscussionDetailsResponseBodyCase0EventsItemCase0AuthorCase0OauthApp =
+  ChangeStatusResponseNewStatusAuthorCase0OauthApp;
+
+export type GetDiscussionDetailsResponseBodyCase0EventsItemCase0AuthorCase0Plan =
   | "team"
   | "enterprise"
   | "plus"
   | "academia";
-export const GetDiscussionDetailsResponseEventsItemCase0AuthorPlan = S.String;
+export const GetDiscussionDetailsResponseBodyCase0EventsItemCase0AuthorCase0Plan = S.String;
 
-export type GetDiscussionDetailsResponseEventsItemCase0AuthorPrimaryOrgPlan =
+export interface GetDiscussionDetailsResponseBodyCase0EventsItemCase0AuthorCase0 {
+  isOwner?: boolean;
+  isOrgMember?: boolean;
+  isBlockedByMe?: boolean;
+  oauthApp?: ChangeStatusResponseNewStatusAuthorCase0OauthApp;
+  /** A hex string of 24 characters representing an ObjectId. */
+  _id: string;
+  avatarUrl: string;
+  fullname: string;
+  name: string;
+  isHf: boolean;
+  isHfAdmin: boolean;
+  isMod: boolean;
+  followerCount?: number;
+  type: string;
+  plan?: GetDiscussionDetailsResponseBodyCase0EventsItemCase0AuthorCase0Plan;
+  isUserFollowing?: boolean;
+}
+export const GetDiscussionDetailsResponseBodyCase0EventsItemCase0AuthorCase0 =
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      isOwner: S.optional(S.Boolean),
+      isOrgMember: S.optional(S.Boolean),
+      isBlockedByMe: S.optional(S.Boolean),
+      oauthApp: S.optional(ChangeStatusResponseNewStatusAuthorCase0OauthApp),
+      _id: S.String,
+      avatarUrl: S.String,
+      fullname: S.String,
+      name: S.String,
+      isHf: S.Boolean,
+      isHfAdmin: S.Boolean,
+      isMod: S.Boolean,
+      followerCount: S.optional(S.Number),
+      type: S.String,
+      plan: S.optional(GetDiscussionDetailsResponseBodyCase0EventsItemCase0AuthorCase0Plan),
+      isUserFollowing: S.optional(S.Boolean),
+    }),
+  ).annotate({
+    identifier: "GetDiscussionDetailsResponseBodyCase0EventsItemCase0AuthorCase0",
+  }) as any as S.Schema<GetDiscussionDetailsResponseBodyCase0EventsItemCase0AuthorCase0>;
+
+export type GetDiscussionDetailsResponseBodyCase0EventsItemCase0AuthorCase1OauthAppImageData =
+  ChangeStatusResponseNewStatusAuthorCase0OauthAppImageData;
+export const GetDiscussionDetailsResponseBodyCase0EventsItemCase0AuthorCase1OauthAppImageData =
+  ChangeStatusResponseNewStatusAuthorCase0OauthAppImageData;
+
+export type GetDiscussionDetailsResponseBodyCase0EventsItemCase0AuthorCase1OauthApp =
+  ChangeStatusResponseNewStatusAuthorCase0OauthApp;
+export const GetDiscussionDetailsResponseBodyCase0EventsItemCase0AuthorCase1OauthApp =
+  ChangeStatusResponseNewStatusAuthorCase0OauthApp;
+
+export type GetDiscussionDetailsResponseBodyCase0EventsItemCase0AuthorCase1PrimaryOrgPlan =
   | "team"
   | "enterprise"
   | "plus"
   | "academia";
-export const GetDiscussionDetailsResponseEventsItemCase0AuthorPrimaryOrgPlan = S.String;
+export const GetDiscussionDetailsResponseBodyCase0EventsItemCase0AuthorCase1PrimaryOrgPlan =
+  S.String;
 
-export type GetDiscussionDetailsResponseEventsItemCase0AuthorPrimaryOrgUserRole =
+export type GetDiscussionDetailsResponseBodyCase0EventsItemCase0AuthorCase1PrimaryOrgUserRole =
   | "admin"
   | "write"
   | "contributor"
   | "read"
   | "no_access";
-export const GetDiscussionDetailsResponseEventsItemCase0AuthorPrimaryOrgUserRole = S.String;
+export const GetDiscussionDetailsResponseBodyCase0EventsItemCase0AuthorCase1PrimaryOrgUserRole =
+  S.String;
 
-export interface GetDiscussionDetailsResponseEventsItemCase0AuthorPrimaryOrg {
+export interface GetDiscussionDetailsResponseBodyCase0EventsItemCase0AuthorCase1PrimaryOrg {
   avatarUrl: string;
   fullname: string;
   name: string;
-  type: unknown;
+  type: string;
   isHf: boolean;
   isFollowing?: boolean;
-  plan?: GetDiscussionDetailsResponseEventsItemCase0AuthorPrimaryOrgPlan;
+  plan?: GetDiscussionDetailsResponseBodyCase0EventsItemCase0AuthorCase1PrimaryOrgPlan;
   details?: string;
   hasPrivateMembersList?: boolean;
-  userRole?: GetDiscussionDetailsResponseEventsItemCase0AuthorPrimaryOrgUserRole;
+  userRole?: GetDiscussionDetailsResponseBodyCase0EventsItemCase0AuthorCase1PrimaryOrgUserRole;
   numUsers?: number;
 }
-export const GetDiscussionDetailsResponseEventsItemCase0AuthorPrimaryOrg = /*@__PURE__*/ S.suspend(
-  () =>
+export const GetDiscussionDetailsResponseBodyCase0EventsItemCase0AuthorCase1PrimaryOrg =
+  /*@__PURE__*/ S.suspend(() =>
     S.Struct({
       avatarUrl: S.String,
       fullname: S.String,
       name: S.String,
-      type: S.Unknown,
+      type: S.String,
       isHf: S.Boolean,
       isFollowing: S.optional(S.Boolean),
-      plan: S.optional(GetDiscussionDetailsResponseEventsItemCase0AuthorPrimaryOrgPlan),
+      plan: S.optional(
+        GetDiscussionDetailsResponseBodyCase0EventsItemCase0AuthorCase1PrimaryOrgPlan,
+      ),
       details: S.optional(S.String),
       hasPrivateMembersList: S.optional(S.Boolean),
-      userRole: S.optional(GetDiscussionDetailsResponseEventsItemCase0AuthorPrimaryOrgUserRole),
+      userRole: S.optional(
+        GetDiscussionDetailsResponseBodyCase0EventsItemCase0AuthorCase1PrimaryOrgUserRole,
+      ),
       numUsers: S.optional(S.Number),
     }),
-).annotate({
-  identifier: "GetDiscussionDetailsResponseEventsItemCase0AuthorPrimaryOrg",
-}) as any as S.Schema<GetDiscussionDetailsResponseEventsItemCase0AuthorPrimaryOrg>;
+  ).annotate({
+    identifier: "GetDiscussionDetailsResponseBodyCase0EventsItemCase0AuthorCase1PrimaryOrg",
+  }) as any as S.Schema<GetDiscussionDetailsResponseBodyCase0EventsItemCase0AuthorCase1PrimaryOrg>;
 
-export type GetDiscussionDetailsResponseEventsItemCase0AuthorOauthAppImageData =
-  ChangeStatusResponseNewStatusAuthorOauthAppImageData;
-export const GetDiscussionDetailsResponseEventsItemCase0AuthorOauthAppImageData =
-  ChangeStatusResponseNewStatusAuthorOauthAppImageData;
-
-export type GetDiscussionDetailsResponseEventsItemCase0AuthorOauthApp =
-  ChangeStatusResponseNewStatusAuthorOauthApp;
-export const GetDiscussionDetailsResponseEventsItemCase0AuthorOauthApp =
-  ChangeStatusResponseNewStatusAuthorOauthApp;
-
-export interface GetDiscussionDetailsResponseEventsItemCase0Author {
-  _id?: string;
-  avatarUrl?: string;
-  fullname?: string;
-  name?: string;
-  isHf?: boolean;
-  isHfAdmin?: boolean;
-  isMod?: boolean;
-  followerCount?: number;
-  type?: unknown;
-  plan?: GetDiscussionDetailsResponseEventsItemCase0AuthorPlan;
-  isUserFollowing?: boolean;
-  isPro?: boolean;
-  primaryOrg?: GetDiscussionDetailsResponseEventsItemCase0AuthorPrimaryOrg;
+export interface GetDiscussionDetailsResponseBodyCase0EventsItemCase0AuthorCase1 {
   isOwner?: boolean;
   isOrgMember?: boolean;
   isBlockedByMe?: boolean;
-  oauthApp?: ChangeStatusResponseNewStatusAuthorOauthApp;
+  oauthApp?: ChangeStatusResponseNewStatusAuthorCase0OauthApp;
+  /** A hex string of 24 characters representing an ObjectId. */
+  _id: string;
+  avatarUrl: string;
+  fullname: string;
+  name: string;
+  isHf: boolean;
+  isHfAdmin: boolean;
+  isMod: boolean;
+  followerCount?: number;
+  type: string;
+  isPro: boolean;
+  isUserFollowing?: boolean;
+  primaryOrg?: GetDiscussionDetailsResponseBodyCase0EventsItemCase0AuthorCase1PrimaryOrg;
 }
-export const GetDiscussionDetailsResponseEventsItemCase0Author = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    _id: S.optional(S.String),
-    avatarUrl: S.optional(S.String),
-    fullname: S.optional(S.String),
-    name: S.optional(S.String),
-    isHf: S.optional(S.Boolean),
-    isHfAdmin: S.optional(S.Boolean),
-    isMod: S.optional(S.Boolean),
-    followerCount: S.optional(S.Number),
-    type: S.optional(S.Unknown),
-    plan: S.optional(GetDiscussionDetailsResponseEventsItemCase0AuthorPlan),
-    isUserFollowing: S.optional(S.Boolean),
-    isPro: S.optional(S.Boolean),
-    primaryOrg: S.optional(GetDiscussionDetailsResponseEventsItemCase0AuthorPrimaryOrg),
-    isOwner: S.optional(S.Boolean),
-    isOrgMember: S.optional(S.Boolean),
-    isBlockedByMe: S.optional(S.Boolean),
-    oauthApp: S.optional(ChangeStatusResponseNewStatusAuthorOauthApp),
-  }),
-).annotate({
-  identifier: "GetDiscussionDetailsResponseEventsItemCase0Author",
-}) as any as S.Schema<GetDiscussionDetailsResponseEventsItemCase0Author>;
+export const GetDiscussionDetailsResponseBodyCase0EventsItemCase0AuthorCase1 =
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      isOwner: S.optional(S.Boolean),
+      isOrgMember: S.optional(S.Boolean),
+      isBlockedByMe: S.optional(S.Boolean),
+      oauthApp: S.optional(ChangeStatusResponseNewStatusAuthorCase0OauthApp),
+      _id: S.String,
+      avatarUrl: S.String,
+      fullname: S.String,
+      name: S.String,
+      isHf: S.Boolean,
+      isHfAdmin: S.Boolean,
+      isMod: S.Boolean,
+      followerCount: S.optional(S.Number),
+      type: S.String,
+      isPro: S.Boolean,
+      isUserFollowing: S.optional(S.Boolean),
+      primaryOrg: S.optional(
+        GetDiscussionDetailsResponseBodyCase0EventsItemCase0AuthorCase1PrimaryOrg,
+      ),
+    }),
+  ).annotate({
+    identifier: "GetDiscussionDetailsResponseBodyCase0EventsItemCase0AuthorCase1",
+  }) as any as S.Schema<GetDiscussionDetailsResponseBodyCase0EventsItemCase0AuthorCase1>;
 
-export type GetDiscussionDetailsResponseEventsItemCase0DataHiddenReason =
+export type GetDiscussionDetailsResponseBodyCase0EventsItemCase0Author =
+  | GetDiscussionDetailsResponseBodyCase0EventsItemCase0AuthorCase0
+  | GetDiscussionDetailsResponseBodyCase0EventsItemCase0AuthorCase1;
+export const GetDiscussionDetailsResponseBodyCase0EventsItemCase0Author =
+  S.Unknown as any as S.Schema<GetDiscussionDetailsResponseBodyCase0EventsItemCase0Author>;
+
+export type GetDiscussionDetailsResponseBodyCase0EventsItemCase0DataHiddenReason =
   | "Spam"
   | "Abuse"
   | "Graphic Content"
   | "Resolved"
   | "Off-Topic"
   | "Low Quality";
-export const GetDiscussionDetailsResponseEventsItemCase0DataHiddenReason = S.String;
+export const GetDiscussionDetailsResponseBodyCase0EventsItemCase0DataHiddenReason = S.String;
 
-export type GetDiscussionDetailsResponseEventsItemCase0DataLatestAuthorCase0Plan =
+export type GetDiscussionDetailsResponseBodyCase0EventsItemCase0DataLatestAuthorCase0Plan =
   | "team"
   | "enterprise"
   | "plus"
   | "academia";
-export const GetDiscussionDetailsResponseEventsItemCase0DataLatestAuthorCase0Plan = S.String;
+export const GetDiscussionDetailsResponseBodyCase0EventsItemCase0DataLatestAuthorCase0Plan =
+  S.String;
 
-export interface GetDiscussionDetailsResponseEventsItemCase0DataLatestAuthorCase0 {
+export interface GetDiscussionDetailsResponseBodyCase0EventsItemCase0DataLatestAuthorCase0 {
+  /** A hex string of 24 characters representing an ObjectId. */
   _id: string;
   avatarUrl: string;
   fullname: string;
@@ -2892,11 +3332,11 @@ export interface GetDiscussionDetailsResponseEventsItemCase0DataLatestAuthorCase
   isHfAdmin: boolean;
   isMod: boolean;
   followerCount?: number;
-  type: unknown;
-  plan?: GetDiscussionDetailsResponseEventsItemCase0DataLatestAuthorCase0Plan;
+  type: string;
+  plan?: GetDiscussionDetailsResponseBodyCase0EventsItemCase0DataLatestAuthorCase0Plan;
   isUserFollowing?: boolean;
 }
-export const GetDiscussionDetailsResponseEventsItemCase0DataLatestAuthorCase0 =
+export const GetDiscussionDetailsResponseBodyCase0EventsItemCase0DataLatestAuthorCase0 =
   /*@__PURE__*/ S.suspend(() =>
     S.Struct({
       _id: S.String,
@@ -2907,68 +3347,72 @@ export const GetDiscussionDetailsResponseEventsItemCase0DataLatestAuthorCase0 =
       isHfAdmin: S.Boolean,
       isMod: S.Boolean,
       followerCount: S.optional(S.Number),
-      type: S.Unknown,
-      plan: S.optional(GetDiscussionDetailsResponseEventsItemCase0DataLatestAuthorCase0Plan),
+      type: S.String,
+      plan: S.optional(
+        GetDiscussionDetailsResponseBodyCase0EventsItemCase0DataLatestAuthorCase0Plan,
+      ),
       isUserFollowing: S.optional(S.Boolean),
     }),
   ).annotate({
-    identifier: "GetDiscussionDetailsResponseEventsItemCase0DataLatestAuthorCase0",
-  }) as any as S.Schema<GetDiscussionDetailsResponseEventsItemCase0DataLatestAuthorCase0>;
+    identifier: "GetDiscussionDetailsResponseBodyCase0EventsItemCase0DataLatestAuthorCase0",
+  }) as any as S.Schema<GetDiscussionDetailsResponseBodyCase0EventsItemCase0DataLatestAuthorCase0>;
 
-export type GetDiscussionDetailsResponseEventsItemCase0DataLatestAuthorCase1PrimaryOrgPlan =
+export type GetDiscussionDetailsResponseBodyCase0EventsItemCase0DataLatestAuthorCase1PrimaryOrgPlan =
   | "team"
   | "enterprise"
   | "plus"
   | "academia";
-export const GetDiscussionDetailsResponseEventsItemCase0DataLatestAuthorCase1PrimaryOrgPlan =
+export const GetDiscussionDetailsResponseBodyCase0EventsItemCase0DataLatestAuthorCase1PrimaryOrgPlan =
   S.String;
 
-export type GetDiscussionDetailsResponseEventsItemCase0DataLatestAuthorCase1PrimaryOrgUserRole =
+export type GetDiscussionDetailsResponseBodyCase0EventsItemCase0DataLatestAuthorCase1PrimaryOrgUserRole =
   | "admin"
   | "write"
   | "contributor"
   | "read"
   | "no_access";
-export const GetDiscussionDetailsResponseEventsItemCase0DataLatestAuthorCase1PrimaryOrgUserRole =
+export const GetDiscussionDetailsResponseBodyCase0EventsItemCase0DataLatestAuthorCase1PrimaryOrgUserRole =
   S.String;
 
-export interface GetDiscussionDetailsResponseEventsItemCase0DataLatestAuthorCase1PrimaryOrg {
+export interface GetDiscussionDetailsResponseBodyCase0EventsItemCase0DataLatestAuthorCase1PrimaryOrg {
   avatarUrl: string;
   fullname: string;
   name: string;
-  type: unknown;
+  type: string;
   isHf: boolean;
   isFollowing?: boolean;
-  plan?: GetDiscussionDetailsResponseEventsItemCase0DataLatestAuthorCase1PrimaryOrgPlan;
+  plan?: GetDiscussionDetailsResponseBodyCase0EventsItemCase0DataLatestAuthorCase1PrimaryOrgPlan;
   details?: string;
   hasPrivateMembersList?: boolean;
-  userRole?: GetDiscussionDetailsResponseEventsItemCase0DataLatestAuthorCase1PrimaryOrgUserRole;
+  userRole?: GetDiscussionDetailsResponseBodyCase0EventsItemCase0DataLatestAuthorCase1PrimaryOrgUserRole;
   numUsers?: number;
 }
-export const GetDiscussionDetailsResponseEventsItemCase0DataLatestAuthorCase1PrimaryOrg =
+export const GetDiscussionDetailsResponseBodyCase0EventsItemCase0DataLatestAuthorCase1PrimaryOrg =
   /*@__PURE__*/ S.suspend(() =>
     S.Struct({
       avatarUrl: S.String,
       fullname: S.String,
       name: S.String,
-      type: S.Unknown,
+      type: S.String,
       isHf: S.Boolean,
       isFollowing: S.optional(S.Boolean),
       plan: S.optional(
-        GetDiscussionDetailsResponseEventsItemCase0DataLatestAuthorCase1PrimaryOrgPlan,
+        GetDiscussionDetailsResponseBodyCase0EventsItemCase0DataLatestAuthorCase1PrimaryOrgPlan,
       ),
       details: S.optional(S.String),
       hasPrivateMembersList: S.optional(S.Boolean),
       userRole: S.optional(
-        GetDiscussionDetailsResponseEventsItemCase0DataLatestAuthorCase1PrimaryOrgUserRole,
+        GetDiscussionDetailsResponseBodyCase0EventsItemCase0DataLatestAuthorCase1PrimaryOrgUserRole,
       ),
       numUsers: S.optional(S.Number),
     }),
   ).annotate({
-    identifier: "GetDiscussionDetailsResponseEventsItemCase0DataLatestAuthorCase1PrimaryOrg",
-  }) as any as S.Schema<GetDiscussionDetailsResponseEventsItemCase0DataLatestAuthorCase1PrimaryOrg>;
+    identifier:
+      "GetDiscussionDetailsResponseBodyCase0EventsItemCase0DataLatestAuthorCase1PrimaryOrg",
+  }) as any as S.Schema<GetDiscussionDetailsResponseBodyCase0EventsItemCase0DataLatestAuthorCase1PrimaryOrg>;
 
-export interface GetDiscussionDetailsResponseEventsItemCase0DataLatestAuthorCase1 {
+export interface GetDiscussionDetailsResponseBodyCase0EventsItemCase0DataLatestAuthorCase1 {
+  /** A hex string of 24 characters representing an ObjectId. */
   _id: string;
   avatarUrl: string;
   fullname: string;
@@ -2977,12 +3421,12 @@ export interface GetDiscussionDetailsResponseEventsItemCase0DataLatestAuthorCase
   isHfAdmin: boolean;
   isMod: boolean;
   followerCount?: number;
-  type: unknown;
+  type: string;
   isPro: boolean;
   isUserFollowing?: boolean;
-  primaryOrg?: GetDiscussionDetailsResponseEventsItemCase0DataLatestAuthorCase1PrimaryOrg;
+  primaryOrg?: GetDiscussionDetailsResponseBodyCase0EventsItemCase0DataLatestAuthorCase1PrimaryOrg;
 }
-export const GetDiscussionDetailsResponseEventsItemCase0DataLatestAuthorCase1 =
+export const GetDiscussionDetailsResponseBodyCase0EventsItemCase0DataLatestAuthorCase1 =
   /*@__PURE__*/ S.suspend(() =>
     S.Struct({
       _id: S.String,
@@ -2993,52 +3437,55 @@ export const GetDiscussionDetailsResponseEventsItemCase0DataLatestAuthorCase1 =
       isHfAdmin: S.Boolean,
       isMod: S.Boolean,
       followerCount: S.optional(S.Number),
-      type: S.Unknown,
+      type: S.String,
       isPro: S.Boolean,
       isUserFollowing: S.optional(S.Boolean),
       primaryOrg: S.optional(
-        GetDiscussionDetailsResponseEventsItemCase0DataLatestAuthorCase1PrimaryOrg,
+        GetDiscussionDetailsResponseBodyCase0EventsItemCase0DataLatestAuthorCase1PrimaryOrg,
       ),
     }),
   ).annotate({
-    identifier: "GetDiscussionDetailsResponseEventsItemCase0DataLatestAuthorCase1",
-  }) as any as S.Schema<GetDiscussionDetailsResponseEventsItemCase0DataLatestAuthorCase1>;
+    identifier: "GetDiscussionDetailsResponseBodyCase0EventsItemCase0DataLatestAuthorCase1",
+  }) as any as S.Schema<GetDiscussionDetailsResponseBodyCase0EventsItemCase0DataLatestAuthorCase1>;
 
-export type GetDiscussionDetailsResponseEventsItemCase0DataLatestAuthor =
-  | GetDiscussionDetailsResponseEventsItemCase0DataLatestAuthorCase0
-  | GetDiscussionDetailsResponseEventsItemCase0DataLatestAuthorCase1;
-export const GetDiscussionDetailsResponseEventsItemCase0DataLatestAuthor =
-  S.Unknown as any as S.Schema<GetDiscussionDetailsResponseEventsItemCase0DataLatestAuthor>;
+export type GetDiscussionDetailsResponseBodyCase0EventsItemCase0DataLatestAuthor =
+  | GetDiscussionDetailsResponseBodyCase0EventsItemCase0DataLatestAuthorCase0
+  | GetDiscussionDetailsResponseBodyCase0EventsItemCase0DataLatestAuthorCase1;
+export const GetDiscussionDetailsResponseBodyCase0EventsItemCase0DataLatestAuthor =
+  S.Unknown as any as S.Schema<GetDiscussionDetailsResponseBodyCase0EventsItemCase0DataLatestAuthor>;
 
-export interface GetDiscussionDetailsResponseEventsItemCase0DataLatest {
+export interface GetDiscussionDetailsResponseBodyCase0EventsItemCase0DataLatest {
   raw: string;
   html: string;
   updatedAt: string;
-  author?: GetDiscussionDetailsResponseEventsItemCase0DataLatestAuthor;
+  author?: GetDiscussionDetailsResponseBodyCase0EventsItemCase0DataLatestAuthor;
 }
-export const GetDiscussionDetailsResponseEventsItemCase0DataLatest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    raw: S.String,
-    html: S.String,
-    updatedAt: S.String,
-    author: S.optional(GetDiscussionDetailsResponseEventsItemCase0DataLatestAuthor),
-  }),
-).annotate({
-  identifier: "GetDiscussionDetailsResponseEventsItemCase0DataLatest",
-}) as any as S.Schema<GetDiscussionDetailsResponseEventsItemCase0DataLatest>;
+export const GetDiscussionDetailsResponseBodyCase0EventsItemCase0DataLatest =
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      raw: S.String,
+      html: S.String,
+      updatedAt: S.String,
+      author: S.optional(GetDiscussionDetailsResponseBodyCase0EventsItemCase0DataLatestAuthor),
+    }),
+  ).annotate({
+    identifier: "GetDiscussionDetailsResponseBodyCase0EventsItemCase0DataLatest",
+  }) as any as S.Schema<GetDiscussionDetailsResponseBodyCase0EventsItemCase0DataLatest>;
 
-export type GetDiscussionDetailsResponseEventsItemCase0DataEditorsList = Array<string>;
-export const GetDiscussionDetailsResponseEventsItemCase0DataEditorsList = /*@__PURE__*/ S.Array(
-  S.String,
-) as any as S.Schema<GetDiscussionDetailsResponseEventsItemCase0DataEditorsList>;
-
-export type GetDiscussionDetailsResponseEventsItemCase0DataEditorAvatarUrlsList = Array<string>;
-export const GetDiscussionDetailsResponseEventsItemCase0DataEditorAvatarUrlsList =
+export type GetDiscussionDetailsResponseBodyCase0EventsItemCase0DataEditorsList = Array<string>;
+export const GetDiscussionDetailsResponseBodyCase0EventsItemCase0DataEditorsList =
   /*@__PURE__*/ S.Array(
     S.String,
-  ) as any as S.Schema<GetDiscussionDetailsResponseEventsItemCase0DataEditorAvatarUrlsList>;
+  ) as any as S.Schema<GetDiscussionDetailsResponseBodyCase0EventsItemCase0DataEditorsList>;
 
-export type GetDiscussionDetailsResponseEventsItemCase0DataReactionsItemReaction =
+export type GetDiscussionDetailsResponseBodyCase0EventsItemCase0DataEditorAvatarUrlsList =
+  Array<string>;
+export const GetDiscussionDetailsResponseBodyCase0EventsItemCase0DataEditorAvatarUrlsList =
+  /*@__PURE__*/ S.Array(
+    S.String,
+  ) as any as S.Schema<GetDiscussionDetailsResponseBodyCase0EventsItemCase0DataEditorAvatarUrlsList>;
+
+export type GetDiscussionDetailsResponseBodyCase0EventsItemCase0DataReactionsItemReaction =
   | "🔥"
   | "🚀"
   | "👀"
@@ -3051,1083 +3498,4024 @@ export type GetDiscussionDetailsResponseEventsItemCase0DataReactionsItemReaction
   | "🤝"
   | "😔"
   | "🤯";
-export const GetDiscussionDetailsResponseEventsItemCase0DataReactionsItemReaction = S.String;
+export const GetDiscussionDetailsResponseBodyCase0EventsItemCase0DataReactionsItemReaction =
+  S.String;
 
-export type GetDiscussionDetailsResponseEventsItemCase0DataReactionsItemUsersList = Array<string>;
-export const GetDiscussionDetailsResponseEventsItemCase0DataReactionsItemUsersList =
+export type GetDiscussionDetailsResponseBodyCase0EventsItemCase0DataReactionsItemUsersList =
+  Array<string>;
+export const GetDiscussionDetailsResponseBodyCase0EventsItemCase0DataReactionsItemUsersList =
   /*@__PURE__*/ S.Array(
     S.String,
-  ) as any as S.Schema<GetDiscussionDetailsResponseEventsItemCase0DataReactionsItemUsersList>;
+  ) as any as S.Schema<GetDiscussionDetailsResponseBodyCase0EventsItemCase0DataReactionsItemUsersList>;
 
-export interface GetDiscussionDetailsResponseEventsItemCase0DataReactionsItem {
-  reaction: GetDiscussionDetailsResponseEventsItemCase0DataReactionsItemReaction;
-  users: GetDiscussionDetailsResponseEventsItemCase0DataReactionsItemUsersList;
+export interface GetDiscussionDetailsResponseBodyCase0EventsItemCase0DataReactionsItem {
+  reaction: GetDiscussionDetailsResponseBodyCase0EventsItemCase0DataReactionsItemReaction;
+  users: GetDiscussionDetailsResponseBodyCase0EventsItemCase0DataReactionsItemUsersList;
   count: number;
 }
-export const GetDiscussionDetailsResponseEventsItemCase0DataReactionsItem = /*@__PURE__*/ S.suspend(
-  () =>
+export const GetDiscussionDetailsResponseBodyCase0EventsItemCase0DataReactionsItem =
+  /*@__PURE__*/ S.suspend(() =>
     S.Struct({
-      reaction: GetDiscussionDetailsResponseEventsItemCase0DataReactionsItemReaction,
-      users: GetDiscussionDetailsResponseEventsItemCase0DataReactionsItemUsersList,
+      reaction: GetDiscussionDetailsResponseBodyCase0EventsItemCase0DataReactionsItemReaction,
+      users: GetDiscussionDetailsResponseBodyCase0EventsItemCase0DataReactionsItemUsersList,
       count: S.Number,
     }),
-).annotate({
-  identifier: "GetDiscussionDetailsResponseEventsItemCase0DataReactionsItem",
-}) as any as S.Schema<GetDiscussionDetailsResponseEventsItemCase0DataReactionsItem>;
+  ).annotate({
+    identifier: "GetDiscussionDetailsResponseBodyCase0EventsItemCase0DataReactionsItem",
+  }) as any as S.Schema<GetDiscussionDetailsResponseBodyCase0EventsItemCase0DataReactionsItem>;
 
-export type GetDiscussionDetailsResponseEventsItemCase0DataReactionsList =
-  Array<GetDiscussionDetailsResponseEventsItemCase0DataReactionsItem>;
-export const GetDiscussionDetailsResponseEventsItemCase0DataReactionsList = /*@__PURE__*/ S.Array(
-  GetDiscussionDetailsResponseEventsItemCase0DataReactionsItem,
-) as any as S.Schema<GetDiscussionDetailsResponseEventsItemCase0DataReactionsList>;
+export type GetDiscussionDetailsResponseBodyCase0EventsItemCase0DataReactionsList =
+  Array<GetDiscussionDetailsResponseBodyCase0EventsItemCase0DataReactionsItem>;
+export const GetDiscussionDetailsResponseBodyCase0EventsItemCase0DataReactionsList =
+  /*@__PURE__*/ S.Array(
+    GetDiscussionDetailsResponseBodyCase0EventsItemCase0DataReactionsItem,
+  ) as any as S.Schema<GetDiscussionDetailsResponseBodyCase0EventsItemCase0DataReactionsList>;
 
-export type GetDiscussionDetailsResponseEventsItemCase0DataIdentifiedLanguage =
+export type GetDiscussionDetailsResponseBodyCase0EventsItemCase0DataIdentifiedLanguage =
   CreateBlogCommentResponseNewMessageDataIdentifiedLanguage;
-export const GetDiscussionDetailsResponseEventsItemCase0DataIdentifiedLanguage =
+export const GetDiscussionDetailsResponseBodyCase0EventsItemCase0DataIdentifiedLanguage =
   CreateBlogCommentResponseNewMessageDataIdentifiedLanguage;
 
-export interface GetDiscussionDetailsResponseEventsItemCase0Data {
+export interface GetDiscussionDetailsResponseBodyCase0EventsItemCase0Data {
   edited: boolean;
   hidden: boolean;
   hiddenBy?: string;
-  hiddenReason?: GetDiscussionDetailsResponseEventsItemCase0DataHiddenReason;
-  latest: GetDiscussionDetailsResponseEventsItemCase0DataLatest;
+  hiddenReason?: GetDiscussionDetailsResponseBodyCase0EventsItemCase0DataHiddenReason;
+  latest: GetDiscussionDetailsResponseBodyCase0EventsItemCase0DataLatest;
   numEdits: number;
-  editors: GetDiscussionDetailsResponseEventsItemCase0DataEditorsList;
-  editorAvatarUrls: GetDiscussionDetailsResponseEventsItemCase0DataEditorAvatarUrlsList;
-  reactions: GetDiscussionDetailsResponseEventsItemCase0DataReactionsList;
+  editors: GetDiscussionDetailsResponseBodyCase0EventsItemCase0DataEditorsList;
+  editorAvatarUrls: GetDiscussionDetailsResponseBodyCase0EventsItemCase0DataEditorAvatarUrlsList;
+  reactions: GetDiscussionDetailsResponseBodyCase0EventsItemCase0DataReactionsList;
   identifiedLanguage?: CreateBlogCommentResponseNewMessageDataIdentifiedLanguage;
   relatedEventId?: string;
   isReport?: boolean;
   parentCommentId?: string;
 }
-export const GetDiscussionDetailsResponseEventsItemCase0Data = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    edited: S.Boolean,
-    hidden: S.Boolean,
-    hiddenBy: S.optional(S.String),
-    hiddenReason: S.optional(GetDiscussionDetailsResponseEventsItemCase0DataHiddenReason),
-    latest: GetDiscussionDetailsResponseEventsItemCase0DataLatest,
-    numEdits: S.Number,
-    editors: GetDiscussionDetailsResponseEventsItemCase0DataEditorsList,
-    editorAvatarUrls: GetDiscussionDetailsResponseEventsItemCase0DataEditorAvatarUrlsList,
-    reactions: GetDiscussionDetailsResponseEventsItemCase0DataReactionsList,
-    identifiedLanguage: S.optional(CreateBlogCommentResponseNewMessageDataIdentifiedLanguage),
-    relatedEventId: S.optional(S.String),
-    isReport: S.optional(S.Boolean),
-    parentCommentId: S.optional(S.String),
-  }),
+export const GetDiscussionDetailsResponseBodyCase0EventsItemCase0Data = /*@__PURE__*/ S.suspend(
+  () =>
+    S.Struct({
+      edited: S.Boolean,
+      hidden: S.Boolean,
+      hiddenBy: S.optional(S.String),
+      hiddenReason: S.optional(
+        GetDiscussionDetailsResponseBodyCase0EventsItemCase0DataHiddenReason,
+      ),
+      latest: GetDiscussionDetailsResponseBodyCase0EventsItemCase0DataLatest,
+      numEdits: S.Number,
+      editors: GetDiscussionDetailsResponseBodyCase0EventsItemCase0DataEditorsList,
+      editorAvatarUrls:
+        GetDiscussionDetailsResponseBodyCase0EventsItemCase0DataEditorAvatarUrlsList,
+      reactions: GetDiscussionDetailsResponseBodyCase0EventsItemCase0DataReactionsList,
+      identifiedLanguage: S.optional(CreateBlogCommentResponseNewMessageDataIdentifiedLanguage),
+      relatedEventId: S.optional(S.String),
+      isReport: S.optional(S.Boolean),
+      parentCommentId: S.optional(S.String),
+    }),
 ).annotate({
-  identifier: "GetDiscussionDetailsResponseEventsItemCase0Data",
-}) as any as S.Schema<GetDiscussionDetailsResponseEventsItemCase0Data>;
+  identifier: "GetDiscussionDetailsResponseBodyCase0EventsItemCase0Data",
+}) as any as S.Schema<GetDiscussionDetailsResponseBodyCase0EventsItemCase0Data>;
 
-export interface GetDiscussionDetailsResponseEventsItemCase0 {
+export interface GetDiscussionDetailsResponseBodyCase0EventsItemCase0 {
   id: string;
   createdAt: string;
-  author?: GetDiscussionDetailsResponseEventsItemCase0Author;
-  type: unknown;
-  data: GetDiscussionDetailsResponseEventsItemCase0Data;
+  author?: GetDiscussionDetailsResponseBodyCase0EventsItemCase0Author;
+  type: string;
+  data: GetDiscussionDetailsResponseBodyCase0EventsItemCase0Data;
 }
-export const GetDiscussionDetailsResponseEventsItemCase0 = /*@__PURE__*/ S.suspend(() =>
+export const GetDiscussionDetailsResponseBodyCase0EventsItemCase0 = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     id: S.String,
     createdAt: S.String,
-    author: S.optional(GetDiscussionDetailsResponseEventsItemCase0Author),
-    type: S.Unknown,
-    data: GetDiscussionDetailsResponseEventsItemCase0Data,
+    author: S.optional(GetDiscussionDetailsResponseBodyCase0EventsItemCase0Author),
+    type: S.String,
+    data: GetDiscussionDetailsResponseBodyCase0EventsItemCase0Data,
   }),
 ).annotate({
-  identifier: "GetDiscussionDetailsResponseEventsItemCase0",
-}) as any as S.Schema<GetDiscussionDetailsResponseEventsItemCase0>;
+  identifier: "GetDiscussionDetailsResponseBodyCase0EventsItemCase0",
+}) as any as S.Schema<GetDiscussionDetailsResponseBodyCase0EventsItemCase0>;
 
-export type GetDiscussionDetailsResponseEventsItemCase1AuthorPlan =
+export type GetDiscussionDetailsResponseBodyCase0EventsItemCase1AuthorCase0OauthAppImageData =
+  ChangeStatusResponseNewStatusAuthorCase0OauthAppImageData;
+export const GetDiscussionDetailsResponseBodyCase0EventsItemCase1AuthorCase0OauthAppImageData =
+  ChangeStatusResponseNewStatusAuthorCase0OauthAppImageData;
+
+export type GetDiscussionDetailsResponseBodyCase0EventsItemCase1AuthorCase0OauthApp =
+  ChangeStatusResponseNewStatusAuthorCase0OauthApp;
+export const GetDiscussionDetailsResponseBodyCase0EventsItemCase1AuthorCase0OauthApp =
+  ChangeStatusResponseNewStatusAuthorCase0OauthApp;
+
+export type GetDiscussionDetailsResponseBodyCase0EventsItemCase1AuthorCase0Plan =
   | "team"
   | "enterprise"
   | "plus"
   | "academia";
-export const GetDiscussionDetailsResponseEventsItemCase1AuthorPlan = S.String;
+export const GetDiscussionDetailsResponseBodyCase0EventsItemCase1AuthorCase0Plan = S.String;
 
-export type GetDiscussionDetailsResponseEventsItemCase1AuthorPrimaryOrgPlan =
+export interface GetDiscussionDetailsResponseBodyCase0EventsItemCase1AuthorCase0 {
+  isOwner?: boolean;
+  isOrgMember?: boolean;
+  isBlockedByMe?: boolean;
+  oauthApp?: ChangeStatusResponseNewStatusAuthorCase0OauthApp;
+  /** A hex string of 24 characters representing an ObjectId. */
+  _id: string;
+  avatarUrl: string;
+  fullname: string;
+  name: string;
+  isHf: boolean;
+  isHfAdmin: boolean;
+  isMod: boolean;
+  followerCount?: number;
+  type: string;
+  plan?: GetDiscussionDetailsResponseBodyCase0EventsItemCase1AuthorCase0Plan;
+  isUserFollowing?: boolean;
+}
+export const GetDiscussionDetailsResponseBodyCase0EventsItemCase1AuthorCase0 =
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      isOwner: S.optional(S.Boolean),
+      isOrgMember: S.optional(S.Boolean),
+      isBlockedByMe: S.optional(S.Boolean),
+      oauthApp: S.optional(ChangeStatusResponseNewStatusAuthorCase0OauthApp),
+      _id: S.String,
+      avatarUrl: S.String,
+      fullname: S.String,
+      name: S.String,
+      isHf: S.Boolean,
+      isHfAdmin: S.Boolean,
+      isMod: S.Boolean,
+      followerCount: S.optional(S.Number),
+      type: S.String,
+      plan: S.optional(GetDiscussionDetailsResponseBodyCase0EventsItemCase1AuthorCase0Plan),
+      isUserFollowing: S.optional(S.Boolean),
+    }),
+  ).annotate({
+    identifier: "GetDiscussionDetailsResponseBodyCase0EventsItemCase1AuthorCase0",
+  }) as any as S.Schema<GetDiscussionDetailsResponseBodyCase0EventsItemCase1AuthorCase0>;
+
+export type GetDiscussionDetailsResponseBodyCase0EventsItemCase1AuthorCase1OauthAppImageData =
+  ChangeStatusResponseNewStatusAuthorCase0OauthAppImageData;
+export const GetDiscussionDetailsResponseBodyCase0EventsItemCase1AuthorCase1OauthAppImageData =
+  ChangeStatusResponseNewStatusAuthorCase0OauthAppImageData;
+
+export type GetDiscussionDetailsResponseBodyCase0EventsItemCase1AuthorCase1OauthApp =
+  ChangeStatusResponseNewStatusAuthorCase0OauthApp;
+export const GetDiscussionDetailsResponseBodyCase0EventsItemCase1AuthorCase1OauthApp =
+  ChangeStatusResponseNewStatusAuthorCase0OauthApp;
+
+export type GetDiscussionDetailsResponseBodyCase0EventsItemCase1AuthorCase1PrimaryOrgPlan =
   | "team"
   | "enterprise"
   | "plus"
   | "academia";
-export const GetDiscussionDetailsResponseEventsItemCase1AuthorPrimaryOrgPlan = S.String;
+export const GetDiscussionDetailsResponseBodyCase0EventsItemCase1AuthorCase1PrimaryOrgPlan =
+  S.String;
 
-export type GetDiscussionDetailsResponseEventsItemCase1AuthorPrimaryOrgUserRole =
+export type GetDiscussionDetailsResponseBodyCase0EventsItemCase1AuthorCase1PrimaryOrgUserRole =
   | "admin"
   | "write"
   | "contributor"
   | "read"
   | "no_access";
-export const GetDiscussionDetailsResponseEventsItemCase1AuthorPrimaryOrgUserRole = S.String;
+export const GetDiscussionDetailsResponseBodyCase0EventsItemCase1AuthorCase1PrimaryOrgUserRole =
+  S.String;
 
-export interface GetDiscussionDetailsResponseEventsItemCase1AuthorPrimaryOrg {
+export interface GetDiscussionDetailsResponseBodyCase0EventsItemCase1AuthorCase1PrimaryOrg {
   avatarUrl: string;
   fullname: string;
   name: string;
-  type: unknown;
+  type: string;
   isHf: boolean;
   isFollowing?: boolean;
-  plan?: GetDiscussionDetailsResponseEventsItemCase1AuthorPrimaryOrgPlan;
+  plan?: GetDiscussionDetailsResponseBodyCase0EventsItemCase1AuthorCase1PrimaryOrgPlan;
   details?: string;
   hasPrivateMembersList?: boolean;
-  userRole?: GetDiscussionDetailsResponseEventsItemCase1AuthorPrimaryOrgUserRole;
+  userRole?: GetDiscussionDetailsResponseBodyCase0EventsItemCase1AuthorCase1PrimaryOrgUserRole;
   numUsers?: number;
 }
-export const GetDiscussionDetailsResponseEventsItemCase1AuthorPrimaryOrg = /*@__PURE__*/ S.suspend(
-  () =>
+export const GetDiscussionDetailsResponseBodyCase0EventsItemCase1AuthorCase1PrimaryOrg =
+  /*@__PURE__*/ S.suspend(() =>
     S.Struct({
       avatarUrl: S.String,
       fullname: S.String,
       name: S.String,
-      type: S.Unknown,
+      type: S.String,
       isHf: S.Boolean,
       isFollowing: S.optional(S.Boolean),
-      plan: S.optional(GetDiscussionDetailsResponseEventsItemCase1AuthorPrimaryOrgPlan),
+      plan: S.optional(
+        GetDiscussionDetailsResponseBodyCase0EventsItemCase1AuthorCase1PrimaryOrgPlan,
+      ),
       details: S.optional(S.String),
       hasPrivateMembersList: S.optional(S.Boolean),
-      userRole: S.optional(GetDiscussionDetailsResponseEventsItemCase1AuthorPrimaryOrgUserRole),
+      userRole: S.optional(
+        GetDiscussionDetailsResponseBodyCase0EventsItemCase1AuthorCase1PrimaryOrgUserRole,
+      ),
       numUsers: S.optional(S.Number),
     }),
-).annotate({
-  identifier: "GetDiscussionDetailsResponseEventsItemCase1AuthorPrimaryOrg",
-}) as any as S.Schema<GetDiscussionDetailsResponseEventsItemCase1AuthorPrimaryOrg>;
+  ).annotate({
+    identifier: "GetDiscussionDetailsResponseBodyCase0EventsItemCase1AuthorCase1PrimaryOrg",
+  }) as any as S.Schema<GetDiscussionDetailsResponseBodyCase0EventsItemCase1AuthorCase1PrimaryOrg>;
 
-export type GetDiscussionDetailsResponseEventsItemCase1AuthorOauthAppImageData =
-  ChangeStatusResponseNewStatusAuthorOauthAppImageData;
-export const GetDiscussionDetailsResponseEventsItemCase1AuthorOauthAppImageData =
-  ChangeStatusResponseNewStatusAuthorOauthAppImageData;
-
-export type GetDiscussionDetailsResponseEventsItemCase1AuthorOauthApp =
-  ChangeStatusResponseNewStatusAuthorOauthApp;
-export const GetDiscussionDetailsResponseEventsItemCase1AuthorOauthApp =
-  ChangeStatusResponseNewStatusAuthorOauthApp;
-
-export interface GetDiscussionDetailsResponseEventsItemCase1Author {
-  _id?: string;
-  avatarUrl?: string;
-  fullname?: string;
-  name?: string;
-  isHf?: boolean;
-  isHfAdmin?: boolean;
-  isMod?: boolean;
-  followerCount?: number;
-  type?: unknown;
-  plan?: GetDiscussionDetailsResponseEventsItemCase1AuthorPlan;
-  isUserFollowing?: boolean;
-  isPro?: boolean;
-  primaryOrg?: GetDiscussionDetailsResponseEventsItemCase1AuthorPrimaryOrg;
+export interface GetDiscussionDetailsResponseBodyCase0EventsItemCase1AuthorCase1 {
   isOwner?: boolean;
   isOrgMember?: boolean;
   isBlockedByMe?: boolean;
-  oauthApp?: ChangeStatusResponseNewStatusAuthorOauthApp;
+  oauthApp?: ChangeStatusResponseNewStatusAuthorCase0OauthApp;
+  /** A hex string of 24 characters representing an ObjectId. */
+  _id: string;
+  avatarUrl: string;
+  fullname: string;
+  name: string;
+  isHf: boolean;
+  isHfAdmin: boolean;
+  isMod: boolean;
+  followerCount?: number;
+  type: string;
+  isPro: boolean;
+  isUserFollowing?: boolean;
+  primaryOrg?: GetDiscussionDetailsResponseBodyCase0EventsItemCase1AuthorCase1PrimaryOrg;
 }
-export const GetDiscussionDetailsResponseEventsItemCase1Author = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    _id: S.optional(S.String),
-    avatarUrl: S.optional(S.String),
-    fullname: S.optional(S.String),
-    name: S.optional(S.String),
-    isHf: S.optional(S.Boolean),
-    isHfAdmin: S.optional(S.Boolean),
-    isMod: S.optional(S.Boolean),
-    followerCount: S.optional(S.Number),
-    type: S.optional(S.Unknown),
-    plan: S.optional(GetDiscussionDetailsResponseEventsItemCase1AuthorPlan),
-    isUserFollowing: S.optional(S.Boolean),
-    isPro: S.optional(S.Boolean),
-    primaryOrg: S.optional(GetDiscussionDetailsResponseEventsItemCase1AuthorPrimaryOrg),
-    isOwner: S.optional(S.Boolean),
-    isOrgMember: S.optional(S.Boolean),
-    isBlockedByMe: S.optional(S.Boolean),
-    oauthApp: S.optional(ChangeStatusResponseNewStatusAuthorOauthApp),
-  }),
-).annotate({
-  identifier: "GetDiscussionDetailsResponseEventsItemCase1Author",
-}) as any as S.Schema<GetDiscussionDetailsResponseEventsItemCase1Author>;
+export const GetDiscussionDetailsResponseBodyCase0EventsItemCase1AuthorCase1 =
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      isOwner: S.optional(S.Boolean),
+      isOrgMember: S.optional(S.Boolean),
+      isBlockedByMe: S.optional(S.Boolean),
+      oauthApp: S.optional(ChangeStatusResponseNewStatusAuthorCase0OauthApp),
+      _id: S.String,
+      avatarUrl: S.String,
+      fullname: S.String,
+      name: S.String,
+      isHf: S.Boolean,
+      isHfAdmin: S.Boolean,
+      isMod: S.Boolean,
+      followerCount: S.optional(S.Number),
+      type: S.String,
+      isPro: S.Boolean,
+      isUserFollowing: S.optional(S.Boolean),
+      primaryOrg: S.optional(
+        GetDiscussionDetailsResponseBodyCase0EventsItemCase1AuthorCase1PrimaryOrg,
+      ),
+    }),
+  ).annotate({
+    identifier: "GetDiscussionDetailsResponseBodyCase0EventsItemCase1AuthorCase1",
+  }) as any as S.Schema<GetDiscussionDetailsResponseBodyCase0EventsItemCase1AuthorCase1>;
 
-export type GetDiscussionDetailsResponseEventsItemCase1DataStatus =
+export type GetDiscussionDetailsResponseBodyCase0EventsItemCase1Author =
+  | GetDiscussionDetailsResponseBodyCase0EventsItemCase1AuthorCase0
+  | GetDiscussionDetailsResponseBodyCase0EventsItemCase1AuthorCase1;
+export const GetDiscussionDetailsResponseBodyCase0EventsItemCase1Author =
+  S.Unknown as any as S.Schema<GetDiscussionDetailsResponseBodyCase0EventsItemCase1Author>;
+
+export type GetDiscussionDetailsResponseBodyCase0EventsItemCase1DataStatus =
   | "draft"
   | "open"
   | "closed"
   | "merged";
-export const GetDiscussionDetailsResponseEventsItemCase1DataStatus = S.String;
+export const GetDiscussionDetailsResponseBodyCase0EventsItemCase1DataStatus = S.String;
 
-export interface GetDiscussionDetailsResponseEventsItemCase1Data {
-  status: GetDiscussionDetailsResponseEventsItemCase1DataStatus;
+export interface GetDiscussionDetailsResponseBodyCase0EventsItemCase1Data {
+  status: GetDiscussionDetailsResponseBodyCase0EventsItemCase1DataStatus;
   reason?: string;
 }
-export const GetDiscussionDetailsResponseEventsItemCase1Data = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    status: GetDiscussionDetailsResponseEventsItemCase1DataStatus,
-    reason: S.optional(S.String),
-  }),
+export const GetDiscussionDetailsResponseBodyCase0EventsItemCase1Data = /*@__PURE__*/ S.suspend(
+  () =>
+    S.Struct({
+      status: GetDiscussionDetailsResponseBodyCase0EventsItemCase1DataStatus,
+      reason: S.optional(S.String),
+    }),
 ).annotate({
-  identifier: "GetDiscussionDetailsResponseEventsItemCase1Data",
-}) as any as S.Schema<GetDiscussionDetailsResponseEventsItemCase1Data>;
+  identifier: "GetDiscussionDetailsResponseBodyCase0EventsItemCase1Data",
+}) as any as S.Schema<GetDiscussionDetailsResponseBodyCase0EventsItemCase1Data>;
 
-export interface GetDiscussionDetailsResponseEventsItemCase1 {
+export interface GetDiscussionDetailsResponseBodyCase0EventsItemCase1 {
   id: string;
   createdAt: string;
-  author?: GetDiscussionDetailsResponseEventsItemCase1Author;
-  type: unknown;
-  data: GetDiscussionDetailsResponseEventsItemCase1Data;
+  author?: GetDiscussionDetailsResponseBodyCase0EventsItemCase1Author;
+  type: string;
+  data: GetDiscussionDetailsResponseBodyCase0EventsItemCase1Data;
 }
-export const GetDiscussionDetailsResponseEventsItemCase1 = /*@__PURE__*/ S.suspend(() =>
+export const GetDiscussionDetailsResponseBodyCase0EventsItemCase1 = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     id: S.String,
     createdAt: S.String,
-    author: S.optional(GetDiscussionDetailsResponseEventsItemCase1Author),
-    type: S.Unknown,
-    data: GetDiscussionDetailsResponseEventsItemCase1Data,
+    author: S.optional(GetDiscussionDetailsResponseBodyCase0EventsItemCase1Author),
+    type: S.String,
+    data: GetDiscussionDetailsResponseBodyCase0EventsItemCase1Data,
   }),
 ).annotate({
-  identifier: "GetDiscussionDetailsResponseEventsItemCase1",
-}) as any as S.Schema<GetDiscussionDetailsResponseEventsItemCase1>;
+  identifier: "GetDiscussionDetailsResponseBodyCase0EventsItemCase1",
+}) as any as S.Schema<GetDiscussionDetailsResponseBodyCase0EventsItemCase1>;
 
-export type GetDiscussionDetailsResponseEventsItemCase2AuthorPlan =
+export type GetDiscussionDetailsResponseBodyCase0EventsItemCase2AuthorCase0OauthAppImageData =
+  ChangeStatusResponseNewStatusAuthorCase0OauthAppImageData;
+export const GetDiscussionDetailsResponseBodyCase0EventsItemCase2AuthorCase0OauthAppImageData =
+  ChangeStatusResponseNewStatusAuthorCase0OauthAppImageData;
+
+export type GetDiscussionDetailsResponseBodyCase0EventsItemCase2AuthorCase0OauthApp =
+  ChangeStatusResponseNewStatusAuthorCase0OauthApp;
+export const GetDiscussionDetailsResponseBodyCase0EventsItemCase2AuthorCase0OauthApp =
+  ChangeStatusResponseNewStatusAuthorCase0OauthApp;
+
+export type GetDiscussionDetailsResponseBodyCase0EventsItemCase2AuthorCase0Plan =
   | "team"
   | "enterprise"
   | "plus"
   | "academia";
-export const GetDiscussionDetailsResponseEventsItemCase2AuthorPlan = S.String;
+export const GetDiscussionDetailsResponseBodyCase0EventsItemCase2AuthorCase0Plan = S.String;
 
-export type GetDiscussionDetailsResponseEventsItemCase2AuthorPrimaryOrgPlan =
+export interface GetDiscussionDetailsResponseBodyCase0EventsItemCase2AuthorCase0 {
+  isOwner?: boolean;
+  isOrgMember?: boolean;
+  isBlockedByMe?: boolean;
+  oauthApp?: ChangeStatusResponseNewStatusAuthorCase0OauthApp;
+  /** A hex string of 24 characters representing an ObjectId. */
+  _id: string;
+  avatarUrl: string;
+  fullname: string;
+  name: string;
+  isHf: boolean;
+  isHfAdmin: boolean;
+  isMod: boolean;
+  followerCount?: number;
+  type: string;
+  plan?: GetDiscussionDetailsResponseBodyCase0EventsItemCase2AuthorCase0Plan;
+  isUserFollowing?: boolean;
+}
+export const GetDiscussionDetailsResponseBodyCase0EventsItemCase2AuthorCase0 =
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      isOwner: S.optional(S.Boolean),
+      isOrgMember: S.optional(S.Boolean),
+      isBlockedByMe: S.optional(S.Boolean),
+      oauthApp: S.optional(ChangeStatusResponseNewStatusAuthorCase0OauthApp),
+      _id: S.String,
+      avatarUrl: S.String,
+      fullname: S.String,
+      name: S.String,
+      isHf: S.Boolean,
+      isHfAdmin: S.Boolean,
+      isMod: S.Boolean,
+      followerCount: S.optional(S.Number),
+      type: S.String,
+      plan: S.optional(GetDiscussionDetailsResponseBodyCase0EventsItemCase2AuthorCase0Plan),
+      isUserFollowing: S.optional(S.Boolean),
+    }),
+  ).annotate({
+    identifier: "GetDiscussionDetailsResponseBodyCase0EventsItemCase2AuthorCase0",
+  }) as any as S.Schema<GetDiscussionDetailsResponseBodyCase0EventsItemCase2AuthorCase0>;
+
+export type GetDiscussionDetailsResponseBodyCase0EventsItemCase2AuthorCase1OauthAppImageData =
+  ChangeStatusResponseNewStatusAuthorCase0OauthAppImageData;
+export const GetDiscussionDetailsResponseBodyCase0EventsItemCase2AuthorCase1OauthAppImageData =
+  ChangeStatusResponseNewStatusAuthorCase0OauthAppImageData;
+
+export type GetDiscussionDetailsResponseBodyCase0EventsItemCase2AuthorCase1OauthApp =
+  ChangeStatusResponseNewStatusAuthorCase0OauthApp;
+export const GetDiscussionDetailsResponseBodyCase0EventsItemCase2AuthorCase1OauthApp =
+  ChangeStatusResponseNewStatusAuthorCase0OauthApp;
+
+export type GetDiscussionDetailsResponseBodyCase0EventsItemCase2AuthorCase1PrimaryOrgPlan =
   | "team"
   | "enterprise"
   | "plus"
   | "academia";
-export const GetDiscussionDetailsResponseEventsItemCase2AuthorPrimaryOrgPlan = S.String;
+export const GetDiscussionDetailsResponseBodyCase0EventsItemCase2AuthorCase1PrimaryOrgPlan =
+  S.String;
 
-export type GetDiscussionDetailsResponseEventsItemCase2AuthorPrimaryOrgUserRole =
+export type GetDiscussionDetailsResponseBodyCase0EventsItemCase2AuthorCase1PrimaryOrgUserRole =
   | "admin"
   | "write"
   | "contributor"
   | "read"
   | "no_access";
-export const GetDiscussionDetailsResponseEventsItemCase2AuthorPrimaryOrgUserRole = S.String;
+export const GetDiscussionDetailsResponseBodyCase0EventsItemCase2AuthorCase1PrimaryOrgUserRole =
+  S.String;
 
-export interface GetDiscussionDetailsResponseEventsItemCase2AuthorPrimaryOrg {
+export interface GetDiscussionDetailsResponseBodyCase0EventsItemCase2AuthorCase1PrimaryOrg {
   avatarUrl: string;
   fullname: string;
   name: string;
-  type: unknown;
+  type: string;
   isHf: boolean;
   isFollowing?: boolean;
-  plan?: GetDiscussionDetailsResponseEventsItemCase2AuthorPrimaryOrgPlan;
+  plan?: GetDiscussionDetailsResponseBodyCase0EventsItemCase2AuthorCase1PrimaryOrgPlan;
   details?: string;
   hasPrivateMembersList?: boolean;
-  userRole?: GetDiscussionDetailsResponseEventsItemCase2AuthorPrimaryOrgUserRole;
+  userRole?: GetDiscussionDetailsResponseBodyCase0EventsItemCase2AuthorCase1PrimaryOrgUserRole;
   numUsers?: number;
 }
-export const GetDiscussionDetailsResponseEventsItemCase2AuthorPrimaryOrg = /*@__PURE__*/ S.suspend(
-  () =>
+export const GetDiscussionDetailsResponseBodyCase0EventsItemCase2AuthorCase1PrimaryOrg =
+  /*@__PURE__*/ S.suspend(() =>
     S.Struct({
       avatarUrl: S.String,
       fullname: S.String,
       name: S.String,
-      type: S.Unknown,
+      type: S.String,
       isHf: S.Boolean,
       isFollowing: S.optional(S.Boolean),
-      plan: S.optional(GetDiscussionDetailsResponseEventsItemCase2AuthorPrimaryOrgPlan),
+      plan: S.optional(
+        GetDiscussionDetailsResponseBodyCase0EventsItemCase2AuthorCase1PrimaryOrgPlan,
+      ),
       details: S.optional(S.String),
       hasPrivateMembersList: S.optional(S.Boolean),
-      userRole: S.optional(GetDiscussionDetailsResponseEventsItemCase2AuthorPrimaryOrgUserRole),
+      userRole: S.optional(
+        GetDiscussionDetailsResponseBodyCase0EventsItemCase2AuthorCase1PrimaryOrgUserRole,
+      ),
       numUsers: S.optional(S.Number),
     }),
-).annotate({
-  identifier: "GetDiscussionDetailsResponseEventsItemCase2AuthorPrimaryOrg",
-}) as any as S.Schema<GetDiscussionDetailsResponseEventsItemCase2AuthorPrimaryOrg>;
+  ).annotate({
+    identifier: "GetDiscussionDetailsResponseBodyCase0EventsItemCase2AuthorCase1PrimaryOrg",
+  }) as any as S.Schema<GetDiscussionDetailsResponseBodyCase0EventsItemCase2AuthorCase1PrimaryOrg>;
 
-export type GetDiscussionDetailsResponseEventsItemCase2AuthorOauthAppImageData =
-  ChangeStatusResponseNewStatusAuthorOauthAppImageData;
-export const GetDiscussionDetailsResponseEventsItemCase2AuthorOauthAppImageData =
-  ChangeStatusResponseNewStatusAuthorOauthAppImageData;
-
-export type GetDiscussionDetailsResponseEventsItemCase2AuthorOauthApp =
-  ChangeStatusResponseNewStatusAuthorOauthApp;
-export const GetDiscussionDetailsResponseEventsItemCase2AuthorOauthApp =
-  ChangeStatusResponseNewStatusAuthorOauthApp;
-
-export interface GetDiscussionDetailsResponseEventsItemCase2Author {
-  _id?: string;
-  avatarUrl?: string;
-  fullname?: string;
-  name?: string;
-  isHf?: boolean;
-  isHfAdmin?: boolean;
-  isMod?: boolean;
-  followerCount?: number;
-  type?: unknown;
-  plan?: GetDiscussionDetailsResponseEventsItemCase2AuthorPlan;
-  isUserFollowing?: boolean;
-  isPro?: boolean;
-  primaryOrg?: GetDiscussionDetailsResponseEventsItemCase2AuthorPrimaryOrg;
+export interface GetDiscussionDetailsResponseBodyCase0EventsItemCase2AuthorCase1 {
   isOwner?: boolean;
   isOrgMember?: boolean;
   isBlockedByMe?: boolean;
-  oauthApp?: ChangeStatusResponseNewStatusAuthorOauthApp;
+  oauthApp?: ChangeStatusResponseNewStatusAuthorCase0OauthApp;
+  /** A hex string of 24 characters representing an ObjectId. */
+  _id: string;
+  avatarUrl: string;
+  fullname: string;
+  name: string;
+  isHf: boolean;
+  isHfAdmin: boolean;
+  isMod: boolean;
+  followerCount?: number;
+  type: string;
+  isPro: boolean;
+  isUserFollowing?: boolean;
+  primaryOrg?: GetDiscussionDetailsResponseBodyCase0EventsItemCase2AuthorCase1PrimaryOrg;
 }
-export const GetDiscussionDetailsResponseEventsItemCase2Author = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    _id: S.optional(S.String),
-    avatarUrl: S.optional(S.String),
-    fullname: S.optional(S.String),
-    name: S.optional(S.String),
-    isHf: S.optional(S.Boolean),
-    isHfAdmin: S.optional(S.Boolean),
-    isMod: S.optional(S.Boolean),
-    followerCount: S.optional(S.Number),
-    type: S.optional(S.Unknown),
-    plan: S.optional(GetDiscussionDetailsResponseEventsItemCase2AuthorPlan),
-    isUserFollowing: S.optional(S.Boolean),
-    isPro: S.optional(S.Boolean),
-    primaryOrg: S.optional(GetDiscussionDetailsResponseEventsItemCase2AuthorPrimaryOrg),
-    isOwner: S.optional(S.Boolean),
-    isOrgMember: S.optional(S.Boolean),
-    isBlockedByMe: S.optional(S.Boolean),
-    oauthApp: S.optional(ChangeStatusResponseNewStatusAuthorOauthApp),
-  }),
-).annotate({
-  identifier: "GetDiscussionDetailsResponseEventsItemCase2Author",
-}) as any as S.Schema<GetDiscussionDetailsResponseEventsItemCase2Author>;
+export const GetDiscussionDetailsResponseBodyCase0EventsItemCase2AuthorCase1 =
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      isOwner: S.optional(S.Boolean),
+      isOrgMember: S.optional(S.Boolean),
+      isBlockedByMe: S.optional(S.Boolean),
+      oauthApp: S.optional(ChangeStatusResponseNewStatusAuthorCase0OauthApp),
+      _id: S.String,
+      avatarUrl: S.String,
+      fullname: S.String,
+      name: S.String,
+      isHf: S.Boolean,
+      isHfAdmin: S.Boolean,
+      isMod: S.Boolean,
+      followerCount: S.optional(S.Number),
+      type: S.String,
+      isPro: S.Boolean,
+      isUserFollowing: S.optional(S.Boolean),
+      primaryOrg: S.optional(
+        GetDiscussionDetailsResponseBodyCase0EventsItemCase2AuthorCase1PrimaryOrg,
+      ),
+    }),
+  ).annotate({
+    identifier: "GetDiscussionDetailsResponseBodyCase0EventsItemCase2AuthorCase1",
+  }) as any as S.Schema<GetDiscussionDetailsResponseBodyCase0EventsItemCase2AuthorCase1>;
 
-export interface GetDiscussionDetailsResponseEventsItemCase2Data {
+export type GetDiscussionDetailsResponseBodyCase0EventsItemCase2Author =
+  | GetDiscussionDetailsResponseBodyCase0EventsItemCase2AuthorCase0
+  | GetDiscussionDetailsResponseBodyCase0EventsItemCase2AuthorCase1;
+export const GetDiscussionDetailsResponseBodyCase0EventsItemCase2Author =
+  S.Unknown as any as S.Schema<GetDiscussionDetailsResponseBodyCase0EventsItemCase2Author>;
+
+export interface GetDiscussionDetailsResponseBodyCase0EventsItemCase2Data {
   subject: string;
   oid: string;
 }
-export const GetDiscussionDetailsResponseEventsItemCase2Data = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    subject: S.String,
-    oid: S.String,
-  }),
+export const GetDiscussionDetailsResponseBodyCase0EventsItemCase2Data = /*@__PURE__*/ S.suspend(
+  () =>
+    S.Struct({
+      subject: S.String,
+      oid: S.String,
+    }),
 ).annotate({
-  identifier: "GetDiscussionDetailsResponseEventsItemCase2Data",
-}) as any as S.Schema<GetDiscussionDetailsResponseEventsItemCase2Data>;
+  identifier: "GetDiscussionDetailsResponseBodyCase0EventsItemCase2Data",
+}) as any as S.Schema<GetDiscussionDetailsResponseBodyCase0EventsItemCase2Data>;
 
-export interface GetDiscussionDetailsResponseEventsItemCase2 {
+export interface GetDiscussionDetailsResponseBodyCase0EventsItemCase2 {
   id: string;
   createdAt: string;
-  author?: GetDiscussionDetailsResponseEventsItemCase2Author;
-  type: unknown;
-  data: GetDiscussionDetailsResponseEventsItemCase2Data;
+  author?: GetDiscussionDetailsResponseBodyCase0EventsItemCase2Author;
+  type: string;
+  data: GetDiscussionDetailsResponseBodyCase0EventsItemCase2Data;
 }
-export const GetDiscussionDetailsResponseEventsItemCase2 = /*@__PURE__*/ S.suspend(() =>
+export const GetDiscussionDetailsResponseBodyCase0EventsItemCase2 = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     id: S.String,
     createdAt: S.String,
-    author: S.optional(GetDiscussionDetailsResponseEventsItemCase2Author),
-    type: S.Unknown,
-    data: GetDiscussionDetailsResponseEventsItemCase2Data,
+    author: S.optional(GetDiscussionDetailsResponseBodyCase0EventsItemCase2Author),
+    type: S.String,
+    data: GetDiscussionDetailsResponseBodyCase0EventsItemCase2Data,
   }),
 ).annotate({
-  identifier: "GetDiscussionDetailsResponseEventsItemCase2",
-}) as any as S.Schema<GetDiscussionDetailsResponseEventsItemCase2>;
+  identifier: "GetDiscussionDetailsResponseBodyCase0EventsItemCase2",
+}) as any as S.Schema<GetDiscussionDetailsResponseBodyCase0EventsItemCase2>;
 
-export type GetDiscussionDetailsResponseEventsItemCase3AuthorPlan =
+export type GetDiscussionDetailsResponseBodyCase0EventsItemCase3AuthorCase0OauthAppImageData =
+  ChangeStatusResponseNewStatusAuthorCase0OauthAppImageData;
+export const GetDiscussionDetailsResponseBodyCase0EventsItemCase3AuthorCase0OauthAppImageData =
+  ChangeStatusResponseNewStatusAuthorCase0OauthAppImageData;
+
+export type GetDiscussionDetailsResponseBodyCase0EventsItemCase3AuthorCase0OauthApp =
+  ChangeStatusResponseNewStatusAuthorCase0OauthApp;
+export const GetDiscussionDetailsResponseBodyCase0EventsItemCase3AuthorCase0OauthApp =
+  ChangeStatusResponseNewStatusAuthorCase0OauthApp;
+
+export type GetDiscussionDetailsResponseBodyCase0EventsItemCase3AuthorCase0Plan =
   | "team"
   | "enterprise"
   | "plus"
   | "academia";
-export const GetDiscussionDetailsResponseEventsItemCase3AuthorPlan = S.String;
+export const GetDiscussionDetailsResponseBodyCase0EventsItemCase3AuthorCase0Plan = S.String;
 
-export type GetDiscussionDetailsResponseEventsItemCase3AuthorPrimaryOrgPlan =
+export interface GetDiscussionDetailsResponseBodyCase0EventsItemCase3AuthorCase0 {
+  isOwner?: boolean;
+  isOrgMember?: boolean;
+  isBlockedByMe?: boolean;
+  oauthApp?: ChangeStatusResponseNewStatusAuthorCase0OauthApp;
+  /** A hex string of 24 characters representing an ObjectId. */
+  _id: string;
+  avatarUrl: string;
+  fullname: string;
+  name: string;
+  isHf: boolean;
+  isHfAdmin: boolean;
+  isMod: boolean;
+  followerCount?: number;
+  type: string;
+  plan?: GetDiscussionDetailsResponseBodyCase0EventsItemCase3AuthorCase0Plan;
+  isUserFollowing?: boolean;
+}
+export const GetDiscussionDetailsResponseBodyCase0EventsItemCase3AuthorCase0 =
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      isOwner: S.optional(S.Boolean),
+      isOrgMember: S.optional(S.Boolean),
+      isBlockedByMe: S.optional(S.Boolean),
+      oauthApp: S.optional(ChangeStatusResponseNewStatusAuthorCase0OauthApp),
+      _id: S.String,
+      avatarUrl: S.String,
+      fullname: S.String,
+      name: S.String,
+      isHf: S.Boolean,
+      isHfAdmin: S.Boolean,
+      isMod: S.Boolean,
+      followerCount: S.optional(S.Number),
+      type: S.String,
+      plan: S.optional(GetDiscussionDetailsResponseBodyCase0EventsItemCase3AuthorCase0Plan),
+      isUserFollowing: S.optional(S.Boolean),
+    }),
+  ).annotate({
+    identifier: "GetDiscussionDetailsResponseBodyCase0EventsItemCase3AuthorCase0",
+  }) as any as S.Schema<GetDiscussionDetailsResponseBodyCase0EventsItemCase3AuthorCase0>;
+
+export type GetDiscussionDetailsResponseBodyCase0EventsItemCase3AuthorCase1OauthAppImageData =
+  ChangeStatusResponseNewStatusAuthorCase0OauthAppImageData;
+export const GetDiscussionDetailsResponseBodyCase0EventsItemCase3AuthorCase1OauthAppImageData =
+  ChangeStatusResponseNewStatusAuthorCase0OauthAppImageData;
+
+export type GetDiscussionDetailsResponseBodyCase0EventsItemCase3AuthorCase1OauthApp =
+  ChangeStatusResponseNewStatusAuthorCase0OauthApp;
+export const GetDiscussionDetailsResponseBodyCase0EventsItemCase3AuthorCase1OauthApp =
+  ChangeStatusResponseNewStatusAuthorCase0OauthApp;
+
+export type GetDiscussionDetailsResponseBodyCase0EventsItemCase3AuthorCase1PrimaryOrgPlan =
   | "team"
   | "enterprise"
   | "plus"
   | "academia";
-export const GetDiscussionDetailsResponseEventsItemCase3AuthorPrimaryOrgPlan = S.String;
+export const GetDiscussionDetailsResponseBodyCase0EventsItemCase3AuthorCase1PrimaryOrgPlan =
+  S.String;
 
-export type GetDiscussionDetailsResponseEventsItemCase3AuthorPrimaryOrgUserRole =
+export type GetDiscussionDetailsResponseBodyCase0EventsItemCase3AuthorCase1PrimaryOrgUserRole =
   | "admin"
   | "write"
   | "contributor"
   | "read"
   | "no_access";
-export const GetDiscussionDetailsResponseEventsItemCase3AuthorPrimaryOrgUserRole = S.String;
+export const GetDiscussionDetailsResponseBodyCase0EventsItemCase3AuthorCase1PrimaryOrgUserRole =
+  S.String;
 
-export interface GetDiscussionDetailsResponseEventsItemCase3AuthorPrimaryOrg {
+export interface GetDiscussionDetailsResponseBodyCase0EventsItemCase3AuthorCase1PrimaryOrg {
   avatarUrl: string;
   fullname: string;
   name: string;
-  type: unknown;
+  type: string;
   isHf: boolean;
   isFollowing?: boolean;
-  plan?: GetDiscussionDetailsResponseEventsItemCase3AuthorPrimaryOrgPlan;
+  plan?: GetDiscussionDetailsResponseBodyCase0EventsItemCase3AuthorCase1PrimaryOrgPlan;
   details?: string;
   hasPrivateMembersList?: boolean;
-  userRole?: GetDiscussionDetailsResponseEventsItemCase3AuthorPrimaryOrgUserRole;
+  userRole?: GetDiscussionDetailsResponseBodyCase0EventsItemCase3AuthorCase1PrimaryOrgUserRole;
   numUsers?: number;
 }
-export const GetDiscussionDetailsResponseEventsItemCase3AuthorPrimaryOrg = /*@__PURE__*/ S.suspend(
-  () =>
+export const GetDiscussionDetailsResponseBodyCase0EventsItemCase3AuthorCase1PrimaryOrg =
+  /*@__PURE__*/ S.suspend(() =>
     S.Struct({
       avatarUrl: S.String,
       fullname: S.String,
       name: S.String,
-      type: S.Unknown,
+      type: S.String,
       isHf: S.Boolean,
       isFollowing: S.optional(S.Boolean),
-      plan: S.optional(GetDiscussionDetailsResponseEventsItemCase3AuthorPrimaryOrgPlan),
+      plan: S.optional(
+        GetDiscussionDetailsResponseBodyCase0EventsItemCase3AuthorCase1PrimaryOrgPlan,
+      ),
       details: S.optional(S.String),
       hasPrivateMembersList: S.optional(S.Boolean),
-      userRole: S.optional(GetDiscussionDetailsResponseEventsItemCase3AuthorPrimaryOrgUserRole),
+      userRole: S.optional(
+        GetDiscussionDetailsResponseBodyCase0EventsItemCase3AuthorCase1PrimaryOrgUserRole,
+      ),
       numUsers: S.optional(S.Number),
     }),
-).annotate({
-  identifier: "GetDiscussionDetailsResponseEventsItemCase3AuthorPrimaryOrg",
-}) as any as S.Schema<GetDiscussionDetailsResponseEventsItemCase3AuthorPrimaryOrg>;
+  ).annotate({
+    identifier: "GetDiscussionDetailsResponseBodyCase0EventsItemCase3AuthorCase1PrimaryOrg",
+  }) as any as S.Schema<GetDiscussionDetailsResponseBodyCase0EventsItemCase3AuthorCase1PrimaryOrg>;
 
-export type GetDiscussionDetailsResponseEventsItemCase3AuthorOauthAppImageData =
-  ChangeStatusResponseNewStatusAuthorOauthAppImageData;
-export const GetDiscussionDetailsResponseEventsItemCase3AuthorOauthAppImageData =
-  ChangeStatusResponseNewStatusAuthorOauthAppImageData;
-
-export type GetDiscussionDetailsResponseEventsItemCase3AuthorOauthApp =
-  ChangeStatusResponseNewStatusAuthorOauthApp;
-export const GetDiscussionDetailsResponseEventsItemCase3AuthorOauthApp =
-  ChangeStatusResponseNewStatusAuthorOauthApp;
-
-export interface GetDiscussionDetailsResponseEventsItemCase3Author {
-  _id?: string;
-  avatarUrl?: string;
-  fullname?: string;
-  name?: string;
-  isHf?: boolean;
-  isHfAdmin?: boolean;
-  isMod?: boolean;
-  followerCount?: number;
-  type?: unknown;
-  plan?: GetDiscussionDetailsResponseEventsItemCase3AuthorPlan;
-  isUserFollowing?: boolean;
-  isPro?: boolean;
-  primaryOrg?: GetDiscussionDetailsResponseEventsItemCase3AuthorPrimaryOrg;
+export interface GetDiscussionDetailsResponseBodyCase0EventsItemCase3AuthorCase1 {
   isOwner?: boolean;
   isOrgMember?: boolean;
   isBlockedByMe?: boolean;
-  oauthApp?: ChangeStatusResponseNewStatusAuthorOauthApp;
+  oauthApp?: ChangeStatusResponseNewStatusAuthorCase0OauthApp;
+  /** A hex string of 24 characters representing an ObjectId. */
+  _id: string;
+  avatarUrl: string;
+  fullname: string;
+  name: string;
+  isHf: boolean;
+  isHfAdmin: boolean;
+  isMod: boolean;
+  followerCount?: number;
+  type: string;
+  isPro: boolean;
+  isUserFollowing?: boolean;
+  primaryOrg?: GetDiscussionDetailsResponseBodyCase0EventsItemCase3AuthorCase1PrimaryOrg;
 }
-export const GetDiscussionDetailsResponseEventsItemCase3Author = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    _id: S.optional(S.String),
-    avatarUrl: S.optional(S.String),
-    fullname: S.optional(S.String),
-    name: S.optional(S.String),
-    isHf: S.optional(S.Boolean),
-    isHfAdmin: S.optional(S.Boolean),
-    isMod: S.optional(S.Boolean),
-    followerCount: S.optional(S.Number),
-    type: S.optional(S.Unknown),
-    plan: S.optional(GetDiscussionDetailsResponseEventsItemCase3AuthorPlan),
-    isUserFollowing: S.optional(S.Boolean),
-    isPro: S.optional(S.Boolean),
-    primaryOrg: S.optional(GetDiscussionDetailsResponseEventsItemCase3AuthorPrimaryOrg),
-    isOwner: S.optional(S.Boolean),
-    isOrgMember: S.optional(S.Boolean),
-    isBlockedByMe: S.optional(S.Boolean),
-    oauthApp: S.optional(ChangeStatusResponseNewStatusAuthorOauthApp),
-  }),
-).annotate({
-  identifier: "GetDiscussionDetailsResponseEventsItemCase3Author",
-}) as any as S.Schema<GetDiscussionDetailsResponseEventsItemCase3Author>;
+export const GetDiscussionDetailsResponseBodyCase0EventsItemCase3AuthorCase1 =
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      isOwner: S.optional(S.Boolean),
+      isOrgMember: S.optional(S.Boolean),
+      isBlockedByMe: S.optional(S.Boolean),
+      oauthApp: S.optional(ChangeStatusResponseNewStatusAuthorCase0OauthApp),
+      _id: S.String,
+      avatarUrl: S.String,
+      fullname: S.String,
+      name: S.String,
+      isHf: S.Boolean,
+      isHfAdmin: S.Boolean,
+      isMod: S.Boolean,
+      followerCount: S.optional(S.Number),
+      type: S.String,
+      isPro: S.Boolean,
+      isUserFollowing: S.optional(S.Boolean),
+      primaryOrg: S.optional(
+        GetDiscussionDetailsResponseBodyCase0EventsItemCase3AuthorCase1PrimaryOrg,
+      ),
+    }),
+  ).annotate({
+    identifier: "GetDiscussionDetailsResponseBodyCase0EventsItemCase3AuthorCase1",
+  }) as any as S.Schema<GetDiscussionDetailsResponseBodyCase0EventsItemCase3AuthorCase1>;
 
-export type GetDiscussionDetailsResponseEventsItemCase3Data = ChangeTitleResponseNewTitleData;
-export const GetDiscussionDetailsResponseEventsItemCase3Data = ChangeTitleResponseNewTitleData;
+export type GetDiscussionDetailsResponseBodyCase0EventsItemCase3Author =
+  | GetDiscussionDetailsResponseBodyCase0EventsItemCase3AuthorCase0
+  | GetDiscussionDetailsResponseBodyCase0EventsItemCase3AuthorCase1;
+export const GetDiscussionDetailsResponseBodyCase0EventsItemCase3Author =
+  S.Unknown as any as S.Schema<GetDiscussionDetailsResponseBodyCase0EventsItemCase3Author>;
 
-export interface GetDiscussionDetailsResponseEventsItemCase3 {
+export type GetDiscussionDetailsResponseBodyCase0EventsItemCase3Data =
+  ChangeTitleResponseNewTitleData;
+export const GetDiscussionDetailsResponseBodyCase0EventsItemCase3Data =
+  ChangeTitleResponseNewTitleData;
+
+export interface GetDiscussionDetailsResponseBodyCase0EventsItemCase3 {
   id: string;
   createdAt: string;
-  author?: GetDiscussionDetailsResponseEventsItemCase3Author;
-  type: unknown;
+  author?: GetDiscussionDetailsResponseBodyCase0EventsItemCase3Author;
+  type: string;
   data: ChangeTitleResponseNewTitleData;
 }
-export const GetDiscussionDetailsResponseEventsItemCase3 = /*@__PURE__*/ S.suspend(() =>
+export const GetDiscussionDetailsResponseBodyCase0EventsItemCase3 = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     id: S.String,
     createdAt: S.String,
-    author: S.optional(GetDiscussionDetailsResponseEventsItemCase3Author),
-    type: S.Unknown,
+    author: S.optional(GetDiscussionDetailsResponseBodyCase0EventsItemCase3Author),
+    type: S.String,
     data: ChangeTitleResponseNewTitleData,
   }),
 ).annotate({
-  identifier: "GetDiscussionDetailsResponseEventsItemCase3",
-}) as any as S.Schema<GetDiscussionDetailsResponseEventsItemCase3>;
+  identifier: "GetDiscussionDetailsResponseBodyCase0EventsItemCase3",
+}) as any as S.Schema<GetDiscussionDetailsResponseBodyCase0EventsItemCase3>;
 
-export type GetDiscussionDetailsResponseEventsItemCase4AuthorPlan =
+export type GetDiscussionDetailsResponseBodyCase0EventsItemCase4AuthorCase0OauthAppImageData =
+  ChangeStatusResponseNewStatusAuthorCase0OauthAppImageData;
+export const GetDiscussionDetailsResponseBodyCase0EventsItemCase4AuthorCase0OauthAppImageData =
+  ChangeStatusResponseNewStatusAuthorCase0OauthAppImageData;
+
+export type GetDiscussionDetailsResponseBodyCase0EventsItemCase4AuthorCase0OauthApp =
+  ChangeStatusResponseNewStatusAuthorCase0OauthApp;
+export const GetDiscussionDetailsResponseBodyCase0EventsItemCase4AuthorCase0OauthApp =
+  ChangeStatusResponseNewStatusAuthorCase0OauthApp;
+
+export type GetDiscussionDetailsResponseBodyCase0EventsItemCase4AuthorCase0Plan =
   | "team"
   | "enterprise"
   | "plus"
   | "academia";
-export const GetDiscussionDetailsResponseEventsItemCase4AuthorPlan = S.String;
+export const GetDiscussionDetailsResponseBodyCase0EventsItemCase4AuthorCase0Plan = S.String;
 
-export type GetDiscussionDetailsResponseEventsItemCase4AuthorPrimaryOrgPlan =
+export interface GetDiscussionDetailsResponseBodyCase0EventsItemCase4AuthorCase0 {
+  isOwner?: boolean;
+  isOrgMember?: boolean;
+  isBlockedByMe?: boolean;
+  oauthApp?: ChangeStatusResponseNewStatusAuthorCase0OauthApp;
+  /** A hex string of 24 characters representing an ObjectId. */
+  _id: string;
+  avatarUrl: string;
+  fullname: string;
+  name: string;
+  isHf: boolean;
+  isHfAdmin: boolean;
+  isMod: boolean;
+  followerCount?: number;
+  type: string;
+  plan?: GetDiscussionDetailsResponseBodyCase0EventsItemCase4AuthorCase0Plan;
+  isUserFollowing?: boolean;
+}
+export const GetDiscussionDetailsResponseBodyCase0EventsItemCase4AuthorCase0 =
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      isOwner: S.optional(S.Boolean),
+      isOrgMember: S.optional(S.Boolean),
+      isBlockedByMe: S.optional(S.Boolean),
+      oauthApp: S.optional(ChangeStatusResponseNewStatusAuthorCase0OauthApp),
+      _id: S.String,
+      avatarUrl: S.String,
+      fullname: S.String,
+      name: S.String,
+      isHf: S.Boolean,
+      isHfAdmin: S.Boolean,
+      isMod: S.Boolean,
+      followerCount: S.optional(S.Number),
+      type: S.String,
+      plan: S.optional(GetDiscussionDetailsResponseBodyCase0EventsItemCase4AuthorCase0Plan),
+      isUserFollowing: S.optional(S.Boolean),
+    }),
+  ).annotate({
+    identifier: "GetDiscussionDetailsResponseBodyCase0EventsItemCase4AuthorCase0",
+  }) as any as S.Schema<GetDiscussionDetailsResponseBodyCase0EventsItemCase4AuthorCase0>;
+
+export type GetDiscussionDetailsResponseBodyCase0EventsItemCase4AuthorCase1OauthAppImageData =
+  ChangeStatusResponseNewStatusAuthorCase0OauthAppImageData;
+export const GetDiscussionDetailsResponseBodyCase0EventsItemCase4AuthorCase1OauthAppImageData =
+  ChangeStatusResponseNewStatusAuthorCase0OauthAppImageData;
+
+export type GetDiscussionDetailsResponseBodyCase0EventsItemCase4AuthorCase1OauthApp =
+  ChangeStatusResponseNewStatusAuthorCase0OauthApp;
+export const GetDiscussionDetailsResponseBodyCase0EventsItemCase4AuthorCase1OauthApp =
+  ChangeStatusResponseNewStatusAuthorCase0OauthApp;
+
+export type GetDiscussionDetailsResponseBodyCase0EventsItemCase4AuthorCase1PrimaryOrgPlan =
   | "team"
   | "enterprise"
   | "plus"
   | "academia";
-export const GetDiscussionDetailsResponseEventsItemCase4AuthorPrimaryOrgPlan = S.String;
+export const GetDiscussionDetailsResponseBodyCase0EventsItemCase4AuthorCase1PrimaryOrgPlan =
+  S.String;
 
-export type GetDiscussionDetailsResponseEventsItemCase4AuthorPrimaryOrgUserRole =
+export type GetDiscussionDetailsResponseBodyCase0EventsItemCase4AuthorCase1PrimaryOrgUserRole =
   | "admin"
   | "write"
   | "contributor"
   | "read"
   | "no_access";
-export const GetDiscussionDetailsResponseEventsItemCase4AuthorPrimaryOrgUserRole = S.String;
+export const GetDiscussionDetailsResponseBodyCase0EventsItemCase4AuthorCase1PrimaryOrgUserRole =
+  S.String;
 
-export interface GetDiscussionDetailsResponseEventsItemCase4AuthorPrimaryOrg {
+export interface GetDiscussionDetailsResponseBodyCase0EventsItemCase4AuthorCase1PrimaryOrg {
   avatarUrl: string;
   fullname: string;
   name: string;
-  type: unknown;
+  type: string;
   isHf: boolean;
   isFollowing?: boolean;
-  plan?: GetDiscussionDetailsResponseEventsItemCase4AuthorPrimaryOrgPlan;
+  plan?: GetDiscussionDetailsResponseBodyCase0EventsItemCase4AuthorCase1PrimaryOrgPlan;
   details?: string;
   hasPrivateMembersList?: boolean;
-  userRole?: GetDiscussionDetailsResponseEventsItemCase4AuthorPrimaryOrgUserRole;
+  userRole?: GetDiscussionDetailsResponseBodyCase0EventsItemCase4AuthorCase1PrimaryOrgUserRole;
   numUsers?: number;
 }
-export const GetDiscussionDetailsResponseEventsItemCase4AuthorPrimaryOrg = /*@__PURE__*/ S.suspend(
-  () =>
+export const GetDiscussionDetailsResponseBodyCase0EventsItemCase4AuthorCase1PrimaryOrg =
+  /*@__PURE__*/ S.suspend(() =>
     S.Struct({
       avatarUrl: S.String,
       fullname: S.String,
       name: S.String,
-      type: S.Unknown,
+      type: S.String,
       isHf: S.Boolean,
       isFollowing: S.optional(S.Boolean),
-      plan: S.optional(GetDiscussionDetailsResponseEventsItemCase4AuthorPrimaryOrgPlan),
+      plan: S.optional(
+        GetDiscussionDetailsResponseBodyCase0EventsItemCase4AuthorCase1PrimaryOrgPlan,
+      ),
       details: S.optional(S.String),
       hasPrivateMembersList: S.optional(S.Boolean),
-      userRole: S.optional(GetDiscussionDetailsResponseEventsItemCase4AuthorPrimaryOrgUserRole),
+      userRole: S.optional(
+        GetDiscussionDetailsResponseBodyCase0EventsItemCase4AuthorCase1PrimaryOrgUserRole,
+      ),
       numUsers: S.optional(S.Number),
     }),
-).annotate({
-  identifier: "GetDiscussionDetailsResponseEventsItemCase4AuthorPrimaryOrg",
-}) as any as S.Schema<GetDiscussionDetailsResponseEventsItemCase4AuthorPrimaryOrg>;
+  ).annotate({
+    identifier: "GetDiscussionDetailsResponseBodyCase0EventsItemCase4AuthorCase1PrimaryOrg",
+  }) as any as S.Schema<GetDiscussionDetailsResponseBodyCase0EventsItemCase4AuthorCase1PrimaryOrg>;
 
-export type GetDiscussionDetailsResponseEventsItemCase4AuthorOauthAppImageData =
-  ChangeStatusResponseNewStatusAuthorOauthAppImageData;
-export const GetDiscussionDetailsResponseEventsItemCase4AuthorOauthAppImageData =
-  ChangeStatusResponseNewStatusAuthorOauthAppImageData;
-
-export type GetDiscussionDetailsResponseEventsItemCase4AuthorOauthApp =
-  ChangeStatusResponseNewStatusAuthorOauthApp;
-export const GetDiscussionDetailsResponseEventsItemCase4AuthorOauthApp =
-  ChangeStatusResponseNewStatusAuthorOauthApp;
-
-export interface GetDiscussionDetailsResponseEventsItemCase4Author {
-  _id?: string;
-  avatarUrl?: string;
-  fullname?: string;
-  name?: string;
-  isHf?: boolean;
-  isHfAdmin?: boolean;
-  isMod?: boolean;
-  followerCount?: number;
-  type?: unknown;
-  plan?: GetDiscussionDetailsResponseEventsItemCase4AuthorPlan;
-  isUserFollowing?: boolean;
-  isPro?: boolean;
-  primaryOrg?: GetDiscussionDetailsResponseEventsItemCase4AuthorPrimaryOrg;
+export interface GetDiscussionDetailsResponseBodyCase0EventsItemCase4AuthorCase1 {
   isOwner?: boolean;
   isOrgMember?: boolean;
   isBlockedByMe?: boolean;
-  oauthApp?: ChangeStatusResponseNewStatusAuthorOauthApp;
+  oauthApp?: ChangeStatusResponseNewStatusAuthorCase0OauthApp;
+  /** A hex string of 24 characters representing an ObjectId. */
+  _id: string;
+  avatarUrl: string;
+  fullname: string;
+  name: string;
+  isHf: boolean;
+  isHfAdmin: boolean;
+  isMod: boolean;
+  followerCount?: number;
+  type: string;
+  isPro: boolean;
+  isUserFollowing?: boolean;
+  primaryOrg?: GetDiscussionDetailsResponseBodyCase0EventsItemCase4AuthorCase1PrimaryOrg;
 }
-export const GetDiscussionDetailsResponseEventsItemCase4Author = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    _id: S.optional(S.String),
-    avatarUrl: S.optional(S.String),
-    fullname: S.optional(S.String),
-    name: S.optional(S.String),
-    isHf: S.optional(S.Boolean),
-    isHfAdmin: S.optional(S.Boolean),
-    isMod: S.optional(S.Boolean),
-    followerCount: S.optional(S.Number),
-    type: S.optional(S.Unknown),
-    plan: S.optional(GetDiscussionDetailsResponseEventsItemCase4AuthorPlan),
-    isUserFollowing: S.optional(S.Boolean),
-    isPro: S.optional(S.Boolean),
-    primaryOrg: S.optional(GetDiscussionDetailsResponseEventsItemCase4AuthorPrimaryOrg),
-    isOwner: S.optional(S.Boolean),
-    isOrgMember: S.optional(S.Boolean),
-    isBlockedByMe: S.optional(S.Boolean),
-    oauthApp: S.optional(ChangeStatusResponseNewStatusAuthorOauthApp),
-  }),
-).annotate({
-  identifier: "GetDiscussionDetailsResponseEventsItemCase4Author",
-}) as any as S.Schema<GetDiscussionDetailsResponseEventsItemCase4Author>;
+export const GetDiscussionDetailsResponseBodyCase0EventsItemCase4AuthorCase1 =
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      isOwner: S.optional(S.Boolean),
+      isOrgMember: S.optional(S.Boolean),
+      isBlockedByMe: S.optional(S.Boolean),
+      oauthApp: S.optional(ChangeStatusResponseNewStatusAuthorCase0OauthApp),
+      _id: S.String,
+      avatarUrl: S.String,
+      fullname: S.String,
+      name: S.String,
+      isHf: S.Boolean,
+      isHfAdmin: S.Boolean,
+      isMod: S.Boolean,
+      followerCount: S.optional(S.Number),
+      type: S.String,
+      isPro: S.Boolean,
+      isUserFollowing: S.optional(S.Boolean),
+      primaryOrg: S.optional(
+        GetDiscussionDetailsResponseBodyCase0EventsItemCase4AuthorCase1PrimaryOrg,
+      ),
+    }),
+  ).annotate({
+    identifier: "GetDiscussionDetailsResponseBodyCase0EventsItemCase4AuthorCase1",
+  }) as any as S.Schema<GetDiscussionDetailsResponseBodyCase0EventsItemCase4AuthorCase1>;
 
-export interface GetDiscussionDetailsResponseEventsItemCase4Data {
+export type GetDiscussionDetailsResponseBodyCase0EventsItemCase4Author =
+  | GetDiscussionDetailsResponseBodyCase0EventsItemCase4AuthorCase0
+  | GetDiscussionDetailsResponseBodyCase0EventsItemCase4AuthorCase1;
+export const GetDiscussionDetailsResponseBodyCase0EventsItemCase4Author =
+  S.Unknown as any as S.Schema<GetDiscussionDetailsResponseBodyCase0EventsItemCase4Author>;
+
+export interface GetDiscussionDetailsResponseBodyCase0EventsItemCase4Data {
   pinned: boolean;
 }
-export const GetDiscussionDetailsResponseEventsItemCase4Data = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    pinned: S.Boolean,
-  }),
+export const GetDiscussionDetailsResponseBodyCase0EventsItemCase4Data = /*@__PURE__*/ S.suspend(
+  () =>
+    S.Struct({
+      pinned: S.Boolean,
+    }),
 ).annotate({
-  identifier: "GetDiscussionDetailsResponseEventsItemCase4Data",
-}) as any as S.Schema<GetDiscussionDetailsResponseEventsItemCase4Data>;
+  identifier: "GetDiscussionDetailsResponseBodyCase0EventsItemCase4Data",
+}) as any as S.Schema<GetDiscussionDetailsResponseBodyCase0EventsItemCase4Data>;
 
-export interface GetDiscussionDetailsResponseEventsItemCase4 {
+export interface GetDiscussionDetailsResponseBodyCase0EventsItemCase4 {
   id: string;
   createdAt: string;
-  author?: GetDiscussionDetailsResponseEventsItemCase4Author;
-  type: unknown;
-  data: GetDiscussionDetailsResponseEventsItemCase4Data;
+  author?: GetDiscussionDetailsResponseBodyCase0EventsItemCase4Author;
+  type: string;
+  data: GetDiscussionDetailsResponseBodyCase0EventsItemCase4Data;
 }
-export const GetDiscussionDetailsResponseEventsItemCase4 = /*@__PURE__*/ S.suspend(() =>
+export const GetDiscussionDetailsResponseBodyCase0EventsItemCase4 = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     id: S.String,
     createdAt: S.String,
-    author: S.optional(GetDiscussionDetailsResponseEventsItemCase4Author),
-    type: S.Unknown,
-    data: GetDiscussionDetailsResponseEventsItemCase4Data,
+    author: S.optional(GetDiscussionDetailsResponseBodyCase0EventsItemCase4Author),
+    type: S.String,
+    data: GetDiscussionDetailsResponseBodyCase0EventsItemCase4Data,
   }),
 ).annotate({
-  identifier: "GetDiscussionDetailsResponseEventsItemCase4",
-}) as any as S.Schema<GetDiscussionDetailsResponseEventsItemCase4>;
+  identifier: "GetDiscussionDetailsResponseBodyCase0EventsItemCase4",
+}) as any as S.Schema<GetDiscussionDetailsResponseBodyCase0EventsItemCase4>;
 
-export type GetDiscussionDetailsResponseEventsItemCase5AuthorPlan =
+export type GetDiscussionDetailsResponseBodyCase0EventsItemCase5AuthorCase0OauthAppImageData =
+  ChangeStatusResponseNewStatusAuthorCase0OauthAppImageData;
+export const GetDiscussionDetailsResponseBodyCase0EventsItemCase5AuthorCase0OauthAppImageData =
+  ChangeStatusResponseNewStatusAuthorCase0OauthAppImageData;
+
+export type GetDiscussionDetailsResponseBodyCase0EventsItemCase5AuthorCase0OauthApp =
+  ChangeStatusResponseNewStatusAuthorCase0OauthApp;
+export const GetDiscussionDetailsResponseBodyCase0EventsItemCase5AuthorCase0OauthApp =
+  ChangeStatusResponseNewStatusAuthorCase0OauthApp;
+
+export type GetDiscussionDetailsResponseBodyCase0EventsItemCase5AuthorCase0Plan =
   | "team"
   | "enterprise"
   | "plus"
   | "academia";
-export const GetDiscussionDetailsResponseEventsItemCase5AuthorPlan = S.String;
+export const GetDiscussionDetailsResponseBodyCase0EventsItemCase5AuthorCase0Plan = S.String;
 
-export type GetDiscussionDetailsResponseEventsItemCase5AuthorPrimaryOrgPlan =
+export interface GetDiscussionDetailsResponseBodyCase0EventsItemCase5AuthorCase0 {
+  isOwner?: boolean;
+  isOrgMember?: boolean;
+  isBlockedByMe?: boolean;
+  oauthApp?: ChangeStatusResponseNewStatusAuthorCase0OauthApp;
+  /** A hex string of 24 characters representing an ObjectId. */
+  _id: string;
+  avatarUrl: string;
+  fullname: string;
+  name: string;
+  isHf: boolean;
+  isHfAdmin: boolean;
+  isMod: boolean;
+  followerCount?: number;
+  type: string;
+  plan?: GetDiscussionDetailsResponseBodyCase0EventsItemCase5AuthorCase0Plan;
+  isUserFollowing?: boolean;
+}
+export const GetDiscussionDetailsResponseBodyCase0EventsItemCase5AuthorCase0 =
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      isOwner: S.optional(S.Boolean),
+      isOrgMember: S.optional(S.Boolean),
+      isBlockedByMe: S.optional(S.Boolean),
+      oauthApp: S.optional(ChangeStatusResponseNewStatusAuthorCase0OauthApp),
+      _id: S.String,
+      avatarUrl: S.String,
+      fullname: S.String,
+      name: S.String,
+      isHf: S.Boolean,
+      isHfAdmin: S.Boolean,
+      isMod: S.Boolean,
+      followerCount: S.optional(S.Number),
+      type: S.String,
+      plan: S.optional(GetDiscussionDetailsResponseBodyCase0EventsItemCase5AuthorCase0Plan),
+      isUserFollowing: S.optional(S.Boolean),
+    }),
+  ).annotate({
+    identifier: "GetDiscussionDetailsResponseBodyCase0EventsItemCase5AuthorCase0",
+  }) as any as S.Schema<GetDiscussionDetailsResponseBodyCase0EventsItemCase5AuthorCase0>;
+
+export type GetDiscussionDetailsResponseBodyCase0EventsItemCase5AuthorCase1OauthAppImageData =
+  ChangeStatusResponseNewStatusAuthorCase0OauthAppImageData;
+export const GetDiscussionDetailsResponseBodyCase0EventsItemCase5AuthorCase1OauthAppImageData =
+  ChangeStatusResponseNewStatusAuthorCase0OauthAppImageData;
+
+export type GetDiscussionDetailsResponseBodyCase0EventsItemCase5AuthorCase1OauthApp =
+  ChangeStatusResponseNewStatusAuthorCase0OauthApp;
+export const GetDiscussionDetailsResponseBodyCase0EventsItemCase5AuthorCase1OauthApp =
+  ChangeStatusResponseNewStatusAuthorCase0OauthApp;
+
+export type GetDiscussionDetailsResponseBodyCase0EventsItemCase5AuthorCase1PrimaryOrgPlan =
   | "team"
   | "enterprise"
   | "plus"
   | "academia";
-export const GetDiscussionDetailsResponseEventsItemCase5AuthorPrimaryOrgPlan = S.String;
+export const GetDiscussionDetailsResponseBodyCase0EventsItemCase5AuthorCase1PrimaryOrgPlan =
+  S.String;
 
-export type GetDiscussionDetailsResponseEventsItemCase5AuthorPrimaryOrgUserRole =
+export type GetDiscussionDetailsResponseBodyCase0EventsItemCase5AuthorCase1PrimaryOrgUserRole =
   | "admin"
   | "write"
   | "contributor"
   | "read"
   | "no_access";
-export const GetDiscussionDetailsResponseEventsItemCase5AuthorPrimaryOrgUserRole = S.String;
+export const GetDiscussionDetailsResponseBodyCase0EventsItemCase5AuthorCase1PrimaryOrgUserRole =
+  S.String;
 
-export interface GetDiscussionDetailsResponseEventsItemCase5AuthorPrimaryOrg {
+export interface GetDiscussionDetailsResponseBodyCase0EventsItemCase5AuthorCase1PrimaryOrg {
   avatarUrl: string;
   fullname: string;
   name: string;
-  type: unknown;
+  type: string;
   isHf: boolean;
   isFollowing?: boolean;
-  plan?: GetDiscussionDetailsResponseEventsItemCase5AuthorPrimaryOrgPlan;
+  plan?: GetDiscussionDetailsResponseBodyCase0EventsItemCase5AuthorCase1PrimaryOrgPlan;
   details?: string;
   hasPrivateMembersList?: boolean;
-  userRole?: GetDiscussionDetailsResponseEventsItemCase5AuthorPrimaryOrgUserRole;
+  userRole?: GetDiscussionDetailsResponseBodyCase0EventsItemCase5AuthorCase1PrimaryOrgUserRole;
   numUsers?: number;
 }
-export const GetDiscussionDetailsResponseEventsItemCase5AuthorPrimaryOrg = /*@__PURE__*/ S.suspend(
-  () =>
+export const GetDiscussionDetailsResponseBodyCase0EventsItemCase5AuthorCase1PrimaryOrg =
+  /*@__PURE__*/ S.suspend(() =>
     S.Struct({
       avatarUrl: S.String,
       fullname: S.String,
       name: S.String,
-      type: S.Unknown,
+      type: S.String,
       isHf: S.Boolean,
       isFollowing: S.optional(S.Boolean),
-      plan: S.optional(GetDiscussionDetailsResponseEventsItemCase5AuthorPrimaryOrgPlan),
+      plan: S.optional(
+        GetDiscussionDetailsResponseBodyCase0EventsItemCase5AuthorCase1PrimaryOrgPlan,
+      ),
       details: S.optional(S.String),
       hasPrivateMembersList: S.optional(S.Boolean),
-      userRole: S.optional(GetDiscussionDetailsResponseEventsItemCase5AuthorPrimaryOrgUserRole),
+      userRole: S.optional(
+        GetDiscussionDetailsResponseBodyCase0EventsItemCase5AuthorCase1PrimaryOrgUserRole,
+      ),
       numUsers: S.optional(S.Number),
     }),
-).annotate({
-  identifier: "GetDiscussionDetailsResponseEventsItemCase5AuthorPrimaryOrg",
-}) as any as S.Schema<GetDiscussionDetailsResponseEventsItemCase5AuthorPrimaryOrg>;
+  ).annotate({
+    identifier: "GetDiscussionDetailsResponseBodyCase0EventsItemCase5AuthorCase1PrimaryOrg",
+  }) as any as S.Schema<GetDiscussionDetailsResponseBodyCase0EventsItemCase5AuthorCase1PrimaryOrg>;
 
-export type GetDiscussionDetailsResponseEventsItemCase5AuthorOauthAppImageData =
-  ChangeStatusResponseNewStatusAuthorOauthAppImageData;
-export const GetDiscussionDetailsResponseEventsItemCase5AuthorOauthAppImageData =
-  ChangeStatusResponseNewStatusAuthorOauthAppImageData;
-
-export type GetDiscussionDetailsResponseEventsItemCase5AuthorOauthApp =
-  ChangeStatusResponseNewStatusAuthorOauthApp;
-export const GetDiscussionDetailsResponseEventsItemCase5AuthorOauthApp =
-  ChangeStatusResponseNewStatusAuthorOauthApp;
-
-export interface GetDiscussionDetailsResponseEventsItemCase5Author {
-  _id?: string;
-  avatarUrl?: string;
-  fullname?: string;
-  name?: string;
-  isHf?: boolean;
-  isHfAdmin?: boolean;
-  isMod?: boolean;
-  followerCount?: number;
-  type?: unknown;
-  plan?: GetDiscussionDetailsResponseEventsItemCase5AuthorPlan;
-  isUserFollowing?: boolean;
-  isPro?: boolean;
-  primaryOrg?: GetDiscussionDetailsResponseEventsItemCase5AuthorPrimaryOrg;
+export interface GetDiscussionDetailsResponseBodyCase0EventsItemCase5AuthorCase1 {
   isOwner?: boolean;
   isOrgMember?: boolean;
   isBlockedByMe?: boolean;
-  oauthApp?: ChangeStatusResponseNewStatusAuthorOauthApp;
+  oauthApp?: ChangeStatusResponseNewStatusAuthorCase0OauthApp;
+  /** A hex string of 24 characters representing an ObjectId. */
+  _id: string;
+  avatarUrl: string;
+  fullname: string;
+  name: string;
+  isHf: boolean;
+  isHfAdmin: boolean;
+  isMod: boolean;
+  followerCount?: number;
+  type: string;
+  isPro: boolean;
+  isUserFollowing?: boolean;
+  primaryOrg?: GetDiscussionDetailsResponseBodyCase0EventsItemCase5AuthorCase1PrimaryOrg;
 }
-export const GetDiscussionDetailsResponseEventsItemCase5Author = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    _id: S.optional(S.String),
-    avatarUrl: S.optional(S.String),
-    fullname: S.optional(S.String),
-    name: S.optional(S.String),
-    isHf: S.optional(S.Boolean),
-    isHfAdmin: S.optional(S.Boolean),
-    isMod: S.optional(S.Boolean),
-    followerCount: S.optional(S.Number),
-    type: S.optional(S.Unknown),
-    plan: S.optional(GetDiscussionDetailsResponseEventsItemCase5AuthorPlan),
-    isUserFollowing: S.optional(S.Boolean),
-    isPro: S.optional(S.Boolean),
-    primaryOrg: S.optional(GetDiscussionDetailsResponseEventsItemCase5AuthorPrimaryOrg),
-    isOwner: S.optional(S.Boolean),
-    isOrgMember: S.optional(S.Boolean),
-    isBlockedByMe: S.optional(S.Boolean),
-    oauthApp: S.optional(ChangeStatusResponseNewStatusAuthorOauthApp),
-  }),
-).annotate({
-  identifier: "GetDiscussionDetailsResponseEventsItemCase5Author",
-}) as any as S.Schema<GetDiscussionDetailsResponseEventsItemCase5Author>;
+export const GetDiscussionDetailsResponseBodyCase0EventsItemCase5AuthorCase1 =
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      isOwner: S.optional(S.Boolean),
+      isOrgMember: S.optional(S.Boolean),
+      isBlockedByMe: S.optional(S.Boolean),
+      oauthApp: S.optional(ChangeStatusResponseNewStatusAuthorCase0OauthApp),
+      _id: S.String,
+      avatarUrl: S.String,
+      fullname: S.String,
+      name: S.String,
+      isHf: S.Boolean,
+      isHfAdmin: S.Boolean,
+      isMod: S.Boolean,
+      followerCount: S.optional(S.Number),
+      type: S.String,
+      isPro: S.Boolean,
+      isUserFollowing: S.optional(S.Boolean),
+      primaryOrg: S.optional(
+        GetDiscussionDetailsResponseBodyCase0EventsItemCase5AuthorCase1PrimaryOrg,
+      ),
+    }),
+  ).annotate({
+    identifier: "GetDiscussionDetailsResponseBodyCase0EventsItemCase5AuthorCase1",
+  }) as any as S.Schema<GetDiscussionDetailsResponseBodyCase0EventsItemCase5AuthorCase1>;
 
-export interface GetDiscussionDetailsResponseEventsItemCase5Data {
+export type GetDiscussionDetailsResponseBodyCase0EventsItemCase5Author =
+  | GetDiscussionDetailsResponseBodyCase0EventsItemCase5AuthorCase0
+  | GetDiscussionDetailsResponseBodyCase0EventsItemCase5AuthorCase1;
+export const GetDiscussionDetailsResponseBodyCase0EventsItemCase5Author =
+  S.Unknown as any as S.Schema<GetDiscussionDetailsResponseBodyCase0EventsItemCase5Author>;
+
+export interface GetDiscussionDetailsResponseBodyCase0EventsItemCase5Data {
   locked: boolean;
 }
-export const GetDiscussionDetailsResponseEventsItemCase5Data = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    locked: S.Boolean,
-  }),
+export const GetDiscussionDetailsResponseBodyCase0EventsItemCase5Data = /*@__PURE__*/ S.suspend(
+  () =>
+    S.Struct({
+      locked: S.Boolean,
+    }),
 ).annotate({
-  identifier: "GetDiscussionDetailsResponseEventsItemCase5Data",
-}) as any as S.Schema<GetDiscussionDetailsResponseEventsItemCase5Data>;
+  identifier: "GetDiscussionDetailsResponseBodyCase0EventsItemCase5Data",
+}) as any as S.Schema<GetDiscussionDetailsResponseBodyCase0EventsItemCase5Data>;
 
-export interface GetDiscussionDetailsResponseEventsItemCase5 {
+export interface GetDiscussionDetailsResponseBodyCase0EventsItemCase5 {
   id: string;
   createdAt: string;
-  author?: GetDiscussionDetailsResponseEventsItemCase5Author;
-  type: unknown;
-  data: GetDiscussionDetailsResponseEventsItemCase5Data;
+  author?: GetDiscussionDetailsResponseBodyCase0EventsItemCase5Author;
+  type: string;
+  data: GetDiscussionDetailsResponseBodyCase0EventsItemCase5Data;
 }
-export const GetDiscussionDetailsResponseEventsItemCase5 = /*@__PURE__*/ S.suspend(() =>
+export const GetDiscussionDetailsResponseBodyCase0EventsItemCase5 = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     id: S.String,
     createdAt: S.String,
-    author: S.optional(GetDiscussionDetailsResponseEventsItemCase5Author),
-    type: S.Unknown,
-    data: GetDiscussionDetailsResponseEventsItemCase5Data,
+    author: S.optional(GetDiscussionDetailsResponseBodyCase0EventsItemCase5Author),
+    type: S.String,
+    data: GetDiscussionDetailsResponseBodyCase0EventsItemCase5Data,
   }),
 ).annotate({
-  identifier: "GetDiscussionDetailsResponseEventsItemCase5",
-}) as any as S.Schema<GetDiscussionDetailsResponseEventsItemCase5>;
+  identifier: "GetDiscussionDetailsResponseBodyCase0EventsItemCase5",
+}) as any as S.Schema<GetDiscussionDetailsResponseBodyCase0EventsItemCase5>;
 
-export type GetDiscussionDetailsResponseEventsItemCase6AuthorPlan =
+export type GetDiscussionDetailsResponseBodyCase0EventsItemCase6AuthorCase0OauthAppImageData =
+  ChangeStatusResponseNewStatusAuthorCase0OauthAppImageData;
+export const GetDiscussionDetailsResponseBodyCase0EventsItemCase6AuthorCase0OauthAppImageData =
+  ChangeStatusResponseNewStatusAuthorCase0OauthAppImageData;
+
+export type GetDiscussionDetailsResponseBodyCase0EventsItemCase6AuthorCase0OauthApp =
+  ChangeStatusResponseNewStatusAuthorCase0OauthApp;
+export const GetDiscussionDetailsResponseBodyCase0EventsItemCase6AuthorCase0OauthApp =
+  ChangeStatusResponseNewStatusAuthorCase0OauthApp;
+
+export type GetDiscussionDetailsResponseBodyCase0EventsItemCase6AuthorCase0Plan =
   | "team"
   | "enterprise"
   | "plus"
   | "academia";
-export const GetDiscussionDetailsResponseEventsItemCase6AuthorPlan = S.String;
+export const GetDiscussionDetailsResponseBodyCase0EventsItemCase6AuthorCase0Plan = S.String;
 
-export type GetDiscussionDetailsResponseEventsItemCase6AuthorPrimaryOrgPlan =
+export interface GetDiscussionDetailsResponseBodyCase0EventsItemCase6AuthorCase0 {
+  isOwner?: boolean;
+  isOrgMember?: boolean;
+  isBlockedByMe?: boolean;
+  oauthApp?: ChangeStatusResponseNewStatusAuthorCase0OauthApp;
+  /** A hex string of 24 characters representing an ObjectId. */
+  _id: string;
+  avatarUrl: string;
+  fullname: string;
+  name: string;
+  isHf: boolean;
+  isHfAdmin: boolean;
+  isMod: boolean;
+  followerCount?: number;
+  type: string;
+  plan?: GetDiscussionDetailsResponseBodyCase0EventsItemCase6AuthorCase0Plan;
+  isUserFollowing?: boolean;
+}
+export const GetDiscussionDetailsResponseBodyCase0EventsItemCase6AuthorCase0 =
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      isOwner: S.optional(S.Boolean),
+      isOrgMember: S.optional(S.Boolean),
+      isBlockedByMe: S.optional(S.Boolean),
+      oauthApp: S.optional(ChangeStatusResponseNewStatusAuthorCase0OauthApp),
+      _id: S.String,
+      avatarUrl: S.String,
+      fullname: S.String,
+      name: S.String,
+      isHf: S.Boolean,
+      isHfAdmin: S.Boolean,
+      isMod: S.Boolean,
+      followerCount: S.optional(S.Number),
+      type: S.String,
+      plan: S.optional(GetDiscussionDetailsResponseBodyCase0EventsItemCase6AuthorCase0Plan),
+      isUserFollowing: S.optional(S.Boolean),
+    }),
+  ).annotate({
+    identifier: "GetDiscussionDetailsResponseBodyCase0EventsItemCase6AuthorCase0",
+  }) as any as S.Schema<GetDiscussionDetailsResponseBodyCase0EventsItemCase6AuthorCase0>;
+
+export type GetDiscussionDetailsResponseBodyCase0EventsItemCase6AuthorCase1OauthAppImageData =
+  ChangeStatusResponseNewStatusAuthorCase0OauthAppImageData;
+export const GetDiscussionDetailsResponseBodyCase0EventsItemCase6AuthorCase1OauthAppImageData =
+  ChangeStatusResponseNewStatusAuthorCase0OauthAppImageData;
+
+export type GetDiscussionDetailsResponseBodyCase0EventsItemCase6AuthorCase1OauthApp =
+  ChangeStatusResponseNewStatusAuthorCase0OauthApp;
+export const GetDiscussionDetailsResponseBodyCase0EventsItemCase6AuthorCase1OauthApp =
+  ChangeStatusResponseNewStatusAuthorCase0OauthApp;
+
+export type GetDiscussionDetailsResponseBodyCase0EventsItemCase6AuthorCase1PrimaryOrgPlan =
   | "team"
   | "enterprise"
   | "plus"
   | "academia";
-export const GetDiscussionDetailsResponseEventsItemCase6AuthorPrimaryOrgPlan = S.String;
+export const GetDiscussionDetailsResponseBodyCase0EventsItemCase6AuthorCase1PrimaryOrgPlan =
+  S.String;
 
-export type GetDiscussionDetailsResponseEventsItemCase6AuthorPrimaryOrgUserRole =
+export type GetDiscussionDetailsResponseBodyCase0EventsItemCase6AuthorCase1PrimaryOrgUserRole =
   | "admin"
   | "write"
   | "contributor"
   | "read"
   | "no_access";
-export const GetDiscussionDetailsResponseEventsItemCase6AuthorPrimaryOrgUserRole = S.String;
+export const GetDiscussionDetailsResponseBodyCase0EventsItemCase6AuthorCase1PrimaryOrgUserRole =
+  S.String;
 
-export interface GetDiscussionDetailsResponseEventsItemCase6AuthorPrimaryOrg {
+export interface GetDiscussionDetailsResponseBodyCase0EventsItemCase6AuthorCase1PrimaryOrg {
   avatarUrl: string;
   fullname: string;
   name: string;
-  type: unknown;
+  type: string;
   isHf: boolean;
   isFollowing?: boolean;
-  plan?: GetDiscussionDetailsResponseEventsItemCase6AuthorPrimaryOrgPlan;
+  plan?: GetDiscussionDetailsResponseBodyCase0EventsItemCase6AuthorCase1PrimaryOrgPlan;
   details?: string;
   hasPrivateMembersList?: boolean;
-  userRole?: GetDiscussionDetailsResponseEventsItemCase6AuthorPrimaryOrgUserRole;
+  userRole?: GetDiscussionDetailsResponseBodyCase0EventsItemCase6AuthorCase1PrimaryOrgUserRole;
   numUsers?: number;
 }
-export const GetDiscussionDetailsResponseEventsItemCase6AuthorPrimaryOrg = /*@__PURE__*/ S.suspend(
-  () =>
+export const GetDiscussionDetailsResponseBodyCase0EventsItemCase6AuthorCase1PrimaryOrg =
+  /*@__PURE__*/ S.suspend(() =>
     S.Struct({
       avatarUrl: S.String,
       fullname: S.String,
       name: S.String,
-      type: S.Unknown,
+      type: S.String,
       isHf: S.Boolean,
       isFollowing: S.optional(S.Boolean),
-      plan: S.optional(GetDiscussionDetailsResponseEventsItemCase6AuthorPrimaryOrgPlan),
+      plan: S.optional(
+        GetDiscussionDetailsResponseBodyCase0EventsItemCase6AuthorCase1PrimaryOrgPlan,
+      ),
       details: S.optional(S.String),
       hasPrivateMembersList: S.optional(S.Boolean),
-      userRole: S.optional(GetDiscussionDetailsResponseEventsItemCase6AuthorPrimaryOrgUserRole),
+      userRole: S.optional(
+        GetDiscussionDetailsResponseBodyCase0EventsItemCase6AuthorCase1PrimaryOrgUserRole,
+      ),
       numUsers: S.optional(S.Number),
     }),
-).annotate({
-  identifier: "GetDiscussionDetailsResponseEventsItemCase6AuthorPrimaryOrg",
-}) as any as S.Schema<GetDiscussionDetailsResponseEventsItemCase6AuthorPrimaryOrg>;
+  ).annotate({
+    identifier: "GetDiscussionDetailsResponseBodyCase0EventsItemCase6AuthorCase1PrimaryOrg",
+  }) as any as S.Schema<GetDiscussionDetailsResponseBodyCase0EventsItemCase6AuthorCase1PrimaryOrg>;
 
-export type GetDiscussionDetailsResponseEventsItemCase6AuthorOauthAppImageData =
-  ChangeStatusResponseNewStatusAuthorOauthAppImageData;
-export const GetDiscussionDetailsResponseEventsItemCase6AuthorOauthAppImageData =
-  ChangeStatusResponseNewStatusAuthorOauthAppImageData;
-
-export type GetDiscussionDetailsResponseEventsItemCase6AuthorOauthApp =
-  ChangeStatusResponseNewStatusAuthorOauthApp;
-export const GetDiscussionDetailsResponseEventsItemCase6AuthorOauthApp =
-  ChangeStatusResponseNewStatusAuthorOauthApp;
-
-export interface GetDiscussionDetailsResponseEventsItemCase6Author {
-  _id?: string;
-  avatarUrl?: string;
-  fullname?: string;
-  name?: string;
-  isHf?: boolean;
-  isHfAdmin?: boolean;
-  isMod?: boolean;
-  followerCount?: number;
-  type?: unknown;
-  plan?: GetDiscussionDetailsResponseEventsItemCase6AuthorPlan;
-  isUserFollowing?: boolean;
-  isPro?: boolean;
-  primaryOrg?: GetDiscussionDetailsResponseEventsItemCase6AuthorPrimaryOrg;
+export interface GetDiscussionDetailsResponseBodyCase0EventsItemCase6AuthorCase1 {
   isOwner?: boolean;
   isOrgMember?: boolean;
   isBlockedByMe?: boolean;
-  oauthApp?: ChangeStatusResponseNewStatusAuthorOauthApp;
+  oauthApp?: ChangeStatusResponseNewStatusAuthorCase0OauthApp;
+  /** A hex string of 24 characters representing an ObjectId. */
+  _id: string;
+  avatarUrl: string;
+  fullname: string;
+  name: string;
+  isHf: boolean;
+  isHfAdmin: boolean;
+  isMod: boolean;
+  followerCount?: number;
+  type: string;
+  isPro: boolean;
+  isUserFollowing?: boolean;
+  primaryOrg?: GetDiscussionDetailsResponseBodyCase0EventsItemCase6AuthorCase1PrimaryOrg;
 }
-export const GetDiscussionDetailsResponseEventsItemCase6Author = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    _id: S.optional(S.String),
-    avatarUrl: S.optional(S.String),
-    fullname: S.optional(S.String),
-    name: S.optional(S.String),
-    isHf: S.optional(S.Boolean),
-    isHfAdmin: S.optional(S.Boolean),
-    isMod: S.optional(S.Boolean),
-    followerCount: S.optional(S.Number),
-    type: S.optional(S.Unknown),
-    plan: S.optional(GetDiscussionDetailsResponseEventsItemCase6AuthorPlan),
-    isUserFollowing: S.optional(S.Boolean),
-    isPro: S.optional(S.Boolean),
-    primaryOrg: S.optional(GetDiscussionDetailsResponseEventsItemCase6AuthorPrimaryOrg),
-    isOwner: S.optional(S.Boolean),
-    isOrgMember: S.optional(S.Boolean),
-    isBlockedByMe: S.optional(S.Boolean),
-    oauthApp: S.optional(ChangeStatusResponseNewStatusAuthorOauthApp),
-  }),
-).annotate({
-  identifier: "GetDiscussionDetailsResponseEventsItemCase6Author",
-}) as any as S.Schema<GetDiscussionDetailsResponseEventsItemCase6Author>;
+export const GetDiscussionDetailsResponseBodyCase0EventsItemCase6AuthorCase1 =
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      isOwner: S.optional(S.Boolean),
+      isOrgMember: S.optional(S.Boolean),
+      isBlockedByMe: S.optional(S.Boolean),
+      oauthApp: S.optional(ChangeStatusResponseNewStatusAuthorCase0OauthApp),
+      _id: S.String,
+      avatarUrl: S.String,
+      fullname: S.String,
+      name: S.String,
+      isHf: S.Boolean,
+      isHfAdmin: S.Boolean,
+      isMod: S.Boolean,
+      followerCount: S.optional(S.Number),
+      type: S.String,
+      isPro: S.Boolean,
+      isUserFollowing: S.optional(S.Boolean),
+      primaryOrg: S.optional(
+        GetDiscussionDetailsResponseBodyCase0EventsItemCase6AuthorCase1PrimaryOrg,
+      ),
+    }),
+  ).annotate({
+    identifier: "GetDiscussionDetailsResponseBodyCase0EventsItemCase6AuthorCase1",
+  }) as any as S.Schema<GetDiscussionDetailsResponseBodyCase0EventsItemCase6AuthorCase1>;
 
-export interface GetDiscussionDetailsResponseEventsItemCase6Data {
+export type GetDiscussionDetailsResponseBodyCase0EventsItemCase6Author =
+  | GetDiscussionDetailsResponseBodyCase0EventsItemCase6AuthorCase0
+  | GetDiscussionDetailsResponseBodyCase0EventsItemCase6AuthorCase1;
+export const GetDiscussionDetailsResponseBodyCase0EventsItemCase6Author =
+  S.Unknown as any as S.Schema<GetDiscussionDetailsResponseBodyCase0EventsItemCase6Author>;
+
+export interface GetDiscussionDetailsResponseBodyCase0EventsItemCase6Data {
   report: boolean;
 }
-export const GetDiscussionDetailsResponseEventsItemCase6Data = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    report: S.Boolean,
-  }),
+export const GetDiscussionDetailsResponseBodyCase0EventsItemCase6Data = /*@__PURE__*/ S.suspend(
+  () =>
+    S.Struct({
+      report: S.Boolean,
+    }),
 ).annotate({
-  identifier: "GetDiscussionDetailsResponseEventsItemCase6Data",
-}) as any as S.Schema<GetDiscussionDetailsResponseEventsItemCase6Data>;
+  identifier: "GetDiscussionDetailsResponseBodyCase0EventsItemCase6Data",
+}) as any as S.Schema<GetDiscussionDetailsResponseBodyCase0EventsItemCase6Data>;
 
-export interface GetDiscussionDetailsResponseEventsItemCase6 {
+export interface GetDiscussionDetailsResponseBodyCase0EventsItemCase6 {
   id: string;
   createdAt: string;
-  author?: GetDiscussionDetailsResponseEventsItemCase6Author;
-  type: unknown;
-  data: GetDiscussionDetailsResponseEventsItemCase6Data;
+  author?: GetDiscussionDetailsResponseBodyCase0EventsItemCase6Author;
+  type: string;
+  data: GetDiscussionDetailsResponseBodyCase0EventsItemCase6Data;
 }
-export const GetDiscussionDetailsResponseEventsItemCase6 = /*@__PURE__*/ S.suspend(() =>
+export const GetDiscussionDetailsResponseBodyCase0EventsItemCase6 = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     id: S.String,
     createdAt: S.String,
-    author: S.optional(GetDiscussionDetailsResponseEventsItemCase6Author),
-    type: S.Unknown,
-    data: GetDiscussionDetailsResponseEventsItemCase6Data,
+    author: S.optional(GetDiscussionDetailsResponseBodyCase0EventsItemCase6Author),
+    type: S.String,
+    data: GetDiscussionDetailsResponseBodyCase0EventsItemCase6Data,
   }),
 ).annotate({
-  identifier: "GetDiscussionDetailsResponseEventsItemCase6",
-}) as any as S.Schema<GetDiscussionDetailsResponseEventsItemCase6>;
+  identifier: "GetDiscussionDetailsResponseBodyCase0EventsItemCase6",
+}) as any as S.Schema<GetDiscussionDetailsResponseBodyCase0EventsItemCase6>;
 
-export type GetDiscussionDetailsResponseEventsItemCase7AuthorPlan =
+export type GetDiscussionDetailsResponseBodyCase0EventsItemCase7AuthorCase0OauthAppImageData =
+  ChangeStatusResponseNewStatusAuthorCase0OauthAppImageData;
+export const GetDiscussionDetailsResponseBodyCase0EventsItemCase7AuthorCase0OauthAppImageData =
+  ChangeStatusResponseNewStatusAuthorCase0OauthAppImageData;
+
+export type GetDiscussionDetailsResponseBodyCase0EventsItemCase7AuthorCase0OauthApp =
+  ChangeStatusResponseNewStatusAuthorCase0OauthApp;
+export const GetDiscussionDetailsResponseBodyCase0EventsItemCase7AuthorCase0OauthApp =
+  ChangeStatusResponseNewStatusAuthorCase0OauthApp;
+
+export type GetDiscussionDetailsResponseBodyCase0EventsItemCase7AuthorCase0Plan =
   | "team"
   | "enterprise"
   | "plus"
   | "academia";
-export const GetDiscussionDetailsResponseEventsItemCase7AuthorPlan = S.String;
+export const GetDiscussionDetailsResponseBodyCase0EventsItemCase7AuthorCase0Plan = S.String;
 
-export type GetDiscussionDetailsResponseEventsItemCase7AuthorPrimaryOrgPlan =
+export interface GetDiscussionDetailsResponseBodyCase0EventsItemCase7AuthorCase0 {
+  isOwner?: boolean;
+  isOrgMember?: boolean;
+  isBlockedByMe?: boolean;
+  oauthApp?: ChangeStatusResponseNewStatusAuthorCase0OauthApp;
+  /** A hex string of 24 characters representing an ObjectId. */
+  _id: string;
+  avatarUrl: string;
+  fullname: string;
+  name: string;
+  isHf: boolean;
+  isHfAdmin: boolean;
+  isMod: boolean;
+  followerCount?: number;
+  type: string;
+  plan?: GetDiscussionDetailsResponseBodyCase0EventsItemCase7AuthorCase0Plan;
+  isUserFollowing?: boolean;
+}
+export const GetDiscussionDetailsResponseBodyCase0EventsItemCase7AuthorCase0 =
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      isOwner: S.optional(S.Boolean),
+      isOrgMember: S.optional(S.Boolean),
+      isBlockedByMe: S.optional(S.Boolean),
+      oauthApp: S.optional(ChangeStatusResponseNewStatusAuthorCase0OauthApp),
+      _id: S.String,
+      avatarUrl: S.String,
+      fullname: S.String,
+      name: S.String,
+      isHf: S.Boolean,
+      isHfAdmin: S.Boolean,
+      isMod: S.Boolean,
+      followerCount: S.optional(S.Number),
+      type: S.String,
+      plan: S.optional(GetDiscussionDetailsResponseBodyCase0EventsItemCase7AuthorCase0Plan),
+      isUserFollowing: S.optional(S.Boolean),
+    }),
+  ).annotate({
+    identifier: "GetDiscussionDetailsResponseBodyCase0EventsItemCase7AuthorCase0",
+  }) as any as S.Schema<GetDiscussionDetailsResponseBodyCase0EventsItemCase7AuthorCase0>;
+
+export type GetDiscussionDetailsResponseBodyCase0EventsItemCase7AuthorCase1OauthAppImageData =
+  ChangeStatusResponseNewStatusAuthorCase0OauthAppImageData;
+export const GetDiscussionDetailsResponseBodyCase0EventsItemCase7AuthorCase1OauthAppImageData =
+  ChangeStatusResponseNewStatusAuthorCase0OauthAppImageData;
+
+export type GetDiscussionDetailsResponseBodyCase0EventsItemCase7AuthorCase1OauthApp =
+  ChangeStatusResponseNewStatusAuthorCase0OauthApp;
+export const GetDiscussionDetailsResponseBodyCase0EventsItemCase7AuthorCase1OauthApp =
+  ChangeStatusResponseNewStatusAuthorCase0OauthApp;
+
+export type GetDiscussionDetailsResponseBodyCase0EventsItemCase7AuthorCase1PrimaryOrgPlan =
   | "team"
   | "enterprise"
   | "plus"
   | "academia";
-export const GetDiscussionDetailsResponseEventsItemCase7AuthorPrimaryOrgPlan = S.String;
+export const GetDiscussionDetailsResponseBodyCase0EventsItemCase7AuthorCase1PrimaryOrgPlan =
+  S.String;
 
-export type GetDiscussionDetailsResponseEventsItemCase7AuthorPrimaryOrgUserRole =
+export type GetDiscussionDetailsResponseBodyCase0EventsItemCase7AuthorCase1PrimaryOrgUserRole =
   | "admin"
   | "write"
   | "contributor"
   | "read"
   | "no_access";
-export const GetDiscussionDetailsResponseEventsItemCase7AuthorPrimaryOrgUserRole = S.String;
+export const GetDiscussionDetailsResponseBodyCase0EventsItemCase7AuthorCase1PrimaryOrgUserRole =
+  S.String;
 
-export interface GetDiscussionDetailsResponseEventsItemCase7AuthorPrimaryOrg {
+export interface GetDiscussionDetailsResponseBodyCase0EventsItemCase7AuthorCase1PrimaryOrg {
   avatarUrl: string;
   fullname: string;
   name: string;
-  type: unknown;
+  type: string;
   isHf: boolean;
   isFollowing?: boolean;
-  plan?: GetDiscussionDetailsResponseEventsItemCase7AuthorPrimaryOrgPlan;
+  plan?: GetDiscussionDetailsResponseBodyCase0EventsItemCase7AuthorCase1PrimaryOrgPlan;
   details?: string;
   hasPrivateMembersList?: boolean;
-  userRole?: GetDiscussionDetailsResponseEventsItemCase7AuthorPrimaryOrgUserRole;
+  userRole?: GetDiscussionDetailsResponseBodyCase0EventsItemCase7AuthorCase1PrimaryOrgUserRole;
   numUsers?: number;
 }
-export const GetDiscussionDetailsResponseEventsItemCase7AuthorPrimaryOrg = /*@__PURE__*/ S.suspend(
-  () =>
+export const GetDiscussionDetailsResponseBodyCase0EventsItemCase7AuthorCase1PrimaryOrg =
+  /*@__PURE__*/ S.suspend(() =>
     S.Struct({
       avatarUrl: S.String,
       fullname: S.String,
       name: S.String,
-      type: S.Unknown,
+      type: S.String,
       isHf: S.Boolean,
       isFollowing: S.optional(S.Boolean),
-      plan: S.optional(GetDiscussionDetailsResponseEventsItemCase7AuthorPrimaryOrgPlan),
+      plan: S.optional(
+        GetDiscussionDetailsResponseBodyCase0EventsItemCase7AuthorCase1PrimaryOrgPlan,
+      ),
       details: S.optional(S.String),
       hasPrivateMembersList: S.optional(S.Boolean),
-      userRole: S.optional(GetDiscussionDetailsResponseEventsItemCase7AuthorPrimaryOrgUserRole),
+      userRole: S.optional(
+        GetDiscussionDetailsResponseBodyCase0EventsItemCase7AuthorCase1PrimaryOrgUserRole,
+      ),
       numUsers: S.optional(S.Number),
     }),
-).annotate({
-  identifier: "GetDiscussionDetailsResponseEventsItemCase7AuthorPrimaryOrg",
-}) as any as S.Schema<GetDiscussionDetailsResponseEventsItemCase7AuthorPrimaryOrg>;
+  ).annotate({
+    identifier: "GetDiscussionDetailsResponseBodyCase0EventsItemCase7AuthorCase1PrimaryOrg",
+  }) as any as S.Schema<GetDiscussionDetailsResponseBodyCase0EventsItemCase7AuthorCase1PrimaryOrg>;
 
-export type GetDiscussionDetailsResponseEventsItemCase7AuthorOauthAppImageData =
-  ChangeStatusResponseNewStatusAuthorOauthAppImageData;
-export const GetDiscussionDetailsResponseEventsItemCase7AuthorOauthAppImageData =
-  ChangeStatusResponseNewStatusAuthorOauthAppImageData;
-
-export type GetDiscussionDetailsResponseEventsItemCase7AuthorOauthApp =
-  ChangeStatusResponseNewStatusAuthorOauthApp;
-export const GetDiscussionDetailsResponseEventsItemCase7AuthorOauthApp =
-  ChangeStatusResponseNewStatusAuthorOauthApp;
-
-export interface GetDiscussionDetailsResponseEventsItemCase7Author {
-  _id?: string;
-  avatarUrl?: string;
-  fullname?: string;
-  name?: string;
-  isHf?: boolean;
-  isHfAdmin?: boolean;
-  isMod?: boolean;
-  followerCount?: number;
-  type?: unknown;
-  plan?: GetDiscussionDetailsResponseEventsItemCase7AuthorPlan;
-  isUserFollowing?: boolean;
-  isPro?: boolean;
-  primaryOrg?: GetDiscussionDetailsResponseEventsItemCase7AuthorPrimaryOrg;
+export interface GetDiscussionDetailsResponseBodyCase0EventsItemCase7AuthorCase1 {
   isOwner?: boolean;
   isOrgMember?: boolean;
   isBlockedByMe?: boolean;
-  oauthApp?: ChangeStatusResponseNewStatusAuthorOauthApp;
+  oauthApp?: ChangeStatusResponseNewStatusAuthorCase0OauthApp;
+  /** A hex string of 24 characters representing an ObjectId. */
+  _id: string;
+  avatarUrl: string;
+  fullname: string;
+  name: string;
+  isHf: boolean;
+  isHfAdmin: boolean;
+  isMod: boolean;
+  followerCount?: number;
+  type: string;
+  isPro: boolean;
+  isUserFollowing?: boolean;
+  primaryOrg?: GetDiscussionDetailsResponseBodyCase0EventsItemCase7AuthorCase1PrimaryOrg;
 }
-export const GetDiscussionDetailsResponseEventsItemCase7Author = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    _id: S.optional(S.String),
-    avatarUrl: S.optional(S.String),
-    fullname: S.optional(S.String),
-    name: S.optional(S.String),
-    isHf: S.optional(S.Boolean),
-    isHfAdmin: S.optional(S.Boolean),
-    isMod: S.optional(S.Boolean),
-    followerCount: S.optional(S.Number),
-    type: S.optional(S.Unknown),
-    plan: S.optional(GetDiscussionDetailsResponseEventsItemCase7AuthorPlan),
-    isUserFollowing: S.optional(S.Boolean),
-    isPro: S.optional(S.Boolean),
-    primaryOrg: S.optional(GetDiscussionDetailsResponseEventsItemCase7AuthorPrimaryOrg),
-    isOwner: S.optional(S.Boolean),
-    isOrgMember: S.optional(S.Boolean),
-    isBlockedByMe: S.optional(S.Boolean),
-    oauthApp: S.optional(ChangeStatusResponseNewStatusAuthorOauthApp),
-  }),
-).annotate({
-  identifier: "GetDiscussionDetailsResponseEventsItemCase7Author",
-}) as any as S.Schema<GetDiscussionDetailsResponseEventsItemCase7Author>;
+export const GetDiscussionDetailsResponseBodyCase0EventsItemCase7AuthorCase1 =
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      isOwner: S.optional(S.Boolean),
+      isOrgMember: S.optional(S.Boolean),
+      isBlockedByMe: S.optional(S.Boolean),
+      oauthApp: S.optional(ChangeStatusResponseNewStatusAuthorCase0OauthApp),
+      _id: S.String,
+      avatarUrl: S.String,
+      fullname: S.String,
+      name: S.String,
+      isHf: S.Boolean,
+      isHfAdmin: S.Boolean,
+      isMod: S.Boolean,
+      followerCount: S.optional(S.Number),
+      type: S.String,
+      isPro: S.Boolean,
+      isUserFollowing: S.optional(S.Boolean),
+      primaryOrg: S.optional(
+        GetDiscussionDetailsResponseBodyCase0EventsItemCase7AuthorCase1PrimaryOrg,
+      ),
+    }),
+  ).annotate({
+    identifier: "GetDiscussionDetailsResponseBodyCase0EventsItemCase7AuthorCase1",
+  }) as any as S.Schema<GetDiscussionDetailsResponseBodyCase0EventsItemCase7AuthorCase1>;
 
-export interface GetDiscussionDetailsResponseEventsItemCase7 {
+export type GetDiscussionDetailsResponseBodyCase0EventsItemCase7Author =
+  | GetDiscussionDetailsResponseBodyCase0EventsItemCase7AuthorCase0
+  | GetDiscussionDetailsResponseBodyCase0EventsItemCase7AuthorCase1;
+export const GetDiscussionDetailsResponseBodyCase0EventsItemCase7Author =
+  S.Unknown as any as S.Schema<GetDiscussionDetailsResponseBodyCase0EventsItemCase7Author>;
+
+export interface GetDiscussionDetailsResponseBodyCase0EventsItemCase7 {
   id: string;
   createdAt: string;
-  author?: GetDiscussionDetailsResponseEventsItemCase7Author;
-  type: unknown;
+  author?: GetDiscussionDetailsResponseBodyCase0EventsItemCase7Author;
+  type: string;
   data: unknown;
 }
-export const GetDiscussionDetailsResponseEventsItemCase7 = /*@__PURE__*/ S.suspend(() =>
+export const GetDiscussionDetailsResponseBodyCase0EventsItemCase7 = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     id: S.String,
     createdAt: S.String,
-    author: S.optional(GetDiscussionDetailsResponseEventsItemCase7Author),
-    type: S.Unknown,
+    author: S.optional(GetDiscussionDetailsResponseBodyCase0EventsItemCase7Author),
+    type: S.String,
     data: S.Unknown,
   }),
 ).annotate({
-  identifier: "GetDiscussionDetailsResponseEventsItemCase7",
-}) as any as S.Schema<GetDiscussionDetailsResponseEventsItemCase7>;
+  identifier: "GetDiscussionDetailsResponseBodyCase0EventsItemCase7",
+}) as any as S.Schema<GetDiscussionDetailsResponseBodyCase0EventsItemCase7>;
 
-export type GetDiscussionDetailsResponseEventsItem =
-  | GetDiscussionDetailsResponseEventsItemCase0
-  | GetDiscussionDetailsResponseEventsItemCase1
-  | GetDiscussionDetailsResponseEventsItemCase2
-  | GetDiscussionDetailsResponseEventsItemCase3
-  | GetDiscussionDetailsResponseEventsItemCase4
-  | GetDiscussionDetailsResponseEventsItemCase5
-  | GetDiscussionDetailsResponseEventsItemCase6
-  | GetDiscussionDetailsResponseEventsItemCase7;
-export const GetDiscussionDetailsResponseEventsItem =
-  S.Unknown as any as S.Schema<GetDiscussionDetailsResponseEventsItem>;
+export type GetDiscussionDetailsResponseBodyCase0EventsItemCase8AuthorCase0OauthAppImageData =
+  ChangeStatusResponseNewStatusAuthorCase0OauthAppImageData;
+export const GetDiscussionDetailsResponseBodyCase0EventsItemCase8AuthorCase0OauthAppImageData =
+  ChangeStatusResponseNewStatusAuthorCase0OauthAppImageData;
 
-export type GetDiscussionDetailsResponseEventsList = Array<GetDiscussionDetailsResponseEventsItem>;
-export const GetDiscussionDetailsResponseEventsList = /*@__PURE__*/ S.Array(
-  GetDiscussionDetailsResponseEventsItem,
-) as any as S.Schema<GetDiscussionDetailsResponseEventsList>;
+export type GetDiscussionDetailsResponseBodyCase0EventsItemCase8AuthorCase0OauthApp =
+  ChangeStatusResponseNewStatusAuthorCase0OauthApp;
+export const GetDiscussionDetailsResponseBodyCase0EventsItemCase8AuthorCase0OauthApp =
+  ChangeStatusResponseNewStatusAuthorCase0OauthApp;
 
-export type GetDiscussionDetailsResponseCollection =
+export type GetDiscussionDetailsResponseBodyCase0EventsItemCase8AuthorCase0Plan =
+  | "team"
+  | "enterprise"
+  | "plus"
+  | "academia";
+export const GetDiscussionDetailsResponseBodyCase0EventsItemCase8AuthorCase0Plan = S.String;
+
+export interface GetDiscussionDetailsResponseBodyCase0EventsItemCase8AuthorCase0 {
+  isOwner?: boolean;
+  isOrgMember?: boolean;
+  isBlockedByMe?: boolean;
+  oauthApp?: ChangeStatusResponseNewStatusAuthorCase0OauthApp;
+  /** A hex string of 24 characters representing an ObjectId. */
+  _id: string;
+  avatarUrl: string;
+  fullname: string;
+  name: string;
+  isHf: boolean;
+  isHfAdmin: boolean;
+  isMod: boolean;
+  followerCount?: number;
+  type: string;
+  plan?: GetDiscussionDetailsResponseBodyCase0EventsItemCase8AuthorCase0Plan;
+  isUserFollowing?: boolean;
+}
+export const GetDiscussionDetailsResponseBodyCase0EventsItemCase8AuthorCase0 =
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      isOwner: S.optional(S.Boolean),
+      isOrgMember: S.optional(S.Boolean),
+      isBlockedByMe: S.optional(S.Boolean),
+      oauthApp: S.optional(ChangeStatusResponseNewStatusAuthorCase0OauthApp),
+      _id: S.String,
+      avatarUrl: S.String,
+      fullname: S.String,
+      name: S.String,
+      isHf: S.Boolean,
+      isHfAdmin: S.Boolean,
+      isMod: S.Boolean,
+      followerCount: S.optional(S.Number),
+      type: S.String,
+      plan: S.optional(GetDiscussionDetailsResponseBodyCase0EventsItemCase8AuthorCase0Plan),
+      isUserFollowing: S.optional(S.Boolean),
+    }),
+  ).annotate({
+    identifier: "GetDiscussionDetailsResponseBodyCase0EventsItemCase8AuthorCase0",
+  }) as any as S.Schema<GetDiscussionDetailsResponseBodyCase0EventsItemCase8AuthorCase0>;
+
+export type GetDiscussionDetailsResponseBodyCase0EventsItemCase8AuthorCase1OauthAppImageData =
+  ChangeStatusResponseNewStatusAuthorCase0OauthAppImageData;
+export const GetDiscussionDetailsResponseBodyCase0EventsItemCase8AuthorCase1OauthAppImageData =
+  ChangeStatusResponseNewStatusAuthorCase0OauthAppImageData;
+
+export type GetDiscussionDetailsResponseBodyCase0EventsItemCase8AuthorCase1OauthApp =
+  ChangeStatusResponseNewStatusAuthorCase0OauthApp;
+export const GetDiscussionDetailsResponseBodyCase0EventsItemCase8AuthorCase1OauthApp =
+  ChangeStatusResponseNewStatusAuthorCase0OauthApp;
+
+export type GetDiscussionDetailsResponseBodyCase0EventsItemCase8AuthorCase1PrimaryOrgPlan =
+  | "team"
+  | "enterprise"
+  | "plus"
+  | "academia";
+export const GetDiscussionDetailsResponseBodyCase0EventsItemCase8AuthorCase1PrimaryOrgPlan =
+  S.String;
+
+export type GetDiscussionDetailsResponseBodyCase0EventsItemCase8AuthorCase1PrimaryOrgUserRole =
+  | "admin"
+  | "write"
+  | "contributor"
+  | "read"
+  | "no_access";
+export const GetDiscussionDetailsResponseBodyCase0EventsItemCase8AuthorCase1PrimaryOrgUserRole =
+  S.String;
+
+export interface GetDiscussionDetailsResponseBodyCase0EventsItemCase8AuthorCase1PrimaryOrg {
+  avatarUrl: string;
+  fullname: string;
+  name: string;
+  type: string;
+  isHf: boolean;
+  isFollowing?: boolean;
+  plan?: GetDiscussionDetailsResponseBodyCase0EventsItemCase8AuthorCase1PrimaryOrgPlan;
+  details?: string;
+  hasPrivateMembersList?: boolean;
+  userRole?: GetDiscussionDetailsResponseBodyCase0EventsItemCase8AuthorCase1PrimaryOrgUserRole;
+  numUsers?: number;
+}
+export const GetDiscussionDetailsResponseBodyCase0EventsItemCase8AuthorCase1PrimaryOrg =
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      avatarUrl: S.String,
+      fullname: S.String,
+      name: S.String,
+      type: S.String,
+      isHf: S.Boolean,
+      isFollowing: S.optional(S.Boolean),
+      plan: S.optional(
+        GetDiscussionDetailsResponseBodyCase0EventsItemCase8AuthorCase1PrimaryOrgPlan,
+      ),
+      details: S.optional(S.String),
+      hasPrivateMembersList: S.optional(S.Boolean),
+      userRole: S.optional(
+        GetDiscussionDetailsResponseBodyCase0EventsItemCase8AuthorCase1PrimaryOrgUserRole,
+      ),
+      numUsers: S.optional(S.Number),
+    }),
+  ).annotate({
+    identifier: "GetDiscussionDetailsResponseBodyCase0EventsItemCase8AuthorCase1PrimaryOrg",
+  }) as any as S.Schema<GetDiscussionDetailsResponseBodyCase0EventsItemCase8AuthorCase1PrimaryOrg>;
+
+export interface GetDiscussionDetailsResponseBodyCase0EventsItemCase8AuthorCase1 {
+  isOwner?: boolean;
+  isOrgMember?: boolean;
+  isBlockedByMe?: boolean;
+  oauthApp?: ChangeStatusResponseNewStatusAuthorCase0OauthApp;
+  /** A hex string of 24 characters representing an ObjectId. */
+  _id: string;
+  avatarUrl: string;
+  fullname: string;
+  name: string;
+  isHf: boolean;
+  isHfAdmin: boolean;
+  isMod: boolean;
+  followerCount?: number;
+  type: string;
+  isPro: boolean;
+  isUserFollowing?: boolean;
+  primaryOrg?: GetDiscussionDetailsResponseBodyCase0EventsItemCase8AuthorCase1PrimaryOrg;
+}
+export const GetDiscussionDetailsResponseBodyCase0EventsItemCase8AuthorCase1 =
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      isOwner: S.optional(S.Boolean),
+      isOrgMember: S.optional(S.Boolean),
+      isBlockedByMe: S.optional(S.Boolean),
+      oauthApp: S.optional(ChangeStatusResponseNewStatusAuthorCase0OauthApp),
+      _id: S.String,
+      avatarUrl: S.String,
+      fullname: S.String,
+      name: S.String,
+      isHf: S.Boolean,
+      isHfAdmin: S.Boolean,
+      isMod: S.Boolean,
+      followerCount: S.optional(S.Number),
+      type: S.String,
+      isPro: S.Boolean,
+      isUserFollowing: S.optional(S.Boolean),
+      primaryOrg: S.optional(
+        GetDiscussionDetailsResponseBodyCase0EventsItemCase8AuthorCase1PrimaryOrg,
+      ),
+    }),
+  ).annotate({
+    identifier: "GetDiscussionDetailsResponseBodyCase0EventsItemCase8AuthorCase1",
+  }) as any as S.Schema<GetDiscussionDetailsResponseBodyCase0EventsItemCase8AuthorCase1>;
+
+export type GetDiscussionDetailsResponseBodyCase0EventsItemCase8Author =
+  | GetDiscussionDetailsResponseBodyCase0EventsItemCase8AuthorCase0
+  | GetDiscussionDetailsResponseBodyCase0EventsItemCase8AuthorCase1;
+export const GetDiscussionDetailsResponseBodyCase0EventsItemCase8Author =
+  S.Unknown as any as S.Schema<GetDiscussionDetailsResponseBodyCase0EventsItemCase8Author>;
+
+export interface GetDiscussionDetailsResponseBodyCase0EventsItemCase8Data {
+  hiddenCommits: number;
+  headOid: string;
+}
+export const GetDiscussionDetailsResponseBodyCase0EventsItemCase8Data = /*@__PURE__*/ S.suspend(
+  () =>
+    S.Struct({
+      hiddenCommits: S.Number,
+      headOid: S.String,
+    }),
+).annotate({
+  identifier: "GetDiscussionDetailsResponseBodyCase0EventsItemCase8Data",
+}) as any as S.Schema<GetDiscussionDetailsResponseBodyCase0EventsItemCase8Data>;
+
+export interface GetDiscussionDetailsResponseBodyCase0EventsItemCase8 {
+  id: string;
+  createdAt: string;
+  author?: GetDiscussionDetailsResponseBodyCase0EventsItemCase8Author;
+  type: string;
+  data: GetDiscussionDetailsResponseBodyCase0EventsItemCase8Data;
+}
+export const GetDiscussionDetailsResponseBodyCase0EventsItemCase8 = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    id: S.String,
+    createdAt: S.String,
+    author: S.optional(GetDiscussionDetailsResponseBodyCase0EventsItemCase8Author),
+    type: S.String,
+    data: GetDiscussionDetailsResponseBodyCase0EventsItemCase8Data,
+  }),
+).annotate({
+  identifier: "GetDiscussionDetailsResponseBodyCase0EventsItemCase8",
+}) as any as S.Schema<GetDiscussionDetailsResponseBodyCase0EventsItemCase8>;
+
+export type GetDiscussionDetailsResponseBodyCase0EventsItem =
+  | GetDiscussionDetailsResponseBodyCase0EventsItemCase0
+  | GetDiscussionDetailsResponseBodyCase0EventsItemCase1
+  | GetDiscussionDetailsResponseBodyCase0EventsItemCase2
+  | GetDiscussionDetailsResponseBodyCase0EventsItemCase3
+  | GetDiscussionDetailsResponseBodyCase0EventsItemCase4
+  | GetDiscussionDetailsResponseBodyCase0EventsItemCase5
+  | GetDiscussionDetailsResponseBodyCase0EventsItemCase6
+  | GetDiscussionDetailsResponseBodyCase0EventsItemCase7
+  | GetDiscussionDetailsResponseBodyCase0EventsItemCase8;
+export const GetDiscussionDetailsResponseBodyCase0EventsItem =
+  S.Unknown as any as S.Schema<GetDiscussionDetailsResponseBodyCase0EventsItem>;
+
+export type GetDiscussionDetailsResponseBodyCase0EventsList =
+  Array<GetDiscussionDetailsResponseBodyCase0EventsItem>;
+export const GetDiscussionDetailsResponseBodyCase0EventsList = /*@__PURE__*/ S.Array(
+  GetDiscussionDetailsResponseBodyCase0EventsItem,
+) as any as S.Schema<GetDiscussionDetailsResponseBodyCase0EventsList>;
+
+export type GetDiscussionDetailsResponseBodyCase0Collection =
   | "discussions"
   | "paper_discussions"
   | "social_posts"
   | "community_blogs";
-export const GetDiscussionDetailsResponseCollection = S.String;
+export const GetDiscussionDetailsResponseBodyCase0Collection = S.String;
 
-export type GetDiscussionDetailsResponseFilesWithConflictsCase0List = Array<string>;
-export const GetDiscussionDetailsResponseFilesWithConflictsCase0List = /*@__PURE__*/ S.Array(
-  S.String,
-) as any as S.Schema<GetDiscussionDetailsResponseFilesWithConflictsCase0List>;
+export interface GetDiscussionDetailsResponseBodyCase0 {
+  diffUrl?: string;
+  /** A hex string of 24 characters representing an ObjectId. */
+  _id: string;
+  num?: number;
+  author?: GetDiscussionDetailsResponseBodyCase0Author;
+  org?: GetDiscussionDetailsResponseBodyCase0Org;
+  repo?: RepoId;
+  title: string;
+  createdAt?: string;
+  status: GetDiscussionDetailsResponseBodyCase0Status;
+  events: GetDiscussionDetailsResponseBodyCase0EventsList;
+  pinned: boolean;
+  locked: boolean;
+  collection: GetDiscussionDetailsResponseBodyCase0Collection;
+  isPullRequest: boolean;
+  isReport: boolean;
+}
+export const GetDiscussionDetailsResponseBodyCase0 = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    diffUrl: S.optional(S.String),
+    _id: S.String,
+    num: S.optional(S.Number),
+    author: S.optional(GetDiscussionDetailsResponseBodyCase0Author),
+    org: S.optional(GetDiscussionDetailsResponseBodyCase0Org),
+    repo: S.optional(RepoId),
+    title: S.String,
+    createdAt: S.optional(S.String),
+    status: GetDiscussionDetailsResponseBodyCase0Status,
+    events: GetDiscussionDetailsResponseBodyCase0EventsList,
+    pinned: S.Boolean,
+    locked: S.Boolean,
+    collection: GetDiscussionDetailsResponseBodyCase0Collection,
+    isPullRequest: S.Boolean,
+    isReport: S.Boolean,
+  }),
+).annotate({
+  identifier: "GetDiscussionDetailsResponseBodyCase0",
+}) as any as S.Schema<GetDiscussionDetailsResponseBodyCase0>;
+
+export type GetDiscussionDetailsResponseBodyCase1AuthorCase0Plan =
+  | "team"
+  | "enterprise"
+  | "plus"
+  | "academia";
+export const GetDiscussionDetailsResponseBodyCase1AuthorCase0Plan = S.String;
+
+export interface GetDiscussionDetailsResponseBodyCase1AuthorCase0 {
+  /** A hex string of 24 characters representing an ObjectId. */
+  _id: string;
+  avatarUrl: string;
+  fullname: string;
+  name: string;
+  isHf: boolean;
+  isHfAdmin: boolean;
+  isMod: boolean;
+  followerCount?: number;
+  type: string;
+  plan?: GetDiscussionDetailsResponseBodyCase1AuthorCase0Plan;
+  isUserFollowing?: boolean;
+}
+export const GetDiscussionDetailsResponseBodyCase1AuthorCase0 = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    _id: S.String,
+    avatarUrl: S.String,
+    fullname: S.String,
+    name: S.String,
+    isHf: S.Boolean,
+    isHfAdmin: S.Boolean,
+    isMod: S.Boolean,
+    followerCount: S.optional(S.Number),
+    type: S.String,
+    plan: S.optional(GetDiscussionDetailsResponseBodyCase1AuthorCase0Plan),
+    isUserFollowing: S.optional(S.Boolean),
+  }),
+).annotate({
+  identifier: "GetDiscussionDetailsResponseBodyCase1AuthorCase0",
+}) as any as S.Schema<GetDiscussionDetailsResponseBodyCase1AuthorCase0>;
+
+export type GetDiscussionDetailsResponseBodyCase1AuthorCase1PrimaryOrgPlan =
+  | "team"
+  | "enterprise"
+  | "plus"
+  | "academia";
+export const GetDiscussionDetailsResponseBodyCase1AuthorCase1PrimaryOrgPlan = S.String;
+
+export type GetDiscussionDetailsResponseBodyCase1AuthorCase1PrimaryOrgUserRole =
+  | "admin"
+  | "write"
+  | "contributor"
+  | "read"
+  | "no_access";
+export const GetDiscussionDetailsResponseBodyCase1AuthorCase1PrimaryOrgUserRole = S.String;
+
+export interface GetDiscussionDetailsResponseBodyCase1AuthorCase1PrimaryOrg {
+  avatarUrl: string;
+  fullname: string;
+  name: string;
+  type: string;
+  isHf: boolean;
+  isFollowing?: boolean;
+  plan?: GetDiscussionDetailsResponseBodyCase1AuthorCase1PrimaryOrgPlan;
+  details?: string;
+  hasPrivateMembersList?: boolean;
+  userRole?: GetDiscussionDetailsResponseBodyCase1AuthorCase1PrimaryOrgUserRole;
+  numUsers?: number;
+}
+export const GetDiscussionDetailsResponseBodyCase1AuthorCase1PrimaryOrg = /*@__PURE__*/ S.suspend(
+  () =>
+    S.Struct({
+      avatarUrl: S.String,
+      fullname: S.String,
+      name: S.String,
+      type: S.String,
+      isHf: S.Boolean,
+      isFollowing: S.optional(S.Boolean),
+      plan: S.optional(GetDiscussionDetailsResponseBodyCase1AuthorCase1PrimaryOrgPlan),
+      details: S.optional(S.String),
+      hasPrivateMembersList: S.optional(S.Boolean),
+      userRole: S.optional(GetDiscussionDetailsResponseBodyCase1AuthorCase1PrimaryOrgUserRole),
+      numUsers: S.optional(S.Number),
+    }),
+).annotate({
+  identifier: "GetDiscussionDetailsResponseBodyCase1AuthorCase1PrimaryOrg",
+}) as any as S.Schema<GetDiscussionDetailsResponseBodyCase1AuthorCase1PrimaryOrg>;
+
+export interface GetDiscussionDetailsResponseBodyCase1AuthorCase1 {
+  /** A hex string of 24 characters representing an ObjectId. */
+  _id: string;
+  avatarUrl: string;
+  fullname: string;
+  name: string;
+  isHf: boolean;
+  isHfAdmin: boolean;
+  isMod: boolean;
+  followerCount?: number;
+  type: string;
+  isPro: boolean;
+  isUserFollowing?: boolean;
+  primaryOrg?: GetDiscussionDetailsResponseBodyCase1AuthorCase1PrimaryOrg;
+}
+export const GetDiscussionDetailsResponseBodyCase1AuthorCase1 = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    _id: S.String,
+    avatarUrl: S.String,
+    fullname: S.String,
+    name: S.String,
+    isHf: S.Boolean,
+    isHfAdmin: S.Boolean,
+    isMod: S.Boolean,
+    followerCount: S.optional(S.Number),
+    type: S.String,
+    isPro: S.Boolean,
+    isUserFollowing: S.optional(S.Boolean),
+    primaryOrg: S.optional(GetDiscussionDetailsResponseBodyCase1AuthorCase1PrimaryOrg),
+  }),
+).annotate({
+  identifier: "GetDiscussionDetailsResponseBodyCase1AuthorCase1",
+}) as any as S.Schema<GetDiscussionDetailsResponseBodyCase1AuthorCase1>;
+
+export type GetDiscussionDetailsResponseBodyCase1Author =
+  | GetDiscussionDetailsResponseBodyCase1AuthorCase0
+  | GetDiscussionDetailsResponseBodyCase1AuthorCase1;
+export const GetDiscussionDetailsResponseBodyCase1Author =
+  S.Unknown as any as S.Schema<GetDiscussionDetailsResponseBodyCase1Author>;
+
+export type GetDiscussionDetailsResponseBodyCase1OrgPlan =
+  | "team"
+  | "enterprise"
+  | "plus"
+  | "academia";
+export const GetDiscussionDetailsResponseBodyCase1OrgPlan = S.String;
+
+export interface GetDiscussionDetailsResponseBodyCase1Org {
+  avatarUrl: string;
+  email?: string;
+  fullname: string;
+  name: string;
+  type: string;
+  isHf: boolean;
+  plan?: GetDiscussionDetailsResponseBodyCase1OrgPlan;
+  details?: string;
+  hasPrivateMembersList?: boolean;
+  requiresSSO?: boolean;
+}
+export const GetDiscussionDetailsResponseBodyCase1Org = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    avatarUrl: S.String,
+    email: S.optional(S.String),
+    fullname: S.String,
+    name: S.String,
+    type: S.String,
+    isHf: S.Boolean,
+    plan: S.optional(GetDiscussionDetailsResponseBodyCase1OrgPlan),
+    details: S.optional(S.String),
+    hasPrivateMembersList: S.optional(S.Boolean),
+    requiresSSO: S.optional(S.Boolean),
+  }),
+).annotate({
+  identifier: "GetDiscussionDetailsResponseBodyCase1Org",
+}) as any as S.Schema<GetDiscussionDetailsResponseBodyCase1Org>;
+
+export type GetDiscussionDetailsResponseBodyCase1Status = "draft" | "open" | "closed" | "merged";
+export const GetDiscussionDetailsResponseBodyCase1Status = S.String;
+
+export type GetDiscussionDetailsResponseBodyCase1EventsItemCase0AuthorCase0OauthAppImageData =
+  ChangeStatusResponseNewStatusAuthorCase0OauthAppImageData;
+export const GetDiscussionDetailsResponseBodyCase1EventsItemCase0AuthorCase0OauthAppImageData =
+  ChangeStatusResponseNewStatusAuthorCase0OauthAppImageData;
+
+export type GetDiscussionDetailsResponseBodyCase1EventsItemCase0AuthorCase0OauthApp =
+  ChangeStatusResponseNewStatusAuthorCase0OauthApp;
+export const GetDiscussionDetailsResponseBodyCase1EventsItemCase0AuthorCase0OauthApp =
+  ChangeStatusResponseNewStatusAuthorCase0OauthApp;
+
+export type GetDiscussionDetailsResponseBodyCase1EventsItemCase0AuthorCase0Plan =
+  | "team"
+  | "enterprise"
+  | "plus"
+  | "academia";
+export const GetDiscussionDetailsResponseBodyCase1EventsItemCase0AuthorCase0Plan = S.String;
+
+export interface GetDiscussionDetailsResponseBodyCase1EventsItemCase0AuthorCase0 {
+  isOwner?: boolean;
+  isOrgMember?: boolean;
+  isBlockedByMe?: boolean;
+  oauthApp?: ChangeStatusResponseNewStatusAuthorCase0OauthApp;
+  /** A hex string of 24 characters representing an ObjectId. */
+  _id: string;
+  avatarUrl: string;
+  fullname: string;
+  name: string;
+  isHf: boolean;
+  isHfAdmin: boolean;
+  isMod: boolean;
+  followerCount?: number;
+  type: string;
+  plan?: GetDiscussionDetailsResponseBodyCase1EventsItemCase0AuthorCase0Plan;
+  isUserFollowing?: boolean;
+}
+export const GetDiscussionDetailsResponseBodyCase1EventsItemCase0AuthorCase0 =
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      isOwner: S.optional(S.Boolean),
+      isOrgMember: S.optional(S.Boolean),
+      isBlockedByMe: S.optional(S.Boolean),
+      oauthApp: S.optional(ChangeStatusResponseNewStatusAuthorCase0OauthApp),
+      _id: S.String,
+      avatarUrl: S.String,
+      fullname: S.String,
+      name: S.String,
+      isHf: S.Boolean,
+      isHfAdmin: S.Boolean,
+      isMod: S.Boolean,
+      followerCount: S.optional(S.Number),
+      type: S.String,
+      plan: S.optional(GetDiscussionDetailsResponseBodyCase1EventsItemCase0AuthorCase0Plan),
+      isUserFollowing: S.optional(S.Boolean),
+    }),
+  ).annotate({
+    identifier: "GetDiscussionDetailsResponseBodyCase1EventsItemCase0AuthorCase0",
+  }) as any as S.Schema<GetDiscussionDetailsResponseBodyCase1EventsItemCase0AuthorCase0>;
+
+export type GetDiscussionDetailsResponseBodyCase1EventsItemCase0AuthorCase1OauthAppImageData =
+  ChangeStatusResponseNewStatusAuthorCase0OauthAppImageData;
+export const GetDiscussionDetailsResponseBodyCase1EventsItemCase0AuthorCase1OauthAppImageData =
+  ChangeStatusResponseNewStatusAuthorCase0OauthAppImageData;
+
+export type GetDiscussionDetailsResponseBodyCase1EventsItemCase0AuthorCase1OauthApp =
+  ChangeStatusResponseNewStatusAuthorCase0OauthApp;
+export const GetDiscussionDetailsResponseBodyCase1EventsItemCase0AuthorCase1OauthApp =
+  ChangeStatusResponseNewStatusAuthorCase0OauthApp;
+
+export type GetDiscussionDetailsResponseBodyCase1EventsItemCase0AuthorCase1PrimaryOrgPlan =
+  | "team"
+  | "enterprise"
+  | "plus"
+  | "academia";
+export const GetDiscussionDetailsResponseBodyCase1EventsItemCase0AuthorCase1PrimaryOrgPlan =
+  S.String;
+
+export type GetDiscussionDetailsResponseBodyCase1EventsItemCase0AuthorCase1PrimaryOrgUserRole =
+  | "admin"
+  | "write"
+  | "contributor"
+  | "read"
+  | "no_access";
+export const GetDiscussionDetailsResponseBodyCase1EventsItemCase0AuthorCase1PrimaryOrgUserRole =
+  S.String;
+
+export interface GetDiscussionDetailsResponseBodyCase1EventsItemCase0AuthorCase1PrimaryOrg {
+  avatarUrl: string;
+  fullname: string;
+  name: string;
+  type: string;
+  isHf: boolean;
+  isFollowing?: boolean;
+  plan?: GetDiscussionDetailsResponseBodyCase1EventsItemCase0AuthorCase1PrimaryOrgPlan;
+  details?: string;
+  hasPrivateMembersList?: boolean;
+  userRole?: GetDiscussionDetailsResponseBodyCase1EventsItemCase0AuthorCase1PrimaryOrgUserRole;
+  numUsers?: number;
+}
+export const GetDiscussionDetailsResponseBodyCase1EventsItemCase0AuthorCase1PrimaryOrg =
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      avatarUrl: S.String,
+      fullname: S.String,
+      name: S.String,
+      type: S.String,
+      isHf: S.Boolean,
+      isFollowing: S.optional(S.Boolean),
+      plan: S.optional(
+        GetDiscussionDetailsResponseBodyCase1EventsItemCase0AuthorCase1PrimaryOrgPlan,
+      ),
+      details: S.optional(S.String),
+      hasPrivateMembersList: S.optional(S.Boolean),
+      userRole: S.optional(
+        GetDiscussionDetailsResponseBodyCase1EventsItemCase0AuthorCase1PrimaryOrgUserRole,
+      ),
+      numUsers: S.optional(S.Number),
+    }),
+  ).annotate({
+    identifier: "GetDiscussionDetailsResponseBodyCase1EventsItemCase0AuthorCase1PrimaryOrg",
+  }) as any as S.Schema<GetDiscussionDetailsResponseBodyCase1EventsItemCase0AuthorCase1PrimaryOrg>;
+
+export interface GetDiscussionDetailsResponseBodyCase1EventsItemCase0AuthorCase1 {
+  isOwner?: boolean;
+  isOrgMember?: boolean;
+  isBlockedByMe?: boolean;
+  oauthApp?: ChangeStatusResponseNewStatusAuthorCase0OauthApp;
+  /** A hex string of 24 characters representing an ObjectId. */
+  _id: string;
+  avatarUrl: string;
+  fullname: string;
+  name: string;
+  isHf: boolean;
+  isHfAdmin: boolean;
+  isMod: boolean;
+  followerCount?: number;
+  type: string;
+  isPro: boolean;
+  isUserFollowing?: boolean;
+  primaryOrg?: GetDiscussionDetailsResponseBodyCase1EventsItemCase0AuthorCase1PrimaryOrg;
+}
+export const GetDiscussionDetailsResponseBodyCase1EventsItemCase0AuthorCase1 =
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      isOwner: S.optional(S.Boolean),
+      isOrgMember: S.optional(S.Boolean),
+      isBlockedByMe: S.optional(S.Boolean),
+      oauthApp: S.optional(ChangeStatusResponseNewStatusAuthorCase0OauthApp),
+      _id: S.String,
+      avatarUrl: S.String,
+      fullname: S.String,
+      name: S.String,
+      isHf: S.Boolean,
+      isHfAdmin: S.Boolean,
+      isMod: S.Boolean,
+      followerCount: S.optional(S.Number),
+      type: S.String,
+      isPro: S.Boolean,
+      isUserFollowing: S.optional(S.Boolean),
+      primaryOrg: S.optional(
+        GetDiscussionDetailsResponseBodyCase1EventsItemCase0AuthorCase1PrimaryOrg,
+      ),
+    }),
+  ).annotate({
+    identifier: "GetDiscussionDetailsResponseBodyCase1EventsItemCase0AuthorCase1",
+  }) as any as S.Schema<GetDiscussionDetailsResponseBodyCase1EventsItemCase0AuthorCase1>;
+
+export type GetDiscussionDetailsResponseBodyCase1EventsItemCase0Author =
+  | GetDiscussionDetailsResponseBodyCase1EventsItemCase0AuthorCase0
+  | GetDiscussionDetailsResponseBodyCase1EventsItemCase0AuthorCase1;
+export const GetDiscussionDetailsResponseBodyCase1EventsItemCase0Author =
+  S.Unknown as any as S.Schema<GetDiscussionDetailsResponseBodyCase1EventsItemCase0Author>;
+
+export type GetDiscussionDetailsResponseBodyCase1EventsItemCase0DataHiddenReason =
+  | "Spam"
+  | "Abuse"
+  | "Graphic Content"
+  | "Resolved"
+  | "Off-Topic"
+  | "Low Quality";
+export const GetDiscussionDetailsResponseBodyCase1EventsItemCase0DataHiddenReason = S.String;
+
+export type GetDiscussionDetailsResponseBodyCase1EventsItemCase0DataLatestAuthorCase0Plan =
+  | "team"
+  | "enterprise"
+  | "plus"
+  | "academia";
+export const GetDiscussionDetailsResponseBodyCase1EventsItemCase0DataLatestAuthorCase0Plan =
+  S.String;
+
+export interface GetDiscussionDetailsResponseBodyCase1EventsItemCase0DataLatestAuthorCase0 {
+  /** A hex string of 24 characters representing an ObjectId. */
+  _id: string;
+  avatarUrl: string;
+  fullname: string;
+  name: string;
+  isHf: boolean;
+  isHfAdmin: boolean;
+  isMod: boolean;
+  followerCount?: number;
+  type: string;
+  plan?: GetDiscussionDetailsResponseBodyCase1EventsItemCase0DataLatestAuthorCase0Plan;
+  isUserFollowing?: boolean;
+}
+export const GetDiscussionDetailsResponseBodyCase1EventsItemCase0DataLatestAuthorCase0 =
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      _id: S.String,
+      avatarUrl: S.String,
+      fullname: S.String,
+      name: S.String,
+      isHf: S.Boolean,
+      isHfAdmin: S.Boolean,
+      isMod: S.Boolean,
+      followerCount: S.optional(S.Number),
+      type: S.String,
+      plan: S.optional(
+        GetDiscussionDetailsResponseBodyCase1EventsItemCase0DataLatestAuthorCase0Plan,
+      ),
+      isUserFollowing: S.optional(S.Boolean),
+    }),
+  ).annotate({
+    identifier: "GetDiscussionDetailsResponseBodyCase1EventsItemCase0DataLatestAuthorCase0",
+  }) as any as S.Schema<GetDiscussionDetailsResponseBodyCase1EventsItemCase0DataLatestAuthorCase0>;
+
+export type GetDiscussionDetailsResponseBodyCase1EventsItemCase0DataLatestAuthorCase1PrimaryOrgPlan =
+  | "team"
+  | "enterprise"
+  | "plus"
+  | "academia";
+export const GetDiscussionDetailsResponseBodyCase1EventsItemCase0DataLatestAuthorCase1PrimaryOrgPlan =
+  S.String;
+
+export type GetDiscussionDetailsResponseBodyCase1EventsItemCase0DataLatestAuthorCase1PrimaryOrgUserRole =
+  | "admin"
+  | "write"
+  | "contributor"
+  | "read"
+  | "no_access";
+export const GetDiscussionDetailsResponseBodyCase1EventsItemCase0DataLatestAuthorCase1PrimaryOrgUserRole =
+  S.String;
+
+export interface GetDiscussionDetailsResponseBodyCase1EventsItemCase0DataLatestAuthorCase1PrimaryOrg {
+  avatarUrl: string;
+  fullname: string;
+  name: string;
+  type: string;
+  isHf: boolean;
+  isFollowing?: boolean;
+  plan?: GetDiscussionDetailsResponseBodyCase1EventsItemCase0DataLatestAuthorCase1PrimaryOrgPlan;
+  details?: string;
+  hasPrivateMembersList?: boolean;
+  userRole?: GetDiscussionDetailsResponseBodyCase1EventsItemCase0DataLatestAuthorCase1PrimaryOrgUserRole;
+  numUsers?: number;
+}
+export const GetDiscussionDetailsResponseBodyCase1EventsItemCase0DataLatestAuthorCase1PrimaryOrg =
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      avatarUrl: S.String,
+      fullname: S.String,
+      name: S.String,
+      type: S.String,
+      isHf: S.Boolean,
+      isFollowing: S.optional(S.Boolean),
+      plan: S.optional(
+        GetDiscussionDetailsResponseBodyCase1EventsItemCase0DataLatestAuthorCase1PrimaryOrgPlan,
+      ),
+      details: S.optional(S.String),
+      hasPrivateMembersList: S.optional(S.Boolean),
+      userRole: S.optional(
+        GetDiscussionDetailsResponseBodyCase1EventsItemCase0DataLatestAuthorCase1PrimaryOrgUserRole,
+      ),
+      numUsers: S.optional(S.Number),
+    }),
+  ).annotate({
+    identifier:
+      "GetDiscussionDetailsResponseBodyCase1EventsItemCase0DataLatestAuthorCase1PrimaryOrg",
+  }) as any as S.Schema<GetDiscussionDetailsResponseBodyCase1EventsItemCase0DataLatestAuthorCase1PrimaryOrg>;
+
+export interface GetDiscussionDetailsResponseBodyCase1EventsItemCase0DataLatestAuthorCase1 {
+  /** A hex string of 24 characters representing an ObjectId. */
+  _id: string;
+  avatarUrl: string;
+  fullname: string;
+  name: string;
+  isHf: boolean;
+  isHfAdmin: boolean;
+  isMod: boolean;
+  followerCount?: number;
+  type: string;
+  isPro: boolean;
+  isUserFollowing?: boolean;
+  primaryOrg?: GetDiscussionDetailsResponseBodyCase1EventsItemCase0DataLatestAuthorCase1PrimaryOrg;
+}
+export const GetDiscussionDetailsResponseBodyCase1EventsItemCase0DataLatestAuthorCase1 =
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      _id: S.String,
+      avatarUrl: S.String,
+      fullname: S.String,
+      name: S.String,
+      isHf: S.Boolean,
+      isHfAdmin: S.Boolean,
+      isMod: S.Boolean,
+      followerCount: S.optional(S.Number),
+      type: S.String,
+      isPro: S.Boolean,
+      isUserFollowing: S.optional(S.Boolean),
+      primaryOrg: S.optional(
+        GetDiscussionDetailsResponseBodyCase1EventsItemCase0DataLatestAuthorCase1PrimaryOrg,
+      ),
+    }),
+  ).annotate({
+    identifier: "GetDiscussionDetailsResponseBodyCase1EventsItemCase0DataLatestAuthorCase1",
+  }) as any as S.Schema<GetDiscussionDetailsResponseBodyCase1EventsItemCase0DataLatestAuthorCase1>;
+
+export type GetDiscussionDetailsResponseBodyCase1EventsItemCase0DataLatestAuthor =
+  | GetDiscussionDetailsResponseBodyCase1EventsItemCase0DataLatestAuthorCase0
+  | GetDiscussionDetailsResponseBodyCase1EventsItemCase0DataLatestAuthorCase1;
+export const GetDiscussionDetailsResponseBodyCase1EventsItemCase0DataLatestAuthor =
+  S.Unknown as any as S.Schema<GetDiscussionDetailsResponseBodyCase1EventsItemCase0DataLatestAuthor>;
+
+export interface GetDiscussionDetailsResponseBodyCase1EventsItemCase0DataLatest {
+  raw: string;
+  html: string;
+  updatedAt: string;
+  author?: GetDiscussionDetailsResponseBodyCase1EventsItemCase0DataLatestAuthor;
+}
+export const GetDiscussionDetailsResponseBodyCase1EventsItemCase0DataLatest =
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      raw: S.String,
+      html: S.String,
+      updatedAt: S.String,
+      author: S.optional(GetDiscussionDetailsResponseBodyCase1EventsItemCase0DataLatestAuthor),
+    }),
+  ).annotate({
+    identifier: "GetDiscussionDetailsResponseBodyCase1EventsItemCase0DataLatest",
+  }) as any as S.Schema<GetDiscussionDetailsResponseBodyCase1EventsItemCase0DataLatest>;
+
+export type GetDiscussionDetailsResponseBodyCase1EventsItemCase0DataEditorsList = Array<string>;
+export const GetDiscussionDetailsResponseBodyCase1EventsItemCase0DataEditorsList =
+  /*@__PURE__*/ S.Array(
+    S.String,
+  ) as any as S.Schema<GetDiscussionDetailsResponseBodyCase1EventsItemCase0DataEditorsList>;
+
+export type GetDiscussionDetailsResponseBodyCase1EventsItemCase0DataEditorAvatarUrlsList =
+  Array<string>;
+export const GetDiscussionDetailsResponseBodyCase1EventsItemCase0DataEditorAvatarUrlsList =
+  /*@__PURE__*/ S.Array(
+    S.String,
+  ) as any as S.Schema<GetDiscussionDetailsResponseBodyCase1EventsItemCase0DataEditorAvatarUrlsList>;
+
+export type GetDiscussionDetailsResponseBodyCase1EventsItemCase0DataReactionsItemReaction =
+  | "🔥"
+  | "🚀"
+  | "👀"
+  | "❤️"
+  | "🤗"
+  | "😎"
+  | "➕"
+  | "🧠"
+  | "👍"
+  | "🤝"
+  | "😔"
+  | "🤯";
+export const GetDiscussionDetailsResponseBodyCase1EventsItemCase0DataReactionsItemReaction =
+  S.String;
+
+export type GetDiscussionDetailsResponseBodyCase1EventsItemCase0DataReactionsItemUsersList =
+  Array<string>;
+export const GetDiscussionDetailsResponseBodyCase1EventsItemCase0DataReactionsItemUsersList =
+  /*@__PURE__*/ S.Array(
+    S.String,
+  ) as any as S.Schema<GetDiscussionDetailsResponseBodyCase1EventsItemCase0DataReactionsItemUsersList>;
+
+export interface GetDiscussionDetailsResponseBodyCase1EventsItemCase0DataReactionsItem {
+  reaction: GetDiscussionDetailsResponseBodyCase1EventsItemCase0DataReactionsItemReaction;
+  users: GetDiscussionDetailsResponseBodyCase1EventsItemCase0DataReactionsItemUsersList;
+  count: number;
+}
+export const GetDiscussionDetailsResponseBodyCase1EventsItemCase0DataReactionsItem =
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      reaction: GetDiscussionDetailsResponseBodyCase1EventsItemCase0DataReactionsItemReaction,
+      users: GetDiscussionDetailsResponseBodyCase1EventsItemCase0DataReactionsItemUsersList,
+      count: S.Number,
+    }),
+  ).annotate({
+    identifier: "GetDiscussionDetailsResponseBodyCase1EventsItemCase0DataReactionsItem",
+  }) as any as S.Schema<GetDiscussionDetailsResponseBodyCase1EventsItemCase0DataReactionsItem>;
+
+export type GetDiscussionDetailsResponseBodyCase1EventsItemCase0DataReactionsList =
+  Array<GetDiscussionDetailsResponseBodyCase1EventsItemCase0DataReactionsItem>;
+export const GetDiscussionDetailsResponseBodyCase1EventsItemCase0DataReactionsList =
+  /*@__PURE__*/ S.Array(
+    GetDiscussionDetailsResponseBodyCase1EventsItemCase0DataReactionsItem,
+  ) as any as S.Schema<GetDiscussionDetailsResponseBodyCase1EventsItemCase0DataReactionsList>;
+
+export type GetDiscussionDetailsResponseBodyCase1EventsItemCase0DataIdentifiedLanguage =
+  CreateBlogCommentResponseNewMessageDataIdentifiedLanguage;
+export const GetDiscussionDetailsResponseBodyCase1EventsItemCase0DataIdentifiedLanguage =
+  CreateBlogCommentResponseNewMessageDataIdentifiedLanguage;
+
+export interface GetDiscussionDetailsResponseBodyCase1EventsItemCase0Data {
+  edited: boolean;
+  hidden: boolean;
+  hiddenBy?: string;
+  hiddenReason?: GetDiscussionDetailsResponseBodyCase1EventsItemCase0DataHiddenReason;
+  latest: GetDiscussionDetailsResponseBodyCase1EventsItemCase0DataLatest;
+  numEdits: number;
+  editors: GetDiscussionDetailsResponseBodyCase1EventsItemCase0DataEditorsList;
+  editorAvatarUrls: GetDiscussionDetailsResponseBodyCase1EventsItemCase0DataEditorAvatarUrlsList;
+  reactions: GetDiscussionDetailsResponseBodyCase1EventsItemCase0DataReactionsList;
+  identifiedLanguage?: CreateBlogCommentResponseNewMessageDataIdentifiedLanguage;
+  relatedEventId?: string;
+  isReport?: boolean;
+  parentCommentId?: string;
+}
+export const GetDiscussionDetailsResponseBodyCase1EventsItemCase0Data = /*@__PURE__*/ S.suspend(
+  () =>
+    S.Struct({
+      edited: S.Boolean,
+      hidden: S.Boolean,
+      hiddenBy: S.optional(S.String),
+      hiddenReason: S.optional(
+        GetDiscussionDetailsResponseBodyCase1EventsItemCase0DataHiddenReason,
+      ),
+      latest: GetDiscussionDetailsResponseBodyCase1EventsItemCase0DataLatest,
+      numEdits: S.Number,
+      editors: GetDiscussionDetailsResponseBodyCase1EventsItemCase0DataEditorsList,
+      editorAvatarUrls:
+        GetDiscussionDetailsResponseBodyCase1EventsItemCase0DataEditorAvatarUrlsList,
+      reactions: GetDiscussionDetailsResponseBodyCase1EventsItemCase0DataReactionsList,
+      identifiedLanguage: S.optional(CreateBlogCommentResponseNewMessageDataIdentifiedLanguage),
+      relatedEventId: S.optional(S.String),
+      isReport: S.optional(S.Boolean),
+      parentCommentId: S.optional(S.String),
+    }),
+).annotate({
+  identifier: "GetDiscussionDetailsResponseBodyCase1EventsItemCase0Data",
+}) as any as S.Schema<GetDiscussionDetailsResponseBodyCase1EventsItemCase0Data>;
+
+export interface GetDiscussionDetailsResponseBodyCase1EventsItemCase0 {
+  id: string;
+  createdAt: string;
+  author?: GetDiscussionDetailsResponseBodyCase1EventsItemCase0Author;
+  type: string;
+  data: GetDiscussionDetailsResponseBodyCase1EventsItemCase0Data;
+}
+export const GetDiscussionDetailsResponseBodyCase1EventsItemCase0 = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    id: S.String,
+    createdAt: S.String,
+    author: S.optional(GetDiscussionDetailsResponseBodyCase1EventsItemCase0Author),
+    type: S.String,
+    data: GetDiscussionDetailsResponseBodyCase1EventsItemCase0Data,
+  }),
+).annotate({
+  identifier: "GetDiscussionDetailsResponseBodyCase1EventsItemCase0",
+}) as any as S.Schema<GetDiscussionDetailsResponseBodyCase1EventsItemCase0>;
+
+export type GetDiscussionDetailsResponseBodyCase1EventsItemCase1AuthorCase0OauthAppImageData =
+  ChangeStatusResponseNewStatusAuthorCase0OauthAppImageData;
+export const GetDiscussionDetailsResponseBodyCase1EventsItemCase1AuthorCase0OauthAppImageData =
+  ChangeStatusResponseNewStatusAuthorCase0OauthAppImageData;
+
+export type GetDiscussionDetailsResponseBodyCase1EventsItemCase1AuthorCase0OauthApp =
+  ChangeStatusResponseNewStatusAuthorCase0OauthApp;
+export const GetDiscussionDetailsResponseBodyCase1EventsItemCase1AuthorCase0OauthApp =
+  ChangeStatusResponseNewStatusAuthorCase0OauthApp;
+
+export type GetDiscussionDetailsResponseBodyCase1EventsItemCase1AuthorCase0Plan =
+  | "team"
+  | "enterprise"
+  | "plus"
+  | "academia";
+export const GetDiscussionDetailsResponseBodyCase1EventsItemCase1AuthorCase0Plan = S.String;
+
+export interface GetDiscussionDetailsResponseBodyCase1EventsItemCase1AuthorCase0 {
+  isOwner?: boolean;
+  isOrgMember?: boolean;
+  isBlockedByMe?: boolean;
+  oauthApp?: ChangeStatusResponseNewStatusAuthorCase0OauthApp;
+  /** A hex string of 24 characters representing an ObjectId. */
+  _id: string;
+  avatarUrl: string;
+  fullname: string;
+  name: string;
+  isHf: boolean;
+  isHfAdmin: boolean;
+  isMod: boolean;
+  followerCount?: number;
+  type: string;
+  plan?: GetDiscussionDetailsResponseBodyCase1EventsItemCase1AuthorCase0Plan;
+  isUserFollowing?: boolean;
+}
+export const GetDiscussionDetailsResponseBodyCase1EventsItemCase1AuthorCase0 =
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      isOwner: S.optional(S.Boolean),
+      isOrgMember: S.optional(S.Boolean),
+      isBlockedByMe: S.optional(S.Boolean),
+      oauthApp: S.optional(ChangeStatusResponseNewStatusAuthorCase0OauthApp),
+      _id: S.String,
+      avatarUrl: S.String,
+      fullname: S.String,
+      name: S.String,
+      isHf: S.Boolean,
+      isHfAdmin: S.Boolean,
+      isMod: S.Boolean,
+      followerCount: S.optional(S.Number),
+      type: S.String,
+      plan: S.optional(GetDiscussionDetailsResponseBodyCase1EventsItemCase1AuthorCase0Plan),
+      isUserFollowing: S.optional(S.Boolean),
+    }),
+  ).annotate({
+    identifier: "GetDiscussionDetailsResponseBodyCase1EventsItemCase1AuthorCase0",
+  }) as any as S.Schema<GetDiscussionDetailsResponseBodyCase1EventsItemCase1AuthorCase0>;
+
+export type GetDiscussionDetailsResponseBodyCase1EventsItemCase1AuthorCase1OauthAppImageData =
+  ChangeStatusResponseNewStatusAuthorCase0OauthAppImageData;
+export const GetDiscussionDetailsResponseBodyCase1EventsItemCase1AuthorCase1OauthAppImageData =
+  ChangeStatusResponseNewStatusAuthorCase0OauthAppImageData;
+
+export type GetDiscussionDetailsResponseBodyCase1EventsItemCase1AuthorCase1OauthApp =
+  ChangeStatusResponseNewStatusAuthorCase0OauthApp;
+export const GetDiscussionDetailsResponseBodyCase1EventsItemCase1AuthorCase1OauthApp =
+  ChangeStatusResponseNewStatusAuthorCase0OauthApp;
+
+export type GetDiscussionDetailsResponseBodyCase1EventsItemCase1AuthorCase1PrimaryOrgPlan =
+  | "team"
+  | "enterprise"
+  | "plus"
+  | "academia";
+export const GetDiscussionDetailsResponseBodyCase1EventsItemCase1AuthorCase1PrimaryOrgPlan =
+  S.String;
+
+export type GetDiscussionDetailsResponseBodyCase1EventsItemCase1AuthorCase1PrimaryOrgUserRole =
+  | "admin"
+  | "write"
+  | "contributor"
+  | "read"
+  | "no_access";
+export const GetDiscussionDetailsResponseBodyCase1EventsItemCase1AuthorCase1PrimaryOrgUserRole =
+  S.String;
+
+export interface GetDiscussionDetailsResponseBodyCase1EventsItemCase1AuthorCase1PrimaryOrg {
+  avatarUrl: string;
+  fullname: string;
+  name: string;
+  type: string;
+  isHf: boolean;
+  isFollowing?: boolean;
+  plan?: GetDiscussionDetailsResponseBodyCase1EventsItemCase1AuthorCase1PrimaryOrgPlan;
+  details?: string;
+  hasPrivateMembersList?: boolean;
+  userRole?: GetDiscussionDetailsResponseBodyCase1EventsItemCase1AuthorCase1PrimaryOrgUserRole;
+  numUsers?: number;
+}
+export const GetDiscussionDetailsResponseBodyCase1EventsItemCase1AuthorCase1PrimaryOrg =
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      avatarUrl: S.String,
+      fullname: S.String,
+      name: S.String,
+      type: S.String,
+      isHf: S.Boolean,
+      isFollowing: S.optional(S.Boolean),
+      plan: S.optional(
+        GetDiscussionDetailsResponseBodyCase1EventsItemCase1AuthorCase1PrimaryOrgPlan,
+      ),
+      details: S.optional(S.String),
+      hasPrivateMembersList: S.optional(S.Boolean),
+      userRole: S.optional(
+        GetDiscussionDetailsResponseBodyCase1EventsItemCase1AuthorCase1PrimaryOrgUserRole,
+      ),
+      numUsers: S.optional(S.Number),
+    }),
+  ).annotate({
+    identifier: "GetDiscussionDetailsResponseBodyCase1EventsItemCase1AuthorCase1PrimaryOrg",
+  }) as any as S.Schema<GetDiscussionDetailsResponseBodyCase1EventsItemCase1AuthorCase1PrimaryOrg>;
+
+export interface GetDiscussionDetailsResponseBodyCase1EventsItemCase1AuthorCase1 {
+  isOwner?: boolean;
+  isOrgMember?: boolean;
+  isBlockedByMe?: boolean;
+  oauthApp?: ChangeStatusResponseNewStatusAuthorCase0OauthApp;
+  /** A hex string of 24 characters representing an ObjectId. */
+  _id: string;
+  avatarUrl: string;
+  fullname: string;
+  name: string;
+  isHf: boolean;
+  isHfAdmin: boolean;
+  isMod: boolean;
+  followerCount?: number;
+  type: string;
+  isPro: boolean;
+  isUserFollowing?: boolean;
+  primaryOrg?: GetDiscussionDetailsResponseBodyCase1EventsItemCase1AuthorCase1PrimaryOrg;
+}
+export const GetDiscussionDetailsResponseBodyCase1EventsItemCase1AuthorCase1 =
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      isOwner: S.optional(S.Boolean),
+      isOrgMember: S.optional(S.Boolean),
+      isBlockedByMe: S.optional(S.Boolean),
+      oauthApp: S.optional(ChangeStatusResponseNewStatusAuthorCase0OauthApp),
+      _id: S.String,
+      avatarUrl: S.String,
+      fullname: S.String,
+      name: S.String,
+      isHf: S.Boolean,
+      isHfAdmin: S.Boolean,
+      isMod: S.Boolean,
+      followerCount: S.optional(S.Number),
+      type: S.String,
+      isPro: S.Boolean,
+      isUserFollowing: S.optional(S.Boolean),
+      primaryOrg: S.optional(
+        GetDiscussionDetailsResponseBodyCase1EventsItemCase1AuthorCase1PrimaryOrg,
+      ),
+    }),
+  ).annotate({
+    identifier: "GetDiscussionDetailsResponseBodyCase1EventsItemCase1AuthorCase1",
+  }) as any as S.Schema<GetDiscussionDetailsResponseBodyCase1EventsItemCase1AuthorCase1>;
+
+export type GetDiscussionDetailsResponseBodyCase1EventsItemCase1Author =
+  | GetDiscussionDetailsResponseBodyCase1EventsItemCase1AuthorCase0
+  | GetDiscussionDetailsResponseBodyCase1EventsItemCase1AuthorCase1;
+export const GetDiscussionDetailsResponseBodyCase1EventsItemCase1Author =
+  S.Unknown as any as S.Schema<GetDiscussionDetailsResponseBodyCase1EventsItemCase1Author>;
+
+export type GetDiscussionDetailsResponseBodyCase1EventsItemCase1DataStatus =
+  | "draft"
+  | "open"
+  | "closed"
+  | "merged";
+export const GetDiscussionDetailsResponseBodyCase1EventsItemCase1DataStatus = S.String;
+
+export interface GetDiscussionDetailsResponseBodyCase1EventsItemCase1Data {
+  status: GetDiscussionDetailsResponseBodyCase1EventsItemCase1DataStatus;
+  reason?: string;
+}
+export const GetDiscussionDetailsResponseBodyCase1EventsItemCase1Data = /*@__PURE__*/ S.suspend(
+  () =>
+    S.Struct({
+      status: GetDiscussionDetailsResponseBodyCase1EventsItemCase1DataStatus,
+      reason: S.optional(S.String),
+    }),
+).annotate({
+  identifier: "GetDiscussionDetailsResponseBodyCase1EventsItemCase1Data",
+}) as any as S.Schema<GetDiscussionDetailsResponseBodyCase1EventsItemCase1Data>;
+
+export interface GetDiscussionDetailsResponseBodyCase1EventsItemCase1 {
+  id: string;
+  createdAt: string;
+  author?: GetDiscussionDetailsResponseBodyCase1EventsItemCase1Author;
+  type: string;
+  data: GetDiscussionDetailsResponseBodyCase1EventsItemCase1Data;
+}
+export const GetDiscussionDetailsResponseBodyCase1EventsItemCase1 = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    id: S.String,
+    createdAt: S.String,
+    author: S.optional(GetDiscussionDetailsResponseBodyCase1EventsItemCase1Author),
+    type: S.String,
+    data: GetDiscussionDetailsResponseBodyCase1EventsItemCase1Data,
+  }),
+).annotate({
+  identifier: "GetDiscussionDetailsResponseBodyCase1EventsItemCase1",
+}) as any as S.Schema<GetDiscussionDetailsResponseBodyCase1EventsItemCase1>;
+
+export type GetDiscussionDetailsResponseBodyCase1EventsItemCase2AuthorCase0OauthAppImageData =
+  ChangeStatusResponseNewStatusAuthorCase0OauthAppImageData;
+export const GetDiscussionDetailsResponseBodyCase1EventsItemCase2AuthorCase0OauthAppImageData =
+  ChangeStatusResponseNewStatusAuthorCase0OauthAppImageData;
+
+export type GetDiscussionDetailsResponseBodyCase1EventsItemCase2AuthorCase0OauthApp =
+  ChangeStatusResponseNewStatusAuthorCase0OauthApp;
+export const GetDiscussionDetailsResponseBodyCase1EventsItemCase2AuthorCase0OauthApp =
+  ChangeStatusResponseNewStatusAuthorCase0OauthApp;
+
+export type GetDiscussionDetailsResponseBodyCase1EventsItemCase2AuthorCase0Plan =
+  | "team"
+  | "enterprise"
+  | "plus"
+  | "academia";
+export const GetDiscussionDetailsResponseBodyCase1EventsItemCase2AuthorCase0Plan = S.String;
+
+export interface GetDiscussionDetailsResponseBodyCase1EventsItemCase2AuthorCase0 {
+  isOwner?: boolean;
+  isOrgMember?: boolean;
+  isBlockedByMe?: boolean;
+  oauthApp?: ChangeStatusResponseNewStatusAuthorCase0OauthApp;
+  /** A hex string of 24 characters representing an ObjectId. */
+  _id: string;
+  avatarUrl: string;
+  fullname: string;
+  name: string;
+  isHf: boolean;
+  isHfAdmin: boolean;
+  isMod: boolean;
+  followerCount?: number;
+  type: string;
+  plan?: GetDiscussionDetailsResponseBodyCase1EventsItemCase2AuthorCase0Plan;
+  isUserFollowing?: boolean;
+}
+export const GetDiscussionDetailsResponseBodyCase1EventsItemCase2AuthorCase0 =
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      isOwner: S.optional(S.Boolean),
+      isOrgMember: S.optional(S.Boolean),
+      isBlockedByMe: S.optional(S.Boolean),
+      oauthApp: S.optional(ChangeStatusResponseNewStatusAuthorCase0OauthApp),
+      _id: S.String,
+      avatarUrl: S.String,
+      fullname: S.String,
+      name: S.String,
+      isHf: S.Boolean,
+      isHfAdmin: S.Boolean,
+      isMod: S.Boolean,
+      followerCount: S.optional(S.Number),
+      type: S.String,
+      plan: S.optional(GetDiscussionDetailsResponseBodyCase1EventsItemCase2AuthorCase0Plan),
+      isUserFollowing: S.optional(S.Boolean),
+    }),
+  ).annotate({
+    identifier: "GetDiscussionDetailsResponseBodyCase1EventsItemCase2AuthorCase0",
+  }) as any as S.Schema<GetDiscussionDetailsResponseBodyCase1EventsItemCase2AuthorCase0>;
+
+export type GetDiscussionDetailsResponseBodyCase1EventsItemCase2AuthorCase1OauthAppImageData =
+  ChangeStatusResponseNewStatusAuthorCase0OauthAppImageData;
+export const GetDiscussionDetailsResponseBodyCase1EventsItemCase2AuthorCase1OauthAppImageData =
+  ChangeStatusResponseNewStatusAuthorCase0OauthAppImageData;
+
+export type GetDiscussionDetailsResponseBodyCase1EventsItemCase2AuthorCase1OauthApp =
+  ChangeStatusResponseNewStatusAuthorCase0OauthApp;
+export const GetDiscussionDetailsResponseBodyCase1EventsItemCase2AuthorCase1OauthApp =
+  ChangeStatusResponseNewStatusAuthorCase0OauthApp;
+
+export type GetDiscussionDetailsResponseBodyCase1EventsItemCase2AuthorCase1PrimaryOrgPlan =
+  | "team"
+  | "enterprise"
+  | "plus"
+  | "academia";
+export const GetDiscussionDetailsResponseBodyCase1EventsItemCase2AuthorCase1PrimaryOrgPlan =
+  S.String;
+
+export type GetDiscussionDetailsResponseBodyCase1EventsItemCase2AuthorCase1PrimaryOrgUserRole =
+  | "admin"
+  | "write"
+  | "contributor"
+  | "read"
+  | "no_access";
+export const GetDiscussionDetailsResponseBodyCase1EventsItemCase2AuthorCase1PrimaryOrgUserRole =
+  S.String;
+
+export interface GetDiscussionDetailsResponseBodyCase1EventsItemCase2AuthorCase1PrimaryOrg {
+  avatarUrl: string;
+  fullname: string;
+  name: string;
+  type: string;
+  isHf: boolean;
+  isFollowing?: boolean;
+  plan?: GetDiscussionDetailsResponseBodyCase1EventsItemCase2AuthorCase1PrimaryOrgPlan;
+  details?: string;
+  hasPrivateMembersList?: boolean;
+  userRole?: GetDiscussionDetailsResponseBodyCase1EventsItemCase2AuthorCase1PrimaryOrgUserRole;
+  numUsers?: number;
+}
+export const GetDiscussionDetailsResponseBodyCase1EventsItemCase2AuthorCase1PrimaryOrg =
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      avatarUrl: S.String,
+      fullname: S.String,
+      name: S.String,
+      type: S.String,
+      isHf: S.Boolean,
+      isFollowing: S.optional(S.Boolean),
+      plan: S.optional(
+        GetDiscussionDetailsResponseBodyCase1EventsItemCase2AuthorCase1PrimaryOrgPlan,
+      ),
+      details: S.optional(S.String),
+      hasPrivateMembersList: S.optional(S.Boolean),
+      userRole: S.optional(
+        GetDiscussionDetailsResponseBodyCase1EventsItemCase2AuthorCase1PrimaryOrgUserRole,
+      ),
+      numUsers: S.optional(S.Number),
+    }),
+  ).annotate({
+    identifier: "GetDiscussionDetailsResponseBodyCase1EventsItemCase2AuthorCase1PrimaryOrg",
+  }) as any as S.Schema<GetDiscussionDetailsResponseBodyCase1EventsItemCase2AuthorCase1PrimaryOrg>;
+
+export interface GetDiscussionDetailsResponseBodyCase1EventsItemCase2AuthorCase1 {
+  isOwner?: boolean;
+  isOrgMember?: boolean;
+  isBlockedByMe?: boolean;
+  oauthApp?: ChangeStatusResponseNewStatusAuthorCase0OauthApp;
+  /** A hex string of 24 characters representing an ObjectId. */
+  _id: string;
+  avatarUrl: string;
+  fullname: string;
+  name: string;
+  isHf: boolean;
+  isHfAdmin: boolean;
+  isMod: boolean;
+  followerCount?: number;
+  type: string;
+  isPro: boolean;
+  isUserFollowing?: boolean;
+  primaryOrg?: GetDiscussionDetailsResponseBodyCase1EventsItemCase2AuthorCase1PrimaryOrg;
+}
+export const GetDiscussionDetailsResponseBodyCase1EventsItemCase2AuthorCase1 =
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      isOwner: S.optional(S.Boolean),
+      isOrgMember: S.optional(S.Boolean),
+      isBlockedByMe: S.optional(S.Boolean),
+      oauthApp: S.optional(ChangeStatusResponseNewStatusAuthorCase0OauthApp),
+      _id: S.String,
+      avatarUrl: S.String,
+      fullname: S.String,
+      name: S.String,
+      isHf: S.Boolean,
+      isHfAdmin: S.Boolean,
+      isMod: S.Boolean,
+      followerCount: S.optional(S.Number),
+      type: S.String,
+      isPro: S.Boolean,
+      isUserFollowing: S.optional(S.Boolean),
+      primaryOrg: S.optional(
+        GetDiscussionDetailsResponseBodyCase1EventsItemCase2AuthorCase1PrimaryOrg,
+      ),
+    }),
+  ).annotate({
+    identifier: "GetDiscussionDetailsResponseBodyCase1EventsItemCase2AuthorCase1",
+  }) as any as S.Schema<GetDiscussionDetailsResponseBodyCase1EventsItemCase2AuthorCase1>;
+
+export type GetDiscussionDetailsResponseBodyCase1EventsItemCase2Author =
+  | GetDiscussionDetailsResponseBodyCase1EventsItemCase2AuthorCase0
+  | GetDiscussionDetailsResponseBodyCase1EventsItemCase2AuthorCase1;
+export const GetDiscussionDetailsResponseBodyCase1EventsItemCase2Author =
+  S.Unknown as any as S.Schema<GetDiscussionDetailsResponseBodyCase1EventsItemCase2Author>;
+
+export type GetDiscussionDetailsResponseBodyCase1EventsItemCase2Data =
+  GetDiscussionDetailsResponseBodyCase0EventsItemCase2Data;
+export const GetDiscussionDetailsResponseBodyCase1EventsItemCase2Data =
+  GetDiscussionDetailsResponseBodyCase0EventsItemCase2Data;
+
+export interface GetDiscussionDetailsResponseBodyCase1EventsItemCase2 {
+  id: string;
+  createdAt: string;
+  author?: GetDiscussionDetailsResponseBodyCase1EventsItemCase2Author;
+  type: string;
+  data: GetDiscussionDetailsResponseBodyCase0EventsItemCase2Data;
+}
+export const GetDiscussionDetailsResponseBodyCase1EventsItemCase2 = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    id: S.String,
+    createdAt: S.String,
+    author: S.optional(GetDiscussionDetailsResponseBodyCase1EventsItemCase2Author),
+    type: S.String,
+    data: GetDiscussionDetailsResponseBodyCase0EventsItemCase2Data,
+  }),
+).annotate({
+  identifier: "GetDiscussionDetailsResponseBodyCase1EventsItemCase2",
+}) as any as S.Schema<GetDiscussionDetailsResponseBodyCase1EventsItemCase2>;
+
+export type GetDiscussionDetailsResponseBodyCase1EventsItemCase3AuthorCase0OauthAppImageData =
+  ChangeStatusResponseNewStatusAuthorCase0OauthAppImageData;
+export const GetDiscussionDetailsResponseBodyCase1EventsItemCase3AuthorCase0OauthAppImageData =
+  ChangeStatusResponseNewStatusAuthorCase0OauthAppImageData;
+
+export type GetDiscussionDetailsResponseBodyCase1EventsItemCase3AuthorCase0OauthApp =
+  ChangeStatusResponseNewStatusAuthorCase0OauthApp;
+export const GetDiscussionDetailsResponseBodyCase1EventsItemCase3AuthorCase0OauthApp =
+  ChangeStatusResponseNewStatusAuthorCase0OauthApp;
+
+export type GetDiscussionDetailsResponseBodyCase1EventsItemCase3AuthorCase0Plan =
+  | "team"
+  | "enterprise"
+  | "plus"
+  | "academia";
+export const GetDiscussionDetailsResponseBodyCase1EventsItemCase3AuthorCase0Plan = S.String;
+
+export interface GetDiscussionDetailsResponseBodyCase1EventsItemCase3AuthorCase0 {
+  isOwner?: boolean;
+  isOrgMember?: boolean;
+  isBlockedByMe?: boolean;
+  oauthApp?: ChangeStatusResponseNewStatusAuthorCase0OauthApp;
+  /** A hex string of 24 characters representing an ObjectId. */
+  _id: string;
+  avatarUrl: string;
+  fullname: string;
+  name: string;
+  isHf: boolean;
+  isHfAdmin: boolean;
+  isMod: boolean;
+  followerCount?: number;
+  type: string;
+  plan?: GetDiscussionDetailsResponseBodyCase1EventsItemCase3AuthorCase0Plan;
+  isUserFollowing?: boolean;
+}
+export const GetDiscussionDetailsResponseBodyCase1EventsItemCase3AuthorCase0 =
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      isOwner: S.optional(S.Boolean),
+      isOrgMember: S.optional(S.Boolean),
+      isBlockedByMe: S.optional(S.Boolean),
+      oauthApp: S.optional(ChangeStatusResponseNewStatusAuthorCase0OauthApp),
+      _id: S.String,
+      avatarUrl: S.String,
+      fullname: S.String,
+      name: S.String,
+      isHf: S.Boolean,
+      isHfAdmin: S.Boolean,
+      isMod: S.Boolean,
+      followerCount: S.optional(S.Number),
+      type: S.String,
+      plan: S.optional(GetDiscussionDetailsResponseBodyCase1EventsItemCase3AuthorCase0Plan),
+      isUserFollowing: S.optional(S.Boolean),
+    }),
+  ).annotate({
+    identifier: "GetDiscussionDetailsResponseBodyCase1EventsItemCase3AuthorCase0",
+  }) as any as S.Schema<GetDiscussionDetailsResponseBodyCase1EventsItemCase3AuthorCase0>;
+
+export type GetDiscussionDetailsResponseBodyCase1EventsItemCase3AuthorCase1OauthAppImageData =
+  ChangeStatusResponseNewStatusAuthorCase0OauthAppImageData;
+export const GetDiscussionDetailsResponseBodyCase1EventsItemCase3AuthorCase1OauthAppImageData =
+  ChangeStatusResponseNewStatusAuthorCase0OauthAppImageData;
+
+export type GetDiscussionDetailsResponseBodyCase1EventsItemCase3AuthorCase1OauthApp =
+  ChangeStatusResponseNewStatusAuthorCase0OauthApp;
+export const GetDiscussionDetailsResponseBodyCase1EventsItemCase3AuthorCase1OauthApp =
+  ChangeStatusResponseNewStatusAuthorCase0OauthApp;
+
+export type GetDiscussionDetailsResponseBodyCase1EventsItemCase3AuthorCase1PrimaryOrgPlan =
+  | "team"
+  | "enterprise"
+  | "plus"
+  | "academia";
+export const GetDiscussionDetailsResponseBodyCase1EventsItemCase3AuthorCase1PrimaryOrgPlan =
+  S.String;
+
+export type GetDiscussionDetailsResponseBodyCase1EventsItemCase3AuthorCase1PrimaryOrgUserRole =
+  | "admin"
+  | "write"
+  | "contributor"
+  | "read"
+  | "no_access";
+export const GetDiscussionDetailsResponseBodyCase1EventsItemCase3AuthorCase1PrimaryOrgUserRole =
+  S.String;
+
+export interface GetDiscussionDetailsResponseBodyCase1EventsItemCase3AuthorCase1PrimaryOrg {
+  avatarUrl: string;
+  fullname: string;
+  name: string;
+  type: string;
+  isHf: boolean;
+  isFollowing?: boolean;
+  plan?: GetDiscussionDetailsResponseBodyCase1EventsItemCase3AuthorCase1PrimaryOrgPlan;
+  details?: string;
+  hasPrivateMembersList?: boolean;
+  userRole?: GetDiscussionDetailsResponseBodyCase1EventsItemCase3AuthorCase1PrimaryOrgUserRole;
+  numUsers?: number;
+}
+export const GetDiscussionDetailsResponseBodyCase1EventsItemCase3AuthorCase1PrimaryOrg =
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      avatarUrl: S.String,
+      fullname: S.String,
+      name: S.String,
+      type: S.String,
+      isHf: S.Boolean,
+      isFollowing: S.optional(S.Boolean),
+      plan: S.optional(
+        GetDiscussionDetailsResponseBodyCase1EventsItemCase3AuthorCase1PrimaryOrgPlan,
+      ),
+      details: S.optional(S.String),
+      hasPrivateMembersList: S.optional(S.Boolean),
+      userRole: S.optional(
+        GetDiscussionDetailsResponseBodyCase1EventsItemCase3AuthorCase1PrimaryOrgUserRole,
+      ),
+      numUsers: S.optional(S.Number),
+    }),
+  ).annotate({
+    identifier: "GetDiscussionDetailsResponseBodyCase1EventsItemCase3AuthorCase1PrimaryOrg",
+  }) as any as S.Schema<GetDiscussionDetailsResponseBodyCase1EventsItemCase3AuthorCase1PrimaryOrg>;
+
+export interface GetDiscussionDetailsResponseBodyCase1EventsItemCase3AuthorCase1 {
+  isOwner?: boolean;
+  isOrgMember?: boolean;
+  isBlockedByMe?: boolean;
+  oauthApp?: ChangeStatusResponseNewStatusAuthorCase0OauthApp;
+  /** A hex string of 24 characters representing an ObjectId. */
+  _id: string;
+  avatarUrl: string;
+  fullname: string;
+  name: string;
+  isHf: boolean;
+  isHfAdmin: boolean;
+  isMod: boolean;
+  followerCount?: number;
+  type: string;
+  isPro: boolean;
+  isUserFollowing?: boolean;
+  primaryOrg?: GetDiscussionDetailsResponseBodyCase1EventsItemCase3AuthorCase1PrimaryOrg;
+}
+export const GetDiscussionDetailsResponseBodyCase1EventsItemCase3AuthorCase1 =
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      isOwner: S.optional(S.Boolean),
+      isOrgMember: S.optional(S.Boolean),
+      isBlockedByMe: S.optional(S.Boolean),
+      oauthApp: S.optional(ChangeStatusResponseNewStatusAuthorCase0OauthApp),
+      _id: S.String,
+      avatarUrl: S.String,
+      fullname: S.String,
+      name: S.String,
+      isHf: S.Boolean,
+      isHfAdmin: S.Boolean,
+      isMod: S.Boolean,
+      followerCount: S.optional(S.Number),
+      type: S.String,
+      isPro: S.Boolean,
+      isUserFollowing: S.optional(S.Boolean),
+      primaryOrg: S.optional(
+        GetDiscussionDetailsResponseBodyCase1EventsItemCase3AuthorCase1PrimaryOrg,
+      ),
+    }),
+  ).annotate({
+    identifier: "GetDiscussionDetailsResponseBodyCase1EventsItemCase3AuthorCase1",
+  }) as any as S.Schema<GetDiscussionDetailsResponseBodyCase1EventsItemCase3AuthorCase1>;
+
+export type GetDiscussionDetailsResponseBodyCase1EventsItemCase3Author =
+  | GetDiscussionDetailsResponseBodyCase1EventsItemCase3AuthorCase0
+  | GetDiscussionDetailsResponseBodyCase1EventsItemCase3AuthorCase1;
+export const GetDiscussionDetailsResponseBodyCase1EventsItemCase3Author =
+  S.Unknown as any as S.Schema<GetDiscussionDetailsResponseBodyCase1EventsItemCase3Author>;
+
+export type GetDiscussionDetailsResponseBodyCase1EventsItemCase3Data =
+  ChangeTitleResponseNewTitleData;
+export const GetDiscussionDetailsResponseBodyCase1EventsItemCase3Data =
+  ChangeTitleResponseNewTitleData;
+
+export interface GetDiscussionDetailsResponseBodyCase1EventsItemCase3 {
+  id: string;
+  createdAt: string;
+  author?: GetDiscussionDetailsResponseBodyCase1EventsItemCase3Author;
+  type: string;
+  data: ChangeTitleResponseNewTitleData;
+}
+export const GetDiscussionDetailsResponseBodyCase1EventsItemCase3 = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    id: S.String,
+    createdAt: S.String,
+    author: S.optional(GetDiscussionDetailsResponseBodyCase1EventsItemCase3Author),
+    type: S.String,
+    data: ChangeTitleResponseNewTitleData,
+  }),
+).annotate({
+  identifier: "GetDiscussionDetailsResponseBodyCase1EventsItemCase3",
+}) as any as S.Schema<GetDiscussionDetailsResponseBodyCase1EventsItemCase3>;
+
+export type GetDiscussionDetailsResponseBodyCase1EventsItemCase4AuthorCase0OauthAppImageData =
+  ChangeStatusResponseNewStatusAuthorCase0OauthAppImageData;
+export const GetDiscussionDetailsResponseBodyCase1EventsItemCase4AuthorCase0OauthAppImageData =
+  ChangeStatusResponseNewStatusAuthorCase0OauthAppImageData;
+
+export type GetDiscussionDetailsResponseBodyCase1EventsItemCase4AuthorCase0OauthApp =
+  ChangeStatusResponseNewStatusAuthorCase0OauthApp;
+export const GetDiscussionDetailsResponseBodyCase1EventsItemCase4AuthorCase0OauthApp =
+  ChangeStatusResponseNewStatusAuthorCase0OauthApp;
+
+export type GetDiscussionDetailsResponseBodyCase1EventsItemCase4AuthorCase0Plan =
+  | "team"
+  | "enterprise"
+  | "plus"
+  | "academia";
+export const GetDiscussionDetailsResponseBodyCase1EventsItemCase4AuthorCase0Plan = S.String;
+
+export interface GetDiscussionDetailsResponseBodyCase1EventsItemCase4AuthorCase0 {
+  isOwner?: boolean;
+  isOrgMember?: boolean;
+  isBlockedByMe?: boolean;
+  oauthApp?: ChangeStatusResponseNewStatusAuthorCase0OauthApp;
+  /** A hex string of 24 characters representing an ObjectId. */
+  _id: string;
+  avatarUrl: string;
+  fullname: string;
+  name: string;
+  isHf: boolean;
+  isHfAdmin: boolean;
+  isMod: boolean;
+  followerCount?: number;
+  type: string;
+  plan?: GetDiscussionDetailsResponseBodyCase1EventsItemCase4AuthorCase0Plan;
+  isUserFollowing?: boolean;
+}
+export const GetDiscussionDetailsResponseBodyCase1EventsItemCase4AuthorCase0 =
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      isOwner: S.optional(S.Boolean),
+      isOrgMember: S.optional(S.Boolean),
+      isBlockedByMe: S.optional(S.Boolean),
+      oauthApp: S.optional(ChangeStatusResponseNewStatusAuthorCase0OauthApp),
+      _id: S.String,
+      avatarUrl: S.String,
+      fullname: S.String,
+      name: S.String,
+      isHf: S.Boolean,
+      isHfAdmin: S.Boolean,
+      isMod: S.Boolean,
+      followerCount: S.optional(S.Number),
+      type: S.String,
+      plan: S.optional(GetDiscussionDetailsResponseBodyCase1EventsItemCase4AuthorCase0Plan),
+      isUserFollowing: S.optional(S.Boolean),
+    }),
+  ).annotate({
+    identifier: "GetDiscussionDetailsResponseBodyCase1EventsItemCase4AuthorCase0",
+  }) as any as S.Schema<GetDiscussionDetailsResponseBodyCase1EventsItemCase4AuthorCase0>;
+
+export type GetDiscussionDetailsResponseBodyCase1EventsItemCase4AuthorCase1OauthAppImageData =
+  ChangeStatusResponseNewStatusAuthorCase0OauthAppImageData;
+export const GetDiscussionDetailsResponseBodyCase1EventsItemCase4AuthorCase1OauthAppImageData =
+  ChangeStatusResponseNewStatusAuthorCase0OauthAppImageData;
+
+export type GetDiscussionDetailsResponseBodyCase1EventsItemCase4AuthorCase1OauthApp =
+  ChangeStatusResponseNewStatusAuthorCase0OauthApp;
+export const GetDiscussionDetailsResponseBodyCase1EventsItemCase4AuthorCase1OauthApp =
+  ChangeStatusResponseNewStatusAuthorCase0OauthApp;
+
+export type GetDiscussionDetailsResponseBodyCase1EventsItemCase4AuthorCase1PrimaryOrgPlan =
+  | "team"
+  | "enterprise"
+  | "plus"
+  | "academia";
+export const GetDiscussionDetailsResponseBodyCase1EventsItemCase4AuthorCase1PrimaryOrgPlan =
+  S.String;
+
+export type GetDiscussionDetailsResponseBodyCase1EventsItemCase4AuthorCase1PrimaryOrgUserRole =
+  | "admin"
+  | "write"
+  | "contributor"
+  | "read"
+  | "no_access";
+export const GetDiscussionDetailsResponseBodyCase1EventsItemCase4AuthorCase1PrimaryOrgUserRole =
+  S.String;
+
+export interface GetDiscussionDetailsResponseBodyCase1EventsItemCase4AuthorCase1PrimaryOrg {
+  avatarUrl: string;
+  fullname: string;
+  name: string;
+  type: string;
+  isHf: boolean;
+  isFollowing?: boolean;
+  plan?: GetDiscussionDetailsResponseBodyCase1EventsItemCase4AuthorCase1PrimaryOrgPlan;
+  details?: string;
+  hasPrivateMembersList?: boolean;
+  userRole?: GetDiscussionDetailsResponseBodyCase1EventsItemCase4AuthorCase1PrimaryOrgUserRole;
+  numUsers?: number;
+}
+export const GetDiscussionDetailsResponseBodyCase1EventsItemCase4AuthorCase1PrimaryOrg =
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      avatarUrl: S.String,
+      fullname: S.String,
+      name: S.String,
+      type: S.String,
+      isHf: S.Boolean,
+      isFollowing: S.optional(S.Boolean),
+      plan: S.optional(
+        GetDiscussionDetailsResponseBodyCase1EventsItemCase4AuthorCase1PrimaryOrgPlan,
+      ),
+      details: S.optional(S.String),
+      hasPrivateMembersList: S.optional(S.Boolean),
+      userRole: S.optional(
+        GetDiscussionDetailsResponseBodyCase1EventsItemCase4AuthorCase1PrimaryOrgUserRole,
+      ),
+      numUsers: S.optional(S.Number),
+    }),
+  ).annotate({
+    identifier: "GetDiscussionDetailsResponseBodyCase1EventsItemCase4AuthorCase1PrimaryOrg",
+  }) as any as S.Schema<GetDiscussionDetailsResponseBodyCase1EventsItemCase4AuthorCase1PrimaryOrg>;
+
+export interface GetDiscussionDetailsResponseBodyCase1EventsItemCase4AuthorCase1 {
+  isOwner?: boolean;
+  isOrgMember?: boolean;
+  isBlockedByMe?: boolean;
+  oauthApp?: ChangeStatusResponseNewStatusAuthorCase0OauthApp;
+  /** A hex string of 24 characters representing an ObjectId. */
+  _id: string;
+  avatarUrl: string;
+  fullname: string;
+  name: string;
+  isHf: boolean;
+  isHfAdmin: boolean;
+  isMod: boolean;
+  followerCount?: number;
+  type: string;
+  isPro: boolean;
+  isUserFollowing?: boolean;
+  primaryOrg?: GetDiscussionDetailsResponseBodyCase1EventsItemCase4AuthorCase1PrimaryOrg;
+}
+export const GetDiscussionDetailsResponseBodyCase1EventsItemCase4AuthorCase1 =
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      isOwner: S.optional(S.Boolean),
+      isOrgMember: S.optional(S.Boolean),
+      isBlockedByMe: S.optional(S.Boolean),
+      oauthApp: S.optional(ChangeStatusResponseNewStatusAuthorCase0OauthApp),
+      _id: S.String,
+      avatarUrl: S.String,
+      fullname: S.String,
+      name: S.String,
+      isHf: S.Boolean,
+      isHfAdmin: S.Boolean,
+      isMod: S.Boolean,
+      followerCount: S.optional(S.Number),
+      type: S.String,
+      isPro: S.Boolean,
+      isUserFollowing: S.optional(S.Boolean),
+      primaryOrg: S.optional(
+        GetDiscussionDetailsResponseBodyCase1EventsItemCase4AuthorCase1PrimaryOrg,
+      ),
+    }),
+  ).annotate({
+    identifier: "GetDiscussionDetailsResponseBodyCase1EventsItemCase4AuthorCase1",
+  }) as any as S.Schema<GetDiscussionDetailsResponseBodyCase1EventsItemCase4AuthorCase1>;
+
+export type GetDiscussionDetailsResponseBodyCase1EventsItemCase4Author =
+  | GetDiscussionDetailsResponseBodyCase1EventsItemCase4AuthorCase0
+  | GetDiscussionDetailsResponseBodyCase1EventsItemCase4AuthorCase1;
+export const GetDiscussionDetailsResponseBodyCase1EventsItemCase4Author =
+  S.Unknown as any as S.Schema<GetDiscussionDetailsResponseBodyCase1EventsItemCase4Author>;
+
+export type GetDiscussionDetailsResponseBodyCase1EventsItemCase4Data =
+  GetDiscussionDetailsResponseBodyCase0EventsItemCase4Data;
+export const GetDiscussionDetailsResponseBodyCase1EventsItemCase4Data =
+  GetDiscussionDetailsResponseBodyCase0EventsItemCase4Data;
+
+export interface GetDiscussionDetailsResponseBodyCase1EventsItemCase4 {
+  id: string;
+  createdAt: string;
+  author?: GetDiscussionDetailsResponseBodyCase1EventsItemCase4Author;
+  type: string;
+  data: GetDiscussionDetailsResponseBodyCase0EventsItemCase4Data;
+}
+export const GetDiscussionDetailsResponseBodyCase1EventsItemCase4 = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    id: S.String,
+    createdAt: S.String,
+    author: S.optional(GetDiscussionDetailsResponseBodyCase1EventsItemCase4Author),
+    type: S.String,
+    data: GetDiscussionDetailsResponseBodyCase0EventsItemCase4Data,
+  }),
+).annotate({
+  identifier: "GetDiscussionDetailsResponseBodyCase1EventsItemCase4",
+}) as any as S.Schema<GetDiscussionDetailsResponseBodyCase1EventsItemCase4>;
+
+export type GetDiscussionDetailsResponseBodyCase1EventsItemCase5AuthorCase0OauthAppImageData =
+  ChangeStatusResponseNewStatusAuthorCase0OauthAppImageData;
+export const GetDiscussionDetailsResponseBodyCase1EventsItemCase5AuthorCase0OauthAppImageData =
+  ChangeStatusResponseNewStatusAuthorCase0OauthAppImageData;
+
+export type GetDiscussionDetailsResponseBodyCase1EventsItemCase5AuthorCase0OauthApp =
+  ChangeStatusResponseNewStatusAuthorCase0OauthApp;
+export const GetDiscussionDetailsResponseBodyCase1EventsItemCase5AuthorCase0OauthApp =
+  ChangeStatusResponseNewStatusAuthorCase0OauthApp;
+
+export type GetDiscussionDetailsResponseBodyCase1EventsItemCase5AuthorCase0Plan =
+  | "team"
+  | "enterprise"
+  | "plus"
+  | "academia";
+export const GetDiscussionDetailsResponseBodyCase1EventsItemCase5AuthorCase0Plan = S.String;
+
+export interface GetDiscussionDetailsResponseBodyCase1EventsItemCase5AuthorCase0 {
+  isOwner?: boolean;
+  isOrgMember?: boolean;
+  isBlockedByMe?: boolean;
+  oauthApp?: ChangeStatusResponseNewStatusAuthorCase0OauthApp;
+  /** A hex string of 24 characters representing an ObjectId. */
+  _id: string;
+  avatarUrl: string;
+  fullname: string;
+  name: string;
+  isHf: boolean;
+  isHfAdmin: boolean;
+  isMod: boolean;
+  followerCount?: number;
+  type: string;
+  plan?: GetDiscussionDetailsResponseBodyCase1EventsItemCase5AuthorCase0Plan;
+  isUserFollowing?: boolean;
+}
+export const GetDiscussionDetailsResponseBodyCase1EventsItemCase5AuthorCase0 =
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      isOwner: S.optional(S.Boolean),
+      isOrgMember: S.optional(S.Boolean),
+      isBlockedByMe: S.optional(S.Boolean),
+      oauthApp: S.optional(ChangeStatusResponseNewStatusAuthorCase0OauthApp),
+      _id: S.String,
+      avatarUrl: S.String,
+      fullname: S.String,
+      name: S.String,
+      isHf: S.Boolean,
+      isHfAdmin: S.Boolean,
+      isMod: S.Boolean,
+      followerCount: S.optional(S.Number),
+      type: S.String,
+      plan: S.optional(GetDiscussionDetailsResponseBodyCase1EventsItemCase5AuthorCase0Plan),
+      isUserFollowing: S.optional(S.Boolean),
+    }),
+  ).annotate({
+    identifier: "GetDiscussionDetailsResponseBodyCase1EventsItemCase5AuthorCase0",
+  }) as any as S.Schema<GetDiscussionDetailsResponseBodyCase1EventsItemCase5AuthorCase0>;
+
+export type GetDiscussionDetailsResponseBodyCase1EventsItemCase5AuthorCase1OauthAppImageData =
+  ChangeStatusResponseNewStatusAuthorCase0OauthAppImageData;
+export const GetDiscussionDetailsResponseBodyCase1EventsItemCase5AuthorCase1OauthAppImageData =
+  ChangeStatusResponseNewStatusAuthorCase0OauthAppImageData;
+
+export type GetDiscussionDetailsResponseBodyCase1EventsItemCase5AuthorCase1OauthApp =
+  ChangeStatusResponseNewStatusAuthorCase0OauthApp;
+export const GetDiscussionDetailsResponseBodyCase1EventsItemCase5AuthorCase1OauthApp =
+  ChangeStatusResponseNewStatusAuthorCase0OauthApp;
+
+export type GetDiscussionDetailsResponseBodyCase1EventsItemCase5AuthorCase1PrimaryOrgPlan =
+  | "team"
+  | "enterprise"
+  | "plus"
+  | "academia";
+export const GetDiscussionDetailsResponseBodyCase1EventsItemCase5AuthorCase1PrimaryOrgPlan =
+  S.String;
+
+export type GetDiscussionDetailsResponseBodyCase1EventsItemCase5AuthorCase1PrimaryOrgUserRole =
+  | "admin"
+  | "write"
+  | "contributor"
+  | "read"
+  | "no_access";
+export const GetDiscussionDetailsResponseBodyCase1EventsItemCase5AuthorCase1PrimaryOrgUserRole =
+  S.String;
+
+export interface GetDiscussionDetailsResponseBodyCase1EventsItemCase5AuthorCase1PrimaryOrg {
+  avatarUrl: string;
+  fullname: string;
+  name: string;
+  type: string;
+  isHf: boolean;
+  isFollowing?: boolean;
+  plan?: GetDiscussionDetailsResponseBodyCase1EventsItemCase5AuthorCase1PrimaryOrgPlan;
+  details?: string;
+  hasPrivateMembersList?: boolean;
+  userRole?: GetDiscussionDetailsResponseBodyCase1EventsItemCase5AuthorCase1PrimaryOrgUserRole;
+  numUsers?: number;
+}
+export const GetDiscussionDetailsResponseBodyCase1EventsItemCase5AuthorCase1PrimaryOrg =
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      avatarUrl: S.String,
+      fullname: S.String,
+      name: S.String,
+      type: S.String,
+      isHf: S.Boolean,
+      isFollowing: S.optional(S.Boolean),
+      plan: S.optional(
+        GetDiscussionDetailsResponseBodyCase1EventsItemCase5AuthorCase1PrimaryOrgPlan,
+      ),
+      details: S.optional(S.String),
+      hasPrivateMembersList: S.optional(S.Boolean),
+      userRole: S.optional(
+        GetDiscussionDetailsResponseBodyCase1EventsItemCase5AuthorCase1PrimaryOrgUserRole,
+      ),
+      numUsers: S.optional(S.Number),
+    }),
+  ).annotate({
+    identifier: "GetDiscussionDetailsResponseBodyCase1EventsItemCase5AuthorCase1PrimaryOrg",
+  }) as any as S.Schema<GetDiscussionDetailsResponseBodyCase1EventsItemCase5AuthorCase1PrimaryOrg>;
+
+export interface GetDiscussionDetailsResponseBodyCase1EventsItemCase5AuthorCase1 {
+  isOwner?: boolean;
+  isOrgMember?: boolean;
+  isBlockedByMe?: boolean;
+  oauthApp?: ChangeStatusResponseNewStatusAuthorCase0OauthApp;
+  /** A hex string of 24 characters representing an ObjectId. */
+  _id: string;
+  avatarUrl: string;
+  fullname: string;
+  name: string;
+  isHf: boolean;
+  isHfAdmin: boolean;
+  isMod: boolean;
+  followerCount?: number;
+  type: string;
+  isPro: boolean;
+  isUserFollowing?: boolean;
+  primaryOrg?: GetDiscussionDetailsResponseBodyCase1EventsItemCase5AuthorCase1PrimaryOrg;
+}
+export const GetDiscussionDetailsResponseBodyCase1EventsItemCase5AuthorCase1 =
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      isOwner: S.optional(S.Boolean),
+      isOrgMember: S.optional(S.Boolean),
+      isBlockedByMe: S.optional(S.Boolean),
+      oauthApp: S.optional(ChangeStatusResponseNewStatusAuthorCase0OauthApp),
+      _id: S.String,
+      avatarUrl: S.String,
+      fullname: S.String,
+      name: S.String,
+      isHf: S.Boolean,
+      isHfAdmin: S.Boolean,
+      isMod: S.Boolean,
+      followerCount: S.optional(S.Number),
+      type: S.String,
+      isPro: S.Boolean,
+      isUserFollowing: S.optional(S.Boolean),
+      primaryOrg: S.optional(
+        GetDiscussionDetailsResponseBodyCase1EventsItemCase5AuthorCase1PrimaryOrg,
+      ),
+    }),
+  ).annotate({
+    identifier: "GetDiscussionDetailsResponseBodyCase1EventsItemCase5AuthorCase1",
+  }) as any as S.Schema<GetDiscussionDetailsResponseBodyCase1EventsItemCase5AuthorCase1>;
+
+export type GetDiscussionDetailsResponseBodyCase1EventsItemCase5Author =
+  | GetDiscussionDetailsResponseBodyCase1EventsItemCase5AuthorCase0
+  | GetDiscussionDetailsResponseBodyCase1EventsItemCase5AuthorCase1;
+export const GetDiscussionDetailsResponseBodyCase1EventsItemCase5Author =
+  S.Unknown as any as S.Schema<GetDiscussionDetailsResponseBodyCase1EventsItemCase5Author>;
+
+export type GetDiscussionDetailsResponseBodyCase1EventsItemCase5Data =
+  GetDiscussionDetailsResponseBodyCase0EventsItemCase5Data;
+export const GetDiscussionDetailsResponseBodyCase1EventsItemCase5Data =
+  GetDiscussionDetailsResponseBodyCase0EventsItemCase5Data;
+
+export interface GetDiscussionDetailsResponseBodyCase1EventsItemCase5 {
+  id: string;
+  createdAt: string;
+  author?: GetDiscussionDetailsResponseBodyCase1EventsItemCase5Author;
+  type: string;
+  data: GetDiscussionDetailsResponseBodyCase0EventsItemCase5Data;
+}
+export const GetDiscussionDetailsResponseBodyCase1EventsItemCase5 = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    id: S.String,
+    createdAt: S.String,
+    author: S.optional(GetDiscussionDetailsResponseBodyCase1EventsItemCase5Author),
+    type: S.String,
+    data: GetDiscussionDetailsResponseBodyCase0EventsItemCase5Data,
+  }),
+).annotate({
+  identifier: "GetDiscussionDetailsResponseBodyCase1EventsItemCase5",
+}) as any as S.Schema<GetDiscussionDetailsResponseBodyCase1EventsItemCase5>;
+
+export type GetDiscussionDetailsResponseBodyCase1EventsItemCase6AuthorCase0OauthAppImageData =
+  ChangeStatusResponseNewStatusAuthorCase0OauthAppImageData;
+export const GetDiscussionDetailsResponseBodyCase1EventsItemCase6AuthorCase0OauthAppImageData =
+  ChangeStatusResponseNewStatusAuthorCase0OauthAppImageData;
+
+export type GetDiscussionDetailsResponseBodyCase1EventsItemCase6AuthorCase0OauthApp =
+  ChangeStatusResponseNewStatusAuthorCase0OauthApp;
+export const GetDiscussionDetailsResponseBodyCase1EventsItemCase6AuthorCase0OauthApp =
+  ChangeStatusResponseNewStatusAuthorCase0OauthApp;
+
+export type GetDiscussionDetailsResponseBodyCase1EventsItemCase6AuthorCase0Plan =
+  | "team"
+  | "enterprise"
+  | "plus"
+  | "academia";
+export const GetDiscussionDetailsResponseBodyCase1EventsItemCase6AuthorCase0Plan = S.String;
+
+export interface GetDiscussionDetailsResponseBodyCase1EventsItemCase6AuthorCase0 {
+  isOwner?: boolean;
+  isOrgMember?: boolean;
+  isBlockedByMe?: boolean;
+  oauthApp?: ChangeStatusResponseNewStatusAuthorCase0OauthApp;
+  /** A hex string of 24 characters representing an ObjectId. */
+  _id: string;
+  avatarUrl: string;
+  fullname: string;
+  name: string;
+  isHf: boolean;
+  isHfAdmin: boolean;
+  isMod: boolean;
+  followerCount?: number;
+  type: string;
+  plan?: GetDiscussionDetailsResponseBodyCase1EventsItemCase6AuthorCase0Plan;
+  isUserFollowing?: boolean;
+}
+export const GetDiscussionDetailsResponseBodyCase1EventsItemCase6AuthorCase0 =
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      isOwner: S.optional(S.Boolean),
+      isOrgMember: S.optional(S.Boolean),
+      isBlockedByMe: S.optional(S.Boolean),
+      oauthApp: S.optional(ChangeStatusResponseNewStatusAuthorCase0OauthApp),
+      _id: S.String,
+      avatarUrl: S.String,
+      fullname: S.String,
+      name: S.String,
+      isHf: S.Boolean,
+      isHfAdmin: S.Boolean,
+      isMod: S.Boolean,
+      followerCount: S.optional(S.Number),
+      type: S.String,
+      plan: S.optional(GetDiscussionDetailsResponseBodyCase1EventsItemCase6AuthorCase0Plan),
+      isUserFollowing: S.optional(S.Boolean),
+    }),
+  ).annotate({
+    identifier: "GetDiscussionDetailsResponseBodyCase1EventsItemCase6AuthorCase0",
+  }) as any as S.Schema<GetDiscussionDetailsResponseBodyCase1EventsItemCase6AuthorCase0>;
+
+export type GetDiscussionDetailsResponseBodyCase1EventsItemCase6AuthorCase1OauthAppImageData =
+  ChangeStatusResponseNewStatusAuthorCase0OauthAppImageData;
+export const GetDiscussionDetailsResponseBodyCase1EventsItemCase6AuthorCase1OauthAppImageData =
+  ChangeStatusResponseNewStatusAuthorCase0OauthAppImageData;
+
+export type GetDiscussionDetailsResponseBodyCase1EventsItemCase6AuthorCase1OauthApp =
+  ChangeStatusResponseNewStatusAuthorCase0OauthApp;
+export const GetDiscussionDetailsResponseBodyCase1EventsItemCase6AuthorCase1OauthApp =
+  ChangeStatusResponseNewStatusAuthorCase0OauthApp;
+
+export type GetDiscussionDetailsResponseBodyCase1EventsItemCase6AuthorCase1PrimaryOrgPlan =
+  | "team"
+  | "enterprise"
+  | "plus"
+  | "academia";
+export const GetDiscussionDetailsResponseBodyCase1EventsItemCase6AuthorCase1PrimaryOrgPlan =
+  S.String;
+
+export type GetDiscussionDetailsResponseBodyCase1EventsItemCase6AuthorCase1PrimaryOrgUserRole =
+  | "admin"
+  | "write"
+  | "contributor"
+  | "read"
+  | "no_access";
+export const GetDiscussionDetailsResponseBodyCase1EventsItemCase6AuthorCase1PrimaryOrgUserRole =
+  S.String;
+
+export interface GetDiscussionDetailsResponseBodyCase1EventsItemCase6AuthorCase1PrimaryOrg {
+  avatarUrl: string;
+  fullname: string;
+  name: string;
+  type: string;
+  isHf: boolean;
+  isFollowing?: boolean;
+  plan?: GetDiscussionDetailsResponseBodyCase1EventsItemCase6AuthorCase1PrimaryOrgPlan;
+  details?: string;
+  hasPrivateMembersList?: boolean;
+  userRole?: GetDiscussionDetailsResponseBodyCase1EventsItemCase6AuthorCase1PrimaryOrgUserRole;
+  numUsers?: number;
+}
+export const GetDiscussionDetailsResponseBodyCase1EventsItemCase6AuthorCase1PrimaryOrg =
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      avatarUrl: S.String,
+      fullname: S.String,
+      name: S.String,
+      type: S.String,
+      isHf: S.Boolean,
+      isFollowing: S.optional(S.Boolean),
+      plan: S.optional(
+        GetDiscussionDetailsResponseBodyCase1EventsItemCase6AuthorCase1PrimaryOrgPlan,
+      ),
+      details: S.optional(S.String),
+      hasPrivateMembersList: S.optional(S.Boolean),
+      userRole: S.optional(
+        GetDiscussionDetailsResponseBodyCase1EventsItemCase6AuthorCase1PrimaryOrgUserRole,
+      ),
+      numUsers: S.optional(S.Number),
+    }),
+  ).annotate({
+    identifier: "GetDiscussionDetailsResponseBodyCase1EventsItemCase6AuthorCase1PrimaryOrg",
+  }) as any as S.Schema<GetDiscussionDetailsResponseBodyCase1EventsItemCase6AuthorCase1PrimaryOrg>;
+
+export interface GetDiscussionDetailsResponseBodyCase1EventsItemCase6AuthorCase1 {
+  isOwner?: boolean;
+  isOrgMember?: boolean;
+  isBlockedByMe?: boolean;
+  oauthApp?: ChangeStatusResponseNewStatusAuthorCase0OauthApp;
+  /** A hex string of 24 characters representing an ObjectId. */
+  _id: string;
+  avatarUrl: string;
+  fullname: string;
+  name: string;
+  isHf: boolean;
+  isHfAdmin: boolean;
+  isMod: boolean;
+  followerCount?: number;
+  type: string;
+  isPro: boolean;
+  isUserFollowing?: boolean;
+  primaryOrg?: GetDiscussionDetailsResponseBodyCase1EventsItemCase6AuthorCase1PrimaryOrg;
+}
+export const GetDiscussionDetailsResponseBodyCase1EventsItemCase6AuthorCase1 =
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      isOwner: S.optional(S.Boolean),
+      isOrgMember: S.optional(S.Boolean),
+      isBlockedByMe: S.optional(S.Boolean),
+      oauthApp: S.optional(ChangeStatusResponseNewStatusAuthorCase0OauthApp),
+      _id: S.String,
+      avatarUrl: S.String,
+      fullname: S.String,
+      name: S.String,
+      isHf: S.Boolean,
+      isHfAdmin: S.Boolean,
+      isMod: S.Boolean,
+      followerCount: S.optional(S.Number),
+      type: S.String,
+      isPro: S.Boolean,
+      isUserFollowing: S.optional(S.Boolean),
+      primaryOrg: S.optional(
+        GetDiscussionDetailsResponseBodyCase1EventsItemCase6AuthorCase1PrimaryOrg,
+      ),
+    }),
+  ).annotate({
+    identifier: "GetDiscussionDetailsResponseBodyCase1EventsItemCase6AuthorCase1",
+  }) as any as S.Schema<GetDiscussionDetailsResponseBodyCase1EventsItemCase6AuthorCase1>;
+
+export type GetDiscussionDetailsResponseBodyCase1EventsItemCase6Author =
+  | GetDiscussionDetailsResponseBodyCase1EventsItemCase6AuthorCase0
+  | GetDiscussionDetailsResponseBodyCase1EventsItemCase6AuthorCase1;
+export const GetDiscussionDetailsResponseBodyCase1EventsItemCase6Author =
+  S.Unknown as any as S.Schema<GetDiscussionDetailsResponseBodyCase1EventsItemCase6Author>;
+
+export type GetDiscussionDetailsResponseBodyCase1EventsItemCase6Data =
+  GetDiscussionDetailsResponseBodyCase0EventsItemCase6Data;
+export const GetDiscussionDetailsResponseBodyCase1EventsItemCase6Data =
+  GetDiscussionDetailsResponseBodyCase0EventsItemCase6Data;
+
+export interface GetDiscussionDetailsResponseBodyCase1EventsItemCase6 {
+  id: string;
+  createdAt: string;
+  author?: GetDiscussionDetailsResponseBodyCase1EventsItemCase6Author;
+  type: string;
+  data: GetDiscussionDetailsResponseBodyCase0EventsItemCase6Data;
+}
+export const GetDiscussionDetailsResponseBodyCase1EventsItemCase6 = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    id: S.String,
+    createdAt: S.String,
+    author: S.optional(GetDiscussionDetailsResponseBodyCase1EventsItemCase6Author),
+    type: S.String,
+    data: GetDiscussionDetailsResponseBodyCase0EventsItemCase6Data,
+  }),
+).annotate({
+  identifier: "GetDiscussionDetailsResponseBodyCase1EventsItemCase6",
+}) as any as S.Schema<GetDiscussionDetailsResponseBodyCase1EventsItemCase6>;
+
+export type GetDiscussionDetailsResponseBodyCase1EventsItemCase7AuthorCase0OauthAppImageData =
+  ChangeStatusResponseNewStatusAuthorCase0OauthAppImageData;
+export const GetDiscussionDetailsResponseBodyCase1EventsItemCase7AuthorCase0OauthAppImageData =
+  ChangeStatusResponseNewStatusAuthorCase0OauthAppImageData;
+
+export type GetDiscussionDetailsResponseBodyCase1EventsItemCase7AuthorCase0OauthApp =
+  ChangeStatusResponseNewStatusAuthorCase0OauthApp;
+export const GetDiscussionDetailsResponseBodyCase1EventsItemCase7AuthorCase0OauthApp =
+  ChangeStatusResponseNewStatusAuthorCase0OauthApp;
+
+export type GetDiscussionDetailsResponseBodyCase1EventsItemCase7AuthorCase0Plan =
+  | "team"
+  | "enterprise"
+  | "plus"
+  | "academia";
+export const GetDiscussionDetailsResponseBodyCase1EventsItemCase7AuthorCase0Plan = S.String;
+
+export interface GetDiscussionDetailsResponseBodyCase1EventsItemCase7AuthorCase0 {
+  isOwner?: boolean;
+  isOrgMember?: boolean;
+  isBlockedByMe?: boolean;
+  oauthApp?: ChangeStatusResponseNewStatusAuthorCase0OauthApp;
+  /** A hex string of 24 characters representing an ObjectId. */
+  _id: string;
+  avatarUrl: string;
+  fullname: string;
+  name: string;
+  isHf: boolean;
+  isHfAdmin: boolean;
+  isMod: boolean;
+  followerCount?: number;
+  type: string;
+  plan?: GetDiscussionDetailsResponseBodyCase1EventsItemCase7AuthorCase0Plan;
+  isUserFollowing?: boolean;
+}
+export const GetDiscussionDetailsResponseBodyCase1EventsItemCase7AuthorCase0 =
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      isOwner: S.optional(S.Boolean),
+      isOrgMember: S.optional(S.Boolean),
+      isBlockedByMe: S.optional(S.Boolean),
+      oauthApp: S.optional(ChangeStatusResponseNewStatusAuthorCase0OauthApp),
+      _id: S.String,
+      avatarUrl: S.String,
+      fullname: S.String,
+      name: S.String,
+      isHf: S.Boolean,
+      isHfAdmin: S.Boolean,
+      isMod: S.Boolean,
+      followerCount: S.optional(S.Number),
+      type: S.String,
+      plan: S.optional(GetDiscussionDetailsResponseBodyCase1EventsItemCase7AuthorCase0Plan),
+      isUserFollowing: S.optional(S.Boolean),
+    }),
+  ).annotate({
+    identifier: "GetDiscussionDetailsResponseBodyCase1EventsItemCase7AuthorCase0",
+  }) as any as S.Schema<GetDiscussionDetailsResponseBodyCase1EventsItemCase7AuthorCase0>;
+
+export type GetDiscussionDetailsResponseBodyCase1EventsItemCase7AuthorCase1OauthAppImageData =
+  ChangeStatusResponseNewStatusAuthorCase0OauthAppImageData;
+export const GetDiscussionDetailsResponseBodyCase1EventsItemCase7AuthorCase1OauthAppImageData =
+  ChangeStatusResponseNewStatusAuthorCase0OauthAppImageData;
+
+export type GetDiscussionDetailsResponseBodyCase1EventsItemCase7AuthorCase1OauthApp =
+  ChangeStatusResponseNewStatusAuthorCase0OauthApp;
+export const GetDiscussionDetailsResponseBodyCase1EventsItemCase7AuthorCase1OauthApp =
+  ChangeStatusResponseNewStatusAuthorCase0OauthApp;
+
+export type GetDiscussionDetailsResponseBodyCase1EventsItemCase7AuthorCase1PrimaryOrgPlan =
+  | "team"
+  | "enterprise"
+  | "plus"
+  | "academia";
+export const GetDiscussionDetailsResponseBodyCase1EventsItemCase7AuthorCase1PrimaryOrgPlan =
+  S.String;
+
+export type GetDiscussionDetailsResponseBodyCase1EventsItemCase7AuthorCase1PrimaryOrgUserRole =
+  | "admin"
+  | "write"
+  | "contributor"
+  | "read"
+  | "no_access";
+export const GetDiscussionDetailsResponseBodyCase1EventsItemCase7AuthorCase1PrimaryOrgUserRole =
+  S.String;
+
+export interface GetDiscussionDetailsResponseBodyCase1EventsItemCase7AuthorCase1PrimaryOrg {
+  avatarUrl: string;
+  fullname: string;
+  name: string;
+  type: string;
+  isHf: boolean;
+  isFollowing?: boolean;
+  plan?: GetDiscussionDetailsResponseBodyCase1EventsItemCase7AuthorCase1PrimaryOrgPlan;
+  details?: string;
+  hasPrivateMembersList?: boolean;
+  userRole?: GetDiscussionDetailsResponseBodyCase1EventsItemCase7AuthorCase1PrimaryOrgUserRole;
+  numUsers?: number;
+}
+export const GetDiscussionDetailsResponseBodyCase1EventsItemCase7AuthorCase1PrimaryOrg =
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      avatarUrl: S.String,
+      fullname: S.String,
+      name: S.String,
+      type: S.String,
+      isHf: S.Boolean,
+      isFollowing: S.optional(S.Boolean),
+      plan: S.optional(
+        GetDiscussionDetailsResponseBodyCase1EventsItemCase7AuthorCase1PrimaryOrgPlan,
+      ),
+      details: S.optional(S.String),
+      hasPrivateMembersList: S.optional(S.Boolean),
+      userRole: S.optional(
+        GetDiscussionDetailsResponseBodyCase1EventsItemCase7AuthorCase1PrimaryOrgUserRole,
+      ),
+      numUsers: S.optional(S.Number),
+    }),
+  ).annotate({
+    identifier: "GetDiscussionDetailsResponseBodyCase1EventsItemCase7AuthorCase1PrimaryOrg",
+  }) as any as S.Schema<GetDiscussionDetailsResponseBodyCase1EventsItemCase7AuthorCase1PrimaryOrg>;
+
+export interface GetDiscussionDetailsResponseBodyCase1EventsItemCase7AuthorCase1 {
+  isOwner?: boolean;
+  isOrgMember?: boolean;
+  isBlockedByMe?: boolean;
+  oauthApp?: ChangeStatusResponseNewStatusAuthorCase0OauthApp;
+  /** A hex string of 24 characters representing an ObjectId. */
+  _id: string;
+  avatarUrl: string;
+  fullname: string;
+  name: string;
+  isHf: boolean;
+  isHfAdmin: boolean;
+  isMod: boolean;
+  followerCount?: number;
+  type: string;
+  isPro: boolean;
+  isUserFollowing?: boolean;
+  primaryOrg?: GetDiscussionDetailsResponseBodyCase1EventsItemCase7AuthorCase1PrimaryOrg;
+}
+export const GetDiscussionDetailsResponseBodyCase1EventsItemCase7AuthorCase1 =
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      isOwner: S.optional(S.Boolean),
+      isOrgMember: S.optional(S.Boolean),
+      isBlockedByMe: S.optional(S.Boolean),
+      oauthApp: S.optional(ChangeStatusResponseNewStatusAuthorCase0OauthApp),
+      _id: S.String,
+      avatarUrl: S.String,
+      fullname: S.String,
+      name: S.String,
+      isHf: S.Boolean,
+      isHfAdmin: S.Boolean,
+      isMod: S.Boolean,
+      followerCount: S.optional(S.Number),
+      type: S.String,
+      isPro: S.Boolean,
+      isUserFollowing: S.optional(S.Boolean),
+      primaryOrg: S.optional(
+        GetDiscussionDetailsResponseBodyCase1EventsItemCase7AuthorCase1PrimaryOrg,
+      ),
+    }),
+  ).annotate({
+    identifier: "GetDiscussionDetailsResponseBodyCase1EventsItemCase7AuthorCase1",
+  }) as any as S.Schema<GetDiscussionDetailsResponseBodyCase1EventsItemCase7AuthorCase1>;
+
+export type GetDiscussionDetailsResponseBodyCase1EventsItemCase7Author =
+  | GetDiscussionDetailsResponseBodyCase1EventsItemCase7AuthorCase0
+  | GetDiscussionDetailsResponseBodyCase1EventsItemCase7AuthorCase1;
+export const GetDiscussionDetailsResponseBodyCase1EventsItemCase7Author =
+  S.Unknown as any as S.Schema<GetDiscussionDetailsResponseBodyCase1EventsItemCase7Author>;
+
+export interface GetDiscussionDetailsResponseBodyCase1EventsItemCase7 {
+  id: string;
+  createdAt: string;
+  author?: GetDiscussionDetailsResponseBodyCase1EventsItemCase7Author;
+  type: string;
+  data: unknown;
+}
+export const GetDiscussionDetailsResponseBodyCase1EventsItemCase7 = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    id: S.String,
+    createdAt: S.String,
+    author: S.optional(GetDiscussionDetailsResponseBodyCase1EventsItemCase7Author),
+    type: S.String,
+    data: S.Unknown,
+  }),
+).annotate({
+  identifier: "GetDiscussionDetailsResponseBodyCase1EventsItemCase7",
+}) as any as S.Schema<GetDiscussionDetailsResponseBodyCase1EventsItemCase7>;
+
+export type GetDiscussionDetailsResponseBodyCase1EventsItemCase8AuthorCase0OauthAppImageData =
+  ChangeStatusResponseNewStatusAuthorCase0OauthAppImageData;
+export const GetDiscussionDetailsResponseBodyCase1EventsItemCase8AuthorCase0OauthAppImageData =
+  ChangeStatusResponseNewStatusAuthorCase0OauthAppImageData;
+
+export type GetDiscussionDetailsResponseBodyCase1EventsItemCase8AuthorCase0OauthApp =
+  ChangeStatusResponseNewStatusAuthorCase0OauthApp;
+export const GetDiscussionDetailsResponseBodyCase1EventsItemCase8AuthorCase0OauthApp =
+  ChangeStatusResponseNewStatusAuthorCase0OauthApp;
+
+export type GetDiscussionDetailsResponseBodyCase1EventsItemCase8AuthorCase0Plan =
+  | "team"
+  | "enterprise"
+  | "plus"
+  | "academia";
+export const GetDiscussionDetailsResponseBodyCase1EventsItemCase8AuthorCase0Plan = S.String;
+
+export interface GetDiscussionDetailsResponseBodyCase1EventsItemCase8AuthorCase0 {
+  isOwner?: boolean;
+  isOrgMember?: boolean;
+  isBlockedByMe?: boolean;
+  oauthApp?: ChangeStatusResponseNewStatusAuthorCase0OauthApp;
+  /** A hex string of 24 characters representing an ObjectId. */
+  _id: string;
+  avatarUrl: string;
+  fullname: string;
+  name: string;
+  isHf: boolean;
+  isHfAdmin: boolean;
+  isMod: boolean;
+  followerCount?: number;
+  type: string;
+  plan?: GetDiscussionDetailsResponseBodyCase1EventsItemCase8AuthorCase0Plan;
+  isUserFollowing?: boolean;
+}
+export const GetDiscussionDetailsResponseBodyCase1EventsItemCase8AuthorCase0 =
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      isOwner: S.optional(S.Boolean),
+      isOrgMember: S.optional(S.Boolean),
+      isBlockedByMe: S.optional(S.Boolean),
+      oauthApp: S.optional(ChangeStatusResponseNewStatusAuthorCase0OauthApp),
+      _id: S.String,
+      avatarUrl: S.String,
+      fullname: S.String,
+      name: S.String,
+      isHf: S.Boolean,
+      isHfAdmin: S.Boolean,
+      isMod: S.Boolean,
+      followerCount: S.optional(S.Number),
+      type: S.String,
+      plan: S.optional(GetDiscussionDetailsResponseBodyCase1EventsItemCase8AuthorCase0Plan),
+      isUserFollowing: S.optional(S.Boolean),
+    }),
+  ).annotate({
+    identifier: "GetDiscussionDetailsResponseBodyCase1EventsItemCase8AuthorCase0",
+  }) as any as S.Schema<GetDiscussionDetailsResponseBodyCase1EventsItemCase8AuthorCase0>;
+
+export type GetDiscussionDetailsResponseBodyCase1EventsItemCase8AuthorCase1OauthAppImageData =
+  ChangeStatusResponseNewStatusAuthorCase0OauthAppImageData;
+export const GetDiscussionDetailsResponseBodyCase1EventsItemCase8AuthorCase1OauthAppImageData =
+  ChangeStatusResponseNewStatusAuthorCase0OauthAppImageData;
+
+export type GetDiscussionDetailsResponseBodyCase1EventsItemCase8AuthorCase1OauthApp =
+  ChangeStatusResponseNewStatusAuthorCase0OauthApp;
+export const GetDiscussionDetailsResponseBodyCase1EventsItemCase8AuthorCase1OauthApp =
+  ChangeStatusResponseNewStatusAuthorCase0OauthApp;
+
+export type GetDiscussionDetailsResponseBodyCase1EventsItemCase8AuthorCase1PrimaryOrgPlan =
+  | "team"
+  | "enterprise"
+  | "plus"
+  | "academia";
+export const GetDiscussionDetailsResponseBodyCase1EventsItemCase8AuthorCase1PrimaryOrgPlan =
+  S.String;
+
+export type GetDiscussionDetailsResponseBodyCase1EventsItemCase8AuthorCase1PrimaryOrgUserRole =
+  | "admin"
+  | "write"
+  | "contributor"
+  | "read"
+  | "no_access";
+export const GetDiscussionDetailsResponseBodyCase1EventsItemCase8AuthorCase1PrimaryOrgUserRole =
+  S.String;
+
+export interface GetDiscussionDetailsResponseBodyCase1EventsItemCase8AuthorCase1PrimaryOrg {
+  avatarUrl: string;
+  fullname: string;
+  name: string;
+  type: string;
+  isHf: boolean;
+  isFollowing?: boolean;
+  plan?: GetDiscussionDetailsResponseBodyCase1EventsItemCase8AuthorCase1PrimaryOrgPlan;
+  details?: string;
+  hasPrivateMembersList?: boolean;
+  userRole?: GetDiscussionDetailsResponseBodyCase1EventsItemCase8AuthorCase1PrimaryOrgUserRole;
+  numUsers?: number;
+}
+export const GetDiscussionDetailsResponseBodyCase1EventsItemCase8AuthorCase1PrimaryOrg =
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      avatarUrl: S.String,
+      fullname: S.String,
+      name: S.String,
+      type: S.String,
+      isHf: S.Boolean,
+      isFollowing: S.optional(S.Boolean),
+      plan: S.optional(
+        GetDiscussionDetailsResponseBodyCase1EventsItemCase8AuthorCase1PrimaryOrgPlan,
+      ),
+      details: S.optional(S.String),
+      hasPrivateMembersList: S.optional(S.Boolean),
+      userRole: S.optional(
+        GetDiscussionDetailsResponseBodyCase1EventsItemCase8AuthorCase1PrimaryOrgUserRole,
+      ),
+      numUsers: S.optional(S.Number),
+    }),
+  ).annotate({
+    identifier: "GetDiscussionDetailsResponseBodyCase1EventsItemCase8AuthorCase1PrimaryOrg",
+  }) as any as S.Schema<GetDiscussionDetailsResponseBodyCase1EventsItemCase8AuthorCase1PrimaryOrg>;
+
+export interface GetDiscussionDetailsResponseBodyCase1EventsItemCase8AuthorCase1 {
+  isOwner?: boolean;
+  isOrgMember?: boolean;
+  isBlockedByMe?: boolean;
+  oauthApp?: ChangeStatusResponseNewStatusAuthorCase0OauthApp;
+  /** A hex string of 24 characters representing an ObjectId. */
+  _id: string;
+  avatarUrl: string;
+  fullname: string;
+  name: string;
+  isHf: boolean;
+  isHfAdmin: boolean;
+  isMod: boolean;
+  followerCount?: number;
+  type: string;
+  isPro: boolean;
+  isUserFollowing?: boolean;
+  primaryOrg?: GetDiscussionDetailsResponseBodyCase1EventsItemCase8AuthorCase1PrimaryOrg;
+}
+export const GetDiscussionDetailsResponseBodyCase1EventsItemCase8AuthorCase1 =
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      isOwner: S.optional(S.Boolean),
+      isOrgMember: S.optional(S.Boolean),
+      isBlockedByMe: S.optional(S.Boolean),
+      oauthApp: S.optional(ChangeStatusResponseNewStatusAuthorCase0OauthApp),
+      _id: S.String,
+      avatarUrl: S.String,
+      fullname: S.String,
+      name: S.String,
+      isHf: S.Boolean,
+      isHfAdmin: S.Boolean,
+      isMod: S.Boolean,
+      followerCount: S.optional(S.Number),
+      type: S.String,
+      isPro: S.Boolean,
+      isUserFollowing: S.optional(S.Boolean),
+      primaryOrg: S.optional(
+        GetDiscussionDetailsResponseBodyCase1EventsItemCase8AuthorCase1PrimaryOrg,
+      ),
+    }),
+  ).annotate({
+    identifier: "GetDiscussionDetailsResponseBodyCase1EventsItemCase8AuthorCase1",
+  }) as any as S.Schema<GetDiscussionDetailsResponseBodyCase1EventsItemCase8AuthorCase1>;
+
+export type GetDiscussionDetailsResponseBodyCase1EventsItemCase8Author =
+  | GetDiscussionDetailsResponseBodyCase1EventsItemCase8AuthorCase0
+  | GetDiscussionDetailsResponseBodyCase1EventsItemCase8AuthorCase1;
+export const GetDiscussionDetailsResponseBodyCase1EventsItemCase8Author =
+  S.Unknown as any as S.Schema<GetDiscussionDetailsResponseBodyCase1EventsItemCase8Author>;
+
+export type GetDiscussionDetailsResponseBodyCase1EventsItemCase8Data =
+  GetDiscussionDetailsResponseBodyCase0EventsItemCase8Data;
+export const GetDiscussionDetailsResponseBodyCase1EventsItemCase8Data =
+  GetDiscussionDetailsResponseBodyCase0EventsItemCase8Data;
+
+export interface GetDiscussionDetailsResponseBodyCase1EventsItemCase8 {
+  id: string;
+  createdAt: string;
+  author?: GetDiscussionDetailsResponseBodyCase1EventsItemCase8Author;
+  type: string;
+  data: GetDiscussionDetailsResponseBodyCase0EventsItemCase8Data;
+}
+export const GetDiscussionDetailsResponseBodyCase1EventsItemCase8 = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    id: S.String,
+    createdAt: S.String,
+    author: S.optional(GetDiscussionDetailsResponseBodyCase1EventsItemCase8Author),
+    type: S.String,
+    data: GetDiscussionDetailsResponseBodyCase0EventsItemCase8Data,
+  }),
+).annotate({
+  identifier: "GetDiscussionDetailsResponseBodyCase1EventsItemCase8",
+}) as any as S.Schema<GetDiscussionDetailsResponseBodyCase1EventsItemCase8>;
+
+export type GetDiscussionDetailsResponseBodyCase1EventsItem =
+  | GetDiscussionDetailsResponseBodyCase1EventsItemCase0
+  | GetDiscussionDetailsResponseBodyCase1EventsItemCase1
+  | GetDiscussionDetailsResponseBodyCase1EventsItemCase2
+  | GetDiscussionDetailsResponseBodyCase1EventsItemCase3
+  | GetDiscussionDetailsResponseBodyCase1EventsItemCase4
+  | GetDiscussionDetailsResponseBodyCase1EventsItemCase5
+  | GetDiscussionDetailsResponseBodyCase1EventsItemCase6
+  | GetDiscussionDetailsResponseBodyCase1EventsItemCase7
+  | GetDiscussionDetailsResponseBodyCase1EventsItemCase8;
+export const GetDiscussionDetailsResponseBodyCase1EventsItem =
+  S.Unknown as any as S.Schema<GetDiscussionDetailsResponseBodyCase1EventsItem>;
+
+export type GetDiscussionDetailsResponseBodyCase1EventsList =
+  Array<GetDiscussionDetailsResponseBodyCase1EventsItem>;
+export const GetDiscussionDetailsResponseBodyCase1EventsList = /*@__PURE__*/ S.Array(
+  GetDiscussionDetailsResponseBodyCase1EventsItem,
+) as any as S.Schema<GetDiscussionDetailsResponseBodyCase1EventsList>;
+
+export type GetDiscussionDetailsResponseBodyCase1FilesWithConflictsCase0List = Array<string>;
+export const GetDiscussionDetailsResponseBodyCase1FilesWithConflictsCase0List =
+  /*@__PURE__*/ S.Array(
+    S.String,
+  ) as any as S.Schema<GetDiscussionDetailsResponseBodyCase1FilesWithConflictsCase0List>;
 
 /** The list of files with conflicts. `true` means there are conflicts but we cannot list them. */
-export type GetDiscussionDetailsResponseFilesWithConflicts =
-  | GetDiscussionDetailsResponseFilesWithConflictsCase0List
-  | unknown;
-export const GetDiscussionDetailsResponseFilesWithConflicts =
-  S.Unknown as any as S.Schema<GetDiscussionDetailsResponseFilesWithConflicts>;
+export type GetDiscussionDetailsResponseBodyCase1FilesWithConflicts =
+  | GetDiscussionDetailsResponseBodyCase1FilesWithConflictsCase0List
+  | boolean;
+export const GetDiscussionDetailsResponseBodyCase1FilesWithConflicts =
+  S.Unknown as any as S.Schema<GetDiscussionDetailsResponseBodyCase1FilesWithConflicts>;
 
-export interface GetDiscussionDetailsResponseChanges {
+export interface GetDiscussionDetailsResponseBodyCase1Changes {
   base: string;
   mergeCommitId?: string;
   /** The last commit ID of the PR branch, stored before ref deletion so diffs can still be computed. */
@@ -4135,7 +7523,7 @@ export interface GetDiscussionDetailsResponseChanges {
   /** Whether the PR ref has been deleted (to free up storage). */
   refDeleted?: boolean;
 }
-export const GetDiscussionDetailsResponseChanges = /*@__PURE__*/ S.suspend(() =>
+export const GetDiscussionDetailsResponseBodyCase1Changes = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     base: S.String,
     mergeCommitId: S.optional(S.String),
@@ -4143,52 +7531,238 @@ export const GetDiscussionDetailsResponseChanges = /*@__PURE__*/ S.suspend(() =>
     refDeleted: S.optional(S.Boolean),
   }),
 ).annotate({
-  identifier: "GetDiscussionDetailsResponseChanges",
-}) as any as S.Schema<GetDiscussionDetailsResponseChanges>;
+  identifier: "GetDiscussionDetailsResponseBodyCase1Changes",
+}) as any as S.Schema<GetDiscussionDetailsResponseBodyCase1Changes>;
 
-export interface GetDiscussionDetailsResponse {
-  _id?: string;
-  num?: number;
-  author?: GetDiscussionDetailsResponseAuthor;
-  org?: GetDiscussionDetailsResponseOrg;
-  repo?: RepoId;
-  title?: string;
-  createdAt?: string;
-  status?: GetDiscussionDetailsResponseStatus;
-  events?: GetDiscussionDetailsResponseEventsList;
-  pinned?: boolean;
-  locked?: boolean;
-  collection?: GetDiscussionDetailsResponseCollection;
-  isPullRequest?: unknown;
-  isReport?: boolean;
-  /** The list of files with conflicts. `true` means there are conflicts but we cannot list them. */
-  filesWithConflicts?: GetDiscussionDetailsResponseFilesWithConflicts;
-  changes?: GetDiscussionDetailsResponseChanges;
+export interface GetDiscussionDetailsResponseBodyCase1 {
   diffUrl?: string;
+  /** A hex string of 24 characters representing an ObjectId. */
+  _id: string;
+  num?: number;
+  author?: GetDiscussionDetailsResponseBodyCase1Author;
+  org?: GetDiscussionDetailsResponseBodyCase1Org;
+  repo?: RepoId;
+  title: string;
+  createdAt?: string;
+  status: GetDiscussionDetailsResponseBodyCase1Status;
+  events: GetDiscussionDetailsResponseBodyCase1EventsList;
+  pinned: boolean;
+  locked: boolean;
+  collection: string;
+  isPullRequest: boolean;
+  /** The list of files with conflicts. `true` means there are conflicts but we cannot list them. */
+  filesWithConflicts: GetDiscussionDetailsResponseBodyCase1FilesWithConflicts;
+  changes: GetDiscussionDetailsResponseBodyCase1Changes;
 }
-export const GetDiscussionDetailsResponse = /*@__PURE__*/ S.suspend(() =>
+export const GetDiscussionDetailsResponseBodyCase1 = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    _id: S.optional(S.String),
-    num: S.optional(S.Number),
-    author: S.optional(GetDiscussionDetailsResponseAuthor),
-    org: S.optional(GetDiscussionDetailsResponseOrg),
-    repo: S.optional(RepoId),
-    title: S.optional(S.String),
-    createdAt: S.optional(S.String),
-    status: S.optional(GetDiscussionDetailsResponseStatus),
-    events: S.optional(GetDiscussionDetailsResponseEventsList),
-    pinned: S.optional(S.Boolean),
-    locked: S.optional(S.Boolean),
-    collection: S.optional(GetDiscussionDetailsResponseCollection),
-    isPullRequest: S.optional(S.Unknown),
-    isReport: S.optional(S.Boolean),
-    filesWithConflicts: S.optional(GetDiscussionDetailsResponseFilesWithConflicts),
-    changes: S.optional(GetDiscussionDetailsResponseChanges),
     diffUrl: S.optional(S.String),
+    _id: S.String,
+    num: S.optional(S.Number),
+    author: S.optional(GetDiscussionDetailsResponseBodyCase1Author),
+    org: S.optional(GetDiscussionDetailsResponseBodyCase1Org),
+    repo: S.optional(RepoId),
+    title: S.String,
+    createdAt: S.optional(S.String),
+    status: GetDiscussionDetailsResponseBodyCase1Status,
+    events: GetDiscussionDetailsResponseBodyCase1EventsList,
+    pinned: S.Boolean,
+    locked: S.Boolean,
+    collection: S.String,
+    isPullRequest: S.Boolean,
+    filesWithConflicts: GetDiscussionDetailsResponseBodyCase1FilesWithConflicts,
+    changes: GetDiscussionDetailsResponseBodyCase1Changes,
   }),
+).annotate({
+  identifier: "GetDiscussionDetailsResponseBodyCase1",
+}) as any as S.Schema<GetDiscussionDetailsResponseBodyCase1>;
+
+export type GetDiscussionDetailsResponseBody =
+  | GetDiscussionDetailsResponseBodyCase0
+  | GetDiscussionDetailsResponseBodyCase1;
+export const GetDiscussionDetailsResponseBody =
+  S.Unknown as any as S.Schema<GetDiscussionDetailsResponseBody>;
+
+export type GetDiscussionDetailsResponse = GetDiscussionDetailsResponseBody;
+export const GetDiscussionDetailsResponse = /*@__PURE__*/ S.suspend(() =>
+  GetDiscussionDetailsResponseBody.pipe(T.RawResponseRoot()),
 ).annotate({
   identifier: "GetDiscussionDetailsResponse",
 }) as any as S.Schema<GetDiscussionDetailsResponse>;
+
+export type HideBlogCommentRequestReason =
+  | "Spam"
+  | "Abuse"
+  | "Graphic Content"
+  | "Resolved"
+  | "Off-Topic"
+  | "Low Quality";
+export const HideBlogCommentRequestReason = S.String;
+
+export interface HideBlogCommentRequest {
+  slug: string;
+  commentId: string;
+  reason?: HideBlogCommentRequestReason | (string & {});
+}
+export const HideBlogCommentRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    slug: S.String.pipe(T.Label()),
+    commentId: S.String.pipe(T.Label()),
+    reason: S.optional(HideBlogCommentRequestReason),
+  }).pipe(T.Http({ method: "POST", uri: "/api/blog/{slug}/comment/{commentId}/hide", code: 200 })),
+).annotate({ identifier: "HideBlogCommentRequest" }) as any as S.Schema<HideBlogCommentRequest>;
+
+export interface HideBlogCommentResponse {}
+export const HideBlogCommentResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
+  identifier: "HideBlogCommentResponse",
+}) as any as S.Schema<HideBlogCommentResponse>;
+
+export type HideCommunityBlogCommentRequestReason =
+  | "Spam"
+  | "Abuse"
+  | "Graphic Content"
+  | "Resolved"
+  | "Off-Topic"
+  | "Low Quality";
+export const HideCommunityBlogCommentRequestReason = S.String;
+
+export interface HideCommunityBlogCommentRequest {
+  namespace: string;
+  slug: string;
+  commentId: string;
+  reason?: HideCommunityBlogCommentRequestReason | (string & {});
+}
+export const HideCommunityBlogCommentRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    namespace: S.String.pipe(T.Label()),
+    slug: S.String.pipe(T.Label()),
+    commentId: S.String.pipe(T.Label()),
+    reason: S.optional(HideCommunityBlogCommentRequestReason),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      uri: "/api/blog/{namespace}/{slug}/comment/{commentId}/hide",
+      code: 200,
+    }),
+  ),
+).annotate({
+  identifier: "HideCommunityBlogCommentRequest",
+}) as any as S.Schema<HideCommunityBlogCommentRequest>;
+
+export interface HideCommunityBlogCommentResponse {}
+export const HideCommunityBlogCommentResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({}),
+).annotate({
+  identifier: "HideCommunityBlogCommentResponse",
+}) as any as S.Schema<HideCommunityBlogCommentResponse>;
+
+export type HideDiscussionCommentRequestRepoType = "models" | "spaces" | "datasets" | "kernels";
+export const HideDiscussionCommentRequestRepoType = S.String;
+
+export type HideDiscussionCommentRequestReason =
+  | "Spam"
+  | "Abuse"
+  | "Graphic Content"
+  | "Resolved"
+  | "Off-Topic"
+  | "Low Quality";
+export const HideDiscussionCommentRequestReason = S.String;
+
+export interface HideDiscussionCommentRequest {
+  repoType: HideDiscussionCommentRequestRepoType | (string & {});
+  namespace: string;
+  repo: string;
+  num: string;
+  commentId: string;
+  reason?: HideDiscussionCommentRequestReason | (string & {});
+}
+export const HideDiscussionCommentRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    repoType: HideDiscussionCommentRequestRepoType.pipe(T.Label()),
+    namespace: S.String.pipe(T.Label()),
+    repo: S.String.pipe(T.Label()),
+    num: S.String.pipe(T.Label()),
+    commentId: S.String.pipe(T.Label()),
+    reason: S.optional(HideDiscussionCommentRequestReason),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      uri: "/api/{repoType}/{namespace}/{repo}/discussions/{num}/comment/{commentId}/hide",
+      code: 200,
+    }),
+  ),
+).annotate({
+  identifier: "HideDiscussionCommentRequest",
+}) as any as S.Schema<HideDiscussionCommentRequest>;
+
+export interface HideDiscussionCommentResponse {}
+export const HideDiscussionCommentResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
+  identifier: "HideDiscussionCommentResponse",
+}) as any as S.Schema<HideDiscussionCommentResponse>;
+
+export type HidePaperCommentRequestReason =
+  | "Spam"
+  | "Abuse"
+  | "Graphic Content"
+  | "Resolved"
+  | "Off-Topic"
+  | "Low Quality";
+export const HidePaperCommentRequestReason = S.String;
+
+export interface HidePaperCommentRequest {
+  paperId: string;
+  commentId: string;
+  reason?: HidePaperCommentRequestReason | (string & {});
+}
+export const HidePaperCommentRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    paperId: S.String.pipe(T.Label()),
+    commentId: S.String.pipe(T.Label()),
+    reason: S.optional(HidePaperCommentRequestReason),
+  }).pipe(
+    T.Http({ method: "POST", uri: "/api/papers/{paperId}/comment/{commentId}/hide", code: 200 }),
+  ),
+).annotate({ identifier: "HidePaperCommentRequest" }) as any as S.Schema<HidePaperCommentRequest>;
+
+export interface HidePaperCommentResponse {}
+export const HidePaperCommentResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
+  identifier: "HidePaperCommentResponse",
+}) as any as S.Schema<HidePaperCommentResponse>;
+
+export type HidePostCommentRequestReason =
+  | "Spam"
+  | "Abuse"
+  | "Graphic Content"
+  | "Resolved"
+  | "Off-Topic"
+  | "Low Quality";
+export const HidePostCommentRequestReason = S.String;
+
+export interface HidePostCommentRequest {
+  username: string;
+  postSlug: string;
+  commentId: string;
+  reason?: HidePostCommentRequestReason | (string & {});
+}
+export const HidePostCommentRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    username: S.String.pipe(T.Label()),
+    postSlug: S.String.pipe(T.Label()),
+    commentId: S.String.pipe(T.Label()),
+    reason: S.optional(HidePostCommentRequestReason),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      uri: "/api/posts/{username}/{postSlug}/comment/{commentId}/hide",
+      code: 200,
+    }),
+  ),
+).annotate({ identifier: "HidePostCommentRequest" }) as any as S.Schema<HidePostCommentRequest>;
+
+export interface HidePostCommentResponse {}
+export const HidePostCommentResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
+  identifier: "HidePostCommentResponse",
+}) as any as S.Schema<HidePostCommentResponse>;
 
 export type ListDiscussionsRequestRepoType = "models" | "spaces" | "datasets" | "kernels";
 export const ListDiscussionsRequestRepoType = S.String;
@@ -4225,15 +7799,9 @@ export const ListDiscussionsRequest = /*@__PURE__*/ S.suspend(() =>
     search: S.optional(S.String.pipe(T.Query())),
     sort: S.optional(ListDiscussionsRequestSort.pipe(T.Query())),
   }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/api/{repoType}/{namespace}/{repo}/discussions",
-      code: 200,
-    }),
+    T.Http({ method: "GET", uri: "/api/{repoType}/{namespace}/{repo}/discussions", code: 200 }),
   ),
-).annotate({
-  identifier: "ListDiscussionsRequest",
-}) as any as S.Schema<ListDiscussionsRequest>;
+).annotate({ identifier: "ListDiscussionsRequest" }) as any as S.Schema<ListDiscussionsRequest>;
 
 export type ListDiscussionsResponseDiscussionsItemAuthorCase0Plan =
   | "team"
@@ -4243,6 +7811,7 @@ export type ListDiscussionsResponseDiscussionsItemAuthorCase0Plan =
 export const ListDiscussionsResponseDiscussionsItemAuthorCase0Plan = S.String;
 
 export interface ListDiscussionsResponseDiscussionsItemAuthorCase0 {
+  /** A hex string of 24 characters representing an ObjectId. */
   _id: string;
   avatarUrl: string;
   fullname: string;
@@ -4251,7 +7820,7 @@ export interface ListDiscussionsResponseDiscussionsItemAuthorCase0 {
   isHfAdmin: boolean;
   isMod: boolean;
   followerCount?: number;
-  type: unknown;
+  type: string;
   plan?: ListDiscussionsResponseDiscussionsItemAuthorCase0Plan;
   isUserFollowing?: boolean;
 }
@@ -4265,7 +7834,7 @@ export const ListDiscussionsResponseDiscussionsItemAuthorCase0 = /*@__PURE__*/ S
     isHfAdmin: S.Boolean,
     isMod: S.Boolean,
     followerCount: S.optional(S.Number),
-    type: S.Unknown,
+    type: S.String,
     plan: S.optional(ListDiscussionsResponseDiscussionsItemAuthorCase0Plan),
     isUserFollowing: S.optional(S.Boolean),
   }),
@@ -4292,7 +7861,7 @@ export interface ListDiscussionsResponseDiscussionsItemAuthorCase1PrimaryOrg {
   avatarUrl: string;
   fullname: string;
   name: string;
-  type: unknown;
+  type: string;
   isHf: boolean;
   isFollowing?: boolean;
   plan?: ListDiscussionsResponseDiscussionsItemAuthorCase1PrimaryOrgPlan;
@@ -4307,7 +7876,7 @@ export const ListDiscussionsResponseDiscussionsItemAuthorCase1PrimaryOrg = /*@__
       avatarUrl: S.String,
       fullname: S.String,
       name: S.String,
-      type: S.Unknown,
+      type: S.String,
       isHf: S.Boolean,
       isFollowing: S.optional(S.Boolean),
       plan: S.optional(ListDiscussionsResponseDiscussionsItemAuthorCase1PrimaryOrgPlan),
@@ -4321,6 +7890,7 @@ export const ListDiscussionsResponseDiscussionsItemAuthorCase1PrimaryOrg = /*@__
 }) as any as S.Schema<ListDiscussionsResponseDiscussionsItemAuthorCase1PrimaryOrg>;
 
 export interface ListDiscussionsResponseDiscussionsItemAuthorCase1 {
+  /** A hex string of 24 characters representing an ObjectId. */
   _id: string;
   avatarUrl: string;
   fullname: string;
@@ -4329,7 +7899,7 @@ export interface ListDiscussionsResponseDiscussionsItemAuthorCase1 {
   isHfAdmin: boolean;
   isMod: boolean;
   followerCount?: number;
-  type: unknown;
+  type: string;
   isPro: boolean;
   isUserFollowing?: boolean;
   primaryOrg?: ListDiscussionsResponseDiscussionsItemAuthorCase1PrimaryOrg;
@@ -4344,7 +7914,7 @@ export const ListDiscussionsResponseDiscussionsItemAuthorCase1 = /*@__PURE__*/ S
     isHfAdmin: S.Boolean,
     isMod: S.Boolean,
     followerCount: S.optional(S.Number),
-    type: S.Unknown,
+    type: S.String,
     isPro: S.Boolean,
     isUserFollowing: S.optional(S.Boolean),
     primaryOrg: S.optional(ListDiscussionsResponseDiscussionsItemAuthorCase1PrimaryOrg),
@@ -4468,9 +8038,7 @@ export const ListDiscussionsResponse = /*@__PURE__*/ S.suspend(() =>
     start: S.Number,
     numClosedDiscussions: S.optional(S.Number),
   }),
-).annotate({
-  identifier: "ListDiscussionsResponse",
-}) as any as S.Schema<ListDiscussionsResponse>;
+).annotate({ identifier: "ListDiscussionsResponse" }) as any as S.Schema<ListDiscussionsResponse>;
 
 export type MergePullRequestRequestRepoType = "models" | "spaces" | "datasets" | "kernels";
 export const MergePullRequestRequestRepoType = S.String;
@@ -4496,9 +8064,7 @@ export const MergePullRequestRequest = /*@__PURE__*/ S.suspend(() =>
       code: 200,
     }),
   ),
-).annotate({
-  identifier: "MergePullRequestRequest",
-}) as any as S.Schema<MergePullRequestRequest>;
+).annotate({ identifier: "MergePullRequestRequest" }) as any as S.Schema<MergePullRequestRequest>;
 
 export interface MergePullRequestResponse {}
 export const MergePullRequestResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -4529,9 +8095,7 @@ export const PinDiscussionRequest = /*@__PURE__*/ S.suspend(() =>
       code: 200,
     }),
   ),
-).annotate({
-  identifier: "PinDiscussionRequest",
-}) as any as S.Schema<PinDiscussionRequest>;
+).annotate({ identifier: "PinDiscussionRequest" }) as any as S.Schema<PinDiscussionRequest>;
 
 export interface PinDiscussionResponse {}
 export const PinDiscussionResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -4560,9 +8124,7 @@ export const PrStorageEstimateRequest = /*@__PURE__*/ S.suspend(() =>
       code: 200,
     }),
   ),
-).annotate({
-  identifier: "PrStorageEstimateRequest",
-}) as any as S.Schema<PrStorageEstimateRequest>;
+).annotate({ identifier: "PrStorageEstimateRequest" }) as any as S.Schema<PrStorageEstimateRequest>;
 
 export interface PrStorageEstimateResponse {
   /** Estimated storage in bytes that may be freed */
@@ -4579,6 +8141,249 @@ export const PrStorageEstimateResponse = /*@__PURE__*/ S.suspend(() =>
   identifier: "PrStorageEstimateResponse",
 }) as any as S.Schema<PrStorageEstimateResponse>;
 
+export type ReactToBlogCommentRequestReaction =
+  | "🔥"
+  | "🚀"
+  | "👀"
+  | "❤️"
+  | "🤗"
+  | "😎"
+  | "➕"
+  | "🧠"
+  | "👍"
+  | "🤝"
+  | "😔"
+  | "🤯";
+export const ReactToBlogCommentRequestReaction = S.String;
+
+export type ReactToBlogCommentRequestAction = "add" | "remove";
+export const ReactToBlogCommentRequestAction = S.String;
+
+export interface ReactToBlogCommentRequest {
+  slug: string;
+  commentId: string;
+  reaction: ReactToBlogCommentRequestReaction | (string & {});
+  action: ReactToBlogCommentRequestAction | (string & {});
+}
+export const ReactToBlogCommentRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    slug: S.String.pipe(T.Label()),
+    commentId: S.String.pipe(T.Label()),
+    reaction: ReactToBlogCommentRequestReaction,
+    action: ReactToBlogCommentRequestAction,
+  }).pipe(
+    T.Http({ method: "POST", uri: "/api/blog/{slug}/comment/{commentId}/reaction", code: 200 }),
+  ),
+).annotate({
+  identifier: "ReactToBlogCommentRequest",
+}) as any as S.Schema<ReactToBlogCommentRequest>;
+
+export interface ReactToBlogCommentResponse {}
+export const ReactToBlogCommentResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
+  identifier: "ReactToBlogCommentResponse",
+}) as any as S.Schema<ReactToBlogCommentResponse>;
+
+export type ReactToCommunityBlogCommentRequestReaction =
+  | "🔥"
+  | "🚀"
+  | "👀"
+  | "❤️"
+  | "🤗"
+  | "😎"
+  | "➕"
+  | "🧠"
+  | "👍"
+  | "🤝"
+  | "😔"
+  | "🤯";
+export const ReactToCommunityBlogCommentRequestReaction = S.String;
+
+export type ReactToCommunityBlogCommentRequestAction = "add" | "remove";
+export const ReactToCommunityBlogCommentRequestAction = S.String;
+
+export interface ReactToCommunityBlogCommentRequest {
+  namespace: string;
+  slug: string;
+  commentId: string;
+  reaction: ReactToCommunityBlogCommentRequestReaction | (string & {});
+  action: ReactToCommunityBlogCommentRequestAction | (string & {});
+}
+export const ReactToCommunityBlogCommentRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    namespace: S.String.pipe(T.Label()),
+    slug: S.String.pipe(T.Label()),
+    commentId: S.String.pipe(T.Label()),
+    reaction: ReactToCommunityBlogCommentRequestReaction,
+    action: ReactToCommunityBlogCommentRequestAction,
+  }).pipe(
+    T.Http({
+      method: "POST",
+      uri: "/api/blog/{namespace}/{slug}/comment/{commentId}/reaction",
+      code: 200,
+    }),
+  ),
+).annotate({
+  identifier: "ReactToCommunityBlogCommentRequest",
+}) as any as S.Schema<ReactToCommunityBlogCommentRequest>;
+
+export interface ReactToCommunityBlogCommentResponse {}
+export const ReactToCommunityBlogCommentResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({}),
+).annotate({
+  identifier: "ReactToCommunityBlogCommentResponse",
+}) as any as S.Schema<ReactToCommunityBlogCommentResponse>;
+
+export type ReactToDiscussionCommentRequestRepoType = "models" | "spaces" | "datasets" | "kernels";
+export const ReactToDiscussionCommentRequestRepoType = S.String;
+
+export type ReactToDiscussionCommentRequestReaction =
+  | "🔥"
+  | "🚀"
+  | "👀"
+  | "❤️"
+  | "🤗"
+  | "😎"
+  | "➕"
+  | "🧠"
+  | "👍"
+  | "🤝"
+  | "😔"
+  | "🤯";
+export const ReactToDiscussionCommentRequestReaction = S.String;
+
+export type ReactToDiscussionCommentRequestAction = "add" | "remove";
+export const ReactToDiscussionCommentRequestAction = S.String;
+
+export interface ReactToDiscussionCommentRequest {
+  repoType: ReactToDiscussionCommentRequestRepoType | (string & {});
+  namespace: string;
+  repo: string;
+  num: string;
+  commentId: string;
+  reaction: ReactToDiscussionCommentRequestReaction | (string & {});
+  action: ReactToDiscussionCommentRequestAction | (string & {});
+}
+export const ReactToDiscussionCommentRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    repoType: ReactToDiscussionCommentRequestRepoType.pipe(T.Label()),
+    namespace: S.String.pipe(T.Label()),
+    repo: S.String.pipe(T.Label()),
+    num: S.String.pipe(T.Label()),
+    commentId: S.String.pipe(T.Label()),
+    reaction: ReactToDiscussionCommentRequestReaction,
+    action: ReactToDiscussionCommentRequestAction,
+  }).pipe(
+    T.Http({
+      method: "POST",
+      uri: "/api/{repoType}/{namespace}/{repo}/discussions/{num}/comment/{commentId}/reaction",
+      code: 200,
+    }),
+  ),
+).annotate({
+  identifier: "ReactToDiscussionCommentRequest",
+}) as any as S.Schema<ReactToDiscussionCommentRequest>;
+
+export interface ReactToDiscussionCommentResponse {}
+export const ReactToDiscussionCommentResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({}),
+).annotate({
+  identifier: "ReactToDiscussionCommentResponse",
+}) as any as S.Schema<ReactToDiscussionCommentResponse>;
+
+export type ReactToPaperCommentRequestReaction =
+  | "🔥"
+  | "🚀"
+  | "👀"
+  | "❤️"
+  | "🤗"
+  | "😎"
+  | "➕"
+  | "🧠"
+  | "👍"
+  | "🤝"
+  | "😔"
+  | "🤯";
+export const ReactToPaperCommentRequestReaction = S.String;
+
+export type ReactToPaperCommentRequestAction = "add" | "remove";
+export const ReactToPaperCommentRequestAction = S.String;
+
+export interface ReactToPaperCommentRequest {
+  paperId: string;
+  commentId: string;
+  reaction: ReactToPaperCommentRequestReaction | (string & {});
+  action: ReactToPaperCommentRequestAction | (string & {});
+}
+export const ReactToPaperCommentRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    paperId: S.String.pipe(T.Label()),
+    commentId: S.String.pipe(T.Label()),
+    reaction: ReactToPaperCommentRequestReaction,
+    action: ReactToPaperCommentRequestAction,
+  }).pipe(
+    T.Http({
+      method: "POST",
+      uri: "/api/papers/{paperId}/comment/{commentId}/reaction",
+      code: 200,
+    }),
+  ),
+).annotate({
+  identifier: "ReactToPaperCommentRequest",
+}) as any as S.Schema<ReactToPaperCommentRequest>;
+
+export interface ReactToPaperCommentResponse {}
+export const ReactToPaperCommentResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
+  identifier: "ReactToPaperCommentResponse",
+}) as any as S.Schema<ReactToPaperCommentResponse>;
+
+export type ReactToPostCommentRequestReaction =
+  | "🔥"
+  | "🚀"
+  | "👀"
+  | "❤️"
+  | "🤗"
+  | "😎"
+  | "➕"
+  | "🧠"
+  | "👍"
+  | "🤝"
+  | "😔"
+  | "🤯";
+export const ReactToPostCommentRequestReaction = S.String;
+
+export type ReactToPostCommentRequestAction = "add" | "remove";
+export const ReactToPostCommentRequestAction = S.String;
+
+export interface ReactToPostCommentRequest {
+  username: string;
+  postSlug: string;
+  commentId: string;
+  reaction: ReactToPostCommentRequestReaction | (string & {});
+  action: ReactToPostCommentRequestAction | (string & {});
+}
+export const ReactToPostCommentRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    username: S.String.pipe(T.Label()),
+    postSlug: S.String.pipe(T.Label()),
+    commentId: S.String.pipe(T.Label()),
+    reaction: ReactToPostCommentRequestReaction,
+    action: ReactToPostCommentRequestAction,
+  }).pipe(
+    T.Http({
+      method: "POST",
+      uri: "/api/posts/{username}/{postSlug}/comment/{commentId}/reaction",
+      code: 200,
+    }),
+  ),
+).annotate({
+  identifier: "ReactToPostCommentRequest",
+}) as any as S.Schema<ReactToPostCommentRequest>;
+
+export interface ReactToPostCommentResponse {}
+export const ReactToPostCommentResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
+  identifier: "ReactToPostCommentResponse",
+}) as any as S.Schema<ReactToPostCommentResponse>;
+
 export interface ReplyToBlogCommentRequest {
   slug: string;
   commentId: string;
@@ -4589,122 +8394,172 @@ export const ReplyToBlogCommentRequest = /*@__PURE__*/ S.suspend(() =>
     slug: S.String.pipe(T.Label()),
     commentId: S.String.pipe(T.Label()),
     comment: S.String,
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/api/blog/{slug}/comment/{commentId}/reply",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "POST", uri: "/api/blog/{slug}/comment/{commentId}/reply", code: 200 })),
 ).annotate({
   identifier: "ReplyToBlogCommentRequest",
 }) as any as S.Schema<ReplyToBlogCommentRequest>;
 
-export type ReplyToBlogCommentResponseNewMessageAuthorPlan =
+export type ReplyToBlogCommentResponseNewMessageAuthorCase0OauthAppImageData =
+  ChangeStatusResponseNewStatusAuthorCase0OauthAppImageData;
+export const ReplyToBlogCommentResponseNewMessageAuthorCase0OauthAppImageData =
+  ChangeStatusResponseNewStatusAuthorCase0OauthAppImageData;
+
+export type ReplyToBlogCommentResponseNewMessageAuthorCase0OauthApp =
+  ChangeStatusResponseNewStatusAuthorCase0OauthApp;
+export const ReplyToBlogCommentResponseNewMessageAuthorCase0OauthApp =
+  ChangeStatusResponseNewStatusAuthorCase0OauthApp;
+
+export type ReplyToBlogCommentResponseNewMessageAuthorCase0Plan =
   | "team"
   | "enterprise"
   | "plus"
   | "academia";
-export const ReplyToBlogCommentResponseNewMessageAuthorPlan = S.String;
+export const ReplyToBlogCommentResponseNewMessageAuthorCase0Plan = S.String;
 
-export type ReplyToBlogCommentResponseNewMessageAuthorPrimaryOrgPlan =
+export interface ReplyToBlogCommentResponseNewMessageAuthorCase0 {
+  isOwner?: boolean;
+  isOrgMember?: boolean;
+  isBlockedByMe?: boolean;
+  oauthApp?: ChangeStatusResponseNewStatusAuthorCase0OauthApp;
+  /** A hex string of 24 characters representing an ObjectId. */
+  _id: string;
+  avatarUrl: string;
+  fullname: string;
+  name: string;
+  isHf: boolean;
+  isHfAdmin: boolean;
+  isMod: boolean;
+  followerCount?: number;
+  type: string;
+  plan?: ReplyToBlogCommentResponseNewMessageAuthorCase0Plan;
+  isUserFollowing?: boolean;
+}
+export const ReplyToBlogCommentResponseNewMessageAuthorCase0 = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    isOwner: S.optional(S.Boolean),
+    isOrgMember: S.optional(S.Boolean),
+    isBlockedByMe: S.optional(S.Boolean),
+    oauthApp: S.optional(ChangeStatusResponseNewStatusAuthorCase0OauthApp),
+    _id: S.String,
+    avatarUrl: S.String,
+    fullname: S.String,
+    name: S.String,
+    isHf: S.Boolean,
+    isHfAdmin: S.Boolean,
+    isMod: S.Boolean,
+    followerCount: S.optional(S.Number),
+    type: S.String,
+    plan: S.optional(ReplyToBlogCommentResponseNewMessageAuthorCase0Plan),
+    isUserFollowing: S.optional(S.Boolean),
+  }),
+).annotate({
+  identifier: "ReplyToBlogCommentResponseNewMessageAuthorCase0",
+}) as any as S.Schema<ReplyToBlogCommentResponseNewMessageAuthorCase0>;
+
+export type ReplyToBlogCommentResponseNewMessageAuthorCase1OauthAppImageData =
+  ChangeStatusResponseNewStatusAuthorCase0OauthAppImageData;
+export const ReplyToBlogCommentResponseNewMessageAuthorCase1OauthAppImageData =
+  ChangeStatusResponseNewStatusAuthorCase0OauthAppImageData;
+
+export type ReplyToBlogCommentResponseNewMessageAuthorCase1OauthApp =
+  ChangeStatusResponseNewStatusAuthorCase0OauthApp;
+export const ReplyToBlogCommentResponseNewMessageAuthorCase1OauthApp =
+  ChangeStatusResponseNewStatusAuthorCase0OauthApp;
+
+export type ReplyToBlogCommentResponseNewMessageAuthorCase1PrimaryOrgPlan =
   | "team"
   | "enterprise"
   | "plus"
   | "academia";
-export const ReplyToBlogCommentResponseNewMessageAuthorPrimaryOrgPlan = S.String;
+export const ReplyToBlogCommentResponseNewMessageAuthorCase1PrimaryOrgPlan = S.String;
 
-export type ReplyToBlogCommentResponseNewMessageAuthorPrimaryOrgUserRole =
+export type ReplyToBlogCommentResponseNewMessageAuthorCase1PrimaryOrgUserRole =
   | "admin"
   | "write"
   | "contributor"
   | "read"
   | "no_access";
-export const ReplyToBlogCommentResponseNewMessageAuthorPrimaryOrgUserRole = S.String;
+export const ReplyToBlogCommentResponseNewMessageAuthorCase1PrimaryOrgUserRole = S.String;
 
-export interface ReplyToBlogCommentResponseNewMessageAuthorPrimaryOrg {
+export interface ReplyToBlogCommentResponseNewMessageAuthorCase1PrimaryOrg {
   avatarUrl: string;
   fullname: string;
   name: string;
-  type: unknown;
+  type: string;
   isHf: boolean;
   isFollowing?: boolean;
-  plan?: ReplyToBlogCommentResponseNewMessageAuthorPrimaryOrgPlan;
+  plan?: ReplyToBlogCommentResponseNewMessageAuthorCase1PrimaryOrgPlan;
   details?: string;
   hasPrivateMembersList?: boolean;
-  userRole?: ReplyToBlogCommentResponseNewMessageAuthorPrimaryOrgUserRole;
+  userRole?: ReplyToBlogCommentResponseNewMessageAuthorCase1PrimaryOrgUserRole;
   numUsers?: number;
 }
-export const ReplyToBlogCommentResponseNewMessageAuthorPrimaryOrg = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    avatarUrl: S.String,
-    fullname: S.String,
-    name: S.String,
-    type: S.Unknown,
-    isHf: S.Boolean,
-    isFollowing: S.optional(S.Boolean),
-    plan: S.optional(ReplyToBlogCommentResponseNewMessageAuthorPrimaryOrgPlan),
-    details: S.optional(S.String),
-    hasPrivateMembersList: S.optional(S.Boolean),
-    userRole: S.optional(ReplyToBlogCommentResponseNewMessageAuthorPrimaryOrgUserRole),
-    numUsers: S.optional(S.Number),
-  }),
+export const ReplyToBlogCommentResponseNewMessageAuthorCase1PrimaryOrg = /*@__PURE__*/ S.suspend(
+  () =>
+    S.Struct({
+      avatarUrl: S.String,
+      fullname: S.String,
+      name: S.String,
+      type: S.String,
+      isHf: S.Boolean,
+      isFollowing: S.optional(S.Boolean),
+      plan: S.optional(ReplyToBlogCommentResponseNewMessageAuthorCase1PrimaryOrgPlan),
+      details: S.optional(S.String),
+      hasPrivateMembersList: S.optional(S.Boolean),
+      userRole: S.optional(ReplyToBlogCommentResponseNewMessageAuthorCase1PrimaryOrgUserRole),
+      numUsers: S.optional(S.Number),
+    }),
 ).annotate({
-  identifier: "ReplyToBlogCommentResponseNewMessageAuthorPrimaryOrg",
-}) as any as S.Schema<ReplyToBlogCommentResponseNewMessageAuthorPrimaryOrg>;
+  identifier: "ReplyToBlogCommentResponseNewMessageAuthorCase1PrimaryOrg",
+}) as any as S.Schema<ReplyToBlogCommentResponseNewMessageAuthorCase1PrimaryOrg>;
 
-export type ReplyToBlogCommentResponseNewMessageAuthorOauthAppImageData =
-  ChangeStatusResponseNewStatusAuthorOauthAppImageData;
-export const ReplyToBlogCommentResponseNewMessageAuthorOauthAppImageData =
-  ChangeStatusResponseNewStatusAuthorOauthAppImageData;
-
-export type ReplyToBlogCommentResponseNewMessageAuthorOauthApp =
-  ChangeStatusResponseNewStatusAuthorOauthApp;
-export const ReplyToBlogCommentResponseNewMessageAuthorOauthApp =
-  ChangeStatusResponseNewStatusAuthorOauthApp;
-
-export interface ReplyToBlogCommentResponseNewMessageAuthor {
-  _id?: string;
-  avatarUrl?: string;
-  fullname?: string;
-  name?: string;
-  isHf?: boolean;
-  isHfAdmin?: boolean;
-  isMod?: boolean;
-  followerCount?: number;
-  type?: unknown;
-  plan?: ReplyToBlogCommentResponseNewMessageAuthorPlan;
-  isUserFollowing?: boolean;
-  isPro?: boolean;
-  primaryOrg?: ReplyToBlogCommentResponseNewMessageAuthorPrimaryOrg;
+export interface ReplyToBlogCommentResponseNewMessageAuthorCase1 {
   isOwner?: boolean;
   isOrgMember?: boolean;
   isBlockedByMe?: boolean;
-  oauthApp?: ChangeStatusResponseNewStatusAuthorOauthApp;
+  oauthApp?: ChangeStatusResponseNewStatusAuthorCase0OauthApp;
+  /** A hex string of 24 characters representing an ObjectId. */
+  _id: string;
+  avatarUrl: string;
+  fullname: string;
+  name: string;
+  isHf: boolean;
+  isHfAdmin: boolean;
+  isMod: boolean;
+  followerCount?: number;
+  type: string;
+  isPro: boolean;
+  isUserFollowing?: boolean;
+  primaryOrg?: ReplyToBlogCommentResponseNewMessageAuthorCase1PrimaryOrg;
 }
-export const ReplyToBlogCommentResponseNewMessageAuthor = /*@__PURE__*/ S.suspend(() =>
+export const ReplyToBlogCommentResponseNewMessageAuthorCase1 = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    _id: S.optional(S.String),
-    avatarUrl: S.optional(S.String),
-    fullname: S.optional(S.String),
-    name: S.optional(S.String),
-    isHf: S.optional(S.Boolean),
-    isHfAdmin: S.optional(S.Boolean),
-    isMod: S.optional(S.Boolean),
-    followerCount: S.optional(S.Number),
-    type: S.optional(S.Unknown),
-    plan: S.optional(ReplyToBlogCommentResponseNewMessageAuthorPlan),
-    isUserFollowing: S.optional(S.Boolean),
-    isPro: S.optional(S.Boolean),
-    primaryOrg: S.optional(ReplyToBlogCommentResponseNewMessageAuthorPrimaryOrg),
     isOwner: S.optional(S.Boolean),
     isOrgMember: S.optional(S.Boolean),
     isBlockedByMe: S.optional(S.Boolean),
-    oauthApp: S.optional(ChangeStatusResponseNewStatusAuthorOauthApp),
+    oauthApp: S.optional(ChangeStatusResponseNewStatusAuthorCase0OauthApp),
+    _id: S.String,
+    avatarUrl: S.String,
+    fullname: S.String,
+    name: S.String,
+    isHf: S.Boolean,
+    isHfAdmin: S.Boolean,
+    isMod: S.Boolean,
+    followerCount: S.optional(S.Number),
+    type: S.String,
+    isPro: S.Boolean,
+    isUserFollowing: S.optional(S.Boolean),
+    primaryOrg: S.optional(ReplyToBlogCommentResponseNewMessageAuthorCase1PrimaryOrg),
   }),
 ).annotate({
-  identifier: "ReplyToBlogCommentResponseNewMessageAuthor",
-}) as any as S.Schema<ReplyToBlogCommentResponseNewMessageAuthor>;
+  identifier: "ReplyToBlogCommentResponseNewMessageAuthorCase1",
+}) as any as S.Schema<ReplyToBlogCommentResponseNewMessageAuthorCase1>;
+
+export type ReplyToBlogCommentResponseNewMessageAuthor =
+  | ReplyToBlogCommentResponseNewMessageAuthorCase0
+  | ReplyToBlogCommentResponseNewMessageAuthorCase1;
+export const ReplyToBlogCommentResponseNewMessageAuthor =
+  S.Unknown as any as S.Schema<ReplyToBlogCommentResponseNewMessageAuthor>;
 
 export type ReplyToBlogCommentResponseNewMessageDataHiddenReason =
   | "Spam"
@@ -4723,6 +8578,7 @@ export type ReplyToBlogCommentResponseNewMessageDataLatestAuthorCase0Plan =
 export const ReplyToBlogCommentResponseNewMessageDataLatestAuthorCase0Plan = S.String;
 
 export interface ReplyToBlogCommentResponseNewMessageDataLatestAuthorCase0 {
+  /** A hex string of 24 characters representing an ObjectId. */
   _id: string;
   avatarUrl: string;
   fullname: string;
@@ -4731,7 +8587,7 @@ export interface ReplyToBlogCommentResponseNewMessageDataLatestAuthorCase0 {
   isHfAdmin: boolean;
   isMod: boolean;
   followerCount?: number;
-  type: unknown;
+  type: string;
   plan?: ReplyToBlogCommentResponseNewMessageDataLatestAuthorCase0Plan;
   isUserFollowing?: boolean;
 }
@@ -4746,7 +8602,7 @@ export const ReplyToBlogCommentResponseNewMessageDataLatestAuthorCase0 = /*@__PU
       isHfAdmin: S.Boolean,
       isMod: S.Boolean,
       followerCount: S.optional(S.Number),
-      type: S.Unknown,
+      type: S.String,
       plan: S.optional(ReplyToBlogCommentResponseNewMessageDataLatestAuthorCase0Plan),
       isUserFollowing: S.optional(S.Boolean),
     }),
@@ -4773,7 +8629,7 @@ export interface ReplyToBlogCommentResponseNewMessageDataLatestAuthorCase1Primar
   avatarUrl: string;
   fullname: string;
   name: string;
-  type: unknown;
+  type: string;
   isHf: boolean;
   isFollowing?: boolean;
   plan?: ReplyToBlogCommentResponseNewMessageDataLatestAuthorCase1PrimaryOrgPlan;
@@ -4788,7 +8644,7 @@ export const ReplyToBlogCommentResponseNewMessageDataLatestAuthorCase1PrimaryOrg
       avatarUrl: S.String,
       fullname: S.String,
       name: S.String,
-      type: S.Unknown,
+      type: S.String,
       isHf: S.Boolean,
       isFollowing: S.optional(S.Boolean),
       plan: S.optional(ReplyToBlogCommentResponseNewMessageDataLatestAuthorCase1PrimaryOrgPlan),
@@ -4804,6 +8660,7 @@ export const ReplyToBlogCommentResponseNewMessageDataLatestAuthorCase1PrimaryOrg
   }) as any as S.Schema<ReplyToBlogCommentResponseNewMessageDataLatestAuthorCase1PrimaryOrg>;
 
 export interface ReplyToBlogCommentResponseNewMessageDataLatestAuthorCase1 {
+  /** A hex string of 24 characters representing an ObjectId. */
   _id: string;
   avatarUrl: string;
   fullname: string;
@@ -4812,7 +8669,7 @@ export interface ReplyToBlogCommentResponseNewMessageDataLatestAuthorCase1 {
   isHfAdmin: boolean;
   isMod: boolean;
   followerCount?: number;
-  type: unknown;
+  type: string;
   isPro: boolean;
   isUserFollowing?: boolean;
   primaryOrg?: ReplyToBlogCommentResponseNewMessageDataLatestAuthorCase1PrimaryOrg;
@@ -4828,7 +8685,7 @@ export const ReplyToBlogCommentResponseNewMessageDataLatestAuthorCase1 = /*@__PU
       isHfAdmin: S.Boolean,
       isMod: S.Boolean,
       followerCount: S.optional(S.Number),
-      type: S.Unknown,
+      type: S.String,
       isPro: S.Boolean,
       isUserFollowing: S.optional(S.Boolean),
       primaryOrg: S.optional(ReplyToBlogCommentResponseNewMessageDataLatestAuthorCase1PrimaryOrg),
@@ -4955,7 +8812,7 @@ export interface ReplyToBlogCommentResponseNewMessage {
   id: string;
   createdAt: string;
   author?: ReplyToBlogCommentResponseNewMessageAuthor;
-  type: unknown;
+  type: string;
   data: ReplyToBlogCommentResponseNewMessageData;
 }
 export const ReplyToBlogCommentResponseNewMessage = /*@__PURE__*/ S.suspend(() =>
@@ -4963,7 +8820,7 @@ export const ReplyToBlogCommentResponseNewMessage = /*@__PURE__*/ S.suspend(() =
     id: S.String,
     createdAt: S.String,
     author: S.optional(ReplyToBlogCommentResponseNewMessageAuthor),
-    type: S.Unknown,
+    type: S.String,
     data: ReplyToBlogCommentResponseNewMessageData,
   }),
 ).annotate({
@@ -5004,112 +8861,171 @@ export const ReplyToCommunityBlogCommentRequest = /*@__PURE__*/ S.suspend(() =>
   identifier: "ReplyToCommunityBlogCommentRequest",
 }) as any as S.Schema<ReplyToCommunityBlogCommentRequest>;
 
-export type ReplyToCommunityBlogCommentResponseNewMessageAuthorPlan =
+export type ReplyToCommunityBlogCommentResponseNewMessageAuthorCase0OauthAppImageData =
+  ChangeStatusResponseNewStatusAuthorCase0OauthAppImageData;
+export const ReplyToCommunityBlogCommentResponseNewMessageAuthorCase0OauthAppImageData =
+  ChangeStatusResponseNewStatusAuthorCase0OauthAppImageData;
+
+export type ReplyToCommunityBlogCommentResponseNewMessageAuthorCase0OauthApp =
+  ChangeStatusResponseNewStatusAuthorCase0OauthApp;
+export const ReplyToCommunityBlogCommentResponseNewMessageAuthorCase0OauthApp =
+  ChangeStatusResponseNewStatusAuthorCase0OauthApp;
+
+export type ReplyToCommunityBlogCommentResponseNewMessageAuthorCase0Plan =
   | "team"
   | "enterprise"
   | "plus"
   | "academia";
-export const ReplyToCommunityBlogCommentResponseNewMessageAuthorPlan = S.String;
+export const ReplyToCommunityBlogCommentResponseNewMessageAuthorCase0Plan = S.String;
 
-export type ReplyToCommunityBlogCommentResponseNewMessageAuthorPrimaryOrgPlan =
+export interface ReplyToCommunityBlogCommentResponseNewMessageAuthorCase0 {
+  isOwner?: boolean;
+  isOrgMember?: boolean;
+  isBlockedByMe?: boolean;
+  oauthApp?: ChangeStatusResponseNewStatusAuthorCase0OauthApp;
+  /** A hex string of 24 characters representing an ObjectId. */
+  _id: string;
+  avatarUrl: string;
+  fullname: string;
+  name: string;
+  isHf: boolean;
+  isHfAdmin: boolean;
+  isMod: boolean;
+  followerCount?: number;
+  type: string;
+  plan?: ReplyToCommunityBlogCommentResponseNewMessageAuthorCase0Plan;
+  isUserFollowing?: boolean;
+}
+export const ReplyToCommunityBlogCommentResponseNewMessageAuthorCase0 = /*@__PURE__*/ S.suspend(
+  () =>
+    S.Struct({
+      isOwner: S.optional(S.Boolean),
+      isOrgMember: S.optional(S.Boolean),
+      isBlockedByMe: S.optional(S.Boolean),
+      oauthApp: S.optional(ChangeStatusResponseNewStatusAuthorCase0OauthApp),
+      _id: S.String,
+      avatarUrl: S.String,
+      fullname: S.String,
+      name: S.String,
+      isHf: S.Boolean,
+      isHfAdmin: S.Boolean,
+      isMod: S.Boolean,
+      followerCount: S.optional(S.Number),
+      type: S.String,
+      plan: S.optional(ReplyToCommunityBlogCommentResponseNewMessageAuthorCase0Plan),
+      isUserFollowing: S.optional(S.Boolean),
+    }),
+).annotate({
+  identifier: "ReplyToCommunityBlogCommentResponseNewMessageAuthorCase0",
+}) as any as S.Schema<ReplyToCommunityBlogCommentResponseNewMessageAuthorCase0>;
+
+export type ReplyToCommunityBlogCommentResponseNewMessageAuthorCase1OauthAppImageData =
+  ChangeStatusResponseNewStatusAuthorCase0OauthAppImageData;
+export const ReplyToCommunityBlogCommentResponseNewMessageAuthorCase1OauthAppImageData =
+  ChangeStatusResponseNewStatusAuthorCase0OauthAppImageData;
+
+export type ReplyToCommunityBlogCommentResponseNewMessageAuthorCase1OauthApp =
+  ChangeStatusResponseNewStatusAuthorCase0OauthApp;
+export const ReplyToCommunityBlogCommentResponseNewMessageAuthorCase1OauthApp =
+  ChangeStatusResponseNewStatusAuthorCase0OauthApp;
+
+export type ReplyToCommunityBlogCommentResponseNewMessageAuthorCase1PrimaryOrgPlan =
   | "team"
   | "enterprise"
   | "plus"
   | "academia";
-export const ReplyToCommunityBlogCommentResponseNewMessageAuthorPrimaryOrgPlan = S.String;
+export const ReplyToCommunityBlogCommentResponseNewMessageAuthorCase1PrimaryOrgPlan = S.String;
 
-export type ReplyToCommunityBlogCommentResponseNewMessageAuthorPrimaryOrgUserRole =
+export type ReplyToCommunityBlogCommentResponseNewMessageAuthorCase1PrimaryOrgUserRole =
   | "admin"
   | "write"
   | "contributor"
   | "read"
   | "no_access";
-export const ReplyToCommunityBlogCommentResponseNewMessageAuthorPrimaryOrgUserRole = S.String;
+export const ReplyToCommunityBlogCommentResponseNewMessageAuthorCase1PrimaryOrgUserRole = S.String;
 
-export interface ReplyToCommunityBlogCommentResponseNewMessageAuthorPrimaryOrg {
+export interface ReplyToCommunityBlogCommentResponseNewMessageAuthorCase1PrimaryOrg {
   avatarUrl: string;
   fullname: string;
   name: string;
-  type: unknown;
+  type: string;
   isHf: boolean;
   isFollowing?: boolean;
-  plan?: ReplyToCommunityBlogCommentResponseNewMessageAuthorPrimaryOrgPlan;
+  plan?: ReplyToCommunityBlogCommentResponseNewMessageAuthorCase1PrimaryOrgPlan;
   details?: string;
   hasPrivateMembersList?: boolean;
-  userRole?: ReplyToCommunityBlogCommentResponseNewMessageAuthorPrimaryOrgUserRole;
+  userRole?: ReplyToCommunityBlogCommentResponseNewMessageAuthorCase1PrimaryOrgUserRole;
   numUsers?: number;
 }
-export const ReplyToCommunityBlogCommentResponseNewMessageAuthorPrimaryOrg =
+export const ReplyToCommunityBlogCommentResponseNewMessageAuthorCase1PrimaryOrg =
   /*@__PURE__*/ S.suspend(() =>
     S.Struct({
       avatarUrl: S.String,
       fullname: S.String,
       name: S.String,
-      type: S.Unknown,
+      type: S.String,
       isHf: S.Boolean,
       isFollowing: S.optional(S.Boolean),
-      plan: S.optional(ReplyToCommunityBlogCommentResponseNewMessageAuthorPrimaryOrgPlan),
+      plan: S.optional(ReplyToCommunityBlogCommentResponseNewMessageAuthorCase1PrimaryOrgPlan),
       details: S.optional(S.String),
       hasPrivateMembersList: S.optional(S.Boolean),
-      userRole: S.optional(ReplyToCommunityBlogCommentResponseNewMessageAuthorPrimaryOrgUserRole),
+      userRole: S.optional(
+        ReplyToCommunityBlogCommentResponseNewMessageAuthorCase1PrimaryOrgUserRole,
+      ),
       numUsers: S.optional(S.Number),
     }),
   ).annotate({
-    identifier: "ReplyToCommunityBlogCommentResponseNewMessageAuthorPrimaryOrg",
-  }) as any as S.Schema<ReplyToCommunityBlogCommentResponseNewMessageAuthorPrimaryOrg>;
+    identifier: "ReplyToCommunityBlogCommentResponseNewMessageAuthorCase1PrimaryOrg",
+  }) as any as S.Schema<ReplyToCommunityBlogCommentResponseNewMessageAuthorCase1PrimaryOrg>;
 
-export type ReplyToCommunityBlogCommentResponseNewMessageAuthorOauthAppImageData =
-  ChangeStatusResponseNewStatusAuthorOauthAppImageData;
-export const ReplyToCommunityBlogCommentResponseNewMessageAuthorOauthAppImageData =
-  ChangeStatusResponseNewStatusAuthorOauthAppImageData;
-
-export type ReplyToCommunityBlogCommentResponseNewMessageAuthorOauthApp =
-  ChangeStatusResponseNewStatusAuthorOauthApp;
-export const ReplyToCommunityBlogCommentResponseNewMessageAuthorOauthApp =
-  ChangeStatusResponseNewStatusAuthorOauthApp;
-
-export interface ReplyToCommunityBlogCommentResponseNewMessageAuthor {
-  _id?: string;
-  avatarUrl?: string;
-  fullname?: string;
-  name?: string;
-  isHf?: boolean;
-  isHfAdmin?: boolean;
-  isMod?: boolean;
-  followerCount?: number;
-  type?: unknown;
-  plan?: ReplyToCommunityBlogCommentResponseNewMessageAuthorPlan;
-  isUserFollowing?: boolean;
-  isPro?: boolean;
-  primaryOrg?: ReplyToCommunityBlogCommentResponseNewMessageAuthorPrimaryOrg;
+export interface ReplyToCommunityBlogCommentResponseNewMessageAuthorCase1 {
   isOwner?: boolean;
   isOrgMember?: boolean;
   isBlockedByMe?: boolean;
-  oauthApp?: ChangeStatusResponseNewStatusAuthorOauthApp;
+  oauthApp?: ChangeStatusResponseNewStatusAuthorCase0OauthApp;
+  /** A hex string of 24 characters representing an ObjectId. */
+  _id: string;
+  avatarUrl: string;
+  fullname: string;
+  name: string;
+  isHf: boolean;
+  isHfAdmin: boolean;
+  isMod: boolean;
+  followerCount?: number;
+  type: string;
+  isPro: boolean;
+  isUserFollowing?: boolean;
+  primaryOrg?: ReplyToCommunityBlogCommentResponseNewMessageAuthorCase1PrimaryOrg;
 }
-export const ReplyToCommunityBlogCommentResponseNewMessageAuthor = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    _id: S.optional(S.String),
-    avatarUrl: S.optional(S.String),
-    fullname: S.optional(S.String),
-    name: S.optional(S.String),
-    isHf: S.optional(S.Boolean),
-    isHfAdmin: S.optional(S.Boolean),
-    isMod: S.optional(S.Boolean),
-    followerCount: S.optional(S.Number),
-    type: S.optional(S.Unknown),
-    plan: S.optional(ReplyToCommunityBlogCommentResponseNewMessageAuthorPlan),
-    isUserFollowing: S.optional(S.Boolean),
-    isPro: S.optional(S.Boolean),
-    primaryOrg: S.optional(ReplyToCommunityBlogCommentResponseNewMessageAuthorPrimaryOrg),
-    isOwner: S.optional(S.Boolean),
-    isOrgMember: S.optional(S.Boolean),
-    isBlockedByMe: S.optional(S.Boolean),
-    oauthApp: S.optional(ChangeStatusResponseNewStatusAuthorOauthApp),
-  }),
+export const ReplyToCommunityBlogCommentResponseNewMessageAuthorCase1 = /*@__PURE__*/ S.suspend(
+  () =>
+    S.Struct({
+      isOwner: S.optional(S.Boolean),
+      isOrgMember: S.optional(S.Boolean),
+      isBlockedByMe: S.optional(S.Boolean),
+      oauthApp: S.optional(ChangeStatusResponseNewStatusAuthorCase0OauthApp),
+      _id: S.String,
+      avatarUrl: S.String,
+      fullname: S.String,
+      name: S.String,
+      isHf: S.Boolean,
+      isHfAdmin: S.Boolean,
+      isMod: S.Boolean,
+      followerCount: S.optional(S.Number),
+      type: S.String,
+      isPro: S.Boolean,
+      isUserFollowing: S.optional(S.Boolean),
+      primaryOrg: S.optional(ReplyToCommunityBlogCommentResponseNewMessageAuthorCase1PrimaryOrg),
+    }),
 ).annotate({
-  identifier: "ReplyToCommunityBlogCommentResponseNewMessageAuthor",
-}) as any as S.Schema<ReplyToCommunityBlogCommentResponseNewMessageAuthor>;
+  identifier: "ReplyToCommunityBlogCommentResponseNewMessageAuthorCase1",
+}) as any as S.Schema<ReplyToCommunityBlogCommentResponseNewMessageAuthorCase1>;
+
+export type ReplyToCommunityBlogCommentResponseNewMessageAuthor =
+  | ReplyToCommunityBlogCommentResponseNewMessageAuthorCase0
+  | ReplyToCommunityBlogCommentResponseNewMessageAuthorCase1;
+export const ReplyToCommunityBlogCommentResponseNewMessageAuthor =
+  S.Unknown as any as S.Schema<ReplyToCommunityBlogCommentResponseNewMessageAuthor>;
 
 export type ReplyToCommunityBlogCommentResponseNewMessageDataHiddenReason =
   | "Spam"
@@ -5128,6 +9044,7 @@ export type ReplyToCommunityBlogCommentResponseNewMessageDataLatestAuthorCase0Pl
 export const ReplyToCommunityBlogCommentResponseNewMessageDataLatestAuthorCase0Plan = S.String;
 
 export interface ReplyToCommunityBlogCommentResponseNewMessageDataLatestAuthorCase0 {
+  /** A hex string of 24 characters representing an ObjectId. */
   _id: string;
   avatarUrl: string;
   fullname: string;
@@ -5136,7 +9053,7 @@ export interface ReplyToCommunityBlogCommentResponseNewMessageDataLatestAuthorCa
   isHfAdmin: boolean;
   isMod: boolean;
   followerCount?: number;
-  type: unknown;
+  type: string;
   plan?: ReplyToCommunityBlogCommentResponseNewMessageDataLatestAuthorCase0Plan;
   isUserFollowing?: boolean;
 }
@@ -5151,7 +9068,7 @@ export const ReplyToCommunityBlogCommentResponseNewMessageDataLatestAuthorCase0 
       isHfAdmin: S.Boolean,
       isMod: S.Boolean,
       followerCount: S.optional(S.Number),
-      type: S.Unknown,
+      type: S.String,
       plan: S.optional(ReplyToCommunityBlogCommentResponseNewMessageDataLatestAuthorCase0Plan),
       isUserFollowing: S.optional(S.Boolean),
     }),
@@ -5180,7 +9097,7 @@ export interface ReplyToCommunityBlogCommentResponseNewMessageDataLatestAuthorCa
   avatarUrl: string;
   fullname: string;
   name: string;
-  type: unknown;
+  type: string;
   isHf: boolean;
   isFollowing?: boolean;
   plan?: ReplyToCommunityBlogCommentResponseNewMessageDataLatestAuthorCase1PrimaryOrgPlan;
@@ -5195,7 +9112,7 @@ export const ReplyToCommunityBlogCommentResponseNewMessageDataLatestAuthorCase1P
       avatarUrl: S.String,
       fullname: S.String,
       name: S.String,
-      type: S.Unknown,
+      type: S.String,
       isHf: S.Boolean,
       isFollowing: S.optional(S.Boolean),
       plan: S.optional(
@@ -5213,6 +9130,7 @@ export const ReplyToCommunityBlogCommentResponseNewMessageDataLatestAuthorCase1P
   }) as any as S.Schema<ReplyToCommunityBlogCommentResponseNewMessageDataLatestAuthorCase1PrimaryOrg>;
 
 export interface ReplyToCommunityBlogCommentResponseNewMessageDataLatestAuthorCase1 {
+  /** A hex string of 24 characters representing an ObjectId. */
   _id: string;
   avatarUrl: string;
   fullname: string;
@@ -5221,7 +9139,7 @@ export interface ReplyToCommunityBlogCommentResponseNewMessageDataLatestAuthorCa
   isHfAdmin: boolean;
   isMod: boolean;
   followerCount?: number;
-  type: unknown;
+  type: string;
   isPro: boolean;
   isUserFollowing?: boolean;
   primaryOrg?: ReplyToCommunityBlogCommentResponseNewMessageDataLatestAuthorCase1PrimaryOrg;
@@ -5237,7 +9155,7 @@ export const ReplyToCommunityBlogCommentResponseNewMessageDataLatestAuthorCase1 
       isHfAdmin: S.Boolean,
       isMod: S.Boolean,
       followerCount: S.optional(S.Number),
-      type: S.Unknown,
+      type: S.String,
       isPro: S.Boolean,
       isUserFollowing: S.optional(S.Boolean),
       primaryOrg: S.optional(
@@ -5369,7 +9287,7 @@ export interface ReplyToCommunityBlogCommentResponseNewMessage {
   id: string;
   createdAt: string;
   author?: ReplyToCommunityBlogCommentResponseNewMessageAuthor;
-  type: unknown;
+  type: string;
   data: ReplyToCommunityBlogCommentResponseNewMessageData;
 }
 export const ReplyToCommunityBlogCommentResponseNewMessage = /*@__PURE__*/ S.suspend(() =>
@@ -5377,7 +9295,7 @@ export const ReplyToCommunityBlogCommentResponseNewMessage = /*@__PURE__*/ S.sus
     id: S.String,
     createdAt: S.String,
     author: S.optional(ReplyToCommunityBlogCommentResponseNewMessageAuthor),
-    type: S.Unknown,
+    type: S.String,
     data: ReplyToCommunityBlogCommentResponseNewMessageData,
   }),
 ).annotate({
@@ -5406,121 +9324,173 @@ export const ReplyToPaperCommentRequest = /*@__PURE__*/ S.suspend(() =>
     commentId: S.String.pipe(T.Label()),
     comment: S.String,
   }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/api/papers/{paperId}/comment/{commentId}/reply",
-      code: 200,
-    }),
+    T.Http({ method: "POST", uri: "/api/papers/{paperId}/comment/{commentId}/reply", code: 200 }),
   ),
 ).annotate({
   identifier: "ReplyToPaperCommentRequest",
 }) as any as S.Schema<ReplyToPaperCommentRequest>;
 
-export type ReplyToPaperCommentResponseNewMessageAuthorPlan =
+export type ReplyToPaperCommentResponseNewMessageAuthorCase0OauthAppImageData =
+  ChangeStatusResponseNewStatusAuthorCase0OauthAppImageData;
+export const ReplyToPaperCommentResponseNewMessageAuthorCase0OauthAppImageData =
+  ChangeStatusResponseNewStatusAuthorCase0OauthAppImageData;
+
+export type ReplyToPaperCommentResponseNewMessageAuthorCase0OauthApp =
+  ChangeStatusResponseNewStatusAuthorCase0OauthApp;
+export const ReplyToPaperCommentResponseNewMessageAuthorCase0OauthApp =
+  ChangeStatusResponseNewStatusAuthorCase0OauthApp;
+
+export type ReplyToPaperCommentResponseNewMessageAuthorCase0Plan =
   | "team"
   | "enterprise"
   | "plus"
   | "academia";
-export const ReplyToPaperCommentResponseNewMessageAuthorPlan = S.String;
+export const ReplyToPaperCommentResponseNewMessageAuthorCase0Plan = S.String;
 
-export type ReplyToPaperCommentResponseNewMessageAuthorPrimaryOrgPlan =
+export interface ReplyToPaperCommentResponseNewMessageAuthorCase0 {
+  isOwner?: boolean;
+  isOrgMember?: boolean;
+  isBlockedByMe?: boolean;
+  oauthApp?: ChangeStatusResponseNewStatusAuthorCase0OauthApp;
+  /** A hex string of 24 characters representing an ObjectId. */
+  _id: string;
+  avatarUrl: string;
+  fullname: string;
+  name: string;
+  isHf: boolean;
+  isHfAdmin: boolean;
+  isMod: boolean;
+  followerCount?: number;
+  type: string;
+  plan?: ReplyToPaperCommentResponseNewMessageAuthorCase0Plan;
+  isUserFollowing?: boolean;
+}
+export const ReplyToPaperCommentResponseNewMessageAuthorCase0 = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    isOwner: S.optional(S.Boolean),
+    isOrgMember: S.optional(S.Boolean),
+    isBlockedByMe: S.optional(S.Boolean),
+    oauthApp: S.optional(ChangeStatusResponseNewStatusAuthorCase0OauthApp),
+    _id: S.String,
+    avatarUrl: S.String,
+    fullname: S.String,
+    name: S.String,
+    isHf: S.Boolean,
+    isHfAdmin: S.Boolean,
+    isMod: S.Boolean,
+    followerCount: S.optional(S.Number),
+    type: S.String,
+    plan: S.optional(ReplyToPaperCommentResponseNewMessageAuthorCase0Plan),
+    isUserFollowing: S.optional(S.Boolean),
+  }),
+).annotate({
+  identifier: "ReplyToPaperCommentResponseNewMessageAuthorCase0",
+}) as any as S.Schema<ReplyToPaperCommentResponseNewMessageAuthorCase0>;
+
+export type ReplyToPaperCommentResponseNewMessageAuthorCase1OauthAppImageData =
+  ChangeStatusResponseNewStatusAuthorCase0OauthAppImageData;
+export const ReplyToPaperCommentResponseNewMessageAuthorCase1OauthAppImageData =
+  ChangeStatusResponseNewStatusAuthorCase0OauthAppImageData;
+
+export type ReplyToPaperCommentResponseNewMessageAuthorCase1OauthApp =
+  ChangeStatusResponseNewStatusAuthorCase0OauthApp;
+export const ReplyToPaperCommentResponseNewMessageAuthorCase1OauthApp =
+  ChangeStatusResponseNewStatusAuthorCase0OauthApp;
+
+export type ReplyToPaperCommentResponseNewMessageAuthorCase1PrimaryOrgPlan =
   | "team"
   | "enterprise"
   | "plus"
   | "academia";
-export const ReplyToPaperCommentResponseNewMessageAuthorPrimaryOrgPlan = S.String;
+export const ReplyToPaperCommentResponseNewMessageAuthorCase1PrimaryOrgPlan = S.String;
 
-export type ReplyToPaperCommentResponseNewMessageAuthorPrimaryOrgUserRole =
+export type ReplyToPaperCommentResponseNewMessageAuthorCase1PrimaryOrgUserRole =
   | "admin"
   | "write"
   | "contributor"
   | "read"
   | "no_access";
-export const ReplyToPaperCommentResponseNewMessageAuthorPrimaryOrgUserRole = S.String;
+export const ReplyToPaperCommentResponseNewMessageAuthorCase1PrimaryOrgUserRole = S.String;
 
-export interface ReplyToPaperCommentResponseNewMessageAuthorPrimaryOrg {
+export interface ReplyToPaperCommentResponseNewMessageAuthorCase1PrimaryOrg {
   avatarUrl: string;
   fullname: string;
   name: string;
-  type: unknown;
+  type: string;
   isHf: boolean;
   isFollowing?: boolean;
-  plan?: ReplyToPaperCommentResponseNewMessageAuthorPrimaryOrgPlan;
+  plan?: ReplyToPaperCommentResponseNewMessageAuthorCase1PrimaryOrgPlan;
   details?: string;
   hasPrivateMembersList?: boolean;
-  userRole?: ReplyToPaperCommentResponseNewMessageAuthorPrimaryOrgUserRole;
+  userRole?: ReplyToPaperCommentResponseNewMessageAuthorCase1PrimaryOrgUserRole;
   numUsers?: number;
 }
-export const ReplyToPaperCommentResponseNewMessageAuthorPrimaryOrg = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    avatarUrl: S.String,
-    fullname: S.String,
-    name: S.String,
-    type: S.Unknown,
-    isHf: S.Boolean,
-    isFollowing: S.optional(S.Boolean),
-    plan: S.optional(ReplyToPaperCommentResponseNewMessageAuthorPrimaryOrgPlan),
-    details: S.optional(S.String),
-    hasPrivateMembersList: S.optional(S.Boolean),
-    userRole: S.optional(ReplyToPaperCommentResponseNewMessageAuthorPrimaryOrgUserRole),
-    numUsers: S.optional(S.Number),
-  }),
+export const ReplyToPaperCommentResponseNewMessageAuthorCase1PrimaryOrg = /*@__PURE__*/ S.suspend(
+  () =>
+    S.Struct({
+      avatarUrl: S.String,
+      fullname: S.String,
+      name: S.String,
+      type: S.String,
+      isHf: S.Boolean,
+      isFollowing: S.optional(S.Boolean),
+      plan: S.optional(ReplyToPaperCommentResponseNewMessageAuthorCase1PrimaryOrgPlan),
+      details: S.optional(S.String),
+      hasPrivateMembersList: S.optional(S.Boolean),
+      userRole: S.optional(ReplyToPaperCommentResponseNewMessageAuthorCase1PrimaryOrgUserRole),
+      numUsers: S.optional(S.Number),
+    }),
 ).annotate({
-  identifier: "ReplyToPaperCommentResponseNewMessageAuthorPrimaryOrg",
-}) as any as S.Schema<ReplyToPaperCommentResponseNewMessageAuthorPrimaryOrg>;
+  identifier: "ReplyToPaperCommentResponseNewMessageAuthorCase1PrimaryOrg",
+}) as any as S.Schema<ReplyToPaperCommentResponseNewMessageAuthorCase1PrimaryOrg>;
 
-export type ReplyToPaperCommentResponseNewMessageAuthorOauthAppImageData =
-  ChangeStatusResponseNewStatusAuthorOauthAppImageData;
-export const ReplyToPaperCommentResponseNewMessageAuthorOauthAppImageData =
-  ChangeStatusResponseNewStatusAuthorOauthAppImageData;
-
-export type ReplyToPaperCommentResponseNewMessageAuthorOauthApp =
-  ChangeStatusResponseNewStatusAuthorOauthApp;
-export const ReplyToPaperCommentResponseNewMessageAuthorOauthApp =
-  ChangeStatusResponseNewStatusAuthorOauthApp;
-
-export interface ReplyToPaperCommentResponseNewMessageAuthor {
-  _id?: string;
-  avatarUrl?: string;
-  fullname?: string;
-  name?: string;
-  isHf?: boolean;
-  isHfAdmin?: boolean;
-  isMod?: boolean;
-  followerCount?: number;
-  type?: unknown;
-  plan?: ReplyToPaperCommentResponseNewMessageAuthorPlan;
-  isUserFollowing?: boolean;
-  isPro?: boolean;
-  primaryOrg?: ReplyToPaperCommentResponseNewMessageAuthorPrimaryOrg;
+export interface ReplyToPaperCommentResponseNewMessageAuthorCase1 {
   isOwner?: boolean;
   isOrgMember?: boolean;
   isBlockedByMe?: boolean;
-  oauthApp?: ChangeStatusResponseNewStatusAuthorOauthApp;
+  oauthApp?: ChangeStatusResponseNewStatusAuthorCase0OauthApp;
+  /** A hex string of 24 characters representing an ObjectId. */
+  _id: string;
+  avatarUrl: string;
+  fullname: string;
+  name: string;
+  isHf: boolean;
+  isHfAdmin: boolean;
+  isMod: boolean;
+  followerCount?: number;
+  type: string;
+  isPro: boolean;
+  isUserFollowing?: boolean;
+  primaryOrg?: ReplyToPaperCommentResponseNewMessageAuthorCase1PrimaryOrg;
 }
-export const ReplyToPaperCommentResponseNewMessageAuthor = /*@__PURE__*/ S.suspend(() =>
+export const ReplyToPaperCommentResponseNewMessageAuthorCase1 = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    _id: S.optional(S.String),
-    avatarUrl: S.optional(S.String),
-    fullname: S.optional(S.String),
-    name: S.optional(S.String),
-    isHf: S.optional(S.Boolean),
-    isHfAdmin: S.optional(S.Boolean),
-    isMod: S.optional(S.Boolean),
-    followerCount: S.optional(S.Number),
-    type: S.optional(S.Unknown),
-    plan: S.optional(ReplyToPaperCommentResponseNewMessageAuthorPlan),
-    isUserFollowing: S.optional(S.Boolean),
-    isPro: S.optional(S.Boolean),
-    primaryOrg: S.optional(ReplyToPaperCommentResponseNewMessageAuthorPrimaryOrg),
     isOwner: S.optional(S.Boolean),
     isOrgMember: S.optional(S.Boolean),
     isBlockedByMe: S.optional(S.Boolean),
-    oauthApp: S.optional(ChangeStatusResponseNewStatusAuthorOauthApp),
+    oauthApp: S.optional(ChangeStatusResponseNewStatusAuthorCase0OauthApp),
+    _id: S.String,
+    avatarUrl: S.String,
+    fullname: S.String,
+    name: S.String,
+    isHf: S.Boolean,
+    isHfAdmin: S.Boolean,
+    isMod: S.Boolean,
+    followerCount: S.optional(S.Number),
+    type: S.String,
+    isPro: S.Boolean,
+    isUserFollowing: S.optional(S.Boolean),
+    primaryOrg: S.optional(ReplyToPaperCommentResponseNewMessageAuthorCase1PrimaryOrg),
   }),
 ).annotate({
-  identifier: "ReplyToPaperCommentResponseNewMessageAuthor",
-}) as any as S.Schema<ReplyToPaperCommentResponseNewMessageAuthor>;
+  identifier: "ReplyToPaperCommentResponseNewMessageAuthorCase1",
+}) as any as S.Schema<ReplyToPaperCommentResponseNewMessageAuthorCase1>;
+
+export type ReplyToPaperCommentResponseNewMessageAuthor =
+  | ReplyToPaperCommentResponseNewMessageAuthorCase0
+  | ReplyToPaperCommentResponseNewMessageAuthorCase1;
+export const ReplyToPaperCommentResponseNewMessageAuthor =
+  S.Unknown as any as S.Schema<ReplyToPaperCommentResponseNewMessageAuthor>;
 
 export type ReplyToPaperCommentResponseNewMessageDataHiddenReason =
   | "Spam"
@@ -5539,6 +9509,7 @@ export type ReplyToPaperCommentResponseNewMessageDataLatestAuthorCase0Plan =
 export const ReplyToPaperCommentResponseNewMessageDataLatestAuthorCase0Plan = S.String;
 
 export interface ReplyToPaperCommentResponseNewMessageDataLatestAuthorCase0 {
+  /** A hex string of 24 characters representing an ObjectId. */
   _id: string;
   avatarUrl: string;
   fullname: string;
@@ -5547,7 +9518,7 @@ export interface ReplyToPaperCommentResponseNewMessageDataLatestAuthorCase0 {
   isHfAdmin: boolean;
   isMod: boolean;
   followerCount?: number;
-  type: unknown;
+  type: string;
   plan?: ReplyToPaperCommentResponseNewMessageDataLatestAuthorCase0Plan;
   isUserFollowing?: boolean;
 }
@@ -5562,7 +9533,7 @@ export const ReplyToPaperCommentResponseNewMessageDataLatestAuthorCase0 = /*@__P
       isHfAdmin: S.Boolean,
       isMod: S.Boolean,
       followerCount: S.optional(S.Number),
-      type: S.Unknown,
+      type: S.String,
       plan: S.optional(ReplyToPaperCommentResponseNewMessageDataLatestAuthorCase0Plan),
       isUserFollowing: S.optional(S.Boolean),
     }),
@@ -5590,7 +9561,7 @@ export interface ReplyToPaperCommentResponseNewMessageDataLatestAuthorCase1Prima
   avatarUrl: string;
   fullname: string;
   name: string;
-  type: unknown;
+  type: string;
   isHf: boolean;
   isFollowing?: boolean;
   plan?: ReplyToPaperCommentResponseNewMessageDataLatestAuthorCase1PrimaryOrgPlan;
@@ -5605,7 +9576,7 @@ export const ReplyToPaperCommentResponseNewMessageDataLatestAuthorCase1PrimaryOr
       avatarUrl: S.String,
       fullname: S.String,
       name: S.String,
-      type: S.Unknown,
+      type: S.String,
       isHf: S.Boolean,
       isFollowing: S.optional(S.Boolean),
       plan: S.optional(ReplyToPaperCommentResponseNewMessageDataLatestAuthorCase1PrimaryOrgPlan),
@@ -5621,6 +9592,7 @@ export const ReplyToPaperCommentResponseNewMessageDataLatestAuthorCase1PrimaryOr
   }) as any as S.Schema<ReplyToPaperCommentResponseNewMessageDataLatestAuthorCase1PrimaryOrg>;
 
 export interface ReplyToPaperCommentResponseNewMessageDataLatestAuthorCase1 {
+  /** A hex string of 24 characters representing an ObjectId. */
   _id: string;
   avatarUrl: string;
   fullname: string;
@@ -5629,7 +9601,7 @@ export interface ReplyToPaperCommentResponseNewMessageDataLatestAuthorCase1 {
   isHfAdmin: boolean;
   isMod: boolean;
   followerCount?: number;
-  type: unknown;
+  type: string;
   isPro: boolean;
   isUserFollowing?: boolean;
   primaryOrg?: ReplyToPaperCommentResponseNewMessageDataLatestAuthorCase1PrimaryOrg;
@@ -5645,7 +9617,7 @@ export const ReplyToPaperCommentResponseNewMessageDataLatestAuthorCase1 = /*@__P
       isHfAdmin: S.Boolean,
       isMod: S.Boolean,
       followerCount: S.optional(S.Number),
-      type: S.Unknown,
+      type: S.String,
       isPro: S.Boolean,
       isUserFollowing: S.optional(S.Boolean),
       primaryOrg: S.optional(ReplyToPaperCommentResponseNewMessageDataLatestAuthorCase1PrimaryOrg),
@@ -5773,7 +9745,7 @@ export interface ReplyToPaperCommentResponseNewMessage {
   id: string;
   createdAt: string;
   author?: ReplyToPaperCommentResponseNewMessageAuthor;
-  type: unknown;
+  type: string;
   data: ReplyToPaperCommentResponseNewMessageData;
 }
 export const ReplyToPaperCommentResponseNewMessage = /*@__PURE__*/ S.suspend(() =>
@@ -5781,7 +9753,7 @@ export const ReplyToPaperCommentResponseNewMessage = /*@__PURE__*/ S.suspend(() 
     id: S.String,
     createdAt: S.String,
     author: S.optional(ReplyToPaperCommentResponseNewMessageAuthor),
-    type: S.Unknown,
+    type: S.String,
     data: ReplyToPaperCommentResponseNewMessageData,
   }),
 ).annotate({
@@ -5822,111 +9794,167 @@ export const ReplyToPostCommentRequest = /*@__PURE__*/ S.suspend(() =>
   identifier: "ReplyToPostCommentRequest",
 }) as any as S.Schema<ReplyToPostCommentRequest>;
 
-export type ReplyToPostCommentResponseNewMessageAuthorPlan =
+export type ReplyToPostCommentResponseNewMessageAuthorCase0OauthAppImageData =
+  ChangeStatusResponseNewStatusAuthorCase0OauthAppImageData;
+export const ReplyToPostCommentResponseNewMessageAuthorCase0OauthAppImageData =
+  ChangeStatusResponseNewStatusAuthorCase0OauthAppImageData;
+
+export type ReplyToPostCommentResponseNewMessageAuthorCase0OauthApp =
+  ChangeStatusResponseNewStatusAuthorCase0OauthApp;
+export const ReplyToPostCommentResponseNewMessageAuthorCase0OauthApp =
+  ChangeStatusResponseNewStatusAuthorCase0OauthApp;
+
+export type ReplyToPostCommentResponseNewMessageAuthorCase0Plan =
   | "team"
   | "enterprise"
   | "plus"
   | "academia";
-export const ReplyToPostCommentResponseNewMessageAuthorPlan = S.String;
+export const ReplyToPostCommentResponseNewMessageAuthorCase0Plan = S.String;
 
-export type ReplyToPostCommentResponseNewMessageAuthorPrimaryOrgPlan =
+export interface ReplyToPostCommentResponseNewMessageAuthorCase0 {
+  isOwner?: boolean;
+  isOrgMember?: boolean;
+  isBlockedByMe?: boolean;
+  oauthApp?: ChangeStatusResponseNewStatusAuthorCase0OauthApp;
+  /** A hex string of 24 characters representing an ObjectId. */
+  _id: string;
+  avatarUrl: string;
+  fullname: string;
+  name: string;
+  isHf: boolean;
+  isHfAdmin: boolean;
+  isMod: boolean;
+  followerCount?: number;
+  type: string;
+  plan?: ReplyToPostCommentResponseNewMessageAuthorCase0Plan;
+  isUserFollowing?: boolean;
+}
+export const ReplyToPostCommentResponseNewMessageAuthorCase0 = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    isOwner: S.optional(S.Boolean),
+    isOrgMember: S.optional(S.Boolean),
+    isBlockedByMe: S.optional(S.Boolean),
+    oauthApp: S.optional(ChangeStatusResponseNewStatusAuthorCase0OauthApp),
+    _id: S.String,
+    avatarUrl: S.String,
+    fullname: S.String,
+    name: S.String,
+    isHf: S.Boolean,
+    isHfAdmin: S.Boolean,
+    isMod: S.Boolean,
+    followerCount: S.optional(S.Number),
+    type: S.String,
+    plan: S.optional(ReplyToPostCommentResponseNewMessageAuthorCase0Plan),
+    isUserFollowing: S.optional(S.Boolean),
+  }),
+).annotate({
+  identifier: "ReplyToPostCommentResponseNewMessageAuthorCase0",
+}) as any as S.Schema<ReplyToPostCommentResponseNewMessageAuthorCase0>;
+
+export type ReplyToPostCommentResponseNewMessageAuthorCase1OauthAppImageData =
+  ChangeStatusResponseNewStatusAuthorCase0OauthAppImageData;
+export const ReplyToPostCommentResponseNewMessageAuthorCase1OauthAppImageData =
+  ChangeStatusResponseNewStatusAuthorCase0OauthAppImageData;
+
+export type ReplyToPostCommentResponseNewMessageAuthorCase1OauthApp =
+  ChangeStatusResponseNewStatusAuthorCase0OauthApp;
+export const ReplyToPostCommentResponseNewMessageAuthorCase1OauthApp =
+  ChangeStatusResponseNewStatusAuthorCase0OauthApp;
+
+export type ReplyToPostCommentResponseNewMessageAuthorCase1PrimaryOrgPlan =
   | "team"
   | "enterprise"
   | "plus"
   | "academia";
-export const ReplyToPostCommentResponseNewMessageAuthorPrimaryOrgPlan = S.String;
+export const ReplyToPostCommentResponseNewMessageAuthorCase1PrimaryOrgPlan = S.String;
 
-export type ReplyToPostCommentResponseNewMessageAuthorPrimaryOrgUserRole =
+export type ReplyToPostCommentResponseNewMessageAuthorCase1PrimaryOrgUserRole =
   | "admin"
   | "write"
   | "contributor"
   | "read"
   | "no_access";
-export const ReplyToPostCommentResponseNewMessageAuthorPrimaryOrgUserRole = S.String;
+export const ReplyToPostCommentResponseNewMessageAuthorCase1PrimaryOrgUserRole = S.String;
 
-export interface ReplyToPostCommentResponseNewMessageAuthorPrimaryOrg {
+export interface ReplyToPostCommentResponseNewMessageAuthorCase1PrimaryOrg {
   avatarUrl: string;
   fullname: string;
   name: string;
-  type: unknown;
+  type: string;
   isHf: boolean;
   isFollowing?: boolean;
-  plan?: ReplyToPostCommentResponseNewMessageAuthorPrimaryOrgPlan;
+  plan?: ReplyToPostCommentResponseNewMessageAuthorCase1PrimaryOrgPlan;
   details?: string;
   hasPrivateMembersList?: boolean;
-  userRole?: ReplyToPostCommentResponseNewMessageAuthorPrimaryOrgUserRole;
+  userRole?: ReplyToPostCommentResponseNewMessageAuthorCase1PrimaryOrgUserRole;
   numUsers?: number;
 }
-export const ReplyToPostCommentResponseNewMessageAuthorPrimaryOrg = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    avatarUrl: S.String,
-    fullname: S.String,
-    name: S.String,
-    type: S.Unknown,
-    isHf: S.Boolean,
-    isFollowing: S.optional(S.Boolean),
-    plan: S.optional(ReplyToPostCommentResponseNewMessageAuthorPrimaryOrgPlan),
-    details: S.optional(S.String),
-    hasPrivateMembersList: S.optional(S.Boolean),
-    userRole: S.optional(ReplyToPostCommentResponseNewMessageAuthorPrimaryOrgUserRole),
-    numUsers: S.optional(S.Number),
-  }),
+export const ReplyToPostCommentResponseNewMessageAuthorCase1PrimaryOrg = /*@__PURE__*/ S.suspend(
+  () =>
+    S.Struct({
+      avatarUrl: S.String,
+      fullname: S.String,
+      name: S.String,
+      type: S.String,
+      isHf: S.Boolean,
+      isFollowing: S.optional(S.Boolean),
+      plan: S.optional(ReplyToPostCommentResponseNewMessageAuthorCase1PrimaryOrgPlan),
+      details: S.optional(S.String),
+      hasPrivateMembersList: S.optional(S.Boolean),
+      userRole: S.optional(ReplyToPostCommentResponseNewMessageAuthorCase1PrimaryOrgUserRole),
+      numUsers: S.optional(S.Number),
+    }),
 ).annotate({
-  identifier: "ReplyToPostCommentResponseNewMessageAuthorPrimaryOrg",
-}) as any as S.Schema<ReplyToPostCommentResponseNewMessageAuthorPrimaryOrg>;
+  identifier: "ReplyToPostCommentResponseNewMessageAuthorCase1PrimaryOrg",
+}) as any as S.Schema<ReplyToPostCommentResponseNewMessageAuthorCase1PrimaryOrg>;
 
-export type ReplyToPostCommentResponseNewMessageAuthorOauthAppImageData =
-  ChangeStatusResponseNewStatusAuthorOauthAppImageData;
-export const ReplyToPostCommentResponseNewMessageAuthorOauthAppImageData =
-  ChangeStatusResponseNewStatusAuthorOauthAppImageData;
-
-export type ReplyToPostCommentResponseNewMessageAuthorOauthApp =
-  ChangeStatusResponseNewStatusAuthorOauthApp;
-export const ReplyToPostCommentResponseNewMessageAuthorOauthApp =
-  ChangeStatusResponseNewStatusAuthorOauthApp;
-
-export interface ReplyToPostCommentResponseNewMessageAuthor {
-  _id?: string;
-  avatarUrl?: string;
-  fullname?: string;
-  name?: string;
-  isHf?: boolean;
-  isHfAdmin?: boolean;
-  isMod?: boolean;
-  followerCount?: number;
-  type?: unknown;
-  plan?: ReplyToPostCommentResponseNewMessageAuthorPlan;
-  isUserFollowing?: boolean;
-  isPro?: boolean;
-  primaryOrg?: ReplyToPostCommentResponseNewMessageAuthorPrimaryOrg;
+export interface ReplyToPostCommentResponseNewMessageAuthorCase1 {
   isOwner?: boolean;
   isOrgMember?: boolean;
   isBlockedByMe?: boolean;
-  oauthApp?: ChangeStatusResponseNewStatusAuthorOauthApp;
+  oauthApp?: ChangeStatusResponseNewStatusAuthorCase0OauthApp;
+  /** A hex string of 24 characters representing an ObjectId. */
+  _id: string;
+  avatarUrl: string;
+  fullname: string;
+  name: string;
+  isHf: boolean;
+  isHfAdmin: boolean;
+  isMod: boolean;
+  followerCount?: number;
+  type: string;
+  isPro: boolean;
+  isUserFollowing?: boolean;
+  primaryOrg?: ReplyToPostCommentResponseNewMessageAuthorCase1PrimaryOrg;
 }
-export const ReplyToPostCommentResponseNewMessageAuthor = /*@__PURE__*/ S.suspend(() =>
+export const ReplyToPostCommentResponseNewMessageAuthorCase1 = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    _id: S.optional(S.String),
-    avatarUrl: S.optional(S.String),
-    fullname: S.optional(S.String),
-    name: S.optional(S.String),
-    isHf: S.optional(S.Boolean),
-    isHfAdmin: S.optional(S.Boolean),
-    isMod: S.optional(S.Boolean),
-    followerCount: S.optional(S.Number),
-    type: S.optional(S.Unknown),
-    plan: S.optional(ReplyToPostCommentResponseNewMessageAuthorPlan),
-    isUserFollowing: S.optional(S.Boolean),
-    isPro: S.optional(S.Boolean),
-    primaryOrg: S.optional(ReplyToPostCommentResponseNewMessageAuthorPrimaryOrg),
     isOwner: S.optional(S.Boolean),
     isOrgMember: S.optional(S.Boolean),
     isBlockedByMe: S.optional(S.Boolean),
-    oauthApp: S.optional(ChangeStatusResponseNewStatusAuthorOauthApp),
+    oauthApp: S.optional(ChangeStatusResponseNewStatusAuthorCase0OauthApp),
+    _id: S.String,
+    avatarUrl: S.String,
+    fullname: S.String,
+    name: S.String,
+    isHf: S.Boolean,
+    isHfAdmin: S.Boolean,
+    isMod: S.Boolean,
+    followerCount: S.optional(S.Number),
+    type: S.String,
+    isPro: S.Boolean,
+    isUserFollowing: S.optional(S.Boolean),
+    primaryOrg: S.optional(ReplyToPostCommentResponseNewMessageAuthorCase1PrimaryOrg),
   }),
 ).annotate({
-  identifier: "ReplyToPostCommentResponseNewMessageAuthor",
-}) as any as S.Schema<ReplyToPostCommentResponseNewMessageAuthor>;
+  identifier: "ReplyToPostCommentResponseNewMessageAuthorCase1",
+}) as any as S.Schema<ReplyToPostCommentResponseNewMessageAuthorCase1>;
+
+export type ReplyToPostCommentResponseNewMessageAuthor =
+  | ReplyToPostCommentResponseNewMessageAuthorCase0
+  | ReplyToPostCommentResponseNewMessageAuthorCase1;
+export const ReplyToPostCommentResponseNewMessageAuthor =
+  S.Unknown as any as S.Schema<ReplyToPostCommentResponseNewMessageAuthor>;
 
 export type ReplyToPostCommentResponseNewMessageDataHiddenReason =
   | "Spam"
@@ -5945,6 +9973,7 @@ export type ReplyToPostCommentResponseNewMessageDataLatestAuthorCase0Plan =
 export const ReplyToPostCommentResponseNewMessageDataLatestAuthorCase0Plan = S.String;
 
 export interface ReplyToPostCommentResponseNewMessageDataLatestAuthorCase0 {
+  /** A hex string of 24 characters representing an ObjectId. */
   _id: string;
   avatarUrl: string;
   fullname: string;
@@ -5953,7 +9982,7 @@ export interface ReplyToPostCommentResponseNewMessageDataLatestAuthorCase0 {
   isHfAdmin: boolean;
   isMod: boolean;
   followerCount?: number;
-  type: unknown;
+  type: string;
   plan?: ReplyToPostCommentResponseNewMessageDataLatestAuthorCase0Plan;
   isUserFollowing?: boolean;
 }
@@ -5968,7 +9997,7 @@ export const ReplyToPostCommentResponseNewMessageDataLatestAuthorCase0 = /*@__PU
       isHfAdmin: S.Boolean,
       isMod: S.Boolean,
       followerCount: S.optional(S.Number),
-      type: S.Unknown,
+      type: S.String,
       plan: S.optional(ReplyToPostCommentResponseNewMessageDataLatestAuthorCase0Plan),
       isUserFollowing: S.optional(S.Boolean),
     }),
@@ -5995,7 +10024,7 @@ export interface ReplyToPostCommentResponseNewMessageDataLatestAuthorCase1Primar
   avatarUrl: string;
   fullname: string;
   name: string;
-  type: unknown;
+  type: string;
   isHf: boolean;
   isFollowing?: boolean;
   plan?: ReplyToPostCommentResponseNewMessageDataLatestAuthorCase1PrimaryOrgPlan;
@@ -6010,7 +10039,7 @@ export const ReplyToPostCommentResponseNewMessageDataLatestAuthorCase1PrimaryOrg
       avatarUrl: S.String,
       fullname: S.String,
       name: S.String,
-      type: S.Unknown,
+      type: S.String,
       isHf: S.Boolean,
       isFollowing: S.optional(S.Boolean),
       plan: S.optional(ReplyToPostCommentResponseNewMessageDataLatestAuthorCase1PrimaryOrgPlan),
@@ -6026,6 +10055,7 @@ export const ReplyToPostCommentResponseNewMessageDataLatestAuthorCase1PrimaryOrg
   }) as any as S.Schema<ReplyToPostCommentResponseNewMessageDataLatestAuthorCase1PrimaryOrg>;
 
 export interface ReplyToPostCommentResponseNewMessageDataLatestAuthorCase1 {
+  /** A hex string of 24 characters representing an ObjectId. */
   _id: string;
   avatarUrl: string;
   fullname: string;
@@ -6034,7 +10064,7 @@ export interface ReplyToPostCommentResponseNewMessageDataLatestAuthorCase1 {
   isHfAdmin: boolean;
   isMod: boolean;
   followerCount?: number;
-  type: unknown;
+  type: string;
   isPro: boolean;
   isUserFollowing?: boolean;
   primaryOrg?: ReplyToPostCommentResponseNewMessageDataLatestAuthorCase1PrimaryOrg;
@@ -6050,7 +10080,7 @@ export const ReplyToPostCommentResponseNewMessageDataLatestAuthorCase1 = /*@__PU
       isHfAdmin: S.Boolean,
       isMod: S.Boolean,
       followerCount: S.optional(S.Number),
-      type: S.Unknown,
+      type: S.String,
       isPro: S.Boolean,
       isUserFollowing: S.optional(S.Boolean),
       primaryOrg: S.optional(ReplyToPostCommentResponseNewMessageDataLatestAuthorCase1PrimaryOrg),
@@ -6177,7 +10207,7 @@ export interface ReplyToPostCommentResponseNewMessage {
   id: string;
   createdAt: string;
   author?: ReplyToPostCommentResponseNewMessageAuthor;
-  type: unknown;
+  type: string;
   data: ReplyToPostCommentResponseNewMessageData;
 }
 export const ReplyToPostCommentResponseNewMessage = /*@__PURE__*/ S.suspend(() =>
@@ -6185,7 +10215,7 @@ export const ReplyToPostCommentResponseNewMessage = /*@__PURE__*/ S.suspend(() =
     id: S.String,
     createdAt: S.String,
     author: S.optional(ReplyToPostCommentResponseNewMessageAuthor),
-    type: S.Unknown,
+    type: S.String,
     data: ReplyToPostCommentResponseNewMessageData,
   }),
 ).annotate({
@@ -6202,6 +10232,173 @@ export const ReplyToPostCommentResponse = /*@__PURE__*/ S.suspend(() =>
 ).annotate({
   identifier: "ReplyToPostCommentResponse",
 }) as any as S.Schema<ReplyToPostCommentResponse>;
+
+export type ToggleIgnoreDiscussionRequestRepoType = "models" | "spaces" | "datasets" | "kernels";
+export const ToggleIgnoreDiscussionRequestRepoType = S.String;
+
+export type ToggleIgnoreDiscussionRequestAction = "add" | "remove";
+export const ToggleIgnoreDiscussionRequestAction = S.String;
+
+export interface ToggleIgnoreDiscussionRequest {
+  repoType: ToggleIgnoreDiscussionRequestRepoType | (string & {});
+  namespace: string;
+  repo: string;
+  num: string;
+  action: ToggleIgnoreDiscussionRequestAction | (string & {});
+}
+export const ToggleIgnoreDiscussionRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    repoType: ToggleIgnoreDiscussionRequestRepoType.pipe(T.Label()),
+    namespace: S.String.pipe(T.Label()),
+    repo: S.String.pipe(T.Label()),
+    num: S.String.pipe(T.Label()),
+    action: ToggleIgnoreDiscussionRequestAction,
+  }).pipe(
+    T.Http({
+      method: "POST",
+      uri: "/api/{repoType}/{namespace}/{repo}/discussions/{num}/ignore",
+      code: 200,
+    }),
+  ),
+).annotate({
+  identifier: "ToggleIgnoreDiscussionRequest",
+}) as any as S.Schema<ToggleIgnoreDiscussionRequest>;
+
+export interface ToggleIgnoreDiscussionResponse {}
+export const ToggleIgnoreDiscussionResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
+  identifier: "ToggleIgnoreDiscussionResponse",
+}) as any as S.Schema<ToggleIgnoreDiscussionResponse>;
+
+export interface UpdateBlogCommentRequest {
+  slug: string;
+  commentId: string;
+  content: string;
+}
+export const UpdateBlogCommentRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    slug: S.String.pipe(T.Label()),
+    commentId: S.String.pipe(T.Label()),
+    content: S.String,
+  }).pipe(T.Http({ method: "POST", uri: "/api/blog/{slug}/comment/{commentId}/edit", code: 200 })),
+).annotate({ identifier: "UpdateBlogCommentRequest" }) as any as S.Schema<UpdateBlogCommentRequest>;
+
+export interface UpdateBlogCommentResponse {}
+export const UpdateBlogCommentResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
+  identifier: "UpdateBlogCommentResponse",
+}) as any as S.Schema<UpdateBlogCommentResponse>;
+
+export interface UpdateCommunityBlogCommentRequest {
+  namespace: string;
+  slug: string;
+  commentId: string;
+  content: string;
+}
+export const UpdateCommunityBlogCommentRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    namespace: S.String.pipe(T.Label()),
+    slug: S.String.pipe(T.Label()),
+    commentId: S.String.pipe(T.Label()),
+    content: S.String,
+  }).pipe(
+    T.Http({
+      method: "POST",
+      uri: "/api/blog/{namespace}/{slug}/comment/{commentId}/edit",
+      code: 200,
+    }),
+  ),
+).annotate({
+  identifier: "UpdateCommunityBlogCommentRequest",
+}) as any as S.Schema<UpdateCommunityBlogCommentRequest>;
+
+export interface UpdateCommunityBlogCommentResponse {}
+export const UpdateCommunityBlogCommentResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({}),
+).annotate({
+  identifier: "UpdateCommunityBlogCommentResponse",
+}) as any as S.Schema<UpdateCommunityBlogCommentResponse>;
+
+export type UpdateDiscussionCommentRequestRepoType = "models" | "spaces" | "datasets" | "kernels";
+export const UpdateDiscussionCommentRequestRepoType = S.String;
+
+export interface UpdateDiscussionCommentRequest {
+  repoType: UpdateDiscussionCommentRequestRepoType | (string & {});
+  namespace: string;
+  repo: string;
+  num: string;
+  commentId: string;
+  content: string;
+}
+export const UpdateDiscussionCommentRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    repoType: UpdateDiscussionCommentRequestRepoType.pipe(T.Label()),
+    namespace: S.String.pipe(T.Label()),
+    repo: S.String.pipe(T.Label()),
+    num: S.String.pipe(T.Label()),
+    commentId: S.String.pipe(T.Label()),
+    content: S.String,
+  }).pipe(
+    T.Http({
+      method: "POST",
+      uri: "/api/{repoType}/{namespace}/{repo}/discussions/{num}/comment/{commentId}/edit",
+      code: 200,
+    }),
+  ),
+).annotate({
+  identifier: "UpdateDiscussionCommentRequest",
+}) as any as S.Schema<UpdateDiscussionCommentRequest>;
+
+export interface UpdateDiscussionCommentResponse {}
+export const UpdateDiscussionCommentResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate(
+  { identifier: "UpdateDiscussionCommentResponse" },
+) as any as S.Schema<UpdateDiscussionCommentResponse>;
+
+export interface UpdatePaperCommentRequest {
+  paperId: string;
+  commentId: string;
+  content: string;
+}
+export const UpdatePaperCommentRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    paperId: S.String.pipe(T.Label()),
+    commentId: S.String.pipe(T.Label()),
+    content: S.String,
+  }).pipe(
+    T.Http({ method: "POST", uri: "/api/papers/{paperId}/comment/{commentId}/edit", code: 200 }),
+  ),
+).annotate({
+  identifier: "UpdatePaperCommentRequest",
+}) as any as S.Schema<UpdatePaperCommentRequest>;
+
+export interface UpdatePaperCommentResponse {}
+export const UpdatePaperCommentResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
+  identifier: "UpdatePaperCommentResponse",
+}) as any as S.Schema<UpdatePaperCommentResponse>;
+
+export interface UpdatePostCommentRequest {
+  username: string;
+  postSlug: string;
+  commentId: string;
+  content: string;
+}
+export const UpdatePostCommentRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    username: S.String.pipe(T.Label()),
+    postSlug: S.String.pipe(T.Label()),
+    commentId: S.String.pipe(T.Label()),
+    content: S.String,
+  }).pipe(
+    T.Http({
+      method: "POST",
+      uri: "/api/posts/{username}/{postSlug}/comment/{commentId}/edit",
+      code: 200,
+    }),
+  ),
+).annotate({ identifier: "UpdatePostCommentRequest" }) as any as S.Schema<UpdatePostCommentRequest>;
+
+export interface UpdatePostCommentResponse {}
+export const UpdatePostCommentResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
+  identifier: "UpdatePostCommentResponse",
+}) as any as S.Schema<UpdatePostCommentResponse>;
 
 export type ChangeStatusError = HuggingFaceOpError;
 /** Change status Change the status of a discussion */
@@ -6234,7 +10431,7 @@ export const changeTitle: API.OperationMethod<
 }));
 
 export type CreateBlogCommentError = HuggingFaceOpError;
-/** Create a new comment */
+/** Create comment */
 export const createBlogComment: API.OperationMethod<
   CreateBlogCommentRequest,
   CreateBlogCommentResponse,
@@ -6249,7 +10446,7 @@ export const createBlogComment: API.OperationMethod<
 }));
 
 export type CreateCommunityBlogCommentError = HuggingFaceOpError;
-/** Create a new comment */
+/** Create comment */
 export const createCommunityBlogComment: API.OperationMethod<
   CreateCommunityBlogCommentRequest,
   CreateCommunityBlogCommentResponse,
@@ -6263,8 +10460,23 @@ export const createCommunityBlogComment: API.OperationMethod<
   retry: Retry.Retry,
 }));
 
+export type CreateDiscussionError = HuggingFaceOpError;
+/** Create discussion */
+export const createDiscussion: API.OperationMethod<
+  CreateDiscussionRequest,
+  CreateDiscussionResponse,
+  CreateDiscussionError,
+  HuggingFaceOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: CreateDiscussionRequest,
+  output: CreateDiscussionResponse,
+  errors: [],
+  protocol: HuggingFaceProtocol,
+  retry: Retry.Retry,
+}));
+
 export type CreateDiscussionCommentError = HuggingFaceOpError;
-/** Create a new comment */
+/** Create comment */
 export const createDiscussionComment: API.OperationMethod<
   CreateDiscussionCommentRequest,
   CreateDiscussionCommentResponse,
@@ -6278,23 +10490,8 @@ export const createDiscussionComment: API.OperationMethod<
   retry: Retry.Retry,
 }));
 
-export type CreateNewDiscussionError = HuggingFaceOpError;
-/** Create a new discussion */
-export const createNewDiscussion: API.OperationMethod<
-  CreateNewDiscussionRequest,
-  CreateNewDiscussionResponse,
-  CreateNewDiscussionError,
-  HuggingFaceOpContext
-> = /*@__PURE__*/ API.make(() => ({
-  input: CreateNewDiscussionRequest,
-  output: CreateNewDiscussionResponse,
-  errors: [],
-  protocol: HuggingFaceProtocol,
-  retry: Retry.Retry,
-}));
-
 export type CreatePaperCommentError = HuggingFaceOpError;
-/** Create a new comment */
+/** Create comment */
 export const createPaperComment: API.OperationMethod<
   CreatePaperCommentRequest,
   CreatePaperCommentResponse,
@@ -6309,7 +10506,7 @@ export const createPaperComment: API.OperationMethod<
 }));
 
 export type CreatePostCommentError = HuggingFaceOpError;
-/** Create a new comment */
+/** Create comment */
 export const createPostComment: API.OperationMethod<
   CreatePostCommentRequest,
   CreatePostCommentResponse,
@@ -6383,6 +10580,81 @@ export const getDiscussionDetails: API.OperationMethod<
   retry: Retry.Retry,
 }));
 
+export type HideBlogCommentError = HuggingFaceOpError;
+/** Hide comment */
+export const hideBlogComment: API.OperationMethod<
+  HideBlogCommentRequest,
+  HideBlogCommentResponse,
+  HideBlogCommentError,
+  HuggingFaceOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: HideBlogCommentRequest,
+  output: HideBlogCommentResponse,
+  errors: [],
+  protocol: HuggingFaceProtocol,
+  retry: Retry.Retry,
+}));
+
+export type HideCommunityBlogCommentError = HuggingFaceOpError;
+/** Hide comment */
+export const hideCommunityBlogComment: API.OperationMethod<
+  HideCommunityBlogCommentRequest,
+  HideCommunityBlogCommentResponse,
+  HideCommunityBlogCommentError,
+  HuggingFaceOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: HideCommunityBlogCommentRequest,
+  output: HideCommunityBlogCommentResponse,
+  errors: [],
+  protocol: HuggingFaceProtocol,
+  retry: Retry.Retry,
+}));
+
+export type HideDiscussionCommentError = HuggingFaceOpError;
+/** Hide comment */
+export const hideDiscussionComment: API.OperationMethod<
+  HideDiscussionCommentRequest,
+  HideDiscussionCommentResponse,
+  HideDiscussionCommentError,
+  HuggingFaceOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: HideDiscussionCommentRequest,
+  output: HideDiscussionCommentResponse,
+  errors: [],
+  protocol: HuggingFaceProtocol,
+  retry: Retry.Retry,
+}));
+
+export type HidePaperCommentError = HuggingFaceOpError;
+/** Hide comment */
+export const hidePaperComment: API.OperationMethod<
+  HidePaperCommentRequest,
+  HidePaperCommentResponse,
+  HidePaperCommentError,
+  HuggingFaceOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: HidePaperCommentRequest,
+  output: HidePaperCommentResponse,
+  errors: [],
+  protocol: HuggingFaceProtocol,
+  retry: Retry.Retry,
+}));
+
+export type HidePostCommentError = HuggingFaceOpError;
+/** Hide comment */
+export const hidePostComment: API.OperationMethod<
+  HidePostCommentRequest,
+  HidePostCommentResponse,
+  HidePostCommentError,
+  HuggingFaceOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: HidePostCommentRequest,
+  output: HidePostCommentResponse,
+  errors: [],
+  protocol: HuggingFaceProtocol,
+  retry: Retry.Retry,
+}));
+
 export type ListDiscussionsError = HuggingFaceOpError;
 /** List discussions Get discussions for a repo */
 export const listDiscussions: API.OperationMethod<
@@ -6399,7 +10671,7 @@ export const listDiscussions: API.OperationMethod<
 }));
 
 export type MergePullRequestError = HuggingFaceOpError;
-/** Merge a pull request */
+/** Merge pull request */
 export const mergePullRequest: API.OperationMethod<
   MergePullRequestRequest,
   MergePullRequestResponse,
@@ -6443,8 +10715,83 @@ export const prStorageEstimate: API.OperationMethod<
   retry: Retry.Retry,
 }));
 
+export type ReactToBlogCommentError = HuggingFaceOpError;
+/** React to comment */
+export const reactToBlogComment: API.OperationMethod<
+  ReactToBlogCommentRequest,
+  ReactToBlogCommentResponse,
+  ReactToBlogCommentError,
+  HuggingFaceOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: ReactToBlogCommentRequest,
+  output: ReactToBlogCommentResponse,
+  errors: [],
+  protocol: HuggingFaceProtocol,
+  retry: Retry.Retry,
+}));
+
+export type ReactToCommunityBlogCommentError = HuggingFaceOpError;
+/** React to comment */
+export const reactToCommunityBlogComment: API.OperationMethod<
+  ReactToCommunityBlogCommentRequest,
+  ReactToCommunityBlogCommentResponse,
+  ReactToCommunityBlogCommentError,
+  HuggingFaceOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: ReactToCommunityBlogCommentRequest,
+  output: ReactToCommunityBlogCommentResponse,
+  errors: [],
+  protocol: HuggingFaceProtocol,
+  retry: Retry.Retry,
+}));
+
+export type ReactToDiscussionCommentError = HuggingFaceOpError;
+/** React to comment */
+export const reactToDiscussionComment: API.OperationMethod<
+  ReactToDiscussionCommentRequest,
+  ReactToDiscussionCommentResponse,
+  ReactToDiscussionCommentError,
+  HuggingFaceOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: ReactToDiscussionCommentRequest,
+  output: ReactToDiscussionCommentResponse,
+  errors: [],
+  protocol: HuggingFaceProtocol,
+  retry: Retry.Retry,
+}));
+
+export type ReactToPaperCommentError = HuggingFaceOpError;
+/** React to comment */
+export const reactToPaperComment: API.OperationMethod<
+  ReactToPaperCommentRequest,
+  ReactToPaperCommentResponse,
+  ReactToPaperCommentError,
+  HuggingFaceOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: ReactToPaperCommentRequest,
+  output: ReactToPaperCommentResponse,
+  errors: [],
+  protocol: HuggingFaceProtocol,
+  retry: Retry.Retry,
+}));
+
+export type ReactToPostCommentError = HuggingFaceOpError;
+/** React to comment */
+export const reactToPostComment: API.OperationMethod<
+  ReactToPostCommentRequest,
+  ReactToPostCommentResponse,
+  ReactToPostCommentError,
+  HuggingFaceOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: ReactToPostCommentRequest,
+  output: ReactToPostCommentResponse,
+  errors: [],
+  protocol: HuggingFaceProtocol,
+  retry: Retry.Retry,
+}));
+
 export type ReplyToBlogCommentError = HuggingFaceOpError;
-/** Create a new comment */
+/** Create comment */
 export const replyToBlogComment: API.OperationMethod<
   ReplyToBlogCommentRequest,
   ReplyToBlogCommentResponse,
@@ -6459,7 +10806,7 @@ export const replyToBlogComment: API.OperationMethod<
 }));
 
 export type ReplyToCommunityBlogCommentError = HuggingFaceOpError;
-/** Create a new comment */
+/** Create comment */
 export const replyToCommunityBlogComment: API.OperationMethod<
   ReplyToCommunityBlogCommentRequest,
   ReplyToCommunityBlogCommentResponse,
@@ -6474,7 +10821,7 @@ export const replyToCommunityBlogComment: API.OperationMethod<
 }));
 
 export type ReplyToPaperCommentError = HuggingFaceOpError;
-/** Create a new comment */
+/** Create comment */
 export const replyToPaperComment: API.OperationMethod<
   ReplyToPaperCommentRequest,
   ReplyToPaperCommentResponse,
@@ -6489,7 +10836,7 @@ export const replyToPaperComment: API.OperationMethod<
 }));
 
 export type ReplyToPostCommentError = HuggingFaceOpError;
-/** Create a new comment */
+/** Create comment */
 export const replyToPostComment: API.OperationMethod<
   ReplyToPostCommentRequest,
   ReplyToPostCommentResponse,
@@ -6498,6 +10845,96 @@ export const replyToPostComment: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: ReplyToPostCommentRequest,
   output: ReplyToPostCommentResponse,
+  errors: [],
+  protocol: HuggingFaceProtocol,
+  retry: Retry.Retry,
+}));
+
+export type ToggleIgnoreDiscussionError = HuggingFaceOpError;
+/** Toggle ignore discussion */
+export const toggleIgnoreDiscussion: API.OperationMethod<
+  ToggleIgnoreDiscussionRequest,
+  ToggleIgnoreDiscussionResponse,
+  ToggleIgnoreDiscussionError,
+  HuggingFaceOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: ToggleIgnoreDiscussionRequest,
+  output: ToggleIgnoreDiscussionResponse,
+  errors: [],
+  protocol: HuggingFaceProtocol,
+  retry: Retry.Retry,
+}));
+
+export type UpdateBlogCommentError = HuggingFaceOpError;
+/** Update a comment */
+export const updateBlogComment: API.OperationMethod<
+  UpdateBlogCommentRequest,
+  UpdateBlogCommentResponse,
+  UpdateBlogCommentError,
+  HuggingFaceOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: UpdateBlogCommentRequest,
+  output: UpdateBlogCommentResponse,
+  errors: [],
+  protocol: HuggingFaceProtocol,
+  retry: Retry.Retry,
+}));
+
+export type UpdateCommunityBlogCommentError = HuggingFaceOpError;
+/** Update a comment */
+export const updateCommunityBlogComment: API.OperationMethod<
+  UpdateCommunityBlogCommentRequest,
+  UpdateCommunityBlogCommentResponse,
+  UpdateCommunityBlogCommentError,
+  HuggingFaceOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: UpdateCommunityBlogCommentRequest,
+  output: UpdateCommunityBlogCommentResponse,
+  errors: [],
+  protocol: HuggingFaceProtocol,
+  retry: Retry.Retry,
+}));
+
+export type UpdateDiscussionCommentError = HuggingFaceOpError;
+/** Update a comment */
+export const updateDiscussionComment: API.OperationMethod<
+  UpdateDiscussionCommentRequest,
+  UpdateDiscussionCommentResponse,
+  UpdateDiscussionCommentError,
+  HuggingFaceOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: UpdateDiscussionCommentRequest,
+  output: UpdateDiscussionCommentResponse,
+  errors: [],
+  protocol: HuggingFaceProtocol,
+  retry: Retry.Retry,
+}));
+
+export type UpdatePaperCommentError = HuggingFaceOpError;
+/** Update a comment */
+export const updatePaperComment: API.OperationMethod<
+  UpdatePaperCommentRequest,
+  UpdatePaperCommentResponse,
+  UpdatePaperCommentError,
+  HuggingFaceOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: UpdatePaperCommentRequest,
+  output: UpdatePaperCommentResponse,
+  errors: [],
+  protocol: HuggingFaceProtocol,
+  retry: Retry.Retry,
+}));
+
+export type UpdatePostCommentError = HuggingFaceOpError;
+/** Update a comment */
+export const updatePostComment: API.OperationMethod<
+  UpdatePostCommentRequest,
+  UpdatePostCommentResponse,
+  UpdatePostCommentError,
+  HuggingFaceOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: UpdatePostCommentRequest,
+  output: UpdatePostCommentResponse,
   errors: [],
   protocol: HuggingFaceProtocol,
   retry: Retry.Retry,

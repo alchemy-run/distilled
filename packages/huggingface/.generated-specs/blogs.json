@@ -46,6 +46,7 @@
         "id": {
           "target": "smithy.api#String",
           "traits": {
+            "smithy.api#documentation": "A hex string of 24 characters representing an ObjectId.",
             "smithy.api#required": {}
           }
         },
@@ -77,7 +78,7 @@
           "uri": "/api/blog/{namespace}/{slug}/resource-group",
           "code": 200
         },
-        "smithy.api#documentation": "Get blog resource group"
+        "smithy.api#documentation": "Blog resource group"
       }
     },
     "com.huggingface.blogs#SetBlogResourceGroupRequest": {
@@ -123,6 +124,7 @@
         "id": {
           "target": "smithy.api#String",
           "traits": {
+            "smithy.api#documentation": "A hex string of 24 characters representing an ObjectId.",
             "smithy.api#required": {}
           }
         },
@@ -169,7 +171,68 @@
           "uri": "/api/blog/{namespace}/{slug}/resource-group",
           "code": 200
         },
-        "smithy.api#documentation": "Set blog resource group\n\nAssign, move, or unassign an organization-owned blog to a resource group. Pass null to unassign. User-owned blogs are not eligible."
+        "smithy.api#documentation": "Blog resource group\n\nAssign, move, or unassign an organization-owned blog to a resource group. Pass null to unassign. User-owned blogs are not eligible."
+      }
+    },
+    "com.huggingface.blogs#ListBlogsRequestCommunitySort": {
+      "type": "enum",
+      "members": {
+        "TRENDING": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "trending"
+          }
+        },
+        "RECENT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "recent"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.huggingface.blogs#ListBlogsRequest": {
+      "type": "structure",
+      "members": {
+        "p": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpQuery": "p"
+          }
+        },
+        "community_sort": {
+          "target": "com.huggingface.blogs#ListBlogsRequestCommunitySort",
+          "traits": {
+            "smithy.api#httpQuery": "community_sort"
+          }
+        },
+        "tag": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "tag"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.huggingface.blogs#ListBlogs": {
+      "type": "operation",
+      "input": {
+        "target": "com.huggingface.blogs#ListBlogsRequest"
+      },
+      "output": {
+        "target": "smithy.api#Unit"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/api/blog/zh",
+          "code": 200
+        },
+        "smithy.api#documentation": "List blogs"
       }
     },
     "com.huggingface.blogs#Blogs": {
@@ -181,6 +244,9 @@
         },
         {
           "target": "com.huggingface.blogs#SetBlogResourceGroup"
+        },
+        {
+          "target": "com.huggingface.blogs#ListBlogs"
         }
       ],
       "traits": {

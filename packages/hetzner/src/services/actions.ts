@@ -16,9 +16,7 @@ export const GetActionRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     id: S.Number.pipe(T.Label()),
   }).pipe(T.Http({ method: "GET", uri: "/actions/{id}", code: 200 })),
-).annotate({
-  identifier: "GetActionRequest",
-}) as any as S.Schema<GetActionRequest>;
+).annotate({ identifier: "GetActionRequest" }) as any as S.Schema<GetActionRequest>;
 
 /** Status of the Action. */
 export type GetActionResponseActionStatus = "running" | "success" | "error";
@@ -90,9 +88,7 @@ export const GetActionResponseAction = /*@__PURE__*/ S.suspend(() =>
     resources: GetActionResponseActionResourcesList,
     error: S.NullOr(GetActionResponseActionError),
   }),
-).annotate({
-  identifier: "GetActionResponseAction",
-}) as any as S.Schema<GetActionResponseAction>;
+).annotate({ identifier: "GetActionResponseAction" }) as any as S.Schema<GetActionResponseAction>;
 
 export interface GetActionResponse {
   action: GetActionResponseAction;
@@ -101,9 +97,7 @@ export const GetActionResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     action: GetActionResponseAction,
   }),
-).annotate({
-  identifier: "GetActionResponse",
-}) as any as S.Schema<GetActionResponse>;
+).annotate({ identifier: "GetActionResponse" }) as any as S.Schema<GetActionResponse>;
 
 export type GetActionsRequestIdList = Array<number>;
 export const GetActionsRequestIdList = /*@__PURE__*/ S.Array(
@@ -118,9 +112,7 @@ export const GetActionsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     id: GetActionsRequestIdList.pipe(T.Query()),
   }).pipe(T.Http({ method: "GET", uri: "/actions", code: 200 })),
-).annotate({
-  identifier: "GetActionsRequest",
-}) as any as S.Schema<GetActionsRequest>;
+).annotate({ identifier: "GetActionsRequest" }) as any as S.Schema<GetActionsRequest>;
 
 /** Status of the Action. */
 export type GetActionsResponseActionsItemStatus = "running" | "success" | "error";
@@ -185,9 +177,7 @@ export const GetActionsResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     actions: GetActionsResponseActionsList,
   }),
-).annotate({
-  identifier: "GetActionsResponse",
-}) as any as S.Schema<GetActionsResponse>;
+).annotate({ identifier: "GetActionsResponse" }) as any as S.Schema<GetActionsResponse>;
 
 export type GetActionError = HetznerOpError;
 /** Get an Action Returns a specific Action object. */

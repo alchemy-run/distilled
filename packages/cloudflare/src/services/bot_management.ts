@@ -14,9 +14,14 @@ export type { CloudflareOpError, CloudflareOpContext };
 
 /** Fallback camelCase→wire mapping for opaque content (mined from the distilled SDK). */
 const KEY_DICTIONARY: Record<string, string | ReadonlyArray<string>> = {
+  aiBotsMigrationOptOut: "ai_bots_migration_opt_out",
   aiBotsProtection: "ai_bots_protection",
+  aiSearch: "ai_search",
+  aiTraining: "ai_training",
+  aiUser: "ai_user",
   autoUpdateModel: "auto_update_model",
   bmCookieEnabled: "bm_cookie_enabled",
+  botPreferenceSyncEnabled: "bot_preference_sync_enabled",
   cfRobotsVariant: "cf_robots_variant",
   contentBotsProtection: "content_bots_protection",
   crawlerProtection: "crawler_protection",
