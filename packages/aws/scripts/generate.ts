@@ -1,4 +1,6 @@
-#!/usr/bin/env bun
+#!/usr/bin/env -S node --conditions=bun
+import { runGeneratorCli } from "@distilled.cloud/core/codegen/cli";
+import { lintAndFormatGenerated } from "@distilled.cloud/core/codegen/format";
 /**
  * generate — turn the AWS Smithy models into an Effect SDK.
  *
@@ -22,30 +24,27 @@
  * Flags: `--resource <sdkId>` generates a single service (e.g. `s3`).
  */
 import { Schema as S } from "effect";
-import { runGeneratorCli } from "@distilled.cloud/core/codegen/cli";
-import { lintAndFormatGenerated } from "@distilled.cloud/core/codegen/format";
-import { loadServiceSpecPatch } from "./spec-schema.ts";
 import { SmithyModel, type ServiceShape } from "./model-schema.ts";
+import { loadServiceSpecPatch } from "./spec-schema.ts";
 import { awsSpec } from "./spec.ts";
 
 /** The service shape and its sdkId — every AWS model has exactly one. */
 const serviceOf = (model: any): ServiceShape => {
-  const shape = Object.values(model.shapes ?? {}).find(
-    (s: any) => s?.type === "service",
-  ) as ServiceShape | undefined;
+  const shape = Object.values(model.shapes ?? {}).find((s: any) => s?.type === "service") as
+    | ServiceShape
+    | undefined;
   if (!shape) throw new Error("service shape not found");
   return shape;
 };
 
-const sdkIdOf = (model: any): string =>
-  serviceOf(model).traits["aws.api#service"].sdkId;
+const sdkIdOf = (model: any): string => serviceOf(model).traits["aws.api#service"].sdkId;
 
 /** `SimpleDB` → `simpledb`, `API Gateway` → `api-gateway`. */
 const moduleName = (sdkId: string) => sdkId.toLowerCase().replaceAll(" ", "-");
 
 runGeneratorCli({
   description: "Generate the AWS Effect SDK from patched Smithy models",
-  root: `${import.meta.dir}/..`,
+  root: `${import.meta.dirname}/..`,
   smithyDir: ".generated-specs",
   manualSpecsDir: "manual-specs",
   patchesDir: false,

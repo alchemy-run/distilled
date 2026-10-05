@@ -30,7 +30,7 @@
     "distilled.finalized": true
   },
   "shapes": {
-    "com.cloudflare.hyperdrive#ConfigsCreateRequestOriginPublicDatabaseScheme": {
+    "com.cloudflare.hyperdrive#ConfigsCreateRequestOriginHyperdriveHyperdriveConfigCreateWithOriginPublicDatabaseScheme": {
       "type": "enum",
       "members": {
         "POSTGRES": {
@@ -53,7 +53,7 @@
         }
       }
     },
-    "com.cloudflare.hyperdrive#ConfigsCreateRequestOriginPublicDatabase": {
+    "com.cloudflare.hyperdrive#ConfigsCreateRequestOriginHyperdriveHyperdriveConfigCreateWithOriginPublicDatabase": {
       "type": "structure",
       "members": {
         "database": {
@@ -66,7 +66,7 @@
         "host": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "Defines the host (hostname or IP) of your origin database.",
+            "smithy.api#documentation": "Defines the publicly reachable hostname or IP of your origin database. Private, loopback, and link-local IP addresses are not allowed.",
             "smithy.api#required": {}
           }
         },
@@ -85,7 +85,7 @@
           }
         },
         "scheme": {
-          "target": "com.cloudflare.hyperdrive#ConfigsCreateRequestOriginPublicDatabaseScheme",
+          "target": "com.cloudflare.hyperdrive#ConfigsCreateRequestOriginHyperdriveHyperdriveConfigCreateWithOriginPublicDatabaseScheme",
           "traits": {
             "smithy.api#documentation": "Specifies the URL scheme used to connect to your origin database.",
             "smithy.api#required": {}
@@ -100,7 +100,7 @@
         }
       }
     },
-    "com.cloudflare.hyperdrive#ConfigsCreateRequestOriginAccessProtectedDatabaseBehindCloudflareTunnelScheme": {
+    "com.cloudflare.hyperdrive#ConfigsCreateRequestOriginHyperdriveHyperdriveConfigCreateWithOriginAccessProtectedDatabaseBehindCloudflareTunnelScheme": {
       "type": "enum",
       "members": {
         "POSTGRES": {
@@ -123,7 +123,7 @@
         }
       }
     },
-    "com.cloudflare.hyperdrive#ConfigsCreateRequestOriginAccessProtectedDatabaseBehindCloudflareTunnel": {
+    "com.cloudflare.hyperdrive#ConfigsCreateRequestOriginHyperdriveHyperdriveConfigCreateWithOriginAccessProtectedDatabaseBehindCloudflareTunnel": {
       "type": "structure",
       "members": {
         "access_client_id": {
@@ -162,7 +162,7 @@
           }
         },
         "scheme": {
-          "target": "com.cloudflare.hyperdrive#ConfigsCreateRequestOriginAccessProtectedDatabaseBehindCloudflareTunnelScheme",
+          "target": "com.cloudflare.hyperdrive#ConfigsCreateRequestOriginHyperdriveHyperdriveConfigCreateWithOriginAccessProtectedDatabaseBehindCloudflareTunnelScheme",
           "traits": {
             "smithy.api#documentation": "Specifies the URL scheme used to connect to your origin database.",
             "smithy.api#required": {}
@@ -177,7 +177,7 @@
         }
       }
     },
-    "com.cloudflare.hyperdrive#ConfigsCreateRequestOriginDatabaseReachableThroughAWorkersVPCScheme": {
+    "com.cloudflare.hyperdrive#ConfigsCreateRequestOriginHyperdriveHyperdriveConfigCreateWithOriginDatabaseReachableThroughAWorkersVPCScheme": {
       "type": "enum",
       "members": {
         "POSTGRES": {
@@ -200,7 +200,7 @@
         }
       }
     },
-    "com.cloudflare.hyperdrive#ConfigsCreateRequestOriginDatabaseReachableThroughAWorkersVPC": {
+    "com.cloudflare.hyperdrive#ConfigsCreateRequestOriginHyperdriveHyperdriveConfigCreateWithOriginDatabaseReachableThroughAWorkersVPC": {
       "type": "structure",
       "members": {
         "database": {
@@ -218,7 +218,7 @@
           }
         },
         "scheme": {
-          "target": "com.cloudflare.hyperdrive#ConfigsCreateRequestOriginDatabaseReachableThroughAWorkersVPCScheme",
+          "target": "com.cloudflare.hyperdrive#ConfigsCreateRequestOriginHyperdriveHyperdriveConfigCreateWithOriginDatabaseReachableThroughAWorkersVPCScheme",
           "traits": {
             "smithy.api#documentation": "Specifies the URL scheme used to connect to your origin database.",
             "smithy.api#required": {}
@@ -240,39 +240,42 @@
         }
       }
     },
-    "com.cloudflare.hyperdrive#ConfigsCreateRequestOrigin": {
+    "com.cloudflare.hyperdrive#ConfigsCreateRequestOriginHyperdriveHyperdriveConfigCreateWithOrigin": {
       "type": "union",
       "members": {
         "PublicDatabase": {
-          "target": "com.cloudflare.hyperdrive#ConfigsCreateRequestOriginPublicDatabase"
+          "target": "com.cloudflare.hyperdrive#ConfigsCreateRequestOriginHyperdriveHyperdriveConfigCreateWithOriginPublicDatabase"
         },
         "AccessProtectedDatabaseBehindCloudflareTunnel": {
-          "target": "com.cloudflare.hyperdrive#ConfigsCreateRequestOriginAccessProtectedDatabaseBehindCloudflareTunnel"
+          "target": "com.cloudflare.hyperdrive#ConfigsCreateRequestOriginHyperdriveHyperdriveConfigCreateWithOriginAccessProtectedDatabaseBehindCloudflareTunnel"
         },
         "DatabaseReachableThroughAWorkersVPC": {
-          "target": "com.cloudflare.hyperdrive#ConfigsCreateRequestOriginDatabaseReachableThroughAWorkersVPC"
+          "target": "com.cloudflare.hyperdrive#ConfigsCreateRequestOriginHyperdriveHyperdriveConfigCreateWithOriginDatabaseReachableThroughAWorkersVPC"
         }
       }
     },
-    "com.cloudflare.hyperdrive#ConfigsCreateRequestCachingHyperdriveHyperdriveCachingCommon": {
+    "com.cloudflare.hyperdrive#ConfigsCreateRequestCachingHyperdriveHyperdriveCachingCreateDisabled": {
       "type": "structure",
       "members": {
         "disabled": {
           "target": "smithy.api#Boolean",
           "traits": {
-            "smithy.api#documentation": "Set to true to disable caching of SQL responses. Default is false."
+            "smithy.api#required": {}
           }
+        },
+        "max_age": {
+          "target": "smithy.api#Double"
+        },
+        "stale_while_revalidate": {
+          "target": "smithy.api#Double"
         }
       }
     },
-    "com.cloudflare.hyperdrive#ConfigsCreateRequestCachingHyperdriveHyperdriveCachingEnabled": {
+    "com.cloudflare.hyperdrive#ConfigsCreateRequestCachingHyperdriveHyperdriveCachingCreateEnabled": {
       "type": "structure",
       "members": {
         "disabled": {
-          "target": "smithy.api#Boolean",
-          "traits": {
-            "smithy.api#documentation": "Set to true to disable caching of SQL responses. Default is false."
-          }
+          "target": "smithy.api#Boolean"
         },
         "max_age": {
           "target": "smithy.api#Double",
@@ -291,11 +294,91 @@
     "com.cloudflare.hyperdrive#ConfigsCreateRequestCaching": {
       "type": "union",
       "members": {
-        "HyperdriveHyperdriveCachingCommon": {
-          "target": "com.cloudflare.hyperdrive#ConfigsCreateRequestCachingHyperdriveHyperdriveCachingCommon"
+        "HyperdriveHyperdriveCachingCreateDisabled": {
+          "target": "com.cloudflare.hyperdrive#ConfigsCreateRequestCachingHyperdriveHyperdriveCachingCreateDisabled"
         },
-        "HyperdriveHyperdriveCachingEnabled": {
-          "target": "com.cloudflare.hyperdrive#ConfigsCreateRequestCachingHyperdriveHyperdriveCachingEnabled"
+        "HyperdriveHyperdriveCachingCreateEnabled": {
+          "target": "com.cloudflare.hyperdrive#ConfigsCreateRequestCachingHyperdriveHyperdriveCachingCreateEnabled"
+        }
+      }
+    },
+    "com.cloudflare.hyperdrive#ConfigsCreateRequestIntegrationHyperdriveHyperdriveConfigCreateWithIntegrationProvider": {
+      "type": "enum",
+      "members": {
+        "PLANETSCALE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "planetscale"
+          }
+        }
+      }
+    },
+    "com.cloudflare.hyperdrive#ConfigsCreateRequestIntegrationHyperdriveHyperdriveConfigCreateWithIntegrationScheme": {
+      "type": "enum",
+      "members": {
+        "POSTGRES": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "postgres"
+          }
+        },
+        "POSTGRESQL": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "postgresql"
+          }
+        },
+        "MYSQL": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "mysql"
+          }
+        }
+      }
+    },
+    "com.cloudflare.hyperdrive#ConfigsCreateRequestIntegrationHyperdriveHyperdriveConfigCreateWithIntegration": {
+      "type": "structure",
+      "members": {
+        "database_branch_name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The name of the PlanetScale database branch.",
+            "smithy.api#required": {}
+          }
+        },
+        "database_name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The name of the PlanetScale database.",
+            "smithy.api#required": {}
+          }
+        },
+        "organization_name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The name of the PlanetScale organization.",
+            "smithy.api#required": {}
+          }
+        },
+        "provider": {
+          "target": "com.cloudflare.hyperdrive#ConfigsCreateRequestIntegrationHyperdriveHyperdriveConfigCreateWithIntegrationProvider",
+          "traits": {
+            "smithy.api#documentation": "The database integration provider used by this operation.",
+            "smithy.api#required": {}
+          }
+        },
+        "scheme": {
+          "target": "com.cloudflare.hyperdrive#ConfigsCreateRequestIntegrationHyperdriveHyperdriveConfigCreateWithIntegrationScheme",
+          "traits": {
+            "smithy.api#documentation": "Specifies the URL scheme used to connect to your origin database.",
+            "smithy.api#required": {}
+          }
+        },
+        "custom_database_name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The database name to use when connecting. Defaults to `postgres` for PostgreSQL and `mysql` for MySQL."
+          }
         }
       }
     },
@@ -317,7 +400,31 @@
         "sslmode": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "Set SSL mode to 'require', 'verify-ca', or 'verify-full' to verify the CA."
+            "smithy.api#documentation": "PostgreSQL accepts `require`, `verify-ca`, and `verify-full`. MySQL accepts `REQUIRED`, `VERIFY_CA`, and `VERIFY_IDENTITY`. The verify modes require a CA certificate; the require modes cannot be used with a CA certificate."
+          }
+        }
+      }
+    },
+    "com.cloudflare.hyperdrive#ConfigsCreateResponseCaching": {
+      "type": "structure",
+      "members": {
+        "disabled": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Defines whether caching is disabled.",
+            "smithy.api#required": {}
+          }
+        },
+        "max_age": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "Defines the maximum duration (in seconds) items persist in the cache."
+          }
+        },
+        "stale_while_revalidate": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "Defines the number of seconds the cache may serve a stale response."
           }
         }
       }
@@ -358,7 +465,7 @@
         "host": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "Defines the host (hostname or IP) of your origin database.",
+            "smithy.api#documentation": "Defines the publicly reachable hostname or IP of your origin database. Private, loopback, and link-local IP addresses are not allowed.",
             "smithy.api#required": {}
           }
         },
@@ -525,48 +632,83 @@
         }
       }
     },
-    "com.cloudflare.hyperdrive#ConfigsCreateResponseCachingHyperdriveHyperdriveCachingCommon": {
-      "type": "structure",
+    "com.cloudflare.hyperdrive#ConfigsCreateResponseIntegrationProvider": {
+      "type": "enum",
       "members": {
-        "disabled": {
-          "target": "smithy.api#Boolean",
+        "PLANETSCALE": {
+          "target": "smithy.api#Unit",
           "traits": {
-            "smithy.api#documentation": "Set to true to disable caching of SQL responses. Default is false."
+            "smithy.api#enumValue": "planetscale"
           }
         }
       }
     },
-    "com.cloudflare.hyperdrive#ConfigsCreateResponseCachingHyperdriveHyperdriveCachingEnabled": {
-      "type": "structure",
+    "com.cloudflare.hyperdrive#ConfigsCreateResponseIntegrationScheme": {
+      "type": "enum",
       "members": {
-        "disabled": {
-          "target": "smithy.api#Boolean",
+        "POSTGRES": {
+          "target": "smithy.api#Unit",
           "traits": {
-            "smithy.api#documentation": "Set to true to disable caching of SQL responses. Default is false."
+            "smithy.api#enumValue": "postgres"
           }
         },
-        "max_age": {
-          "target": "smithy.api#Double",
+        "POSTGRESQL": {
+          "target": "smithy.api#Unit",
           "traits": {
-            "smithy.api#documentation": "Specify the maximum duration (in seconds) items should persist in the cache. Defaults to 60 seconds if not specified."
+            "smithy.api#enumValue": "postgresql"
           }
         },
-        "stale_while_revalidate": {
-          "target": "smithy.api#Double",
+        "MYSQL": {
+          "target": "smithy.api#Unit",
           "traits": {
-            "smithy.api#documentation": "Specify the number of seconds the cache may serve a stale response. Defaults to 15 seconds if not specified."
+            "smithy.api#enumValue": "mysql"
           }
         }
       }
     },
-    "com.cloudflare.hyperdrive#ConfigsCreateResponseCaching": {
-      "type": "union",
+    "com.cloudflare.hyperdrive#ConfigsCreateResponseIntegration": {
+      "type": "structure",
       "members": {
-        "HyperdriveHyperdriveCachingCommon": {
-          "target": "com.cloudflare.hyperdrive#ConfigsCreateResponseCachingHyperdriveHyperdriveCachingCommon"
+        "database_branch_name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The name of the PlanetScale database branch.",
+            "smithy.api#required": {}
+          }
         },
-        "HyperdriveHyperdriveCachingEnabled": {
-          "target": "com.cloudflare.hyperdrive#ConfigsCreateResponseCachingHyperdriveHyperdriveCachingEnabled"
+        "database_name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The name of the PlanetScale database.",
+            "smithy.api#required": {}
+          }
+        },
+        "organization_name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The name of the PlanetScale organization.",
+            "smithy.api#required": {}
+          }
+        },
+        "provider": {
+          "target": "com.cloudflare.hyperdrive#ConfigsCreateResponseIntegrationProvider",
+          "traits": {
+            "smithy.api#documentation": "The database integration provider used by this operation.",
+            "smithy.api#required": {}
+          }
+        },
+        "scheme": {
+          "target": "com.cloudflare.hyperdrive#ConfigsCreateResponseIntegrationScheme",
+          "traits": {
+            "smithy.api#documentation": "Specifies the URL scheme used to connect to your origin database.",
+            "smithy.api#required": {}
+          }
+        },
+        "custom_database_name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The database name to use when connecting. Defaults to `postgres` for PostgreSQL and `mysql` for MySQL."
+          }
         }
       }
     },
@@ -588,7 +730,7 @@
         "sslmode": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "Set SSL mode to 'require', 'verify-ca', or 'verify-full' to verify the CA."
+            "smithy.api#documentation": "PostgreSQL accepts `require`, `verify-ca`, and `verify-full`. MySQL accepts `REQUIRED`, `VERIFY_CA`, and `VERIFY_IDENTITY`. The verify modes require a CA certificate; the require modes cannot be used with a CA certificate."
           }
         }
       }
@@ -656,7 +798,7 @@
         "sslmode": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "Set SSL mode to 'require', 'verify-ca', or 'verify-full' to verify the CA."
+            "smithy.api#documentation": "PostgreSQL accepts `require`, `verify-ca`, and `verify-full`. MySQL accepts `REQUIRED`, `VERIFY_CA`, and `VERIFY_IDENTITY`. The verify modes require a CA certificate; the require modes cannot be used with a CA certificate."
           }
         }
       }
@@ -719,7 +861,7 @@
         "host": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "Defines the host (hostname or IP) of your origin database.",
+            "smithy.api#documentation": "Defines the publicly reachable hostname or IP of your origin database. Private, loopback, and link-local IP addresses are not allowed.",
             "smithy.api#required": {}
           }
         },
@@ -787,6 +929,30 @@
         }
       }
     },
+    "com.cloudflare.hyperdrive#ConfigsEditResponseCaching": {
+      "type": "structure",
+      "members": {
+        "disabled": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Defines whether caching is disabled.",
+            "smithy.api#required": {}
+          }
+        },
+        "max_age": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "Defines the maximum duration (in seconds) items persist in the cache."
+          }
+        },
+        "stale_while_revalidate": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "Defines the number of seconds the cache may serve a stale response."
+          }
+        }
+      }
+    },
     "com.cloudflare.hyperdrive#ConfigsEditResponseOriginPublicDatabaseScheme": {
       "type": "enum",
       "members": {
@@ -823,7 +989,7 @@
         "host": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "Defines the host (hostname or IP) of your origin database.",
+            "smithy.api#documentation": "Defines the publicly reachable hostname or IP of your origin database. Private, loopback, and link-local IP addresses are not allowed.",
             "smithy.api#required": {}
           }
         },
@@ -990,48 +1156,83 @@
         }
       }
     },
-    "com.cloudflare.hyperdrive#ConfigsEditResponseCachingHyperdriveHyperdriveCachingCommon": {
-      "type": "structure",
+    "com.cloudflare.hyperdrive#ConfigsEditResponseIntegrationProvider": {
+      "type": "enum",
       "members": {
-        "disabled": {
-          "target": "smithy.api#Boolean",
+        "PLANETSCALE": {
+          "target": "smithy.api#Unit",
           "traits": {
-            "smithy.api#documentation": "Set to true to disable caching of SQL responses. Default is false."
+            "smithy.api#enumValue": "planetscale"
           }
         }
       }
     },
-    "com.cloudflare.hyperdrive#ConfigsEditResponseCachingHyperdriveHyperdriveCachingEnabled": {
-      "type": "structure",
+    "com.cloudflare.hyperdrive#ConfigsEditResponseIntegrationScheme": {
+      "type": "enum",
       "members": {
-        "disabled": {
-          "target": "smithy.api#Boolean",
+        "POSTGRES": {
+          "target": "smithy.api#Unit",
           "traits": {
-            "smithy.api#documentation": "Set to true to disable caching of SQL responses. Default is false."
+            "smithy.api#enumValue": "postgres"
           }
         },
-        "max_age": {
-          "target": "smithy.api#Double",
+        "POSTGRESQL": {
+          "target": "smithy.api#Unit",
           "traits": {
-            "smithy.api#documentation": "Specify the maximum duration (in seconds) items should persist in the cache. Defaults to 60 seconds if not specified."
+            "smithy.api#enumValue": "postgresql"
           }
         },
-        "stale_while_revalidate": {
-          "target": "smithy.api#Double",
+        "MYSQL": {
+          "target": "smithy.api#Unit",
           "traits": {
-            "smithy.api#documentation": "Specify the number of seconds the cache may serve a stale response. Defaults to 15 seconds if not specified."
+            "smithy.api#enumValue": "mysql"
           }
         }
       }
     },
-    "com.cloudflare.hyperdrive#ConfigsEditResponseCaching": {
-      "type": "union",
+    "com.cloudflare.hyperdrive#ConfigsEditResponseIntegration": {
+      "type": "structure",
       "members": {
-        "HyperdriveHyperdriveCachingCommon": {
-          "target": "com.cloudflare.hyperdrive#ConfigsEditResponseCachingHyperdriveHyperdriveCachingCommon"
+        "database_branch_name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The name of the PlanetScale database branch.",
+            "smithy.api#required": {}
+          }
         },
-        "HyperdriveHyperdriveCachingEnabled": {
-          "target": "com.cloudflare.hyperdrive#ConfigsEditResponseCachingHyperdriveHyperdriveCachingEnabled"
+        "database_name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The name of the PlanetScale database.",
+            "smithy.api#required": {}
+          }
+        },
+        "organization_name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The name of the PlanetScale organization.",
+            "smithy.api#required": {}
+          }
+        },
+        "provider": {
+          "target": "com.cloudflare.hyperdrive#ConfigsEditResponseIntegrationProvider",
+          "traits": {
+            "smithy.api#documentation": "The database integration provider used by this operation.",
+            "smithy.api#required": {}
+          }
+        },
+        "scheme": {
+          "target": "com.cloudflare.hyperdrive#ConfigsEditResponseIntegrationScheme",
+          "traits": {
+            "smithy.api#documentation": "Specifies the URL scheme used to connect to your origin database.",
+            "smithy.api#required": {}
+          }
+        },
+        "custom_database_name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The database name to use when connecting. Defaults to `postgres` for PostgreSQL and `mysql` for MySQL."
+          }
         }
       }
     },
@@ -1053,7 +1254,31 @@
         "sslmode": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "Set SSL mode to 'require', 'verify-ca', or 'verify-full' to verify the CA."
+            "smithy.api#documentation": "PostgreSQL accepts `require`, `verify-ca`, and `verify-full`. MySQL accepts `REQUIRED`, `VERIFY_CA`, and `VERIFY_IDENTITY`. The verify modes require a CA certificate; the require modes cannot be used with a CA certificate."
+          }
+        }
+      }
+    },
+    "com.cloudflare.hyperdrive#ConfigsGetResponseCaching": {
+      "type": "structure",
+      "members": {
+        "disabled": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Defines whether caching is disabled.",
+            "smithy.api#required": {}
+          }
+        },
+        "max_age": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "Defines the maximum duration (in seconds) items persist in the cache."
+          }
+        },
+        "stale_while_revalidate": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "Defines the number of seconds the cache may serve a stale response."
           }
         }
       }
@@ -1094,7 +1319,7 @@
         "host": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "Defines the host (hostname or IP) of your origin database.",
+            "smithy.api#documentation": "Defines the publicly reachable hostname or IP of your origin database. Private, loopback, and link-local IP addresses are not allowed.",
             "smithy.api#required": {}
           }
         },
@@ -1261,48 +1486,83 @@
         }
       }
     },
-    "com.cloudflare.hyperdrive#ConfigsGetResponseCachingHyperdriveHyperdriveCachingCommon": {
-      "type": "structure",
+    "com.cloudflare.hyperdrive#ConfigsGetResponseIntegrationProvider": {
+      "type": "enum",
       "members": {
-        "disabled": {
-          "target": "smithy.api#Boolean",
+        "PLANETSCALE": {
+          "target": "smithy.api#Unit",
           "traits": {
-            "smithy.api#documentation": "Set to true to disable caching of SQL responses. Default is false."
+            "smithy.api#enumValue": "planetscale"
           }
         }
       }
     },
-    "com.cloudflare.hyperdrive#ConfigsGetResponseCachingHyperdriveHyperdriveCachingEnabled": {
-      "type": "structure",
+    "com.cloudflare.hyperdrive#ConfigsGetResponseIntegrationScheme": {
+      "type": "enum",
       "members": {
-        "disabled": {
-          "target": "smithy.api#Boolean",
+        "POSTGRES": {
+          "target": "smithy.api#Unit",
           "traits": {
-            "smithy.api#documentation": "Set to true to disable caching of SQL responses. Default is false."
+            "smithy.api#enumValue": "postgres"
           }
         },
-        "max_age": {
-          "target": "smithy.api#Double",
+        "POSTGRESQL": {
+          "target": "smithy.api#Unit",
           "traits": {
-            "smithy.api#documentation": "Specify the maximum duration (in seconds) items should persist in the cache. Defaults to 60 seconds if not specified."
+            "smithy.api#enumValue": "postgresql"
           }
         },
-        "stale_while_revalidate": {
-          "target": "smithy.api#Double",
+        "MYSQL": {
+          "target": "smithy.api#Unit",
           "traits": {
-            "smithy.api#documentation": "Specify the number of seconds the cache may serve a stale response. Defaults to 15 seconds if not specified."
+            "smithy.api#enumValue": "mysql"
           }
         }
       }
     },
-    "com.cloudflare.hyperdrive#ConfigsGetResponseCaching": {
-      "type": "union",
+    "com.cloudflare.hyperdrive#ConfigsGetResponseIntegration": {
+      "type": "structure",
       "members": {
-        "HyperdriveHyperdriveCachingCommon": {
-          "target": "com.cloudflare.hyperdrive#ConfigsGetResponseCachingHyperdriveHyperdriveCachingCommon"
+        "database_branch_name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The name of the PlanetScale database branch.",
+            "smithy.api#required": {}
+          }
         },
-        "HyperdriveHyperdriveCachingEnabled": {
-          "target": "com.cloudflare.hyperdrive#ConfigsGetResponseCachingHyperdriveHyperdriveCachingEnabled"
+        "database_name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The name of the PlanetScale database.",
+            "smithy.api#required": {}
+          }
+        },
+        "organization_name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The name of the PlanetScale organization.",
+            "smithy.api#required": {}
+          }
+        },
+        "provider": {
+          "target": "com.cloudflare.hyperdrive#ConfigsGetResponseIntegrationProvider",
+          "traits": {
+            "smithy.api#documentation": "The database integration provider used by this operation.",
+            "smithy.api#required": {}
+          }
+        },
+        "scheme": {
+          "target": "com.cloudflare.hyperdrive#ConfigsGetResponseIntegrationScheme",
+          "traits": {
+            "smithy.api#documentation": "Specifies the URL scheme used to connect to your origin database.",
+            "smithy.api#required": {}
+          }
+        },
+        "custom_database_name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The database name to use when connecting. Defaults to `postgres` for PostgreSQL and `mysql` for MySQL."
+          }
         }
       }
     },
@@ -1324,7 +1584,31 @@
         "sslmode": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "Set SSL mode to 'require', 'verify-ca', or 'verify-full' to verify the CA."
+            "smithy.api#documentation": "PostgreSQL accepts `require`, `verify-ca`, and `verify-full`. MySQL accepts `REQUIRED`, `VERIFY_CA`, and `VERIFY_IDENTITY`. The verify modes require a CA certificate; the require modes cannot be used with a CA certificate."
+          }
+        }
+      }
+    },
+    "com.cloudflare.hyperdrive#ConfigsListResultItemCaching": {
+      "type": "structure",
+      "members": {
+        "disabled": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Defines whether caching is disabled.",
+            "smithy.api#required": {}
+          }
+        },
+        "max_age": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "Defines the maximum duration (in seconds) items persist in the cache."
+          }
+        },
+        "stale_while_revalidate": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "Defines the number of seconds the cache may serve a stale response."
           }
         }
       }
@@ -1365,7 +1649,7 @@
         "host": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "Defines the host (hostname or IP) of your origin database.",
+            "smithy.api#documentation": "Defines the publicly reachable hostname or IP of your origin database. Private, loopback, and link-local IP addresses are not allowed.",
             "smithy.api#required": {}
           }
         },
@@ -1532,48 +1816,83 @@
         }
       }
     },
-    "com.cloudflare.hyperdrive#ConfigsListResultItemCachingHyperdriveHyperdriveCachingCommon": {
-      "type": "structure",
+    "com.cloudflare.hyperdrive#ConfigsListResultItemIntegrationProvider": {
+      "type": "enum",
       "members": {
-        "disabled": {
-          "target": "smithy.api#Boolean",
+        "PLANETSCALE": {
+          "target": "smithy.api#Unit",
           "traits": {
-            "smithy.api#documentation": "Set to true to disable caching of SQL responses. Default is false."
+            "smithy.api#enumValue": "planetscale"
           }
         }
       }
     },
-    "com.cloudflare.hyperdrive#ConfigsListResultItemCachingHyperdriveHyperdriveCachingEnabled": {
-      "type": "structure",
+    "com.cloudflare.hyperdrive#ConfigsListResultItemIntegrationScheme": {
+      "type": "enum",
       "members": {
-        "disabled": {
-          "target": "smithy.api#Boolean",
+        "POSTGRES": {
+          "target": "smithy.api#Unit",
           "traits": {
-            "smithy.api#documentation": "Set to true to disable caching of SQL responses. Default is false."
+            "smithy.api#enumValue": "postgres"
           }
         },
-        "max_age": {
-          "target": "smithy.api#Double",
+        "POSTGRESQL": {
+          "target": "smithy.api#Unit",
           "traits": {
-            "smithy.api#documentation": "Specify the maximum duration (in seconds) items should persist in the cache. Defaults to 60 seconds if not specified."
+            "smithy.api#enumValue": "postgresql"
           }
         },
-        "stale_while_revalidate": {
-          "target": "smithy.api#Double",
+        "MYSQL": {
+          "target": "smithy.api#Unit",
           "traits": {
-            "smithy.api#documentation": "Specify the number of seconds the cache may serve a stale response. Defaults to 15 seconds if not specified."
+            "smithy.api#enumValue": "mysql"
           }
         }
       }
     },
-    "com.cloudflare.hyperdrive#ConfigsListResultItemCaching": {
-      "type": "union",
+    "com.cloudflare.hyperdrive#ConfigsListResultItemIntegration": {
+      "type": "structure",
       "members": {
-        "HyperdriveHyperdriveCachingCommon": {
-          "target": "com.cloudflare.hyperdrive#ConfigsListResultItemCachingHyperdriveHyperdriveCachingCommon"
+        "database_branch_name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The name of the PlanetScale database branch.",
+            "smithy.api#required": {}
+          }
         },
-        "HyperdriveHyperdriveCachingEnabled": {
-          "target": "com.cloudflare.hyperdrive#ConfigsListResultItemCachingHyperdriveHyperdriveCachingEnabled"
+        "database_name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The name of the PlanetScale database.",
+            "smithy.api#required": {}
+          }
+        },
+        "organization_name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The name of the PlanetScale organization.",
+            "smithy.api#required": {}
+          }
+        },
+        "provider": {
+          "target": "com.cloudflare.hyperdrive#ConfigsListResultItemIntegrationProvider",
+          "traits": {
+            "smithy.api#documentation": "The database integration provider used by this operation.",
+            "smithy.api#required": {}
+          }
+        },
+        "scheme": {
+          "target": "com.cloudflare.hyperdrive#ConfigsListResultItemIntegrationScheme",
+          "traits": {
+            "smithy.api#documentation": "Specifies the URL scheme used to connect to your origin database.",
+            "smithy.api#required": {}
+          }
+        },
+        "custom_database_name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The database name to use when connecting. Defaults to `postgres` for PostgreSQL and `mysql` for MySQL."
+          }
         }
       }
     },
@@ -1595,7 +1914,7 @@
         "sslmode": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "Set SSL mode to 'require', 'verify-ca', or 'verify-full' to verify the CA."
+            "smithy.api#documentation": "PostgreSQL accepts `require`, `verify-ca`, and `verify-full`. MySQL accepts `REQUIRED`, `VERIFY_CA`, and `VERIFY_IDENTITY`. The verify modes require a CA certificate; the require modes cannot be used with a CA certificate."
           }
         }
       }
@@ -1610,6 +1929,12 @@
             "smithy.api#required": {}
           }
         },
+        "caching": {
+          "target": "com.cloudflare.hyperdrive#ConfigsListResultItemCaching",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
         "name": {
           "target": "smithy.api#String",
           "traits": {
@@ -1620,16 +1945,20 @@
         "origin": {
           "target": "com.cloudflare.hyperdrive#ConfigsListResultItemOrigin",
           "traits": {
+            "smithy.api#documentation": "Combines database connection fields with exactly one supported network location.",
             "smithy.api#required": {}
           }
-        },
-        "caching": {
-          "target": "com.cloudflare.hyperdrive#ConfigsListResultItemCaching"
         },
         "created_on": {
           "target": "smithy.api#String",
           "traits": {
             "smithy.api#documentation": "Defines the creation time of the Hyperdrive configuration."
+          }
+        },
+        "integration": {
+          "target": "com.cloudflare.hyperdrive#ConfigsListResultItemIntegration",
+          "traits": {
+            "smithy.api#documentation": "Connects to a PlanetScale database using credentials managed by Cloudflare. The Cloudflare account must already be linked to PlanetScale in the Hyperdrive dashboard."
           }
         },
         "modified_on": {
@@ -1662,6 +1991,470 @@
       "type": "list",
       "member": {
         "target": "com.cloudflare.hyperdrive#ConfigsListResultItem"
+      }
+    },
+    "com.cloudflare.hyperdrive#RestartConfigRequest": {
+      "type": "structure",
+      "members": {
+        "account_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Define configurations using a unique string identifier.",
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        },
+        "hyperdrive_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Define configurations using a unique string identifier.",
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.cloudflare.hyperdrive#RestartConfigResponseCaching": {
+      "type": "structure",
+      "members": {
+        "disabled": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Defines whether caching is disabled.",
+            "smithy.api#required": {}
+          }
+        },
+        "max_age": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "Defines the maximum duration (in seconds) items persist in the cache."
+          }
+        },
+        "stale_while_revalidate": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "Defines the number of seconds the cache may serve a stale response."
+          }
+        }
+      }
+    },
+    "com.cloudflare.hyperdrive#RestartConfigResponseOriginPublicDatabaseScheme": {
+      "type": "enum",
+      "members": {
+        "POSTGRES": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "postgres"
+          }
+        },
+        "POSTGRESQL": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "postgresql"
+          }
+        },
+        "MYSQL": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "mysql"
+          }
+        }
+      }
+    },
+    "com.cloudflare.hyperdrive#RestartConfigResponseOriginPublicDatabase": {
+      "type": "structure",
+      "members": {
+        "database": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Set the name of your origin database.",
+            "smithy.api#required": {}
+          }
+        },
+        "host": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Defines the publicly reachable hostname or IP of your origin database. Private, loopback, and link-local IP addresses are not allowed.",
+            "smithy.api#required": {}
+          }
+        },
+        "password": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Set the password needed to access your origin database. The API never returns this write-only value.",
+            "smithy.api#required": {}
+          }
+        },
+        "port": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "Defines the port of your origin database. Defaults to 5432 for PostgreSQL or 3306 for MySQL if not specified.",
+            "smithy.api#required": {}
+          }
+        },
+        "scheme": {
+          "target": "com.cloudflare.hyperdrive#RestartConfigResponseOriginPublicDatabaseScheme",
+          "traits": {
+            "smithy.api#documentation": "Specifies the URL scheme used to connect to your origin database.",
+            "smithy.api#required": {}
+          }
+        },
+        "user": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Set the user of your origin database.",
+            "smithy.api#required": {}
+          }
+        }
+      }
+    },
+    "com.cloudflare.hyperdrive#RestartConfigResponseOriginAccessProtectedDatabaseBehindCloudflareTunnelScheme": {
+      "type": "enum",
+      "members": {
+        "POSTGRES": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "postgres"
+          }
+        },
+        "POSTGRESQL": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "postgresql"
+          }
+        },
+        "MYSQL": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "mysql"
+          }
+        }
+      }
+    },
+    "com.cloudflare.hyperdrive#RestartConfigResponseOriginAccessProtectedDatabaseBehindCloudflareTunnel": {
+      "type": "structure",
+      "members": {
+        "access_client_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Defines the Client ID of the Access token to use when connecting to the origin database.",
+            "smithy.api#required": {}
+          }
+        },
+        "access_client_secret": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Defines the Client Secret of the Access Token to use when connecting to the origin database. The API never returns this write-only value.",
+            "smithy.api#required": {}
+          }
+        },
+        "database": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Set the name of your origin database.",
+            "smithy.api#required": {}
+          }
+        },
+        "host": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Defines the host (hostname or IP) of your origin database.",
+            "smithy.api#required": {}
+          }
+        },
+        "password": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Set the password needed to access your origin database. The API never returns this write-only value.",
+            "smithy.api#required": {}
+          }
+        },
+        "scheme": {
+          "target": "com.cloudflare.hyperdrive#RestartConfigResponseOriginAccessProtectedDatabaseBehindCloudflareTunnelScheme",
+          "traits": {
+            "smithy.api#documentation": "Specifies the URL scheme used to connect to your origin database.",
+            "smithy.api#required": {}
+          }
+        },
+        "user": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Set the user of your origin database.",
+            "smithy.api#required": {}
+          }
+        }
+      }
+    },
+    "com.cloudflare.hyperdrive#RestartConfigResponseOriginDatabaseReachableThroughAWorkersVPCScheme": {
+      "type": "enum",
+      "members": {
+        "POSTGRES": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "postgres"
+          }
+        },
+        "POSTGRESQL": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "postgresql"
+          }
+        },
+        "MYSQL": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "mysql"
+          }
+        }
+      }
+    },
+    "com.cloudflare.hyperdrive#RestartConfigResponseOriginDatabaseReachableThroughAWorkersVPC": {
+      "type": "structure",
+      "members": {
+        "database": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Set the name of your origin database.",
+            "smithy.api#required": {}
+          }
+        },
+        "password": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Set the password needed to access your origin database. The API never returns this write-only value.",
+            "smithy.api#required": {}
+          }
+        },
+        "scheme": {
+          "target": "com.cloudflare.hyperdrive#RestartConfigResponseOriginDatabaseReachableThroughAWorkersVPCScheme",
+          "traits": {
+            "smithy.api#documentation": "Specifies the URL scheme used to connect to your origin database.",
+            "smithy.api#required": {}
+          }
+        },
+        "service_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The identifier of the Workers VPC Service to connect through. Hyperdrive will egress through the specified VPC Service to reach the origin database.",
+            "smithy.api#required": {}
+          }
+        },
+        "user": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Set the user of your origin database.",
+            "smithy.api#required": {}
+          }
+        }
+      }
+    },
+    "com.cloudflare.hyperdrive#RestartConfigResponseOrigin": {
+      "type": "union",
+      "members": {
+        "PublicDatabase": {
+          "target": "com.cloudflare.hyperdrive#RestartConfigResponseOriginPublicDatabase"
+        },
+        "AccessProtectedDatabaseBehindCloudflareTunnel": {
+          "target": "com.cloudflare.hyperdrive#RestartConfigResponseOriginAccessProtectedDatabaseBehindCloudflareTunnel"
+        },
+        "DatabaseReachableThroughAWorkersVPC": {
+          "target": "com.cloudflare.hyperdrive#RestartConfigResponseOriginDatabaseReachableThroughAWorkersVPC"
+        }
+      }
+    },
+    "com.cloudflare.hyperdrive#RestartConfigResponseIntegrationProvider": {
+      "type": "enum",
+      "members": {
+        "PLANETSCALE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "planetscale"
+          }
+        }
+      }
+    },
+    "com.cloudflare.hyperdrive#RestartConfigResponseIntegrationScheme": {
+      "type": "enum",
+      "members": {
+        "POSTGRES": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "postgres"
+          }
+        },
+        "POSTGRESQL": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "postgresql"
+          }
+        },
+        "MYSQL": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "mysql"
+          }
+        }
+      }
+    },
+    "com.cloudflare.hyperdrive#RestartConfigResponseIntegration": {
+      "type": "structure",
+      "members": {
+        "database_branch_name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The name of the PlanetScale database branch.",
+            "smithy.api#required": {}
+          }
+        },
+        "database_name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The name of the PlanetScale database.",
+            "smithy.api#required": {}
+          }
+        },
+        "organization_name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The name of the PlanetScale organization.",
+            "smithy.api#required": {}
+          }
+        },
+        "provider": {
+          "target": "com.cloudflare.hyperdrive#RestartConfigResponseIntegrationProvider",
+          "traits": {
+            "smithy.api#documentation": "The database integration provider used by this operation.",
+            "smithy.api#required": {}
+          }
+        },
+        "scheme": {
+          "target": "com.cloudflare.hyperdrive#RestartConfigResponseIntegrationScheme",
+          "traits": {
+            "smithy.api#documentation": "Specifies the URL scheme used to connect to your origin database.",
+            "smithy.api#required": {}
+          }
+        },
+        "custom_database_name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The database name to use when connecting. Defaults to `postgres` for PostgreSQL and `mysql` for MySQL."
+          }
+        }
+      }
+    },
+    "com.cloudflare.hyperdrive#RestartConfigResponseMtls": {
+      "type": "structure",
+      "members": {
+        "ca_certificate_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Define CA certificate ID obtained after uploading CA cert."
+          }
+        },
+        "mtls_certificate_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Define mTLS certificate ID obtained after uploading client cert."
+          }
+        },
+        "sslmode": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "PostgreSQL accepts `require`, `verify-ca`, and `verify-full`. MySQL accepts `REQUIRED`, `VERIFY_CA`, and `VERIFY_IDENTITY`. The verify modes require a CA certificate; the require modes cannot be used with a CA certificate."
+          }
+        }
+      }
+    },
+    "com.cloudflare.hyperdrive#RestartConfigResponse": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Define configurations using a unique string identifier.",
+            "smithy.api#required": {}
+          }
+        },
+        "caching": {
+          "target": "com.cloudflare.hyperdrive#RestartConfigResponseCaching",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The name of the Hyperdrive configuration. Used to identify the configuration in the Cloudflare dashboard and API.",
+            "smithy.api#required": {}
+          }
+        },
+        "origin": {
+          "target": "com.cloudflare.hyperdrive#RestartConfigResponseOrigin",
+          "traits": {
+            "smithy.api#documentation": "Combines database connection fields with exactly one supported network location.",
+            "smithy.api#required": {}
+          }
+        },
+        "created_on": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Defines the creation time of the Hyperdrive configuration."
+          }
+        },
+        "integration": {
+          "target": "com.cloudflare.hyperdrive#RestartConfigResponseIntegration",
+          "traits": {
+            "smithy.api#documentation": "Connects to a PlanetScale database using credentials managed by Cloudflare. The Cloudflare account must already be linked to PlanetScale in the Hyperdrive dashboard."
+          }
+        },
+        "modified_on": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Defines the last modified time of the Hyperdrive configuration."
+          }
+        },
+        "mtls": {
+          "target": "com.cloudflare.hyperdrive#RestartConfigResponseMtls",
+          "traits": {
+            "smithy.api#documentation": "mTLS configuration for the origin connection. Cannot be used with VPC Service origins; TLS must be managed on the VPC Service."
+          }
+        },
+        "origin_connection_limit": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "The (soft) maximum number of connections the Hyperdrive is allowed to make to the origin database."
+          }
+        },
+        "restarted_on": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Defines the last time the Hyperdrive connection pool was explicitly restarted via the restart endpoint. Omitted if the pool has never been explicitly restarted."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {},
+        "smithy.api#documentation": "Unwrapped `result` payload of the Cloudflare v4 response envelope."
+      }
+    },
+    "com.cloudflare.hyperdrive#RestartConfig": {
+      "type": "operation",
+      "input": {
+        "target": "com.cloudflare.hyperdrive#RestartConfigRequest"
+      },
+      "output": {
+        "target": "com.cloudflare.hyperdrive#RestartConfigResponse"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/accounts/{account_id}/hyperdrive/configs/{hyperdrive_id}/restart",
+          "code": 200
+        },
+        "smithy.api#documentation": "Restarts the connection pool for the specified Hyperdrive configuration without changing its configuration. Existing connections are drained and a new pool is established at the edge."
       }
     },
     "com.cloudflare.hyperdrive#ConfigsUpdateRequestOriginPublicDatabaseScheme": {
@@ -1700,7 +2493,7 @@
         "host": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "Defines the host (hostname or IP) of your origin database.",
+            "smithy.api#documentation": "Defines the publicly reachable hostname or IP of your origin database. Private, loopback, and link-local IP addresses are not allowed.",
             "smithy.api#required": {}
           }
         },
@@ -1951,7 +2744,31 @@
         "sslmode": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "Set SSL mode to 'require', 'verify-ca', or 'verify-full' to verify the CA."
+            "smithy.api#documentation": "PostgreSQL accepts `require`, `verify-ca`, and `verify-full`. MySQL accepts `REQUIRED`, `VERIFY_CA`, and `VERIFY_IDENTITY`. The verify modes require a CA certificate; the require modes cannot be used with a CA certificate."
+          }
+        }
+      }
+    },
+    "com.cloudflare.hyperdrive#ConfigsUpdateResponseCaching": {
+      "type": "structure",
+      "members": {
+        "disabled": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Defines whether caching is disabled.",
+            "smithy.api#required": {}
+          }
+        },
+        "max_age": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "Defines the maximum duration (in seconds) items persist in the cache."
+          }
+        },
+        "stale_while_revalidate": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "Defines the number of seconds the cache may serve a stale response."
           }
         }
       }
@@ -1992,7 +2809,7 @@
         "host": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "Defines the host (hostname or IP) of your origin database.",
+            "smithy.api#documentation": "Defines the publicly reachable hostname or IP of your origin database. Private, loopback, and link-local IP addresses are not allowed.",
             "smithy.api#required": {}
           }
         },
@@ -2159,48 +2976,83 @@
         }
       }
     },
-    "com.cloudflare.hyperdrive#ConfigsUpdateResponseCachingHyperdriveHyperdriveCachingCommon": {
-      "type": "structure",
+    "com.cloudflare.hyperdrive#ConfigsUpdateResponseIntegrationProvider": {
+      "type": "enum",
       "members": {
-        "disabled": {
-          "target": "smithy.api#Boolean",
+        "PLANETSCALE": {
+          "target": "smithy.api#Unit",
           "traits": {
-            "smithy.api#documentation": "Set to true to disable caching of SQL responses. Default is false."
+            "smithy.api#enumValue": "planetscale"
           }
         }
       }
     },
-    "com.cloudflare.hyperdrive#ConfigsUpdateResponseCachingHyperdriveHyperdriveCachingEnabled": {
-      "type": "structure",
+    "com.cloudflare.hyperdrive#ConfigsUpdateResponseIntegrationScheme": {
+      "type": "enum",
       "members": {
-        "disabled": {
-          "target": "smithy.api#Boolean",
+        "POSTGRES": {
+          "target": "smithy.api#Unit",
           "traits": {
-            "smithy.api#documentation": "Set to true to disable caching of SQL responses. Default is false."
+            "smithy.api#enumValue": "postgres"
           }
         },
-        "max_age": {
-          "target": "smithy.api#Double",
+        "POSTGRESQL": {
+          "target": "smithy.api#Unit",
           "traits": {
-            "smithy.api#documentation": "Specify the maximum duration (in seconds) items should persist in the cache. Defaults to 60 seconds if not specified."
+            "smithy.api#enumValue": "postgresql"
           }
         },
-        "stale_while_revalidate": {
-          "target": "smithy.api#Double",
+        "MYSQL": {
+          "target": "smithy.api#Unit",
           "traits": {
-            "smithy.api#documentation": "Specify the number of seconds the cache may serve a stale response. Defaults to 15 seconds if not specified."
+            "smithy.api#enumValue": "mysql"
           }
         }
       }
     },
-    "com.cloudflare.hyperdrive#ConfigsUpdateResponseCaching": {
-      "type": "union",
+    "com.cloudflare.hyperdrive#ConfigsUpdateResponseIntegration": {
+      "type": "structure",
       "members": {
-        "HyperdriveHyperdriveCachingCommon": {
-          "target": "com.cloudflare.hyperdrive#ConfigsUpdateResponseCachingHyperdriveHyperdriveCachingCommon"
+        "database_branch_name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The name of the PlanetScale database branch.",
+            "smithy.api#required": {}
+          }
         },
-        "HyperdriveHyperdriveCachingEnabled": {
-          "target": "com.cloudflare.hyperdrive#ConfigsUpdateResponseCachingHyperdriveHyperdriveCachingEnabled"
+        "database_name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The name of the PlanetScale database.",
+            "smithy.api#required": {}
+          }
+        },
+        "organization_name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The name of the PlanetScale organization.",
+            "smithy.api#required": {}
+          }
+        },
+        "provider": {
+          "target": "com.cloudflare.hyperdrive#ConfigsUpdateResponseIntegrationProvider",
+          "traits": {
+            "smithy.api#documentation": "The database integration provider used by this operation.",
+            "smithy.api#required": {}
+          }
+        },
+        "scheme": {
+          "target": "com.cloudflare.hyperdrive#ConfigsUpdateResponseIntegrationScheme",
+          "traits": {
+            "smithy.api#documentation": "Specifies the URL scheme used to connect to your origin database.",
+            "smithy.api#required": {}
+          }
+        },
+        "custom_database_name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The database name to use when connecting. Defaults to `postgres` for PostgreSQL and `mysql` for MySQL."
+          }
         }
       }
     },
@@ -2222,7 +3074,7 @@
         "sslmode": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "Set SSL mode to 'require', 'verify-ca', or 'verify-full' to verify the CA."
+            "smithy.api#documentation": "PostgreSQL accepts `require`, `verify-ca`, and `verify-full`. MySQL accepts `REQUIRED`, `VERIFY_CA`, and `VERIFY_IDENTITY`. The verify modes require a CA certificate; the require modes cannot be used with a CA certificate."
           }
         }
       }
@@ -2231,6 +3083,9 @@
       "type": "service",
       "version": "4.0",
       "operations": [
+        {
+          "target": "com.cloudflare.hyperdrive#RestartConfig"
+        },
         {
           "target": "com.cloudflare.hyperdrive#CreateConfig"
         },
@@ -2377,7 +3232,7 @@
           "uri": "/accounts/{account_id}/hyperdrive/configs",
           "code": 200
         },
-        "smithy.api#documentation": "Creates and returns a new Hyperdrive configuration."
+        "smithy.api#documentation": "Creates and returns a new Hyperdrive configuration. For a PlanetScale integration, the Cloudflare account must already be linked to PlanetScale in the Hyperdrive dashboard."
       },
       "errors": [
         {
@@ -2413,13 +3268,19 @@
           }
         },
         "origin": {
-          "target": "com.cloudflare.hyperdrive#ConfigsCreateRequestOrigin",
+          "target": "smithy.api#Document",
           "traits": {
-            "smithy.api#required": {}
+            "smithy.api#documentation": "Combines database connection fields with exactly one supported network location."
           }
         },
         "caching": {
           "target": "com.cloudflare.hyperdrive#ConfigsCreateRequestCaching"
+        },
+        "integration": {
+          "target": "smithy.api#Document",
+          "traits": {
+            "smithy.api#documentation": "Connects to a PlanetScale database using credentials managed by Cloudflare. The Cloudflare account must already be linked to PlanetScale in the Hyperdrive dashboard."
+          }
         },
         "mtls": {
           "target": "com.cloudflare.hyperdrive#ConfigsCreateRequestMtls",
@@ -2448,6 +3309,12 @@
             "smithy.api#required": {}
           }
         },
+        "caching": {
+          "target": "com.cloudflare.hyperdrive#ConfigsCreateResponseCaching",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
         "name": {
           "target": "smithy.api#String",
           "traits": {
@@ -2458,16 +3325,20 @@
         "origin": {
           "target": "com.cloudflare.hyperdrive#ConfigsCreateResponseOrigin",
           "traits": {
+            "smithy.api#documentation": "Combines database connection fields with exactly one supported network location.",
             "smithy.api#required": {}
           }
-        },
-        "caching": {
-          "target": "com.cloudflare.hyperdrive#ConfigsCreateResponseCaching"
         },
         "created_on": {
           "target": "smithy.api#String",
           "traits": {
             "smithy.api#documentation": "Defines the creation time of the Hyperdrive configuration."
+          }
+        },
+        "integration": {
+          "target": "com.cloudflare.hyperdrive#ConfigsCreateResponseIntegration",
+          "traits": {
+            "smithy.api#documentation": "Connects to a PlanetScale database using credentials managed by Cloudflare. The Cloudflare account must already be linked to PlanetScale in the Hyperdrive dashboard."
           }
         },
         "modified_on": {
@@ -2634,6 +3505,12 @@
             "smithy.api#required": {}
           }
         },
+        "caching": {
+          "target": "com.cloudflare.hyperdrive#ConfigsGetResponseCaching",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
         "name": {
           "target": "smithy.api#String",
           "traits": {
@@ -2644,16 +3521,20 @@
         "origin": {
           "target": "com.cloudflare.hyperdrive#ConfigsGetResponseOrigin",
           "traits": {
+            "smithy.api#documentation": "Combines database connection fields with exactly one supported network location.",
             "smithy.api#required": {}
           }
-        },
-        "caching": {
-          "target": "com.cloudflare.hyperdrive#ConfigsGetResponseCaching"
         },
         "created_on": {
           "target": "smithy.api#String",
           "traits": {
             "smithy.api#documentation": "Defines the creation time of the Hyperdrive configuration."
+          }
+        },
+        "integration": {
+          "target": "com.cloudflare.hyperdrive#ConfigsGetResponseIntegration",
+          "traits": {
+            "smithy.api#documentation": "Connects to a PlanetScale database using credentials managed by Cloudflare. The Cloudflare account must already be linked to PlanetScale in the Hyperdrive dashboard."
           }
         },
         "modified_on": {
@@ -2826,7 +3707,7 @@
         "name": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "The name of the Hyperdrive configuration. Used to identify the configuration in the Cloudflare dashboard and API."
+            "smithy.api#documentation": "The name of the Hyperdrive configuration. Used to identify the configuration in the Cloudflare dashboard and API. An empty value leaves the name unchanged."
           }
         },
         "origin": {
@@ -2856,6 +3737,12 @@
             "smithy.api#required": {}
           }
         },
+        "caching": {
+          "target": "com.cloudflare.hyperdrive#ConfigsEditResponseCaching",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
         "name": {
           "target": "smithy.api#String",
           "traits": {
@@ -2866,16 +3753,20 @@
         "origin": {
           "target": "com.cloudflare.hyperdrive#ConfigsEditResponseOrigin",
           "traits": {
+            "smithy.api#documentation": "Combines database connection fields with exactly one supported network location.",
             "smithy.api#required": {}
           }
-        },
-        "caching": {
-          "target": "com.cloudflare.hyperdrive#ConfigsEditResponseCaching"
         },
         "created_on": {
           "target": "smithy.api#String",
           "traits": {
             "smithy.api#documentation": "Defines the creation time of the Hyperdrive configuration."
+          }
+        },
+        "integration": {
+          "target": "com.cloudflare.hyperdrive#ConfigsEditResponseIntegration",
+          "traits": {
+            "smithy.api#documentation": "Connects to a PlanetScale database using credentials managed by Cloudflare. The Cloudflare account must already be linked to PlanetScale in the Hyperdrive dashboard."
           }
         },
         "modified_on": {
@@ -2972,6 +3863,7 @@
         "origin": {
           "target": "com.cloudflare.hyperdrive#ConfigsUpdateRequestOrigin",
           "traits": {
+            "smithy.api#documentation": "Combines database connection fields with exactly one supported network location.",
             "smithy.api#required": {}
           }
         },
@@ -3005,6 +3897,12 @@
             "smithy.api#required": {}
           }
         },
+        "caching": {
+          "target": "com.cloudflare.hyperdrive#ConfigsUpdateResponseCaching",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
         "name": {
           "target": "smithy.api#String",
           "traits": {
@@ -3015,16 +3913,20 @@
         "origin": {
           "target": "com.cloudflare.hyperdrive#ConfigsUpdateResponseOrigin",
           "traits": {
+            "smithy.api#documentation": "Combines database connection fields with exactly one supported network location.",
             "smithy.api#required": {}
           }
-        },
-        "caching": {
-          "target": "com.cloudflare.hyperdrive#ConfigsUpdateResponseCaching"
         },
         "created_on": {
           "target": "smithy.api#String",
           "traits": {
             "smithy.api#documentation": "Defines the creation time of the Hyperdrive configuration."
+          }
+        },
+        "integration": {
+          "target": "com.cloudflare.hyperdrive#ConfigsUpdateResponseIntegration",
+          "traits": {
+            "smithy.api#documentation": "Connects to a PlanetScale database using credentials managed by Cloudflare. The Cloudflare account must already be linked to PlanetScale in the Hyperdrive dashboard."
           }
         },
         "modified_on": {

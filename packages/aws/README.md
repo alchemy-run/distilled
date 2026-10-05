@@ -79,10 +79,16 @@ Credentials.fromSSO("my-profile")
 // Shared credentials file (~/.aws/credentials)
 Credentials.fromIni()
 
-// Static credentials
+// Static credentials (each value a Redacted string)
 Credentials.fromCredentials({
-  accessKeyId: "AKIA...",
-  secretAccessKey: "...",
+  accessKeyId: Redacted.make("AKIA..."),
+  secretAccessKey: Redacted.make("..."),
+})
+
+// A role assumed with an OIDC token; pass an Effect for a token that refreshes
+Credentials.fromWebToken({
+  roleArn: "arn:aws:iam::123456789012:role/Web",
+  webIdentityToken: Redacted.make(oidcToken),
 })
 ```
 

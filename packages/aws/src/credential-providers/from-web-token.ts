@@ -4,7 +4,7 @@
 import * as Effect from "effect/Effect";
 import { createLazyProvider, regionFromEnv } from "../credentials-service.ts";
 import type { RegionName } from "../region.ts";
-import type { CredentialSource } from "./credential-source.ts";
+import { type CredentialSource, resolveSecret, type Secret } from "./credential-source.ts";
 import {
   type AssumeRoleWithWebIdentityParams,
   assumeRoleWithWebIdentity,
@@ -13,7 +13,11 @@ import {
 
 export interface FromWebTokenOptions {
   readonly roleArn: string;
-  readonly webIdentityToken: string;
+  /**
+   * The OIDC or OAuth token. Pass an `Effect` for a token that has to be
+   * fetched or refreshed; it runs on every credential resolution.
+   */
+  readonly webIdentityToken: Secret;
   readonly roleSessionName?: string;
   readonly providerId?: string;
   readonly policyArns?: AssumeRoleWithWebIdentityParams["PolicyArns"];
@@ -28,17 +32,18 @@ export interface FromWebTokenOptions {
  * already holds — the same exchange `fromTokenFile` performs, without the
  * token having to come from a file.
  */
-export const webTokenSource = (
-  options: FromWebTokenOptions,
-): CredentialSource =>
+export const webTokenSource = (options: FromWebTokenOptions): CredentialSource =>
   Effect.gen(function* () {
     const region = yield* stsRegion(options.region);
+    const webIdentityToken = yield* resolveSecret(
+      options.webIdentityToken,
+      "Could not resolve the web identity token.",
+    );
     return yield* assumeRoleWithWebIdentity(
       {
         RoleArn: options.roleArn,
-        RoleSessionName:
-          options.roleSessionName ?? `aws-sdk-js-session-${Date.now()}`,
-        WebIdentityToken: options.webIdentityToken,
+        RoleSessionName: options.roleSessionName ?? `aws-sdk-js-session-${Date.now()}`,
+        WebIdentityToken: webIdentityToken,
         ...(options.providerId && { ProviderId: options.providerId }),
         ...(options.policyArns && { PolicyArns: options.policyArns }),
         ...(options.policy && { Policy: options.policy }),
@@ -60,7 +65,5 @@ export const fromWebToken = (options: FromWebTokenOptions) =>
     webTokenSource(options),
     "web-token",
     hints,
-    options.region === undefined
-      ? regionFromEnv
-      : Effect.succeed(options.region as RegionName),
+    options.region === undefined ? regionFromEnv : Effect.succeed(options.region as RegionName),
   );

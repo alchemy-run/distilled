@@ -3,12 +3,9 @@
  * service accounts.
  */
 import * as Effect from "effect/Effect";
+import * as Redacted from "effect/Redacted";
 import { createLazyProvider } from "../credentials-service.ts";
-import {
-  type CredentialSource,
-  CredentialSourceError,
-  env,
-} from "./credential-source.ts";
+import { type CredentialSource, CredentialSourceError, env } from "./credential-source.ts";
 import { readFileString } from "./node-file-system.ts";
 import { profileRegion, profileStsRegion } from "./profile.ts";
 import { assumeRoleWithWebIdentity } from "./sts.ts";
@@ -31,15 +28,11 @@ export interface FromTokenFileOptions {
  * `AWS_WEB_IDENTITY_TOKEN_FILE` and the role in `AWS_ROLE_ARN` (or the
  * options).
  */
-export const tokenFileSource = (
-  options: FromTokenFileOptions = {},
-): CredentialSource =>
+export const tokenFileSource = (options: FromTokenFileOptions = {}): CredentialSource =>
   Effect.gen(function* () {
-    const webIdentityTokenFile =
-      options.webIdentityTokenFile ?? env(ENV_TOKEN_FILE);
+    const webIdentityTokenFile = options.webIdentityTokenFile ?? env(ENV_TOKEN_FILE);
     const roleArn = options.roleArn ?? env(ENV_ROLE_ARN);
-    const roleSessionName =
-      options.roleSessionName ?? env(ENV_ROLE_SESSION_NAME);
+    const roleSessionName = options.roleSessionName ?? env(ENV_ROLE_SESSION_NAME);
     if (!webIdentityTokenFile || !roleArn) {
       return yield* new CredentialSourceError({
         message: "Web identity configuration not specified",
@@ -53,6 +46,7 @@ export const tokenFileSource = (
             cause,
           }),
       ),
+      Effect.map((token) => Redacted.make(token)),
     );
     const region = yield* profileStsRegion(options.region, options.profile);
     return yield* assumeRoleWithWebIdentity(
@@ -65,9 +59,7 @@ export const tokenFileSource = (
     );
   });
 
-const hints = [
-  "Set AWS_WEB_IDENTITY_TOKEN_FILE and ensure the file is readable.",
-];
+const hints = ["Set AWS_WEB_IDENTITY_TOKEN_FILE and ensure the file is readable."];
 
 /**
  * `sts:AssumeRoleWithWebIdentity` with the token in

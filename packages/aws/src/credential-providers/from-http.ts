@@ -6,15 +6,8 @@ import * as Duration from "effect/Duration";
 import * as Effect from "effect/Effect";
 import * as Schedule from "effect/Schedule";
 import { createLazyProvider } from "../credentials-service.ts";
-import {
-  type CredentialSource,
-  CredentialSourceError,
-  env,
-} from "./credential-source.ts";
-import {
-  DEFAULT_TIMEOUT_MS,
-  getHttpCredentials,
-} from "./metadata-credentials.ts";
+import { type CredentialSource, CredentialSourceError, env } from "./credential-source.ts";
+import { DEFAULT_TIMEOUT_MS, getHttpCredentials } from "./metadata-credentials.ts";
 
 export const ENV_CMDS_FULL_URI = "AWS_CONTAINER_CREDENTIALS_FULL_URI";
 export const ENV_CMDS_RELATIVE_URI = "AWS_CONTAINER_CREDENTIALS_RELATIVE_URI";
@@ -30,18 +23,9 @@ export const DEFAULT_LINK_LOCAL_HOST = `http://${CMDS_IP}`;
 const checkUrl = (url: URL): CredentialSourceError | undefined => {
   if (url.protocol === "https:") return;
   const host = url.hostname;
-  if (
-    host === CMDS_IP ||
-    host === "169.254.170.23" ||
-    host === "[fd00:ec2::23]"
-  )
-    return;
+  if (host === CMDS_IP || host === "169.254.170.23" || host === "[fd00:ec2::23]") return;
   if (host.includes("[")) {
-    if (
-      host === "[::1]" ||
-      host === "[0000:0000:0000:0000:0000:0000:0000:0001]"
-    )
-      return;
+    if (host === "[::1]" || host === "[0000:0000:0000:0000:0000:0000:0000:0001]") return;
   } else {
     if (host === "localhost") return;
     const parts = host.split(".");
@@ -137,10 +121,7 @@ Set ${ENV_CMDS_FULL_URI} or ${ENV_CMDS_RELATIVE_URI}.`,
     if (rejected) return Effect.fail(rejected);
 
     const timeoutMs = options.timeout ?? DEFAULT_TIMEOUT_MS;
-    const authorization: Effect.Effect<
-      string | undefined,
-      CredentialSourceError
-    > = tokenFile
+    const authorization: Effect.Effect<string | undefined, CredentialSourceError> = tokenFile
       ? options.readFile
         ? options.readFile(tokenFile).pipe(
             Effect.mapError(

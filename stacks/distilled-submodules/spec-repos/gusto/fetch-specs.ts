@@ -1,4 +1,4 @@
-#!/usr/bin/env bun
+#!/usr/bin/env node
 /**
  * Snapshots Gusto's vendor docs and builds a merged OpenAPI document.
  *
@@ -15,7 +15,7 @@
  * Generate-time never crawls live docs; it reads `../specs/openapi.json`.
  *
  * Usage:
- *   bun run fetch-specs.ts
+ *   node fetch-specs.ts
  *
  * The specs are saved to:
  *   ../specs/openapi.json
@@ -24,7 +24,7 @@
  */
 
 import { existsSync, mkdirSync } from "fs";
-import { mkdir, readdir, rm, writeFile } from "fs/promises";
+import { mkdir, readFile, readdir, rm, writeFile } from "fs/promises";
 import { dirname, join, relative } from "path";
 
 const ORIGIN = "https://docs.gusto.com";
@@ -36,16 +36,7 @@ const USER_AGENT = "distilled.cloud-gusto-spec-mirror";
 const CONCURRENCY = 2;
 const MIN_INTERVAL_MS = 400;
 const MAX_FAILURE_RATE_FOR_PRUNE = 0.15;
-const HTTP_METHODS = [
-  "get",
-  "put",
-  "post",
-  "delete",
-  "options",
-  "head",
-  "patch",
-  "trace",
-] as const;
+const HTTP_METHODS = ["get", "put", "post", "delete", "options", "head", "patch", "trace"] as const;
 
 const PRODUCTION_SERVERS = [
   { url: "https://api.gusto.com", description: "Production" },
@@ -57,14 +48,15 @@ if (!existsSync(SPECS_DIR)) {
 }
 
 class FetchError extends Error {
-  constructor(
-    readonly url: string,
-    readonly status?: number,
-    readonly reason?: unknown,
-  ) {
-    super(
-      `${url} — ${status !== undefined ? `HTTP ${status}` : `${reason ?? "network error"}`}`,
-    );
+  readonly url: string;
+  readonly status?: number;
+  readonly reason?: unknown;
+
+  constructor(url: string, status?: number, reason?: unknown) {
+    super(`${url} — ${status !== undefined ? `HTTP ${status}` : `${reason ?? "network error"}`}`);
+    this.url = url;
+    this.status = status;
+    this.reason = reason;
   }
 }
 
@@ -94,15 +86,10 @@ async function fetchText(url: string, attempts = 3): Promise<string> {
         const text = await response.text();
         const contentType = response.headers.get("content-type") ?? "";
         if (
-          (contentType.includes("text/html") ||
-            text.trimStart().startsWith("<!DOCTYPE")) &&
+          (contentType.includes("text/html") || text.trimStart().startsWith("<!DOCTYPE")) &&
           !text.includes('"openapi"')
         ) {
-          throw new FetchError(
-            url,
-            response.status,
-            "HTML instead of markdown",
-          );
+          throw new FetchError(url, response.status, "HTML instead of markdown");
         }
         return text;
       }
@@ -110,15 +97,8 @@ async function fetchText(url: string, attempts = 3): Promise<string> {
       // 429 and 5xx are retryable; 404 is gone.
       if (response.status < 500 && response.status !== 429) throw error;
     } catch (cause) {
-      error =
-        cause instanceof FetchError
-          ? cause
-          : new FetchError(url, undefined, cause);
-      if (
-        error.status !== undefined &&
-        error.status < 500 &&
-        error.status !== 429
-      ) {
+      error = cause instanceof FetchError ? cause : new FetchError(url, undefined, cause);
+      if (error.status !== undefined && error.status < 500 && error.status !== 429) {
         throw error;
       }
     }
@@ -142,16 +122,13 @@ async function mapConcurrent<T, R>(
 ): Promise<R[]> {
   const results = Array.from<R>({ length: items.length });
   let next = 0;
-  const runners = Array.from(
-    { length: Math.min(limit, items.length) },
-    async () => {
-      while (true) {
-        const index = next++;
-        if (index >= items.length) return;
-        results[index] = await worker(items[index]!);
-      }
-    },
-  );
+  const runners = Array.from({ length: Math.min(limit, items.length) }, async () => {
+    while (true) {
+      const index = next++;
+      if (index >= items.length) return;
+      results[index] = await worker(items[index]!);
+    }
+  });
   await Promise.all(runners);
   return results;
 }
@@ -213,19 +190,14 @@ function mergeRecord(
     }
     if (!jsonEqual(target[key], value)) {
       if (sizeOf(value) > sizeOf(target[key])) {
-        console.warn(
-          `  ${label} "${key}" differed — keeping the larger definition`,
-        );
+        console.warn(`  ${label} "${key}" differed — keeping the larger definition`);
         target[key] = value;
       }
     }
   }
 }
 
-function mergeTags(
-  target: Array<{ name: string; [k: string]: unknown }>,
-  source: unknown,
-): void {
+function mergeTags(target: Array<{ name: string; [k: string]: unknown }>, source: unknown): void {
   if (!Array.isArray(source)) return;
   const byName = new Map(target.map((t) => [t.name, t]));
   for (const tag of source) {
@@ -243,9 +215,7 @@ function mergePathItem(target: any, source: any, pathTemplate: string): void {
   if (!source || typeof source !== "object") return;
   if (Array.isArray(source.parameters)) {
     const existing = Array.isArray(target.parameters) ? target.parameters : [];
-    const seen = new Set(
-      existing.map((p: any) => `${p?.in}:${p?.name}:${p?.$ref ?? ""}`),
-    );
+    const seen = new Set(existing.map((p: any) => `${p?.in}:${p?.name}:${p?.$ref ?? ""}`));
     target.parameters = [...existing];
     for (const p of source.parameters) {
       const key = `${p?.in}:${p?.name}:${p?.$ref ?? ""}`;
@@ -335,10 +305,7 @@ async function prune(keep: ReadonlySet<string>) {
       const full = join(dir, entry.name);
       if (entry.isDirectory()) {
         await walk(full);
-      } else if (
-        (entry.name.endsWith(".md") || entry.name === "llms.txt") &&
-        !keep.has(full)
-      ) {
+      } else if ((entry.name.endsWith(".md") || entry.name === "llms.txt") && !keep.has(full)) {
         stale.push(full);
       }
     }
@@ -363,10 +330,8 @@ async function main() {
       llms = await fetchText(llmsUrl);
     } catch (cause) {
       if (existsSync(localLlms)) {
-        console.warn(
-          `  ${llmsUrl} failed (${cause}) — using the previously mirrored catalog`,
-        );
-        llms = await Bun.file(localLlms).text();
+        console.warn(`  ${llmsUrl} failed (${cause}) — using the previously mirrored catalog`);
+        llms = await readFile(localLlms, "utf8");
       } else {
         throw cause;
       }
@@ -425,14 +390,12 @@ async function main() {
   );
   keptFiles.add(manifestPath);
 
-  console.log(
-    `\nDownloading ${entries.length} markdown pages (concurrency ${CONCURRENCY})...`,
-  );
+  console.log(`\nDownloading ${entries.length} markdown pages (concurrency ${CONCURRENCY})...`);
 
   let rateLimited = 0;
   const saved = await mapConcurrent(entries, CONCURRENCY, async (entry) => {
     if (existsSync(entry.localPath)) {
-      const existing = await Bun.file(entry.localPath).text();
+      const existing = await readFile(entry.localPath, "utf8");
       if (existing.includes('"openapi"') || existing.length > 200) {
         return entry.localPath;
       }
@@ -446,30 +409,21 @@ async function main() {
       if (cause instanceof FetchError && cause.status === 429) {
         rateLimited++;
       }
-      console.warn(
-        `  Failed to download ${entry.markdownUrl} (${cause}) — skipping`,
-      );
+      console.warn(`  Failed to download ${entry.markdownUrl} (${cause}) — skipping`);
       return undefined;
     }
     await mkdir(dirname(entry.localPath), { recursive: true });
-    await writeFile(
-      entry.localPath,
-      markdown.endsWith("\n") ? markdown : `${markdown}\n`,
-    );
+    await writeFile(entry.localPath, markdown.endsWith("\n") ? markdown : `${markdown}\n`);
     return entry.localPath;
   });
 
   const kept = saved.filter((path): path is string => path !== undefined);
   for (const path of kept) keptFiles.add(path);
   const failed = entries.length - kept.length;
-  console.log(
-    `  ${kept.length} downloaded` + (failed > 0 ? `, ${failed} failed` : ""),
-  );
+  console.log(`  ${kept.length} downloaded` + (failed > 0 ? `, ${failed} failed` : ""));
 
   if (failed / entries.length > MAX_FAILURE_RATE_FOR_PRUNE) {
-    console.warn(
-      `  ${failed}/${entries.length} pages failed — skipping the prune this run`,
-    );
+    console.warn(`  ${failed}/${entries.length} pages failed — skipping the prune this run`);
   } else {
     await prune(keptFiles);
   }
@@ -477,14 +431,12 @@ async function main() {
   const snippets: any[] = [];
   for (const file of [...kept].sort()) {
     if (!file.endsWith(".md")) continue;
-    const markdown = await Bun.file(file).text();
+    const markdown = await readFile(file, "utf8");
     snippets.push(...extractOpenApiDocuments(markdown));
   }
 
   if (snippets.length === 0) {
-    throw new Error(
-      "No OpenAPI 3.x path snippets found in the downloaded reference pages",
-    );
+    throw new Error("No OpenAPI 3.x path snippets found in the downloaded reference pages");
   }
 
   const merged: any = {
@@ -495,8 +447,7 @@ async function main() {
         "Gusto App Integrations and Embedded Payroll API, assembled from the OpenAPI 3.1 snippets embedded in docs.gusto.com reference pages.",
       version: "2026-06-15",
       contact: { name: "Developer Relations", email: "developer@gusto.com" },
-      termsOfService:
-        "https://gusto.com/about/terms/developer-terms-of-service",
+      termsOfService: "https://gusto.com/about/terms/developer-terms-of-service",
     },
     servers: PRODUCTION_SERVERS,
     security: [{ CompanyAccessAuth: [] }],
@@ -521,48 +472,24 @@ async function main() {
       merged.openapi = snippet.openapi;
     }
     mergeTags(merged.tags, snippet.tags);
-    mergeRecord(
-      merged.components.schemas,
-      snippet.components?.schemas,
-      "schema",
-    );
+    mergeRecord(merged.components.schemas, snippet.components?.schemas, "schema");
     mergeRecord(
       merged.components.securitySchemes,
       snippet.components?.securitySchemes,
       "securityScheme",
     );
-    mergeRecord(
-      merged.components.parameters,
-      snippet.components?.parameters,
-      "parameter",
-    );
-    mergeRecord(
-      merged.components.requestBodies,
-      snippet.components?.requestBodies,
-      "requestBody",
-    );
-    mergeRecord(
-      merged.components.responses,
-      snippet.components?.responses,
-      "response",
-    );
-    mergeRecord(
-      merged.components.headers,
-      snippet.components?.headers,
-      "header",
-    );
-    for (const [pathTemplate, item] of Object.entries<any>(
-      snippet.paths ?? {},
-    )) {
+    mergeRecord(merged.components.parameters, snippet.components?.parameters, "parameter");
+    mergeRecord(merged.components.requestBodies, snippet.components?.requestBodies, "requestBody");
+    mergeRecord(merged.components.responses, snippet.components?.responses, "response");
+    mergeRecord(merged.components.headers, snippet.components?.headers, "header");
+    for (const [pathTemplate, item] of Object.entries<any>(snippet.paths ?? {})) {
       if (!merged.paths[pathTemplate]) merged.paths[pathTemplate] = {};
       mergePathItem(merged.paths[pathTemplate], item, pathTemplate);
     }
   }
 
   if (infoVersion) merged.info.version = infoVersion;
-  merged.tags.sort((a: { name: string }, b: { name: string }) =>
-    a.name.localeCompare(b.name),
-  );
+  merged.tags.sort((a: { name: string }, b: { name: string }) => a.name.localeCompare(b.name));
 
   for (const key of Object.keys(merged.components)) {
     if (Object.keys(merged.components[key]).length === 0) {

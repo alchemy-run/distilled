@@ -1,0 +1,53 @@
+{
+  "description": "Scale set assignment GET/PUT answer HTTP 200 with an ARM error envelope and no name (`{\"error\":{\"code\":\"VMSSNotSupported\",...},\"properties\":{...}}`) when the service does not support the scale set. Make `name` optional and decode the `error` member so callers can detect it instead of failing to parse.",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.guestconfiguration#GuestConfigurationAssignmentResponseError",
+      "value": {
+        "type": "structure",
+        "members": {
+          "code": {
+            "target": "smithy.api#String",
+            "traits": { "smithy.api#documentation": "Error code, e.g. `VMSSNotSupported`." }
+          },
+          "message": {
+            "target": "smithy.api#String",
+            "traits": { "smithy.api#documentation": "Error message." }
+          }
+        },
+        "traits": {
+          "smithy.api#documentation": "Error the service embeds in a 200 response it could not fulfil."
+        }
+      }
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.azure.guestconfiguration#GetGuestConfigurationAssignmentsVMSSResponse/members/name/traits/smithy.api#required"
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.guestconfiguration#GetGuestConfigurationAssignmentsVMSSResponse/members/error",
+      "value": {
+        "target": "com.azure.guestconfiguration#GuestConfigurationAssignmentResponseError",
+        "traits": {
+          "smithy.api#documentation": "Error the service embeds in a 200 response, e.g. `VMSSNotSupported`."
+        }
+      }
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.azure.guestconfiguration#GuestConfigurationAssignmentsVMSSCreateOrUpdateResponse/members/name/traits/smithy.api#required"
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.guestconfiguration#GuestConfigurationAssignmentsVMSSCreateOrUpdateResponse/members/error",
+      "value": {
+        "target": "com.azure.guestconfiguration#GuestConfigurationAssignmentResponseError",
+        "traits": {
+          "smithy.api#documentation": "Error the service embeds in a 200 response, e.g. `VMSSNotSupported`."
+        }
+      }
+    }
+  ]
+}

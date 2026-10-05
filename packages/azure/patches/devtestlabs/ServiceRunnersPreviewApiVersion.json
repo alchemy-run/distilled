@@ -1,0 +1,39 @@
+{
+  "description": "Creating a lab service runner with api-version 2018-09-15 fails with HTTP 500 ArgumentNullException \"Value cannot be null. (Parameter 'source')\". Only 2018-10-15-preview accepts the PUT, and it requires `properties.identityUsageType` (400 MissingRequiredProperty otherwise). Pin the PUT to the preview version and add the property so Azure returns its real verdict (ServiceRunnerIsDeprecatedEnvironment / ServiceRunnerIsDeprecatedVirtualMachine).",
+  "patches": [
+    {
+      "op": "replace",
+      "path": "/shapes/com.azure.devtestlabs#ServiceRunnersCreateOrUpdate/traits/smithy.api#http/apiVersion",
+      "value": "2018-10-15-preview"
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.azure.devtestlabs#ServiceRunnersCreateOrUpdate/traits/com.distilled.openapi#apiVersion",
+      "value": "2018-10-15-preview"
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.devtestlabs#ServiceRunnerProperties",
+      "value": {
+        "type": "structure",
+        "members": {
+          "identityUsageType": {
+            "target": "smithy.api#String",
+            "traits": {
+              "smithy.api#documentation": "What the runner's identity is used for: `Environment` or `VirtualMachine`."
+            }
+          }
+        },
+        "traits": { "smithy.api#documentation": "Properties of a service runner." }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.devtestlabs#ServiceRunnersCreateOrUpdateRequest/members/properties",
+      "value": {
+        "target": "com.azure.devtestlabs#ServiceRunnerProperties",
+        "traits": { "smithy.api#documentation": "Properties of the service runner." }
+      }
+    }
+  ]
+}

@@ -5,12 +5,7 @@
  */
 import * as Effect from "effect/Effect";
 import { createLazyProvider } from "../credentials-service.ts";
-import {
-  chain,
-  type CredentialSource,
-  CredentialSourceError,
-  env,
-} from "./credential-source.ts";
+import { chain, type CredentialSource, CredentialSourceError, env } from "./credential-source.ts";
 import { containerMetadataSource } from "./from-container-metadata.ts";
 import { ENV_KEY, ENV_SECRET, envSource } from "./from-env.ts";
 import { httpSource } from "./from-http.node.ts";
@@ -30,11 +25,7 @@ const envUnlessProfile = (profile?: string): CredentialSource =>
   Effect.suspend(() => {
     const profileName = profile ?? env(ENV_PROFILE);
     if (profileName) {
-      if (
-        env(ENV_KEY) &&
-        env(ENV_SECRET) &&
-        !multipleCredentialSourceWarningEmitted
-      ) {
+      if (env(ENV_KEY) && env(ENV_SECRET) && !multipleCredentialSourceWarningEmitted) {
         multipleCredentialSourceWarningEmitted = true;
         console.warn(`WARNING:
     Multiple credential sources detected:
@@ -72,9 +63,7 @@ const remoteProvider = (profile?: string): CredentialSource =>
     return instanceMetadataSource({ profile });
   });
 
-export const nodeProviderChainSource = (
-  options: FromIniOptions = {},
-): CredentialSource =>
+export const nodeProviderChainSource = (options: FromIniOptions = {}): CredentialSource =>
   chain([
     envUnlessProfile(options.profile),
     iniSource(options),

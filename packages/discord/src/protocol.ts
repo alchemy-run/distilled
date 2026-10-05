@@ -1,3 +1,6 @@
+import type * as API from "@distilled.cloud/core/api";
+import type { ConfigError } from "@distilled.cloud/core/errors";
+import { makeRestProtocol, type RestErrorEnvelope } from "@distilled.cloud/core/protocol-rest";
 /**
  * DiscordProtocol — the shared bearer-REST protocol instantiated for Discord.
  *
@@ -13,22 +16,12 @@
  * bucket hints without extra configuration.
  */
 import * as Effect from "effect/Effect";
-import type * as Layer from "effect/Layer";
-import * as Redacted from "effect/Redacted";
 import type * as HttpClient from "effect/http/HttpClient";
 import type * as HttpClientError from "effect/http/HttpClientError";
-import type * as API from "@distilled.cloud/core/api";
-import type { ConfigError } from "@distilled.cloud/core/errors";
-import {
-  makeRestProtocol,
-  type RestErrorEnvelope,
-} from "@distilled.cloud/core/protocol-rest";
+import type * as Layer from "effect/Layer";
+import * as Redacted from "effect/Redacted";
 import { Credentials, type Config } from "./credentials.ts";
-import {
-  UnknownDiscordError,
-  type DefaultErrors,
-  DiscordParseError,
-} from "./errors.ts";
+import { UnknownDiscordError, type DefaultErrors, DiscordParseError } from "./errors.ts";
 
 /**
  * Error channel shared by every generated Discord operation. Generated
@@ -36,10 +29,7 @@ import {
  * DiscordOpError, DiscordOpContext>` explicitly so the compiler never infers
  * these back out of the schema generics.
  */
-export type DiscordOpError =
-  | DefaultErrors
-  | ConfigError
-  | HttpClientError.HttpClientError;
+export type DiscordOpError = DefaultErrors | ConfigError | HttpClientError.HttpClientError;
 
 /** Context (requirements) shared by every generated Discord operation. */
 export type DiscordOpContext = Credentials | HttpClient.HttpClient;
@@ -60,10 +50,7 @@ const errorEnvelope = (body: unknown): RestErrorEnvelope | undefined => {
         : typeof b.error === "string"
           ? b.error
           : undefined;
-  const code =
-    typeof b.code === "number" || typeof b.code === "string"
-      ? b.code
-      : undefined;
+  const code = typeof b.code === "number" || typeof b.code === "string" ? b.code : undefined;
   return { code, message };
 };
 
@@ -86,26 +73,25 @@ const numericCode = (code: string | number | undefined): number | undefined => {
   return Number.isFinite(n) ? n : undefined;
 };
 
-export const DiscordProtocol: Layer.Layer<API.Protocol> =
-  makeRestProtocol<Config>({
-    // Resolved on the CALLING fiber per request (the layer is memoized per
-    // process); the Credentials service holds an effect so rotating tokens
-    // Just Work.
-    credentials: Effect.gen(function* () {
-      const resolve = yield* Credentials;
-      return yield* resolve;
+export const DiscordProtocol: Layer.Layer<API.Protocol> = makeRestProtocol<Config>({
+  // Resolved on the CALLING fiber per request (the layer is memoized per
+  // process); the Credentials service holds an effect so rotating tokens
+  // Just Work.
+  credentials: Effect.gen(function* () {
+    const resolve = yield* Credentials;
+    return yield* resolve;
+  }),
+  baseUrl: (creds) => creds.apiBaseUrl,
+  headers: (creds) => ({
+    Authorization: `${creds.tokenType} ${Redacted.value(creds.token)}`,
+  }),
+  errorEnvelope,
+  unknownError: ({ code, message, body }) =>
+    new UnknownDiscordError({
+      code: numericCode(code),
+      message,
+      errors: errorDetails(body),
+      body,
     }),
-    baseUrl: (creds) => creds.apiBaseUrl,
-    headers: (creds) => ({
-      Authorization: `${creds.tokenType} ${Redacted.value(creds.token)}`,
-    }),
-    errorEnvelope,
-    unknownError: ({ code, message, body }) =>
-      new UnknownDiscordError({
-        code: numericCode(code),
-        message,
-        errors: errorDetails(body),
-        body,
-      }),
-    parseError: ({ body, cause }) => new DiscordParseError({ body, cause }),
-  });
+  parseError: ({ body, cause }) => new DiscordParseError({ body, cause }),
+});

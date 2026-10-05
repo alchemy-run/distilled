@@ -1,0 +1,35 @@
+{
+  "description": "SynchronizationSettings is polymorphic on `kind`; the converted model keeps only the base members, so S.Struct strips the kind-specific `properties` bag on encode and decode. Add it as an untyped document.",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.datashare#CreateSynchronizationSettingsRequest/members/properties",
+      "value": {
+        "target": "smithy.api#Document",
+        "traits": {
+          "smithy.api#documentation": "Kind-specific synchronization setting properties (polymorphic on `kind`), e.g. `{ recurrenceInterval, synchronizationTime }` for `ScheduleBased`."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.datashare#CreateSynchronizationSettingsResponse/members/properties",
+      "value": {
+        "target": "smithy.api#Document",
+        "traits": {
+          "smithy.api#documentation": "Kind-specific synchronization setting properties (polymorphic on `kind`), e.g. `{ recurrenceInterval, synchronizationTime }` for `ScheduleBased`."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.datashare#GetSynchronizationSettingsResponse/members/properties",
+      "value": {
+        "target": "smithy.api#Document",
+        "traits": {
+          "smithy.api#documentation": "Kind-specific synchronization setting properties (polymorphic on `kind`), e.g. `{ recurrenceInterval, synchronizationTime }` for `ScheduleBased`."
+        }
+      }
+    }
+  ]
+}

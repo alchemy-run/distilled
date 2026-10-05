@@ -26,11 +26,7 @@ body {
   position: relative;
   background: #0f0c12;
   background-image:
-    radial-gradient(
-      70rem 34rem at 80% -10%,
-      rgba(224, 164, 88, 0.26),
-      transparent 70%
-    ),
+    radial-gradient(70rem 34rem at 80% -10%, rgba(224, 164, 88, 0.26), transparent 70%),
     linear-gradient(rgba(42, 38, 33, 0.9) 1px, transparent 1px),
     linear-gradient(90deg, rgba(42, 38, 33, 0.9) 1px, transparent 1px);
   background-size:

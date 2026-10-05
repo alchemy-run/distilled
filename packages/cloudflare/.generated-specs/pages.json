@@ -1797,6 +1797,12 @@
           "traits": {
             "smithy.api#enumValue": "canceled"
           }
+        },
+        "SKIPPED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "skipped"
+          }
         }
       }
     },
@@ -2078,6 +2084,12 @@
           "traits": {
             "smithy.api#enumValue": "canceled"
           }
+        },
+        "SKIPPED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "skipped"
+          }
         }
       }
     },
@@ -2158,6 +2170,12 @@
           "traits": {
             "smithy.api#enumValue": "pages_to_workers_conversion"
           }
+        },
+        "SUPERSEDED_QUEUED_BUILD": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "superseded_queued_build"
+          }
         }
       }
     },
@@ -2216,7 +2234,7 @@
         "is_skipped": {
           "target": "smithy.api#Boolean",
           "traits": {
-            "smithy.api#documentation": "If the deployment has been skipped.",
+            "smithy.api#documentation": "Whether the deployment was skipped.",
             "smithy.api#required": {}
           }
         },
@@ -2244,7 +2262,7 @@
         "project_name": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "Name of the project.",
+            "smithy.api#documentation": "Name of the Pages project. Must begin with a lowercase letter or digit and contain only lowercase letters, digits, and hyphens.",
             "smithy.api#required": {}
           }
         },
@@ -3628,6 +3646,12 @@
           "traits": {
             "smithy.api#enumValue": "canceled"
           }
+        },
+        "SKIPPED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "skipped"
+          }
         }
       }
     },
@@ -3909,6 +3933,12 @@
           "traits": {
             "smithy.api#enumValue": "canceled"
           }
+        },
+        "SKIPPED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "skipped"
+          }
         }
       }
     },
@@ -3989,6 +4019,12 @@
           "traits": {
             "smithy.api#enumValue": "pages_to_workers_conversion"
           }
+        },
+        "SUPERSEDED_QUEUED_BUILD": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "superseded_queued_build"
+          }
         }
       }
     },
@@ -4047,7 +4083,7 @@
         "is_skipped": {
           "target": "smithy.api#Boolean",
           "traits": {
-            "smithy.api#documentation": "If the deployment has been skipped.",
+            "smithy.api#documentation": "Whether the deployment was skipped.",
             "smithy.api#required": {}
           }
         },
@@ -4075,7 +4111,7 @@
         "project_name": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "Name of the project.",
+            "smithy.api#documentation": "Name of the Pages project. Must begin with a lowercase letter or digit and contain only lowercase letters, digits, and hyphens.",
             "smithy.api#required": {}
           }
         },
@@ -5874,6 +5910,12 @@
           "traits": {
             "smithy.api#enumValue": "canceled"
           }
+        },
+        "SKIPPED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "skipped"
+          }
         }
       }
     },
@@ -6155,6 +6197,12 @@
           "traits": {
             "smithy.api#enumValue": "canceled"
           }
+        },
+        "SKIPPED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "skipped"
+          }
         }
       }
     },
@@ -6235,6 +6283,12 @@
           "traits": {
             "smithy.api#enumValue": "pages_to_workers_conversion"
           }
+        },
+        "SUPERSEDED_QUEUED_BUILD": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "superseded_queued_build"
+          }
         }
       }
     },
@@ -6293,7 +6347,7 @@
         "is_skipped": {
           "target": "smithy.api#Boolean",
           "traits": {
-            "smithy.api#documentation": "If the deployment has been skipped.",
+            "smithy.api#documentation": "Whether the deployment was skipped.",
             "smithy.api#required": {}
           }
         },
@@ -6321,7 +6375,7 @@
         "project_name": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "Name of the project.",
+            "smithy.api#documentation": "Name of the Pages project. Must begin with a lowercase letter or digit and contain only lowercase letters, digits, and hyphens.",
             "smithy.api#required": {}
           }
         },
@@ -7705,6 +7759,12 @@
           "traits": {
             "smithy.api#enumValue": "canceled"
           }
+        },
+        "SKIPPED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "skipped"
+          }
         }
       }
     },
@@ -7986,6 +8046,12 @@
           "traits": {
             "smithy.api#enumValue": "canceled"
           }
+        },
+        "SKIPPED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "skipped"
+          }
         }
       }
     },
@@ -8066,6 +8132,12 @@
           "traits": {
             "smithy.api#enumValue": "pages_to_workers_conversion"
           }
+        },
+        "SUPERSEDED_QUEUED_BUILD": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "superseded_queued_build"
+          }
         }
       }
     },
@@ -8124,7 +8196,7 @@
         "is_skipped": {
           "target": "smithy.api#Boolean",
           "traits": {
-            "smithy.api#documentation": "If the deployment has been skipped.",
+            "smithy.api#documentation": "Whether the deployment was skipped.",
             "smithy.api#required": {}
           }
         },
@@ -8152,7 +8224,7 @@
         "project_name": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "Name of the project.",
+            "smithy.api#documentation": "Name of the Pages project. Must begin with a lowercase letter or digit and contain only lowercase letters, digits, and hyphens.",
             "smithy.api#required": {}
           }
         },
@@ -8702,6 +8774,12 @@
           "traits": {
             "smithy.api#enumValue": "canceled"
           }
+        },
+        "SKIPPED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "skipped"
+          }
         }
       }
     },
@@ -8983,6 +9061,12 @@
           "traits": {
             "smithy.api#enumValue": "canceled"
           }
+        },
+        "SKIPPED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "skipped"
+          }
         }
       }
     },
@@ -9063,6 +9147,12 @@
           "traits": {
             "smithy.api#enumValue": "pages_to_workers_conversion"
           }
+        },
+        "SUPERSEDED_QUEUED_BUILD": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "superseded_queued_build"
+          }
         }
       }
     },
@@ -9121,7 +9211,7 @@
         "is_skipped": {
           "target": "smithy.api#Boolean",
           "traits": {
-            "smithy.api#documentation": "If the deployment has been skipped.",
+            "smithy.api#documentation": "Whether the deployment was skipped.",
             "smithy.api#required": {}
           }
         },
@@ -9149,7 +9239,7 @@
         "project_name": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "Name of the project.",
+            "smithy.api#documentation": "Name of the Pages project. Must begin with a lowercase letter or digit and contain only lowercase letters, digits, and hyphens.",
             "smithy.api#required": {}
           }
         },
@@ -10533,6 +10623,12 @@
           "traits": {
             "smithy.api#enumValue": "canceled"
           }
+        },
+        "SKIPPED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "skipped"
+          }
         }
       }
     },
@@ -10814,6 +10910,12 @@
           "traits": {
             "smithy.api#enumValue": "canceled"
           }
+        },
+        "SKIPPED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "skipped"
+          }
         }
       }
     },
@@ -10894,6 +10996,12 @@
           "traits": {
             "smithy.api#enumValue": "pages_to_workers_conversion"
           }
+        },
+        "SUPERSEDED_QUEUED_BUILD": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "superseded_queued_build"
+          }
         }
       }
     },
@@ -10952,7 +11060,7 @@
         "is_skipped": {
           "target": "smithy.api#Boolean",
           "traits": {
-            "smithy.api#documentation": "If the deployment has been skipped.",
+            "smithy.api#documentation": "Whether the deployment was skipped.",
             "smithy.api#required": {}
           }
         },
@@ -10980,7 +11088,7 @@
         "project_name": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "Name of the project.",
+            "smithy.api#documentation": "Name of the Pages project. Must begin with a lowercase letter or digit and contain only lowercase letters, digits, and hyphens.",
             "smithy.api#required": {}
           }
         },
@@ -11267,7 +11375,7 @@
         "project_name": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "Name of the project.",
+            "smithy.api#documentation": "Name of the Pages project. Must begin with a lowercase letter or digit and contain only lowercase letters, digits, and hyphens.",
             "smithy.api#httpLabel": {},
             "smithy.api#required": {}
           }
@@ -11588,6 +11696,12 @@
           "traits": {
             "smithy.api#enumValue": "canceled"
           }
+        },
+        "SKIPPED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "skipped"
+          }
         }
       }
     },
@@ -11869,6 +11983,12 @@
           "traits": {
             "smithy.api#enumValue": "canceled"
           }
+        },
+        "SKIPPED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "skipped"
+          }
         }
       }
     },
@@ -11949,6 +12069,12 @@
           "traits": {
             "smithy.api#enumValue": "pages_to_workers_conversion"
           }
+        },
+        "SUPERSEDED_QUEUED_BUILD": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "superseded_queued_build"
+          }
         }
       }
     },
@@ -12007,7 +12133,7 @@
         "is_skipped": {
           "target": "smithy.api#Boolean",
           "traits": {
-            "smithy.api#documentation": "If the deployment has been skipped.",
+            "smithy.api#documentation": "Whether the deployment was skipped.",
             "smithy.api#required": {}
           }
         },
@@ -12035,7 +12161,7 @@
         "project_name": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "Name of the project.",
+            "smithy.api#documentation": "Name of the Pages project. Must begin with a lowercase letter or digit and contain only lowercase letters, digits, and hyphens.",
             "smithy.api#required": {}
           }
         },
@@ -13419,6 +13545,12 @@
           "traits": {
             "smithy.api#enumValue": "canceled"
           }
+        },
+        "SKIPPED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "skipped"
+          }
         }
       }
     },
@@ -13700,6 +13832,12 @@
           "traits": {
             "smithy.api#enumValue": "canceled"
           }
+        },
+        "SKIPPED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "skipped"
+          }
         }
       }
     },
@@ -13780,6 +13918,12 @@
           "traits": {
             "smithy.api#enumValue": "pages_to_workers_conversion"
           }
+        },
+        "SUPERSEDED_QUEUED_BUILD": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "superseded_queued_build"
+          }
         }
       }
     },
@@ -13838,7 +13982,7 @@
         "is_skipped": {
           "target": "smithy.api#Boolean",
           "traits": {
-            "smithy.api#documentation": "If the deployment has been skipped.",
+            "smithy.api#documentation": "Whether the deployment was skipped.",
             "smithy.api#required": {}
           }
         },
@@ -13866,7 +14010,7 @@
         "project_name": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "Name of the project.",
+            "smithy.api#documentation": "Name of the Pages project. Must begin with a lowercase letter or digit and contain only lowercase letters, digits, and hyphens.",
             "smithy.api#required": {}
           }
         },
@@ -14194,7 +14338,7 @@
         "name": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "Name of the project.",
+            "smithy.api#documentation": "Name of the Pages project. Must begin with a lowercase letter or digit and contain only lowercase letters, digits, and hyphens.",
             "smithy.api#required": {}
           }
         },
@@ -14552,6 +14696,12 @@
           "traits": {
             "smithy.api#enumValue": "canceled"
           }
+        },
+        "SKIPPED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "skipped"
+          }
         }
       }
     },
@@ -14833,6 +14983,12 @@
           "traits": {
             "smithy.api#enumValue": "canceled"
           }
+        },
+        "SKIPPED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "skipped"
+          }
         }
       }
     },
@@ -14912,6 +15068,12 @@
           "target": "smithy.api#Unit",
           "traits": {
             "smithy.api#enumValue": "pages_to_workers_conversion"
+          }
+        },
+        "SUPERSEDED_QUEUED_BUILD": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "superseded_queued_build"
           }
         }
       }
@@ -15192,6 +15354,12 @@
           "target": "smithy.api#Unit",
           "traits": {
             "smithy.api#enumValue": "canceled"
+          }
+        },
+        "SKIPPED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "skipped"
           }
         }
       }
@@ -15474,6 +15642,12 @@
           "traits": {
             "smithy.api#enumValue": "canceled"
           }
+        },
+        "SKIPPED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "skipped"
+          }
         }
       }
     },
@@ -15553,6 +15727,12 @@
           "target": "smithy.api#Unit",
           "traits": {
             "smithy.api#enumValue": "pages_to_workers_conversion"
+          }
+        },
+        "SUPERSEDED_QUEUED_BUILD": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "superseded_queued_build"
           }
         }
       }
@@ -15851,6 +16031,12 @@
           "traits": {
             "smithy.api#enumValue": "canceled"
           }
+        },
+        "SKIPPED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "skipped"
+          }
         }
       }
     },
@@ -16132,6 +16318,12 @@
           "traits": {
             "smithy.api#enumValue": "canceled"
           }
+        },
+        "SKIPPED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "skipped"
+          }
         }
       }
     },
@@ -16212,6 +16404,12 @@
           "traits": {
             "smithy.api#enumValue": "pages_to_workers_conversion"
           }
+        },
+        "SUPERSEDED_QUEUED_BUILD": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "superseded_queued_build"
+          }
         }
       }
     },
@@ -16270,7 +16468,7 @@
         "is_skipped": {
           "target": "smithy.api#Boolean",
           "traits": {
-            "smithy.api#documentation": "If the deployment has been skipped.",
+            "smithy.api#documentation": "Whether the deployment was skipped.",
             "smithy.api#required": {}
           }
         },
@@ -16298,7 +16496,7 @@
         "project_name": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "Name of the project.",
+            "smithy.api#documentation": "Name of the Pages project. Must begin with a lowercase letter or digit and contain only lowercase letters, digits, and hyphens.",
             "smithy.api#required": {}
           }
         },
@@ -16627,6 +16825,12 @@
           "traits": {
             "smithy.api#enumValue": "canceled"
           }
+        },
+        "SKIPPED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "skipped"
+          }
         }
       }
     },
@@ -16908,6 +17112,12 @@
           "traits": {
             "smithy.api#enumValue": "canceled"
           }
+        },
+        "SKIPPED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "skipped"
+          }
         }
       }
     },
@@ -16987,6 +17197,12 @@
           "target": "smithy.api#Unit",
           "traits": {
             "smithy.api#enumValue": "pages_to_workers_conversion"
+          }
+        },
+        "SUPERSEDED_QUEUED_BUILD": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "superseded_queued_build"
           }
         }
       }
@@ -17267,6 +17483,12 @@
           "target": "smithy.api#Unit",
           "traits": {
             "smithy.api#enumValue": "canceled"
+          }
+        },
+        "SKIPPED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "skipped"
           }
         }
       }
@@ -17549,6 +17771,12 @@
           "traits": {
             "smithy.api#enumValue": "canceled"
           }
+        },
+        "SKIPPED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "skipped"
+          }
         }
       }
     },
@@ -17629,6 +17857,12 @@
           "traits": {
             "smithy.api#enumValue": "pages_to_workers_conversion"
           }
+        },
+        "SUPERSEDED_QUEUED_BUILD": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "superseded_queued_build"
+          }
         }
       }
     },
@@ -17684,7 +17918,7 @@
         "project_name": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "Name of the project.",
+            "smithy.api#documentation": "Name of the Pages project. Must begin with a lowercase letter or digit and contain only lowercase letters, digits, and hyphens.",
             "smithy.api#httpLabel": {},
             "smithy.api#required": {}
           }
@@ -17692,7 +17926,7 @@
         "deployment_id": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "Identifier.",
+            "smithy.api#documentation": "UUID of the Pages deployment, as returned by deployment list or create operations.",
             "smithy.api#httpLabel": {},
             "smithy.api#required": {}
           }
@@ -17761,7 +17995,7 @@
         "project_name": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "Name of the project.",
+            "smithy.api#documentation": "Name of the Pages project. Must begin with a lowercase letter or digit and contain only lowercase letters, digits, and hyphens.",
             "smithy.api#httpLabel": {},
             "smithy.api#required": {}
           }
@@ -17769,7 +18003,7 @@
         "deployment_id": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "Identifier.",
+            "smithy.api#documentation": "UUID of the Pages deployment, as returned by deployment list or create operations.",
             "smithy.api#httpLabel": {},
             "smithy.api#required": {}
           }
@@ -18590,7 +18824,7 @@
         "name": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "The domain name.",
+            "smithy.api#documentation": "Fully qualified domain name for the Pages project, such as `example.com`.",
             "smithy.api#required": {}
           }
         },
@@ -18856,7 +19090,7 @@
           "uri": "/accounts/{account_id}/pages/projects",
           "code": 200
         },
-        "smithy.api#documentation": "Create a new project."
+        "smithy.api#documentation": "Create a Cloudflare Pages project for configuring and deploying a site or application."
       },
       "errors": [
         {
@@ -18881,7 +19115,7 @@
         "name": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "Name of the project.",
+            "smithy.api#documentation": "Name for the Pages project. Must begin with a lowercase letter or digit and contain only lowercase letters, digits, and hyphens.",
             "smithy.api#required": {}
           }
         },
@@ -18970,7 +19204,7 @@
         "name": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "Name of the project.",
+            "smithy.api#documentation": "Name of the Pages project. Must begin with a lowercase letter or digit and contain only lowercase letters, digits, and hyphens.",
             "smithy.api#required": {}
           }
         },
@@ -19047,7 +19281,7 @@
           "code": 200,
           "contentType": "multipart"
         },
-        "smithy.api#documentation": "Start a new deployment from production. The repository and account must have already been authorized on the Cloudflare Pages dashboard."
+        "smithy.api#documentation": "Create a Cloudflare Pages deployment from a Git branch or Direct Upload manifest. Git repositories must already be authorized in Cloudflare Pages."
       },
       "errors": [
         {
@@ -19072,7 +19306,7 @@
         "project_name": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "Name of the project.",
+            "smithy.api#documentation": "Name of the Pages project. Must begin with a lowercase letter or digit and contain only lowercase letters, digits, and hyphens.",
             "smithy.api#httpLabel": {},
             "smithy.api#required": {}
           }
@@ -19113,25 +19347,25 @@
         "branch": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "The branch to build the new deployment from. The `HEAD` of the branch will be used. If omitted, the production branch will be used by default."
+            "smithy.api#documentation": "Git branch to deploy. Uses the branch's `HEAD`; defaults to the project's production branch."
           }
         },
         "commit_dirty": {
           "target": "com.cloudflare.pages#ProjectsDeploymentsCreateRequestCommitDirty",
           "traits": {
-            "smithy.api#documentation": "Boolean string indicating if the working directory has uncommitted changes."
+            "smithy.api#documentation": "Whether the associated Git working tree has uncommitted changes. Provide `true` or `false`."
           }
         },
         "commit_hash": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "Git commit SHA associated with this deployment."
+            "smithy.api#documentation": "Git commit SHA associated with the deployment."
           }
         },
         "commit_message": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "Git commit message associated with this deployment."
+            "smithy.api#documentation": "Git commit message associated with the deployment."
           }
         },
         "functions_filepath_routing_config_json": {
@@ -19144,7 +19378,7 @@
         "manifest": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "JSON string containing a manifest of files to deploy. Maps file paths to their content hashes. Required for direct upload deployments. Maximum 20,000 entries."
+            "smithy.api#documentation": "JSON-encoded object mapping deployment file paths to their uploaded content hashes. Required for Direct Upload deployments. Maximum 20,000 entries."
           }
         },
         "pages_build_output_dir": {
@@ -19219,7 +19453,7 @@
         "is_skipped": {
           "target": "smithy.api#Boolean",
           "traits": {
-            "smithy.api#documentation": "If the deployment has been skipped.",
+            "smithy.api#documentation": "Whether the deployment was skipped.",
             "smithy.api#required": {}
           }
         },
@@ -19247,7 +19481,7 @@
         "project_name": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "Name of the project.",
+            "smithy.api#documentation": "Name of the Pages project. Must begin with a lowercase letter or digit and contain only lowercase letters, digits, and hyphens.",
             "smithy.api#required": {}
           }
         },
@@ -19311,7 +19545,7 @@
           "uri": "/accounts/{account_id}/pages/projects/{project_name}/domains",
           "code": 200
         },
-        "smithy.api#documentation": "Add a new domain for the Pages project."
+        "smithy.api#documentation": "Attach a custom domain to a Cloudflare Pages project."
       },
       "errors": [
         {
@@ -19339,7 +19573,7 @@
         "project_name": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "Name of the project.",
+            "smithy.api#documentation": "Name of the Pages project. Must begin with a lowercase letter or digit and contain only lowercase letters, digits, and hyphens.",
             "smithy.api#httpLabel": {},
             "smithy.api#required": {}
           }
@@ -19347,7 +19581,7 @@
         "name": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "The domain name.",
+            "smithy.api#documentation": "Fully qualified domain name for the Pages project, such as `example.com`.",
             "smithy.api#required": {}
           }
         }
@@ -19386,7 +19620,7 @@
         "name": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "The domain name.",
+            "smithy.api#documentation": "Fully qualified domain name for the Pages project, such as `example.com`.",
             "smithy.api#required": {}
           }
         },
@@ -19434,7 +19668,7 @@
           "uri": "/accounts/{account_id}/pages/projects/{project_name}",
           "code": 200
         },
-        "smithy.api#documentation": "Delete a project by name.",
+        "smithy.api#documentation": "Permanently delete a Cloudflare Pages project and its deployments.",
         "smithy.api#idempotent": {}
       },
       "errors": [
@@ -19460,7 +19694,7 @@
         "project_name": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "Name of the project.",
+            "smithy.api#documentation": "Name of the Pages project. Must begin with a lowercase letter or digit and contain only lowercase letters, digits, and hyphens.",
             "smithy.api#httpLabel": {},
             "smithy.api#required": {}
           }
@@ -19499,7 +19733,7 @@
           "uri": "/accounts/{account_id}/pages/projects/{project_name}/deployments/{deployment_id}",
           "code": 200
         },
-        "smithy.api#documentation": "Delete a deployment.",
+        "smithy.api#documentation": "Remove a deployment from a Cloudflare Pages project.",
         "smithy.api#idempotent": {}
       },
       "errors": [
@@ -19531,7 +19765,7 @@
         "project_name": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "Name of the project.",
+            "smithy.api#documentation": "Name of the Pages project. Must begin with a lowercase letter or digit and contain only lowercase letters, digits, and hyphens.",
             "smithy.api#httpLabel": {},
             "smithy.api#required": {}
           }
@@ -19539,7 +19773,7 @@
         "deployment_id": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "Identifier.",
+            "smithy.api#documentation": "UUID of the Pages deployment, as returned by deployment list or create operations.",
             "smithy.api#httpLabel": {},
             "smithy.api#required": {}
           }
@@ -19547,7 +19781,7 @@
         "force": {
           "target": "smithy.api#Boolean",
           "traits": {
-            "smithy.api#documentation": "Allow deletion of aliased non-production deployments when a normal delete would be rejected.",
+            "smithy.api#documentation": "Allow deletion when a non-production deployment has an active alias.",
             "smithy.api#httpQuery": "force"
           }
         }
@@ -19585,7 +19819,7 @@
           "uri": "/accounts/{account_id}/pages/projects/{project_name}/domains/{domain_name}",
           "code": 200
         },
-        "smithy.api#documentation": "Delete a Pages project's domain.",
+        "smithy.api#documentation": "Remove a custom domain from a Cloudflare Pages project.",
         "smithy.api#idempotent": {}
       },
       "errors": [
@@ -19614,7 +19848,7 @@
         "project_name": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "Name of the project.",
+            "smithy.api#documentation": "Name of the Pages project. Must begin with a lowercase letter or digit and contain only lowercase letters, digits, and hyphens.",
             "smithy.api#httpLabel": {},
             "smithy.api#required": {}
           }
@@ -19622,7 +19856,7 @@
         "domain_name": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "The domain name.",
+            "smithy.api#documentation": "Fully qualified domain name for the Pages project, such as `example.com`.",
             "smithy.api#httpLabel": {},
             "smithy.api#required": {}
           }
@@ -19661,7 +19895,7 @@
           "uri": "/accounts/{account_id}/pages/projects/{project_name}",
           "code": 200
         },
-        "smithy.api#documentation": "Fetch a project by name.",
+        "smithy.api#documentation": "Retrieve the configuration and deployment settings for a Cloudflare Pages project.",
         "smithy.api#readonly": {}
       },
       "errors": [
@@ -19687,7 +19921,7 @@
         "project_name": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "Name of the project.",
+            "smithy.api#documentation": "Name of the Pages project. Must begin with a lowercase letter or digit and contain only lowercase letters, digits, and hyphens.",
             "smithy.api#httpLabel": {},
             "smithy.api#required": {}
           }
@@ -19752,7 +19986,7 @@
         "name": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "Name of the project.",
+            "smithy.api#documentation": "Name of the Pages project. Must begin with a lowercase letter or digit and contain only lowercase letters, digits, and hyphens.",
             "smithy.api#required": {}
           }
         },
@@ -19828,7 +20062,7 @@
           "uri": "/accounts/{account_id}/pages/projects/{project_name}/deployments/{deployment_id}",
           "code": 200
         },
-        "smithy.api#documentation": "Fetch information about a deployment.",
+        "smithy.api#documentation": "Retrieve the status and details of a Cloudflare Pages deployment.",
         "smithy.api#readonly": {}
       },
       "errors": [
@@ -19857,7 +20091,7 @@
         "project_name": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "Name of the project.",
+            "smithy.api#documentation": "Name of the Pages project. Must begin with a lowercase letter or digit and contain only lowercase letters, digits, and hyphens.",
             "smithy.api#httpLabel": {},
             "smithy.api#required": {}
           }
@@ -19865,7 +20099,7 @@
         "deployment_id": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "Identifier.",
+            "smithy.api#documentation": "UUID of the Pages deployment, as returned by deployment list or create operations.",
             "smithy.api#httpLabel": {},
             "smithy.api#required": {}
           }
@@ -19930,7 +20164,7 @@
         "is_skipped": {
           "target": "smithy.api#Boolean",
           "traits": {
-            "smithy.api#documentation": "If the deployment has been skipped.",
+            "smithy.api#documentation": "Whether the deployment was skipped.",
             "smithy.api#required": {}
           }
         },
@@ -19958,7 +20192,7 @@
         "project_name": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "Name of the project.",
+            "smithy.api#documentation": "Name of the Pages project. Must begin with a lowercase letter or digit and contain only lowercase letters, digits, and hyphens.",
             "smithy.api#required": {}
           }
         },
@@ -20022,7 +20256,7 @@
           "uri": "/accounts/{account_id}/pages/projects/{project_name}/deployments/{deployment_id}/history/logs",
           "code": 200
         },
-        "smithy.api#documentation": "Fetch deployment logs for a project.",
+        "smithy.api#documentation": "Retrieve the build logs for a Cloudflare Pages deployment.",
         "smithy.api#readonly": {}
       }
     },
@@ -20040,7 +20274,7 @@
         "project_name": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "Name of the project.",
+            "smithy.api#documentation": "Name of the Pages project. Must begin with a lowercase letter or digit and contain only lowercase letters, digits, and hyphens.",
             "smithy.api#httpLabel": {},
             "smithy.api#required": {}
           }
@@ -20048,7 +20282,7 @@
         "deployment_id": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "Identifier.",
+            "smithy.api#documentation": "UUID of the Pages deployment, as returned by deployment list or create operations.",
             "smithy.api#httpLabel": {},
             "smithy.api#required": {}
           }
@@ -20099,7 +20333,7 @@
           "uri": "/accounts/{account_id}/pages/projects/{project_name}/domains/{domain_name}",
           "code": 200
         },
-        "smithy.api#documentation": "Fetch a single domain.",
+        "smithy.api#documentation": "Retrieve the configuration and validation status of a custom domain attached to a Cloudflare Pages project.",
         "smithy.api#readonly": {}
       },
       "errors": [
@@ -20128,7 +20362,7 @@
         "project_name": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "Name of the project.",
+            "smithy.api#documentation": "Name of the Pages project. Must begin with a lowercase letter or digit and contain only lowercase letters, digits, and hyphens.",
             "smithy.api#httpLabel": {},
             "smithy.api#required": {}
           }
@@ -20136,7 +20370,7 @@
         "domain_name": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "The domain name.",
+            "smithy.api#documentation": "Fully qualified domain name for the Pages project, such as `example.com`.",
             "smithy.api#httpLabel": {},
             "smithy.api#required": {}
           }
@@ -20176,7 +20410,7 @@
         "name": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "The domain name.",
+            "smithy.api#documentation": "Fully qualified domain name for the Pages project, such as `example.com`.",
             "smithy.api#required": {}
           }
         },
@@ -20224,7 +20458,7 @@
           "uri": "/accounts/{account_id}/pages/projects/{project_name}/deployments",
           "code": 200
         },
-        "smithy.api#documentation": "Fetch a list of project deployments.",
+        "smithy.api#documentation": "List the production or preview deployments for a Cloudflare Pages project.",
         "smithy.api#readonly": {},
         "smithy.api#paginated": {
           "mode": "page",
@@ -20249,7 +20483,7 @@
         "project_name": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "Name of the project.",
+            "smithy.api#documentation": "Name of the Pages project. Must begin with a lowercase letter or digit and contain only lowercase letters, digits, and hyphens.",
             "smithy.api#httpLabel": {},
             "smithy.api#required": {}
           }
@@ -20257,21 +20491,21 @@
         "env": {
           "target": "com.cloudflare.pages#ProjectsDeploymentsListRequestEnv",
           "traits": {
-            "smithy.api#documentation": "What type of deployments to fetch.",
+            "smithy.api#documentation": "Deployment environment to return. Valid values are `production` and `preview`.",
             "smithy.api#httpQuery": "env"
           }
         },
         "page": {
           "target": "smithy.api#Double",
           "traits": {
-            "smithy.api#documentation": "Which page of deployments to fetch.",
+            "smithy.api#documentation": "Page number of results to return.",
             "smithy.api#httpQuery": "page"
           }
         },
         "per_page": {
           "target": "smithy.api#Double",
           "traits": {
-            "smithy.api#documentation": "How many deployments to return per page.",
+            "smithy.api#documentation": "Number of results to return per page.",
             "smithy.api#httpQuery": "per_page"
           }
         }
@@ -20309,7 +20543,7 @@
           "uri": "/accounts/{account_id}/pages/projects/{project_name}/domains",
           "code": 200
         },
-        "smithy.api#documentation": "Fetch a list of all domains associated with a Pages project.",
+        "smithy.api#documentation": "List the custom domains associated with a Cloudflare Pages project.",
         "smithy.api#readonly": {},
         "smithy.api#paginated": {
           "mode": "single",
@@ -20339,7 +20573,7 @@
         "project_name": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "Name of the project.",
+            "smithy.api#documentation": "Name of the Pages project. Must begin with a lowercase letter or digit and contain only lowercase letters, digits, and hyphens.",
             "smithy.api#httpLabel": {},
             "smithy.api#required": {}
           }
@@ -20378,7 +20612,7 @@
           "uri": "/accounts/{account_id}/pages/projects",
           "code": 200
         },
-        "smithy.api#documentation": "Fetch a list of all user projects.",
+        "smithy.api#documentation": "List the Cloudflare Pages projects in an account.",
         "smithy.api#readonly": {},
         "smithy.api#paginated": {
           "mode": "page",
@@ -20408,14 +20642,14 @@
         "page": {
           "target": "smithy.api#Double",
           "traits": {
-            "smithy.api#documentation": "Which page of projects to fetch.",
+            "smithy.api#documentation": "Page number of results to return.",
             "smithy.api#httpQuery": "page"
           }
         },
         "per_page": {
           "target": "smithy.api#Double",
           "traits": {
-            "smithy.api#documentation": "How many projects to return per page.",
+            "smithy.api#documentation": "Number of results to return per page.",
             "smithy.api#httpQuery": "per_page"
           }
         }
@@ -20453,7 +20687,7 @@
           "uri": "/accounts/{account_id}/pages/projects/{project_name}",
           "code": 200
         },
-        "smithy.api#documentation": "Set new attributes for an existing project. Modify environment variables. To delete an environment variable, set the key to null."
+        "smithy.api#documentation": "Update the build, deployment, source, or environment settings for a Cloudflare Pages project. To delete an environment variable, set its key to `null`."
       },
       "errors": [
         {
@@ -20478,7 +20712,7 @@
         "project_name": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "Name of the project.",
+            "smithy.api#documentation": "Name of the Pages project. Must begin with a lowercase letter or digit and contain only lowercase letters, digits, and hyphens.",
             "smithy.api#httpLabel": {},
             "smithy.api#required": {}
           }
@@ -20498,7 +20732,7 @@
         "name": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "Name of the project."
+            "smithy.api#documentation": "Name for the Pages project. Must begin with a lowercase letter or digit and contain only lowercase letters, digits, and hyphens."
           }
         },
         "production_branch": {
@@ -20573,7 +20807,7 @@
         "name": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "Name of the project.",
+            "smithy.api#documentation": "Name of the Pages project. Must begin with a lowercase letter or digit and contain only lowercase letters, digits, and hyphens.",
             "smithy.api#required": {}
           }
         },
@@ -20649,7 +20883,7 @@
           "uri": "/accounts/{account_id}/pages/projects/{project_name}/domains/{domain_name}",
           "code": 200
         },
-        "smithy.api#documentation": "Retry the validation status of a single domain."
+        "smithy.api#documentation": "Retry validation for a custom domain attached to a Cloudflare Pages project."
       },
       "errors": [
         {
@@ -20677,7 +20911,7 @@
         "project_name": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "Name of the project.",
+            "smithy.api#documentation": "Name of the Pages project. Must begin with a lowercase letter or digit and contain only lowercase letters, digits, and hyphens.",
             "smithy.api#httpLabel": {},
             "smithy.api#required": {}
           }
@@ -20685,7 +20919,7 @@
         "domain_name": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "The domain name.",
+            "smithy.api#documentation": "Fully qualified domain name for the Pages project, such as `example.com`.",
             "smithy.api#httpLabel": {},
             "smithy.api#required": {}
           }
@@ -20725,7 +20959,7 @@
         "name": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "The domain name.",
+            "smithy.api#documentation": "Fully qualified domain name for the Pages project, such as `example.com`.",
             "smithy.api#required": {}
           }
         },
@@ -20773,7 +21007,7 @@
           "uri": "/accounts/{account_id}/pages/projects/{project_name}/purge_build_cache",
           "code": 200
         },
-        "smithy.api#documentation": "Purge all cached build artifacts for a Pages project"
+        "smithy.api#documentation": "Remove cached build artifacts so subsequent builds run without the project's existing build cache."
       }
     },
     "com.cloudflare.pages#PurgeBuildCacheProjectRequest": {
@@ -20790,7 +21024,7 @@
         "project_name": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "Name of the project.",
+            "smithy.api#documentation": "Name of the Pages project. Must begin with a lowercase letter or digit and contain only lowercase letters, digits, and hyphens.",
             "smithy.api#httpLabel": {},
             "smithy.api#required": {}
           }
@@ -20829,7 +21063,7 @@
           "uri": "/accounts/{account_id}/pages/projects/{project_name}/deployments/{deployment_id}/retry",
           "code": 200
         },
-        "smithy.api#documentation": "Retry a previous deployment."
+        "smithy.api#documentation": "Retry a previous Cloudflare Pages deployment."
       }
     },
     "com.cloudflare.pages#RetryProjectDeploymentRequest": {
@@ -20846,7 +21080,7 @@
         "project_name": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "Name of the project.",
+            "smithy.api#documentation": "Name of the Pages project. Must begin with a lowercase letter or digit and contain only lowercase letters, digits, and hyphens.",
             "smithy.api#httpLabel": {},
             "smithy.api#required": {}
           }
@@ -20854,7 +21088,7 @@
         "deployment_id": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "Identifier.",
+            "smithy.api#documentation": "UUID of the Pages deployment, as returned by deployment list or create operations.",
             "smithy.api#httpLabel": {},
             "smithy.api#required": {}
           }
@@ -20919,7 +21153,7 @@
         "is_skipped": {
           "target": "smithy.api#Boolean",
           "traits": {
-            "smithy.api#documentation": "If the deployment has been skipped.",
+            "smithy.api#documentation": "Whether the deployment was skipped.",
             "smithy.api#required": {}
           }
         },
@@ -20947,7 +21181,7 @@
         "project_name": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "Name of the project.",
+            "smithy.api#documentation": "Name of the Pages project. Must begin with a lowercase letter or digit and contain only lowercase letters, digits, and hyphens.",
             "smithy.api#required": {}
           }
         },
@@ -21011,7 +21245,7 @@
           "uri": "/accounts/{account_id}/pages/projects/{project_name}/deployments/{deployment_id}/rollback",
           "code": 200
         },
-        "smithy.api#documentation": "Rollback the production deployment to a previous deployment. You can only rollback to succesful builds on production."
+        "smithy.api#documentation": "Roll back production to a previous successful Cloudflare Pages deployment."
       }
     },
     "com.cloudflare.pages#RollbackProjectDeploymentRequest": {
@@ -21028,7 +21262,7 @@
         "project_name": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "Name of the project.",
+            "smithy.api#documentation": "Name of the Pages project. Must begin with a lowercase letter or digit and contain only lowercase letters, digits, and hyphens.",
             "smithy.api#httpLabel": {},
             "smithy.api#required": {}
           }
@@ -21036,7 +21270,7 @@
         "deployment_id": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "Identifier.",
+            "smithy.api#documentation": "UUID of the Pages deployment, as returned by deployment list or create operations.",
             "smithy.api#httpLabel": {},
             "smithy.api#required": {}
           }
@@ -21101,7 +21335,7 @@
         "is_skipped": {
           "target": "smithy.api#Boolean",
           "traits": {
-            "smithy.api#documentation": "If the deployment has been skipped.",
+            "smithy.api#documentation": "Whether the deployment was skipped.",
             "smithy.api#required": {}
           }
         },
@@ -21129,7 +21363,7 @@
         "project_name": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "Name of the project.",
+            "smithy.api#documentation": "Name of the Pages project. Must begin with a lowercase letter or digit and contain only lowercase letters, digits, and hyphens.",
             "smithy.api#required": {}
           }
         },

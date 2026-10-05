@@ -1,0 +1,47 @@
+{
+  "description": "A lab service runner names its user-assigned identity in `identity.userAssignedIdentities` (keyed by the identity's ARM ID); ARM rejects a `principalId` for type `UserAssigned` (\"must be null or empty for 'UserAssigned' identity type\"). The 2018-09-15 spec omits the map, so add it to IdentityProperties.",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.devtestlabs#UserAssignedIdentityValue",
+      "value": {
+        "type": "structure",
+        "members": {
+          "principalId": {
+            "target": "smithy.api#String",
+            "traits": { "smithy.api#documentation": "Principal ID of the user-assigned identity." }
+          },
+          "clientId": {
+            "target": "smithy.api#String",
+            "traits": { "smithy.api#documentation": "Client ID of the user-assigned identity." }
+          }
+        },
+        "traits": {
+          "smithy.api#documentation": "A user-assigned identity attached to the resource."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.devtestlabs#IdentityPropertiesUserAssignedIdentitiesMap",
+      "value": {
+        "type": "map",
+        "key": { "target": "smithy.api#String" },
+        "value": { "target": "com.azure.devtestlabs#UserAssignedIdentityValue" },
+        "traits": {
+          "smithy.api#documentation": "User-assigned identities, keyed by ARM resource ID."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.devtestlabs#IdentityProperties/members/userAssignedIdentities",
+      "value": {
+        "target": "com.azure.devtestlabs#IdentityPropertiesUserAssignedIdentitiesMap",
+        "traits": {
+          "smithy.api#documentation": "User-assigned identities, keyed by ARM resource ID."
+        }
+      }
+    }
+  ]
+}

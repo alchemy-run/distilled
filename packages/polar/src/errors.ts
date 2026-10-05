@@ -27,8 +27,8 @@ export {
 } from "@distilled.cloud/core/errors";
 export type { DefaultErrors } from "@distilled.cloud/core/errors";
 
-import * as Schema from "effect/Schema";
 import * as Category from "@distilled.cloud/core/category";
+import * as Schema from "effect/Schema";
 
 /** Unknown Polar error — returned when nothing else matches the failure. */
 export class UnknownPolarError extends Schema.TaggedError<UnknownPolarError>()(
@@ -41,10 +41,7 @@ export class UnknownPolarError extends Schema.TaggedError<UnknownPolarError>()(
 ).pipe(Category.withServerError) {}
 
 /** Schema parse error wrapper. */
-export class PolarParseError extends Schema.TaggedError<PolarParseError>()(
-  "PolarParseError",
-  {
-    body: Schema.Unknown,
-    cause: Schema.Unknown,
-  },
-).pipe(Category.withParseError) {}
+export class PolarParseError extends Schema.TaggedError<PolarParseError>()("PolarParseError", {
+  body: Schema.Unknown,
+  cause: Schema.Unknown,
+}).pipe(Category.withParseError) {}

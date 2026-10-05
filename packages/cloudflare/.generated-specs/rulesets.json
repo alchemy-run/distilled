@@ -424,31 +424,28 @@
             "smithy.api#httpQuery": "dry_run"
           }
         },
+        "description": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "An informative description of the ruleset."
+          }
+        },
         "kind": {
           "target": "com.cloudflare.rulesets#CreateRequestKind",
           "traits": {
-            "smithy.api#documentation": "The kind of the ruleset.",
-            "smithy.api#required": {}
+            "smithy.api#documentation": "The kind of the ruleset."
           }
         },
         "name": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "The human-readable name of the ruleset.",
-            "smithy.api#required": {}
+            "smithy.api#documentation": "The human-readable name of the ruleset."
           }
         },
         "phase": {
           "target": "com.cloudflare.rulesets#CreateRequestPhase",
           "traits": {
-            "smithy.api#documentation": "The phase of the ruleset.",
-            "smithy.api#required": {}
-          }
-        },
-        "description": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "An informative description of the ruleset."
+            "smithy.api#documentation": "The phase of the ruleset."
           }
         },
         "rules": {
@@ -505,31 +502,28 @@
             "smithy.api#httpQuery": "dry_run"
           }
         },
+        "description": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "An informative description of the ruleset."
+          }
+        },
         "kind": {
           "target": "com.cloudflare.rulesets#CreateRequestKind",
           "traits": {
-            "smithy.api#documentation": "The kind of the ruleset.",
-            "smithy.api#required": {}
+            "smithy.api#documentation": "The kind of the ruleset."
           }
         },
         "name": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "The human-readable name of the ruleset.",
-            "smithy.api#required": {}
+            "smithy.api#documentation": "The human-readable name of the ruleset."
           }
         },
         "phase": {
           "target": "com.cloudflare.rulesets#CreateRequestPhase",
           "traits": {
-            "smithy.api#documentation": "The phase of the ruleset.",
-            "smithy.api#required": {}
-          }
-        },
-        "description": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "An informative description of the ruleset."
+            "smithy.api#documentation": "The phase of the ruleset."
           }
         },
         "rules": {
@@ -2577,6 +2571,12 @@
       }
     },
     "com.cloudflare.rulesets#VersionsGetResponseRulesItemSetConfigurationRuleCategoriesList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      }
+    },
+    "com.cloudflare.rulesets#VersionsGetResponseRulesItemSetConfigurationRuleActionParametersWebmcpPacksList": {
       "type": "list",
       "member": {
         "target": "smithy.api#String"
@@ -5487,6 +5487,12 @@
       }
     },
     "com.cloudflare.rulesets#RulesEditResultRulesetRulesItemSetConfigurationRuleCategoriesList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      }
+    },
+    "com.cloudflare.rulesets#RulesEditResultRulesetRulesItemSetConfigurationRuleActionParametersWebmcpPacksList": {
       "type": "list",
       "member": {
         "target": "smithy.api#String"
@@ -9987,6 +9993,12 @@
         "target": "smithy.api#String"
       }
     },
+    "com.cloudflare.rulesets#RulesDeleteResultRulesetRulesItemSetConfigurationRuleActionParametersWebmcpPacksList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      }
+    },
     "com.cloudflare.rulesets#RulesDeleteResultRulesetRulesItemSetConfigurationRuleActionParametersSsl": {
       "type": "enum",
       "members": {
@@ -12892,6 +12904,12 @@
       }
     },
     "com.cloudflare.rulesets#RulesCreateResultRulesetRulesItemSetConfigurationRuleCategoriesList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      }
+    },
+    "com.cloudflare.rulesets#RulesCreateResultRulesetRulesItemSetConfigurationRuleActionParametersWebmcpPacksList": {
       "type": "list",
       "member": {
         "target": "smithy.api#String"
@@ -17570,6 +17588,12 @@
         "target": "smithy.api#String"
       }
     },
+    "com.cloudflare.rulesets#PhasesVersionsGetResponseRulesItemSetConfigurationRuleActionParametersWebmcpPacksList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      }
+    },
     "com.cloudflare.rulesets#PhasesVersionsGetResponseRulesItemSetConfigurationRuleActionParametersSsl": {
       "type": "enum",
       "members": {
@@ -20475,6 +20499,12 @@
       }
     },
     "com.cloudflare.rulesets#PhasesUpdateResultRulesetRulesItemSetConfigurationRuleCategoriesList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      }
+    },
+    "com.cloudflare.rulesets#PhasesUpdateResultRulesetRulesItemSetConfigurationRuleActionParametersWebmcpPacksList": {
       "type": "list",
       "member": {
         "target": "smithy.api#String"
@@ -23414,6 +23444,12 @@
         "target": "smithy.api#String"
       }
     },
+    "com.cloudflare.rulesets#PhasesUpdateRequestRulesItemSetConfigRuleActionParametersWebmcpPacksList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      }
+    },
     "com.cloudflare.rulesets#PhasesUpdateRequestRulesItemSetConfigRuleActionParametersSsl": {
       "type": "enum",
       "members": {
@@ -26309,6 +26345,12 @@
       }
     },
     "com.cloudflare.rulesets#PhasesGetResponseRulesItemSetConfigurationRuleCategoriesList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      }
+    },
+    "com.cloudflare.rulesets#PhasesGetResponseRulesItemSetConfigurationRuleActionParametersWebmcpPacksList": {
       "type": "list",
       "member": {
         "target": "smithy.api#String"
@@ -29219,6 +29261,12 @@
       }
     },
     "com.cloudflare.rulesets#UpdateResultRulesetRulesItemSetConfigurationRuleCategoriesList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      }
+    },
+    "com.cloudflare.rulesets#UpdateResultRulesetRulesItemSetConfigurationRuleActionParametersWebmcpPacksList": {
       "type": "list",
       "member": {
         "target": "smithy.api#String"
@@ -32153,6 +32201,12 @@
       }
     },
     "com.cloudflare.rulesets#UpdateRequestRulesItemSetConfigRuleCategoriesList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      }
+    },
+    "com.cloudflare.rulesets#UpdateRequestRulesItemSetConfigRuleActionParametersWebmcpPacksList": {
       "type": "list",
       "member": {
         "target": "smithy.api#String"
@@ -35414,6 +35468,12 @@
         "target": "smithy.api#String"
       }
     },
+    "com.cloudflare.rulesets#GetResponseRulesItemSetConfigurationRuleActionParametersWebmcpPacksList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      }
+    },
     "com.cloudflare.rulesets#GetResponseRulesItemSetConfigurationRuleActionParametersSsl": {
       "type": "enum",
       "members": {
@@ -38319,6 +38379,12 @@
       }
     },
     "com.cloudflare.rulesets#CreateResultRulesetRulesItemSetConfigurationRuleCategoriesList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      }
+    },
+    "com.cloudflare.rulesets#CreateResultRulesetRulesItemSetConfigurationRuleActionParametersWebmcpPacksList": {
       "type": "list",
       "member": {
         "target": "smithy.api#String"
@@ -41253,6 +41319,12 @@
       }
     },
     "com.cloudflare.rulesets#CreateRequestRulesItemSetConfigRuleCategoriesList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      }
+    },
+    "com.cloudflare.rulesets#CreateRequestRulesItemSetConfigRuleActionParametersWebmcpPacksList": {
       "type": "list",
       "member": {
         "target": "smithy.api#String"
@@ -44340,6 +44412,18 @@
           "traits": {
             "smithy.api#documentation": "Signed Exchanges (SXG) is deprecated."
           }
+        },
+        "webmcp_enabled": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Whether to serve the WebMCP bridge script, which exposes the page's tools to browser AI agents."
+          }
+        },
+        "webmcp_packs": {
+          "target": "com.cloudflare.rulesets#VersionsGetResponseRulesItemSetConfigurationRuleActionParametersWebmcpPacksList",
+          "traits": {
+            "smithy.api#documentation": "Bundled WebMCP tool packs to activate for matching requests. An empty array disables all packs. Omitting this parameter leaves the pack selection unchanged. Does not enable the WebMCP bridge itself. Non-empty selections require the WebMCP Configuration Rules entitlement."
+          }
         }
       }
     },
@@ -46761,6 +46845,18 @@
           "target": "smithy.api#Boolean",
           "traits": {
             "smithy.api#documentation": "Signed Exchanges (SXG) is deprecated."
+          }
+        },
+        "webmcp_enabled": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Whether to serve the WebMCP bridge script, which exposes the page's tools to browser AI agents."
+          }
+        },
+        "webmcp_packs": {
+          "target": "com.cloudflare.rulesets#RulesEditResultRulesetRulesItemSetConfigurationRuleActionParametersWebmcpPacksList",
+          "traits": {
+            "smithy.api#documentation": "Bundled WebMCP tool packs to activate for matching requests. An empty array disables all packs. Omitting this parameter leaves the pack selection unchanged. Does not enable the WebMCP bridge itself. Non-empty selections require the WebMCP Configuration Rules entitlement."
           }
         }
       }
@@ -50375,6 +50471,18 @@
           "traits": {
             "smithy.api#documentation": "Signed Exchanges (SXG) is deprecated."
           }
+        },
+        "webmcp_enabled": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Whether to serve the WebMCP bridge script, which exposes the page's tools to browser AI agents."
+          }
+        },
+        "webmcp_packs": {
+          "target": "com.cloudflare.rulesets#RulesDeleteResultRulesetRulesItemSetConfigurationRuleActionParametersWebmcpPacksList",
+          "traits": {
+            "smithy.api#documentation": "Bundled WebMCP tool packs to activate for matching requests. An empty array disables all packs. Omitting this parameter leaves the pack selection unchanged. Does not enable the WebMCP bridge itself. Non-empty selections require the WebMCP Configuration Rules entitlement."
+          }
         }
       }
     },
@@ -52796,6 +52904,18 @@
           "target": "smithy.api#Boolean",
           "traits": {
             "smithy.api#documentation": "Signed Exchanges (SXG) is deprecated."
+          }
+        },
+        "webmcp_enabled": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Whether to serve the WebMCP bridge script, which exposes the page's tools to browser AI agents."
+          }
+        },
+        "webmcp_packs": {
+          "target": "com.cloudflare.rulesets#RulesCreateResultRulesetRulesItemSetConfigurationRuleActionParametersWebmcpPacksList",
+          "traits": {
+            "smithy.api#documentation": "Bundled WebMCP tool packs to activate for matching requests. An empty array disables all packs. Omitting this parameter leaves the pack selection unchanged. Does not enable the WebMCP bridge itself. Non-empty selections require the WebMCP Configuration Rules entitlement."
           }
         }
       }
@@ -56463,6 +56583,18 @@
           "traits": {
             "smithy.api#documentation": "Signed Exchanges (SXG) is deprecated."
           }
+        },
+        "webmcp_enabled": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Whether to serve the WebMCP bridge script, which exposes the page's tools to browser AI agents."
+          }
+        },
+        "webmcp_packs": {
+          "target": "com.cloudflare.rulesets#PhasesVersionsGetResponseRulesItemSetConfigurationRuleActionParametersWebmcpPacksList",
+          "traits": {
+            "smithy.api#documentation": "Bundled WebMCP tool packs to activate for matching requests. An empty array disables all packs. Omitting this parameter leaves the pack selection unchanged. Does not enable the WebMCP bridge itself. Non-empty selections require the WebMCP Configuration Rules entitlement."
+          }
         }
       }
     },
@@ -58884,6 +59016,18 @@
           "target": "smithy.api#Boolean",
           "traits": {
             "smithy.api#documentation": "Signed Exchanges (SXG) is deprecated."
+          }
+        },
+        "webmcp_enabled": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Whether to serve the WebMCP bridge script, which exposes the page's tools to browser AI agents."
+          }
+        },
+        "webmcp_packs": {
+          "target": "com.cloudflare.rulesets#PhasesUpdateResultRulesetRulesItemSetConfigurationRuleActionParametersWebmcpPacksList",
+          "traits": {
+            "smithy.api#documentation": "Bundled WebMCP tool packs to activate for matching requests. An empty array disables all packs. Omitting this parameter leaves the pack selection unchanged. Does not enable the WebMCP bridge itself. Non-empty selections require the WebMCP Configuration Rules entitlement."
           }
         }
       }
@@ -61307,6 +61451,18 @@
           "traits": {
             "smithy.api#documentation": "Signed Exchanges (SXG) is deprecated."
           }
+        },
+        "webmcp_enabled": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Whether to serve the WebMCP bridge script, which exposes the page's tools to browser AI agents."
+          }
+        },
+        "webmcp_packs": {
+          "target": "com.cloudflare.rulesets#PhasesUpdateRequestRulesItemSetConfigRuleActionParametersWebmcpPacksList",
+          "traits": {
+            "smithy.api#documentation": "Bundled WebMCP tool packs to activate for matching requests. An empty array disables all packs. Omitting this parameter leaves the pack selection unchanged. Does not enable the WebMCP bridge itself. Non-empty selections require the WebMCP Configuration Rules entitlement."
+          }
         }
       }
     },
@@ -63728,6 +63884,18 @@
           "target": "smithy.api#Boolean",
           "traits": {
             "smithy.api#documentation": "Signed Exchanges (SXG) is deprecated."
+          }
+        },
+        "webmcp_enabled": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Whether to serve the WebMCP bridge script, which exposes the page's tools to browser AI agents."
+          }
+        },
+        "webmcp_packs": {
+          "target": "com.cloudflare.rulesets#PhasesGetResponseRulesItemSetConfigurationRuleActionParametersWebmcpPacksList",
+          "traits": {
+            "smithy.api#documentation": "Bundled WebMCP tool packs to activate for matching requests. An empty array disables all packs. Omitting this parameter leaves the pack selection unchanged. Does not enable the WebMCP bridge itself. Non-empty selections require the WebMCP Configuration Rules entitlement."
           }
         }
       }
@@ -66151,6 +66319,18 @@
           "traits": {
             "smithy.api#documentation": "Signed Exchanges (SXG) is deprecated."
           }
+        },
+        "webmcp_enabled": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Whether to serve the WebMCP bridge script, which exposes the page's tools to browser AI agents."
+          }
+        },
+        "webmcp_packs": {
+          "target": "com.cloudflare.rulesets#UpdateResultRulesetRulesItemSetConfigurationRuleActionParametersWebmcpPacksList",
+          "traits": {
+            "smithy.api#documentation": "Bundled WebMCP tool packs to activate for matching requests. An empty array disables all packs. Omitting this parameter leaves the pack selection unchanged. Does not enable the WebMCP bridge itself. Non-empty selections require the WebMCP Configuration Rules entitlement."
+          }
         }
       }
     },
@@ -68572,6 +68752,18 @@
           "target": "smithy.api#Boolean",
           "traits": {
             "smithy.api#documentation": "Signed Exchanges (SXG) is deprecated."
+          }
+        },
+        "webmcp_enabled": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Whether to serve the WebMCP bridge script, which exposes the page's tools to browser AI agents."
+          }
+        },
+        "webmcp_packs": {
+          "target": "com.cloudflare.rulesets#UpdateRequestRulesItemSetConfigRuleActionParametersWebmcpPacksList",
+          "traits": {
+            "smithy.api#documentation": "Bundled WebMCP tool packs to activate for matching requests. An empty array disables all packs. Omitting this parameter leaves the pack selection unchanged. Does not enable the WebMCP bridge itself. Non-empty selections require the WebMCP Configuration Rules entitlement."
           }
         }
       }
@@ -71048,6 +71240,18 @@
           "traits": {
             "smithy.api#documentation": "Signed Exchanges (SXG) is deprecated."
           }
+        },
+        "webmcp_enabled": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Whether to serve the WebMCP bridge script, which exposes the page's tools to browser AI agents."
+          }
+        },
+        "webmcp_packs": {
+          "target": "com.cloudflare.rulesets#GetResponseRulesItemSetConfigurationRuleActionParametersWebmcpPacksList",
+          "traits": {
+            "smithy.api#documentation": "Bundled WebMCP tool packs to activate for matching requests. An empty array disables all packs. Omitting this parameter leaves the pack selection unchanged. Does not enable the WebMCP bridge itself. Non-empty selections require the WebMCP Configuration Rules entitlement."
+          }
         }
       }
     },
@@ -73470,6 +73674,18 @@
           "traits": {
             "smithy.api#documentation": "Signed Exchanges (SXG) is deprecated."
           }
+        },
+        "webmcp_enabled": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Whether to serve the WebMCP bridge script, which exposes the page's tools to browser AI agents."
+          }
+        },
+        "webmcp_packs": {
+          "target": "com.cloudflare.rulesets#CreateResultRulesetRulesItemSetConfigurationRuleActionParametersWebmcpPacksList",
+          "traits": {
+            "smithy.api#documentation": "Bundled WebMCP tool packs to activate for matching requests. An empty array disables all packs. Omitting this parameter leaves the pack selection unchanged. Does not enable the WebMCP bridge itself. Non-empty selections require the WebMCP Configuration Rules entitlement."
+          }
         }
       }
     },
@@ -75891,6 +76107,18 @@
           "target": "smithy.api#Boolean",
           "traits": {
             "smithy.api#documentation": "Signed Exchanges (SXG) is deprecated."
+          }
+        },
+        "webmcp_enabled": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Whether to serve the WebMCP bridge script, which exposes the page's tools to browser AI agents."
+          }
+        },
+        "webmcp_packs": {
+          "target": "com.cloudflare.rulesets#CreateRequestRulesItemSetConfigRuleActionParametersWebmcpPacksList",
+          "traits": {
+            "smithy.api#documentation": "Bundled WebMCP tool packs to activate for matching requests. An empty array disables all packs. Omitting this parameter leaves the pack selection unchanged. Does not enable the WebMCP bridge itself. Non-empty selections require the WebMCP Configuration Rules entitlement."
           }
         }
       }

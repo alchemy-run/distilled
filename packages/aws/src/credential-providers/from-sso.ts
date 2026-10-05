@@ -4,10 +4,7 @@
 import * as Effect from "effect/Effect";
 import * as Layer from "effect/Layer";
 import { Auth } from "../auth.ts";
-import {
-  createCachedCredentialsEffect,
-  Credentials,
-} from "../credentials-service.ts";
+import { createCachedCredentialsEffect, Credentials } from "../credentials-service.ts";
 
 /**
  * Create a lazy, cached SSO credentials provider.

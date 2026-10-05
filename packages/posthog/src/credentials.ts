@@ -11,6 +11,7 @@ import * as EffectConfig from "effect/Config";
 import * as Context from "effect/Context";
 import * as Effect from "effect/Effect";
 import * as Layer from "effect/Layer";
+import * as Redacted from "effect/Redacted";
 
 /**
  * Default PostHog API host (US Cloud).
@@ -23,18 +24,17 @@ export const DEFAULT_API_BASE_URL = "https://us.posthog.com";
 
 export interface Config {
   /** PostHog Personal API key (sent as `Authorization: Bearer <key>`). */
-  readonly apiKey: string;
+  readonly apiKey: Redacted.Redacted<string>;
   /** Base host URL, e.g. `https://us.posthog.com`. */
   readonly apiBaseUrl: string;
 }
 
-export class Credentials extends Context.Service<
-  Credentials,
-  Effect.Effect<Config>
->()("PosthogCredentials") {}
+export class Credentials extends Context.Service<Credentials, Effect.Effect<Config>>()(
+  "PosthogCredentials",
+) {}
 
 const envConfig = EffectConfig.all({
-  apiKey: EffectConfig.String("POSTHOG_API_KEY"),
+  apiKey: EffectConfig.Redacted("POSTHOG_API_KEY"),
   apiBaseUrl: EffectConfig.String("POSTHOG_HOST").pipe(
     EffectConfig.withDefault(DEFAULT_API_BASE_URL),
   ),
@@ -53,9 +53,9 @@ export const CredentialsFromEnv = Layer.succeed(
   ),
 );
 
-/** Convenience layer from a plain key + optional host override. */
+/** Convenience layer from a redacted key + optional host override. */
 export const credentials = (config: {
-  readonly apiKey: string;
+  readonly apiKey: Redacted.Redacted<string>;
   readonly apiBaseUrl?: string;
 }): Layer.Layer<Credentials> =>
   Layer.succeed(

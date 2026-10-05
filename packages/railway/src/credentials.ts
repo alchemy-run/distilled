@@ -40,52 +40,36 @@ export interface Config {
 }
 
 /**
- * Build a {@link Config} from a raw token string. Always wraps with this
- * package's `Redacted` so protocol-side `Redacted.value` works even when
- * the caller lives in a different `effect` install (nested distilled vs
- * alchemy workspace).
+ * Build a {@link Config} from a raw or already-redacted token. A raw string
+ * is wrapped with this package's `Redacted` so protocol-side
+ * `Redacted.value` works.
  */
 export const toConfig = (config: {
-  readonly token: string;
+  readonly token: Redacted.Redacted<string>;
   readonly tokenKind?: TokenKind;
   readonly apiBaseUrl?: string;
 }): Config => ({
-  token: Redacted.make(config.token),
+  token: config.token,
   tokenKind: config.tokenKind ?? "account",
   apiBaseUrl: config.apiBaseUrl ?? DEFAULT_API_BASE_URL,
 });
 
-export class Credentials extends Context.Service<
-  Credentials,
-  Effect.Effect<Config>
->()("RailwayCredentials") {}
+export class Credentials extends Context.Service<Credentials, Effect.Effect<Config>>()(
+  "RailwayCredentials",
+) {}
 
 /** Build {@link Credentials} from an explicit token. */
 export const CredentialsFromToken = (config: {
-  readonly token: string | Redacted.Redacted<string>;
+  readonly token: Redacted.Redacted<string>;
   /** Defaults to `"account"` (the `Authorization: Bearer` header). */
   readonly tokenKind?: TokenKind;
   readonly apiBaseUrl?: string;
-}): Layer.Layer<Credentials> =>
-  Layer.succeed(
-    Credentials,
-    Effect.succeed(
-      toConfig({
-        token: Redacted.isRedacted(config.token)
-          ? Redacted.value(config.token)
-          : config.token,
-        tokenKind: config.tokenKind,
-        apiBaseUrl: config.apiBaseUrl,
-      }),
-    ),
-  );
+}): Layer.Layer<Credentials> => Layer.succeed(Credentials, Effect.succeed(toConfig(config)));
 
 const envConfig = EffectConfig.all({
   apiToken: EffectConfig.option(EffectConfig.String("RAILWAY_API_TOKEN")),
   railwayToken: EffectConfig.option(EffectConfig.String("RAILWAY_TOKEN")),
-  projectToken: EffectConfig.option(
-    EffectConfig.String("RAILWAY_PROJECT_TOKEN"),
-  ),
+  projectToken: EffectConfig.option(EffectConfig.String("RAILWAY_PROJECT_TOKEN")),
   apiBaseUrl: EffectConfig.String("RAILWAY_API_URL").pipe(
     EffectConfig.withDefault(DEFAULT_API_BASE_URL),
   ),
@@ -117,8 +101,7 @@ export const CredentialsFromEnv: Layer.Layer<Credentials> = Layer.succeed(
     );
 
     const account =
-      Option.getOrUndefined(config.apiToken) ??
-      Option.getOrUndefined(config.railwayToken);
+      Option.getOrUndefined(config.apiToken) ?? Option.getOrUndefined(config.railwayToken);
     const project = Option.getOrUndefined(config.projectToken);
     const token = account ?? project;
 

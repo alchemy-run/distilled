@@ -7824,11 +7824,7 @@
                 "RoleArn": "arn:aws:iam::123456789012:role/test-cognitouserpool-role",
                 "UserDataShared": true
               },
-              "CallbackURLs": [
-                "https://example.com",
-                "http://localhost",
-                "myapp://example"
-              ],
+              "CallbackURLs": ["https://example.com", "http://localhost", "myapp://example"],
               "ClientName": "my-test-app-client",
               "DefaultRedirectURI": "https://example.com",
               "ExplicitAuthFlows": [
@@ -7856,10 +7852,7 @@
                 "AccessTokenValidity": 6,
                 "AllowedOAuthFlows": ["code"],
                 "AllowedOAuthFlowsUserPoolClient": true,
-                "AllowedOAuthScopes": [
-                  "aws.cognito.signin.user.admin",
-                  "openid"
-                ],
+                "AllowedOAuthScopes": ["aws.cognito.signin.user.admin", "openid"],
                 "AnalyticsConfiguration": {
                   "ApplicationId": "d70b2ba36a8c4dc5a04a0451a31a1e12",
                   "ExternalId": "my-external-id",
@@ -7867,11 +7860,7 @@
                   "UserDataShared": true
                 },
                 "AuthSessionValidity": 3,
-                "CallbackURLs": [
-                  "https://example.com",
-                  "http://localhost",
-                  "myapp://example"
-                ],
+                "CallbackURLs": ["https://example.com", "http://localhost", "myapp://example"],
                 "ClientId": "26cb2c60kq7nbmas7rbme9b6pp",
                 "ClientName": "my-test-app-client",
                 "ClientSecret": "13ka4h7u28d9oo44tqpq9djqsfvhvu8rk4d2ighvpu0k8fj1c2r9",

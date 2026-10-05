@@ -1,0 +1,25 @@
+{
+  "description": "Compute is polymorphic on `computeType`; the converted model keeps only the base members, so S.Struct strips the per-type `properties` payload (AmlCompute vmSize/scaleSettings, ComputeInstance vmSize, ...) on encode and decode. Add `properties` as a free-form document on the request and response shapes.",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.machinelearningservices#ComputeInput/members/properties",
+      "value": {
+        "target": "smithy.api#Document",
+        "traits": {
+          "smithy.api#documentation": "Per-computeType properties (e.g. AmlCompute: vmSize, vmPriority, scaleSettings)."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.machinelearningservices#Compute/members/properties",
+      "value": {
+        "target": "smithy.api#Document",
+        "traits": {
+          "smithy.api#documentation": "Per-computeType properties (e.g. AmlCompute: vmSize, vmPriority, scaleSettings, currentNodeCount)."
+        }
+      }
+    }
+  ]
+}

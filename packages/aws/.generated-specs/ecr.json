@@ -7803,9 +7803,7 @@
                 "imageDigest": "sha256:943e640159415616581703a53fa4ed87e96740655fd67daf2d2146a35337bce5"
               },
               "filter": {
-                "artifactTypes": [
-                  "application/vnd.dev.sigstore.bundle.v0.3+json"
-                ]
+                "artifactTypes": ["application/vnd.dev.sigstore.bundle.v0.3+json"]
               }
             },
             "output": {
@@ -8083,9 +8081,7 @@
             "title": "To list all pull time update exclusions",
             "documentation": "This example lists all IAM principals that are excluded from having their image pull timestamps recorded in the registry.",
             "output": {
-              "pullTimeUpdateExclusions": [
-                "arn:aws:iam::012345678910:role/ECRAccess"
-              ]
+              "pullTimeUpdateExclusions": ["arn:aws:iam::012345678910:role/ECRAccess"]
             }
           },
           {

@@ -19,10 +19,9 @@ export interface Config {
   readonly project?: string;
 }
 
-export class Credentials extends Context.Service<
-  Credentials,
-  Effect.Effect<Config>
->()("GoogleWorkspaceCredentials") {}
+export class Credentials extends Context.Service<Credentials, Effect.Effect<Config>>()(
+  "GoogleWorkspaceCredentials",
+) {}
 
 const envConfig = EffectConfig.all({
   accessToken: EffectConfig.String("GOOGLE_ACCESS_TOKEN"),
@@ -46,15 +45,15 @@ export const CredentialsFromEnv = Layer.succeed(
   ),
 );
 
-/** Convenience layer from a plain access token (+ optional project id). */
+/** Convenience layer from a redacted access token (+ optional project id). */
 export const fromAccessToken = (config: {
-  readonly accessToken: string;
+  readonly accessToken: Redacted.Redacted<string>;
   readonly project?: string;
 }): Layer.Layer<Credentials> =>
   Layer.succeed(
     Credentials,
     Effect.succeed({
-      accessToken: Redacted.make(config.accessToken),
+      accessToken: config.accessToken,
       project: config.project,
     }),
   );

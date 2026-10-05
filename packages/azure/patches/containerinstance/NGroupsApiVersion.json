@@ -1,0 +1,95 @@
+{
+  "description": "ARM has not rolled out api-version 2026-07-01 for Microsoft.ContainerInstance/nGroups (400: 'No registered resource provider found for location eastus and API version 2026-07-01 for type nGroups'; supported up to 2024-11-01-preview). Pin every NGroups operation to 2024-11-01-preview.",
+  "patches": [
+    {
+      "op": "replace",
+      "path": "/shapes/com.azure.containerinstance#DeleteNGroup/traits/smithy.api#http/apiVersion",
+      "value": "2024-11-01-preview"
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.azure.containerinstance#DeleteNGroup/traits/com.distilled.openapi#apiVersion",
+      "value": "2024-11-01-preview"
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.azure.containerinstance#GetNGroup/traits/smithy.api#http/apiVersion",
+      "value": "2024-11-01-preview"
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.azure.containerinstance#GetNGroup/traits/com.distilled.openapi#apiVersion",
+      "value": "2024-11-01-preview"
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.azure.containerinstance#ListNGroupByResourceGroup/traits/smithy.api#http/apiVersion",
+      "value": "2024-11-01-preview"
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.azure.containerinstance#ListNGroupByResourceGroup/traits/com.distilled.openapi#apiVersion",
+      "value": "2024-11-01-preview"
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.azure.containerinstance#ListNGroups/traits/smithy.api#http/apiVersion",
+      "value": "2024-11-01-preview"
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.azure.containerinstance#ListNGroups/traits/com.distilled.openapi#apiVersion",
+      "value": "2024-11-01-preview"
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.azure.containerinstance#NGroupsCreateOrUpdate/traits/smithy.api#http/apiVersion",
+      "value": "2024-11-01-preview"
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.azure.containerinstance#NGroupsCreateOrUpdate/traits/com.distilled.openapi#apiVersion",
+      "value": "2024-11-01-preview"
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.azure.containerinstance#RestartNGroup/traits/smithy.api#http/apiVersion",
+      "value": "2024-11-01-preview"
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.azure.containerinstance#RestartNGroup/traits/com.distilled.openapi#apiVersion",
+      "value": "2024-11-01-preview"
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.azure.containerinstance#StartNGroup/traits/smithy.api#http/apiVersion",
+      "value": "2024-11-01-preview"
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.azure.containerinstance#StartNGroup/traits/com.distilled.openapi#apiVersion",
+      "value": "2024-11-01-preview"
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.azure.containerinstance#StopNGroup/traits/smithy.api#http/apiVersion",
+      "value": "2024-11-01-preview"
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.azure.containerinstance#StopNGroup/traits/com.distilled.openapi#apiVersion",
+      "value": "2024-11-01-preview"
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.azure.containerinstance#UpdateNGroup/traits/smithy.api#http/apiVersion",
+      "value": "2024-11-01-preview"
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.azure.containerinstance#UpdateNGroup/traits/com.distilled.openapi#apiVersion",
+      "value": "2024-11-01-preview"
+    }
+  ]
+}

@@ -1,4 +1,4 @@
-#!/usr/bin/env bun
+#!/usr/bin/env -S node --conditions=bun
 /**
  * convert — turn the Porkbun OpenAPI spec into a Smithy 2.0 JSON model.
  *
@@ -42,8 +42,7 @@ const stripAuth = (spec: any): void => {
       }
       if (Array.isArray(schema.required)) {
         schema.required = schema.required.filter(
-          (name: unknown) =>
-            typeof name !== "string" || !AUTH_BODY_FIELDS.has(name),
+          (name: unknown) => typeof name !== "string" || !AUTH_BODY_FIELDS.has(name),
         );
         if (schema.required.length === 0) delete schema.required;
       }
@@ -90,7 +89,7 @@ const stripAuth = (spec: any): void => {
 };
 
 await runOpenApiConvert({
-  root: path.resolve(import.meta.dir, ".."),
+  root: path.resolve(import.meta.dirname, ".."),
   specs: [
     {
       name: "porkbun",

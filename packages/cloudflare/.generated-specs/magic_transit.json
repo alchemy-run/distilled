@@ -4126,12 +4126,6 @@
             "smithy.api#required": {}
           }
         },
-        "primary": {
-          "target": "smithy.api#Boolean",
-          "traits": {
-            "smithy.api#required": {}
-          }
-        },
         "timezone": {
           "target": "smithy.api#String",
           "traits": {
@@ -4148,9 +4142,6 @@
           "target": "smithy.api#String"
         },
         "license_key": {
-          "target": "smithy.api#String"
-        },
-        "site_id": {
           "target": "smithy.api#String"
         }
       }
@@ -5295,6 +5286,18 @@
             "smithy.api#required": {}
           }
         },
+        "health_reason": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Comma-separated list of reasons for health score"
+          }
+        },
+        "health_score": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "Aggregate health score (0-100)"
+          }
+        },
         "ip_addresses": {
           "target": "com.cloudflare.magic_transit#ConnectorsSnapshotsGetResponseInterfacesItemIpAddressesList"
         },
@@ -5979,6 +5982,18 @@
           "traits": {
             "smithy.api#documentation": "UP/DOWN state of the network interface",
             "smithy.api#required": {}
+          }
+        },
+        "health_reason": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Comma-separated list of reasons for health score"
+          }
+        },
+        "health_score": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "Aggregate health score (0-100)"
           }
         },
         "ip_addresses": {
@@ -18580,6 +18595,29 @@
         }
       }
     },
+    "com.cloudflare.magic_transit#SitesWansCreateRequestHealthCheckRate": {
+      "type": "enum",
+      "members": {
+        "LOW": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "low"
+          }
+        },
+        "MID": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "mid"
+          }
+        },
+        "HIGH": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "high"
+          }
+        }
+      }
+    },
     "com.cloudflare.magic_transit#SitesWansCreateRequestStaticAddressing": {
       "type": "structure",
       "members": {
@@ -18668,6 +18706,9 @@
             "smithy.api#documentation": "Magic WAN health check rate for tunnels created on this link. The default value is `mid`."
           }
         },
+        "load_balance_inner_flows": {
+          "target": "smithy.api#Boolean"
+        },
         "name": {
           "target": "smithy.api#String"
         },
@@ -18750,6 +18791,29 @@
           "target": "smithy.api#String",
           "traits": {
             "smithy.api#documentation": "A valid CIDR notation representing an IP range."
+          }
+        }
+      }
+    },
+    "com.cloudflare.magic_transit#SitesWansEditRequestHealthCheckRate": {
+      "type": "enum",
+      "members": {
+        "LOW": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "low"
+          }
+        },
+        "MID": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "mid"
+          }
+        },
+        "HIGH": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "high"
           }
         }
       }
@@ -18938,6 +19002,9 @@
             "smithy.api#documentation": "Magic WAN health check rate for tunnels created on this link. The default value is `mid`."
           }
         },
+        "load_balance_inner_flows": {
+          "target": "smithy.api#Boolean"
+        },
         "name": {
           "target": "smithy.api#String"
         },
@@ -18974,6 +19041,29 @@
       "type": "list",
       "member": {
         "target": "com.cloudflare.magic_transit#SitesWansListResultItem"
+      }
+    },
+    "com.cloudflare.magic_transit#SitesWansUpdateRequestHealthCheckRate": {
+      "type": "enum",
+      "members": {
+        "LOW": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "low"
+          }
+        },
+        "MID": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "mid"
+          }
+        },
+        "HIGH": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "high"
+          }
+        }
       }
     },
     "com.cloudflare.magic_transit#SitesWansUpdateRequestStaticAddressing": {
@@ -20080,12 +20170,6 @@
         "notes": {
           "target": "smithy.api#String"
         },
-        "primary": {
-          "target": "smithy.api#Boolean"
-        },
-        "site_id": {
-          "target": "smithy.api#String"
-        },
         "timezone": {
           "target": "smithy.api#String"
         }
@@ -20147,12 +20231,6 @@
             "smithy.api#required": {}
           }
         },
-        "primary": {
-          "target": "smithy.api#Boolean",
-          "traits": {
-            "smithy.api#required": {}
-          }
-        },
         "timezone": {
           "target": "smithy.api#String",
           "traits": {
@@ -20169,9 +20247,6 @@
           "target": "smithy.api#String"
         },
         "license_key": {
-          "target": "smithy.api#String"
-        },
-        "site_id": {
           "target": "smithy.api#String"
         }
       },
@@ -21371,6 +21446,15 @@
             "smithy.api#required": {}
           }
         },
+        "health_check_rate": {
+          "target": "com.cloudflare.magic_transit#SitesWansCreateRequestHealthCheckRate",
+          "traits": {
+            "smithy.api#documentation": "Magic WAN health check rate for tunnels created on this link. The default value is `mid`."
+          }
+        },
+        "load_balance_inner_flows": {
+          "target": "smithy.api#Boolean"
+        },
         "name": {
           "target": "smithy.api#String"
         },
@@ -21793,12 +21877,6 @@
             "smithy.api#required": {}
           }
         },
-        "primary": {
-          "target": "smithy.api#Boolean",
-          "traits": {
-            "smithy.api#required": {}
-          }
-        },
         "timezone": {
           "target": "smithy.api#String",
           "traits": {
@@ -21815,9 +21893,6 @@
           "target": "smithy.api#String"
         },
         "license_key": {
-          "target": "smithy.api#String"
-        },
-        "site_id": {
           "target": "smithy.api#String"
         }
       },
@@ -22497,6 +22572,9 @@
             "smithy.api#documentation": "Magic WAN health check rate for tunnels created on this link. The default value is `mid`."
           }
         },
+        "load_balance_inner_flows": {
+          "target": "smithy.api#Boolean"
+        },
         "name": {
           "target": "smithy.api#String"
         },
@@ -22927,12 +23005,6 @@
             "smithy.api#required": {}
           }
         },
-        "primary": {
-          "target": "smithy.api#Boolean",
-          "traits": {
-            "smithy.api#required": {}
-          }
-        },
         "timezone": {
           "target": "smithy.api#String",
           "traits": {
@@ -22949,9 +23021,6 @@
           "target": "smithy.api#String"
         },
         "license_key": {
-          "target": "smithy.api#String"
-        },
-        "site_id": {
           "target": "smithy.api#String"
         }
       },
@@ -24915,6 +24984,9 @@
             "smithy.api#documentation": "Magic WAN health check rate for tunnels created on this link. The default value is `mid`."
           }
         },
+        "load_balance_inner_flows": {
+          "target": "smithy.api#Boolean"
+        },
         "name": {
           "target": "smithy.api#String"
         },
@@ -26331,17 +26403,11 @@
         "notes": {
           "target": "smithy.api#String"
         },
-        "primary": {
-          "target": "smithy.api#Boolean"
-        },
         "provision_license": {
           "target": "smithy.api#Boolean",
           "traits": {
             "smithy.api#documentation": "When true, regenerate license key for the connector."
           }
-        },
-        "site_id": {
-          "target": "smithy.api#String"
         },
         "timezone": {
           "target": "smithy.api#String"
@@ -26404,12 +26470,6 @@
             "smithy.api#required": {}
           }
         },
-        "primary": {
-          "target": "smithy.api#Boolean",
-          "traits": {
-            "smithy.api#required": {}
-          }
-        },
         "timezone": {
           "target": "smithy.api#String",
           "traits": {
@@ -26426,9 +26486,6 @@
           "target": "smithy.api#String"
         },
         "license_key": {
-          "target": "smithy.api#String"
-        },
-        "site_id": {
           "target": "smithy.api#String"
         }
       },
@@ -26492,6 +26549,12 @@
         },
         "description": {
           "target": "smithy.api#String"
+        },
+        "ha_mode": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Site high availability mode. If set to true, the site can have two connectors and runs in high availability mode."
+          }
         },
         "location": {
           "target": "com.cloudflare.magic_transit#SitesEditRequestLocation",
@@ -26763,6 +26826,12 @@
         "bond_id": {
           "target": "smithy.api#Double"
         },
+        "ha_link": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "mark true to use this LAN for HA probing. only works for site with HA turned on. only one LAN can be set as the ha_link."
+          }
+        },
         "is_breakout": {
           "target": "smithy.api#Boolean",
           "traits": {
@@ -26925,6 +26994,15 @@
             "smithy.api#required": {}
           }
         },
+        "health_check_rate": {
+          "target": "com.cloudflare.magic_transit#SitesWansEditRequestHealthCheckRate",
+          "traits": {
+            "smithy.api#documentation": "Magic WAN health check rate for tunnels created on this link."
+          }
+        },
+        "load_balance_inner_flows": {
+          "target": "smithy.api#Boolean"
+        },
         "name": {
           "target": "smithy.api#String"
         },
@@ -26965,6 +27043,9 @@
           "traits": {
             "smithy.api#documentation": "Magic WAN health check rate for tunnels created on this link. The default value is `mid`."
           }
+        },
+        "load_balance_inner_flows": {
+          "target": "smithy.api#Boolean"
         },
         "name": {
           "target": "smithy.api#String"
@@ -27479,17 +27560,11 @@
         "notes": {
           "target": "smithy.api#String"
         },
-        "primary": {
-          "target": "smithy.api#Boolean"
-        },
         "provision_license": {
           "target": "smithy.api#Boolean",
           "traits": {
             "smithy.api#documentation": "When true, regenerate license key for the connector."
           }
-        },
-        "site_id": {
-          "target": "smithy.api#String"
         },
         "timezone": {
           "target": "smithy.api#String"
@@ -27552,12 +27627,6 @@
             "smithy.api#required": {}
           }
         },
-        "primary": {
-          "target": "smithy.api#Boolean",
-          "traits": {
-            "smithy.api#required": {}
-          }
-        },
         "timezone": {
           "target": "smithy.api#String",
           "traits": {
@@ -27574,9 +27643,6 @@
           "target": "smithy.api#String"
         },
         "license_key": {
-          "target": "smithy.api#String"
-        },
-        "site_id": {
           "target": "smithy.api#String"
         }
       },
@@ -28024,6 +28090,12 @@
         "description": {
           "target": "smithy.api#String"
         },
+        "ha_mode": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Site high availability mode. If set to true, the site can have two connectors and runs in high availability mode."
+          }
+        },
         "location": {
           "target": "com.cloudflare.magic_transit#SitesUpdateRequestLocation",
           "traits": {
@@ -28296,6 +28368,12 @@
         "bond_id": {
           "target": "smithy.api#Double"
         },
+        "ha_link": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "mark true to use this LAN for HA probing. only works for site with HA turned on. only one LAN can be set as the ha_link."
+          }
+        },
         "is_breakout": {
           "target": "smithy.api#Boolean",
           "traits": {
@@ -28459,6 +28537,15 @@
             "smithy.api#required": {}
           }
         },
+        "health_check_rate": {
+          "target": "com.cloudflare.magic_transit#SitesWansUpdateRequestHealthCheckRate",
+          "traits": {
+            "smithy.api#documentation": "Magic WAN health check rate for tunnels created on this link."
+          }
+        },
+        "load_balance_inner_flows": {
+          "target": "smithy.api#Boolean"
+        },
         "name": {
           "target": "smithy.api#String"
         },
@@ -28499,6 +28586,9 @@
           "traits": {
             "smithy.api#documentation": "Magic WAN health check rate for tunnels created on this link. The default value is `mid`."
           }
+        },
+        "load_balance_inner_flows": {
+          "target": "smithy.api#Boolean"
         },
         "name": {
           "target": "smithy.api#String"

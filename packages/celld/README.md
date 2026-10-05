@@ -78,13 +78,8 @@ there is no speculative mirror repository or runtime code scraper.
 ## Validation
 
 ```sh
-bun test packages/celld/test/sdk.test.ts
 pnpm exec tsc -b packages/celld/tsconfig.json packages/celld/tsconfig.scripts.json --noCheck false
-pnpm exec tsc -p packages/celld/tsconfig.test.json
 ```
-
-See [the local integration fixture](test/README.md) to exercise the generated
-clients against a real v0.6.0 server. Live tests skip unless explicitly enabled.
 
 ## Compatibility
 

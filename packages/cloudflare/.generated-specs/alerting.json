@@ -1185,6 +1185,12 @@
         "target": "smithy.api#String"
       }
     },
+    "com.cloudflare.alerting#PoliciesCreateRequestFiltersTokenIdList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      }
+    },
     "com.cloudflare.alerting#PoliciesCreateRequestFiltersTrafficExclusionsItem": {
       "type": "enum",
       "members": {
@@ -1455,6 +1461,12 @@
           "target": "com.cloudflare.alerting#PoliciesCreateRequestFiltersTargetZoneNameList",
           "traits": {
             "smithy.api#documentation": "Used for configuring advanced_ddos_attack_l7_alert"
+          }
+        },
+        "token_id": {
+          "target": "com.cloudflare.alerting#PoliciesCreateRequestFiltersTokenIdList",
+          "traits": {
+            "smithy.api#documentation": "Access service token IDs to include for expiring_service_token_alert. Omit this property to include all current and future service tokens."
           }
         },
         "traffic_exclusions": {
@@ -2165,6 +2177,12 @@
         "target": "smithy.api#String"
       }
     },
+    "com.cloudflare.alerting#PoliciesGetResponseFiltersTokenIdList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      }
+    },
     "com.cloudflare.alerting#PoliciesGetResponseFiltersTrafficExclusionsItem": {
       "type": "enum",
       "members": {
@@ -2435,6 +2453,12 @@
           "target": "com.cloudflare.alerting#PoliciesGetResponseFiltersTargetZoneNameList",
           "traits": {
             "smithy.api#documentation": "Used for configuring advanced_ddos_attack_l7_alert"
+          }
+        },
+        "token_id": {
+          "target": "com.cloudflare.alerting#PoliciesGetResponseFiltersTokenIdList",
+          "traits": {
+            "smithy.api#documentation": "Access service token IDs to include for expiring_service_token_alert. Omit this property to include all current and future service tokens."
           }
         },
         "traffic_exclusions": {
@@ -3210,6 +3234,12 @@
         "target": "smithy.api#String"
       }
     },
+    "com.cloudflare.alerting#PoliciesListResultItemFiltersTokenIdList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      }
+    },
     "com.cloudflare.alerting#PoliciesListResultItemFiltersTrafficExclusionsItem": {
       "type": "enum",
       "members": {
@@ -3480,6 +3510,12 @@
           "target": "com.cloudflare.alerting#PoliciesListResultItemFiltersTargetZoneNameList",
           "traits": {
             "smithy.api#documentation": "Used for configuring advanced_ddos_attack_l7_alert"
+          }
+        },
+        "token_id": {
+          "target": "com.cloudflare.alerting#PoliciesListResultItemFiltersTokenIdList",
+          "traits": {
+            "smithy.api#documentation": "Access service token IDs to include for expiring_service_token_alert. Omit this property to include all current and future service tokens."
           }
         },
         "traffic_exclusions": {
@@ -4320,6 +4356,12 @@
         "target": "smithy.api#String"
       }
     },
+    "com.cloudflare.alerting#PoliciesUpdateRequestFiltersTokenIdList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      }
+    },
     "com.cloudflare.alerting#PoliciesUpdateRequestFiltersTrafficExclusionsItem": {
       "type": "enum",
       "members": {
@@ -4590,6 +4632,12 @@
           "target": "com.cloudflare.alerting#PoliciesUpdateRequestFiltersTargetZoneNameList",
           "traits": {
             "smithy.api#documentation": "Used for configuring advanced_ddos_attack_l7_alert"
+          }
+        },
+        "token_id": {
+          "target": "com.cloudflare.alerting#PoliciesUpdateRequestFiltersTokenIdList",
+          "traits": {
+            "smithy.api#documentation": "Access service token IDs to include for expiring_service_token_alert. Omit this property to include all current and future service tokens."
           }
         },
         "traffic_exclusions": {

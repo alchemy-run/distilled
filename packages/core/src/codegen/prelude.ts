@@ -1,3 +1,4 @@
+import { isForwardRef } from "./graph.ts";
 /**
  * Smithy prelude scalar baselines + reference resolvers for the SDK
  * generators (dev-time only).
@@ -8,7 +9,6 @@
  * fall back here for untyped scalars.
  */
 import { isPrelude, local } from "./naming.ts";
-import { isForwardRef } from "./graph.ts";
 
 /** Prelude shape → schema expression (JSON-wire flavor). */
 export const JSON_PRELUDE: Record<string, string> = {

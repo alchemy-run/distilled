@@ -25,23 +25,10 @@ import {
   hasHttpLabel,
 } from "../traits.ts";
 import { getPropertySignatures } from "../util/ast.ts";
-import {
-  isVirtualHostableS3Bucket,
-  parseArn,
-  partition,
-} from "./aws-functions.ts";
-import type {
-  EndpointParams,
-  ResolvedEndpoint,
-  RulesValue,
-} from "./expression.ts";
-import {
-  getAttr,
-  isValidHostLabel,
-  parseURL,
-  substring,
-  uriEncode,
-} from "./standard-functions.ts";
+import { encodeLabel } from "../util/serialize-input.ts";
+import { isVirtualHostableS3Bucket, parseArn, partition } from "./aws-functions.ts";
+import type { EndpointParams, ResolvedEndpoint, RulesValue } from "./expression.ts";
+import { getAttr, isValidHostLabel, parseURL, substring, uriEncode } from "./standard-functions.ts";
 
 /**
  * Recursively resolve template values in nested objects/arrays
@@ -138,10 +125,7 @@ export const makeEndpointResolver = (operation: Operation) => {
     }
 
     // Resolve endpoint using the compiled resolver
-    const result = resolver(
-      endpointParams as Record<string, unknown>,
-      endpointResolverHelpers,
-    );
+    const result = resolver(endpointParams as Record<string, unknown>, endpointResolverHelpers);
 
     if (result.type === "error") {
       return yield* Effect.fail(new Error(result.message));
@@ -177,9 +161,7 @@ interface ContextParamInfo {
  * Extract context parameter mappings from an input schema.
  * Maps property names to their context parameter info.
  */
-function extractContextParamMappings(
-  ast: AST.AST,
-): Map<string, ContextParamInfo> {
+function extractContextParamMappings(ast: AST.AST): Map<string, ContextParamInfo> {
   const mappings = new Map<string, ContextParamInfo>();
   const props = getPropertySignatures(ast);
 
@@ -225,7 +207,7 @@ function adjustRequestPath(
       // e.g., "mybucket.s3.us-east-1.amazonaws.com" starts with "mybucket."
       if (hostname.startsWith(`${value}.`)) {
         // The HTTP label would have been serialized as "/{value}" in the path
-        const pathPrefix = `/${encodeURIComponent(value)}`;
+        const pathPrefix = `/${encodeLabel(value)}`;
 
         if (request.path.startsWith(pathPrefix)) {
           let adjustedPath = request.path.slice(pathPrefix.length);
