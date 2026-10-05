@@ -38,6 +38,11 @@ jobs:
       - name: Build packages
         run: pnpm run build
 
+      # alchemy-run/actions' pr-package runs its own scripts with `bun`; the
+      # repo itself no longer needs Bun, so install it for this step only.
+      - name: Install Bun for pr-package
+        run: pnpm runtime set bun 1.3.13 -g
+
       - name: Publish packages
         id: publish
         uses: alchemy-run/actions/actions/pr-package@098beeda4d3c2ce8850638c4466783893b8f0c23 # actions#11
