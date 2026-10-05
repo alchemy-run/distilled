@@ -8821,6 +8821,9 @@
         "icon": {
           "target": "smithy.api#String"
         },
+        "nsfw": {
+          "target": "smithy.api#Boolean"
+        },
         "recipients": {
           "target": "com.discord.api#InviteChannelResponseRecipientsList"
         }
@@ -8977,12 +8980,6 @@
         },
         "target_message_id": {
           "target": "smithy.api#String"
-        },
-        "liveliness": {
-          "target": "com.discord.api#GuildLivelinessResponse",
-          "traits": {
-            "com.distilled.openapi#nullable": {}
-          }
         },
         "uses": {
           "target": "smithy.api#Integer"
@@ -10133,31 +10130,6 @@
       },
       "traits": {}
     },
-    "com.discord.api#GuildLivelinessResponse": {
-      "type": "structure",
-      "members": {
-        "msg_activity_bins": {
-          "target": "com.discord.api#GuildLivelinessResponseMsgActivityBinsList",
-          "traits": {
-            "smithy.api#required": {}
-          }
-        },
-        "last_updated_ts": {
-          "target": "smithy.api#String",
-          "traits": {
-            "com.distilled.openapi#nullable": {}
-          }
-        }
-      },
-      "traits": {}
-    },
-    "com.discord.api#GuildLivelinessResponseMsgActivityBinsList": {
-      "type": "list",
-      "member": {
-        "target": "smithy.api#Integer"
-      },
-      "traits": {}
-    },
     "com.discord.api#InviteGuildRoleResponse": {
       "type": "structure",
       "members": {
@@ -10363,6 +10335,13 @@
           "traits": {
             "com.distilled.openapi#nullable": {}
           }
+        },
+        "target_user_ids": {
+          "target": "com.discord.api#CreateGuildInviteRequestTargetUserIds",
+          "traits": {
+            "smithy.api#documentation": "The IDs of the users to target with this invite.",
+            "com.distilled.openapi#nullable": {}
+          }
         }
       },
       "traits": {}
@@ -10385,6 +10364,27 @@
         }
       },
       "traits": {}
+    },
+    "com.discord.api#CreateGuildInviteRequestTargetUserIdsCase1List": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {}
+    },
+    "com.discord.api#CreateGuildInviteRequestTargetUserIds": {
+      "type": "union",
+      "members": {
+        "Case0": {
+          "target": "smithy.api#String"
+        },
+        "Case1": {
+          "target": "com.discord.api#CreateGuildInviteRequestTargetUserIdsCase1List"
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The IDs of the users to target with this invite."
+      }
     },
     "com.discord.api#CreateChannelInviteRequestBody": {
       "type": "union",
@@ -15695,12 +15695,6 @@
           }
         },
         "is_spoiler": {
-          "target": "smithy.api#Boolean",
-          "traits": {
-            "com.distilled.openapi#nullable": {}
-          }
-        },
-        "is_remix": {
           "target": "smithy.api#Boolean",
           "traits": {
             "com.distilled.openapi#nullable": {}
@@ -34140,6 +34134,102 @@
         "com.distilled.openapi#contentType": "multipart"
       }
     },
+    "com.discord.api#BulkAddInviteTargetUsersRequestUserIdsList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {
+        "smithy.api#documentation": "The IDs of the users to target."
+      }
+    },
+    "com.discord.api#BulkAddInviteTargetUsersRequest": {
+      "type": "structure",
+      "members": {
+        "code": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        },
+        "user_ids": {
+          "target": "com.discord.api#BulkAddInviteTargetUsersRequestUserIdsList",
+          "traits": {
+            "smithy.api#documentation": "The IDs of the users to target.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.discord.api#BulkAddInviteTargetUsers": {
+      "type": "operation",
+      "input": {
+        "target": "com.discord.api#BulkAddInviteTargetUsersRequest"
+      },
+      "output": {
+        "target": "smithy.api#Unit"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/invites/{code}/target-users/bulk-add",
+          "code": 200
+        },
+        "smithy.api#documentation": "Add multiple target users to an existing invite."
+      }
+    },
+    "com.discord.api#BulkRemoveInviteTargetUsersRequestUserIdsList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {
+        "smithy.api#documentation": "The IDs of the users to stop targeting."
+      }
+    },
+    "com.discord.api#BulkRemoveInviteTargetUsersRequest": {
+      "type": "structure",
+      "members": {
+        "code": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        },
+        "user_ids": {
+          "target": "com.discord.api#BulkRemoveInviteTargetUsersRequestUserIdsList",
+          "traits": {
+            "smithy.api#documentation": "The IDs of the users to stop targeting.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.discord.api#BulkRemoveInviteTargetUsers": {
+      "type": "operation",
+      "input": {
+        "target": "com.discord.api#BulkRemoveInviteTargetUsersRequest"
+      },
+      "output": {
+        "target": "smithy.api#Unit"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/invites/{code}/target-users/bulk-delete",
+          "code": 200
+        },
+        "smithy.api#documentation": "Remove multiple target users from an existing invite."
+      }
+    },
     "com.discord.api#GetInviteTargetUsersJobStatusRequest": {
       "type": "structure",
       "members": {
@@ -34251,6 +34341,84 @@
           "code": 200
         },
         "smithy.api#documentation": "Get the target users job status for an invite."
+      }
+    },
+    "com.discord.api#AddInviteTargetUserRequest": {
+      "type": "structure",
+      "members": {
+        "code": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        },
+        "user_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.discord.api#AddInviteTargetUser": {
+      "type": "operation",
+      "input": {
+        "target": "com.discord.api#AddInviteTargetUserRequest"
+      },
+      "output": {
+        "target": "smithy.api#Unit"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "PUT",
+          "uri": "/invites/{code}/target-users/{user_id}",
+          "code": 200
+        },
+        "smithy.api#documentation": "Add a target user to an existing invite."
+      }
+    },
+    "com.discord.api#RemoveInviteTargetUserRequest": {
+      "type": "structure",
+      "members": {
+        "code": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        },
+        "user_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.discord.api#RemoveInviteTargetUser": {
+      "type": "operation",
+      "input": {
+        "target": "com.discord.api#RemoveInviteTargetUserRequest"
+      },
+      "output": {
+        "target": "smithy.api#Unit"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "DELETE",
+          "uri": "/invites/{code}/target-users/{user_id}",
+          "code": 200
+        },
+        "smithy.api#documentation": "Remove a target user from an existing invite."
       }
     },
     "com.discord.api#LobbyMemberRequest": {
@@ -37617,6 +37785,12 @@
             "smithy.api#httpQuery": "limit"
           }
         },
+        "shard": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpQuery": "shard"
+          }
+        },
         "with_counts": {
           "target": "smithy.api#Boolean",
           "traits": {
@@ -40368,7 +40542,19 @@
           "target": "com.discord.api#UpdateInviteTargetUsers"
         },
         {
+          "target": "com.discord.api#BulkAddInviteTargetUsers"
+        },
+        {
+          "target": "com.discord.api#BulkRemoveInviteTargetUsers"
+        },
+        {
           "target": "com.discord.api#GetInviteTargetUsersJobStatus"
+        },
+        {
+          "target": "com.discord.api#AddInviteTargetUser"
+        },
+        {
+          "target": "com.discord.api#RemoveInviteTargetUser"
         },
         {
           "target": "com.discord.api#CreateLobby"
