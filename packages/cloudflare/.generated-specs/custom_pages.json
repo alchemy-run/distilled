@@ -102,7 +102,7 @@
           "uri": "/accounts/{account_id}/custom_pages/assets",
           "code": 200
         },
-        "smithy.api#documentation": "Creates a new custom asset."
+        "smithy.api#documentation": "Creates a custom asset for an account or zone."
       }
     },
     "com.cloudflare.custom_pages#CreateAssetForAccountRequest": {
@@ -156,7 +156,7 @@
           "uri": "/zones/{zone_id}/custom_pages/assets",
           "code": 200
         },
-        "smithy.api#documentation": "Creates a new custom asset."
+        "smithy.api#documentation": "Creates a custom asset for an account or zone."
       }
     },
     "com.cloudflare.custom_pages#CreateAssetForZoneRequest": {
@@ -210,7 +210,7 @@
           "uri": "/accounts/{account_id}/custom_pages/assets/{asset_name}",
           "code": 200
         },
-        "smithy.api#documentation": "Deletes an existing custom asset.",
+        "smithy.api#documentation": "Deletes a custom asset from an account or zone.",
         "smithy.api#idempotent": {}
       }
     },
@@ -252,7 +252,7 @@
           "uri": "/zones/{zone_id}/custom_pages/assets/{asset_name}",
           "code": 200
         },
-        "smithy.api#documentation": "Deletes an existing custom asset.",
+        "smithy.api#documentation": "Deletes a custom asset from an account or zone.",
         "smithy.api#idempotent": {}
       }
     },
@@ -294,7 +294,7 @@
           "uri": "/accounts/{account_id}/custom_pages/assets/{asset_name}",
           "code": 200
         },
-        "smithy.api#documentation": "Fetches the details of a custom asset.",
+        "smithy.api#documentation": "Returns a custom asset for an account or zone.",
         "smithy.api#readonly": {}
       }
     },
@@ -336,7 +336,7 @@
           "uri": "/zones/{zone_id}/custom_pages/assets/{asset_name}",
           "code": 200
         },
-        "smithy.api#documentation": "Fetches the details of a custom asset.",
+        "smithy.api#documentation": "Returns a custom asset for an account or zone.",
         "smithy.api#readonly": {}
       }
     },
@@ -378,7 +378,7 @@
           "uri": "/accounts/{account_id}/custom_pages/{identifier}",
           "code": 200
         },
-        "smithy.api#documentation": "Fetches the details of a custom page.",
+        "smithy.api#documentation": "Returns the configuration for a custom page type.",
         "smithy.api#readonly": {}
       }
     },
@@ -396,7 +396,7 @@
         "identifier": {
           "target": "com.cloudflare.custom_pages#GetRequestIdentifier",
           "traits": {
-            "smithy.api#documentation": "Error Page Types",
+            "smithy.api#documentation": "Custom page type.",
             "smithy.api#httpLabel": {},
             "smithy.api#required": {}
           }
@@ -420,7 +420,7 @@
           "uri": "/zones/{zone_id}/custom_pages/{identifier}",
           "code": 200
         },
-        "smithy.api#documentation": "Fetches the details of a custom page.",
+        "smithy.api#documentation": "Returns the configuration for a custom page type.",
         "smithy.api#readonly": {}
       }
     },
@@ -438,7 +438,7 @@
         "identifier": {
           "target": "com.cloudflare.custom_pages#GetRequestIdentifier",
           "traits": {
-            "smithy.api#documentation": "Error Page Types",
+            "smithy.api#documentation": "Custom page type.",
             "smithy.api#httpLabel": {},
             "smithy.api#required": {}
           }
@@ -462,7 +462,7 @@
           "uri": "/accounts/{account_id}/custom_pages/assets",
           "code": 200
         },
-        "smithy.api#documentation": "Fetches all the custom assets.",
+        "smithy.api#documentation": "Lists custom assets for an account or zone.",
         "smithy.api#readonly": {},
         "smithy.api#paginated": {
           "mode": "page",
@@ -487,12 +487,14 @@
         "page": {
           "target": "smithy.api#Double",
           "traits": {
+            "smithy.api#documentation": "Page number of paginated results.",
             "smithy.api#httpQuery": "page"
           }
         },
         "per_page": {
           "target": "smithy.api#Double",
           "traits": {
+            "smithy.api#documentation": "Number of custom assets per page.",
             "smithy.api#httpQuery": "per_page"
           }
         }
@@ -515,7 +517,7 @@
           "uri": "/zones/{zone_id}/custom_pages/assets",
           "code": 200
         },
-        "smithy.api#documentation": "Fetches all the custom assets.",
+        "smithy.api#documentation": "Lists custom assets for an account or zone.",
         "smithy.api#readonly": {},
         "smithy.api#paginated": {
           "mode": "page",
@@ -540,12 +542,14 @@
         "page": {
           "target": "smithy.api#Double",
           "traits": {
+            "smithy.api#documentation": "Page number of paginated results.",
             "smithy.api#httpQuery": "page"
           }
         },
         "per_page": {
           "target": "smithy.api#Double",
           "traits": {
+            "smithy.api#documentation": "Number of custom assets per page.",
             "smithy.api#httpQuery": "per_page"
           }
         }
@@ -568,7 +572,7 @@
           "uri": "/accounts/{account_id}/custom_pages",
           "code": 200
         },
-        "smithy.api#documentation": "Fetches all the custom pages.",
+        "smithy.api#documentation": "Lists all custom page configurations for an account or zone.",
         "smithy.api#readonly": {},
         "smithy.api#paginated": {
           "mode": "single",
@@ -606,7 +610,7 @@
           "uri": "/zones/{zone_id}/custom_pages",
           "code": 200
         },
-        "smithy.api#documentation": "Fetches all the custom pages.",
+        "smithy.api#documentation": "Lists all custom page configurations for an account or zone.",
         "smithy.api#readonly": {},
         "smithy.api#paginated": {
           "mode": "single",
@@ -644,7 +648,7 @@
           "uri": "/accounts/{account_id}/custom_pages/{identifier}",
           "code": 200
         },
-        "smithy.api#documentation": "Updates the configuration of an existing custom page.",
+        "smithy.api#documentation": "Updates the configuration for a custom page type.",
         "smithy.api#idempotent": {}
       }
     },
@@ -662,7 +666,7 @@
         "identifier": {
           "target": "com.cloudflare.custom_pages#UpdateRequestIdentifier",
           "traits": {
-            "smithy.api#documentation": "Error Page Types",
+            "smithy.api#documentation": "Custom page type.",
             "smithy.api#httpLabel": {},
             "smithy.api#required": {}
           }
@@ -700,7 +704,7 @@
           "uri": "/zones/{zone_id}/custom_pages/{identifier}",
           "code": 200
         },
-        "smithy.api#documentation": "Updates the configuration of an existing custom page.",
+        "smithy.api#documentation": "Updates the configuration for a custom page type.",
         "smithy.api#idempotent": {}
       }
     },
@@ -718,7 +722,7 @@
         "identifier": {
           "target": "com.cloudflare.custom_pages#UpdateRequestIdentifier",
           "traits": {
-            "smithy.api#documentation": "Error Page Types",
+            "smithy.api#documentation": "Custom page type.",
             "smithy.api#httpLabel": {},
             "smithy.api#required": {}
           }
@@ -756,7 +760,7 @@
           "uri": "/accounts/{account_id}/custom_pages/assets/{asset_name}",
           "code": 200
         },
-        "smithy.api#documentation": "Updates the configuration of an existing custom asset.",
+        "smithy.api#documentation": "Updates a custom asset for an account or zone.",
         "smithy.api#idempotent": {}
       }
     },
@@ -812,7 +816,7 @@
           "uri": "/zones/{zone_id}/custom_pages/assets/{asset_name}",
           "code": 200
         },
-        "smithy.api#documentation": "Updates the configuration of an existing custom asset.",
+        "smithy.api#documentation": "Updates a custom asset for an account or zone.",
         "smithy.api#idempotent": {}
       }
     },

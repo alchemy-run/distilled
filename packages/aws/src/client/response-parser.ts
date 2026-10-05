@@ -10,15 +10,11 @@
  * This is independently testable without making HTTP requests.
  */
 
+import { isStrict } from "@distilled.cloud/core/response-validation";
 import * as Effect from "effect/Effect";
 import * as Schema from "effect/Schema";
 import * as SchemaIssue from "effect/SchemaIssue";
-import {
-  COMMON_ERRORS,
-  InternalError,
-  ParseError,
-  UnknownAwsError,
-} from "../errors.ts";
+import { COMMON_ERRORS, InternalError, ParseError, UnknownAwsError } from "../errors.ts";
 import {
   getAwsQueryError,
   getHttpError,
@@ -28,12 +24,7 @@ import {
   hasErrorMessage,
   type SyntheticErrorTrait,
 } from "../traits.ts";
-import {
-  getIdentifier,
-  getPropertySignatures,
-  isBooleanAST,
-  isNumberAST,
-} from "../util/ast.ts";
+import { getIdentifier, getPropertySignatures, isBooleanAST, isNumberAST } from "../util/ast.ts";
 import type { Operation } from "./operation.ts";
 import type { Protocol, ProtocolHandler } from "./protocol.ts";
 import type { Response } from "./response.ts";
@@ -44,20 +35,13 @@ export interface ResponseParserOptions {
   protocol?: Protocol;
   /** Skip schema validation - returns raw deserialized response */
   skipValidation?: boolean;
-  /**
-   * Hard-fail on output shape mismatches. Off by default: decode runs for
-   * its transformations but mismatches fall back to the raw response.
-   */
-  validate?: boolean;
   /** AWS service SDK ID for error context (e.g., "S3", "DynamoDB") */
   service?: string;
   /** Operation name for error context (e.g., "createBucket", "putObject") */
   operation?: string;
 }
 
-export type ResponseParser<A, R> = (
-  response: Response,
-) => Effect.Effect<A, SchemaIssue.Issue, R>;
+export type ResponseParser<A, R> = (response: Response) => Effect.Effect<A, SchemaIssue.Issue, R>;
 
 /**
  * Strip the conventional Exception/Error suffix from a wire error code so
@@ -79,10 +63,7 @@ const wireCodeMatches = (from: string, errorCode: string): boolean =>
  * (`matches`) predicates. An empty object predicate would match every error
  * — reject it.
  */
-const matchesMessage = (
-  matcher: SyntheticErrorTrait["message"],
-  message: string,
-): boolean => {
+const matchesMessage = (matcher: SyntheticErrorTrait["message"], message: string): boolean => {
   if (typeof matcher === "string") return matcher === message;
   const { includes, matches } = matcher;
   if (includes === undefined && matches === undefined) return false;
@@ -118,10 +99,7 @@ export const makeResponseParser = <A>(
   const protocol: ProtocolHandler = protocolFactory(operation as Operation);
 
   // Pre-create the decoder (done once, unless skipping validation)
-  const decode = options?.skipValidation
-    ? undefined
-    : Schema.decodeUnknownEffect(outputSchema);
-  const lenient = !options?.validate;
+  const decode = options?.skipValidation ? undefined : Schema.decodeUnknownEffect(outputSchema);
 
   // Create stream parser if output has event stream member (done once)
   const streamParser = makeStreamParser(outputAst);
@@ -198,15 +176,24 @@ export const makeResponseParser = <A>(
       }
 
       // Decode applies the schema's transformations (timestamp -> Date,
-      // sensitive -> Redacted). A shape mismatch is NOT a failure: fall back
-      // to the raw deserialized response (DISTILLED_AWS_VALIDATE=1 restores
-      // hard-failing validation).
-      if (lenient) {
+      // sensitive -> Redacted). In lenient mode (the default) a shape
+      // mismatch falls back to the raw deserialized response; in strict mode
+      // (the core ResponseValidation.strict layer) it fails with
+      // ParseError.
+      const strict = yield* isStrict;
+      if (!strict) {
         return yield* decode(deserialized).pipe(
           Effect.catch(() => Effect.succeed(deserialized as A)),
         );
       }
-      return yield* decode(deserialized);
+      return yield* decode(deserialized).pipe(
+        Effect.mapError(
+          (error) =>
+            new ParseError({
+              message: `${options?.service ?? "AWS"}.${options?.operation ?? "operation"} response does not match its output schema: ${error.message}`,
+            }),
+        ),
+      );
     }
 
     // Error path
@@ -222,9 +209,7 @@ export const makeResponseParser = <A>(
       typeof (data as Record<string, unknown>).Message === "string" &&
       (data as Record<string, unknown>).message === undefined
     ) {
-      (data as Record<string, unknown>).message = (
-        data as Record<string, unknown>
-      ).Message;
+      (data as Record<string, unknown>).message = (data as Record<string, unknown>).Message;
     }
 
     // Synthetic errors specialize the base wire error. An exact-message
@@ -286,9 +271,7 @@ export const makeResponseParser = <A>(
             // the Retry-After header. Without coercion the decode fails and
             // the error degrades to a plain object, losing its error class
             // and retry/throttling categorization.
-            (data as Record<string, unknown>)[String(prop.name)] = isNumberAST(
-              prop.type,
-            )
+            (data as Record<string, unknown>)[String(prop.name)] = isNumberAST(prop.type)
               ? Number(headerValue)
               : isBooleanAST(prop.type)
                 ? headerValue === "true"
@@ -319,9 +302,9 @@ export const makeResponseParser = <A>(
       const schemaTag = getIdentifier(errorSchema.ast) ?? errorCode;
       // Add _tag to data for TaggedError decoding
       const dataWithTag = { _tag: schemaTag, ...data };
-      const decoded = yield* Schema.decodeUnknownEffect(errorSchema)(
-        dataWithTag,
-      ).pipe(Effect.catch(() => Effect.succeed(dataWithTag)));
+      const decoded = yield* Schema.decodeUnknownEffect(errorSchema)(dataWithTag).pipe(
+        Effect.catch(() => Effect.succeed(dataWithTag)),
+      );
       // Ensure the JS `Error.message` carries the service's message. The
       // generator tags exactly one member per error class as the canonical
       // message (T.ErrorMessage) and normalizes its name to `message`, so

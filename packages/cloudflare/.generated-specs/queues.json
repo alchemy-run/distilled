@@ -2667,7 +2667,7 @@
           "uri": "/accounts/{account_id}/queues/{queue_id}/messages/peek",
           "code": 200
         },
-        "smithy.api#documentation": "Peek messages from a Queue without leasing them. Messages remain available for subsequent peek or pull operations."
+        "smithy.api#documentation": "Peek messages from a Queue without leasing them. Each message includes a ref that can be passed to the purge endpoint, and remains available for subsequent peek or pull operations until it is purged."
       }
     },
     "com.cloudflare.queues#MessagesPullResponseMessagesItem": {
@@ -2845,7 +2845,7 @@
           "uri": "/accounts/{account_id}/queues/{queue_id}/messages/purge",
           "code": 200
         },
-        "smithy.api#documentation": "Delete peeked messages from a Queue by their ref. Purged messages aren't considered delivered, they are instantly deleted from this queue and do not affect metrics."
+        "smithy.api#documentation": "Delete messages from a Queue by using refs returned by the peek endpoint. Purging messages does not count as delivery and does not affect metrics."
       }
     },
     "com.cloudflare.queues#MessagesPushRequestContentType": {
@@ -5524,7 +5524,7 @@
           "uri": "/accounts/{account_id}/queues/{queue_id}/messages/ack",
           "code": 200
         },
-        "smithy.api#documentation": "Acknowledge + Retry messages from a Queue"
+        "smithy.api#documentation": "Acknowledges successfully processed Queue messages and retries messages that were not processed successfully."
       },
       "errors": [
         {
@@ -5612,7 +5612,7 @@
           "uri": "/accounts/{account_id}/queues/{queue_id}/messages/batch",
           "code": 200
         },
-        "smithy.api#documentation": "Push a batch of message to a Queue"
+        "smithy.api#documentation": "Pushes a batch of messages to a Queue."
       },
       "errors": [
         {
@@ -5685,7 +5685,7 @@
           "uri": "/accounts/{account_id}/queues/{queue_id}/consumers",
           "code": 200
         },
-        "smithy.api#documentation": "Creates a new consumer for a Queue"
+        "smithy.api#documentation": "Creates a consumer for a Queue."
       },
       "errors": [
         {
@@ -5779,7 +5779,7 @@
           "uri": "/accounts/{account_id}/queues",
           "code": 200
         },
-        "smithy.api#documentation": "Create a new queue"
+        "smithy.api#documentation": "Creates a Queue in the account."
       },
       "errors": [
         {
@@ -5871,7 +5871,7 @@
           "uri": "/accounts/{account_id}/event_subscriptions/subscriptions",
           "code": 200
         },
-        "smithy.api#documentation": "Create a new event subscription for a queue"
+        "smithy.api#documentation": "Creates an event subscription for a Queue."
       },
       "errors": [
         {
@@ -6010,7 +6010,7 @@
           "uri": "/accounts/{account_id}/queues/{queue_id}/consumers/{consumer_id}",
           "code": 200
         },
-        "smithy.api#documentation": "Deletes the consumer for a queue.",
+        "smithy.api#documentation": "Deletes a consumer from a Queue.",
         "smithy.api#idempotent": {}
       },
       "errors": [
@@ -6074,7 +6074,7 @@
           "uri": "/accounts/{account_id}/queues/{queue_id}",
           "code": 200
         },
-        "smithy.api#documentation": "Deletes a queue",
+        "smithy.api#documentation": "Deletes a Queue.",
         "smithy.api#idempotent": {}
       },
       "errors": [
@@ -6130,7 +6130,7 @@
           "uri": "/accounts/{account_id}/event_subscriptions/subscriptions/{subscription_id}",
           "code": 200
         },
-        "smithy.api#documentation": "Delete an existing event subscription",
+        "smithy.api#documentation": "Deletes an existing Queue event subscription.",
         "smithy.api#idempotent": {}
       },
       "errors": [
@@ -6245,7 +6245,7 @@
           "uri": "/accounts/{account_id}/queues/{queue_id}/consumers/{consumer_id}",
           "code": 200
         },
-        "smithy.api#documentation": "Fetches the consumer for a queue by consumer id",
+        "smithy.api#documentation": "Returns a Queue consumer by identifier.",
         "smithy.api#readonly": {}
       },
       "errors": [
@@ -6324,7 +6324,7 @@
           "uri": "/accounts/{account_id}/queues/{queue_id}/metrics",
           "code": 200
         },
-        "smithy.api#documentation": "Return best-effort metrics for a queue. Values may be approximate due to the distributed nature of queues.",
+        "smithy.api#documentation": "Returns best-effort metrics for a Queue. Values may be approximate due to the distributed nature of Queues.",
         "smithy.api#readonly": {}
       }
     },
@@ -6396,7 +6396,7 @@
           "uri": "/accounts/{account_id}/queues/{queue_id}",
           "code": 200
         },
-        "smithy.api#documentation": "Get details about a specific queue.",
+        "smithy.api#documentation": "Returns details about a specific Queue.",
         "smithy.api#readonly": {}
       },
       "errors": [
@@ -6485,7 +6485,7 @@
           "uri": "/accounts/{account_id}/event_subscriptions/subscriptions/{subscription_id}",
           "code": 200
         },
-        "smithy.api#documentation": "Get details about an existing event subscription",
+        "smithy.api#documentation": "Returns an existing Queue event subscription.",
         "smithy.api#readonly": {}
       },
       "errors": [
@@ -6603,7 +6603,7 @@
           "uri": "/accounts/{account_id}/queues/{queue_id}/consumers",
           "code": 200
         },
-        "smithy.api#documentation": "Returns the consumers for a Queue",
+        "smithy.api#documentation": "Returns the consumers configured for a Queue.",
         "smithy.api#readonly": {},
         "smithy.api#paginated": {
           "mode": "single",
@@ -6733,7 +6733,7 @@
           "uri": "/accounts/{account_id}/event_subscriptions/subscriptions",
           "code": 200
         },
-        "smithy.api#documentation": "Get a paginated list of event subscriptions with optional sorting and filtering",
+        "smithy.api#documentation": "Returns a paginated list of Queue event subscriptions with optional sorting and filtering.",
         "smithy.api#readonly": {},
         "smithy.api#paginated": {
           "mode": "page",
@@ -6822,7 +6822,7 @@
           "uri": "/accounts/{account_id}/queues/{queue_id}",
           "code": 200
         },
-        "smithy.api#documentation": "Updates a Queue."
+        "smithy.api#documentation": "Updates part of a Queue's configuration."
       },
       "errors": [
         {
@@ -6919,7 +6919,7 @@
           "uri": "/accounts/{account_id}/event_subscriptions/subscriptions/{subscription_id}",
           "code": 200
         },
-        "smithy.api#documentation": "Update an existing event subscription"
+        "smithy.api#documentation": "Updates an existing Queue event subscription."
       },
       "errors": [
         {
@@ -7060,7 +7060,7 @@
           "uri": "/accounts/{account_id}/queues/{queue_id}/messages/pull",
           "code": 200
         },
-        "smithy.api#documentation": "Pull a batch of messages from a Queue"
+        "smithy.api#documentation": "Pulls a batch of messages from a Queue for an HTTP pull consumer."
       },
       "errors": [
         {
@@ -7151,7 +7151,7 @@
           "uri": "/accounts/{account_id}/queues/{queue_id}/messages",
           "code": 200
         },
-        "smithy.api#documentation": "Push a message to a Queue"
+        "smithy.api#documentation": "Pushes a message to a Queue."
       },
       "errors": [
         {
@@ -7227,7 +7227,7 @@
           "uri": "/accounts/{account_id}/queues/{queue_id}/purge",
           "code": 200
         },
-        "smithy.api#documentation": "Deletes all messages from the Queue."
+        "smithy.api#documentation": "Starts a purge that deletes all messages from a Queue."
       },
       "errors": [
         {
@@ -7260,7 +7260,7 @@
         "delete_messages_permanently": {
           "target": "smithy.api#Boolean",
           "traits": {
-            "smithy.api#documentation": "Confimation that all messages will be deleted permanently."
+            "smithy.api#documentation": "Confirms that all messages will be permanently deleted."
           }
         }
       },
@@ -7321,7 +7321,7 @@
           "uri": "/accounts/{account_id}/queues/{queue_id}/purge",
           "code": 200
         },
-        "smithy.api#documentation": "Get details about a Queue's purge status.",
+        "smithy.api#documentation": "Returns the status of a Queue purge operation.",
         "smithy.api#readonly": {}
       },
       "errors": [
@@ -7392,7 +7392,7 @@
           "uri": "/accounts/{account_id}/queues/{queue_id}/consumers/{consumer_id}",
           "code": 200
         },
-        "smithy.api#documentation": "Updates the consumer for a queue, or creates one if it does not exist.",
+        "smithy.api#documentation": "Replaces a Queue consumer, or creates it if it does not exist.",
         "smithy.api#idempotent": {}
       },
       "errors": [
@@ -7495,7 +7495,7 @@
           "uri": "/accounts/{account_id}/queues/{queue_id}",
           "code": 200
         },
-        "smithy.api#documentation": "Updates a Queue. Note that this endpoint does not support partial updates. If successful, the Queue's configuration is overwritten with the supplied configuration.",
+        "smithy.api#documentation": "Replaces a Queue's configuration with the supplied configuration. This endpoint does not support partial updates.",
         "smithy.api#idempotent": {}
       },
       "errors": [

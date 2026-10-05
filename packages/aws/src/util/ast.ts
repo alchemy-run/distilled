@@ -8,8 +8,7 @@ import { xmlNamespaceSymbol, xmlNameSymbol } from "../traits.ts";
 export function unwrapUnion(ast: AST.AST): AST.AST {
   if (ast._tag === "Union") {
     const nonNullish = ast.types.filter(
-      (t) =>
-        t._tag !== "Undefined" && !(t._tag === "Literal" && t.literal === null),
+      (t) => t._tag !== "Undefined" && !(t._tag === "Literal" && t.literal === null),
     );
     if (nonNullish.length === 1) {
       return unwrapUnion(nonNullish[0]);
@@ -53,9 +52,7 @@ export function getIdentifier(ast: AST.AST): string | undefined {
 /**
  * Get property signatures from a schema AST (the "type" / decoded side)
  */
-export function getPropertySignatures(
-  ast: AST.AST,
-): readonly AST.PropertySignature[] {
+export function getPropertySignatures(ast: AST.AST): readonly AST.PropertySignature[] {
   const unwrapped = unwrapUnion(ast);
   if (unwrapped !== ast) return getPropertySignatures(unwrapped);
 
@@ -110,9 +107,7 @@ function findEncodedObjects(ast: AST.AST): AST.Objects | undefined {
 /**
  * Get encoded property signatures (wire-format side)
  */
-export function getEncodedPropertySignatures(
-  ast: AST.AST,
-): readonly AST.PropertySignature[] {
+export function getEncodedPropertySignatures(ast: AST.AST): readonly AST.PropertySignature[] {
   const unwrapped = unwrapUnion(ast);
   if (unwrapped !== ast) return getEncodedPropertySignatures(unwrapped);
 
@@ -210,9 +205,7 @@ export function isDateAST(ast: AST.AST): boolean {
   if (unwrapped !== ast) return isDateAST(unwrapped);
 
   if (unwrapped._tag === "Declaration") {
-    const tc = unwrapped.annotations?.typeConstructor as
-      | { _tag?: string }
-      | undefined;
+    const tc = unwrapped.annotations?.typeConstructor as { _tag?: string } | undefined;
     if (tc?._tag === "Date") return true;
     const id = unwrapped.annotations?.identifier;
     if (id === "Date" || id === "DateFromSelf") return true;
@@ -240,16 +233,12 @@ export function getXmlNamespace(ast: AST.AST): string | undefined {
   if (unwrapped !== ast) return getXmlNamespace(unwrapped);
 
   if (unwrapped._tag === "Declaration" && unwrapped.encoding?.length) {
-    const ns = unwrapped.encoding[0].to?.annotations?.[xmlNamespaceSymbol] as
-      | string
-      | undefined;
+    const ns = unwrapped.encoding[0].to?.annotations?.[xmlNamespaceSymbol] as string | undefined;
     if (ns) return ns;
   }
 
   if (unwrapped.encoding && unwrapped.encoding.length > 0) {
-    const ns = unwrapped.encoding[0].to?.annotations?.[xmlNamespaceSymbol] as
-      | string
-      | undefined;
+    const ns = unwrapped.encoding[0].to?.annotations?.[xmlNamespaceSymbol] as string | undefined;
     if (ns) return ns;
   }
 
@@ -271,16 +260,12 @@ export function getXmlNameFromAST(ast: AST.AST): string | undefined {
   if (unwrapped !== ast) return getXmlNameFromAST(unwrapped);
 
   if (unwrapped._tag === "Declaration" && unwrapped.encoding?.length) {
-    const name = unwrapped.encoding[0].to?.annotations?.[xmlNameSymbol] as
-      | string
-      | undefined;
+    const name = unwrapped.encoding[0].to?.annotations?.[xmlNameSymbol] as string | undefined;
     if (name) return name;
   }
 
   if (unwrapped.encoding && unwrapped.encoding.length > 0) {
-    const name = unwrapped.encoding[0].to?.annotations?.[xmlNameSymbol] as
-      | string
-      | undefined;
+    const name = unwrapped.encoding[0].to?.annotations?.[xmlNameSymbol] as string | undefined;
     if (name) return name;
   }
 
@@ -294,8 +279,7 @@ export function isMapAST(ast: AST.AST): boolean {
   const unwrapped = unwrapUnion(ast);
   if (unwrapped !== ast) return isMapAST(unwrapped);
 
-  if (unwrapped._tag === "Objects" && unwrapped.indexSignatures?.length > 0)
-    return true;
+  if (unwrapped._tag === "Objects" && unwrapped.indexSignatures?.length > 0) return true;
 
   if (unwrapped.encoding && unwrapped.encoding.length > 0) {
     return isMapAST(unwrapped.encoding[0].to);

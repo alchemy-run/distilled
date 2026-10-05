@@ -50,16 +50,12 @@ export const INITIAL_RESPONSE_EVENT_TYPE = "initial-response";
 // ============================================================================
 
 /** Error decoding an event stream message */
-export class EventStreamDecodeError extends Data.TaggedError(
-  "EventStreamDecodeError",
-)<{
+export class EventStreamDecodeError extends Data.TaggedError("EventStreamDecodeError")<{
   message: string;
 }> {}
 
 /** Error encoding an event stream message */
-export class EventStreamEncodeError extends Data.TaggedError(
-  "EventStreamEncodeError",
-)<{
+export class EventStreamEncodeError extends Data.TaggedError("EventStreamEncodeError")<{
   message: string;
 }> {}
 
@@ -73,31 +69,32 @@ export class EventParseError extends Data.TaggedError("EventParseError")<{
 // ============================================================================
 
 /** Header type indicators as defined in the spec */
-export enum HeaderType {
-  BoolTrue = 0,
-  BoolFalse = 1,
-  Byte = 2,
-  Short = 3,
-  Int = 4,
-  Long = 5,
-  ByteArray = 6,
-  String = 7,
-  Timestamp = 8,
-  Uuid = 9,
-}
+export const HeaderType = {
+  BoolTrue: 0,
+  BoolFalse: 1,
+  Byte: 2,
+  Short: 3,
+  Int: 4,
+  Long: 5,
+  ByteArray: 6,
+  String: 7,
+  Timestamp: 8,
+  Uuid: 9,
+} as const;
+export type HeaderType = (typeof HeaderType)[keyof typeof HeaderType];
 
 /** Header value type discriminated union */
 export type HeaderValue =
-  | { type: HeaderType.BoolTrue; value: true }
-  | { type: HeaderType.BoolFalse; value: false }
-  | { type: HeaderType.Byte; value: number }
-  | { type: HeaderType.Short; value: number }
-  | { type: HeaderType.Int; value: number }
-  | { type: HeaderType.Long; value: bigint }
-  | { type: HeaderType.ByteArray; value: Uint8Array }
-  | { type: HeaderType.String; value: string }
-  | { type: HeaderType.Timestamp; value: Date }
-  | { type: HeaderType.Uuid; value: Uint8Array };
+  | { type: typeof HeaderType.BoolTrue; value: true }
+  | { type: typeof HeaderType.BoolFalse; value: false }
+  | { type: typeof HeaderType.Byte; value: number }
+  | { type: typeof HeaderType.Short; value: number }
+  | { type: typeof HeaderType.Int; value: number }
+  | { type: typeof HeaderType.Long; value: bigint }
+  | { type: typeof HeaderType.ByteArray; value: Uint8Array }
+  | { type: typeof HeaderType.String; value: string }
+  | { type: typeof HeaderType.Timestamp; value: Date }
+  | { type: typeof HeaderType.Uuid; value: Uint8Array };
 
 /** Headers are a record of name to typed value */
 export type Headers = Record<string, HeaderValue>;
@@ -181,10 +178,7 @@ const computeCrc32 = (data: Uint8Array): Effect.Effect<number> =>
     hasher.update(data);
     const digest = await hasher.digest();
     // Convert 4-byte digest to uint32 (>>> 0 ensures unsigned)
-    return (
-      ((digest[0] << 24) | (digest[1] << 16) | (digest[2] << 8) | digest[3]) >>>
-      0
-    );
+    return ((digest[0] << 24) | (digest[1] << 16) | (digest[2] << 8) | digest[3]) >>> 0;
   });
 
 // ============================================================================
@@ -197,10 +191,7 @@ export function stringHeader(value: string): HeaderValue {
 }
 
 /** Get a header value as string, or undefined if not present or wrong type */
-export function getStringHeader(
-  headers: Headers,
-  name: string,
-): string | undefined {
+export function getStringHeader(headers: Headers, name: string): string | undefined {
   const value = headers[name];
   if (value?.type === HeaderType.String) {
     return value.value;
@@ -270,11 +261,7 @@ function encodeHeaderValue(value: HeaderValue): Uint8Array {
       const buf = new Uint8Array(9);
       buf[0] = value.type;
       // Timestamp is milliseconds since epoch
-      new DataView(buf.buffer).setBigInt64(
-        1,
-        BigInt(value.value.getTime()),
-        false,
-      );
+      new DataView(buf.buffer).setBigInt64(1, BigInt(value.value.getTime()), false);
       return buf;
     }
 
@@ -290,9 +277,7 @@ function encodeHeaderValue(value: HeaderValue): Uint8Array {
 /**
  * Encode headers to bytes
  */
-function encodeHeaders(
-  headers: Headers,
-): Effect.Effect<Uint8Array, EventStreamEncodeError> {
+function encodeHeaders(headers: Headers): Effect.Effect<Uint8Array, EventStreamEncodeError> {
   return Effect.gen(function* () {
     const parts: Uint8Array[] = [];
 
@@ -349,11 +334,7 @@ export const encodeMessage = (
     }
 
     // Calculate total length
-    const totalLength =
-      PRELUDE_LENGTH +
-      headersBytes.length +
-      payload.length +
-      MESSAGE_CRC_LENGTH;
+    const totalLength = PRELUDE_LENGTH + headersBytes.length + payload.length + MESSAGE_CRC_LENGTH;
 
     // Build the message
     const result = new Uint8Array(totalLength);
@@ -372,9 +353,7 @@ export const encodeMessage = (
     result.set(payload, PRELUDE_LENGTH + headersBytes.length);
 
     // Compute and write message CRC (over entire message except the CRC itself)
-    const messageCrc = yield* computeCrc32(
-      result.subarray(0, totalLength - MESSAGE_CRC_LENGTH),
-    );
+    const messageCrc = yield* computeCrc32(result.subarray(0, totalLength - MESSAGE_CRC_LENGTH));
     view.setUint32(totalLength - MESSAGE_CRC_LENGTH, messageCrc, false);
 
     return result;
@@ -398,67 +377,50 @@ function decodeHeaderValue(
 
     switch (type) {
       case HeaderType.BoolTrue:
-        return [{ type: HeaderType.BoolTrue, value: true }, 1] as [
-          HeaderValue,
-          number,
-        ];
+        return [{ type: HeaderType.BoolTrue, value: true }, 1] as [HeaderValue, number];
 
       case HeaderType.BoolFalse:
-        return [{ type: HeaderType.BoolFalse, value: false }, 1] as [
-          HeaderValue,
-          number,
-        ];
+        return [{ type: HeaderType.BoolFalse, value: false }, 1] as [HeaderValue, number];
 
       case HeaderType.Byte:
-        return [{ type: HeaderType.Byte, value: view.getInt8(1) }, 2] as [
+        return [{ type: HeaderType.Byte, value: view.getInt8(1) }, 2] as [HeaderValue, number];
+
+      case HeaderType.Short:
+        return [{ type: HeaderType.Short, value: view.getInt16(1, false) }, 3] as [
           HeaderValue,
           number,
         ];
 
-      case HeaderType.Short:
-        return [
-          { type: HeaderType.Short, value: view.getInt16(1, false) },
-          3,
-        ] as [HeaderValue, number];
-
       case HeaderType.Int:
-        return [
-          { type: HeaderType.Int, value: view.getInt32(1, false) },
-          5,
-        ] as [HeaderValue, number];
+        return [{ type: HeaderType.Int, value: view.getInt32(1, false) }, 5] as [
+          HeaderValue,
+          number,
+        ];
 
       case HeaderType.Long:
-        return [
-          { type: HeaderType.Long, value: view.getBigInt64(1, false) },
-          9,
-        ] as [HeaderValue, number];
+        return [{ type: HeaderType.Long, value: view.getBigInt64(1, false) }, 9] as [
+          HeaderValue,
+          number,
+        ];
 
       case HeaderType.ByteArray: {
         const length = view.getUint16(1, false);
         const value = data.slice(offset + 3, offset + 3 + length);
-        return [{ type: HeaderType.ByteArray, value }, 3 + length] as [
-          HeaderValue,
-          number,
-        ];
+        return [{ type: HeaderType.ByteArray, value }, 3 + length] as [HeaderValue, number];
       }
 
       case HeaderType.String: {
         const length = view.getUint16(1, false);
-        const value = new TextDecoder().decode(
-          data.subarray(offset + 3, offset + 3 + length),
-        );
-        return [{ type: HeaderType.String, value }, 3 + length] as [
-          HeaderValue,
-          number,
-        ];
+        const value = new TextDecoder().decode(data.subarray(offset + 3, offset + 3 + length));
+        return [{ type: HeaderType.String, value }, 3 + length] as [HeaderValue, number];
       }
 
       case HeaderType.Timestamp: {
         const millis = view.getBigInt64(1, false);
-        return [
-          { type: HeaderType.Timestamp, value: new Date(Number(millis)) },
-          9,
-        ] as [HeaderValue, number];
+        return [{ type: HeaderType.Timestamp, value: new Date(Number(millis)) }, 9] as [
+          HeaderValue,
+          number,
+        ];
       }
 
       case HeaderType.Uuid: {
@@ -477,9 +439,7 @@ function decodeHeaderValue(
 /**
  * Decode headers from bytes
  */
-function decodeHeaders(
-  data: Uint8Array,
-): Effect.Effect<Headers, EventStreamDecodeError> {
+function decodeHeaders(data: Uint8Array): Effect.Effect<Headers, EventStreamDecodeError> {
   return Effect.gen(function* () {
     const headers: Headers = {};
     let offset = 0;
@@ -487,9 +447,7 @@ function decodeHeaders(
     while (offset < data.length) {
       // Read name length and name
       const nameLength = data[offset];
-      const name = new TextDecoder().decode(
-        data.subarray(offset + 1, offset + 1 + nameLength),
-      );
+      const name = new TextDecoder().decode(data.subarray(offset + 1, offset + 1 + nameLength));
       offset += 1 + nameLength;
 
       // Read value
@@ -553,12 +511,8 @@ export const decodeMessage = (
     }
 
     // Extract headers and payload
-    const headersData = data.subarray(
-      PRELUDE_LENGTH,
-      PRELUDE_LENGTH + headersLength,
-    );
-    const payloadLength =
-      totalLength - PRELUDE_LENGTH - headersLength - MESSAGE_CRC_LENGTH;
+    const headersData = data.subarray(PRELUDE_LENGTH, PRELUDE_LENGTH + headersLength);
+    const payloadLength = totalLength - PRELUDE_LENGTH - headersLength - MESSAGE_CRC_LENGTH;
     const payload = data.subarray(
       PRELUDE_LENGTH + headersLength,
       PRELUDE_LENGTH + headersLength + payloadLength,
@@ -595,9 +549,7 @@ export function getMessageLength(data: Uint8Array): number {
 /**
  * Parse a raw message into a typed event
  */
-export const parseEvent = (
-  message: Message,
-): Effect.Effect<StreamEvent, EventParseError> =>
+export const parseEvent = (message: Message): Effect.Effect<StreamEvent, EventParseError> =>
   Effect.gen(function* () {
     const { headers, payload } = message;
 

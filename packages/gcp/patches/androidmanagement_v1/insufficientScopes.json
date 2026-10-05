@@ -1,0 +1,278 @@
+{
+  "description": "Type the OAuth-scope rejection (HTTP 403 PERMISSION_DENIED, reason ACCESS_TOKEN_SCOPE_INSUFFICIENT: 'Request had insufficient authentication scopes.'). This API needs a product-specific OAuth scope that a cloud-platform token does not carry; it surfaced as the generic Forbidden, indistinguishable from a missing IAM permission.",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.androidmanagement_v1#InsufficientScopes",
+      "value": {
+        "type": "structure",
+        "members": {},
+        "traits": {
+          "smithy.api#error": "client",
+          "smithy.api#httpError": 403,
+          "smithy.api#documentation": "The access token lacks the OAuth scope this API requires (HTTP 403 ACCESS_TOKEN_SCOPE_INSUFFICIENT).",
+          "com.gcp.protocols#errorMatchers": [
+            {
+              "status": 403,
+              "message": {
+                "includes": "insufficient authentication scopes"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.androidmanagement_v1#CancelEnterprisesDevicesOperations/errors/-",
+      "value": {
+        "target": "com.gcp.androidmanagement_v1#InsufficientScopes"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.androidmanagement_v1#CreateEnterprises/errors/-",
+      "value": {
+        "target": "com.gcp.androidmanagement_v1#InsufficientScopes"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.androidmanagement_v1#CreateEnterprisesEnrollmentTokens/errors/-",
+      "value": {
+        "target": "com.gcp.androidmanagement_v1#InsufficientScopes"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.androidmanagement_v1#CreateEnterprisesMigrationTokens/errors/-",
+      "value": {
+        "target": "com.gcp.androidmanagement_v1#InsufficientScopes"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.androidmanagement_v1#CreateEnterprisesWebApps/errors/-",
+      "value": {
+        "target": "com.gcp.androidmanagement_v1#InsufficientScopes"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.androidmanagement_v1#CreateEnterprisesWebTokens/errors/-",
+      "value": {
+        "target": "com.gcp.androidmanagement_v1#InsufficientScopes"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.androidmanagement_v1#CreateSignupUrls/errors/-",
+      "value": {
+        "target": "com.gcp.androidmanagement_v1#InsufficientScopes"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.androidmanagement_v1#DeleteEnterprises/errors/-",
+      "value": {
+        "target": "com.gcp.androidmanagement_v1#InsufficientScopes"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.androidmanagement_v1#DeleteEnterprisesDevices/errors/-",
+      "value": {
+        "target": "com.gcp.androidmanagement_v1#InsufficientScopes"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.androidmanagement_v1#DeleteEnterprisesEnrollmentTokens/errors/-",
+      "value": {
+        "target": "com.gcp.androidmanagement_v1#InsufficientScopes"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.androidmanagement_v1#DeleteEnterprisesPolicies/errors/-",
+      "value": {
+        "target": "com.gcp.androidmanagement_v1#InsufficientScopes"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.androidmanagement_v1#DeleteEnterprisesWebApps/errors/-",
+      "value": {
+        "target": "com.gcp.androidmanagement_v1#InsufficientScopes"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.androidmanagement_v1#GenerateEnterpriseUpgradeUrlEnterprises/errors/-",
+      "value": {
+        "target": "com.gcp.androidmanagement_v1#InsufficientScopes"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.androidmanagement_v1#GetEnterprises/errors/-",
+      "value": {
+        "target": "com.gcp.androidmanagement_v1#InsufficientScopes"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.androidmanagement_v1#GetEnterprisesApplications/errors/-",
+      "value": {
+        "target": "com.gcp.androidmanagement_v1#InsufficientScopes"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.androidmanagement_v1#GetEnterprisesDevices/errors/-",
+      "value": {
+        "target": "com.gcp.androidmanagement_v1#InsufficientScopes"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.androidmanagement_v1#GetEnterprisesDevicesOperations/errors/-",
+      "value": {
+        "target": "com.gcp.androidmanagement_v1#InsufficientScopes"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.androidmanagement_v1#GetEnterprisesEnrollmentTokens/errors/-",
+      "value": {
+        "target": "com.gcp.androidmanagement_v1#InsufficientScopes"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.androidmanagement_v1#GetEnterprisesMigrationTokens/errors/-",
+      "value": {
+        "target": "com.gcp.androidmanagement_v1#InsufficientScopes"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.androidmanagement_v1#GetEnterprisesPolicies/errors/-",
+      "value": {
+        "target": "com.gcp.androidmanagement_v1#InsufficientScopes"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.androidmanagement_v1#GetEnterprisesWebApps/errors/-",
+      "value": {
+        "target": "com.gcp.androidmanagement_v1#InsufficientScopes"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.androidmanagement_v1#GetProvisioningInfo/errors/-",
+      "value": {
+        "target": "com.gcp.androidmanagement_v1#InsufficientScopes"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.androidmanagement_v1#IssueCommandEnterprisesDevices/errors/-",
+      "value": {
+        "target": "com.gcp.androidmanagement_v1#InsufficientScopes"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.androidmanagement_v1#ListEnterprises/errors/-",
+      "value": {
+        "target": "com.gcp.androidmanagement_v1#InsufficientScopes"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.androidmanagement_v1#ListEnterprisesDevices/errors/-",
+      "value": {
+        "target": "com.gcp.androidmanagement_v1#InsufficientScopes"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.androidmanagement_v1#ListEnterprisesDevicesOperations/errors/-",
+      "value": {
+        "target": "com.gcp.androidmanagement_v1#InsufficientScopes"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.androidmanagement_v1#ListEnterprisesEnrollmentTokens/errors/-",
+      "value": {
+        "target": "com.gcp.androidmanagement_v1#InsufficientScopes"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.androidmanagement_v1#ListEnterprisesMigrationTokens/errors/-",
+      "value": {
+        "target": "com.gcp.androidmanagement_v1#InsufficientScopes"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.androidmanagement_v1#ListEnterprisesPolicies/errors/-",
+      "value": {
+        "target": "com.gcp.androidmanagement_v1#InsufficientScopes"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.androidmanagement_v1#ListEnterprisesWebApps/errors/-",
+      "value": {
+        "target": "com.gcp.androidmanagement_v1#InsufficientScopes"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.androidmanagement_v1#ModifyPolicyApplicationsEnterprisesPolicies/errors/-",
+      "value": {
+        "target": "com.gcp.androidmanagement_v1#InsufficientScopes"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.androidmanagement_v1#PatchEnterprises/errors/-",
+      "value": {
+        "target": "com.gcp.androidmanagement_v1#InsufficientScopes"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.androidmanagement_v1#PatchEnterprisesDevices/errors/-",
+      "value": {
+        "target": "com.gcp.androidmanagement_v1#InsufficientScopes"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.androidmanagement_v1#PatchEnterprisesPolicies/errors/-",
+      "value": {
+        "target": "com.gcp.androidmanagement_v1#InsufficientScopes"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.androidmanagement_v1#PatchEnterprisesWebApps/errors/-",
+      "value": {
+        "target": "com.gcp.androidmanagement_v1#InsufficientScopes"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.androidmanagement_v1#RemovePolicyApplicationsEnterprisesPolicies/errors/-",
+      "value": {
+        "target": "com.gcp.androidmanagement_v1#InsufficientScopes"
+      }
+    }
+  ]
+}

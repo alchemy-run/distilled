@@ -1,4 +1,4 @@
-#!/usr/bin/env bun
+#!/usr/bin/env node
 /**
  * Fetches the Archil Control Plane OpenAPI spec and vendor docs to ../specs/.
  *
@@ -9,7 +9,7 @@
  * never crawls live pages.
  *
  * Usage:
- *   bun run fetch-specs.ts
+ *   node fetch-specs.ts
  *
  * Specs are saved to:
  *   ../specs/openapi.json
@@ -18,7 +18,9 @@
  */
 
 import { mkdirSync } from "fs";
+import { writeFile } from "fs/promises";
 import * as path from "node:path";
+import YAML from "yaml";
 
 const OPENAPI_SPEC_URL = "https://docs.archil.com/api-reference/openapi.yaml";
 const LLMS_TXT_URL = "https://docs.archil.com/llms.txt";
@@ -40,13 +42,11 @@ async function fetchOpenApi(): Promise<void> {
 
   const response = await fetch(OPENAPI_SPEC_URL, { headers });
   if (!response.ok) {
-    throw new Error(
-      `Failed to fetch OpenAPI spec: ${response.status} ${response.statusText}`,
-    );
+    throw new Error(`Failed to fetch OpenAPI spec: ${response.status} ${response.statusText}`);
   }
 
   const text = await response.text();
-  const spec = Bun.YAML.parse(text) as Record<string, unknown>;
+  const spec = YAML.parse(text) as Record<string, unknown>;
 
   // Fail here rather than three steps later in the generator: a login page or
   // a gutted response is still valid YAML/JSON, but it is not an OpenAPI document.
@@ -59,11 +59,9 @@ async function fetchOpenApi(): Promise<void> {
   console.log(`Writing spec to ${OPENAPI_OUTPUT}...`);
   // 2-space indent + trailing newline so a whitespace-only change upstream
   // produces no diff.
-  await Bun.write(OPENAPI_OUTPUT, JSON.stringify(spec, null, 2) + "\n");
+  await writeFile(OPENAPI_OUTPUT, JSON.stringify(spec, null, 2) + "\n");
 
-  console.log(
-    `OpenAPI ${spec.openapi} — ${Object.keys(spec.paths as object).length} paths`,
-  );
+  console.log(`OpenAPI ${spec.openapi} — ${Object.keys(spec.paths as object).length} paths`);
 }
 
 function apiReferenceDocPaths(llmsTxt: string): string[] {
@@ -86,20 +84,16 @@ async function fetchDocs(): Promise<void> {
     },
   });
   if (!response.ok) {
-    throw new Error(
-      `Failed to fetch vendor docs: ${response.status} ${response.statusText}`,
-    );
+    throw new Error(`Failed to fetch vendor docs: ${response.status} ${response.statusText}`);
   }
 
   const text = await response.text();
   if (!text.includes("# Archil") || !text.includes("openapi.yaml")) {
-    throw new Error(
-      `${LLMS_TXT_URL} did not look like Archil's llms.txt catalog`,
-    );
+    throw new Error(`${LLMS_TXT_URL} did not look like Archil's llms.txt catalog`);
   }
 
   console.log(`Writing docs catalog to ${LLMS_OUTPUT}...`);
-  await Bun.write(LLMS_OUTPUT, text.endsWith("\n") ? text : `${text}\n`);
+  await writeFile(LLMS_OUTPUT, text.endsWith("\n") ? text : `${text}\n`);
 
   const docPaths = apiReferenceDocPaths(text);
   mkdirSync(DOCS_DIR, { recursive: true });
@@ -114,16 +108,14 @@ async function fetchDocs(): Promise<void> {
       },
     });
     if (!docResponse.ok) {
-      throw new Error(
-        `Failed to fetch ${url}: ${docResponse.status} ${docResponse.statusText}`,
-      );
+      throw new Error(`Failed to fetch ${url}: ${docResponse.status} ${docResponse.statusText}`);
     }
     const body = await docResponse.text();
     if (body.includes("<html") || body.trim().length === 0) {
       throw new Error(`${url} did not look like markdown documentation`);
     }
     mkdirSync(path.dirname(outputPath), { recursive: true });
-    await Bun.write(outputPath, body.endsWith("\n") ? body : `${body}\n`);
+    await writeFile(outputPath, body.endsWith("\n") ? body : `${body}\n`);
   }
 
   console.log(`Wrote ${docPaths.length} API reference markdown pages`);

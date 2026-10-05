@@ -1,0 +1,33 @@
+{
+  "description": "Type the rejection of Memcached instance creation on a network without Private Service Access (HTTP 400). It surfaced as a generic BadRequest, so callers matched the message.",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.memcache_v1#PrivateServiceAccessNotEnabled",
+      "value": {
+        "type": "structure",
+        "members": {},
+        "traits": {
+          "smithy.api#error": "client",
+          "smithy.api#httpError": 400,
+          "smithy.api#documentation": "The authorized network has no Private Service Access connection (HTTP 400: 'Google private service access is not enabled.'). Not retryable until the network is peered.",
+          "com.gcp.protocols#errorMatchers": [
+            {
+              "status": 400,
+              "message": {
+                "includes": "private service access is not enabled"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.memcache_v1#CreateProjectsLocationsInstances/errors/-",
+      "value": {
+        "target": "com.gcp.memcache_v1#PrivateServiceAccessNotEnabled"
+      }
+    }
+  ]
+}

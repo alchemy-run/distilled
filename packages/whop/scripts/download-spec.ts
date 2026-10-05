@@ -1,4 +1,4 @@
-#!/usr/bin/env bun
+#!/usr/bin/env node
 /**
  * Download Whop's two OpenAPI descriptions.
  *
@@ -25,24 +25,24 @@
  * huggingface/vercel/cloudflare pattern: fetch from the live docs host and
  * commit the result. Regenerating is a two-step:
  *
- *   bun run spec:download   # refresh specs/*.json from upstream
- *   bun run generate        # convert + compile (see scripts/convert.ts)
+ *   pnpm run spec:download  # refresh specs/*.json from upstream
+ *   pnpm run generate       # convert + compile (see scripts/convert.ts)
  *
  * Each document is re-serialized with 2-space indent + a trailing newline
  * rather than saved verbatim, so a whitespace-only change upstream produces
  * no diff and a malformed download fails HERE instead of in convert.
  *
  * Usage:
- *   bun scripts/download-spec.ts
- *   bun scripts/download-spec.ts --out specs
- *   bun scripts/download-spec.ts --origin https://docs.whop.com
+ *   node scripts/download-spec.ts
+ *   node scripts/download-spec.ts --out specs
+ *   node scripts/download-spec.ts --origin https://docs.whop.com
  */
 
-import { BunRuntime, BunServices } from "@effect/platform-bun";
+import { NodeRuntime, NodeServices } from "@effect/platform-node";
 import { Console, Data, Effect } from "effect";
+import { Command, Flag } from "effect/cli";
 import * as FileSystem from "effect/FileSystem";
 import * as Path from "effect/Path";
-import { Command, Flag } from "effect/unstable/cli";
 
 const ORIGIN = "https://docs.whop.com";
 
@@ -103,8 +103,7 @@ const fetchText = (url: string): Effect.Effect<string, FetchError> =>
       }
       return await res.text();
     },
-    catch: (cause) =>
-      cause instanceof FetchError ? cause : new FetchError({ url, cause }),
+    catch: (cause) => (cause instanceof FetchError ? cause : new FetchError({ url, cause })),
   });
 
 // ============================================================================
@@ -158,9 +157,7 @@ const downloadSpec = Command.make(
     ),
     out: Flag.String("out").pipe(
       Flag.withDefault("specs"),
-      Flag.withDescription(
-        "Where to write the specs (relative to the whop package root)",
-      ),
+      Flag.withDescription("Where to write the specs (relative to the whop package root)"),
     ),
   },
   (config) =>
@@ -169,7 +166,7 @@ const downloadSpec = Command.make(
       const path = yield* Path.Path;
 
       // The whop/ folder is the parent of this scripts/ dir.
-      const root = path.resolve(import.meta.dir, "..");
+      const root = path.resolve(import.meta.dirname, "..");
       const outDir = path.resolve(root, config.out);
 
       yield* Console.log("🛒 Whop OpenAPI spec downloader");
@@ -187,8 +184,7 @@ const downloadSpec = Command.make(
 
         const spec = yield* Effect.try({
           try: () => JSON.parse(text) as Record<string, any>,
-          catch: (cause) =>
-            new InvalidSpecError({ url, reason: `not valid JSON (${cause})` }),
+          catch: (cause) => new InvalidSpecError({ url, reason: `not valid JSON (${cause})` }),
         });
 
         if (typeof spec.openapi !== "string" || spec.paths === undefined) {
@@ -211,10 +207,7 @@ const downloadSpec = Command.make(
         versionDates[doc.surface] = date;
 
         const outPath = path.join(outDir, doc.file);
-        yield* fs.writeFileString(
-          outPath,
-          JSON.stringify(spec, null, 2) + "\n",
-        );
+        yield* fs.writeFileString(outPath, JSON.stringify(spec, null, 2) + "\n");
 
         const c = census(spec);
         yield* Console.log(
@@ -238,12 +231,10 @@ const downloadSpec = Command.make(
         return yield* new VersionMismatchError({ dates: versionDates });
       }
 
-      yield* Console.log(`   Next: bun run generate`);
+      yield* Console.log(`   Next: pnpm run generate`);
     }),
 ).pipe(
-  Command.withDescription(
-    "Download Whop's versioned + legacy OpenAPI documents into ./specs",
-  ),
+  Command.withDescription("Download Whop's versioned + legacy OpenAPI documents into ./specs"),
 );
 
 // ============================================================================
@@ -252,4 +243,4 @@ const downloadSpec = Command.make(
 
 const program = Command.run(downloadSpec, { version: "1.0.0" });
 
-BunRuntime.runMain(Effect.provide(program, BunServices.layer));
+NodeRuntime.runMain(Effect.provide(program, NodeServices.layer));

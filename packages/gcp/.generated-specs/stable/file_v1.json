@@ -2922,6 +2922,9 @@
         },
         {
           "target": "com.gcp.file_v1#Conflict"
+        },
+        {
+          "target": "com.gcp.file_v1#StorageQuotaExceeded"
         }
       ],
       "traits": {
@@ -3831,6 +3834,22 @@
           "uri": "v1/{+name}:cancel"
         },
         "smithy.api#documentation": "Starts asynchronous cancellation on a long-running operation. The server makes a best effort to cancel the operation, but success is not guaranteed. If the server doesn't support this method, it returns `google.rpc.Code.UNIMPLEMENTED`. Clients can use Operations.GetOperation or other methods to check whether the cancellation succeeded or whether the operation completed despite cancellation. On successful cancellation, the operation is not deleted; instead, it becomes an operation with an Operation.error value with a google.rpc.Status.code of `1`, corresponding to `Code.CANCELLED`."
+      }
+    },
+    "com.gcp.file_v1#StorageQuotaExceeded": {
+      "type": "structure",
+      "members": {},
+      "traits": {
+        "smithy.api#error": "client",
+        "smithy.api#documentation": "The project's per-region Filestore storage quota for the requested tier is exhausted (HTTP 429: \"Quota limit '<Tier>StorageGibPerRegion' has been exceeded. Limit: N in region R.\"). A capacity limit, not rate limiting \u2014 deliberately carries no httpError so it is not classified as throttling and retried; it clears only when quota is raised or storage is freed.",
+        "com.gcp.protocols#errorMatchers": [
+          {
+            "status": 429,
+            "message": {
+              "matches": "Quota limit '\\w+Storage\\w*PerRegion' has been exceeded"
+            }
+          }
+        ]
       }
     }
   }

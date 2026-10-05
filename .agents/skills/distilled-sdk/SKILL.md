@@ -1,6 +1,6 @@
 ---
 name: distilled-sdk
-description: Build or update a distilled SDK for an API provider — sourcing its OpenAPI/Smithy/GraphQL/discovery description, adding the spec mirror that feeds it, generating packages/<provider>, listing it on distilled.cloud with a category and a logo, and regenerating an existing one. Use for "create a distilled SDK for <provider>", adding a provider, writing or fixing a fetch-specs.ts, giving a provider a catalogue group or brand mark, working on stacks/distilled-submodules or a spec-mirror-* repository, or anything about where a package's specs come from.
+description: Build or update a distilled SDK for an API provider — sourcing its OpenAPI/Smithy/GraphQL/discovery description, adding the spec mirror that feeds it, generating packages/<provider>, listing it on distilled.cloud with a category and a logo, writing a README with a complete Effect example, opening a GitHub PR whose body includes that same example, and regenerating an existing one. Use for "create a distilled SDK for <provider>", adding a provider, writing or fixing a fetch-specs.ts, giving a provider a catalogue group or brand mark, working on stacks/distilled-submodules or a spec-mirror-* repository, or anything about where a package's specs come from.
 ---
 
 # Building a distilled SDK
@@ -54,7 +54,7 @@ this table is the whole decision.
 
 A YAML spec does not have to be converted in the mirror: `spec-repos/coinbase`
 mirrors `openapi.yaml` verbatim and `packages/coinbase/scripts/convert.ts`
-passes `parse: (text) => Bun.YAML.parse(text)` to `runOpenApiConvert`. Convert
+passes `parse` from the `yaml` package to `runOpenApiConvert`. Convert
 in the mirror only when the upstream is an endpoint rather than a file.
 
 **When the user says "like GitHub"** they mean a few files out of a big repo —
@@ -109,7 +109,7 @@ packages/<pkg>/specs/.local/
 ```
 
 The directory is gitignored. Re-run the command to refetch after editing the
-fetch script (the `bun install` only happens once).
+fetch script (the `pnpm install` only happens once).
 
 ## Step 4 — write the package
 
@@ -127,6 +127,111 @@ OpenAPI package gets it for free — just declare the mirror path.
 
 Then register the package: `pnpm-workspace.yaml` needs nothing (it globs
 `packages/*`), but add both tsconfig references to the root `tsconfig.json`.
+
+Public surface: re-export the generated barrel at the package root
+(`export * from "./services/index.ts"`) so callers write `Pkg.vms.createVm`,
+not `Pkg.Services.vms.createVm`. Do not add a `Services` namespace. A
+single-service package re-exports operations on the root (`Pkg.listX`) the
+same way.
+
+### Credentials
+
+`src/credentials.ts` is hand-written (copy `packages/s2/src/credentials.ts`).
+Every secret it touches is a `Redacted.Redacted<string>` from
+`effect/Redacted`: API keys, tokens (access, refresh, bearer, session),
+passwords, client secrets, private keys, and signing or HMAC secrets. Base
+URLs, account and org IDs, emails, usernames, client IDs and key IDs stay
+plain strings.
+
+- **Inputs take `Redacted<string>` only.** Type a secret parameter of
+  `fromApiKey`, `credentials`, `fromToken` and the like, and any callback
+  that returns one (an OAuth `load`/`refresh`), as `Redacted.Redacted<string>`.
+  Do not type it `string`, and do not type it `string | Redacted<string>`. A
+  plain string is how a secret ends up in a log or an error, so the caller
+  wraps it.
+- **The resolved credentials hold `Redacted`.** The value the `Credentials`
+  service yields, and any cache of it, keeps each secret redacted.
+- **Redact environment secrets on read.** Use `Config.Redacted("<ENV>")`.
+- **Unwrap at the point of use.** Call `Redacted.value` only where the
+  header, query string, body or signature is built, and never put a secret
+  in an error message or an error field. Anything minted at runtime (an
+  exchanged OAuth token, a signed JWT) is wrapped as soon as it exists.
+
+This must print nothing:
+
+```sh
+grep -niE 'readonly \w*(key|token|secret|password)\??: string' \
+  packages/<pkg>/src/credentials.ts
+```
+
+### Errors and response validation
+
+Every error class in `src/errors.ts` must be one the protocol can actually
+raise. A class in the operation error union that nothing constructs tells
+callers to handle a failure that never happens — that is how ~75 packages
+ended up declaring a `<Pkg>ParseError` no code path created.
+
+`src/errors.ts` declares, and the operation error union
+(`<Pkg>OpError` / `DefaultErrors`) includes:
+
+- `Unknown<Pkg>Error` — built by the protocol's `unknownError` fallback.
+- `<Pkg>ParseError` with `{ body: Schema.Unknown, cause: Schema.Unknown }`,
+  `.pipe(Category.withParseError)` — built by the protocol's `parseError`
+  (copy `packages/s2/src/errors.ts`).
+- Any status classes the provider needs beyond core's `HTTP_STATUS_MAP`,
+  each wired into the protocol's `statusMap`.
+
+The protocol wires every one of them:
+
+- **`makeRestProtocol`** requires `parseError`:
+  `parseError: ({ body, cause }) => new <Pkg>ParseError({ body, cause })`.
+- **A hand-written protocol** calls `validateResponse(outputAst, value,
+  (cause) => new <Pkg>ParseError({ body, cause }))` from
+  `@distilled.cloud/core/response-validation` on every 2xx path that returns
+  the operation output — after wire→TS key mapping, before `wrapSensitive`.
+  `packages/core/src/protocol-rest.ts` is the reference.
+
+2xx responses are validated only in strict mode. `ResponseValidation`
+(`import { ResponseValidation } from "@distilled.cloud/core"`) is one context
+reference shared by every SDK: lenient by default, switched with
+`Effect.provide(ResponseValidation.strict)` — only ever by layer. A new
+protocol reads the mode through `validateResponse`; it never adds its own
+flag or environment variable.
+
+Lenient mode checks only what the protocol needs in order to transform the
+body (unwrap an envelope, map keys, wrap sensitive members) and nothing
+more: a non-JSON body comes back as text, a body missing members comes back
+as read. Never decode against the output schema outside `validateResponse`.
+Strict mode surfaces every spec inaccuracy (an undocumented `null`, a new
+enum member) as a `<Pkg>ParseError`; that is the cost of opting in, and why
+strict is never the default.
+
+Do not add tests to a generated SDK. Generated code is tested once, through
+the generator and the protocols in `packages/core`. `packages/core/src/sdks.test.ts`
+runs against every package and checks the glue a new SDK hand-writes: its
+`<Pkg>OpError` union reaches `<Pkg>ParseError` (so `catchTag` on a strict
+call typechecks), something outside `src/services/` constructs it, and
+`errors.ts` exports it. A new package is covered the moment it exists; a
+package that cannot follow the pattern goes in that file's exemption list
+with the reason. A package gets a test
+only for code someone wrote by hand in it — a custom protocol
+(`packages/fly-io/src/protocol.ts`, everything in `packages/aws`), or
+credentials logic like `packages/prisma/test/credentials.test.ts` — next to
+that code. No live tests: calls against real APIs belong to Alchemy's test
+suite.
+
+Before opening the PR, confirm the parse error and the unknown-error
+fallback are both constructed outside the generated code — this must print
+two or more lines:
+
+```sh
+grep -rnE 'new \w+(ParseError|Unknown\w*Error)\(' packages/<pkg>/src \
+  --include='*.ts' --exclude-dir=services
+```
+
+For every other class you add to `errors.ts`, find where the protocol
+raises it (`statusMap`, a code lookup table, or `new`). A class nothing
+raises comes out of `errors.ts` and the error union.
 
 ## Step 5 — iterate
 
@@ -171,10 +276,12 @@ leaves anything already verb-first or ambiguous (`WatchPodList`,
 `AppGetOrCreate`, `accountById`) unchanged. Irregulars go in
 `operationNames` (lookup by `"METHOD path"`, then operationId) — PUT vs
 PATCH that share an upstream id need the path key. Cases live in
-`packages/core/src/codegen/rewrite-operation-ids.test.ts` (`bun test`); add
+`packages/core/src/codegen/rewrite-operation-ids.test.ts` (`pnpm vitest run`); add
 one before changing the heuristic. Do not RFC-6902-patch
 `/paths/~1foo/get/operationId`; those break when upstream adds a prefix.
-Patch the spec, not the generated TypeScript.
+Patch the spec, not the generated TypeScript. Writing and checking a
+patch is the `distilled-sdk-patch` skill
+([`.agents/skills/distilled-sdk-patch/SKILL.md`](../distilled-sdk-patch/SKILL.md)).
 
 ## Step 6 — wire the submodule
 
@@ -237,7 +344,73 @@ The catalogue only lists packages that export at least one
 `API.OperationMethod`, so a support package (`core`) never shows up and a
 `GROUPS` entry for one would be dead config.
 
-## Step 8 — check
+## Step 8 — README, examples, and the PR
+
+Every provider package ships `packages/<pkg>/README.md`. Do not skip it.
+Shape it after [`packages/aws/README.md`](../../../packages/aws/README.md):
+install, a complete Effect program, then auth. `listX({})` with no Layer,
+credentials, or HTTP client is not an example.
+
+**README** (`packages/<pkg>/README.md`):
+
+````md
+# @distilled.cloud/<pkg>
+
+Effect-native <Name> SDK, generated from <spec URL>.
+
+## Installation
+
+```bash
+npm install @distilled.cloud/<pkg> effect
+```
+
+## Quick start
+
+```ts
+import { Effect, Layer } from "effect";
+import * as FetchHttpClient from "effect/http/FetchHttpClient";
+import * as Pkg from "@distilled.cloud/<pkg>";
+
+const program = Effect.gen(function* () {
+  const result = yield* Pkg.vms.createVm({ firewall: { rules: [] } });
+  return result;
+});
+
+const Live = Layer.mergeAll(
+  FetchHttpClient.layer,
+  Pkg.CredentialsFromEnv,
+  Pkg.PkgProtocol,
+);
+
+program.pipe(Effect.provide(Live), Effect.runPromise);
+```
+
+## Auth
+
+`<ENV>` as `Authorization: Bearer`. Optional `<ENV>_API_BASE_URL`.
+````
+
+The quick-start program must compile against the generated names:
+
+- `Layer.mergeAll(FetchHttpClient.layer, CredentialsFromEnv, <Pkg>Protocol)`
+- at least one real call (`Pkg.vms.createVm` / `Pkg.execVm` / `Pkg.getX`,
+  not `Pkg.Services.…` and not only `list*`)
+- `Effect.provide` + `Effect.runPromise`
+
+If a generated operation cannot work as REST — WebSocket `101`,
+`application/octet-stream` bodies, SSE — say so and show the hand-written
+helper (or omit that call), never the stub. Keep `src/index.ts`'s `@example`
+the same shortest program.
+
+When credentials exist, run that program live and mention the result in the
+PR (`execVm` status 0, PTY `sessionInfo`, …). Delete anything the example
+created.
+
+The job is not done until step 10 has opened a GitHub PR. npm trusted
+publishing (`npm-oidc-setup`) needs a logged-in `npm whoami`; skip it and
+say so in the PR when this environment is not.
+
+## Step 9 — check
 
 ```sh
 pnpm specs:check     # mirror manifest ↔ spec-repos/ ↔ .gitmodules ↔ packages/
@@ -248,7 +421,34 @@ pnpm format          # generated output is committed formatted
 `pnpm generate` formats at the end for a reason: **never diff regeneration
 results before formatting**, or every file looks changed.
 
-## Step 9 — after merge
+## Step 10 — open the PR
+
+A new SDK is not finished in the working tree. Open a GitHub PR. Stage
+explicit paths (never `git add -A`), commit, push, `gh pr create`.
+
+Title: `feat(<pkg>): add the <Name> SDK`.
+
+Body, in order:
+
+1. One sentence: Effect-native SDK for X, generated from [the spec URL].
+2. Bullets: operation count and service split; auth (env + header + default
+   host); pagination; non-JSON surfaces; wiring (SpecRepos, `.gitmodules`,
+   tsconfig, website, lockfile). Note that `spec-mirror-<pkg>` is created by
+   the distilled-submodules stack on merge to main.
+3. **The same complete example as the README** — `Layer.mergeAll`,
+   `CredentialsFromEnv`, `<Pkg>Protocol`, a real call, `Effect.runPromise`.
+   A PR whose only snippet is `listX({})` is incomplete; paste the README
+   quick start.
+4. `Checks: pnpm specs:check` green, `tsc -b packages/<pkg> --noCheck false`
+   green, `DISTILLED_SPECS_LOCAL=1 pnpm generate <pkg>` reproduces output,
+   and the error-construction check from step 4 finds both classes.
+
+```sh
+git push -u origin HEAD
+gh pr create --title "feat(<pkg>): add the <Name> SDK" --body-file /tmp/pr.md
+```
+
+## Step 11 — after merge
 
 The stack deploys on push to `main` and creates `spec-mirror-<pkg>`, seeded
 with your fetch script and a workflow that refetches daily. Then, in a

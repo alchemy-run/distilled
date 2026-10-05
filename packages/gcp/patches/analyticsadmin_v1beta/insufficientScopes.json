@@ -1,0 +1,411 @@
+{
+  "description": "Type the OAuth-scope rejection (HTTP 403 PERMISSION_DENIED, reason ACCESS_TOKEN_SCOPE_INSUFFICIENT: 'Request had insufficient authentication scopes.'). This API needs a product-specific OAuth scope that a cloud-platform token does not carry; it surfaced as the generic Forbidden, indistinguishable from a missing IAM permission.",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.analyticsadmin_v1beta#InsufficientScopes",
+      "value": {
+        "type": "structure",
+        "members": {},
+        "traits": {
+          "smithy.api#error": "client",
+          "smithy.api#httpError": 403,
+          "smithy.api#documentation": "The access token lacks the OAuth scope this API requires (HTTP 403 ACCESS_TOKEN_SCOPE_INSUFFICIENT).",
+          "com.gcp.protocols#errorMatchers": [
+            {
+              "status": 403,
+              "message": {
+                "includes": "insufficient authentication scopes"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.analyticsadmin_v1beta#AcknowledgeUserDataCollectionProperties/errors/-",
+      "value": {
+        "target": "com.gcp.analyticsadmin_v1beta#InsufficientScopes"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.analyticsadmin_v1beta#ArchivePropertiesCustomDimensions/errors/-",
+      "value": {
+        "target": "com.gcp.analyticsadmin_v1beta#InsufficientScopes"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.analyticsadmin_v1beta#ArchivePropertiesCustomMetrics/errors/-",
+      "value": {
+        "target": "com.gcp.analyticsadmin_v1beta#InsufficientScopes"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.analyticsadmin_v1beta#CreateProperties/errors/-",
+      "value": {
+        "target": "com.gcp.analyticsadmin_v1beta#InsufficientScopes"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.analyticsadmin_v1beta#CreatePropertiesConversionEvents/errors/-",
+      "value": {
+        "target": "com.gcp.analyticsadmin_v1beta#InsufficientScopes"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.analyticsadmin_v1beta#CreatePropertiesCustomDimensions/errors/-",
+      "value": {
+        "target": "com.gcp.analyticsadmin_v1beta#InsufficientScopes"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.analyticsadmin_v1beta#CreatePropertiesCustomMetrics/errors/-",
+      "value": {
+        "target": "com.gcp.analyticsadmin_v1beta#InsufficientScopes"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.analyticsadmin_v1beta#CreatePropertiesDataStreams/errors/-",
+      "value": {
+        "target": "com.gcp.analyticsadmin_v1beta#InsufficientScopes"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.analyticsadmin_v1beta#CreatePropertiesDataStreamsMeasurementProtocolSecrets/errors/-",
+      "value": {
+        "target": "com.gcp.analyticsadmin_v1beta#InsufficientScopes"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.analyticsadmin_v1beta#CreatePropertiesFirebaseLinks/errors/-",
+      "value": {
+        "target": "com.gcp.analyticsadmin_v1beta#InsufficientScopes"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.analyticsadmin_v1beta#CreatePropertiesGoogleAdsLinks/errors/-",
+      "value": {
+        "target": "com.gcp.analyticsadmin_v1beta#InsufficientScopes"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.analyticsadmin_v1beta#CreatePropertiesKeyEvents/errors/-",
+      "value": {
+        "target": "com.gcp.analyticsadmin_v1beta#InsufficientScopes"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.analyticsadmin_v1beta#DeleteAccounts/errors/-",
+      "value": {
+        "target": "com.gcp.analyticsadmin_v1beta#InsufficientScopes"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.analyticsadmin_v1beta#DeleteProperties/errors/-",
+      "value": {
+        "target": "com.gcp.analyticsadmin_v1beta#InsufficientScopes"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.analyticsadmin_v1beta#DeletePropertiesConversionEvents/errors/-",
+      "value": {
+        "target": "com.gcp.analyticsadmin_v1beta#InsufficientScopes"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.analyticsadmin_v1beta#DeletePropertiesDataStreams/errors/-",
+      "value": {
+        "target": "com.gcp.analyticsadmin_v1beta#InsufficientScopes"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.analyticsadmin_v1beta#DeletePropertiesDataStreamsMeasurementProtocolSecrets/errors/-",
+      "value": {
+        "target": "com.gcp.analyticsadmin_v1beta#InsufficientScopes"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.analyticsadmin_v1beta#DeletePropertiesFirebaseLinks/errors/-",
+      "value": {
+        "target": "com.gcp.analyticsadmin_v1beta#InsufficientScopes"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.analyticsadmin_v1beta#DeletePropertiesGoogleAdsLinks/errors/-",
+      "value": {
+        "target": "com.gcp.analyticsadmin_v1beta#InsufficientScopes"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.analyticsadmin_v1beta#DeletePropertiesKeyEvents/errors/-",
+      "value": {
+        "target": "com.gcp.analyticsadmin_v1beta#InsufficientScopes"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.analyticsadmin_v1beta#GetAccounts/errors/-",
+      "value": {
+        "target": "com.gcp.analyticsadmin_v1beta#InsufficientScopes"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.analyticsadmin_v1beta#GetDataRetentionSettingsProperties/errors/-",
+      "value": {
+        "target": "com.gcp.analyticsadmin_v1beta#InsufficientScopes"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.analyticsadmin_v1beta#GetDataSharingSettingsAccounts/errors/-",
+      "value": {
+        "target": "com.gcp.analyticsadmin_v1beta#InsufficientScopes"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.analyticsadmin_v1beta#GetProperties/errors/-",
+      "value": {
+        "target": "com.gcp.analyticsadmin_v1beta#InsufficientScopes"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.analyticsadmin_v1beta#GetPropertiesConversionEvents/errors/-",
+      "value": {
+        "target": "com.gcp.analyticsadmin_v1beta#InsufficientScopes"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.analyticsadmin_v1beta#GetPropertiesCustomDimensions/errors/-",
+      "value": {
+        "target": "com.gcp.analyticsadmin_v1beta#InsufficientScopes"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.analyticsadmin_v1beta#GetPropertiesCustomMetrics/errors/-",
+      "value": {
+        "target": "com.gcp.analyticsadmin_v1beta#InsufficientScopes"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.analyticsadmin_v1beta#GetPropertiesDataStreams/errors/-",
+      "value": {
+        "target": "com.gcp.analyticsadmin_v1beta#InsufficientScopes"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.analyticsadmin_v1beta#GetPropertiesDataStreamsMeasurementProtocolSecrets/errors/-",
+      "value": {
+        "target": "com.gcp.analyticsadmin_v1beta#InsufficientScopes"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.analyticsadmin_v1beta#GetPropertiesKeyEvents/errors/-",
+      "value": {
+        "target": "com.gcp.analyticsadmin_v1beta#InsufficientScopes"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.analyticsadmin_v1beta#ListAccountSummaries/errors/-",
+      "value": {
+        "target": "com.gcp.analyticsadmin_v1beta#InsufficientScopes"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.analyticsadmin_v1beta#ListAccounts/errors/-",
+      "value": {
+        "target": "com.gcp.analyticsadmin_v1beta#InsufficientScopes"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.analyticsadmin_v1beta#ListProperties/errors/-",
+      "value": {
+        "target": "com.gcp.analyticsadmin_v1beta#InsufficientScopes"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.analyticsadmin_v1beta#ListPropertiesConversionEvents/errors/-",
+      "value": {
+        "target": "com.gcp.analyticsadmin_v1beta#InsufficientScopes"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.analyticsadmin_v1beta#ListPropertiesCustomDimensions/errors/-",
+      "value": {
+        "target": "com.gcp.analyticsadmin_v1beta#InsufficientScopes"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.analyticsadmin_v1beta#ListPropertiesCustomMetrics/errors/-",
+      "value": {
+        "target": "com.gcp.analyticsadmin_v1beta#InsufficientScopes"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.analyticsadmin_v1beta#ListPropertiesDataStreams/errors/-",
+      "value": {
+        "target": "com.gcp.analyticsadmin_v1beta#InsufficientScopes"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.analyticsadmin_v1beta#ListPropertiesDataStreamsMeasurementProtocolSecrets/errors/-",
+      "value": {
+        "target": "com.gcp.analyticsadmin_v1beta#InsufficientScopes"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.analyticsadmin_v1beta#ListPropertiesFirebaseLinks/errors/-",
+      "value": {
+        "target": "com.gcp.analyticsadmin_v1beta#InsufficientScopes"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.analyticsadmin_v1beta#ListPropertiesGoogleAdsLinks/errors/-",
+      "value": {
+        "target": "com.gcp.analyticsadmin_v1beta#InsufficientScopes"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.analyticsadmin_v1beta#ListPropertiesKeyEvents/errors/-",
+      "value": {
+        "target": "com.gcp.analyticsadmin_v1beta#InsufficientScopes"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.analyticsadmin_v1beta#PatchAccounts/errors/-",
+      "value": {
+        "target": "com.gcp.analyticsadmin_v1beta#InsufficientScopes"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.analyticsadmin_v1beta#PatchProperties/errors/-",
+      "value": {
+        "target": "com.gcp.analyticsadmin_v1beta#InsufficientScopes"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.analyticsadmin_v1beta#PatchPropertiesConversionEvents/errors/-",
+      "value": {
+        "target": "com.gcp.analyticsadmin_v1beta#InsufficientScopes"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.analyticsadmin_v1beta#PatchPropertiesCustomDimensions/errors/-",
+      "value": {
+        "target": "com.gcp.analyticsadmin_v1beta#InsufficientScopes"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.analyticsadmin_v1beta#PatchPropertiesCustomMetrics/errors/-",
+      "value": {
+        "target": "com.gcp.analyticsadmin_v1beta#InsufficientScopes"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.analyticsadmin_v1beta#PatchPropertiesDataStreams/errors/-",
+      "value": {
+        "target": "com.gcp.analyticsadmin_v1beta#InsufficientScopes"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.analyticsadmin_v1beta#PatchPropertiesDataStreamsMeasurementProtocolSecrets/errors/-",
+      "value": {
+        "target": "com.gcp.analyticsadmin_v1beta#InsufficientScopes"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.analyticsadmin_v1beta#PatchPropertiesGoogleAdsLinks/errors/-",
+      "value": {
+        "target": "com.gcp.analyticsadmin_v1beta#InsufficientScopes"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.analyticsadmin_v1beta#PatchPropertiesKeyEvents/errors/-",
+      "value": {
+        "target": "com.gcp.analyticsadmin_v1beta#InsufficientScopes"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.analyticsadmin_v1beta#ProvisionAccountTicketAccounts/errors/-",
+      "value": {
+        "target": "com.gcp.analyticsadmin_v1beta#InsufficientScopes"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.analyticsadmin_v1beta#RunAccessReportAccounts/errors/-",
+      "value": {
+        "target": "com.gcp.analyticsadmin_v1beta#InsufficientScopes"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.analyticsadmin_v1beta#RunAccessReportProperties/errors/-",
+      "value": {
+        "target": "com.gcp.analyticsadmin_v1beta#InsufficientScopes"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.analyticsadmin_v1beta#SearchChangeHistoryEventsAccounts/errors/-",
+      "value": {
+        "target": "com.gcp.analyticsadmin_v1beta#InsufficientScopes"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.analyticsadmin_v1beta#UpdateDataRetentionSettingsProperties/errors/-",
+      "value": {
+        "target": "com.gcp.analyticsadmin_v1beta#InsufficientScopes"
+      }
+    }
+  ]
+}

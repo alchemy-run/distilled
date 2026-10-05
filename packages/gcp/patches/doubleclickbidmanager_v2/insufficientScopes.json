@@ -1,0 +1,75 @@
+{
+  "description": "Type the OAuth-scope rejection (HTTP 403 PERMISSION_DENIED, reason ACCESS_TOKEN_SCOPE_INSUFFICIENT: 'Request had insufficient authentication scopes.'). This API needs a product-specific OAuth scope that a cloud-platform token does not carry; it surfaced as the generic Forbidden, indistinguishable from a missing IAM permission.",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.doubleclickbidmanager_v2#InsufficientScopes",
+      "value": {
+        "type": "structure",
+        "members": {},
+        "traits": {
+          "smithy.api#error": "client",
+          "smithy.api#httpError": 403,
+          "smithy.api#documentation": "The access token lacks the OAuth scope this API requires (HTTP 403 ACCESS_TOKEN_SCOPE_INSUFFICIENT).",
+          "com.gcp.protocols#errorMatchers": [
+            {
+              "status": 403,
+              "message": {
+                "includes": "insufficient authentication scopes"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.doubleclickbidmanager_v2#CreateQueries/errors/-",
+      "value": {
+        "target": "com.gcp.doubleclickbidmanager_v2#InsufficientScopes"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.doubleclickbidmanager_v2#DeleteQueries/errors/-",
+      "value": {
+        "target": "com.gcp.doubleclickbidmanager_v2#InsufficientScopes"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.doubleclickbidmanager_v2#GetQueries/errors/-",
+      "value": {
+        "target": "com.gcp.doubleclickbidmanager_v2#InsufficientScopes"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.doubleclickbidmanager_v2#GetQueriesReports/errors/-",
+      "value": {
+        "target": "com.gcp.doubleclickbidmanager_v2#InsufficientScopes"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.doubleclickbidmanager_v2#ListQueries/errors/-",
+      "value": {
+        "target": "com.gcp.doubleclickbidmanager_v2#InsufficientScopes"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.doubleclickbidmanager_v2#ListQueriesReports/errors/-",
+      "value": {
+        "target": "com.gcp.doubleclickbidmanager_v2#InsufficientScopes"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.doubleclickbidmanager_v2#RunQueries/errors/-",
+      "value": {
+        "target": "com.gcp.doubleclickbidmanager_v2#InsufficientScopes"
+      }
+    }
+  ]
+}

@@ -1649,6 +1649,9 @@
         },
         {
           "target": "com.gcp.cloudnumberregistry_v1alpha#Forbidden"
+        },
+        {
+          "target": "com.gcp.cloudnumberregistry_v1alpha#ServiceDisabled"
         }
       ],
       "traits": {
@@ -1690,6 +1693,9 @@
         },
         {
           "target": "com.gcp.cloudnumberregistry_v1alpha#Forbidden"
+        },
+        {
+          "target": "com.gcp.cloudnumberregistry_v1alpha#ServiceDisabled"
         }
       ],
       "traits": {
@@ -1763,6 +1769,9 @@
         },
         {
           "target": "com.gcp.cloudnumberregistry_v1alpha#Forbidden"
+        },
+        {
+          "target": "com.gcp.cloudnumberregistry_v1alpha#ServiceDisabled"
         }
       ],
       "traits": {
@@ -1853,6 +1862,9 @@
         },
         {
           "target": "com.gcp.cloudnumberregistry_v1alpha#Conflict"
+        },
+        {
+          "target": "com.gcp.cloudnumberregistry_v1alpha#ServiceDisabled"
         }
       ],
       "traits": {
@@ -1910,6 +1922,9 @@
         },
         {
           "target": "com.gcp.cloudnumberregistry_v1alpha#Conflict"
+        },
+        {
+          "target": "com.gcp.cloudnumberregistry_v1alpha#ServiceDisabled"
         }
       ],
       "traits": {
@@ -1974,6 +1989,9 @@
         },
         {
           "target": "com.gcp.cloudnumberregistry_v1alpha#Conflict"
+        },
+        {
+          "target": "com.gcp.cloudnumberregistry_v1alpha#ServiceDisabled"
         }
       ],
       "traits": {
@@ -2075,6 +2093,9 @@
         },
         {
           "target": "com.gcp.cloudnumberregistry_v1alpha#Forbidden"
+        },
+        {
+          "target": "com.gcp.cloudnumberregistry_v1alpha#ServiceDisabled"
         }
       ],
       "traits": {
@@ -2129,6 +2150,9 @@
         },
         {
           "target": "com.gcp.cloudnumberregistry_v1alpha#Conflict"
+        },
+        {
+          "target": "com.gcp.cloudnumberregistry_v1alpha#ServiceDisabled"
         }
       ],
       "traits": {
@@ -2166,6 +2190,9 @@
         },
         {
           "target": "com.gcp.cloudnumberregistry_v1alpha#Forbidden"
+        },
+        {
+          "target": "com.gcp.cloudnumberregistry_v1alpha#ServiceDisabled"
         }
       ],
       "traits": {
@@ -2261,6 +2288,9 @@
         },
         {
           "target": "com.gcp.cloudnumberregistry_v1alpha#Forbidden"
+        },
+        {
+          "target": "com.gcp.cloudnumberregistry_v1alpha#ServiceDisabled"
         }
       ],
       "traits": {
@@ -2326,6 +2356,9 @@
         },
         {
           "target": "com.gcp.cloudnumberregistry_v1alpha#Forbidden"
+        },
+        {
+          "target": "com.gcp.cloudnumberregistry_v1alpha#ServiceDisabled"
         }
       ],
       "traits": {
@@ -2394,6 +2427,9 @@
         },
         {
           "target": "com.gcp.cloudnumberregistry_v1alpha#Conflict"
+        },
+        {
+          "target": "com.gcp.cloudnumberregistry_v1alpha#ServiceDisabled"
         }
       ],
       "traits": {
@@ -2451,6 +2487,9 @@
         },
         {
           "target": "com.gcp.cloudnumberregistry_v1alpha#Conflict"
+        },
+        {
+          "target": "com.gcp.cloudnumberregistry_v1alpha#ServiceDisabled"
         }
       ],
       "traits": {
@@ -2515,6 +2554,9 @@
         },
         {
           "target": "com.gcp.cloudnumberregistry_v1alpha#Conflict"
+        },
+        {
+          "target": "com.gcp.cloudnumberregistry_v1alpha#ServiceDisabled"
         }
       ],
       "traits": {
@@ -2616,6 +2658,9 @@
         },
         {
           "target": "com.gcp.cloudnumberregistry_v1alpha#Forbidden"
+        },
+        {
+          "target": "com.gcp.cloudnumberregistry_v1alpha#ServiceDisabled"
         }
       ],
       "traits": {
@@ -2693,6 +2738,9 @@
         },
         {
           "target": "com.gcp.cloudnumberregistry_v1alpha#Forbidden"
+        },
+        {
+          "target": "com.gcp.cloudnumberregistry_v1alpha#ServiceDisabled"
         }
       ],
       "traits": {
@@ -2730,6 +2778,9 @@
         },
         {
           "target": "com.gcp.cloudnumberregistry_v1alpha#Forbidden"
+        },
+        {
+          "target": "com.gcp.cloudnumberregistry_v1alpha#ServiceDisabled"
         }
       ],
       "traits": {
@@ -2780,6 +2831,9 @@
         },
         {
           "target": "com.gcp.cloudnumberregistry_v1alpha#Conflict"
+        },
+        {
+          "target": "com.gcp.cloudnumberregistry_v1alpha#ServiceDisabled"
         }
       ],
       "traits": {
@@ -2844,6 +2898,9 @@
         },
         {
           "target": "com.gcp.cloudnumberregistry_v1alpha#Conflict"
+        },
+        {
+          "target": "com.gcp.cloudnumberregistry_v1alpha#ServiceDisabled"
         }
       ],
       "traits": {
@@ -2908,6 +2965,9 @@
         },
         {
           "target": "com.gcp.cloudnumberregistry_v1alpha#Conflict"
+        },
+        {
+          "target": "com.gcp.cloudnumberregistry_v1alpha#ServiceDisabled"
         }
       ],
       "traits": {
@@ -2965,6 +3025,9 @@
         },
         {
           "target": "com.gcp.cloudnumberregistry_v1alpha#Conflict"
+        },
+        {
+          "target": "com.gcp.cloudnumberregistry_v1alpha#ServiceDisabled"
         }
       ],
       "traits": {
@@ -3009,6 +3072,9 @@
         },
         {
           "target": "com.gcp.cloudnumberregistry_v1alpha#Forbidden"
+        },
+        {
+          "target": "com.gcp.cloudnumberregistry_v1alpha#ServiceDisabled"
         }
       ],
       "traits": {
@@ -3059,6 +3125,9 @@
         },
         {
           "target": "com.gcp.cloudnumberregistry_v1alpha#Conflict"
+        },
+        {
+          "target": "com.gcp.cloudnumberregistry_v1alpha#ServiceDisabled"
         }
       ],
       "traits": {
@@ -3124,6 +3193,9 @@
         },
         {
           "target": "com.gcp.cloudnumberregistry_v1alpha#Forbidden"
+        },
+        {
+          "target": "com.gcp.cloudnumberregistry_v1alpha#ServiceDisabled"
         }
       ],
       "traits": {
@@ -3178,6 +3250,9 @@
         },
         {
           "target": "com.gcp.cloudnumberregistry_v1alpha#Conflict"
+        },
+        {
+          "target": "com.gcp.cloudnumberregistry_v1alpha#ServiceDisabled"
         }
       ],
       "traits": {
@@ -3243,6 +3318,9 @@
         },
         {
           "target": "com.gcp.cloudnumberregistry_v1alpha#Forbidden"
+        },
+        {
+          "target": "com.gcp.cloudnumberregistry_v1alpha#ServiceDisabled"
         }
       ],
       "traits": {
@@ -3284,6 +3362,9 @@
         },
         {
           "target": "com.gcp.cloudnumberregistry_v1alpha#Forbidden"
+        },
+        {
+          "target": "com.gcp.cloudnumberregistry_v1alpha#ServiceDisabled"
         }
       ],
       "traits": {
@@ -3327,6 +3408,9 @@
         },
         {
           "target": "com.gcp.cloudnumberregistry_v1alpha#Conflict"
+        },
+        {
+          "target": "com.gcp.cloudnumberregistry_v1alpha#ServiceDisabled"
         }
       ],
       "traits": {
@@ -3391,6 +3475,9 @@
         },
         {
           "target": "com.gcp.cloudnumberregistry_v1alpha#Conflict"
+        },
+        {
+          "target": "com.gcp.cloudnumberregistry_v1alpha#ServiceDisabled"
         }
       ],
       "traits": {
@@ -3455,6 +3542,9 @@
         },
         {
           "target": "com.gcp.cloudnumberregistry_v1alpha#Conflict"
+        },
+        {
+          "target": "com.gcp.cloudnumberregistry_v1alpha#ServiceDisabled"
         }
       ],
       "traits": {
@@ -3512,6 +3602,9 @@
         },
         {
           "target": "com.gcp.cloudnumberregistry_v1alpha#Conflict"
+        },
+        {
+          "target": "com.gcp.cloudnumberregistry_v1alpha#ServiceDisabled"
         }
       ],
       "traits": {
@@ -3570,6 +3663,9 @@
         },
         {
           "target": "com.gcp.cloudnumberregistry_v1alpha#Forbidden"
+        },
+        {
+          "target": "com.gcp.cloudnumberregistry_v1alpha#ServiceDisabled"
         }
       ],
       "traits": {
@@ -3607,6 +3703,9 @@
         },
         {
           "target": "com.gcp.cloudnumberregistry_v1alpha#Forbidden"
+        },
+        {
+          "target": "com.gcp.cloudnumberregistry_v1alpha#ServiceDisabled"
         }
       ],
       "traits": {
@@ -3672,6 +3771,9 @@
         },
         {
           "target": "com.gcp.cloudnumberregistry_v1alpha#Forbidden"
+        },
+        {
+          "target": "com.gcp.cloudnumberregistry_v1alpha#ServiceDisabled"
         }
       ],
       "traits": {
@@ -3778,6 +3880,9 @@
         },
         {
           "target": "com.gcp.cloudnumberregistry_v1alpha#Forbidden"
+        },
+        {
+          "target": "com.gcp.cloudnumberregistry_v1alpha#ServiceDisabled"
         }
       ],
       "traits": {
@@ -3819,6 +3924,9 @@
         },
         {
           "target": "com.gcp.cloudnumberregistry_v1alpha#Forbidden"
+        },
+        {
+          "target": "com.gcp.cloudnumberregistry_v1alpha#ServiceDisabled"
         }
       ],
       "traits": {
@@ -3883,6 +3991,9 @@
         },
         {
           "target": "com.gcp.cloudnumberregistry_v1alpha#Conflict"
+        },
+        {
+          "target": "com.gcp.cloudnumberregistry_v1alpha#ServiceDisabled"
         }
       ],
       "traits": {
@@ -3933,6 +4044,9 @@
         },
         {
           "target": "com.gcp.cloudnumberregistry_v1alpha#Conflict"
+        },
+        {
+          "target": "com.gcp.cloudnumberregistry_v1alpha#ServiceDisabled"
         }
       ],
       "traits": {
@@ -3998,6 +4112,9 @@
         },
         {
           "target": "com.gcp.cloudnumberregistry_v1alpha#Forbidden"
+        },
+        {
+          "target": "com.gcp.cloudnumberregistry_v1alpha#ServiceDisabled"
         }
       ],
       "traits": {
@@ -4052,6 +4169,9 @@
         },
         {
           "target": "com.gcp.cloudnumberregistry_v1alpha#Conflict"
+        },
+        {
+          "target": "com.gcp.cloudnumberregistry_v1alpha#ServiceDisabled"
         }
       ],
       "traits": {
@@ -4095,6 +4215,9 @@
         },
         {
           "target": "com.gcp.cloudnumberregistry_v1alpha#Conflict"
+        },
+        {
+          "target": "com.gcp.cloudnumberregistry_v1alpha#ServiceDisabled"
         }
       ],
       "traits": {
@@ -4132,6 +4255,9 @@
         },
         {
           "target": "com.gcp.cloudnumberregistry_v1alpha#Forbidden"
+        },
+        {
+          "target": "com.gcp.cloudnumberregistry_v1alpha#ServiceDisabled"
         }
       ],
       "traits": {
@@ -4140,6 +4266,23 @@
           "uri": "v1alpha/{+name}"
         },
         "smithy.api#documentation": "Gets the latest state of a long-running operation. Clients can use this method to poll the operation result at intervals as recommended by the API service."
+      }
+    },
+    "com.gcp.cloudnumberregistry_v1alpha#ServiceDisabled": {
+      "type": "structure",
+      "members": {},
+      "traits": {
+        "smithy.api#error": "client",
+        "smithy.api#httpError": 403,
+        "smithy.api#documentation": "The API is not enabled on the project (HTTP 403 PERMISSION_DENIED, reason SERVICE_DISABLED: \"<API> has not been used in project <n> before or it is disabled.\").",
+        "com.gcp.protocols#errorMatchers": [
+          {
+            "status": 403,
+            "message": {
+              "includes": "has not been used in project"
+            }
+          }
+        ]
       }
     }
   }

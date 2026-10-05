@@ -41,7 +41,7 @@
         "name": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "A short description of Calls app, not shown to end users.",
+            "smithy.api#documentation": "A short description of a Realtime SFU app, not shown to end users.",
             "smithy.api#required": {}
           }
         },
@@ -80,7 +80,7 @@
         "name": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "A short description of Calls app, not shown to end users.",
+            "smithy.api#documentation": "A short description of a Realtime SFU app, not shown to end users.",
             "smithy.api#required": {}
           }
         },
@@ -211,7 +211,7 @@
           "uri": "/accounts/{account_id}/calls/apps",
           "code": 200
         },
-        "smithy.api#documentation": "Creates a new Cloudflare calls app. An app is an unique enviroment where each Session can access all Tracks within the app."
+        "smithy.api#documentation": "Creates a Realtime SFU app. An app is an isolated namespace in which sessions can access the app's tracks."
       },
       "errors": [
         {
@@ -233,7 +233,7 @@
         "name": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "A short description of Calls app, not shown to end users."
+            "smithy.api#documentation": "A short description of a Realtime SFU app, not shown to end users."
           }
         }
       },
@@ -261,7 +261,7 @@
         "name": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "A short description of Calls app, not shown to end users.",
+            "smithy.api#documentation": "A short description of a Realtime SFU app, not shown to end users.",
             "smithy.api#required": {}
           }
         },
@@ -299,7 +299,7 @@
           "uri": "/accounts/{account_id}/calls/turn_keys",
           "code": 200
         },
-        "smithy.api#documentation": "Creates a new Cloudflare Calls TURN key."
+        "smithy.api#documentation": "Creates a new Realtime TURN key."
       },
       "errors": [
         {
@@ -387,7 +387,7 @@
           "uri": "/accounts/{account_id}/calls/apps/{app_id}",
           "code": 200
         },
-        "smithy.api#documentation": "Deletes an app from Cloudflare Calls",
+        "smithy.api#documentation": "Deletes a Realtime SFU app.",
         "smithy.api#idempotent": {}
       },
       "errors": [
@@ -443,7 +443,7 @@
         "name": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "A short description of Calls app, not shown to end users.",
+            "smithy.api#documentation": "A short description of a Realtime SFU app, not shown to end users.",
             "smithy.api#required": {}
           }
         },
@@ -474,7 +474,7 @@
           "uri": "/accounts/{account_id}/calls/turn_keys/{key_id}",
           "code": 200
         },
-        "smithy.api#documentation": "Deletes a TURN key from Cloudflare Calls",
+        "smithy.api#documentation": "Deletes a Realtime TURN key.",
         "smithy.api#idempotent": {}
       },
       "errors": [
@@ -530,7 +530,7 @@
         "name": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "A short description of Calls app, not shown to end users.",
+            "smithy.api#documentation": "A short description of a Realtime SFU app, not shown to end users.",
             "smithy.api#required": {}
           }
         },
@@ -561,7 +561,7 @@
           "uri": "/accounts/{account_id}/calls/apps/{app_id}",
           "code": 200
         },
-        "smithy.api#documentation": "Fetches details for a single Calls app.",
+        "smithy.api#documentation": "Fetches details for a single Realtime SFU app.",
         "smithy.api#readonly": {}
       },
       "errors": [
@@ -617,7 +617,7 @@
         "name": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "A short description of Calls app, not shown to end users.",
+            "smithy.api#documentation": "A short description of a Realtime SFU app, not shown to end users.",
             "smithy.api#required": {}
           }
         },
@@ -704,7 +704,7 @@
         "name": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "A short description of Calls app, not shown to end users.",
+            "smithy.api#documentation": "A short description of a Realtime SFU app, not shown to end users.",
             "smithy.api#required": {}
           }
         },
@@ -788,7 +788,7 @@
           "uri": "/accounts/{account_id}/calls/turn_keys",
           "code": 200
         },
-        "smithy.api#documentation": "Lists all TURN keys in the Cloudflare account",
+        "smithy.api#documentation": "Lists all TURN keys in the Cloudflare account.",
         "smithy.api#readonly": {},
         "smithy.api#paginated": {
           "mode": "single",
@@ -841,7 +841,7 @@
           "uri": "/accounts/{account_id}/calls/apps/{app_id}",
           "code": 200
         },
-        "smithy.api#documentation": "Edit details for a single app.",
+        "smithy.api#documentation": "Updates details for a single Realtime SFU app.",
         "smithy.api#idempotent": {}
       },
       "errors": [
@@ -875,7 +875,7 @@
         "name": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "A short description of Calls app, not shown to end users."
+            "smithy.api#documentation": "A short description of a Realtime SFU app, not shown to end users."
           }
         }
       },
@@ -903,7 +903,7 @@
         "name": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "A short description of Calls app, not shown to end users.",
+            "smithy.api#documentation": "A short description of a Realtime SFU app, not shown to end users.",
             "smithy.api#required": {}
           }
         },
@@ -934,7 +934,7 @@
           "uri": "/accounts/{account_id}/calls/turn_keys/{key_id}",
           "code": 200
         },
-        "smithy.api#documentation": "Edit details for a single TURN key.",
+        "smithy.api#documentation": "Updates details for a single TURN key.",
         "smithy.api#idempotent": {}
       },
       "errors": [
@@ -996,7 +996,7 @@
         "name": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "A short description of Calls app, not shown to end users.",
+            "smithy.api#documentation": "A short description of a Realtime SFU app, not shown to end users.",
             "smithy.api#required": {}
           }
         },

@@ -338,7 +338,7 @@
         "amount": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "Output only. The amount of unpaid or paid earnings, as a formatted string, including the currency. E.g. \"¥1,235 JPY\", \"$1,234.57\", \"£87.65\"."
+            "smithy.api#documentation": "Output only. The amount of unpaid or paid earnings, as a formatted string, including the currency. E.g. \"\u00a51,235 JPY\", \"$1,234.57\", \"\u00a387.65\"."
           }
         },
         "name": {
@@ -1415,6 +1415,9 @@
         },
         {
           "target": "com.gcp.adsense_v2#Forbidden"
+        },
+        {
+          "target": "com.gcp.adsense_v2#InsufficientScopes"
         }
       ],
       "traits": {
@@ -1466,6 +1469,9 @@
         },
         {
           "target": "com.gcp.adsense_v2#Forbidden"
+        },
+        {
+          "target": "com.gcp.adsense_v2#InsufficientScopes"
         }
       ],
       "traits": {
@@ -1507,6 +1513,9 @@
         },
         {
           "target": "com.gcp.adsense_v2#Forbidden"
+        },
+        {
+          "target": "com.gcp.adsense_v2#InsufficientScopes"
         }
       ],
       "traits": {
@@ -1550,6 +1559,9 @@
         },
         {
           "target": "com.gcp.adsense_v2#Forbidden"
+        },
+        {
+          "target": "com.gcp.adsense_v2#InsufficientScopes"
         }
       ],
       "traits": {
@@ -1591,6 +1603,9 @@
         },
         {
           "target": "com.gcp.adsense_v2#Forbidden"
+        },
+        {
+          "target": "com.gcp.adsense_v2#InsufficientScopes"
         }
       ],
       "traits": {
@@ -1635,6 +1650,9 @@
         },
         {
           "target": "com.gcp.adsense_v2#Forbidden"
+        },
+        {
+          "target": "com.gcp.adsense_v2#InsufficientScopes"
         }
       ],
       "traits": {
@@ -1672,6 +1690,9 @@
         },
         {
           "target": "com.gcp.adsense_v2#Forbidden"
+        },
+        {
+          "target": "com.gcp.adsense_v2#InsufficientScopes"
         }
       ],
       "traits": {
@@ -1723,6 +1744,9 @@
         },
         {
           "target": "com.gcp.adsense_v2#Forbidden"
+        },
+        {
+          "target": "com.gcp.adsense_v2#InsufficientScopes"
         }
       ],
       "traits": {
@@ -1764,6 +1788,9 @@
         },
         {
           "target": "com.gcp.adsense_v2#Forbidden"
+        },
+        {
+          "target": "com.gcp.adsense_v2#InsufficientScopes"
         }
       ],
       "traits": {
@@ -1815,6 +1842,9 @@
         },
         {
           "target": "com.gcp.adsense_v2#Forbidden"
+        },
+        {
+          "target": "com.gcp.adsense_v2#InsufficientScopes"
         }
       ],
       "traits": {
@@ -2623,6 +2653,9 @@
         },
         {
           "target": "com.gcp.adsense_v2#Forbidden"
+        },
+        {
+          "target": "com.gcp.adsense_v2#InsufficientScopes"
         }
       ],
       "traits": {
@@ -2660,6 +2693,9 @@
         },
         {
           "target": "com.gcp.adsense_v2#Forbidden"
+        },
+        {
+          "target": "com.gcp.adsense_v2#InsufficientScopes"
         }
       ],
       "traits": {
@@ -3464,6 +3500,9 @@
         },
         {
           "target": "com.gcp.adsense_v2#Forbidden"
+        },
+        {
+          "target": "com.gcp.adsense_v2#InsufficientScopes"
         }
       ],
       "traits": {
@@ -3647,6 +3686,9 @@
         },
         {
           "target": "com.gcp.adsense_v2#Forbidden"
+        },
+        {
+          "target": "com.gcp.adsense_v2#InsufficientScopes"
         }
       ],
       "traits": {
@@ -3830,6 +3872,9 @@
         },
         {
           "target": "com.gcp.adsense_v2#Forbidden"
+        },
+        {
+          "target": "com.gcp.adsense_v2#InsufficientScopes"
         }
       ],
       "traits": {
@@ -3881,6 +3926,9 @@
         },
         {
           "target": "com.gcp.adsense_v2#Forbidden"
+        },
+        {
+          "target": "com.gcp.adsense_v2#InsufficientScopes"
         }
       ],
       "traits": {
@@ -3936,6 +3984,9 @@
         },
         {
           "target": "com.gcp.adsense_v2#Forbidden"
+        },
+        {
+          "target": "com.gcp.adsense_v2#InsufficientScopes"
         }
       ],
       "traits": {
@@ -3977,6 +4028,9 @@
         },
         {
           "target": "com.gcp.adsense_v2#Forbidden"
+        },
+        {
+          "target": "com.gcp.adsense_v2#InsufficientScopes"
         }
       ],
       "traits": {
@@ -4014,6 +4068,9 @@
         },
         {
           "target": "com.gcp.adsense_v2#Forbidden"
+        },
+        {
+          "target": "com.gcp.adsense_v2#InsufficientScopes"
         }
       ],
       "traits": {
@@ -4065,6 +4122,9 @@
         },
         {
           "target": "com.gcp.adsense_v2#Forbidden"
+        },
+        {
+          "target": "com.gcp.adsense_v2#InsufficientScopes"
         }
       ],
       "traits": {
@@ -4138,6 +4198,9 @@
         },
         {
           "target": "com.gcp.adsense_v2#Conflict"
+        },
+        {
+          "target": "com.gcp.adsense_v2#InsufficientScopes"
         }
       ],
       "traits": {
@@ -4189,6 +4252,9 @@
         },
         {
           "target": "com.gcp.adsense_v2#Forbidden"
+        },
+        {
+          "target": "com.gcp.adsense_v2#InsufficientScopes"
         }
       ],
       "traits": {
@@ -4250,6 +4316,9 @@
         },
         {
           "target": "com.gcp.adsense_v2#Conflict"
+        },
+        {
+          "target": "com.gcp.adsense_v2#InsufficientScopes"
         }
       ],
       "traits": {
@@ -4287,6 +4356,9 @@
         },
         {
           "target": "com.gcp.adsense_v2#Forbidden"
+        },
+        {
+          "target": "com.gcp.adsense_v2#InsufficientScopes"
         }
       ],
       "traits": {
@@ -4337,6 +4409,9 @@
         },
         {
           "target": "com.gcp.adsense_v2#Conflict"
+        },
+        {
+          "target": "com.gcp.adsense_v2#InsufficientScopes"
         }
       ],
       "traits": {
@@ -4388,6 +4463,9 @@
         },
         {
           "target": "com.gcp.adsense_v2#Forbidden"
+        },
+        {
+          "target": "com.gcp.adsense_v2#InsufficientScopes"
         }
       ],
       "traits": {
@@ -4429,6 +4507,9 @@
         },
         {
           "target": "com.gcp.adsense_v2#Forbidden"
+        },
+        {
+          "target": "com.gcp.adsense_v2#InsufficientScopes"
         }
       ],
       "traits": {
@@ -4480,6 +4561,9 @@
         },
         {
           "target": "com.gcp.adsense_v2#Forbidden"
+        },
+        {
+          "target": "com.gcp.adsense_v2#InsufficientScopes"
         }
       ],
       "traits": {
@@ -4534,6 +4618,9 @@
         },
         {
           "target": "com.gcp.adsense_v2#Conflict"
+        },
+        {
+          "target": "com.gcp.adsense_v2#InsufficientScopes"
         }
       ],
       "traits": {
@@ -4571,6 +4658,9 @@
         },
         {
           "target": "com.gcp.adsense_v2#Forbidden"
+        },
+        {
+          "target": "com.gcp.adsense_v2#InsufficientScopes"
         }
       ],
       "traits": {
@@ -4628,6 +4718,9 @@
         },
         {
           "target": "com.gcp.adsense_v2#Conflict"
+        },
+        {
+          "target": "com.gcp.adsense_v2#InsufficientScopes"
         }
       ],
       "traits": {
@@ -4679,6 +4772,9 @@
         },
         {
           "target": "com.gcp.adsense_v2#Forbidden"
+        },
+        {
+          "target": "com.gcp.adsense_v2#InsufficientScopes"
         }
       ],
       "traits": {
@@ -4720,6 +4816,9 @@
         },
         {
           "target": "com.gcp.adsense_v2#Forbidden"
+        },
+        {
+          "target": "com.gcp.adsense_v2#InsufficientScopes"
         }
       ],
       "traits": {
@@ -4728,6 +4827,23 @@
           "uri": "v2/{+name}"
         },
         "smithy.api#documentation": "Gets information about the selected url channel."
+      }
+    },
+    "com.gcp.adsense_v2#InsufficientScopes": {
+      "type": "structure",
+      "members": {},
+      "traits": {
+        "smithy.api#error": "client",
+        "smithy.api#httpError": 403,
+        "smithy.api#documentation": "The access token lacks the OAuth scope this API requires (HTTP 403 ACCESS_TOKEN_SCOPE_INSUFFICIENT).",
+        "com.gcp.protocols#errorMatchers": [
+          {
+            "status": 403,
+            "message": {
+              "includes": "insufficient authentication scopes"
+            }
+          }
+        ]
       }
     }
   }

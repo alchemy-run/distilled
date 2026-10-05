@@ -1505,6 +1505,9 @@
         },
         {
           "target": "com.gcp.apim_v1alpha#Forbidden"
+        },
+        {
+          "target": "com.gcp.apim_v1alpha#ServiceDisabled"
         }
       ],
       "traits": {
@@ -1730,6 +1733,9 @@
         },
         {
           "target": "com.gcp.apim_v1alpha#Forbidden"
+        },
+        {
+          "target": "com.gcp.apim_v1alpha#ServiceDisabled"
         }
       ],
       "traits": {
@@ -1780,6 +1786,9 @@
         },
         {
           "target": "com.gcp.apim_v1alpha#Conflict"
+        },
+        {
+          "target": "com.gcp.apim_v1alpha#ServiceDisabled"
         }
       ],
       "traits": {
@@ -1830,6 +1839,9 @@
         },
         {
           "target": "com.gcp.apim_v1alpha#Conflict"
+        },
+        {
+          "target": "com.gcp.apim_v1alpha#ServiceDisabled"
         }
       ],
       "traits": {
@@ -1881,6 +1893,9 @@
         },
         {
           "target": "com.gcp.apim_v1alpha#Forbidden"
+        },
+        {
+          "target": "com.gcp.apim_v1alpha#ServiceDisabled"
         }
       ],
       "traits": {
@@ -1949,6 +1964,9 @@
         },
         {
           "target": "com.gcp.apim_v1alpha#Conflict"
+        },
+        {
+          "target": "com.gcp.apim_v1alpha#ServiceDisabled"
         }
       ],
       "traits": {
@@ -1992,6 +2010,9 @@
         },
         {
           "target": "com.gcp.apim_v1alpha#Conflict"
+        },
+        {
+          "target": "com.gcp.apim_v1alpha#ServiceDisabled"
         }
       ],
       "traits": {
@@ -2277,6 +2298,9 @@
         },
         {
           "target": "com.gcp.apim_v1alpha#Forbidden"
+        },
+        {
+          "target": "com.gcp.apim_v1alpha#ServiceDisabled"
         }
       ],
       "traits": {
@@ -2318,6 +2342,9 @@
         },
         {
           "target": "com.gcp.apim_v1alpha#Forbidden"
+        },
+        {
+          "target": "com.gcp.apim_v1alpha#ServiceDisabled"
         }
       ],
       "traits": {
@@ -2382,6 +2409,9 @@
         },
         {
           "target": "com.gcp.apim_v1alpha#Conflict"
+        },
+        {
+          "target": "com.gcp.apim_v1alpha#ServiceDisabled"
         }
       ],
       "traits": {
@@ -2425,6 +2455,9 @@
         },
         {
           "target": "com.gcp.apim_v1alpha#Conflict"
+        },
+        {
+          "target": "com.gcp.apim_v1alpha#ServiceDisabled"
         }
       ],
       "traits": {
@@ -2433,6 +2466,23 @@
           "uri": "v1alpha/{+name}"
         },
         "smithy.api#documentation": "DeleteObservationSource deletes an observation source. This method will fail if the observation source is currently being used by any ObservationJob, even if not enabled."
+      }
+    },
+    "com.gcp.apim_v1alpha#ServiceDisabled": {
+      "type": "structure",
+      "members": {},
+      "traits": {
+        "smithy.api#error": "client",
+        "smithy.api#httpError": 403,
+        "smithy.api#documentation": "The API Management API is not enabled for the calling project (HTTP 403 SERVICE_DISABLED: 'API Management API has not been used in project N before or it is disabled.'). Not retryable until the service is enabled.",
+        "com.gcp.protocols#errorMatchers": [
+          {
+            "status": 403,
+            "message": {
+              "includes": "has not been used in project"
+            }
+          }
+        ]
       }
     }
   }

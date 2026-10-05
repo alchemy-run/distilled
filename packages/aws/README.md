@@ -13,7 +13,7 @@ npm install @distilled.cloud/aws effect
 ```typescript
 import { Effect, Layer } from "effect";
 import * as Stream from "effect/Stream";
-import * as FetchHttpClient from "effect/unstable/http/FetchHttpClient";
+import * as FetchHttpClient from "effect/http/FetchHttpClient";
 import * as Lambda from "@distilled.cloud/aws/lambda";
 import * as S3 from "@distilled.cloud/aws/s3";
 import { Credentials, Region } from "@distilled.cloud/aws";
@@ -79,10 +79,16 @@ Credentials.fromSSO("my-profile")
 // Shared credentials file (~/.aws/credentials)
 Credentials.fromIni()
 
-// Static credentials
+// Static credentials (each value a Redacted string)
 Credentials.fromCredentials({
-  accessKeyId: "AKIA...",
-  secretAccessKey: "...",
+  accessKeyId: Redacted.make("AKIA..."),
+  secretAccessKey: Redacted.make("..."),
+})
+
+// A role assumed with an OIDC token; pass an Effect for a token that refreshes
+Credentials.fromWebToken({
+  roleArn: "arn:aws:iam::123456789012:role/Web",
+  webIdentityToken: Redacted.make(oidcToken),
 })
 ```
 

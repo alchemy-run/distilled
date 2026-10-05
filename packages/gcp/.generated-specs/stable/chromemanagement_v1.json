@@ -8375,7 +8375,7 @@
         "noRecentActivityCount": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "Number of browsers that haven’t had any recent activity"
+            "smithy.api#documentation": "Number of browsers that haven\u2019t had any recent activity"
           }
         },
         "pendingBrowserUpdateCount": {
@@ -8932,6 +8932,9 @@
         },
         {
           "target": "com.gcp.chromemanagement_v1#Conflict"
+        },
+        {
+          "target": "com.gcp.chromemanagement_v1#InsufficientScopes"
         }
       ],
       "traits": {
@@ -8982,6 +8985,9 @@
         },
         {
           "target": "com.gcp.chromemanagement_v1#Conflict"
+        },
+        {
+          "target": "com.gcp.chromemanagement_v1#InsufficientScopes"
         }
       ],
       "traits": {
@@ -9032,6 +9038,9 @@
         },
         {
           "target": "com.gcp.chromemanagement_v1#Conflict"
+        },
+        {
+          "target": "com.gcp.chromemanagement_v1#InsufficientScopes"
         }
       ],
       "traits": {
@@ -9082,6 +9091,9 @@
         },
         {
           "target": "com.gcp.chromemanagement_v1#Conflict"
+        },
+        {
+          "target": "com.gcp.chromemanagement_v1#InsufficientScopes"
         }
       ],
       "traits": {
@@ -9119,6 +9131,9 @@
         },
         {
           "target": "com.gcp.chromemanagement_v1#Forbidden"
+        },
+        {
+          "target": "com.gcp.chromemanagement_v1#InsufficientScopes"
         }
       ],
       "traits": {
@@ -9156,6 +9171,9 @@
         },
         {
           "target": "com.gcp.chromemanagement_v1#Forbidden"
+        },
+        {
+          "target": "com.gcp.chromemanagement_v1#InsufficientScopes"
         }
       ],
       "traits": {
@@ -9213,6 +9231,9 @@
         },
         {
           "target": "com.gcp.chromemanagement_v1#Conflict"
+        },
+        {
+          "target": "com.gcp.chromemanagement_v1#InsufficientScopes"
         }
       ],
       "traits": {
@@ -9270,6 +9291,9 @@
         },
         {
           "target": "com.gcp.chromemanagement_v1#Conflict"
+        },
+        {
+          "target": "com.gcp.chromemanagement_v1#InsufficientScopes"
         }
       ],
       "traits": {
@@ -9307,6 +9331,9 @@
         },
         {
           "target": "com.gcp.chromemanagement_v1#Forbidden"
+        },
+        {
+          "target": "com.gcp.chromemanagement_v1#InsufficientScopes"
         }
       ],
       "traits": {
@@ -9350,6 +9377,9 @@
         },
         {
           "target": "com.gcp.chromemanagement_v1#Conflict"
+        },
+        {
+          "target": "com.gcp.chromemanagement_v1#InsufficientScopes"
         }
       ],
       "traits": {
@@ -9401,6 +9431,9 @@
         },
         {
           "target": "com.gcp.chromemanagement_v1#Forbidden"
+        },
+        {
+          "target": "com.gcp.chromemanagement_v1#InsufficientScopes"
         }
       ],
       "traits": {
@@ -9607,6 +9640,9 @@
         },
         {
           "target": "com.gcp.chromemanagement_v1#Forbidden"
+        },
+        {
+          "target": "com.gcp.chromemanagement_v1#InsufficientScopes"
         }
       ],
       "traits": {
@@ -9661,6 +9697,9 @@
         },
         {
           "target": "com.gcp.chromemanagement_v1#Conflict"
+        },
+        {
+          "target": "com.gcp.chromemanagement_v1#InsufficientScopes"
         }
       ],
       "traits": {
@@ -9698,6 +9737,9 @@
         },
         {
           "target": "com.gcp.chromemanagement_v1#Forbidden"
+        },
+        {
+          "target": "com.gcp.chromemanagement_v1#InsufficientScopes"
         }
       ],
       "traits": {
@@ -9870,6 +9912,9 @@
         },
         {
           "target": "com.gcp.chromemanagement_v1#Forbidden"
+        },
+        {
+          "target": "com.gcp.chromemanagement_v1#InsufficientScopes"
         }
       ],
       "traits": {
@@ -9918,6 +9963,9 @@
         },
         {
           "target": "com.gcp.chromemanagement_v1#Forbidden"
+        },
+        {
+          "target": "com.gcp.chromemanagement_v1#InsufficientScopes"
         }
       ],
       "traits": {
@@ -9962,6 +10010,9 @@
         },
         {
           "target": "com.gcp.chromemanagement_v1#Forbidden"
+        },
+        {
+          "target": "com.gcp.chromemanagement_v1#InsufficientScopes"
         }
       ],
       "traits": {
@@ -10012,6 +10063,9 @@
         },
         {
           "target": "com.gcp.chromemanagement_v1#Conflict"
+        },
+        {
+          "target": "com.gcp.chromemanagement_v1#InsufficientScopes"
         }
       ],
       "traits": {
@@ -10084,6 +10138,9 @@
         },
         {
           "target": "com.gcp.chromemanagement_v1#Forbidden"
+        },
+        {
+          "target": "com.gcp.chromemanagement_v1#InsufficientScopes"
         }
       ],
       "traits": {
@@ -10146,6 +10203,9 @@
         },
         {
           "target": "com.gcp.chromemanagement_v1#Forbidden"
+        },
+        {
+          "target": "com.gcp.chromemanagement_v1#InsufficientScopes"
         }
       ],
       "traits": {
@@ -10190,6 +10250,9 @@
         },
         {
           "target": "com.gcp.chromemanagement_v1#Forbidden"
+        },
+        {
+          "target": "com.gcp.chromemanagement_v1#InsufficientScopes"
         }
       ],
       "traits": {
@@ -10262,6 +10325,9 @@
         },
         {
           "target": "com.gcp.chromemanagement_v1#Forbidden"
+        },
+        {
+          "target": "com.gcp.chromemanagement_v1#InsufficientScopes"
         }
       ],
       "traits": {
@@ -10317,6 +10383,9 @@
         },
         {
           "target": "com.gcp.chromemanagement_v1#Forbidden"
+        },
+        {
+          "target": "com.gcp.chromemanagement_v1#InsufficientScopes"
         }
       ],
       "traits": {
@@ -10368,6 +10437,9 @@
         },
         {
           "target": "com.gcp.chromemanagement_v1#Forbidden"
+        },
+        {
+          "target": "com.gcp.chromemanagement_v1#InsufficientScopes"
         }
       ],
       "traits": {
@@ -10440,6 +10512,9 @@
         },
         {
           "target": "com.gcp.chromemanagement_v1#Forbidden"
+        },
+        {
+          "target": "com.gcp.chromemanagement_v1#InsufficientScopes"
         }
       ],
       "traits": {
@@ -10502,6 +10577,9 @@
         },
         {
           "target": "com.gcp.chromemanagement_v1#Forbidden"
+        },
+        {
+          "target": "com.gcp.chromemanagement_v1#InsufficientScopes"
         }
       ],
       "traits": {
@@ -10574,6 +10652,9 @@
         },
         {
           "target": "com.gcp.chromemanagement_v1#Forbidden"
+        },
+        {
+          "target": "com.gcp.chromemanagement_v1#InsufficientScopes"
         }
       ],
       "traits": {
@@ -10643,6 +10724,9 @@
         },
         {
           "target": "com.gcp.chromemanagement_v1#Forbidden"
+        },
+        {
+          "target": "com.gcp.chromemanagement_v1#InsufficientScopes"
         }
       ],
       "traits": {
@@ -10774,6 +10858,9 @@
         },
         {
           "target": "com.gcp.chromemanagement_v1#Forbidden"
+        },
+        {
+          "target": "com.gcp.chromemanagement_v1#InsufficientScopes"
         }
       ],
       "traits": {
@@ -10843,6 +10930,9 @@
         },
         {
           "target": "com.gcp.chromemanagement_v1#Forbidden"
+        },
+        {
+          "target": "com.gcp.chromemanagement_v1#InsufficientScopes"
         }
       ],
       "traits": {
@@ -10905,6 +10995,9 @@
         },
         {
           "target": "com.gcp.chromemanagement_v1#Forbidden"
+        },
+        {
+          "target": "com.gcp.chromemanagement_v1#InsufficientScopes"
         }
       ],
       "traits": {
@@ -10963,6 +11056,9 @@
         },
         {
           "target": "com.gcp.chromemanagement_v1#Forbidden"
+        },
+        {
+          "target": "com.gcp.chromemanagement_v1#InsufficientScopes"
         }
       ],
       "traits": {
@@ -11021,6 +11117,9 @@
         },
         {
           "target": "com.gcp.chromemanagement_v1#Forbidden"
+        },
+        {
+          "target": "com.gcp.chromemanagement_v1#InsufficientScopes"
         }
       ],
       "traits": {
@@ -11148,6 +11247,9 @@
         },
         {
           "target": "com.gcp.chromemanagement_v1#Forbidden"
+        },
+        {
+          "target": "com.gcp.chromemanagement_v1#InsufficientScopes"
         }
       ],
       "traits": {
@@ -11202,6 +11304,9 @@
         },
         {
           "target": "com.gcp.chromemanagement_v1#Conflict"
+        },
+        {
+          "target": "com.gcp.chromemanagement_v1#InsufficientScopes"
         }
       ],
       "traits": {
@@ -11245,6 +11350,9 @@
         },
         {
           "target": "com.gcp.chromemanagement_v1#Conflict"
+        },
+        {
+          "target": "com.gcp.chromemanagement_v1#InsufficientScopes"
         }
       ],
       "traits": {
@@ -11310,6 +11418,9 @@
         },
         {
           "target": "com.gcp.chromemanagement_v1#Forbidden"
+        },
+        {
+          "target": "com.gcp.chromemanagement_v1#InsufficientScopes"
         }
       ],
       "traits": {
@@ -11351,6 +11462,9 @@
         },
         {
           "target": "com.gcp.chromemanagement_v1#Forbidden"
+        },
+        {
+          "target": "com.gcp.chromemanagement_v1#InsufficientScopes"
         }
       ],
       "traits": {
@@ -11401,6 +11515,9 @@
         },
         {
           "target": "com.gcp.chromemanagement_v1#Conflict"
+        },
+        {
+          "target": "com.gcp.chromemanagement_v1#InsufficientScopes"
         }
       ],
       "traits": {
@@ -11452,6 +11569,9 @@
         },
         {
           "target": "com.gcp.chromemanagement_v1#Forbidden"
+        },
+        {
+          "target": "com.gcp.chromemanagement_v1#InsufficientScopes"
         }
       ],
       "traits": {
@@ -11493,6 +11613,9 @@
         },
         {
           "target": "com.gcp.chromemanagement_v1#Forbidden"
+        },
+        {
+          "target": "com.gcp.chromemanagement_v1#InsufficientScopes"
         }
       ],
       "traits": {
@@ -11558,6 +11681,9 @@
         },
         {
           "target": "com.gcp.chromemanagement_v1#Forbidden"
+        },
+        {
+          "target": "com.gcp.chromemanagement_v1#InsufficientScopes"
         }
       ],
       "traits": {
@@ -11627,6 +11753,9 @@
         },
         {
           "target": "com.gcp.chromemanagement_v1#Forbidden"
+        },
+        {
+          "target": "com.gcp.chromemanagement_v1#InsufficientScopes"
         }
       ],
       "traits": {
@@ -11696,6 +11825,9 @@
         },
         {
           "target": "com.gcp.chromemanagement_v1#Forbidden"
+        },
+        {
+          "target": "com.gcp.chromemanagement_v1#InsufficientScopes"
         }
       ],
       "traits": {
@@ -11737,6 +11869,9 @@
         },
         {
           "target": "com.gcp.chromemanagement_v1#Forbidden"
+        },
+        {
+          "target": "com.gcp.chromemanagement_v1#InsufficientScopes"
         }
       ],
       "traits": {
@@ -11774,6 +11909,9 @@
         },
         {
           "target": "com.gcp.chromemanagement_v1#Forbidden"
+        },
+        {
+          "target": "com.gcp.chromemanagement_v1#InsufficientScopes"
         }
       ],
       "traits": {
@@ -11811,6 +11949,9 @@
         },
         {
           "target": "com.gcp.chromemanagement_v1#Forbidden"
+        },
+        {
+          "target": "com.gcp.chromemanagement_v1#InsufficientScopes"
         }
       ],
       "traits": {
@@ -11861,6 +12002,9 @@
         },
         {
           "target": "com.gcp.chromemanagement_v1#Conflict"
+        },
+        {
+          "target": "com.gcp.chromemanagement_v1#InsufficientScopes"
         }
       ],
       "traits": {
@@ -11912,6 +12056,9 @@
         },
         {
           "target": "com.gcp.chromemanagement_v1#Forbidden"
+        },
+        {
+          "target": "com.gcp.chromemanagement_v1#InsufficientScopes"
         }
       ],
       "traits": {
@@ -11959,6 +12106,9 @@
         },
         {
           "target": "com.gcp.chromemanagement_v1#Conflict"
+        },
+        {
+          "target": "com.gcp.chromemanagement_v1#InsufficientScopes"
         }
       ],
       "traits": {
@@ -12024,6 +12174,9 @@
         },
         {
           "target": "com.gcp.chromemanagement_v1#Forbidden"
+        },
+        {
+          "target": "com.gcp.chromemanagement_v1#InsufficientScopes"
         }
       ],
       "traits": {
@@ -12072,6 +12225,9 @@
         },
         {
           "target": "com.gcp.chromemanagement_v1#Forbidden"
+        },
+        {
+          "target": "com.gcp.chromemanagement_v1#InsufficientScopes"
         }
       ],
       "traits": {
@@ -12137,6 +12293,9 @@
         },
         {
           "target": "com.gcp.chromemanagement_v1#Forbidden"
+        },
+        {
+          "target": "com.gcp.chromemanagement_v1#InsufficientScopes"
         }
       ],
       "traits": {
@@ -12206,6 +12365,9 @@
         },
         {
           "target": "com.gcp.chromemanagement_v1#Forbidden"
+        },
+        {
+          "target": "com.gcp.chromemanagement_v1#InsufficientScopes"
         }
       ],
       "traits": {
@@ -12254,6 +12416,9 @@
         },
         {
           "target": "com.gcp.chromemanagement_v1#Forbidden"
+        },
+        {
+          "target": "com.gcp.chromemanagement_v1#InsufficientScopes"
         }
       ],
       "traits": {
@@ -12304,6 +12469,9 @@
         },
         {
           "target": "com.gcp.chromemanagement_v1#Conflict"
+        },
+        {
+          "target": "com.gcp.chromemanagement_v1#InsufficientScopes"
         }
       ],
       "traits": {
@@ -12347,6 +12515,9 @@
         },
         {
           "target": "com.gcp.chromemanagement_v1#Conflict"
+        },
+        {
+          "target": "com.gcp.chromemanagement_v1#InsufficientScopes"
         }
       ],
       "traits": {
@@ -12412,6 +12583,9 @@
         },
         {
           "target": "com.gcp.chromemanagement_v1#Forbidden"
+        },
+        {
+          "target": "com.gcp.chromemanagement_v1#InsufficientScopes"
         }
       ],
       "traits": {
@@ -12424,6 +12598,23 @@
           "inputToken": "pageToken",
           "outputToken": "nextPageToken"
         }
+      }
+    },
+    "com.gcp.chromemanagement_v1#InsufficientScopes": {
+      "type": "structure",
+      "members": {},
+      "traits": {
+        "smithy.api#error": "client",
+        "smithy.api#httpError": 403,
+        "smithy.api#documentation": "The OAuth token lacks the scope the API requires (HTTP 403 PERMISSION_DENIED: \"Request had insufficient authentication scopes.\"). Service-account tokens with only cloud-platform scope hit this.",
+        "com.gcp.protocols#errorMatchers": [
+          {
+            "status": 403,
+            "message": {
+              "includes": "insufficient authentication scopes"
+            }
+          }
+        ]
       }
     }
   }

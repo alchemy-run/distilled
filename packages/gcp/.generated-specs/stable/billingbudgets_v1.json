@@ -573,6 +573,9 @@
         },
         {
           "target": "com.gcp.billingbudgets_v1#Forbidden"
+        },
+        {
+          "target": "com.gcp.billingbudgets_v1#BudgetNotFound"
         }
       ],
       "traits": {
@@ -616,6 +619,9 @@
         },
         {
           "target": "com.gcp.billingbudgets_v1#Conflict"
+        },
+        {
+          "target": "com.gcp.billingbudgets_v1#BudgetNotFound"
         }
       ],
       "traits": {
@@ -735,6 +741,9 @@
         },
         {
           "target": "com.gcp.billingbudgets_v1#Conflict"
+        },
+        {
+          "target": "com.gcp.billingbudgets_v1#BudgetNotFound"
         }
       ],
       "traits": {
@@ -743,6 +752,23 @@
           "uri": "v1/{+name}"
         },
         "smithy.api#documentation": "Updates a budget and returns the updated budget. WARNING: There are some fields exposed on the Google Cloud Console that aren't available on this API. Budget fields that are not exposed in this API will not be changed by this method."
+      }
+    },
+    "com.gcp.billingbudgets_v1#BudgetNotFound": {
+      "type": "structure",
+      "members": {},
+      "traits": {
+        "smithy.api#error": "client",
+        "smithy.api#httpError": 403,
+        "smithy.api#documentation": "The budget does not exist (or is outside the caller's billing scope). The Budget API answers HTTP 403 'The caller does not have permission' for a missing budget id instead of 404.",
+        "com.gcp.protocols#errorMatchers": [
+          {
+            "status": 403,
+            "message": {
+              "includes": "The caller does not have permission"
+            }
+          }
+        ]
       }
     }
   }

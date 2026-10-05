@@ -1,0 +1,600 @@
+{
+  "description": "Type the SAS Portal API-disabled answer (HTTP 403 PERMISSION_DENIED, reason SERVICE_DISABLED: 'SAS Portal API has not been used in project N before or it is disabled.'). It surfaced as the generic Forbidden, so callers could not tell an unactivated service from a missing permission.",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.sasportal_v1alpha1#ServiceDisabled",
+      "value": {
+        "type": "structure",
+        "members": {},
+        "traits": {
+          "smithy.api#error": "client",
+          "smithy.api#httpError": 403,
+          "smithy.api#documentation": "The SAS Portal API is not enabled for the calling project (HTTP 403 SERVICE_DISABLED).",
+          "com.gcp.protocols#errorMatchers": [
+            {
+              "status": 403,
+              "message": {
+                "includes": "has not been used in project"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.sasportal_v1alpha1#CreateCustomersDeployments/errors/-",
+      "value": {
+        "target": "com.gcp.sasportal_v1alpha1#ServiceDisabled"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.sasportal_v1alpha1#CreateCustomersDeploymentsDevices/errors/-",
+      "value": {
+        "target": "com.gcp.sasportal_v1alpha1#ServiceDisabled"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.sasportal_v1alpha1#CreateCustomersDevices/errors/-",
+      "value": {
+        "target": "com.gcp.sasportal_v1alpha1#ServiceDisabled"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.sasportal_v1alpha1#CreateCustomersNodes/errors/-",
+      "value": {
+        "target": "com.gcp.sasportal_v1alpha1#ServiceDisabled"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.sasportal_v1alpha1#CreateCustomersNodesDeployments/errors/-",
+      "value": {
+        "target": "com.gcp.sasportal_v1alpha1#ServiceDisabled"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.sasportal_v1alpha1#CreateCustomersNodesDevices/errors/-",
+      "value": {
+        "target": "com.gcp.sasportal_v1alpha1#ServiceDisabled"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.sasportal_v1alpha1#CreateCustomersNodesNodes/errors/-",
+      "value": {
+        "target": "com.gcp.sasportal_v1alpha1#ServiceDisabled"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.sasportal_v1alpha1#CreateNodesDeploymentsDevices/errors/-",
+      "value": {
+        "target": "com.gcp.sasportal_v1alpha1#ServiceDisabled"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.sasportal_v1alpha1#CreateNodesDevices/errors/-",
+      "value": {
+        "target": "com.gcp.sasportal_v1alpha1#ServiceDisabled"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.sasportal_v1alpha1#CreateNodesNodes/errors/-",
+      "value": {
+        "target": "com.gcp.sasportal_v1alpha1#ServiceDisabled"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.sasportal_v1alpha1#CreateNodesNodesDeployments/errors/-",
+      "value": {
+        "target": "com.gcp.sasportal_v1alpha1#ServiceDisabled"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.sasportal_v1alpha1#CreateNodesNodesDevices/errors/-",
+      "value": {
+        "target": "com.gcp.sasportal_v1alpha1#ServiceDisabled"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.sasportal_v1alpha1#CreateNodesNodesNodes/errors/-",
+      "value": {
+        "target": "com.gcp.sasportal_v1alpha1#ServiceDisabled"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.sasportal_v1alpha1#CreateSignedCustomersDeploymentsDevices/errors/-",
+      "value": {
+        "target": "com.gcp.sasportal_v1alpha1#ServiceDisabled"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.sasportal_v1alpha1#CreateSignedCustomersDevices/errors/-",
+      "value": {
+        "target": "com.gcp.sasportal_v1alpha1#ServiceDisabled"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.sasportal_v1alpha1#CreateSignedCustomersNodesDevices/errors/-",
+      "value": {
+        "target": "com.gcp.sasportal_v1alpha1#ServiceDisabled"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.sasportal_v1alpha1#CreateSignedNodesDeploymentsDevices/errors/-",
+      "value": {
+        "target": "com.gcp.sasportal_v1alpha1#ServiceDisabled"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.sasportal_v1alpha1#CreateSignedNodesDevices/errors/-",
+      "value": {
+        "target": "com.gcp.sasportal_v1alpha1#ServiceDisabled"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.sasportal_v1alpha1#CreateSignedNodesNodesDevices/errors/-",
+      "value": {
+        "target": "com.gcp.sasportal_v1alpha1#ServiceDisabled"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.sasportal_v1alpha1#DeleteCustomersDeployments/errors/-",
+      "value": {
+        "target": "com.gcp.sasportal_v1alpha1#ServiceDisabled"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.sasportal_v1alpha1#DeleteCustomersDevices/errors/-",
+      "value": {
+        "target": "com.gcp.sasportal_v1alpha1#ServiceDisabled"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.sasportal_v1alpha1#DeleteCustomersNodes/errors/-",
+      "value": {
+        "target": "com.gcp.sasportal_v1alpha1#ServiceDisabled"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.sasportal_v1alpha1#DeleteDeploymentsDevices/errors/-",
+      "value": {
+        "target": "com.gcp.sasportal_v1alpha1#ServiceDisabled"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.sasportal_v1alpha1#DeleteNodesDeployments/errors/-",
+      "value": {
+        "target": "com.gcp.sasportal_v1alpha1#ServiceDisabled"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.sasportal_v1alpha1#DeleteNodesDevices/errors/-",
+      "value": {
+        "target": "com.gcp.sasportal_v1alpha1#ServiceDisabled"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.sasportal_v1alpha1#DeleteNodesNodes/errors/-",
+      "value": {
+        "target": "com.gcp.sasportal_v1alpha1#ServiceDisabled"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.sasportal_v1alpha1#GenerateSecretInstaller/errors/-",
+      "value": {
+        "target": "com.gcp.sasportal_v1alpha1#ServiceDisabled"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.sasportal_v1alpha1#GetCustomers/errors/-",
+      "value": {
+        "target": "com.gcp.sasportal_v1alpha1#ServiceDisabled"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.sasportal_v1alpha1#GetCustomersDeployments/errors/-",
+      "value": {
+        "target": "com.gcp.sasportal_v1alpha1#ServiceDisabled"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.sasportal_v1alpha1#GetCustomersDevices/errors/-",
+      "value": {
+        "target": "com.gcp.sasportal_v1alpha1#ServiceDisabled"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.sasportal_v1alpha1#GetCustomersNodes/errors/-",
+      "value": {
+        "target": "com.gcp.sasportal_v1alpha1#ServiceDisabled"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.sasportal_v1alpha1#GetDeployments/errors/-",
+      "value": {
+        "target": "com.gcp.sasportal_v1alpha1#ServiceDisabled"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.sasportal_v1alpha1#GetDeploymentsDevices/errors/-",
+      "value": {
+        "target": "com.gcp.sasportal_v1alpha1#ServiceDisabled"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.sasportal_v1alpha1#GetNodes/errors/-",
+      "value": {
+        "target": "com.gcp.sasportal_v1alpha1#ServiceDisabled"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.sasportal_v1alpha1#GetNodesDeployments/errors/-",
+      "value": {
+        "target": "com.gcp.sasportal_v1alpha1#ServiceDisabled"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.sasportal_v1alpha1#GetNodesDevices/errors/-",
+      "value": {
+        "target": "com.gcp.sasportal_v1alpha1#ServiceDisabled"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.sasportal_v1alpha1#GetNodesNodes/errors/-",
+      "value": {
+        "target": "com.gcp.sasportal_v1alpha1#ServiceDisabled"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.sasportal_v1alpha1#GetPolicies/errors/-",
+      "value": {
+        "target": "com.gcp.sasportal_v1alpha1#ServiceDisabled"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.sasportal_v1alpha1#ListCustomers/errors/-",
+      "value": {
+        "target": "com.gcp.sasportal_v1alpha1#ServiceDisabled"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.sasportal_v1alpha1#ListCustomersDeployments/errors/-",
+      "value": {
+        "target": "com.gcp.sasportal_v1alpha1#ServiceDisabled"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.sasportal_v1alpha1#ListCustomersDeploymentsDevices/errors/-",
+      "value": {
+        "target": "com.gcp.sasportal_v1alpha1#ServiceDisabled"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.sasportal_v1alpha1#ListCustomersDevices/errors/-",
+      "value": {
+        "target": "com.gcp.sasportal_v1alpha1#ServiceDisabled"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.sasportal_v1alpha1#ListCustomersNodes/errors/-",
+      "value": {
+        "target": "com.gcp.sasportal_v1alpha1#ServiceDisabled"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.sasportal_v1alpha1#ListCustomersNodesDeployments/errors/-",
+      "value": {
+        "target": "com.gcp.sasportal_v1alpha1#ServiceDisabled"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.sasportal_v1alpha1#ListCustomersNodesDevices/errors/-",
+      "value": {
+        "target": "com.gcp.sasportal_v1alpha1#ServiceDisabled"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.sasportal_v1alpha1#ListCustomersNodesNodes/errors/-",
+      "value": {
+        "target": "com.gcp.sasportal_v1alpha1#ServiceDisabled"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.sasportal_v1alpha1#ListGcpProjectDeploymentsCustomers/errors/-",
+      "value": {
+        "target": "com.gcp.sasportal_v1alpha1#ServiceDisabled"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.sasportal_v1alpha1#ListLegacyOrganizationsCustomers/errors/-",
+      "value": {
+        "target": "com.gcp.sasportal_v1alpha1#ServiceDisabled"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.sasportal_v1alpha1#ListNodesDeployments/errors/-",
+      "value": {
+        "target": "com.gcp.sasportal_v1alpha1#ServiceDisabled"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.sasportal_v1alpha1#ListNodesDeploymentsDevices/errors/-",
+      "value": {
+        "target": "com.gcp.sasportal_v1alpha1#ServiceDisabled"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.sasportal_v1alpha1#ListNodesDevices/errors/-",
+      "value": {
+        "target": "com.gcp.sasportal_v1alpha1#ServiceDisabled"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.sasportal_v1alpha1#ListNodesNodes/errors/-",
+      "value": {
+        "target": "com.gcp.sasportal_v1alpha1#ServiceDisabled"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.sasportal_v1alpha1#ListNodesNodesDeployments/errors/-",
+      "value": {
+        "target": "com.gcp.sasportal_v1alpha1#ServiceDisabled"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.sasportal_v1alpha1#ListNodesNodesDevices/errors/-",
+      "value": {
+        "target": "com.gcp.sasportal_v1alpha1#ServiceDisabled"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.sasportal_v1alpha1#ListNodesNodesNodes/errors/-",
+      "value": {
+        "target": "com.gcp.sasportal_v1alpha1#ServiceDisabled"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.sasportal_v1alpha1#MigrateOrganizationCustomers/errors/-",
+      "value": {
+        "target": "com.gcp.sasportal_v1alpha1#ServiceDisabled"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.sasportal_v1alpha1#MoveCustomersDeployments/errors/-",
+      "value": {
+        "target": "com.gcp.sasportal_v1alpha1#ServiceDisabled"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.sasportal_v1alpha1#MoveCustomersDevices/errors/-",
+      "value": {
+        "target": "com.gcp.sasportal_v1alpha1#ServiceDisabled"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.sasportal_v1alpha1#MoveCustomersNodes/errors/-",
+      "value": {
+        "target": "com.gcp.sasportal_v1alpha1#ServiceDisabled"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.sasportal_v1alpha1#MoveDeploymentsDevices/errors/-",
+      "value": {
+        "target": "com.gcp.sasportal_v1alpha1#ServiceDisabled"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.sasportal_v1alpha1#MoveNodesDeployments/errors/-",
+      "value": {
+        "target": "com.gcp.sasportal_v1alpha1#ServiceDisabled"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.sasportal_v1alpha1#MoveNodesDevices/errors/-",
+      "value": {
+        "target": "com.gcp.sasportal_v1alpha1#ServiceDisabled"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.sasportal_v1alpha1#MoveNodesNodes/errors/-",
+      "value": {
+        "target": "com.gcp.sasportal_v1alpha1#ServiceDisabled"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.sasportal_v1alpha1#PatchCustomers/errors/-",
+      "value": {
+        "target": "com.gcp.sasportal_v1alpha1#ServiceDisabled"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.sasportal_v1alpha1#PatchCustomersDeployments/errors/-",
+      "value": {
+        "target": "com.gcp.sasportal_v1alpha1#ServiceDisabled"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.sasportal_v1alpha1#PatchCustomersDevices/errors/-",
+      "value": {
+        "target": "com.gcp.sasportal_v1alpha1#ServiceDisabled"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.sasportal_v1alpha1#PatchCustomersNodes/errors/-",
+      "value": {
+        "target": "com.gcp.sasportal_v1alpha1#ServiceDisabled"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.sasportal_v1alpha1#PatchDeploymentsDevices/errors/-",
+      "value": {
+        "target": "com.gcp.sasportal_v1alpha1#ServiceDisabled"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.sasportal_v1alpha1#PatchNodesDeployments/errors/-",
+      "value": {
+        "target": "com.gcp.sasportal_v1alpha1#ServiceDisabled"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.sasportal_v1alpha1#PatchNodesDevices/errors/-",
+      "value": {
+        "target": "com.gcp.sasportal_v1alpha1#ServiceDisabled"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.sasportal_v1alpha1#PatchNodesNodes/errors/-",
+      "value": {
+        "target": "com.gcp.sasportal_v1alpha1#ServiceDisabled"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.sasportal_v1alpha1#ProvisionDeploymentCustomers/errors/-",
+      "value": {
+        "target": "com.gcp.sasportal_v1alpha1#ServiceDisabled"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.sasportal_v1alpha1#SetPolicies/errors/-",
+      "value": {
+        "target": "com.gcp.sasportal_v1alpha1#ServiceDisabled"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.sasportal_v1alpha1#SetupSasAnalyticsCustomers/errors/-",
+      "value": {
+        "target": "com.gcp.sasportal_v1alpha1#ServiceDisabled"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.sasportal_v1alpha1#SignDeviceCustomersDevices/errors/-",
+      "value": {
+        "target": "com.gcp.sasportal_v1alpha1#ServiceDisabled"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.sasportal_v1alpha1#SignDeviceDeploymentsDevices/errors/-",
+      "value": {
+        "target": "com.gcp.sasportal_v1alpha1#ServiceDisabled"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.sasportal_v1alpha1#SignDeviceNodesDevices/errors/-",
+      "value": {
+        "target": "com.gcp.sasportal_v1alpha1#ServiceDisabled"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.sasportal_v1alpha1#TestPolicies/errors/-",
+      "value": {
+        "target": "com.gcp.sasportal_v1alpha1#ServiceDisabled"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.sasportal_v1alpha1#UpdateSignedCustomersDevices/errors/-",
+      "value": {
+        "target": "com.gcp.sasportal_v1alpha1#ServiceDisabled"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.sasportal_v1alpha1#UpdateSignedDeploymentsDevices/errors/-",
+      "value": {
+        "target": "com.gcp.sasportal_v1alpha1#ServiceDisabled"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.sasportal_v1alpha1#UpdateSignedNodesDevices/errors/-",
+      "value": {
+        "target": "com.gcp.sasportal_v1alpha1#ServiceDisabled"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.sasportal_v1alpha1#ValidateInstaller/errors/-",
+      "value": {
+        "target": "com.gcp.sasportal_v1alpha1#ServiceDisabled"
+      }
+    }
+  ]
+}

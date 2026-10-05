@@ -1,0 +1,65 @@
+{
+  "description": "ARM has not rolled out api-version 2026-01-01 for Microsoft.AzureArcData/dataControllers (400: 'No registered resource provider found for location eastus and API version 2026-01-01 for type DataControllers'; supported up to 2023-09-01-preview). Pin every DataController operation to 2023-09-01-preview.",
+  "patches": [
+    {
+      "op": "replace",
+      "path": "/shapes/com.azure.azurearcdata#DeleteDataControllerDataController/traits/smithy.api#http/apiVersion",
+      "value": "2023-09-01-preview"
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.azure.azurearcdata#DeleteDataControllerDataController/traits/com.distilled.openapi#apiVersion",
+      "value": "2023-09-01-preview"
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.azure.azurearcdata#PatchDataControllerDataController/traits/smithy.api#http/apiVersion",
+      "value": "2023-09-01-preview"
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.azure.azurearcdata#PatchDataControllerDataController/traits/com.distilled.openapi#apiVersion",
+      "value": "2023-09-01-preview"
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.azure.azurearcdata#PutDataControllerDataController/traits/smithy.api#http/apiVersion",
+      "value": "2023-09-01-preview"
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.azure.azurearcdata#PutDataControllerDataController/traits/com.distilled.openapi#apiVersion",
+      "value": "2023-09-01-preview"
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.azure.azurearcdata#GetDataControllerDataController/traits/smithy.api#http/apiVersion",
+      "value": "2023-09-01-preview"
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.azure.azurearcdata#GetDataControllerDataController/traits/com.distilled.openapi#apiVersion",
+      "value": "2023-09-01-preview"
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.azure.azurearcdata#ListDataControllerInGroup/traits/smithy.api#http/apiVersion",
+      "value": "2023-09-01-preview"
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.azure.azurearcdata#ListDataControllerInGroup/traits/com.distilled.openapi#apiVersion",
+      "value": "2023-09-01-preview"
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.azure.azurearcdata#ListDataControllerInSubscription/traits/smithy.api#http/apiVersion",
+      "value": "2023-09-01-preview"
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.azure.azurearcdata#ListDataControllerInSubscription/traits/com.distilled.openapi#apiVersion",
+      "value": "2023-09-01-preview"
+    }
+  ]
+}

@@ -1,18 +1,18 @@
 {
   "name": "@distilled.cloud/gcp",
-  "version": "1.0.0-rc.12",
+  "version": "1.0.0-rc.13",
+  "license": "Apache-2.0",
   "repository": {
     "type": "git",
     "url": "https://github.com/alchemy-run/distilled",
     "directory": "packages/gcp"
   },
-  "license": "Apache-2.0",
-  "type": "module",
-  "sideEffects": false,
   "files": [
     "lib",
     "src"
   ],
+  "type": "module",
+  "sideEffects": false,
   "exports": {
     "./Credentials": {
       "types": "./lib/credentials.d.ts",
@@ -37,6 +37,18 @@
       "bun": "./src/retry.ts",
       "worker": "./src/retry.ts",
       "default": "./lib/retry.js"
+    },
+    "./Region": {
+      "types": "./lib/region.d.ts",
+      "bun": "./src/region.ts",
+      "worker": "./src/region.ts",
+      "default": "./lib/region.js"
+    },
+    "./Endpoint": {
+      "types": "./lib/endpoint.d.ts",
+      "bun": "./src/endpoint.ts",
+      "worker": "./src/endpoint.ts",
+      "default": "./lib/endpoint.js"
     },
     "./Traits": {
       "types": "./lib/traits.d.ts",
@@ -65,8 +77,8 @@
   },
   "scripts": {
     "build": "tsc -b",
-    "convert": "bun scripts/convert.ts",
-    "generate": "bun scripts/generate.ts && bun scripts/generate.ts --smithy .generated-specs/unstable --out src/unstable-services",
+    "convert": "node --conditions=bun scripts/convert.ts",
+    "generate": "node --conditions=bun scripts/generate.ts && node --conditions=bun scripts/generate.ts --smithy .generated-specs/unstable --out src/unstable-services",
     "typecheck": "tsc -p tsconfig.json",
     "typecheck:strict": "tsc -p tsconfig.strict.json",
     "specs:fetch": "git submodule update --force --init --depth=1 specs/spec-mirror-gcp",
@@ -76,9 +88,7 @@
     "@distilled.cloud/core": "workspace:*"
   },
   "devDependencies": {
-    "@types/bun": "catalog:",
-    "@types/node": "catalog:",
-    "@effect/platform-bun": "catalog:"
+    "@types/node": "catalog:"
   },
   "peerDependencies": {
     "effect": "catalog:"

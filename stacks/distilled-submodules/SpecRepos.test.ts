@@ -1,4 +1,4 @@
-import { describe, expect, test } from "bun:test";
+import { describe, expect, test } from "vitest";
 import { mirrorId, repositoryName, SPEC_REPOS } from "./SpecRepos.ts";
 
 describe("mirror identity", () => {
@@ -34,9 +34,7 @@ describe("mirror identity", () => {
   });
 
   test("manifest packages and mirror identities are unique", () => {
-    expect(new Set(SPEC_REPOS.map((r) => r.package)).size).toBe(
-      SPEC_REPOS.length,
-    );
+    expect(new Set(SPEC_REPOS.map((r) => r.package)).size).toBe(SPEC_REPOS.length);
     expect(new Set(SPEC_REPOS.map(mirrorId)).size).toBe(SPEC_REPOS.length);
   });
 });

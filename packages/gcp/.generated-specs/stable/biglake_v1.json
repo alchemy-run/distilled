@@ -670,6 +670,9 @@
         },
         {
           "target": "com.gcp.biglake_v1#Forbidden"
+        },
+        {
+          "target": "com.gcp.biglake_v1#BigLakeResourceNotFound"
         }
       ],
       "traits": {
@@ -746,6 +749,9 @@
         },
         {
           "target": "com.gcp.biglake_v1#Conflict"
+        },
+        {
+          "target": "com.gcp.biglake_v1#BigLakeResourceNotFound"
         }
       ],
       "traits": {
@@ -796,6 +802,9 @@
         },
         {
           "target": "com.gcp.biglake_v1#Conflict"
+        },
+        {
+          "target": "com.gcp.biglake_v1#BigLakeResourceNotFound"
         }
       ],
       "traits": {
@@ -840,6 +849,9 @@
         },
         {
           "target": "com.gcp.biglake_v1#Forbidden"
+        },
+        {
+          "target": "com.gcp.biglake_v1#BigLakeResourceNotFound"
         }
       ],
       "traits": {
@@ -890,6 +902,9 @@
         },
         {
           "target": "com.gcp.biglake_v1#Conflict"
+        },
+        {
+          "target": "com.gcp.biglake_v1#BigLakeResourceNotFound"
         }
       ],
       "traits": {
@@ -940,6 +955,9 @@
         },
         {
           "target": "com.gcp.biglake_v1#Conflict"
+        },
+        {
+          "target": "com.gcp.biglake_v1#BigLakeResourceNotFound"
         }
       ],
       "traits": {
@@ -990,6 +1008,9 @@
         },
         {
           "target": "com.gcp.biglake_v1#Conflict"
+        },
+        {
+          "target": "com.gcp.biglake_v1#BigLakeResourceNotFound"
         }
       ],
       "traits": {
@@ -1034,6 +1055,9 @@
         },
         {
           "target": "com.gcp.biglake_v1#Forbidden"
+        },
+        {
+          "target": "com.gcp.biglake_v1#BigLakeResourceNotFound"
         }
       ],
       "traits": {
@@ -1084,6 +1108,9 @@
         },
         {
           "target": "com.gcp.biglake_v1#Conflict"
+        },
+        {
+          "target": "com.gcp.biglake_v1#BigLakeResourceNotFound"
         }
       ],
       "traits": {
@@ -1121,6 +1148,9 @@
         },
         {
           "target": "com.gcp.biglake_v1#Forbidden"
+        },
+        {
+          "target": "com.gcp.biglake_v1#BigLakeResourceNotFound"
         }
       ],
       "traits": {
@@ -1172,6 +1202,9 @@
         },
         {
           "target": "com.gcp.biglake_v1#Forbidden"
+        },
+        {
+          "target": "com.gcp.biglake_v1#BigLakeResourceNotFound"
         }
       ],
       "traits": {
@@ -1233,6 +1266,9 @@
         },
         {
           "target": "com.gcp.biglake_v1#Conflict"
+        },
+        {
+          "target": "com.gcp.biglake_v1#BigLakeResourceNotFound"
         }
       ],
       "traits": {
@@ -1276,6 +1312,9 @@
         },
         {
           "target": "com.gcp.biglake_v1#Conflict"
+        },
+        {
+          "target": "com.gcp.biglake_v1#BigLakeResourceNotFound"
         }
       ],
       "traits": {
@@ -1319,6 +1358,9 @@
         },
         {
           "target": "com.gcp.biglake_v1#Conflict"
+        },
+        {
+          "target": "com.gcp.biglake_v1#BigLakeResourceNotFound"
         }
       ],
       "traits": {
@@ -1370,6 +1412,9 @@
         },
         {
           "target": "com.gcp.biglake_v1#Forbidden"
+        },
+        {
+          "target": "com.gcp.biglake_v1#BigLakeResourceNotFound"
         }
       ],
       "traits": {
@@ -1431,6 +1476,9 @@
         },
         {
           "target": "com.gcp.biglake_v1#Conflict"
+        },
+        {
+          "target": "com.gcp.biglake_v1#BigLakeResourceNotFound"
         }
       ],
       "traits": {
@@ -1468,6 +1516,9 @@
         },
         {
           "target": "com.gcp.biglake_v1#Forbidden"
+        },
+        {
+          "target": "com.gcp.biglake_v1#BigLakeResourceNotFound"
         }
       ],
       "traits": {
@@ -1525,6 +1576,9 @@
         },
         {
           "target": "com.gcp.biglake_v1#Conflict"
+        },
+        {
+          "target": "com.gcp.biglake_v1#BigLakeResourceNotFound"
         }
       ],
       "traits": {
@@ -1606,6 +1660,9 @@
         },
         {
           "target": "com.gcp.biglake_v1#Forbidden"
+        },
+        {
+          "target": "com.gcp.biglake_v1#BigLakeResourceNotFound"
         }
       ],
       "traits": {
@@ -1667,6 +1724,9 @@
         },
         {
           "target": "com.gcp.biglake_v1#Conflict"
+        },
+        {
+          "target": "com.gcp.biglake_v1#BigLakeResourceNotFound"
         }
       ],
       "traits": {
@@ -1717,6 +1777,9 @@
         },
         {
           "target": "com.gcp.biglake_v1#Conflict"
+        },
+        {
+          "target": "com.gcp.biglake_v1#BigLakeResourceNotFound"
         }
       ],
       "traits": {
@@ -1754,6 +1817,9 @@
         },
         {
           "target": "com.gcp.biglake_v1#Forbidden"
+        },
+        {
+          "target": "com.gcp.biglake_v1#BigLakeResourceNotFound"
         }
       ],
       "traits": {
@@ -1811,6 +1877,9 @@
         },
         {
           "target": "com.gcp.biglake_v1#Conflict"
+        },
+        {
+          "target": "com.gcp.biglake_v1#BigLakeResourceNotFound"
         }
       ],
       "traits": {
@@ -1854,6 +1923,9 @@
         },
         {
           "target": "com.gcp.biglake_v1#Conflict"
+        },
+        {
+          "target": "com.gcp.biglake_v1#BigLakeResourceNotFound"
         }
       ],
       "traits": {
@@ -1862,6 +1934,23 @@
           "uri": "v1/{+name}"
         },
         "smithy.api#documentation": "Deletes an existing table specified by the table ID."
+      }
+    },
+    "com.gcp.biglake_v1#BigLakeResourceNotFound": {
+      "type": "structure",
+      "members": {},
+      "traits": {
+        "smithy.api#error": "client",
+        "smithy.api#httpError": 403,
+        "smithy.api#documentation": "BigLake answers a missing catalog, database or table with HTTP 403 PERMISSION_DENIED: \"Permission 'biglake.<kind>.get' denied on resource '...' (or it may not exist).\" \u2014 verified live with a caller that can read existing resources.",
+        "com.gcp.protocols#errorMatchers": [
+          {
+            "status": 403,
+            "message": {
+              "includes": "(or it may not exist)"
+            }
+          }
+        ]
       }
     }
   }

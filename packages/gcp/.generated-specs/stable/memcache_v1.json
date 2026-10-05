@@ -2649,6 +2649,9 @@
         },
         {
           "target": "com.gcp.memcache_v1#Conflict"
+        },
+        {
+          "target": "com.gcp.memcache_v1#PrivateServiceAccessNotEnabled"
         }
       ],
       "traits": {
@@ -2850,6 +2853,23 @@
           "uri": "v1/{+name}:applyParameters"
         },
         "smithy.api#documentation": "`ApplyParameters` restarts the set of specified nodes in order to update them to the current set of parameters for the Memcached Instance."
+      }
+    },
+    "com.gcp.memcache_v1#PrivateServiceAccessNotEnabled": {
+      "type": "structure",
+      "members": {},
+      "traits": {
+        "smithy.api#error": "client",
+        "smithy.api#httpError": 400,
+        "smithy.api#documentation": "The authorized network has no Private Service Access connection (HTTP 400: 'Google private service access is not enabled.'). Not retryable until the network is peered.",
+        "com.gcp.protocols#errorMatchers": [
+          {
+            "status": 400,
+            "message": {
+              "includes": "private service access is not enabled"
+            }
+          }
+        ]
       }
     }
   }

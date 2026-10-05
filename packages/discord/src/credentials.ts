@@ -1,3 +1,4 @@
+import { ConfigError } from "@distilled.cloud/core/errors";
 /**
  * Discord credentials — hand-written.
  *
@@ -17,7 +18,6 @@ import * as Context from "effect/Context";
 import * as Effect from "effect/Effect";
 import * as Layer from "effect/Layer";
 import * as Redacted from "effect/Redacted";
-import { ConfigError } from "@distilled.cloud/core/errors";
 
 /**
  * Discord HTTP API base URL. The trailing `/v10` is the API version the spec
@@ -35,20 +35,17 @@ export interface Config {
   readonly apiBaseUrl: string;
 }
 
-export class Credentials extends Context.Service<
-  Credentials,
-  Effect.Effect<Config>
->()("DiscordCredentials") {}
+export class Credentials extends Context.Service<Credentials, Effect.Effect<Config>>()(
+  "DiscordCredentials",
+) {}
 
 const envConfig = EffectConfig.all({
   // DISCORD_BOT_TOKEN is the spelling discord.js and most hosting platforms
   // use; DISCORD_TOKEN is the fallback.
-  token: EffectConfig.String("DISCORD_BOT_TOKEN").pipe(
-    EffectConfig.orElse(() => EffectConfig.String("DISCORD_TOKEN")),
+  token: EffectConfig.Redacted("DISCORD_BOT_TOKEN").pipe(
+    EffectConfig.orElse(() => EffectConfig.Redacted("DISCORD_TOKEN")),
   ),
-  tokenType: EffectConfig.String("DISCORD_TOKEN_TYPE").pipe(
-    EffectConfig.withDefault("Bot"),
-  ),
+  tokenType: EffectConfig.String("DISCORD_TOKEN_TYPE").pipe(EffectConfig.withDefault("Bot")),
   apiBaseUrl: EffectConfig.String("DISCORD_API_URL").pipe(
     EffectConfig.withDefault(DEFAULT_API_BASE_URL),
   ),
@@ -60,33 +57,30 @@ export const CredentialsFromEnv = Layer.succeed(
     Effect.mapError(
       () =>
         new ConfigError({
-          message:
-            "DISCORD_BOT_TOKEN (or DISCORD_TOKEN) environment variable is required",
+          message: "DISCORD_BOT_TOKEN (or DISCORD_TOKEN) environment variable is required",
         }),
     ),
     Effect.map(({ token, tokenType, apiBaseUrl }) => ({
-      token: Redacted.make(token),
+      token,
       // Anything but an explicit `Bearer` means a bot token — the OAuth2
       // flavor is the opt-in.
-      tokenType: (tokenType.toLowerCase() === "bearer"
-        ? "Bearer"
-        : "Bot") as TokenType,
+      tokenType: (tokenType.toLowerCase() === "bearer" ? "Bearer" : "Bot") as TokenType,
       apiBaseUrl,
     })),
     Effect.orDie,
   ),
 );
 
-/** Convenience layer from a plain token + optional token type / base URL. */
+/** Convenience layer from a redacted token + optional token type / base URL. */
 export const credentials = (config: {
-  readonly token: string;
+  readonly token: Redacted.Redacted<string>;
   readonly tokenType?: TokenType;
   readonly apiBaseUrl?: string;
 }): Layer.Layer<Credentials> =>
   Layer.succeed(
     Credentials,
     Effect.succeed({
-      token: Redacted.make(config.token),
+      token: config.token,
       tokenType: config.tokenType ?? "Bot",
       apiBaseUrl: config.apiBaseUrl ?? DEFAULT_API_BASE_URL,
     }),

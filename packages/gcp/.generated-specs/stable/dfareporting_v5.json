@@ -612,7 +612,7 @@
         "merchantFeedLabel": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "The feed labels associated with the feed where your items are uploaded. For more information, please refer to ​​ https://support.google.com/merchants/answer/12453549. Providing the feed label reduces ambiguity in identifying the right offer details."
+            "smithy.api#documentation": "The feed labels associated with the feed where your items are uploaded. For more information, please refer to \u200b\u200b https://support.google.com/merchants/answer/12453549. Providing the feed label reduces ambiguity in identifying the right offer details."
           }
         }
       },
@@ -19423,7 +19423,7 @@
         "includeUnattributedIPConversions": {
           "target": "smithy.api#Boolean",
           "traits": {
-            "smithy.api#documentation": "Include conversions that have no associated cookies and no exposures. It’s therefore impossible to know how the user was exposed to your ads during the lookback window prior to a conversion."
+            "smithy.api#documentation": "Include conversions that have no associated cookies and no exposures. It\u2019s therefore impossible to know how the user was exposed to your ads during the lookback window prior to a conversion."
           }
         },
         "includeUnattributedCookieConversions": {
@@ -19739,7 +19739,7 @@
         "includeUnattributedIPConversions": {
           "target": "smithy.api#Boolean",
           "traits": {
-            "smithy.api#documentation": "Include conversions that have no associated cookies and no exposures. It’s therefore impossible to know how the user was exposed to your ads during the lookback window prior to a conversion."
+            "smithy.api#documentation": "Include conversions that have no associated cookies and no exposures. It\u2019s therefore impossible to know how the user was exposed to your ads during the lookback window prior to a conversion."
           }
         }
       }
@@ -20820,6 +20820,9 @@
         },
         {
           "target": "com.gcp.dfareporting_v5#Forbidden"
+        },
+        {
+          "target": "com.gcp.dfareporting_v5#InsufficientScopes"
         }
       ],
       "traits": {
@@ -20904,6 +20907,9 @@
         },
         {
           "target": "com.gcp.dfareporting_v5#Conflict"
+        },
+        {
+          "target": "com.gcp.dfareporting_v5#InsufficientScopes"
         }
       ],
       "traits": {
@@ -20952,6 +20958,9 @@
         },
         {
           "target": "com.gcp.dfareporting_v5#Conflict"
+        },
+        {
+          "target": "com.gcp.dfareporting_v5#InsufficientScopes"
         }
       ],
       "traits": {
@@ -21002,6 +21011,9 @@
         },
         {
           "target": "com.gcp.dfareporting_v5#Conflict"
+        },
+        {
+          "target": "com.gcp.dfareporting_v5#InsufficientScopes"
         }
       ],
       "traits": {
@@ -21172,6 +21184,9 @@
         },
         {
           "target": "com.gcp.dfareporting_v5#Forbidden"
+        },
+        {
+          "target": "com.gcp.dfareporting_v5#InsufficientScopes"
         }
       ],
       "traits": {
@@ -21222,6 +21237,9 @@
         },
         {
           "target": "com.gcp.dfareporting_v5#Conflict"
+        },
+        {
+          "target": "com.gcp.dfareporting_v5#InsufficientScopes"
         }
       ],
       "traits": {
@@ -21280,6 +21298,9 @@
         },
         {
           "target": "com.gcp.dfareporting_v5#Conflict"
+        },
+        {
+          "target": "com.gcp.dfareporting_v5#InsufficientScopes"
         }
       ],
       "traits": {
@@ -21330,6 +21351,9 @@
         },
         {
           "target": "com.gcp.dfareporting_v5#Conflict"
+        },
+        {
+          "target": "com.gcp.dfareporting_v5#InsufficientScopes"
         }
       ],
       "traits": {
@@ -21502,6 +21526,9 @@
         },
         {
           "target": "com.gcp.dfareporting_v5#Forbidden"
+        },
+        {
+          "target": "com.gcp.dfareporting_v5#InsufficientScopes"
         }
       ],
       "traits": {
@@ -21556,6 +21583,9 @@
         },
         {
           "target": "com.gcp.dfareporting_v5#Conflict"
+        },
+        {
+          "target": "com.gcp.dfareporting_v5#InsufficientScopes"
         }
       ],
       "traits": {
@@ -21601,6 +21631,9 @@
         },
         {
           "target": "com.gcp.dfareporting_v5#Forbidden"
+        },
+        {
+          "target": "com.gcp.dfareporting_v5#InsufficientScopes"
         }
       ],
       "traits": {
@@ -21646,6 +21679,9 @@
         },
         {
           "target": "com.gcp.dfareporting_v5#Forbidden"
+        },
+        {
+          "target": "com.gcp.dfareporting_v5#InsufficientScopes"
         }
       ],
       "traits": {
@@ -21816,6 +21852,9 @@
         },
         {
           "target": "com.gcp.dfareporting_v5#Forbidden"
+        },
+        {
+          "target": "com.gcp.dfareporting_v5#InsufficientScopes"
         }
       ],
       "traits": {
@@ -21870,6 +21909,9 @@
         },
         {
           "target": "com.gcp.dfareporting_v5#Conflict"
+        },
+        {
+          "target": "com.gcp.dfareporting_v5#InsufficientScopes"
         }
       ],
       "traits": {
@@ -22001,6 +22043,9 @@
         },
         {
           "target": "com.gcp.dfareporting_v5#Forbidden"
+        },
+        {
+          "target": "com.gcp.dfareporting_v5#InsufficientScopes"
         }
       ],
       "traits": {
@@ -22038,6 +22083,9 @@
         },
         {
           "target": "com.gcp.dfareporting_v5#Forbidden"
+        },
+        {
+          "target": "com.gcp.dfareporting_v5#InsufficientScopes"
         }
       ],
       "traits": {
@@ -22083,6 +22131,9 @@
         },
         {
           "target": "com.gcp.dfareporting_v5#Forbidden"
+        },
+        {
+          "target": "com.gcp.dfareporting_v5#InsufficientScopes"
         }
       ],
       "traits": {
@@ -22120,6 +22171,9 @@
         },
         {
           "target": "com.gcp.dfareporting_v5#Forbidden"
+        },
+        {
+          "target": "com.gcp.dfareporting_v5#InsufficientScopes"
         }
       ],
       "traits": {
@@ -22165,6 +22219,9 @@
         },
         {
           "target": "com.gcp.dfareporting_v5#Forbidden"
+        },
+        {
+          "target": "com.gcp.dfareporting_v5#InsufficientScopes"
         }
       ],
       "traits": {
@@ -22210,6 +22267,9 @@
         },
         {
           "target": "com.gcp.dfareporting_v5#Forbidden"
+        },
+        {
+          "target": "com.gcp.dfareporting_v5#InsufficientScopes"
         }
       ],
       "traits": {
@@ -22255,6 +22315,9 @@
         },
         {
           "target": "com.gcp.dfareporting_v5#Forbidden"
+        },
+        {
+          "target": "com.gcp.dfareporting_v5#InsufficientScopes"
         }
       ],
       "traits": {
@@ -22305,6 +22368,9 @@
         },
         {
           "target": "com.gcp.dfareporting_v5#Conflict"
+        },
+        {
+          "target": "com.gcp.dfareporting_v5#InsufficientScopes"
         }
       ],
       "traits": {
@@ -22418,6 +22484,9 @@
         },
         {
           "target": "com.gcp.dfareporting_v5#Forbidden"
+        },
+        {
+          "target": "com.gcp.dfareporting_v5#InsufficientScopes"
         }
       ],
       "traits": {
@@ -22480,6 +22549,9 @@
         },
         {
           "target": "com.gcp.dfareporting_v5#Conflict"
+        },
+        {
+          "target": "com.gcp.dfareporting_v5#InsufficientScopes"
         }
       ],
       "traits": {
@@ -22528,6 +22600,9 @@
         },
         {
           "target": "com.gcp.dfareporting_v5#Conflict"
+        },
+        {
+          "target": "com.gcp.dfareporting_v5#InsufficientScopes"
         }
       ],
       "traits": {
@@ -22578,6 +22653,9 @@
         },
         {
           "target": "com.gcp.dfareporting_v5#Conflict"
+        },
+        {
+          "target": "com.gcp.dfareporting_v5#InsufficientScopes"
         }
       ],
       "traits": {
@@ -22623,6 +22701,9 @@
         },
         {
           "target": "com.gcp.dfareporting_v5#Forbidden"
+        },
+        {
+          "target": "com.gcp.dfareporting_v5#InsufficientScopes"
         }
       ],
       "traits": {
@@ -22772,6 +22853,9 @@
         },
         {
           "target": "com.gcp.dfareporting_v5#Forbidden"
+        },
+        {
+          "target": "com.gcp.dfareporting_v5#InsufficientScopes"
         }
       ],
       "traits": {
@@ -22826,6 +22910,9 @@
         },
         {
           "target": "com.gcp.dfareporting_v5#Conflict"
+        },
+        {
+          "target": "com.gcp.dfareporting_v5#InsufficientScopes"
         }
       ],
       "traits": {
@@ -22939,6 +23026,9 @@
         },
         {
           "target": "com.gcp.dfareporting_v5#Forbidden"
+        },
+        {
+          "target": "com.gcp.dfareporting_v5#InsufficientScopes"
         }
       ],
       "traits": {
@@ -23001,6 +23091,9 @@
         },
         {
           "target": "com.gcp.dfareporting_v5#Conflict"
+        },
+        {
+          "target": "com.gcp.dfareporting_v5#InsufficientScopes"
         }
       ],
       "traits": {
@@ -23051,6 +23144,9 @@
         },
         {
           "target": "com.gcp.dfareporting_v5#Conflict"
+        },
+        {
+          "target": "com.gcp.dfareporting_v5#InsufficientScopes"
         }
       ],
       "traits": {
@@ -23096,6 +23192,9 @@
         },
         {
           "target": "com.gcp.dfareporting_v5#Forbidden"
+        },
+        {
+          "target": "com.gcp.dfareporting_v5#InsufficientScopes"
         }
       ],
       "traits": {
@@ -23146,6 +23245,9 @@
         },
         {
           "target": "com.gcp.dfareporting_v5#Conflict"
+        },
+        {
+          "target": "com.gcp.dfareporting_v5#InsufficientScopes"
         }
       ],
       "traits": {
@@ -23204,6 +23306,9 @@
         },
         {
           "target": "com.gcp.dfareporting_v5#Conflict"
+        },
+        {
+          "target": "com.gcp.dfareporting_v5#InsufficientScopes"
         }
       ],
       "traits": {
@@ -23249,6 +23354,9 @@
         },
         {
           "target": "com.gcp.dfareporting_v5#Forbidden"
+        },
+        {
+          "target": "com.gcp.dfareporting_v5#InsufficientScopes"
         }
       ],
       "traits": {
@@ -23299,6 +23407,9 @@
         },
         {
           "target": "com.gcp.dfareporting_v5#Conflict"
+        },
+        {
+          "target": "com.gcp.dfareporting_v5#InsufficientScopes"
         }
       ],
       "traits": {
@@ -23440,6 +23551,9 @@
         },
         {
           "target": "com.gcp.dfareporting_v5#Forbidden"
+        },
+        {
+          "target": "com.gcp.dfareporting_v5#InsufficientScopes"
         }
       ],
       "traits": {
@@ -23489,6 +23603,9 @@
         },
         {
           "target": "com.gcp.dfareporting_v5#Forbidden"
+        },
+        {
+          "target": "com.gcp.dfareporting_v5#InsufficientScopes"
         }
       ],
       "traits": {
@@ -23602,6 +23719,9 @@
         },
         {
           "target": "com.gcp.dfareporting_v5#Forbidden"
+        },
+        {
+          "target": "com.gcp.dfareporting_v5#InsufficientScopes"
         }
       ],
       "traits": {
@@ -23664,6 +23784,9 @@
         },
         {
           "target": "com.gcp.dfareporting_v5#Conflict"
+        },
+        {
+          "target": "com.gcp.dfareporting_v5#InsufficientScopes"
         }
       ],
       "traits": {
@@ -23712,6 +23835,9 @@
         },
         {
           "target": "com.gcp.dfareporting_v5#Conflict"
+        },
+        {
+          "target": "com.gcp.dfareporting_v5#InsufficientScopes"
         }
       ],
       "traits": {
@@ -23762,6 +23888,9 @@
         },
         {
           "target": "com.gcp.dfareporting_v5#Conflict"
+        },
+        {
+          "target": "com.gcp.dfareporting_v5#InsufficientScopes"
         }
       ],
       "traits": {
@@ -23812,6 +23941,9 @@
         },
         {
           "target": "com.gcp.dfareporting_v5#Conflict"
+        },
+        {
+          "target": "com.gcp.dfareporting_v5#InsufficientScopes"
         }
       ],
       "traits": {
@@ -23857,6 +23989,9 @@
         },
         {
           "target": "com.gcp.dfareporting_v5#Forbidden"
+        },
+        {
+          "target": "com.gcp.dfareporting_v5#InsufficientScopes"
         }
       ],
       "traits": {
@@ -23978,6 +24113,9 @@
         },
         {
           "target": "com.gcp.dfareporting_v5#Forbidden"
+        },
+        {
+          "target": "com.gcp.dfareporting_v5#InsufficientScopes"
         }
       ],
       "traits": {
@@ -24040,6 +24178,9 @@
         },
         {
           "target": "com.gcp.dfareporting_v5#Conflict"
+        },
+        {
+          "target": "com.gcp.dfareporting_v5#InsufficientScopes"
         }
       ],
       "traits": {
@@ -24090,6 +24231,9 @@
         },
         {
           "target": "com.gcp.dfareporting_v5#Conflict"
+        },
+        {
+          "target": "com.gcp.dfareporting_v5#InsufficientScopes"
         }
       ],
       "traits": {
@@ -24135,6 +24279,9 @@
         },
         {
           "target": "com.gcp.dfareporting_v5#Forbidden"
+        },
+        {
+          "target": "com.gcp.dfareporting_v5#InsufficientScopes"
         }
       ],
       "traits": {
@@ -24311,6 +24458,9 @@
         },
         {
           "target": "com.gcp.dfareporting_v5#Forbidden"
+        },
+        {
+          "target": "com.gcp.dfareporting_v5#InsufficientScopes"
         }
       ],
       "traits": {
@@ -24365,6 +24515,9 @@
         },
         {
           "target": "com.gcp.dfareporting_v5#Conflict"
+        },
+        {
+          "target": "com.gcp.dfareporting_v5#InsufficientScopes"
         }
       ],
       "traits": {
@@ -24415,6 +24568,9 @@
         },
         {
           "target": "com.gcp.dfareporting_v5#Conflict"
+        },
+        {
+          "target": "com.gcp.dfareporting_v5#InsufficientScopes"
         }
       ],
       "traits": {
@@ -24724,6 +24880,9 @@
         },
         {
           "target": "com.gcp.dfareporting_v5#Forbidden"
+        },
+        {
+          "target": "com.gcp.dfareporting_v5#InsufficientScopes"
         }
       ],
       "traits": {
@@ -24778,6 +24937,9 @@
         },
         {
           "target": "com.gcp.dfareporting_v5#Conflict"
+        },
+        {
+          "target": "com.gcp.dfareporting_v5#InsufficientScopes"
         }
       ],
       "traits": {
@@ -24823,6 +24985,9 @@
         },
         {
           "target": "com.gcp.dfareporting_v5#Forbidden"
+        },
+        {
+          "target": "com.gcp.dfareporting_v5#InsufficientScopes"
         }
       ],
       "traits": {
@@ -24881,6 +25046,9 @@
         },
         {
           "target": "com.gcp.dfareporting_v5#Conflict"
+        },
+        {
+          "target": "com.gcp.dfareporting_v5#InsufficientScopes"
         }
       ],
       "traits": {
@@ -24931,6 +25099,9 @@
         },
         {
           "target": "com.gcp.dfareporting_v5#Conflict"
+        },
+        {
+          "target": "com.gcp.dfareporting_v5#InsufficientScopes"
         }
       ],
       "traits": {
@@ -24976,6 +25147,9 @@
         },
         {
           "target": "com.gcp.dfareporting_v5#Forbidden"
+        },
+        {
+          "target": "com.gcp.dfareporting_v5#InsufficientScopes"
         }
       ],
       "traits": {
@@ -25104,6 +25278,9 @@
         },
         {
           "target": "com.gcp.dfareporting_v5#Forbidden"
+        },
+        {
+          "target": "com.gcp.dfareporting_v5#InsufficientScopes"
         }
       ],
       "traits": {
@@ -25158,6 +25335,9 @@
         },
         {
           "target": "com.gcp.dfareporting_v5#Conflict"
+        },
+        {
+          "target": "com.gcp.dfareporting_v5#InsufficientScopes"
         }
       ],
       "traits": {
@@ -25216,6 +25396,9 @@
         },
         {
           "target": "com.gcp.dfareporting_v5#Conflict"
+        },
+        {
+          "target": "com.gcp.dfareporting_v5#InsufficientScopes"
         }
       ],
       "traits": {
@@ -25253,6 +25436,9 @@
         },
         {
           "target": "com.gcp.dfareporting_v5#Forbidden"
+        },
+        {
+          "target": "com.gcp.dfareporting_v5#InsufficientScopes"
         }
       ],
       "traits": {
@@ -25298,6 +25484,9 @@
         },
         {
           "target": "com.gcp.dfareporting_v5#Forbidden"
+        },
+        {
+          "target": "com.gcp.dfareporting_v5#InsufficientScopes"
         }
       ],
       "traits": {
@@ -25348,6 +25537,9 @@
         },
         {
           "target": "com.gcp.dfareporting_v5#Conflict"
+        },
+        {
+          "target": "com.gcp.dfareporting_v5#InsufficientScopes"
         }
       ],
       "traits": {
@@ -25725,6 +25917,9 @@
         },
         {
           "target": "com.gcp.dfareporting_v5#Forbidden"
+        },
+        {
+          "target": "com.gcp.dfareporting_v5#InsufficientScopes"
         }
       ],
       "traits": {
@@ -25774,6 +25969,9 @@
         },
         {
           "target": "com.gcp.dfareporting_v5#Forbidden"
+        },
+        {
+          "target": "com.gcp.dfareporting_v5#InsufficientScopes"
         }
       ],
       "traits": {
@@ -25824,6 +26022,9 @@
         },
         {
           "target": "com.gcp.dfareporting_v5#Conflict"
+        },
+        {
+          "target": "com.gcp.dfareporting_v5#InsufficientScopes"
         }
       ],
       "traits": {
@@ -26040,6 +26241,9 @@
         },
         {
           "target": "com.gcp.dfareporting_v5#Conflict"
+        },
+        {
+          "target": "com.gcp.dfareporting_v5#InsufficientScopes"
         }
       ],
       "traits": {
@@ -26098,6 +26302,9 @@
         },
         {
           "target": "com.gcp.dfareporting_v5#Conflict"
+        },
+        {
+          "target": "com.gcp.dfareporting_v5#InsufficientScopes"
         }
       ],
       "traits": {
@@ -26154,6 +26361,9 @@
         },
         {
           "target": "com.gcp.dfareporting_v5#Conflict"
+        },
+        {
+          "target": "com.gcp.dfareporting_v5#InsufficientScopes"
         }
       ],
       "traits": {
@@ -26212,6 +26422,9 @@
         },
         {
           "target": "com.gcp.dfareporting_v5#Conflict"
+        },
+        {
+          "target": "com.gcp.dfareporting_v5#InsufficientScopes"
         }
       ],
       "traits": {
@@ -26333,6 +26546,9 @@
         },
         {
           "target": "com.gcp.dfareporting_v5#Forbidden"
+        },
+        {
+          "target": "com.gcp.dfareporting_v5#InsufficientScopes"
         }
       ],
       "traits": {
@@ -26390,6 +26606,9 @@
         },
         {
           "target": "com.gcp.dfareporting_v5#Forbidden"
+        },
+        {
+          "target": "com.gcp.dfareporting_v5#InsufficientScopes"
         }
       ],
       "traits": {
@@ -26448,6 +26667,9 @@
         },
         {
           "target": "com.gcp.dfareporting_v5#Conflict"
+        },
+        {
+          "target": "com.gcp.dfareporting_v5#InsufficientScopes"
         }
       ],
       "traits": {
@@ -26514,6 +26736,9 @@
         },
         {
           "target": "com.gcp.dfareporting_v5#Conflict"
+        },
+        {
+          "target": "com.gcp.dfareporting_v5#InsufficientScopes"
         }
       ],
       "traits": {
@@ -26572,6 +26797,9 @@
         },
         {
           "target": "com.gcp.dfareporting_v5#Conflict"
+        },
+        {
+          "target": "com.gcp.dfareporting_v5#InsufficientScopes"
         }
       ],
       "traits": {
@@ -26622,6 +26850,9 @@
         },
         {
           "target": "com.gcp.dfareporting_v5#Conflict"
+        },
+        {
+          "target": "com.gcp.dfareporting_v5#InsufficientScopes"
         }
       ],
       "traits": {
@@ -26670,6 +26901,9 @@
         },
         {
           "target": "com.gcp.dfareporting_v5#Conflict"
+        },
+        {
+          "target": "com.gcp.dfareporting_v5#InsufficientScopes"
         }
       ],
       "traits": {
@@ -26797,6 +27031,9 @@
         },
         {
           "target": "com.gcp.dfareporting_v5#Forbidden"
+        },
+        {
+          "target": "com.gcp.dfareporting_v5#InsufficientScopes"
         }
       ],
       "traits": {
@@ -26846,6 +27083,9 @@
         },
         {
           "target": "com.gcp.dfareporting_v5#Forbidden"
+        },
+        {
+          "target": "com.gcp.dfareporting_v5#InsufficientScopes"
         }
       ],
       "traits": {
@@ -26896,6 +27136,9 @@
         },
         {
           "target": "com.gcp.dfareporting_v5#Conflict"
+        },
+        {
+          "target": "com.gcp.dfareporting_v5#InsufficientScopes"
         }
       ],
       "traits": {
@@ -26941,6 +27184,9 @@
         },
         {
           "target": "com.gcp.dfareporting_v5#Forbidden"
+        },
+        {
+          "target": "com.gcp.dfareporting_v5#InsufficientScopes"
         }
       ],
       "traits": {
@@ -27418,6 +27664,9 @@
         },
         {
           "target": "com.gcp.dfareporting_v5#Forbidden"
+        },
+        {
+          "target": "com.gcp.dfareporting_v5#InsufficientScopes"
         }
       ],
       "traits": {
@@ -27515,6 +27764,9 @@
         },
         {
           "target": "com.gcp.dfareporting_v5#Conflict"
+        },
+        {
+          "target": "com.gcp.dfareporting_v5#InsufficientScopes"
         }
       ],
       "traits": {
@@ -27565,6 +27817,9 @@
         },
         {
           "target": "com.gcp.dfareporting_v5#Conflict"
+        },
+        {
+          "target": "com.gcp.dfareporting_v5#InsufficientScopes"
         }
       ],
       "traits": {
@@ -27659,6 +27914,9 @@
         },
         {
           "target": "com.gcp.dfareporting_v5#Forbidden"
+        },
+        {
+          "target": "com.gcp.dfareporting_v5#InsufficientScopes"
         }
       ],
       "traits": {
@@ -27973,6 +28231,9 @@
         },
         {
           "target": "com.gcp.dfareporting_v5#Forbidden"
+        },
+        {
+          "target": "com.gcp.dfareporting_v5#InsufficientScopes"
         }
       ],
       "traits": {
@@ -28022,6 +28283,9 @@
         },
         {
           "target": "com.gcp.dfareporting_v5#Forbidden"
+        },
+        {
+          "target": "com.gcp.dfareporting_v5#InsufficientScopes"
         }
       ],
       "traits": {
@@ -28072,6 +28336,9 @@
         },
         {
           "target": "com.gcp.dfareporting_v5#Conflict"
+        },
+        {
+          "target": "com.gcp.dfareporting_v5#InsufficientScopes"
         }
       ],
       "traits": {
@@ -28130,6 +28397,9 @@
         },
         {
           "target": "com.gcp.dfareporting_v5#Conflict"
+        },
+        {
+          "target": "com.gcp.dfareporting_v5#InsufficientScopes"
         }
       ],
       "traits": {
@@ -28180,6 +28450,9 @@
         },
         {
           "target": "com.gcp.dfareporting_v5#Conflict"
+        },
+        {
+          "target": "com.gcp.dfareporting_v5#InsufficientScopes"
         }
       ],
       "traits": {
@@ -28230,6 +28503,9 @@
         },
         {
           "target": "com.gcp.dfareporting_v5#Conflict"
+        },
+        {
+          "target": "com.gcp.dfareporting_v5#InsufficientScopes"
         }
       ],
       "traits": {
@@ -28267,6 +28543,9 @@
         },
         {
           "target": "com.gcp.dfareporting_v5#Forbidden"
+        },
+        {
+          "target": "com.gcp.dfareporting_v5#InsufficientScopes"
         }
       ],
       "traits": {
@@ -28415,6 +28694,9 @@
         },
         {
           "target": "com.gcp.dfareporting_v5#Forbidden"
+        },
+        {
+          "target": "com.gcp.dfareporting_v5#InsufficientScopes"
         }
       ],
       "traits": {
@@ -28469,6 +28751,9 @@
         },
         {
           "target": "com.gcp.dfareporting_v5#Conflict"
+        },
+        {
+          "target": "com.gcp.dfareporting_v5#InsufficientScopes"
         }
       ],
       "traits": {
@@ -28514,6 +28799,9 @@
         },
         {
           "target": "com.gcp.dfareporting_v5#Forbidden"
+        },
+        {
+          "target": "com.gcp.dfareporting_v5#InsufficientScopes"
         }
       ],
       "traits": {
@@ -28564,6 +28852,9 @@
         },
         {
           "target": "com.gcp.dfareporting_v5#Conflict"
+        },
+        {
+          "target": "com.gcp.dfareporting_v5#InsufficientScopes"
         }
       ],
       "traits": {
@@ -28698,6 +28989,9 @@
         },
         {
           "target": "com.gcp.dfareporting_v5#Forbidden"
+        },
+        {
+          "target": "com.gcp.dfareporting_v5#InsufficientScopes"
         }
       ],
       "traits": {
@@ -28760,6 +29054,9 @@
         },
         {
           "target": "com.gcp.dfareporting_v5#Conflict"
+        },
+        {
+          "target": "com.gcp.dfareporting_v5#InsufficientScopes"
         }
       ],
       "traits": {
@@ -28810,6 +29107,9 @@
         },
         {
           "target": "com.gcp.dfareporting_v5#Conflict"
+        },
+        {
+          "target": "com.gcp.dfareporting_v5#InsufficientScopes"
         }
       ],
       "traits": {
@@ -28855,6 +29155,9 @@
         },
         {
           "target": "com.gcp.dfareporting_v5#Forbidden"
+        },
+        {
+          "target": "com.gcp.dfareporting_v5#InsufficientScopes"
         }
       ],
       "traits": {
@@ -28921,6 +29224,9 @@
         },
         {
           "target": "com.gcp.dfareporting_v5#Forbidden"
+        },
+        {
+          "target": "com.gcp.dfareporting_v5#InsufficientScopes"
         }
       ],
       "traits": {
@@ -28983,6 +29289,9 @@
         },
         {
           "target": "com.gcp.dfareporting_v5#Conflict"
+        },
+        {
+          "target": "com.gcp.dfareporting_v5#InsufficientScopes"
         }
       ],
       "traits": {
@@ -29028,6 +29337,9 @@
         },
         {
           "target": "com.gcp.dfareporting_v5#Forbidden"
+        },
+        {
+          "target": "com.gcp.dfareporting_v5#InsufficientScopes"
         }
       ],
       "traits": {
@@ -29078,6 +29390,9 @@
         },
         {
           "target": "com.gcp.dfareporting_v5#Conflict"
+        },
+        {
+          "target": "com.gcp.dfareporting_v5#InsufficientScopes"
         }
       ],
       "traits": {
@@ -29126,6 +29441,9 @@
         },
         {
           "target": "com.gcp.dfareporting_v5#Conflict"
+        },
+        {
+          "target": "com.gcp.dfareporting_v5#InsufficientScopes"
         }
       ],
       "traits": {
@@ -29176,6 +29494,9 @@
         },
         {
           "target": "com.gcp.dfareporting_v5#Conflict"
+        },
+        {
+          "target": "com.gcp.dfareporting_v5#InsufficientScopes"
         }
       ],
       "traits": {
@@ -29234,6 +29555,9 @@
         },
         {
           "target": "com.gcp.dfareporting_v5#Conflict"
+        },
+        {
+          "target": "com.gcp.dfareporting_v5#InsufficientScopes"
         }
       ],
       "traits": {
@@ -29279,6 +29603,9 @@
         },
         {
           "target": "com.gcp.dfareporting_v5#Forbidden"
+        },
+        {
+          "target": "com.gcp.dfareporting_v5#InsufficientScopes"
         }
       ],
       "traits": {
@@ -29399,6 +29726,9 @@
         },
         {
           "target": "com.gcp.dfareporting_v5#Forbidden"
+        },
+        {
+          "target": "com.gcp.dfareporting_v5#InsufficientScopes"
         }
       ],
       "traits": {
@@ -29453,6 +29783,9 @@
         },
         {
           "target": "com.gcp.dfareporting_v5#Conflict"
+        },
+        {
+          "target": "com.gcp.dfareporting_v5#InsufficientScopes"
         }
       ],
       "traits": {
@@ -29511,6 +29844,9 @@
         },
         {
           "target": "com.gcp.dfareporting_v5#Conflict"
+        },
+        {
+          "target": "com.gcp.dfareporting_v5#InsufficientScopes"
         }
       ],
       "traits": {
@@ -29556,6 +29892,9 @@
         },
         {
           "target": "com.gcp.dfareporting_v5#Forbidden"
+        },
+        {
+          "target": "com.gcp.dfareporting_v5#InsufficientScopes"
         }
       ],
       "traits": {
@@ -29606,6 +29945,9 @@
         },
         {
           "target": "com.gcp.dfareporting_v5#Conflict"
+        },
+        {
+          "target": "com.gcp.dfareporting_v5#InsufficientScopes"
         }
       ],
       "traits": {
@@ -29656,6 +29998,9 @@
         },
         {
           "target": "com.gcp.dfareporting_v5#Conflict"
+        },
+        {
+          "target": "com.gcp.dfareporting_v5#InsufficientScopes"
         }
       ],
       "traits": {
@@ -29693,6 +30038,9 @@
         },
         {
           "target": "com.gcp.dfareporting_v5#Forbidden"
+        },
+        {
+          "target": "com.gcp.dfareporting_v5#InsufficientScopes"
         }
       ],
       "traits": {
@@ -29738,6 +30086,9 @@
         },
         {
           "target": "com.gcp.dfareporting_v5#Forbidden"
+        },
+        {
+          "target": "com.gcp.dfareporting_v5#InsufficientScopes"
         }
       ],
       "traits": {
@@ -29775,6 +30126,9 @@
         },
         {
           "target": "com.gcp.dfareporting_v5#Forbidden"
+        },
+        {
+          "target": "com.gcp.dfareporting_v5#InsufficientScopes"
         }
       ],
       "traits": {
@@ -29820,6 +30174,9 @@
         },
         {
           "target": "com.gcp.dfareporting_v5#Forbidden"
+        },
+        {
+          "target": "com.gcp.dfareporting_v5#InsufficientScopes"
         }
       ],
       "traits": {
@@ -29870,6 +30227,9 @@
         },
         {
           "target": "com.gcp.dfareporting_v5#Conflict"
+        },
+        {
+          "target": "com.gcp.dfareporting_v5#InsufficientScopes"
         }
       ],
       "traits": {
@@ -29915,6 +30275,9 @@
         },
         {
           "target": "com.gcp.dfareporting_v5#Forbidden"
+        },
+        {
+          "target": "com.gcp.dfareporting_v5#InsufficientScopes"
         }
       ],
       "traits": {
@@ -29980,6 +30343,9 @@
         },
         {
           "target": "com.gcp.dfareporting_v5#Forbidden"
+        },
+        {
+          "target": "com.gcp.dfareporting_v5#InsufficientScopes"
         }
       ],
       "traits": {
@@ -30038,6 +30404,9 @@
         },
         {
           "target": "com.gcp.dfareporting_v5#Conflict"
+        },
+        {
+          "target": "com.gcp.dfareporting_v5#InsufficientScopes"
         }
       ],
       "traits": {
@@ -30083,6 +30452,9 @@
         },
         {
           "target": "com.gcp.dfareporting_v5#Forbidden"
+        },
+        {
+          "target": "com.gcp.dfareporting_v5#InsufficientScopes"
         }
       ],
       "traits": {
@@ -30234,6 +30606,9 @@
         },
         {
           "target": "com.gcp.dfareporting_v5#Forbidden"
+        },
+        {
+          "target": "com.gcp.dfareporting_v5#InsufficientScopes"
         }
       ],
       "traits": {
@@ -30288,6 +30663,9 @@
         },
         {
           "target": "com.gcp.dfareporting_v5#Conflict"
+        },
+        {
+          "target": "com.gcp.dfareporting_v5#InsufficientScopes"
         }
       ],
       "traits": {
@@ -30338,6 +30716,9 @@
         },
         {
           "target": "com.gcp.dfareporting_v5#Conflict"
+        },
+        {
+          "target": "com.gcp.dfareporting_v5#InsufficientScopes"
         }
       ],
       "traits": {
@@ -30383,6 +30764,9 @@
         },
         {
           "target": "com.gcp.dfareporting_v5#Forbidden"
+        },
+        {
+          "target": "com.gcp.dfareporting_v5#InsufficientScopes"
         }
       ],
       "traits": {
@@ -30420,6 +30804,9 @@
         },
         {
           "target": "com.gcp.dfareporting_v5#Forbidden"
+        },
+        {
+          "target": "com.gcp.dfareporting_v5#InsufficientScopes"
         }
       ],
       "traits": {
@@ -30764,6 +31151,9 @@
         },
         {
           "target": "com.gcp.dfareporting_v5#Forbidden"
+        },
+        {
+          "target": "com.gcp.dfareporting_v5#InsufficientScopes"
         }
       ],
       "traits": {
@@ -30818,6 +31208,9 @@
         },
         {
           "target": "com.gcp.dfareporting_v5#Conflict"
+        },
+        {
+          "target": "com.gcp.dfareporting_v5#InsufficientScopes"
         }
       ],
       "traits": {
@@ -30863,6 +31256,9 @@
         },
         {
           "target": "com.gcp.dfareporting_v5#Forbidden"
+        },
+        {
+          "target": "com.gcp.dfareporting_v5#InsufficientScopes"
         }
       ],
       "traits": {
@@ -30913,6 +31309,9 @@
         },
         {
           "target": "com.gcp.dfareporting_v5#Conflict"
+        },
+        {
+          "target": "com.gcp.dfareporting_v5#InsufficientScopes"
         }
       ],
       "traits": {
@@ -30971,6 +31370,9 @@
         },
         {
           "target": "com.gcp.dfareporting_v5#Conflict"
+        },
+        {
+          "target": "com.gcp.dfareporting_v5#InsufficientScopes"
         }
       ],
       "traits": {
@@ -31008,6 +31410,9 @@
         },
         {
           "target": "com.gcp.dfareporting_v5#Forbidden"
+        },
+        {
+          "target": "com.gcp.dfareporting_v5#InsufficientScopes"
         }
       ],
       "traits": {
@@ -31053,6 +31458,9 @@
         },
         {
           "target": "com.gcp.dfareporting_v5#Forbidden"
+        },
+        {
+          "target": "com.gcp.dfareporting_v5#InsufficientScopes"
         }
       ],
       "traits": {
@@ -31098,6 +31506,9 @@
         },
         {
           "target": "com.gcp.dfareporting_v5#Forbidden"
+        },
+        {
+          "target": "com.gcp.dfareporting_v5#InsufficientScopes"
         }
       ],
       "traits": {
@@ -31142,6 +31553,9 @@
         },
         {
           "target": "com.gcp.dfareporting_v5#Forbidden"
+        },
+        {
+          "target": "com.gcp.dfareporting_v5#InsufficientScopes"
         }
       ],
       "traits": {
@@ -31200,6 +31614,9 @@
         },
         {
           "target": "com.gcp.dfareporting_v5#Conflict"
+        },
+        {
+          "target": "com.gcp.dfareporting_v5#InsufficientScopes"
         }
       ],
       "traits": {
@@ -31250,6 +31667,9 @@
         },
         {
           "target": "com.gcp.dfareporting_v5#Conflict"
+        },
+        {
+          "target": "com.gcp.dfareporting_v5#InsufficientScopes"
         }
       ],
       "traits": {
@@ -31287,6 +31707,9 @@
         },
         {
           "target": "com.gcp.dfareporting_v5#Forbidden"
+        },
+        {
+          "target": "com.gcp.dfareporting_v5#InsufficientScopes"
         }
       ],
       "traits": {
@@ -31332,6 +31755,9 @@
         },
         {
           "target": "com.gcp.dfareporting_v5#Forbidden"
+        },
+        {
+          "target": "com.gcp.dfareporting_v5#InsufficientScopes"
         }
       ],
       "traits": {
@@ -31377,6 +31803,9 @@
         },
         {
           "target": "com.gcp.dfareporting_v5#Forbidden"
+        },
+        {
+          "target": "com.gcp.dfareporting_v5#InsufficientScopes"
         }
       ],
       "traits": {
@@ -31421,6 +31850,9 @@
         },
         {
           "target": "com.gcp.dfareporting_v5#Forbidden"
+        },
+        {
+          "target": "com.gcp.dfareporting_v5#InsufficientScopes"
         }
       ],
       "traits": {
@@ -31466,6 +31898,9 @@
         },
         {
           "target": "com.gcp.dfareporting_v5#Forbidden"
+        },
+        {
+          "target": "com.gcp.dfareporting_v5#InsufficientScopes"
         }
       ],
       "traits": {
@@ -31511,6 +31946,9 @@
         },
         {
           "target": "com.gcp.dfareporting_v5#Forbidden"
+        },
+        {
+          "target": "com.gcp.dfareporting_v5#InsufficientScopes"
         }
       ],
       "traits": {
@@ -31640,6 +32078,9 @@
         },
         {
           "target": "com.gcp.dfareporting_v5#Forbidden"
+        },
+        {
+          "target": "com.gcp.dfareporting_v5#InsufficientScopes"
         }
       ],
       "traits": {
@@ -31695,6 +32136,9 @@
         },
         {
           "target": "com.gcp.dfareporting_v5#Conflict"
+        },
+        {
+          "target": "com.gcp.dfareporting_v5#InsufficientScopes"
         }
       ],
       "traits": {
@@ -31740,6 +32184,9 @@
         },
         {
           "target": "com.gcp.dfareporting_v5#Forbidden"
+        },
+        {
+          "target": "com.gcp.dfareporting_v5#InsufficientScopes"
         }
       ],
       "traits": {
@@ -31788,6 +32235,9 @@
         },
         {
           "target": "com.gcp.dfareporting_v5#Conflict"
+        },
+        {
+          "target": "com.gcp.dfareporting_v5#InsufficientScopes"
         }
       ],
       "traits": {
@@ -31838,6 +32288,9 @@
         },
         {
           "target": "com.gcp.dfareporting_v5#Conflict"
+        },
+        {
+          "target": "com.gcp.dfareporting_v5#InsufficientScopes"
         }
       ],
       "traits": {
@@ -31896,6 +32349,9 @@
         },
         {
           "target": "com.gcp.dfareporting_v5#Conflict"
+        },
+        {
+          "target": "com.gcp.dfareporting_v5#InsufficientScopes"
         }
       ],
       "traits": {
@@ -31946,6 +32402,9 @@
         },
         {
           "target": "com.gcp.dfareporting_v5#Conflict"
+        },
+        {
+          "target": "com.gcp.dfareporting_v5#InsufficientScopes"
         }
       ],
       "traits": {
@@ -32125,6 +32584,9 @@
         },
         {
           "target": "com.gcp.dfareporting_v5#Forbidden"
+        },
+        {
+          "target": "com.gcp.dfareporting_v5#InsufficientScopes"
         }
       ],
       "traits": {
@@ -32174,6 +32636,9 @@
         },
         {
           "target": "com.gcp.dfareporting_v5#Forbidden"
+        },
+        {
+          "target": "com.gcp.dfareporting_v5#InsufficientScopes"
         }
       ],
       "traits": {
@@ -32224,6 +32689,9 @@
         },
         {
           "target": "com.gcp.dfareporting_v5#Conflict"
+        },
+        {
+          "target": "com.gcp.dfareporting_v5#InsufficientScopes"
         }
       ],
       "traits": {
@@ -32344,6 +32812,9 @@
         },
         {
           "target": "com.gcp.dfareporting_v5#Forbidden"
+        },
+        {
+          "target": "com.gcp.dfareporting_v5#InsufficientScopes"
         }
       ],
       "traits": {
@@ -32398,6 +32869,9 @@
         },
         {
           "target": "com.gcp.dfareporting_v5#Conflict"
+        },
+        {
+          "target": "com.gcp.dfareporting_v5#InsufficientScopes"
         }
       ],
       "traits": {
@@ -32456,6 +32930,9 @@
         },
         {
           "target": "com.gcp.dfareporting_v5#Conflict"
+        },
+        {
+          "target": "com.gcp.dfareporting_v5#InsufficientScopes"
         }
       ],
       "traits": {
@@ -32493,6 +32970,9 @@
         },
         {
           "target": "com.gcp.dfareporting_v5#Forbidden"
+        },
+        {
+          "target": "com.gcp.dfareporting_v5#InsufficientScopes"
         }
       ],
       "traits": {
@@ -32530,6 +33010,9 @@
         },
         {
           "target": "com.gcp.dfareporting_v5#Forbidden"
+        },
+        {
+          "target": "com.gcp.dfareporting_v5#InsufficientScopes"
         }
       ],
       "traits": {
@@ -32570,6 +33053,9 @@
         },
         {
           "target": "com.gcp.dfareporting_v5#Conflict"
+        },
+        {
+          "target": "com.gcp.dfareporting_v5#InsufficientScopes"
         }
       ],
       "traits": {
@@ -32612,6 +33098,9 @@
         },
         {
           "target": "com.gcp.dfareporting_v5#Conflict"
+        },
+        {
+          "target": "com.gcp.dfareporting_v5#InsufficientScopes"
         }
       ],
       "traits": {
@@ -32654,6 +33143,9 @@
         },
         {
           "target": "com.gcp.dfareporting_v5#Conflict"
+        },
+        {
+          "target": "com.gcp.dfareporting_v5#InsufficientScopes"
         }
       ],
       "traits": {
@@ -32691,6 +33183,9 @@
         },
         {
           "target": "com.gcp.dfareporting_v5#Forbidden"
+        },
+        {
+          "target": "com.gcp.dfareporting_v5#InsufficientScopes"
         }
       ],
       "traits": {
@@ -32736,6 +33231,9 @@
         },
         {
           "target": "com.gcp.dfareporting_v5#Forbidden"
+        },
+        {
+          "target": "com.gcp.dfareporting_v5#InsufficientScopes"
         }
       ],
       "traits": {
@@ -32773,6 +33271,9 @@
         },
         {
           "target": "com.gcp.dfareporting_v5#Forbidden"
+        },
+        {
+          "target": "com.gcp.dfareporting_v5#InsufficientScopes"
         }
       ],
       "traits": {
@@ -32810,6 +33311,9 @@
         },
         {
           "target": "com.gcp.dfareporting_v5#Forbidden"
+        },
+        {
+          "target": "com.gcp.dfareporting_v5#InsufficientScopes"
         }
       ],
       "traits": {
@@ -32852,6 +33356,9 @@
         },
         {
           "target": "com.gcp.dfareporting_v5#Conflict"
+        },
+        {
+          "target": "com.gcp.dfareporting_v5#InsufficientScopes"
         }
       ],
       "traits": {
@@ -32892,6 +33399,9 @@
         },
         {
           "target": "com.gcp.dfareporting_v5#Conflict"
+        },
+        {
+          "target": "com.gcp.dfareporting_v5#InsufficientScopes"
         }
       ],
       "traits": {
@@ -32942,6 +33452,9 @@
         },
         {
           "target": "com.gcp.dfareporting_v5#Conflict"
+        },
+        {
+          "target": "com.gcp.dfareporting_v5#InsufficientScopes"
         }
       ],
       "traits": {
@@ -33000,6 +33513,9 @@
         },
         {
           "target": "com.gcp.dfareporting_v5#Conflict"
+        },
+        {
+          "target": "com.gcp.dfareporting_v5#InsufficientScopes"
         }
       ],
       "traits": {
@@ -33050,6 +33566,9 @@
         },
         {
           "target": "com.gcp.dfareporting_v5#Conflict"
+        },
+        {
+          "target": "com.gcp.dfareporting_v5#InsufficientScopes"
         }
       ],
       "traits": {
@@ -33095,6 +33614,9 @@
         },
         {
           "target": "com.gcp.dfareporting_v5#Forbidden"
+        },
+        {
+          "target": "com.gcp.dfareporting_v5#InsufficientScopes"
         }
       ],
       "traits": {
@@ -33222,6 +33744,9 @@
         },
         {
           "target": "com.gcp.dfareporting_v5#Forbidden"
+        },
+        {
+          "target": "com.gcp.dfareporting_v5#InsufficientScopes"
         }
       ],
       "traits": {
@@ -33284,6 +33809,9 @@
         },
         {
           "target": "com.gcp.dfareporting_v5#Conflict"
+        },
+        {
+          "target": "com.gcp.dfareporting_v5#InsufficientScopes"
         }
       ],
       "traits": {
@@ -33326,6 +33854,9 @@
         },
         {
           "target": "com.gcp.dfareporting_v5#Conflict"
+        },
+        {
+          "target": "com.gcp.dfareporting_v5#InsufficientScopes"
         }
       ],
       "traits": {
@@ -33390,6 +33921,9 @@
         },
         {
           "target": "com.gcp.dfareporting_v5#Conflict"
+        },
+        {
+          "target": "com.gcp.dfareporting_v5#InsufficientScopes"
         }
       ],
       "traits": {
@@ -33432,6 +33966,9 @@
         },
         {
           "target": "com.gcp.dfareporting_v5#Forbidden"
+        },
+        {
+          "target": "com.gcp.dfareporting_v5#InsufficientScopes"
         }
       ],
       "traits": {
@@ -33474,6 +34011,9 @@
         },
         {
           "target": "com.gcp.dfareporting_v5#Conflict"
+        },
+        {
+          "target": "com.gcp.dfareporting_v5#InsufficientScopes"
         }
       ],
       "traits": {
@@ -33516,6 +34056,9 @@
         },
         {
           "target": "com.gcp.dfareporting_v5#Conflict"
+        },
+        {
+          "target": "com.gcp.dfareporting_v5#InsufficientScopes"
         }
       ],
       "traits": {
@@ -33559,6 +34102,9 @@
         },
         {
           "target": "com.gcp.dfareporting_v5#Conflict"
+        },
+        {
+          "target": "com.gcp.dfareporting_v5#InsufficientScopes"
         }
       ],
       "traits": {
@@ -33596,6 +34142,9 @@
         },
         {
           "target": "com.gcp.dfareporting_v5#Forbidden"
+        },
+        {
+          "target": "com.gcp.dfareporting_v5#InsufficientScopes"
         }
       ],
       "traits": {
@@ -33646,6 +34195,9 @@
         },
         {
           "target": "com.gcp.dfareporting_v5#Conflict"
+        },
+        {
+          "target": "com.gcp.dfareporting_v5#InsufficientScopes"
         }
       ],
       "traits": {
@@ -33691,6 +34243,9 @@
         },
         {
           "target": "com.gcp.dfareporting_v5#Forbidden"
+        },
+        {
+          "target": "com.gcp.dfareporting_v5#InsufficientScopes"
         }
       ],
       "traits": {
@@ -33804,6 +34359,9 @@
         },
         {
           "target": "com.gcp.dfareporting_v5#Forbidden"
+        },
+        {
+          "target": "com.gcp.dfareporting_v5#InsufficientScopes"
         }
       ],
       "traits": {
@@ -33866,6 +34424,9 @@
         },
         {
           "target": "com.gcp.dfareporting_v5#Conflict"
+        },
+        {
+          "target": "com.gcp.dfareporting_v5#InsufficientScopes"
         }
       ],
       "traits": {
@@ -33914,6 +34475,9 @@
         },
         {
           "target": "com.gcp.dfareporting_v5#Conflict"
+        },
+        {
+          "target": "com.gcp.dfareporting_v5#InsufficientScopes"
         }
       ],
       "traits": {
@@ -33964,6 +34528,9 @@
         },
         {
           "target": "com.gcp.dfareporting_v5#Conflict"
+        },
+        {
+          "target": "com.gcp.dfareporting_v5#InsufficientScopes"
         }
       ],
       "traits": {
@@ -34084,6 +34651,9 @@
         },
         {
           "target": "com.gcp.dfareporting_v5#Forbidden"
+        },
+        {
+          "target": "com.gcp.dfareporting_v5#InsufficientScopes"
         }
       ],
       "traits": {
@@ -34138,6 +34708,9 @@
         },
         {
           "target": "com.gcp.dfareporting_v5#Conflict"
+        },
+        {
+          "target": "com.gcp.dfareporting_v5#InsufficientScopes"
         }
       ],
       "traits": {
@@ -34183,6 +34756,9 @@
         },
         {
           "target": "com.gcp.dfareporting_v5#Forbidden"
+        },
+        {
+          "target": "com.gcp.dfareporting_v5#InsufficientScopes"
         }
       ],
       "traits": {
@@ -34241,6 +34817,9 @@
         },
         {
           "target": "com.gcp.dfareporting_v5#Conflict"
+        },
+        {
+          "target": "com.gcp.dfareporting_v5#InsufficientScopes"
         }
       ],
       "traits": {
@@ -34289,6 +34868,9 @@
         },
         {
           "target": "com.gcp.dfareporting_v5#Conflict"
+        },
+        {
+          "target": "com.gcp.dfareporting_v5#InsufficientScopes"
         }
       ],
       "traits": {
@@ -34347,6 +34929,9 @@
         },
         {
           "target": "com.gcp.dfareporting_v5#Conflict"
+        },
+        {
+          "target": "com.gcp.dfareporting_v5#InsufficientScopes"
         }
       ],
       "traits": {
@@ -34392,6 +34977,9 @@
         },
         {
           "target": "com.gcp.dfareporting_v5#Forbidden"
+        },
+        {
+          "target": "com.gcp.dfareporting_v5#InsufficientScopes"
         }
       ],
       "traits": {
@@ -34521,6 +35109,9 @@
         },
         {
           "target": "com.gcp.dfareporting_v5#Forbidden"
+        },
+        {
+          "target": "com.gcp.dfareporting_v5#InsufficientScopes"
         }
       ],
       "traits": {
@@ -34576,6 +35167,9 @@
         },
         {
           "target": "com.gcp.dfareporting_v5#Conflict"
+        },
+        {
+          "target": "com.gcp.dfareporting_v5#InsufficientScopes"
         }
       ],
       "traits": {
@@ -34634,6 +35228,9 @@
         },
         {
           "target": "com.gcp.dfareporting_v5#Conflict"
+        },
+        {
+          "target": "com.gcp.dfareporting_v5#InsufficientScopes"
         }
       ],
       "traits": {
@@ -34684,6 +35281,9 @@
         },
         {
           "target": "com.gcp.dfareporting_v5#Conflict"
+        },
+        {
+          "target": "com.gcp.dfareporting_v5#InsufficientScopes"
         }
       ],
       "traits": {
@@ -34791,6 +35391,9 @@
         },
         {
           "target": "com.gcp.dfareporting_v5#Forbidden"
+        },
+        {
+          "target": "com.gcp.dfareporting_v5#InsufficientScopes"
         }
       ],
       "traits": {
@@ -34849,6 +35452,9 @@
         },
         {
           "target": "com.gcp.dfareporting_v5#Forbidden"
+        },
+        {
+          "target": "com.gcp.dfareporting_v5#InsufficientScopes"
         }
       ],
       "traits": {
@@ -34886,6 +35492,9 @@
         },
         {
           "target": "com.gcp.dfareporting_v5#Forbidden"
+        },
+        {
+          "target": "com.gcp.dfareporting_v5#InsufficientScopes"
         }
       ],
       "traits": {
@@ -34914,6 +35523,9 @@
         },
         {
           "target": "com.gcp.dfareporting_v5#Forbidden"
+        },
+        {
+          "target": "com.gcp.dfareporting_v5#InsufficientScopes"
         }
       ],
       "traits": {
@@ -34997,6 +35609,9 @@
         },
         {
           "target": "com.gcp.dfareporting_v5#Forbidden"
+        },
+        {
+          "target": "com.gcp.dfareporting_v5#InsufficientScopes"
         }
       ],
       "traits": {
@@ -35059,6 +35674,9 @@
         },
         {
           "target": "com.gcp.dfareporting_v5#Conflict"
+        },
+        {
+          "target": "com.gcp.dfareporting_v5#InsufficientScopes"
         }
       ],
       "traits": {
@@ -35104,6 +35722,9 @@
         },
         {
           "target": "com.gcp.dfareporting_v5#Forbidden"
+        },
+        {
+          "target": "com.gcp.dfareporting_v5#InsufficientScopes"
         }
       ],
       "traits": {
@@ -35141,6 +35762,9 @@
         },
         {
           "target": "com.gcp.dfareporting_v5#Forbidden"
+        },
+        {
+          "target": "com.gcp.dfareporting_v5#InsufficientScopes"
         }
       ],
       "traits": {
@@ -35178,6 +35802,9 @@
         },
         {
           "target": "com.gcp.dfareporting_v5#Forbidden"
+        },
+        {
+          "target": "com.gcp.dfareporting_v5#InsufficientScopes"
         }
       ],
       "traits": {
@@ -35243,6 +35870,9 @@
         },
         {
           "target": "com.gcp.dfareporting_v5#Forbidden"
+        },
+        {
+          "target": "com.gcp.dfareporting_v5#InsufficientScopes"
         }
       ],
       "traits": {
@@ -35373,6 +36003,9 @@
         },
         {
           "target": "com.gcp.dfareporting_v5#Forbidden"
+        },
+        {
+          "target": "com.gcp.dfareporting_v5#InsufficientScopes"
         }
       ],
       "traits": {
@@ -35410,6 +36043,9 @@
         },
         {
           "target": "com.gcp.dfareporting_v5#Forbidden"
+        },
+        {
+          "target": "com.gcp.dfareporting_v5#InsufficientScopes"
         }
       ],
       "traits": {
@@ -35455,6 +36091,9 @@
         },
         {
           "target": "com.gcp.dfareporting_v5#Forbidden"
+        },
+        {
+          "target": "com.gcp.dfareporting_v5#InsufficientScopes"
         }
       ],
       "traits": {
@@ -35505,6 +36144,9 @@
         },
         {
           "target": "com.gcp.dfareporting_v5#Conflict"
+        },
+        {
+          "target": "com.gcp.dfareporting_v5#InsufficientScopes"
         }
       ],
       "traits": {
@@ -35667,6 +36309,9 @@
         },
         {
           "target": "com.gcp.dfareporting_v5#Forbidden"
+        },
+        {
+          "target": "com.gcp.dfareporting_v5#InsufficientScopes"
         }
       ],
       "traits": {
@@ -35729,6 +36374,9 @@
         },
         {
           "target": "com.gcp.dfareporting_v5#Conflict"
+        },
+        {
+          "target": "com.gcp.dfareporting_v5#InsufficientScopes"
         }
       ],
       "traits": {
@@ -35779,6 +36427,9 @@
         },
         {
           "target": "com.gcp.dfareporting_v5#Conflict"
+        },
+        {
+          "target": "com.gcp.dfareporting_v5#InsufficientScopes"
         }
       ],
       "traits": {
@@ -35824,6 +36475,9 @@
         },
         {
           "target": "com.gcp.dfareporting_v5#Forbidden"
+        },
+        {
+          "target": "com.gcp.dfareporting_v5#InsufficientScopes"
         }
       ],
       "traits": {
@@ -35832,6 +36486,23 @@
           "uri": "userprofiles/{+profileId}/campaigns/{+id}"
         },
         "smithy.api#documentation": "Gets one campaign by ID."
+      }
+    },
+    "com.gcp.dfareporting_v5#InsufficientScopes": {
+      "type": "structure",
+      "members": {},
+      "traits": {
+        "smithy.api#error": "client",
+        "smithy.api#httpError": 403,
+        "smithy.api#documentation": "The OAuth token lacks the dfatrafficking/dfareporting scope (HTTP 403: \"Request had insufficient authentication scopes.\"). Service-account tokens with only cloud-platform scope hit this.",
+        "com.gcp.protocols#errorMatchers": [
+          {
+            "status": 403,
+            "message": {
+              "includes": "insufficient authentication scopes"
+            }
+          }
+        ]
       }
     }
   }

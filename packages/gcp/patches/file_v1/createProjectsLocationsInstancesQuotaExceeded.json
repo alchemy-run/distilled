@@ -1,0 +1,32 @@
+{
+  "description": "Type Filestore's per-region storage capacity quota on instance create. It surfaced as the generic throttling-category TooManyRequests (HTTP 429), so callers retried a hard capacity limit for minutes and could not tell it apart from rate limiting. Observed live 2026-09-29: createProjectsLocationsInstances with tier ZONAL -> 429 \"Quota limit 'EnterpriseStorageGibPerRegion' has been exceeded. Limit: 0 in region us-central1.\"",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.file_v1#StorageQuotaExceeded",
+      "value": {
+        "type": "structure",
+        "members": {},
+        "traits": {
+          "smithy.api#error": "client",
+          "smithy.api#documentation": "The project's per-region Filestore storage quota for the requested tier is exhausted (HTTP 429: \"Quota limit '<Tier>StorageGibPerRegion' has been exceeded. Limit: N in region R.\"). A capacity limit, not rate limiting — deliberately carries no httpError so it is not classified as throttling and retried; it clears only when quota is raised or storage is freed.",
+          "com.gcp.protocols#errorMatchers": [
+            {
+              "status": 429,
+              "message": {
+                "matches": "Quota limit '\\w+Storage\\w*PerRegion' has been exceeded"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.file_v1#CreateProjectsLocationsInstances/errors/-",
+      "value": {
+        "target": "com.gcp.file_v1#StorageQuotaExceeded"
+      }
+    }
+  ]
+}

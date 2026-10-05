@@ -22074,9 +22074,7 @@
                       "Label": "LOW",
                       "Original": "10"
                     },
-                    "Types": [
-                      "Software and Configuration Checks/Vulnerabilities/CVE"
-                    ]
+                    "Types": ["Software and Configuration Checks/Vulnerabilities/CVE"]
                   },
                   "GeneratorId": "TestGeneratorId",
                   "Id": "Id1",
@@ -22311,9 +22309,7 @@
               "VerificationState": "TRUE_POSITIVE",
               "Confidence": 80,
               "Criticality": 80,
-              "Types": [
-                "Software and Configuration Checks/Vulnerabilities/CVE"
-              ],
+              "Types": ["Software and Configuration Checks/Vulnerabilities/CVE"],
               "UserDefinedFields": {
                 "reviewedByCio": "true"
               },
@@ -30285,9 +30281,7 @@
                   "Region": "us-east-2",
                   "GeneratorId": "security-control/CloudTrail.2",
                   "AwsAccountId": "123456789012",
-                  "Types": [
-                    "Software and Configuration Checks/Industry and Regulatory Standards"
-                  ],
+                  "Types": ["Software and Configuration Checks/Industry and Regulatory Standards"],
                   "FirstObservedAt": "2022-10-06T02:18:23.076Z",
                   "LastObservedAt": "2022-10-28T16:10:06.956Z",
                   "CreatedAt": "2022-10-06T02:18:23.076Z",
@@ -30357,9 +30351,7 @@
                       "Label": "MEDIUM",
                       "Original": "MEDIUM"
                     },
-                    "Types": [
-                      "Software and Configuration Checks/Industry and Regulatory Standards"
-                    ]
+                    "Types": ["Software and Configuration Checks/Industry and Regulatory Standards"]
                   }
                 }
               ]
@@ -44510,10 +44502,7 @@
                     "arn:aws:securityhub:::ruleset/cis-aws-foundations-benchmark/v/1.2.0"
                   ],
                   "SecurityControlsConfiguration": {
-                    "DisabledSecurityControlIdentifiers": [
-                      "CloudWatch.1",
-                      "CloudWatch.2"
-                    ],
+                    "DisabledSecurityControlIdentifiers": ["CloudWatch.1", "CloudWatch.2"],
                     "SecurityControlCustomParameters": [
                       {
                         "SecurityControlId": "ACM.1",
@@ -44546,10 +44535,7 @@
                     "arn:aws:securityhub:::ruleset/cis-aws-foundations-benchmark/v/1.2.0"
                   ],
                   "SecurityControlsConfiguration": {
-                    "DisabledSecurityControlIdentifiers": [
-                      "CloudWatch.1",
-                      "CloudWatch.2"
-                    ],
+                    "DisabledSecurityControlIdentifiers": ["CloudWatch.1", "CloudWatch.2"],
                     "SecurityControlCustomParameters": [
                       {
                         "SecurityControlId": "ACM.1",

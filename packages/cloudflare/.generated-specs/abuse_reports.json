@@ -706,7 +706,7 @@
           "uri": "/accounts/{account_id}/abuse-reports/{report_param}",
           "code": 200
         },
-        "smithy.api#documentation": "Retrieve the details of an abuse report.",
+        "smithy.api#documentation": "Retrieve the details of an abuse report made against a domain or other content associated with the account. To retrieve a report that the account submitted, use the submitted abuse report endpoint instead.",
         "smithy.api#readonly": {}
       }
     },
@@ -2829,7 +2829,7 @@
           "uri": "/accounts/{account_id}/abuse-reports/{report_param}",
           "code": 200
         },
-        "smithy.api#documentation": "Submit an abuse report of a particular type. Requires the abuse-reports entitlement on the account (Enterprise accounts have it by default; other accounts must request access) and an API token with the `Account > Abuse Reports > Edit` permission. If the account is not entitled, the request is rejected with an HTTP `401` response (see below)."
+        "smithy.api#documentation": "Submit an abuse report of a particular type. Requires the abuse-reports entitlement on the account (Enterprise accounts have it by default; other accounts must request access) and an API token with the `Trust and Safety Write` permission. If the account is not entitled, the request is rejected with an HTTP `401` response (see below)."
       },
       "errors": [
         {
@@ -3081,7 +3081,7 @@
           "uri": "/accounts/{account_id}/abuse-reports",
           "code": 200
         },
-        "smithy.api#documentation": "List the abuse reports for a given account",
+        "smithy.api#documentation": "List abuse reports made against domains or other content associated with the account. To list reports that the account submitted, use the submitted abuse reports endpoint instead.",
         "smithy.api#readonly": {},
         "smithy.api#paginated": {
           "mode": "page",
@@ -3322,7 +3322,7 @@
           "uri": "/accounts/{account_id}/abuse-reports/{report_id}/mitigations/appeal",
           "code": 200
         },
-        "smithy.api#documentation": "Request a review for mitigations on an account. Repeating a request for a mitigation with an unresolved appeal is idempotent and returns that mitigation in the in-review state.",
+        "smithy.api#documentation": "Request a review of mitigations applied because of an abuse report, or submit a report-level appeal. - To request a review of specific mitigations, send `appeals` with the mitigation IDs and reasons. Repeating a request for a mitigation with an unresolved appeal is idempotent and returns that mitigation in the in-review state. - To submit a report-level appeal, send `type` and, for a `counter_notice`, the counter-notice details in `data`. Report-level appeals are currently available only for DMCA (copyright) reports.",
         "smithy.api#paginated": {
           "mode": "single",
           "items": "result"

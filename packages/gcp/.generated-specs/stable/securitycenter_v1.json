@@ -15246,6 +15246,9 @@
         },
         {
           "target": "com.gcp.securitycenter_v1#Conflict"
+        },
+        {
+          "target": "com.gcp.securitycenter_v1#ServiceDisabled"
         }
       ],
       "traits": {
@@ -15281,6 +15284,9 @@
         },
         {
           "target": "com.gcp.securitycenter_v1#Forbidden"
+        },
+        {
+          "target": "com.gcp.securitycenter_v1#ServiceDisabled"
         }
       ],
       "traits": {
@@ -15335,6 +15341,9 @@
         },
         {
           "target": "com.gcp.securitycenter_v1#Conflict"
+        },
+        {
+          "target": "com.gcp.securitycenter_v1#ServiceDisabled"
         }
       ],
       "traits": {
@@ -15370,6 +15379,9 @@
         },
         {
           "target": "com.gcp.securitycenter_v1#Forbidden"
+        },
+        {
+          "target": "com.gcp.securitycenter_v1#ServiceDisabled"
         }
       ],
       "traits": {
@@ -15411,6 +15423,9 @@
         },
         {
           "target": "com.gcp.securitycenter_v1#Conflict"
+        },
+        {
+          "target": "com.gcp.securitycenter_v1#ServiceDisabled"
         }
       ],
       "traits": {
@@ -15458,6 +15473,9 @@
         },
         {
           "target": "com.gcp.securitycenter_v1#Forbidden"
+        },
+        {
+          "target": "com.gcp.securitycenter_v1#ServiceDisabled"
         }
       ],
       "traits": {
@@ -15516,6 +15534,9 @@
         },
         {
           "target": "com.gcp.securitycenter_v1#Conflict"
+        },
+        {
+          "target": "com.gcp.securitycenter_v1#ServiceDisabled"
         }
       ],
       "traits": {
@@ -15557,6 +15578,9 @@
         },
         {
           "target": "com.gcp.securitycenter_v1#Conflict"
+        },
+        {
+          "target": "com.gcp.securitycenter_v1#ServiceDisabled"
         }
       ],
       "traits": {
@@ -15611,6 +15635,9 @@
         },
         {
           "target": "com.gcp.securitycenter_v1#Conflict"
+        },
+        {
+          "target": "com.gcp.securitycenter_v1#ServiceDisabled"
         }
       ],
       "traits": {
@@ -15665,6 +15692,9 @@
         },
         {
           "target": "com.gcp.securitycenter_v1#Conflict"
+        },
+        {
+          "target": "com.gcp.securitycenter_v1#ServiceDisabled"
         }
       ],
       "traits": {
@@ -15700,6 +15730,9 @@
         },
         {
           "target": "com.gcp.securitycenter_v1#Forbidden"
+        },
+        {
+          "target": "com.gcp.securitycenter_v1#ServiceDisabled"
         }
       ],
       "traits": {
@@ -15747,6 +15780,9 @@
         },
         {
           "target": "com.gcp.securitycenter_v1#Forbidden"
+        },
+        {
+          "target": "com.gcp.securitycenter_v1#ServiceDisabled"
         }
       ],
       "traits": {
@@ -15799,6 +15835,9 @@
         },
         {
           "target": "com.gcp.securitycenter_v1#Conflict"
+        },
+        {
+          "target": "com.gcp.securitycenter_v1#ServiceDisabled"
         }
       ],
       "traits": {
@@ -15847,6 +15886,9 @@
         },
         {
           "target": "com.gcp.securitycenter_v1#Conflict"
+        },
+        {
+          "target": "com.gcp.securitycenter_v1#ServiceDisabled"
         }
       ],
       "traits": {
@@ -15894,6 +15936,9 @@
         },
         {
           "target": "com.gcp.securitycenter_v1#Forbidden"
+        },
+        {
+          "target": "com.gcp.securitycenter_v1#ServiceDisabled"
         }
       ],
       "traits": {
@@ -15933,6 +15978,9 @@
         },
         {
           "target": "com.gcp.securitycenter_v1#Forbidden"
+        },
+        {
+          "target": "com.gcp.securitycenter_v1#ServiceDisabled"
         }
       ],
       "traits": {
@@ -15980,6 +16028,9 @@
         },
         {
           "target": "com.gcp.securitycenter_v1#Forbidden"
+        },
+        {
+          "target": "com.gcp.securitycenter_v1#ServiceDisabled"
         }
       ],
       "traits": {
@@ -16038,6 +16089,9 @@
         },
         {
           "target": "com.gcp.securitycenter_v1#Conflict"
+        },
+        {
+          "target": "com.gcp.securitycenter_v1#ServiceDisabled"
         }
       ],
       "traits": {
@@ -16085,6 +16139,9 @@
         },
         {
           "target": "com.gcp.securitycenter_v1#Forbidden"
+        },
+        {
+          "target": "com.gcp.securitycenter_v1#ServiceDisabled"
         }
       ],
       "traits": {
@@ -16124,6 +16181,9 @@
         },
         {
           "target": "com.gcp.securitycenter_v1#Forbidden"
+        },
+        {
+          "target": "com.gcp.securitycenter_v1#ServiceDisabled"
         }
       ],
       "traits": {
@@ -16172,6 +16232,9 @@
         },
         {
           "target": "com.gcp.securitycenter_v1#Conflict"
+        },
+        {
+          "target": "com.gcp.securitycenter_v1#ServiceDisabled"
         }
       ],
       "traits": {
@@ -16213,6 +16276,9 @@
         },
         {
           "target": "com.gcp.securitycenter_v1#Conflict"
+        },
+        {
+          "target": "com.gcp.securitycenter_v1#ServiceDisabled"
         }
       ],
       "traits": {
@@ -16272,6 +16338,9 @@
         },
         {
           "target": "com.gcp.securitycenter_v1#Forbidden"
+        },
+        {
+          "target": "com.gcp.securitycenter_v1#ServiceDisabled"
         }
       ],
       "traits": {
@@ -16317,6 +16386,9 @@
         },
         {
           "target": "com.gcp.securitycenter_v1#Conflict"
+        },
+        {
+          "target": "com.gcp.securitycenter_v1#ServiceDisabled"
         }
       ],
       "traits": {
@@ -16352,6 +16424,9 @@
         },
         {
           "target": "com.gcp.securitycenter_v1#Forbidden"
+        },
+        {
+          "target": "com.gcp.securitycenter_v1#ServiceDisabled"
         }
       ],
       "traits": {
@@ -16393,6 +16468,9 @@
         },
         {
           "target": "com.gcp.securitycenter_v1#Conflict"
+        },
+        {
+          "target": "com.gcp.securitycenter_v1#ServiceDisabled"
         }
       ],
       "traits": {
@@ -16428,6 +16506,9 @@
         },
         {
           "target": "com.gcp.securitycenter_v1#Forbidden"
+        },
+        {
+          "target": "com.gcp.securitycenter_v1#ServiceDisabled"
         }
       ],
       "traits": {
@@ -16482,6 +16563,9 @@
         },
         {
           "target": "com.gcp.securitycenter_v1#Conflict"
+        },
+        {
+          "target": "com.gcp.securitycenter_v1#ServiceDisabled"
         }
       ],
       "traits": {
@@ -16523,6 +16607,9 @@
         },
         {
           "target": "com.gcp.securitycenter_v1#Conflict"
+        },
+        {
+          "target": "com.gcp.securitycenter_v1#ServiceDisabled"
         }
       ],
       "traits": {
@@ -16582,6 +16669,9 @@
         },
         {
           "target": "com.gcp.securitycenter_v1#Forbidden"
+        },
+        {
+          "target": "com.gcp.securitycenter_v1#ServiceDisabled"
         }
       ],
       "traits": {
@@ -16639,6 +16729,9 @@
         },
         {
           "target": "com.gcp.securitycenter_v1#Forbidden"
+        },
+        {
+          "target": "com.gcp.securitycenter_v1#ServiceDisabled"
         }
       ],
       "traits": {
@@ -16703,6 +16796,9 @@
         },
         {
           "target": "com.gcp.securitycenter_v1#Conflict"
+        },
+        {
+          "target": "com.gcp.securitycenter_v1#ServiceDisabled"
         }
       ],
       "traits": {
@@ -16751,6 +16847,9 @@
         },
         {
           "target": "com.gcp.securitycenter_v1#Conflict"
+        },
+        {
+          "target": "com.gcp.securitycenter_v1#ServiceDisabled"
         }
       ],
       "traits": {
@@ -16828,6 +16927,9 @@
         },
         {
           "target": "com.gcp.securitycenter_v1#Forbidden"
+        },
+        {
+          "target": "com.gcp.securitycenter_v1#ServiceDisabled"
         }
       ],
       "traits": {
@@ -16880,6 +16982,9 @@
         },
         {
           "target": "com.gcp.securitycenter_v1#Conflict"
+        },
+        {
+          "target": "com.gcp.securitycenter_v1#ServiceDisabled"
         }
       ],
       "traits": {
@@ -16915,6 +17020,9 @@
         },
         {
           "target": "com.gcp.securitycenter_v1#Forbidden"
+        },
+        {
+          "target": "com.gcp.securitycenter_v1#ServiceDisabled"
         }
       ],
       "traits": {
@@ -16974,6 +17082,9 @@
         },
         {
           "target": "com.gcp.securitycenter_v1#Forbidden"
+        },
+        {
+          "target": "com.gcp.securitycenter_v1#ServiceDisabled"
         }
       ],
       "traits": {
@@ -17031,6 +17142,9 @@
         },
         {
           "target": "com.gcp.securitycenter_v1#Forbidden"
+        },
+        {
+          "target": "com.gcp.securitycenter_v1#ServiceDisabled"
         }
       ],
       "traits": {
@@ -17088,6 +17202,9 @@
         },
         {
           "target": "com.gcp.securitycenter_v1#Forbidden"
+        },
+        {
+          "target": "com.gcp.securitycenter_v1#ServiceDisabled"
         }
       ],
       "traits": {
@@ -17127,6 +17244,9 @@
         },
         {
           "target": "com.gcp.securitycenter_v1#Forbidden"
+        },
+        {
+          "target": "com.gcp.securitycenter_v1#ServiceDisabled"
         }
       ],
       "traits": {
@@ -17186,6 +17306,9 @@
         },
         {
           "target": "com.gcp.securitycenter_v1#Forbidden"
+        },
+        {
+          "target": "com.gcp.securitycenter_v1#ServiceDisabled"
         }
       ],
       "traits": {
@@ -17243,6 +17366,9 @@
         },
         {
           "target": "com.gcp.securitycenter_v1#Forbidden"
+        },
+        {
+          "target": "com.gcp.securitycenter_v1#ServiceDisabled"
         }
       ],
       "traits": {
@@ -17282,6 +17408,9 @@
         },
         {
           "target": "com.gcp.securitycenter_v1#Forbidden"
+        },
+        {
+          "target": "com.gcp.securitycenter_v1#ServiceDisabled"
         }
       ],
       "traits": {
@@ -17330,6 +17459,9 @@
         },
         {
           "target": "com.gcp.securitycenter_v1#Conflict"
+        },
+        {
+          "target": "com.gcp.securitycenter_v1#ServiceDisabled"
         }
       ],
       "traits": {
@@ -17384,6 +17516,9 @@
         },
         {
           "target": "com.gcp.securitycenter_v1#Conflict"
+        },
+        {
+          "target": "com.gcp.securitycenter_v1#ServiceDisabled"
         }
       ],
       "traits": {
@@ -17432,6 +17567,9 @@
         },
         {
           "target": "com.gcp.securitycenter_v1#Conflict"
+        },
+        {
+          "target": "com.gcp.securitycenter_v1#ServiceDisabled"
         }
       ],
       "traits": {
@@ -17480,6 +17618,9 @@
         },
         {
           "target": "com.gcp.securitycenter_v1#Conflict"
+        },
+        {
+          "target": "com.gcp.securitycenter_v1#ServiceDisabled"
         }
       ],
       "traits": {
@@ -17528,6 +17669,9 @@
         },
         {
           "target": "com.gcp.securitycenter_v1#Conflict"
+        },
+        {
+          "target": "com.gcp.securitycenter_v1#ServiceDisabled"
         }
       ],
       "traits": {
@@ -17575,6 +17719,9 @@
         },
         {
           "target": "com.gcp.securitycenter_v1#Forbidden"
+        },
+        {
+          "target": "com.gcp.securitycenter_v1#ServiceDisabled"
         }
       ],
       "traits": {
@@ -17639,6 +17786,9 @@
         },
         {
           "target": "com.gcp.securitycenter_v1#Conflict"
+        },
+        {
+          "target": "com.gcp.securitycenter_v1#ServiceDisabled"
         }
       ],
       "traits": {
@@ -17693,6 +17843,9 @@
         },
         {
           "target": "com.gcp.securitycenter_v1#Conflict"
+        },
+        {
+          "target": "com.gcp.securitycenter_v1#ServiceDisabled"
         }
       ],
       "traits": {
@@ -17747,6 +17900,9 @@
         },
         {
           "target": "com.gcp.securitycenter_v1#Conflict"
+        },
+        {
+          "target": "com.gcp.securitycenter_v1#ServiceDisabled"
         }
       ],
       "traits": {
@@ -17795,6 +17951,9 @@
         },
         {
           "target": "com.gcp.securitycenter_v1#Conflict"
+        },
+        {
+          "target": "com.gcp.securitycenter_v1#ServiceDisabled"
         }
       ],
       "traits": {
@@ -17872,6 +18031,9 @@
         },
         {
           "target": "com.gcp.securitycenter_v1#Forbidden"
+        },
+        {
+          "target": "com.gcp.securitycenter_v1#ServiceDisabled"
         }
       ],
       "traits": {
@@ -17924,6 +18086,9 @@
         },
         {
           "target": "com.gcp.securitycenter_v1#Conflict"
+        },
+        {
+          "target": "com.gcp.securitycenter_v1#ServiceDisabled"
         }
       ],
       "traits": {
@@ -17972,6 +18137,9 @@
         },
         {
           "target": "com.gcp.securitycenter_v1#Conflict"
+        },
+        {
+          "target": "com.gcp.securitycenter_v1#ServiceDisabled"
         }
       ],
       "traits": {
@@ -18026,6 +18194,9 @@
         },
         {
           "target": "com.gcp.securitycenter_v1#Conflict"
+        },
+        {
+          "target": "com.gcp.securitycenter_v1#ServiceDisabled"
         }
       ],
       "traits": {
@@ -18074,6 +18245,9 @@
         },
         {
           "target": "com.gcp.securitycenter_v1#Conflict"
+        },
+        {
+          "target": "com.gcp.securitycenter_v1#ServiceDisabled"
         }
       ],
       "traits": {
@@ -18128,6 +18302,9 @@
         },
         {
           "target": "com.gcp.securitycenter_v1#Conflict"
+        },
+        {
+          "target": "com.gcp.securitycenter_v1#ServiceDisabled"
         }
       ],
       "traits": {
@@ -18163,6 +18340,9 @@
         },
         {
           "target": "com.gcp.securitycenter_v1#Forbidden"
+        },
+        {
+          "target": "com.gcp.securitycenter_v1#ServiceDisabled"
         }
       ],
       "traits": {
@@ -18210,6 +18390,9 @@
         },
         {
           "target": "com.gcp.securitycenter_v1#Forbidden"
+        },
+        {
+          "target": "com.gcp.securitycenter_v1#ServiceDisabled"
         }
       ],
       "traits": {
@@ -18255,6 +18438,9 @@
         },
         {
           "target": "com.gcp.securitycenter_v1#Conflict"
+        },
+        {
+          "target": "com.gcp.securitycenter_v1#ServiceDisabled"
         }
       ],
       "traits": {
@@ -18309,6 +18495,9 @@
         },
         {
           "target": "com.gcp.securitycenter_v1#Conflict"
+        },
+        {
+          "target": "com.gcp.securitycenter_v1#ServiceDisabled"
         }
       ],
       "traits": {
@@ -18363,6 +18552,9 @@
         },
         {
           "target": "com.gcp.securitycenter_v1#Conflict"
+        },
+        {
+          "target": "com.gcp.securitycenter_v1#ServiceDisabled"
         }
       ],
       "traits": {
@@ -18410,6 +18602,9 @@
         },
         {
           "target": "com.gcp.securitycenter_v1#Forbidden"
+        },
+        {
+          "target": "com.gcp.securitycenter_v1#ServiceDisabled"
         }
       ],
       "traits": {
@@ -18455,6 +18650,9 @@
         },
         {
           "target": "com.gcp.securitycenter_v1#Conflict"
+        },
+        {
+          "target": "com.gcp.securitycenter_v1#ServiceDisabled"
         }
       ],
       "traits": {
@@ -18490,6 +18688,9 @@
         },
         {
           "target": "com.gcp.securitycenter_v1#Forbidden"
+        },
+        {
+          "target": "com.gcp.securitycenter_v1#ServiceDisabled"
         }
       ],
       "traits": {
@@ -18525,6 +18726,9 @@
         },
         {
           "target": "com.gcp.securitycenter_v1#Forbidden"
+        },
+        {
+          "target": "com.gcp.securitycenter_v1#ServiceDisabled"
         }
       ],
       "traits": {
@@ -18572,6 +18776,9 @@
         },
         {
           "target": "com.gcp.securitycenter_v1#Forbidden"
+        },
+        {
+          "target": "com.gcp.securitycenter_v1#ServiceDisabled"
         }
       ],
       "traits": {
@@ -18624,6 +18831,9 @@
         },
         {
           "target": "com.gcp.securitycenter_v1#Conflict"
+        },
+        {
+          "target": "com.gcp.securitycenter_v1#ServiceDisabled"
         }
       ],
       "traits": {
@@ -18659,6 +18869,9 @@
         },
         {
           "target": "com.gcp.securitycenter_v1#Forbidden"
+        },
+        {
+          "target": "com.gcp.securitycenter_v1#ServiceDisabled"
         }
       ],
       "traits": {
@@ -18700,6 +18913,9 @@
         },
         {
           "target": "com.gcp.securitycenter_v1#Conflict"
+        },
+        {
+          "target": "com.gcp.securitycenter_v1#ServiceDisabled"
         }
       ],
       "traits": {
@@ -18754,6 +18970,9 @@
         },
         {
           "target": "com.gcp.securitycenter_v1#Conflict"
+        },
+        {
+          "target": "com.gcp.securitycenter_v1#ServiceDisabled"
         }
       ],
       "traits": {
@@ -18802,6 +19021,9 @@
         },
         {
           "target": "com.gcp.securitycenter_v1#Conflict"
+        },
+        {
+          "target": "com.gcp.securitycenter_v1#ServiceDisabled"
         }
       ],
       "traits": {
@@ -18849,6 +19071,9 @@
         },
         {
           "target": "com.gcp.securitycenter_v1#Forbidden"
+        },
+        {
+          "target": "com.gcp.securitycenter_v1#ServiceDisabled"
         }
       ],
       "traits": {
@@ -18900,6 +19125,9 @@
         },
         {
           "target": "com.gcp.securitycenter_v1#Forbidden"
+        },
+        {
+          "target": "com.gcp.securitycenter_v1#ServiceDisabled"
         }
       ],
       "traits": {
@@ -18958,6 +19186,9 @@
         },
         {
           "target": "com.gcp.securitycenter_v1#Conflict"
+        },
+        {
+          "target": "com.gcp.securitycenter_v1#ServiceDisabled"
         }
       ],
       "traits": {
@@ -19005,6 +19236,9 @@
         },
         {
           "target": "com.gcp.securitycenter_v1#Forbidden"
+        },
+        {
+          "target": "com.gcp.securitycenter_v1#ServiceDisabled"
         }
       ],
       "traits": {
@@ -19044,6 +19278,9 @@
         },
         {
           "target": "com.gcp.securitycenter_v1#Forbidden"
+        },
+        {
+          "target": "com.gcp.securitycenter_v1#ServiceDisabled"
         }
       ],
       "traits": {
@@ -19098,6 +19335,9 @@
         },
         {
           "target": "com.gcp.securitycenter_v1#Conflict"
+        },
+        {
+          "target": "com.gcp.securitycenter_v1#ServiceDisabled"
         }
       ],
       "traits": {
@@ -19139,6 +19379,9 @@
         },
         {
           "target": "com.gcp.securitycenter_v1#Conflict"
+        },
+        {
+          "target": "com.gcp.securitycenter_v1#ServiceDisabled"
         }
       ],
       "traits": {
@@ -19187,6 +19430,9 @@
         },
         {
           "target": "com.gcp.securitycenter_v1#Conflict"
+        },
+        {
+          "target": "com.gcp.securitycenter_v1#ServiceDisabled"
         }
       ],
       "traits": {
@@ -19228,6 +19474,9 @@
         },
         {
           "target": "com.gcp.securitycenter_v1#Conflict"
+        },
+        {
+          "target": "com.gcp.securitycenter_v1#ServiceDisabled"
         }
       ],
       "traits": {
@@ -19276,6 +19525,9 @@
         },
         {
           "target": "com.gcp.securitycenter_v1#Conflict"
+        },
+        {
+          "target": "com.gcp.securitycenter_v1#ServiceDisabled"
         }
       ],
       "traits": {
@@ -19311,6 +19563,9 @@
         },
         {
           "target": "com.gcp.securitycenter_v1#Forbidden"
+        },
+        {
+          "target": "com.gcp.securitycenter_v1#ServiceDisabled"
         }
       ],
       "traits": {
@@ -19358,6 +19613,9 @@
         },
         {
           "target": "com.gcp.securitycenter_v1#Forbidden"
+        },
+        {
+          "target": "com.gcp.securitycenter_v1#ServiceDisabled"
         }
       ],
       "traits": {
@@ -19416,6 +19674,9 @@
         },
         {
           "target": "com.gcp.securitycenter_v1#Conflict"
+        },
+        {
+          "target": "com.gcp.securitycenter_v1#ServiceDisabled"
         }
       ],
       "traits": {
@@ -19463,6 +19724,9 @@
         },
         {
           "target": "com.gcp.securitycenter_v1#Forbidden"
+        },
+        {
+          "target": "com.gcp.securitycenter_v1#ServiceDisabled"
         }
       ],
       "traits": {
@@ -19502,6 +19766,9 @@
         },
         {
           "target": "com.gcp.securitycenter_v1#Forbidden"
+        },
+        {
+          "target": "com.gcp.securitycenter_v1#ServiceDisabled"
         }
       ],
       "traits": {
@@ -19549,6 +19816,9 @@
         },
         {
           "target": "com.gcp.securitycenter_v1#Forbidden"
+        },
+        {
+          "target": "com.gcp.securitycenter_v1#ServiceDisabled"
         }
       ],
       "traits": {
@@ -19588,6 +19858,9 @@
         },
         {
           "target": "com.gcp.securitycenter_v1#Forbidden"
+        },
+        {
+          "target": "com.gcp.securitycenter_v1#ServiceDisabled"
         }
       ],
       "traits": {
@@ -19642,6 +19915,9 @@
         },
         {
           "target": "com.gcp.securitycenter_v1#Conflict"
+        },
+        {
+          "target": "com.gcp.securitycenter_v1#ServiceDisabled"
         }
       ],
       "traits": {
@@ -19683,6 +19959,9 @@
         },
         {
           "target": "com.gcp.securitycenter_v1#Conflict"
+        },
+        {
+          "target": "com.gcp.securitycenter_v1#ServiceDisabled"
         }
       ],
       "traits": {
@@ -19730,6 +20009,9 @@
         },
         {
           "target": "com.gcp.securitycenter_v1#Forbidden"
+        },
+        {
+          "target": "com.gcp.securitycenter_v1#ServiceDisabled"
         }
       ],
       "traits": {
@@ -19788,6 +20070,9 @@
         },
         {
           "target": "com.gcp.securitycenter_v1#Conflict"
+        },
+        {
+          "target": "com.gcp.securitycenter_v1#ServiceDisabled"
         }
       ],
       "traits": {
@@ -19829,6 +20114,9 @@
         },
         {
           "target": "com.gcp.securitycenter_v1#Conflict"
+        },
+        {
+          "target": "com.gcp.securitycenter_v1#ServiceDisabled"
         }
       ],
       "traits": {
@@ -19883,6 +20171,9 @@
         },
         {
           "target": "com.gcp.securitycenter_v1#Conflict"
+        },
+        {
+          "target": "com.gcp.securitycenter_v1#ServiceDisabled"
         }
       ],
       "traits": {
@@ -19918,6 +20209,9 @@
         },
         {
           "target": "com.gcp.securitycenter_v1#Forbidden"
+        },
+        {
+          "target": "com.gcp.securitycenter_v1#ServiceDisabled"
         }
       ],
       "traits": {
@@ -19966,6 +20260,9 @@
         },
         {
           "target": "com.gcp.securitycenter_v1#Conflict"
+        },
+        {
+          "target": "com.gcp.securitycenter_v1#ServiceDisabled"
         }
       ],
       "traits": {
@@ -20020,6 +20317,9 @@
         },
         {
           "target": "com.gcp.securitycenter_v1#Conflict"
+        },
+        {
+          "target": "com.gcp.securitycenter_v1#ServiceDisabled"
         }
       ],
       "traits": {
@@ -20074,6 +20374,9 @@
         },
         {
           "target": "com.gcp.securitycenter_v1#Conflict"
+        },
+        {
+          "target": "com.gcp.securitycenter_v1#ServiceDisabled"
         }
       ],
       "traits": {
@@ -20115,6 +20418,9 @@
         },
         {
           "target": "com.gcp.securitycenter_v1#Conflict"
+        },
+        {
+          "target": "com.gcp.securitycenter_v1#ServiceDisabled"
         }
       ],
       "traits": {
@@ -20150,6 +20456,9 @@
         },
         {
           "target": "com.gcp.securitycenter_v1#Forbidden"
+        },
+        {
+          "target": "com.gcp.securitycenter_v1#ServiceDisabled"
         }
       ],
       "traits": {
@@ -20197,6 +20506,9 @@
         },
         {
           "target": "com.gcp.securitycenter_v1#Forbidden"
+        },
+        {
+          "target": "com.gcp.securitycenter_v1#ServiceDisabled"
         }
       ],
       "traits": {
@@ -20248,6 +20560,9 @@
         },
         {
           "target": "com.gcp.securitycenter_v1#Forbidden"
+        },
+        {
+          "target": "com.gcp.securitycenter_v1#ServiceDisabled"
         }
       ],
       "traits": {
@@ -20300,6 +20615,9 @@
         },
         {
           "target": "com.gcp.securitycenter_v1#Conflict"
+        },
+        {
+          "target": "com.gcp.securitycenter_v1#ServiceDisabled"
         }
       ],
       "traits": {
@@ -20348,6 +20666,9 @@
         },
         {
           "target": "com.gcp.securitycenter_v1#Conflict"
+        },
+        {
+          "target": "com.gcp.securitycenter_v1#ServiceDisabled"
         }
       ],
       "traits": {
@@ -20408,6 +20729,9 @@
         },
         {
           "target": "com.gcp.securitycenter_v1#Conflict"
+        },
+        {
+          "target": "com.gcp.securitycenter_v1#ServiceDisabled"
         }
       ],
       "traits": {
@@ -20485,6 +20809,9 @@
         },
         {
           "target": "com.gcp.securitycenter_v1#Forbidden"
+        },
+        {
+          "target": "com.gcp.securitycenter_v1#ServiceDisabled"
         }
       ],
       "traits": {
@@ -20543,6 +20870,9 @@
         },
         {
           "target": "com.gcp.securitycenter_v1#Conflict"
+        },
+        {
+          "target": "com.gcp.securitycenter_v1#ServiceDisabled"
         }
       ],
       "traits": {
@@ -20591,6 +20921,9 @@
         },
         {
           "target": "com.gcp.securitycenter_v1#Conflict"
+        },
+        {
+          "target": "com.gcp.securitycenter_v1#ServiceDisabled"
         }
       ],
       "traits": {
@@ -20645,6 +20978,9 @@
         },
         {
           "target": "com.gcp.securitycenter_v1#Conflict"
+        },
+        {
+          "target": "com.gcp.securitycenter_v1#ServiceDisabled"
         }
       ],
       "traits": {
@@ -20680,6 +21016,9 @@
         },
         {
           "target": "com.gcp.securitycenter_v1#Forbidden"
+        },
+        {
+          "target": "com.gcp.securitycenter_v1#ServiceDisabled"
         }
       ],
       "traits": {
@@ -20727,6 +21066,9 @@
         },
         {
           "target": "com.gcp.securitycenter_v1#Forbidden"
+        },
+        {
+          "target": "com.gcp.securitycenter_v1#ServiceDisabled"
         }
       ],
       "traits": {
@@ -20779,6 +21121,9 @@
         },
         {
           "target": "com.gcp.securitycenter_v1#Conflict"
+        },
+        {
+          "target": "com.gcp.securitycenter_v1#ServiceDisabled"
         }
       ],
       "traits": {
@@ -20820,6 +21165,9 @@
         },
         {
           "target": "com.gcp.securitycenter_v1#Conflict"
+        },
+        {
+          "target": "com.gcp.securitycenter_v1#ServiceDisabled"
         }
       ],
       "traits": {
@@ -20855,6 +21203,9 @@
         },
         {
           "target": "com.gcp.securitycenter_v1#Forbidden"
+        },
+        {
+          "target": "com.gcp.securitycenter_v1#ServiceDisabled"
         }
       ],
       "traits": {
@@ -20903,6 +21254,9 @@
         },
         {
           "target": "com.gcp.securitycenter_v1#Conflict"
+        },
+        {
+          "target": "com.gcp.securitycenter_v1#ServiceDisabled"
         }
       ],
       "traits": {
@@ -20950,6 +21304,9 @@
         },
         {
           "target": "com.gcp.securitycenter_v1#Forbidden"
+        },
+        {
+          "target": "com.gcp.securitycenter_v1#ServiceDisabled"
         }
       ],
       "traits": {
@@ -21001,6 +21358,9 @@
         },
         {
           "target": "com.gcp.securitycenter_v1#Forbidden"
+        },
+        {
+          "target": "com.gcp.securitycenter_v1#ServiceDisabled"
         }
       ],
       "traits": {
@@ -21059,6 +21419,9 @@
         },
         {
           "target": "com.gcp.securitycenter_v1#Conflict"
+        },
+        {
+          "target": "com.gcp.securitycenter_v1#ServiceDisabled"
         }
       ],
       "traits": {
@@ -21136,6 +21499,9 @@
         },
         {
           "target": "com.gcp.securitycenter_v1#Forbidden"
+        },
+        {
+          "target": "com.gcp.securitycenter_v1#ServiceDisabled"
         }
       ],
       "traits": {
@@ -21188,6 +21554,9 @@
         },
         {
           "target": "com.gcp.securitycenter_v1#Conflict"
+        },
+        {
+          "target": "com.gcp.securitycenter_v1#ServiceDisabled"
         }
       ],
       "traits": {
@@ -21248,6 +21617,9 @@
         },
         {
           "target": "com.gcp.securitycenter_v1#Conflict"
+        },
+        {
+          "target": "com.gcp.securitycenter_v1#ServiceDisabled"
         }
       ],
       "traits": {
@@ -21296,6 +21668,9 @@
         },
         {
           "target": "com.gcp.securitycenter_v1#Conflict"
+        },
+        {
+          "target": "com.gcp.securitycenter_v1#ServiceDisabled"
         }
       ],
       "traits": {
@@ -21331,6 +21706,9 @@
         },
         {
           "target": "com.gcp.securitycenter_v1#Forbidden"
+        },
+        {
+          "target": "com.gcp.securitycenter_v1#ServiceDisabled"
         }
       ],
       "traits": {
@@ -21378,6 +21756,9 @@
         },
         {
           "target": "com.gcp.securitycenter_v1#Forbidden"
+        },
+        {
+          "target": "com.gcp.securitycenter_v1#ServiceDisabled"
         }
       ],
       "traits": {
@@ -21429,6 +21810,9 @@
         },
         {
           "target": "com.gcp.securitycenter_v1#Forbidden"
+        },
+        {
+          "target": "com.gcp.securitycenter_v1#ServiceDisabled"
         }
       ],
       "traits": {
@@ -21480,6 +21864,9 @@
         },
         {
           "target": "com.gcp.securitycenter_v1#Forbidden"
+        },
+        {
+          "target": "com.gcp.securitycenter_v1#ServiceDisabled"
         }
       ],
       "traits": {
@@ -21532,6 +21919,9 @@
         },
         {
           "target": "com.gcp.securitycenter_v1#Conflict"
+        },
+        {
+          "target": "com.gcp.securitycenter_v1#ServiceDisabled"
         }
       ],
       "traits": {
@@ -21586,6 +21976,9 @@
         },
         {
           "target": "com.gcp.securitycenter_v1#Conflict"
+        },
+        {
+          "target": "com.gcp.securitycenter_v1#ServiceDisabled"
         }
       ],
       "traits": {
@@ -21621,6 +22014,9 @@
         },
         {
           "target": "com.gcp.securitycenter_v1#Forbidden"
+        },
+        {
+          "target": "com.gcp.securitycenter_v1#ServiceDisabled"
         }
       ],
       "traits": {
@@ -21662,6 +22058,9 @@
         },
         {
           "target": "com.gcp.securitycenter_v1#Conflict"
+        },
+        {
+          "target": "com.gcp.securitycenter_v1#ServiceDisabled"
         }
       ],
       "traits": {
@@ -21710,6 +22109,9 @@
         },
         {
           "target": "com.gcp.securitycenter_v1#Conflict"
+        },
+        {
+          "target": "com.gcp.securitycenter_v1#ServiceDisabled"
         }
       ],
       "traits": {
@@ -21751,6 +22153,9 @@
         },
         {
           "target": "com.gcp.securitycenter_v1#Conflict"
+        },
+        {
+          "target": "com.gcp.securitycenter_v1#ServiceDisabled"
         }
       ],
       "traits": {
@@ -21805,6 +22210,9 @@
         },
         {
           "target": "com.gcp.securitycenter_v1#Conflict"
+        },
+        {
+          "target": "com.gcp.securitycenter_v1#ServiceDisabled"
         }
       ],
       "traits": {
@@ -21852,6 +22260,9 @@
         },
         {
           "target": "com.gcp.securitycenter_v1#Forbidden"
+        },
+        {
+          "target": "com.gcp.securitycenter_v1#ServiceDisabled"
         }
       ],
       "traits": {
@@ -21891,6 +22302,9 @@
         },
         {
           "target": "com.gcp.securitycenter_v1#Forbidden"
+        },
+        {
+          "target": "com.gcp.securitycenter_v1#ServiceDisabled"
         }
       ],
       "traits": {
@@ -21945,6 +22359,9 @@
         },
         {
           "target": "com.gcp.securitycenter_v1#Conflict"
+        },
+        {
+          "target": "com.gcp.securitycenter_v1#ServiceDisabled"
         }
       ],
       "traits": {
@@ -21999,6 +22416,9 @@
         },
         {
           "target": "com.gcp.securitycenter_v1#Conflict"
+        },
+        {
+          "target": "com.gcp.securitycenter_v1#ServiceDisabled"
         }
       ],
       "traits": {
@@ -22034,6 +22454,9 @@
         },
         {
           "target": "com.gcp.securitycenter_v1#Forbidden"
+        },
+        {
+          "target": "com.gcp.securitycenter_v1#ServiceDisabled"
         }
       ],
       "traits": {
@@ -22088,6 +22511,9 @@
         },
         {
           "target": "com.gcp.securitycenter_v1#Conflict"
+        },
+        {
+          "target": "com.gcp.securitycenter_v1#ServiceDisabled"
         }
       ],
       "traits": {
@@ -22135,6 +22561,9 @@
         },
         {
           "target": "com.gcp.securitycenter_v1#Forbidden"
+        },
+        {
+          "target": "com.gcp.securitycenter_v1#ServiceDisabled"
         }
       ],
       "traits": {
@@ -22180,6 +22609,9 @@
         },
         {
           "target": "com.gcp.securitycenter_v1#Conflict"
+        },
+        {
+          "target": "com.gcp.securitycenter_v1#ServiceDisabled"
         }
       ],
       "traits": {
@@ -22234,6 +22666,9 @@
         },
         {
           "target": "com.gcp.securitycenter_v1#Conflict"
+        },
+        {
+          "target": "com.gcp.securitycenter_v1#ServiceDisabled"
         }
       ],
       "traits": {
@@ -22275,6 +22710,9 @@
         },
         {
           "target": "com.gcp.securitycenter_v1#Conflict"
+        },
+        {
+          "target": "com.gcp.securitycenter_v1#ServiceDisabled"
         }
       ],
       "traits": {
@@ -22310,6 +22748,9 @@
         },
         {
           "target": "com.gcp.securitycenter_v1#Forbidden"
+        },
+        {
+          "target": "com.gcp.securitycenter_v1#ServiceDisabled"
         }
       ],
       "traits": {
@@ -22345,6 +22786,9 @@
         },
         {
           "target": "com.gcp.securitycenter_v1#Forbidden"
+        },
+        {
+          "target": "com.gcp.securitycenter_v1#ServiceDisabled"
         }
       ],
       "traits": {
@@ -22392,6 +22836,9 @@
         },
         {
           "target": "com.gcp.securitycenter_v1#Forbidden"
+        },
+        {
+          "target": "com.gcp.securitycenter_v1#ServiceDisabled"
         }
       ],
       "traits": {
@@ -22443,6 +22890,9 @@
         },
         {
           "target": "com.gcp.securitycenter_v1#Forbidden"
+        },
+        {
+          "target": "com.gcp.securitycenter_v1#ServiceDisabled"
         }
       ],
       "traits": {
@@ -22488,6 +22938,9 @@
         },
         {
           "target": "com.gcp.securitycenter_v1#Conflict"
+        },
+        {
+          "target": "com.gcp.securitycenter_v1#ServiceDisabled"
         }
       ],
       "traits": {
@@ -22542,6 +22995,9 @@
         },
         {
           "target": "com.gcp.securitycenter_v1#Conflict"
+        },
+        {
+          "target": "com.gcp.securitycenter_v1#ServiceDisabled"
         }
       ],
       "traits": {
@@ -22590,6 +23046,9 @@
         },
         {
           "target": "com.gcp.securitycenter_v1#Conflict"
+        },
+        {
+          "target": "com.gcp.securitycenter_v1#ServiceDisabled"
         }
       ],
       "traits": {
@@ -22625,6 +23084,9 @@
         },
         {
           "target": "com.gcp.securitycenter_v1#Forbidden"
+        },
+        {
+          "target": "com.gcp.securitycenter_v1#ServiceDisabled"
         }
       ],
       "traits": {
@@ -22673,6 +23135,9 @@
         },
         {
           "target": "com.gcp.securitycenter_v1#Conflict"
+        },
+        {
+          "target": "com.gcp.securitycenter_v1#ServiceDisabled"
         }
       ],
       "traits": {
@@ -22720,6 +23185,9 @@
         },
         {
           "target": "com.gcp.securitycenter_v1#Forbidden"
+        },
+        {
+          "target": "com.gcp.securitycenter_v1#ServiceDisabled"
         }
       ],
       "traits": {
@@ -22772,6 +23240,9 @@
         },
         {
           "target": "com.gcp.securitycenter_v1#Conflict"
+        },
+        {
+          "target": "com.gcp.securitycenter_v1#ServiceDisabled"
         }
       ],
       "traits": {
@@ -22832,6 +23303,9 @@
         },
         {
           "target": "com.gcp.securitycenter_v1#Conflict"
+        },
+        {
+          "target": "com.gcp.securitycenter_v1#ServiceDisabled"
         }
       ],
       "traits": {
@@ -22909,6 +23383,9 @@
         },
         {
           "target": "com.gcp.securitycenter_v1#Forbidden"
+        },
+        {
+          "target": "com.gcp.securitycenter_v1#ServiceDisabled"
         }
       ],
       "traits": {
@@ -22960,6 +23437,9 @@
         },
         {
           "target": "com.gcp.securitycenter_v1#Forbidden"
+        },
+        {
+          "target": "com.gcp.securitycenter_v1#ServiceDisabled"
         }
       ],
       "traits": {
@@ -23024,6 +23504,9 @@
         },
         {
           "target": "com.gcp.securitycenter_v1#Conflict"
+        },
+        {
+          "target": "com.gcp.securitycenter_v1#ServiceDisabled"
         }
       ],
       "traits": {
@@ -23072,6 +23555,9 @@
         },
         {
           "target": "com.gcp.securitycenter_v1#Conflict"
+        },
+        {
+          "target": "com.gcp.securitycenter_v1#ServiceDisabled"
         }
       ],
       "traits": {
@@ -23149,6 +23635,9 @@
         },
         {
           "target": "com.gcp.securitycenter_v1#Forbidden"
+        },
+        {
+          "target": "com.gcp.securitycenter_v1#ServiceDisabled"
         }
       ],
       "traits": {
@@ -23201,6 +23690,9 @@
         },
         {
           "target": "com.gcp.securitycenter_v1#Conflict"
+        },
+        {
+          "target": "com.gcp.securitycenter_v1#ServiceDisabled"
         }
       ],
       "traits": {
@@ -23249,6 +23741,9 @@
         },
         {
           "target": "com.gcp.securitycenter_v1#Conflict"
+        },
+        {
+          "target": "com.gcp.securitycenter_v1#ServiceDisabled"
         }
       ],
       "traits": {
@@ -23303,6 +23798,9 @@
         },
         {
           "target": "com.gcp.securitycenter_v1#Conflict"
+        },
+        {
+          "target": "com.gcp.securitycenter_v1#ServiceDisabled"
         }
       ],
       "traits": {
@@ -23357,6 +23855,9 @@
         },
         {
           "target": "com.gcp.securitycenter_v1#Conflict"
+        },
+        {
+          "target": "com.gcp.securitycenter_v1#ServiceDisabled"
         }
       ],
       "traits": {
@@ -23411,6 +23912,9 @@
         },
         {
           "target": "com.gcp.securitycenter_v1#Conflict"
+        },
+        {
+          "target": "com.gcp.securitycenter_v1#ServiceDisabled"
         }
       ],
       "traits": {
@@ -23465,6 +23969,9 @@
         },
         {
           "target": "com.gcp.securitycenter_v1#Conflict"
+        },
+        {
+          "target": "com.gcp.securitycenter_v1#ServiceDisabled"
         }
       ],
       "traits": {
@@ -23512,6 +24019,9 @@
         },
         {
           "target": "com.gcp.securitycenter_v1#Forbidden"
+        },
+        {
+          "target": "com.gcp.securitycenter_v1#ServiceDisabled"
         }
       ],
       "traits": {
@@ -23557,6 +24067,9 @@
         },
         {
           "target": "com.gcp.securitycenter_v1#Conflict"
+        },
+        {
+          "target": "com.gcp.securitycenter_v1#ServiceDisabled"
         }
       ],
       "traits": {
@@ -23592,6 +24105,9 @@
         },
         {
           "target": "com.gcp.securitycenter_v1#Forbidden"
+        },
+        {
+          "target": "com.gcp.securitycenter_v1#ServiceDisabled"
         }
       ],
       "traits": {
@@ -23599,6 +24115,23 @@
           "method": "GET",
           "uri": "v1/{+name}"
         }
+      }
+    },
+    "com.gcp.securitycenter_v1#ServiceDisabled": {
+      "type": "structure",
+      "members": {},
+      "traits": {
+        "smithy.api#error": "client",
+        "smithy.api#httpError": 403,
+        "smithy.api#documentation": "The Security Command Center API is not enabled for the calling project (HTTP 403 SERVICE_DISABLED).",
+        "com.gcp.protocols#errorMatchers": [
+          {
+            "status": 403,
+            "message": {
+              "includes": "has not been used in project"
+            }
+          }
+        ]
       }
     }
   }

@@ -12,7 +12,7 @@ npm install @distilled.cloud/vanta effect
 
 ```ts
 import { Effect, Layer } from "effect";
-import * as FetchHttpClient from "effect/unstable/http/FetchHttpClient";
+import * as FetchHttpClient from "effect/http/FetchHttpClient";
 import * as Vanta from "@distilled.cloud/vanta";
 
 const program = Effect.gen(function* () {

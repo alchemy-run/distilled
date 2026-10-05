@@ -2,12 +2,12 @@
 
 `@distilled.cloud/zerossl` provides ZeroSSL's External Account Binding (EAB)
 credential endpoint. Install it alongside `effect`, set `ZEROSSL_ACCESS_KEY`,
-save this as `example.ts`, and run `bun example.ts`:
+save this as `example.ts`, and run `node example.ts`:
 
 ```ts
 import * as ZeroSsl from "@distilled.cloud/zerossl";
 import * as Effect from "effect/Effect";
-import * as FetchHttpClient from "effect/unstable/http/FetchHttpClient";
+import * as FetchHttpClient from "effect/http/FetchHttpClient";
 
 const eab = await Effect.runPromise(
   ZeroSsl.zerossl.generateEabCredentials({}).pipe(
@@ -47,7 +47,7 @@ Smithy model based on the [ZeroSSL REST docs](https://zerossl.com/documentation/
 and [EAB endpoint docs](https://zerossl.com/documentation/acme/generate-eab-credentials/).
 There is no downloaded spec or artificial mirror. Edit the model and handwritten
 protocol, not generated service files. From this package directory, regenerate
-with `bun scripts/generate.ts`; format changed paths with
+with `node --conditions=bun scripts/generate.ts`; format changed paths with
 `pnpm exec oxfmt <paths>` from the workspace root.
 
 Only EAB credential generation is modeled, not ZeroSSL's certificate-management

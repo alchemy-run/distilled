@@ -3450,7 +3450,7 @@
         }
       },
       "traits": {
-        "smithy.api#documentation": "`Context` defines which contexts an API requests. Example: context: rules: - selector: \"*\" requested: - google.rpc.context.ProjectContext - google.rpc.context.OriginContext The above specifies that all methods in the API request `google.rpc.context.ProjectContext` and `google.rpc.context.OriginContext`. Available context types are defined in package `google.rpc.context`. This also provides mechanism to allowlist any protobuf message extension that can be sent in grpc metadata using “x-goog-ext--bin” and “x-goog-ext--jspb” format. For example, list any service specific protobuf types that can appear in grpc metadata as follows in your yaml file: Example: context: rules: - selector: \"google.example.library.v1.LibraryService.CreateBook\" allowed_request_extensions: - google.foo.v1.NewExtension allowed_response_extensions: - google.foo.v1.NewExtension You can also specify extension ID instead of fully qualified extension name here."
+        "smithy.api#documentation": "`Context` defines which contexts an API requests. Example: context: rules: - selector: \"*\" requested: - google.rpc.context.ProjectContext - google.rpc.context.OriginContext The above specifies that all methods in the API request `google.rpc.context.ProjectContext` and `google.rpc.context.OriginContext`. Available context types are defined in package `google.rpc.context`. This also provides mechanism to allowlist any protobuf message extension that can be sent in grpc metadata using \u201cx-goog-ext--bin\u201d and \u201cx-goog-ext--jspb\u201d format. For example, list any service specific protobuf types that can appear in grpc metadata as follows in your yaml file: Example: context: rules: - selector: \"google.example.library.v1.LibraryService.CreateBook\" allowed_request_extensions: - google.foo.v1.NewExtension allowed_response_extensions: - google.foo.v1.NewExtension You can also specify extension ID instead of fully qualified extension name here."
       }
     },
     "com.gcp.servicemanagement_v1#ContextRuleList": {
@@ -4655,6 +4655,9 @@
         },
         {
           "target": "com.gcp.servicemanagement_v1#Conflict"
+        },
+        {
+          "target": "com.gcp.servicemanagement_v1#ServiceSoftDeleted"
         }
       ],
       "traits": {
@@ -4845,6 +4848,9 @@
         },
         {
           "target": "com.gcp.servicemanagement_v1#Forbidden"
+        },
+        {
+          "target": "com.gcp.servicemanagement_v1#ServiceNotFound"
         }
       ],
       "traits": {
@@ -4888,6 +4894,9 @@
         },
         {
           "target": "com.gcp.servicemanagement_v1#Conflict"
+        },
+        {
+          "target": "com.gcp.servicemanagement_v1#ServiceNotFound"
         }
       ],
       "traits": {
@@ -4981,6 +4990,12 @@
         },
         {
           "target": "com.gcp.servicemanagement_v1#Conflict"
+        },
+        {
+          "target": "com.gcp.servicemanagement_v1#ServiceAlreadyActive"
+        },
+        {
+          "target": "com.gcp.servicemanagement_v1#ServiceNotFound"
         }
       ],
       "traits": {
@@ -5407,6 +5422,9 @@
         },
         {
           "target": "com.gcp.servicemanagement_v1#Forbidden"
+        },
+        {
+          "target": "com.gcp.servicemanagement_v1#ServiceNotFound"
         }
       ],
       "traits": {
@@ -5457,6 +5475,9 @@
         },
         {
           "target": "com.gcp.servicemanagement_v1#Conflict"
+        },
+        {
+          "target": "com.gcp.servicemanagement_v1#ServiceNotFound"
         }
       ],
       "traits": {
@@ -5508,6 +5529,9 @@
         },
         {
           "target": "com.gcp.servicemanagement_v1#Forbidden"
+        },
+        {
+          "target": "com.gcp.servicemanagement_v1#ServiceNotFound"
         }
       ],
       "traits": {
@@ -5675,6 +5699,57 @@
           "uri": "v1/{+name}"
         },
         "smithy.api#documentation": "Gets the latest state of a long-running operation. Clients can use this method to poll the operation result at intervals as recommended by the API service."
+      }
+    },
+    "com.gcp.servicemanagement_v1#ServiceAlreadyActive": {
+      "type": "structure",
+      "members": {},
+      "traits": {
+        "smithy.api#error": "client",
+        "smithy.api#httpError": 400,
+        "smithy.api#documentation": "Undelete was called on a service that is active (HTTP 400 FAILED_PRECONDITION).",
+        "com.gcp.protocols#errorMatchers": [
+          {
+            "status": 400,
+            "message": {
+              "includes": "already exists and is active"
+            }
+          }
+        ]
+      }
+    },
+    "com.gcp.servicemanagement_v1#ServiceNotFound": {
+      "type": "structure",
+      "members": {},
+      "traits": {
+        "smithy.api#error": "client",
+        "smithy.api#httpError": 403,
+        "smithy.api#documentation": "The managed service does not exist (or the caller cannot see it). Service Management answers a missing service with HTTP 403 PERMISSION_DENIED: \"Service '<name>' not found or permission denied.\"",
+        "com.gcp.protocols#errorMatchers": [
+          {
+            "status": 403,
+            "message": {
+              "includes": "not found or permission denied"
+            }
+          }
+        ]
+      }
+    },
+    "com.gcp.servicemanagement_v1#ServiceSoftDeleted": {
+      "type": "structure",
+      "members": {},
+      "traits": {
+        "smithy.api#error": "client",
+        "smithy.api#httpError": 400,
+        "smithy.api#documentation": "The service name was deleted within the last 30 days and must be undeleted before reuse (HTTP 400 FAILED_PRECONDITION).",
+        "com.gcp.protocols#errorMatchers": [
+          {
+            "status": 400,
+            "message": {
+              "includes": "has been deleted and will be purged"
+            }
+          }
+        ]
       }
     }
   }

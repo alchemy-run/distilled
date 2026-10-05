@@ -1,4 +1,5 @@
-#!/usr/bin/env bun
+#!/usr/bin/env -S node --conditions=bun
+import { runGeneratorCli } from "@distilled.cloud/core/codegen/cli";
 /**
  * generate — turn the Smithy JSON models in .generated-specs into the
  * Hugging Face Effect SDK.
@@ -24,7 +25,6 @@
  * stay plain fields and callers advance them.
  */
 import { type SdkSpec } from "@distilled.cloud/core/codegen/generator";
-import { runGeneratorCli } from "@distilled.cloud/core/codegen/cli";
 
 const NULLABLE_TRAIT = "com.distilled.openapi#nullable";
 const ERROR_MATCHERS_TRAIT = "com.distilled.openapi#errorMatchers";
@@ -76,8 +76,7 @@ const spec: SdkSpec = {
     `export const ${name} = S.Unknown as any as S.Schema<${name}>;\n`,
   ],
 
-  sourceNote:
-    ".generated-specs (specs/spec-mirror-huggingface/specs/openapi.json)",
+  sourceNote: ".generated-specs (specs/spec-mirror-huggingface/specs/openapi.json)",
 
   operationDecl: {
     contextType: "HuggingFaceOpContext",
@@ -106,7 +105,7 @@ const spec: SdkSpec = {
 
 runGeneratorCli({
   description: "Generate the Hugging Face Effect SDK from the Smithy models",
-  root: `${import.meta.dir}/..`,
+  root: `${import.meta.dirname}/..`,
   // The RFC-6902 patch chain in patches/ applies to the OpenAPI document in
   // scripts/convert.ts — never to the Smithy models.
   patchesDir: false,

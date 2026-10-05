@@ -1672,6 +1672,9 @@
         },
         {
           "target": "com.gcp.firebaseappdistribution_v1#Conflict"
+        },
+        {
+          "target": "com.gcp.firebaseappdistribution_v1#ServiceDisabled"
         }
       ],
       "traits": {
@@ -1730,6 +1733,9 @@
         },
         {
           "target": "com.gcp.firebaseappdistribution_v1#Forbidden"
+        },
+        {
+          "target": "com.gcp.firebaseappdistribution_v1#ServiceDisabled"
         }
       ],
       "traits": {
@@ -1791,6 +1797,9 @@
         },
         {
           "target": "com.gcp.firebaseappdistribution_v1#Conflict"
+        },
+        {
+          "target": "com.gcp.firebaseappdistribution_v1#ServiceDisabled"
         }
       ],
       "traits": {
@@ -1841,6 +1850,9 @@
         },
         {
           "target": "com.gcp.firebaseappdistribution_v1#Conflict"
+        },
+        {
+          "target": "com.gcp.firebaseappdistribution_v1#ServiceDisabled"
         }
       ],
       "traits": {
@@ -1878,6 +1890,9 @@
         },
         {
           "target": "com.gcp.firebaseappdistribution_v1#Forbidden"
+        },
+        {
+          "target": "com.gcp.firebaseappdistribution_v1#ServiceDisabled"
         }
       ],
       "traits": {
@@ -1928,6 +1943,9 @@
         },
         {
           "target": "com.gcp.firebaseappdistribution_v1#Conflict"
+        },
+        {
+          "target": "com.gcp.firebaseappdistribution_v1#ServiceDisabled"
         }
       ],
       "traits": {
@@ -1978,6 +1996,9 @@
         },
         {
           "target": "com.gcp.firebaseappdistribution_v1#Conflict"
+        },
+        {
+          "target": "com.gcp.firebaseappdistribution_v1#ServiceDisabled"
         }
       ],
       "traits": {
@@ -2015,6 +2036,9 @@
         },
         {
           "target": "com.gcp.firebaseappdistribution_v1#Forbidden"
+        },
+        {
+          "target": "com.gcp.firebaseappdistribution_v1#ServiceDisabled"
         }
       ],
       "traits": {
@@ -2080,6 +2104,9 @@
         },
         {
           "target": "com.gcp.firebaseappdistribution_v1#Forbidden"
+        },
+        {
+          "target": "com.gcp.firebaseappdistribution_v1#ServiceDisabled"
         }
       ],
       "traits": {
@@ -2141,6 +2168,9 @@
         },
         {
           "target": "com.gcp.firebaseappdistribution_v1#Conflict"
+        },
+        {
+          "target": "com.gcp.firebaseappdistribution_v1#ServiceDisabled"
         }
       ],
       "traits": {
@@ -2206,6 +2236,9 @@
         },
         {
           "target": "com.gcp.firebaseappdistribution_v1#Forbidden"
+        },
+        {
+          "target": "com.gcp.firebaseappdistribution_v1#ServiceDisabled"
         }
       ],
       "traits": {
@@ -2260,6 +2293,9 @@
         },
         {
           "target": "com.gcp.firebaseappdistribution_v1#Conflict"
+        },
+        {
+          "target": "com.gcp.firebaseappdistribution_v1#ServiceDisabled"
         }
       ],
       "traits": {
@@ -2297,6 +2333,9 @@
         },
         {
           "target": "com.gcp.firebaseappdistribution_v1#Forbidden"
+        },
+        {
+          "target": "com.gcp.firebaseappdistribution_v1#ServiceDisabled"
         }
       ],
       "traits": {
@@ -2347,6 +2386,9 @@
         },
         {
           "target": "com.gcp.firebaseappdistribution_v1#Conflict"
+        },
+        {
+          "target": "com.gcp.firebaseappdistribution_v1#ServiceDisabled"
         }
       ],
       "traits": {
@@ -2390,6 +2432,9 @@
         },
         {
           "target": "com.gcp.firebaseappdistribution_v1#Conflict"
+        },
+        {
+          "target": "com.gcp.firebaseappdistribution_v1#ServiceDisabled"
         }
       ],
       "traits": {
@@ -2427,6 +2472,9 @@
         },
         {
           "target": "com.gcp.firebaseappdistribution_v1#Forbidden"
+        },
+        {
+          "target": "com.gcp.firebaseappdistribution_v1#ServiceDisabled"
         }
       ],
       "traits": {
@@ -2470,6 +2518,9 @@
         },
         {
           "target": "com.gcp.firebaseappdistribution_v1#Conflict"
+        },
+        {
+          "target": "com.gcp.firebaseappdistribution_v1#ServiceDisabled"
         }
       ],
       "traits": {
@@ -2521,6 +2572,9 @@
         },
         {
           "target": "com.gcp.firebaseappdistribution_v1#Forbidden"
+        },
+        {
+          "target": "com.gcp.firebaseappdistribution_v1#ServiceDisabled"
         }
       ],
       "traits": {
@@ -2576,6 +2630,9 @@
         },
         {
           "target": "com.gcp.firebaseappdistribution_v1#Forbidden"
+        },
+        {
+          "target": "com.gcp.firebaseappdistribution_v1#ServiceDisabled"
         }
       ],
       "traits": {
@@ -2637,6 +2694,9 @@
         },
         {
           "target": "com.gcp.firebaseappdistribution_v1#Conflict"
+        },
+        {
+          "target": "com.gcp.firebaseappdistribution_v1#ServiceDisabled"
         }
       ],
       "traits": {
@@ -2674,6 +2734,9 @@
         },
         {
           "target": "com.gcp.firebaseappdistribution_v1#Forbidden"
+        },
+        {
+          "target": "com.gcp.firebaseappdistribution_v1#ServiceDisabled"
         }
       ],
       "traits": {
@@ -2724,6 +2787,9 @@
         },
         {
           "target": "com.gcp.firebaseappdistribution_v1#Conflict"
+        },
+        {
+          "target": "com.gcp.firebaseappdistribution_v1#ServiceDisabled"
         }
       ],
       "traits": {
@@ -2767,6 +2833,9 @@
         },
         {
           "target": "com.gcp.firebaseappdistribution_v1#Conflict"
+        },
+        {
+          "target": "com.gcp.firebaseappdistribution_v1#ServiceDisabled"
         }
       ],
       "traits": {
@@ -2824,6 +2893,9 @@
         },
         {
           "target": "com.gcp.firebaseappdistribution_v1#Conflict"
+        },
+        {
+          "target": "com.gcp.firebaseappdistribution_v1#ServiceDisabled"
         }
       ],
       "traits": {
@@ -2874,6 +2946,9 @@
         },
         {
           "target": "com.gcp.firebaseappdistribution_v1#Conflict"
+        },
+        {
+          "target": "com.gcp.firebaseappdistribution_v1#ServiceDisabled"
         }
       ],
       "traits": {
@@ -2924,6 +2999,9 @@
         },
         {
           "target": "com.gcp.firebaseappdistribution_v1#Conflict"
+        },
+        {
+          "target": "com.gcp.firebaseappdistribution_v1#ServiceDisabled"
         }
       ],
       "traits": {
@@ -2932,6 +3010,23 @@
           "uri": "v1/{+app}/releases:upload"
         },
         "smithy.api#documentation": "Uploads a binary. Uploading a binary can result in a new release being created, an update to an existing release, or a no-op if a release with the same binary already exists."
+      }
+    },
+    "com.gcp.firebaseappdistribution_v1#ServiceDisabled": {
+      "type": "structure",
+      "members": {},
+      "traits": {
+        "smithy.api#error": "client",
+        "smithy.api#httpError": 403,
+        "smithy.api#documentation": "The API is not enabled on the project (HTTP 403 PERMISSION_DENIED, reason SERVICE_DISABLED: \"<API> has not been used in project <n> before or it is disabled.\").",
+        "com.gcp.protocols#errorMatchers": [
+          {
+            "status": 403,
+            "message": {
+              "includes": "has not been used in project"
+            }
+          }
+        ]
       }
     }
   }

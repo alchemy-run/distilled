@@ -3587,6 +3587,9 @@
         },
         {
           "target": "com.gcp.metastore_v1#Forbidden"
+        },
+        {
+          "target": "com.gcp.metastore_v1#ServiceDisabled"
         }
       ],
       "traits": {
@@ -3628,6 +3631,9 @@
         },
         {
           "target": "com.gcp.metastore_v1#Forbidden"
+        },
+        {
+          "target": "com.gcp.metastore_v1#ServiceDisabled"
         }
       ],
       "traits": {
@@ -3704,6 +3710,9 @@
         },
         {
           "target": "com.gcp.metastore_v1#Conflict"
+        },
+        {
+          "target": "com.gcp.metastore_v1#ServiceDisabled"
         }
       ],
       "traits": {
@@ -3754,6 +3763,9 @@
         },
         {
           "target": "com.gcp.metastore_v1#Conflict"
+        },
+        {
+          "target": "com.gcp.metastore_v1#ServiceDisabled"
         }
       ],
       "traits": {
@@ -3818,6 +3830,9 @@
         },
         {
           "target": "com.gcp.metastore_v1#Conflict"
+        },
+        {
+          "target": "com.gcp.metastore_v1#ServiceDisabled"
         }
       ],
       "traits": {
@@ -3868,6 +3883,9 @@
         },
         {
           "target": "com.gcp.metastore_v1#Conflict"
+        },
+        {
+          "target": "com.gcp.metastore_v1#ServiceDisabled"
         }
       ],
       "traits": {
@@ -3918,6 +3936,9 @@
         },
         {
           "target": "com.gcp.metastore_v1#Conflict"
+        },
+        {
+          "target": "com.gcp.metastore_v1#ServiceDisabled"
         }
       ],
       "traits": {
@@ -3955,6 +3976,9 @@
         },
         {
           "target": "com.gcp.metastore_v1#Forbidden"
+        },
+        {
+          "target": "com.gcp.metastore_v1#ServiceDisabled"
         }
       ],
       "traits": {
@@ -4019,6 +4043,9 @@
         },
         {
           "target": "com.gcp.metastore_v1#Conflict"
+        },
+        {
+          "target": "com.gcp.metastore_v1#ServiceDisabled"
         }
       ],
       "traits": {
@@ -4069,6 +4096,9 @@
         },
         {
           "target": "com.gcp.metastore_v1#Conflict"
+        },
+        {
+          "target": "com.gcp.metastore_v1#ServiceDisabled"
         }
       ],
       "traits": {
@@ -4134,6 +4164,9 @@
         },
         {
           "target": "com.gcp.metastore_v1#Forbidden"
+        },
+        {
+          "target": "com.gcp.metastore_v1#ServiceDisabled"
         }
       ],
       "traits": {
@@ -4188,6 +4221,9 @@
         },
         {
           "target": "com.gcp.metastore_v1#Conflict"
+        },
+        {
+          "target": "com.gcp.metastore_v1#ServiceDisabled"
         }
       ],
       "traits": {
@@ -4238,6 +4274,9 @@
         },
         {
           "target": "com.gcp.metastore_v1#Conflict"
+        },
+        {
+          "target": "com.gcp.metastore_v1#ServiceDisabled"
         }
       ],
       "traits": {
@@ -4288,6 +4327,9 @@
         },
         {
           "target": "com.gcp.metastore_v1#Conflict"
+        },
+        {
+          "target": "com.gcp.metastore_v1#ServiceDisabled"
         }
       ],
       "traits": {
@@ -4338,6 +4380,9 @@
         },
         {
           "target": "com.gcp.metastore_v1#Conflict"
+        },
+        {
+          "target": "com.gcp.metastore_v1#ServiceDisabled"
         }
       ],
       "traits": {
@@ -4388,6 +4433,9 @@
         },
         {
           "target": "com.gcp.metastore_v1#Conflict"
+        },
+        {
+          "target": "com.gcp.metastore_v1#ServiceDisabled"
         }
       ],
       "traits": {
@@ -4438,6 +4486,9 @@
         },
         {
           "target": "com.gcp.metastore_v1#Conflict"
+        },
+        {
+          "target": "com.gcp.metastore_v1#ServiceDisabled"
         }
       ],
       "traits": {
@@ -4488,6 +4539,9 @@
         },
         {
           "target": "com.gcp.metastore_v1#Conflict"
+        },
+        {
+          "target": "com.gcp.metastore_v1#ServiceDisabled"
         }
       ],
       "traits": {
@@ -4532,6 +4586,9 @@
         },
         {
           "target": "com.gcp.metastore_v1#Forbidden"
+        },
+        {
+          "target": "com.gcp.metastore_v1#ServiceDisabled"
         }
       ],
       "traits": {
@@ -4597,6 +4654,9 @@
         },
         {
           "target": "com.gcp.metastore_v1#Forbidden"
+        },
+        {
+          "target": "com.gcp.metastore_v1#ServiceDisabled"
         }
       ],
       "traits": {
@@ -4638,6 +4698,9 @@
         },
         {
           "target": "com.gcp.metastore_v1#Forbidden"
+        },
+        {
+          "target": "com.gcp.metastore_v1#ServiceDisabled"
         }
       ],
       "traits": {
@@ -4702,6 +4765,9 @@
         },
         {
           "target": "com.gcp.metastore_v1#Conflict"
+        },
+        {
+          "target": "com.gcp.metastore_v1#ServiceDisabled"
         }
       ],
       "traits": {
@@ -4766,6 +4832,9 @@
         },
         {
           "target": "com.gcp.metastore_v1#Conflict"
+        },
+        {
+          "target": "com.gcp.metastore_v1#ServiceDisabled"
         }
       ],
       "traits": {
@@ -4810,6 +4879,9 @@
         },
         {
           "target": "com.gcp.metastore_v1#Forbidden"
+        },
+        {
+          "target": "com.gcp.metastore_v1#ServiceDisabled"
         }
       ],
       "traits": {
@@ -4860,6 +4932,9 @@
         },
         {
           "target": "com.gcp.metastore_v1#Conflict"
+        },
+        {
+          "target": "com.gcp.metastore_v1#ServiceDisabled"
         }
       ],
       "traits": {
@@ -4910,6 +4985,9 @@
         },
         {
           "target": "com.gcp.metastore_v1#Conflict"
+        },
+        {
+          "target": "com.gcp.metastore_v1#ServiceDisabled"
         }
       ],
       "traits": {
@@ -4954,6 +5032,9 @@
         },
         {
           "target": "com.gcp.metastore_v1#Forbidden"
+        },
+        {
+          "target": "com.gcp.metastore_v1#ServiceDisabled"
         }
       ],
       "traits": {
@@ -5004,6 +5085,9 @@
         },
         {
           "target": "com.gcp.metastore_v1#Conflict"
+        },
+        {
+          "target": "com.gcp.metastore_v1#ServiceDisabled"
         }
       ],
       "traits": {
@@ -5069,6 +5153,9 @@
         },
         {
           "target": "com.gcp.metastore_v1#Forbidden"
+        },
+        {
+          "target": "com.gcp.metastore_v1#ServiceDisabled"
         }
       ],
       "traits": {
@@ -5110,6 +5197,9 @@
         },
         {
           "target": "com.gcp.metastore_v1#Forbidden"
+        },
+        {
+          "target": "com.gcp.metastore_v1#ServiceDisabled"
         }
       ],
       "traits": {
@@ -5174,6 +5264,9 @@
         },
         {
           "target": "com.gcp.metastore_v1#Conflict"
+        },
+        {
+          "target": "com.gcp.metastore_v1#ServiceDisabled"
         }
       ],
       "traits": {
@@ -5224,6 +5317,9 @@
         },
         {
           "target": "com.gcp.metastore_v1#Conflict"
+        },
+        {
+          "target": "com.gcp.metastore_v1#ServiceDisabled"
         }
       ],
       "traits": {
@@ -5268,6 +5364,9 @@
         },
         {
           "target": "com.gcp.metastore_v1#Forbidden"
+        },
+        {
+          "target": "com.gcp.metastore_v1#ServiceDisabled"
         }
       ],
       "traits": {
@@ -5305,6 +5404,9 @@
         },
         {
           "target": "com.gcp.metastore_v1#Forbidden"
+        },
+        {
+          "target": "com.gcp.metastore_v1#ServiceDisabled"
         }
       ],
       "traits": {
@@ -5370,6 +5472,9 @@
         },
         {
           "target": "com.gcp.metastore_v1#Forbidden"
+        },
+        {
+          "target": "com.gcp.metastore_v1#ServiceDisabled"
         }
       ],
       "traits": {
@@ -5424,6 +5529,9 @@
         },
         {
           "target": "com.gcp.metastore_v1#Conflict"
+        },
+        {
+          "target": "com.gcp.metastore_v1#ServiceDisabled"
         }
       ],
       "traits": {
@@ -5489,6 +5597,9 @@
         },
         {
           "target": "com.gcp.metastore_v1#Forbidden"
+        },
+        {
+          "target": "com.gcp.metastore_v1#ServiceDisabled"
         }
       ],
       "traits": {
@@ -5530,6 +5641,9 @@
         },
         {
           "target": "com.gcp.metastore_v1#Forbidden"
+        },
+        {
+          "target": "com.gcp.metastore_v1#ServiceDisabled"
         }
       ],
       "traits": {
@@ -5580,6 +5694,9 @@
         },
         {
           "target": "com.gcp.metastore_v1#Conflict"
+        },
+        {
+          "target": "com.gcp.metastore_v1#ServiceDisabled"
         }
       ],
       "traits": {
@@ -5623,6 +5740,9 @@
         },
         {
           "target": "com.gcp.metastore_v1#Conflict"
+        },
+        {
+          "target": "com.gcp.metastore_v1#ServiceDisabled"
         }
       ],
       "traits": {
@@ -5667,6 +5787,9 @@
         },
         {
           "target": "com.gcp.metastore_v1#Forbidden"
+        },
+        {
+          "target": "com.gcp.metastore_v1#ServiceDisabled"
         }
       ],
       "traits": {
@@ -5731,6 +5854,9 @@
         },
         {
           "target": "com.gcp.metastore_v1#Conflict"
+        },
+        {
+          "target": "com.gcp.metastore_v1#ServiceDisabled"
         }
       ],
       "traits": {
@@ -5781,6 +5907,9 @@
         },
         {
           "target": "com.gcp.metastore_v1#Conflict"
+        },
+        {
+          "target": "com.gcp.metastore_v1#ServiceDisabled"
         }
       ],
       "traits": {
@@ -5846,6 +5975,9 @@
         },
         {
           "target": "com.gcp.metastore_v1#Forbidden"
+        },
+        {
+          "target": "com.gcp.metastore_v1#ServiceDisabled"
         }
       ],
       "traits": {
@@ -5887,6 +6019,9 @@
         },
         {
           "target": "com.gcp.metastore_v1#Forbidden"
+        },
+        {
+          "target": "com.gcp.metastore_v1#ServiceDisabled"
         }
       ],
       "traits": {
@@ -5937,6 +6072,9 @@
         },
         {
           "target": "com.gcp.metastore_v1#Conflict"
+        },
+        {
+          "target": "com.gcp.metastore_v1#ServiceDisabled"
         }
       ],
       "traits": {
@@ -6001,6 +6139,9 @@
         },
         {
           "target": "com.gcp.metastore_v1#Conflict"
+        },
+        {
+          "target": "com.gcp.metastore_v1#ServiceDisabled"
         }
       ],
       "traits": {
@@ -6051,6 +6192,9 @@
         },
         {
           "target": "com.gcp.metastore_v1#Conflict"
+        },
+        {
+          "target": "com.gcp.metastore_v1#ServiceDisabled"
         }
       ],
       "traits": {
@@ -6059,6 +6203,23 @@
           "uri": "v1/{+resource}:testIamPermissions"
         },
         "smithy.api#documentation": "Returns permissions that a caller has on the specified resource. If the resource does not exist, this will return an empty set of permissions, not a NOT_FOUND error.Note: This operation is designed to be used for building permission-aware UIs and command-line tools, not for authorization checking. This operation may \"fail open\" without warning."
+      }
+    },
+    "com.gcp.metastore_v1#ServiceDisabled": {
+      "type": "structure",
+      "members": {},
+      "traits": {
+        "smithy.api#error": "client",
+        "smithy.api#httpError": 403,
+        "smithy.api#documentation": "The API is not enabled on the project (HTTP 403 PERMISSION_DENIED, reason SERVICE_DISABLED: '\u2026 API has not been used in project \u2026 before or it is disabled.'). Enable the API; not retryable until then.",
+        "com.gcp.protocols#errorMatchers": [
+          {
+            "status": 403,
+            "message": {
+              "includes": "has not been used in project"
+            }
+          }
+        ]
       }
     }
   }

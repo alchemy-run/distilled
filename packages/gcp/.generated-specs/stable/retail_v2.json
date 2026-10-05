@@ -2057,7 +2057,7 @@
         "tags": {
           "target": "com.gcp.retail_v2#StringList",
           "traits": {
-            "smithy.api#documentation": "Custom tags associated with the product. At most 250 values are allowed per Product. This value must be a UTF-8 encoded string with a length limit of 1,000 characters. Otherwise, an INVALID_ARGUMENT error is returned. This tag can be used for filtering recommendation results by passing the tag as part of the PredictRequest.filter. Corresponding properties: Google Merchant Center property [custom_label_0–4](https://support.google.com/merchants/answer/6324473)."
+            "smithy.api#documentation": "Custom tags associated with the product. At most 250 values are allowed per Product. This value must be a UTF-8 encoded string with a length limit of 1,000 characters. Otherwise, an INVALID_ARGUMENT error is returned. This tag can be used for filtering recommendation results by passing the tag as part of the PredictRequest.filter. Corresponding properties: Google Merchant Center property [custom_label_0\u20134](https://support.google.com/merchants/answer/6324473)."
           }
         },
         "gtin": {
@@ -5411,7 +5411,7 @@
         "ageGroups": {
           "target": "com.gcp.retail_v2#StringList",
           "traits": {
-            "smithy.api#documentation": "The age groups of the audience. Strongly encouraged to use the standard values: \"newborn\" (up to 3 months old), \"infant\" (3–12 months old), \"toddler\" (1–5 years old), \"kids\" (5–13 years old), \"adult\" (typically teens or older). At most 5 values are allowed. Each value must be a UTF-8 encoded string with a length limit of 128 characters. Otherwise, an INVALID_ARGUMENT error is returned. Google Merchant Center property [age_group](https://support.google.com/merchants/answer/6324463). Schema.org property [Product.audience.suggestedMinAge](https://schema.org/suggestedMinAge) and [Product.audience.suggestedMaxAge](https://schema.org/suggestedMaxAge)."
+            "smithy.api#documentation": "The age groups of the audience. Strongly encouraged to use the standard values: \"newborn\" (up to 3 months old), \"infant\" (3\u201312 months old), \"toddler\" (1\u20135 years old), \"kids\" (5\u201313 years old), \"adult\" (typically teens or older). At most 5 values are allowed. Each value must be a UTF-8 encoded string with a length limit of 128 characters. Otherwise, an INVALID_ARGUMENT error is returned. Google Merchant Center property [age_group](https://support.google.com/merchants/answer/6324463). Schema.org property [Product.audience.suggestedMinAge](https://schema.org/suggestedMinAge) and [Product.audience.suggestedMaxAge](https://schema.org/suggestedMaxAge)."
           }
         }
       },
@@ -8284,6 +8284,9 @@
         },
         {
           "target": "com.gcp.retail_v2#Forbidden"
+        },
+        {
+          "target": "com.gcp.retail_v2#RetailDataUseTermsNotAccepted"
         }
       ],
       "traits": {
@@ -8349,6 +8352,9 @@
         },
         {
           "target": "com.gcp.retail_v2#Forbidden"
+        },
+        {
+          "target": "com.gcp.retail_v2#RetailDataUseTermsNotAccepted"
         }
       ],
       "traits": {
@@ -8418,6 +8424,9 @@
         },
         {
           "target": "com.gcp.retail_v2#Forbidden"
+        },
+        {
+          "target": "com.gcp.retail_v2#RetailDataUseTermsNotAccepted"
         }
       ],
       "traits": {
@@ -8459,6 +8468,9 @@
         },
         {
           "target": "com.gcp.retail_v2#Forbidden"
+        },
+        {
+          "target": "com.gcp.retail_v2#RetailDataUseTermsNotAccepted"
         }
       ],
       "traits": {
@@ -8552,6 +8564,9 @@
         },
         {
           "target": "com.gcp.retail_v2#Forbidden"
+        },
+        {
+          "target": "com.gcp.retail_v2#RetailDataUseTermsNotAccepted"
         }
       ],
       "traits": {
@@ -8635,6 +8650,9 @@
         },
         {
           "target": "com.gcp.retail_v2#Conflict"
+        },
+        {
+          "target": "com.gcp.retail_v2#RetailDataUseTermsNotAccepted"
         }
       ],
       "traits": {
@@ -8692,6 +8710,9 @@
         },
         {
           "target": "com.gcp.retail_v2#Conflict"
+        },
+        {
+          "target": "com.gcp.retail_v2#RetailDataUseTermsNotAccepted"
         }
       ],
       "traits": {
@@ -8749,6 +8770,9 @@
         },
         {
           "target": "com.gcp.retail_v2#Conflict"
+        },
+        {
+          "target": "com.gcp.retail_v2#RetailDataUseTermsNotAccepted"
         }
       ],
       "traits": {
@@ -8786,6 +8810,9 @@
         },
         {
           "target": "com.gcp.retail_v2#Forbidden"
+        },
+        {
+          "target": "com.gcp.retail_v2#RetailDataUseTermsNotAccepted"
         }
       ],
       "traits": {
@@ -8823,6 +8850,9 @@
         },
         {
           "target": "com.gcp.retail_v2#Forbidden"
+        },
+        {
+          "target": "com.gcp.retail_v2#RetailDataUseTermsNotAccepted"
         }
       ],
       "traits": {
@@ -8874,6 +8904,9 @@
         },
         {
           "target": "com.gcp.retail_v2#Forbidden"
+        },
+        {
+          "target": "com.gcp.retail_v2#RetailDataUseTermsNotAccepted"
         }
       ],
       "traits": {
@@ -8935,6 +8968,9 @@
         },
         {
           "target": "com.gcp.retail_v2#Conflict"
+        },
+        {
+          "target": "com.gcp.retail_v2#RetailDataUseTermsNotAccepted"
         }
       ],
       "traits": {
@@ -8972,6 +9008,9 @@
         },
         {
           "target": "com.gcp.retail_v2#Forbidden"
+        },
+        {
+          "target": "com.gcp.retail_v2#RetailDataUseTermsNotAccepted"
         }
       ],
       "traits": {
@@ -9029,6 +9068,9 @@
         },
         {
           "target": "com.gcp.retail_v2#Conflict"
+        },
+        {
+          "target": "com.gcp.retail_v2#RetailDataUseTermsNotAccepted"
         }
       ],
       "traits": {
@@ -9086,6 +9128,9 @@
         },
         {
           "target": "com.gcp.retail_v2#Conflict"
+        },
+        {
+          "target": "com.gcp.retail_v2#RetailDataUseTermsNotAccepted"
         }
       ],
       "traits": {
@@ -9136,6 +9181,9 @@
         },
         {
           "target": "com.gcp.retail_v2#Conflict"
+        },
+        {
+          "target": "com.gcp.retail_v2#RetailDataUseTermsNotAccepted"
         }
       ],
       "traits": {
@@ -9173,6 +9221,9 @@
         },
         {
           "target": "com.gcp.retail_v2#Forbidden"
+        },
+        {
+          "target": "com.gcp.retail_v2#RetailDataUseTermsNotAccepted"
         }
       ],
       "traits": {
@@ -9223,6 +9274,9 @@
         },
         {
           "target": "com.gcp.retail_v2#Conflict"
+        },
+        {
+          "target": "com.gcp.retail_v2#RetailDataUseTermsNotAccepted"
         }
       ],
       "traits": {
@@ -9260,6 +9314,9 @@
         },
         {
           "target": "com.gcp.retail_v2#Forbidden"
+        },
+        {
+          "target": "com.gcp.retail_v2#RetailDataUseTermsNotAccepted"
         }
       ],
       "traits": {
@@ -9297,6 +9354,9 @@
         },
         {
           "target": "com.gcp.retail_v2#Forbidden"
+        },
+        {
+          "target": "com.gcp.retail_v2#RetailDataUseTermsNotAccepted"
         }
       ],
       "traits": {
@@ -9354,6 +9414,9 @@
         },
         {
           "target": "com.gcp.retail_v2#Conflict"
+        },
+        {
+          "target": "com.gcp.retail_v2#RetailDataUseTermsNotAccepted"
         }
       ],
       "traits": {
@@ -9411,6 +9474,9 @@
         },
         {
           "target": "com.gcp.retail_v2#Conflict"
+        },
+        {
+          "target": "com.gcp.retail_v2#RetailDataUseTermsNotAccepted"
         }
       ],
       "traits": {
@@ -9469,6 +9535,9 @@
         },
         {
           "target": "com.gcp.retail_v2#Forbidden"
+        },
+        {
+          "target": "com.gcp.retail_v2#RetailDataUseTermsNotAccepted"
         }
       ],
       "traits": {
@@ -9516,6 +9585,9 @@
         },
         {
           "target": "com.gcp.retail_v2#Conflict"
+        },
+        {
+          "target": "com.gcp.retail_v2#RetailDataUseTermsNotAccepted"
         }
       ],
       "traits": {
@@ -9581,6 +9653,9 @@
         },
         {
           "target": "com.gcp.retail_v2#Forbidden"
+        },
+        {
+          "target": "com.gcp.retail_v2#RetailDataUseTermsNotAccepted"
         }
       ],
       "traits": {
@@ -9622,6 +9697,9 @@
         },
         {
           "target": "com.gcp.retail_v2#Forbidden"
+        },
+        {
+          "target": "com.gcp.retail_v2#RetailDataUseTermsNotAccepted"
         }
       ],
       "traits": {
@@ -9672,6 +9750,9 @@
         },
         {
           "target": "com.gcp.retail_v2#Conflict"
+        },
+        {
+          "target": "com.gcp.retail_v2#RetailDataUseTermsNotAccepted"
         }
       ],
       "traits": {
@@ -9722,6 +9803,9 @@
         },
         {
           "target": "com.gcp.retail_v2#Conflict"
+        },
+        {
+          "target": "com.gcp.retail_v2#RetailDataUseTermsNotAccepted"
         }
       ],
       "traits": {
@@ -9772,6 +9856,9 @@
         },
         {
           "target": "com.gcp.retail_v2#Conflict"
+        },
+        {
+          "target": "com.gcp.retail_v2#RetailDataUseTermsNotAccepted"
         }
       ],
       "traits": {
@@ -9822,6 +9909,9 @@
         },
         {
           "target": "com.gcp.retail_v2#Conflict"
+        },
+        {
+          "target": "com.gcp.retail_v2#RetailDataUseTermsNotAccepted"
         }
       ],
       "traits": {
@@ -9879,6 +9969,9 @@
         },
         {
           "target": "com.gcp.retail_v2#Conflict"
+        },
+        {
+          "target": "com.gcp.retail_v2#RetailDataUseTermsNotAccepted"
         }
       ],
       "traits": {
@@ -9916,6 +10009,9 @@
         },
         {
           "target": "com.gcp.retail_v2#Forbidden"
+        },
+        {
+          "target": "com.gcp.retail_v2#RetailDataUseTermsNotAccepted"
         }
       ],
       "traits": {
@@ -9973,6 +10069,9 @@
         },
         {
           "target": "com.gcp.retail_v2#Conflict"
+        },
+        {
+          "target": "com.gcp.retail_v2#RetailDataUseTermsNotAccepted"
         }
       ],
       "traits": {
@@ -10023,6 +10122,9 @@
         },
         {
           "target": "com.gcp.retail_v2#Conflict"
+        },
+        {
+          "target": "com.gcp.retail_v2#RetailDataUseTermsNotAccepted"
         }
       ],
       "traits": {
@@ -10073,6 +10175,9 @@
         },
         {
           "target": "com.gcp.retail_v2#Conflict"
+        },
+        {
+          "target": "com.gcp.retail_v2#RetailDataUseTermsNotAccepted"
         }
       ],
       "traits": {
@@ -10116,6 +10221,9 @@
         },
         {
           "target": "com.gcp.retail_v2#Conflict"
+        },
+        {
+          "target": "com.gcp.retail_v2#RetailDataUseTermsNotAccepted"
         }
       ],
       "traits": {
@@ -10166,6 +10274,9 @@
         },
         {
           "target": "com.gcp.retail_v2#Conflict"
+        },
+        {
+          "target": "com.gcp.retail_v2#RetailDataUseTermsNotAccepted"
         }
       ],
       "traits": {
@@ -10216,6 +10327,9 @@
         },
         {
           "target": "com.gcp.retail_v2#Conflict"
+        },
+        {
+          "target": "com.gcp.retail_v2#RetailDataUseTermsNotAccepted"
         }
       ],
       "traits": {
@@ -10280,6 +10394,9 @@
         },
         {
           "target": "com.gcp.retail_v2#Conflict"
+        },
+        {
+          "target": "com.gcp.retail_v2#RetailDataUseTermsNotAccepted"
         }
       ],
       "traits": {
@@ -10330,6 +10447,9 @@
         },
         {
           "target": "com.gcp.retail_v2#Conflict"
+        },
+        {
+          "target": "com.gcp.retail_v2#RetailDataUseTermsNotAccepted"
         }
       ],
       "traits": {
@@ -10395,6 +10515,9 @@
         },
         {
           "target": "com.gcp.retail_v2#Forbidden"
+        },
+        {
+          "target": "com.gcp.retail_v2#RetailDataUseTermsNotAccepted"
         }
       ],
       "traits": {
@@ -10449,6 +10572,9 @@
         },
         {
           "target": "com.gcp.retail_v2#Conflict"
+        },
+        {
+          "target": "com.gcp.retail_v2#RetailDataUseTermsNotAccepted"
         }
       ],
       "traits": {
@@ -10486,6 +10612,9 @@
         },
         {
           "target": "com.gcp.retail_v2#Forbidden"
+        },
+        {
+          "target": "com.gcp.retail_v2#RetailDataUseTermsNotAccepted"
         }
       ],
       "traits": {
@@ -10536,6 +10665,9 @@
         },
         {
           "target": "com.gcp.retail_v2#Conflict"
+        },
+        {
+          "target": "com.gcp.retail_v2#RetailDataUseTermsNotAccepted"
         }
       ],
       "traits": {
@@ -10586,6 +10718,9 @@
         },
         {
           "target": "com.gcp.retail_v2#Conflict"
+        },
+        {
+          "target": "com.gcp.retail_v2#RetailDataUseTermsNotAccepted"
         }
       ],
       "traits": {
@@ -10636,6 +10771,9 @@
         },
         {
           "target": "com.gcp.retail_v2#Conflict"
+        },
+        {
+          "target": "com.gcp.retail_v2#RetailDataUseTermsNotAccepted"
         }
       ],
       "traits": {
@@ -10686,6 +10824,9 @@
         },
         {
           "target": "com.gcp.retail_v2#Conflict"
+        },
+        {
+          "target": "com.gcp.retail_v2#RetailDataUseTermsNotAccepted"
         }
       ],
       "traits": {
@@ -10736,6 +10877,9 @@
         },
         {
           "target": "com.gcp.retail_v2#Conflict"
+        },
+        {
+          "target": "com.gcp.retail_v2#RetailDataUseTermsNotAccepted"
         }
       ],
       "traits": {
@@ -10773,6 +10917,9 @@
         },
         {
           "target": "com.gcp.retail_v2#Forbidden"
+        },
+        {
+          "target": "com.gcp.retail_v2#RetailDataUseTermsNotAccepted"
         }
       ],
       "traits": {
@@ -10823,6 +10970,9 @@
         },
         {
           "target": "com.gcp.retail_v2#Conflict"
+        },
+        {
+          "target": "com.gcp.retail_v2#RetailDataUseTermsNotAccepted"
         }
       ],
       "traits": {
@@ -10873,6 +11023,9 @@
         },
         {
           "target": "com.gcp.retail_v2#Conflict"
+        },
+        {
+          "target": "com.gcp.retail_v2#RetailDataUseTermsNotAccepted"
         }
       ],
       "traits": {
@@ -10923,6 +11076,9 @@
         },
         {
           "target": "com.gcp.retail_v2#Conflict"
+        },
+        {
+          "target": "com.gcp.retail_v2#RetailDataUseTermsNotAccepted"
         }
       ],
       "traits": {
@@ -10973,6 +11129,9 @@
         },
         {
           "target": "com.gcp.retail_v2#Conflict"
+        },
+        {
+          "target": "com.gcp.retail_v2#RetailDataUseTermsNotAccepted"
         }
       ],
       "traits": {
@@ -11016,6 +11175,9 @@
         },
         {
           "target": "com.gcp.retail_v2#Conflict"
+        },
+        {
+          "target": "com.gcp.retail_v2#RetailDataUseTermsNotAccepted"
         }
       ],
       "traits": {
@@ -11053,6 +11215,9 @@
         },
         {
           "target": "com.gcp.retail_v2#Forbidden"
+        },
+        {
+          "target": "com.gcp.retail_v2#RetailDataUseTermsNotAccepted"
         }
       ],
       "traits": {
@@ -11103,6 +11268,9 @@
         },
         {
           "target": "com.gcp.retail_v2#Conflict"
+        },
+        {
+          "target": "com.gcp.retail_v2#RetailDataUseTermsNotAccepted"
         }
       ],
       "traits": {
@@ -11160,6 +11328,9 @@
         },
         {
           "target": "com.gcp.retail_v2#Conflict"
+        },
+        {
+          "target": "com.gcp.retail_v2#RetailDataUseTermsNotAccepted"
         }
       ],
       "traits": {
@@ -11211,6 +11382,9 @@
         },
         {
           "target": "com.gcp.retail_v2#Forbidden"
+        },
+        {
+          "target": "com.gcp.retail_v2#RetailDataUseTermsNotAccepted"
         }
       ],
       "traits": {
@@ -11265,6 +11439,9 @@
         },
         {
           "target": "com.gcp.retail_v2#Conflict"
+        },
+        {
+          "target": "com.gcp.retail_v2#RetailDataUseTermsNotAccepted"
         }
       ],
       "traits": {
@@ -11322,6 +11499,9 @@
         },
         {
           "target": "com.gcp.retail_v2#Conflict"
+        },
+        {
+          "target": "com.gcp.retail_v2#RetailDataUseTermsNotAccepted"
         }
       ],
       "traits": {
@@ -11372,6 +11552,9 @@
         },
         {
           "target": "com.gcp.retail_v2#Conflict"
+        },
+        {
+          "target": "com.gcp.retail_v2#RetailDataUseTermsNotAccepted"
         }
       ],
       "traits": {
@@ -11422,6 +11605,9 @@
         },
         {
           "target": "com.gcp.retail_v2#Conflict"
+        },
+        {
+          "target": "com.gcp.retail_v2#RetailDataUseTermsNotAccepted"
         }
       ],
       "traits": {
@@ -11472,6 +11658,9 @@
         },
         {
           "target": "com.gcp.retail_v2#Conflict"
+        },
+        {
+          "target": "com.gcp.retail_v2#RetailDataUseTermsNotAccepted"
         }
       ],
       "traits": {
@@ -11522,6 +11711,9 @@
         },
         {
           "target": "com.gcp.retail_v2#Conflict"
+        },
+        {
+          "target": "com.gcp.retail_v2#RetailDataUseTermsNotAccepted"
         }
       ],
       "traits": {
@@ -11579,6 +11771,9 @@
         },
         {
           "target": "com.gcp.retail_v2#Conflict"
+        },
+        {
+          "target": "com.gcp.retail_v2#RetailDataUseTermsNotAccepted"
         }
       ],
       "traits": {
@@ -11616,6 +11811,9 @@
         },
         {
           "target": "com.gcp.retail_v2#Forbidden"
+        },
+        {
+          "target": "com.gcp.retail_v2#RetailDataUseTermsNotAccepted"
         }
       ],
       "traits": {
@@ -11666,6 +11864,9 @@
         },
         {
           "target": "com.gcp.retail_v2#Conflict"
+        },
+        {
+          "target": "com.gcp.retail_v2#RetailDataUseTermsNotAccepted"
         }
       ],
       "traits": {
@@ -11709,6 +11910,9 @@
         },
         {
           "target": "com.gcp.retail_v2#Conflict"
+        },
+        {
+          "target": "com.gcp.retail_v2#RetailDataUseTermsNotAccepted"
         }
       ],
       "traits": {
@@ -11760,6 +11964,9 @@
         },
         {
           "target": "com.gcp.retail_v2#Forbidden"
+        },
+        {
+          "target": "com.gcp.retail_v2#RetailDataUseTermsNotAccepted"
         }
       ],
       "traits": {
@@ -11821,6 +12028,9 @@
         },
         {
           "target": "com.gcp.retail_v2#Conflict"
+        },
+        {
+          "target": "com.gcp.retail_v2#RetailDataUseTermsNotAccepted"
         }
       ],
       "traits": {
@@ -11871,6 +12081,9 @@
         },
         {
           "target": "com.gcp.retail_v2#Conflict"
+        },
+        {
+          "target": "com.gcp.retail_v2#RetailDataUseTermsNotAccepted"
         }
       ],
       "traits": {
@@ -11879,6 +12092,23 @@
           "uri": "v2/{+parent}/completionData:import"
         },
         "smithy.api#documentation": "Bulk import of processed completion dataset. Request processing is asynchronous. Partial updating is not supported. The operation is successfully finished only after the imported suggestions are indexed successfully and ready for serving. The process takes hours. This feature is only available for users who have Retail Search enabled. Enable Retail Search on Cloud Console before using this feature."
+      }
+    },
+    "com.gcp.retail_v2#RetailDataUseTermsNotAccepted": {
+      "type": "structure",
+      "members": {},
+      "traits": {
+        "smithy.api#error": "client",
+        "smithy.api#httpError": 400,
+        "smithy.api#documentation": "The project has not enabled Cloud Retail or not accepted the Retail data use terms (HTTP 400 FAILED_PRECONDITION: \"... doesn't have Cloud Retail enabled or it hasn't accepted Retail data use terms.\"). Accept them once in the Retail console; not retryable until then.",
+        "com.gcp.protocols#errorMatchers": [
+          {
+            "status": 400,
+            "message": {
+              "includes": "Retail data use terms"
+            }
+          }
+        ]
       }
     }
   }

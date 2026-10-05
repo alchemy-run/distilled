@@ -1,4 +1,4 @@
-#!/usr/bin/env bun
+#!/usr/bin/env node
 /**
  * Mirrors Coolify's bundled OpenAPI spec and vendor docs into ../specs/.
  *
@@ -8,7 +8,7 @@
  * https://coolify.io/docs/llms.txt so generate-time never crawls live pages.
  *
  * Usage:
- *   bun run fetch-specs.ts
+ *   node fetch-specs.ts
  *
  * Specs are saved to:
  *   ../specs/openapi.json
@@ -16,6 +16,7 @@
  */
 
 import { mkdirSync } from "fs";
+import { writeFile } from "fs/promises";
 
 /** Upstream repository, as `<owner>/<repo>`. */
 const REPO = "coollabsio/coolify";
@@ -53,9 +54,7 @@ async function fetchOpenApi(): Promise<void> {
 
   const response = await fetch(url, { headers });
   if (!response.ok) {
-    throw new Error(
-      `Failed to fetch OpenAPI spec: ${response.status} ${response.statusText}`,
-    );
+    throw new Error(`Failed to fetch OpenAPI spec: ${response.status} ${response.statusText}`);
   }
 
   const spec = (await response.json()) as Record<string, unknown>;
@@ -63,19 +62,15 @@ async function fetchOpenApi(): Promise<void> {
   // Fail here rather than three steps later in the generator: a login page or
   // a gutted response is still valid JSON, but it is not an OpenAPI document.
   if (typeof spec.openapi !== "string" || spec.paths === undefined) {
-    throw new Error(
-      `${url} returned JSON without \`openapi\`/\`paths\` — not an OpenAPI document`,
-    );
+    throw new Error(`${url} returned JSON without \`openapi\`/\`paths\` — not an OpenAPI document`);
   }
 
   console.log(`Writing spec to ${OPENAPI_OUTPUT}...`);
   // 2-space indent + trailing newline so a whitespace-only change upstream
   // produces no diff.
-  await Bun.write(OPENAPI_OUTPUT, JSON.stringify(spec, null, 2) + "\n");
+  await writeFile(OPENAPI_OUTPUT, JSON.stringify(spec, null, 2) + "\n");
 
-  console.log(
-    `OpenAPI ${spec.openapi} — ${Object.keys(spec.paths as object).length} paths`,
-  );
+  console.log(`OpenAPI ${spec.openapi} — ${Object.keys(spec.paths as object).length} paths`);
 }
 
 async function fetchDocs(): Promise<void> {
@@ -88,9 +83,7 @@ async function fetchDocs(): Promise<void> {
     },
   });
   if (!response.ok) {
-    throw new Error(
-      `Failed to fetch vendor docs: ${response.status} ${response.statusText}`,
-    );
+    throw new Error(`Failed to fetch vendor docs: ${response.status} ${response.statusText}`);
   }
 
   const text = await response.text();
@@ -101,7 +94,7 @@ async function fetchDocs(): Promise<void> {
   }
 
   console.log(`Writing docs to ${DOCS_OUTPUT}...`);
-  await Bun.write(DOCS_OUTPUT, text.endsWith("\n") ? text : `${text}\n`);
+  await writeFile(DOCS_OUTPUT, text.endsWith("\n") ? text : `${text}\n`);
 }
 
 async function main() {

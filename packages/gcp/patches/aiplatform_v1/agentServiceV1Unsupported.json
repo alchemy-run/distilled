@@ -1,0 +1,61 @@
+{
+  "description": "Type AgentService's v1 rejection. Every v1 agents call answers HTTP 400 'This API version is not supported by AgentService. Please use the v1beta1 version.', which surfaced as a generic BadRequest. Observed live 2026-09-29 on getProjectsLocationsAgents.",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.aiplatform_v1#AgentServiceV1Unsupported",
+      "value": {
+        "type": "structure",
+        "members": {},
+        "traits": {
+          "smithy.api#error": "client",
+          "smithy.api#httpError": 400,
+          "smithy.api#documentation": "AgentService does not serve the v1 API (HTTP 400 INVALID_ARGUMENT: 'This API version is not supported by AgentService. Please use the v1beta1 version.'). Not retryable.",
+          "com.gcp.protocols#errorMatchers": [
+            {
+              "status": 400,
+              "message": {
+                "includes": "not supported by AgentService"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.aiplatform_v1#CreateProjectsLocationsAgents/errors/-",
+      "value": {
+        "target": "com.gcp.aiplatform_v1#AgentServiceV1Unsupported"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.aiplatform_v1#DeleteProjectsLocationsAgents/errors/-",
+      "value": {
+        "target": "com.gcp.aiplatform_v1#AgentServiceV1Unsupported"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.aiplatform_v1#GetProjectsLocationsAgents/errors/-",
+      "value": {
+        "target": "com.gcp.aiplatform_v1#AgentServiceV1Unsupported"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.aiplatform_v1#ListProjectsLocationsAgents/errors/-",
+      "value": {
+        "target": "com.gcp.aiplatform_v1#AgentServiceV1Unsupported"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.aiplatform_v1#PatchProjectsLocationsAgents/errors/-",
+      "value": {
+        "target": "com.gcp.aiplatform_v1#AgentServiceV1Unsupported"
+      }
+    }
+  ]
+}

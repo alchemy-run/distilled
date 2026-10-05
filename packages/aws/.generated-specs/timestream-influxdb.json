@@ -84,12 +84,7 @@
           }
         },
         "aws.iam#disableConditionKeyInference": {},
-        "aws.iam#supportedPrincipalTypes": [
-          "Root",
-          "IAMUser",
-          "IAMRole",
-          "FederatedUser"
-        ],
+        "aws.iam#supportedPrincipalTypes": ["Root", "IAMUser", "IAMRole", "FederatedUser"],
         "aws.protocols#awsJson1_0": {},
         "smithy.api#cors": {
           "additionalAllowedHeaders": [

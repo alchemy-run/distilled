@@ -12,7 +12,7 @@ npm install @distilled.cloud/boat-dev effect
 
 ```ts
 import { Effect, Layer } from "effect";
-import * as FetchHttpClient from "effect/unstable/http/FetchHttpClient";
+import * as FetchHttpClient from "effect/http/FetchHttpClient";
 import * as Boat from "@distilled.cloud/boat-dev";
 
 const program = Effect.gen(function* () {

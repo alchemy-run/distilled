@@ -1,0 +1,25 @@
+{
+  "description": "Sandbox groups return `properties.managementEndpoint` (the regional sandbox data-plane endpoint) and `properties.enableDetailedMetrics`, which the spec omits.",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.app#SandboxGroupProperties/members/managementEndpoint",
+      "value": {
+        "target": "smithy.api#String",
+        "traits": {
+          "smithy.api#documentation": "Regional data-plane endpoint for managing sandboxes in the group."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.app#SandboxGroupProperties/members/enableDetailedMetrics",
+      "value": {
+        "target": "smithy.api#Boolean",
+        "traits": {
+          "smithy.api#documentation": "Whether detailed sandbox metrics are emitted."
+        }
+      }
+    }
+  ]
+}

@@ -6,6 +6,7 @@
  * is deliberately not recorded. Numbers are not portable across machines —
  * compare rows within a file, or two files from the same box.
  */
+import { spawnSync } from "node:child_process";
 import { mkdirSync, writeFileSync } from "node:fs";
 import { arch, cpus, platform, release } from "node:os";
 import { dirname } from "node:path";
@@ -48,8 +49,12 @@ export interface RecordFile {
 
 const capture = (cmd: ReadonlyArray<string>): string => {
   try {
-    const out = Bun.spawnSync([...cmd], { stdout: "pipe", stderr: "ignore" });
-    return out.stdout.toString().trim();
+    const [file, ...args] = cmd;
+    const out = spawnSync(file!, args, {
+      encoding: "utf8",
+      stdio: ["ignore", "pipe", "ignore"],
+    });
+    return out.stdout?.trim() ?? "";
   } catch {
     return "";
   }
@@ -69,13 +74,11 @@ export const toRecordFile = (
   generatedAt: new Date().toISOString(),
   commit: capture(["git", "rev-parse", "--short", "HEAD"]) || "unknown",
   machine: {
-    runtime: `bun ${Bun.version}`,
+    runtime: `node ${process.versions.node}`,
     node: capture(["node", "--version"]) || "unknown",
     typescript:
-      capture(["node", "node_modules/typescript/bin/tsc", "-v"]).replace(
-        /^Version\s+/,
-        "",
-      ) || "unknown",
+      capture(["node", "node_modules/typescript/bin/tsc", "-v"]).replace(/^Version\s+/, "") ||
+      "unknown",
     cpu: cpus()[0]?.model ?? "unknown",
     cpus: cpus().length,
     os: `${platform()} ${release()} ${arch()}`,

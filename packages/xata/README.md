@@ -12,7 +12,7 @@ npm install @distilled.cloud/xata effect
 
 ```ts
 import { Effect, Layer } from "effect";
-import * as FetchHttpClient from "effect/unstable/http/FetchHttpClient";
+import * as FetchHttpClient from "effect/http/FetchHttpClient";
 import * as Xata from "@distilled.cloud/xata";
 
 const program = Effect.gen(function* () {

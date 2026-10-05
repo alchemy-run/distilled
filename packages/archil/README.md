@@ -12,7 +12,7 @@ npm install @distilled.cloud/archil effect
 
 ```ts
 import { Effect, Layer } from "effect";
-import * as FetchHttpClient from "effect/unstable/http/FetchHttpClient";
+import * as FetchHttpClient from "effect/http/FetchHttpClient";
 import * as Archil from "@distilled.cloud/archil";
 
 const program = Effect.gen(function* () {

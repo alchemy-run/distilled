@@ -1,4 +1,4 @@
-#!/usr/bin/env bun
+#!/usr/bin/env node
 /**
  * Fetches the Xata OpenAPI spec and a snapshot of vendor docs to ../specs/.
  *
@@ -8,7 +8,7 @@
  * URL. There is no versioned URL, so the mirror simply snapshots it.
  *
  * Usage:
- *   bun run fetch-specs.ts
+ *   node fetch-specs.ts
  *
  * Written to:
  *   ../specs/openapi.json
@@ -27,6 +27,7 @@ const USER_AGENT = "distilled.cloud-xata-spec-mirror";
 const DOC_CONCURRENCY = 8;
 
 import { mkdirSync } from "fs";
+import { writeFile as fsWriteFile } from "fs/promises";
 import { dirname } from "path";
 
 const fetchText = async (url: string, accept: string): Promise<Response> => {
@@ -37,9 +38,7 @@ const fetchText = async (url: string, accept: string): Promise<Response> => {
     },
   });
   if (!response.ok) {
-    throw new Error(
-      `Failed to fetch ${url}: ${response.status} ${response.statusText}`,
-    );
+    throw new Error(`Failed to fetch ${url}: ${response.status} ${response.statusText}`);
   }
   return response;
 };
@@ -65,7 +64,7 @@ const relDocPath = (url: string): string => {
 
 const writeFile = async (path: string, body: string): Promise<void> => {
   mkdirSync(dirname(path), { recursive: true });
-  await Bun.write(path, body);
+  await fsWriteFile(path, body);
 };
 
 const snapshotDocs = async (urls: string[]): Promise<void> => {
@@ -75,18 +74,12 @@ const snapshotDocs = async (urls: string[]): Promise<void> => {
     const batch = urls.slice(i, i + DOC_CONCURRENCY);
     const results = await Promise.allSettled(
       batch.map(async (url) => {
-        const response = await fetchText(
-          url,
-          "text/markdown, text/plain;q=0.9, */*;q=0.1",
-        );
+        const response = await fetchText(url, "text/markdown, text/plain;q=0.9, */*;q=0.1");
         const text = await response.text();
         if (text.trim() === "") {
           throw new Error("empty body");
         }
-        await writeFile(
-          relDocPath(url),
-          text.endsWith("\n") ? text : `${text}\n`,
-        );
+        await writeFile(relDocPath(url), text.endsWith("\n") ? text : `${text}\n`);
       }),
     );
     for (let j = 0; j < results.length; j++) {
@@ -99,9 +92,7 @@ const snapshotDocs = async (urls: string[]): Promise<void> => {
       console.warn(`  skipped ${batch[j]}: ${result.reason}`);
     }
   }
-  console.log(
-    `  docs pages: ${ok} written, ${skipped} skipped (${urls.length} unique)`,
-  );
+  console.log(`  docs pages: ${ok} written, ${skipped} skipped (${urls.length} unique)`);
 };
 
 async function main() {
@@ -121,17 +112,13 @@ async function main() {
   }
 
   console.log(`Writing spec to ${OUTPUT_PATH}...`);
-  await Bun.write(OUTPUT_PATH, JSON.stringify(spec, null, 2) + "\n");
-  console.log(
-    `Done! OpenAPI ${spec.openapi} — ${Object.keys(spec.paths as object).length} paths`,
-  );
+  await fsWriteFile(OUTPUT_PATH, JSON.stringify(spec, null, 2) + "\n");
+  console.log(`Done! OpenAPI ${spec.openapi} — ${Object.keys(spec.paths as object).length} paths`);
 
   console.log(`Fetching vendor docs index from ${DOCS_LLMS_URL}...`);
   const llms = await (await fetchText(DOCS_LLMS_URL, "text/plain")).text();
   if (!llms.includes("https://api.xata.tech/openapi.json")) {
-    throw new Error(
-      `${DOCS_LLMS_URL} did not mention the OpenAPI URL — not the Xata docs index`,
-    );
+    throw new Error(`${DOCS_LLMS_URL} did not mention the OpenAPI URL — not the Xata docs index`);
   }
   await writeFile(LLMS_PATH, llms.endsWith("\n") ? llms : `${llms}\n`);
 

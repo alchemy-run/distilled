@@ -6792,6 +6792,9 @@
         },
         {
           "target": "com.gcp.networksecurity_v1#Conflict"
+        },
+        {
+          "target": "com.gcp.networksecurity_v1#SacRealmNotPaired"
         }
       ],
       "traits": {
@@ -15143,6 +15146,23 @@
           "inputToken": "pageToken",
           "outputToken": "nextPageToken"
         }
+      }
+    },
+    "com.gcp.networksecurity_v1#SacRealmNotPaired": {
+      "type": "structure",
+      "members": {},
+      "traits": {
+        "smithy.api#error": "client",
+        "smithy.api#httpError": 400,
+        "smithy.api#documentation": "The SAC realm is not attached to a partner (SSE vendor) realm yet (HTTP 400: 'sac_realm must be attached to a partner realm'). Pair the realm with the partner first; not retryable.",
+        "com.gcp.protocols#errorMatchers": [
+          {
+            "status": 400,
+            "message": {
+              "includes": "must be attached to a partner realm"
+            }
+          }
+        ]
       }
     }
   }

@@ -154,22 +154,16 @@ export interface BrandIcon {
   readonly inner: string;
 }
 
-const escapeAttr = (value: string) =>
-  value.replaceAll("&", "&amp;").replaceAll('"', "&quot;");
+const escapeAttr = (value: string) => value.replaceAll("&", "&amp;").replaceAll('"', "&quot;");
 
 /** Brand marks keyed by `packages/<dir>`; also read by `scripts/og.ts`. */
-export const readBrandIcons = (
-  websiteRoot: string,
-): Promise<Record<string, BrandIcon>> =>
+export const readBrandIcons = (websiteRoot: string): Promise<Record<string, BrandIcon>> =>
   readIcons(join(websiteRoot, "build", "data", "brand-icons.json"));
 
 const readIcons = async (file: string): Promise<Record<string, BrandIcon>> => {
   const icons: Record<string, BrandIcon> = {};
   for (const [dir, icon] of Object.entries(
-    JSON.parse(await readFile(file, "utf8")) as Record<
-      string,
-      BrandIcon | string
-    >,
+    JSON.parse(await readFile(file, "utf8")) as Record<string, BrandIcon | string>,
   )) {
     if (typeof icon === "object" && icon !== null) icons[dir] = icon;
   }
@@ -199,13 +193,10 @@ const factsOf = (ranked: ReadonlyArray<RankedPackage>): Fact[] => {
   const patchedAll = ranked.filter((s) => s.fixes > 0).length;
   const byRate = [...used].sort((a, b) => (b.per100 ?? 0) - (a.per100 ?? 0));
   const mid = byRate[Math.floor(byRate.length / 2)];
-  const opsPerFix =
-    mid && mid.fixes > 0 ? Math.round(mid.operations / mid.fixes) : 0;
+  const opsPerFix = mid && mid.fixes > 0 ? Math.round(mid.operations / mid.fixes) : 0;
   // "all N" only while every provider Alchemy uses has needed a patch.
   const alchemyShare =
-    usedPatched === used.length
-      ? `all ${used.length}`
-      : `${usedPatched} of the ${used.length}`;
+    usedPatched === used.length ? `all ${used.length}` : `${usedPatched} of the ${used.length}`;
   return [
     { n: fmt.format(fixes), line: "spec fixes, and counting" },
     {
@@ -220,10 +211,7 @@ const factsOf = (ranked: ReadonlyArray<RankedPackage>): Fact[] => {
   ];
 };
 
-const headlineOf = (
-  runtime: RuntimeBench | null,
-  bundle: BundleBench | null,
-): BenchHeadline => {
+const headlineOf = (runtime: RuntimeBench | null, bundle: BundleBench | null): BenchHeadline => {
   const row = (fixture: string) =>
     bundle?.rows.find((r) => r.fixture === fixture && r.variant === "bun");
   const fastestCall = (provider: string) =>
@@ -234,8 +222,7 @@ const headlineOf = (
   const cf = row("cf-workers-deep");
   const cfCall = fastestCall("cloudflare");
   const awsCall =
-    runtime?.results.find((r) => r.name === "aws/sts/GetCallerIdentity/call") ??
-    fastestCall("aws");
+    runtime?.results.find((r) => r.name === "aws/sts/GetCallerIdentity/call") ?? fastestCall("aws");
   return {
     s3Gzip: s3 ? kb(s3.gzipBytes) : "—",
     cfGzip: cf ? kb(cf.gzipBytes) : "—",
@@ -252,9 +239,7 @@ const shameOf = (
   const offenders = ranked
     .filter((s) => s.fixes > 0)
     .sort((a, b) => (b.per100 ?? 0) - (a.per100 ?? 0) || b.fixes - a.fixes);
-  const zeroPatch = ranked
-    .filter((s) => s.fixes === 0)
-    .sort((a, b) => b.operations - a.operations);
+  const zeroPatch = ranked.filter((s) => s.fixes === 0).sort((a, b) => b.operations - a.operations);
   return {
     alchemy,
     totals: {
@@ -276,9 +261,7 @@ const shameOf = (
  * output, so fall back to the generic card for any card not yet rendered.
  */
 const cardOf = (websiteRoot: string, name: string): string =>
-  existsSync(join(websiteRoot, "public", "og", `${name}.png`))
-    ? `/og/${name}.png`
-    : "/og.png";
+  existsSync(join(websiteRoot, "public", "og", `${name}.png`)) ? `/og/${name}.png` : "/og.png";
 
 // ───────────── Entry point ─────────────
 
@@ -352,9 +335,7 @@ const collect = async (websiteRoot: string): Promise<SiteData> => {
       dir: pkg.dir,
       short: pkg.short,
       version: pkg.version,
-      search: [pkg.name, pkg.dir, SEARCH_HINTS[pkg.dir] ?? ""]
-        .join(" ")
-        .toLowerCase(),
+      search: [pkg.name, pkg.dir, SEARCH_HINTS[pkg.dir] ?? ""].join(" ").toLowerCase(),
       hasIcon: pkg.dir in icons,
       stats: statsOf(pkg.dir),
       card: cardOf(websiteRoot, pkg.dir),
@@ -395,9 +376,7 @@ export const collectSiteData = (websiteRoot: string): Promise<SiteData> => {
 export const invalidateSiteData = () => cache.clear();
 
 /** `packages/<dir>` of every provider in the catalogue, in catalogue order. */
-export const providerDirs = async (
-  websiteRoot: string,
-): Promise<ReadonlyArray<string>> =>
+export const providerDirs = async (websiteRoot: string): Promise<ReadonlyArray<string>> =>
   (await collectSiteData(websiteRoot)).home.groups.flatMap((group) =>
     group.packages.map((pkg) => pkg.dir),
   );

@@ -31,7 +31,7 @@
         "packageUris": {
           "target": "com.gcp.ml_v1#StringList",
           "traits": {
-            "smithy.api#documentation": "Optional. Cloud Storage paths (`gs://…`) of packages for [custom prediction routines](/ml-engine/docs/tensorflow/custom-prediction-routines) or [scikit-learn pipelines with custom code](/ml-engine/docs/scikit/exporting-for-prediction#custom-pipeline-code). For a custom prediction routine, one of these packages must contain your Predictor class (see [`predictionClass`](#Version.FIELDS.prediction_class)). Additionally, include any dependencies used by your Predictor or scikit-learn pipeline uses that are not already included in your selected [runtime version](/ml-engine/docs/tensorflow/runtime-version-list). If you specify this field, you must also set [`runtimeVersion`](#Version.FIELDS.runtime_version) to 1.4 or greater."
+            "smithy.api#documentation": "Optional. Cloud Storage paths (`gs://\u2026`) of packages for [custom prediction routines](/ml-engine/docs/tensorflow/custom-prediction-routines) or [scikit-learn pipelines with custom code](/ml-engine/docs/scikit/exporting-for-prediction#custom-pipeline-code). For a custom prediction routine, one of these packages must contain your Predictor class (see [`predictionClass`](#Version.FIELDS.prediction_class)). Additionally, include any dependencies used by your Predictor or scikit-learn pipeline uses that are not already included in your selected [runtime version](/ml-engine/docs/tensorflow/runtime-version-list). If you specify this field, you must also set [`runtimeVersion`](#Version.FIELDS.runtime_version) to 1.4 or greater."
           }
         },
         "container": {
@@ -4016,6 +4016,9 @@
         },
         {
           "target": "com.gcp.ml_v1#Conflict"
+        },
+        {
+          "target": "com.gcp.ml_v1#AiPlatformDeprecated"
         }
       ],
       "traits": {
@@ -4551,6 +4554,9 @@
         },
         {
           "target": "com.gcp.ml_v1#Conflict"
+        },
+        {
+          "target": "com.gcp.ml_v1#AiPlatformDeprecated"
         }
       ],
       "traits": {
@@ -5772,6 +5778,23 @@
           "uri": "v1/{+name}"
         },
         "smithy.api#documentation": "Gets the latest state of a long-running operation. Clients can use this method to poll the operation result at intervals as recommended by the API service."
+      }
+    },
+    "com.gcp.ml_v1#AiPlatformDeprecated": {
+      "type": "structure",
+      "members": {},
+      "traits": {
+        "smithy.api#error": "client",
+        "smithy.api#httpError": 400,
+        "smithy.api#documentation": "Cloud AI Platform (ML Engine) no longer accepts new models or versions for this project; use Vertex AI (HTTP 400).",
+        "com.gcp.protocols#errorMatchers": [
+          {
+            "status": 400,
+            "message": {
+              "includes": "Cloud AI Platform has been deprecated"
+            }
+          }
+        ]
       }
     }
   }

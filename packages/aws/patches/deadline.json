@@ -6,6 +6,7 @@
     "createFleet": { "errors": ["ConflictException"] },
     "createMonitor": { "errors": ["ConflictException"] },
     "updateFarm": { "errors": ["ConflictException"] },
+    "updateQueue": { "errors": ["ConflictException"] },
     "updateStorageProfile": { "errors": ["ConflictException"] },
     "updateBudget": {
       "errors": ["ConflictException", "InternalServerException"]

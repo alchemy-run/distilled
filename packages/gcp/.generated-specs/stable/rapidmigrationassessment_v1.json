@@ -629,6 +629,9 @@
         },
         {
           "target": "com.gcp.rapidmigrationassessment_v1#Forbidden"
+        },
+        {
+          "target": "com.gcp.rapidmigrationassessment_v1#ServiceDisabled"
         }
       ],
       "traits": {
@@ -694,6 +697,9 @@
         },
         {
           "target": "com.gcp.rapidmigrationassessment_v1#Forbidden"
+        },
+        {
+          "target": "com.gcp.rapidmigrationassessment_v1#ServiceDisabled"
         }
       ],
       "traits": {
@@ -735,6 +741,9 @@
         },
         {
           "target": "com.gcp.rapidmigrationassessment_v1#Forbidden"
+        },
+        {
+          "target": "com.gcp.rapidmigrationassessment_v1#ServiceDisabled"
         }
       ],
       "traits": {
@@ -818,6 +827,9 @@
         },
         {
           "target": "com.gcp.rapidmigrationassessment_v1#Conflict"
+        },
+        {
+          "target": "com.gcp.rapidmigrationassessment_v1#ServiceDisabled"
         }
       ],
       "traits": {
@@ -876,6 +888,9 @@
         },
         {
           "target": "com.gcp.rapidmigrationassessment_v1#Forbidden"
+        },
+        {
+          "target": "com.gcp.rapidmigrationassessment_v1#ServiceDisabled"
         }
       ],
       "traits": {
@@ -930,6 +945,9 @@
         },
         {
           "target": "com.gcp.rapidmigrationassessment_v1#Conflict"
+        },
+        {
+          "target": "com.gcp.rapidmigrationassessment_v1#ServiceDisabled"
         }
       ],
       "traits": {
@@ -967,6 +985,9 @@
         },
         {
           "target": "com.gcp.rapidmigrationassessment_v1#Forbidden"
+        },
+        {
+          "target": "com.gcp.rapidmigrationassessment_v1#ServiceDisabled"
         }
       ],
       "traits": {
@@ -1010,6 +1031,9 @@
         },
         {
           "target": "com.gcp.rapidmigrationassessment_v1#Conflict"
+        },
+        {
+          "target": "com.gcp.rapidmigrationassessment_v1#ServiceDisabled"
         }
       ],
       "traits": {
@@ -1060,6 +1084,9 @@
         },
         {
           "target": "com.gcp.rapidmigrationassessment_v1#Conflict"
+        },
+        {
+          "target": "com.gcp.rapidmigrationassessment_v1#ServiceDisabled"
         }
       ],
       "traits": {
@@ -1124,6 +1151,9 @@
         },
         {
           "target": "com.gcp.rapidmigrationassessment_v1#Conflict"
+        },
+        {
+          "target": "com.gcp.rapidmigrationassessment_v1#ServiceDisabled"
         }
       ],
       "traits": {
@@ -1174,6 +1204,9 @@
         },
         {
           "target": "com.gcp.rapidmigrationassessment_v1#Conflict"
+        },
+        {
+          "target": "com.gcp.rapidmigrationassessment_v1#ServiceDisabled"
         }
       ],
       "traits": {
@@ -1224,6 +1257,9 @@
         },
         {
           "target": "com.gcp.rapidmigrationassessment_v1#Conflict"
+        },
+        {
+          "target": "com.gcp.rapidmigrationassessment_v1#ServiceDisabled"
         }
       ],
       "traits": {
@@ -1289,6 +1325,9 @@
         },
         {
           "target": "com.gcp.rapidmigrationassessment_v1#Forbidden"
+        },
+        {
+          "target": "com.gcp.rapidmigrationassessment_v1#ServiceDisabled"
         }
       ],
       "traits": {
@@ -1357,6 +1396,9 @@
         },
         {
           "target": "com.gcp.rapidmigrationassessment_v1#Conflict"
+        },
+        {
+          "target": "com.gcp.rapidmigrationassessment_v1#ServiceDisabled"
         }
       ],
       "traits": {
@@ -1394,6 +1436,9 @@
         },
         {
           "target": "com.gcp.rapidmigrationassessment_v1#Forbidden"
+        },
+        {
+          "target": "com.gcp.rapidmigrationassessment_v1#ServiceDisabled"
         }
       ],
       "traits": {
@@ -1444,6 +1489,9 @@
         },
         {
           "target": "com.gcp.rapidmigrationassessment_v1#Conflict"
+        },
+        {
+          "target": "com.gcp.rapidmigrationassessment_v1#ServiceDisabled"
         }
       ],
       "traits": {
@@ -1452,6 +1500,23 @@
           "uri": "v1/{+name}"
         },
         "smithy.api#documentation": "Deletes a single Collector - changes state of collector to \"Deleting\". Background jobs does final deletion through producer API."
+      }
+    },
+    "com.gcp.rapidmigrationassessment_v1#ServiceDisabled": {
+      "type": "structure",
+      "members": {},
+      "traits": {
+        "smithy.api#error": "client",
+        "smithy.api#httpError": 403,
+        "smithy.api#documentation": "The Rapid Migration Assessment API is not enabled for the calling project (HTTP 403 SERVICE_DISABLED).",
+        "com.gcp.protocols#errorMatchers": [
+          {
+            "status": 403,
+            "message": {
+              "includes": "has not been used in project"
+            }
+          }
+        ]
       }
     }
   }

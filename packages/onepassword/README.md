@@ -12,7 +12,7 @@ npm install @distilled.cloud/onepassword effect
 
 ```ts
 import { Effect, Layer } from "effect";
-import * as FetchHttpClient from "effect/unstable/http/FetchHttpClient";
+import * as FetchHttpClient from "effect/http/FetchHttpClient";
 import * as Onepassword from "@distilled.cloud/onepassword";
 
 const program = Effect.gen(function* () {

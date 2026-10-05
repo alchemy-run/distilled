@@ -7,7 +7,7 @@ import * as Neon from "@distilled.cloud/neon";
 import { CredentialsFromEnv } from "@distilled.cloud/neon/Credentials";
 import * as Effect from "effect/Effect";
 import * as Layer from "effect/Layer";
-import * as FetchHttpClient from "effect/unstable/http/FetchHttpClient";
+import * as FetchHttpClient from "effect/http/FetchHttpClient";
 
 const projects = Neon.listProjects({ limit: 20 }).pipe(
   Effect.provide(Layer.mergeAll(CredentialsFromEnv, FetchHttpClient.layer)),
@@ -44,7 +44,7 @@ const deploy = Neon.createProjectBranchFunctionDeployment({
 
 `archiveBytes` is the ZIP's `Uint8Array`. The SDK sends `environment` as a single multipart string. Omitting ZIP requests a configuration-only deployment. Empty environment values are preserved as submitted; the documented deletion value is `""`.
 
-A successful deployment API response is not proof that invocation serves the requested version. See [backend-verification.md](./backend-verification.md) for the observed code/environment update propagation blocker and bounded live reproduction. Applications must authenticate public Function requests in their handlers.
+A successful deployment API response is not proof that invocation serves the requested version. Applications must authenticate public Function requests in their handlers.
 
 ## Triggers
 
@@ -71,7 +71,3 @@ Storage triggers use `type: "storage_object_created"` and `storage_object_create
 Management operations configure branch buckets and presigned object requests. Presigned URLs are redacted; unwrap them only where needed for the request. Object downloads return `Uint8Array`, preserving binary contents. The protocol does not forward account authorization when following cross-origin download redirects.
 
 For direct S3 clients, Neon credentials are branch-lineage scoped. `storage:read` grants reads and `storage:write` grants reads and writes; neither is a bucket- or object-specific policy. Use Neon's branch-specific S3 endpoint with path-style addressing.
-
-## Verification
-
-Wire/schema regressions cover multipart encoding, binary downloads, credential redaction, both trigger variants, and nullable deployment fields. Compile assertions run with checking enabled. Live probes are opt-in through `NEON_SDK_LIVE=1`, create isolated resources, and clean up owned projects. Separate environment/update probes remain opt-in and report their failed runtime assertions rather than counting control-plane activation as update success.

@@ -12,7 +12,7 @@ npm install @distilled.cloud/stackit effect
 
 ```ts
 import { Effect, Layer } from "effect";
-import * as FetchHttpClient from "effect/unstable/http/FetchHttpClient";
+import * as FetchHttpClient from "effect/http/FetchHttpClient";
 import * as Stackit from "@distilled.cloud/stackit";
 
 const program = Effect.gen(function* () {

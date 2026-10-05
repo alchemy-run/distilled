@@ -12,7 +12,7 @@ npm install @distilled.cloud/remote effect
 
 ```ts
 import { Effect, Layer } from "effect";
-import * as FetchHttpClient from "effect/unstable/http/FetchHttpClient";
+import * as FetchHttpClient from "effect/http/FetchHttpClient";
 import * as Remote from "@distilled.cloud/remote";
 
 const program = Effect.gen(function* () {

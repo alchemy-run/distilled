@@ -1,3 +1,4 @@
+import { ConfigError } from "@distilled.cloud/core/errors";
 /**
  * Azure credentials — hand-written.
  *
@@ -13,7 +14,6 @@ import * as Effect from "effect/Effect";
 import * as Layer from "effect/Layer";
 import * as Option from "effect/Option";
 import * as Redacted from "effect/Redacted";
-import { ConfigError } from "@distilled.cloud/core/errors";
 
 /**
  * Default base URL for the Azure Resource Manager (ARM) API.
@@ -31,13 +31,12 @@ export interface Config {
   readonly apiBaseUrl: string;
 }
 
-export class Credentials extends Context.Service<
-  Credentials,
-  Effect.Effect<Config>
->()("AzureCredentials") {}
+export class Credentials extends Context.Service<Credentials, Effect.Effect<Config>>()(
+  "AzureCredentials",
+) {}
 
 const envConfig = EffectConfig.all({
-  bearerToken: EffectConfig.String("AZURE_BEARER_TOKEN"),
+  bearerToken: EffectConfig.Redacted("AZURE_BEARER_TOKEN"),
   subscriptionId: EffectConfig.String("AZURE_SUBSCRIPTION_ID"),
   tenantId: EffectConfig.option(EffectConfig.String("AZURE_TENANT_ID")),
   apiBaseUrl: EffectConfig.String("AZURE_API_BASE_URL").pipe(
@@ -64,7 +63,7 @@ export const CredentialsFromEnv: Layer.Layer<Credentials> = Layer.succeed(
         }),
     ),
     Effect.map(({ bearerToken, subscriptionId, tenantId, apiBaseUrl }) => ({
-      bearerToken: Redacted.make(bearerToken),
+      bearerToken,
       subscriptionId,
       tenantId: Option.getOrUndefined(tenantId),
       apiBaseUrl,

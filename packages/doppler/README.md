@@ -12,7 +12,7 @@ npm install @distilled.cloud/doppler effect
 
 ```ts
 import { Effect, Layer } from "effect";
-import * as FetchHttpClient from "effect/unstable/http/FetchHttpClient";
+import * as FetchHttpClient from "effect/http/FetchHttpClient";
 import * as Doppler from "@distilled.cloud/doppler";
 
 const program = Effect.gen(function* () {

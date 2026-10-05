@@ -1790,7 +1790,7 @@
         "rows": {
           "target": "com.gcp.apigee_v1#DocumentList",
           "traits": {
-            "smithy.api#documentation": "Rows of query result. Each row is a JSON object. Example: {sum(message_count): 1, developer_app: \"(not set)\",…}"
+            "smithy.api#documentation": "Rows of query result. Each row is a JSON object. Example: {sum(message_count): 1, developer_app: \"(not set)\",\u2026}"
           }
         },
         "state": {
@@ -8579,7 +8579,7 @@
         "mcpServerConfigDataLocation": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "Output only. Cloud Storage URI to the McpServerConfigData blob in the Apigee tenant project bucket. The sidecar fetches this URI using Cloud Storage, and deserializes the. protojson blob to McpServerConfigData. Treat this as an opaque URI — its format may change. Example: gs://{apigee-tp-bucket}/apigee-mcp-config-{org}-{revision_id}.json"
+            "smithy.api#documentation": "Output only. Cloud Storage URI to the McpServerConfigData blob in the Apigee tenant project bucket. The sidecar fetches this URI using Cloud Storage, and deserializes the. protojson blob to McpServerConfigData. Treat this as an opaque URI \u2014 its format may change. Example: gs://{apigee-tp-bucket}/apigee-mcp-config-{org}-{revision_id}.json"
           }
         },
         "revisionId": {
@@ -13855,7 +13855,7 @@
         "rows": {
           "target": "com.gcp.apigee_v1#DocumentList",
           "traits": {
-            "smithy.api#documentation": "Rows of security report result. Each row is a JSON object. Example: {sum(message_count): 1, developer_app: \"(not set)\",…}"
+            "smithy.api#documentation": "Rows of security report result. Each row is a JSON object. Example: {sum(message_count): 1, developer_app: \"(not set)\",\u2026}"
           }
         },
         "state": {
@@ -14058,6 +14058,9 @@
         },
         {
           "target": "com.gcp.apigee_v1#Conflict"
+        },
+        {
+          "target": "com.gcp.apigee_v1#ApigeeResourceNotFound"
         }
       ],
       "traits": {
@@ -14095,6 +14098,9 @@
         },
         {
           "target": "com.gcp.apigee_v1#Forbidden"
+        },
+        {
+          "target": "com.gcp.apigee_v1#ApigeeResourceNotFound"
         }
       ],
       "traits": {
@@ -14132,6 +14138,9 @@
         },
         {
           "target": "com.gcp.apigee_v1#Forbidden"
+        },
+        {
+          "target": "com.gcp.apigee_v1#ApigeeResourceNotFound"
         }
       ],
       "traits": {
@@ -14169,6 +14178,9 @@
         },
         {
           "target": "com.gcp.apigee_v1#Forbidden"
+        },
+        {
+          "target": "com.gcp.apigee_v1#ApigeeResourceNotFound"
         }
       ],
       "traits": {
@@ -14206,6 +14218,9 @@
         },
         {
           "target": "com.gcp.apigee_v1#Forbidden"
+        },
+        {
+          "target": "com.gcp.apigee_v1#ApigeeResourceNotFound"
         }
       ],
       "traits": {
@@ -14273,6 +14288,9 @@
         },
         {
           "target": "com.gcp.apigee_v1#Conflict"
+        },
+        {
+          "target": "com.gcp.apigee_v1#ApigeeResourceNotFound"
         }
       ],
       "traits": {
@@ -14340,6 +14358,9 @@
         },
         {
           "target": "com.gcp.apigee_v1#Forbidden"
+        },
+        {
+          "target": "com.gcp.apigee_v1#ApigeeResourceNotFound"
         }
       ],
       "traits": {
@@ -14390,6 +14411,9 @@
         },
         {
           "target": "com.gcp.apigee_v1#Conflict"
+        },
+        {
+          "target": "com.gcp.apigee_v1#ApigeeResourceNotFound"
         }
       ],
       "traits": {
@@ -14427,6 +14451,9 @@
         },
         {
           "target": "com.gcp.apigee_v1#Forbidden"
+        },
+        {
+          "target": "com.gcp.apigee_v1#ApigeeResourceNotFound"
         }
       ],
       "traits": {
@@ -14464,6 +14491,9 @@
         },
         {
           "target": "com.gcp.apigee_v1#Forbidden"
+        },
+        {
+          "target": "com.gcp.apigee_v1#ApigeeResourceNotFound"
         }
       ],
       "traits": {
@@ -14513,6 +14543,9 @@
         },
         {
           "target": "com.gcp.apigee_v1#Conflict"
+        },
+        {
+          "target": "com.gcp.apigee_v1#ApigeeResourceNotFound"
         }
       ],
       "traits": {
@@ -14570,6 +14603,9 @@
         },
         {
           "target": "com.gcp.apigee_v1#Conflict"
+        },
+        {
+          "target": "com.gcp.apigee_v1#ApigeeResourceNotFound"
         }
       ],
       "traits": {
@@ -14627,6 +14663,9 @@
         },
         {
           "target": "com.gcp.apigee_v1#Conflict"
+        },
+        {
+          "target": "com.gcp.apigee_v1#ApigeeResourceNotFound"
         }
       ],
       "traits": {
@@ -14677,6 +14716,9 @@
         },
         {
           "target": "com.gcp.apigee_v1#Conflict"
+        },
+        {
+          "target": "com.gcp.apigee_v1#ApigeeResourceNotFound"
         }
       ],
       "traits": {
@@ -14714,6 +14756,9 @@
         },
         {
           "target": "com.gcp.apigee_v1#Forbidden"
+        },
+        {
+          "target": "com.gcp.apigee_v1#ApigeeResourceNotFound"
         }
       ],
       "traits": {
@@ -14764,6 +14809,9 @@
         },
         {
           "target": "com.gcp.apigee_v1#Conflict"
+        },
+        {
+          "target": "com.gcp.apigee_v1#ApigeeResourceNotFound"
         }
       ],
       "traits": {
@@ -14814,6 +14862,9 @@
         },
         {
           "target": "com.gcp.apigee_v1#Conflict"
+        },
+        {
+          "target": "com.gcp.apigee_v1#ApigeeResourceNotFound"
         }
       ],
       "traits": {
@@ -14851,6 +14902,9 @@
         },
         {
           "target": "com.gcp.apigee_v1#Forbidden"
+        },
+        {
+          "target": "com.gcp.apigee_v1#ApigeeResourceNotFound"
         }
       ],
       "traits": {
@@ -14901,6 +14955,9 @@
         },
         {
           "target": "com.gcp.apigee_v1#Conflict"
+        },
+        {
+          "target": "com.gcp.apigee_v1#ApigeeResourceNotFound"
         }
       ],
       "traits": {
@@ -14938,6 +14995,9 @@
         },
         {
           "target": "com.gcp.apigee_v1#Forbidden"
+        },
+        {
+          "target": "com.gcp.apigee_v1#ApigeeResourceNotFound"
         }
       ],
       "traits": {
@@ -14981,6 +15041,9 @@
         },
         {
           "target": "com.gcp.apigee_v1#Conflict"
+        },
+        {
+          "target": "com.gcp.apigee_v1#ApigeeResourceNotFound"
         }
       ],
       "traits": {
@@ -15018,6 +15081,9 @@
         },
         {
           "target": "com.gcp.apigee_v1#Forbidden"
+        },
+        {
+          "target": "com.gcp.apigee_v1#ApigeeResourceNotFound"
         }
       ],
       "traits": {
@@ -15068,6 +15134,9 @@
         },
         {
           "target": "com.gcp.apigee_v1#Conflict"
+        },
+        {
+          "target": "com.gcp.apigee_v1#ApigeeResourceNotFound"
         }
       ],
       "traits": {
@@ -15118,6 +15187,9 @@
         },
         {
           "target": "com.gcp.apigee_v1#Conflict"
+        },
+        {
+          "target": "com.gcp.apigee_v1#ApigeeResourceNotFound"
         }
       ],
       "traits": {
@@ -15169,6 +15241,9 @@
         },
         {
           "target": "com.gcp.apigee_v1#Forbidden"
+        },
+        {
+          "target": "com.gcp.apigee_v1#ApigeeResourceNotFound"
         }
       ],
       "traits": {
@@ -15210,6 +15285,9 @@
         },
         {
           "target": "com.gcp.apigee_v1#Forbidden"
+        },
+        {
+          "target": "com.gcp.apigee_v1#ApigeeResourceNotFound"
         }
       ],
       "traits": {
@@ -15253,6 +15331,9 @@
         },
         {
           "target": "com.gcp.apigee_v1#Conflict"
+        },
+        {
+          "target": "com.gcp.apigee_v1#ApigeeResourceNotFound"
         }
       ],
       "traits": {
@@ -15303,6 +15384,9 @@
         },
         {
           "target": "com.gcp.apigee_v1#Conflict"
+        },
+        {
+          "target": "com.gcp.apigee_v1#ApigeeResourceNotFound"
         }
       ],
       "traits": {
@@ -15353,6 +15437,9 @@
         },
         {
           "target": "com.gcp.apigee_v1#Conflict"
+        },
+        {
+          "target": "com.gcp.apigee_v1#ApigeeResourceNotFound"
         }
       ],
       "traits": {
@@ -15390,6 +15477,9 @@
         },
         {
           "target": "com.gcp.apigee_v1#Forbidden"
+        },
+        {
+          "target": "com.gcp.apigee_v1#ApigeeResourceNotFound"
         }
       ],
       "traits": {
@@ -15525,6 +15615,9 @@
         },
         {
           "target": "com.gcp.apigee_v1#Forbidden"
+        },
+        {
+          "target": "com.gcp.apigee_v1#ApigeeResourceNotFound"
         }
       ],
       "traits": {
@@ -15575,6 +15668,9 @@
         },
         {
           "target": "com.gcp.apigee_v1#Conflict"
+        },
+        {
+          "target": "com.gcp.apigee_v1#ApigeeResourceNotFound"
         }
       ],
       "traits": {
@@ -15618,6 +15714,9 @@
         },
         {
           "target": "com.gcp.apigee_v1#Conflict"
+        },
+        {
+          "target": "com.gcp.apigee_v1#ApigeeResourceNotFound"
         }
       ],
       "traits": {
@@ -15662,6 +15761,9 @@
         },
         {
           "target": "com.gcp.apigee_v1#Forbidden"
+        },
+        {
+          "target": "com.gcp.apigee_v1#ApigeeResourceNotFound"
         }
       ],
       "traits": {
@@ -15741,6 +15843,9 @@
         },
         {
           "target": "com.gcp.apigee_v1#Forbidden"
+        },
+        {
+          "target": "com.gcp.apigee_v1#ApigeeResourceNotFound"
         }
       ],
       "traits": {
@@ -15778,6 +15883,9 @@
         },
         {
           "target": "com.gcp.apigee_v1#Forbidden"
+        },
+        {
+          "target": "com.gcp.apigee_v1#ApigeeResourceNotFound"
         }
       ],
       "traits": {
@@ -15828,6 +15936,9 @@
         },
         {
           "target": "com.gcp.apigee_v1#Conflict"
+        },
+        {
+          "target": "com.gcp.apigee_v1#ApigeeResourceNotFound"
         }
       ],
       "traits": {
@@ -15878,6 +15989,9 @@
         },
         {
           "target": "com.gcp.apigee_v1#Conflict"
+        },
+        {
+          "target": "com.gcp.apigee_v1#ApigeeResourceNotFound"
         }
       ],
       "traits": {
@@ -15928,6 +16042,9 @@
         },
         {
           "target": "com.gcp.apigee_v1#Conflict"
+        },
+        {
+          "target": "com.gcp.apigee_v1#ApigeeResourceNotFound"
         }
       ],
       "traits": {
@@ -15965,6 +16082,9 @@
         },
         {
           "target": "com.gcp.apigee_v1#Forbidden"
+        },
+        {
+          "target": "com.gcp.apigee_v1#ApigeeResourceNotFound"
         }
       ],
       "traits": {
@@ -16015,6 +16135,9 @@
         },
         {
           "target": "com.gcp.apigee_v1#Conflict"
+        },
+        {
+          "target": "com.gcp.apigee_v1#ApigeeResourceNotFound"
         }
       ],
       "traits": {
@@ -16065,6 +16188,9 @@
         },
         {
           "target": "com.gcp.apigee_v1#Conflict"
+        },
+        {
+          "target": "com.gcp.apigee_v1#ApigeeResourceNotFound"
         }
       ],
       "traits": {
@@ -16116,6 +16242,9 @@
         },
         {
           "target": "com.gcp.apigee_v1#Forbidden"
+        },
+        {
+          "target": "com.gcp.apigee_v1#ApigeeResourceNotFound"
         }
       ],
       "traits": {
@@ -16153,6 +16282,9 @@
         },
         {
           "target": "com.gcp.apigee_v1#Forbidden"
+        },
+        {
+          "target": "com.gcp.apigee_v1#ApigeeResourceNotFound"
         }
       ],
       "traits": {
@@ -16203,6 +16335,9 @@
         },
         {
           "target": "com.gcp.apigee_v1#Conflict"
+        },
+        {
+          "target": "com.gcp.apigee_v1#ApigeeResourceNotFound"
         }
       ],
       "traits": {
@@ -16253,6 +16388,9 @@
         },
         {
           "target": "com.gcp.apigee_v1#Conflict"
+        },
+        {
+          "target": "com.gcp.apigee_v1#ApigeeResourceNotFound"
         }
       ],
       "traits": {
@@ -16303,6 +16441,9 @@
         },
         {
           "target": "com.gcp.apigee_v1#Conflict"
+        },
+        {
+          "target": "com.gcp.apigee_v1#ApigeeResourceNotFound"
         }
       ],
       "traits": {
@@ -16360,6 +16501,9 @@
         },
         {
           "target": "com.gcp.apigee_v1#Conflict"
+        },
+        {
+          "target": "com.gcp.apigee_v1#ApigeeResourceNotFound"
         }
       ],
       "traits": {
@@ -16425,6 +16569,9 @@
         },
         {
           "target": "com.gcp.apigee_v1#Forbidden"
+        },
+        {
+          "target": "com.gcp.apigee_v1#ApigeeResourceNotFound"
         }
       ],
       "traits": {
@@ -16475,6 +16622,9 @@
         },
         {
           "target": "com.gcp.apigee_v1#Conflict"
+        },
+        {
+          "target": "com.gcp.apigee_v1#ApigeeResourceNotFound"
         }
       ],
       "traits": {
@@ -16525,6 +16675,9 @@
         },
         {
           "target": "com.gcp.apigee_v1#Conflict"
+        },
+        {
+          "target": "com.gcp.apigee_v1#ApigeeResourceNotFound"
         }
       ],
       "traits": {
@@ -16576,6 +16729,9 @@
         },
         {
           "target": "com.gcp.apigee_v1#Forbidden"
+        },
+        {
+          "target": "com.gcp.apigee_v1#ApigeeResourceNotFound"
         }
       ],
       "traits": {
@@ -16619,6 +16775,9 @@
         },
         {
           "target": "com.gcp.apigee_v1#Conflict"
+        },
+        {
+          "target": "com.gcp.apigee_v1#ApigeeResourceNotFound"
         }
       ],
       "traits": {
@@ -16669,6 +16828,9 @@
         },
         {
           "target": "com.gcp.apigee_v1#Conflict"
+        },
+        {
+          "target": "com.gcp.apigee_v1#ApigeeResourceNotFound"
         }
       ],
       "traits": {
@@ -16712,6 +16874,9 @@
         },
         {
           "target": "com.gcp.apigee_v1#Conflict"
+        },
+        {
+          "target": "com.gcp.apigee_v1#ApigeeResourceNotFound"
         }
       ],
       "traits": {
@@ -16769,6 +16934,9 @@
         },
         {
           "target": "com.gcp.apigee_v1#Conflict"
+        },
+        {
+          "target": "com.gcp.apigee_v1#ApigeeResourceNotFound"
         }
       ],
       "traits": {
@@ -16806,6 +16974,9 @@
         },
         {
           "target": "com.gcp.apigee_v1#Forbidden"
+        },
+        {
+          "target": "com.gcp.apigee_v1#ApigeeResourceNotFound"
         }
       ],
       "traits": {
@@ -16856,6 +17027,9 @@
         },
         {
           "target": "com.gcp.apigee_v1#Conflict"
+        },
+        {
+          "target": "com.gcp.apigee_v1#ApigeeResourceNotFound"
         }
       ],
       "traits": {
@@ -16906,6 +17080,9 @@
         },
         {
           "target": "com.gcp.apigee_v1#Conflict"
+        },
+        {
+          "target": "com.gcp.apigee_v1#ApigeeResourceNotFound"
         }
       ],
       "traits": {
@@ -16949,6 +17126,9 @@
         },
         {
           "target": "com.gcp.apigee_v1#Conflict"
+        },
+        {
+          "target": "com.gcp.apigee_v1#ApigeeResourceNotFound"
         }
       ],
       "traits": {
@@ -16999,6 +17179,9 @@
         },
         {
           "target": "com.gcp.apigee_v1#Conflict"
+        },
+        {
+          "target": "com.gcp.apigee_v1#ApigeeResourceNotFound"
         }
       ],
       "traits": {
@@ -17049,6 +17232,9 @@
         },
         {
           "target": "com.gcp.apigee_v1#Conflict"
+        },
+        {
+          "target": "com.gcp.apigee_v1#ApigeeResourceNotFound"
         }
       ],
       "traits": {
@@ -17092,6 +17278,9 @@
         },
         {
           "target": "com.gcp.apigee_v1#Conflict"
+        },
+        {
+          "target": "com.gcp.apigee_v1#ApigeeResourceNotFound"
         }
       ],
       "traits": {
@@ -17129,6 +17318,9 @@
         },
         {
           "target": "com.gcp.apigee_v1#Forbidden"
+        },
+        {
+          "target": "com.gcp.apigee_v1#ApigeeResourceNotFound"
         }
       ],
       "traits": {
@@ -17166,6 +17358,9 @@
         },
         {
           "target": "com.gcp.apigee_v1#Forbidden"
+        },
+        {
+          "target": "com.gcp.apigee_v1#ApigeeResourceNotFound"
         }
       ],
       "traits": {
@@ -17216,6 +17411,9 @@
         },
         {
           "target": "com.gcp.apigee_v1#Conflict"
+        },
+        {
+          "target": "com.gcp.apigee_v1#ApigeeResourceNotFound"
         }
       ],
       "traits": {
@@ -17253,6 +17451,9 @@
         },
         {
           "target": "com.gcp.apigee_v1#Forbidden"
+        },
+        {
+          "target": "com.gcp.apigee_v1#ApigeeResourceNotFound"
         }
       ],
       "traits": {
@@ -17303,6 +17504,9 @@
         },
         {
           "target": "com.gcp.apigee_v1#Conflict"
+        },
+        {
+          "target": "com.gcp.apigee_v1#ApigeeResourceNotFound"
         }
       ],
       "traits": {
@@ -17346,6 +17550,9 @@
         },
         {
           "target": "com.gcp.apigee_v1#Conflict"
+        },
+        {
+          "target": "com.gcp.apigee_v1#ApigeeResourceNotFound"
         }
       ],
       "traits": {
@@ -17383,6 +17590,9 @@
         },
         {
           "target": "com.gcp.apigee_v1#Forbidden"
+        },
+        {
+          "target": "com.gcp.apigee_v1#ApigeeResourceNotFound"
         }
       ],
       "traits": {
@@ -17450,6 +17660,9 @@
         },
         {
           "target": "com.gcp.apigee_v1#Forbidden"
+        },
+        {
+          "target": "com.gcp.apigee_v1#ApigeeResourceNotFound"
         }
       ],
       "traits": {
@@ -17531,6 +17744,9 @@
         },
         {
           "target": "com.gcp.apigee_v1#Forbidden"
+        },
+        {
+          "target": "com.gcp.apigee_v1#ApigeeResourceNotFound"
         }
       ],
       "traits": {
@@ -17608,6 +17824,9 @@
         },
         {
           "target": "com.gcp.apigee_v1#Conflict"
+        },
+        {
+          "target": "com.gcp.apigee_v1#ApigeeResourceNotFound"
         }
       ],
       "traits": {
@@ -17665,6 +17884,9 @@
         },
         {
           "target": "com.gcp.apigee_v1#Conflict"
+        },
+        {
+          "target": "com.gcp.apigee_v1#ApigeeResourceNotFound"
         }
       ],
       "traits": {
@@ -17722,6 +17944,9 @@
         },
         {
           "target": "com.gcp.apigee_v1#Conflict"
+        },
+        {
+          "target": "com.gcp.apigee_v1#ApigeeResourceNotFound"
         }
       ],
       "traits": {
@@ -17765,6 +17990,9 @@
         },
         {
           "target": "com.gcp.apigee_v1#Conflict"
+        },
+        {
+          "target": "com.gcp.apigee_v1#ApigeeResourceNotFound"
         }
       ],
       "traits": {
@@ -17823,6 +18051,9 @@
         },
         {
           "target": "com.gcp.apigee_v1#Forbidden"
+        },
+        {
+          "target": "com.gcp.apigee_v1#ApigeeResourceNotFound"
         }
       ],
       "traits": {
@@ -17873,6 +18104,9 @@
         },
         {
           "target": "com.gcp.apigee_v1#Conflict"
+        },
+        {
+          "target": "com.gcp.apigee_v1#ApigeeResourceNotFound"
         }
       ],
       "traits": {
@@ -17910,6 +18144,9 @@
         },
         {
           "target": "com.gcp.apigee_v1#Forbidden"
+        },
+        {
+          "target": "com.gcp.apigee_v1#ApigeeResourceNotFound"
         }
       ],
       "traits": {
@@ -17981,6 +18218,9 @@
         },
         {
           "target": "com.gcp.apigee_v1#Conflict"
+        },
+        {
+          "target": "com.gcp.apigee_v1#ApigeeResourceNotFound"
         }
       ],
       "traits": {
@@ -18018,6 +18258,9 @@
         },
         {
           "target": "com.gcp.apigee_v1#Forbidden"
+        },
+        {
+          "target": "com.gcp.apigee_v1#ApigeeResourceNotFound"
         }
       ],
       "traits": {
@@ -18061,6 +18304,9 @@
         },
         {
           "target": "com.gcp.apigee_v1#Conflict"
+        },
+        {
+          "target": "com.gcp.apigee_v1#ApigeeResourceNotFound"
         }
       ],
       "traits": {
@@ -18118,6 +18364,9 @@
         },
         {
           "target": "com.gcp.apigee_v1#Conflict"
+        },
+        {
+          "target": "com.gcp.apigee_v1#ApigeeResourceNotFound"
         }
       ],
       "traits": {
@@ -18162,6 +18411,9 @@
         },
         {
           "target": "com.gcp.apigee_v1#Forbidden"
+        },
+        {
+          "target": "com.gcp.apigee_v1#ApigeeResourceNotFound"
         }
       ],
       "traits": {
@@ -18199,6 +18451,9 @@
         },
         {
           "target": "com.gcp.apigee_v1#Forbidden"
+        },
+        {
+          "target": "com.gcp.apigee_v1#ApigeeResourceNotFound"
         }
       ],
       "traits": {
@@ -18249,6 +18504,9 @@
         },
         {
           "target": "com.gcp.apigee_v1#Conflict"
+        },
+        {
+          "target": "com.gcp.apigee_v1#ApigeeResourceNotFound"
         }
       ],
       "traits": {
@@ -18286,6 +18544,9 @@
         },
         {
           "target": "com.gcp.apigee_v1#Forbidden"
+        },
+        {
+          "target": "com.gcp.apigee_v1#ApigeeResourceNotFound"
         }
       ],
       "traits": {
@@ -18323,6 +18584,9 @@
         },
         {
           "target": "com.gcp.apigee_v1#Forbidden"
+        },
+        {
+          "target": "com.gcp.apigee_v1#ApigeeResourceNotFound"
         }
       ],
       "traits": {
@@ -18359,6 +18623,9 @@
         },
         {
           "target": "com.gcp.apigee_v1#Forbidden"
+        },
+        {
+          "target": "com.gcp.apigee_v1#ApigeeResourceNotFound"
         }
       ],
       "traits": {
@@ -18445,6 +18712,9 @@
         },
         {
           "target": "com.gcp.apigee_v1#Forbidden"
+        },
+        {
+          "target": "com.gcp.apigee_v1#ApigeeResourceNotFound"
         }
       ],
       "traits": {
@@ -18495,6 +18765,9 @@
         },
         {
           "target": "com.gcp.apigee_v1#Conflict"
+        },
+        {
+          "target": "com.gcp.apigee_v1#ApigeeResourceNotFound"
         }
       ],
       "traits": {
@@ -18538,6 +18811,9 @@
         },
         {
           "target": "com.gcp.apigee_v1#Conflict"
+        },
+        {
+          "target": "com.gcp.apigee_v1#ApigeeResourceNotFound"
         }
       ],
       "traits": {
@@ -18581,6 +18857,9 @@
         },
         {
           "target": "com.gcp.apigee_v1#Conflict"
+        },
+        {
+          "target": "com.gcp.apigee_v1#ApigeeResourceNotFound"
         }
       ],
       "traits": {
@@ -18631,6 +18910,9 @@
         },
         {
           "target": "com.gcp.apigee_v1#Conflict"
+        },
+        {
+          "target": "com.gcp.apigee_v1#ApigeeResourceNotFound"
         }
       ],
       "traits": {
@@ -18681,6 +18963,9 @@
         },
         {
           "target": "com.gcp.apigee_v1#Conflict"
+        },
+        {
+          "target": "com.gcp.apigee_v1#ApigeeResourceNotFound"
         }
       ],
       "traits": {
@@ -18745,6 +19030,9 @@
         },
         {
           "target": "com.gcp.apigee_v1#Conflict"
+        },
+        {
+          "target": "com.gcp.apigee_v1#ApigeeResourceNotFound"
         }
       ],
       "traits": {
@@ -18795,6 +19083,9 @@
         },
         {
           "target": "com.gcp.apigee_v1#Conflict"
+        },
+        {
+          "target": "com.gcp.apigee_v1#ApigeeResourceNotFound"
         }
       ],
       "traits": {
@@ -18839,6 +19130,9 @@
         },
         {
           "target": "com.gcp.apigee_v1#Forbidden"
+        },
+        {
+          "target": "com.gcp.apigee_v1#ApigeeResourceNotFound"
         }
       ],
       "traits": {
@@ -18896,6 +19190,9 @@
         },
         {
           "target": "com.gcp.apigee_v1#Conflict"
+        },
+        {
+          "target": "com.gcp.apigee_v1#ApigeeResourceNotFound"
         }
       ],
       "traits": {
@@ -18933,6 +19230,9 @@
         },
         {
           "target": "com.gcp.apigee_v1#Forbidden"
+        },
+        {
+          "target": "com.gcp.apigee_v1#ApigeeResourceNotFound"
         }
       ],
       "traits": {
@@ -18990,6 +19290,9 @@
         },
         {
           "target": "com.gcp.apigee_v1#Conflict"
+        },
+        {
+          "target": "com.gcp.apigee_v1#ApigeeResourceNotFound"
         }
       ],
       "traits": {
@@ -19027,6 +19330,9 @@
         },
         {
           "target": "com.gcp.apigee_v1#Forbidden"
+        },
+        {
+          "target": "com.gcp.apigee_v1#ApigeeResourceNotFound"
         }
       ],
       "traits": {
@@ -19064,6 +19370,9 @@
         },
         {
           "target": "com.gcp.apigee_v1#Forbidden"
+        },
+        {
+          "target": "com.gcp.apigee_v1#ApigeeResourceNotFound"
         }
       ],
       "traits": {
@@ -19101,6 +19410,9 @@
         },
         {
           "target": "com.gcp.apigee_v1#Forbidden"
+        },
+        {
+          "target": "com.gcp.apigee_v1#ApigeeResourceNotFound"
         }
       ],
       "traits": {
@@ -19158,6 +19470,9 @@
         },
         {
           "target": "com.gcp.apigee_v1#Conflict"
+        },
+        {
+          "target": "com.gcp.apigee_v1#ApigeeResourceNotFound"
         }
       ],
       "traits": {
@@ -19208,6 +19523,9 @@
         },
         {
           "target": "com.gcp.apigee_v1#Conflict"
+        },
+        {
+          "target": "com.gcp.apigee_v1#ApigeeResourceNotFound"
         }
       ],
       "traits": {
@@ -19245,6 +19563,9 @@
         },
         {
           "target": "com.gcp.apigee_v1#Forbidden"
+        },
+        {
+          "target": "com.gcp.apigee_v1#ApigeeResourceNotFound"
         }
       ],
       "traits": {
@@ -19302,6 +19623,9 @@
         },
         {
           "target": "com.gcp.apigee_v1#Conflict"
+        },
+        {
+          "target": "com.gcp.apigee_v1#ApigeeResourceNotFound"
         }
       ],
       "traits": {
@@ -19339,6 +19663,9 @@
         },
         {
           "target": "com.gcp.apigee_v1#Forbidden"
+        },
+        {
+          "target": "com.gcp.apigee_v1#ApigeeResourceNotFound"
         }
       ],
       "traits": {
@@ -19376,6 +19703,9 @@
         },
         {
           "target": "com.gcp.apigee_v1#Forbidden"
+        },
+        {
+          "target": "com.gcp.apigee_v1#ApigeeResourceNotFound"
         }
       ],
       "traits": {
@@ -19426,6 +19756,9 @@
         },
         {
           "target": "com.gcp.apigee_v1#Conflict"
+        },
+        {
+          "target": "com.gcp.apigee_v1#ApigeeResourceNotFound"
         }
       ],
       "traits": {
@@ -19476,6 +19809,9 @@
         },
         {
           "target": "com.gcp.apigee_v1#Conflict"
+        },
+        {
+          "target": "com.gcp.apigee_v1#ApigeeResourceNotFound"
         }
       ],
       "traits": {
@@ -19520,6 +19856,9 @@
         },
         {
           "target": "com.gcp.apigee_v1#Forbidden"
+        },
+        {
+          "target": "com.gcp.apigee_v1#ApigeeResourceNotFound"
         }
       ],
       "traits": {
@@ -19570,6 +19909,9 @@
         },
         {
           "target": "com.gcp.apigee_v1#Conflict"
+        },
+        {
+          "target": "com.gcp.apigee_v1#ApigeeResourceNotFound"
         }
       ],
       "traits": {
@@ -19607,6 +19949,9 @@
         },
         {
           "target": "com.gcp.apigee_v1#Forbidden"
+        },
+        {
+          "target": "com.gcp.apigee_v1#ApigeeResourceNotFound"
         }
       ],
       "traits": {
@@ -19651,6 +19996,9 @@
         },
         {
           "target": "com.gcp.apigee_v1#Forbidden"
+        },
+        {
+          "target": "com.gcp.apigee_v1#ApigeeResourceNotFound"
         }
       ],
       "traits": {
@@ -19701,6 +20049,9 @@
         },
         {
           "target": "com.gcp.apigee_v1#Conflict"
+        },
+        {
+          "target": "com.gcp.apigee_v1#ApigeeResourceNotFound"
         }
       ],
       "traits": {
@@ -19751,6 +20102,9 @@
         },
         {
           "target": "com.gcp.apigee_v1#Conflict"
+        },
+        {
+          "target": "com.gcp.apigee_v1#ApigeeResourceNotFound"
         }
       ],
       "traits": {
@@ -19794,6 +20148,9 @@
         },
         {
           "target": "com.gcp.apigee_v1#Conflict"
+        },
+        {
+          "target": "com.gcp.apigee_v1#ApigeeResourceNotFound"
         }
       ],
       "traits": {
@@ -19831,6 +20188,9 @@
         },
         {
           "target": "com.gcp.apigee_v1#Forbidden"
+        },
+        {
+          "target": "com.gcp.apigee_v1#ApigeeResourceNotFound"
         }
       ],
       "traits": {
@@ -19881,6 +20241,9 @@
         },
         {
           "target": "com.gcp.apigee_v1#Conflict"
+        },
+        {
+          "target": "com.gcp.apigee_v1#ApigeeResourceNotFound"
         }
       ],
       "traits": {
@@ -19931,6 +20294,9 @@
         },
         {
           "target": "com.gcp.apigee_v1#Conflict"
+        },
+        {
+          "target": "com.gcp.apigee_v1#ApigeeResourceNotFound"
         }
       ],
       "traits": {
@@ -19968,6 +20334,9 @@
         },
         {
           "target": "com.gcp.apigee_v1#Forbidden"
+        },
+        {
+          "target": "com.gcp.apigee_v1#ApigeeResourceNotFound"
         }
       ],
       "traits": {
@@ -20018,6 +20387,9 @@
         },
         {
           "target": "com.gcp.apigee_v1#Conflict"
+        },
+        {
+          "target": "com.gcp.apigee_v1#ApigeeResourceNotFound"
         }
       ],
       "traits": {
@@ -20055,6 +20427,9 @@
         },
         {
           "target": "com.gcp.apigee_v1#Forbidden"
+        },
+        {
+          "target": "com.gcp.apigee_v1#ApigeeResourceNotFound"
         }
       ],
       "traits": {
@@ -20119,6 +20494,9 @@
         },
         {
           "target": "com.gcp.apigee_v1#Conflict"
+        },
+        {
+          "target": "com.gcp.apigee_v1#ApigeeResourceNotFound"
         }
       ],
       "traits": {
@@ -20162,6 +20540,9 @@
         },
         {
           "target": "com.gcp.apigee_v1#Conflict"
+        },
+        {
+          "target": "com.gcp.apigee_v1#ApigeeResourceNotFound"
         }
       ],
       "traits": {
@@ -20212,6 +20593,9 @@
         },
         {
           "target": "com.gcp.apigee_v1#Conflict"
+        },
+        {
+          "target": "com.gcp.apigee_v1#ApigeeResourceNotFound"
         }
       ],
       "traits": {
@@ -20263,6 +20647,9 @@
         },
         {
           "target": "com.gcp.apigee_v1#Forbidden"
+        },
+        {
+          "target": "com.gcp.apigee_v1#ApigeeResourceNotFound"
         }
       ],
       "traits": {
@@ -20310,6 +20697,9 @@
         },
         {
           "target": "com.gcp.apigee_v1#Conflict"
+        },
+        {
+          "target": "com.gcp.apigee_v1#ApigeeResourceNotFound"
         }
       ],
       "traits": {
@@ -20347,6 +20737,9 @@
         },
         {
           "target": "com.gcp.apigee_v1#Forbidden"
+        },
+        {
+          "target": "com.gcp.apigee_v1#ApigeeResourceNotFound"
         }
       ],
       "traits": {
@@ -20404,6 +20797,9 @@
         },
         {
           "target": "com.gcp.apigee_v1#Conflict"
+        },
+        {
+          "target": "com.gcp.apigee_v1#ApigeeResourceNotFound"
         }
       ],
       "traits": {
@@ -20441,6 +20837,9 @@
         },
         {
           "target": "com.gcp.apigee_v1#Forbidden"
+        },
+        {
+          "target": "com.gcp.apigee_v1#ApigeeResourceNotFound"
         }
       ],
       "traits": {
@@ -20484,6 +20883,9 @@
         },
         {
           "target": "com.gcp.apigee_v1#Conflict"
+        },
+        {
+          "target": "com.gcp.apigee_v1#ApigeeResourceNotFound"
         }
       ],
       "traits": {
@@ -20521,6 +20923,9 @@
         },
         {
           "target": "com.gcp.apigee_v1#Forbidden"
+        },
+        {
+          "target": "com.gcp.apigee_v1#ApigeeResourceNotFound"
         }
       ],
       "traits": {
@@ -20578,6 +20983,9 @@
         },
         {
           "target": "com.gcp.apigee_v1#Conflict"
+        },
+        {
+          "target": "com.gcp.apigee_v1#ApigeeResourceNotFound"
         }
       ],
       "traits": {
@@ -20615,6 +21023,9 @@
         },
         {
           "target": "com.gcp.apigee_v1#Forbidden"
+        },
+        {
+          "target": "com.gcp.apigee_v1#ApigeeResourceNotFound"
         }
       ],
       "traits": {
@@ -20757,6 +21168,9 @@
         },
         {
           "target": "com.gcp.apigee_v1#Forbidden"
+        },
+        {
+          "target": "com.gcp.apigee_v1#ApigeeResourceNotFound"
         }
       ],
       "traits": {
@@ -20800,6 +21214,9 @@
         },
         {
           "target": "com.gcp.apigee_v1#Conflict"
+        },
+        {
+          "target": "com.gcp.apigee_v1#ApigeeResourceNotFound"
         }
       ],
       "traits": {
@@ -20843,6 +21260,9 @@
         },
         {
           "target": "com.gcp.apigee_v1#Conflict"
+        },
+        {
+          "target": "com.gcp.apigee_v1#ApigeeResourceNotFound"
         }
       ],
       "traits": {
@@ -20880,6 +21300,9 @@
         },
         {
           "target": "com.gcp.apigee_v1#Forbidden"
+        },
+        {
+          "target": "com.gcp.apigee_v1#ApigeeResourceNotFound"
         }
       ],
       "traits": {
@@ -20930,6 +21353,9 @@
         },
         {
           "target": "com.gcp.apigee_v1#Conflict"
+        },
+        {
+          "target": "com.gcp.apigee_v1#ApigeeResourceNotFound"
         }
       ],
       "traits": {
@@ -20994,6 +21420,9 @@
         },
         {
           "target": "com.gcp.apigee_v1#Conflict"
+        },
+        {
+          "target": "com.gcp.apigee_v1#ApigeeResourceNotFound"
         }
       ],
       "traits": {
@@ -21060,6 +21489,9 @@
         },
         {
           "target": "com.gcp.apigee_v1#Conflict"
+        },
+        {
+          "target": "com.gcp.apigee_v1#ApigeeResourceNotFound"
         }
       ],
       "traits": {
@@ -21105,6 +21537,9 @@
         },
         {
           "target": "com.gcp.apigee_v1#Forbidden"
+        },
+        {
+          "target": "com.gcp.apigee_v1#ApigeeResourceNotFound"
         }
       ],
       "traits": {
@@ -21164,6 +21599,9 @@
         },
         {
           "target": "com.gcp.apigee_v1#Conflict"
+        },
+        {
+          "target": "com.gcp.apigee_v1#ApigeeResourceNotFound"
         }
       ],
       "traits": {
@@ -21208,6 +21646,9 @@
         },
         {
           "target": "com.gcp.apigee_v1#Forbidden"
+        },
+        {
+          "target": "com.gcp.apigee_v1#ApigeeResourceNotFound"
         }
       ],
       "traits": {
@@ -21261,6 +21702,9 @@
         },
         {
           "target": "com.gcp.apigee_v1#Forbidden"
+        },
+        {
+          "target": "com.gcp.apigee_v1#ApigeeResourceNotFound"
         }
       ],
       "traits": {
@@ -21318,6 +21762,9 @@
         },
         {
           "target": "com.gcp.apigee_v1#Conflict"
+        },
+        {
+          "target": "com.gcp.apigee_v1#ApigeeResourceNotFound"
         }
       ],
       "traits": {
@@ -21368,6 +21815,9 @@
         },
         {
           "target": "com.gcp.apigee_v1#Conflict"
+        },
+        {
+          "target": "com.gcp.apigee_v1#ApigeeResourceNotFound"
         }
       ],
       "traits": {
@@ -21405,6 +21855,9 @@
         },
         {
           "target": "com.gcp.apigee_v1#Forbidden"
+        },
+        {
+          "target": "com.gcp.apigee_v1#ApigeeResourceNotFound"
         }
       ],
       "traits": {
@@ -21463,6 +21916,9 @@
         },
         {
           "target": "com.gcp.apigee_v1#Forbidden"
+        },
+        {
+          "target": "com.gcp.apigee_v1#ApigeeResourceNotFound"
         }
       ],
       "traits": {
@@ -21518,6 +21974,9 @@
         },
         {
           "target": "com.gcp.apigee_v1#Forbidden"
+        },
+        {
+          "target": "com.gcp.apigee_v1#ApigeeResourceNotFound"
         }
       ],
       "traits": {
@@ -21568,6 +22027,9 @@
         },
         {
           "target": "com.gcp.apigee_v1#Conflict"
+        },
+        {
+          "target": "com.gcp.apigee_v1#ApigeeResourceNotFound"
         }
       ],
       "traits": {
@@ -21605,6 +22067,9 @@
         },
         {
           "target": "com.gcp.apigee_v1#Forbidden"
+        },
+        {
+          "target": "com.gcp.apigee_v1#ApigeeResourceNotFound"
         }
       ],
       "traits": {
@@ -21642,6 +22107,9 @@
         },
         {
           "target": "com.gcp.apigee_v1#Forbidden"
+        },
+        {
+          "target": "com.gcp.apigee_v1#ApigeeResourceNotFound"
         }
       ],
       "traits": {
@@ -21784,6 +22252,9 @@
         },
         {
           "target": "com.gcp.apigee_v1#Forbidden"
+        },
+        {
+          "target": "com.gcp.apigee_v1#ApigeeResourceNotFound"
         }
       ],
       "traits": {
@@ -21834,6 +22305,9 @@
         },
         {
           "target": "com.gcp.apigee_v1#Conflict"
+        },
+        {
+          "target": "com.gcp.apigee_v1#ApigeeResourceNotFound"
         }
       ],
       "traits": {
@@ -21871,6 +22345,9 @@
         },
         {
           "target": "com.gcp.apigee_v1#Forbidden"
+        },
+        {
+          "target": "com.gcp.apigee_v1#ApigeeResourceNotFound"
         }
       ],
       "traits": {
@@ -21957,6 +22434,9 @@
         },
         {
           "target": "com.gcp.apigee_v1#Forbidden"
+        },
+        {
+          "target": "com.gcp.apigee_v1#ApigeeResourceNotFound"
         }
       ],
       "traits": {
@@ -21998,6 +22478,9 @@
         },
         {
           "target": "com.gcp.apigee_v1#Forbidden"
+        },
+        {
+          "target": "com.gcp.apigee_v1#ApigeeResourceNotFound"
         }
       ],
       "traits": {
@@ -22035,6 +22518,9 @@
         },
         {
           "target": "com.gcp.apigee_v1#Forbidden"
+        },
+        {
+          "target": "com.gcp.apigee_v1#ApigeeResourceNotFound"
         }
       ],
       "traits": {
@@ -22085,6 +22571,9 @@
         },
         {
           "target": "com.gcp.apigee_v1#Conflict"
+        },
+        {
+          "target": "com.gcp.apigee_v1#ApigeeResourceNotFound"
         }
       ],
       "traits": {
@@ -22122,6 +22611,9 @@
         },
         {
           "target": "com.gcp.apigee_v1#Forbidden"
+        },
+        {
+          "target": "com.gcp.apigee_v1#ApigeeResourceNotFound"
         }
       ],
       "traits": {
@@ -22201,6 +22693,9 @@
         },
         {
           "target": "com.gcp.apigee_v1#Forbidden"
+        },
+        {
+          "target": "com.gcp.apigee_v1#ApigeeResourceNotFound"
         }
       ],
       "traits": {
@@ -22238,6 +22733,9 @@
         },
         {
           "target": "com.gcp.apigee_v1#Forbidden"
+        },
+        {
+          "target": "com.gcp.apigee_v1#ApigeeResourceNotFound"
         }
       ],
       "traits": {
@@ -22275,6 +22773,9 @@
         },
         {
           "target": "com.gcp.apigee_v1#Forbidden"
+        },
+        {
+          "target": "com.gcp.apigee_v1#ApigeeResourceNotFound"
         }
       ],
       "traits": {
@@ -22332,6 +22833,9 @@
         },
         {
           "target": "com.gcp.apigee_v1#Conflict"
+        },
+        {
+          "target": "com.gcp.apigee_v1#ApigeeResourceNotFound"
         }
       ],
       "traits": {
@@ -22375,6 +22879,9 @@
         },
         {
           "target": "com.gcp.apigee_v1#Conflict"
+        },
+        {
+          "target": "com.gcp.apigee_v1#ApigeeResourceNotFound"
         }
       ],
       "traits": {
@@ -22412,6 +22919,9 @@
         },
         {
           "target": "com.gcp.apigee_v1#Forbidden"
+        },
+        {
+          "target": "com.gcp.apigee_v1#ApigeeResourceNotFound"
         }
       ],
       "traits": {
@@ -22497,6 +23007,9 @@
         },
         {
           "target": "com.gcp.apigee_v1#Conflict"
+        },
+        {
+          "target": "com.gcp.apigee_v1#ApigeeResourceNotFound"
         }
       ],
       "traits": {
@@ -22534,6 +23047,9 @@
         },
         {
           "target": "com.gcp.apigee_v1#Forbidden"
+        },
+        {
+          "target": "com.gcp.apigee_v1#ApigeeResourceNotFound"
         }
       ],
       "traits": {
@@ -22598,6 +23114,9 @@
         },
         {
           "target": "com.gcp.apigee_v1#Conflict"
+        },
+        {
+          "target": "com.gcp.apigee_v1#ApigeeResourceNotFound"
         }
       ],
       "traits": {
@@ -22641,6 +23160,9 @@
         },
         {
           "target": "com.gcp.apigee_v1#Conflict"
+        },
+        {
+          "target": "com.gcp.apigee_v1#ApigeeResourceNotFound"
         }
       ],
       "traits": {
@@ -22678,6 +23200,9 @@
         },
         {
           "target": "com.gcp.apigee_v1#Forbidden"
+        },
+        {
+          "target": "com.gcp.apigee_v1#ApigeeResourceNotFound"
         }
       ],
       "traits": {
@@ -22715,6 +23240,9 @@
         },
         {
           "target": "com.gcp.apigee_v1#Forbidden"
+        },
+        {
+          "target": "com.gcp.apigee_v1#ApigeeResourceNotFound"
         }
       ],
       "traits": {
@@ -22765,6 +23293,9 @@
         },
         {
           "target": "com.gcp.apigee_v1#Conflict"
+        },
+        {
+          "target": "com.gcp.apigee_v1#ApigeeResourceNotFound"
         }
       ],
       "traits": {
@@ -22815,6 +23346,9 @@
         },
         {
           "target": "com.gcp.apigee_v1#Conflict"
+        },
+        {
+          "target": "com.gcp.apigee_v1#ApigeeResourceNotFound"
         }
       ],
       "traits": {
@@ -22865,6 +23399,9 @@
         },
         {
           "target": "com.gcp.apigee_v1#Conflict"
+        },
+        {
+          "target": "com.gcp.apigee_v1#ApigeeResourceNotFound"
         }
       ],
       "traits": {
@@ -22902,6 +23439,9 @@
         },
         {
           "target": "com.gcp.apigee_v1#Forbidden"
+        },
+        {
+          "target": "com.gcp.apigee_v1#ApigeeResourceNotFound"
         }
       ],
       "traits": {
@@ -22945,6 +23485,9 @@
         },
         {
           "target": "com.gcp.apigee_v1#Conflict"
+        },
+        {
+          "target": "com.gcp.apigee_v1#ApigeeResourceNotFound"
         }
       ],
       "traits": {
@@ -22988,6 +23531,9 @@
         },
         {
           "target": "com.gcp.apigee_v1#Conflict"
+        },
+        {
+          "target": "com.gcp.apigee_v1#ApigeeResourceNotFound"
         }
       ],
       "traits": {
@@ -23039,6 +23585,9 @@
         },
         {
           "target": "com.gcp.apigee_v1#Forbidden"
+        },
+        {
+          "target": "com.gcp.apigee_v1#ApigeeResourceNotFound"
         }
       ],
       "traits": {
@@ -23093,6 +23642,9 @@
         },
         {
           "target": "com.gcp.apigee_v1#Conflict"
+        },
+        {
+          "target": "com.gcp.apigee_v1#ApigeeResourceNotFound"
         }
       ],
       "traits": {
@@ -23130,6 +23682,9 @@
         },
         {
           "target": "com.gcp.apigee_v1#Forbidden"
+        },
+        {
+          "target": "com.gcp.apigee_v1#ApigeeResourceNotFound"
         }
       ],
       "traits": {
@@ -23180,6 +23735,9 @@
         },
         {
           "target": "com.gcp.apigee_v1#Conflict"
+        },
+        {
+          "target": "com.gcp.apigee_v1#ApigeeResourceNotFound"
         }
       ],
       "traits": {
@@ -23237,6 +23795,9 @@
         },
         {
           "target": "com.gcp.apigee_v1#Conflict"
+        },
+        {
+          "target": "com.gcp.apigee_v1#ApigeeResourceNotFound"
         }
       ],
       "traits": {
@@ -23280,6 +23841,9 @@
         },
         {
           "target": "com.gcp.apigee_v1#Conflict"
+        },
+        {
+          "target": "com.gcp.apigee_v1#ApigeeResourceNotFound"
         }
       ],
       "traits": {
@@ -23338,6 +23902,9 @@
         },
         {
           "target": "com.gcp.apigee_v1#Forbidden"
+        },
+        {
+          "target": "com.gcp.apigee_v1#ApigeeResourceNotFound"
         }
       ],
       "traits": {
@@ -23379,6 +23946,9 @@
         },
         {
           "target": "com.gcp.apigee_v1#Forbidden"
+        },
+        {
+          "target": "com.gcp.apigee_v1#ApigeeResourceNotFound"
         }
       ],
       "traits": {
@@ -23429,6 +23999,9 @@
         },
         {
           "target": "com.gcp.apigee_v1#Conflict"
+        },
+        {
+          "target": "com.gcp.apigee_v1#ApigeeResourceNotFound"
         }
       ],
       "traits": {
@@ -23479,6 +24052,9 @@
         },
         {
           "target": "com.gcp.apigee_v1#Conflict"
+        },
+        {
+          "target": "com.gcp.apigee_v1#ApigeeResourceNotFound"
         }
       ],
       "traits": {
@@ -23495,7 +24071,7 @@
         "securityActionId": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "Required. The ID to use for the SecurityAction, which will become the final component of the action's resource name. This value should be 0-61 characters, and valid format is (^[a-z]([a-z0-9-]{​0,61}[a-z0-9])?$).",
+            "smithy.api#documentation": "Required. The ID to use for the SecurityAction, which will become the final component of the action's resource name. This value should be 0-61 characters, and valid format is (^[a-z]([a-z0-9-]{\u200b0,61}[a-z0-9])?$).",
             "smithy.api#httpQuery": "securityActionId"
           }
         },
@@ -23536,6 +24112,9 @@
         },
         {
           "target": "com.gcp.apigee_v1#Conflict"
+        },
+        {
+          "target": "com.gcp.apigee_v1#ApigeeResourceNotFound"
         }
       ],
       "traits": {
@@ -23593,6 +24172,9 @@
         },
         {
           "target": "com.gcp.apigee_v1#Conflict"
+        },
+        {
+          "target": "com.gcp.apigee_v1#ApigeeResourceNotFound"
         }
       ],
       "traits": {
@@ -23636,6 +24218,9 @@
         },
         {
           "target": "com.gcp.apigee_v1#Conflict"
+        },
+        {
+          "target": "com.gcp.apigee_v1#ApigeeResourceNotFound"
         }
       ],
       "traits": {
@@ -23687,6 +24272,9 @@
         },
         {
           "target": "com.gcp.apigee_v1#Forbidden"
+        },
+        {
+          "target": "com.gcp.apigee_v1#ApigeeResourceNotFound"
         }
       ],
       "traits": {
@@ -23728,6 +24316,9 @@
         },
         {
           "target": "com.gcp.apigee_v1#Forbidden"
+        },
+        {
+          "target": "com.gcp.apigee_v1#ApigeeResourceNotFound"
         }
       ],
       "traits": {
@@ -23778,6 +24369,9 @@
         },
         {
           "target": "com.gcp.apigee_v1#Conflict"
+        },
+        {
+          "target": "com.gcp.apigee_v1#ApigeeResourceNotFound"
         }
       ],
       "traits": {
@@ -23835,6 +24429,9 @@
         },
         {
           "target": "com.gcp.apigee_v1#Conflict"
+        },
+        {
+          "target": "com.gcp.apigee_v1#ApigeeResourceNotFound"
         }
       ],
       "traits": {
@@ -23885,6 +24482,9 @@
         },
         {
           "target": "com.gcp.apigee_v1#Conflict"
+        },
+        {
+          "target": "com.gcp.apigee_v1#ApigeeResourceNotFound"
         }
       ],
       "traits": {
@@ -23922,6 +24522,9 @@
         },
         {
           "target": "com.gcp.apigee_v1#Forbidden"
+        },
+        {
+          "target": "com.gcp.apigee_v1#ApigeeResourceNotFound"
         }
       ],
       "traits": {
@@ -23965,6 +24568,9 @@
         },
         {
           "target": "com.gcp.apigee_v1#Conflict"
+        },
+        {
+          "target": "com.gcp.apigee_v1#ApigeeResourceNotFound"
         }
       ],
       "traits": {
@@ -24015,6 +24621,9 @@
         },
         {
           "target": "com.gcp.apigee_v1#Conflict"
+        },
+        {
+          "target": "com.gcp.apigee_v1#ApigeeResourceNotFound"
         }
       ],
       "traits": {
@@ -24072,6 +24681,9 @@
         },
         {
           "target": "com.gcp.apigee_v1#Conflict"
+        },
+        {
+          "target": "com.gcp.apigee_v1#ApigeeResourceNotFound"
         }
       ],
       "traits": {
@@ -24130,6 +24742,9 @@
         },
         {
           "target": "com.gcp.apigee_v1#Forbidden"
+        },
+        {
+          "target": "com.gcp.apigee_v1#ApigeeResourceNotFound"
         }
       ],
       "traits": {
@@ -24177,6 +24792,9 @@
         },
         {
           "target": "com.gcp.apigee_v1#Conflict"
+        },
+        {
+          "target": "com.gcp.apigee_v1#ApigeeResourceNotFound"
         }
       ],
       "traits": {
@@ -24227,6 +24845,9 @@
         },
         {
           "target": "com.gcp.apigee_v1#Conflict"
+        },
+        {
+          "target": "com.gcp.apigee_v1#ApigeeResourceNotFound"
         }
       ],
       "traits": {
@@ -24264,6 +24885,9 @@
         },
         {
           "target": "com.gcp.apigee_v1#Forbidden"
+        },
+        {
+          "target": "com.gcp.apigee_v1#ApigeeResourceNotFound"
         }
       ],
       "traits": {
@@ -24314,6 +24938,9 @@
         },
         {
           "target": "com.gcp.apigee_v1#Conflict"
+        },
+        {
+          "target": "com.gcp.apigee_v1#ApigeeResourceNotFound"
         }
       ],
       "traits": {
@@ -24357,6 +24984,9 @@
         },
         {
           "target": "com.gcp.apigee_v1#Conflict"
+        },
+        {
+          "target": "com.gcp.apigee_v1#ApigeeResourceNotFound"
         }
       ],
       "traits": {
@@ -24407,6 +25037,9 @@
         },
         {
           "target": "com.gcp.apigee_v1#Conflict"
+        },
+        {
+          "target": "com.gcp.apigee_v1#ApigeeResourceNotFound"
         }
       ],
       "traits": {
@@ -24457,6 +25090,9 @@
         },
         {
           "target": "com.gcp.apigee_v1#Conflict"
+        },
+        {
+          "target": "com.gcp.apigee_v1#ApigeeResourceNotFound"
         }
       ],
       "traits": {
@@ -24507,6 +25143,9 @@
         },
         {
           "target": "com.gcp.apigee_v1#Conflict"
+        },
+        {
+          "target": "com.gcp.apigee_v1#ApigeeResourceNotFound"
         }
       ],
       "traits": {
@@ -24544,6 +25183,9 @@
         },
         {
           "target": "com.gcp.apigee_v1#Forbidden"
+        },
+        {
+          "target": "com.gcp.apigee_v1#ApigeeResourceNotFound"
         }
       ],
       "traits": {
@@ -24594,6 +25236,9 @@
         },
         {
           "target": "com.gcp.apigee_v1#Conflict"
+        },
+        {
+          "target": "com.gcp.apigee_v1#ApigeeResourceNotFound"
         }
       ],
       "traits": {
@@ -24673,6 +25318,9 @@
         },
         {
           "target": "com.gcp.apigee_v1#Forbidden"
+        },
+        {
+          "target": "com.gcp.apigee_v1#ApigeeResourceNotFound"
         }
       ],
       "traits": {
@@ -24716,6 +25364,9 @@
         },
         {
           "target": "com.gcp.apigee_v1#Conflict"
+        },
+        {
+          "target": "com.gcp.apigee_v1#ApigeeResourceNotFound"
         }
       ],
       "traits": {
@@ -24766,6 +25417,9 @@
         },
         {
           "target": "com.gcp.apigee_v1#Conflict"
+        },
+        {
+          "target": "com.gcp.apigee_v1#ApigeeResourceNotFound"
         }
       ],
       "traits": {
@@ -24861,6 +25515,9 @@
         },
         {
           "target": "com.gcp.apigee_v1#Forbidden"
+        },
+        {
+          "target": "com.gcp.apigee_v1#ApigeeResourceNotFound"
         }
       ],
       "traits": {
@@ -24898,6 +25555,9 @@
         },
         {
           "target": "com.gcp.apigee_v1#Forbidden"
+        },
+        {
+          "target": "com.gcp.apigee_v1#ApigeeResourceNotFound"
         }
       ],
       "traits": {
@@ -24948,6 +25608,9 @@
         },
         {
           "target": "com.gcp.apigee_v1#Conflict"
+        },
+        {
+          "target": "com.gcp.apigee_v1#ApigeeResourceNotFound"
         }
       ],
       "traits": {
@@ -24985,6 +25648,9 @@
         },
         {
           "target": "com.gcp.apigee_v1#Forbidden"
+        },
+        {
+          "target": "com.gcp.apigee_v1#ApigeeResourceNotFound"
         }
       ],
       "traits": {
@@ -25035,6 +25701,9 @@
         },
         {
           "target": "com.gcp.apigee_v1#Conflict"
+        },
+        {
+          "target": "com.gcp.apigee_v1#ApigeeResourceNotFound"
         }
       ],
       "traits": {
@@ -25078,6 +25747,9 @@
         },
         {
           "target": "com.gcp.apigee_v1#Conflict"
+        },
+        {
+          "target": "com.gcp.apigee_v1#ApigeeResourceNotFound"
         }
       ],
       "traits": {
@@ -25115,6 +25787,9 @@
         },
         {
           "target": "com.gcp.apigee_v1#Forbidden"
+        },
+        {
+          "target": "com.gcp.apigee_v1#ApigeeResourceNotFound"
         }
       ],
       "traits": {
@@ -25165,6 +25840,9 @@
         },
         {
           "target": "com.gcp.apigee_v1#Conflict"
+        },
+        {
+          "target": "com.gcp.apigee_v1#ApigeeResourceNotFound"
         }
       ],
       "traits": {
@@ -25208,6 +25886,9 @@
         },
         {
           "target": "com.gcp.apigee_v1#Conflict"
+        },
+        {
+          "target": "com.gcp.apigee_v1#ApigeeResourceNotFound"
         }
       ],
       "traits": {
@@ -25245,6 +25926,9 @@
         },
         {
           "target": "com.gcp.apigee_v1#Forbidden"
+        },
+        {
+          "target": "com.gcp.apigee_v1#ApigeeResourceNotFound"
         }
       ],
       "traits": {
@@ -25295,6 +25979,9 @@
         },
         {
           "target": "com.gcp.apigee_v1#Conflict"
+        },
+        {
+          "target": "com.gcp.apigee_v1#ApigeeResourceNotFound"
         }
       ],
       "traits": {
@@ -25345,6 +26032,9 @@
         },
         {
           "target": "com.gcp.apigee_v1#Conflict"
+        },
+        {
+          "target": "com.gcp.apigee_v1#ApigeeResourceNotFound"
         }
       ],
       "traits": {
@@ -25389,6 +26079,9 @@
         },
         {
           "target": "com.gcp.apigee_v1#Forbidden"
+        },
+        {
+          "target": "com.gcp.apigee_v1#ApigeeResourceNotFound"
         }
       ],
       "traits": {
@@ -25456,6 +26149,9 @@
         },
         {
           "target": "com.gcp.apigee_v1#Forbidden"
+        },
+        {
+          "target": "com.gcp.apigee_v1#ApigeeResourceNotFound"
         }
       ],
       "traits": {
@@ -25513,6 +26209,9 @@
         },
         {
           "target": "com.gcp.apigee_v1#Conflict"
+        },
+        {
+          "target": "com.gcp.apigee_v1#ApigeeResourceNotFound"
         }
       ],
       "traits": {
@@ -25570,6 +26269,9 @@
         },
         {
           "target": "com.gcp.apigee_v1#Conflict"
+        },
+        {
+          "target": "com.gcp.apigee_v1#ApigeeResourceNotFound"
         }
       ],
       "traits": {
@@ -25658,6 +26360,9 @@
         },
         {
           "target": "com.gcp.apigee_v1#Forbidden"
+        },
+        {
+          "target": "com.gcp.apigee_v1#ApigeeResourceNotFound"
         }
       ],
       "traits": {
@@ -25735,6 +26440,9 @@
         },
         {
           "target": "com.gcp.apigee_v1#Conflict"
+        },
+        {
+          "target": "com.gcp.apigee_v1#ApigeeResourceNotFound"
         }
       ],
       "traits": {
@@ -25870,6 +26578,9 @@
         },
         {
           "target": "com.gcp.apigee_v1#Forbidden"
+        },
+        {
+          "target": "com.gcp.apigee_v1#ApigeeResourceNotFound"
         }
       ],
       "traits": {
@@ -25913,6 +26624,9 @@
         },
         {
           "target": "com.gcp.apigee_v1#Conflict"
+        },
+        {
+          "target": "com.gcp.apigee_v1#ApigeeResourceNotFound"
         }
       ],
       "traits": {
@@ -25950,6 +26664,9 @@
         },
         {
           "target": "com.gcp.apigee_v1#Forbidden"
+        },
+        {
+          "target": "com.gcp.apigee_v1#ApigeeResourceNotFound"
         }
       ],
       "traits": {
@@ -26017,6 +26734,9 @@
         },
         {
           "target": "com.gcp.apigee_v1#Forbidden"
+        },
+        {
+          "target": "com.gcp.apigee_v1#ApigeeResourceNotFound"
         }
       ],
       "traits": {
@@ -26074,6 +26794,9 @@
         },
         {
           "target": "com.gcp.apigee_v1#Conflict"
+        },
+        {
+          "target": "com.gcp.apigee_v1#ApigeeResourceNotFound"
         }
       ],
       "traits": {
@@ -26131,6 +26854,9 @@
         },
         {
           "target": "com.gcp.apigee_v1#Conflict"
+        },
+        {
+          "target": "com.gcp.apigee_v1#ApigeeResourceNotFound"
         }
       ],
       "traits": {
@@ -26182,6 +26908,9 @@
         },
         {
           "target": "com.gcp.apigee_v1#Forbidden"
+        },
+        {
+          "target": "com.gcp.apigee_v1#ApigeeResourceNotFound"
         }
       ],
       "traits": {
@@ -26237,6 +26966,9 @@
         },
         {
           "target": "com.gcp.apigee_v1#Forbidden"
+        },
+        {
+          "target": "com.gcp.apigee_v1#ApigeeResourceNotFound"
         }
       ],
       "traits": {
@@ -26291,6 +27023,9 @@
         },
         {
           "target": "com.gcp.apigee_v1#Conflict"
+        },
+        {
+          "target": "com.gcp.apigee_v1#ApigeeResourceNotFound"
         }
       ],
       "traits": {
@@ -26328,6 +27063,9 @@
         },
         {
           "target": "com.gcp.apigee_v1#Forbidden"
+        },
+        {
+          "target": "com.gcp.apigee_v1#ApigeeResourceNotFound"
         }
       ],
       "traits": {
@@ -26371,6 +27109,9 @@
         },
         {
           "target": "com.gcp.apigee_v1#Conflict"
+        },
+        {
+          "target": "com.gcp.apigee_v1#ApigeeResourceNotFound"
         }
       ],
       "traits": {
@@ -26415,6 +27156,9 @@
         },
         {
           "target": "com.gcp.apigee_v1#Forbidden"
+        },
+        {
+          "target": "com.gcp.apigee_v1#ApigeeResourceNotFound"
         }
       ],
       "traits": {
@@ -26452,6 +27196,9 @@
         },
         {
           "target": "com.gcp.apigee_v1#Forbidden"
+        },
+        {
+          "target": "com.gcp.apigee_v1#ApigeeResourceNotFound"
         }
       ],
       "traits": {
@@ -26489,6 +27236,9 @@
         },
         {
           "target": "com.gcp.apigee_v1#Forbidden"
+        },
+        {
+          "target": "com.gcp.apigee_v1#ApigeeResourceNotFound"
         }
       ],
       "traits": {
@@ -26539,6 +27289,9 @@
         },
         {
           "target": "com.gcp.apigee_v1#Conflict"
+        },
+        {
+          "target": "com.gcp.apigee_v1#ApigeeResourceNotFound"
         }
       ],
       "traits": {
@@ -26632,6 +27385,9 @@
         },
         {
           "target": "com.gcp.apigee_v1#Forbidden"
+        },
+        {
+          "target": "com.gcp.apigee_v1#ApigeeResourceNotFound"
         }
       ],
       "traits": {
@@ -26673,6 +27429,9 @@
         },
         {
           "target": "com.gcp.apigee_v1#Forbidden"
+        },
+        {
+          "target": "com.gcp.apigee_v1#ApigeeResourceNotFound"
         }
       ],
       "traits": {
@@ -26710,6 +27469,9 @@
         },
         {
           "target": "com.gcp.apigee_v1#Forbidden"
+        },
+        {
+          "target": "com.gcp.apigee_v1#ApigeeResourceNotFound"
         }
       ],
       "traits": {
@@ -26760,6 +27522,9 @@
         },
         {
           "target": "com.gcp.apigee_v1#Conflict"
+        },
+        {
+          "target": "com.gcp.apigee_v1#ApigeeResourceNotFound"
         }
       ],
       "traits": {
@@ -26810,6 +27575,9 @@
         },
         {
           "target": "com.gcp.apigee_v1#Conflict"
+        },
+        {
+          "target": "com.gcp.apigee_v1#ApigeeResourceNotFound"
         }
       ],
       "traits": {
@@ -26853,6 +27621,9 @@
         },
         {
           "target": "com.gcp.apigee_v1#Conflict"
+        },
+        {
+          "target": "com.gcp.apigee_v1#ApigeeResourceNotFound"
         }
       ],
       "traits": {
@@ -26890,6 +27661,9 @@
         },
         {
           "target": "com.gcp.apigee_v1#Forbidden"
+        },
+        {
+          "target": "com.gcp.apigee_v1#ApigeeResourceNotFound"
         }
       ],
       "traits": {
@@ -26940,6 +27714,9 @@
         },
         {
           "target": "com.gcp.apigee_v1#Conflict"
+        },
+        {
+          "target": "com.gcp.apigee_v1#ApigeeResourceNotFound"
         }
       ],
       "traits": {
@@ -26991,6 +27768,9 @@
         },
         {
           "target": "com.gcp.apigee_v1#Forbidden"
+        },
+        {
+          "target": "com.gcp.apigee_v1#ApigeeResourceNotFound"
         }
       ],
       "traits": {
@@ -27038,6 +27818,9 @@
         },
         {
           "target": "com.gcp.apigee_v1#Conflict"
+        },
+        {
+          "target": "com.gcp.apigee_v1#ApigeeResourceNotFound"
         }
       ],
       "traits": {
@@ -27088,6 +27871,9 @@
         },
         {
           "target": "com.gcp.apigee_v1#Conflict"
+        },
+        {
+          "target": "com.gcp.apigee_v1#ApigeeResourceNotFound"
         }
       ],
       "traits": {
@@ -27145,6 +27931,9 @@
         },
         {
           "target": "com.gcp.apigee_v1#Conflict"
+        },
+        {
+          "target": "com.gcp.apigee_v1#ApigeeResourceNotFound"
         }
       ],
       "traits": {
@@ -27182,6 +27971,9 @@
         },
         {
           "target": "com.gcp.apigee_v1#Forbidden"
+        },
+        {
+          "target": "com.gcp.apigee_v1#ApigeeResourceNotFound"
         }
       ],
       "traits": {
@@ -27225,6 +28017,9 @@
         },
         {
           "target": "com.gcp.apigee_v1#Conflict"
+        },
+        {
+          "target": "com.gcp.apigee_v1#ApigeeResourceNotFound"
         }
       ],
       "traits": {
@@ -27276,6 +28071,9 @@
         },
         {
           "target": "com.gcp.apigee_v1#Forbidden"
+        },
+        {
+          "target": "com.gcp.apigee_v1#ApigeeResourceNotFound"
         }
       ],
       "traits": {
@@ -27337,6 +28135,9 @@
         },
         {
           "target": "com.gcp.apigee_v1#Conflict"
+        },
+        {
+          "target": "com.gcp.apigee_v1#ApigeeResourceNotFound"
         }
       ],
       "traits": {
@@ -27380,6 +28181,9 @@
         },
         {
           "target": "com.gcp.apigee_v1#Conflict"
+        },
+        {
+          "target": "com.gcp.apigee_v1#ApigeeResourceNotFound"
         }
       ],
       "traits": {
@@ -27431,6 +28235,9 @@
         },
         {
           "target": "com.gcp.apigee_v1#Forbidden"
+        },
+        {
+          "target": "com.gcp.apigee_v1#ApigeeResourceNotFound"
         }
       ],
       "traits": {
@@ -27472,6 +28279,9 @@
         },
         {
           "target": "com.gcp.apigee_v1#Forbidden"
+        },
+        {
+          "target": "com.gcp.apigee_v1#ApigeeResourceNotFound"
         }
       ],
       "traits": {
@@ -27522,6 +28332,9 @@
         },
         {
           "target": "com.gcp.apigee_v1#Conflict"
+        },
+        {
+          "target": "com.gcp.apigee_v1#ApigeeResourceNotFound"
         }
       ],
       "traits": {
@@ -27579,6 +28392,9 @@
         },
         {
           "target": "com.gcp.apigee_v1#Conflict"
+        },
+        {
+          "target": "com.gcp.apigee_v1#ApigeeResourceNotFound"
         }
       ],
       "traits": {
@@ -27629,6 +28445,9 @@
         },
         {
           "target": "com.gcp.apigee_v1#Conflict"
+        },
+        {
+          "target": "com.gcp.apigee_v1#ApigeeResourceNotFound"
         }
       ],
       "traits": {
@@ -27666,6 +28485,9 @@
         },
         {
           "target": "com.gcp.apigee_v1#Forbidden"
+        },
+        {
+          "target": "com.gcp.apigee_v1#ApigeeResourceNotFound"
         }
       ],
       "traits": {
@@ -27716,6 +28538,9 @@
         },
         {
           "target": "com.gcp.apigee_v1#Conflict"
+        },
+        {
+          "target": "com.gcp.apigee_v1#ApigeeResourceNotFound"
         }
       ],
       "traits": {
@@ -27766,6 +28591,9 @@
         },
         {
           "target": "com.gcp.apigee_v1#Conflict"
+        },
+        {
+          "target": "com.gcp.apigee_v1#ApigeeResourceNotFound"
         }
       ],
       "traits": {
@@ -27803,6 +28631,9 @@
         },
         {
           "target": "com.gcp.apigee_v1#Forbidden"
+        },
+        {
+          "target": "com.gcp.apigee_v1#ApigeeResourceNotFound"
         }
       ],
       "traits": {
@@ -27846,6 +28677,9 @@
         },
         {
           "target": "com.gcp.apigee_v1#Conflict"
+        },
+        {
+          "target": "com.gcp.apigee_v1#ApigeeResourceNotFound"
         }
       ],
       "traits": {
@@ -27897,6 +28731,9 @@
         },
         {
           "target": "com.gcp.apigee_v1#Forbidden"
+        },
+        {
+          "target": "com.gcp.apigee_v1#ApigeeResourceNotFound"
         }
       ],
       "traits": {
@@ -27951,6 +28788,9 @@
         },
         {
           "target": "com.gcp.apigee_v1#Conflict"
+        },
+        {
+          "target": "com.gcp.apigee_v1#ApigeeResourceNotFound"
         }
       ],
       "traits": {
@@ -28002,6 +28842,9 @@
         },
         {
           "target": "com.gcp.apigee_v1#Forbidden"
+        },
+        {
+          "target": "com.gcp.apigee_v1#ApigeeResourceNotFound"
         }
       ],
       "traits": {
@@ -28043,6 +28886,9 @@
         },
         {
           "target": "com.gcp.apigee_v1#Forbidden"
+        },
+        {
+          "target": "com.gcp.apigee_v1#ApigeeResourceNotFound"
         }
       ],
       "traits": {
@@ -28086,6 +28932,9 @@
         },
         {
           "target": "com.gcp.apigee_v1#Conflict"
+        },
+        {
+          "target": "com.gcp.apigee_v1#ApigeeResourceNotFound"
         }
       ],
       "traits": {
@@ -28136,6 +28985,9 @@
         },
         {
           "target": "com.gcp.apigee_v1#Conflict"
+        },
+        {
+          "target": "com.gcp.apigee_v1#ApigeeResourceNotFound"
         }
       ],
       "traits": {
@@ -28173,6 +29025,9 @@
         },
         {
           "target": "com.gcp.apigee_v1#Forbidden"
+        },
+        {
+          "target": "com.gcp.apigee_v1#ApigeeResourceNotFound"
         }
       ],
       "traits": {
@@ -28294,6 +29149,9 @@
         },
         {
           "target": "com.gcp.apigee_v1#Forbidden"
+        },
+        {
+          "target": "com.gcp.apigee_v1#ApigeeResourceNotFound"
         }
       ],
       "traits": {
@@ -28355,6 +29213,9 @@
         },
         {
           "target": "com.gcp.apigee_v1#Conflict"
+        },
+        {
+          "target": "com.gcp.apigee_v1#ApigeeResourceNotFound"
         }
       ],
       "traits": {
@@ -28392,6 +29253,9 @@
         },
         {
           "target": "com.gcp.apigee_v1#Forbidden"
+        },
+        {
+          "target": "com.gcp.apigee_v1#ApigeeResourceNotFound"
         }
       ],
       "traits": {
@@ -28435,6 +29299,9 @@
         },
         {
           "target": "com.gcp.apigee_v1#Conflict"
+        },
+        {
+          "target": "com.gcp.apigee_v1#ApigeeResourceNotFound"
         }
       ],
       "traits": {
@@ -28486,6 +29353,9 @@
         },
         {
           "target": "com.gcp.apigee_v1#Forbidden"
+        },
+        {
+          "target": "com.gcp.apigee_v1#ApigeeResourceNotFound"
         }
       ],
       "traits": {
@@ -28533,6 +29403,9 @@
         },
         {
           "target": "com.gcp.apigee_v1#Conflict"
+        },
+        {
+          "target": "com.gcp.apigee_v1#ApigeeResourceNotFound"
         }
       ],
       "traits": {
@@ -28570,6 +29443,9 @@
         },
         {
           "target": "com.gcp.apigee_v1#Forbidden"
+        },
+        {
+          "target": "com.gcp.apigee_v1#ApigeeResourceNotFound"
         }
       ],
       "traits": {
@@ -28627,6 +29503,9 @@
         },
         {
           "target": "com.gcp.apigee_v1#Conflict"
+        },
+        {
+          "target": "com.gcp.apigee_v1#ApigeeResourceNotFound"
         }
       ],
       "traits": {
@@ -28684,6 +29563,9 @@
         },
         {
           "target": "com.gcp.apigee_v1#Conflict"
+        },
+        {
+          "target": "com.gcp.apigee_v1#ApigeeResourceNotFound"
         }
       ],
       "traits": {
@@ -28735,6 +29617,9 @@
         },
         {
           "target": "com.gcp.apigee_v1#Forbidden"
+        },
+        {
+          "target": "com.gcp.apigee_v1#ApigeeResourceNotFound"
         }
       ],
       "traits": {
@@ -28776,6 +29661,9 @@
         },
         {
           "target": "com.gcp.apigee_v1#Forbidden"
+        },
+        {
+          "target": "com.gcp.apigee_v1#ApigeeResourceNotFound"
         }
       ],
       "traits": {
@@ -28841,6 +29729,9 @@
         },
         {
           "target": "com.gcp.apigee_v1#Forbidden"
+        },
+        {
+          "target": "com.gcp.apigee_v1#ApigeeResourceNotFound"
         }
       ],
       "traits": {
@@ -28895,6 +29786,9 @@
         },
         {
           "target": "com.gcp.apigee_v1#Conflict"
+        },
+        {
+          "target": "com.gcp.apigee_v1#ApigeeResourceNotFound"
         }
       ],
       "traits": {
@@ -28932,6 +29826,9 @@
         },
         {
           "target": "com.gcp.apigee_v1#Forbidden"
+        },
+        {
+          "target": "com.gcp.apigee_v1#ApigeeResourceNotFound"
         }
       ],
       "traits": {
@@ -28982,6 +29879,9 @@
         },
         {
           "target": "com.gcp.apigee_v1#Conflict"
+        },
+        {
+          "target": "com.gcp.apigee_v1#ApigeeResourceNotFound"
         }
       ],
       "traits": {
@@ -29025,6 +29925,9 @@
         },
         {
           "target": "com.gcp.apigee_v1#Conflict"
+        },
+        {
+          "target": "com.gcp.apigee_v1#ApigeeResourceNotFound"
         }
       ],
       "traits": {
@@ -29069,6 +29972,9 @@
         },
         {
           "target": "com.gcp.apigee_v1#Forbidden"
+        },
+        {
+          "target": "com.gcp.apigee_v1#ApigeeResourceNotFound"
         }
       ],
       "traits": {
@@ -29119,6 +30025,9 @@
         },
         {
           "target": "com.gcp.apigee_v1#Conflict"
+        },
+        {
+          "target": "com.gcp.apigee_v1#ApigeeResourceNotFound"
         }
       ],
       "traits": {
@@ -29169,6 +30078,9 @@
         },
         {
           "target": "com.gcp.apigee_v1#Conflict"
+        },
+        {
+          "target": "com.gcp.apigee_v1#ApigeeResourceNotFound"
         }
       ],
       "traits": {
@@ -29227,6 +30139,9 @@
         },
         {
           "target": "com.gcp.apigee_v1#Forbidden"
+        },
+        {
+          "target": "com.gcp.apigee_v1#ApigeeResourceNotFound"
         }
       ],
       "traits": {
@@ -29274,6 +30189,9 @@
         },
         {
           "target": "com.gcp.apigee_v1#Conflict"
+        },
+        {
+          "target": "com.gcp.apigee_v1#ApigeeResourceNotFound"
         }
       ],
       "traits": {
@@ -29311,6 +30229,9 @@
         },
         {
           "target": "com.gcp.apigee_v1#Forbidden"
+        },
+        {
+          "target": "com.gcp.apigee_v1#ApigeeResourceNotFound"
         }
       ],
       "traits": {
@@ -29368,6 +30289,9 @@
         },
         {
           "target": "com.gcp.apigee_v1#Conflict"
+        },
+        {
+          "target": "com.gcp.apigee_v1#ApigeeResourceNotFound"
         }
       ],
       "traits": {
@@ -29405,6 +30329,9 @@
         },
         {
           "target": "com.gcp.apigee_v1#Forbidden"
+        },
+        {
+          "target": "com.gcp.apigee_v1#ApigeeResourceNotFound"
         }
       ],
       "traits": {
@@ -29442,6 +30369,9 @@
         },
         {
           "target": "com.gcp.apigee_v1#Forbidden"
+        },
+        {
+          "target": "com.gcp.apigee_v1#ApigeeResourceNotFound"
         }
       ],
       "traits": {
@@ -29492,6 +30422,9 @@
         },
         {
           "target": "com.gcp.apigee_v1#Conflict"
+        },
+        {
+          "target": "com.gcp.apigee_v1#ApigeeResourceNotFound"
         }
       ],
       "traits": {
@@ -29529,6 +30462,9 @@
         },
         {
           "target": "com.gcp.apigee_v1#Forbidden"
+        },
+        {
+          "target": "com.gcp.apigee_v1#ApigeeResourceNotFound"
         }
       ],
       "traits": {
@@ -29586,6 +30522,9 @@
         },
         {
           "target": "com.gcp.apigee_v1#Conflict"
+        },
+        {
+          "target": "com.gcp.apigee_v1#ApigeeResourceNotFound"
         }
       ],
       "traits": {
@@ -29629,6 +30568,9 @@
         },
         {
           "target": "com.gcp.apigee_v1#Conflict"
+        },
+        {
+          "target": "com.gcp.apigee_v1#ApigeeResourceNotFound"
         }
       ],
       "traits": {
@@ -29680,6 +30622,9 @@
         },
         {
           "target": "com.gcp.apigee_v1#Forbidden"
+        },
+        {
+          "target": "com.gcp.apigee_v1#ApigeeResourceNotFound"
         }
       ],
       "traits": {
@@ -29727,6 +30672,9 @@
         },
         {
           "target": "com.gcp.apigee_v1#Conflict"
+        },
+        {
+          "target": "com.gcp.apigee_v1#ApigeeResourceNotFound"
         }
       ],
       "traits": {
@@ -29764,6 +30712,9 @@
         },
         {
           "target": "com.gcp.apigee_v1#Forbidden"
+        },
+        {
+          "target": "com.gcp.apigee_v1#ApigeeResourceNotFound"
         }
       ],
       "traits": {
@@ -29814,6 +30765,9 @@
         },
         {
           "target": "com.gcp.apigee_v1#Conflict"
+        },
+        {
+          "target": "com.gcp.apigee_v1#ApigeeResourceNotFound"
         }
       ],
       "traits": {
@@ -29864,6 +30818,9 @@
         },
         {
           "target": "com.gcp.apigee_v1#Conflict"
+        },
+        {
+          "target": "com.gcp.apigee_v1#ApigeeResourceNotFound"
         }
       ],
       "traits": {
@@ -29907,6 +30864,9 @@
         },
         {
           "target": "com.gcp.apigee_v1#Conflict"
+        },
+        {
+          "target": "com.gcp.apigee_v1#ApigeeResourceNotFound"
         }
       ],
       "traits": {
@@ -29957,6 +30917,9 @@
         },
         {
           "target": "com.gcp.apigee_v1#Conflict"
+        },
+        {
+          "target": "com.gcp.apigee_v1#ApigeeResourceNotFound"
         }
       ],
       "traits": {
@@ -30007,6 +30970,9 @@
         },
         {
           "target": "com.gcp.apigee_v1#Conflict"
+        },
+        {
+          "target": "com.gcp.apigee_v1#ApigeeResourceNotFound"
         }
       ],
       "traits": {
@@ -30057,6 +31023,9 @@
         },
         {
           "target": "com.gcp.apigee_v1#Conflict"
+        },
+        {
+          "target": "com.gcp.apigee_v1#ApigeeResourceNotFound"
         }
       ],
       "traits": {
@@ -30094,6 +31063,9 @@
         },
         {
           "target": "com.gcp.apigee_v1#Forbidden"
+        },
+        {
+          "target": "com.gcp.apigee_v1#ApigeeResourceNotFound"
         }
       ],
       "traits": {
@@ -30145,6 +31117,9 @@
         },
         {
           "target": "com.gcp.apigee_v1#Forbidden"
+        },
+        {
+          "target": "com.gcp.apigee_v1#ApigeeResourceNotFound"
         }
       ],
       "traits": {
@@ -30199,6 +31174,9 @@
         },
         {
           "target": "com.gcp.apigee_v1#Conflict"
+        },
+        {
+          "target": "com.gcp.apigee_v1#ApigeeResourceNotFound"
         }
       ],
       "traits": {
@@ -30249,6 +31227,9 @@
         },
         {
           "target": "com.gcp.apigee_v1#Conflict"
+        },
+        {
+          "target": "com.gcp.apigee_v1#ApigeeResourceNotFound"
         }
       ],
       "traits": {
@@ -30306,6 +31287,9 @@
         },
         {
           "target": "com.gcp.apigee_v1#Conflict"
+        },
+        {
+          "target": "com.gcp.apigee_v1#ApigeeResourceNotFound"
         }
       ],
       "traits": {
@@ -30349,6 +31333,9 @@
         },
         {
           "target": "com.gcp.apigee_v1#Conflict"
+        },
+        {
+          "target": "com.gcp.apigee_v1#ApigeeResourceNotFound"
         }
       ],
       "traits": {
@@ -30400,6 +31387,9 @@
         },
         {
           "target": "com.gcp.apigee_v1#Forbidden"
+        },
+        {
+          "target": "com.gcp.apigee_v1#ApigeeResourceNotFound"
         }
       ],
       "traits": {
@@ -30448,6 +31438,9 @@
         },
         {
           "target": "com.gcp.apigee_v1#Forbidden"
+        },
+        {
+          "target": "com.gcp.apigee_v1#ApigeeResourceNotFound"
         }
       ],
       "traits": {
@@ -30485,6 +31478,9 @@
         },
         {
           "target": "com.gcp.apigee_v1#Forbidden"
+        },
+        {
+          "target": "com.gcp.apigee_v1#ApigeeResourceNotFound"
         }
       ],
       "traits": {
@@ -30535,6 +31531,9 @@
         },
         {
           "target": "com.gcp.apigee_v1#Conflict"
+        },
+        {
+          "target": "com.gcp.apigee_v1#ApigeeResourceNotFound"
         }
       ],
       "traits": {
@@ -30592,6 +31591,9 @@
         },
         {
           "target": "com.gcp.apigee_v1#Conflict"
+        },
+        {
+          "target": "com.gcp.apigee_v1#ApigeeResourceNotFound"
         }
       ],
       "traits": {
@@ -30642,6 +31644,9 @@
         },
         {
           "target": "com.gcp.apigee_v1#Conflict"
+        },
+        {
+          "target": "com.gcp.apigee_v1#ApigeeResourceNotFound"
         }
       ],
       "traits": {
@@ -30699,6 +31704,9 @@
         },
         {
           "target": "com.gcp.apigee_v1#Conflict"
+        },
+        {
+          "target": "com.gcp.apigee_v1#ApigeeResourceNotFound"
         }
       ],
       "traits": {
@@ -30750,6 +31758,9 @@
         },
         {
           "target": "com.gcp.apigee_v1#Forbidden"
+        },
+        {
+          "target": "com.gcp.apigee_v1#ApigeeResourceNotFound"
         }
       ],
       "traits": {
@@ -30797,6 +31808,9 @@
         },
         {
           "target": "com.gcp.apigee_v1#Conflict"
+        },
+        {
+          "target": "com.gcp.apigee_v1#ApigeeResourceNotFound"
         }
       ],
       "traits": {
@@ -30834,6 +31848,9 @@
         },
         {
           "target": "com.gcp.apigee_v1#Forbidden"
+        },
+        {
+          "target": "com.gcp.apigee_v1#ApigeeResourceNotFound"
         }
       ],
       "traits": {
@@ -30898,6 +31915,9 @@
         },
         {
           "target": "com.gcp.apigee_v1#Conflict"
+        },
+        {
+          "target": "com.gcp.apigee_v1#ApigeeResourceNotFound"
         }
       ],
       "traits": {
@@ -30941,6 +31961,9 @@
         },
         {
           "target": "com.gcp.apigee_v1#Conflict"
+        },
+        {
+          "target": "com.gcp.apigee_v1#ApigeeResourceNotFound"
         }
       ],
       "traits": {
@@ -30998,6 +32021,9 @@
         },
         {
           "target": "com.gcp.apigee_v1#Conflict"
+        },
+        {
+          "target": "com.gcp.apigee_v1#ApigeeResourceNotFound"
         }
       ],
       "traits": {
@@ -31049,6 +32075,9 @@
         },
         {
           "target": "com.gcp.apigee_v1#Forbidden"
+        },
+        {
+          "target": "com.gcp.apigee_v1#ApigeeResourceNotFound"
         }
       ],
       "traits": {
@@ -31090,6 +32119,9 @@
         },
         {
           "target": "com.gcp.apigee_v1#Forbidden"
+        },
+        {
+          "target": "com.gcp.apigee_v1#ApigeeResourceNotFound"
         }
       ],
       "traits": {
@@ -31147,6 +32179,9 @@
         },
         {
           "target": "com.gcp.apigee_v1#Conflict"
+        },
+        {
+          "target": "com.gcp.apigee_v1#ApigeeResourceNotFound"
         }
       ],
       "traits": {
@@ -31198,6 +32233,9 @@
         },
         {
           "target": "com.gcp.apigee_v1#Forbidden"
+        },
+        {
+          "target": "com.gcp.apigee_v1#ApigeeResourceNotFound"
         }
       ],
       "traits": {
@@ -31253,6 +32291,9 @@
         },
         {
           "target": "com.gcp.apigee_v1#Forbidden"
+        },
+        {
+          "target": "com.gcp.apigee_v1#ApigeeResourceNotFound"
         }
       ],
       "traits": {
@@ -31314,6 +32355,9 @@
         },
         {
           "target": "com.gcp.apigee_v1#Conflict"
+        },
+        {
+          "target": "com.gcp.apigee_v1#ApigeeResourceNotFound"
         }
       ],
       "traits": {
@@ -31351,6 +32395,9 @@
         },
         {
           "target": "com.gcp.apigee_v1#Forbidden"
+        },
+        {
+          "target": "com.gcp.apigee_v1#ApigeeResourceNotFound"
         }
       ],
       "traits": {
@@ -31394,6 +32441,9 @@
         },
         {
           "target": "com.gcp.apigee_v1#Conflict"
+        },
+        {
+          "target": "com.gcp.apigee_v1#ApigeeResourceNotFound"
         }
       ],
       "traits": {
@@ -31444,6 +32494,9 @@
         },
         {
           "target": "com.gcp.apigee_v1#Conflict"
+        },
+        {
+          "target": "com.gcp.apigee_v1#ApigeeResourceNotFound"
         }
       ],
       "traits": {
@@ -31487,6 +32540,9 @@
         },
         {
           "target": "com.gcp.apigee_v1#Conflict"
+        },
+        {
+          "target": "com.gcp.apigee_v1#ApigeeResourceNotFound"
         }
       ],
       "traits": {
@@ -31537,6 +32593,9 @@
         },
         {
           "target": "com.gcp.apigee_v1#Conflict"
+        },
+        {
+          "target": "com.gcp.apigee_v1#ApigeeResourceNotFound"
         }
       ],
       "traits": {
@@ -31587,6 +32646,9 @@
         },
         {
           "target": "com.gcp.apigee_v1#Conflict"
+        },
+        {
+          "target": "com.gcp.apigee_v1#ApigeeResourceNotFound"
         }
       ],
       "traits": {
@@ -31624,6 +32686,9 @@
         },
         {
           "target": "com.gcp.apigee_v1#Forbidden"
+        },
+        {
+          "target": "com.gcp.apigee_v1#ApigeeResourceNotFound"
         }
       ],
       "traits": {
@@ -31667,6 +32732,9 @@
         },
         {
           "target": "com.gcp.apigee_v1#Conflict"
+        },
+        {
+          "target": "com.gcp.apigee_v1#ApigeeResourceNotFound"
         }
       ],
       "traits": {
@@ -31724,6 +32792,9 @@
         },
         {
           "target": "com.gcp.apigee_v1#Conflict"
+        },
+        {
+          "target": "com.gcp.apigee_v1#ApigeeResourceNotFound"
         }
       ],
       "traits": {
@@ -31782,6 +32853,9 @@
         },
         {
           "target": "com.gcp.apigee_v1#Forbidden"
+        },
+        {
+          "target": "com.gcp.apigee_v1#ApigeeResourceNotFound"
         }
       ],
       "traits": {
@@ -31860,6 +32934,9 @@
         },
         {
           "target": "com.gcp.apigee_v1#Conflict"
+        },
+        {
+          "target": "com.gcp.apigee_v1#ApigeeResourceNotFound"
         }
       ],
       "traits": {
@@ -31897,6 +32974,9 @@
         },
         {
           "target": "com.gcp.apigee_v1#Forbidden"
+        },
+        {
+          "target": "com.gcp.apigee_v1#ApigeeResourceNotFound"
         }
       ],
       "traits": {
@@ -31948,6 +33028,9 @@
         },
         {
           "target": "com.gcp.apigee_v1#Forbidden"
+        },
+        {
+          "target": "com.gcp.apigee_v1#ApigeeResourceNotFound"
         }
       ],
       "traits": {
@@ -31995,6 +33078,9 @@
         },
         {
           "target": "com.gcp.apigee_v1#Conflict"
+        },
+        {
+          "target": "com.gcp.apigee_v1#ApigeeResourceNotFound"
         }
       ],
       "traits": {
@@ -32039,6 +33125,9 @@
         },
         {
           "target": "com.gcp.apigee_v1#Forbidden"
+        },
+        {
+          "target": "com.gcp.apigee_v1#ApigeeResourceNotFound"
         }
       ],
       "traits": {
@@ -32096,6 +33185,9 @@
         },
         {
           "target": "com.gcp.apigee_v1#Conflict"
+        },
+        {
+          "target": "com.gcp.apigee_v1#ApigeeResourceNotFound"
         }
       ],
       "traits": {
@@ -32133,6 +33225,9 @@
         },
         {
           "target": "com.gcp.apigee_v1#Forbidden"
+        },
+        {
+          "target": "com.gcp.apigee_v1#ApigeeResourceNotFound"
         }
       ],
       "traits": {
@@ -32170,6 +33265,9 @@
         },
         {
           "target": "com.gcp.apigee_v1#Forbidden"
+        },
+        {
+          "target": "com.gcp.apigee_v1#ApigeeResourceNotFound"
         }
       ],
       "traits": {
@@ -32213,6 +33311,9 @@
         },
         {
           "target": "com.gcp.apigee_v1#Conflict"
+        },
+        {
+          "target": "com.gcp.apigee_v1#ApigeeResourceNotFound"
         }
       ],
       "traits": {
@@ -32263,6 +33364,9 @@
         },
         {
           "target": "com.gcp.apigee_v1#Conflict"
+        },
+        {
+          "target": "com.gcp.apigee_v1#ApigeeResourceNotFound"
         }
       ],
       "traits": {
@@ -32313,6 +33417,9 @@
         },
         {
           "target": "com.gcp.apigee_v1#Conflict"
+        },
+        {
+          "target": "com.gcp.apigee_v1#ApigeeResourceNotFound"
         }
       ],
       "traits": {
@@ -32363,6 +33470,9 @@
         },
         {
           "target": "com.gcp.apigee_v1#Conflict"
+        },
+        {
+          "target": "com.gcp.apigee_v1#ApigeeResourceNotFound"
         }
       ],
       "traits": {
@@ -32400,6 +33510,9 @@
         },
         {
           "target": "com.gcp.apigee_v1#Forbidden"
+        },
+        {
+          "target": "com.gcp.apigee_v1#ApigeeResourceNotFound"
         }
       ],
       "traits": {
@@ -32450,6 +33563,9 @@
         },
         {
           "target": "com.gcp.apigee_v1#Conflict"
+        },
+        {
+          "target": "com.gcp.apigee_v1#ApigeeResourceNotFound"
         }
       ],
       "traits": {
@@ -32493,6 +33609,9 @@
         },
         {
           "target": "com.gcp.apigee_v1#Conflict"
+        },
+        {
+          "target": "com.gcp.apigee_v1#ApigeeResourceNotFound"
         }
       ],
       "traits": {
@@ -32544,6 +33663,9 @@
         },
         {
           "target": "com.gcp.apigee_v1#Forbidden"
+        },
+        {
+          "target": "com.gcp.apigee_v1#ApigeeResourceNotFound"
         }
       ],
       "traits": {
@@ -32556,6 +33678,23 @@
           "inputToken": "pageToken",
           "outputToken": "nextPageToken"
         }
+      }
+    },
+    "com.gcp.apigee_v1#ApigeeResourceNotFound": {
+      "type": "structure",
+      "members": {},
+      "traits": {
+        "smithy.api#error": "client",
+        "smithy.api#httpError": 403,
+        "smithy.api#documentation": "The Apigee resource (or its organization) does not exist. Apigee answers HTTP 403 'Permission denied on resource \"organizations/...\" (or it may not exist)' instead of 404.",
+        "com.gcp.protocols#errorMatchers": [
+          {
+            "status": 403,
+            "message": {
+              "includes": "Permission denied on resource \"organizations/"
+            }
+          }
+        ]
       }
     }
   }

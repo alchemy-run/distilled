@@ -1,0 +1,61 @@
+{
+  "description": "Type the missing-OAuth-scope 403 on Data Manager user-list operations; it surfaced as a generic Forbidden indistinguishable from an IAM denial. Observed live 2026-09-29 on getAccountTypesAccountsUserLists/createAccountTypesAccountsUserLists with a cloud-platform token.",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.datamanager_v1#DataManagerScopeInsufficient",
+      "value": {
+        "type": "structure",
+        "members": {},
+        "traits": {
+          "smithy.api#error": "client",
+          "smithy.api#httpError": 403,
+          "smithy.api#documentation": "The access token lacks the Data Manager OAuth scope (`https://www.googleapis.com/auth/datamanager`) (HTTP 403 PERMISSION_DENIED, reason ACCESS_TOKEN_SCOPE_INSUFFICIENT: 'Request had insufficient authentication scopes.'). A `cloud-platform` token is not enough. Not retryable.",
+          "com.gcp.protocols#errorMatchers": [
+            {
+              "status": 403,
+              "message": {
+                "includes": "insufficient authentication scopes"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.datamanager_v1#CreateAccountTypesAccountsUserLists/errors/-",
+      "value": {
+        "target": "com.gcp.datamanager_v1#DataManagerScopeInsufficient"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.datamanager_v1#DeleteAccountTypesAccountsUserLists/errors/-",
+      "value": {
+        "target": "com.gcp.datamanager_v1#DataManagerScopeInsufficient"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.datamanager_v1#GetAccountTypesAccountsUserLists/errors/-",
+      "value": {
+        "target": "com.gcp.datamanager_v1#DataManagerScopeInsufficient"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.datamanager_v1#ListAccountTypesAccountsUserLists/errors/-",
+      "value": {
+        "target": "com.gcp.datamanager_v1#DataManagerScopeInsufficient"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.datamanager_v1#PatchAccountTypesAccountsUserLists/errors/-",
+      "value": {
+        "target": "com.gcp.datamanager_v1#DataManagerScopeInsufficient"
+      }
+    }
+  ]
+}

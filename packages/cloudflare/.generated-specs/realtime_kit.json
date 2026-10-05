@@ -31675,6 +31675,7 @@
         "app_id": {
           "target": "smithy.api#String",
           "traits": {
+            "smithy.api#documentation": "The app identifier tag.",
             "smithy.api#httpLabel": {},
             "smithy.api#required": {}
           }

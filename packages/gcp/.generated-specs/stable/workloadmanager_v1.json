@@ -5774,6 +5774,9 @@
         },
         {
           "target": "com.gcp.workloadmanager_v1#Forbidden"
+        },
+        {
+          "target": "com.gcp.workloadmanager_v1#ServiceDisabled"
         }
       ],
       "traits": {
@@ -5815,6 +5818,9 @@
         },
         {
           "target": "com.gcp.workloadmanager_v1#Forbidden"
+        },
+        {
+          "target": "com.gcp.workloadmanager_v1#ServiceDisabled"
         }
       ],
       "traits": {
@@ -5891,6 +5897,9 @@
         },
         {
           "target": "com.gcp.workloadmanager_v1#Conflict"
+        },
+        {
+          "target": "com.gcp.workloadmanager_v1#ServiceDisabled"
         }
       ],
       "traits": {
@@ -5941,6 +5950,9 @@
         },
         {
           "target": "com.gcp.workloadmanager_v1#Conflict"
+        },
+        {
+          "target": "com.gcp.workloadmanager_v1#ServiceDisabled"
         }
       ],
       "traits": {
@@ -6006,6 +6018,9 @@
         },
         {
           "target": "com.gcp.workloadmanager_v1#Forbidden"
+        },
+        {
+          "target": "com.gcp.workloadmanager_v1#ServiceDisabled"
         }
       ],
       "traits": {
@@ -6047,6 +6062,9 @@
         },
         {
           "target": "com.gcp.workloadmanager_v1#Forbidden"
+        },
+        {
+          "target": "com.gcp.workloadmanager_v1#ServiceDisabled"
         }
       ],
       "traits": {
@@ -6111,6 +6129,9 @@
         },
         {
           "target": "com.gcp.workloadmanager_v1#Conflict"
+        },
+        {
+          "target": "com.gcp.workloadmanager_v1#ServiceDisabled"
         }
       ],
       "traits": {
@@ -6175,6 +6196,9 @@
         },
         {
           "target": "com.gcp.workloadmanager_v1#Conflict"
+        },
+        {
+          "target": "com.gcp.workloadmanager_v1#ServiceDisabled"
         }
       ],
       "traits": {
@@ -6232,6 +6256,9 @@
         },
         {
           "target": "com.gcp.workloadmanager_v1#Conflict"
+        },
+        {
+          "target": "com.gcp.workloadmanager_v1#ServiceDisabled"
         }
       ],
       "traits": {
@@ -6297,6 +6324,9 @@
         },
         {
           "target": "com.gcp.workloadmanager_v1#Forbidden"
+        },
+        {
+          "target": "com.gcp.workloadmanager_v1#ServiceDisabled"
         }
       ],
       "traits": {
@@ -6338,6 +6368,9 @@
         },
         {
           "target": "com.gcp.workloadmanager_v1#Forbidden"
+        },
+        {
+          "target": "com.gcp.workloadmanager_v1#ServiceDisabled"
         }
       ],
       "traits": {
@@ -6388,6 +6421,9 @@
         },
         {
           "target": "com.gcp.workloadmanager_v1#Conflict"
+        },
+        {
+          "target": "com.gcp.workloadmanager_v1#ServiceDisabled"
         }
       ],
       "traits": {
@@ -6438,6 +6474,9 @@
         },
         {
           "target": "com.gcp.workloadmanager_v1#Conflict"
+        },
+        {
+          "target": "com.gcp.workloadmanager_v1#ServiceDisabled"
         }
       ],
       "traits": {
@@ -6496,6 +6535,9 @@
         },
         {
           "target": "com.gcp.workloadmanager_v1#Forbidden"
+        },
+        {
+          "target": "com.gcp.workloadmanager_v1#ServiceDisabled"
         }
       ],
       "traits": {
@@ -6572,6 +6614,9 @@
         },
         {
           "target": "com.gcp.workloadmanager_v1#Forbidden"
+        },
+        {
+          "target": "com.gcp.workloadmanager_v1#ServiceDisabled"
         }
       ],
       "traits": {
@@ -6677,6 +6722,9 @@
         },
         {
           "target": "com.gcp.workloadmanager_v1#Forbidden"
+        },
+        {
+          "target": "com.gcp.workloadmanager_v1#ServiceDisabled"
         }
       ],
       "traits": {
@@ -6742,6 +6790,9 @@
         },
         {
           "target": "com.gcp.workloadmanager_v1#Forbidden"
+        },
+        {
+          "target": "com.gcp.workloadmanager_v1#ServiceDisabled"
         }
       ],
       "traits": {
@@ -6783,6 +6834,9 @@
         },
         {
           "target": "com.gcp.workloadmanager_v1#Forbidden"
+        },
+        {
+          "target": "com.gcp.workloadmanager_v1#ServiceDisabled"
         }
       ],
       "traits": {
@@ -6833,6 +6887,9 @@
         },
         {
           "target": "com.gcp.workloadmanager_v1#Conflict"
+        },
+        {
+          "target": "com.gcp.workloadmanager_v1#ServiceDisabled"
         }
       ],
       "traits": {
@@ -6876,6 +6933,9 @@
         },
         {
           "target": "com.gcp.workloadmanager_v1#Conflict"
+        },
+        {
+          "target": "com.gcp.workloadmanager_v1#ServiceDisabled"
         }
       ],
       "traits": {
@@ -6940,6 +7000,9 @@
         },
         {
           "target": "com.gcp.workloadmanager_v1#Conflict"
+        },
+        {
+          "target": "com.gcp.workloadmanager_v1#ServiceDisabled"
         }
       ],
       "traits": {
@@ -6990,6 +7053,9 @@
         },
         {
           "target": "com.gcp.workloadmanager_v1#Conflict"
+        },
+        {
+          "target": "com.gcp.workloadmanager_v1#ServiceDisabled"
         }
       ],
       "traits": {
@@ -7055,6 +7121,9 @@
         },
         {
           "target": "com.gcp.workloadmanager_v1#Forbidden"
+        },
+        {
+          "target": "com.gcp.workloadmanager_v1#ServiceDisabled"
         }
       ],
       "traits": {
@@ -7096,6 +7165,9 @@
         },
         {
           "target": "com.gcp.workloadmanager_v1#Forbidden"
+        },
+        {
+          "target": "com.gcp.workloadmanager_v1#ServiceDisabled"
         }
       ],
       "traits": {
@@ -7161,6 +7233,9 @@
         },
         {
           "target": "com.gcp.workloadmanager_v1#Forbidden"
+        },
+        {
+          "target": "com.gcp.workloadmanager_v1#ServiceDisabled"
         }
       ],
       "traits": {
@@ -7202,6 +7277,9 @@
         },
         {
           "target": "com.gcp.workloadmanager_v1#Forbidden"
+        },
+        {
+          "target": "com.gcp.workloadmanager_v1#ServiceDisabled"
         }
       ],
       "traits": {
@@ -7259,6 +7337,9 @@
         },
         {
           "target": "com.gcp.workloadmanager_v1#Conflict"
+        },
+        {
+          "target": "com.gcp.workloadmanager_v1#ServiceDisabled"
         }
       ],
       "traits": {
@@ -7302,6 +7383,9 @@
         },
         {
           "target": "com.gcp.workloadmanager_v1#Conflict"
+        },
+        {
+          "target": "com.gcp.workloadmanager_v1#ServiceDisabled"
         }
       ],
       "traits": {
@@ -7339,6 +7423,9 @@
         },
         {
           "target": "com.gcp.workloadmanager_v1#Forbidden"
+        },
+        {
+          "target": "com.gcp.workloadmanager_v1#ServiceDisabled"
         }
       ],
       "traits": {
@@ -7397,6 +7484,9 @@
         },
         {
           "target": "com.gcp.workloadmanager_v1#Forbidden"
+        },
+        {
+          "target": "com.gcp.workloadmanager_v1#ServiceDisabled"
         }
       ],
       "traits": {
@@ -7438,6 +7528,9 @@
         },
         {
           "target": "com.gcp.workloadmanager_v1#Forbidden"
+        },
+        {
+          "target": "com.gcp.workloadmanager_v1#ServiceDisabled"
         }
       ],
       "traits": {
@@ -7446,6 +7539,23 @@
           "uri": "v1/{+name}"
         },
         "smithy.api#documentation": "Get the health of a discovered workload profile."
+      }
+    },
+    "com.gcp.workloadmanager_v1#ServiceDisabled": {
+      "type": "structure",
+      "members": {},
+      "traits": {
+        "smithy.api#error": "client",
+        "smithy.api#httpError": 403,
+        "smithy.api#documentation": "The API is not enabled on the project (HTTP 403 PERMISSION_DENIED, reason SERVICE_DISABLED: '\u2026 API has not been used in project \u2026 before or it is disabled.'). Enable the API; not retryable until then.",
+        "com.gcp.protocols#errorMatchers": [
+          {
+            "status": 403,
+            "message": {
+              "includes": "has not been used in project"
+            }
+          }
+        ]
       }
     }
   }

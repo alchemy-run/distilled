@@ -1,0 +1,173 @@
+{
+  "description": "Type calls to a project where the API is disabled. It surfaced as a plain Forbidden, so an un-enabled API was indistinguishable from a missing IAM grant.",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.agentidentity_v1#ServiceDisabled",
+      "value": {
+        "type": "structure",
+        "members": {},
+        "traits": {
+          "smithy.api#error": "client",
+          "smithy.api#httpError": 403,
+          "smithy.api#documentation": "The API is not enabled on the project (HTTP 403 PERMISSION_DENIED, reason SERVICE_DISABLED: \"<API> has not been used in project <n> before or it is disabled.\").",
+          "com.gcp.protocols#errorMatchers": [
+            {
+              "status": 403,
+              "message": {
+                "includes": "has not been used in project"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.agentidentity_v1#CreateProjectsLocationsAuthProviders/errors/-",
+      "value": {
+        "target": "com.gcp.agentidentity_v1#ServiceDisabled"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.agentidentity_v1#DeleteProjectsLocationsAuthProviders/errors/-",
+      "value": {
+        "target": "com.gcp.agentidentity_v1#ServiceDisabled"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.agentidentity_v1#DeleteProjectsLocationsAuthProvidersAuthorizations/errors/-",
+      "value": {
+        "target": "com.gcp.agentidentity_v1#ServiceDisabled"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.agentidentity_v1#DisableProjectsLocationsAuthProviders/errors/-",
+      "value": {
+        "target": "com.gcp.agentidentity_v1#ServiceDisabled"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.agentidentity_v1#EnableProjectsLocationsAuthProviders/errors/-",
+      "value": {
+        "target": "com.gcp.agentidentity_v1#ServiceDisabled"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.agentidentity_v1#GetIamPolicyProjectsLocationsAuthProviders/errors/-",
+      "value": {
+        "target": "com.gcp.agentidentity_v1#ServiceDisabled"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.agentidentity_v1#GetProjectsLocations/errors/-",
+      "value": {
+        "target": "com.gcp.agentidentity_v1#ServiceDisabled"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.agentidentity_v1#GetProjectsLocationsAccessSummaries/errors/-",
+      "value": {
+        "target": "com.gcp.agentidentity_v1#ServiceDisabled"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.agentidentity_v1#GetProjectsLocationsAuthProviders/errors/-",
+      "value": {
+        "target": "com.gcp.agentidentity_v1#ServiceDisabled"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.agentidentity_v1#GetProjectsLocationsAuthProvidersAuthorizations/errors/-",
+      "value": {
+        "target": "com.gcp.agentidentity_v1#ServiceDisabled"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.agentidentity_v1#ListProjectsLocations/errors/-",
+      "value": {
+        "target": "com.gcp.agentidentity_v1#ServiceDisabled"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.agentidentity_v1#ListProjectsLocationsAccessSummaries/errors/-",
+      "value": {
+        "target": "com.gcp.agentidentity_v1#ServiceDisabled"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.agentidentity_v1#ListProjectsLocationsAuthProviders/errors/-",
+      "value": {
+        "target": "com.gcp.agentidentity_v1#ServiceDisabled"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.agentidentity_v1#ListProjectsLocationsAuthProvidersAuthorizations/errors/-",
+      "value": {
+        "target": "com.gcp.agentidentity_v1#ServiceDisabled"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.agentidentity_v1#PatchProjectsLocationsAuthProviders/errors/-",
+      "value": {
+        "target": "com.gcp.agentidentity_v1#ServiceDisabled"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.agentidentity_v1#QueryProjectsLocationsAuthProviders/errors/-",
+      "value": {
+        "target": "com.gcp.agentidentity_v1#ServiceDisabled"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.agentidentity_v1#QueryWorkloadsProjectsLocationsAuthProviders/errors/-",
+      "value": {
+        "target": "com.gcp.agentidentity_v1#ServiceDisabled"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.agentidentity_v1#RevokeAuthorizationProjectsLocationsAuthProviders/errors/-",
+      "value": {
+        "target": "com.gcp.agentidentity_v1#ServiceDisabled"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.agentidentity_v1#SetIamPolicyProjectsLocationsAuthProviders/errors/-",
+      "value": {
+        "target": "com.gcp.agentidentity_v1#ServiceDisabled"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.agentidentity_v1#TestIamPermissionsProjectsLocationsAuthProviders/errors/-",
+      "value": {
+        "target": "com.gcp.agentidentity_v1#ServiceDisabled"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.agentidentity_v1#UndeleteProjectsLocationsAuthProviders/errors/-",
+      "value": {
+        "target": "com.gcp.agentidentity_v1#ServiceDisabled"
+      }
+    }
+  ]
+}

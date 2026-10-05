@@ -606,7 +606,7 @@
           "uri": "/tenants/{tenant_id}/entitlements",
           "code": 200
         },
-        "smithy.api#documentation": "List of innate entitlements available for the Tenant.",
+        "smithy.api#documentation": "Retrieves the innate and custom entitlement allocations available to this tenant.",
         "smithy.api#readonly": {}
       }
     },
@@ -684,7 +684,7 @@
           "uri": "/tenants/{tenant_id}",
           "code": 200
         },
-        "smithy.api#documentation": "Retrieves a Tenant by Tenant ID.",
+        "smithy.api#documentation": "Retrieves a tenant's identity, status, metadata, contacts, and organizational units.",
         "smithy.api#readonly": {}
       }
     },
@@ -795,7 +795,7 @@
           "uri": "/tenants/{tenant_id}/accounts",
           "code": 200
         },
-        "smithy.api#documentation": "List of accounts for the Tenant.",
+        "smithy.api#documentation": "Lists the Cloudflare accounts associated with this tenant.",
         "smithy.api#readonly": {},
         "smithy.api#paginated": {
           "mode": "single",
@@ -847,7 +847,7 @@
           "uri": "/tenants/{tenant_id}/account_types",
           "code": 200
         },
-        "smithy.api#documentation": "List of account types available for the Tenant to provision accounts.",
+        "smithy.api#documentation": "Lists the account types this tenant is allowed to provision.",
         "smithy.api#readonly": {},
         "smithy.api#paginated": {
           "mode": "single",
@@ -899,7 +899,7 @@
           "uri": "/tenants/{tenant_id}/memberships",
           "code": 200
         },
-        "smithy.api#documentation": "List of active members (Cloudflare users) for the Tenant.",
+        "smithy.api#documentation": "Lists active Cloudflare users with memberships in this tenant.",
         "smithy.api#readonly": {},
         "smithy.api#paginated": {
           "mode": "single",

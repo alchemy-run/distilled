@@ -12,7 +12,7 @@ npm install @distilled.cloud/axiom effect
 
 ```ts
 import { Effect, Layer } from "effect";
-import * as FetchHttpClient from "effect/unstable/http/FetchHttpClient";
+import * as FetchHttpClient from "effect/http/FetchHttpClient";
 import * as Axiom from "@distilled.cloud/axiom";
 
 const program = Effect.gen(function* () {

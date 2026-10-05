@@ -1,15 +1,39 @@
 /**
- * Railway GraphQL SDK for Effect.
+ * @distilled.cloud/railway — Railway GraphQL SDK for Effect.
  *
- * Select fields with typed `where`/`select` objects. Operations, GraphQL
- * errors, and credential layers are available from the package root.
+ * Roots (`me`, `project`, `projectCreate`, …) are lazy {@link Query} lenses.
+ * Combinators (`Query.fn`, `Query.map`, `Query.filter`, `Query.flatMap`)
+ * live in `@distilled.cloud/core/query`. Each root carries the typed errors
+ * it can return (`RailwayNotFound`, `RailwayRateLimited`, …), so the Effect
+ * `Query.fn` produces can be handled with `Effect.catchTag`.
  *
  * @example
  * ```ts
- * import * as Railway from "@distilled.cloud/railway";
+ * import { Query } from "@distilled.cloud/core/query";
+ * import { Railway } from "@distilled.cloud/railway";
  *
- * yield* Railway.project({ id: projectId }, { id: true, name: true });
+ * const load = Query.fn(() => {
+ *   const me = Railway.me();
+ *   return {
+ *     email: me.email,
+ *     workspaces: me.workspaces.pipe(
+ *       Query.map((workspace) => workspace.name),
+ *     ),
+ *   };
+ * });
  * ```
  */
 export * from "./credentials.ts";
-export * from "./graphql.ts";
+export { Railway } from "./graphql.ts";
+export type * from "./graphql.ts";
+export { GraphQLLive, type GraphQLRequirements } from "./graphql-transport.ts";
+export {
+  GqlError,
+  GqlTransport,
+  GraphQLFailure,
+  GraphQLPaginationError,
+  GraphQLTransportError,
+  UnknownGraphQLError,
+  type GraphQLIssue,
+  type QueryError,
+} from "@distilled.cloud/core/graphql";

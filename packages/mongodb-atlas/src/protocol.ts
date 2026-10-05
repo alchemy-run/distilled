@@ -1,3 +1,20 @@
+import * as API from "@distilled.cloud/core/api";
+import {
+  type API_ERRORS,
+  type ConfigError,
+  HTTP_STATUS_MAP,
+  InternalServerError,
+} from "@distilled.cloud/core/errors";
+import {
+  buildRequest,
+  getAnn,
+  mapKeys,
+  matchTypedError,
+} from "@distilled.cloud/core/protocol-http";
+import { unwrapRedactedDeep, wrapSensitive } from "@distilled.cloud/core/protocol-rest";
+import { validateResponse } from "@distilled.cloud/core/response-validation";
+import { parseRetryAfterForStatus } from "@distilled.cloud/core/retry-after";
+import { httpSymbol, type HttpTrait } from "@distilled.cloud/core/trait";
 /**
  * MongodbAtlasProtocol — hand-written.
  *
@@ -23,34 +40,15 @@
  *             from the standard hint headers on retryable statuses.
  */
 import * as Effect from "effect/Effect";
+import type * as HttpClient from "effect/http/HttpClient";
+import type * as HttpClientError from "effect/http/HttpClientError";
+import type * as HttpClientRequest from "effect/http/HttpClientRequest";
+import type * as HttpClientResponse from "effect/http/HttpClientResponse";
 import * as Layer from "effect/Layer";
 import * as Redacted from "effect/Redacted";
 import type * as AST from "effect/SchemaAST";
-import type * as HttpClient from "effect/unstable/http/HttpClient";
-import type * as HttpClientError from "effect/unstable/http/HttpClientError";
-import type * as HttpClientRequest from "effect/unstable/http/HttpClientRequest";
-import type * as HttpClientResponse from "effect/unstable/http/HttpClientResponse";
-import * as API from "@distilled.cloud/core/api";
-import { httpSymbol, type HttpTrait } from "@distilled.cloud/core/trait";
-import {
-  buildRequest,
-  getAnn,
-  mapKeys,
-  matchTypedError,
-} from "@distilled.cloud/core/protocol-http";
-import {
-  unwrapRedactedDeep,
-  wrapSensitive,
-} from "@distilled.cloud/core/protocol-rest";
-import {
-  type API_ERRORS,
-  type ConfigError,
-  HTTP_STATUS_MAP,
-  InternalServerError,
-} from "@distilled.cloud/core/errors";
-import { parseRetryAfterForStatus } from "@distilled.cloud/core/retry-after";
 import { Credentials, type Config } from "./credentials.ts";
-import { PaymentRequired, UnknownMongodbAtlasError } from "./errors.ts";
+import { MongodbAtlasParseError, PaymentRequired, UnknownMongodbAtlasError } from "./errors.ts";
 
 /**
  * Error channel shared by every generated Atlas operation. Generated service
@@ -62,6 +60,7 @@ export type MongodbAtlasOpError =
   | InstanceType<(typeof API_ERRORS)[number]>
   | PaymentRequired
   | UnknownMongodbAtlasError
+  | MongodbAtlasParseError
   | ConfigError
   | HttpClientError.HttpClientError;
 
@@ -69,9 +68,7 @@ export type MongodbAtlasOpError =
 export type MongodbAtlasOpContext = Credentials | HttpClient.HttpClient;
 
 /** The v0 Atlas status map: core's HTTP classes plus 402 → PaymentRequired. */
-const STATUS_MAP: Readonly<
-  Record<number, (new (args: any) => any) | undefined>
-> = {
+const STATUS_MAP: Readonly<Record<number, (new (args: any) => any) | undefined>> = {
   ...HTTP_STATUS_MAP,
   402: PaymentRequired,
 };
@@ -80,8 +77,7 @@ const STATUS_MAP: Readonly<
 // but Atlas failures are real typed errors that operations re-surface via
 // their `errors: [...]` lists. Fail with the instance and erase the type
 // here; the generated operation annotations reintroduce it for callers.
-const fail = (e: unknown): Effect.Effect<never> =>
-  Effect.fail(e) as Effect.Effect<never>;
+const fail = (e: unknown): Effect.Effect<never> => Effect.fail(e) as Effect.Effect<never>;
 
 /** The Atlas ApiError envelope: `{ error, errorCode, reason?, detail? }`. */
 interface AtlasErrorEnvelope {
@@ -106,13 +102,7 @@ const errorEnvelope = (body: unknown): AtlasErrorEnvelope => {
 // cached-token refresh in credentials.ts). The service's ConfigError channel
 // is erased at this boundary (Protocol effects carry none) and reintroduced
 // for callers by the generated `MongodbAtlasOpError` annotations.
-const encode = ({
-  input,
-  inputAst,
-}: {
-  readonly input: unknown;
-  readonly inputAst: AST.AST;
-}) =>
+const encode = ({ input, inputAst }: { readonly input: unknown; readonly inputAst: AST.AST }) =>
   Effect.gen(function* () {
     const resolve = yield* Credentials;
     const creds = yield* resolve as Effect.Effect<Config>;
@@ -162,9 +152,7 @@ const decode = ({
       const env = nonJson ? {} : errorEnvelope(json);
       // v0 parity: `detail` first, then `reason`.
       const message =
-        env.detail ??
-        env.reason ??
-        (nonJson && text.trim() ? text.trim() : `HTTP ${status}`);
+        env.detail ?? env.reason ?? (nonJson && text.trim() ? text.trim() : `HTTP ${status}`);
 
       // 1. Per-operation typed error (matcher metadata on the class).
       const typed = matchTypedError(errorClasses, status, [{ message }], {
@@ -210,8 +198,15 @@ const decode = ({
     // `?envelope=true` wrapper is never requested by the SDK — v0 parity).
     // Wire→TS key mapping is schema-driven; `RawResponseRoot` responses are
     // the body verbatim (mapKeys handles arrays/scalars structurally).
+    // Strict mode (core/response-validation) checks the mapped body against
+    // the output schema.
     const body: unknown = nonJson ? text : (json ?? {});
-    return wrapSensitive(outputAst, mapKeys(outputAst, body, "decode"));
+    const mapped = yield* validateResponse(
+      outputAst,
+      mapKeys(outputAst, body, "decode"),
+      (cause) => new MongodbAtlasParseError({ body: nonJson ? text : json, cause }),
+    ).pipe(Effect.catch(fail));
+    return wrapSensitive(outputAst, mapped);
   });
 
 export const MongodbAtlasProtocol: Layer.Layer<API.Protocol> = Layer.succeed(
@@ -219,8 +214,7 @@ export const MongodbAtlasProtocol: Layer.Layer<API.Protocol> = Layer.succeed(
   API.Protocol.of({
     // Erase encode's Credentials requirement (resolved on the calling
     // fiber; see the comment above `encode`).
-    encode: (args) =>
-      encode(args) as Effect.Effect<HttpClientRequest.HttpClientRequest>,
+    encode: (args) => encode(args) as Effect.Effect<HttpClientRequest.HttpClientRequest>,
     decode,
   }),
 );

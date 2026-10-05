@@ -228,6 +228,9 @@
         },
         {
           "target": "com.gcp.licensing_v1#Conflict"
+        },
+        {
+          "target": "com.gcp.licensing_v1#InsufficientAuthenticationScopes"
         }
       ],
       "traits": {
@@ -287,6 +290,9 @@
         },
         {
           "target": "com.gcp.licensing_v1#Conflict"
+        },
+        {
+          "target": "com.gcp.licensing_v1#InsufficientAuthenticationScopes"
         }
       ],
       "traits": {
@@ -346,6 +352,9 @@
         },
         {
           "target": "com.gcp.licensing_v1#Forbidden"
+        },
+        {
+          "target": "com.gcp.licensing_v1#InsufficientAuthenticationScopes"
         }
       ],
       "traits": {
@@ -417,6 +426,9 @@
         },
         {
           "target": "com.gcp.licensing_v1#Conflict"
+        },
+        {
+          "target": "com.gcp.licensing_v1#InsufficientAuthenticationScopes"
         }
       ],
       "traits": {
@@ -484,6 +496,9 @@
         },
         {
           "target": "com.gcp.licensing_v1#Forbidden"
+        },
+        {
+          "target": "com.gcp.licensing_v1#InsufficientAuthenticationScopes"
         }
       ],
       "traits": {
@@ -547,6 +562,9 @@
         },
         {
           "target": "com.gcp.licensing_v1#Conflict"
+        },
+        {
+          "target": "com.gcp.licensing_v1#InsufficientAuthenticationScopes"
         }
       ],
       "traits": {
@@ -600,6 +618,9 @@
         },
         {
           "target": "com.gcp.licensing_v1#Forbidden"
+        },
+        {
+          "target": "com.gcp.licensing_v1#InsufficientAuthenticationScopes"
         }
       ],
       "traits": {
@@ -608,6 +629,23 @@
           "uri": "apps/licensing/v1/product/{productId}/sku/{skuId}/user/{userId}"
         },
         "smithy.api#documentation": "Get a specific user's license by product SKU."
+      }
+    },
+    "com.gcp.licensing_v1#InsufficientAuthenticationScopes": {
+      "type": "structure",
+      "members": {},
+      "traits": {
+        "smithy.api#error": "client",
+        "smithy.api#httpError": 403,
+        "smithy.api#documentation": "The credential lacks the https://www.googleapis.com/auth/apps.licensing OAuth scope (HTTP 403 'Request had insufficient authentication scopes.'). A Cloud Platform-scoped service account token cannot call the License Manager API; not retryable.",
+        "com.gcp.protocols#errorMatchers": [
+          {
+            "status": 403,
+            "message": {
+              "includes": "insufficient authentication scopes"
+            }
+          }
+        ]
       }
     }
   }

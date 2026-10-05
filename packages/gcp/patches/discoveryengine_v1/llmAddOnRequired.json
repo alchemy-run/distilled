@@ -1,0 +1,47 @@
+{
+  "description": "Type the missing-LLM-add-on rejection on conversation creates. It surfaced as a generic BadRequest, so callers matched the message.",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.discoveryengine_v1#LlmAddOnRequired",
+      "value": {
+        "type": "structure",
+        "members": {},
+        "traits": {
+          "smithy.api#error": "client",
+          "smithy.api#httpError": 400,
+          "smithy.api#documentation": "The data store or engine lacks the Large Language Model add-on that conversations need (HTTP 400: 'This feature is only available when Large Language Model add-on is enabled.'). Not retryable.",
+          "com.gcp.protocols#errorMatchers": [
+            {
+              "status": 400,
+              "message": {
+                "includes": "Large Language Model add-on"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.discoveryengine_v1#CreateProjectsLocationsDataStoresConversations/errors/-",
+      "value": {
+        "target": "com.gcp.discoveryengine_v1#LlmAddOnRequired"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.discoveryengine_v1#CreateProjectsLocationsCollectionsDataStoresConversations/errors/-",
+      "value": {
+        "target": "com.gcp.discoveryengine_v1#LlmAddOnRequired"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.discoveryengine_v1#CreateProjectsLocationsCollectionsEnginesConversations/errors/-",
+      "value": {
+        "target": "com.gcp.discoveryengine_v1#LlmAddOnRequired"
+      }
+    }
+  ]
+}

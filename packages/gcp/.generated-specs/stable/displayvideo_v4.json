@@ -268,7 +268,7 @@
         "transcodes": {
           "target": "com.gcp.displayvideo_v4#TranscodeList",
           "traits": {
-            "smithy.api#documentation": "Output only. Audio/Video transcodes. Display & Video 360 transcodes the main asset into a number of alternative versions that use different file formats or have different properties (resolution, audio bit rate, and video bit rate), each designed for specific video players or bandwidths. These transcodes give a publisher's system more options to choose from for each impression on your video and ensures that the appropriate file serves based on the viewer’s connection and screen size. This field is only supported in the following creative_type: * `CREATIVE_TYPE_VIDEO` * `CREATIVE_TYPE_NATIVE_VIDEO` * `CREATIVE_TYPE_AUDIO`"
+            "smithy.api#documentation": "Output only. Audio/Video transcodes. Display & Video 360 transcodes the main asset into a number of alternative versions that use different file formats or have different properties (resolution, audio bit rate, and video bit rate), each designed for specific video players or bandwidths. These transcodes give a publisher's system more options to choose from for each impression on your video and ensures that the appropriate file serves based on the viewer\u2019s connection and screen size. This field is only supported in the following creative_type: * `CREATIVE_TYPE_VIDEO` * `CREATIVE_TYPE_NATIVE_VIDEO` * `CREATIVE_TYPE_AUDIO`"
           }
         },
         "companionCreativeIds": {
@@ -2192,7 +2192,7 @@
         }
       },
       "traits": {
-        "smithy.api#documentation": "Details of Google audience group. All Google audience targeting settings are logically ‘OR’ of each other."
+        "smithy.api#documentation": "Details of Google audience group. All Google audience targeting settings are logically \u2018OR\u2019 of each other."
       }
     },
     "com.gcp.displayvideo_v4#GoogleAudienceTargetingSettingList": {
@@ -5956,7 +5956,7 @@
         }
       },
       "traits": {
-        "smithy.api#documentation": "Details of combined audience group. All combined audience targeting settings are logically ‘OR’ of each other."
+        "smithy.api#documentation": "Details of combined audience group. All combined audience targeting settings are logically \u2018OR\u2019 of each other."
       }
     },
     "com.gcp.displayvideo_v4#CombinedAudienceTargetingSettingList": {
@@ -22910,7 +22910,7 @@
         "excludedGoogleAudienceGroup": {
           "target": "com.gcp.displayvideo_v4#GoogleAudienceGroup",
           "traits": {
-            "smithy.api#documentation": "Optional. The Google audience ids of the excluded Google audience group. Used for negative targeting. The COMPLEMENT of the UNION of this group and other excluded audience groups is used as an INTERSECTION to any positive audience targeting. Only contains Affinity, In-market and Installed-apps type Google audiences. All items are logically ‘OR’ of each other."
+            "smithy.api#documentation": "Optional. The Google audience ids of the excluded Google audience group. Used for negative targeting. The COMPLEMENT of the UNION of this group and other excluded audience groups is used as an INTERSECTION to any positive audience targeting. Only contains Affinity, In-market and Installed-apps type Google audiences. All items are logically \u2018OR\u2019 of each other."
           }
         },
         "includedGoogleAudienceGroup": {
@@ -22922,7 +22922,7 @@
         "excludedFirstPartyAndPartnerAudienceGroup": {
           "target": "com.gcp.displayvideo_v4#FirstPartyAndPartnerAudienceGroup",
           "traits": {
-            "smithy.api#documentation": "Optional. The first party and partner audience ids and recencies of the excluded first party and partner audience group. Used for negative targeting. The COMPLEMENT of the UNION of this group and other excluded audience groups is used as an INTERSECTION to any positive audience targeting. All items are logically ‘OR’ of each other."
+            "smithy.api#documentation": "Optional. The first party and partner audience ids and recencies of the excluded first party and partner audience group. Used for negative targeting. The COMPLEMENT of the UNION of this group and other excluded audience groups is used as an INTERSECTION to any positive audience targeting. All items are logically \u2018OR\u2019 of each other."
           }
         },
         "includedCombinedAudienceGroup": {
@@ -26346,7 +26346,7 @@
         }
       },
       "traits": {
-        "smithy.api#documentation": "Details of first party and partner audience group. All first party and partner audience targeting settings are logically ‘OR’ of each other."
+        "smithy.api#documentation": "Details of first party and partner audience group. All first party and partner audience targeting settings are logically \u2018OR\u2019 of each other."
       }
     },
     "com.gcp.displayvideo_v4#FirstPartyAndPartnerAudienceTargetingSettingList": {
@@ -26916,7 +26916,7 @@
         "program": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "Optional. The program of the OBA icon. For example: “AdChoices”."
+            "smithy.api#documentation": "Optional. The program of the OBA icon. For example: \u201cAdChoices\u201d."
           }
         },
         "clickTrackingUrl": {
@@ -31052,7 +31052,7 @@
         }
       },
       "traits": {
-        "smithy.api#documentation": "Details of custom list group. All custom list targeting settings are logically ‘OR’ of each other."
+        "smithy.api#documentation": "Details of custom list group. All custom list targeting settings are logically \u2018OR\u2019 of each other."
       }
     },
     "com.gcp.displayvideo_v4#CustomListTargetingSettingList": {
@@ -31169,6 +31169,9 @@
         },
         {
           "target": "com.gcp.displayvideo_v4#Conflict"
+        },
+        {
+          "target": "com.gcp.displayvideo_v4#InsufficientScopes"
         }
       ],
       "traits": {
@@ -31233,6 +31236,9 @@
         },
         {
           "target": "com.gcp.displayvideo_v4#Forbidden"
+        },
+        {
+          "target": "com.gcp.displayvideo_v4#InsufficientScopes"
         }
       ],
       "traits": {
@@ -31294,6 +31300,9 @@
         },
         {
           "target": "com.gcp.displayvideo_v4#Conflict"
+        },
+        {
+          "target": "com.gcp.displayvideo_v4#InsufficientScopes"
         }
       ],
       "traits": {
@@ -31338,6 +31347,9 @@
         },
         {
           "target": "com.gcp.displayvideo_v4#Forbidden"
+        },
+        {
+          "target": "com.gcp.displayvideo_v4#InsufficientScopes"
         }
       ],
       "traits": {
@@ -31388,6 +31400,9 @@
         },
         {
           "target": "com.gcp.displayvideo_v4#Conflict"
+        },
+        {
+          "target": "com.gcp.displayvideo_v4#InsufficientScopes"
         }
       ],
       "traits": {
@@ -31425,6 +31440,9 @@
         },
         {
           "target": "com.gcp.displayvideo_v4#Forbidden"
+        },
+        {
+          "target": "com.gcp.displayvideo_v4#InsufficientScopes"
         }
       ],
       "traits": {
@@ -31467,6 +31485,9 @@
         },
         {
           "target": "com.gcp.displayvideo_v4#Conflict"
+        },
+        {
+          "target": "com.gcp.displayvideo_v4#InsufficientScopes"
         }
       ],
       "traits": {
@@ -31532,6 +31553,9 @@
         },
         {
           "target": "com.gcp.displayvideo_v4#Forbidden"
+        },
+        {
+          "target": "com.gcp.displayvideo_v4#InsufficientScopes"
         }
       ],
       "traits": {
@@ -31601,6 +31625,9 @@
         },
         {
           "target": "com.gcp.displayvideo_v4#Forbidden"
+        },
+        {
+          "target": "com.gcp.displayvideo_v4#InsufficientScopes"
         }
       ],
       "traits": {
@@ -31670,6 +31697,9 @@
         },
         {
           "target": "com.gcp.displayvideo_v4#Conflict"
+        },
+        {
+          "target": "com.gcp.displayvideo_v4#InsufficientScopes"
         }
       ],
       "traits": {
@@ -31715,6 +31745,9 @@
         },
         {
           "target": "com.gcp.displayvideo_v4#Forbidden"
+        },
+        {
+          "target": "com.gcp.displayvideo_v4#InsufficientScopes"
         }
       ],
       "traits": {
@@ -31765,6 +31798,9 @@
         },
         {
           "target": "com.gcp.displayvideo_v4#Conflict"
+        },
+        {
+          "target": "com.gcp.displayvideo_v4#InsufficientScopes"
         }
       ],
       "traits": {
@@ -31823,6 +31859,9 @@
         },
         {
           "target": "com.gcp.displayvideo_v4#Conflict"
+        },
+        {
+          "target": "com.gcp.displayvideo_v4#InsufficientScopes"
         }
       ],
       "traits": {
@@ -31882,6 +31921,9 @@
         },
         {
           "target": "com.gcp.displayvideo_v4#Conflict"
+        },
+        {
+          "target": "com.gcp.displayvideo_v4#InsufficientScopes"
         }
       ],
       "traits": {
@@ -31940,6 +31982,9 @@
         },
         {
           "target": "com.gcp.displayvideo_v4#Conflict"
+        },
+        {
+          "target": "com.gcp.displayvideo_v4#InsufficientScopes"
         }
       ],
       "traits": {
@@ -32013,6 +32058,9 @@
         },
         {
           "target": "com.gcp.displayvideo_v4#Forbidden"
+        },
+        {
+          "target": "com.gcp.displayvideo_v4#InsufficientScopes"
         }
       ],
       "traits": {
@@ -32061,6 +32109,9 @@
         },
         {
           "target": "com.gcp.displayvideo_v4#Forbidden"
+        },
+        {
+          "target": "com.gcp.displayvideo_v4#InsufficientScopes"
         }
       ],
       "traits": {
@@ -32149,6 +32200,9 @@
         },
         {
           "target": "com.gcp.displayvideo_v4#Forbidden"
+        },
+        {
+          "target": "com.gcp.displayvideo_v4#InsufficientScopes"
         }
       ],
       "traits": {
@@ -32204,6 +32258,9 @@
         },
         {
           "target": "com.gcp.displayvideo_v4#Conflict"
+        },
+        {
+          "target": "com.gcp.displayvideo_v4#InsufficientScopes"
         }
       ],
       "traits": {
@@ -32269,6 +32326,9 @@
         },
         {
           "target": "com.gcp.displayvideo_v4#Forbidden"
+        },
+        {
+          "target": "com.gcp.displayvideo_v4#InsufficientScopes"
         }
       ],
       "traits": {
@@ -32323,6 +32383,9 @@
         },
         {
           "target": "com.gcp.displayvideo_v4#Conflict"
+        },
+        {
+          "target": "com.gcp.displayvideo_v4#InsufficientScopes"
         }
       ],
       "traits": {
@@ -32368,6 +32431,9 @@
         },
         {
           "target": "com.gcp.displayvideo_v4#Forbidden"
+        },
+        {
+          "target": "com.gcp.displayvideo_v4#InsufficientScopes"
         }
       ],
       "traits": {
@@ -32433,6 +32499,9 @@
         },
         {
           "target": "com.gcp.displayvideo_v4#Conflict"
+        },
+        {
+          "target": "com.gcp.displayvideo_v4#InsufficientScopes"
         }
       ],
       "traits": {
@@ -32485,6 +32554,9 @@
         },
         {
           "target": "com.gcp.displayvideo_v4#Forbidden"
+        },
+        {
+          "target": "com.gcp.displayvideo_v4#InsufficientScopes"
         }
       ],
       "traits": {
@@ -32557,6 +32629,9 @@
         },
         {
           "target": "com.gcp.displayvideo_v4#Conflict"
+        },
+        {
+          "target": "com.gcp.displayvideo_v4#InsufficientScopes"
         }
       ],
       "traits": {
@@ -32614,6 +32689,9 @@
         },
         {
           "target": "com.gcp.displayvideo_v4#Conflict"
+        },
+        {
+          "target": "com.gcp.displayvideo_v4#InsufficientScopes"
         }
       ],
       "traits": {
@@ -32686,6 +32764,9 @@
         },
         {
           "target": "com.gcp.displayvideo_v4#Forbidden"
+        },
+        {
+          "target": "com.gcp.displayvideo_v4#InsufficientScopes"
         }
       ],
       "traits": {
@@ -32748,6 +32829,9 @@
         },
         {
           "target": "com.gcp.displayvideo_v4#Conflict"
+        },
+        {
+          "target": "com.gcp.displayvideo_v4#InsufficientScopes"
         }
       ],
       "traits": {
@@ -32828,6 +32912,9 @@
         },
         {
           "target": "com.gcp.displayvideo_v4#Forbidden"
+        },
+        {
+          "target": "com.gcp.displayvideo_v4#InsufficientScopes"
         }
       ],
       "traits": {
@@ -32890,6 +32977,9 @@
         },
         {
           "target": "com.gcp.displayvideo_v4#Conflict"
+        },
+        {
+          "target": "com.gcp.displayvideo_v4#InsufficientScopes"
         }
       ],
       "traits": {
@@ -32956,6 +33046,9 @@
         },
         {
           "target": "com.gcp.displayvideo_v4#Conflict"
+        },
+        {
+          "target": "com.gcp.displayvideo_v4#InsufficientScopes"
         }
       ],
       "traits": {
@@ -33021,6 +33114,9 @@
         },
         {
           "target": "com.gcp.displayvideo_v4#Conflict"
+        },
+        {
+          "target": "com.gcp.displayvideo_v4#InsufficientScopes"
         }
       ],
       "traits": {
@@ -33391,6 +33487,9 @@
         },
         {
           "target": "com.gcp.displayvideo_v4#Conflict"
+        },
+        {
+          "target": "com.gcp.displayvideo_v4#InsufficientScopes"
         }
       ],
       "traits": {
@@ -33775,6 +33874,9 @@
         },
         {
           "target": "com.gcp.displayvideo_v4#Forbidden"
+        },
+        {
+          "target": "com.gcp.displayvideo_v4#InsufficientScopes"
         }
       ],
       "traits": {
@@ -34143,6 +34245,9 @@
         },
         {
           "target": "com.gcp.displayvideo_v4#Forbidden"
+        },
+        {
+          "target": "com.gcp.displayvideo_v4#InsufficientScopes"
         }
       ],
       "traits": {
@@ -34512,6 +34617,9 @@
         },
         {
           "target": "com.gcp.displayvideo_v4#Conflict"
+        },
+        {
+          "target": "com.gcp.displayvideo_v4#InsufficientScopes"
         }
       ],
       "traits": {
@@ -34563,6 +34671,9 @@
         },
         {
           "target": "com.gcp.displayvideo_v4#Conflict"
+        },
+        {
+          "target": "com.gcp.displayvideo_v4#InsufficientScopes"
         }
       ],
       "traits": {
@@ -34613,6 +34724,9 @@
         },
         {
           "target": "com.gcp.displayvideo_v4#Conflict"
+        },
+        {
+          "target": "com.gcp.displayvideo_v4#InsufficientScopes"
         }
       ],
       "traits": {
@@ -34678,6 +34792,9 @@
         },
         {
           "target": "com.gcp.displayvideo_v4#Conflict"
+        },
+        {
+          "target": "com.gcp.displayvideo_v4#InsufficientScopes"
         }
       ],
       "traits": {
@@ -34743,6 +34860,9 @@
         },
         {
           "target": "com.gcp.displayvideo_v4#Forbidden"
+        },
+        {
+          "target": "com.gcp.displayvideo_v4#InsufficientScopes"
         }
       ],
       "traits": {
@@ -34792,6 +34912,9 @@
         },
         {
           "target": "com.gcp.displayvideo_v4#Forbidden"
+        },
+        {
+          "target": "com.gcp.displayvideo_v4#InsufficientScopes"
         }
       ],
       "traits": {
@@ -34843,6 +34966,9 @@
         },
         {
           "target": "com.gcp.displayvideo_v4#Conflict"
+        },
+        {
+          "target": "com.gcp.displayvideo_v4#InsufficientScopes"
         }
       ],
       "traits": {
@@ -34908,6 +35034,9 @@
         },
         {
           "target": "com.gcp.displayvideo_v4#Conflict"
+        },
+        {
+          "target": "com.gcp.displayvideo_v4#InsufficientScopes"
         }
       ],
       "traits": {
@@ -34953,6 +35082,9 @@
         },
         {
           "target": "com.gcp.displayvideo_v4#Forbidden"
+        },
+        {
+          "target": "com.gcp.displayvideo_v4#InsufficientScopes"
         }
       ],
       "traits": {
@@ -35018,6 +35150,9 @@
         },
         {
           "target": "com.gcp.displayvideo_v4#Forbidden"
+        },
+        {
+          "target": "com.gcp.displayvideo_v4#InsufficientScopes"
         }
       ],
       "traits": {
@@ -35072,6 +35207,9 @@
         },
         {
           "target": "com.gcp.displayvideo_v4#Conflict"
+        },
+        {
+          "target": "com.gcp.displayvideo_v4#InsufficientScopes"
         }
       ],
       "traits": {
@@ -35122,6 +35260,9 @@
         },
         {
           "target": "com.gcp.displayvideo_v4#Conflict"
+        },
+        {
+          "target": "com.gcp.displayvideo_v4#InsufficientScopes"
         }
       ],
       "traits": {
@@ -35187,6 +35328,9 @@
         },
         {
           "target": "com.gcp.displayvideo_v4#Forbidden"
+        },
+        {
+          "target": "com.gcp.displayvideo_v4#InsufficientScopes"
         }
       ],
       "traits": {
@@ -35263,6 +35407,9 @@
         },
         {
           "target": "com.gcp.displayvideo_v4#Forbidden"
+        },
+        {
+          "target": "com.gcp.displayvideo_v4#InsufficientScopes"
         }
       ],
       "traits": {
@@ -35332,6 +35479,9 @@
         },
         {
           "target": "com.gcp.displayvideo_v4#Conflict"
+        },
+        {
+          "target": "com.gcp.displayvideo_v4#InsufficientScopes"
         }
       ],
       "traits": {
@@ -35382,6 +35532,9 @@
         },
         {
           "target": "com.gcp.displayvideo_v4#Conflict"
+        },
+        {
+          "target": "com.gcp.displayvideo_v4#InsufficientScopes"
         }
       ],
       "traits": {
@@ -35433,6 +35586,9 @@
         },
         {
           "target": "com.gcp.displayvideo_v4#Conflict"
+        },
+        {
+          "target": "com.gcp.displayvideo_v4#InsufficientScopes"
         }
       ],
       "traits": {
@@ -35478,6 +35634,9 @@
         },
         {
           "target": "com.gcp.displayvideo_v4#Forbidden"
+        },
+        {
+          "target": "com.gcp.displayvideo_v4#InsufficientScopes"
         }
       ],
       "traits": {
@@ -35870,6 +36029,9 @@
         },
         {
           "target": "com.gcp.displayvideo_v4#Forbidden"
+        },
+        {
+          "target": "com.gcp.displayvideo_v4#InsufficientScopes"
         }
       ],
       "traits": {
@@ -36251,6 +36413,9 @@
         },
         {
           "target": "com.gcp.displayvideo_v4#Conflict"
+        },
+        {
+          "target": "com.gcp.displayvideo_v4#InsufficientScopes"
         }
       ],
       "traits": {
@@ -36623,6 +36788,9 @@
         },
         {
           "target": "com.gcp.displayvideo_v4#Forbidden"
+        },
+        {
+          "target": "com.gcp.displayvideo_v4#InsufficientScopes"
         }
       ],
       "traits": {
@@ -37001,6 +37169,9 @@
         },
         {
           "target": "com.gcp.displayvideo_v4#Conflict"
+        },
+        {
+          "target": "com.gcp.displayvideo_v4#InsufficientScopes"
         }
       ],
       "traits": {
@@ -37111,6 +37282,9 @@
         },
         {
           "target": "com.gcp.displayvideo_v4#Forbidden"
+        },
+        {
+          "target": "com.gcp.displayvideo_v4#InsufficientScopes"
         }
       ],
       "traits": {
@@ -37217,6 +37391,9 @@
         },
         {
           "target": "com.gcp.displayvideo_v4#Conflict"
+        },
+        {
+          "target": "com.gcp.displayvideo_v4#InsufficientScopes"
         }
       ],
       "traits": {
@@ -37320,6 +37497,9 @@
         },
         {
           "target": "com.gcp.displayvideo_v4#Conflict"
+        },
+        {
+          "target": "com.gcp.displayvideo_v4#InsufficientScopes"
         }
       ],
       "traits": {
@@ -37385,6 +37565,9 @@
         },
         {
           "target": "com.gcp.displayvideo_v4#Conflict"
+        },
+        {
+          "target": "com.gcp.displayvideo_v4#InsufficientScopes"
         }
       ],
       "traits": {
@@ -37430,6 +37613,9 @@
         },
         {
           "target": "com.gcp.displayvideo_v4#Forbidden"
+        },
+        {
+          "target": "com.gcp.displayvideo_v4#InsufficientScopes"
         }
       ],
       "traits": {
@@ -37480,6 +37666,9 @@
         },
         {
           "target": "com.gcp.displayvideo_v4#Conflict"
+        },
+        {
+          "target": "com.gcp.displayvideo_v4#InsufficientScopes"
         }
       ],
       "traits": {
@@ -37530,6 +37719,9 @@
         },
         {
           "target": "com.gcp.displayvideo_v4#Conflict"
+        },
+        {
+          "target": "com.gcp.displayvideo_v4#InsufficientScopes"
         }
       ],
       "traits": {
@@ -37595,6 +37787,9 @@
         },
         {
           "target": "com.gcp.displayvideo_v4#Forbidden"
+        },
+        {
+          "target": "com.gcp.displayvideo_v4#InsufficientScopes"
         }
       ],
       "traits": {
@@ -37649,6 +37844,9 @@
         },
         {
           "target": "com.gcp.displayvideo_v4#Conflict"
+        },
+        {
+          "target": "com.gcp.displayvideo_v4#InsufficientScopes"
         }
       ],
       "traits": {
@@ -37700,6 +37898,9 @@
         },
         {
           "target": "com.gcp.displayvideo_v4#Forbidden"
+        },
+        {
+          "target": "com.gcp.displayvideo_v4#InsufficientScopes"
         }
       ],
       "traits": {
@@ -37754,6 +37955,9 @@
         },
         {
           "target": "com.gcp.displayvideo_v4#Conflict"
+        },
+        {
+          "target": "com.gcp.displayvideo_v4#InsufficientScopes"
         }
       ],
       "traits": {
@@ -37819,6 +38023,9 @@
         },
         {
           "target": "com.gcp.displayvideo_v4#Conflict"
+        },
+        {
+          "target": "com.gcp.displayvideo_v4#InsufficientScopes"
         }
       ],
       "traits": {
@@ -37864,6 +38071,9 @@
         },
         {
           "target": "com.gcp.displayvideo_v4#Forbidden"
+        },
+        {
+          "target": "com.gcp.displayvideo_v4#InsufficientScopes"
         }
       ],
       "traits": {
@@ -37915,6 +38125,9 @@
         },
         {
           "target": "com.gcp.displayvideo_v4#Conflict"
+        },
+        {
+          "target": "com.gcp.displayvideo_v4#InsufficientScopes"
         }
       ],
       "traits": {
@@ -37973,6 +38186,9 @@
         },
         {
           "target": "com.gcp.displayvideo_v4#Conflict"
+        },
+        {
+          "target": "com.gcp.displayvideo_v4#InsufficientScopes"
         }
       ],
       "traits": {
@@ -38031,6 +38247,9 @@
         },
         {
           "target": "com.gcp.displayvideo_v4#Conflict"
+        },
+        {
+          "target": "com.gcp.displayvideo_v4#InsufficientScopes"
         }
       ],
       "traits": {
@@ -38104,6 +38323,9 @@
         },
         {
           "target": "com.gcp.displayvideo_v4#Forbidden"
+        },
+        {
+          "target": "com.gcp.displayvideo_v4#InsufficientScopes"
         }
       ],
       "traits": {
@@ -38167,6 +38389,9 @@
         },
         {
           "target": "com.gcp.displayvideo_v4#Conflict"
+        },
+        {
+          "target": "com.gcp.displayvideo_v4#InsufficientScopes"
         }
       ],
       "traits": {
@@ -38225,6 +38450,9 @@
         },
         {
           "target": "com.gcp.displayvideo_v4#Conflict"
+        },
+        {
+          "target": "com.gcp.displayvideo_v4#InsufficientScopes"
         }
       ],
       "traits": {
@@ -38275,6 +38503,9 @@
         },
         {
           "target": "com.gcp.displayvideo_v4#Conflict"
+        },
+        {
+          "target": "com.gcp.displayvideo_v4#InsufficientScopes"
         }
       ],
       "traits": {
@@ -38340,6 +38571,9 @@
         },
         {
           "target": "com.gcp.displayvideo_v4#Forbidden"
+        },
+        {
+          "target": "com.gcp.displayvideo_v4#InsufficientScopes"
         }
       ],
       "traits": {
@@ -38395,6 +38629,9 @@
         },
         {
           "target": "com.gcp.displayvideo_v4#Conflict"
+        },
+        {
+          "target": "com.gcp.displayvideo_v4#InsufficientScopes"
         }
       ],
       "traits": {
@@ -38460,6 +38697,9 @@
         },
         {
           "target": "com.gcp.displayvideo_v4#Conflict"
+        },
+        {
+          "target": "com.gcp.displayvideo_v4#InsufficientScopes"
         }
       ],
       "traits": {
@@ -38505,6 +38745,9 @@
         },
         {
           "target": "com.gcp.displayvideo_v4#Forbidden"
+        },
+        {
+          "target": "com.gcp.displayvideo_v4#InsufficientScopes"
         }
       ],
       "traits": {
@@ -38577,6 +38820,9 @@
         },
         {
           "target": "com.gcp.displayvideo_v4#Forbidden"
+        },
+        {
+          "target": "com.gcp.displayvideo_v4#InsufficientScopes"
         }
       ],
       "traits": {
@@ -38646,6 +38892,9 @@
         },
         {
           "target": "com.gcp.displayvideo_v4#Forbidden"
+        },
+        {
+          "target": "com.gcp.displayvideo_v4#InsufficientScopes"
         }
       ],
       "traits": {
@@ -38700,6 +38949,9 @@
         },
         {
           "target": "com.gcp.displayvideo_v4#Conflict"
+        },
+        {
+          "target": "com.gcp.displayvideo_v4#InsufficientScopes"
         }
       ],
       "traits": {
@@ -38751,6 +39003,9 @@
         },
         {
           "target": "com.gcp.displayvideo_v4#Conflict"
+        },
+        {
+          "target": "com.gcp.displayvideo_v4#InsufficientScopes"
         }
       ],
       "traits": {
@@ -38801,6 +39056,9 @@
         },
         {
           "target": "com.gcp.displayvideo_v4#Conflict"
+        },
+        {
+          "target": "com.gcp.displayvideo_v4#InsufficientScopes"
         }
       ],
       "traits": {
@@ -38851,6 +39109,9 @@
         },
         {
           "target": "com.gcp.displayvideo_v4#Conflict"
+        },
+        {
+          "target": "com.gcp.displayvideo_v4#InsufficientScopes"
         }
       ],
       "traits": {
@@ -38916,6 +39177,9 @@
         },
         {
           "target": "com.gcp.displayvideo_v4#Conflict"
+        },
+        {
+          "target": "com.gcp.displayvideo_v4#InsufficientScopes"
         }
       ],
       "traits": {
@@ -38974,6 +39238,9 @@
         },
         {
           "target": "com.gcp.displayvideo_v4#Conflict"
+        },
+        {
+          "target": "com.gcp.displayvideo_v4#InsufficientScopes"
         }
       ],
       "traits": {
@@ -39019,6 +39286,9 @@
         },
         {
           "target": "com.gcp.displayvideo_v4#Forbidden"
+        },
+        {
+          "target": "com.gcp.displayvideo_v4#InsufficientScopes"
         }
       ],
       "traits": {
@@ -39397,6 +39667,9 @@
         },
         {
           "target": "com.gcp.displayvideo_v4#Conflict"
+        },
+        {
+          "target": "com.gcp.displayvideo_v4#InsufficientScopes"
         }
       ],
       "traits": {
@@ -39789,6 +40062,9 @@
         },
         {
           "target": "com.gcp.displayvideo_v4#Forbidden"
+        },
+        {
+          "target": "com.gcp.displayvideo_v4#InsufficientScopes"
         }
       ],
       "traits": {
@@ -40165,6 +40441,9 @@
         },
         {
           "target": "com.gcp.displayvideo_v4#Forbidden"
+        },
+        {
+          "target": "com.gcp.displayvideo_v4#InsufficientScopes"
         }
       ],
       "traits": {
@@ -40542,6 +40821,9 @@
         },
         {
           "target": "com.gcp.displayvideo_v4#Conflict"
+        },
+        {
+          "target": "com.gcp.displayvideo_v4#InsufficientScopes"
         }
       ],
       "traits": {
@@ -40652,6 +40934,9 @@
         },
         {
           "target": "com.gcp.displayvideo_v4#Forbidden"
+        },
+        {
+          "target": "com.gcp.displayvideo_v4#InsufficientScopes"
         }
       ],
       "traits": {
@@ -40759,6 +41044,9 @@
         },
         {
           "target": "com.gcp.displayvideo_v4#Conflict"
+        },
+        {
+          "target": "com.gcp.displayvideo_v4#InsufficientScopes"
         }
       ],
       "traits": {
@@ -40861,6 +41149,9 @@
         },
         {
           "target": "com.gcp.displayvideo_v4#Conflict"
+        },
+        {
+          "target": "com.gcp.displayvideo_v4#InsufficientScopes"
         }
       ],
       "traits": {
@@ -40911,6 +41202,9 @@
         },
         {
           "target": "com.gcp.displayvideo_v4#Conflict"
+        },
+        {
+          "target": "com.gcp.displayvideo_v4#InsufficientScopes"
         }
       ],
       "traits": {
@@ -40969,6 +41263,9 @@
         },
         {
           "target": "com.gcp.displayvideo_v4#Forbidden"
+        },
+        {
+          "target": "com.gcp.displayvideo_v4#InsufficientScopes"
         }
       ],
       "traits": {
@@ -41023,6 +41320,9 @@
         },
         {
           "target": "com.gcp.displayvideo_v4#Conflict"
+        },
+        {
+          "target": "com.gcp.displayvideo_v4#InsufficientScopes"
         }
       ],
       "traits": {
@@ -41067,6 +41367,9 @@
         },
         {
           "target": "com.gcp.displayvideo_v4#Forbidden"
+        },
+        {
+          "target": "com.gcp.displayvideo_v4#InsufficientScopes"
         }
       ],
       "traits": {
@@ -41104,6 +41407,9 @@
         },
         {
           "target": "com.gcp.displayvideo_v4#Forbidden"
+        },
+        {
+          "target": "com.gcp.displayvideo_v4#InsufficientScopes"
         }
       ],
       "traits": {
@@ -41171,6 +41477,9 @@
         },
         {
           "target": "com.gcp.displayvideo_v4#Forbidden"
+        },
+        {
+          "target": "com.gcp.displayvideo_v4#InsufficientScopes"
         }
       ],
       "traits": {
@@ -41242,6 +41551,9 @@
         },
         {
           "target": "com.gcp.displayvideo_v4#Forbidden"
+        },
+        {
+          "target": "com.gcp.displayvideo_v4#InsufficientScopes"
         }
       ],
       "traits": {
@@ -41297,6 +41609,9 @@
         },
         {
           "target": "com.gcp.displayvideo_v4#Forbidden"
+        },
+        {
+          "target": "com.gcp.displayvideo_v4#InsufficientScopes"
         }
       ],
       "traits": {
@@ -41368,6 +41683,9 @@
         },
         {
           "target": "com.gcp.displayvideo_v4#Conflict"
+        },
+        {
+          "target": "com.gcp.displayvideo_v4#InsufficientScopes"
         }
       ],
       "traits": {
@@ -41424,6 +41742,9 @@
         },
         {
           "target": "com.gcp.displayvideo_v4#Conflict"
+        },
+        {
+          "target": "com.gcp.displayvideo_v4#InsufficientScopes"
         }
       ],
       "traits": {
@@ -41481,6 +41802,9 @@
         },
         {
           "target": "com.gcp.displayvideo_v4#Conflict"
+        },
+        {
+          "target": "com.gcp.displayvideo_v4#InsufficientScopes"
         }
       ],
       "traits": {
@@ -41545,6 +41869,9 @@
         },
         {
           "target": "com.gcp.displayvideo_v4#Conflict"
+        },
+        {
+          "target": "com.gcp.displayvideo_v4#InsufficientScopes"
         }
       ],
       "traits": {
@@ -41610,6 +41937,9 @@
         },
         {
           "target": "com.gcp.displayvideo_v4#Conflict"
+        },
+        {
+          "target": "com.gcp.displayvideo_v4#InsufficientScopes"
         }
       ],
       "traits": {
@@ -41689,6 +42019,9 @@
         },
         {
           "target": "com.gcp.displayvideo_v4#Forbidden"
+        },
+        {
+          "target": "com.gcp.displayvideo_v4#InsufficientScopes"
         }
       ],
       "traits": {
@@ -41743,6 +42076,9 @@
         },
         {
           "target": "com.gcp.displayvideo_v4#Conflict"
+        },
+        {
+          "target": "com.gcp.displayvideo_v4#InsufficientScopes"
         }
       ],
       "traits": {
@@ -41800,6 +42136,9 @@
         },
         {
           "target": "com.gcp.displayvideo_v4#Forbidden"
+        },
+        {
+          "target": "com.gcp.displayvideo_v4#InsufficientScopes"
         }
       ],
       "traits": {
@@ -41854,6 +42193,9 @@
         },
         {
           "target": "com.gcp.displayvideo_v4#Conflict"
+        },
+        {
+          "target": "com.gcp.displayvideo_v4#InsufficientScopes"
         }
       ],
       "traits": {
@@ -41891,6 +42233,9 @@
         },
         {
           "target": "com.gcp.displayvideo_v4#Forbidden"
+        },
+        {
+          "target": "com.gcp.displayvideo_v4#InsufficientScopes"
         }
       ],
       "traits": {
@@ -41963,6 +42308,9 @@
         },
         {
           "target": "com.gcp.displayvideo_v4#Conflict"
+        },
+        {
+          "target": "com.gcp.displayvideo_v4#InsufficientScopes"
         }
       ],
       "traits": {
@@ -42020,6 +42368,9 @@
         },
         {
           "target": "com.gcp.displayvideo_v4#Conflict"
+        },
+        {
+          "target": "com.gcp.displayvideo_v4#InsufficientScopes"
         }
       ],
       "traits": {
@@ -42092,6 +42443,9 @@
         },
         {
           "target": "com.gcp.displayvideo_v4#Forbidden"
+        },
+        {
+          "target": "com.gcp.displayvideo_v4#InsufficientScopes"
         }
       ],
       "traits": {
@@ -42148,6 +42502,9 @@
         },
         {
           "target": "com.gcp.displayvideo_v4#Forbidden"
+        },
+        {
+          "target": "com.gcp.displayvideo_v4#InsufficientScopes"
         }
       ],
       "traits": {
@@ -42206,6 +42563,9 @@
         },
         {
           "target": "com.gcp.displayvideo_v4#Conflict"
+        },
+        {
+          "target": "com.gcp.displayvideo_v4#InsufficientScopes"
         }
       ],
       "traits": {
@@ -42264,6 +42624,9 @@
         },
         {
           "target": "com.gcp.displayvideo_v4#Conflict"
+        },
+        {
+          "target": "com.gcp.displayvideo_v4#InsufficientScopes"
         }
       ],
       "traits": {
@@ -42330,6 +42693,9 @@
         },
         {
           "target": "com.gcp.displayvideo_v4#Conflict"
+        },
+        {
+          "target": "com.gcp.displayvideo_v4#InsufficientScopes"
         }
       ],
       "traits": {
@@ -42395,6 +42761,9 @@
         },
         {
           "target": "com.gcp.displayvideo_v4#Conflict"
+        },
+        {
+          "target": "com.gcp.displayvideo_v4#InsufficientScopes"
         }
       ],
       "traits": {
@@ -42475,6 +42844,9 @@
         },
         {
           "target": "com.gcp.displayvideo_v4#Forbidden"
+        },
+        {
+          "target": "com.gcp.displayvideo_v4#InsufficientScopes"
         }
       ],
       "traits": {
@@ -42843,6 +43215,9 @@
         },
         {
           "target": "com.gcp.displayvideo_v4#Forbidden"
+        },
+        {
+          "target": "com.gcp.displayvideo_v4#InsufficientScopes"
         }
       ],
       "traits": {
@@ -43212,6 +43587,9 @@
         },
         {
           "target": "com.gcp.displayvideo_v4#Conflict"
+        },
+        {
+          "target": "com.gcp.displayvideo_v4#InsufficientScopes"
         }
       ],
       "traits": {
@@ -43582,6 +43960,9 @@
         },
         {
           "target": "com.gcp.displayvideo_v4#Conflict"
+        },
+        {
+          "target": "com.gcp.displayvideo_v4#InsufficientScopes"
         }
       ],
       "traits": {
@@ -43966,6 +44347,9 @@
         },
         {
           "target": "com.gcp.displayvideo_v4#Forbidden"
+        },
+        {
+          "target": "com.gcp.displayvideo_v4#InsufficientScopes"
         }
       ],
       "traits": {
@@ -44331,6 +44715,9 @@
         },
         {
           "target": "com.gcp.displayvideo_v4#Conflict"
+        },
+        {
+          "target": "com.gcp.displayvideo_v4#InsufficientScopes"
         }
       ],
       "traits": {
@@ -44694,6 +45081,9 @@
         },
         {
           "target": "com.gcp.displayvideo_v4#Forbidden"
+        },
+        {
+          "target": "com.gcp.displayvideo_v4#InsufficientScopes"
         }
       ],
       "traits": {
@@ -45077,6 +45467,9 @@
         },
         {
           "target": "com.gcp.displayvideo_v4#Forbidden"
+        },
+        {
+          "target": "com.gcp.displayvideo_v4#InsufficientScopes"
         }
       ],
       "traits": {
@@ -45152,6 +45545,9 @@
         },
         {
           "target": "com.gcp.displayvideo_v4#Forbidden"
+        },
+        {
+          "target": "com.gcp.displayvideo_v4#InsufficientScopes"
         }
       ],
       "traits": {
@@ -45207,6 +45603,9 @@
         },
         {
           "target": "com.gcp.displayvideo_v4#Forbidden"
+        },
+        {
+          "target": "com.gcp.displayvideo_v4#InsufficientScopes"
         }
       ],
       "traits": {
@@ -45244,6 +45643,9 @@
         },
         {
           "target": "com.gcp.displayvideo_v4#Forbidden"
+        },
+        {
+          "target": "com.gcp.displayvideo_v4#InsufficientScopes"
         }
       ],
       "traits": {
@@ -45315,6 +45717,9 @@
         },
         {
           "target": "com.gcp.displayvideo_v4#Forbidden"
+        },
+        {
+          "target": "com.gcp.displayvideo_v4#InsufficientScopes"
         }
       ],
       "traits": {
@@ -45383,6 +45788,9 @@
         },
         {
           "target": "com.gcp.displayvideo_v4#Conflict"
+        },
+        {
+          "target": "com.gcp.displayvideo_v4#InsufficientScopes"
         }
       ],
       "traits": {
@@ -45433,6 +45841,9 @@
         },
         {
           "target": "com.gcp.displayvideo_v4#Conflict"
+        },
+        {
+          "target": "com.gcp.displayvideo_v4#InsufficientScopes"
         }
       ],
       "traits": {
@@ -45482,6 +45893,9 @@
         },
         {
           "target": "com.gcp.displayvideo_v4#Conflict"
+        },
+        {
+          "target": "com.gcp.displayvideo_v4#InsufficientScopes"
         }
       ],
       "traits": {
@@ -45533,6 +45947,9 @@
         },
         {
           "target": "com.gcp.displayvideo_v4#Forbidden"
+        },
+        {
+          "target": "com.gcp.displayvideo_v4#InsufficientScopes"
         }
       ],
       "traits": {
@@ -45589,6 +46006,9 @@
         },
         {
           "target": "com.gcp.displayvideo_v4#Conflict"
+        },
+        {
+          "target": "com.gcp.displayvideo_v4#InsufficientScopes"
         }
       ],
       "traits": {
@@ -45639,6 +46059,9 @@
         },
         {
           "target": "com.gcp.displayvideo_v4#Conflict"
+        },
+        {
+          "target": "com.gcp.displayvideo_v4#InsufficientScopes"
         }
       ],
       "traits": {
@@ -45710,6 +46133,9 @@
         },
         {
           "target": "com.gcp.displayvideo_v4#Conflict"
+        },
+        {
+          "target": "com.gcp.displayvideo_v4#InsufficientScopes"
         }
       ],
       "traits": {
@@ -45781,6 +46207,9 @@
         },
         {
           "target": "com.gcp.displayvideo_v4#Forbidden"
+        },
+        {
+          "target": "com.gcp.displayvideo_v4#InsufficientScopes"
         }
       ],
       "traits": {
@@ -45836,6 +46265,9 @@
         },
         {
           "target": "com.gcp.displayvideo_v4#Forbidden"
+        },
+        {
+          "target": "com.gcp.displayvideo_v4#InsufficientScopes"
         }
       ],
       "traits": {
@@ -45879,6 +46311,9 @@
         },
         {
           "target": "com.gcp.displayvideo_v4#Conflict"
+        },
+        {
+          "target": "com.gcp.displayvideo_v4#InsufficientScopes"
         }
       ],
       "traits": {
@@ -45916,6 +46351,9 @@
         },
         {
           "target": "com.gcp.displayvideo_v4#Forbidden"
+        },
+        {
+          "target": "com.gcp.displayvideo_v4#InsufficientScopes"
         }
       ],
       "traits": {
@@ -45973,6 +46411,9 @@
         },
         {
           "target": "com.gcp.displayvideo_v4#Forbidden"
+        },
+        {
+          "target": "com.gcp.displayvideo_v4#InsufficientScopes"
         }
       ],
       "traits": {
@@ -46027,6 +46468,9 @@
         },
         {
           "target": "com.gcp.displayvideo_v4#Conflict"
+        },
+        {
+          "target": "com.gcp.displayvideo_v4#InsufficientScopes"
         }
       ],
       "traits": {
@@ -46069,6 +46513,9 @@
         },
         {
           "target": "com.gcp.displayvideo_v4#Conflict"
+        },
+        {
+          "target": "com.gcp.displayvideo_v4#InsufficientScopes"
         }
       ],
       "traits": {
@@ -46126,6 +46573,9 @@
         },
         {
           "target": "com.gcp.displayvideo_v4#Conflict"
+        },
+        {
+          "target": "com.gcp.displayvideo_v4#InsufficientScopes"
         }
       ],
       "traits": {
@@ -46190,6 +46640,9 @@
         },
         {
           "target": "com.gcp.displayvideo_v4#Forbidden"
+        },
+        {
+          "target": "com.gcp.displayvideo_v4#InsufficientScopes"
         }
       ],
       "traits": {
@@ -46238,6 +46691,9 @@
         },
         {
           "target": "com.gcp.displayvideo_v4#Forbidden"
+        },
+        {
+          "target": "com.gcp.displayvideo_v4#InsufficientScopes"
         }
       ],
       "traits": {
@@ -46294,6 +46750,9 @@
         },
         {
           "target": "com.gcp.displayvideo_v4#Conflict"
+        },
+        {
+          "target": "com.gcp.displayvideo_v4#InsufficientScopes"
         }
       ],
       "traits": {
@@ -46365,6 +46824,9 @@
         },
         {
           "target": "com.gcp.displayvideo_v4#Forbidden"
+        },
+        {
+          "target": "com.gcp.displayvideo_v4#InsufficientScopes"
         }
       ],
       "traits": {
@@ -46419,6 +46881,9 @@
         },
         {
           "target": "com.gcp.displayvideo_v4#Conflict"
+        },
+        {
+          "target": "com.gcp.displayvideo_v4#InsufficientScopes"
         }
       ],
       "traits": {
@@ -46470,6 +46935,9 @@
         },
         {
           "target": "com.gcp.displayvideo_v4#Forbidden"
+        },
+        {
+          "target": "com.gcp.displayvideo_v4#InsufficientScopes"
         }
       ],
       "traits": {
@@ -46541,6 +47009,9 @@
         },
         {
           "target": "com.gcp.displayvideo_v4#Conflict"
+        },
+        {
+          "target": "com.gcp.displayvideo_v4#InsufficientScopes"
         }
       ],
       "traits": {
@@ -46585,6 +47056,9 @@
         },
         {
           "target": "com.gcp.displayvideo_v4#Forbidden"
+        },
+        {
+          "target": "com.gcp.displayvideo_v4#InsufficientScopes"
         }
       ],
       "traits": {
@@ -46649,6 +47123,9 @@
         },
         {
           "target": "com.gcp.displayvideo_v4#Conflict"
+        },
+        {
+          "target": "com.gcp.displayvideo_v4#InsufficientScopes"
         }
       ],
       "traits": {
@@ -46701,6 +47178,9 @@
         },
         {
           "target": "com.gcp.displayvideo_v4#Forbidden"
+        },
+        {
+          "target": "com.gcp.displayvideo_v4#InsufficientScopes"
         }
       ],
       "traits": {
@@ -46766,6 +47246,9 @@
         },
         {
           "target": "com.gcp.displayvideo_v4#Forbidden"
+        },
+        {
+          "target": "com.gcp.displayvideo_v4#InsufficientScopes"
         }
       ],
       "traits": {
@@ -46812,6 +47295,9 @@
         },
         {
           "target": "com.gcp.displayvideo_v4#Conflict"
+        },
+        {
+          "target": "com.gcp.displayvideo_v4#InsufficientScopes"
         }
       ],
       "traits": {
@@ -46849,6 +47335,9 @@
         },
         {
           "target": "com.gcp.displayvideo_v4#Forbidden"
+        },
+        {
+          "target": "com.gcp.displayvideo_v4#InsufficientScopes"
         }
       ],
       "traits": {
@@ -46899,6 +47388,9 @@
         },
         {
           "target": "com.gcp.displayvideo_v4#Conflict"
+        },
+        {
+          "target": "com.gcp.displayvideo_v4#InsufficientScopes"
         }
       ],
       "traits": {
@@ -46936,6 +47428,9 @@
         },
         {
           "target": "com.gcp.displayvideo_v4#Forbidden"
+        },
+        {
+          "target": "com.gcp.displayvideo_v4#InsufficientScopes"
         }
       ],
       "traits": {
@@ -46987,6 +47482,9 @@
         },
         {
           "target": "com.gcp.displayvideo_v4#Forbidden"
+        },
+        {
+          "target": "com.gcp.displayvideo_v4#InsufficientScopes"
         }
       ],
       "traits": {
@@ -47044,6 +47542,9 @@
         },
         {
           "target": "com.gcp.displayvideo_v4#Conflict"
+        },
+        {
+          "target": "com.gcp.displayvideo_v4#InsufficientScopes"
         }
       ],
       "traits": {
@@ -47115,6 +47616,9 @@
         },
         {
           "target": "com.gcp.displayvideo_v4#Forbidden"
+        },
+        {
+          "target": "com.gcp.displayvideo_v4#InsufficientScopes"
         }
       ],
       "traits": {
@@ -47170,6 +47674,9 @@
         },
         {
           "target": "com.gcp.displayvideo_v4#Forbidden"
+        },
+        {
+          "target": "com.gcp.displayvideo_v4#InsufficientScopes"
         }
       ],
       "traits": {
@@ -47212,6 +47719,9 @@
         },
         {
           "target": "com.gcp.displayvideo_v4#Conflict"
+        },
+        {
+          "target": "com.gcp.displayvideo_v4#InsufficientScopes"
         }
       ],
       "traits": {
@@ -47263,6 +47773,9 @@
         },
         {
           "target": "com.gcp.displayvideo_v4#Forbidden"
+        },
+        {
+          "target": "com.gcp.displayvideo_v4#InsufficientScopes"
         }
       ],
       "traits": {
@@ -47327,6 +47840,9 @@
         },
         {
           "target": "com.gcp.displayvideo_v4#Conflict"
+        },
+        {
+          "target": "com.gcp.displayvideo_v4#InsufficientScopes"
         }
       ],
       "traits": {
@@ -47386,6 +47902,9 @@
         },
         {
           "target": "com.gcp.displayvideo_v4#Forbidden"
+        },
+        {
+          "target": "com.gcp.displayvideo_v4#InsufficientScopes"
         }
       ],
       "traits": {
@@ -47458,6 +47977,9 @@
         },
         {
           "target": "com.gcp.displayvideo_v4#Forbidden"
+        },
+        {
+          "target": "com.gcp.displayvideo_v4#InsufficientScopes"
         }
       ],
       "traits": {
@@ -47521,6 +48043,9 @@
         },
         {
           "target": "com.gcp.displayvideo_v4#Forbidden"
+        },
+        {
+          "target": "com.gcp.displayvideo_v4#InsufficientScopes"
         }
       ],
       "traits": {
@@ -47593,6 +48118,9 @@
         },
         {
           "target": "com.gcp.displayvideo_v4#Forbidden"
+        },
+        {
+          "target": "com.gcp.displayvideo_v4#InsufficientScopes"
         }
       ],
       "traits": {
@@ -47661,6 +48189,9 @@
         },
         {
           "target": "com.gcp.displayvideo_v4#Conflict"
+        },
+        {
+          "target": "com.gcp.displayvideo_v4#InsufficientScopes"
         }
       ],
       "traits": {
@@ -47732,6 +48263,9 @@
         },
         {
           "target": "com.gcp.displayvideo_v4#Forbidden"
+        },
+        {
+          "target": "com.gcp.displayvideo_v4#InsufficientScopes"
         }
       ],
       "traits": {
@@ -47787,6 +48321,9 @@
         },
         {
           "target": "com.gcp.displayvideo_v4#Forbidden"
+        },
+        {
+          "target": "com.gcp.displayvideo_v4#InsufficientScopes"
         }
       ],
       "traits": {
@@ -47795,6 +48332,23 @@
           "uri": "v4/googleAudiences/{+googleAudienceId}"
         },
         "smithy.api#documentation": "Gets a Google audience."
+      }
+    },
+    "com.gcp.displayvideo_v4#InsufficientScopes": {
+      "type": "structure",
+      "members": {},
+      "traits": {
+        "smithy.api#error": "client",
+        "smithy.api#httpError": 403,
+        "smithy.api#documentation": "The access token lacks the OAuth scope this API requires (HTTP 403 ACCESS_TOKEN_SCOPE_INSUFFICIENT).",
+        "com.gcp.protocols#errorMatchers": [
+          {
+            "status": 403,
+            "message": {
+              "includes": "insufficient authentication scopes"
+            }
+          }
+        ]
       }
     }
   }

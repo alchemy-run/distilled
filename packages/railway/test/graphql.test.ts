@@ -1,806 +1,387 @@
-/** Credential-free regressions for verified Railway GraphQL response shapes. */
-import { describe, expect, test } from "bun:test";
+import {
+  GqlTransport,
+  type CompiledOperation,
+  type GraphQLResponse,
+  type RawGraphQLError,
+} from "@distilled.cloud/core/graphql";
+import { Query } from "@distilled.cloud/core/query";
+import {
+  CredentialsFromToken,
+  GraphQLFailure,
+  GraphQLLive,
+  GraphQLPaginationError,
+  GraphQLTransportError,
+  Railway,
+  UnknownGraphQLError,
+} from "@distilled.cloud/railway";
 import * as Effect from "effect/Effect";
+import * as HttpClient from "effect/http/HttpClient";
+import * as HttpClientResponse from "effect/http/HttpClientResponse";
 import * as Layer from "effect/Layer";
+import * as Redacted from "effect/Redacted";
 import * as Result from "effect/Result";
-import * as HttpClient from "effect/unstable/http/HttpClient";
-import * as HttpClientResponse from "effect/unstable/http/HttpClientResponse";
-import * as G from "@distilled.cloud/core/graphql";
-import * as Railway from "@distilled.cloud/railway";
+import * as Stream from "effect/Stream";
+/** Mock-transport regressions for the Railway Query SDK. */
+import { describe, expect, test } from "vitest";
 
-const missingProjectId = "00000000-0000-4000-8000-000000000000";
-const projectNotFound = {
-  message: "Project not found",
-  path: ["project"],
-  locations: [{ line: 2, column: 3 }],
-  extensions: { code: "INTERNAL_SERVER_ERROR" },
-  traceId: "sanitized-railway-trace",
-};
-const notAuthorized = {
-  message: "Not Authorized",
-  path: ["me"],
-  locations: [{ line: 2, column: 3 }],
-  extensions: { code: "INTERNAL_SERVER_ERROR" },
-};
-
-const harness = (body: unknown) => {
-  const requests: G.GraphQLRequest[] = [];
-  const client = G.makeClient<Railway.Schema, never>(
-    Railway.schema,
-    (request) =>
+/** Answers each request with the next response; the last one repeats. */
+const sequence = (...responses: GraphQLResponse[]) => {
+  const requests: CompiledOperation[] = [];
+  const layer = Layer.succeed(GqlTransport, {
+    execute: (request) =>
       Effect.sync(() => {
         requests.push(request);
-        return { body, status: 200, headers: {} };
+        return responses[Math.min(requests.length, responses.length) - 1]!;
       }),
-    Railway.errorClasses,
-  );
-  return { client, requests };
+  });
+  return { layer, requests };
 };
 
-const failure = async <A, E>(effect: Effect.Effect<A, E>) => {
-  const result = await Effect.runPromise(Effect.result(effect));
-  if (Result.isSuccess(result)) throw new Error("Expected a typed failure");
+const harness = (data: unknown, errors?: RawGraphQLError[]) => sequence({ data, errors });
+
+const run = <A, E>(effect: Effect.Effect<A, E, GqlTransport>, layer: Layer.Layer<GqlTransport>) =>
+  Effect.runPromise(effect.pipe(Effect.provide(layer)));
+
+const failure = async <A, E>(
+  effect: Effect.Effect<A, E, GqlTransport>,
+  layer: Layer.Layer<GqlTransport>,
+): Promise<E> => {
+  const result = await Effect.runPromise(Effect.result(effect.pipe(Effect.provide(layer))));
+  if (Result.isSuccess(result)) throw new Error("expected a failure");
   return result.failure;
 };
 
-describe("Railway sandbox contracts", () => {
-  const environmentId = "environment-fixture";
-  const sandboxSelection = {
-    id: true,
-    environmentId: true,
-    status: true,
-    networkIsolation: true,
-    region: true,
-    idleTimeoutMinutes: true,
-    domains: { prefix: true, port: true, domain: true },
-  } as const;
-  const checkpointSelection = {
-    id: true,
-    key: true,
-    environmentId: true,
-    createdAt: true,
-  } as const;
-  const checkpoint = {
-    id: "after-deps",
-    key: "after-deps",
-    environmentId,
-    createdAt: "2026-09-16T00:00:00.000Z",
-  };
-  const sandboxError = (field: string, message: string) => ({
-    data: null,
-    errors: [
-      {
-        message,
-        path: [field],
-        extensions: { code: "INTERNAL_SERVER_ERROR" },
-        traceId: "sanitized-sandbox-trace",
-      },
-    ],
-  });
-
-  test("create preserves domains, fractional resources, variables and each source input", async () => {
-    const sources: ReadonlyArray<
-      Partial<Railway.Inputs["SandboxCreateInput"]>
-    > = [
-      {},
-      { sourceSandboxId: "source-fixture" },
-      { template: { name: "after-deps" } },
-      {
-        template: {
-          instructions: ["npm install"],
-          region: "us-west2",
-          variables: { CI: "true" },
-        },
-      },
-    ];
-    for (const source of sources) {
-      const input = {
-        environmentId,
-        networkIsolation: "PRIVATE",
-        publicDomains: [{ port: 8080 }, { port: 3000, prefix: "api" }],
-        resources: { cpu: 0.5, memoryGB: 1.25 },
-        idleTimeoutMinutes: 0,
-        variables: { NODE_ENV: "production" },
-        ...source,
-      } satisfies Railway.Inputs["SandboxCreateInput"];
-      const sandbox = {
-        id: "sandbox-fixture",
-        environmentId,
-        status: "RUNNING",
-        networkIsolation: "PRIVATE",
-        region: "us-west2",
-        idleTimeoutMinutes: 0,
-        domains: [
-          { prefix: "api", port: 3000, domain: "api-fixture.up.railway.app" },
-        ],
-      };
-      const { client, requests } = harness({
-        data: { sandboxCreate: sandbox },
-      });
-      const result = await Effect.runPromise(
-        client.mutation({
-          sandboxCreate: { where: { input }, select: sandboxSelection },
-        }),
-      );
-      expect(result.sandboxCreate).toEqual(sandbox);
-      expect(Object.values(requests[0]!.variables)).toEqual([input]);
-      expect(requests[0]!.query).toContain("SandboxCreateInput!");
-      expect(requests[0]!.query).toContain("domains");
-      expect(requests[0]!.query).not.toContain("source-fixture");
-      expect(requests).toHaveLength(1);
-    }
-  });
-
-  test("resource defaults preserve omitted and null Float values", async () => {
-    const resources: ReadonlyArray<
-      Railway.Inputs["SandboxCreateInput"]["resources"]
-    > = [undefined, null, {}, { cpu: null, memoryGB: null }, { cpu: 0.25 }];
-    for (const value of resources) {
-      const input = {
-        environmentId,
-        ...(value !== undefined && { resources: value }),
-      };
-      const { client, requests } = harness({
-        data: { sandboxCreate: { id: "sandbox-fixture", domains: [] } },
-      });
-      const result = await Effect.runPromise(
-        client.mutation({
-          sandboxCreate: {
-            where: { input },
-            select: { id: true, domains: { domain: true } },
-          },
-        }),
-      );
-      expect(result.sandboxCreate.domains).toEqual([]);
-      expect(Object.values(requests[0]!.variables)).toEqual([input]);
-    }
-    expect(
-      Railway.schema.types.SandboxResourcesInput!.inputFields,
-    ).toMatchObject({
-      cpu: { type: "Float" },
-      memoryGB: { type: "Float" },
-    });
-    expect(
-      Railway.schema.types.SandboxCreateInput!.inputFields,
-    ).not.toHaveProperty("checkpointName");
-    expect(
-      Railway.schema.types.SandboxCreateInput!.inputFields,
-    ).not.toHaveProperty("snapshotId");
-  });
-
-  test("checkpoint list, capture, rename and deletion retain their exact contracts", async () => {
-    const listed = harness({ data: { sandboxCheckpoints: [checkpoint] } });
-    expect(
-      await Effect.runPromise(
-        listed.client.query({
-          sandboxCheckpoints: {
-            where: { environmentId },
-            select: checkpointSelection,
-          },
-        }),
-      ),
-    ).toEqual({ sandboxCheckpoints: [checkpoint] });
-
-    const captured = harness({ data: { sandboxCheckpointCreate: checkpoint } });
-    expect(
-      await Effect.runPromise(
-        captured.client.mutation({
-          sandboxCheckpointCreate: {
-            where: {
-              environmentId,
-              sandboxId: "sandbox-fixture",
-              name: "after-deps",
-            },
-            select: checkpointSelection,
-          },
-        }),
-      ),
-    ).toEqual({ sandboxCheckpointCreate: checkpoint });
-    expect(Object.values(captured.requests[0]!.variables)).toEqual([
-      environmentId,
-      "after-deps",
-      "sandbox-fixture",
-    ]);
-
-    const renamedCheckpoint = {
-      ...checkpoint,
-      id: "node-base",
-      key: "node-base",
-    };
-    const renamed = harness({
-      data: { sandboxCheckpointRename: renamedCheckpoint },
-    });
-    expect(
-      await Effect.runPromise(
-        renamed.client.mutation({
-          sandboxCheckpointRename: {
-            where: { environmentId, id: checkpoint.key, name: "node-base" },
-            select: checkpointSelection,
-          },
-        }),
-      ),
-    ).toEqual({ sandboxCheckpointRename: renamedCheckpoint });
-    expect(renamed.requests[0]!.query).toContain("ID!");
-
-    const deleted = harness({ data: { sandboxCheckpointDelete: false } });
-    expect(
-      await Effect.runPromise(
-        deleted.client.mutation({
-          sandboxCheckpointDelete: {
-            where: { environmentId, id: checkpoint.key },
-          },
-        }),
-      ),
-    ).toEqual({ sandboxCheckpointDelete: false });
-  });
-
-  test("missing sandbox lookup, destroy and heartbeat return null without invented errors", async () => {
-    const where = { environmentId, id: missingProjectId };
-    const read = harness({ data: { sandbox: null } });
-    expect(
-      await Effect.runPromise(
-        read.client.query({
-          sandbox: { where, select: { id: true } },
-        }),
-      ),
-    ).toEqual({ sandbox: null });
-    const mutations = harness({
-      data: { sandboxDestroy: null, sandboxHeartbeat: null },
-    });
-    expect(
-      await Effect.runPromise(
-        mutations.client.mutation({
-          sandboxDestroy: { where, select: { id: true } },
-          sandboxHeartbeat: { where, select: { id: true } },
-        }),
-      ),
-    ).toEqual({ sandboxDestroy: null, sandboxHeartbeat: null });
-  });
-
-  test.each([
-    ["Sandbox not found", "RailwaySandboxNotFound"],
-    [
-      "Sandbox checkpoint not found. Build or capture it before creating a sandbox from it.",
-      "RailwaySandboxCheckpointNotFound",
-    ],
-    [
-      "Provide at most one of checkpointName, template, or sourceSandboxId",
-      "RailwaySandboxValidationError",
-    ],
-    [
-      "Provide either template.name or template.instructions, not both",
-      "RailwaySandboxValidationError",
-    ],
-    [
-      "cpu must be greater than 0 and at most 24 vCPU",
-      "RailwaySandboxValidationError",
-    ],
-    [
-      "memoryGB must be at least 0.000000001 GB (1 byte) and at most 24 GB",
-      "RailwaySandboxValidationError",
-    ],
-    [
-      "idleTimeoutMinutes must be between 1 and 120 minutes",
-      "RailwaySandboxValidationError",
-    ],
-    [
-      "Public domains require PRIVATE network isolation",
-      "RailwaySandboxValidationError",
-    ],
-    [
-      "publicDomains ports must be between 1 and 65535",
-      "RailwaySandboxValidationError",
-    ],
-    [
-      "publicDomains prefixes must be lowercase DNS label fragments of at most 46 characters",
-      "RailwaySandboxValidationError",
-    ],
-    ["publicDomains ports must be unique", "RailwaySandboxValidationError"],
-    ["publicDomains prefixes must be unique", "RailwaySandboxValidationError"],
-    [
-      "publicDomains supports at most 10 domains",
-      "RailwaySandboxValidationError",
-    ],
-  ] as const)(
-    "classifies live create error without retry: %s",
-    async (message, tag) => {
-      const { client, requests } = harness(
-        sandboxError("sandboxCreate", message),
-      );
-      const result = await Effect.runPromise(
-        client.report.mutation({
-          sandboxCreate: {
-            where: { input: { environmentId } },
-            select: { id: true },
-          },
-        }),
-      );
-      const inferredTag: G.Errors<
-        Railway.Schema,
-        "Mutation",
-        {
-          sandboxCreate: { select: { id: true } };
-        }
-      >["_tag"] = tag;
-      expect(result.errors[0]).toMatchObject({
-        _tag: inferredTag,
-        message,
-        path: ["sandboxCreate"],
-        code: "INTERNAL_SERVER_ERROR",
-        traceId: "sanitized-sandbox-trace",
-      });
-      expect(requests).toHaveLength(1);
-      expect(Railway.schema.errors[tag]!.retryable).toBe(false);
-    },
-  );
-
-  test("missing sandbox errors apply to exec and checkpoint capture", async () => {
-    const exec = harness(sandboxError("sandboxExec", "Sandbox not found"));
-    const executed = await Effect.runPromise(
-      exec.client.report.mutation({
-        sandboxExec: {
-          where: { environmentId, id: missingProjectId, command: "true" },
-          select: { exitCode: true },
-        },
-      }),
-    );
-    expect(executed.errors[0]).toBeInstanceOf(Railway.RailwaySandboxNotFound);
-    const capture = harness(
-      sandboxError("sandboxCheckpointCreate", "Sandbox not found"),
-    );
-    const captured = await Effect.runPromise(
-      capture.client.report.mutation({
-        sandboxCheckpointCreate: {
-          where: {
-            environmentId,
-            sandboxId: missingProjectId,
-            name: "after-deps",
-          },
-          select: { id: true },
-        },
-      }),
-    );
-    expect(captured.errors[0]).toBeInstanceOf(Railway.RailwaySandboxNotFound);
-    expect(exec.requests).toHaveLength(1);
-    expect(capture.requests).toHaveLength(1);
-  });
-
-  test("checkpoint rename exposes its observed not-found tag in strict failures", async () => {
-    const { client } = harness(
-      sandboxError("sandboxCheckpointRename", "Sandbox checkpoint not found"),
-    );
-    const result = await failure(
-      client.mutation({
-        sandboxCheckpointRename: {
-          where: { environmentId, id: "missing-checkpoint", name: "node-base" },
-          select: { id: true },
-        },
-      }),
-    );
-    expect(result).toBeInstanceOf(G.GraphQLFailure);
-    if (!(result instanceof G.GraphQLFailure))
-      throw new Error("Expected GraphQLFailure");
-    expect(result.errors[0]).toBeInstanceOf(
-      Railway.RailwaySandboxCheckpointNotFound,
-    );
-  });
-
-  test("sandbox error contracts never classify unrelated fields or unknown messages", async () => {
-    const unrelated = harness(
-      sandboxError("sandboxDestroy", "Sandbox not found"),
-    );
-    const destroyed = await Effect.runPromise(
-      unrelated.client.report.mutation({
-        sandboxDestroy: {
-          where: { environmentId, id: missingProjectId },
-          select: { id: true },
-        },
-      }),
-    );
-    expect(destroyed.errors[0]).toBeInstanceOf(Railway.RailwayInternalError);
-    const unexpected = harness(
-      sandboxError("sandboxCreate", "Unexpected sandbox provisioning failure"),
-    );
-    const created = await Effect.runPromise(
-      unexpected.client.report.mutation({
-        sandboxCreate: {
-          where: { input: { environmentId } },
-          select: { id: true },
-        },
-      }),
-    );
-    expect(created.errors[0]).toBeInstanceOf(Railway.RailwayInternalError);
-  });
+const internal = (message: string, path?: ReadonlyArray<string | number>): RawGraphQLError => ({
+  message,
+  ...(path ? { path } : {}),
+  extensions: { code: "INTERNAL_SERVER_ERROR" },
 });
 
-describe("Railway native GraphQL verified responses", () => {
-  test("package root executes selective operations with its credential layer", async () => {
-    for (const tokenKind of ["account", "project"] as const) {
-      const requests: Array<{ query: string; variables: unknown }> = [];
-      const http = HttpClient.make((request) =>
-        Effect.sync(() => {
-          expect(request.url).toBe(
-            "https://backboard.railway.com/graphql/v2?source=alchemy",
-          );
-          expect(
-            request.headers[
-              tokenKind === "project" ? "project-access-token" : "authorization"
-            ],
-          ).toBe(
-            tokenKind === "project" ? "fixture-token" : "Bearer fixture-token",
-          );
-          if (request.body._tag !== "Uint8Array")
-            throw new Error("Expected JSON body");
-          requests.push(
-            JSON.parse(new TextDecoder().decode(request.body.body)),
-          );
-          return HttpClientResponse.fromWeb(
-            request,
-            Response.json({ data: { project: { id: "project-fixture" } } }),
-          );
-        }),
-      );
-      const project = await Effect.runPromise(
-        Railway.project({ id: "project-fixture" }, { id: true }).pipe(
-          Effect.provide(
-            Layer.mergeAll(
-              Railway.CredentialsFromToken({
-                token: "fixture-token",
-                tokenKind,
+const getProject = Query.fn((id: string) => {
+  const project = Railway.project({ id });
+  return { id: project.id };
+});
+
+describe("Railway Query SDK", () => {
+  test("me() selects only fields the plan reads, one POST", async () => {
+    const { layer, requests } = harness({
+      me: {
+        email: "ada@railway.app",
+        workspaces: [{ name: "Analytical Engines" }],
+      },
+    });
+    const result = await run(
+      Query.fn(() => {
+        const me = Railway.me();
+        return {
+          email: me.email,
+          workspaces: me.workspaces.pipe(Query.map((w) => w.name)),
+        };
+      })(),
+      layer,
+    );
+    expect(result).toEqual({
+      email: "ada@railway.app",
+      workspaces: ["Analytical Engines"],
+    });
+    expect(requests).toHaveLength(1);
+    expect(requests[0]!.kind).toBe("query");
+    expect(requests[0]!.document).toContain("email");
+    expect(requests[0]!.document).toContain("workspaces");
+    expect(requests[0]!.document).toContain("name");
+    expect(requests[0]!.document).not.toContain("githubUsername");
+  });
+
+  test("projects({ first }) maps nodes, not edges", async () => {
+    const { layer, requests } = harness({
+      me: { email: "ada@railway.app" },
+      projects: {
+        edges: [{ node: { name: "engine" } }, { node: { name: "bombe" } }],
+      },
+    });
+    const result = await run(
+      Query.fn(() => {
+        const me = Railway.me();
+        const page = Railway.projects({ first: 20 });
+        return {
+          email: me.email,
+          names: page.pipe(Query.map((project) => project.name)),
+        };
+      })(),
+      layer,
+    );
+    expect(result).toEqual({
+      email: "ada@railway.app",
+      names: ["engine", "bombe"],
+    });
+    expect(requests).toHaveLength(1);
+    expect(requests[0]!.document).toContain("edges");
+    expect(requests[0]!.document).toContain("node");
+    expect(requests[0]!.document).not.toContain("pageInfo");
+  });
+
+  test("two project roots alias into one document", async () => {
+    const { layer, requests } = harness({
+      project: { id: "prod", name: "production" },
+      project_0: { id: "stg", name: "staging" },
+    });
+    const result = await run(
+      Query.fn(() => {
+        const production = Railway.project({ id: "prod" });
+        const staging = Railway.project({ id: "stg" });
+        return {
+          production: { id: production.id, name: production.name },
+          staging: { id: staging.id, name: staging.name },
+        };
+      })(),
+      layer,
+    );
+    expect(result.production).toEqual({ id: "prod", name: "production" });
+    expect(result.staging).toEqual({ id: "stg", name: "staging" });
+    expect(requests).toHaveLength(1);
+    expect(requests[0]!.document).toContain("project_0:");
+    expect(Object.values(requests[0]!.variables)).toEqual(["prod", "stg"]);
+  });
+
+  test("projectCreate is a mutation with input variables", async () => {
+    const { layer, requests } = harness({
+      projectCreate: { id: "p-new", name: "example" },
+    });
+    const result = await run(
+      Query.fn(() => {
+        const project = Railway.projectCreate({
+          input: { name: "example" },
+        });
+        return { id: project.id, name: project.name };
+      })(),
+      layer,
+    );
+    expect(result).toEqual({ id: "p-new", name: "example" });
+    expect(requests[0]!.kind).toBe("mutation");
+    expect(requests[0]!.document).toContain("projectCreate");
+    expect(Object.values(requests[0]!.variables)).toEqual([{ name: "example" }]);
+  });
+
+  test("a declared root error is a typed tag", async () => {
+    const { layer } = harness(null, [internal("Project not found", ["project"])]);
+    const error = await failure(getProject("missing"), layer);
+    expect(error._tag).toBe("RailwayNotFound");
+    expect(error.message).toBe("Project not found");
+    expect(error).toMatchObject({
+      code: "INTERNAL_SERVER_ERROR",
+      path: ["project"],
+    });
+
+    const recovered = await run(
+      getProject("missing").pipe(
+        Effect.catchTag("RailwayNotFound", () => Effect.succeed(undefined)),
+      ),
+      layer,
+    );
+    expect(recovered).toBeUndefined();
+  });
+
+  test("errors are scoped to the root the path points at", async () => {
+    const message = "Cannot delete TCP proxy: an operation is already in progress";
+    const tcpProxyDelete = Query.fn(() => Railway.tcpProxyDelete({ id: "proxy" }));
+    const projectDelete = Query.fn(() => Railway.projectDelete({ id: "project" }));
+    const onProxy = await failure(
+      tcpProxyDelete(),
+      harness(null, [internal(message, ["tcpProxyDelete"])]).layer,
+    );
+    expect(onProxy._tag).toBe("RailwayOperationInProgress");
+    // projectDelete does not declare it; the global code matcher applies.
+    const onProject = await failure(
+      projectDelete(),
+      harness(null, [internal(message, ["projectDelete"])]).layer,
+    );
+    expect(onProject._tag).toBe("RailwayInternalError");
+  });
+
+  test("path-less errors match only global errors", async () => {
+    const { layer } = harness(null, [{ message: "Problem processing request" }]);
+    const error = await failure(getProject("p"), layer);
+    expect(error._tag).toBe("RailwayRequestProcessingError");
+  });
+
+  test("unmatched errors are UnknownGraphQLError with the root", async () => {
+    const { layer } = harness(null, [{ message: "something new", path: ["project"] }]);
+    const error = await failure(getProject("p"), layer);
+    expect(error).toBeInstanceOf(UnknownGraphQLError);
+    expect(error).toMatchObject({ coordinate: "project" });
+  });
+
+  test("errors with different tags fail together", async () => {
+    const { layer } = harness({ project: null, project_0: null }, [
+      internal("Project not found", ["project"]),
+      {
+        message: "nope",
+        path: ["project_0"],
+        extensions: { code: "FORBIDDEN" },
+      },
+    ]);
+    const error = await failure(
+      Query.fn(() => ({
+        a: Railway.project({ id: "a" }).id,
+        b: Railway.project({ id: "b" }).id,
+      }))(),
+      layer,
+    );
+    expect(error).toBeInstanceOf(GraphQLFailure);
+    expect((error as GraphQLFailure).errors.map((issue) => issue._tag)).toEqual([
+      "RailwayNotFound",
+      "RailwayForbidden",
+    ]);
+  });
+
+  test("queries retry retryable errors; mutations do not", async () => {
+    const limited: GraphQLResponse = {
+      data: null,
+      errors: [{ message: "slow down", extensions: { code: "RATE_LIMITED" } }],
+    };
+    const query = sequence(limited, { data: { project: { id: "p" } } });
+    expect(await run(getProject("p"), query.layer)).toEqual({ id: "p" });
+    expect(query.requests).toHaveLength(2);
+
+    const mutation = sequence(limited, {
+      data: { projectCreate: { id: "p" } },
+    });
+    const error = await failure(
+      Query.fn(() => ({
+        id: Railway.projectCreate({ input: { name: "example" } }).id,
+      }))(),
+      mutation.layer,
+    );
+    expect(error._tag).toBe("RailwayRateLimited");
+    expect(mutation.requests).toHaveLength(1);
+  });
+
+  test("GraphQLLive passes GraphQL errors through and types HTTP failures", async () => {
+    const respond = (status: number, body: string) =>
+      Layer.succeed(
+        HttpClient.HttpClient,
+        HttpClient.make((request) =>
+          Effect.succeed(
+            HttpClientResponse.fromWeb(
+              request,
+              new Response(body, {
+                status,
+                headers: { "retry-after": "3" },
               }),
-              Layer.succeed(HttpClient.HttpClient, http),
             ),
           ),
         ),
       );
-      expect(project).toEqual({ id: "project-fixture" });
-      expect(requests).toHaveLength(1);
-      expect(Object.values(requests[0]!.variables as object)).toContain(
-        "project-fixture",
+    const live = (status: number, body: string) =>
+      GraphQLLive.pipe(
+        Layer.provideMerge(respond(status, body)),
+        Layer.provideMerge(CredentialsFromToken({ token: Redacted.make("t") })),
       );
-      expect(requests[0]!.query).toContain("project(");
-      expect(requests[0]!.query).not.toContain("services");
-      expect(requests[0]!.query).not.toContain("name");
-    }
-  });
+    const createProject = Query.fn(() => ({
+      id: Railway.projectCreate({ input: { name: "example" } }).id,
+    }));
 
-  test("pathless gateway processing failure retains trace and never retries a mutation", async () => {
-    const { client, requests } = harness({
-      data: null,
-      errors: [
+    const graphql = await failure(
+      createProject(),
+      live(
+        200,
+        JSON.stringify({
+          data: null,
+          errors: [internal("Project not found", ["projectCreate"])],
+        }),
+      ),
+    );
+    expect(graphql._tag).toBe("RailwayNotFound");
+    expect(graphql).toMatchObject({ status: 200, retryAfter: 3 });
+
+    const http = await failure(createProject(), live(502, "<html>"));
+    expect(http).toBeInstanceOf(GraphQLTransportError);
+    expect(http).toMatchObject({ status: 502, retryAfter: 3 });
+  });
+  describe("pagination", () => {
+    const page = (
+      nodes: ReadonlyArray<object>,
+      hasNextPage: boolean,
+      endCursor: string | null,
+    ) => ({
+      edges: nodes.map((node) => ({ node })),
+      pageInfo: { hasNextPage, endCursor },
+    });
+
+    test("Query.items walks a root connection until hasNextPage is false", async () => {
+      const { layer, requests } = sequence(
         {
-          message: "Problem processing request",
-          traceId: "5527782523421805956",
+          data: { projects: page([{ name: "a" }, { name: "b" }], true, "c1") },
         },
-      ],
-    });
-    const result = await failure(
-      client.mutation({
-        enableServiceCdn: {
-          where: {
-            input: {
-              environmentId: "environment-fixture",
-              serviceId: "service-fixture",
-            },
-          },
-          select: { id: true },
-        },
-      }),
-    );
-    expect(result).toBeInstanceOf(G.GraphQLFailure);
-    if (!(result instanceof G.GraphQLFailure))
-      throw new Error("Expected GraphQLFailure");
-    expect(result.errors[0]).toBeInstanceOf(
-      Railway.RailwayRequestProcessingError,
-    );
-    expect(result.errors[0]).toMatchObject({
-      message: "Problem processing request",
-      traceId: "5527782523421805956",
-    });
-    expect(result.errors[0]!.path).toBeUndefined();
-    expect(result.errors[0]!.code).toBeUndefined();
-    expect(requests).toHaveLength(1);
-    expect(Railway.schema.errors.RailwayRequestProcessingError!.retryable).toBe(
-      false,
-    );
-  });
-
-  test("new bucket credentials readiness error is limited to its read-only field", async () => {
-    const missing = {
-      message: "BucketInstanceCredential not found",
-      path: ["bucketS3Credentials"],
-    };
-    const { client, requests } = harness({ data: null, errors: [missing] });
-    const result = await Effect.runPromise(
-      client.report.query({
-        bucketS3Credentials: {
-          where: {
-            bucketId: "bucket-fixture",
-            environmentId: "environment-fixture",
-            projectId: "project-fixture",
-          },
-          select: { accessKeyId: true },
-        },
-      }),
-    );
-    expect(result.errors[0]).toBeInstanceOf(
-      Railway.RailwayBucketCredentialsNotReady,
-    );
-    expect(requests).toHaveLength(1);
-    expect(requests[0]!.kind).toBe("query");
-    expect(
-      Railway.schema.types.Query!.fields!.bucketS3Credentials!.errors,
-    ).toContain("RailwayBucketCredentialsNotReady");
-    for (const field of Object.values(Railway.schema.types.Mutation!.fields!)) {
-      expect(field.errors).not.toContain("RailwayBucketCredentialsNotReady");
-    }
-    const elsewhere = harness({
-      data: null,
-      errors: [{ ...missing, path: ["project"] }],
-    });
-    const unrelated = await Effect.runPromise(
-      elsewhere.client.report.query({
-        project: { where: { id: "project-fixture" }, select: { id: true } },
-      }),
-    );
-    expect(unrelated.errors[0]).toBeInstanceOf(G.UnknownGraphQLError);
-  });
-
-  test("private-network BigInt IDs preserve observed numbers and large integer strings", async () => {
-    const rows = [
-      {
-        networkId: 1538483960,
-        createdAt: "2026-08-28T09:50:39.285Z",
-        deletedAt: null,
-      },
-      {
-        networkId: 3234591130,
-        createdAt: "2026-08-28T09:50:39.285Z",
-        deletedAt: null,
-      },
-      // String representation preserves integers beyond JavaScript's safe range.
-      {
-        networkId: "9007199254740993",
-        createdAt: "2026-08-28T09:50:39.285Z",
-        deletedAt: null,
-      },
-    ];
-    const { client } = harness({ data: { privateNetworks: rows } });
-    const result = await Effect.runPromise(
-      client.query({
-        privateNetworks: {
-          where: { environmentId: "environment-fixture" },
-          select: { networkId: true, createdAt: true, deletedAt: true },
-        },
-      }),
-    );
-    expect(result.privateNetworks).toEqual(rows);
-    expect(typeof result.privateNetworks[0]!.networkId).toBe("number");
-    expect(result.privateNetworks[2]!.networkId).toBe("9007199254740993");
-  });
-
-  test("BigInt primitive-union decoder rejects unrelated wire types", async () => {
-    const { client } = harness({
-      data: { privateNetworks: [{ networkId: true }] },
-    });
-    const result = await failure(
-      client.query({
-        privateNetworks: {
-          where: { environmentId: "environment-fixture" },
-          select: { networkId: true },
-        },
-      }),
-    );
-    expect(result).toBeInstanceOf(G.GraphQLDecodeError);
-  });
-
-  test("live custom-domain create failure is scoped and never automatically retried", async () => {
-    // The live aggregate log retained this exact message, not the full envelope.
-    const { client, requests } = harness({
-      data: null,
-      errors: [
-        {
-          message: "Failed to create custom domain, please try again",
-          path: ["customDomainCreate"],
-        },
-      ],
-    });
-    const result = await Effect.runPromise(
-      client.report.mutation({
-        customDomainCreate: {
-          where: {
-            input: {
-              domain: "fixture.example.com",
-              projectId: "project-fixture",
-              environmentId: "environment-fixture",
-              serviceId: "service-fixture",
-            },
-          },
-          select: { id: true },
-        },
-      }),
-    );
-    expect(result.errors[0]).toBeInstanceOf(
-      Railway.RailwayCustomDomainCreateFailed,
-    );
-    expect(requests).toHaveLength(1);
-    expect(requests[0]!.kind).toBe("mutation");
-    const unrelated = harness({
-      data: null,
-      errors: [
-        {
-          message: "Failed to create custom domain, please try again",
-          path: ["serviceDomainCreate"],
-        },
-      ],
-    });
-    const unrelatedResult = await Effect.runPromise(
-      unrelated.client.report.mutation({
-        serviceDomainCreate: {
-          where: {
-            input: {
-              environmentId: "environment-fixture",
-              serviceId: "service-fixture",
-            },
-          },
-          select: { id: true },
-        },
-      }),
-    );
-    expect(unrelatedResult.errors[0]).toBeInstanceOf(G.UnknownGraphQLError);
-  });
-
-  test("projects first:1 id-only report succeeds without selecting related resources", async () => {
-    const { client, requests } = harness({
-      data: { projects: { edges: [{ node: { id: "project-fixture" } }] } },
-    });
-    const result = await Effect.runPromise(
-      client.report.query({
-        projects: {
-          where: { first: 1 },
-          select: { edges: { node: { id: true } } },
-        },
-      }),
-    );
-    expect(result.data).toEqual({
-      projects: { edges: [{ node: { id: "project-fixture" } }] },
-    });
-    expect(result.errors).toEqual([]);
-    expect(result.status).toBe(200);
-    expect(requests).toHaveLength(1);
-    expect(Object.values(requests[0]!.variables)).toEqual([1]);
-    expect(requests[0]!.query).not.toMatch(
-      /workspace|services|members|environments/,
-    );
-  });
-
-  test("HTTP200 Project not found becomes a typed aggregate retaining diagnostics", async () => {
-    const { client } = harness({ data: null, errors: [projectNotFound] });
-    const result = await failure(
-      client.query({
-        project: { where: { id: missingProjectId }, select: { id: true } },
-      }),
-    );
-    expect(result).toBeInstanceOf(G.GraphQLFailure);
-    if (!(result instanceof G.GraphQLFailure))
-      throw new Error("Expected GraphQLFailure");
-    expect(result.data).toBeNull();
-    expect(result.errors).toHaveLength(1);
-    expect(result.errors[0]).toBeInstanceOf(Railway.RailwayNotFound);
-    expect(result.errors[0]).toMatchObject({
-      _tag: "RailwayNotFound",
-      message: "Project not found",
-      path: ["project"],
-      locations: [{ line: 2, column: 3 }],
-      code: "INTERNAL_SERVER_ERROR",
-      status: 200,
-      traceId: "sanitized-railway-trace",
-    });
-  });
-
-  test("native entrypoint exports aggregate recovery utilities", async () => {
-    const { client } = harness({ data: null, errors: [projectNotFound] });
-    const result = await Effect.runPromise(
-      client
-        .query({
-          project: { where: { id: missingProjectId }, select: { id: true } },
-        })
-        .pipe(
-          Railway.catchTags("RailwayNotFound", (_issue, aggregate) => {
-            expect(Railway.isErrorTag(aggregate, "RailwayNotFound")).toBe(true);
-            return Effect.succeed(undefined);
-          }),
+        { data: { projects: page([{ name: "c" }], false, "c2") } },
+      );
+      const names = await run(
+        Stream.runCollect(
+          Query.items(Railway.projects({ first: 2 }).pipe(Query.map((project) => project.name))),
         ),
-    );
-    expect(result).toBeUndefined();
-  });
-
-  test("account-token scope rejection on me matches Forbidden before InternalError", async () => {
-    const { client } = harness({ data: null, errors: [notAuthorized] });
-    const result = await Effect.runPromise(
-      client.report.query({ me: { select: { id: true } } }),
-    );
-    expect(result.data).toBeNull();
-    expect(result.errors).toHaveLength(1);
-    expect(result.errors[0]).toBeInstanceOf(Railway.RailwayForbidden);
-    expect(result.errors[0]).toMatchObject({
-      message: "Not Authorized",
-      path: ["me"],
-      code: "INTERNAL_SERVER_ERROR",
+        layer,
+      );
+      expect([...names]).toEqual(["a", "b", "c"]);
+      expect(requests).toHaveLength(2);
+      expect(requests[0]!.document).toContain("pageInfo");
+      expect(requests[0]!.document).toContain("hasNextPage");
+      expect(Object.values(requests[0]!.variables)).toEqual([2]);
+      expect(Object.values(requests[1]!.variables)).toContain("c1");
     });
-  });
 
-  test("response aliases resolve to the original schema coordinate for classification", async () => {
-    const { client, requests } = harness({
-      data: null,
-      errors: [{ ...projectNotFound, path: ["production"] }],
-    });
-    const result = await Effect.runPromise(
-      client.report.query({
-        __alias: {
-          production: {
-            project: { where: { id: missingProjectId }, select: { id: true } },
-          },
-        },
-      }),
-    );
-    expect(result.errors[0]).toBeInstanceOf(Railway.RailwayNotFound);
-    expect(result.errors[0]!.path).toEqual(["production"]);
-    expect(requests[0]!.query).toMatch(/production:\s*project/);
-  });
-
-  test("nested aliased paths never borrow an ancestor's not-found contract", async () => {
-    const { client } = harness({
-      data: { production: { id: "project-fixture", description: null } },
-      errors: [
+    test("Query.pages pages a connection nested under a root", async () => {
+      const { layer, requests } = sequence(
         {
-          message: "Description not found",
-          path: ["production", "description"],
-          extensions: { code: "NOT_FOUND" },
-        },
-      ],
-    });
-    const result = await Effect.runPromise(
-      client.report.query({
-        __alias: {
-          production: {
-            project: {
-              where: { id: "project-fixture" },
-              select: { id: true, description: true },
-            },
+          data: {
+            project: { services: page([{ id: "s1" }], true, "c1") },
           },
         },
-      }),
-    );
-    expect(result.data).toEqual({
-      production: { id: "project-fixture", description: null },
+        {
+          data: {
+            project: { services: page([{ id: "s2" }], false, null) },
+          },
+        },
+      );
+      const pages = await run(
+        Stream.runCollect(
+          Query.pages(
+            Railway.project({ id: "p" })
+              .services({ first: 1 })
+              .pipe(Query.map((service) => service.id)),
+          ),
+        ),
+        layer,
+      );
+      expect([...pages]).toEqual([["s1"], ["s2"]]);
+      expect(requests[1]!.document).toMatch(/services\(.*after/);
     });
-    expect(result.errors[0]).toBeInstanceOf(G.UnknownGraphQLError);
-    expect(result.errors[0]).toMatchObject({
-      coordinate: "Project.description",
-      path: ["production", "description"],
-      code: "NOT_FOUND",
-    });
-  });
 
-  test("unscoped INTERNAL_SERVER_ERROR stays a global InternalError rather than borrowing NotFound", async () => {
-    const { client } = harness({
-      data: { production: { description: null } },
-      errors: [{ ...projectNotFound, path: ["production", "description"] }],
+    test("a repeated cursor fails instead of looping", async () => {
+      const { layer } = sequence({
+        data: { projects: page([{ name: "a" }], true, "same") },
+      });
+      const error = await failure(
+        Stream.runCollect(
+          Query.items(Railway.projects({ first: 1 }).pipe(Query.map((p) => p.name))),
+        ),
+        layer,
+      );
+      expect(error).toBeInstanceOf(GraphQLPaginationError);
     });
-    const result = await Effect.runPromise(
-      client.report.query({
-        __alias: {
-          production: {
-            project: {
-              where: { id: "project-fixture" },
-              select: { description: true },
-            },
-          },
-        },
-      }),
-    );
-    expect(result.errors[0]).toBeInstanceOf(Railway.RailwayInternalError);
-    expect(result.errors[0]).not.toBeInstanceOf(Railway.RailwayNotFound);
+
+    test("page errors keep the root's typed errors", async () => {
+      const { layer } = harness(null, [internal("Project not found", ["project"])]);
+      const recovered = await run(
+        Stream.runCollect(
+          Query.items(
+            Railway.project({ id: "gone" })
+              .services({ first: 10 })
+              .pipe(Query.map((service) => service.id)),
+          ).pipe(Stream.catchTag("RailwayNotFound", () => Stream.empty)),
+        ),
+        layer,
+      );
+      expect([...recovered]).toEqual([]);
+    });
   });
 });

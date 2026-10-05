@@ -1,0 +1,16 @@
+{
+  "description": "Updating an existing certificate requires an If-Match ETag header (dropped by the converter). Add the optional ifMatch header member; omit it on create.",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.iothub#CertificatesCreateOrUpdateRequest/members/ifMatch",
+      "value": {
+        "target": "smithy.api#String",
+        "traits": {
+          "smithy.api#httpHeader": "If-Match",
+          "smithy.api#documentation": "ETag of the certificate. Do not specify for creating a brand new certificate. Required to update an existing certificate."
+        }
+      }
+    }
+  ]
+}

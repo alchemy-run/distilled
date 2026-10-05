@@ -3,13 +3,13 @@
   "private": true,
   "type": "module",
   "scripts": {
-    "bench": "bun run.ts",
-    "bench:full": "bun run.ts --full",
-    "bench:record": "bun run.ts --record",
+    "bench": "node run.ts",
+    "bench:full": "node run.ts --full",
+    "bench:record": "node run.ts --record",
     "typecheck": "tsc -p tsconfig.json"
   },
   "devDependencies": {
-    "@types/bun": "catalog:",
+    "@types/node": "catalog:",
     "typescript": "catalog:"
   }
 }

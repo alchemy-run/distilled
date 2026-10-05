@@ -4129,6 +4129,9 @@
         },
         {
           "target": "com.gcp.androidenterprise_v1#Forbidden"
+        },
+        {
+          "target": "com.gcp.androidenterprise_v1#InsufficientAuthenticationScopes"
         }
       ],
       "traits": {
@@ -4166,6 +4169,9 @@
         },
         {
           "target": "com.gcp.androidenterprise_v1#Forbidden"
+        },
+        {
+          "target": "com.gcp.androidenterprise_v1#InsufficientAuthenticationScopes"
         }
       ],
       "traits": {
@@ -4817,6 +4823,9 @@
         },
         {
           "target": "com.gcp.androidenterprise_v1#Conflict"
+        },
+        {
+          "target": "com.gcp.androidenterprise_v1#InsufficientAuthenticationScopes"
         }
       ],
       "traits": {
@@ -4862,6 +4871,9 @@
         },
         {
           "target": "com.gcp.androidenterprise_v1#Forbidden"
+        },
+        {
+          "target": "com.gcp.androidenterprise_v1#InsufficientAuthenticationScopes"
         }
       ],
       "traits": {
@@ -4910,6 +4922,9 @@
         },
         {
           "target": "com.gcp.androidenterprise_v1#Conflict"
+        },
+        {
+          "target": "com.gcp.androidenterprise_v1#InsufficientAuthenticationScopes"
         }
       ],
       "traits": {
@@ -4947,6 +4962,9 @@
         },
         {
           "target": "com.gcp.androidenterprise_v1#Forbidden"
+        },
+        {
+          "target": "com.gcp.androidenterprise_v1#InsufficientAuthenticationScopes"
         }
       ],
       "traits": {
@@ -4997,6 +5015,9 @@
         },
         {
           "target": "com.gcp.androidenterprise_v1#Conflict"
+        },
+        {
+          "target": "com.gcp.androidenterprise_v1#InsufficientAuthenticationScopes"
         }
       ],
       "traits": {
@@ -6371,6 +6392,9 @@
         },
         {
           "target": "com.gcp.androidenterprise_v1#Conflict"
+        },
+        {
+          "target": "com.gcp.androidenterprise_v1#InsufficientAuthenticationScopes"
         }
       ],
       "traits": {
@@ -6408,6 +6432,9 @@
         },
         {
           "target": "com.gcp.androidenterprise_v1#Forbidden"
+        },
+        {
+          "target": "com.gcp.androidenterprise_v1#InsufficientAuthenticationScopes"
         }
       ],
       "traits": {
@@ -6456,6 +6483,9 @@
         },
         {
           "target": "com.gcp.androidenterprise_v1#Conflict"
+        },
+        {
+          "target": "com.gcp.androidenterprise_v1#InsufficientAuthenticationScopes"
         }
       ],
       "traits": {
@@ -6514,6 +6544,9 @@
         },
         {
           "target": "com.gcp.androidenterprise_v1#Conflict"
+        },
+        {
+          "target": "com.gcp.androidenterprise_v1#InsufficientAuthenticationScopes"
         }
       ],
       "traits": {
@@ -6559,6 +6592,9 @@
         },
         {
           "target": "com.gcp.androidenterprise_v1#Forbidden"
+        },
+        {
+          "target": "com.gcp.androidenterprise_v1#InsufficientAuthenticationScopes"
         }
       ],
       "traits": {
@@ -7488,6 +7524,9 @@
         },
         {
           "target": "com.gcp.androidenterprise_v1#Conflict"
+        },
+        {
+          "target": "com.gcp.androidenterprise_v1#InsufficientAuthenticationScopes"
         }
       ],
       "traits": {
@@ -7544,6 +7583,9 @@
         },
         {
           "target": "com.gcp.androidenterprise_v1#Conflict"
+        },
+        {
+          "target": "com.gcp.androidenterprise_v1#InsufficientAuthenticationScopes"
         }
       ],
       "traits": {
@@ -7589,6 +7631,9 @@
         },
         {
           "target": "com.gcp.androidenterprise_v1#Forbidden"
+        },
+        {
+          "target": "com.gcp.androidenterprise_v1#InsufficientAuthenticationScopes"
         }
       ],
       "traits": {
@@ -7647,6 +7692,9 @@
         },
         {
           "target": "com.gcp.androidenterprise_v1#Conflict"
+        },
+        {
+          "target": "com.gcp.androidenterprise_v1#InsufficientAuthenticationScopes"
         }
       ],
       "traits": {
@@ -7700,6 +7748,9 @@
         },
         {
           "target": "com.gcp.androidenterprise_v1#Forbidden"
+        },
+        {
+          "target": "com.gcp.androidenterprise_v1#InsufficientAuthenticationScopes"
         }
       ],
       "traits": {
@@ -7708,6 +7759,23 @@
           "uri": "androidenterprise/v1/enterprises/{enterpriseId}/storeLayout/pages/{pageId}/clusters/{clusterId}"
         },
         "smithy.api#documentation": "Retrieves details of a cluster."
+      }
+    },
+    "com.gcp.androidenterprise_v1#InsufficientAuthenticationScopes": {
+      "type": "structure",
+      "members": {},
+      "traits": {
+        "smithy.api#error": "client",
+        "smithy.api#httpError": 403,
+        "smithy.api#documentation": "The credential lacks the https://www.googleapis.com/auth/androidenterprise OAuth scope (HTTP 403 'Request had insufficient authentication scopes.'). A Cloud Platform-scoped service account token cannot call the EMM API; not retryable.",
+        "com.gcp.protocols#errorMatchers": [
+          {
+            "status": 403,
+            "message": {
+              "includes": "insufficient authentication scopes"
+            }
+          }
+        ]
       }
     }
   }

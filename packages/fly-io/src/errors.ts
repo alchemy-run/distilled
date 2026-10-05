@@ -25,11 +25,10 @@ export {
   DEFAULT_ERRORS,
   API_ERRORS,
 } from "@distilled.cloud/core/errors";
-import type { DefaultErrors as CoreDefaultErrors } from "@distilled.cloud/core/errors";
-
-import * as Schema from "effect/Schema";
 import * as Category from "@distilled.cloud/core/category";
+import type { DefaultErrors as CoreDefaultErrors } from "@distilled.cloud/core/errors";
 import { applyErrorMatchers } from "@distilled.cloud/core/trait";
+import * as Schema from "effect/Schema";
 
 /**
  * Unknown Fly.io error — returned when a failure matches no status-mapped
@@ -45,13 +44,10 @@ export class UnknownFlyIoError extends Schema.TaggedError<UnknownFlyIoError>()(
 ).pipe(Category.withServerError) {}
 
 /** Schema parse error wrapper. */
-export class FlyIoParseError extends Schema.TaggedError<FlyIoParseError>()(
-  "FlyIoParseError",
-  {
-    body: Schema.Unknown,
-    cause: Schema.Unknown,
-  },
-).pipe(Category.withParseError) {}
+export class FlyIoParseError extends Schema.TaggedError<FlyIoParseError>()("FlyIoParseError", {
+  body: Schema.Unknown,
+  cause: Schema.Unknown,
+}).pipe(Category.withParseError) {}
 
 /**
  * Sprites is not enabled for the Fly organization that owns `FLY_API_TOKEN`.
