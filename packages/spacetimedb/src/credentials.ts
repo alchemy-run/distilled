@@ -24,18 +24,15 @@ export class Credentials extends Context.Service<Credentials, Effect.Effect<Conf
   "SpacetimeDBCredentials",
 ) {}
 
-const redact = (value: string | Redacted.Redacted<string>): Redacted.Redacted<string> =>
-  Redacted.isRedacted(value) ? value : Redacted.make(value);
-
-/** Layer from a plain token + optional base URL. */
+/** Layer from a redacted token + optional base URL. */
 export const fromApiKey = (config: {
-  readonly apiKey: string | Redacted.Redacted<string>;
+  readonly apiKey: Redacted.Redacted<string>;
   readonly apiBaseUrl?: string;
 }): Layer.Layer<Credentials> =>
   Layer.succeed(
     Credentials,
     Effect.succeed({
-      apiKey: redact(config.apiKey),
+      apiKey: config.apiKey,
       apiBaseUrl: config.apiBaseUrl ?? DEFAULT_API_BASE_URL,
     }),
   );
@@ -43,7 +40,8 @@ export const fromApiKey = (config: {
 /** Anonymous requests (no Authorization header). */
 export const fromAnonymous = (config?: {
   readonly apiBaseUrl?: string;
-}): Layer.Layer<Credentials> => fromApiKey({ apiKey: "", apiBaseUrl: config?.apiBaseUrl });
+}): Layer.Layer<Credentials> =>
+  fromApiKey({ apiKey: Redacted.make(""), apiBaseUrl: config?.apiBaseUrl });
 
 /**
  * Reads SPACETIMEDB_TOKEN or SPACETIME_TOKEN (optional — empty is anonymous)

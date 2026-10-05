@@ -25,9 +25,6 @@ export class Credentials extends Context.Service<Credentials, Effect.Effect<Conf
   "SupabaseCredentials",
 ) {}
 
-const redact = (value: string | Redacted.Redacted<string>): Redacted.Redacted<string> =>
-  Redacted.isRedacted(value) ? value : Redacted.make(value);
-
 const envConfig = EffectConfig.all({
   accessToken: EffectConfig.String("SUPABASE_ACCESS_TOKEN"),
 });
@@ -50,16 +47,16 @@ export const CredentialsFromEnv = Layer.succeed(
 );
 
 /**
- * Convenience layer from a plain token + optional base URL.
+ * Convenience layer from a redacted token + optional base URL.
  */
 export const credentials = (config: {
-  readonly accessToken: string | Redacted.Redacted<string>;
+  readonly accessToken: Redacted.Redacted<string>;
   readonly apiBaseUrl?: string;
 }): Layer.Layer<Credentials> =>
   Layer.succeed(
     Credentials,
     Effect.succeed({
-      accessToken: redact(config.accessToken),
+      accessToken: config.accessToken,
       apiBaseUrl: config.apiBaseUrl ?? DEFAULT_API_BASE_URL,
     }),
   );

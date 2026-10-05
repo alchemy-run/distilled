@@ -1,6 +1,7 @@
 import { describe, expect, test } from "bun:test";
 import { runValidationModes } from "@distilled.cloud/core/testing";
 import * as Effect from "effect/Effect";
+import * as Redacted from "effect/Redacted";
 import { fromApiToken } from "./credentials.ts";
 import { PrismaParseError } from "./errors.ts";
 import type { PrismaOpError } from "./protocol.ts";
@@ -12,7 +13,7 @@ const run = (body: string) =>
   runValidationModes(
     getDatabaseUsage({ databaseId: "db_1" }).pipe(
       Retry.none,
-      Effect.provide(fromApiToken({ apiToken: "test" })),
+      Effect.provide(fromApiToken({ apiToken: Redacted.make("test") })),
     ),
     { body },
   );

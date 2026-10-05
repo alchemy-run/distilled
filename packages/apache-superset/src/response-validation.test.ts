@@ -1,6 +1,7 @@
 import { describe, expect, test } from "bun:test";
 import { runValidationModes } from "@distilled.cloud/core/testing";
 import * as Effect from "effect/Effect";
+import * as Redacted from "effect/Redacted";
 import { fromApiKey } from "./credentials.ts";
 import { ApacheSupersetParseError } from "./errors.ts";
 import type { ApacheSupersetOpError } from "./protocol.ts";
@@ -10,9 +11,10 @@ import { getMe } from "./services/superset.ts";
 // getMe declares `{ result?: UserResponseSchema }`; every member is optional,
 // so the mismatch is a wrong primitive (`result.id` must be a number).
 const run = (body: string) =>
-  runValidationModes(getMe({}).pipe(Retry.none, Effect.provide(fromApiKey({ apiKey: "test" }))), {
-    body,
-  });
+  runValidationModes(
+    getMe({}).pipe(Retry.none, Effect.provide(fromApiKey({ apiKey: Redacted.make("test") }))),
+    { body },
+  );
 
 describe("Apache Superset response validation", () => {
   test("a matching body succeeds unchanged in both modes", async () => {

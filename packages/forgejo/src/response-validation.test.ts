@@ -1,6 +1,7 @@
 import { describe, expect, test } from "bun:test";
 import { runValidationModes } from "@distilled.cloud/core/testing";
 import * as Effect from "effect/Effect";
+import * as Redacted from "effect/Redacted";
 import { credentials } from "./credentials.ts";
 import { ForgejoParseError } from "./errors.ts";
 import type { ForgejoOpError } from "./protocol.ts";
@@ -13,7 +14,12 @@ const run = (body: string) =>
   runValidationModes(
     getVersion({}).pipe(
       Retry.none,
-      Effect.provide(credentials({ token: "test", baseUrl: "https://git.example.com" })),
+      Effect.provide(
+        credentials({
+          token: Redacted.make("test"),
+          baseUrl: "https://git.example.com",
+        }),
+      ),
     ),
     { body },
   );

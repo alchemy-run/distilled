@@ -1,6 +1,7 @@
 import { describe, expect, test } from "bun:test";
 import { runValidationModes } from "@distilled.cloud/core/testing";
 import * as Effect from "effect/Effect";
+import * as Redacted from "effect/Redacted";
 import { fromApiKey } from "./credentials.ts";
 import { InngestParseError } from "./errors.ts";
 import type { InngestOpError } from "./protocol.ts";
@@ -11,7 +12,10 @@ import { fetchV2Account } from "./services/inngest.ts";
 // optional, so the mismatch is a wrong primitive (`data.email` must be a string).
 const run = (body: string) =>
   runValidationModes(
-    fetchV2Account({}).pipe(Retry.none, Effect.provide(fromApiKey({ apiKey: "test" }))),
+    fetchV2Account({}).pipe(
+      Retry.none,
+      Effect.provide(fromApiKey({ apiKey: Redacted.make("test") })),
+    ),
     { body },
   );
 

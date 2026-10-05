@@ -1,6 +1,7 @@
 import { describe, expect, test } from "bun:test";
 import { runValidationModes } from "@distilled.cloud/core/testing";
 import * as Effect from "effect/Effect";
+import * as Redacted from "effect/Redacted";
 import { fromPassword } from "./credentials.ts";
 import { OpencodeParseError } from "./errors.ts";
 import type { OpencodeOpError } from "./protocol.ts";
@@ -10,7 +11,10 @@ import { globalHealth } from "./services/opencode.ts";
 // globalHealth declares `{ healthy: boolean; version: string }`.
 const run = (body: string) =>
   runValidationModes(
-    globalHealth({}).pipe(Retry.none, Effect.provide(fromPassword({ password: "test" }))),
+    globalHealth({}).pipe(
+      Retry.none,
+      Effect.provide(fromPassword({ password: Redacted.make("test") })),
+    ),
     { body },
   );
 

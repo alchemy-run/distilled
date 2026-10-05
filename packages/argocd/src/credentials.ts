@@ -29,15 +29,15 @@ export class Credentials extends Context.Service<Credentials, Effect.Effect<Conf
   "ArgocdCredentials",
 ) {}
 
-/** Layer from a plain bearer token + optional instance URL. */
+/** Layer from a redacted bearer token + optional instance URL. */
 export const fromToken = (config: {
-  readonly token: string | Redacted.Redacted<string>;
+  readonly token: Redacted.Redacted<string>;
   readonly apiBaseUrl?: string;
 }): Layer.Layer<Credentials> =>
   Layer.succeed(
     Credentials,
     Effect.succeed({
-      token: Redacted.isRedacted(config.token) ? config.token : Redacted.make(config.token),
+      token: config.token,
       apiBaseUrl: config.apiBaseUrl ?? DEFAULT_API_BASE_URL,
     }),
   );

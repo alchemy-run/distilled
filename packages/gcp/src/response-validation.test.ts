@@ -1,6 +1,7 @@
 import { describe, expect, test } from "bun:test";
 import { runValidationModes } from "@distilled.cloud/core/testing";
 import * as Effect from "effect/Effect";
+import * as Redacted from "effect/Redacted";
 import { fromAccessToken } from "./credentials.ts";
 import { GCPParseError } from "./errors.ts";
 import type { GcpOpError } from "./protocol.ts";
@@ -13,7 +14,7 @@ const run = (body: string) =>
   runValidationModes(
     getProjects({ name: "projects/415104041262" }).pipe(
       Retry.none,
-      Effect.provide(fromAccessToken({ accessToken: "test" })),
+      Effect.provide(fromAccessToken({ accessToken: Redacted.make("test") })),
     ),
     { body },
   );

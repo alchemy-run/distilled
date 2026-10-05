@@ -1,6 +1,7 @@
 import { describe, expect, test } from "bun:test";
 import { runValidationModes } from "@distilled.cloud/core/testing";
 import * as Effect from "effect/Effect";
+import * as Redacted from "effect/Redacted";
 import { fromApiToken } from "./credentials.ts";
 import { OktaParseError } from "./errors.ts";
 import type { OktaOpError } from "./protocol.ts";
@@ -15,7 +16,7 @@ const run = (body: string) =>
       Retry.none,
       Effect.provide(
         fromApiToken({
-          apiToken: "test",
+          apiToken: Redacted.make("test"),
           apiBaseUrl: "https://example.okta.com",
         }),
       ),

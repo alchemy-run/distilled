@@ -1,6 +1,7 @@
 import { describe, expect, test } from "bun:test";
 import { runValidationModes } from "@distilled.cloud/core/testing";
 import * as Effect from "effect/Effect";
+import * as Redacted from "effect/Redacted";
 import { credentials } from "./credentials.ts";
 import { SupabaseParseError } from "./errors.ts";
 import type { SupabaseOpError } from "./protocol.ts";
@@ -10,7 +11,10 @@ import { v1GetProfile } from "./services/supabase.ts";
 // v1GetProfile declares `{ gotrue_id: string; primary_email: string; username: string }`.
 const run = (body: string) =>
   runValidationModes(
-    v1GetProfile({}).pipe(Retry.none, Effect.provide(credentials({ accessToken: "test" }))),
+    v1GetProfile({}).pipe(
+      Retry.none,
+      Effect.provide(credentials({ accessToken: Redacted.make("test") })),
+    ),
     { body },
   );
 

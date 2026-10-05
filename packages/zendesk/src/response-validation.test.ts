@@ -1,6 +1,7 @@
 import { describe, expect, test } from "bun:test";
 import { runValidationModes } from "@distilled.cloud/core/testing";
 import * as Effect from "effect/Effect";
+import * as Redacted from "effect/Redacted";
 import { fromApiToken } from "./credentials.ts";
 import { ZendeskParseError } from "./errors.ts";
 import type { ZendeskOpError } from "./protocol.ts";
@@ -16,7 +17,7 @@ const run = (body: string) =>
       Effect.provide(
         fromApiToken({
           email: "test@example.com",
-          apiToken: "test",
+          apiToken: Redacted.make("test"),
           subdomain: "acme",
         }),
       ),

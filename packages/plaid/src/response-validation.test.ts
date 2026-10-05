@@ -1,6 +1,7 @@
 import { describe, expect, test } from "bun:test";
 import { runValidationModes } from "@distilled.cloud/core/testing";
 import * as Effect from "effect/Effect";
+import * as Redacted from "effect/Redacted";
 import { fromApiKey } from "./credentials.ts";
 import { PlaidParseError } from "./errors.ts";
 import type { PlaidOpError } from "./protocol.ts";
@@ -12,7 +13,7 @@ const run = (body: string) =>
   runValidationModes(
     getRecipients({}).pipe(
       Retry.none,
-      Effect.provide(fromApiKey({ clientId: "test", secret: "test" })),
+      Effect.provide(fromApiKey({ clientId: "test", secret: Redacted.make("test") })),
     ),
     { body },
   );

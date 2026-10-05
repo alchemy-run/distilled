@@ -692,7 +692,7 @@ describe("fromWebToken", () => {
     const creds = await run(
       webTokenSource({
         roleArn: "arn:aws:iam::123456789012:role/Web",
-        webIdentityToken: "jwt-token",
+        webIdentityToken: Redacted.make("jwt-token"),
         roleSessionName: "web",
         providerId: "graph.facebook.com",
         durationSeconds: 900,
@@ -714,7 +714,7 @@ describe("fromWebToken", () => {
       resolveLayer(
         Credentials.fromWebToken({
           roleArn: "arn:aws:iam::123456789012:role/Web",
-          webIdentityToken: "jwt-token",
+          webIdentityToken: Redacted.make("jwt-token"),
           region: "ap-south-1",
         }),
       ).pipe(Effect.provide(layer)),
@@ -778,7 +778,7 @@ describe("fromWebToken", () => {
     const error = await runFail(
       webTokenSource({
         roleArn: "arn:aws:iam::123456789012:role/Web",
-        webIdentityToken: "bad",
+        webIdentityToken: Redacted.make("bad"),
         region: "us-east-1",
       }).pipe(Effect.provide(layer)),
     );
@@ -864,9 +864,8 @@ describe("fromCognitoIdentity", () => {
       cognitoIdentitySource({
         identityId,
         logins: {
-          "accounts.google.com": "static-token",
-          "graph.facebook.com": Effect.succeed("effect-token"),
-          "cognito-idp.us-east-1.amazonaws.com/pool": Redacted.make("id-token"),
+          "accounts.google.com": Redacted.make("static-token"),
+          "graph.facebook.com": Effect.succeed(Redacted.make("effect-token")),
         },
       }).pipe(Effect.provide(layer)),
     );
@@ -881,7 +880,6 @@ describe("fromCognitoIdentity", () => {
     expect(body.Logins).toEqual({
       "accounts.google.com": "static-token",
       "graph.facebook.com": "effect-token",
-      "cognito-idp.us-east-1.amazonaws.com/pool": "id-token",
     });
   });
 
@@ -1252,12 +1250,12 @@ describe("Credentials layers", () => {
 });
 
 describe("fromCredentials", () => {
-  test("takes plain or Redacted secrets and holds them all redacted", async () => {
+  test("holds the Redacted secrets it is given", async () => {
     const resolved = await run(
       resolveLayer(
         Credentials.fromCredentials(
           {
-            accessKeyId: "AKIA-static",
+            accessKeyId: Redacted.make("AKIA-static"),
             secretAccessKey: Redacted.make("secret-static"),
             sessionToken: Redacted.make("session-static"),
           },
@@ -1265,7 +1263,6 @@ describe("fromCredentials", () => {
         ),
       ),
     );
-    expect(Redacted.isRedacted(resolved.accessKeyId)).toBe(true);
     expect(Redacted.value(resolved.accessKeyId)).toBe("AKIA-static");
     expect(Redacted.value(resolved.secretAccessKey)).toBe("secret-static");
     expect(resolved.sessionToken && Redacted.value(resolved.sessionToken)).toBe("session-static");

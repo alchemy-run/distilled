@@ -30,9 +30,6 @@ export class Credentials extends Context.Service<Credentials, Effect.Effect<Conf
   "ModalCredentials",
 ) {}
 
-const redact = (value: string | Redacted.Redacted<string>): Redacted.Redacted<string> =>
-  Redacted.isRedacted(value) ? value : Redacted.make(value);
-
 const envConfig = EffectConfig.all({
   tokenId: EffectConfig.Redacted("MODAL_TOKEN_ID"),
   tokenSecret: EffectConfig.Redacted("MODAL_TOKEN_SECRET"),
@@ -58,15 +55,15 @@ export const CredentialsFromEnv = Layer.succeed(
 
 /** Convenience layer from a token pair + optional base URL. */
 export const credentials = (config: {
-  readonly tokenId: string | Redacted.Redacted<string>;
-  readonly tokenSecret: string | Redacted.Redacted<string>;
+  readonly tokenId: Redacted.Redacted<string>;
+  readonly tokenSecret: Redacted.Redacted<string>;
   readonly apiBaseUrl?: string;
 }): Layer.Layer<Credentials> =>
   Layer.succeed(
     Credentials,
     Effect.succeed({
-      tokenId: redact(config.tokenId),
-      tokenSecret: redact(config.tokenSecret),
+      tokenId: config.tokenId,
+      tokenSecret: config.tokenSecret,
       apiBaseUrl: config.apiBaseUrl ?? DEFAULT_API_BASE_URL,
     }),
   );

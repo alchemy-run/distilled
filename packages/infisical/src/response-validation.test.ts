@@ -1,6 +1,7 @@
 import { describe, expect, test } from "bun:test";
 import { runValidationModes } from "@distilled.cloud/core/testing";
 import * as Effect from "effect/Effect";
+import * as Redacted from "effect/Redacted";
 import { fromApiKey } from "./credentials.ts";
 import { InfisicalParseError } from "./errors.ts";
 import type { InfisicalOpError } from "./protocol.ts";
@@ -11,7 +12,10 @@ import { getPkiDiscoveryConfig } from "./services/infisical.ts";
 // `maxIps`, `maxDomains`, and `minCidrPrefix`.
 const run = (body: string) =>
   runValidationModes(
-    getPkiDiscoveryConfig({}).pipe(Retry.none, Effect.provide(fromApiKey({ apiKey: "test" }))),
+    getPkiDiscoveryConfig({}).pipe(
+      Retry.none,
+      Effect.provide(fromApiKey({ apiKey: Redacted.make("test") })),
+    ),
     { body },
   );
 

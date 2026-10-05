@@ -22,19 +22,19 @@ export const DEFAULT_API_BASE_URL = "https://api.cloudflare.com/client/v4";
 const CREDENTIAL_REFRESH_WINDOW_MS = 5 * 60 * 1000;
 
 export interface ApiTokenConfig {
-  readonly apiToken: string | Redacted.Redacted<string>;
+  readonly apiToken: Redacted.Redacted<string>;
   readonly apiBaseUrl?: string;
 }
 
 export interface ApiKeyConfig {
-  readonly apiKey: string | Redacted.Redacted<string>;
+  readonly apiKey: Redacted.Redacted<string>;
   readonly email: string;
   readonly apiBaseUrl?: string;
 }
 
 export interface OAuthConfig {
-  readonly accessToken: string | Redacted.Redacted<string>;
-  readonly refreshToken?: string | Redacted.Redacted<string>;
+  readonly accessToken: Redacted.Redacted<string>;
+  readonly refreshToken?: Redacted.Redacted<string>;
   readonly expiresAt?: number;
 }
 
@@ -81,26 +81,23 @@ export class Credentials extends Context.Service<
 
 const resolveApiBaseUrl = (apiBaseUrl?: string): string => apiBaseUrl ?? DEFAULT_API_BASE_URL;
 
-const redact = (value: string | Redacted.Redacted<string>): Redacted.Redacted<string> =>
-  Redacted.isRedacted(value) ? value : Redacted.make(value);
-
 export const apiTokenCredentials = (config: ApiTokenConfig): ApiTokenCredentials => ({
   type: "apiToken",
-  apiToken: redact(config.apiToken),
+  apiToken: config.apiToken,
   apiBaseUrl: resolveApiBaseUrl(config.apiBaseUrl),
 });
 
 export const apiKeyCredentials = (config: ApiKeyConfig): ApiKeyCredentials => ({
   type: "apiKey",
-  apiKey: redact(config.apiKey),
+  apiKey: config.apiKey,
   email: config.email,
   apiBaseUrl: resolveApiBaseUrl(config.apiBaseUrl),
 });
 
 export const oauthCredentials = (config: OAuthConfig, apiBaseUrl?: string): OAuthCredentials => ({
   type: "oauth",
-  accessToken: redact(config.accessToken),
-  refreshToken: config.refreshToken ? redact(config.refreshToken) : undefined,
+  accessToken: config.accessToken,
+  refreshToken: config.refreshToken,
   expiresAt: config.expiresAt,
   apiBaseUrl: resolveApiBaseUrl(apiBaseUrl),
 });
@@ -158,8 +155,6 @@ export const fromApiKey = (config: ApiKeyConfig): Layer.Layer<Credentials> =>
   Layer.succeed(Credentials, Effect.succeed(apiKeyCredentials(config)));
 
 export const fromOAuth = (provider: OAuthProvider): Layer.Layer<Credentials> => {
-  // Kept exactly as the provider returned it, so `refresh` gets back the
-  // same shape `load` produced.
   let currentCredentials: OAuthConfig | undefined;
 
   const resolve = Effect.gen(function* () {
@@ -261,11 +256,11 @@ export const formatHeaders = (credentials: ResolvedCredentials): Record<string, 
 };
 
 /**
- * Convenience layer from a plain token + optional base URL (kept for local
+ * Convenience layer from a redacted token + optional base URL (kept for local
  * tests; distilled's equivalent is `fromApiToken`).
  */
 export const credentials = (config: {
-  readonly apiToken: string | Redacted.Redacted<string>;
+  readonly apiToken: Redacted.Redacted<string>;
   readonly baseUrl?: string;
 }): Layer.Layer<Credentials> =>
   fromApiToken({ apiToken: config.apiToken, apiBaseUrl: config.baseUrl });

@@ -1,6 +1,7 @@
 import { describe, expect, test } from "bun:test";
 import { runValidationModes } from "@distilled.cloud/core/testing";
 import * as Effect from "effect/Effect";
+import * as Redacted from "effect/Redacted";
 import { fromApiKey } from "./credentials.ts";
 import { PolarParseError } from "./errors.ts";
 import type { PolarOpError } from "./protocol.ts";
@@ -10,7 +11,10 @@ import { eventsListNames } from "./services/polar.ts";
 // eventsListNames declares `{ items: EventName[]; pagination: { total_count: number; max_page: number } }`.
 const run = (body: string) =>
   runValidationModes(
-    eventsListNames({}).pipe(Retry.none, Effect.provide(fromApiKey({ apiKey: "test" }))),
+    eventsListNames({}).pipe(
+      Retry.none,
+      Effect.provide(fromApiKey({ apiKey: Redacted.make("test") })),
+    ),
     { body },
   );
 

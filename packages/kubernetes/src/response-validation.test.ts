@@ -1,6 +1,7 @@
 import { describe, expect, test } from "bun:test";
 import { runValidationModes } from "@distilled.cloud/core/testing";
 import * as Effect from "effect/Effect";
+import * as Redacted from "effect/Redacted";
 import { fromToken } from "./credentials.ts";
 import { KubernetesParseError } from "./errors.ts";
 import type { KubernetesOpError } from "./protocol.ts";
@@ -12,7 +13,12 @@ const run = (body: string) =>
   runValidationModes(
     getAppsAPIGroup({}).pipe(
       Retry.none,
-      Effect.provide(fromToken({ token: "test", apiBaseUrl: "https://k8s.test" })),
+      Effect.provide(
+        fromToken({
+          token: Redacted.make("test"),
+          apiBaseUrl: "https://k8s.test",
+        }),
+      ),
     ),
     { body },
   );

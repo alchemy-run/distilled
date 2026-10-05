@@ -1,6 +1,7 @@
 import { describe, expect, test } from "bun:test";
 import { runValidationModes } from "@distilled.cloud/core/testing";
 import * as Effect from "effect/Effect";
+import * as Redacted from "effect/Redacted";
 import { fromApiKey } from "./credentials.ts";
 import { HostingerParseError } from "./errors.ts";
 import type { HostingerOpError } from "./protocol.ts";
@@ -11,7 +12,10 @@ import { getVPSPublicKeysV1 } from "./services/hostinger.ts";
 // Every Hostinger output member is optional, so the mismatch is a wrong primitive.
 const run = (body: string) =>
   runValidationModes(
-    getVPSPublicKeysV1({}).pipe(Retry.none, Effect.provide(fromApiKey({ apiKey: "test" }))),
+    getVPSPublicKeysV1({}).pipe(
+      Retry.none,
+      Effect.provide(fromApiKey({ apiKey: Redacted.make("test") })),
+    ),
     { body },
   );
 

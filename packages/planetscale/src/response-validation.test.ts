@@ -1,6 +1,7 @@
 import { describe, expect, test } from "bun:test";
 import { runValidationModes } from "@distilled.cloud/core/testing";
 import * as Effect from "effect/Effect";
+import * as Redacted from "effect/Redacted";
 import { fromOAuth } from "./credentials.ts";
 import { PlanetScaleParseError } from "./errors.ts";
 import type { PlanetScaleOpError } from "./protocol.ts";
@@ -12,7 +13,7 @@ const run = (body: string) =>
   runValidationModes(
     getCurrentUser({}).pipe(
       Retry.none,
-      Effect.provide(fromOAuth({ accessToken: "test", organization: "org" })),
+      Effect.provide(fromOAuth({ accessToken: Redacted.make("test"), organization: "org" })),
     ),
     { body },
   );

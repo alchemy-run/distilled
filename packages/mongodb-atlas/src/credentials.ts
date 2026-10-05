@@ -37,7 +37,7 @@ export class Credentials extends Context.Service<Credentials, Effect.Effect<Conf
 
 export interface ClientCredentialsConfig {
   readonly clientId: string;
-  readonly clientSecret: string | Redacted.Redacted<string>;
+  readonly clientSecret: Redacted.Redacted<string>;
   readonly apiBaseUrl?: string;
 }
 
@@ -47,9 +47,6 @@ interface ResolvedClientCredentials {
   readonly clientSecret: Redacted.Redacted<string>;
   readonly apiBaseUrl: string;
 }
-
-const redact = (value: string | Redacted.Redacted<string>): Redacted.Redacted<string> =>
-  Redacted.isRedacted(value) ? value : Redacted.make(value);
 
 /** Exchange service-account credentials for an OAuth2 access token. */
 const exchangeToken = (
@@ -144,7 +141,7 @@ export const fromClientCredentials = (config: ClientCredentialsConfig): Layer.La
     cachedTokenEffect(
       Effect.succeed({
         clientId: config.clientId,
-        clientSecret: redact(config.clientSecret),
+        clientSecret: config.clientSecret,
         apiBaseUrl: config.apiBaseUrl ?? DEFAULT_API_BASE_URL,
       }),
     ),
@@ -152,13 +149,13 @@ export const fromClientCredentials = (config: ClientCredentialsConfig): Layer.La
 
 /** Layer from an already-obtained bearer access token. */
 export const fromAccessToken = (config: {
-  readonly accessToken: string | Redacted.Redacted<string>;
+  readonly accessToken: Redacted.Redacted<string>;
   readonly apiBaseUrl?: string;
 }): Layer.Layer<Credentials> =>
   Layer.succeed(
     Credentials,
     Effect.succeed({
-      accessToken: redact(config.accessToken),
+      accessToken: config.accessToken,
       apiBaseUrl: config.apiBaseUrl ?? DEFAULT_API_BASE_URL,
     }),
   );

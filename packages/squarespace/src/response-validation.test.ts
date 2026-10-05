@@ -1,6 +1,7 @@
 import { describe, expect, test } from "bun:test";
 import { runValidationModes } from "@distilled.cloud/core/testing";
 import * as Effect from "effect/Effect";
+import * as Redacted from "effect/Redacted";
 import { fromApiKey } from "./credentials.ts";
 import { SquarespaceParseError } from "./errors.ts";
 import type { SquarespaceOpError } from "./protocol.ts";
@@ -10,7 +11,10 @@ import { listDiscounts } from "./services/squarespace.ts";
 // listDiscounts declares `{ discounts: Discount[]; hasNextPage?; hasPreviousPage? }`.
 const run = (body: string) =>
   runValidationModes(
-    listDiscounts({}).pipe(Retry.none, Effect.provide(fromApiKey({ apiKey: "test" }))),
+    listDiscounts({}).pipe(
+      Retry.none,
+      Effect.provide(fromApiKey({ apiKey: Redacted.make("test") })),
+    ),
     { body },
   );
 

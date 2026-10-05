@@ -37,9 +37,6 @@ export class Credentials extends Context.Service<Credentials, Effect.Effect<Conf
   "RedisCloudCredentials",
 ) {}
 
-const redact = (value: string | Redacted.Redacted<string>): Redacted.Redacted<string> =>
-  Redacted.isRedacted(value) ? value : Redacted.make(value);
-
 /** Auth headers for a resolved credentials config. */
 export const formatHeaders = (config: Config): Record<string, string> => {
   const headers: Record<string, string> = {
@@ -52,19 +49,19 @@ export const formatHeaders = (config: Config): Record<string, string> => {
   return headers;
 };
 
-/** Layer from a plain account key + user secret + optional base URL. */
+/** Layer from a redacted account key + user secret + optional base URL. */
 export const fromApiKey = (config: {
-  readonly apiKey: string | Redacted.Redacted<string>;
-  readonly apiSecretKey: string | Redacted.Redacted<string>;
-  readonly authToken?: string | Redacted.Redacted<string>;
+  readonly apiKey: Redacted.Redacted<string>;
+  readonly apiSecretKey: Redacted.Redacted<string>;
+  readonly authToken?: Redacted.Redacted<string>;
   readonly apiBaseUrl?: string;
 }): Layer.Layer<Credentials> =>
   Layer.succeed(
     Credentials,
     Effect.succeed({
-      apiKey: redact(config.apiKey),
-      apiSecretKey: redact(config.apiSecretKey),
-      authToken: config.authToken !== undefined ? redact(config.authToken) : undefined,
+      apiKey: config.apiKey,
+      apiSecretKey: config.apiSecretKey,
+      authToken: config.authToken !== undefined ? config.authToken : undefined,
       apiBaseUrl: config.apiBaseUrl ?? DEFAULT_API_BASE_URL,
     }),
   );

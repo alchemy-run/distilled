@@ -1,6 +1,7 @@
 import { describe, expect, test } from "bun:test";
 import { runValidationModes } from "@distilled.cloud/core/testing";
 import * as Effect from "effect/Effect";
+import * as Redacted from "effect/Redacted";
 import { fromApiKey } from "./credentials.ts";
 import { TurbopufferParseError } from "./errors.ts";
 import type { TurbopufferOpError } from "./protocol.ts";
@@ -10,7 +11,10 @@ import { listNamespaces } from "./services/turbopuffer.ts";
 // listNamespaces declares `{ namespaces?: { id: string }[]; next_cursor?: string }`.
 const run = (body: string) =>
   runValidationModes(
-    listNamespaces({}).pipe(Retry.none, Effect.provide(fromApiKey({ apiKey: "test" }))),
+    listNamespaces({}).pipe(
+      Retry.none,
+      Effect.provide(fromApiKey({ apiKey: Redacted.make("test") })),
+    ),
     { body },
   );
 

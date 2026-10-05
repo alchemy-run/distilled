@@ -1,6 +1,7 @@
 import { describe, expect, test } from "bun:test";
 import { runValidationModes } from "@distilled.cloud/core/testing";
 import * as Effect from "effect/Effect";
+import * as Redacted from "effect/Redacted";
 import { credentials } from "./credentials.ts";
 import { TypesenseParseError } from "./errors.ts";
 import type { TypesenseOpError } from "./protocol.ts";
@@ -12,7 +13,12 @@ const run = (body: string) =>
   runValidationModes(
     getAliases({}).pipe(
       Retry.none,
-      Effect.provide(credentials({ apiKey: "test", apiBaseUrl: "http://localhost:8108" })),
+      Effect.provide(
+        credentials({
+          apiKey: Redacted.make("test"),
+          apiBaseUrl: "http://localhost:8108",
+        }),
+      ),
     ),
     { body },
   );

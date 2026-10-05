@@ -1,6 +1,7 @@
 import { describe, expect, test } from "bun:test";
 import { runValidationModes } from "@distilled.cloud/core/testing";
 import * as Effect from "effect/Effect";
+import * as Redacted from "effect/Redacted";
 import { fromApiKey } from "./credentials.ts";
 import { LaunchDarklyParseError } from "./errors.ts";
 import type { LaunchDarklyOpError } from "./protocol.ts";
@@ -9,9 +10,10 @@ import { getIps } from "./services/launchdarkly.ts";
 
 // getIps declares `{ addresses: string[]; outboundAddresses: string[] }`.
 const run = (body: string) =>
-  runValidationModes(getIps({}).pipe(Retry.none, Effect.provide(fromApiKey({ apiKey: "test" }))), {
-    body,
-  });
+  runValidationModes(
+    getIps({}).pipe(Retry.none, Effect.provide(fromApiKey({ apiKey: Redacted.make("test") }))),
+    { body },
+  );
 
 describe("LaunchDarkly response validation", () => {
   test("a matching body succeeds unchanged in both modes", async () => {

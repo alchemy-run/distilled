@@ -1,6 +1,7 @@
 import { describe, expect, test } from "bun:test";
 import { runValidationModes } from "@distilled.cloud/core/testing";
 import * as Effect from "effect/Effect";
+import * as Redacted from "effect/Redacted";
 import { fromCredentials } from "./credentials.ts";
 import { type CommonErrors, ParseError } from "./errors.ts";
 import * as Retry from "./retry.ts";
@@ -13,7 +14,13 @@ const run = (body: string) =>
     describeEndpoints({}).pipe(
       Retry.none,
       Effect.provide(
-        fromCredentials({ accessKeyId: "AKIDTEST", secretAccessKey: "secret" }, "us-east-1"),
+        fromCredentials(
+          {
+            accessKeyId: Redacted.make("AKIDTEST"),
+            secretAccessKey: Redacted.make("secret"),
+          },
+          "us-east-1",
+        ),
       ),
     ),
     { body, headers: { "content-type": "application/x-amz-json-1.0" } },

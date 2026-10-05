@@ -1,6 +1,7 @@
 import { describe, expect, test } from "bun:test";
 import { runValidationModes } from "@distilled.cloud/core/testing";
 import * as Effect from "effect/Effect";
+import * as Redacted from "effect/Redacted";
 import { credentials } from "./credentials.ts";
 import { HetznerParseError } from "./errors.ts";
 import type { HetznerOpError } from "./protocol.ts";
@@ -10,7 +11,10 @@ import { listLocations } from "./services/locations.ts";
 // listLocations declares `{ locations: Location[]; meta: { pagination } }`.
 const run = (body: string) =>
   runValidationModes(
-    listLocations({}).pipe(Retry.none, Effect.provide(credentials({ token: "test" }))),
+    listLocations({}).pipe(
+      Retry.none,
+      Effect.provide(credentials({ token: Redacted.make("test") })),
+    ),
     { body },
   );
 

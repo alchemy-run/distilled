@@ -1,6 +1,7 @@
 import { describe, expect, test } from "bun:test";
 import { runValidationModes } from "@distilled.cloud/core/testing";
 import * as Effect from "effect/Effect";
+import * as Redacted from "effect/Redacted";
 import { fromApiKey } from "./credentials.ts";
 import { VantaParseError } from "./errors.ts";
 import type { VantaOpError } from "./protocol.ts";
@@ -10,7 +11,10 @@ import { listConnectedIntegrations } from "./services/manage_vanta.ts";
 // listConnectedIntegrations declares `{ results: { data: Integration[]; pageInfo: PageInfo } }`.
 const run = (body: string) =>
   runValidationModes(
-    listConnectedIntegrations({}).pipe(Retry.none, Effect.provide(fromApiKey({ apiKey: "test" }))),
+    listConnectedIntegrations({}).pipe(
+      Retry.none,
+      Effect.provide(fromApiKey({ apiKey: Redacted.make("test") })),
+    ),
     { body },
   );
 

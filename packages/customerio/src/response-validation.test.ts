@@ -1,6 +1,7 @@
 import { describe, expect, test } from "bun:test";
 import { runValidationModes } from "@distilled.cloud/core/testing";
 import * as Effect from "effect/Effect";
+import * as Redacted from "effect/Redacted";
 import { fromApiKey } from "./credentials.ts";
 import { CustomerioParseError } from "./errors.ts";
 import type { CustomerioOpError } from "./protocol.ts";
@@ -10,7 +11,10 @@ import { getWebhook } from "./services/customerio.ts";
 // getWebhook declares `{ name: string; endpoint: string; events: [...]; … }`.
 const run = (body: string) =>
   runValidationModes(
-    getWebhook({ webhook_id: 1 }).pipe(Retry.none, Effect.provide(fromApiKey({ apiKey: "test" }))),
+    getWebhook({ webhook_id: 1 }).pipe(
+      Retry.none,
+      Effect.provide(fromApiKey({ apiKey: Redacted.make("test") })),
+    ),
     { body },
   );
 

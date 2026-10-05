@@ -7,21 +7,13 @@ import * as Redacted from "effect/Redacted";
 import { Credentials, regionFromEnv } from "../credentials-service.ts";
 import type { RegionName } from "../region.ts";
 
-type SecretValue = string | Redacted.Redacted<string>;
-
-/**
- * Static credentials. An `AwsCredentialIdentity` fits; each secret may also
- * be a `Redacted` string, so it never has to be unwrapped to get here.
- */
+/** Static credentials, each value already redacted. */
 export interface StaticCredentials {
-  readonly accessKeyId: SecretValue;
-  readonly secretAccessKey: SecretValue;
-  readonly sessionToken?: SecretValue;
+  readonly accessKeyId: Redacted.Redacted<string>;
+  readonly secretAccessKey: Redacted.Redacted<string>;
+  readonly sessionToken?: Redacted.Redacted<string>;
   readonly expiration?: Date;
 }
-
-const redact = (value: SecretValue): Redacted.Redacted<string> =>
-  Redacted.isRedacted(value) ? value : Redacted.make(value);
 
 /**
  * Create a credentials provider from static credentials.
@@ -35,9 +27,9 @@ export const fromCredentials = (
   Layer.succeed(
     Credentials,
     Effect.map(region === undefined ? regionFromEnv : Effect.succeed(region), (resolved) => ({
-      accessKeyId: redact(credentials.accessKeyId),
-      secretAccessKey: redact(credentials.secretAccessKey),
-      sessionToken: credentials.sessionToken ? redact(credentials.sessionToken) : undefined,
+      accessKeyId: credentials.accessKeyId,
+      secretAccessKey: credentials.secretAccessKey,
+      sessionToken: credentials.sessionToken,
       region: resolved,
       expiration: credentials.expiration?.getTime(),
     })),

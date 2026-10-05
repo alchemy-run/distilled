@@ -1,6 +1,7 @@
 import { describe, expect, test } from "bun:test";
 import { runValidationModes } from "@distilled.cloud/core/testing";
 import * as Effect from "effect/Effect";
+import * as Redacted from "effect/Redacted";
 import { fromApiKey } from "./credentials.ts";
 import { AdyenParseError } from "./errors.ts";
 import type { AdyenOpError } from "./protocol.ts";
@@ -13,7 +14,7 @@ const run = (body: string) =>
   runValidationModes(
     getPaymentLink({ linkId: "PL123" }).pipe(
       Retry.none,
-      Effect.provide(fromApiKey({ apiKey: "test" })),
+      Effect.provide(fromApiKey({ apiKey: Redacted.make("test") })),
     ),
     { body },
   );

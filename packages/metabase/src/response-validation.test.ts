@@ -1,6 +1,7 @@
 import { describe, expect, test } from "bun:test";
 import { runValidationModes } from "@distilled.cloud/core/testing";
 import * as Effect from "effect/Effect";
+import * as Redacted from "effect/Redacted";
 import { fromApiKey } from "./credentials.ts";
 import type { MetabaseParseError } from "./errors.ts";
 import type { MetabaseOpError } from "./protocol.ts";
@@ -13,7 +14,7 @@ import { getAction } from "./services/metabase.ts";
 // tests pin that both modes return every 2xx body unchanged.
 const run = (body: string) =>
   runValidationModes(
-    getAction({}).pipe(Retry.none, Effect.provide(fromApiKey({ apiKey: "test" }))),
+    getAction({}).pipe(Retry.none, Effect.provide(fromApiKey({ apiKey: Redacted.make("test") }))),
     { body },
   );
 

@@ -1,6 +1,7 @@
 import { describe, expect, test } from "bun:test";
 import { runValidationModes } from "@distilled.cloud/core/testing";
 import * as Effect from "effect/Effect";
+import * as Redacted from "effect/Redacted";
 import { fromApiKey } from "./credentials.ts";
 import { ElasticsearchParseError } from "./errors.ts";
 import type { ElasticsearchOpError } from "./protocol.ts";
@@ -10,7 +11,10 @@ import { licenseGetBasicStatus } from "./services/elasticsearch.ts";
 // licenseGetBasicStatus declares `{ eligible_to_start_basic: boolean }`.
 const run = (body: string) =>
   runValidationModes(
-    licenseGetBasicStatus({}).pipe(Retry.none, Effect.provide(fromApiKey({ apiKey: "test" }))),
+    licenseGetBasicStatus({}).pipe(
+      Retry.none,
+      Effect.provide(fromApiKey({ apiKey: Redacted.make("test") })),
+    ),
     { body },
   );
 

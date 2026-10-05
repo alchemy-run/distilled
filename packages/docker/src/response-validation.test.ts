@@ -1,6 +1,7 @@
 import { describe, expect, test } from "bun:test";
 import { runValidationModes } from "@distilled.cloud/core/testing";
 import * as Effect from "effect/Effect";
+import * as Redacted from "effect/Redacted";
 import { fromApiKey } from "./credentials.ts";
 import { DockerParseError } from "./errors.ts";
 import type { DockerOpError } from "./protocol.ts";
@@ -10,7 +11,10 @@ import { systemVersion2 } from "./services/docker.ts";
 // systemVersion2 declares `{ Platform?: { Name: string }; Version?: string; … }`.
 const run = (body: string) =>
   runValidationModes(
-    systemVersion2({}).pipe(Retry.none, Effect.provide(fromApiKey({ apiKey: "test" }))),
+    systemVersion2({}).pipe(
+      Retry.none,
+      Effect.provide(fromApiKey({ apiKey: Redacted.make("test") })),
+    ),
     { body },
   );
 

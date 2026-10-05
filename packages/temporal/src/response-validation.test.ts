@@ -1,6 +1,7 @@
 import { describe, expect, test } from "bun:test";
 import { runValidationModes } from "@distilled.cloud/core/testing";
 import * as Effect from "effect/Effect";
+import * as Redacted from "effect/Redacted";
 import { fromApiKey } from "./credentials.ts";
 import { TemporalParseError } from "./errors.ts";
 import type { TemporalOpError } from "./protocol.ts";
@@ -11,7 +12,10 @@ import { getSystemInfo } from "./services/temporal.ts";
 // `capabilities?: {...}`), so the mismatch is a wrong primitive type.
 const run = (body: string) =>
   runValidationModes(
-    getSystemInfo({}).pipe(Retry.none, Effect.provide(fromApiKey({ apiKey: "test" }))),
+    getSystemInfo({}).pipe(
+      Retry.none,
+      Effect.provide(fromApiKey({ apiKey: Redacted.make("test") })),
+    ),
     { body },
   );
 

@@ -1,6 +1,7 @@
 import { describe, expect, test } from "bun:test";
 import { runValidationModes } from "@distilled.cloud/core/testing";
 import * as Effect from "effect/Effect";
+import * as Redacted from "effect/Redacted";
 import { fromApiKey } from "./credentials.ts";
 import { DatadogParseError } from "./errors.ts";
 import type { DatadogOpError } from "./protocol.ts";
@@ -12,7 +13,12 @@ const run = (body: string) =>
   runValidationModes(
     getAllAuthMethods({}).pipe(
       Retry.none,
-      Effect.provide(fromApiKey({ apiKey: "test", applicationKey: "test" })),
+      Effect.provide(
+        fromApiKey({
+          apiKey: Redacted.make("test"),
+          applicationKey: Redacted.make("test"),
+        }),
+      ),
     ),
     { body },
   );

@@ -134,6 +134,36 @@ not `Pkg.Services.vms.createVm`. Do not add a `Services` namespace. A
 single-service package re-exports operations on the root (`Pkg.listX`) the
 same way.
 
+### Credentials
+
+`src/credentials.ts` is hand-written (copy `packages/s2/src/credentials.ts`).
+Every secret it touches is a `Redacted.Redacted<string>` from
+`effect/Redacted`: API keys, tokens (access, refresh, bearer, session),
+passwords, client secrets, private keys, and signing or HMAC secrets. Base
+URLs, account and org IDs, emails, usernames, client IDs and key IDs stay
+plain strings.
+
+- **Inputs take `Redacted<string>` only.** Type a secret parameter of
+  `fromApiKey`, `credentials`, `fromToken` and the like, and any callback
+  that returns one (an OAuth `load`/`refresh`), as `Redacted.Redacted<string>`.
+  Do not type it `string`, and do not type it `string | Redacted<string>`. A
+  plain string is how a secret ends up in a log or an error, so the caller
+  wraps it.
+- **The resolved credentials hold `Redacted`.** The value the `Credentials`
+  service yields, and any cache of it, keeps each secret redacted.
+- **Redact environment secrets on read.** Use `Config.Redacted("<ENV>")`.
+- **Unwrap at the point of use.** Call `Redacted.value` only where the
+  header, query string, body or signature is built, and never put a secret
+  in an error message or an error field. Anything minted at runtime (an
+  exchanged OAuth token, a signed JWT) is wrapped as soon as it exists.
+
+This must print nothing:
+
+```sh
+grep -niE 'readonly \w*(key|token|secret|password)\??: string' \
+  packages/<pkg>/src/credentials.ts
+```
+
 ### Errors and response validation
 
 Every error class in `src/errors.ts` must be one the protocol can actually

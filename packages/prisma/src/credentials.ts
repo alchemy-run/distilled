@@ -25,17 +25,15 @@ export class Credentials extends Context.Service<
   Effect.Effect<Config, ConfigError, never>
 >()("PrismaCredentials") {}
 
-/** Layer from a plain token + optional base URL. */
+/** Layer from a redacted token + optional base URL. */
 export const fromApiToken = (config: {
-  readonly apiToken: string | Redacted.Redacted<string>;
+  readonly apiToken: Redacted.Redacted<string>;
   readonly apiBaseUrl?: string;
 }): Layer.Layer<Credentials> =>
   Layer.succeed(
     Credentials,
     Effect.succeed({
-      apiToken: Redacted.isRedacted(config.apiToken)
-        ? config.apiToken
-        : Redacted.make(config.apiToken),
+      apiToken: config.apiToken,
       apiBaseUrl: config.apiBaseUrl ?? DEFAULT_API_BASE_URL,
     }),
   );

@@ -1,6 +1,7 @@
 import { describe, expect, test } from "bun:test";
 import { runValidationModes } from "@distilled.cloud/core/testing";
 import * as Effect from "effect/Effect";
+import * as Redacted from "effect/Redacted";
 import { fromAccessToken } from "./credentials.ts";
 import { MongodbAtlasParseError } from "./errors.ts";
 import type { MongodbAtlasOpError } from "./protocol.ts";
@@ -12,7 +13,7 @@ const run = (body: string) =>
   runValidationModes(
     getOrg({ orgId: "org-1" }).pipe(
       Retry.none,
-      Effect.provide(fromAccessToken({ accessToken: "test" })),
+      Effect.provide(fromAccessToken({ accessToken: Redacted.make("test") })),
     ),
     { body },
   );

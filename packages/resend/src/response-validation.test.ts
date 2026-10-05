@@ -1,6 +1,7 @@
 import { describe, expect, test } from "bun:test";
 import { runValidationModes } from "@distilled.cloud/core/testing";
 import * as Effect from "effect/Effect";
+import * as Redacted from "effect/Redacted";
 import { fromApiKey } from "./credentials.ts";
 import { ResendParseError } from "./errors.ts";
 import type { ResendOpError } from "./protocol.ts";
@@ -10,7 +11,7 @@ import { listApiKeys } from "./services/resend.ts";
 // listApiKeys declares `{ object?: string; has_more?: boolean; data: ApiKey[] }`.
 const run = (body: string) =>
   runValidationModes(
-    listApiKeys({}).pipe(Retry.none, Effect.provide(fromApiKey({ apiKey: "test" }))),
+    listApiKeys({}).pipe(Retry.none, Effect.provide(fromApiKey({ apiKey: Redacted.make("test") }))),
     { body },
   );
 

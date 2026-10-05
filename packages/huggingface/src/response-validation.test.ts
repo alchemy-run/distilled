@@ -1,6 +1,7 @@
 import { describe, expect, test } from "bun:test";
 import { runValidationModes } from "@distilled.cloud/core/testing";
 import * as Effect from "effect/Effect";
+import * as Redacted from "effect/Redacted";
 import { credentials } from "./credentials.ts";
 import { HuggingFaceParseError } from "./errors.ts";
 import type { HuggingFaceOpError } from "./protocol.ts";
@@ -10,7 +11,10 @@ import { getJobHardware } from "./services/jobs.ts";
 // getJobHardware declares `Array<{ name: string; prettyName: string; cpu: string; … }>`.
 const run = (body: string) =>
   runValidationModes(
-    getJobHardware({}).pipe(Retry.none, Effect.provide(credentials({ token: "test" }))),
+    getJobHardware({}).pipe(
+      Retry.none,
+      Effect.provide(credentials({ token: Redacted.make("test") })),
+    ),
     { body },
   );
 

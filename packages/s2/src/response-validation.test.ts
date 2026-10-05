@@ -1,6 +1,7 @@
 import { describe, expect, test } from "bun:test";
 import { runValidationModes } from "@distilled.cloud/core/testing";
 import * as Effect from "effect/Effect";
+import * as Redacted from "effect/Redacted";
 import { credentials } from "./credentials.ts";
 import { S2ParseError } from "./errors.ts";
 import type { S2OpError } from "./protocol.ts";
@@ -10,7 +11,7 @@ import { listBasins } from "./services/basins.ts";
 // listBasins declares `{ basins: BasinInfo[]; has_more: boolean }`.
 const run = (body: string) =>
   runValidationModes(
-    listBasins({}).pipe(Retry.none, Effect.provide(credentials({ token: "test" }))),
+    listBasins({}).pipe(Retry.none, Effect.provide(credentials({ token: Redacted.make("test") }))),
     { body },
   );
 

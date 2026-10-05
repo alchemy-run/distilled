@@ -29,34 +29,22 @@ export type CredentialSource = Effect.Effect<AwsCredentialIdentity, CredentialSo
  * `Effect` is re-run on every credential resolution, for a secret that has
  * to be refreshed or that lives in a secret store.
  */
-export type Secret =
-  | string
-  | Redacted.Redacted<string>
-  | Effect.Effect<string | Redacted.Redacted<string>, unknown>;
+export type Secret = Redacted.Redacted<string> | Effect.Effect<Redacted.Redacted<string>, unknown>;
 
 /**
- * Resolve a {@link Secret} to a `Redacted` string. A failing `Effect` is a
- * final failure: the chain does not move on to another source.
+ * Resolve a {@link Secret}. A failing `Effect` is a final failure: the chain
+ * does not move on to another source.
  */
 export const resolveSecret = (
   secret: Secret,
   message: string,
 ): Effect.Effect<Redacted.Redacted<string>, CredentialSourceError> =>
-  typeof secret === "string"
-    ? Effect.succeed(Redacted.make(secret))
-    : Redacted.isRedacted(secret)
-      ? Effect.succeed(secret)
-      : secret.pipe(
-          Effect.map((value) => (Redacted.isRedacted(value) ? value : Redacted.make(value))),
-          Effect.mapError(
-            (cause) =>
-              new CredentialSourceError({
-                message,
-                cause,
-                tryNextLink: false,
-              }),
-          ),
-        );
+  Redacted.isRedacted(secret)
+    ? Effect.succeed(secret)
+    : Effect.mapError(
+        secret,
+        (cause) => new CredentialSourceError({ message, cause, tryNextLink: false }),
+      );
 
 /** `process.env[name]`, or `undefined` where there is no `process`. */
 export const env = (name: string): string | undefined =>

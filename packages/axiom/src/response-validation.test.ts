@@ -1,6 +1,7 @@
 import { describe, expect, test } from "bun:test";
 import { runValidationModes } from "@distilled.cloud/core/testing";
 import * as Effect from "effect/Effect";
+import * as Redacted from "effect/Redacted";
 import { fromApiKey } from "./credentials.ts";
 import { AxiomParseError } from "./errors.ts";
 import type { AxiomOpError } from "./protocol.ts";
@@ -10,7 +11,10 @@ import { getCurrentUser } from "./services/v2.ts";
 // getCurrentUser declares `{ email: string; id: string; name: string; role?: … }`.
 const run = (body: string) =>
   runValidationModes(
-    getCurrentUser({}).pipe(Retry.none, Effect.provide(fromApiKey({ apiKey: "test" }))),
+    getCurrentUser({}).pipe(
+      Retry.none,
+      Effect.provide(fromApiKey({ apiKey: Redacted.make("test") })),
+    ),
     { body },
   );
 

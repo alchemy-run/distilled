@@ -3,6 +3,7 @@ import * as Effect from "effect/Effect";
 import * as HttpClient from "effect/http/HttpClient";
 import * as HttpClientResponse from "effect/http/HttpClientResponse";
 import * as Layer from "effect/Layer";
+import * as Redacted from "effect/Redacted";
 import * as Result from "effect/Result";
 import { fromApiKey } from "./credentials.ts";
 import { Retry } from "./retry.ts";
@@ -15,7 +16,7 @@ const request = {
 
 const harness = (status: number, message: string) =>
   Layer.mergeAll(
-    fromApiKey({ apiKey: "fixture-account-secret" }),
+    fromApiKey({ apiKey: Redacted.make("fixture-account-secret") }),
     Layer.succeed(Retry, { while: () => false }),
     Layer.succeed(
       HttpClient.HttpClient,

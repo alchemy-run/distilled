@@ -1,6 +1,7 @@
 import { describe, expect, test } from "bun:test";
 import { runValidationModes } from "@distilled.cloud/core/testing";
 import * as Effect from "effect/Effect";
+import * as Redacted from "effect/Redacted";
 import { credentials } from "./credentials.ts";
 import { SlackParseError } from "./errors.ts";
 import type { SlackOpError } from "./protocol.ts";
@@ -11,7 +12,10 @@ import { billingInfo } from "./services/team.ts";
 // shares the level of Slack's `{ ok: true, ... }` envelope.
 const run = (body: string, headers?: Record<string, string>) =>
   runValidationModes(
-    billingInfo({}).pipe(Retry.none, Effect.provide(credentials({ token: "xoxb-test" }))),
+    billingInfo({}).pipe(
+      Retry.none,
+      Effect.provide(credentials({ token: Redacted.make("xoxb-test") })),
+    ),
     { body, headers },
   );
 

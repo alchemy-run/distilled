@@ -1,6 +1,7 @@
 import { describe, expect, test } from "bun:test";
 import { runValidationModes } from "@distilled.cloud/core/testing";
 import * as Effect from "effect/Effect";
+import * as Redacted from "effect/Redacted";
 import { credentials } from "./credentials.ts";
 import { DiscordParseError } from "./errors.ts";
 import type { DiscordOpError } from "./protocol.ts";
@@ -10,7 +11,7 @@ import { getGateway } from "./services/discord.ts";
 // getGateway declares `{ url: string }`.
 const run = (body: string) =>
   runValidationModes(
-    getGateway({}).pipe(Retry.none, Effect.provide(credentials({ token: "test" }))),
+    getGateway({}).pipe(Retry.none, Effect.provide(credentials({ token: Redacted.make("test") }))),
     { body },
   );
 

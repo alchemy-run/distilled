@@ -1,6 +1,7 @@
 import { describe, expect, test } from "bun:test";
 import { runValidationModes } from "@distilled.cloud/core/testing";
 import * as Effect from "effect/Effect";
+import * as Redacted from "effect/Redacted";
 import { credentials } from "./credentials.ts";
 import { CloudflareParseError } from "./errors.ts";
 import type { CloudflareOpError } from "./protocol.ts";
@@ -11,7 +12,10 @@ import { verifyToken } from "./services/user.ts";
 // unwrapped from the `{ success, errors, messages, result }` envelope.
 const run = (body: string) =>
   runValidationModes(
-    verifyToken({}).pipe(Retry.none, Effect.provide(credentials({ apiToken: "test" }))),
+    verifyToken({}).pipe(
+      Retry.none,
+      Effect.provide(credentials({ apiToken: Redacted.make("test") })),
+    ),
     { body },
   );
 

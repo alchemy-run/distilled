@@ -70,7 +70,7 @@ export const formatHeaders = (config: Config): Record<string, string> =>
  * Build a `Credentials` Layer from an OAuth access token.
  */
 export const fromOAuth = (input: {
-  accessToken: string | Redacted.Redacted<string>;
+  accessToken: Redacted.Redacted<string>;
   organization: string;
   apiBaseUrl?: string;
 }): Layer.Layer<Credentials> =>
@@ -78,9 +78,7 @@ export const fromOAuth = (input: {
     Credentials,
     Effect.succeed({
       type: "oauth",
-      accessToken: Redacted.isRedacted(input.accessToken)
-        ? input.accessToken
-        : Redacted.make(input.accessToken),
+      accessToken: input.accessToken,
       organization: input.organization,
       apiBaseUrl: input.apiBaseUrl ?? DEFAULT_API_BASE_URL,
     }),

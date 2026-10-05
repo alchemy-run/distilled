@@ -1,6 +1,7 @@
 import { describe, expect, test } from "bun:test";
 import { runValidationModes } from "@distilled.cloud/core/testing";
 import * as Effect from "effect/Effect";
+import * as Redacted from "effect/Redacted";
 import { credentials } from "./credentials.ts";
 import { WorkosParseError } from "./errors.ts";
 import type { WorkosOpError } from "./protocol.ts";
@@ -12,7 +13,7 @@ const run = (body: string) =>
   runValidationModes(
     ApplicationsControllerFind({ id: "app_1" }).pipe(
       Retry.none,
-      Effect.provide(credentials({ apiKey: "test" })),
+      Effect.provide(credentials({ apiKey: Redacted.make("test") })),
     ),
     { body },
   );

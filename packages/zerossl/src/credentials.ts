@@ -47,21 +47,6 @@ export const CredentialsFromEnv = Layer.succeed(
   ),
 );
 
-const redact = (value: string | Redacted.Redacted<string>): Redacted.Redacted<string> =>
-  Redacted.isRedacted(value) ? value : Redacted.make(value);
-
 /** A fixed credentials layer. */
-export const layer = (
-  config:
-    | {
-        readonly accessKey: string | Redacted.Redacted<string>;
-        readonly apiBaseUrl: string;
-      }
-    | Effect.Effect<Config>,
-) =>
-  Layer.succeed(
-    Credentials,
-    Effect.isEffect(config)
-      ? config
-      : Effect.succeed({ ...config, accessKey: redact(config.accessKey) }),
-  );
+export const layer = (config: Config | Effect.Effect<Config>) =>
+  Layer.succeed(Credentials, Effect.isEffect(config) ? config : Effect.succeed(config));

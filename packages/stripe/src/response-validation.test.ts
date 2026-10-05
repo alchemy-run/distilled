@@ -1,6 +1,7 @@
 import { describe, expect, test } from "bun:test";
 import { runValidationModes } from "@distilled.cloud/core/testing";
 import * as Effect from "effect/Effect";
+import * as Redacted from "effect/Redacted";
 import { credentials } from "./credentials.ts";
 import { StripeParseError } from "./errors.ts";
 import type { StripeOpError } from "./protocol.ts";
@@ -10,7 +11,10 @@ import { GetBalance } from "./services/stripe.ts";
 // GetBalance declares `{ object; available; pending; livemode; … }`.
 const run = (body: string) =>
   runValidationModes(
-    GetBalance({}).pipe(Retry.none, Effect.provide(credentials({ apiKey: "sk_test_123" }))),
+    GetBalance({}).pipe(
+      Retry.none,
+      Effect.provide(credentials({ apiKey: Redacted.make("sk_test_123") })),
+    ),
     { body },
   );
 

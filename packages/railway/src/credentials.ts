@@ -45,11 +45,11 @@ export interface Config {
  * `Redacted.value` works.
  */
 export const toConfig = (config: {
-  readonly token: string | Redacted.Redacted<string>;
+  readonly token: Redacted.Redacted<string>;
   readonly tokenKind?: TokenKind;
   readonly apiBaseUrl?: string;
 }): Config => ({
-  token: Redacted.isRedacted(config.token) ? config.token : Redacted.make(config.token),
+  token: config.token,
   tokenKind: config.tokenKind ?? "account",
   apiBaseUrl: config.apiBaseUrl ?? DEFAULT_API_BASE_URL,
 });
@@ -60,7 +60,7 @@ export class Credentials extends Context.Service<Credentials, Effect.Effect<Conf
 
 /** Build {@link Credentials} from an explicit token. */
 export const CredentialsFromToken = (config: {
-  readonly token: string | Redacted.Redacted<string>;
+  readonly token: Redacted.Redacted<string>;
   /** Defaults to `"account"` (the `Authorization: Bearer` header). */
   readonly tokenKind?: TokenKind;
   readonly apiBaseUrl?: string;

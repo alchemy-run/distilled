@@ -33,10 +33,10 @@ export class Credentials extends Context.Service<Credentials, Effect.Effect<Conf
   "DatadogCredentials",
 ) {}
 
-/** Layer from a plain API key + optional application key / site / base URL. */
+/** Layer from a redacted API key + optional application key / site / base URL. */
 export const fromApiKey = (config: {
-  readonly apiKey: string | Redacted.Redacted<string>;
-  readonly applicationKey?: string | Redacted.Redacted<string>;
+  readonly apiKey: Redacted.Redacted<string>;
+  readonly applicationKey?: Redacted.Redacted<string>;
   readonly site?: string;
   readonly apiBaseUrl?: string;
 }): Layer.Layer<Credentials> => {
@@ -44,11 +44,8 @@ export const fromApiKey = (config: {
   return Layer.succeed(
     Credentials,
     Effect.succeed({
-      apiKey: Redacted.isRedacted(config.apiKey) ? config.apiKey : Redacted.make(config.apiKey),
-      applicationKey:
-        config.applicationKey === undefined || Redacted.isRedacted(config.applicationKey)
-          ? config.applicationKey
-          : Redacted.make(config.applicationKey),
+      apiKey: config.apiKey,
+      applicationKey: config.applicationKey,
       site,
       apiBaseUrl: config.apiBaseUrl ?? apiBaseUrlForSite(site),
     }),

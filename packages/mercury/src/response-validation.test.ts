@@ -1,6 +1,7 @@
 import { describe, expect, test } from "bun:test";
 import { runValidationModes } from "@distilled.cloud/core/testing";
 import * as Effect from "effect/Effect";
+import * as Redacted from "effect/Redacted";
 import { fromApiKey } from "./credentials.ts";
 import { MercuryParseError } from "./errors.ts";
 import type { MercuryOpError } from "./protocol.ts";
@@ -10,7 +11,10 @@ import { getOrganization } from "./services/mercury.ts";
 // getOrganization declares `{ organization: { dbas: OrganizationDBA[]; legalBusinessName: string; … } }`.
 const run = (body: string) =>
   runValidationModes(
-    getOrganization({}).pipe(Retry.none, Effect.provide(fromApiKey({ apiKey: "test" }))),
+    getOrganization({}).pipe(
+      Retry.none,
+      Effect.provide(fromApiKey({ apiKey: Redacted.make("test") })),
+    ),
     { body },
   );
 

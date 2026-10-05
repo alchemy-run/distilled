@@ -33,19 +33,16 @@ export class Credentials extends Context.Service<Credentials, Effect.Effect<Conf
   "SquarespaceCredentials",
 ) {}
 
-const redact = (value: string | Redacted.Redacted<string>): Redacted.Redacted<string> =>
-  Redacted.isRedacted(value) ? value : Redacted.make(value);
-
-/** Layer from a plain API key + optional base URL / User-Agent. */
+/** Layer from a redacted API key + optional base URL / User-Agent. */
 export const fromApiKey = (config: {
-  readonly apiKey: string | Redacted.Redacted<string>;
+  readonly apiKey: Redacted.Redacted<string>;
   readonly apiBaseUrl?: string;
   readonly userAgent?: string;
 }): Layer.Layer<Credentials> =>
   Layer.succeed(
     Credentials,
     Effect.succeed({
-      apiKey: redact(config.apiKey),
+      apiKey: config.apiKey,
       apiBaseUrl: config.apiBaseUrl ?? DEFAULT_API_BASE_URL,
       userAgent: config.userAgent ?? DEFAULT_USER_AGENT,
     }),

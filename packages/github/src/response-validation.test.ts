@@ -1,6 +1,7 @@
 import { describe, expect, test } from "bun:test";
 import { runValidationModes } from "@distilled.cloud/core/testing";
 import * as Effect from "effect/Effect";
+import * as Redacted from "effect/Redacted";
 import { credentials } from "./credentials.ts";
 import { GithubParseError } from "./errors.ts";
 import type { GithubOpError } from "./protocol.ts";
@@ -10,7 +11,10 @@ import { getTemplate } from "./services/gitignore.ts";
 // getTemplate declares `{ name: string; source: string }`.
 const run = (body: string) =>
   runValidationModes(
-    getTemplate({ name: "Node" }).pipe(Retry.none, Effect.provide(credentials({ token: "test" }))),
+    getTemplate({ name: "Node" }).pipe(
+      Retry.none,
+      Effect.provide(credentials({ token: Redacted.make("test") })),
+    ),
     { body },
   );
 

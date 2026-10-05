@@ -99,9 +99,9 @@ export const CredentialsFromEnv = Layer.succeed(
   ),
 );
 
-/** Convenience layer from a plain API key + optional endpoints/scope. */
+/** Convenience layer from a redacted API key + optional endpoints/scope. */
 export const credentials = (config: {
-  readonly apiKey: string | Redacted.Redacted<string>;
+  readonly apiKey: Redacted.Redacted<string>;
   readonly apiBaseUrl?: string;
   readonly analyticsBaseUrl?: string;
   readonly toolboxBaseUrl?: string;
@@ -111,7 +111,7 @@ export const credentials = (config: {
   Layer.succeed(
     Credentials,
     Effect.succeed({
-      apiKey: Redacted.isRedacted(config.apiKey) ? config.apiKey : Redacted.make(config.apiKey),
+      apiKey: config.apiKey,
       apiBaseUrl: config.apiBaseUrl ?? DEFAULT_API_BASE_URL,
       analyticsBaseUrl: config.analyticsBaseUrl ?? DEFAULT_ANALYTICS_BASE_URL,
       toolboxBaseUrl: config.toolboxBaseUrl ?? DEFAULT_TOOLBOX_BASE_URL,

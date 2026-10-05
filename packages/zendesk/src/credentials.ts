@@ -39,16 +39,14 @@ export const originFromSubdomain = (subdomain: string): string => {
   return `https://${host}.zendesk.com`;
 };
 
-type Secret = string | Redacted.Redacted<string>;
+const basicToken = (
+  email: string,
+  apiToken: Redacted.Redacted<string>,
+): Redacted.Redacted<string> =>
+  Redacted.make(`Basic ${btoa(`${email}/token:${Redacted.value(apiToken)}`)}`);
 
-const reveal = (value: Secret): string =>
-  Redacted.isRedacted(value) ? Redacted.value(value) : value;
-
-const basicToken = (email: string, apiToken: Secret): Redacted.Redacted<string> =>
-  Redacted.make(`Basic ${btoa(`${email}/token:${reveal(apiToken)}`)}`);
-
-const bearerToken = (accessToken: Secret): Redacted.Redacted<string> =>
-  Redacted.make(`Bearer ${reveal(accessToken)}`);
+const bearerToken = (accessToken: Redacted.Redacted<string>): Redacted.Redacted<string> =>
+  Redacted.make(`Bearer ${Redacted.value(accessToken)}`);
 
 const resolveBaseUrl = (config: {
   readonly subdomain?: string;
@@ -62,7 +60,7 @@ const resolveBaseUrl = (config: {
 /** Layer from an API token (`{email}/token`) + subdomain. */
 export const fromApiToken = (config: {
   readonly email: string;
-  readonly apiToken: string | Redacted.Redacted<string>;
+  readonly apiToken: Redacted.Redacted<string>;
   readonly subdomain?: string;
   readonly apiBaseUrl?: string;
 }): Layer.Layer<Credentials> =>
@@ -76,7 +74,7 @@ export const fromApiToken = (config: {
 
 /** Layer from an OAuth access token + subdomain. */
 export const fromAccessToken = (config: {
-  readonly accessToken: string | Redacted.Redacted<string>;
+  readonly accessToken: Redacted.Redacted<string>;
   readonly subdomain?: string;
   readonly apiBaseUrl?: string;
 }): Layer.Layer<Credentials> =>

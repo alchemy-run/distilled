@@ -1,6 +1,7 @@
 import { describe, expect, test } from "bun:test";
 import { runValidationModes } from "@distilled.cloud/core/testing";
 import * as Effect from "effect/Effect";
+import * as Redacted from "effect/Redacted";
 import { fromApiKey } from "./credentials.ts";
 import { MeilisearchParseError } from "./errors.ts";
 import type { MeilisearchOpError } from "./protocol.ts";
@@ -10,7 +11,7 @@ import { getVersion } from "./services/meilisearch.ts";
 // getVersion declares `{ commitSha: string; commitDate: string; pkgVersion: string }`.
 const run = (body: string) =>
   runValidationModes(
-    getVersion({}).pipe(Retry.none, Effect.provide(fromApiKey({ apiKey: "test" }))),
+    getVersion({}).pipe(Retry.none, Effect.provide(fromApiKey({ apiKey: Redacted.make("test") }))),
     { body },
   );
 

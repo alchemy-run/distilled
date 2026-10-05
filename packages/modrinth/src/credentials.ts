@@ -33,19 +33,16 @@ export class Credentials extends Context.Service<Credentials, Effect.Effect<Conf
   "ModrinthCredentials",
 ) {}
 
-const redact = (value: string | Redacted.Redacted<string>): Redacted.Redacted<string> =>
-  Redacted.isRedacted(value) ? value : Redacted.make(value);
-
 /** Layer from an optional API token + optional base URL / User-Agent. */
 export const fromApiKey = (config: {
-  readonly apiKey?: string | Redacted.Redacted<string>;
+  readonly apiKey?: Redacted.Redacted<string>;
   readonly apiBaseUrl?: string;
   readonly userAgent?: string;
 }): Layer.Layer<Credentials> =>
   Layer.succeed(
     Credentials,
     Effect.succeed({
-      apiKey: config.apiKey !== undefined ? redact(config.apiKey) : undefined,
+      apiKey: config.apiKey !== undefined ? config.apiKey : undefined,
       apiBaseUrl: config.apiBaseUrl ?? DEFAULT_API_BASE_URL,
       userAgent: config.userAgent ?? DEFAULT_USER_AGENT,
     }),

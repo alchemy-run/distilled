@@ -1,6 +1,7 @@
 import { describe, expect, test } from "bun:test";
 import { runValidationModes } from "@distilled.cloud/core/testing";
 import * as Effect from "effect/Effect";
+import * as Redacted from "effect/Redacted";
 import { fromToken } from "./credentials.ts";
 import { Auth0ParseError } from "./errors.ts";
 import type { Auth0OpError } from "./protocol.ts";
@@ -13,7 +14,12 @@ const run = (body: string) =>
   runValidationModes(
     getActions({}).pipe(
       Retry.none,
-      Effect.provide(fromToken({ token: "test", domain: "example.auth0.com" })),
+      Effect.provide(
+        fromToken({
+          token: Redacted.make("test"),
+          domain: "example.auth0.com",
+        }),
+      ),
     ),
     { body },
   );

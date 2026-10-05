@@ -1,6 +1,7 @@
 import { describe, expect, test } from "bun:test";
 import { runValidationModes } from "@distilled.cloud/core/testing";
 import * as Effect from "effect/Effect";
+import * as Redacted from "effect/Redacted";
 import { fromApiKey } from "./credentials.ts";
 import { DigitalOceanParseError } from "./errors.ts";
 import type { DigitalOceanOpError } from "./protocol.ts";
@@ -11,7 +12,7 @@ import { getBalance } from "./services/digitalocean.ts";
 // so the mismatch is a wrong primitive type.
 const run = (body: string) =>
   runValidationModes(
-    getBalance({}).pipe(Retry.none, Effect.provide(fromApiKey({ apiKey: "test" }))),
+    getBalance({}).pipe(Retry.none, Effect.provide(fromApiKey({ apiKey: Redacted.make("test") }))),
     { body },
   );
 

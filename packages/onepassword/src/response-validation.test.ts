@@ -1,6 +1,7 @@
 import { describe, expect, test } from "bun:test";
 import { runValidationModes } from "@distilled.cloud/core/testing";
 import * as Effect from "effect/Effect";
+import * as Redacted from "effect/Redacted";
 import { fromApiKey } from "./credentials.ts";
 import { OnepasswordParseError } from "./errors.ts";
 import type { OnepasswordOpError } from "./protocol.ts";
@@ -10,7 +11,7 @@ import { getVaults } from "./services/onepassword.ts";
 // getVaults declares `Vault[]` with every Vault member optional, so the mismatch is a wrong primitive.
 const run = (body: string) =>
   runValidationModes(
-    getVaults({}).pipe(Retry.none, Effect.provide(fromApiKey({ apiKey: "test" }))),
+    getVaults({}).pipe(Retry.none, Effect.provide(fromApiKey({ apiKey: Redacted.make("test") }))),
     { body },
   );
 

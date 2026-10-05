@@ -58,9 +58,6 @@ export class Credentials extends Context.Service<Credentials, Effect.Effect<Conf
   "WhopCredentials",
 ) {}
 
-const redact = (value: string | Redacted.Redacted<string>): Redacted.Redacted<string> =>
-  Redacted.isRedacted(value) ? value : Redacted.make(value);
-
 const envConfig = EffectConfig.all({
   // `WHOP_API_KEY` is what Whop's dashboard, CLI and app templates emit.
   apiKey: EffectConfig.String("WHOP_API_KEY"),
@@ -90,16 +87,16 @@ export const CredentialsFromEnv = Layer.succeed(
   ),
 );
 
-/** Convenience layer from a plain API key + optional base URL / version pin. */
+/** Convenience layer from a redacted API key + optional base URL / version pin. */
 export const credentials = (config: {
-  readonly apiKey: string | Redacted.Redacted<string>;
+  readonly apiKey: Redacted.Redacted<string>;
   readonly apiBaseUrl?: string;
   readonly apiVersionDate?: string;
 }): Layer.Layer<Credentials> =>
   Layer.succeed(
     Credentials,
     Effect.succeed({
-      apiKey: redact(config.apiKey),
+      apiKey: config.apiKey,
       apiBaseUrl: config.apiBaseUrl ?? DEFAULT_API_BASE_URL,
       apiVersionDate: config.apiVersionDate ?? API_VERSION_DATE,
     }),

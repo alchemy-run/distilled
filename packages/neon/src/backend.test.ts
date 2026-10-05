@@ -18,7 +18,7 @@ import * as Neon from "./services/neon.ts";
 const scope = { project_id: "project-fixture", branch_id: "br-fixture" };
 const harness = (respond: (request: HttpClientRequest.HttpClientRequest) => Response) =>
   Layer.mergeAll(
-    fromApiKey({ apiKey: "fixture-account-secret" }),
+    fromApiKey({ apiKey: Redacted.make("fixture-account-secret") }),
     Layer.succeed(Retry, { while: () => false }),
     Layer.succeed(
       HttpClient.HttpClient,
@@ -370,7 +370,7 @@ describe("Neon backend wire contracts", () => {
           Effect.provide(
             Layer.mergeAll(
               fromApiKey({
-                apiKey: "fixture-account-secret",
+                apiKey: Redacted.make("fixture-account-secret"),
                 apiBaseUrl: api.url.origin,
               }),
               FetchHttpClient.layer,

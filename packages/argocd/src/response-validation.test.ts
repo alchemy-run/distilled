@@ -1,6 +1,7 @@
 import { describe, expect, test } from "bun:test";
 import { runValidationModes } from "@distilled.cloud/core/testing";
 import * as Effect from "effect/Effect";
+import * as Redacted from "effect/Redacted";
 import { fromToken } from "./credentials.ts";
 import { ArgocdParseError } from "./errors.ts";
 import type { ArgocdOpError } from "./protocol.ts";
@@ -10,7 +11,10 @@ import { versionServiceVersion } from "./services/argocd.ts";
 // versionServiceVersion declares `{ Version?: string; ... }` (all optional).
 const run = (body: string) =>
   runValidationModes(
-    versionServiceVersion({}).pipe(Retry.none, Effect.provide(fromToken({ token: "test" }))),
+    versionServiceVersion({}).pipe(
+      Retry.none,
+      Effect.provide(fromToken({ token: Redacted.make("test") })),
+    ),
     { body },
   );
 

@@ -1,6 +1,7 @@
 import { describe, expect, test } from "bun:test";
 import { runValidationModes } from "@distilled.cloud/core/testing";
 import * as Effect from "effect/Effect";
+import * as Redacted from "effect/Redacted";
 import { credentials } from "./credentials.ts";
 import { StackitParseError } from "./errors.ts";
 import type { StackitOpError } from "./protocol.ts";
@@ -10,7 +11,10 @@ import { listKeyPairs } from "./services/iaas.ts";
 // listKeyPairs declares `{ items: Keypair[] }`.
 const run = (body: string) =>
   runValidationModes(
-    listKeyPairs({}).pipe(Retry.none, Effect.provide(credentials({ token: "test" }))),
+    listKeyPairs({}).pipe(
+      Retry.none,
+      Effect.provide(credentials({ token: Redacted.make("test") })),
+    ),
     { body },
   );
 

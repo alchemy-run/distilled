@@ -32,16 +32,16 @@ export class Credentials extends Context.Service<Credentials, Effect.Effect<Conf
   "GrafanaCredentials",
 ) {}
 
-/** Layer from a plain or redacted service-account token + optional instance URL / org. */
+/** Layer from a redacted service-account token + optional instance URL / org. */
 export const fromApiKey = (config: {
-  readonly apiKey: string | Redacted.Redacted<string>;
+  readonly apiKey: Redacted.Redacted<string>;
   readonly apiBaseUrl?: string;
   readonly orgId?: number | string;
 }): Layer.Layer<Credentials> =>
   Layer.succeed(
     Credentials,
     Effect.succeed({
-      token: Redacted.isRedacted(config.apiKey) ? config.apiKey : Redacted.make(config.apiKey),
+      token: config.apiKey,
       apiBaseUrl: config.apiBaseUrl ?? DEFAULT_API_BASE_URL,
       orgId: config.orgId,
     }),

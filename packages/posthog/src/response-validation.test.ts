@@ -1,6 +1,7 @@
 import { describe, expect, test } from "bun:test";
 import { runValidationModes } from "@distilled.cloud/core/testing";
 import * as Effect from "effect/Effect";
+import * as Redacted from "effect/Redacted";
 import { credentials } from "./credentials.ts";
 import { PosthogParseError } from "./errors.ts";
 import type { PosthogOpError } from "./protocol.ts";
@@ -12,7 +13,7 @@ const run = (body: string) =>
   runValidationModes(
     getAccountRelationshipDefinition({ project_id: "1", id: "rel-1" }).pipe(
       Retry.none,
-      Effect.provide(credentials({ apiKey: "phx_test" })),
+      Effect.provide(credentials({ apiKey: Redacted.make("phx_test") })),
     ),
     { body },
   );

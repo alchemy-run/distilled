@@ -30,9 +30,6 @@ export class Credentials extends Context.Service<Credentials, Effect.Effect<Conf
   "VercelCredentials",
 ) {}
 
-const redact = (value: string | Redacted.Redacted<string>): Redacted.Redacted<string> =>
-  Redacted.isRedacted(value) ? value : Redacted.make(value);
-
 const envConfig = EffectConfig.all({
   // `VERCEL_TOKEN` is what the Vercel CLI and the official SDK read.
   token: EffectConfig.String("VERCEL_TOKEN"),
@@ -58,15 +55,15 @@ export const CredentialsFromEnv = Layer.succeed(
   ),
 );
 
-/** Convenience layer from a plain token + optional base URL. */
+/** Convenience layer from a redacted token + optional base URL. */
 export const credentials = (config: {
-  readonly token: string | Redacted.Redacted<string>;
+  readonly token: Redacted.Redacted<string>;
   readonly apiBaseUrl?: string;
 }): Layer.Layer<Credentials> =>
   Layer.succeed(
     Credentials,
     Effect.succeed({
-      token: redact(config.token),
+      token: config.token,
       apiBaseUrl: config.apiBaseUrl ?? DEFAULT_API_BASE_URL,
     }),
   );

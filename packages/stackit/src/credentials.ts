@@ -42,9 +42,6 @@ export class Credentials extends Context.Service<Credentials, Effect.Effect<Conf
   "StackitCredentials",
 ) {}
 
-const redact = (value: string | Redacted.Redacted<string>): Redacted.Redacted<string> =>
-  Redacted.isRedacted(value) ? value : Redacted.make(value);
-
 const envConfig = EffectConfig.all({
   // `STACKIT_SERVICE_ACCOUNT_TOKEN` / `STACKIT_REGION` are what the
   // official Go SDK, CLI and Terraform provider read.
@@ -71,16 +68,16 @@ export const CredentialsFromEnv = Layer.succeed(
   ),
 );
 
-/** Convenience layer from a plain token + optional region / base URL. */
+/** Convenience layer from a redacted token + optional region / base URL. */
 export const credentials = (config: {
-  readonly token: string | Redacted.Redacted<string>;
+  readonly token: Redacted.Redacted<string>;
   readonly region?: string;
   readonly apiBaseUrl?: string;
 }): Layer.Layer<Credentials> =>
   Layer.succeed(
     Credentials,
     Effect.succeed({
-      token: redact(config.token),
+      token: config.token,
       region: config.region ?? DEFAULT_REGION,
       apiBaseUrl: config.apiBaseUrl,
     }),

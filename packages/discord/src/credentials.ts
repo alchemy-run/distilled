@@ -71,16 +71,16 @@ export const CredentialsFromEnv = Layer.succeed(
   ),
 );
 
-/** Convenience layer from a plain token + optional token type / base URL. */
+/** Convenience layer from a redacted token + optional token type / base URL. */
 export const credentials = (config: {
-  readonly token: string | Redacted.Redacted<string>;
+  readonly token: Redacted.Redacted<string>;
   readonly tokenType?: TokenType;
   readonly apiBaseUrl?: string;
 }): Layer.Layer<Credentials> =>
   Layer.succeed(
     Credentials,
     Effect.succeed({
-      token: Redacted.isRedacted(config.token) ? config.token : Redacted.make(config.token),
+      token: config.token,
       tokenType: config.tokenType ?? "Bot",
       apiBaseUrl: config.apiBaseUrl ?? DEFAULT_API_BASE_URL,
     }),

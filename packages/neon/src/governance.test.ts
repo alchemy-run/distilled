@@ -55,7 +55,7 @@ const assertions: [
 
 const harness = (respond: (request: HttpClientRequest.HttpClientRequest) => Response) =>
   Layer.mergeAll(
-    fromApiKey({ apiKey: "fixture-deployment-secret" }),
+    fromApiKey({ apiKey: Redacted.make("fixture-deployment-secret") }),
     Layer.succeed(Retry, { while: () => false }),
     Layer.succeed(
       HttpClient.HttpClient,

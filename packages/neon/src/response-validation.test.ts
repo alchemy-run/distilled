@@ -1,6 +1,7 @@
 import { describe, expect, test } from "bun:test";
 import { runValidationModes } from "@distilled.cloud/core/testing";
 import * as Effect from "effect/Effect";
+import * as Redacted from "effect/Redacted";
 import { fromApiKey } from "./credentials.ts";
 import { NeonParseError } from "./errors.ts";
 import type { NeonOpError } from "./protocol.ts";
@@ -10,7 +11,10 @@ import { getActiveRegions } from "./services/neon.ts";
 // getActiveRegions declares `{ regions: RegionResponse[] }`.
 const run = (body: string) =>
   runValidationModes(
-    getActiveRegions({}).pipe(Retry.none, Effect.provide(fromApiKey({ apiKey: "test" }))),
+    getActiveRegions({}).pipe(
+      Retry.none,
+      Effect.provide(fromApiKey({ apiKey: Redacted.make("test") })),
+    ),
     { body },
   );
 

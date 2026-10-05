@@ -1,6 +1,7 @@
 import { describe, expect, test } from "bun:test";
 import { runValidationModes } from "@distilled.cloud/core/testing";
 import * as Effect from "effect/Effect";
+import * as Redacted from "effect/Redacted";
 import { fromApiKey } from "./credentials.ts";
 import { SurrealdbParseError } from "./errors.ts";
 import type { SurrealdbOpError } from "./protocol.ts";
@@ -12,7 +13,7 @@ const run = (body: string) =>
   runValidationModes(
     getKeyById({ table: "person", id: "tobie" }).pipe(
       Retry.none,
-      Effect.provide(fromApiKey({ apiKey: "test" })),
+      Effect.provide(fromApiKey({ apiKey: Redacted.make("test") })),
     ),
     { body },
   );

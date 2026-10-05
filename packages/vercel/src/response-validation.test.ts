@@ -1,6 +1,7 @@
 import { describe, expect, test } from "bun:test";
 import { runValidationModes } from "@distilled.cloud/core/testing";
 import * as Effect from "effect/Effect";
+import * as Redacted from "effect/Redacted";
 import { credentials } from "./credentials.ts";
 import { VercelParseError } from "./errors.ts";
 import type { VercelOpError } from "./protocol.ts";
@@ -10,7 +11,10 @@ import { listAiGatewayRules } from "./services/ai_gateway.ts";
 // listAiGatewayRules declares `{ rules: AiGatewayRule[] }`.
 const run = (body: string) =>
   runValidationModes(
-    listAiGatewayRules({}).pipe(Retry.none, Effect.provide(credentials({ token: "test" }))),
+    listAiGatewayRules({}).pipe(
+      Retry.none,
+      Effect.provide(credentials({ token: Redacted.make("test") })),
+    ),
     { body },
   );
 

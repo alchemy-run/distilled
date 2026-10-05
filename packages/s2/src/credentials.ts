@@ -47,12 +47,9 @@ export class Credentials extends Context.Service<Credentials, Effect.Effect<Conf
   "S2Credentials",
 ) {}
 
-const redact = (value: string | Redacted.Redacted<string>): Redacted.Redacted<string> =>
-  Redacted.isRedacted(value) ? value : Redacted.make(value);
-
 const envConfig = EffectConfig.all({
   // `S2_ACCESS_TOKEN` / `S2_BASIN` are what the official `s2` CLI reads.
-  token: EffectConfig.String("S2_ACCESS_TOKEN"),
+  token: EffectConfig.Redacted("S2_ACCESS_TOKEN"),
   basin: EffectConfig.String("S2_BASIN").pipe(EffectConfig.option),
   accountBaseUrl: EffectConfig.String("S2_ACCOUNT_ENDPOINT").pipe(
     EffectConfig.withDefault(DEFAULT_ACCOUNT_BASE_URL),
@@ -72,7 +69,7 @@ export const CredentialsFromEnv = Layer.succeed(
         }),
     ),
     Effect.map(({ token, basin, accountBaseUrl, basinBaseUrl }) => ({
-      token: Redacted.make(token),
+      token,
       basin: basin._tag === "Some" ? basin.value : undefined,
       accountBaseUrl,
       basinBaseUrl,
@@ -81,9 +78,9 @@ export const CredentialsFromEnv = Layer.succeed(
   ),
 );
 
-/** Convenience layer from a plain token + optional basin/endpoints. */
+/** Convenience layer from a redacted token + optional basin/endpoints. */
 export const credentials = (config: {
-  readonly token: string | Redacted.Redacted<string>;
+  readonly token: Redacted.Redacted<string>;
   readonly basin?: string;
   readonly accountBaseUrl?: string;
   readonly basinBaseUrl?: string;
@@ -91,7 +88,7 @@ export const credentials = (config: {
   Layer.succeed(
     Credentials,
     Effect.succeed({
-      token: redact(config.token),
+      token: config.token,
       basin: config.basin,
       accountBaseUrl: config.accountBaseUrl ?? DEFAULT_ACCOUNT_BASE_URL,
       basinBaseUrl: config.basinBaseUrl ?? DEFAULT_BASIN_BASE_URL,
