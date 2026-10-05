@@ -27,7 +27,7 @@ import * as Context from "effect/Context";
 import * as Effect from "effect/Effect";
 import * as Layer from "effect/Layer";
 import * as Option from "effect/Option";
-import { Credentials } from "./credentials.ts";
+import { Credentials } from "./credentials-service.ts";
 import type { GCPCredentialsError } from "./errors.ts";
 import { REGIONAL_ENDPOINTS } from "./regional-endpoints.ts";
 

@@ -5,10 +5,10 @@ import * as HttpClient from "effect/http/HttpClient";
 import * as HttpClientResponse from "effect/http/HttpClientResponse";
 import * as Layer from "effect/Layer";
 import * as Redacted from "effect/Redacted";
-import { fromWorkloadIdentity, type WorkloadIdentityConfig } from "./credentials.ts";
-import { GCPCredentialsError } from "./errors.ts";
-import * as Retry from "./retry.ts";
-import { getProjects } from "./services/cloudresourcemanager_v3.ts";
+import { GCPCredentialsError } from "../errors.ts";
+import * as Retry from "../retry.ts";
+import { getProjects } from "../services/cloudresourcemanager_v3.ts";
+import { fromWorkloadIdentity, type WorkloadIdentityConfig } from "./from-workload-identity.ts";
 
 const audience =
   "//iam.googleapis.com/projects/123456789/locations/global/workloadIdentityPools/vercel/providers/vercel";
