@@ -66,7 +66,9 @@ in package.json, see the `distilled-sdk-patch` skill):
 - **convert** — re-runs `convert`, so the spec mirror must be fetched
   (step 1); without it the package is reported as skipped.
 - **generate** — applies `patches/<model>/` to the committed
-  `.generated-specs` in memory. No mirror, seconds per package.
+  `.generated-specs` in memory. No mirror, seconds per package, and CI
+  runs it on every PR (`packages/core/src/sdks.test.ts`), so a patch the
+  model no longer needs fails the PR that made it dead.
 
 | Verdict | Meaning | Do |
 | --- | --- | --- |

@@ -207,7 +207,13 @@ enum member) as a `<Pkg>ParseError`; that is the cost of opting in, and why
 strict is never the default.
 
 Do not add tests to a generated SDK. Generated code is tested once, through
-the generator and the protocols in `packages/core`. A package gets a test
+the generator and the protocols in `packages/core`. `packages/core/src/sdks.test.ts`
+runs against every package and checks the glue a new SDK hand-writes: its
+`<Pkg>OpError` union reaches `<Pkg>ParseError` (so `catchTag` on a strict
+call typechecks), something outside `src/services/` constructs it, and
+`errors.ts` exports it. A new package is covered the moment it exists; a
+package that cannot follow the pattern goes in that file's exemption list
+with the reason. A package gets a test
 only for code someone wrote by hand in it — a custom protocol
 (`packages/fly-io/src/protocol.ts`, everything in `packages/aws`), or
 credentials logic like `packages/prisma/test/credentials.test.ts` — next to

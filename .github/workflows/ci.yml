@@ -45,6 +45,26 @@ jobs:
       - name: Run Typecheck
         run: pnpm typecheck:ci
 
+  test:
+    name: Test
+    runs-on: blacksmith-4vcpu-ubuntu-2404
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+
+      - name: Setup pnpm, Node.js and install dependencies
+        uses: pnpm/setup@703c52620218391530e48b9e8870d5c0082e1b9b # v2.1.0
+        with:
+          cache: true
+          install: true
+          require-lockfile: true
+
+      # Every test in the repo (vitest.config.ts): core's protocol, codegen and
+      # cross-SDK checks (packages/core/src/sdks.test.ts), plus the tests next
+      # to hand-written provider code. No network, no credentials.
+      - name: Run tests
+        run: pnpm vitest run
+
   typecheck-stacks:
     name: Typecheck (deployment stacks)
     runs-on: blacksmith-4vcpu-ubuntu-2404
@@ -73,9 +93,6 @@ jobs:
       # for local iteration only.
       - name: Check spec mirrors
         run: pnpm specs:check
-
-      - name: Test Prisma credentials and spec mirror identities
-        run: pnpm vitest run packages/prisma/test/credentials.test.ts stacks/distilled-submodules/SpecRepos.test.ts
 
   website:
     name: Website (typecheck & static build)
