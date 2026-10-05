@@ -31,10 +31,10 @@
           "method": "DELETE",
           "uri": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DeviceRegistry/schemaRegistries/{schemaRegistryName}/schemas/{schemaName}/schemaVersions/{schemaVersionName}",
           "code": 200,
-          "apiVersion": "2026-04-01"
+          "apiVersion": "2026-11-01"
         },
         "smithy.api#documentation": "Delete a SchemaVersion",
-        "com.distilled.openapi#apiVersion": "2026-04-01"
+        "com.distilled.openapi#apiVersion": "2026-11-01"
       }
     },
     "com.azure.deviceregistry#DeleteSchemaVersionRequest": {
@@ -98,10 +98,10 @@
           "method": "PUT",
           "uri": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DeviceRegistry/schemaRegistries/{schemaRegistryName}/schemas/{schemaName}/schemaVersions/{schemaVersionName}",
           "code": 200,
-          "apiVersion": "2026-04-01"
+          "apiVersion": "2026-11-01"
         },
         "smithy.api#documentation": "Create a SchemaVersion",
-        "com.distilled.openapi#apiVersion": "2026-04-01"
+        "com.distilled.openapi#apiVersion": "2026-11-01"
       }
     },
     "com.azure.deviceregistry#SchemaVersionsCreateOrReplaceResponse": {
@@ -415,10 +415,10 @@
           "method": "GET",
           "uri": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DeviceRegistry/schemaRegistries/{schemaRegistryName}/schemas/{schemaName}/schemaVersions/{schemaVersionName}",
           "code": 200,
-          "apiVersion": "2026-04-01"
+          "apiVersion": "2026-11-01"
         },
         "smithy.api#documentation": "Get a SchemaVersion",
-        "com.distilled.openapi#apiVersion": "2026-04-01"
+        "com.distilled.openapi#apiVersion": "2026-11-01"
       }
     },
     "com.azure.deviceregistry#GetSchemaVersionResponse": {
@@ -520,10 +520,10 @@
           "method": "GET",
           "uri": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DeviceRegistry/schemaRegistries/{schemaRegistryName}/schemas/{schemaName}/schemaVersions",
           "code": 200,
-          "apiVersion": "2026-04-01"
+          "apiVersion": "2026-11-01"
         },
         "smithy.api#documentation": "List SchemaVersion resources by Schema",
-        "com.distilled.openapi#apiVersion": "2026-04-01"
+        "com.distilled.openapi#apiVersion": "2026-11-01"
       }
     },
     "com.azure.deviceregistry#SchemaVersionListResult": {
@@ -647,10 +647,10 @@
           "method": "DELETE",
           "uri": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DeviceRegistry/schemaRegistries/{schemaRegistryName}/schemas/{schemaName}",
           "code": 200,
-          "apiVersion": "2026-04-01"
+          "apiVersion": "2026-11-01"
         },
         "smithy.api#documentation": "Delete a Schema",
-        "com.distilled.openapi#apiVersion": "2026-04-01"
+        "com.distilled.openapi#apiVersion": "2026-11-01"
       }
     },
     "com.azure.deviceregistry#DeleteSchemaRequest": {
@@ -706,10 +706,10 @@
           "method": "PUT",
           "uri": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DeviceRegistry/schemaRegistries/{schemaRegistryName}/schemas/{schemaName}",
           "code": 200,
-          "apiVersion": "2026-04-01"
+          "apiVersion": "2026-11-01"
         },
         "smithy.api#documentation": "Create a Schema",
-        "com.distilled.openapi#apiVersion": "2026-04-01"
+        "com.distilled.openapi#apiVersion": "2026-11-01"
       }
     },
     "com.azure.deviceregistry#SchemasCreateOrReplaceResponse": {
@@ -822,6 +822,18 @@
           "traits": {
             "smithy.api#enumValue": "MessageSchema"
           }
+        },
+        "THINGMODEL": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "ThingModel"
+          }
+        },
+        "THINGDESCRIPTION": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "ThingDescription"
+          }
         }
       },
       "traits": {
@@ -841,6 +853,12 @@
           "target": "smithy.api#Unit",
           "traits": {
             "smithy.api#enumValue": "Delta/1.0"
+          }
+        },
+        "JSONLD_1_1": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "JsonLD/1.1"
           }
         }
       },
@@ -959,10 +977,10 @@
           "method": "GET",
           "uri": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DeviceRegistry/schemaRegistries/{schemaRegistryName}/schemas/{schemaName}",
           "code": 200,
-          "apiVersion": "2026-04-01"
+          "apiVersion": "2026-11-01"
         },
         "smithy.api#documentation": "Get a Schema",
-        "com.distilled.openapi#apiVersion": "2026-04-01"
+        "com.distilled.openapi#apiVersion": "2026-11-01"
       }
     },
     "com.azure.deviceregistry#GetSchemaResponse": {
@@ -1056,10 +1074,10 @@
           "method": "GET",
           "uri": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DeviceRegistry/schemaRegistries/{schemaRegistryName}/schemas",
           "code": 200,
-          "apiVersion": "2026-04-01"
+          "apiVersion": "2026-11-01"
         },
         "smithy.api#documentation": "List Schema resources by SchemaRegistry",
-        "com.distilled.openapi#apiVersion": "2026-04-01"
+        "com.distilled.openapi#apiVersion": "2026-11-01"
       }
     },
     "com.azure.deviceregistry#SchemaListResult": {
@@ -1175,10 +1193,10 @@
           "method": "DELETE",
           "uri": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DeviceRegistry/schemaRegistries/{schemaRegistryName}",
           "code": 200,
-          "apiVersion": "2026-04-01"
+          "apiVersion": "2026-11-01"
         },
         "smithy.api#documentation": "Delete a SchemaRegistry",
-        "com.distilled.openapi#apiVersion": "2026-04-01"
+        "com.distilled.openapi#apiVersion": "2026-11-01"
       }
     },
     "com.azure.deviceregistry#DeleteSchemaRegistryRequest": {
@@ -1226,10 +1244,10 @@
           "method": "PATCH",
           "uri": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DeviceRegistry/schemaRegistries/{schemaRegistryName}",
           "code": 200,
-          "apiVersion": "2026-04-01"
+          "apiVersion": "2026-11-01"
         },
         "smithy.api#documentation": "Update a SchemaRegistry",
-        "com.distilled.openapi#apiVersion": "2026-04-01"
+        "com.distilled.openapi#apiVersion": "2026-11-01"
       }
     },
     "com.azure.deviceregistry#UpdateSchemaRegistryResponse": {
@@ -1281,7 +1299,7 @@
         "identity": {
           "target": "com.azure.deviceregistry#UpdateSchemaRegistryResponseIdentity",
           "traits": {
-            "smithy.api#documentation": "Managed service identity (either system assigned, or none)"
+            "smithy.api#documentation": "Managed service identity (system assigned and/or user assigned identities)"
           }
         }
       },
@@ -1305,17 +1323,55 @@
           }
         },
         "type": {
-          "target": "com.azure.deviceregistry#SystemAssignedServiceIdentityType",
+          "target": "com.azure.deviceregistry#ManagedServiceIdentityType",
           "traits": {
             "smithy.api#required": {}
+          }
+        },
+        "userAssignedIdentities": {
+          "target": "com.azure.deviceregistry#UserAssignedIdentities"
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Managed service identity (system assigned and/or user assigned identities)"
+      }
+    },
+    "com.azure.deviceregistry#UserAssignedIdentities": {
+      "type": "map",
+      "key": {
+        "target": "smithy.api#String"
+      },
+      "value": {
+        "target": "com.azure.deviceregistry#UserAssignedIdentity",
+        "traits": {
+          "com.distilled.openapi#nullable": {}
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The set of user assigned identities associated with the resource. The userAssignedIdentities dictionary keys will be ARM resource ids in the form: '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}. The dictionary values can be empty objects ({}) in requests."
+      }
+    },
+    "com.azure.deviceregistry#UserAssignedIdentity": {
+      "type": "structure",
+      "members": {
+        "principalId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The principal ID of the assigned identity."
+          }
+        },
+        "clientId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The client ID of the assigned identity."
           }
         }
       },
       "traits": {
-        "smithy.api#documentation": "Managed service identity (either system assigned, or none)"
+        "smithy.api#documentation": "User assigned identity properties"
       }
     },
-    "com.azure.deviceregistry#SystemAssignedServiceIdentityType": {
+    "com.azure.deviceregistry#ManagedServiceIdentityType": {
       "type": "enum",
       "members": {
         "NONE": {
@@ -1329,10 +1385,22 @@
           "traits": {
             "smithy.api#enumValue": "SystemAssigned"
           }
+        },
+        "USERASSIGNED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "UserAssigned"
+          }
+        },
+        "SYSTEMASSIGNED_USERASSIGNED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "SystemAssigned,UserAssigned"
+          }
         }
       },
       "traits": {
-        "smithy.api#documentation": "Type of managed service identity (either system assigned, or none)."
+        "smithy.api#documentation": "Type of managed service identity (where both SystemAssigned and UserAssigned types are allowed)."
       }
     },
     "com.azure.deviceregistry#SchemaRegistryProperties": {
@@ -1370,6 +1438,12 @@
             "smithy.api#required": {}
           }
         },
+        "outboundIdentity": {
+          "target": "com.azure.deviceregistry#OutboundIdentity",
+          "traits": {
+            "smithy.api#documentation": "The identity used for outbound calls from the ADR schema registry. If not specified and the schema registry has a system-assigned identity enabled, the system-assigned identity is used by default."
+          }
+        },
         "provisioningState": {
           "target": "com.azure.deviceregistry#ProvisioningState",
           "traits": {
@@ -1379,6 +1453,47 @@
       },
       "traits": {
         "smithy.api#documentation": "Defines the schema registry properties."
+      }
+    },
+    "com.azure.deviceregistry#OutboundIdentity": {
+      "type": "structure",
+      "members": {
+        "type": {
+          "target": "com.azure.deviceregistry#OutboundIdentityType",
+          "traits": {
+            "smithy.api#documentation": "The identity type.",
+            "smithy.api#required": {}
+          }
+        },
+        "userAssignedIdentity": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The resource ID of the user-assigned managed identity. Required when type is UserAssigned."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The identity the ADR namespace uses for outbound calls. If this property is null and the namespace has a system-assigned identity enabled, the namespace defaults to using the system-assigned identity for outbound calls."
+      }
+    },
+    "com.azure.deviceregistry#OutboundIdentityType": {
+      "type": "enum",
+      "members": {
+        "SYSTEMASSIGNED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "SystemAssigned"
+          }
+        },
+        "USERASSIGNED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "UserAssigned"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The type of identity used for outbound calls from the ADR namespace."
       }
     },
     "com.azure.deviceregistry#UpdateSchemaRegistryResponseTagsMap": {
@@ -1423,7 +1538,7 @@
         "identity": {
           "target": "com.azure.deviceregistry#UpdateSchemaRegistryRequestIdentity",
           "traits": {
-            "smithy.api#documentation": "Managed service identity (either system assigned, or none)"
+            "smithy.api#documentation": "Managed service identity (system assigned and/or user assigned identities)"
           }
         },
         "tags": {
@@ -1457,6 +1572,12 @@
           "traits": {
             "smithy.api#documentation": "Human-readable description of the schema registry."
           }
+        },
+        "outboundIdentity": {
+          "target": "com.azure.deviceregistry#OutboundIdentity",
+          "traits": {
+            "smithy.api#documentation": "The identity used for outbound calls from the ADR schema registry. If not specified and the schema registry has a system-assigned identity enabled, the system-assigned identity is used by default."
+          }
         }
       },
       "traits": {
@@ -1479,14 +1600,39 @@
       "type": "structure",
       "members": {
         "type": {
-          "target": "com.azure.deviceregistry#SystemAssignedServiceIdentityType",
+          "target": "com.azure.deviceregistry#ManagedServiceIdentityType",
           "traits": {
             "smithy.api#required": {}
           }
+        },
+        "userAssignedIdentities": {
+          "target": "com.azure.deviceregistry#UserAssignedIdentitiesInput"
         }
       },
       "traits": {
-        "smithy.api#documentation": "Managed service identity (either system assigned, or none)"
+        "smithy.api#documentation": "Managed service identity (system assigned and/or user assigned identities)"
+      }
+    },
+    "com.azure.deviceregistry#UserAssignedIdentitiesInput": {
+      "type": "map",
+      "key": {
+        "target": "smithy.api#String"
+      },
+      "value": {
+        "target": "com.azure.deviceregistry#UserAssignedIdentityInput",
+        "traits": {
+          "com.distilled.openapi#nullable": {}
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The set of user assigned identities associated with the resource. The userAssignedIdentities dictionary keys will be ARM resource ids in the form: '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}. The dictionary values can be empty objects ({}) in requests."
+      }
+    },
+    "com.azure.deviceregistry#UserAssignedIdentityInput": {
+      "type": "structure",
+      "members": {},
+      "traits": {
+        "smithy.api#documentation": "User assigned identity properties"
       }
     },
     "com.azure.deviceregistry#SchemaRegistriesCreateOrReplace": {
@@ -1502,10 +1648,10 @@
           "method": "PUT",
           "uri": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DeviceRegistry/schemaRegistries/{schemaRegistryName}",
           "code": 200,
-          "apiVersion": "2026-04-01"
+          "apiVersion": "2026-11-01"
         },
         "smithy.api#documentation": "Create a SchemaRegistry",
-        "com.distilled.openapi#apiVersion": "2026-04-01"
+        "com.distilled.openapi#apiVersion": "2026-11-01"
       }
     },
     "com.azure.deviceregistry#SchemaRegistriesCreateOrReplaceResponse": {
@@ -1557,7 +1703,7 @@
         "identity": {
           "target": "com.azure.deviceregistry#SchemaRegistriesCreateOrReplaceResponseIdentity",
           "traits": {
-            "smithy.api#documentation": "Managed service identity (either system assigned, or none)"
+            "smithy.api#documentation": "Managed service identity (system assigned and/or user assigned identities)"
           }
         }
       },
@@ -1581,14 +1727,17 @@
           }
         },
         "type": {
-          "target": "com.azure.deviceregistry#SystemAssignedServiceIdentityType",
+          "target": "com.azure.deviceregistry#ManagedServiceIdentityType",
           "traits": {
             "smithy.api#required": {}
           }
+        },
+        "userAssignedIdentities": {
+          "target": "com.azure.deviceregistry#UserAssignedIdentities"
         }
       },
       "traits": {
-        "smithy.api#documentation": "Managed service identity (either system assigned, or none)"
+        "smithy.api#documentation": "Managed service identity (system assigned and/or user assigned identities)"
       }
     },
     "com.azure.deviceregistry#SchemaRegistriesCreateOrReplaceResponseTagsMap": {
@@ -1652,7 +1801,7 @@
         "identity": {
           "target": "com.azure.deviceregistry#SchemaRegistriesCreateOrReplaceRequestIdentity",
           "traits": {
-            "smithy.api#documentation": "Managed service identity (either system assigned, or none)"
+            "smithy.api#documentation": "Managed service identity (system assigned and/or user assigned identities)"
           }
         }
       },
@@ -1664,14 +1813,17 @@
       "type": "structure",
       "members": {
         "type": {
-          "target": "com.azure.deviceregistry#SystemAssignedServiceIdentityType",
+          "target": "com.azure.deviceregistry#ManagedServiceIdentityType",
           "traits": {
             "smithy.api#required": {}
           }
+        },
+        "userAssignedIdentities": {
+          "target": "com.azure.deviceregistry#UserAssignedIdentitiesInput"
         }
       },
       "traits": {
-        "smithy.api#documentation": "Managed service identity (either system assigned, or none)"
+        "smithy.api#documentation": "Managed service identity (system assigned and/or user assigned identities)"
       }
     },
     "com.azure.deviceregistry#SchemaRegistryPropertiesInput": {
@@ -1701,6 +1853,12 @@
           "traits": {
             "smithy.api#documentation": "The Storage Account's Container URL where schemas will be stored.",
             "smithy.api#required": {}
+          }
+        },
+        "outboundIdentity": {
+          "target": "com.azure.deviceregistry#OutboundIdentity",
+          "traits": {
+            "smithy.api#documentation": "The identity used for outbound calls from the ADR schema registry. If not specified and the schema registry has a system-assigned identity enabled, the system-assigned identity is used by default."
           }
         }
       },
@@ -1733,10 +1891,10 @@
           "method": "GET",
           "uri": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DeviceRegistry/schemaRegistries/{schemaRegistryName}",
           "code": 200,
-          "apiVersion": "2026-04-01"
+          "apiVersion": "2026-11-01"
         },
         "smithy.api#documentation": "Get a SchemaRegistry",
-        "com.distilled.openapi#apiVersion": "2026-04-01"
+        "com.distilled.openapi#apiVersion": "2026-11-01"
       }
     },
     "com.azure.deviceregistry#GetSchemaRegistryResponse": {
@@ -1788,7 +1946,7 @@
         "identity": {
           "target": "com.azure.deviceregistry#GetSchemaRegistryResponseIdentity",
           "traits": {
-            "smithy.api#documentation": "Managed service identity (either system assigned, or none)"
+            "smithy.api#documentation": "Managed service identity (system assigned and/or user assigned identities)"
           }
         }
       },
@@ -1812,14 +1970,17 @@
           }
         },
         "type": {
-          "target": "com.azure.deviceregistry#SystemAssignedServiceIdentityType",
+          "target": "com.azure.deviceregistry#ManagedServiceIdentityType",
           "traits": {
             "smithy.api#required": {}
           }
+        },
+        "userAssignedIdentities": {
+          "target": "com.azure.deviceregistry#UserAssignedIdentities"
         }
       },
       "traits": {
-        "smithy.api#documentation": "Managed service identity (either system assigned, or none)"
+        "smithy.api#documentation": "Managed service identity (system assigned and/or user assigned identities)"
       }
     },
     "com.azure.deviceregistry#GetSchemaRegistryResponseTagsMap": {
@@ -1879,10 +2040,10 @@
           "method": "GET",
           "uri": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DeviceRegistry/schemaRegistries",
           "code": 200,
-          "apiVersion": "2026-04-01"
+          "apiVersion": "2026-11-01"
         },
         "smithy.api#documentation": "List SchemaRegistry resources by resource group",
-        "com.distilled.openapi#apiVersion": "2026-04-01"
+        "com.distilled.openapi#apiVersion": "2026-11-01"
       }
     },
     "com.azure.deviceregistry#SchemaRegistryListResult": {
@@ -1964,7 +2125,7 @@
         "identity": {
           "target": "com.azure.deviceregistry#SchemaRegistryIdentity",
           "traits": {
-            "smithy.api#documentation": "Managed service identity (either system assigned, or none)"
+            "smithy.api#documentation": "Managed service identity (system assigned and/or user assigned identities)"
           }
         }
       },
@@ -1988,14 +2149,17 @@
           }
         },
         "type": {
-          "target": "com.azure.deviceregistry#SystemAssignedServiceIdentityType",
+          "target": "com.azure.deviceregistry#ManagedServiceIdentityType",
           "traits": {
             "smithy.api#required": {}
           }
+        },
+        "userAssignedIdentities": {
+          "target": "com.azure.deviceregistry#UserAssignedIdentities"
         }
       },
       "traits": {
-        "smithy.api#documentation": "Managed service identity (either system assigned, or none)"
+        "smithy.api#documentation": "Managed service identity (system assigned and/or user assigned identities)"
       }
     },
     "com.azure.deviceregistry#SchemaRegistryTagsMap": {
@@ -2034,6 +2198,814 @@
         "smithy.api#input": {}
       }
     },
+    "com.azure.deviceregistry#DeleteRegistryDevice": {
+      "type": "operation",
+      "input": {
+        "target": "com.azure.deviceregistry#DeleteRegistryDeviceRequest"
+      },
+      "output": {
+        "target": "smithy.api#Unit"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "DELETE",
+          "uri": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DeviceRegistry/namespaces/{namespaceName}/registryDevices/{registryDeviceName}",
+          "code": 200,
+          "apiVersion": "2026-11-01"
+        },
+        "smithy.api#documentation": "Delete a RegistryDevice",
+        "com.distilled.openapi#apiVersion": "2026-11-01"
+      }
+    },
+    "com.azure.deviceregistry#DeleteRegistryDeviceRequest": {
+      "type": "structure",
+      "members": {
+        "subscriptionId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The ID of the target subscription. The value must be an UUID."
+          }
+        },
+        "resourceGroupName": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The name of the resource group. The name is case insensitive."
+          }
+        },
+        "namespaceName": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The name of the namespace."
+          }
+        },
+        "registryDeviceName": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The name of the new device."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.azure.deviceregistry#UpdateRegistryDevice": {
+      "type": "operation",
+      "input": {
+        "target": "com.azure.deviceregistry#UpdateRegistryDeviceRequest"
+      },
+      "output": {
+        "target": "com.azure.deviceregistry#UpdateRegistryDeviceResponse"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "PATCH",
+          "uri": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DeviceRegistry/namespaces/{namespaceName}/registryDevices/{registryDeviceName}",
+          "code": 200,
+          "apiVersion": "2026-11-01"
+        },
+        "smithy.api#documentation": "Update a RegistryDevice",
+        "com.distilled.openapi#apiVersion": "2026-11-01"
+      }
+    },
+    "com.azure.deviceregistry#UpdateRegistryDeviceResponse": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Fully qualified resource ID for the resource. E.g. \"/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}\""
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The name of the resource"
+          }
+        },
+        "type": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The type of the resource. E.g. \"Microsoft.Compute/virtualMachines\" or \"Microsoft.Storage/storageAccounts\""
+          }
+        },
+        "systemData": {
+          "target": "com.azure.deviceregistry#SystemData",
+          "traits": {
+            "smithy.api#documentation": "Azure Resource Manager metadata containing createdBy and modifiedBy information."
+          }
+        },
+        "tags": {
+          "target": "com.azure.deviceregistry#UpdateRegistryDeviceResponseTagsMap",
+          "traits": {
+            "smithy.api#documentation": "Resource tags."
+          }
+        },
+        "location": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The geo-location where the resource lives",
+            "smithy.api#required": {}
+          }
+        },
+        "properties": {
+          "target": "com.azure.deviceregistry#RegistryDeviceProperties",
+          "traits": {
+            "smithy.api#documentation": "The resource-specific properties for this resource."
+          }
+        },
+        "etag": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Resource etag."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
+      }
+    },
+    "com.azure.deviceregistry#RegistryDeviceProperties": {
+      "type": "structure",
+      "members": {
+        "enablementState": {
+          "target": "com.azure.deviceregistry#RegistryDeviceEnablementState",
+          "traits": {
+            "smithy.api#documentation": "Whether the device is enabled or disabled. A disabled device cannot send messages, be updated, or reprovision.",
+            "smithy.api#required": {}
+          }
+        },
+        "uuid": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Globally unique, immutable, non-reusable ID."
+          }
+        },
+        "externalDeviceId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "A Device ID provided by the customer."
+          }
+        },
+        "manufacturer": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Device manufacturer."
+          }
+        },
+        "model": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Device model."
+          }
+        },
+        "hardwareRevision": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Device hardware revision."
+          }
+        },
+        "softwareRevision": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Device software revision."
+          }
+        },
+        "provisioningState": {
+          "target": "com.azure.deviceregistry#ProvisioningState",
+          "traits": {
+            "smithy.api#documentation": "Provisioning state of the resource."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The properties of a registry device."
+      }
+    },
+    "com.azure.deviceregistry#RegistryDeviceEnablementState": {
+      "type": "enum",
+      "members": {
+        "ENABLED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "Enabled"
+          }
+        },
+        "DISABLED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "Disabled"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Represents the enablement state of a device."
+      }
+    },
+    "com.azure.deviceregistry#UpdateRegistryDeviceResponseTagsMap": {
+      "type": "map",
+      "key": {
+        "target": "smithy.api#String"
+      },
+      "value": {
+        "target": "smithy.api#String"
+      },
+      "traits": {
+        "smithy.api#documentation": "Resource tags."
+      }
+    },
+    "com.azure.deviceregistry#UpdateRegistryDeviceRequest": {
+      "type": "structure",
+      "members": {
+        "subscriptionId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The ID of the target subscription. The value must be an UUID."
+          }
+        },
+        "resourceGroupName": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The name of the resource group. The name is case insensitive."
+          }
+        },
+        "namespaceName": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The name of the namespace."
+          }
+        },
+        "registryDeviceName": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The name of the new device."
+          }
+        },
+        "tags": {
+          "target": "com.azure.deviceregistry#UpdateRegistryDeviceRequestTagsMap",
+          "traits": {
+            "smithy.api#documentation": "Resource tags."
+          }
+        },
+        "properties": {
+          "target": "com.azure.deviceregistry#RegistryDeviceUpdateProperties",
+          "traits": {
+            "smithy.api#documentation": "The resource-specific properties for this resource."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.azure.deviceregistry#RegistryDeviceUpdateProperties": {
+      "type": "structure",
+      "members": {
+        "enablementState": {
+          "target": "com.azure.deviceregistry#RegistryDeviceEnablementState",
+          "traits": {
+            "smithy.api#documentation": "Whether the device is enabled or disabled. A disabled device cannot send messages, be updated, or reprovision."
+          }
+        },
+        "manufacturer": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Device manufacturer."
+          }
+        },
+        "model": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Device model."
+          }
+        },
+        "hardwareRevision": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Device hardware revision."
+          }
+        },
+        "softwareRevision": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Device software revision."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The updatable properties of the RegistryDevice."
+      }
+    },
+    "com.azure.deviceregistry#UpdateRegistryDeviceRequestTagsMap": {
+      "type": "map",
+      "key": {
+        "target": "smithy.api#String"
+      },
+      "value": {
+        "target": "smithy.api#String"
+      },
+      "traits": {
+        "smithy.api#documentation": "Resource tags."
+      }
+    },
+    "com.azure.deviceregistry#RegistryDevicesCreateOrReplace": {
+      "type": "operation",
+      "input": {
+        "target": "com.azure.deviceregistry#RegistryDevicesCreateOrReplaceRequest"
+      },
+      "output": {
+        "target": "com.azure.deviceregistry#RegistryDevicesCreateOrReplaceResponse"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "PUT",
+          "uri": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DeviceRegistry/namespaces/{namespaceName}/registryDevices/{registryDeviceName}",
+          "code": 200,
+          "apiVersion": "2026-11-01"
+        },
+        "smithy.api#documentation": "Create a RegistryDevice",
+        "com.distilled.openapi#apiVersion": "2026-11-01"
+      }
+    },
+    "com.azure.deviceregistry#RegistryDevicesCreateOrReplaceResponse": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Fully qualified resource ID for the resource. E.g. \"/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}\""
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The name of the resource"
+          }
+        },
+        "type": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The type of the resource. E.g. \"Microsoft.Compute/virtualMachines\" or \"Microsoft.Storage/storageAccounts\""
+          }
+        },
+        "systemData": {
+          "target": "com.azure.deviceregistry#SystemData",
+          "traits": {
+            "smithy.api#documentation": "Azure Resource Manager metadata containing createdBy and modifiedBy information."
+          }
+        },
+        "tags": {
+          "target": "com.azure.deviceregistry#RegistryDevicesCreateOrReplaceResponseTagsMap",
+          "traits": {
+            "smithy.api#documentation": "Resource tags."
+          }
+        },
+        "location": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The geo-location where the resource lives",
+            "smithy.api#required": {}
+          }
+        },
+        "properties": {
+          "target": "com.azure.deviceregistry#RegistryDeviceProperties",
+          "traits": {
+            "smithy.api#documentation": "The resource-specific properties for this resource."
+          }
+        },
+        "etag": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Resource etag."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
+      }
+    },
+    "com.azure.deviceregistry#RegistryDevicesCreateOrReplaceResponseTagsMap": {
+      "type": "map",
+      "key": {
+        "target": "smithy.api#String"
+      },
+      "value": {
+        "target": "smithy.api#String"
+      },
+      "traits": {
+        "smithy.api#documentation": "Resource tags."
+      }
+    },
+    "com.azure.deviceregistry#RegistryDevicesCreateOrReplaceRequest": {
+      "type": "structure",
+      "members": {
+        "subscriptionId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The ID of the target subscription. The value must be an UUID."
+          }
+        },
+        "resourceGroupName": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The name of the resource group. The name is case insensitive."
+          }
+        },
+        "namespaceName": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The name of the namespace."
+          }
+        },
+        "registryDeviceName": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The name of the new device."
+          }
+        },
+        "tags": {
+          "target": "com.azure.deviceregistry#RegistryDevicesCreateOrReplaceRequestTagsMap",
+          "traits": {
+            "smithy.api#documentation": "Resource tags."
+          }
+        },
+        "location": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The geo-location where the resource lives",
+            "smithy.api#required": {}
+          }
+        },
+        "properties": {
+          "target": "com.azure.deviceregistry#RegistryDevicePropertiesInput",
+          "traits": {
+            "smithy.api#documentation": "The resource-specific properties for this resource."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.azure.deviceregistry#RegistryDevicePropertiesInput": {
+      "type": "structure",
+      "members": {
+        "enablementState": {
+          "target": "com.azure.deviceregistry#RegistryDeviceEnablementState",
+          "traits": {
+            "smithy.api#documentation": "Whether the device is enabled or disabled. A disabled device cannot send messages, be updated, or reprovision.",
+            "smithy.api#required": {}
+          }
+        },
+        "externalDeviceId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "A Device ID provided by the customer."
+          }
+        },
+        "manufacturer": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Device manufacturer."
+          }
+        },
+        "model": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Device model."
+          }
+        },
+        "hardwareRevision": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Device hardware revision."
+          }
+        },
+        "softwareRevision": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Device software revision."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The properties of a registry device."
+      }
+    },
+    "com.azure.deviceregistry#RegistryDevicesCreateOrReplaceRequestTagsMap": {
+      "type": "map",
+      "key": {
+        "target": "smithy.api#String"
+      },
+      "value": {
+        "target": "smithy.api#String"
+      },
+      "traits": {
+        "smithy.api#documentation": "Resource tags."
+      }
+    },
+    "com.azure.deviceregistry#GetRegistryDevice": {
+      "type": "operation",
+      "input": {
+        "target": "com.azure.deviceregistry#GetRegistryDeviceRequest"
+      },
+      "output": {
+        "target": "com.azure.deviceregistry#GetRegistryDeviceResponse"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DeviceRegistry/namespaces/{namespaceName}/registryDevices/{registryDeviceName}",
+          "code": 200,
+          "apiVersion": "2026-11-01"
+        },
+        "smithy.api#documentation": "Get a RegistryDevice",
+        "com.distilled.openapi#apiVersion": "2026-11-01"
+      }
+    },
+    "com.azure.deviceregistry#GetRegistryDeviceResponse": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Fully qualified resource ID for the resource. E.g. \"/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}\""
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The name of the resource"
+          }
+        },
+        "type": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The type of the resource. E.g. \"Microsoft.Compute/virtualMachines\" or \"Microsoft.Storage/storageAccounts\""
+          }
+        },
+        "systemData": {
+          "target": "com.azure.deviceregistry#SystemData",
+          "traits": {
+            "smithy.api#documentation": "Azure Resource Manager metadata containing createdBy and modifiedBy information."
+          }
+        },
+        "tags": {
+          "target": "com.azure.deviceregistry#GetRegistryDeviceResponseTagsMap",
+          "traits": {
+            "smithy.api#documentation": "Resource tags."
+          }
+        },
+        "location": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The geo-location where the resource lives",
+            "smithy.api#required": {}
+          }
+        },
+        "properties": {
+          "target": "com.azure.deviceregistry#RegistryDeviceProperties",
+          "traits": {
+            "smithy.api#documentation": "The resource-specific properties for this resource."
+          }
+        },
+        "etag": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Resource etag."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
+      }
+    },
+    "com.azure.deviceregistry#GetRegistryDeviceResponseTagsMap": {
+      "type": "map",
+      "key": {
+        "target": "smithy.api#String"
+      },
+      "value": {
+        "target": "smithy.api#String"
+      },
+      "traits": {
+        "smithy.api#documentation": "Resource tags."
+      }
+    },
+    "com.azure.deviceregistry#GetRegistryDeviceRequest": {
+      "type": "structure",
+      "members": {
+        "subscriptionId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The ID of the target subscription. The value must be an UUID."
+          }
+        },
+        "resourceGroupName": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The name of the resource group. The name is case insensitive."
+          }
+        },
+        "namespaceName": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The name of the namespace."
+          }
+        },
+        "registryDeviceName": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The name of the new device."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.azure.deviceregistry#ListRegistryDeviceByNamespace": {
+      "type": "operation",
+      "input": {
+        "target": "com.azure.deviceregistry#ListRegistryDeviceByNamespaceRequest"
+      },
+      "output": {
+        "target": "com.azure.deviceregistry#RegistryDeviceListResult"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DeviceRegistry/namespaces/{namespaceName}/registryDevices",
+          "code": 200,
+          "apiVersion": "2026-11-01"
+        },
+        "smithy.api#documentation": "List RegistryDevice resources by Namespace",
+        "com.distilled.openapi#apiVersion": "2026-11-01"
+      }
+    },
+    "com.azure.deviceregistry#RegistryDeviceListResult": {
+      "type": "structure",
+      "members": {
+        "value": {
+          "target": "com.azure.deviceregistry#RegistryDeviceListResultValueList",
+          "traits": {
+            "smithy.api#documentation": "The RegistryDevice items on this page",
+            "smithy.api#required": {}
+          }
+        },
+        "nextLink": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The link to the next page of items"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The response of a RegistryDevice list operation."
+      }
+    },
+    "com.azure.deviceregistry#RegistryDeviceListResultValueList": {
+      "type": "list",
+      "member": {
+        "target": "com.azure.deviceregistry#RegistryDevice"
+      },
+      "traits": {
+        "smithy.api#documentation": "The RegistryDevice items on this page"
+      }
+    },
+    "com.azure.deviceregistry#RegistryDevice": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Fully qualified resource ID for the resource. E.g. \"/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}\""
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The name of the resource"
+          }
+        },
+        "type": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The type of the resource. E.g. \"Microsoft.Compute/virtualMachines\" or \"Microsoft.Storage/storageAccounts\""
+          }
+        },
+        "systemData": {
+          "target": "com.azure.deviceregistry#SystemData",
+          "traits": {
+            "smithy.api#documentation": "Azure Resource Manager metadata containing createdBy and modifiedBy information."
+          }
+        },
+        "tags": {
+          "target": "com.azure.deviceregistry#RegistryDeviceTagsMap",
+          "traits": {
+            "smithy.api#documentation": "Resource tags."
+          }
+        },
+        "location": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The geo-location where the resource lives",
+            "smithy.api#required": {}
+          }
+        },
+        "properties": {
+          "target": "com.azure.deviceregistry#RegistryDeviceProperties",
+          "traits": {
+            "smithy.api#documentation": "The resource-specific properties for this resource."
+          }
+        },
+        "etag": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Resource etag."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "A Registry Device resource is a tracked resource with a provisioning lifecycle. The different capabilities of the device are defined through child Device Capability resources."
+      }
+    },
+    "com.azure.deviceregistry#RegistryDeviceTagsMap": {
+      "type": "map",
+      "key": {
+        "target": "smithy.api#String"
+      },
+      "value": {
+        "target": "smithy.api#String"
+      },
+      "traits": {
+        "smithy.api#documentation": "Resource tags."
+      }
+    },
+    "com.azure.deviceregistry#ListRegistryDeviceByNamespaceRequest": {
+      "type": "structure",
+      "members": {
+        "subscriptionId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The ID of the target subscription. The value must be an UUID."
+          }
+        },
+        "resourceGroupName": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The name of the resource group. The name is case insensitive."
+          }
+        },
+        "namespaceName": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The name of the namespace."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
     "com.azure.deviceregistry#MigrateNamespace": {
       "type": "operation",
       "input": {
@@ -2047,10 +3019,10 @@
           "method": "POST",
           "uri": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DeviceRegistry/namespaces/{namespaceName}/migrate",
           "code": 200,
-          "apiVersion": "2026-04-01"
+          "apiVersion": "2026-11-01"
         },
         "smithy.api#documentation": "Migrate the resources into Namespace",
-        "com.distilled.openapi#apiVersion": "2026-04-01"
+        "com.distilled.openapi#apiVersion": "2026-11-01"
       }
     },
     "com.azure.deviceregistry#NamespaceMigrateResponse": {
@@ -2269,10 +3241,10 @@
           "method": "DELETE",
           "uri": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DeviceRegistry/namespaces/{namespaceName}/discoveredDevices/{discoveredDeviceName}",
           "code": 200,
-          "apiVersion": "2026-04-01"
+          "apiVersion": "2026-11-01"
         },
         "smithy.api#documentation": "Delete a NamespaceDiscoveredDevice",
-        "com.distilled.openapi#apiVersion": "2026-04-01"
+        "com.distilled.openapi#apiVersion": "2026-11-01"
       }
     },
     "com.azure.deviceregistry#DeleteNamespaceDiscoveredDeviceRequest": {
@@ -2328,10 +3300,10 @@
           "method": "PATCH",
           "uri": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DeviceRegistry/namespaces/{namespaceName}/discoveredDevices/{discoveredDeviceName}",
           "code": 200,
-          "apiVersion": "2026-04-01"
+          "apiVersion": "2026-11-01"
         },
         "smithy.api#documentation": "Update a NamespaceDiscoveredDevice",
-        "com.distilled.openapi#apiVersion": "2026-04-01"
+        "com.distilled.openapi#apiVersion": "2026-11-01"
       }
     },
     "com.azure.deviceregistry#UpdateNamespaceDiscoveredDeviceResponse": {
@@ -2933,10 +3905,10 @@
           "method": "PUT",
           "uri": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DeviceRegistry/namespaces/{namespaceName}/discoveredDevices/{discoveredDeviceName}",
           "code": 200,
-          "apiVersion": "2026-04-01"
+          "apiVersion": "2026-11-01"
         },
         "smithy.api#documentation": "Create a NamespaceDiscoveredDevice",
-        "com.distilled.openapi#apiVersion": "2026-04-01"
+        "com.distilled.openapi#apiVersion": "2026-11-01"
       }
     },
     "com.azure.deviceregistry#NamespaceDiscoveredDevicesCreateOrReplaceResponse": {
@@ -3176,10 +4148,10 @@
           "method": "GET",
           "uri": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DeviceRegistry/namespaces/{namespaceName}/discoveredDevices/{discoveredDeviceName}",
           "code": 200,
-          "apiVersion": "2026-04-01"
+          "apiVersion": "2026-11-01"
         },
         "smithy.api#documentation": "Get a NamespaceDiscoveredDevice",
-        "com.distilled.openapi#apiVersion": "2026-04-01"
+        "com.distilled.openapi#apiVersion": "2026-11-01"
       }
     },
     "com.azure.deviceregistry#GetNamespaceDiscoveredDeviceResponse": {
@@ -3292,10 +4264,10 @@
         "smithy.api#input": {}
       }
     },
-    "com.azure.deviceregistry#ListNamespaceDiscoveredDeviceByResourceGroup": {
+    "com.azure.deviceregistry#ListNamespaceDiscoveredDeviceByNamespace": {
       "type": "operation",
       "input": {
-        "target": "com.azure.deviceregistry#ListNamespaceDiscoveredDeviceByResourceGroupRequest"
+        "target": "com.azure.deviceregistry#ListNamespaceDiscoveredDeviceByNamespaceRequest"
       },
       "output": {
         "target": "com.azure.deviceregistry#NamespaceDiscoveredDeviceListResult"
@@ -3305,10 +4277,10 @@
           "method": "GET",
           "uri": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DeviceRegistry/namespaces/{namespaceName}/discoveredDevices",
           "code": 200,
-          "apiVersion": "2026-04-01"
+          "apiVersion": "2026-11-01"
         },
         "smithy.api#documentation": "List NamespaceDiscoveredDevice resources by Namespace",
-        "com.distilled.openapi#apiVersion": "2026-04-01"
+        "com.distilled.openapi#apiVersion": "2026-11-01"
       }
     },
     "com.azure.deviceregistry#NamespaceDiscoveredDeviceListResult": {
@@ -3411,7 +4383,7 @@
         "smithy.api#documentation": "Resource tags."
       }
     },
-    "com.azure.deviceregistry#ListNamespaceDiscoveredDeviceByResourceGroupRequest": {
+    "com.azure.deviceregistry#ListNamespaceDiscoveredDeviceByNamespaceRequest": {
       "type": "structure",
       "members": {
         "subscriptionId": {
@@ -3456,10 +4428,10 @@
           "method": "DELETE",
           "uri": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DeviceRegistry/namespaces/{namespaceName}/discoveredAssets/{discoveredAssetName}",
           "code": 200,
-          "apiVersion": "2026-04-01"
+          "apiVersion": "2026-11-01"
         },
         "smithy.api#documentation": "Delete a NamespaceDiscoveredAsset",
-        "com.distilled.openapi#apiVersion": "2026-04-01"
+        "com.distilled.openapi#apiVersion": "2026-11-01"
       }
     },
     "com.azure.deviceregistry#DeleteNamespaceDiscoveredAssetRequest": {
@@ -3515,10 +4487,10 @@
           "method": "PATCH",
           "uri": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DeviceRegistry/namespaces/{namespaceName}/discoveredAssets/{discoveredAssetName}",
           "code": 200,
-          "apiVersion": "2026-04-01"
+          "apiVersion": "2026-11-01"
         },
         "smithy.api#documentation": "Update a NamespaceDiscoveredAsset",
-        "com.distilled.openapi#apiVersion": "2026-04-01"
+        "com.distilled.openapi#apiVersion": "2026-11-01"
       }
     },
     "com.azure.deviceregistry#UpdateNamespaceDiscoveredAssetResponse": {
@@ -4756,10 +5728,10 @@
           "method": "PUT",
           "uri": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DeviceRegistry/namespaces/{namespaceName}/discoveredAssets/{discoveredAssetName}",
           "code": 200,
-          "apiVersion": "2026-04-01"
+          "apiVersion": "2026-11-01"
         },
         "smithy.api#documentation": "Create a NamespaceDiscoveredAsset",
-        "com.distilled.openapi#apiVersion": "2026-04-01"
+        "com.distilled.openapi#apiVersion": "2026-11-01"
       }
     },
     "com.azure.deviceregistry#NamespaceDiscoveredAssetsCreateOrReplaceResponse": {
@@ -5180,10 +6152,10 @@
           "method": "GET",
           "uri": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DeviceRegistry/namespaces/{namespaceName}/discoveredAssets/{discoveredAssetName}",
           "code": 200,
-          "apiVersion": "2026-04-01"
+          "apiVersion": "2026-11-01"
         },
         "smithy.api#documentation": "Get a NamespaceDiscoveredAsset",
-        "com.distilled.openapi#apiVersion": "2026-04-01"
+        "com.distilled.openapi#apiVersion": "2026-11-01"
       }
     },
     "com.azure.deviceregistry#GetNamespaceDiscoveredAssetResponse": {
@@ -5296,10 +6268,10 @@
         "smithy.api#input": {}
       }
     },
-    "com.azure.deviceregistry#ListNamespaceDiscoveredAssetByResourceGroup": {
+    "com.azure.deviceregistry#ListNamespaceDiscoveredAssetByNamespace": {
       "type": "operation",
       "input": {
-        "target": "com.azure.deviceregistry#ListNamespaceDiscoveredAssetByResourceGroupRequest"
+        "target": "com.azure.deviceregistry#ListNamespaceDiscoveredAssetByNamespaceRequest"
       },
       "output": {
         "target": "com.azure.deviceregistry#NamespaceDiscoveredAssetListResult"
@@ -5309,10 +6281,10 @@
           "method": "GET",
           "uri": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DeviceRegistry/namespaces/{namespaceName}/discoveredAssets",
           "code": 200,
-          "apiVersion": "2026-04-01"
+          "apiVersion": "2026-11-01"
         },
         "smithy.api#documentation": "List NamespaceDiscoveredAsset resources by Namespace",
-        "com.distilled.openapi#apiVersion": "2026-04-01"
+        "com.distilled.openapi#apiVersion": "2026-11-01"
       }
     },
     "com.azure.deviceregistry#NamespaceDiscoveredAssetListResult": {
@@ -5415,7 +6387,7 @@
         "smithy.api#documentation": "Resource tags."
       }
     },
-    "com.azure.deviceregistry#ListNamespaceDiscoveredAssetByResourceGroupRequest": {
+    "com.azure.deviceregistry#ListNamespaceDiscoveredAssetByNamespaceRequest": {
       "type": "structure",
       "members": {
         "subscriptionId": {
@@ -5460,10 +6432,10 @@
           "method": "DELETE",
           "uri": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DeviceRegistry/namespaces/{namespaceName}/devices/{deviceName}",
           "code": 200,
-          "apiVersion": "2026-04-01"
+          "apiVersion": "2026-11-01"
         },
         "smithy.api#documentation": "Delete a NamespaceDevice",
-        "com.distilled.openapi#apiVersion": "2026-04-01"
+        "com.distilled.openapi#apiVersion": "2026-11-01"
       }
     },
     "com.azure.deviceregistry#DeleteNamespaceDeviceRequest": {
@@ -5519,10 +6491,10 @@
           "method": "PATCH",
           "uri": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DeviceRegistry/namespaces/{namespaceName}/devices/{deviceName}",
           "code": 200,
-          "apiVersion": "2026-04-01"
+          "apiVersion": "2026-11-01"
         },
         "smithy.api#documentation": "Update a NamespaceDevice",
-        "com.distilled.openapi#apiVersion": "2026-04-01"
+        "com.distilled.openapi#apiVersion": "2026-11-01"
       }
     },
     "com.azure.deviceregistry#UpdateNamespaceDeviceResponse": {
@@ -6481,10 +7453,10 @@
           "method": "PUT",
           "uri": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DeviceRegistry/namespaces/{namespaceName}/devices/{deviceName}",
           "code": 200,
-          "apiVersion": "2026-04-01"
+          "apiVersion": "2026-11-01"
         },
         "smithy.api#documentation": "Create a NamespaceDevice",
-        "com.distilled.openapi#apiVersion": "2026-04-01"
+        "com.distilled.openapi#apiVersion": "2026-11-01"
       }
     },
     "com.azure.deviceregistry#NamespaceDevicesCreateOrReplaceResponse": {
@@ -6726,10 +7698,10 @@
           "method": "GET",
           "uri": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DeviceRegistry/namespaces/{namespaceName}/devices/{deviceName}",
           "code": 200,
-          "apiVersion": "2026-04-01"
+          "apiVersion": "2026-11-01"
         },
         "smithy.api#documentation": "Get a NamespaceDevice",
-        "com.distilled.openapi#apiVersion": "2026-04-01"
+        "com.distilled.openapi#apiVersion": "2026-11-01"
       }
     },
     "com.azure.deviceregistry#GetNamespaceDeviceResponse": {
@@ -6847,10 +7819,10 @@
         "smithy.api#input": {}
       }
     },
-    "com.azure.deviceregistry#ListNamespaceDeviceByResourceGroup": {
+    "com.azure.deviceregistry#ListNamespaceDeviceByNamespace": {
       "type": "operation",
       "input": {
-        "target": "com.azure.deviceregistry#ListNamespaceDeviceByResourceGroupRequest"
+        "target": "com.azure.deviceregistry#ListNamespaceDeviceByNamespaceRequest"
       },
       "output": {
         "target": "com.azure.deviceregistry#NamespaceDeviceListResult"
@@ -6860,10 +7832,10 @@
           "method": "GET",
           "uri": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DeviceRegistry/namespaces/{namespaceName}/devices",
           "code": 200,
-          "apiVersion": "2026-04-01"
+          "apiVersion": "2026-11-01"
         },
         "smithy.api#documentation": "List NamespaceDevice resources by Namespace",
-        "com.distilled.openapi#apiVersion": "2026-04-01"
+        "com.distilled.openapi#apiVersion": "2026-11-01"
       }
     },
     "com.azure.deviceregistry#NamespaceDeviceListResult": {
@@ -6971,7 +7943,1462 @@
         "smithy.api#documentation": "Resource tags."
       }
     },
-    "com.azure.deviceregistry#ListNamespaceDeviceByResourceGroupRequest": {
+    "com.azure.deviceregistry#ListNamespaceDeviceByNamespaceRequest": {
+      "type": "structure",
+      "members": {
+        "subscriptionId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The ID of the target subscription. The value must be an UUID."
+          }
+        },
+        "resourceGroupName": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The name of the resource group. The name is case insensitive."
+          }
+        },
+        "namespaceName": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The name of the namespace."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.azure.deviceregistry#CertificateAuthoritiesRevokeAndRotate": {
+      "type": "operation",
+      "input": {
+        "target": "com.azure.deviceregistry#CertificateAuthoritiesRevokeAndRotateRequest"
+      },
+      "output": {
+        "target": "smithy.api#Unit"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DeviceRegistry/namespaces/{namespaceName}/certificateAuthorities/{certificateAuthorityName}/revokeAndRotate",
+          "code": 200,
+          "apiVersion": "2026-11-01"
+        },
+        "smithy.api#documentation": "Revokes a Certificate Authority of type `ICA` and issuer type `Microsoft`. If the Certificate Authority is an invalid type, the API responds with HTTP 400.",
+        "com.distilled.openapi#apiVersion": "2026-11-01"
+      }
+    },
+    "com.azure.deviceregistry#CertificateAuthoritiesRevokeAndRotateRequest": {
+      "type": "structure",
+      "members": {
+        "subscriptionId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The ID of the target subscription. The value must be an UUID."
+          }
+        },
+        "resourceGroupName": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The name of the resource group. The name is case insensitive."
+          }
+        },
+        "namespaceName": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The name of the namespace."
+          }
+        },
+        "certificateAuthorityName": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The name of the Certificate Authority resource."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.azure.deviceregistry#DeleteCertificatePolicy": {
+      "type": "operation",
+      "input": {
+        "target": "com.azure.deviceregistry#DeleteCertificatePolicyRequest"
+      },
+      "output": {
+        "target": "smithy.api#Unit"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "DELETE",
+          "uri": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DeviceRegistry/namespaces/{namespaceName}/certificateAuthorities/{certificateAuthorityName}/certificatePolicies/{certificatePolicyName}",
+          "code": 200,
+          "apiVersion": "2026-11-01"
+        },
+        "smithy.api#documentation": "Delete a CertificatePolicy",
+        "com.distilled.openapi#apiVersion": "2026-11-01"
+      }
+    },
+    "com.azure.deviceregistry#DeleteCertificatePolicyRequest": {
+      "type": "structure",
+      "members": {
+        "subscriptionId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The ID of the target subscription. The value must be an UUID."
+          }
+        },
+        "resourceGroupName": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The name of the resource group. The name is case insensitive."
+          }
+        },
+        "namespaceName": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The name of the namespace."
+          }
+        },
+        "certificateAuthorityName": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The name of the Certificate Authority resource."
+          }
+        },
+        "certificatePolicyName": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The name of the Certificate Policy resource."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.azure.deviceregistry#UpdateCertificatePolicy": {
+      "type": "operation",
+      "input": {
+        "target": "com.azure.deviceregistry#UpdateCertificatePolicyRequest"
+      },
+      "output": {
+        "target": "com.azure.deviceregistry#UpdateCertificatePolicyResponse"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "PATCH",
+          "uri": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DeviceRegistry/namespaces/{namespaceName}/certificateAuthorities/{certificateAuthorityName}/certificatePolicies/{certificatePolicyName}",
+          "code": 200,
+          "apiVersion": "2026-11-01"
+        },
+        "smithy.api#documentation": "Update a CertificatePolicy",
+        "com.distilled.openapi#apiVersion": "2026-11-01"
+      }
+    },
+    "com.azure.deviceregistry#UpdateCertificatePolicyResponse": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Fully qualified resource ID for the resource. E.g. \"/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}\""
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The name of the resource"
+          }
+        },
+        "type": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The type of the resource. E.g. \"Microsoft.Compute/virtualMachines\" or \"Microsoft.Storage/storageAccounts\""
+          }
+        },
+        "systemData": {
+          "target": "com.azure.deviceregistry#SystemData",
+          "traits": {
+            "smithy.api#documentation": "Azure Resource Manager metadata containing createdBy and modifiedBy information."
+          }
+        },
+        "properties": {
+          "target": "com.azure.deviceregistry#CertificatePolicyProperties",
+          "traits": {
+            "smithy.api#documentation": "The resource-specific properties for this resource."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
+      }
+    },
+    "com.azure.deviceregistry#CertificatePolicyProperties": {
+      "type": "structure",
+      "members": {
+        "provisioningState": {
+          "target": "com.azure.deviceregistry#ProvisioningState",
+          "traits": {
+            "smithy.api#documentation": "The status of the last operation."
+          }
+        },
+        "uuid": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Globally unique, immutable, non-reusable identifier of the Certificate Policy resource."
+          }
+        },
+        "certificate": {
+          "target": "com.azure.deviceregistry#CertificatePolicyConfiguration",
+          "traits": {
+            "smithy.api#documentation": "The certificate configuration."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Details of the Certificate Policy resource."
+      }
+    },
+    "com.azure.deviceregistry#CertificatePolicyConfiguration": {
+      "type": "structure",
+      "members": {
+        "validityPeriodInDays": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "The validity period in days.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The Certificate Policy certificate configuration."
+      }
+    },
+    "com.azure.deviceregistry#UpdateCertificatePolicyRequest": {
+      "type": "structure",
+      "members": {
+        "subscriptionId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The ID of the target subscription. The value must be an UUID."
+          }
+        },
+        "resourceGroupName": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The name of the resource group. The name is case insensitive."
+          }
+        },
+        "namespaceName": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The name of the namespace."
+          }
+        },
+        "certificateAuthorityName": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The name of the Certificate Authority resource."
+          }
+        },
+        "certificatePolicyName": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The name of the Certificate Policy resource."
+          }
+        },
+        "properties": {
+          "target": "com.azure.deviceregistry#CertificatePolicyUpdateProperties",
+          "traits": {
+            "smithy.api#documentation": "The resource-specific properties for this resource."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.azure.deviceregistry#CertificatePolicyUpdateProperties": {
+      "type": "structure",
+      "members": {
+        "certificate": {
+          "target": "com.azure.deviceregistry#CertificatePolicyUpdatePropertiesCertificate",
+          "traits": {
+            "smithy.api#documentation": "The certificate configuration."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The updatable properties of the CertificatePolicy."
+      }
+    },
+    "com.azure.deviceregistry#CertificatePolicyUpdatePropertiesCertificate": {
+      "type": "structure",
+      "members": {
+        "validityPeriodInDays": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "The validity period in days."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The certificate configuration."
+      }
+    },
+    "com.azure.deviceregistry#CertificatePoliciesCreateOrReplace": {
+      "type": "operation",
+      "input": {
+        "target": "com.azure.deviceregistry#CertificatePoliciesCreateOrReplaceRequest"
+      },
+      "output": {
+        "target": "com.azure.deviceregistry#CertificatePoliciesCreateOrReplaceResponse"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "PUT",
+          "uri": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DeviceRegistry/namespaces/{namespaceName}/certificateAuthorities/{certificateAuthorityName}/certificatePolicies/{certificatePolicyName}",
+          "code": 200,
+          "apiVersion": "2026-11-01"
+        },
+        "smithy.api#documentation": "Create a CertificatePolicy",
+        "com.distilled.openapi#apiVersion": "2026-11-01"
+      }
+    },
+    "com.azure.deviceregistry#CertificatePoliciesCreateOrReplaceResponse": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Fully qualified resource ID for the resource. E.g. \"/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}\""
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The name of the resource"
+          }
+        },
+        "type": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The type of the resource. E.g. \"Microsoft.Compute/virtualMachines\" or \"Microsoft.Storage/storageAccounts\""
+          }
+        },
+        "systemData": {
+          "target": "com.azure.deviceregistry#SystemData",
+          "traits": {
+            "smithy.api#documentation": "Azure Resource Manager metadata containing createdBy and modifiedBy information."
+          }
+        },
+        "properties": {
+          "target": "com.azure.deviceregistry#CertificatePolicyProperties",
+          "traits": {
+            "smithy.api#documentation": "The resource-specific properties for this resource."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
+      }
+    },
+    "com.azure.deviceregistry#CertificatePoliciesCreateOrReplaceRequest": {
+      "type": "structure",
+      "members": {
+        "subscriptionId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The ID of the target subscription. The value must be an UUID."
+          }
+        },
+        "resourceGroupName": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The name of the resource group. The name is case insensitive."
+          }
+        },
+        "namespaceName": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The name of the namespace."
+          }
+        },
+        "certificateAuthorityName": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The name of the Certificate Authority resource."
+          }
+        },
+        "certificatePolicyName": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The name of the Certificate Policy resource."
+          }
+        },
+        "properties": {
+          "target": "com.azure.deviceregistry#CertificatePolicyPropertiesInput",
+          "traits": {
+            "smithy.api#documentation": "The resource-specific properties for this resource."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.azure.deviceregistry#CertificatePolicyPropertiesInput": {
+      "type": "structure",
+      "members": {
+        "certificate": {
+          "target": "com.azure.deviceregistry#CertificatePolicyConfiguration",
+          "traits": {
+            "smithy.api#documentation": "The certificate configuration."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Details of the Certificate Policy resource."
+      }
+    },
+    "com.azure.deviceregistry#GetCertificatePolicy": {
+      "type": "operation",
+      "input": {
+        "target": "com.azure.deviceregistry#GetCertificatePolicyRequest"
+      },
+      "output": {
+        "target": "com.azure.deviceregistry#GetCertificatePolicyResponse"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DeviceRegistry/namespaces/{namespaceName}/certificateAuthorities/{certificateAuthorityName}/certificatePolicies/{certificatePolicyName}",
+          "code": 200,
+          "apiVersion": "2026-11-01"
+        },
+        "smithy.api#documentation": "Get a CertificatePolicy",
+        "com.distilled.openapi#apiVersion": "2026-11-01"
+      }
+    },
+    "com.azure.deviceregistry#GetCertificatePolicyResponse": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Fully qualified resource ID for the resource. E.g. \"/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}\""
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The name of the resource"
+          }
+        },
+        "type": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The type of the resource. E.g. \"Microsoft.Compute/virtualMachines\" or \"Microsoft.Storage/storageAccounts\""
+          }
+        },
+        "systemData": {
+          "target": "com.azure.deviceregistry#SystemData",
+          "traits": {
+            "smithy.api#documentation": "Azure Resource Manager metadata containing createdBy and modifiedBy information."
+          }
+        },
+        "properties": {
+          "target": "com.azure.deviceregistry#CertificatePolicyProperties",
+          "traits": {
+            "smithy.api#documentation": "The resource-specific properties for this resource."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
+      }
+    },
+    "com.azure.deviceregistry#GetCertificatePolicyRequest": {
+      "type": "structure",
+      "members": {
+        "subscriptionId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The ID of the target subscription. The value must be an UUID."
+          }
+        },
+        "resourceGroupName": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The name of the resource group. The name is case insensitive."
+          }
+        },
+        "namespaceName": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The name of the namespace."
+          }
+        },
+        "certificateAuthorityName": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The name of the Certificate Authority resource."
+          }
+        },
+        "certificatePolicyName": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The name of the Certificate Policy resource."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.azure.deviceregistry#ListCertificatePolicyByCertificateAuthority": {
+      "type": "operation",
+      "input": {
+        "target": "com.azure.deviceregistry#ListCertificatePolicyByCertificateAuthorityRequest"
+      },
+      "output": {
+        "target": "com.azure.deviceregistry#CertificatePolicyListResult"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DeviceRegistry/namespaces/{namespaceName}/certificateAuthorities/{certificateAuthorityName}/certificatePolicies",
+          "code": 200,
+          "apiVersion": "2026-11-01"
+        },
+        "smithy.api#documentation": "List CertificatePolicy resources by CertificateAuthority",
+        "com.distilled.openapi#apiVersion": "2026-11-01"
+      }
+    },
+    "com.azure.deviceregistry#CertificatePolicyListResult": {
+      "type": "structure",
+      "members": {
+        "value": {
+          "target": "com.azure.deviceregistry#CertificatePolicyListResultValueList",
+          "traits": {
+            "smithy.api#documentation": "The CertificatePolicy items on this page",
+            "smithy.api#required": {}
+          }
+        },
+        "nextLink": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The link to the next page of items"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The response of a CertificatePolicy list operation."
+      }
+    },
+    "com.azure.deviceregistry#CertificatePolicyListResultValueList": {
+      "type": "list",
+      "member": {
+        "target": "com.azure.deviceregistry#CertificatePolicy"
+      },
+      "traits": {
+        "smithy.api#documentation": "The CertificatePolicy items on this page"
+      }
+    },
+    "com.azure.deviceregistry#CertificatePolicy": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Fully qualified resource ID for the resource. E.g. \"/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}\""
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The name of the resource"
+          }
+        },
+        "type": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The type of the resource. E.g. \"Microsoft.Compute/virtualMachines\" or \"Microsoft.Storage/storageAccounts\""
+          }
+        },
+        "systemData": {
+          "target": "com.azure.deviceregistry#SystemData",
+          "traits": {
+            "smithy.api#documentation": "Azure Resource Manager metadata containing createdBy and modifiedBy information."
+          }
+        },
+        "properties": {
+          "target": "com.azure.deviceregistry#CertificatePolicyProperties",
+          "traits": {
+            "smithy.api#documentation": "The resource-specific properties for this resource."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "A Certificate Policy resource."
+      }
+    },
+    "com.azure.deviceregistry#ListCertificatePolicyByCertificateAuthorityRequest": {
+      "type": "structure",
+      "members": {
+        "subscriptionId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The ID of the target subscription. The value must be an UUID."
+          }
+        },
+        "resourceGroupName": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The name of the resource group. The name is case insensitive."
+          }
+        },
+        "namespaceName": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The name of the namespace."
+          }
+        },
+        "certificateAuthorityName": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The name of the Certificate Authority resource."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.azure.deviceregistry#ActivateCertificateAuthority": {
+      "type": "operation",
+      "input": {
+        "target": "com.azure.deviceregistry#ActivateCertificateAuthorityRequest"
+      },
+      "output": {
+        "target": "smithy.api#Unit"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DeviceRegistry/namespaces/{namespaceName}/certificateAuthorities/{certificateAuthorityName}/activate",
+          "code": 200,
+          "apiVersion": "2026-11-01"
+        },
+        "smithy.api#documentation": "Activates a Certificate Authority of type `ICA` and issuer type `External`. If the Certificate Authority is an invalid type, the API responds with HTTP 400.",
+        "com.distilled.openapi#apiVersion": "2026-11-01"
+      }
+    },
+    "com.azure.deviceregistry#ActivateCertificateAuthorityRequest": {
+      "type": "structure",
+      "members": {
+        "subscriptionId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The ID of the target subscription. The value must be an UUID."
+          }
+        },
+        "resourceGroupName": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The name of the resource group. The name is case insensitive."
+          }
+        },
+        "namespaceName": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The name of the namespace."
+          }
+        },
+        "certificateAuthorityName": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The name of the Certificate Authority resource."
+          }
+        },
+        "certificateChain": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Certificate chain in PEM format for activating an externally issued intermediate Certificate Authority, including the signed certificate. The first certificate must be the signed certificate matching the CSR generated by the service, followed by any intermediate CAs, and optionally the root CA. Certificates must be ordered from leaf to root and concatenated in PEM format.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.azure.deviceregistry#DeleteCertificateAuthority": {
+      "type": "operation",
+      "input": {
+        "target": "com.azure.deviceregistry#DeleteCertificateAuthorityRequest"
+      },
+      "output": {
+        "target": "smithy.api#Unit"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "DELETE",
+          "uri": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DeviceRegistry/namespaces/{namespaceName}/certificateAuthorities/{certificateAuthorityName}",
+          "code": 200,
+          "apiVersion": "2026-11-01"
+        },
+        "smithy.api#documentation": "Delete a CertificateAuthority",
+        "com.distilled.openapi#apiVersion": "2026-11-01"
+      }
+    },
+    "com.azure.deviceregistry#DeleteCertificateAuthorityRequest": {
+      "type": "structure",
+      "members": {
+        "subscriptionId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The ID of the target subscription. The value must be an UUID."
+          }
+        },
+        "resourceGroupName": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The name of the resource group. The name is case insensitive."
+          }
+        },
+        "namespaceName": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The name of the namespace."
+          }
+        },
+        "certificateAuthorityName": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The name of the Certificate Authority resource."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.azure.deviceregistry#UpdateCertificateAuthority": {
+      "type": "operation",
+      "input": {
+        "target": "com.azure.deviceregistry#UpdateCertificateAuthorityRequest"
+      },
+      "output": {
+        "target": "com.azure.deviceregistry#UpdateCertificateAuthorityResponse"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "PATCH",
+          "uri": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DeviceRegistry/namespaces/{namespaceName}/certificateAuthorities/{certificateAuthorityName}",
+          "code": 200,
+          "apiVersion": "2026-11-01"
+        },
+        "smithy.api#documentation": "Update a CertificateAuthority",
+        "com.distilled.openapi#apiVersion": "2026-11-01"
+      }
+    },
+    "com.azure.deviceregistry#UpdateCertificateAuthorityResponse": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Fully qualified resource ID for the resource. E.g. \"/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}\""
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The name of the resource"
+          }
+        },
+        "type": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The type of the resource. E.g. \"Microsoft.Compute/virtualMachines\" or \"Microsoft.Storage/storageAccounts\""
+          }
+        },
+        "systemData": {
+          "target": "com.azure.deviceregistry#SystemData",
+          "traits": {
+            "smithy.api#documentation": "Azure Resource Manager metadata containing createdBy and modifiedBy information."
+          }
+        },
+        "tags": {
+          "target": "com.azure.deviceregistry#UpdateCertificateAuthorityResponseTagsMap",
+          "traits": {
+            "smithy.api#documentation": "Resource tags."
+          }
+        },
+        "location": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The geo-location where the resource lives",
+            "smithy.api#required": {}
+          }
+        },
+        "properties": {
+          "target": "com.azure.deviceregistry#CertificateAuthorityProperties",
+          "traits": {
+            "smithy.api#documentation": "The resource-specific properties for this resource."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
+      }
+    },
+    "com.azure.deviceregistry#CertificateAuthorityProperties": {
+      "type": "structure",
+      "members": {
+        "provisioningState": {
+          "target": "com.azure.deviceregistry#ProvisioningState",
+          "traits": {
+            "smithy.api#documentation": "The status of the last operation."
+          }
+        },
+        "uuid": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Globally unique, immutable, non-reusable identifier of the Certificate Authority resource."
+          }
+        },
+        "certificateAuthorityType": {
+          "target": "com.azure.deviceregistry#CertificateAuthorityType",
+          "traits": {
+            "smithy.api#documentation": "The Certificate Authority type. Use Root for a self-signed, service-managed root CA, and ICA for an intermediate CA.",
+            "smithy.api#required": {}
+          }
+        },
+        "keyType": {
+          "target": "com.azure.deviceregistry#CertificateAuthorityKeyType",
+          "traits": {
+            "smithy.api#documentation": "Crypto type: ECC.",
+            "smithy.api#required": {}
+          }
+        },
+        "subject": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Certificate subject."
+          }
+        },
+        "validityNotBefore": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Certificate is valid not before this date. Format ISO8601."
+          }
+        },
+        "validityNotAfter": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Certificate is valid not after this date. Format ISO8601."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Details of the Certificate Authority resource."
+      }
+    },
+    "com.azure.deviceregistry#CertificateAuthorityKeyType": {
+      "type": "enum",
+      "members": {
+        "ECC": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "ECC"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Supported Certificate Authority key types."
+      }
+    },
+    "com.azure.deviceregistry#CertificateAuthorityType": {
+      "type": "enum",
+      "members": {
+        "ROOT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "Root"
+          }
+        },
+        "ICA": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "ICA"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Supported Certificate Authority types."
+      }
+    },
+    "com.azure.deviceregistry#UpdateCertificateAuthorityResponseTagsMap": {
+      "type": "map",
+      "key": {
+        "target": "smithy.api#String"
+      },
+      "value": {
+        "target": "smithy.api#String"
+      },
+      "traits": {
+        "smithy.api#documentation": "Resource tags."
+      }
+    },
+    "com.azure.deviceregistry#UpdateCertificateAuthorityRequest": {
+      "type": "structure",
+      "members": {
+        "subscriptionId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The ID of the target subscription. The value must be an UUID."
+          }
+        },
+        "resourceGroupName": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The name of the resource group. The name is case insensitive."
+          }
+        },
+        "namespaceName": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The name of the namespace."
+          }
+        },
+        "certificateAuthorityName": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The name of the Certificate Authority resource."
+          }
+        },
+        "tags": {
+          "target": "com.azure.deviceregistry#UpdateCertificateAuthorityRequestTagsMap",
+          "traits": {
+            "smithy.api#documentation": "Resource tags."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.azure.deviceregistry#UpdateCertificateAuthorityRequestTagsMap": {
+      "type": "map",
+      "key": {
+        "target": "smithy.api#String"
+      },
+      "value": {
+        "target": "smithy.api#String"
+      },
+      "traits": {
+        "smithy.api#documentation": "Resource tags."
+      }
+    },
+    "com.azure.deviceregistry#CertificateAuthoritiesCreateOrReplace": {
+      "type": "operation",
+      "input": {
+        "target": "com.azure.deviceregistry#CertificateAuthoritiesCreateOrReplaceRequest"
+      },
+      "output": {
+        "target": "com.azure.deviceregistry#CertificateAuthoritiesCreateOrReplaceResponse"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "PUT",
+          "uri": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DeviceRegistry/namespaces/{namespaceName}/certificateAuthorities/{certificateAuthorityName}",
+          "code": 200,
+          "apiVersion": "2026-11-01"
+        },
+        "smithy.api#documentation": "Create a CertificateAuthority",
+        "com.distilled.openapi#apiVersion": "2026-11-01"
+      }
+    },
+    "com.azure.deviceregistry#CertificateAuthoritiesCreateOrReplaceResponse": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Fully qualified resource ID for the resource. E.g. \"/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}\""
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The name of the resource"
+          }
+        },
+        "type": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The type of the resource. E.g. \"Microsoft.Compute/virtualMachines\" or \"Microsoft.Storage/storageAccounts\""
+          }
+        },
+        "systemData": {
+          "target": "com.azure.deviceregistry#SystemData",
+          "traits": {
+            "smithy.api#documentation": "Azure Resource Manager metadata containing createdBy and modifiedBy information."
+          }
+        },
+        "tags": {
+          "target": "com.azure.deviceregistry#CertificateAuthoritiesCreateOrReplaceResponseTagsMap",
+          "traits": {
+            "smithy.api#documentation": "Resource tags."
+          }
+        },
+        "location": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The geo-location where the resource lives",
+            "smithy.api#required": {}
+          }
+        },
+        "properties": {
+          "target": "com.azure.deviceregistry#CertificateAuthorityProperties",
+          "traits": {
+            "smithy.api#documentation": "The resource-specific properties for this resource."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
+      }
+    },
+    "com.azure.deviceregistry#CertificateAuthoritiesCreateOrReplaceResponseTagsMap": {
+      "type": "map",
+      "key": {
+        "target": "smithy.api#String"
+      },
+      "value": {
+        "target": "smithy.api#String"
+      },
+      "traits": {
+        "smithy.api#documentation": "Resource tags."
+      }
+    },
+    "com.azure.deviceregistry#CertificateAuthoritiesCreateOrReplaceRequest": {
+      "type": "structure",
+      "members": {
+        "subscriptionId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The ID of the target subscription. The value must be an UUID."
+          }
+        },
+        "resourceGroupName": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The name of the resource group. The name is case insensitive."
+          }
+        },
+        "namespaceName": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The name of the namespace."
+          }
+        },
+        "certificateAuthorityName": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The name of the Certificate Authority resource."
+          }
+        },
+        "tags": {
+          "target": "com.azure.deviceregistry#CertificateAuthoritiesCreateOrReplaceRequestTagsMap",
+          "traits": {
+            "smithy.api#documentation": "Resource tags."
+          }
+        },
+        "location": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The geo-location where the resource lives",
+            "smithy.api#required": {}
+          }
+        },
+        "properties": {
+          "target": "com.azure.deviceregistry#CertificateAuthorityPropertiesInput",
+          "traits": {
+            "smithy.api#documentation": "The resource-specific properties for this resource."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.azure.deviceregistry#CertificateAuthorityPropertiesInput": {
+      "type": "structure",
+      "members": {
+        "certificateAuthorityType": {
+          "target": "com.azure.deviceregistry#CertificateAuthorityType",
+          "traits": {
+            "smithy.api#documentation": "The Certificate Authority type. Use Root for a self-signed, service-managed root CA, and ICA for an intermediate CA.",
+            "smithy.api#required": {}
+          }
+        },
+        "keyType": {
+          "target": "com.azure.deviceregistry#CertificateAuthorityKeyType",
+          "traits": {
+            "smithy.api#documentation": "Crypto type: ECC.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Details of the Certificate Authority resource."
+      }
+    },
+    "com.azure.deviceregistry#CertificateAuthoritiesCreateOrReplaceRequestTagsMap": {
+      "type": "map",
+      "key": {
+        "target": "smithy.api#String"
+      },
+      "value": {
+        "target": "smithy.api#String"
+      },
+      "traits": {
+        "smithy.api#documentation": "Resource tags."
+      }
+    },
+    "com.azure.deviceregistry#GetCertificateAuthority": {
+      "type": "operation",
+      "input": {
+        "target": "com.azure.deviceregistry#GetCertificateAuthorityRequest"
+      },
+      "output": {
+        "target": "com.azure.deviceregistry#GetCertificateAuthorityResponse"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DeviceRegistry/namespaces/{namespaceName}/certificateAuthorities/{certificateAuthorityName}",
+          "code": 200,
+          "apiVersion": "2026-11-01"
+        },
+        "smithy.api#documentation": "Get a CertificateAuthority",
+        "com.distilled.openapi#apiVersion": "2026-11-01"
+      }
+    },
+    "com.azure.deviceregistry#GetCertificateAuthorityResponse": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Fully qualified resource ID for the resource. E.g. \"/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}\""
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The name of the resource"
+          }
+        },
+        "type": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The type of the resource. E.g. \"Microsoft.Compute/virtualMachines\" or \"Microsoft.Storage/storageAccounts\""
+          }
+        },
+        "systemData": {
+          "target": "com.azure.deviceregistry#SystemData",
+          "traits": {
+            "smithy.api#documentation": "Azure Resource Manager metadata containing createdBy and modifiedBy information."
+          }
+        },
+        "tags": {
+          "target": "com.azure.deviceregistry#GetCertificateAuthorityResponseTagsMap",
+          "traits": {
+            "smithy.api#documentation": "Resource tags."
+          }
+        },
+        "location": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The geo-location where the resource lives",
+            "smithy.api#required": {}
+          }
+        },
+        "properties": {
+          "target": "com.azure.deviceregistry#CertificateAuthorityProperties",
+          "traits": {
+            "smithy.api#documentation": "The resource-specific properties for this resource."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
+      }
+    },
+    "com.azure.deviceregistry#GetCertificateAuthorityResponseTagsMap": {
+      "type": "map",
+      "key": {
+        "target": "smithy.api#String"
+      },
+      "value": {
+        "target": "smithy.api#String"
+      },
+      "traits": {
+        "smithy.api#documentation": "Resource tags."
+      }
+    },
+    "com.azure.deviceregistry#GetCertificateAuthorityRequest": {
+      "type": "structure",
+      "members": {
+        "subscriptionId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The ID of the target subscription. The value must be an UUID."
+          }
+        },
+        "resourceGroupName": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The name of the resource group. The name is case insensitive."
+          }
+        },
+        "namespaceName": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The name of the namespace."
+          }
+        },
+        "certificateAuthorityName": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The name of the Certificate Authority resource."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.azure.deviceregistry#ListCertificateAuthorityByNamespace": {
+      "type": "operation",
+      "input": {
+        "target": "com.azure.deviceregistry#ListCertificateAuthorityByNamespaceRequest"
+      },
+      "output": {
+        "target": "com.azure.deviceregistry#CertificateAuthorityListResult"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DeviceRegistry/namespaces/{namespaceName}/certificateAuthorities",
+          "code": 200,
+          "apiVersion": "2026-11-01"
+        },
+        "smithy.api#documentation": "List CertificateAuthority resources by Namespace",
+        "com.distilled.openapi#apiVersion": "2026-11-01"
+      }
+    },
+    "com.azure.deviceregistry#CertificateAuthorityListResult": {
+      "type": "structure",
+      "members": {
+        "value": {
+          "target": "com.azure.deviceregistry#CertificateAuthorityListResultValueList",
+          "traits": {
+            "smithy.api#documentation": "The CertificateAuthority items on this page",
+            "smithy.api#required": {}
+          }
+        },
+        "nextLink": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The link to the next page of items"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The response of a CertificateAuthority list operation."
+      }
+    },
+    "com.azure.deviceregistry#CertificateAuthorityListResultValueList": {
+      "type": "list",
+      "member": {
+        "target": "com.azure.deviceregistry#CertificateAuthority"
+      },
+      "traits": {
+        "smithy.api#documentation": "The CertificateAuthority items on this page"
+      }
+    },
+    "com.azure.deviceregistry#CertificateAuthority": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Fully qualified resource ID for the resource. E.g. \"/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}\""
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The name of the resource"
+          }
+        },
+        "type": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The type of the resource. E.g. \"Microsoft.Compute/virtualMachines\" or \"Microsoft.Storage/storageAccounts\""
+          }
+        },
+        "systemData": {
+          "target": "com.azure.deviceregistry#SystemData",
+          "traits": {
+            "smithy.api#documentation": "Azure Resource Manager metadata containing createdBy and modifiedBy information."
+          }
+        },
+        "tags": {
+          "target": "com.azure.deviceregistry#CertificateAuthorityTagsMap",
+          "traits": {
+            "smithy.api#documentation": "Resource tags."
+          }
+        },
+        "location": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The geo-location where the resource lives",
+            "smithy.api#required": {}
+          }
+        },
+        "properties": {
+          "target": "com.azure.deviceregistry#CertificateAuthorityProperties",
+          "traits": {
+            "smithy.api#documentation": "The resource-specific properties for this resource."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "A Certificate Authority resource."
+      }
+    },
+    "com.azure.deviceregistry#CertificateAuthorityTagsMap": {
+      "type": "map",
+      "key": {
+        "target": "smithy.api#String"
+      },
+      "value": {
+        "target": "smithy.api#String"
+      },
+      "traits": {
+        "smithy.api#documentation": "Resource tags."
+      }
+    },
+    "com.azure.deviceregistry#ListCertificateAuthorityByNamespaceRequest": {
       "type": "structure",
       "members": {
         "subscriptionId": {
@@ -7016,10 +9443,10 @@
           "method": "POST",
           "uri": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DeviceRegistry/namespaces/{namespaceName}/assets/{assetName}/executeAction",
           "code": 200,
-          "apiVersion": "2026-04-01"
+          "apiVersion": "2026-11-01"
         },
         "smithy.api#documentation": "A long-running resource action.",
-        "com.distilled.openapi#apiVersion": "2026-04-01"
+        "com.distilled.openapi#apiVersion": "2026-11-01"
       }
     },
     "com.azure.deviceregistry#NamespaceAssetExecuteActionResponse": {
@@ -7187,10 +9614,10 @@
           "method": "DELETE",
           "uri": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DeviceRegistry/namespaces/{namespaceName}/assets/{assetName}",
           "code": 200,
-          "apiVersion": "2026-04-01"
+          "apiVersion": "2026-11-01"
         },
         "smithy.api#documentation": "Delete a NamespaceAsset",
-        "com.distilled.openapi#apiVersion": "2026-04-01"
+        "com.distilled.openapi#apiVersion": "2026-11-01"
       }
     },
     "com.azure.deviceregistry#DeleteNamespaceAssetRequest": {
@@ -7246,10 +9673,10 @@
           "method": "PATCH",
           "uri": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DeviceRegistry/namespaces/{namespaceName}/assets/{assetName}",
           "code": 200,
-          "apiVersion": "2026-04-01"
+          "apiVersion": "2026-11-01"
         },
         "smithy.api#documentation": "Update a NamespaceAsset",
-        "com.distilled.openapi#apiVersion": "2026-04-01"
+        "com.distilled.openapi#apiVersion": "2026-11-01"
       }
     },
     "com.azure.deviceregistry#UpdateNamespaceAssetResponse": {
@@ -8600,10 +11027,10 @@
           "method": "PUT",
           "uri": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DeviceRegistry/namespaces/{namespaceName}/assets/{assetName}",
           "code": 200,
-          "apiVersion": "2026-04-01"
+          "apiVersion": "2026-11-01"
         },
         "smithy.api#documentation": "Create a NamespaceAsset",
-        "com.distilled.openapi#apiVersion": "2026-04-01"
+        "com.distilled.openapi#apiVersion": "2026-11-01"
       }
     },
     "com.azure.deviceregistry#NamespaceAssetsCreateOrReplaceResponse": {
@@ -9031,10 +11458,10 @@
           "method": "GET",
           "uri": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DeviceRegistry/namespaces/{namespaceName}/assets/{assetName}",
           "code": 200,
-          "apiVersion": "2026-04-01"
+          "apiVersion": "2026-11-01"
         },
         "smithy.api#documentation": "Get a NamespaceAsset",
-        "com.distilled.openapi#apiVersion": "2026-04-01"
+        "com.distilled.openapi#apiVersion": "2026-11-01"
       }
     },
     "com.azure.deviceregistry#GetNamespaceAssetResponse": {
@@ -9147,10 +11574,10 @@
         "smithy.api#input": {}
       }
     },
-    "com.azure.deviceregistry#ListNamespaceAssetByResourceGroup": {
+    "com.azure.deviceregistry#ListNamespaceAssetByNamespace": {
       "type": "operation",
       "input": {
-        "target": "com.azure.deviceregistry#ListNamespaceAssetByResourceGroupRequest"
+        "target": "com.azure.deviceregistry#ListNamespaceAssetByNamespaceRequest"
       },
       "output": {
         "target": "com.azure.deviceregistry#NamespaceAssetListResult"
@@ -9160,10 +11587,10 @@
           "method": "GET",
           "uri": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DeviceRegistry/namespaces/{namespaceName}/assets",
           "code": 200,
-          "apiVersion": "2026-04-01"
+          "apiVersion": "2026-11-01"
         },
         "smithy.api#documentation": "List NamespaceAsset resources by Namespace",
-        "com.distilled.openapi#apiVersion": "2026-04-01"
+        "com.distilled.openapi#apiVersion": "2026-11-01"
       }
     },
     "com.azure.deviceregistry#NamespaceAssetListResult": {
@@ -9266,7 +11693,7 @@
         "smithy.api#documentation": "Resource tags."
       }
     },
-    "com.azure.deviceregistry#ListNamespaceAssetByResourceGroupRequest": {
+    "com.azure.deviceregistry#ListNamespaceAssetByNamespaceRequest": {
       "type": "structure",
       "members": {
         "subscriptionId": {
@@ -9311,10 +11738,10 @@
           "method": "DELETE",
           "uri": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DeviceRegistry/namespaces/{namespaceName}",
           "code": 200,
-          "apiVersion": "2026-04-01"
+          "apiVersion": "2026-11-01"
         },
         "smithy.api#documentation": "Delete a Namespace",
-        "com.distilled.openapi#apiVersion": "2026-04-01"
+        "com.distilled.openapi#apiVersion": "2026-11-01"
       }
     },
     "com.azure.deviceregistry#DeleteNamespaceRequest": {
@@ -9362,10 +11789,10 @@
           "method": "PATCH",
           "uri": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DeviceRegistry/namespaces/{namespaceName}",
           "code": 200,
-          "apiVersion": "2026-04-01"
+          "apiVersion": "2026-11-01"
         },
         "smithy.api#documentation": "Update a Namespace",
-        "com.distilled.openapi#apiVersion": "2026-04-01"
+        "com.distilled.openapi#apiVersion": "2026-11-01"
       }
     },
     "com.azure.deviceregistry#UpdateNamespaceResponse": {
@@ -9417,7 +11844,7 @@
         "identity": {
           "target": "com.azure.deviceregistry#UpdateNamespaceResponseIdentity",
           "traits": {
-            "smithy.api#documentation": "Managed service identity (either system assigned, or none)"
+            "smithy.api#documentation": "Managed service identity (system assigned and/or user assigned identities)"
           }
         }
       },
@@ -9441,14 +11868,17 @@
           }
         },
         "type": {
-          "target": "com.azure.deviceregistry#SystemAssignedServiceIdentityType",
+          "target": "com.azure.deviceregistry#ManagedServiceIdentityType",
           "traits": {
             "smithy.api#required": {}
           }
+        },
+        "userAssignedIdentities": {
+          "target": "com.azure.deviceregistry#UserAssignedIdentities"
         }
       },
       "traits": {
-        "smithy.api#documentation": "Managed service identity (either system assigned, or none)"
+        "smithy.api#documentation": "Managed service identity (system assigned and/or user assigned identities)"
       }
     },
     "com.azure.deviceregistry#NamespaceProperties": {
@@ -9472,6 +11902,18 @@
             "smithy.api#documentation": "Assigned and unassigned management endpoints."
           }
         },
+        "provisioning": {
+          "target": "com.azure.deviceregistry#NamespaceProvisioning",
+          "traits": {
+            "smithy.api#documentation": "The provisioning endpoints associated with this namespace."
+          }
+        },
+        "outboundIdentity": {
+          "target": "com.azure.deviceregistry#OutboundIdentity",
+          "traits": {
+            "smithy.api#documentation": "The identity used for outbound calls from the ADR namespace. If not specified and the namespace has a system-assigned identity enabled, the system-assigned identity is used by default."
+          }
+        },
         "provisioningState": {
           "target": "com.azure.deviceregistry#ProvisioningState",
           "traits": {
@@ -9481,6 +11923,174 @@
       },
       "traits": {
         "smithy.api#documentation": "The namespace properties model."
+      }
+    },
+    "com.azure.deviceregistry#NamespaceProvisioning": {
+      "type": "structure",
+      "members": {
+        "endpoints": {
+          "target": "com.azure.deviceregistry#NamespaceProvisioningEndpointsMap",
+          "traits": {
+            "smithy.api#documentation": "Dictionary of provisioning endpoints."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The provisioning endpoints associated with this namespace."
+      }
+    },
+    "com.azure.deviceregistry#NamespaceProvisioningEndpointsMap": {
+      "type": "map",
+      "key": {
+        "target": "smithy.api#String"
+      },
+      "value": {
+        "target": "com.azure.deviceregistry#ProvisioningEndpoint"
+      },
+      "traits": {
+        "smithy.api#documentation": "Dictionary of provisioning endpoints."
+      }
+    },
+    "com.azure.deviceregistry#ProvisioningEndpoint": {
+      "type": "structure",
+      "members": {
+        "endpointType": {
+          "target": "com.azure.deviceregistry#ProvisioningEndpointType",
+          "traits": {
+            "smithy.api#documentation": "Type of provisioning resource.",
+            "smithy.api#required": {}
+          }
+        },
+        "resourceId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The provisioning endpoint Azure resource Id.",
+            "smithy.api#required": {}
+          }
+        },
+        "inboundCallerIdentity": {
+          "target": "com.azure.deviceregistry#InboundCallerIdentity",
+          "traits": {
+            "smithy.api#documentation": "The identity the linked resource uses to call the ADR namespace.",
+            "smithy.api#required": {}
+          }
+        },
+        "linkingState": {
+          "target": "com.azure.deviceregistry#NamespaceLinkingStateValue",
+          "traits": {
+            "smithy.api#documentation": "The linking state of this provisioning endpoint."
+          }
+        },
+        "linkingError": {
+          "target": "com.azure.deviceregistry#NamespaceLinkingError",
+          "traits": {
+            "smithy.api#documentation": "The error detail surfaced when this provisioning endpoint is in the Failed linking state."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "A provisioning service endpoint linked to this namespace."
+      }
+    },
+    "com.azure.deviceregistry#NamespaceLinkingError": {
+      "type": "structure",
+      "members": {
+        "code": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Error code that classifies the linking failure."
+          }
+        },
+        "message": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Human-readable message describing the linking failure."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Error detail for an endpoint whose linking state is Failed. Present only while the linking state is Failed and removed when the endpoint recovers."
+      }
+    },
+    "com.azure.deviceregistry#NamespaceLinkingStateValue": {
+      "type": "enum",
+      "members": {
+        "INPROGRESS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "InProgress"
+          }
+        },
+        "SUCCEEDED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "Succeeded"
+          }
+        },
+        "FAILED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "Failed"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The linking state values for namespace endpoint entries."
+      }
+    },
+    "com.azure.deviceregistry#InboundCallerIdentity": {
+      "type": "structure",
+      "members": {
+        "type": {
+          "target": "com.azure.deviceregistry#InboundCallerIdentityType",
+          "traits": {
+            "smithy.api#documentation": "The identity type.",
+            "smithy.api#required": {}
+          }
+        },
+        "userAssignedIdentity": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The resource ID of the user-assigned managed identity. Required when type is UserAssigned."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The identity a linked resource uses for inbound calls to the ADR namespace."
+      }
+    },
+    "com.azure.deviceregistry#InboundCallerIdentityType": {
+      "type": "enum",
+      "members": {
+        "SYSTEMASSIGNED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "SystemAssigned"
+          }
+        },
+        "USERASSIGNED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "UserAssigned"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The type of identity used for inbound calls to the ADR namespace."
+      }
+    },
+    "com.azure.deviceregistry#ProvisioningEndpointType": {
+      "type": "enum",
+      "members": {
+        "MICROSOFT_DEVICES_PROVISIONINGSERVICES": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "Microsoft.Devices/provisioningServices"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The type of provisioning resource that can be linked to a namespace."
       }
     },
     "com.azure.deviceregistry#Management": {
@@ -9583,8 +12193,7 @@
         "address": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "The endpoint address to connect to.",
-            "smithy.api#required": {}
+            "smithy.api#documentation": "The endpoint address to connect to."
           }
         },
         "resourceId": {
@@ -9592,10 +12201,80 @@
           "traits": {
             "smithy.api#documentation": "The messaging endpoint Azure resource Id."
           }
+        },
+        "deviceAddress": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The endpoint address used by devices."
+          }
+        },
+        "inboundCallerIdentity": {
+          "target": "com.azure.deviceregistry#InboundCallerIdentity",
+          "traits": {
+            "smithy.api#documentation": "The identity the linked resource uses to call the ADR namespace."
+          }
+        },
+        "linkingState": {
+          "target": "com.azure.deviceregistry#NamespaceLinkingStateValue",
+          "traits": {
+            "smithy.api#documentation": "The linking state of this messaging endpoint."
+          }
+        },
+        "linkingError": {
+          "target": "com.azure.deviceregistry#NamespaceLinkingError",
+          "traits": {
+            "smithy.api#documentation": "The error detail surfaced when this messaging endpoint is in the Failed linking state."
+          }
+        },
+        "provisioning": {
+          "target": "com.azure.deviceregistry#MessagingEndpointProvisioning",
+          "traits": {
+            "smithy.api#documentation": "The provisioning configuration for this messaging endpoint."
+          }
         }
       },
       "traits": {
         "smithy.api#documentation": "Namespace messaging endpoint model used by a device to connect to a service."
+      }
+    },
+    "com.azure.deviceregistry#MessagingEndpointProvisioning": {
+      "type": "structure",
+      "members": {
+        "availability": {
+          "target": "com.azure.deviceregistry#MessagingEndpointAvailability",
+          "traits": {
+            "smithy.api#documentation": "The availability status of the messaging endpoint."
+          }
+        },
+        "allocationWeight": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "The allocation weight for this messaging endpoint."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The provisioning configuration for a messaging endpoint."
+      }
+    },
+    "com.azure.deviceregistry#MessagingEndpointAvailability": {
+      "type": "enum",
+      "members": {
+        "AVAILABLE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "Available"
+          }
+        },
+        "DISABLED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "Disabled"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The availability status of a messaging endpoint."
       }
     },
     "com.azure.deviceregistry#UpdateNamespaceResponseTagsMap": {
@@ -9640,7 +12319,7 @@
         "identity": {
           "target": "com.azure.deviceregistry#UpdateNamespaceRequestIdentity",
           "traits": {
-            "smithy.api#documentation": "Managed service identity (either system assigned, or none)"
+            "smithy.api#documentation": "Managed service identity (system assigned and/or user assigned identities)"
           }
         },
         "tags": {
@@ -9650,7 +12329,7 @@
           }
         },
         "properties": {
-          "target": "com.azure.deviceregistry#NamespaceUpdateProperties",
+          "target": "com.azure.deviceregistry#NamespaceUpdatePropertiesInput",
           "traits": {
             "smithy.api#documentation": "The resource-specific properties for this resource."
           }
@@ -9660,11 +12339,11 @@
         "smithy.api#input": {}
       }
     },
-    "com.azure.deviceregistry#NamespaceUpdateProperties": {
+    "com.azure.deviceregistry#NamespaceUpdatePropertiesInput": {
       "type": "structure",
       "members": {
         "messaging": {
-          "target": "com.azure.deviceregistry#Messaging",
+          "target": "com.azure.deviceregistry#MessagingInput",
           "traits": {
             "smithy.api#documentation": "Assigned and unassigned messaging endpoints."
           }
@@ -9674,10 +12353,141 @@
           "traits": {
             "smithy.api#documentation": "Assigned and unassigned management endpoints."
           }
+        },
+        "provisioning": {
+          "target": "com.azure.deviceregistry#NamespaceProvisioningInput",
+          "traits": {
+            "smithy.api#documentation": "The provisioning endpoints associated with this namespace."
+          }
+        },
+        "outboundIdentity": {
+          "target": "com.azure.deviceregistry#OutboundIdentity",
+          "traits": {
+            "smithy.api#documentation": "The identity used for outbound calls from the ADR namespace. If not specified and the namespace has a system-assigned identity enabled, the system-assigned identity is used by default."
+          }
         }
       },
       "traits": {
         "smithy.api#documentation": "The updatable properties of the Namespace."
+      }
+    },
+    "com.azure.deviceregistry#NamespaceProvisioningInput": {
+      "type": "structure",
+      "members": {
+        "endpoints": {
+          "target": "com.azure.deviceregistry#NamespaceProvisioningInputEndpointsMap",
+          "traits": {
+            "smithy.api#documentation": "Dictionary of provisioning endpoints."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The provisioning endpoints associated with this namespace."
+      }
+    },
+    "com.azure.deviceregistry#NamespaceProvisioningInputEndpointsMap": {
+      "type": "map",
+      "key": {
+        "target": "smithy.api#String"
+      },
+      "value": {
+        "target": "com.azure.deviceregistry#ProvisioningEndpointInput"
+      },
+      "traits": {
+        "smithy.api#documentation": "Dictionary of provisioning endpoints."
+      }
+    },
+    "com.azure.deviceregistry#ProvisioningEndpointInput": {
+      "type": "structure",
+      "members": {
+        "endpointType": {
+          "target": "com.azure.deviceregistry#ProvisioningEndpointType",
+          "traits": {
+            "smithy.api#documentation": "Type of provisioning resource.",
+            "smithy.api#required": {}
+          }
+        },
+        "resourceId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The provisioning endpoint Azure resource Id.",
+            "smithy.api#required": {}
+          }
+        },
+        "inboundCallerIdentity": {
+          "target": "com.azure.deviceregistry#InboundCallerIdentity",
+          "traits": {
+            "smithy.api#documentation": "The identity the linked resource uses to call the ADR namespace.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "A provisioning service endpoint linked to this namespace."
+      }
+    },
+    "com.azure.deviceregistry#MessagingInput": {
+      "type": "structure",
+      "members": {
+        "endpoints": {
+          "target": "com.azure.deviceregistry#MessagingInputEndpointsMap",
+          "traits": {
+            "smithy.api#documentation": "Dictionary of messaging endpoints."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The namespace messaging endpoints model."
+      }
+    },
+    "com.azure.deviceregistry#MessagingInputEndpointsMap": {
+      "type": "map",
+      "key": {
+        "target": "smithy.api#String"
+      },
+      "value": {
+        "target": "com.azure.deviceregistry#MessagingEndpointInput"
+      },
+      "traits": {
+        "smithy.api#documentation": "Dictionary of messaging endpoints."
+      }
+    },
+    "com.azure.deviceregistry#MessagingEndpointInput": {
+      "type": "structure",
+      "members": {
+        "endpointType": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Type of connection used for messaging endpoint."
+          }
+        },
+        "address": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The endpoint address to connect to."
+          }
+        },
+        "resourceId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The messaging endpoint Azure resource Id."
+          }
+        },
+        "inboundCallerIdentity": {
+          "target": "com.azure.deviceregistry#InboundCallerIdentity",
+          "traits": {
+            "smithy.api#documentation": "The identity the linked resource uses to call the ADR namespace."
+          }
+        },
+        "provisioning": {
+          "target": "com.azure.deviceregistry#MessagingEndpointProvisioning",
+          "traits": {
+            "smithy.api#documentation": "The provisioning configuration for this messaging endpoint."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Namespace messaging endpoint model used by a device to connect to a service."
       }
     },
     "com.azure.deviceregistry#UpdateNamespaceRequestTagsMap": {
@@ -9696,14 +12506,17 @@
       "type": "structure",
       "members": {
         "type": {
-          "target": "com.azure.deviceregistry#SystemAssignedServiceIdentityType",
+          "target": "com.azure.deviceregistry#ManagedServiceIdentityType",
           "traits": {
             "smithy.api#required": {}
           }
+        },
+        "userAssignedIdentities": {
+          "target": "com.azure.deviceregistry#UserAssignedIdentitiesInput"
         }
       },
       "traits": {
-        "smithy.api#documentation": "Managed service identity (either system assigned, or none)"
+        "smithy.api#documentation": "Managed service identity (system assigned and/or user assigned identities)"
       }
     },
     "com.azure.deviceregistry#NamespacesCreateOrReplace": {
@@ -9719,10 +12532,10 @@
           "method": "PUT",
           "uri": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DeviceRegistry/namespaces/{namespaceName}",
           "code": 200,
-          "apiVersion": "2026-04-01"
+          "apiVersion": "2026-11-01"
         },
         "smithy.api#documentation": "Create a Namespace",
-        "com.distilled.openapi#apiVersion": "2026-04-01"
+        "com.distilled.openapi#apiVersion": "2026-11-01"
       }
     },
     "com.azure.deviceregistry#NamespacesCreateOrReplaceResponse": {
@@ -9774,7 +12587,7 @@
         "identity": {
           "target": "com.azure.deviceregistry#NamespacesCreateOrReplaceResponseIdentity",
           "traits": {
-            "smithy.api#documentation": "Managed service identity (either system assigned, or none)"
+            "smithy.api#documentation": "Managed service identity (system assigned and/or user assigned identities)"
           }
         }
       },
@@ -9798,14 +12611,17 @@
           }
         },
         "type": {
-          "target": "com.azure.deviceregistry#SystemAssignedServiceIdentityType",
+          "target": "com.azure.deviceregistry#ManagedServiceIdentityType",
           "traits": {
             "smithy.api#required": {}
           }
+        },
+        "userAssignedIdentities": {
+          "target": "com.azure.deviceregistry#UserAssignedIdentities"
         }
       },
       "traits": {
-        "smithy.api#documentation": "Managed service identity (either system assigned, or none)"
+        "smithy.api#documentation": "Managed service identity (system assigned and/or user assigned identities)"
       }
     },
     "com.azure.deviceregistry#NamespacesCreateOrReplaceResponseTagsMap": {
@@ -9869,7 +12685,7 @@
         "identity": {
           "target": "com.azure.deviceregistry#NamespacesCreateOrReplaceRequestIdentity",
           "traits": {
-            "smithy.api#documentation": "Managed service identity (either system assigned, or none)"
+            "smithy.api#documentation": "Managed service identity (system assigned and/or user assigned identities)"
           }
         }
       },
@@ -9881,21 +12697,24 @@
       "type": "structure",
       "members": {
         "type": {
-          "target": "com.azure.deviceregistry#SystemAssignedServiceIdentityType",
+          "target": "com.azure.deviceregistry#ManagedServiceIdentityType",
           "traits": {
             "smithy.api#required": {}
           }
+        },
+        "userAssignedIdentities": {
+          "target": "com.azure.deviceregistry#UserAssignedIdentitiesInput"
         }
       },
       "traits": {
-        "smithy.api#documentation": "Managed service identity (either system assigned, or none)"
+        "smithy.api#documentation": "Managed service identity (system assigned and/or user assigned identities)"
       }
     },
     "com.azure.deviceregistry#NamespacePropertiesInput": {
       "type": "structure",
       "members": {
         "messaging": {
-          "target": "com.azure.deviceregistry#Messaging",
+          "target": "com.azure.deviceregistry#MessagingInput",
           "traits": {
             "smithy.api#documentation": "Assigned and unassigned messaging endpoints."
           }
@@ -9904,6 +12723,18 @@
           "target": "com.azure.deviceregistry#Management",
           "traits": {
             "smithy.api#documentation": "Assigned and unassigned management endpoints."
+          }
+        },
+        "provisioning": {
+          "target": "com.azure.deviceregistry#NamespaceProvisioningInput",
+          "traits": {
+            "smithy.api#documentation": "The provisioning endpoints associated with this namespace."
+          }
+        },
+        "outboundIdentity": {
+          "target": "com.azure.deviceregistry#OutboundIdentity",
+          "traits": {
+            "smithy.api#documentation": "The identity used for outbound calls from the ADR namespace. If not specified and the namespace has a system-assigned identity enabled, the system-assigned identity is used by default."
           }
         }
       },
@@ -9936,10 +12767,10 @@
           "method": "GET",
           "uri": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DeviceRegistry/namespaces/{namespaceName}",
           "code": 200,
-          "apiVersion": "2026-04-01"
+          "apiVersion": "2026-11-01"
         },
         "smithy.api#documentation": "Get a Namespace",
-        "com.distilled.openapi#apiVersion": "2026-04-01"
+        "com.distilled.openapi#apiVersion": "2026-11-01"
       }
     },
     "com.azure.deviceregistry#GetNamespaceResponse": {
@@ -9991,7 +12822,7 @@
         "identity": {
           "target": "com.azure.deviceregistry#GetNamespaceResponseIdentity",
           "traits": {
-            "smithy.api#documentation": "Managed service identity (either system assigned, or none)"
+            "smithy.api#documentation": "Managed service identity (system assigned and/or user assigned identities)"
           }
         }
       },
@@ -10015,14 +12846,17 @@
           }
         },
         "type": {
-          "target": "com.azure.deviceregistry#SystemAssignedServiceIdentityType",
+          "target": "com.azure.deviceregistry#ManagedServiceIdentityType",
           "traits": {
             "smithy.api#required": {}
           }
+        },
+        "userAssignedIdentities": {
+          "target": "com.azure.deviceregistry#UserAssignedIdentities"
         }
       },
       "traits": {
-        "smithy.api#documentation": "Managed service identity (either system assigned, or none)"
+        "smithy.api#documentation": "Managed service identity (system assigned and/or user assigned identities)"
       }
     },
     "com.azure.deviceregistry#GetNamespaceResponseTagsMap": {
@@ -10082,10 +12916,10 @@
           "method": "GET",
           "uri": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DeviceRegistry/namespaces",
           "code": 200,
-          "apiVersion": "2026-04-01"
+          "apiVersion": "2026-11-01"
         },
         "smithy.api#documentation": "List Namespace resources by resource group",
-        "com.distilled.openapi#apiVersion": "2026-04-01"
+        "com.distilled.openapi#apiVersion": "2026-11-01"
       }
     },
     "com.azure.deviceregistry#NamespaceListResult": {
@@ -10167,7 +13001,7 @@
         "identity": {
           "target": "com.azure.deviceregistry#NamespaceIdentity",
           "traits": {
-            "smithy.api#documentation": "Managed service identity (either system assigned, or none)"
+            "smithy.api#documentation": "Managed service identity (system assigned and/or user assigned identities)"
           }
         }
       },
@@ -10191,14 +13025,17 @@
           }
         },
         "type": {
-          "target": "com.azure.deviceregistry#SystemAssignedServiceIdentityType",
+          "target": "com.azure.deviceregistry#ManagedServiceIdentityType",
           "traits": {
             "smithy.api#required": {}
           }
+        },
+        "userAssignedIdentities": {
+          "target": "com.azure.deviceregistry#UserAssignedIdentities"
         }
       },
       "traits": {
-        "smithy.api#documentation": "Managed service identity (either system assigned, or none)"
+        "smithy.api#documentation": "Managed service identity (system assigned and/or user assigned identities)"
       }
     },
     "com.azure.deviceregistry#NamespaceTagsMap": {
@@ -10250,10 +13087,10 @@
           "method": "DELETE",
           "uri": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DeviceRegistry/assets/{assetName}",
           "code": 200,
-          "apiVersion": "2026-04-01"
+          "apiVersion": "2026-11-01"
         },
         "smithy.api#documentation": "Delete a Asset",
-        "com.distilled.openapi#apiVersion": "2026-04-01"
+        "com.distilled.openapi#apiVersion": "2026-11-01"
       }
     },
     "com.azure.deviceregistry#DeleteAssetRequest": {
@@ -10301,10 +13138,10 @@
           "method": "PATCH",
           "uri": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DeviceRegistry/assets/{assetName}",
           "code": 200,
-          "apiVersion": "2026-04-01"
+          "apiVersion": "2026-11-01"
         },
         "smithy.api#documentation": "Update a Asset",
-        "com.distilled.openapi#apiVersion": "2026-04-01"
+        "com.distilled.openapi#apiVersion": "2026-11-01"
       }
     },
     "com.azure.deviceregistry#UpdateAssetResponse": {
@@ -11183,10 +14020,10 @@
           "method": "PUT",
           "uri": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DeviceRegistry/assets/{assetName}",
           "code": 200,
-          "apiVersion": "2026-04-01"
+          "apiVersion": "2026-11-01"
         },
         "smithy.api#documentation": "Create a Asset",
-        "com.distilled.openapi#apiVersion": "2026-04-01"
+        "com.distilled.openapi#apiVersion": "2026-11-01"
       }
     },
     "com.azure.deviceregistry#AssetsCreateOrReplaceResponse": {
@@ -11510,10 +14347,10 @@
           "method": "GET",
           "uri": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DeviceRegistry/assets/{assetName}",
           "code": 200,
-          "apiVersion": "2026-04-01"
+          "apiVersion": "2026-11-01"
         },
         "smithy.api#documentation": "Get a Asset",
-        "com.distilled.openapi#apiVersion": "2026-04-01"
+        "com.distilled.openapi#apiVersion": "2026-11-01"
       }
     },
     "com.azure.deviceregistry#GetAssetResponse": {
@@ -11631,10 +14468,10 @@
           "method": "GET",
           "uri": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DeviceRegistry/assets",
           "code": 200,
-          "apiVersion": "2026-04-01"
+          "apiVersion": "2026-11-01"
         },
         "smithy.api#documentation": "List Asset resources by resource group",
-        "com.distilled.openapi#apiVersion": "2026-04-01"
+        "com.distilled.openapi#apiVersion": "2026-11-01"
       }
     },
     "com.azure.deviceregistry#AssetListResult": {
@@ -11774,10 +14611,10 @@
           "method": "DELETE",
           "uri": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DeviceRegistry/assetEndpointProfiles/{assetEndpointProfileName}",
           "code": 200,
-          "apiVersion": "2026-04-01"
+          "apiVersion": "2026-11-01"
         },
         "smithy.api#documentation": "Delete a AssetEndpointProfile",
-        "com.distilled.openapi#apiVersion": "2026-04-01"
+        "com.distilled.openapi#apiVersion": "2026-11-01"
       }
     },
     "com.azure.deviceregistry#DeleteAssetEndpointProfileRequest": {
@@ -11825,10 +14662,10 @@
           "method": "PATCH",
           "uri": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DeviceRegistry/assetEndpointProfiles/{assetEndpointProfileName}",
           "code": 200,
-          "apiVersion": "2026-04-01"
+          "apiVersion": "2026-11-01"
         },
         "smithy.api#documentation": "Update a AssetEndpointProfile",
-        "com.distilled.openapi#apiVersion": "2026-04-01"
+        "com.distilled.openapi#apiVersion": "2026-11-01"
       }
     },
     "com.azure.deviceregistry#UpdateAssetEndpointProfileResponse": {
@@ -12237,10 +15074,10 @@
           "method": "PUT",
           "uri": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DeviceRegistry/assetEndpointProfiles/{assetEndpointProfileName}",
           "code": 200,
-          "apiVersion": "2026-04-01"
+          "apiVersion": "2026-11-01"
         },
         "smithy.api#documentation": "Create a AssetEndpointProfile",
-        "com.distilled.openapi#apiVersion": "2026-04-01"
+        "com.distilled.openapi#apiVersion": "2026-11-01"
       }
     },
     "com.azure.deviceregistry#AssetEndpointProfilesCreateOrReplaceResponse": {
@@ -12436,10 +15273,10 @@
           "method": "GET",
           "uri": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DeviceRegistry/assetEndpointProfiles/{assetEndpointProfileName}",
           "code": 200,
-          "apiVersion": "2026-04-01"
+          "apiVersion": "2026-11-01"
         },
         "smithy.api#documentation": "Get a AssetEndpointProfile",
-        "com.distilled.openapi#apiVersion": "2026-04-01"
+        "com.distilled.openapi#apiVersion": "2026-11-01"
       }
     },
     "com.azure.deviceregistry#GetAssetEndpointProfileResponse": {
@@ -12557,10 +15394,10 @@
           "method": "GET",
           "uri": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DeviceRegistry/assetEndpointProfiles",
           "code": 200,
-          "apiVersion": "2026-04-01"
+          "apiVersion": "2026-11-01"
         },
         "smithy.api#documentation": "List AssetEndpointProfile resources by resource group",
-        "com.distilled.openapi#apiVersion": "2026-04-01"
+        "com.distilled.openapi#apiVersion": "2026-11-01"
       }
     },
     "com.azure.deviceregistry#AssetEndpointProfileListResult": {
@@ -12700,10 +15537,10 @@
           "method": "GET",
           "uri": "/subscriptions/{subscriptionId}/providers/Microsoft.DeviceRegistry/schemaRegistries",
           "code": 200,
-          "apiVersion": "2026-04-01"
+          "apiVersion": "2026-11-01"
         },
         "smithy.api#documentation": "List SchemaRegistry resources by subscription ID",
-        "com.distilled.openapi#apiVersion": "2026-04-01"
+        "com.distilled.openapi#apiVersion": "2026-11-01"
       }
     },
     "com.azure.deviceregistry#ListSchemaRegistryBySubscriptionRequest": {
@@ -12735,10 +15572,10 @@
           "method": "GET",
           "uri": "/subscriptions/{subscriptionId}/providers/Microsoft.DeviceRegistry/namespaces",
           "code": 200,
-          "apiVersion": "2026-04-01"
+          "apiVersion": "2026-11-01"
         },
         "smithy.api#documentation": "List Namespace resources by subscription ID",
-        "com.distilled.openapi#apiVersion": "2026-04-01"
+        "com.distilled.openapi#apiVersion": "2026-11-01"
       }
     },
     "com.azure.deviceregistry#ListNamespaceBySubscriptionRequest": {
@@ -12770,10 +15607,10 @@
           "method": "GET",
           "uri": "/subscriptions/{subscriptionId}/providers/Microsoft.DeviceRegistry/locations/{location}/operationStatuses/{operationId}",
           "code": 200,
-          "apiVersion": "2026-04-01"
+          "apiVersion": "2026-11-01"
         },
         "smithy.api#documentation": "Returns the current status of an async operation.",
-        "com.distilled.openapi#apiVersion": "2026-04-01"
+        "com.distilled.openapi#apiVersion": "2026-11-01"
       }
     },
     "com.azure.deviceregistry#GetOperationStatusResponse": {
@@ -13028,6 +15865,129 @@
         "smithy.api#input": {}
       }
     },
+    "com.azure.deviceregistry#GetAsyncOperationStatus": {
+      "type": "operation",
+      "input": {
+        "target": "com.azure.deviceregistry#GetAsyncOperationStatusRequest"
+      },
+      "output": {
+        "target": "com.azure.deviceregistry#GetAsyncOperationStatusResponse"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/subscriptions/{subscriptionId}/providers/Microsoft.DeviceRegistry/locations/{location}/asyncOperationStatuses/{operationId}",
+          "code": 200,
+          "apiVersion": "2026-11-01"
+        },
+        "smithy.api#documentation": "Returns the current status of an async operation.",
+        "com.distilled.openapi#apiVersion": "2026-11-01"
+      }
+    },
+    "com.azure.deviceregistry#GetAsyncOperationStatusResponse": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Fully qualified ID for the async operation."
+          }
+        },
+        "resourceId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Fully qualified ID of the resource against which the original async operation was started."
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Name of the async operation."
+          }
+        },
+        "status": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Operation status.",
+            "smithy.api#required": {}
+          }
+        },
+        "percentComplete": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "Percent of the operation that is complete."
+          }
+        },
+        "startTime": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The start time of the operation."
+          }
+        },
+        "endTime": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The end time of the operation."
+          }
+        },
+        "operations": {
+          "target": "com.azure.deviceregistry#GetAsyncOperationStatusResponseOperationsList",
+          "traits": {
+            "smithy.api#documentation": "The operations list."
+          }
+        },
+        "error": {
+          "target": "com.azure.deviceregistry#ErrorDetail",
+          "traits": {
+            "smithy.api#documentation": "If present, details of the operation error."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
+      }
+    },
+    "com.azure.deviceregistry#GetAsyncOperationStatusResponseOperationsList": {
+      "type": "list",
+      "member": {
+        "target": "com.azure.deviceregistry#OperationStatusResult"
+      },
+      "traits": {
+        "smithy.api#documentation": "The operations list."
+      }
+    },
+    "com.azure.deviceregistry#GetAsyncOperationStatusRequest": {
+      "type": "structure",
+      "members": {
+        "subscriptionId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The ID of the target subscription. The value must be an UUID."
+          }
+        },
+        "location": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The name of the Azure region."
+          }
+        },
+        "operationId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The ID of an ongoing async operation."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
     "com.azure.deviceregistry#GetBillingContainer": {
       "type": "operation",
       "input": {
@@ -13041,10 +16001,10 @@
           "method": "GET",
           "uri": "/subscriptions/{subscriptionId}/providers/Microsoft.DeviceRegistry/billingContainers/{billingContainerName}",
           "code": 200,
-          "apiVersion": "2026-04-01"
+          "apiVersion": "2026-11-01"
         },
         "smithy.api#documentation": "Get a BillingContainer",
-        "com.distilled.openapi#apiVersion": "2026-04-01"
+        "com.distilled.openapi#apiVersion": "2026-11-01"
       }
     },
     "com.azure.deviceregistry#GetBillingContainerResponse": {
@@ -13142,10 +16102,10 @@
           "method": "GET",
           "uri": "/subscriptions/{subscriptionId}/providers/Microsoft.DeviceRegistry/billingContainers",
           "code": 200,
-          "apiVersion": "2026-04-01"
+          "apiVersion": "2026-11-01"
         },
         "smithy.api#documentation": "List BillingContainer resources by subscription ID",
-        "com.distilled.openapi#apiVersion": "2026-04-01"
+        "com.distilled.openapi#apiVersion": "2026-11-01"
       }
     },
     "com.azure.deviceregistry#BillingContainerListResult": {
@@ -13251,10 +16211,10 @@
           "method": "GET",
           "uri": "/subscriptions/{subscriptionId}/providers/Microsoft.DeviceRegistry/assets",
           "code": 200,
-          "apiVersion": "2026-04-01"
+          "apiVersion": "2026-11-01"
         },
         "smithy.api#documentation": "List Asset resources by subscription ID",
-        "com.distilled.openapi#apiVersion": "2026-04-01"
+        "com.distilled.openapi#apiVersion": "2026-11-01"
       }
     },
     "com.azure.deviceregistry#ListAssetBySubscriptionRequest": {
@@ -13286,10 +16246,10 @@
           "method": "GET",
           "uri": "/subscriptions/{subscriptionId}/providers/Microsoft.DeviceRegistry/assetEndpointProfiles",
           "code": 200,
-          "apiVersion": "2026-04-01"
+          "apiVersion": "2026-11-01"
         },
         "smithy.api#documentation": "List AssetEndpointProfile resources by subscription ID",
-        "com.distilled.openapi#apiVersion": "2026-04-01"
+        "com.distilled.openapi#apiVersion": "2026-11-01"
       }
     },
     "com.azure.deviceregistry#ListAssetEndpointProfileBySubscriptionRequest": {
@@ -13321,10 +16281,10 @@
           "method": "GET",
           "uri": "/providers/Microsoft.DeviceRegistry/operations",
           "code": 200,
-          "apiVersion": "2026-04-01"
+          "apiVersion": "2026-11-01"
         },
         "smithy.api#documentation": "List the operations for the provider",
-        "com.distilled.openapi#apiVersion": "2026-04-01"
+        "com.distilled.openapi#apiVersion": "2026-11-01"
       }
     },
     "com.azure.deviceregistry#ListOperationsResponse": {
@@ -13510,6 +16470,21 @@
           "target": "com.azure.deviceregistry#ListSchemaRegistryByResourceGroup"
         },
         {
+          "target": "com.azure.deviceregistry#DeleteRegistryDevice"
+        },
+        {
+          "target": "com.azure.deviceregistry#UpdateRegistryDevice"
+        },
+        {
+          "target": "com.azure.deviceregistry#RegistryDevicesCreateOrReplace"
+        },
+        {
+          "target": "com.azure.deviceregistry#GetRegistryDevice"
+        },
+        {
+          "target": "com.azure.deviceregistry#ListRegistryDeviceByNamespace"
+        },
+        {
           "target": "com.azure.deviceregistry#MigrateNamespace"
         },
         {
@@ -13525,7 +16500,7 @@
           "target": "com.azure.deviceregistry#GetNamespaceDiscoveredDevice"
         },
         {
-          "target": "com.azure.deviceregistry#ListNamespaceDiscoveredDeviceByResourceGroup"
+          "target": "com.azure.deviceregistry#ListNamespaceDiscoveredDeviceByNamespace"
         },
         {
           "target": "com.azure.deviceregistry#DeleteNamespaceDiscoveredAsset"
@@ -13540,7 +16515,7 @@
           "target": "com.azure.deviceregistry#GetNamespaceDiscoveredAsset"
         },
         {
-          "target": "com.azure.deviceregistry#ListNamespaceDiscoveredAssetByResourceGroup"
+          "target": "com.azure.deviceregistry#ListNamespaceDiscoveredAssetByNamespace"
         },
         {
           "target": "com.azure.deviceregistry#DeleteNamespaceDevice"
@@ -13555,7 +16530,43 @@
           "target": "com.azure.deviceregistry#GetNamespaceDevice"
         },
         {
-          "target": "com.azure.deviceregistry#ListNamespaceDeviceByResourceGroup"
+          "target": "com.azure.deviceregistry#ListNamespaceDeviceByNamespace"
+        },
+        {
+          "target": "com.azure.deviceregistry#CertificateAuthoritiesRevokeAndRotate"
+        },
+        {
+          "target": "com.azure.deviceregistry#DeleteCertificatePolicy"
+        },
+        {
+          "target": "com.azure.deviceregistry#UpdateCertificatePolicy"
+        },
+        {
+          "target": "com.azure.deviceregistry#CertificatePoliciesCreateOrReplace"
+        },
+        {
+          "target": "com.azure.deviceregistry#GetCertificatePolicy"
+        },
+        {
+          "target": "com.azure.deviceregistry#ListCertificatePolicyByCertificateAuthority"
+        },
+        {
+          "target": "com.azure.deviceregistry#ActivateCertificateAuthority"
+        },
+        {
+          "target": "com.azure.deviceregistry#DeleteCertificateAuthority"
+        },
+        {
+          "target": "com.azure.deviceregistry#UpdateCertificateAuthority"
+        },
+        {
+          "target": "com.azure.deviceregistry#CertificateAuthoritiesCreateOrReplace"
+        },
+        {
+          "target": "com.azure.deviceregistry#GetCertificateAuthority"
+        },
+        {
+          "target": "com.azure.deviceregistry#ListCertificateAuthorityByNamespace"
         },
         {
           "target": "com.azure.deviceregistry#ExecuteNamespaceAssetAction"
@@ -13573,7 +16584,7 @@
           "target": "com.azure.deviceregistry#GetNamespaceAsset"
         },
         {
-          "target": "com.azure.deviceregistry#ListNamespaceAssetByResourceGroup"
+          "target": "com.azure.deviceregistry#ListNamespaceAssetByNamespace"
         },
         {
           "target": "com.azure.deviceregistry#DeleteNamespace"
@@ -13628,6 +16639,9 @@
         },
         {
           "target": "com.azure.deviceregistry#GetOperationStatus"
+        },
+        {
+          "target": "com.azure.deviceregistry#GetAsyncOperationStatus"
         },
         {
           "target": "com.azure.deviceregistry#GetBillingContainer"

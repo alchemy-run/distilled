@@ -182,7 +182,7 @@ export const BulkSolutionTemplateVersionReviewSolutionRequest = /*@__PURE__*/ S.
       method: "POST",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Edge/solutionTemplates/{solutionTemplateName}/versions/{solutionTemplateVersionName}/bulkReviewSolution",
       code: 200,
-      apiVersion: "2026-03-01",
+      apiVersion: "2026-06-01",
     }),
   ),
 ).annotate({
@@ -271,7 +271,7 @@ export const ConfigTemplateMetadatasCreateOrUpdateRequest = /*@__PURE__*/ S.susp
       method: "PUT",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Edge/configTemplates/{configTemplateName}/configTemplateMetadatas/{configTemplateMetadataName}",
       code: 200,
-      apiVersion: "2026-03-01",
+      apiVersion: "2026-06-01",
     }),
   ),
 ).annotate({
@@ -433,7 +433,7 @@ export const ConfigTemplatesCreateOrUpdateRequest = /*@__PURE__*/ S.suspend(() =
       method: "PUT",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Edge/configTemplates/{configTemplateName}",
       code: 200,
-      apiVersion: "2026-03-01",
+      apiVersion: "2026-06-01",
     }),
   ),
 ).annotate({
@@ -533,7 +533,7 @@ export const ConfigTemplatesLinkToHierarchiesRequest = /*@__PURE__*/ S.suspend((
       method: "POST",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Edge/configTemplates/{configTemplateName}/linkToHierarchies",
       code: 200,
-      apiVersion: "2026-03-01",
+      apiVersion: "2026-06-01",
     }),
   ),
 ).annotate({
@@ -580,7 +580,7 @@ export const ConfigTemplatesUnLinkFromHierarchiesRequest = /*@__PURE__*/ S.suspe
       method: "POST",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Edge/configTemplates/{configTemplateName}/unLinkFromHierarchies",
       code: 200,
-      apiVersion: "2026-03-01",
+      apiVersion: "2026-06-01",
     }),
   ),
 ).annotate({
@@ -597,11 +597,11 @@ export const ConfigTemplatesUnLinkFromHierarchiesResponse = /*@__PURE__*/ S.susp
 /** Config Template Version Properties */
 export interface ConfigTemplateVersionPropertiesInput {
   /** Configuration values */
-  configurations: string;
+  configurations: unknown;
 }
 export const ConfigTemplateVersionPropertiesInput = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    configurations: S.String,
+    configurations: S.Unknown,
   }),
 ).annotate({
   identifier: "ConfigTemplateVersionPropertiesInput",
@@ -631,7 +631,7 @@ export const ConfigTemplateVersionsCreateOrUpdateRequest = /*@__PURE__*/ S.suspe
       method: "PUT",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Edge/configTemplates/{configTemplateName}/versions/{configTemplateVersionName}",
       code: 200,
-      apiVersion: "2026-03-01",
+      apiVersion: "2026-06-01",
     }),
   ),
 ).annotate({
@@ -641,13 +641,13 @@ export const ConfigTemplateVersionsCreateOrUpdateRequest = /*@__PURE__*/ S.suspe
 /** Config Template Version Properties */
 export interface ConfigTemplateVersionProperties {
   /** Configuration values */
-  configurations: string;
+  configurations: unknown;
   /** Provisioning state of resource */
   provisioningState?: ProvisioningState;
 }
 export const ConfigTemplateVersionProperties = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    configurations: S.String,
+    configurations: S.Unknown,
     provisioningState: S.optional(ProvisioningState),
   }),
 ).annotate({
@@ -712,7 +712,7 @@ export const ConfigurationReferencesCreateOrUpdateRequest = /*@__PURE__*/ S.susp
       method: "PUT",
       uri: "/{resourceUri+}/providers/Microsoft.Edge/configurationReferences/{configurationReferenceName}",
       code: 200,
-      apiVersion: "2025-08-01",
+      apiVersion: "2026-06-01",
     }),
   ),
 ).annotate({
@@ -799,7 +799,7 @@ export const ConfigurationsCreateOrUpdateRequest = /*@__PURE__*/ S.suspend(() =>
       method: "PUT",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Edge/configurations/{configurationName}",
       code: 200,
-      apiVersion: "2025-08-01",
+      apiVersion: "2026-06-01",
     }),
   ),
 ).annotate({
@@ -949,7 +949,7 @@ export const ContextsCreateOrUpdateRequest = /*@__PURE__*/ S.suspend(() =>
       method: "PUT",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Edge/contexts/{contextName}",
       code: 200,
-      apiVersion: "2026-03-01",
+      apiVersion: "2026-06-01",
     }),
   ),
 ).annotate({
@@ -1069,7 +1069,7 @@ export const CreateConfigTemplateVersionRequest = /*@__PURE__*/ S.suspend(() =>
       method: "POST",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Edge/configTemplates/{configTemplateName}/createVersion",
       code: 200,
-      apiVersion: "2026-03-01",
+      apiVersion: "2026-06-01",
     }),
   ),
 ).annotate({
@@ -1106,11 +1106,11 @@ export const CreateConfigTemplateVersionResponse = /*@__PURE__*/ S.suspend(() =>
 /** Schema Version Properties */
 export interface SchemaVersionPropertiesInput {
   /** Value of schema version */
-  value: string;
+  value: unknown;
 }
 export const SchemaVersionPropertiesInput = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    value: S.String,
+    value: S.Unknown,
   }),
 ).annotate({
   identifier: "SchemaVersionPropertiesInput",
@@ -1154,7 +1154,7 @@ export const CreateSchemaVersionRequest = /*@__PURE__*/ S.suspend(() =>
       method: "POST",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Edge/schemas/{schemaName}/createVersion",
       code: 200,
-      apiVersion: "2026-03-01",
+      apiVersion: "2026-06-01",
     }),
   ),
 ).annotate({
@@ -1164,13 +1164,13 @@ export const CreateSchemaVersionRequest = /*@__PURE__*/ S.suspend(() =>
 /** Schema Version Properties */
 export interface SchemaVersionProperties {
   /** Value of schema version */
-  value: string;
+  value: unknown;
   /** Provisioning state of resource */
   provisioningState?: ProvisioningState;
 }
 export const SchemaVersionProperties = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    value: S.String,
+    value: S.Unknown,
     provisioningState: S.optional(ProvisioningState),
   }),
 ).annotate({ identifier: "SchemaVersionProperties" }) as any as S.Schema<SchemaVersionProperties>;
@@ -1218,7 +1218,7 @@ export const OrchestratorType = S.String;
 /** Solution Template Version Properties */
 export interface SolutionTemplateVersionPropertiesInput {
   /** Config expressions for this solution version */
-  configurations: string;
+  configurations?: unknown;
   /** App components spec */
   specification: SolutionTemplateVersionPropertiesInputSpecificationMap;
   /** Orchestrator type */
@@ -1226,7 +1226,7 @@ export interface SolutionTemplateVersionPropertiesInput {
 }
 export const SolutionTemplateVersionPropertiesInput = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    configurations: S.String,
+    configurations: S.optional(S.Unknown),
     specification: SolutionTemplateVersionPropertiesInputSpecificationMap,
     orchestratorType: S.optional(OrchestratorType),
   }),
@@ -1274,7 +1274,7 @@ export const CreateSolutionTemplateVersionRequest = /*@__PURE__*/ S.suspend(() =
       method: "POST",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Edge/solutionTemplates/{solutionTemplateName}/createVersion",
       code: 200,
-      apiVersion: "2026-03-01",
+      apiVersion: "2026-06-01",
     }),
   ),
 ).annotate({
@@ -1301,7 +1301,7 @@ export const InternalState = S.String;
 /** Solution Template Version Properties */
 export interface SolutionTemplateVersionProperties {
   /** Config expressions for this solution version */
-  configurations: string;
+  configurations?: unknown;
   /** App components spec */
   specification: SolutionTemplateVersionPropertiesSpecificationMap;
   /** Orchestrator type */
@@ -1313,7 +1313,7 @@ export interface SolutionTemplateVersionProperties {
 }
 export const SolutionTemplateVersionProperties = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    configurations: S.String,
+    configurations: S.optional(S.Unknown),
     specification: SolutionTemplateVersionPropertiesSpecificationMap,
     orchestratorType: S.optional(OrchestratorType),
     internalState: S.optional(InternalState),
@@ -1368,7 +1368,7 @@ export const DeleteConfigTemplateRequest = /*@__PURE__*/ S.suspend(() =>
       method: "DELETE",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Edge/configTemplates/{configTemplateName}",
       code: 200,
-      apiVersion: "2026-03-01",
+      apiVersion: "2026-06-01",
     }),
   ),
 ).annotate({
@@ -1401,7 +1401,7 @@ export const DeleteConfigTemplateMetadatasRequest = /*@__PURE__*/ S.suspend(() =
       method: "DELETE",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Edge/configTemplates/{configTemplateName}/configTemplateMetadatas/{configTemplateMetadataName}",
       code: 200,
-      apiVersion: "2026-03-01",
+      apiVersion: "2026-06-01",
     }),
   ),
 ).annotate({
@@ -1436,7 +1436,7 @@ export const DeleteConfigTemplateVersionRequest = /*@__PURE__*/ S.suspend(() =>
       method: "DELETE",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Edge/configTemplates/{configTemplateName}/versions/{configTemplateVersionName}",
       code: 200,
-      apiVersion: "2026-03-01",
+      apiVersion: "2026-06-01",
     }),
   ),
 ).annotate({
@@ -1495,7 +1495,7 @@ export const DeleteConfigurationReferenceRequest = /*@__PURE__*/ S.suspend(() =>
       method: "DELETE",
       uri: "/{resourceUri+}/providers/Microsoft.Edge/configurationReferences/{configurationReferenceName}",
       code: 200,
-      apiVersion: "2025-08-01",
+      apiVersion: "2026-06-01",
     }),
   ),
 ).annotate({
@@ -1527,7 +1527,7 @@ export const DeleteContextRequest = /*@__PURE__*/ S.suspend(() =>
       method: "DELETE",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Edge/contexts/{contextName}",
       code: 200,
-      apiVersion: "2026-03-01",
+      apiVersion: "2026-06-01",
     }),
   ),
 ).annotate({ identifier: "DeleteContextRequest" }) as any as S.Schema<DeleteContextRequest>;
@@ -1618,7 +1618,7 @@ export const DeleteDynamicConfigurationRequest = /*@__PURE__*/ S.suspend(() =>
       method: "DELETE",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Edge/configurations/{configurationName}/dynamicConfigurations/{dynamicConfigurationName}",
       code: 200,
-      apiVersion: "2025-08-01",
+      apiVersion: "2026-06-01",
     }),
   ),
 ).annotate({
@@ -1656,7 +1656,7 @@ export const DeleteDynamicConfigurationVersionRequest = /*@__PURE__*/ S.suspend(
       method: "DELETE",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Edge/configurations/{configurationName}/dynamicConfigurations/{dynamicConfigurationName}/versions/{dynamicConfigurationVersionName}",
       code: 200,
-      apiVersion: "2025-08-01",
+      apiVersion: "2026-06-01",
     }),
   ),
 ).annotate({
@@ -1768,7 +1768,7 @@ export const DeleteExecutionRequest = /*@__PURE__*/ S.suspend(() =>
       method: "DELETE",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Edge/contexts/{contextName}/workflows/{workflowName}/versions/{versionName}/executions/{executionName}",
       code: 200,
-      apiVersion: "2026-03-01",
+      apiVersion: "2026-06-01",
     }),
   ),
 ).annotate({ identifier: "DeleteExecutionRequest" }) as any as S.Schema<DeleteExecutionRequest>;
@@ -1835,7 +1835,7 @@ export const DeleteInstanceRequest = /*@__PURE__*/ S.suspend(() =>
       method: "DELETE",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Edge/targets/{targetName}/solutions/{solutionName}/instances/{instanceName}",
       code: 200,
-      apiVersion: "2026-03-01",
+      apiVersion: "2026-06-01",
     }),
   ),
 ).annotate({ identifier: "DeleteInstanceRequest" }) as any as S.Schema<DeleteInstanceRequest>;
@@ -1863,7 +1863,7 @@ export const DeleteSchemaRequest = /*@__PURE__*/ S.suspend(() =>
       method: "DELETE",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Edge/schemas/{schemaName}",
       code: 200,
-      apiVersion: "2026-03-01",
+      apiVersion: "2026-06-01",
     }),
   ),
 ).annotate({ identifier: "DeleteSchemaRequest" }) as any as S.Schema<DeleteSchemaRequest>;
@@ -1921,7 +1921,7 @@ export const DeleteSchemaVersionRequest = /*@__PURE__*/ S.suspend(() =>
       method: "DELETE",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Edge/schemas/{schemaName}/versions/{schemaVersionName}",
       code: 200,
-      apiVersion: "2026-03-01",
+      apiVersion: "2026-06-01",
     }),
   ),
 ).annotate({
@@ -1982,7 +1982,7 @@ export const DeleteSiteReferenceRequest = /*@__PURE__*/ S.suspend(() =>
       method: "DELETE",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Edge/contexts/{contextName}/siteReferences/{siteReferenceName}",
       code: 200,
-      apiVersion: "2026-03-01",
+      apiVersion: "2026-06-01",
     }),
   ),
 ).annotate({
@@ -2073,7 +2073,7 @@ export const DeleteSolutionRequest = /*@__PURE__*/ S.suspend(() =>
       method: "DELETE",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Edge/targets/{targetName}/solutions/{solutionName}",
       code: 200,
-      apiVersion: "2026-03-01",
+      apiVersion: "2026-06-01",
     }),
   ),
 ).annotate({ identifier: "DeleteSolutionRequest" }) as any as S.Schema<DeleteSolutionRequest>;
@@ -2101,7 +2101,7 @@ export const DeleteSolutionTemplateRequest = /*@__PURE__*/ S.suspend(() =>
       method: "DELETE",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Edge/solutionTemplates/{solutionTemplateName}",
       code: 200,
-      apiVersion: "2026-03-01",
+      apiVersion: "2026-06-01",
     }),
   ),
 ).annotate({
@@ -2134,7 +2134,7 @@ export const DeleteSolutionTemplateVersionRequest = /*@__PURE__*/ S.suspend(() =
       method: "DELETE",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Edge/solutionTemplates/{solutionTemplateName}/versions/{solutionTemplateVersionName}",
       code: 200,
-      apiVersion: "2026-03-01",
+      apiVersion: "2026-06-01",
     }),
   ),
 ).annotate({
@@ -2172,7 +2172,7 @@ export const DeleteSolutionVersionRequest = /*@__PURE__*/ S.suspend(() =>
       method: "DELETE",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Edge/targets/{targetName}/solutions/{solutionName}/versions/{solutionVersionName}",
       code: 200,
-      apiVersion: "2026-03-01",
+      apiVersion: "2026-06-01",
     }),
   ),
 ).annotate({
@@ -2205,7 +2205,7 @@ export const DeleteTargetRequest = /*@__PURE__*/ S.suspend(() =>
       method: "DELETE",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Edge/targets/{targetName}",
       code: 200,
-      apiVersion: "2026-03-01",
+      apiVersion: "2026-06-01",
     }),
   ),
 ).annotate({ identifier: "DeleteTargetRequest" }) as any as S.Schema<DeleteTargetRequest>;
@@ -2236,7 +2236,7 @@ export const DeleteWorkflowRequest = /*@__PURE__*/ S.suspend(() =>
       method: "DELETE",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Edge/contexts/{contextName}/workflows/{workflowName}",
       code: 200,
-      apiVersion: "2026-03-01",
+      apiVersion: "2026-06-01",
     }),
   ),
 ).annotate({ identifier: "DeleteWorkflowRequest" }) as any as S.Schema<DeleteWorkflowRequest>;
@@ -2270,7 +2270,7 @@ export const DeleteWorkflowVersionRequest = /*@__PURE__*/ S.suspend(() =>
       method: "DELETE",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Edge/contexts/{contextName}/workflows/{workflowName}/versions/{versionName}",
       code: 200,
-      apiVersion: "2026-03-01",
+      apiVersion: "2026-06-01",
     }),
   ),
 ).annotate({
@@ -2704,7 +2704,7 @@ export const DynamicConfigurationsCreateOrUpdateRequest = /*@__PURE__*/ S.suspen
       method: "PUT",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Edge/configurations/{configurationName}/dynamicConfigurations/{dynamicConfigurationName}",
       code: 200,
-      apiVersion: "2025-08-01",
+      apiVersion: "2026-06-01",
     }),
   ),
 ).annotate({
@@ -2771,11 +2771,11 @@ export const DynamicConfigurationsCreateOrUpdateResponse = /*@__PURE__*/ S.suspe
 /** Dynamic Configuration Properties */
 export interface DynamicConfigurationVersionPropertiesInput {
   /** Values of configuration version */
-  values: string;
+  values: unknown;
 }
 export const DynamicConfigurationVersionPropertiesInput = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    values: S.String,
+    values: S.Unknown,
   }),
 ).annotate({
   identifier: "DynamicConfigurationVersionPropertiesInput",
@@ -2808,7 +2808,7 @@ export const DynamicConfigurationVersionsCreateOrUpdateRequest = /*@__PURE__*/ S
       method: "PUT",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Edge/configurations/{configurationName}/dynamicConfigurations/{dynamicConfigurationName}/versions/{dynamicConfigurationVersionName}",
       code: 200,
-      apiVersion: "2025-08-01",
+      apiVersion: "2026-06-01",
     }),
   ),
 ).annotate({
@@ -2822,7 +2822,7 @@ export const ConfigurationState = S.String;
 /** Dynamic Configuration Properties */
 export interface DynamicConfigurationVersionProperties {
   /** Values of configuration version */
-  values: string;
+  values: unknown;
   /** Schema Id for configuration */
   schemaId?: string;
   /** Dynamic schema version Id for configuration */
@@ -2836,7 +2836,7 @@ export interface DynamicConfigurationVersionProperties {
 }
 export const DynamicConfigurationVersionProperties = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    values: S.String,
+    values: S.Unknown,
     schemaId: S.optional(S.String),
     dynamicSchemaVersionId: S.optional(S.String),
     displayState: S.optional(S.String),
@@ -3068,7 +3068,7 @@ export const ExecutionsCreateOrUpdateRequest = /*@__PURE__*/ S.suspend(() =>
       method: "PUT",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Edge/contexts/{contextName}/workflows/{workflowName}/versions/{versionName}/executions/{executionName}",
       code: 200,
-      apiVersion: "2026-03-01",
+      apiVersion: "2026-06-01",
     }),
   ),
 ).annotate({
@@ -3300,7 +3300,7 @@ export const GetConfigTemplateRequest = /*@__PURE__*/ S.suspend(() =>
       method: "GET",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Edge/configTemplates/{configTemplateName}",
       code: 200,
-      apiVersion: "2026-03-01",
+      apiVersion: "2026-06-01",
     }),
   ),
 ).annotate({ identifier: "GetConfigTemplateRequest" }) as any as S.Schema<GetConfigTemplateRequest>;
@@ -3366,7 +3366,7 @@ export const GetConfigTemplateMetadatasRequest = /*@__PURE__*/ S.suspend(() =>
       method: "GET",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Edge/configTemplates/{configTemplateName}/configTemplateMetadatas/{configTemplateMetadataName}",
       code: 200,
-      apiVersion: "2026-03-01",
+      apiVersion: "2026-06-01",
     }),
   ),
 ).annotate({
@@ -3424,7 +3424,7 @@ export const GetConfigTemplateSchemaRequest = /*@__PURE__*/ S.suspend(() =>
       method: "GET",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Edge/configTemplates/{configTemplateName}/versions/{configTemplateVersionName}/configTemplateSchemas/{configTemplateSchemaName}",
       code: 200,
-      apiVersion: "2026-03-01",
+      apiVersion: "2026-06-01",
     }),
   ),
 ).annotate({
@@ -3434,7 +3434,7 @@ export const GetConfigTemplateSchemaRequest = /*@__PURE__*/ S.suspend(() =>
 /** ConfigTemplateSchema Properties */
 export interface ConfigTemplateSchemaProperties {
   /** Value of schema */
-  value?: string;
+  value?: unknown;
   /** Unique identifier for the config template, generated by the system */
   templateUniqueIdentifier?: string;
   /** Provisioning state of resource */
@@ -3442,7 +3442,7 @@ export interface ConfigTemplateSchemaProperties {
 }
 export const ConfigTemplateSchemaProperties = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    value: S.optional(S.String),
+    value: S.optional(S.Unknown),
     templateUniqueIdentifier: S.optional(S.String),
     provisioningState: S.optional(ProvisioningState),
   }),
@@ -3498,7 +3498,7 @@ export const GetConfigTemplateVersionRequest = /*@__PURE__*/ S.suspend(() =>
       method: "GET",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Edge/configTemplates/{configTemplateName}/versions/{configTemplateVersionName}",
       code: 200,
-      apiVersion: "2026-03-01",
+      apiVersion: "2026-06-01",
     }),
   ),
 ).annotate({
@@ -3550,7 +3550,7 @@ export const GetConfigurationRequest = /*@__PURE__*/ S.suspend(() =>
       method: "GET",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Edge/configurations/{configurationName}",
       code: 200,
-      apiVersion: "2025-08-01",
+      apiVersion: "2026-06-01",
     }),
   ),
 ).annotate({ identifier: "GetConfigurationRequest" }) as any as S.Schema<GetConfigurationRequest>;
@@ -3605,7 +3605,7 @@ export const GetConfigurationReferenceRequest = /*@__PURE__*/ S.suspend(() =>
       method: "GET",
       uri: "/{resourceUri+}/providers/Microsoft.Edge/configurationReferences/{configurationReferenceName}",
       code: 200,
-      apiVersion: "2025-08-01",
+      apiVersion: "2026-06-01",
     }),
   ),
 ).annotate({
@@ -3654,7 +3654,7 @@ export const GetContextRequest = /*@__PURE__*/ S.suspend(() =>
       method: "GET",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Edge/contexts/{contextName}",
       code: 200,
-      apiVersion: "2026-03-01",
+      apiVersion: "2026-06-01",
     }),
   ),
 ).annotate({ identifier: "GetContextRequest" }) as any as S.Schema<GetContextRequest>;
@@ -3841,7 +3841,7 @@ export const GetDynamicConfigurationRequest = /*@__PURE__*/ S.suspend(() =>
       method: "GET",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Edge/configurations/{configurationName}/dynamicConfigurations/{dynamicConfigurationName}",
       code: 200,
-      apiVersion: "2025-08-01",
+      apiVersion: "2026-06-01",
     }),
   ),
 ).annotate({
@@ -3896,7 +3896,7 @@ export const GetDynamicConfigurationVersionRequest = /*@__PURE__*/ S.suspend(() 
       method: "GET",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Edge/configurations/{configurationName}/dynamicConfigurations/{dynamicConfigurationName}/versions/{dynamicConfigurationVersionName}",
       code: 200,
-      apiVersion: "2025-08-01",
+      apiVersion: "2026-06-01",
     }),
   ),
 ).annotate({
@@ -4063,7 +4063,7 @@ export const GetExecutionRequest = /*@__PURE__*/ S.suspend(() =>
       method: "GET",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Edge/contexts/{contextName}/workflows/{workflowName}/versions/{versionName}/executions/{executionName}",
       code: 200,
-      apiVersion: "2026-03-01",
+      apiVersion: "2026-06-01",
     }),
   ),
 ).annotate({ identifier: "GetExecutionRequest" }) as any as S.Schema<GetExecutionRequest>;
@@ -4203,7 +4203,7 @@ export const GetHierarchyConfigurationMetadatasRequest = /*@__PURE__*/ S.suspend
       method: "GET",
       uri: "/{resourceUri+}/providers/Microsoft.Edge/hierarchyConfigurationMetadatas/{hierarchyConfigurationMetadataName}",
       code: 200,
-      apiVersion: "2026-03-01",
+      apiVersion: "2026-06-01",
     }),
   ),
 ).annotate({
@@ -4268,7 +4268,7 @@ export const GetHierarchyConfigurationMetadataVersionRequest = /*@__PURE__*/ S.s
       method: "GET",
       uri: "/{resourceUri+}/providers/Microsoft.Edge/hierarchyConfigurationMetadatas/{hierarchyConfigurationMetadataName}/versions/{hierarchyConfigurationMetadataVersionName}",
       code: 200,
-      apiVersion: "2026-03-01",
+      apiVersion: "2026-06-01",
     }),
   ),
 ).annotate({
@@ -4469,7 +4469,7 @@ export const GetInstanceRequest = /*@__PURE__*/ S.suspend(() =>
       method: "GET",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Edge/targets/{targetName}/solutions/{solutionName}/instances/{instanceName}",
       code: 200,
-      apiVersion: "2026-03-01",
+      apiVersion: "2026-06-01",
     }),
   ),
 ).annotate({ identifier: "GetInstanceRequest" }) as any as S.Schema<GetInstanceRequest>;
@@ -4656,7 +4656,7 @@ export const GetInstanceHistoryRequest = /*@__PURE__*/ S.suspend(() =>
       method: "GET",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Edge/targets/{targetName}/solutions/{solutionName}/instances/{instanceName}/histories/{instanceHistoryName}",
       code: 200,
-      apiVersion: "2026-03-01",
+      apiVersion: "2026-06-01",
     }),
   ),
 ).annotate({
@@ -4784,7 +4784,7 @@ export const GetJobRequest = /*@__PURE__*/ S.suspend(() =>
       method: "GET",
       uri: "/{resourceUri+}/providers/Microsoft.Edge/jobs/{jobName}",
       code: 200,
-      apiVersion: "2026-03-01",
+      apiVersion: "2026-06-01",
     }),
   ),
 ).annotate({ identifier: "GetJobRequest" }) as any as S.Schema<GetJobRequest>;
@@ -5079,7 +5079,7 @@ export const GetSchemaRequest = /*@__PURE__*/ S.suspend(() =>
       method: "GET",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Edge/schemas/{schemaName}",
       code: 200,
-      apiVersion: "2026-03-01",
+      apiVersion: "2026-06-01",
     }),
   ),
 ).annotate({ identifier: "GetSchemaRequest" }) as any as S.Schema<GetSchemaRequest>;
@@ -5222,7 +5222,7 @@ export const GetSchemaVersionRequest = /*@__PURE__*/ S.suspend(() =>
       method: "GET",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Edge/schemas/{schemaName}/versions/{schemaVersionName}",
       code: 200,
-      apiVersion: "2026-03-01",
+      apiVersion: "2026-06-01",
     }),
   ),
 ).annotate({ identifier: "GetSchemaVersionRequest" }) as any as S.Schema<GetSchemaVersionRequest>;
@@ -5374,7 +5374,7 @@ export const GetSiteReferenceRequest = /*@__PURE__*/ S.suspend(() =>
       method: "GET",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Edge/contexts/{contextName}/siteReferences/{siteReferenceName}",
       code: 200,
-      apiVersion: "2026-03-01",
+      apiVersion: "2026-06-01",
     }),
   ),
 ).annotate({ identifier: "GetSiteReferenceRequest" }) as any as S.Schema<GetSiteReferenceRequest>;
@@ -5528,7 +5528,7 @@ export const GetSolutionRequest = /*@__PURE__*/ S.suspend(() =>
       method: "GET",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Edge/targets/{targetName}/solutions/{solutionName}",
       code: 200,
-      apiVersion: "2026-03-01",
+      apiVersion: "2026-06-01",
     }),
   ),
 ).annotate({ identifier: "GetSolutionRequest" }) as any as S.Schema<GetSolutionRequest>;
@@ -5624,7 +5624,7 @@ export const GetSolutionMetadatasRequest = /*@__PURE__*/ S.suspend(() =>
       method: "GET",
       uri: "/{resourceUri+}/providers/Microsoft.Edge/solutionMetadatas/{solutionMetadataName}",
       code: 200,
-      apiVersion: "2026-03-01",
+      apiVersion: "2026-06-01",
     }),
   ),
 ).annotate({
@@ -5695,7 +5695,7 @@ export const GetSolutionMetadataVersionRequest = /*@__PURE__*/ S.suspend(() =>
       method: "GET",
       uri: "/{resourceUri+}/providers/Microsoft.Edge/solutionMetadatas/{solutionMetadataName}/versions/{solutionMetadataVersionName}",
       code: 200,
-      apiVersion: "2026-03-01",
+      apiVersion: "2026-06-01",
     }),
   ),
 ).annotate({
@@ -5775,7 +5775,7 @@ export const GetSolutionSchemaRequest = /*@__PURE__*/ S.suspend(() =>
       method: "GET",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Edge/solutionTemplates/{solutionTemplateName}/versions/{solutionTemplateVersionName}/solutionSchemas/{solutionSchemaName}",
       code: 200,
-      apiVersion: "2026-03-01",
+      apiVersion: "2026-06-01",
     }),
   ),
 ).annotate({ identifier: "GetSolutionSchemaRequest" }) as any as S.Schema<GetSolutionSchemaRequest>;
@@ -5783,7 +5783,7 @@ export const GetSolutionSchemaRequest = /*@__PURE__*/ S.suspend(() =>
 /** SolutionSchema Properties */
 export interface SolutionSchemaProperties {
   /** Value of schema */
-  value?: string;
+  value?: unknown;
   /** Hierarchy Level */
   level?: string;
   /** Unique identifier for the solution template, generated by the system */
@@ -5793,7 +5793,7 @@ export interface SolutionSchemaProperties {
 }
 export const SolutionSchemaProperties = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    value: S.optional(S.String),
+    value: S.optional(S.Unknown),
     level: S.optional(S.String),
     templateUniqueIdentifier: S.optional(S.String),
     provisioningState: S.optional(ProvisioningState),
@@ -5845,7 +5845,7 @@ export const GetSolutionTemplateRequest = /*@__PURE__*/ S.suspend(() =>
       method: "GET",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Edge/solutionTemplates/{solutionTemplateName}",
       code: 200,
-      apiVersion: "2026-03-01",
+      apiVersion: "2026-06-01",
     }),
   ),
 ).annotate({
@@ -5950,7 +5950,7 @@ export const GetSolutionTemplateVersionRequest = /*@__PURE__*/ S.suspend(() =>
       method: "GET",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Edge/solutionTemplates/{solutionTemplateName}/versions/{solutionTemplateVersionName}",
       code: 200,
-      apiVersion: "2026-03-01",
+      apiVersion: "2026-06-01",
     }),
   ),
 ).annotate({
@@ -6008,7 +6008,7 @@ export const GetSolutionVersionRequest = /*@__PURE__*/ S.suspend(() =>
       method: "GET",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Edge/targets/{targetName}/solutions/{solutionName}/versions/{solutionVersionName}",
       code: 200,
-      apiVersion: "2026-03-01",
+      apiVersion: "2026-06-01",
     }),
   ),
 ).annotate({
@@ -6172,9 +6172,9 @@ export interface SolutionVersionProperties {
   /** Name of applicable target's display name */
   targetDisplayName?: string;
   /** Resolved configuration values */
-  configuration?: string;
+  configuration?: unknown;
   /** Configuration on the line level across all solution template versions */
-  targetLevelConfiguration?: string;
+  targetLevelConfiguration?: unknown;
   /** App components spec */
   specification: SolutionVersionPropertiesSpecificationMap;
   /** Review id of resolved config for this solution version */
@@ -6207,8 +6207,8 @@ export const SolutionVersionProperties = /*@__PURE__*/ S.suspend(() =>
     solutionTemplateVersionId: S.optional(S.String),
     revision: S.optional(S.Number),
     targetDisplayName: S.optional(S.String),
-    configuration: S.optional(S.String),
-    targetLevelConfiguration: S.optional(S.String),
+    configuration: S.optional(S.Unknown),
+    targetLevelConfiguration: S.optional(S.Unknown),
     specification: SolutionVersionPropertiesSpecificationMap,
     reviewId: S.optional(S.String),
     externalValidationId: S.optional(S.String),
@@ -6275,7 +6275,7 @@ export const GetTargetRequest = /*@__PURE__*/ S.suspend(() =>
       method: "GET",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Edge/targets/{targetName}",
       code: 200,
-      apiVersion: "2026-03-01",
+      apiVersion: "2026-06-01",
     }),
   ),
 ).annotate({ identifier: "GetTargetRequest" }) as any as S.Schema<GetTargetRequest>;
@@ -6309,7 +6309,7 @@ export interface TargetProperties {
   /** ArmId of Context */
   contextId: string;
   /** target spec */
-  targetSpecification: TargetPropertiesTargetSpecificationMap;
+  targetSpecification?: TargetPropertiesTargetSpecificationMap;
   /** List of capabilities */
   capabilities: TargetPropertiesCapabilitiesList;
   /** Hierarchy Level */
@@ -6328,7 +6328,7 @@ export const TargetProperties = /*@__PURE__*/ S.suspend(() =>
     description: S.String,
     displayName: S.String,
     contextId: S.String,
-    targetSpecification: TargetPropertiesTargetSpecificationMap,
+    targetSpecification: S.optional(TargetPropertiesTargetSpecificationMap),
     capabilities: TargetPropertiesCapabilitiesList,
     hierarchyLevel: S.String,
     status: S.optional(DeploymentStatus),
@@ -6393,7 +6393,7 @@ export const GetWorkflowRequest = /*@__PURE__*/ S.suspend(() =>
       method: "GET",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Edge/contexts/{contextName}/workflows/{workflowName}",
       code: 200,
-      apiVersion: "2026-03-01",
+      apiVersion: "2026-06-01",
     }),
   ),
 ).annotate({ identifier: "GetWorkflowRequest" }) as any as S.Schema<GetWorkflowRequest>;
@@ -6464,7 +6464,7 @@ export const GetWorkflowVersionRequest = /*@__PURE__*/ S.suspend(() =>
       method: "GET",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Edge/contexts/{contextName}/workflows/{workflowName}/versions/{versionName}",
       code: 200,
-      apiVersion: "2026-03-01",
+      apiVersion: "2026-06-01",
     }),
   ),
 ).annotate({
@@ -6822,7 +6822,7 @@ export const InstallTargetSolutionRequest = /*@__PURE__*/ S.suspend(() =>
       method: "POST",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Edge/targets/{targetName}/installSolution",
       code: 200,
-      apiVersion: "2026-03-01",
+      apiVersion: "2026-06-01",
     }),
   ),
 ).annotate({
@@ -6887,7 +6887,7 @@ export const InstancesCreateOrUpdateRequest = /*@__PURE__*/ S.suspend(() =>
       method: "PUT",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Edge/targets/{targetName}/solutions/{solutionName}/instances/{instanceName}",
       code: 200,
-      apiVersion: "2026-03-01",
+      apiVersion: "2026-06-01",
     }),
   ),
 ).annotate({
@@ -7010,7 +7010,7 @@ export const ListConfigTemplateByResourceGroupRequest = /*@__PURE__*/ S.suspend(
       method: "GET",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Edge/configTemplates",
       code: 200,
-      apiVersion: "2026-03-01",
+      apiVersion: "2026-06-01",
     }),
   ),
 ).annotate({
@@ -7088,7 +7088,7 @@ export const ListConfigTemplateBySubscriptionRequest = /*@__PURE__*/ S.suspend((
       method: "GET",
       uri: "/subscriptions/{subscriptionId}/providers/Microsoft.Edge/configTemplates",
       code: 200,
-      apiVersion: "2026-03-01",
+      apiVersion: "2026-06-01",
     }),
   ),
 ).annotate({
@@ -7113,7 +7113,7 @@ export const ListConfigTemplateMetadatasByConfigTemplateRequest = /*@__PURE__*/ 
       method: "GET",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Edge/configTemplates/{configTemplateName}/configTemplateMetadatas",
       code: 200,
-      apiVersion: "2026-03-01",
+      apiVersion: "2026-06-01",
     }),
   ),
 ).annotate({
@@ -7189,7 +7189,7 @@ export const ListConfigTemplateSchemaByConfigTemplateVersionRequest = /*@__PURE_
       method: "GET",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Edge/configTemplates/{configTemplateName}/versions/{configTemplateVersionName}/configTemplateSchemas",
       code: 200,
-      apiVersion: "2026-03-01",
+      apiVersion: "2026-06-01",
     }),
   ),
 ).annotate({
@@ -7262,7 +7262,7 @@ export const ListConfigTemplateVersionByConfigTemplateRequest = /*@__PURE__*/ S.
       method: "GET",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Edge/configTemplates/{configTemplateName}/versions",
       code: 200,
-      apiVersion: "2026-03-01",
+      apiVersion: "2026-06-01",
     }),
   ),
 ).annotate({
@@ -7332,7 +7332,7 @@ export const ListConfigurationByResourceGroupRequest = /*@__PURE__*/ S.suspend((
       method: "GET",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Edge/configurations",
       code: 200,
-      apiVersion: "2025-08-01",
+      apiVersion: "2026-06-01",
     }),
   ),
 ).annotate({
@@ -7407,7 +7407,7 @@ export const ListConfigurationBySubscriptionRequest = /*@__PURE__*/ S.suspend(()
       method: "GET",
       uri: "/subscriptions/{subscriptionId}/providers/Microsoft.Edge/configurations",
       code: 200,
-      apiVersion: "2025-08-01",
+      apiVersion: "2026-06-01",
     }),
   ),
 ).annotate({
@@ -7426,7 +7426,7 @@ export const ListConfigurationReferencesRequest = /*@__PURE__*/ S.suspend(() =>
       method: "GET",
       uri: "/{resourceUri+}/providers/Microsoft.Edge/configurationReferences",
       code: 200,
-      apiVersion: "2025-08-01",
+      apiVersion: "2026-06-01",
     }),
   ),
 ).annotate({
@@ -7493,7 +7493,7 @@ export const ListContextByResourceGroupRequest = /*@__PURE__*/ S.suspend(() =>
       method: "GET",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Edge/contexts",
       code: 200,
-      apiVersion: "2026-03-01",
+      apiVersion: "2026-06-01",
     }),
   ),
 ).annotate({
@@ -7568,7 +7568,7 @@ export const ListContextBySubscriptionRequest = /*@__PURE__*/ S.suspend(() =>
       method: "GET",
       uri: "/subscriptions/{subscriptionId}/providers/Microsoft.Edge/contexts",
       code: 200,
-      apiVersion: "2026-03-01",
+      apiVersion: "2026-06-01",
     }),
   ),
 ).annotate({
@@ -7857,7 +7857,7 @@ export const ListDynamicConfigurationByConfigurationRequest = /*@__PURE__*/ S.su
       method: "GET",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Edge/configurations/{configurationName}/dynamicConfigurations",
       code: 200,
-      apiVersion: "2025-08-01",
+      apiVersion: "2026-06-01",
     }),
   ),
 ).annotate({
@@ -7931,7 +7931,7 @@ export const ListDynamicConfigurationVersionByDynamicConfigurationRequest = /*@_
         method: "GET",
         uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Edge/configurations/{configurationName}/dynamicConfigurations/{dynamicConfigurationName}/versions",
         code: 200,
-        apiVersion: "2025-08-01",
+        apiVersion: "2026-06-01",
       }),
     ),
 ).annotate({
@@ -8156,7 +8156,7 @@ export const ListExecutionByWorkflowVersionRequest = /*@__PURE__*/ S.suspend(() 
       method: "GET",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Edge/contexts/{contextName}/workflows/{workflowName}/versions/{versionName}/executions",
       code: 200,
-      apiVersion: "2026-03-01",
+      apiVersion: "2026-06-01",
     }),
   ),
 ).annotate({
@@ -8294,7 +8294,7 @@ export const ListHierarchyConfigurationMetadatasByParentRequest = /*@__PURE__*/ 
       method: "GET",
       uri: "/{resourceUri+}/providers/Microsoft.Edge/hierarchyConfigurationMetadatas",
       code: 200,
-      apiVersion: "2026-03-01",
+      apiVersion: "2026-06-01",
     }),
   ),
 ).annotate({
@@ -8365,7 +8365,7 @@ export const ListHierarchyConfigurationMetadataVersionByParentRequest = /*@__PUR
         method: "GET",
         uri: "/{resourceUri+}/providers/Microsoft.Edge/hierarchyConfigurationMetadatas/{hierarchyConfigurationMetadataName}/versions",
         code: 200,
-        apiVersion: "2026-03-01",
+        apiVersion: "2026-06-01",
       }),
     ),
 ).annotate({
@@ -8518,7 +8518,7 @@ export const ListInstanceBySolutionRequest = /*@__PURE__*/ S.suspend(() =>
       method: "GET",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Edge/targets/{targetName}/solutions/{solutionName}/instances",
       code: 200,
-      apiVersion: "2026-03-01",
+      apiVersion: "2026-06-01",
     }),
   ),
 ).annotate({
@@ -8598,7 +8598,7 @@ export const ListInstanceHistoryByInstanceRequest = /*@__PURE__*/ S.suspend(() =
       method: "GET",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Edge/targets/{targetName}/solutions/{solutionName}/instances/{instanceName}/histories",
       code: 200,
-      apiVersion: "2026-03-01",
+      apiVersion: "2026-06-01",
     }),
   ),
 ).annotate({
@@ -8668,7 +8668,7 @@ export const ListJobByTargetRequest = /*@__PURE__*/ S.suspend(() =>
       method: "GET",
       uri: "/{resourceUri+}/providers/Microsoft.Edge/jobs",
       code: 200,
-      apiVersion: "2026-03-01",
+      apiVersion: "2026-06-01",
     }),
   ),
 ).annotate({ identifier: "ListJobByTargetRequest" }) as any as S.Schema<ListJobByTargetRequest>;
@@ -8816,7 +8816,7 @@ export const ListSchemaByResourceGroupRequest = /*@__PURE__*/ S.suspend(() =>
       method: "GET",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Edge/schemas",
       code: 200,
-      apiVersion: "2026-03-01",
+      apiVersion: "2026-06-01",
     }),
   ),
 ).annotate({
@@ -8894,7 +8894,7 @@ export const ListSchemaBySubscriptionRequest = /*@__PURE__*/ S.suspend(() =>
       method: "GET",
       uri: "/subscriptions/{subscriptionId}/providers/Microsoft.Edge/schemas",
       code: 200,
-      apiVersion: "2026-03-01",
+      apiVersion: "2026-06-01",
     }),
   ),
 ).annotate({
@@ -8986,7 +8986,7 @@ export const ListSchemaVersionBySchemaRequest = /*@__PURE__*/ S.suspend(() =>
       method: "GET",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Edge/schemas/{schemaName}/versions",
       code: 200,
-      apiVersion: "2026-03-01",
+      apiVersion: "2026-06-01",
     }),
   ),
 ).annotate({
@@ -9100,7 +9100,7 @@ export const ListSiteReferenceByContextRequest = /*@__PURE__*/ S.suspend(() =>
       method: "GET",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Edge/contexts/{contextName}/siteReferences",
       code: 200,
-      apiVersion: "2026-03-01",
+      apiVersion: "2026-06-01",
     }),
   ),
 ).annotate({
@@ -9206,7 +9206,7 @@ export const ListSolutionByTargetRequest = /*@__PURE__*/ S.suspend(() =>
       method: "GET",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Edge/targets/{targetName}/solutions",
       code: 200,
-      apiVersion: "2026-03-01",
+      apiVersion: "2026-06-01",
     }),
   ),
 ).annotate({
@@ -9274,7 +9274,7 @@ export const ListSolutionMetadatasByParentRequest = /*@__PURE__*/ S.suspend(() =
       method: "GET",
       uri: "/{resourceUri+}/providers/Microsoft.Edge/solutionMetadatas",
       code: 200,
-      apiVersion: "2026-03-01",
+      apiVersion: "2026-06-01",
     }),
   ),
 ).annotate({
@@ -9341,7 +9341,7 @@ export const ListSolutionMetadataVersionByParentRequest = /*@__PURE__*/ S.suspen
       method: "GET",
       uri: "/{resourceUri+}/providers/Microsoft.Edge/solutionMetadatas/{solutionMetadataName}/versions",
       code: 200,
-      apiVersion: "2026-03-01",
+      apiVersion: "2026-06-01",
     }),
   ),
 ).annotate({
@@ -9414,7 +9414,7 @@ export const ListSolutionSchemaBySolutionTemplateVersionRequest = /*@__PURE__*/ 
       method: "GET",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Edge/solutionTemplates/{solutionTemplateName}/versions/{solutionTemplateVersionName}/solutionSchemas",
       code: 200,
-      apiVersion: "2026-03-01",
+      apiVersion: "2026-06-01",
     }),
   ),
 ).annotate({
@@ -9482,7 +9482,7 @@ export const ListSolutionTemplateByResourceGroupRequest = /*@__PURE__*/ S.suspen
       method: "GET",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Edge/solutionTemplates",
       code: 200,
-      apiVersion: "2026-03-01",
+      apiVersion: "2026-06-01",
     }),
   ),
 ).annotate({
@@ -9562,7 +9562,7 @@ export const ListSolutionTemplateBySubscriptionRequest = /*@__PURE__*/ S.suspend
       method: "GET",
       uri: "/subscriptions/{subscriptionId}/providers/Microsoft.Edge/solutionTemplates",
       code: 200,
-      apiVersion: "2026-03-01",
+      apiVersion: "2026-06-01",
     }),
   ),
 ).annotate({
@@ -9587,7 +9587,7 @@ export const ListSolutionTemplateVersionBySolutionTemplateRequest = /*@__PURE__*
       method: "GET",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Edge/solutionTemplates/{solutionTemplateName}/versions",
       code: 200,
-      apiVersion: "2026-03-01",
+      apiVersion: "2026-06-01",
     }),
   ),
 ).annotate({
@@ -9663,7 +9663,7 @@ export const ListSolutionVersionBySolutionRequest = /*@__PURE__*/ S.suspend(() =
       method: "GET",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Edge/targets/{targetName}/solutions/{solutionName}/versions",
       code: 200,
-      apiVersion: "2026-03-01",
+      apiVersion: "2026-06-01",
     }),
   ),
 ).annotate({
@@ -9736,7 +9736,7 @@ export const ListTargetByResourceGroupRequest = /*@__PURE__*/ S.suspend(() =>
       method: "GET",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Edge/targets",
       code: 200,
-      apiVersion: "2026-03-01",
+      apiVersion: "2026-06-01",
     }),
   ),
 ).annotate({
@@ -9817,7 +9817,7 @@ export const ListTargetBySubscriptionRequest = /*@__PURE__*/ S.suspend(() =>
       method: "GET",
       uri: "/subscriptions/{subscriptionId}/providers/Microsoft.Edge/targets",
       code: 200,
-      apiVersion: "2026-03-01",
+      apiVersion: "2026-06-01",
     }),
   ),
 ).annotate({
@@ -9842,7 +9842,7 @@ export const ListWorkflowByContextRequest = /*@__PURE__*/ S.suspend(() =>
       method: "GET",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Edge/contexts/{contextName}/workflows",
       code: 200,
-      apiVersion: "2026-03-01",
+      apiVersion: "2026-06-01",
     }),
   ),
 ).annotate({
@@ -9919,7 +9919,7 @@ export const ListWorkflowVersionByWorkflowRequest = /*@__PURE__*/ S.suspend(() =
       method: "GET",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Edge/contexts/{contextName}/workflows/{workflowName}/versions",
       code: 200,
-      apiVersion: "2026-03-01",
+      apiVersion: "2026-06-01",
     }),
   ),
 ).annotate({
@@ -9998,7 +9998,7 @@ export const PublishTargetSolutionVersionRequest = /*@__PURE__*/ S.suspend(() =>
       method: "POST",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Edge/targets/{targetName}/publishSolutionVersion",
       code: 200,
-      apiVersion: "2026-03-01",
+      apiVersion: "2026-06-01",
     }),
   ),
 ).annotate({
@@ -10056,7 +10056,7 @@ export const RemoveConfigTemplateVersionRequest = /*@__PURE__*/ S.suspend(() =>
       method: "POST",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Edge/configTemplates/{configTemplateName}/removeVersion",
       code: 200,
-      apiVersion: "2026-03-01",
+      apiVersion: "2026-06-01",
     }),
   ),
 ).annotate({
@@ -10095,7 +10095,7 @@ export const RemoveSchemaVersionRequest = /*@__PURE__*/ S.suspend(() =>
       method: "POST",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Edge/schemas/{schemaName}/removeVersion",
       code: 200,
-      apiVersion: "2026-03-01",
+      apiVersion: "2026-06-01",
     }),
   ),
 ).annotate({
@@ -10123,7 +10123,7 @@ export const RemoveSolutionTemplateVersionRequest = /*@__PURE__*/ S.suspend(() =
       method: "POST",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Edge/solutionTemplates/{solutionTemplateName}/removeVersion",
       code: 200,
-      apiVersion: "2026-03-01",
+      apiVersion: "2026-06-01",
     }),
   ),
 ).annotate({
@@ -10161,7 +10161,7 @@ export const RemoveTargetRevisionRequest = /*@__PURE__*/ S.suspend(() =>
       method: "POST",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Edge/targets/{targetName}/removeRevision",
       code: 200,
-      apiVersion: "2026-03-01",
+      apiVersion: "2026-06-01",
     }),
   ),
 ).annotate({
@@ -10207,7 +10207,7 @@ export const ReviewTargetSolutionVersionRequest = /*@__PURE__*/ S.suspend(() =>
       method: "POST",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Edge/targets/{targetName}/reviewSolutionVersion",
       code: 200,
-      apiVersion: "2026-03-01",
+      apiVersion: "2026-06-01",
     }),
   ),
 ).annotate({
@@ -10347,7 +10347,7 @@ export const SchemasCreateOrUpdateRequest = /*@__PURE__*/ S.suspend(() =>
       method: "PUT",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Edge/schemas/{schemaName}",
       code: 200,
-      apiVersion: "2026-03-01",
+      apiVersion: "2026-06-01",
     }),
   ),
 ).annotate({
@@ -10418,7 +10418,7 @@ export const SchemaVersionsCreateOrUpdateRequest = /*@__PURE__*/ S.suspend(() =>
       method: "PUT",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Edge/schemas/{schemaName}/versions/{schemaVersionName}",
       code: 200,
-      apiVersion: "2026-03-01",
+      apiVersion: "2026-06-01",
     }),
   ),
 ).annotate({
@@ -10489,7 +10489,7 @@ export const SiteReferencesCreateOrUpdateRequest = /*@__PURE__*/ S.suspend(() =>
       method: "PUT",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Edge/contexts/{contextName}/siteReferences/{siteReferenceName}",
       code: 200,
-      apiVersion: "2026-03-01",
+      apiVersion: "2026-06-01",
     }),
   ),
 ).annotate({
@@ -10728,7 +10728,7 @@ export const SolutionsCreateOrUpdateRequest = /*@__PURE__*/ S.suspend(() =>
       method: "PUT",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Edge/targets/{targetName}/solutions/{solutionName}",
       code: 200,
-      apiVersion: "2026-03-01",
+      apiVersion: "2026-06-01",
     }),
   ),
 ).annotate({
@@ -10827,7 +10827,7 @@ export const SolutionTemplatesCreateOrUpdateRequest = /*@__PURE__*/ S.suspend(()
       method: "PUT",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Edge/solutionTemplates/{solutionTemplateName}",
       code: 200,
-      apiVersion: "2026-03-01",
+      apiVersion: "2026-06-01",
     }),
   ),
 ).annotate({
@@ -10916,7 +10916,7 @@ export const SolutionTemplateVersionsBulkDeploySolutionRequest = /*@__PURE__*/ S
       method: "POST",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Edge/solutionTemplates/{solutionTemplateName}/versions/{solutionTemplateVersionName}/bulkDeploySolution",
       code: 200,
-      apiVersion: "2026-03-01",
+      apiVersion: "2026-06-01",
     }),
   ),
 ).annotate({
@@ -11009,7 +11009,7 @@ export const SolutionTemplateVersionsBulkPublishSolutionRequest = /*@__PURE__*/ 
       method: "POST",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Edge/solutionTemplates/{solutionTemplateName}/versions/{solutionTemplateVersionName}/bulkPublishSolution",
       code: 200,
-      apiVersion: "2026-03-01",
+      apiVersion: "2026-06-01",
     }),
   ),
 ).annotate({
@@ -11047,7 +11047,7 @@ export const SolutionTemplateVersionsCreateOrUpdateRequest = /*@__PURE__*/ S.sus
       method: "PUT",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Edge/solutionTemplates/{solutionTemplateName}/versions/{solutionTemplateVersionName}",
       code: 200,
-      apiVersion: "2026-03-01",
+      apiVersion: "2026-06-01",
     }),
   ),
 ).annotate({
@@ -11138,7 +11138,7 @@ export const SolutionVersionsCreateOrUpdateRequest = /*@__PURE__*/ S.suspend(() 
       method: "PUT",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Edge/targets/{targetName}/solutions/{solutionName}/versions/{solutionVersionName}",
       code: 200,
-      apiVersion: "2026-03-01",
+      apiVersion: "2026-06-01",
     }),
   ),
 ).annotate({
@@ -11204,7 +11204,7 @@ export interface TargetPropertiesInput {
   /** ArmId of Context */
   contextId: string;
   /** target spec */
-  targetSpecification: TargetPropertiesInputTargetSpecificationMap;
+  targetSpecification?: TargetPropertiesInputTargetSpecificationMap;
   /** List of capabilities */
   capabilities: TargetPropertiesInputCapabilitiesList;
   /** Hierarchy Level */
@@ -11219,7 +11219,7 @@ export const TargetPropertiesInput = /*@__PURE__*/ S.suspend(() =>
     description: S.String,
     displayName: S.String,
     contextId: S.String,
-    targetSpecification: TargetPropertiesInputTargetSpecificationMap,
+    targetSpecification: S.optional(TargetPropertiesInputTargetSpecificationMap),
     capabilities: TargetPropertiesInputCapabilitiesList,
     hierarchyLevel: S.String,
     solutionScope: S.optional(S.String),
@@ -11257,7 +11257,7 @@ export const TargetsCreateOrUpdateRequest = /*@__PURE__*/ S.suspend(() =>
       method: "PUT",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Edge/targets/{targetName}",
       code: 200,
-      apiVersion: "2026-03-01",
+      apiVersion: "2026-06-01",
     }),
   ),
 ).annotate({
@@ -11341,7 +11341,7 @@ export const TargetsResolveConfigurationRequest = /*@__PURE__*/ S.suspend(() =>
       method: "POST",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Edge/targets/{targetName}/resolveConfiguration",
       code: 200,
-      apiVersion: "2026-03-01",
+      apiVersion: "2026-06-01",
     }),
   ),
 ).annotate({
@@ -11380,7 +11380,7 @@ export const TargetsUnstageSolutionVersionRequest = /*@__PURE__*/ S.suspend(() =
       method: "POST",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Edge/targets/{targetName}/unstageSolutionVersion",
       code: 200,
-      apiVersion: "2026-03-01",
+      apiVersion: "2026-06-01",
     }),
   ),
 ).annotate({
@@ -11441,7 +11441,7 @@ export const UninstallTargetSolutionRequest = /*@__PURE__*/ S.suspend(() =>
       method: "POST",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Edge/targets/{targetName}/uninstallSolution",
       code: 200,
-      apiVersion: "2026-03-01",
+      apiVersion: "2026-06-01",
     }),
   ),
 ).annotate({
@@ -11497,7 +11497,7 @@ export const UpdateConfigTemplateRequest = /*@__PURE__*/ S.suspend(() =>
       method: "PATCH",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Edge/configTemplates/{configTemplateName}",
       code: 200,
-      apiVersion: "2026-03-01",
+      apiVersion: "2026-06-01",
     }),
   ),
 ).annotate({
@@ -11600,7 +11600,7 @@ export const UpdateConfigTemplateMetadatasRequest = /*@__PURE__*/ S.suspend(() =
       method: "PATCH",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Edge/configTemplates/{configTemplateName}/configTemplateMetadatas/{configTemplateMetadataName}",
       code: 200,
-      apiVersion: "2026-03-01",
+      apiVersion: "2026-06-01",
     }),
   ),
 ).annotate({
@@ -11637,11 +11637,11 @@ export const UpdateConfigTemplateMetadatasResponse = /*@__PURE__*/ S.suspend(() 
 /** Config Template Version Properties */
 export interface ConfigTemplateVersionPropertiesUpdate {
   /** Configuration values */
-  configurations?: string;
+  configurations?: unknown;
 }
 export const ConfigTemplateVersionPropertiesUpdate = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    configurations: S.optional(S.String),
+    configurations: S.optional(S.Unknown),
   }),
 ).annotate({
   identifier: "ConfigTemplateVersionPropertiesUpdate",
@@ -11671,7 +11671,7 @@ export const UpdateConfigTemplateVersionRequest = /*@__PURE__*/ S.suspend(() =>
       method: "PATCH",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Edge/configTemplates/{configTemplateName}/versions/{configTemplateVersionName}",
       code: 200,
-      apiVersion: "2026-03-01",
+      apiVersion: "2026-06-01",
     }),
   ),
 ).annotate({
@@ -11736,7 +11736,7 @@ export const UpdateConfigurationRequest = /*@__PURE__*/ S.suspend(() =>
       method: "PATCH",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Edge/configurations/{configurationName}",
       code: 200,
-      apiVersion: "2025-08-01",
+      apiVersion: "2026-06-01",
     }),
   ),
 ).annotate({
@@ -11798,7 +11798,7 @@ export const UpdateConfigurationReferenceRequest = /*@__PURE__*/ S.suspend(() =>
       method: "PATCH",
       uri: "/{resourceUri+}/providers/Microsoft.Edge/configurationReferences/{configurationReferenceName}",
       code: 200,
-      apiVersion: "2025-08-01",
+      apiVersion: "2026-06-01",
     }),
   ),
 ).annotate({
@@ -11886,7 +11886,7 @@ export const UpdateContextRequest = /*@__PURE__*/ S.suspend(() =>
       method: "PATCH",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Edge/contexts/{contextName}",
       code: 200,
-      apiVersion: "2026-03-01",
+      apiVersion: "2026-06-01",
     }),
   ),
 ).annotate({ identifier: "UpdateContextRequest" }) as any as S.Schema<UpdateContextRequest>;
@@ -12177,7 +12177,7 @@ export const UpdateDynamicConfigurationRequest = /*@__PURE__*/ S.suspend(() =>
       method: "PATCH",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Edge/configurations/{configurationName}/dynamicConfigurations/{dynamicConfigurationName}",
       code: 200,
-      apiVersion: "2025-08-01",
+      apiVersion: "2026-06-01",
     }),
   ),
 ).annotate({
@@ -12211,11 +12211,11 @@ export const UpdateDynamicConfigurationResponse = /*@__PURE__*/ S.suspend(() =>
 /** Dynamic Configuration Properties */
 export interface DynamicConfigurationVersionPropertiesUpdate {
   /** Values of configuration version */
-  values?: string;
+  values?: unknown;
 }
 export const DynamicConfigurationVersionPropertiesUpdate = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    values: S.optional(S.String),
+    values: S.optional(S.Unknown),
   }),
 ).annotate({
   identifier: "DynamicConfigurationVersionPropertiesUpdate",
@@ -12248,7 +12248,7 @@ export const UpdateDynamicConfigurationVersionRequest = /*@__PURE__*/ S.suspend(
       method: "PATCH",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Edge/configurations/{configurationName}/dynamicConfigurations/{dynamicConfigurationName}/versions/{dynamicConfigurationVersionName}",
       code: 200,
-      apiVersion: "2025-08-01",
+      apiVersion: "2026-06-01",
     }),
   ),
 ).annotate({
@@ -12340,11 +12340,11 @@ export const UpdateDynamicSchemaResponse = /*@__PURE__*/ S.suspend(() =>
 /** Schema Version Properties */
 export interface SchemaVersionPropertiesUpdate {
   /** Value of schema version */
-  value?: string;
+  value?: unknown;
 }
 export const SchemaVersionPropertiesUpdate = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    value: S.optional(S.String),
+    value: S.optional(S.Unknown),
   }),
 ).annotate({
   identifier: "SchemaVersionPropertiesUpdate",
@@ -12464,7 +12464,7 @@ export const UpdateExecutionRequest = /*@__PURE__*/ S.suspend(() =>
       method: "PATCH",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Edge/contexts/{contextName}/workflows/{workflowName}/versions/{versionName}/executions/{executionName}",
       code: 200,
-      apiVersion: "2026-03-01",
+      apiVersion: "2026-06-01",
     }),
   ),
 ).annotate({ identifier: "UpdateExecutionRequest" }) as any as S.Schema<UpdateExecutionRequest>;
@@ -12563,7 +12563,7 @@ export const UpdateInstanceRequest = /*@__PURE__*/ S.suspend(() =>
       method: "PATCH",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Edge/targets/{targetName}/solutions/{solutionName}/instances/{instanceName}",
       code: 200,
-      apiVersion: "2026-03-01",
+      apiVersion: "2026-06-01",
     }),
   ),
 ).annotate({ identifier: "UpdateInstanceRequest" }) as any as S.Schema<UpdateInstanceRequest>;
@@ -12631,7 +12631,7 @@ export const UpdateSchemaRequest = /*@__PURE__*/ S.suspend(() =>
       method: "PATCH",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Edge/schemas/{schemaName}",
       code: 200,
-      apiVersion: "2026-03-01",
+      apiVersion: "2026-06-01",
     }),
   ),
 ).annotate({ identifier: "UpdateSchemaRequest" }) as any as S.Schema<UpdateSchemaRequest>;
@@ -12763,7 +12763,7 @@ export const UpdateSchemaVersionRequest = /*@__PURE__*/ S.suspend(() =>
       method: "PATCH",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Edge/schemas/{schemaName}/versions/{schemaVersionName}",
       code: 200,
-      apiVersion: "2026-03-01",
+      apiVersion: "2026-06-01",
     }),
   ),
 ).annotate({
@@ -12909,7 +12909,7 @@ export const UpdateSiteReferenceRequest = /*@__PURE__*/ S.suspend(() =>
       method: "PATCH",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Edge/contexts/{contextName}/siteReferences/{siteReferenceName}",
       code: 200,
-      apiVersion: "2026-03-01",
+      apiVersion: "2026-06-01",
     }),
   ),
 ).annotate({
@@ -13066,7 +13066,7 @@ export const UpdateSolutionRequest = /*@__PURE__*/ S.suspend(() =>
       method: "PATCH",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Edge/targets/{targetName}/solutions/{solutionName}",
       code: 200,
-      apiVersion: "2026-03-01",
+      apiVersion: "2026-06-01",
     }),
   ),
 ).annotate({ identifier: "UpdateSolutionRequest" }) as any as S.Schema<UpdateSolutionRequest>;
@@ -13158,7 +13158,7 @@ export const UpdateSolutionTemplateRequest = /*@__PURE__*/ S.suspend(() =>
       method: "PATCH",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Edge/solutionTemplates/{solutionTemplateName}",
       code: 200,
-      apiVersion: "2026-03-01",
+      apiVersion: "2026-06-01",
     }),
   ),
 ).annotate({
@@ -13217,7 +13217,7 @@ export const SolutionTemplateVersionPropertiesUpdateSpecificationMap = /*@__PURE
 /** Solution Template Version Properties */
 export interface SolutionTemplateVersionPropertiesUpdate {
   /** Config expressions for this solution version */
-  configurations?: string;
+  configurations?: unknown;
   /** App components spec */
   specification?: SolutionTemplateVersionPropertiesUpdateSpecificationMap;
   /** Orchestrator type */
@@ -13225,7 +13225,7 @@ export interface SolutionTemplateVersionPropertiesUpdate {
 }
 export const SolutionTemplateVersionPropertiesUpdate = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    configurations: S.optional(S.String),
+    configurations: S.optional(S.Unknown),
     specification: S.optional(SolutionTemplateVersionPropertiesUpdateSpecificationMap),
     orchestratorType: S.optional(OrchestratorType),
   }),
@@ -13257,7 +13257,7 @@ export const UpdateSolutionTemplateVersionRequest = /*@__PURE__*/ S.suspend(() =
       method: "PATCH",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Edge/solutionTemplates/{solutionTemplateName}/versions/{solutionTemplateVersionName}",
       code: 200,
-      apiVersion: "2026-03-01",
+      apiVersion: "2026-06-01",
     }),
   ),
 ).annotate({
@@ -13340,7 +13340,7 @@ export const UpdateSolutionVersionRequest = /*@__PURE__*/ S.suspend(() =>
       method: "PATCH",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Edge/targets/{targetName}/solutions/{solutionName}/versions/{solutionVersionName}",
       code: 200,
-      apiVersion: "2026-03-01",
+      apiVersion: "2026-06-01",
     }),
   ),
 ).annotate({
@@ -13453,7 +13453,7 @@ export const UpdateTargetRequest = /*@__PURE__*/ S.suspend(() =>
       method: "PATCH",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Edge/targets/{targetName}",
       code: 200,
-      apiVersion: "2026-03-01",
+      apiVersion: "2026-06-01",
     }),
   ),
 ).annotate({ identifier: "UpdateTargetRequest" }) as any as S.Schema<UpdateTargetRequest>;
@@ -13537,7 +13537,7 @@ export const UpdateTargetExternalValidationStatusRequest = /*@__PURE__*/ S.suspe
       method: "POST",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Edge/targets/{targetName}/updateExternalValidationStatus",
       code: 200,
-      apiVersion: "2026-03-01",
+      apiVersion: "2026-06-01",
     }),
   ),
 ).annotate({
@@ -13602,7 +13602,7 @@ export const UpdateWorkflowRequest = /*@__PURE__*/ S.suspend(() =>
       method: "PATCH",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Edge/contexts/{contextName}/workflows/{workflowName}",
       code: 200,
-      apiVersion: "2026-03-01",
+      apiVersion: "2026-06-01",
     }),
   ),
 ).annotate({ identifier: "UpdateWorkflowRequest" }) as any as S.Schema<UpdateWorkflowRequest>;
@@ -13693,7 +13693,7 @@ export const UpdateWorkflowVersionRequest = /*@__PURE__*/ S.suspend(() =>
       method: "PATCH",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Edge/contexts/{contextName}/workflows/{workflowName}/versions/{versionName}",
       code: 200,
-      apiVersion: "2026-03-01",
+      apiVersion: "2026-06-01",
     }),
   ),
 ).annotate({
@@ -13757,7 +13757,7 @@ export const WorkflowsCreateOrUpdateRequest = /*@__PURE__*/ S.suspend(() =>
       method: "PUT",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Edge/contexts/{contextName}/workflows/{workflowName}",
       code: 200,
-      apiVersion: "2026-03-01",
+      apiVersion: "2026-06-01",
     }),
   ),
 ).annotate({
@@ -13853,7 +13853,7 @@ export const WorkflowVersionsCreateOrUpdateRequest = /*@__PURE__*/ S.suspend(() 
       method: "PUT",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Edge/contexts/{contextName}/workflows/{workflowName}/versions/{versionName}",
       code: 200,
-      apiVersion: "2026-03-01",
+      apiVersion: "2026-06-01",
     }),
   ),
 ).annotate({

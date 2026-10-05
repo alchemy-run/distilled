@@ -31,10 +31,10 @@
           "method": "GET",
           "uri": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/trafficmanagerprofiles/{profileName}/heatMaps/{heatMapType}",
           "code": 200,
-          "apiVersion": "2022-04-01"
+          "apiVersion": "2026-09-01"
         },
         "smithy.api#documentation": "Gets latest heatmap for Traffic Manager profile.",
-        "com.distilled.openapi#apiVersion": "2022-04-01"
+        "com.distilled.openapi#apiVersion": "2026-09-01"
       }
     },
     "com.azure.trafficmanager#GetHeatMapResponse": {
@@ -216,7 +216,7 @@
           "traits": {
             "smithy.api#httpLabel": {},
             "smithy.api#required": {},
-            "smithy.api#documentation": "The ID of the target subscription."
+            "smithy.api#documentation": "The ID of the target subscription. The value must be an UUID."
           }
         },
         "resourceGroupName": {
@@ -301,10 +301,10 @@
           "method": "DELETE",
           "uri": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/trafficmanagerprofiles/{profileName}/{endpointType}/{endpointName}",
           "code": 200,
-          "apiVersion": "2022-04-01"
+          "apiVersion": "2026-09-01"
         },
         "smithy.api#documentation": "Deletes a Traffic Manager endpoint.",
-        "com.distilled.openapi#apiVersion": "2022-04-01"
+        "com.distilled.openapi#apiVersion": "2026-09-01"
       }
     },
     "com.azure.trafficmanager#DeleteOperationResult": {
@@ -329,7 +329,7 @@
           "traits": {
             "smithy.api#httpLabel": {},
             "smithy.api#required": {},
-            "smithy.api#documentation": "The ID of the target subscription."
+            "smithy.api#documentation": "The ID of the target subscription. The value must be an UUID."
           }
         },
         "resourceGroupName": {
@@ -406,10 +406,10 @@
           "method": "PATCH",
           "uri": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/trafficmanagerprofiles/{profileName}/{endpointType}/{endpointName}",
           "code": 200,
-          "apiVersion": "2022-04-01"
+          "apiVersion": "2026-09-01"
         },
         "smithy.api#documentation": "Update a Traffic Manager endpoint.",
-        "com.distilled.openapi#apiVersion": "2022-04-01"
+        "com.distilled.openapi#apiVersion": "2026-09-01"
       }
     },
     "com.azure.trafficmanager#UpdateEndpointResponse": {
@@ -707,7 +707,7 @@
           "traits": {
             "smithy.api#httpLabel": {},
             "smithy.api#required": {},
-            "smithy.api#documentation": "The ID of the target subscription."
+            "smithy.api#documentation": "The ID of the target subscription. The value must be an UUID."
           }
         },
         "resourceGroupName": {
@@ -808,10 +808,10 @@
           "method": "PUT",
           "uri": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/trafficmanagerprofiles/{profileName}/{endpointType}/{endpointName}",
           "code": 200,
-          "apiVersion": "2022-04-01"
+          "apiVersion": "2026-09-01"
         },
         "smithy.api#documentation": "Create or update a Traffic Manager endpoint.",
-        "com.distilled.openapi#apiVersion": "2022-04-01"
+        "com.distilled.openapi#apiVersion": "2026-09-01"
       }
     },
     "com.azure.trafficmanager#EndpointsCreateOrUpdateResponse": {
@@ -854,7 +854,7 @@
           "traits": {
             "smithy.api#httpLabel": {},
             "smithy.api#required": {},
-            "smithy.api#documentation": "The ID of the target subscription."
+            "smithy.api#documentation": "The ID of the target subscription. The value must be an UUID."
           }
         },
         "resourceGroupName": {
@@ -955,10 +955,10 @@
           "method": "GET",
           "uri": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/trafficmanagerprofiles/{profileName}/{endpointType}/{endpointName}",
           "code": 200,
-          "apiVersion": "2022-04-01"
+          "apiVersion": "2026-09-01"
         },
         "smithy.api#documentation": "Gets a Traffic Manager endpoint.",
-        "com.distilled.openapi#apiVersion": "2022-04-01"
+        "com.distilled.openapi#apiVersion": "2026-09-01"
       }
     },
     "com.azure.trafficmanager#GetEndpointResponse": {
@@ -1001,7 +1001,7 @@
           "traits": {
             "smithy.api#httpLabel": {},
             "smithy.api#required": {},
-            "smithy.api#documentation": "The ID of the target subscription."
+            "smithy.api#documentation": "The ID of the target subscription. The value must be an UUID."
           }
         },
         "resourceGroupName": {
@@ -1078,10 +1078,10 @@
           "method": "DELETE",
           "uri": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/trafficmanagerprofiles/{profileName}",
           "code": 200,
-          "apiVersion": "2022-04-01"
+          "apiVersion": "2026-09-01"
         },
         "smithy.api#documentation": "Deletes a Traffic Manager profile.",
-        "com.distilled.openapi#apiVersion": "2022-04-01"
+        "com.distilled.openapi#apiVersion": "2026-09-01"
       }
     },
     "com.azure.trafficmanager#DeleteProfileRequest": {
@@ -1092,7 +1092,7 @@
           "traits": {
             "smithy.api#httpLabel": {},
             "smithy.api#required": {},
-            "smithy.api#documentation": "The ID of the target subscription."
+            "smithy.api#documentation": "The ID of the target subscription. The value must be an UUID."
           }
         },
         "resourceGroupName": {
@@ -1129,10 +1129,10 @@
           "method": "PATCH",
           "uri": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/trafficmanagerprofiles/{profileName}",
           "code": 200,
-          "apiVersion": "2022-04-01"
+          "apiVersion": "2026-09-01"
         },
         "smithy.api#documentation": "Update a Traffic Manager profile.",
-        "com.distilled.openapi#apiVersion": "2022-04-01"
+        "com.distilled.openapi#apiVersion": "2026-09-01"
       }
     },
     "com.azure.trafficmanager#UpdateProfileResponse": {
@@ -1229,10 +1229,42 @@
           "traits": {
             "smithy.api#documentation": "Maximum number of endpoints to be returned for MultiValue routing type."
           }
+        },
+        "recordType": {
+          "target": "com.azure.trafficmanager#RecordType",
+          "traits": {
+            "smithy.api#documentation": "When record type is set, a traffic manager profile will allow only endpoints that match this type. If it is not set, traffic manager profile will allow adding all types of endpoints. It is returned as null when this is not set."
+          }
         }
       },
       "traits": {
         "smithy.api#documentation": "Class representing the Traffic Manager profile properties."
+      }
+    },
+    "com.azure.trafficmanager#RecordType": {
+      "type": "enum",
+      "members": {
+        "A": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "A"
+          }
+        },
+        "AAAA": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "AAAA"
+          }
+        },
+        "CNAME": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "CNAME"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "When record type is set, a traffic manager profile will allow only endpoints that match this type."
       }
     },
     "com.azure.trafficmanager#ProfilePropertiesAllowedEndpointRecordTypesList": {
@@ -1631,7 +1663,7 @@
           "traits": {
             "smithy.api#httpLabel": {},
             "smithy.api#required": {},
-            "smithy.api#documentation": "The ID of the target subscription."
+            "smithy.api#documentation": "The ID of the target subscription. The value must be an UUID."
           }
         },
         "resourceGroupName": {
@@ -1741,6 +1773,12 @@
           "traits": {
             "smithy.api#documentation": "Maximum number of endpoints to be returned for MultiValue routing type."
           }
+        },
+        "recordType": {
+          "target": "com.azure.trafficmanager#RecordType",
+          "traits": {
+            "smithy.api#documentation": "When record type is set, a traffic manager profile will allow only endpoints that match this type. If it is not set, traffic manager profile will allow adding all types of endpoints. It is returned as null when this is not set."
+          }
         }
       },
       "traits": {
@@ -1810,10 +1848,10 @@
           "method": "PUT",
           "uri": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/trafficmanagerprofiles/{profileName}",
           "code": 200,
-          "apiVersion": "2022-04-01"
+          "apiVersion": "2026-09-01"
         },
         "smithy.api#documentation": "Create or update a Traffic Manager profile.",
-        "com.distilled.openapi#apiVersion": "2022-04-01"
+        "com.distilled.openapi#apiVersion": "2026-09-01"
       }
     },
     "com.azure.trafficmanager#ProfilesCreateOrUpdateResponse": {
@@ -1880,7 +1918,7 @@
           "traits": {
             "smithy.api#httpLabel": {},
             "smithy.api#required": {},
-            "smithy.api#documentation": "The ID of the target subscription."
+            "smithy.api#documentation": "The ID of the target subscription. The value must be an UUID."
           }
         },
         "resourceGroupName": {
@@ -1965,10 +2003,10 @@
           "method": "GET",
           "uri": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/trafficmanagerprofiles/{profileName}",
           "code": 200,
-          "apiVersion": "2022-04-01"
+          "apiVersion": "2026-09-01"
         },
         "smithy.api#documentation": "Gets a Traffic Manager profile.",
-        "com.distilled.openapi#apiVersion": "2022-04-01"
+        "com.distilled.openapi#apiVersion": "2026-09-01"
       }
     },
     "com.azure.trafficmanager#GetProfileResponse": {
@@ -2035,7 +2073,7 @@
           "traits": {
             "smithy.api#httpLabel": {},
             "smithy.api#required": {},
-            "smithy.api#documentation": "The ID of the target subscription."
+            "smithy.api#documentation": "The ID of the target subscription. The value must be an UUID."
           }
         },
         "resourceGroupName": {
@@ -2072,10 +2110,10 @@
           "method": "GET",
           "uri": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/trafficmanagerprofiles",
           "code": 200,
-          "apiVersion": "2022-04-01"
+          "apiVersion": "2026-09-01"
         },
         "smithy.api#documentation": "Lists all Traffic Manager profiles within a resource group.",
-        "com.distilled.openapi#apiVersion": "2022-04-01"
+        "com.distilled.openapi#apiVersion": "2026-09-01"
       }
     },
     "com.azure.trafficmanager#ProfileListResult": {
@@ -2172,7 +2210,7 @@
           "traits": {
             "smithy.api#httpLabel": {},
             "smithy.api#required": {},
-            "smithy.api#documentation": "The ID of the target subscription."
+            "smithy.api#documentation": "The ID of the target subscription. The value must be an UUID."
           }
         },
         "resourceGroupName": {
@@ -2201,10 +2239,10 @@
           "method": "GET",
           "uri": "/subscriptions/{subscriptionId}/providers/Microsoft.Network/trafficmanagerprofiles",
           "code": 200,
-          "apiVersion": "2022-04-01"
+          "apiVersion": "2026-09-01"
         },
         "smithy.api#documentation": "Lists all Traffic Manager profiles within a subscription.",
-        "com.distilled.openapi#apiVersion": "2022-04-01"
+        "com.distilled.openapi#apiVersion": "2026-09-01"
       }
     },
     "com.azure.trafficmanager#ListProfileBySubscriptionRequest": {
@@ -2215,7 +2253,7 @@
           "traits": {
             "smithy.api#httpLabel": {},
             "smithy.api#required": {},
-            "smithy.api#documentation": "The ID of the target subscription."
+            "smithy.api#documentation": "The ID of the target subscription. The value must be an UUID."
           }
         }
       },
@@ -2236,10 +2274,10 @@
           "method": "DELETE",
           "uri": "/subscriptions/{subscriptionId}/providers/Microsoft.Network/trafficManagerUserMetricsKeys/default",
           "code": 200,
-          "apiVersion": "2022-04-01"
+          "apiVersion": "2026-09-01"
         },
         "smithy.api#documentation": "Delete a subscription-level key used for Real User Metrics collection.",
-        "com.distilled.openapi#apiVersion": "2022-04-01"
+        "com.distilled.openapi#apiVersion": "2026-09-01"
       }
     },
     "com.azure.trafficmanager#DeleteTrafficManagerUserMetricsKeyRequest": {
@@ -2250,7 +2288,7 @@
           "traits": {
             "smithy.api#httpLabel": {},
             "smithy.api#required": {},
-            "smithy.api#documentation": "The ID of the target subscription."
+            "smithy.api#documentation": "The ID of the target subscription. The value must be an UUID."
           }
         }
       },
@@ -2271,10 +2309,10 @@
           "method": "PUT",
           "uri": "/subscriptions/{subscriptionId}/providers/Microsoft.Network/trafficManagerUserMetricsKeys/default",
           "code": 200,
-          "apiVersion": "2022-04-01"
+          "apiVersion": "2026-09-01"
         },
         "smithy.api#documentation": "Create or update a subscription-level key used for Real User Metrics collection.",
-        "com.distilled.openapi#apiVersion": "2022-04-01"
+        "com.distilled.openapi#apiVersion": "2026-09-01"
       }
     },
     "com.azure.trafficmanager#TrafficManagerUserMetricsKeysCreateOrUpdateResponse": {
@@ -2331,7 +2369,7 @@
           "traits": {
             "smithy.api#httpLabel": {},
             "smithy.api#required": {},
-            "smithy.api#documentation": "The ID of the target subscription."
+            "smithy.api#documentation": "The ID of the target subscription. The value must be an UUID."
           }
         }
       },
@@ -2352,10 +2390,10 @@
           "method": "GET",
           "uri": "/subscriptions/{subscriptionId}/providers/Microsoft.Network/trafficManagerUserMetricsKeys/default",
           "code": 200,
-          "apiVersion": "2022-04-01"
+          "apiVersion": "2026-09-01"
         },
         "smithy.api#documentation": "Get the subscription-level key used for Real User Metrics collection.",
-        "com.distilled.openapi#apiVersion": "2022-04-01"
+        "com.distilled.openapi#apiVersion": "2026-09-01"
       }
     },
     "com.azure.trafficmanager#GetTrafficManagerUserMetricsKeyResponse": {
@@ -2398,7 +2436,7 @@
           "traits": {
             "smithy.api#httpLabel": {},
             "smithy.api#required": {},
-            "smithy.api#documentation": "The ID of the target subscription."
+            "smithy.api#documentation": "The ID of the target subscription. The value must be an UUID."
           }
         }
       },
@@ -2419,10 +2457,10 @@
           "method": "POST",
           "uri": "/subscriptions/{subscriptionId}/providers/Microsoft.Network/checkTrafficManagerNameAvailabilityV2",
           "code": 200,
-          "apiVersion": "2022-04-01"
+          "apiVersion": "2026-09-01"
         },
         "smithy.api#documentation": "Checks the availability of a Traffic Manager Relative DNS name.",
-        "com.distilled.openapi#apiVersion": "2022-04-01"
+        "com.distilled.openapi#apiVersion": "2026-09-01"
       }
     },
     "com.azure.trafficmanager#TrafficManagerNameAvailability": {
@@ -2471,7 +2509,7 @@
           "traits": {
             "smithy.api#httpLabel": {},
             "smithy.api#required": {},
-            "smithy.api#documentation": "The ID of the target subscription."
+            "smithy.api#documentation": "The ID of the target subscription. The value must be an UUID."
           }
         },
         "name": {
@@ -2504,10 +2542,10 @@
           "method": "GET",
           "uri": "/providers/Microsoft.Network/trafficManagerGeographicHierarchies/default",
           "code": 200,
-          "apiVersion": "2022-04-01"
+          "apiVersion": "2026-09-01"
         },
         "smithy.api#documentation": "Gets the default Geographic Hierarchy used by the Geographic traffic routing method.",
-        "com.distilled.openapi#apiVersion": "2022-04-01"
+        "com.distilled.openapi#apiVersion": "2026-09-01"
       }
     },
     "com.azure.trafficmanager#GetGeographicHierarchyDefaultResponse": {
@@ -2604,10 +2642,10 @@
           "method": "POST",
           "uri": "/providers/Microsoft.Network/checkTrafficManagerNameAvailability",
           "code": 200,
-          "apiVersion": "2022-04-01"
+          "apiVersion": "2026-09-01"
         },
         "smithy.api#documentation": "Checks the availability of a Traffic Manager Relative DNS name.",
-        "com.distilled.openapi#apiVersion": "2022-04-01"
+        "com.distilled.openapi#apiVersion": "2026-09-01"
       }
     },
     "com.azure.trafficmanager#CheckProfileTrafficManagerRelativeDnsNameAvailabilityRequest": {

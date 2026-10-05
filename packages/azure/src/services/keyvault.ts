@@ -23,7 +23,7 @@ export const CheckManagedHsmMhsmNameAvailabilityRequest = /*@__PURE__*/ S.suspen
       method: "POST",
       uri: "/subscriptions/{subscriptionId}/providers/Microsoft.KeyVault/checkMhsmNameAvailability",
       code: 200,
-      apiVersion: "2026-02-01",
+      apiVersion: "2026-05-15",
     }),
   ),
 ).annotate({
@@ -75,7 +75,7 @@ export const CheckVaultNameAvailabilityRequest = /*@__PURE__*/ S.suspend(() =>
       method: "POST",
       uri: "/subscriptions/{subscriptionId}/providers/Microsoft.KeyVault/checkNameAvailability",
       code: 200,
-      apiVersion: "2026-02-01",
+      apiVersion: "2026-05-15",
     }),
   ),
 ).annotate({
@@ -129,7 +129,7 @@ export const KeyAttributesInput = /*@__PURE__*/ S.suspend(() =>
 ).annotate({ identifier: "KeyAttributesInput" }) as any as S.Schema<KeyAttributesInput>;
 
 /** The type of the key. For valid values, see JsonWebKeyType. */
-export type JsonWebKeyType = "EC" | "EC-HSM" | "RSA" | "RSA-HSM";
+export type JsonWebKeyType = "EC" | "EC-HSM" | "RSA" | "RSA-HSM" | "oct-HSM";
 export const JsonWebKeyType = S.String;
 
 /** The permitted JSON web key operations of the key. For more information, see JsonWebKeyOperation. */
@@ -292,7 +292,7 @@ export const CreateKeyIfNotExistRequest = /*@__PURE__*/ S.suspend(() =>
       method: "PUT",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.KeyVault/vaults/{vaultName}/keys/{keyName}",
       code: 200,
-      apiVersion: "2026-02-01",
+      apiVersion: "2026-05-15",
     }),
   ),
 ).annotate({
@@ -592,7 +592,7 @@ export const CreateManagedHsmKeyIfNotExistRequest = /*@__PURE__*/ S.suspend(() =
       method: "PUT",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.KeyVault/managedHSMs/{name}/keys/{keyName}",
       code: 200,
-      apiVersion: "2026-02-01",
+      apiVersion: "2026-05-15",
     }),
   ),
 ).annotate({
@@ -716,7 +716,7 @@ export const DeleteManagedHsmRequest = /*@__PURE__*/ S.suspend(() =>
       method: "DELETE",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.KeyVault/managedHSMs/{name}",
       code: 200,
-      apiVersion: "2026-02-01",
+      apiVersion: "2026-05-15",
     }),
   ),
 ).annotate({ identifier: "DeleteManagedHsmRequest" }) as any as S.Schema<DeleteManagedHsmRequest>;
@@ -747,7 +747,7 @@ export const DeleteMHSMPrivateEndpointConnectionRequest = /*@__PURE__*/ S.suspen
       method: "DELETE",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.KeyVault/managedHSMs/{name}/privateEndpointConnections/{privateEndpointConnectionName}",
       code: 200,
-      apiVersion: "2026-02-01",
+      apiVersion: "2026-05-15",
     }),
   ),
 ).annotate({
@@ -830,25 +830,30 @@ export type ManagedHsmSkuFamily = "B" | "C";
 export const ManagedHsmSkuFamily = S.String;
 
 /** SKU of the managed HSM Pool */
-export type ManagedHsmSkuName =
+export type ManagedHsmSkuNameV2 =
   | "Standard_B1"
   | "Custom_B32"
   | "Custom_B6"
   | "Custom_C42"
-  | "Custom_C10";
-export const ManagedHsmSkuName = S.String;
+  | "Custom_C10"
+  | "Standard_B1v2"
+  | "Standard_B5v2"
+  | "Standard_B10v2"
+  | "Standard_B15v2"
+  | "Standard_B20v2";
+export const ManagedHsmSkuNameV2 = S.String;
 
 /** SKU details */
 export interface ManagedHsmSku {
   /** SKU Family of the managed HSM Pool */
   family: ManagedHsmSkuFamily | (string & {});
   /** SKU of the managed HSM Pool */
-  name: ManagedHsmSkuName | (string & {});
+  name: ManagedHsmSkuNameV2 | (string & {});
 }
 export const ManagedHsmSku = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     family: ManagedHsmSkuFamily,
-    name: ManagedHsmSkuName,
+    name: ManagedHsmSkuNameV2,
   }),
 ).annotate({ identifier: "ManagedHsmSku" }) as any as S.Schema<ManagedHsmSku>;
 
@@ -970,7 +975,7 @@ export const DeletePrivateEndpointConnectionRequest = /*@__PURE__*/ S.suspend(()
       method: "DELETE",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.KeyVault/vaults/{vaultName}/privateEndpointConnections/{privateEndpointConnectionName}",
       code: 200,
-      apiVersion: "2026-02-01",
+      apiVersion: "2026-05-15",
     }),
   ),
 ).annotate({
@@ -1047,7 +1052,7 @@ export const DeleteVaultRequest = /*@__PURE__*/ S.suspend(() =>
       method: "DELETE",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.KeyVault/vaults/{vaultName}",
       code: 200,
-      apiVersion: "2026-02-01",
+      apiVersion: "2026-05-15",
     }),
   ),
 ).annotate({ identifier: "DeleteVaultRequest" }) as any as S.Schema<DeleteVaultRequest>;
@@ -1078,7 +1083,7 @@ export const GetKeyRequest = /*@__PURE__*/ S.suspend(() =>
       method: "GET",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.KeyVault/vaults/{vaultName}/keys/{keyName}",
       code: 200,
-      apiVersion: "2026-02-01",
+      apiVersion: "2026-05-15",
     }),
   ),
 ).annotate({ identifier: "GetKeyRequest" }) as any as S.Schema<GetKeyRequest>;
@@ -1142,7 +1147,7 @@ export const GetKeyVersionRequest = /*@__PURE__*/ S.suspend(() =>
       method: "GET",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.KeyVault/vaults/{vaultName}/keys/{keyName}/versions/{keyVersion}",
       code: 200,
-      apiVersion: "2026-02-01",
+      apiVersion: "2026-05-15",
     }),
   ),
 ).annotate({ identifier: "GetKeyVersionRequest" }) as any as S.Schema<GetKeyVersionRequest>;
@@ -1200,7 +1205,7 @@ export const GetManagedHsmRequest = /*@__PURE__*/ S.suspend(() =>
       method: "GET",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.KeyVault/managedHSMs/{name}",
       code: 200,
-      apiVersion: "2026-02-01",
+      apiVersion: "2026-05-15",
     }),
   ),
 ).annotate({ identifier: "GetManagedHsmRequest" }) as any as S.Schema<GetManagedHsmRequest>;
@@ -1508,7 +1513,7 @@ export const GetManagedHsmDeletedRequest = /*@__PURE__*/ S.suspend(() =>
       method: "GET",
       uri: "/subscriptions/{subscriptionId}/providers/Microsoft.KeyVault/locations/{location}/deletedManagedHSMs/{name}",
       code: 200,
-      apiVersion: "2026-02-01",
+      apiVersion: "2026-05-15",
     }),
   ),
 ).annotate({
@@ -1595,7 +1600,7 @@ export const GetManagedHsmKeyRequest = /*@__PURE__*/ S.suspend(() =>
       method: "GET",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.KeyVault/managedHSMs/{name}/keys/{keyName}",
       code: 200,
-      apiVersion: "2026-02-01",
+      apiVersion: "2026-05-15",
     }),
   ),
 ).annotate({ identifier: "GetManagedHsmKeyRequest" }) as any as S.Schema<GetManagedHsmKeyRequest>;
@@ -1656,7 +1661,7 @@ export const GetManagedHsmKeyVersionRequest = /*@__PURE__*/ S.suspend(() =>
       method: "GET",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.KeyVault/managedHSMs/{name}/keys/{keyName}/versions/{keyVersion}",
       code: 200,
-      apiVersion: "2026-02-01",
+      apiVersion: "2026-05-15",
     }),
   ),
 ).annotate({
@@ -1718,7 +1723,7 @@ export const GetMHSMPrivateEndpointConnectionRequest = /*@__PURE__*/ S.suspend((
       method: "GET",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.KeyVault/managedHSMs/{name}/privateEndpointConnections/{privateEndpointConnectionName}",
       code: 200,
-      apiVersion: "2026-02-01",
+      apiVersion: "2026-05-15",
     }),
   ),
 ).annotate({
@@ -1798,7 +1803,7 @@ export const GetPrivateEndpointConnectionRequest = /*@__PURE__*/ S.suspend(() =>
       method: "GET",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.KeyVault/vaults/{vaultName}/privateEndpointConnections/{privateEndpointConnectionName}",
       code: 200,
-      apiVersion: "2026-02-01",
+      apiVersion: "2026-05-15",
     }),
   ),
 ).annotate({
@@ -1866,7 +1871,7 @@ export const GetSecretRequest = /*@__PURE__*/ S.suspend(() =>
       method: "GET",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.KeyVault/vaults/{vaultName}/secrets/{secretName}",
       code: 200,
-      apiVersion: "2026-02-01",
+      apiVersion: "2026-05-15",
     }),
   ),
 ).annotate({ identifier: "GetSecretRequest" }) as any as S.Schema<GetSecretRequest>;
@@ -1970,7 +1975,7 @@ export const GetVaultRequest = /*@__PURE__*/ S.suspend(() =>
       method: "GET",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.KeyVault/vaults/{vaultName}",
       code: 200,
-      apiVersion: "2026-02-01",
+      apiVersion: "2026-05-15",
     }),
   ),
 ).annotate({ identifier: "GetVaultRequest" }) as any as S.Schema<GetVaultRequest>;
@@ -2318,7 +2323,7 @@ export const GetVaultDeletedRequest = /*@__PURE__*/ S.suspend(() =>
       method: "GET",
       uri: "/subscriptions/{subscriptionId}/providers/Microsoft.KeyVault/locations/{location}/deletedVaults/{vaultName}",
       code: 200,
-      apiVersion: "2026-02-01",
+      apiVersion: "2026-05-15",
     }),
   ),
 ).annotate({ identifier: "GetVaultDeletedRequest" }) as any as S.Schema<GetVaultDeletedRequest>;
@@ -2396,7 +2401,7 @@ export const ListKeysRequest = /*@__PURE__*/ S.suspend(() =>
       method: "GET",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.KeyVault/vaults/{vaultName}/keys",
       code: 200,
-      apiVersion: "2026-02-01",
+      apiVersion: "2026-05-15",
     }),
   ),
 ).annotate({ identifier: "ListKeysRequest" }) as any as S.Schema<ListKeysRequest>;
@@ -2475,7 +2480,7 @@ export const ListKeyVersionsRequest = /*@__PURE__*/ S.suspend(() =>
       method: "GET",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.KeyVault/vaults/{vaultName}/keys/{keyName}/versions",
       code: 200,
-      apiVersion: "2026-02-01",
+      apiVersion: "2026-05-15",
     }),
   ),
 ).annotate({ identifier: "ListKeyVersionsRequest" }) as any as S.Schema<ListKeyVersionsRequest>;
@@ -2498,7 +2503,7 @@ export const ListManagedHsmByResourceGroupRequest = /*@__PURE__*/ S.suspend(() =
       method: "GET",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.KeyVault/managedHSMs",
       code: 200,
-      apiVersion: "2026-02-01",
+      apiVersion: "2026-05-15",
     }),
   ),
 ).annotate({
@@ -2586,7 +2591,7 @@ export const ListManagedHsmBySubscriptionRequest = /*@__PURE__*/ S.suspend(() =>
       method: "GET",
       uri: "/subscriptions/{subscriptionId}/providers/Microsoft.KeyVault/managedHSMs",
       code: 200,
-      apiVersion: "2026-02-01",
+      apiVersion: "2026-05-15",
     }),
   ),
 ).annotate({
@@ -2605,7 +2610,7 @@ export const ListManagedHsmDeletedRequest = /*@__PURE__*/ S.suspend(() =>
       method: "GET",
       uri: "/subscriptions/{subscriptionId}/providers/Microsoft.KeyVault/deletedManagedHSMs",
       code: 200,
-      apiVersion: "2026-02-01",
+      apiVersion: "2026-05-15",
     }),
   ),
 ).annotate({
@@ -2675,7 +2680,7 @@ export const ListManagedHsmKeysRequest = /*@__PURE__*/ S.suspend(() =>
       method: "GET",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.KeyVault/managedHSMs/{name}/keys",
       code: 200,
-      apiVersion: "2026-02-01",
+      apiVersion: "2026-05-15",
     }),
   ),
 ).annotate({
@@ -2756,7 +2761,7 @@ export const ListManagedHsmKeyVersionsRequest = /*@__PURE__*/ S.suspend(() =>
       method: "GET",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.KeyVault/managedHSMs/{name}/keys/{keyName}/versions",
       code: 200,
-      apiVersion: "2026-02-01",
+      apiVersion: "2026-05-15",
     }),
   ),
 ).annotate({
@@ -2781,7 +2786,7 @@ export const ListMHSMPrivateEndpointConnectionByResourceRequest = /*@__PURE__*/ 
       method: "GET",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.KeyVault/managedHSMs/{name}/privateEndpointConnections",
       code: 200,
-      apiVersion: "2026-02-01",
+      apiVersion: "2026-05-15",
     }),
   ),
 ).annotate({
@@ -2882,7 +2887,7 @@ export const ListMHSMPrivateLinkResourceByMHSMResourceRequest = /*@__PURE__*/ S.
       method: "GET",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.KeyVault/managedHSMs/{name}/privateLinkResources",
       code: 200,
-      apiVersion: "2026-02-01",
+      apiVersion: "2026-05-15",
     }),
   ),
 ).annotate({
@@ -3003,7 +3008,7 @@ export const ListMHSMRegionByResourceRequest = /*@__PURE__*/ S.suspend(() =>
       method: "GET",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.KeyVault/managedHSMs/{name}/regions",
       code: 200,
-      apiVersion: "2026-02-01",
+      apiVersion: "2026-05-15",
     }),
   ),
 ).annotate({
@@ -3037,7 +3042,7 @@ export const ListOperationsRequest = /*@__PURE__*/ S.suspend(() =>
       method: "GET",
       uri: "/providers/Microsoft.KeyVault/operations",
       code: 200,
-      apiVersion: "2026-02-01",
+      apiVersion: "2026-05-15",
     }),
   ),
 ).annotate({ identifier: "ListOperationsRequest" }) as any as S.Schema<ListOperationsRequest>;
@@ -3253,7 +3258,7 @@ export const ListPrivateEndpointConnectionByResourceRequest = /*@__PURE__*/ S.su
       method: "GET",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.KeyVault/vaults/{vaultName}/privateEndpointConnections",
       code: 200,
-      apiVersion: "2026-02-01",
+      apiVersion: "2026-05-15",
     }),
   ),
 ).annotate({
@@ -3341,7 +3346,7 @@ export const ListPrivateLinkResourceByVaultRequest = /*@__PURE__*/ S.suspend(() 
       method: "GET",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.KeyVault/vaults/{vaultName}/privateLinkResources",
       code: 200,
-      apiVersion: "2026-02-01",
+      apiVersion: "2026-05-15",
     }),
   ),
 ).annotate({
@@ -3455,7 +3460,7 @@ export const ListSecretsRequest = /*@__PURE__*/ S.suspend(() =>
       method: "GET",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.KeyVault/vaults/{vaultName}/secrets",
       code: 200,
-      apiVersion: "2026-02-01",
+      apiVersion: "2026-05-15",
     }),
   ),
 ).annotate({ identifier: "ListSecretsRequest" }) as any as S.Schema<ListSecretsRequest>;
@@ -3534,7 +3539,7 @@ export const ListVaultByResourceGroupRequest = /*@__PURE__*/ S.suspend(() =>
       method: "GET",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.KeyVault/vaults",
       code: 200,
-      apiVersion: "2026-02-01",
+      apiVersion: "2026-05-15",
     }),
   ),
 ).annotate({
@@ -3612,7 +3617,7 @@ export const ListVaultBySubscriptionRequest = /*@__PURE__*/ S.suspend(() =>
       method: "GET",
       uri: "/subscriptions/{subscriptionId}/providers/Microsoft.KeyVault/vaults",
       code: 200,
-      apiVersion: "2026-02-01",
+      apiVersion: "2026-05-15",
     }),
   ),
 ).annotate({
@@ -3631,7 +3636,7 @@ export const ListVaultDeletedRequest = /*@__PURE__*/ S.suspend(() =>
       method: "GET",
       uri: "/subscriptions/{subscriptionId}/providers/Microsoft.KeyVault/deletedVaults",
       code: 200,
-      apiVersion: "2026-02-01",
+      apiVersion: "2026-05-15",
     }),
   ),
 ).annotate({ identifier: "ListVaultDeletedRequest" }) as any as S.Schema<ListVaultDeletedRequest>;
@@ -3700,7 +3705,7 @@ export const ListVaultsRequest = /*@__PURE__*/ S.suspend(() =>
       method: "GET",
       uri: "/subscriptions/{subscriptionId}/resources",
       code: 200,
-      apiVersion: "2026-02-01",
+      apiVersion: "2026-05-15",
     }),
   ),
 ).annotate({ identifier: "ListVaultsRequest" }) as any as S.Schema<ListVaultsRequest>;
@@ -3898,7 +3903,7 @@ export const ManagedHsmsCreateOrUpdateRequest = /*@__PURE__*/ S.suspend(() =>
       method: "PUT",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.KeyVault/managedHSMs/{name}",
       code: 200,
-      apiVersion: "2026-02-01",
+      apiVersion: "2026-05-15",
     }),
   ),
 ).annotate({
@@ -3972,7 +3977,7 @@ export const PurgeManagedHsmDeletedRequest = /*@__PURE__*/ S.suspend(() =>
       method: "POST",
       uri: "/subscriptions/{subscriptionId}/providers/Microsoft.KeyVault/locations/{location}/deletedManagedHSMs/{name}/purge",
       code: 200,
-      apiVersion: "2026-02-01",
+      apiVersion: "2026-05-15",
     }),
   ),
 ).annotate({
@@ -4002,7 +4007,7 @@ export const PurgeVaultDeletedRequest = /*@__PURE__*/ S.suspend(() =>
       method: "POST",
       uri: "/subscriptions/{subscriptionId}/providers/Microsoft.KeyVault/locations/{location}/deletedVaults/{vaultName}/purge",
       code: 200,
-      apiVersion: "2026-02-01",
+      apiVersion: "2026-05-15",
     }),
   ),
 ).annotate({ identifier: "PurgeVaultDeletedRequest" }) as any as S.Schema<PurgeVaultDeletedRequest>;
@@ -4084,7 +4089,7 @@ export const PutMHSMPrivateEndpointConnectionRequest = /*@__PURE__*/ S.suspend((
       method: "PUT",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.KeyVault/managedHSMs/{name}/privateEndpointConnections/{privateEndpointConnectionName}",
       code: 200,
-      apiVersion: "2026-02-01",
+      apiVersion: "2026-05-15",
     }),
   ),
 ).annotate({
@@ -4179,7 +4184,7 @@ export const PutPrivateEndpointConnectionRequest = /*@__PURE__*/ S.suspend(() =>
       method: "PUT",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.KeyVault/vaults/{vaultName}/privateEndpointConnections/{privateEndpointConnectionName}",
       code: 200,
-      apiVersion: "2026-02-01",
+      apiVersion: "2026-05-15",
     }),
   ),
 ).annotate({
@@ -4294,7 +4299,7 @@ export const SecretsCreateOrUpdateRequest = /*@__PURE__*/ S.suspend(() =>
       method: "PUT",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.KeyVault/vaults/{vaultName}/secrets/{secretName}",
       code: 200,
-      apiVersion: "2026-02-01",
+      apiVersion: "2026-05-15",
     }),
   ),
 ).annotate({
@@ -4382,7 +4387,7 @@ export const UpdateManagedHsmRequest = /*@__PURE__*/ S.suspend(() =>
       method: "PATCH",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.KeyVault/managedHSMs/{name}",
       code: 200,
-      apiVersion: "2026-02-01",
+      apiVersion: "2026-05-15",
     }),
   ),
 ).annotate({ identifier: "UpdateManagedHsmRequest" }) as any as S.Schema<UpdateManagedHsmRequest>;
@@ -4485,7 +4490,7 @@ export const UpdateSecretRequest = /*@__PURE__*/ S.suspend(() =>
       method: "PATCH",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.KeyVault/vaults/{vaultName}/secrets/{secretName}",
       code: 200,
-      apiVersion: "2026-02-01",
+      apiVersion: "2026-05-15",
     }),
   ),
 ).annotate({ identifier: "UpdateSecretRequest" }) as any as S.Schema<UpdateSecretRequest>;
@@ -4609,7 +4614,7 @@ export const UpdateVaultRequest = /*@__PURE__*/ S.suspend(() =>
       method: "PATCH",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.KeyVault/vaults/{vaultName}",
       code: 200,
-      apiVersion: "2026-02-01",
+      apiVersion: "2026-05-15",
     }),
   ),
 ).annotate({ identifier: "UpdateVaultRequest" }) as any as S.Schema<UpdateVaultRequest>;
@@ -4695,7 +4700,7 @@ export const UpdateVaultAccessPolicyRequest = /*@__PURE__*/ S.suspend(() =>
       method: "PUT",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.KeyVault/vaults/{vaultName}/accessPolicies/{operationKind}",
       code: 200,
-      apiVersion: "2026-02-01",
+      apiVersion: "2026-05-15",
     }),
   ),
 ).annotate({
@@ -4820,7 +4825,7 @@ export const VaultsCreateOrUpdateRequest = /*@__PURE__*/ S.suspend(() =>
       method: "PUT",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.KeyVault/vaults/{vaultName}",
       code: 200,
-      apiVersion: "2026-02-01",
+      apiVersion: "2026-05-15",
     }),
   ),
 ).annotate({

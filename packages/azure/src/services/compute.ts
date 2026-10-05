@@ -472,7 +472,7 @@ export const AvailabilitySetsCreateOrUpdateResponse = /*@__PURE__*/ S.suspend(()
   identifier: "AvailabilitySetsCreateOrUpdateResponse",
 }) as any as S.Schema<AvailabilitySetsCreateOrUpdateResponse>;
 
-/** The kind of bulk operation that can be performed on resources using Bulkactions API */
+/** The type of operation performed by Bulk Actions. */
 export type ResourceOperationType =
   | "Unknown"
   | "Start"
@@ -482,13 +482,13 @@ export type ResourceOperationType =
   | "Delete";
 export const ResourceOperationType = S.String;
 
-/** The retry policy for the user request */
+/** The retry settings for a bulk action. */
 export interface RetryPolicy {
-  /** Retry count for user request */
+  /** The maximum number of retry attempts. */
   retryCount?: number;
-  /** Retry window in minutes for user request */
+  /** The period, in minutes, during which Bulk Actions can retry the operation. */
   retryWindowInMinutes?: number;
-  /** Action to take on failure */
+  /** The operation that Bulk Actions attempts when the requested operation fails. */
   onFailureAction?: ResourceOperationType | (string & {});
 }
 export const RetryPolicy = /*@__PURE__*/ S.suspend(() =>
@@ -499,9 +499,9 @@ export const RetryPolicy = /*@__PURE__*/ S.suspend(() =>
   }),
 ).annotate({ identifier: "RetryPolicy" }) as any as S.Schema<RetryPolicy>;
 
-/** Extra details needed to run the user's request */
+/** The execution settings for a bulk action. */
 export interface ExecutionParameters {
-  /** Retry policy the user can pass */
+  /** The retry settings for the bulk action. */
   retryPolicy?: RetryPolicy;
 }
 export const ExecutionParameters = /*@__PURE__*/ S.suspend(() =>
@@ -510,15 +510,15 @@ export const ExecutionParameters = /*@__PURE__*/ S.suspend(() =>
   }),
 ).annotate({ identifier: "ExecutionParameters" }) as any as S.Schema<ExecutionParameters>;
 
-/** The resource ids used for the request */
+/** The Azure resource IDs of the target virtual machines. */
 export type ResourcesIdsList = Array<string>;
 export const ResourcesIdsList = /*@__PURE__*/ S.Array(
   S.String,
 ) as any as S.Schema<ResourcesIdsList>;
 
-/** The resources needed for the user request */
+/** The virtual machines targeted by a bulk action. */
 export interface Resources {
-  /** The resource ids used for the request */
+  /** The Azure resource IDs of the target virtual machines. */
   ids: ResourcesIdsList;
 }
 export const Resources = /*@__PURE__*/ S.suspend(() =>
@@ -534,9 +534,9 @@ export interface BulkVirtualMachineBulkOperationDeallocateRequest {
   resourceGroupName: string;
   /** The location name. */
   location: string;
-  /** The execution parameters for the request */
+  /** The execution settings for the bulk action. */
   executionParameters: ExecutionParameters;
-  /** The resources for the request */
+  /** The target virtual machines. */
   resources: Resources;
 }
 export const BulkVirtualMachineBulkOperationDeallocateRequest = /*@__PURE__*/ S.suspend(() =>
@@ -558,7 +558,7 @@ export const BulkVirtualMachineBulkOperationDeallocateRequest = /*@__PURE__*/ S.
   identifier: "BulkVirtualMachineBulkOperationDeallocateRequest",
 }) as any as S.Schema<BulkVirtualMachineBulkOperationDeallocateRequest>;
 
-/** Type of operation performed on the resources */
+/** The type of operation performed on the virtual machine. */
 export type ResourceOperationDetailsOpType =
   | "Unknown"
   | "Start"
@@ -568,11 +568,11 @@ export type ResourceOperationDetailsOpType =
   | "Delete";
 export const ResourceOperationDetailsOpType = S.String;
 
-/** Type of deadline of the operation */
+/** Specifies whether the deadline time indicates the time at which the operation should start or should be complete. */
 export type ResourceOperationDetailsDeadlineType = "Unknown" | "InitiateAt" | "CompleteBy";
 export const ResourceOperationDetailsDeadlineType = S.String;
 
-/** Current state of the operation */
+/** The current state of the operation. */
 export type ResourceOperationDetailsState =
   | "Unknown"
   | "PendingScheduling"
@@ -585,11 +585,11 @@ export type ResourceOperationDetailsState =
   | "Blocked";
 export const ResourceOperationDetailsState = S.String;
 
-/** These describe errors that occur at the resource level */
+/** An error that occurred while processing one virtual machine. */
 export interface ResourceOperationError {
-  /** Code for the error eg 404, 500 */
+  /** A code that identifies the error. */
   errorCode: string;
-  /** Detailed message about the error */
+  /** A message that describes the error. */
   errorDetails: string;
 }
 export const ResourceOperationError = /*@__PURE__*/ S.suspend(() =>
@@ -599,13 +599,13 @@ export const ResourceOperationError = /*@__PURE__*/ S.suspend(() =>
   }),
 ).annotate({ identifier: "ResourceOperationError" }) as any as S.Schema<ResourceOperationError>;
 
-/** Describes the fallback operation that was performed */
+/** Information about the fallback operation attempted after the requested operation did not succeed. */
 export interface FallbackOperationInfo {
-  /** The last operation type that was performed as a fallback */
+  /** The type of the additional operation. */
   lastOpType: ResourceOperationType;
-  /** The status of the fallback operation */
+  /** The status of the additional operation. */
   status: string;
-  /** The error code if the fallback operation failed */
+  /** The error returned when the additional operation did not succeed. */
   error?: ResourceOperationError;
 }
 export const FallbackOperationInfo = /*@__PURE__*/ S.suspend(() =>
@@ -616,31 +616,31 @@ export const FallbackOperationInfo = /*@__PURE__*/ S.suspend(() =>
   }),
 ).annotate({ identifier: "FallbackOperationInfo" }) as any as S.Schema<FallbackOperationInfo>;
 
-/** The details of a response from an operation on a resource */
+/** The status and settings for an operation on one virtual machine. */
 export interface ResourceOperationDetails {
-  /** Operation identifier for the unique operation */
+  /** The operation ID used to track the action for this virtual machine. */
   operationId: string;
-  /** Unique identifier for the resource involved in the operation, for example Azure resource ID */
+  /** The virtual machine's Azure resource ID. */
   resourceId?: string;
-  /** Type of operation performed on the resources */
+  /** The type of operation performed on the virtual machine. */
   opType?: ResourceOperationDetailsOpType;
-  /** Subscription id attached to the request */
+  /** The subscription ID associated with the bulk action. */
   subscriptionId?: string;
-  /** Deadline for the operation */
+  /** The requested deadline for the operation. */
   deadline?: string;
-  /** Type of deadline of the operation */
+  /** Specifies whether the deadline time indicates the time at which the operation should start or should be complete. */
   deadlineType?: ResourceOperationDetailsDeadlineType;
-  /** Current state of the operation */
+  /** The current state of the operation. */
   state?: ResourceOperationDetailsState;
-  /** Timezone for the operation */
+  /** The time zone used to interpret the operation deadline. */
   timezone?: string;
-  /** Operation level errors if they exist */
+  /** Contains error details if the operation does not succeed. */
   resourceOperationError?: ResourceOperationError;
-  /** Fallback operation details if a fallback was performed */
+  /** Information about the fallback operation attempted after the requested operation did not succeed. */
   fallbackOperationInfo?: FallbackOperationInfo;
-  /** Time the operation was complete if errors are null */
+  /** The date and time when the operation completed. */
   completedAt?: string;
-  /** Retry policy the user can pass */
+  /** The retry settings for the bulk action. */
   retryPolicy?: RetryPolicy;
 }
 export const ResourceOperationDetails = /*@__PURE__*/ S.suspend(() =>
@@ -660,15 +660,15 @@ export const ResourceOperationDetails = /*@__PURE__*/ S.suspend(() =>
   }),
 ).annotate({ identifier: "ResourceOperationDetails" }) as any as S.Schema<ResourceOperationDetails>;
 
-/** High level response from an operation on a resource */
+/** The result of a bulk action for one virtual machine. */
 export interface ResourceOperation {
-  /** Unique identifier for the resource involved in the operation, for example Azure resource ID */
+  /** The virtual machine Azure resource ID. */
   resourceId?: string;
-  /** Resource level error code if it exists */
+  /** A code that identifies the error for the virtual machine operation. */
   errorCode?: string;
-  /** Resource level error details if they exist */
+  /** A message that describes the error for the virtual machine operation. */
   errorDetails?: string;
-  /** Details of the operation performed on a resource */
+  /** The virtual machine operation details. */
   operation?: ResourceOperationDetails;
 }
 export const ResourceOperation = /*@__PURE__*/ S.suspend(() =>
@@ -680,21 +680,21 @@ export const ResourceOperation = /*@__PURE__*/ S.suspend(() =>
   }),
 ).annotate({ identifier: "ResourceOperation" }) as any as S.Schema<ResourceOperation>;
 
-/** The results from the deallocate request if no errors exist */
+/** The result for each virtual machine. */
 export type DeallocateResourceOperationResponseResultsList = Array<ResourceOperation>;
 export const DeallocateResourceOperationResponseResultsList = /*@__PURE__*/ S.Array(
   ResourceOperation,
 ) as any as S.Schema<DeallocateResourceOperationResponseResultsList>;
 
-/** The response from a deallocate request */
+/** The result of a bulk deallocate action. */
 export interface DeallocateResourceOperationResponse {
-  /** The description of the operation response */
+  /** A description of the bulk action result. */
   description: string;
-  /** The type of resources used in the deallocate request eg virtual machines */
+  /** The type of resources targeted by the bulk action. */
   type: string;
-  /** The location of the deallocate request eg westus */
+  /** The Azure region where Bulk Actions processes the request. */
   location: string;
-  /** The results from the deallocate request if no errors exist */
+  /** The result for each virtual machine. */
   results?: DeallocateResourceOperationResponseResultsList;
 }
 export const DeallocateResourceOperationResponse = /*@__PURE__*/ S.suspend(() =>
@@ -715,9 +715,9 @@ export interface BulkVirtualMachineBulkOperationHibernateRequest {
   resourceGroupName: string;
   /** The location name. */
   location: string;
-  /** The execution parameters for the request */
+  /** The execution settings for the bulk action. */
   executionParameters: ExecutionParameters;
-  /** The resources for the request */
+  /** The target virtual machines. */
   resources: Resources;
 }
 export const BulkVirtualMachineBulkOperationHibernateRequest = /*@__PURE__*/ S.suspend(() =>
@@ -739,21 +739,21 @@ export const BulkVirtualMachineBulkOperationHibernateRequest = /*@__PURE__*/ S.s
   identifier: "BulkVirtualMachineBulkOperationHibernateRequest",
 }) as any as S.Schema<BulkVirtualMachineBulkOperationHibernateRequest>;
 
-/** The results from the Hibernate request if no errors exist */
+/** The result for each virtual machine. */
 export type HibernateResourceOperationResponseResultsList = Array<ResourceOperation>;
 export const HibernateResourceOperationResponseResultsList = /*@__PURE__*/ S.Array(
   ResourceOperation,
 ) as any as S.Schema<HibernateResourceOperationResponseResultsList>;
 
-/** The response from a Hibernate request */
+/** The result of a bulk hibernate action. */
 export interface HibernateResourceOperationResponse {
-  /** The description of the operation response */
+  /** A description of the bulk action result. */
   description: string;
-  /** The type of resources used in the Hibernate request eg virtual machines */
+  /** The type of resources targeted by the bulk action. */
   type: string;
-  /** The location of the Hibernate request eg westus */
+  /** The Azure region where Bulk Actions processes the request. */
   location: string;
-  /** The results from the Hibernate request if no errors exist */
+  /** The result for each virtual machine. */
   results?: HibernateResourceOperationResponseResultsList;
 }
 export const HibernateResourceOperationResponse = /*@__PURE__*/ S.suspend(() =>
@@ -19416,7 +19416,7 @@ export const ValidateAvailabilitySetMigrationToVirtualMachineScaleSetResponse =
     identifier: "ValidateAvailabilitySetMigrationToVirtualMachineScaleSetResponse",
   }) as any as S.Schema<ValidateAvailabilitySetMigrationToVirtualMachineScaleSetResponse>;
 
-/** The list of operation ids to cancel operations on */
+/** The Bulk Action Operation Ids that identify the operations to cancel. */
 export type VirtualMachineBulkOperationsBulkCancelRequestOperationIdsList = Array<string>;
 export const VirtualMachineBulkOperationsBulkCancelRequestOperationIdsList = /*@__PURE__*/ S.Array(
   S.String,
@@ -19429,7 +19429,7 @@ export interface VirtualMachineBulkOperationsBulkCancelRequest {
   resourceGroupName: string;
   /** The location name. */
   location: string;
-  /** The list of operation ids to cancel operations on */
+  /** The Bulk Action Operation Ids that identify the operations to cancel. */
   operationIds: VirtualMachineBulkOperationsBulkCancelRequestOperationIdsList;
 }
 export const VirtualMachineBulkOperationsBulkCancelRequest = /*@__PURE__*/ S.suspend(() =>
@@ -19450,15 +19450,15 @@ export const VirtualMachineBulkOperationsBulkCancelRequest = /*@__PURE__*/ S.sus
   identifier: "VirtualMachineBulkOperationsBulkCancelRequest",
 }) as any as S.Schema<VirtualMachineBulkOperationsBulkCancelRequest>;
 
-/** An array of resource operations that were successfully cancelled */
+/** The current result for each operation submitted for cancellation. */
 export type CancelOperationsResponseResultsList = Array<ResourceOperation>;
 export const CancelOperationsResponseResultsList = /*@__PURE__*/ S.Array(
   ResourceOperation,
 ) as any as S.Schema<CancelOperationsResponseResultsList>;
 
-/** This is the response from a cancel operations request */
+/** The results of the cancellation requests. */
 export interface CancelOperationsResponse {
-  /** An array of resource operations that were successfully cancelled */
+  /** The current result for each operation submitted for cancellation. */
   results: CancelOperationsResponseResultsList;
 }
 export const CancelOperationsResponse = /*@__PURE__*/ S.suspend(() =>
@@ -19474,11 +19474,11 @@ export interface VirtualMachineBulkOperationsBulkDeleteRequest {
   resourceGroupName: string;
   /** The location name. */
   location: string;
-  /** The execution parameters for the request */
+  /** The execution settings for the bulk action. */
   executionParameters: ExecutionParameters;
-  /** The resources for the request */
+  /** The target virtual machines. */
   resources: Resources;
-  /** Forced delete resource item */
+  /** Indicates whether Bulk Actions uses forced deletion for the target virtual machines. */
   forceDeletion?: boolean;
 }
 export const VirtualMachineBulkOperationsBulkDeleteRequest = /*@__PURE__*/ S.suspend(() =>
@@ -19501,21 +19501,21 @@ export const VirtualMachineBulkOperationsBulkDeleteRequest = /*@__PURE__*/ S.sus
   identifier: "VirtualMachineBulkOperationsBulkDeleteRequest",
 }) as any as S.Schema<VirtualMachineBulkOperationsBulkDeleteRequest>;
 
-/** The results from the delete request if no errors exist */
+/** The result for each virtual machine. */
 export type DeleteResourceOperationResponseResultsList = Array<ResourceOperation>;
 export const DeleteResourceOperationResponseResultsList = /*@__PURE__*/ S.Array(
   ResourceOperation,
 ) as any as S.Schema<DeleteResourceOperationResponseResultsList>;
 
-/** The response from a delete request */
+/** The result of a bulk delete action. */
 export interface DeleteResourceOperationResponse {
-  /** The description of the operation response */
+  /** A description of the bulk action result. */
   description: string;
-  /** The type of resources used in the delete request eg virtual machines */
+  /** The type of resources targeted by the bulk action. */
   type: string;
-  /** The location of the delete request eg westus */
+  /** The Azure region where Bulk Actions processes the request. */
   location: string;
-  /** The results from the delete request if no errors exist */
+  /** The result for each virtual machine. */
   results?: DeleteResourceOperationResponseResultsList;
 }
 export const DeleteResourceOperationResponse = /*@__PURE__*/ S.suspend(() =>
@@ -19529,7 +19529,7 @@ export const DeleteResourceOperationResponse = /*@__PURE__*/ S.suspend(() =>
   identifier: "DeleteResourceOperationResponse",
 }) as any as S.Schema<DeleteResourceOperationResponse>;
 
-/** The list of operation ids to get the status of */
+/** The Bulk Action Operation Ids that identify the operations for which current status should be returned. */
 export type VirtualMachineBulkOperationsBulkGetOperationsStatusRequestOperationIdsList =
   Array<string>;
 export const VirtualMachineBulkOperationsBulkGetOperationsStatusRequestOperationIdsList =
@@ -19544,7 +19544,7 @@ export interface VirtualMachineBulkOperationsBulkGetOperationsStatusRequest {
   resourceGroupName: string;
   /** The location name. */
   location: string;
-  /** The list of operation ids to get the status of */
+  /** The Bulk Action Operation Ids that identify the operations for which current status should be returned. */
   operationIds: VirtualMachineBulkOperationsBulkGetOperationsStatusRequestOperationIdsList;
 }
 export const VirtualMachineBulkOperationsBulkGetOperationsStatusRequest = /*@__PURE__*/ S.suspend(
@@ -19566,15 +19566,15 @@ export const VirtualMachineBulkOperationsBulkGetOperationsStatusRequest = /*@__P
   identifier: "VirtualMachineBulkOperationsBulkGetOperationsStatusRequest",
 }) as any as S.Schema<VirtualMachineBulkOperationsBulkGetOperationsStatusRequest>;
 
-/** An array of resource operations based on their operation ids */
+/** The current result for each requested operation. */
 export type GetOperationStatusResponseResultsList = Array<ResourceOperation>;
 export const GetOperationStatusResponseResultsList = /*@__PURE__*/ S.Array(
   ResourceOperation,
 ) as any as S.Schema<GetOperationStatusResponseResultsList>;
 
-/** This is the response from a get operations status request */
+/** The current results for the requested operations. */
 export interface GetOperationStatusResponse {
-  /** An array of resource operations based on their operation ids */
+  /** The current result for each requested operation. */
   results: GetOperationStatusResponseResultsList;
 }
 export const GetOperationStatusResponse = /*@__PURE__*/ S.suspend(() =>
@@ -19592,9 +19592,9 @@ export interface VirtualMachineBulkOperationsBulkStartRequest {
   resourceGroupName: string;
   /** The location name. */
   location: string;
-  /** The execution parameters for the request */
+  /** The execution settings for the bulk action. */
   executionParameters: ExecutionParameters;
-  /** The resources for the request */
+  /** The target virtual machines. */
   resources: Resources;
 }
 export const VirtualMachineBulkOperationsBulkStartRequest = /*@__PURE__*/ S.suspend(() =>
@@ -19616,21 +19616,21 @@ export const VirtualMachineBulkOperationsBulkStartRequest = /*@__PURE__*/ S.susp
   identifier: "VirtualMachineBulkOperationsBulkStartRequest",
 }) as any as S.Schema<VirtualMachineBulkOperationsBulkStartRequest>;
 
-/** The results from the start request if no errors exist */
+/** The result for each virtual machine. */
 export type StartResourceOperationResponseResultsList = Array<ResourceOperation>;
 export const StartResourceOperationResponseResultsList = /*@__PURE__*/ S.Array(
   ResourceOperation,
 ) as any as S.Schema<StartResourceOperationResponseResultsList>;
 
-/** The response from a start request */
+/** The result of a bulk start action. */
 export interface StartResourceOperationResponse {
-  /** The description of the operation response */
+  /** A description of the bulk action result. */
   description: string;
-  /** The type of resources used in the start request eg virtual machines */
+  /** The type of resources targeted by the bulk action. */
   type: string;
-  /** The location of the start request eg westus */
+  /** The Azure region where Bulk Actions processes the request. */
   location: string;
-  /** The results from the start request if no errors exist */
+  /** The result for each virtual machine. */
   results?: StartResourceOperationResponseResultsList;
 }
 export const StartResourceOperationResponse = /*@__PURE__*/ S.suspend(() =>
@@ -21955,7 +21955,7 @@ export const AvailabilitySetsCreateOrUpdate: API.OperationMethod<
 }));
 
 export type BulkVirtualMachineBulkOperationDeallocateError = AzureOpError;
-/** BulkDeallocate: Execute deallocate operation for a batch of virtual machines, this operation is triggered as soon as Computeschedule receives it. */
+/** Deallocate one or more virtual machines. Bulk Actions begins processing the request immediately and returns a Bulk Action Operation Id for each virtual machine. Use the returned IDs to get operation status updates. */
 export const BulkVirtualMachineBulkOperationDeallocate: API.OperationMethod<
   BulkVirtualMachineBulkOperationDeallocateRequest,
   DeallocateResourceOperationResponse,
@@ -21970,7 +21970,7 @@ export const BulkVirtualMachineBulkOperationDeallocate: API.OperationMethod<
 }));
 
 export type BulkVirtualMachineBulkOperationHibernateError = AzureOpError;
-/** BulkHibernate: Execute hibernate operation for a batch of virtual machines, this operation is triggered as soon as Computeschedule receives it. */
+/** Hibernate one or more virtual machines that support hibernation. Bulk Actions begins processing the request immediately and returns a Bulk Action Operation Id for each virtual machine. Use the returned IDs to get operation status updates. */
 export const BulkVirtualMachineBulkOperationHibernate: API.OperationMethod<
   BulkVirtualMachineBulkOperationHibernateRequest,
   HibernateResourceOperationResponse,
@@ -24610,7 +24610,7 @@ export const ValidateAvailabilitySetMigrationToVirtualMachineScaleSet: API.Opera
 }));
 
 export type VirtualMachineBulkOperationsBulkCancelError = AzureOpError;
-/** BulkCancelOperations: Cancel a previously submitted (start/deallocate/hibernate) request */
+/** Cancel one or more Bulk Actions operations by Bulk Action Operation Ids. Cancellation is best effort and work that has already completed is not reversed. */
 export const VirtualMachineBulkOperationsBulkCancel: API.OperationMethod<
   VirtualMachineBulkOperationsBulkCancelRequest,
   CancelOperationsResponse,
@@ -24625,7 +24625,7 @@ export const VirtualMachineBulkOperationsBulkCancel: API.OperationMethod<
 }));
 
 export type VirtualMachineBulkOperationsBulkDeleteError = AzureOpError;
-/** BulkDelete: Execute delete operation for a batch of virtual machines, this operation is triggered as soon as Computeschedule receives it. */
+/** Delete one or more virtual machines. This operation is destructive. Bulk Actions begins processing the request immediately and returns a Bulk Action Operation Id for each virtual machine. Use the returned IDs to get operation status updates. */
 export const VirtualMachineBulkOperationsBulkDelete: API.OperationMethod<
   VirtualMachineBulkOperationsBulkDeleteRequest,
   DeleteResourceOperationResponse,
@@ -24640,7 +24640,7 @@ export const VirtualMachineBulkOperationsBulkDelete: API.OperationMethod<
 }));
 
 export type VirtualMachineBulkOperationsBulkGetOperationsStatusError = AzureOpError;
-/** BulkGetOperationsStatus: Polling endpoint to read status of operations performed on virtual machines */
+/** Get the current status of one or more operations identified by their Bulk Action Operation Ids. */
 export const VirtualMachineBulkOperationsBulkGetOperationsStatus: API.OperationMethod<
   VirtualMachineBulkOperationsBulkGetOperationsStatusRequest,
   GetOperationStatusResponse,
@@ -24655,7 +24655,7 @@ export const VirtualMachineBulkOperationsBulkGetOperationsStatus: API.OperationM
 }));
 
 export type VirtualMachineBulkOperationsBulkStartError = AzureOpError;
-/** BulkStart: Execute start operation for a batch of virtual machines, this operation is triggered as soon as Computeschedule receives it. */
+/** Start one or more virtual machines. Bulk Actions begins processing the request immediately and returns a Bulk Action Operation Id for each virtual machine. Use the returned IDs to get operation status updates. */
 export const VirtualMachineBulkOperationsBulkStart: API.OperationMethod<
   VirtualMachineBulkOperationsBulkStartRequest,
   StartResourceOperationResponse,

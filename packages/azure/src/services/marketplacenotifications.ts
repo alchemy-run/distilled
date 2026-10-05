@@ -29,9 +29,7 @@ export const GetNotificationRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2021-03-03",
     }),
   ),
-).annotate({
-  identifier: "GetNotificationRequest",
-}) as any as S.Schema<GetNotificationRequest>;
+).annotate({ identifier: "GetNotificationRequest" }) as any as S.Schema<GetNotificationRequest>;
 
 /** The type of identity that created the resource. */
 export type GetNotificationResponseSystemDataCreatedByType =
@@ -94,9 +92,7 @@ export const OfferProperties = /*@__PURE__*/ S.suspend(() =>
     offerDisplayName: S.optional(S.String),
     principalId: S.optional(S.String),
   }),
-).annotate({
-  identifier: "OfferProperties",
-}) as any as S.Schema<OfferProperties>;
+).annotate({ identifier: "OfferProperties" }) as any as S.Schema<OfferProperties>;
 
 export interface GetNotificationResponse {
   /** The resource ID. */
@@ -118,9 +114,7 @@ export const GetNotificationResponse = /*@__PURE__*/ S.suspend(() =>
     systemData: S.optional(GetNotificationResponseSystemData),
     properties: S.optional(OfferProperties),
   }),
-).annotate({
-  identifier: "GetNotificationResponse",
-}) as any as S.Schema<GetNotificationResponse>;
+).annotate({ identifier: "GetNotificationResponse" }) as any as S.Schema<GetNotificationResponse>;
 
 export interface GetNotificationOperationsRequest {}
 export const GetNotificationOperationsRequest = /*@__PURE__*/ S.suspend(() =>
@@ -154,9 +148,7 @@ export const OperationDisplay = /*@__PURE__*/ S.suspend(() =>
     operation: S.optional(S.String),
     description: S.optional(S.String),
   }),
-).annotate({
-  identifier: "OperationDisplay",
-}) as any as S.Schema<OperationDisplay>;
+).annotate({ identifier: "OperationDisplay" }) as any as S.Schema<OperationDisplay>;
 
 /** Operation detail payload */
 export interface OperationDetail {
@@ -179,9 +171,7 @@ export const OperationDetail = /*@__PURE__*/ S.suspend(() =>
     origin: S.optional(S.String),
     properties: S.optional(S.Unknown),
   }),
-).annotate({
-  identifier: "OperationDetail",
-}) as any as S.Schema<OperationDetail>;
+).annotate({ identifier: "OperationDetail" }) as any as S.Schema<OperationDetail>;
 
 /** Collection of available operation details */
 export type AvailableOperationsValueList = Array<OperationDetail>;
@@ -201,9 +191,7 @@ export const AvailableOperations = /*@__PURE__*/ S.suspend(() =>
     value: S.optional(AvailableOperationsValueList),
     nextLink: S.optional(S.String),
   }),
-).annotate({
-  identifier: "AvailableOperations",
-}) as any as S.Schema<AvailableOperations>;
+).annotate({ identifier: "AvailableOperations" }) as any as S.Schema<AvailableOperations>;
 
 export interface ListNotificationsRequest {
   /** user's subscription id */
@@ -223,9 +211,7 @@ export const ListNotificationsRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2021-03-03",
     }),
   ),
-).annotate({
-  identifier: "ListNotificationsRequest",
-}) as any as S.Schema<ListNotificationsRequest>;
+).annotate({ identifier: "ListNotificationsRequest" }) as any as S.Schema<ListNotificationsRequest>;
 
 /** The type of identity that created the resource. */
 export type NotificationSystemDataCreatedByType =
@@ -267,9 +253,7 @@ export const NotificationSystemData = /*@__PURE__*/ S.suspend(() =>
     lastModifiedByType: S.optional(NotificationSystemDataLastModifiedByType),
     lastModifiedAt: S.optional(S.String),
   }),
-).annotate({
-  identifier: "NotificationSystemData",
-}) as any as S.Schema<NotificationSystemData>;
+).annotate({ identifier: "NotificationSystemData" }) as any as S.Schema<NotificationSystemData>;
 
 /** Review notification */
 export interface Notification {
@@ -310,9 +294,7 @@ export const NotificationList = /*@__PURE__*/ S.suspend(() =>
     value: S.optional(NotificationListValueList),
     nextLink: S.optional(S.String),
   }),
-).annotate({
-  identifier: "NotificationList",
-}) as any as S.Schema<NotificationList>;
+).annotate({ identifier: "NotificationList" }) as any as S.Schema<NotificationList>;
 
 export type GetNotificationError = AzureOpError;
 export const GetNotification: API.OperationMethod<

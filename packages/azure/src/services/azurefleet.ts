@@ -27,7 +27,7 @@ export const DeleteFleetRequest = /*@__PURE__*/ S.suspend(() =>
       method: "DELETE",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AzureFleet/fleets/{fleetName}",
       code: 200,
-      apiVersion: "2024-11-01",
+      apiVersion: "2026-08-01",
     }),
   ),
 ).annotate({ identifier: "DeleteFleetRequest" }) as any as S.Schema<DeleteFleetRequest>;
@@ -1759,6 +1759,14 @@ export const ComputeProfileInput = /*@__PURE__*/ S.suspend(() =>
   }),
 ).annotate({ identifier: "ComputeProfileInput" }) as any as S.Schema<ComputeProfileInput>;
 
+/** Modes for Compute Fleet. */
+export type FleetMode = "Managed" | "Launch";
+export const FleetMode = S.String;
+
+/** Capacity types for Compute Fleet. */
+export type CapacityType = "VM" | "VCpu";
+export const CapacityType = S.String;
+
 /** Details of the Compute Fleet. */
 export interface FleetPropertiesInput {
   /** Configuration Options for Spot instances in Compute Fleet. */
@@ -1773,6 +1781,12 @@ export interface FleetPropertiesInput {
   additionalLocationsProfile?: AdditionalLocationsProfileInput;
   /** Compute Profile to use for running user's workloads. */
   computeProfile: ComputeProfileInput;
+  /** Mode of the Fleet. */
+  mode?: FleetMode | (string & {});
+  /** VirtualMachine prefix to be used for the virtual machines launched by Fleet. Can be used only with Launch mode. */
+  vmNamePrefix?: string;
+  /** Specifies capacity type for Fleet Regular and Spot priority profiles. capacityType is an immutable property. Once set during Fleet creation, it cannot be updated. Specifying different capacity type for Fleet Regular and Spot priority profiles is not allowed. */
+  capacityType?: CapacityType | (string & {});
 }
 export const FleetPropertiesInput = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -1782,6 +1796,9 @@ export const FleetPropertiesInput = /*@__PURE__*/ S.suspend(() =>
     vmAttributes: S.optional(VMAttributes),
     additionalLocationsProfile: S.optional(AdditionalLocationsProfileInput),
     computeProfile: ComputeProfileInput,
+    mode: S.optional(FleetMode),
+    vmNamePrefix: S.optional(S.String),
+    capacityType: S.optional(CapacityType),
   }),
 ).annotate({ identifier: "FleetPropertiesInput" }) as any as S.Schema<FleetPropertiesInput>;
 
@@ -1889,7 +1906,7 @@ export const FleetsCreateOrUpdateRequest = /*@__PURE__*/ S.suspend(() =>
       method: "PUT",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AzureFleet/fleets/{fleetName}",
       code: 200,
-      apiVersion: "2024-11-01",
+      apiVersion: "2026-08-01",
     }),
   ),
 ).annotate({
@@ -2261,6 +2278,12 @@ export interface FleetProperties {
   timeCreated?: string;
   /** Specifies the ID which uniquely identifies a Compute Fleet. */
   uniqueId?: string;
+  /** Mode of the Fleet. */
+  mode?: FleetMode;
+  /** VirtualMachine prefix to be used for the virtual machines launched by Fleet. Can be used only with Launch mode. */
+  vmNamePrefix?: string;
+  /** Specifies capacity type for Fleet Regular and Spot priority profiles. capacityType is an immutable property. Once set during Fleet creation, it cannot be updated. Specifying different capacity type for Fleet Regular and Spot priority profiles is not allowed. */
+  capacityType?: CapacityType;
 }
 export const FleetProperties = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -2273,6 +2296,9 @@ export const FleetProperties = /*@__PURE__*/ S.suspend(() =>
     computeProfile: ComputeProfile,
     timeCreated: S.optional(S.String),
     uniqueId: S.optional(S.String),
+    mode: S.optional(FleetMode),
+    vmNamePrefix: S.optional(S.String),
+    capacityType: S.optional(CapacityType),
   }),
 ).annotate({ identifier: "FleetProperties" }) as any as S.Schema<FleetProperties>;
 
@@ -2384,7 +2410,7 @@ export const GetFleetRequest = /*@__PURE__*/ S.suspend(() =>
       method: "GET",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AzureFleet/fleets/{fleetName}",
       code: 200,
-      apiVersion: "2024-11-01",
+      apiVersion: "2026-08-01",
     }),
   ),
 ).annotate({ identifier: "GetFleetRequest" }) as any as S.Schema<GetFleetRequest>;
@@ -2462,7 +2488,7 @@ export const ListFleetByResourceGroupRequest = /*@__PURE__*/ S.suspend(() =>
       method: "GET",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AzureFleet/fleets",
       code: 200,
-      apiVersion: "2024-11-01",
+      apiVersion: "2026-08-01",
     }),
   ),
 ).annotate({
@@ -2558,37 +2584,47 @@ export const ListFleetBySubscriptionRequest = /*@__PURE__*/ S.suspend(() =>
       method: "GET",
       uri: "/subscriptions/{subscriptionId}/providers/Microsoft.AzureFleet/fleets",
       code: 200,
-      apiVersion: "2024-11-01",
+      apiVersion: "2026-08-01",
     }),
   ),
 ).annotate({
   identifier: "ListFleetBySubscriptionRequest",
 }) as any as S.Schema<ListFleetBySubscriptionRequest>;
 
-export interface ListFleetVirtualMachineScaleSetsRequest {
+export interface ListFleetVirtualMachinesRequest {
   /** The ID of the target subscription. The value must be an UUID. */
   subscriptionId: string;
   /** The name of the resource group. The name is case insensitive. */
   resourceGroupName: string;
   /** The name of the Fleet */
   name: string;
+  /** Filter expression to filter the virtual machines. */
+  _filter?: string;
+  /** Skip token for pagination. Uses the token from a previous response to fetch the next page of results. */
+  _skiptoken?: string;
 }
-export const ListFleetVirtualMachineScaleSetsRequest = /*@__PURE__*/ S.suspend(() =>
+export const ListFleetVirtualMachinesRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     subscriptionId: S.String.pipe(T.Label()),
     resourceGroupName: S.String.pipe(T.Label()),
     name: S.String.pipe(T.Label()),
+    _filter: S.optional(S.String.pipe(T.Query("$filter"))),
+    _skiptoken: S.optional(S.String.pipe(T.Query("$skiptoken"))),
   }).pipe(
     T.Http({
       method: "GET",
-      uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AzureFleet/fleets/{name}/virtualMachineScaleSets",
+      uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AzureFleet/fleets/{name}/virtualMachines",
       code: 200,
-      apiVersion: "2024-11-01",
+      apiVersion: "2026-08-01",
     }),
   ),
 ).annotate({
-  identifier: "ListFleetVirtualMachineScaleSetsRequest",
-}) as any as S.Schema<ListFleetVirtualMachineScaleSetsRequest>;
+  identifier: "ListFleetVirtualMachinesRequest",
+}) as any as S.Schema<ListFleetVirtualMachinesRequest>;
+
+/** Virtual Machine operation status values. */
+export type VMOperationStatus = "Launching" | "Creating" | "Failed" | "Succeeded";
+export const VMOperationStatus = S.String;
 
 /** API error base. */
 export interface ApiErrorBase {
@@ -2650,6 +2686,83 @@ export const ApiError = /*@__PURE__*/ S.suspend(() =>
   }),
 ).annotate({ identifier: "ApiError" }) as any as S.Schema<ApiError>;
 
+/** A Launch mode Fleet's virtual machine. */
+export interface VirtualMachine {
+  /** The name of the virtual machine. */
+  name: string;
+  /** The compute RP resource id of the virtual machine. subscriptions/{subId}/resourceGroups/{rgName}/providers/Microsoft.Compute/virtualMachines/{vmName} */
+  id: string;
+  /** ARM resource type - virtual machine */
+  type?: string;
+  /** This represents the operationStatus of the virtual machine in response to the last operation that was performed on it by Azure Fleet resource. */
+  operationStatus: VMOperationStatus;
+  /** Error information when `operationStatus` is `Failed`. */
+  error?: ApiError;
+  /** The VM size of the virtual machine. */
+  vmSize?: string;
+  /** The availability zone of the virtual machine. */
+  zone?: string;
+  /** The priority of the virtual machine. */
+  priority?: string;
+}
+export const VirtualMachine = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    name: S.String,
+    id: S.String,
+    type: S.optional(S.String),
+    operationStatus: VMOperationStatus,
+    error: S.optional(ApiError),
+    vmSize: S.optional(S.String),
+    zone: S.optional(S.String),
+    priority: S.optional(S.String),
+  }),
+).annotate({ identifier: "VirtualMachine" }) as any as S.Schema<VirtualMachine>;
+
+/** The Virtual Machine items on this page. */
+export type VirtualMachineListResultValueList = Array<VirtualMachine>;
+export const VirtualMachineListResultValueList = /*@__PURE__*/ S.Array(
+  VirtualMachine,
+) as any as S.Schema<VirtualMachineListResultValueList>;
+
+/** The response of a virtual machine list operation. */
+export interface VirtualMachineListResult {
+  /** The Virtual Machine items on this page. */
+  value: VirtualMachineListResultValueList;
+  /** The link to the next page of items. */
+  nextLink?: string;
+}
+export const VirtualMachineListResult = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    value: VirtualMachineListResultValueList,
+    nextLink: S.optional(S.String),
+  }),
+).annotate({ identifier: "VirtualMachineListResult" }) as any as S.Schema<VirtualMachineListResult>;
+
+export interface ListFleetVirtualMachineScaleSetsRequest {
+  /** The ID of the target subscription. The value must be an UUID. */
+  subscriptionId: string;
+  /** The name of the resource group. The name is case insensitive. */
+  resourceGroupName: string;
+  /** The name of the Fleet */
+  name: string;
+}
+export const ListFleetVirtualMachineScaleSetsRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    subscriptionId: S.String.pipe(T.Label()),
+    resourceGroupName: S.String.pipe(T.Label()),
+    name: S.String.pipe(T.Label()),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AzureFleet/fleets/{name}/virtualMachineScaleSets",
+      code: 200,
+      apiVersion: "2026-08-01",
+    }),
+  ),
+).annotate({
+  identifier: "ListFleetVirtualMachineScaleSetsRequest",
+}) as any as S.Schema<ListFleetVirtualMachineScaleSetsRequest>;
+
 /** An AzureFleet's virtualMachineScaleSet */
 export interface VirtualMachineScaleSet {
   /** The name of the virtualMachineScaleSet */
@@ -2702,7 +2815,7 @@ export const ListOperationsRequest = /*@__PURE__*/ S.suspend(() =>
       method: "GET",
       uri: "/providers/Microsoft.AzureFleet/operations",
       code: 200,
-      apiVersion: "2024-11-01",
+      apiVersion: "2026-08-01",
     }),
   ),
 ).annotate({ identifier: "ListOperationsRequest" }) as any as S.Schema<ListOperationsRequest>;
@@ -2876,7 +2989,7 @@ export const UpdateFleetRequest = /*@__PURE__*/ S.suspend(() =>
       method: "PATCH",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AzureFleet/fleets/{fleetName}",
       code: 200,
-      apiVersion: "2024-11-01",
+      apiVersion: "2026-08-01",
     }),
   ),
 ).annotate({ identifier: "UpdateFleetRequest" }) as any as S.Schema<UpdateFleetRequest>;
@@ -3009,6 +3122,21 @@ export const ListFleetBySubscription: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: ListFleetBySubscriptionRequest,
   output: FleetListResult,
+  errors: [UnknownAzureError],
+  protocol: AzureProtocol,
+  retry: Retry.Retry,
+}));
+
+export type ListFleetVirtualMachinesError = AzureOpError;
+/** List VirtualMachine resources of a Launch mode Fleet. */
+export const ListFleetVirtualMachines: API.OperationMethod<
+  ListFleetVirtualMachinesRequest,
+  VirtualMachineListResult,
+  ListFleetVirtualMachinesError,
+  AzureOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: ListFleetVirtualMachinesRequest,
+  output: VirtualMachineListResult,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,

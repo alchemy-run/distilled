@@ -1506,12 +1506,12 @@ export const UserAssignedIdentity = /*@__PURE__*/ S.suspend(() =>
 
 /** The set of user assigned identities associated with the resource. The userAssignedIdentities dictionary keys will be ARM resource ids in the form: '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}. The dictionary values can be empty objects ({}) in requests. */
 export type ClustersConfigureRemoteSupportResponseIdentityUserAssignedIdentitiesMap = {
-  [key: string]: UserAssignedIdentity | undefined;
+  [key: string]: UserAssignedIdentity | null | undefined;
 };
 export const ClustersConfigureRemoteSupportResponseIdentityUserAssignedIdentitiesMap =
   /*@__PURE__*/ S.Record(
     S.String,
-    UserAssignedIdentity,
+    S.NullOr(UserAssignedIdentity),
   ) as any as S.Schema<ClustersConfigureRemoteSupportResponseIdentityUserAssignedIdentitiesMap>;
 
 /** Managed service identity (system assigned and/or user assigned identities) */
@@ -1799,11 +1799,11 @@ export const UserAssignedIdentityInput = LogCollectionPropertiesInput;
 
 /** The set of user assigned identities associated with the resource. The userAssignedIdentities dictionary keys will be ARM resource ids in the form: '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}. The dictionary values can be empty objects ({}) in requests. */
 export type CreateClusterRequestIdentityUserAssignedIdentitiesMap = {
-  [key: string]: LogCollectionPropertiesInput | undefined;
+  [key: string]: LogCollectionPropertiesInput | null | undefined;
 };
 export const CreateClusterRequestIdentityUserAssignedIdentitiesMap = /*@__PURE__*/ S.Record(
   S.String,
-  LogCollectionPropertiesInput,
+  S.NullOr(LogCollectionPropertiesInput),
 ) as any as S.Schema<CreateClusterRequestIdentityUserAssignedIdentitiesMap>;
 
 /** Managed service identity (system assigned and/or user assigned identities) */
@@ -1868,11 +1868,11 @@ export const CreateClusterResponseTagsMap = /*@__PURE__*/ S.Record(
 
 /** The set of user assigned identities associated with the resource. The userAssignedIdentities dictionary keys will be ARM resource ids in the form: '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}. The dictionary values can be empty objects ({}) in requests. */
 export type CreateClusterResponseIdentityUserAssignedIdentitiesMap = {
-  [key: string]: UserAssignedIdentity | undefined;
+  [key: string]: UserAssignedIdentity | null | undefined;
 };
 export const CreateClusterResponseIdentityUserAssignedIdentitiesMap = /*@__PURE__*/ S.Record(
   S.String,
-  UserAssignedIdentity,
+  S.NullOr(UserAssignedIdentity),
 ) as any as S.Schema<CreateClusterResponseIdentityUserAssignedIdentitiesMap>;
 
 /** Managed service identity (system assigned and/or user assigned identities) */
@@ -6114,12 +6114,12 @@ export const EdgeMachinePropertiesInput = /*@__PURE__*/ S.suspend(() =>
 
 /** The set of user assigned identities associated with the resource. The userAssignedIdentities dictionary keys will be ARM resource ids in the form: '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}. The dictionary values can be empty objects ({}) in requests. */
 export type EdgeMachinesCreateOrUpdateRequestIdentityUserAssignedIdentitiesMap = {
-  [key: string]: LogCollectionPropertiesInput | undefined;
+  [key: string]: LogCollectionPropertiesInput | null | undefined;
 };
 export const EdgeMachinesCreateOrUpdateRequestIdentityUserAssignedIdentitiesMap =
   /*@__PURE__*/ S.Record(
     S.String,
-    LogCollectionPropertiesInput,
+    S.NullOr(LogCollectionPropertiesInput),
   ) as any as S.Schema<EdgeMachinesCreateOrUpdateRequestIdentityUserAssignedIdentitiesMap>;
 
 /** Managed service identity (system assigned and/or user assigned identities) */
@@ -7155,12 +7155,12 @@ export const EdgeMachineProperties = /*@__PURE__*/ S.suspend(() =>
 
 /** The set of user assigned identities associated with the resource. The userAssignedIdentities dictionary keys will be ARM resource ids in the form: '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}. The dictionary values can be empty objects ({}) in requests. */
 export type EdgeMachinesCreateOrUpdateResponseIdentityUserAssignedIdentitiesMap = {
-  [key: string]: UserAssignedIdentity | undefined;
+  [key: string]: UserAssignedIdentity | null | undefined;
 };
 export const EdgeMachinesCreateOrUpdateResponseIdentityUserAssignedIdentitiesMap =
   /*@__PURE__*/ S.Record(
     S.String,
-    UserAssignedIdentity,
+    S.NullOr(UserAssignedIdentity),
   ) as any as S.Schema<EdgeMachinesCreateOrUpdateResponseIdentityUserAssignedIdentitiesMap>;
 
 /** Managed service identity (system assigned and/or user assigned identities) */
@@ -7514,12 +7514,12 @@ export const ExtendClusterSoftwareAssuranceBenefitResponseTagsMap = /*@__PURE__*
 
 /** The set of user assigned identities associated with the resource. The userAssignedIdentities dictionary keys will be ARM resource ids in the form: '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}. The dictionary values can be empty objects ({}) in requests. */
 export type ExtendClusterSoftwareAssuranceBenefitResponseIdentityUserAssignedIdentitiesMap = {
-  [key: string]: UserAssignedIdentity | undefined;
+  [key: string]: UserAssignedIdentity | null | undefined;
 };
 export const ExtendClusterSoftwareAssuranceBenefitResponseIdentityUserAssignedIdentitiesMap =
   /*@__PURE__*/ S.Record(
     S.String,
-    UserAssignedIdentity,
+    S.NullOr(UserAssignedIdentity),
   ) as any as S.Schema<ExtendClusterSoftwareAssuranceBenefitResponseIdentityUserAssignedIdentitiesMap>;
 
 /** Managed service identity (system assigned and/or user assigned identities) */
@@ -8114,11 +8114,11 @@ export const GetClusterResponseTagsMap = /*@__PURE__*/ S.Record(
 
 /** The set of user assigned identities associated with the resource. The userAssignedIdentities dictionary keys will be ARM resource ids in the form: '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}. The dictionary values can be empty objects ({}) in requests. */
 export type GetClusterResponseIdentityUserAssignedIdentitiesMap = {
-  [key: string]: UserAssignedIdentity | undefined;
+  [key: string]: UserAssignedIdentity | null | undefined;
 };
 export const GetClusterResponseIdentityUserAssignedIdentitiesMap = /*@__PURE__*/ S.Record(
   S.String,
-  UserAssignedIdentity,
+  S.NullOr(UserAssignedIdentity),
 ) as any as S.Schema<GetClusterResponseIdentityUserAssignedIdentitiesMap>;
 
 /** Managed service identity (system assigned and/or user assigned identities) */
@@ -8398,11 +8398,11 @@ export const GetEdgeMachineResponseTagsMap = /*@__PURE__*/ S.Record(
 
 /** The set of user assigned identities associated with the resource. The userAssignedIdentities dictionary keys will be ARM resource ids in the form: '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}. The dictionary values can be empty objects ({}) in requests. */
 export type GetEdgeMachineResponseIdentityUserAssignedIdentitiesMap = {
-  [key: string]: UserAssignedIdentity | undefined;
+  [key: string]: UserAssignedIdentity | null | undefined;
 };
 export const GetEdgeMachineResponseIdentityUserAssignedIdentitiesMap = /*@__PURE__*/ S.Record(
   S.String,
-  UserAssignedIdentity,
+  S.NullOr(UserAssignedIdentity),
 ) as any as S.Schema<GetEdgeMachineResponseIdentityUserAssignedIdentitiesMap>;
 
 /** Managed service identity (system assigned and/or user assigned identities) */
@@ -12444,11 +12444,11 @@ export const ClusterTagsMap = /*@__PURE__*/ S.Record(
 
 /** The set of user assigned identities associated with the resource. The userAssignedIdentities dictionary keys will be ARM resource ids in the form: '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}. The dictionary values can be empty objects ({}) in requests. */
 export type ClusterIdentityUserAssignedIdentitiesMap = {
-  [key: string]: UserAssignedIdentity | undefined;
+  [key: string]: UserAssignedIdentity | null | undefined;
 };
 export const ClusterIdentityUserAssignedIdentitiesMap = /*@__PURE__*/ S.Record(
   S.String,
-  UserAssignedIdentity,
+  S.NullOr(UserAssignedIdentity),
 ) as any as S.Schema<ClusterIdentityUserAssignedIdentitiesMap>;
 
 /** Managed service identity (system assigned and/or user assigned identities) */
@@ -12839,11 +12839,11 @@ export const EdgeMachineTagsMap = /*@__PURE__*/ S.Record(
 
 /** The set of user assigned identities associated with the resource. The userAssignedIdentities dictionary keys will be ARM resource ids in the form: '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}. The dictionary values can be empty objects ({}) in requests. */
 export type EdgeMachineIdentityUserAssignedIdentitiesMap = {
-  [key: string]: UserAssignedIdentity | undefined;
+  [key: string]: UserAssignedIdentity | null | undefined;
 };
 export const EdgeMachineIdentityUserAssignedIdentitiesMap = /*@__PURE__*/ S.Record(
   S.String,
-  UserAssignedIdentity,
+  S.NullOr(UserAssignedIdentity),
 ) as any as S.Schema<EdgeMachineIdentityUserAssignedIdentitiesMap>;
 
 /** Managed service identity (system assigned and/or user assigned identities) */
@@ -16609,12 +16609,12 @@ export const TriggerClusterLogCollectionResponseTagsMap = /*@__PURE__*/ S.Record
 
 /** The set of user assigned identities associated with the resource. The userAssignedIdentities dictionary keys will be ARM resource ids in the form: '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}. The dictionary values can be empty objects ({}) in requests. */
 export type TriggerClusterLogCollectionResponseIdentityUserAssignedIdentitiesMap = {
-  [key: string]: UserAssignedIdentity | undefined;
+  [key: string]: UserAssignedIdentity | null | undefined;
 };
 export const TriggerClusterLogCollectionResponseIdentityUserAssignedIdentitiesMap =
   /*@__PURE__*/ S.Record(
     S.String,
-    UserAssignedIdentity,
+    S.NullOr(UserAssignedIdentity),
   ) as any as S.Schema<TriggerClusterLogCollectionResponseIdentityUserAssignedIdentitiesMap>;
 
 /** Managed service identity (system assigned and/or user assigned identities) */
@@ -16761,11 +16761,11 @@ export const UpdateClusterRequestTagsMap = /*@__PURE__*/ S.Record(
 
 /** The set of user assigned identities associated with the resource. The userAssignedIdentities dictionary keys will be ARM resource ids in the form: '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}. The dictionary values can be empty objects ({}) in requests. */
 export type UpdateClusterRequestIdentityUserAssignedIdentitiesMap = {
-  [key: string]: LogCollectionPropertiesInput | undefined;
+  [key: string]: LogCollectionPropertiesInput | null | undefined;
 };
 export const UpdateClusterRequestIdentityUserAssignedIdentitiesMap = /*@__PURE__*/ S.Record(
   S.String,
-  LogCollectionPropertiesInput,
+  S.NullOr(LogCollectionPropertiesInput),
 ) as any as S.Schema<UpdateClusterRequestIdentityUserAssignedIdentitiesMap>;
 
 /** Managed service identity (system assigned and/or user assigned identities) */
@@ -16844,11 +16844,11 @@ export const UpdateClusterResponseTagsMap = /*@__PURE__*/ S.Record(
 
 /** The set of user assigned identities associated with the resource. The userAssignedIdentities dictionary keys will be ARM resource ids in the form: '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}. The dictionary values can be empty objects ({}) in requests. */
 export type UpdateClusterResponseIdentityUserAssignedIdentitiesMap = {
-  [key: string]: UserAssignedIdentity | undefined;
+  [key: string]: UserAssignedIdentity | null | undefined;
 };
 export const UpdateClusterResponseIdentityUserAssignedIdentitiesMap = /*@__PURE__*/ S.Record(
   S.String,
-  UserAssignedIdentity,
+  S.NullOr(UserAssignedIdentity),
 ) as any as S.Schema<UpdateClusterResponseIdentityUserAssignedIdentitiesMap>;
 
 /** Managed service identity (system assigned and/or user assigned identities) */
@@ -16949,12 +16949,12 @@ export const UpdateClusterSecretsLocationsResponseTagsMap = /*@__PURE__*/ S.Reco
 
 /** The set of user assigned identities associated with the resource. The userAssignedIdentities dictionary keys will be ARM resource ids in the form: '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}. The dictionary values can be empty objects ({}) in requests. */
 export type UpdateClusterSecretsLocationsResponseIdentityUserAssignedIdentitiesMap = {
-  [key: string]: UserAssignedIdentity | undefined;
+  [key: string]: UserAssignedIdentity | null | undefined;
 };
 export const UpdateClusterSecretsLocationsResponseIdentityUserAssignedIdentitiesMap =
   /*@__PURE__*/ S.Record(
     S.String,
-    UserAssignedIdentity,
+    S.NullOr(UserAssignedIdentity),
   ) as any as S.Schema<UpdateClusterSecretsLocationsResponseIdentityUserAssignedIdentitiesMap>;
 
 /** Managed service identity (system assigned and/or user assigned identities) */
@@ -17025,11 +17025,11 @@ export const UpdateEdgeMachineRequestTagsMap = /*@__PURE__*/ S.Record(
 
 /** The set of user assigned identities associated with the resource. The userAssignedIdentities dictionary keys will be ARM resource ids in the form: '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}. The dictionary values can be empty objects ({}) in requests. */
 export type UpdateEdgeMachineRequestIdentityUserAssignedIdentitiesMap = {
-  [key: string]: LogCollectionPropertiesInput | undefined;
+  [key: string]: LogCollectionPropertiesInput | null | undefined;
 };
 export const UpdateEdgeMachineRequestIdentityUserAssignedIdentitiesMap = /*@__PURE__*/ S.Record(
   S.String,
-  LogCollectionPropertiesInput,
+  S.NullOr(LogCollectionPropertiesInput),
 ) as any as S.Schema<UpdateEdgeMachineRequestIdentityUserAssignedIdentitiesMap>;
 
 /** Managed service identity (system assigned and/or user assigned identities) */
@@ -17085,11 +17085,11 @@ export const UpdateEdgeMachineResponseTagsMap = /*@__PURE__*/ S.Record(
 
 /** The set of user assigned identities associated with the resource. The userAssignedIdentities dictionary keys will be ARM resource ids in the form: '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}. The dictionary values can be empty objects ({}) in requests. */
 export type UpdateEdgeMachineResponseIdentityUserAssignedIdentitiesMap = {
-  [key: string]: UserAssignedIdentity | undefined;
+  [key: string]: UserAssignedIdentity | null | undefined;
 };
 export const UpdateEdgeMachineResponseIdentityUserAssignedIdentitiesMap = /*@__PURE__*/ S.Record(
   S.String,
-  UserAssignedIdentity,
+  S.NullOr(UserAssignedIdentity),
 ) as any as S.Schema<UpdateEdgeMachineResponseIdentityUserAssignedIdentitiesMap>;
 
 /** Managed service identity (system assigned and/or user assigned identities) */

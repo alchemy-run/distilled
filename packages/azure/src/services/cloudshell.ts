@@ -23,9 +23,7 @@ export const DeleteConsoleRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2018-10-01",
     }),
   ),
-).annotate({
-  identifier: "DeleteConsoleRequest",
-}) as any as S.Schema<DeleteConsoleRequest>;
+).annotate({ identifier: "DeleteConsoleRequest" }) as any as S.Schema<DeleteConsoleRequest>;
 
 export interface DeleteConsoleResponse {}
 export const DeleteConsoleResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -129,9 +127,7 @@ export const GetConsoleRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2018-10-01",
     }),
   ),
-).annotate({
-  identifier: "GetConsoleRequest",
-}) as any as S.Schema<GetConsoleRequest>;
+).annotate({ identifier: "GetConsoleRequest" }) as any as S.Schema<GetConsoleRequest>;
 
 /** The operating system type of the cloud shell. */
 export type ConsolePropertiesOsType = "Linux" | "Windows";
@@ -165,9 +161,7 @@ export const ConsoleProperties = /*@__PURE__*/ S.suspend(() =>
     provisioningState: ConsolePropertiesProvisioningState,
     uri: S.String,
   }),
-).annotate({
-  identifier: "ConsoleProperties",
-}) as any as S.Schema<ConsoleProperties>;
+).annotate({ identifier: "ConsoleProperties" }) as any as S.Schema<ConsoleProperties>;
 
 export interface GetConsoleResponse {
   properties: ConsoleProperties;
@@ -176,9 +170,7 @@ export const GetConsoleResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     properties: ConsoleProperties,
   }),
-).annotate({
-  identifier: "GetConsoleResponse",
-}) as any as S.Schema<GetConsoleResponse>;
+).annotate({ identifier: "GetConsoleResponse" }) as any as S.Schema<GetConsoleResponse>;
 
 export interface GetConsoleWithLocationRequest {
   /** The provider location */
@@ -228,9 +220,7 @@ export const GetUserSettingsRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2018-10-01",
     }),
   ),
-).annotate({
-  identifier: "GetUserSettingsRequest",
-}) as any as S.Schema<GetUserSettingsRequest>;
+).annotate({ identifier: "GetUserSettingsRequest" }) as any as S.Schema<GetUserSettingsRequest>;
 
 /** The operating system type of the cloud shell. Deprecated, use preferredShellType. */
 export type UserPropertiesPreferredOsType = "Windows" | "Linux";
@@ -273,9 +263,7 @@ export const TerminalSettings = /*@__PURE__*/ S.suspend(() =>
     fontSize: S.optional(TerminalSettingsFontSize),
     fontStyle: S.optional(TerminalSettingsFontStyle),
   }),
-).annotate({
-  identifier: "TerminalSettings",
-}) as any as S.Schema<TerminalSettings>;
+).annotate({ identifier: "TerminalSettings" }) as any as S.Schema<TerminalSettings>;
 
 /** The shell type of the cloud shell. */
 export type UserPropertiesPreferredShellType = "bash" | "pwsh" | "powershell";
@@ -309,9 +297,7 @@ export const GetUserSettingsResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     properties: UserProperties,
   }),
-).annotate({
-  identifier: "GetUserSettingsResponse",
-}) as any as S.Schema<GetUserSettingsResponse>;
+).annotate({ identifier: "GetUserSettingsResponse" }) as any as S.Schema<GetUserSettingsResponse>;
 
 export interface GetUserSettingsWithLocationRequest {
   /** The provider location */
@@ -361,9 +347,7 @@ export const KeepAliveRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2018-10-01",
     }),
   ),
-).annotate({
-  identifier: "KeepAliveRequest",
-}) as any as S.Schema<KeepAliveRequest>;
+).annotate({ identifier: "KeepAliveRequest" }) as any as S.Schema<KeepAliveRequest>;
 
 export interface KeepAliveResponse {}
 export const KeepAliveResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -414,9 +398,7 @@ export const PatchUserSettingsRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2018-10-01",
     }),
   ),
-).annotate({
-  identifier: "PatchUserSettingsRequest",
-}) as any as S.Schema<PatchUserSettingsRequest>;
+).annotate({ identifier: "PatchUserSettingsRequest" }) as any as S.Schema<PatchUserSettingsRequest>;
 
 export interface PatchUserSettingsResponse {
   properties: UserProperties;
@@ -496,9 +478,7 @@ export const ConsoleCreateProperties = /*@__PURE__*/ S.suspend(() =>
     provisioningState: S.optional(ConsoleCreatePropertiesProvisioningState),
     uri: S.optional(S.String),
   }),
-).annotate({
-  identifier: "ConsoleCreateProperties",
-}) as any as S.Schema<ConsoleCreateProperties>;
+).annotate({ identifier: "ConsoleCreateProperties" }) as any as S.Schema<ConsoleCreateProperties>;
 
 export interface PutConsoleRequest {
   /** The name of the console */
@@ -517,9 +497,7 @@ export const PutConsoleRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2018-10-01",
     }),
   ),
-).annotate({
-  identifier: "PutConsoleRequest",
-}) as any as S.Schema<PutConsoleRequest>;
+).annotate({ identifier: "PutConsoleRequest" }) as any as S.Schema<PutConsoleRequest>;
 
 export interface PutConsoleResponse {
   properties: ConsoleProperties;
@@ -528,9 +506,7 @@ export const PutConsoleResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     properties: ConsoleProperties,
   }),
-).annotate({
-  identifier: "PutConsoleResponse",
-}) as any as S.Schema<PutConsoleResponse>;
+).annotate({ identifier: "PutConsoleResponse" }) as any as S.Schema<PutConsoleResponse>;
 
 export interface PutConsoleWithLocationRequest {
   /** The provider location */
@@ -582,9 +558,7 @@ export const PutUserSettingsRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2018-10-01",
     }),
   ),
-).annotate({
-  identifier: "PutUserSettingsRequest",
-}) as any as S.Schema<PutUserSettingsRequest>;
+).annotate({ identifier: "PutUserSettingsRequest" }) as any as S.Schema<PutUserSettingsRequest>;
 
 export interface PutUserSettingsResponse {
   properties: UserProperties;
@@ -593,9 +567,7 @@ export const PutUserSettingsResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     properties: UserProperties,
   }),
-).annotate({
-  identifier: "PutUserSettingsResponse",
-}) as any as S.Schema<PutUserSettingsResponse>;
+).annotate({ identifier: "PutUserSettingsResponse" }) as any as S.Schema<PutUserSettingsResponse>;
 
 export interface PutUserSettingsWithLocationRequest {
   /** The provider location */

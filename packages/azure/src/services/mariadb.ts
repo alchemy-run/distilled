@@ -29,9 +29,7 @@ export const StartServerRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2020-01-01",
     }),
   ),
-).annotate({
-  identifier: "StartServerRequest",
-}) as any as S.Schema<StartServerRequest>;
+).annotate({ identifier: "StartServerRequest" }) as any as S.Schema<StartServerRequest>;
 
 export interface StartServerResponse {}
 export const StartServerResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -59,9 +57,7 @@ export const StopServerRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2020-01-01",
     }),
   ),
-).annotate({
-  identifier: "StopServerRequest",
-}) as any as S.Schema<StopServerRequest>;
+).annotate({ identifier: "StopServerRequest" }) as any as S.Schema<StopServerRequest>;
 
 export interface StopServerResponse {}
 export const StopServerResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({

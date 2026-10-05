@@ -175,9 +175,7 @@ export const LedgerPropertiesInput = /*@__PURE__*/ S.suspend(() =>
     applicationType: S.optional(ApplicationType),
     scittConfiguration: S.optional(S.String),
   }),
-).annotate({
-  identifier: "LedgerPropertiesInput",
-}) as any as S.Schema<LedgerPropertiesInput>;
+).annotate({ identifier: "LedgerPropertiesInput" }) as any as S.Schema<LedgerPropertiesInput>;
 
 export interface CreateLedgerRequest {
   /** The ID of the target subscription. */
@@ -209,9 +207,7 @@ export const CreateLedgerRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2026-02-23",
     }),
   ),
-).annotate({
-  identifier: "CreateLedgerRequest",
-}) as any as S.Schema<CreateLedgerRequest>;
+).annotate({ identifier: "CreateLedgerRequest" }) as any as S.Schema<CreateLedgerRequest>;
 
 /** The type of identity that created the resource. */
 export type SystemDataCreatedByType = "User" | "Application" | "ManagedIdentity" | "Key";
@@ -344,9 +340,7 @@ export const LedgerProperties = /*@__PURE__*/ S.suspend(() =>
     applicationType: S.optional(ApplicationType),
     scittConfiguration: S.optional(S.String),
   }),
-).annotate({
-  identifier: "LedgerProperties",
-}) as any as S.Schema<LedgerProperties>;
+).annotate({ identifier: "LedgerProperties" }) as any as S.Schema<LedgerProperties>;
 
 export interface CreateLedgerResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
@@ -374,9 +368,7 @@ export const CreateLedgerResponse = /*@__PURE__*/ S.suspend(() =>
     location: S.String,
     properties: S.optional(LedgerProperties),
   }),
-).annotate({
-  identifier: "CreateLedgerResponse",
-}) as any as S.Schema<CreateLedgerResponse>;
+).annotate({ identifier: "CreateLedgerResponse" }) as any as S.Schema<CreateLedgerResponse>;
 
 export interface DeleteLedgerRequest {
   /** The ID of the target subscription. */
@@ -399,9 +391,7 @@ export const DeleteLedgerRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2026-02-23",
     }),
   ),
-).annotate({
-  identifier: "DeleteLedgerRequest",
-}) as any as S.Schema<DeleteLedgerRequest>;
+).annotate({ identifier: "DeleteLedgerRequest" }) as any as S.Schema<DeleteLedgerRequest>;
 
 export interface DeleteLedgerResponse {}
 export const DeleteLedgerResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -435,9 +425,7 @@ export const ExportLedgerFileRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2026-02-23",
     }),
   ),
-).annotate({
-  identifier: "ExportLedgerFileRequest",
-}) as any as S.Schema<ExportLedgerFileRequest>;
+).annotate({ identifier: "ExportLedgerFileRequest" }) as any as S.Schema<ExportLedgerFileRequest>;
 
 /** Object representing the files export response of a Confidential Ledger Resource. */
 export interface ConfidentialLedgerFilesExportResponse {
@@ -473,9 +461,7 @@ export const GetLedgerRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2026-02-23",
     }),
   ),
-).annotate({
-  identifier: "GetLedgerRequest",
-}) as any as S.Schema<GetLedgerRequest>;
+).annotate({ identifier: "GetLedgerRequest" }) as any as S.Schema<GetLedgerRequest>;
 
 /** Resource tags. */
 export type GetLedgerResponseTagsMap = { [key: string]: string | undefined };
@@ -510,9 +496,7 @@ export const GetLedgerResponse = /*@__PURE__*/ S.suspend(() =>
     location: S.String,
     properties: S.optional(LedgerProperties),
   }),
-).annotate({
-  identifier: "GetLedgerResponse",
-}) as any as S.Schema<GetLedgerResponse>;
+).annotate({ identifier: "GetLedgerResponse" }) as any as S.Schema<GetLedgerResponse>;
 
 export interface ListLedgerByResourceGroupRequest {
   /** The ID of the target subscription. */
@@ -573,9 +557,7 @@ export const ConfidentialLedger = /*@__PURE__*/ S.suspend(() =>
     location: S.String,
     properties: S.optional(LedgerProperties),
   }),
-).annotate({
-  identifier: "ConfidentialLedger",
-}) as any as S.Schema<ConfidentialLedger>;
+).annotate({ identifier: "ConfidentialLedger" }) as any as S.Schema<ConfidentialLedger>;
 
 /** The ConfidentialLedger items on this page */
 export type ConfidentialLedgerListValueList = Array<ConfidentialLedger>;
@@ -595,9 +577,7 @@ export const ConfidentialLedgerList = /*@__PURE__*/ S.suspend(() =>
     value: ConfidentialLedgerListValueList,
     nextLink: S.optional(S.String),
   }),
-).annotate({
-  identifier: "ConfidentialLedgerList",
-}) as any as S.Schema<ConfidentialLedgerList>;
+).annotate({ identifier: "ConfidentialLedgerList" }) as any as S.Schema<ConfidentialLedgerList>;
 
 export interface ListLedgerBySubscriptionRequest {
   /** The ID of the target subscription. */
@@ -631,9 +611,7 @@ export const ListOperationsRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2026-02-23",
     }),
   ),
-).annotate({
-  identifier: "ListOperationsRequest",
-}) as any as S.Schema<ListOperationsRequest>;
+).annotate({ identifier: "ListOperationsRequest" }) as any as S.Schema<ListOperationsRequest>;
 
 /** Describes the properties of the Operation. */
 export interface ResourceProviderOperationDisplay {
@@ -735,9 +713,7 @@ export const UpdateLedgerRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2026-02-23",
     }),
   ),
-).annotate({
-  identifier: "UpdateLedgerRequest",
-}) as any as S.Schema<UpdateLedgerRequest>;
+).annotate({ identifier: "UpdateLedgerRequest" }) as any as S.Schema<UpdateLedgerRequest>;
 
 /** Resource tags. */
 export type UpdateLedgerResponseTagsMap = { [key: string]: string | undefined };
@@ -772,9 +748,7 @@ export const UpdateLedgerResponse = /*@__PURE__*/ S.suspend(() =>
     location: S.String,
     properties: S.optional(LedgerProperties),
   }),
-).annotate({
-  identifier: "UpdateLedgerResponse",
-}) as any as S.Schema<UpdateLedgerResponse>;
+).annotate({ identifier: "UpdateLedgerResponse" }) as any as S.Schema<UpdateLedgerResponse>;
 
 export type CheckNameAvailabilityError = AzureOpError;
 /** To check whether a resource name is available. */

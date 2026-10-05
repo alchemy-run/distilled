@@ -9,7 +9,7 @@ import * as T from "../traits.ts";
 export type { AzureOpError, AzureOpContext };
 
 export interface CheckProfileTrafficManagerNameAvailabilityV2Request {
-  /** The ID of the target subscription. */
+  /** The ID of the target subscription. The value must be an UUID. */
   subscriptionId: string;
   /** The name of the resource. */
   name?: string;
@@ -26,7 +26,7 @@ export const CheckProfileTrafficManagerNameAvailabilityV2Request = /*@__PURE__*/
       method: "POST",
       uri: "/subscriptions/{subscriptionId}/providers/Microsoft.Network/checkTrafficManagerNameAvailabilityV2",
       code: 200,
-      apiVersion: "2022-04-01",
+      apiVersion: "2026-09-01",
     }),
   ),
 ).annotate({
@@ -74,7 +74,7 @@ export const CheckProfileTrafficManagerRelativeDnsNameAvailabilityRequest = /*@_
         method: "POST",
         uri: "/providers/Microsoft.Network/checkTrafficManagerNameAvailability",
         code: 200,
-        apiVersion: "2022-04-01",
+        apiVersion: "2026-09-01",
       }),
     ),
 ).annotate({
@@ -88,7 +88,7 @@ export type DeleteEndpointRequestEndpointType =
 export const DeleteEndpointRequestEndpointType = S.String;
 
 export interface DeleteEndpointRequest {
-  /** The ID of the target subscription. */
+  /** The ID of the target subscription. The value must be an UUID. */
   subscriptionId: string;
   /** The name of the resource group. The name is case insensitive. */
   resourceGroupName: string;
@@ -111,7 +111,7 @@ export const DeleteEndpointRequest = /*@__PURE__*/ S.suspend(() =>
       method: "DELETE",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/trafficmanagerprofiles/{profileName}/{endpointType}/{endpointName}",
       code: 200,
-      apiVersion: "2022-04-01",
+      apiVersion: "2026-09-01",
     }),
   ),
 ).annotate({ identifier: "DeleteEndpointRequest" }) as any as S.Schema<DeleteEndpointRequest>;
@@ -128,7 +128,7 @@ export const DeleteOperationResult = /*@__PURE__*/ S.suspend(() =>
 ).annotate({ identifier: "DeleteOperationResult" }) as any as S.Schema<DeleteOperationResult>;
 
 export interface DeleteProfileRequest {
-  /** The ID of the target subscription. */
+  /** The ID of the target subscription. The value must be an UUID. */
   subscriptionId: string;
   /** The name of the resource group. The name is case insensitive. */
   resourceGroupName: string;
@@ -145,13 +145,13 @@ export const DeleteProfileRequest = /*@__PURE__*/ S.suspend(() =>
       method: "DELETE",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/trafficmanagerprofiles/{profileName}",
       code: 200,
-      apiVersion: "2022-04-01",
+      apiVersion: "2026-09-01",
     }),
   ),
 ).annotate({ identifier: "DeleteProfileRequest" }) as any as S.Schema<DeleteProfileRequest>;
 
 export interface DeleteTrafficManagerUserMetricsKeyRequest {
-  /** The ID of the target subscription. */
+  /** The ID of the target subscription. The value must be an UUID. */
   subscriptionId: string;
 }
 export const DeleteTrafficManagerUserMetricsKeyRequest = /*@__PURE__*/ S.suspend(() =>
@@ -162,7 +162,7 @@ export const DeleteTrafficManagerUserMetricsKeyRequest = /*@__PURE__*/ S.suspend
       method: "DELETE",
       uri: "/subscriptions/{subscriptionId}/providers/Microsoft.Network/trafficManagerUserMetricsKeys/default",
       code: 200,
-      apiVersion: "2022-04-01",
+      apiVersion: "2026-09-01",
     }),
   ),
 ).annotate({
@@ -298,7 +298,7 @@ export const EndpointProperties = /*@__PURE__*/ S.suspend(() =>
 ).annotate({ identifier: "EndpointProperties" }) as any as S.Schema<EndpointProperties>;
 
 export interface EndpointsCreateOrUpdateRequest {
-  /** The ID of the target subscription. */
+  /** The ID of the target subscription. The value must be an UUID. */
   subscriptionId: string;
   /** The name of the resource group. The name is case insensitive. */
   resourceGroupName: string;
@@ -333,7 +333,7 @@ export const EndpointsCreateOrUpdateRequest = /*@__PURE__*/ S.suspend(() =>
       method: "PUT",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/trafficmanagerprofiles/{profileName}/{endpointType}/{endpointName}",
       code: 200,
-      apiVersion: "2022-04-01",
+      apiVersion: "2026-09-01",
     }),
   ),
 ).annotate({
@@ -368,7 +368,7 @@ export type GetEndpointRequestEndpointType =
 export const GetEndpointRequestEndpointType = S.String;
 
 export interface GetEndpointRequest {
-  /** The ID of the target subscription. */
+  /** The ID of the target subscription. The value must be an UUID. */
   subscriptionId: string;
   /** The name of the resource group. The name is case insensitive. */
   resourceGroupName: string;
@@ -391,7 +391,7 @@ export const GetEndpointRequest = /*@__PURE__*/ S.suspend(() =>
       method: "GET",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/trafficmanagerprofiles/{profileName}/{endpointType}/{endpointName}",
       code: 200,
-      apiVersion: "2022-04-01",
+      apiVersion: "2026-09-01",
     }),
   ),
 ).annotate({ identifier: "GetEndpointRequest" }) as any as S.Schema<GetEndpointRequest>;
@@ -422,7 +422,7 @@ export const GetGeographicHierarchyDefaultRequest = /*@__PURE__*/ S.suspend(() =
       method: "GET",
       uri: "/providers/Microsoft.Network/trafficManagerGeographicHierarchies/default",
       code: 200,
-      apiVersion: "2022-04-01",
+      apiVersion: "2026-09-01",
     }),
   ),
 ).annotate({
@@ -500,7 +500,7 @@ export const GetHeatMapRequestBotRightList = /*@__PURE__*/ S.Array(
 ) as any as S.Schema<GetHeatMapRequestBotRightList>;
 
 export interface GetHeatMapRequest {
-  /** The ID of the target subscription. */
+  /** The ID of the target subscription. The value must be an UUID. */
   subscriptionId: string;
   /** The name of the resource group. The name is case insensitive. */
   resourceGroupName: string;
@@ -526,7 +526,7 @@ export const GetHeatMapRequest = /*@__PURE__*/ S.suspend(() =>
       method: "GET",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/trafficmanagerprofiles/{profileName}/heatMaps/{heatMapType}",
       code: 200,
-      apiVersion: "2022-04-01",
+      apiVersion: "2026-09-01",
     }),
   ),
 ).annotate({ identifier: "GetHeatMapRequest" }) as any as S.Schema<GetHeatMapRequest>;
@@ -640,7 +640,7 @@ export const GetHeatMapResponse = /*@__PURE__*/ S.suspend(() =>
 ).annotate({ identifier: "GetHeatMapResponse" }) as any as S.Schema<GetHeatMapResponse>;
 
 export interface GetProfileRequest {
-  /** The ID of the target subscription. */
+  /** The ID of the target subscription. The value must be an UUID. */
   subscriptionId: string;
   /** The name of the resource group. The name is case insensitive. */
   resourceGroupName: string;
@@ -657,7 +657,7 @@ export const GetProfileRequest = /*@__PURE__*/ S.suspend(() =>
       method: "GET",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/trafficmanagerprofiles/{profileName}",
       code: 200,
-      apiVersion: "2022-04-01",
+      apiVersion: "2026-09-01",
     }),
   ),
 ).annotate({ identifier: "GetProfileRequest" }) as any as S.Schema<GetProfileRequest>;
@@ -821,6 +821,10 @@ export const ProfilePropertiesAllowedEndpointRecordTypesList = /*@__PURE__*/ S.A
   AllowedEndpointRecordType,
 ) as any as S.Schema<ProfilePropertiesAllowedEndpointRecordTypesList>;
 
+/** When record type is set, a traffic manager profile will allow only endpoints that match this type. */
+export type RecordType = "A" | "AAAA" | "CNAME";
+export const RecordType = S.String;
+
 /** Class representing the Traffic Manager profile properties. */
 export interface ProfileProperties {
   /** The status of the Traffic Manager profile. */
@@ -839,6 +843,8 @@ export interface ProfileProperties {
   allowedEndpointRecordTypes?: ProfilePropertiesAllowedEndpointRecordTypesList;
   /** Maximum number of endpoints to be returned for MultiValue routing type. */
   maxReturn?: number;
+  /** When record type is set, a traffic manager profile will allow only endpoints that match this type. If it is not set, traffic manager profile will allow adding all types of endpoints. It is returned as null when this is not set. */
+  recordType?: RecordType;
 }
 export const ProfileProperties = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -850,6 +856,7 @@ export const ProfileProperties = /*@__PURE__*/ S.suspend(() =>
     trafficViewEnrollmentStatus: S.optional(TrafficViewEnrollmentStatus),
     allowedEndpointRecordTypes: S.optional(ProfilePropertiesAllowedEndpointRecordTypesList),
     maxReturn: S.optional(S.Number),
+    recordType: S.optional(RecordType),
   }),
 ).annotate({ identifier: "ProfileProperties" }) as any as S.Schema<ProfileProperties>;
 
@@ -879,7 +886,7 @@ export const GetProfileResponse = /*@__PURE__*/ S.suspend(() =>
 ).annotate({ identifier: "GetProfileResponse" }) as any as S.Schema<GetProfileResponse>;
 
 export interface GetTrafficManagerUserMetricsKeyRequest {
-  /** The ID of the target subscription. */
+  /** The ID of the target subscription. The value must be an UUID. */
   subscriptionId: string;
 }
 export const GetTrafficManagerUserMetricsKeyRequest = /*@__PURE__*/ S.suspend(() =>
@@ -890,7 +897,7 @@ export const GetTrafficManagerUserMetricsKeyRequest = /*@__PURE__*/ S.suspend(()
       method: "GET",
       uri: "/subscriptions/{subscriptionId}/providers/Microsoft.Network/trafficManagerUserMetricsKeys/default",
       code: 200,
-      apiVersion: "2022-04-01",
+      apiVersion: "2026-09-01",
     }),
   ),
 ).annotate({
@@ -930,7 +937,7 @@ export const GetTrafficManagerUserMetricsKeyResponse = /*@__PURE__*/ S.suspend((
 }) as any as S.Schema<GetTrafficManagerUserMetricsKeyResponse>;
 
 export interface ListProfileByResourceGroupRequest {
-  /** The ID of the target subscription. */
+  /** The ID of the target subscription. The value must be an UUID. */
   subscriptionId: string;
   /** The name of the resource group. The name is case insensitive. */
   resourceGroupName: string;
@@ -944,7 +951,7 @@ export const ListProfileByResourceGroupRequest = /*@__PURE__*/ S.suspend(() =>
       method: "GET",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/trafficmanagerprofiles",
       code: 200,
-      apiVersion: "2022-04-01",
+      apiVersion: "2026-09-01",
     }),
   ),
 ).annotate({
@@ -1005,7 +1012,7 @@ export const ProfileListResult = /*@__PURE__*/ S.suspend(() =>
 ).annotate({ identifier: "ProfileListResult" }) as any as S.Schema<ProfileListResult>;
 
 export interface ListProfileBySubscriptionRequest {
-  /** The ID of the target subscription. */
+  /** The ID of the target subscription. The value must be an UUID. */
   subscriptionId: string;
 }
 export const ListProfileBySubscriptionRequest = /*@__PURE__*/ S.suspend(() =>
@@ -1016,7 +1023,7 @@ export const ListProfileBySubscriptionRequest = /*@__PURE__*/ S.suspend(() =>
       method: "GET",
       uri: "/subscriptions/{subscriptionId}/providers/Microsoft.Network/trafficmanagerprofiles",
       code: 200,
-      apiVersion: "2022-04-01",
+      apiVersion: "2026-09-01",
     }),
   ),
 ).annotate({
@@ -1076,6 +1083,8 @@ export interface ProfilePropertiesInput {
   allowedEndpointRecordTypes?: ProfilePropertiesInputAllowedEndpointRecordTypesList;
   /** Maximum number of endpoints to be returned for MultiValue routing type. */
   maxReturn?: number;
+  /** When record type is set, a traffic manager profile will allow only endpoints that match this type. If it is not set, traffic manager profile will allow adding all types of endpoints. It is returned as null when this is not set. */
+  recordType?: RecordType | (string & {});
 }
 export const ProfilePropertiesInput = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -1087,11 +1096,12 @@ export const ProfilePropertiesInput = /*@__PURE__*/ S.suspend(() =>
     trafficViewEnrollmentStatus: S.optional(TrafficViewEnrollmentStatus),
     allowedEndpointRecordTypes: S.optional(ProfilePropertiesInputAllowedEndpointRecordTypesList),
     maxReturn: S.optional(S.Number),
+    recordType: S.optional(RecordType),
   }),
 ).annotate({ identifier: "ProfilePropertiesInput" }) as any as S.Schema<ProfilePropertiesInput>;
 
 export interface ProfilesCreateOrUpdateRequest {
-  /** The ID of the target subscription. */
+  /** The ID of the target subscription. The value must be an UUID. */
   subscriptionId: string;
   /** The name of the resource group. The name is case insensitive. */
   resourceGroupName: string;
@@ -1126,7 +1136,7 @@ export const ProfilesCreateOrUpdateRequest = /*@__PURE__*/ S.suspend(() =>
       method: "PUT",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/trafficmanagerprofiles/{profileName}",
       code: 200,
-      apiVersion: "2022-04-01",
+      apiVersion: "2026-09-01",
     }),
   ),
 ).annotate({
@@ -1168,7 +1178,7 @@ export const ProfilesCreateOrUpdateResponse = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<ProfilesCreateOrUpdateResponse>;
 
 export interface TrafficManagerUserMetricsKeysCreateOrUpdateRequest {
-  /** The ID of the target subscription. */
+  /** The ID of the target subscription. The value must be an UUID. */
   subscriptionId: string;
 }
 export const TrafficManagerUserMetricsKeysCreateOrUpdateRequest = /*@__PURE__*/ S.suspend(() =>
@@ -1179,7 +1189,7 @@ export const TrafficManagerUserMetricsKeysCreateOrUpdateRequest = /*@__PURE__*/ 
       method: "PUT",
       uri: "/subscriptions/{subscriptionId}/providers/Microsoft.Network/trafficManagerUserMetricsKeys/default",
       code: 200,
-      apiVersion: "2022-04-01",
+      apiVersion: "2026-09-01",
     }),
   ),
 ).annotate({
@@ -1214,7 +1224,7 @@ export type UpdateEndpointRequestEndpointType =
 export const UpdateEndpointRequestEndpointType = S.String;
 
 export interface UpdateEndpointRequest {
-  /** The ID of the target subscription. */
+  /** The ID of the target subscription. The value must be an UUID. */
   subscriptionId: string;
   /** The name of the resource group. The name is case insensitive. */
   resourceGroupName: string;
@@ -1249,7 +1259,7 @@ export const UpdateEndpointRequest = /*@__PURE__*/ S.suspend(() =>
       method: "PATCH",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/trafficmanagerprofiles/{profileName}/{endpointType}/{endpointName}",
       code: 200,
-      apiVersion: "2022-04-01",
+      apiVersion: "2026-09-01",
     }),
   ),
 ).annotate({ identifier: "UpdateEndpointRequest" }) as any as S.Schema<UpdateEndpointRequest>;
@@ -1281,7 +1291,7 @@ export const UpdateProfileRequestTagsMap = /*@__PURE__*/ S.Record(
 ) as any as S.Schema<UpdateProfileRequestTagsMap>;
 
 export interface UpdateProfileRequest {
-  /** The ID of the target subscription. */
+  /** The ID of the target subscription. The value must be an UUID. */
   subscriptionId: string;
   /** The name of the resource group. The name is case insensitive. */
   resourceGroupName: string;
@@ -1316,7 +1326,7 @@ export const UpdateProfileRequest = /*@__PURE__*/ S.suspend(() =>
       method: "PATCH",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/trafficmanagerprofiles/{profileName}",
       code: 200,
-      apiVersion: "2022-04-01",
+      apiVersion: "2026-09-01",
     }),
   ),
 ).annotate({ identifier: "UpdateProfileRequest" }) as any as S.Schema<UpdateProfileRequest>;

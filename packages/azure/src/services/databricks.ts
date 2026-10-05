@@ -1614,107 +1614,6 @@ export const OperationListResult = /*@__PURE__*/ S.suspend(() =>
   }),
 ).annotate({ identifier: "OperationListResult" }) as any as S.Schema<OperationListResult>;
 
-export interface ListOutboundNetworkDependenciesEndpointsRequest {
-  /** The ID of the target subscription. The value must be an UUID. */
-  subscriptionId: string;
-  /** The name of the resource group. The name is case insensitive. */
-  resourceGroupName: string;
-  /** The name of the workspace. */
-  workspaceName: string;
-}
-export const ListOutboundNetworkDependenciesEndpointsRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    subscriptionId: S.String.pipe(T.Label()),
-    resourceGroupName: S.String.pipe(T.Label()),
-    workspaceName: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Databricks/workspaces/{workspaceName}/outboundNetworkDependenciesEndpoints",
-      code: 200,
-      apiVersion: "2026-01-01",
-    }),
-  ),
-).annotate({
-  identifier: "ListOutboundNetworkDependenciesEndpointsRequest",
-}) as any as S.Schema<ListOutboundNetworkDependenciesEndpointsRequest>;
-
-/** Connect information from the Workspace to a single endpoint. */
-export interface EndpointDetail {
-  /** An IP Address that Domain Name currently resolves to. */
-  ipAddress?: string;
-  /** The port an endpoint is connected to. */
-  port?: number;
-  /** The time in milliseconds it takes for the connection to be created from the Workspace to this IpAddress at this Port. */
-  latency?: number;
-  /** Whether it is possible to create a connection from the Workspace to this IpAddress at this Port. */
-  isAccessible?: boolean;
-}
-export const EndpointDetail = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ipAddress: S.optional(S.String),
-    port: S.optional(S.Number),
-    latency: S.optional(S.Number),
-    isAccessible: S.optional(S.Boolean),
-  }),
-).annotate({ identifier: "EndpointDetail" }) as any as S.Schema<EndpointDetail>;
-
-/** The Ports used when connecting to domainName. */
-export type EndpointDependencyEndpointDetailsList = Array<EndpointDetail>;
-export const EndpointDependencyEndpointDetailsList = /*@__PURE__*/ S.Array(
-  EndpointDetail,
-) as any as S.Schema<EndpointDependencyEndpointDetailsList>;
-
-/** A domain name or IP address the Workspace is reaching at. */
-export interface EndpointDependency {
-  /** The domain name of the dependency. */
-  domainName?: string;
-  /** The Ports used when connecting to domainName. */
-  endpointDetails?: EndpointDependencyEndpointDetailsList;
-}
-export const EndpointDependency = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    domainName: S.optional(S.String),
-    endpointDetails: S.optional(EndpointDependencyEndpointDetailsList),
-  }),
-).annotate({ identifier: "EndpointDependency" }) as any as S.Schema<EndpointDependency>;
-
-/** The endpoints that Workspace connect to */
-export type OutboundEnvironmentEndpointEndpointsList = Array<EndpointDependency>;
-export const OutboundEnvironmentEndpointEndpointsList = /*@__PURE__*/ S.Array(
-  EndpointDependency,
-) as any as S.Schema<OutboundEnvironmentEndpointEndpointsList>;
-
-/** Egress endpoints which Workspace connects to for common purposes. */
-export interface OutboundEnvironmentEndpoint {
-  /** The category of endpoints accessed by the Workspace, e.g. azure-storage, azure-mysql, etc. */
-  category?: string;
-  /** The endpoints that Workspace connect to */
-  endpoints?: OutboundEnvironmentEndpointEndpointsList;
-}
-export const OutboundEnvironmentEndpoint = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    category: S.optional(S.String),
-    endpoints: S.optional(OutboundEnvironmentEndpointEndpointsList),
-  }),
-).annotate({
-  identifier: "OutboundEnvironmentEndpoint",
-}) as any as S.Schema<OutboundEnvironmentEndpoint>;
-
-/** Collection of outbound network dependency endpoints */
-export type OutboundEnvironmentEndpointCollection = Array<OutboundEnvironmentEndpoint>;
-export const OutboundEnvironmentEndpointCollection = /*@__PURE__*/ S.Array(
-  OutboundEnvironmentEndpoint,
-) as any as S.Schema<OutboundEnvironmentEndpointCollection>;
-
-export type ListOutboundNetworkDependenciesEndpointsResponse =
-  OutboundEnvironmentEndpointCollection;
-export const ListOutboundNetworkDependenciesEndpointsResponse = /*@__PURE__*/ S.suspend(() =>
-  OutboundEnvironmentEndpointCollection.pipe(T.RawResponseRoot()),
-).annotate({
-  identifier: "ListOutboundNetworkDependenciesEndpointsResponse",
-}) as any as S.Schema<ListOutboundNetworkDependenciesEndpointsResponse>;
-
 export interface ListPrivateEndpointConnectionsRequest {
   /** The ID of the target subscription. The value must be an UUID. */
   subscriptionId: string;
@@ -2550,21 +2449,6 @@ export const ListOperations: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: ListOperationsRequest,
   output: OperationListResult,
-  errors: [UnknownAzureError],
-  protocol: AzureProtocol,
-  retry: Retry.Retry,
-}));
-
-export type ListOutboundNetworkDependenciesEndpointsError = AzureOpError;
-/** Gets a list of egress endpoints (network endpoints of all outbound dependencies) in the specified Workspace. Gets the list of endpoints that VNET Injected Workspace calls Azure Databricks Control Plane. You must configure outbound access with these endpoints. For more information, see https://docs.microsoft.com/en-us/azure/databricks/administration-guide/cloud-configurations/azure/udr */
-export const ListOutboundNetworkDependenciesEndpoints: API.OperationMethod<
-  ListOutboundNetworkDependenciesEndpointsRequest,
-  ListOutboundNetworkDependenciesEndpointsResponse,
-  ListOutboundNetworkDependenciesEndpointsError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
-  input: ListOutboundNetworkDependenciesEndpointsRequest,
-  output: ListOutboundNetworkDependenciesEndpointsResponse,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,

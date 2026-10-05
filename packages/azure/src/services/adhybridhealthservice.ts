@@ -104,9 +104,7 @@ export const AddAddsServiceRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2014-01-01",
     }),
   ),
-).annotate({
-  identifier: "AddAddsServiceRequest",
-}) as any as S.Schema<AddAddsServiceRequest>;
+).annotate({ identifier: "AddAddsServiceRequest" }) as any as S.Schema<AddAddsServiceRequest>;
 
 /** The list of additional emails that are configured to receive notifications about the service. */
 export type ServicePropertiesCustomNotificationEmailsList = Array<string>;
@@ -198,9 +196,7 @@ export const ServiceProperties = /*@__PURE__*/ S.suspend(() =>
     tenantId: S.optional(S.String),
     type: S.optional(S.String),
   }),
-).annotate({
-  identifier: "ServiceProperties",
-}) as any as S.Schema<ServiceProperties>;
+).annotate({ identifier: "ServiceProperties" }) as any as S.Schema<ServiceProperties>;
 
 /** The monitoring level reported by the server. */
 export type AddAddsServicesServiceMemberRequestServerReportedMonitoringLevel =
@@ -448,9 +444,7 @@ export const AddConfigurationRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2014-01-01",
     }),
   ),
-).annotate({
-  identifier: "AddConfigurationRequest",
-}) as any as S.Schema<AddConfigurationRequest>;
+).annotate({ identifier: "AddConfigurationRequest" }) as any as S.Schema<AddConfigurationRequest>;
 
 /** The list of global administrators for the tenant. */
 export type TenantGlobalAdminsEmailList = Array<string>;
@@ -625,9 +619,7 @@ export const AddServiceRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2014-01-01",
     }),
   ),
-).annotate({
-  identifier: "AddServiceRequest",
-}) as any as S.Schema<AddServiceRequest>;
+).annotate({ identifier: "AddServiceRequest" }) as any as S.Schema<AddServiceRequest>;
 
 export interface AddServiceAlertFeedbackRequest {
   /** The name of the service. */
@@ -803,9 +795,7 @@ export const AddServiceMemberRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2014-01-01",
     }),
   ),
-).annotate({
-  identifier: "AddServiceMemberRequest",
-}) as any as S.Schema<AddServiceMemberRequest>;
+).annotate({ identifier: "AddServiceMemberRequest" }) as any as S.Schema<AddServiceMemberRequest>;
 
 export interface DeleteAddsServiceRequest {
   /** The name of the service which needs to be deleted. */
@@ -825,9 +815,7 @@ export const DeleteAddsServiceRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2014-01-01",
     }),
   ),
-).annotate({
-  identifier: "DeleteAddsServiceRequest",
-}) as any as S.Schema<DeleteAddsServiceRequest>;
+).annotate({ identifier: "DeleteAddsServiceRequest" }) as any as S.Schema<DeleteAddsServiceRequest>;
 
 export interface DeleteAddsServiceResponse {}
 export const DeleteAddsServiceResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -861,9 +849,7 @@ export const DeleteAddsServiceMemberRequest = /*@__PURE__*/ S.suspend(() =>
 
 export interface DeleteAddsServiceMemberResponse {}
 export const DeleteAddsServiceMemberResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate(
-  {
-    identifier: "DeleteAddsServiceMemberResponse",
-  },
+  { identifier: "DeleteAddsServiceMemberResponse" },
 ) as any as S.Schema<DeleteAddsServiceMemberResponse>;
 
 export interface DeleteAddsServicesUserPreferenceRequest {
@@ -913,9 +899,7 @@ export const DeleteServiceRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2014-01-01",
     }),
   ),
-).annotate({
-  identifier: "DeleteServiceRequest",
-}) as any as S.Schema<DeleteServiceRequest>;
+).annotate({ identifier: "DeleteServiceRequest" }) as any as S.Schema<DeleteServiceRequest>;
 
 export interface DeleteServiceResponse {}
 export const DeleteServiceResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -976,9 +960,7 @@ export const DeleteServiceMemberDataRequest = /*@__PURE__*/ S.suspend(() =>
 
 export interface DeleteServiceMemberDataResponse {}
 export const DeleteServiceMemberDataResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate(
-  {
-    identifier: "DeleteServiceMemberDataResponse",
-  },
+  { identifier: "DeleteServiceMemberDataResponse" },
 ) as any as S.Schema<DeleteServiceMemberDataResponse>;
 
 export interface GetAddsServiceRequest {
@@ -996,9 +978,7 @@ export const GetAddsServiceRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2014-01-01",
     }),
   ),
-).annotate({
-  identifier: "GetAddsServiceRequest",
-}) as any as S.Schema<GetAddsServiceRequest>;
+).annotate({ identifier: "GetAddsServiceRequest" }) as any as S.Schema<GetAddsServiceRequest>;
 
 export interface GetAddsServiceForestSummaryRequest {
   /** The name of the service. */
@@ -1316,9 +1296,7 @@ export const ReplicationStatus = /*@__PURE__*/ S.suspend(() =>
     totalDcCount: S.optional(S.Number),
     errorDcCount: S.optional(S.Number),
   }),
-).annotate({
-  identifier: "ReplicationStatus",
-}) as any as S.Schema<ReplicationStatus>;
+).annotate({ identifier: "ReplicationStatus" }) as any as S.Schema<ReplicationStatus>;
 
 export interface GetAddsServicesUserPreferenceRequest {
   /** The name of the service. */
@@ -1369,9 +1347,7 @@ export const GetConfigurationRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2014-01-01",
     }),
   ),
-).annotate({
-  identifier: "GetConfigurationRequest",
-}) as any as S.Schema<GetConfigurationRequest>;
+).annotate({ identifier: "GetConfigurationRequest" }) as any as S.Schema<GetConfigurationRequest>;
 
 export interface GetReportDevOpsRequest {}
 export const GetReportDevOpsRequest = /*@__PURE__*/ S.suspend(() =>
@@ -1383,9 +1359,7 @@ export const GetReportDevOpsRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2014-01-01",
     }),
   ),
-).annotate({
-  identifier: "GetReportDevOpsRequest",
-}) as any as S.Schema<GetReportDevOpsRequest>;
+).annotate({ identifier: "GetReportDevOpsRequest" }) as any as S.Schema<GetReportDevOpsRequest>;
 
 /** The result for an operation. */
 export interface Result {
@@ -1413,9 +1387,7 @@ export const GetServiceRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2014-01-01",
     }),
   ),
-).annotate({
-  identifier: "GetServiceRequest",
-}) as any as S.Schema<GetServiceRequest>;
+).annotate({ identifier: "GetServiceRequest" }) as any as S.Schema<GetServiceRequest>;
 
 export interface GetServiceFeatureAvailibilityRequest {
   /** The name of the service. */
@@ -1457,9 +1429,7 @@ export const GetServiceMemberRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2014-01-01",
     }),
   ),
-).annotate({
-  identifier: "GetServiceMemberRequest",
-}) as any as S.Schema<GetServiceMemberRequest>;
+).annotate({ identifier: "GetServiceMemberRequest" }) as any as S.Schema<GetServiceMemberRequest>;
 
 export interface GetServiceMemberConnectorMetadataRequest {
   /** The name of the service. */
@@ -1498,9 +1468,7 @@ export const ConnectorMetadataDetails = /*@__PURE__*/ S.suspend(() =>
     connectorId: S.optional(S.String),
     connectorDisplayName: S.optional(S.String),
   }),
-).annotate({
-  identifier: "ConnectorMetadataDetails",
-}) as any as S.Schema<ConnectorMetadataDetails>;
+).annotate({ identifier: "ConnectorMetadataDetails" }) as any as S.Schema<ConnectorMetadataDetails>;
 
 /** The list of connectors. */
 export type ConnectorMetadataConnectorsList = Array<ConnectorMetadataDetails>;
@@ -1526,9 +1494,7 @@ export const ConnectorMetadata = /*@__PURE__*/ S.suspend(() =>
     connectors: S.optional(ConnectorMetadataConnectorsList),
     runProfileNames: S.optional(ConnectorMetadataRunProfileNamesList),
   }),
-).annotate({
-  identifier: "ConnectorMetadata",
-}) as any as S.Schema<ConnectorMetadata>;
+).annotate({ identifier: "ConnectorMetadata" }) as any as S.Schema<ConnectorMetadata>;
 
 export interface GetServiceMemberMetricsRequest {
   /** The name of the service. */
@@ -1622,9 +1588,7 @@ export const ServiceConfiguration = /*@__PURE__*/ S.suspend(() =>
     sqlDatabaseName: S.optional(S.String),
     sqlDatabaseSize: S.optional(S.Number),
   }),
-).annotate({
-  identifier: "ServiceConfiguration",
-}) as any as S.Schema<ServiceConfiguration>;
+).annotate({ identifier: "ServiceConfiguration" }) as any as S.Schema<ServiceConfiguration>;
 
 export interface GetServiceMetricMetadataRequest {
   /** The name of the service. */
@@ -1712,9 +1676,7 @@ export const GetServiceMetricsRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2014-01-01",
     }),
   ),
-).annotate({
-  identifier: "GetServiceMetricsRequest",
-}) as any as S.Schema<GetServiceMetricsRequest>;
+).annotate({ identifier: "GetServiceMetricsRequest" }) as any as S.Schema<GetServiceMetricsRequest>;
 
 export interface GetServiceTenantWhitelistingRequest {
   /** The name of the service. */
@@ -1976,9 +1938,7 @@ export const AddsServiceMember = /*@__PURE__*/ S.suspend(() =>
     serverReportedMonitoringLevel: S.optional(AddsServiceMemberServerReportedMonitoringLevel),
     status: S.optional(S.String),
   }),
-).annotate({
-  identifier: "AddsServiceMember",
-}) as any as S.Schema<AddsServiceMember>;
+).annotate({ identifier: "AddsServiceMember" }) as any as S.Schema<AddsServiceMember>;
 
 /** The value returned by the operation. */
 export type AddsServiceMembersValueList = Array<AddsServiceMember>;
@@ -2004,9 +1964,7 @@ export const AddsServiceMembers = /*@__PURE__*/ S.suspend(() =>
     totalCount: S.optional(S.Number),
     continuationToken: S.optional(S.String),
   }),
-).annotate({
-  identifier: "AddsServiceMembers",
-}) as any as S.Schema<AddsServiceMembers>;
+).annotate({ identifier: "AddsServiceMembers" }) as any as S.Schema<AddsServiceMembers>;
 
 export interface ListAddsServiceMemberCredentialsRequest {
   /** The name of the service. */
@@ -2144,9 +2102,7 @@ export const MetricMetadataList = /*@__PURE__*/ S.suspend(() =>
     totalCount: S.optional(S.Number),
     continuationToken: S.optional(S.String),
   }),
-).annotate({
-  identifier: "MetricMetadataList",
-}) as any as S.Schema<MetricMetadataList>;
+).annotate({ identifier: "MetricMetadataList" }) as any as S.Schema<MetricMetadataList>;
 
 export interface ListAddsServiceMetricsAverageRequest {
   /** The name of the service. */
@@ -2383,9 +2339,7 @@ export const ReplicationSummary = /*@__PURE__*/ S.suspend(() =>
     lastSuccessfulSync: S.optional(S.String),
     inboundNeighborCollection: S.optional(ReplicationSummaryInboundNeighborCollectionList),
   }),
-).annotate({
-  identifier: "ReplicationSummary",
-}) as any as S.Schema<ReplicationSummary>;
+).annotate({ identifier: "ReplicationSummary" }) as any as S.Schema<ReplicationSummary>;
 
 /** The value returned by the operation. */
 export type ReplicationDetailsListValueList = Array<ReplicationSummary>;
@@ -2411,9 +2365,7 @@ export const ReplicationDetailsList = /*@__PURE__*/ S.suspend(() =>
     continuationToken: S.optional(S.String),
     nextLink: S.optional(S.String),
   }),
-).annotate({
-  identifier: "ReplicationDetailsList",
-}) as any as S.Schema<ReplicationDetailsList>;
+).annotate({ identifier: "ReplicationDetailsList" }) as any as S.Schema<ReplicationDetailsList>;
 
 export type ListAddsServiceReplicationSummaryRequestNextPartitionKey = " ";
 export const ListAddsServiceReplicationSummaryRequestNextPartitionKey = S.String;
@@ -2473,9 +2425,7 @@ export const ReplicationSummaryList = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     value: S.optional(ReplicationSummaryListValueList),
   }),
-).annotate({
-  identifier: "ReplicationSummaryList",
-}) as any as S.Schema<ReplicationSummaryList>;
+).annotate({ identifier: "ReplicationSummaryList" }) as any as S.Schema<ReplicationSummaryList>;
 
 export interface ListAddsServicesRequest {
   /** The service property filter to apply. */
@@ -2501,9 +2451,7 @@ export const ListAddsServicesRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2014-01-01",
     }),
   ),
-).annotate({
-  identifier: "ListAddsServicesRequest",
-}) as any as S.Schema<ListAddsServicesRequest>;
+).annotate({ identifier: "ListAddsServicesRequest" }) as any as S.Schema<ListAddsServicesRequest>;
 
 export interface ListAddsServiceServerAlertsRequest {
   /** The name of the service. */
@@ -2590,9 +2538,7 @@ export const AdditionalInformation = /*@__PURE__*/ S.suspend(() =>
     properties: S.optional(S.Unknown),
     hasProperties: S.optional(S.Boolean),
   }),
-).annotate({
-  identifier: "AdditionalInformation",
-}) as any as S.Schema<AdditionalInformation>;
+).annotate({ identifier: "AdditionalInformation" }) as any as S.Schema<AdditionalInformation>;
 
 /** Additional information related to the alert. */
 export type AlertAdditionalInformationList = Array<AdditionalInformation>;
@@ -2832,9 +2778,7 @@ export const AddsConfiguration = /*@__PURE__*/ S.suspend(() =>
     totalCount: S.optional(S.Number),
     continuationToken: S.optional(S.String),
   }),
-).annotate({
-  identifier: "AddsConfiguration",
-}) as any as S.Schema<AddsConfiguration>;
+).annotate({ identifier: "AddsConfiguration" }) as any as S.Schema<AddsConfiguration>;
 
 export interface ListDimensionAddsDimensionsRequest {
   /** The name of the service. */
@@ -3002,9 +2946,7 @@ export const IPAddressAggregate = /*@__PURE__*/ S.suspend(() =>
     attemptThresholdTypeOnTrigger: S.optional(S.String),
     geographicLocation: S.optional(S.String),
   }),
-).annotate({
-  identifier: "IPAddressAggregate",
-}) as any as S.Schema<IPAddressAggregate>;
+).annotate({ identifier: "IPAddressAggregate" }) as any as S.Schema<IPAddressAggregate>;
 
 /** The value returned by the operation. */
 export type IPAddressAggregatesValueList = Array<IPAddressAggregate>;
@@ -3030,9 +2972,7 @@ export const IPAddressAggregates = /*@__PURE__*/ S.suspend(() =>
     totalCount: S.optional(S.Number),
     continuationToken: S.optional(S.String),
   }),
-).annotate({
-  identifier: "IPAddressAggregates",
-}) as any as S.Schema<IPAddressAggregates>;
+).annotate({ identifier: "IPAddressAggregates" }) as any as S.Schema<IPAddressAggregates>;
 
 export interface ListIPAddressAggregateSettingsRequest {
   /** The name of the service. */
@@ -3091,9 +3031,7 @@ export const ListOperationsRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2014-01-01",
     }),
   ),
-).annotate({
-  identifier: "ListOperationsRequest",
-}) as any as S.Schema<ListOperationsRequest>;
+).annotate({ identifier: "ListOperationsRequest" }) as any as S.Schema<ListOperationsRequest>;
 
 /** The details of the operation. */
 export interface Operation {
@@ -3133,9 +3071,7 @@ export const OperationListResponse = /*@__PURE__*/ S.suspend(() =>
     totalCount: S.optional(S.Number),
     continuationToken: S.optional(S.String),
   }),
-).annotate({
-  identifier: "OperationListResponse",
-}) as any as S.Schema<OperationListResponse>;
+).annotate({ identifier: "OperationListResponse" }) as any as S.Schema<OperationListResponse>;
 
 export interface ListServiceAlertFeedbackRequest {
   /** The name of the service. */
@@ -3203,9 +3139,7 @@ export const ListServiceAlertsRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2014-01-01",
     }),
   ),
-).annotate({
-  identifier: "ListServiceAlertsRequest",
-}) as any as S.Schema<ListServiceAlertsRequest>;
+).annotate({ identifier: "ListServiceAlertsRequest" }) as any as S.Schema<ListServiceAlertsRequest>;
 
 export interface ListServiceMemberAlertsRequest {
   /** The name of the service. */
@@ -3544,9 +3478,7 @@ export const DataFreshnessDetails = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     value: S.optional(DataFreshnessDetailsValueList),
   }),
-).annotate({
-  identifier: "DataFreshnessDetails",
-}) as any as S.Schema<DataFreshnessDetails>;
+).annotate({ identifier: "DataFreshnessDetails" }) as any as S.Schema<DataFreshnessDetails>;
 
 export interface ListServiceMemberGlobalConfigurationRequest {
   /** The name of the service. */
@@ -3597,9 +3529,7 @@ export const GlobalConfiguration = /*@__PURE__*/ S.suspend(() =>
     numSavedPwdEvent: S.optional(S.Number),
     featureSet: S.optional(GlobalConfigurationFeatureSetList),
   }),
-).annotate({
-  identifier: "GlobalConfiguration",
-}) as any as S.Schema<GlobalConfiguration>;
+).annotate({ identifier: "GlobalConfiguration" }) as any as S.Schema<GlobalConfiguration>;
 
 /** The value returned by the operation. */
 export type GlobalConfigurationsValueList = Array<GlobalConfiguration>;
@@ -3616,9 +3546,7 @@ export const GlobalConfigurations = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     value: S.optional(GlobalConfigurationsValueList),
   }),
-).annotate({
-  identifier: "GlobalConfigurations",
-}) as any as S.Schema<GlobalConfigurations>;
+).annotate({ identifier: "GlobalConfigurations" }) as any as S.Schema<GlobalConfigurations>;
 
 export interface ListServiceMembersRequest {
   /** The name of the service. */
@@ -3809,9 +3737,7 @@ export const ListServicesRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2014-01-01",
     }),
   ),
-).annotate({
-  identifier: "ListServicesRequest",
-}) as any as S.Schema<ListServicesRequest>;
+).annotate({ identifier: "ListServicesRequest" }) as any as S.Schema<ListServicesRequest>;
 
 export interface ListServiceUserBadPasswordReportRequest {
   /** The name of the service. */
@@ -3856,9 +3782,7 @@ export const ErrorReportUsersEntry = /*@__PURE__*/ S.suspend(() =>
     uniqueIpAddresses: S.optional(S.String),
     totalErrorAttempts: S.optional(S.Number),
   }),
-).annotate({
-  identifier: "ErrorReportUsersEntry",
-}) as any as S.Schema<ErrorReportUsersEntry>;
+).annotate({ identifier: "ErrorReportUsersEntry" }) as any as S.Schema<ErrorReportUsersEntry>;
 
 /** The value returned by the operation. */
 export type ErrorReportUsersEntriesValueList = Array<ErrorReportUsersEntry>;
@@ -3875,9 +3799,7 @@ export const ErrorReportUsersEntries = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     value: S.optional(ErrorReportUsersEntriesValueList),
   }),
-).annotate({
-  identifier: "ErrorReportUsersEntries",
-}) as any as S.Schema<ErrorReportUsersEntries>;
+).annotate({ identifier: "ErrorReportUsersEntries" }) as any as S.Schema<ErrorReportUsersEntries>;
 
 export interface ServiceMembersListExportStatusRequest {
   /** The name of the service. */
@@ -4007,9 +3929,7 @@ export const RiskyIPBlobUris = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     value: S.optional(RiskyIPBlobUrisValueList),
   }),
-).annotate({
-  identifier: "RiskyIPBlobUris",
-}) as any as S.Schema<RiskyIPBlobUris>;
+).annotate({ identifier: "RiskyIPBlobUris" }) as any as S.Schema<RiskyIPBlobUris>;
 
 export interface ServicesListCurrentRiskyIpDownloadReportRequest {
   /** The name of the service. */
@@ -4147,9 +4067,7 @@ export const AssociatedObject = /*@__PURE__*/ S.suspend(() =>
     timeOccurred: S.optional(S.String),
     userPrincipalName: S.optional(S.String),
   }),
-).annotate({
-  identifier: "AssociatedObject",
-}) as any as S.Schema<AssociatedObject>;
+).annotate({ identifier: "AssociatedObject" }) as any as S.Schema<AssociatedObject>;
 
 /** The merged export error. */
 export interface MergedExportError {
@@ -4223,9 +4141,7 @@ export const MergedExportError = /*@__PURE__*/ S.suspend(() =>
     createdDate: S.optional(S.String),
     exportErrorStatus: S.optional(S.Number),
   }),
-).annotate({
-  identifier: "MergedExportError",
-}) as any as S.Schema<MergedExportError>;
+).annotate({ identifier: "MergedExportError" }) as any as S.Schema<MergedExportError>;
 
 /** The value returned by the operation. */
 export type MergedExportErrorsValueList = Array<MergedExportError>;
@@ -4242,9 +4158,7 @@ export const MergedExportErrors = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     value: S.optional(MergedExportErrorsValueList),
   }),
-).annotate({
-  identifier: "MergedExportErrors",
-}) as any as S.Schema<MergedExportErrors>;
+).annotate({ identifier: "MergedExportErrors" }) as any as S.Schema<MergedExportErrors>;
 
 export interface ServicesListExportStatusRequest {
   /** The name of the service. */
@@ -4361,9 +4275,7 @@ export const UpdateAddsServiceRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2014-01-01",
     }),
   ),
-).annotate({
-  identifier: "UpdateAddsServiceRequest",
-}) as any as S.Schema<UpdateAddsServiceRequest>;
+).annotate({ identifier: "UpdateAddsServiceRequest" }) as any as S.Schema<UpdateAddsServiceRequest>;
 
 /** The list of global administrators for the tenant. */
 export type UpdateConfigurationRequestGlobalAdminsEmailList = Array<string>;
@@ -4583,9 +4495,7 @@ export const UpdateServiceRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2014-01-01",
     }),
   ),
-).annotate({
-  identifier: "UpdateServiceRequest",
-}) as any as S.Schema<UpdateServiceRequest>;
+).annotate({ identifier: "UpdateServiceRequest" }) as any as S.Schema<UpdateServiceRequest>;
 
 export interface UpdateServiceMonitoringConfigurationRequest {
   /** The name of the service. */

@@ -26,9 +26,7 @@ export const GetExtendedZoneRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2026-10-01",
     }),
   ),
-).annotate({
-  identifier: "GetExtendedZoneRequest",
-}) as any as S.Schema<GetExtendedZoneRequest>;
+).annotate({ identifier: "GetExtendedZoneRequest" }) as any as S.Schema<GetExtendedZoneRequest>;
 
 /** The type of identity that created the resource. */
 export type SystemDataCreatedByType = "User" | "Application" | "ManagedIdentity" | "Key";
@@ -122,9 +120,7 @@ export const ExtendedZoneProperties = /*@__PURE__*/ S.suspend(() =>
     latitude: S.String,
     homeLocation: S.String,
   }),
-).annotate({
-  identifier: "ExtendedZoneProperties",
-}) as any as S.Schema<ExtendedZoneProperties>;
+).annotate({ identifier: "ExtendedZoneProperties" }) as any as S.Schema<ExtendedZoneProperties>;
 
 export interface GetExtendedZoneResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
@@ -146,9 +142,7 @@ export const GetExtendedZoneResponse = /*@__PURE__*/ S.suspend(() =>
     systemData: S.optional(SystemData),
     properties: S.optional(ExtendedZoneProperties),
   }),
-).annotate({
-  identifier: "GetExtendedZoneResponse",
-}) as any as S.Schema<GetExtendedZoneResponse>;
+).annotate({ identifier: "GetExtendedZoneResponse" }) as any as S.Schema<GetExtendedZoneResponse>;
 
 export interface ListExtendedZoneBySubscriptionRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -210,9 +204,7 @@ export const ExtendedZoneListResult = /*@__PURE__*/ S.suspend(() =>
     value: ExtendedZoneListResultValueList,
     nextLink: S.optional(S.String),
   }),
-).annotate({
-  identifier: "ExtendedZoneListResult",
-}) as any as S.Schema<ExtendedZoneListResult>;
+).annotate({ identifier: "ExtendedZoneListResult" }) as any as S.Schema<ExtendedZoneListResult>;
 
 export interface ListOperationsRequest {}
 export const ListOperationsRequest = /*@__PURE__*/ S.suspend(() =>
@@ -224,9 +216,7 @@ export const ListOperationsRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2026-10-01",
     }),
   ),
-).annotate({
-  identifier: "ListOperationsRequest",
-}) as any as S.Schema<ListOperationsRequest>;
+).annotate({ identifier: "ListOperationsRequest" }) as any as S.Schema<ListOperationsRequest>;
 
 /** Localized display information for this particular operation. */
 export interface OperationDisplay {
@@ -246,9 +236,7 @@ export const OperationDisplay = /*@__PURE__*/ S.suspend(() =>
     operation: S.optional(S.String),
     description: S.optional(S.String),
   }),
-).annotate({
-  identifier: "OperationDisplay",
-}) as any as S.Schema<OperationDisplay>;
+).annotate({ identifier: "OperationDisplay" }) as any as S.Schema<OperationDisplay>;
 
 /** The intended executor of the operation; as in Resource Based Access Control (RBAC) and audit logs UX. Default value is "user,system" */
 export type OperationOrigin = "user" | "system" | "user,system";
@@ -298,9 +286,7 @@ export const ListOperationsResponse = /*@__PURE__*/ S.suspend(() =>
     value: S.optional(ListOperationsResponseValueList),
     nextLink: S.optional(S.String),
   }),
-).annotate({
-  identifier: "ListOperationsResponse",
-}) as any as S.Schema<ListOperationsResponse>;
+).annotate({ identifier: "ListOperationsResponse" }) as any as S.Schema<ListOperationsResponse>;
 
 export interface RegisterExtendedZoneRequest {
   /** The ID of the target subscription. The value must be an UUID. */

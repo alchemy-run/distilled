@@ -18,10 +18,10 @@
     "distilled.finalized": true
   },
   "shapes": {
-    "com.azure.orbitalplanetarycomputer#DeleteGeoCatalog": {
+    "com.azure.planetarycomputer#DeleteGeoCatalog": {
       "type": "operation",
       "input": {
-        "target": "com.azure.orbitalplanetarycomputer#DeleteGeoCatalogRequest"
+        "target": "com.azure.planetarycomputer#DeleteGeoCatalogRequest"
       },
       "output": {
         "target": "smithy.api#Unit"
@@ -37,7 +37,7 @@
         "com.distilled.openapi#apiVersion": "2026-04-15"
       }
     },
-    "com.azure.orbitalplanetarycomputer#DeleteGeoCatalogRequest": {
+    "com.azure.planetarycomputer#DeleteGeoCatalogRequest": {
       "type": "structure",
       "members": {
         "subscriptionId": {
@@ -69,13 +69,13 @@
         "smithy.api#input": {}
       }
     },
-    "com.azure.orbitalplanetarycomputer#UpdateGeoCatalog": {
+    "com.azure.planetarycomputer#UpdateGeoCatalog": {
       "type": "operation",
       "input": {
-        "target": "com.azure.orbitalplanetarycomputer#UpdateGeoCatalogRequest"
+        "target": "com.azure.planetarycomputer#UpdateGeoCatalogRequest"
       },
       "output": {
-        "target": "com.azure.orbitalplanetarycomputer#UpdateGeoCatalogResponse"
+        "target": "com.azure.planetarycomputer#UpdateGeoCatalogResponse"
       },
       "traits": {
         "smithy.api#http": {
@@ -88,7 +88,7 @@
         "com.distilled.openapi#apiVersion": "2026-04-15"
       }
     },
-    "com.azure.orbitalplanetarycomputer#UpdateGeoCatalogResponse": {
+    "com.azure.planetarycomputer#UpdateGeoCatalogResponse": {
       "type": "structure",
       "members": {
         "id": {
@@ -110,13 +110,13 @@
           }
         },
         "systemData": {
-          "target": "com.azure.orbitalplanetarycomputer#SystemData",
+          "target": "com.azure.planetarycomputer#SystemData",
           "traits": {
             "smithy.api#documentation": "Azure Resource Manager metadata containing createdBy and modifiedBy information."
           }
         },
         "tags": {
-          "target": "com.azure.orbitalplanetarycomputer#UpdateGeoCatalogResponseTagsMap",
+          "target": "com.azure.planetarycomputer#UpdateGeoCatalogResponseTagsMap",
           "traits": {
             "smithy.api#documentation": "Resource tags."
           }
@@ -129,13 +129,13 @@
           }
         },
         "properties": {
-          "target": "com.azure.orbitalplanetarycomputer#GeoCatalogProperties",
+          "target": "com.azure.planetarycomputer#GeoCatalogProperties",
           "traits": {
             "smithy.api#documentation": "The resource-specific properties for this resource."
           }
         },
         "identity": {
-          "target": "com.azure.orbitalplanetarycomputer#UpdateGeoCatalogResponseIdentity",
+          "target": "com.azure.planetarycomputer#UpdateGeoCatalogResponseIdentity",
           "traits": {
             "smithy.api#documentation": "Managed service identity (system assigned and/or user assigned identities)"
           }
@@ -145,7 +145,7 @@
         "smithy.api#output": {}
       }
     },
-    "com.azure.orbitalplanetarycomputer#UpdateGeoCatalogResponseIdentity": {
+    "com.azure.planetarycomputer#UpdateGeoCatalogResponseIdentity": {
       "type": "structure",
       "members": {
         "principalId": {
@@ -161,26 +161,26 @@
           }
         },
         "type": {
-          "target": "com.azure.orbitalplanetarycomputer#ManagedServiceIdentityType",
+          "target": "com.azure.planetarycomputer#ManagedServiceIdentityType",
           "traits": {
             "smithy.api#required": {}
           }
         },
         "userAssignedIdentities": {
-          "target": "com.azure.orbitalplanetarycomputer#UserAssignedIdentities"
+          "target": "com.azure.planetarycomputer#UserAssignedIdentities"
         }
       },
       "traits": {
         "smithy.api#documentation": "Managed service identity (system assigned and/or user assigned identities)"
       }
     },
-    "com.azure.orbitalplanetarycomputer#UserAssignedIdentities": {
+    "com.azure.planetarycomputer#UserAssignedIdentities": {
       "type": "map",
       "key": {
         "target": "smithy.api#String"
       },
       "value": {
-        "target": "com.azure.orbitalplanetarycomputer#UserAssignedIdentity",
+        "target": "com.azure.planetarycomputer#UserAssignedIdentity",
         "traits": {
           "com.distilled.openapi#nullable": {}
         }
@@ -189,7 +189,7 @@
         "smithy.api#documentation": "The set of user assigned identities associated with the resource. The userAssignedIdentities dictionary keys will be ARM resource ids in the form: '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}. The dictionary values can be empty objects ({}) in requests."
       }
     },
-    "com.azure.orbitalplanetarycomputer#UserAssignedIdentity": {
+    "com.azure.planetarycomputer#UserAssignedIdentity": {
       "type": "structure",
       "members": {
         "principalId": {
@@ -209,7 +209,7 @@
         "smithy.api#documentation": "User assigned identity properties"
       }
     },
-    "com.azure.orbitalplanetarycomputer#ManagedServiceIdentityType": {
+    "com.azure.planetarycomputer#ManagedServiceIdentityType": {
       "type": "enum",
       "members": {
         "NONE": {
@@ -241,11 +241,11 @@
         "smithy.api#documentation": "Type of managed service identity (where both SystemAssigned and UserAssigned types are allowed)."
       }
     },
-    "com.azure.orbitalplanetarycomputer#GeoCatalogProperties": {
+    "com.azure.planetarycomputer#GeoCatalogProperties": {
       "type": "structure",
       "members": {
         "tier": {
-          "target": "com.azure.orbitalplanetarycomputer#GeoCatalogPropertiesTier",
+          "target": "com.azure.planetarycomputer#GeoCatalogPropertiesTier",
           "traits": {
             "smithy.api#documentation": "Tier of the catalog. This cannot be changed after the catalog is created. If not provided, defaults to Basic."
           }
@@ -257,13 +257,13 @@
           }
         },
         "provisioningState": {
-          "target": "com.azure.orbitalplanetarycomputer#ProvisioningState",
+          "target": "com.azure.planetarycomputer#ProvisioningState",
           "traits": {
             "smithy.api#documentation": "The status of the last operation."
           }
         },
         "autoGeneratedDomainNameLabelScope": {
-          "target": "com.azure.orbitalplanetarycomputer#GeoCatalogPropertiesAutoGeneratedDomainNameLabelScope",
+          "target": "com.azure.planetarycomputer#GeoCatalogPropertiesAutoGeneratedDomainNameLabelScope",
           "traits": {
             "smithy.api#documentation": "The scope of the auto-generated domain name label. If not provided, defaults to TenantReuse."
           }
@@ -273,7 +273,7 @@
         "smithy.api#documentation": "The details of the Microsoft Planetary Computer Pro GeoCatalog."
       }
     },
-    "com.azure.orbitalplanetarycomputer#GeoCatalogPropertiesAutoGeneratedDomainNameLabelScope": {
+    "com.azure.planetarycomputer#GeoCatalogPropertiesAutoGeneratedDomainNameLabelScope": {
       "type": "enum",
       "members": {
         "NOREUSE": {
@@ -305,7 +305,7 @@
         "smithy.api#documentation": "The scope of the auto-generated domain name label. If not provided, defaults to TenantReuse."
       }
     },
-    "com.azure.orbitalplanetarycomputer#ProvisioningState": {
+    "com.azure.planetarycomputer#ProvisioningState": {
       "type": "enum",
       "members": {
         "SUCCEEDED": {
@@ -355,7 +355,7 @@
         "smithy.api#documentation": "The status of the current operation."
       }
     },
-    "com.azure.orbitalplanetarycomputer#GeoCatalogPropertiesTier": {
+    "com.azure.planetarycomputer#GeoCatalogPropertiesTier": {
       "type": "enum",
       "members": {
         "BASIC": {
@@ -369,7 +369,7 @@
         "smithy.api#documentation": "Tier of the catalog. This cannot be changed after the catalog is created. If not provided, defaults to Basic."
       }
     },
-    "com.azure.orbitalplanetarycomputer#UpdateGeoCatalogResponseTagsMap": {
+    "com.azure.planetarycomputer#UpdateGeoCatalogResponseTagsMap": {
       "type": "map",
       "key": {
         "target": "smithy.api#String"
@@ -381,7 +381,7 @@
         "smithy.api#documentation": "Resource tags."
       }
     },
-    "com.azure.orbitalplanetarycomputer#SystemData": {
+    "com.azure.planetarycomputer#SystemData": {
       "type": "structure",
       "members": {
         "createdBy": {
@@ -391,7 +391,7 @@
           }
         },
         "createdByType": {
-          "target": "com.azure.orbitalplanetarycomputer#SystemDataCreatedByType",
+          "target": "com.azure.planetarycomputer#SystemDataCreatedByType",
           "traits": {
             "smithy.api#documentation": "The type of identity that created the resource."
           }
@@ -409,7 +409,7 @@
           }
         },
         "lastModifiedByType": {
-          "target": "com.azure.orbitalplanetarycomputer#SystemDataLastModifiedByType",
+          "target": "com.azure.planetarycomputer#SystemDataLastModifiedByType",
           "traits": {
             "smithy.api#documentation": "The type of identity that last modified the resource."
           }
@@ -425,7 +425,7 @@
         "smithy.api#documentation": "Metadata pertaining to creation and last modification of the resource."
       }
     },
-    "com.azure.orbitalplanetarycomputer#SystemDataLastModifiedByType": {
+    "com.azure.planetarycomputer#SystemDataLastModifiedByType": {
       "type": "enum",
       "members": {
         "USER": {
@@ -457,7 +457,7 @@
         "smithy.api#documentation": "The type of identity that last modified the resource."
       }
     },
-    "com.azure.orbitalplanetarycomputer#SystemDataCreatedByType": {
+    "com.azure.planetarycomputer#SystemDataCreatedByType": {
       "type": "enum",
       "members": {
         "USER": {
@@ -489,7 +489,7 @@
         "smithy.api#documentation": "The type of identity that created the resource."
       }
     },
-    "com.azure.orbitalplanetarycomputer#UpdateGeoCatalogRequest": {
+    "com.azure.planetarycomputer#UpdateGeoCatalogRequest": {
       "type": "structure",
       "members": {
         "subscriptionId": {
@@ -517,13 +517,13 @@
           }
         },
         "tags": {
-          "target": "com.azure.orbitalplanetarycomputer#UpdateGeoCatalogRequestTagsMap",
+          "target": "com.azure.planetarycomputer#UpdateGeoCatalogRequestTagsMap",
           "traits": {
             "smithy.api#documentation": "Resource tags."
           }
         },
         "identity": {
-          "target": "com.azure.orbitalplanetarycomputer#ManagedServiceIdentityUpdateInput",
+          "target": "com.azure.planetarycomputer#ManagedServiceIdentityUpdateInput",
           "traits": {
             "smithy.api#documentation": "The managed service identity properties to update."
           }
@@ -533,17 +533,17 @@
         "smithy.api#input": {}
       }
     },
-    "com.azure.orbitalplanetarycomputer#ManagedServiceIdentityUpdateInput": {
+    "com.azure.planetarycomputer#ManagedServiceIdentityUpdateInput": {
       "type": "structure",
       "members": {
         "type": {
-          "target": "com.azure.orbitalplanetarycomputer#ManagedServiceIdentityUpdateInputType",
+          "target": "com.azure.planetarycomputer#ManagedServiceIdentityUpdateInputType",
           "traits": {
             "smithy.api#documentation": "Type of managed service identity (where both SystemAssigned and UserAssigned types are allowed)."
           }
         },
         "userAssignedIdentities": {
-          "target": "com.azure.orbitalplanetarycomputer#ManagedServiceIdentityUpdateInputUserAssignedIdentitiesMap",
+          "target": "com.azure.planetarycomputer#ManagedServiceIdentityUpdateInputUserAssignedIdentitiesMap",
           "traits": {
             "smithy.api#documentation": "The identities assigned to this resource by the user."
           }
@@ -553,26 +553,26 @@
         "smithy.api#documentation": "The template for adding optional properties."
       }
     },
-    "com.azure.orbitalplanetarycomputer#ManagedServiceIdentityUpdateInputUserAssignedIdentitiesMap": {
+    "com.azure.planetarycomputer#ManagedServiceIdentityUpdateInputUserAssignedIdentitiesMap": {
       "type": "map",
       "key": {
         "target": "smithy.api#String"
       },
       "value": {
-        "target": "com.azure.orbitalplanetarycomputer#ManagedServiceIdentityUpdateInputUserAssignedIdentitiesValue"
+        "target": "com.azure.planetarycomputer#ManagedServiceIdentityUpdateInputUserAssignedIdentitiesValue"
       },
       "traits": {
         "smithy.api#documentation": "The identities assigned to this resource by the user."
       }
     },
-    "com.azure.orbitalplanetarycomputer#ManagedServiceIdentityUpdateInputUserAssignedIdentitiesValue": {
+    "com.azure.planetarycomputer#ManagedServiceIdentityUpdateInputUserAssignedIdentitiesValue": {
       "type": "structure",
       "members": {},
       "traits": {
         "smithy.api#documentation": "User assigned identity properties"
       }
     },
-    "com.azure.orbitalplanetarycomputer#ManagedServiceIdentityUpdateInputType": {
+    "com.azure.planetarycomputer#ManagedServiceIdentityUpdateInputType": {
       "type": "enum",
       "members": {
         "NONE": {
@@ -604,7 +604,7 @@
         "smithy.api#documentation": "Type of managed service identity (where both SystemAssigned and UserAssigned types are allowed)."
       }
     },
-    "com.azure.orbitalplanetarycomputer#UpdateGeoCatalogRequestTagsMap": {
+    "com.azure.planetarycomputer#UpdateGeoCatalogRequestTagsMap": {
       "type": "map",
       "key": {
         "target": "smithy.api#String"
@@ -616,13 +616,13 @@
         "smithy.api#documentation": "Resource tags."
       }
     },
-    "com.azure.orbitalplanetarycomputer#CreateGeoCatalog": {
+    "com.azure.planetarycomputer#CreateGeoCatalog": {
       "type": "operation",
       "input": {
-        "target": "com.azure.orbitalplanetarycomputer#CreateGeoCatalogRequest"
+        "target": "com.azure.planetarycomputer#CreateGeoCatalogRequest"
       },
       "output": {
-        "target": "com.azure.orbitalplanetarycomputer#CreateGeoCatalogResponse"
+        "target": "com.azure.planetarycomputer#CreateGeoCatalogResponse"
       },
       "traits": {
         "smithy.api#http": {
@@ -635,7 +635,7 @@
         "com.distilled.openapi#apiVersion": "2026-04-15"
       }
     },
-    "com.azure.orbitalplanetarycomputer#CreateGeoCatalogResponse": {
+    "com.azure.planetarycomputer#CreateGeoCatalogResponse": {
       "type": "structure",
       "members": {
         "id": {
@@ -657,13 +657,13 @@
           }
         },
         "systemData": {
-          "target": "com.azure.orbitalplanetarycomputer#SystemData",
+          "target": "com.azure.planetarycomputer#SystemData",
           "traits": {
             "smithy.api#documentation": "Azure Resource Manager metadata containing createdBy and modifiedBy information."
           }
         },
         "tags": {
-          "target": "com.azure.orbitalplanetarycomputer#CreateGeoCatalogResponseTagsMap",
+          "target": "com.azure.planetarycomputer#CreateGeoCatalogResponseTagsMap",
           "traits": {
             "smithy.api#documentation": "Resource tags."
           }
@@ -676,13 +676,13 @@
           }
         },
         "properties": {
-          "target": "com.azure.orbitalplanetarycomputer#GeoCatalogProperties",
+          "target": "com.azure.planetarycomputer#GeoCatalogProperties",
           "traits": {
             "smithy.api#documentation": "The resource-specific properties for this resource."
           }
         },
         "identity": {
-          "target": "com.azure.orbitalplanetarycomputer#CreateGeoCatalogResponseIdentity",
+          "target": "com.azure.planetarycomputer#CreateGeoCatalogResponseIdentity",
           "traits": {
             "smithy.api#documentation": "Managed service identity (system assigned and/or user assigned identities)"
           }
@@ -692,7 +692,7 @@
         "smithy.api#output": {}
       }
     },
-    "com.azure.orbitalplanetarycomputer#CreateGeoCatalogResponseIdentity": {
+    "com.azure.planetarycomputer#CreateGeoCatalogResponseIdentity": {
       "type": "structure",
       "members": {
         "principalId": {
@@ -708,20 +708,20 @@
           }
         },
         "type": {
-          "target": "com.azure.orbitalplanetarycomputer#ManagedServiceIdentityType",
+          "target": "com.azure.planetarycomputer#ManagedServiceIdentityType",
           "traits": {
             "smithy.api#required": {}
           }
         },
         "userAssignedIdentities": {
-          "target": "com.azure.orbitalplanetarycomputer#UserAssignedIdentities"
+          "target": "com.azure.planetarycomputer#UserAssignedIdentities"
         }
       },
       "traits": {
         "smithy.api#documentation": "Managed service identity (system assigned and/or user assigned identities)"
       }
     },
-    "com.azure.orbitalplanetarycomputer#CreateGeoCatalogResponseTagsMap": {
+    "com.azure.planetarycomputer#CreateGeoCatalogResponseTagsMap": {
       "type": "map",
       "key": {
         "target": "smithy.api#String"
@@ -733,7 +733,7 @@
         "smithy.api#documentation": "Resource tags."
       }
     },
-    "com.azure.orbitalplanetarycomputer#CreateGeoCatalogRequest": {
+    "com.azure.planetarycomputer#CreateGeoCatalogRequest": {
       "type": "structure",
       "members": {
         "subscriptionId": {
@@ -761,7 +761,7 @@
           }
         },
         "tags": {
-          "target": "com.azure.orbitalplanetarycomputer#CreateGeoCatalogRequestTagsMap",
+          "target": "com.azure.planetarycomputer#CreateGeoCatalogRequestTagsMap",
           "traits": {
             "smithy.api#documentation": "Resource tags."
           }
@@ -774,13 +774,13 @@
           }
         },
         "properties": {
-          "target": "com.azure.orbitalplanetarycomputer#GeoCatalogPropertiesInput",
+          "target": "com.azure.planetarycomputer#GeoCatalogPropertiesInput",
           "traits": {
             "smithy.api#documentation": "The resource-specific properties for this resource."
           }
         },
         "identity": {
-          "target": "com.azure.orbitalplanetarycomputer#CreateGeoCatalogRequestIdentity",
+          "target": "com.azure.planetarycomputer#CreateGeoCatalogRequestIdentity",
           "traits": {
             "smithy.api#documentation": "Managed service identity (system assigned and/or user assigned identities)"
           }
@@ -790,30 +790,30 @@
         "smithy.api#input": {}
       }
     },
-    "com.azure.orbitalplanetarycomputer#CreateGeoCatalogRequestIdentity": {
+    "com.azure.planetarycomputer#CreateGeoCatalogRequestIdentity": {
       "type": "structure",
       "members": {
         "type": {
-          "target": "com.azure.orbitalplanetarycomputer#ManagedServiceIdentityType",
+          "target": "com.azure.planetarycomputer#ManagedServiceIdentityType",
           "traits": {
             "smithy.api#required": {}
           }
         },
         "userAssignedIdentities": {
-          "target": "com.azure.orbitalplanetarycomputer#UserAssignedIdentitiesInput"
+          "target": "com.azure.planetarycomputer#UserAssignedIdentitiesInput"
         }
       },
       "traits": {
         "smithy.api#documentation": "Managed service identity (system assigned and/or user assigned identities)"
       }
     },
-    "com.azure.orbitalplanetarycomputer#UserAssignedIdentitiesInput": {
+    "com.azure.planetarycomputer#UserAssignedIdentitiesInput": {
       "type": "map",
       "key": {
         "target": "smithy.api#String"
       },
       "value": {
-        "target": "com.azure.orbitalplanetarycomputer#UserAssignedIdentityInput",
+        "target": "com.azure.planetarycomputer#UserAssignedIdentityInput",
         "traits": {
           "com.distilled.openapi#nullable": {}
         }
@@ -822,24 +822,24 @@
         "smithy.api#documentation": "The set of user assigned identities associated with the resource. The userAssignedIdentities dictionary keys will be ARM resource ids in the form: '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}. The dictionary values can be empty objects ({}) in requests."
       }
     },
-    "com.azure.orbitalplanetarycomputer#UserAssignedIdentityInput": {
+    "com.azure.planetarycomputer#UserAssignedIdentityInput": {
       "type": "structure",
       "members": {},
       "traits": {
         "smithy.api#documentation": "User assigned identity properties"
       }
     },
-    "com.azure.orbitalplanetarycomputer#GeoCatalogPropertiesInput": {
+    "com.azure.planetarycomputer#GeoCatalogPropertiesInput": {
       "type": "structure",
       "members": {
         "tier": {
-          "target": "com.azure.orbitalplanetarycomputer#GeoCatalogPropertiesInputTier",
+          "target": "com.azure.planetarycomputer#GeoCatalogPropertiesInputTier",
           "traits": {
             "smithy.api#documentation": "Tier of the catalog. This cannot be changed after the catalog is created. If not provided, defaults to Basic."
           }
         },
         "autoGeneratedDomainNameLabelScope": {
-          "target": "com.azure.orbitalplanetarycomputer#GeoCatalogPropertiesInputAutoGeneratedDomainNameLabelScope",
+          "target": "com.azure.planetarycomputer#GeoCatalogPropertiesInputAutoGeneratedDomainNameLabelScope",
           "traits": {
             "smithy.api#documentation": "The scope of the auto-generated domain name label. If not provided, defaults to TenantReuse."
           }
@@ -849,7 +849,7 @@
         "smithy.api#documentation": "The details of the Microsoft Planetary Computer Pro GeoCatalog."
       }
     },
-    "com.azure.orbitalplanetarycomputer#GeoCatalogPropertiesInputAutoGeneratedDomainNameLabelScope": {
+    "com.azure.planetarycomputer#GeoCatalogPropertiesInputAutoGeneratedDomainNameLabelScope": {
       "type": "enum",
       "members": {
         "NOREUSE": {
@@ -881,7 +881,7 @@
         "smithy.api#documentation": "The scope of the auto-generated domain name label. If not provided, defaults to TenantReuse."
       }
     },
-    "com.azure.orbitalplanetarycomputer#GeoCatalogPropertiesInputTier": {
+    "com.azure.planetarycomputer#GeoCatalogPropertiesInputTier": {
       "type": "enum",
       "members": {
         "BASIC": {
@@ -895,7 +895,7 @@
         "smithy.api#documentation": "Tier of the catalog. This cannot be changed after the catalog is created. If not provided, defaults to Basic."
       }
     },
-    "com.azure.orbitalplanetarycomputer#CreateGeoCatalogRequestTagsMap": {
+    "com.azure.planetarycomputer#CreateGeoCatalogRequestTagsMap": {
       "type": "map",
       "key": {
         "target": "smithy.api#String"
@@ -907,13 +907,13 @@
         "smithy.api#documentation": "Resource tags."
       }
     },
-    "com.azure.orbitalplanetarycomputer#GetGeoCatalog": {
+    "com.azure.planetarycomputer#GetGeoCatalog": {
       "type": "operation",
       "input": {
-        "target": "com.azure.orbitalplanetarycomputer#GetGeoCatalogRequest"
+        "target": "com.azure.planetarycomputer#GetGeoCatalogRequest"
       },
       "output": {
-        "target": "com.azure.orbitalplanetarycomputer#GetGeoCatalogResponse"
+        "target": "com.azure.planetarycomputer#GetGeoCatalogResponse"
       },
       "traits": {
         "smithy.api#http": {
@@ -926,7 +926,7 @@
         "com.distilled.openapi#apiVersion": "2026-04-15"
       }
     },
-    "com.azure.orbitalplanetarycomputer#GetGeoCatalogResponse": {
+    "com.azure.planetarycomputer#GetGeoCatalogResponse": {
       "type": "structure",
       "members": {
         "id": {
@@ -948,13 +948,13 @@
           }
         },
         "systemData": {
-          "target": "com.azure.orbitalplanetarycomputer#SystemData",
+          "target": "com.azure.planetarycomputer#SystemData",
           "traits": {
             "smithy.api#documentation": "Azure Resource Manager metadata containing createdBy and modifiedBy information."
           }
         },
         "tags": {
-          "target": "com.azure.orbitalplanetarycomputer#GetGeoCatalogResponseTagsMap",
+          "target": "com.azure.planetarycomputer#GetGeoCatalogResponseTagsMap",
           "traits": {
             "smithy.api#documentation": "Resource tags."
           }
@@ -967,13 +967,13 @@
           }
         },
         "properties": {
-          "target": "com.azure.orbitalplanetarycomputer#GeoCatalogProperties",
+          "target": "com.azure.planetarycomputer#GeoCatalogProperties",
           "traits": {
             "smithy.api#documentation": "The resource-specific properties for this resource."
           }
         },
         "identity": {
-          "target": "com.azure.orbitalplanetarycomputer#GetGeoCatalogResponseIdentity",
+          "target": "com.azure.planetarycomputer#GetGeoCatalogResponseIdentity",
           "traits": {
             "smithy.api#documentation": "Managed service identity (system assigned and/or user assigned identities)"
           }
@@ -983,7 +983,7 @@
         "smithy.api#output": {}
       }
     },
-    "com.azure.orbitalplanetarycomputer#GetGeoCatalogResponseIdentity": {
+    "com.azure.planetarycomputer#GetGeoCatalogResponseIdentity": {
       "type": "structure",
       "members": {
         "principalId": {
@@ -999,20 +999,20 @@
           }
         },
         "type": {
-          "target": "com.azure.orbitalplanetarycomputer#ManagedServiceIdentityType",
+          "target": "com.azure.planetarycomputer#ManagedServiceIdentityType",
           "traits": {
             "smithy.api#required": {}
           }
         },
         "userAssignedIdentities": {
-          "target": "com.azure.orbitalplanetarycomputer#UserAssignedIdentities"
+          "target": "com.azure.planetarycomputer#UserAssignedIdentities"
         }
       },
       "traits": {
         "smithy.api#documentation": "Managed service identity (system assigned and/or user assigned identities)"
       }
     },
-    "com.azure.orbitalplanetarycomputer#GetGeoCatalogResponseTagsMap": {
+    "com.azure.planetarycomputer#GetGeoCatalogResponseTagsMap": {
       "type": "map",
       "key": {
         "target": "smithy.api#String"
@@ -1024,7 +1024,7 @@
         "smithy.api#documentation": "Resource tags."
       }
     },
-    "com.azure.orbitalplanetarycomputer#GetGeoCatalogRequest": {
+    "com.azure.planetarycomputer#GetGeoCatalogRequest": {
       "type": "structure",
       "members": {
         "subscriptionId": {
@@ -1056,13 +1056,13 @@
         "smithy.api#input": {}
       }
     },
-    "com.azure.orbitalplanetarycomputer#ListGeoCatalogByResourceGroup": {
+    "com.azure.planetarycomputer#ListGeoCatalogByResourceGroup": {
       "type": "operation",
       "input": {
-        "target": "com.azure.orbitalplanetarycomputer#ListGeoCatalogByResourceGroupRequest"
+        "target": "com.azure.planetarycomputer#ListGeoCatalogByResourceGroupRequest"
       },
       "output": {
-        "target": "com.azure.orbitalplanetarycomputer#GeoCatalogListResult"
+        "target": "com.azure.planetarycomputer#GeoCatalogListResult"
       },
       "traits": {
         "smithy.api#http": {
@@ -1075,11 +1075,11 @@
         "com.distilled.openapi#apiVersion": "2026-04-15"
       }
     },
-    "com.azure.orbitalplanetarycomputer#GeoCatalogListResult": {
+    "com.azure.planetarycomputer#GeoCatalogListResult": {
       "type": "structure",
       "members": {
         "value": {
-          "target": "com.azure.orbitalplanetarycomputer#GeoCatalogListResultValueList",
+          "target": "com.azure.planetarycomputer#GeoCatalogListResultValueList",
           "traits": {
             "smithy.api#documentation": "The GeoCatalog items on this page",
             "smithy.api#required": {}
@@ -1096,16 +1096,16 @@
         "smithy.api#documentation": "The response of a GeoCatalog list operation."
       }
     },
-    "com.azure.orbitalplanetarycomputer#GeoCatalogListResultValueList": {
+    "com.azure.planetarycomputer#GeoCatalogListResultValueList": {
       "type": "list",
       "member": {
-        "target": "com.azure.orbitalplanetarycomputer#GeoCatalog"
+        "target": "com.azure.planetarycomputer#GeoCatalog"
       },
       "traits": {
         "smithy.api#documentation": "The GeoCatalog items on this page"
       }
     },
-    "com.azure.orbitalplanetarycomputer#GeoCatalog": {
+    "com.azure.planetarycomputer#GeoCatalog": {
       "type": "structure",
       "members": {
         "id": {
@@ -1127,13 +1127,13 @@
           }
         },
         "systemData": {
-          "target": "com.azure.orbitalplanetarycomputer#SystemData",
+          "target": "com.azure.planetarycomputer#SystemData",
           "traits": {
             "smithy.api#documentation": "Azure Resource Manager metadata containing createdBy and modifiedBy information."
           }
         },
         "tags": {
-          "target": "com.azure.orbitalplanetarycomputer#GeoCatalogTagsMap",
+          "target": "com.azure.planetarycomputer#GeoCatalogTagsMap",
           "traits": {
             "smithy.api#documentation": "Resource tags."
           }
@@ -1146,13 +1146,13 @@
           }
         },
         "properties": {
-          "target": "com.azure.orbitalplanetarycomputer#GeoCatalogProperties",
+          "target": "com.azure.planetarycomputer#GeoCatalogProperties",
           "traits": {
             "smithy.api#documentation": "The resource-specific properties for this resource."
           }
         },
         "identity": {
-          "target": "com.azure.orbitalplanetarycomputer#GeoCatalogIdentity",
+          "target": "com.azure.planetarycomputer#GeoCatalogIdentity",
           "traits": {
             "smithy.api#documentation": "Managed service identity (system assigned and/or user assigned identities)"
           }
@@ -1162,7 +1162,7 @@
         "smithy.api#documentation": "A Microsoft Planetary Computer Pro GeoCatalog resource"
       }
     },
-    "com.azure.orbitalplanetarycomputer#GeoCatalogIdentity": {
+    "com.azure.planetarycomputer#GeoCatalogIdentity": {
       "type": "structure",
       "members": {
         "principalId": {
@@ -1178,20 +1178,20 @@
           }
         },
         "type": {
-          "target": "com.azure.orbitalplanetarycomputer#ManagedServiceIdentityType",
+          "target": "com.azure.planetarycomputer#ManagedServiceIdentityType",
           "traits": {
             "smithy.api#required": {}
           }
         },
         "userAssignedIdentities": {
-          "target": "com.azure.orbitalplanetarycomputer#UserAssignedIdentities"
+          "target": "com.azure.planetarycomputer#UserAssignedIdentities"
         }
       },
       "traits": {
         "smithy.api#documentation": "Managed service identity (system assigned and/or user assigned identities)"
       }
     },
-    "com.azure.orbitalplanetarycomputer#GeoCatalogTagsMap": {
+    "com.azure.planetarycomputer#GeoCatalogTagsMap": {
       "type": "map",
       "key": {
         "target": "smithy.api#String"
@@ -1203,7 +1203,7 @@
         "smithy.api#documentation": "Resource tags."
       }
     },
-    "com.azure.orbitalplanetarycomputer#ListGeoCatalogByResourceGroupRequest": {
+    "com.azure.planetarycomputer#ListGeoCatalogByResourceGroupRequest": {
       "type": "structure",
       "members": {
         "subscriptionId": {
@@ -1227,13 +1227,13 @@
         "smithy.api#input": {}
       }
     },
-    "com.azure.orbitalplanetarycomputer#ListGeoCatalogBySubscription": {
+    "com.azure.planetarycomputer#ListGeoCatalogBySubscription": {
       "type": "operation",
       "input": {
-        "target": "com.azure.orbitalplanetarycomputer#ListGeoCatalogBySubscriptionRequest"
+        "target": "com.azure.planetarycomputer#ListGeoCatalogBySubscriptionRequest"
       },
       "output": {
-        "target": "com.azure.orbitalplanetarycomputer#GeoCatalogListResult"
+        "target": "com.azure.planetarycomputer#GeoCatalogListResult"
       },
       "traits": {
         "smithy.api#http": {
@@ -1246,7 +1246,7 @@
         "com.distilled.openapi#apiVersion": "2026-04-15"
       }
     },
-    "com.azure.orbitalplanetarycomputer#ListGeoCatalogBySubscriptionRequest": {
+    "com.azure.planetarycomputer#ListGeoCatalogBySubscriptionRequest": {
       "type": "structure",
       "members": {
         "subscriptionId": {
@@ -1262,32 +1262,32 @@
         "smithy.api#input": {}
       }
     },
-    "com.azure.orbitalplanetarycomputer#Orbitalplanetarycomputer": {
+    "com.azure.planetarycomputer#Planetarycomputer": {
       "type": "service",
       "version": "1.0",
       "operations": [
         {
-          "target": "com.azure.orbitalplanetarycomputer#DeleteGeoCatalog"
+          "target": "com.azure.planetarycomputer#DeleteGeoCatalog"
         },
         {
-          "target": "com.azure.orbitalplanetarycomputer#UpdateGeoCatalog"
+          "target": "com.azure.planetarycomputer#UpdateGeoCatalog"
         },
         {
-          "target": "com.azure.orbitalplanetarycomputer#CreateGeoCatalog"
+          "target": "com.azure.planetarycomputer#CreateGeoCatalog"
         },
         {
-          "target": "com.azure.orbitalplanetarycomputer#GetGeoCatalog"
+          "target": "com.azure.planetarycomputer#GetGeoCatalog"
         },
         {
-          "target": "com.azure.orbitalplanetarycomputer#ListGeoCatalogByResourceGroup"
+          "target": "com.azure.planetarycomputer#ListGeoCatalogByResourceGroup"
         },
         {
-          "target": "com.azure.orbitalplanetarycomputer#ListGeoCatalogBySubscription"
+          "target": "com.azure.planetarycomputer#ListGeoCatalogBySubscription"
         }
       ],
       "traits": {
-        "smithy.api#title": "Azure Orbitalplanetarycomputer",
-        "smithy.api#documentation": "Azure Orbitalplanetarycomputer API — merged from the orbitalplanetarycomputer resource-manager specs (latest stable api-version per resource provider)."
+        "smithy.api#title": "Azure Planetarycomputer",
+        "smithy.api#documentation": "Azure Planetarycomputer API — merged from the planetarycomputer resource-manager specs (latest stable api-version per resource provider)."
       }
     }
   }

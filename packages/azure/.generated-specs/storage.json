@@ -18,6 +18,157 @@
     "distilled.finalized": true
   },
   "shapes": {
+    "com.azure.storage#TestBlobAccessPointConnectionTestProposedConnection": {
+      "type": "operation",
+      "input": {
+        "target": "com.azure.storage#TestBlobAccessPointConnectionTestProposedConnectionRequest"
+      },
+      "output": {
+        "target": "com.azure.storage#BlobAccessPointConnectionTestResponse"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Storage/storageAccounts/{accountName}/testBlobAccessPointConfigurationProposedConnection",
+          "code": 200,
+          "apiVersion": "2026-09-01"
+        },
+        "smithy.api#documentation": "Test a proposed Blob Access Point connection before the configuration is created. The connection is validated in the context of the storage account in the request path, so no Blob Access Point configuration needs to exist beforehand.",
+        "com.distilled.openapi#apiVersion": "2026-09-01"
+      }
+    },
+    "com.azure.storage#BlobAccessPointConnectionTestResponse": {
+      "type": "structure",
+      "members": {
+        "methodName": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The name of the request attempted against the backing data source.",
+            "smithy.api#required": {}
+          }
+        },
+        "errorMessage": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "A normalized and redacted error message received from the backing data source. This value is empty when the connection test succeeds."
+          }
+        },
+        "requestId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The request ID associated with the request sent to the backing data source for validation.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The result of testing a Blob Access Point configuration connection."
+      }
+    },
+    "com.azure.storage#TestBlobAccessPointConnectionTestProposedConnectionRequest": {
+      "type": "structure",
+      "members": {
+        "subscriptionId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The ID of the target subscription. The value must be an UUID."
+          }
+        },
+        "resourceGroupName": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The name of the resource group. The name is case insensitive."
+          }
+        },
+        "accountName": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The name of the storage account within the specified resource group. Storage account names must be between 3 and 24 characters in length and use numbers and lower-case letters only."
+          }
+        },
+        "source": {
+          "target": "com.azure.storage#BlobAccessPointSourceProperties",
+          "traits": {
+            "smithy.api#documentation": "Information about the backing data source whose connection is tested.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.azure.storage#BlobAccessPointSourceProperties": {
+      "type": "structure",
+      "members": {
+        "sourceType": {
+          "target": "com.azure.storage#BlobAccessPointSourceType",
+          "traits": {
+            "smithy.api#documentation": "The source type. This value determines the remaining shape of the source object.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Information about the data source exposed through a Blob Access Point."
+      }
+    },
+    "com.azure.storage#BlobAccessPointSourceType": {
+      "type": "enum",
+      "members": {
+        "NETAPPONTAP": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "NetAppOntap"
+          }
+        },
+        "AZURENETAPPFILES": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "AzureNetAppFiles"
+          }
+        },
+        "DELLONEFS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "DellOneFs"
+          }
+        },
+        "QUMULO": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "Qumulo"
+          }
+        },
+        "COMMVAULT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "Commvault"
+          }
+        },
+        "NASUNI": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "Nasuni"
+          }
+        },
+        "S3COMPATIBLE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "S3Compatible"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The type of the non-Azure S3-compatible data source exposed through the Blob Access Point."
+      }
+    },
     "com.azure.storage#DeleteTable": {
       "type": "operation",
       "input": {
@@ -31,10 +182,10 @@
           "method": "DELETE",
           "uri": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Storage/storageAccounts/{accountName}/tableServices/default/tables/{tableName}",
           "code": 200,
-          "apiVersion": "2026-06-01"
+          "apiVersion": "2026-09-01"
         },
         "smithy.api#documentation": "Deletes the table with the specified table name, under the specified account if it exists.",
-        "com.distilled.openapi#apiVersion": "2026-06-01"
+        "com.distilled.openapi#apiVersion": "2026-09-01"
       }
     },
     "com.azure.storage#DeleteTableRequest": {
@@ -90,10 +241,10 @@
           "method": "PATCH",
           "uri": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Storage/storageAccounts/{accountName}/tableServices/default/tables/{tableName}",
           "code": 200,
-          "apiVersion": "2026-06-01"
+          "apiVersion": "2026-09-01"
         },
         "smithy.api#documentation": "Creates a new table with the specified table name, under the specified account.",
-        "com.distilled.openapi#apiVersion": "2026-06-01"
+        "com.distilled.openapi#apiVersion": "2026-09-01"
       }
     },
     "com.azure.storage#UpdateTableResponse": {
@@ -397,10 +548,10 @@
           "method": "PUT",
           "uri": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Storage/storageAccounts/{accountName}/tableServices/default/tables/{tableName}",
           "code": 200,
-          "apiVersion": "2026-06-01"
+          "apiVersion": "2026-09-01"
         },
         "smithy.api#documentation": "Creates a new table with the specified table name, under the specified account.",
-        "com.distilled.openapi#apiVersion": "2026-06-01"
+        "com.distilled.openapi#apiVersion": "2026-09-01"
       }
     },
     "com.azure.storage#CreateTableResponse": {
@@ -500,10 +651,10 @@
           "method": "GET",
           "uri": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Storage/storageAccounts/{accountName}/tableServices/default/tables/{tableName}",
           "code": 200,
-          "apiVersion": "2026-06-01"
+          "apiVersion": "2026-09-01"
         },
         "smithy.api#documentation": "Gets the table with the specified table name, under the specified account if it exists.",
-        "com.distilled.openapi#apiVersion": "2026-06-01"
+        "com.distilled.openapi#apiVersion": "2026-09-01"
       }
     },
     "com.azure.storage#GetTableResponse": {
@@ -597,10 +748,10 @@
           "method": "GET",
           "uri": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Storage/storageAccounts/{accountName}/tableServices/default/tables",
           "code": 200,
-          "apiVersion": "2026-06-01"
+          "apiVersion": "2026-09-01"
         },
         "smithy.api#documentation": "Gets a list of all the tables under the specified storage account",
-        "com.distilled.openapi#apiVersion": "2026-06-01"
+        "com.distilled.openapi#apiVersion": "2026-09-01"
       }
     },
     "com.azure.storage#ListTableResource": {
@@ -716,10 +867,10 @@
           "method": "PUT",
           "uri": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Storage/storageAccounts/{accountName}/tableServices/default",
           "code": 200,
-          "apiVersion": "2026-06-01"
+          "apiVersion": "2026-09-01"
         },
         "smithy.api#documentation": "Sets the properties of a storage account’s Table service, including properties for Storage Analytics and CORS (Cross-Origin Resource Sharing) rules.",
-        "com.distilled.openapi#apiVersion": "2026-06-01"
+        "com.distilled.openapi#apiVersion": "2026-09-01"
       }
     },
     "com.azure.storage#SetTableServiceServicePropertiesResponse": {
@@ -993,10 +1144,10 @@
           "method": "GET",
           "uri": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Storage/storageAccounts/{accountName}/tableServices/default",
           "code": 200,
-          "apiVersion": "2026-06-01"
+          "apiVersion": "2026-09-01"
         },
         "smithy.api#documentation": "Gets the properties of a storage account’s Table service, including properties for Storage Analytics and CORS (Cross-Origin Resource Sharing) rules.",
-        "com.distilled.openapi#apiVersion": "2026-06-01"
+        "com.distilled.openapi#apiVersion": "2026-09-01"
       }
     },
     "com.azure.storage#GetTableServiceServicePropertiesResponse": {
@@ -1082,10 +1233,10 @@
           "method": "GET",
           "uri": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Storage/storageAccounts/{accountName}/tableServices",
           "code": 200,
-          "apiVersion": "2026-06-01"
+          "apiVersion": "2026-09-01"
         },
         "smithy.api#documentation": "List all table services for the storage account.",
-        "com.distilled.openapi#apiVersion": "2026-06-01"
+        "com.distilled.openapi#apiVersion": "2026-09-01"
       }
     },
     "com.azure.storage#ListTableServices": {
@@ -1192,10 +1343,10 @@
           "method": "POST",
           "uri": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Storage/storageAccounts/{accountName}/storageTaskAssignments/{storageTaskAssignmentName}/stopAssignment",
           "code": 200,
-          "apiVersion": "2026-06-01"
+          "apiVersion": "2026-09-01"
         },
         "smithy.api#documentation": "Stops any active running storage action for the storage task assignment",
-        "com.distilled.openapi#apiVersion": "2026-06-01"
+        "com.distilled.openapi#apiVersion": "2026-09-01"
       }
     },
     "com.azure.storage#StopStorageTaskAssignmentAssignmentRequest": {
@@ -1251,10 +1402,10 @@
           "method": "GET",
           "uri": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Storage/storageAccounts/{accountName}/storageTaskAssignments/{storageTaskAssignmentName}/reports",
           "code": 200,
-          "apiVersion": "2026-06-01"
+          "apiVersion": "2026-09-01"
         },
         "smithy.api#documentation": "Fetch the report summary of a single storage task assignment's instances",
-        "com.distilled.openapi#apiVersion": "2026-06-01"
+        "com.distilled.openapi#apiVersion": "2026-09-01"
       }
     },
     "com.azure.storage#StorageTaskReportSummary": {
@@ -1524,10 +1675,10 @@
           "method": "DELETE",
           "uri": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Storage/storageAccounts/{accountName}/storageTaskAssignments/{storageTaskAssignmentName}",
           "code": 200,
-          "apiVersion": "2026-06-01"
+          "apiVersion": "2026-09-01"
         },
         "smithy.api#documentation": "Delete the storage task assignment sub-resource",
-        "com.distilled.openapi#apiVersion": "2026-06-01"
+        "com.distilled.openapi#apiVersion": "2026-09-01"
       }
     },
     "com.azure.storage#DeleteStorageTaskAssignmentRequest": {
@@ -1583,10 +1734,10 @@
           "method": "PATCH",
           "uri": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Storage/storageAccounts/{accountName}/storageTaskAssignments/{storageTaskAssignmentName}",
           "code": 200,
-          "apiVersion": "2026-06-01"
+          "apiVersion": "2026-09-01"
         },
         "smithy.api#documentation": "Update storage task assignment properties",
-        "com.distilled.openapi#apiVersion": "2026-06-01"
+        "com.distilled.openapi#apiVersion": "2026-09-01"
       }
     },
     "com.azure.storage#UpdateStorageTaskAssignmentResponse": {
@@ -2108,10 +2259,10 @@
           "method": "PUT",
           "uri": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Storage/storageAccounts/{accountName}/storageTaskAssignments/{storageTaskAssignmentName}",
           "code": 200,
-          "apiVersion": "2026-06-01"
+          "apiVersion": "2026-09-01"
         },
         "smithy.api#documentation": "Asynchronously creates a new storage task assignment sub-resource with the specified parameters. If a storage task assignment is already created and a subsequent create request is issued with different properties, the storage task assignment properties will be updated. If a storage task assignment is already created and a subsequent create or update request is issued with the exact same set of properties, the request will succeed.",
-        "com.distilled.openapi#apiVersion": "2026-06-01"
+        "com.distilled.openapi#apiVersion": "2026-09-01"
       }
     },
     "com.azure.storage#CreateStorageTaskAssignmentResponse": {
@@ -2260,10 +2411,10 @@
           "method": "GET",
           "uri": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Storage/storageAccounts/{accountName}/storageTaskAssignments/{storageTaskAssignmentName}",
           "code": 200,
-          "apiVersion": "2026-06-01"
+          "apiVersion": "2026-09-01"
         },
         "smithy.api#documentation": "Get the storage task assignment properties",
-        "com.distilled.openapi#apiVersion": "2026-06-01"
+        "com.distilled.openapi#apiVersion": "2026-09-01"
       }
     },
     "com.azure.storage#GetStorageTaskAssignmentResponse": {
@@ -2357,10 +2508,10 @@
           "method": "GET",
           "uri": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Storage/storageAccounts/{accountName}/storageTaskAssignments",
           "code": 200,
-          "apiVersion": "2026-06-01"
+          "apiVersion": "2026-09-01"
         },
         "smithy.api#documentation": "List all the storage task assignments in an account",
-        "com.distilled.openapi#apiVersion": "2026-06-01"
+        "com.distilled.openapi#apiVersion": "2026-09-01"
       }
     },
     "com.azure.storage#StorageTaskAssignmentsList": {
@@ -2483,10 +2634,10 @@
           "method": "POST",
           "uri": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Storage/storageAccounts/{accountName}/startAccountMigration",
           "code": 200,
-          "apiVersion": "2026-06-01"
+          "apiVersion": "2026-09-01"
         },
         "smithy.api#documentation": "Account Migration request can be triggered for a storage account to change its redundancy level. The migration updates the non-zonal redundant storage account to a zonal redundant account or vice-versa in order to have better reliability and availability. Zone-redundant storage (ZRS) replicates your storage account synchronously across three Azure availability zones in the primary region.",
-        "com.distilled.openapi#apiVersion": "2026-06-01"
+        "com.distilled.openapi#apiVersion": "2026-09-01"
       }
     },
     "com.azure.storage#StorageAccountsCustomerInitiatedMigrationRequest": {
@@ -2648,10 +2799,10 @@
           "method": "POST",
           "uri": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Storage/storageAccounts/{accountName}/revokeUserDelegationKeys",
           "code": 200,
-          "apiVersion": "2026-06-01"
+          "apiVersion": "2026-09-01"
         },
         "smithy.api#documentation": "Revoke user delegation keys.",
-        "com.distilled.openapi#apiVersion": "2026-06-01"
+        "com.distilled.openapi#apiVersion": "2026-09-01"
       }
     },
     "com.azure.storage#RevokeStorageAccountUserDelegationKeysRequest": {
@@ -2699,10 +2850,10 @@
           "method": "POST",
           "uri": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Storage/storageAccounts/{accountName}/restoreBlobRanges",
           "code": 200,
-          "apiVersion": "2026-06-01"
+          "apiVersion": "2026-09-01"
         },
         "smithy.api#documentation": "Restore blobs in the specified blob ranges",
-        "com.distilled.openapi#apiVersion": "2026-06-01"
+        "com.distilled.openapi#apiVersion": "2026-09-01"
       }
     },
     "com.azure.storage#BlobRestoreStatus": {
@@ -2884,10 +3035,10 @@
           "method": "GET",
           "uri": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Storage/storageAccounts/{accountName}/reports",
           "code": 200,
-          "apiVersion": "2026-06-01"
+          "apiVersion": "2026-09-01"
         },
         "smithy.api#documentation": "Fetch the report summary of all the storage task assignments and instances in an account",
-        "com.distilled.openapi#apiVersion": "2026-06-01"
+        "com.distilled.openapi#apiVersion": "2026-09-01"
       }
     },
     "com.azure.storage#ListStorageTaskAssignmentsInstancesReportRequest": {
@@ -2949,10 +3100,10 @@
           "method": "POST",
           "uri": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Storage/storageAccounts/{accountName}/regenerateKey",
           "code": 200,
-          "apiVersion": "2026-06-01"
+          "apiVersion": "2026-09-01"
         },
         "smithy.api#documentation": "Regenerates one of the access keys or Kerberos keys for the specified storage account.",
-        "com.distilled.openapi#apiVersion": "2026-06-01"
+        "com.distilled.openapi#apiVersion": "2026-09-01"
       }
     },
     "com.azure.storage#StorageAccountListKeysResult": {
@@ -3082,10 +3233,10 @@
           "method": "DELETE",
           "uri": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Storage/storageAccounts/{accountName}/queueServices/default/queues/{queueName}",
           "code": 200,
-          "apiVersion": "2026-06-01"
+          "apiVersion": "2026-09-01"
         },
         "smithy.api#documentation": "Deletes the queue with the specified queue name, under the specified account if it exists.",
-        "com.distilled.openapi#apiVersion": "2026-06-01"
+        "com.distilled.openapi#apiVersion": "2026-09-01"
       }
     },
     "com.azure.storage#DeleteQueueRequest": {
@@ -3141,10 +3292,10 @@
           "method": "PATCH",
           "uri": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Storage/storageAccounts/{accountName}/queueServices/default/queues/{queueName}",
           "code": 200,
-          "apiVersion": "2026-06-01"
+          "apiVersion": "2026-09-01"
         },
         "smithy.api#documentation": "Creates a new queue with the specified queue name, under the specified account.",
-        "com.distilled.openapi#apiVersion": "2026-06-01"
+        "com.distilled.openapi#apiVersion": "2026-09-01"
       }
     },
     "com.azure.storage#UpdateQueueResponse": {
@@ -3298,10 +3449,10 @@
           "method": "PUT",
           "uri": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Storage/storageAccounts/{accountName}/queueServices/default/queues/{queueName}",
           "code": 200,
-          "apiVersion": "2026-06-01"
+          "apiVersion": "2026-09-01"
         },
         "smithy.api#documentation": "Creates a new queue with the specified queue name, under the specified account.",
-        "com.distilled.openapi#apiVersion": "2026-06-01"
+        "com.distilled.openapi#apiVersion": "2026-09-01"
       }
     },
     "com.azure.storage#CreateQueueResponse": {
@@ -3401,10 +3552,10 @@
           "method": "GET",
           "uri": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Storage/storageAccounts/{accountName}/queueServices/default/queues/{queueName}",
           "code": 200,
-          "apiVersion": "2026-06-01"
+          "apiVersion": "2026-09-01"
         },
         "smithy.api#documentation": "Gets the queue with the specified queue name, under the specified account if it exists.",
-        "com.distilled.openapi#apiVersion": "2026-06-01"
+        "com.distilled.openapi#apiVersion": "2026-09-01"
       }
     },
     "com.azure.storage#GetQueueResponse": {
@@ -3498,10 +3649,10 @@
           "method": "GET",
           "uri": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Storage/storageAccounts/{accountName}/queueServices/default/queues",
           "code": 200,
-          "apiVersion": "2026-06-01"
+          "apiVersion": "2026-09-01"
         },
         "smithy.api#documentation": "Gets a list of all the queues under the specified storage account",
-        "com.distilled.openapi#apiVersion": "2026-06-01"
+        "com.distilled.openapi#apiVersion": "2026-09-01"
       }
     },
     "com.azure.storage#ListQueueResource": {
@@ -3653,10 +3804,10 @@
           "method": "PUT",
           "uri": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Storage/storageAccounts/{accountName}/queueServices/default",
           "code": 200,
-          "apiVersion": "2026-06-01"
+          "apiVersion": "2026-09-01"
         },
         "smithy.api#documentation": "Sets the properties of a storage account’s Queue service, including properties for Storage Analytics and CORS (Cross-Origin Resource Sharing) rules.",
-        "com.distilled.openapi#apiVersion": "2026-06-01"
+        "com.distilled.openapi#apiVersion": "2026-09-01"
       }
     },
     "com.azure.storage#SetQueueServiceServicePropertiesResponse": {
@@ -3762,10 +3913,10 @@
           "method": "GET",
           "uri": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Storage/storageAccounts/{accountName}/queueServices/default",
           "code": 200,
-          "apiVersion": "2026-06-01"
+          "apiVersion": "2026-09-01"
         },
         "smithy.api#documentation": "Gets the properties of a storage account’s Queue service, including properties for Storage Analytics and CORS (Cross-Origin Resource Sharing) rules.",
-        "com.distilled.openapi#apiVersion": "2026-06-01"
+        "com.distilled.openapi#apiVersion": "2026-09-01"
       }
     },
     "com.azure.storage#GetQueueServiceServicePropertiesResponse": {
@@ -3851,10 +4002,10 @@
           "method": "GET",
           "uri": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Storage/storageAccounts/{accountName}/queueServices",
           "code": 200,
-          "apiVersion": "2026-06-01"
+          "apiVersion": "2026-09-01"
         },
         "smithy.api#documentation": "List all queue services for the storage account",
-        "com.distilled.openapi#apiVersion": "2026-06-01"
+        "com.distilled.openapi#apiVersion": "2026-09-01"
       }
     },
     "com.azure.storage#ListQueueServices": {
@@ -3961,10 +4112,10 @@
           "method": "GET",
           "uri": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Storage/storageAccounts/{accountName}/privateLinkResources",
           "code": 200,
-          "apiVersion": "2026-06-01"
+          "apiVersion": "2026-09-01"
         },
         "smithy.api#documentation": "Gets the private link resources that need to be created for a storage account.",
-        "com.distilled.openapi#apiVersion": "2026-06-01"
+        "com.distilled.openapi#apiVersion": "2026-09-01"
       }
     },
     "com.azure.storage#PrivateLinkResourceListResult": {
@@ -4117,10 +4268,10 @@
           "method": "DELETE",
           "uri": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Storage/storageAccounts/{accountName}/privateEndpointConnections/{privateEndpointConnectionName}",
           "code": 200,
-          "apiVersion": "2026-06-01"
+          "apiVersion": "2026-09-01"
         },
         "smithy.api#documentation": "Deletes the specified private endpoint connection associated with the storage account.",
-        "com.distilled.openapi#apiVersion": "2026-06-01"
+        "com.distilled.openapi#apiVersion": "2026-09-01"
       }
     },
     "com.azure.storage#DeletePrivateEndpointConnectionRequest": {
@@ -4176,10 +4327,10 @@
           "method": "PUT",
           "uri": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Storage/storageAccounts/{accountName}/privateEndpointConnections/{privateEndpointConnectionName}",
           "code": 200,
-          "apiVersion": "2026-06-01"
+          "apiVersion": "2026-09-01"
         },
         "smithy.api#documentation": "Update the state of specified private endpoint connection associated with the storage account.",
-        "com.distilled.openapi#apiVersion": "2026-06-01"
+        "com.distilled.openapi#apiVersion": "2026-09-01"
       }
     },
     "com.azure.storage#PutPrivateEndpointConnectionResponse": {
@@ -4432,10 +4583,10 @@
           "method": "GET",
           "uri": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Storage/storageAccounts/{accountName}/privateEndpointConnections/{privateEndpointConnectionName}",
           "code": 200,
-          "apiVersion": "2026-06-01"
+          "apiVersion": "2026-09-01"
         },
         "smithy.api#documentation": "Gets the specified private endpoint connection associated with the storage account.",
-        "com.distilled.openapi#apiVersion": "2026-06-01"
+        "com.distilled.openapi#apiVersion": "2026-09-01"
       }
     },
     "com.azure.storage#GetPrivateEndpointConnectionResponse": {
@@ -4529,10 +4680,10 @@
           "method": "GET",
           "uri": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Storage/storageAccounts/{accountName}/privateEndpointConnections",
           "code": 200,
-          "apiVersion": "2026-06-01"
+          "apiVersion": "2026-09-01"
         },
         "smithy.api#documentation": "List all the private endpoint connections associated with the storage account.",
-        "com.distilled.openapi#apiVersion": "2026-06-01"
+        "com.distilled.openapi#apiVersion": "2026-09-01"
       }
     },
     "com.azure.storage#PrivateEndpointConnectionListResult": {
@@ -4644,10 +4795,10 @@
           "method": "DELETE",
           "uri": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Storage/storageAccounts/{accountName}/objectReplicationPolicies/{objectReplicationPolicyId}",
           "code": 200,
-          "apiVersion": "2026-06-01"
+          "apiVersion": "2026-09-01"
         },
         "smithy.api#documentation": "Deletes the object replication policy associated with the specified storage account.",
-        "com.distilled.openapi#apiVersion": "2026-06-01"
+        "com.distilled.openapi#apiVersion": "2026-09-01"
       }
     },
     "com.azure.storage#DeleteObjectReplicationPolicyRequest": {
@@ -4703,10 +4854,10 @@
           "method": "PUT",
           "uri": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Storage/storageAccounts/{accountName}/objectReplicationPolicies/{objectReplicationPolicyId}",
           "code": 200,
-          "apiVersion": "2026-06-01"
+          "apiVersion": "2026-09-01"
         },
         "smithy.api#documentation": "Create or update the object replication policy of the storage account.",
-        "com.distilled.openapi#apiVersion": "2026-06-01"
+        "com.distilled.openapi#apiVersion": "2026-09-01"
       }
     },
     "com.azure.storage#ObjectReplicationPoliciesCreateOrUpdateResponse": {
@@ -5033,10 +5184,10 @@
           "method": "GET",
           "uri": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Storage/storageAccounts/{accountName}/objectReplicationPolicies/{objectReplicationPolicyId}",
           "code": 200,
-          "apiVersion": "2026-06-01"
+          "apiVersion": "2026-09-01"
         },
         "smithy.api#documentation": "Get the object replication policy of the storage account by policy ID.",
-        "com.distilled.openapi#apiVersion": "2026-06-01"
+        "com.distilled.openapi#apiVersion": "2026-09-01"
       }
     },
     "com.azure.storage#GetObjectReplicationPolicyResponse": {
@@ -5130,10 +5281,10 @@
           "method": "GET",
           "uri": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Storage/storageAccounts/{accountName}/objectReplicationPolicies",
           "code": 200,
-          "apiVersion": "2026-06-01"
+          "apiVersion": "2026-09-01"
         },
         "smithy.api#documentation": "List the object replication policies associated with the storage account.",
-        "com.distilled.openapi#apiVersion": "2026-06-01"
+        "com.distilled.openapi#apiVersion": "2026-09-01"
       }
     },
     "com.azure.storage#ObjectReplicationPolicies": {
@@ -5245,10 +5396,10 @@
           "method": "POST",
           "uri": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Storage/storageAccounts/{accountName}/networkSecurityPerimeterConfigurations/{networkSecurityPerimeterConfigurationName}/reconcile",
           "code": 200,
-          "apiVersion": "2026-06-01"
+          "apiVersion": "2026-09-01"
         },
         "smithy.api#documentation": "Refreshes any information about the association.",
-        "com.distilled.openapi#apiVersion": "2026-06-01"
+        "com.distilled.openapi#apiVersion": "2026-09-01"
       }
     },
     "com.azure.storage#NetworkSecurityPerimeterConfigurationsReconcileRequest": {
@@ -5304,10 +5455,10 @@
           "method": "GET",
           "uri": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Storage/storageAccounts/{accountName}/networkSecurityPerimeterConfigurations/{networkSecurityPerimeterConfigurationName}",
           "code": 200,
-          "apiVersion": "2026-06-01"
+          "apiVersion": "2026-09-01"
         },
         "smithy.api#documentation": "Gets effective NetworkSecurityPerimeterConfiguration for association",
-        "com.distilled.openapi#apiVersion": "2026-06-01"
+        "com.distilled.openapi#apiVersion": "2026-09-01"
       }
     },
     "com.azure.storage#GetNetworkSecurityPerimeterConfigurationResponse": {
@@ -5494,10 +5645,25 @@
           "traits": {
             "smithy.api#documentation": "FQDN for outbound rules"
           }
+        },
+        "serviceTags": {
+          "target": "com.azure.storage#NspAccessRulePropertiesServiceTagsList",
+          "traits": {
+            "smithy.api#documentation": "Service Tags for inbound rules"
+          }
         }
       },
       "traits": {
         "smithy.api#documentation": "Properties of Access Rule"
+      }
+    },
+    "com.azure.storage#NspAccessRulePropertiesServiceTagsList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {
+        "smithy.api#documentation": "Service Tags for inbound rules"
       }
     },
     "com.azure.storage#NspAccessRulePropertiesFullyQualifiedDomainNamesList": {
@@ -5828,10 +5994,10 @@
           "method": "GET",
           "uri": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Storage/storageAccounts/{accountName}/networkSecurityPerimeterConfigurations",
           "code": 200,
-          "apiVersion": "2026-06-01"
+          "apiVersion": "2026-09-01"
         },
         "smithy.api#documentation": "Gets list of effective NetworkSecurityPerimeterConfiguration for storage account",
-        "com.distilled.openapi#apiVersion": "2026-06-01"
+        "com.distilled.openapi#apiVersion": "2026-09-01"
       }
     },
     "com.azure.storage#NetworkSecurityPerimeterConfigurationList": {
@@ -5947,10 +6113,10 @@
           "method": "DELETE",
           "uri": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Storage/storageAccounts/{accountName}/managementPolicies/{managementPolicyName}",
           "code": 200,
-          "apiVersion": "2026-06-01"
+          "apiVersion": "2026-09-01"
         },
         "smithy.api#documentation": "Deletes the managementpolicy associated with the specified storage account.",
-        "com.distilled.openapi#apiVersion": "2026-06-01"
+        "com.distilled.openapi#apiVersion": "2026-09-01"
       }
     },
     "com.azure.storage#DeleteManagementPolicyRequest": {
@@ -6018,10 +6184,10 @@
           "method": "PUT",
           "uri": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Storage/storageAccounts/{accountName}/managementPolicies/{managementPolicyName}",
           "code": 200,
-          "apiVersion": "2026-06-01"
+          "apiVersion": "2026-09-01"
         },
         "smithy.api#documentation": "Sets the managementpolicy to the specified storage account.",
-        "com.distilled.openapi#apiVersion": "2026-06-01"
+        "com.distilled.openapi#apiVersion": "2026-09-01"
       }
     },
     "com.azure.storage#ManagementPoliciesCreateOrUpdateResponse": {
@@ -6545,10 +6711,10 @@
           "method": "GET",
           "uri": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Storage/storageAccounts/{accountName}/managementPolicies/{managementPolicyName}",
           "code": 200,
-          "apiVersion": "2026-06-01"
+          "apiVersion": "2026-09-01"
         },
         "smithy.api#documentation": "Gets the managementpolicy associated with the specified storage account.",
-        "com.distilled.openapi#apiVersion": "2026-06-01"
+        "com.distilled.openapi#apiVersion": "2026-09-01"
       }
     },
     "com.azure.storage#GetManagementPolicyResponse": {
@@ -6654,10 +6820,10 @@
           "method": "POST",
           "uri": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Storage/storageAccounts/{accountName}/localUsers/{username}/regeneratePassword",
           "code": 200,
-          "apiVersion": "2026-06-01"
+          "apiVersion": "2026-09-01"
         },
         "smithy.api#documentation": "Regenerate the local user SSH password.",
-        "com.distilled.openapi#apiVersion": "2026-06-01"
+        "com.distilled.openapi#apiVersion": "2026-09-01"
       }
     },
     "com.azure.storage#LocalUserRegeneratePasswordResult": {
@@ -6728,10 +6894,10 @@
           "method": "POST",
           "uri": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Storage/storageAccounts/{accountName}/localUsers/{username}/listKeys",
           "code": 200,
-          "apiVersion": "2026-06-01"
+          "apiVersion": "2026-09-01"
         },
         "smithy.api#documentation": "List SSH authorized keys and shared key of the local user.",
-        "com.distilled.openapi#apiVersion": "2026-06-01"
+        "com.distilled.openapi#apiVersion": "2026-09-01"
       }
     },
     "com.azure.storage#LocalUserKeys": {
@@ -6834,10 +7000,10 @@
           "method": "DELETE",
           "uri": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Storage/storageAccounts/{accountName}/localUsers/{username}",
           "code": 200,
-          "apiVersion": "2026-06-01"
+          "apiVersion": "2026-09-01"
         },
         "smithy.api#documentation": "Deletes the local user associated with the specified storage account.",
-        "com.distilled.openapi#apiVersion": "2026-06-01"
+        "com.distilled.openapi#apiVersion": "2026-09-01"
       }
     },
     "com.azure.storage#DeleteLocalUserRequest": {
@@ -6893,10 +7059,10 @@
           "method": "PUT",
           "uri": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Storage/storageAccounts/{accountName}/localUsers/{username}",
           "code": 200,
-          "apiVersion": "2026-06-01"
+          "apiVersion": "2026-09-01"
         },
         "smithy.api#documentation": "Create or update the properties of a local user associated with the storage account. Properties for NFSv3 enablement and extended groups cannot be set with other properties.",
-        "com.distilled.openapi#apiVersion": "2026-06-01"
+        "com.distilled.openapi#apiVersion": "2026-09-01"
       }
     },
     "com.azure.storage#LocalUsersCreateOrUpdateResponse": {
@@ -7225,10 +7391,10 @@
           "method": "GET",
           "uri": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Storage/storageAccounts/{accountName}/localUsers/{username}",
           "code": 200,
-          "apiVersion": "2026-06-01"
+          "apiVersion": "2026-09-01"
         },
         "smithy.api#documentation": "Get the local user of the storage account by username.",
-        "com.distilled.openapi#apiVersion": "2026-06-01"
+        "com.distilled.openapi#apiVersion": "2026-09-01"
       }
     },
     "com.azure.storage#GetLocalUserResponse": {
@@ -7322,10 +7488,10 @@
           "method": "GET",
           "uri": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Storage/storageAccounts/{accountName}/localUsers",
           "code": 200,
-          "apiVersion": "2026-06-01"
+          "apiVersion": "2026-09-01"
         },
         "smithy.api#documentation": "List the local users associated with the storage account.",
-        "com.distilled.openapi#apiVersion": "2026-06-01"
+        "com.distilled.openapi#apiVersion": "2026-09-01"
       }
     },
     "com.azure.storage#LocalUsers": {
@@ -7474,10 +7640,10 @@
           "method": "POST",
           "uri": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Storage/storageAccounts/{accountName}/listServiceSas",
           "code": 200,
-          "apiVersion": "2026-06-01"
+          "apiVersion": "2026-09-01"
         },
         "smithy.api#documentation": "List service SAS credentials of a specific resource.",
-        "com.distilled.openapi#apiVersion": "2026-06-01"
+        "com.distilled.openapi#apiVersion": "2026-09-01"
       }
     },
     "com.azure.storage#ListServiceSasResponse": {
@@ -7756,10 +7922,10 @@
           "method": "POST",
           "uri": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Storage/storageAccounts/{accountName}/listKeys",
           "code": 200,
-          "apiVersion": "2026-06-01"
+          "apiVersion": "2026-09-01"
         },
         "smithy.api#documentation": "Lists the access keys or Kerberos keys (if active directory enabled) for the specified storage account.",
-        "com.distilled.openapi#apiVersion": "2026-06-01"
+        "com.distilled.openapi#apiVersion": "2026-09-01"
       }
     },
     "com.azure.storage#ListStorageAccountKeysRequest": {
@@ -7826,10 +7992,10 @@
           "method": "POST",
           "uri": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Storage/storageAccounts/{accountName}/listAccountSas",
           "code": 200,
-          "apiVersion": "2026-06-01"
+          "apiVersion": "2026-09-01"
         },
         "smithy.api#documentation": "List SAS credentials of a storage account.",
-        "com.distilled.openapi#apiVersion": "2026-06-01"
+        "com.distilled.openapi#apiVersion": "2026-09-01"
       }
     },
     "com.azure.storage#ListAccountSasResponse": {
@@ -8001,10 +8167,10 @@
           "method": "DELETE",
           "uri": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Storage/storageAccounts/{accountName}/inventoryPolicies/{blobInventoryPolicyName}",
           "code": 200,
-          "apiVersion": "2026-06-01"
+          "apiVersion": "2026-09-01"
         },
         "smithy.api#documentation": "Deletes the blob inventory policy associated with the specified storage account.",
-        "com.distilled.openapi#apiVersion": "2026-06-01"
+        "com.distilled.openapi#apiVersion": "2026-09-01"
       }
     },
     "com.azure.storage#DeleteBlobInventoryPolicyRequest": {
@@ -8072,10 +8238,10 @@
           "method": "PUT",
           "uri": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Storage/storageAccounts/{accountName}/inventoryPolicies/{blobInventoryPolicyName}",
           "code": 200,
-          "apiVersion": "2026-06-01"
+          "apiVersion": "2026-09-01"
         },
         "smithy.api#documentation": "Sets the blob inventory policy to the specified storage account.",
-        "com.distilled.openapi#apiVersion": "2026-06-01"
+        "com.distilled.openapi#apiVersion": "2026-09-01"
       }
     },
     "com.azure.storage#BlobInventoryPoliciesCreateOrUpdateResponse": {
@@ -8557,10 +8723,10 @@
           "method": "GET",
           "uri": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Storage/storageAccounts/{accountName}/inventoryPolicies/{blobInventoryPolicyName}",
           "code": 200,
-          "apiVersion": "2026-06-01"
+          "apiVersion": "2026-09-01"
         },
         "smithy.api#documentation": "Gets the blob inventory policy associated with the specified storage account.",
-        "com.distilled.openapi#apiVersion": "2026-06-01"
+        "com.distilled.openapi#apiVersion": "2026-09-01"
       }
     },
     "com.azure.storage#GetBlobInventoryPolicyResponse": {
@@ -8666,10 +8832,10 @@
           "method": "GET",
           "uri": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Storage/storageAccounts/{accountName}/inventoryPolicies",
           "code": 200,
-          "apiVersion": "2026-06-01"
+          "apiVersion": "2026-09-01"
         },
         "smithy.api#documentation": "Gets the blob inventory policy associated with the specified storage account.",
-        "com.distilled.openapi#apiVersion": "2026-06-01"
+        "com.distilled.openapi#apiVersion": "2026-09-01"
       }
     },
     "com.azure.storage#ListBlobInventoryPolicy": {
@@ -8781,10 +8947,10 @@
           "method": "POST",
           "uri": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Storage/storageAccounts/{accountName}/hnsonmigration",
           "code": 200,
-          "apiVersion": "2026-06-01"
+          "apiVersion": "2026-09-01"
         },
         "smithy.api#documentation": "Live Migration of storage account to enable Hns",
-        "com.distilled.openapi#apiVersion": "2026-06-01"
+        "com.distilled.openapi#apiVersion": "2026-09-01"
       }
     },
     "com.azure.storage#StorageAccountsHierarchicalNamespaceMigrationRequest": {
@@ -8840,10 +9006,10 @@
           "method": "GET",
           "uri": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Storage/storageAccounts/{accountName}/fileServices/default/usages/default",
           "code": 200,
-          "apiVersion": "2026-06-01"
+          "apiVersion": "2026-09-01"
         },
         "smithy.api#documentation": "Gets the usage of file service in storage account including account limits, file share limits and constants used in recommendations and bursting formula.",
-        "com.distilled.openapi#apiVersion": "2026-06-01"
+        "com.distilled.openapi#apiVersion": "2026-09-01"
       }
     },
     "com.azure.storage#GetFileServiceServiceUsageResponse": {
@@ -9165,10 +9331,10 @@
           "method": "GET",
           "uri": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Storage/storageAccounts/{accountName}/fileServices/default/usages",
           "code": 200,
-          "apiVersion": "2026-06-01"
+          "apiVersion": "2026-09-01"
         },
         "smithy.api#documentation": "Gets the usages of file service in storage account.",
-        "com.distilled.openapi#apiVersion": "2026-06-01"
+        "com.distilled.openapi#apiVersion": "2026-09-01"
       }
     },
     "com.azure.storage#FileServiceUsages": {
@@ -9291,10 +9457,10 @@
           "method": "POST",
           "uri": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Storage/storageAccounts/{accountName}/fileServices/default/shares/{shareName}/restore",
           "code": 200,
-          "apiVersion": "2026-06-01"
+          "apiVersion": "2026-09-01"
         },
         "smithy.api#documentation": "Restore a file share within a valid retention days if share soft delete is enabled",
-        "com.distilled.openapi#apiVersion": "2026-06-01"
+        "com.distilled.openapi#apiVersion": "2026-09-01"
       }
     },
     "com.azure.storage#RestoreFileShareRequest": {
@@ -9364,10 +9530,10 @@
           "method": "POST",
           "uri": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Storage/storageAccounts/{accountName}/fileServices/default/shares/{shareName}/lease",
           "code": 200,
-          "apiVersion": "2026-06-01"
+          "apiVersion": "2026-09-01"
         },
         "smithy.api#documentation": "The Lease Share operation establishes and manages a lock on a share for delete operations. The lock duration can be 15 to 60 seconds, or can be infinite.",
-        "com.distilled.openapi#apiVersion": "2026-06-01"
+        "com.distilled.openapi#apiVersion": "2026-09-01"
       }
     },
     "com.azure.storage#LeaseShareResponse": {
@@ -9512,10 +9678,10 @@
           "method": "DELETE",
           "uri": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Storage/storageAccounts/{accountName}/fileServices/default/shares/{shareName}",
           "code": 200,
-          "apiVersion": "2026-06-01"
+          "apiVersion": "2026-09-01"
         },
         "smithy.api#documentation": "Deletes specified share under its account.",
-        "com.distilled.openapi#apiVersion": "2026-06-01"
+        "com.distilled.openapi#apiVersion": "2026-09-01"
       }
     },
     "com.azure.storage#DeleteFileShareRequest": {
@@ -9578,10 +9744,10 @@
           "method": "PATCH",
           "uri": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Storage/storageAccounts/{accountName}/fileServices/default/shares/{shareName}",
           "code": 200,
-          "apiVersion": "2026-06-01"
+          "apiVersion": "2026-09-01"
         },
         "smithy.api#documentation": "Updates share properties as specified in request body. Properties not mentioned in the request will not be changed. Update fails if the specified share does not already exist.",
-        "com.distilled.openapi#apiVersion": "2026-06-01"
+        "com.distilled.openapi#apiVersion": "2026-09-01"
       }
     },
     "com.azure.storage#UpdateFileShareResponse": {
@@ -10179,10 +10345,10 @@
           "method": "PUT",
           "uri": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Storage/storageAccounts/{accountName}/fileServices/default/shares/{shareName}",
           "code": 200,
-          "apiVersion": "2026-06-01"
+          "apiVersion": "2026-09-01"
         },
         "smithy.api#documentation": "Creates a new share under the specified account as described by request body. The share resource includes metadata and properties for that share. It does not include a list of the files contained by the share.",
-        "com.distilled.openapi#apiVersion": "2026-06-01"
+        "com.distilled.openapi#apiVersion": "2026-09-01"
       }
     },
     "com.azure.storage#CreateFileShareResponse": {
@@ -10295,10 +10461,10 @@
           "method": "GET",
           "uri": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Storage/storageAccounts/{accountName}/fileServices/default/shares/{shareName}",
           "code": 200,
-          "apiVersion": "2026-06-01"
+          "apiVersion": "2026-09-01"
         },
         "smithy.api#documentation": "Gets properties of a specified share.",
-        "com.distilled.openapi#apiVersion": "2026-06-01"
+        "com.distilled.openapi#apiVersion": "2026-09-01"
       }
     },
     "com.azure.storage#GetFileShareResponse": {
@@ -10405,10 +10571,10 @@
           "method": "GET",
           "uri": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Storage/storageAccounts/{accountName}/fileServices/default/shares",
           "code": 200,
-          "apiVersion": "2026-06-01"
+          "apiVersion": "2026-09-01"
         },
         "smithy.api#documentation": "Lists all shares.",
-        "com.distilled.openapi#apiVersion": "2026-06-01"
+        "com.distilled.openapi#apiVersion": "2026-09-01"
       }
     },
     "com.azure.storage#FileShareItems": {
@@ -10551,10 +10717,10 @@
           "method": "PUT",
           "uri": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Storage/storageAccounts/{accountName}/fileServices/default",
           "code": 200,
-          "apiVersion": "2026-06-01"
+          "apiVersion": "2026-09-01"
         },
         "smithy.api#documentation": "Sets the properties of file services in storage accounts, including CORS (Cross-Origin Resource Sharing) rules.",
-        "com.distilled.openapi#apiVersion": "2026-06-01"
+        "com.distilled.openapi#apiVersion": "2026-09-01"
       }
     },
     "com.azure.storage#SetFileServiceServicePropertiesResponse": {
@@ -10851,10 +11017,10 @@
           "method": "GET",
           "uri": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Storage/storageAccounts/{accountName}/fileServices/default",
           "code": 200,
-          "apiVersion": "2026-06-01"
+          "apiVersion": "2026-09-01"
         },
         "smithy.api#documentation": "Gets the properties of file services in storage accounts, including CORS (Cross-Origin Resource Sharing) rules.",
-        "com.distilled.openapi#apiVersion": "2026-06-01"
+        "com.distilled.openapi#apiVersion": "2026-09-01"
       }
     },
     "com.azure.storage#GetFileServiceServicePropertiesResponse": {
@@ -10946,10 +11112,10 @@
           "method": "GET",
           "uri": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Storage/storageAccounts/{accountName}/fileServices",
           "code": 200,
-          "apiVersion": "2026-06-01"
+          "apiVersion": "2026-09-01"
         },
         "smithy.api#documentation": "List all file services in storage accounts",
-        "com.distilled.openapi#apiVersion": "2026-06-01"
+        "com.distilled.openapi#apiVersion": "2026-09-01"
       }
     },
     "com.azure.storage#FileServiceItems": {
@@ -11062,10 +11228,10 @@
           "method": "POST",
           "uri": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Storage/storageAccounts/{accountName}/failover",
           "code": 200,
-          "apiVersion": "2026-06-01"
+          "apiVersion": "2026-09-01"
         },
         "smithy.api#documentation": "A failover request can be triggered for a storage account in the event a primary endpoint becomes unavailable for any reason. The failover occurs from the storage account's primary cluster to the secondary cluster for RA-GRS accounts. The secondary cluster will become primary after failover and the account is converted to LRS. In the case of a Planned Failover, the primary and secondary clusters are swapped after failover and the account remains geo-replicated. Failover should continue to be used in the event of availability issues as Planned failover is only available while the primary and secondary endpoints are available. The primary use case of a Planned Failover is disaster recovery testing drills. This type of failover is invoked by setting FailoverType parameter to 'Planned'. Learn more about the failover options here- https://learn.microsoft.com/azure/storage/common/storage-disaster-recovery-guidance",
-        "com.distilled.openapi#apiVersion": "2026-06-01"
+        "com.distilled.openapi#apiVersion": "2026-09-01"
       }
     },
     "com.azure.storage#StorageAccountsFailoverRequest": {
@@ -11132,10 +11298,10 @@
           "method": "PATCH",
           "uri": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Storage/storageAccounts/{accountName}/encryptionScopes/{encryptionScopeName}",
           "code": 200,
-          "apiVersion": "2026-06-01"
+          "apiVersion": "2026-09-01"
         },
         "smithy.api#documentation": "Update encryption scope properties as specified in the request body. Update fails if the specified encryption scope does not already exist.",
-        "com.distilled.openapi#apiVersion": "2026-06-01"
+        "com.distilled.openapi#apiVersion": "2026-09-01"
       }
     },
     "com.azure.storage#PatchEncryptionScopeResponse": {
@@ -11391,10 +11557,10 @@
           "method": "PUT",
           "uri": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Storage/storageAccounts/{accountName}/encryptionScopes/{encryptionScopeName}",
           "code": 200,
-          "apiVersion": "2026-06-01"
+          "apiVersion": "2026-09-01"
         },
         "smithy.api#documentation": "Synchronously creates or updates an encryption scope under the specified storage account. If an encryption scope is already created and a subsequent request is issued with different properties, the encryption scope properties will be updated per the specified request.",
-        "com.distilled.openapi#apiVersion": "2026-06-01"
+        "com.distilled.openapi#apiVersion": "2026-09-01"
       }
     },
     "com.azure.storage#PutEncryptionScopeResponse": {
@@ -11494,10 +11660,10 @@
           "method": "GET",
           "uri": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Storage/storageAccounts/{accountName}/encryptionScopes/{encryptionScopeName}",
           "code": 200,
-          "apiVersion": "2026-06-01"
+          "apiVersion": "2026-09-01"
         },
         "smithy.api#documentation": "Returns the properties for the specified encryption scope.",
-        "com.distilled.openapi#apiVersion": "2026-06-01"
+        "com.distilled.openapi#apiVersion": "2026-09-01"
       }
     },
     "com.azure.storage#GetEncryptionScopeResponse": {
@@ -11591,10 +11757,10 @@
           "method": "GET",
           "uri": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Storage/storageAccounts/{accountName}/encryptionScopes",
           "code": 200,
-          "apiVersion": "2026-06-01"
+          "apiVersion": "2026-09-01"
         },
         "smithy.api#documentation": "Lists all the encryption scopes available under the specified storage account.",
-        "com.distilled.openapi#apiVersion": "2026-06-01"
+        "com.distilled.openapi#apiVersion": "2026-09-01"
       }
     },
     "com.azure.storage#EncryptionScopeListResult": {
@@ -11755,10 +11921,10 @@
           "method": "DELETE",
           "uri": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Storage/storageAccounts/{accountName}/dataShares/{dataShareName}",
           "code": 200,
-          "apiVersion": "2026-06-01"
+          "apiVersion": "2026-09-01"
         },
         "smithy.api#documentation": "Delete a Storage DataShare.",
-        "com.distilled.openapi#apiVersion": "2026-06-01"
+        "com.distilled.openapi#apiVersion": "2026-09-01"
       }
     },
     "com.azure.storage#DeleteDataShareRequest": {
@@ -11814,10 +11980,10 @@
           "method": "PATCH",
           "uri": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Storage/storageAccounts/{accountName}/dataShares/{dataShareName}",
           "code": 200,
-          "apiVersion": "2026-06-01"
+          "apiVersion": "2026-09-01"
         },
         "smithy.api#documentation": "Update a Storage DataShare.",
-        "com.distilled.openapi#apiVersion": "2026-06-01"
+        "com.distilled.openapi#apiVersion": "2026-09-01"
       }
     },
     "com.azure.storage#UpdateDataShareResponse": {
@@ -12184,10 +12350,10 @@
           "method": "PUT",
           "uri": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Storage/storageAccounts/{accountName}/dataShares/{dataShareName}",
           "code": 200,
-          "apiVersion": "2026-06-01"
+          "apiVersion": "2026-09-01"
         },
         "smithy.api#documentation": "Create a Storage DataShare if it does not already exist; otherwise, error out. This API will not allow you to replace an already existing resource.",
-        "com.distilled.openapi#apiVersion": "2026-06-01"
+        "com.distilled.openapi#apiVersion": "2026-09-01"
       }
     },
     "com.azure.storage#CreateDataShareResponse": {
@@ -12385,10 +12551,10 @@
           "method": "GET",
           "uri": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Storage/storageAccounts/{accountName}/dataShares/{dataShareName}",
           "code": 200,
-          "apiVersion": "2026-06-01"
+          "apiVersion": "2026-09-01"
         },
         "smithy.api#documentation": "Get the specified Storage DataShare.",
-        "com.distilled.openapi#apiVersion": "2026-06-01"
+        "com.distilled.openapi#apiVersion": "2026-09-01"
       }
     },
     "com.azure.storage#GetDataShareResponse": {
@@ -12508,10 +12674,10 @@
           "method": "GET",
           "uri": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Storage/storageAccounts/{accountName}/dataShares",
           "code": 200,
-          "apiVersion": "2026-06-01"
+          "apiVersion": "2026-09-01"
         },
         "smithy.api#documentation": "List all Storage DataShares in a Storage Account.",
-        "com.distilled.openapi#apiVersion": "2026-06-01"
+        "com.distilled.openapi#apiVersion": "2026-09-01"
       }
     },
     "com.azure.storage#DataShareListResult": {
@@ -12653,10 +12819,10 @@
           "method": "POST",
           "uri": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Storage/storageAccounts/{accountName}/connectors/{connectorName}/testExistingConnection",
           "code": 200,
-          "apiVersion": "2026-06-01"
+          "apiVersion": "2026-09-01"
         },
         "smithy.api#documentation": "This method is used to verify that the connection to the backing data store works.\nThis API is designed to be used for monitoring and debugging purposes. From the caller’s perspective,\nthis method does the following: Calls List on the backing data store, attempting to list up to one blob/object/etc.\nIf the above succeeds, and if a blob/object/etc is found, calls Get on that object, attempting to download one byte.",
-        "com.distilled.openapi#apiVersion": "2026-06-01"
+        "com.distilled.openapi#apiVersion": "2026-09-01"
       }
     },
     "com.azure.storage#TestConnectionResponse": {
@@ -12747,10 +12913,10 @@
           "method": "DELETE",
           "uri": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Storage/storageAccounts/{accountName}/connectors/{connectorName}",
           "code": 200,
-          "apiVersion": "2026-06-01"
+          "apiVersion": "2026-09-01"
         },
         "smithy.api#documentation": "Delete a Storage Connector.",
-        "com.distilled.openapi#apiVersion": "2026-06-01"
+        "com.distilled.openapi#apiVersion": "2026-09-01"
       }
     },
     "com.azure.storage#DeleteConnectorRequest": {
@@ -12806,10 +12972,10 @@
           "method": "PATCH",
           "uri": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Storage/storageAccounts/{accountName}/connectors/{connectorName}",
           "code": 200,
-          "apiVersion": "2026-06-01"
+          "apiVersion": "2026-09-01"
         },
         "smithy.api#documentation": "Update a Storage Connector.",
-        "com.distilled.openapi#apiVersion": "2026-06-01"
+        "com.distilled.openapi#apiVersion": "2026-09-01"
       }
     },
     "com.azure.storage#UpdateConnectorResponse": {
@@ -13141,10 +13307,10 @@
           "method": "PUT",
           "uri": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Storage/storageAccounts/{accountName}/connectors/{connectorName}",
           "code": 200,
-          "apiVersion": "2026-06-01"
+          "apiVersion": "2026-09-01"
         },
         "smithy.api#documentation": "Create a Storage Connector if it does not already exist; otherwise, error out. This API will not allow you to replace an already existing resource.",
-        "com.distilled.openapi#apiVersion": "2026-06-01"
+        "com.distilled.openapi#apiVersion": "2026-09-01"
       }
     },
     "com.azure.storage#CreateConnectorResponse": {
@@ -13356,10 +13522,10 @@
           "method": "GET",
           "uri": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Storage/storageAccounts/{accountName}/connectors/{connectorName}",
           "code": 200,
-          "apiVersion": "2026-06-01"
+          "apiVersion": "2026-09-01"
         },
         "smithy.api#documentation": "Get the specified Storage Connector.",
-        "com.distilled.openapi#apiVersion": "2026-06-01"
+        "com.distilled.openapi#apiVersion": "2026-09-01"
       }
     },
     "com.azure.storage#GetConnectorResponse": {
@@ -13479,10 +13645,10 @@
           "method": "GET",
           "uri": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Storage/storageAccounts/{accountName}/connectors",
           "code": 200,
-          "apiVersion": "2026-06-01"
+          "apiVersion": "2026-09-01"
         },
         "smithy.api#documentation": "List all Storage Connectors in a Storage Account.",
-        "com.distilled.openapi#apiVersion": "2026-06-01"
+        "com.distilled.openapi#apiVersion": "2026-09-01"
       }
     },
     "com.azure.storage#ConnectorListResult": {
@@ -13624,10 +13790,10 @@
           "method": "POST",
           "uri": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Storage/storageAccounts/{accountName}/blobServices/default/containers/{containerName}/setLegalHold",
           "code": 200,
-          "apiVersion": "2026-06-01"
+          "apiVersion": "2026-09-01"
         },
         "smithy.api#documentation": "Sets legal hold tags. Setting the same tag results in an idempotent operation. SetLegalHold follows an append pattern and does not clear out the existing tags that are not specified in the request.",
-        "com.distilled.openapi#apiVersion": "2026-06-01"
+        "com.distilled.openapi#apiVersion": "2026-09-01"
       }
     },
     "com.azure.storage#LegalHold": {
@@ -13741,10 +13907,10 @@
           "method": "POST",
           "uri": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Storage/storageAccounts/{accountName}/blobServices/default/containers/{containerName}/migrate",
           "code": 200,
-          "apiVersion": "2026-06-01"
+          "apiVersion": "2026-09-01"
         },
         "smithy.api#documentation": "This operation migrates a blob container from container level WORM to object level immutability enabled container. Prerequisites require a container level immutability policy either in locked or unlocked state, Account level versioning must be enabled and there should be no Legal hold on the container.",
-        "com.distilled.openapi#apiVersion": "2026-06-01"
+        "com.distilled.openapi#apiVersion": "2026-09-01"
       }
     },
     "com.azure.storage#BlobContainersObjectLevelWormRequest": {
@@ -13800,10 +13966,10 @@
           "method": "POST",
           "uri": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Storage/storageAccounts/{accountName}/blobServices/default/containers/{containerName}/lease",
           "code": 200,
-          "apiVersion": "2026-06-01"
+          "apiVersion": "2026-09-01"
         },
         "smithy.api#documentation": "The Lease Container operation establishes and manages a lock on a container for delete operations. The lock duration can be 15 to 60 seconds, or can be infinite.",
-        "com.distilled.openapi#apiVersion": "2026-06-01"
+        "com.distilled.openapi#apiVersion": "2026-09-01"
       }
     },
     "com.azure.storage#LeaseContainerResponse": {
@@ -13948,10 +14114,10 @@
           "method": "POST",
           "uri": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Storage/storageAccounts/{accountName}/blobServices/default/containers/{containerName}/immutabilityPolicies/default/lock",
           "code": 200,
-          "apiVersion": "2026-06-01"
+          "apiVersion": "2026-09-01"
         },
         "smithy.api#documentation": "Sets the ImmutabilityPolicy to Locked state. The only action allowed on a Locked policy is ExtendImmutabilityPolicy action. ETag in If-Match is required for this operation.",
-        "com.distilled.openapi#apiVersion": "2026-06-01"
+        "com.distilled.openapi#apiVersion": "2026-09-01"
       }
     },
     "com.azure.storage#LockBlobContainerImmutabilityPolicyResponse": {
@@ -14104,10 +14270,10 @@
           "method": "POST",
           "uri": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Storage/storageAccounts/{accountName}/blobServices/default/containers/{containerName}/immutabilityPolicies/default/extend",
           "code": 200,
-          "apiVersion": "2026-06-01"
+          "apiVersion": "2026-09-01"
         },
         "smithy.api#documentation": "Extends the immutabilityPeriodSinceCreationInDays of a locked immutabilityPolicy. The only action allowed on a Locked policy will be this action. ETag in If-Match is required for this operation.",
-        "com.distilled.openapi#apiVersion": "2026-06-01"
+        "com.distilled.openapi#apiVersion": "2026-09-01"
       }
     },
     "com.azure.storage#ExtendBlobContainerImmutabilityPolicyResponse": {
@@ -14215,10 +14381,10 @@
           "method": "DELETE",
           "uri": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Storage/storageAccounts/{accountName}/blobServices/default/containers/{containerName}/immutabilityPolicies/default",
           "code": 200,
-          "apiVersion": "2026-06-01"
+          "apiVersion": "2026-09-01"
         },
         "smithy.api#documentation": "Aborts an unlocked immutability policy. The response of delete has immutabilityPeriodSinceCreationInDays set to 0. ETag in If-Match is required for this operation. Deleting a locked immutability policy is not allowed, the only way is to delete the container after deleting all expired blobs inside the policy locked container.",
-        "com.distilled.openapi#apiVersion": "2026-06-01"
+        "com.distilled.openapi#apiVersion": "2026-09-01"
       }
     },
     "com.azure.storage#DeleteBlobContainerImmutabilityPolicyResponse": {
@@ -14319,10 +14485,10 @@
           "method": "PUT",
           "uri": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Storage/storageAccounts/{accountName}/blobServices/default/containers/{containerName}/immutabilityPolicies/default",
           "code": 200,
-          "apiVersion": "2026-06-01"
+          "apiVersion": "2026-09-01"
         },
         "smithy.api#documentation": "Creates or updates an unlocked immutability policy. ETag in If-Match is honored if given but not required for this operation.",
-        "com.distilled.openapi#apiVersion": "2026-06-01"
+        "com.distilled.openapi#apiVersion": "2026-09-01"
       }
     },
     "com.azure.storage#BlobContainersCreateOrUpdateImmutabilityPolicyResponse": {
@@ -14430,10 +14596,10 @@
           "method": "GET",
           "uri": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Storage/storageAccounts/{accountName}/blobServices/default/containers/{containerName}/immutabilityPolicies/default",
           "code": 200,
-          "apiVersion": "2026-06-01"
+          "apiVersion": "2026-09-01"
         },
         "smithy.api#documentation": "Gets the existing immutability policy along with the corresponding ETag in response headers and body.",
-        "com.distilled.openapi#apiVersion": "2026-06-01"
+        "com.distilled.openapi#apiVersion": "2026-09-01"
       }
     },
     "com.azure.storage#GetBlobContainerImmutabilityPolicyResponse": {
@@ -14534,10 +14700,10 @@
           "method": "POST",
           "uri": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Storage/storageAccounts/{accountName}/blobServices/default/containers/{containerName}/clearLegalHold",
           "code": 200,
-          "apiVersion": "2026-06-01"
+          "apiVersion": "2026-09-01"
         },
         "smithy.api#documentation": "Clears legal hold tags. Clearing the same or non-existent tag results in an idempotent operation. ClearLegalHold clears out only the specified tags in the request.",
-        "com.distilled.openapi#apiVersion": "2026-06-01"
+        "com.distilled.openapi#apiVersion": "2026-09-01"
       }
     },
     "com.azure.storage#ClearBlobContainerLegalHoldRequest": {
@@ -14615,10 +14781,10 @@
           "method": "DELETE",
           "uri": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Storage/storageAccounts/{accountName}/blobServices/default/containers/{containerName}",
           "code": 200,
-          "apiVersion": "2026-06-01"
+          "apiVersion": "2026-09-01"
         },
         "smithy.api#documentation": "Deletes specified container under its account.",
-        "com.distilled.openapi#apiVersion": "2026-06-01"
+        "com.distilled.openapi#apiVersion": "2026-09-01"
       }
     },
     "com.azure.storage#DeleteBlobContainerRequest": {
@@ -14674,10 +14840,10 @@
           "method": "PATCH",
           "uri": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Storage/storageAccounts/{accountName}/blobServices/default/containers/{containerName}",
           "code": 200,
-          "apiVersion": "2026-06-01"
+          "apiVersion": "2026-09-01"
         },
         "smithy.api#documentation": "Updates container properties as specified in request body. Properties not mentioned in the request will be unchanged. Update fails if the specified container doesn't already exist.",
-        "com.distilled.openapi#apiVersion": "2026-06-01"
+        "com.distilled.openapi#apiVersion": "2026-09-01"
       }
     },
     "com.azure.storage#UpdateBlobContainerResponse": {
@@ -14840,10 +15006,36 @@
           "traits": {
             "smithy.api#documentation": "Enable NFSv3 all squash on blob container."
           }
+        },
+        "blobAccessPointConfiguration": {
+          "target": "com.azure.storage#BlobAccessPointConfigurationConnection",
+          "traits": {
+            "smithy.api#documentation": "Configuration that attaches this container to a Blob Access Point. If set, the container is a read-only virtual container whose read/list requests are forwarded to the connected backing data store. Cannot be changed, removed, or added after container creation."
+          }
         }
       },
       "traits": {
         "smithy.api#documentation": "The properties of a container."
+      }
+    },
+    "com.azure.storage#BlobAccessPointConfigurationConnection": {
+      "type": "structure",
+      "members": {
+        "blobAccessPointConfigurationName": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Name of the Blob Access Point Configuration to connect to."
+          }
+        },
+        "blobAccessPointConfigurationUniqueId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "System-generated unique identifier of the Blob Access Point Configuration to connect to. If not provided on create, the service looks up and persists the current unique id."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Blob Access Point configuration associated with a blob container."
       }
     },
     "com.azure.storage#ImmutableStorageWithVersioning": {
@@ -15230,6 +15422,12 @@
           "traits": {
             "smithy.api#documentation": "Enable NFSv3 all squash on blob container."
           }
+        },
+        "blobAccessPointConfiguration": {
+          "target": "com.azure.storage#BlobAccessPointConfigurationConnection",
+          "traits": {
+            "smithy.api#documentation": "Configuration that attaches this container to a Blob Access Point. If set, the container is a read-only virtual container whose read/list requests are forwarded to the connected backing data store. Cannot be changed, removed, or added after container creation."
+          }
         }
       },
       "traits": {
@@ -15275,10 +15473,10 @@
           "method": "PUT",
           "uri": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Storage/storageAccounts/{accountName}/blobServices/default/containers/{containerName}",
           "code": 200,
-          "apiVersion": "2026-06-01"
+          "apiVersion": "2026-09-01"
         },
         "smithy.api#documentation": "Creates a new container under the specified account as described by request body. The container resource includes metadata and properties for that container. It does not include a list of the blobs contained by the container.",
-        "com.distilled.openapi#apiVersion": "2026-06-01"
+        "com.distilled.openapi#apiVersion": "2026-09-01"
       }
     },
     "com.azure.storage#CreateBlobContainerResponse": {
@@ -15384,10 +15582,10 @@
           "method": "GET",
           "uri": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Storage/storageAccounts/{accountName}/blobServices/default/containers/{containerName}",
           "code": 200,
-          "apiVersion": "2026-06-01"
+          "apiVersion": "2026-09-01"
         },
         "smithy.api#documentation": "Gets properties of a specified container.",
-        "com.distilled.openapi#apiVersion": "2026-06-01"
+        "com.distilled.openapi#apiVersion": "2026-09-01"
       }
     },
     "com.azure.storage#GetBlobContainerResponse": {
@@ -15487,10 +15685,10 @@
           "method": "GET",
           "uri": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Storage/storageAccounts/{accountName}/blobServices/default/containers",
           "code": 200,
-          "apiVersion": "2026-06-01"
+          "apiVersion": "2026-09-01"
         },
         "smithy.api#documentation": "Lists all containers and does not support a prefix like data plane. Also SRP today does not return continuation token.",
-        "com.distilled.openapi#apiVersion": "2026-06-01"
+        "com.distilled.openapi#apiVersion": "2026-09-01"
       }
     },
     "com.azure.storage#ListContainerItems": {
@@ -15645,10 +15843,10 @@
           "method": "PUT",
           "uri": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Storage/storageAccounts/{accountName}/blobServices/default",
           "code": 200,
-          "apiVersion": "2026-06-01"
+          "apiVersion": "2026-09-01"
         },
         "smithy.api#documentation": "Sets the properties of a storage account’s Blob service, including properties for Storage Analytics and CORS (Cross-Origin Resource Sharing) rules.",
-        "com.distilled.openapi#apiVersion": "2026-06-01"
+        "com.distilled.openapi#apiVersion": "2026-09-01"
       }
     },
     "com.azure.storage#SetBlobServiceServicePropertiesResponse": {
@@ -16045,10 +16243,10 @@
           "method": "GET",
           "uri": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Storage/storageAccounts/{accountName}/blobServices/default",
           "code": 200,
-          "apiVersion": "2026-06-01"
+          "apiVersion": "2026-09-01"
         },
         "smithy.api#documentation": "Gets the properties of a storage account’s Blob service, including properties for Storage Analytics and CORS (Cross-Origin Resource Sharing) rules.",
-        "com.distilled.openapi#apiVersion": "2026-06-01"
+        "com.distilled.openapi#apiVersion": "2026-09-01"
       }
     },
     "com.azure.storage#GetBlobServiceServicePropertiesResponse": {
@@ -16140,10 +16338,10 @@
           "method": "GET",
           "uri": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Storage/storageAccounts/{accountName}/blobServices",
           "code": 200,
-          "apiVersion": "2026-06-01"
+          "apiVersion": "2026-09-01"
         },
         "smithy.api#documentation": "List blob services of storage account. It returns a collection of one object named default.",
-        "com.distilled.openapi#apiVersion": "2026-06-01"
+        "com.distilled.openapi#apiVersion": "2026-09-01"
       }
     },
     "com.azure.storage#BlobServiceItems": {
@@ -16246,6 +16444,892 @@
         "smithy.api#input": {}
       }
     },
+    "com.azure.storage#TestBlobAccessPointConfigurationExistingConnection": {
+      "type": "operation",
+      "input": {
+        "target": "com.azure.storage#TestBlobAccessPointConfigurationExistingConnectionRequest"
+      },
+      "output": {
+        "target": "com.azure.storage#BlobAccessPointConnectionTestResponse"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Storage/storageAccounts/{accountName}/blobAccessPointConfigurations/{blobAccessPointConfigurationName}/testExistingConnection",
+          "code": 200,
+          "apiVersion": "2026-09-01"
+        },
+        "smithy.api#documentation": "Test the connection configured on an existing Blob Access Point configuration.",
+        "com.distilled.openapi#apiVersion": "2026-09-01"
+      }
+    },
+    "com.azure.storage#TestBlobAccessPointConfigurationExistingConnectionRequest": {
+      "type": "structure",
+      "members": {
+        "subscriptionId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The ID of the target subscription. The value must be an UUID."
+          }
+        },
+        "resourceGroupName": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The name of the resource group. The name is case insensitive."
+          }
+        },
+        "accountName": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The name of the storage account within the specified resource group. Storage account names must be between 3 and 24 characters in length and use numbers and lower-case letters only."
+          }
+        },
+        "blobAccessPointConfigurationName": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The name of the Blob Access Point configuration."
+          }
+        },
+        "uniqueId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The system-generated unique identifier of the Blob Access Point configuration, as returned by a read operation. This value must match the configuration named in the request path, and is required so that a configuration which was deleted and recreated under the same name is not tested by mistake.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.azure.storage#DeleteBlobAccessPointConfiguration": {
+      "type": "operation",
+      "input": {
+        "target": "com.azure.storage#DeleteBlobAccessPointConfigurationRequest"
+      },
+      "output": {
+        "target": "smithy.api#Unit"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "DELETE",
+          "uri": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Storage/storageAccounts/{accountName}/blobAccessPointConfigurations/{blobAccessPointConfigurationName}",
+          "code": 200,
+          "apiVersion": "2026-09-01"
+        },
+        "smithy.api#documentation": "Delete a Blob Access Point configuration.",
+        "com.distilled.openapi#apiVersion": "2026-09-01"
+      }
+    },
+    "com.azure.storage#DeleteBlobAccessPointConfigurationRequest": {
+      "type": "structure",
+      "members": {
+        "subscriptionId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The ID of the target subscription. The value must be an UUID."
+          }
+        },
+        "resourceGroupName": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The name of the resource group. The name is case insensitive."
+          }
+        },
+        "accountName": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The name of the storage account within the specified resource group. Storage account names must be between 3 and 24 characters in length and use numbers and lower-case letters only."
+          }
+        },
+        "blobAccessPointConfigurationName": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The name of the Blob Access Point configuration."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.azure.storage#UpdateBlobAccessPointConfiguration": {
+      "type": "operation",
+      "input": {
+        "target": "com.azure.storage#UpdateBlobAccessPointConfigurationRequest"
+      },
+      "output": {
+        "target": "com.azure.storage#UpdateBlobAccessPointConfigurationResponse"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "PATCH",
+          "uri": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Storage/storageAccounts/{accountName}/blobAccessPointConfigurations/{blobAccessPointConfigurationName}",
+          "code": 200,
+          "apiVersion": "2026-09-01"
+        },
+        "smithy.api#documentation": "Update a Blob Access Point configuration.",
+        "com.distilled.openapi#apiVersion": "2026-09-01"
+      }
+    },
+    "com.azure.storage#UpdateBlobAccessPointConfigurationResponse": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Fully qualified resource ID for the resource. E.g. \"/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}\""
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The name of the resource"
+          }
+        },
+        "type": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The type of the resource. E.g. \"Microsoft.Compute/virtualMachines\" or \"Microsoft.Storage/storageAccounts\""
+          }
+        },
+        "systemData": {
+          "target": "com.azure.storage#SystemData",
+          "traits": {
+            "smithy.api#documentation": "Azure Resource Manager metadata containing createdBy and modifiedBy information."
+          }
+        },
+        "tags": {
+          "target": "com.azure.storage#UpdateBlobAccessPointConfigurationResponseTagsMap",
+          "traits": {
+            "smithy.api#documentation": "Resource tags."
+          }
+        },
+        "location": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The geo-location where the resource lives",
+            "smithy.api#required": {}
+          }
+        },
+        "properties": {
+          "target": "com.azure.storage#BlobAccessPointConfigurationProperties",
+          "traits": {
+            "smithy.api#documentation": "The resource-specific properties for this resource.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
+      }
+    },
+    "com.azure.storage#BlobAccessPointConfigurationProperties": {
+      "type": "structure",
+      "members": {
+        "uniqueId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The system-generated unique identifier of the configuration."
+          }
+        },
+        "state": {
+          "target": "com.azure.storage#BlobAccessPointConfigurationState",
+          "traits": {
+            "smithy.api#documentation": "The configuration state. A configuration is created in the Active state when this value is not specified."
+          }
+        },
+        "description": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "An arbitrary description of the Blob Access Point configuration."
+          }
+        },
+        "lastConnectionTestStatus": {
+          "target": "com.azure.storage#BlobAccessPointConnectionTestStatus",
+          "traits": {
+            "smithy.api#documentation": "The status of the most recent connection test."
+          }
+        },
+        "lastConnectionTestTimestamp": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The timestamp of the most recent connection test."
+          }
+        },
+        "lastConnectionTestErrorMessage": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The normalized and redacted error from the most recent failed connection test."
+          }
+        },
+        "source": {
+          "target": "com.azure.storage#BlobAccessPointSourceProperties",
+          "traits": {
+            "smithy.api#documentation": "Information about the backing data source.",
+            "smithy.api#required": {}
+          }
+        },
+        "provisioningState": {
+          "target": "com.azure.storage#AzureResourceManagerResourceProvisioningState",
+          "traits": {
+            "smithy.api#documentation": "The status of the last operation."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Details of a Blob Access Point configuration."
+      }
+    },
+    "com.azure.storage#AzureResourceManagerResourceProvisioningState": {
+      "type": "enum",
+      "members": {
+        "SUCCEEDED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "Succeeded"
+          }
+        },
+        "FAILED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "Failed"
+          }
+        },
+        "CANCELED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "Canceled"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The provisioning state of a resource type."
+      }
+    },
+    "com.azure.storage#BlobAccessPointConnectionTestStatus": {
+      "type": "enum",
+      "members": {
+        "SUCCEEDED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "Succeeded"
+          }
+        },
+        "FAILED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "Failed"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The status of the most recent connection test."
+      }
+    },
+    "com.azure.storage#BlobAccessPointConfigurationState": {
+      "type": "enum",
+      "members": {
+        "ACTIVE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "Active"
+          }
+        },
+        "INACTIVE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "Inactive"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The state of a Blob Access Point configuration."
+      }
+    },
+    "com.azure.storage#UpdateBlobAccessPointConfigurationResponseTagsMap": {
+      "type": "map",
+      "key": {
+        "target": "smithy.api#String"
+      },
+      "value": {
+        "target": "smithy.api#String"
+      },
+      "traits": {
+        "smithy.api#documentation": "Resource tags."
+      }
+    },
+    "com.azure.storage#UpdateBlobAccessPointConfigurationRequest": {
+      "type": "structure",
+      "members": {
+        "subscriptionId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The ID of the target subscription. The value must be an UUID."
+          }
+        },
+        "resourceGroupName": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The name of the resource group. The name is case insensitive."
+          }
+        },
+        "accountName": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The name of the storage account within the specified resource group. Storage account names must be between 3 and 24 characters in length and use numbers and lower-case letters only."
+          }
+        },
+        "blobAccessPointConfigurationName": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The name of the Blob Access Point configuration."
+          }
+        },
+        "tags": {
+          "target": "com.azure.storage#UpdateBlobAccessPointConfigurationRequestTagsMap",
+          "traits": {
+            "smithy.api#documentation": "Resource tags."
+          }
+        },
+        "properties": {
+          "target": "com.azure.storage#BlobAccessPointConfigurationPropertiesUpdate",
+          "traits": {
+            "smithy.api#documentation": "The resource-specific properties for this resource."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.azure.storage#BlobAccessPointConfigurationPropertiesUpdate": {
+      "type": "structure",
+      "members": {
+        "state": {
+          "target": "com.azure.storage#BlobAccessPointConfigurationState",
+          "traits": {
+            "smithy.api#documentation": "The configuration state. A configuration is created in the Active state when this value is not specified."
+          }
+        },
+        "description": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "An arbitrary description of the Blob Access Point configuration."
+          }
+        },
+        "source": {
+          "target": "com.azure.storage#BlobAccessPointSourcePropertiesUpdate",
+          "traits": {
+            "smithy.api#documentation": "Information about the backing data source."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Details of a Blob Access Point configuration."
+      }
+    },
+    "com.azure.storage#BlobAccessPointSourcePropertiesUpdate": {
+      "type": "structure",
+      "members": {
+        "sourceType": {
+          "target": "com.azure.storage#BlobAccessPointSourceType",
+          "traits": {
+            "smithy.api#documentation": "The source type. This value determines the remaining shape of the source object.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Information about the data source exposed through a Blob Access Point."
+      }
+    },
+    "com.azure.storage#UpdateBlobAccessPointConfigurationRequestTagsMap": {
+      "type": "map",
+      "key": {
+        "target": "smithy.api#String"
+      },
+      "value": {
+        "target": "smithy.api#String"
+      },
+      "traits": {
+        "smithy.api#documentation": "Resource tags."
+      }
+    },
+    "com.azure.storage#CreateBlobAccessPointConfiguration": {
+      "type": "operation",
+      "input": {
+        "target": "com.azure.storage#CreateBlobAccessPointConfigurationRequest"
+      },
+      "output": {
+        "target": "com.azure.storage#CreateBlobAccessPointConfigurationResponse"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "PUT",
+          "uri": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Storage/storageAccounts/{accountName}/blobAccessPointConfigurations/{blobAccessPointConfigurationName}",
+          "code": 200,
+          "apiVersion": "2026-09-01"
+        },
+        "smithy.api#documentation": "Creates or updates a Blob Access Point configuration.",
+        "com.distilled.openapi#apiVersion": "2026-09-01"
+      }
+    },
+    "com.azure.storage#CreateBlobAccessPointConfigurationResponse": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Fully qualified resource ID for the resource. E.g. \"/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}\""
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The name of the resource"
+          }
+        },
+        "type": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The type of the resource. E.g. \"Microsoft.Compute/virtualMachines\" or \"Microsoft.Storage/storageAccounts\""
+          }
+        },
+        "systemData": {
+          "target": "com.azure.storage#SystemData",
+          "traits": {
+            "smithy.api#documentation": "Azure Resource Manager metadata containing createdBy and modifiedBy information."
+          }
+        },
+        "tags": {
+          "target": "com.azure.storage#CreateBlobAccessPointConfigurationResponseTagsMap",
+          "traits": {
+            "smithy.api#documentation": "Resource tags."
+          }
+        },
+        "location": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The geo-location where the resource lives",
+            "smithy.api#required": {}
+          }
+        },
+        "properties": {
+          "target": "com.azure.storage#BlobAccessPointConfigurationProperties",
+          "traits": {
+            "smithy.api#documentation": "The resource-specific properties for this resource.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
+      }
+    },
+    "com.azure.storage#CreateBlobAccessPointConfigurationResponseTagsMap": {
+      "type": "map",
+      "key": {
+        "target": "smithy.api#String"
+      },
+      "value": {
+        "target": "smithy.api#String"
+      },
+      "traits": {
+        "smithy.api#documentation": "Resource tags."
+      }
+    },
+    "com.azure.storage#CreateBlobAccessPointConfigurationRequest": {
+      "type": "structure",
+      "members": {
+        "subscriptionId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The ID of the target subscription. The value must be an UUID."
+          }
+        },
+        "resourceGroupName": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The name of the resource group. The name is case insensitive."
+          }
+        },
+        "accountName": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The name of the storage account within the specified resource group. Storage account names must be between 3 and 24 characters in length and use numbers and lower-case letters only."
+          }
+        },
+        "blobAccessPointConfigurationName": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The name of the Blob Access Point configuration."
+          }
+        },
+        "tags": {
+          "target": "com.azure.storage#CreateBlobAccessPointConfigurationRequestTagsMap",
+          "traits": {
+            "smithy.api#documentation": "Resource tags."
+          }
+        },
+        "location": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The geo-location where the resource lives",
+            "smithy.api#required": {}
+          }
+        },
+        "properties": {
+          "target": "com.azure.storage#BlobAccessPointConfigurationPropertiesInput",
+          "traits": {
+            "smithy.api#documentation": "The resource-specific properties for this resource.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.azure.storage#BlobAccessPointConfigurationPropertiesInput": {
+      "type": "structure",
+      "members": {
+        "state": {
+          "target": "com.azure.storage#BlobAccessPointConfigurationState",
+          "traits": {
+            "smithy.api#documentation": "The configuration state. A configuration is created in the Active state when this value is not specified."
+          }
+        },
+        "description": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "An arbitrary description of the Blob Access Point configuration."
+          }
+        },
+        "source": {
+          "target": "com.azure.storage#BlobAccessPointSourceProperties",
+          "traits": {
+            "smithy.api#documentation": "Information about the backing data source.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Details of a Blob Access Point configuration."
+      }
+    },
+    "com.azure.storage#CreateBlobAccessPointConfigurationRequestTagsMap": {
+      "type": "map",
+      "key": {
+        "target": "smithy.api#String"
+      },
+      "value": {
+        "target": "smithy.api#String"
+      },
+      "traits": {
+        "smithy.api#documentation": "Resource tags."
+      }
+    },
+    "com.azure.storage#GetBlobAccessPointConfiguration": {
+      "type": "operation",
+      "input": {
+        "target": "com.azure.storage#GetBlobAccessPointConfigurationRequest"
+      },
+      "output": {
+        "target": "com.azure.storage#GetBlobAccessPointConfigurationResponse"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Storage/storageAccounts/{accountName}/blobAccessPointConfigurations/{blobAccessPointConfigurationName}",
+          "code": 200,
+          "apiVersion": "2026-09-01"
+        },
+        "smithy.api#documentation": "Get the specified Blob Access Point configuration.",
+        "com.distilled.openapi#apiVersion": "2026-09-01"
+      }
+    },
+    "com.azure.storage#GetBlobAccessPointConfigurationResponse": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Fully qualified resource ID for the resource. E.g. \"/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}\""
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The name of the resource"
+          }
+        },
+        "type": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The type of the resource. E.g. \"Microsoft.Compute/virtualMachines\" or \"Microsoft.Storage/storageAccounts\""
+          }
+        },
+        "systemData": {
+          "target": "com.azure.storage#SystemData",
+          "traits": {
+            "smithy.api#documentation": "Azure Resource Manager metadata containing createdBy and modifiedBy information."
+          }
+        },
+        "tags": {
+          "target": "com.azure.storage#GetBlobAccessPointConfigurationResponseTagsMap",
+          "traits": {
+            "smithy.api#documentation": "Resource tags."
+          }
+        },
+        "location": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The geo-location where the resource lives",
+            "smithy.api#required": {}
+          }
+        },
+        "properties": {
+          "target": "com.azure.storage#BlobAccessPointConfigurationProperties",
+          "traits": {
+            "smithy.api#documentation": "The resource-specific properties for this resource.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
+      }
+    },
+    "com.azure.storage#GetBlobAccessPointConfigurationResponseTagsMap": {
+      "type": "map",
+      "key": {
+        "target": "smithy.api#String"
+      },
+      "value": {
+        "target": "smithy.api#String"
+      },
+      "traits": {
+        "smithy.api#documentation": "Resource tags."
+      }
+    },
+    "com.azure.storage#GetBlobAccessPointConfigurationRequest": {
+      "type": "structure",
+      "members": {
+        "subscriptionId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The ID of the target subscription. The value must be an UUID."
+          }
+        },
+        "resourceGroupName": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The name of the resource group. The name is case insensitive."
+          }
+        },
+        "accountName": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The name of the storage account within the specified resource group. Storage account names must be between 3 and 24 characters in length and use numbers and lower-case letters only."
+          }
+        },
+        "blobAccessPointConfigurationName": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The name of the Blob Access Point configuration."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.azure.storage#ListBlobAccessPointConfigurationByStorageAccount": {
+      "type": "operation",
+      "input": {
+        "target": "com.azure.storage#ListBlobAccessPointConfigurationByStorageAccountRequest"
+      },
+      "output": {
+        "target": "com.azure.storage#BlobAccessPointConfigurationListResult"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Storage/storageAccounts/{accountName}/blobAccessPointConfigurations",
+          "code": 200,
+          "apiVersion": "2026-09-01"
+        },
+        "smithy.api#documentation": "List all Blob Access Point configurations in a Storage Account.",
+        "com.distilled.openapi#apiVersion": "2026-09-01"
+      }
+    },
+    "com.azure.storage#BlobAccessPointConfigurationListResult": {
+      "type": "structure",
+      "members": {
+        "value": {
+          "target": "com.azure.storage#BlobAccessPointConfigurationListResultValueList",
+          "traits": {
+            "smithy.api#documentation": "The BlobAccessPointConfiguration items on this page",
+            "smithy.api#required": {}
+          }
+        },
+        "nextLink": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The link to the next page of items"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The response of a BlobAccessPointConfiguration list operation."
+      }
+    },
+    "com.azure.storage#BlobAccessPointConfigurationListResultValueList": {
+      "type": "list",
+      "member": {
+        "target": "com.azure.storage#BlobAccessPointConfiguration"
+      },
+      "traits": {
+        "smithy.api#documentation": "The BlobAccessPointConfiguration items on this page"
+      }
+    },
+    "com.azure.storage#BlobAccessPointConfiguration": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Fully qualified resource ID for the resource. E.g. \"/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}\""
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The name of the resource"
+          }
+        },
+        "type": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The type of the resource. E.g. \"Microsoft.Compute/virtualMachines\" or \"Microsoft.Storage/storageAccounts\""
+          }
+        },
+        "systemData": {
+          "target": "com.azure.storage#SystemData",
+          "traits": {
+            "smithy.api#documentation": "Azure Resource Manager metadata containing createdBy and modifiedBy information."
+          }
+        },
+        "tags": {
+          "target": "com.azure.storage#BlobAccessPointConfigurationTagsMap",
+          "traits": {
+            "smithy.api#documentation": "Resource tags."
+          }
+        },
+        "location": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The geo-location where the resource lives",
+            "smithy.api#required": {}
+          }
+        },
+        "properties": {
+          "target": "com.azure.storage#BlobAccessPointConfigurationProperties",
+          "traits": {
+            "smithy.api#documentation": "The resource-specific properties for this resource.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "A BlobAccessPointConfiguration is a tracked Azure resource modeled as a sub-resource of a Storage Account."
+      }
+    },
+    "com.azure.storage#BlobAccessPointConfigurationTagsMap": {
+      "type": "map",
+      "key": {
+        "target": "smithy.api#String"
+      },
+      "value": {
+        "target": "smithy.api#String"
+      },
+      "traits": {
+        "smithy.api#documentation": "Resource tags."
+      }
+    },
+    "com.azure.storage#ListBlobAccessPointConfigurationByStorageAccountRequest": {
+      "type": "structure",
+      "members": {
+        "subscriptionId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The ID of the target subscription. The value must be an UUID."
+          }
+        },
+        "resourceGroupName": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The name of the resource group. The name is case insensitive."
+          }
+        },
+        "accountName": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The name of the storage account within the specified resource group. Storage account names must be between 3 and 24 characters in length and use numbers and lower-case letters only."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
     "com.azure.storage#DeleteAdvancedPlatformMetrics": {
       "type": "operation",
       "input": {
@@ -16259,10 +17343,10 @@
           "method": "DELETE",
           "uri": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Storage/storageAccounts/{accountName}/advancedPlatformMetrics/{advancedPlatformMetricsRuleType}",
           "code": 200,
-          "apiVersion": "2026-06-01"
+          "apiVersion": "2026-09-01"
         },
         "smithy.api#documentation": "Delete the advanced platform metrics rule for the storage account by rule type.",
-        "com.distilled.openapi#apiVersion": "2026-06-01"
+        "com.distilled.openapi#apiVersion": "2026-09-01"
       }
     },
     "com.azure.storage#DeleteAdvancedPlatformMetricsRequest": {
@@ -16330,10 +17414,10 @@
           "method": "PUT",
           "uri": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Storage/storageAccounts/{accountName}/advancedPlatformMetrics/{advancedPlatformMetricsRuleType}",
           "code": 200,
-          "apiVersion": "2026-06-01"
+          "apiVersion": "2026-09-01"
         },
         "smithy.api#documentation": "Create or update the advanced platform metrics rule for the storage account.",
-        "com.distilled.openapi#apiVersion": "2026-06-01"
+        "com.distilled.openapi#apiVersion": "2026-09-01"
       }
     },
     "com.azure.storage#AdvancedPlatformMetricsCreateOrUpdateResponse": {
@@ -16394,6 +17478,12 @@
           "target": "smithy.api#String",
           "traits": {
             "smithy.api#documentation": "Gets the last modification date and time of the advanced platform metrics rule in UTC."
+          }
+        },
+        "metricsToEmit": {
+          "target": "com.azure.storage#AdvancedPlatformMetricsRulePropertiesMetricsToEmitList",
+          "traits": {
+            "smithy.api#documentation": "The metrics requested by the caller. If omitted in a create or update request, the service enables all metrics supported by the selected rule type."
           }
         },
         "metricsEmitted": {
@@ -16498,6 +17588,15 @@
         "smithy.api#documentation": "The metrics emitted by the advanced platform metrics rule."
       }
     },
+    "com.azure.storage#AdvancedPlatformMetricsRulePropertiesMetricsToEmitList": {
+      "type": "list",
+      "member": {
+        "target": "com.azure.storage#MetricsEmitted"
+      },
+      "traits": {
+        "smithy.api#documentation": "The metrics requested by the caller. If omitted in a create or update request, the service enables all metrics supported by the selected rule type."
+      }
+    },
     "com.azure.storage#AdvancedPlatformMetricsRuleType": {
       "type": "enum",
       "members": {
@@ -16568,6 +17667,12 @@
             "smithy.api#required": {}
           }
         },
+        "metricsToEmit": {
+          "target": "com.azure.storage#AdvancedPlatformMetricsRulePropertiesInputMetricsToEmitList",
+          "traits": {
+            "smithy.api#documentation": "The metrics requested by the caller. If omitted in a create or update request, the service enables all metrics supported by the selected rule type."
+          }
+        },
         "ruleConfig": {
           "target": "com.azure.storage#AdvancedPlatformMetricsRuleConfig",
           "traits": {
@@ -16578,6 +17683,15 @@
       },
       "traits": {
         "smithy.api#documentation": "An object that defines the advanced platform metrics rule."
+      }
+    },
+    "com.azure.storage#AdvancedPlatformMetricsRulePropertiesInputMetricsToEmitList": {
+      "type": "list",
+      "member": {
+        "target": "com.azure.storage#MetricsEmitted"
+      },
+      "traits": {
+        "smithy.api#documentation": "The metrics requested by the caller. If omitted in a create or update request, the service enables all metrics supported by the selected rule type."
       }
     },
     "com.azure.storage#AdvancedPlatformMetricsCreateOrUpdateRequestAdvancedPlatformMetricsRuleType": {
@@ -16605,10 +17719,10 @@
           "method": "GET",
           "uri": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Storage/storageAccounts/{accountName}/advancedPlatformMetrics/{advancedPlatformMetricsRuleType}",
           "code": 200,
-          "apiVersion": "2026-06-01"
+          "apiVersion": "2026-09-01"
         },
         "smithy.api#documentation": "Get the advanced platform metrics rule for the storage account by rule type.",
-        "com.distilled.openapi#apiVersion": "2026-06-01"
+        "com.distilled.openapi#apiVersion": "2026-09-01"
       }
     },
     "com.azure.storage#GetAdvancedPlatformMetricsResponse": {
@@ -16714,10 +17828,10 @@
           "method": "GET",
           "uri": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Storage/storageAccounts/{accountName}/advancedPlatformMetrics",
           "code": 200,
-          "apiVersion": "2026-06-01"
+          "apiVersion": "2026-09-01"
         },
         "smithy.api#documentation": "List the advanced platform metrics rules associated with the storage account.",
-        "com.distilled.openapi#apiVersion": "2026-06-01"
+        "com.distilled.openapi#apiVersion": "2026-09-01"
       }
     },
     "com.azure.storage#AdvancedPlatformMetricsRuleListResult": {
@@ -16833,10 +17947,10 @@
           "method": "GET",
           "uri": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Storage/storageAccounts/{accountName}/accountMigrations/{migrationName}",
           "code": 200,
-          "apiVersion": "2026-06-01"
+          "apiVersion": "2026-09-01"
         },
         "smithy.api#documentation": "Gets the status of the ongoing migration for the specified storage account.",
-        "com.distilled.openapi#apiVersion": "2026-06-01"
+        "com.distilled.openapi#apiVersion": "2026-09-01"
       }
     },
     "com.azure.storage#GetStorageAccountCustomerInitiatedMigrationResponse": {
@@ -17014,10 +18128,10 @@
           "method": "POST",
           "uri": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Storage/storageAccounts/{accountName}/aborthnsonmigration",
           "code": 200,
-          "apiVersion": "2026-06-01"
+          "apiVersion": "2026-09-01"
         },
         "smithy.api#documentation": "Abort live Migration of storage account to enable Hns",
-        "com.distilled.openapi#apiVersion": "2026-06-01"
+        "com.distilled.openapi#apiVersion": "2026-09-01"
       }
     },
     "com.azure.storage#AbortStorageAccountHierarchicalNamespaceMigrationRequest": {
@@ -17065,10 +18179,10 @@
           "method": "DELETE",
           "uri": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Storage/storageAccounts/{accountName}",
           "code": 200,
-          "apiVersion": "2026-06-01"
+          "apiVersion": "2026-09-01"
         },
         "smithy.api#documentation": "Deletes a storage account in Microsoft Azure.",
-        "com.distilled.openapi#apiVersion": "2026-06-01"
+        "com.distilled.openapi#apiVersion": "2026-09-01"
       }
     },
     "com.azure.storage#DeleteStorageAccountRequest": {
@@ -17116,10 +18230,10 @@
           "method": "PATCH",
           "uri": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Storage/storageAccounts/{accountName}",
           "code": 200,
-          "apiVersion": "2026-06-01"
+          "apiVersion": "2026-09-01"
         },
         "smithy.api#documentation": "The update operation can be used to update the SKU, encryption, access tier, or tags for a storage account. It can also be used to map the account to a custom domain. Only one custom domain is supported per storage account; the replacement/change of custom domain is not supported. In order to replace an old custom domain, the old value must be cleared/unregistered before a new value can be set. The update of multiple properties is supported. This call does not change the storage keys for the account. If you want to change the storage account keys, use the regenerate keys operation. The location and name of the storage account cannot be changed after creation.",
-        "com.distilled.openapi#apiVersion": "2026-06-01"
+        "com.distilled.openapi#apiVersion": "2026-09-01"
       }
     },
     "com.azure.storage#UpdateStorageAccountResponse": {
@@ -17514,6 +18628,12 @@
             "smithy.api#documentation": "Required for storage accounts where kind = BlobStorage. The access tier is used for billing. The 'Premium' access tier is the default value for premium block blobs storage account type and it cannot be changed for the premium block blobs storage account type."
           }
         },
+        "turboTier": {
+          "target": "com.azure.storage#TurboTier",
+          "traits": {
+            "smithy.api#documentation": "Configures Turbo Tier for the storage account."
+          }
+        },
         "azureFilesIdentityBasedAuthentication": {
           "target": "com.azure.storage#AzureFilesIdentityBasedAuthentication",
           "traits": {
@@ -17712,6 +18832,12 @@
           "target": "smithy.api#Boolean",
           "traits": {
             "smithy.api#documentation": "Indicates whether storage connectors are allowed to created or managed on the storage account."
+          }
+        },
+        "allowBlobAccessPoints": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Indicates whether Blob Access Point configurations are allowed to be created or managed on the storage account."
           }
         },
         "allowStorageDataShares": {
@@ -18690,6 +19816,46 @@
         "smithy.api#documentation": "Indicates the directory service used. Note that this enum may be extended in the future."
       }
     },
+    "com.azure.storage#TurboTier": {
+      "type": "structure",
+      "members": {
+        "status": {
+          "target": "com.azure.storage#TurboTierStatus",
+          "traits": {
+            "smithy.api#documentation": "Indicates whether Turbo Tier is enabled or disabled."
+          }
+        },
+        "targetPercent": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "The target fill percentage used for placement. The valid range is 10 to 100. When status is Enabled and this property is omitted, the default value is 20."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Configures Turbo Tier for a storage account."
+      }
+    },
+    "com.azure.storage#TurboTierStatus": {
+      "type": "enum",
+      "members": {
+        "ENABLED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "Enabled"
+          }
+        },
+        "DISABLED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "Disabled"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Indicates whether Turbo Tier is enabled or disabled."
+      }
+    },
     "com.azure.storage#AccessTier": {
       "type": "enum",
       "members": {
@@ -19426,6 +20592,12 @@
             "smithy.api#documentation": "Required for storage accounts where kind = BlobStorage. The access tier is used for billing. The 'Premium' access tier is the default value for premium block blobs storage account type and it cannot be changed for the premium block blobs storage account type."
           }
         },
+        "turboTier": {
+          "target": "com.azure.storage#TurboTier",
+          "traits": {
+            "smithy.api#documentation": "Configures Turbo Tier for the storage account."
+          }
+        },
         "azureFilesIdentityBasedAuthentication": {
           "target": "com.azure.storage#AzureFilesIdentityBasedAuthentication",
           "traits": {
@@ -19932,10 +21104,10 @@
           "method": "PUT",
           "uri": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Storage/storageAccounts/{accountName}",
           "code": 200,
-          "apiVersion": "2026-06-01"
+          "apiVersion": "2026-09-01"
         },
         "smithy.api#documentation": "Asynchronously creates a new storage account with the specified parameters. If an account is already created and a subsequent create request is issued with different properties, the account properties will be updated. If an account is already created and a subsequent create or update request is issued with the exact same set of properties, the request will succeed.",
-        "com.distilled.openapi#apiVersion": "2026-06-01"
+        "com.distilled.openapi#apiVersion": "2026-09-01"
       }
     },
     "com.azure.storage#CreateStorageAccountResponse": {
@@ -20186,6 +21358,12 @@
             "smithy.api#documentation": "Required for storage accounts where kind = BlobStorage. The access tier is used for billing. The 'Premium' access tier is the default value for premium block blobs storage account type and it cannot be changed for the premium block blobs storage account type."
           }
         },
+        "turboTier": {
+          "target": "com.azure.storage#TurboTier",
+          "traits": {
+            "smithy.api#documentation": "Configures Turbo Tier for the storage account."
+          }
+        },
         "azureFilesIdentityBasedAuthentication": {
           "target": "com.azure.storage#AzureFilesIdentityBasedAuthentication",
           "traits": {
@@ -20351,10 +21529,10 @@
           "method": "GET",
           "uri": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Storage/storageAccounts/{accountName}",
           "code": 200,
-          "apiVersion": "2026-06-01"
+          "apiVersion": "2026-09-01"
         },
         "smithy.api#documentation": "Returns the properties for the specified storage account including but not limited to name, SKU name, location, and account status. The ListKeys operation should be used to retrieve storage keys.",
-        "com.distilled.openapi#apiVersion": "2026-06-01"
+        "com.distilled.openapi#apiVersion": "2026-09-01"
       }
     },
     "com.azure.storage#GetStorageAccountPropertiesResponse": {
@@ -20535,10 +21713,10 @@
           "method": "GET",
           "uri": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Storage/storageAccounts",
           "code": 200,
-          "apiVersion": "2026-06-01"
+          "apiVersion": "2026-09-01"
         },
         "smithy.api#documentation": "Lists all the storage accounts available under the given resource group. Note that storage keys are not returned; use the ListKeys operation for this.",
-        "com.distilled.openapi#apiVersion": "2026-06-01"
+        "com.distilled.openapi#apiVersion": "2026-09-01"
       }
     },
     "com.azure.storage#StorageAccountListResult": {
@@ -20716,10 +21894,10 @@
           "method": "DELETE",
           "uri": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Storage/contextCaches/{contextCacheName}/contextCacheContainers/{contextCacheContainerName}",
           "code": 200,
-          "apiVersion": "2026-06-01"
+          "apiVersion": "2026-09-01"
         },
         "smithy.api#documentation": "Delete a container from a Context Cache.",
-        "com.distilled.openapi#apiVersion": "2026-06-01"
+        "com.distilled.openapi#apiVersion": "2026-09-01"
       }
     },
     "com.azure.storage#DeleteContextCacheContainerRequest": {
@@ -20775,10 +21953,10 @@
           "method": "PATCH",
           "uri": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Storage/contextCaches/{contextCacheName}/contextCacheContainers/{contextCacheContainerName}",
           "code": 200,
-          "apiVersion": "2026-06-01"
+          "apiVersion": "2026-09-01"
         },
         "smithy.api#documentation": "Update a container in a Context Cache.",
-        "com.distilled.openapi#apiVersion": "2026-06-01"
+        "com.distilled.openapi#apiVersion": "2026-09-01"
       }
     },
     "com.azure.storage#UpdateContextCacheContainerResponse": {
@@ -21003,10 +22181,10 @@
           "method": "PUT",
           "uri": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Storage/contextCaches/{contextCacheName}/contextCacheContainers/{contextCacheContainerName}",
           "code": 200,
-          "apiVersion": "2026-06-01"
+          "apiVersion": "2026-09-01"
         },
         "smithy.api#documentation": "Create or update a container in a Context Cache.",
-        "com.distilled.openapi#apiVersion": "2026-06-01"
+        "com.distilled.openapi#apiVersion": "2026-09-01"
       }
     },
     "com.azure.storage#ContextCacheContainersCreateOrUpdateResponse": {
@@ -21142,10 +22320,10 @@
           "method": "GET",
           "uri": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Storage/contextCaches/{contextCacheName}/contextCacheContainers/{contextCacheContainerName}",
           "code": 200,
-          "apiVersion": "2026-06-01"
+          "apiVersion": "2026-09-01"
         },
         "smithy.api#documentation": "Get a container in a Context Cache.",
-        "com.distilled.openapi#apiVersion": "2026-06-01"
+        "com.distilled.openapi#apiVersion": "2026-09-01"
       }
     },
     "com.azure.storage#GetContextCacheContainerResponse": {
@@ -21240,10 +22418,10 @@
           "method": "GET",
           "uri": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Storage/contextCaches/{contextCacheName}/contextCacheContainers",
           "code": 200,
-          "apiVersion": "2026-06-01"
+          "apiVersion": "2026-09-01"
         },
         "smithy.api#documentation": "List all containers in a Context Cache.",
-        "com.distilled.openapi#apiVersion": "2026-06-01"
+        "com.distilled.openapi#apiVersion": "2026-09-01"
       }
     },
     "com.azure.storage#ContextCacheContainerListResult": {
@@ -21360,10 +22538,10 @@
           "method": "DELETE",
           "uri": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Storage/contextCaches/{contextCacheName}",
           "code": 200,
-          "apiVersion": "2026-06-01"
+          "apiVersion": "2026-09-01"
         },
         "smithy.api#documentation": "Delete a Context Cache.",
-        "com.distilled.openapi#apiVersion": "2026-06-01"
+        "com.distilled.openapi#apiVersion": "2026-09-01"
       }
     },
     "com.azure.storage#DeleteContextCachRequest": {
@@ -21411,10 +22589,10 @@
           "method": "PATCH",
           "uri": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Storage/contextCaches/{contextCacheName}",
           "code": 200,
-          "apiVersion": "2026-06-01"
+          "apiVersion": "2026-09-01"
         },
         "smithy.api#documentation": "Update a Context Cache.",
-        "com.distilled.openapi#apiVersion": "2026-06-01"
+        "com.distilled.openapi#apiVersion": "2026-09-01"
       }
     },
     "com.azure.storage#UpdateContextCachResponse": {
@@ -21467,7 +22645,7 @@
         "identity": {
           "target": "com.azure.storage#UpdateContextCachResponseIdentity",
           "traits": {
-            "smithy.api#documentation": "Managed service identity (either system assigned, or none)"
+            "smithy.api#documentation": "Managed service identity (system assigned and/or user assigned identities)"
           }
         }
       },
@@ -21491,17 +22669,35 @@
           }
         },
         "type": {
-          "target": "com.azure.storage#SystemAssignedServiceIdentityType",
+          "target": "com.azure.storage#ManagedServiceIdentityType",
           "traits": {
             "smithy.api#required": {}
           }
+        },
+        "userAssignedIdentities": {
+          "target": "com.azure.storage#UserAssignedIdentities"
         }
       },
       "traits": {
-        "smithy.api#documentation": "Managed service identity (either system assigned, or none)"
+        "smithy.api#documentation": "Managed service identity (system assigned and/or user assigned identities)"
       }
     },
-    "com.azure.storage#SystemAssignedServiceIdentityType": {
+    "com.azure.storage#UserAssignedIdentities": {
+      "type": "map",
+      "key": {
+        "target": "smithy.api#String"
+      },
+      "value": {
+        "target": "com.azure.storage#UserAssignedIdentity",
+        "traits": {
+          "com.distilled.openapi#nullable": {}
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The set of user assigned identities associated with the resource. The userAssignedIdentities dictionary keys will be ARM resource ids in the form: '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}. The dictionary values can be empty objects ({}) in requests."
+      }
+    },
+    "com.azure.storage#ManagedServiceIdentityType": {
       "type": "enum",
       "members": {
         "NONE": {
@@ -21515,10 +22711,22 @@
           "traits": {
             "smithy.api#enumValue": "SystemAssigned"
           }
+        },
+        "USERASSIGNED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "UserAssigned"
+          }
+        },
+        "SYSTEMASSIGNED_USERASSIGNED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "SystemAssigned,UserAssigned"
+          }
         }
       },
       "traits": {
-        "smithy.api#documentation": "Type of managed service identity (either system assigned, or none)."
+        "smithy.api#documentation": "Type of managed service identity (where both SystemAssigned and UserAssigned types are allowed)."
       }
     },
     "com.azure.storage#ContextCacheProperties": {
@@ -21746,7 +22954,7 @@
         "identity": {
           "target": "com.azure.storage#UpdateContextCachRequestIdentity",
           "traits": {
-            "smithy.api#documentation": "Managed service identity (either system assigned, or none)"
+            "smithy.api#documentation": "Managed service identity (system assigned and/or user assigned identities)"
           }
         },
         "properties": {
@@ -21784,14 +22992,32 @@
       "type": "structure",
       "members": {
         "type": {
-          "target": "com.azure.storage#SystemAssignedServiceIdentityType",
+          "target": "com.azure.storage#ManagedServiceIdentityType",
           "traits": {
             "smithy.api#required": {}
           }
+        },
+        "userAssignedIdentities": {
+          "target": "com.azure.storage#UserAssignedIdentitiesInput"
         }
       },
       "traits": {
-        "smithy.api#documentation": "Managed service identity (either system assigned, or none)"
+        "smithy.api#documentation": "Managed service identity (system assigned and/or user assigned identities)"
+      }
+    },
+    "com.azure.storage#UserAssignedIdentitiesInput": {
+      "type": "map",
+      "key": {
+        "target": "smithy.api#String"
+      },
+      "value": {
+        "target": "com.azure.storage#UserAssignedIdentityInput",
+        "traits": {
+          "com.distilled.openapi#nullable": {}
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The set of user assigned identities associated with the resource. The userAssignedIdentities dictionary keys will be ARM resource ids in the form: '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}. The dictionary values can be empty objects ({}) in requests."
       }
     },
     "com.azure.storage#UpdateContextCachRequestTagsMap": {
@@ -21819,10 +23045,10 @@
           "method": "PUT",
           "uri": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Storage/contextCaches/{contextCacheName}",
           "code": 200,
-          "apiVersion": "2026-06-01"
+          "apiVersion": "2026-09-01"
         },
         "smithy.api#documentation": "Create or update a Context Cache.",
-        "com.distilled.openapi#apiVersion": "2026-06-01"
+        "com.distilled.openapi#apiVersion": "2026-09-01"
       }
     },
     "com.azure.storage#ContextCachesCreateOrUpdateResponse": {
@@ -21875,7 +23101,7 @@
         "identity": {
           "target": "com.azure.storage#ContextCachesCreateOrUpdateResponseIdentity",
           "traits": {
-            "smithy.api#documentation": "Managed service identity (either system assigned, or none)"
+            "smithy.api#documentation": "Managed service identity (system assigned and/or user assigned identities)"
           }
         }
       },
@@ -21899,14 +23125,17 @@
           }
         },
         "type": {
-          "target": "com.azure.storage#SystemAssignedServiceIdentityType",
+          "target": "com.azure.storage#ManagedServiceIdentityType",
           "traits": {
             "smithy.api#required": {}
           }
+        },
+        "userAssignedIdentities": {
+          "target": "com.azure.storage#UserAssignedIdentities"
         }
       },
       "traits": {
-        "smithy.api#documentation": "Managed service identity (either system assigned, or none)"
+        "smithy.api#documentation": "Managed service identity (system assigned and/or user assigned identities)"
       }
     },
     "com.azure.storage#ContextCachesCreateOrUpdateResponseTagsMap": {
@@ -21971,7 +23200,7 @@
         "identity": {
           "target": "com.azure.storage#ContextCachesCreateOrUpdateRequestIdentity",
           "traits": {
-            "smithy.api#documentation": "Managed service identity (either system assigned, or none)"
+            "smithy.api#documentation": "Managed service identity (system assigned and/or user assigned identities)"
           }
         }
       },
@@ -21983,14 +23212,17 @@
       "type": "structure",
       "members": {
         "type": {
-          "target": "com.azure.storage#SystemAssignedServiceIdentityType",
+          "target": "com.azure.storage#ManagedServiceIdentityType",
           "traits": {
             "smithy.api#required": {}
           }
+        },
+        "userAssignedIdentities": {
+          "target": "com.azure.storage#UserAssignedIdentitiesInput"
         }
       },
       "traits": {
-        "smithy.api#documentation": "Managed service identity (either system assigned, or none)"
+        "smithy.api#documentation": "Managed service identity (system assigned and/or user assigned identities)"
       }
     },
     "com.azure.storage#ContextCachePropertiesInput": {
@@ -22045,10 +23277,10 @@
           "method": "GET",
           "uri": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Storage/contextCaches/{contextCacheName}",
           "code": 200,
-          "apiVersion": "2026-06-01"
+          "apiVersion": "2026-09-01"
         },
         "smithy.api#documentation": "Get a Context Cache.",
-        "com.distilled.openapi#apiVersion": "2026-06-01"
+        "com.distilled.openapi#apiVersion": "2026-09-01"
       }
     },
     "com.azure.storage#GetContextCachResponse": {
@@ -22101,7 +23333,7 @@
         "identity": {
           "target": "com.azure.storage#GetContextCachResponseIdentity",
           "traits": {
-            "smithy.api#documentation": "Managed service identity (either system assigned, or none)"
+            "smithy.api#documentation": "Managed service identity (system assigned and/or user assigned identities)"
           }
         }
       },
@@ -22125,14 +23357,17 @@
           }
         },
         "type": {
-          "target": "com.azure.storage#SystemAssignedServiceIdentityType",
+          "target": "com.azure.storage#ManagedServiceIdentityType",
           "traits": {
             "smithy.api#required": {}
           }
+        },
+        "userAssignedIdentities": {
+          "target": "com.azure.storage#UserAssignedIdentities"
         }
       },
       "traits": {
-        "smithy.api#documentation": "Managed service identity (either system assigned, or none)"
+        "smithy.api#documentation": "Managed service identity (system assigned and/or user assigned identities)"
       }
     },
     "com.azure.storage#GetContextCachResponseTagsMap": {
@@ -22192,10 +23427,10 @@
           "method": "GET",
           "uri": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Storage/contextCaches",
           "code": 200,
-          "apiVersion": "2026-06-01"
+          "apiVersion": "2026-09-01"
         },
         "smithy.api#documentation": "List Context Caches by resource group.",
-        "com.distilled.openapi#apiVersion": "2026-06-01"
+        "com.distilled.openapi#apiVersion": "2026-09-01"
       }
     },
     "com.azure.storage#ContextCacheListResult": {
@@ -22278,7 +23513,7 @@
         "identity": {
           "target": "com.azure.storage#ContextCacheIdentity",
           "traits": {
-            "smithy.api#documentation": "Managed service identity (either system assigned, or none)"
+            "smithy.api#documentation": "Managed service identity (system assigned and/or user assigned identities)"
           }
         }
       },
@@ -22302,14 +23537,17 @@
           }
         },
         "type": {
-          "target": "com.azure.storage#SystemAssignedServiceIdentityType",
+          "target": "com.azure.storage#ManagedServiceIdentityType",
           "traits": {
             "smithy.api#required": {}
           }
+        },
+        "userAssignedIdentities": {
+          "target": "com.azure.storage#UserAssignedIdentities"
         }
       },
       "traits": {
-        "smithy.api#documentation": "Managed service identity (either system assigned, or none)"
+        "smithy.api#documentation": "Managed service identity (system assigned and/or user assigned identities)"
       }
     },
     "com.azure.storage#ContextCacheTagsMap": {
@@ -22361,10 +23599,10 @@
           "method": "GET",
           "uri": "/subscriptions/{subscriptionId}/providers/Microsoft.Storage/storageAccounts",
           "code": 200,
-          "apiVersion": "2026-06-01"
+          "apiVersion": "2026-09-01"
         },
         "smithy.api#documentation": "Lists all the storage accounts available under the subscription. Note that storage keys are not returned; use the ListKeys operation for this.",
-        "com.distilled.openapi#apiVersion": "2026-06-01"
+        "com.distilled.openapi#apiVersion": "2026-09-01"
       }
     },
     "com.azure.storage#ListStorageAccountsRequest": {
@@ -22396,10 +23634,10 @@
           "method": "GET",
           "uri": "/subscriptions/{subscriptionId}/providers/Microsoft.Storage/skus",
           "code": 200,
-          "apiVersion": "2026-06-01"
+          "apiVersion": "2026-09-01"
         },
         "smithy.api#documentation": "Lists the available SKUs supported by Microsoft.Storage for given subscription.",
-        "com.distilled.openapi#apiVersion": "2026-06-01"
+        "com.distilled.openapi#apiVersion": "2026-09-01"
       }
     },
     "com.azure.storage#StorageSkuListResult": {
@@ -22647,10 +23885,10 @@
           "method": "GET",
           "uri": "/subscriptions/{subscriptionId}/providers/Microsoft.Storage/locations/{location}/usages",
           "code": 200,
-          "apiVersion": "2026-06-01"
+          "apiVersion": "2026-09-01"
         },
         "smithy.api#documentation": "Gets the current usage count and the limit for the resources of the location under the subscription.",
-        "com.distilled.openapi#apiVersion": "2026-06-01"
+        "com.distilled.openapi#apiVersion": "2026-09-01"
       }
     },
     "com.azure.storage#UsageListResult": {
@@ -22812,10 +24050,10 @@
           "method": "GET",
           "uri": "/subscriptions/{subscriptionId}/providers/Microsoft.Storage/locations/{location}/deletedAccounts/{deletedAccountName}",
           "code": 200,
-          "apiVersion": "2026-06-01"
+          "apiVersion": "2026-09-01"
         },
         "smithy.api#documentation": "Get properties of specified deleted account resource.",
-        "com.distilled.openapi#apiVersion": "2026-06-01"
+        "com.distilled.openapi#apiVersion": "2026-09-01"
       }
     },
     "com.azure.storage#GetDeletedAccountResponse": {
@@ -22939,10 +24177,10 @@
           "method": "GET",
           "uri": "/subscriptions/{subscriptionId}/providers/Microsoft.Storage/deletedAccounts",
           "code": 200,
-          "apiVersion": "2026-06-01"
+          "apiVersion": "2026-09-01"
         },
         "smithy.api#documentation": "Lists deleted accounts under the subscription.",
-        "com.distilled.openapi#apiVersion": "2026-06-01"
+        "com.distilled.openapi#apiVersion": "2026-09-01"
       }
     },
     "com.azure.storage#DeletedAccountListResult": {
@@ -23042,10 +24280,10 @@
           "method": "GET",
           "uri": "/subscriptions/{subscriptionId}/providers/Microsoft.Storage/contextCaches",
           "code": 200,
-          "apiVersion": "2026-06-01"
+          "apiVersion": "2026-09-01"
         },
         "smithy.api#documentation": "List Context Caches by subscription.",
-        "com.distilled.openapi#apiVersion": "2026-06-01"
+        "com.distilled.openapi#apiVersion": "2026-09-01"
       }
     },
     "com.azure.storage#ListContextCachBySubscriptionRequest": {
@@ -23064,6 +24302,116 @@
         "smithy.api#input": {}
       }
     },
+    "com.azure.storage#CheckContextCachNameAvailability": {
+      "type": "operation",
+      "input": {
+        "target": "com.azure.storage#CheckContextCachNameAvailabilityRequest"
+      },
+      "output": {
+        "target": "com.azure.storage#ContextCacheCheckNameAvailabilityResult"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/subscriptions/{subscriptionId}/providers/Microsoft.Storage/contextCacheCheckNameAvailability",
+          "code": 200,
+          "apiVersion": "2026-09-01"
+        },
+        "smithy.api#documentation": "Check the availability of a context cache resource name.",
+        "com.distilled.openapi#apiVersion": "2026-09-01"
+      }
+    },
+    "com.azure.storage#ContextCacheCheckNameAvailabilityResult": {
+      "type": "structure",
+      "members": {
+        "nameAvailable": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "A boolean value that indicates whether the context cache name is available to use. If true, the name is available. If false, the name has already been taken or is invalid and cannot be used.",
+            "smithy.api#required": {}
+          }
+        },
+        "reason": {
+          "target": "com.azure.storage#ContextCacheCheckNameAvailabilityFailureReason",
+          "traits": {
+            "smithy.api#documentation": "The reason why the context cache name is not available. The Reason element is only returned if NameAvailable is false"
+          }
+        },
+        "message": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The error message providing additional information about the context cache name availability check failure."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The result of the context cache name availability check."
+      }
+    },
+    "com.azure.storage#ContextCacheCheckNameAvailabilityFailureReason": {
+      "type": "enum",
+      "members": {
+        "ALREADYEXISTS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "AlreadyExists"
+          }
+        },
+        "CONTEXTCACHENAMEINVALID": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "ContextCacheNameInvalid"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The reason why the context cache name is not available. The Reason element is only returned if NameAvailable is false."
+      }
+    },
+    "com.azure.storage#CheckContextCachNameAvailabilityRequest": {
+      "type": "structure",
+      "members": {
+        "subscriptionId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The ID of the target subscription. The value must be an UUID."
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The name of the context cache resource to check for availability.",
+            "smithy.api#required": {}
+          }
+        },
+        "type": {
+          "target": "com.azure.storage#CheckContextCachNameAvailabilityRequestType",
+          "traits": {
+            "smithy.api#documentation": "The type of the context cache resource to check for availability.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.azure.storage#CheckContextCachNameAvailabilityRequestType": {
+      "type": "enum",
+      "members": {
+        "MICROSOFT_STORAGE_CONTEXTCACHES": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "Microsoft.Storage/contextCaches"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The type of the context cache resource to check for availability."
+      }
+    },
     "com.azure.storage#CheckStorageAccountNameAvailability": {
       "type": "operation",
       "input": {
@@ -23077,10 +24425,10 @@
           "method": "POST",
           "uri": "/subscriptions/{subscriptionId}/providers/Microsoft.Storage/checkNameAvailability",
           "code": 200,
-          "apiVersion": "2026-06-01"
+          "apiVersion": "2026-09-01"
         },
         "smithy.api#documentation": "Checks that the storage account name is valid and is not already in use.",
-        "com.distilled.openapi#apiVersion": "2026-06-01"
+        "com.distilled.openapi#apiVersion": "2026-09-01"
       }
     },
     "com.azure.storage#CheckNameAvailabilityResult": {
@@ -23186,10 +24534,10 @@
           "method": "GET",
           "uri": "/providers/Microsoft.Storage/operations",
           "code": 200,
-          "apiVersion": "2026-06-01"
+          "apiVersion": "2026-09-01"
         },
         "smithy.api#documentation": "Lists all of the available Storage Rest API operations.",
-        "com.distilled.openapi#apiVersion": "2026-06-01"
+        "com.distilled.openapi#apiVersion": "2026-09-01"
       }
     },
     "com.azure.storage#OperationListResult": {
@@ -23414,6 +24762,9 @@
       "type": "service",
       "version": "1.0",
       "operations": [
+        {
+          "target": "com.azure.storage#TestBlobAccessPointConnectionTestProposedConnection"
+        },
         {
           "target": "com.azure.storage#DeleteTable"
         },
@@ -23721,6 +25072,24 @@
           "target": "com.azure.storage#ListBlobServices"
         },
         {
+          "target": "com.azure.storage#TestBlobAccessPointConfigurationExistingConnection"
+        },
+        {
+          "target": "com.azure.storage#DeleteBlobAccessPointConfiguration"
+        },
+        {
+          "target": "com.azure.storage#UpdateBlobAccessPointConfiguration"
+        },
+        {
+          "target": "com.azure.storage#CreateBlobAccessPointConfiguration"
+        },
+        {
+          "target": "com.azure.storage#GetBlobAccessPointConfiguration"
+        },
+        {
+          "target": "com.azure.storage#ListBlobAccessPointConfigurationByStorageAccount"
+        },
+        {
           "target": "com.azure.storage#DeleteAdvancedPlatformMetrics"
         },
         {
@@ -23800,6 +25169,9 @@
         },
         {
           "target": "com.azure.storage#ListContextCachBySubscription"
+        },
+        {
+          "target": "com.azure.storage#CheckContextCachNameAvailability"
         },
         {
           "target": "com.azure.storage#CheckStorageAccountNameAvailability"
