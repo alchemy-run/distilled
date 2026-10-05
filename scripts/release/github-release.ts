@@ -1,4 +1,4 @@
-#!/usr/bin/env -S node --conditions=bun
+#!/usr/bin/env node
 /**
  * Create a GitHub release for a tag, with channel-aware prerelease/latest flags.
  *

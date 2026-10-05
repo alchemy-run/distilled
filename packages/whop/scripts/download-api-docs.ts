@@ -1,4 +1,4 @@
-#!/usr/bin/env -S node --conditions=bun
+#!/usr/bin/env node
 /**
  * Download every Whop docs page as Markdown.
  *
@@ -36,10 +36,10 @@
  * specs/docs/_manifest.json.
  *
  * Usage:
- *   node --conditions=bun scripts/download-api-docs.ts
- *   node --conditions=bun scripts/download-api-docs.ts --concurrency 16
- *   node --conditions=bun scripts/download-api-docs.ts --limit 20        # smoke test
- *   node --conditions=bun scripts/download-api-docs.ts --out specs/docs --force
+ *   node scripts/download-api-docs.ts
+ *   node scripts/download-api-docs.ts --concurrency 16
+ *   node scripts/download-api-docs.ts --limit 20        # smoke test
+ *   node scripts/download-api-docs.ts --out specs/docs --force
  */
 
 import { NodeRuntime, NodeServices } from "@effect/platform-node";

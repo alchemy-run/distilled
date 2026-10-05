@@ -3,9 +3,9 @@
   "private": true,
   "type": "module",
   "scripts": {
-    "bench": "node --conditions=bun run.ts",
-    "bench:full": "node --conditions=bun run.ts --full",
-    "bench:record": "node --conditions=bun run.ts --record",
+    "bench": "node run.ts",
+    "bench:full": "node run.ts --full",
+    "bench:record": "node run.ts --record",
     "typecheck": "tsc -p tsconfig.json"
   },
   "devDependencies": {

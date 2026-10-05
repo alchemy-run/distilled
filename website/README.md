@@ -88,12 +88,12 @@ set `<link rel="canonical">` to `/`, since they are share targets rather than
 ## Social cards
 
 `public/og.png` is rendered from `assets/og.html` by
-`node --conditions=bun scripts/og.ts`, which needs a local Chromium (Playwright's cache or `CHROMIUM=…`). It is committed so
+`node scripts/og.ts`, which needs a local Chromium (Playwright's cache or `CHROMIUM=…`). It is committed so
 the site build never needs a browser. The card is laid out at 1200×630 and
 rasterized at 2× for high-density displays, so `Seo.tsx` declares 2400×1260 —
 change both together.
 
-`node --conditions=bun scripts/og.ts --all` additionally renders
+`node scripts/og.ts --all` additionally renders
 `assets/og-provider.html` once per provider into `public/og/`, each carrying that provider's install line,
 operation count and patch record — ranked on the Wall of Shame, zero fixes, or
 the honour roll — plus `assets/og-shame.html` to `public/og/shame.png`, which

@@ -1,4 +1,4 @@
-#!/usr/bin/env -S node --conditions=bun
+#!/usr/bin/env node
 /**
  * generate-all — regenerate every SDK in the monorepo, then format.
  *

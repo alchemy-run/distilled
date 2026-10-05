@@ -4,7 +4,7 @@
  * cold start (native binding load, resolver caches, plugin package cache);
  * later builds in the same process are the warm number.
  *
- * Usage: `node --conditions=bun src/build.ts '<BuildRequest json>'` — prints `BuildResult` JSON.
+ * Usage: `node src/build.ts '<BuildRequest json>'` — prints `BuildResult` JSON.
  */
 import * as fs from "node:fs/promises";
 import * as path from "node:path";

@@ -1,4 +1,4 @@
-#!/usr/bin/env -S node --conditions=bun
+#!/usr/bin/env node
 /**
  * Download Whop's two OpenAPI descriptions.
  *
@@ -33,9 +33,9 @@
  * no diff and a malformed download fails HERE instead of in convert.
  *
  * Usage:
- *   node --conditions=bun scripts/download-spec.ts
- *   node --conditions=bun scripts/download-spec.ts --out specs
- *   node --conditions=bun scripts/download-spec.ts --origin https://docs.whop.com
+ *   node scripts/download-spec.ts
+ *   node scripts/download-spec.ts --out specs
+ *   node scripts/download-spec.ts --origin https://docs.whop.com
  */
 
 import { NodeRuntime, NodeServices } from "@effect/platform-node";

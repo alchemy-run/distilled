@@ -1,12 +1,12 @@
-#!/usr/bin/env -S node --conditions=bun
+#!/usr/bin/env node
 /**
  * Renders the social cards with a local headless Chromium.
  *
- * - `node --conditions=bun scripts/og.ts` renders `assets/og.html` to
+ * - `node scripts/og.ts` renders `assets/og.html` to
  *   `public/og.png`, the generic card. That file is committed, so the site
  *   build never needs a browser to have a card for `/`, `/bench` and
  *   `/shame`.
- * - `node --conditions=bun scripts/og.ts --all` additionally renders
+ * - `node scripts/og.ts --all` additionally renders
  *   `assets/og-provider.html` once per provider to
  *   `public/og/<provider>.png`, and `assets/og-shame.html` to
  *   `public/og/shame.png`. Those carry patch counts and standings, which

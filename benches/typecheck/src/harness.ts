@@ -50,7 +50,7 @@ export const parseArgs = (argv: ReadonlyArray<string>): BenchOptions => {
     else if (a.startsWith("--filter=")) filter = new RegExp(a.slice(9));
     else if (a === "-h" || a === "--help") {
       console.log(
-        "usage: node --conditions=bun run.ts [--full] [--runs N] [--filter <regex>] [--json] [--record]\n" +
+        "usage: node run.ts [--full] [--runs N] [--filter <regex>] [--json] [--record]\n" +
           "  --full     every SDK package (default: core, aws, cloudflare) + monorepo\n" +
           "  --runs N   repeat each clean+incremental cycle N times, report the best (default 1)\n" +
           "  --filter   only targets whose name matches (core|aws|cloudflare|monorepo|…)\n" +

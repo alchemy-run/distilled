@@ -1,4 +1,4 @@
-#!/usr/bin/env -S node --conditions=bun
+#!/usr/bin/env node
 /**
  * patches — find RFC-6902 patches a package's spec no longer needs.
  *

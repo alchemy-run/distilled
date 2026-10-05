@@ -3,7 +3,7 @@
  * `endpoints[]` (regional `*.{location}.rep.googleapis.com` hosts and
  * locational `{location}-*.googleapis.com` hosts).
  *
- *   node --conditions=bun scripts/regional-endpoints.ts
+ *   node scripts/regional-endpoints.ts
  */
 import * as fs from "node:fs";
 import * as path from "node:path";

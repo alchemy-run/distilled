@@ -65,7 +65,7 @@
   },
   "scripts": {
     "build": "tsc -b",
-    "download-docs": "node --conditions=bun scripts/download-docs.ts",
+    "download-docs": "node scripts/download-docs.ts",
     "convert": "node --conditions=bun scripts/convert.ts",
     "generate": "node --conditions=bun scripts/convert.ts && node --conditions=bun scripts/generate.ts",
     "typecheck": "tsc -p tsconfig.json"

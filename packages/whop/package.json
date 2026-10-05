@@ -75,8 +75,8 @@
     "convert": "node --conditions=bun scripts/convert.ts",
     "generate": "node --conditions=bun scripts/generate.ts",
     "typecheck": "tsc -p tsconfig.json",
-    "spec:download": "node --conditions=bun scripts/download-spec.ts",
-    "docs:download": "node --conditions=bun scripts/download-api-docs.ts"
+    "spec:download": "node scripts/download-spec.ts",
+    "docs:download": "node scripts/download-api-docs.ts"
   },
   "dependencies": {
     "@distilled.cloud/core": "workspace:*"

@@ -1,7 +1,7 @@
 /**
  * Rolldown bundle benchmark for Distilled SDKs.
  *
- *   node --conditions=bun benches/bundle/run.ts [--runs N] [--only name,…] [--variants a,b]
+ *   node benches/bundle/run.ts [--runs N] [--only name,…] [--variants a,b]
  *                                             [--all-variants] [--json] [--keep]
  *                                             [--out results/latest.json]
  *
@@ -139,11 +139,10 @@ async function runOne(fixture: Fixture, variant: BuildVariant): Promise<Row> {
     variant,
     runs,
   };
-  const proc = spawn(
-    process.execPath,
-    ["--conditions=bun", path.join(here, "src/build.ts"), JSON.stringify(req)],
-    { cwd: here, stdio: ["ignore", "pipe", "inherit"] },
-  );
+  const proc = spawn(process.execPath, [path.join(here, "src/build.ts"), JSON.stringify(req)], {
+    cwd: here,
+    stdio: ["ignore", "pipe", "inherit"],
+  });
   const chunks: Buffer[] = [];
   proc.stdout.on("data", (chunk: Buffer) => chunks.push(chunk));
   const code = await new Promise<number>((resolve, reject) => {

@@ -1,4 +1,4 @@
-#!/usr/bin/env -S node --conditions=bun
+#!/usr/bin/env node
 /**
  * import-distilled-patches — mechanically author patches/<service>/<op>.json
  * by mining a local checkout of the distilled repo.
@@ -20,7 +20,7 @@
  * error-metadata oracle, never as the type source.
  *
  * Usage:
- *   node --conditions=bun scripts/import-distilled-patches.ts [--distilled D:/code/alchemy/distilled]
+ *   node scripts/import-distilled-patches.ts [--distilled D:/code/alchemy/distilled]
  */
 
 import * as fs from "node:fs";

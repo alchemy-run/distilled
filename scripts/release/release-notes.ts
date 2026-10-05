@@ -1,4 +1,4 @@
-#!/usr/bin/env -S node --conditions=bun
+#!/usr/bin/env node
 import { readFile, writeFile } from "node:fs/promises";
 import { join } from "node:path";
 /**

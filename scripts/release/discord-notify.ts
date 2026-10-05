@@ -1,4 +1,4 @@
-#!/usr/bin/env -S node --conditions=bun
+#!/usr/bin/env node
 /**
  * Post a release announcement to Discord as a single embed. The body is
  * read verbatim from the CHANGELOG.md entry the release-notes step just

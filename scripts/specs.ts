@@ -1,4 +1,4 @@
-#!/usr/bin/env -S node --conditions=bun
+#!/usr/bin/env node
 /**
  * specs — the spec-mirror workflow, from a local working copy to a real
  * submodule.

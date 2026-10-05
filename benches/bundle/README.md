@@ -6,7 +6,7 @@ gzip), and tree-shake quality. Measurements only — nothing here fails CI.
 
 ```sh
 pnpm bench:bundle                                  # from the repo root
-node --conditions=bun benches/bundle/run.ts        # same thing
+node benches/bundle/run.ts        # same thing
 pnpm bench:bundle --only aws-s3-deep,cf-workers-deep --runs 5
 pnpm bench:bundle --all-variants --keep            # keep .out/<fixture>/<variant>/index.js
 ```

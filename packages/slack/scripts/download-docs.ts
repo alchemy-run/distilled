@@ -1,4 +1,4 @@
-#!/usr/bin/env -S node --conditions=bun
+#!/usr/bin/env node
 /**
  * Download the Slack Web API reference as JSON.
  *
@@ -31,10 +31,10 @@
  * and the run continues.
  *
  * Usage:
- *   node --conditions=bun scripts/download-docs.ts
- *   node --conditions=bun scripts/download-docs.ts --concurrency 16
- *   node --conditions=bun scripts/download-docs.ts --limit 20        # smoke test
- *   node --conditions=bun scripts/download-docs.ts --force
+ *   node scripts/download-docs.ts
+ *   node scripts/download-docs.ts --concurrency 16
+ *   node scripts/download-docs.ts --limit 20        # smoke test
+ *   node scripts/download-docs.ts --force
  */
 
 import { NodeRuntime, NodeServices } from "@effect/platform-node";

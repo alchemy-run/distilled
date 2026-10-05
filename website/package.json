@@ -10,7 +10,7 @@
   },
   "type": "module",
   "scripts": {
-    "build": "node --conditions=bun scripts/og.ts --all && vite build && node build/finish.ts",
+    "build": "node scripts/og.ts --all && vite build && node build/finish.ts",
     "dev:site": "vite dev",
     "preview": "vite preview",
     "deploy": "pnpm exec alchemy deploy",
