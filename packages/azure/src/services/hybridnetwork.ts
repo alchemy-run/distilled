@@ -3441,6 +3441,31 @@ export type ListArtifactManifestCredentialResponseCredentialType =
   | "AzureStorageAccountToken";
 export const ListArtifactManifestCredentialResponseCredentialType = S.String;
 
+/** A storage container push credential (`AzureStorageAccountToken`). */
+export interface ArtifactManifestContainerCredential {
+  /** The storage container name. */
+  containerName?: string;
+  /** The container SAS URI. */
+  containerSasUri?: string | Redacted.Redacted<string>;
+  /** The UTC time when the container SAS expires. */
+  expiry?: string;
+}
+export const ArtifactManifestContainerCredential = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    containerName: S.optional(S.String),
+    containerSasUri: S.optional(S.String.pipe(T.SensitiveValue({}))),
+    expiry: S.optional(S.String),
+  }),
+).annotate({
+  identifier: "ArtifactManifestContainerCredential",
+}) as any as S.Schema<ArtifactManifestContainerCredential>;
+
+/** Storage container push credentials. */
+export type ArtifactManifestContainerCredentialList = Array<ArtifactManifestContainerCredential>;
+export const ArtifactManifestContainerCredentialList = /*@__PURE__*/ S.Array(
+  ArtifactManifestContainerCredential,
+) as any as S.Schema<ArtifactManifestContainerCredentialList>;
+
 export interface ListArtifactManifestCredentialResponse {
   /** The credential type. */
   credentialType: ListArtifactManifestCredentialResponseCredentialType;
@@ -3454,6 +3479,10 @@ export interface ListArtifactManifestCredentialResponse {
   repositories?: NetworkFunctionPropertiesFormatRoleOverrideValuesList;
   /** The UTC time when the credential expires. */
   expiry?: string;
+  /** The container SAS credentials (`AzureStorageAccountToken`). */
+  containerCredentials?: ArtifactManifestContainerCredentialList;
+  /** The storage account ARM ID (`AzureStorageAccountToken`). */
+  storageAccountId?: string;
 }
 export const ListArtifactManifestCredentialResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -3463,6 +3492,8 @@ export const ListArtifactManifestCredentialResponse = /*@__PURE__*/ S.suspend(()
     acrServerUrl: S.optional(S.String),
     repositories: S.optional(NetworkFunctionPropertiesFormatRoleOverrideValuesList),
     expiry: S.optional(S.String),
+    containerCredentials: S.optional(ArtifactManifestContainerCredentialList),
+    storageAccountId: S.optional(S.String),
   }),
 ).annotate({
   identifier: "ListArtifactManifestCredentialResponse",

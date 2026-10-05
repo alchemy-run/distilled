@@ -499,6 +499,18 @@ export class DeviceUpdateOperationInProgress extends Schema.TaggedError<DeviceUp
 ).pipe(Category.withConflictError) {}
 
 /**
+ * Returned by Microsoft.DeviceUpdate when an account is written or deleted
+ * while one of its instances is still being created or deleted. HTTP 400
+ * `AccountValidationFailed` with nested detail `InstanceIsNotInTerminalState`;
+ * retry once the instance settles.
+ * Azure error code: `InstanceIsNotInTerminalState`
+ */
+export class DeviceUpdateInstanceNotTerminal extends Schema.TaggedError<DeviceUpdateInstanceNotTerminal>()(
+  "DeviceUpdateInstanceNotTerminal",
+  AzureErrorFields,
+).pipe(Category.withConflictError) {}
+
+/**
  * Returned when an Azure SQL elastic job agent is still processing another
  * request (e.g. its creation); retry once it finishes.
  * Azure error code: `ElasticJobAgentIsBusy`
@@ -1301,6 +1313,8 @@ export const AZURE_ERROR_CODE_MAP: Record<string, new (props: any) => unknown> =
   PendingTransactionAlreadyExists: PendingTransactionAlreadyExists,
   StorageAccountOperationInProgress: StorageAccountOperationInProgress,
   OperationInProgress: DeviceUpdateOperationInProgress,
+  InstanceIsNotInTerminalState: DeviceUpdateInstanceNotTerminal,
+  GatewayConfigConnectionNotFound: ResourceNotFound,
   ElasticJobAgentIsBusy: ElasticJobAgentIsBusy,
   AnotherOperationInProgress: NetworkOperationInProgress,
   RetryableError: NetworkOperationInProgress,
@@ -2631,6 +2645,7 @@ export type AzureApiError =
   | LinkedStorageAccountFaulted
   | HybridComputeGatewayTransitioning
   | DeviceUpdateOperationInProgress
+  | DeviceUpdateInstanceNotTerminal
   | ArcMachineNotConnected
   | BotConnectionNotFound
   | BotConnectionDeleteInProgress

@@ -632,10 +632,16 @@ export const LimitType = S.String;
 export interface LimitJsonObject {
   /** The limit object type. */
   limitObjectType: LimitType | (string & {});
+  /** The quota limit value (`LimitValue` subtype). */
+  value?: number;
+  /** The quota limit type, e.g. `Independent` or `Shared` (`LimitValue` subtype). */
+  limitType?: string;
 }
 export const LimitJsonObject = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     limitObjectType: LimitType,
+    value: S.optional(S.Number),
+    limitType: S.optional(S.String),
   }),
 ).annotate({ identifier: "LimitJsonObject" }) as any as S.Schema<LimitJsonObject>;
 

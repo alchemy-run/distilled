@@ -81,7 +81,7 @@ export const DeleteServiceGroupMemberRelationshipRequest = /*@__PURE__*/ S.suspe
       method: "DELETE",
       uri: "/{resourceUri+}/providers/Microsoft.Relationships/serviceGroupMember/{name}",
       code: 200,
-      apiVersion: "2026-08-01",
+      apiVersion: "2023-09-01-preview",
     }),
   ),
 ).annotate({
@@ -840,21 +840,21 @@ export const ServiceGroupMemberRelationshipListResult = /*@__PURE__*/ S.suspend(
   identifier: "ServiceGroupMemberRelationshipListResult",
 }) as any as S.Schema<ServiceGroupMemberRelationshipListResult>;
 
-/** ServiceGroupMember relationship properties. */
-export interface ServiceGroupMemberRelationshipPropertiesV2Input {
-  /** The relationship source resource id. Must be a service group. */
-  sourceId: string;
-  /** The relationship source tenant id. */
-  sourceTenant?: string;
+/** ServiceGroupMember relationship properties (2023-09-01-preview request shape). */
+export interface ServiceGroupMemberRelationshipPropertiesPreviewInput {
+  /** The service group the scoped resource joins, e.g. `/providers/Microsoft.Management/serviceGroups/{name}`. */
+  targetId: string;
+  /** The tenant of the target service group. */
+  targetTenant?: string;
 }
-export const ServiceGroupMemberRelationshipPropertiesV2Input = /*@__PURE__*/ S.suspend(() =>
+export const ServiceGroupMemberRelationshipPropertiesPreviewInput = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    sourceId: S.String,
-    sourceTenant: S.optional(S.String),
+    targetId: S.String,
+    targetTenant: S.optional(S.String),
   }),
 ).annotate({
-  identifier: "ServiceGroupMemberRelationshipPropertiesV2Input",
-}) as any as S.Schema<ServiceGroupMemberRelationshipPropertiesV2Input>;
+  identifier: "ServiceGroupMemberRelationshipPropertiesPreviewInput",
+}) as any as S.Schema<ServiceGroupMemberRelationshipPropertiesPreviewInput>;
 
 export interface ServiceGroupMemberRelationshipsCreateOrUpdateRequest {
   /** The fully qualified Azure Resource manager identifier of the resource. */
@@ -862,24 +862,52 @@ export interface ServiceGroupMemberRelationshipsCreateOrUpdateRequest {
   /** Name of ServiceGroupMember relationship. */
   name: string;
   /** The resource-specific properties for this resource. */
-  properties?: ServiceGroupMemberRelationshipPropertiesV2Input;
+  properties?: ServiceGroupMemberRelationshipPropertiesPreviewInput;
 }
 export const ServiceGroupMemberRelationshipsCreateOrUpdateRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     resourceUri: S.String.pipe(T.Label()),
     name: S.String.pipe(T.Label()),
-    properties: S.optional(ServiceGroupMemberRelationshipPropertiesV2Input),
+    properties: S.optional(ServiceGroupMemberRelationshipPropertiesPreviewInput),
   }).pipe(
     T.Http({
       method: "PUT",
       uri: "/{resourceUri+}/providers/Microsoft.Relationships/serviceGroupMember/{name}",
       code: 200,
-      apiVersion: "2026-08-01",
+      apiVersion: "2023-09-01-preview",
     }),
   ),
 ).annotate({
   identifier: "ServiceGroupMemberRelationshipsCreateOrUpdateRequest",
 }) as any as S.Schema<ServiceGroupMemberRelationshipsCreateOrUpdateRequest>;
+
+/** ServiceGroupMember relationship properties (2023-09-01-preview response shape). */
+export interface ServiceGroupMemberRelationshipPropertiesPreview {
+  /** The service group the scoped resource joins. */
+  targetId?: string;
+  /** The scoped (member) resource id. */
+  sourceId?: string;
+  /** The tenant of the target service group. */
+  targetTenant?: string;
+  /** Information about the origin of the relationship. */
+  originInformation?: RelationshipOriginInformation;
+  /** Metadata about the relationship. */
+  metadata?: RelationshipMetadata;
+  /** The provisioning state of the relationship. */
+  provisioningState?: ProvisioningState;
+}
+export const ServiceGroupMemberRelationshipPropertiesPreview = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    targetId: S.optional(S.String),
+    sourceId: S.optional(S.String),
+    targetTenant: S.optional(S.String),
+    originInformation: S.optional(RelationshipOriginInformation),
+    metadata: S.optional(RelationshipMetadata),
+    provisioningState: S.optional(ProvisioningState),
+  }),
+).annotate({
+  identifier: "ServiceGroupMemberRelationshipPropertiesPreview",
+}) as any as S.Schema<ServiceGroupMemberRelationshipPropertiesPreview>;
 
 export interface ServiceGroupMemberRelationshipsCreateOrUpdateResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
@@ -891,7 +919,7 @@ export interface ServiceGroupMemberRelationshipsCreateOrUpdateResponse {
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
   systemData?: SystemData;
   /** The resource-specific properties for this resource. */
-  properties?: ServiceGroupMemberRelationshipPropertiesV2;
+  properties?: ServiceGroupMemberRelationshipPropertiesPreview;
 }
 export const ServiceGroupMemberRelationshipsCreateOrUpdateResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -899,7 +927,7 @@ export const ServiceGroupMemberRelationshipsCreateOrUpdateResponse = /*@__PURE__
     name: S.optional(S.String),
     type: S.optional(S.String),
     systemData: S.optional(SystemData),
-    properties: S.optional(ServiceGroupMemberRelationshipPropertiesV2),
+    properties: S.optional(ServiceGroupMemberRelationshipPropertiesPreview),
   }),
 ).annotate({
   identifier: "ServiceGroupMemberRelationshipsCreateOrUpdateResponse",
