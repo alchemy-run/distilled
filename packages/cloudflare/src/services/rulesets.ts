@@ -4400,124 +4400,125 @@ export const RulesCreateResultRulesetRulesItemRedirectRule = /*@__PURE__*/ S.sus
 export type RulesCreateResultRulesetRulesItemRewriteRuleAction = "rewrite";
 export const RulesCreateResultRulesetRulesItemRewriteRuleAction = S.String;
 
-export type RulesCreateResultRulesetRulesItemRewriteRuleActionParametersHeadersAddStaticHeaderOperation =
+export type RulesCreateResultRulesetRulesItemRewriteRuleActionParametersHeadersValueAddStaticHeaderOperation =
   "add";
-export const RulesCreateResultRulesetRulesItemRewriteRuleActionParametersHeadersAddStaticHeaderOperation =
+export const RulesCreateResultRulesetRulesItemRewriteRuleActionParametersHeadersValueAddStaticHeaderOperation =
   S.String;
 
-export interface RulesCreateResultRulesetRulesItemRewriteRuleActionParametersHeadersAddStaticHeader {
+export interface RulesCreateResultRulesetRulesItemRewriteRuleActionParametersHeadersValueAddStaticHeader {
   /** The operation to perform on the header. */
-  operation: RulesCreateResultRulesetRulesItemRewriteRuleActionParametersHeadersAddStaticHeaderOperation;
+  operation: RulesCreateResultRulesetRulesItemRewriteRuleActionParametersHeadersValueAddStaticHeaderOperation;
   /** A static value for the header. */
   value: string;
 }
-export const RulesCreateResultRulesetRulesItemRewriteRuleActionParametersHeadersAddStaticHeader =
+export const RulesCreateResultRulesetRulesItemRewriteRuleActionParametersHeadersValueAddStaticHeader =
   /*@__PURE__*/ S.suspend(() =>
     S.Struct({
       operation:
-        RulesCreateResultRulesetRulesItemRewriteRuleActionParametersHeadersAddStaticHeaderOperation,
+        RulesCreateResultRulesetRulesItemRewriteRuleActionParametersHeadersValueAddStaticHeaderOperation,
       value: S.String,
     }),
   ).annotate({
     identifier:
-      "RulesCreateResultRulesetRulesItemRewriteRuleActionParametersHeadersAddStaticHeader",
-  }) as any as S.Schema<RulesCreateResultRulesetRulesItemRewriteRuleActionParametersHeadersAddStaticHeader>;
+      "RulesCreateResultRulesetRulesItemRewriteRuleActionParametersHeadersValueAddStaticHeader",
+  }) as any as S.Schema<RulesCreateResultRulesetRulesItemRewriteRuleActionParametersHeadersValueAddStaticHeader>;
 
-export type RulesCreateResultRulesetRulesItemRewriteRuleActionParametersHeadersAddDynamicHeaderOperation =
+export type RulesCreateResultRulesetRulesItemRewriteRuleActionParametersHeadersValueAddDynamicHeaderOperation =
   "add";
-export const RulesCreateResultRulesetRulesItemRewriteRuleActionParametersHeadersAddDynamicHeaderOperation =
+export const RulesCreateResultRulesetRulesItemRewriteRuleActionParametersHeadersValueAddDynamicHeaderOperation =
   S.String;
 
-export interface RulesCreateResultRulesetRulesItemRewriteRuleActionParametersHeadersAddDynamicHeader {
+export interface RulesCreateResultRulesetRulesItemRewriteRuleActionParametersHeadersValueAddDynamicHeader {
   /** An expression that evaluates to a value for the header. */
   expression: string;
   /** The operation to perform on the header. */
-  operation: RulesCreateResultRulesetRulesItemRewriteRuleActionParametersHeadersAddDynamicHeaderOperation;
+  operation: RulesCreateResultRulesetRulesItemRewriteRuleActionParametersHeadersValueAddDynamicHeaderOperation;
 }
-export const RulesCreateResultRulesetRulesItemRewriteRuleActionParametersHeadersAddDynamicHeader =
+export const RulesCreateResultRulesetRulesItemRewriteRuleActionParametersHeadersValueAddDynamicHeader =
   /*@__PURE__*/ S.suspend(() =>
     S.Struct({
       expression: S.String,
       operation:
-        RulesCreateResultRulesetRulesItemRewriteRuleActionParametersHeadersAddDynamicHeaderOperation,
+        RulesCreateResultRulesetRulesItemRewriteRuleActionParametersHeadersValueAddDynamicHeaderOperation,
     }),
   ).annotate({
     identifier:
-      "RulesCreateResultRulesetRulesItemRewriteRuleActionParametersHeadersAddDynamicHeader",
-  }) as any as S.Schema<RulesCreateResultRulesetRulesItemRewriteRuleActionParametersHeadersAddDynamicHeader>;
+      "RulesCreateResultRulesetRulesItemRewriteRuleActionParametersHeadersValueAddDynamicHeader",
+  }) as any as S.Schema<RulesCreateResultRulesetRulesItemRewriteRuleActionParametersHeadersValueAddDynamicHeader>;
 
-export type RulesCreateResultRulesetRulesItemRewriteRuleActionParametersHeadersSetStaticHeaderOperation =
+export type RulesCreateResultRulesetRulesItemRewriteRuleActionParametersHeadersValueSetStaticHeaderOperation =
   "set";
-export const RulesCreateResultRulesetRulesItemRewriteRuleActionParametersHeadersSetStaticHeaderOperation =
+export const RulesCreateResultRulesetRulesItemRewriteRuleActionParametersHeadersValueSetStaticHeaderOperation =
   S.String;
 
-export interface RulesCreateResultRulesetRulesItemRewriteRuleActionParametersHeadersSetStaticHeader {
+export interface RulesCreateResultRulesetRulesItemRewriteRuleActionParametersHeadersValueSetStaticHeader {
   /** The operation to perform on the header. */
-  operation: RulesCreateResultRulesetRulesItemRewriteRuleActionParametersHeadersSetStaticHeaderOperation;
+  operation: RulesCreateResultRulesetRulesItemRewriteRuleActionParametersHeadersValueSetStaticHeaderOperation;
   /** A static value for the header. */
   value: string;
 }
-export const RulesCreateResultRulesetRulesItemRewriteRuleActionParametersHeadersSetStaticHeader =
+export const RulesCreateResultRulesetRulesItemRewriteRuleActionParametersHeadersValueSetStaticHeader =
   /*@__PURE__*/ S.suspend(() =>
     S.Struct({
       operation:
-        RulesCreateResultRulesetRulesItemRewriteRuleActionParametersHeadersSetStaticHeaderOperation,
+        RulesCreateResultRulesetRulesItemRewriteRuleActionParametersHeadersValueSetStaticHeaderOperation,
       value: S.String,
     }),
   ).annotate({
     identifier:
-      "RulesCreateResultRulesetRulesItemRewriteRuleActionParametersHeadersSetStaticHeader",
-  }) as any as S.Schema<RulesCreateResultRulesetRulesItemRewriteRuleActionParametersHeadersSetStaticHeader>;
+      "RulesCreateResultRulesetRulesItemRewriteRuleActionParametersHeadersValueSetStaticHeader",
+  }) as any as S.Schema<RulesCreateResultRulesetRulesItemRewriteRuleActionParametersHeadersValueSetStaticHeader>;
 
-export type RulesCreateResultRulesetRulesItemRewriteRuleActionParametersHeadersSetDynamicHeaderOperation =
+export type RulesCreateResultRulesetRulesItemRewriteRuleActionParametersHeadersValueSetDynamicHeaderOperation =
   "set";
-export const RulesCreateResultRulesetRulesItemRewriteRuleActionParametersHeadersSetDynamicHeaderOperation =
+export const RulesCreateResultRulesetRulesItemRewriteRuleActionParametersHeadersValueSetDynamicHeaderOperation =
   S.String;
 
-export interface RulesCreateResultRulesetRulesItemRewriteRuleActionParametersHeadersSetDynamicHeader {
+export interface RulesCreateResultRulesetRulesItemRewriteRuleActionParametersHeadersValueSetDynamicHeader {
   /** An expression that evaluates to a value for the header. */
   expression: string;
   /** The operation to perform on the header. */
-  operation: RulesCreateResultRulesetRulesItemRewriteRuleActionParametersHeadersSetDynamicHeaderOperation;
+  operation: RulesCreateResultRulesetRulesItemRewriteRuleActionParametersHeadersValueSetDynamicHeaderOperation;
 }
-export const RulesCreateResultRulesetRulesItemRewriteRuleActionParametersHeadersSetDynamicHeader =
+export const RulesCreateResultRulesetRulesItemRewriteRuleActionParametersHeadersValueSetDynamicHeader =
   /*@__PURE__*/ S.suspend(() =>
     S.Struct({
       expression: S.String,
       operation:
-        RulesCreateResultRulesetRulesItemRewriteRuleActionParametersHeadersSetDynamicHeaderOperation,
+        RulesCreateResultRulesetRulesItemRewriteRuleActionParametersHeadersValueSetDynamicHeaderOperation,
     }),
   ).annotate({
     identifier:
-      "RulesCreateResultRulesetRulesItemRewriteRuleActionParametersHeadersSetDynamicHeader",
-  }) as any as S.Schema<RulesCreateResultRulesetRulesItemRewriteRuleActionParametersHeadersSetDynamicHeader>;
+      "RulesCreateResultRulesetRulesItemRewriteRuleActionParametersHeadersValueSetDynamicHeader",
+  }) as any as S.Schema<RulesCreateResultRulesetRulesItemRewriteRuleActionParametersHeadersValueSetDynamicHeader>;
 
-export type RulesCreateResultRulesetRulesItemRewriteRuleActionParametersHeadersRemoveHeaderOperation =
+export type RulesCreateResultRulesetRulesItemRewriteRuleActionParametersHeadersValueRemoveHeaderOperation =
   "remove";
-export const RulesCreateResultRulesetRulesItemRewriteRuleActionParametersHeadersRemoveHeaderOperation =
+export const RulesCreateResultRulesetRulesItemRewriteRuleActionParametersHeadersValueRemoveHeaderOperation =
   S.String;
 
-export interface RulesCreateResultRulesetRulesItemRewriteRuleActionParametersHeadersRemoveHeader {
+export interface RulesCreateResultRulesetRulesItemRewriteRuleActionParametersHeadersValueRemoveHeader {
   /** The operation to perform on the header. */
-  operation: RulesCreateResultRulesetRulesItemRewriteRuleActionParametersHeadersRemoveHeaderOperation;
+  operation: RulesCreateResultRulesetRulesItemRewriteRuleActionParametersHeadersValueRemoveHeaderOperation;
 }
-export const RulesCreateResultRulesetRulesItemRewriteRuleActionParametersHeadersRemoveHeader =
+export const RulesCreateResultRulesetRulesItemRewriteRuleActionParametersHeadersValueRemoveHeader =
   /*@__PURE__*/ S.suspend(() =>
     S.Struct({
       operation:
-        RulesCreateResultRulesetRulesItemRewriteRuleActionParametersHeadersRemoveHeaderOperation,
+        RulesCreateResultRulesetRulesItemRewriteRuleActionParametersHeadersValueRemoveHeaderOperation,
     }),
   ).annotate({
-    identifier: "RulesCreateResultRulesetRulesItemRewriteRuleActionParametersHeadersRemoveHeader",
-  }) as any as S.Schema<RulesCreateResultRulesetRulesItemRewriteRuleActionParametersHeadersRemoveHeader>;
+    identifier:
+      "RulesCreateResultRulesetRulesItemRewriteRuleActionParametersHeadersValueRemoveHeader",
+  }) as any as S.Schema<RulesCreateResultRulesetRulesItemRewriteRuleActionParametersHeadersValueRemoveHeader>;
 
-export type RulesCreateResultRulesetRulesItemRewriteRuleActionParametersHeaders =
-  | RulesCreateResultRulesetRulesItemRewriteRuleActionParametersHeadersAddStaticHeader
-  | RulesCreateResultRulesetRulesItemRewriteRuleActionParametersHeadersAddDynamicHeader
-  | RulesCreateResultRulesetRulesItemRewriteRuleActionParametersHeadersSetStaticHeader
-  | RulesCreateResultRulesetRulesItemRewriteRuleActionParametersHeadersSetDynamicHeader
-  | RulesCreateResultRulesetRulesItemRewriteRuleActionParametersHeadersRemoveHeader;
-export const RulesCreateResultRulesetRulesItemRewriteRuleActionParametersHeaders =
+export type RulesCreateResultRulesetRulesItemRewriteRuleActionParametersHeadersValue =
+  | RulesCreateResultRulesetRulesItemRewriteRuleActionParametersHeadersValueAddStaticHeader
+  | RulesCreateResultRulesetRulesItemRewriteRuleActionParametersHeadersValueAddDynamicHeader
+  | RulesCreateResultRulesetRulesItemRewriteRuleActionParametersHeadersValueSetStaticHeader
+  | RulesCreateResultRulesetRulesItemRewriteRuleActionParametersHeadersValueSetDynamicHeader
+  | RulesCreateResultRulesetRulesItemRewriteRuleActionParametersHeadersValueRemoveHeader;
+export const RulesCreateResultRulesetRulesItemRewriteRuleActionParametersHeadersValue =
   /*@__PURE__*/ S.Unknown.pipe(
     T.UnionCases([
       ["operation", "value"],
@@ -4527,6 +4528,17 @@ export const RulesCreateResultRulesetRulesItemRewriteRuleActionParametersHeaders
       ["operation"],
     ]),
   );
+
+export type RulesCreateResultRulesetRulesItemRewriteRuleActionParametersHeadersMap = {
+  [key: string]:
+    | RulesCreateResultRulesetRulesItemRewriteRuleActionParametersHeadersValue
+    | undefined;
+};
+export const RulesCreateResultRulesetRulesItemRewriteRuleActionParametersHeadersMap =
+  /*@__PURE__*/ S.Record(
+    S.String,
+    RulesCreateResultRulesetRulesItemRewriteRuleActionParametersHeadersValue,
+  ) as any as S.Schema<RulesCreateResultRulesetRulesItemRewriteRuleActionParametersHeadersMap>;
 
 export interface RulesCreateResultRulesetRulesItemRewriteRuleActionParametersUriURIPathPath {
   /** An expression that evaluates to a value to rewrite the URI path to. */
@@ -4605,7 +4617,7 @@ export const RulesCreateResultRulesetRulesItemRewriteRuleActionParametersUri =
 
 export interface RulesCreateResultRulesetRulesItemRewriteRuleActionParameters {
   /** A map of headers to rewrite. */
-  headers?: RulesCreateResultRulesetRulesItemRewriteRuleActionParametersHeaders | null;
+  headers?: RulesCreateResultRulesetRulesItemRewriteRuleActionParametersHeadersMap | null;
   /** A URI path rewrite. */
   uri?: RulesCreateResultRulesetRulesItemRewriteRuleActionParametersUri | null;
 }
@@ -4613,7 +4625,7 @@ export const RulesCreateResultRulesetRulesItemRewriteRuleActionParameters = /*@_
   () =>
     S.Struct({
       headers: S.optional(
-        S.NullOr(RulesCreateResultRulesetRulesItemRewriteRuleActionParametersHeaders),
+        S.NullOr(RulesCreateResultRulesetRulesItemRewriteRuleActionParametersHeadersMap),
       ),
       uri: S.optional(S.NullOr(RulesCreateResultRulesetRulesItemRewriteRuleActionParametersUri)),
     }),
@@ -9966,115 +9978,119 @@ export const CreateRequestRulesItemRedirectRule = /*@__PURE__*/ S.suspend(() =>
 export type CreateRequestRulesItemRewriteRuleAction = "rewrite";
 export const CreateRequestRulesItemRewriteRuleAction = S.String;
 
-export type CreateRequestRulesItemRewriteRuleActionParametersHeadersAddStaticHeaderOperation =
+export type CreateRequestRulesItemRewriteRuleActionParametersHeadersValueAddStaticHeaderOperation =
   "add";
-export const CreateRequestRulesItemRewriteRuleActionParametersHeadersAddStaticHeaderOperation =
+export const CreateRequestRulesItemRewriteRuleActionParametersHeadersValueAddStaticHeaderOperation =
   S.String;
 
-export interface CreateRequestRulesItemRewriteRuleActionParametersHeadersAddStaticHeader {
+export interface CreateRequestRulesItemRewriteRuleActionParametersHeadersValueAddStaticHeader {
   /** The operation to perform on the header. */
-  operation: CreateRequestRulesItemRewriteRuleActionParametersHeadersAddStaticHeaderOperation;
+  operation: CreateRequestRulesItemRewriteRuleActionParametersHeadersValueAddStaticHeaderOperation;
   /** A static value for the header. */
   value: string;
 }
-export const CreateRequestRulesItemRewriteRuleActionParametersHeadersAddStaticHeader =
+export const CreateRequestRulesItemRewriteRuleActionParametersHeadersValueAddStaticHeader =
   /*@__PURE__*/ S.suspend(() =>
     S.Struct({
-      operation: CreateRequestRulesItemRewriteRuleActionParametersHeadersAddStaticHeaderOperation,
+      operation:
+        CreateRequestRulesItemRewriteRuleActionParametersHeadersValueAddStaticHeaderOperation,
       value: S.String,
     }),
   ).annotate({
-    identifier: "CreateRequestRulesItemRewriteRuleActionParametersHeadersAddStaticHeader",
-  }) as any as S.Schema<CreateRequestRulesItemRewriteRuleActionParametersHeadersAddStaticHeader>;
+    identifier: "CreateRequestRulesItemRewriteRuleActionParametersHeadersValueAddStaticHeader",
+  }) as any as S.Schema<CreateRequestRulesItemRewriteRuleActionParametersHeadersValueAddStaticHeader>;
 
-export type CreateRequestRulesItemRewriteRuleActionParametersHeadersAddDynamicHeaderOperation =
+export type CreateRequestRulesItemRewriteRuleActionParametersHeadersValueAddDynamicHeaderOperation =
   "add";
-export const CreateRequestRulesItemRewriteRuleActionParametersHeadersAddDynamicHeaderOperation =
+export const CreateRequestRulesItemRewriteRuleActionParametersHeadersValueAddDynamicHeaderOperation =
   S.String;
 
-export interface CreateRequestRulesItemRewriteRuleActionParametersHeadersAddDynamicHeader {
+export interface CreateRequestRulesItemRewriteRuleActionParametersHeadersValueAddDynamicHeader {
   /** An expression that evaluates to a value for the header. */
   expression: string;
   /** The operation to perform on the header. */
-  operation: CreateRequestRulesItemRewriteRuleActionParametersHeadersAddDynamicHeaderOperation;
+  operation: CreateRequestRulesItemRewriteRuleActionParametersHeadersValueAddDynamicHeaderOperation;
 }
-export const CreateRequestRulesItemRewriteRuleActionParametersHeadersAddDynamicHeader =
+export const CreateRequestRulesItemRewriteRuleActionParametersHeadersValueAddDynamicHeader =
   /*@__PURE__*/ S.suspend(() =>
     S.Struct({
       expression: S.String,
-      operation: CreateRequestRulesItemRewriteRuleActionParametersHeadersAddDynamicHeaderOperation,
+      operation:
+        CreateRequestRulesItemRewriteRuleActionParametersHeadersValueAddDynamicHeaderOperation,
     }),
   ).annotate({
-    identifier: "CreateRequestRulesItemRewriteRuleActionParametersHeadersAddDynamicHeader",
-  }) as any as S.Schema<CreateRequestRulesItemRewriteRuleActionParametersHeadersAddDynamicHeader>;
+    identifier: "CreateRequestRulesItemRewriteRuleActionParametersHeadersValueAddDynamicHeader",
+  }) as any as S.Schema<CreateRequestRulesItemRewriteRuleActionParametersHeadersValueAddDynamicHeader>;
 
-export type CreateRequestRulesItemRewriteRuleActionParametersHeadersSetStaticHeaderOperation =
+export type CreateRequestRulesItemRewriteRuleActionParametersHeadersValueSetStaticHeaderOperation =
   "set";
-export const CreateRequestRulesItemRewriteRuleActionParametersHeadersSetStaticHeaderOperation =
+export const CreateRequestRulesItemRewriteRuleActionParametersHeadersValueSetStaticHeaderOperation =
   S.String;
 
-export interface CreateRequestRulesItemRewriteRuleActionParametersHeadersSetStaticHeader {
+export interface CreateRequestRulesItemRewriteRuleActionParametersHeadersValueSetStaticHeader {
   /** The operation to perform on the header. */
-  operation: CreateRequestRulesItemRewriteRuleActionParametersHeadersSetStaticHeaderOperation;
+  operation: CreateRequestRulesItemRewriteRuleActionParametersHeadersValueSetStaticHeaderOperation;
   /** A static value for the header. */
   value: string;
 }
-export const CreateRequestRulesItemRewriteRuleActionParametersHeadersSetStaticHeader =
+export const CreateRequestRulesItemRewriteRuleActionParametersHeadersValueSetStaticHeader =
   /*@__PURE__*/ S.suspend(() =>
     S.Struct({
-      operation: CreateRequestRulesItemRewriteRuleActionParametersHeadersSetStaticHeaderOperation,
+      operation:
+        CreateRequestRulesItemRewriteRuleActionParametersHeadersValueSetStaticHeaderOperation,
       value: S.String,
     }),
   ).annotate({
-    identifier: "CreateRequestRulesItemRewriteRuleActionParametersHeadersSetStaticHeader",
-  }) as any as S.Schema<CreateRequestRulesItemRewriteRuleActionParametersHeadersSetStaticHeader>;
+    identifier: "CreateRequestRulesItemRewriteRuleActionParametersHeadersValueSetStaticHeader",
+  }) as any as S.Schema<CreateRequestRulesItemRewriteRuleActionParametersHeadersValueSetStaticHeader>;
 
-export type CreateRequestRulesItemRewriteRuleActionParametersHeadersSetDynamicHeaderOperation =
+export type CreateRequestRulesItemRewriteRuleActionParametersHeadersValueSetDynamicHeaderOperation =
   "set";
-export const CreateRequestRulesItemRewriteRuleActionParametersHeadersSetDynamicHeaderOperation =
+export const CreateRequestRulesItemRewriteRuleActionParametersHeadersValueSetDynamicHeaderOperation =
   S.String;
 
-export interface CreateRequestRulesItemRewriteRuleActionParametersHeadersSetDynamicHeader {
+export interface CreateRequestRulesItemRewriteRuleActionParametersHeadersValueSetDynamicHeader {
   /** An expression that evaluates to a value for the header. */
   expression: string;
   /** The operation to perform on the header. */
-  operation: CreateRequestRulesItemRewriteRuleActionParametersHeadersSetDynamicHeaderOperation;
+  operation: CreateRequestRulesItemRewriteRuleActionParametersHeadersValueSetDynamicHeaderOperation;
 }
-export const CreateRequestRulesItemRewriteRuleActionParametersHeadersSetDynamicHeader =
+export const CreateRequestRulesItemRewriteRuleActionParametersHeadersValueSetDynamicHeader =
   /*@__PURE__*/ S.suspend(() =>
     S.Struct({
       expression: S.String,
-      operation: CreateRequestRulesItemRewriteRuleActionParametersHeadersSetDynamicHeaderOperation,
+      operation:
+        CreateRequestRulesItemRewriteRuleActionParametersHeadersValueSetDynamicHeaderOperation,
     }),
   ).annotate({
-    identifier: "CreateRequestRulesItemRewriteRuleActionParametersHeadersSetDynamicHeader",
-  }) as any as S.Schema<CreateRequestRulesItemRewriteRuleActionParametersHeadersSetDynamicHeader>;
+    identifier: "CreateRequestRulesItemRewriteRuleActionParametersHeadersValueSetDynamicHeader",
+  }) as any as S.Schema<CreateRequestRulesItemRewriteRuleActionParametersHeadersValueSetDynamicHeader>;
 
-export type CreateRequestRulesItemRewriteRuleActionParametersHeadersRemoveHeaderOperation =
+export type CreateRequestRulesItemRewriteRuleActionParametersHeadersValueRemoveHeaderOperation =
   "remove";
-export const CreateRequestRulesItemRewriteRuleActionParametersHeadersRemoveHeaderOperation =
+export const CreateRequestRulesItemRewriteRuleActionParametersHeadersValueRemoveHeaderOperation =
   S.String;
 
-export interface CreateRequestRulesItemRewriteRuleActionParametersHeadersRemoveHeader {
+export interface CreateRequestRulesItemRewriteRuleActionParametersHeadersValueRemoveHeader {
   /** The operation to perform on the header. */
-  operation: CreateRequestRulesItemRewriteRuleActionParametersHeadersRemoveHeaderOperation;
+  operation: CreateRequestRulesItemRewriteRuleActionParametersHeadersValueRemoveHeaderOperation;
 }
-export const CreateRequestRulesItemRewriteRuleActionParametersHeadersRemoveHeader =
+export const CreateRequestRulesItemRewriteRuleActionParametersHeadersValueRemoveHeader =
   /*@__PURE__*/ S.suspend(() =>
     S.Struct({
-      operation: CreateRequestRulesItemRewriteRuleActionParametersHeadersRemoveHeaderOperation,
+      operation: CreateRequestRulesItemRewriteRuleActionParametersHeadersValueRemoveHeaderOperation,
     }),
   ).annotate({
-    identifier: "CreateRequestRulesItemRewriteRuleActionParametersHeadersRemoveHeader",
-  }) as any as S.Schema<CreateRequestRulesItemRewriteRuleActionParametersHeadersRemoveHeader>;
+    identifier: "CreateRequestRulesItemRewriteRuleActionParametersHeadersValueRemoveHeader",
+  }) as any as S.Schema<CreateRequestRulesItemRewriteRuleActionParametersHeadersValueRemoveHeader>;
 
-export type CreateRequestRulesItemRewriteRuleActionParametersHeaders =
-  | CreateRequestRulesItemRewriteRuleActionParametersHeadersAddStaticHeader
-  | CreateRequestRulesItemRewriteRuleActionParametersHeadersAddDynamicHeader
-  | CreateRequestRulesItemRewriteRuleActionParametersHeadersSetStaticHeader
-  | CreateRequestRulesItemRewriteRuleActionParametersHeadersSetDynamicHeader
-  | CreateRequestRulesItemRewriteRuleActionParametersHeadersRemoveHeader;
-export const CreateRequestRulesItemRewriteRuleActionParametersHeaders =
+export type CreateRequestRulesItemRewriteRuleActionParametersHeadersValue =
+  | CreateRequestRulesItemRewriteRuleActionParametersHeadersValueAddStaticHeader
+  | CreateRequestRulesItemRewriteRuleActionParametersHeadersValueAddDynamicHeader
+  | CreateRequestRulesItemRewriteRuleActionParametersHeadersValueSetStaticHeader
+  | CreateRequestRulesItemRewriteRuleActionParametersHeadersValueSetDynamicHeader
+  | CreateRequestRulesItemRewriteRuleActionParametersHeadersValueRemoveHeader;
+export const CreateRequestRulesItemRewriteRuleActionParametersHeadersValue =
   /*@__PURE__*/ S.Unknown.pipe(
     T.UnionCases([
       ["operation", "value"],
@@ -10084,6 +10100,14 @@ export const CreateRequestRulesItemRewriteRuleActionParametersHeaders =
       ["operation"],
     ]),
   );
+
+export type CreateRequestRulesItemRewriteRuleActionParametersHeadersMap = {
+  [key: string]: CreateRequestRulesItemRewriteRuleActionParametersHeadersValue | undefined;
+};
+export const CreateRequestRulesItemRewriteRuleActionParametersHeadersMap = /*@__PURE__*/ S.Record(
+  S.String,
+  CreateRequestRulesItemRewriteRuleActionParametersHeadersValue,
+) as any as S.Schema<CreateRequestRulesItemRewriteRuleActionParametersHeadersMap>;
 
 export interface CreateRequestRulesItemRewriteRuleActionParametersUriURIPathPath {
   /** An expression that evaluates to a value to rewrite the URI path to. */
@@ -10161,13 +10185,13 @@ export const CreateRequestRulesItemRewriteRuleActionParametersUri = /*@__PURE__*
 
 export interface CreateRequestRulesItemRewriteRuleActionParameters {
   /** A map of headers to rewrite. */
-  headers?: CreateRequestRulesItemRewriteRuleActionParametersHeaders;
+  headers?: CreateRequestRulesItemRewriteRuleActionParametersHeadersMap;
   /** A URI path rewrite. */
   uri?: CreateRequestRulesItemRewriteRuleActionParametersUri;
 }
 export const CreateRequestRulesItemRewriteRuleActionParameters = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    headers: S.optional(CreateRequestRulesItemRewriteRuleActionParametersHeaders),
+    headers: S.optional(CreateRequestRulesItemRewriteRuleActionParametersHeadersMap),
     uri: S.optional(CreateRequestRulesItemRewriteRuleActionParametersUri),
   }),
 ).annotate({
@@ -15301,120 +15325,124 @@ export const CreateResultRulesetRulesItemRedirectRule = /*@__PURE__*/ S.suspend(
 export type CreateResultRulesetRulesItemRewriteRuleAction = "rewrite";
 export const CreateResultRulesetRulesItemRewriteRuleAction = S.String;
 
-export type CreateResultRulesetRulesItemRewriteRuleActionParametersHeadersAddStaticHeaderOperation =
+export type CreateResultRulesetRulesItemRewriteRuleActionParametersHeadersValueAddStaticHeaderOperation =
   "add";
-export const CreateResultRulesetRulesItemRewriteRuleActionParametersHeadersAddStaticHeaderOperation =
+export const CreateResultRulesetRulesItemRewriteRuleActionParametersHeadersValueAddStaticHeaderOperation =
   S.String;
 
-export interface CreateResultRulesetRulesItemRewriteRuleActionParametersHeadersAddStaticHeader {
+export interface CreateResultRulesetRulesItemRewriteRuleActionParametersHeadersValueAddStaticHeader {
   /** The operation to perform on the header. */
-  operation: CreateResultRulesetRulesItemRewriteRuleActionParametersHeadersAddStaticHeaderOperation;
+  operation: CreateResultRulesetRulesItemRewriteRuleActionParametersHeadersValueAddStaticHeaderOperation;
   /** A static value for the header. */
   value: string;
 }
-export const CreateResultRulesetRulesItemRewriteRuleActionParametersHeadersAddStaticHeader =
+export const CreateResultRulesetRulesItemRewriteRuleActionParametersHeadersValueAddStaticHeader =
   /*@__PURE__*/ S.suspend(() =>
     S.Struct({
       operation:
-        CreateResultRulesetRulesItemRewriteRuleActionParametersHeadersAddStaticHeaderOperation,
+        CreateResultRulesetRulesItemRewriteRuleActionParametersHeadersValueAddStaticHeaderOperation,
       value: S.String,
     }),
   ).annotate({
-    identifier: "CreateResultRulesetRulesItemRewriteRuleActionParametersHeadersAddStaticHeader",
-  }) as any as S.Schema<CreateResultRulesetRulesItemRewriteRuleActionParametersHeadersAddStaticHeader>;
+    identifier:
+      "CreateResultRulesetRulesItemRewriteRuleActionParametersHeadersValueAddStaticHeader",
+  }) as any as S.Schema<CreateResultRulesetRulesItemRewriteRuleActionParametersHeadersValueAddStaticHeader>;
 
-export type CreateResultRulesetRulesItemRewriteRuleActionParametersHeadersAddDynamicHeaderOperation =
+export type CreateResultRulesetRulesItemRewriteRuleActionParametersHeadersValueAddDynamicHeaderOperation =
   "add";
-export const CreateResultRulesetRulesItemRewriteRuleActionParametersHeadersAddDynamicHeaderOperation =
+export const CreateResultRulesetRulesItemRewriteRuleActionParametersHeadersValueAddDynamicHeaderOperation =
   S.String;
 
-export interface CreateResultRulesetRulesItemRewriteRuleActionParametersHeadersAddDynamicHeader {
+export interface CreateResultRulesetRulesItemRewriteRuleActionParametersHeadersValueAddDynamicHeader {
   /** An expression that evaluates to a value for the header. */
   expression: string;
   /** The operation to perform on the header. */
-  operation: CreateResultRulesetRulesItemRewriteRuleActionParametersHeadersAddDynamicHeaderOperation;
+  operation: CreateResultRulesetRulesItemRewriteRuleActionParametersHeadersValueAddDynamicHeaderOperation;
 }
-export const CreateResultRulesetRulesItemRewriteRuleActionParametersHeadersAddDynamicHeader =
+export const CreateResultRulesetRulesItemRewriteRuleActionParametersHeadersValueAddDynamicHeader =
   /*@__PURE__*/ S.suspend(() =>
     S.Struct({
       expression: S.String,
       operation:
-        CreateResultRulesetRulesItemRewriteRuleActionParametersHeadersAddDynamicHeaderOperation,
+        CreateResultRulesetRulesItemRewriteRuleActionParametersHeadersValueAddDynamicHeaderOperation,
     }),
   ).annotate({
-    identifier: "CreateResultRulesetRulesItemRewriteRuleActionParametersHeadersAddDynamicHeader",
-  }) as any as S.Schema<CreateResultRulesetRulesItemRewriteRuleActionParametersHeadersAddDynamicHeader>;
+    identifier:
+      "CreateResultRulesetRulesItemRewriteRuleActionParametersHeadersValueAddDynamicHeader",
+  }) as any as S.Schema<CreateResultRulesetRulesItemRewriteRuleActionParametersHeadersValueAddDynamicHeader>;
 
-export type CreateResultRulesetRulesItemRewriteRuleActionParametersHeadersSetStaticHeaderOperation =
+export type CreateResultRulesetRulesItemRewriteRuleActionParametersHeadersValueSetStaticHeaderOperation =
   "set";
-export const CreateResultRulesetRulesItemRewriteRuleActionParametersHeadersSetStaticHeaderOperation =
+export const CreateResultRulesetRulesItemRewriteRuleActionParametersHeadersValueSetStaticHeaderOperation =
   S.String;
 
-export interface CreateResultRulesetRulesItemRewriteRuleActionParametersHeadersSetStaticHeader {
+export interface CreateResultRulesetRulesItemRewriteRuleActionParametersHeadersValueSetStaticHeader {
   /** The operation to perform on the header. */
-  operation: CreateResultRulesetRulesItemRewriteRuleActionParametersHeadersSetStaticHeaderOperation;
+  operation: CreateResultRulesetRulesItemRewriteRuleActionParametersHeadersValueSetStaticHeaderOperation;
   /** A static value for the header. */
   value: string;
 }
-export const CreateResultRulesetRulesItemRewriteRuleActionParametersHeadersSetStaticHeader =
+export const CreateResultRulesetRulesItemRewriteRuleActionParametersHeadersValueSetStaticHeader =
   /*@__PURE__*/ S.suspend(() =>
     S.Struct({
       operation:
-        CreateResultRulesetRulesItemRewriteRuleActionParametersHeadersSetStaticHeaderOperation,
+        CreateResultRulesetRulesItemRewriteRuleActionParametersHeadersValueSetStaticHeaderOperation,
       value: S.String,
     }),
   ).annotate({
-    identifier: "CreateResultRulesetRulesItemRewriteRuleActionParametersHeadersSetStaticHeader",
-  }) as any as S.Schema<CreateResultRulesetRulesItemRewriteRuleActionParametersHeadersSetStaticHeader>;
+    identifier:
+      "CreateResultRulesetRulesItemRewriteRuleActionParametersHeadersValueSetStaticHeader",
+  }) as any as S.Schema<CreateResultRulesetRulesItemRewriteRuleActionParametersHeadersValueSetStaticHeader>;
 
-export type CreateResultRulesetRulesItemRewriteRuleActionParametersHeadersSetDynamicHeaderOperation =
+export type CreateResultRulesetRulesItemRewriteRuleActionParametersHeadersValueSetDynamicHeaderOperation =
   "set";
-export const CreateResultRulesetRulesItemRewriteRuleActionParametersHeadersSetDynamicHeaderOperation =
+export const CreateResultRulesetRulesItemRewriteRuleActionParametersHeadersValueSetDynamicHeaderOperation =
   S.String;
 
-export interface CreateResultRulesetRulesItemRewriteRuleActionParametersHeadersSetDynamicHeader {
+export interface CreateResultRulesetRulesItemRewriteRuleActionParametersHeadersValueSetDynamicHeader {
   /** An expression that evaluates to a value for the header. */
   expression: string;
   /** The operation to perform on the header. */
-  operation: CreateResultRulesetRulesItemRewriteRuleActionParametersHeadersSetDynamicHeaderOperation;
+  operation: CreateResultRulesetRulesItemRewriteRuleActionParametersHeadersValueSetDynamicHeaderOperation;
 }
-export const CreateResultRulesetRulesItemRewriteRuleActionParametersHeadersSetDynamicHeader =
+export const CreateResultRulesetRulesItemRewriteRuleActionParametersHeadersValueSetDynamicHeader =
   /*@__PURE__*/ S.suspend(() =>
     S.Struct({
       expression: S.String,
       operation:
-        CreateResultRulesetRulesItemRewriteRuleActionParametersHeadersSetDynamicHeaderOperation,
+        CreateResultRulesetRulesItemRewriteRuleActionParametersHeadersValueSetDynamicHeaderOperation,
     }),
   ).annotate({
-    identifier: "CreateResultRulesetRulesItemRewriteRuleActionParametersHeadersSetDynamicHeader",
-  }) as any as S.Schema<CreateResultRulesetRulesItemRewriteRuleActionParametersHeadersSetDynamicHeader>;
+    identifier:
+      "CreateResultRulesetRulesItemRewriteRuleActionParametersHeadersValueSetDynamicHeader",
+  }) as any as S.Schema<CreateResultRulesetRulesItemRewriteRuleActionParametersHeadersValueSetDynamicHeader>;
 
-export type CreateResultRulesetRulesItemRewriteRuleActionParametersHeadersRemoveHeaderOperation =
+export type CreateResultRulesetRulesItemRewriteRuleActionParametersHeadersValueRemoveHeaderOperation =
   "remove";
-export const CreateResultRulesetRulesItemRewriteRuleActionParametersHeadersRemoveHeaderOperation =
+export const CreateResultRulesetRulesItemRewriteRuleActionParametersHeadersValueRemoveHeaderOperation =
   S.String;
 
-export interface CreateResultRulesetRulesItemRewriteRuleActionParametersHeadersRemoveHeader {
+export interface CreateResultRulesetRulesItemRewriteRuleActionParametersHeadersValueRemoveHeader {
   /** The operation to perform on the header. */
-  operation: CreateResultRulesetRulesItemRewriteRuleActionParametersHeadersRemoveHeaderOperation;
+  operation: CreateResultRulesetRulesItemRewriteRuleActionParametersHeadersValueRemoveHeaderOperation;
 }
-export const CreateResultRulesetRulesItemRewriteRuleActionParametersHeadersRemoveHeader =
+export const CreateResultRulesetRulesItemRewriteRuleActionParametersHeadersValueRemoveHeader =
   /*@__PURE__*/ S.suspend(() =>
     S.Struct({
       operation:
-        CreateResultRulesetRulesItemRewriteRuleActionParametersHeadersRemoveHeaderOperation,
+        CreateResultRulesetRulesItemRewriteRuleActionParametersHeadersValueRemoveHeaderOperation,
     }),
   ).annotate({
-    identifier: "CreateResultRulesetRulesItemRewriteRuleActionParametersHeadersRemoveHeader",
-  }) as any as S.Schema<CreateResultRulesetRulesItemRewriteRuleActionParametersHeadersRemoveHeader>;
+    identifier: "CreateResultRulesetRulesItemRewriteRuleActionParametersHeadersValueRemoveHeader",
+  }) as any as S.Schema<CreateResultRulesetRulesItemRewriteRuleActionParametersHeadersValueRemoveHeader>;
 
-export type CreateResultRulesetRulesItemRewriteRuleActionParametersHeaders =
-  | CreateResultRulesetRulesItemRewriteRuleActionParametersHeadersAddStaticHeader
-  | CreateResultRulesetRulesItemRewriteRuleActionParametersHeadersAddDynamicHeader
-  | CreateResultRulesetRulesItemRewriteRuleActionParametersHeadersSetStaticHeader
-  | CreateResultRulesetRulesItemRewriteRuleActionParametersHeadersSetDynamicHeader
-  | CreateResultRulesetRulesItemRewriteRuleActionParametersHeadersRemoveHeader;
-export const CreateResultRulesetRulesItemRewriteRuleActionParametersHeaders =
+export type CreateResultRulesetRulesItemRewriteRuleActionParametersHeadersValue =
+  | CreateResultRulesetRulesItemRewriteRuleActionParametersHeadersValueAddStaticHeader
+  | CreateResultRulesetRulesItemRewriteRuleActionParametersHeadersValueAddDynamicHeader
+  | CreateResultRulesetRulesItemRewriteRuleActionParametersHeadersValueSetStaticHeader
+  | CreateResultRulesetRulesItemRewriteRuleActionParametersHeadersValueSetDynamicHeader
+  | CreateResultRulesetRulesItemRewriteRuleActionParametersHeadersValueRemoveHeader;
+export const CreateResultRulesetRulesItemRewriteRuleActionParametersHeadersValue =
   /*@__PURE__*/ S.Unknown.pipe(
     T.UnionCases([
       ["operation", "value"],
@@ -15424,6 +15452,15 @@ export const CreateResultRulesetRulesItemRewriteRuleActionParametersHeaders =
       ["operation"],
     ]),
   );
+
+export type CreateResultRulesetRulesItemRewriteRuleActionParametersHeadersMap = {
+  [key: string]: CreateResultRulesetRulesItemRewriteRuleActionParametersHeadersValue | undefined;
+};
+export const CreateResultRulesetRulesItemRewriteRuleActionParametersHeadersMap =
+  /*@__PURE__*/ S.Record(
+    S.String,
+    CreateResultRulesetRulesItemRewriteRuleActionParametersHeadersValue,
+  ) as any as S.Schema<CreateResultRulesetRulesItemRewriteRuleActionParametersHeadersMap>;
 
 export type CreateResultRulesetRulesItemRewriteRuleActionParametersUriURIPathPath =
   RulesCreateResultRulesetRulesItemRewriteRuleActionParametersUriURIPathPath;
@@ -15458,13 +15495,15 @@ export const CreateResultRulesetRulesItemRewriteRuleActionParametersUri =
 
 export interface CreateResultRulesetRulesItemRewriteRuleActionParameters {
   /** A map of headers to rewrite. */
-  headers?: CreateResultRulesetRulesItemRewriteRuleActionParametersHeaders | null;
+  headers?: CreateResultRulesetRulesItemRewriteRuleActionParametersHeadersMap | null;
   /** A URI path rewrite. */
   uri?: CreateResultRulesetRulesItemRewriteRuleActionParametersUri | null;
 }
 export const CreateResultRulesetRulesItemRewriteRuleActionParameters = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    headers: S.optional(S.NullOr(CreateResultRulesetRulesItemRewriteRuleActionParametersHeaders)),
+    headers: S.optional(
+      S.NullOr(CreateResultRulesetRulesItemRewriteRuleActionParametersHeadersMap),
+    ),
     uri: S.optional(S.NullOr(CreateResultRulesetRulesItemRewriteRuleActionParametersUri)),
   }),
 ).annotate({
@@ -20764,124 +20803,125 @@ export const RulesDeleteResultRulesetRulesItemRedirectRule = /*@__PURE__*/ S.sus
 export type RulesDeleteResultRulesetRulesItemRewriteRuleAction = "rewrite";
 export const RulesDeleteResultRulesetRulesItemRewriteRuleAction = S.String;
 
-export type RulesDeleteResultRulesetRulesItemRewriteRuleActionParametersHeadersAddStaticHeaderOperation =
+export type RulesDeleteResultRulesetRulesItemRewriteRuleActionParametersHeadersValueAddStaticHeaderOperation =
   "add";
-export const RulesDeleteResultRulesetRulesItemRewriteRuleActionParametersHeadersAddStaticHeaderOperation =
+export const RulesDeleteResultRulesetRulesItemRewriteRuleActionParametersHeadersValueAddStaticHeaderOperation =
   S.String;
 
-export interface RulesDeleteResultRulesetRulesItemRewriteRuleActionParametersHeadersAddStaticHeader {
+export interface RulesDeleteResultRulesetRulesItemRewriteRuleActionParametersHeadersValueAddStaticHeader {
   /** The operation to perform on the header. */
-  operation: RulesDeleteResultRulesetRulesItemRewriteRuleActionParametersHeadersAddStaticHeaderOperation;
+  operation: RulesDeleteResultRulesetRulesItemRewriteRuleActionParametersHeadersValueAddStaticHeaderOperation;
   /** A static value for the header. */
   value: string;
 }
-export const RulesDeleteResultRulesetRulesItemRewriteRuleActionParametersHeadersAddStaticHeader =
+export const RulesDeleteResultRulesetRulesItemRewriteRuleActionParametersHeadersValueAddStaticHeader =
   /*@__PURE__*/ S.suspend(() =>
     S.Struct({
       operation:
-        RulesDeleteResultRulesetRulesItemRewriteRuleActionParametersHeadersAddStaticHeaderOperation,
+        RulesDeleteResultRulesetRulesItemRewriteRuleActionParametersHeadersValueAddStaticHeaderOperation,
       value: S.String,
     }),
   ).annotate({
     identifier:
-      "RulesDeleteResultRulesetRulesItemRewriteRuleActionParametersHeadersAddStaticHeader",
-  }) as any as S.Schema<RulesDeleteResultRulesetRulesItemRewriteRuleActionParametersHeadersAddStaticHeader>;
+      "RulesDeleteResultRulesetRulesItemRewriteRuleActionParametersHeadersValueAddStaticHeader",
+  }) as any as S.Schema<RulesDeleteResultRulesetRulesItemRewriteRuleActionParametersHeadersValueAddStaticHeader>;
 
-export type RulesDeleteResultRulesetRulesItemRewriteRuleActionParametersHeadersAddDynamicHeaderOperation =
+export type RulesDeleteResultRulesetRulesItemRewriteRuleActionParametersHeadersValueAddDynamicHeaderOperation =
   "add";
-export const RulesDeleteResultRulesetRulesItemRewriteRuleActionParametersHeadersAddDynamicHeaderOperation =
+export const RulesDeleteResultRulesetRulesItemRewriteRuleActionParametersHeadersValueAddDynamicHeaderOperation =
   S.String;
 
-export interface RulesDeleteResultRulesetRulesItemRewriteRuleActionParametersHeadersAddDynamicHeader {
+export interface RulesDeleteResultRulesetRulesItemRewriteRuleActionParametersHeadersValueAddDynamicHeader {
   /** An expression that evaluates to a value for the header. */
   expression: string;
   /** The operation to perform on the header. */
-  operation: RulesDeleteResultRulesetRulesItemRewriteRuleActionParametersHeadersAddDynamicHeaderOperation;
+  operation: RulesDeleteResultRulesetRulesItemRewriteRuleActionParametersHeadersValueAddDynamicHeaderOperation;
 }
-export const RulesDeleteResultRulesetRulesItemRewriteRuleActionParametersHeadersAddDynamicHeader =
+export const RulesDeleteResultRulesetRulesItemRewriteRuleActionParametersHeadersValueAddDynamicHeader =
   /*@__PURE__*/ S.suspend(() =>
     S.Struct({
       expression: S.String,
       operation:
-        RulesDeleteResultRulesetRulesItemRewriteRuleActionParametersHeadersAddDynamicHeaderOperation,
+        RulesDeleteResultRulesetRulesItemRewriteRuleActionParametersHeadersValueAddDynamicHeaderOperation,
     }),
   ).annotate({
     identifier:
-      "RulesDeleteResultRulesetRulesItemRewriteRuleActionParametersHeadersAddDynamicHeader",
-  }) as any as S.Schema<RulesDeleteResultRulesetRulesItemRewriteRuleActionParametersHeadersAddDynamicHeader>;
+      "RulesDeleteResultRulesetRulesItemRewriteRuleActionParametersHeadersValueAddDynamicHeader",
+  }) as any as S.Schema<RulesDeleteResultRulesetRulesItemRewriteRuleActionParametersHeadersValueAddDynamicHeader>;
 
-export type RulesDeleteResultRulesetRulesItemRewriteRuleActionParametersHeadersSetStaticHeaderOperation =
+export type RulesDeleteResultRulesetRulesItemRewriteRuleActionParametersHeadersValueSetStaticHeaderOperation =
   "set";
-export const RulesDeleteResultRulesetRulesItemRewriteRuleActionParametersHeadersSetStaticHeaderOperation =
+export const RulesDeleteResultRulesetRulesItemRewriteRuleActionParametersHeadersValueSetStaticHeaderOperation =
   S.String;
 
-export interface RulesDeleteResultRulesetRulesItemRewriteRuleActionParametersHeadersSetStaticHeader {
+export interface RulesDeleteResultRulesetRulesItemRewriteRuleActionParametersHeadersValueSetStaticHeader {
   /** The operation to perform on the header. */
-  operation: RulesDeleteResultRulesetRulesItemRewriteRuleActionParametersHeadersSetStaticHeaderOperation;
+  operation: RulesDeleteResultRulesetRulesItemRewriteRuleActionParametersHeadersValueSetStaticHeaderOperation;
   /** A static value for the header. */
   value: string;
 }
-export const RulesDeleteResultRulesetRulesItemRewriteRuleActionParametersHeadersSetStaticHeader =
+export const RulesDeleteResultRulesetRulesItemRewriteRuleActionParametersHeadersValueSetStaticHeader =
   /*@__PURE__*/ S.suspend(() =>
     S.Struct({
       operation:
-        RulesDeleteResultRulesetRulesItemRewriteRuleActionParametersHeadersSetStaticHeaderOperation,
+        RulesDeleteResultRulesetRulesItemRewriteRuleActionParametersHeadersValueSetStaticHeaderOperation,
       value: S.String,
     }),
   ).annotate({
     identifier:
-      "RulesDeleteResultRulesetRulesItemRewriteRuleActionParametersHeadersSetStaticHeader",
-  }) as any as S.Schema<RulesDeleteResultRulesetRulesItemRewriteRuleActionParametersHeadersSetStaticHeader>;
+      "RulesDeleteResultRulesetRulesItemRewriteRuleActionParametersHeadersValueSetStaticHeader",
+  }) as any as S.Schema<RulesDeleteResultRulesetRulesItemRewriteRuleActionParametersHeadersValueSetStaticHeader>;
 
-export type RulesDeleteResultRulesetRulesItemRewriteRuleActionParametersHeadersSetDynamicHeaderOperation =
+export type RulesDeleteResultRulesetRulesItemRewriteRuleActionParametersHeadersValueSetDynamicHeaderOperation =
   "set";
-export const RulesDeleteResultRulesetRulesItemRewriteRuleActionParametersHeadersSetDynamicHeaderOperation =
+export const RulesDeleteResultRulesetRulesItemRewriteRuleActionParametersHeadersValueSetDynamicHeaderOperation =
   S.String;
 
-export interface RulesDeleteResultRulesetRulesItemRewriteRuleActionParametersHeadersSetDynamicHeader {
+export interface RulesDeleteResultRulesetRulesItemRewriteRuleActionParametersHeadersValueSetDynamicHeader {
   /** An expression that evaluates to a value for the header. */
   expression: string;
   /** The operation to perform on the header. */
-  operation: RulesDeleteResultRulesetRulesItemRewriteRuleActionParametersHeadersSetDynamicHeaderOperation;
+  operation: RulesDeleteResultRulesetRulesItemRewriteRuleActionParametersHeadersValueSetDynamicHeaderOperation;
 }
-export const RulesDeleteResultRulesetRulesItemRewriteRuleActionParametersHeadersSetDynamicHeader =
+export const RulesDeleteResultRulesetRulesItemRewriteRuleActionParametersHeadersValueSetDynamicHeader =
   /*@__PURE__*/ S.suspend(() =>
     S.Struct({
       expression: S.String,
       operation:
-        RulesDeleteResultRulesetRulesItemRewriteRuleActionParametersHeadersSetDynamicHeaderOperation,
+        RulesDeleteResultRulesetRulesItemRewriteRuleActionParametersHeadersValueSetDynamicHeaderOperation,
     }),
   ).annotate({
     identifier:
-      "RulesDeleteResultRulesetRulesItemRewriteRuleActionParametersHeadersSetDynamicHeader",
-  }) as any as S.Schema<RulesDeleteResultRulesetRulesItemRewriteRuleActionParametersHeadersSetDynamicHeader>;
+      "RulesDeleteResultRulesetRulesItemRewriteRuleActionParametersHeadersValueSetDynamicHeader",
+  }) as any as S.Schema<RulesDeleteResultRulesetRulesItemRewriteRuleActionParametersHeadersValueSetDynamicHeader>;
 
-export type RulesDeleteResultRulesetRulesItemRewriteRuleActionParametersHeadersRemoveHeaderOperation =
+export type RulesDeleteResultRulesetRulesItemRewriteRuleActionParametersHeadersValueRemoveHeaderOperation =
   "remove";
-export const RulesDeleteResultRulesetRulesItemRewriteRuleActionParametersHeadersRemoveHeaderOperation =
+export const RulesDeleteResultRulesetRulesItemRewriteRuleActionParametersHeadersValueRemoveHeaderOperation =
   S.String;
 
-export interface RulesDeleteResultRulesetRulesItemRewriteRuleActionParametersHeadersRemoveHeader {
+export interface RulesDeleteResultRulesetRulesItemRewriteRuleActionParametersHeadersValueRemoveHeader {
   /** The operation to perform on the header. */
-  operation: RulesDeleteResultRulesetRulesItemRewriteRuleActionParametersHeadersRemoveHeaderOperation;
+  operation: RulesDeleteResultRulesetRulesItemRewriteRuleActionParametersHeadersValueRemoveHeaderOperation;
 }
-export const RulesDeleteResultRulesetRulesItemRewriteRuleActionParametersHeadersRemoveHeader =
+export const RulesDeleteResultRulesetRulesItemRewriteRuleActionParametersHeadersValueRemoveHeader =
   /*@__PURE__*/ S.suspend(() =>
     S.Struct({
       operation:
-        RulesDeleteResultRulesetRulesItemRewriteRuleActionParametersHeadersRemoveHeaderOperation,
+        RulesDeleteResultRulesetRulesItemRewriteRuleActionParametersHeadersValueRemoveHeaderOperation,
     }),
   ).annotate({
-    identifier: "RulesDeleteResultRulesetRulesItemRewriteRuleActionParametersHeadersRemoveHeader",
-  }) as any as S.Schema<RulesDeleteResultRulesetRulesItemRewriteRuleActionParametersHeadersRemoveHeader>;
+    identifier:
+      "RulesDeleteResultRulesetRulesItemRewriteRuleActionParametersHeadersValueRemoveHeader",
+  }) as any as S.Schema<RulesDeleteResultRulesetRulesItemRewriteRuleActionParametersHeadersValueRemoveHeader>;
 
-export type RulesDeleteResultRulesetRulesItemRewriteRuleActionParametersHeaders =
-  | RulesDeleteResultRulesetRulesItemRewriteRuleActionParametersHeadersAddStaticHeader
-  | RulesDeleteResultRulesetRulesItemRewriteRuleActionParametersHeadersAddDynamicHeader
-  | RulesDeleteResultRulesetRulesItemRewriteRuleActionParametersHeadersSetStaticHeader
-  | RulesDeleteResultRulesetRulesItemRewriteRuleActionParametersHeadersSetDynamicHeader
-  | RulesDeleteResultRulesetRulesItemRewriteRuleActionParametersHeadersRemoveHeader;
-export const RulesDeleteResultRulesetRulesItemRewriteRuleActionParametersHeaders =
+export type RulesDeleteResultRulesetRulesItemRewriteRuleActionParametersHeadersValue =
+  | RulesDeleteResultRulesetRulesItemRewriteRuleActionParametersHeadersValueAddStaticHeader
+  | RulesDeleteResultRulesetRulesItemRewriteRuleActionParametersHeadersValueAddDynamicHeader
+  | RulesDeleteResultRulesetRulesItemRewriteRuleActionParametersHeadersValueSetStaticHeader
+  | RulesDeleteResultRulesetRulesItemRewriteRuleActionParametersHeadersValueSetDynamicHeader
+  | RulesDeleteResultRulesetRulesItemRewriteRuleActionParametersHeadersValueRemoveHeader;
+export const RulesDeleteResultRulesetRulesItemRewriteRuleActionParametersHeadersValue =
   /*@__PURE__*/ S.Unknown.pipe(
     T.UnionCases([
       ["operation", "value"],
@@ -20891,6 +20931,17 @@ export const RulesDeleteResultRulesetRulesItemRewriteRuleActionParametersHeaders
       ["operation"],
     ]),
   );
+
+export type RulesDeleteResultRulesetRulesItemRewriteRuleActionParametersHeadersMap = {
+  [key: string]:
+    | RulesDeleteResultRulesetRulesItemRewriteRuleActionParametersHeadersValue
+    | undefined;
+};
+export const RulesDeleteResultRulesetRulesItemRewriteRuleActionParametersHeadersMap =
+  /*@__PURE__*/ S.Record(
+    S.String,
+    RulesDeleteResultRulesetRulesItemRewriteRuleActionParametersHeadersValue,
+  ) as any as S.Schema<RulesDeleteResultRulesetRulesItemRewriteRuleActionParametersHeadersMap>;
 
 export type RulesDeleteResultRulesetRulesItemRewriteRuleActionParametersUriURIPathPath =
   RulesCreateResultRulesetRulesItemRewriteRuleActionParametersUriURIPathPath;
@@ -20925,7 +20976,7 @@ export const RulesDeleteResultRulesetRulesItemRewriteRuleActionParametersUri =
 
 export interface RulesDeleteResultRulesetRulesItemRewriteRuleActionParameters {
   /** A map of headers to rewrite. */
-  headers?: RulesDeleteResultRulesetRulesItemRewriteRuleActionParametersHeaders | null;
+  headers?: RulesDeleteResultRulesetRulesItemRewriteRuleActionParametersHeadersMap | null;
   /** A URI path rewrite. */
   uri?: RulesDeleteResultRulesetRulesItemRewriteRuleActionParametersUri | null;
 }
@@ -20933,7 +20984,7 @@ export const RulesDeleteResultRulesetRulesItemRewriteRuleActionParameters = /*@_
   () =>
     S.Struct({
       headers: S.optional(
-        S.NullOr(RulesDeleteResultRulesetRulesItemRewriteRuleActionParametersHeaders),
+        S.NullOr(RulesDeleteResultRulesetRulesItemRewriteRuleActionParametersHeadersMap),
       ),
       uri: S.optional(S.NullOr(RulesDeleteResultRulesetRulesItemRewriteRuleActionParametersUri)),
     }),
@@ -26356,119 +26407,120 @@ export const PhasesGetResponseRulesItemRedirectRule = /*@__PURE__*/ S.suspend(()
 export type PhasesGetResponseRulesItemRewriteRuleAction = "rewrite";
 export const PhasesGetResponseRulesItemRewriteRuleAction = S.String;
 
-export type PhasesGetResponseRulesItemRewriteRuleActionParametersHeadersAddStaticHeaderOperation =
+export type PhasesGetResponseRulesItemRewriteRuleActionParametersHeadersValueAddStaticHeaderOperation =
   "add";
-export const PhasesGetResponseRulesItemRewriteRuleActionParametersHeadersAddStaticHeaderOperation =
+export const PhasesGetResponseRulesItemRewriteRuleActionParametersHeadersValueAddStaticHeaderOperation =
   S.String;
 
-export interface PhasesGetResponseRulesItemRewriteRuleActionParametersHeadersAddStaticHeader {
+export interface PhasesGetResponseRulesItemRewriteRuleActionParametersHeadersValueAddStaticHeader {
   /** The operation to perform on the header. */
-  operation: PhasesGetResponseRulesItemRewriteRuleActionParametersHeadersAddStaticHeaderOperation;
+  operation: PhasesGetResponseRulesItemRewriteRuleActionParametersHeadersValueAddStaticHeaderOperation;
   /** A static value for the header. */
   value: string;
 }
-export const PhasesGetResponseRulesItemRewriteRuleActionParametersHeadersAddStaticHeader =
+export const PhasesGetResponseRulesItemRewriteRuleActionParametersHeadersValueAddStaticHeader =
   /*@__PURE__*/ S.suspend(() =>
     S.Struct({
       operation:
-        PhasesGetResponseRulesItemRewriteRuleActionParametersHeadersAddStaticHeaderOperation,
+        PhasesGetResponseRulesItemRewriteRuleActionParametersHeadersValueAddStaticHeaderOperation,
       value: S.String,
     }),
   ).annotate({
-    identifier: "PhasesGetResponseRulesItemRewriteRuleActionParametersHeadersAddStaticHeader",
-  }) as any as S.Schema<PhasesGetResponseRulesItemRewriteRuleActionParametersHeadersAddStaticHeader>;
+    identifier: "PhasesGetResponseRulesItemRewriteRuleActionParametersHeadersValueAddStaticHeader",
+  }) as any as S.Schema<PhasesGetResponseRulesItemRewriteRuleActionParametersHeadersValueAddStaticHeader>;
 
-export type PhasesGetResponseRulesItemRewriteRuleActionParametersHeadersAddDynamicHeaderOperation =
+export type PhasesGetResponseRulesItemRewriteRuleActionParametersHeadersValueAddDynamicHeaderOperation =
   "add";
-export const PhasesGetResponseRulesItemRewriteRuleActionParametersHeadersAddDynamicHeaderOperation =
+export const PhasesGetResponseRulesItemRewriteRuleActionParametersHeadersValueAddDynamicHeaderOperation =
   S.String;
 
-export interface PhasesGetResponseRulesItemRewriteRuleActionParametersHeadersAddDynamicHeader {
+export interface PhasesGetResponseRulesItemRewriteRuleActionParametersHeadersValueAddDynamicHeader {
   /** An expression that evaluates to a value for the header. */
   expression: string;
   /** The operation to perform on the header. */
-  operation: PhasesGetResponseRulesItemRewriteRuleActionParametersHeadersAddDynamicHeaderOperation;
+  operation: PhasesGetResponseRulesItemRewriteRuleActionParametersHeadersValueAddDynamicHeaderOperation;
 }
-export const PhasesGetResponseRulesItemRewriteRuleActionParametersHeadersAddDynamicHeader =
+export const PhasesGetResponseRulesItemRewriteRuleActionParametersHeadersValueAddDynamicHeader =
   /*@__PURE__*/ S.suspend(() =>
     S.Struct({
       expression: S.String,
       operation:
-        PhasesGetResponseRulesItemRewriteRuleActionParametersHeadersAddDynamicHeaderOperation,
+        PhasesGetResponseRulesItemRewriteRuleActionParametersHeadersValueAddDynamicHeaderOperation,
     }),
   ).annotate({
-    identifier: "PhasesGetResponseRulesItemRewriteRuleActionParametersHeadersAddDynamicHeader",
-  }) as any as S.Schema<PhasesGetResponseRulesItemRewriteRuleActionParametersHeadersAddDynamicHeader>;
+    identifier: "PhasesGetResponseRulesItemRewriteRuleActionParametersHeadersValueAddDynamicHeader",
+  }) as any as S.Schema<PhasesGetResponseRulesItemRewriteRuleActionParametersHeadersValueAddDynamicHeader>;
 
-export type PhasesGetResponseRulesItemRewriteRuleActionParametersHeadersSetStaticHeaderOperation =
+export type PhasesGetResponseRulesItemRewriteRuleActionParametersHeadersValueSetStaticHeaderOperation =
   "set";
-export const PhasesGetResponseRulesItemRewriteRuleActionParametersHeadersSetStaticHeaderOperation =
+export const PhasesGetResponseRulesItemRewriteRuleActionParametersHeadersValueSetStaticHeaderOperation =
   S.String;
 
-export interface PhasesGetResponseRulesItemRewriteRuleActionParametersHeadersSetStaticHeader {
+export interface PhasesGetResponseRulesItemRewriteRuleActionParametersHeadersValueSetStaticHeader {
   /** The operation to perform on the header. */
-  operation: PhasesGetResponseRulesItemRewriteRuleActionParametersHeadersSetStaticHeaderOperation;
+  operation: PhasesGetResponseRulesItemRewriteRuleActionParametersHeadersValueSetStaticHeaderOperation;
   /** A static value for the header. */
   value: string;
 }
-export const PhasesGetResponseRulesItemRewriteRuleActionParametersHeadersSetStaticHeader =
+export const PhasesGetResponseRulesItemRewriteRuleActionParametersHeadersValueSetStaticHeader =
   /*@__PURE__*/ S.suspend(() =>
     S.Struct({
       operation:
-        PhasesGetResponseRulesItemRewriteRuleActionParametersHeadersSetStaticHeaderOperation,
+        PhasesGetResponseRulesItemRewriteRuleActionParametersHeadersValueSetStaticHeaderOperation,
       value: S.String,
     }),
   ).annotate({
-    identifier: "PhasesGetResponseRulesItemRewriteRuleActionParametersHeadersSetStaticHeader",
-  }) as any as S.Schema<PhasesGetResponseRulesItemRewriteRuleActionParametersHeadersSetStaticHeader>;
+    identifier: "PhasesGetResponseRulesItemRewriteRuleActionParametersHeadersValueSetStaticHeader",
+  }) as any as S.Schema<PhasesGetResponseRulesItemRewriteRuleActionParametersHeadersValueSetStaticHeader>;
 
-export type PhasesGetResponseRulesItemRewriteRuleActionParametersHeadersSetDynamicHeaderOperation =
+export type PhasesGetResponseRulesItemRewriteRuleActionParametersHeadersValueSetDynamicHeaderOperation =
   "set";
-export const PhasesGetResponseRulesItemRewriteRuleActionParametersHeadersSetDynamicHeaderOperation =
+export const PhasesGetResponseRulesItemRewriteRuleActionParametersHeadersValueSetDynamicHeaderOperation =
   S.String;
 
-export interface PhasesGetResponseRulesItemRewriteRuleActionParametersHeadersSetDynamicHeader {
+export interface PhasesGetResponseRulesItemRewriteRuleActionParametersHeadersValueSetDynamicHeader {
   /** An expression that evaluates to a value for the header. */
   expression: string;
   /** The operation to perform on the header. */
-  operation: PhasesGetResponseRulesItemRewriteRuleActionParametersHeadersSetDynamicHeaderOperation;
+  operation: PhasesGetResponseRulesItemRewriteRuleActionParametersHeadersValueSetDynamicHeaderOperation;
 }
-export const PhasesGetResponseRulesItemRewriteRuleActionParametersHeadersSetDynamicHeader =
+export const PhasesGetResponseRulesItemRewriteRuleActionParametersHeadersValueSetDynamicHeader =
   /*@__PURE__*/ S.suspend(() =>
     S.Struct({
       expression: S.String,
       operation:
-        PhasesGetResponseRulesItemRewriteRuleActionParametersHeadersSetDynamicHeaderOperation,
+        PhasesGetResponseRulesItemRewriteRuleActionParametersHeadersValueSetDynamicHeaderOperation,
     }),
   ).annotate({
-    identifier: "PhasesGetResponseRulesItemRewriteRuleActionParametersHeadersSetDynamicHeader",
-  }) as any as S.Schema<PhasesGetResponseRulesItemRewriteRuleActionParametersHeadersSetDynamicHeader>;
+    identifier: "PhasesGetResponseRulesItemRewriteRuleActionParametersHeadersValueSetDynamicHeader",
+  }) as any as S.Schema<PhasesGetResponseRulesItemRewriteRuleActionParametersHeadersValueSetDynamicHeader>;
 
-export type PhasesGetResponseRulesItemRewriteRuleActionParametersHeadersRemoveHeaderOperation =
+export type PhasesGetResponseRulesItemRewriteRuleActionParametersHeadersValueRemoveHeaderOperation =
   "remove";
-export const PhasesGetResponseRulesItemRewriteRuleActionParametersHeadersRemoveHeaderOperation =
+export const PhasesGetResponseRulesItemRewriteRuleActionParametersHeadersValueRemoveHeaderOperation =
   S.String;
 
-export interface PhasesGetResponseRulesItemRewriteRuleActionParametersHeadersRemoveHeader {
+export interface PhasesGetResponseRulesItemRewriteRuleActionParametersHeadersValueRemoveHeader {
   /** The operation to perform on the header. */
-  operation: PhasesGetResponseRulesItemRewriteRuleActionParametersHeadersRemoveHeaderOperation;
+  operation: PhasesGetResponseRulesItemRewriteRuleActionParametersHeadersValueRemoveHeaderOperation;
 }
-export const PhasesGetResponseRulesItemRewriteRuleActionParametersHeadersRemoveHeader =
+export const PhasesGetResponseRulesItemRewriteRuleActionParametersHeadersValueRemoveHeader =
   /*@__PURE__*/ S.suspend(() =>
     S.Struct({
-      operation: PhasesGetResponseRulesItemRewriteRuleActionParametersHeadersRemoveHeaderOperation,
+      operation:
+        PhasesGetResponseRulesItemRewriteRuleActionParametersHeadersValueRemoveHeaderOperation,
     }),
   ).annotate({
-    identifier: "PhasesGetResponseRulesItemRewriteRuleActionParametersHeadersRemoveHeader",
-  }) as any as S.Schema<PhasesGetResponseRulesItemRewriteRuleActionParametersHeadersRemoveHeader>;
+    identifier: "PhasesGetResponseRulesItemRewriteRuleActionParametersHeadersValueRemoveHeader",
+  }) as any as S.Schema<PhasesGetResponseRulesItemRewriteRuleActionParametersHeadersValueRemoveHeader>;
 
-export type PhasesGetResponseRulesItemRewriteRuleActionParametersHeaders =
-  | PhasesGetResponseRulesItemRewriteRuleActionParametersHeadersAddStaticHeader
-  | PhasesGetResponseRulesItemRewriteRuleActionParametersHeadersAddDynamicHeader
-  | PhasesGetResponseRulesItemRewriteRuleActionParametersHeadersSetStaticHeader
-  | PhasesGetResponseRulesItemRewriteRuleActionParametersHeadersSetDynamicHeader
-  | PhasesGetResponseRulesItemRewriteRuleActionParametersHeadersRemoveHeader;
-export const PhasesGetResponseRulesItemRewriteRuleActionParametersHeaders =
+export type PhasesGetResponseRulesItemRewriteRuleActionParametersHeadersValue =
+  | PhasesGetResponseRulesItemRewriteRuleActionParametersHeadersValueAddStaticHeader
+  | PhasesGetResponseRulesItemRewriteRuleActionParametersHeadersValueAddDynamicHeader
+  | PhasesGetResponseRulesItemRewriteRuleActionParametersHeadersValueSetStaticHeader
+  | PhasesGetResponseRulesItemRewriteRuleActionParametersHeadersValueSetDynamicHeader
+  | PhasesGetResponseRulesItemRewriteRuleActionParametersHeadersValueRemoveHeader;
+export const PhasesGetResponseRulesItemRewriteRuleActionParametersHeadersValue =
   /*@__PURE__*/ S.Unknown.pipe(
     T.UnionCases([
       ["operation", "value"],
@@ -26478,6 +26530,15 @@ export const PhasesGetResponseRulesItemRewriteRuleActionParametersHeaders =
       ["operation"],
     ]),
   );
+
+export type PhasesGetResponseRulesItemRewriteRuleActionParametersHeadersMap = {
+  [key: string]: PhasesGetResponseRulesItemRewriteRuleActionParametersHeadersValue | undefined;
+};
+export const PhasesGetResponseRulesItemRewriteRuleActionParametersHeadersMap =
+  /*@__PURE__*/ S.Record(
+    S.String,
+    PhasesGetResponseRulesItemRewriteRuleActionParametersHeadersValue,
+  ) as any as S.Schema<PhasesGetResponseRulesItemRewriteRuleActionParametersHeadersMap>;
 
 export type PhasesGetResponseRulesItemRewriteRuleActionParametersUriURIPathPath =
   RulesCreateResultRulesetRulesItemRewriteRuleActionParametersUriURIPathPath;
@@ -26512,13 +26573,13 @@ export const PhasesGetResponseRulesItemRewriteRuleActionParametersUri =
 
 export interface PhasesGetResponseRulesItemRewriteRuleActionParameters {
   /** A map of headers to rewrite. */
-  headers?: PhasesGetResponseRulesItemRewriteRuleActionParametersHeaders | null;
+  headers?: PhasesGetResponseRulesItemRewriteRuleActionParametersHeadersMap | null;
   /** A URI path rewrite. */
   uri?: PhasesGetResponseRulesItemRewriteRuleActionParametersUri | null;
 }
 export const PhasesGetResponseRulesItemRewriteRuleActionParameters = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    headers: S.optional(S.NullOr(PhasesGetResponseRulesItemRewriteRuleActionParametersHeaders)),
+    headers: S.optional(S.NullOr(PhasesGetResponseRulesItemRewriteRuleActionParametersHeadersMap)),
     uri: S.optional(S.NullOr(PhasesGetResponseRulesItemRewriteRuleActionParametersUri)),
   }),
 ).annotate({
@@ -31786,124 +31847,125 @@ export const PhasesVersionsGetResponseRulesItemRedirectRule = /*@__PURE__*/ S.su
 export type PhasesVersionsGetResponseRulesItemRewriteRuleAction = "rewrite";
 export const PhasesVersionsGetResponseRulesItemRewriteRuleAction = S.String;
 
-export type PhasesVersionsGetResponseRulesItemRewriteRuleActionParametersHeadersAddStaticHeaderOperation =
+export type PhasesVersionsGetResponseRulesItemRewriteRuleActionParametersHeadersValueAddStaticHeaderOperation =
   "add";
-export const PhasesVersionsGetResponseRulesItemRewriteRuleActionParametersHeadersAddStaticHeaderOperation =
+export const PhasesVersionsGetResponseRulesItemRewriteRuleActionParametersHeadersValueAddStaticHeaderOperation =
   S.String;
 
-export interface PhasesVersionsGetResponseRulesItemRewriteRuleActionParametersHeadersAddStaticHeader {
+export interface PhasesVersionsGetResponseRulesItemRewriteRuleActionParametersHeadersValueAddStaticHeader {
   /** The operation to perform on the header. */
-  operation: PhasesVersionsGetResponseRulesItemRewriteRuleActionParametersHeadersAddStaticHeaderOperation;
+  operation: PhasesVersionsGetResponseRulesItemRewriteRuleActionParametersHeadersValueAddStaticHeaderOperation;
   /** A static value for the header. */
   value: string;
 }
-export const PhasesVersionsGetResponseRulesItemRewriteRuleActionParametersHeadersAddStaticHeader =
+export const PhasesVersionsGetResponseRulesItemRewriteRuleActionParametersHeadersValueAddStaticHeader =
   /*@__PURE__*/ S.suspend(() =>
     S.Struct({
       operation:
-        PhasesVersionsGetResponseRulesItemRewriteRuleActionParametersHeadersAddStaticHeaderOperation,
+        PhasesVersionsGetResponseRulesItemRewriteRuleActionParametersHeadersValueAddStaticHeaderOperation,
       value: S.String,
     }),
   ).annotate({
     identifier:
-      "PhasesVersionsGetResponseRulesItemRewriteRuleActionParametersHeadersAddStaticHeader",
-  }) as any as S.Schema<PhasesVersionsGetResponseRulesItemRewriteRuleActionParametersHeadersAddStaticHeader>;
+      "PhasesVersionsGetResponseRulesItemRewriteRuleActionParametersHeadersValueAddStaticHeader",
+  }) as any as S.Schema<PhasesVersionsGetResponseRulesItemRewriteRuleActionParametersHeadersValueAddStaticHeader>;
 
-export type PhasesVersionsGetResponseRulesItemRewriteRuleActionParametersHeadersAddDynamicHeaderOperation =
+export type PhasesVersionsGetResponseRulesItemRewriteRuleActionParametersHeadersValueAddDynamicHeaderOperation =
   "add";
-export const PhasesVersionsGetResponseRulesItemRewriteRuleActionParametersHeadersAddDynamicHeaderOperation =
+export const PhasesVersionsGetResponseRulesItemRewriteRuleActionParametersHeadersValueAddDynamicHeaderOperation =
   S.String;
 
-export interface PhasesVersionsGetResponseRulesItemRewriteRuleActionParametersHeadersAddDynamicHeader {
+export interface PhasesVersionsGetResponseRulesItemRewriteRuleActionParametersHeadersValueAddDynamicHeader {
   /** An expression that evaluates to a value for the header. */
   expression: string;
   /** The operation to perform on the header. */
-  operation: PhasesVersionsGetResponseRulesItemRewriteRuleActionParametersHeadersAddDynamicHeaderOperation;
+  operation: PhasesVersionsGetResponseRulesItemRewriteRuleActionParametersHeadersValueAddDynamicHeaderOperation;
 }
-export const PhasesVersionsGetResponseRulesItemRewriteRuleActionParametersHeadersAddDynamicHeader =
+export const PhasesVersionsGetResponseRulesItemRewriteRuleActionParametersHeadersValueAddDynamicHeader =
   /*@__PURE__*/ S.suspend(() =>
     S.Struct({
       expression: S.String,
       operation:
-        PhasesVersionsGetResponseRulesItemRewriteRuleActionParametersHeadersAddDynamicHeaderOperation,
+        PhasesVersionsGetResponseRulesItemRewriteRuleActionParametersHeadersValueAddDynamicHeaderOperation,
     }),
   ).annotate({
     identifier:
-      "PhasesVersionsGetResponseRulesItemRewriteRuleActionParametersHeadersAddDynamicHeader",
-  }) as any as S.Schema<PhasesVersionsGetResponseRulesItemRewriteRuleActionParametersHeadersAddDynamicHeader>;
+      "PhasesVersionsGetResponseRulesItemRewriteRuleActionParametersHeadersValueAddDynamicHeader",
+  }) as any as S.Schema<PhasesVersionsGetResponseRulesItemRewriteRuleActionParametersHeadersValueAddDynamicHeader>;
 
-export type PhasesVersionsGetResponseRulesItemRewriteRuleActionParametersHeadersSetStaticHeaderOperation =
+export type PhasesVersionsGetResponseRulesItemRewriteRuleActionParametersHeadersValueSetStaticHeaderOperation =
   "set";
-export const PhasesVersionsGetResponseRulesItemRewriteRuleActionParametersHeadersSetStaticHeaderOperation =
+export const PhasesVersionsGetResponseRulesItemRewriteRuleActionParametersHeadersValueSetStaticHeaderOperation =
   S.String;
 
-export interface PhasesVersionsGetResponseRulesItemRewriteRuleActionParametersHeadersSetStaticHeader {
+export interface PhasesVersionsGetResponseRulesItemRewriteRuleActionParametersHeadersValueSetStaticHeader {
   /** The operation to perform on the header. */
-  operation: PhasesVersionsGetResponseRulesItemRewriteRuleActionParametersHeadersSetStaticHeaderOperation;
+  operation: PhasesVersionsGetResponseRulesItemRewriteRuleActionParametersHeadersValueSetStaticHeaderOperation;
   /** A static value for the header. */
   value: string;
 }
-export const PhasesVersionsGetResponseRulesItemRewriteRuleActionParametersHeadersSetStaticHeader =
+export const PhasesVersionsGetResponseRulesItemRewriteRuleActionParametersHeadersValueSetStaticHeader =
   /*@__PURE__*/ S.suspend(() =>
     S.Struct({
       operation:
-        PhasesVersionsGetResponseRulesItemRewriteRuleActionParametersHeadersSetStaticHeaderOperation,
+        PhasesVersionsGetResponseRulesItemRewriteRuleActionParametersHeadersValueSetStaticHeaderOperation,
       value: S.String,
     }),
   ).annotate({
     identifier:
-      "PhasesVersionsGetResponseRulesItemRewriteRuleActionParametersHeadersSetStaticHeader",
-  }) as any as S.Schema<PhasesVersionsGetResponseRulesItemRewriteRuleActionParametersHeadersSetStaticHeader>;
+      "PhasesVersionsGetResponseRulesItemRewriteRuleActionParametersHeadersValueSetStaticHeader",
+  }) as any as S.Schema<PhasesVersionsGetResponseRulesItemRewriteRuleActionParametersHeadersValueSetStaticHeader>;
 
-export type PhasesVersionsGetResponseRulesItemRewriteRuleActionParametersHeadersSetDynamicHeaderOperation =
+export type PhasesVersionsGetResponseRulesItemRewriteRuleActionParametersHeadersValueSetDynamicHeaderOperation =
   "set";
-export const PhasesVersionsGetResponseRulesItemRewriteRuleActionParametersHeadersSetDynamicHeaderOperation =
+export const PhasesVersionsGetResponseRulesItemRewriteRuleActionParametersHeadersValueSetDynamicHeaderOperation =
   S.String;
 
-export interface PhasesVersionsGetResponseRulesItemRewriteRuleActionParametersHeadersSetDynamicHeader {
+export interface PhasesVersionsGetResponseRulesItemRewriteRuleActionParametersHeadersValueSetDynamicHeader {
   /** An expression that evaluates to a value for the header. */
   expression: string;
   /** The operation to perform on the header. */
-  operation: PhasesVersionsGetResponseRulesItemRewriteRuleActionParametersHeadersSetDynamicHeaderOperation;
+  operation: PhasesVersionsGetResponseRulesItemRewriteRuleActionParametersHeadersValueSetDynamicHeaderOperation;
 }
-export const PhasesVersionsGetResponseRulesItemRewriteRuleActionParametersHeadersSetDynamicHeader =
+export const PhasesVersionsGetResponseRulesItemRewriteRuleActionParametersHeadersValueSetDynamicHeader =
   /*@__PURE__*/ S.suspend(() =>
     S.Struct({
       expression: S.String,
       operation:
-        PhasesVersionsGetResponseRulesItemRewriteRuleActionParametersHeadersSetDynamicHeaderOperation,
+        PhasesVersionsGetResponseRulesItemRewriteRuleActionParametersHeadersValueSetDynamicHeaderOperation,
     }),
   ).annotate({
     identifier:
-      "PhasesVersionsGetResponseRulesItemRewriteRuleActionParametersHeadersSetDynamicHeader",
-  }) as any as S.Schema<PhasesVersionsGetResponseRulesItemRewriteRuleActionParametersHeadersSetDynamicHeader>;
+      "PhasesVersionsGetResponseRulesItemRewriteRuleActionParametersHeadersValueSetDynamicHeader",
+  }) as any as S.Schema<PhasesVersionsGetResponseRulesItemRewriteRuleActionParametersHeadersValueSetDynamicHeader>;
 
-export type PhasesVersionsGetResponseRulesItemRewriteRuleActionParametersHeadersRemoveHeaderOperation =
+export type PhasesVersionsGetResponseRulesItemRewriteRuleActionParametersHeadersValueRemoveHeaderOperation =
   "remove";
-export const PhasesVersionsGetResponseRulesItemRewriteRuleActionParametersHeadersRemoveHeaderOperation =
+export const PhasesVersionsGetResponseRulesItemRewriteRuleActionParametersHeadersValueRemoveHeaderOperation =
   S.String;
 
-export interface PhasesVersionsGetResponseRulesItemRewriteRuleActionParametersHeadersRemoveHeader {
+export interface PhasesVersionsGetResponseRulesItemRewriteRuleActionParametersHeadersValueRemoveHeader {
   /** The operation to perform on the header. */
-  operation: PhasesVersionsGetResponseRulesItemRewriteRuleActionParametersHeadersRemoveHeaderOperation;
+  operation: PhasesVersionsGetResponseRulesItemRewriteRuleActionParametersHeadersValueRemoveHeaderOperation;
 }
-export const PhasesVersionsGetResponseRulesItemRewriteRuleActionParametersHeadersRemoveHeader =
+export const PhasesVersionsGetResponseRulesItemRewriteRuleActionParametersHeadersValueRemoveHeader =
   /*@__PURE__*/ S.suspend(() =>
     S.Struct({
       operation:
-        PhasesVersionsGetResponseRulesItemRewriteRuleActionParametersHeadersRemoveHeaderOperation,
+        PhasesVersionsGetResponseRulesItemRewriteRuleActionParametersHeadersValueRemoveHeaderOperation,
     }),
   ).annotate({
-    identifier: "PhasesVersionsGetResponseRulesItemRewriteRuleActionParametersHeadersRemoveHeader",
-  }) as any as S.Schema<PhasesVersionsGetResponseRulesItemRewriteRuleActionParametersHeadersRemoveHeader>;
+    identifier:
+      "PhasesVersionsGetResponseRulesItemRewriteRuleActionParametersHeadersValueRemoveHeader",
+  }) as any as S.Schema<PhasesVersionsGetResponseRulesItemRewriteRuleActionParametersHeadersValueRemoveHeader>;
 
-export type PhasesVersionsGetResponseRulesItemRewriteRuleActionParametersHeaders =
-  | PhasesVersionsGetResponseRulesItemRewriteRuleActionParametersHeadersAddStaticHeader
-  | PhasesVersionsGetResponseRulesItemRewriteRuleActionParametersHeadersAddDynamicHeader
-  | PhasesVersionsGetResponseRulesItemRewriteRuleActionParametersHeadersSetStaticHeader
-  | PhasesVersionsGetResponseRulesItemRewriteRuleActionParametersHeadersSetDynamicHeader
-  | PhasesVersionsGetResponseRulesItemRewriteRuleActionParametersHeadersRemoveHeader;
-export const PhasesVersionsGetResponseRulesItemRewriteRuleActionParametersHeaders =
+export type PhasesVersionsGetResponseRulesItemRewriteRuleActionParametersHeadersValue =
+  | PhasesVersionsGetResponseRulesItemRewriteRuleActionParametersHeadersValueAddStaticHeader
+  | PhasesVersionsGetResponseRulesItemRewriteRuleActionParametersHeadersValueAddDynamicHeader
+  | PhasesVersionsGetResponseRulesItemRewriteRuleActionParametersHeadersValueSetStaticHeader
+  | PhasesVersionsGetResponseRulesItemRewriteRuleActionParametersHeadersValueSetDynamicHeader
+  | PhasesVersionsGetResponseRulesItemRewriteRuleActionParametersHeadersValueRemoveHeader;
+export const PhasesVersionsGetResponseRulesItemRewriteRuleActionParametersHeadersValue =
   /*@__PURE__*/ S.Unknown.pipe(
     T.UnionCases([
       ["operation", "value"],
@@ -31913,6 +31975,17 @@ export const PhasesVersionsGetResponseRulesItemRewriteRuleActionParametersHeader
       ["operation"],
     ]),
   );
+
+export type PhasesVersionsGetResponseRulesItemRewriteRuleActionParametersHeadersMap = {
+  [key: string]:
+    | PhasesVersionsGetResponseRulesItemRewriteRuleActionParametersHeadersValue
+    | undefined;
+};
+export const PhasesVersionsGetResponseRulesItemRewriteRuleActionParametersHeadersMap =
+  /*@__PURE__*/ S.Record(
+    S.String,
+    PhasesVersionsGetResponseRulesItemRewriteRuleActionParametersHeadersValue,
+  ) as any as S.Schema<PhasesVersionsGetResponseRulesItemRewriteRuleActionParametersHeadersMap>;
 
 export type PhasesVersionsGetResponseRulesItemRewriteRuleActionParametersUriURIPathPath =
   RulesCreateResultRulesetRulesItemRewriteRuleActionParametersUriURIPathPath;
@@ -31947,7 +32020,7 @@ export const PhasesVersionsGetResponseRulesItemRewriteRuleActionParametersUri =
 
 export interface PhasesVersionsGetResponseRulesItemRewriteRuleActionParameters {
   /** A map of headers to rewrite. */
-  headers?: PhasesVersionsGetResponseRulesItemRewriteRuleActionParametersHeaders | null;
+  headers?: PhasesVersionsGetResponseRulesItemRewriteRuleActionParametersHeadersMap | null;
   /** A URI path rewrite. */
   uri?: PhasesVersionsGetResponseRulesItemRewriteRuleActionParametersUri | null;
 }
@@ -31955,7 +32028,7 @@ export const PhasesVersionsGetResponseRulesItemRewriteRuleActionParameters =
   /*@__PURE__*/ S.suspend(() =>
     S.Struct({
       headers: S.optional(
-        S.NullOr(PhasesVersionsGetResponseRulesItemRewriteRuleActionParametersHeaders),
+        S.NullOr(PhasesVersionsGetResponseRulesItemRewriteRuleActionParametersHeadersMap),
       ),
       uri: S.optional(S.NullOr(PhasesVersionsGetResponseRulesItemRewriteRuleActionParametersUri)),
     }),
@@ -37220,117 +37293,136 @@ export const GetResponseRulesItemRedirectRule = /*@__PURE__*/ S.suspend(() =>
 export type GetResponseRulesItemRewriteRuleAction = "rewrite";
 export const GetResponseRulesItemRewriteRuleAction = S.String;
 
-export type GetResponseRulesItemRewriteRuleActionParametersHeadersAddStaticHeaderOperation = "add";
-export const GetResponseRulesItemRewriteRuleActionParametersHeadersAddStaticHeaderOperation =
+export type GetResponseRulesItemRewriteRuleActionParametersHeadersValueAddStaticHeaderOperation =
+  "add";
+export const GetResponseRulesItemRewriteRuleActionParametersHeadersValueAddStaticHeaderOperation =
   S.String;
 
-export interface GetResponseRulesItemRewriteRuleActionParametersHeadersAddStaticHeader {
+export interface GetResponseRulesItemRewriteRuleActionParametersHeadersValueAddStaticHeader {
   /** The operation to perform on the header. */
-  operation: GetResponseRulesItemRewriteRuleActionParametersHeadersAddStaticHeaderOperation;
+  operation: GetResponseRulesItemRewriteRuleActionParametersHeadersValueAddStaticHeaderOperation;
   /** A static value for the header. */
   value: string;
 }
-export const GetResponseRulesItemRewriteRuleActionParametersHeadersAddStaticHeader =
+export const GetResponseRulesItemRewriteRuleActionParametersHeadersValueAddStaticHeader =
   /*@__PURE__*/ S.suspend(() =>
     S.Struct({
-      operation: GetResponseRulesItemRewriteRuleActionParametersHeadersAddStaticHeaderOperation,
+      operation:
+        GetResponseRulesItemRewriteRuleActionParametersHeadersValueAddStaticHeaderOperation,
       value: S.String,
     }),
   ).annotate({
-    identifier: "GetResponseRulesItemRewriteRuleActionParametersHeadersAddStaticHeader",
-  }) as any as S.Schema<GetResponseRulesItemRewriteRuleActionParametersHeadersAddStaticHeader>;
+    identifier: "GetResponseRulesItemRewriteRuleActionParametersHeadersValueAddStaticHeader",
+  }) as any as S.Schema<GetResponseRulesItemRewriteRuleActionParametersHeadersValueAddStaticHeader>;
 
-export type GetResponseRulesItemRewriteRuleActionParametersHeadersAddDynamicHeaderOperation = "add";
-export const GetResponseRulesItemRewriteRuleActionParametersHeadersAddDynamicHeaderOperation =
+export type GetResponseRulesItemRewriteRuleActionParametersHeadersValueAddDynamicHeaderOperation =
+  "add";
+export const GetResponseRulesItemRewriteRuleActionParametersHeadersValueAddDynamicHeaderOperation =
   S.String;
 
-export interface GetResponseRulesItemRewriteRuleActionParametersHeadersAddDynamicHeader {
+export interface GetResponseRulesItemRewriteRuleActionParametersHeadersValueAddDynamicHeader {
   /** An expression that evaluates to a value for the header. */
   expression: string;
   /** The operation to perform on the header. */
-  operation: GetResponseRulesItemRewriteRuleActionParametersHeadersAddDynamicHeaderOperation;
+  operation: GetResponseRulesItemRewriteRuleActionParametersHeadersValueAddDynamicHeaderOperation;
 }
-export const GetResponseRulesItemRewriteRuleActionParametersHeadersAddDynamicHeader =
+export const GetResponseRulesItemRewriteRuleActionParametersHeadersValueAddDynamicHeader =
   /*@__PURE__*/ S.suspend(() =>
     S.Struct({
       expression: S.String,
-      operation: GetResponseRulesItemRewriteRuleActionParametersHeadersAddDynamicHeaderOperation,
+      operation:
+        GetResponseRulesItemRewriteRuleActionParametersHeadersValueAddDynamicHeaderOperation,
     }),
   ).annotate({
-    identifier: "GetResponseRulesItemRewriteRuleActionParametersHeadersAddDynamicHeader",
-  }) as any as S.Schema<GetResponseRulesItemRewriteRuleActionParametersHeadersAddDynamicHeader>;
+    identifier: "GetResponseRulesItemRewriteRuleActionParametersHeadersValueAddDynamicHeader",
+  }) as any as S.Schema<GetResponseRulesItemRewriteRuleActionParametersHeadersValueAddDynamicHeader>;
 
-export type GetResponseRulesItemRewriteRuleActionParametersHeadersSetStaticHeaderOperation = "set";
-export const GetResponseRulesItemRewriteRuleActionParametersHeadersSetStaticHeaderOperation =
+export type GetResponseRulesItemRewriteRuleActionParametersHeadersValueSetStaticHeaderOperation =
+  "set";
+export const GetResponseRulesItemRewriteRuleActionParametersHeadersValueSetStaticHeaderOperation =
   S.String;
 
-export interface GetResponseRulesItemRewriteRuleActionParametersHeadersSetStaticHeader {
+export interface GetResponseRulesItemRewriteRuleActionParametersHeadersValueSetStaticHeader {
   /** The operation to perform on the header. */
-  operation: GetResponseRulesItemRewriteRuleActionParametersHeadersSetStaticHeaderOperation;
+  operation: GetResponseRulesItemRewriteRuleActionParametersHeadersValueSetStaticHeaderOperation;
   /** A static value for the header. */
   value: string;
 }
-export const GetResponseRulesItemRewriteRuleActionParametersHeadersSetStaticHeader =
+export const GetResponseRulesItemRewriteRuleActionParametersHeadersValueSetStaticHeader =
   /*@__PURE__*/ S.suspend(() =>
     S.Struct({
-      operation: GetResponseRulesItemRewriteRuleActionParametersHeadersSetStaticHeaderOperation,
+      operation:
+        GetResponseRulesItemRewriteRuleActionParametersHeadersValueSetStaticHeaderOperation,
       value: S.String,
     }),
   ).annotate({
-    identifier: "GetResponseRulesItemRewriteRuleActionParametersHeadersSetStaticHeader",
-  }) as any as S.Schema<GetResponseRulesItemRewriteRuleActionParametersHeadersSetStaticHeader>;
+    identifier: "GetResponseRulesItemRewriteRuleActionParametersHeadersValueSetStaticHeader",
+  }) as any as S.Schema<GetResponseRulesItemRewriteRuleActionParametersHeadersValueSetStaticHeader>;
 
-export type GetResponseRulesItemRewriteRuleActionParametersHeadersSetDynamicHeaderOperation = "set";
-export const GetResponseRulesItemRewriteRuleActionParametersHeadersSetDynamicHeaderOperation =
+export type GetResponseRulesItemRewriteRuleActionParametersHeadersValueSetDynamicHeaderOperation =
+  "set";
+export const GetResponseRulesItemRewriteRuleActionParametersHeadersValueSetDynamicHeaderOperation =
   S.String;
 
-export interface GetResponseRulesItemRewriteRuleActionParametersHeadersSetDynamicHeader {
+export interface GetResponseRulesItemRewriteRuleActionParametersHeadersValueSetDynamicHeader {
   /** An expression that evaluates to a value for the header. */
   expression: string;
   /** The operation to perform on the header. */
-  operation: GetResponseRulesItemRewriteRuleActionParametersHeadersSetDynamicHeaderOperation;
+  operation: GetResponseRulesItemRewriteRuleActionParametersHeadersValueSetDynamicHeaderOperation;
 }
-export const GetResponseRulesItemRewriteRuleActionParametersHeadersSetDynamicHeader =
+export const GetResponseRulesItemRewriteRuleActionParametersHeadersValueSetDynamicHeader =
   /*@__PURE__*/ S.suspend(() =>
     S.Struct({
       expression: S.String,
-      operation: GetResponseRulesItemRewriteRuleActionParametersHeadersSetDynamicHeaderOperation,
+      operation:
+        GetResponseRulesItemRewriteRuleActionParametersHeadersValueSetDynamicHeaderOperation,
     }),
   ).annotate({
-    identifier: "GetResponseRulesItemRewriteRuleActionParametersHeadersSetDynamicHeader",
-  }) as any as S.Schema<GetResponseRulesItemRewriteRuleActionParametersHeadersSetDynamicHeader>;
+    identifier: "GetResponseRulesItemRewriteRuleActionParametersHeadersValueSetDynamicHeader",
+  }) as any as S.Schema<GetResponseRulesItemRewriteRuleActionParametersHeadersValueSetDynamicHeader>;
 
-export type GetResponseRulesItemRewriteRuleActionParametersHeadersRemoveHeaderOperation = "remove";
-export const GetResponseRulesItemRewriteRuleActionParametersHeadersRemoveHeaderOperation = S.String;
+export type GetResponseRulesItemRewriteRuleActionParametersHeadersValueRemoveHeaderOperation =
+  "remove";
+export const GetResponseRulesItemRewriteRuleActionParametersHeadersValueRemoveHeaderOperation =
+  S.String;
 
-export interface GetResponseRulesItemRewriteRuleActionParametersHeadersRemoveHeader {
+export interface GetResponseRulesItemRewriteRuleActionParametersHeadersValueRemoveHeader {
   /** The operation to perform on the header. */
-  operation: GetResponseRulesItemRewriteRuleActionParametersHeadersRemoveHeaderOperation;
+  operation: GetResponseRulesItemRewriteRuleActionParametersHeadersValueRemoveHeaderOperation;
 }
-export const GetResponseRulesItemRewriteRuleActionParametersHeadersRemoveHeader =
+export const GetResponseRulesItemRewriteRuleActionParametersHeadersValueRemoveHeader =
   /*@__PURE__*/ S.suspend(() =>
     S.Struct({
-      operation: GetResponseRulesItemRewriteRuleActionParametersHeadersRemoveHeaderOperation,
+      operation: GetResponseRulesItemRewriteRuleActionParametersHeadersValueRemoveHeaderOperation,
     }),
   ).annotate({
-    identifier: "GetResponseRulesItemRewriteRuleActionParametersHeadersRemoveHeader",
-  }) as any as S.Schema<GetResponseRulesItemRewriteRuleActionParametersHeadersRemoveHeader>;
+    identifier: "GetResponseRulesItemRewriteRuleActionParametersHeadersValueRemoveHeader",
+  }) as any as S.Schema<GetResponseRulesItemRewriteRuleActionParametersHeadersValueRemoveHeader>;
 
-export type GetResponseRulesItemRewriteRuleActionParametersHeaders =
-  | GetResponseRulesItemRewriteRuleActionParametersHeadersAddStaticHeader
-  | GetResponseRulesItemRewriteRuleActionParametersHeadersAddDynamicHeader
-  | GetResponseRulesItemRewriteRuleActionParametersHeadersSetStaticHeader
-  | GetResponseRulesItemRewriteRuleActionParametersHeadersSetDynamicHeader
-  | GetResponseRulesItemRewriteRuleActionParametersHeadersRemoveHeader;
-export const GetResponseRulesItemRewriteRuleActionParametersHeaders = /*@__PURE__*/ S.Unknown.pipe(
-  T.UnionCases([
-    ["operation", "value"],
-    ["expression", "operation"],
-    ["operation", "value"],
-    ["expression", "operation"],
-    ["operation"],
-  ]),
-);
+export type GetResponseRulesItemRewriteRuleActionParametersHeadersValue =
+  | GetResponseRulesItemRewriteRuleActionParametersHeadersValueAddStaticHeader
+  | GetResponseRulesItemRewriteRuleActionParametersHeadersValueAddDynamicHeader
+  | GetResponseRulesItemRewriteRuleActionParametersHeadersValueSetStaticHeader
+  | GetResponseRulesItemRewriteRuleActionParametersHeadersValueSetDynamicHeader
+  | GetResponseRulesItemRewriteRuleActionParametersHeadersValueRemoveHeader;
+export const GetResponseRulesItemRewriteRuleActionParametersHeadersValue =
+  /*@__PURE__*/ S.Unknown.pipe(
+    T.UnionCases([
+      ["operation", "value"],
+      ["expression", "operation"],
+      ["operation", "value"],
+      ["expression", "operation"],
+      ["operation"],
+    ]),
+  );
+
+export type GetResponseRulesItemRewriteRuleActionParametersHeadersMap = {
+  [key: string]: GetResponseRulesItemRewriteRuleActionParametersHeadersValue | undefined;
+};
+export const GetResponseRulesItemRewriteRuleActionParametersHeadersMap = /*@__PURE__*/ S.Record(
+  S.String,
+  GetResponseRulesItemRewriteRuleActionParametersHeadersValue,
+) as any as S.Schema<GetResponseRulesItemRewriteRuleActionParametersHeadersMap>;
 
 export type GetResponseRulesItemRewriteRuleActionParametersUriURIPathPath =
   RulesCreateResultRulesetRulesItemRewriteRuleActionParametersUriURIPathPath;
@@ -37364,13 +37456,13 @@ export const GetResponseRulesItemRewriteRuleActionParametersUri = /*@__PURE__*/ 
 
 export interface GetResponseRulesItemRewriteRuleActionParameters {
   /** A map of headers to rewrite. */
-  headers?: GetResponseRulesItemRewriteRuleActionParametersHeaders | null;
+  headers?: GetResponseRulesItemRewriteRuleActionParametersHeadersMap | null;
   /** A URI path rewrite. */
   uri?: GetResponseRulesItemRewriteRuleActionParametersUri | null;
 }
 export const GetResponseRulesItemRewriteRuleActionParameters = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    headers: S.optional(S.NullOr(GetResponseRulesItemRewriteRuleActionParametersHeaders)),
+    headers: S.optional(S.NullOr(GetResponseRulesItemRewriteRuleActionParametersHeadersMap)),
     uri: S.optional(S.NullOr(GetResponseRulesItemRewriteRuleActionParametersUri)),
   }),
 ).annotate({
@@ -42534,120 +42626,124 @@ export const VersionsGetResponseRulesItemRedirectRule = /*@__PURE__*/ S.suspend(
 export type VersionsGetResponseRulesItemRewriteRuleAction = "rewrite";
 export const VersionsGetResponseRulesItemRewriteRuleAction = S.String;
 
-export type VersionsGetResponseRulesItemRewriteRuleActionParametersHeadersAddStaticHeaderOperation =
+export type VersionsGetResponseRulesItemRewriteRuleActionParametersHeadersValueAddStaticHeaderOperation =
   "add";
-export const VersionsGetResponseRulesItemRewriteRuleActionParametersHeadersAddStaticHeaderOperation =
+export const VersionsGetResponseRulesItemRewriteRuleActionParametersHeadersValueAddStaticHeaderOperation =
   S.String;
 
-export interface VersionsGetResponseRulesItemRewriteRuleActionParametersHeadersAddStaticHeader {
+export interface VersionsGetResponseRulesItemRewriteRuleActionParametersHeadersValueAddStaticHeader {
   /** The operation to perform on the header. */
-  operation: VersionsGetResponseRulesItemRewriteRuleActionParametersHeadersAddStaticHeaderOperation;
+  operation: VersionsGetResponseRulesItemRewriteRuleActionParametersHeadersValueAddStaticHeaderOperation;
   /** A static value for the header. */
   value: string;
 }
-export const VersionsGetResponseRulesItemRewriteRuleActionParametersHeadersAddStaticHeader =
+export const VersionsGetResponseRulesItemRewriteRuleActionParametersHeadersValueAddStaticHeader =
   /*@__PURE__*/ S.suspend(() =>
     S.Struct({
       operation:
-        VersionsGetResponseRulesItemRewriteRuleActionParametersHeadersAddStaticHeaderOperation,
+        VersionsGetResponseRulesItemRewriteRuleActionParametersHeadersValueAddStaticHeaderOperation,
       value: S.String,
     }),
   ).annotate({
-    identifier: "VersionsGetResponseRulesItemRewriteRuleActionParametersHeadersAddStaticHeader",
-  }) as any as S.Schema<VersionsGetResponseRulesItemRewriteRuleActionParametersHeadersAddStaticHeader>;
+    identifier:
+      "VersionsGetResponseRulesItemRewriteRuleActionParametersHeadersValueAddStaticHeader",
+  }) as any as S.Schema<VersionsGetResponseRulesItemRewriteRuleActionParametersHeadersValueAddStaticHeader>;
 
-export type VersionsGetResponseRulesItemRewriteRuleActionParametersHeadersAddDynamicHeaderOperation =
+export type VersionsGetResponseRulesItemRewriteRuleActionParametersHeadersValueAddDynamicHeaderOperation =
   "add";
-export const VersionsGetResponseRulesItemRewriteRuleActionParametersHeadersAddDynamicHeaderOperation =
+export const VersionsGetResponseRulesItemRewriteRuleActionParametersHeadersValueAddDynamicHeaderOperation =
   S.String;
 
-export interface VersionsGetResponseRulesItemRewriteRuleActionParametersHeadersAddDynamicHeader {
+export interface VersionsGetResponseRulesItemRewriteRuleActionParametersHeadersValueAddDynamicHeader {
   /** An expression that evaluates to a value for the header. */
   expression: string;
   /** The operation to perform on the header. */
-  operation: VersionsGetResponseRulesItemRewriteRuleActionParametersHeadersAddDynamicHeaderOperation;
+  operation: VersionsGetResponseRulesItemRewriteRuleActionParametersHeadersValueAddDynamicHeaderOperation;
 }
-export const VersionsGetResponseRulesItemRewriteRuleActionParametersHeadersAddDynamicHeader =
+export const VersionsGetResponseRulesItemRewriteRuleActionParametersHeadersValueAddDynamicHeader =
   /*@__PURE__*/ S.suspend(() =>
     S.Struct({
       expression: S.String,
       operation:
-        VersionsGetResponseRulesItemRewriteRuleActionParametersHeadersAddDynamicHeaderOperation,
+        VersionsGetResponseRulesItemRewriteRuleActionParametersHeadersValueAddDynamicHeaderOperation,
     }),
   ).annotate({
-    identifier: "VersionsGetResponseRulesItemRewriteRuleActionParametersHeadersAddDynamicHeader",
-  }) as any as S.Schema<VersionsGetResponseRulesItemRewriteRuleActionParametersHeadersAddDynamicHeader>;
+    identifier:
+      "VersionsGetResponseRulesItemRewriteRuleActionParametersHeadersValueAddDynamicHeader",
+  }) as any as S.Schema<VersionsGetResponseRulesItemRewriteRuleActionParametersHeadersValueAddDynamicHeader>;
 
-export type VersionsGetResponseRulesItemRewriteRuleActionParametersHeadersSetStaticHeaderOperation =
+export type VersionsGetResponseRulesItemRewriteRuleActionParametersHeadersValueSetStaticHeaderOperation =
   "set";
-export const VersionsGetResponseRulesItemRewriteRuleActionParametersHeadersSetStaticHeaderOperation =
+export const VersionsGetResponseRulesItemRewriteRuleActionParametersHeadersValueSetStaticHeaderOperation =
   S.String;
 
-export interface VersionsGetResponseRulesItemRewriteRuleActionParametersHeadersSetStaticHeader {
+export interface VersionsGetResponseRulesItemRewriteRuleActionParametersHeadersValueSetStaticHeader {
   /** The operation to perform on the header. */
-  operation: VersionsGetResponseRulesItemRewriteRuleActionParametersHeadersSetStaticHeaderOperation;
+  operation: VersionsGetResponseRulesItemRewriteRuleActionParametersHeadersValueSetStaticHeaderOperation;
   /** A static value for the header. */
   value: string;
 }
-export const VersionsGetResponseRulesItemRewriteRuleActionParametersHeadersSetStaticHeader =
+export const VersionsGetResponseRulesItemRewriteRuleActionParametersHeadersValueSetStaticHeader =
   /*@__PURE__*/ S.suspend(() =>
     S.Struct({
       operation:
-        VersionsGetResponseRulesItemRewriteRuleActionParametersHeadersSetStaticHeaderOperation,
+        VersionsGetResponseRulesItemRewriteRuleActionParametersHeadersValueSetStaticHeaderOperation,
       value: S.String,
     }),
   ).annotate({
-    identifier: "VersionsGetResponseRulesItemRewriteRuleActionParametersHeadersSetStaticHeader",
-  }) as any as S.Schema<VersionsGetResponseRulesItemRewriteRuleActionParametersHeadersSetStaticHeader>;
+    identifier:
+      "VersionsGetResponseRulesItemRewriteRuleActionParametersHeadersValueSetStaticHeader",
+  }) as any as S.Schema<VersionsGetResponseRulesItemRewriteRuleActionParametersHeadersValueSetStaticHeader>;
 
-export type VersionsGetResponseRulesItemRewriteRuleActionParametersHeadersSetDynamicHeaderOperation =
+export type VersionsGetResponseRulesItemRewriteRuleActionParametersHeadersValueSetDynamicHeaderOperation =
   "set";
-export const VersionsGetResponseRulesItemRewriteRuleActionParametersHeadersSetDynamicHeaderOperation =
+export const VersionsGetResponseRulesItemRewriteRuleActionParametersHeadersValueSetDynamicHeaderOperation =
   S.String;
 
-export interface VersionsGetResponseRulesItemRewriteRuleActionParametersHeadersSetDynamicHeader {
+export interface VersionsGetResponseRulesItemRewriteRuleActionParametersHeadersValueSetDynamicHeader {
   /** An expression that evaluates to a value for the header. */
   expression: string;
   /** The operation to perform on the header. */
-  operation: VersionsGetResponseRulesItemRewriteRuleActionParametersHeadersSetDynamicHeaderOperation;
+  operation: VersionsGetResponseRulesItemRewriteRuleActionParametersHeadersValueSetDynamicHeaderOperation;
 }
-export const VersionsGetResponseRulesItemRewriteRuleActionParametersHeadersSetDynamicHeader =
+export const VersionsGetResponseRulesItemRewriteRuleActionParametersHeadersValueSetDynamicHeader =
   /*@__PURE__*/ S.suspend(() =>
     S.Struct({
       expression: S.String,
       operation:
-        VersionsGetResponseRulesItemRewriteRuleActionParametersHeadersSetDynamicHeaderOperation,
+        VersionsGetResponseRulesItemRewriteRuleActionParametersHeadersValueSetDynamicHeaderOperation,
     }),
   ).annotate({
-    identifier: "VersionsGetResponseRulesItemRewriteRuleActionParametersHeadersSetDynamicHeader",
-  }) as any as S.Schema<VersionsGetResponseRulesItemRewriteRuleActionParametersHeadersSetDynamicHeader>;
+    identifier:
+      "VersionsGetResponseRulesItemRewriteRuleActionParametersHeadersValueSetDynamicHeader",
+  }) as any as S.Schema<VersionsGetResponseRulesItemRewriteRuleActionParametersHeadersValueSetDynamicHeader>;
 
-export type VersionsGetResponseRulesItemRewriteRuleActionParametersHeadersRemoveHeaderOperation =
+export type VersionsGetResponseRulesItemRewriteRuleActionParametersHeadersValueRemoveHeaderOperation =
   "remove";
-export const VersionsGetResponseRulesItemRewriteRuleActionParametersHeadersRemoveHeaderOperation =
+export const VersionsGetResponseRulesItemRewriteRuleActionParametersHeadersValueRemoveHeaderOperation =
   S.String;
 
-export interface VersionsGetResponseRulesItemRewriteRuleActionParametersHeadersRemoveHeader {
+export interface VersionsGetResponseRulesItemRewriteRuleActionParametersHeadersValueRemoveHeader {
   /** The operation to perform on the header. */
-  operation: VersionsGetResponseRulesItemRewriteRuleActionParametersHeadersRemoveHeaderOperation;
+  operation: VersionsGetResponseRulesItemRewriteRuleActionParametersHeadersValueRemoveHeaderOperation;
 }
-export const VersionsGetResponseRulesItemRewriteRuleActionParametersHeadersRemoveHeader =
+export const VersionsGetResponseRulesItemRewriteRuleActionParametersHeadersValueRemoveHeader =
   /*@__PURE__*/ S.suspend(() =>
     S.Struct({
       operation:
-        VersionsGetResponseRulesItemRewriteRuleActionParametersHeadersRemoveHeaderOperation,
+        VersionsGetResponseRulesItemRewriteRuleActionParametersHeadersValueRemoveHeaderOperation,
     }),
   ).annotate({
-    identifier: "VersionsGetResponseRulesItemRewriteRuleActionParametersHeadersRemoveHeader",
-  }) as any as S.Schema<VersionsGetResponseRulesItemRewriteRuleActionParametersHeadersRemoveHeader>;
+    identifier: "VersionsGetResponseRulesItemRewriteRuleActionParametersHeadersValueRemoveHeader",
+  }) as any as S.Schema<VersionsGetResponseRulesItemRewriteRuleActionParametersHeadersValueRemoveHeader>;
 
-export type VersionsGetResponseRulesItemRewriteRuleActionParametersHeaders =
-  | VersionsGetResponseRulesItemRewriteRuleActionParametersHeadersAddStaticHeader
-  | VersionsGetResponseRulesItemRewriteRuleActionParametersHeadersAddDynamicHeader
-  | VersionsGetResponseRulesItemRewriteRuleActionParametersHeadersSetStaticHeader
-  | VersionsGetResponseRulesItemRewriteRuleActionParametersHeadersSetDynamicHeader
-  | VersionsGetResponseRulesItemRewriteRuleActionParametersHeadersRemoveHeader;
-export const VersionsGetResponseRulesItemRewriteRuleActionParametersHeaders =
+export type VersionsGetResponseRulesItemRewriteRuleActionParametersHeadersValue =
+  | VersionsGetResponseRulesItemRewriteRuleActionParametersHeadersValueAddStaticHeader
+  | VersionsGetResponseRulesItemRewriteRuleActionParametersHeadersValueAddDynamicHeader
+  | VersionsGetResponseRulesItemRewriteRuleActionParametersHeadersValueSetStaticHeader
+  | VersionsGetResponseRulesItemRewriteRuleActionParametersHeadersValueSetDynamicHeader
+  | VersionsGetResponseRulesItemRewriteRuleActionParametersHeadersValueRemoveHeader;
+export const VersionsGetResponseRulesItemRewriteRuleActionParametersHeadersValue =
   /*@__PURE__*/ S.Unknown.pipe(
     T.UnionCases([
       ["operation", "value"],
@@ -42657,6 +42753,15 @@ export const VersionsGetResponseRulesItemRewriteRuleActionParametersHeaders =
       ["operation"],
     ]),
   );
+
+export type VersionsGetResponseRulesItemRewriteRuleActionParametersHeadersMap = {
+  [key: string]: VersionsGetResponseRulesItemRewriteRuleActionParametersHeadersValue | undefined;
+};
+export const VersionsGetResponseRulesItemRewriteRuleActionParametersHeadersMap =
+  /*@__PURE__*/ S.Record(
+    S.String,
+    VersionsGetResponseRulesItemRewriteRuleActionParametersHeadersValue,
+  ) as any as S.Schema<VersionsGetResponseRulesItemRewriteRuleActionParametersHeadersMap>;
 
 export type VersionsGetResponseRulesItemRewriteRuleActionParametersUriURIPathPath =
   RulesCreateResultRulesetRulesItemRewriteRuleActionParametersUriURIPathPath;
@@ -42691,13 +42796,15 @@ export const VersionsGetResponseRulesItemRewriteRuleActionParametersUri =
 
 export interface VersionsGetResponseRulesItemRewriteRuleActionParameters {
   /** A map of headers to rewrite. */
-  headers?: VersionsGetResponseRulesItemRewriteRuleActionParametersHeaders | null;
+  headers?: VersionsGetResponseRulesItemRewriteRuleActionParametersHeadersMap | null;
   /** A URI path rewrite. */
   uri?: VersionsGetResponseRulesItemRewriteRuleActionParametersUri | null;
 }
 export const VersionsGetResponseRulesItemRewriteRuleActionParameters = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    headers: S.optional(S.NullOr(VersionsGetResponseRulesItemRewriteRuleActionParametersHeaders)),
+    headers: S.optional(
+      S.NullOr(VersionsGetResponseRulesItemRewriteRuleActionParametersHeadersMap),
+    ),
     uri: S.optional(S.NullOr(VersionsGetResponseRulesItemRewriteRuleActionParametersUri)),
   }),
 ).annotate({
@@ -50770,120 +50877,125 @@ export const RulesEditResultRulesetRulesItemRedirectRule = /*@__PURE__*/ S.suspe
 export type RulesEditResultRulesetRulesItemRewriteRuleAction = "rewrite";
 export const RulesEditResultRulesetRulesItemRewriteRuleAction = S.String;
 
-export type RulesEditResultRulesetRulesItemRewriteRuleActionParametersHeadersAddStaticHeaderOperation =
+export type RulesEditResultRulesetRulesItemRewriteRuleActionParametersHeadersValueAddStaticHeaderOperation =
   "add";
-export const RulesEditResultRulesetRulesItemRewriteRuleActionParametersHeadersAddStaticHeaderOperation =
+export const RulesEditResultRulesetRulesItemRewriteRuleActionParametersHeadersValueAddStaticHeaderOperation =
   S.String;
 
-export interface RulesEditResultRulesetRulesItemRewriteRuleActionParametersHeadersAddStaticHeader {
+export interface RulesEditResultRulesetRulesItemRewriteRuleActionParametersHeadersValueAddStaticHeader {
   /** The operation to perform on the header. */
-  operation: RulesEditResultRulesetRulesItemRewriteRuleActionParametersHeadersAddStaticHeaderOperation;
+  operation: RulesEditResultRulesetRulesItemRewriteRuleActionParametersHeadersValueAddStaticHeaderOperation;
   /** A static value for the header. */
   value: string;
 }
-export const RulesEditResultRulesetRulesItemRewriteRuleActionParametersHeadersAddStaticHeader =
+export const RulesEditResultRulesetRulesItemRewriteRuleActionParametersHeadersValueAddStaticHeader =
   /*@__PURE__*/ S.suspend(() =>
     S.Struct({
       operation:
-        RulesEditResultRulesetRulesItemRewriteRuleActionParametersHeadersAddStaticHeaderOperation,
+        RulesEditResultRulesetRulesItemRewriteRuleActionParametersHeadersValueAddStaticHeaderOperation,
       value: S.String,
     }),
   ).annotate({
-    identifier: "RulesEditResultRulesetRulesItemRewriteRuleActionParametersHeadersAddStaticHeader",
-  }) as any as S.Schema<RulesEditResultRulesetRulesItemRewriteRuleActionParametersHeadersAddStaticHeader>;
+    identifier:
+      "RulesEditResultRulesetRulesItemRewriteRuleActionParametersHeadersValueAddStaticHeader",
+  }) as any as S.Schema<RulesEditResultRulesetRulesItemRewriteRuleActionParametersHeadersValueAddStaticHeader>;
 
-export type RulesEditResultRulesetRulesItemRewriteRuleActionParametersHeadersAddDynamicHeaderOperation =
+export type RulesEditResultRulesetRulesItemRewriteRuleActionParametersHeadersValueAddDynamicHeaderOperation =
   "add";
-export const RulesEditResultRulesetRulesItemRewriteRuleActionParametersHeadersAddDynamicHeaderOperation =
+export const RulesEditResultRulesetRulesItemRewriteRuleActionParametersHeadersValueAddDynamicHeaderOperation =
   S.String;
 
-export interface RulesEditResultRulesetRulesItemRewriteRuleActionParametersHeadersAddDynamicHeader {
+export interface RulesEditResultRulesetRulesItemRewriteRuleActionParametersHeadersValueAddDynamicHeader {
   /** An expression that evaluates to a value for the header. */
   expression: string;
   /** The operation to perform on the header. */
-  operation: RulesEditResultRulesetRulesItemRewriteRuleActionParametersHeadersAddDynamicHeaderOperation;
+  operation: RulesEditResultRulesetRulesItemRewriteRuleActionParametersHeadersValueAddDynamicHeaderOperation;
 }
-export const RulesEditResultRulesetRulesItemRewriteRuleActionParametersHeadersAddDynamicHeader =
+export const RulesEditResultRulesetRulesItemRewriteRuleActionParametersHeadersValueAddDynamicHeader =
   /*@__PURE__*/ S.suspend(() =>
     S.Struct({
       expression: S.String,
       operation:
-        RulesEditResultRulesetRulesItemRewriteRuleActionParametersHeadersAddDynamicHeaderOperation,
+        RulesEditResultRulesetRulesItemRewriteRuleActionParametersHeadersValueAddDynamicHeaderOperation,
     }),
   ).annotate({
-    identifier: "RulesEditResultRulesetRulesItemRewriteRuleActionParametersHeadersAddDynamicHeader",
-  }) as any as S.Schema<RulesEditResultRulesetRulesItemRewriteRuleActionParametersHeadersAddDynamicHeader>;
+    identifier:
+      "RulesEditResultRulesetRulesItemRewriteRuleActionParametersHeadersValueAddDynamicHeader",
+  }) as any as S.Schema<RulesEditResultRulesetRulesItemRewriteRuleActionParametersHeadersValueAddDynamicHeader>;
 
-export type RulesEditResultRulesetRulesItemRewriteRuleActionParametersHeadersSetStaticHeaderOperation =
+export type RulesEditResultRulesetRulesItemRewriteRuleActionParametersHeadersValueSetStaticHeaderOperation =
   "set";
-export const RulesEditResultRulesetRulesItemRewriteRuleActionParametersHeadersSetStaticHeaderOperation =
+export const RulesEditResultRulesetRulesItemRewriteRuleActionParametersHeadersValueSetStaticHeaderOperation =
   S.String;
 
-export interface RulesEditResultRulesetRulesItemRewriteRuleActionParametersHeadersSetStaticHeader {
+export interface RulesEditResultRulesetRulesItemRewriteRuleActionParametersHeadersValueSetStaticHeader {
   /** The operation to perform on the header. */
-  operation: RulesEditResultRulesetRulesItemRewriteRuleActionParametersHeadersSetStaticHeaderOperation;
+  operation: RulesEditResultRulesetRulesItemRewriteRuleActionParametersHeadersValueSetStaticHeaderOperation;
   /** A static value for the header. */
   value: string;
 }
-export const RulesEditResultRulesetRulesItemRewriteRuleActionParametersHeadersSetStaticHeader =
+export const RulesEditResultRulesetRulesItemRewriteRuleActionParametersHeadersValueSetStaticHeader =
   /*@__PURE__*/ S.suspend(() =>
     S.Struct({
       operation:
-        RulesEditResultRulesetRulesItemRewriteRuleActionParametersHeadersSetStaticHeaderOperation,
+        RulesEditResultRulesetRulesItemRewriteRuleActionParametersHeadersValueSetStaticHeaderOperation,
       value: S.String,
     }),
   ).annotate({
-    identifier: "RulesEditResultRulesetRulesItemRewriteRuleActionParametersHeadersSetStaticHeader",
-  }) as any as S.Schema<RulesEditResultRulesetRulesItemRewriteRuleActionParametersHeadersSetStaticHeader>;
+    identifier:
+      "RulesEditResultRulesetRulesItemRewriteRuleActionParametersHeadersValueSetStaticHeader",
+  }) as any as S.Schema<RulesEditResultRulesetRulesItemRewriteRuleActionParametersHeadersValueSetStaticHeader>;
 
-export type RulesEditResultRulesetRulesItemRewriteRuleActionParametersHeadersSetDynamicHeaderOperation =
+export type RulesEditResultRulesetRulesItemRewriteRuleActionParametersHeadersValueSetDynamicHeaderOperation =
   "set";
-export const RulesEditResultRulesetRulesItemRewriteRuleActionParametersHeadersSetDynamicHeaderOperation =
+export const RulesEditResultRulesetRulesItemRewriteRuleActionParametersHeadersValueSetDynamicHeaderOperation =
   S.String;
 
-export interface RulesEditResultRulesetRulesItemRewriteRuleActionParametersHeadersSetDynamicHeader {
+export interface RulesEditResultRulesetRulesItemRewriteRuleActionParametersHeadersValueSetDynamicHeader {
   /** An expression that evaluates to a value for the header. */
   expression: string;
   /** The operation to perform on the header. */
-  operation: RulesEditResultRulesetRulesItemRewriteRuleActionParametersHeadersSetDynamicHeaderOperation;
+  operation: RulesEditResultRulesetRulesItemRewriteRuleActionParametersHeadersValueSetDynamicHeaderOperation;
 }
-export const RulesEditResultRulesetRulesItemRewriteRuleActionParametersHeadersSetDynamicHeader =
+export const RulesEditResultRulesetRulesItemRewriteRuleActionParametersHeadersValueSetDynamicHeader =
   /*@__PURE__*/ S.suspend(() =>
     S.Struct({
       expression: S.String,
       operation:
-        RulesEditResultRulesetRulesItemRewriteRuleActionParametersHeadersSetDynamicHeaderOperation,
+        RulesEditResultRulesetRulesItemRewriteRuleActionParametersHeadersValueSetDynamicHeaderOperation,
     }),
   ).annotate({
-    identifier: "RulesEditResultRulesetRulesItemRewriteRuleActionParametersHeadersSetDynamicHeader",
-  }) as any as S.Schema<RulesEditResultRulesetRulesItemRewriteRuleActionParametersHeadersSetDynamicHeader>;
+    identifier:
+      "RulesEditResultRulesetRulesItemRewriteRuleActionParametersHeadersValueSetDynamicHeader",
+  }) as any as S.Schema<RulesEditResultRulesetRulesItemRewriteRuleActionParametersHeadersValueSetDynamicHeader>;
 
-export type RulesEditResultRulesetRulesItemRewriteRuleActionParametersHeadersRemoveHeaderOperation =
+export type RulesEditResultRulesetRulesItemRewriteRuleActionParametersHeadersValueRemoveHeaderOperation =
   "remove";
-export const RulesEditResultRulesetRulesItemRewriteRuleActionParametersHeadersRemoveHeaderOperation =
+export const RulesEditResultRulesetRulesItemRewriteRuleActionParametersHeadersValueRemoveHeaderOperation =
   S.String;
 
-export interface RulesEditResultRulesetRulesItemRewriteRuleActionParametersHeadersRemoveHeader {
+export interface RulesEditResultRulesetRulesItemRewriteRuleActionParametersHeadersValueRemoveHeader {
   /** The operation to perform on the header. */
-  operation: RulesEditResultRulesetRulesItemRewriteRuleActionParametersHeadersRemoveHeaderOperation;
+  operation: RulesEditResultRulesetRulesItemRewriteRuleActionParametersHeadersValueRemoveHeaderOperation;
 }
-export const RulesEditResultRulesetRulesItemRewriteRuleActionParametersHeadersRemoveHeader =
+export const RulesEditResultRulesetRulesItemRewriteRuleActionParametersHeadersValueRemoveHeader =
   /*@__PURE__*/ S.suspend(() =>
     S.Struct({
       operation:
-        RulesEditResultRulesetRulesItemRewriteRuleActionParametersHeadersRemoveHeaderOperation,
+        RulesEditResultRulesetRulesItemRewriteRuleActionParametersHeadersValueRemoveHeaderOperation,
     }),
   ).annotate({
-    identifier: "RulesEditResultRulesetRulesItemRewriteRuleActionParametersHeadersRemoveHeader",
-  }) as any as S.Schema<RulesEditResultRulesetRulesItemRewriteRuleActionParametersHeadersRemoveHeader>;
+    identifier:
+      "RulesEditResultRulesetRulesItemRewriteRuleActionParametersHeadersValueRemoveHeader",
+  }) as any as S.Schema<RulesEditResultRulesetRulesItemRewriteRuleActionParametersHeadersValueRemoveHeader>;
 
-export type RulesEditResultRulesetRulesItemRewriteRuleActionParametersHeaders =
-  | RulesEditResultRulesetRulesItemRewriteRuleActionParametersHeadersAddStaticHeader
-  | RulesEditResultRulesetRulesItemRewriteRuleActionParametersHeadersAddDynamicHeader
-  | RulesEditResultRulesetRulesItemRewriteRuleActionParametersHeadersSetStaticHeader
-  | RulesEditResultRulesetRulesItemRewriteRuleActionParametersHeadersSetDynamicHeader
-  | RulesEditResultRulesetRulesItemRewriteRuleActionParametersHeadersRemoveHeader;
-export const RulesEditResultRulesetRulesItemRewriteRuleActionParametersHeaders =
+export type RulesEditResultRulesetRulesItemRewriteRuleActionParametersHeadersValue =
+  | RulesEditResultRulesetRulesItemRewriteRuleActionParametersHeadersValueAddStaticHeader
+  | RulesEditResultRulesetRulesItemRewriteRuleActionParametersHeadersValueAddDynamicHeader
+  | RulesEditResultRulesetRulesItemRewriteRuleActionParametersHeadersValueSetStaticHeader
+  | RulesEditResultRulesetRulesItemRewriteRuleActionParametersHeadersValueSetDynamicHeader
+  | RulesEditResultRulesetRulesItemRewriteRuleActionParametersHeadersValueRemoveHeader;
+export const RulesEditResultRulesetRulesItemRewriteRuleActionParametersHeadersValue =
   /*@__PURE__*/ S.Unknown.pipe(
     T.UnionCases([
       ["operation", "value"],
@@ -50893,6 +51005,15 @@ export const RulesEditResultRulesetRulesItemRewriteRuleActionParametersHeaders =
       ["operation"],
     ]),
   );
+
+export type RulesEditResultRulesetRulesItemRewriteRuleActionParametersHeadersMap = {
+  [key: string]: RulesEditResultRulesetRulesItemRewriteRuleActionParametersHeadersValue | undefined;
+};
+export const RulesEditResultRulesetRulesItemRewriteRuleActionParametersHeadersMap =
+  /*@__PURE__*/ S.Record(
+    S.String,
+    RulesEditResultRulesetRulesItemRewriteRuleActionParametersHeadersValue,
+  ) as any as S.Schema<RulesEditResultRulesetRulesItemRewriteRuleActionParametersHeadersMap>;
 
 export type RulesEditResultRulesetRulesItemRewriteRuleActionParametersUriURIPathPath =
   RulesCreateResultRulesetRulesItemRewriteRuleActionParametersUriURIPathPath;
@@ -50927,7 +51048,7 @@ export const RulesEditResultRulesetRulesItemRewriteRuleActionParametersUri =
 
 export interface RulesEditResultRulesetRulesItemRewriteRuleActionParameters {
   /** A map of headers to rewrite. */
-  headers?: RulesEditResultRulesetRulesItemRewriteRuleActionParametersHeaders | null;
+  headers?: RulesEditResultRulesetRulesItemRewriteRuleActionParametersHeadersMap | null;
   /** A URI path rewrite. */
   uri?: RulesEditResultRulesetRulesItemRewriteRuleActionParametersUri | null;
 }
@@ -50935,7 +51056,7 @@ export const RulesEditResultRulesetRulesItemRewriteRuleActionParameters = /*@__P
   () =>
     S.Struct({
       headers: S.optional(
-        S.NullOr(RulesEditResultRulesetRulesItemRewriteRuleActionParametersHeaders),
+        S.NullOr(RulesEditResultRulesetRulesItemRewriteRuleActionParametersHeadersMap),
       ),
       uri: S.optional(S.NullOr(RulesEditResultRulesetRulesItemRewriteRuleActionParametersUri)),
     }),
@@ -56106,120 +56227,124 @@ export const PhasesUpdateRequestRulesItemRedirectRule = /*@__PURE__*/ S.suspend(
 export type PhasesUpdateRequestRulesItemRewriteRuleAction = "rewrite";
 export const PhasesUpdateRequestRulesItemRewriteRuleAction = S.String;
 
-export type PhasesUpdateRequestRulesItemRewriteRuleActionParametersHeadersAddStaticHeaderOperation =
+export type PhasesUpdateRequestRulesItemRewriteRuleActionParametersHeadersValueAddStaticHeaderOperation =
   "add";
-export const PhasesUpdateRequestRulesItemRewriteRuleActionParametersHeadersAddStaticHeaderOperation =
+export const PhasesUpdateRequestRulesItemRewriteRuleActionParametersHeadersValueAddStaticHeaderOperation =
   S.String;
 
-export interface PhasesUpdateRequestRulesItemRewriteRuleActionParametersHeadersAddStaticHeader {
+export interface PhasesUpdateRequestRulesItemRewriteRuleActionParametersHeadersValueAddStaticHeader {
   /** The operation to perform on the header. */
-  operation: PhasesUpdateRequestRulesItemRewriteRuleActionParametersHeadersAddStaticHeaderOperation;
+  operation: PhasesUpdateRequestRulesItemRewriteRuleActionParametersHeadersValueAddStaticHeaderOperation;
   /** A static value for the header. */
   value: string;
 }
-export const PhasesUpdateRequestRulesItemRewriteRuleActionParametersHeadersAddStaticHeader =
+export const PhasesUpdateRequestRulesItemRewriteRuleActionParametersHeadersValueAddStaticHeader =
   /*@__PURE__*/ S.suspend(() =>
     S.Struct({
       operation:
-        PhasesUpdateRequestRulesItemRewriteRuleActionParametersHeadersAddStaticHeaderOperation,
+        PhasesUpdateRequestRulesItemRewriteRuleActionParametersHeadersValueAddStaticHeaderOperation,
       value: S.String,
     }),
   ).annotate({
-    identifier: "PhasesUpdateRequestRulesItemRewriteRuleActionParametersHeadersAddStaticHeader",
-  }) as any as S.Schema<PhasesUpdateRequestRulesItemRewriteRuleActionParametersHeadersAddStaticHeader>;
+    identifier:
+      "PhasesUpdateRequestRulesItemRewriteRuleActionParametersHeadersValueAddStaticHeader",
+  }) as any as S.Schema<PhasesUpdateRequestRulesItemRewriteRuleActionParametersHeadersValueAddStaticHeader>;
 
-export type PhasesUpdateRequestRulesItemRewriteRuleActionParametersHeadersAddDynamicHeaderOperation =
+export type PhasesUpdateRequestRulesItemRewriteRuleActionParametersHeadersValueAddDynamicHeaderOperation =
   "add";
-export const PhasesUpdateRequestRulesItemRewriteRuleActionParametersHeadersAddDynamicHeaderOperation =
+export const PhasesUpdateRequestRulesItemRewriteRuleActionParametersHeadersValueAddDynamicHeaderOperation =
   S.String;
 
-export interface PhasesUpdateRequestRulesItemRewriteRuleActionParametersHeadersAddDynamicHeader {
+export interface PhasesUpdateRequestRulesItemRewriteRuleActionParametersHeadersValueAddDynamicHeader {
   /** An expression that evaluates to a value for the header. */
   expression: string;
   /** The operation to perform on the header. */
-  operation: PhasesUpdateRequestRulesItemRewriteRuleActionParametersHeadersAddDynamicHeaderOperation;
+  operation: PhasesUpdateRequestRulesItemRewriteRuleActionParametersHeadersValueAddDynamicHeaderOperation;
 }
-export const PhasesUpdateRequestRulesItemRewriteRuleActionParametersHeadersAddDynamicHeader =
+export const PhasesUpdateRequestRulesItemRewriteRuleActionParametersHeadersValueAddDynamicHeader =
   /*@__PURE__*/ S.suspend(() =>
     S.Struct({
       expression: S.String,
       operation:
-        PhasesUpdateRequestRulesItemRewriteRuleActionParametersHeadersAddDynamicHeaderOperation,
+        PhasesUpdateRequestRulesItemRewriteRuleActionParametersHeadersValueAddDynamicHeaderOperation,
     }),
   ).annotate({
-    identifier: "PhasesUpdateRequestRulesItemRewriteRuleActionParametersHeadersAddDynamicHeader",
-  }) as any as S.Schema<PhasesUpdateRequestRulesItemRewriteRuleActionParametersHeadersAddDynamicHeader>;
+    identifier:
+      "PhasesUpdateRequestRulesItemRewriteRuleActionParametersHeadersValueAddDynamicHeader",
+  }) as any as S.Schema<PhasesUpdateRequestRulesItemRewriteRuleActionParametersHeadersValueAddDynamicHeader>;
 
-export type PhasesUpdateRequestRulesItemRewriteRuleActionParametersHeadersSetStaticHeaderOperation =
+export type PhasesUpdateRequestRulesItemRewriteRuleActionParametersHeadersValueSetStaticHeaderOperation =
   "set";
-export const PhasesUpdateRequestRulesItemRewriteRuleActionParametersHeadersSetStaticHeaderOperation =
+export const PhasesUpdateRequestRulesItemRewriteRuleActionParametersHeadersValueSetStaticHeaderOperation =
   S.String;
 
-export interface PhasesUpdateRequestRulesItemRewriteRuleActionParametersHeadersSetStaticHeader {
+export interface PhasesUpdateRequestRulesItemRewriteRuleActionParametersHeadersValueSetStaticHeader {
   /** The operation to perform on the header. */
-  operation: PhasesUpdateRequestRulesItemRewriteRuleActionParametersHeadersSetStaticHeaderOperation;
+  operation: PhasesUpdateRequestRulesItemRewriteRuleActionParametersHeadersValueSetStaticHeaderOperation;
   /** A static value for the header. */
   value: string;
 }
-export const PhasesUpdateRequestRulesItemRewriteRuleActionParametersHeadersSetStaticHeader =
+export const PhasesUpdateRequestRulesItemRewriteRuleActionParametersHeadersValueSetStaticHeader =
   /*@__PURE__*/ S.suspend(() =>
     S.Struct({
       operation:
-        PhasesUpdateRequestRulesItemRewriteRuleActionParametersHeadersSetStaticHeaderOperation,
+        PhasesUpdateRequestRulesItemRewriteRuleActionParametersHeadersValueSetStaticHeaderOperation,
       value: S.String,
     }),
   ).annotate({
-    identifier: "PhasesUpdateRequestRulesItemRewriteRuleActionParametersHeadersSetStaticHeader",
-  }) as any as S.Schema<PhasesUpdateRequestRulesItemRewriteRuleActionParametersHeadersSetStaticHeader>;
+    identifier:
+      "PhasesUpdateRequestRulesItemRewriteRuleActionParametersHeadersValueSetStaticHeader",
+  }) as any as S.Schema<PhasesUpdateRequestRulesItemRewriteRuleActionParametersHeadersValueSetStaticHeader>;
 
-export type PhasesUpdateRequestRulesItemRewriteRuleActionParametersHeadersSetDynamicHeaderOperation =
+export type PhasesUpdateRequestRulesItemRewriteRuleActionParametersHeadersValueSetDynamicHeaderOperation =
   "set";
-export const PhasesUpdateRequestRulesItemRewriteRuleActionParametersHeadersSetDynamicHeaderOperation =
+export const PhasesUpdateRequestRulesItemRewriteRuleActionParametersHeadersValueSetDynamicHeaderOperation =
   S.String;
 
-export interface PhasesUpdateRequestRulesItemRewriteRuleActionParametersHeadersSetDynamicHeader {
+export interface PhasesUpdateRequestRulesItemRewriteRuleActionParametersHeadersValueSetDynamicHeader {
   /** An expression that evaluates to a value for the header. */
   expression: string;
   /** The operation to perform on the header. */
-  operation: PhasesUpdateRequestRulesItemRewriteRuleActionParametersHeadersSetDynamicHeaderOperation;
+  operation: PhasesUpdateRequestRulesItemRewriteRuleActionParametersHeadersValueSetDynamicHeaderOperation;
 }
-export const PhasesUpdateRequestRulesItemRewriteRuleActionParametersHeadersSetDynamicHeader =
+export const PhasesUpdateRequestRulesItemRewriteRuleActionParametersHeadersValueSetDynamicHeader =
   /*@__PURE__*/ S.suspend(() =>
     S.Struct({
       expression: S.String,
       operation:
-        PhasesUpdateRequestRulesItemRewriteRuleActionParametersHeadersSetDynamicHeaderOperation,
+        PhasesUpdateRequestRulesItemRewriteRuleActionParametersHeadersValueSetDynamicHeaderOperation,
     }),
   ).annotate({
-    identifier: "PhasesUpdateRequestRulesItemRewriteRuleActionParametersHeadersSetDynamicHeader",
-  }) as any as S.Schema<PhasesUpdateRequestRulesItemRewriteRuleActionParametersHeadersSetDynamicHeader>;
+    identifier:
+      "PhasesUpdateRequestRulesItemRewriteRuleActionParametersHeadersValueSetDynamicHeader",
+  }) as any as S.Schema<PhasesUpdateRequestRulesItemRewriteRuleActionParametersHeadersValueSetDynamicHeader>;
 
-export type PhasesUpdateRequestRulesItemRewriteRuleActionParametersHeadersRemoveHeaderOperation =
+export type PhasesUpdateRequestRulesItemRewriteRuleActionParametersHeadersValueRemoveHeaderOperation =
   "remove";
-export const PhasesUpdateRequestRulesItemRewriteRuleActionParametersHeadersRemoveHeaderOperation =
+export const PhasesUpdateRequestRulesItemRewriteRuleActionParametersHeadersValueRemoveHeaderOperation =
   S.String;
 
-export interface PhasesUpdateRequestRulesItemRewriteRuleActionParametersHeadersRemoveHeader {
+export interface PhasesUpdateRequestRulesItemRewriteRuleActionParametersHeadersValueRemoveHeader {
   /** The operation to perform on the header. */
-  operation: PhasesUpdateRequestRulesItemRewriteRuleActionParametersHeadersRemoveHeaderOperation;
+  operation: PhasesUpdateRequestRulesItemRewriteRuleActionParametersHeadersValueRemoveHeaderOperation;
 }
-export const PhasesUpdateRequestRulesItemRewriteRuleActionParametersHeadersRemoveHeader =
+export const PhasesUpdateRequestRulesItemRewriteRuleActionParametersHeadersValueRemoveHeader =
   /*@__PURE__*/ S.suspend(() =>
     S.Struct({
       operation:
-        PhasesUpdateRequestRulesItemRewriteRuleActionParametersHeadersRemoveHeaderOperation,
+        PhasesUpdateRequestRulesItemRewriteRuleActionParametersHeadersValueRemoveHeaderOperation,
     }),
   ).annotate({
-    identifier: "PhasesUpdateRequestRulesItemRewriteRuleActionParametersHeadersRemoveHeader",
-  }) as any as S.Schema<PhasesUpdateRequestRulesItemRewriteRuleActionParametersHeadersRemoveHeader>;
+    identifier: "PhasesUpdateRequestRulesItemRewriteRuleActionParametersHeadersValueRemoveHeader",
+  }) as any as S.Schema<PhasesUpdateRequestRulesItemRewriteRuleActionParametersHeadersValueRemoveHeader>;
 
-export type PhasesUpdateRequestRulesItemRewriteRuleActionParametersHeaders =
-  | PhasesUpdateRequestRulesItemRewriteRuleActionParametersHeadersAddStaticHeader
-  | PhasesUpdateRequestRulesItemRewriteRuleActionParametersHeadersAddDynamicHeader
-  | PhasesUpdateRequestRulesItemRewriteRuleActionParametersHeadersSetStaticHeader
-  | PhasesUpdateRequestRulesItemRewriteRuleActionParametersHeadersSetDynamicHeader
-  | PhasesUpdateRequestRulesItemRewriteRuleActionParametersHeadersRemoveHeader;
-export const PhasesUpdateRequestRulesItemRewriteRuleActionParametersHeaders =
+export type PhasesUpdateRequestRulesItemRewriteRuleActionParametersHeadersValue =
+  | PhasesUpdateRequestRulesItemRewriteRuleActionParametersHeadersValueAddStaticHeader
+  | PhasesUpdateRequestRulesItemRewriteRuleActionParametersHeadersValueAddDynamicHeader
+  | PhasesUpdateRequestRulesItemRewriteRuleActionParametersHeadersValueSetStaticHeader
+  | PhasesUpdateRequestRulesItemRewriteRuleActionParametersHeadersValueSetDynamicHeader
+  | PhasesUpdateRequestRulesItemRewriteRuleActionParametersHeadersValueRemoveHeader;
+export const PhasesUpdateRequestRulesItemRewriteRuleActionParametersHeadersValue =
   /*@__PURE__*/ S.Unknown.pipe(
     T.UnionCases([
       ["operation", "value"],
@@ -56229,6 +56354,15 @@ export const PhasesUpdateRequestRulesItemRewriteRuleActionParametersHeaders =
       ["operation"],
     ]),
   );
+
+export type PhasesUpdateRequestRulesItemRewriteRuleActionParametersHeadersMap = {
+  [key: string]: PhasesUpdateRequestRulesItemRewriteRuleActionParametersHeadersValue | undefined;
+};
+export const PhasesUpdateRequestRulesItemRewriteRuleActionParametersHeadersMap =
+  /*@__PURE__*/ S.Record(
+    S.String,
+    PhasesUpdateRequestRulesItemRewriteRuleActionParametersHeadersValue,
+  ) as any as S.Schema<PhasesUpdateRequestRulesItemRewriteRuleActionParametersHeadersMap>;
 
 export type PhasesUpdateRequestRulesItemRewriteRuleActionParametersUriURIPathPath =
   CreateRequestRulesItemRewriteRuleActionParametersUriURIPathPath;
@@ -56263,13 +56397,13 @@ export const PhasesUpdateRequestRulesItemRewriteRuleActionParametersUri =
 
 export interface PhasesUpdateRequestRulesItemRewriteRuleActionParameters {
   /** A map of headers to rewrite. */
-  headers?: PhasesUpdateRequestRulesItemRewriteRuleActionParametersHeaders;
+  headers?: PhasesUpdateRequestRulesItemRewriteRuleActionParametersHeadersMap;
   /** A URI path rewrite. */
   uri?: PhasesUpdateRequestRulesItemRewriteRuleActionParametersUri;
 }
 export const PhasesUpdateRequestRulesItemRewriteRuleActionParameters = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    headers: S.optional(PhasesUpdateRequestRulesItemRewriteRuleActionParametersHeaders),
+    headers: S.optional(PhasesUpdateRequestRulesItemRewriteRuleActionParametersHeadersMap),
     uri: S.optional(PhasesUpdateRequestRulesItemRewriteRuleActionParametersUri),
   }),
 ).annotate({
@@ -61406,124 +61540,125 @@ export const PhasesUpdateResultRulesetRulesItemRedirectRule = /*@__PURE__*/ S.su
 export type PhasesUpdateResultRulesetRulesItemRewriteRuleAction = "rewrite";
 export const PhasesUpdateResultRulesetRulesItemRewriteRuleAction = S.String;
 
-export type PhasesUpdateResultRulesetRulesItemRewriteRuleActionParametersHeadersAddStaticHeaderOperation =
+export type PhasesUpdateResultRulesetRulesItemRewriteRuleActionParametersHeadersValueAddStaticHeaderOperation =
   "add";
-export const PhasesUpdateResultRulesetRulesItemRewriteRuleActionParametersHeadersAddStaticHeaderOperation =
+export const PhasesUpdateResultRulesetRulesItemRewriteRuleActionParametersHeadersValueAddStaticHeaderOperation =
   S.String;
 
-export interface PhasesUpdateResultRulesetRulesItemRewriteRuleActionParametersHeadersAddStaticHeader {
+export interface PhasesUpdateResultRulesetRulesItemRewriteRuleActionParametersHeadersValueAddStaticHeader {
   /** The operation to perform on the header. */
-  operation: PhasesUpdateResultRulesetRulesItemRewriteRuleActionParametersHeadersAddStaticHeaderOperation;
+  operation: PhasesUpdateResultRulesetRulesItemRewriteRuleActionParametersHeadersValueAddStaticHeaderOperation;
   /** A static value for the header. */
   value: string;
 }
-export const PhasesUpdateResultRulesetRulesItemRewriteRuleActionParametersHeadersAddStaticHeader =
+export const PhasesUpdateResultRulesetRulesItemRewriteRuleActionParametersHeadersValueAddStaticHeader =
   /*@__PURE__*/ S.suspend(() =>
     S.Struct({
       operation:
-        PhasesUpdateResultRulesetRulesItemRewriteRuleActionParametersHeadersAddStaticHeaderOperation,
+        PhasesUpdateResultRulesetRulesItemRewriteRuleActionParametersHeadersValueAddStaticHeaderOperation,
       value: S.String,
     }),
   ).annotate({
     identifier:
-      "PhasesUpdateResultRulesetRulesItemRewriteRuleActionParametersHeadersAddStaticHeader",
-  }) as any as S.Schema<PhasesUpdateResultRulesetRulesItemRewriteRuleActionParametersHeadersAddStaticHeader>;
+      "PhasesUpdateResultRulesetRulesItemRewriteRuleActionParametersHeadersValueAddStaticHeader",
+  }) as any as S.Schema<PhasesUpdateResultRulesetRulesItemRewriteRuleActionParametersHeadersValueAddStaticHeader>;
 
-export type PhasesUpdateResultRulesetRulesItemRewriteRuleActionParametersHeadersAddDynamicHeaderOperation =
+export type PhasesUpdateResultRulesetRulesItemRewriteRuleActionParametersHeadersValueAddDynamicHeaderOperation =
   "add";
-export const PhasesUpdateResultRulesetRulesItemRewriteRuleActionParametersHeadersAddDynamicHeaderOperation =
+export const PhasesUpdateResultRulesetRulesItemRewriteRuleActionParametersHeadersValueAddDynamicHeaderOperation =
   S.String;
 
-export interface PhasesUpdateResultRulesetRulesItemRewriteRuleActionParametersHeadersAddDynamicHeader {
+export interface PhasesUpdateResultRulesetRulesItemRewriteRuleActionParametersHeadersValueAddDynamicHeader {
   /** An expression that evaluates to a value for the header. */
   expression: string;
   /** The operation to perform on the header. */
-  operation: PhasesUpdateResultRulesetRulesItemRewriteRuleActionParametersHeadersAddDynamicHeaderOperation;
+  operation: PhasesUpdateResultRulesetRulesItemRewriteRuleActionParametersHeadersValueAddDynamicHeaderOperation;
 }
-export const PhasesUpdateResultRulesetRulesItemRewriteRuleActionParametersHeadersAddDynamicHeader =
+export const PhasesUpdateResultRulesetRulesItemRewriteRuleActionParametersHeadersValueAddDynamicHeader =
   /*@__PURE__*/ S.suspend(() =>
     S.Struct({
       expression: S.String,
       operation:
-        PhasesUpdateResultRulesetRulesItemRewriteRuleActionParametersHeadersAddDynamicHeaderOperation,
+        PhasesUpdateResultRulesetRulesItemRewriteRuleActionParametersHeadersValueAddDynamicHeaderOperation,
     }),
   ).annotate({
     identifier:
-      "PhasesUpdateResultRulesetRulesItemRewriteRuleActionParametersHeadersAddDynamicHeader",
-  }) as any as S.Schema<PhasesUpdateResultRulesetRulesItemRewriteRuleActionParametersHeadersAddDynamicHeader>;
+      "PhasesUpdateResultRulesetRulesItemRewriteRuleActionParametersHeadersValueAddDynamicHeader",
+  }) as any as S.Schema<PhasesUpdateResultRulesetRulesItemRewriteRuleActionParametersHeadersValueAddDynamicHeader>;
 
-export type PhasesUpdateResultRulesetRulesItemRewriteRuleActionParametersHeadersSetStaticHeaderOperation =
+export type PhasesUpdateResultRulesetRulesItemRewriteRuleActionParametersHeadersValueSetStaticHeaderOperation =
   "set";
-export const PhasesUpdateResultRulesetRulesItemRewriteRuleActionParametersHeadersSetStaticHeaderOperation =
+export const PhasesUpdateResultRulesetRulesItemRewriteRuleActionParametersHeadersValueSetStaticHeaderOperation =
   S.String;
 
-export interface PhasesUpdateResultRulesetRulesItemRewriteRuleActionParametersHeadersSetStaticHeader {
+export interface PhasesUpdateResultRulesetRulesItemRewriteRuleActionParametersHeadersValueSetStaticHeader {
   /** The operation to perform on the header. */
-  operation: PhasesUpdateResultRulesetRulesItemRewriteRuleActionParametersHeadersSetStaticHeaderOperation;
+  operation: PhasesUpdateResultRulesetRulesItemRewriteRuleActionParametersHeadersValueSetStaticHeaderOperation;
   /** A static value for the header. */
   value: string;
 }
-export const PhasesUpdateResultRulesetRulesItemRewriteRuleActionParametersHeadersSetStaticHeader =
+export const PhasesUpdateResultRulesetRulesItemRewriteRuleActionParametersHeadersValueSetStaticHeader =
   /*@__PURE__*/ S.suspend(() =>
     S.Struct({
       operation:
-        PhasesUpdateResultRulesetRulesItemRewriteRuleActionParametersHeadersSetStaticHeaderOperation,
+        PhasesUpdateResultRulesetRulesItemRewriteRuleActionParametersHeadersValueSetStaticHeaderOperation,
       value: S.String,
     }),
   ).annotate({
     identifier:
-      "PhasesUpdateResultRulesetRulesItemRewriteRuleActionParametersHeadersSetStaticHeader",
-  }) as any as S.Schema<PhasesUpdateResultRulesetRulesItemRewriteRuleActionParametersHeadersSetStaticHeader>;
+      "PhasesUpdateResultRulesetRulesItemRewriteRuleActionParametersHeadersValueSetStaticHeader",
+  }) as any as S.Schema<PhasesUpdateResultRulesetRulesItemRewriteRuleActionParametersHeadersValueSetStaticHeader>;
 
-export type PhasesUpdateResultRulesetRulesItemRewriteRuleActionParametersHeadersSetDynamicHeaderOperation =
+export type PhasesUpdateResultRulesetRulesItemRewriteRuleActionParametersHeadersValueSetDynamicHeaderOperation =
   "set";
-export const PhasesUpdateResultRulesetRulesItemRewriteRuleActionParametersHeadersSetDynamicHeaderOperation =
+export const PhasesUpdateResultRulesetRulesItemRewriteRuleActionParametersHeadersValueSetDynamicHeaderOperation =
   S.String;
 
-export interface PhasesUpdateResultRulesetRulesItemRewriteRuleActionParametersHeadersSetDynamicHeader {
+export interface PhasesUpdateResultRulesetRulesItemRewriteRuleActionParametersHeadersValueSetDynamicHeader {
   /** An expression that evaluates to a value for the header. */
   expression: string;
   /** The operation to perform on the header. */
-  operation: PhasesUpdateResultRulesetRulesItemRewriteRuleActionParametersHeadersSetDynamicHeaderOperation;
+  operation: PhasesUpdateResultRulesetRulesItemRewriteRuleActionParametersHeadersValueSetDynamicHeaderOperation;
 }
-export const PhasesUpdateResultRulesetRulesItemRewriteRuleActionParametersHeadersSetDynamicHeader =
+export const PhasesUpdateResultRulesetRulesItemRewriteRuleActionParametersHeadersValueSetDynamicHeader =
   /*@__PURE__*/ S.suspend(() =>
     S.Struct({
       expression: S.String,
       operation:
-        PhasesUpdateResultRulesetRulesItemRewriteRuleActionParametersHeadersSetDynamicHeaderOperation,
+        PhasesUpdateResultRulesetRulesItemRewriteRuleActionParametersHeadersValueSetDynamicHeaderOperation,
     }),
   ).annotate({
     identifier:
-      "PhasesUpdateResultRulesetRulesItemRewriteRuleActionParametersHeadersSetDynamicHeader",
-  }) as any as S.Schema<PhasesUpdateResultRulesetRulesItemRewriteRuleActionParametersHeadersSetDynamicHeader>;
+      "PhasesUpdateResultRulesetRulesItemRewriteRuleActionParametersHeadersValueSetDynamicHeader",
+  }) as any as S.Schema<PhasesUpdateResultRulesetRulesItemRewriteRuleActionParametersHeadersValueSetDynamicHeader>;
 
-export type PhasesUpdateResultRulesetRulesItemRewriteRuleActionParametersHeadersRemoveHeaderOperation =
+export type PhasesUpdateResultRulesetRulesItemRewriteRuleActionParametersHeadersValueRemoveHeaderOperation =
   "remove";
-export const PhasesUpdateResultRulesetRulesItemRewriteRuleActionParametersHeadersRemoveHeaderOperation =
+export const PhasesUpdateResultRulesetRulesItemRewriteRuleActionParametersHeadersValueRemoveHeaderOperation =
   S.String;
 
-export interface PhasesUpdateResultRulesetRulesItemRewriteRuleActionParametersHeadersRemoveHeader {
+export interface PhasesUpdateResultRulesetRulesItemRewriteRuleActionParametersHeadersValueRemoveHeader {
   /** The operation to perform on the header. */
-  operation: PhasesUpdateResultRulesetRulesItemRewriteRuleActionParametersHeadersRemoveHeaderOperation;
+  operation: PhasesUpdateResultRulesetRulesItemRewriteRuleActionParametersHeadersValueRemoveHeaderOperation;
 }
-export const PhasesUpdateResultRulesetRulesItemRewriteRuleActionParametersHeadersRemoveHeader =
+export const PhasesUpdateResultRulesetRulesItemRewriteRuleActionParametersHeadersValueRemoveHeader =
   /*@__PURE__*/ S.suspend(() =>
     S.Struct({
       operation:
-        PhasesUpdateResultRulesetRulesItemRewriteRuleActionParametersHeadersRemoveHeaderOperation,
+        PhasesUpdateResultRulesetRulesItemRewriteRuleActionParametersHeadersValueRemoveHeaderOperation,
     }),
   ).annotate({
-    identifier: "PhasesUpdateResultRulesetRulesItemRewriteRuleActionParametersHeadersRemoveHeader",
-  }) as any as S.Schema<PhasesUpdateResultRulesetRulesItemRewriteRuleActionParametersHeadersRemoveHeader>;
+    identifier:
+      "PhasesUpdateResultRulesetRulesItemRewriteRuleActionParametersHeadersValueRemoveHeader",
+  }) as any as S.Schema<PhasesUpdateResultRulesetRulesItemRewriteRuleActionParametersHeadersValueRemoveHeader>;
 
-export type PhasesUpdateResultRulesetRulesItemRewriteRuleActionParametersHeaders =
-  | PhasesUpdateResultRulesetRulesItemRewriteRuleActionParametersHeadersAddStaticHeader
-  | PhasesUpdateResultRulesetRulesItemRewriteRuleActionParametersHeadersAddDynamicHeader
-  | PhasesUpdateResultRulesetRulesItemRewriteRuleActionParametersHeadersSetStaticHeader
-  | PhasesUpdateResultRulesetRulesItemRewriteRuleActionParametersHeadersSetDynamicHeader
-  | PhasesUpdateResultRulesetRulesItemRewriteRuleActionParametersHeadersRemoveHeader;
-export const PhasesUpdateResultRulesetRulesItemRewriteRuleActionParametersHeaders =
+export type PhasesUpdateResultRulesetRulesItemRewriteRuleActionParametersHeadersValue =
+  | PhasesUpdateResultRulesetRulesItemRewriteRuleActionParametersHeadersValueAddStaticHeader
+  | PhasesUpdateResultRulesetRulesItemRewriteRuleActionParametersHeadersValueAddDynamicHeader
+  | PhasesUpdateResultRulesetRulesItemRewriteRuleActionParametersHeadersValueSetStaticHeader
+  | PhasesUpdateResultRulesetRulesItemRewriteRuleActionParametersHeadersValueSetDynamicHeader
+  | PhasesUpdateResultRulesetRulesItemRewriteRuleActionParametersHeadersValueRemoveHeader;
+export const PhasesUpdateResultRulesetRulesItemRewriteRuleActionParametersHeadersValue =
   /*@__PURE__*/ S.Unknown.pipe(
     T.UnionCases([
       ["operation", "value"],
@@ -61533,6 +61668,17 @@ export const PhasesUpdateResultRulesetRulesItemRewriteRuleActionParametersHeader
       ["operation"],
     ]),
   );
+
+export type PhasesUpdateResultRulesetRulesItemRewriteRuleActionParametersHeadersMap = {
+  [key: string]:
+    | PhasesUpdateResultRulesetRulesItemRewriteRuleActionParametersHeadersValue
+    | undefined;
+};
+export const PhasesUpdateResultRulesetRulesItemRewriteRuleActionParametersHeadersMap =
+  /*@__PURE__*/ S.Record(
+    S.String,
+    PhasesUpdateResultRulesetRulesItemRewriteRuleActionParametersHeadersValue,
+  ) as any as S.Schema<PhasesUpdateResultRulesetRulesItemRewriteRuleActionParametersHeadersMap>;
 
 export type PhasesUpdateResultRulesetRulesItemRewriteRuleActionParametersUriURIPathPath =
   RulesCreateResultRulesetRulesItemRewriteRuleActionParametersUriURIPathPath;
@@ -61567,7 +61713,7 @@ export const PhasesUpdateResultRulesetRulesItemRewriteRuleActionParametersUri =
 
 export interface PhasesUpdateResultRulesetRulesItemRewriteRuleActionParameters {
   /** A map of headers to rewrite. */
-  headers?: PhasesUpdateResultRulesetRulesItemRewriteRuleActionParametersHeaders | null;
+  headers?: PhasesUpdateResultRulesetRulesItemRewriteRuleActionParametersHeadersMap | null;
   /** A URI path rewrite. */
   uri?: PhasesUpdateResultRulesetRulesItemRewriteRuleActionParametersUri | null;
 }
@@ -61575,7 +61721,7 @@ export const PhasesUpdateResultRulesetRulesItemRewriteRuleActionParameters =
   /*@__PURE__*/ S.suspend(() =>
     S.Struct({
       headers: S.optional(
-        S.NullOr(PhasesUpdateResultRulesetRulesItemRewriteRuleActionParametersHeaders),
+        S.NullOr(PhasesUpdateResultRulesetRulesItemRewriteRuleActionParametersHeadersMap),
       ),
       uri: S.optional(S.NullOr(PhasesUpdateResultRulesetRulesItemRewriteRuleActionParametersUri)),
     }),
@@ -66776,115 +66922,119 @@ export const UpdateRequestRulesItemRedirectRule = /*@__PURE__*/ S.suspend(() =>
 export type UpdateRequestRulesItemRewriteRuleAction = "rewrite";
 export const UpdateRequestRulesItemRewriteRuleAction = S.String;
 
-export type UpdateRequestRulesItemRewriteRuleActionParametersHeadersAddStaticHeaderOperation =
+export type UpdateRequestRulesItemRewriteRuleActionParametersHeadersValueAddStaticHeaderOperation =
   "add";
-export const UpdateRequestRulesItemRewriteRuleActionParametersHeadersAddStaticHeaderOperation =
+export const UpdateRequestRulesItemRewriteRuleActionParametersHeadersValueAddStaticHeaderOperation =
   S.String;
 
-export interface UpdateRequestRulesItemRewriteRuleActionParametersHeadersAddStaticHeader {
+export interface UpdateRequestRulesItemRewriteRuleActionParametersHeadersValueAddStaticHeader {
   /** The operation to perform on the header. */
-  operation: UpdateRequestRulesItemRewriteRuleActionParametersHeadersAddStaticHeaderOperation;
+  operation: UpdateRequestRulesItemRewriteRuleActionParametersHeadersValueAddStaticHeaderOperation;
   /** A static value for the header. */
   value: string;
 }
-export const UpdateRequestRulesItemRewriteRuleActionParametersHeadersAddStaticHeader =
+export const UpdateRequestRulesItemRewriteRuleActionParametersHeadersValueAddStaticHeader =
   /*@__PURE__*/ S.suspend(() =>
     S.Struct({
-      operation: UpdateRequestRulesItemRewriteRuleActionParametersHeadersAddStaticHeaderOperation,
+      operation:
+        UpdateRequestRulesItemRewriteRuleActionParametersHeadersValueAddStaticHeaderOperation,
       value: S.String,
     }),
   ).annotate({
-    identifier: "UpdateRequestRulesItemRewriteRuleActionParametersHeadersAddStaticHeader",
-  }) as any as S.Schema<UpdateRequestRulesItemRewriteRuleActionParametersHeadersAddStaticHeader>;
+    identifier: "UpdateRequestRulesItemRewriteRuleActionParametersHeadersValueAddStaticHeader",
+  }) as any as S.Schema<UpdateRequestRulesItemRewriteRuleActionParametersHeadersValueAddStaticHeader>;
 
-export type UpdateRequestRulesItemRewriteRuleActionParametersHeadersAddDynamicHeaderOperation =
+export type UpdateRequestRulesItemRewriteRuleActionParametersHeadersValueAddDynamicHeaderOperation =
   "add";
-export const UpdateRequestRulesItemRewriteRuleActionParametersHeadersAddDynamicHeaderOperation =
+export const UpdateRequestRulesItemRewriteRuleActionParametersHeadersValueAddDynamicHeaderOperation =
   S.String;
 
-export interface UpdateRequestRulesItemRewriteRuleActionParametersHeadersAddDynamicHeader {
+export interface UpdateRequestRulesItemRewriteRuleActionParametersHeadersValueAddDynamicHeader {
   /** An expression that evaluates to a value for the header. */
   expression: string;
   /** The operation to perform on the header. */
-  operation: UpdateRequestRulesItemRewriteRuleActionParametersHeadersAddDynamicHeaderOperation;
+  operation: UpdateRequestRulesItemRewriteRuleActionParametersHeadersValueAddDynamicHeaderOperation;
 }
-export const UpdateRequestRulesItemRewriteRuleActionParametersHeadersAddDynamicHeader =
+export const UpdateRequestRulesItemRewriteRuleActionParametersHeadersValueAddDynamicHeader =
   /*@__PURE__*/ S.suspend(() =>
     S.Struct({
       expression: S.String,
-      operation: UpdateRequestRulesItemRewriteRuleActionParametersHeadersAddDynamicHeaderOperation,
+      operation:
+        UpdateRequestRulesItemRewriteRuleActionParametersHeadersValueAddDynamicHeaderOperation,
     }),
   ).annotate({
-    identifier: "UpdateRequestRulesItemRewriteRuleActionParametersHeadersAddDynamicHeader",
-  }) as any as S.Schema<UpdateRequestRulesItemRewriteRuleActionParametersHeadersAddDynamicHeader>;
+    identifier: "UpdateRequestRulesItemRewriteRuleActionParametersHeadersValueAddDynamicHeader",
+  }) as any as S.Schema<UpdateRequestRulesItemRewriteRuleActionParametersHeadersValueAddDynamicHeader>;
 
-export type UpdateRequestRulesItemRewriteRuleActionParametersHeadersSetStaticHeaderOperation =
+export type UpdateRequestRulesItemRewriteRuleActionParametersHeadersValueSetStaticHeaderOperation =
   "set";
-export const UpdateRequestRulesItemRewriteRuleActionParametersHeadersSetStaticHeaderOperation =
+export const UpdateRequestRulesItemRewriteRuleActionParametersHeadersValueSetStaticHeaderOperation =
   S.String;
 
-export interface UpdateRequestRulesItemRewriteRuleActionParametersHeadersSetStaticHeader {
+export interface UpdateRequestRulesItemRewriteRuleActionParametersHeadersValueSetStaticHeader {
   /** The operation to perform on the header. */
-  operation: UpdateRequestRulesItemRewriteRuleActionParametersHeadersSetStaticHeaderOperation;
+  operation: UpdateRequestRulesItemRewriteRuleActionParametersHeadersValueSetStaticHeaderOperation;
   /** A static value for the header. */
   value: string;
 }
-export const UpdateRequestRulesItemRewriteRuleActionParametersHeadersSetStaticHeader =
+export const UpdateRequestRulesItemRewriteRuleActionParametersHeadersValueSetStaticHeader =
   /*@__PURE__*/ S.suspend(() =>
     S.Struct({
-      operation: UpdateRequestRulesItemRewriteRuleActionParametersHeadersSetStaticHeaderOperation,
+      operation:
+        UpdateRequestRulesItemRewriteRuleActionParametersHeadersValueSetStaticHeaderOperation,
       value: S.String,
     }),
   ).annotate({
-    identifier: "UpdateRequestRulesItemRewriteRuleActionParametersHeadersSetStaticHeader",
-  }) as any as S.Schema<UpdateRequestRulesItemRewriteRuleActionParametersHeadersSetStaticHeader>;
+    identifier: "UpdateRequestRulesItemRewriteRuleActionParametersHeadersValueSetStaticHeader",
+  }) as any as S.Schema<UpdateRequestRulesItemRewriteRuleActionParametersHeadersValueSetStaticHeader>;
 
-export type UpdateRequestRulesItemRewriteRuleActionParametersHeadersSetDynamicHeaderOperation =
+export type UpdateRequestRulesItemRewriteRuleActionParametersHeadersValueSetDynamicHeaderOperation =
   "set";
-export const UpdateRequestRulesItemRewriteRuleActionParametersHeadersSetDynamicHeaderOperation =
+export const UpdateRequestRulesItemRewriteRuleActionParametersHeadersValueSetDynamicHeaderOperation =
   S.String;
 
-export interface UpdateRequestRulesItemRewriteRuleActionParametersHeadersSetDynamicHeader {
+export interface UpdateRequestRulesItemRewriteRuleActionParametersHeadersValueSetDynamicHeader {
   /** An expression that evaluates to a value for the header. */
   expression: string;
   /** The operation to perform on the header. */
-  operation: UpdateRequestRulesItemRewriteRuleActionParametersHeadersSetDynamicHeaderOperation;
+  operation: UpdateRequestRulesItemRewriteRuleActionParametersHeadersValueSetDynamicHeaderOperation;
 }
-export const UpdateRequestRulesItemRewriteRuleActionParametersHeadersSetDynamicHeader =
+export const UpdateRequestRulesItemRewriteRuleActionParametersHeadersValueSetDynamicHeader =
   /*@__PURE__*/ S.suspend(() =>
     S.Struct({
       expression: S.String,
-      operation: UpdateRequestRulesItemRewriteRuleActionParametersHeadersSetDynamicHeaderOperation,
+      operation:
+        UpdateRequestRulesItemRewriteRuleActionParametersHeadersValueSetDynamicHeaderOperation,
     }),
   ).annotate({
-    identifier: "UpdateRequestRulesItemRewriteRuleActionParametersHeadersSetDynamicHeader",
-  }) as any as S.Schema<UpdateRequestRulesItemRewriteRuleActionParametersHeadersSetDynamicHeader>;
+    identifier: "UpdateRequestRulesItemRewriteRuleActionParametersHeadersValueSetDynamicHeader",
+  }) as any as S.Schema<UpdateRequestRulesItemRewriteRuleActionParametersHeadersValueSetDynamicHeader>;
 
-export type UpdateRequestRulesItemRewriteRuleActionParametersHeadersRemoveHeaderOperation =
+export type UpdateRequestRulesItemRewriteRuleActionParametersHeadersValueRemoveHeaderOperation =
   "remove";
-export const UpdateRequestRulesItemRewriteRuleActionParametersHeadersRemoveHeaderOperation =
+export const UpdateRequestRulesItemRewriteRuleActionParametersHeadersValueRemoveHeaderOperation =
   S.String;
 
-export interface UpdateRequestRulesItemRewriteRuleActionParametersHeadersRemoveHeader {
+export interface UpdateRequestRulesItemRewriteRuleActionParametersHeadersValueRemoveHeader {
   /** The operation to perform on the header. */
-  operation: UpdateRequestRulesItemRewriteRuleActionParametersHeadersRemoveHeaderOperation;
+  operation: UpdateRequestRulesItemRewriteRuleActionParametersHeadersValueRemoveHeaderOperation;
 }
-export const UpdateRequestRulesItemRewriteRuleActionParametersHeadersRemoveHeader =
+export const UpdateRequestRulesItemRewriteRuleActionParametersHeadersValueRemoveHeader =
   /*@__PURE__*/ S.suspend(() =>
     S.Struct({
-      operation: UpdateRequestRulesItemRewriteRuleActionParametersHeadersRemoveHeaderOperation,
+      operation: UpdateRequestRulesItemRewriteRuleActionParametersHeadersValueRemoveHeaderOperation,
     }),
   ).annotate({
-    identifier: "UpdateRequestRulesItemRewriteRuleActionParametersHeadersRemoveHeader",
-  }) as any as S.Schema<UpdateRequestRulesItemRewriteRuleActionParametersHeadersRemoveHeader>;
+    identifier: "UpdateRequestRulesItemRewriteRuleActionParametersHeadersValueRemoveHeader",
+  }) as any as S.Schema<UpdateRequestRulesItemRewriteRuleActionParametersHeadersValueRemoveHeader>;
 
-export type UpdateRequestRulesItemRewriteRuleActionParametersHeaders =
-  | UpdateRequestRulesItemRewriteRuleActionParametersHeadersAddStaticHeader
-  | UpdateRequestRulesItemRewriteRuleActionParametersHeadersAddDynamicHeader
-  | UpdateRequestRulesItemRewriteRuleActionParametersHeadersSetStaticHeader
-  | UpdateRequestRulesItemRewriteRuleActionParametersHeadersSetDynamicHeader
-  | UpdateRequestRulesItemRewriteRuleActionParametersHeadersRemoveHeader;
-export const UpdateRequestRulesItemRewriteRuleActionParametersHeaders =
+export type UpdateRequestRulesItemRewriteRuleActionParametersHeadersValue =
+  | UpdateRequestRulesItemRewriteRuleActionParametersHeadersValueAddStaticHeader
+  | UpdateRequestRulesItemRewriteRuleActionParametersHeadersValueAddDynamicHeader
+  | UpdateRequestRulesItemRewriteRuleActionParametersHeadersValueSetStaticHeader
+  | UpdateRequestRulesItemRewriteRuleActionParametersHeadersValueSetDynamicHeader
+  | UpdateRequestRulesItemRewriteRuleActionParametersHeadersValueRemoveHeader;
+export const UpdateRequestRulesItemRewriteRuleActionParametersHeadersValue =
   /*@__PURE__*/ S.Unknown.pipe(
     T.UnionCases([
       ["operation", "value"],
@@ -66894,6 +67044,14 @@ export const UpdateRequestRulesItemRewriteRuleActionParametersHeaders =
       ["operation"],
     ]),
   );
+
+export type UpdateRequestRulesItemRewriteRuleActionParametersHeadersMap = {
+  [key: string]: UpdateRequestRulesItemRewriteRuleActionParametersHeadersValue | undefined;
+};
+export const UpdateRequestRulesItemRewriteRuleActionParametersHeadersMap = /*@__PURE__*/ S.Record(
+  S.String,
+  UpdateRequestRulesItemRewriteRuleActionParametersHeadersValue,
+) as any as S.Schema<UpdateRequestRulesItemRewriteRuleActionParametersHeadersMap>;
 
 export type UpdateRequestRulesItemRewriteRuleActionParametersUriURIPathPath =
   CreateRequestRulesItemRewriteRuleActionParametersUriURIPathPath;
@@ -66927,13 +67085,13 @@ export const UpdateRequestRulesItemRewriteRuleActionParametersUri = /*@__PURE__*
 
 export interface UpdateRequestRulesItemRewriteRuleActionParameters {
   /** A map of headers to rewrite. */
-  headers?: UpdateRequestRulesItemRewriteRuleActionParametersHeaders;
+  headers?: UpdateRequestRulesItemRewriteRuleActionParametersHeadersMap;
   /** A URI path rewrite. */
   uri?: UpdateRequestRulesItemRewriteRuleActionParametersUri;
 }
 export const UpdateRequestRulesItemRewriteRuleActionParameters = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    headers: S.optional(UpdateRequestRulesItemRewriteRuleActionParametersHeaders),
+    headers: S.optional(UpdateRequestRulesItemRewriteRuleActionParametersHeadersMap),
     uri: S.optional(UpdateRequestRulesItemRewriteRuleActionParametersUri),
   }),
 ).annotate({
@@ -71961,120 +72119,124 @@ export const UpdateResultRulesetRulesItemRedirectRule = /*@__PURE__*/ S.suspend(
 export type UpdateResultRulesetRulesItemRewriteRuleAction = "rewrite";
 export const UpdateResultRulesetRulesItemRewriteRuleAction = S.String;
 
-export type UpdateResultRulesetRulesItemRewriteRuleActionParametersHeadersAddStaticHeaderOperation =
+export type UpdateResultRulesetRulesItemRewriteRuleActionParametersHeadersValueAddStaticHeaderOperation =
   "add";
-export const UpdateResultRulesetRulesItemRewriteRuleActionParametersHeadersAddStaticHeaderOperation =
+export const UpdateResultRulesetRulesItemRewriteRuleActionParametersHeadersValueAddStaticHeaderOperation =
   S.String;
 
-export interface UpdateResultRulesetRulesItemRewriteRuleActionParametersHeadersAddStaticHeader {
+export interface UpdateResultRulesetRulesItemRewriteRuleActionParametersHeadersValueAddStaticHeader {
   /** The operation to perform on the header. */
-  operation: UpdateResultRulesetRulesItemRewriteRuleActionParametersHeadersAddStaticHeaderOperation;
+  operation: UpdateResultRulesetRulesItemRewriteRuleActionParametersHeadersValueAddStaticHeaderOperation;
   /** A static value for the header. */
   value: string;
 }
-export const UpdateResultRulesetRulesItemRewriteRuleActionParametersHeadersAddStaticHeader =
+export const UpdateResultRulesetRulesItemRewriteRuleActionParametersHeadersValueAddStaticHeader =
   /*@__PURE__*/ S.suspend(() =>
     S.Struct({
       operation:
-        UpdateResultRulesetRulesItemRewriteRuleActionParametersHeadersAddStaticHeaderOperation,
+        UpdateResultRulesetRulesItemRewriteRuleActionParametersHeadersValueAddStaticHeaderOperation,
       value: S.String,
     }),
   ).annotate({
-    identifier: "UpdateResultRulesetRulesItemRewriteRuleActionParametersHeadersAddStaticHeader",
-  }) as any as S.Schema<UpdateResultRulesetRulesItemRewriteRuleActionParametersHeadersAddStaticHeader>;
+    identifier:
+      "UpdateResultRulesetRulesItemRewriteRuleActionParametersHeadersValueAddStaticHeader",
+  }) as any as S.Schema<UpdateResultRulesetRulesItemRewriteRuleActionParametersHeadersValueAddStaticHeader>;
 
-export type UpdateResultRulesetRulesItemRewriteRuleActionParametersHeadersAddDynamicHeaderOperation =
+export type UpdateResultRulesetRulesItemRewriteRuleActionParametersHeadersValueAddDynamicHeaderOperation =
   "add";
-export const UpdateResultRulesetRulesItemRewriteRuleActionParametersHeadersAddDynamicHeaderOperation =
+export const UpdateResultRulesetRulesItemRewriteRuleActionParametersHeadersValueAddDynamicHeaderOperation =
   S.String;
 
-export interface UpdateResultRulesetRulesItemRewriteRuleActionParametersHeadersAddDynamicHeader {
+export interface UpdateResultRulesetRulesItemRewriteRuleActionParametersHeadersValueAddDynamicHeader {
   /** An expression that evaluates to a value for the header. */
   expression: string;
   /** The operation to perform on the header. */
-  operation: UpdateResultRulesetRulesItemRewriteRuleActionParametersHeadersAddDynamicHeaderOperation;
+  operation: UpdateResultRulesetRulesItemRewriteRuleActionParametersHeadersValueAddDynamicHeaderOperation;
 }
-export const UpdateResultRulesetRulesItemRewriteRuleActionParametersHeadersAddDynamicHeader =
+export const UpdateResultRulesetRulesItemRewriteRuleActionParametersHeadersValueAddDynamicHeader =
   /*@__PURE__*/ S.suspend(() =>
     S.Struct({
       expression: S.String,
       operation:
-        UpdateResultRulesetRulesItemRewriteRuleActionParametersHeadersAddDynamicHeaderOperation,
+        UpdateResultRulesetRulesItemRewriteRuleActionParametersHeadersValueAddDynamicHeaderOperation,
     }),
   ).annotate({
-    identifier: "UpdateResultRulesetRulesItemRewriteRuleActionParametersHeadersAddDynamicHeader",
-  }) as any as S.Schema<UpdateResultRulesetRulesItemRewriteRuleActionParametersHeadersAddDynamicHeader>;
+    identifier:
+      "UpdateResultRulesetRulesItemRewriteRuleActionParametersHeadersValueAddDynamicHeader",
+  }) as any as S.Schema<UpdateResultRulesetRulesItemRewriteRuleActionParametersHeadersValueAddDynamicHeader>;
 
-export type UpdateResultRulesetRulesItemRewriteRuleActionParametersHeadersSetStaticHeaderOperation =
+export type UpdateResultRulesetRulesItemRewriteRuleActionParametersHeadersValueSetStaticHeaderOperation =
   "set";
-export const UpdateResultRulesetRulesItemRewriteRuleActionParametersHeadersSetStaticHeaderOperation =
+export const UpdateResultRulesetRulesItemRewriteRuleActionParametersHeadersValueSetStaticHeaderOperation =
   S.String;
 
-export interface UpdateResultRulesetRulesItemRewriteRuleActionParametersHeadersSetStaticHeader {
+export interface UpdateResultRulesetRulesItemRewriteRuleActionParametersHeadersValueSetStaticHeader {
   /** The operation to perform on the header. */
-  operation: UpdateResultRulesetRulesItemRewriteRuleActionParametersHeadersSetStaticHeaderOperation;
+  operation: UpdateResultRulesetRulesItemRewriteRuleActionParametersHeadersValueSetStaticHeaderOperation;
   /** A static value for the header. */
   value: string;
 }
-export const UpdateResultRulesetRulesItemRewriteRuleActionParametersHeadersSetStaticHeader =
+export const UpdateResultRulesetRulesItemRewriteRuleActionParametersHeadersValueSetStaticHeader =
   /*@__PURE__*/ S.suspend(() =>
     S.Struct({
       operation:
-        UpdateResultRulesetRulesItemRewriteRuleActionParametersHeadersSetStaticHeaderOperation,
+        UpdateResultRulesetRulesItemRewriteRuleActionParametersHeadersValueSetStaticHeaderOperation,
       value: S.String,
     }),
   ).annotate({
-    identifier: "UpdateResultRulesetRulesItemRewriteRuleActionParametersHeadersSetStaticHeader",
-  }) as any as S.Schema<UpdateResultRulesetRulesItemRewriteRuleActionParametersHeadersSetStaticHeader>;
+    identifier:
+      "UpdateResultRulesetRulesItemRewriteRuleActionParametersHeadersValueSetStaticHeader",
+  }) as any as S.Schema<UpdateResultRulesetRulesItemRewriteRuleActionParametersHeadersValueSetStaticHeader>;
 
-export type UpdateResultRulesetRulesItemRewriteRuleActionParametersHeadersSetDynamicHeaderOperation =
+export type UpdateResultRulesetRulesItemRewriteRuleActionParametersHeadersValueSetDynamicHeaderOperation =
   "set";
-export const UpdateResultRulesetRulesItemRewriteRuleActionParametersHeadersSetDynamicHeaderOperation =
+export const UpdateResultRulesetRulesItemRewriteRuleActionParametersHeadersValueSetDynamicHeaderOperation =
   S.String;
 
-export interface UpdateResultRulesetRulesItemRewriteRuleActionParametersHeadersSetDynamicHeader {
+export interface UpdateResultRulesetRulesItemRewriteRuleActionParametersHeadersValueSetDynamicHeader {
   /** An expression that evaluates to a value for the header. */
   expression: string;
   /** The operation to perform on the header. */
-  operation: UpdateResultRulesetRulesItemRewriteRuleActionParametersHeadersSetDynamicHeaderOperation;
+  operation: UpdateResultRulesetRulesItemRewriteRuleActionParametersHeadersValueSetDynamicHeaderOperation;
 }
-export const UpdateResultRulesetRulesItemRewriteRuleActionParametersHeadersSetDynamicHeader =
+export const UpdateResultRulesetRulesItemRewriteRuleActionParametersHeadersValueSetDynamicHeader =
   /*@__PURE__*/ S.suspend(() =>
     S.Struct({
       expression: S.String,
       operation:
-        UpdateResultRulesetRulesItemRewriteRuleActionParametersHeadersSetDynamicHeaderOperation,
+        UpdateResultRulesetRulesItemRewriteRuleActionParametersHeadersValueSetDynamicHeaderOperation,
     }),
   ).annotate({
-    identifier: "UpdateResultRulesetRulesItemRewriteRuleActionParametersHeadersSetDynamicHeader",
-  }) as any as S.Schema<UpdateResultRulesetRulesItemRewriteRuleActionParametersHeadersSetDynamicHeader>;
+    identifier:
+      "UpdateResultRulesetRulesItemRewriteRuleActionParametersHeadersValueSetDynamicHeader",
+  }) as any as S.Schema<UpdateResultRulesetRulesItemRewriteRuleActionParametersHeadersValueSetDynamicHeader>;
 
-export type UpdateResultRulesetRulesItemRewriteRuleActionParametersHeadersRemoveHeaderOperation =
+export type UpdateResultRulesetRulesItemRewriteRuleActionParametersHeadersValueRemoveHeaderOperation =
   "remove";
-export const UpdateResultRulesetRulesItemRewriteRuleActionParametersHeadersRemoveHeaderOperation =
+export const UpdateResultRulesetRulesItemRewriteRuleActionParametersHeadersValueRemoveHeaderOperation =
   S.String;
 
-export interface UpdateResultRulesetRulesItemRewriteRuleActionParametersHeadersRemoveHeader {
+export interface UpdateResultRulesetRulesItemRewriteRuleActionParametersHeadersValueRemoveHeader {
   /** The operation to perform on the header. */
-  operation: UpdateResultRulesetRulesItemRewriteRuleActionParametersHeadersRemoveHeaderOperation;
+  operation: UpdateResultRulesetRulesItemRewriteRuleActionParametersHeadersValueRemoveHeaderOperation;
 }
-export const UpdateResultRulesetRulesItemRewriteRuleActionParametersHeadersRemoveHeader =
+export const UpdateResultRulesetRulesItemRewriteRuleActionParametersHeadersValueRemoveHeader =
   /*@__PURE__*/ S.suspend(() =>
     S.Struct({
       operation:
-        UpdateResultRulesetRulesItemRewriteRuleActionParametersHeadersRemoveHeaderOperation,
+        UpdateResultRulesetRulesItemRewriteRuleActionParametersHeadersValueRemoveHeaderOperation,
     }),
   ).annotate({
-    identifier: "UpdateResultRulesetRulesItemRewriteRuleActionParametersHeadersRemoveHeader",
-  }) as any as S.Schema<UpdateResultRulesetRulesItemRewriteRuleActionParametersHeadersRemoveHeader>;
+    identifier: "UpdateResultRulesetRulesItemRewriteRuleActionParametersHeadersValueRemoveHeader",
+  }) as any as S.Schema<UpdateResultRulesetRulesItemRewriteRuleActionParametersHeadersValueRemoveHeader>;
 
-export type UpdateResultRulesetRulesItemRewriteRuleActionParametersHeaders =
-  | UpdateResultRulesetRulesItemRewriteRuleActionParametersHeadersAddStaticHeader
-  | UpdateResultRulesetRulesItemRewriteRuleActionParametersHeadersAddDynamicHeader
-  | UpdateResultRulesetRulesItemRewriteRuleActionParametersHeadersSetStaticHeader
-  | UpdateResultRulesetRulesItemRewriteRuleActionParametersHeadersSetDynamicHeader
-  | UpdateResultRulesetRulesItemRewriteRuleActionParametersHeadersRemoveHeader;
-export const UpdateResultRulesetRulesItemRewriteRuleActionParametersHeaders =
+export type UpdateResultRulesetRulesItemRewriteRuleActionParametersHeadersValue =
+  | UpdateResultRulesetRulesItemRewriteRuleActionParametersHeadersValueAddStaticHeader
+  | UpdateResultRulesetRulesItemRewriteRuleActionParametersHeadersValueAddDynamicHeader
+  | UpdateResultRulesetRulesItemRewriteRuleActionParametersHeadersValueSetStaticHeader
+  | UpdateResultRulesetRulesItemRewriteRuleActionParametersHeadersValueSetDynamicHeader
+  | UpdateResultRulesetRulesItemRewriteRuleActionParametersHeadersValueRemoveHeader;
+export const UpdateResultRulesetRulesItemRewriteRuleActionParametersHeadersValue =
   /*@__PURE__*/ S.Unknown.pipe(
     T.UnionCases([
       ["operation", "value"],
@@ -72084,6 +72246,15 @@ export const UpdateResultRulesetRulesItemRewriteRuleActionParametersHeaders =
       ["operation"],
     ]),
   );
+
+export type UpdateResultRulesetRulesItemRewriteRuleActionParametersHeadersMap = {
+  [key: string]: UpdateResultRulesetRulesItemRewriteRuleActionParametersHeadersValue | undefined;
+};
+export const UpdateResultRulesetRulesItemRewriteRuleActionParametersHeadersMap =
+  /*@__PURE__*/ S.Record(
+    S.String,
+    UpdateResultRulesetRulesItemRewriteRuleActionParametersHeadersValue,
+  ) as any as S.Schema<UpdateResultRulesetRulesItemRewriteRuleActionParametersHeadersMap>;
 
 export type UpdateResultRulesetRulesItemRewriteRuleActionParametersUriURIPathPath =
   RulesCreateResultRulesetRulesItemRewriteRuleActionParametersUriURIPathPath;
@@ -72118,13 +72289,15 @@ export const UpdateResultRulesetRulesItemRewriteRuleActionParametersUri =
 
 export interface UpdateResultRulesetRulesItemRewriteRuleActionParameters {
   /** A map of headers to rewrite. */
-  headers?: UpdateResultRulesetRulesItemRewriteRuleActionParametersHeaders | null;
+  headers?: UpdateResultRulesetRulesItemRewriteRuleActionParametersHeadersMap | null;
   /** A URI path rewrite. */
   uri?: UpdateResultRulesetRulesItemRewriteRuleActionParametersUri | null;
 }
 export const UpdateResultRulesetRulesItemRewriteRuleActionParameters = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    headers: S.optional(S.NullOr(UpdateResultRulesetRulesItemRewriteRuleActionParametersHeaders)),
+    headers: S.optional(
+      S.NullOr(UpdateResultRulesetRulesItemRewriteRuleActionParametersHeadersMap),
+    ),
     uri: S.optional(S.NullOr(UpdateResultRulesetRulesItemRewriteRuleActionParametersUri)),
   }),
 ).annotate({

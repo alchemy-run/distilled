@@ -341,7 +341,7 @@
         "smithy.api#input": {}
       }
     },
-    "com.cloudflare.registrar#TransferCheckResponseDomainsTransferableResultPricing": {
+    "com.cloudflare.registrar#TransferCheckResponseDomainsValueTransferableResultPricing": {
       "type": "structure",
       "members": {
         "currency": {
@@ -367,7 +367,7 @@
         }
       }
     },
-    "com.cloudflare.registrar#TransferCheckResponseDomainsTransferableResultReasonsItemCode": {
+    "com.cloudflare.registrar#TransferCheckResponseDomainsValueTransferableResultReasonsItemCode": {
       "type": "enum",
       "members": {
         "EXTENSION_NOT_SUPPORTED_VIA_API": {
@@ -474,11 +474,11 @@
         }
       }
     },
-    "com.cloudflare.registrar#TransferCheckResponseDomainsTransferableResultReasonsItem": {
+    "com.cloudflare.registrar#TransferCheckResponseDomainsValueTransferableResultReasonsItem": {
       "type": "structure",
       "members": {
         "code": {
-          "target": "com.cloudflare.registrar#TransferCheckResponseDomainsTransferableResultReasonsItemCode",
+          "target": "com.cloudflare.registrar#TransferCheckResponseDomainsValueTransferableResultReasonsItemCode",
           "traits": {
             "smithy.api#documentation": "Transfer eligibility reason code.",
             "smithy.api#required": {}
@@ -486,17 +486,17 @@
         }
       }
     },
-    "com.cloudflare.registrar#TransferCheckResponseDomainsTransferableResultReasonsList": {
+    "com.cloudflare.registrar#TransferCheckResponseDomainsValueTransferableResultReasonsList": {
       "type": "list",
       "member": {
-        "target": "com.cloudflare.registrar#TransferCheckResponseDomainsTransferableResultReasonsItem"
+        "target": "com.cloudflare.registrar#TransferCheckResponseDomainsValueTransferableResultReasonsItem"
       }
     },
-    "com.cloudflare.registrar#TransferCheckResponseDomainsTransferableResult": {
+    "com.cloudflare.registrar#TransferCheckResponseDomainsValueTransferableResult": {
       "type": "structure",
       "members": {
         "pricing": {
-          "target": "com.cloudflare.registrar#TransferCheckResponseDomainsTransferableResultPricing",
+          "target": "com.cloudflare.registrar#TransferCheckResponseDomainsValueTransferableResultPricing",
           "traits": {
             "smithy.api#documentation": "Provides annual pricing information for a given domain. The API returns all per-year prices as strings to preserve decimal precision.",
             "smithy.api#required": {}
@@ -515,11 +515,11 @@
           }
         },
         "reasons": {
-          "target": "com.cloudflare.registrar#TransferCheckResponseDomainsTransferableResultReasonsList"
+          "target": "com.cloudflare.registrar#TransferCheckResponseDomainsValueTransferableResultReasonsList"
         }
       }
     },
-    "com.cloudflare.registrar#TransferCheckResponseDomainsNonTransferableResultPricing": {
+    "com.cloudflare.registrar#TransferCheckResponseDomainsValueNonTransferableResultPricing": {
       "type": "structure",
       "members": {
         "currency": {
@@ -545,7 +545,7 @@
         }
       }
     },
-    "com.cloudflare.registrar#TransferCheckResponseDomainsNonTransferableResultReasonsItemCode": {
+    "com.cloudflare.registrar#TransferCheckResponseDomainsValueNonTransferableResultReasonsItemCode": {
       "type": "enum",
       "members": {
         "EXTENSION_NOT_SUPPORTED_VIA_API": {
@@ -652,11 +652,11 @@
         }
       }
     },
-    "com.cloudflare.registrar#TransferCheckResponseDomainsNonTransferableResultReasonsItem": {
+    "com.cloudflare.registrar#TransferCheckResponseDomainsValueNonTransferableResultReasonsItem": {
       "type": "structure",
       "members": {
         "code": {
-          "target": "com.cloudflare.registrar#TransferCheckResponseDomainsNonTransferableResultReasonsItemCode",
+          "target": "com.cloudflare.registrar#TransferCheckResponseDomainsValueNonTransferableResultReasonsItemCode",
           "traits": {
             "smithy.api#documentation": "Transfer eligibility reason code.",
             "smithy.api#required": {}
@@ -664,13 +664,13 @@
         }
       }
     },
-    "com.cloudflare.registrar#TransferCheckResponseDomainsNonTransferableResultReasonsList": {
+    "com.cloudflare.registrar#TransferCheckResponseDomainsValueNonTransferableResultReasonsList": {
       "type": "list",
       "member": {
-        "target": "com.cloudflare.registrar#TransferCheckResponseDomainsNonTransferableResultReasonsItem"
+        "target": "com.cloudflare.registrar#TransferCheckResponseDomainsValueNonTransferableResultReasonsItem"
       }
     },
-    "com.cloudflare.registrar#TransferCheckResponseDomainsNonTransferableResult": {
+    "com.cloudflare.registrar#TransferCheckResponseDomainsValueNonTransferableResult": {
       "type": "structure",
       "members": {
         "transferable": {
@@ -686,32 +686,41 @@
           }
         },
         "pricing": {
-          "target": "com.cloudflare.registrar#TransferCheckResponseDomainsNonTransferableResultPricing",
+          "target": "com.cloudflare.registrar#TransferCheckResponseDomainsValueNonTransferableResultPricing",
           "traits": {
             "smithy.api#documentation": "Provides annual pricing information for a given domain. The API returns all per-year prices as strings to preserve decimal precision."
           }
         },
         "reasons": {
-          "target": "com.cloudflare.registrar#TransferCheckResponseDomainsNonTransferableResultReasonsList"
+          "target": "com.cloudflare.registrar#TransferCheckResponseDomainsValueNonTransferableResultReasonsList"
         }
       }
     },
-    "com.cloudflare.registrar#TransferCheckResponseDomains": {
+    "com.cloudflare.registrar#TransferCheckResponseDomainsValue": {
       "type": "union",
       "members": {
         "TransferableResult": {
-          "target": "com.cloudflare.registrar#TransferCheckResponseDomainsTransferableResult"
+          "target": "com.cloudflare.registrar#TransferCheckResponseDomainsValueTransferableResult"
         },
         "NonTransferableResult": {
-          "target": "com.cloudflare.registrar#TransferCheckResponseDomainsNonTransferableResult"
+          "target": "com.cloudflare.registrar#TransferCheckResponseDomainsValueNonTransferableResult"
         }
+      }
+    },
+    "com.cloudflare.registrar#TransferCheckResponseDomainsMap": {
+      "type": "map",
+      "key": {
+        "target": "smithy.api#String"
+      },
+      "value": {
+        "target": "com.cloudflare.registrar#TransferCheckResponseDomainsValue"
       }
     },
     "com.cloudflare.registrar#TransferCheckResponse": {
       "type": "structure",
       "members": {
         "domains": {
-          "target": "com.cloudflare.registrar#TransferCheckResponseDomains",
+          "target": "com.cloudflare.registrar#TransferCheckResponseDomainsMap",
           "traits": {
             "smithy.api#documentation": "Maps domain names to transfer eligibility results. Each value contains `name`, `transferable`, and `reasons`.",
             "smithy.api#required": {}

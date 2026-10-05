@@ -834,7 +834,7 @@
         }
       }
     },
-    "com.cloudflare.organizations#BillingUsageGetResultItemTags": {
+    "com.cloudflare.organizations#BillingUsageGetResultItemTagsValue": {
       "type": "union",
       "members": {
         "String": {
@@ -843,6 +843,15 @@
         "Boolean": {
           "target": "smithy.api#Boolean"
         }
+      }
+    },
+    "com.cloudflare.organizations#BillingUsageGetResultItemTagsMap": {
+      "type": "map",
+      "key": {
+        "target": "smithy.api#String"
+      },
+      "value": {
+        "target": "com.cloudflare.organizations#BillingUsageGetResultItemTagsValue"
       }
     },
     "com.cloudflare.organizations#BillingUsageGetResultItem": {
@@ -1034,7 +1043,7 @@
           }
         },
         "Tags": {
-          "target": "com.cloudflare.organizations#BillingUsageGetResultItemTags",
+          "target": "com.cloudflare.organizations#BillingUsageGetResultItemTagsMap",
           "traits": {
             "smithy.api#documentation": "Tag values for the requested `GroupBy` keys. Omitted when `GroupBy` is not provided. Missing keys are omitted, and key-only tags are returned as boolean `true`. All other tag values are strings."
           }

@@ -1726,7 +1726,7 @@
         }
       }
     },
-    "com.cloudflare.billing#UsageGetResultItemTags": {
+    "com.cloudflare.billing#UsageGetResultItemTagsValue": {
       "type": "union",
       "members": {
         "String": {
@@ -1735,6 +1735,15 @@
         "Boolean": {
           "target": "smithy.api#Boolean"
         }
+      }
+    },
+    "com.cloudflare.billing#UsageGetResultItemTagsMap": {
+      "type": "map",
+      "key": {
+        "target": "smithy.api#String"
+      },
+      "value": {
+        "target": "com.cloudflare.billing#UsageGetResultItemTagsValue"
       }
     },
     "com.cloudflare.billing#UsageGetResultItem": {
@@ -1926,7 +1935,7 @@
           }
         },
         "Tags": {
-          "target": "com.cloudflare.billing#UsageGetResultItemTags",
+          "target": "com.cloudflare.billing#UsageGetResultItemTagsMap",
           "traits": {
             "smithy.api#documentation": "Tag values for the requested `GroupBy` keys. Omitted when `GroupBy` is not provided. Missing keys are omitted, and key-only tags are returned as boolean `true`. All other tag values are strings."
           }
@@ -2403,7 +2412,7 @@
         }
       }
     },
-    "com.cloudflare.billing#UsageGetAccountUsageV2ResultItemTags": {
+    "com.cloudflare.billing#UsageGetAccountUsageV2ResultItemTagsValue": {
       "type": "union",
       "members": {
         "String": {
@@ -2412,6 +2421,15 @@
         "Boolean": {
           "target": "smithy.api#Boolean"
         }
+      }
+    },
+    "com.cloudflare.billing#UsageGetAccountUsageV2ResultItemTagsMap": {
+      "type": "map",
+      "key": {
+        "target": "smithy.api#String"
+      },
+      "value": {
+        "target": "com.cloudflare.billing#UsageGetAccountUsageV2ResultItemTagsValue"
       }
     },
     "com.cloudflare.billing#UsageGetAccountUsageV2ResultItem": {
@@ -2603,7 +2621,7 @@
           }
         },
         "Tags": {
-          "target": "com.cloudflare.billing#UsageGetAccountUsageV2ResultItemTags",
+          "target": "com.cloudflare.billing#UsageGetAccountUsageV2ResultItemTagsMap",
           "traits": {
             "smithy.api#documentation": "Tag values for the requested `GroupBy` keys. Omitted when `GroupBy` is not provided. Missing keys are omitted, and key-only tags are returned as boolean `true`. All other tag values are strings."
           }

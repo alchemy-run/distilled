@@ -23865,7 +23865,7 @@
         }
       }
     },
-    "com.cloudflare.realtime_kit#SessionsGetParticipantDataFromPeerIdResponseDataParticipantPeerReportMetadataEventsItemMetadata": {
+    "com.cloudflare.realtime_kit#SessionsGetParticipantDataFromPeerIdResponseDataParticipantPeerReportMetadataEventsItemMetadataValue": {
       "type": "union",
       "members": {
         "String": {
@@ -23879,11 +23879,20 @@
         }
       }
     },
+    "com.cloudflare.realtime_kit#SessionsGetParticipantDataFromPeerIdResponseDataParticipantPeerReportMetadataEventsItemMetadataMap": {
+      "type": "map",
+      "key": {
+        "target": "smithy.api#String"
+      },
+      "value": {
+        "target": "com.cloudflare.realtime_kit#SessionsGetParticipantDataFromPeerIdResponseDataParticipantPeerReportMetadataEventsItemMetadataValue"
+      }
+    },
     "com.cloudflare.realtime_kit#SessionsGetParticipantDataFromPeerIdResponseDataParticipantPeerReportMetadataEventsItem": {
       "type": "structure",
       "members": {
         "metadata": {
-          "target": "com.cloudflare.realtime_kit#SessionsGetParticipantDataFromPeerIdResponseDataParticipantPeerReportMetadataEventsItemMetadata",
+          "target": "com.cloudflare.realtime_kit#SessionsGetParticipantDataFromPeerIdResponseDataParticipantPeerReportMetadataEventsItemMetadataMap",
           "traits": {
             "smithy.api#documentation": "Event-specific metadata. Keys vary per event; values are primitive scalars (string, number, boolean, or null)."
           }

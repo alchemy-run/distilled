@@ -6867,16 +6867,28 @@ export const SessionsGetParticipantDataFromPeerIdResponseDataParticipantPeerRepo
       "SessionsGetParticipantDataFromPeerIdResponseDataParticipantPeerReportMetadataDeviceInfo",
   }) as any as S.Schema<SessionsGetParticipantDataFromPeerIdResponseDataParticipantPeerReportMetadataDeviceInfo>;
 
-export type SessionsGetParticipantDataFromPeerIdResponseDataParticipantPeerReportMetadataEventsItemMetadata =
+export type SessionsGetParticipantDataFromPeerIdResponseDataParticipantPeerReportMetadataEventsItemMetadataValue =
   | string
   | number
   | boolean;
-export const SessionsGetParticipantDataFromPeerIdResponseDataParticipantPeerReportMetadataEventsItemMetadata =
+export const SessionsGetParticipantDataFromPeerIdResponseDataParticipantPeerReportMetadataEventsItemMetadataValue =
   /*@__PURE__*/ S.Unknown.pipe(T.UnionCases([[], [], []]));
+
+export type SessionsGetParticipantDataFromPeerIdResponseDataParticipantPeerReportMetadataEventsItemMetadataMap =
+  {
+    [key: string]:
+      | SessionsGetParticipantDataFromPeerIdResponseDataParticipantPeerReportMetadataEventsItemMetadataValue
+      | undefined;
+  };
+export const SessionsGetParticipantDataFromPeerIdResponseDataParticipantPeerReportMetadataEventsItemMetadataMap =
+  /*@__PURE__*/ S.Record(
+    S.String,
+    SessionsGetParticipantDataFromPeerIdResponseDataParticipantPeerReportMetadataEventsItemMetadataValue,
+  ) as any as S.Schema<SessionsGetParticipantDataFromPeerIdResponseDataParticipantPeerReportMetadataEventsItemMetadataMap>;
 
 export interface SessionsGetParticipantDataFromPeerIdResponseDataParticipantPeerReportMetadataEventsItem {
   /** Event-specific metadata. Keys vary per event; values are primitive scalars (string, number, boolean, or null). */
-  metadata?: SessionsGetParticipantDataFromPeerIdResponseDataParticipantPeerReportMetadataEventsItemMetadata | null;
+  metadata?: SessionsGetParticipantDataFromPeerIdResponseDataParticipantPeerReportMetadataEventsItemMetadataMap | null;
   /** Name of the event. */
   name?: string | null;
   /** Timestamp when the event occurred. */
@@ -6887,7 +6899,7 @@ export const SessionsGetParticipantDataFromPeerIdResponseDataParticipantPeerRepo
     S.Struct({
       metadata: S.optional(
         S.NullOr(
-          SessionsGetParticipantDataFromPeerIdResponseDataParticipantPeerReportMetadataEventsItemMetadata,
+          SessionsGetParticipantDataFromPeerIdResponseDataParticipantPeerReportMetadataEventsItemMetadataMap,
         ),
       ),
       name: S.optional(S.NullOr(S.String)),

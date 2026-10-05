@@ -419,27 +419,35 @@ export const CreateRequestActionsItemCacheOnCookie = /*@__PURE__*/ S.suspend(() 
 export type CreateRequestActionsItemCacheTTLByStatusId = "cache_ttl_by_status";
 export const CreateRequestActionsItemCacheTTLByStatusId = S.String;
 
-export type CreateRequestActionsItemCacheTTLByStatusValueCase0 = "no-cache" | "no-store";
-export const CreateRequestActionsItemCacheTTLByStatusValueCase0 = S.String;
+export type CreateRequestActionsItemCacheTTLByStatusValueValueCase0 = "no-cache" | "no-store";
+export const CreateRequestActionsItemCacheTTLByStatusValueValueCase0 = S.String;
 
-export type CreateRequestActionsItemCacheTTLByStatusValue =
+export type CreateRequestActionsItemCacheTTLByStatusValueValue =
   | number
-  | CreateRequestActionsItemCacheTTLByStatusValueCase0
+  | CreateRequestActionsItemCacheTTLByStatusValueValueCase0
   | (string & {});
-export const CreateRequestActionsItemCacheTTLByStatusValue = /*@__PURE__*/ S.Unknown.pipe(
+export const CreateRequestActionsItemCacheTTLByStatusValueValue = /*@__PURE__*/ S.Unknown.pipe(
   T.UnionCases([[], []]),
 );
+
+export type CreateRequestActionsItemCacheTTLByStatusValueMap = {
+  [key: string]: CreateRequestActionsItemCacheTTLByStatusValueValue | undefined;
+};
+export const CreateRequestActionsItemCacheTTLByStatusValueMap = /*@__PURE__*/ S.Record(
+  S.String,
+  CreateRequestActionsItemCacheTTLByStatusValueValue,
+) as any as S.Schema<CreateRequestActionsItemCacheTTLByStatusValueMap>;
 
 export interface CreateRequestActionsItemCacheTTLByStatus {
   /** Enterprise customers can set cache time-to-live (TTL) based on the response status from the origin web server. Cache TTL refers to the duration of a resource in the Cloudflare network before being marked as stale or discarded from cache. Status codes are returned by a resource's origin. Setting cache TTL based on response status overrides the default cache behavior (standard caching) for static files and overrides cache instructions sent by the origin web server. To cache non-static assets, set a Cache Level of Cache Everything using a Page Rule. Setting no-store Cache-Control or a low TTL (using `max-age`/`s-maxage`) increases requests to origin web servers and decreases performance. */
   id?: CreateRequestActionsItemCacheTTLByStatusId | (string & {});
   /** A JSON object containing status codes and their corresponding TTLs. Each key-value pair in the cache TTL by status cache rule has the following syntax */
-  value?: CreateRequestActionsItemCacheTTLByStatusValue;
+  value?: CreateRequestActionsItemCacheTTLByStatusValueMap;
 }
 export const CreateRequestActionsItemCacheTTLByStatus = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     id: S.optional(CreateRequestActionsItemCacheTTLByStatusId),
-    value: S.optional(CreateRequestActionsItemCacheTTLByStatusValue),
+    value: S.optional(CreateRequestActionsItemCacheTTLByStatusValueMap),
   }),
 ).annotate({
   identifier: "CreateRequestActionsItemCacheTTLByStatus",
@@ -1481,26 +1489,34 @@ export const CreateResponseActionsItemCacheOnCookie = /*@__PURE__*/ S.suspend(()
 export type CreateResponseActionsItemCacheTTLByStatusId = "cache_ttl_by_status";
 export const CreateResponseActionsItemCacheTTLByStatusId = S.String;
 
-export type CreateResponseActionsItemCacheTTLByStatusValueCase0 = "no-cache" | "no-store";
-export const CreateResponseActionsItemCacheTTLByStatusValueCase0 = S.String;
+export type CreateResponseActionsItemCacheTTLByStatusValueValueCase0 = "no-cache" | "no-store";
+export const CreateResponseActionsItemCacheTTLByStatusValueValueCase0 = S.String;
 
-export type CreateResponseActionsItemCacheTTLByStatusValue =
+export type CreateResponseActionsItemCacheTTLByStatusValueValue =
   | number
-  | CreateResponseActionsItemCacheTTLByStatusValueCase0;
-export const CreateResponseActionsItemCacheTTLByStatusValue = /*@__PURE__*/ S.Unknown.pipe(
+  | CreateResponseActionsItemCacheTTLByStatusValueValueCase0;
+export const CreateResponseActionsItemCacheTTLByStatusValueValue = /*@__PURE__*/ S.Unknown.pipe(
   T.UnionCases([[], []]),
 );
+
+export type CreateResponseActionsItemCacheTTLByStatusValueMap = {
+  [key: string]: CreateResponseActionsItemCacheTTLByStatusValueValue | undefined;
+};
+export const CreateResponseActionsItemCacheTTLByStatusValueMap = /*@__PURE__*/ S.Record(
+  S.String,
+  CreateResponseActionsItemCacheTTLByStatusValueValue,
+) as any as S.Schema<CreateResponseActionsItemCacheTTLByStatusValueMap>;
 
 export interface CreateResponseActionsItemCacheTTLByStatus {
   /** Enterprise customers can set cache time-to-live (TTL) based on the response status from the origin web server. Cache TTL refers to the duration of a resource in the Cloudflare network before being marked as stale or discarded from cache. Status codes are returned by a resource's origin. Setting cache TTL based on response status overrides the default cache behavior (standard caching) for static files and overrides cache instructions sent by the origin web server. To cache non-static assets, set a Cache Level of Cache Everything using a Page Rule. Setting no-store Cache-Control or a low TTL (using `max-age`/`s-maxage`) increases requests to origin web servers and decreases performance. */
   id?: CreateResponseActionsItemCacheTTLByStatusId | null;
   /** A JSON object containing status codes and their corresponding TTLs. Each key-value pair in the cache TTL by status cache rule has the following syntax */
-  value?: CreateResponseActionsItemCacheTTLByStatusValue | null;
+  value?: CreateResponseActionsItemCacheTTLByStatusValueMap | null;
 }
 export const CreateResponseActionsItemCacheTTLByStatus = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     id: S.optional(S.NullOr(CreateResponseActionsItemCacheTTLByStatusId)),
-    value: S.optional(S.NullOr(CreateResponseActionsItemCacheTTLByStatusValue)),
+    value: S.optional(S.NullOr(CreateResponseActionsItemCacheTTLByStatusValueMap)),
   }),
 ).annotate({
   identifier: "CreateResponseActionsItemCacheTTLByStatus",
@@ -2568,26 +2584,34 @@ export const GetResponseActionsItemCacheOnCookie = /*@__PURE__*/ S.suspend(() =>
 export type GetResponseActionsItemCacheTTLByStatusId = "cache_ttl_by_status";
 export const GetResponseActionsItemCacheTTLByStatusId = S.String;
 
-export type GetResponseActionsItemCacheTTLByStatusValueCase0 = "no-cache" | "no-store";
-export const GetResponseActionsItemCacheTTLByStatusValueCase0 = S.String;
+export type GetResponseActionsItemCacheTTLByStatusValueValueCase0 = "no-cache" | "no-store";
+export const GetResponseActionsItemCacheTTLByStatusValueValueCase0 = S.String;
 
-export type GetResponseActionsItemCacheTTLByStatusValue =
+export type GetResponseActionsItemCacheTTLByStatusValueValue =
   | number
-  | GetResponseActionsItemCacheTTLByStatusValueCase0;
-export const GetResponseActionsItemCacheTTLByStatusValue = /*@__PURE__*/ S.Unknown.pipe(
+  | GetResponseActionsItemCacheTTLByStatusValueValueCase0;
+export const GetResponseActionsItemCacheTTLByStatusValueValue = /*@__PURE__*/ S.Unknown.pipe(
   T.UnionCases([[], []]),
 );
+
+export type GetResponseActionsItemCacheTTLByStatusValueMap = {
+  [key: string]: GetResponseActionsItemCacheTTLByStatusValueValue | undefined;
+};
+export const GetResponseActionsItemCacheTTLByStatusValueMap = /*@__PURE__*/ S.Record(
+  S.String,
+  GetResponseActionsItemCacheTTLByStatusValueValue,
+) as any as S.Schema<GetResponseActionsItemCacheTTLByStatusValueMap>;
 
 export interface GetResponseActionsItemCacheTTLByStatus {
   /** Enterprise customers can set cache time-to-live (TTL) based on the response status from the origin web server. Cache TTL refers to the duration of a resource in the Cloudflare network before being marked as stale or discarded from cache. Status codes are returned by a resource's origin. Setting cache TTL based on response status overrides the default cache behavior (standard caching) for static files and overrides cache instructions sent by the origin web server. To cache non-static assets, set a Cache Level of Cache Everything using a Page Rule. Setting no-store Cache-Control or a low TTL (using `max-age`/`s-maxage`) increases requests to origin web servers and decreases performance. */
   id?: GetResponseActionsItemCacheTTLByStatusId | null;
   /** A JSON object containing status codes and their corresponding TTLs. Each key-value pair in the cache TTL by status cache rule has the following syntax */
-  value?: GetResponseActionsItemCacheTTLByStatusValue | null;
+  value?: GetResponseActionsItemCacheTTLByStatusValueMap | null;
 }
 export const GetResponseActionsItemCacheTTLByStatus = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     id: S.optional(S.NullOr(GetResponseActionsItemCacheTTLByStatusId)),
-    value: S.optional(S.NullOr(GetResponseActionsItemCacheTTLByStatusValue)),
+    value: S.optional(S.NullOr(GetResponseActionsItemCacheTTLByStatusValueMap)),
   }),
 ).annotate({
   identifier: "GetResponseActionsItemCacheTTLByStatus",
@@ -3645,26 +3669,34 @@ export const ListResultItemActionsItemCacheOnCookie = /*@__PURE__*/ S.suspend(()
 export type ListResultItemActionsItemCacheTTLByStatusId = "cache_ttl_by_status";
 export const ListResultItemActionsItemCacheTTLByStatusId = S.String;
 
-export type ListResultItemActionsItemCacheTTLByStatusValueCase0 = "no-cache" | "no-store";
-export const ListResultItemActionsItemCacheTTLByStatusValueCase0 = S.String;
+export type ListResultItemActionsItemCacheTTLByStatusValueValueCase0 = "no-cache" | "no-store";
+export const ListResultItemActionsItemCacheTTLByStatusValueValueCase0 = S.String;
 
-export type ListResultItemActionsItemCacheTTLByStatusValue =
+export type ListResultItemActionsItemCacheTTLByStatusValueValue =
   | number
-  | ListResultItemActionsItemCacheTTLByStatusValueCase0;
-export const ListResultItemActionsItemCacheTTLByStatusValue = /*@__PURE__*/ S.Unknown.pipe(
+  | ListResultItemActionsItemCacheTTLByStatusValueValueCase0;
+export const ListResultItemActionsItemCacheTTLByStatusValueValue = /*@__PURE__*/ S.Unknown.pipe(
   T.UnionCases([[], []]),
 );
+
+export type ListResultItemActionsItemCacheTTLByStatusValueMap = {
+  [key: string]: ListResultItemActionsItemCacheTTLByStatusValueValue | undefined;
+};
+export const ListResultItemActionsItemCacheTTLByStatusValueMap = /*@__PURE__*/ S.Record(
+  S.String,
+  ListResultItemActionsItemCacheTTLByStatusValueValue,
+) as any as S.Schema<ListResultItemActionsItemCacheTTLByStatusValueMap>;
 
 export interface ListResultItemActionsItemCacheTTLByStatus {
   /** Enterprise customers can set cache time-to-live (TTL) based on the response status from the origin web server. Cache TTL refers to the duration of a resource in the Cloudflare network before being marked as stale or discarded from cache. Status codes are returned by a resource's origin. Setting cache TTL based on response status overrides the default cache behavior (standard caching) for static files and overrides cache instructions sent by the origin web server. To cache non-static assets, set a Cache Level of Cache Everything using a Page Rule. Setting no-store Cache-Control or a low TTL (using `max-age`/`s-maxage`) increases requests to origin web servers and decreases performance. */
   id?: ListResultItemActionsItemCacheTTLByStatusId | null;
   /** A JSON object containing status codes and their corresponding TTLs. Each key-value pair in the cache TTL by status cache rule has the following syntax */
-  value?: ListResultItemActionsItemCacheTTLByStatusValue | null;
+  value?: ListResultItemActionsItemCacheTTLByStatusValueMap | null;
 }
 export const ListResultItemActionsItemCacheTTLByStatus = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     id: S.optional(S.NullOr(ListResultItemActionsItemCacheTTLByStatusId)),
-    value: S.optional(S.NullOr(ListResultItemActionsItemCacheTTLByStatusValue)),
+    value: S.optional(S.NullOr(ListResultItemActionsItemCacheTTLByStatusValueMap)),
   }),
 ).annotate({
   identifier: "ListResultItemActionsItemCacheTTLByStatus",
@@ -4702,27 +4734,35 @@ export const EditRequestActionsItemCacheOnCookie = /*@__PURE__*/ S.suspend(() =>
 export type EditRequestActionsItemCacheTTLByStatusId = "cache_ttl_by_status";
 export const EditRequestActionsItemCacheTTLByStatusId = S.String;
 
-export type EditRequestActionsItemCacheTTLByStatusValueCase0 = "no-cache" | "no-store";
-export const EditRequestActionsItemCacheTTLByStatusValueCase0 = S.String;
+export type EditRequestActionsItemCacheTTLByStatusValueValueCase0 = "no-cache" | "no-store";
+export const EditRequestActionsItemCacheTTLByStatusValueValueCase0 = S.String;
 
-export type EditRequestActionsItemCacheTTLByStatusValue =
+export type EditRequestActionsItemCacheTTLByStatusValueValue =
   | number
-  | EditRequestActionsItemCacheTTLByStatusValueCase0
+  | EditRequestActionsItemCacheTTLByStatusValueValueCase0
   | (string & {});
-export const EditRequestActionsItemCacheTTLByStatusValue = /*@__PURE__*/ S.Unknown.pipe(
+export const EditRequestActionsItemCacheTTLByStatusValueValue = /*@__PURE__*/ S.Unknown.pipe(
   T.UnionCases([[], []]),
 );
+
+export type EditRequestActionsItemCacheTTLByStatusValueMap = {
+  [key: string]: EditRequestActionsItemCacheTTLByStatusValueValue | undefined;
+};
+export const EditRequestActionsItemCacheTTLByStatusValueMap = /*@__PURE__*/ S.Record(
+  S.String,
+  EditRequestActionsItemCacheTTLByStatusValueValue,
+) as any as S.Schema<EditRequestActionsItemCacheTTLByStatusValueMap>;
 
 export interface EditRequestActionsItemCacheTTLByStatus {
   /** Enterprise customers can set cache time-to-live (TTL) based on the response status from the origin web server. Cache TTL refers to the duration of a resource in the Cloudflare network before being marked as stale or discarded from cache. Status codes are returned by a resource's origin. Setting cache TTL based on response status overrides the default cache behavior (standard caching) for static files and overrides cache instructions sent by the origin web server. To cache non-static assets, set a Cache Level of Cache Everything using a Page Rule. Setting no-store Cache-Control or a low TTL (using `max-age`/`s-maxage`) increases requests to origin web servers and decreases performance. */
   id?: EditRequestActionsItemCacheTTLByStatusId | (string & {});
   /** A JSON object containing status codes and their corresponding TTLs. Each key-value pair in the cache TTL by status cache rule has the following syntax */
-  value?: EditRequestActionsItemCacheTTLByStatusValue;
+  value?: EditRequestActionsItemCacheTTLByStatusValueMap;
 }
 export const EditRequestActionsItemCacheTTLByStatus = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     id: S.optional(EditRequestActionsItemCacheTTLByStatusId),
-    value: S.optional(EditRequestActionsItemCacheTTLByStatusValue),
+    value: S.optional(EditRequestActionsItemCacheTTLByStatusValueMap),
   }),
 ).annotate({
   identifier: "EditRequestActionsItemCacheTTLByStatus",
@@ -5740,26 +5780,34 @@ export const EditResponseActionsItemCacheOnCookie = /*@__PURE__*/ S.suspend(() =
 export type EditResponseActionsItemCacheTTLByStatusId = "cache_ttl_by_status";
 export const EditResponseActionsItemCacheTTLByStatusId = S.String;
 
-export type EditResponseActionsItemCacheTTLByStatusValueCase0 = "no-cache" | "no-store";
-export const EditResponseActionsItemCacheTTLByStatusValueCase0 = S.String;
+export type EditResponseActionsItemCacheTTLByStatusValueValueCase0 = "no-cache" | "no-store";
+export const EditResponseActionsItemCacheTTLByStatusValueValueCase0 = S.String;
 
-export type EditResponseActionsItemCacheTTLByStatusValue =
+export type EditResponseActionsItemCacheTTLByStatusValueValue =
   | number
-  | EditResponseActionsItemCacheTTLByStatusValueCase0;
-export const EditResponseActionsItemCacheTTLByStatusValue = /*@__PURE__*/ S.Unknown.pipe(
+  | EditResponseActionsItemCacheTTLByStatusValueValueCase0;
+export const EditResponseActionsItemCacheTTLByStatusValueValue = /*@__PURE__*/ S.Unknown.pipe(
   T.UnionCases([[], []]),
 );
+
+export type EditResponseActionsItemCacheTTLByStatusValueMap = {
+  [key: string]: EditResponseActionsItemCacheTTLByStatusValueValue | undefined;
+};
+export const EditResponseActionsItemCacheTTLByStatusValueMap = /*@__PURE__*/ S.Record(
+  S.String,
+  EditResponseActionsItemCacheTTLByStatusValueValue,
+) as any as S.Schema<EditResponseActionsItemCacheTTLByStatusValueMap>;
 
 export interface EditResponseActionsItemCacheTTLByStatus {
   /** Enterprise customers can set cache time-to-live (TTL) based on the response status from the origin web server. Cache TTL refers to the duration of a resource in the Cloudflare network before being marked as stale or discarded from cache. Status codes are returned by a resource's origin. Setting cache TTL based on response status overrides the default cache behavior (standard caching) for static files and overrides cache instructions sent by the origin web server. To cache non-static assets, set a Cache Level of Cache Everything using a Page Rule. Setting no-store Cache-Control or a low TTL (using `max-age`/`s-maxage`) increases requests to origin web servers and decreases performance. */
   id?: EditResponseActionsItemCacheTTLByStatusId | null;
   /** A JSON object containing status codes and their corresponding TTLs. Each key-value pair in the cache TTL by status cache rule has the following syntax */
-  value?: EditResponseActionsItemCacheTTLByStatusValue | null;
+  value?: EditResponseActionsItemCacheTTLByStatusValueMap | null;
 }
 export const EditResponseActionsItemCacheTTLByStatus = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     id: S.optional(S.NullOr(EditResponseActionsItemCacheTTLByStatusId)),
-    value: S.optional(S.NullOr(EditResponseActionsItemCacheTTLByStatusValue)),
+    value: S.optional(S.NullOr(EditResponseActionsItemCacheTTLByStatusValueMap)),
   }),
 ).annotate({
   identifier: "EditResponseActionsItemCacheTTLByStatus",
@@ -6786,27 +6834,35 @@ export const UpdateRequestActionsItemCacheOnCookie = /*@__PURE__*/ S.suspend(() 
 export type UpdateRequestActionsItemCacheTTLByStatusId = "cache_ttl_by_status";
 export const UpdateRequestActionsItemCacheTTLByStatusId = S.String;
 
-export type UpdateRequestActionsItemCacheTTLByStatusValueCase0 = "no-cache" | "no-store";
-export const UpdateRequestActionsItemCacheTTLByStatusValueCase0 = S.String;
+export type UpdateRequestActionsItemCacheTTLByStatusValueValueCase0 = "no-cache" | "no-store";
+export const UpdateRequestActionsItemCacheTTLByStatusValueValueCase0 = S.String;
 
-export type UpdateRequestActionsItemCacheTTLByStatusValue =
+export type UpdateRequestActionsItemCacheTTLByStatusValueValue =
   | number
-  | UpdateRequestActionsItemCacheTTLByStatusValueCase0
+  | UpdateRequestActionsItemCacheTTLByStatusValueValueCase0
   | (string & {});
-export const UpdateRequestActionsItemCacheTTLByStatusValue = /*@__PURE__*/ S.Unknown.pipe(
+export const UpdateRequestActionsItemCacheTTLByStatusValueValue = /*@__PURE__*/ S.Unknown.pipe(
   T.UnionCases([[], []]),
 );
+
+export type UpdateRequestActionsItemCacheTTLByStatusValueMap = {
+  [key: string]: UpdateRequestActionsItemCacheTTLByStatusValueValue | undefined;
+};
+export const UpdateRequestActionsItemCacheTTLByStatusValueMap = /*@__PURE__*/ S.Record(
+  S.String,
+  UpdateRequestActionsItemCacheTTLByStatusValueValue,
+) as any as S.Schema<UpdateRequestActionsItemCacheTTLByStatusValueMap>;
 
 export interface UpdateRequestActionsItemCacheTTLByStatus {
   /** Enterprise customers can set cache time-to-live (TTL) based on the response status from the origin web server. Cache TTL refers to the duration of a resource in the Cloudflare network before being marked as stale or discarded from cache. Status codes are returned by a resource's origin. Setting cache TTL based on response status overrides the default cache behavior (standard caching) for static files and overrides cache instructions sent by the origin web server. To cache non-static assets, set a Cache Level of Cache Everything using a Page Rule. Setting no-store Cache-Control or a low TTL (using `max-age`/`s-maxage`) increases requests to origin web servers and decreases performance. */
   id?: UpdateRequestActionsItemCacheTTLByStatusId | (string & {});
   /** A JSON object containing status codes and their corresponding TTLs. Each key-value pair in the cache TTL by status cache rule has the following syntax */
-  value?: UpdateRequestActionsItemCacheTTLByStatusValue;
+  value?: UpdateRequestActionsItemCacheTTLByStatusValueMap;
 }
 export const UpdateRequestActionsItemCacheTTLByStatus = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     id: S.optional(UpdateRequestActionsItemCacheTTLByStatusId),
-    value: S.optional(UpdateRequestActionsItemCacheTTLByStatusValue),
+    value: S.optional(UpdateRequestActionsItemCacheTTLByStatusValueMap),
   }),
 ).annotate({
   identifier: "UpdateRequestActionsItemCacheTTLByStatus",
@@ -7831,26 +7887,34 @@ export const UpdateResponseActionsItemCacheOnCookie = /*@__PURE__*/ S.suspend(()
 export type UpdateResponseActionsItemCacheTTLByStatusId = "cache_ttl_by_status";
 export const UpdateResponseActionsItemCacheTTLByStatusId = S.String;
 
-export type UpdateResponseActionsItemCacheTTLByStatusValueCase0 = "no-cache" | "no-store";
-export const UpdateResponseActionsItemCacheTTLByStatusValueCase0 = S.String;
+export type UpdateResponseActionsItemCacheTTLByStatusValueValueCase0 = "no-cache" | "no-store";
+export const UpdateResponseActionsItemCacheTTLByStatusValueValueCase0 = S.String;
 
-export type UpdateResponseActionsItemCacheTTLByStatusValue =
+export type UpdateResponseActionsItemCacheTTLByStatusValueValue =
   | number
-  | UpdateResponseActionsItemCacheTTLByStatusValueCase0;
-export const UpdateResponseActionsItemCacheTTLByStatusValue = /*@__PURE__*/ S.Unknown.pipe(
+  | UpdateResponseActionsItemCacheTTLByStatusValueValueCase0;
+export const UpdateResponseActionsItemCacheTTLByStatusValueValue = /*@__PURE__*/ S.Unknown.pipe(
   T.UnionCases([[], []]),
 );
+
+export type UpdateResponseActionsItemCacheTTLByStatusValueMap = {
+  [key: string]: UpdateResponseActionsItemCacheTTLByStatusValueValue | undefined;
+};
+export const UpdateResponseActionsItemCacheTTLByStatusValueMap = /*@__PURE__*/ S.Record(
+  S.String,
+  UpdateResponseActionsItemCacheTTLByStatusValueValue,
+) as any as S.Schema<UpdateResponseActionsItemCacheTTLByStatusValueMap>;
 
 export interface UpdateResponseActionsItemCacheTTLByStatus {
   /** Enterprise customers can set cache time-to-live (TTL) based on the response status from the origin web server. Cache TTL refers to the duration of a resource in the Cloudflare network before being marked as stale or discarded from cache. Status codes are returned by a resource's origin. Setting cache TTL based on response status overrides the default cache behavior (standard caching) for static files and overrides cache instructions sent by the origin web server. To cache non-static assets, set a Cache Level of Cache Everything using a Page Rule. Setting no-store Cache-Control or a low TTL (using `max-age`/`s-maxage`) increases requests to origin web servers and decreases performance. */
   id?: UpdateResponseActionsItemCacheTTLByStatusId | null;
   /** A JSON object containing status codes and their corresponding TTLs. Each key-value pair in the cache TTL by status cache rule has the following syntax */
-  value?: UpdateResponseActionsItemCacheTTLByStatusValue | null;
+  value?: UpdateResponseActionsItemCacheTTLByStatusValueMap | null;
 }
 export const UpdateResponseActionsItemCacheTTLByStatus = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     id: S.optional(S.NullOr(UpdateResponseActionsItemCacheTTLByStatusId)),
-    value: S.optional(S.NullOr(UpdateResponseActionsItemCacheTTLByStatusValue)),
+    value: S.optional(S.NullOr(UpdateResponseActionsItemCacheTTLByStatusValueMap)),
   }),
 ).annotate({
   identifier: "UpdateResponseActionsItemCacheTTLByStatus",
