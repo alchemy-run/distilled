@@ -18,21 +18,21 @@
     "distilled.finalized": true
   },
   "shapes": {
-    "com.huggingface.oauth#RegisterNewOAuthAppRequestRedirectUrisList": {
+    "com.huggingface.oauth#RegisterOAuthAppRequestRedirectUrisList": {
       "type": "list",
       "member": {
         "target": "smithy.api#String"
       },
       "traits": {}
     },
-    "com.huggingface.oauth#RegisterNewOAuthAppRequestContactsList": {
+    "com.huggingface.oauth#RegisterOAuthAppRequestContactsList": {
       "type": "list",
       "member": {
         "target": "smithy.api#String"
       },
       "traits": {}
     },
-    "com.huggingface.oauth#RegisterNewOAuthAppRequestTokenEndpointAuthMethod": {
+    "com.huggingface.oauth#RegisterOAuthAppRequestTokenEndpointAuthMethod": {
       "type": "enum",
       "members": {
         "CLIENT_SECRET_BASIC": {
@@ -56,11 +56,11 @@
       },
       "traits": {}
     },
-    "com.huggingface.oauth#RegisterNewOAuthAppRequest": {
+    "com.huggingface.oauth#RegisterOAuthAppRequest": {
       "type": "structure",
       "members": {
         "redirect_uris": {
-          "target": "com.huggingface.oauth#RegisterNewOAuthAppRequestRedirectUrisList"
+          "target": "com.huggingface.oauth#RegisterOAuthAppRequestRedirectUrisList"
         },
         "client_name": {
           "target": "smithy.api#String"
@@ -75,10 +75,10 @@
           "target": "smithy.api#String"
         },
         "contacts": {
-          "target": "com.huggingface.oauth#RegisterNewOAuthAppRequestContactsList"
+          "target": "com.huggingface.oauth#RegisterOAuthAppRequestContactsList"
         },
         "token_endpoint_auth_method": {
-          "target": "com.huggingface.oauth#RegisterNewOAuthAppRequestTokenEndpointAuthMethod"
+          "target": "com.huggingface.oauth#RegisterOAuthAppRequestTokenEndpointAuthMethod"
         },
         "software_id": {
           "target": "smithy.api#String"
@@ -91,14 +91,14 @@
         "smithy.api#input": {}
       }
     },
-    "com.huggingface.oauth#RegisterNewOAuthAppResponseRedirectUrisList": {
+    "com.huggingface.oauth#RegisterOAuthAppResponseRedirectUrisList": {
       "type": "list",
       "member": {
         "target": "smithy.api#String"
       },
       "traits": {}
     },
-    "com.huggingface.oauth#RegisterNewOAuthAppResponseGrantTypesItem": {
+    "com.huggingface.oauth#RegisterOAuthAppResponseGrantTypesItem": {
       "type": "enum",
       "members": {
         "URN_IETF_PARAMS_OAUTH_GRANT_TYPE_TOKEN_EXCHANGE": {
@@ -128,21 +128,21 @@
       },
       "traits": {}
     },
-    "com.huggingface.oauth#RegisterNewOAuthAppResponseGrantTypesList": {
+    "com.huggingface.oauth#RegisterOAuthAppResponseGrantTypesList": {
       "type": "list",
       "member": {
-        "target": "com.huggingface.oauth#RegisterNewOAuthAppResponseGrantTypesItem"
+        "target": "com.huggingface.oauth#RegisterOAuthAppResponseGrantTypesItem"
       },
       "traits": {}
     },
-    "com.huggingface.oauth#RegisterNewOAuthAppResponseContactsList": {
+    "com.huggingface.oauth#RegisterOAuthAppResponseContactsList": {
       "type": "list",
       "member": {
         "target": "smithy.api#String"
       },
       "traits": {}
     },
-    "com.huggingface.oauth#RegisterNewOAuthAppResponseTokenEndpointAuthMethod": {
+    "com.huggingface.oauth#RegisterOAuthAppResponseTokenEndpointAuthMethod": {
       "type": "enum",
       "members": {
         "CLIENT_SECRET_BASIC": {
@@ -166,7 +166,7 @@
       },
       "traits": {}
     },
-    "com.huggingface.oauth#RegisterNewOAuthAppResponse": {
+    "com.huggingface.oauth#RegisterOAuthAppResponse": {
       "type": "structure",
       "members": {
         "client_id": {
@@ -194,7 +194,7 @@
           }
         },
         "redirect_uris": {
-          "target": "com.huggingface.oauth#RegisterNewOAuthAppResponseRedirectUrisList",
+          "target": "com.huggingface.oauth#RegisterOAuthAppResponseRedirectUrisList",
           "traits": {
             "smithy.api#required": {}
           }
@@ -215,16 +215,16 @@
           }
         },
         "grant_types": {
-          "target": "com.huggingface.oauth#RegisterNewOAuthAppResponseGrantTypesList",
+          "target": "com.huggingface.oauth#RegisterOAuthAppResponseGrantTypesList",
           "traits": {
             "smithy.api#required": {}
           }
         },
         "contacts": {
-          "target": "com.huggingface.oauth#RegisterNewOAuthAppResponseContactsList"
+          "target": "com.huggingface.oauth#RegisterOAuthAppResponseContactsList"
         },
         "token_endpoint_auth_method": {
-          "target": "com.huggingface.oauth#RegisterNewOAuthAppResponseTokenEndpointAuthMethod"
+          "target": "com.huggingface.oauth#RegisterOAuthAppResponseTokenEndpointAuthMethod"
         },
         "software_id": {
           "target": "smithy.api#String"
@@ -237,13 +237,13 @@
         "smithy.api#output": {}
       }
     },
-    "com.huggingface.oauth#RegisterNewOAuthApp": {
+    "com.huggingface.oauth#RegisterOAuthApp": {
       "type": "operation",
       "input": {
-        "target": "com.huggingface.oauth#RegisterNewOAuthAppRequest"
+        "target": "com.huggingface.oauth#RegisterOAuthAppRequest"
       },
       "output": {
-        "target": "com.huggingface.oauth#RegisterNewOAuthAppResponse"
+        "target": "com.huggingface.oauth#RegisterOAuthAppResponse"
       },
       "traits": {
         "smithy.api#http": {
@@ -251,7 +251,7 @@
           "uri": "/oauth/register",
           "code": 200
         },
-        "smithy.api#documentation": "Register a new OAuth app"
+        "smithy.api#documentation": "Register OAuth app"
       }
     },
     "com.huggingface.oauth#InitiateDeviceAuthorizationRequest": {
@@ -354,7 +354,7 @@
           }
         },
         "isPrimary": {
-          "target": "smithy.api#Document"
+          "target": "smithy.api#Boolean"
         }
       },
       "traits": {}
@@ -785,7 +785,7 @@
           }
         },
         "isPrimary": {
-          "target": "smithy.api#Document"
+          "target": "smithy.api#Boolean"
         }
       },
       "traits": {}
@@ -1187,7 +1187,7 @@
       "version": "0.0.1",
       "operations": [
         {
-          "target": "com.huggingface.oauth#RegisterNewOAuthApp"
+          "target": "com.huggingface.oauth#RegisterOAuthApp"
         },
         {
           "target": "com.huggingface.oauth#InitiateDeviceAuthorization"

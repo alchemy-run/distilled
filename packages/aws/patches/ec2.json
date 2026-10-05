@@ -4220,39 +4220,6 @@
     }
   },
   "enums": {
-    "InstanceType": {
-      "add": [
-        "c8gb.12xlarge",
-        "c8gb.16xlarge",
-        "c8gb.24xlarge",
-        "c8gb.2xlarge",
-        "c8gb.4xlarge",
-        "c8gb.8xlarge",
-        "c8gb.large",
-        "c8gb.medium",
-        "c8gb.metal-24xl",
-        "c8gb.xlarge",
-        "m8gb.12xlarge",
-        "m8gb.16xlarge",
-        "m8gb.24xlarge",
-        "m8gb.2xlarge",
-        "m8gb.4xlarge",
-        "m8gb.8xlarge",
-        "m8gb.large",
-        "m8gb.medium",
-        "m8gb.xlarge",
-        "m8gn.12xlarge",
-        "m8gn.16xlarge",
-        "m8gn.24xlarge",
-        "m8gn.2xlarge",
-        "m8gn.48xlarge",
-        "m8gn.4xlarge",
-        "m8gn.8xlarge",
-        "m8gn.large",
-        "m8gn.medium",
-        "m8gn.xlarge"
-      ]
-    },
     "RIProductDescription": {
       "add": ["Red Hat Enterprise Linux", "SUSE Linux", "Ubuntu Pro Linux"]
     },

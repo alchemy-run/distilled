@@ -8,10 +8,7 @@ import { AwsProtocol } from "../protocol.ts";
 import { Retry } from "../retry.ts";
 import * as T from "../traits.ts";
 const ns = T.XmlNamespace("http://dynamodb.amazonaws.com/doc/2012-08-10/");
-const svc = T.AwsApiService({
-  sdkId: "DynamoDB",
-  serviceShapeName: "DynamoDB_20120810",
-});
+const svc = T.AwsApiService({ sdkId: "DynamoDB", serviceShapeName: "DynamoDB_20120810" });
 const auth = T.AwsAuthSigv4({ name: "dynamodb" });
 const ver = T.ServiceVersion("2012-08-10");
 const proto = T.AwsProtocolsAwsJson1_0();
@@ -95,13 +92,7 @@ const rules = T.EndpointResolver((p, _) => {
           return e(
             "http://localhost:8000",
             {
-              authSchemes: [
-                {
-                  signingRegion: "us-east-1",
-                  name: "sigv4",
-                  signingName: "dynamodb",
-                },
-              ],
+              authSchemes: [{ signingRegion: "us-east-1", signingName: "dynamodb", name: "sigv4" }],
             },
             {},
           );
@@ -482,9 +473,7 @@ export class ProvisionedThroughputExceededException
     {
       message: S.optional(S.String).pipe(T.ErrorMessage()),
       ThrottlingReasons: S.optional(
-        S.suspend(() => ThrottlingReasonList).annotate({
-          identifier: "ThrottlingReasonList",
-        }),
+        S.suspend(() => ThrottlingReasonList).annotate({ identifier: "ThrottlingReasonList" }),
       ),
     },
   ).pipe(C.withThrottlingError, C.withRetryableError) {}
@@ -507,9 +496,7 @@ export class RequestLimitExceeded
   extends /*@__PURE__*/ S.TaggedError<RequestLimitExceeded>()("RequestLimitExceeded", {
     message: S.optional(S.String).pipe(T.ErrorMessage()),
     ThrottlingReasons: S.optional(
-      S.suspend(() => ThrottlingReasonList).annotate({
-        identifier: "ThrottlingReasonList",
-      }),
+      S.suspend(() => ThrottlingReasonList).annotate({ identifier: "ThrottlingReasonList" }),
     ),
   }).pipe(C.withThrottlingError, C.withRetryableError) {}
 export class ResourceInUseException
@@ -539,9 +526,7 @@ export class ThrottlingException
     {
       message: S.optional(S.String).pipe(T.ErrorMessage()),
       throttlingReasons: S.optional(
-        S.suspend(() => ThrottlingReasonList).annotate({
-          identifier: "ThrottlingReasonList",
-        }),
+        S.suspend(() => ThrottlingReasonList).annotate({ identifier: "ThrottlingReasonList" }),
       ),
     },
     T.all(T.AwsQueryError({ code: "Throttling", httpResponseCode: 400 }), T.HttpError(400)),
@@ -552,9 +537,7 @@ export class TransactionCanceledException
     {
       message: S.optional(S.String).pipe(T.ErrorMessage()),
       CancellationReasons: S.optional(
-        S.suspend(() => CancellationReasonList).annotate({
-          identifier: "CancellationReasonList",
-        }),
+        S.suspend(() => CancellationReasonList).annotate({ identifier: "CancellationReasonList" }),
       ),
     },
   ) {}
@@ -720,15 +703,9 @@ export const AttributeValue = /*@__PURE__*/ S.Union([
   S.Struct({ SS: StringSetAttributeValue }),
   S.Struct({ NS: NumberSetAttributeValue }),
   S.Struct({ BS: BinarySetAttributeValue }),
+  S.Struct({ M: S.suspend(() => MapAttributeValue).annotate({ identifier: "MapAttributeValue" }) }),
   S.Struct({
-    M: S.suspend(() => MapAttributeValue).annotate({
-      identifier: "MapAttributeValue",
-    }),
-  }),
-  S.Struct({
-    L: S.suspend(() => ListAttributeValue).annotate({
-      identifier: "ListAttributeValue",
-    }),
+    L: S.suspend(() => ListAttributeValue).annotate({ identifier: "ListAttributeValue" }),
   }),
   S.Struct({ NULL: S.Boolean }),
   S.Struct({ BOOL: S.Boolean }),
@@ -754,9 +731,7 @@ export const BatchStatementRequest = /*@__PURE__*/ S.suspend(() =>
     ConsistentRead: S.optional(S.Boolean),
     ReturnValuesOnConditionCheckFailure: S.optional(ReturnValuesOnConditionCheckFailure),
   }),
-).annotate({
-  identifier: "BatchStatementRequest",
-}) as any as S.Schema<BatchStatementRequest>;
+).annotate({ identifier: "BatchStatementRequest" }) as any as S.Schema<BatchStatementRequest>;
 export type PartiQLBatchRequest = BatchStatementRequest[];
 export const PartiQLBatchRequest = /*@__PURE__*/ S.Array(BatchStatementRequest);
 export type ReturnConsumedCapacity = "INDEXES" | "TOTAL" | "NONE" | (string & {});
@@ -807,9 +782,7 @@ export const BatchStatementError = /*@__PURE__*/ S.suspend(() =>
     Message: S.optional(S.String),
     Item: S.optional(AttributeMap),
   }),
-).annotate({
-  identifier: "BatchStatementError",
-}) as any as S.Schema<BatchStatementError>;
+).annotate({ identifier: "BatchStatementError" }) as any as S.Schema<BatchStatementError>;
 export type TableName = string;
 export interface BatchStatementResponse {
   Error?: BatchStatementError;
@@ -822,9 +795,7 @@ export const BatchStatementResponse = /*@__PURE__*/ S.suspend(() =>
     TableName: S.optional(S.String),
     Item: S.optional(AttributeMap),
   }),
-).annotate({
-  identifier: "BatchStatementResponse",
-}) as any as S.Schema<BatchStatementResponse>;
+).annotate({ identifier: "BatchStatementResponse" }) as any as S.Schema<BatchStatementResponse>;
 export type PartiQLBatchResponse = BatchStatementResponse[];
 export const PartiQLBatchResponse = /*@__PURE__*/ S.Array(BatchStatementResponse);
 export type TableArn = string;
@@ -842,9 +813,7 @@ export const Capacity = /*@__PURE__*/ S.suspend(() =>
   }),
 ).annotate({ identifier: "Capacity" }) as any as S.Schema<Capacity>;
 export type IndexName = string;
-export type SecondaryIndexesCapacityMap = {
-  [key: string]: Capacity | undefined;
-};
+export type SecondaryIndexesCapacityMap = { [key: string]: Capacity | undefined };
 export const SecondaryIndexesCapacityMap = /*@__PURE__*/ S.Record(
   S.String,
   Capacity.pipe(S.optional),
@@ -859,9 +828,7 @@ export const VectorCapacity = /*@__PURE__*/ S.suspend(() =>
     VectorWriteRequestBytes: S.optional(S.Number),
   }),
 ).annotate({ identifier: "VectorCapacity" }) as any as S.Schema<VectorCapacity>;
-export type VectorIndexesCapacityMap = {
-  [key: string]: VectorCapacity | undefined;
-};
+export type VectorIndexesCapacityMap = { [key: string]: VectorCapacity | undefined };
 export const VectorIndexesCapacityMap = /*@__PURE__*/ S.Record(
   S.String,
   VectorCapacity.pipe(S.optional),
@@ -887,9 +854,7 @@ export const ConsumedCapacity = /*@__PURE__*/ S.suspend(() =>
     GlobalSecondaryIndexes: S.optional(SecondaryIndexesCapacityMap),
     VectorIndexes: S.optional(VectorIndexesCapacityMap),
   }),
-).annotate({
-  identifier: "ConsumedCapacity",
-}) as any as S.Schema<ConsumedCapacity>;
+).annotate({ identifier: "ConsumedCapacity" }) as any as S.Schema<ConsumedCapacity>;
 export type ConsumedCapacityMultiple = ConsumedCapacity[];
 export const ConsumedCapacityMultiple = /*@__PURE__*/ S.Array(ConsumedCapacity);
 export interface BatchExecuteStatementOutput {
@@ -937,12 +902,8 @@ export const KeysAndAttributes = /*@__PURE__*/ S.suspend(() =>
     ProjectionExpression: S.optional(S.String),
     ExpressionAttributeNames: S.optional(ExpressionAttributeNameMap),
   }),
-).annotate({
-  identifier: "KeysAndAttributes",
-}) as any as S.Schema<KeysAndAttributes>;
-export type BatchGetRequestMap = {
-  [key: string]: KeysAndAttributes | undefined;
-};
+).annotate({ identifier: "KeysAndAttributes" }) as any as S.Schema<KeysAndAttributes>;
+export type BatchGetRequestMap = { [key: string]: KeysAndAttributes | undefined };
 export const BatchGetRequestMap = /*@__PURE__*/ S.Record(
   S.String,
   KeysAndAttributes.pipe(S.optional),
@@ -956,9 +917,7 @@ export const BatchGetItemInput = /*@__PURE__*/ S.suspend(() =>
     RequestItems: BatchGetRequestMap,
     ReturnConsumedCapacity: S.optional(ReturnConsumedCapacity),
   }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
-).annotate({
-  identifier: "BatchGetItemInput",
-}) as any as S.Schema<BatchGetItemInput>;
+).annotate({ identifier: "BatchGetItemInput" }) as any as S.Schema<BatchGetItemInput>;
 export type ItemList = { [key: string]: AttributeValue | undefined }[];
 export const ItemList = /*@__PURE__*/ S.Array(AttributeMap);
 export type BatchGetResponseMap = {
@@ -966,9 +925,7 @@ export type BatchGetResponseMap = {
 };
 export const BatchGetResponseMap = /*@__PURE__*/ S.Record(S.String, ItemList.pipe(S.optional));
 export interface BatchGetItemOutput {
-  Responses?: {
-    [key: string]: { [key: string]: AttributeValue | undefined }[] | undefined;
-  };
+  Responses?: { [key: string]: { [key: string]: AttributeValue | undefined }[] | undefined };
   UnprocessedKeys?: { [key: string]: KeysAndAttributes | undefined };
   ConsumedCapacity?: ConsumedCapacity[];
 }
@@ -978,12 +935,8 @@ export const BatchGetItemOutput = /*@__PURE__*/ S.suspend(() =>
     UnprocessedKeys: S.optional(BatchGetRequestMap),
     ConsumedCapacity: S.optional(ConsumedCapacityMultiple),
   }).pipe(ns),
-).annotate({
-  identifier: "BatchGetItemOutput",
-}) as any as S.Schema<BatchGetItemOutput>;
-export type PutItemInputAttributeMap = {
-  [key: string]: AttributeValue | undefined;
-};
+).annotate({ identifier: "BatchGetItemOutput" }) as any as S.Schema<BatchGetItemOutput>;
+export type PutItemInputAttributeMap = { [key: string]: AttributeValue | undefined };
 export const PutItemInputAttributeMap = /*@__PURE__*/ S.Record(
   S.String,
   S.suspend(() => AttributeValue)
@@ -1007,16 +960,11 @@ export interface WriteRequest {
   DeleteRequest?: DeleteRequest;
 }
 export const WriteRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    PutRequest: S.optional(PutRequest),
-    DeleteRequest: S.optional(DeleteRequest),
-  }),
+  S.Struct({ PutRequest: S.optional(PutRequest), DeleteRequest: S.optional(DeleteRequest) }),
 ).annotate({ identifier: "WriteRequest" }) as any as S.Schema<WriteRequest>;
 export type WriteRequests = WriteRequest[];
 export const WriteRequests = /*@__PURE__*/ S.Array(WriteRequest);
-export type BatchWriteItemRequestMap = {
-  [key: string]: WriteRequest[] | undefined;
-};
+export type BatchWriteItemRequestMap = { [key: string]: WriteRequest[] | undefined };
 export const BatchWriteItemRequestMap = /*@__PURE__*/ S.Record(
   S.String,
   WriteRequests.pipe(S.optional),
@@ -1035,12 +983,8 @@ export const BatchWriteItemInput = /*@__PURE__*/ S.suspend(() =>
     ReturnConsumedCapacity: S.optional(ReturnConsumedCapacity),
     ReturnItemCollectionMetrics: S.optional(ReturnItemCollectionMetrics),
   }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
-).annotate({
-  identifier: "BatchWriteItemInput",
-}) as any as S.Schema<BatchWriteItemInput>;
-export type ItemCollectionKeyAttributeMap = {
-  [key: string]: AttributeValue | undefined;
-};
+).annotate({ identifier: "BatchWriteItemInput" }) as any as S.Schema<BatchWriteItemInput>;
+export type ItemCollectionKeyAttributeMap = { [key: string]: AttributeValue | undefined };
 export const ItemCollectionKeyAttributeMap = /*@__PURE__*/ S.Record(
   S.String,
   S.suspend(() => AttributeValue)
@@ -1059,23 +1003,17 @@ export const ItemCollectionMetrics = /*@__PURE__*/ S.suspend(() =>
     ItemCollectionKey: S.optional(ItemCollectionKeyAttributeMap),
     SizeEstimateRangeGB: S.optional(ItemCollectionSizeEstimateRange),
   }),
-).annotate({
-  identifier: "ItemCollectionMetrics",
-}) as any as S.Schema<ItemCollectionMetrics>;
+).annotate({ identifier: "ItemCollectionMetrics" }) as any as S.Schema<ItemCollectionMetrics>;
 export type ItemCollectionMetricsMultiple = ItemCollectionMetrics[];
 export const ItemCollectionMetricsMultiple = /*@__PURE__*/ S.Array(ItemCollectionMetrics);
-export type ItemCollectionMetricsPerTable = {
-  [key: string]: ItemCollectionMetrics[] | undefined;
-};
+export type ItemCollectionMetricsPerTable = { [key: string]: ItemCollectionMetrics[] | undefined };
 export const ItemCollectionMetricsPerTable = /*@__PURE__*/ S.Record(
   S.String,
   ItemCollectionMetricsMultiple.pipe(S.optional),
 );
 export interface BatchWriteItemOutput {
   UnprocessedItems?: { [key: string]: WriteRequest[] | undefined };
-  ItemCollectionMetrics?: {
-    [key: string]: ItemCollectionMetrics[] | undefined;
-  };
+  ItemCollectionMetrics?: { [key: string]: ItemCollectionMetrics[] | undefined };
   ConsumedCapacity?: ConsumedCapacity[];
 }
 export const BatchWriteItemOutput = /*@__PURE__*/ S.suspend(() =>
@@ -1084,22 +1022,17 @@ export const BatchWriteItemOutput = /*@__PURE__*/ S.suspend(() =>
     ItemCollectionMetrics: S.optional(ItemCollectionMetricsPerTable),
     ConsumedCapacity: S.optional(ConsumedCapacityMultiple),
   }).pipe(ns),
-).annotate({
-  identifier: "BatchWriteItemOutput",
-}) as any as S.Schema<BatchWriteItemOutput>;
+).annotate({ identifier: "BatchWriteItemOutput" }) as any as S.Schema<BatchWriteItemOutput>;
 export type BackupName = string;
 export interface CreateBackupInput {
   TableName: string;
   BackupName: string;
 }
 export const CreateBackupInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    TableName: S.String.pipe(T.ContextParam("ResourceArn")),
-    BackupName: S.String,
-  }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
-).annotate({
-  identifier: "CreateBackupInput",
-}) as any as S.Schema<CreateBackupInput>;
+  S.Struct({ TableName: S.String.pipe(T.ContextParam("ResourceArn")), BackupName: S.String }).pipe(
+    T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotate({ identifier: "CreateBackupInput" }) as any as S.Schema<CreateBackupInput>;
 export type BackupArn = string;
 export type BackupSizeBytes = number;
 export type BackupStatus = "CREATING" | "DELETED" | "AVAILABLE" | (string & {});
@@ -1134,9 +1067,7 @@ export interface CreateBackupOutput {
 }
 export const CreateBackupOutput = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ BackupDetails: S.optional(BackupDetails) }).pipe(ns),
-).annotate({
-  identifier: "CreateBackupOutput",
-}) as any as S.Schema<CreateBackupOutput>;
+).annotate({ identifier: "CreateBackupOutput" }) as any as S.Schema<CreateBackupOutput>;
 export type RegionName = string;
 export interface Replica {
   RegionName?: string;
@@ -1155,9 +1086,7 @@ export const CreateGlobalTableInput = /*@__PURE__*/ S.suspend(() =>
     GlobalTableName: S.String.pipe(T.ContextParam("ResourceArn")),
     ReplicationGroup: ReplicaList,
   }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
-).annotate({
-  identifier: "CreateGlobalTableInput",
-}) as any as S.Schema<CreateGlobalTableInput>;
+).annotate({ identifier: "CreateGlobalTableInput" }) as any as S.Schema<CreateGlobalTableInput>;
 export type ReplicaStatus =
   | "CREATING"
   | "CREATION_FAILED"
@@ -1268,9 +1197,7 @@ export const TableClassSummary = /*@__PURE__*/ S.suspend(() =>
     TableClass: S.optional(TableClass),
     LastUpdateDateTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
   }),
-).annotate({
-  identifier: "TableClassSummary",
-}) as any as S.Schema<TableClassSummary>;
+).annotate({ identifier: "TableClassSummary" }) as any as S.Schema<TableClassSummary>;
 export type GlobalTableSettingsReplicationMode =
   | "ENABLED"
   | "DISABLED"
@@ -1309,9 +1236,7 @@ export const ReplicaDescription = /*@__PURE__*/ S.suspend(() =>
     ReplicaTableClassSummary: S.optional(TableClassSummary),
     GlobalTableSettingsReplicationMode: S.optional(GlobalTableSettingsReplicationMode),
   }),
-).annotate({
-  identifier: "ReplicaDescription",
-}) as any as S.Schema<ReplicaDescription>;
+).annotate({ identifier: "ReplicaDescription" }) as any as S.Schema<ReplicaDescription>;
 export type ReplicaDescriptionList = ReplicaDescription[];
 export const ReplicaDescriptionList = /*@__PURE__*/ S.Array(ReplicaDescription);
 export type GlobalTableArnString = string;
@@ -1333,17 +1258,13 @@ export const GlobalTableDescription = /*@__PURE__*/ S.suspend(() =>
     GlobalTableStatus: S.optional(GlobalTableStatus),
     GlobalTableName: S.optional(S.String),
   }),
-).annotate({
-  identifier: "GlobalTableDescription",
-}) as any as S.Schema<GlobalTableDescription>;
+).annotate({ identifier: "GlobalTableDescription" }) as any as S.Schema<GlobalTableDescription>;
 export interface CreateGlobalTableOutput {
   GlobalTableDescription?: GlobalTableDescription;
 }
 export const CreateGlobalTableOutput = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ GlobalTableDescription: S.optional(GlobalTableDescription) }).pipe(ns),
-).annotate({
-  identifier: "CreateGlobalTableOutput",
-}) as any as S.Schema<CreateGlobalTableOutput>;
+).annotate({ identifier: "CreateGlobalTableOutput" }) as any as S.Schema<CreateGlobalTableOutput>;
 export type KeySchemaAttributeName = string;
 export type ScalarAttributeType = "S" | "N" | "B" | (string & {});
 export const ScalarAttributeType = S.String;
@@ -1354,9 +1275,7 @@ export interface AttributeDefinition {
 }
 export const AttributeDefinition = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ AttributeName: S.String, AttributeType: ScalarAttributeType }),
-).annotate({
-  identifier: "AttributeDefinition",
-}) as any as S.Schema<AttributeDefinition>;
+).annotate({ identifier: "AttributeDefinition" }) as any as S.Schema<AttributeDefinition>;
 export type AttributeDefinitions = AttributeDefinition[];
 export const AttributeDefinitions = /*@__PURE__*/ S.Array(AttributeDefinition);
 export type KeyType = "HASH" | "RANGE" | (string & {});
@@ -1368,9 +1287,7 @@ export interface KeySchemaElement {
 }
 export const KeySchemaElement = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ AttributeName: S.String, KeyType: KeyType }),
-).annotate({
-  identifier: "KeySchemaElement",
-}) as any as S.Schema<KeySchemaElement>;
+).annotate({ identifier: "KeySchemaElement" }) as any as S.Schema<KeySchemaElement>;
 export type KeySchema = KeySchemaElement[];
 export const KeySchema = /*@__PURE__*/ S.Array(KeySchemaElement);
 export type ProjectionType = "ALL" | "KEYS_ONLY" | "INCLUDE" | (string & {});
@@ -1395,14 +1312,8 @@ export interface LocalSecondaryIndex {
   Projection: Projection;
 }
 export const LocalSecondaryIndex = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    IndexName: S.String,
-    KeySchema: KeySchema,
-    Projection: Projection,
-  }),
-).annotate({
-  identifier: "LocalSecondaryIndex",
-}) as any as S.Schema<LocalSecondaryIndex>;
+  S.Struct({ IndexName: S.String, KeySchema: KeySchema, Projection: Projection }),
+).annotate({ identifier: "LocalSecondaryIndex" }) as any as S.Schema<LocalSecondaryIndex>;
 export type LocalSecondaryIndexList = LocalSecondaryIndex[];
 export const LocalSecondaryIndexList = /*@__PURE__*/ S.Array(LocalSecondaryIndex);
 export interface ProvisionedThroughput {
@@ -1411,9 +1322,7 @@ export interface ProvisionedThroughput {
 }
 export const ProvisionedThroughput = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ ReadCapacityUnits: S.Number, WriteCapacityUnits: S.Number }),
-).annotate({
-  identifier: "ProvisionedThroughput",
-}) as any as S.Schema<ProvisionedThroughput>;
+).annotate({ identifier: "ProvisionedThroughput" }) as any as S.Schema<ProvisionedThroughput>;
 export interface OnDemandThroughput {
   MaxReadRequestUnits?: number;
   MaxWriteRequestUnits?: number;
@@ -1423,18 +1332,13 @@ export const OnDemandThroughput = /*@__PURE__*/ S.suspend(() =>
     MaxReadRequestUnits: S.optional(S.Number),
     MaxWriteRequestUnits: S.optional(S.Number),
   }),
-).annotate({
-  identifier: "OnDemandThroughput",
-}) as any as S.Schema<OnDemandThroughput>;
+).annotate({ identifier: "OnDemandThroughput" }) as any as S.Schema<OnDemandThroughput>;
 export interface WarmThroughput {
   ReadUnitsPerSecond?: number;
   WriteUnitsPerSecond?: number;
 }
 export const WarmThroughput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ReadUnitsPerSecond: S.optional(S.Number),
-    WriteUnitsPerSecond: S.optional(S.Number),
-  }),
+  S.Struct({ ReadUnitsPerSecond: S.optional(S.Number), WriteUnitsPerSecond: S.optional(S.Number) }),
 ).annotate({ identifier: "WarmThroughput" }) as any as S.Schema<WarmThroughput>;
 export interface GlobalSecondaryIndex {
   IndexName: string;
@@ -1453,9 +1357,7 @@ export const GlobalSecondaryIndex = /*@__PURE__*/ S.suspend(() =>
     OnDemandThroughput: S.optional(OnDemandThroughput),
     WarmThroughput: S.optional(WarmThroughput),
   }),
-).annotate({
-  identifier: "GlobalSecondaryIndex",
-}) as any as S.Schema<GlobalSecondaryIndex>;
+).annotate({ identifier: "GlobalSecondaryIndex" }) as any as S.Schema<GlobalSecondaryIndex>;
 export type GlobalSecondaryIndexList = GlobalSecondaryIndex[];
 export const GlobalSecondaryIndexList = /*@__PURE__*/ S.Array(GlobalSecondaryIndex);
 export type BillingMode = "PROVISIONED" | "PAY_PER_REQUEST" | (string & {});
@@ -1475,13 +1377,8 @@ export interface StreamSpecification {
   StreamViewType?: StreamViewType;
 }
 export const StreamSpecification = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    StreamEnabled: S.Boolean,
-    StreamViewType: S.optional(StreamViewType),
-  }),
-).annotate({
-  identifier: "StreamSpecification",
-}) as any as S.Schema<StreamSpecification>;
+  S.Struct({ StreamEnabled: S.Boolean, StreamViewType: S.optional(StreamViewType) }),
+).annotate({ identifier: "StreamSpecification" }) as any as S.Schema<StreamSpecification>;
 export type SSEEnabled = boolean;
 export type SSEType = "AES256" | "KMS" | (string & {});
 export const SSEType = S.String;
@@ -1497,9 +1394,7 @@ export const SSESpecification = /*@__PURE__*/ S.suspend(() =>
     SSEType: S.optional(SSEType),
     KMSMasterKeyId: S.optional(S.String),
   }),
-).annotate({
-  identifier: "SSESpecification",
-}) as any as S.Schema<SSESpecification>;
+).annotate({ identifier: "SSESpecification" }) as any as S.Schema<SSESpecification>;
 export type TagKeyString = string;
 export type TagValueString = string;
 export interface Tag {
@@ -1530,13 +1425,8 @@ export interface SearchSchemaElement {
   SearchSchemaElementType: SearchSchemaElementType;
 }
 export const SearchSchemaElement = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    AttributeName: S.String,
-    SearchSchemaElementType: SearchSchemaElementType,
-  }),
-).annotate({
-  identifier: "SearchSchemaElement",
-}) as any as S.Schema<SearchSchemaElement>;
+  S.Struct({ AttributeName: S.String, SearchSchemaElementType: SearchSchemaElementType }),
+).annotate({ identifier: "SearchSchemaElement" }) as any as S.Schema<SearchSchemaElement>;
 export type SearchSchema = SearchSchemaElement[];
 export const SearchSchema = /*@__PURE__*/ S.Array(SearchSchemaElement);
 export type VectorDistanceFunction = "COSINE" | "DOT_PRODUCT" | "EUCLIDEAN" | (string & {});
@@ -1603,9 +1493,7 @@ export const CreateTableInput = /*@__PURE__*/ S.suspend(() =>
     GlobalTableSettingsReplicationMode: S.optional(GlobalTableSettingsReplicationMode),
     VectorIndexes: S.optional(VectorIndexList),
   }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
-).annotate({
-  identifier: "CreateTableInput",
-}) as any as S.Schema<CreateTableInput>;
+).annotate({ identifier: "CreateTableInput" }) as any as S.Schema<CreateTableInput>;
 export type NonNegativeLongObject = number;
 export interface ProvisionedThroughputDescription {
   LastIncreaseDateTime?: Date;
@@ -1635,9 +1523,7 @@ export const BillingModeSummary = /*@__PURE__*/ S.suspend(() =>
     BillingMode: S.optional(BillingMode),
     LastUpdateToPayPerRequestDateTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
   }),
-).annotate({
-  identifier: "BillingModeSummary",
-}) as any as S.Schema<BillingModeSummary>;
+).annotate({ identifier: "BillingModeSummary" }) as any as S.Schema<BillingModeSummary>;
 export interface LocalSecondaryIndexDescription {
   IndexName?: string;
   KeySchema?: KeySchemaElement[];
@@ -1706,10 +1592,7 @@ export interface GlobalTableWitnessDescription {
   WitnessStatus?: WitnessStatus;
 }
 export const GlobalTableWitnessDescription = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    RegionName: S.optional(S.String),
-    WitnessStatus: S.optional(WitnessStatus),
-  }),
+  S.Struct({ RegionName: S.optional(S.String), WitnessStatus: S.optional(WitnessStatus) }),
 ).annotate({
   identifier: "GlobalTableWitnessDescription",
 }) as any as S.Schema<GlobalTableWitnessDescription>;
@@ -1768,9 +1651,7 @@ export const ArchivalSummary = /*@__PURE__*/ S.suspend(() =>
     ArchivalReason: S.optional(S.String),
     ArchivalBackupArn: S.optional(S.String),
   }),
-).annotate({
-  identifier: "ArchivalSummary",
-}) as any as S.Schema<ArchivalSummary>;
+).annotate({ identifier: "ArchivalSummary" }) as any as S.Schema<ArchivalSummary>;
 export type MultiRegionConsistency = "EVENTUAL" | "STRONG" | (string & {});
 export const MultiRegionConsistency = S.String;
 
@@ -1801,9 +1682,7 @@ export const VectorIndexDescription = /*@__PURE__*/ S.suspend(() =>
     ItemCount: S.optional(S.Number),
     IndexArn: S.optional(S.String),
   }),
-).annotate({
-  identifier: "VectorIndexDescription",
-}) as any as S.Schema<VectorIndexDescription>;
+).annotate({ identifier: "VectorIndexDescription" }) as any as S.Schema<VectorIndexDescription>;
 export type VectorIndexDescriptionList = VectorIndexDescription[];
 export const VectorIndexDescriptionList = /*@__PURE__*/ S.Array(VectorIndexDescription);
 export interface TableDescription {
@@ -1869,17 +1748,13 @@ export const TableDescription = /*@__PURE__*/ S.suspend(() =>
     MultiRegionConsistency: S.optional(MultiRegionConsistency),
     VectorIndexes: S.optional(VectorIndexDescriptionList),
   }),
-).annotate({
-  identifier: "TableDescription",
-}) as any as S.Schema<TableDescription>;
+).annotate({ identifier: "TableDescription" }) as any as S.Schema<TableDescription>;
 export interface CreateTableOutput {
   TableDescription?: TableDescription;
 }
 export const CreateTableOutput = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ TableDescription: S.optional(TableDescription) }).pipe(ns),
-).annotate({
-  identifier: "CreateTableOutput",
-}) as any as S.Schema<CreateTableOutput>;
+).annotate({ identifier: "CreateTableOutput" }) as any as S.Schema<CreateTableOutput>;
 export interface DeleteBackupInput {
   BackupArn: string;
 }
@@ -1887,9 +1762,7 @@ export const DeleteBackupInput = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ BackupArn: S.String.pipe(T.ContextParam("ResourceArn")) }).pipe(
     T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
   ),
-).annotate({
-  identifier: "DeleteBackupInput",
-}) as any as S.Schema<DeleteBackupInput>;
+).annotate({ identifier: "DeleteBackupInput" }) as any as S.Schema<DeleteBackupInput>;
 export type TableCreationDateTime = Date;
 export type ItemCount = number;
 export interface SourceTableDetails {
@@ -1917,9 +1790,7 @@ export const SourceTableDetails = /*@__PURE__*/ S.suspend(() =>
     ItemCount: S.optional(S.Number),
     BillingMode: S.optional(BillingMode),
   }),
-).annotate({
-  identifier: "SourceTableDetails",
-}) as any as S.Schema<SourceTableDetails>;
+).annotate({ identifier: "SourceTableDetails" }) as any as S.Schema<SourceTableDetails>;
 export interface LocalSecondaryIndexInfo {
   IndexName?: string;
   KeySchema?: KeySchemaElement[];
@@ -1931,9 +1802,7 @@ export const LocalSecondaryIndexInfo = /*@__PURE__*/ S.suspend(() =>
     KeySchema: S.optional(KeySchema),
     Projection: S.optional(Projection),
   }),
-).annotate({
-  identifier: "LocalSecondaryIndexInfo",
-}) as any as S.Schema<LocalSecondaryIndexInfo>;
+).annotate({ identifier: "LocalSecondaryIndexInfo" }) as any as S.Schema<LocalSecondaryIndexInfo>;
 export type LocalSecondaryIndexes = LocalSecondaryIndexInfo[];
 export const LocalSecondaryIndexes = /*@__PURE__*/ S.Array(LocalSecondaryIndexInfo);
 export interface GlobalSecondaryIndexInfo {
@@ -1951,9 +1820,7 @@ export const GlobalSecondaryIndexInfo = /*@__PURE__*/ S.suspend(() =>
     ProvisionedThroughput: S.optional(ProvisionedThroughput),
     OnDemandThroughput: S.optional(OnDemandThroughput),
   }),
-).annotate({
-  identifier: "GlobalSecondaryIndexInfo",
-}) as any as S.Schema<GlobalSecondaryIndexInfo>;
+).annotate({ identifier: "GlobalSecondaryIndexInfo" }) as any as S.Schema<GlobalSecondaryIndexInfo>;
 export type GlobalSecondaryIndexes = GlobalSecondaryIndexInfo[];
 export const GlobalSecondaryIndexes = /*@__PURE__*/ S.Array(GlobalSecondaryIndexInfo);
 export type TimeToLiveStatus = "ENABLING" | "DISABLING" | "ENABLED" | "DISABLED" | (string & {});
@@ -1965,13 +1832,8 @@ export interface TimeToLiveDescription {
   AttributeName?: string;
 }
 export const TimeToLiveDescription = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    TimeToLiveStatus: S.optional(TimeToLiveStatus),
-    AttributeName: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "TimeToLiveDescription",
-}) as any as S.Schema<TimeToLiveDescription>;
+  S.Struct({ TimeToLiveStatus: S.optional(TimeToLiveStatus), AttributeName: S.optional(S.String) }),
+).annotate({ identifier: "TimeToLiveDescription" }) as any as S.Schema<TimeToLiveDescription>;
 export interface VectorIndexInfo {
   IndexName?: string;
   VectorAttribute?: VectorAttributeDefinition;
@@ -1989,9 +1851,7 @@ export const VectorIndexInfo = /*@__PURE__*/ S.suspend(() =>
     Dimensions: S.optional(S.Number),
     DistanceFunction: S.optional(VectorDistanceFunction),
   }),
-).annotate({
-  identifier: "VectorIndexInfo",
-}) as any as S.Schema<VectorIndexInfo>;
+).annotate({ identifier: "VectorIndexInfo" }) as any as S.Schema<VectorIndexInfo>;
 export type VectorIndexes = VectorIndexInfo[];
 export const VectorIndexes = /*@__PURE__*/ S.Array(VectorIndexInfo);
 export interface SourceTableFeatureDetails {
@@ -2025,17 +1885,13 @@ export const BackupDescription = /*@__PURE__*/ S.suspend(() =>
     SourceTableDetails: S.optional(SourceTableDetails),
     SourceTableFeatureDetails: S.optional(SourceTableFeatureDetails),
   }),
-).annotate({
-  identifier: "BackupDescription",
-}) as any as S.Schema<BackupDescription>;
+).annotate({ identifier: "BackupDescription" }) as any as S.Schema<BackupDescription>;
 export interface DeleteBackupOutput {
   BackupDescription?: BackupDescription;
 }
 export const DeleteBackupOutput = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ BackupDescription: S.optional(BackupDescription) }).pipe(ns),
-).annotate({
-  identifier: "DeleteBackupOutput",
-}) as any as S.Schema<DeleteBackupOutput>;
+).annotate({ identifier: "DeleteBackupOutput" }) as any as S.Schema<DeleteBackupOutput>;
 export type ComparisonOperator =
   | "EQ"
   | "NE"
@@ -2070,12 +1926,8 @@ export const ExpectedAttributeValue = /*@__PURE__*/ S.suspend(() =>
     ComparisonOperator: S.optional(ComparisonOperator),
     AttributeValueList: S.optional(AttributeValueList),
   }),
-).annotate({
-  identifier: "ExpectedAttributeValue",
-}) as any as S.Schema<ExpectedAttributeValue>;
-export type ExpectedAttributeMap = {
-  [key: string]: ExpectedAttributeValue | undefined;
-};
+).annotate({ identifier: "ExpectedAttributeValue" }) as any as S.Schema<ExpectedAttributeValue>;
+export type ExpectedAttributeMap = { [key: string]: ExpectedAttributeValue | undefined };
 export const ExpectedAttributeMap = /*@__PURE__*/ S.Record(
   S.String,
   ExpectedAttributeValue.pipe(S.optional),
@@ -2094,9 +1946,7 @@ export const ReturnValue = S.String;
 
 export type ConditionExpression = string;
 export type ExpressionAttributeValueVariable = string;
-export type ExpressionAttributeValueMap = {
-  [key: string]: AttributeValue | undefined;
-};
+export type ExpressionAttributeValueMap = { [key: string]: AttributeValue | undefined };
 export const ExpressionAttributeValueMap = /*@__PURE__*/ S.Record(
   S.String,
   S.suspend(() => AttributeValue)
@@ -2130,9 +1980,7 @@ export const DeleteItemInput = /*@__PURE__*/ S.suspend(() =>
     ExpressionAttributeValues: S.optional(ExpressionAttributeValueMap),
     ReturnValuesOnConditionCheckFailure: S.optional(ReturnValuesOnConditionCheckFailure),
   }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
-).annotate({
-  identifier: "DeleteItemInput",
-}) as any as S.Schema<DeleteItemInput>;
+).annotate({ identifier: "DeleteItemInput" }) as any as S.Schema<DeleteItemInput>;
 export interface DeleteItemOutput {
   Attributes?: { [key: string]: AttributeValue | undefined };
   ConsumedCapacity?: ConsumedCapacity;
@@ -2144,9 +1992,7 @@ export const DeleteItemOutput = /*@__PURE__*/ S.suspend(() =>
     ConsumedCapacity: S.optional(ConsumedCapacity),
     ItemCollectionMetrics: S.optional(ItemCollectionMetrics),
   }).pipe(ns),
-).annotate({
-  identifier: "DeleteItemOutput",
-}) as any as S.Schema<DeleteItemOutput>;
+).annotate({ identifier: "DeleteItemOutput" }) as any as S.Schema<DeleteItemOutput>;
 export type ResourceArnString = string;
 export type PolicyRevisionId = string;
 export interface DeleteResourcePolicyInput {
@@ -2176,17 +2022,13 @@ export const DeleteTableInput = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ TableName: S.String.pipe(T.ContextParam("ResourceArn")) }).pipe(
     T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
   ),
-).annotate({
-  identifier: "DeleteTableInput",
-}) as any as S.Schema<DeleteTableInput>;
+).annotate({ identifier: "DeleteTableInput" }) as any as S.Schema<DeleteTableInput>;
 export interface DeleteTableOutput {
   TableDescription?: TableDescription;
 }
 export const DeleteTableOutput = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ TableDescription: S.optional(TableDescription) }).pipe(ns),
-).annotate({
-  identifier: "DeleteTableOutput",
-}) as any as S.Schema<DeleteTableOutput>;
+).annotate({ identifier: "DeleteTableOutput" }) as any as S.Schema<DeleteTableOutput>;
 export interface DescribeBackupInput {
   BackupArn: string;
 }
@@ -2194,17 +2036,13 @@ export const DescribeBackupInput = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ BackupArn: S.String.pipe(T.ContextParam("ResourceArn")) }).pipe(
     T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
   ),
-).annotate({
-  identifier: "DescribeBackupInput",
-}) as any as S.Schema<DescribeBackupInput>;
+).annotate({ identifier: "DescribeBackupInput" }) as any as S.Schema<DescribeBackupInput>;
 export interface DescribeBackupOutput {
   BackupDescription?: BackupDescription;
 }
 export const DescribeBackupOutput = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ BackupDescription: S.optional(BackupDescription) }).pipe(ns),
-).annotate({
-  identifier: "DescribeBackupOutput",
-}) as any as S.Schema<DescribeBackupOutput>;
+).annotate({ identifier: "DescribeBackupOutput" }) as any as S.Schema<DescribeBackupOutput>;
 export interface DescribeContinuousBackupsInput {
   TableName: string;
 }
@@ -2254,9 +2092,7 @@ export interface DescribeContinuousBackupsOutput {
   ContinuousBackupsDescription?: ContinuousBackupsDescription;
 }
 export const DescribeContinuousBackupsOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ContinuousBackupsDescription: S.optional(ContinuousBackupsDescription),
-  }).pipe(ns),
+  S.Struct({ ContinuousBackupsDescription: S.optional(ContinuousBackupsDescription) }).pipe(ns),
 ).annotate({
   identifier: "DescribeContinuousBackupsOutput",
 }) as any as S.Schema<DescribeContinuousBackupsOutput>;
@@ -2292,13 +2128,8 @@ export interface FailureException {
   ExceptionDescription?: string;
 }
 export const FailureException = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ExceptionName: S.optional(S.String),
-    ExceptionDescription: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "FailureException",
-}) as any as S.Schema<FailureException>;
+  S.Struct({ ExceptionName: S.optional(S.String), ExceptionDescription: S.optional(S.String) }),
+).annotate({ identifier: "FailureException" }) as any as S.Schema<FailureException>;
 export type ContributorInsightsMode =
   | "ACCESSED_AND_THROTTLED_KEYS"
   | "THROTTLED_KEYS"
@@ -2330,9 +2161,7 @@ export const DescribeContributorInsightsOutput = /*@__PURE__*/ S.suspend(() =>
 export interface DescribeEndpointsRequest {}
 export const DescribeEndpointsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({}).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
-).annotate({
-  identifier: "DescribeEndpointsRequest",
-}) as any as S.Schema<DescribeEndpointsRequest>;
+).annotate({ identifier: "DescribeEndpointsRequest" }) as any as S.Schema<DescribeEndpointsRequest>;
 export interface Endpoint {
   Address: string;
   CachePeriodInMinutes: number;
@@ -2358,9 +2187,7 @@ export const DescribeExportInput = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ ExportArn: S.String.pipe(T.ContextParam("ResourceArn")) }).pipe(
     T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
   ),
-).annotate({
-  identifier: "DescribeExportInput",
-}) as any as S.Schema<DescribeExportInput>;
+).annotate({ identifier: "DescribeExportInput" }) as any as S.Schema<DescribeExportInput>;
 export type ExportStatus = "IN_PROGRESS" | "COMPLETED" | "FAILED" | (string & {});
 export const ExportStatus = S.String;
 
@@ -2404,6 +2231,23 @@ export const IncrementalExportSpecification = /*@__PURE__*/ S.suspend(() =>
 ).annotate({
   identifier: "IncrementalExportSpecification",
 }) as any as S.Schema<IncrementalExportSpecification>;
+export type KeyExpression = string;
+export interface FilterSpecification {
+  FilterExpression?: string;
+  ProjectionExpression?: string;
+  KeyConditionExpression?: string;
+  ExpressionAttributeNames?: { [key: string]: string | undefined };
+  ExpressionAttributeValues?: { [key: string]: AttributeValue | undefined };
+}
+export const FilterSpecification = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    FilterExpression: S.optional(S.String),
+    ProjectionExpression: S.optional(S.String),
+    KeyConditionExpression: S.optional(S.String),
+    ExpressionAttributeNames: S.optional(ExpressionAttributeNameMap),
+    ExpressionAttributeValues: S.optional(ExpressionAttributeValueMap),
+  }),
+).annotate({ identifier: "FilterSpecification" }) as any as S.Schema<FilterSpecification>;
 export interface ExportDescription {
   ExportArn?: string;
   ExportStatus?: ExportStatus;
@@ -2426,6 +2270,7 @@ export interface ExportDescription {
   ItemCount?: number;
   ExportType?: ExportType;
   IncrementalExportSpecification?: IncrementalExportSpecification;
+  FilterSpecification?: FilterSpecification;
 }
 export const ExportDescription = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -2450,28 +2295,23 @@ export const ExportDescription = /*@__PURE__*/ S.suspend(() =>
     ItemCount: S.optional(S.Number),
     ExportType: S.optional(ExportType),
     IncrementalExportSpecification: S.optional(IncrementalExportSpecification),
+    FilterSpecification: S.optional(FilterSpecification),
   }),
-).annotate({
-  identifier: "ExportDescription",
-}) as any as S.Schema<ExportDescription>;
+).annotate({ identifier: "ExportDescription" }) as any as S.Schema<ExportDescription>;
 export interface DescribeExportOutput {
   ExportDescription?: ExportDescription;
 }
 export const DescribeExportOutput = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ ExportDescription: S.optional(ExportDescription) }).pipe(ns),
-).annotate({
-  identifier: "DescribeExportOutput",
-}) as any as S.Schema<DescribeExportOutput>;
+).annotate({ identifier: "DescribeExportOutput" }) as any as S.Schema<DescribeExportOutput>;
 export interface DescribeGlobalTableInput {
   GlobalTableName: string;
 }
 export const DescribeGlobalTableInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    GlobalTableName: S.String.pipe(T.ContextParam("ResourceArn")),
-  }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
-).annotate({
-  identifier: "DescribeGlobalTableInput",
-}) as any as S.Schema<DescribeGlobalTableInput>;
+  S.Struct({ GlobalTableName: S.String.pipe(T.ContextParam("ResourceArn")) }).pipe(
+    T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotate({ identifier: "DescribeGlobalTableInput" }) as any as S.Schema<DescribeGlobalTableInput>;
 export interface DescribeGlobalTableOutput {
   GlobalTableDescription?: GlobalTableDescription;
 }
@@ -2484,9 +2324,9 @@ export interface DescribeGlobalTableSettingsInput {
   GlobalTableName: string;
 }
 export const DescribeGlobalTableSettingsInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    GlobalTableName: S.String.pipe(T.ContextParam("ResourceArn")),
-  }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+  S.Struct({ GlobalTableName: S.String.pipe(T.ContextParam("ResourceArn")) }).pipe(
+    T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
 ).annotate({
   identifier: "DescribeGlobalTableSettingsInput",
 }) as any as S.Schema<DescribeGlobalTableSettingsInput>;
@@ -2619,9 +2459,7 @@ export const DescribeImportInput = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ ImportArn: S.String.pipe(T.ContextParam("ResourceArn")) }).pipe(
     T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
   ),
-).annotate({
-  identifier: "DescribeImportInput",
-}) as any as S.Schema<DescribeImportInput>;
+).annotate({ identifier: "DescribeImportInput" }) as any as S.Schema<DescribeImportInput>;
 export type ImportStatus =
   | "IN_PROGRESS"
   | "COMPLETED"
@@ -2657,19 +2495,14 @@ export interface CsvOptions {
   HeaderList?: string[];
 }
 export const CsvOptions = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Delimiter: S.optional(S.String),
-    HeaderList: S.optional(CsvHeaderList),
-  }),
+  S.Struct({ Delimiter: S.optional(S.String), HeaderList: S.optional(CsvHeaderList) }),
 ).annotate({ identifier: "CsvOptions" }) as any as S.Schema<CsvOptions>;
 export interface InputFormatOptions {
   Csv?: CsvOptions;
 }
 export const InputFormatOptions = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ Csv: S.optional(CsvOptions) }),
-).annotate({
-  identifier: "InputFormatOptions",
-}) as any as S.Schema<InputFormatOptions>;
+).annotate({ identifier: "InputFormatOptions" }) as any as S.Schema<InputFormatOptions>;
 export type InputCompressionType = "GZIP" | "ZSTD" | "NONE" | (string & {});
 export const InputCompressionType = S.String;
 
@@ -2696,9 +2529,7 @@ export const TableCreationParameters = /*@__PURE__*/ S.suspend(() =>
     GlobalSecondaryIndexes: S.optional(GlobalSecondaryIndexList),
     VectorIndexes: S.optional(VectorIndexList),
   }),
-).annotate({
-  identifier: "TableCreationParameters",
-}) as any as S.Schema<TableCreationParameters>;
+).annotate({ identifier: "TableCreationParameters" }) as any as S.Schema<TableCreationParameters>;
 export type ImportStartTime = Date;
 export type ImportEndTime = Date;
 export type ProcessedItemCount = number;
@@ -2746,17 +2577,13 @@ export const ImportTableDescription = /*@__PURE__*/ S.suspend(() =>
     FailureCode: S.optional(S.String),
     FailureMessage: S.optional(S.String),
   }),
-).annotate({
-  identifier: "ImportTableDescription",
-}) as any as S.Schema<ImportTableDescription>;
+).annotate({ identifier: "ImportTableDescription" }) as any as S.Schema<ImportTableDescription>;
 export interface DescribeImportOutput {
   ImportTableDescription: ImportTableDescription;
 }
 export const DescribeImportOutput = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ ImportTableDescription: ImportTableDescription }).pipe(ns),
-).annotate({
-  identifier: "DescribeImportOutput",
-}) as any as S.Schema<DescribeImportOutput>;
+).annotate({ identifier: "DescribeImportOutput" }) as any as S.Schema<DescribeImportOutput>;
 export interface DescribeKinesisStreamingDestinationInput {
   TableName: string;
 }
@@ -2813,9 +2640,7 @@ export const DescribeKinesisStreamingDestinationOutput = /*@__PURE__*/ S.suspend
 export interface DescribeLimitsInput {}
 export const DescribeLimitsInput = /*@__PURE__*/ S.suspend(() =>
   S.Struct({}).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
-).annotate({
-  identifier: "DescribeLimitsInput",
-}) as any as S.Schema<DescribeLimitsInput>;
+).annotate({ identifier: "DescribeLimitsInput" }) as any as S.Schema<DescribeLimitsInput>;
 export interface DescribeLimitsOutput {
   AccountMaxReadCapacityUnits?: number;
   AccountMaxWriteCapacityUnits?: number;
@@ -2829,9 +2654,7 @@ export const DescribeLimitsOutput = /*@__PURE__*/ S.suspend(() =>
     TableMaxReadCapacityUnits: S.optional(S.Number),
     TableMaxWriteCapacityUnits: S.optional(S.Number),
   }).pipe(ns),
-).annotate({
-  identifier: "DescribeLimitsOutput",
-}) as any as S.Schema<DescribeLimitsOutput>;
+).annotate({ identifier: "DescribeLimitsOutput" }) as any as S.Schema<DescribeLimitsOutput>;
 export interface DescribeTableInput {
   TableName: string;
 }
@@ -2839,17 +2662,13 @@ export const DescribeTableInput = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ TableName: S.String.pipe(T.ContextParam("ResourceArn")) }).pipe(
     T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
   ),
-).annotate({
-  identifier: "DescribeTableInput",
-}) as any as S.Schema<DescribeTableInput>;
+).annotate({ identifier: "DescribeTableInput" }) as any as S.Schema<DescribeTableInput>;
 export interface DescribeTableOutput {
   Table?: TableDescription;
 }
 export const DescribeTableOutput = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ Table: S.optional(TableDescription) }).pipe(ns),
-).annotate({
-  identifier: "DescribeTableOutput",
-}) as any as S.Schema<DescribeTableOutput>;
+).annotate({ identifier: "DescribeTableOutput" }) as any as S.Schema<DescribeTableOutput>;
 export interface DescribeTableReplicaAutoScalingInput {
   TableName: string;
 }
@@ -2921,9 +2740,7 @@ export interface DescribeTableReplicaAutoScalingOutput {
   TableAutoScalingDescription?: TableAutoScalingDescription;
 }
 export const DescribeTableReplicaAutoScalingOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    TableAutoScalingDescription: S.optional(TableAutoScalingDescription),
-  }).pipe(ns),
+  S.Struct({ TableAutoScalingDescription: S.optional(TableAutoScalingDescription) }).pipe(ns),
 ).annotate({
   identifier: "DescribeTableReplicaAutoScalingOutput",
 }) as any as S.Schema<DescribeTableReplicaAutoScalingOutput>;
@@ -2934,17 +2751,13 @@ export const DescribeTimeToLiveInput = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ TableName: S.String.pipe(T.ContextParam("ResourceArn")) }).pipe(
     T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
   ),
-).annotate({
-  identifier: "DescribeTimeToLiveInput",
-}) as any as S.Schema<DescribeTimeToLiveInput>;
+).annotate({ identifier: "DescribeTimeToLiveInput" }) as any as S.Schema<DescribeTimeToLiveInput>;
 export interface DescribeTimeToLiveOutput {
   TimeToLiveDescription?: TimeToLiveDescription;
 }
 export const DescribeTimeToLiveOutput = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ TimeToLiveDescription: S.optional(TimeToLiveDescription) }).pipe(ns),
-).annotate({
-  identifier: "DescribeTimeToLiveOutput",
-}) as any as S.Schema<DescribeTimeToLiveOutput>;
+).annotate({ identifier: "DescribeTimeToLiveOutput" }) as any as S.Schema<DescribeTimeToLiveOutput>;
 export interface EnableKinesisStreamingConfiguration {
   ApproximateCreationDateTimePrecision?: ApproximateCreationDateTimePrecision;
 }
@@ -3006,9 +2819,7 @@ export const ExecuteStatementInput = /*@__PURE__*/ S.suspend(() =>
     Limit: S.optional(S.Number),
     ReturnValuesOnConditionCheckFailure: S.optional(ReturnValuesOnConditionCheckFailure),
   }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
-).annotate({
-  identifier: "ExecuteStatementInput",
-}) as any as S.Schema<ExecuteStatementInput>;
+).annotate({ identifier: "ExecuteStatementInput" }) as any as S.Schema<ExecuteStatementInput>;
 export interface ExecuteStatementOutput {
   Items?: { [key: string]: AttributeValue | undefined }[];
   NextToken?: string;
@@ -3022,9 +2833,7 @@ export const ExecuteStatementOutput = /*@__PURE__*/ S.suspend(() =>
     ConsumedCapacity: S.optional(ConsumedCapacity),
     LastEvaluatedKey: S.optional(Key),
   }).pipe(ns),
-).annotate({
-  identifier: "ExecuteStatementOutput",
-}) as any as S.Schema<ExecuteStatementOutput>;
+).annotate({ identifier: "ExecuteStatementOutput" }) as any as S.Schema<ExecuteStatementOutput>;
 export interface ParameterizedStatement {
   Statement: string;
   Parameters?: AttributeValue[];
@@ -3036,9 +2845,7 @@ export const ParameterizedStatement = /*@__PURE__*/ S.suspend(() =>
     Parameters: S.optional(PreparedStatementParameters),
     ReturnValuesOnConditionCheckFailure: S.optional(ReturnValuesOnConditionCheckFailure),
   }),
-).annotate({
-  identifier: "ParameterizedStatement",
-}) as any as S.Schema<ParameterizedStatement>;
+).annotate({ identifier: "ParameterizedStatement" }) as any as S.Schema<ParameterizedStatement>;
 export type ParameterizedStatements = ParameterizedStatement[];
 export const ParameterizedStatements = /*@__PURE__*/ S.Array(ParameterizedStatement);
 export type ClientRequestToken = string;
@@ -3053,9 +2860,7 @@ export const ExecuteTransactionInput = /*@__PURE__*/ S.suspend(() =>
     ClientRequestToken: S.optional(S.String).pipe(T.IdempotencyToken()),
     ReturnConsumedCapacity: S.optional(ReturnConsumedCapacity),
   }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
-).annotate({
-  identifier: "ExecuteTransactionInput",
-}) as any as S.Schema<ExecuteTransactionInput>;
+).annotate({ identifier: "ExecuteTransactionInput" }) as any as S.Schema<ExecuteTransactionInput>;
 export interface ItemResponse {
   Item?: { [key: string]: AttributeValue | undefined };
 }
@@ -3073,9 +2878,7 @@ export const ExecuteTransactionOutput = /*@__PURE__*/ S.suspend(() =>
     Responses: S.optional(ItemResponseList),
     ConsumedCapacity: S.optional(ConsumedCapacityMultiple),
   }).pipe(ns),
-).annotate({
-  identifier: "ExecuteTransactionOutput",
-}) as any as S.Schema<ExecuteTransactionOutput>;
+).annotate({ identifier: "ExecuteTransactionOutput" }) as any as S.Schema<ExecuteTransactionOutput>;
 export interface ExportTableToPointInTimeInput {
   TableArn: string;
   ExportTime?: Date;
@@ -3088,6 +2891,7 @@ export interface ExportTableToPointInTimeInput {
   ExportFormat?: ExportFormat;
   ExportType?: ExportType;
   IncrementalExportSpecification?: IncrementalExportSpecification;
+  FilterSpecification?: FilterSpecification;
 }
 export const ExportTableToPointInTimeInput = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -3102,6 +2906,7 @@ export const ExportTableToPointInTimeInput = /*@__PURE__*/ S.suspend(() =>
     ExportFormat: S.optional(ExportFormat),
     ExportType: S.optional(ExportType),
     IncrementalExportSpecification: S.optional(IncrementalExportSpecification),
+    FilterSpecification: S.optional(FilterSpecification),
   }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "ExportTableToPointInTimeInput",
@@ -3139,10 +2944,9 @@ export interface GetItemOutput {
   ConsumedCapacity?: ConsumedCapacity;
 }
 export const GetItemOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Item: S.optional(AttributeMap),
-    ConsumedCapacity: S.optional(ConsumedCapacity),
-  }).pipe(ns),
+  S.Struct({ Item: S.optional(AttributeMap), ConsumedCapacity: S.optional(ConsumedCapacity) }).pipe(
+    ns,
+  ),
 ).annotate({ identifier: "GetItemOutput" }) as any as S.Schema<GetItemOutput>;
 export interface GetResourcePolicyInput {
   ResourceArn: string;
@@ -3151,21 +2955,14 @@ export const GetResourcePolicyInput = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ ResourceArn: S.String.pipe(T.ContextParam("ResourceArn")) }).pipe(
     T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
   ),
-).annotate({
-  identifier: "GetResourcePolicyInput",
-}) as any as S.Schema<GetResourcePolicyInput>;
+).annotate({ identifier: "GetResourcePolicyInput" }) as any as S.Schema<GetResourcePolicyInput>;
 export interface GetResourcePolicyOutput {
   Policy?: string;
   RevisionId?: string;
 }
 export const GetResourcePolicyOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Policy: S.optional(S.String),
-    RevisionId: S.optional(S.String),
-  }).pipe(ns),
-).annotate({
-  identifier: "GetResourcePolicyOutput",
-}) as any as S.Schema<GetResourcePolicyOutput>;
+  S.Struct({ Policy: S.optional(S.String), RevisionId: S.optional(S.String) }).pipe(ns),
+).annotate({ identifier: "GetResourcePolicyOutput" }) as any as S.Schema<GetResourcePolicyOutput>;
 export interface ImportTableInput {
   ClientToken?: string;
   S3BucketSource: S3BucketSource;
@@ -3183,17 +2980,13 @@ export const ImportTableInput = /*@__PURE__*/ S.suspend(() =>
     InputCompressionType: S.optional(InputCompressionType),
     TableCreationParameters: TableCreationParameters,
   }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
-).annotate({
-  identifier: "ImportTableInput",
-}) as any as S.Schema<ImportTableInput>;
+).annotate({ identifier: "ImportTableInput" }) as any as S.Schema<ImportTableInput>;
 export interface ImportTableOutput {
   ImportTableDescription: ImportTableDescription;
 }
 export const ImportTableOutput = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ ImportTableDescription: ImportTableDescription }).pipe(ns),
-).annotate({
-  identifier: "ImportTableOutput",
-}) as any as S.Schema<ImportTableOutput>;
+).annotate({ identifier: "ImportTableOutput" }) as any as S.Schema<ImportTableOutput>;
 export type BackupsInputLimit = number;
 export type TimeRangeLowerBound = Date;
 export type TimeRangeUpperBound = Date;
@@ -3217,9 +3010,7 @@ export const ListBackupsInput = /*@__PURE__*/ S.suspend(() =>
     ExclusiveStartBackupArn: S.optional(S.String),
     BackupType: S.optional(BackupTypeFilter),
   }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
-).annotate({
-  identifier: "ListBackupsInput",
-}) as any as S.Schema<ListBackupsInput>;
+).annotate({ identifier: "ListBackupsInput" }) as any as S.Schema<ListBackupsInput>;
 export interface BackupSummary {
   TableName?: string;
   TableId?: string;
@@ -3257,9 +3048,7 @@ export const ListBackupsOutput = /*@__PURE__*/ S.suspend(() =>
     BackupSummaries: S.optional(BackupSummaries),
     LastEvaluatedBackupArn: S.optional(S.String),
   }).pipe(ns),
-).annotate({
-  identifier: "ListBackupsOutput",
-}) as any as S.Schema<ListBackupsOutput>;
+).annotate({ identifier: "ListBackupsOutput" }) as any as S.Schema<ListBackupsOutput>;
 export type NextTokenString = string;
 export type ListContributorInsightsLimit = number;
 export interface ListContributorInsightsInput {
@@ -3319,9 +3108,7 @@ export const ListExportsInput = /*@__PURE__*/ S.suspend(() =>
     MaxResults: S.optional(S.Number),
     NextToken: S.optional(S.String),
   }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
-).annotate({
-  identifier: "ListExportsInput",
-}) as any as S.Schema<ListExportsInput>;
+).annotate({ identifier: "ListExportsInput" }) as any as S.Schema<ListExportsInput>;
 export interface ExportSummary {
   ExportArn?: string;
   ExportStatus?: ExportStatus;
@@ -3341,13 +3128,10 @@ export interface ListExportsOutput {
   NextToken?: string;
 }
 export const ListExportsOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ExportSummaries: S.optional(ExportSummaries),
-    NextToken: S.optional(S.String),
-  }).pipe(ns),
-).annotate({
-  identifier: "ListExportsOutput",
-}) as any as S.Schema<ListExportsOutput>;
+  S.Struct({ ExportSummaries: S.optional(ExportSummaries), NextToken: S.optional(S.String) }).pipe(
+    ns,
+  ),
+).annotate({ identifier: "ListExportsOutput" }) as any as S.Schema<ListExportsOutput>;
 export interface ListGlobalTablesInput {
   ExclusiveStartGlobalTableName?: string;
   Limit?: number;
@@ -3359,18 +3143,13 @@ export const ListGlobalTablesInput = /*@__PURE__*/ S.suspend(() =>
     Limit: S.optional(S.Number),
     RegionName: S.optional(S.String),
   }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
-).annotate({
-  identifier: "ListGlobalTablesInput",
-}) as any as S.Schema<ListGlobalTablesInput>;
+).annotate({ identifier: "ListGlobalTablesInput" }) as any as S.Schema<ListGlobalTablesInput>;
 export interface GlobalTable {
   GlobalTableName?: string;
   ReplicationGroup?: Replica[];
 }
 export const GlobalTable = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    GlobalTableName: S.optional(S.String),
-    ReplicationGroup: S.optional(ReplicaList),
-  }),
+  S.Struct({ GlobalTableName: S.optional(S.String), ReplicationGroup: S.optional(ReplicaList) }),
 ).annotate({ identifier: "GlobalTable" }) as any as S.Schema<GlobalTable>;
 export type GlobalTableList = GlobalTable[];
 export const GlobalTableList = /*@__PURE__*/ S.Array(GlobalTable);
@@ -3383,9 +3162,7 @@ export const ListGlobalTablesOutput = /*@__PURE__*/ S.suspend(() =>
     GlobalTables: S.optional(GlobalTableList),
     LastEvaluatedGlobalTableName: S.optional(S.String),
   }).pipe(ns),
-).annotate({
-  identifier: "ListGlobalTablesOutput",
-}) as any as S.Schema<ListGlobalTablesOutput>;
+).annotate({ identifier: "ListGlobalTablesOutput" }) as any as S.Schema<ListGlobalTablesOutput>;
 export type ListImportsMaxLimit = number;
 export type ImportNextToken = string;
 export interface ListImportsInput {
@@ -3399,9 +3176,7 @@ export const ListImportsInput = /*@__PURE__*/ S.suspend(() =>
     PageSize: S.optional(S.Number),
     NextToken: S.optional(S.String),
   }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
-).annotate({
-  identifier: "ListImportsInput",
-}) as any as S.Schema<ListImportsInput>;
+).annotate({ identifier: "ListImportsInput" }) as any as S.Schema<ListImportsInput>;
 export interface ImportSummary {
   ImportArn?: string;
   ImportStatus?: ImportStatus;
@@ -3435,22 +3210,17 @@ export const ListImportsOutput = /*@__PURE__*/ S.suspend(() =>
     ImportSummaryList: S.optional(ImportSummaryList),
     NextToken: S.optional(S.String),
   }).pipe(ns),
-).annotate({
-  identifier: "ListImportsOutput",
-}) as any as S.Schema<ListImportsOutput>;
+).annotate({ identifier: "ListImportsOutput" }) as any as S.Schema<ListImportsOutput>;
 export type ListTablesInputLimit = number;
 export interface ListTablesInput {
   ExclusiveStartTableName?: string;
   Limit?: number;
 }
 export const ListTablesInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ExclusiveStartTableName: S.optional(S.String),
-    Limit: S.optional(S.Number),
-  }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
-).annotate({
-  identifier: "ListTablesInput",
-}) as any as S.Schema<ListTablesInput>;
+  S.Struct({ ExclusiveStartTableName: S.optional(S.String), Limit: S.optional(S.Number) }).pipe(
+    T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotate({ identifier: "ListTablesInput" }) as any as S.Schema<ListTablesInput>;
 export type TableNameList = string[];
 export const TableNameList = /*@__PURE__*/ S.Array(S.String);
 export interface ListTablesOutput {
@@ -3462,9 +3232,7 @@ export const ListTablesOutput = /*@__PURE__*/ S.suspend(() =>
     TableNames: S.optional(TableNameList),
     LastEvaluatedTableName: S.optional(S.String),
   }).pipe(ns),
-).annotate({
-  identifier: "ListTablesOutput",
-}) as any as S.Schema<ListTablesOutput>;
+).annotate({ identifier: "ListTablesOutput" }) as any as S.Schema<ListTablesOutput>;
 export interface ListTagsOfResourceInput {
   ResourceArn: string;
   NextToken?: string;
@@ -3474,18 +3242,14 @@ export const ListTagsOfResourceInput = /*@__PURE__*/ S.suspend(() =>
     ResourceArn: S.String.pipe(T.ContextParam("ResourceArn")),
     NextToken: S.optional(S.String),
   }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
-).annotate({
-  identifier: "ListTagsOfResourceInput",
-}) as any as S.Schema<ListTagsOfResourceInput>;
+).annotate({ identifier: "ListTagsOfResourceInput" }) as any as S.Schema<ListTagsOfResourceInput>;
 export interface ListTagsOfResourceOutput {
   Tags?: Tag[];
   NextToken?: string;
 }
 export const ListTagsOfResourceOutput = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ Tags: S.optional(TagList), NextToken: S.optional(S.String) }).pipe(ns),
-).annotate({
-  identifier: "ListTagsOfResourceOutput",
-}) as any as S.Schema<ListTagsOfResourceOutput>;
+).annotate({ identifier: "ListTagsOfResourceOutput" }) as any as S.Schema<ListTagsOfResourceOutput>;
 export interface PutItemInput {
   TableName: string;
   Item: { [key: string]: AttributeValue | undefined };
@@ -3542,17 +3306,13 @@ export const PutResourcePolicyInput = /*@__PURE__*/ S.suspend(() =>
       T.HttpHeader("x-amz-confirm-remove-self-resource-access"),
     ),
   }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
-).annotate({
-  identifier: "PutResourcePolicyInput",
-}) as any as S.Schema<PutResourcePolicyInput>;
+).annotate({ identifier: "PutResourcePolicyInput" }) as any as S.Schema<PutResourcePolicyInput>;
 export interface PutResourcePolicyOutput {
   RevisionId?: string;
 }
 export const PutResourcePolicyOutput = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ RevisionId: S.optional(S.String) }).pipe(ns),
-).annotate({
-  identifier: "PutResourcePolicyOutput",
-}) as any as S.Schema<PutResourcePolicyOutput>;
+).annotate({ identifier: "PutResourcePolicyOutput" }) as any as S.Schema<PutResourcePolicyOutput>;
 export type Select =
   | "ALL_ATTRIBUTES"
   | "ALL_PROJECTED_ATTRIBUTES"
@@ -3575,7 +3335,6 @@ export type KeyConditions = { [key: string]: Condition | undefined };
 export const KeyConditions = /*@__PURE__*/ S.Record(S.String, Condition.pipe(S.optional));
 export type FilterConditionMap = { [key: string]: Condition | undefined };
 export const FilterConditionMap = /*@__PURE__*/ S.Record(S.String, Condition.pipe(S.optional));
-export type KeyExpression = string;
 export interface QueryInput {
   TableName: string;
   IndexName?: string;
@@ -3801,9 +3560,7 @@ export const SearchVectorsInput = /*@__PURE__*/ S.suspend(() =>
       T.StaticContextParams({ IsSearchOperation: { value: true } }),
     ),
   ),
-).annotate({
-  identifier: "SearchVectorsInput",
-}) as any as S.Schema<SearchVectorsInput>;
+).annotate({ identifier: "SearchVectorsInput" }) as any as S.Schema<SearchVectorsInput>;
 export type ScoreNumber = number;
 export interface SearchResultItem {
   Item?: { [key: string]: AttributeValue | undefined };
@@ -3811,9 +3568,7 @@ export interface SearchResultItem {
 }
 export const SearchResultItem = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ Item: S.optional(AttributeMap), Score: S.optional(S.Number) }),
-).annotate({
-  identifier: "SearchResultItem",
-}) as any as S.Schema<SearchResultItem>;
+).annotate({ identifier: "SearchResultItem" }) as any as S.Schema<SearchResultItem>;
 export type SearchResultList = SearchResultItem[];
 export const SearchResultList = /*@__PURE__*/ S.Array(SearchResultItem);
 export interface SearchVectorsOutput {
@@ -3825,21 +3580,16 @@ export const SearchVectorsOutput = /*@__PURE__*/ S.suspend(() =>
     ConsumedCapacity: S.optional(VectorCapacity),
     SearchResults: S.optional(SearchResultList),
   }).pipe(ns),
-).annotate({
-  identifier: "SearchVectorsOutput",
-}) as any as S.Schema<SearchVectorsOutput>;
+).annotate({ identifier: "SearchVectorsOutput" }) as any as S.Schema<SearchVectorsOutput>;
 export interface TagResourceInput {
   ResourceArn: string;
   Tags: Tag[];
 }
 export const TagResourceInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ResourceArn: S.String.pipe(T.ContextParam("ResourceArn")),
-    Tags: TagList,
-  }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
-).annotate({
-  identifier: "TagResourceInput",
-}) as any as S.Schema<TagResourceInput>;
+  S.Struct({ ResourceArn: S.String.pipe(T.ContextParam("ResourceArn")), Tags: TagList }).pipe(
+    T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotate({ identifier: "TagResourceInput" }) as any as S.Schema<TagResourceInput>;
 export interface TagResourceResponse {}
 export const TagResourceResponse = /*@__PURE__*/ S.suspend(() => S.Struct({}).pipe(ns)).annotate({
   identifier: "TagResourceResponse",
@@ -3875,9 +3625,7 @@ export const TransactGetItemsInput = /*@__PURE__*/ S.suspend(() =>
     TransactItems: TransactGetItemList,
     ReturnConsumedCapacity: S.optional(ReturnConsumedCapacity),
   }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
-).annotate({
-  identifier: "TransactGetItemsInput",
-}) as any as S.Schema<TransactGetItemsInput>;
+).annotate({ identifier: "TransactGetItemsInput" }) as any as S.Schema<TransactGetItemsInput>;
 export interface TransactGetItemsOutput {
   ConsumedCapacity?: ConsumedCapacity[];
   Responses?: ItemResponse[];
@@ -3887,9 +3635,7 @@ export const TransactGetItemsOutput = /*@__PURE__*/ S.suspend(() =>
     ConsumedCapacity: S.optional(ConsumedCapacityMultiple),
     Responses: S.optional(ItemResponseList),
   }).pipe(ns),
-).annotate({
-  identifier: "TransactGetItemsOutput",
-}) as any as S.Schema<TransactGetItemsOutput>;
+).annotate({ identifier: "TransactGetItemsOutput" }) as any as S.Schema<TransactGetItemsOutput>;
 export interface ConditionCheck {
   Key: { [key: string]: AttributeValue | undefined };
   TableName: string;
@@ -3978,9 +3724,7 @@ export const TransactWriteItem = /*@__PURE__*/ S.suspend(() =>
     Delete: S.optional(Delete),
     Update: S.optional(Update),
   }),
-).annotate({
-  identifier: "TransactWriteItem",
-}) as any as S.Schema<TransactWriteItem>;
+).annotate({ identifier: "TransactWriteItem" }) as any as S.Schema<TransactWriteItem>;
 export type TransactWriteItemList = TransactWriteItem[];
 export const TransactWriteItemList = /*@__PURE__*/ S.Array(TransactWriteItem);
 export interface TransactWriteItemsInput {
@@ -3996,23 +3740,17 @@ export const TransactWriteItemsInput = /*@__PURE__*/ S.suspend(() =>
     ReturnItemCollectionMetrics: S.optional(ReturnItemCollectionMetrics),
     ClientRequestToken: S.optional(S.String).pipe(T.IdempotencyToken()),
   }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
-).annotate({
-  identifier: "TransactWriteItemsInput",
-}) as any as S.Schema<TransactWriteItemsInput>;
+).annotate({ identifier: "TransactWriteItemsInput" }) as any as S.Schema<TransactWriteItemsInput>;
 export interface TransactWriteItemsOutput {
   ConsumedCapacity?: ConsumedCapacity[];
-  ItemCollectionMetrics?: {
-    [key: string]: ItemCollectionMetrics[] | undefined;
-  };
+  ItemCollectionMetrics?: { [key: string]: ItemCollectionMetrics[] | undefined };
 }
 export const TransactWriteItemsOutput = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     ConsumedCapacity: S.optional(ConsumedCapacityMultiple),
     ItemCollectionMetrics: S.optional(ItemCollectionMetricsPerTable),
   }).pipe(ns),
-).annotate({
-  identifier: "TransactWriteItemsOutput",
-}) as any as S.Schema<TransactWriteItemsOutput>;
+).annotate({ identifier: "TransactWriteItemsOutput" }) as any as S.Schema<TransactWriteItemsOutput>;
 export type TagKeyList = string[];
 export const TagKeyList = /*@__PURE__*/ S.Array(S.String);
 export interface UntagResourceInput {
@@ -4020,13 +3758,10 @@ export interface UntagResourceInput {
   TagKeys: string[];
 }
 export const UntagResourceInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ResourceArn: S.String.pipe(T.ContextParam("ResourceArn")),
-    TagKeys: TagKeyList,
-  }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
-).annotate({
-  identifier: "UntagResourceInput",
-}) as any as S.Schema<UntagResourceInput>;
+  S.Struct({ ResourceArn: S.String.pipe(T.ContextParam("ResourceArn")), TagKeys: TagKeyList }).pipe(
+    T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotate({ identifier: "UntagResourceInput" }) as any as S.Schema<UntagResourceInput>;
 export interface UntagResourceResponse {}
 export const UntagResourceResponse = /*@__PURE__*/ S.suspend(() => S.Struct({}).pipe(ns)).annotate({
   identifier: "UntagResourceResponse",
@@ -4036,10 +3771,7 @@ export interface PointInTimeRecoverySpecification {
   RecoveryPeriodInDays?: number;
 }
 export const PointInTimeRecoverySpecification = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    PointInTimeRecoveryEnabled: S.Boolean,
-    RecoveryPeriodInDays: S.optional(S.Number),
-  }),
+  S.Struct({ PointInTimeRecoveryEnabled: S.Boolean, RecoveryPeriodInDays: S.optional(S.Number) }),
 ).annotate({
   identifier: "PointInTimeRecoverySpecification",
 }) as any as S.Schema<PointInTimeRecoverySpecification>;
@@ -4059,9 +3791,7 @@ export interface UpdateContinuousBackupsOutput {
   ContinuousBackupsDescription?: ContinuousBackupsDescription;
 }
 export const UpdateContinuousBackupsOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ContinuousBackupsDescription: S.optional(ContinuousBackupsDescription),
-  }).pipe(ns),
+  S.Struct({ ContinuousBackupsDescription: S.optional(ContinuousBackupsDescription) }).pipe(ns),
 ).annotate({
   identifier: "UpdateContinuousBackupsOutput",
 }) as any as S.Schema<UpdateContinuousBackupsOutput>;
@@ -4105,26 +3835,19 @@ export interface CreateReplicaAction {
 }
 export const CreateReplicaAction = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ RegionName: S.String }),
-).annotate({
-  identifier: "CreateReplicaAction",
-}) as any as S.Schema<CreateReplicaAction>;
+).annotate({ identifier: "CreateReplicaAction" }) as any as S.Schema<CreateReplicaAction>;
 export interface DeleteReplicaAction {
   RegionName: string;
 }
 export const DeleteReplicaAction = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ RegionName: S.String }),
-).annotate({
-  identifier: "DeleteReplicaAction",
-}) as any as S.Schema<DeleteReplicaAction>;
+).annotate({ identifier: "DeleteReplicaAction" }) as any as S.Schema<DeleteReplicaAction>;
 export interface ReplicaUpdate {
   Create?: CreateReplicaAction;
   Delete?: DeleteReplicaAction;
 }
 export const ReplicaUpdate = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Create: S.optional(CreateReplicaAction),
-    Delete: S.optional(DeleteReplicaAction),
-  }),
+  S.Struct({ Create: S.optional(CreateReplicaAction), Delete: S.optional(DeleteReplicaAction) }),
 ).annotate({ identifier: "ReplicaUpdate" }) as any as S.Schema<ReplicaUpdate>;
 export type ReplicaUpdateList = ReplicaUpdate[];
 export const ReplicaUpdateList = /*@__PURE__*/ S.Array(ReplicaUpdate);
@@ -4137,17 +3860,13 @@ export const UpdateGlobalTableInput = /*@__PURE__*/ S.suspend(() =>
     GlobalTableName: S.String.pipe(T.ContextParam("ResourceArn")),
     ReplicaUpdates: ReplicaUpdateList,
   }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
-).annotate({
-  identifier: "UpdateGlobalTableInput",
-}) as any as S.Schema<UpdateGlobalTableInput>;
+).annotate({ identifier: "UpdateGlobalTableInput" }) as any as S.Schema<UpdateGlobalTableInput>;
 export interface UpdateGlobalTableOutput {
   GlobalTableDescription?: GlobalTableDescription;
 }
 export const UpdateGlobalTableOutput = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ GlobalTableDescription: S.optional(GlobalTableDescription) }).pipe(ns),
-).annotate({
-  identifier: "UpdateGlobalTableOutput",
-}) as any as S.Schema<UpdateGlobalTableOutput>;
+).annotate({ identifier: "UpdateGlobalTableOutput" }) as any as S.Schema<UpdateGlobalTableOutput>;
 export type AutoScalingRoleArn = string;
 export interface AutoScalingTargetTrackingScalingPolicyConfigurationUpdate {
   DisableScaleIn?: boolean;
@@ -4176,9 +3895,7 @@ export const AutoScalingPolicyUpdate = /*@__PURE__*/ S.suspend(() =>
     TargetTrackingScalingPolicyConfiguration:
       AutoScalingTargetTrackingScalingPolicyConfigurationUpdate,
   }),
-).annotate({
-  identifier: "AutoScalingPolicyUpdate",
-}) as any as S.Schema<AutoScalingPolicyUpdate>;
+).annotate({ identifier: "AutoScalingPolicyUpdate" }) as any as S.Schema<AutoScalingPolicyUpdate>;
 export interface AutoScalingSettingsUpdate {
   MinimumUnits?: number;
   MaximumUnits?: number;
@@ -4252,9 +3969,7 @@ export const ReplicaSettingsUpdate = /*@__PURE__*/ S.suspend(() =>
     ),
     ReplicaTableClass: S.optional(TableClass),
   }),
-).annotate({
-  identifier: "ReplicaSettingsUpdate",
-}) as any as S.Schema<ReplicaSettingsUpdate>;
+).annotate({ identifier: "ReplicaSettingsUpdate" }) as any as S.Schema<ReplicaSettingsUpdate>;
 export type ReplicaSettingsUpdateList = ReplicaSettingsUpdate[];
 export const ReplicaSettingsUpdateList = /*@__PURE__*/ S.Array(ReplicaSettingsUpdate);
 export interface UpdateGlobalTableSettingsInput {
@@ -4300,16 +4015,9 @@ export interface AttributeValueUpdate {
   Action?: AttributeAction;
 }
 export const AttributeValueUpdate = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Value: S.optional(AttributeValue),
-    Action: S.optional(AttributeAction),
-  }),
-).annotate({
-  identifier: "AttributeValueUpdate",
-}) as any as S.Schema<AttributeValueUpdate>;
-export type AttributeUpdates = {
-  [key: string]: AttributeValueUpdate | undefined;
-};
+  S.Struct({ Value: S.optional(AttributeValue), Action: S.optional(AttributeAction) }),
+).annotate({ identifier: "AttributeValueUpdate" }) as any as S.Schema<AttributeValueUpdate>;
+export type AttributeUpdates = { [key: string]: AttributeValueUpdate | undefined };
 export const AttributeUpdates = /*@__PURE__*/ S.Record(
   S.String,
   AttributeValueUpdate.pipe(S.optional),
@@ -4345,9 +4053,7 @@ export const UpdateItemInput = /*@__PURE__*/ S.suspend(() =>
     ExpressionAttributeValues: S.optional(ExpressionAttributeValueMap),
     ReturnValuesOnConditionCheckFailure: S.optional(ReturnValuesOnConditionCheckFailure),
   }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
-).annotate({
-  identifier: "UpdateItemInput",
-}) as any as S.Schema<UpdateItemInput>;
+).annotate({ identifier: "UpdateItemInput" }) as any as S.Schema<UpdateItemInput>;
 export interface UpdateItemOutput {
   Attributes?: { [key: string]: AttributeValue | undefined };
   ConsumedCapacity?: ConsumedCapacity;
@@ -4359,9 +4065,7 @@ export const UpdateItemOutput = /*@__PURE__*/ S.suspend(() =>
     ConsumedCapacity: S.optional(ConsumedCapacity),
     ItemCollectionMetrics: S.optional(ItemCollectionMetrics),
   }).pipe(ns),
-).annotate({
-  identifier: "UpdateItemOutput",
-}) as any as S.Schema<UpdateItemOutput>;
+).annotate({ identifier: "UpdateItemOutput" }) as any as S.Schema<UpdateItemOutput>;
 export interface UpdateKinesisStreamingConfiguration {
   ApproximateCreationDateTimePrecision?: ApproximateCreationDateTimePrecision;
 }
@@ -4537,9 +4241,7 @@ export const ReplicationGroupUpdate = /*@__PURE__*/ S.suspend(() =>
     Update: S.optional(UpdateReplicationGroupMemberAction),
     Delete: S.optional(DeleteReplicationGroupMemberAction),
   }),
-).annotate({
-  identifier: "ReplicationGroupUpdate",
-}) as any as S.Schema<ReplicationGroupUpdate>;
+).annotate({ identifier: "ReplicationGroupUpdate" }) as any as S.Schema<ReplicationGroupUpdate>;
 export type ReplicationGroupUpdateList = ReplicationGroupUpdate[];
 export const ReplicationGroupUpdateList = /*@__PURE__*/ S.Array(ReplicationGroupUpdate);
 export interface CreateGlobalTableWitnessGroupMemberAction {
@@ -4591,17 +4293,13 @@ export const CreateVectorIndexAction = /*@__PURE__*/ S.suspend(() =>
     Dimensions: S.Number,
     DistanceFunction: VectorDistanceFunction,
   }),
-).annotate({
-  identifier: "CreateVectorIndexAction",
-}) as any as S.Schema<CreateVectorIndexAction>;
+).annotate({ identifier: "CreateVectorIndexAction" }) as any as S.Schema<CreateVectorIndexAction>;
 export interface DeleteVectorIndexAction {
   IndexName: string;
 }
 export const DeleteVectorIndexAction = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ IndexName: S.String }),
-).annotate({
-  identifier: "DeleteVectorIndexAction",
-}) as any as S.Schema<DeleteVectorIndexAction>;
+).annotate({ identifier: "DeleteVectorIndexAction" }) as any as S.Schema<DeleteVectorIndexAction>;
 export interface VectorIndexUpdate {
   Create?: CreateVectorIndexAction;
   Delete?: DeleteVectorIndexAction;
@@ -4611,9 +4309,7 @@ export const VectorIndexUpdate = /*@__PURE__*/ S.suspend(() =>
     Create: S.optional(CreateVectorIndexAction),
     Delete: S.optional(DeleteVectorIndexAction),
   }),
-).annotate({
-  identifier: "VectorIndexUpdate",
-}) as any as S.Schema<VectorIndexUpdate>;
+).annotate({ identifier: "VectorIndexUpdate" }) as any as S.Schema<VectorIndexUpdate>;
 export type VectorIndexUpdateList = VectorIndexUpdate[];
 export const VectorIndexUpdateList = /*@__PURE__*/ S.Array(VectorIndexUpdate);
 export interface UpdateTableInput {
@@ -4653,17 +4349,13 @@ export const UpdateTableInput = /*@__PURE__*/ S.suspend(() =>
     GlobalTableSettingsReplicationMode: S.optional(GlobalTableSettingsReplicationMode),
     VectorIndexUpdates: S.optional(VectorIndexUpdateList),
   }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
-).annotate({
-  identifier: "UpdateTableInput",
-}) as any as S.Schema<UpdateTableInput>;
+).annotate({ identifier: "UpdateTableInput" }) as any as S.Schema<UpdateTableInput>;
 export interface UpdateTableOutput {
   TableDescription?: TableDescription;
 }
 export const UpdateTableOutput = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ TableDescription: S.optional(TableDescription) }).pipe(ns),
-).annotate({
-  identifier: "UpdateTableOutput",
-}) as any as S.Schema<UpdateTableOutput>;
+).annotate({ identifier: "UpdateTableOutput" }) as any as S.Schema<UpdateTableOutput>;
 export interface GlobalSecondaryIndexAutoScalingUpdate {
   IndexName?: string;
   ProvisionedWriteCapacityAutoScalingUpdate?: AutoScalingSettingsUpdate;
@@ -4710,9 +4402,7 @@ export const ReplicaAutoScalingUpdate = /*@__PURE__*/ S.suspend(() =>
     ),
     ReplicaProvisionedReadCapacityAutoScalingUpdate: S.optional(AutoScalingSettingsUpdate),
   }),
-).annotate({
-  identifier: "ReplicaAutoScalingUpdate",
-}) as any as S.Schema<ReplicaAutoScalingUpdate>;
+).annotate({ identifier: "ReplicaAutoScalingUpdate" }) as any as S.Schema<ReplicaAutoScalingUpdate>;
 export type ReplicaAutoScalingUpdateList = ReplicaAutoScalingUpdate[];
 export const ReplicaAutoScalingUpdateList = /*@__PURE__*/ S.Array(ReplicaAutoScalingUpdate);
 export interface UpdateTableReplicaAutoScalingInput {
@@ -4735,9 +4425,7 @@ export interface UpdateTableReplicaAutoScalingOutput {
   TableAutoScalingDescription?: TableAutoScalingDescription;
 }
 export const UpdateTableReplicaAutoScalingOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    TableAutoScalingDescription: S.optional(TableAutoScalingDescription),
-  }).pipe(ns),
+  S.Struct({ TableAutoScalingDescription: S.optional(TableAutoScalingDescription) }).pipe(ns),
 ).annotate({
   identifier: "UpdateTableReplicaAutoScalingOutput",
 }) as any as S.Schema<UpdateTableReplicaAutoScalingOutput>;
@@ -4748,9 +4436,7 @@ export interface TimeToLiveSpecification {
 }
 export const TimeToLiveSpecification = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ Enabled: S.Boolean, AttributeName: S.String }),
-).annotate({
-  identifier: "TimeToLiveSpecification",
-}) as any as S.Schema<TimeToLiveSpecification>;
+).annotate({ identifier: "TimeToLiveSpecification" }) as any as S.Schema<TimeToLiveSpecification>;
 export interface UpdateTimeToLiveInput {
   TableName: string;
   TimeToLiveSpecification: TimeToLiveSpecification;
@@ -4760,19 +4446,13 @@ export const UpdateTimeToLiveInput = /*@__PURE__*/ S.suspend(() =>
     TableName: S.String.pipe(T.ContextParam("ResourceArn")),
     TimeToLiveSpecification: TimeToLiveSpecification,
   }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
-).annotate({
-  identifier: "UpdateTimeToLiveInput",
-}) as any as S.Schema<UpdateTimeToLiveInput>;
+).annotate({ identifier: "UpdateTimeToLiveInput" }) as any as S.Schema<UpdateTimeToLiveInput>;
 export interface UpdateTimeToLiveOutput {
   TimeToLiveSpecification?: TimeToLiveSpecification;
 }
 export const UpdateTimeToLiveOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    TimeToLiveSpecification: S.optional(TimeToLiveSpecification),
-  }).pipe(ns),
-).annotate({
-  identifier: "UpdateTimeToLiveOutput",
-}) as any as S.Schema<UpdateTimeToLiveOutput>;
+  S.Struct({ TimeToLiveSpecification: S.optional(TimeToLiveSpecification) }).pipe(ns),
+).annotate({ identifier: "UpdateTimeToLiveOutput" }) as any as S.Schema<UpdateTimeToLiveOutput>;
 export type ErrorMessage = string;
 export type Reason = string;
 export type Resource = string;
@@ -4782,9 +4462,7 @@ export interface ThrottlingReason {
 }
 export const ThrottlingReason = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ reason: S.optional(S.String), resource: S.optional(S.String) }),
-).annotate({
-  identifier: "ThrottlingReason",
-}) as any as S.Schema<ThrottlingReason>;
+).annotate({ identifier: "ThrottlingReason" }) as any as S.Schema<ThrottlingReason>;
 export type ThrottlingReasonList = ThrottlingReason[];
 export const ThrottlingReasonList = /*@__PURE__*/ S.Array(ThrottlingReason);
 export type AvailabilityErrorMessage = string;
@@ -4800,9 +4478,7 @@ export const CancellationReason = /*@__PURE__*/ S.suspend(() =>
     Code: S.optional(S.String),
     Message: S.optional(S.String),
   }),
-).annotate({
-  identifier: "CancellationReason",
-}) as any as S.Schema<CancellationReason>;
+).annotate({ identifier: "CancellationReason" }) as any as S.Schema<CancellationReason>;
 export type CancellationReasonList = CancellationReason[];
 export const CancellationReasonList = /*@__PURE__*/ S.Array(CancellationReason);
 export type BatchExecuteStatementError =
@@ -6210,11 +5886,7 @@ export const listImports: API.PaginatedOperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListImports",
-  pagination: {
-    inputToken: "NextToken",
-    outputToken: "NextToken",
-    pageSize: "PageSize",
-  } as const,
+  pagination: { inputToken: "NextToken", outputToken: "NextToken", pageSize: "PageSize" } as const,
 })) as any;
 
 export type ListTablesError = InternalServerError | InvalidEndpointException | CommonErrors;

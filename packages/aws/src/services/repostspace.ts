@@ -9,10 +9,7 @@ import { AwsProtocol } from "../protocol.ts";
 import { Retry } from "../retry.ts";
 import { SensitiveString } from "../sensitive.ts";
 import * as T from "../traits.ts";
-const svc = T.AwsApiService({
-  sdkId: "repostspace",
-  serviceShapeName: "RepostSpace",
-});
+const svc = T.AwsApiService({ sdkId: "repostspace", serviceShapeName: "RepostSpace" });
 const auth = T.AwsAuthSigv4({ name: "repostspace" });
 const ver = T.ServiceVersion("2022-05-13");
 const proto = T.AwsProtocolsRestJson1();
@@ -84,11 +81,7 @@ export class AccessDeniedException
 export class ConflictException
   extends /*@__PURE__*/ S.TaggedError<ConflictException>()(
     "ConflictException",
-    {
-      message: S.String.pipe(T.ErrorMessage()),
-      resourceId: S.String,
-      resourceType: S.String,
-    },
+    { message: S.String.pipe(T.ErrorMessage()), resourceId: S.String, resourceType: S.String },
     T.HttpError(409),
   ).pipe(C.withConflictError) {}
 export class InternalServerException
@@ -103,11 +96,7 @@ export class InternalServerException
 export class ResourceNotFoundException
   extends /*@__PURE__*/ S.TaggedError<ResourceNotFoundException>()(
     "ResourceNotFoundException",
-    {
-      message: S.String.pipe(T.ErrorMessage()),
-      resourceId: S.String,
-      resourceType: S.String,
-    },
+    { message: S.String.pipe(T.ErrorMessage()), resourceId: S.String, resourceType: S.String },
     T.HttpError(404),
   ).pipe(C.withBadRequestError) {}
 export class ServiceQuotaExceededException
@@ -171,10 +160,7 @@ export const BatchAddChannelRoleToAccessorsInput = /*@__PURE__*/ S.suspend(() =>
     channelRole: ChannelRole,
   }).pipe(
     T.all(
-      T.Http({
-        method: "POST",
-        uri: "/spaces/{spaceId}/channels/{channelId}/roles",
-      }),
+      T.Http({ method: "POST", uri: "/spaces/{spaceId}/channels/{channelId}/roles" }),
       svc,
       auth,
       proto,
@@ -222,18 +208,14 @@ export const BatchAddRoleInput = /*@__PURE__*/ S.suspend(() =>
   }).pipe(
     T.all(T.Http({ method: "POST", uri: "/spaces/{spaceId}/roles" }), svc, auth, proto, ver, rules),
   ),
-).annotate({
-  identifier: "BatchAddRoleInput",
-}) as any as S.Schema<BatchAddRoleInput>;
+).annotate({ identifier: "BatchAddRoleInput" }) as any as S.Schema<BatchAddRoleInput>;
 export interface BatchAddRoleOutput {
   addedAccessorIds: string[];
   errors: BatchError[];
 }
 export const BatchAddRoleOutput = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ addedAccessorIds: AccessorIdList, errors: BatchErrorList }),
-).annotate({
-  identifier: "BatchAddRoleOutput",
-}) as any as S.Schema<BatchAddRoleOutput>;
+).annotate({ identifier: "BatchAddRoleOutput" }) as any as S.Schema<BatchAddRoleOutput>;
 export interface BatchRemoveChannelRoleFromAccessorsInput {
   spaceId: string;
   channelId: string;
@@ -248,10 +230,7 @@ export const BatchRemoveChannelRoleFromAccessorsInput = /*@__PURE__*/ S.suspend(
     channelRole: ChannelRole,
   }).pipe(
     T.all(
-      T.Http({
-        method: "PATCH",
-        uri: "/spaces/{spaceId}/channels/{channelId}/roles",
-      }),
+      T.Http({ method: "PATCH", uri: "/spaces/{spaceId}/channels/{channelId}/roles" }),
       svc,
       auth,
       proto,
@@ -291,18 +270,14 @@ export const BatchRemoveRoleInput = /*@__PURE__*/ S.suspend(() =>
       rules,
     ),
   ),
-).annotate({
-  identifier: "BatchRemoveRoleInput",
-}) as any as S.Schema<BatchRemoveRoleInput>;
+).annotate({ identifier: "BatchRemoveRoleInput" }) as any as S.Schema<BatchRemoveRoleInput>;
 export interface BatchRemoveRoleOutput {
   removedAccessorIds: string[];
   errors: BatchError[];
 }
 export const BatchRemoveRoleOutput = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ removedAccessorIds: AccessorIdList, errors: BatchErrorList }),
-).annotate({
-  identifier: "BatchRemoveRoleOutput",
-}) as any as S.Schema<BatchRemoveRoleOutput>;
+).annotate({ identifier: "BatchRemoveRoleOutput" }) as any as S.Schema<BatchRemoveRoleOutput>;
 export type ChannelName = string | redacted.Redacted<string>;
 export type ChannelDescription = string | redacted.Redacted<string>;
 export interface CreateChannelInput {
@@ -325,17 +300,13 @@ export const CreateChannelInput = /*@__PURE__*/ S.suspend(() =>
       rules,
     ),
   ),
-).annotate({
-  identifier: "CreateChannelInput",
-}) as any as S.Schema<CreateChannelInput>;
+).annotate({ identifier: "CreateChannelInput" }) as any as S.Schema<CreateChannelInput>;
 export interface CreateChannelOutput {
   channelId: string;
 }
 export const CreateChannelOutput = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ channelId: S.String }),
-).annotate({
-  identifier: "CreateChannelOutput",
-}) as any as S.Schema<CreateChannelOutput>;
+).annotate({ identifier: "CreateChannelOutput" }) as any as S.Schema<CreateChannelOutput>;
 export type SpaceName = string | redacted.Redacted<string>;
 export type SpaceSubdomain = string;
 export type TierLevel = "BASIC" | "STANDARD" | (string & {});
@@ -387,17 +358,13 @@ export const CreateSpaceInput = /*@__PURE__*/ S.suspend(() =>
     roleArn: S.optional(S.String),
     supportedEmailDomains: S.optional(SupportedEmailDomainsParameters),
   }).pipe(T.all(T.Http({ method: "POST", uri: "/spaces" }), svc, auth, proto, ver, rules)),
-).annotate({
-  identifier: "CreateSpaceInput",
-}) as any as S.Schema<CreateSpaceInput>;
+).annotate({ identifier: "CreateSpaceInput" }) as any as S.Schema<CreateSpaceInput>;
 export interface CreateSpaceOutput {
   spaceId: string;
 }
 export const CreateSpaceOutput = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ spaceId: S.String }),
-).annotate({
-  identifier: "CreateSpaceOutput",
-}) as any as S.Schema<CreateSpaceOutput>;
+).annotate({ identifier: "CreateSpaceOutput" }) as any as S.Schema<CreateSpaceOutput>;
 export interface DeleteSpaceInput {
   spaceId: string;
 }
@@ -405,9 +372,7 @@ export const DeleteSpaceInput = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ spaceId: S.String.pipe(T.HttpLabel("spaceId")) }).pipe(
     T.all(T.Http({ method: "DELETE", uri: "/spaces/{spaceId}" }), svc, auth, proto, ver, rules),
   ),
-).annotate({
-  identifier: "DeleteSpaceInput",
-}) as any as S.Schema<DeleteSpaceInput>;
+).annotate({ identifier: "DeleteSpaceInput" }) as any as S.Schema<DeleteSpaceInput>;
 export interface DeleteSpaceResponse {}
 export const DeleteSpaceResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
   identifier: "DeleteSpaceResponse",
@@ -431,9 +396,7 @@ export const DeregisterAdminInput = /*@__PURE__*/ S.suspend(() =>
       rules,
     ),
   ),
-).annotate({
-  identifier: "DeregisterAdminInput",
-}) as any as S.Schema<DeregisterAdminInput>;
+).annotate({ identifier: "DeregisterAdminInput" }) as any as S.Schema<DeregisterAdminInput>;
 export interface DeregisterAdminResponse {}
 export const DeregisterAdminResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
   identifier: "DeregisterAdminResponse",
@@ -456,9 +419,7 @@ export const GetChannelInput = /*@__PURE__*/ S.suspend(() =>
       rules,
     ),
   ),
-).annotate({
-  identifier: "GetChannelInput",
-}) as any as S.Schema<GetChannelInput>;
+).annotate({ identifier: "GetChannelInput" }) as any as S.Schema<GetChannelInput>;
 export type ChannelRoleList = ChannelRole[];
 export const ChannelRoleList = /*@__PURE__*/ S.Array(ChannelRole);
 export type ChannelRoles = { [key: string]: ChannelRole[] | undefined };
@@ -494,9 +455,7 @@ export const GetChannelOutput = /*@__PURE__*/ S.suspend(() =>
     channelRoles: S.optional(ChannelRoles),
     channelStatus: ChannelStatus,
   }),
-).annotate({
-  identifier: "GetChannelOutput",
-}) as any as S.Schema<GetChannelOutput>;
+).annotate({ identifier: "GetChannelOutput" }) as any as S.Schema<GetChannelOutput>;
 export interface GetSpaceInput {
   spaceId: string;
 }
@@ -616,9 +575,7 @@ export const ListChannelsInput = /*@__PURE__*/ S.suspend(() =>
       rules,
     ),
   ),
-).annotate({
-  identifier: "ListChannelsInput",
-}) as any as S.Schema<ListChannelsInput>;
+).annotate({ identifier: "ListChannelsInput" }) as any as S.Schema<ListChannelsInput>;
 export type GroupCount = number;
 export interface ChannelData {
   spaceId: string;
@@ -652,9 +609,7 @@ export interface ListChannelsOutput {
 }
 export const ListChannelsOutput = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ channels: ChannelsList, nextToken: S.optional(S.String) }),
-).annotate({
-  identifier: "ListChannelsOutput",
-}) as any as S.Schema<ListChannelsOutput>;
+).annotate({ identifier: "ListChannelsOutput" }) as any as S.Schema<ListChannelsOutput>;
 export type ListSpacesLimit = number;
 export interface ListSpacesInput {
   nextToken?: string;
@@ -665,9 +620,7 @@ export const ListSpacesInput = /*@__PURE__*/ S.suspend(() =>
     nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
     maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
   }).pipe(T.all(T.Http({ method: "GET", uri: "/spaces" }), svc, auth, proto, ver, rules)),
-).annotate({
-  identifier: "ListSpacesInput",
-}) as any as S.Schema<ListSpacesInput>;
+).annotate({ identifier: "ListSpacesInput" }) as any as S.Schema<ListSpacesInput>;
 export interface SpaceData {
   spaceId: string;
   arn: string;
@@ -716,9 +669,7 @@ export interface ListSpacesOutput {
 }
 export const ListSpacesOutput = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ spaces: SpacesList, nextToken: S.optional(S.String) }),
-).annotate({
-  identifier: "ListSpacesOutput",
-}) as any as S.Schema<ListSpacesOutput>;
+).annotate({ identifier: "ListSpacesOutput" }) as any as S.Schema<ListSpacesOutput>;
 export interface ListTagsForResourceRequest {
   resourceArn: string;
 }
@@ -755,9 +706,7 @@ export const RegisterAdminInput = /*@__PURE__*/ S.suspend(() =>
       rules,
     ),
   ),
-).annotate({
-  identifier: "RegisterAdminInput",
-}) as any as S.Schema<RegisterAdminInput>;
+).annotate({ identifier: "RegisterAdminInput" }) as any as S.Schema<RegisterAdminInput>;
 export interface RegisterAdminResponse {}
 export const RegisterAdminResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
   identifier: "RegisterAdminResponse",
@@ -786,9 +735,7 @@ export const SendInvitesInput = /*@__PURE__*/ S.suspend(() =>
       rules,
     ),
   ),
-).annotate({
-  identifier: "SendInvitesInput",
-}) as any as S.Schema<SendInvitesInput>;
+).annotate({ identifier: "SendInvitesInput" }) as any as S.Schema<SendInvitesInput>;
 export interface SendInvitesResponse {}
 export const SendInvitesResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
   identifier: "SendInvitesResponse",
@@ -798,15 +745,10 @@ export interface TagResourceRequest {
   tags: { [key: string]: string | undefined };
 }
 export const TagResourceRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    resourceArn: S.String.pipe(T.HttpLabel("resourceArn")),
-    tags: Tags,
-  }).pipe(
+  S.Struct({ resourceArn: S.String.pipe(T.HttpLabel("resourceArn")), tags: Tags }).pipe(
     T.all(T.Http({ method: "POST", uri: "/tags/{resourceArn}" }), svc, auth, proto, ver, rules),
   ),
-).annotate({
-  identifier: "TagResourceRequest",
-}) as any as S.Schema<TagResourceRequest>;
+).annotate({ identifier: "TagResourceRequest" }) as any as S.Schema<TagResourceRequest>;
 export interface TagResourceResponse {}
 export const TagResourceResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
   identifier: "TagResourceResponse",
@@ -824,9 +766,7 @@ export const UntagResourceRequest = /*@__PURE__*/ S.suspend(() =>
   }).pipe(
     T.all(T.Http({ method: "DELETE", uri: "/tags/{resourceArn}" }), svc, auth, proto, ver, rules),
   ),
-).annotate({
-  identifier: "UntagResourceRequest",
-}) as any as S.Schema<UntagResourceRequest>;
+).annotate({ identifier: "UntagResourceRequest" }) as any as S.Schema<UntagResourceRequest>;
 export interface UntagResourceResponse {}
 export const UntagResourceResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
   identifier: "UntagResourceResponse",
@@ -853,9 +793,7 @@ export const UpdateChannelInput = /*@__PURE__*/ S.suspend(() =>
       rules,
     ),
   ),
-).annotate({
-  identifier: "UpdateChannelInput",
-}) as any as S.Schema<UpdateChannelInput>;
+).annotate({ identifier: "UpdateChannelInput" }) as any as S.Schema<UpdateChannelInput>;
 export interface UpdateChannelOutput {}
 export const UpdateChannelOutput = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
   identifier: "UpdateChannelOutput",
@@ -875,9 +813,7 @@ export const UpdateSpaceInput = /*@__PURE__*/ S.suspend(() =>
     roleArn: S.optional(S.String),
     supportedEmailDomains: S.optional(SupportedEmailDomainsParameters),
   }).pipe(T.all(T.Http({ method: "PUT", uri: "/spaces/{spaceId}" }), svc, auth, proto, ver, rules)),
-).annotate({
-  identifier: "UpdateSpaceInput",
-}) as any as S.Schema<UpdateSpaceInput>;
+).annotate({ identifier: "UpdateSpaceInput" }) as any as S.Schema<UpdateSpaceInput>;
 export interface UpdateSpaceResponse {}
 export const UpdateSpaceResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
   identifier: "UpdateSpaceResponse",
@@ -896,9 +832,7 @@ export interface ValidationExceptionField {
 }
 export const ValidationExceptionField = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ name: S.String, message: S.String }),
-).annotate({
-  identifier: "ValidationExceptionField",
-}) as any as S.Schema<ValidationExceptionField>;
+).annotate({ identifier: "ValidationExceptionField" }) as any as S.Schema<ValidationExceptionField>;
 export type ValidationExceptionFieldList = ValidationExceptionField[];
 export const ValidationExceptionFieldList = /*@__PURE__*/ S.Array(ValidationExceptionField);
 export type BatchAddChannelRoleToAccessorsError =

@@ -80,9 +80,7 @@ export class AccessDeniedException
     {
       message: S.optional(S.String).pipe(T.ErrorMessage()),
       Reason: S.optional(
-        S.suspend(() => AccessDeniedReason).annotate({
-          identifier: "AccessDeniedReason",
-        }),
+        S.suspend(() => AccessDeniedReason).annotate({ identifier: "AccessDeniedReason" }),
       ),
     },
     T.HttpError(403),
@@ -170,9 +168,7 @@ export const AddGroupMemberRequest = /*@__PURE__*/ S.suspend(() =>
       rules,
     ),
   ),
-).annotate({
-  identifier: "AddGroupMemberRequest",
-}) as any as S.Schema<AddGroupMemberRequest>;
+).annotate({ identifier: "AddGroupMemberRequest" }) as any as S.Schema<AddGroupMemberRequest>;
 export interface AddGroupMemberResult {}
 export const AddGroupMemberResult = /*@__PURE__*/ S.suspend(() => S.Struct({}).pipe(ns)).annotate({
   identifier: "AddGroupMemberResult",
@@ -190,20 +186,10 @@ export type BooleanAttributeValue = boolean;
 export type StringSetAttributeValue = (string | redacted.Redacted<string>)[];
 export const StringSetAttributeValue = /*@__PURE__*/ S.Array(SensitiveString);
 export type AttributeValue =
-  | {
-      S: string | redacted.Redacted<string>;
-      N?: never;
-      BOOL?: never;
-      SS?: never;
-    }
+  | { S: string | redacted.Redacted<string>; N?: never; BOOL?: never; SS?: never }
   | { S?: never; N: number; BOOL?: never; SS?: never }
   | { S?: never; N?: never; BOOL: boolean; SS?: never }
-  | {
-      S?: never;
-      N?: never;
-      BOOL?: never;
-      SS: (string | redacted.Redacted<string>)[];
-    };
+  | { S?: never; N?: never; BOOL?: never; SS: (string | redacted.Redacted<string>)[] };
 export const AttributeValue = /*@__PURE__*/ S.Union([
   S.Struct({ S: SensitiveString }),
   S.Struct({ N: S.Number }),
@@ -231,9 +217,7 @@ export const CreateGroupRequest = /*@__PURE__*/ S.suspend(() =>
   }).pipe(
     T.all(ns, T.Http({ method: "POST", uri: "/Groups/CreateGroup" }), svc, auth, proto, ver, rules),
   ),
-).annotate({
-  identifier: "CreateGroupRequest",
-}) as any as S.Schema<CreateGroupRequest>;
+).annotate({ identifier: "CreateGroupRequest" }) as any as S.Schema<CreateGroupRequest>;
 export type SID = string;
 export interface CreateGroupResult {
   DirectoryId?: string;
@@ -246,9 +230,7 @@ export const CreateGroupResult = /*@__PURE__*/ S.suspend(() =>
     SAMAccountName: S.optional(S.String),
     SID: S.optional(S.String),
   }).pipe(ns),
-).annotate({
-  identifier: "CreateGroupResult",
-}) as any as S.Schema<CreateGroupResult>;
+).annotate({ identifier: "CreateGroupResult" }) as any as S.Schema<CreateGroupResult>;
 export type UserName = string;
 export type EmailAddress = string | redacted.Redacted<string>;
 export type GivenName = string | redacted.Redacted<string>;
@@ -274,9 +256,7 @@ export const CreateUserRequest = /*@__PURE__*/ S.suspend(() =>
   }).pipe(
     T.all(ns, T.Http({ method: "POST", uri: "/Users/CreateUser" }), svc, auth, proto, ver, rules),
   ),
-).annotate({
-  identifier: "CreateUserRequest",
-}) as any as S.Schema<CreateUserRequest>;
+).annotate({ identifier: "CreateUserRequest" }) as any as S.Schema<CreateUserRequest>;
 export interface CreateUserResult {
   DirectoryId?: string;
   SID?: string;
@@ -288,9 +268,7 @@ export const CreateUserResult = /*@__PURE__*/ S.suspend(() =>
     SID: S.optional(S.String),
     SAMAccountName: S.optional(S.String),
   }).pipe(ns),
-).annotate({
-  identifier: "CreateUserResult",
-}) as any as S.Schema<CreateUserResult>;
+).annotate({ identifier: "CreateUserResult" }) as any as S.Schema<CreateUserResult>;
 export interface DeleteGroupRequest {
   DirectoryId: string;
   SAMAccountName: string;
@@ -304,9 +282,7 @@ export const DeleteGroupRequest = /*@__PURE__*/ S.suspend(() =>
   }).pipe(
     T.all(ns, T.Http({ method: "POST", uri: "/Groups/DeleteGroup" }), svc, auth, proto, ver, rules),
   ),
-).annotate({
-  identifier: "DeleteGroupRequest",
-}) as any as S.Schema<DeleteGroupRequest>;
+).annotate({ identifier: "DeleteGroupRequest" }) as any as S.Schema<DeleteGroupRequest>;
 export interface DeleteGroupResult {}
 export const DeleteGroupResult = /*@__PURE__*/ S.suspend(() => S.Struct({}).pipe(ns)).annotate({
   identifier: "DeleteGroupResult",
@@ -324,9 +300,7 @@ export const DeleteUserRequest = /*@__PURE__*/ S.suspend(() =>
   }).pipe(
     T.all(ns, T.Http({ method: "POST", uri: "/Users/DeleteUser" }), svc, auth, proto, ver, rules),
   ),
-).annotate({
-  identifier: "DeleteUserRequest",
-}) as any as S.Schema<DeleteUserRequest>;
+).annotate({ identifier: "DeleteUserRequest" }) as any as S.Schema<DeleteUserRequest>;
 export interface DeleteUserResult {}
 export const DeleteUserResult = /*@__PURE__*/ S.suspend(() => S.Struct({}).pipe(ns)).annotate({
   identifier: "DeleteUserResult",
@@ -356,9 +330,7 @@ export const DescribeGroupRequest = /*@__PURE__*/ S.suspend(() =>
       rules,
     ),
   ),
-).annotate({
-  identifier: "DescribeGroupRequest",
-}) as any as S.Schema<DescribeGroupRequest>;
+).annotate({ identifier: "DescribeGroupRequest" }) as any as S.Schema<DescribeGroupRequest>;
 export type DistinguishedName = string | redacted.Redacted<string>;
 export interface DescribeGroupResult {
   DirectoryId?: string;
@@ -381,9 +353,7 @@ export const DescribeGroupResult = /*@__PURE__*/ S.suspend(() =>
     GroupScope: S.optional(GroupScope),
     OtherAttributes: S.optional(Attributes),
   }).pipe(ns),
-).annotate({
-  identifier: "DescribeGroupResult",
-}) as any as S.Schema<DescribeGroupResult>;
+).annotate({ identifier: "DescribeGroupResult" }) as any as S.Schema<DescribeGroupResult>;
 export interface DescribeUserRequest {
   DirectoryId: string;
   SAMAccountName: string;
@@ -399,9 +369,7 @@ export const DescribeUserRequest = /*@__PURE__*/ S.suspend(() =>
   }).pipe(
     T.all(ns, T.Http({ method: "POST", uri: "/Users/DescribeUser" }), svc, auth, proto, ver, rules),
   ),
-).annotate({
-  identifier: "DescribeUserRequest",
-}) as any as S.Schema<DescribeUserRequest>;
+).annotate({ identifier: "DescribeUserRequest" }) as any as S.Schema<DescribeUserRequest>;
 export type UserPrincipalName = string | redacted.Redacted<string>;
 export interface DescribeUserResult {
   DirectoryId?: string;
@@ -430,9 +398,7 @@ export const DescribeUserResult = /*@__PURE__*/ S.suspend(() =>
     Enabled: S.optional(S.Boolean),
     OtherAttributes: S.optional(Attributes),
   }).pipe(ns),
-).annotate({
-  identifier: "DescribeUserResult",
-}) as any as S.Schema<DescribeUserResult>;
+).annotate({ identifier: "DescribeUserResult" }) as any as S.Schema<DescribeUserResult>;
 export interface DisableUserRequest {
   DirectoryId: string;
   SAMAccountName: string;
@@ -446,9 +412,7 @@ export const DisableUserRequest = /*@__PURE__*/ S.suspend(() =>
   }).pipe(
     T.all(ns, T.Http({ method: "POST", uri: "/Users/DisableUser" }), svc, auth, proto, ver, rules),
   ),
-).annotate({
-  identifier: "DisableUserRequest",
-}) as any as S.Schema<DisableUserRequest>;
+).annotate({ identifier: "DisableUserRequest" }) as any as S.Schema<DisableUserRequest>;
 export interface DisableUserResult {}
 export const DisableUserResult = /*@__PURE__*/ S.suspend(() => S.Struct({}).pipe(ns)).annotate({
   identifier: "DisableUserResult",
@@ -482,9 +446,7 @@ export const ListGroupMembersRequest = /*@__PURE__*/ S.suspend(() =>
       rules,
     ),
   ),
-).annotate({
-  identifier: "ListGroupMembersRequest",
-}) as any as S.Schema<ListGroupMembersRequest>;
+).annotate({ identifier: "ListGroupMembersRequest" }) as any as S.Schema<ListGroupMembersRequest>;
 export type MemberType = "USER" | "GROUP" | "COMPUTER" | (string & {});
 export const MemberType = S.String;
 
@@ -513,9 +475,7 @@ export const ListGroupMembersResult = /*@__PURE__*/ S.suspend(() =>
     Members: S.optional(MemberList),
     NextToken: S.optional(SensitiveString),
   }).pipe(ns),
-).annotate({
-  identifier: "ListGroupMembersResult",
-}) as any as S.Schema<ListGroupMembersResult>;
+).annotate({ identifier: "ListGroupMembersResult" }) as any as S.Schema<ListGroupMembersResult>;
 export interface ListGroupsRequest {
   DirectoryId: string;
   Realm?: string;
@@ -531,9 +491,7 @@ export const ListGroupsRequest = /*@__PURE__*/ S.suspend(() =>
   }).pipe(
     T.all(ns, T.Http({ method: "POST", uri: "/Groups/ListGroups" }), svc, auth, proto, ver, rules),
   ),
-).annotate({
-  identifier: "ListGroupsRequest",
-}) as any as S.Schema<ListGroupsRequest>;
+).annotate({ identifier: "ListGroupsRequest" }) as any as S.Schema<ListGroupsRequest>;
 export interface GroupSummary {
   SID: string;
   SAMAccountName: string;
@@ -563,9 +521,7 @@ export const ListGroupsResult = /*@__PURE__*/ S.suspend(() =>
     Groups: S.optional(GroupSummaryList),
     NextToken: S.optional(SensitiveString),
   }).pipe(ns),
-).annotate({
-  identifier: "ListGroupsResult",
-}) as any as S.Schema<ListGroupsResult>;
+).annotate({ identifier: "ListGroupsResult" }) as any as S.Schema<ListGroupsResult>;
 export interface ListGroupsForMemberRequest {
   DirectoryId: string;
   Realm?: string;
@@ -629,9 +585,7 @@ export const ListUsersRequest = /*@__PURE__*/ S.suspend(() =>
   }).pipe(
     T.all(ns, T.Http({ method: "POST", uri: "/Users/ListUsers" }), svc, auth, proto, ver, rules),
   ),
-).annotate({
-  identifier: "ListUsersRequest",
-}) as any as S.Schema<ListUsersRequest>;
+).annotate({ identifier: "ListUsersRequest" }) as any as S.Schema<ListUsersRequest>;
 export interface UserSummary {
   SID: string;
   SAMAccountName: string;
@@ -663,9 +617,7 @@ export const ListUsersResult = /*@__PURE__*/ S.suspend(() =>
     Users: S.optional(UserSummaryList),
     NextToken: S.optional(SensitiveString),
   }).pipe(ns),
-).annotate({
-  identifier: "ListUsersResult",
-}) as any as S.Schema<ListUsersResult>;
+).annotate({ identifier: "ListUsersResult" }) as any as S.Schema<ListUsersResult>;
 export interface RemoveGroupMemberRequest {
   DirectoryId: string;
   GroupName: string;
@@ -691,15 +643,11 @@ export const RemoveGroupMemberRequest = /*@__PURE__*/ S.suspend(() =>
       rules,
     ),
   ),
-).annotate({
-  identifier: "RemoveGroupMemberRequest",
-}) as any as S.Schema<RemoveGroupMemberRequest>;
+).annotate({ identifier: "RemoveGroupMemberRequest" }) as any as S.Schema<RemoveGroupMemberRequest>;
 export interface RemoveGroupMemberResult {}
 export const RemoveGroupMemberResult = /*@__PURE__*/ S.suspend(() =>
   S.Struct({}).pipe(ns),
-).annotate({
-  identifier: "RemoveGroupMemberResult",
-}) as any as S.Schema<RemoveGroupMemberResult>;
+).annotate({ identifier: "RemoveGroupMemberResult" }) as any as S.Schema<RemoveGroupMemberResult>;
 export type SearchString = string | redacted.Redacted<string>;
 export interface SearchGroupsRequest {
   DirectoryId: string;
@@ -728,9 +676,7 @@ export const SearchGroupsRequest = /*@__PURE__*/ S.suspend(() =>
       rules,
     ),
   ),
-).annotate({
-  identifier: "SearchGroupsRequest",
-}) as any as S.Schema<SearchGroupsRequest>;
+).annotate({ identifier: "SearchGroupsRequest" }) as any as S.Schema<SearchGroupsRequest>;
 export interface Group {
   SID?: string;
   SAMAccountName: string;
@@ -764,9 +710,7 @@ export const SearchGroupsResult = /*@__PURE__*/ S.suspend(() =>
     Groups: S.optional(GroupList),
     NextToken: S.optional(SensitiveString),
   }).pipe(ns),
-).annotate({
-  identifier: "SearchGroupsResult",
-}) as any as S.Schema<SearchGroupsResult>;
+).annotate({ identifier: "SearchGroupsResult" }) as any as S.Schema<SearchGroupsResult>;
 export interface SearchUsersRequest {
   DirectoryId: string;
   Realm?: string;
@@ -786,9 +730,7 @@ export const SearchUsersRequest = /*@__PURE__*/ S.suspend(() =>
   }).pipe(
     T.all(ns, T.Http({ method: "POST", uri: "/Users/SearchUsers" }), svc, auth, proto, ver, rules),
   ),
-).annotate({
-  identifier: "SearchUsersRequest",
-}) as any as S.Schema<SearchUsersRequest>;
+).annotate({ identifier: "SearchUsersRequest" }) as any as S.Schema<SearchUsersRequest>;
 export interface User {
   SID?: string;
   SAMAccountName: string;
@@ -828,9 +770,7 @@ export const SearchUsersResult = /*@__PURE__*/ S.suspend(() =>
     Users: S.optional(UserList),
     NextToken: S.optional(SensitiveString),
   }).pipe(ns),
-).annotate({
-  identifier: "SearchUsersResult",
-}) as any as S.Schema<SearchUsersResult>;
+).annotate({ identifier: "SearchUsersResult" }) as any as S.Schema<SearchUsersResult>;
 export type UpdateType = "ADD" | "REPLACE" | "REMOVE" | (string & {});
 export const UpdateType = S.String;
 
@@ -855,9 +795,7 @@ export const UpdateGroupRequest = /*@__PURE__*/ S.suspend(() =>
   }).pipe(
     T.all(ns, T.Http({ method: "POST", uri: "/Groups/UpdateGroup" }), svc, auth, proto, ver, rules),
   ),
-).annotate({
-  identifier: "UpdateGroupRequest",
-}) as any as S.Schema<UpdateGroupRequest>;
+).annotate({ identifier: "UpdateGroupRequest" }) as any as S.Schema<UpdateGroupRequest>;
 export interface UpdateGroupResult {}
 export const UpdateGroupResult = /*@__PURE__*/ S.suspend(() => S.Struct({}).pipe(ns)).annotate({
   identifier: "UpdateGroupResult",
@@ -885,9 +823,7 @@ export const UpdateUserRequest = /*@__PURE__*/ S.suspend(() =>
   }).pipe(
     T.all(ns, T.Http({ method: "POST", uri: "/Users/UpdateUser" }), svc, auth, proto, ver, rules),
   ),
-).annotate({
-  identifier: "UpdateUserRequest",
-}) as any as S.Schema<UpdateUserRequest>;
+).annotate({ identifier: "UpdateUserRequest" }) as any as S.Schema<UpdateUserRequest>;
 export interface UpdateUserResult {}
 export const UpdateUserResult = /*@__PURE__*/ S.suspend(() => S.Struct({}).pipe(ns)).annotate({
   identifier: "UpdateUserResult",

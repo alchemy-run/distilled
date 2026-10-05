@@ -26,16 +26,8 @@ export const AssignPrimaryIpRequest = /*@__PURE__*/ S.suspend(() =>
     id: S.Number.pipe(T.Label()),
     assignee_type: AssignPrimaryIpRequestAssigneeType,
     assignee_id: S.Number,
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/primary_ips/{id}/actions/assign",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "AssignPrimaryIpRequest",
-}) as any as S.Schema<AssignPrimaryIpRequest>;
+  }).pipe(T.Http({ method: "POST", uri: "/primary_ips/{id}/actions/assign", code: 200 })),
+).annotate({ identifier: "AssignPrimaryIpRequest" }) as any as S.Schema<AssignPrimaryIpRequest>;
 
 /** Status of the Action. */
 export type AssignPrimaryIpResponseActionStatus = "running" | "success" | "error";
@@ -119,9 +111,7 @@ export const AssignPrimaryIpResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     action: AssignPrimaryIpResponseAction,
   }),
-).annotate({
-  identifier: "AssignPrimaryIpResponse",
-}) as any as S.Schema<AssignPrimaryIpResponse>;
+).annotate({ identifier: "AssignPrimaryIpResponse" }) as any as S.Schema<AssignPrimaryIpResponse>;
 
 export interface ChangePrimaryIpDnsPtrRequest {
   /** ID of the Primary IP. */
@@ -129,20 +119,14 @@ export interface ChangePrimaryIpDnsPtrRequest {
   /** Single IPv4 or IPv6 address to create pointer for. */
   ip: string;
   /** Domain Name to point to. PTR record content used for reverse DNS. Set to null to reset (IPv4) to the default value or remove (IPv6) the record. */
-  dns_ptr?: string | null;
+  dns_ptr: string | null;
 }
 export const ChangePrimaryIpDnsPtrRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     id: S.Number.pipe(T.Label()),
     ip: S.String,
-    dns_ptr: S.optional(S.NullOr(S.String)),
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/primary_ips/{id}/actions/change_dns_ptr",
-      code: 200,
-    }),
-  ),
+    dns_ptr: S.NullOr(S.String),
+  }).pipe(T.Http({ method: "POST", uri: "/primary_ips/{id}/actions/change_dns_ptr", code: 200 })),
 ).annotate({
   identifier: "ChangePrimaryIpDnsPtrRequest",
 }) as any as S.Schema<ChangePrimaryIpDnsPtrRequest>;
@@ -222,11 +206,7 @@ export const ChangePrimaryIpProtectionRequest = /*@__PURE__*/ S.suspend(() =>
     id: S.Number.pipe(T.Label()),
     delete: S.Boolean,
   }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/primary_ips/{id}/actions/change_protection",
-      code: 200,
-    }),
+    T.Http({ method: "POST", uri: "/primary_ips/{id}/actions/change_protection", code: 200 }),
   ),
 ).annotate({
   identifier: "ChangePrimaryIpProtectionRequest",
@@ -697,16 +677,8 @@ export interface UnassignPrimaryIpRequest {
 export const UnassignPrimaryIpRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     id: S.Number.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/primary_ips/{id}/actions/unassign",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "UnassignPrimaryIpRequest",
-}) as any as S.Schema<UnassignPrimaryIpRequest>;
+  }).pipe(T.Http({ method: "POST", uri: "/primary_ips/{id}/actions/unassign", code: 200 })),
+).annotate({ identifier: "UnassignPrimaryIpRequest" }) as any as S.Schema<UnassignPrimaryIpRequest>;
 
 /** Status of the Action. */
 export type UnassignPrimaryIpResponseActionStatus = "running" | "success" | "error";

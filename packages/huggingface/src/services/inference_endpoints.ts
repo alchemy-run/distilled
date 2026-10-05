@@ -18,10 +18,10 @@ export interface CheckEndpointAccessRequest {
   namespace: string;
   endpoint: string;
   perms: CheckEndpointAccessRequestPerms | (string & {});
-  own?: unknown;
-  is_creator?: unknown;
+  own?: string;
+  is_creator?: string;
   creator_id?: string;
-  incur_cost?: unknown;
+  incur_cost?: string;
   resource_group_id?: string;
   repo_id?: string;
 }
@@ -30,10 +30,10 @@ export const CheckEndpointAccessRequest = /*@__PURE__*/ S.suspend(() =>
     namespace: S.String.pipe(T.Label()),
     endpoint: S.String.pipe(T.Label()),
     perms: CheckEndpointAccessRequestPerms.pipe(T.Label()),
-    own: S.optional(S.Unknown.pipe(T.Query())),
-    is_creator: S.optional(S.Unknown.pipe(T.Query())),
+    own: S.optional(S.String.pipe(T.Query())),
+    is_creator: S.optional(S.String.pipe(T.Query())),
     creator_id: S.optional(S.String.pipe(T.Query())),
-    incur_cost: S.optional(S.Unknown.pipe(T.Query())),
+    incur_cost: S.optional(S.String.pipe(T.Query())),
     resource_group_id: S.optional(S.String.pipe(T.Query())),
     repo_id: S.optional(S.String.pipe(T.Query())),
   }).pipe(
@@ -96,10 +96,10 @@ export const CheckNamespaceAccessRequestPerms = S.String;
 export interface CheckNamespaceAccessRequest {
   namespace: string;
   perms: CheckNamespaceAccessRequestPerms | (string & {});
-  own?: unknown;
-  is_creator?: unknown;
+  own?: string;
+  is_creator?: string;
   creator_id?: string;
-  incur_cost?: unknown;
+  incur_cost?: string;
   resource_group_id?: string;
   repo_id?: string;
 }
@@ -107,10 +107,10 @@ export const CheckNamespaceAccessRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     namespace: S.String.pipe(T.Label()),
     perms: CheckNamespaceAccessRequestPerms.pipe(T.Label()),
-    own: S.optional(S.Unknown.pipe(T.Query())),
-    is_creator: S.optional(S.Unknown.pipe(T.Query())),
+    own: S.optional(S.String.pipe(T.Query())),
+    is_creator: S.optional(S.String.pipe(T.Query())),
     creator_id: S.optional(S.String.pipe(T.Query())),
-    incur_cost: S.optional(S.Unknown.pipe(T.Query())),
+    incur_cost: S.optional(S.String.pipe(T.Query())),
     resource_group_id: S.optional(S.String.pipe(T.Query())),
     repo_id: S.optional(S.String.pipe(T.Query())),
   }).pipe(

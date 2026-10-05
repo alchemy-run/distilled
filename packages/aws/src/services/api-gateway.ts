@@ -9,10 +9,7 @@ import { AwsProtocol } from "../protocol.ts";
 import { Retry } from "../retry.ts";
 import { SensitiveString } from "../sensitive.ts";
 import * as T from "../traits.ts";
-const svc = T.AwsApiService({
-  sdkId: "API Gateway",
-  serviceShapeName: "BackplaneControlService",
-});
+const svc = T.AwsApiService({ sdkId: "API Gateway", serviceShapeName: "BackplaneControlService" });
 const auth = T.AwsAuthSigv4({ name: "apigateway" });
 const ver = T.ServiceVersion("2015-07-09");
 const proto = T.AwsProtocolsRestJson1();
@@ -131,10 +128,7 @@ export interface StageKey {
   stageName?: string;
 }
 export const StageKey = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    restApiId: S.optional(S.String),
-    stageName: S.optional(S.String),
-  }),
+  S.Struct({ restApiId: S.optional(S.String), stageName: S.optional(S.String) }),
 ).annotate({ identifier: "StageKey" }) as any as S.Schema<StageKey>;
 export type ListOfStageKeys = StageKey[];
 export const ListOfStageKeys = /*@__PURE__*/ S.Array(StageKey);
@@ -161,9 +155,7 @@ export const CreateApiKeyRequest = /*@__PURE__*/ S.suspend(() =>
     customerId: S.optional(S.String),
     tags: S.optional(MapOfStringToString),
   }).pipe(T.all(T.Http({ method: "POST", uri: "/apikeys" }), svc, auth, proto, ver, rules)),
-).annotate({
-  identifier: "CreateApiKeyRequest",
-}) as any as S.Schema<CreateApiKeyRequest>;
+).annotate({ identifier: "CreateApiKeyRequest" }) as any as S.Schema<CreateApiKeyRequest>;
 export type ListOfString = string[];
 export const ListOfString = /*@__PURE__*/ S.Array(S.String);
 export interface ApiKey {
@@ -232,9 +224,7 @@ export const CreateAuthorizerRequest = /*@__PURE__*/ S.suspend(() =>
       rules,
     ),
   ),
-).annotate({
-  identifier: "CreateAuthorizerRequest",
-}) as any as S.Schema<CreateAuthorizerRequest>;
+).annotate({ identifier: "CreateAuthorizerRequest" }) as any as S.Schema<CreateAuthorizerRequest>;
 export interface Authorizer {
   id?: string;
   name?: string;
@@ -277,10 +267,7 @@ export const CreateBasePathMappingRequest = /*@__PURE__*/ S.suspend(() =>
     stage: S.optional(S.String),
   }).pipe(
     T.all(
-      T.Http({
-        method: "POST",
-        uri: "/domainnames/{domainName}/basepathmappings",
-      }),
+      T.Http({ method: "POST", uri: "/domainnames/{domainName}/basepathmappings" }),
       svc,
       auth,
       proto,
@@ -302,9 +289,7 @@ export const BasePathMapping = /*@__PURE__*/ S.suspend(() =>
     restApiId: S.optional(S.String),
     stage: S.optional(S.String),
   }),
-).annotate({
-  identifier: "BasePathMapping",
-}) as any as S.Schema<BasePathMapping>;
+).annotate({ identifier: "BasePathMapping" }) as any as S.Schema<BasePathMapping>;
 export type CacheClusterSize =
   | "0.5"
   | "1.6"
@@ -328,9 +313,7 @@ export const DeploymentCanarySettings = /*@__PURE__*/ S.suspend(() =>
     stageVariableOverrides: S.optional(MapOfStringToString),
     useStageCache: S.optional(S.Boolean),
   }),
-).annotate({
-  identifier: "DeploymentCanarySettings",
-}) as any as S.Schema<DeploymentCanarySettings>;
+).annotate({ identifier: "DeploymentCanarySettings" }) as any as S.Schema<DeploymentCanarySettings>;
 export interface CreateDeploymentRequest {
   restApiId: string;
   stageName?: string;
@@ -363,18 +346,13 @@ export const CreateDeploymentRequest = /*@__PURE__*/ S.suspend(() =>
       rules,
     ),
   ),
-).annotate({
-  identifier: "CreateDeploymentRequest",
-}) as any as S.Schema<CreateDeploymentRequest>;
+).annotate({ identifier: "CreateDeploymentRequest" }) as any as S.Schema<CreateDeploymentRequest>;
 export interface MethodSnapshot {
   authorizationType?: string;
   apiKeyRequired?: boolean;
 }
 export const MethodSnapshot = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    authorizationType: S.optional(S.String),
-    apiKeyRequired: S.optional(S.Boolean),
-  }),
+  S.Struct({ authorizationType: S.optional(S.String), apiKeyRequired: S.optional(S.Boolean) }),
 ).annotate({ identifier: "MethodSnapshot" }) as any as S.Schema<MethodSnapshot>;
 export type MapOfMethodSnapshot = { [key: string]: MethodSnapshot | undefined };
 export const MapOfMethodSnapshot = /*@__PURE__*/ S.Record(
@@ -392,9 +370,7 @@ export interface Deployment {
   id?: string;
   description?: string;
   createdDate?: Date;
-  apiSummary?: {
-    [key: string]: { [key: string]: MethodSnapshot | undefined } | undefined;
-  };
+  apiSummary?: { [key: string]: { [key: string]: MethodSnapshot | undefined } | undefined };
 }
 export const Deployment = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -451,10 +427,7 @@ export const CreateDocumentationPartRequest = /*@__PURE__*/ S.suspend(() =>
     properties: S.String,
   }).pipe(
     T.all(
-      T.Http({
-        method: "POST",
-        uri: "/restapis/{restApiId}/documentation/parts",
-      }),
+      T.Http({ method: "POST", uri: "/restapis/{restApiId}/documentation/parts" }),
       svc,
       auth,
       proto,
@@ -476,9 +449,7 @@ export const DocumentationPart = /*@__PURE__*/ S.suspend(() =>
     location: S.optional(DocumentationPartLocation),
     properties: S.optional(S.String),
   }),
-).annotate({
-  identifier: "DocumentationPart",
-}) as any as S.Schema<DocumentationPart>;
+).annotate({ identifier: "DocumentationPart" }) as any as S.Schema<DocumentationPart>;
 export interface CreateDocumentationVersionRequest {
   restApiId: string;
   documentationVersion: string;
@@ -493,10 +464,7 @@ export const CreateDocumentationVersionRequest = /*@__PURE__*/ S.suspend(() =>
     description: S.optional(S.String),
   }).pipe(
     T.all(
-      T.Http({
-        method: "POST",
-        uri: "/restapis/{restApiId}/documentation/versions",
-      }),
+      T.Http({ method: "POST", uri: "/restapis/{restApiId}/documentation/versions" }),
       svc,
       auth,
       proto,
@@ -518,9 +486,7 @@ export const DocumentationVersion = /*@__PURE__*/ S.suspend(() =>
     createdDate: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     description: S.optional(S.String),
   }),
-).annotate({
-  identifier: "DocumentationVersion",
-}) as any as S.Schema<DocumentationVersion>;
+).annotate({ identifier: "DocumentationVersion" }) as any as S.Schema<DocumentationVersion>;
 export type EndpointType = "REGIONAL" | "EDGE" | "PRIVATE" | (string & {});
 export const EndpointType = S.String;
 
@@ -540,9 +506,7 @@ export const EndpointConfiguration = /*@__PURE__*/ S.suspend(() =>
     ipAddressType: S.optional(IpAddressType),
     vpcEndpointIds: S.optional(ListOfString),
   }),
-).annotate({
-  identifier: "EndpointConfiguration",
-}) as any as S.Schema<EndpointConfiguration>;
+).annotate({ identifier: "EndpointConfiguration" }) as any as S.Schema<EndpointConfiguration>;
 export type SecurityPolicy =
   | "TLS_1_0"
   | "TLS_1_2"
@@ -551,6 +515,8 @@ export type SecurityPolicy =
   | "SecurityPolicy_TLS13_1_2_PFS_PQ_2025_09"
   | "SecurityPolicy_TLS13_1_2_FIPS_PQ_2025_09"
   | "SecurityPolicy_TLS13_1_2_FIPS_PFS_PQ_2025_09"
+  | "SecurityPolicy_TLS13_1_2_Ext2_PQ_2025_09"
+  | "SecurityPolicy_TLS13_1_2_Ext2_FIPS_PQ_2025_09"
   | "SecurityPolicy_TLS13_1_2_PQ_2025_09"
   | "SecurityPolicy_TLS13_1_2_2021_06"
   | "SecurityPolicy_TLS13_2025_EDGE"
@@ -567,10 +533,7 @@ export interface MutualTlsAuthenticationInput {
   truststoreVersion?: string;
 }
 export const MutualTlsAuthenticationInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    truststoreUri: S.optional(S.String),
-    truststoreVersion: S.optional(S.String),
-  }),
+  S.Struct({ truststoreUri: S.optional(S.String), truststoreVersion: S.optional(S.String) }),
 ).annotate({
   identifier: "MutualTlsAuthenticationInput",
 }) as any as S.Schema<MutualTlsAuthenticationInput>;
@@ -618,9 +581,7 @@ export const CreateDomainNameRequest = /*@__PURE__*/ S.suspend(() =>
     policy: S.optional(S.String),
     routingMode: S.optional(RoutingMode),
   }).pipe(T.all(T.Http({ method: "POST", uri: "/domainnames" }), svc, auth, proto, ver, rules)),
-).annotate({
-  identifier: "CreateDomainNameRequest",
-}) as any as S.Schema<CreateDomainNameRequest>;
+).annotate({ identifier: "CreateDomainNameRequest" }) as any as S.Schema<CreateDomainNameRequest>;
 export type DomainNameStatus =
   | "AVAILABLE"
   | "UPDATING"
@@ -642,9 +603,7 @@ export const MutualTlsAuthentication = /*@__PURE__*/ S.suspend(() =>
     truststoreVersion: S.optional(S.String),
     truststoreWarnings: S.optional(ListOfString),
   }),
-).annotate({
-  identifier: "MutualTlsAuthentication",
-}) as any as S.Schema<MutualTlsAuthentication>;
+).annotate({ identifier: "MutualTlsAuthentication" }) as any as S.Schema<MutualTlsAuthentication>;
 export interface DomainName {
   domainName?: string;
   domainNameId?: string;
@@ -767,9 +726,7 @@ export const CreateModelRequest = /*@__PURE__*/ S.suspend(() =>
       rules,
     ),
   ),
-).annotate({
-  identifier: "CreateModelRequest",
-}) as any as S.Schema<CreateModelRequest>;
+).annotate({ identifier: "CreateModelRequest" }) as any as S.Schema<CreateModelRequest>;
 export interface Model {
   id?: string;
   name?: string;
@@ -800,10 +757,7 @@ export const CreateRequestValidatorRequest = /*@__PURE__*/ S.suspend(() =>
     validateRequestParameters: S.optional(S.Boolean),
   }).pipe(
     T.all(
-      T.Http({
-        method: "POST",
-        uri: "/restapis/{restApiId}/requestvalidators",
-      }),
+      T.Http({ method: "POST", uri: "/restapis/{restApiId}/requestvalidators" }),
       svc,
       auth,
       proto,
@@ -827,9 +781,7 @@ export const RequestValidator = /*@__PURE__*/ S.suspend(() =>
     validateRequestBody: S.optional(S.Boolean),
     validateRequestParameters: S.optional(S.Boolean),
   }),
-).annotate({
-  identifier: "RequestValidator",
-}) as any as S.Schema<RequestValidator>;
+).annotate({ identifier: "RequestValidator" }) as any as S.Schema<RequestValidator>;
 export interface CreateResourceRequest {
   restApiId: string;
   parentId: string;
@@ -842,10 +794,7 @@ export const CreateResourceRequest = /*@__PURE__*/ S.suspend(() =>
     pathPart: S.String,
   }).pipe(
     T.all(
-      T.Http({
-        method: "POST",
-        uri: "/restapis/{restApiId}/resources/{parentId}",
-      }),
+      T.Http({ method: "POST", uri: "/restapis/{restApiId}/resources/{parentId}" }),
       svc,
       auth,
       proto,
@@ -853,9 +802,7 @@ export const CreateResourceRequest = /*@__PURE__*/ S.suspend(() =>
       rules,
     ),
   ),
-).annotate({
-  identifier: "CreateResourceRequest",
-}) as any as S.Schema<CreateResourceRequest>;
+).annotate({ identifier: "CreateResourceRequest" }) as any as S.Schema<CreateResourceRequest>;
 export type MapOfStringToBoolean = { [key: string]: boolean | undefined };
 export const MapOfStringToBoolean = /*@__PURE__*/ S.Record(S.String, S.Boolean.pipe(S.optional));
 export type StatusCode = string;
@@ -900,12 +847,8 @@ export const IntegrationResponse = /*@__PURE__*/ S.suspend(() =>
     responseTemplates: S.optional(MapOfStringToString),
     contentHandling: S.optional(ContentHandlingStrategy),
   }),
-).annotate({
-  identifier: "IntegrationResponse",
-}) as any as S.Schema<IntegrationResponse>;
-export type MapOfIntegrationResponse = {
-  [key: string]: IntegrationResponse | undefined;
-};
+).annotate({ identifier: "IntegrationResponse" }) as any as S.Schema<IntegrationResponse>;
+export type MapOfIntegrationResponse = { [key: string]: IntegrationResponse | undefined };
 export const MapOfIntegrationResponse = /*@__PURE__*/ S.Record(
   S.String,
   IntegrationResponse.pipe(S.optional),
@@ -1039,9 +982,7 @@ export const CreateRestApiRequest = /*@__PURE__*/ S.suspend(() =>
     securityPolicy: S.optional(SecurityPolicy),
     endpointAccessMode: S.optional(EndpointAccessMode),
   }).pipe(T.all(T.Http({ method: "POST", uri: "/restapis" }), svc, auth, proto, ver, rules)),
-).annotate({
-  identifier: "CreateRestApiRequest",
-}) as any as S.Schema<CreateRestApiRequest>;
+).annotate({ identifier: "CreateRestApiRequest" }) as any as S.Schema<CreateRestApiRequest>;
 export type ApiStatus = "UPDATING" | "AVAILABLE" | "PENDING" | "FAILED" | (string & {});
 export const ApiStatus = S.String;
 
@@ -1137,9 +1078,7 @@ export const CreateStageRequest = /*@__PURE__*/ S.suspend(() =>
       rules,
     ),
   ),
-).annotate({
-  identifier: "CreateStageRequest",
-}) as any as S.Schema<CreateStageRequest>;
+).annotate({ identifier: "CreateStageRequest" }) as any as S.Schema<CreateStageRequest>;
 export type CacheClusterStatus =
   | "CREATE_IN_PROGRESS"
   | "AVAILABLE"
@@ -1189,13 +1128,8 @@ export interface AccessLogSettings {
   destinationArn?: string;
 }
 export const AccessLogSettings = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    format: S.optional(S.String),
-    destinationArn: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "AccessLogSettings",
-}) as any as S.Schema<AccessLogSettings>;
+  S.Struct({ format: S.optional(S.String), destinationArn: S.optional(S.String) }),
+).annotate({ identifier: "AccessLogSettings" }) as any as S.Schema<AccessLogSettings>;
 export interface Stage {
   deploymentId?: string;
   clientCertificateId?: string;
@@ -1241,16 +1175,9 @@ export interface ThrottleSettings {
   rateLimit?: number;
 }
 export const ThrottleSettings = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    burstLimit: S.optional(S.Number),
-    rateLimit: S.optional(S.Number),
-  }),
-).annotate({
-  identifier: "ThrottleSettings",
-}) as any as S.Schema<ThrottleSettings>;
-export type MapOfApiStageThrottleSettings = {
-  [key: string]: ThrottleSettings | undefined;
-};
+  S.Struct({ burstLimit: S.optional(S.Number), rateLimit: S.optional(S.Number) }),
+).annotate({ identifier: "ThrottleSettings" }) as any as S.Schema<ThrottleSettings>;
+export type MapOfApiStageThrottleSettings = { [key: string]: ThrottleSettings | undefined };
 export const MapOfApiStageThrottleSettings = /*@__PURE__*/ S.Record(
   S.String,
   ThrottleSettings.pipe(S.optional),
@@ -1301,9 +1228,7 @@ export const CreateUsagePlanRequest = /*@__PURE__*/ S.suspend(() =>
     quota: S.optional(QuotaSettings),
     tags: S.optional(MapOfStringToString),
   }).pipe(T.all(T.Http({ method: "POST", uri: "/usageplans" }), svc, auth, proto, ver, rules)),
-).annotate({
-  identifier: "CreateUsagePlanRequest",
-}) as any as S.Schema<CreateUsagePlanRequest>;
+).annotate({ identifier: "CreateUsagePlanRequest" }) as any as S.Schema<CreateUsagePlanRequest>;
 export interface UsagePlan {
   id?: string;
   name?: string;
@@ -1376,9 +1301,7 @@ export const CreateVpcLinkRequest = /*@__PURE__*/ S.suspend(() =>
     targetArns: ListOfString,
     tags: S.optional(MapOfStringToString),
   }).pipe(T.all(T.Http({ method: "POST", uri: "/vpclinks" }), svc, auth, proto, ver, rules)),
-).annotate({
-  identifier: "CreateVpcLinkRequest",
-}) as any as S.Schema<CreateVpcLinkRequest>;
+).annotate({ identifier: "CreateVpcLinkRequest" }) as any as S.Schema<CreateVpcLinkRequest>;
 export type VpcLinkStatus = "AVAILABLE" | "PENDING" | "DELETING" | "FAILED" | (string & {});
 export const VpcLinkStatus = S.String;
 
@@ -1409,9 +1332,7 @@ export const DeleteApiKeyRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ apiKey: S.String.pipe(T.HttpLabel("apiKey")) }).pipe(
     T.all(T.Http({ method: "DELETE", uri: "/apikeys/{apiKey}" }), svc, auth, proto, ver, rules),
   ),
-).annotate({
-  identifier: "DeleteApiKeyRequest",
-}) as any as S.Schema<DeleteApiKeyRequest>;
+).annotate({ identifier: "DeleteApiKeyRequest" }) as any as S.Schema<DeleteApiKeyRequest>;
 export interface DeleteApiKeyResponse {}
 export const DeleteApiKeyResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
   identifier: "DeleteApiKeyResponse",
@@ -1426,10 +1347,7 @@ export const DeleteAuthorizerRequest = /*@__PURE__*/ S.suspend(() =>
     authorizerId: S.String.pipe(T.HttpLabel("authorizerId")),
   }).pipe(
     T.all(
-      T.Http({
-        method: "DELETE",
-        uri: "/restapis/{restApiId}/authorizers/{authorizerId}",
-      }),
+      T.Http({ method: "DELETE", uri: "/restapis/{restApiId}/authorizers/{authorizerId}" }),
       svc,
       auth,
       proto,
@@ -1437,9 +1355,7 @@ export const DeleteAuthorizerRequest = /*@__PURE__*/ S.suspend(() =>
       rules,
     ),
   ),
-).annotate({
-  identifier: "DeleteAuthorizerRequest",
-}) as any as S.Schema<DeleteAuthorizerRequest>;
+).annotate({ identifier: "DeleteAuthorizerRequest" }) as any as S.Schema<DeleteAuthorizerRequest>;
 export interface DeleteAuthorizerResponse {}
 export const DeleteAuthorizerResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
   identifier: "DeleteAuthorizerResponse",
@@ -1456,10 +1372,7 @@ export const DeleteBasePathMappingRequest = /*@__PURE__*/ S.suspend(() =>
     basePath: S.String.pipe(T.HttpLabel("basePath")),
   }).pipe(
     T.all(
-      T.Http({
-        method: "DELETE",
-        uri: "/domainnames/{domainName}/basepathmappings/{basePath}",
-      }),
+      T.Http({ method: "DELETE", uri: "/domainnames/{domainName}/basepathmappings/{basePath}" }),
       svc,
       auth,
       proto,
@@ -1478,14 +1391,9 @@ export interface DeleteClientCertificateRequest {
   clientCertificateId: string;
 }
 export const DeleteClientCertificateRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    clientCertificateId: S.String.pipe(T.HttpLabel("clientCertificateId")),
-  }).pipe(
+  S.Struct({ clientCertificateId: S.String.pipe(T.HttpLabel("clientCertificateId")) }).pipe(
     T.all(
-      T.Http({
-        method: "DELETE",
-        uri: "/clientcertificates/{clientCertificateId}",
-      }),
+      T.Http({ method: "DELETE", uri: "/clientcertificates/{clientCertificateId}" }),
       svc,
       auth,
       proto,
@@ -1498,9 +1406,7 @@ export const DeleteClientCertificateRequest = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<DeleteClientCertificateRequest>;
 export interface DeleteClientCertificateResponse {}
 export const DeleteClientCertificateResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate(
-  {
-    identifier: "DeleteClientCertificateResponse",
-  },
+  { identifier: "DeleteClientCertificateResponse" },
 ) as any as S.Schema<DeleteClientCertificateResponse>;
 export interface DeleteDeploymentRequest {
   restApiId: string;
@@ -1512,10 +1418,7 @@ export const DeleteDeploymentRequest = /*@__PURE__*/ S.suspend(() =>
     deploymentId: S.String.pipe(T.HttpLabel("deploymentId")),
   }).pipe(
     T.all(
-      T.Http({
-        method: "DELETE",
-        uri: "/restapis/{restApiId}/deployments/{deploymentId}",
-      }),
+      T.Http({ method: "DELETE", uri: "/restapis/{restApiId}/deployments/{deploymentId}" }),
       svc,
       auth,
       proto,
@@ -1523,9 +1426,7 @@ export const DeleteDeploymentRequest = /*@__PURE__*/ S.suspend(() =>
       rules,
     ),
   ),
-).annotate({
-  identifier: "DeleteDeploymentRequest",
-}) as any as S.Schema<DeleteDeploymentRequest>;
+).annotate({ identifier: "DeleteDeploymentRequest" }) as any as S.Schema<DeleteDeploymentRequest>;
 export interface DeleteDeploymentResponse {}
 export const DeleteDeploymentResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
   identifier: "DeleteDeploymentResponse",
@@ -1556,9 +1457,7 @@ export const DeleteDocumentationPartRequest = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<DeleteDocumentationPartRequest>;
 export interface DeleteDocumentationPartResponse {}
 export const DeleteDocumentationPartResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate(
-  {
-    identifier: "DeleteDocumentationPartResponse",
-  },
+  { identifier: "DeleteDocumentationPartResponse" },
 ) as any as S.Schema<DeleteDocumentationPartResponse>;
 export interface DeleteDocumentationVersionRequest {
   restApiId: string;
@@ -1608,9 +1507,7 @@ export const DeleteDomainNameRequest = /*@__PURE__*/ S.suspend(() =>
       rules,
     ),
   ),
-).annotate({
-  identifier: "DeleteDomainNameRequest",
-}) as any as S.Schema<DeleteDomainNameRequest>;
+).annotate({ identifier: "DeleteDomainNameRequest" }) as any as S.Schema<DeleteDomainNameRequest>;
 export interface DeleteDomainNameResponse {}
 export const DeleteDomainNameResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
   identifier: "DeleteDomainNameResponse",
@@ -1678,10 +1575,7 @@ export const DeleteGatewayResponseRequest = /*@__PURE__*/ S.suspend(() =>
     responseType: GatewayResponseType.pipe(T.HttpLabel("responseType")),
   }).pipe(
     T.all(
-      T.Http({
-        method: "DELETE",
-        uri: "/restapis/{restApiId}/gatewayresponses/{responseType}",
-      }),
+      T.Http({ method: "DELETE", uri: "/restapis/{restApiId}/gatewayresponses/{responseType}" }),
       svc,
       auth,
       proto,
@@ -1719,9 +1613,7 @@ export const DeleteIntegrationRequest = /*@__PURE__*/ S.suspend(() =>
       rules,
     ),
   ),
-).annotate({
-  identifier: "DeleteIntegrationRequest",
-}) as any as S.Schema<DeleteIntegrationRequest>;
+).annotate({ identifier: "DeleteIntegrationRequest" }) as any as S.Schema<DeleteIntegrationRequest>;
 export interface DeleteIntegrationResponse {}
 export const DeleteIntegrationResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
   identifier: "DeleteIntegrationResponse",
@@ -1783,9 +1675,7 @@ export const DeleteMethodRequest = /*@__PURE__*/ S.suspend(() =>
       rules,
     ),
   ),
-).annotate({
-  identifier: "DeleteMethodRequest",
-}) as any as S.Schema<DeleteMethodRequest>;
+).annotate({ identifier: "DeleteMethodRequest" }) as any as S.Schema<DeleteMethodRequest>;
 export interface DeleteMethodResponse {}
 export const DeleteMethodResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
   identifier: "DeleteMethodResponse",
@@ -1832,10 +1722,7 @@ export const DeleteModelRequest = /*@__PURE__*/ S.suspend(() =>
     modelName: S.String.pipe(T.HttpLabel("modelName")),
   }).pipe(
     T.all(
-      T.Http({
-        method: "DELETE",
-        uri: "/restapis/{restApiId}/models/{modelName}",
-      }),
+      T.Http({ method: "DELETE", uri: "/restapis/{restApiId}/models/{modelName}" }),
       svc,
       auth,
       proto,
@@ -1843,9 +1730,7 @@ export const DeleteModelRequest = /*@__PURE__*/ S.suspend(() =>
       rules,
     ),
   ),
-).annotate({
-  identifier: "DeleteModelRequest",
-}) as any as S.Schema<DeleteModelRequest>;
+).annotate({ identifier: "DeleteModelRequest" }) as any as S.Schema<DeleteModelRequest>;
 export interface DeleteModelResponse {}
 export const DeleteModelResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
   identifier: "DeleteModelResponse",
@@ -1888,10 +1773,7 @@ export const DeleteResourceRequest = /*@__PURE__*/ S.suspend(() =>
     resourceId: S.String.pipe(T.HttpLabel("resourceId")),
   }).pipe(
     T.all(
-      T.Http({
-        method: "DELETE",
-        uri: "/restapis/{restApiId}/resources/{resourceId}",
-      }),
+      T.Http({ method: "DELETE", uri: "/restapis/{restApiId}/resources/{resourceId}" }),
       svc,
       auth,
       proto,
@@ -1899,9 +1781,7 @@ export const DeleteResourceRequest = /*@__PURE__*/ S.suspend(() =>
       rules,
     ),
   ),
-).annotate({
-  identifier: "DeleteResourceRequest",
-}) as any as S.Schema<DeleteResourceRequest>;
+).annotate({ identifier: "DeleteResourceRequest" }) as any as S.Schema<DeleteResourceRequest>;
 export interface DeleteResourceResponse {}
 export const DeleteResourceResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
   identifier: "DeleteResourceResponse",
@@ -1913,9 +1793,7 @@ export const DeleteRestApiRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ restApiId: S.String.pipe(T.HttpLabel("restApiId")) }).pipe(
     T.all(T.Http({ method: "DELETE", uri: "/restapis/{restApiId}" }), svc, auth, proto, ver, rules),
   ),
-).annotate({
-  identifier: "DeleteRestApiRequest",
-}) as any as S.Schema<DeleteRestApiRequest>;
+).annotate({ identifier: "DeleteRestApiRequest" }) as any as S.Schema<DeleteRestApiRequest>;
 export interface DeleteRestApiResponse {}
 export const DeleteRestApiResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
   identifier: "DeleteRestApiResponse",
@@ -1930,10 +1808,7 @@ export const DeleteStageRequest = /*@__PURE__*/ S.suspend(() =>
     stageName: S.String.pipe(T.HttpLabel("stageName")),
   }).pipe(
     T.all(
-      T.Http({
-        method: "DELETE",
-        uri: "/restapis/{restApiId}/stages/{stageName}",
-      }),
+      T.Http({ method: "DELETE", uri: "/restapis/{restApiId}/stages/{stageName}" }),
       svc,
       auth,
       proto,
@@ -1941,9 +1816,7 @@ export const DeleteStageRequest = /*@__PURE__*/ S.suspend(() =>
       rules,
     ),
   ),
-).annotate({
-  identifier: "DeleteStageRequest",
-}) as any as S.Schema<DeleteStageRequest>;
+).annotate({ identifier: "DeleteStageRequest" }) as any as S.Schema<DeleteStageRequest>;
 export interface DeleteStageResponse {}
 export const DeleteStageResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
   identifier: "DeleteStageResponse",
@@ -1962,9 +1835,7 @@ export const DeleteUsagePlanRequest = /*@__PURE__*/ S.suspend(() =>
       rules,
     ),
   ),
-).annotate({
-  identifier: "DeleteUsagePlanRequest",
-}) as any as S.Schema<DeleteUsagePlanRequest>;
+).annotate({ identifier: "DeleteUsagePlanRequest" }) as any as S.Schema<DeleteUsagePlanRequest>;
 export interface DeleteUsagePlanResponse {}
 export const DeleteUsagePlanResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
   identifier: "DeleteUsagePlanResponse",
@@ -1979,10 +1850,7 @@ export const DeleteUsagePlanKeyRequest = /*@__PURE__*/ S.suspend(() =>
     keyId: S.String.pipe(T.HttpLabel("keyId")),
   }).pipe(
     T.all(
-      T.Http({
-        method: "DELETE",
-        uri: "/usageplans/{usagePlanId}/keys/{keyId}",
-      }),
+      T.Http({ method: "DELETE", uri: "/usageplans/{usagePlanId}/keys/{keyId}" }),
       svc,
       auth,
       proto,
@@ -2004,9 +1872,7 @@ export const DeleteVpcLinkRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ vpcLinkId: S.String.pipe(T.HttpLabel("vpcLinkId")) }).pipe(
     T.all(T.Http({ method: "DELETE", uri: "/vpclinks/{vpcLinkId}" }), svc, auth, proto, ver, rules),
   ),
-).annotate({
-  identifier: "DeleteVpcLinkRequest",
-}) as any as S.Schema<DeleteVpcLinkRequest>;
+).annotate({ identifier: "DeleteVpcLinkRequest" }) as any as S.Schema<DeleteVpcLinkRequest>;
 export interface DeleteVpcLinkResponse {}
 export const DeleteVpcLinkResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
   identifier: "DeleteVpcLinkResponse",
@@ -2051,10 +1917,7 @@ export const FlushStageCacheRequest = /*@__PURE__*/ S.suspend(() =>
     stageName: S.String.pipe(T.HttpLabel("stageName")),
   }).pipe(
     T.all(
-      T.Http({
-        method: "DELETE",
-        uri: "/restapis/{restApiId}/stages/{stageName}/cache/data",
-      }),
+      T.Http({ method: "DELETE", uri: "/restapis/{restApiId}/stages/{stageName}/cache/data" }),
       svc,
       auth,
       proto,
@@ -2062,9 +1925,7 @@ export const FlushStageCacheRequest = /*@__PURE__*/ S.suspend(() =>
       rules,
     ),
   ),
-).annotate({
-  identifier: "FlushStageCacheRequest",
-}) as any as S.Schema<FlushStageCacheRequest>;
+).annotate({ identifier: "FlushStageCacheRequest" }) as any as S.Schema<FlushStageCacheRequest>;
 export interface FlushStageCacheResponse {}
 export const FlushStageCacheResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
   identifier: "FlushStageCacheResponse",
@@ -2074,10 +1935,7 @@ export interface GenerateClientCertificateRequest {
   tags?: { [key: string]: string | undefined };
 }
 export const GenerateClientCertificateRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    description: S.optional(S.String),
-    tags: S.optional(MapOfStringToString),
-  }).pipe(
+  S.Struct({ description: S.optional(S.String), tags: S.optional(MapOfStringToString) }).pipe(
     T.all(T.Http({ method: "POST", uri: "/clientcertificates" }), svc, auth, proto, ver, rules),
   ),
 ).annotate({
@@ -2100,17 +1958,13 @@ export const ClientCertificate = /*@__PURE__*/ S.suspend(() =>
     expirationDate: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     tags: S.optional(MapOfStringToString),
   }),
-).annotate({
-  identifier: "ClientCertificate",
-}) as any as S.Schema<ClientCertificate>;
+).annotate({ identifier: "ClientCertificate" }) as any as S.Schema<ClientCertificate>;
 export interface GetAccountRequest {}
 export const GetAccountRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({}).pipe(
     T.all(T.Http({ method: "GET", uri: "/account" }), svc, auth, proto, ver, rules),
   ),
-).annotate({
-  identifier: "GetAccountRequest",
-}) as any as S.Schema<GetAccountRequest>;
+).annotate({ identifier: "GetAccountRequest" }) as any as S.Schema<GetAccountRequest>;
 export interface Account {
   cloudwatchRoleArn?: string;
   throttleSettings?: ThrottleSettings;
@@ -2134,9 +1988,7 @@ export const GetApiKeyRequest = /*@__PURE__*/ S.suspend(() =>
     apiKey: S.String.pipe(T.HttpLabel("apiKey")),
     includeValue: S.optional(S.Boolean).pipe(T.HttpQuery("includeValue")),
   }).pipe(T.all(T.Http({ method: "GET", uri: "/apikeys/{apiKey}" }), svc, auth, proto, ver, rules)),
-).annotate({
-  identifier: "GetApiKeyRequest",
-}) as any as S.Schema<GetApiKeyRequest>;
+).annotate({ identifier: "GetApiKeyRequest" }) as any as S.Schema<GetApiKeyRequest>;
 export interface GetApiKeysRequest {
   position?: string;
   limit?: number;
@@ -2152,9 +2004,7 @@ export const GetApiKeysRequest = /*@__PURE__*/ S.suspend(() =>
     customerId: S.optional(S.String).pipe(T.HttpQuery("customerId")),
     includeValues: S.optional(S.Boolean).pipe(T.HttpQuery("includeValues")),
   }).pipe(T.all(T.Http({ method: "GET", uri: "/apikeys" }), svc, auth, proto, ver, rules)),
-).annotate({
-  identifier: "GetApiKeysRequest",
-}) as any as S.Schema<GetApiKeysRequest>;
+).annotate({ identifier: "GetApiKeysRequest" }) as any as S.Schema<GetApiKeysRequest>;
 export type ListOfApiKey = ApiKey[];
 export const ListOfApiKey = /*@__PURE__*/ S.Array(ApiKey);
 export interface ApiKeys {
@@ -2179,10 +2029,7 @@ export const GetAuthorizerRequest = /*@__PURE__*/ S.suspend(() =>
     authorizerId: S.String.pipe(T.HttpLabel("authorizerId")),
   }).pipe(
     T.all(
-      T.Http({
-        method: "GET",
-        uri: "/restapis/{restApiId}/authorizers/{authorizerId}",
-      }),
+      T.Http({ method: "GET", uri: "/restapis/{restApiId}/authorizers/{authorizerId}" }),
       svc,
       auth,
       proto,
@@ -2190,9 +2037,7 @@ export const GetAuthorizerRequest = /*@__PURE__*/ S.suspend(() =>
       rules,
     ),
   ),
-).annotate({
-  identifier: "GetAuthorizerRequest",
-}) as any as S.Schema<GetAuthorizerRequest>;
+).annotate({ identifier: "GetAuthorizerRequest" }) as any as S.Schema<GetAuthorizerRequest>;
 export interface GetAuthorizersRequest {
   restApiId: string;
   position?: string;
@@ -2213,9 +2058,7 @@ export const GetAuthorizersRequest = /*@__PURE__*/ S.suspend(() =>
       rules,
     ),
   ),
-).annotate({
-  identifier: "GetAuthorizersRequest",
-}) as any as S.Schema<GetAuthorizersRequest>;
+).annotate({ identifier: "GetAuthorizersRequest" }) as any as S.Schema<GetAuthorizersRequest>;
 export type ListOfAuthorizer = Authorizer[];
 export const ListOfAuthorizer = /*@__PURE__*/ S.Array(Authorizer);
 export interface Authorizers {
@@ -2240,10 +2083,7 @@ export const GetBasePathMappingRequest = /*@__PURE__*/ S.suspend(() =>
     basePath: S.String.pipe(T.HttpLabel("basePath")),
   }).pipe(
     T.all(
-      T.Http({
-        method: "GET",
-        uri: "/domainnames/{domainName}/basepathmappings/{basePath}",
-      }),
+      T.Http({ method: "GET", uri: "/domainnames/{domainName}/basepathmappings/{basePath}" }),
       svc,
       auth,
       proto,
@@ -2268,10 +2108,7 @@ export const GetBasePathMappingsRequest = /*@__PURE__*/ S.suspend(() =>
     limit: S.optional(S.Number).pipe(T.HttpQuery("limit")),
   }).pipe(
     T.all(
-      T.Http({
-        method: "GET",
-        uri: "/domainnames/{domainName}/basepathmappings",
-      }),
+      T.Http({ method: "GET", uri: "/domainnames/{domainName}/basepathmappings" }),
       svc,
       auth,
       proto,
@@ -2293,21 +2130,14 @@ export const BasePathMappings = /*@__PURE__*/ S.suspend(() =>
     items: S.optional(ListOfBasePathMapping),
     position: S.optional(S.String).pipe(T.HttpQuery("position")),
   }).pipe(S.encodeKeys({ items: "item" })),
-).annotate({
-  identifier: "BasePathMappings",
-}) as any as S.Schema<BasePathMappings>;
+).annotate({ identifier: "BasePathMappings" }) as any as S.Schema<BasePathMappings>;
 export interface GetClientCertificateRequest {
   clientCertificateId: string;
 }
 export const GetClientCertificateRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    clientCertificateId: S.String.pipe(T.HttpLabel("clientCertificateId")),
-  }).pipe(
+  S.Struct({ clientCertificateId: S.String.pipe(T.HttpLabel("clientCertificateId")) }).pipe(
     T.all(
-      T.Http({
-        method: "GET",
-        uri: "/clientcertificates/{clientCertificateId}",
-      }),
+      T.Http({ method: "GET", uri: "/clientcertificates/{clientCertificateId}" }),
       svc,
       auth,
       proto,
@@ -2343,9 +2173,7 @@ export const ClientCertificates = /*@__PURE__*/ S.suspend(() =>
     items: S.optional(ListOfClientCertificate),
     position: S.optional(S.String).pipe(T.HttpQuery("position")),
   }).pipe(S.encodeKeys({ items: "item" })),
-).annotate({
-  identifier: "ClientCertificates",
-}) as any as S.Schema<ClientCertificates>;
+).annotate({ identifier: "ClientCertificates" }) as any as S.Schema<ClientCertificates>;
 export interface GetDeploymentRequest {
   restApiId: string;
   deploymentId: string;
@@ -2358,10 +2186,7 @@ export const GetDeploymentRequest = /*@__PURE__*/ S.suspend(() =>
     embed: S.optional(ListOfString).pipe(T.HttpQuery("embed")),
   }).pipe(
     T.all(
-      T.Http({
-        method: "GET",
-        uri: "/restapis/{restApiId}/deployments/{deploymentId}",
-      }),
+      T.Http({ method: "GET", uri: "/restapis/{restApiId}/deployments/{deploymentId}" }),
       svc,
       auth,
       proto,
@@ -2369,9 +2194,7 @@ export const GetDeploymentRequest = /*@__PURE__*/ S.suspend(() =>
       rules,
     ),
   ),
-).annotate({
-  identifier: "GetDeploymentRequest",
-}) as any as S.Schema<GetDeploymentRequest>;
+).annotate({ identifier: "GetDeploymentRequest" }) as any as S.Schema<GetDeploymentRequest>;
 export interface GetDeploymentsRequest {
   restApiId: string;
   position?: string;
@@ -2392,9 +2215,7 @@ export const GetDeploymentsRequest = /*@__PURE__*/ S.suspend(() =>
       rules,
     ),
   ),
-).annotate({
-  identifier: "GetDeploymentsRequest",
-}) as any as S.Schema<GetDeploymentsRequest>;
+).annotate({ identifier: "GetDeploymentsRequest" }) as any as S.Schema<GetDeploymentsRequest>;
 export type ListOfDeployment = Deployment[];
 export const ListOfDeployment = /*@__PURE__*/ S.Array(Deployment);
 export interface Deployments {
@@ -2454,10 +2275,7 @@ export const GetDocumentationPartsRequest = /*@__PURE__*/ S.suspend(() =>
     locationStatus: S.optional(LocationStatusType).pipe(T.HttpQuery("locationStatus")),
   }).pipe(
     T.all(
-      T.Http({
-        method: "GET",
-        uri: "/restapis/{restApiId}/documentation/parts",
-      }),
+      T.Http({ method: "GET", uri: "/restapis/{restApiId}/documentation/parts" }),
       svc,
       auth,
       proto,
@@ -2479,9 +2297,7 @@ export const DocumentationParts = /*@__PURE__*/ S.suspend(() =>
     items: S.optional(ListOfDocumentationPart),
     position: S.optional(S.String).pipe(T.HttpQuery("position")),
   }).pipe(S.encodeKeys({ items: "item" })),
-).annotate({
-  identifier: "DocumentationParts",
-}) as any as S.Schema<DocumentationParts>;
+).annotate({ identifier: "DocumentationParts" }) as any as S.Schema<DocumentationParts>;
 export interface GetDocumentationVersionRequest {
   restApiId: string;
   documentationVersion: string;
@@ -2518,10 +2334,7 @@ export const GetDocumentationVersionsRequest = /*@__PURE__*/ S.suspend(() =>
     limit: S.optional(S.Number).pipe(T.HttpQuery("limit")),
   }).pipe(
     T.all(
-      T.Http({
-        method: "GET",
-        uri: "/restapis/{restApiId}/documentation/versions",
-      }),
+      T.Http({ method: "GET", uri: "/restapis/{restApiId}/documentation/versions" }),
       svc,
       auth,
       proto,
@@ -2543,9 +2356,7 @@ export const DocumentationVersions = /*@__PURE__*/ S.suspend(() =>
     items: S.optional(ListOfDocumentationVersion),
     position: S.optional(S.String).pipe(T.HttpQuery("position")),
   }).pipe(S.encodeKeys({ items: "item" })),
-).annotate({
-  identifier: "DocumentationVersions",
-}) as any as S.Schema<DocumentationVersions>;
+).annotate({ identifier: "DocumentationVersions" }) as any as S.Schema<DocumentationVersions>;
 export interface GetDomainNameRequest {
   domainName: string;
   domainNameId?: string;
@@ -2564,9 +2375,7 @@ export const GetDomainNameRequest = /*@__PURE__*/ S.suspend(() =>
       rules,
     ),
   ),
-).annotate({
-  identifier: "GetDomainNameRequest",
-}) as any as S.Schema<GetDomainNameRequest>;
+).annotate({ identifier: "GetDomainNameRequest" }) as any as S.Schema<GetDomainNameRequest>;
 export type ResourceOwner = "SELF" | "OTHER_ACCOUNTS" | (string & {});
 export const ResourceOwner = S.String;
 
@@ -2618,9 +2427,7 @@ export const GetDomainNamesRequest = /*@__PURE__*/ S.suspend(() =>
     limit: S.optional(S.Number).pipe(T.HttpQuery("limit")),
     resourceOwner: S.optional(ResourceOwner).pipe(T.HttpQuery("resourceOwner")),
   }).pipe(T.all(T.Http({ method: "GET", uri: "/domainnames" }), svc, auth, proto, ver, rules)),
-).annotate({
-  identifier: "GetDomainNamesRequest",
-}) as any as S.Schema<GetDomainNamesRequest>;
+).annotate({ identifier: "GetDomainNamesRequest" }) as any as S.Schema<GetDomainNamesRequest>;
 export type ListOfDomainName = DomainName[];
 export const ListOfDomainName = /*@__PURE__*/ S.Array(DomainName);
 export interface DomainNames {
@@ -2660,9 +2467,7 @@ export const GetExportRequest = /*@__PURE__*/ S.suspend(() =>
       rules,
     ),
   ),
-).annotate({
-  identifier: "GetExportRequest",
-}) as any as S.Schema<GetExportRequest>;
+).annotate({ identifier: "GetExportRequest" }) as any as S.Schema<GetExportRequest>;
 export interface ExportResponse {
   contentType?: string;
   contentDisposition?: string;
@@ -2685,10 +2490,7 @@ export const GetGatewayResponseRequest = /*@__PURE__*/ S.suspend(() =>
     responseType: GatewayResponseType.pipe(T.HttpLabel("responseType")),
   }).pipe(
     T.all(
-      T.Http({
-        method: "GET",
-        uri: "/restapis/{restApiId}/gatewayresponses/{responseType}",
-      }),
+      T.Http({ method: "GET", uri: "/restapis/{restApiId}/gatewayresponses/{responseType}" }),
       svc,
       auth,
       proto,
@@ -2714,9 +2516,7 @@ export const GatewayResponse = /*@__PURE__*/ S.suspend(() =>
     responseTemplates: S.optional(MapOfStringToString),
     defaultResponse: S.optional(S.Boolean),
   }),
-).annotate({
-  identifier: "GatewayResponse",
-}) as any as S.Schema<GatewayResponse>;
+).annotate({ identifier: "GatewayResponse" }) as any as S.Schema<GatewayResponse>;
 export interface GetGatewayResponsesRequest {
   restApiId: string;
   position?: string;
@@ -2751,9 +2551,7 @@ export const GatewayResponses = /*@__PURE__*/ S.suspend(() =>
     items: S.optional(ListOfGatewayResponse),
     position: S.optional(S.String).pipe(T.HttpQuery("position")),
   }).pipe(S.encodeKeys({ items: "item" })),
-).annotate({
-  identifier: "GatewayResponses",
-}) as any as S.Schema<GatewayResponses>;
+).annotate({ identifier: "GatewayResponses" }) as any as S.Schema<GatewayResponses>;
 export interface GetIntegrationRequest {
   restApiId: string;
   resourceId: string;
@@ -2777,9 +2575,7 @@ export const GetIntegrationRequest = /*@__PURE__*/ S.suspend(() =>
       rules,
     ),
   ),
-).annotate({
-  identifier: "GetIntegrationRequest",
-}) as any as S.Schema<GetIntegrationRequest>;
+).annotate({ identifier: "GetIntegrationRequest" }) as any as S.Schema<GetIntegrationRequest>;
 export interface GetIntegrationResponseRequest {
   restApiId: string;
   resourceId: string;
@@ -2831,9 +2627,7 @@ export const GetMethodRequest = /*@__PURE__*/ S.suspend(() =>
       rules,
     ),
   ),
-).annotate({
-  identifier: "GetMethodRequest",
-}) as any as S.Schema<GetMethodRequest>;
+).annotate({ identifier: "GetMethodRequest" }) as any as S.Schema<GetMethodRequest>;
 export interface GetMethodResponseRequest {
   restApiId: string;
   resourceId: string;
@@ -2859,9 +2653,7 @@ export const GetMethodResponseRequest = /*@__PURE__*/ S.suspend(() =>
       rules,
     ),
   ),
-).annotate({
-  identifier: "GetMethodResponseRequest",
-}) as any as S.Schema<GetMethodResponseRequest>;
+).annotate({ identifier: "GetMethodResponseRequest" }) as any as S.Schema<GetMethodResponseRequest>;
 export interface GetModelRequest {
   restApiId: string;
   modelName: string;
@@ -2874,10 +2666,7 @@ export const GetModelRequest = /*@__PURE__*/ S.suspend(() =>
     flatten: S.optional(S.Boolean).pipe(T.HttpQuery("flatten")),
   }).pipe(
     T.all(
-      T.Http({
-        method: "GET",
-        uri: "/restapis/{restApiId}/models/{modelName}",
-      }),
+      T.Http({ method: "GET", uri: "/restapis/{restApiId}/models/{modelName}" }),
       svc,
       auth,
       proto,
@@ -2885,9 +2674,7 @@ export const GetModelRequest = /*@__PURE__*/ S.suspend(() =>
       rules,
     ),
   ),
-).annotate({
-  identifier: "GetModelRequest",
-}) as any as S.Schema<GetModelRequest>;
+).annotate({ identifier: "GetModelRequest" }) as any as S.Schema<GetModelRequest>;
 export interface GetModelsRequest {
   restApiId: string;
   position?: string;
@@ -2908,9 +2695,7 @@ export const GetModelsRequest = /*@__PURE__*/ S.suspend(() =>
       rules,
     ),
   ),
-).annotate({
-  identifier: "GetModelsRequest",
-}) as any as S.Schema<GetModelsRequest>;
+).annotate({ identifier: "GetModelsRequest" }) as any as S.Schema<GetModelsRequest>;
 export type ListOfModel = Model[];
 export const ListOfModel = /*@__PURE__*/ S.Array(Model);
 export interface Models {
@@ -2933,10 +2718,7 @@ export const GetModelTemplateRequest = /*@__PURE__*/ S.suspend(() =>
     modelName: S.String.pipe(T.HttpLabel("modelName")),
   }).pipe(
     T.all(
-      T.Http({
-        method: "GET",
-        uri: "/restapis/{restApiId}/models/{modelName}/default_template",
-      }),
+      T.Http({ method: "GET", uri: "/restapis/{restApiId}/models/{modelName}/default_template" }),
       svc,
       auth,
       proto,
@@ -2944,9 +2726,7 @@ export const GetModelTemplateRequest = /*@__PURE__*/ S.suspend(() =>
       rules,
     ),
   ),
-).annotate({
-  identifier: "GetModelTemplateRequest",
-}) as any as S.Schema<GetModelTemplateRequest>;
+).annotate({ identifier: "GetModelTemplateRequest" }) as any as S.Schema<GetModelTemplateRequest>;
 export interface Template {
   value?: string;
 }
@@ -3011,9 +2791,7 @@ export const RequestValidators = /*@__PURE__*/ S.suspend(() =>
     items: S.optional(ListOfRequestValidator),
     position: S.optional(S.String).pipe(T.HttpQuery("position")),
   }).pipe(S.encodeKeys({ items: "item" })),
-).annotate({
-  identifier: "RequestValidators",
-}) as any as S.Schema<RequestValidators>;
+).annotate({ identifier: "RequestValidators" }) as any as S.Schema<RequestValidators>;
 export interface GetResourceRequest {
   restApiId: string;
   resourceId: string;
@@ -3026,10 +2804,7 @@ export const GetResourceRequest = /*@__PURE__*/ S.suspend(() =>
     embed: S.optional(ListOfString).pipe(T.HttpQuery("embed")),
   }).pipe(
     T.all(
-      T.Http({
-        method: "GET",
-        uri: "/restapis/{restApiId}/resources/{resourceId}",
-      }),
+      T.Http({ method: "GET", uri: "/restapis/{restApiId}/resources/{resourceId}" }),
       svc,
       auth,
       proto,
@@ -3037,9 +2812,7 @@ export const GetResourceRequest = /*@__PURE__*/ S.suspend(() =>
       rules,
     ),
   ),
-).annotate({
-  identifier: "GetResourceRequest",
-}) as any as S.Schema<GetResourceRequest>;
+).annotate({ identifier: "GetResourceRequest" }) as any as S.Schema<GetResourceRequest>;
 export interface GetResourcesRequest {
   restApiId: string;
   position?: string;
@@ -3062,9 +2835,7 @@ export const GetResourcesRequest = /*@__PURE__*/ S.suspend(() =>
       rules,
     ),
   ),
-).annotate({
-  identifier: "GetResourcesRequest",
-}) as any as S.Schema<GetResourcesRequest>;
+).annotate({ identifier: "GetResourcesRequest" }) as any as S.Schema<GetResourcesRequest>;
 export type ListOfResource = Resource[];
 export const ListOfResource = /*@__PURE__*/ S.Array(Resource);
 export interface Resources {
@@ -3084,9 +2855,7 @@ export const GetRestApiRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ restApiId: S.String.pipe(T.HttpLabel("restApiId")) }).pipe(
     T.all(T.Http({ method: "GET", uri: "/restapis/{restApiId}" }), svc, auth, proto, ver, rules),
   ),
-).annotate({
-  identifier: "GetRestApiRequest",
-}) as any as S.Schema<GetRestApiRequest>;
+).annotate({ identifier: "GetRestApiRequest" }) as any as S.Schema<GetRestApiRequest>;
 export interface GetRestApisRequest {
   position?: string;
   limit?: number;
@@ -3096,9 +2865,7 @@ export const GetRestApisRequest = /*@__PURE__*/ S.suspend(() =>
     position: S.optional(S.String).pipe(T.HttpQuery("position")),
     limit: S.optional(S.Number).pipe(T.HttpQuery("limit")),
   }).pipe(T.all(T.Http({ method: "GET", uri: "/restapis" }), svc, auth, proto, ver, rules)),
-).annotate({
-  identifier: "GetRestApisRequest",
-}) as any as S.Schema<GetRestApisRequest>;
+).annotate({ identifier: "GetRestApisRequest" }) as any as S.Schema<GetRestApisRequest>;
 export type ListOfRestApi = RestApi[];
 export const ListOfRestApi = /*@__PURE__*/ S.Array(RestApi);
 export interface RestApis {
@@ -3125,10 +2892,7 @@ export const GetSdkRequest = /*@__PURE__*/ S.suspend(() =>
     parameters: S.optional(MapOfStringToString).pipe(T.HttpQueryParams()),
   }).pipe(
     T.all(
-      T.Http({
-        method: "GET",
-        uri: "/restapis/{restApiId}/stages/{stageName}/sdks/{sdkType}",
-      }),
+      T.Http({ method: "GET", uri: "/restapis/{restApiId}/stages/{stageName}/sdks/{sdkType}" }),
       svc,
       auth,
       proto,
@@ -3156,9 +2920,7 @@ export const GetSdkTypeRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ id: S.String.pipe(T.HttpLabel("id")) }).pipe(
     T.all(T.Http({ method: "GET", uri: "/sdktypes/{id}" }), svc, auth, proto, ver, rules),
   ),
-).annotate({
-  identifier: "GetSdkTypeRequest",
-}) as any as S.Schema<GetSdkTypeRequest>;
+).annotate({ identifier: "GetSdkTypeRequest" }) as any as S.Schema<GetSdkTypeRequest>;
 export interface SdkConfigurationProperty {
   name?: string;
   friendlyName?: string;
@@ -3174,9 +2936,7 @@ export const SdkConfigurationProperty = /*@__PURE__*/ S.suspend(() =>
     required: S.optional(S.Boolean),
     defaultValue: S.optional(S.String),
   }),
-).annotate({
-  identifier: "SdkConfigurationProperty",
-}) as any as S.Schema<SdkConfigurationProperty>;
+).annotate({ identifier: "SdkConfigurationProperty" }) as any as S.Schema<SdkConfigurationProperty>;
 export type ListOfSdkConfigurationProperty = SdkConfigurationProperty[];
 export const ListOfSdkConfigurationProperty = /*@__PURE__*/ S.Array(SdkConfigurationProperty);
 export interface SdkType {
@@ -3202,9 +2962,7 @@ export const GetSdkTypesRequest = /*@__PURE__*/ S.suspend(() =>
     position: S.optional(S.String).pipe(T.HttpQuery("position")),
     limit: S.optional(S.Number).pipe(T.HttpQuery("limit")),
   }).pipe(T.all(T.Http({ method: "GET", uri: "/sdktypes" }), svc, auth, proto, ver, rules)),
-).annotate({
-  identifier: "GetSdkTypesRequest",
-}) as any as S.Schema<GetSdkTypesRequest>;
+).annotate({ identifier: "GetSdkTypesRequest" }) as any as S.Schema<GetSdkTypesRequest>;
 export type ListOfSdkType = SdkType[];
 export const ListOfSdkType = /*@__PURE__*/ S.Array(SdkType);
 export interface SdkTypes {
@@ -3223,10 +2981,7 @@ export const GetStageRequest = /*@__PURE__*/ S.suspend(() =>
     stageName: S.String.pipe(T.HttpLabel("stageName")),
   }).pipe(
     T.all(
-      T.Http({
-        method: "GET",
-        uri: "/restapis/{restApiId}/stages/{stageName}",
-      }),
+      T.Http({ method: "GET", uri: "/restapis/{restApiId}/stages/{stageName}" }),
       svc,
       auth,
       proto,
@@ -3234,9 +2989,7 @@ export const GetStageRequest = /*@__PURE__*/ S.suspend(() =>
       rules,
     ),
   ),
-).annotate({
-  identifier: "GetStageRequest",
-}) as any as S.Schema<GetStageRequest>;
+).annotate({ identifier: "GetStageRequest" }) as any as S.Schema<GetStageRequest>;
 export interface GetStagesRequest {
   restApiId: string;
   deploymentId?: string;
@@ -3255,9 +3008,7 @@ export const GetStagesRequest = /*@__PURE__*/ S.suspend(() =>
       rules,
     ),
   ),
-).annotate({
-  identifier: "GetStagesRequest",
-}) as any as S.Schema<GetStagesRequest>;
+).annotate({ identifier: "GetStagesRequest" }) as any as S.Schema<GetStagesRequest>;
 export type ListOfStage = Stage[];
 export const ListOfStage = /*@__PURE__*/ S.Array(Stage);
 export interface Stages {
@@ -3312,9 +3063,7 @@ export const GetUsageRequest = /*@__PURE__*/ S.suspend(() =>
       rules,
     ),
   ),
-).annotate({
-  identifier: "GetUsageRequest",
-}) as any as S.Schema<GetUsageRequest>;
+).annotate({ identifier: "GetUsageRequest" }) as any as S.Schema<GetUsageRequest>;
 export type ListOfLong = number[];
 export const ListOfLong = /*@__PURE__*/ S.Array(S.Number);
 export type ListOfUsage = number[][];
@@ -3351,9 +3100,7 @@ export const GetUsagePlanRequest = /*@__PURE__*/ S.suspend(() =>
       rules,
     ),
   ),
-).annotate({
-  identifier: "GetUsagePlanRequest",
-}) as any as S.Schema<GetUsagePlanRequest>;
+).annotate({ identifier: "GetUsagePlanRequest" }) as any as S.Schema<GetUsagePlanRequest>;
 export interface GetUsagePlanKeyRequest {
   usagePlanId: string;
   keyId: string;
@@ -3372,9 +3119,7 @@ export const GetUsagePlanKeyRequest = /*@__PURE__*/ S.suspend(() =>
       rules,
     ),
   ),
-).annotate({
-  identifier: "GetUsagePlanKeyRequest",
-}) as any as S.Schema<GetUsagePlanKeyRequest>;
+).annotate({ identifier: "GetUsagePlanKeyRequest" }) as any as S.Schema<GetUsagePlanKeyRequest>;
 export interface GetUsagePlanKeysRequest {
   usagePlanId: string;
   position?: string;
@@ -3397,9 +3142,7 @@ export const GetUsagePlanKeysRequest = /*@__PURE__*/ S.suspend(() =>
       rules,
     ),
   ),
-).annotate({
-  identifier: "GetUsagePlanKeysRequest",
-}) as any as S.Schema<GetUsagePlanKeysRequest>;
+).annotate({ identifier: "GetUsagePlanKeysRequest" }) as any as S.Schema<GetUsagePlanKeysRequest>;
 export type ListOfUsagePlanKey = UsagePlanKey[];
 export const ListOfUsagePlanKey = /*@__PURE__*/ S.Array(UsagePlanKey);
 export interface UsagePlanKeys {
@@ -3423,9 +3166,7 @@ export const GetUsagePlansRequest = /*@__PURE__*/ S.suspend(() =>
     keyId: S.optional(S.String).pipe(T.HttpQuery("keyId")),
     limit: S.optional(S.Number).pipe(T.HttpQuery("limit")),
   }).pipe(T.all(T.Http({ method: "GET", uri: "/usageplans" }), svc, auth, proto, ver, rules)),
-).annotate({
-  identifier: "GetUsagePlansRequest",
-}) as any as S.Schema<GetUsagePlansRequest>;
+).annotate({ identifier: "GetUsagePlansRequest" }) as any as S.Schema<GetUsagePlansRequest>;
 export type ListOfUsagePlan = UsagePlan[];
 export const ListOfUsagePlan = /*@__PURE__*/ S.Array(UsagePlan);
 export interface UsagePlans {
@@ -3445,9 +3186,7 @@ export const GetVpcLinkRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ vpcLinkId: S.String.pipe(T.HttpLabel("vpcLinkId")) }).pipe(
     T.all(T.Http({ method: "GET", uri: "/vpclinks/{vpcLinkId}" }), svc, auth, proto, ver, rules),
   ),
-).annotate({
-  identifier: "GetVpcLinkRequest",
-}) as any as S.Schema<GetVpcLinkRequest>;
+).annotate({ identifier: "GetVpcLinkRequest" }) as any as S.Schema<GetVpcLinkRequest>;
 export interface GetVpcLinksRequest {
   position?: string;
   limit?: number;
@@ -3457,9 +3196,7 @@ export const GetVpcLinksRequest = /*@__PURE__*/ S.suspend(() =>
     position: S.optional(S.String).pipe(T.HttpQuery("position")),
     limit: S.optional(S.Number).pipe(T.HttpQuery("limit")),
   }).pipe(T.all(T.Http({ method: "GET", uri: "/vpclinks" }), svc, auth, proto, ver, rules)),
-).annotate({
-  identifier: "GetVpcLinksRequest",
-}) as any as S.Schema<GetVpcLinksRequest>;
+).annotate({ identifier: "GetVpcLinksRequest" }) as any as S.Schema<GetVpcLinksRequest>;
 export type ListOfVpcLink = VpcLink[];
 export const ListOfVpcLink = /*@__PURE__*/ S.Array(VpcLink);
 export interface VpcLinks {
@@ -3488,18 +3225,13 @@ export const ImportApiKeysRequest = /*@__PURE__*/ S.suspend(() =>
   }).pipe(
     T.all(T.Http({ method: "POST", uri: "/apikeys?mode=import" }), svc, auth, proto, ver, rules),
   ),
-).annotate({
-  identifier: "ImportApiKeysRequest",
-}) as any as S.Schema<ImportApiKeysRequest>;
+).annotate({ identifier: "ImportApiKeysRequest" }) as any as S.Schema<ImportApiKeysRequest>;
 export interface ApiKeyIds {
   ids?: string[];
   warnings?: string[];
 }
 export const ApiKeyIds = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ids: S.optional(ListOfString),
-    warnings: S.optional(ListOfString),
-  }),
+  S.Struct({ ids: S.optional(ListOfString), warnings: S.optional(ListOfString) }),
 ).annotate({ identifier: "ApiKeyIds" }) as any as S.Schema<ApiKeyIds>;
 export type PutMode = "merge" | "overwrite" | (string & {});
 export const PutMode = S.String;
@@ -3518,10 +3250,7 @@ export const ImportDocumentationPartsRequest = /*@__PURE__*/ S.suspend(() =>
     body: T.StreamingInput.pipe(T.HttpPayload()),
   }).pipe(
     T.all(
-      T.Http({
-        method: "PUT",
-        uri: "/restapis/{restApiId}/documentation/parts",
-      }),
+      T.Http({ method: "PUT", uri: "/restapis/{restApiId}/documentation/parts" }),
       svc,
       auth,
       proto,
@@ -3537,13 +3266,8 @@ export interface DocumentationPartIds {
   warnings?: string[];
 }
 export const DocumentationPartIds = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ids: S.optional(ListOfString),
-    warnings: S.optional(ListOfString),
-  }),
-).annotate({
-  identifier: "DocumentationPartIds",
-}) as any as S.Schema<DocumentationPartIds>;
+  S.Struct({ ids: S.optional(ListOfString), warnings: S.optional(ListOfString) }),
+).annotate({ identifier: "DocumentationPartIds" }) as any as S.Schema<DocumentationPartIds>;
 export interface ImportRestApiRequest {
   failOnWarnings?: boolean;
   parameters?: { [key: string]: string | undefined };
@@ -3557,9 +3281,7 @@ export const ImportRestApiRequest = /*@__PURE__*/ S.suspend(() =>
   }).pipe(
     T.all(T.Http({ method: "POST", uri: "/restapis?mode=import" }), svc, auth, proto, ver, rules),
   ),
-).annotate({
-  identifier: "ImportRestApiRequest",
-}) as any as S.Schema<ImportRestApiRequest>;
+).annotate({ identifier: "ImportRestApiRequest" }) as any as S.Schema<ImportRestApiRequest>;
 export interface PutGatewayResponseRequest {
   restApiId: string;
   responseType: GatewayResponseType;
@@ -3576,10 +3298,7 @@ export const PutGatewayResponseRequest = /*@__PURE__*/ S.suspend(() =>
     responseTemplates: S.optional(MapOfStringToString),
   }).pipe(
     T.all(
-      T.Http({
-        method: "PUT",
-        uri: "/restapis/{restApiId}/gatewayresponses/{responseType}",
-      }),
+      T.Http({ method: "PUT", uri: "/restapis/{restApiId}/gatewayresponses/{responseType}" }),
       svc,
       auth,
       proto,
@@ -3633,12 +3352,7 @@ export const PutIntegrationRequest = /*@__PURE__*/ S.suspend(() =>
     responseTransferMode: S.optional(ResponseTransferMode),
     integrationTarget: S.optional(S.String),
   })
-    .pipe(
-      S.encodeKeys({
-        httpMethod: "requestHttpMethod",
-        integrationHttpMethod: "httpMethod",
-      }),
-    )
+    .pipe(S.encodeKeys({ httpMethod: "requestHttpMethod", integrationHttpMethod: "httpMethod" }))
     .pipe(
       T.all(
         T.Http({
@@ -3652,9 +3366,7 @@ export const PutIntegrationRequest = /*@__PURE__*/ S.suspend(() =>
         rules,
       ),
     ),
-).annotate({
-  identifier: "PutIntegrationRequest",
-}) as any as S.Schema<PutIntegrationRequest>;
+).annotate({ identifier: "PutIntegrationRequest" }) as any as S.Schema<PutIntegrationRequest>;
 export interface PutIntegrationResponseRequest {
   restApiId: string;
   resourceId: string;
@@ -3730,9 +3442,7 @@ export const PutMethodRequest = /*@__PURE__*/ S.suspend(() =>
       rules,
     ),
   ),
-).annotate({
-  identifier: "PutMethodRequest",
-}) as any as S.Schema<PutMethodRequest>;
+).annotate({ identifier: "PutMethodRequest" }) as any as S.Schema<PutMethodRequest>;
 export interface PutMethodResponseRequest {
   restApiId: string;
   resourceId: string;
@@ -3762,9 +3472,7 @@ export const PutMethodResponseRequest = /*@__PURE__*/ S.suspend(() =>
       rules,
     ),
   ),
-).annotate({
-  identifier: "PutMethodResponseRequest",
-}) as any as S.Schema<PutMethodResponseRequest>;
+).annotate({ identifier: "PutMethodResponseRequest" }) as any as S.Schema<PutMethodResponseRequest>;
 export interface PutRestApiRequest {
   restApiId: string;
   mode?: PutMode;
@@ -3782,9 +3490,7 @@ export const PutRestApiRequest = /*@__PURE__*/ S.suspend(() =>
   }).pipe(
     T.all(T.Http({ method: "PUT", uri: "/restapis/{restApiId}" }), svc, auth, proto, ver, rules),
   ),
-).annotate({
-  identifier: "PutRestApiRequest",
-}) as any as S.Schema<PutRestApiRequest>;
+).annotate({ identifier: "PutRestApiRequest" }) as any as S.Schema<PutRestApiRequest>;
 export interface RejectDomainNameAccessAssociationRequest {
   domainNameAccessAssociationArn: string;
   domainNameArn: string;
@@ -3823,9 +3529,7 @@ export const TagResourceRequest = /*@__PURE__*/ S.suspend(() =>
   }).pipe(
     T.all(T.Http({ method: "PUT", uri: "/tags/{resourceArn}" }), svc, auth, proto, ver, rules),
   ),
-).annotate({
-  identifier: "TagResourceRequest",
-}) as any as S.Schema<TagResourceRequest>;
+).annotate({ identifier: "TagResourceRequest" }) as any as S.Schema<TagResourceRequest>;
 export interface TagResourceResponse {}
 export const TagResourceResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
   identifier: "TagResourceResponse",
@@ -3854,10 +3558,7 @@ export const TestInvokeAuthorizerRequest = /*@__PURE__*/ S.suspend(() =>
     additionalContext: S.optional(MapOfStringToString),
   }).pipe(
     T.all(
-      T.Http({
-        method: "POST",
-        uri: "/restapis/{restApiId}/authorizers/{authorizerId}",
-      }),
+      T.Http({ method: "POST", uri: "/restapis/{restApiId}/authorizers/{authorizerId}" }),
       svc,
       auth,
       proto,
@@ -3925,9 +3626,7 @@ export const TestInvokeMethodRequest = /*@__PURE__*/ S.suspend(() =>
       rules,
     ),
   ),
-).annotate({
-  identifier: "TestInvokeMethodRequest",
-}) as any as S.Schema<TestInvokeMethodRequest>;
+).annotate({ identifier: "TestInvokeMethodRequest" }) as any as S.Schema<TestInvokeMethodRequest>;
 export interface TestInvokeMethodResponse {
   status?: number;
   body?: string;
@@ -3945,9 +3644,7 @@ export const TestInvokeMethodResponse = /*@__PURE__*/ S.suspend(() =>
     log: S.optional(S.String),
     latency: S.optional(S.Number),
   }),
-).annotate({
-  identifier: "TestInvokeMethodResponse",
-}) as any as S.Schema<TestInvokeMethodResponse>;
+).annotate({ identifier: "TestInvokeMethodResponse" }) as any as S.Schema<TestInvokeMethodResponse>;
 export interface UntagResourceRequest {
   resourceArn: string;
   tagKeys: string[];
@@ -3959,9 +3656,7 @@ export const UntagResourceRequest = /*@__PURE__*/ S.suspend(() =>
   }).pipe(
     T.all(T.Http({ method: "DELETE", uri: "/tags/{resourceArn}" }), svc, auth, proto, ver, rules),
   ),
-).annotate({
-  identifier: "UntagResourceRequest",
-}) as any as S.Schema<UntagResourceRequest>;
+).annotate({ identifier: "UntagResourceRequest" }) as any as S.Schema<UntagResourceRequest>;
 export interface UntagResourceResponse {}
 export const UntagResourceResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
   identifier: "UntagResourceResponse",
@@ -3992,9 +3687,7 @@ export const UpdateAccountRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ patchOperations: S.optional(ListOfPatchOperation) }).pipe(
     T.all(T.Http({ method: "PATCH", uri: "/account" }), svc, auth, proto, ver, rules),
   ),
-).annotate({
-  identifier: "UpdateAccountRequest",
-}) as any as S.Schema<UpdateAccountRequest>;
+).annotate({ identifier: "UpdateAccountRequest" }) as any as S.Schema<UpdateAccountRequest>;
 export interface UpdateApiKeyRequest {
   apiKey: string;
   patchOperations?: PatchOperation[];
@@ -4006,9 +3699,7 @@ export const UpdateApiKeyRequest = /*@__PURE__*/ S.suspend(() =>
   }).pipe(
     T.all(T.Http({ method: "PATCH", uri: "/apikeys/{apiKey}" }), svc, auth, proto, ver, rules),
   ),
-).annotate({
-  identifier: "UpdateApiKeyRequest",
-}) as any as S.Schema<UpdateApiKeyRequest>;
+).annotate({ identifier: "UpdateApiKeyRequest" }) as any as S.Schema<UpdateApiKeyRequest>;
 export interface UpdateAuthorizerRequest {
   restApiId: string;
   authorizerId: string;
@@ -4021,10 +3712,7 @@ export const UpdateAuthorizerRequest = /*@__PURE__*/ S.suspend(() =>
     patchOperations: S.optional(ListOfPatchOperation),
   }).pipe(
     T.all(
-      T.Http({
-        method: "PATCH",
-        uri: "/restapis/{restApiId}/authorizers/{authorizerId}",
-      }),
+      T.Http({ method: "PATCH", uri: "/restapis/{restApiId}/authorizers/{authorizerId}" }),
       svc,
       auth,
       proto,
@@ -4032,9 +3720,7 @@ export const UpdateAuthorizerRequest = /*@__PURE__*/ S.suspend(() =>
       rules,
     ),
   ),
-).annotate({
-  identifier: "UpdateAuthorizerRequest",
-}) as any as S.Schema<UpdateAuthorizerRequest>;
+).annotate({ identifier: "UpdateAuthorizerRequest" }) as any as S.Schema<UpdateAuthorizerRequest>;
 export interface UpdateBasePathMappingRequest {
   domainName: string;
   domainNameId?: string;
@@ -4049,10 +3735,7 @@ export const UpdateBasePathMappingRequest = /*@__PURE__*/ S.suspend(() =>
     patchOperations: S.optional(ListOfPatchOperation),
   }).pipe(
     T.all(
-      T.Http({
-        method: "PATCH",
-        uri: "/domainnames/{domainName}/basepathmappings/{basePath}",
-      }),
+      T.Http({ method: "PATCH", uri: "/domainnames/{domainName}/basepathmappings/{basePath}" }),
       svc,
       auth,
       proto,
@@ -4073,10 +3756,7 @@ export const UpdateClientCertificateRequest = /*@__PURE__*/ S.suspend(() =>
     patchOperations: S.optional(ListOfPatchOperation),
   }).pipe(
     T.all(
-      T.Http({
-        method: "PATCH",
-        uri: "/clientcertificates/{clientCertificateId}",
-      }),
+      T.Http({ method: "PATCH", uri: "/clientcertificates/{clientCertificateId}" }),
       svc,
       auth,
       proto,
@@ -4099,10 +3779,7 @@ export const UpdateDeploymentRequest = /*@__PURE__*/ S.suspend(() =>
     patchOperations: S.optional(ListOfPatchOperation),
   }).pipe(
     T.all(
-      T.Http({
-        method: "PATCH",
-        uri: "/restapis/{restApiId}/deployments/{deploymentId}",
-      }),
+      T.Http({ method: "PATCH", uri: "/restapis/{restApiId}/deployments/{deploymentId}" }),
       svc,
       auth,
       proto,
@@ -4110,9 +3787,7 @@ export const UpdateDeploymentRequest = /*@__PURE__*/ S.suspend(() =>
       rules,
     ),
   ),
-).annotate({
-  identifier: "UpdateDeploymentRequest",
-}) as any as S.Schema<UpdateDeploymentRequest>;
+).annotate({ identifier: "UpdateDeploymentRequest" }) as any as S.Schema<UpdateDeploymentRequest>;
 export interface UpdateDocumentationPartRequest {
   restApiId: string;
   documentationPartId: string;
@@ -4185,9 +3860,7 @@ export const UpdateDomainNameRequest = /*@__PURE__*/ S.suspend(() =>
       rules,
     ),
   ),
-).annotate({
-  identifier: "UpdateDomainNameRequest",
-}) as any as S.Schema<UpdateDomainNameRequest>;
+).annotate({ identifier: "UpdateDomainNameRequest" }) as any as S.Schema<UpdateDomainNameRequest>;
 export interface UpdateGatewayResponseRequest {
   restApiId: string;
   responseType: GatewayResponseType;
@@ -4200,10 +3873,7 @@ export const UpdateGatewayResponseRequest = /*@__PURE__*/ S.suspend(() =>
     patchOperations: S.optional(ListOfPatchOperation),
   }).pipe(
     T.all(
-      T.Http({
-        method: "PATCH",
-        uri: "/restapis/{restApiId}/gatewayresponses/{responseType}",
-      }),
+      T.Http({ method: "PATCH", uri: "/restapis/{restApiId}/gatewayresponses/{responseType}" }),
       svc,
       auth,
       proto,
@@ -4239,9 +3909,7 @@ export const UpdateIntegrationRequest = /*@__PURE__*/ S.suspend(() =>
       rules,
     ),
   ),
-).annotate({
-  identifier: "UpdateIntegrationRequest",
-}) as any as S.Schema<UpdateIntegrationRequest>;
+).annotate({ identifier: "UpdateIntegrationRequest" }) as any as S.Schema<UpdateIntegrationRequest>;
 export interface UpdateIntegrationResponseRequest {
   restApiId: string;
   resourceId: string;
@@ -4297,9 +3965,7 @@ export const UpdateMethodRequest = /*@__PURE__*/ S.suspend(() =>
       rules,
     ),
   ),
-).annotate({
-  identifier: "UpdateMethodRequest",
-}) as any as S.Schema<UpdateMethodRequest>;
+).annotate({ identifier: "UpdateMethodRequest" }) as any as S.Schema<UpdateMethodRequest>;
 export interface UpdateMethodResponseRequest {
   restApiId: string;
   resourceId: string;
@@ -4342,10 +4008,7 @@ export const UpdateModelRequest = /*@__PURE__*/ S.suspend(() =>
     patchOperations: S.optional(ListOfPatchOperation),
   }).pipe(
     T.all(
-      T.Http({
-        method: "PATCH",
-        uri: "/restapis/{restApiId}/models/{modelName}",
-      }),
+      T.Http({ method: "PATCH", uri: "/restapis/{restApiId}/models/{modelName}" }),
       svc,
       auth,
       proto,
@@ -4353,9 +4016,7 @@ export const UpdateModelRequest = /*@__PURE__*/ S.suspend(() =>
       rules,
     ),
   ),
-).annotate({
-  identifier: "UpdateModelRequest",
-}) as any as S.Schema<UpdateModelRequest>;
+).annotate({ identifier: "UpdateModelRequest" }) as any as S.Schema<UpdateModelRequest>;
 export interface UpdateRequestValidatorRequest {
   restApiId: string;
   requestValidatorId: string;
@@ -4394,10 +4055,7 @@ export const UpdateResourceRequest = /*@__PURE__*/ S.suspend(() =>
     patchOperations: S.optional(ListOfPatchOperation),
   }).pipe(
     T.all(
-      T.Http({
-        method: "PATCH",
-        uri: "/restapis/{restApiId}/resources/{resourceId}",
-      }),
+      T.Http({ method: "PATCH", uri: "/restapis/{restApiId}/resources/{resourceId}" }),
       svc,
       auth,
       proto,
@@ -4405,9 +4063,7 @@ export const UpdateResourceRequest = /*@__PURE__*/ S.suspend(() =>
       rules,
     ),
   ),
-).annotate({
-  identifier: "UpdateResourceRequest",
-}) as any as S.Schema<UpdateResourceRequest>;
+).annotate({ identifier: "UpdateResourceRequest" }) as any as S.Schema<UpdateResourceRequest>;
 export interface UpdateRestApiRequest {
   restApiId: string;
   patchOperations?: PatchOperation[];
@@ -4419,9 +4075,7 @@ export const UpdateRestApiRequest = /*@__PURE__*/ S.suspend(() =>
   }).pipe(
     T.all(T.Http({ method: "PATCH", uri: "/restapis/{restApiId}" }), svc, auth, proto, ver, rules),
   ),
-).annotate({
-  identifier: "UpdateRestApiRequest",
-}) as any as S.Schema<UpdateRestApiRequest>;
+).annotate({ identifier: "UpdateRestApiRequest" }) as any as S.Schema<UpdateRestApiRequest>;
 export interface UpdateStageRequest {
   restApiId: string;
   stageName: string;
@@ -4434,10 +4088,7 @@ export const UpdateStageRequest = /*@__PURE__*/ S.suspend(() =>
     patchOperations: S.optional(ListOfPatchOperation),
   }).pipe(
     T.all(
-      T.Http({
-        method: "PATCH",
-        uri: "/restapis/{restApiId}/stages/{stageName}",
-      }),
+      T.Http({ method: "PATCH", uri: "/restapis/{restApiId}/stages/{stageName}" }),
       svc,
       auth,
       proto,
@@ -4445,9 +4096,7 @@ export const UpdateStageRequest = /*@__PURE__*/ S.suspend(() =>
       rules,
     ),
   ),
-).annotate({
-  identifier: "UpdateStageRequest",
-}) as any as S.Schema<UpdateStageRequest>;
+).annotate({ identifier: "UpdateStageRequest" }) as any as S.Schema<UpdateStageRequest>;
 export interface UpdateUsageRequest {
   usagePlanId: string;
   keyId: string;
@@ -4460,10 +4109,7 @@ export const UpdateUsageRequest = /*@__PURE__*/ S.suspend(() =>
     patchOperations: S.optional(ListOfPatchOperation),
   }).pipe(
     T.all(
-      T.Http({
-        method: "PATCH",
-        uri: "/usageplans/{usagePlanId}/keys/{keyId}/usage",
-      }),
+      T.Http({ method: "PATCH", uri: "/usageplans/{usagePlanId}/keys/{keyId}/usage" }),
       svc,
       auth,
       proto,
@@ -4471,9 +4117,7 @@ export const UpdateUsageRequest = /*@__PURE__*/ S.suspend(() =>
       rules,
     ),
   ),
-).annotate({
-  identifier: "UpdateUsageRequest",
-}) as any as S.Schema<UpdateUsageRequest>;
+).annotate({ identifier: "UpdateUsageRequest" }) as any as S.Schema<UpdateUsageRequest>;
 export interface UpdateUsagePlanRequest {
   usagePlanId: string;
   patchOperations?: PatchOperation[];
@@ -4492,9 +4136,7 @@ export const UpdateUsagePlanRequest = /*@__PURE__*/ S.suspend(() =>
       rules,
     ),
   ),
-).annotate({
-  identifier: "UpdateUsagePlanRequest",
-}) as any as S.Schema<UpdateUsagePlanRequest>;
+).annotate({ identifier: "UpdateUsagePlanRequest" }) as any as S.Schema<UpdateUsagePlanRequest>;
 export interface UpdateVpcLinkRequest {
   vpcLinkId: string;
   patchOperations?: PatchOperation[];
@@ -4506,9 +4148,7 @@ export const UpdateVpcLinkRequest = /*@__PURE__*/ S.suspend(() =>
   }).pipe(
     T.all(T.Http({ method: "PATCH", uri: "/vpclinks/{vpcLinkId}" }), svc, auth, proto, ver, rules),
   ),
-).annotate({
-  identifier: "UpdateVpcLinkRequest",
-}) as any as S.Schema<UpdateVpcLinkRequest>;
+).annotate({ identifier: "UpdateVpcLinkRequest" }) as any as S.Schema<UpdateVpcLinkRequest>;
 export type CreateApiKeyError =
   | BadRequestException
   | ConflictException

@@ -10,10 +10,7 @@ import { Retry } from "../retry.ts";
 import { SensitiveString } from "../sensitive.ts";
 import * as T from "../traits.ts";
 const ns = T.XmlNamespace("http://firehose.amazonaws.com/doc/2015-08-04");
-const svc = T.AwsApiService({
-  sdkId: "Firehose",
-  serviceShapeName: "Firehose_20150804",
-});
+const svc = T.AwsApiService({ sdkId: "Firehose", serviceShapeName: "Firehose_20150804" });
 const auth = T.AwsAuthSigv4({ name: "firehose" });
 const ver = T.ServiceVersion("2015-08-04");
 const proto = T.AwsProtocolsAwsJson1_1();
@@ -86,10 +83,7 @@ export class InvalidArgumentException
 export class InvalidKMSResourceException
   extends /*@__PURE__*/ S.TaggedError<InvalidKMSResourceException>()(
     "InvalidKMSResourceException",
-    {
-      code: S.optional(S.String),
-      message: S.optional(S.String).pipe(T.ErrorMessage()),
-    },
+    { code: S.optional(S.String), message: S.optional(S.String).pipe(T.ErrorMessage()) },
   ) {}
 export class InvalidSourceException
   extends /*@__PURE__*/ S.TaggedError<InvalidSourceException>()("InvalidSourceException", {
@@ -166,10 +160,7 @@ export interface BufferingHints {
   IntervalInSeconds?: number;
 }
 export const BufferingHints = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    SizeInMBs: S.optional(S.Number),
-    IntervalInSeconds: S.optional(S.Number),
-  }),
+  S.Struct({ SizeInMBs: S.optional(S.Number), IntervalInSeconds: S.optional(S.Number) }),
 ).annotate({ identifier: "BufferingHints" }) as any as S.Schema<BufferingHints>;
 export type CompressionFormat =
   | "UNCOMPRESSED"
@@ -189,9 +180,7 @@ export interface KMSEncryptionConfig {
 }
 export const KMSEncryptionConfig = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ AWSKMSKeyARN: S.String }),
-).annotate({
-  identifier: "KMSEncryptionConfig",
-}) as any as S.Schema<KMSEncryptionConfig>;
+).annotate({ identifier: "KMSEncryptionConfig" }) as any as S.Schema<KMSEncryptionConfig>;
 export interface EncryptionConfiguration {
   NoEncryptionConfig?: NoEncryptionConfig;
   KMSEncryptionConfig?: KMSEncryptionConfig;
@@ -201,9 +190,7 @@ export const EncryptionConfiguration = /*@__PURE__*/ S.suspend(() =>
     NoEncryptionConfig: S.optional(NoEncryptionConfig),
     KMSEncryptionConfig: S.optional(KMSEncryptionConfig),
   }),
-).annotate({
-  identifier: "EncryptionConfiguration",
-}) as any as S.Schema<EncryptionConfiguration>;
+).annotate({ identifier: "EncryptionConfiguration" }) as any as S.Schema<EncryptionConfiguration>;
 export type LogGroupName = string;
 export type LogStreamName = string;
 export interface CloudWatchLoggingOptions {
@@ -217,9 +204,7 @@ export const CloudWatchLoggingOptions = /*@__PURE__*/ S.suspend(() =>
     LogGroupName: S.optional(S.String),
     LogStreamName: S.optional(S.String),
   }),
-).annotate({
-  identifier: "CloudWatchLoggingOptions",
-}) as any as S.Schema<CloudWatchLoggingOptions>;
+).annotate({ identifier: "CloudWatchLoggingOptions" }) as any as S.Schema<CloudWatchLoggingOptions>;
 export interface S3DestinationConfiguration {
   RoleARN: string;
   BucketARN: string;
@@ -276,9 +261,7 @@ export interface ProcessorParameter {
 }
 export const ProcessorParameter = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ ParameterName: ProcessorParameterName, ParameterValue: S.String }),
-).annotate({
-  identifier: "ProcessorParameter",
-}) as any as S.Schema<ProcessorParameter>;
+).annotate({ identifier: "ProcessorParameter" }) as any as S.Schema<ProcessorParameter>;
 export type ProcessorParameterList = ProcessorParameter[];
 export const ProcessorParameterList = /*@__PURE__*/ S.Array(ProcessorParameter);
 export interface Processor {
@@ -286,10 +269,7 @@ export interface Processor {
   Parameters?: ProcessorParameter[];
 }
 export const Processor = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Type: ProcessorType,
-    Parameters: S.optional(ProcessorParameterList),
-  }),
+  S.Struct({ Type: ProcessorType, Parameters: S.optional(ProcessorParameterList) }),
 ).annotate({ identifier: "Processor" }) as any as S.Schema<Processor>;
 export type ProcessorList = Processor[];
 export const ProcessorList = /*@__PURE__*/ S.Array(Processor);
@@ -298,13 +278,8 @@ export interface ProcessingConfiguration {
   Processors?: Processor[];
 }
 export const ProcessingConfiguration = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Enabled: S.optional(S.Boolean),
-    Processors: S.optional(ProcessorList),
-  }),
-).annotate({
-  identifier: "ProcessingConfiguration",
-}) as any as S.Schema<ProcessingConfiguration>;
+  S.Struct({ Enabled: S.optional(S.Boolean), Processors: S.optional(ProcessorList) }),
+).annotate({ identifier: "ProcessingConfiguration" }) as any as S.Schema<ProcessingConfiguration>;
 export type S3BackupMode = "Disabled" | "Enabled" | (string & {});
 export const S3BackupMode = S.String;
 
@@ -326,9 +301,7 @@ export const SchemaConfiguration = /*@__PURE__*/ S.suspend(() =>
     Region: S.optional(S.String),
     VersionId: S.optional(S.String),
   }),
-).annotate({
-  identifier: "SchemaConfiguration",
-}) as any as S.Schema<SchemaConfiguration>;
+).annotate({ identifier: "SchemaConfiguration" }) as any as S.Schema<SchemaConfiguration>;
 export type NonEmptyString = string;
 export type ColumnToJsonKeyMappings = { [key: string]: string | undefined };
 export const ColumnToJsonKeyMappings = /*@__PURE__*/ S.Record(S.String, S.String.pipe(S.optional));
@@ -367,9 +340,7 @@ export interface InputFormatConfiguration {
 }
 export const InputFormatConfiguration = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ Deserializer: S.optional(Deserializer) }),
-).annotate({
-  identifier: "InputFormatConfiguration",
-}) as any as S.Schema<InputFormatConfiguration>;
+).annotate({ identifier: "InputFormatConfiguration" }) as any as S.Schema<InputFormatConfiguration>;
 export type BlockSizeBytes = number;
 export type ParquetPageSizeBytes = number;
 export type ParquetCompression = "UNCOMPRESSED" | "GZIP" | "SNAPPY" | (string & {});
@@ -439,10 +410,7 @@ export interface Serializer {
   OrcSerDe?: OrcSerDe;
 }
 export const Serializer = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ParquetSerDe: S.optional(ParquetSerDe),
-    OrcSerDe: S.optional(OrcSerDe),
-  }),
+  S.Struct({ ParquetSerDe: S.optional(ParquetSerDe), OrcSerDe: S.optional(OrcSerDe) }),
 ).annotate({ identifier: "Serializer" }) as any as S.Schema<Serializer>;
 export interface OutputFormatConfiguration {
   Serializer?: Serializer;
@@ -480,10 +448,7 @@ export interface DynamicPartitioningConfiguration {
   Enabled?: boolean;
 }
 export const DynamicPartitioningConfiguration = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    RetryOptions: S.optional(RetryOptions),
-    Enabled: S.optional(S.Boolean),
-  }),
+  S.Struct({ RetryOptions: S.optional(RetryOptions), Enabled: S.optional(S.Boolean) }),
 ).annotate({
   identifier: "DynamicPartitioningConfiguration",
 }) as any as S.Schema<DynamicPartitioningConfiguration>;
@@ -551,9 +516,7 @@ export interface RedshiftRetryOptions {
 }
 export const RedshiftRetryOptions = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ DurationInSeconds: S.optional(S.Number) }),
-).annotate({
-  identifier: "RedshiftRetryOptions",
-}) as any as S.Schema<RedshiftRetryOptions>;
+).annotate({ identifier: "RedshiftRetryOptions" }) as any as S.Schema<RedshiftRetryOptions>;
 export type RedshiftS3BackupMode = "Disabled" | "Enabled" | (string & {});
 export const RedshiftS3BackupMode = S.String;
 
@@ -564,11 +527,7 @@ export interface SecretsManagerConfiguration {
   Enabled: boolean;
 }
 export const SecretsManagerConfiguration = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    SecretARN: S.optional(S.String),
-    RoleARN: S.optional(S.String),
-    Enabled: S.Boolean,
-  }),
+  S.Struct({ SecretARN: S.optional(S.String), RoleARN: S.optional(S.String), Enabled: S.Boolean }),
 ).annotate({
   identifier: "SecretsManagerConfiguration",
 }) as any as S.Schema<SecretsManagerConfiguration>;
@@ -624,10 +583,7 @@ export interface ElasticsearchBufferingHints {
   SizeInMBs?: number;
 }
 export const ElasticsearchBufferingHints = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    IntervalInSeconds: S.optional(S.Number),
-    SizeInMBs: S.optional(S.Number),
-  }),
+  S.Struct({ IntervalInSeconds: S.optional(S.Number), SizeInMBs: S.optional(S.Number) }),
 ).annotate({
   identifier: "ElasticsearchBufferingHints",
 }) as any as S.Schema<ElasticsearchBufferingHints>;
@@ -653,14 +609,8 @@ export interface VpcConfiguration {
   SecurityGroupIds: string[];
 }
 export const VpcConfiguration = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    SubnetIds: SubnetIdList,
-    RoleARN: S.String,
-    SecurityGroupIds: SecurityGroupIdList,
-  }),
-).annotate({
-  identifier: "VpcConfiguration",
-}) as any as S.Schema<VpcConfiguration>;
+  S.Struct({ SubnetIds: SubnetIdList, RoleARN: S.String, SecurityGroupIds: SecurityGroupIdList }),
+).annotate({ identifier: "VpcConfiguration" }) as any as S.Schema<VpcConfiguration>;
 export type DefaultDocumentIdFormat = "FIREHOSE_DEFAULT" | "NO_DOCUMENT_ID" | (string & {});
 export const DefaultDocumentIdFormat = S.String;
 
@@ -669,9 +619,7 @@ export interface DocumentIdOptions {
 }
 export const DocumentIdOptions = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ DefaultDocumentIdFormat: DefaultDocumentIdFormat }),
-).annotate({
-  identifier: "DocumentIdOptions",
-}) as any as S.Schema<DocumentIdOptions>;
+).annotate({ identifier: "DocumentIdOptions" }) as any as S.Schema<DocumentIdOptions>;
 export interface ElasticsearchDestinationConfiguration {
   RoleARN: string;
   DomainARN?: string;
@@ -728,10 +676,7 @@ export interface AmazonopensearchserviceBufferingHints {
   SizeInMBs?: number;
 }
 export const AmazonopensearchserviceBufferingHints = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    IntervalInSeconds: S.optional(S.Number),
-    SizeInMBs: S.optional(S.Number),
-  }),
+  S.Struct({ IntervalInSeconds: S.optional(S.Number), SizeInMBs: S.optional(S.Number) }),
 ).annotate({
   identifier: "AmazonopensearchserviceBufferingHints",
 }) as any as S.Schema<AmazonopensearchserviceBufferingHints>;
@@ -798,9 +743,7 @@ export interface SplunkRetryOptions {
 }
 export const SplunkRetryOptions = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ DurationInSeconds: S.optional(S.Number) }),
-).annotate({
-  identifier: "SplunkRetryOptions",
-}) as any as S.Schema<SplunkRetryOptions>;
+).annotate({ identifier: "SplunkRetryOptions" }) as any as S.Schema<SplunkRetryOptions>;
 export type SplunkS3BackupMode = "FailedEventsOnly" | "AllEvents" | (string & {});
 export const SplunkS3BackupMode = S.String;
 
@@ -811,13 +754,8 @@ export interface SplunkBufferingHints {
   SizeInMBs?: number;
 }
 export const SplunkBufferingHints = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    IntervalInSeconds: S.optional(S.Number),
-    SizeInMBs: S.optional(S.Number),
-  }),
-).annotate({
-  identifier: "SplunkBufferingHints",
-}) as any as S.Schema<SplunkBufferingHints>;
+  S.Struct({ IntervalInSeconds: S.optional(S.Number), SizeInMBs: S.optional(S.Number) }),
+).annotate({ identifier: "SplunkBufferingHints" }) as any as S.Schema<SplunkBufferingHints>;
 export interface SplunkDestinationConfiguration {
   HECEndpoint: string;
   HECEndpointType: HECEndpointType;
@@ -872,10 +810,7 @@ export interface HttpEndpointBufferingHints {
   IntervalInSeconds?: number;
 }
 export const HttpEndpointBufferingHints = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    SizeInMBs: S.optional(S.Number),
-    IntervalInSeconds: S.optional(S.Number),
-  }),
+  S.Struct({ SizeInMBs: S.optional(S.Number), IntervalInSeconds: S.optional(S.Number) }),
 ).annotate({
   identifier: "HttpEndpointBufferingHints",
 }) as any as S.Schema<HttpEndpointBufferingHints>;
@@ -913,9 +848,7 @@ export interface HttpEndpointRetryOptions {
 }
 export const HttpEndpointRetryOptions = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ DurationInSeconds: S.optional(S.Number) }),
-).annotate({
-  identifier: "HttpEndpointRetryOptions",
-}) as any as S.Schema<HttpEndpointRetryOptions>;
+).annotate({ identifier: "HttpEndpointRetryOptions" }) as any as S.Schema<HttpEndpointRetryOptions>;
 export type HttpEndpointS3BackupMode = "FailedDataOnly" | "AllData" | (string & {});
 export const HttpEndpointS3BackupMode = S.String;
 
@@ -967,10 +900,7 @@ export interface AmazonOpenSearchServerlessBufferingHints {
   SizeInMBs?: number;
 }
 export const AmazonOpenSearchServerlessBufferingHints = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    IntervalInSeconds: S.optional(S.Number),
-    SizeInMBs: S.optional(S.Number),
-  }),
+  S.Struct({ IntervalInSeconds: S.optional(S.Number), SizeInMBs: S.optional(S.Number) }),
 ).annotate({
   identifier: "AmazonOpenSearchServerlessBufferingHints",
 }) as any as S.Schema<AmazonOpenSearchServerlessBufferingHints>;
@@ -1045,9 +975,7 @@ export const MSKSourceConfiguration = /*@__PURE__*/ S.suspend(() =>
     AuthenticationConfiguration: AuthenticationConfiguration,
     ReadFromTimestamp: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
   }),
-).annotate({
-  identifier: "MSKSourceConfiguration",
-}) as any as S.Schema<MSKSourceConfiguration>;
+).annotate({ identifier: "MSKSourceConfiguration" }) as any as S.Schema<MSKSourceConfiguration>;
 export type SnowflakeAccountUrl = string | redacted.Redacted<string>;
 export type SnowflakePrivateKey = string | redacted.Redacted<string>;
 export type SnowflakeKeyPassphrase = string | redacted.Redacted<string>;
@@ -1061,10 +989,7 @@ export interface SnowflakeRoleConfiguration {
   SnowflakeRole?: string | redacted.Redacted<string>;
 }
 export const SnowflakeRoleConfiguration = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Enabled: S.optional(S.Boolean),
-    SnowflakeRole: S.optional(SensitiveString),
-  }),
+  S.Struct({ Enabled: S.optional(S.Boolean), SnowflakeRole: S.optional(SensitiveString) }),
 ).annotate({
   identifier: "SnowflakeRoleConfiguration",
 }) as any as S.Schema<SnowflakeRoleConfiguration>;
@@ -1092,9 +1017,7 @@ export interface SnowflakeRetryOptions {
 }
 export const SnowflakeRetryOptions = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ DurationInSeconds: S.optional(S.Number) }),
-).annotate({
-  identifier: "SnowflakeRetryOptions",
-}) as any as S.Schema<SnowflakeRetryOptions>;
+).annotate({ identifier: "SnowflakeRetryOptions" }) as any as S.Schema<SnowflakeRetryOptions>;
 export type SnowflakeS3BackupMode = "FailedDataOnly" | "AllData" | (string & {});
 export const SnowflakeS3BackupMode = S.String;
 
@@ -1105,13 +1028,8 @@ export interface SnowflakeBufferingHints {
   IntervalInSeconds?: number;
 }
 export const SnowflakeBufferingHints = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    SizeInMBs: S.optional(S.Number),
-    IntervalInSeconds: S.optional(S.Number),
-  }),
-).annotate({
-  identifier: "SnowflakeBufferingHints",
-}) as any as S.Schema<SnowflakeBufferingHints>;
+  S.Struct({ SizeInMBs: S.optional(S.Number), IntervalInSeconds: S.optional(S.Number) }),
+).annotate({ identifier: "SnowflakeBufferingHints" }) as any as S.Schema<SnowflakeBufferingHints>;
 export interface SnowflakeDestinationConfiguration {
   AccountUrl: string | redacted.Redacted<string>;
   PrivateKey?: string | redacted.Redacted<string>;
@@ -1223,13 +1141,8 @@ export interface CatalogConfiguration {
   WarehouseLocation?: string;
 }
 export const CatalogConfiguration = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    CatalogARN: S.optional(S.String),
-    WarehouseLocation: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "CatalogConfiguration",
-}) as any as S.Schema<CatalogConfiguration>;
+  S.Struct({ CatalogARN: S.optional(S.String), WarehouseLocation: S.optional(S.String) }),
+).annotate({ identifier: "CatalogConfiguration" }) as any as S.Schema<CatalogConfiguration>;
 export interface IcebergDestinationConfiguration {
   DestinationTableConfigurationList?: DestinationTableConfiguration[];
   SchemaEvolutionConfiguration?: SchemaEvolutionConfiguration;
@@ -1295,9 +1208,7 @@ export const DatabaseTableList = /*@__PURE__*/ S.suspend(() =>
     Include: S.optional(DatabaseTableIncludeOrExcludeList),
     Exclude: S.optional(DatabaseTableIncludeOrExcludeList),
   }),
-).annotate({
-  identifier: "DatabaseTableList",
-}) as any as S.Schema<DatabaseTableList>;
+).annotate({ identifier: "DatabaseTableList" }) as any as S.Schema<DatabaseTableList>;
 export type DatabaseColumnName = string;
 export type DatabaseColumnIncludeOrExcludeList = string[];
 export const DatabaseColumnIncludeOrExcludeList = /*@__PURE__*/ S.Array(S.String);
@@ -1310,9 +1221,7 @@ export const DatabaseColumnList = /*@__PURE__*/ S.suspend(() =>
     Include: S.optional(DatabaseColumnIncludeOrExcludeList),
     Exclude: S.optional(DatabaseColumnIncludeOrExcludeList),
   }),
-).annotate({
-  identifier: "DatabaseColumnList",
-}) as any as S.Schema<DatabaseColumnList>;
+).annotate({ identifier: "DatabaseColumnList" }) as any as S.Schema<DatabaseColumnList>;
 export type DatabaseSurrogateKeyList = string[];
 export const DatabaseSurrogateKeyList = /*@__PURE__*/ S.Array(S.String);
 export interface DatabaseSourceAuthenticationConfiguration {
@@ -1426,10 +1335,9 @@ export interface DeleteDeliveryStreamInput {
   AllowForceDelete?: boolean;
 }
 export const DeleteDeliveryStreamInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    DeliveryStreamName: S.String,
-    AllowForceDelete: S.optional(S.Boolean),
-  }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+  S.Struct({ DeliveryStreamName: S.String, AllowForceDelete: S.optional(S.Boolean) }).pipe(
+    T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
 ).annotate({
   identifier: "DeleteDeliveryStreamInput",
 }) as any as S.Schema<DeleteDeliveryStreamInput>;
@@ -1491,9 +1399,7 @@ export interface FailureDescription {
 }
 export const FailureDescription = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ Type: DeliveryStreamFailureType, Details: S.String }),
-).annotate({
-  identifier: "FailureDescription",
-}) as any as S.Schema<FailureDescription>;
+).annotate({ identifier: "FailureDescription" }) as any as S.Schema<FailureDescription>;
 export type DeliveryStreamEncryptionStatus =
   | "ENABLED"
   | "ENABLING"
@@ -1559,9 +1465,7 @@ export const MSKSourceDescription = /*@__PURE__*/ S.suspend(() =>
     DeliveryStartTimestamp: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     ReadFromTimestamp: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
   }),
-).annotate({
-  identifier: "MSKSourceDescription",
-}) as any as S.Schema<MSKSourceDescription>;
+).annotate({ identifier: "MSKSourceDescription" }) as any as S.Schema<MSKSourceDescription>;
 export type SnapshotRequestedBy = "USER" | "FIREHOSE" | (string & {});
 export const SnapshotRequestedBy = S.String;
 
@@ -1585,9 +1489,7 @@ export const DatabaseSnapshotInfo = /*@__PURE__*/ S.suspend(() =>
     Status: SnapshotStatus,
     FailureDescription: S.optional(FailureDescription),
   }),
-).annotate({
-  identifier: "DatabaseSnapshotInfo",
-}) as any as S.Schema<DatabaseSnapshotInfo>;
+).annotate({ identifier: "DatabaseSnapshotInfo" }) as any as S.Schema<DatabaseSnapshotInfo>;
 export type DatabaseSnapshotInfoList = DatabaseSnapshotInfo[];
 export const DatabaseSnapshotInfoList = /*@__PURE__*/ S.Array(DatabaseSnapshotInfo);
 export interface DatabaseSourceDescription {
@@ -1637,9 +1539,7 @@ export const SourceDescription = /*@__PURE__*/ S.suspend(() =>
     MSKSourceDescription: S.optional(MSKSourceDescription),
     DatabaseSourceDescription: S.optional(DatabaseSourceDescription),
   }),
-).annotate({
-  identifier: "SourceDescription",
-}) as any as S.Schema<SourceDescription>;
+).annotate({ identifier: "SourceDescription" }) as any as S.Schema<SourceDescription>;
 export interface S3DestinationDescription {
   RoleARN: string;
   BucketARN: string;
@@ -1661,9 +1561,7 @@ export const S3DestinationDescription = /*@__PURE__*/ S.suspend(() =>
     EncryptionConfiguration: EncryptionConfiguration,
     CloudWatchLoggingOptions: S.optional(CloudWatchLoggingOptions),
   }),
-).annotate({
-  identifier: "S3DestinationDescription",
-}) as any as S.Schema<S3DestinationDescription>;
+).annotate({ identifier: "S3DestinationDescription" }) as any as S.Schema<S3DestinationDescription>;
 export interface ExtendedS3DestinationDescription {
   RoleARN: string;
   BucketARN: string;
@@ -1856,9 +1754,7 @@ export interface HttpEndpointDescription {
 }
 export const HttpEndpointDescription = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ Url: S.optional(SensitiveString), Name: S.optional(S.String) }),
-).annotate({
-  identifier: "HttpEndpointDescription",
-}) as any as S.Schema<HttpEndpointDescription>;
+).annotate({ identifier: "HttpEndpointDescription" }) as any as S.Schema<HttpEndpointDescription>;
 export interface HttpEndpointDestinationDescription {
   EndpointConfiguration?: HttpEndpointDescription;
   BufferingHints?: HttpEndpointBufferingHints;
@@ -2022,9 +1918,7 @@ export const DestinationDescription = /*@__PURE__*/ S.suspend(() =>
     ),
     IcebergDestinationDescription: S.optional(IcebergDestinationDescription),
   }),
-).annotate({
-  identifier: "DestinationDescription",
-}) as any as S.Schema<DestinationDescription>;
+).annotate({ identifier: "DestinationDescription" }) as any as S.Schema<DestinationDescription>;
 export type DestinationDescriptionList = DestinationDescription[];
 export const DestinationDescriptionList = /*@__PURE__*/ S.Array(DestinationDescription);
 export interface DeliveryStreamDescription {
@@ -2079,9 +1973,7 @@ export const ListDeliveryStreamsInput = /*@__PURE__*/ S.suspend(() =>
     DeliveryStreamType: S.optional(DeliveryStreamType),
     ExclusiveStartDeliveryStreamName: S.optional(S.String),
   }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
-).annotate({
-  identifier: "ListDeliveryStreamsInput",
-}) as any as S.Schema<ListDeliveryStreamsInput>;
+).annotate({ identifier: "ListDeliveryStreamsInput" }) as any as S.Schema<ListDeliveryStreamsInput>;
 export type DeliveryStreamNameList = string[];
 export const DeliveryStreamNameList = /*@__PURE__*/ S.Array(S.String);
 export interface ListDeliveryStreamsOutput {
@@ -2089,10 +1981,9 @@ export interface ListDeliveryStreamsOutput {
   HasMoreDeliveryStreams: boolean;
 }
 export const ListDeliveryStreamsOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    DeliveryStreamNames: DeliveryStreamNameList,
-    HasMoreDeliveryStreams: S.Boolean,
-  }).pipe(ns),
+  S.Struct({ DeliveryStreamNames: DeliveryStreamNameList, HasMoreDeliveryStreams: S.Boolean }).pipe(
+    ns,
+  ),
 ).annotate({
   identifier: "ListDeliveryStreamsOutput",
 }) as any as S.Schema<ListDeliveryStreamsOutput>;
@@ -2118,10 +2009,7 @@ export interface ListTagsForDeliveryStreamOutput {
   HasMoreTags: boolean;
 }
 export const ListTagsForDeliveryStreamOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Tags: ListTagsForDeliveryStreamOutputTagList,
-    HasMoreTags: S.Boolean,
-  }).pipe(ns),
+  S.Struct({ Tags: ListTagsForDeliveryStreamOutputTagList, HasMoreTags: S.Boolean }).pipe(ns),
 ).annotate({
   identifier: "ListTagsForDeliveryStreamOutput",
 }) as any as S.Schema<ListTagsForDeliveryStreamOutput>;
@@ -2148,9 +2036,7 @@ export interface PutRecordOutput {
 }
 export const PutRecordOutput = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ RecordId: S.String, Encrypted: S.optional(S.Boolean) }).pipe(ns),
-).annotate({
-  identifier: "PutRecordOutput",
-}) as any as S.Schema<PutRecordOutput>;
+).annotate({ identifier: "PutRecordOutput" }) as any as S.Schema<PutRecordOutput>;
 export type PutRecordBatchRequestEntryList = Record[];
 export const PutRecordBatchRequestEntryList = /*@__PURE__*/ S.Array(Record);
 export interface PutRecordBatchInput {
@@ -2158,13 +2044,10 @@ export interface PutRecordBatchInput {
   Records: Record[];
 }
 export const PutRecordBatchInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    DeliveryStreamName: S.String,
-    Records: PutRecordBatchRequestEntryList,
-  }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
-).annotate({
-  identifier: "PutRecordBatchInput",
-}) as any as S.Schema<PutRecordBatchInput>;
+  S.Struct({ DeliveryStreamName: S.String, Records: PutRecordBatchRequestEntryList }).pipe(
+    T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotate({ identifier: "PutRecordBatchInput" }) as any as S.Schema<PutRecordBatchInput>;
 export type ErrorCode = string;
 export type ErrorMessage = string;
 export interface PutRecordBatchResponseEntry {
@@ -2194,9 +2077,7 @@ export const PutRecordBatchOutput = /*@__PURE__*/ S.suspend(() =>
     Encrypted: S.optional(S.Boolean),
     RequestResponses: PutRecordBatchResponseEntryList,
   }).pipe(ns),
-).annotate({
-  identifier: "PutRecordBatchOutput",
-}) as any as S.Schema<PutRecordBatchOutput>;
+).annotate({ identifier: "PutRecordBatchOutput" }) as any as S.Schema<PutRecordBatchOutput>;
 export interface StartDeliveryStreamEncryptionInput {
   DeliveryStreamName: string;
   DeliveryStreamEncryptionConfigurationInput?: DeliveryStreamEncryptionConfigurationInput;
@@ -2238,19 +2119,14 @@ export interface TagDeliveryStreamInput {
   Tags: Tag[];
 }
 export const TagDeliveryStreamInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    DeliveryStreamName: S.String,
-    Tags: TagDeliveryStreamInputTagList,
-  }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
-).annotate({
-  identifier: "TagDeliveryStreamInput",
-}) as any as S.Schema<TagDeliveryStreamInput>;
+  S.Struct({ DeliveryStreamName: S.String, Tags: TagDeliveryStreamInputTagList }).pipe(
+    T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotate({ identifier: "TagDeliveryStreamInput" }) as any as S.Schema<TagDeliveryStreamInput>;
 export interface TagDeliveryStreamOutput {}
 export const TagDeliveryStreamOutput = /*@__PURE__*/ S.suspend(() =>
   S.Struct({}).pipe(ns),
-).annotate({
-  identifier: "TagDeliveryStreamOutput",
-}) as any as S.Schema<TagDeliveryStreamOutput>;
+).annotate({ identifier: "TagDeliveryStreamOutput" }) as any as S.Schema<TagDeliveryStreamOutput>;
 export type TagKeyList = string[];
 export const TagKeyList = /*@__PURE__*/ S.Array(S.String);
 export interface UntagDeliveryStreamInput {
@@ -2261,9 +2137,7 @@ export const UntagDeliveryStreamInput = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ DeliveryStreamName: S.String, TagKeys: TagKeyList }).pipe(
     T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
   ),
-).annotate({
-  identifier: "UntagDeliveryStreamInput",
-}) as any as S.Schema<UntagDeliveryStreamInput>;
+).annotate({ identifier: "UntagDeliveryStreamInput" }) as any as S.Schema<UntagDeliveryStreamInput>;
 export interface UntagDeliveryStreamOutput {}
 export const UntagDeliveryStreamOutput = /*@__PURE__*/ S.suspend(() =>
   S.Struct({}).pipe(ns),
@@ -2291,9 +2165,7 @@ export const S3DestinationUpdate = /*@__PURE__*/ S.suspend(() =>
     EncryptionConfiguration: S.optional(EncryptionConfiguration),
     CloudWatchLoggingOptions: S.optional(CloudWatchLoggingOptions),
   }),
-).annotate({
-  identifier: "S3DestinationUpdate",
-}) as any as S.Schema<S3DestinationUpdate>;
+).annotate({ identifier: "S3DestinationUpdate" }) as any as S.Schema<S3DestinationUpdate>;
 export interface ExtendedS3DestinationUpdate {
   RoleARN?: string;
   BucketARN?: string;
@@ -2455,9 +2327,7 @@ export const SplunkDestinationUpdate = /*@__PURE__*/ S.suspend(() =>
     BufferingHints: S.optional(SplunkBufferingHints),
     SecretsManagerConfiguration: S.optional(SecretsManagerConfiguration),
   }),
-).annotate({
-  identifier: "SplunkDestinationUpdate",
-}) as any as S.Schema<SplunkDestinationUpdate>;
+).annotate({ identifier: "SplunkDestinationUpdate" }) as any as S.Schema<SplunkDestinationUpdate>;
 export interface HttpEndpointDestinationUpdate {
   EndpointConfiguration?: HttpEndpointConfiguration;
   BufferingHints?: HttpEndpointBufferingHints;
@@ -2585,9 +2455,7 @@ export const IcebergDestinationUpdate = /*@__PURE__*/ S.suspend(() =>
     CatalogConfiguration: S.optional(CatalogConfiguration),
     S3Configuration: S.optional(S3DestinationConfiguration),
   }),
-).annotate({
-  identifier: "IcebergDestinationUpdate",
-}) as any as S.Schema<IcebergDestinationUpdate>;
+).annotate({ identifier: "IcebergDestinationUpdate" }) as any as S.Schema<IcebergDestinationUpdate>;
 export interface UpdateDestinationInput {
   DeliveryStreamName: string;
   CurrentDeliveryStreamVersionId: string;
@@ -2621,15 +2489,11 @@ export const UpdateDestinationInput = /*@__PURE__*/ S.suspend(() =>
     SnowflakeDestinationUpdate: S.optional(SnowflakeDestinationUpdate),
     IcebergDestinationUpdate: S.optional(IcebergDestinationUpdate),
   }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
-).annotate({
-  identifier: "UpdateDestinationInput",
-}) as any as S.Schema<UpdateDestinationInput>;
+).annotate({ identifier: "UpdateDestinationInput" }) as any as S.Schema<UpdateDestinationInput>;
 export interface UpdateDestinationOutput {}
 export const UpdateDestinationOutput = /*@__PURE__*/ S.suspend(() =>
   S.Struct({}).pipe(ns),
-).annotate({
-  identifier: "UpdateDestinationOutput",
-}) as any as S.Schema<UpdateDestinationOutput>;
+).annotate({ identifier: "UpdateDestinationOutput" }) as any as S.Schema<UpdateDestinationOutput>;
 export type CreateDeliveryStreamError =
   | InvalidArgumentException
   | InvalidKMSResourceException

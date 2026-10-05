@@ -168,11 +168,7 @@ export const ChangeZoneProtectionRequest = /*@__PURE__*/ S.suspend(() =>
     id_or_name: S.String.pipe(T.Label()),
     delete: S.optional(S.Boolean),
   }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/zones/{id_or_name}/actions/change_protection",
-      code: 200,
-    }),
+    T.Http({ method: "POST", uri: "/zones/{id_or_name}/actions/change_protection", code: 200 }),
   ),
 ).annotate({
   identifier: "ChangeZoneProtectionRequest",
@@ -254,16 +250,8 @@ export const ChangeZoneTtlRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     id_or_name: S.String.pipe(T.Label()),
     ttl: S.Number,
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/zones/{id_or_name}/actions/change_ttl",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "ChangeZoneTtlRequest",
-}) as any as S.Schema<ChangeZoneTtlRequest>;
+  }).pipe(T.Http({ method: "POST", uri: "/zones/{id_or_name}/actions/change_ttl", code: 200 })),
+).annotate({ identifier: "ChangeZoneTtlRequest" }) as any as S.Schema<ChangeZoneTtlRequest>;
 
 /** Status of the Action. */
 export type ChangeZoneTtlResponseActionStatus = "running" | "success" | "error";
@@ -325,9 +313,7 @@ export const ChangeZoneTtlResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     action: ChangeZoneTtlResponseAction,
   }),
-).annotate({
-  identifier: "ChangeZoneTtlResponse",
-}) as any as S.Schema<ChangeZoneTtlResponse>;
+).annotate({ identifier: "ChangeZoneTtlResponse" }) as any as S.Schema<ChangeZoneTtlResponse>;
 
 export interface GetZonesActionRequest {
   /** ID of the Action. */
@@ -337,9 +323,7 @@ export const GetZonesActionRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     id: S.Number.pipe(T.Label()),
   }).pipe(T.Http({ method: "GET", uri: "/zones/actions/{id}", code: 200 })),
-).annotate({
-  identifier: "GetZonesActionRequest",
-}) as any as S.Schema<GetZonesActionRequest>;
+).annotate({ identifier: "GetZonesActionRequest" }) as any as S.Schema<GetZonesActionRequest>;
 
 /** Status of the Action. */
 export type GetZonesActionResponseActionStatus = "running" | "success" | "error";
@@ -401,9 +385,7 @@ export const GetZonesActionResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     action: GetZonesActionResponseAction,
   }),
-).annotate({
-  identifier: "GetZonesActionResponse",
-}) as any as S.Schema<GetZonesActionResponse>;
+).annotate({ identifier: "GetZonesActionResponse" }) as any as S.Schema<GetZonesActionResponse>;
 
 export interface ImportZoneZonefileRequest {
   /** ID or Name of the Zone. */
@@ -416,11 +398,7 @@ export const ImportZoneZonefileRequest = /*@__PURE__*/ S.suspend(() =>
     id_or_name: S.String.pipe(T.Label()),
     zonefile: S.String,
   }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/zones/{id_or_name}/actions/import_zonefile",
-      code: 200,
-    }),
+    T.Http({ method: "POST", uri: "/zones/{id_or_name}/actions/import_zonefile", code: 200 }),
   ),
 ).annotate({
   identifier: "ImportZoneZonefileRequest",
@@ -545,9 +523,7 @@ export const ListZoneActionsRequest = /*@__PURE__*/ S.suspend(() =>
     page: S.optional(S.Number.pipe(T.Query())),
     per_page: S.optional(S.Number.pipe(T.Query())),
   }).pipe(T.Http({ method: "GET", uri: "/zones/{id_or_name}/actions", code: 200 })),
-).annotate({
-  identifier: "ListZoneActionsRequest",
-}) as any as S.Schema<ListZoneActionsRequest>;
+).annotate({ identifier: "ListZoneActionsRequest" }) as any as S.Schema<ListZoneActionsRequest>;
 
 /** Status of the Action. */
 export type ListZoneActionsResponseActionsItemStatus = "running" | "success" | "error";
@@ -658,9 +634,7 @@ export const ListZoneActionsResponse = /*@__PURE__*/ S.suspend(() =>
     actions: ListZoneActionsResponseActionsList,
     meta: ListZoneActionsResponseMeta,
   }),
-).annotate({
-  identifier: "ListZoneActionsResponse",
-}) as any as S.Schema<ListZoneActionsResponse>;
+).annotate({ identifier: "ListZoneActionsResponse" }) as any as S.Schema<ListZoneActionsResponse>;
 
 export type ListZonesActionsRequestIdList = Array<number>;
 export const ListZonesActionsRequestIdList = /*@__PURE__*/ S.Array(
@@ -723,9 +697,7 @@ export const ListZonesActionsRequest = /*@__PURE__*/ S.suspend(() =>
     page: S.optional(S.Number.pipe(T.Query())),
     per_page: S.optional(S.Number.pipe(T.Query())),
   }).pipe(T.Http({ method: "GET", uri: "/zones/actions", code: 200 })),
-).annotate({
-  identifier: "ListZonesActionsRequest",
-}) as any as S.Schema<ListZonesActionsRequest>;
+).annotate({ identifier: "ListZonesActionsRequest" }) as any as S.Schema<ListZonesActionsRequest>;
 
 /** Status of the Action. */
 export type ListZonesActionsResponseActionsItemStatus = "running" | "success" | "error";
@@ -803,9 +775,7 @@ export const ListZonesActionsResponse = /*@__PURE__*/ S.suspend(() =>
     actions: ListZonesActionsResponseActionsList,
     meta: ListZoneActionsResponseMeta,
   }),
-).annotate({
-  identifier: "ListZonesActionsResponse",
-}) as any as S.Schema<ListZonesActionsResponse>;
+).annotate({ identifier: "ListZonesActionsResponse" }) as any as S.Schema<ListZonesActionsResponse>;
 
 export type ChangeZonePrimaryNameserversError = HetznerOpError;
 /** Change a Zone's Primary Nameservers Overwrites the primary nameservers of a [Zone](#tag/zones). Only applicable for [Zones](#tag/zones) in secondary mode. #### Operation specific errors */

@@ -20,11 +20,7 @@ export const CancelFunctionCallRequest = /*@__PURE__*/ S.suspend(() =>
     terminateContainers: S.optional(S.Boolean),
     functionId: S.optional(S.String),
   }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/modal.client.ModalClient/FunctionCallCancel",
-      code: 200,
-    }),
+    T.Http({ method: "POST", uri: "/modal.client.ModalClient/FunctionCallCancel", code: 200 }),
   ),
 ).annotate({
   identifier: "CancelFunctionCallRequest",
@@ -144,9 +140,7 @@ export const CustomDomainConfig = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     name: S.optional(S.String),
   }),
-).annotate({
-  identifier: "CustomDomainConfig",
-}) as any as S.Schema<CustomDomainConfig>;
+).annotate({ identifier: "CustomDomainConfig" }) as any as S.Schema<CustomDomainConfig>;
 
 export type CustomDomainConfigList = Array<CustomDomainConfig>;
 export const CustomDomainConfigList = /*@__PURE__*/ S.Array(
@@ -201,9 +195,7 @@ export const SharedVolumeMount = /*@__PURE__*/ S.suspend(() =>
     sharedVolumeId: S.optional(S.String),
     cloudProvider: S.optional(CloudProvider),
   }),
-).annotate({
-  identifier: "SharedVolumeMount",
-}) as any as S.Schema<SharedVolumeMount>;
+).annotate({ identifier: "SharedVolumeMount" }) as any as S.Schema<SharedVolumeMount>;
 
 export type SharedVolumeMountList = Array<SharedVolumeMount>;
 export const SharedVolumeMountList = /*@__PURE__*/ S.Array(
@@ -224,9 +216,7 @@ export const FunctionRetryPolicy = /*@__PURE__*/ S.suspend(() =>
     maxDelayMs: S.optional(S.Number),
     retries: S.optional(S.Number),
   }),
-).annotate({
-  identifier: "FunctionRetryPolicy",
-}) as any as S.Schema<FunctionRetryPolicy>;
+).annotate({ identifier: "FunctionRetryPolicy" }) as any as S.Schema<FunctionRetryPolicy>;
 
 export type PTYInfoPTYType = "PTY_TYPE_UNSPECIFIED" | "PTY_TYPE_FUNCTION" | "PTY_TYPE_SHELL";
 export const PTYInfoPTYType = S.String;
@@ -298,9 +288,7 @@ export const CustomDomainInfo = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     url: S.optional(S.String),
   }),
-).annotate({
-  identifier: "CustomDomainInfo",
-}) as any as S.Schema<CustomDomainInfo>;
+).annotate({ identifier: "CustomDomainInfo" }) as any as S.Schema<CustomDomainInfo>;
 
 export type CustomDomainInfoList = Array<CustomDomainInfo>;
 export const CustomDomainInfoList = /*@__PURE__*/ S.Array(
@@ -345,9 +333,7 @@ export const ObjectDependency = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     objectId: S.optional(S.String),
   }),
-).annotate({
-  identifier: "ObjectDependency",
-}) as any as S.Schema<ObjectDependency>;
+).annotate({ identifier: "ObjectDependency" }) as any as S.Schema<ObjectDependency>;
 
 export type ObjectDependencyList = Array<ObjectDependency>;
 export const ObjectDependencyList = /*@__PURE__*/ S.Array(
@@ -410,9 +396,7 @@ export const CloudBucketMount = /*@__PURE__*/ S.suspend(() =>
     metadataTtlType: S.optional(CloudBucketMountMetadataTTLType),
     metadataTtlSeconds: S.optional(S.String),
   }),
-).annotate({
-  identifier: "CloudBucketMount",
-}) as any as S.Schema<CloudBucketMount>;
+).annotate({ identifier: "CloudBucketMount" }) as any as S.Schema<CloudBucketMount>;
 
 export type CloudBucketMountList = Array<CloudBucketMount>;
 export const CloudBucketMountList = /*@__PURE__*/ S.Array(
@@ -435,9 +419,7 @@ export const SchedulerPlacement = /*@__PURE__*/ S.suspend(() =>
     InstanceTypes: S.optional(StringList),
     nonpreemptible: S.optional(S.Boolean),
   }),
-).annotate({
-  identifier: "SchedulerPlacement",
-}) as any as S.Schema<SchedulerPlacement>;
+).annotate({ identifier: "SchedulerPlacement" }) as any as S.Schema<SchedulerPlacement>;
 
 export type ClassParameterInfoParameterSerializationFormat =
   | "PARAM_SERIALIZATION_FORMAT_UNSPECIFIED"
@@ -472,9 +454,7 @@ export const GenericPayloadType = /*@__PURE__*/ S.suspend(() =>
     baseType: S.optional(ParameterType),
     subTypes: S.optional(GenericPayloadTypeList),
   }),
-).annotate({
-  identifier: "GenericPayloadType",
-}) as any as S.Schema<GenericPayloadType>;
+).annotate({ identifier: "GenericPayloadType" }) as any as S.Schema<GenericPayloadType>;
 
 export interface ClassParameterSpec {
   /** TODO: rename into NamedPayloadType or similar */
@@ -502,9 +482,7 @@ export const ClassParameterSpec = /*@__PURE__*/ S.suspend(() =>
     boolDefault: S.optional(S.Boolean),
     fullType: S.optional(GenericPayloadType),
   }),
-).annotate({
-  identifier: "ClassParameterSpec",
-}) as any as S.Schema<ClassParameterSpec>;
+).annotate({ identifier: "ClassParameterSpec" }) as any as S.Schema<ClassParameterSpec>;
 
 export type ClassParameterSpecList = Array<ClassParameterSpec>;
 export const ClassParameterSpecList = /*@__PURE__*/ S.Array(
@@ -521,9 +499,7 @@ export const ClassParameterInfo = /*@__PURE__*/ S.suspend(() =>
     format: S.optional(ClassParameterInfoParameterSerializationFormat),
     schema: S.optional(ClassParameterSpecList),
   }),
-).annotate({
-  identifier: "ClassParameterInfo",
-}) as any as S.Schema<ClassParameterInfo>;
+).annotate({ identifier: "ClassParameterInfo" }) as any as S.Schema<ClassParameterInfo>;
 
 export interface TaskTemplate {
   rank?: number;
@@ -643,13 +619,9 @@ export const MethodDefinition = /*@__PURE__*/ S.suspend(() =>
     supportedInputFormats: S.optional(DataFormatList),
     supportedOutputFormats: S.optional(DataFormatList),
   }),
-).annotate({
-  identifier: "MethodDefinition",
-}) as any as S.Schema<MethodDefinition>;
+).annotate({ identifier: "MethodDefinition" }) as any as S.Schema<MethodDefinition>;
 
-export type MethodDefinitionMap = {
-  [key: string]: MethodDefinition | undefined;
-};
+export type MethodDefinitionMap = { [key: string]: MethodDefinition | undefined };
 export const MethodDefinitionMap = /*@__PURE__*/ S.Record(
   S.String,
   MethodDefinition,
@@ -684,12 +656,15 @@ export const AutoscalerSettings = /*@__PURE__*/ S.suspend(() =>
     scaledownRateLimit: S.optional(S.Number),
     targetConcurrencyFloat: S.optional(S.Number),
   }),
-).annotate({
-  identifier: "AutoscalerSettings",
-}) as any as S.Schema<AutoscalerSettings>;
+).annotate({ identifier: "AutoscalerSettings" }) as any as S.Schema<AutoscalerSettings>;
 
 export type StringMap = { [key: string]: string | undefined };
 export const StringMap = /*@__PURE__*/ S.Record(S.String, S.String) as any as S.Schema<StringMap>;
+
+export interface LiftAndShiftConfig {}
+export const LiftAndShiftConfig = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
+  identifier: "LiftAndShiftConfig",
+}) as any as S.Schema<LiftAndShiftConfig>;
 
 /** (?) */
 export interface HTTPConfig {
@@ -700,6 +675,7 @@ export interface HTTPConfig {
   h2Enabled?: boolean;
   targetConcurrency?: number;
   unauthenticated?: boolean;
+  liftAndShiftConfig?: LiftAndShiftConfig;
 }
 export const HTTPConfig = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -710,6 +686,7 @@ export const HTTPConfig = /*@__PURE__*/ S.suspend(() =>
     h2Enabled: S.optional(S.Boolean),
     targetConcurrency: S.optional(S.Number),
     unauthenticated: S.optional(S.Boolean),
+    liftAndShiftConfig: S.optional(LiftAndShiftConfig),
   }),
 ).annotate({ identifier: "HTTPConfig" }) as any as S.Schema<HTTPConfig>;
 
@@ -769,11 +746,7 @@ export interface Function {
   schedulerPlacement?: SchedulerPlacement;
   /** _experimental_scheduler_placement */
   isClass?: boolean;
-  /** if "Function" is actually a class grouping multiple methods */
-  useFunctionId?: string;
-  /** for class methods use this function id instead for invocations - the *referenced* function should have is_class=True */
-  useMethodName?: string;
-  /** for class methods - this method name needs to be included in the FunctionInput */
+  /** use_method_name, pre-0.67 class method placeholders */
   classParameterInfo?: ClassParameterInfo;
   /** _experimental_resources */
   batchMaxSize?: number;
@@ -794,8 +767,7 @@ export interface Function {
   /** If set, the function will be run in an untrusted environment. */
   untrusted?: boolean;
   ExperimentalBufferContainers?: number;
-  /** To be replaced by autoscaler_settings.buffer_containers _experimental_proxy_ip -> ProxyInfo TODO: deprecate. */
-  ExperimentalProxyIp?: string;
+  /** To be replaced by autoscaler_settings.buffer_containers */
   runtimePerfRecord?: boolean;
   /** For internal debugging use only. */
   schedule?: Schedule;
@@ -879,8 +851,6 @@ export const Function = /*@__PURE__*/ S.suspend(() =>
     cloudBucketMounts: S.optional(CloudBucketMountList),
     schedulerPlacement: S.optional(SchedulerPlacement),
     isClass: S.optional(S.Boolean),
-    useFunctionId: S.optional(S.String),
-    useMethodName: S.optional(S.String),
     classParameterInfo: S.optional(ClassParameterInfo),
     batchMaxSize: S.optional(S.Number),
     batchLingerMs: S.optional(S.String),
@@ -893,7 +863,6 @@ export const Function = /*@__PURE__*/ S.suspend(() =>
     ExperimentalFabricSize: S.optional(S.Number),
     untrusted: S.optional(S.Boolean),
     ExperimentalBufferContainers: S.optional(S.Number),
-    ExperimentalProxyIp: S.optional(S.String),
     runtimePerfRecord: S.optional(S.Boolean),
     schedule: S.optional(Schedule),
     snapshotDebug: S.optional(S.Boolean),
@@ -921,7 +890,7 @@ export const Function = /*@__PURE__*/ S.suspend(() =>
   }),
 ).annotate({ identifier: "Function" }) as any as S.Schema<Function>;
 
-/** used for methods */
+/** use_method_name, pre-0.67 class method placeholders */
 export interface FunctionDataRankedFunction {
   rank?: number;
   function?: Function;
@@ -962,8 +931,6 @@ export interface FunctionData {
   webUrlInfo?: WebUrlInfo;
   webhookConfig?: WebhookConfig;
   customDomainInfo?: CustomDomainInfoList;
-  /** _experimental_proxy_ip -> ProxyInfo TODO: deprecate. */
-  ExperimentalProxyIp?: string;
   /** Mapping of method names to method definitions, only non-empty for class service functions */
   methodDefinitions?: MethodDefinitionMap;
   methodDefinitionsSet?: boolean;
@@ -971,9 +938,6 @@ export interface FunctionData {
   /** if "Function" is actually a class grouping multiple methods - applies across all underlying tasks */
   classParameterInfo?: ClassParameterInfo;
   isMethod?: boolean;
-  useFunctionId?: string;
-  /** used for methods */
-  useMethodName?: string;
   rankedFunctions?: FunctionDataRankedFunctionList;
   schedule?: Schedule;
   untrusted?: boolean;
@@ -1019,14 +983,11 @@ export const FunctionData = /*@__PURE__*/ S.suspend(() =>
     webUrlInfo: S.optional(WebUrlInfo),
     webhookConfig: S.optional(WebhookConfig),
     customDomainInfo: S.optional(CustomDomainInfoList),
-    ExperimentalProxyIp: S.optional(S.String),
     methodDefinitions: S.optional(MethodDefinitionMap),
     methodDefinitionsSet: S.optional(S.Boolean),
     isClass: S.optional(S.Boolean),
     classParameterInfo: S.optional(ClassParameterInfo),
     isMethod: S.optional(S.Boolean),
-    useFunctionId: S.optional(S.String),
-    useMethodName: S.optional(S.String),
     rankedFunctions: S.optional(FunctionDataRankedFunctionList),
     schedule: S.optional(Schedule),
     untrusted: S.optional(S.Boolean),
@@ -1064,20 +1025,10 @@ export const CreateFunctionRequest = /*@__PURE__*/ S.suspend(() =>
     schedule: S.optional(Schedule),
     existingFunctionId: S.optional(S.String),
     functionData: S.optional(FunctionData),
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/modal.client.ModalClient/FunctionCreate",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "CreateFunctionRequest",
-}) as any as S.Schema<CreateFunctionRequest>;
+  }).pipe(T.Http({ method: "POST", uri: "/modal.client.ModalClient/FunctionCreate", code: 200 })),
+).annotate({ identifier: "CreateFunctionRequest" }) as any as S.Schema<CreateFunctionRequest>;
 
-export type FunctionHandleMetadataMap = {
-  [key: string]: FunctionHandleMetadata | undefined;
-};
+export type FunctionHandleMetadataMap = { [key: string]: FunctionHandleMetadata | undefined };
 export const FunctionHandleMetadataMap = /*@__PURE__*/ S.Record(
   S.String,
   S.suspend(() => FunctionHandleMetadata),
@@ -1089,8 +1040,7 @@ export interface FunctionHandleMetadata {
   functionType?: FunctionFunctionType;
   webUrl?: string;
   isMethod?: boolean;
-  useFunctionId?: string;
-  /** used for methods */
+  /** use_function_id, pre-0.67 class method placeholders */
   useMethodName?: string;
   /** used for methods */
   definitionId?: string;
@@ -1108,6 +1058,8 @@ export interface FunctionHandleMetadata {
   supportedInputFormats?: DataFormatList;
   supportedOutputFormats?: DataFormatList;
   appId?: string;
+  /** The base Function ID for a variant, or the Function's own ID otherwise. */
+  baseFunctionId?: string;
 }
 export const FunctionHandleMetadata = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -1115,7 +1067,6 @@ export const FunctionHandleMetadata = /*@__PURE__*/ S.suspend(() =>
     functionType: S.optional(FunctionFunctionType),
     webUrl: S.optional(S.String),
     isMethod: S.optional(S.Boolean),
-    useFunctionId: S.optional(S.String),
     useMethodName: S.optional(S.String),
     definitionId: S.optional(S.String),
     classParameterInfo: S.optional(ClassParameterInfo),
@@ -1129,10 +1080,9 @@ export const FunctionHandleMetadata = /*@__PURE__*/ S.suspend(() =>
     supportedInputFormats: S.optional(DataFormatList),
     supportedOutputFormats: S.optional(DataFormatList),
     appId: S.optional(S.String),
+    baseFunctionId: S.optional(S.String),
   }),
-).annotate({
-  identifier: "FunctionHandleMetadata",
-}) as any as S.Schema<FunctionHandleMetadata>;
+).annotate({ identifier: "FunctionHandleMetadata" }) as any as S.Schema<FunctionHandleMetadata>;
 
 export type WarningWarningType =
   | "WARNING_TYPE_UNSPECIFIED"
@@ -1174,9 +1124,89 @@ export const CreateFunctionResponse = /*@__PURE__*/ S.suspend(() =>
     serverWarnings: S.optional(WarningList),
     functionData: S.optional(FunctionData),
   }),
+).annotate({ identifier: "CreateFunctionResponse" }) as any as S.Schema<CreateFunctionResponse>;
+
+export interface FetchFunctionCallRequestTail {
+  /** Number of most recent inputs to return. Must be between 1 and 1000. */
+  count?: number;
+}
+export const FetchFunctionCallRequestTail = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    count: S.optional(S.Number),
+  }),
 ).annotate({
-  identifier: "CreateFunctionResponse",
-}) as any as S.Schema<CreateFunctionResponse>;
+  identifier: "FetchFunctionCallRequestTail",
+}) as any as S.Schema<FetchFunctionCallRequestTail>;
+
+export interface FetchFunctionCallRequest {
+  functionId?: string;
+  tail?: FetchFunctionCallRequestTail;
+  /** Include the root Function and its eligible variants. */
+  allVariants?: boolean;
+}
+export const FetchFunctionCallRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    functionId: S.optional(S.String),
+    tail: S.optional(FetchFunctionCallRequestTail),
+    allVariants: S.optional(S.Boolean),
+  }).pipe(
+    T.Http({ method: "POST", uri: "/modal.client.ModalClient/FunctionCallFetch", code: 200 }),
+  ),
+).annotate({ identifier: "FetchFunctionCallRequest" }) as any as S.Schema<FetchFunctionCallRequest>;
+
+export type FunctionCallInputStatus =
+  | "FUNCTION_CALL_INPUT_STATUS_UNSPECIFIED"
+  | "FUNCTION_CALL_INPUT_STATUS_PENDING"
+  | "FUNCTION_CALL_INPUT_STATUS_RUNNING"
+  | "FUNCTION_CALL_INPUT_STATUS_SUCCESS"
+  | "FUNCTION_CALL_INPUT_STATUS_FAILURE"
+  | "FUNCTION_CALL_INPUT_STATUS_TIMEOUT"
+  | "FUNCTION_CALL_INPUT_STATUS_TERMINATED"
+  | "FUNCTION_CALL_INPUT_STATUS_INIT_FAILURE"
+  | "FUNCTION_CALL_INPUT_STATUS_INTERNAL_FAILURE"
+  | "FUNCTION_CALL_INPUT_STATUS_IDLE_TIMEOUT"
+  | "FUNCTION_CALL_INPUT_STATUS_MEMORY_MANAGER_EVICTION";
+export const FunctionCallInputStatus = S.String;
+
+export interface FunctionCallInputInfo {
+  enqueuedAt?: string;
+  startedAt?: string;
+  containerId?: string;
+  startupTimeSeconds?: number;
+  executionTimeSeconds?: number;
+  status?: FunctionCallInputStatus;
+  functionCallId?: string;
+  serviceMethodName?: string;
+}
+export const FunctionCallInputInfo = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    enqueuedAt: S.optional(S.String),
+    startedAt: S.optional(S.String),
+    containerId: S.optional(S.String),
+    startupTimeSeconds: S.optional(S.Number),
+    executionTimeSeconds: S.optional(S.Number),
+    status: S.optional(FunctionCallInputStatus),
+    functionCallId: S.optional(S.String),
+    serviceMethodName: S.optional(S.String),
+  }),
+).annotate({ identifier: "FunctionCallInputInfo" }) as any as S.Schema<FunctionCallInputInfo>;
+
+export type FunctionCallInputInfoList = Array<FunctionCallInputInfo>;
+export const FunctionCallInputInfoList = /*@__PURE__*/ S.Array(
+  FunctionCallInputInfo,
+) as any as S.Schema<FunctionCallInputInfoList>;
+
+export interface FetchFunctionCallResponse {
+  /** The requested number of most recent inputs from the last seven days, ordered from newest to oldest. */
+  functionCallInputs?: FunctionCallInputInfoList;
+}
+export const FetchFunctionCallResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    functionCallInputs: S.optional(FunctionCallInputInfoList),
+  }),
+).annotate({
+  identifier: "FetchFunctionCallResponse",
+}) as any as S.Schema<FetchFunctionCallResponse>;
 
 /** todo(ayush): update this to also use `autoscaler_settings` */
 export interface FunctionOptions {
@@ -1229,9 +1259,7 @@ export const FunctionOptions = /*@__PURE__*/ S.suspend(() =>
     pinnedAppVersion: S.optional(S.Number),
     routingRegion: S.optional(S.String),
   }),
-).annotate({
-  identifier: "FunctionOptions",
-}) as any as S.Schema<FunctionOptions>;
+).annotate({ identifier: "FunctionOptions" }) as any as S.Schema<FunctionOptions>;
 
 export interface FunctionBindParamsRequest {
   functionId?: string;
@@ -1248,11 +1276,7 @@ export const FunctionBindParamsRequest = /*@__PURE__*/ S.suspend(() =>
     environmentName: S.optional(S.String),
     authSecret: S.optional(S.String.pipe(T.SensitiveValue({}))),
   }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/modal.client.ModalClient/FunctionBindParams",
-      code: 200,
-    }),
+    T.Http({ method: "POST", uri: "/modal.client.ModalClient/FunctionBindParams", code: 200 }),
   ),
 ).annotate({
   identifier: "FunctionBindParamsRequest",
@@ -1278,11 +1302,7 @@ export const FunctionCallFromIdRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     functionCallId: S.optional(S.String),
   }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/modal.client.ModalClient/FunctionCallFromId",
-      code: 200,
-    }),
+    T.Http({ method: "POST", uri: "/modal.client.ModalClient/FunctionCallFromId", code: 200 }),
   ),
 ).annotate({
   identifier: "FunctionCallFromIdRequest",
@@ -1325,11 +1345,7 @@ export const FunctionCallGetInfoRequest = /*@__PURE__*/ S.suspend(() =>
     functionId: S.optional(S.String),
     functionCallId: S.optional(S.String),
   }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/modal.client.ModalClient/FunctionCallGetInfo",
-      code: 200,
-    }),
+    T.Http({ method: "POST", uri: "/modal.client.ModalClient/FunctionCallGetInfo", code: 200 }),
   ),
 ).annotate({
   identifier: "FunctionCallGetInfoRequest",
@@ -1368,9 +1384,7 @@ export const InputCategoryInfo = /*@__PURE__*/ S.suspend(() =>
     total: S.optional(S.Number),
     latest: S.optional(InputInfoList),
   }),
-).annotate({
-  identifier: "InputCategoryInfo",
-}) as any as S.Schema<InputCategoryInfo>;
+).annotate({ identifier: "InputCategoryInfo" }) as any as S.Schema<InputCategoryInfo>;
 
 export interface FunctionCallInfo {
   functionCallId?: string;
@@ -1400,9 +1414,7 @@ export const FunctionCallInfo = /*@__PURE__*/ S.suspend(() =>
     cancelledInputs: S.optional(InputCategoryInfo),
     totalInputs: S.optional(S.Number),
   }),
-).annotate({
-  identifier: "FunctionCallInfo",
-}) as any as S.Schema<FunctionCallInfo>;
+).annotate({ identifier: "FunctionCallInfo" }) as any as S.Schema<FunctionCallInfo>;
 
 export interface FunctionCallGetInfoResponse {
   info?: FunctionCallInfo;
@@ -1445,11 +1457,7 @@ export const FunctionCallPutDataOutRequest = /*@__PURE__*/ S.suspend(() =>
     attemptToken: S.optional(S.String),
     dataChunks: S.optional(DataChunkList),
   }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/modal.client.ModalClient/FunctionCallPutDataOut",
-      code: 200,
-    }),
+    T.Http({ method: "POST", uri: "/modal.client.ModalClient/FunctionCallPutDataOut", code: 200 }),
   ),
 ).annotate({
   identifier: "FunctionCallPutDataOutRequest",
@@ -1471,11 +1479,7 @@ export const FunctionFinishInputsRequest = /*@__PURE__*/ S.suspend(() =>
     functionCallId: S.optional(S.String),
     numInputs: S.optional(S.Number),
   }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/modal.client.ModalClient/FunctionFinishInputs",
-      code: 200,
-    }),
+    T.Http({ method: "POST", uri: "/modal.client.ModalClient/FunctionFinishInputs", code: 200 }),
   ),
 ).annotate({
   identifier: "FunctionFinishInputsRequest",
@@ -1492,27 +1496,19 @@ export interface FunctionGetByIdRequest {
 export const FunctionGetByIdRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     functionId: S.optional(S.String),
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/modal.client.ModalClient/FunctionGetById",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "FunctionGetByIdRequest",
-}) as any as S.Schema<FunctionGetByIdRequest>;
+  }).pipe(T.Http({ method: "POST", uri: "/modal.client.ModalClient/FunctionGetById", code: 200 })),
+).annotate({ identifier: "FunctionGetByIdRequest" }) as any as S.Schema<FunctionGetByIdRequest>;
 
 export interface FunctionGetByIdResponse {
   function?: FunctionData;
+  handleMetadata?: FunctionHandleMetadata;
 }
 export const FunctionGetByIdResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     function: S.optional(FunctionData),
+    handleMetadata: S.optional(FunctionHandleMetadata),
   }),
-).annotate({
-  identifier: "FunctionGetByIdResponse",
-}) as any as S.Schema<FunctionGetByIdResponse>;
+).annotate({ identifier: "FunctionGetByIdResponse" }) as any as S.Schema<FunctionGetByIdResponse>;
 
 export interface FunctionGetCallGraphRequest {
   functionCallId?: string;
@@ -1521,11 +1517,7 @@ export const FunctionGetCallGraphRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     functionCallId: S.optional(S.String),
   }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/modal.client.ModalClient/FunctionGetCallGraph",
-      code: 200,
-    }),
+    T.Http({ method: "POST", uri: "/modal.client.ModalClient/FunctionGetCallGraph", code: 200 }),
   ),
 ).annotate({
   identifier: "FunctionGetCallGraphRequest",
@@ -1557,9 +1549,7 @@ export const InputCallGraphInfo = /*@__PURE__*/ S.suspend(() =>
     functionCallId: S.optional(S.String),
     taskId: S.optional(S.String),
   }),
-).annotate({
-  identifier: "InputCallGraphInfo",
-}) as any as S.Schema<InputCallGraphInfo>;
+).annotate({ identifier: "InputCallGraphInfo" }) as any as S.Schema<InputCallGraphInfo>;
 
 export type InputCallGraphInfoList = Array<InputCallGraphInfo>;
 export const InputCallGraphInfoList = /*@__PURE__*/ S.Array(
@@ -1591,11 +1581,14 @@ export const FunctionCallCallGraphInfoList = /*@__PURE__*/ S.Array(
 export interface FunctionGetCallGraphResponse {
   inputs?: InputCallGraphInfoList;
   functionCalls?: FunctionCallCallGraphInfoList;
+  /** Set by the server when the graph has more nodes than it will return, so `inputs` is a prefix of the graph. */
+  truncated?: boolean;
 }
 export const FunctionGetCallGraphResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     inputs: S.optional(InputCallGraphInfoList),
     functionCalls: S.optional(FunctionCallCallGraphInfoList),
+    truncated: S.optional(S.Boolean),
   }),
 ).annotate({
   identifier: "FunctionGetCallGraphResponse",
@@ -1608,11 +1601,7 @@ export const FunctionGetCurrentStatsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     functionId: S.optional(S.String),
   }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/modal.client.ModalClient/FunctionGetCurrentStats",
-      code: 200,
-    }),
+    T.Http({ method: "POST", uri: "/modal.client.ModalClient/FunctionGetCurrentStats", code: 200 }),
   ),
 ).annotate({
   identifier: "FunctionGetCurrentStatsRequest",
@@ -1667,6 +1656,108 @@ export const FunctionGetDynamicConcurrencyResponse = /*@__PURE__*/ S.suspend(() 
   identifier: "FunctionGetDynamicConcurrencyResponse",
 }) as any as S.Schema<FunctionGetDynamicConcurrencyResponse>;
 
+export interface FunctionGetFlashAuthTokenRequest {
+  functionId?: string;
+}
+export const FunctionGetFlashAuthTokenRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    functionId: S.optional(S.String),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      uri: "/modal.client.ModalClient/FunctionGetFlashAuthToken",
+      code: 200,
+    }),
+  ),
+).annotate({
+  identifier: "FunctionGetFlashAuthTokenRequest",
+}) as any as S.Schema<FunctionGetFlashAuthTokenRequest>;
+
+export interface FunctionGetFlashAuthTokenResponse {
+  token?: string;
+}
+export const FunctionGetFlashAuthTokenResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    token: S.optional(S.String),
+  }),
+).annotate({
+  identifier: "FunctionGetFlashAuthTokenResponse",
+}) as any as S.Schema<FunctionGetFlashAuthTokenResponse>;
+
+export interface FunctionGetSchedulingParamsRequest {
+  functionId?: string;
+}
+export const FunctionGetSchedulingParamsRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    functionId: S.optional(S.String),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      uri: "/modal.client.ModalClient/FunctionGetSchedulingParams",
+      code: 200,
+    }),
+  ),
+).annotate({
+  identifier: "FunctionGetSchedulingParamsRequest",
+}) as any as S.Schema<FunctionGetSchedulingParamsRequest>;
+
+/** Used for capturing context about an action performed by a user */
+export interface UserActionInfo {
+  userId?: string;
+  serviceUserId?: string;
+  timestamp?: number;
+  /** Resolved display name, could be a user or service user. */
+  requestedBy?: string;
+}
+export const UserActionInfo = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    userId: S.optional(S.String),
+    serviceUserId: S.optional(S.String),
+    timestamp: S.optional(S.Number),
+    requestedBy: S.optional(S.String),
+  }),
+).annotate({ identifier: "UserActionInfo" }) as any as S.Schema<UserActionInfo>;
+
+export type UserActionInfoMap = { [key: string]: UserActionInfo | undefined };
+export const UserActionInfoMap = /*@__PURE__*/ S.Record(
+  S.String,
+  UserActionInfo,
+) as any as S.Schema<UserActionInfoMap>;
+
+/** Message representing the current (coalesced) state of the autoscaler configuration As well as the different sources that were used to create it. */
+export interface AutoscalerConfiguration {
+  /** The settings that are currently in effect. */
+  settings?: AutoscalerSettings;
+  /** For tracking the source of the overridden value; keys correspond to fields in `settings`. */
+  overrideEvents?: UserActionInfoMap;
+  /** The default settings that are used when no static settings are provided and no overrides are in effect. */
+  defaultSettings?: AutoscalerSettings;
+  /** The static settings that were used to initialize the configuration. */
+  staticSettings?: AutoscalerSettings;
+  /** The merge of all overrides that were used to create the current configuration. */
+  overrideSettings?: AutoscalerSettings;
+}
+export const AutoscalerConfiguration = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    settings: S.optional(AutoscalerSettings),
+    overrideEvents: S.optional(UserActionInfoMap),
+    defaultSettings: S.optional(AutoscalerSettings),
+    staticSettings: S.optional(AutoscalerSettings),
+    overrideSettings: S.optional(AutoscalerSettings),
+  }),
+).annotate({ identifier: "AutoscalerConfiguration" }) as any as S.Schema<AutoscalerConfiguration>;
+
+export interface FunctionGetSchedulingParamsResponse {
+  autoscalerConfiguration?: AutoscalerConfiguration;
+}
+export const FunctionGetSchedulingParamsResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    autoscalerConfiguration: S.optional(AutoscalerConfiguration),
+  }),
+).annotate({
+  identifier: "FunctionGetSchedulingParamsResponse",
+}) as any as S.Schema<FunctionGetSchedulingParamsResponse>;
+
 export interface FunctionGetSerializedRequest {
   functionId?: string;
 }
@@ -1674,11 +1765,7 @@ export const FunctionGetSerializedRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     functionId: S.optional(S.String),
   }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/modal.client.ModalClient/FunctionGetSerialized",
-      code: 200,
-    }),
+    T.Http({ method: "POST", uri: "/modal.client.ModalClient/FunctionGetSerialized", code: 200 }),
   ),
 ).annotate({
   identifier: "FunctionGetSerializedRequest",
@@ -1704,6 +1791,8 @@ export interface FunctionGetTimeRangeStatsRequest {
   until?: string;
   /** Exclusive. Aggregate the root Function pool and its non-version-pinned variant pools. */
   rollup?: boolean;
+  /** Filter stats for a specific container */
+  containerId?: string;
 }
 export const FunctionGetTimeRangeStatsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -1711,6 +1800,7 @@ export const FunctionGetTimeRangeStatsRequest = /*@__PURE__*/ S.suspend(() =>
     since: S.optional(S.String),
     until: S.optional(S.String),
     rollup: S.optional(S.Boolean),
+    containerId: S.optional(S.String),
   }).pipe(
     T.Http({
       method: "POST",
@@ -1722,60 +1812,150 @@ export const FunctionGetTimeRangeStatsRequest = /*@__PURE__*/ S.suspend(() =>
   identifier: "FunctionGetTimeRangeStatsRequest",
 }) as any as S.Schema<FunctionGetTimeRangeStatsRequest>;
 
-export interface FunctionStatsPercentiles {
-  p50?: number;
-  p90?: number;
+export interface StatsPercentile {
+  /** The percentile expressed in basis points: 5000 is p50 and 9990 is p99.9. */
+  percentileBasisPoints?: number;
+  value?: number;
 }
-export const FunctionStatsPercentiles = /*@__PURE__*/ S.suspend(() =>
+export const StatsPercentile = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    p50: S.optional(S.Number),
-    p90: S.optional(S.Number),
+    percentileBasisPoints: S.optional(S.Number),
+    value: S.optional(S.Number),
+  }),
+).annotate({ identifier: "StatsPercentile" }) as any as S.Schema<StatsPercentile>;
+
+export type StatsPercentileList = Array<StatsPercentile>;
+export const StatsPercentileList = /*@__PURE__*/ S.Array(
+  StatsPercentile,
+) as any as S.Schema<StatsPercentileList>;
+
+export interface StatsPercentileDistribution {
+  /** Unit identifier such as "seconds", "cores", "gibibytes", or "fraction". */
+  unit?: string;
+  percentiles?: StatsPercentileList;
+}
+export const StatsPercentileDistribution = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    unit: S.optional(S.String),
+    percentiles: S.optional(StatsPercentileList),
   }),
 ).annotate({
-  identifier: "FunctionStatsPercentiles",
-}) as any as S.Schema<FunctionStatsPercentiles>;
+  identifier: "StatsPercentileDistribution",
+}) as any as S.Schema<StatsPercentileDistribution>;
+
+export type StatsPercentileDistributionMap = {
+  [key: string]: StatsPercentileDistribution | undefined;
+};
+export const StatsPercentileDistributionMap = /*@__PURE__*/ S.Record(
+  S.String,
+  StatsPercentileDistribution,
+) as any as S.Schema<StatsPercentileDistributionMap>;
 
 export interface FunctionGetTimeRangeStatsResponse {
   since?: string;
   /** Inclusive. */
   until?: string;
-  /** Exclusive. Per-input latency distributions. Execution time derived from inputs that finish in the window */
-  executionTimeSeconds?: FunctionStatsPercentiles;
-  /** Purposely omitted for now since it can't be computed from the desired tables without caveats that are confusing to explain to users */
-  queueTimeSeconds?: FunctionStatsPercentiles;
-  endToEndLatencySeconds?: FunctionStatsPercentiles;
-  /** Container startup is measured from enqueue to start. */
-  containerStartupTimeSeconds?: FunctionStatsPercentiles;
-  /** Counts of inputs that finish in the requested time range. */
+  /** Exclusive. Counts of inputs that finish in the requested time range. */
   inputSuccessCount?: string;
   inputFailureCount?: string;
   inputTimeoutCount?: string;
-  /** Resource distributions are computed from normalized container heartbeat observations and expressed as fractions, where 1.0 represents 100% utilization. A missing message indicates that no observations were available. */
-  cpuUtilization?: FunctionStatsPercentiles;
-  memoryUtilization?: FunctionStatsPercentiles;
-  gpuUtilization?: FunctionStatsPercentiles;
+  /** Number of inputs assigned but not finished at the exclusive end of the time range. */
+  inputRunningAtEndCount?: string;
+  /** Metrics include execution_time, end_to_end_latency, subject to change as requirements evolve */
+  inputPercentileStats?: StatsPercentileDistributionMap;
+  /** Container lifecycle counts. Started and errored containers are counted when the corresponding event occurs in the requested time range. Creating containers were enqueued but had not started or finished at the exclusive end of the range. */
+  containerStartedCount?: string;
+  containerErrorCount?: string;
+  containerCreatingAtEndCount?: string;
+  /** Metrics include cpu_usage, memory_usage, gpu_utilization subject to change as requirements evolve */
+  containerPercentileStats?: StatsPercentileDistributionMap;
   /** Number of direct non-version-pinned variants included in the roll-up. Zero when roll-up is disabled or the base Function has no variants. */
   variantCount?: number;
+  /** Number of containers that were active (published heartbeats) in the time range. */
+  containerTotalCount?: string;
 }
 export const FunctionGetTimeRangeStatsResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     since: S.optional(S.String),
     until: S.optional(S.String),
-    executionTimeSeconds: S.optional(FunctionStatsPercentiles),
-    queueTimeSeconds: S.optional(FunctionStatsPercentiles),
-    endToEndLatencySeconds: S.optional(FunctionStatsPercentiles),
-    containerStartupTimeSeconds: S.optional(FunctionStatsPercentiles),
     inputSuccessCount: S.optional(S.String),
     inputFailureCount: S.optional(S.String),
     inputTimeoutCount: S.optional(S.String),
-    cpuUtilization: S.optional(FunctionStatsPercentiles),
-    memoryUtilization: S.optional(FunctionStatsPercentiles),
-    gpuUtilization: S.optional(FunctionStatsPercentiles),
+    inputRunningAtEndCount: S.optional(S.String),
+    inputPercentileStats: S.optional(StatsPercentileDistributionMap),
+    containerStartedCount: S.optional(S.String),
+    containerErrorCount: S.optional(S.String),
+    containerCreatingAtEndCount: S.optional(S.String),
+    containerPercentileStats: S.optional(StatsPercentileDistributionMap),
     variantCount: S.optional(S.Number),
+    containerTotalCount: S.optional(S.String),
   }),
 ).annotate({
   identifier: "FunctionGetTimeRangeStatsResponse",
 }) as any as S.Schema<FunctionGetTimeRangeStatsResponse>;
+
+export interface FunctionVariantCursor {
+  createdBefore?: number;
+  functionId?: string;
+}
+export const FunctionVariantCursor = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    createdBefore: S.optional(S.Number),
+    functionId: S.optional(S.String),
+  }),
+).annotate({ identifier: "FunctionVariantCursor" }) as any as S.Schema<FunctionVariantCursor>;
+
+export interface FunctionListVariantsRequest {
+  functionId?: string;
+  cursor?: FunctionVariantCursor;
+  limit?: number;
+}
+export const FunctionListVariantsRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    functionId: S.optional(S.String),
+    cursor: S.optional(FunctionVariantCursor),
+    limit: S.optional(S.Number),
+  }).pipe(
+    T.Http({ method: "POST", uri: "/modal.client.ModalClient/FunctionListVariants", code: 200 }),
+  ),
+).annotate({
+  identifier: "FunctionListVariantsRequest",
+}) as any as S.Schema<FunctionListVariantsRequest>;
+
+export interface FunctionVariantInfo {
+  functionId?: string;
+  serializedParams?: string;
+  functionOptions?: FunctionOptions;
+}
+export const FunctionVariantInfo = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    functionId: S.optional(S.String),
+    serializedParams: S.optional(S.String),
+    functionOptions: S.optional(FunctionOptions),
+  }),
+).annotate({ identifier: "FunctionVariantInfo" }) as any as S.Schema<FunctionVariantInfo>;
+
+export type FunctionVariantInfoList = Array<FunctionVariantInfo>;
+export const FunctionVariantInfoList = /*@__PURE__*/ S.Array(
+  FunctionVariantInfo,
+) as any as S.Schema<FunctionVariantInfoList>;
+
+export interface FunctionListVariantsResponse {
+  infos?: FunctionVariantInfoList;
+  /** Pass back as cursor to fetch the next page. Unset once the listing is complete. */
+  nextCursor?: FunctionVariantCursor;
+  /** Set by the server when it ordered the variants by how many tasks each is running, busiest first. */
+  orderedByTaskCount?: boolean;
+}
+export const FunctionListVariantsResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    infos: S.optional(FunctionVariantInfoList),
+    nextCursor: S.optional(FunctionVariantCursor),
+    orderedByTaskCount: S.optional(S.Boolean),
+  }),
+).annotate({
+  identifier: "FunctionListVariantsResponse",
+}) as any as S.Schema<FunctionListVariantsResponse>;
 
 export type FunctionCallType =
   | "FUNCTION_CALL_TYPE_UNSPECIFIED"
@@ -1802,12 +1982,35 @@ export const FunctionInput = /*@__PURE__*/ S.suspend(() =>
   }),
 ).annotate({ identifier: "FunctionInput" }) as any as S.Schema<FunctionInput>;
 
+export type BlobUploadResultOutcome = "OUTCOME_UNSPECIFIED" | "OUTCOME_SUCCESS" | "OUTCOME_FAILURE";
+export const BlobUploadResultOutcome = S.String;
+
+export interface BlobUploadResult {
+  blobId?: string;
+  /** The blob id (from BlobCreateResponse) that this upload attempt targeted. */
+  outcome?: BlobUploadResultOutcome | (string & {});
+  throughputBytesS?: string;
+}
+export const BlobUploadResult = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    blobId: S.optional(S.String),
+    outcome: S.optional(BlobUploadResultOutcome),
+    throughputBytesS: S.optional(S.String),
+  }),
+).annotate({ identifier: "BlobUploadResult" }) as any as S.Schema<BlobUploadResult>;
+
+export type BlobUploadResultList = Array<BlobUploadResult>;
+export const BlobUploadResultList = /*@__PURE__*/ S.Array(
+  BlobUploadResult,
+) as any as S.Schema<BlobUploadResultList>;
+
 export interface FunctionPutInputsItem {
   idx?: number;
   input?: FunctionInput;
   r2Failed?: boolean;
   /** r2_latency_ms */
   r2ThroughputBytesS?: string;
+  blobUploadResults?: BlobUploadResultList;
 }
 export const FunctionPutInputsItem = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -1815,10 +2018,9 @@ export const FunctionPutInputsItem = /*@__PURE__*/ S.suspend(() =>
     input: S.optional(FunctionInput),
     r2Failed: S.optional(S.Boolean),
     r2ThroughputBytesS: S.optional(S.String),
+    blobUploadResults: S.optional(BlobUploadResultList),
   }),
-).annotate({
-  identifier: "FunctionPutInputsItem",
-}) as any as S.Schema<FunctionPutInputsItem>;
+).annotate({ identifier: "FunctionPutInputsItem" }) as any as S.Schema<FunctionPutInputsItem>;
 
 export type FunctionPutInputsItemList = Array<FunctionPutInputsItem>;
 export const FunctionPutInputsItemList = /*@__PURE__*/ S.Array(
@@ -1851,16 +2053,8 @@ export const FunctionMapRequest = /*@__PURE__*/ S.suspend(() =>
     pipelinedInputs: S.optional(FunctionPutInputsItemList),
     functionCallInvocationType: S.optional(FunctionCallInvocationType),
     fromSpawnMap: S.optional(S.Boolean),
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/modal.client.ModalClient/FunctionMap",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "FunctionMapRequest",
-}) as any as S.Schema<FunctionMapRequest>;
+  }).pipe(T.Http({ method: "POST", uri: "/modal.client.ModalClient/FunctionMap", code: 200 })),
+).annotate({ identifier: "FunctionMapRequest" }) as any as S.Schema<FunctionMapRequest>;
 
 export interface FunctionPutInputsResponseItem {
   idx?: number;
@@ -1899,9 +2093,7 @@ export const FunctionMapResponse = /*@__PURE__*/ S.suspend(() =>
     syncClientRetriesEnabled: S.optional(S.Boolean),
     maxInputsOutstanding: S.optional(S.Number),
   }),
-).annotate({
-  identifier: "FunctionMapResponse",
-}) as any as S.Schema<FunctionMapResponse>;
+).annotate({ identifier: "FunctionMapResponse" }) as any as S.Schema<FunctionMapResponse>;
 
 export interface FunctionPrecreateRequest {
   appId?: string;
@@ -1909,10 +2101,7 @@ export interface FunctionPrecreateRequest {
   existingFunctionId?: string;
   functionType?: FunctionFunctionType | (string & {});
   webhookConfig?: WebhookConfig;
-  useFunctionId?: string;
-  /** for class methods - use this function id instead for invocations - the *referenced* function should have is_class=True */
-  useMethodName?: string;
-  /** for class methods - this method name needs to be included in the FunctionInput Mapping of method names to method definitions, only non-empty for class service functions */
+  /** use_method_name, pre-0.67 class method placeholders Mapping of method names to method definitions, only non-empty for class service functions */
   methodDefinitions?: MethodDefinitionMap;
   functionSchema?: FunctionSchema;
   supportedInputFormats?: DataFormatList;
@@ -1925,22 +2114,14 @@ export const FunctionPrecreateRequest = /*@__PURE__*/ S.suspend(() =>
     existingFunctionId: S.optional(S.String),
     functionType: S.optional(FunctionFunctionType),
     webhookConfig: S.optional(WebhookConfig),
-    useFunctionId: S.optional(S.String),
-    useMethodName: S.optional(S.String),
     methodDefinitions: S.optional(MethodDefinitionMap),
     functionSchema: S.optional(FunctionSchema),
     supportedInputFormats: S.optional(DataFormatList),
     supportedOutputFormats: S.optional(DataFormatList),
   }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/modal.client.ModalClient/FunctionPrecreate",
-      code: 200,
-    }),
+    T.Http({ method: "POST", uri: "/modal.client.ModalClient/FunctionPrecreate", code: 200 }),
   ),
-).annotate({
-  identifier: "FunctionPrecreateRequest",
-}) as any as S.Schema<FunctionPrecreateRequest>;
+).annotate({ identifier: "FunctionPrecreateRequest" }) as any as S.Schema<FunctionPrecreateRequest>;
 
 export interface FunctionPrecreateResponse {
   functionId?: string;
@@ -1966,15 +2147,9 @@ export const FunctionPutInputsRequest = /*@__PURE__*/ S.suspend(() =>
     functionCallId: S.optional(S.String),
     inputs: S.optional(FunctionPutInputsItemList),
   }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/modal.client.ModalClient/FunctionPutInputs",
-      code: 200,
-    }),
+    T.Http({ method: "POST", uri: "/modal.client.ModalClient/FunctionPutInputs", code: 200 }),
   ),
-).annotate({
-  identifier: "FunctionPutInputsRequest",
-}) as any as S.Schema<FunctionPutInputsRequest>;
+).annotate({ identifier: "FunctionPutInputsRequest" }) as any as S.Schema<FunctionPutInputsRequest>;
 
 export interface FunctionPutInputsResponse {
   inputs?: FunctionPutInputsResponseItemList;
@@ -2047,9 +2222,7 @@ export const FunctionPutOutputsItem = /*@__PURE__*/ S.suspend(() =>
     functionMapIdx: S.optional(S.Number),
     fromInputPlane: S.optional(S.Boolean),
   }),
-).annotate({
-  identifier: "FunctionPutOutputsItem",
-}) as any as S.Schema<FunctionPutOutputsItem>;
+).annotate({ identifier: "FunctionPutOutputsItem" }) as any as S.Schema<FunctionPutOutputsItem>;
 
 export type FunctionPutOutputsItemList = Array<FunctionPutOutputsItem>;
 export const FunctionPutOutputsItemList = /*@__PURE__*/ S.Array(
@@ -2065,11 +2238,7 @@ export const FunctionPutOutputsRequest = /*@__PURE__*/ S.suspend(() =>
     outputs: S.optional(FunctionPutOutputsItemList),
     requestedAt: S.optional(S.Number),
   }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/modal.client.ModalClient/FunctionPutOutputs",
-      code: 200,
-    }),
+    T.Http({ method: "POST", uri: "/modal.client.ModalClient/FunctionPutOutputs", code: 200 }),
   ),
 ).annotate({
   identifier: "FunctionPutOutputsRequest",
@@ -2092,9 +2261,7 @@ export const FunctionRetryInputsItem = /*@__PURE__*/ S.suspend(() =>
     input: S.optional(FunctionInput),
     retryCount: S.optional(S.Number),
   }),
-).annotate({
-  identifier: "FunctionRetryInputsItem",
-}) as any as S.Schema<FunctionRetryInputsItem>;
+).annotate({ identifier: "FunctionRetryInputsItem" }) as any as S.Schema<FunctionRetryInputsItem>;
 
 export type FunctionRetryInputsItemList = Array<FunctionRetryInputsItem>;
 export const FunctionRetryInputsItemList = /*@__PURE__*/ S.Array(
@@ -2110,11 +2277,7 @@ export const FunctionRetryInputsRequest = /*@__PURE__*/ S.suspend(() =>
     functionCallJwt: S.optional(S.String),
     inputs: S.optional(FunctionRetryInputsItemList),
   }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/modal.client.ModalClient/FunctionRetryInputs",
-      code: 200,
-    }),
+    T.Http({ method: "POST", uri: "/modal.client.ModalClient/FunctionRetryInputs", code: 200 }),
   ),
 ).annotate({
   identifier: "FunctionRetryInputsRequest",
@@ -2134,11 +2297,7 @@ export const FunctionRetryInputsResponse = /*@__PURE__*/ S.suspend(() =>
 export interface FunctionStartPtyShellRequest {}
 export const FunctionStartPtyShellRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({}).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/modal.client.ModalClient/FunctionStartPtyShell",
-      code: 200,
-    }),
+    T.Http({ method: "POST", uri: "/modal.client.ModalClient/FunctionStartPtyShell", code: 200 }),
   ),
 ).annotate({
   identifier: "FunctionStartPtyShellRequest",
@@ -2194,16 +2353,8 @@ export const GetFunctionRequest = /*@__PURE__*/ S.suspend(() =>
     objectTag: S.optional(S.String),
     environmentName: S.optional(S.String),
     appVersion: S.optional(S.Number),
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/modal.client.ModalClient/FunctionGet",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "GetFunctionRequest",
-}) as any as S.Schema<GetFunctionRequest>;
+  }).pipe(T.Http({ method: "POST", uri: "/modal.client.ModalClient/FunctionGet", code: 200 })),
+).annotate({ identifier: "GetFunctionRequest" }) as any as S.Schema<GetFunctionRequest>;
 
 export interface GetFunctionResponse {
   functionId?: string;
@@ -2218,9 +2369,7 @@ export const GetFunctionResponse = /*@__PURE__*/ S.suspend(() =>
     serverWarnings: S.optional(WarningList),
     function: S.optional(FunctionData),
   }),
-).annotate({
-  identifier: "GetFunctionResponse",
-}) as any as S.Schema<GetFunctionResponse>;
+).annotate({ identifier: "GetFunctionResponse" }) as any as S.Schema<GetFunctionResponse>;
 
 export interface GetFunctionInputsRequest {
   functionId?: string;
@@ -2238,15 +2387,9 @@ export const GetFunctionInputsRequest = /*@__PURE__*/ S.suspend(() =>
     batchMaxSize: S.optional(S.Number),
     batchLingerMs: S.optional(S.String),
   }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/modal.client.ModalClient/FunctionGetInputs",
-      code: 200,
-    }),
+    T.Http({ method: "POST", uri: "/modal.client.ModalClient/FunctionGetInputs", code: 200 }),
   ),
-).annotate({
-  identifier: "GetFunctionInputsRequest",
-}) as any as S.Schema<GetFunctionInputsRequest>;
+).annotate({ identifier: "GetFunctionInputsRequest" }) as any as S.Schema<GetFunctionInputsRequest>;
 
 export interface GetFunctionInputsItem {
   inputId?: string;
@@ -2273,9 +2416,7 @@ export const GetFunctionInputsItem = /*@__PURE__*/ S.suspend(() =>
     attemptToken: S.optional(S.String),
     fromInputPlane: S.optional(S.Boolean),
   }),
-).annotate({
-  identifier: "GetFunctionInputsItem",
-}) as any as S.Schema<GetFunctionInputsItem>;
+).annotate({ identifier: "GetFunctionInputsItem" }) as any as S.Schema<GetFunctionInputsItem>;
 
 export type GetFunctionInputsItemList = Array<GetFunctionInputsItem>;
 export const GetFunctionInputsItemList = /*@__PURE__*/ S.Array(
@@ -2321,11 +2462,7 @@ export const GetFunctionOutputsRequest = /*@__PURE__*/ S.suspend(() =>
     startIdx: S.optional(S.Number),
     endIdx: S.optional(S.Number),
   }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/modal.client.ModalClient/FunctionGetOutputs",
-      code: 200,
-    }),
+    T.Http({ method: "POST", uri: "/modal.client.ModalClient/FunctionGetOutputs", code: 200 }),
   ),
 ).annotate({
   identifier: "GetFunctionOutputsRequest",
@@ -2359,9 +2496,7 @@ export const GetFunctionOutputsItem = /*@__PURE__*/ S.suspend(() =>
     retryCount: S.optional(S.Number),
     fcTraceTag: S.optional(S.String),
   }),
-).annotate({
-  identifier: "GetFunctionOutputsItem",
-}) as any as S.Schema<GetFunctionOutputsItem>;
+).annotate({ identifier: "GetFunctionOutputsItem" }) as any as S.Schema<GetFunctionOutputsItem>;
 
 export type GetFunctionOutputsItemList = Array<GetFunctionOutputsItem>;
 export const GetFunctionOutputsItemList = /*@__PURE__*/ S.Array(
@@ -2396,11 +2531,7 @@ export const InvokeFunctionAsyncRequest = /*@__PURE__*/ S.suspend(() =>
     parentInputId: S.optional(S.String),
     input: S.optional(FunctionInput),
   }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/modal.client.ModalClient/FunctionAsyncInvoke",
-      code: 200,
-    }),
+    T.Http({ method: "POST", uri: "/modal.client.ModalClient/FunctionAsyncInvoke", code: 200 }),
   ),
 ).annotate({
   identifier: "InvokeFunctionAsyncRequest",
@@ -2425,16 +2556,8 @@ export interface ListFunctionCallRequest {
 export const ListFunctionCallRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     functionId: S.optional(S.String),
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/modal.client.ModalClient/FunctionCallList",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "ListFunctionCallRequest",
-}) as any as S.Schema<ListFunctionCallRequest>;
+  }).pipe(T.Http({ method: "POST", uri: "/modal.client.ModalClient/FunctionCallList", code: 200 })),
+).annotate({ identifier: "ListFunctionCallRequest" }) as any as S.Schema<ListFunctionCallRequest>;
 
 export type FunctionCallInfoList = Array<FunctionCallInfo>;
 export const FunctionCallInfoList = /*@__PURE__*/ S.Array(
@@ -2448,9 +2571,7 @@ export const ListFunctionCallResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     functionCalls: S.optional(FunctionCallInfoList),
   }),
-).annotate({
-  identifier: "ListFunctionCallResponse",
-}) as any as S.Schema<ListFunctionCallResponse>;
+).annotate({ identifier: "ListFunctionCallResponse" }) as any as S.Schema<ListFunctionCallResponse>;
 
 export type CancelFunctionCallError = ModalOpError;
 export const cancelFunctionCall: API.OperationMethod<
@@ -2475,6 +2596,20 @@ export const createFunction: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: CreateFunctionRequest,
   output: CreateFunctionResponse,
+  errors: [UnknownModalError],
+  protocol: ModalProtocol,
+  retry: Retry.Retry,
+}));
+
+export type FetchFunctionCallError = ModalOpError;
+export const fetchFunctionCall: API.OperationMethod<
+  FetchFunctionCallRequest,
+  FetchFunctionCallResponse,
+  FetchFunctionCallError,
+  ModalOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: FetchFunctionCallRequest,
+  output: FetchFunctionCallResponse,
   errors: [UnknownModalError],
   protocol: ModalProtocol,
   retry: Retry.Retry,
@@ -2606,8 +2741,36 @@ export const functionGetDynamicConcurrency: API.OperationMethod<
   retry: Retry.Retry,
 }));
 
-export type FunctionGetSerializedError = ModalOpError;
+export type FunctionGetFlashAuthTokenError = ModalOpError;
+export const functionGetFlashAuthToken: API.OperationMethod<
+  FunctionGetFlashAuthTokenRequest,
+  FunctionGetFlashAuthTokenResponse,
+  FunctionGetFlashAuthTokenError,
+  ModalOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: FunctionGetFlashAuthTokenRequest,
+  output: FunctionGetFlashAuthTokenResponse,
+  errors: [UnknownModalError],
+  protocol: ModalProtocol,
+  retry: Retry.Retry,
+}));
+
+export type FunctionGetSchedulingParamsError = ModalOpError;
 /** Returns the next result(s) for an entire function call (FunctionMap) */
+export const functionGetSchedulingParams: API.OperationMethod<
+  FunctionGetSchedulingParamsRequest,
+  FunctionGetSchedulingParamsResponse,
+  FunctionGetSchedulingParamsError,
+  ModalOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: FunctionGetSchedulingParamsRequest,
+  output: FunctionGetSchedulingParamsResponse,
+  errors: [UnknownModalError],
+  protocol: ModalProtocol,
+  retry: Retry.Retry,
+}));
+
+export type FunctionGetSerializedError = ModalOpError;
 export const functionGetSerialized: API.OperationMethod<
   FunctionGetSerializedRequest,
   FunctionGetSerializedResponse,
@@ -2630,6 +2793,20 @@ export const functionGetTimeRangeStats: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: FunctionGetTimeRangeStatsRequest,
   output: FunctionGetTimeRangeStatsResponse,
+  errors: [UnknownModalError],
+  protocol: ModalProtocol,
+  retry: Retry.Retry,
+}));
+
+export type FunctionListVariantsError = ModalOpError;
+export const functionListVariants: API.OperationMethod<
+  FunctionListVariantsRequest,
+  FunctionListVariantsResponse,
+  FunctionListVariantsError,
+  ModalOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: FunctionListVariantsRequest,
+  output: FunctionListVariantsResponse,
   errors: [UnknownModalError],
   protocol: ModalProtocol,
   retry: Retry.Retry,

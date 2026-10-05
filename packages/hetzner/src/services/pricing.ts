@@ -11,9 +11,7 @@ export type { HetznerOpError, HetznerOpContext };
 export interface GetPricingRequest {}
 export const GetPricingRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({}).pipe(T.Http({ method: "GET", uri: "/pricing", code: 200 })),
-).annotate({
-  identifier: "GetPricingRequest",
-}) as any as S.Schema<GetPricingRequest>;
+).annotate({ identifier: "GetPricingRequest" }) as any as S.Schema<GetPricingRequest>;
 
 /** Type of [Primary IP](#tag/primary-ips) the price is for. */
 export type GetPricingResponsePricingPrimaryIpsItemType = "ipv4" | "ipv6";
@@ -388,9 +386,7 @@ export const GetPricingResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     pricing: GetPricingResponsePricing,
   }),
-).annotate({
-  identifier: "GetPricingResponse",
-}) as any as S.Schema<GetPricingResponse>;
+).annotate({ identifier: "GetPricingResponse" }) as any as S.Schema<GetPricingResponse>;
 
 export type GetPricingError = HetznerOpError;
 /** Get all prices Returns prices for all resources available on the platform. VAT and currency of the Project owner are used for calculations. Both net and gross prices are included in the response. */

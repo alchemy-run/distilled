@@ -18,6 +18,70 @@
     "distilled.finalized": true
   },
   "shapes": {
+    "com.huggingface.models#ListLikersRequestExpandItem": {
+      "type": "enum",
+      "members": {
+        "LIKEDAT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "likedAt"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.huggingface.models#ListLikersRequestExpandList": {
+      "type": "list",
+      "member": {
+        "target": "com.huggingface.models#ListLikersRequestExpandItem"
+      },
+      "traits": {}
+    },
+    "com.huggingface.models#ListLikersRequest": {
+      "type": "structure",
+      "members": {
+        "namespace": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        },
+        "repo": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        },
+        "expand": {
+          "target": "com.huggingface.models#ListLikersRequestExpandList",
+          "traits": {
+            "smithy.api#httpQuery": "expand"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.huggingface.models#ListLikers": {
+      "type": "operation",
+      "input": {
+        "target": "com.huggingface.models#ListLikersRequest"
+      },
+      "output": {
+        "target": "smithy.api#Unit"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/api/models/{namespace}/{repo}/likers",
+          "code": 200
+        },
+        "smithy.api#documentation": "List likers"
+      }
+    },
     "com.huggingface.models#GetFolderSizeRequest": {
       "type": "structure",
       "members": {
@@ -171,7 +235,7 @@
           }
         },
         "xet": {
-          "target": "smithy.api#Document",
+          "target": "smithy.api#String",
           "traits": {
             "smithy.api#httpQuery": "xet"
           }
@@ -269,7 +333,7 @@
           }
         },
         "type": {
-          "target": "smithy.api#Document",
+          "target": "smithy.api#String",
           "traits": {
             "smithy.api#required": {}
           }
@@ -307,6 +371,7 @@
         "_id": {
           "target": "smithy.api#String",
           "traits": {
+            "smithy.api#documentation": "A hex string of 24 characters representing an ObjectId.",
             "smithy.api#required": {}
           }
         },
@@ -350,7 +415,7 @@
           "target": "smithy.api#Double"
         },
         "type": {
-          "target": "smithy.api#Document",
+          "target": "smithy.api#String",
           "traits": {
             "smithy.api#required": {}
           }
@@ -546,7 +611,7 @@
           }
         },
         "rewriteHistory": {
-          "target": "smithy.api#Document",
+          "target": "smithy.api#String",
           "traits": {
             "smithy.api#httpQuery": "rewriteHistory"
           }
@@ -576,12 +641,6 @@
     "com.huggingface.models#DuplicateXetFilesRequestTargetType": {
       "type": "enum",
       "members": {
-        "DATASET": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "dataset"
-          }
-        },
         "MODEL": {
           "target": "smithy.api#Unit",
           "traits": {
@@ -592,6 +651,12 @@
           "target": "smithy.api#Unit",
           "traits": {
             "smithy.api#enumValue": "space"
+          }
+        },
+        "DATASET": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "dataset"
           }
         },
         "KERNEL": {
@@ -976,7 +1041,7 @@
           }
         },
         "include_prs": {
-          "target": "smithy.api#Document",
+          "target": "smithy.api#String",
           "traits": {
             "smithy.api#httpQuery": "include_prs"
           }
@@ -1181,7 +1246,7 @@
           }
         },
         "raw": {
-          "target": "smithy.api#Document",
+          "target": "smithy.api#String",
           "traits": {
             "smithy.api#httpQuery": "raw"
           }
@@ -1220,7 +1285,7 @@
           "uri": "/api/models/{namespace}/{repo}/compare/{compare}",
           "code": 200
         },
-        "smithy.api#documentation": "Get a compare rev"
+        "smithy.api#documentation": "Get compare rev"
       }
     },
     "com.huggingface.models#ListPathsInfoRequestPathsCase0List": {
@@ -1246,7 +1311,7 @@
       "type": "union",
       "members": {
         "Case0": {
-          "target": "smithy.api#Document"
+          "target": "smithy.api#String"
         },
         "Case1": {
           "target": "smithy.api#Boolean"
@@ -1289,8 +1354,7 @@
         "expand": {
           "target": "com.huggingface.models#ListPathsInfoRequestExpand",
           "traits": {
-            "smithy.api#documentation": "Expand the response with the last commit and security file status",
-            "smithy.api#required": {}
+            "smithy.api#documentation": "Expand the response with the last commit and security file status"
           }
         }
       },
@@ -2536,13 +2600,13 @@
           }
         },
         "create_pr": {
-          "target": "smithy.api#Document",
+          "target": "smithy.api#String",
           "traits": {
             "smithy.api#httpQuery": "create_pr"
           }
         },
         "hot_reload": {
-          "target": "smithy.api#Document",
+          "target": "smithy.api#String",
           "traits": {
             "smithy.api#httpQuery": "hot_reload"
           }
@@ -2856,6 +2920,7 @@
         "id": {
           "target": "smithy.api#String",
           "traits": {
+            "smithy.api#documentation": "A hex string of 24 characters representing an ObjectId.",
             "smithy.api#required": {}
           }
         },
@@ -2951,6 +3016,12 @@
           "target": "smithy.api#Unit",
           "traits": {
             "smithy.api#enumValue": "kernel"
+          }
+        },
+        "CONTAINER": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "container"
           }
         }
       },
@@ -3141,7 +3212,7 @@
       "type": "union",
       "members": {
         "Case0": {
-          "target": "smithy.api#Document"
+          "target": "smithy.api#Boolean"
         },
         "Case1": {
           "target": "com.huggingface.models#UpdateRepoSettingsRequestGatedCase1"
@@ -3291,7 +3362,7 @@
       "type": "union",
       "members": {
         "Case0": {
-          "target": "smithy.api#Document"
+          "target": "smithy.api#Boolean"
         },
         "Case1": {
           "target": "com.huggingface.models#UpdateRepoSettingsResponseGatedCase1"
@@ -3404,13 +3475,13 @@
           }
         },
         "expand": {
-          "target": "smithy.api#Document",
+          "target": "smithy.api#String",
           "traits": {
             "smithy.api#httpQuery": "expand"
           }
         },
         "recursive": {
-          "target": "smithy.api#Document",
+          "target": "smithy.api#String",
           "traits": {
             "smithy.api#httpQuery": "recursive"
           }
@@ -4362,7 +4433,7 @@
       "type": "structure",
       "members": {
         "notInCache": {
-          "target": "smithy.api#Document",
+          "target": "smithy.api#Boolean",
           "traits": {
             "smithy.api#required": {}
           }
@@ -4579,7 +4650,7 @@
           }
         },
         "write": {
-          "target": "smithy.api#Document",
+          "target": "smithy.api#String",
           "traits": {
             "smithy.api#httpQuery": "write"
           }
@@ -4597,25 +4668,25 @@
           }
         },
         "encrypted": {
-          "target": "smithy.api#Document",
+          "target": "smithy.api#String",
           "traits": {
             "smithy.api#httpQuery": "encrypted"
           }
         },
         "inference_api": {
-          "target": "smithy.api#Document",
+          "target": "smithy.api#String",
           "traits": {
             "smithy.api#httpQuery": "inference_api"
           }
         },
         "include_pro_status": {
-          "target": "smithy.api#Document",
+          "target": "smithy.api#String",
           "traits": {
             "smithy.api#httpQuery": "include_pro_status"
           }
         },
         "billing_details": {
-          "target": "smithy.api#Document",
+          "target": "smithy.api#String",
           "traits": {
             "smithy.api#httpQuery": "billing_details"
           }
@@ -4945,12 +5016,6 @@
             "smithy.api#enumValue": "all"
           }
         },
-        "DATASET": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "dataset"
-          }
-        },
         "MODEL": {
           "target": "smithy.api#Unit",
           "traits": {
@@ -4961,6 +5026,12 @@
           "target": "smithy.api#Unit",
           "traits": {
             "smithy.api#enumValue": "space"
+          }
+        },
+        "DATASET": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "dataset"
           }
         }
       },
@@ -5083,6 +5154,30 @@
           "target": "smithy.api#Unit",
           "traits": {
             "smithy.api#enumValue": "datadesigner"
+          }
+        },
+        "HARBOR": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "harbor"
+          }
+        },
+        "VERIFIERS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "verifiers"
+          }
+        },
+        "OPENENV": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "openenv"
+          }
+        },
+        "NEMO_GYM": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "nemo-gym"
           }
         }
       },
@@ -5294,7 +5389,7 @@
       "type": "union",
       "members": {
         "Case0": {
-          "target": "smithy.api#Document"
+          "target": "smithy.api#Boolean"
         },
         "Case1": {
           "target": "com.huggingface.models#GetTrendingResponseRecentlyTrendingItemCase0RepoDataGatedCase1"
@@ -5308,6 +5403,7 @@
         "id": {
           "target": "smithy.api#String",
           "traits": {
+            "smithy.api#documentation": "A hex string of 24 characters representing an ObjectId.",
             "smithy.api#required": {}
           }
         },
@@ -5360,7 +5456,7 @@
           }
         },
         "repoType": {
-          "target": "smithy.api#Document",
+          "target": "smithy.api#String",
           "traits": {
             "smithy.api#required": {}
           }
@@ -5391,6 +5487,9 @@
         },
         "isTraces": {
           "target": "smithy.api#Boolean"
+        },
+        "isEnvironment": {
+          "target": "smithy.api#Boolean"
         }
       },
       "traits": {}
@@ -5399,7 +5498,7 @@
       "type": "structure",
       "members": {
         "repoType": {
-          "target": "smithy.api#Document",
+          "target": "smithy.api#String",
           "traits": {
             "smithy.api#required": {}
           }
@@ -5978,7 +6077,7 @@
           }
         },
         "adapterType": {
-          "target": "smithy.api#Document"
+          "target": "smithy.api#String"
         },
         "adapterWeightsPath": {
           "target": "smithy.api#String"
@@ -6045,7 +6144,7 @@
       "type": "union",
       "members": {
         "Case0": {
-          "target": "smithy.api#Document"
+          "target": "smithy.api#Boolean"
         },
         "Case1": {
           "target": "com.huggingface.models#GetTrendingResponseRecentlyTrendingItemCase1RepoDataGatedCase1"
@@ -6059,6 +6158,7 @@
         "id": {
           "target": "smithy.api#String",
           "traits": {
+            "smithy.api#documentation": "A hex string of 24 characters representing an ObjectId.",
             "smithy.api#required": {}
           }
         },
@@ -6110,6 +6210,7 @@
         "_id": {
           "target": "smithy.api#String",
           "traits": {
+            "smithy.api#documentation": "A hex string of 24 characters representing an ObjectId.",
             "smithy.api#required": {}
           }
         },
@@ -6153,7 +6254,7 @@
           "target": "smithy.api#Double"
         },
         "type": {
-          "target": "smithy.api#Document",
+          "target": "smithy.api#String",
           "traits": {
             "smithy.api#required": {}
           }
@@ -6255,7 +6356,7 @@
           }
         },
         "type": {
-          "target": "smithy.api#Document",
+          "target": "smithy.api#String",
           "traits": {
             "smithy.api#required": {}
           }
@@ -6293,6 +6394,7 @@
         "_id": {
           "target": "smithy.api#String",
           "traits": {
+            "smithy.api#documentation": "A hex string of 24 characters representing an ObjectId.",
             "smithy.api#required": {}
           }
         },
@@ -6336,7 +6438,7 @@
           "target": "smithy.api#Double"
         },
         "type": {
-          "target": "smithy.api#Document",
+          "target": "smithy.api#String",
           "traits": {
             "smithy.api#required": {}
           }
@@ -6430,7 +6532,7 @@
           }
         },
         "repoType": {
-          "target": "smithy.api#Document",
+          "target": "smithy.api#String",
           "traits": {
             "smithy.api#required": {}
           }
@@ -6454,7 +6556,7 @@
           "target": "com.huggingface.models#GetTrendingResponseRecentlyTrendingItemCase1RepoDataWidgetOutputUrlsList"
         },
         "isPreRelease": {
-          "target": "smithy.api#Document"
+          "target": "smithy.api#Boolean"
         }
       },
       "traits": {}
@@ -6463,7 +6565,7 @@
       "type": "structure",
       "members": {
         "repoType": {
-          "target": "smithy.api#Document",
+          "target": "smithy.api#String",
           "traits": {
             "smithy.api#required": {}
           }
@@ -6978,7 +7080,7 @@
           "target": "smithy.api#Double"
         },
         "Case1": {
-          "target": "smithy.api#Document"
+          "target": "smithy.api#String"
         }
       },
       "traits": {}
@@ -7181,6 +7283,7 @@
         "_id": {
           "target": "smithy.api#String",
           "traits": {
+            "smithy.api#documentation": "A hex string of 24 characters representing an ObjectId.",
             "smithy.api#required": {}
           }
         },
@@ -7224,7 +7327,7 @@
           "target": "smithy.api#Double"
         },
         "type": {
-          "target": "smithy.api#Document",
+          "target": "smithy.api#String",
           "traits": {
             "smithy.api#required": {}
           }
@@ -7326,7 +7429,7 @@
           }
         },
         "type": {
-          "target": "smithy.api#Document",
+          "target": "smithy.api#String",
           "traits": {
             "smithy.api#required": {}
           }
@@ -7364,6 +7467,7 @@
         "_id": {
           "target": "smithy.api#String",
           "traits": {
+            "smithy.api#documentation": "A hex string of 24 characters representing an ObjectId.",
             "smithy.api#required": {}
           }
         },
@@ -7407,7 +7511,7 @@
           "target": "smithy.api#Double"
         },
         "type": {
-          "target": "smithy.api#Document",
+          "target": "smithy.api#String",
           "traits": {
             "smithy.api#required": {}
           }
@@ -7463,6 +7567,7 @@
         "id": {
           "target": "smithy.api#String",
           "traits": {
+            "smithy.api#documentation": "A hex string of 24 characters representing an ObjectId.",
             "smithy.api#required": {}
           }
         },
@@ -7521,6 +7626,7 @@
         "_id": {
           "target": "smithy.api#String",
           "traits": {
+            "smithy.api#documentation": "A hex string of 24 characters representing an ObjectId.",
             "smithy.api#required": {}
           }
         },
@@ -7564,7 +7670,7 @@
           "target": "smithy.api#Double"
         },
         "type": {
-          "target": "smithy.api#Document",
+          "target": "smithy.api#String",
           "traits": {
             "smithy.api#required": {}
           }
@@ -7666,7 +7772,7 @@
           }
         },
         "type": {
-          "target": "smithy.api#Document",
+          "target": "smithy.api#String",
           "traits": {
             "smithy.api#required": {}
           }
@@ -7704,6 +7810,7 @@
         "_id": {
           "target": "smithy.api#String",
           "traits": {
+            "smithy.api#documentation": "A hex string of 24 characters representing an ObjectId.",
             "smithy.api#required": {}
           }
         },
@@ -7747,7 +7854,7 @@
           "target": "smithy.api#Double"
         },
         "type": {
-          "target": "smithy.api#Document",
+          "target": "smithy.api#String",
           "traits": {
             "smithy.api#required": {}
           }
@@ -7873,7 +7980,7 @@
           }
         },
         "repoType": {
-          "target": "smithy.api#Document",
+          "target": "smithy.api#String",
           "traits": {
             "smithy.api#required": {}
           }
@@ -7948,7 +8055,7 @@
       "type": "structure",
       "members": {
         "repoType": {
-          "target": "smithy.api#Document",
+          "target": "smithy.api#String",
           "traits": {
             "smithy.api#required": {}
           }
@@ -8053,7 +8160,7 @@
           }
         },
         "accept": {
-          "target": "smithy.api#Document",
+          "target": "smithy.api#String",
           "traits": {
             "smithy.api#httpHeader": "Accept"
           }
@@ -8161,7 +8268,7 @@
           }
         },
         "accept": {
-          "target": "smithy.api#Document",
+          "target": "smithy.api#String",
           "traits": {
             "smithy.api#httpHeader": "Accept"
           }
@@ -8399,6 +8506,12 @@
           "traits": {
             "smithy.api#enumValue": "rejected"
           }
+        },
+        "RESET": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "reset"
+          }
         }
       },
       "traits": {}
@@ -8499,6 +8612,7 @@
         "id": {
           "target": "smithy.api#String",
           "traits": {
+            "smithy.api#documentation": "A hex string of 24 characters representing an ObjectId.",
             "smithy.api#required": {}
           }
         },
@@ -8535,6 +8649,7 @@
         "_id": {
           "target": "smithy.api#String",
           "traits": {
+            "smithy.api#documentation": "A hex string of 24 characters representing an ObjectId.",
             "smithy.api#required": {}
           }
         },
@@ -8620,7 +8735,7 @@
           }
         },
         "type": {
-          "target": "smithy.api#Document",
+          "target": "smithy.api#String",
           "traits": {
             "smithy.api#required": {}
           }
@@ -8680,6 +8795,7 @@
         "id": {
           "target": "smithy.api#String",
           "traits": {
+            "smithy.api#documentation": "A hex string of 24 characters representing an ObjectId.",
             "smithy.api#required": {}
           }
         },
@@ -8709,6 +8825,7 @@
         "_id": {
           "target": "smithy.api#String",
           "traits": {
+            "smithy.api#documentation": "A hex string of 24 characters representing an ObjectId.",
             "smithy.api#required": {}
           }
         },
@@ -8794,7 +8911,7 @@
           }
         },
         "type": {
-          "target": "smithy.api#Document",
+          "target": "smithy.api#String",
           "traits": {
             "smithy.api#required": {}
           }
@@ -8836,6 +8953,12 @@
           "target": "smithy.api#Unit",
           "traits": {
             "smithy.api#enumValue": "pending"
+          }
+        },
+        "RESET": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "reset"
           }
         }
       },
@@ -8940,6 +9063,12 @@
           "traits": {
             "smithy.api#enumValue": "pending"
           }
+        },
+        "RESET": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "reset"
+          }
         }
       },
       "traits": {}
@@ -8980,6 +9109,9 @@
           }
         },
         "rejectionReason": {
+          "target": "smithy.api#String"
+        },
+        "resetReason": {
           "target": "smithy.api#String"
         }
       },
@@ -9023,6 +9155,12 @@
           "target": "smithy.api#Unit",
           "traits": {
             "smithy.api#enumValue": "pending"
+          }
+        },
+        "RESET": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "reset"
           }
         }
       },
@@ -9077,6 +9215,9 @@
           }
         },
         "rejectionReason": {
+          "target": "smithy.api#String"
+        },
+        "resetReason": {
           "target": "smithy.api#String"
         },
         "requests": {
@@ -9165,7 +9306,7 @@
           "uri": "/api/models/{namespace}/{repo}/user-access-request/batch",
           "code": 200
         },
-        "smithy.api#documentation": "Batch handle access requests\n\nAccept, reject or reset to pending up to 100 access requests for a single gated repository in one call. The same `status` (and optional `rejectionReason`) is applied to every request in the list."
+        "smithy.api#documentation": "Batch access requests\n\nAccept, reject, reset or set back to pending up to 100 access requests for a single gated repository in one call. The same `status` (and optional `rejectionReason` or `resetReason`) is applied to every request in the list."
       }
     },
     "com.huggingface.models#GrantAccessRequest": {
@@ -9230,6 +9371,9 @@
       "type": "service",
       "version": "0.0.1",
       "operations": [
+        {
+          "target": "com.huggingface.models#ListLikers"
+        },
         {
           "target": "com.huggingface.models#GetFolderSize"
         },

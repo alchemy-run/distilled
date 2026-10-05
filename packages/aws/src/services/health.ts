@@ -6,10 +6,7 @@ import type { CommonErrors } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
 import { Retry } from "../retry.ts";
 import * as T from "../traits.ts";
-const svc = T.AwsApiService({
-  sdkId: "Health",
-  serviceShapeName: "AWSHealth_20160804",
-});
+const svc = T.AwsApiService({ sdkId: "Health", serviceShapeName: "AWSHealth_20160804" });
 const auth = T.AwsAuthSigv4({ name: "health" });
 const ver = T.ServiceVersion("2016-08-04");
 const proto = T.AwsProtocolsAwsJson1_1();
@@ -90,15 +87,7 @@ const rules = T.EndpointResolver((p, _) => {
         if (Region === "aws-global") {
           return e(
             "https://global.health.amazonaws.com",
-            {
-              authSchemes: [
-                {
-                  name: "sigv4",
-                  signingName: "health",
-                  signingRegion: "us-east-1",
-                },
-              ],
-            },
+            { authSchemes: [{ name: "sigv4", signingName: "health", signingRegion: "us-east-1" }] },
             {},
           );
         }
@@ -107,11 +96,7 @@ const rules = T.EndpointResolver((p, _) => {
             "https://global.health.amazonaws.com.cn",
             {
               authSchemes: [
-                {
-                  name: "sigv4",
-                  signingName: "health",
-                  signingRegion: "cn-northwest-1",
-                },
+                { name: "sigv4", signingName: "health", signingRegion: "cn-northwest-1" },
               ],
             },
             {},
@@ -283,10 +268,7 @@ export interface DescribeAffectedEntitiesResponse {
   nextToken?: string;
 }
 export const DescribeAffectedEntitiesResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    entities: S.optional(EntityList),
-    nextToken: S.optional(S.String),
-  }),
+  S.Struct({ entities: S.optional(EntityList), nextToken: S.optional(S.String) }),
 ).annotate({
   identifier: "DescribeAffectedEntitiesResponse",
 }) as any as S.Schema<DescribeAffectedEntitiesResponse>;
@@ -296,9 +278,7 @@ export interface EventAccountFilter {
 }
 export const EventAccountFilter = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ eventArn: S.String, awsAccountId: S.optional(S.String) }),
-).annotate({
-  identifier: "EventAccountFilter",
-}) as any as S.Schema<EventAccountFilter>;
+).annotate({ identifier: "EventAccountFilter" }) as any as S.Schema<EventAccountFilter>;
 export type OrganizationEntityFiltersList = EventAccountFilter[];
 export const OrganizationEntityFiltersList = /*@__PURE__*/ S.Array(EventAccountFilter);
 export interface EntityAccountFilter {
@@ -312,9 +292,7 @@ export const EntityAccountFilter = /*@__PURE__*/ S.suspend(() =>
     awsAccountId: S.optional(S.String),
     statusCodes: S.optional(EntityStatusCodeList),
   }),
-).annotate({
-  identifier: "EntityAccountFilter",
-}) as any as S.Schema<EntityAccountFilter>;
+).annotate({ identifier: "EntityAccountFilter" }) as any as S.Schema<EntityAccountFilter>;
 export type OrganizationEntityAccountFiltersList = EntityAccountFilter[];
 export const OrganizationEntityAccountFiltersList = /*@__PURE__*/ S.Array(EntityAccountFilter);
 export interface DescribeAffectedEntitiesForOrganizationRequest {
@@ -396,9 +374,7 @@ export const EntityAggregate = /*@__PURE__*/ S.suspend(() =>
     count: S.optional(S.Number),
     statuses: S.optional(EntityStatuses),
   }),
-).annotate({
-  identifier: "EntityAggregate",
-}) as any as S.Schema<EntityAggregate>;
+).annotate({ identifier: "EntityAggregate" }) as any as S.Schema<EntityAggregate>;
 export type EntityAggregateList = EntityAggregate[];
 export const EntityAggregateList = /*@__PURE__*/ S.Array(EntityAggregate);
 export interface DescribeEntityAggregatesResponse {
@@ -436,9 +412,7 @@ export const AccountEntityAggregate = /*@__PURE__*/ S.suspend(() =>
     count: S.optional(S.Number),
     statuses: S.optional(EntityStatuses),
   }),
-).annotate({
-  identifier: "AccountEntityAggregate",
-}) as any as S.Schema<AccountEntityAggregate>;
+).annotate({ identifier: "AccountEntityAggregate" }) as any as S.Schema<AccountEntityAggregate>;
 export type AccountEntityAggregatesList = AccountEntityAggregate[];
 export const AccountEntityAggregatesList = /*@__PURE__*/ S.Array(AccountEntityAggregate);
 export interface OrganizationEntityAggregate {
@@ -463,9 +437,7 @@ export interface DescribeEntityAggregatesForOrganizationResponse {
   organizationEntityAggregates?: OrganizationEntityAggregate[];
 }
 export const DescribeEntityAggregatesForOrganizationResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    organizationEntityAggregates: S.optional(OrganizationEntityAggregatesList),
-  }),
+  S.Struct({ organizationEntityAggregates: S.optional(OrganizationEntityAggregatesList) }),
 ).annotate({
   identifier: "DescribeEntityAggregatesForOrganizationResponse",
 }) as any as S.Schema<DescribeEntityAggregatesForOrganizationResponse>;
@@ -571,10 +543,7 @@ export interface EventAggregate {
   count?: number;
 }
 export const EventAggregate = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    aggregateValue: S.optional(S.String),
-    count: S.optional(S.Number),
-  }),
+  S.Struct({ aggregateValue: S.optional(S.String), count: S.optional(S.Number) }),
 ).annotate({ identifier: "EventAggregate" }) as any as S.Schema<EventAggregate>;
 export type EventAggregateList = EventAggregate[];
 export const EventAggregateList = /*@__PURE__*/ S.Array(EventAggregate);
@@ -583,10 +552,7 @@ export interface DescribeEventAggregatesResponse {
   nextToken?: string;
 }
 export const DescribeEventAggregatesResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    eventAggregates: S.optional(EventAggregateList),
-    nextToken: S.optional(S.String),
-  }),
+  S.Struct({ eventAggregates: S.optional(EventAggregateList), nextToken: S.optional(S.String) }),
 ).annotate({
   identifier: "DescribeEventAggregatesResponse",
 }) as any as S.Schema<DescribeEventAggregatesResponse>;
@@ -640,9 +606,7 @@ export interface EventDescription {
 }
 export const EventDescription = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ latestDescription: S.optional(S.String) }),
-).annotate({
-  identifier: "EventDescription",
-}) as any as S.Schema<EventDescription>;
+).annotate({ identifier: "EventDescription" }) as any as S.Schema<EventDescription>;
 export type MetadataKey = string;
 export type MetadataValue = string;
 export type EventMetadata = { [key: string]: string | undefined };
@@ -672,9 +636,7 @@ export const EventDetailsErrorItem = /*@__PURE__*/ S.suspend(() =>
     errorName: S.optional(S.String),
     errorMessage: S.optional(S.String),
   }),
-).annotate({
-  identifier: "EventDetailsErrorItem",
-}) as any as S.Schema<EventDetailsErrorItem>;
+).annotate({ identifier: "EventDetailsErrorItem" }) as any as S.Schema<EventDetailsErrorItem>;
 export type DescribeEventDetailsFailedSet = EventDetailsErrorItem[];
 export const DescribeEventDetailsFailedSet = /*@__PURE__*/ S.Array(EventDetailsErrorItem);
 export interface DescribeEventDetailsResponse {
@@ -716,9 +678,7 @@ export const OrganizationEventDetails = /*@__PURE__*/ S.suspend(() =>
     eventDescription: S.optional(EventDescription),
     eventMetadata: S.optional(EventMetadata),
   }),
-).annotate({
-  identifier: "OrganizationEventDetails",
-}) as any as S.Schema<OrganizationEventDetails>;
+).annotate({ identifier: "OrganizationEventDetails" }) as any as S.Schema<OrganizationEventDetails>;
 export type DescribeEventDetailsForOrganizationSuccessfulSet = OrganizationEventDetails[];
 export const DescribeEventDetailsForOrganizationSuccessfulSet =
   /*@__PURE__*/ S.Array(OrganizationEventDetails);
@@ -767,9 +727,7 @@ export const DescribeEventsRequest = /*@__PURE__*/ S.suspend(() =>
     maxResults: S.optional(S.Number),
     locale: S.optional(S.String),
   }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
-).annotate({
-  identifier: "DescribeEventsRequest",
-}) as any as S.Schema<DescribeEventsRequest>;
+).annotate({ identifier: "DescribeEventsRequest" }) as any as S.Schema<DescribeEventsRequest>;
 export type EventList = Event[];
 export const EventList = /*@__PURE__*/ S.Array(Event);
 export interface DescribeEventsResponse {
@@ -778,9 +736,7 @@ export interface DescribeEventsResponse {
 }
 export const DescribeEventsResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ events: S.optional(EventList), nextToken: S.optional(S.String) }),
-).annotate({
-  identifier: "DescribeEventsResponse",
-}) as any as S.Schema<DescribeEventsResponse>;
+).annotate({ identifier: "DescribeEventsResponse" }) as any as S.Schema<DescribeEventsResponse>;
 export type AwsAccountIdsList = string[];
 export const AwsAccountIdsList = /*@__PURE__*/ S.Array(S.String);
 export interface OrganizationEventFilter {
@@ -814,9 +770,7 @@ export const OrganizationEventFilter = /*@__PURE__*/ S.suspend(() =>
     eventStatusCodes: S.optional(EventStatusCodeList),
     personas: S.optional(EventPersonaList),
   }),
-).annotate({
-  identifier: "OrganizationEventFilter",
-}) as any as S.Schema<OrganizationEventFilter>;
+).annotate({ identifier: "OrganizationEventFilter" }) as any as S.Schema<OrganizationEventFilter>;
 export interface DescribeEventsForOrganizationRequest {
   filter?: OrganizationEventFilter;
   nextToken?: string;
@@ -862,9 +816,7 @@ export const OrganizationEvent = /*@__PURE__*/ S.suspend(() =>
     actionability: S.optional(EventActionability),
     personas: S.optional(EventPersonaList),
   }),
-).annotate({
-  identifier: "OrganizationEvent",
-}) as any as S.Schema<OrganizationEvent>;
+).annotate({ identifier: "OrganizationEvent" }) as any as S.Schema<OrganizationEvent>;
 export type OrganizationEventList = OrganizationEvent[];
 export const OrganizationEventList = /*@__PURE__*/ S.Array(OrganizationEvent);
 export interface DescribeEventsForOrganizationResponse {
@@ -872,10 +824,7 @@ export interface DescribeEventsForOrganizationResponse {
   nextToken?: string;
 }
 export const DescribeEventsForOrganizationResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    events: S.optional(OrganizationEventList),
-    nextToken: S.optional(S.String),
-  }),
+  S.Struct({ events: S.optional(OrganizationEventList), nextToken: S.optional(S.String) }),
 ).annotate({
   identifier: "DescribeEventsForOrganizationResponse",
 }) as any as S.Schema<DescribeEventsForOrganizationResponse>;
@@ -912,9 +861,7 @@ export const EventTypeFilter = /*@__PURE__*/ S.suspend(() =>
     actionabilities: S.optional(EventTypeActionabilityList),
     personas: S.optional(EventTypePersonaList),
   }),
-).annotate({
-  identifier: "EventTypeFilter",
-}) as any as S.Schema<EventTypeFilter>;
+).annotate({ identifier: "EventTypeFilter" }) as any as S.Schema<EventTypeFilter>;
 export interface DescribeEventTypesRequest {
   filter?: EventTypeFilter;
   locale?: string;
@@ -954,10 +901,7 @@ export interface DescribeEventTypesResponse {
   nextToken?: string;
 }
 export const DescribeEventTypesResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    eventTypes: S.optional(EventTypeList),
-    nextToken: S.optional(S.String),
-  }),
+  S.Struct({ eventTypes: S.optional(EventTypeList), nextToken: S.optional(S.String) }),
 ).annotate({
   identifier: "DescribeEventTypesResponse",
 }) as any as S.Schema<DescribeEventTypesResponse>;
@@ -972,12 +916,81 @@ export interface DescribeHealthServiceStatusForOrganizationResponse {
   healthServiceAccessStatusForOrganization?: string;
 }
 export const DescribeHealthServiceStatusForOrganizationResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    healthServiceAccessStatusForOrganization: S.optional(S.String),
-  }),
+  S.Struct({ healthServiceAccessStatusForOrganization: S.optional(S.String) }),
 ).annotate({
   identifier: "DescribeHealthServiceStatusForOrganizationResponse",
 }) as any as S.Schema<DescribeHealthServiceStatusForOrganizationResponse>;
+export interface ServiceLifecycleFilter {
+  service?: string;
+}
+export const ServiceLifecycleFilter = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({ service: S.optional(S.String) }),
+).annotate({ identifier: "ServiceLifecycleFilter" }) as any as S.Schema<ServiceLifecycleFilter>;
+export type LifecycleMaxResults = number;
+export interface DescribeServiceLifecycleRequest {
+  filter?: ServiceLifecycleFilter;
+  nextToken?: string;
+  maxResults?: number;
+}
+export const DescribeServiceLifecycleRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    filter: S.optional(ServiceLifecycleFilter),
+    nextToken: S.optional(S.String),
+    maxResults: S.optional(S.Number),
+  }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+).annotate({
+  identifier: "DescribeServiceLifecycleRequest",
+}) as any as S.Schema<DescribeServiceLifecycleRequest>;
+export type ImpactRiskList = string[];
+export const ImpactRiskList = /*@__PURE__*/ S.Array(S.String);
+export interface LifecycleEvent {
+  lifecycleEventType?: string;
+  date?: Date;
+  regions?: string[];
+  impactRisks?: string[];
+  description?: string;
+}
+export const LifecycleEvent = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    lifecycleEventType: S.optional(S.String),
+    date: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    regions: S.optional(RegionList),
+    impactRisks: S.optional(ImpactRiskList),
+    description: S.optional(S.String),
+  }),
+).annotate({ identifier: "LifecycleEvent" }) as any as S.Schema<LifecycleEvent>;
+export type LifecycleEventList = LifecycleEvent[];
+export const LifecycleEventList = /*@__PURE__*/ S.Array(LifecycleEvent);
+export interface ServiceLifecycle {
+  service?: string;
+  version?: string;
+  title?: string;
+  recommendedVersion?: string;
+  lifecycleEvents?: LifecycleEvent[];
+}
+export const ServiceLifecycle = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    service: S.optional(S.String),
+    version: S.optional(S.String),
+    title: S.optional(S.String),
+    recommendedVersion: S.optional(S.String),
+    lifecycleEvents: S.optional(LifecycleEventList),
+  }),
+).annotate({ identifier: "ServiceLifecycle" }) as any as S.Schema<ServiceLifecycle>;
+export type ServiceLifecycleList = ServiceLifecycle[];
+export const ServiceLifecycleList = /*@__PURE__*/ S.Array(ServiceLifecycle);
+export interface DescribeServiceLifecycleResponse {
+  serviceLifecycles?: ServiceLifecycle[];
+  nextToken?: string;
+}
+export const DescribeServiceLifecycleResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    serviceLifecycles: S.optional(ServiceLifecycleList),
+    nextToken: S.optional(S.String),
+  }),
+).annotate({
+  identifier: "DescribeServiceLifecycleResponse",
+}) as any as S.Schema<DescribeServiceLifecycleResponse>;
 export interface DisableHealthServiceAccessForOrganizationRequest {}
 export const DisableHealthServiceAccessForOrganizationRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({}).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
@@ -1395,6 +1408,31 @@ export const describeHealthServiceStatusForOrganization: API.OperationMethod<
   retry: Retry,
   operationName: "DescribeHealthServiceStatusForOrganization",
 }));
+
+export type DescribeServiceLifecycleError = InvalidPaginationToken | CommonErrors;
+/**
+ * Returns lifecycle information for Amazon Web Services services, including end-of-life dates, version recommendations, and lifecycle events.
+ */
+export const describeServiceLifecycle: API.PaginatedOperationMethod<
+  DescribeServiceLifecycleRequest,
+  DescribeServiceLifecycleResponse,
+  DescribeServiceLifecycleError,
+  Credentials | HttpClient.HttpClient,
+  ServiceLifecycle
+> = /*@__PURE__*/ API.makePaginated(() => ({
+  input: DescribeServiceLifecycleRequest,
+  output: DescribeServiceLifecycleResponse,
+  errors: [InvalidPaginationToken],
+  protocol: AwsProtocol,
+  retry: Retry,
+  operationName: "DescribeServiceLifecycle",
+  pagination: {
+    inputToken: "nextToken",
+    outputToken: "nextToken",
+    items: "serviceLifecycles",
+    pageSize: "maxResults",
+  } as const,
+})) as any;
 
 export type DisableHealthServiceAccessForOrganizationError =
   | ConcurrentModificationException

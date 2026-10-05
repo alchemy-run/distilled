@@ -52,9 +52,7 @@ export const CreateZoneRrsetRequestRecordsList = /*@__PURE__*/ S.Array(
 ) as any as S.Schema<CreateZoneRrsetRequestRecordsList>;
 
 /** User-defined labels (`key/value` pairs) for the Resource. For more information, see "[Labels](#description/labels)". */
-export type CreateZoneRrsetRequestLabelsMap = {
-  [key: string]: string | undefined;
-};
+export type CreateZoneRrsetRequestLabelsMap = { [key: string]: string | undefined };
 export const CreateZoneRrsetRequestLabelsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -83,9 +81,7 @@ export const CreateZoneRrsetRequest = /*@__PURE__*/ S.suspend(() =>
     records: CreateZoneRrsetRequestRecordsList,
     labels: S.optional(CreateZoneRrsetRequestLabelsMap),
   }).pipe(T.Http({ method: "POST", uri: "/zones/{id_or_name}/rrsets", code: 200 })),
-).annotate({
-  identifier: "CreateZoneRrsetRequest",
-}) as any as S.Schema<CreateZoneRrsetRequest>;
+).annotate({ identifier: "CreateZoneRrsetRequest" }) as any as S.Schema<CreateZoneRrsetRequest>;
 
 /** Type of the [RRSet](#tag/zone-rrsets). */
 export type CreateZoneRrsetResponseRrsetType =
@@ -108,9 +104,7 @@ export type CreateZoneRrsetResponseRrsetType =
 export const CreateZoneRrsetResponseRrsetType = S.String;
 
 /** User-defined labels (`key/value` pairs) for the Resource. For more information, see "[Labels](#description/labels)". */
-export type CreateZoneRrsetResponseRrsetLabelsMap = {
-  [key: string]: string | undefined;
-};
+export type CreateZoneRrsetResponseRrsetLabelsMap = { [key: string]: string | undefined };
 export const CreateZoneRrsetResponseRrsetLabelsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -256,9 +250,7 @@ export const CreateZoneRrsetResponse = /*@__PURE__*/ S.suspend(() =>
     rrset: CreateZoneRrsetResponseRrset,
     action: CreateZoneRrsetResponseAction,
   }),
-).annotate({
-  identifier: "CreateZoneRrsetResponse",
-}) as any as S.Schema<CreateZoneRrsetResponse>;
+).annotate({ identifier: "CreateZoneRrsetResponse" }) as any as S.Schema<CreateZoneRrsetResponse>;
 
 /** Type of the [RRSet](#tag/zone-rrsets). */
 export type DeleteZoneRrsetRequestRrType =
@@ -292,15 +284,9 @@ export const DeleteZoneRrsetRequest = /*@__PURE__*/ S.suspend(() =>
     rr_name: S.String.pipe(T.Label()),
     rr_type: DeleteZoneRrsetRequestRrType.pipe(T.Label()),
   }).pipe(
-    T.Http({
-      method: "DELETE",
-      uri: "/zones/{id_or_name}/rrsets/{rr_name}/{rr_type}",
-      code: 200,
-    }),
+    T.Http({ method: "DELETE", uri: "/zones/{id_or_name}/rrsets/{rr_name}/{rr_type}", code: 200 }),
   ),
-).annotate({
-  identifier: "DeleteZoneRrsetRequest",
-}) as any as S.Schema<DeleteZoneRrsetRequest>;
+).annotate({ identifier: "DeleteZoneRrsetRequest" }) as any as S.Schema<DeleteZoneRrsetRequest>;
 
 /** Status of the Action. */
 export type DeleteZoneRrsetResponseActionStatus = "running" | "success" | "error";
@@ -361,9 +347,7 @@ export const DeleteZoneRrsetResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     action: DeleteZoneRrsetResponseAction,
   }),
-).annotate({
-  identifier: "DeleteZoneRrsetResponse",
-}) as any as S.Schema<DeleteZoneRrsetResponse>;
+).annotate({ identifier: "DeleteZoneRrsetResponse" }) as any as S.Schema<DeleteZoneRrsetResponse>;
 
 /** Type of the [RRSet](#tag/zone-rrsets). */
 export type GetZoneRrsetRequestRrType =
@@ -397,15 +381,9 @@ export const GetZoneRrsetRequest = /*@__PURE__*/ S.suspend(() =>
     rr_name: S.String.pipe(T.Label()),
     rr_type: GetZoneRrsetRequestRrType.pipe(T.Label()),
   }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/zones/{id_or_name}/rrsets/{rr_name}/{rr_type}",
-      code: 200,
-    }),
+    T.Http({ method: "GET", uri: "/zones/{id_or_name}/rrsets/{rr_name}/{rr_type}", code: 200 }),
   ),
-).annotate({
-  identifier: "GetZoneRrsetRequest",
-}) as any as S.Schema<GetZoneRrsetRequest>;
+).annotate({ identifier: "GetZoneRrsetRequest" }) as any as S.Schema<GetZoneRrsetRequest>;
 
 /** Type of the [RRSet](#tag/zone-rrsets). */
 export type GetZoneRrsetResponseRrsetType =
@@ -428,9 +406,7 @@ export type GetZoneRrsetResponseRrsetType =
 export const GetZoneRrsetResponseRrsetType = S.String;
 
 /** User-defined labels (`key/value` pairs) for the Resource. For more information, see "[Labels](#description/labels)". */
-export type GetZoneRrsetResponseRrsetLabelsMap = {
-  [key: string]: string | undefined;
-};
+export type GetZoneRrsetResponseRrsetLabelsMap = { [key: string]: string | undefined };
 export const GetZoneRrsetResponseRrsetLabelsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -490,9 +466,7 @@ export const GetZoneRrsetResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     rrset: GetZoneRrsetResponseRrset,
   }),
-).annotate({
-  identifier: "GetZoneRrsetResponse",
-}) as any as S.Schema<GetZoneRrsetResponse>;
+).annotate({ identifier: "GetZoneRrsetResponse" }) as any as S.Schema<GetZoneRrsetResponse>;
 
 /** Type of the [RRSet](#tag/zone-rrsets). */
 export type ListZoneRrsetsRequestTypeItem =
@@ -562,9 +536,7 @@ export const ListZoneRrsetsRequest = /*@__PURE__*/ S.suspend(() =>
     page: S.optional(S.Number.pipe(T.Query())),
     per_page: S.optional(S.Number.pipe(T.Query())),
   }).pipe(T.Http({ method: "GET", uri: "/zones/{id_or_name}/rrsets", code: 200 })),
-).annotate({
-  identifier: "ListZoneRrsetsRequest",
-}) as any as S.Schema<ListZoneRrsetsRequest>;
+).annotate({ identifier: "ListZoneRrsetsRequest" }) as any as S.Schema<ListZoneRrsetsRequest>;
 
 /** Type of the [RRSet](#tag/zone-rrsets). */
 export type ListZoneRrsetsResponseRrsetsItemType =
@@ -587,9 +559,7 @@ export type ListZoneRrsetsResponseRrsetsItemType =
 export const ListZoneRrsetsResponseRrsetsItemType = S.String;
 
 /** User-defined labels (`key/value` pairs) for the Resource. For more information, see "[Labels](#description/labels)". */
-export type ListZoneRrsetsResponseRrsetsItemLabelsMap = {
-  [key: string]: string | undefined;
-};
+export type ListZoneRrsetsResponseRrsetsItemLabelsMap = { [key: string]: string | undefined };
 export const ListZoneRrsetsResponseRrsetsItemLabelsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -696,9 +666,7 @@ export const ListZoneRrsetsResponse = /*@__PURE__*/ S.suspend(() =>
     rrsets: ListZoneRrsetsResponseRrsetsList,
     meta: ListZoneRrsetsResponseMeta,
   }),
-).annotate({
-  identifier: "ListZoneRrsetsResponse",
-}) as any as S.Schema<ListZoneRrsetsResponse>;
+).annotate({ identifier: "ListZoneRrsetsResponse" }) as any as S.Schema<ListZoneRrsetsResponse>;
 
 /** Type of the [RRSet](#tag/zone-rrsets). */
 export type UpdateZoneRrsetRequestRrType =
@@ -721,9 +689,7 @@ export type UpdateZoneRrsetRequestRrType =
 export const UpdateZoneRrsetRequestRrType = S.String;
 
 /** User-defined labels (`key/value` pairs) for the Resource. Note that the set of [Labels](#description/labels) provided in the request will overwrite the existing one. For more information, see "[Labels](#description/labels)". */
-export type UpdateZoneRrsetRequestLabelsMap = {
-  [key: string]: string | undefined;
-};
+export type UpdateZoneRrsetRequestLabelsMap = { [key: string]: string | undefined };
 export const UpdateZoneRrsetRequestLabelsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -744,15 +710,9 @@ export const UpdateZoneRrsetRequest = /*@__PURE__*/ S.suspend(() =>
     rr_type: UpdateZoneRrsetRequestRrType.pipe(T.Label()),
     labels: S.optional(UpdateZoneRrsetRequestLabelsMap),
   }).pipe(
-    T.Http({
-      method: "PUT",
-      uri: "/zones/{id_or_name}/rrsets/{rr_name}/{rr_type}",
-      code: 200,
-    }),
+    T.Http({ method: "PUT", uri: "/zones/{id_or_name}/rrsets/{rr_name}/{rr_type}", code: 200 }),
   ),
-).annotate({
-  identifier: "UpdateZoneRrsetRequest",
-}) as any as S.Schema<UpdateZoneRrsetRequest>;
+).annotate({ identifier: "UpdateZoneRrsetRequest" }) as any as S.Schema<UpdateZoneRrsetRequest>;
 
 /** Type of the [RRSet](#tag/zone-rrsets). */
 export type UpdateZoneRrsetResponseRrsetType =
@@ -775,9 +735,7 @@ export type UpdateZoneRrsetResponseRrsetType =
 export const UpdateZoneRrsetResponseRrsetType = S.String;
 
 /** User-defined labels (`key/value` pairs) for the Resource. For more information, see "[Labels](#description/labels)". */
-export type UpdateZoneRrsetResponseRrsetLabelsMap = {
-  [key: string]: string | undefined;
-};
+export type UpdateZoneRrsetResponseRrsetLabelsMap = { [key: string]: string | undefined };
 export const UpdateZoneRrsetResponseRrsetLabelsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -837,9 +795,7 @@ export const UpdateZoneRrsetResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     rrset: UpdateZoneRrsetResponseRrset,
   }),
-).annotate({
-  identifier: "UpdateZoneRrsetResponse",
-}) as any as S.Schema<UpdateZoneRrsetResponse>;
+).annotate({ identifier: "UpdateZoneRrsetResponse" }) as any as S.Schema<UpdateZoneRrsetResponse>;
 
 export type CreateZoneRrsetError = HetznerOpError;
 /** Create an RRSet Create an [RRSet](#tag/zone-rrsets) in the [Zone](#tag/zones). Only applicable for [Zones](#tag/zones) in primary mode. #### Operation specific errors */

@@ -53,16 +53,8 @@ export const IngestToDatasetRequest = /*@__PURE__*/ S.suspend(() =>
     timestamp_format: S.optional(S.String.pipe(T.Query("timestamp-format"))),
     csv_delimiter: S.optional(S.String.pipe(T.Query("csv-delimiter"))),
     body: S.String.pipe(T.HttpBody()),
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/v1/datasets/{dataset_id}/ingest",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "IngestToDatasetRequest",
-}) as any as S.Schema<IngestToDatasetRequest>;
+  }).pipe(T.Http({ method: "POST", uri: "/v1/datasets/{dataset_id}/ingest", code: 200 })),
+).annotate({ identifier: "IngestToDatasetRequest" }) as any as S.Schema<IngestToDatasetRequest>;
 
 export interface IngestFailure {
   error: string;

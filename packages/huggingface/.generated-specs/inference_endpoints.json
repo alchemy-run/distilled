@@ -60,13 +60,13 @@
           }
         },
         "own": {
-          "target": "smithy.api#Document",
+          "target": "smithy.api#String",
           "traits": {
             "smithy.api#httpQuery": "own"
           }
         },
         "is_creator": {
-          "target": "smithy.api#Document",
+          "target": "smithy.api#String",
           "traits": {
             "smithy.api#httpQuery": "is_creator"
           }
@@ -78,7 +78,7 @@
           }
         },
         "incur_cost": {
-          "target": "smithy.api#Document",
+          "target": "smithy.api#String",
           "traits": {
             "smithy.api#httpQuery": "incur_cost"
           }
@@ -228,13 +228,13 @@
           }
         },
         "own": {
-          "target": "smithy.api#Document",
+          "target": "smithy.api#String",
           "traits": {
             "smithy.api#httpQuery": "own"
           }
         },
         "is_creator": {
-          "target": "smithy.api#Document",
+          "target": "smithy.api#String",
           "traits": {
             "smithy.api#httpQuery": "is_creator"
           }
@@ -246,7 +246,7 @@
           }
         },
         "incur_cost": {
-          "target": "smithy.api#Document",
+          "target": "smithy.api#String",
           "traits": {
             "smithy.api#httpQuery": "incur_cost"
           }

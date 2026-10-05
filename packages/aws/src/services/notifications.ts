@@ -1,16 +1,15 @@
 import * as API from "@distilled.cloud/core/api";
 import * as S from "@distilled.cloud/core/schema";
 import * as HttpClient from "effect/http/HttpClient";
+import * as redacted from "effect/Redacted";
 import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
 import { Retry } from "../retry.ts";
+import { SensitiveString } from "../sensitive.ts";
 import * as T from "../traits.ts";
-const svc = T.AwsApiService({
-  sdkId: "Notifications",
-  serviceShapeName: "Notifications",
-});
+const svc = T.AwsApiService({ sdkId: "Notifications", serviceShapeName: "Notifications" });
 const auth = T.AwsAuthSigv4({ name: "notifications" });
 const ver = T.ServiceVersion("2018-05-10");
 const proto = T.AwsProtocolsRestJson1();
@@ -116,10 +115,7 @@ export interface AssociateChannelRequest {
   notificationConfigurationArn: string;
 }
 export const AssociateChannelRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    arn: S.String.pipe(T.HttpLabel("arn")),
-    notificationConfigurationArn: S.String,
-  }).pipe(
+  S.Struct({ arn: S.String.pipe(T.HttpLabel("arn")), notificationConfigurationArn: S.String }).pipe(
     T.all(
       T.Http({ method: "POST", uri: "/channels/associate/{arn}" }),
       svc,
@@ -129,9 +125,7 @@ export const AssociateChannelRequest = /*@__PURE__*/ S.suspend(() =>
       rules,
     ),
   ),
-).annotate({
-  identifier: "AssociateChannelRequest",
-}) as any as S.Schema<AssociateChannelRequest>;
+).annotate({ identifier: "AssociateChannelRequest" }) as any as S.Schema<AssociateChannelRequest>;
 export interface AssociateChannelResponse {}
 export const AssociateChannelResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
   identifier: "AssociateChannelResponse",
@@ -141,11 +135,13 @@ export type ManagedNotificationConfigurationOsArn = string;
 export interface AssociateManagedNotificationAccountContactRequest {
   contactIdentifier: string;
   managedNotificationConfigurationArn: string;
+  isSensitiveEventsSubscribed?: boolean;
 }
 export const AssociateManagedNotificationAccountContactRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     contactIdentifier: S.String.pipe(T.HttpLabel("contactIdentifier")),
     managedNotificationConfigurationArn: S.String,
+    isSensitiveEventsSubscribed: S.optional(S.Boolean),
   }).pipe(
     T.all(
       T.Http({
@@ -171,17 +167,16 @@ export const AssociateManagedNotificationAccountContactResponse = /*@__PURE__*/ 
 export interface AssociateManagedNotificationAdditionalChannelRequest {
   channelArn: string;
   managedNotificationConfigurationArn: string;
+  isSensitiveEventsSubscribed?: boolean;
 }
 export const AssociateManagedNotificationAdditionalChannelRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     channelArn: S.String.pipe(T.HttpLabel("channelArn")),
     managedNotificationConfigurationArn: S.String,
+    isSensitiveEventsSubscribed: S.optional(S.Boolean),
   }).pipe(
     T.all(
-      T.Http({
-        method: "PUT",
-        uri: "/channels/associate-managed-notification/{channelArn}",
-      }),
+      T.Http({ method: "PUT", uri: "/channels/associate-managed-notification/{channelArn}" }),
       svc,
       auth,
       proto,
@@ -209,10 +204,7 @@ export const AssociateOrganizationalUnitRequest = /*@__PURE__*/ S.suspend(() =>
     notificationConfigurationArn: S.String,
   }).pipe(
     T.all(
-      T.Http({
-        method: "POST",
-        uri: "/organizational-units/associate/{organizationalUnitId}",
-      }),
+      T.Http({ method: "POST", uri: "/organizational-units/associate/{organizationalUnitId}" }),
       svc,
       auth,
       proto,
@@ -250,9 +242,7 @@ export const CreateEventRuleRequest = /*@__PURE__*/ S.suspend(() =>
     eventPattern: S.optional(S.String),
     regions: Regions,
   }).pipe(T.all(T.Http({ method: "POST", uri: "/event-rules" }), svc, auth, proto, ver, rules)),
-).annotate({
-  identifier: "CreateEventRuleRequest",
-}) as any as S.Schema<CreateEventRuleRequest>;
+).annotate({ identifier: "CreateEventRuleRequest" }) as any as S.Schema<CreateEventRuleRequest>;
 export type EventRuleArn = string;
 export type EventRuleStatus = string;
 export type EventRuleStatusReason = string;
@@ -262,12 +252,8 @@ export interface EventRuleStatusSummary {
 }
 export const EventRuleStatusSummary = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ status: S.String, reason: S.String }),
-).annotate({
-  identifier: "EventRuleStatusSummary",
-}) as any as S.Schema<EventRuleStatusSummary>;
-export type StatusSummaryByRegion = {
-  [key: string]: EventRuleStatusSummary | undefined;
-};
+).annotate({ identifier: "EventRuleStatusSummary" }) as any as S.Schema<EventRuleStatusSummary>;
+export type StatusSummaryByRegion = { [key: string]: EventRuleStatusSummary | undefined };
 export const StatusSummaryByRegion = /*@__PURE__*/ S.Record(
   S.String,
   EventRuleStatusSummary.pipe(S.optional),
@@ -283,9 +269,7 @@ export const CreateEventRuleResponse = /*@__PURE__*/ S.suspend(() =>
     notificationConfigurationArn: S.String,
     statusSummaryByRegion: StatusSummaryByRegion,
   }),
-).annotate({
-  identifier: "CreateEventRuleResponse",
-}) as any as S.Schema<CreateEventRuleResponse>;
+).annotate({ identifier: "CreateEventRuleResponse" }) as any as S.Schema<CreateEventRuleResponse>;
 export type NotificationConfigurationName = string;
 export type NotificationConfigurationDescription = string;
 export type AggregationDuration = string;
@@ -335,9 +319,7 @@ export const DeleteEventRuleRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ arn: S.String.pipe(T.HttpLabel("arn")) }).pipe(
     T.all(T.Http({ method: "DELETE", uri: "/event-rules/{arn}" }), svc, auth, proto, ver, rules),
   ),
-).annotate({
-  identifier: "DeleteEventRuleRequest",
-}) as any as S.Schema<DeleteEventRuleRequest>;
+).annotate({ identifier: "DeleteEventRuleRequest" }) as any as S.Schema<DeleteEventRuleRequest>;
 export interface DeleteEventRuleResponse {}
 export const DeleteEventRuleResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
   identifier: "DeleteEventRuleResponse",
@@ -369,14 +351,9 @@ export interface DeregisterNotificationHubRequest {
   notificationHubRegion: string;
 }
 export const DeregisterNotificationHubRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    notificationHubRegion: S.String.pipe(T.HttpLabel("notificationHubRegion")),
-  }).pipe(
+  S.Struct({ notificationHubRegion: S.String.pipe(T.HttpLabel("notificationHubRegion")) }).pipe(
     T.all(
-      T.Http({
-        method: "DELETE",
-        uri: "/notification-hubs/{notificationHubRegion}",
-      }),
+      T.Http({ method: "DELETE", uri: "/notification-hubs/{notificationHubRegion}" }),
       svc,
       auth,
       proto,
@@ -403,10 +380,7 @@ export interface DeregisterNotificationHubResponse {
   statusSummary: NotificationHubStatusSummary;
 }
 export const DeregisterNotificationHubResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    notificationHubRegion: S.String,
-    statusSummary: NotificationHubStatusSummary,
-  }),
+  S.Struct({ notificationHubRegion: S.String, statusSummary: NotificationHubStatusSummary }),
 ).annotate({
   identifier: "DeregisterNotificationHubResponse",
 }) as any as S.Schema<DeregisterNotificationHubResponse>;
@@ -429,10 +403,7 @@ export interface DisassociateChannelRequest {
   notificationConfigurationArn: string;
 }
 export const DisassociateChannelRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    arn: S.String.pipe(T.HttpLabel("arn")),
-    notificationConfigurationArn: S.String,
-  }).pipe(
+  S.Struct({ arn: S.String.pipe(T.HttpLabel("arn")), notificationConfigurationArn: S.String }).pipe(
     T.all(
       T.Http({ method: "POST", uri: "/channels/disassociate/{arn}" }),
       svc,
@@ -489,10 +460,7 @@ export const DisassociateManagedNotificationAdditionalChannelRequest = /*@__PURE
     managedNotificationConfigurationArn: S.String,
   }).pipe(
     T.all(
-      T.Http({
-        method: "PUT",
-        uri: "/channels/disassociate-managed-notification/{channelArn}",
-      }),
+      T.Http({ method: "PUT", uri: "/channels/disassociate-managed-notification/{channelArn}" }),
       svc,
       auth,
       proto,
@@ -519,10 +487,7 @@ export const DisassociateOrganizationalUnitRequest = /*@__PURE__*/ S.suspend(() 
     notificationConfigurationArn: S.String,
   }).pipe(
     T.all(
-      T.Http({
-        method: "POST",
-        uri: "/organizational-units/disassociate/{organizationalUnitId}",
-      }),
+      T.Http({ method: "POST", uri: "/organizational-units/disassociate/{organizationalUnitId}" }),
       svc,
       auth,
       proto,
@@ -560,9 +525,7 @@ export const GetEventRuleRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ arn: S.String.pipe(T.HttpLabel("arn")) }).pipe(
     T.all(T.Http({ method: "GET", uri: "/event-rules/{arn}" }), svc, auth, proto, ver, rules),
   ),
-).annotate({
-  identifier: "GetEventRuleRequest",
-}) as any as S.Schema<GetEventRuleRequest>;
+).annotate({ identifier: "GetEventRuleRequest" }) as any as S.Schema<GetEventRuleRequest>;
 export type CreationTime = Date;
 export type ManagedRuleArn = string;
 export type ManagedRuleArns = string[];
@@ -590,9 +553,7 @@ export const GetEventRuleResponse = /*@__PURE__*/ S.suspend(() =>
     managedRules: ManagedRuleArns,
     statusSummaryByRegion: StatusSummaryByRegion,
   }),
-).annotate({
-  identifier: "GetEventRuleResponse",
-}) as any as S.Schema<GetEventRuleResponse>;
+).annotate({ identifier: "GetEventRuleResponse" }) as any as S.Schema<GetEventRuleResponse>;
 export type ManagedNotificationChildEventArn = string;
 export type LocaleCode = string;
 export interface GetManagedNotificationChildEventRequest {
@@ -605,10 +566,7 @@ export const GetManagedNotificationChildEventRequest = /*@__PURE__*/ S.suspend((
     locale: S.optional(S.String).pipe(T.HttpQuery("locale")),
   }).pipe(
     T.all(
-      T.Http({
-        method: "GET",
-        uri: "/managed-notification-child-events/{arn}",
-      }),
+      T.Http({ method: "GET", uri: "/managed-notification-child-events/{arn}" }),
       svc,
       auth,
       proto,
@@ -635,6 +593,7 @@ export interface MessageComponents {
   headline?: string;
   paragraphSummary?: string;
   completeDescription?: string;
+  markupDescription?: string;
   dimensions?: Dimension[];
 }
 export const MessageComponents = /*@__PURE__*/ S.suspend(() =>
@@ -642,11 +601,10 @@ export const MessageComponents = /*@__PURE__*/ S.suspend(() =>
     headline: S.optional(S.String),
     paragraphSummary: S.optional(S.String),
     completeDescription: S.optional(S.String),
+    markupDescription: S.optional(S.String),
     dimensions: S.optional(Dimensions),
   }),
-).annotate({
-  identifier: "MessageComponents",
-}) as any as S.Schema<MessageComponents>;
+).annotate({ identifier: "MessageComponents" }) as any as S.Schema<MessageComponents>;
 export type Url = string;
 export type NotificationType = string;
 export type EventStatus = string;
@@ -686,12 +644,8 @@ export interface AggregationDetail {
   summarizationDimensions?: SummarizationDimensionDetail[];
 }
 export const AggregationDetail = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    summarizationDimensions: S.optional(SummarizationDimensionDetails),
-  }),
-).annotate({
-  identifier: "AggregationDetail",
-}) as any as S.Schema<AggregationDetail>;
+  S.Struct({ summarizationDimensions: S.optional(SummarizationDimensionDetails) }),
+).annotate({ identifier: "AggregationDetail" }) as any as S.Schema<AggregationDetail>;
 export interface ManagedNotificationChildEvent {
   schemaVersion: string;
   id: string;
@@ -748,10 +702,7 @@ export interface GetManagedNotificationConfigurationRequest {
 export const GetManagedNotificationConfigurationRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ arn: S.String.pipe(T.HttpLabel("arn")) }).pipe(
     T.all(
-      T.Http({
-        method: "GET",
-        uri: "/managed-notification-configurations/{arn}",
-      }),
+      T.Http({ method: "GET", uri: "/managed-notification-configurations/{arn}" }),
       svc,
       auth,
       proto,
@@ -850,9 +801,26 @@ export const AggregationSummary = /*@__PURE__*/ S.suspend(() =>
     aggregatedOrganizationalUnits: S.optional(SummarizationDimensionOverview),
     additionalSummarizationDimensions: S.optional(SummarizationDimensionOverviews),
   }),
+).annotate({ identifier: "AggregationSummary" }) as any as S.Schema<AggregationSummary>;
+export type AttachmentDisplayName = string;
+export type SensitiveUrl = string | redacted.Redacted<string>;
+export type AttachmentContentType = string;
+export interface NotificationEventAttachment {
+  displayName: string;
+  attachmentDownloadUrl?: string | redacted.Redacted<string>;
+  contentType: string;
+}
+export const NotificationEventAttachment = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    displayName: S.String,
+    attachmentDownloadUrl: S.optional(SensitiveString),
+    contentType: S.String,
+  }),
 ).annotate({
-  identifier: "AggregationSummary",
-}) as any as S.Schema<AggregationSummary>;
+  identifier: "NotificationEventAttachment",
+}) as any as S.Schema<NotificationEventAttachment>;
+export type NotificationEventAttachmentList = NotificationEventAttachment[];
+export const NotificationEventAttachmentList = /*@__PURE__*/ S.Array(NotificationEventAttachment);
 export interface ManagedNotificationEvent {
   schemaVersion: string;
   id: string;
@@ -867,6 +835,7 @@ export interface ManagedNotificationEvent {
   endTime?: Date;
   textParts: { [key: string]: TextPartValue | undefined };
   organizationalUnitId?: string;
+  attachments?: NotificationEventAttachment[];
 }
 export const ManagedNotificationEvent = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -883,10 +852,9 @@ export const ManagedNotificationEvent = /*@__PURE__*/ S.suspend(() =>
     endTime: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
     textParts: TextParts,
     organizationalUnitId: S.optional(S.String),
+    attachments: S.optional(NotificationEventAttachmentList),
   }),
-).annotate({
-  identifier: "ManagedNotificationEvent",
-}) as any as S.Schema<ManagedNotificationEvent>;
+).annotate({ identifier: "ManagedNotificationEvent" }) as any as S.Schema<ManagedNotificationEvent>;
 export interface GetManagedNotificationEventResponse {
   arn: string;
   managedNotificationConfigurationArn: string;
@@ -1006,9 +974,7 @@ export const SourceEventMetadata = /*@__PURE__*/ S.suspend(() =>
     eventType: S.String,
     relatedResources: Resources,
   }),
-).annotate({
-  identifier: "SourceEventMetadata",
-}) as any as S.Schema<SourceEventMetadata>;
+).annotate({ identifier: "SourceEventMetadata" }) as any as S.Schema<SourceEventMetadata>;
 export type MediaId = string;
 export type MediaElementType = string;
 export interface MediaElement {
@@ -1018,12 +984,7 @@ export interface MediaElement {
   caption: string;
 }
 export const MediaElement = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    mediaId: S.String,
-    type: S.String,
-    url: S.String,
-    caption: S.String,
-  }),
+  S.Struct({ mediaId: S.String, type: S.String, url: S.String, caption: S.String }),
 ).annotate({ identifier: "MediaElement" }) as any as S.Schema<MediaElement>;
 export type Media = MediaElement[];
 export const Media = /*@__PURE__*/ S.Array(MediaElement);
@@ -1064,9 +1025,7 @@ export const NotificationEventSchema = /*@__PURE__*/ S.suspend(() =>
     media: Media,
     organizationalUnitId: S.optional(S.String),
   }),
-).annotate({
-  identifier: "NotificationEventSchema",
-}) as any as S.Schema<NotificationEventSchema>;
+).annotate({ identifier: "NotificationEventSchema" }) as any as S.Schema<NotificationEventSchema>;
 export interface GetNotificationEventResponse {
   arn: string;
   notificationConfigurationArn: string;
@@ -1106,9 +1065,7 @@ export interface GetNotificationsAccessForOrganizationResponse {
   notificationsAccessForOrganization: NotificationsAccessForOrganization;
 }
 export const GetNotificationsAccessForOrganizationResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    notificationsAccessForOrganization: NotificationsAccessForOrganization,
-  }),
+  S.Struct({ notificationsAccessForOrganization: NotificationsAccessForOrganization }),
 ).annotate({
   identifier: "GetNotificationsAccessForOrganizationResponse",
 }) as any as S.Schema<GetNotificationsAccessForOrganizationResponse>;
@@ -1124,9 +1081,7 @@ export const ListChannelsRequest = /*@__PURE__*/ S.suspend(() =>
     maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
     nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
   }).pipe(T.all(T.Http({ method: "GET", uri: "/channels" }), svc, auth, proto, ver, rules)),
-).annotate({
-  identifier: "ListChannelsRequest",
-}) as any as S.Schema<ListChannelsRequest>;
+).annotate({ identifier: "ListChannelsRequest" }) as any as S.Schema<ListChannelsRequest>;
 export type Channels = string[];
 export const Channels = /*@__PURE__*/ S.Array(S.String);
 export interface ListChannelsResponse {
@@ -1135,9 +1090,7 @@ export interface ListChannelsResponse {
 }
 export const ListChannelsResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ nextToken: S.optional(S.String), channels: Channels }),
-).annotate({
-  identifier: "ListChannelsResponse",
-}) as any as S.Schema<ListChannelsResponse>;
+).annotate({ identifier: "ListChannelsResponse" }) as any as S.Schema<ListChannelsResponse>;
 export interface ListEventRulesRequest {
   notificationConfigurationArn: string;
   maxResults?: number;
@@ -1149,9 +1102,7 @@ export const ListEventRulesRequest = /*@__PURE__*/ S.suspend(() =>
     maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
     nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
   }).pipe(T.all(T.Http({ method: "GET", uri: "/event-rules" }), svc, auth, proto, ver, rules)),
-).annotate({
-  identifier: "ListEventRulesRequest",
-}) as any as S.Schema<ListEventRulesRequest>;
+).annotate({ identifier: "ListEventRulesRequest" }) as any as S.Schema<ListEventRulesRequest>;
 export interface EventRuleStructure {
   arn: string;
   notificationConfigurationArn: string;
@@ -1175,9 +1126,7 @@ export const EventRuleStructure = /*@__PURE__*/ S.suspend(() =>
     managedRules: ManagedRuleArns,
     statusSummaryByRegion: StatusSummaryByRegion,
   }),
-).annotate({
-  identifier: "EventRuleStructure",
-}) as any as S.Schema<EventRuleStructure>;
+).annotate({ identifier: "EventRuleStructure" }) as any as S.Schema<EventRuleStructure>;
 export type EventRules = EventRuleStructure[];
 export const EventRules = /*@__PURE__*/ S.Array(EventRuleStructure);
 export interface ListEventRulesResponse {
@@ -1186,9 +1135,7 @@ export interface ListEventRulesResponse {
 }
 export const ListEventRulesResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ nextToken: S.optional(S.String), eventRules: EventRules }),
-).annotate({
-  identifier: "ListEventRulesResponse",
-}) as any as S.Schema<ListEventRulesResponse>;
+).annotate({ identifier: "ListEventRulesResponse" }) as any as S.Schema<ListEventRulesResponse>;
 export interface ListManagedNotificationChannelAssociationsRequest {
   managedNotificationConfigurationArn: string;
   maxResults?: number;
@@ -1203,10 +1150,7 @@ export const ListManagedNotificationChannelAssociationsRequest = /*@__PURE__*/ S
     nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
   }).pipe(
     T.all(
-      T.Http({
-        method: "GET",
-        uri: "/channels/list-managed-notification-channel-associations",
-      }),
+      T.Http({ method: "GET", uri: "/channels/list-managed-notification-channel-associations" }),
       svc,
       auth,
       proto,
@@ -1217,18 +1161,22 @@ export const ListManagedNotificationChannelAssociationsRequest = /*@__PURE__*/ S
 ).annotate({
   identifier: "ListManagedNotificationChannelAssociationsRequest",
 }) as any as S.Schema<ListManagedNotificationChannelAssociationsRequest>;
-export type ChannelType = string;
+export type ChannelType = "MOBILE" | "CHATBOT" | "EMAIL" | "ACCOUNT_CONTACT" | (string & {});
+export const ChannelType = S.String;
+
 export type ChannelAssociationOverrideOption = string;
 export interface ManagedNotificationChannelAssociationSummary {
   channelIdentifier: string;
-  channelType: string;
+  channelType: ChannelType;
   overrideOption?: string;
+  isSensitiveEventsSubscribed?: boolean;
 }
 export const ManagedNotificationChannelAssociationSummary = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     channelIdentifier: S.String,
-    channelType: S.String,
+    channelType: ChannelType,
     overrideOption: S.optional(S.String),
+    isSensitiveEventsSubscribed: S.optional(S.Boolean),
   }),
 ).annotate({
   identifier: "ManagedNotificationChannelAssociationSummary",
@@ -1297,11 +1245,7 @@ export interface ManagedSourceEventMetadataSummary {
   eventType: string;
 }
 export const ManagedSourceEventMetadataSummary = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    eventOriginRegion: S.optional(S.String),
-    source: S.String,
-    eventType: S.String,
-  }),
+  S.Struct({ eventOriginRegion: S.optional(S.String), source: S.String, eventType: S.String }),
 ).annotate({
   identifier: "ManagedSourceEventMetadataSummary",
 }) as any as S.Schema<ManagedSourceEventMetadataSummary>;
@@ -1310,9 +1254,7 @@ export interface MessageComponentsSummary {
 }
 export const MessageComponentsSummary = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ headline: S.String }),
-).annotate({
-  identifier: "MessageComponentsSummary",
-}) as any as S.Schema<MessageComponentsSummary>;
+).annotate({ identifier: "MessageComponentsSummary" }) as any as S.Schema<MessageComponentsSummary>;
 export interface ManagedNotificationChildEventSummary {
   schemaVersion: string;
   sourceEventMetadata: ManagedSourceEventMetadataSummary;
@@ -1430,6 +1372,7 @@ export interface ListManagedNotificationEventsRequest {
   nextToken?: string;
   organizationalUnitId?: string;
   relatedAccount?: string;
+  includeSensitiveEvents?: boolean;
 }
 export const ListManagedNotificationEventsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -1445,6 +1388,7 @@ export const ListManagedNotificationEventsRequest = /*@__PURE__*/ S.suspend(() =
     nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
     organizationalUnitId: S.optional(S.String).pipe(T.HttpQuery("organizationalUnitId")),
     relatedAccount: S.optional(S.String).pipe(T.HttpQuery("relatedAccount")),
+    includeSensitiveEvents: S.optional(S.Boolean).pipe(T.HttpQuery("includeSensitiveEvents")),
   }).pipe(
     T.all(
       T.Http({ method: "GET", uri: "/managed-notification-events" }),
@@ -1673,11 +1617,7 @@ export interface SourceEventMetadataSummary {
   eventType: string;
 }
 export const SourceEventMetadataSummary = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    eventOriginRegion: S.optional(S.String),
-    source: S.String,
-    eventType: S.String,
-  }),
+  S.Struct({ eventOriginRegion: S.optional(S.String), source: S.String, eventType: S.String }),
 ).annotate({
   identifier: "SourceEventMetadataSummary",
 }) as any as S.Schema<SourceEventMetadataSummary>;
@@ -1696,9 +1636,7 @@ export const NotificationEventSummary = /*@__PURE__*/ S.suspend(() =>
     eventStatus: S.String,
     notificationType: S.String,
   }),
-).annotate({
-  identifier: "NotificationEventSummary",
-}) as any as S.Schema<NotificationEventSummary>;
+).annotate({ identifier: "NotificationEventSummary" }) as any as S.Schema<NotificationEventSummary>;
 export interface NotificationEventOverview {
   arn: string;
   notificationConfigurationArn: string;
@@ -1732,10 +1670,7 @@ export interface ListNotificationEventsResponse {
   notificationEvents: NotificationEventOverview[];
 }
 export const ListNotificationEventsResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    nextToken: S.optional(S.String),
-    notificationEvents: NotificationEvents,
-  }),
+  S.Struct({ nextToken: S.optional(S.String), notificationEvents: NotificationEvents }),
 ).annotate({
   identifier: "ListNotificationEventsResponse",
 }) as any as S.Schema<ListNotificationEventsResponse>;
@@ -1767,9 +1702,7 @@ export const NotificationHubOverview = /*@__PURE__*/ S.suspend(() =>
     creationTime: T.DateFromString.pipe(T.TimestampFormat("date-time")),
     lastActivationTime: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
   }),
-).annotate({
-  identifier: "NotificationHubOverview",
-}) as any as S.Schema<NotificationHubOverview>;
+).annotate({ identifier: "NotificationHubOverview" }) as any as S.Schema<NotificationHubOverview>;
 export type NotificationHubs = NotificationHubOverview[];
 export const NotificationHubs = /*@__PURE__*/ S.Array(NotificationHubOverview);
 export interface ListNotificationHubsResponse {
@@ -1777,10 +1710,7 @@ export interface ListNotificationHubsResponse {
   nextToken?: string;
 }
 export const ListNotificationHubsResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    notificationHubs: NotificationHubs,
-    nextToken: S.optional(S.String),
-  }),
+  S.Struct({ notificationHubs: NotificationHubs, nextToken: S.optional(S.String) }),
 ).annotate({
   identifier: "ListNotificationHubsResponse",
 }) as any as S.Schema<ListNotificationHubsResponse>;
@@ -1807,10 +1737,7 @@ export interface ListOrganizationalUnitsResponse {
   nextToken?: string;
 }
 export const ListOrganizationalUnitsResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    organizationalUnits: OrganizationalUnits,
-    nextToken: S.optional(S.String),
-  }),
+  S.Struct({ organizationalUnits: OrganizationalUnits, nextToken: S.optional(S.String) }),
 ).annotate({
   identifier: "ListOrganizationalUnitsResponse",
 }) as any as S.Schema<ListOrganizationalUnitsResponse>;
@@ -1866,9 +1793,7 @@ export const TagResourceRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ arn: S.String.pipe(T.HttpLabel("arn")), tags: TagMap }).pipe(
     T.all(T.Http({ method: "POST", uri: "/tags/{arn}" }), svc, auth, proto, ver, rules),
   ),
-).annotate({
-  identifier: "TagResourceRequest",
-}) as any as S.Schema<TagResourceRequest>;
+).annotate({ identifier: "TagResourceRequest" }) as any as S.Schema<TagResourceRequest>;
 export interface TagResourceResponse {}
 export const TagResourceResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
   identifier: "TagResourceResponse",
@@ -1884,9 +1809,7 @@ export const UntagResourceRequest = /*@__PURE__*/ S.suspend(() =>
     arn: S.String.pipe(T.HttpLabel("arn")),
     tagKeys: TagKeys.pipe(T.HttpQuery("tagKeys")),
   }).pipe(T.all(T.Http({ method: "DELETE", uri: "/tags/{arn}" }), svc, auth, proto, ver, rules)),
-).annotate({
-  identifier: "UntagResourceRequest",
-}) as any as S.Schema<UntagResourceRequest>;
+).annotate({ identifier: "UntagResourceRequest" }) as any as S.Schema<UntagResourceRequest>;
 export interface UntagResourceResponse {}
 export const UntagResourceResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
   identifier: "UntagResourceResponse",
@@ -1904,9 +1827,7 @@ export const UpdateEventRuleRequest = /*@__PURE__*/ S.suspend(() =>
   }).pipe(
     T.all(T.Http({ method: "PUT", uri: "/event-rules/{arn}" }), svc, auth, proto, ver, rules),
   ),
-).annotate({
-  identifier: "UpdateEventRuleRequest",
-}) as any as S.Schema<UpdateEventRuleRequest>;
+).annotate({ identifier: "UpdateEventRuleRequest" }) as any as S.Schema<UpdateEventRuleRequest>;
 export interface UpdateEventRuleResponse {
   arn: string;
   notificationConfigurationArn: string;
@@ -1918,9 +1839,37 @@ export const UpdateEventRuleResponse = /*@__PURE__*/ S.suspend(() =>
     notificationConfigurationArn: S.String,
     statusSummaryByRegion: StatusSummaryByRegion,
   }),
+).annotate({ identifier: "UpdateEventRuleResponse" }) as any as S.Schema<UpdateEventRuleResponse>;
+export type ManagedNotificationChannelIdentifier = string;
+export interface UpdateManagedNotificationChannelAssociationRequest {
+  managedNotificationConfigurationArn: string;
+  channelIdentifier: string;
+  isSensitiveEventsSubscribed?: boolean;
+}
+export const UpdateManagedNotificationChannelAssociationRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    managedNotificationConfigurationArn: S.String,
+    channelIdentifier: S.String,
+    isSensitiveEventsSubscribed: S.optional(S.Boolean),
+  }).pipe(
+    T.all(
+      T.Http({ method: "PUT", uri: "/channels/update-managed-notification-channel-association" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
 ).annotate({
-  identifier: "UpdateEventRuleResponse",
-}) as any as S.Schema<UpdateEventRuleResponse>;
+  identifier: "UpdateManagedNotificationChannelAssociationRequest",
+}) as any as S.Schema<UpdateManagedNotificationChannelAssociationRequest>;
+export interface UpdateManagedNotificationChannelAssociationResponse {}
+export const UpdateManagedNotificationChannelAssociationResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({}),
+).annotate({
+  identifier: "UpdateManagedNotificationChannelAssociationResponse",
+}) as any as S.Schema<UpdateManagedNotificationChannelAssociationResponse>;
 export interface UpdateNotificationConfigurationRequest {
   arn: string;
   name?: string;
@@ -1966,9 +1915,7 @@ export interface ValidationExceptionField {
 }
 export const ValidationExceptionField = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ name: S.String, message: S.String }),
-).annotate({
-  identifier: "ValidationExceptionField",
-}) as any as S.Schema<ValidationExceptionField>;
+).annotate({ identifier: "ValidationExceptionField" }) as any as S.Schema<ValidationExceptionField>;
 export type ValidationExceptionFieldList = ValidationExceptionField[];
 export const ValidationExceptionFieldList = /*@__PURE__*/ S.Array(ValidationExceptionField);
 export type AssociateChannelError =
@@ -2248,9 +2195,9 @@ export type DeregisterNotificationHubError =
   | ValidationException
   | CommonErrors;
 /**
- * Deregisters a `NotificationConfiguration` in the specified Region.
+ * Deregisters a `NotificationHub` in the specified Region.
  *
- * You can't deregister the last `NotificationHub` in the account. `NotificationEvents` stored in the deregistered `NotificationConfiguration` are no longer be visible. Recreating a new `NotificationConfiguration` in the same Region restores access to those `NotificationEvents`.
+ * You can't deregister the last `NotificationHub` in the account. `NotificationEvents` stored in the deregistered `NotificationHub` are no longer visible. Recreating a new `NotificationHub` in the same Region restores access to those `NotificationEvents`.
  */
 export const deregisterNotificationHub: API.OperationMethod<
   DeregisterNotificationHubRequest,
@@ -3117,9 +3064,9 @@ export type RegisterNotificationHubError =
   | ValidationException
   | CommonErrors;
 /**
- * Registers a `NotificationConfiguration` in the specified Region.
+ * Registers a `NotificationHub` in the specified Region.
  *
- * There is a maximum of one `NotificationConfiguration` per Region. You can have a maximum of 3 `NotificationHub` resources at a time.
+ * There is a maximum of one `NotificationHub` per Region. You can have a maximum of 3 `NotificationHub` resources at a time.
  */
 export const registerNotificationHub: API.OperationMethod<
   RegisterNotificationHubRequest,
@@ -3238,6 +3185,38 @@ export const updateEventRule: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateEventRule",
+}));
+
+export type UpdateManagedNotificationChannelAssociationError =
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
+/**
+ * Updates the `isSensitiveEventsSubscribed` property of a particular ManagedNotification channel association.
+ */
+export const updateManagedNotificationChannelAssociation: API.OperationMethod<
+  UpdateManagedNotificationChannelAssociationRequest,
+  UpdateManagedNotificationChannelAssociationResponse,
+  UpdateManagedNotificationChannelAssociationError,
+  Credentials | HttpClient.HttpClient
+> = /*@__PURE__*/ API.make(() => ({
+  input: UpdateManagedNotificationChannelAssociationRequest,
+  output: UpdateManagedNotificationChannelAssociationResponse,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+  protocol: AwsProtocol,
+  retry: Retry,
+  operationName: "UpdateManagedNotificationChannelAssociation",
 }));
 
 export type UpdateNotificationConfigurationError =

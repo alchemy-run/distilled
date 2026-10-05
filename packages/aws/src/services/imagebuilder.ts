@@ -7,10 +7,7 @@ import type { CommonErrors } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
 import { Retry } from "../retry.ts";
 import * as T from "../traits.ts";
-const svc = T.AwsApiService({
-  sdkId: "imagebuilder",
-  serviceShapeName: "imagebuilder",
-});
+const svc = T.AwsApiService({ sdkId: "imagebuilder", serviceShapeName: "imagebuilder" });
 const auth = T.AwsAuthSigv4({ name: "imagebuilder" });
 const ver = T.ServiceVersion("2019-12-02");
 const proto = T.AwsProtocolsRestJson1();
@@ -300,9 +297,7 @@ export const CreateComponentRequest = /*@__PURE__*/ S.suspend(() =>
     clientToken: S.String.pipe(T.IdempotencyToken()),
     dryRun: S.optional(S.Boolean),
   }).pipe(T.all(T.Http({ method: "PUT", uri: "/CreateComponent" }), svc, auth, proto, ver, rules)),
-).annotate({
-  identifier: "CreateComponentRequest",
-}) as any as S.Schema<CreateComponentRequest>;
+).annotate({ identifier: "CreateComponentRequest" }) as any as S.Schema<CreateComponentRequest>;
 export type ComponentBuildVersionArn = string;
 export type ImageBuilderArn = string;
 export interface LatestVersionReferences {
@@ -318,9 +313,7 @@ export const LatestVersionReferences = /*@__PURE__*/ S.suspend(() =>
     latestMinorVersionArn: S.optional(S.String),
     latestPatchVersionArn: S.optional(S.String),
   }),
-).annotate({
-  identifier: "LatestVersionReferences",
-}) as any as S.Schema<LatestVersionReferences>;
+).annotate({ identifier: "LatestVersionReferences" }) as any as S.Schema<LatestVersionReferences>;
 export interface CreateComponentResponse {
   requestId?: string;
   clientToken?: string;
@@ -334,9 +327,7 @@ export const CreateComponentResponse = /*@__PURE__*/ S.suspend(() =>
     componentBuildVersionArn: S.optional(S.String),
     latestVersionReferences: S.optional(LatestVersionReferences),
   }),
-).annotate({
-  identifier: "CreateComponentResponse",
-}) as any as S.Schema<CreateComponentResponse>;
+).annotate({ identifier: "CreateComponentResponse" }) as any as S.Schema<CreateComponentResponse>;
 export type ContainerType = "DOCKER" | (string & {});
 export const ContainerType = S.String;
 
@@ -352,9 +343,7 @@ export interface ComponentParameter {
 }
 export const ComponentParameter = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ name: S.String, value: ComponentParameterValueList }),
-).annotate({
-  identifier: "ComponentParameter",
-}) as any as S.Schema<ComponentParameter>;
+).annotate({ identifier: "ComponentParameter" }) as any as S.Schema<ComponentParameter>;
 export type ComponentParameterList = ComponentParameter[];
 export const ComponentParameterList = /*@__PURE__*/ S.Array(ComponentParameter);
 export interface ComponentConfiguration {
@@ -362,13 +351,8 @@ export interface ComponentConfiguration {
   parameters?: ComponentParameter[];
 }
 export const ComponentConfiguration = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    componentArn: S.String,
-    parameters: S.optional(ComponentParameterList),
-  }),
-).annotate({
-  identifier: "ComponentConfiguration",
-}) as any as S.Schema<ComponentConfiguration>;
+  S.Struct({ componentArn: S.String, parameters: S.optional(ComponentParameterList) }),
+).annotate({ identifier: "ComponentConfiguration" }) as any as S.Schema<ComponentConfiguration>;
 export type ComponentConfigurationList = ComponentConfiguration[];
 export const ComponentConfigurationList = /*@__PURE__*/ S.Array(ComponentConfiguration);
 export type EbsIopsInteger = number;
@@ -437,9 +421,7 @@ export const InstanceConfiguration = /*@__PURE__*/ S.suspend(() =>
     image: S.optional(S.String),
     blockDeviceMappings: S.optional(InstanceBlockDeviceMappings),
   }),
-).annotate({
-  identifier: "InstanceConfiguration",
-}) as any as S.Schema<InstanceConfiguration>;
+).annotate({ identifier: "InstanceConfiguration" }) as any as S.Schema<InstanceConfiguration>;
 export type InlineDockerFileTemplate = string;
 export type ContainerRepositoryService = "ECR" | (string & {});
 export const ContainerRepositoryService = S.String;
@@ -470,6 +452,7 @@ export interface CreateContainerRecipeRequest {
   targetRepository: TargetContainerRepository;
   kmsKeyId?: string;
   clientToken: string;
+  dryRun?: boolean;
 }
 export const CreateContainerRecipeRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -489,6 +472,7 @@ export const CreateContainerRecipeRequest = /*@__PURE__*/ S.suspend(() =>
     targetRepository: TargetContainerRepository,
     kmsKeyId: S.optional(S.String),
     clientToken: S.String.pipe(T.IdempotencyToken()),
+    dryRun: S.optional(S.Boolean),
   }).pipe(
     T.all(T.Http({ method: "PUT", uri: "/CreateContainerRecipe" }), svc, auth, proto, ver, rules),
   ),
@@ -610,9 +594,7 @@ export const S3ExportConfiguration = /*@__PURE__*/ S.suspend(() =>
     s3Bucket: S.String,
     s3Prefix: S.optional(S.String),
   }),
-).annotate({
-  identifier: "S3ExportConfiguration",
-}) as any as S.Schema<S3ExportConfiguration>;
+).annotate({ identifier: "S3ExportConfiguration" }) as any as S.Schema<S3ExportConfiguration>;
 export type TargetResourceCount = number;
 export interface FastLaunchSnapshotConfiguration {
   targetResourceCount?: number;
@@ -652,9 +634,7 @@ export const FastLaunchConfiguration = /*@__PURE__*/ S.suspend(() =>
     launchTemplate: S.optional(FastLaunchLaunchTemplateSpecification),
     accountId: S.optional(S.String),
   }),
-).annotate({
-  identifier: "FastLaunchConfiguration",
-}) as any as S.Schema<FastLaunchConfiguration>;
+).annotate({ identifier: "FastLaunchConfiguration" }) as any as S.Schema<FastLaunchConfiguration>;
 export type FastLaunchConfigurationList = FastLaunchConfiguration[];
 export const FastLaunchConfigurationList = /*@__PURE__*/ S.Array(FastLaunchConfiguration);
 export type SsmParameterName = string;
@@ -707,6 +687,7 @@ export interface CreateDistributionConfigurationRequest {
   distributions: Distribution[];
   tags?: { [key: string]: string | undefined };
   clientToken: string;
+  dryRun?: boolean;
 }
 export const CreateDistributionConfigurationRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -715,6 +696,7 @@ export const CreateDistributionConfigurationRequest = /*@__PURE__*/ S.suspend(()
     distributions: DistributionList,
     tags: S.optional(TagMap),
     clientToken: S.String.pipe(T.IdempotencyToken()),
+    dryRun: S.optional(S.Boolean),
   }).pipe(
     T.all(
       T.Http({ method: "PUT", uri: "/CreateDistributionConfiguration" }),
@@ -751,25 +733,15 @@ export interface ImageTestsConfiguration {
   timeoutMinutes?: number;
 }
 export const ImageTestsConfiguration = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    imageTestsEnabled: S.optional(S.Boolean),
-    timeoutMinutes: S.optional(S.Number),
-  }),
-).annotate({
-  identifier: "ImageTestsConfiguration",
-}) as any as S.Schema<ImageTestsConfiguration>;
+  S.Struct({ imageTestsEnabled: S.optional(S.Boolean), timeoutMinutes: S.optional(S.Number) }),
+).annotate({ identifier: "ImageTestsConfiguration" }) as any as S.Schema<ImageTestsConfiguration>;
 export interface EcrConfiguration {
   repositoryName?: string;
   containerTags?: string[];
 }
 export const EcrConfiguration = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    repositoryName: S.optional(S.String),
-    containerTags: S.optional(StringList),
-  }),
-).annotate({
-  identifier: "EcrConfiguration",
-}) as any as S.Schema<EcrConfiguration>;
+  S.Struct({ repositoryName: S.optional(S.String), containerTags: S.optional(StringList) }),
+).annotate({ identifier: "EcrConfiguration" }) as any as S.Schema<EcrConfiguration>;
 export interface ImageScanningConfiguration {
   imageScanningEnabled?: boolean;
   ecrConfiguration?: EcrConfiguration;
@@ -793,9 +765,7 @@ export interface WorkflowParameter {
 }
 export const WorkflowParameter = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ name: S.String, value: WorkflowParameterValueList }),
-).annotate({
-  identifier: "WorkflowParameter",
-}) as any as S.Schema<WorkflowParameter>;
+).annotate({ identifier: "WorkflowParameter" }) as any as S.Schema<WorkflowParameter>;
 export type WorkflowParameterList = WorkflowParameter[];
 export const WorkflowParameterList = /*@__PURE__*/ S.Array(WorkflowParameter);
 export type ParallelGroup = string;
@@ -815,9 +785,7 @@ export const WorkflowConfiguration = /*@__PURE__*/ S.suspend(() =>
     parallelGroup: S.optional(S.String),
     onFailure: S.optional(OnWorkflowFailure),
   }),
-).annotate({
-  identifier: "WorkflowConfiguration",
-}) as any as S.Schema<WorkflowConfiguration>;
+).annotate({ identifier: "WorkflowConfiguration" }) as any as S.Schema<WorkflowConfiguration>;
 export type WorkflowConfigurationList = WorkflowConfiguration[];
 export const WorkflowConfigurationList = /*@__PURE__*/ S.Array(WorkflowConfiguration);
 export type RoleNameOrArn = string;
@@ -859,9 +827,7 @@ export const CreateImageRequest = /*@__PURE__*/ S.suspend(() =>
     executionRole: S.optional(S.String),
     loggingConfiguration: S.optional(ImageLoggingConfiguration),
   }).pipe(T.all(T.Http({ method: "PUT", uri: "/CreateImage" }), svc, auth, proto, ver, rules)),
-).annotate({
-  identifier: "CreateImageRequest",
-}) as any as S.Schema<CreateImageRequest>;
+).annotate({ identifier: "CreateImageRequest" }) as any as S.Schema<CreateImageRequest>;
 export interface CreateImageResponse {
   requestId?: string;
   clientToken?: string;
@@ -875,9 +841,7 @@ export const CreateImageResponse = /*@__PURE__*/ S.suspend(() =>
     imageBuildVersionArn: S.optional(S.String),
     latestVersionReferences: S.optional(LatestVersionReferences),
   }),
-).annotate({
-  identifier: "CreateImageResponse",
-}) as any as S.Schema<CreateImageResponse>;
+).annotate({ identifier: "CreateImageResponse" }) as any as S.Schema<CreateImageResponse>;
 export type Timezone = string;
 export type PipelineExecutionStartCondition =
   | "EXPRESSION_MATCH_ONLY"
@@ -891,9 +855,7 @@ export interface AutoDisablePolicy {
 }
 export const AutoDisablePolicy = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ failureCount: S.Number }),
-).annotate({
-  identifier: "AutoDisablePolicy",
-}) as any as S.Schema<AutoDisablePolicy>;
+).annotate({ identifier: "AutoDisablePolicy" }) as any as S.Schema<AutoDisablePolicy>;
 export interface Schedule {
   scheduleExpression?: string;
   timezone?: string;
@@ -916,10 +878,7 @@ export interface PipelineLoggingConfiguration {
   pipelineLogGroupName?: string;
 }
 export const PipelineLoggingConfiguration = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    imageLogGroupName: S.optional(S.String),
-    pipelineLogGroupName: S.optional(S.String),
-  }),
+  S.Struct({ imageLogGroupName: S.optional(S.String), pipelineLogGroupName: S.optional(S.String) }),
 ).annotate({
   identifier: "PipelineLoggingConfiguration",
 }) as any as S.Schema<PipelineLoggingConfiguration>;
@@ -941,6 +900,7 @@ export interface CreateImagePipelineRequest {
   workflows?: WorkflowConfiguration[];
   executionRole?: string;
   loggingConfiguration?: PipelineLoggingConfiguration;
+  dryRun?: boolean;
 }
 export const CreateImagePipelineRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -961,6 +921,7 @@ export const CreateImagePipelineRequest = /*@__PURE__*/ S.suspend(() =>
     workflows: S.optional(WorkflowConfigurationList),
     executionRole: S.optional(S.String),
     loggingConfiguration: S.optional(PipelineLoggingConfiguration),
+    dryRun: S.optional(S.Boolean),
   }).pipe(
     T.all(T.Http({ method: "PUT", uri: "/CreateImagePipeline" }), svc, auth, proto, ver, rules),
   ),
@@ -987,9 +948,7 @@ export interface SystemsManagerAgent {
 }
 export const SystemsManagerAgent = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ uninstallAfterBuild: S.optional(S.Boolean) }),
-).annotate({
-  identifier: "SystemsManagerAgent",
-}) as any as S.Schema<SystemsManagerAgent>;
+).annotate({ identifier: "SystemsManagerAgent" }) as any as S.Schema<SystemsManagerAgent>;
 export type UserDataOverride = string;
 export interface AdditionalInstanceConfiguration {
   systemsManagerAgent?: SystemsManagerAgent;
@@ -1019,6 +978,7 @@ export interface CreateImageRecipeRequest {
   amiTags?: { [key: string]: string | undefined };
   amiWatermarks?: string[];
   clientToken: string;
+  dryRun?: boolean;
 }
 export const CreateImageRecipeRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -1034,12 +994,11 @@ export const CreateImageRecipeRequest = /*@__PURE__*/ S.suspend(() =>
     amiTags: S.optional(TagMap),
     amiWatermarks: S.optional(AmiWatermarksList),
     clientToken: S.String.pipe(T.IdempotencyToken()),
+    dryRun: S.optional(S.Boolean),
   }).pipe(
     T.all(T.Http({ method: "PUT", uri: "/CreateImageRecipe" }), svc, auth, proto, ver, rules),
   ),
-).annotate({
-  identifier: "CreateImageRecipeRequest",
-}) as any as S.Schema<CreateImageRecipeRequest>;
+).annotate({ identifier: "CreateImageRecipeRequest" }) as any as S.Schema<CreateImageRecipeRequest>;
 export interface CreateImageRecipeResponse {
   requestId?: string;
   clientToken?: string;
@@ -1067,10 +1026,7 @@ export interface S3Logs {
   s3KeyPrefix?: string;
 }
 export const S3Logs = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    s3BucketName: S.optional(S.String),
-    s3KeyPrefix: S.optional(S.String),
-  }),
+  S.Struct({ s3BucketName: S.optional(S.String), s3KeyPrefix: S.optional(S.String) }),
 ).annotate({ identifier: "S3Logs" }) as any as S.Schema<S3Logs>;
 export interface Logging {
   s3Logs?: S3Logs;
@@ -1088,13 +1044,8 @@ export interface InstanceMetadataOptions {
   httpPutResponseHopLimit?: number;
 }
 export const InstanceMetadataOptions = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    httpTokens: S.optional(S.String),
-    httpPutResponseHopLimit: S.optional(S.Number),
-  }),
-).annotate({
-  identifier: "InstanceMetadataOptions",
-}) as any as S.Schema<InstanceMetadataOptions>;
+  S.Struct({ httpTokens: S.optional(S.String), httpPutResponseHopLimit: S.optional(S.Number) }),
+).annotate({ identifier: "InstanceMetadataOptions" }) as any as S.Schema<InstanceMetadataOptions>;
 export type TenancyType = "default" | "dedicated" | "host" | (string & {});
 export const TenancyType = S.String;
 
@@ -1128,6 +1079,7 @@ export interface CreateInfrastructureConfigurationRequest {
   tags?: { [key: string]: string | undefined };
   placement?: Placement;
   clientToken: string;
+  dryRun?: boolean;
 }
 export const CreateInfrastructureConfigurationRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -1146,6 +1098,7 @@ export const CreateInfrastructureConfigurationRequest = /*@__PURE__*/ S.suspend(
     tags: S.optional(TagMap),
     placement: S.optional(Placement),
     clientToken: S.String.pipe(T.IdempotencyToken()),
+    dryRun: S.optional(S.Boolean),
   }).pipe(
     T.all(
       T.Http({ method: "PUT", uri: "/CreateInfrastructureConfiguration" }),
@@ -1283,9 +1236,7 @@ export const LifecyclePolicyDetail = /*@__PURE__*/ S.suspend(() =>
     filter: LifecyclePolicyDetailFilter,
     exclusionRules: S.optional(LifecyclePolicyDetailExclusionRules),
   }),
-).annotate({
-  identifier: "LifecyclePolicyDetail",
-}) as any as S.Schema<LifecyclePolicyDetail>;
+).annotate({ identifier: "LifecyclePolicyDetail" }) as any as S.Schema<LifecyclePolicyDetail>;
 export type LifecyclePolicyDetails = LifecyclePolicyDetail[];
 export const LifecyclePolicyDetails = /*@__PURE__*/ S.Array(LifecyclePolicyDetail);
 export interface LifecyclePolicyResourceSelectionRecipe {
@@ -1323,6 +1274,7 @@ export interface CreateLifecyclePolicyRequest {
   resourceSelection: LifecyclePolicyResourceSelection;
   tags?: { [key: string]: string | undefined };
   clientToken: string;
+  dryRun?: boolean;
 }
 export const CreateLifecyclePolicyRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -1335,6 +1287,7 @@ export const CreateLifecyclePolicyRequest = /*@__PURE__*/ S.suspend(() =>
     resourceSelection: LifecyclePolicyResourceSelection,
     tags: S.optional(TagMap),
     clientToken: S.String.pipe(T.IdempotencyToken()),
+    dryRun: S.optional(S.Boolean),
   }).pipe(
     T.all(T.Http({ method: "PUT", uri: "/CreateLifecyclePolicy" }), svc, auth, proto, ver, rules),
   ),
@@ -1347,10 +1300,7 @@ export interface CreateLifecyclePolicyResponse {
   lifecyclePolicyArn?: string;
 }
 export const CreateLifecyclePolicyResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    clientToken: S.optional(S.String),
-    lifecyclePolicyArn: S.optional(S.String),
-  }),
+  S.Struct({ clientToken: S.optional(S.String), lifecyclePolicyArn: S.optional(S.String) }),
 ).annotate({
   identifier: "CreateLifecyclePolicyResponse",
 }) as any as S.Schema<CreateLifecyclePolicyResponse>;
@@ -1385,9 +1335,7 @@ export const CreateWorkflowRequest = /*@__PURE__*/ S.suspend(() =>
     type: WorkflowType,
     dryRun: S.optional(S.Boolean),
   }).pipe(T.all(T.Http({ method: "PUT", uri: "/CreateWorkflow" }), svc, auth, proto, ver, rules)),
-).annotate({
-  identifier: "CreateWorkflowRequest",
-}) as any as S.Schema<CreateWorkflowRequest>;
+).annotate({ identifier: "CreateWorkflowRequest" }) as any as S.Schema<CreateWorkflowRequest>;
 export type WorkflowBuildVersionArn = string;
 export interface CreateWorkflowResponse {
   clientToken?: string;
@@ -1400,9 +1348,7 @@ export const CreateWorkflowResponse = /*@__PURE__*/ S.suspend(() =>
     workflowBuildVersionArn: S.optional(S.String),
     latestVersionReferences: S.optional(LatestVersionReferences),
   }),
-).annotate({
-  identifier: "CreateWorkflowResponse",
-}) as any as S.Schema<CreateWorkflowResponse>;
+).annotate({ identifier: "CreateWorkflowResponse" }) as any as S.Schema<CreateWorkflowResponse>;
 export interface DeleteComponentRequest {
   componentBuildVersionArn: string;
 }
@@ -1412,28 +1358,19 @@ export const DeleteComponentRequest = /*@__PURE__*/ S.suspend(() =>
   }).pipe(
     T.all(T.Http({ method: "DELETE", uri: "/DeleteComponent" }), svc, auth, proto, ver, rules),
   ),
-).annotate({
-  identifier: "DeleteComponentRequest",
-}) as any as S.Schema<DeleteComponentRequest>;
+).annotate({ identifier: "DeleteComponentRequest" }) as any as S.Schema<DeleteComponentRequest>;
 export interface DeleteComponentResponse {
   requestId?: string;
   componentBuildVersionArn?: string;
 }
 export const DeleteComponentResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    requestId: S.optional(S.String),
-    componentBuildVersionArn: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "DeleteComponentResponse",
-}) as any as S.Schema<DeleteComponentResponse>;
+  S.Struct({ requestId: S.optional(S.String), componentBuildVersionArn: S.optional(S.String) }),
+).annotate({ identifier: "DeleteComponentResponse" }) as any as S.Schema<DeleteComponentResponse>;
 export interface DeleteContainerRecipeRequest {
   containerRecipeArn: string;
 }
 export const DeleteContainerRecipeRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    containerRecipeArn: S.String.pipe(T.HttpQuery("containerRecipeArn")),
-  }).pipe(
+  S.Struct({ containerRecipeArn: S.String.pipe(T.HttpQuery("containerRecipeArn")) }).pipe(
     T.all(
       T.Http({ method: "DELETE", uri: "/DeleteContainerRecipe" }),
       svc,
@@ -1451,10 +1388,7 @@ export interface DeleteContainerRecipeResponse {
   containerRecipeArn?: string;
 }
 export const DeleteContainerRecipeResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    requestId: S.optional(S.String),
-    containerRecipeArn: S.optional(S.String),
-  }),
+  S.Struct({ requestId: S.optional(S.String), containerRecipeArn: S.optional(S.String) }),
 ).annotate({
   identifier: "DeleteContainerRecipeResponse",
 }) as any as S.Schema<DeleteContainerRecipeResponse>;
@@ -1482,10 +1416,7 @@ export interface DeleteDistributionConfigurationResponse {
   distributionConfigurationArn?: string;
 }
 export const DeleteDistributionConfigurationResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    requestId: S.optional(S.String),
-    distributionConfigurationArn: S.optional(S.String),
-  }),
+  S.Struct({ requestId: S.optional(S.String), distributionConfigurationArn: S.optional(S.String) }),
 ).annotate({
   identifier: "DeleteDistributionConfigurationResponse",
 }) as any as S.Schema<DeleteDistributionConfigurationResponse>;
@@ -1493,31 +1424,22 @@ export interface DeleteImageRequest {
   imageBuildVersionArn: string;
 }
 export const DeleteImageRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    imageBuildVersionArn: S.String.pipe(T.HttpQuery("imageBuildVersionArn")),
-  }).pipe(T.all(T.Http({ method: "DELETE", uri: "/DeleteImage" }), svc, auth, proto, ver, rules)),
-).annotate({
-  identifier: "DeleteImageRequest",
-}) as any as S.Schema<DeleteImageRequest>;
+  S.Struct({ imageBuildVersionArn: S.String.pipe(T.HttpQuery("imageBuildVersionArn")) }).pipe(
+    T.all(T.Http({ method: "DELETE", uri: "/DeleteImage" }), svc, auth, proto, ver, rules),
+  ),
+).annotate({ identifier: "DeleteImageRequest" }) as any as S.Schema<DeleteImageRequest>;
 export interface DeleteImageResponse {
   requestId?: string;
   imageBuildVersionArn?: string;
 }
 export const DeleteImageResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    requestId: S.optional(S.String),
-    imageBuildVersionArn: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "DeleteImageResponse",
-}) as any as S.Schema<DeleteImageResponse>;
+  S.Struct({ requestId: S.optional(S.String), imageBuildVersionArn: S.optional(S.String) }),
+).annotate({ identifier: "DeleteImageResponse" }) as any as S.Schema<DeleteImageResponse>;
 export interface DeleteImagePipelineRequest {
   imagePipelineArn: string;
 }
 export const DeleteImagePipelineRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    imagePipelineArn: S.String.pipe(T.HttpQuery("imagePipelineArn")),
-  }).pipe(
+  S.Struct({ imagePipelineArn: S.String.pipe(T.HttpQuery("imagePipelineArn")) }).pipe(
     T.all(T.Http({ method: "DELETE", uri: "/DeleteImagePipeline" }), svc, auth, proto, ver, rules),
   ),
 ).annotate({
@@ -1528,10 +1450,7 @@ export interface DeleteImagePipelineResponse {
   imagePipelineArn?: string;
 }
 export const DeleteImagePipelineResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    requestId: S.optional(S.String),
-    imagePipelineArn: S.optional(S.String),
-  }),
+  S.Struct({ requestId: S.optional(S.String), imagePipelineArn: S.optional(S.String) }),
 ).annotate({
   identifier: "DeleteImagePipelineResponse",
 }) as any as S.Schema<DeleteImagePipelineResponse>;
@@ -1539,23 +1458,16 @@ export interface DeleteImageRecipeRequest {
   imageRecipeArn: string;
 }
 export const DeleteImageRecipeRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    imageRecipeArn: S.String.pipe(T.HttpQuery("imageRecipeArn")),
-  }).pipe(
+  S.Struct({ imageRecipeArn: S.String.pipe(T.HttpQuery("imageRecipeArn")) }).pipe(
     T.all(T.Http({ method: "DELETE", uri: "/DeleteImageRecipe" }), svc, auth, proto, ver, rules),
   ),
-).annotate({
-  identifier: "DeleteImageRecipeRequest",
-}) as any as S.Schema<DeleteImageRecipeRequest>;
+).annotate({ identifier: "DeleteImageRecipeRequest" }) as any as S.Schema<DeleteImageRecipeRequest>;
 export interface DeleteImageRecipeResponse {
   requestId?: string;
   imageRecipeArn?: string;
 }
 export const DeleteImageRecipeResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    requestId: S.optional(S.String),
-    imageRecipeArn: S.optional(S.String),
-  }),
+  S.Struct({ requestId: S.optional(S.String), imageRecipeArn: S.optional(S.String) }),
 ).annotate({
   identifier: "DeleteImageRecipeResponse",
 }) as any as S.Schema<DeleteImageRecipeResponse>;
@@ -1594,9 +1506,7 @@ export interface DeleteLifecyclePolicyRequest {
   lifecyclePolicyArn: string;
 }
 export const DeleteLifecyclePolicyRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    lifecyclePolicyArn: S.String.pipe(T.HttpQuery("lifecyclePolicyArn")),
-  }).pipe(
+  S.Struct({ lifecyclePolicyArn: S.String.pipe(T.HttpQuery("lifecyclePolicyArn")) }).pipe(
     T.all(
       T.Http({ method: "DELETE", uri: "/DeleteLifecyclePolicy" }),
       svc,
@@ -1621,22 +1531,16 @@ export interface DeleteWorkflowRequest {
   workflowBuildVersionArn: string;
 }
 export const DeleteWorkflowRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    workflowBuildVersionArn: S.String.pipe(T.HttpQuery("workflowBuildVersionArn")),
-  }).pipe(
+  S.Struct({ workflowBuildVersionArn: S.String.pipe(T.HttpQuery("workflowBuildVersionArn")) }).pipe(
     T.all(T.Http({ method: "DELETE", uri: "/DeleteWorkflow" }), svc, auth, proto, ver, rules),
   ),
-).annotate({
-  identifier: "DeleteWorkflowRequest",
-}) as any as S.Schema<DeleteWorkflowRequest>;
+).annotate({ identifier: "DeleteWorkflowRequest" }) as any as S.Schema<DeleteWorkflowRequest>;
 export interface DeleteWorkflowResponse {
   workflowBuildVersionArn?: string;
 }
 export const DeleteWorkflowResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ workflowBuildVersionArn: S.optional(S.String) }),
-).annotate({
-  identifier: "DeleteWorkflowResponse",
-}) as any as S.Schema<DeleteWorkflowResponse>;
+).annotate({ identifier: "DeleteWorkflowResponse" }) as any as S.Schema<DeleteWorkflowResponse>;
 export interface DistributeImageRequest {
   sourceImage: string;
   distributionConfigurationArn: string;
@@ -1654,21 +1558,14 @@ export const DistributeImageRequest = /*@__PURE__*/ S.suspend(() =>
     clientToken: S.String.pipe(T.IdempotencyToken()),
     loggingConfiguration: S.optional(ImageLoggingConfiguration),
   }).pipe(T.all(T.Http({ method: "PUT", uri: "/DistributeImage" }), svc, auth, proto, ver, rules)),
-).annotate({
-  identifier: "DistributeImageRequest",
-}) as any as S.Schema<DistributeImageRequest>;
+).annotate({ identifier: "DistributeImageRequest" }) as any as S.Schema<DistributeImageRequest>;
 export interface DistributeImageResponse {
   clientToken?: string;
   imageBuildVersionArn?: string;
 }
 export const DistributeImageResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    clientToken: S.optional(S.String),
-    imageBuildVersionArn: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "DistributeImageResponse",
-}) as any as S.Schema<DistributeImageResponse>;
+  S.Struct({ clientToken: S.optional(S.String), imageBuildVersionArn: S.optional(S.String) }),
+).annotate({ identifier: "DistributeImageResponse" }) as any as S.Schema<DistributeImageResponse>;
 export interface GetComponentRequest {
   componentBuildVersionArn: string;
 }
@@ -1676,9 +1573,7 @@ export const GetComponentRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     componentBuildVersionArn: S.String.pipe(T.HttpQuery("componentBuildVersionArn")),
   }).pipe(T.all(T.Http({ method: "GET", uri: "/GetComponent" }), svc, auth, proto, ver, rules)),
-).annotate({
-  identifier: "GetComponentRequest",
-}) as any as S.Schema<GetComponentRequest>;
+).annotate({ identifier: "GetComponentRequest" }) as any as S.Schema<GetComponentRequest>;
 export type ComponentType = "BUILD" | "TEST" | (string & {});
 export const ComponentType = S.String;
 
@@ -1690,10 +1585,7 @@ export interface ComponentState {
   reason?: string;
 }
 export const ComponentState = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    status: S.optional(ComponentStatus),
-    reason: S.optional(S.String),
-  }),
+  S.Struct({ status: S.optional(ComponentStatus), reason: S.optional(S.String) }),
 ).annotate({ identifier: "ComponentState" }) as any as S.Schema<ComponentState>;
 export type ComponentParameterType = string;
 export type ComponentParameterDescription = string;
@@ -1710,9 +1602,7 @@ export const ComponentParameterDetail = /*@__PURE__*/ S.suspend(() =>
     defaultValue: S.optional(ComponentParameterValueList),
     description: S.optional(S.String),
   }),
-).annotate({
-  identifier: "ComponentParameterDetail",
-}) as any as S.Schema<ComponentParameterDetail>;
+).annotate({ identifier: "ComponentParameterDetail" }) as any as S.Schema<ComponentParameterDetail>;
 export type ComponentParameterDetailList = ComponentParameterDetail[];
 export const ComponentParameterDetailList = /*@__PURE__*/ S.Array(ComponentParameterDetail);
 export type ComponentData = string;
@@ -1726,9 +1616,7 @@ export interface ProductCodeListItem {
 }
 export const ProductCodeListItem = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ productCodeId: S.String, productCodeType: ProductCodeType }),
-).annotate({
-  identifier: "ProductCodeListItem",
-}) as any as S.Schema<ProductCodeListItem>;
+).annotate({ identifier: "ProductCodeListItem" }) as any as S.Schema<ProductCodeListItem>;
 export type ProductCodeList = ProductCodeListItem[];
 export const ProductCodeList = /*@__PURE__*/ S.Array(ProductCodeListItem);
 export interface Component {
@@ -1786,9 +1674,7 @@ export const GetComponentResponse = /*@__PURE__*/ S.suspend(() =>
     component: S.optional(Component),
     latestVersionReferences: S.optional(LatestVersionReferences),
   }),
-).annotate({
-  identifier: "GetComponentResponse",
-}) as any as S.Schema<GetComponentResponse>;
+).annotate({ identifier: "GetComponentResponse" }) as any as S.Schema<GetComponentResponse>;
 export interface GetComponentPolicyRequest {
   componentArn: string;
 }
@@ -1813,9 +1699,7 @@ export interface GetContainerRecipeRequest {
   containerRecipeArn: string;
 }
 export const GetContainerRecipeRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    containerRecipeArn: S.String.pipe(T.HttpQuery("containerRecipeArn")),
-  }).pipe(
+  S.Struct({ containerRecipeArn: S.String.pipe(T.HttpQuery("containerRecipeArn")) }).pipe(
     T.all(T.Http({ method: "GET", uri: "/GetContainerRecipe" }), svc, auth, proto, ver, rules),
   ),
 ).annotate({
@@ -1861,9 +1745,7 @@ export const ContainerRecipe = /*@__PURE__*/ S.suspend(() =>
     workingDirectory: S.optional(S.String),
     targetRepository: S.optional(TargetContainerRepository),
   }),
-).annotate({
-  identifier: "ContainerRecipe",
-}) as any as S.Schema<ContainerRecipe>;
+).annotate({ identifier: "ContainerRecipe" }) as any as S.Schema<ContainerRecipe>;
 export interface GetContainerRecipeResponse {
   requestId?: string;
   containerRecipe?: ContainerRecipe;
@@ -1882,9 +1764,7 @@ export interface GetContainerRecipePolicyRequest {
   containerRecipeArn: string;
 }
 export const GetContainerRecipePolicyRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    containerRecipeArn: S.String.pipe(T.HttpQuery("containerRecipeArn")),
-  }).pipe(
+  S.Struct({ containerRecipeArn: S.String.pipe(T.HttpQuery("containerRecipeArn")) }).pipe(
     T.all(
       T.Http({ method: "GET", uri: "/GetContainerRecipePolicy" }),
       svc,
@@ -1967,15 +1847,14 @@ export interface GetImageRequest {
   imageBuildVersionArn: string;
 }
 export const GetImageRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    imageBuildVersionArn: S.String.pipe(T.HttpQuery("imageBuildVersionArn")),
-  }).pipe(T.all(T.Http({ method: "GET", uri: "/GetImage" }), svc, auth, proto, ver, rules)),
-).annotate({
-  identifier: "GetImageRequest",
-}) as any as S.Schema<GetImageRequest>;
+  S.Struct({ imageBuildVersionArn: S.String.pipe(T.HttpQuery("imageBuildVersionArn")) }).pipe(
+    T.all(T.Http({ method: "GET", uri: "/GetImage" }), svc, auth, proto, ver, rules),
+  ),
+).annotate({ identifier: "GetImageRequest" }) as any as S.Schema<GetImageRequest>;
 export type ImageType = "AMI" | "DOCKER" | (string & {});
 export const ImageType = S.String;
 
+export type VersionNumberWithBuild = string;
 export type ImageStatus =
   | "PENDING"
   | "CREATING"
@@ -1992,12 +1871,96 @@ export type ImageStatus =
   | (string & {});
 export const ImageStatus = S.String;
 
+export type WorkflowExecutionId = string;
+export type WorkflowStepExecutionId = string;
+export type WorkflowStepName = string;
+export type NonEmptyMaxLengthString = string;
+export interface ComponentFailureContext {
+  componentArn?: string;
+  phaseName?: string;
+  stepName?: string;
+  action?: string;
+  errorMessage?: string;
+}
+export const ComponentFailureContext = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    componentArn: S.optional(S.String),
+    phaseName: S.optional(S.String),
+    stepName: S.optional(S.String),
+    action: S.optional(S.String),
+    errorMessage: S.optional(S.String),
+  }),
+).annotate({ identifier: "ComponentFailureContext" }) as any as S.Schema<ComponentFailureContext>;
+export type RegionFailureStatus = "FAILED" | "CANCELLED" | "TIMED_OUT" | (string & {});
+export const RegionFailureStatus = S.String;
+
+export type ImageConfigurationStep =
+  | "ASSOCIATE_LICENSES"
+  | "UPDATE_LAUNCH_TEMPLATES"
+  | "PUT_SSM_PARAMETERS"
+  | "UPDATE_FAST_LAUNCH_CONFIGURATIONS"
+  | "EXPORT_AMI"
+  | (string & {});
+export const ImageConfigurationStep = S.String;
+
+export interface RegionFailure {
+  region?: string;
+  status?: RegionFailureStatus;
+  imageConfigurationStep?: ImageConfigurationStep;
+  errorMessage?: string;
+  targetAccountId?: string;
+}
+export const RegionFailure = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    region: S.optional(S.String),
+    status: S.optional(RegionFailureStatus),
+    imageConfigurationStep: S.optional(ImageConfigurationStep),
+    errorMessage: S.optional(S.String),
+    targetAccountId: S.optional(S.String),
+  }),
+).annotate({ identifier: "RegionFailure" }) as any as S.Schema<RegionFailure>;
+export type RegionFailureList = RegionFailure[];
+export const RegionFailureList = /*@__PURE__*/ S.Array(RegionFailure);
+export interface DistributionFailureContext {
+  errorMessage?: string;
+  regionFailures?: RegionFailure[];
+}
+export const DistributionFailureContext = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({ errorMessage: S.optional(S.String), regionFailures: S.optional(RegionFailureList) }),
+).annotate({
+  identifier: "DistributionFailureContext",
+}) as any as S.Schema<DistributionFailureContext>;
+export interface ImageFailureContext {
+  imageStatus?: ImageStatus;
+  workflowExecutionId?: string;
+  workflowArn?: string;
+  stepExecutionId?: string;
+  failedStep?: string;
+  componentFailure?: ComponentFailureContext;
+  distributionFailure?: DistributionFailureContext;
+}
+export const ImageFailureContext = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    imageStatus: S.optional(ImageStatus),
+    workflowExecutionId: S.optional(S.String),
+    workflowArn: S.optional(S.String),
+    stepExecutionId: S.optional(S.String),
+    failedStep: S.optional(S.String),
+    componentFailure: S.optional(ComponentFailureContext),
+    distributionFailure: S.optional(DistributionFailureContext),
+  }),
+).annotate({ identifier: "ImageFailureContext" }) as any as S.Schema<ImageFailureContext>;
 export interface ImageState {
   status?: ImageStatus;
   reason?: string;
+  failureContext?: ImageFailureContext;
 }
 export const ImageState = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ status: S.optional(ImageStatus), reason: S.optional(S.String) }),
+  S.Struct({
+    status: S.optional(ImageStatus),
+    reason: S.optional(S.String),
+    failureContext: S.optional(ImageFailureContext),
+  }),
 ).annotate({ identifier: "ImageState" }) as any as S.Schema<ImageState>;
 export interface ImageRecipe {
   arn?: string;
@@ -2114,13 +2077,8 @@ export interface OutputResources {
   containers?: Container[];
 }
 export const OutputResources = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    amis: S.optional(AmiList),
-    containers: S.optional(ContainerList),
-  }),
-).annotate({
-  identifier: "OutputResources",
-}) as any as S.Schema<OutputResources>;
+  S.Struct({ amis: S.optional(AmiList), containers: S.optional(ContainerList) }),
+).annotate({ identifier: "OutputResources" }) as any as S.Schema<OutputResources>;
 export type BuildType = "USER_INITIATED" | "SCHEDULED" | "IMPORT" | "IMPORT_ISO" | (string & {});
 export const BuildType = S.String;
 
@@ -2148,10 +2106,7 @@ export interface ImageScanState {
   reason?: string;
 }
 export const ImageScanState = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    status: S.optional(ImageScanStatus),
-    reason: S.optional(S.String),
-  }),
+  S.Struct({ status: S.optional(ImageScanStatus), reason: S.optional(S.String) }),
 ).annotate({ identifier: "ImageScanState" }) as any as S.Schema<ImageScanState>;
 export type DateTimeTimestamp = Date;
 export interface Image {
@@ -2225,19 +2180,15 @@ export const GetImageResponse = /*@__PURE__*/ S.suspend(() =>
     image: S.optional(Image),
     latestVersionReferences: S.optional(LatestVersionReferences),
   }),
-).annotate({
-  identifier: "GetImageResponse",
-}) as any as S.Schema<GetImageResponse>;
+).annotate({ identifier: "GetImageResponse" }) as any as S.Schema<GetImageResponse>;
 export interface GetImagePipelineRequest {
   imagePipelineArn: string;
 }
 export const GetImagePipelineRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    imagePipelineArn: S.String.pipe(T.HttpQuery("imagePipelineArn")),
-  }).pipe(T.all(T.Http({ method: "GET", uri: "/GetImagePipeline" }), svc, auth, proto, ver, rules)),
-).annotate({
-  identifier: "GetImagePipelineRequest",
-}) as any as S.Schema<GetImagePipelineRequest>;
+  S.Struct({ imagePipelineArn: S.String.pipe(T.HttpQuery("imagePipelineArn")) }).pipe(
+    T.all(T.Http({ method: "GET", uri: "/GetImagePipeline" }), svc, auth, proto, ver, rules),
+  ),
+).annotate({ identifier: "GetImagePipelineRequest" }) as any as S.Schema<GetImagePipelineRequest>;
 export type ConsecutiveFailures = number;
 export interface ImagePipeline {
   arn?: string;
@@ -2298,13 +2249,8 @@ export interface GetImagePipelineResponse {
   imagePipeline?: ImagePipeline;
 }
 export const GetImagePipelineResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    requestId: S.optional(S.String),
-    imagePipeline: S.optional(ImagePipeline),
-  }),
-).annotate({
-  identifier: "GetImagePipelineResponse",
-}) as any as S.Schema<GetImagePipelineResponse>;
+  S.Struct({ requestId: S.optional(S.String), imagePipeline: S.optional(ImagePipeline) }),
+).annotate({ identifier: "GetImagePipelineResponse" }) as any as S.Schema<GetImagePipelineResponse>;
 export interface GetImagePolicyRequest {
   imageArn: string;
 }
@@ -2312,28 +2258,22 @@ export const GetImagePolicyRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ imageArn: S.String.pipe(T.HttpQuery("imageArn")) }).pipe(
     T.all(T.Http({ method: "GET", uri: "/GetImagePolicy" }), svc, auth, proto, ver, rules),
   ),
-).annotate({
-  identifier: "GetImagePolicyRequest",
-}) as any as S.Schema<GetImagePolicyRequest>;
+).annotate({ identifier: "GetImagePolicyRequest" }) as any as S.Schema<GetImagePolicyRequest>;
 export interface GetImagePolicyResponse {
   requestId?: string;
   policy?: string;
 }
 export const GetImagePolicyResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ requestId: S.optional(S.String), policy: S.optional(S.String) }),
-).annotate({
-  identifier: "GetImagePolicyResponse",
-}) as any as S.Schema<GetImagePolicyResponse>;
+).annotate({ identifier: "GetImagePolicyResponse" }) as any as S.Schema<GetImagePolicyResponse>;
 export interface GetImageRecipeRequest {
   imageRecipeArn: string;
 }
 export const GetImageRecipeRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    imageRecipeArn: S.String.pipe(T.HttpQuery("imageRecipeArn")),
-  }).pipe(T.all(T.Http({ method: "GET", uri: "/GetImageRecipe" }), svc, auth, proto, ver, rules)),
-).annotate({
-  identifier: "GetImageRecipeRequest",
-}) as any as S.Schema<GetImageRecipeRequest>;
+  S.Struct({ imageRecipeArn: S.String.pipe(T.HttpQuery("imageRecipeArn")) }).pipe(
+    T.all(T.Http({ method: "GET", uri: "/GetImageRecipe" }), svc, auth, proto, ver, rules),
+  ),
+).annotate({ identifier: "GetImageRecipeRequest" }) as any as S.Schema<GetImageRecipeRequest>;
 export interface GetImageRecipeResponse {
   requestId?: string;
   imageRecipe?: ImageRecipe;
@@ -2345,16 +2285,12 @@ export const GetImageRecipeResponse = /*@__PURE__*/ S.suspend(() =>
     imageRecipe: S.optional(ImageRecipe),
     latestVersionReferences: S.optional(LatestVersionReferences),
   }),
-).annotate({
-  identifier: "GetImageRecipeResponse",
-}) as any as S.Schema<GetImageRecipeResponse>;
+).annotate({ identifier: "GetImageRecipeResponse" }) as any as S.Schema<GetImageRecipeResponse>;
 export interface GetImageRecipePolicyRequest {
   imageRecipeArn: string;
 }
 export const GetImageRecipePolicyRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    imageRecipeArn: S.String.pipe(T.HttpQuery("imageRecipeArn")),
-  }).pipe(
+  S.Struct({ imageRecipeArn: S.String.pipe(T.HttpQuery("imageRecipeArn")) }).pipe(
     T.all(T.Http({ method: "GET", uri: "/GetImageRecipePolicy" }), svc, auth, proto, ver, rules),
   ),
 ).annotate({
@@ -2404,9 +2340,7 @@ export interface GetLifecycleExecutionRequest {
   lifecycleExecutionId: string;
 }
 export const GetLifecycleExecutionRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    lifecycleExecutionId: S.String.pipe(T.HttpQuery("lifecycleExecutionId")),
-  }).pipe(
+  S.Struct({ lifecycleExecutionId: S.String.pipe(T.HttpQuery("lifecycleExecutionId")) }).pipe(
     T.all(T.Http({ method: "GET", uri: "/GetLifecycleExecution" }), svc, auth, proto, ver, rules),
   ),
 ).annotate({
@@ -2435,13 +2369,8 @@ export interface LifecycleExecutionState {
   reason?: string;
 }
 export const LifecycleExecutionState = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    status: S.optional(LifecycleExecutionStatus),
-    reason: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "LifecycleExecutionState",
-}) as any as S.Schema<LifecycleExecutionState>;
+  S.Struct({ status: S.optional(LifecycleExecutionStatus), reason: S.optional(S.String) }),
+).annotate({ identifier: "LifecycleExecutionState" }) as any as S.Schema<LifecycleExecutionState>;
 export interface LifecycleExecution {
   lifecycleExecutionId?: string;
   lifecyclePolicyArn?: string;
@@ -2459,9 +2388,7 @@ export const LifecycleExecution = /*@__PURE__*/ S.suspend(() =>
     startTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     endTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
   }),
-).annotate({
-  identifier: "LifecycleExecution",
-}) as any as S.Schema<LifecycleExecution>;
+).annotate({ identifier: "LifecycleExecution" }) as any as S.Schema<LifecycleExecution>;
 export interface GetLifecycleExecutionResponse {
   lifecycleExecution?: LifecycleExecution;
 }
@@ -2474,9 +2401,7 @@ export interface GetLifecyclePolicyRequest {
   lifecyclePolicyArn: string;
 }
 export const GetLifecyclePolicyRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    lifecyclePolicyArn: S.String.pipe(T.HttpQuery("lifecyclePolicyArn")),
-  }).pipe(
+  S.Struct({ lifecyclePolicyArn: S.String.pipe(T.HttpQuery("lifecyclePolicyArn")) }).pipe(
     T.all(T.Http({ method: "GET", uri: "/GetLifecyclePolicy" }), svc, auth, proto, ver, rules),
   ),
 ).annotate({
@@ -2511,9 +2436,7 @@ export const LifecyclePolicy = /*@__PURE__*/ S.suspend(() =>
     dateLastRun: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     tags: S.optional(TagMap),
   }),
-).annotate({
-  identifier: "LifecyclePolicy",
-}) as any as S.Schema<LifecyclePolicy>;
+).annotate({ identifier: "LifecyclePolicy" }) as any as S.Schema<LifecyclePolicy>;
 export interface GetLifecyclePolicyResponse {
   lifecyclePolicy?: LifecyclePolicy;
 }
@@ -2560,12 +2483,10 @@ export interface GetWorkflowRequest {
   workflowBuildVersionArn: string;
 }
 export const GetWorkflowRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    workflowBuildVersionArn: S.String.pipe(T.HttpQuery("workflowBuildVersionArn")),
-  }).pipe(T.all(T.Http({ method: "GET", uri: "/GetWorkflow" }), svc, auth, proto, ver, rules)),
-).annotate({
-  identifier: "GetWorkflowRequest",
-}) as any as S.Schema<GetWorkflowRequest>;
+  S.Struct({ workflowBuildVersionArn: S.String.pipe(T.HttpQuery("workflowBuildVersionArn")) }).pipe(
+    T.all(T.Http({ method: "GET", uri: "/GetWorkflow" }), svc, auth, proto, ver, rules),
+  ),
+).annotate({ identifier: "GetWorkflowRequest" }) as any as S.Schema<GetWorkflowRequest>;
 export type WorkflowStatus = "DEPRECATED" | (string & {});
 export const WorkflowStatus = S.String;
 
@@ -2574,10 +2495,7 @@ export interface WorkflowState {
   reason?: string;
 }
 export const WorkflowState = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    status: S.optional(WorkflowStatus),
-    reason: S.optional(S.String),
-  }),
+  S.Struct({ status: S.optional(WorkflowStatus), reason: S.optional(S.String) }),
 ).annotate({ identifier: "WorkflowState" }) as any as S.Schema<WorkflowState>;
 export type WorkflowData = string;
 export type WorkflowParameterType = string;
@@ -2595,9 +2513,7 @@ export const WorkflowParameterDetail = /*@__PURE__*/ S.suspend(() =>
     defaultValue: S.optional(WorkflowParameterValueList),
     description: S.optional(S.String),
   }),
-).annotate({
-  identifier: "WorkflowParameterDetail",
-}) as any as S.Schema<WorkflowParameterDetail>;
+).annotate({ identifier: "WorkflowParameterDetail" }) as any as S.Schema<WorkflowParameterDetail>;
 export type WorkflowParameterDetailList = WorkflowParameterDetail[];
 export const WorkflowParameterDetailList = /*@__PURE__*/ S.Array(WorkflowParameterDetail);
 export interface Workflow {
@@ -2641,17 +2557,12 @@ export const GetWorkflowResponse = /*@__PURE__*/ S.suspend(() =>
     workflow: S.optional(Workflow),
     latestVersionReferences: S.optional(LatestVersionReferences),
   }),
-).annotate({
-  identifier: "GetWorkflowResponse",
-}) as any as S.Schema<GetWorkflowResponse>;
-export type WorkflowExecutionId = string;
+).annotate({ identifier: "GetWorkflowResponse" }) as any as S.Schema<GetWorkflowResponse>;
 export interface GetWorkflowExecutionRequest {
   workflowExecutionId: string;
 }
 export const GetWorkflowExecutionRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    workflowExecutionId: S.String.pipe(T.HttpQuery("workflowExecutionId")),
-  }).pipe(
+  S.Struct({ workflowExecutionId: S.String.pipe(T.HttpQuery("workflowExecutionId")) }).pipe(
     T.all(T.Http({ method: "GET", uri: "/GetWorkflowExecution" }), svc, auth, proto, ver, rules),
   ),
 ).annotate({
@@ -2707,14 +2618,11 @@ export const GetWorkflowExecutionResponse = /*@__PURE__*/ S.suspend(() =>
 ).annotate({
   identifier: "GetWorkflowExecutionResponse",
 }) as any as S.Schema<GetWorkflowExecutionResponse>;
-export type WorkflowStepExecutionId = string;
 export interface GetWorkflowStepExecutionRequest {
   stepExecutionId: string;
 }
 export const GetWorkflowStepExecutionRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    stepExecutionId: S.String.pipe(T.HttpQuery("stepExecutionId")),
-  }).pipe(
+  S.Struct({ stepExecutionId: S.String.pipe(T.HttpQuery("stepExecutionId")) }).pipe(
     T.all(
       T.Http({ method: "GET", uri: "/GetWorkflowStepExecution" }),
       svc,
@@ -2727,7 +2635,6 @@ export const GetWorkflowStepExecutionRequest = /*@__PURE__*/ S.suspend(() =>
 ).annotate({
   identifier: "GetWorkflowStepExecutionRequest",
 }) as any as S.Schema<GetWorkflowStepExecutionRequest>;
-export type WorkflowStepName = string;
 export type WorkflowStepDescription = string;
 export type WorkflowStepAction = string;
 export type WorkflowStepExecutionStatus =
@@ -2752,6 +2659,7 @@ export type WorkflowStepMessage = string;
 export type WorkflowStepInputs = string;
 export type WorkflowStepOutputs = string;
 export type WorkflowStepTimeoutSecondsInteger = number;
+export type WorkflowStepAttemptCount = number;
 export interface GetWorkflowStepExecutionResponse {
   requestId?: string;
   stepExecutionId?: string;
@@ -2770,6 +2678,8 @@ export interface GetWorkflowStepExecutionResponse {
   endTime?: string;
   onFailure?: string;
   timeoutSeconds?: number;
+  attemptNumber?: number;
+  maxAttempts?: number;
 }
 export const GetWorkflowStepExecutionResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -2790,6 +2700,8 @@ export const GetWorkflowStepExecutionResponse = /*@__PURE__*/ S.suspend(() =>
     endTime: S.optional(S.String),
     onFailure: S.optional(S.String),
     timeoutSeconds: S.optional(S.Number),
+    attemptNumber: S.optional(S.Number),
+    maxAttempts: S.optional(S.Number),
   }),
 ).annotate({
   identifier: "GetWorkflowStepExecutionResponse",
@@ -2826,9 +2738,7 @@ export const ImportComponentRequest = /*@__PURE__*/ S.suspend(() =>
     tags: S.optional(TagMap),
     clientToken: S.String.pipe(T.IdempotencyToken()),
   }).pipe(T.all(T.Http({ method: "PUT", uri: "/ImportComponent" }), svc, auth, proto, ver, rules)),
-).annotate({
-  identifier: "ImportComponentRequest",
-}) as any as S.Schema<ImportComponentRequest>;
+).annotate({ identifier: "ImportComponentRequest" }) as any as S.Schema<ImportComponentRequest>;
 export interface ImportComponentResponse {
   requestId?: string;
   clientToken?: string;
@@ -2840,31 +2750,22 @@ export const ImportComponentResponse = /*@__PURE__*/ S.suspend(() =>
     clientToken: S.optional(S.String),
     componentBuildVersionArn: S.optional(S.String),
   }),
-).annotate({
-  identifier: "ImportComponentResponse",
-}) as any as S.Schema<ImportComponentResponse>;
+).annotate({ identifier: "ImportComponentResponse" }) as any as S.Schema<ImportComponentResponse>;
 export type UefiData = string;
 export interface RegisterImageOptions {
   secureBootEnabled?: boolean;
   uefiData?: string;
 }
 export const RegisterImageOptions = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    secureBootEnabled: S.optional(S.Boolean),
-    uefiData: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "RegisterImageOptions",
-}) as any as S.Schema<RegisterImageOptions>;
+  S.Struct({ secureBootEnabled: S.optional(S.Boolean), uefiData: S.optional(S.String) }),
+).annotate({ identifier: "RegisterImageOptions" }) as any as S.Schema<RegisterImageOptions>;
 export type WindowsConfigurationImageIndex = number;
 export interface WindowsConfiguration {
   imageIndex: number;
 }
 export const WindowsConfiguration = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ imageIndex: S.Number }),
-).annotate({
-  identifier: "WindowsConfiguration",
-}) as any as S.Schema<WindowsConfiguration>;
+).annotate({ identifier: "WindowsConfiguration" }) as any as S.Schema<WindowsConfiguration>;
 export interface ImportDiskImageRequest {
   name: string;
   semanticVersion: string;
@@ -2896,21 +2797,14 @@ export const ImportDiskImageRequest = /*@__PURE__*/ S.suspend(() =>
     windowsConfiguration: S.optional(WindowsConfiguration),
     clientToken: S.String.pipe(T.IdempotencyToken()),
   }).pipe(T.all(T.Http({ method: "PUT", uri: "/ImportDiskImage" }), svc, auth, proto, ver, rules)),
-).annotate({
-  identifier: "ImportDiskImageRequest",
-}) as any as S.Schema<ImportDiskImageRequest>;
+).annotate({ identifier: "ImportDiskImageRequest" }) as any as S.Schema<ImportDiskImageRequest>;
 export interface ImportDiskImageResponse {
   clientToken?: string;
   imageBuildVersionArn?: string;
 }
 export const ImportDiskImageResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    clientToken: S.optional(S.String),
-    imageBuildVersionArn: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "ImportDiskImageResponse",
-}) as any as S.Schema<ImportDiskImageResponse>;
+  S.Struct({ clientToken: S.optional(S.String), imageBuildVersionArn: S.optional(S.String) }),
+).annotate({ identifier: "ImportDiskImageResponse" }) as any as S.Schema<ImportDiskImageResponse>;
 export interface ImportVmImageRequest {
   name: string;
   semanticVersion: string;
@@ -2934,9 +2828,7 @@ export const ImportVmImageRequest = /*@__PURE__*/ S.suspend(() =>
     tags: S.optional(TagMap),
     clientToken: S.String.pipe(T.IdempotencyToken()),
   }).pipe(T.all(T.Http({ method: "PUT", uri: "/ImportVmImage" }), svc, auth, proto, ver, rules)),
-).annotate({
-  identifier: "ImportVmImageRequest",
-}) as any as S.Schema<ImportVmImageRequest>;
+).annotate({ identifier: "ImportVmImageRequest" }) as any as S.Schema<ImportVmImageRequest>;
 export interface ImportVmImageResponse {
   requestId?: string;
   imageArn?: string;
@@ -2948,9 +2840,7 @@ export const ImportVmImageResponse = /*@__PURE__*/ S.suspend(() =>
     imageArn: S.optional(S.String),
     clientToken: S.optional(S.String),
   }),
-).annotate({
-  identifier: "ImportVmImageResponse",
-}) as any as S.Schema<ImportVmImageResponse>;
+).annotate({ identifier: "ImportVmImageResponse" }) as any as S.Schema<ImportVmImageResponse>;
 export type ComponentVersionArn = string;
 export type RestrictedInteger = number;
 export type PaginationToken = string;
@@ -3010,9 +2900,7 @@ export const ComponentSummary = /*@__PURE__*/ S.suspend(() =>
     publisher: S.optional(S.String),
     obfuscate: S.optional(S.Boolean),
   }),
-).annotate({
-  identifier: "ComponentSummary",
-}) as any as S.Schema<ComponentSummary>;
+).annotate({ identifier: "ComponentSummary" }) as any as S.Schema<ComponentSummary>;
 export type ComponentSummaryList = ComponentSummary[];
 export const ComponentSummaryList = /*@__PURE__*/ S.Array(ComponentSummary);
 export interface ListComponentBuildVersionsResponse {
@@ -3066,9 +2954,7 @@ export const ListComponentsRequest = /*@__PURE__*/ S.suspend(() =>
     maxResults: S.optional(S.Number),
     nextToken: S.optional(S.String),
   }).pipe(T.all(T.Http({ method: "POST", uri: "/ListComponents" }), svc, auth, proto, ver, rules)),
-).annotate({
-  identifier: "ListComponentsRequest",
-}) as any as S.Schema<ListComponentsRequest>;
+).annotate({ identifier: "ListComponentsRequest" }) as any as S.Schema<ListComponentsRequest>;
 export interface ComponentVersion {
   arn?: string;
   name?: string;
@@ -3096,9 +2982,7 @@ export const ComponentVersion = /*@__PURE__*/ S.suspend(() =>
     status: S.optional(ComponentStatus),
     productCodes: S.optional(ProductCodeList),
   }),
-).annotate({
-  identifier: "ComponentVersion",
-}) as any as S.Schema<ComponentVersion>;
+).annotate({ identifier: "ComponentVersion" }) as any as S.Schema<ComponentVersion>;
 export type ComponentVersionList = ComponentVersion[];
 export const ComponentVersionList = /*@__PURE__*/ S.Array(ComponentVersion);
 export interface ListComponentsResponse {
@@ -3112,9 +2996,7 @@ export const ListComponentsResponse = /*@__PURE__*/ S.suspend(() =>
     componentVersionList: S.optional(ComponentVersionList),
     nextToken: S.optional(S.String),
   }),
-).annotate({
-  identifier: "ListComponentsResponse",
-}) as any as S.Schema<ListComponentsResponse>;
+).annotate({ identifier: "ListComponentsResponse" }) as any as S.Schema<ListComponentsResponse>;
 export interface ListContainerRecipesRequest {
   owner?: Ownership;
   filters?: Filter[];
@@ -3156,9 +3038,7 @@ export const ContainerRecipeSummary = /*@__PURE__*/ S.suspend(() =>
     instanceImage: S.optional(S.String),
     tags: S.optional(TagMap),
   }),
-).annotate({
-  identifier: "ContainerRecipeSummary",
-}) as any as S.Schema<ContainerRecipeSummary>;
+).annotate({ identifier: "ContainerRecipeSummary" }) as any as S.Schema<ContainerRecipeSummary>;
 export type ContainerRecipeSummaryList = ContainerRecipeSummary[];
 export const ContainerRecipeSummaryList = /*@__PURE__*/ S.Array(ContainerRecipeSummary);
 export interface ListContainerRecipesResponse {
@@ -3326,18 +3206,13 @@ export const ListImagePackagesRequest = /*@__PURE__*/ S.suspend(() =>
   }).pipe(
     T.all(T.Http({ method: "POST", uri: "/ListImagePackages" }), svc, auth, proto, ver, rules),
   ),
-).annotate({
-  identifier: "ListImagePackagesRequest",
-}) as any as S.Schema<ListImagePackagesRequest>;
+).annotate({ identifier: "ListImagePackagesRequest" }) as any as S.Schema<ListImagePackagesRequest>;
 export interface ImagePackage {
   packageName?: string;
   packageVersion?: string;
 }
 export const ImagePackage = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    packageName: S.optional(S.String),
-    packageVersion: S.optional(S.String),
-  }),
+  S.Struct({ packageName: S.optional(S.String), packageVersion: S.optional(S.String) }),
 ).annotate({ identifier: "ImagePackage" }) as any as S.Schema<ImagePackage>;
 export type ImagePackageList = ImagePackage[];
 export const ImagePackageList = /*@__PURE__*/ S.Array(ImagePackage);
@@ -3441,9 +3316,7 @@ export const ListImageRecipesRequest = /*@__PURE__*/ S.suspend(() =>
   }).pipe(
     T.all(T.Http({ method: "POST", uri: "/ListImageRecipes" }), svc, auth, proto, ver, rules),
   ),
-).annotate({
-  identifier: "ListImageRecipesRequest",
-}) as any as S.Schema<ListImageRecipesRequest>;
+).annotate({ identifier: "ListImageRecipesRequest" }) as any as S.Schema<ListImageRecipesRequest>;
 export interface ImageRecipeSummary {
   arn?: string;
   name?: string;
@@ -3463,9 +3336,7 @@ export const ImageRecipeSummary = /*@__PURE__*/ S.suspend(() =>
     dateCreated: S.optional(S.String),
     tags: S.optional(TagMap),
   }),
-).annotate({
-  identifier: "ImageRecipeSummary",
-}) as any as S.Schema<ImageRecipeSummary>;
+).annotate({ identifier: "ImageRecipeSummary" }) as any as S.Schema<ImageRecipeSummary>;
 export type ImageRecipeSummaryList = ImageRecipeSummary[];
 export const ImageRecipeSummaryList = /*@__PURE__*/ S.Array(ImageRecipeSummary);
 export interface ListImageRecipesResponse {
@@ -3479,9 +3350,7 @@ export const ListImageRecipesResponse = /*@__PURE__*/ S.suspend(() =>
     imageRecipeSummaryList: S.optional(ImageRecipeSummaryList),
     nextToken: S.optional(S.String),
   }),
-).annotate({
-  identifier: "ListImageRecipesResponse",
-}) as any as S.Schema<ListImageRecipesResponse>;
+).annotate({ identifier: "ListImageRecipesResponse" }) as any as S.Schema<ListImageRecipesResponse>;
 export interface ListImagesRequest {
   owner?: Ownership;
   filters?: Filter[];
@@ -3499,9 +3368,7 @@ export const ListImagesRequest = /*@__PURE__*/ S.suspend(() =>
     nextToken: S.optional(S.String),
     includeDeprecated: S.optional(S.Boolean),
   }).pipe(T.all(T.Http({ method: "POST", uri: "/ListImages" }), svc, auth, proto, ver, rules)),
-).annotate({
-  identifier: "ListImagesRequest",
-}) as any as S.Schema<ListImagesRequest>;
+).annotate({ identifier: "ListImagesRequest" }) as any as S.Schema<ListImagesRequest>;
 export interface ImageVersion {
   arn?: string;
   name?: string;
@@ -3541,18 +3408,13 @@ export const ListImagesResponse = /*@__PURE__*/ S.suspend(() =>
     imageVersionList: S.optional(ImageVersionList),
     nextToken: S.optional(S.String),
   }),
-).annotate({
-  identifier: "ListImagesResponse",
-}) as any as S.Schema<ListImagesResponse>;
+).annotate({ identifier: "ListImagesResponse" }) as any as S.Schema<ListImagesResponse>;
 export interface ListImageScanFindingAggregationsRequest {
   filter?: Filter;
   nextToken?: string;
 }
 export const ListImageScanFindingAggregationsRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    filter: S.optional(Filter),
-    nextToken: S.optional(S.String),
-  }).pipe(
+  S.Struct({ filter: S.optional(Filter), nextToken: S.optional(S.String) }).pipe(
     T.all(
       T.Http({ method: "POST", uri: "/ListImageScanFindingAggregations" }),
       svc,
@@ -3585,13 +3447,8 @@ export interface AccountAggregation {
   severityCounts?: SeverityCounts;
 }
 export const AccountAggregation = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    accountId: S.optional(S.String),
-    severityCounts: S.optional(SeverityCounts),
-  }),
-).annotate({
-  identifier: "AccountAggregation",
-}) as any as S.Schema<AccountAggregation>;
+  S.Struct({ accountId: S.optional(S.String), severityCounts: S.optional(SeverityCounts) }),
+).annotate({ identifier: "AccountAggregation" }) as any as S.Schema<AccountAggregation>;
 export interface ImageAggregation {
   imageBuildVersionArn?: string;
   severityCounts?: SeverityCounts;
@@ -3601,30 +3458,20 @@ export const ImageAggregation = /*@__PURE__*/ S.suspend(() =>
     imageBuildVersionArn: S.optional(S.String),
     severityCounts: S.optional(SeverityCounts),
   }),
-).annotate({
-  identifier: "ImageAggregation",
-}) as any as S.Schema<ImageAggregation>;
+).annotate({ identifier: "ImageAggregation" }) as any as S.Schema<ImageAggregation>;
 export interface ImagePipelineAggregation {
   imagePipelineArn?: string;
   severityCounts?: SeverityCounts;
 }
 export const ImagePipelineAggregation = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    imagePipelineArn: S.optional(S.String),
-    severityCounts: S.optional(SeverityCounts),
-  }),
-).annotate({
-  identifier: "ImagePipelineAggregation",
-}) as any as S.Schema<ImagePipelineAggregation>;
+  S.Struct({ imagePipelineArn: S.optional(S.String), severityCounts: S.optional(SeverityCounts) }),
+).annotate({ identifier: "ImagePipelineAggregation" }) as any as S.Schema<ImagePipelineAggregation>;
 export interface VulnerabilityIdAggregation {
   vulnerabilityId?: string;
   severityCounts?: SeverityCounts;
 }
 export const VulnerabilityIdAggregation = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    vulnerabilityId: S.optional(S.String),
-    severityCounts: S.optional(SeverityCounts),
-  }),
+  S.Struct({ vulnerabilityId: S.optional(S.String), severityCounts: S.optional(SeverityCounts) }),
 ).annotate({
   identifier: "VulnerabilityIdAggregation",
 }) as any as S.Schema<VulnerabilityIdAggregation>;
@@ -3669,13 +3516,8 @@ export interface ImageScanFindingsFilter {
   values?: string[];
 }
 export const ImageScanFindingsFilter = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    name: S.optional(S.String),
-    values: S.optional(ImageScanFindingsFilterValues),
-  }),
-).annotate({
-  identifier: "ImageScanFindingsFilter",
-}) as any as S.Schema<ImageScanFindingsFilter>;
+  S.Struct({ name: S.optional(S.String), values: S.optional(ImageScanFindingsFilterValues) }),
+).annotate({ identifier: "ImageScanFindingsFilter" }) as any as S.Schema<ImageScanFindingsFilter>;
 export type ImageScanFindingsFilterList = ImageScanFindingsFilter[];
 export const ImageScanFindingsFilterList = /*@__PURE__*/ S.Array(ImageScanFindingsFilter);
 export interface ListImageScanFindingsRequest {
@@ -3716,9 +3558,7 @@ export interface CvssScoreAdjustment {
 }
 export const CvssScoreAdjustment = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ metric: S.optional(S.String), reason: S.optional(S.String) }),
-).annotate({
-  identifier: "CvssScoreAdjustment",
-}) as any as S.Schema<CvssScoreAdjustment>;
+).annotate({ identifier: "CvssScoreAdjustment" }) as any as S.Schema<CvssScoreAdjustment>;
 export type CvssScoreAdjustmentList = CvssScoreAdjustment[];
 export const CvssScoreAdjustmentList = /*@__PURE__*/ S.Array(CvssScoreAdjustment);
 export interface CvssScoreDetails {
@@ -3738,17 +3578,13 @@ export const CvssScoreDetails = /*@__PURE__*/ S.suspend(() =>
     scoringVector: S.optional(S.String),
     adjustments: S.optional(CvssScoreAdjustmentList),
   }),
-).annotate({
-  identifier: "CvssScoreDetails",
-}) as any as S.Schema<CvssScoreDetails>;
+).annotate({ identifier: "CvssScoreDetails" }) as any as S.Schema<CvssScoreDetails>;
 export interface InspectorScoreDetails {
   adjustedCvss?: CvssScoreDetails;
 }
 export const InspectorScoreDetails = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ adjustedCvss: S.optional(CvssScoreDetails) }),
-).annotate({
-  identifier: "InspectorScoreDetails",
-}) as any as S.Schema<InspectorScoreDetails>;
+).annotate({ identifier: "InspectorScoreDetails" }) as any as S.Schema<InspectorScoreDetails>;
 export type VulnerabilityId = string;
 export type SourceLayerHash = string;
 export type PackageEpoch = number;
@@ -3778,9 +3614,7 @@ export const VulnerablePackage = /*@__PURE__*/ S.suspend(() =>
     fixedInVersion: S.optional(S.String),
     remediation: S.optional(S.String),
   }),
-).annotate({
-  identifier: "VulnerablePackage",
-}) as any as S.Schema<VulnerablePackage>;
+).annotate({ identifier: "VulnerablePackage" }) as any as S.Schema<VulnerablePackage>;
 export type VulnerablePackageList = VulnerablePackage[];
 export const VulnerablePackageList = /*@__PURE__*/ S.Array(VulnerablePackage);
 export interface CvssScore {
@@ -3864,9 +3698,7 @@ export const ImageScanFinding = /*@__PURE__*/ S.suspend(() =>
     packageVulnerabilityDetails: S.optional(PackageVulnerabilityDetails),
     fixAvailable: S.optional(S.String),
   }),
-).annotate({
-  identifier: "ImageScanFinding",
-}) as any as S.Schema<ImageScanFinding>;
+).annotate({ identifier: "ImageScanFinding" }) as any as S.Schema<ImageScanFinding>;
 export type ImageScanFindingsList = ImageScanFinding[];
 export const ImageScanFindingsList = /*@__PURE__*/ S.Array(ImageScanFinding);
 export interface ListImageScanFindingsResponse {
@@ -3990,10 +3822,7 @@ export interface LifecycleExecutionResourceState {
   reason?: string;
 }
 export const LifecycleExecutionResourceState = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    status: S.optional(LifecycleExecutionResourceStatus),
-    reason: S.optional(S.String),
-  }),
+  S.Struct({ status: S.optional(LifecycleExecutionResourceStatus), reason: S.optional(S.String) }),
 ).annotate({
   identifier: "LifecycleExecutionResourceState",
 }) as any as S.Schema<LifecycleExecutionResourceState>;
@@ -4155,9 +3984,7 @@ export const LifecyclePolicySummary = /*@__PURE__*/ S.suspend(() =>
     dateLastRun: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     tags: S.optional(TagMap),
   }),
-).annotate({
-  identifier: "LifecyclePolicySummary",
-}) as any as S.Schema<LifecyclePolicySummary>;
+).annotate({ identifier: "LifecyclePolicySummary" }) as any as S.Schema<LifecyclePolicySummary>;
 export type LifecyclePolicySummaryList = LifecyclePolicySummary[];
 export const LifecyclePolicySummaryList = /*@__PURE__*/ S.Array(LifecyclePolicySummary);
 export interface ListLifecyclePoliciesResponse {
@@ -4195,10 +4022,7 @@ export interface ListWaitingWorkflowStepsRequest {
   nextToken?: string;
 }
 export const ListWaitingWorkflowStepsRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    maxResults: S.optional(S.Number),
-    nextToken: S.optional(S.String),
-  }).pipe(
+  S.Struct({ maxResults: S.optional(S.Number), nextToken: S.optional(S.String) }).pipe(
     T.all(
       T.Http({ method: "POST", uri: "/ListWaitingWorkflowSteps" }),
       svc,
@@ -4230,9 +4054,7 @@ export const WorkflowStepExecution = /*@__PURE__*/ S.suspend(() =>
     action: S.optional(S.String),
     startTime: S.optional(S.String),
   }),
-).annotate({
-  identifier: "WorkflowStepExecution",
-}) as any as S.Schema<WorkflowStepExecution>;
+).annotate({ identifier: "WorkflowStepExecution" }) as any as S.Schema<WorkflowStepExecution>;
 export type WorkflowStepExecutionList = WorkflowStepExecution[];
 export const WorkflowStepExecutionList = /*@__PURE__*/ S.Array(WorkflowStepExecution);
 export interface ListWaitingWorkflowStepsResponse {
@@ -4240,10 +4062,7 @@ export interface ListWaitingWorkflowStepsResponse {
   nextToken?: string;
 }
 export const ListWaitingWorkflowStepsResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    steps: S.optional(WorkflowStepExecutionList),
-    nextToken: S.optional(S.String),
-  }),
+  S.Struct({ steps: S.optional(WorkflowStepExecutionList), nextToken: S.optional(S.String) }),
 ).annotate({
   identifier: "ListWaitingWorkflowStepsResponse",
 }) as any as S.Schema<ListWaitingWorkflowStepsResponse>;
@@ -4271,7 +4090,6 @@ export const ListWorkflowBuildVersionsRequest = /*@__PURE__*/ S.suspend(() =>
 ).annotate({
   identifier: "ListWorkflowBuildVersionsRequest",
 }) as any as S.Schema<ListWorkflowBuildVersionsRequest>;
-export type WorkflowNameArn = string;
 export interface WorkflowSummary {
   arn?: string;
   name?: string;
@@ -4297,9 +4115,7 @@ export const WorkflowSummary = /*@__PURE__*/ S.suspend(() =>
     dateCreated: S.optional(S.String),
     tags: S.optional(TagMap),
   }),
-).annotate({
-  identifier: "WorkflowSummary",
-}) as any as S.Schema<WorkflowSummary>;
+).annotate({ identifier: "WorkflowSummary" }) as any as S.Schema<WorkflowSummary>;
 export type WorkflowSummaryList = WorkflowSummary[];
 export const WorkflowSummaryList = /*@__PURE__*/ S.Array(WorkflowSummary);
 export interface ListWorkflowBuildVersionsResponse {
@@ -4400,10 +4216,7 @@ export const ListWorkflowsRequest = /*@__PURE__*/ S.suspend(() =>
     maxResults: S.optional(S.Number),
     nextToken: S.optional(S.String),
   }).pipe(T.all(T.Http({ method: "POST", uri: "/ListWorkflows" }), svc, auth, proto, ver, rules)),
-).annotate({
-  identifier: "ListWorkflowsRequest",
-}) as any as S.Schema<ListWorkflowsRequest>;
-export type WorkflowVersionArn = string;
+).annotate({ identifier: "ListWorkflowsRequest" }) as any as S.Schema<ListWorkflowsRequest>;
 export interface WorkflowVersion {
   arn?: string;
   name?: string;
@@ -4423,9 +4236,7 @@ export const WorkflowVersion = /*@__PURE__*/ S.suspend(() =>
     owner: S.optional(S.String),
     dateCreated: S.optional(S.String),
   }),
-).annotate({
-  identifier: "WorkflowVersion",
-}) as any as S.Schema<WorkflowVersion>;
+).annotate({ identifier: "WorkflowVersion" }) as any as S.Schema<WorkflowVersion>;
 export type WorkflowVersionList = WorkflowVersion[];
 export const WorkflowVersionList = /*@__PURE__*/ S.Array(WorkflowVersion);
 export interface ListWorkflowsResponse {
@@ -4437,9 +4248,7 @@ export const ListWorkflowsResponse = /*@__PURE__*/ S.suspend(() =>
     workflowVersionList: S.optional(WorkflowVersionList),
     nextToken: S.optional(S.String),
   }),
-).annotate({
-  identifier: "ListWorkflowsResponse",
-}) as any as S.Schema<ListWorkflowsResponse>;
+).annotate({ identifier: "ListWorkflowsResponse" }) as any as S.Schema<ListWorkflowsResponse>;
 export interface ListWorkflowStepExecutionsRequest {
   maxResults?: number;
   nextToken?: string;
@@ -4475,6 +4284,8 @@ export interface WorkflowStepMetadata {
   outputs?: string;
   startTime?: string;
   endTime?: string;
+  attemptNumber?: number;
+  maxAttempts?: number;
 }
 export const WorkflowStepMetadata = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -4489,10 +4300,10 @@ export const WorkflowStepMetadata = /*@__PURE__*/ S.suspend(() =>
     outputs: S.optional(S.String),
     startTime: S.optional(S.String),
     endTime: S.optional(S.String),
+    attemptNumber: S.optional(S.Number),
+    maxAttempts: S.optional(S.Number),
   }),
-).annotate({
-  identifier: "WorkflowStepMetadata",
-}) as any as S.Schema<WorkflowStepMetadata>;
+).annotate({ identifier: "WorkflowStepMetadata" }) as any as S.Schema<WorkflowStepMetadata>;
 export type WorkflowStepExecutionsList = WorkflowStepMetadata[];
 export const WorkflowStepExecutionsList = /*@__PURE__*/ S.Array(WorkflowStepMetadata);
 export interface ListWorkflowStepExecutionsResponse {
@@ -4533,10 +4344,7 @@ export interface PutComponentPolicyResponse {
   componentArn?: string;
 }
 export const PutComponentPolicyResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    requestId: S.optional(S.String),
-    componentArn: S.optional(S.String),
-  }),
+  S.Struct({ requestId: S.optional(S.String), componentArn: S.optional(S.String) }),
 ).annotate({
   identifier: "PutComponentPolicyResponse",
 }) as any as S.Schema<PutComponentPolicyResponse>;
@@ -4563,10 +4371,7 @@ export interface PutContainerRecipePolicyResponse {
   containerRecipeArn?: string;
 }
 export const PutContainerRecipePolicyResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    requestId: S.optional(S.String),
-    containerRecipeArn: S.optional(S.String),
-  }),
+  S.Struct({ requestId: S.optional(S.String), containerRecipeArn: S.optional(S.String) }),
 ).annotate({
   identifier: "PutContainerRecipePolicyResponse",
 }) as any as S.Schema<PutContainerRecipePolicyResponse>;
@@ -4578,18 +4383,14 @@ export const PutImagePolicyRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ imageArn: S.String, policy: S.String }).pipe(
     T.all(T.Http({ method: "PUT", uri: "/PutImagePolicy" }), svc, auth, proto, ver, rules),
   ),
-).annotate({
-  identifier: "PutImagePolicyRequest",
-}) as any as S.Schema<PutImagePolicyRequest>;
+).annotate({ identifier: "PutImagePolicyRequest" }) as any as S.Schema<PutImagePolicyRequest>;
 export interface PutImagePolicyResponse {
   requestId?: string;
   imageArn?: string;
 }
 export const PutImagePolicyResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ requestId: S.optional(S.String), imageArn: S.optional(S.String) }),
-).annotate({
-  identifier: "PutImagePolicyResponse",
-}) as any as S.Schema<PutImagePolicyResponse>;
+).annotate({ identifier: "PutImagePolicyResponse" }) as any as S.Schema<PutImagePolicyResponse>;
 export interface PutImageRecipePolicyRequest {
   imageRecipeArn: string;
   policy: string;
@@ -4606,10 +4407,7 @@ export interface PutImageRecipePolicyResponse {
   imageRecipeArn?: string;
 }
 export const PutImageRecipePolicyResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    requestId: S.optional(S.String),
-    imageRecipeArn: S.optional(S.String),
-  }),
+  S.Struct({ requestId: S.optional(S.String), imageRecipeArn: S.optional(S.String) }),
 ).annotate({
   identifier: "PutImageRecipePolicyResponse",
 }) as any as S.Schema<PutImageRecipePolicyResponse>;
@@ -4622,21 +4420,14 @@ export const RetryImageRequest = /*@__PURE__*/ S.suspend(() =>
     imageBuildVersionArn: S.String,
     clientToken: S.String.pipe(T.IdempotencyToken()),
   }).pipe(T.all(T.Http({ method: "PUT", uri: "/RetryImage" }), svc, auth, proto, ver, rules)),
-).annotate({
-  identifier: "RetryImageRequest",
-}) as any as S.Schema<RetryImageRequest>;
+).annotate({ identifier: "RetryImageRequest" }) as any as S.Schema<RetryImageRequest>;
 export interface RetryImageResponse {
   clientToken?: string;
   imageBuildVersionArn?: string;
 }
 export const RetryImageResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    clientToken: S.optional(S.String),
-    imageBuildVersionArn: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "RetryImageResponse",
-}) as any as S.Schema<RetryImageResponse>;
+  S.Struct({ clientToken: S.optional(S.String), imageBuildVersionArn: S.optional(S.String) }),
+).annotate({ identifier: "RetryImageResponse" }) as any as S.Schema<RetryImageResponse>;
 export type WorkflowStepActionType = "RESUME" | "STOP" | (string & {});
 export const WorkflowStepActionType = S.String;
 
@@ -4778,10 +4569,7 @@ export interface StartResourceStateUpdateResponse {
   resourceArn?: string;
 }
 export const StartResourceStateUpdateResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    lifecycleExecutionId: S.optional(S.String),
-    resourceArn: S.optional(S.String),
-  }),
+  S.Struct({ lifecycleExecutionId: S.optional(S.String), resourceArn: S.optional(S.String) }),
 ).annotate({
   identifier: "StartResourceStateUpdateResponse",
 }) as any as S.Schema<StartResourceStateUpdateResponse>;
@@ -4790,15 +4578,10 @@ export interface TagResourceRequest {
   tags: { [key: string]: string | undefined };
 }
 export const TagResourceRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    resourceArn: S.String.pipe(T.HttpLabel("resourceArn")),
-    tags: TagMap,
-  }).pipe(
+  S.Struct({ resourceArn: S.String.pipe(T.HttpLabel("resourceArn")), tags: TagMap }).pipe(
     T.all(T.Http({ method: "POST", uri: "/tags/{resourceArn}" }), svc, auth, proto, ver, rules),
   ),
-).annotate({
-  identifier: "TagResourceRequest",
-}) as any as S.Schema<TagResourceRequest>;
+).annotate({ identifier: "TagResourceRequest" }) as any as S.Schema<TagResourceRequest>;
 export interface TagResourceResponse {}
 export const TagResourceResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
   identifier: "TagResourceResponse",
@@ -4816,9 +4599,7 @@ export const UntagResourceRequest = /*@__PURE__*/ S.suspend(() =>
   }).pipe(
     T.all(T.Http({ method: "DELETE", uri: "/tags/{resourceArn}" }), svc, auth, proto, ver, rules),
   ),
-).annotate({
-  identifier: "UntagResourceRequest",
-}) as any as S.Schema<UntagResourceRequest>;
+).annotate({ identifier: "UntagResourceRequest" }) as any as S.Schema<UntagResourceRequest>;
 export interface UntagResourceResponse {}
 export const UntagResourceResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
   identifier: "UntagResourceResponse",
@@ -5024,8 +4805,11 @@ export type CancelImageCreationError =
   | ResourceNotFoundException
   | CommonErrors;
 /**
- * CancelImageCreation cancels the creation of Image. This operation can only be used on
- * images in a non-terminal state.
+ * Cancels the creation of an image. This operation can only be used on
+ * images in a non-terminal state. Cancellation is asynchronous: the request
+ * returns immediately, then Image Builder stops the running build and moves the image
+ * to the `CANCELLED` state. Output resources that the build already
+ * created, such as AMIs and snapshots, aren't removed.
  */
 export const cancelImageCreation: API.OperationMethod<
   CancelImageCreationRequest,
@@ -5062,7 +4846,11 @@ export type CancelLifecycleExecutionError =
   | ServiceUnavailableException
   | CommonErrors;
 /**
- * Cancel a specific image lifecycle policy runtime instance.
+ * Cancels a lifecycle execution – a single run of lifecycle actions that a
+ * lifecycle policy or a StartResourceStateUpdate request
+ * started. You can only cancel an execution that hasn't reached a
+ * terminal state. Cancellation is asynchronous and doesn't undo
+ * completed lifecycle actions.
  */
 export const cancelLifecycleExecution: API.OperationMethod<
   CancelLifecycleExecutionRequest,
@@ -5110,6 +4898,10 @@ export type CreateComponentError =
  *
  * - A URL that points to a YAML document file stored in Amazon S3, using the
  * `uri` property in the request body.
+ *
+ * Image Builder determines the component type from the document. If the document
+ * contains a single phase named `test`, the component type is
+ * `TEST`. Otherwise, the component type is `BUILD`.
  */
 export const createComponent: API.OperationMethod<
   CreateComponentRequest,
@@ -5141,6 +4933,7 @@ export const createComponent: API.OperationMethod<
 export type CreateContainerRecipeError =
   | CallRateLimitExceededException
   | ClientException
+  | DryRunOperationException
   | ForbiddenException
   | IdempotentParameterMismatchException
   | InvalidRequestException
@@ -5166,6 +4959,7 @@ export const createContainerRecipe: API.OperationMethod<
   errors: [
     CallRateLimitExceededException,
     ClientException,
+    DryRunOperationException,
     ForbiddenException,
     IdempotentParameterMismatchException,
     InvalidRequestException,
@@ -5184,6 +4978,7 @@ export const createContainerRecipe: API.OperationMethod<
 export type CreateDistributionConfigurationError =
   | CallRateLimitExceededException
   | ClientException
+  | DryRunOperationException
   | ForbiddenException
   | IdempotentParameterMismatchException
   | InvalidParameterCombinationException
@@ -5195,8 +4990,9 @@ export type CreateDistributionConfigurationError =
   | ServiceUnavailableException
   | CommonErrors;
 /**
- * Creates a new distribution configuration. Distribution configurations define and
- * configure the outputs of your pipeline.
+ * Creates a new distribution configuration. Distribution configurations define
+ * and configure the outputs for your images, including the target Regions,
+ * accounts, and settings for each Region.
  */
 export const createDistributionConfiguration: API.OperationMethod<
   CreateDistributionConfigurationRequest,
@@ -5209,6 +5005,7 @@ export const createDistributionConfiguration: API.OperationMethod<
   errors: [
     CallRateLimitExceededException,
     ClientException,
+    DryRunOperationException,
     ForbiddenException,
     IdempotentParameterMismatchException,
     InvalidParameterCombinationException,
@@ -5236,10 +5033,13 @@ export type CreateImageError =
   | ServiceUnavailableException
   | CommonErrors;
 /**
- * Creates a new image. This request will create a new image along with all of the
- * configured output resources defined in the distribution configuration. You must specify
- * exactly one recipe for your image, using either a ContainerRecipeArn or an
- * ImageRecipeArn.
+ * Creates a new image along with all configured output resources defined in the
+ * distribution configuration. You must specify exactly one recipe for your image, using
+ * either a `containerRecipeArn` or an `imageRecipeArn`.
+ *
+ * The response returns as soon as Image Builder creates the new image resource.
+ * The image build process runs asynchronously. To check its progress, call
+ * GetImage and check the image status.
  */
 export const createImage: API.OperationMethod<
   CreateImageRequest,
@@ -5268,6 +5068,7 @@ export const createImage: API.OperationMethod<
 export type CreateImagePipelineError =
   | CallRateLimitExceededException
   | ClientException
+  | DryRunOperationException
   | ForbiddenException
   | IdempotentParameterMismatchException
   | InvalidRequestException
@@ -5278,8 +5079,10 @@ export type CreateImagePipelineError =
   | ServiceUnavailableException
   | CommonErrors;
 /**
- * Creates a new image pipeline. Image pipelines enable you to automate the creation and
- * distribution of images.
+ * Creates a new image pipeline. Use image pipelines to automate the creation and
+ * distribution of images. You must specify exactly one recipe for the pipeline,
+ * using either a `containerRecipeArn` or an
+ * `imageRecipeArn`.
  */
 export const createImagePipeline: API.OperationMethod<
   CreateImagePipelineRequest,
@@ -5292,6 +5095,7 @@ export const createImagePipeline: API.OperationMethod<
   errors: [
     CallRateLimitExceededException,
     ClientException,
+    DryRunOperationException,
     ForbiddenException,
     IdempotentParameterMismatchException,
     InvalidRequestException,
@@ -5309,6 +5113,7 @@ export const createImagePipeline: API.OperationMethod<
 export type CreateImageRecipeError =
   | CallRateLimitExceededException
   | ClientException
+  | DryRunOperationException
   | ForbiddenException
   | IdempotentParameterMismatchException
   | InvalidRequestException
@@ -5334,6 +5139,7 @@ export const createImageRecipe: API.OperationMethod<
   errors: [
     CallRateLimitExceededException,
     ClientException,
+    DryRunOperationException,
     ForbiddenException,
     IdempotentParameterMismatchException,
     InvalidRequestException,
@@ -5352,6 +5158,7 @@ export const createImageRecipe: API.OperationMethod<
 export type CreateInfrastructureConfigurationError =
   | CallRateLimitExceededException
   | ClientException
+  | DryRunOperationException
   | ForbiddenException
   | IdempotentParameterMismatchException
   | InvalidRequestException
@@ -5377,6 +5184,7 @@ export const createInfrastructureConfiguration: API.OperationMethod<
   errors: [
     CallRateLimitExceededException,
     ClientException,
+    DryRunOperationException,
     ForbiddenException,
     IdempotentParameterMismatchException,
     InvalidRequestException,
@@ -5395,6 +5203,7 @@ export const createInfrastructureConfiguration: API.OperationMethod<
 export type CreateLifecyclePolicyError =
   | CallRateLimitExceededException
   | ClientException
+  | DryRunOperationException
   | ForbiddenException
   | IdempotentParameterMismatchException
   | InvalidRequestException
@@ -5405,7 +5214,7 @@ export type CreateLifecyclePolicyError =
   | ServiceUnavailableException
   | CommonErrors;
 /**
- * Create a lifecycle policy resource.
+ * Creates a lifecycle policy resource.
  */
 export const createLifecyclePolicy: API.OperationMethod<
   CreateLifecyclePolicyRequest,
@@ -5418,6 +5227,7 @@ export const createLifecyclePolicy: API.OperationMethod<
   errors: [
     CallRateLimitExceededException,
     ClientException,
+    DryRunOperationException,
     ForbiddenException,
     IdempotentParameterMismatchException,
     InvalidRequestException,
@@ -5447,7 +5257,11 @@ export type CreateWorkflowError =
   | ServiceUnavailableException
   | CommonErrors;
 /**
- * Create a new workflow or a new version of an existing workflow.
+ * Creates a new workflow or a new version of an existing workflow. If a workflow
+ * with the same name and semantic version already exists, and your request changes
+ * its configuration, Image Builder creates a new build version.
+ * If the configuration is identical to the latest build version, the request
+ * fails because that workflow configuration already exists.
  */
 export const createWorkflow: API.OperationMethod<
   CreateWorkflowRequest,
@@ -5487,7 +5301,10 @@ export type DeleteComponentError =
   | ResourceNotFoundException
   | CommonErrors;
 /**
- * Deletes a component build version.
+ * Deletes a component build version. The request fails with
+ * `ResourceDependencyException` if an image recipe or container
+ * recipe references this component version. It also fails if the component
+ * build version is shared with other accounts.
  */
 export const deleteComponent: API.OperationMethod<
   DeleteComponentRequest,
@@ -5522,7 +5339,9 @@ export type DeleteContainerRecipeError =
   | ServiceUnavailableException
   | CommonErrors;
 /**
- * Deletes a container recipe.
+ * Deletes a container recipe. The request fails with
+ * `ResourceDependencyException` if the recipe is shared with other
+ * accounts, or if an image pipeline references it.
  */
 export const deleteContainerRecipe: API.OperationMethod<
   DeleteContainerRecipeRequest,
@@ -5557,7 +5376,10 @@ export type DeleteDistributionConfigurationError =
   | ResourceNotFoundException
   | CommonErrors;
 /**
- * Deletes a distribution configuration.
+ * Deletes a distribution configuration. You can't delete a configuration
+ * that an image pipeline still references. The request fails with
+ * `ResourceDependencyException`. Update or delete the referencing
+ * pipelines first.
  */
 export const deleteDistributionConfiguration: API.OperationMethod<
   DeleteDistributionConfigurationRequest,
@@ -5597,6 +5419,11 @@ export type DeleteImageError =
  * images that are created during the image build process. You must clean those up
  * separately, using the appropriate Amazon EC2 or Amazon ECR console actions, or API or CLI
  * commands.
+ *
+ * The request fails with `ResourceDependencyException` if the image
+ * is shared with other accounts, or if other resources depend on it. It also
+ * fails while the image build is still running. Cancel an in-progress build
+ * with CancelImageCreation before you delete the image.
  *
  * - To deregister an EC2 Linux AMI, see Deregister your
  * Linux AMI in the
@@ -5645,7 +5472,10 @@ export type DeleteImagePipelineError =
   | ResourceNotFoundException
   | CommonErrors;
 /**
- * Deletes an image pipeline.
+ * Deletes an image pipeline. Images that the pipeline created aren't
+ * deleted - remove those separately with DeleteImage. You
+ * can delete a pipeline while a build that it started is still running. The
+ * build continues independently.
  */
 export const deleteImagePipeline: API.OperationMethod<
   DeleteImagePipelineRequest,
@@ -5717,7 +5547,10 @@ export type DeleteInfrastructureConfigurationError =
   | ResourceNotFoundException
   | CommonErrors;
 /**
- * Deletes an infrastructure configuration.
+ * Deletes an infrastructure configuration. You can't delete a configuration
+ * that an image pipeline still references. The request fails with
+ * `ResourceDependencyException`. Update or delete the referencing
+ * pipelines first.
  */
 export const deleteInfrastructureConfiguration: API.OperationMethod<
   DeleteInfrastructureConfigurationRequest,
@@ -5752,7 +5585,11 @@ export type DeleteLifecyclePolicyError =
   | ServiceUnavailableException
   | CommonErrors;
 /**
- * Delete the specified lifecycle policy resource.
+ * Deletes the specified lifecycle policy resource. Deleting the policy removes
+ * its schedule, so no further lifecycle runs occur for that policy. If a
+ * lifecycle execution is in progress for the policy, Image Builder cancels it. Deletion
+ * doesn't revert actions that the policy already applied to your
+ * resources.
  */
 export const deleteLifecyclePolicy: API.OperationMethod<
   DeleteLifecyclePolicyRequest,
@@ -5786,7 +5623,9 @@ export type DeleteWorkflowError =
   | ServiceUnavailableException
   | CommonErrors;
 /**
- * Deletes a specific workflow resource.
+ * Deletes a specific workflow resource. You can't delete a workflow build
+ * version while an image pipeline references it. The request fails with
+ * `ResourceDependencyException`.
  */
 export const deleteWorkflow: API.OperationMethod<
   DeleteWorkflowRequest,
@@ -5866,7 +5705,7 @@ export type GetComponentError =
   | ResourceNotFoundException
   | CommonErrors;
 /**
- * Gets a component object.
+ * Retrieves a component object.
  */
 export const getComponent: API.OperationMethod<
   GetComponentRequest,
@@ -5899,7 +5738,7 @@ export type GetComponentPolicyError =
   | ServiceUnavailableException
   | CommonErrors;
 /**
- * Gets a component policy.
+ * Retrieves a component policy.
  */
 export const getComponentPolicy: API.OperationMethod<
   GetComponentPolicyRequest,
@@ -5996,7 +5835,7 @@ export type GetDistributionConfigurationError =
   | ResourceNotFoundException
   | CommonErrors;
 /**
- * Gets a distribution configuration.
+ * Retrieves a distribution configuration.
  */
 export const getDistributionConfiguration: API.OperationMethod<
   GetDistributionConfigurationRequest,
@@ -6030,7 +5869,7 @@ export type GetImageError =
   | ResourceNotFoundException
   | CommonErrors;
 /**
- * Gets an image.
+ * Retrieves an image.
  */
 export const getImage: API.OperationMethod<
   GetImageRequest,
@@ -6064,7 +5903,7 @@ export type GetImagePipelineError =
   | ResourceNotFoundException
   | CommonErrors;
 /**
- * Gets an image pipeline.
+ * Retrieves an image pipeline.
  */
 export const getImagePipeline: API.OperationMethod<
   GetImagePipelineRequest,
@@ -6097,7 +5936,7 @@ export type GetImagePolicyError =
   | ServiceUnavailableException
   | CommonErrors;
 /**
- * Gets an image policy.
+ * Retrieves an image policy.
  */
 export const getImagePolicy: API.OperationMethod<
   GetImagePolicyRequest,
@@ -6130,7 +5969,7 @@ export type GetImageRecipeError =
   | ResourceNotFoundException
   | CommonErrors;
 /**
- * Gets an image recipe.
+ * Retrieves an image recipe.
  */
 export const getImageRecipe: API.OperationMethod<
   GetImageRecipeRequest,
@@ -6163,7 +6002,7 @@ export type GetImageRecipePolicyError =
   | ServiceUnavailableException
   | CommonErrors;
 /**
- * Gets an image recipe policy.
+ * Retrieves an image recipe policy.
  */
 export const getImageRecipePolicy: API.OperationMethod<
   GetImageRecipePolicyRequest,
@@ -6196,7 +6035,7 @@ export type GetInfrastructureConfigurationError =
   | ResourceNotFoundException
   | CommonErrors;
 /**
- * Gets an infrastructure configuration.
+ * Retrieves an infrastructure configuration.
  */
 export const getInfrastructureConfiguration: API.OperationMethod<
   GetInfrastructureConfigurationRequest,
@@ -6229,7 +6068,9 @@ export type GetLifecycleExecutionError =
   | ServiceUnavailableException
   | CommonErrors;
 /**
- * Get the runtime information that was logged for a specific runtime instance of the lifecycle policy.
+ * Retrieves runtime information for a lifecycle execution – a single run of
+ * lifecycle actions that a lifecycle policy or a
+ * StartResourceStateUpdate request started.
  */
 export const getLifecycleExecution: API.OperationMethod<
   GetLifecycleExecutionRequest,
@@ -6261,7 +6102,7 @@ export type GetLifecyclePolicyError =
   | ServiceUnavailableException
   | CommonErrors;
 /**
- * Get details for the specified image lifecycle policy.
+ * Retrieves details for the specified image lifecycle policy.
  */
 export const getLifecyclePolicy: API.OperationMethod<
   GetLifecyclePolicyRequest,
@@ -6293,9 +6134,10 @@ export type GetMarketplaceResourceError =
   | ServiceUnavailableException
   | CommonErrors;
 /**
- * Verify the subscription and perform resource dependency checks on the requested
- * Amazon Web Services Marketplace resource. For Amazon Web Services Marketplace components, the response contains fields to download the
- * components and their artifacts.
+ * Verifies the subscription and performs resource dependency checks on the
+ * requested Amazon Web Services Marketplace resource. The caller must be entitled to the resource. For
+ * Amazon Web Services Marketplace components, the response contains fields to download the components
+ * and their artifacts.
  */
 export const getMarketplaceResource: API.OperationMethod<
   GetMarketplaceResourceRequest,
@@ -6327,7 +6169,7 @@ export type GetWorkflowError =
   | ServiceUnavailableException
   | CommonErrors;
 /**
- * Get a workflow resource object.
+ * Retrieves a workflow resource object.
  */
 export const getWorkflow: API.OperationMethod<
   GetWorkflowRequest,
@@ -6359,7 +6201,7 @@ export type GetWorkflowExecutionError =
   | ServiceUnavailableException
   | CommonErrors;
 /**
- * Get the runtime information that was logged for a specific runtime instance
+ * Retrieves runtime information for a specific runtime instance
  * of the workflow.
  */
 export const getWorkflowExecution: API.OperationMethod<
@@ -6392,7 +6234,7 @@ export type GetWorkflowStepExecutionError =
   | ServiceUnavailableException
   | CommonErrors;
 /**
- * Get the runtime information that was logged for a specific runtime instance of
+ * Retrieves runtime information for a specific runtime instance of
  * the workflow step.
  */
 export const getWorkflowStepExecution: API.OperationMethod<
@@ -6429,7 +6271,9 @@ export type ImportComponentError =
   | ServiceUnavailableException
   | CommonErrors;
 /**
- * Imports a component and transforms its data into a component document.
+ * Imports a component and transforms its data into a component document. For
+ * the `SHELL` format, Image Builder wraps your script in a component
+ * document with a single step that runs the script.
  */
 export const importComponent: API.OperationMethod<
   ImportComponentRequest,
@@ -6464,10 +6308,15 @@ export type ImportDiskImageError =
   | TooManyRequestsException
   | CommonErrors;
 /**
- * Import a Windows operating system image from a verified Microsoft ISO disk
+ * Imports a Windows operating system image from a verified Microsoft ISO disk
  * file. The following disk images are supported:
  *
  * - Windows 11 Enterprise
+ *
+ * The response returns as soon as Image Builder creates the new image resource in the
+ * `PENDING` state. The conversion from ISO file to AMI then runs
+ * asynchronously on an EC2 instance that Image Builder launches with the specified
+ * infrastructure configuration.
  */
 export const importDiskImage: API.OperationMethod<
   ImportDiskImageRequest,
@@ -6495,14 +6344,17 @@ export type ImportVmImageError =
   | ServiceUnavailableException
   | CommonErrors;
 /**
- * When you export your virtual machine (VM) from its virtualization environment, that
- * process creates a set of one or more disk container files that act as snapshots of your
- * VM’s environment, settings, and data. The Amazon EC2 API ImportImage
- * action uses those files to import your VM and create an AMI. To import using the CLI
- * command, see import-image
+ * Creates an Image Builder image resource from an Amazon EC2 VM import task. The response
+ * returns as soon as Image Builder creates the image resource in the
+ * `PENDING` state. Image Builder then monitors the import task
+ * asynchronously. When the task completes, Image Builder records the AMI that it
+ * produced as the new image's output resource and marks the image
+ * `AVAILABLE`. You can then use the imported image as the base
+ * image for your recipes.
  *
- * You can reference the task ID from the VM import to pull in the AMI that the import
- * created as the base image for your Image Builder recipe.
+ * To create the VM import task, use the Amazon EC2 API ImportImage
+ * operation, or the import-image
+ * CLI command.
  */
 export const importVmImage: API.OperationMethod<
   ImportVmImageRequest,
@@ -6529,8 +6381,10 @@ export type ListComponentBuildVersionsError =
   | ResourceNotFoundException
   | CommonErrors;
 /**
- * Returns the list of component build versions for the specified component
- * version Amazon Resource Name (ARN).
+ * Returns a list of component build versions for the specified component
+ * version ARN. You can only list build versions for components that your
+ * account owns. Deprecated build versions aren't included in the
+ * results.
  */
 export const listComponentBuildVersions: API.PaginatedOperationMethod<
   ListComponentBuildVersionsRequest,
@@ -6572,17 +6426,17 @@ export type ListComponentsError =
   | ServiceUnavailableException
   | CommonErrors;
 /**
- * Returns the list of components that can be filtered by name, or by using the listed
- * `filters` to streamline results. Newly created components can take up to
- * two minutes to appear in the ListComponents API Results.
+ * Returns the list of components that you have access to. By default, the
+ * response doesn't include components in the
+ * `DEPRECATED` state. To list deprecated components, use the
+ * `status` filter with the value `DEPRECATED`.
  *
  * The semantic version has four nodes: ../.
  * You can assign values for the first three, and can filter on all of them.
  *
- * **Filtering:** With semantic versioning, you have the flexibility to use wildcards (x)
- * to specify the most recent versions or nodes when selecting the base image or components for your
- * recipe. When you use a wildcard in any node, all nodes to the right of the first wildcard must also be
- * wildcards.
+ * **Filtering:** You can use wildcards (x) to specify the most recent versions or nodes when
+ * selecting the base image or components for your recipe. When you use a wildcard in any node, all nodes
+ * to the right of the first wildcard must also be wildcards.
  */
 export const listComponents: API.PaginatedOperationMethod<
   ListComponentsRequest,
@@ -6747,7 +6601,7 @@ export type ListImagePackagesError =
   | ServiceUnavailableException
   | CommonErrors;
 /**
- * List the Packages that are associated with an Image Build Version, as determined by
+ * Lists the packages that are associated with an image build version, as determined by
  * Amazon Web Services Systems Manager Inventory at build time.
  */
 export const listImagePackages: API.PaginatedOperationMethod<
@@ -6915,8 +6769,7 @@ export type ListImagesError =
   | ServiceUnavailableException
   | CommonErrors;
 /**
- * Returns the list of images that you have access to. Newly created images can take up
- * to two minutes to appear in the ListImages API Results.
+ * Returns the list of images that you have access to.
  */
 export const listImages: API.PaginatedOperationMethod<
   ListImagesRequest,
@@ -6965,8 +6818,6 @@ export type ListImageScanFindingAggregationsError =
  *
  * To streamline results, you can use the following filters in your request:
  *
- * - `accountId`
- *
  * - `imageBuildVersionArn`
  *
  * - `imagePipelineArn`
@@ -6994,11 +6845,7 @@ export const listImageScanFindingAggregations: API.PaginatedOperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListImageScanFindingAggregations",
-  pagination: {
-    inputToken: "nextToken",
-    outputToken: "nextToken",
-    items: "responses",
-  } as const,
+  pagination: { inputToken: "nextToken", outputToken: "nextToken", items: "responses" } as const,
 })) as any;
 
 export type ListImageScanFindingsError =
@@ -7011,7 +6858,8 @@ export type ListImageScanFindingsError =
   | ServiceUnavailableException
   | CommonErrors;
 /**
- * Returns a list of image scan findings for your account.
+ * Returns a list of image scan findings for your account. Amazon Inspector generates the
+ * findings when it scans images that have scanning enabled.
  */
 export const listImageScanFindings: API.PaginatedOperationMethod<
   ListImageScanFindingsRequest,
@@ -7093,7 +6941,7 @@ export type ListLifecycleExecutionResourcesError =
   | ServiceUnavailableException
   | CommonErrors;
 /**
- * List resources that the runtime instance of the image lifecycle identified for lifecycle actions.
+ * Lists resources that the runtime instance of the image lifecycle identified for lifecycle actions.
  */
 export const listLifecycleExecutionResources: API.PaginatedOperationMethod<
   ListLifecycleExecutionResourcesRequest,
@@ -7134,7 +6982,7 @@ export type ListLifecycleExecutionsError =
   | ServiceUnavailableException
   | CommonErrors;
 /**
- * Get the lifecycle runtime history for the specified resource.
+ * Retrieves the lifecycle runtime history for the specified resource.
  */
 export const listLifecycleExecutions: API.PaginatedOperationMethod<
   ListLifecycleExecutionsRequest,
@@ -7175,7 +7023,7 @@ export type ListLifecyclePoliciesError =
   | ServiceUnavailableException
   | CommonErrors;
 /**
- * Get a list of lifecycle policies in your Amazon Web Services account.
+ * Retrieves a list of lifecycle policies in your Amazon Web Services account.
  */
 export const listLifecyclePolicies: API.PaginatedOperationMethod<
   ListLifecyclePoliciesRequest,
@@ -7238,8 +7086,9 @@ export type ListWaitingWorkflowStepsError =
   | ServiceUnavailableException
   | CommonErrors;
 /**
- * Get a list of workflow steps that are waiting for action for workflows
- * in your Amazon Web Services account.
+ * Lists the workflow steps in your Amazon Web Services account that have paused at a
+ * `WaitForAction` step, and are waiting for you to respond. To send
+ * a response, call SendWorkflowStepAction.
  */
 export const listWaitingWorkflowSteps: API.PaginatedOperationMethod<
   ListWaitingWorkflowStepsRequest,
@@ -7363,7 +7212,9 @@ export type ListWorkflowsError =
   | ServiceUnavailableException
   | CommonErrors;
 /**
- * Lists workflow build versions based on filtering parameters.
+ * Lists workflow versions based on filtering parameters. To list the build
+ * versions of a specific workflow version, call
+ * ListWorkflowBuildVersions.
  */
 export const listWorkflows: API.PaginatedOperationMethod<
   ListWorkflowsRequest,
@@ -7447,9 +7298,10 @@ export type PutComponentPolicyError =
   | ServiceUnavailableException
   | CommonErrors;
 /**
- * Applies a policy to a component. We recommend that you call the RAM API CreateResourceShare to share resources. If you call the Image Builder API
- * `PutComponentPolicy`, you must also call the RAM API PromoteResourceShareCreatedFromPolicy in order for the resource to be
- * visible to all principals with whom the resource is shared.
+ * Applies a policy to a component. The preferred way to share resources is with
+ * the RAM API CreateResourceShare. If you use the PutComponentPolicy operation instead, you
+ * must also call the RAM API PromoteResourceShareCreatedFromPolicy. Otherwise, the resource
+ * isn't visible to the principals that it's shared with.
  */
 export const putComponentPolicy: API.OperationMethod<
   PutComponentPolicyRequest,
@@ -7485,14 +7337,10 @@ export type PutContainerRecipePolicyError =
   | ServiceUnavailableException
   | CommonErrors;
 /**
- * Applies a policy to a container image. We recommend that you call the RAM API
- * CreateResourceShare
- * (https://docs.aws.amazon.com//ram/latest/APIReference/API_CreateResourceShare.html) to share
- * resources. If you call the Image Builder API `PutContainerImagePolicy`, you must also
- * call the RAM API PromoteResourceShareCreatedFromPolicy
- * (https://docs.aws.amazon.com//ram/latest/APIReference/API_PromoteResourceShareCreatedFromPolicy.html)
- * in order for the resource to be visible to all principals with whom the resource is
- * shared.
+ * Applies a policy to a container recipe. The preferred way to share resources is with
+ * the RAM API CreateResourceShare. If you use the PutContainerRecipePolicy operation instead, you
+ * must also call the RAM API PromoteResourceShareCreatedFromPolicy. Otherwise, the resource
+ * isn't visible to the principals that it's shared with.
  */
 export const putContainerRecipePolicy: API.OperationMethod<
   PutContainerRecipePolicyRequest,
@@ -7528,9 +7376,10 @@ export type PutImagePolicyError =
   | ServiceUnavailableException
   | CommonErrors;
 /**
- * Applies a policy to an image. We recommend that you call the RAM API CreateResourceShare to share resources. If you call the Image Builder API
- * `PutImagePolicy`, you must also call the RAM API PromoteResourceShareCreatedFromPolicy in order for the resource to be
- * visible to all principals with whom the resource is shared.
+ * Applies a policy to an image. The preferred way to share resources is with
+ * the RAM API CreateResourceShare. If you use the PutImagePolicy operation instead, you
+ * must also call the RAM API PromoteResourceShareCreatedFromPolicy. Otherwise, the resource
+ * isn't visible to the principals that it's shared with.
  */
 export const putImagePolicy: API.OperationMethod<
   PutImagePolicyRequest,
@@ -7566,9 +7415,10 @@ export type PutImageRecipePolicyError =
   | ServiceUnavailableException
   | CommonErrors;
 /**
- * Applies a policy to an image recipe. We recommend that you call the RAM API CreateResourceShare to share resources. If you call the Image Builder API
- * `PutImageRecipePolicy`, you must also call the RAM API PromoteResourceShareCreatedFromPolicy in order for the resource to be
- * visible to all principals with whom the resource is shared.
+ * Applies a policy to an image recipe. The preferred way to share resources is with
+ * the RAM API CreateResourceShare. If you use the PutImageRecipePolicy operation instead, you
+ * must also call the RAM API PromoteResourceShareCreatedFromPolicy. Otherwise, the resource
+ * isn't visible to the principals that it's shared with.
  */
 export const putImageRecipePolicy: API.OperationMethod<
   PutImageRecipePolicyRequest,
@@ -7604,7 +7454,11 @@ export type RetryImageError =
   | ServiceUnavailableException
   | CommonErrors;
 /**
- * RetryImage retries an image distribution without rebuilding the image.
+ * Retries a failed or canceled image build without rebuilding the phases
+ * that already completed. The image re-runs asynchronously in place: the same
+ * build version returns to the test or distribution phase where it failed and
+ * continues from there. No new image build version is created. Retry is only
+ * supported for AMI-based images.
  */
 export const retryImage: API.OperationMethod<
   RetryImageRequest,
@@ -7642,8 +7496,10 @@ export type SendWorkflowStepActionError =
   | ServiceUnavailableException
   | CommonErrors;
 /**
- * Pauses or resumes image creation when the associated workflow runs a
- * `WaitForAction` step.
+ * Sends an action to a workflow step that has paused at a
+ * `WaitForAction` step, so that image creation can continue.
+ * To find the steps that are waiting for an action, call
+ * ListWaitingWorkflowSteps.
  */
 export const sendWorkflowStepAction: API.OperationMethod<
   SendWorkflowStepActionRequest,
@@ -7682,7 +7538,11 @@ export type StartImagePipelineExecutionError =
   | ServiceUnavailableException
   | CommonErrors;
 /**
- * Manually triggers a pipeline to create an image.
+ * Manually triggers a pipeline to create an image. You can start a build
+ * this way whether the pipeline is enabled or disabled. The response returns
+ * as soon as Image Builder creates the new image resource and queues the build. Use
+ * the returned `imageBuildVersionArn` with
+ * GetImage to track build progress.
  */
 export const startImagePipelineExecution: API.OperationMethod<
   StartImagePipelineExecutionRequest,
@@ -7720,8 +7580,15 @@ export type StartResourceStateUpdateError =
   | ServiceUnavailableException
   | CommonErrors;
 /**
- * Begin asynchronous resource state update for lifecycle changes to the
- * specified image resources.
+ * Begins an ad-hoc state change for the specified image build version.
+ * This is a one-time operation - if you schedule the update, it runs only
+ * once. If the
+ * request includes underlying resources, or schedules the update far enough in
+ * the future, Image Builder runs the update as an asynchronous lifecycle execution and
+ * returns its identifier. Otherwise, for target states other than
+ * `DELETED`, the state change applies immediately. If a request
+ * that starts a lifecycle execution arrives while the image already has one in
+ * progress, Image Builder rejects it.
  */
 export const startResourceStateUpdate: API.OperationMethod<
   StartResourceStateUpdateRequest,
@@ -7804,8 +7671,13 @@ export type UpdateDistributionConfigurationError =
   | ResourceNotFoundException
   | CommonErrors;
 /**
- * Updates a new distribution configuration. Distribution configurations define and
- * configure the outputs of your pipeline.
+ * Updates a distribution configuration. Distribution configurations define and
+ * configure the outputs for your images, including the target Regions,
+ * accounts, and settings for each Region.
+ *
+ * This operation doesn't support selective updates. The request
+ * replaces the stored configuration, so include every setting that you
+ * want to keep.
  */
 export const updateDistributionConfiguration: API.OperationMethod<
   UpdateDistributionConfigurationRequest,
@@ -7844,13 +7716,16 @@ export type UpdateImagePipelineError =
   | ResourceNotFoundException
   | CommonErrors;
 /**
- * Updates an image pipeline. Image pipelines enable you to automate the creation and
+ * Updates an image pipeline. Use image pipelines to automate the creation and
  * distribution of images. You must specify exactly one recipe for your image, using either
- * a `containerRecipeArn` or an `imageRecipeArn`.
+ * a `containerRecipeArn` or an `imageRecipeArn`. The
+ * recipe must be the same type, image or container, as the pipeline's current
+ * recipe.
  *
- * UpdateImagePipeline does not support selective updates for the pipeline. You must
- * specify all of the required properties in the update request, not just the
- * properties that have changed.
+ * UpdateImagePipeline does not support selective updates. The request
+ * replaces the pipeline's entire configuration, so include every setting
+ * that you want to keep. Any optional property that you omit is removed
+ * or reset to its default.
  */
 export const updateImagePipeline: API.OperationMethod<
   UpdateImagePipelineRequest,
@@ -7889,8 +7764,12 @@ export type UpdateInfrastructureConfigurationError =
   | InvalidParameterValueException
   | CommonErrors;
 /**
- * Updates a new infrastructure configuration. An infrastructure configuration defines
- * the environment in which your image will be built and tested.
+ * Updates an infrastructure configuration. An infrastructure configuration defines
+ * the environment in which Image Builder builds and tests your image.
+ *
+ * This operation doesn't support selective updates.
+ * The request replaces the configuration, so include every setting that
+ * you want to keep. Omitted optional properties are cleared.
  */
 export const updateInfrastructureConfiguration: API.OperationMethod<
   UpdateInfrastructureConfigurationRequest,
@@ -7929,7 +7808,10 @@ export type UpdateLifecyclePolicyError =
   | ServiceUnavailableException
   | CommonErrors;
 /**
- * Update the specified lifecycle policy.
+ * Updates the specified lifecycle policy. The request replaces the existing
+ * policy configuration rather than merging changes, so re-specify every setting
+ * that you want to keep. The `resourceType` must match the existing
+ * policy's value.
  */
 export const updateLifecyclePolicy: API.OperationMethod<
   UpdateLifecyclePolicyRequest,

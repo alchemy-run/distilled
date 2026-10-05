@@ -18,16 +18,8 @@ export const CommitVolumeRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     volumeId: S.optional(S.String),
     containerId: S.optional(S.String),
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/modal.client.ModalClient/VolumeCommit",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "CommitVolumeRequest",
-}) as any as S.Schema<CommitVolumeRequest>;
+  }).pipe(T.Http({ method: "POST", uri: "/modal.client.ModalClient/VolumeCommit", code: 200 })),
+).annotate({ identifier: "CommitVolumeRequest" }) as any as S.Schema<CommitVolumeRequest>;
 
 export interface CommitVolumeResponse {
   skipReload?: boolean;
@@ -36,9 +28,7 @@ export const CommitVolumeResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     skipReload: S.optional(S.Boolean),
   }),
-).annotate({
-  identifier: "CommitVolumeResponse",
-}) as any as S.Schema<CommitVolumeResponse>;
+).annotate({ identifier: "CommitVolumeResponse" }) as any as S.Schema<CommitVolumeResponse>;
 
 export interface DeleteVolumeRequest {
   volumeId?: string;
@@ -48,16 +38,8 @@ export const DeleteVolumeRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     volumeId: S.optional(S.String),
     environmentName: S.optional(S.String),
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/modal.client.ModalClient/VolumeDelete",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "DeleteVolumeRequest",
-}) as any as S.Schema<DeleteVolumeRequest>;
+  }).pipe(T.Http({ method: "POST", uri: "/modal.client.ModalClient/VolumeDelete", code: 200 })),
+).annotate({ identifier: "DeleteVolumeRequest" }) as any as S.Schema<DeleteVolumeRequest>;
 
 export interface DeleteVolumeResponse {}
 export const DeleteVolumeResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -83,16 +65,8 @@ export const ListVolumeRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     environmentName: S.optional(S.String),
     pagination: S.optional(ListPagination),
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/modal.client.ModalClient/VolumeList",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "ListVolumeRequest",
-}) as any as S.Schema<ListVolumeRequest>;
+  }).pipe(T.Http({ method: "POST", uri: "/modal.client.ModalClient/VolumeList", code: 200 })),
+).annotate({ identifier: "ListVolumeRequest" }) as any as S.Schema<ListVolumeRequest>;
 
 /** HTTP/2 tunnel */
 export type VolumeFsVersion =
@@ -158,9 +132,7 @@ export const ListVolumeResponse = /*@__PURE__*/ S.suspend(() =>
     items: S.optional(VolumeListItemList),
     environmentName: S.optional(S.String),
   }),
-).annotate({
-  identifier: "ListVolumeResponse",
-}) as any as S.Schema<ListVolumeResponse>;
+).annotate({ identifier: "ListVolumeResponse" }) as any as S.Schema<ListVolumeResponse>;
 
 export interface RenameVolumeRequest {
   volumeId?: string;
@@ -170,16 +142,8 @@ export const RenameVolumeRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     volumeId: S.optional(S.String),
     name: S.optional(S.String),
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/modal.client.ModalClient/VolumeRename",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "RenameVolumeRequest",
-}) as any as S.Schema<RenameVolumeRequest>;
+  }).pipe(T.Http({ method: "POST", uri: "/modal.client.ModalClient/VolumeRename", code: 200 })),
+).annotate({ identifier: "RenameVolumeRequest" }) as any as S.Schema<RenameVolumeRequest>;
 
 export interface RenameVolumeResponse {}
 export const RenameVolumeResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -201,16 +165,8 @@ export const VolumeCopyFilesRequest = /*@__PURE__*/ S.suspend(() =>
     srcPaths: S.optional(StringList),
     dstPath: S.optional(S.String),
     recursive: S.optional(S.Boolean),
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/modal.client.ModalClient/VolumeCopyFiles",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "VolumeCopyFilesRequest",
-}) as any as S.Schema<VolumeCopyFilesRequest>;
+  }).pipe(T.Http({ method: "POST", uri: "/modal.client.ModalClient/VolumeCopyFiles", code: 200 })),
+).annotate({ identifier: "VolumeCopyFilesRequest" }) as any as S.Schema<VolumeCopyFilesRequest>;
 
 export interface VolumeCopyFilesResponse {}
 export const VolumeCopyFilesResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -229,16 +185,8 @@ export const VolumeCopyFiles2Request = /*@__PURE__*/ S.suspend(() =>
     srcPaths: S.optional(StringList),
     dstPath: S.optional(S.String),
     recursive: S.optional(S.Boolean),
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/modal.client.ModalClient/VolumeCopyFiles2",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "VolumeCopyFiles2Request",
-}) as any as S.Schema<VolumeCopyFiles2Request>;
+  }).pipe(T.Http({ method: "POST", uri: "/modal.client.ModalClient/VolumeCopyFiles2", code: 200 })),
+).annotate({ identifier: "VolumeCopyFiles2Request" }) as any as S.Schema<VolumeCopyFiles2Request>;
 
 export interface VolumeCopyFiles2Response {}
 export const VolumeCopyFiles2Response = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -251,16 +199,8 @@ export interface VolumeGetByIdRequest {
 export const VolumeGetByIdRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     volumeId: S.optional(S.String),
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/modal.client.ModalClient/VolumeGetById",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "VolumeGetByIdRequest",
-}) as any as S.Schema<VolumeGetByIdRequest>;
+  }).pipe(T.Http({ method: "POST", uri: "/modal.client.ModalClient/VolumeGetById", code: 200 })),
+).annotate({ identifier: "VolumeGetByIdRequest" }) as any as S.Schema<VolumeGetByIdRequest>;
 
 export interface VolumeGetByIdResponse {
   volumeId?: string;
@@ -271,9 +211,7 @@ export const VolumeGetByIdResponse = /*@__PURE__*/ S.suspend(() =>
     volumeId: S.optional(S.String),
     metadata: S.optional(VolumeMetadata),
   }),
-).annotate({
-  identifier: "VolumeGetByIdResponse",
-}) as any as S.Schema<VolumeGetByIdResponse>;
+).annotate({ identifier: "VolumeGetByIdResponse" }) as any as S.Schema<VolumeGetByIdResponse>;
 
 export interface VolumeGetFileRequest {
   volumeId?: string;
@@ -287,16 +225,8 @@ export const VolumeGetFileRequest = /*@__PURE__*/ S.suspend(() =>
     path: S.optional(S.String),
     start: S.optional(S.String),
     len: S.optional(S.String),
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/modal.client.ModalClient/VolumeGetFile",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "VolumeGetFileRequest",
-}) as any as S.Schema<VolumeGetFileRequest>;
+  }).pipe(T.Http({ method: "POST", uri: "/modal.client.ModalClient/VolumeGetFile", code: 200 })),
+).annotate({ identifier: "VolumeGetFileRequest" }) as any as S.Schema<VolumeGetFileRequest>;
 
 export interface VolumeGetFileResponse {
   data?: string;
@@ -315,15 +245,15 @@ export const VolumeGetFileResponse = /*@__PURE__*/ S.suspend(() =>
     start: S.optional(S.String),
     len: S.optional(S.String),
   }),
-).annotate({
-  identifier: "VolumeGetFileResponse",
-}) as any as S.Schema<VolumeGetFileResponse>;
+).annotate({ identifier: "VolumeGetFileResponse" }) as any as S.Schema<VolumeGetFileResponse>;
 
 export interface VolumeGetFile2Request {
   volumeId?: string;
   path?: string;
   start?: string;
   len?: string;
+  /** 0 is interpreted as 'read to end' The client extends each block body it downloads with zero bytes up to the block's expected length, so responses may omit trailing zero bytes. */
+  clientPadsBlocks?: boolean;
 }
 export const VolumeGetFile2Request = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -331,16 +261,9 @@ export const VolumeGetFile2Request = /*@__PURE__*/ S.suspend(() =>
     path: S.optional(S.String),
     start: S.optional(S.String),
     len: S.optional(S.String),
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/modal.client.ModalClient/VolumeGetFile2",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "VolumeGetFile2Request",
-}) as any as S.Schema<VolumeGetFile2Request>;
+    clientPadsBlocks: S.optional(S.Boolean),
+  }).pipe(T.Http({ method: "POST", uri: "/modal.client.ModalClient/VolumeGetFile2", code: 200 })),
+).annotate({ identifier: "VolumeGetFile2Request" }) as any as S.Schema<VolumeGetFile2Request>;
 
 export interface VolumeGetFile2Response {
   getUrls?: StringList;
@@ -357,9 +280,7 @@ export const VolumeGetFile2Response = /*@__PURE__*/ S.suspend(() =>
     start: S.optional(S.String),
     len: S.optional(S.String),
   }),
-).annotate({
-  identifier: "VolumeGetFile2Response",
-}) as any as S.Schema<VolumeGetFile2Response>;
+).annotate({ identifier: "VolumeGetFile2Response" }) as any as S.Schema<VolumeGetFile2Response>;
 
 export type ObjectCreationType =
   | "OBJECT_CREATION_TYPE_UNSPECIFIED"
@@ -380,9 +301,7 @@ export const VolumeCreateOptions = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     experimentalOptions: S.optional(StringMap),
   }),
-).annotate({
-  identifier: "VolumeCreateOptions",
-}) as any as S.Schema<VolumeCreateOptions>;
+).annotate({ identifier: "VolumeCreateOptions" }) as any as S.Schema<VolumeCreateOptions>;
 
 export interface VolumeGetOrCreateRequest {
   deploymentName?: string;
@@ -403,15 +322,9 @@ export const VolumeGetOrCreateRequest = /*@__PURE__*/ S.suspend(() =>
     version: S.optional(VolumeFsVersion),
     createOptions: S.optional(VolumeCreateOptions),
   }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/modal.client.ModalClient/VolumeGetOrCreate",
-      code: 200,
-    }),
+    T.Http({ method: "POST", uri: "/modal.client.ModalClient/VolumeGetOrCreate", code: 200 }),
   ),
-).annotate({
-  identifier: "VolumeGetOrCreateRequest",
-}) as any as S.Schema<VolumeGetOrCreateRequest>;
+).annotate({ identifier: "VolumeGetOrCreateRequest" }) as any as S.Schema<VolumeGetOrCreateRequest>;
 
 export interface VolumeGetOrCreateResponse {
   volumeId?: string;
@@ -435,16 +348,8 @@ export interface VolumeHeartbeatRequest {
 export const VolumeHeartbeatRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     volumeId: S.optional(S.String),
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/modal.client.ModalClient/VolumeHeartbeat",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "VolumeHeartbeatRequest",
-}) as any as S.Schema<VolumeHeartbeatRequest>;
+  }).pipe(T.Http({ method: "POST", uri: "/modal.client.ModalClient/VolumeHeartbeat", code: 200 })),
+).annotate({ identifier: "VolumeHeartbeatRequest" }) as any as S.Schema<VolumeHeartbeatRequest>;
 
 export interface VolumeHeartbeatResponse {}
 export const VolumeHeartbeatResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -483,16 +388,8 @@ export const VolumePutFilesRequest = /*@__PURE__*/ S.suspend(() =>
     volumeId: S.optional(S.String),
     files: S.optional(MountFileList),
     disallowOverwriteExistingFiles: S.optional(S.Boolean),
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/modal.client.ModalClient/VolumePutFiles",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "VolumePutFilesRequest",
-}) as any as S.Schema<VolumePutFilesRequest>;
+  }).pipe(T.Http({ method: "POST", uri: "/modal.client.ModalClient/VolumePutFiles", code: 200 })),
+).annotate({ identifier: "VolumePutFilesRequest" }) as any as S.Schema<VolumePutFilesRequest>;
 
 export interface VolumePutFilesResponse {}
 export const VolumePutFilesResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -558,16 +455,8 @@ export const VolumePutFiles2Request = /*@__PURE__*/ S.suspend(() =>
     volumeId: S.optional(S.String),
     files: S.optional(VolumePutFiles2RequestFileList),
     disallowOverwriteExistingFiles: S.optional(S.Boolean),
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/modal.client.ModalClient/VolumePutFiles2",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "VolumePutFiles2Request",
-}) as any as S.Schema<VolumePutFiles2Request>;
+  }).pipe(T.Http({ method: "POST", uri: "/modal.client.ModalClient/VolumePutFiles2", code: 200 })),
+).annotate({ identifier: "VolumePutFiles2Request" }) as any as S.Schema<VolumePutFiles2Request>;
 
 export interface VolumePutFiles2ResponseMissingBlock {
   /** Index of the file in the original `files` field of the request. */
@@ -600,9 +489,7 @@ export const VolumePutFiles2Response = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     missingBlocks: S.optional(VolumePutFiles2ResponseMissingBlockList),
   }),
-).annotate({
-  identifier: "VolumePutFiles2Response",
-}) as any as S.Schema<VolumePutFiles2Response>;
+).annotate({ identifier: "VolumePutFiles2Response" }) as any as S.Schema<VolumePutFiles2Response>;
 
 export interface VolumeReloadRequest {
   /** NOTE(staffan): Mounting a volume in multiple locations is not supported, so volume_id alone uniquely identifies a volume mount. */
@@ -611,16 +498,8 @@ export interface VolumeReloadRequest {
 export const VolumeReloadRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     volumeId: S.optional(S.String),
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/modal.client.ModalClient/VolumeReload",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "VolumeReloadRequest",
-}) as any as S.Schema<VolumeReloadRequest>;
+  }).pipe(T.Http({ method: "POST", uri: "/modal.client.ModalClient/VolumeReload", code: 200 })),
+).annotate({ identifier: "VolumeReloadRequest" }) as any as S.Schema<VolumeReloadRequest>;
 
 export interface VolumeReloadResponse {}
 export const VolumeReloadResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -637,16 +516,8 @@ export const VolumeRemoveFileRequest = /*@__PURE__*/ S.suspend(() =>
     volumeId: S.optional(S.String),
     path: S.optional(S.String),
     recursive: S.optional(S.Boolean),
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/modal.client.ModalClient/VolumeRemoveFile",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "VolumeRemoveFileRequest",
-}) as any as S.Schema<VolumeRemoveFileRequest>;
+  }).pipe(T.Http({ method: "POST", uri: "/modal.client.ModalClient/VolumeRemoveFile", code: 200 })),
+).annotate({ identifier: "VolumeRemoveFileRequest" }) as any as S.Schema<VolumeRemoveFileRequest>;
 
 export interface VolumeRemoveFileResponse {}
 export const VolumeRemoveFileResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -664,15 +535,9 @@ export const VolumeRemoveFile2Request = /*@__PURE__*/ S.suspend(() =>
     path: S.optional(S.String),
     recursive: S.optional(S.Boolean),
   }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/modal.client.ModalClient/VolumeRemoveFile2",
-      code: 200,
-    }),
+    T.Http({ method: "POST", uri: "/modal.client.ModalClient/VolumeRemoveFile2", code: 200 }),
   ),
-).annotate({
-  identifier: "VolumeRemoveFile2Request",
-}) as any as S.Schema<VolumeRemoveFile2Request>;
+).annotate({ identifier: "VolumeRemoveFile2Request" }) as any as S.Schema<VolumeRemoveFile2Request>;
 
 export interface VolumeRemoveFile2Response {}
 export const VolumeRemoveFile2Response = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({

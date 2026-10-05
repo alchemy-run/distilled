@@ -17,9 +17,7 @@ export const GetServerTypeRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     id: S.Number.pipe(T.Label()),
   }).pipe(T.Http({ method: "GET", uri: "/server_types/{id}", code: 200 })),
-).annotate({
-  identifier: "GetServerTypeRequest",
-}) as any as S.Schema<GetServerTypeRequest>;
+).annotate({ identifier: "GetServerTypeRequest" }) as any as S.Schema<GetServerTypeRequest>;
 
 /** Hourly price in this [Location](#tag/locations). */
 export interface GetServerTypeResponseServerTypePricesItemPriceHourly {
@@ -204,9 +202,7 @@ export const GetServerTypeResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     server_type: GetServerTypeResponseServerType,
   }),
-).annotate({
-  identifier: "GetServerTypeResponse",
-}) as any as S.Schema<GetServerTypeResponse>;
+).annotate({ identifier: "GetServerTypeResponse" }) as any as S.Schema<GetServerTypeResponse>;
 
 export interface ListServerTypesRequest {
   /** Filter resources by their name. The response will only contain the resources matching exactly the specified name. */
@@ -222,9 +218,7 @@ export const ListServerTypesRequest = /*@__PURE__*/ S.suspend(() =>
     page: S.optional(S.Number.pipe(T.Query())),
     per_page: S.optional(S.Number.pipe(T.Query())),
   }).pipe(T.Http({ method: "GET", uri: "/server_types", code: 200 })),
-).annotate({
-  identifier: "ListServerTypesRequest",
-}) as any as S.Schema<ListServerTypesRequest>;
+).annotate({ identifier: "ListServerTypesRequest" }) as any as S.Schema<ListServerTypesRequest>;
 
 /** Hourly price in this [Location](#tag/locations). */
 export type ListServerTypesResponseServerTypesItemPricesItemPriceHourly =
@@ -398,9 +392,7 @@ export const ListServerTypesResponse = /*@__PURE__*/ S.suspend(() =>
     server_types: ListServerTypesResponseServerTypesList,
     meta: ListServerTypesResponseMeta,
   }),
-).annotate({
-  identifier: "ListServerTypesResponse",
-}) as any as S.Schema<ListServerTypesResponse>;
+).annotate({ identifier: "ListServerTypesResponse" }) as any as S.Schema<ListServerTypesResponse>;
 
 export type GetServerTypeError = HetznerOpError;
 /** Get a Server Type Gets a specific Server type object. */

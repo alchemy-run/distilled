@@ -9,10 +9,7 @@ import { AwsProtocol } from "../protocol.ts";
 import { Retry } from "../retry.ts";
 import { SensitiveString } from "../sensitive.ts";
 import * as T from "../traits.ts";
-const svc = T.AwsApiService({
-  sdkId: "QConnect",
-  serviceShapeName: "WisdomService",
-});
+const svc = T.AwsApiService({ sdkId: "QConnect", serviceShapeName: "WisdomService" });
 const auth = T.AwsAuthSigv4({ name: "wisdom" });
 const ver = T.ServiceVersion("2020-10-19");
 const proto = T.AwsProtocolsRestJson1();
@@ -106,10 +103,7 @@ export class RequestTimeoutException
 export class ResourceNotFoundException
   extends /*@__PURE__*/ S.TaggedError<ResourceNotFoundException>()(
     "ResourceNotFoundException",
-    {
-      message: S.optional(S.String).pipe(T.ErrorMessage()),
-      resourceName: S.optional(S.String),
-    },
+    { message: S.optional(S.String).pipe(T.ErrorMessage()), resourceName: S.optional(S.String) },
     T.HttpError(404),
   ).pipe(C.withBadRequestError) {}
 export class ServiceQuotaExceededException
@@ -127,10 +121,7 @@ export class ThrottlingException
 export class TooManyTagsException
   extends /*@__PURE__*/ S.TaggedError<TooManyTagsException>()(
     "TooManyTagsException",
-    {
-      message: S.optional(S.String).pipe(T.ErrorMessage()),
-      resourceName: S.optional(S.String),
-    },
+    { message: S.optional(S.String).pipe(T.ErrorMessage()), resourceName: S.optional(S.String) },
     T.HttpError(400),
   ).pipe(C.withBadRequestError) {}
 export class UnauthorizedException
@@ -188,11 +179,7 @@ export interface ActivateMessageTemplateResponse {
   versionNumber: number;
 }
 export const ActivateMessageTemplateResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    messageTemplateArn: S.String,
-    messageTemplateId: S.String,
-    versionNumber: S.Number,
-  }),
+  S.Struct({ messageTemplateArn: S.String, messageTemplateId: S.String, versionNumber: S.Number }),
 ).annotate({
   identifier: "ActivateMessageTemplateResponse",
 }) as any as S.Schema<ActivateMessageTemplateResponse>;
@@ -223,16 +210,8 @@ export type OrConditions = OrCondition[];
 export const OrConditions = /*@__PURE__*/ S.Array(OrCondition);
 export type TagFilter =
   | { tagCondition: TagCondition; andConditions?: never; orConditions?: never }
-  | {
-      tagCondition?: never;
-      andConditions: TagCondition[];
-      orConditions?: never;
-    }
-  | {
-      tagCondition?: never;
-      andConditions?: never;
-      orConditions: OrCondition[];
-    };
+  | { tagCondition?: never; andConditions: TagCondition[]; orConditions?: never }
+  | { tagCondition?: never; andConditions?: never; orConditions: OrCondition[] };
 export const TagFilter = /*@__PURE__*/ S.Union([
   S.Struct({ tagCondition: TagCondition }),
   S.Struct({ andConditions: AndConditions }),
@@ -273,9 +252,7 @@ export const AssociationConfiguration = /*@__PURE__*/ S.suspend(() =>
     associationType: S.optional(S.String),
     associationConfigurationData: S.optional(AssociationConfigurationData),
   }),
-).annotate({
-  identifier: "AssociationConfiguration",
-}) as any as S.Schema<AssociationConfiguration>;
+).annotate({ identifier: "AssociationConfiguration" }) as any as S.Schema<AssociationConfiguration>;
 export type AssociationConfigurationList = AssociationConfiguration[];
 export const AssociationConfigurationList = /*@__PURE__*/ S.Array(AssociationConfiguration);
 export type NonEmptyString = string;
@@ -357,10 +334,7 @@ export interface EmailOverviewAIAgentConfiguration {
   locale?: string;
 }
 export const EmailOverviewAIAgentConfiguration = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    emailOverviewAIPromptId: S.optional(S.String),
-    locale: S.optional(S.String),
-  }),
+  S.Struct({ emailOverviewAIPromptId: S.optional(S.String), locale: S.optional(S.String) }),
 ).annotate({
   identifier: "EmailOverviewAIAgentConfiguration",
 }) as any as S.Schema<EmailOverviewAIAgentConfiguration>;
@@ -388,13 +362,8 @@ export interface ToolInstruction {
   examples?: string[];
 }
 export const ToolInstruction = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    instruction: S.optional(S.String),
-    examples: S.optional(ToolExampleList),
-  }),
-).annotate({
-  identifier: "ToolInstruction",
-}) as any as S.Schema<ToolInstruction>;
+  S.Struct({ instruction: S.optional(S.String), examples: S.optional(ToolExampleList) }),
+).annotate({ identifier: "ToolInstruction" }) as any as S.Schema<ToolInstruction>;
 export type ToolOverrideInputValueType = string;
 export interface ToolOverrideConstantInputValue {
   type: string;
@@ -405,9 +374,7 @@ export const ToolOverrideConstantInputValue = /*@__PURE__*/ S.suspend(() =>
 ).annotate({
   identifier: "ToolOverrideConstantInputValue",
 }) as any as S.Schema<ToolOverrideConstantInputValue>;
-export type ToolOverrideInputValueConfiguration = {
-  constant: ToolOverrideConstantInputValue;
-};
+export type ToolOverrideInputValueConfiguration = { constant: ToolOverrideConstantInputValue };
 export const ToolOverrideInputValueConfiguration = /*@__PURE__*/ S.Union([
   S.Struct({ constant: ToolOverrideConstantInputValue }),
 ]);
@@ -417,9 +384,7 @@ export interface ToolOverrideInputValue {
 }
 export const ToolOverrideInputValue = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ jsonPath: S.String, value: ToolOverrideInputValueConfiguration }),
-).annotate({
-  identifier: "ToolOverrideInputValue",
-}) as any as S.Schema<ToolOverrideInputValue>;
+).annotate({ identifier: "ToolOverrideInputValue" }) as any as S.Schema<ToolOverrideInputValue>;
 export type ToolOverrideInputValueList = ToolOverrideInputValue[];
 export const ToolOverrideInputValueList = /*@__PURE__*/ S.Array(ToolOverrideInputValue);
 export interface ToolOutputConfiguration {
@@ -431,21 +396,14 @@ export const ToolOutputConfiguration = /*@__PURE__*/ S.suspend(() =>
     outputVariableNameOverride: S.optional(S.String),
     sessionDataNamespace: S.optional(S.String),
   }),
-).annotate({
-  identifier: "ToolOutputConfiguration",
-}) as any as S.Schema<ToolOutputConfiguration>;
+).annotate({ identifier: "ToolOutputConfiguration" }) as any as S.Schema<ToolOutputConfiguration>;
 export interface ToolOutputFilter {
   jsonPath: string;
   outputConfiguration?: ToolOutputConfiguration;
 }
 export const ToolOutputFilter = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    jsonPath: S.String,
-    outputConfiguration: S.optional(ToolOutputConfiguration),
-  }),
-).annotate({
-  identifier: "ToolOutputFilter",
-}) as any as S.Schema<ToolOutputFilter>;
+  S.Struct({ jsonPath: S.String, outputConfiguration: S.optional(ToolOutputConfiguration) }),
+).annotate({ identifier: "ToolOutputFilter" }) as any as S.Schema<ToolOutputFilter>;
 export type ToolOutputFilterList = ToolOutputFilter[];
 export const ToolOutputFilterList = /*@__PURE__*/ S.Array(ToolOutputFilter);
 export type JSONDocument = unknown;
@@ -454,10 +412,7 @@ export interface Annotation {
   destructiveHint?: boolean;
 }
 export const Annotation = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    title: S.optional(S.String),
-    destructiveHint: S.optional(S.Boolean),
-  }),
+  S.Struct({ title: S.optional(S.String), destructiveHint: S.optional(S.Boolean) }),
 ).annotate({ identifier: "Annotation" }) as any as S.Schema<Annotation>;
 export interface UserInteractionConfiguration {
   isUserConfirmationRequired?: boolean;
@@ -496,26 +451,82 @@ export const ToolConfiguration = /*@__PURE__*/ S.suspend(() =>
     annotations: S.optional(Annotation),
     userInteractionConfiguration: S.optional(UserInteractionConfiguration),
   }),
-).annotate({
-  identifier: "ToolConfiguration",
-}) as any as S.Schema<ToolConfiguration>;
+).annotate({ identifier: "ToolConfiguration" }) as any as S.Schema<ToolConfiguration>;
 export type ToolConfigurationList = ToolConfiguration[];
 export const ToolConfigurationList = /*@__PURE__*/ S.Array(ToolConfiguration);
+export type AgentTarget =
+  | { aiAgentId: string; applicationId?: never }
+  | { aiAgentId?: never; applicationId: string };
+export const AgentTarget = /*@__PURE__*/ S.Union([
+  S.Struct({ aiAgentId: S.String }),
+  S.Struct({ applicationId: S.String }),
+]);
+export type MultiAgentExampleList = string[];
+export const MultiAgentExampleList = /*@__PURE__*/ S.Array(S.String);
+export interface MultiAgentInstruction {
+  instruction?: string;
+  examples?: string[];
+}
+export const MultiAgentInstruction = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({ instruction: S.optional(S.String), examples: S.optional(MultiAgentExampleList) }),
+).annotate({ identifier: "MultiAgentInstruction" }) as any as S.Schema<MultiAgentInstruction>;
+export interface DelegateAgentConfiguration {
+  agentTarget: AgentTarget;
+  instruction?: MultiAgentInstruction;
+}
+export const DelegateAgentConfiguration = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({ agentTarget: AgentTarget, instruction: S.optional(MultiAgentInstruction) }),
+).annotate({
+  identifier: "DelegateAgentConfiguration",
+}) as any as S.Schema<DelegateAgentConfiguration>;
+export interface HandoffAgentConfiguration {
+  agentTarget: AgentTarget;
+  instruction?: MultiAgentInstruction;
+  audioStreamingEnabled?: boolean;
+  immediateHandoff?: boolean;
+}
+export const HandoffAgentConfiguration = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    agentTarget: AgentTarget,
+    instruction: S.optional(MultiAgentInstruction),
+    audioStreamingEnabled: S.optional(S.Boolean),
+    immediateHandoff: S.optional(S.Boolean),
+  }),
+).annotate({
+  identifier: "HandoffAgentConfiguration",
+}) as any as S.Schema<HandoffAgentConfiguration>;
+export type MultiAgentConfiguration =
+  | { delegateAgentConfiguration: DelegateAgentConfiguration; handoffAgentConfiguration?: never }
+  | { delegateAgentConfiguration?: never; handoffAgentConfiguration: HandoffAgentConfiguration };
+export const MultiAgentConfiguration = /*@__PURE__*/ S.Union([
+  S.Struct({ delegateAgentConfiguration: DelegateAgentConfiguration }),
+  S.Struct({ handoffAgentConfiguration: HandoffAgentConfiguration }),
+]);
+export type MultiAgentConfigurationList = MultiAgentConfiguration[];
+export const MultiAgentConfigurationList = /*@__PURE__*/ S.Array(MultiAgentConfiguration);
 export type GenericArn = string;
+export type JSONDocumentList = any[];
+export const JSONDocumentList = /*@__PURE__*/ S.Array(S.Any);
 export interface OrchestrationAIAgentConfiguration {
-  orchestrationAIPromptId: string;
+  orchestrationAIPromptId?: string;
   orchestrationAIGuardrailId?: string;
   toolConfigurations?: ToolConfiguration[];
+  multiAgentConfigurations?: MultiAgentConfiguration[];
   connectInstanceArn?: string;
   locale?: string;
+  inputSchemas?: any[];
+  outputSchemas?: any[];
 }
 export const OrchestrationAIAgentConfiguration = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    orchestrationAIPromptId: S.String,
+    orchestrationAIPromptId: S.optional(S.String),
     orchestrationAIGuardrailId: S.optional(S.String),
     toolConfigurations: S.optional(ToolConfigurationList),
+    multiAgentConfigurations: S.optional(MultiAgentConfigurationList),
     connectInstanceArn: S.optional(S.String),
     locale: S.optional(S.String),
+    inputSchemas: S.optional(JSONDocumentList),
+    outputSchemas: S.optional(JSONDocumentList),
   }),
 ).annotate({
   identifier: "OrchestrationAIAgentConfiguration",
@@ -649,31 +660,17 @@ export type AIAgentConfiguration =
       caseSummarizationAIAgentConfiguration: CaseSummarizationAIAgentConfiguration;
     };
 export const AIAgentConfiguration = /*@__PURE__*/ S.Union([
-  S.Struct({
-    manualSearchAIAgentConfiguration: ManualSearchAIAgentConfiguration,
-  }),
-  S.Struct({
-    answerRecommendationAIAgentConfiguration: AnswerRecommendationAIAgentConfiguration,
-  }),
-  S.Struct({
-    selfServiceAIAgentConfiguration: SelfServiceAIAgentConfiguration,
-  }),
-  S.Struct({
-    emailResponseAIAgentConfiguration: EmailResponseAIAgentConfiguration,
-  }),
-  S.Struct({
-    emailOverviewAIAgentConfiguration: EmailOverviewAIAgentConfiguration,
-  }),
+  S.Struct({ manualSearchAIAgentConfiguration: ManualSearchAIAgentConfiguration }),
+  S.Struct({ answerRecommendationAIAgentConfiguration: AnswerRecommendationAIAgentConfiguration }),
+  S.Struct({ selfServiceAIAgentConfiguration: SelfServiceAIAgentConfiguration }),
+  S.Struct({ emailResponseAIAgentConfiguration: EmailResponseAIAgentConfiguration }),
+  S.Struct({ emailOverviewAIAgentConfiguration: EmailOverviewAIAgentConfiguration }),
   S.Struct({
     emailGenerativeAnswerAIAgentConfiguration: EmailGenerativeAnswerAIAgentConfiguration,
   }),
-  S.Struct({
-    orchestrationAIAgentConfiguration: OrchestrationAIAgentConfiguration,
-  }),
+  S.Struct({ orchestrationAIAgentConfiguration: OrchestrationAIAgentConfiguration }),
   S.Struct({ noteTakingAIAgentConfiguration: NoteTakingAIAgentConfiguration }),
-  S.Struct({
-    caseSummarizationAIAgentConfiguration: CaseSummarizationAIAgentConfiguration,
-  }),
+  S.Struct({ caseSummarizationAIAgentConfiguration: CaseSummarizationAIAgentConfiguration }),
 ]);
 export type VisibilityStatus = string;
 export type Tags = { [key: string]: string | undefined };
@@ -709,9 +706,7 @@ export const CreateAIAgentRequest = /*@__PURE__*/ S.suspend(() =>
       rules,
     ),
   ),
-).annotate({
-  identifier: "CreateAIAgentRequest",
-}) as any as S.Schema<CreateAIAgentRequest>;
+).annotate({ identifier: "CreateAIAgentRequest" }) as any as S.Schema<CreateAIAgentRequest>;
 export type Arn = string;
 export type Origin = string;
 export type Status = string;
@@ -752,9 +747,7 @@ export interface CreateAIAgentResponse {
 }
 export const CreateAIAgentResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ aiAgent: S.optional(AIAgentData) }),
-).annotate({
-  identifier: "CreateAIAgentResponse",
-}) as any as S.Schema<CreateAIAgentResponse>;
+).annotate({ identifier: "CreateAIAgentResponse" }) as any as S.Schema<CreateAIAgentResponse>;
 export interface CreateAIAgentVersionRequest {
   assistantId: string;
   aiAgentId: string;
@@ -769,10 +762,7 @@ export const CreateAIAgentVersionRequest = /*@__PURE__*/ S.suspend(() =>
     clientToken: S.optional(S.String).pipe(T.IdempotencyToken()),
   }).pipe(
     T.all(
-      T.Http({
-        method: "POST",
-        uri: "/assistants/{assistantId}/aiagents/{aiAgentId}/versions",
-      }),
+      T.Http({ method: "POST", uri: "/assistants/{assistantId}/aiagents/{aiAgentId}/versions" }),
       svc,
       auth,
       proto,
@@ -788,10 +778,7 @@ export interface CreateAIAgentVersionResponse {
   versionNumber?: number;
 }
 export const CreateAIAgentVersionResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    aiAgent: S.optional(AIAgentData),
-    versionNumber: S.optional(S.Number),
-  }),
+  S.Struct({ aiAgent: S.optional(AIAgentData), versionNumber: S.optional(S.Number) }),
 ).annotate({
   identifier: "CreateAIAgentVersionResponse",
 }) as any as S.Schema<CreateAIAgentVersionResponse>;
@@ -816,9 +803,7 @@ export const GuardrailTopicConfig = /*@__PURE__*/ S.suspend(() =>
     examples: S.optional(GuardrailTopicExamples),
     type: SensitiveString,
   }),
-).annotate({
-  identifier: "GuardrailTopicConfig",
-}) as any as S.Schema<GuardrailTopicConfig>;
+).annotate({ identifier: "GuardrailTopicConfig" }) as any as S.Schema<GuardrailTopicConfig>;
 export type GuardrailTopicsConfig = GuardrailTopicConfig[];
 export const GuardrailTopicsConfig = /*@__PURE__*/ S.Array(GuardrailTopicConfig);
 export interface AIGuardrailTopicPolicyConfig {
@@ -861,9 +846,7 @@ export interface GuardrailWordConfig {
 }
 export const GuardrailWordConfig = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ text: SensitiveString }),
-).annotate({
-  identifier: "GuardrailWordConfig",
-}) as any as S.Schema<GuardrailWordConfig>;
+).annotate({ identifier: "GuardrailWordConfig" }) as any as S.Schema<GuardrailWordConfig>;
 export type GuardrailWordsConfig = GuardrailWordConfig[];
 export const GuardrailWordsConfig = /*@__PURE__*/ S.Array(GuardrailWordConfig);
 export type GuardrailManagedWordsType = string | redacted.Redacted<string>;
@@ -897,9 +880,7 @@ export interface GuardrailPiiEntityConfig {
 }
 export const GuardrailPiiEntityConfig = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ type: SensitiveString, action: SensitiveString }),
-).annotate({
-  identifier: "GuardrailPiiEntityConfig",
-}) as any as S.Schema<GuardrailPiiEntityConfig>;
+).annotate({ identifier: "GuardrailPiiEntityConfig" }) as any as S.Schema<GuardrailPiiEntityConfig>;
 export type GuardrailPiiEntitiesConfig = GuardrailPiiEntityConfig[];
 export const GuardrailPiiEntitiesConfig = /*@__PURE__*/ S.Array(GuardrailPiiEntityConfig);
 export type GuardrailRegexName = string | redacted.Redacted<string>;
@@ -918,9 +899,7 @@ export const GuardrailRegexConfig = /*@__PURE__*/ S.suspend(() =>
     pattern: SensitiveString,
     action: SensitiveString,
   }),
-).annotate({
-  identifier: "GuardrailRegexConfig",
-}) as any as S.Schema<GuardrailRegexConfig>;
+).annotate({ identifier: "GuardrailRegexConfig" }) as any as S.Schema<GuardrailRegexConfig>;
 export type GuardrailRegexesConfig = GuardrailRegexConfig[];
 export const GuardrailRegexesConfig = /*@__PURE__*/ S.Array(GuardrailRegexConfig);
 export interface AIGuardrailSensitiveInformationPolicyConfig {
@@ -998,9 +977,7 @@ export const CreateAIGuardrailRequest = /*@__PURE__*/ S.suspend(() =>
       rules,
     ),
   ),
-).annotate({
-  identifier: "CreateAIGuardrailRequest",
-}) as any as S.Schema<CreateAIGuardrailRequest>;
+).annotate({ identifier: "CreateAIGuardrailRequest" }) as any as S.Schema<CreateAIGuardrailRequest>;
 export interface AIGuardrailData {
   assistantId: string;
   assistantArn: string;
@@ -1040,9 +1017,7 @@ export const AIGuardrailData = /*@__PURE__*/ S.suspend(() =>
     status: S.optional(S.String),
     modifiedTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
   }),
-).annotate({
-  identifier: "AIGuardrailData",
-}) as any as S.Schema<AIGuardrailData>;
+).annotate({ identifier: "AIGuardrailData" }) as any as S.Schema<AIGuardrailData>;
 export interface CreateAIGuardrailResponse {
   aiGuardrail?: AIGuardrailData;
 }
@@ -1084,10 +1059,7 @@ export interface CreateAIGuardrailVersionResponse {
   versionNumber?: number;
 }
 export const CreateAIGuardrailVersionResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    aiGuardrail: S.optional(AIGuardrailData),
-    versionNumber: S.optional(S.Number),
-  }),
+  S.Struct({ aiGuardrail: S.optional(AIGuardrailData), versionNumber: S.optional(S.Number) }),
 ).annotate({
   identifier: "CreateAIGuardrailVersionResponse",
 }) as any as S.Schema<CreateAIGuardrailVersionResponse>;
@@ -1169,9 +1141,7 @@ export const CreateAIPromptRequest = /*@__PURE__*/ S.suspend(() =>
       rules,
     ),
   ),
-).annotate({
-  identifier: "CreateAIPromptRequest",
-}) as any as S.Schema<CreateAIPromptRequest>;
+).annotate({ identifier: "CreateAIPromptRequest" }) as any as S.Schema<CreateAIPromptRequest>;
 export interface AIPromptData {
   assistantId: string;
   assistantArn: string;
@@ -1217,9 +1187,7 @@ export interface CreateAIPromptResponse {
 }
 export const CreateAIPromptResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ aiPrompt: S.optional(AIPromptData) }),
-).annotate({
-  identifier: "CreateAIPromptResponse",
-}) as any as S.Schema<CreateAIPromptResponse>;
+).annotate({ identifier: "CreateAIPromptResponse" }) as any as S.Schema<CreateAIPromptResponse>;
 export interface CreateAIPromptVersionRequest {
   assistantId: string;
   aiPromptId: string;
@@ -1234,10 +1202,7 @@ export const CreateAIPromptVersionRequest = /*@__PURE__*/ S.suspend(() =>
     clientToken: S.optional(S.String).pipe(T.IdempotencyToken()),
   }).pipe(
     T.all(
-      T.Http({
-        method: "POST",
-        uri: "/assistants/{assistantId}/aiprompts/{aiPromptId}/versions",
-      }),
+      T.Http({ method: "POST", uri: "/assistants/{assistantId}/aiprompts/{aiPromptId}/versions" }),
       svc,
       auth,
       proto,
@@ -1253,10 +1218,7 @@ export interface CreateAIPromptVersionResponse {
   versionNumber?: number;
 }
 export const CreateAIPromptVersionResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    aiPrompt: S.optional(AIPromptData),
-    versionNumber: S.optional(S.Number),
-  }),
+  S.Struct({ aiPrompt: S.optional(AIPromptData), versionNumber: S.optional(S.Number) }),
 ).annotate({
   identifier: "CreateAIPromptVersionResponse",
 }) as any as S.Schema<CreateAIPromptVersionResponse>;
@@ -1286,9 +1248,7 @@ export const CreateAssistantRequest = /*@__PURE__*/ S.suspend(() =>
     tags: S.optional(Tags),
     serverSideEncryptionConfiguration: S.optional(ServerSideEncryptionConfiguration),
   }).pipe(T.all(T.Http({ method: "POST", uri: "/assistants" }), svc, auth, proto, ver, rules)),
-).annotate({
-  identifier: "CreateAssistantRequest",
-}) as any as S.Schema<CreateAssistantRequest>;
+).annotate({ identifier: "CreateAssistantRequest" }) as any as S.Schema<CreateAssistantRequest>;
 export type AssistantStatus = string;
 export interface AssistantIntegrationConfiguration {
   topicIntegrationArn?: string;
@@ -1309,15 +1269,12 @@ export const AssistantCapabilityConfiguration = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<AssistantCapabilityConfiguration>;
 export interface AIAgentConfigurationData {
   aiAgentId: string;
+  enabled?: boolean;
 }
 export const AIAgentConfigurationData = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ aiAgentId: S.String }),
-).annotate({
-  identifier: "AIAgentConfigurationData",
-}) as any as S.Schema<AIAgentConfigurationData>;
-export type AIAgentConfigurationMap = {
-  [key: string]: AIAgentConfigurationData | undefined;
-};
+  S.Struct({ aiAgentId: S.String, enabled: S.optional(S.Boolean) }),
+).annotate({ identifier: "AIAgentConfigurationData" }) as any as S.Schema<AIAgentConfigurationData>;
+export type AIAgentConfigurationMap = { [key: string]: AIAgentConfigurationData | undefined };
 export const AIAgentConfigurationMap = /*@__PURE__*/ S.Record(
   S.String,
   AIAgentConfigurationData.pipe(S.optional),
@@ -1344,9 +1301,7 @@ export interface AssistantData {
   serverSideEncryptionConfiguration?: ServerSideEncryptionConfiguration;
   integrationConfiguration?: AssistantIntegrationConfiguration;
   capabilityConfiguration?: AssistantCapabilityConfiguration;
-  aiAgentConfiguration?: {
-    [key: string]: AIAgentConfigurationData | undefined;
-  };
+  aiAgentConfiguration?: { [key: string]: AIAgentConfigurationData | undefined };
   orchestratorConfigurationList?: OrchestratorConfigurationEntry[];
 }
 export const AssistantData = /*@__PURE__*/ S.suspend(() =>
@@ -1370,9 +1325,7 @@ export interface CreateAssistantResponse {
 }
 export const CreateAssistantResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ assistant: S.optional(AssistantData) }),
-).annotate({
-  identifier: "CreateAssistantResponse",
-}) as any as S.Schema<CreateAssistantResponse>;
+).annotate({ identifier: "CreateAssistantResponse" }) as any as S.Schema<CreateAssistantResponse>;
 export type AssociationType = string;
 export type BedrockKnowledgeBaseArn = string;
 export type AccessRoleArn = string;
@@ -1393,9 +1346,7 @@ export type AssistantAssociationInputData =
     };
 export const AssistantAssociationInputData = /*@__PURE__*/ S.Union([
   S.Struct({ knowledgeBaseId: S.String }),
-  S.Struct({
-    externalBedrockKnowledgeBaseConfig: ExternalBedrockKnowledgeBaseConfig,
-  }),
+  S.Struct({ externalBedrockKnowledgeBaseConfig: ExternalBedrockKnowledgeBaseConfig }),
 ]);
 export interface CreateAssistantAssociationRequest {
   assistantId: string;
@@ -1429,10 +1380,7 @@ export interface KnowledgeBaseAssociationData {
   knowledgeBaseArn?: string;
 }
 export const KnowledgeBaseAssociationData = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    knowledgeBaseId: S.optional(S.String),
-    knowledgeBaseArn: S.optional(S.String),
-  }),
+  S.Struct({ knowledgeBaseId: S.optional(S.String), knowledgeBaseArn: S.optional(S.String) }),
 ).annotate({
   identifier: "KnowledgeBaseAssociationData",
 }) as any as S.Schema<KnowledgeBaseAssociationData>;
@@ -1447,9 +1395,7 @@ export type AssistantAssociationOutputData =
     };
 export const AssistantAssociationOutputData = /*@__PURE__*/ S.Union([
   S.Struct({ knowledgeBaseAssociation: KnowledgeBaseAssociationData }),
-  S.Struct({
-    externalBedrockKnowledgeBaseConfig: ExternalBedrockKnowledgeBaseConfig,
-  }),
+  S.Struct({ externalBedrockKnowledgeBaseConfig: ExternalBedrockKnowledgeBaseConfig }),
 ]);
 export interface AssistantAssociationData {
   assistantAssociationId: string;
@@ -1470,9 +1416,7 @@ export const AssistantAssociationData = /*@__PURE__*/ S.suspend(() =>
     associationData: AssistantAssociationOutputData,
     tags: S.optional(Tags),
   }),
-).annotate({
-  identifier: "AssistantAssociationData",
-}) as any as S.Schema<AssistantAssociationData>;
+).annotate({ identifier: "AssistantAssociationData" }) as any as S.Schema<AssistantAssociationData>;
 export interface CreateAssistantAssociationResponse {
   assistantAssociation?: AssistantAssociationData;
 }
@@ -1508,10 +1452,7 @@ export const CreateContentRequest = /*@__PURE__*/ S.suspend(() =>
     tags: S.optional(Tags),
   }).pipe(
     T.all(
-      T.Http({
-        method: "POST",
-        uri: "/knowledgeBases/{knowledgeBaseId}/contents",
-      }),
+      T.Http({ method: "POST", uri: "/knowledgeBases/{knowledgeBaseId}/contents" }),
       svc,
       auth,
       proto,
@@ -1519,9 +1460,7 @@ export const CreateContentRequest = /*@__PURE__*/ S.suspend(() =>
       rules,
     ),
   ),
-).annotate({
-  identifier: "CreateContentRequest",
-}) as any as S.Schema<CreateContentRequest>;
+).annotate({ identifier: "CreateContentRequest" }) as any as S.Schema<CreateContentRequest>;
 export type ContentType = string;
 export type ContentStatus = string;
 export type Url = string | redacted.Redacted<string>;
@@ -1564,9 +1503,7 @@ export interface CreateContentResponse {
 }
 export const CreateContentResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ content: S.optional(ContentData) }),
-).annotate({
-  identifier: "CreateContentResponse",
-}) as any as S.Schema<CreateContentResponse>;
+).annotate({ identifier: "CreateContentResponse" }) as any as S.Schema<CreateContentResponse>;
 export type ContentAssociationType = string;
 export interface AmazonConnectGuideAssociationData {
   flowId?: string;
@@ -1580,9 +1517,7 @@ export type ContentAssociationContents = {
   amazonConnectGuideAssociation: AmazonConnectGuideAssociationData;
 };
 export const ContentAssociationContents = /*@__PURE__*/ S.Union([
-  S.Struct({
-    amazonConnectGuideAssociation: AmazonConnectGuideAssociationData,
-  }),
+  S.Struct({ amazonConnectGuideAssociation: AmazonConnectGuideAssociationData }),
 ]);
 export interface CreateContentAssociationRequest {
   clientToken?: string;
@@ -1639,9 +1574,7 @@ export const ContentAssociationData = /*@__PURE__*/ S.suspend(() =>
     associationData: ContentAssociationContents,
     tags: S.optional(Tags),
   }),
-).annotate({
-  identifier: "ContentAssociationData",
-}) as any as S.Schema<ContentAssociationData>;
+).annotate({ identifier: "ContentAssociationData" }) as any as S.Schema<ContentAssociationData>;
 export interface CreateContentAssociationResponse {
   contentAssociation?: ContentAssociationData;
 }
@@ -1658,10 +1591,7 @@ export interface AppIntegrationsConfiguration {
   objectFields?: string[];
 }
 export const AppIntegrationsConfiguration = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    appIntegrationArn: S.String,
-    objectFields: S.optional(ObjectFieldsList),
-  }),
+  S.Struct({ appIntegrationArn: S.String, objectFields: S.optional(ObjectFieldsList) }),
 ).annotate({
   identifier: "AppIntegrationsConfiguration",
 }) as any as S.Schema<AppIntegrationsConfiguration>;
@@ -1679,17 +1609,13 @@ export interface UrlConfiguration {
 }
 export const UrlConfiguration = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ seedUrls: S.optional(SeedUrls) }),
-).annotate({
-  identifier: "UrlConfiguration",
-}) as any as S.Schema<UrlConfiguration>;
+).annotate({ identifier: "UrlConfiguration" }) as any as S.Schema<UrlConfiguration>;
 export interface WebCrawlerLimits {
   rateLimit?: number;
 }
 export const WebCrawlerLimits = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ rateLimit: S.optional(S.Number) }),
-).annotate({
-  identifier: "WebCrawlerLimits",
-}) as any as S.Schema<WebCrawlerLimits>;
+).annotate({ identifier: "WebCrawlerLimits" }) as any as S.Schema<WebCrawlerLimits>;
 export type UrlFilterPattern = string | redacted.Redacted<string>;
 export type UrlFilterList = (string | redacted.Redacted<string>)[];
 export const UrlFilterList = /*@__PURE__*/ S.Array(SensitiveString);
@@ -1709,24 +1635,14 @@ export const WebCrawlerConfiguration = /*@__PURE__*/ S.suspend(() =>
     exclusionFilters: S.optional(UrlFilterList),
     scope: S.optional(S.String),
   }),
-).annotate({
-  identifier: "WebCrawlerConfiguration",
-}) as any as S.Schema<WebCrawlerConfiguration>;
-export type ManagedSourceConfiguration = {
-  webCrawlerConfiguration: WebCrawlerConfiguration;
-};
+).annotate({ identifier: "WebCrawlerConfiguration" }) as any as S.Schema<WebCrawlerConfiguration>;
+export type ManagedSourceConfiguration = { webCrawlerConfiguration: WebCrawlerConfiguration };
 export const ManagedSourceConfiguration = /*@__PURE__*/ S.Union([
   S.Struct({ webCrawlerConfiguration: WebCrawlerConfiguration }),
 ]);
 export type SourceConfiguration =
-  | {
-      appIntegrations: AppIntegrationsConfiguration;
-      managedSourceConfiguration?: never;
-    }
-  | {
-      appIntegrations?: never;
-      managedSourceConfiguration: ManagedSourceConfiguration;
-    };
+  | { appIntegrations: AppIntegrationsConfiguration; managedSourceConfiguration?: never }
+  | { appIntegrations?: never; managedSourceConfiguration: ManagedSourceConfiguration };
 export const SourceConfiguration = /*@__PURE__*/ S.Union([
   S.Struct({ appIntegrations: AppIntegrationsConfiguration }),
   S.Struct({ managedSourceConfiguration: ManagedSourceConfiguration }),
@@ -1736,9 +1652,7 @@ export interface RenderingConfiguration {
 }
 export const RenderingConfiguration = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ templateUri: S.optional(S.String) }),
-).annotate({
-  identifier: "RenderingConfiguration",
-}) as any as S.Schema<RenderingConfiguration>;
+).annotate({ identifier: "RenderingConfiguration" }) as any as S.Schema<RenderingConfiguration>;
 export type ChunkingStrategy = string;
 export interface FixedSizeChunkingConfiguration {
   maxTokens: number;
@@ -1779,11 +1693,7 @@ export interface SemanticChunkingConfiguration {
   breakpointPercentileThreshold: number;
 }
 export const SemanticChunkingConfiguration = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    maxTokens: S.Number,
-    bufferSize: S.Number,
-    breakpointPercentileThreshold: S.Number,
-  }),
+  S.Struct({ maxTokens: S.Number, bufferSize: S.Number, breakpointPercentileThreshold: S.Number }),
 ).annotate({
   identifier: "SemanticChunkingConfiguration",
 }) as any as S.Schema<SemanticChunkingConfiguration>;
@@ -1800,9 +1710,7 @@ export const ChunkingConfiguration = /*@__PURE__*/ S.suspend(() =>
     hierarchicalChunkingConfiguration: S.optional(HierarchicalChunkingConfiguration),
     semanticChunkingConfiguration: S.optional(SemanticChunkingConfiguration),
   }),
-).annotate({
-  identifier: "ChunkingConfiguration",
-}) as any as S.Schema<ChunkingConfiguration>;
+).annotate({ identifier: "ChunkingConfiguration" }) as any as S.Schema<ChunkingConfiguration>;
 export type ParsingStrategy = string;
 export type BedrockModelArnForParsing = string;
 export type ParsingPromptText = string;
@@ -1830,9 +1738,7 @@ export const ParsingConfiguration = /*@__PURE__*/ S.suspend(() =>
     parsingStrategy: S.String,
     bedrockFoundationModelConfiguration: S.optional(BedrockFoundationModelConfigurationForParsing),
   }),
-).annotate({
-  identifier: "ParsingConfiguration",
-}) as any as S.Schema<ParsingConfiguration>;
+).annotate({ identifier: "ParsingConfiguration" }) as any as S.Schema<ParsingConfiguration>;
 export interface VectorIngestionConfiguration {
   chunkingConfiguration?: ChunkingConfiguration;
   parsingConfiguration?: ParsingConfiguration;
@@ -1908,9 +1814,7 @@ export const KnowledgeBaseData = /*@__PURE__*/ S.suspend(() =>
     ingestionStatus: S.optional(S.String),
     ingestionFailureReasons: S.optional(FailureReason),
   }),
-).annotate({
-  identifier: "KnowledgeBaseData",
-}) as any as S.Schema<KnowledgeBaseData>;
+).annotate({ identifier: "KnowledgeBaseData" }) as any as S.Schema<KnowledgeBaseData>;
 export interface CreateKnowledgeBaseResponse {
   knowledgeBase?: KnowledgeBaseData;
 }
@@ -1920,9 +1824,7 @@ export const CreateKnowledgeBaseResponse = /*@__PURE__*/ S.suspend(() =>
   identifier: "CreateKnowledgeBaseResponse",
 }) as any as S.Schema<CreateKnowledgeBaseResponse>;
 export type NonEmptyUnlimitedString = string | redacted.Redacted<string>;
-export type MessageTemplateBodyContentProvider = {
-  content: string | redacted.Redacted<string>;
-};
+export type MessageTemplateBodyContentProvider = { content: string | redacted.Redacted<string> };
 export const MessageTemplateBodyContentProvider = /*@__PURE__*/ S.Union([
   S.Struct({ content: SensitiveString }),
 ]);
@@ -2106,30 +2008,10 @@ export const PushMessageTemplateContent = /*@__PURE__*/ S.suspend(() =>
   identifier: "PushMessageTemplateContent",
 }) as any as S.Schema<PushMessageTemplateContent>;
 export type MessageTemplateContentProvider =
-  | {
-      email: EmailMessageTemplateContent;
-      sms?: never;
-      whatsApp?: never;
-      push?: never;
-    }
-  | {
-      email?: never;
-      sms: SMSMessageTemplateContent;
-      whatsApp?: never;
-      push?: never;
-    }
-  | {
-      email?: never;
-      sms?: never;
-      whatsApp: WhatsAppMessageTemplateContent;
-      push?: never;
-    }
-  | {
-      email?: never;
-      sms?: never;
-      whatsApp?: never;
-      push: PushMessageTemplateContent;
-    };
+  | { email: EmailMessageTemplateContent; sms?: never; whatsApp?: never; push?: never }
+  | { email?: never; sms: SMSMessageTemplateContent; whatsApp?: never; push?: never }
+  | { email?: never; sms?: never; whatsApp: WhatsAppMessageTemplateContent; push?: never }
+  | { email?: never; sms?: never; whatsApp?: never; push: PushMessageTemplateContent };
 export const MessageTemplateContentProvider = /*@__PURE__*/ S.Union([
   S.Struct({ email: EmailMessageTemplateContent }),
   S.Struct({ sms: SMSMessageTemplateContent }),
@@ -2169,9 +2051,7 @@ export interface SystemEndpointAttributes {
 }
 export const SystemEndpointAttributes = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ address: S.optional(SensitiveString) }),
-).annotate({
-  identifier: "SystemEndpointAttributes",
-}) as any as S.Schema<SystemEndpointAttributes>;
+).annotate({ identifier: "SystemEndpointAttributes" }) as any as S.Schema<SystemEndpointAttributes>;
 export interface SystemAttributes {
   name?: string | redacted.Redacted<string>;
   customerEndpoint?: SystemEndpointAttributes;
@@ -2183,25 +2063,16 @@ export const SystemAttributes = /*@__PURE__*/ S.suspend(() =>
     customerEndpoint: S.optional(SystemEndpointAttributes),
     systemEndpoint: S.optional(SystemEndpointAttributes),
   }),
-).annotate({
-  identifier: "SystemAttributes",
-}) as any as S.Schema<SystemAttributes>;
+).annotate({ identifier: "SystemAttributes" }) as any as S.Schema<SystemAttributes>;
 export interface AgentAttributes {
   firstName?: string | redacted.Redacted<string>;
   lastName?: string | redacted.Redacted<string>;
 }
 export const AgentAttributes = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    firstName: S.optional(SensitiveString),
-    lastName: S.optional(SensitiveString),
-  }),
-).annotate({
-  identifier: "AgentAttributes",
-}) as any as S.Schema<AgentAttributes>;
+  S.Struct({ firstName: S.optional(SensitiveString), lastName: S.optional(SensitiveString) }),
+).annotate({ identifier: "AgentAttributes" }) as any as S.Schema<AgentAttributes>;
 export type MessageTemplateAttributeKey = string;
-export type CustomAttributes = {
-  [key: string]: string | redacted.Redacted<string> | undefined;
-};
+export type CustomAttributes = { [key: string]: string | redacted.Redacted<string> | undefined };
 export const CustomAttributes = /*@__PURE__*/ S.Record(S.String, SensitiveString.pipe(S.optional));
 export interface CustomerProfileAttributes {
   profileId?: string | redacted.Redacted<string>;
@@ -2331,9 +2202,7 @@ export interface MessageTemplateAttributes {
   systemAttributes?: SystemAttributes;
   agentAttributes?: AgentAttributes;
   customerProfileAttributes?: CustomerProfileAttributes;
-  customAttributes?: {
-    [key: string]: string | redacted.Redacted<string> | undefined;
-  };
+  customAttributes?: { [key: string]: string | redacted.Redacted<string> | undefined };
 }
 export const MessageTemplateAttributes = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -2354,13 +2223,8 @@ export interface GroupingConfiguration {
   values?: (string | redacted.Redacted<string>)[];
 }
 export const GroupingConfiguration = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    criteria: S.optional(SensitiveString),
-    values: S.optional(GroupingValues),
-  }),
-).annotate({
-  identifier: "GroupingConfiguration",
-}) as any as S.Schema<GroupingConfiguration>;
+  S.Struct({ criteria: S.optional(SensitiveString), values: S.optional(GroupingValues) }),
+).annotate({ identifier: "GroupingConfiguration" }) as any as S.Schema<GroupingConfiguration>;
 export interface CreateMessageTemplateRequest {
   knowledgeBaseId: string;
   name?: string;
@@ -2389,10 +2253,7 @@ export const CreateMessageTemplateRequest = /*@__PURE__*/ S.suspend(() =>
     tags: S.optional(Tags),
   }).pipe(
     T.all(
-      T.Http({
-        method: "POST",
-        uri: "/knowledgeBases/{knowledgeBaseId}/messageTemplates",
-      }),
+      T.Http({ method: "POST", uri: "/knowledgeBases/{knowledgeBaseId}/messageTemplates" }),
       svc,
       auth,
       proto,
@@ -2482,9 +2343,7 @@ export const MessageTemplateData = /*@__PURE__*/ S.suspend(() =>
     messageTemplateContentSha256: S.String,
     tags: S.optional(Tags),
   }),
-).annotate({
-  identifier: "MessageTemplateData",
-}) as any as S.Schema<MessageTemplateData>;
+).annotate({ identifier: "MessageTemplateData" }) as any as S.Schema<MessageTemplateData>;
 export interface CreateMessageTemplateResponse {
   messageTemplate?: MessageTemplateData;
 }
@@ -2645,9 +2504,7 @@ export const CreateMessageTemplateVersionResponse = /*@__PURE__*/ S.suspend(() =
 }) as any as S.Schema<CreateMessageTemplateVersionResponse>;
 export type QuickResponseName = string;
 export type QuickResponseContent = string | redacted.Redacted<string>;
-export type QuickResponseDataProvider = {
-  content: string | redacted.Redacted<string>;
-};
+export type QuickResponseDataProvider = { content: string | redacted.Redacted<string> };
 export const QuickResponseDataProvider = /*@__PURE__*/ S.Union([
   S.Struct({ content: SensitiveString }),
 ]);
@@ -2686,10 +2543,7 @@ export const CreateQuickResponseRequest = /*@__PURE__*/ S.suspend(() =>
     tags: S.optional(Tags),
   }).pipe(
     T.all(
-      T.Http({
-        method: "POST",
-        uri: "/knowledgeBases/{knowledgeBaseId}/quickResponses",
-      }),
+      T.Http({ method: "POST", uri: "/knowledgeBases/{knowledgeBaseId}/quickResponses" }),
       svc,
       auth,
       proto,
@@ -2701,9 +2555,7 @@ export const CreateQuickResponseRequest = /*@__PURE__*/ S.suspend(() =>
   identifier: "CreateQuickResponseRequest",
 }) as any as S.Schema<CreateQuickResponseRequest>;
 export type QuickResponseStatus = string;
-export type QuickResponseContentProvider = {
-  content: string | redacted.Redacted<string>;
-};
+export type QuickResponseContentProvider = { content: string | redacted.Redacted<string> };
 export const QuickResponseContentProvider = /*@__PURE__*/ S.Union([
   S.Struct({ content: SensitiveString }),
 ]);
@@ -2716,9 +2568,7 @@ export const QuickResponseContents = /*@__PURE__*/ S.suspend(() =>
     plainText: S.optional(QuickResponseContentProvider),
     markdown: S.optional(QuickResponseContentProvider),
   }),
-).annotate({
-  identifier: "QuickResponseContents",
-}) as any as S.Schema<QuickResponseContents>;
+).annotate({ identifier: "QuickResponseContents" }) as any as S.Schema<QuickResponseContents>;
 export interface QuickResponseData {
   quickResponseArn: string;
   quickResponseId: string;
@@ -2760,9 +2610,7 @@ export const QuickResponseData = /*@__PURE__*/ S.suspend(() =>
     language: S.optional(S.String),
     tags: S.optional(Tags),
   }),
-).annotate({
-  identifier: "QuickResponseData",
-}) as any as S.Schema<QuickResponseData>;
+).annotate({ identifier: "QuickResponseData" }) as any as S.Schema<QuickResponseData>;
 export interface CreateQuickResponseResponse {
   quickResponse?: QuickResponseData;
 }
@@ -2778,9 +2626,7 @@ export interface CreateSessionRequest {
   description?: string;
   tags?: { [key: string]: string | undefined };
   tagFilter?: TagFilter;
-  aiAgentConfiguration?: {
-    [key: string]: AIAgentConfigurationData | undefined;
-  };
+  aiAgentConfiguration?: { [key: string]: AIAgentConfigurationData | undefined };
   contactArn?: string;
   orchestratorConfigurationList?: OrchestratorConfigurationEntry[];
   removeOrchestratorConfigurationList?: boolean;
@@ -2807,9 +2653,7 @@ export const CreateSessionRequest = /*@__PURE__*/ S.suspend(() =>
       rules,
     ),
   ),
-).annotate({
-  identifier: "CreateSessionRequest",
-}) as any as S.Schema<CreateSessionRequest>;
+).annotate({ identifier: "CreateSessionRequest" }) as any as S.Schema<CreateSessionRequest>;
 export interface SessionIntegrationConfiguration {
   topicIntegrationArn?: string;
 }
@@ -2826,9 +2670,7 @@ export interface SessionData {
   tags?: { [key: string]: string | undefined };
   integrationConfiguration?: SessionIntegrationConfiguration;
   tagFilter?: TagFilter;
-  aiAgentConfiguration?: {
-    [key: string]: AIAgentConfigurationData | undefined;
-  };
+  aiAgentConfiguration?: { [key: string]: AIAgentConfigurationData | undefined };
   origin?: string;
   orchestratorConfigurationList?: OrchestratorConfigurationEntry[];
 }
@@ -2851,9 +2693,7 @@ export interface CreateSessionResponse {
 }
 export const CreateSessionResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ session: S.optional(SessionData) }),
-).annotate({
-  identifier: "CreateSessionResponse",
-}) as any as S.Schema<CreateSessionResponse>;
+).annotate({ identifier: "CreateSessionResponse" }) as any as S.Schema<CreateSessionResponse>;
 export interface DeactivateMessageTemplateRequest {
   knowledgeBaseId: string;
   messageTemplateId: string;
@@ -2886,11 +2726,7 @@ export interface DeactivateMessageTemplateResponse {
   versionNumber: number;
 }
 export const DeactivateMessageTemplateResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    messageTemplateArn: S.String,
-    messageTemplateId: S.String,
-    versionNumber: S.Number,
-  }),
+  S.Struct({ messageTemplateArn: S.String, messageTemplateId: S.String, versionNumber: S.Number }),
 ).annotate({
   identifier: "DeactivateMessageTemplateResponse",
 }) as any as S.Schema<DeactivateMessageTemplateResponse>;
@@ -2904,10 +2740,7 @@ export const DeleteAIAgentRequest = /*@__PURE__*/ S.suspend(() =>
     aiAgentId: S.String.pipe(T.HttpLabel("aiAgentId")),
   }).pipe(
     T.all(
-      T.Http({
-        method: "DELETE",
-        uri: "/assistants/{assistantId}/aiagents/{aiAgentId}",
-      }),
+      T.Http({ method: "DELETE", uri: "/assistants/{assistantId}/aiagents/{aiAgentId}" }),
       svc,
       auth,
       proto,
@@ -2915,9 +2748,7 @@ export const DeleteAIAgentRequest = /*@__PURE__*/ S.suspend(() =>
       rules,
     ),
   ),
-).annotate({
-  identifier: "DeleteAIAgentRequest",
-}) as any as S.Schema<DeleteAIAgentRequest>;
+).annotate({ identifier: "DeleteAIAgentRequest" }) as any as S.Schema<DeleteAIAgentRequest>;
 export interface DeleteAIAgentResponse {}
 export const DeleteAIAgentResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
   identifier: "DeleteAIAgentResponse",
@@ -2962,10 +2793,7 @@ export const DeleteAIGuardrailRequest = /*@__PURE__*/ S.suspend(() =>
     aiGuardrailId: S.String.pipe(T.HttpLabel("aiGuardrailId")),
   }).pipe(
     T.all(
-      T.Http({
-        method: "DELETE",
-        uri: "/assistants/{assistantId}/aiguardrails/{aiGuardrailId}",
-      }),
+      T.Http({ method: "DELETE", uri: "/assistants/{assistantId}/aiguardrails/{aiGuardrailId}" }),
       svc,
       auth,
       proto,
@@ -2973,9 +2801,7 @@ export const DeleteAIGuardrailRequest = /*@__PURE__*/ S.suspend(() =>
       rules,
     ),
   ),
-).annotate({
-  identifier: "DeleteAIGuardrailRequest",
-}) as any as S.Schema<DeleteAIGuardrailRequest>;
+).annotate({ identifier: "DeleteAIGuardrailRequest" }) as any as S.Schema<DeleteAIGuardrailRequest>;
 export interface DeleteAIGuardrailResponse {}
 export const DeleteAIGuardrailResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
   identifier: "DeleteAIGuardrailResponse",
@@ -3022,10 +2848,7 @@ export const DeleteAIPromptRequest = /*@__PURE__*/ S.suspend(() =>
     aiPromptId: S.String.pipe(T.HttpLabel("aiPromptId")),
   }).pipe(
     T.all(
-      T.Http({
-        method: "DELETE",
-        uri: "/assistants/{assistantId}/aiprompts/{aiPromptId}",
-      }),
+      T.Http({ method: "DELETE", uri: "/assistants/{assistantId}/aiprompts/{aiPromptId}" }),
       svc,
       auth,
       proto,
@@ -3033,9 +2856,7 @@ export const DeleteAIPromptRequest = /*@__PURE__*/ S.suspend(() =>
       rules,
     ),
   ),
-).annotate({
-  identifier: "DeleteAIPromptRequest",
-}) as any as S.Schema<DeleteAIPromptRequest>;
+).annotate({ identifier: "DeleteAIPromptRequest" }) as any as S.Schema<DeleteAIPromptRequest>;
 export interface DeleteAIPromptResponse {}
 export const DeleteAIPromptResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
   identifier: "DeleteAIPromptResponse",
@@ -3084,9 +2905,7 @@ export const DeleteAssistantRequest = /*@__PURE__*/ S.suspend(() =>
       rules,
     ),
   ),
-).annotate({
-  identifier: "DeleteAssistantRequest",
-}) as any as S.Schema<DeleteAssistantRequest>;
+).annotate({ identifier: "DeleteAssistantRequest" }) as any as S.Schema<DeleteAssistantRequest>;
 export interface DeleteAssistantResponse {}
 export const DeleteAssistantResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
   identifier: "DeleteAssistantResponse",
@@ -3131,10 +2950,7 @@ export const DeleteContentRequest = /*@__PURE__*/ S.suspend(() =>
     contentId: S.String.pipe(T.HttpLabel("contentId")),
   }).pipe(
     T.all(
-      T.Http({
-        method: "DELETE",
-        uri: "/knowledgeBases/{knowledgeBaseId}/contents/{contentId}",
-      }),
+      T.Http({ method: "DELETE", uri: "/knowledgeBases/{knowledgeBaseId}/contents/{contentId}" }),
       svc,
       auth,
       proto,
@@ -3142,9 +2958,7 @@ export const DeleteContentRequest = /*@__PURE__*/ S.suspend(() =>
       rules,
     ),
   ),
-).annotate({
-  identifier: "DeleteContentRequest",
-}) as any as S.Schema<DeleteContentRequest>;
+).annotate({ identifier: "DeleteContentRequest" }) as any as S.Schema<DeleteContentRequest>;
 export interface DeleteContentResponse {}
 export const DeleteContentResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
   identifier: "DeleteContentResponse",
@@ -3202,9 +3016,7 @@ export const DeleteImportJobRequest = /*@__PURE__*/ S.suspend(() =>
       rules,
     ),
   ),
-).annotate({
-  identifier: "DeleteImportJobRequest",
-}) as any as S.Schema<DeleteImportJobRequest>;
+).annotate({ identifier: "DeleteImportJobRequest" }) as any as S.Schema<DeleteImportJobRequest>;
 export interface DeleteImportJobResponse {}
 export const DeleteImportJobResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
   identifier: "DeleteImportJobResponse",
@@ -3213,9 +3025,7 @@ export interface DeleteKnowledgeBaseRequest {
   knowledgeBaseId: string;
 }
 export const DeleteKnowledgeBaseRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    knowledgeBaseId: S.String.pipe(T.HttpLabel("knowledgeBaseId")),
-  }).pipe(
+  S.Struct({ knowledgeBaseId: S.String.pipe(T.HttpLabel("knowledgeBaseId")) }).pipe(
     T.all(
       T.Http({ method: "DELETE", uri: "/knowledgeBases/{knowledgeBaseId}" }),
       svc,
@@ -3330,10 +3140,7 @@ export const GetAIAgentRequest = /*@__PURE__*/ S.suspend(() =>
     aiAgentId: S.String.pipe(T.HttpLabel("aiAgentId")),
   }).pipe(
     T.all(
-      T.Http({
-        method: "GET",
-        uri: "/assistants/{assistantId}/aiagents/{aiAgentId}",
-      }),
+      T.Http({ method: "GET", uri: "/assistants/{assistantId}/aiagents/{aiAgentId}" }),
       svc,
       auth,
       proto,
@@ -3341,21 +3148,14 @@ export const GetAIAgentRequest = /*@__PURE__*/ S.suspend(() =>
       rules,
     ),
   ),
-).annotate({
-  identifier: "GetAIAgentRequest",
-}) as any as S.Schema<GetAIAgentRequest>;
+).annotate({ identifier: "GetAIAgentRequest" }) as any as S.Schema<GetAIAgentRequest>;
 export interface GetAIAgentResponse {
   aiAgent?: AIAgentData;
   versionNumber?: number;
 }
 export const GetAIAgentResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    aiAgent: S.optional(AIAgentData),
-    versionNumber: S.optional(S.Number),
-  }),
-).annotate({
-  identifier: "GetAIAgentResponse",
-}) as any as S.Schema<GetAIAgentResponse>;
+  S.Struct({ aiAgent: S.optional(AIAgentData), versionNumber: S.optional(S.Number) }),
+).annotate({ identifier: "GetAIAgentResponse" }) as any as S.Schema<GetAIAgentResponse>;
 export interface GetAIGuardrailRequest {
   assistantId: string;
   aiGuardrailId: string;
@@ -3366,10 +3166,7 @@ export const GetAIGuardrailRequest = /*@__PURE__*/ S.suspend(() =>
     aiGuardrailId: S.String.pipe(T.HttpLabel("aiGuardrailId")),
   }).pipe(
     T.all(
-      T.Http({
-        method: "GET",
-        uri: "/assistants/{assistantId}/aiguardrails/{aiGuardrailId}",
-      }),
+      T.Http({ method: "GET", uri: "/assistants/{assistantId}/aiguardrails/{aiGuardrailId}" }),
       svc,
       auth,
       proto,
@@ -3377,21 +3174,14 @@ export const GetAIGuardrailRequest = /*@__PURE__*/ S.suspend(() =>
       rules,
     ),
   ),
-).annotate({
-  identifier: "GetAIGuardrailRequest",
-}) as any as S.Schema<GetAIGuardrailRequest>;
+).annotate({ identifier: "GetAIGuardrailRequest" }) as any as S.Schema<GetAIGuardrailRequest>;
 export interface GetAIGuardrailResponse {
   aiGuardrail?: AIGuardrailData;
   versionNumber?: number;
 }
 export const GetAIGuardrailResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    aiGuardrail: S.optional(AIGuardrailData),
-    versionNumber: S.optional(S.Number),
-  }),
-).annotate({
-  identifier: "GetAIGuardrailResponse",
-}) as any as S.Schema<GetAIGuardrailResponse>;
+  S.Struct({ aiGuardrail: S.optional(AIGuardrailData), versionNumber: S.optional(S.Number) }),
+).annotate({ identifier: "GetAIGuardrailResponse" }) as any as S.Schema<GetAIGuardrailResponse>;
 export interface GetAIPromptRequest {
   assistantId: string;
   aiPromptId: string;
@@ -3402,10 +3192,7 @@ export const GetAIPromptRequest = /*@__PURE__*/ S.suspend(() =>
     aiPromptId: S.String.pipe(T.HttpLabel("aiPromptId")),
   }).pipe(
     T.all(
-      T.Http({
-        method: "GET",
-        uri: "/assistants/{assistantId}/aiprompts/{aiPromptId}",
-      }),
+      T.Http({ method: "GET", uri: "/assistants/{assistantId}/aiprompts/{aiPromptId}" }),
       svc,
       auth,
       proto,
@@ -3413,21 +3200,14 @@ export const GetAIPromptRequest = /*@__PURE__*/ S.suspend(() =>
       rules,
     ),
   ),
-).annotate({
-  identifier: "GetAIPromptRequest",
-}) as any as S.Schema<GetAIPromptRequest>;
+).annotate({ identifier: "GetAIPromptRequest" }) as any as S.Schema<GetAIPromptRequest>;
 export interface GetAIPromptResponse {
   aiPrompt?: AIPromptData;
   versionNumber?: number;
 }
 export const GetAIPromptResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    aiPrompt: S.optional(AIPromptData),
-    versionNumber: S.optional(S.Number),
-  }),
-).annotate({
-  identifier: "GetAIPromptResponse",
-}) as any as S.Schema<GetAIPromptResponse>;
+  S.Struct({ aiPrompt: S.optional(AIPromptData), versionNumber: S.optional(S.Number) }),
+).annotate({ identifier: "GetAIPromptResponse" }) as any as S.Schema<GetAIPromptResponse>;
 export interface GetAssistantRequest {
   assistantId: string;
 }
@@ -3442,17 +3222,13 @@ export const GetAssistantRequest = /*@__PURE__*/ S.suspend(() =>
       rules,
     ),
   ),
-).annotate({
-  identifier: "GetAssistantRequest",
-}) as any as S.Schema<GetAssistantRequest>;
+).annotate({ identifier: "GetAssistantRequest" }) as any as S.Schema<GetAssistantRequest>;
 export interface GetAssistantResponse {
   assistant?: AssistantData;
 }
 export const GetAssistantResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ assistant: S.optional(AssistantData) }),
-).annotate({
-  identifier: "GetAssistantResponse",
-}) as any as S.Schema<GetAssistantResponse>;
+).annotate({ identifier: "GetAssistantResponse" }) as any as S.Schema<GetAssistantResponse>;
 export interface GetAssistantAssociationRequest {
   assistantAssociationId: string;
   assistantId: string;
@@ -3495,10 +3271,7 @@ export const GetContentRequest = /*@__PURE__*/ S.suspend(() =>
     knowledgeBaseId: S.String.pipe(T.HttpLabel("knowledgeBaseId")),
   }).pipe(
     T.all(
-      T.Http({
-        method: "GET",
-        uri: "/knowledgeBases/{knowledgeBaseId}/contents/{contentId}",
-      }),
+      T.Http({ method: "GET", uri: "/knowledgeBases/{knowledgeBaseId}/contents/{contentId}" }),
       svc,
       auth,
       proto,
@@ -3506,17 +3279,13 @@ export const GetContentRequest = /*@__PURE__*/ S.suspend(() =>
       rules,
     ),
   ),
-).annotate({
-  identifier: "GetContentRequest",
-}) as any as S.Schema<GetContentRequest>;
+).annotate({ identifier: "GetContentRequest" }) as any as S.Schema<GetContentRequest>;
 export interface GetContentResponse {
   content?: ContentData;
 }
 export const GetContentResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ content: S.optional(ContentData) }),
-).annotate({
-  identifier: "GetContentResponse",
-}) as any as S.Schema<GetContentResponse>;
+).annotate({ identifier: "GetContentResponse" }) as any as S.Schema<GetContentResponse>;
 export interface GetContentAssociationRequest {
   knowledgeBaseId: string;
   contentId: string;
@@ -3572,9 +3341,7 @@ export const GetContentSummaryRequest = /*@__PURE__*/ S.suspend(() =>
       rules,
     ),
   ),
-).annotate({
-  identifier: "GetContentSummaryRequest",
-}) as any as S.Schema<GetContentSummaryRequest>;
+).annotate({ identifier: "GetContentSummaryRequest" }) as any as S.Schema<GetContentSummaryRequest>;
 export interface ContentSummary {
   contentArn: string;
   contentId: string;
@@ -3621,10 +3388,7 @@ export const GetImportJobRequest = /*@__PURE__*/ S.suspend(() =>
     knowledgeBaseId: S.String.pipe(T.HttpLabel("knowledgeBaseId")),
   }).pipe(
     T.all(
-      T.Http({
-        method: "GET",
-        uri: "/knowledgeBases/{knowledgeBaseId}/importJobs/{importJobId}",
-      }),
+      T.Http({ method: "GET", uri: "/knowledgeBases/{knowledgeBaseId}/importJobs/{importJobId}" }),
       svc,
       auth,
       proto,
@@ -3632,9 +3396,7 @@ export const GetImportJobRequest = /*@__PURE__*/ S.suspend(() =>
       rules,
     ),
   ),
-).annotate({
-  identifier: "GetImportJobRequest",
-}) as any as S.Schema<GetImportJobRequest>;
+).annotate({ identifier: "GetImportJobRequest" }) as any as S.Schema<GetImportJobRequest>;
 export type ImportJobType = string;
 export type ImportJobStatus = string;
 export type ExternalSource = string;
@@ -3643,9 +3405,7 @@ export interface ConnectConfiguration {
 }
 export const ConnectConfiguration = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ instanceId: S.optional(S.String) }),
-).annotate({
-  identifier: "ConnectConfiguration",
-}) as any as S.Schema<ConnectConfiguration>;
+).annotate({ identifier: "ConnectConfiguration" }) as any as S.Schema<ConnectConfiguration>;
 export type Configuration = { connectConfiguration: ConnectConfiguration };
 export const Configuration = /*@__PURE__*/ S.Union([
   S.Struct({ connectConfiguration: ConnectConfiguration }),
@@ -3696,16 +3456,12 @@ export interface GetImportJobResponse {
 }
 export const GetImportJobResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ importJob: S.optional(ImportJobData) }),
-).annotate({
-  identifier: "GetImportJobResponse",
-}) as any as S.Schema<GetImportJobResponse>;
+).annotate({ identifier: "GetImportJobResponse" }) as any as S.Schema<GetImportJobResponse>;
 export interface GetKnowledgeBaseRequest {
   knowledgeBaseId: string;
 }
 export const GetKnowledgeBaseRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    knowledgeBaseId: S.String.pipe(T.HttpLabel("knowledgeBaseId")),
-  }).pipe(
+  S.Struct({ knowledgeBaseId: S.String.pipe(T.HttpLabel("knowledgeBaseId")) }).pipe(
     T.all(
       T.Http({ method: "GET", uri: "/knowledgeBases/{knowledgeBaseId}" }),
       svc,
@@ -3715,17 +3471,13 @@ export const GetKnowledgeBaseRequest = /*@__PURE__*/ S.suspend(() =>
       rules,
     ),
   ),
-).annotate({
-  identifier: "GetKnowledgeBaseRequest",
-}) as any as S.Schema<GetKnowledgeBaseRequest>;
+).annotate({ identifier: "GetKnowledgeBaseRequest" }) as any as S.Schema<GetKnowledgeBaseRequest>;
 export interface GetKnowledgeBaseResponse {
   knowledgeBase?: KnowledgeBaseData;
 }
 export const GetKnowledgeBaseResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ knowledgeBase: S.optional(KnowledgeBaseData) }),
-).annotate({
-  identifier: "GetKnowledgeBaseResponse",
-}) as any as S.Schema<GetKnowledgeBaseResponse>;
+).annotate({ identifier: "GetKnowledgeBaseResponse" }) as any as S.Schema<GetKnowledgeBaseResponse>;
 export interface GetMessageTemplateRequest {
   messageTemplateId: string;
   knowledgeBaseId: string;
@@ -3782,9 +3534,7 @@ export const GetNextMessageRequest = /*@__PURE__*/ S.suspend(() =>
       rules,
     ),
   ),
-).annotate({
-  identifier: "GetNextMessageRequest",
-}) as any as S.Schema<GetNextMessageRequest>;
+).annotate({ identifier: "GetNextMessageRequest" }) as any as S.Schema<GetNextMessageRequest>;
 export type MessageType = string;
 export type SensitiveString = string | redacted.Redacted<string>;
 export type CitationSpanOffset = number;
@@ -3824,9 +3574,7 @@ export interface AIGuardrailAssessment {
 }
 export const AIGuardrailAssessment = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ blocked: S.Boolean }),
-).annotate({
-  identifier: "AIGuardrailAssessment",
-}) as any as S.Schema<AIGuardrailAssessment>;
+).annotate({ identifier: "AIGuardrailAssessment" }) as any as S.Schema<AIGuardrailAssessment>;
 export interface TextMessage {
   value?: string | redacted.Redacted<string>;
   citations?: Citation[];
@@ -3852,15 +3600,15 @@ export const ToolUseResultData = /*@__PURE__*/ S.suspend(() =>
     toolResult: S.Any,
     inputSchema: S.optional(S.Any),
   }),
-).annotate({
-  identifier: "ToolUseResultData",
-}) as any as S.Schema<ToolUseResultData>;
+).annotate({ identifier: "ToolUseResultData" }) as any as S.Schema<ToolUseResultData>;
 export type MessageData =
-  | { text: TextMessage; toolUseResult?: never }
-  | { text?: never; toolUseResult: ToolUseResultData };
+  | { text: TextMessage; toolUseResult?: never; data?: never }
+  | { text?: never; toolUseResult: ToolUseResultData; data?: never }
+  | { text?: never; toolUseResult?: never; data: any };
 export const MessageData = /*@__PURE__*/ S.Union([
   S.Struct({ text: TextMessage }),
   S.Struct({ toolUseResult: ToolUseResultData }),
+  S.Struct({ data: S.Any }),
 ]);
 export type Participant = string;
 export interface MessageOutput {
@@ -3885,12 +3633,8 @@ export interface ConversationState {
 }
 export const ConversationState = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ status: S.String, reason: S.optional(S.String) }),
-).annotate({
-  identifier: "ConversationState",
-}) as any as S.Schema<ConversationState>;
-export type RuntimeSessionDataValue = {
-  stringValue: string | redacted.Redacted<string>;
-};
+).annotate({ identifier: "ConversationState" }) as any as S.Schema<ConversationState>;
+export type RuntimeSessionDataValue = { stringValue: string | redacted.Redacted<string> };
 export const RuntimeSessionDataValue = /*@__PURE__*/ S.Union([
   S.Struct({ stringValue: SensitiveString }),
 ]);
@@ -3900,9 +3644,7 @@ export interface RuntimeSessionData {
 }
 export const RuntimeSessionData = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ key: SensitiveString, value: RuntimeSessionDataValue }),
-).annotate({
-  identifier: "RuntimeSessionData",
-}) as any as S.Schema<RuntimeSessionData>;
+).annotate({ identifier: "RuntimeSessionData" }) as any as S.Schema<RuntimeSessionData>;
 export type RuntimeSessionDataList = RuntimeSessionData[];
 export const RuntimeSessionDataList = /*@__PURE__*/ S.Array(RuntimeSessionData);
 export interface GetNextMessageResponse {
@@ -3924,9 +3666,7 @@ export const GetNextMessageResponse = /*@__PURE__*/ S.suspend(() =>
     conversationSessionData: S.optional(RuntimeSessionDataList),
     chunkedResponseTerminated: S.optional(S.Boolean),
   }),
-).annotate({
-  identifier: "GetNextMessageResponse",
-}) as any as S.Schema<GetNextMessageResponse>;
+).annotate({ identifier: "GetNextMessageResponse" }) as any as S.Schema<GetNextMessageResponse>;
 export interface GetQuickResponseRequest {
   quickResponseId: string;
   knowledgeBaseId: string;
@@ -3948,17 +3688,13 @@ export const GetQuickResponseRequest = /*@__PURE__*/ S.suspend(() =>
       rules,
     ),
   ),
-).annotate({
-  identifier: "GetQuickResponseRequest",
-}) as any as S.Schema<GetQuickResponseRequest>;
+).annotate({ identifier: "GetQuickResponseRequest" }) as any as S.Schema<GetQuickResponseRequest>;
 export interface GetQuickResponseResponse {
   quickResponse?: QuickResponseData;
 }
 export const GetQuickResponseResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ quickResponse: S.optional(QuickResponseData) }),
-).annotate({
-  identifier: "GetQuickResponseResponse",
-}) as any as S.Schema<GetQuickResponseResponse>;
+).annotate({ identifier: "GetQuickResponseResponse" }) as any as S.Schema<GetQuickResponseResponse>;
 export type WaitTimeSeconds = number;
 export type RecommendationType = string;
 export interface GetRecommendationsRequest {
@@ -4011,9 +3747,7 @@ export const ContentReference = /*@__PURE__*/ S.suspend(() =>
     sourceURL: S.optional(S.String),
     referenceType: S.optional(S.String),
   }),
-).annotate({
-  identifier: "ContentReference",
-}) as any as S.Schema<ContentReference>;
+).annotate({ identifier: "ContentReference" }) as any as S.Schema<ContentReference>;
 export type HighlightOffset = number;
 export interface Highlight {
   beginOffsetInclusive?: number;
@@ -4032,10 +3766,7 @@ export interface DocumentText {
   highlights?: Highlight[];
 }
 export const DocumentText = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    text: S.optional(SensitiveString),
-    highlights: S.optional(Highlights),
-  }),
+  S.Struct({ text: S.optional(SensitiveString), highlights: S.optional(Highlights) }),
 ).annotate({ identifier: "DocumentText" }) as any as S.Schema<DocumentText>;
 export interface Document {
   contentReference: ContentReference;
@@ -4057,13 +3788,8 @@ export interface GenerativeReference {
   generationId?: string;
 }
 export const GenerativeReference = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    modelId: S.optional(S.String),
-    generationId: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "GenerativeReference",
-}) as any as S.Schema<GenerativeReference>;
+  S.Struct({ modelId: S.optional(S.String), generationId: S.optional(S.String) }),
+).annotate({ identifier: "GenerativeReference" }) as any as S.Schema<GenerativeReference>;
 export interface SuggestedMessageReference {
   aiAgentId: string;
   aiAgentArn: string;
@@ -4099,20 +3825,14 @@ export interface TextData {
   excerpt?: DocumentText;
 }
 export const TextData = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    title: S.optional(DocumentText),
-    excerpt: S.optional(DocumentText),
-  }),
+  S.Struct({ title: S.optional(DocumentText), excerpt: S.optional(DocumentText) }),
 ).annotate({ identifier: "TextData" }) as any as S.Schema<TextData>;
 export interface RankingData {
   relevanceScore?: number;
   relevanceLevel?: string;
 }
 export const RankingData = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    relevanceScore: S.optional(S.Number),
-    relevanceLevel: S.optional(S.String),
-  }),
+  S.Struct({ relevanceScore: S.optional(S.Number), relevanceLevel: S.optional(S.String) }),
 ).annotate({ identifier: "RankingData" }) as any as S.Schema<RankingData>;
 export interface ContentDataDetails {
   textData: TextData;
@@ -4120,14 +3840,10 @@ export interface ContentDataDetails {
 }
 export const ContentDataDetails = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ textData: TextData, rankingData: RankingData }),
-).annotate({
-  identifier: "ContentDataDetails",
-}) as any as S.Schema<ContentDataDetails>;
+).annotate({ identifier: "ContentDataDetails" }) as any as S.Schema<ContentDataDetails>;
 export type DataSummaryList = DataSummary[];
 export const DataSummaryList = /*@__PURE__*/ S.Array(
-  S.suspend((): S.Schema<DataSummary> => DataSummary).annotate({
-    identifier: "DataSummary",
-  }),
+  S.suspend((): S.Schema<DataSummary> => DataSummary).annotate({ identifier: "DataSummary" }),
 ) as any as S.Schema<DataSummaryList>;
 export interface GenerativeDataDetails {
   completion: string | redacted.Redacted<string>;
@@ -4137,25 +3853,17 @@ export interface GenerativeDataDetails {
 export const GenerativeDataDetails = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     completion: SensitiveString,
-    references: S.suspend(() => DataSummaryList).annotate({
-      identifier: "DataSummaryList",
-    }),
+    references: S.suspend(() => DataSummaryList).annotate({ identifier: "DataSummaryList" }),
     rankingData: RankingData,
   }),
-).annotate({
-  identifier: "GenerativeDataDetails",
-}) as any as S.Schema<GenerativeDataDetails>;
+).annotate({ identifier: "GenerativeDataDetails" }) as any as S.Schema<GenerativeDataDetails>;
 export interface IntentDetectedDataDetails {
   intent: string | redacted.Redacted<string>;
   intentId: string;
   relevanceLevel?: string;
 }
 export const IntentDetectedDataDetails = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    intent: SensitiveString,
-    intentId: S.String,
-    relevanceLevel: S.optional(S.String),
-  }),
+  S.Struct({ intent: SensitiveString, intentId: S.String, relevanceLevel: S.optional(S.String) }),
 ).annotate({
   identifier: "IntentDetectedDataDetails",
 }) as any as S.Schema<IntentDetectedDataDetails>;
@@ -4175,9 +3883,7 @@ export const SourceContentDataDetails = /*@__PURE__*/ S.suspend(() =>
     rankingData: RankingData,
     citationSpan: S.optional(CitationSpan),
   }),
-).annotate({
-  identifier: "SourceContentDataDetails",
-}) as any as S.Schema<SourceContentDataDetails>;
+).annotate({ identifier: "SourceContentDataDetails" }) as any as S.Schema<SourceContentDataDetails>;
 export interface GenerativeChunkDataDetails {
   completion?: string | redacted.Redacted<string>;
   references?: DataSummary[];
@@ -4187,9 +3893,7 @@ export const GenerativeChunkDataDetails = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     completion: S.optional(SensitiveString),
     references: S.optional(
-      S.suspend(() => DataSummaryList).annotate({
-        identifier: "DataSummaryList",
-      }),
+      S.suspend(() => DataSummaryList).annotate({ identifier: "DataSummaryList" }),
     ),
     nextChunkToken: S.optional(S.String),
   }),
@@ -4201,10 +3905,7 @@ export interface EmailResponseChunkDataDetails {
   nextChunkToken?: string;
 }
 export const EmailResponseChunkDataDetails = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    completion: S.optional(SensitiveString),
-    nextChunkToken: S.optional(S.String),
-  }),
+  S.Struct({ completion: S.optional(SensitiveString), nextChunkToken: S.optional(S.String) }),
 ).annotate({
   identifier: "EmailResponseChunkDataDetails",
 }) as any as S.Schema<EmailResponseChunkDataDetails>;
@@ -4213,10 +3914,7 @@ export interface EmailOverviewChunkDataDetails {
   nextChunkToken?: string;
 }
 export const EmailOverviewChunkDataDetails = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    completion: S.optional(SensitiveString),
-    nextChunkToken: S.optional(S.String),
-  }),
+  S.Struct({ completion: S.optional(SensitiveString), nextChunkToken: S.optional(S.String) }),
 ).annotate({
   identifier: "EmailOverviewChunkDataDetails",
 }) as any as S.Schema<EmailOverviewChunkDataDetails>;
@@ -4229,9 +3927,7 @@ export const EmailGenerativeAnswerChunkDataDetails = /*@__PURE__*/ S.suspend(() 
   S.Struct({
     completion: S.optional(SensitiveString),
     references: S.optional(
-      S.suspend(() => DataSummaryList).annotate({
-        identifier: "DataSummaryList",
-      }),
+      S.suspend(() => DataSummaryList).annotate({ identifier: "DataSummaryList" }),
     ),
     nextChunkToken: S.optional(S.String),
   }),
@@ -4243,10 +3939,7 @@ export interface CaseSummarizationChunkDataDetails {
   nextChunkToken?: string;
 }
 export const CaseSummarizationChunkDataDetails = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    completion: S.optional(SensitiveString),
-    nextChunkToken: S.optional(S.String),
-  }),
+  S.Struct({ completion: S.optional(SensitiveString), nextChunkToken: S.optional(S.String) }),
 ).annotate({
   identifier: "CaseSummarizationChunkDataDetails",
 }) as any as S.Schema<CaseSummarizationChunkDataDetails>;
@@ -4263,21 +3956,22 @@ export interface NotesDataDetails {
 }
 export const NotesDataDetails = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ completion: S.optional(SensitiveString) }),
-).annotate({
-  identifier: "NotesDataDetails",
-}) as any as S.Schema<NotesDataDetails>;
+).annotate({ identifier: "NotesDataDetails" }) as any as S.Schema<NotesDataDetails>;
 export interface NotesChunkDataDetails {
   completion?: string | redacted.Redacted<string>;
   nextChunkToken?: string;
 }
 export const NotesChunkDataDetails = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    completion: S.optional(SensitiveString),
-    nextChunkToken: S.optional(S.String),
-  }),
+  S.Struct({ completion: S.optional(SensitiveString), nextChunkToken: S.optional(S.String) }),
+).annotate({ identifier: "NotesChunkDataDetails" }) as any as S.Schema<NotesChunkDataDetails>;
+export interface ProactiveRecommendationDataDetails {
+  nextMessageToken: string;
+}
+export const ProactiveRecommendationDataDetails = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({ nextMessageToken: S.String }),
 ).annotate({
-  identifier: "NotesChunkDataDetails",
-}) as any as S.Schema<NotesChunkDataDetails>;
+  identifier: "ProactiveRecommendationDataDetails",
+}) as any as S.Schema<ProactiveRecommendationDataDetails>;
 export type DataDetails =
   | {
       contentData: ContentDataDetails;
@@ -4292,6 +3986,7 @@ export type DataDetails =
       suggestedMessageData?: never;
       notesData?: never;
       notesChunkData?: never;
+      proactiveRecommendationData?: never;
     }
   | {
       contentData?: never;
@@ -4306,6 +4001,7 @@ export type DataDetails =
       suggestedMessageData?: never;
       notesData?: never;
       notesChunkData?: never;
+      proactiveRecommendationData?: never;
     }
   | {
       contentData?: never;
@@ -4320,6 +4016,7 @@ export type DataDetails =
       suggestedMessageData?: never;
       notesData?: never;
       notesChunkData?: never;
+      proactiveRecommendationData?: never;
     }
   | {
       contentData?: never;
@@ -4334,6 +4031,7 @@ export type DataDetails =
       suggestedMessageData?: never;
       notesData?: never;
       notesChunkData?: never;
+      proactiveRecommendationData?: never;
     }
   | {
       contentData?: never;
@@ -4348,6 +4046,7 @@ export type DataDetails =
       suggestedMessageData?: never;
       notesData?: never;
       notesChunkData?: never;
+      proactiveRecommendationData?: never;
     }
   | {
       contentData?: never;
@@ -4362,6 +4061,7 @@ export type DataDetails =
       suggestedMessageData?: never;
       notesData?: never;
       notesChunkData?: never;
+      proactiveRecommendationData?: never;
     }
   | {
       contentData?: never;
@@ -4376,6 +4076,7 @@ export type DataDetails =
       suggestedMessageData?: never;
       notesData?: never;
       notesChunkData?: never;
+      proactiveRecommendationData?: never;
     }
   | {
       contentData?: never;
@@ -4390,6 +4091,7 @@ export type DataDetails =
       suggestedMessageData?: never;
       notesData?: never;
       notesChunkData?: never;
+      proactiveRecommendationData?: never;
     }
   | {
       contentData?: never;
@@ -4404,6 +4106,7 @@ export type DataDetails =
       suggestedMessageData?: never;
       notesData?: never;
       notesChunkData?: never;
+      proactiveRecommendationData?: never;
     }
   | {
       contentData?: never;
@@ -4418,6 +4121,7 @@ export type DataDetails =
       suggestedMessageData: SuggestedMessageDataDetails;
       notesData?: never;
       notesChunkData?: never;
+      proactiveRecommendationData?: never;
     }
   | {
       contentData?: never;
@@ -4432,6 +4136,7 @@ export type DataDetails =
       suggestedMessageData?: never;
       notesData: NotesDataDetails;
       notesChunkData?: never;
+      proactiveRecommendationData?: never;
     }
   | {
       contentData?: never;
@@ -4446,6 +4151,22 @@ export type DataDetails =
       suggestedMessageData?: never;
       notesData?: never;
       notesChunkData: NotesChunkDataDetails;
+      proactiveRecommendationData?: never;
+    }
+  | {
+      contentData?: never;
+      generativeData?: never;
+      intentDetectedData?: never;
+      sourceContentData?: never;
+      generativeChunkData?: never;
+      emailResponseChunkData?: never;
+      emailOverviewChunkData?: never;
+      emailGenerativeAnswerChunkData?: never;
+      caseSummarizationChunkData?: never;
+      suggestedMessageData?: never;
+      notesData?: never;
+      notesChunkData?: never;
+      proactiveRecommendationData: ProactiveRecommendationDataDetails;
     };
 export const DataDetails = /*@__PURE__*/ S.Union([
   S.Struct({ contentData: ContentDataDetails }),
@@ -4472,6 +4193,7 @@ export const DataDetails = /*@__PURE__*/ S.Union([
   S.Struct({ suggestedMessageData: SuggestedMessageDataDetails }),
   S.Struct({ notesData: NotesDataDetails }),
   S.Struct({ notesChunkData: NotesChunkDataDetails }),
+  S.Struct({ proactiveRecommendationData: ProactiveRecommendationDataDetails }),
 ]) as any as S.Schema<DataDetails>;
 export interface DataSummary {
   reference: DataReference;
@@ -4480,9 +4202,7 @@ export interface DataSummary {
 export const DataSummary = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     reference: DataReference,
-    details: S.suspend(() => DataDetails).annotate({
-      identifier: "DataDetails",
-    }),
+    details: S.suspend(() => DataDetails).annotate({ identifier: "DataDetails" }),
   }),
 ).annotate({ identifier: "DataSummary" }) as any as S.Schema<DataSummary>;
 export interface RecommendationData {
@@ -4502,9 +4222,7 @@ export const RecommendationData = /*@__PURE__*/ S.suspend(() =>
     type: S.optional(S.String),
     data: S.optional(DataSummary),
   }),
-).annotate({
-  identifier: "RecommendationData",
-}) as any as S.Schema<RecommendationData>;
+).annotate({ identifier: "RecommendationData" }) as any as S.Schema<RecommendationData>;
 export type RecommendationList = RecommendationData[];
 export const RecommendationList = /*@__PURE__*/ S.Array(RecommendationData);
 export type RecommendationTriggerType = string;
@@ -4518,9 +4236,7 @@ export const QueryRecommendationTriggerData = /*@__PURE__*/ S.suspend(() =>
 ).annotate({
   identifier: "QueryRecommendationTriggerData",
 }) as any as S.Schema<QueryRecommendationTriggerData>;
-export type RecommendationTriggerData = {
-  query: QueryRecommendationTriggerData;
-};
+export type RecommendationTriggerData = { query: QueryRecommendationTriggerData };
 export const RecommendationTriggerData = /*@__PURE__*/ S.Union([
   S.Struct({ query: QueryRecommendationTriggerData }),
 ]);
@@ -4541,9 +4257,7 @@ export const RecommendationTrigger = /*@__PURE__*/ S.suspend(() =>
     data: RecommendationTriggerData,
     recommendationIds: RecommendationIdList,
   }),
-).annotate({
-  identifier: "RecommendationTrigger",
-}) as any as S.Schema<RecommendationTrigger>;
+).annotate({ identifier: "RecommendationTrigger" }) as any as S.Schema<RecommendationTrigger>;
 export type RecommendationTriggerList = RecommendationTrigger[];
 export const RecommendationTriggerList = /*@__PURE__*/ S.Array(RecommendationTrigger);
 export interface GetRecommendationsResponse {
@@ -4568,10 +4282,7 @@ export const GetSessionRequest = /*@__PURE__*/ S.suspend(() =>
     sessionId: S.String.pipe(T.HttpLabel("sessionId")),
   }).pipe(
     T.all(
-      T.Http({
-        method: "GET",
-        uri: "/assistants/{assistantId}/sessions/{sessionId}",
-      }),
+      T.Http({ method: "GET", uri: "/assistants/{assistantId}/sessions/{sessionId}" }),
       svc,
       auth,
       proto,
@@ -4579,17 +4290,13 @@ export const GetSessionRequest = /*@__PURE__*/ S.suspend(() =>
       rules,
     ),
   ),
-).annotate({
-  identifier: "GetSessionRequest",
-}) as any as S.Schema<GetSessionRequest>;
+).annotate({ identifier: "GetSessionRequest" }) as any as S.Schema<GetSessionRequest>;
 export interface GetSessionResponse {
   session?: SessionData;
 }
 export const GetSessionResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ session: S.optional(SessionData) }),
-).annotate({
-  identifier: "GetSessionResponse",
-}) as any as S.Schema<GetSessionResponse>;
+).annotate({ identifier: "GetSessionResponse" }) as any as S.Schema<GetSessionResponse>;
 export interface ListAIAgentsRequest {
   assistantId: string;
   nextToken?: string;
@@ -4612,9 +4319,7 @@ export const ListAIAgentsRequest = /*@__PURE__*/ S.suspend(() =>
       rules,
     ),
   ),
-).annotate({
-  identifier: "ListAIAgentsRequest",
-}) as any as S.Schema<ListAIAgentsRequest>;
+).annotate({ identifier: "ListAIAgentsRequest" }) as any as S.Schema<ListAIAgentsRequest>;
 export interface AIAgentSummary {
   name: string;
   assistantId: string;
@@ -4654,13 +4359,8 @@ export interface ListAIAgentsResponse {
   nextToken?: string;
 }
 export const ListAIAgentsResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    aiAgentSummaries: AIAgentSummaryList,
-    nextToken: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "ListAIAgentsResponse",
-}) as any as S.Schema<ListAIAgentsResponse>;
+  S.Struct({ aiAgentSummaries: AIAgentSummaryList, nextToken: S.optional(S.String) }),
+).annotate({ identifier: "ListAIAgentsResponse" }) as any as S.Schema<ListAIAgentsResponse>;
 export interface ListAIAgentVersionsRequest {
   assistantId: string;
   aiAgentId: string;
@@ -4677,10 +4377,7 @@ export const ListAIAgentVersionsRequest = /*@__PURE__*/ S.suspend(() =>
     origin: S.optional(S.String).pipe(T.HttpQuery("origin")),
   }).pipe(
     T.all(
-      T.Http({
-        method: "GET",
-        uri: "/assistants/{assistantId}/aiagents/{aiAgentId}/versions",
-      }),
+      T.Http({ method: "GET", uri: "/assistants/{assistantId}/aiagents/{aiAgentId}/versions" }),
       svc,
       auth,
       proto,
@@ -4696,13 +4393,8 @@ export interface AIAgentVersionSummary {
   versionNumber?: number;
 }
 export const AIAgentVersionSummary = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    aiAgentSummary: S.optional(AIAgentSummary),
-    versionNumber: S.optional(S.Number),
-  }),
-).annotate({
-  identifier: "AIAgentVersionSummary",
-}) as any as S.Schema<AIAgentVersionSummary>;
+  S.Struct({ aiAgentSummary: S.optional(AIAgentSummary), versionNumber: S.optional(S.Number) }),
+).annotate({ identifier: "AIAgentVersionSummary" }) as any as S.Schema<AIAgentVersionSummary>;
 export type AIAgentVersionSummariesList = AIAgentVersionSummary[];
 export const AIAgentVersionSummariesList = /*@__PURE__*/ S.Array(AIAgentVersionSummary);
 export interface ListAIAgentVersionsResponse {
@@ -4737,9 +4429,7 @@ export const ListAIGuardrailsRequest = /*@__PURE__*/ S.suspend(() =>
       rules,
     ),
   ),
-).annotate({
-  identifier: "ListAIGuardrailsRequest",
-}) as any as S.Schema<ListAIGuardrailsRequest>;
+).annotate({ identifier: "ListAIGuardrailsRequest" }) as any as S.Schema<ListAIGuardrailsRequest>;
 export interface AIGuardrailSummary {
   name: string;
   assistantId: string;
@@ -4765,9 +4455,7 @@ export const AIGuardrailSummary = /*@__PURE__*/ S.suspend(() =>
     status: S.optional(S.String),
     tags: S.optional(Tags),
   }),
-).annotate({
-  identifier: "AIGuardrailSummary",
-}) as any as S.Schema<AIGuardrailSummary>;
+).annotate({ identifier: "AIGuardrailSummary" }) as any as S.Schema<AIGuardrailSummary>;
 export type AIGuardrailSummariesList = AIGuardrailSummary[];
 export const AIGuardrailSummariesList = /*@__PURE__*/ S.Array(AIGuardrailSummary);
 export interface ListAIGuardrailsResponse {
@@ -4775,13 +4463,8 @@ export interface ListAIGuardrailsResponse {
   nextToken?: string;
 }
 export const ListAIGuardrailsResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    aiGuardrailSummaries: AIGuardrailSummariesList,
-    nextToken: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "ListAIGuardrailsResponse",
-}) as any as S.Schema<ListAIGuardrailsResponse>;
+  S.Struct({ aiGuardrailSummaries: AIGuardrailSummariesList, nextToken: S.optional(S.String) }),
+).annotate({ identifier: "ListAIGuardrailsResponse" }) as any as S.Schema<ListAIGuardrailsResponse>;
 export interface ListAIGuardrailVersionsRequest {
   assistantId: string;
   aiGuardrailId: string;
@@ -4858,9 +4541,7 @@ export const ListAIPromptsRequest = /*@__PURE__*/ S.suspend(() =>
       rules,
     ),
   ),
-).annotate({
-  identifier: "ListAIPromptsRequest",
-}) as any as S.Schema<ListAIPromptsRequest>;
+).annotate({ identifier: "ListAIPromptsRequest" }) as any as S.Schema<ListAIPromptsRequest>;
 export interface AIPromptSummary {
   name: string;
   assistantId: string;
@@ -4896,9 +4577,7 @@ export const AIPromptSummary = /*@__PURE__*/ S.suspend(() =>
     status: S.optional(S.String),
     tags: S.optional(Tags),
   }),
-).annotate({
-  identifier: "AIPromptSummary",
-}) as any as S.Schema<AIPromptSummary>;
+).annotate({ identifier: "AIPromptSummary" }) as any as S.Schema<AIPromptSummary>;
 export type AIPromptSummaryList = AIPromptSummary[];
 export const AIPromptSummaryList = /*@__PURE__*/ S.Array(AIPromptSummary);
 export interface ListAIPromptsResponse {
@@ -4906,13 +4585,8 @@ export interface ListAIPromptsResponse {
   nextToken?: string;
 }
 export const ListAIPromptsResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    aiPromptSummaries: AIPromptSummaryList,
-    nextToken: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "ListAIPromptsResponse",
-}) as any as S.Schema<ListAIPromptsResponse>;
+  S.Struct({ aiPromptSummaries: AIPromptSummaryList, nextToken: S.optional(S.String) }),
+).annotate({ identifier: "ListAIPromptsResponse" }) as any as S.Schema<ListAIPromptsResponse>;
 export interface ListAIPromptVersionsRequest {
   assistantId: string;
   aiPromptId: string;
@@ -4929,10 +4603,7 @@ export const ListAIPromptVersionsRequest = /*@__PURE__*/ S.suspend(() =>
     origin: S.optional(S.String).pipe(T.HttpQuery("origin")),
   }).pipe(
     T.all(
-      T.Http({
-        method: "GET",
-        uri: "/assistants/{assistantId}/aiprompts/{aiPromptId}/versions",
-      }),
+      T.Http({ method: "GET", uri: "/assistants/{assistantId}/aiprompts/{aiPromptId}/versions" }),
       svc,
       auth,
       proto,
@@ -4948,13 +4619,8 @@ export interface AIPromptVersionSummary {
   versionNumber?: number;
 }
 export const AIPromptVersionSummary = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    aiPromptSummary: S.optional(AIPromptSummary),
-    versionNumber: S.optional(S.Number),
-  }),
-).annotate({
-  identifier: "AIPromptVersionSummary",
-}) as any as S.Schema<AIPromptVersionSummary>;
+  S.Struct({ aiPromptSummary: S.optional(AIPromptSummary), versionNumber: S.optional(S.Number) }),
+).annotate({ identifier: "AIPromptVersionSummary" }) as any as S.Schema<AIPromptVersionSummary>;
 export type AIPromptVersionSummariesList = AIPromptVersionSummary[];
 export const AIPromptVersionSummariesList = /*@__PURE__*/ S.Array(AIPromptVersionSummary);
 export interface ListAIPromptVersionsResponse {
@@ -5037,9 +4703,7 @@ export const ListAssistantsRequest = /*@__PURE__*/ S.suspend(() =>
     nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
     maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
   }).pipe(T.all(T.Http({ method: "GET", uri: "/assistants" }), svc, auth, proto, ver, rules)),
-).annotate({
-  identifier: "ListAssistantsRequest",
-}) as any as S.Schema<ListAssistantsRequest>;
+).annotate({ identifier: "ListAssistantsRequest" }) as any as S.Schema<ListAssistantsRequest>;
 export interface AssistantSummary {
   assistantId: string;
   assistantArn: string;
@@ -5051,9 +4715,7 @@ export interface AssistantSummary {
   serverSideEncryptionConfiguration?: ServerSideEncryptionConfiguration;
   integrationConfiguration?: AssistantIntegrationConfiguration;
   capabilityConfiguration?: AssistantCapabilityConfiguration;
-  aiAgentConfiguration?: {
-    [key: string]: AIAgentConfigurationData | undefined;
-  };
+  aiAgentConfiguration?: { [key: string]: AIAgentConfigurationData | undefined };
   orchestratorConfigurationList?: OrchestratorConfigurationEntry[];
 }
 export const AssistantSummary = /*@__PURE__*/ S.suspend(() =>
@@ -5071,9 +4733,7 @@ export const AssistantSummary = /*@__PURE__*/ S.suspend(() =>
     aiAgentConfiguration: S.optional(AIAgentConfigurationMap),
     orchestratorConfigurationList: S.optional(OrchestratorConfigurationList),
   }),
-).annotate({
-  identifier: "AssistantSummary",
-}) as any as S.Schema<AssistantSummary>;
+).annotate({ identifier: "AssistantSummary" }) as any as S.Schema<AssistantSummary>;
 export type AssistantList = AssistantSummary[];
 export const AssistantList = /*@__PURE__*/ S.Array(AssistantSummary);
 export interface ListAssistantsResponse {
@@ -5081,13 +4741,8 @@ export interface ListAssistantsResponse {
   nextToken?: string;
 }
 export const ListAssistantsResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    assistantSummaries: AssistantList,
-    nextToken: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "ListAssistantsResponse",
-}) as any as S.Schema<ListAssistantsResponse>;
+  S.Struct({ assistantSummaries: AssistantList, nextToken: S.optional(S.String) }),
+).annotate({ identifier: "ListAssistantsResponse" }) as any as S.Schema<ListAssistantsResponse>;
 export interface ListContentAssociationsRequest {
   nextToken?: string;
   maxResults?: number;
@@ -5168,10 +4823,7 @@ export const ListContentsRequest = /*@__PURE__*/ S.suspend(() =>
     knowledgeBaseId: S.String.pipe(T.HttpLabel("knowledgeBaseId")),
   }).pipe(
     T.all(
-      T.Http({
-        method: "GET",
-        uri: "/knowledgeBases/{knowledgeBaseId}/contents",
-      }),
+      T.Http({ method: "GET", uri: "/knowledgeBases/{knowledgeBaseId}/contents" }),
       svc,
       auth,
       proto,
@@ -5179,9 +4831,7 @@ export const ListContentsRequest = /*@__PURE__*/ S.suspend(() =>
       rules,
     ),
   ),
-).annotate({
-  identifier: "ListContentsRequest",
-}) as any as S.Schema<ListContentsRequest>;
+).annotate({ identifier: "ListContentsRequest" }) as any as S.Schema<ListContentsRequest>;
 export type ContentSummaryList = ContentSummary[];
 export const ContentSummaryList = /*@__PURE__*/ S.Array(ContentSummary);
 export interface ListContentsResponse {
@@ -5189,13 +4839,8 @@ export interface ListContentsResponse {
   nextToken?: string;
 }
 export const ListContentsResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    contentSummaries: ContentSummaryList,
-    nextToken: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "ListContentsResponse",
-}) as any as S.Schema<ListContentsResponse>;
+  S.Struct({ contentSummaries: ContentSummaryList, nextToken: S.optional(S.String) }),
+).annotate({ identifier: "ListContentsResponse" }) as any as S.Schema<ListContentsResponse>;
 export interface ListImportJobsRequest {
   nextToken?: string;
   maxResults?: number;
@@ -5208,10 +4853,7 @@ export const ListImportJobsRequest = /*@__PURE__*/ S.suspend(() =>
     knowledgeBaseId: S.String.pipe(T.HttpLabel("knowledgeBaseId")),
   }).pipe(
     T.all(
-      T.Http({
-        method: "GET",
-        uri: "/knowledgeBases/{knowledgeBaseId}/importJobs",
-      }),
+      T.Http({ method: "GET", uri: "/knowledgeBases/{knowledgeBaseId}/importJobs" }),
       svc,
       auth,
       proto,
@@ -5219,9 +4861,7 @@ export const ListImportJobsRequest = /*@__PURE__*/ S.suspend(() =>
       rules,
     ),
   ),
-).annotate({
-  identifier: "ListImportJobsRequest",
-}) as any as S.Schema<ListImportJobsRequest>;
+).annotate({ identifier: "ListImportJobsRequest" }) as any as S.Schema<ListImportJobsRequest>;
 export interface ImportJobSummary {
   importJobId: string;
   knowledgeBaseId: string;
@@ -5247,9 +4887,7 @@ export const ImportJobSummary = /*@__PURE__*/ S.suspend(() =>
     metadata: S.optional(ContentMetadata),
     externalSourceConfiguration: S.optional(ExternalSourceConfiguration),
   }),
-).annotate({
-  identifier: "ImportJobSummary",
-}) as any as S.Schema<ImportJobSummary>;
+).annotate({ identifier: "ImportJobSummary" }) as any as S.Schema<ImportJobSummary>;
 export type ImportJobList = ImportJobSummary[];
 export const ImportJobList = /*@__PURE__*/ S.Array(ImportJobSummary);
 export interface ListImportJobsResponse {
@@ -5257,13 +4895,8 @@ export interface ListImportJobsResponse {
   nextToken?: string;
 }
 export const ListImportJobsResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    importJobSummaries: ImportJobList,
-    nextToken: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "ListImportJobsResponse",
-}) as any as S.Schema<ListImportJobsResponse>;
+  S.Struct({ importJobSummaries: ImportJobList, nextToken: S.optional(S.String) }),
+).annotate({ identifier: "ListImportJobsResponse" }) as any as S.Schema<ListImportJobsResponse>;
 export interface ListKnowledgeBasesRequest {
   nextToken?: string;
   maxResults?: number;
@@ -5303,9 +4936,7 @@ export const KnowledgeBaseSummary = /*@__PURE__*/ S.suspend(() =>
     description: S.optional(S.String),
     tags: S.optional(Tags),
   }),
-).annotate({
-  identifier: "KnowledgeBaseSummary",
-}) as any as S.Schema<KnowledgeBaseSummary>;
+).annotate({ identifier: "KnowledgeBaseSummary" }) as any as S.Schema<KnowledgeBaseSummary>;
 export type KnowledgeBaseList = KnowledgeBaseSummary[];
 export const KnowledgeBaseList = /*@__PURE__*/ S.Array(KnowledgeBaseSummary);
 export interface ListKnowledgeBasesResponse {
@@ -5313,10 +4944,7 @@ export interface ListKnowledgeBasesResponse {
   nextToken?: string;
 }
 export const ListKnowledgeBasesResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    knowledgeBaseSummaries: KnowledgeBaseList,
-    nextToken: S.optional(S.String),
-  }),
+  S.Struct({ knowledgeBaseSummaries: KnowledgeBaseList, nextToken: S.optional(S.String) }),
 ).annotate({
   identifier: "ListKnowledgeBasesResponse",
 }) as any as S.Schema<ListKnowledgeBasesResponse>;
@@ -5337,10 +4965,7 @@ export const ListMessagesRequest = /*@__PURE__*/ S.suspend(() =>
     filter: S.optional(S.String).pipe(T.HttpQuery("filter")),
   }).pipe(
     T.all(
-      T.Http({
-        method: "GET",
-        uri: "/assistants/{assistantId}/sessions/{sessionId}/messages",
-      }),
+      T.Http({ method: "GET", uri: "/assistants/{assistantId}/sessions/{sessionId}/messages" }),
       svc,
       auth,
       proto,
@@ -5348,9 +4973,7 @@ export const ListMessagesRequest = /*@__PURE__*/ S.suspend(() =>
       rules,
     ),
   ),
-).annotate({
-  identifier: "ListMessagesRequest",
-}) as any as S.Schema<ListMessagesRequest>;
+).annotate({ identifier: "ListMessagesRequest" }) as any as S.Schema<ListMessagesRequest>;
 export type MessageList = MessageOutput[];
 export const MessageList = /*@__PURE__*/ S.Array(MessageOutput);
 export interface ListMessagesResponse {
@@ -5359,9 +4982,7 @@ export interface ListMessagesResponse {
 }
 export const ListMessagesResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ messages: MessageList, nextToken: S.optional(S.String) }),
-).annotate({
-  identifier: "ListMessagesResponse",
-}) as any as S.Schema<ListMessagesResponse>;
+).annotate({ identifier: "ListMessagesResponse" }) as any as S.Schema<ListMessagesResponse>;
 export interface ListMessageTemplatesRequest {
   nextToken?: string;
   maxResults?: number;
@@ -5374,10 +4995,7 @@ export const ListMessageTemplatesRequest = /*@__PURE__*/ S.suspend(() =>
     knowledgeBaseId: S.String.pipe(T.HttpLabel("knowledgeBaseId")),
   }).pipe(
     T.all(
-      T.Http({
-        method: "GET",
-        uri: "/knowledgeBases/{knowledgeBaseId}/messageTemplates",
-      }),
+      T.Http({ method: "GET", uri: "/knowledgeBases/{knowledgeBaseId}/messageTemplates" }),
       svc,
       auth,
       proto,
@@ -5421,9 +5039,7 @@ export const MessageTemplateSummary = /*@__PURE__*/ S.suspend(() =>
     description: S.optional(S.String),
     tags: S.optional(Tags),
   }),
-).annotate({
-  identifier: "MessageTemplateSummary",
-}) as any as S.Schema<MessageTemplateSummary>;
+).annotate({ identifier: "MessageTemplateSummary" }) as any as S.Schema<MessageTemplateSummary>;
 export type MessageTemplateSummaryList = MessageTemplateSummary[];
 export const MessageTemplateSummaryList = /*@__PURE__*/ S.Array(MessageTemplateSummary);
 export interface ListMessageTemplatesResponse {
@@ -5533,9 +5149,7 @@ export const ListModelsRequest = /*@__PURE__*/ S.suspend(() =>
       rules,
     ),
   ),
-).annotate({
-  identifier: "ListModelsRequest",
-}) as any as S.Schema<ListModelsRequest>;
+).annotate({ identifier: "ListModelsRequest" }) as any as S.Schema<ListModelsRequest>;
 export type ModelId = string;
 export type ModelDisplayName = string;
 export type CrossRegionStatus = string;
@@ -5570,13 +5184,8 @@ export interface ListModelsResponse {
   nextToken?: string;
 }
 export const ListModelsResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    modelSummaries: ModelSummaryList,
-    nextToken: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "ListModelsResponse",
-}) as any as S.Schema<ListModelsResponse>;
+  S.Struct({ modelSummaries: ModelSummaryList, nextToken: S.optional(S.String) }),
+).annotate({ identifier: "ListModelsResponse" }) as any as S.Schema<ListModelsResponse>;
 export interface ListQuickResponsesRequest {
   nextToken?: string;
   maxResults?: number;
@@ -5589,10 +5198,7 @@ export const ListQuickResponsesRequest = /*@__PURE__*/ S.suspend(() =>
     knowledgeBaseId: S.String.pipe(T.HttpLabel("knowledgeBaseId")),
   }).pipe(
     T.all(
-      T.Http({
-        method: "GET",
-        uri: "/knowledgeBases/{knowledgeBaseId}/quickResponses",
-      }),
+      T.Http({ method: "GET", uri: "/knowledgeBases/{knowledgeBaseId}/quickResponses" }),
       svc,
       auth,
       proto,
@@ -5636,9 +5242,7 @@ export const QuickResponseSummary = /*@__PURE__*/ S.suspend(() =>
     channels: S.optional(Channels),
     tags: S.optional(Tags),
   }),
-).annotate({
-  identifier: "QuickResponseSummary",
-}) as any as S.Schema<QuickResponseSummary>;
+).annotate({ identifier: "QuickResponseSummary" }) as any as S.Schema<QuickResponseSummary>;
 export type QuickResponseSummaryList = QuickResponseSummary[];
 export const QuickResponseSummaryList = /*@__PURE__*/ S.Array(QuickResponseSummary);
 export interface ListQuickResponsesResponse {
@@ -5646,10 +5250,7 @@ export interface ListQuickResponsesResponse {
   nextToken?: string;
 }
 export const ListQuickResponsesResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    quickResponseSummaries: QuickResponseSummaryList,
-    nextToken: S.optional(S.String),
-  }),
+  S.Struct({ quickResponseSummaries: QuickResponseSummaryList, nextToken: S.optional(S.String) }),
 ).annotate({
   identifier: "ListQuickResponsesResponse",
 }) as any as S.Schema<ListQuickResponsesResponse>;
@@ -5667,10 +5268,7 @@ export const ListSpansRequest = /*@__PURE__*/ S.suspend(() =>
     maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
   }).pipe(
     T.all(
-      T.Http({
-        method: "GET",
-        uri: "/assistants/{assistantId}/sessions/{sessionId}/spans",
-      }),
+      T.Http({ method: "GET", uri: "/assistants/{assistantId}/sessions/{sessionId}/spans" }),
       svc,
       auth,
       proto,
@@ -5678,11 +5276,11 @@ export const ListSpansRequest = /*@__PURE__*/ S.suspend(() =>
       rules,
     ),
   ),
-).annotate({
-  identifier: "ListSpansRequest",
-}) as any as S.Schema<ListSpansRequest>;
+).annotate({ identifier: "ListSpansRequest" }) as any as S.Schema<ListSpansRequest>;
 export type SpanType = string;
 export type SpanStatus = string;
+export type InteractionMode = string;
+export type ReturnReason = string;
 export type SpanFinishReasonList = string[];
 export const SpanFinishReasonList = /*@__PURE__*/ S.Array(S.String);
 export interface SpanCitation {
@@ -5720,9 +5318,7 @@ export interface SpanToolUseValue {
 }
 export const SpanToolUseValue = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ toolUseId: S.String, name: S.String, arguments: S.Any }),
-).annotate({
-  identifier: "SpanToolUseValue",
-}) as any as S.Schema<SpanToolUseValue>;
+).annotate({ identifier: "SpanToolUseValue" }) as any as S.Schema<SpanToolUseValue>;
 export interface SpanToolResultValue {
   toolUseId: string;
   values: SpanMessageValue[];
@@ -5731,47 +5327,21 @@ export interface SpanToolResultValue {
 export const SpanToolResultValue = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     toolUseId: S.String,
-    values: S.suspend(() => SpanMessageValueList).annotate({
-      identifier: "SpanMessageValueList",
-    }),
+    values: S.suspend(() => SpanMessageValueList).annotate({ identifier: "SpanMessageValueList" }),
     error: S.optional(S.String),
   }),
-).annotate({
-  identifier: "SpanToolResultValue",
-}) as any as S.Schema<SpanToolResultValue>;
+).annotate({ identifier: "SpanToolResultValue" }) as any as S.Schema<SpanToolResultValue>;
 export interface SpanReasoningValue {
   value: string | redacted.Redacted<string>;
 }
 export const SpanReasoningValue = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ value: SensitiveString }),
-).annotate({
-  identifier: "SpanReasoningValue",
-}) as any as S.Schema<SpanReasoningValue>;
+).annotate({ identifier: "SpanReasoningValue" }) as any as S.Schema<SpanReasoningValue>;
 export type SpanMessageValue =
-  | {
-      text: SpanTextValue;
-      toolUse?: never;
-      toolResult?: never;
-      reasoning?: never;
-    }
-  | {
-      text?: never;
-      toolUse: SpanToolUseValue;
-      toolResult?: never;
-      reasoning?: never;
-    }
-  | {
-      text?: never;
-      toolUse?: never;
-      toolResult: SpanToolResultValue;
-      reasoning?: never;
-    }
-  | {
-      text?: never;
-      toolUse?: never;
-      toolResult?: never;
-      reasoning: SpanReasoningValue;
-    };
+  | { text: SpanTextValue; toolUse?: never; toolResult?: never; reasoning?: never }
+  | { text?: never; toolUse: SpanToolUseValue; toolResult?: never; reasoning?: never }
+  | { text?: never; toolUse?: never; toolResult: SpanToolResultValue; reasoning?: never }
+  | { text?: never; toolUse?: never; toolResult?: never; reasoning: SpanReasoningValue };
 export const SpanMessageValue = /*@__PURE__*/ S.Union([
   S.Struct({ text: SpanTextValue }),
   S.Struct({ toolUse: SpanToolUseValue }),
@@ -5784,9 +5354,7 @@ export const SpanMessageValue = /*@__PURE__*/ S.Union([
 ]) as any as S.Schema<SpanMessageValue>;
 export type SpanMessageValueList = SpanMessageValue[];
 export const SpanMessageValueList = /*@__PURE__*/ S.Array(
-  S.suspend(() => SpanMessageValue).annotate({
-    identifier: "SpanMessageValue",
-  }),
+  S.suspend(() => SpanMessageValue).annotate({ identifier: "SpanMessageValue" }),
 ) as any as S.Schema<SpanMessageValueList>;
 export interface SpanMessage {
   messageId: string;
@@ -5813,14 +5381,8 @@ export interface GuardrailPolicyResult {
   details?: string;
 }
 export const GuardrailPolicyResult = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    policyType: S.String,
-    action: S.String,
-    details: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "GuardrailPolicyResult",
-}) as any as S.Schema<GuardrailPolicyResult>;
+  S.Struct({ policyType: S.String, action: S.String, details: S.optional(S.String) }),
+).annotate({ identifier: "GuardrailPolicyResult" }) as any as S.Schema<GuardrailPolicyResult>;
 export type GuardrailPolicyResultList = GuardrailPolicyResult[];
 export const GuardrailPolicyResultList = /*@__PURE__*/ S.Array(GuardrailPolicyResult);
 export interface SpanGuardrailAssessment {
@@ -5838,9 +5400,7 @@ export const SpanGuardrailAssessment = /*@__PURE__*/ S.suspend(() =>
     action: S.String,
     policies: S.optional(GuardrailPolicyResultList),
   }),
-).annotate({
-  identifier: "SpanGuardrailAssessment",
-}) as any as S.Schema<SpanGuardrailAssessment>;
+).annotate({ identifier: "SpanGuardrailAssessment" }) as any as S.Schema<SpanGuardrailAssessment>;
 export type SpanGuardrailAssessmentList = SpanGuardrailAssessment[];
 export const SpanGuardrailAssessmentList = /*@__PURE__*/ S.Array(SpanGuardrailAssessment);
 export interface SpanAttributes {
@@ -5859,6 +5419,9 @@ export interface SpanAttributes {
   aiAgentVersion?: number;
   aiAgentInvoker?: string;
   aiAgentOrchestratorUseCase?: string;
+  interactionMode?: string;
+  targetAgentId?: string;
+  returnReason?: string;
   requestModel?: string;
   requestMaxTokens?: number;
   temperature?: number;
@@ -5898,6 +5461,9 @@ export const SpanAttributes = /*@__PURE__*/ S.suspend(() =>
     aiAgentVersion: S.optional(S.Number),
     aiAgentInvoker: S.optional(S.String),
     aiAgentOrchestratorUseCase: S.optional(S.String),
+    interactionMode: S.optional(S.String),
+    targetAgentId: S.optional(S.String),
+    returnReason: S.optional(S.String),
     requestModel: S.optional(S.String),
     requestMaxTokens: S.optional(S.Number),
     temperature: S.optional(S.Number),
@@ -5961,9 +5527,7 @@ export interface ListSpansResponse {
 }
 export const ListSpansResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ spans: SpanList, nextToken: S.optional(S.String) }),
-).annotate({
-  identifier: "ListSpansResponse",
-}) as any as S.Schema<ListSpansResponse>;
+).annotate({ identifier: "ListSpansResponse" }) as any as S.Schema<ListSpansResponse>;
 export interface ListTagsForResourceRequest {
   resourceArn: string;
 }
@@ -6014,10 +5578,7 @@ export interface NotifyRecommendationsReceivedError_ {
   message?: string;
 }
 export const NotifyRecommendationsReceivedError_ = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    recommendationId: S.optional(S.String),
-    message: S.optional(S.String),
-  }),
+  S.Struct({ recommendationId: S.optional(S.String), message: S.optional(S.String) }),
 ).annotate({
   identifier: "NotifyRecommendationsReceivedError",
 }) as any as S.Schema<NotifyRecommendationsReceivedError_>;
@@ -6047,9 +5608,7 @@ export const GenerativeContentFeedbackData = /*@__PURE__*/ S.suspend(() =>
 ).annotate({
   identifier: "GenerativeContentFeedbackData",
 }) as any as S.Schema<GenerativeContentFeedbackData>;
-export type ContentFeedbackData = {
-  generativeContentFeedbackData: GenerativeContentFeedbackData;
-};
+export type ContentFeedbackData = { generativeContentFeedbackData: GenerativeContentFeedbackData };
 export const ContentFeedbackData = /*@__PURE__*/ S.Union([
   S.Struct({ generativeContentFeedbackData: GenerativeContentFeedbackData }),
 ]);
@@ -6075,9 +5634,7 @@ export const PutFeedbackRequest = /*@__PURE__*/ S.suspend(() =>
       rules,
     ),
   ),
-).annotate({
-  identifier: "PutFeedbackRequest",
-}) as any as S.Schema<PutFeedbackRequest>;
+).annotate({ identifier: "PutFeedbackRequest" }) as any as S.Schema<PutFeedbackRequest>;
 export interface PutFeedbackResponse {
   assistantId: string;
   assistantArn: string;
@@ -6093,9 +5650,7 @@ export const PutFeedbackResponse = /*@__PURE__*/ S.suspend(() =>
     targetType: S.String,
     contentFeedback: ContentFeedbackData,
   }),
-).annotate({
-  identifier: "PutFeedbackResponse",
-}) as any as S.Schema<PutFeedbackResponse>;
+).annotate({ identifier: "PutFeedbackResponse" }) as any as S.Schema<PutFeedbackResponse>;
 export type QueryConditionFieldName = string;
 export type QueryConditionComparisonOperator = string;
 export interface QueryConditionItem {
@@ -6105,9 +5660,7 @@ export interface QueryConditionItem {
 }
 export const QueryConditionItem = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ field: S.String, comparator: S.String, value: S.String }),
-).annotate({
-  identifier: "QueryConditionItem",
-}) as any as S.Schema<QueryConditionItem>;
+).annotate({ identifier: "QueryConditionItem" }) as any as S.Schema<QueryConditionItem>;
 export type QueryCondition = { single: QueryConditionItem };
 export const QueryCondition = /*@__PURE__*/ S.Union([S.Struct({ single: QueryConditionItem })]);
 export type QueryConditionExpression = QueryCondition[];
@@ -6117,17 +5670,13 @@ export interface QueryTextInputData {
 }
 export const QueryTextInputData = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ text: SensitiveString }),
-).annotate({
-  identifier: "QueryTextInputData",
-}) as any as S.Schema<QueryTextInputData>;
+).annotate({ identifier: "QueryTextInputData" }) as any as S.Schema<QueryTextInputData>;
 export interface IntentInputData {
   intentId: string;
 }
 export const IntentInputData = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ intentId: S.String }),
-).annotate({
-  identifier: "IntentInputData",
-}) as any as S.Schema<IntentInputData>;
+).annotate({ identifier: "IntentInputData" }) as any as S.Schema<IntentInputData>;
 export type CaseArn = string;
 export interface CaseSummarizationInputData {
   caseArn: string;
@@ -6188,9 +5737,7 @@ export const QueryAssistantRequest = /*@__PURE__*/ S.suspend(() =>
       rules,
     ),
   ),
-).annotate({
-  identifier: "QueryAssistantRequest",
-}) as any as S.Schema<QueryAssistantRequest>;
+).annotate({ identifier: "QueryAssistantRequest" }) as any as S.Schema<QueryAssistantRequest>;
 export type QueryResultType = string;
 export interface ResultData {
   resultId: string;
@@ -6216,9 +5763,7 @@ export interface QueryAssistantResponse {
 }
 export const QueryAssistantResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ results: QueryResultsList, nextToken: S.optional(S.String) }),
-).annotate({
-  identifier: "QueryAssistantResponse",
-}) as any as S.Schema<QueryAssistantResponse>;
+).annotate({ identifier: "QueryAssistantResponse" }) as any as S.Schema<QueryAssistantResponse>;
 export interface RemoveAssistantAIAgentRequest {
   assistantId: string;
   aiAgentType: string;
@@ -6231,10 +5776,7 @@ export const RemoveAssistantAIAgentRequest = /*@__PURE__*/ S.suspend(() =>
     orchestratorUseCase: S.optional(S.String).pipe(T.HttpQuery("orchestratorUseCase")),
   }).pipe(
     T.all(
-      T.Http({
-        method: "DELETE",
-        uri: "/assistants/{assistantId}/aiagentConfiguration",
-      }),
+      T.Http({ method: "DELETE", uri: "/assistants/{assistantId}/aiagentConfiguration" }),
       svc,
       auth,
       proto,
@@ -6253,14 +5795,9 @@ export interface RemoveKnowledgeBaseTemplateUriRequest {
   knowledgeBaseId: string;
 }
 export const RemoveKnowledgeBaseTemplateUriRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    knowledgeBaseId: S.String.pipe(T.HttpLabel("knowledgeBaseId")),
-  }).pipe(
+  S.Struct({ knowledgeBaseId: S.String.pipe(T.HttpLabel("knowledgeBaseId")) }).pipe(
     T.all(
-      T.Http({
-        method: "DELETE",
-        uri: "/knowledgeBases/{knowledgeBaseId}/templateUri",
-      }),
+      T.Http({ method: "DELETE", uri: "/knowledgeBases/{knowledgeBaseId}/templateUri" }),
       svc,
       auth,
       proto,
@@ -6340,9 +5877,7 @@ export interface FilterAttribute {
 }
 export const FilterAttribute = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ key: S.String, value: S.Any }),
-).annotate({
-  identifier: "FilterAttribute",
-}) as any as S.Schema<FilterAttribute>;
+).annotate({ identifier: "FilterAttribute" }) as any as S.Schema<FilterAttribute>;
 export type RetrievalFilterConfiguration =
   | {
       andAll: RetrievalFilterConfiguration[];
@@ -6541,9 +6076,7 @@ export type RetrievalFilterConfiguration =
     };
 export const RetrievalFilterConfiguration = /*@__PURE__*/ S.Union([
   S.Struct({
-    andAll: S.suspend(() => RetrievalFilterList).annotate({
-      identifier: "RetrievalFilterList",
-    }),
+    andAll: S.suspend(() => RetrievalFilterList).annotate({ identifier: "RetrievalFilterList" }),
   }),
   S.Struct({ equals: FilterAttribute }),
   S.Struct({ greaterThan: FilterAttribute }),
@@ -6555,9 +6088,7 @@ export const RetrievalFilterConfiguration = /*@__PURE__*/ S.Union([
   S.Struct({ notEquals: FilterAttribute }),
   S.Struct({ notIn: FilterAttribute }),
   S.Struct({
-    orAll: S.suspend(() => RetrievalFilterList).annotate({
-      identifier: "RetrievalFilterList",
-    }),
+    orAll: S.suspend(() => RetrievalFilterList).annotate({ identifier: "RetrievalFilterList" }),
   }),
   S.Struct({ startsWith: FilterAttribute }),
   S.Struct({ stringContains: FilterAttribute }),
@@ -6575,9 +6106,7 @@ export const RetrievalConfiguration = /*@__PURE__*/ S.suspend(() =>
     numberOfResults: S.optional(S.Number),
     overrideKnowledgeBaseSearchType: S.optional(S.String),
   }),
-).annotate({
-  identifier: "RetrievalConfiguration",
-}) as any as S.Schema<RetrievalConfiguration>;
+).annotate({ identifier: "RetrievalConfiguration" }) as any as S.Schema<RetrievalConfiguration>;
 export interface RetrieveRequest {
   assistantId: string;
   retrievalConfiguration: RetrievalConfiguration;
@@ -6598,9 +6127,7 @@ export const RetrieveRequest = /*@__PURE__*/ S.suspend(() =>
       rules,
     ),
   ),
-).annotate({
-  identifier: "RetrieveRequest",
-}) as any as S.Schema<RetrieveRequest>;
+).annotate({ identifier: "RetrieveRequest" }) as any as S.Schema<RetrieveRequest>;
 export interface RetrieveResult {
   associationId: string;
   sourceId: string | redacted.Redacted<string>;
@@ -6617,14 +6144,24 @@ export const RetrieveResult = /*@__PURE__*/ S.suspend(() =>
 ).annotate({ identifier: "RetrieveResult" }) as any as S.Schema<RetrieveResult>;
 export type RetrieveResultList = RetrieveResult[];
 export const RetrieveResultList = /*@__PURE__*/ S.Array(RetrieveResult);
+export type RetrieveErrorCode = string;
+export interface RetrieveError_ {
+  associationId: string;
+  code: string;
+  message: string;
+}
+export const RetrieveError_ = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({ associationId: S.String, code: S.String, message: S.String }),
+).annotate({ identifier: "RetrieveError" }) as any as S.Schema<RetrieveError_>;
+export type RetrieveErrorList = RetrieveError_[];
+export const RetrieveErrorList = /*@__PURE__*/ S.Array(RetrieveError_);
 export interface RetrieveResponse {
   results: RetrieveResult[];
+  errors?: RetrieveError_[];
 }
 export const RetrieveResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ results: RetrieveResultList }),
-).annotate({
-  identifier: "RetrieveResponse",
-}) as any as S.Schema<RetrieveResponse>;
+  S.Struct({ results: RetrieveResultList, errors: S.optional(RetrieveErrorList) }),
+).annotate({ identifier: "RetrieveResponse" }) as any as S.Schema<RetrieveResponse>;
 export type FilterField = string;
 export type FilterOperator = string;
 export interface Filter {
@@ -6642,9 +6179,7 @@ export interface SearchExpression {
 }
 export const SearchExpression = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ filters: FilterList }),
-).annotate({
-  identifier: "SearchExpression",
-}) as any as S.Schema<SearchExpression>;
+).annotate({ identifier: "SearchExpression" }) as any as S.Schema<SearchExpression>;
 export interface SearchContentRequest {
   nextToken?: string;
   maxResults?: number;
@@ -6659,10 +6194,7 @@ export const SearchContentRequest = /*@__PURE__*/ S.suspend(() =>
     searchExpression: SearchExpression,
   }).pipe(
     T.all(
-      T.Http({
-        method: "POST",
-        uri: "/knowledgeBases/{knowledgeBaseId}/search",
-      }),
+      T.Http({ method: "POST", uri: "/knowledgeBases/{knowledgeBaseId}/search" }),
       svc,
       auth,
       proto,
@@ -6670,21 +6202,14 @@ export const SearchContentRequest = /*@__PURE__*/ S.suspend(() =>
       rules,
     ),
   ),
-).annotate({
-  identifier: "SearchContentRequest",
-}) as any as S.Schema<SearchContentRequest>;
+).annotate({ identifier: "SearchContentRequest" }) as any as S.Schema<SearchContentRequest>;
 export interface SearchContentResponse {
   contentSummaries: ContentSummary[];
   nextToken?: string;
 }
 export const SearchContentResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    contentSummaries: ContentSummaryList,
-    nextToken: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "SearchContentResponse",
-}) as any as S.Schema<SearchContentResponse>;
+  S.Struct({ contentSummaries: ContentSummaryList, nextToken: S.optional(S.String) }),
+).annotate({ identifier: "SearchContentResponse" }) as any as S.Schema<SearchContentResponse>;
 export type MessageTemplateQueryValue = string;
 export type MessageTemplateQueryValueList = string[];
 export const MessageTemplateQueryValueList = /*@__PURE__*/ S.Array(S.String);
@@ -6770,10 +6295,7 @@ export const SearchMessageTemplatesRequest = /*@__PURE__*/ S.suspend(() =>
     maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
   }).pipe(
     T.all(
-      T.Http({
-        method: "POST",
-        uri: "/knowledgeBases/{knowledgeBaseId}/search/messageTemplates",
-      }),
+      T.Http({ method: "POST", uri: "/knowledgeBases/{knowledgeBaseId}/search/messageTemplates" }),
       svc,
       auth,
       proto,
@@ -6835,10 +6357,7 @@ export interface SearchMessageTemplatesResponse {
   nextToken?: string;
 }
 export const SearchMessageTemplatesResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    results: MessageTemplateSearchResultsList,
-    nextToken: S.optional(S.String),
-  }),
+  S.Struct({ results: MessageTemplateSearchResultsList, nextToken: S.optional(S.String) }),
 ).annotate({
   identifier: "SearchMessageTemplatesResponse",
 }) as any as S.Schema<SearchMessageTemplatesResponse>;
@@ -6861,9 +6380,7 @@ export const QuickResponseQueryField = /*@__PURE__*/ S.suspend(() =>
     allowFuzziness: S.optional(S.Boolean),
     priority: S.optional(S.String),
   }),
-).annotate({
-  identifier: "QuickResponseQueryField",
-}) as any as S.Schema<QuickResponseQueryField>;
+).annotate({ identifier: "QuickResponseQueryField" }) as any as S.Schema<QuickResponseQueryField>;
 export type QuickResponseQueryFieldList = QuickResponseQueryField[];
 export const QuickResponseQueryFieldList = /*@__PURE__*/ S.Array(QuickResponseQueryField);
 export type QuickResponseFilterValue = string;
@@ -6883,9 +6400,7 @@ export const QuickResponseFilterField = /*@__PURE__*/ S.suspend(() =>
     operator: S.String,
     includeNoExistence: S.optional(S.Boolean),
   }),
-).annotate({
-  identifier: "QuickResponseFilterField",
-}) as any as S.Schema<QuickResponseFilterField>;
+).annotate({ identifier: "QuickResponseFilterField" }) as any as S.Schema<QuickResponseFilterField>;
 export type QuickResponseFilterFieldList = QuickResponseFilterField[];
 export const QuickResponseFilterFieldList = /*@__PURE__*/ S.Array(QuickResponseFilterField);
 export interface QuickResponseOrderField {
@@ -6894,9 +6409,7 @@ export interface QuickResponseOrderField {
 }
 export const QuickResponseOrderField = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ name: S.String, order: S.optional(S.String) }),
-).annotate({
-  identifier: "QuickResponseOrderField",
-}) as any as S.Schema<QuickResponseOrderField>;
+).annotate({ identifier: "QuickResponseOrderField" }) as any as S.Schema<QuickResponseOrderField>;
 export interface QuickResponseSearchExpression {
   queries?: QuickResponseQueryField[];
   filters?: QuickResponseFilterField[];
@@ -6931,10 +6444,7 @@ export const SearchQuickResponsesRequest = /*@__PURE__*/ S.suspend(() =>
     attributes: S.optional(ContactAttributes),
   }).pipe(
     T.all(
-      T.Http({
-        method: "POST",
-        uri: "/knowledgeBases/{knowledgeBaseId}/search/quickResponses",
-      }),
+      T.Http({ method: "POST", uri: "/knowledgeBases/{knowledgeBaseId}/search/quickResponses" }),
       svc,
       auth,
       proto,
@@ -7002,10 +6512,7 @@ export interface SearchQuickResponsesResponse {
   nextToken?: string;
 }
 export const SearchQuickResponsesResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    results: QuickResponseSearchResultsList,
-    nextToken: S.optional(S.String),
-  }),
+  S.Struct({ results: QuickResponseSearchResultsList, nextToken: S.optional(S.String) }),
 ).annotate({
   identifier: "SearchQuickResponsesResponse",
 }) as any as S.Schema<SearchQuickResponsesResponse>;
@@ -7023,10 +6530,7 @@ export const SearchSessionsRequest = /*@__PURE__*/ S.suspend(() =>
     searchExpression: SearchExpression,
   }).pipe(
     T.all(
-      T.Http({
-        method: "POST",
-        uri: "/assistants/{assistantId}/searchSessions",
-      }),
+      T.Http({ method: "POST", uri: "/assistants/{assistantId}/searchSessions" }),
       svc,
       auth,
       proto,
@@ -7034,9 +6538,7 @@ export const SearchSessionsRequest = /*@__PURE__*/ S.suspend(() =>
       rules,
     ),
   ),
-).annotate({
-  identifier: "SearchSessionsRequest",
-}) as any as S.Schema<SearchSessionsRequest>;
+).annotate({ identifier: "SearchSessionsRequest" }) as any as S.Schema<SearchSessionsRequest>;
 export interface SessionSummary {
   sessionId: string;
   sessionArn: string;
@@ -7058,13 +6560,8 @@ export interface SearchSessionsResponse {
   nextToken?: string;
 }
 export const SearchSessionsResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    sessionSummaries: SessionSummaries,
-    nextToken: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "SearchSessionsResponse",
-}) as any as S.Schema<SearchSessionsResponse>;
+  S.Struct({ sessionSummaries: SessionSummaries, nextToken: S.optional(S.String) }),
+).annotate({ identifier: "SearchSessionsResponse" }) as any as S.Schema<SearchSessionsResponse>;
 export interface MessageInput {
   value: MessageData;
 }
@@ -7095,12 +6592,8 @@ export interface ConversationContext {
   selfServiceConversationHistory: SelfServiceConversationHistory[];
 }
 export const ConversationContext = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    selfServiceConversationHistory: SelfServiceConversationHistoryList,
-  }),
-).annotate({
-  identifier: "ConversationContext",
-}) as any as S.Schema<ConversationContext>;
+  S.Struct({ selfServiceConversationHistory: SelfServiceConversationHistoryList }),
+).annotate({ identifier: "ConversationContext" }) as any as S.Schema<ConversationContext>;
 export interface MessageConfiguration {
   generateFillerMessage?: boolean;
   generateChunkedMessage?: boolean;
@@ -7110,9 +6603,7 @@ export const MessageConfiguration = /*@__PURE__*/ S.suspend(() =>
     generateFillerMessage: S.optional(S.Boolean),
     generateChunkedMessage: S.optional(S.Boolean),
   }),
-).annotate({
-  identifier: "MessageConfiguration",
-}) as any as S.Schema<MessageConfiguration>;
+).annotate({ identifier: "MessageConfiguration" }) as any as S.Schema<MessageConfiguration>;
 export type MessageMetadata = { [key: string]: string | undefined };
 export const MessageMetadata = /*@__PURE__*/ S.Record(S.String, S.String.pipe(S.optional));
 export interface SendMessageRequest {
@@ -7143,10 +6634,7 @@ export const SendMessageRequest = /*@__PURE__*/ S.suspend(() =>
     originRequestId: S.optional(S.String),
   }).pipe(
     T.all(
-      T.Http({
-        method: "POST",
-        uri: "/assistants/{assistantId}/sessions/{sessionId}/message",
-      }),
+      T.Http({ method: "POST", uri: "/assistants/{assistantId}/sessions/{sessionId}/message" }),
       svc,
       auth,
       proto,
@@ -7154,9 +6642,7 @@ export const SendMessageRequest = /*@__PURE__*/ S.suspend(() =>
       rules,
     ),
   ),
-).annotate({
-  identifier: "SendMessageRequest",
-}) as any as S.Schema<SendMessageRequest>;
+).annotate({ identifier: "SendMessageRequest" }) as any as S.Schema<SendMessageRequest>;
 export interface SendMessageResponse {
   requestMessageId: string;
   configuration?: MessageConfiguration;
@@ -7168,9 +6654,7 @@ export const SendMessageResponse = /*@__PURE__*/ S.suspend(() =>
     configuration: S.optional(MessageConfiguration),
     nextMessageToken: S.String,
   }),
-).annotate({
-  identifier: "SendMessageResponse",
-}) as any as S.Schema<SendMessageResponse>;
+).annotate({ identifier: "SendMessageResponse" }) as any as S.Schema<SendMessageResponse>;
 export type TimeToLive = number;
 export interface StartContentUploadRequest {
   knowledgeBaseId: string;
@@ -7184,10 +6668,7 @@ export const StartContentUploadRequest = /*@__PURE__*/ S.suspend(() =>
     presignedUrlTimeToLive: S.optional(S.Number),
   }).pipe(
     T.all(
-      T.Http({
-        method: "POST",
-        uri: "/knowledgeBases/{knowledgeBaseId}/upload",
-      }),
+      T.Http({ method: "POST", uri: "/knowledgeBases/{knowledgeBaseId}/upload" }),
       svc,
       auth,
       proto,
@@ -7234,10 +6715,7 @@ export const StartImportJobRequest = /*@__PURE__*/ S.suspend(() =>
     externalSourceConfiguration: S.optional(ExternalSourceConfiguration),
   }).pipe(
     T.all(
-      T.Http({
-        method: "POST",
-        uri: "/knowledgeBases/{knowledgeBaseId}/importJobs",
-      }),
+      T.Http({ method: "POST", uri: "/knowledgeBases/{knowledgeBaseId}/importJobs" }),
       svc,
       auth,
       proto,
@@ -7245,31 +6723,22 @@ export const StartImportJobRequest = /*@__PURE__*/ S.suspend(() =>
       rules,
     ),
   ),
-).annotate({
-  identifier: "StartImportJobRequest",
-}) as any as S.Schema<StartImportJobRequest>;
+).annotate({ identifier: "StartImportJobRequest" }) as any as S.Schema<StartImportJobRequest>;
 export interface StartImportJobResponse {
   importJob?: ImportJobData;
 }
 export const StartImportJobResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ importJob: S.optional(ImportJobData) }),
-).annotate({
-  identifier: "StartImportJobResponse",
-}) as any as S.Schema<StartImportJobResponse>;
+).annotate({ identifier: "StartImportJobResponse" }) as any as S.Schema<StartImportJobResponse>;
 export interface TagResourceRequest {
   resourceArn: string;
   tags: { [key: string]: string | undefined };
 }
 export const TagResourceRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    resourceArn: S.String.pipe(T.HttpLabel("resourceArn")),
-    tags: Tags,
-  }).pipe(
+  S.Struct({ resourceArn: S.String.pipe(T.HttpLabel("resourceArn")), tags: Tags }).pipe(
     T.all(T.Http({ method: "POST", uri: "/tags/{resourceArn}" }), svc, auth, proto, ver, rules),
   ),
-).annotate({
-  identifier: "TagResourceRequest",
-}) as any as S.Schema<TagResourceRequest>;
+).annotate({ identifier: "TagResourceRequest" }) as any as S.Schema<TagResourceRequest>;
 export interface TagResourceResponse {}
 export const TagResourceResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
   identifier: "TagResourceResponse",
@@ -7287,9 +6756,7 @@ export const UntagResourceRequest = /*@__PURE__*/ S.suspend(() =>
   }).pipe(
     T.all(T.Http({ method: "DELETE", uri: "/tags/{resourceArn}" }), svc, auth, proto, ver, rules),
   ),
-).annotate({
-  identifier: "UntagResourceRequest",
-}) as any as S.Schema<UntagResourceRequest>;
+).annotate({ identifier: "UntagResourceRequest" }) as any as S.Schema<UntagResourceRequest>;
 export interface UntagResourceResponse {}
 export const UntagResourceResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
   identifier: "UntagResourceResponse",
@@ -7312,10 +6779,7 @@ export const UpdateAIAgentRequest = /*@__PURE__*/ S.suspend(() =>
     description: S.optional(S.String),
   }).pipe(
     T.all(
-      T.Http({
-        method: "POST",
-        uri: "/assistants/{assistantId}/aiagents/{aiAgentId}",
-      }),
+      T.Http({ method: "POST", uri: "/assistants/{assistantId}/aiagents/{aiAgentId}" }),
       svc,
       auth,
       proto,
@@ -7323,17 +6787,13 @@ export const UpdateAIAgentRequest = /*@__PURE__*/ S.suspend(() =>
       rules,
     ),
   ),
-).annotate({
-  identifier: "UpdateAIAgentRequest",
-}) as any as S.Schema<UpdateAIAgentRequest>;
+).annotate({ identifier: "UpdateAIAgentRequest" }) as any as S.Schema<UpdateAIAgentRequest>;
 export interface UpdateAIAgentResponse {
   aiAgent?: AIAgentData;
 }
 export const UpdateAIAgentResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ aiAgent: S.optional(AIAgentData) }),
-).annotate({
-  identifier: "UpdateAIAgentResponse",
-}) as any as S.Schema<UpdateAIAgentResponse>;
+).annotate({ identifier: "UpdateAIAgentResponse" }) as any as S.Schema<UpdateAIAgentResponse>;
 export interface UpdateAIGuardrailRequest {
   clientToken?: string;
   assistantId: string;
@@ -7364,10 +6824,7 @@ export const UpdateAIGuardrailRequest = /*@__PURE__*/ S.suspend(() =>
     contextualGroundingPolicyConfig: S.optional(AIGuardrailContextualGroundingPolicyConfig),
   }).pipe(
     T.all(
-      T.Http({
-        method: "POST",
-        uri: "/assistants/{assistantId}/aiguardrails/{aiGuardrailId}",
-      }),
+      T.Http({ method: "POST", uri: "/assistants/{assistantId}/aiguardrails/{aiGuardrailId}" }),
       svc,
       auth,
       proto,
@@ -7375,9 +6832,7 @@ export const UpdateAIGuardrailRequest = /*@__PURE__*/ S.suspend(() =>
       rules,
     ),
   ),
-).annotate({
-  identifier: "UpdateAIGuardrailRequest",
-}) as any as S.Schema<UpdateAIGuardrailRequest>;
+).annotate({ identifier: "UpdateAIGuardrailRequest" }) as any as S.Schema<UpdateAIGuardrailRequest>;
 export interface UpdateAIGuardrailResponse {
   aiGuardrail?: AIGuardrailData;
 }
@@ -7408,10 +6863,7 @@ export const UpdateAIPromptRequest = /*@__PURE__*/ S.suspend(() =>
     inferenceConfiguration: S.optional(AIPromptInferenceConfiguration),
   }).pipe(
     T.all(
-      T.Http({
-        method: "POST",
-        uri: "/assistants/{assistantId}/aiprompts/{aiPromptId}",
-      }),
+      T.Http({ method: "POST", uri: "/assistants/{assistantId}/aiprompts/{aiPromptId}" }),
       svc,
       auth,
       proto,
@@ -7419,17 +6871,13 @@ export const UpdateAIPromptRequest = /*@__PURE__*/ S.suspend(() =>
       rules,
     ),
   ),
-).annotate({
-  identifier: "UpdateAIPromptRequest",
-}) as any as S.Schema<UpdateAIPromptRequest>;
+).annotate({ identifier: "UpdateAIPromptRequest" }) as any as S.Schema<UpdateAIPromptRequest>;
 export interface UpdateAIPromptResponse {
   aiPrompt?: AIPromptData;
 }
 export const UpdateAIPromptResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ aiPrompt: S.optional(AIPromptData) }),
-).annotate({
-  identifier: "UpdateAIPromptResponse",
-}) as any as S.Schema<UpdateAIPromptResponse>;
+).annotate({ identifier: "UpdateAIPromptResponse" }) as any as S.Schema<UpdateAIPromptResponse>;
 export interface UpdateAssistantAIAgentRequest {
   assistantId: string;
   aiAgentType: string;
@@ -7444,10 +6892,7 @@ export const UpdateAssistantAIAgentRequest = /*@__PURE__*/ S.suspend(() =>
     orchestratorUseCase: S.optional(S.String),
   }).pipe(
     T.all(
-      T.Http({
-        method: "POST",
-        uri: "/assistants/{assistantId}/aiagentConfiguration",
-      }),
+      T.Http({ method: "POST", uri: "/assistants/{assistantId}/aiagentConfiguration" }),
       svc,
       auth,
       proto,
@@ -7488,10 +6933,7 @@ export const UpdateContentRequest = /*@__PURE__*/ S.suspend(() =>
     uploadId: S.optional(S.String),
   }).pipe(
     T.all(
-      T.Http({
-        method: "POST",
-        uri: "/knowledgeBases/{knowledgeBaseId}/contents/{contentId}",
-      }),
+      T.Http({ method: "POST", uri: "/knowledgeBases/{knowledgeBaseId}/contents/{contentId}" }),
       svc,
       auth,
       proto,
@@ -7499,17 +6941,13 @@ export const UpdateContentRequest = /*@__PURE__*/ S.suspend(() =>
       rules,
     ),
   ),
-).annotate({
-  identifier: "UpdateContentRequest",
-}) as any as S.Schema<UpdateContentRequest>;
+).annotate({ identifier: "UpdateContentRequest" }) as any as S.Schema<UpdateContentRequest>;
 export interface UpdateContentResponse {
   content?: ContentData;
 }
 export const UpdateContentResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ content: S.optional(ContentData) }),
-).annotate({
-  identifier: "UpdateContentResponse",
-}) as any as S.Schema<UpdateContentResponse>;
+).annotate({ identifier: "UpdateContentResponse" }) as any as S.Schema<UpdateContentResponse>;
 export interface UpdateKnowledgeBaseTemplateUriRequest {
   knowledgeBaseId: string;
   templateUri: string;
@@ -7520,10 +6958,7 @@ export const UpdateKnowledgeBaseTemplateUriRequest = /*@__PURE__*/ S.suspend(() 
     templateUri: S.String,
   }).pipe(
     T.all(
-      T.Http({
-        method: "POST",
-        uri: "/knowledgeBases/{knowledgeBaseId}/templateUri",
-      }),
+      T.Http({ method: "POST", uri: "/knowledgeBases/{knowledgeBaseId}/templateUri" }),
       svc,
       auth,
       proto,
@@ -7681,9 +7116,7 @@ export interface UpdateSessionRequest {
   sessionId: string;
   description?: string;
   tagFilter?: TagFilter;
-  aiAgentConfiguration?: {
-    [key: string]: AIAgentConfigurationData | undefined;
-  };
+  aiAgentConfiguration?: { [key: string]: AIAgentConfigurationData | undefined };
   orchestratorConfigurationList?: OrchestratorConfigurationEntry[];
   removeOrchestratorConfigurationList?: boolean;
 }
@@ -7698,10 +7131,7 @@ export const UpdateSessionRequest = /*@__PURE__*/ S.suspend(() =>
     removeOrchestratorConfigurationList: S.optional(S.Boolean),
   }).pipe(
     T.all(
-      T.Http({
-        method: "POST",
-        uri: "/assistants/{assistantId}/sessions/{sessionId}",
-      }),
+      T.Http({ method: "POST", uri: "/assistants/{assistantId}/sessions/{sessionId}" }),
       svc,
       auth,
       proto,
@@ -7709,17 +7139,13 @@ export const UpdateSessionRequest = /*@__PURE__*/ S.suspend(() =>
       rules,
     ),
   ),
-).annotate({
-  identifier: "UpdateSessionRequest",
-}) as any as S.Schema<UpdateSessionRequest>;
+).annotate({ identifier: "UpdateSessionRequest" }) as any as S.Schema<UpdateSessionRequest>;
 export interface UpdateSessionResponse {
   session?: SessionData;
 }
 export const UpdateSessionResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ session: S.optional(SessionData) }),
-).annotate({
-  identifier: "UpdateSessionResponse",
-}) as any as S.Schema<UpdateSessionResponse>;
+).annotate({ identifier: "UpdateSessionResponse" }) as any as S.Schema<UpdateSessionResponse>;
 export type SessionDataNamespace = string;
 export interface UpdateSessionDataRequest {
   assistantId: string;
@@ -7735,10 +7161,7 @@ export const UpdateSessionDataRequest = /*@__PURE__*/ S.suspend(() =>
     data: RuntimeSessionDataList,
   }).pipe(
     T.all(
-      T.Http({
-        method: "PATCH",
-        uri: "/assistants/{assistantId}/sessions/{sessionId}/data",
-      }),
+      T.Http({ method: "PATCH", uri: "/assistants/{assistantId}/sessions/{sessionId}/data" }),
       svc,
       auth,
       proto,
@@ -7746,9 +7169,7 @@ export const UpdateSessionDataRequest = /*@__PURE__*/ S.suspend(() =>
       rules,
     ),
   ),
-).annotate({
-  identifier: "UpdateSessionDataRequest",
-}) as any as S.Schema<UpdateSessionDataRequest>;
+).annotate({ identifier: "UpdateSessionDataRequest" }) as any as S.Schema<UpdateSessionDataRequest>;
 export interface UpdateSessionDataResponse {
   sessionArn: string;
   sessionId: string;
@@ -8111,7 +7532,7 @@ export type CreateContentAssociationError =
  *
  * - You can associate a step-by-step guide with multiple content resources.
  *
- * For more information, see Integrate Amazon Q in Connect with step-by-step guides in the *Amazon Connect Administrator Guide*.
+ * For more information, see Integrate Amazon Q in Connect with step-by-step guides in the *Connect Customer Administrator Guide*.
  */
 export const createContentAssociation: API.OperationMethod<
   CreateContentAssociationRequest,
@@ -8316,7 +7737,7 @@ export type CreateSessionError =
   | ValidationException
   | CommonErrors;
 /**
- * Creates a session. A session is a contextual container used for generating recommendations. Amazon Connect creates a new Amazon Q in Connect session for each contact on which Amazon Q in Connect is enabled.
+ * Creates a session. A session is a contextual container used for generating recommendations. Connect Customer creates a new Amazon Q in Connect session for each contact on which Amazon Q in Connect is enabled.
  */
 export const createSession: API.OperationMethod<
   CreateSessionRequest,
@@ -8652,7 +8073,7 @@ export type DeleteContentAssociationError =
 /**
  * Deletes the content association.
  *
- * For more information about content associations--what they are and when they are used--see Integrate Amazon Q in Connect with step-by-step guides in the *Amazon Connect Administrator Guide*.
+ * For more information about content associations--what they are and when they are used--see Integrate Amazon Q in Connect with step-by-step guides in the *Connect Customer Administrator Guide*.
  */
 export const deleteContentAssociation: API.OperationMethod<
   DeleteContentAssociationRequest,
@@ -9006,7 +8427,7 @@ export type GetContentAssociationError =
 /**
  * Returns the content association.
  *
- * For more information about content associations--what they are and when they are used--see Integrate Amazon Q in Connect with step-by-step guides in the *Amazon Connect Administrator Guide*.
+ * For more information about content associations--what they are and when they are used--see Integrate Amazon Q in Connect with step-by-step guides in the *Connect Customer Administrator Guide*.
  */
 export const getContentAssociation: API.OperationMethod<
   GetContentAssociationRequest,
@@ -9197,7 +8618,7 @@ export type GetRecommendationsError =
   | ValidationException
   | CommonErrors;
 /**
- * This API will be discontinued starting June 1, 2024. To receive generative responses after March 1, 2024, you will need to create a new Assistant in the Amazon Connect console and integrate the Amazon Q in Connect JavaScript library (amazon-q-connectjs) into your applications.
+ * This API will be discontinued starting June 1, 2024. To receive generative responses after March 1, 2024, you will need to create a new Assistant in the Connect Customer console and integrate the Amazon Q in Connect JavaScript library (amazon-q-connectjs) into your applications.
  *
  * Retrieves recommendations for the specified session. To avoid retrieving the same recommendations in subsequent calls, use NotifyRecommendationsReceived. This API supports long-polling behavior with the `waitTimeSeconds` parameter. Short poll is the default behavior and only returns recommendations already available. To perform a manual query against an assistant, use QueryAssistant.
  */
@@ -9532,7 +8953,7 @@ export type ListContentAssociationsError =
 /**
  * Lists the content associations.
  *
- * For more information about content associations--what they are and when they are used--see Integrate Amazon Q in Connect with step-by-step guides in the *Amazon Connect Administrator Guide*.
+ * For more information about content associations--what they are and when they are used--see Integrate Amazon Q in Connect with step-by-step guides in the *Connect Customer Administrator Guide*.
  */
 export const listContentAssociations: API.PaginatedOperationMethod<
   ListContentAssociationsRequest,
@@ -9904,7 +9325,7 @@ export type QueryAssistantError =
   | ValidationException
   | CommonErrors;
 /**
- * This API will be discontinued starting June 1, 2024. To receive generative responses after March 1, 2024, you will need to create a new Assistant in the Amazon Connect console and integrate the Amazon Q in Connect JavaScript library (amazon-q-connectjs) into your applications.
+ * This API will be discontinued starting June 1, 2024. To receive generative responses after March 1, 2024, you will need to create a new Assistant in the Connect Customer console and integrate the Amazon Q in Connect JavaScript library (amazon-q-connectjs) into your applications.
  *
  * Performs a manual search against the specified assistant. To retrieve recommendations for an assistant, use GetRecommendations.
  */
@@ -10601,7 +10022,7 @@ export type UpdateSessionError =
   | ValidationException
   | CommonErrors;
 /**
- * Updates a session. A session is a contextual container used for generating recommendations. Amazon Connect updates the existing Amazon Q in Connect session for each contact on which Amazon Q in Connect is enabled.
+ * Updates a session. A session is a contextual container used for generating recommendations. Connect Customer updates the existing Amazon Q in Connect session for each contact on which Amazon Q in Connect is enabled.
  */
 export const updateSession: API.OperationMethod<
   UpdateSessionRequest,

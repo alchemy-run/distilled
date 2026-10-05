@@ -166,33 +166,21 @@ export interface ProgressiveDialerConfig {
   dialingCapacity?: number;
 }
 export const ProgressiveDialerConfig = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    bandwidthAllocation: S.Number,
-    dialingCapacity: S.optional(S.Number),
-  }),
-).annotate({
-  identifier: "ProgressiveDialerConfig",
-}) as any as S.Schema<ProgressiveDialerConfig>;
+  S.Struct({ bandwidthAllocation: S.Number, dialingCapacity: S.optional(S.Number) }),
+).annotate({ identifier: "ProgressiveDialerConfig" }) as any as S.Schema<ProgressiveDialerConfig>;
 export interface PredictiveDialerConfig {
   bandwidthAllocation: number;
   dialingCapacity?: number;
 }
 export const PredictiveDialerConfig = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    bandwidthAllocation: S.Number,
-    dialingCapacity: S.optional(S.Number),
-  }),
-).annotate({
-  identifier: "PredictiveDialerConfig",
-}) as any as S.Schema<PredictiveDialerConfig>;
+  S.Struct({ bandwidthAllocation: S.Number, dialingCapacity: S.optional(S.Number) }),
+).annotate({ identifier: "PredictiveDialerConfig" }) as any as S.Schema<PredictiveDialerConfig>;
 export interface AgentlessDialerConfig {
   dialingCapacity?: number;
 }
 export const AgentlessDialerConfig = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ dialingCapacity: S.optional(S.Number) }),
-).annotate({
-  identifier: "AgentlessDialerConfig",
-}) as any as S.Schema<AgentlessDialerConfig>;
+).annotate({ identifier: "AgentlessDialerConfig" }) as any as S.Schema<AgentlessDialerConfig>;
 export type DialerConfig =
   | {
       progressiveDialerConfig: ProgressiveDialerConfig;
@@ -242,9 +230,7 @@ export const OutboundCallConfig = /*@__PURE__*/ S.suspend(() =>
     connectQueueId: S.optional(S.String),
     answerMachineDetectionConfig: S.optional(AnswerMachineDetectionConfig),
   }),
-).annotate({
-  identifier: "OutboundCallConfig",
-}) as any as S.Schema<OutboundCallConfig>;
+).annotate({ identifier: "OutboundCallConfig" }) as any as S.Schema<OutboundCallConfig>;
 export type TagKey = string;
 export type TagValue = string;
 export type TagMap = { [key: string]: string | undefined };
@@ -264,9 +250,7 @@ export const CreateCampaignRequest = /*@__PURE__*/ S.suspend(() =>
     outboundCallConfig: OutboundCallConfig,
     tags: S.optional(TagMap),
   }).pipe(T.all(T.Http({ method: "PUT", uri: "/campaigns" }), svc, auth, proto, ver, rules)),
-).annotate({
-  identifier: "CreateCampaignRequest",
-}) as any as S.Schema<CreateCampaignRequest>;
+).annotate({ identifier: "CreateCampaignRequest" }) as any as S.Schema<CreateCampaignRequest>;
 export type CampaignId = string;
 export type CampaignArn = string;
 export interface CreateCampaignResponse {
@@ -275,14 +259,8 @@ export interface CreateCampaignResponse {
   tags?: { [key: string]: string | undefined };
 }
 export const CreateCampaignResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    id: S.optional(S.String),
-    arn: S.optional(S.String),
-    tags: S.optional(TagMap),
-  }),
-).annotate({
-  identifier: "CreateCampaignResponse",
-}) as any as S.Schema<CreateCampaignResponse>;
+  S.Struct({ id: S.optional(S.String), arn: S.optional(S.String), tags: S.optional(TagMap) }),
+).annotate({ identifier: "CreateCampaignResponse" }) as any as S.Schema<CreateCampaignResponse>;
 export interface DeleteCampaignRequest {
   id: string;
 }
@@ -290,9 +268,7 @@ export const DeleteCampaignRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ id: S.String.pipe(T.HttpLabel("id")) }).pipe(
     T.all(T.Http({ method: "DELETE", uri: "/campaigns/{id}" }), svc, auth, proto, ver, rules),
   ),
-).annotate({
-  identifier: "DeleteCampaignRequest",
-}) as any as S.Schema<DeleteCampaignRequest>;
+).annotate({ identifier: "DeleteCampaignRequest" }) as any as S.Schema<DeleteCampaignRequest>;
 export interface DeleteCampaignResponse {}
 export const DeleteCampaignResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
   identifier: "DeleteCampaignResponse",
@@ -301,14 +277,9 @@ export interface DeleteConnectInstanceConfigRequest {
   connectInstanceId: string;
 }
 export const DeleteConnectInstanceConfigRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    connectInstanceId: S.String.pipe(T.HttpLabel("connectInstanceId")),
-  }).pipe(
+  S.Struct({ connectInstanceId: S.String.pipe(T.HttpLabel("connectInstanceId")) }).pipe(
     T.all(
-      T.Http({
-        method: "DELETE",
-        uri: "/connect-instance/{connectInstanceId}/config",
-      }),
+      T.Http({ method: "DELETE", uri: "/connect-instance/{connectInstanceId}/config" }),
       svc,
       auth,
       proto,
@@ -329,14 +300,9 @@ export interface DeleteInstanceOnboardingJobRequest {
   connectInstanceId: string;
 }
 export const DeleteInstanceOnboardingJobRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    connectInstanceId: S.String.pipe(T.HttpLabel("connectInstanceId")),
-  }).pipe(
+  S.Struct({ connectInstanceId: S.String.pipe(T.HttpLabel("connectInstanceId")) }).pipe(
     T.all(
-      T.Http({
-        method: "DELETE",
-        uri: "/connect-instance/{connectInstanceId}/onboarding",
-      }),
+      T.Http({ method: "DELETE", uri: "/connect-instance/{connectInstanceId}/onboarding" }),
       svc,
       auth,
       proto,
@@ -360,9 +326,7 @@ export const DescribeCampaignRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ id: S.String.pipe(T.HttpLabel("id")) }).pipe(
     T.all(T.Http({ method: "GET", uri: "/campaigns/{id}" }), svc, auth, proto, ver, rules),
   ),
-).annotate({
-  identifier: "DescribeCampaignRequest",
-}) as any as S.Schema<DescribeCampaignRequest>;
+).annotate({ identifier: "DescribeCampaignRequest" }) as any as S.Schema<DescribeCampaignRequest>;
 export interface Campaign {
   id: string;
   arn: string;
@@ -388,9 +352,7 @@ export interface DescribeCampaignResponse {
 }
 export const DescribeCampaignResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ campaign: S.optional(Campaign) }),
-).annotate({
-  identifier: "DescribeCampaignResponse",
-}) as any as S.Schema<DescribeCampaignResponse>;
+).annotate({ identifier: "DescribeCampaignResponse" }) as any as S.Schema<DescribeCampaignResponse>;
 export interface GetCampaignStateRequest {
   id: string;
 }
@@ -398,18 +360,14 @@ export const GetCampaignStateRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ id: S.String.pipe(T.HttpLabel("id")) }).pipe(
     T.all(T.Http({ method: "GET", uri: "/campaigns/{id}/state" }), svc, auth, proto, ver, rules),
   ),
-).annotate({
-  identifier: "GetCampaignStateRequest",
-}) as any as S.Schema<GetCampaignStateRequest>;
+).annotate({ identifier: "GetCampaignStateRequest" }) as any as S.Schema<GetCampaignStateRequest>;
 export type CampaignState = string;
 export interface GetCampaignStateResponse {
   state?: string;
 }
 export const GetCampaignStateResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ state: S.optional(S.String) }),
-).annotate({
-  identifier: "GetCampaignStateResponse",
-}) as any as S.Schema<GetCampaignStateResponse>;
+).annotate({ identifier: "GetCampaignStateResponse" }) as any as S.Schema<GetCampaignStateResponse>;
 export type CampaignIdList = string[];
 export const CampaignIdList = /*@__PURE__*/ S.Array(S.String);
 export interface GetCampaignStateBatchRequest {
@@ -441,10 +399,7 @@ export interface FailedCampaignStateResponse {
   failureCode?: string;
 }
 export const FailedCampaignStateResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    campaignId: S.optional(S.String),
-    failureCode: S.optional(S.String),
-  }),
+  S.Struct({ campaignId: S.optional(S.String), failureCode: S.optional(S.String) }),
 ).annotate({
   identifier: "FailedCampaignStateResponse",
 }) as any as S.Schema<FailedCampaignStateResponse>;
@@ -466,14 +421,9 @@ export interface GetConnectInstanceConfigRequest {
   connectInstanceId: string;
 }
 export const GetConnectInstanceConfigRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    connectInstanceId: S.String.pipe(T.HttpLabel("connectInstanceId")),
-  }).pipe(
+  S.Struct({ connectInstanceId: S.String.pipe(T.HttpLabel("connectInstanceId")) }).pipe(
     T.all(
-      T.Http({
-        method: "GET",
-        uri: "/connect-instance/{connectInstanceId}/config",
-      }),
+      T.Http({ method: "GET", uri: "/connect-instance/{connectInstanceId}/config" }),
       svc,
       auth,
       proto,
@@ -499,9 +449,7 @@ export const EncryptionConfig = /*@__PURE__*/ S.suspend(() =>
     encryptionType: S.optional(S.String),
     keyArn: S.optional(S.String),
   }),
-).annotate({
-  identifier: "EncryptionConfig",
-}) as any as S.Schema<EncryptionConfig>;
+).annotate({ identifier: "EncryptionConfig" }) as any as S.Schema<EncryptionConfig>;
 export interface InstanceConfig {
   connectInstanceId: string;
   serviceLinkedRoleArn: string;
@@ -526,14 +474,9 @@ export interface GetInstanceOnboardingJobStatusRequest {
   connectInstanceId: string;
 }
 export const GetInstanceOnboardingJobStatusRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    connectInstanceId: S.String.pipe(T.HttpLabel("connectInstanceId")),
-  }).pipe(
+  S.Struct({ connectInstanceId: S.String.pipe(T.HttpLabel("connectInstanceId")) }).pipe(
     T.all(
-      T.Http({
-        method: "GET",
-        uri: "/connect-instance/{connectInstanceId}/onboarding",
-      }),
+      T.Http({ method: "GET", uri: "/connect-instance/{connectInstanceId}/onboarding" }),
       svc,
       auth,
       proto,
@@ -552,11 +495,7 @@ export interface InstanceOnboardingJobStatus {
   failureCode?: string;
 }
 export const InstanceOnboardingJobStatus = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    connectInstanceId: S.String,
-    status: S.String,
-    failureCode: S.optional(S.String),
-  }),
+  S.Struct({ connectInstanceId: S.String, status: S.String, failureCode: S.optional(S.String) }),
 ).annotate({
   identifier: "InstanceOnboardingJobStatus",
 }) as any as S.Schema<InstanceOnboardingJobStatus>;
@@ -564,9 +503,7 @@ export interface GetInstanceOnboardingJobStatusResponse {
   connectInstanceOnboardingJobStatus?: InstanceOnboardingJobStatus;
 }
 export const GetInstanceOnboardingJobStatusResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    connectInstanceOnboardingJobStatus: S.optional(InstanceOnboardingJobStatus),
-  }),
+  S.Struct({ connectInstanceOnboardingJobStatus: S.optional(InstanceOnboardingJobStatus) }),
 ).annotate({
   identifier: "GetInstanceOnboardingJobStatusResponse",
 }) as any as S.Schema<GetInstanceOnboardingJobStatusResponse>;
@@ -579,17 +516,13 @@ export interface InstanceIdFilter {
 }
 export const InstanceIdFilter = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ value: S.String, operator: S.String }),
-).annotate({
-  identifier: "InstanceIdFilter",
-}) as any as S.Schema<InstanceIdFilter>;
+).annotate({ identifier: "InstanceIdFilter" }) as any as S.Schema<InstanceIdFilter>;
 export interface CampaignFilters {
   instanceIdFilter?: InstanceIdFilter;
 }
 export const CampaignFilters = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ instanceIdFilter: S.optional(InstanceIdFilter) }),
-).annotate({
-  identifier: "CampaignFilters",
-}) as any as S.Schema<CampaignFilters>;
+).annotate({ identifier: "CampaignFilters" }) as any as S.Schema<CampaignFilters>;
 export interface ListCampaignsRequest {
   maxResults?: number;
   nextToken?: string;
@@ -603,9 +536,7 @@ export const ListCampaignsRequest = /*@__PURE__*/ S.suspend(() =>
   }).pipe(
     T.all(T.Http({ method: "POST", uri: "/campaigns-summary" }), svc, auth, proto, ver, rules),
   ),
-).annotate({
-  identifier: "ListCampaignsRequest",
-}) as any as S.Schema<ListCampaignsRequest>;
+).annotate({ identifier: "ListCampaignsRequest" }) as any as S.Schema<ListCampaignsRequest>;
 export interface CampaignSummary {
   id: string;
   arn: string;
@@ -613,15 +544,8 @@ export interface CampaignSummary {
   connectInstanceId: string;
 }
 export const CampaignSummary = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    id: S.String,
-    arn: S.String,
-    name: S.String,
-    connectInstanceId: S.String,
-  }),
-).annotate({
-  identifier: "CampaignSummary",
-}) as any as S.Schema<CampaignSummary>;
+  S.Struct({ id: S.String, arn: S.String, name: S.String, connectInstanceId: S.String }),
+).annotate({ identifier: "CampaignSummary" }) as any as S.Schema<CampaignSummary>;
 export type CampaignSummaryList = CampaignSummary[];
 export const CampaignSummaryList = /*@__PURE__*/ S.Array(CampaignSummary);
 export interface ListCampaignsResponse {
@@ -633,9 +557,7 @@ export const ListCampaignsResponse = /*@__PURE__*/ S.suspend(() =>
     nextToken: S.optional(S.String),
     campaignSummaryList: S.optional(CampaignSummaryList),
   }),
-).annotate({
-  identifier: "ListCampaignsResponse",
-}) as any as S.Schema<ListCampaignsResponse>;
+).annotate({ identifier: "ListCampaignsResponse" }) as any as S.Schema<ListCampaignsResponse>;
 export type Arn = string;
 export interface ListTagsForResourceRequest {
   arn: string;
@@ -662,9 +584,7 @@ export const PauseCampaignRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ id: S.String.pipe(T.HttpLabel("id")) }).pipe(
     T.all(T.Http({ method: "POST", uri: "/campaigns/{id}/pause" }), svc, auth, proto, ver, rules),
   ),
-).annotate({
-  identifier: "PauseCampaignRequest",
-}) as any as S.Schema<PauseCampaignRequest>;
+).annotate({ identifier: "PauseCampaignRequest" }) as any as S.Schema<PauseCampaignRequest>;
 export interface PauseCampaignResponse {}
 export const PauseCampaignResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
   identifier: "PauseCampaignResponse",
@@ -696,10 +616,7 @@ export interface PutDialRequestBatchRequest {
   dialRequests: DialRequest[];
 }
 export const PutDialRequestBatchRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    id: S.String.pipe(T.HttpLabel("id")),
-    dialRequests: DialRequestList,
-  }).pipe(
+  S.Struct({ id: S.String.pipe(T.HttpLabel("id")), dialRequests: DialRequestList }).pipe(
     T.all(
       T.Http({ method: "PUT", uri: "/campaigns/{id}/dial-requests" }),
       svc,
@@ -719,9 +636,7 @@ export interface SuccessfulRequest {
 }
 export const SuccessfulRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ clientToken: S.optional(S.String), id: S.optional(S.String) }),
-).annotate({
-  identifier: "SuccessfulRequest",
-}) as any as S.Schema<SuccessfulRequest>;
+).annotate({ identifier: "SuccessfulRequest" }) as any as S.Schema<SuccessfulRequest>;
 export type SuccessfulRequestList = SuccessfulRequest[];
 export const SuccessfulRequestList = /*@__PURE__*/ S.Array(SuccessfulRequest);
 export type FailureCode = string;
@@ -758,9 +673,7 @@ export const ResumeCampaignRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ id: S.String.pipe(T.HttpLabel("id")) }).pipe(
     T.all(T.Http({ method: "POST", uri: "/campaigns/{id}/resume" }), svc, auth, proto, ver, rules),
   ),
-).annotate({
-  identifier: "ResumeCampaignRequest",
-}) as any as S.Schema<ResumeCampaignRequest>;
+).annotate({ identifier: "ResumeCampaignRequest" }) as any as S.Schema<ResumeCampaignRequest>;
 export interface ResumeCampaignResponse {}
 export const ResumeCampaignResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
   identifier: "ResumeCampaignResponse",
@@ -772,9 +685,7 @@ export const StartCampaignRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ id: S.String.pipe(T.HttpLabel("id")) }).pipe(
     T.all(T.Http({ method: "POST", uri: "/campaigns/{id}/start" }), svc, auth, proto, ver, rules),
   ),
-).annotate({
-  identifier: "StartCampaignRequest",
-}) as any as S.Schema<StartCampaignRequest>;
+).annotate({ identifier: "StartCampaignRequest" }) as any as S.Schema<StartCampaignRequest>;
 export interface StartCampaignResponse {}
 export const StartCampaignResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
   identifier: "StartCampaignResponse",
@@ -789,10 +700,7 @@ export const StartInstanceOnboardingJobRequest = /*@__PURE__*/ S.suspend(() =>
     encryptionConfig: EncryptionConfig,
   }).pipe(
     T.all(
-      T.Http({
-        method: "PUT",
-        uri: "/connect-instance/{connectInstanceId}/onboarding",
-      }),
+      T.Http({ method: "PUT", uri: "/connect-instance/{connectInstanceId}/onboarding" }),
       svc,
       auth,
       proto,
@@ -807,9 +715,7 @@ export interface StartInstanceOnboardingJobResponse {
   connectInstanceOnboardingJobStatus?: InstanceOnboardingJobStatus;
 }
 export const StartInstanceOnboardingJobResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    connectInstanceOnboardingJobStatus: S.optional(InstanceOnboardingJobStatus),
-  }),
+  S.Struct({ connectInstanceOnboardingJobStatus: S.optional(InstanceOnboardingJobStatus) }),
 ).annotate({
   identifier: "StartInstanceOnboardingJobResponse",
 }) as any as S.Schema<StartInstanceOnboardingJobResponse>;
@@ -820,9 +726,7 @@ export const StopCampaignRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ id: S.String.pipe(T.HttpLabel("id")) }).pipe(
     T.all(T.Http({ method: "POST", uri: "/campaigns/{id}/stop" }), svc, auth, proto, ver, rules),
   ),
-).annotate({
-  identifier: "StopCampaignRequest",
-}) as any as S.Schema<StopCampaignRequest>;
+).annotate({ identifier: "StopCampaignRequest" }) as any as S.Schema<StopCampaignRequest>;
 export interface StopCampaignResponse {}
 export const StopCampaignResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
   identifier: "StopCampaignResponse",
@@ -835,9 +739,7 @@ export const TagResourceRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ arn: S.String.pipe(T.HttpLabel("arn")), tags: TagMap }).pipe(
     T.all(T.Http({ method: "POST", uri: "/tags/{arn}" }), svc, auth, proto, ver, rules),
   ),
-).annotate({
-  identifier: "TagResourceRequest",
-}) as any as S.Schema<TagResourceRequest>;
+).annotate({ identifier: "TagResourceRequest" }) as any as S.Schema<TagResourceRequest>;
 export interface TagResourceResponse {}
 export const TagResourceResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
   identifier: "TagResourceResponse",
@@ -853,9 +755,7 @@ export const UntagResourceRequest = /*@__PURE__*/ S.suspend(() =>
     arn: S.String.pipe(T.HttpLabel("arn")),
     tagKeys: TagKeyList.pipe(T.HttpQuery("tagKeys")),
   }).pipe(T.all(T.Http({ method: "DELETE", uri: "/tags/{arn}" }), svc, auth, proto, ver, rules)),
-).annotate({
-  identifier: "UntagResourceRequest",
-}) as any as S.Schema<UntagResourceRequest>;
+).annotate({ identifier: "UntagResourceRequest" }) as any as S.Schema<UntagResourceRequest>;
 export interface UntagResourceResponse {}
 export const UntagResourceResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
   identifier: "UntagResourceResponse",
@@ -865,10 +765,7 @@ export interface UpdateCampaignDialerConfigRequest {
   dialerConfig: DialerConfig;
 }
 export const UpdateCampaignDialerConfigRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    id: S.String.pipe(T.HttpLabel("id")),
-    dialerConfig: DialerConfig,
-  }).pipe(
+  S.Struct({ id: S.String.pipe(T.HttpLabel("id")), dialerConfig: DialerConfig }).pipe(
     T.all(
       T.Http({ method: "POST", uri: "/campaigns/{id}/dialer-config" }),
       svc,

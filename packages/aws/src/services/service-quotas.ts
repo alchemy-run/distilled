@@ -198,9 +198,7 @@ export const CreateSupportCaseRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ RequestId: S.String }).pipe(
     T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
   ),
-).annotate({
-  identifier: "CreateSupportCaseRequest",
-}) as any as S.Schema<CreateSupportCaseRequest>;
+).annotate({ identifier: "CreateSupportCaseRequest" }) as any as S.Schema<CreateSupportCaseRequest>;
 export interface CreateSupportCaseResponse {}
 export const CreateSupportCaseResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
   identifier: "CreateSupportCaseResponse",
@@ -214,11 +212,9 @@ export interface DeleteServiceQuotaIncreaseRequestFromTemplateRequest {
   AwsRegion: string;
 }
 export const DeleteServiceQuotaIncreaseRequestFromTemplateRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ServiceCode: S.String,
-    QuotaCode: S.String,
-    AwsRegion: S.String,
-  }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+  S.Struct({ ServiceCode: S.String, QuotaCode: S.String, AwsRegion: S.String }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
 ).annotate({
   identifier: "DeleteServiceQuotaIncreaseRequestFromTemplateRequest",
 }) as any as S.Schema<DeleteServiceQuotaIncreaseRequestFromTemplateRequest>;
@@ -282,10 +278,7 @@ export interface QuotaInfo {
   QuotaName?: string;
 }
 export const QuotaInfo = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    QuotaCode: S.optional(S.String),
-    QuotaName: S.optional(S.String),
-  }),
+  S.Struct({ QuotaCode: S.optional(S.String), QuotaName: S.optional(S.String) }),
 ).annotate({ identifier: "QuotaInfo" }) as any as S.Schema<QuotaInfo>;
 export type QuotaInfoList = QuotaInfo[];
 export const QuotaInfoList = /*@__PURE__*/ S.Array(QuotaInfo);
@@ -330,9 +323,7 @@ export type QuotaMetricNamespace = string;
 export type QuotaMetricName = string;
 export type MetricDimensionName = string;
 export type MetricDimensionValue = string;
-export type MetricDimensionsMapDefinition = {
-  [key: string]: string | undefined;
-};
+export type MetricDimensionsMapDefinition = { [key: string]: string | undefined };
 export const MetricDimensionsMapDefinition = /*@__PURE__*/ S.Record(
   S.String,
   S.String.pipe(S.optional),
@@ -369,10 +360,7 @@ export interface QuotaPeriod {
   PeriodUnit?: PeriodUnit;
 }
 export const QuotaPeriod = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    PeriodValue: S.optional(S.Number),
-    PeriodUnit: S.optional(PeriodUnit),
-  }),
+  S.Struct({ PeriodValue: S.optional(S.Number), PeriodUnit: S.optional(PeriodUnit) }),
 ).annotate({ identifier: "QuotaPeriod" }) as any as S.Schema<QuotaPeriod>;
 export type ErrorCode =
   | "DEPENDENCY_ACCESS_DENIED_ERROR"
@@ -388,10 +376,7 @@ export interface ErrorReason {
   ErrorMessage?: string;
 }
 export const ErrorReason = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ErrorCode: S.optional(ErrorCode),
-    ErrorMessage: S.optional(S.String),
-  }),
+  S.Struct({ ErrorCode: S.optional(ErrorCode), ErrorMessage: S.optional(S.String) }),
 ).annotate({ identifier: "ErrorReason" }) as any as S.Schema<ErrorReason>;
 export type AppliedLevelEnum = "ACCOUNT" | "RESOURCE" | "ALL" | (string & {});
 export const AppliedLevelEnum = S.String;
@@ -401,20 +386,23 @@ export const QuotaContextScope = S.String;
 
 export type QuotaContextScopeType = string;
 export type QuotaContextId = string;
+export type AdjustableAtLevelEnum = "ACCOUNT" | "PER_RESOURCE" | "ALL" | (string & {});
+export const AdjustableAtLevelEnum = S.String;
+
 export interface QuotaContextInfo {
   ContextScope?: QuotaContextScope;
   ContextScopeType?: string;
   ContextId?: string;
+  AdjustableAtLevel?: AdjustableAtLevelEnum;
 }
 export const QuotaContextInfo = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     ContextScope: S.optional(QuotaContextScope),
     ContextScopeType: S.optional(S.String),
     ContextId: S.optional(S.String),
+    AdjustableAtLevel: S.optional(AdjustableAtLevelEnum),
   }),
-).annotate({
-  identifier: "QuotaContextInfo",
-}) as any as S.Schema<QuotaContextInfo>;
+).annotate({ identifier: "QuotaContextInfo" }) as any as S.Schema<QuotaContextInfo>;
 export type QuotaDescription = string;
 export interface ServiceQuota {
   ServiceCode?: string;
@@ -507,9 +495,7 @@ export const QuotaUtilizationInfo = /*@__PURE__*/ S.suspend(() =>
     ServiceName: S.optional(S.String),
     Adjustable: S.optional(S.Boolean),
   }),
-).annotate({
-  identifier: "QuotaUtilizationInfo",
-}) as any as S.Schema<QuotaUtilizationInfo>;
+).annotate({ identifier: "QuotaUtilizationInfo" }) as any as S.Schema<QuotaUtilizationInfo>;
 export type QuotaUtilizationInfoList = QuotaUtilizationInfo[];
 export const QuotaUtilizationInfoList = /*@__PURE__*/ S.Array(QuotaUtilizationInfo);
 export type ReportErrorCode = string;
@@ -620,33 +606,25 @@ export interface GetServiceQuotaRequest {
   ContextId?: string;
 }
 export const GetServiceQuotaRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ServiceCode: S.String,
-    QuotaCode: S.String,
-    ContextId: S.optional(S.String),
-  }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
-).annotate({
-  identifier: "GetServiceQuotaRequest",
-}) as any as S.Schema<GetServiceQuotaRequest>;
+  S.Struct({ ServiceCode: S.String, QuotaCode: S.String, ContextId: S.optional(S.String) }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotate({ identifier: "GetServiceQuotaRequest" }) as any as S.Schema<GetServiceQuotaRequest>;
 export interface GetServiceQuotaResponse {
   Quota?: ServiceQuota;
 }
 export const GetServiceQuotaResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ Quota: S.optional(ServiceQuota) }),
-).annotate({
-  identifier: "GetServiceQuotaResponse",
-}) as any as S.Schema<GetServiceQuotaResponse>;
+).annotate({ identifier: "GetServiceQuotaResponse" }) as any as S.Schema<GetServiceQuotaResponse>;
 export interface GetServiceQuotaIncreaseRequestFromTemplateRequest {
   ServiceCode: string;
   QuotaCode: string;
   AwsRegion: string;
 }
 export const GetServiceQuotaIncreaseRequestFromTemplateRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ServiceCode: S.String,
-    QuotaCode: S.String,
-    AwsRegion: S.String,
-  }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+  S.Struct({ ServiceCode: S.String, QuotaCode: S.String, AwsRegion: S.String }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
 ).annotate({
   identifier: "GetServiceQuotaIncreaseRequestFromTemplateRequest",
 }) as any as S.Schema<GetServiceQuotaIncreaseRequestFromTemplateRequest>;
@@ -706,10 +684,7 @@ export interface ListAWSDefaultServiceQuotasResponse {
   Quotas?: ServiceQuota[];
 }
 export const ListAWSDefaultServiceQuotasResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    NextToken: S.optional(S.String),
-    Quotas: S.optional(ServiceQuotaListDefinition),
-  }),
+  S.Struct({ NextToken: S.optional(S.String), Quotas: S.optional(ServiceQuotaListDefinition) }),
 ).annotate({
   identifier: "ListAWSDefaultServiceQuotasResponse",
 }) as any as S.Schema<ListAWSDefaultServiceQuotasResponse>;
@@ -828,18 +803,13 @@ export const ListServiceQuotasRequest = /*@__PURE__*/ S.suspend(() =>
     QuotaCode: S.optional(S.String),
     QuotaAppliedAtLevel: S.optional(AppliedLevelEnum),
   }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
-).annotate({
-  identifier: "ListServiceQuotasRequest",
-}) as any as S.Schema<ListServiceQuotasRequest>;
+).annotate({ identifier: "ListServiceQuotasRequest" }) as any as S.Schema<ListServiceQuotasRequest>;
 export interface ListServiceQuotasResponse {
   NextToken?: string;
   Quotas?: ServiceQuota[];
 }
 export const ListServiceQuotasResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    NextToken: S.optional(S.String),
-    Quotas: S.optional(ServiceQuotaListDefinition),
-  }),
+  S.Struct({ NextToken: S.optional(S.String), Quotas: S.optional(ServiceQuotaListDefinition) }),
 ).annotate({
   identifier: "ListServiceQuotasResponse",
 }) as any as S.Schema<ListServiceQuotasResponse>;
@@ -848,22 +818,16 @@ export interface ListServicesRequest {
   MaxResults?: number;
 }
 export const ListServicesRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    NextToken: S.optional(S.String),
-    MaxResults: S.optional(S.Number),
-  }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
-).annotate({
-  identifier: "ListServicesRequest",
-}) as any as S.Schema<ListServicesRequest>;
+  S.Struct({ NextToken: S.optional(S.String), MaxResults: S.optional(S.Number) }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotate({ identifier: "ListServicesRequest" }) as any as S.Schema<ListServicesRequest>;
 export interface ServiceInfo {
   ServiceCode?: string;
   ServiceName?: string;
 }
 export const ServiceInfo = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ServiceCode: S.optional(S.String),
-    ServiceName: S.optional(S.String),
-  }),
+  S.Struct({ ServiceCode: S.optional(S.String), ServiceName: S.optional(S.String) }),
 ).annotate({ identifier: "ServiceInfo" }) as any as S.Schema<ServiceInfo>;
 export type ServiceInfoListDefinition = ServiceInfo[];
 export const ServiceInfoListDefinition = /*@__PURE__*/ S.Array(ServiceInfo);
@@ -872,13 +836,8 @@ export interface ListServicesResponse {
   Services?: ServiceInfo[];
 }
 export const ListServicesResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    NextToken: S.optional(S.String),
-    Services: S.optional(ServiceInfoListDefinition),
-  }),
-).annotate({
-  identifier: "ListServicesResponse",
-}) as any as S.Schema<ListServicesResponse>;
+  S.Struct({ NextToken: S.optional(S.String), Services: S.optional(ServiceInfoListDefinition) }),
+).annotate({ identifier: "ListServicesResponse" }) as any as S.Schema<ListServicesResponse>;
 export interface ListTagsForResourceRequest {
   ResourceARN: string;
 }
@@ -1027,9 +986,7 @@ export const TagResourceRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ ResourceARN: S.String, Tags: InputTags }).pipe(
     T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
   ),
-).annotate({
-  identifier: "TagResourceRequest",
-}) as any as S.Schema<TagResourceRequest>;
+).annotate({ identifier: "TagResourceRequest" }) as any as S.Schema<TagResourceRequest>;
 export interface TagResourceResponse {}
 export const TagResourceResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
   identifier: "TagResourceResponse",
@@ -1044,9 +1001,7 @@ export const UntagResourceRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ ResourceARN: S.String, TagKeys: InputTagKeys }).pipe(
     T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
   ),
-).annotate({
-  identifier: "UntagResourceRequest",
-}) as any as S.Schema<UntagResourceRequest>;
+).annotate({ identifier: "UntagResourceRequest" }) as any as S.Schema<UntagResourceRequest>;
 export interface UntagResourceResponse {}
 export const UntagResourceResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
   identifier: "UntagResourceResponse",
@@ -1324,6 +1279,7 @@ export const getAWSDefaultServiceQuota: API.OperationMethod<
 export type GetQuotaUtilizationReportError =
   | AccessDeniedException
   | IllegalArgumentException
+  | InvalidPaginationTokenException
   | NoSuchResourceException
   | ServiceException
   | TooManyRequestsException
@@ -1353,6 +1309,7 @@ export const getQuotaUtilizationReport: API.OperationMethod<
   errors: [
     AccessDeniedException,
     IllegalArgumentException,
+    InvalidPaginationTokenException,
     NoSuchResourceException,
     ServiceException,
     TooManyRequestsException,

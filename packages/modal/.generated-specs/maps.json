@@ -369,6 +369,9 @@
           "traits": {
             "smithy.api#documentation": "r2_latency_ms"
           }
+        },
+        "blobUploadResults": {
+          "target": "com.modal.maps#BlobUploadResultList"
         }
       }
     },
@@ -396,6 +399,52 @@
             "smithy.api#documentation": "For args_oneof."
           }
         }
+      }
+    },
+    "com.modal.maps#BlobUploadResult": {
+      "type": "structure",
+      "members": {
+        "blobId": {
+          "target": "smithy.api#String"
+        },
+        "outcome": {
+          "target": "com.modal.maps#BlobUploadResultOutcome",
+          "traits": {
+            "smithy.api#documentation": "The blob id (from BlobCreateResponse) that this upload attempt targeted."
+          }
+        },
+        "throughputBytesS": {
+          "target": "smithy.api#String"
+        }
+      }
+    },
+    "com.modal.maps#BlobUploadResultOutcome": {
+      "type": "enum",
+      "members": {
+        "OUTCOME_UNSPECIFIED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "OUTCOME_UNSPECIFIED"
+          }
+        },
+        "OUTCOME_SUCCESS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "OUTCOME_SUCCESS"
+          }
+        },
+        "OUTCOME_FAILURE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "OUTCOME_FAILURE"
+          }
+        }
+      }
+    },
+    "com.modal.maps#BlobUploadResultList": {
+      "type": "list",
+      "member": {
+        "target": "com.modal.maps#BlobUploadResult"
       }
     },
     "com.modal.maps#MapStartOrContinueItemList": {

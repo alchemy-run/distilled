@@ -23,6 +23,9 @@
       "members": {
         "scoped": {
           "target": "smithy.api#Boolean"
+        },
+        "name": {
+          "target": "smithy.api#String"
         }
       },
       "traits": {
@@ -205,10 +208,27 @@
         },
         "scoped": {
           "target": "smithy.api#Boolean"
+        },
+        "name": {
+          "target": "smithy.api#String"
+        },
+        "createdBy": {
+          "target": "com.modal.webhook#UserIdentity"
         }
       },
       "traits": {
         "smithy.api#documentation": "Additional URL suffix added for ephemeral Apps"
+      }
+    },
+    "com.modal.webhook#UserIdentity": {
+      "type": "structure",
+      "members": {
+        "userId": {
+          "target": "smithy.api#String"
+        },
+        "username": {
+          "target": "smithy.api#String"
+        }
       }
     },
     "com.modal.webhook#WebhookTokenList2": {
@@ -282,6 +302,59 @@
         }
       }
     },
+    "com.modal.webhook#UpdateWebhookTokenRequest": {
+      "type": "structure",
+      "members": {
+        "tokenId": {
+          "target": "smithy.api#String"
+        },
+        "name": {
+          "target": "smithy.api#String"
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.modal.webhook#UpdateWebhookTokenResponse": {
+      "type": "structure",
+      "members": {
+        "tokenId": {
+          "target": "smithy.api#String"
+        },
+        "createdAt": {
+          "target": "smithy.api#Double"
+        },
+        "scoped": {
+          "target": "smithy.api#Boolean"
+        },
+        "name": {
+          "target": "smithy.api#String"
+        },
+        "createdBy": {
+          "target": "com.modal.webhook#UserIdentity"
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
+      }
+    },
+    "com.modal.webhook#UpdateWebhookToken": {
+      "type": "operation",
+      "input": {
+        "target": "com.modal.webhook#UpdateWebhookTokenRequest"
+      },
+      "output": {
+        "target": "com.modal.webhook#UpdateWebhookTokenResponse"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/modal.client.ModalClient/WebhookTokenUpdate",
+          "code": 200
+        }
+      }
+    },
     "com.modal.webhook#WebhookService": {
       "type": "service",
       "version": "1.0",
@@ -306,6 +379,9 @@
         },
         {
           "target": "com.modal.webhook#WebhookTokenListForEnvironment"
+        },
+        {
+          "target": "com.modal.webhook#UpdateWebhookToken"
         }
       ],
       "traits": {

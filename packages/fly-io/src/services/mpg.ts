@@ -17,16 +17,8 @@ export const CreateAttachmentRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     id: S.String.pipe(T.Label()),
     app_name: S.String,
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/api/v1/postgresv2/{id}/attachments",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "CreateAttachmentRequest",
-}) as any as S.Schema<CreateAttachmentRequest>;
+  }).pipe(T.Http({ method: "POST", uri: "/api/v1/postgresv2/{id}/attachments", code: 200 })),
+).annotate({ identifier: "CreateAttachmentRequest" }) as any as S.Schema<CreateAttachmentRequest>;
 
 export interface CreateAttachmentResponseData {
   id?: number;
@@ -52,9 +44,7 @@ export const CreateAttachmentResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     data: S.optional(CreateAttachmentResponseData),
   }),
-).annotate({
-  identifier: "CreateAttachmentResponse",
-}) as any as S.Schema<CreateAttachmentResponse>;
+).annotate({ identifier: "CreateAttachmentResponse" }) as any as S.Schema<CreateAttachmentResponse>;
 
 export interface CreateBackupRequest {
   id: string;
@@ -64,16 +54,8 @@ export const CreateBackupRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     id: S.String.pipe(T.Label()),
     type: S.optional(S.String),
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/api/v1/postgresv2/{id}/backups",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "CreateBackupRequest",
-}) as any as S.Schema<CreateBackupRequest>;
+  }).pipe(T.Http({ method: "POST", uri: "/api/v1/postgresv2/{id}/backups", code: 200 })),
+).annotate({ identifier: "CreateBackupRequest" }) as any as S.Schema<CreateBackupRequest>;
 
 export interface CreateBackupResponse {}
 export const CreateBackupResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -99,15 +81,9 @@ export const CreateClusterRequest = /*@__PURE__*/ S.suspend(() =>
     storage_in_gb: S.optional(S.Number),
     postgis_enabled: S.optional(S.Boolean),
   }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/api/v1/organizations/{org_slug}/postgresv2",
-      code: 200,
-    }),
+    T.Http({ method: "POST", uri: "/api/v1/organizations/{org_slug}/postgresv2", code: 200 }),
   ),
-).annotate({
-  identifier: "CreateClusterRequest",
-}) as any as S.Schema<CreateClusterRequest>;
+).annotate({ identifier: "CreateClusterRequest" }) as any as S.Schema<CreateClusterRequest>;
 
 export interface Organization {
   id?: string;
@@ -181,9 +157,7 @@ export const ManagedCluster = /*@__PURE__*/ S.suspend(() =>
   }),
 ).annotate({ identifier: "ManagedCluster" }) as any as S.Schema<ManagedCluster>;
 
-export type CreateClusterResponseErrorsMap = {
-  [key: string]: unknown | undefined;
-};
+export type CreateClusterResponseErrorsMap = { [key: string]: unknown | undefined };
 export const CreateClusterResponseErrorsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.Unknown,
@@ -200,9 +174,7 @@ export const CreateClusterResponse = /*@__PURE__*/ S.suspend(() =>
     data: S.optional(ManagedCluster),
     errors: S.optional(CreateClusterResponseErrorsMap),
   }),
-).annotate({
-  identifier: "CreateClusterResponse",
-}) as any as S.Schema<CreateClusterResponse>;
+).annotate({ identifier: "CreateClusterResponse" }) as any as S.Schema<CreateClusterResponse>;
 
 export interface CreateDatabaseRequest {
   id: string;
@@ -212,16 +184,8 @@ export const CreateDatabaseRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     id: S.String.pipe(T.Label()),
     name: S.String,
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/api/v1/postgresv2/{id}/databases",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "CreateDatabaseRequest",
-}) as any as S.Schema<CreateDatabaseRequest>;
+  }).pipe(T.Http({ method: "POST", uri: "/api/v1/postgresv2/{id}/databases", code: 200 })),
+).annotate({ identifier: "CreateDatabaseRequest" }) as any as S.Schema<CreateDatabaseRequest>;
 
 export interface CreateDatabaseResponse {}
 export const CreateDatabaseResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -242,9 +206,7 @@ export const CreateUserRequest = /*@__PURE__*/ S.suspend(() =>
     username: S.String,
     role: CreateUserRequestRole,
   }).pipe(T.Http({ method: "POST", uri: "/api/v1/postgresv2/{id}/users", code: 200 })),
-).annotate({
-  identifier: "CreateUserRequest",
-}) as any as S.Schema<CreateUserRequest>;
+).annotate({ identifier: "CreateUserRequest" }) as any as S.Schema<CreateUserRequest>;
 
 export interface User {
   name?: string;
@@ -266,9 +228,7 @@ export const CreateUserResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     data: S.optional(User),
   }),
-).annotate({
-  identifier: "CreateUserResponse",
-}) as any as S.Schema<CreateUserResponse>;
+).annotate({ identifier: "CreateUserResponse" }) as any as S.Schema<CreateUserResponse>;
 
 export interface DeleteAttachmentRequest {
   id: string;
@@ -279,15 +239,9 @@ export const DeleteAttachmentRequest = /*@__PURE__*/ S.suspend(() =>
     id: S.String.pipe(T.Label()),
     app_name: S.String.pipe(T.Label()),
   }).pipe(
-    T.Http({
-      method: "DELETE",
-      uri: "/api/v1/postgresv2/{id}/attachments/{app_name}",
-      code: 200,
-    }),
+    T.Http({ method: "DELETE", uri: "/api/v1/postgresv2/{id}/attachments/{app_name}", code: 200 }),
   ),
-).annotate({
-  identifier: "DeleteAttachmentRequest",
-}) as any as S.Schema<DeleteAttachmentRequest>;
+).annotate({ identifier: "DeleteAttachmentRequest" }) as any as S.Schema<DeleteAttachmentRequest>;
 
 export interface DeleteAttachmentResponseData {
   message?: string;
@@ -307,9 +261,7 @@ export const DeleteAttachmentResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     data: S.optional(DeleteAttachmentResponseData),
   }),
-).annotate({
-  identifier: "DeleteAttachmentResponse",
-}) as any as S.Schema<DeleteAttachmentResponse>;
+).annotate({ identifier: "DeleteAttachmentResponse" }) as any as S.Schema<DeleteAttachmentResponse>;
 
 export interface DeleteUserRequest {
   id: string;
@@ -319,16 +271,8 @@ export const DeleteUserRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     id: S.String.pipe(T.Label()),
     username: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "DELETE",
-      uri: "/api/v1/postgresv2/{id}/users/{username}",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "DeleteUserRequest",
-}) as any as S.Schema<DeleteUserRequest>;
+  }).pipe(T.Http({ method: "DELETE", uri: "/api/v1/postgresv2/{id}/users/{username}", code: 200 })),
+).annotate({ identifier: "DeleteUserRequest" }) as any as S.Schema<DeleteUserRequest>;
 
 export interface DeleteUserResponse {}
 export const DeleteUserResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -350,9 +294,7 @@ export const DestroyClusterRequest = /*@__PURE__*/ S.suspend(() =>
       code: 200,
     }),
   ),
-).annotate({
-  identifier: "DestroyClusterRequest",
-}) as any as S.Schema<DestroyClusterRequest>;
+).annotate({ identifier: "DestroyClusterRequest" }) as any as S.Schema<DestroyClusterRequest>;
 
 export interface DestroyClusterResponse {}
 export const DestroyClusterResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -378,9 +320,7 @@ export const DisableExtensionRequest = /*@__PURE__*/ S.suspend(() =>
       code: 200,
     }),
   ),
-).annotate({
-  identifier: "DisableExtensionRequest",
-}) as any as S.Schema<DisableExtensionRequest>;
+).annotate({ identifier: "DisableExtensionRequest" }) as any as S.Schema<DisableExtensionRequest>;
 
 export interface DisableExtensionResponse {}
 export const DisableExtensionResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -408,9 +348,7 @@ export const EnableExtensionRequest = /*@__PURE__*/ S.suspend(() =>
       code: 200,
     }),
   ),
-).annotate({
-  identifier: "EnableExtensionRequest",
-}) as any as S.Schema<EnableExtensionRequest>;
+).annotate({ identifier: "EnableExtensionRequest" }) as any as S.Schema<EnableExtensionRequest>;
 
 export interface EnableExtensionResponse {}
 export const EnableExtensionResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -426,15 +364,9 @@ export const GetClusterRequest = /*@__PURE__*/ S.suspend(() =>
     org_slug: S.String.pipe(T.Label()),
     id: S.String.pipe(T.Label()),
   }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/api/v1/organizations/{org_slug}/postgresv2/{id}",
-      code: 200,
-    }),
+    T.Http({ method: "GET", uri: "/api/v1/organizations/{org_slug}/postgresv2/{id}", code: 200 }),
   ),
-).annotate({
-  identifier: "GetClusterRequest",
-}) as any as S.Schema<GetClusterRequest>;
+).annotate({ identifier: "GetClusterRequest" }) as any as S.Schema<GetClusterRequest>;
 
 export interface ClusterCredentials {
   status?: string;
@@ -451,9 +383,7 @@ export const ClusterCredentials = /*@__PURE__*/ S.suspend(() =>
     dbname: S.optional(S.String),
     pgbouncer_uri: S.optional(S.String.pipe(T.SensitiveValue({}))),
   }),
-).annotate({
-  identifier: "ClusterCredentials",
-}) as any as S.Schema<ClusterCredentials>;
+).annotate({ identifier: "ClusterCredentials" }) as any as S.Schema<ClusterCredentials>;
 
 export interface GetClusterResponse {
   data?: ManagedCluster;
@@ -464,9 +394,7 @@ export const GetClusterResponse = /*@__PURE__*/ S.suspend(() =>
     data: S.optional(ManagedCluster),
     credentials: S.optional(ClusterCredentials),
   }),
-).annotate({
-  identifier: "GetClusterResponse",
-}) as any as S.Schema<GetClusterResponse>;
+).annotate({ identifier: "GetClusterResponse" }) as any as S.Schema<GetClusterResponse>;
 
 export interface GetClusterByIdRequest {
   id: string;
@@ -475,9 +403,7 @@ export const GetClusterByIdRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     id: S.String.pipe(T.Label()),
   }).pipe(T.Http({ method: "GET", uri: "/api/v1/postgresv2/{id}", code: 200 })),
-).annotate({
-  identifier: "GetClusterByIdRequest",
-}) as any as S.Schema<GetClusterByIdRequest>;
+).annotate({ identifier: "GetClusterByIdRequest" }) as any as S.Schema<GetClusterByIdRequest>;
 
 export interface GetUserCredentialsRequest {
   id: string;
@@ -530,16 +456,8 @@ export interface ListBackupsRequest {
 export const ListBackupsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     id: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/api/v1/postgresv2/{id}/backups",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "ListBackupsRequest",
-}) as any as S.Schema<ListBackupsRequest>;
+  }).pipe(T.Http({ method: "GET", uri: "/api/v1/postgresv2/{id}/backups", code: 200 })),
+).annotate({ identifier: "ListBackupsRequest" }) as any as S.Schema<ListBackupsRequest>;
 
 export interface ClusterBackup {
   id?: string;
@@ -570,9 +488,7 @@ export const ListBackupsResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     data: S.optional(ListBackupsResponseDataList),
   }),
-).annotate({
-  identifier: "ListBackupsResponse",
-}) as any as S.Schema<ListBackupsResponse>;
+).annotate({ identifier: "ListBackupsResponse" }) as any as S.Schema<ListBackupsResponse>;
 
 export interface ListClustersRequest {
   org_slug: string;
@@ -580,16 +496,8 @@ export interface ListClustersRequest {
 export const ListClustersRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     org_slug: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/api/v1/organizations/{org_slug}/postgresv2",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "ListClustersRequest",
-}) as any as S.Schema<ListClustersRequest>;
+  }).pipe(T.Http({ method: "GET", uri: "/api/v1/organizations/{org_slug}/postgresv2", code: 200 })),
+).annotate({ identifier: "ListClustersRequest" }) as any as S.Schema<ListClustersRequest>;
 
 export type ListClustersResponseDataList = Array<ManagedCluster>;
 export const ListClustersResponseDataList = /*@__PURE__*/ S.Array(
@@ -603,9 +511,7 @@ export const ListClustersResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     data: S.optional(ListClustersResponseDataList),
   }),
-).annotate({
-  identifier: "ListClustersResponse",
-}) as any as S.Schema<ListClustersResponse>;
+).annotate({ identifier: "ListClustersResponse" }) as any as S.Schema<ListClustersResponse>;
 
 export interface ListDatabasesRequest {
   id: string;
@@ -613,16 +519,8 @@ export interface ListDatabasesRequest {
 export const ListDatabasesRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     id: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/api/v1/postgresv2/{id}/databases",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "ListDatabasesRequest",
-}) as any as S.Schema<ListDatabasesRequest>;
+  }).pipe(T.Http({ method: "GET", uri: "/api/v1/postgresv2/{id}/databases", code: 200 })),
+).annotate({ identifier: "ListDatabasesRequest" }) as any as S.Schema<ListDatabasesRequest>;
 
 export interface Database {
   name?: string;
@@ -645,9 +543,7 @@ export const ListDatabasesResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     data: S.optional(ListDatabasesResponseDataList),
   }),
-).annotate({
-  identifier: "ListDatabasesResponse",
-}) as any as S.Schema<ListDatabasesResponse>;
+).annotate({ identifier: "ListDatabasesResponse" }) as any as S.Schema<ListDatabasesResponse>;
 
 export interface ListExtensionsRequest {
   id: string;
@@ -664,9 +560,7 @@ export const ListExtensionsRequest = /*@__PURE__*/ S.suspend(() =>
       code: 200,
     }),
   ),
-).annotate({
-  identifier: "ListExtensionsRequest",
-}) as any as S.Schema<ListExtensionsRequest>;
+).annotate({ identifier: "ListExtensionsRequest" }) as any as S.Schema<ListExtensionsRequest>;
 
 export interface InstalledExtension {
   version?: string;
@@ -677,9 +571,7 @@ export const InstalledExtension = /*@__PURE__*/ S.suspend(() =>
     version: S.optional(S.String),
     schema: S.optional(S.String),
   }),
-).annotate({
-  identifier: "InstalledExtension",
-}) as any as S.Schema<InstalledExtension>;
+).annotate({ identifier: "InstalledExtension" }) as any as S.Schema<InstalledExtension>;
 
 export interface Extension {
   name?: string;
@@ -712,9 +604,7 @@ export const ListExtensionsResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     data: S.optional(ListExtensionsResponseDataList),
   }),
-).annotate({
-  identifier: "ListExtensionsResponse",
-}) as any as S.Schema<ListExtensionsResponse>;
+).annotate({ identifier: "ListExtensionsResponse" }) as any as S.Schema<ListExtensionsResponse>;
 
 export interface ListRegionsRequest {
   org_slug: string;
@@ -729,9 +619,7 @@ export const ListRegionsRequest = /*@__PURE__*/ S.suspend(() =>
       code: 200,
     }),
   ),
-).annotate({
-  identifier: "ListRegionsRequest",
-}) as any as S.Schema<ListRegionsRequest>;
+).annotate({ identifier: "ListRegionsRequest" }) as any as S.Schema<ListRegionsRequest>;
 
 export interface Region {
   code?: string;
@@ -756,9 +644,7 @@ export const ListRegionsResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     data: S.optional(ListRegionsResponseDataList),
   }),
-).annotate({
-  identifier: "ListRegionsResponse",
-}) as any as S.Schema<ListRegionsResponse>;
+).annotate({ identifier: "ListRegionsResponse" }) as any as S.Schema<ListRegionsResponse>;
 
 export interface ListUsersRequest {
   id: string;
@@ -767,9 +653,7 @@ export const ListUsersRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     id: S.String.pipe(T.Label()),
   }).pipe(T.Http({ method: "GET", uri: "/api/v1/postgresv2/{id}/users", code: 200 })),
-).annotate({
-  identifier: "ListUsersRequest",
-}) as any as S.Schema<ListUsersRequest>;
+).annotate({ identifier: "ListUsersRequest" }) as any as S.Schema<ListUsersRequest>;
 
 export type ListUsersResponseDataList = Array<User>;
 export const ListUsersResponseDataList = /*@__PURE__*/ S.Array(
@@ -783,9 +667,7 @@ export const ListUsersResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     data: S.optional(ListUsersResponseDataList),
   }),
-).annotate({
-  identifier: "ListUsersResponse",
-}) as any as S.Schema<ListUsersResponse>;
+).annotate({ identifier: "ListUsersResponse" }) as any as S.Schema<ListUsersResponse>;
 
 export interface RestoreBackupRequest {
   id: string;
@@ -799,16 +681,8 @@ export const RestoreBackupRequest = /*@__PURE__*/ S.suspend(() =>
     backup_id: S.optional(S.String),
     name: S.optional(S.String),
     pitr_time: S.optional(S.String),
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/api/v1/postgresv2/{id}/restore",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "RestoreBackupRequest",
-}) as any as S.Schema<RestoreBackupRequest>;
+  }).pipe(T.Http({ method: "POST", uri: "/api/v1/postgresv2/{id}/restore", code: 200 })),
+).annotate({ identifier: "RestoreBackupRequest" }) as any as S.Schema<RestoreBackupRequest>;
 
 export interface RestoreBackupResponse {
   data?: ManagedCluster;
@@ -817,9 +691,7 @@ export const RestoreBackupResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     data: S.optional(ManagedCluster),
   }),
-).annotate({
-  identifier: "RestoreBackupResponse",
-}) as any as S.Schema<RestoreBackupResponse>;
+).annotate({ identifier: "RestoreBackupResponse" }) as any as S.Schema<RestoreBackupResponse>;
 
 export type UpdateUserRoleRequestRole = "schema_admin" | "writer" | "reader";
 export const UpdateUserRoleRequestRole = S.String;
@@ -834,16 +706,8 @@ export const UpdateUserRoleRequest = /*@__PURE__*/ S.suspend(() =>
     id: S.String.pipe(T.Label()),
     username: S.String.pipe(T.Label()),
     role: UpdateUserRoleRequestRole,
-  }).pipe(
-    T.Http({
-      method: "PATCH",
-      uri: "/api/v1/postgresv2/{id}/users/{username}",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "UpdateUserRoleRequest",
-}) as any as S.Schema<UpdateUserRoleRequest>;
+  }).pipe(T.Http({ method: "PATCH", uri: "/api/v1/postgresv2/{id}/users/{username}", code: 200 })),
+).annotate({ identifier: "UpdateUserRoleRequest" }) as any as S.Schema<UpdateUserRoleRequest>;
 
 export interface UpdateUserRoleResponse {}
 export const UpdateUserRoleResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({

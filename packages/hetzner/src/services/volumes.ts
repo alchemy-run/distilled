@@ -10,9 +10,7 @@ import * as T from "../traits.ts";
 export type { HetznerOpError, HetznerOpContext };
 
 /** User-defined labels (`key/value` pairs) for the Resource. For more information, see "[Labels](#description/labels)". */
-export type CreateVolumeRequestLabelsMap = {
-  [key: string]: string | undefined;
-};
+export type CreateVolumeRequestLabelsMap = { [key: string]: string | undefined };
 export const CreateVolumeRequestLabelsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -44,9 +42,7 @@ export const CreateVolumeRequest = /*@__PURE__*/ S.suspend(() =>
     location: S.optional(S.String),
     server: S.optional(S.Number),
   }).pipe(T.Http({ method: "POST", uri: "/volumes", code: 200 })),
-).annotate({
-  identifier: "CreateVolumeRequest",
-}) as any as S.Schema<CreateVolumeRequest>;
+).annotate({ identifier: "CreateVolumeRequest" }) as any as S.Schema<CreateVolumeRequest>;
 
 /** Location of the Volume. Volume can only be attached to Servers in the same Location. */
 export interface CreateVolumeResponseVolumeLocation {
@@ -96,9 +92,7 @@ export const CreateVolumeResponseVolumeProtection = /*@__PURE__*/ S.suspend(() =
 }) as any as S.Schema<CreateVolumeResponseVolumeProtection>;
 
 /** User-defined labels (`key/value` pairs) for the Resource. For more information, see "[Labels](#description/labels)". */
-export type CreateVolumeResponseVolumeLabelsMap = {
-  [key: string]: string | undefined;
-};
+export type CreateVolumeResponseVolumeLabelsMap = { [key: string]: string | undefined };
 export const CreateVolumeResponseVolumeLabelsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -294,9 +288,7 @@ export const CreateVolumeResponse = /*@__PURE__*/ S.suspend(() =>
     action: CreateVolumeResponseAction,
     next_actions: CreateVolumeResponseNextActionsList,
   }),
-).annotate({
-  identifier: "CreateVolumeResponse",
-}) as any as S.Schema<CreateVolumeResponse>;
+).annotate({ identifier: "CreateVolumeResponse" }) as any as S.Schema<CreateVolumeResponse>;
 
 export interface DeleteVolumeRequest {
   /** ID of the Volume. */
@@ -306,9 +298,7 @@ export const DeleteVolumeRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     id: S.Number.pipe(T.Label()),
   }).pipe(T.Http({ method: "DELETE", uri: "/volumes/{id}", code: 200 })),
-).annotate({
-  identifier: "DeleteVolumeRequest",
-}) as any as S.Schema<DeleteVolumeRequest>;
+).annotate({ identifier: "DeleteVolumeRequest" }) as any as S.Schema<DeleteVolumeRequest>;
 
 export interface DeleteVolumeResponse {}
 export const DeleteVolumeResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -323,9 +313,7 @@ export const GetVolumeRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     id: S.Number.pipe(T.Label()),
   }).pipe(T.Http({ method: "GET", uri: "/volumes/{id}", code: 200 })),
-).annotate({
-  identifier: "GetVolumeRequest",
-}) as any as S.Schema<GetVolumeRequest>;
+).annotate({ identifier: "GetVolumeRequest" }) as any as S.Schema<GetVolumeRequest>;
 
 /** Location of the Volume. Volume can only be attached to Servers in the same Location. */
 export type GetVolumeResponseVolumeLocation = CreateVolumeResponseVolumeLocation;
@@ -336,9 +324,7 @@ export type GetVolumeResponseVolumeProtection = CreateVolumeResponseVolumeProtec
 export const GetVolumeResponseVolumeProtection = CreateVolumeResponseVolumeProtection;
 
 /** User-defined labels (`key/value` pairs) for the Resource. For more information, see "[Labels](#description/labels)". */
-export type GetVolumeResponseVolumeLabelsMap = {
-  [key: string]: string | undefined;
-};
+export type GetVolumeResponseVolumeLabelsMap = { [key: string]: string | undefined };
 export const GetVolumeResponseVolumeLabelsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -386,9 +372,7 @@ export const GetVolumeResponseVolume = /*@__PURE__*/ S.suspend(() =>
     status: GetVolumeResponseVolumeStatus,
     format: S.NullOr(S.String),
   }),
-).annotate({
-  identifier: "GetVolumeResponseVolume",
-}) as any as S.Schema<GetVolumeResponseVolume>;
+).annotate({ identifier: "GetVolumeResponseVolume" }) as any as S.Schema<GetVolumeResponseVolume>;
 
 export interface GetVolumeResponse {
   volume: GetVolumeResponseVolume;
@@ -397,9 +381,7 @@ export const GetVolumeResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     volume: GetVolumeResponseVolume,
   }),
-).annotate({
-  identifier: "GetVolumeResponse",
-}) as any as S.Schema<GetVolumeResponse>;
+).annotate({ identifier: "GetVolumeResponse" }) as any as S.Schema<GetVolumeResponse>;
 
 /** Status of the Volume. */
 export type ListVolumesRequestStatusItem = "available" | "creating";
@@ -450,9 +432,7 @@ export const ListVolumesRequest = /*@__PURE__*/ S.suspend(() =>
     page: S.optional(S.Number.pipe(T.Query())),
     per_page: S.optional(S.Number.pipe(T.Query())),
   }).pipe(T.Http({ method: "GET", uri: "/volumes", code: 200 })),
-).annotate({
-  identifier: "ListVolumesRequest",
-}) as any as S.Schema<ListVolumesRequest>;
+).annotate({ identifier: "ListVolumesRequest" }) as any as S.Schema<ListVolumesRequest>;
 
 /** Location of the Volume. Volume can only be attached to Servers in the same Location. */
 export type ListVolumesResponseVolumesItemLocation = CreateVolumeResponseVolumeLocation;
@@ -463,9 +443,7 @@ export type ListVolumesResponseVolumesItemProtection = CreateVolumeResponseVolum
 export const ListVolumesResponseVolumesItemProtection = CreateVolumeResponseVolumeProtection;
 
 /** User-defined labels (`key/value` pairs) for the Resource. For more information, see "[Labels](#description/labels)". */
-export type ListVolumesResponseVolumesItemLabelsMap = {
-  [key: string]: string | undefined;
-};
+export type ListVolumesResponseVolumesItemLabelsMap = { [key: string]: string | undefined };
 export const ListVolumesResponseVolumesItemLabelsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -558,9 +536,7 @@ export const ListVolumesResponseMeta = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     pagination: ListVolumesResponseMetaPagination,
   }),
-).annotate({
-  identifier: "ListVolumesResponseMeta",
-}) as any as S.Schema<ListVolumesResponseMeta>;
+).annotate({ identifier: "ListVolumesResponseMeta" }) as any as S.Schema<ListVolumesResponseMeta>;
 
 export interface ListVolumesResponse {
   volumes: ListVolumesResponseVolumesList;
@@ -571,14 +547,10 @@ export const ListVolumesResponse = /*@__PURE__*/ S.suspend(() =>
     volumes: ListVolumesResponseVolumesList,
     meta: ListVolumesResponseMeta,
   }),
-).annotate({
-  identifier: "ListVolumesResponse",
-}) as any as S.Schema<ListVolumesResponse>;
+).annotate({ identifier: "ListVolumesResponse" }) as any as S.Schema<ListVolumesResponse>;
 
 /** User-defined labels (`key/value` pairs) for the Resource. Note that the set of [Labels](#description/labels) provided in the request will overwrite the existing one. For more information, see "[Labels](#description/labels)". */
-export type UpdateVolumeRequestLabelsMap = {
-  [key: string]: string | undefined;
-};
+export type UpdateVolumeRequestLabelsMap = { [key: string]: string | undefined };
 export const UpdateVolumeRequestLabelsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -598,9 +570,7 @@ export const UpdateVolumeRequest = /*@__PURE__*/ S.suspend(() =>
     name: S.optional(S.String),
     labels: S.optional(UpdateVolumeRequestLabelsMap),
   }).pipe(T.Http({ method: "PUT", uri: "/volumes/{id}", code: 200 })),
-).annotate({
-  identifier: "UpdateVolumeRequest",
-}) as any as S.Schema<UpdateVolumeRequest>;
+).annotate({ identifier: "UpdateVolumeRequest" }) as any as S.Schema<UpdateVolumeRequest>;
 
 /** Location of the Volume. Volume can only be attached to Servers in the same Location. */
 export type UpdateVolumeResponseVolumeLocation = CreateVolumeResponseVolumeLocation;
@@ -611,9 +581,7 @@ export type UpdateVolumeResponseVolumeProtection = CreateVolumeResponseVolumePro
 export const UpdateVolumeResponseVolumeProtection = CreateVolumeResponseVolumeProtection;
 
 /** User-defined labels (`key/value` pairs) for the Resource. For more information, see "[Labels](#description/labels)". */
-export type UpdateVolumeResponseVolumeLabelsMap = {
-  [key: string]: string | undefined;
-};
+export type UpdateVolumeResponseVolumeLabelsMap = { [key: string]: string | undefined };
 export const UpdateVolumeResponseVolumeLabelsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -672,9 +640,7 @@ export const UpdateVolumeResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     volume: UpdateVolumeResponseVolume,
   }),
-).annotate({
-  identifier: "UpdateVolumeResponse",
-}) as any as S.Schema<UpdateVolumeResponse>;
+).annotate({ identifier: "UpdateVolumeResponse" }) as any as S.Schema<UpdateVolumeResponse>;
 
 export type CreateVolumeError = HetznerOpError;
 /** Create a Volume Creates a new Volume attached to a Server. If you want to create a Volume that is not attached to a Server, you need to provide the `location` key instead of `server`. This can be either the ID or the name of the Location this Volume will be created in. Note that a Volume can be attached to a Server only in the same Location as the Volume itself. Specifying the Server during Volume creation will automatically attach the Volume to that Server after it has been initialized. In that case, the `next_actions` key in the response is an array which contains a single `attach_volume` action. The minimum Volume size is 10GB and the maximum size is 10TB (10240GB). A volume’s name can consist of alphanumeric characters, dashes, underscores, and dots, but has to start and end with an alphanumeric character. The total length is limited to 64 characters. Volume names must be unique per Project. #### Operation specific errors */

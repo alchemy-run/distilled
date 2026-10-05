@@ -341,7 +341,6 @@
         "RequestLimitExceeded",
         "SlowDown",
         "ParseError",
-        "NotFound",
         "NoSuchBucket",
         "MethodNotAllowed"
       ]

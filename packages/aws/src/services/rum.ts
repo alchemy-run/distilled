@@ -177,9 +177,7 @@ export const MetricDefinitionRequest = /*@__PURE__*/ S.suspend(() =>
     EventPattern: S.optional(S.String),
     Namespace: S.optional(S.String),
   }),
-).annotate({
-  identifier: "MetricDefinitionRequest",
-}) as any as S.Schema<MetricDefinitionRequest>;
+).annotate({ identifier: "MetricDefinitionRequest" }) as any as S.Schema<MetricDefinitionRequest>;
 export type MetricDefinitionsRequest = MetricDefinitionRequest[];
 export const MetricDefinitionsRequest = /*@__PURE__*/ S.Array(MetricDefinitionRequest);
 export interface BatchCreateRumMetricDefinitionsRequest {
@@ -245,9 +243,7 @@ export const MetricDefinition = /*@__PURE__*/ S.suspend(() =>
     EventPattern: S.optional(S.String),
     Namespace: S.optional(S.String),
   }),
-).annotate({
-  identifier: "MetricDefinition",
-}) as any as S.Schema<MetricDefinition>;
+).annotate({ identifier: "MetricDefinition" }) as any as S.Schema<MetricDefinition>;
 export type MetricDefinitions = MetricDefinition[];
 export const MetricDefinitions = /*@__PURE__*/ S.Array(MetricDefinition);
 export interface BatchCreateRumMetricDefinitionsResponse {
@@ -278,10 +274,7 @@ export const BatchDeleteRumMetricDefinitionsRequest = /*@__PURE__*/ S.suspend(()
     MetricDefinitionIds: MetricDefinitionIds.pipe(T.HttpQuery("metricDefinitionIds")),
   }).pipe(
     T.all(
-      T.Http({
-        method: "DELETE",
-        uri: "/rummetrics/{AppMonitorName}/metrics",
-      }),
+      T.Http({ method: "DELETE", uri: "/rummetrics/{AppMonitorName}/metrics" }),
       svc,
       auth,
       proto,
@@ -298,11 +291,7 @@ export interface BatchDeleteRumMetricDefinitionsError_ {
   ErrorMessage: string;
 }
 export const BatchDeleteRumMetricDefinitionsError_ = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    MetricDefinitionId: S.String,
-    ErrorCode: S.String,
-    ErrorMessage: S.String,
-  }),
+  S.Struct({ MetricDefinitionId: S.String, ErrorCode: S.String, ErrorMessage: S.String }),
 ).annotate({
   identifier: "BatchDeleteRumMetricDefinitionsError",
 }) as any as S.Schema<BatchDeleteRumMetricDefinitionsError_>;
@@ -355,10 +344,7 @@ export interface BatchGetRumMetricDefinitionsResponse {
   NextToken?: string;
 }
 export const BatchGetRumMetricDefinitionsResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    MetricDefinitions: S.optional(MetricDefinitions),
-    NextToken: S.optional(S.String),
-  }),
+  S.Struct({ MetricDefinitions: S.optional(MetricDefinitions), NextToken: S.optional(S.String) }),
 ).annotate({
   identifier: "BatchGetRumMetricDefinitionsResponse",
 }) as any as S.Schema<BatchGetRumMetricDefinitionsResponse>;
@@ -403,9 +389,7 @@ export const AppMonitorConfiguration = /*@__PURE__*/ S.suspend(() =>
     Telemetries: S.optional(Telemetries),
     EnableXRay: S.optional(S.Boolean),
   }),
-).annotate({
-  identifier: "AppMonitorConfiguration",
-}) as any as S.Schema<AppMonitorConfiguration>;
+).annotate({ identifier: "AppMonitorConfiguration" }) as any as S.Schema<AppMonitorConfiguration>;
 export type CustomEventsStatus = string;
 export interface CustomEvents {
   Status?: string;
@@ -421,9 +405,7 @@ export interface JavaScriptSourceMaps {
 }
 export const JavaScriptSourceMaps = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ Status: S.String, S3Uri: S.optional(S.String) }),
-).annotate({
-  identifier: "JavaScriptSourceMaps",
-}) as any as S.Schema<JavaScriptSourceMaps>;
+).annotate({ identifier: "JavaScriptSourceMaps" }) as any as S.Schema<JavaScriptSourceMaps>;
 export interface DeobfuscationConfiguration {
   JavaScriptSourceMaps?: JavaScriptSourceMaps;
 }
@@ -456,18 +438,14 @@ export const CreateAppMonitorRequest = /*@__PURE__*/ S.suspend(() =>
     DeobfuscationConfiguration: S.optional(DeobfuscationConfiguration),
     Platform: S.optional(S.String),
   }).pipe(T.all(T.Http({ method: "POST", uri: "/appmonitor" }), svc, auth, proto, ver, rules)),
-).annotate({
-  identifier: "CreateAppMonitorRequest",
-}) as any as S.Schema<CreateAppMonitorRequest>;
+).annotate({ identifier: "CreateAppMonitorRequest" }) as any as S.Schema<CreateAppMonitorRequest>;
 export type AppMonitorId = string;
 export interface CreateAppMonitorResponse {
   Id?: string;
 }
 export const CreateAppMonitorResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ Id: S.optional(S.String) }),
-).annotate({
-  identifier: "CreateAppMonitorResponse",
-}) as any as S.Schema<CreateAppMonitorResponse>;
+).annotate({ identifier: "CreateAppMonitorResponse" }) as any as S.Schema<CreateAppMonitorResponse>;
 export interface DeleteAppMonitorRequest {
   Name: string;
 }
@@ -475,9 +453,7 @@ export const DeleteAppMonitorRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ Name: S.String.pipe(T.HttpLabel("Name")) }).pipe(
     T.all(T.Http({ method: "DELETE", uri: "/appmonitor/{Name}" }), svc, auth, proto, ver, rules),
   ),
-).annotate({
-  identifier: "DeleteAppMonitorRequest",
-}) as any as S.Schema<DeleteAppMonitorRequest>;
+).annotate({ identifier: "DeleteAppMonitorRequest" }) as any as S.Schema<DeleteAppMonitorRequest>;
 export interface DeleteAppMonitorResponse {}
 export const DeleteAppMonitorResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
   identifier: "DeleteAppMonitorResponse",
@@ -524,10 +500,7 @@ export const DeleteRumMetricsDestinationRequest = /*@__PURE__*/ S.suspend(() =>
     DestinationArn: S.optional(S.String).pipe(T.HttpQuery("destinationArn")),
   }).pipe(
     T.all(
-      T.Http({
-        method: "DELETE",
-        uri: "/rummetrics/{AppMonitorName}/metricsdestination",
-      }),
+      T.Http({ method: "DELETE", uri: "/rummetrics/{AppMonitorName}/metricsdestination" }),
       svc,
       auth,
       proto,
@@ -551,9 +524,7 @@ export const GetAppMonitorRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ Name: S.String.pipe(T.HttpLabel("Name")) }).pipe(
     T.all(T.Http({ method: "GET", uri: "/appmonitor/{Name}" }), svc, auth, proto, ver, rules),
   ),
-).annotate({
-  identifier: "GetAppMonitorRequest",
-}) as any as S.Schema<GetAppMonitorRequest>;
+).annotate({ identifier: "GetAppMonitorRequest" }) as any as S.Schema<GetAppMonitorRequest>;
 export type ISOTimestampString = string;
 export type StateEnum = string;
 export interface CwLog {
@@ -561,10 +532,7 @@ export interface CwLog {
   CwLogGroup?: string;
 }
 export const CwLog = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    CwLogEnabled: S.optional(S.Boolean),
-    CwLogGroup: S.optional(S.String),
-  }),
+  S.Struct({ CwLogEnabled: S.optional(S.Boolean), CwLogGroup: S.optional(S.String) }),
 ).annotate({ identifier: "CwLog" }) as any as S.Schema<CwLog>;
 export interface DataStorage {
   CwLog?: CwLog;
@@ -609,9 +577,7 @@ export interface GetAppMonitorResponse {
 }
 export const GetAppMonitorResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ AppMonitor: S.optional(AppMonitor) }),
-).annotate({
-  identifier: "GetAppMonitorResponse",
-}) as any as S.Schema<GetAppMonitorResponse>;
+).annotate({ identifier: "GetAppMonitorResponse" }) as any as S.Schema<GetAppMonitorResponse>;
 export type QueryTimestamp = number;
 export interface TimeRange {
   After: number;
@@ -629,10 +595,7 @@ export interface QueryFilter {
   Values?: string[];
 }
 export const QueryFilter = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Name: S.optional(S.String),
-    Values: S.optional(QueryFilterValueList),
-  }),
+  S.Struct({ Name: S.optional(S.String), Values: S.optional(QueryFilterValueList) }),
 ).annotate({ identifier: "QueryFilter" }) as any as S.Schema<QueryFilter>;
 export type QueryFilters = QueryFilter[];
 export const QueryFilters = /*@__PURE__*/ S.Array(QueryFilter);
@@ -655,9 +618,7 @@ export const GetAppMonitorDataRequest = /*@__PURE__*/ S.suspend(() =>
   }).pipe(
     T.all(T.Http({ method: "POST", uri: "/appmonitor/{Name}/data" }), svc, auth, proto, ver, rules),
   ),
-).annotate({
-  identifier: "GetAppMonitorDataRequest",
-}) as any as S.Schema<GetAppMonitorDataRequest>;
+).annotate({ identifier: "GetAppMonitorDataRequest" }) as any as S.Schema<GetAppMonitorDataRequest>;
 export type EventData = string;
 export type EventDataList = string[];
 export const EventDataList = /*@__PURE__*/ S.Array(S.String);
@@ -666,10 +627,7 @@ export interface GetAppMonitorDataResponse {
   NextToken?: string;
 }
 export const GetAppMonitorDataResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Events: S.optional(EventDataList),
-    NextToken: S.optional(S.String),
-  }),
+  S.Struct({ Events: S.optional(EventDataList), NextToken: S.optional(S.String) }),
 ).annotate({
   identifier: "GetAppMonitorDataResponse",
 }) as any as S.Schema<GetAppMonitorDataResponse>;
@@ -687,18 +645,13 @@ export const GetResourcePolicyRequest = /*@__PURE__*/ S.suspend(() =>
       rules,
     ),
   ),
-).annotate({
-  identifier: "GetResourcePolicyRequest",
-}) as any as S.Schema<GetResourcePolicyRequest>;
+).annotate({ identifier: "GetResourcePolicyRequest" }) as any as S.Schema<GetResourcePolicyRequest>;
 export interface GetResourcePolicyResponse {
   PolicyDocument?: string;
   PolicyRevisionId?: string;
 }
 export const GetResourcePolicyResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    PolicyDocument: S.optional(S.String),
-    PolicyRevisionId: S.optional(S.String),
-  }),
+  S.Struct({ PolicyDocument: S.optional(S.String), PolicyRevisionId: S.optional(S.String) }),
 ).annotate({
   identifier: "GetResourcePolicyResponse",
 }) as any as S.Schema<GetResourcePolicyResponse>;
@@ -711,9 +664,7 @@ export const ListAppMonitorsRequest = /*@__PURE__*/ S.suspend(() =>
     MaxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
     NextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
   }).pipe(T.all(T.Http({ method: "POST", uri: "/appmonitors" }), svc, auth, proto, ver, rules)),
-).annotate({
-  identifier: "ListAppMonitorsRequest",
-}) as any as S.Schema<ListAppMonitorsRequest>;
+).annotate({ identifier: "ListAppMonitorsRequest" }) as any as S.Schema<ListAppMonitorsRequest>;
 export interface AppMonitorSummary {
   Name?: string;
   Id?: string;
@@ -731,9 +682,7 @@ export const AppMonitorSummary = /*@__PURE__*/ S.suspend(() =>
     State: S.optional(S.String),
     Platform: S.optional(S.String),
   }),
-).annotate({
-  identifier: "AppMonitorSummary",
-}) as any as S.Schema<AppMonitorSummary>;
+).annotate({ identifier: "AppMonitorSummary" }) as any as S.Schema<AppMonitorSummary>;
 export type AppMonitorSummaryList = AppMonitorSummary[];
 export const AppMonitorSummaryList = /*@__PURE__*/ S.Array(AppMonitorSummary);
 export interface ListAppMonitorsResponse {
@@ -745,9 +694,7 @@ export const ListAppMonitorsResponse = /*@__PURE__*/ S.suspend(() =>
     NextToken: S.optional(S.String),
     AppMonitorSummaries: S.optional(AppMonitorSummaryList),
   }),
-).annotate({
-  identifier: "ListAppMonitorsResponse",
-}) as any as S.Schema<ListAppMonitorsResponse>;
+).annotate({ identifier: "ListAppMonitorsResponse" }) as any as S.Schema<ListAppMonitorsResponse>;
 export interface ListRumMetricsDestinationsRequest {
   AppMonitorName: string;
   MaxResults?: number;
@@ -760,10 +707,7 @@ export const ListRumMetricsDestinationsRequest = /*@__PURE__*/ S.suspend(() =>
     NextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
   }).pipe(
     T.all(
-      T.Http({
-        method: "GET",
-        uri: "/rummetrics/{AppMonitorName}/metricsdestination",
-      }),
+      T.Http({ method: "GET", uri: "/rummetrics/{AppMonitorName}/metricsdestination" }),
       svc,
       auth,
       proto,
@@ -786,9 +730,7 @@ export const MetricDestinationSummary = /*@__PURE__*/ S.suspend(() =>
     DestinationArn: S.optional(S.String),
     IamRoleArn: S.optional(S.String),
   }),
-).annotate({
-  identifier: "MetricDestinationSummary",
-}) as any as S.Schema<MetricDestinationSummary>;
+).annotate({ identifier: "MetricDestinationSummary" }) as any as S.Schema<MetricDestinationSummary>;
 export type MetricDestinationSummaryList = MetricDestinationSummary[];
 export const MetricDestinationSummaryList = /*@__PURE__*/ S.Array(MetricDestinationSummary);
 export interface ListRumMetricsDestinationsResponse {
@@ -842,18 +784,13 @@ export const PutResourcePolicyRequest = /*@__PURE__*/ S.suspend(() =>
       rules,
     ),
   ),
-).annotate({
-  identifier: "PutResourcePolicyRequest",
-}) as any as S.Schema<PutResourcePolicyRequest>;
+).annotate({ identifier: "PutResourcePolicyRequest" }) as any as S.Schema<PutResourcePolicyRequest>;
 export interface PutResourcePolicyResponse {
   PolicyDocument?: string;
   PolicyRevisionId?: string;
 }
 export const PutResourcePolicyResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    PolicyDocument: S.optional(S.String),
-    PolicyRevisionId: S.optional(S.String),
-  }),
+  S.Struct({ PolicyDocument: S.optional(S.String), PolicyRevisionId: S.optional(S.String) }),
 ).annotate({
   identifier: "PutResourcePolicyResponse",
 }) as any as S.Schema<PutResourcePolicyResponse>;
@@ -863,14 +800,8 @@ export interface AppMonitorDetails {
   version?: string;
 }
 export const AppMonitorDetails = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    name: S.optional(S.String),
-    id: S.optional(S.String),
-    version: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "AppMonitorDetails",
-}) as any as S.Schema<AppMonitorDetails>;
+  S.Struct({ name: S.optional(S.String), id: S.optional(S.String), version: S.optional(S.String) }),
+).annotate({ identifier: "AppMonitorDetails" }) as any as S.Schema<AppMonitorDetails>;
 export interface UserDetails {
   userId?: string;
   sessionId?: string;
@@ -917,9 +848,7 @@ export const PutRumEventsRequest = /*@__PURE__*/ S.suspend(() =>
   }).pipe(
     T.all(T.Http({ method: "POST", uri: "/appmonitors/{Id}/" }), svc, auth, proto, ver, rules),
   ),
-).annotate({
-  identifier: "PutRumEventsRequest",
-}) as any as S.Schema<PutRumEventsRequest>;
+).annotate({ identifier: "PutRumEventsRequest" }) as any as S.Schema<PutRumEventsRequest>;
 export interface PutRumEventsResponse {}
 export const PutRumEventsResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
   identifier: "PutRumEventsResponse",
@@ -938,10 +867,7 @@ export const PutRumMetricsDestinationRequest = /*@__PURE__*/ S.suspend(() =>
     IamRoleArn: S.optional(S.String),
   }).pipe(
     T.all(
-      T.Http({
-        method: "POST",
-        uri: "/rummetrics/{AppMonitorName}/metricsdestination",
-      }),
+      T.Http({ method: "POST", uri: "/rummetrics/{AppMonitorName}/metricsdestination" }),
       svc,
       auth,
       proto,
@@ -963,15 +889,10 @@ export interface TagResourceRequest {
   Tags: { [key: string]: string | undefined };
 }
 export const TagResourceRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ResourceArn: S.String.pipe(T.HttpLabel("ResourceArn")),
-    Tags: TagMap,
-  }).pipe(
+  S.Struct({ ResourceArn: S.String.pipe(T.HttpLabel("ResourceArn")), Tags: TagMap }).pipe(
     T.all(T.Http({ method: "POST", uri: "/tags/{ResourceArn}" }), svc, auth, proto, ver, rules),
   ),
-).annotate({
-  identifier: "TagResourceRequest",
-}) as any as S.Schema<TagResourceRequest>;
+).annotate({ identifier: "TagResourceRequest" }) as any as S.Schema<TagResourceRequest>;
 export interface TagResourceResponse {}
 export const TagResourceResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
   identifier: "TagResourceResponse",
@@ -989,9 +910,7 @@ export const UntagResourceRequest = /*@__PURE__*/ S.suspend(() =>
   }).pipe(
     T.all(T.Http({ method: "DELETE", uri: "/tags/{ResourceArn}" }), svc, auth, proto, ver, rules),
   ),
-).annotate({
-  identifier: "UntagResourceRequest",
-}) as any as S.Schema<UntagResourceRequest>;
+).annotate({ identifier: "UntagResourceRequest" }) as any as S.Schema<UntagResourceRequest>;
 export interface UntagResourceResponse {}
 export const UntagResourceResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
   identifier: "UntagResourceResponse",
@@ -1017,9 +936,7 @@ export const UpdateAppMonitorRequest = /*@__PURE__*/ S.suspend(() =>
   }).pipe(
     T.all(T.Http({ method: "PATCH", uri: "/appmonitor/{Name}" }), svc, auth, proto, ver, rules),
   ),
-).annotate({
-  identifier: "UpdateAppMonitorRequest",
-}) as any as S.Schema<UpdateAppMonitorRequest>;
+).annotate({ identifier: "UpdateAppMonitorRequest" }) as any as S.Schema<UpdateAppMonitorRequest>;
 export interface UpdateAppMonitorResponse {}
 export const UpdateAppMonitorResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
   identifier: "UpdateAppMonitorResponse",

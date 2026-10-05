@@ -104,9 +104,7 @@ export const DeleteObjectRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ Path: S.String.pipe(T.HttpLabel("Path")) }).pipe(
     T.all(ns, T.Http({ method: "DELETE", uri: "/{Path+}" }), svc, auth, proto, ver, rules),
   ),
-).annotate({
-  identifier: "DeleteObjectRequest",
-}) as any as S.Schema<DeleteObjectRequest>;
+).annotate({ identifier: "DeleteObjectRequest" }) as any as S.Schema<DeleteObjectRequest>;
 export interface DeleteObjectResponse {}
 export const DeleteObjectResponse = /*@__PURE__*/ S.suspend(() => S.Struct({}).pipe(ns)).annotate({
   identifier: "DeleteObjectResponse",
@@ -118,9 +116,7 @@ export const DescribeObjectRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ Path: S.String.pipe(T.HttpLabel("Path")) }).pipe(
     T.all(ns, T.Http({ method: "HEAD", uri: "/{Path+}" }), svc, auth, proto, ver, rules),
   ),
-).annotate({
-  identifier: "DescribeObjectRequest",
-}) as any as S.Schema<DescribeObjectRequest>;
+).annotate({ identifier: "DescribeObjectRequest" }) as any as S.Schema<DescribeObjectRequest>;
 export type ETag = string;
 export type ContentType = string;
 export type NonNegativeLong = number;
@@ -142,9 +138,7 @@ export const DescribeObjectResponse = /*@__PURE__*/ S.suspend(() =>
       T.HttpHeader("Last-Modified"),
     ),
   }).pipe(ns),
-).annotate({
-  identifier: "DescribeObjectResponse",
-}) as any as S.Schema<DescribeObjectResponse>;
+).annotate({ identifier: "DescribeObjectResponse" }) as any as S.Schema<DescribeObjectResponse>;
 export type RangePattern = string;
 export interface GetObjectRequest {
   Path: string;
@@ -155,9 +149,7 @@ export const GetObjectRequest = /*@__PURE__*/ S.suspend(() =>
     Path: S.String.pipe(T.HttpLabel("Path")),
     Range: S.optional(S.String).pipe(T.HttpHeader("Range")),
   }).pipe(T.all(ns, T.Http({ method: "GET", uri: "/{Path+}" }), svc, auth, proto, ver, rules)),
-).annotate({
-  identifier: "GetObjectRequest",
-}) as any as S.Schema<GetObjectRequest>;
+).annotate({ identifier: "GetObjectRequest" }) as any as S.Schema<GetObjectRequest>;
 export type ContentRangePattern = string;
 export type StatusCode = number;
 export interface GetObjectResponse {
@@ -183,9 +175,7 @@ export const GetObjectResponse = /*@__PURE__*/ S.suspend(() =>
     ),
     StatusCode: S.Number.pipe(T.HttpResponseCode()),
   }).pipe(ns),
-).annotate({
-  identifier: "GetObjectResponse",
-}) as any as S.Schema<GetObjectResponse>;
+).annotate({ identifier: "GetObjectResponse" }) as any as S.Schema<GetObjectResponse>;
 export type ListPathNaming = string;
 export type ListLimit = number;
 export type PaginationToken = string;
@@ -200,9 +190,7 @@ export const ListItemsRequest = /*@__PURE__*/ S.suspend(() =>
     MaxResults: S.optional(S.Number).pipe(T.HttpQuery("MaxResults")),
     NextToken: S.optional(S.String).pipe(T.HttpQuery("NextToken")),
   }).pipe(T.all(ns, T.Http({ method: "GET", uri: "/" }), svc, auth, proto, ver, rules)),
-).annotate({
-  identifier: "ListItemsRequest",
-}) as any as S.Schema<ListItemsRequest>;
+).annotate({ identifier: "ListItemsRequest" }) as any as S.Schema<ListItemsRequest>;
 export type ItemName = string;
 export type ItemType = "OBJECT" | "FOLDER" | (string & {});
 export const ItemType = S.String;
@@ -232,13 +220,8 @@ export interface ListItemsResponse {
   NextToken?: string;
 }
 export const ListItemsResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Items: S.optional(ItemList),
-    NextToken: S.optional(S.String),
-  }).pipe(ns),
-).annotate({
-  identifier: "ListItemsResponse",
-}) as any as S.Schema<ListItemsResponse>;
+  S.Struct({ Items: S.optional(ItemList), NextToken: S.optional(S.String) }).pipe(ns),
+).annotate({ identifier: "ListItemsResponse" }) as any as S.Schema<ListItemsResponse>;
 export type StorageClass = "TEMPORAL" | (string & {});
 export const StorageClass = S.String;
 
@@ -264,9 +247,7 @@ export const PutObjectRequest = /*@__PURE__*/ S.suspend(() =>
       T.HttpHeader("x-amz-upload-availability"),
     ),
   }).pipe(T.all(ns, T.Http({ method: "PUT", uri: "/{Path+}" }), svc, auth, proto, ver, rules)),
-).annotate({
-  identifier: "PutObjectRequest",
-}) as any as S.Schema<PutObjectRequest>;
+).annotate({ identifier: "PutObjectRequest" }) as any as S.Schema<PutObjectRequest>;
 export type SHA256Hash = string;
 export interface PutObjectResponse {
   ContentSHA256?: string;
@@ -279,9 +260,7 @@ export const PutObjectResponse = /*@__PURE__*/ S.suspend(() =>
     ETag: S.optional(S.String),
     StorageClass: S.optional(StorageClass),
   }).pipe(ns),
-).annotate({
-  identifier: "PutObjectResponse",
-}) as any as S.Schema<PutObjectResponse>;
+).annotate({ identifier: "PutObjectResponse" }) as any as S.Schema<PutObjectResponse>;
 export type ErrorMessage = string;
 export type DeleteObjectError =
   | ContainerNotFoundException

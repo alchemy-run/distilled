@@ -171,10 +171,7 @@ export const DeleteSessionRequest = /*@__PURE__*/ S.suspend(() =>
     userId: S.String.pipe(T.HttpLabel("userId")),
   }).pipe(
     T.all(
-      T.Http({
-        method: "DELETE",
-        uri: "/bot/{botName}/alias/{botAlias}/user/{userId}/session",
-      }),
+      T.Http({ method: "DELETE", uri: "/bot/{botName}/alias/{botAlias}/user/{userId}/session" }),
       svc,
       auth,
       proto,
@@ -182,9 +179,7 @@ export const DeleteSessionRequest = /*@__PURE__*/ S.suspend(() =>
       rules,
     ),
   ),
-).annotate({
-  identifier: "DeleteSessionRequest",
-}) as any as S.Schema<DeleteSessionRequest>;
+).annotate({ identifier: "DeleteSessionRequest" }) as any as S.Schema<DeleteSessionRequest>;
 export interface DeleteSessionResponse {
   botName?: string;
   botAlias?: string;
@@ -198,9 +193,7 @@ export const DeleteSessionResponse = /*@__PURE__*/ S.suspend(() =>
     userId: S.optional(S.String),
     sessionId: S.optional(S.String),
   }),
-).annotate({
-  identifier: "DeleteSessionResponse",
-}) as any as S.Schema<DeleteSessionResponse>;
+).annotate({ identifier: "DeleteSessionResponse" }) as any as S.Schema<DeleteSessionResponse>;
 export type IntentSummaryCheckpointLabel = string;
 export interface GetSessionRequest {
   botName: string;
@@ -216,10 +209,7 @@ export const GetSessionRequest = /*@__PURE__*/ S.suspend(() =>
     checkpointLabelFilter: S.optional(S.String).pipe(T.HttpQuery("checkpointLabelFilter")),
   }).pipe(
     T.all(
-      T.Http({
-        method: "GET",
-        uri: "/bot/{botName}/alias/{botAlias}/user/{userId}/session",
-      }),
+      T.Http({ method: "GET", uri: "/bot/{botName}/alias/{botAlias}/user/{userId}/session" }),
       svc,
       auth,
       proto,
@@ -227,9 +217,7 @@ export const GetSessionRequest = /*@__PURE__*/ S.suspend(() =>
       rules,
     ),
   ),
-).annotate({
-  identifier: "GetSessionRequest",
-}) as any as S.Schema<GetSessionRequest>;
+).annotate({ identifier: "GetSessionRequest" }) as any as S.Schema<GetSessionRequest>;
 export type IntentName = string;
 export type StringMap = { [key: string]: string | undefined };
 export const StringMap = /*@__PURE__*/ S.Record(S.String, S.String.pipe(S.optional));
@@ -307,13 +295,8 @@ export interface ActiveContextTimeToLive {
   turnsToLive?: number;
 }
 export const ActiveContextTimeToLive = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    timeToLiveInSeconds: S.optional(S.Number),
-    turnsToLive: S.optional(S.Number),
-  }),
-).annotate({
-  identifier: "ActiveContextTimeToLive",
-}) as any as S.Schema<ActiveContextTimeToLive>;
+  S.Struct({ timeToLiveInSeconds: S.optional(S.Number), turnsToLive: S.optional(S.Number) }),
+).annotate({ identifier: "ActiveContextTimeToLive" }) as any as S.Schema<ActiveContextTimeToLive>;
 export type ParameterName = string;
 export type ActiveContextParametersMap = {
   [key: string]: string | redacted.Redacted<string> | undefined;
@@ -351,9 +334,7 @@ export const GetSessionResponse = /*@__PURE__*/ S.suspend(() =>
     dialogAction: S.optional(DialogAction),
     activeContexts: S.optional(ActiveContextsList),
   }),
-).annotate({
-  identifier: "GetSessionResponse",
-}) as any as S.Schema<GetSessionResponse>;
+).annotate({ identifier: "GetSessionResponse" }) as any as S.Schema<GetSessionResponse>;
 export type SynthesizedJsonAttributesString = string | redacted.Redacted<string>;
 export type HttpContentType = string;
 export type Accept = string;
@@ -386,10 +367,7 @@ export const PostContentRequest = /*@__PURE__*/ S.suspend(() =>
     activeContexts: S.optional(SensitiveString).pipe(T.HttpHeader("x-amz-lex-active-contexts")),
   }).pipe(
     T.all(
-      T.Http({
-        method: "POST",
-        uri: "/bot/{botName}/alias/{botAlias}/user/{userId}/content",
-      }),
+      T.Http({ method: "POST", uri: "/bot/{botName}/alias/{botAlias}/user/{userId}/content" }),
       svc,
       auth,
       proto,
@@ -397,9 +375,7 @@ export const PostContentRequest = /*@__PURE__*/ S.suspend(() =>
       rules,
     ),
   ),
-).annotate({
-  identifier: "PostContentRequest",
-}) as any as S.Schema<PostContentRequest>;
+).annotate({ identifier: "PostContentRequest" }) as any as S.Schema<PostContentRequest>;
 export type SynthesizedJsonString = string;
 export type SensitiveString = string | redacted.Redacted<string>;
 export type DialogState =
@@ -457,9 +433,7 @@ export const PostContentResponse = /*@__PURE__*/ S.suspend(() =>
     sessionId: S.optional(S.String).pipe(T.HttpHeader("x-amz-lex-session-id")),
     activeContexts: S.optional(SensitiveString).pipe(T.HttpHeader("x-amz-lex-active-contexts")),
   }),
-).annotate({
-  identifier: "PostContentResponse",
-}) as any as S.Schema<PostContentResponse>;
+).annotate({ identifier: "PostContentResponse" }) as any as S.Schema<PostContentResponse>;
 export interface PostTextRequest {
   botName: string;
   botAlias: string;
@@ -480,10 +454,7 @@ export const PostTextRequest = /*@__PURE__*/ S.suspend(() =>
     activeContexts: S.optional(ActiveContextsList),
   }).pipe(
     T.all(
-      T.Http({
-        method: "POST",
-        uri: "/bot/{botName}/alias/{botAlias}/user/{userId}/text",
-      }),
+      T.Http({ method: "POST", uri: "/bot/{botName}/alias/{botAlias}/user/{userId}/text" }),
       svc,
       auth,
       proto,
@@ -491,17 +462,13 @@ export const PostTextRequest = /*@__PURE__*/ S.suspend(() =>
       rules,
     ),
   ),
-).annotate({
-  identifier: "PostTextRequest",
-}) as any as S.Schema<PostTextRequest>;
+).annotate({ identifier: "PostTextRequest" }) as any as S.Schema<PostTextRequest>;
 export interface IntentConfidence {
   score?: number;
 }
 export const IntentConfidence = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ score: S.optional(S.Number) }),
-).annotate({
-  identifier: "IntentConfidence",
-}) as any as S.Schema<IntentConfidence>;
+).annotate({ identifier: "IntentConfidence" }) as any as S.Schema<IntentConfidence>;
 export interface PredictedIntent {
   intentName?: string;
   nluIntentConfidence?: IntentConfidence;
@@ -513,9 +480,7 @@ export const PredictedIntent = /*@__PURE__*/ S.suspend(() =>
     nluIntentConfidence: S.optional(IntentConfidence),
     slots: S.optional(StringMap),
   }),
-).annotate({
-  identifier: "PredictedIntent",
-}) as any as S.Schema<PredictedIntent>;
+).annotate({ identifier: "PredictedIntent" }) as any as S.Schema<PredictedIntent>;
 export type IntentList = PredictedIntent[];
 export const IntentList = /*@__PURE__*/ S.Array(PredictedIntent);
 export type SentimentLabel = string;
@@ -525,13 +490,8 @@ export interface SentimentResponse {
   sentimentScore?: string;
 }
 export const SentimentResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    sentimentLabel: S.optional(S.String),
-    sentimentScore: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "SentimentResponse",
-}) as any as S.Schema<SentimentResponse>;
+  S.Struct({ sentimentLabel: S.optional(S.String), sentimentScore: S.optional(S.String) }),
+).annotate({ identifier: "SentimentResponse" }) as any as S.Schema<SentimentResponse>;
 export type ContentType = "application/vnd.amazonaws.card.generic" | (string & {});
 export const ContentType = S.String;
 
@@ -563,9 +523,7 @@ export const GenericAttachment = /*@__PURE__*/ S.suspend(() =>
     imageUrl: S.optional(S.String),
     buttons: S.optional(ListOfButtons),
   }),
-).annotate({
-  identifier: "GenericAttachment",
-}) as any as S.Schema<GenericAttachment>;
+).annotate({ identifier: "GenericAttachment" }) as any as S.Schema<GenericAttachment>;
 export type GenericAttachmentList = GenericAttachment[];
 export const GenericAttachmentList = /*@__PURE__*/ S.Array(GenericAttachment);
 export interface ResponseCard {
@@ -613,9 +571,7 @@ export const PostTextResponse = /*@__PURE__*/ S.suspend(() =>
     botVersion: S.optional(S.String),
     activeContexts: S.optional(ActiveContextsList),
   }),
-).annotate({
-  identifier: "PostTextResponse",
-}) as any as S.Schema<PostTextResponse>;
+).annotate({ identifier: "PostTextResponse" }) as any as S.Schema<PostTextResponse>;
 export interface PutSessionRequest {
   botName: string;
   botAlias: string;
@@ -638,10 +594,7 @@ export const PutSessionRequest = /*@__PURE__*/ S.suspend(() =>
     activeContexts: S.optional(ActiveContextsList),
   }).pipe(
     T.all(
-      T.Http({
-        method: "POST",
-        uri: "/bot/{botName}/alias/{botAlias}/user/{userId}/session",
-      }),
+      T.Http({ method: "POST", uri: "/bot/{botName}/alias/{botAlias}/user/{userId}/session" }),
       svc,
       auth,
       proto,
@@ -649,9 +602,7 @@ export const PutSessionRequest = /*@__PURE__*/ S.suspend(() =>
       rules,
     ),
   ),
-).annotate({
-  identifier: "PutSessionRequest",
-}) as any as S.Schema<PutSessionRequest>;
+).annotate({ identifier: "PutSessionRequest" }) as any as S.Schema<PutSessionRequest>;
 export interface PutSessionResponse {
   contentType?: string;
   intentName?: string;
@@ -681,9 +632,7 @@ export const PutSessionResponse = /*@__PURE__*/ S.suspend(() =>
     sessionId: S.optional(S.String).pipe(T.HttpHeader("x-amz-lex-session-id")),
     activeContexts: S.optional(SensitiveString).pipe(T.HttpHeader("x-amz-lex-active-contexts")),
   }),
-).annotate({
-  identifier: "PutSessionResponse",
-}) as any as S.Schema<PutSessionResponse>;
+).annotate({ identifier: "PutSessionResponse" }) as any as S.Schema<PutSessionResponse>;
 export type ErrorMessage = string;
 export type DeleteSessionError =
   | BadRequestException

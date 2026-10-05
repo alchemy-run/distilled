@@ -10,10 +10,7 @@ import { Retry } from "../retry.ts";
 import { SensitiveString } from "../sensitive.ts";
 import * as T from "../traits.ts";
 const ns = T.XmlNamespace("http://ecr-public.amazonaws.com/doc/2020-12-02/");
-const svc = T.AwsApiService({
-  sdkId: "ECR PUBLIC",
-  serviceShapeName: "SpencerFrontendService",
-});
+const svc = T.AwsApiService({ sdkId: "ECR PUBLIC", serviceShapeName: "SpencerFrontendService" });
 const auth = T.AwsAuthSigv4({ name: "ecr-public" });
 const ver = T.ServiceVersion("2020-10-30");
 const proto = T.AwsProtocolsAwsJson1_1();
@@ -255,10 +252,7 @@ export interface BatchCheckLayerAvailabilityResponse {
   failures?: LayerFailure[];
 }
 export const BatchCheckLayerAvailabilityResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    layers: S.optional(LayerList),
-    failures: S.optional(LayerFailureList),
-  }).pipe(ns),
+  S.Struct({ layers: S.optional(LayerList), failures: S.optional(LayerFailureList) }).pipe(ns),
 ).annotate({
   identifier: "BatchCheckLayerAvailabilityResponse",
 }) as any as S.Schema<BatchCheckLayerAvailabilityResponse>;
@@ -269,13 +263,8 @@ export interface ImageIdentifier {
   imageTag?: string;
 }
 export const ImageIdentifier = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    imageDigest: S.optional(S.String),
-    imageTag: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "ImageIdentifier",
-}) as any as S.Schema<ImageIdentifier>;
+  S.Struct({ imageDigest: S.optional(S.String), imageTag: S.optional(S.String) }),
+).annotate({ identifier: "ImageIdentifier" }) as any as S.Schema<ImageIdentifier>;
 export type ImageIdentifierList = ImageIdentifier[];
 export const ImageIdentifierList = /*@__PURE__*/ S.Array(ImageIdentifier);
 export interface BatchDeleteImageRequest {
@@ -289,9 +278,7 @@ export const BatchDeleteImageRequest = /*@__PURE__*/ S.suspend(() =>
     repositoryName: S.String,
     imageIds: ImageIdentifierList,
   }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
-).annotate({
-  identifier: "BatchDeleteImageRequest",
-}) as any as S.Schema<BatchDeleteImageRequest>;
+).annotate({ identifier: "BatchDeleteImageRequest" }) as any as S.Schema<BatchDeleteImageRequest>;
 export type ImageFailureCode =
   | "InvalidImageDigest"
   | "InvalidImageTag"
@@ -327,9 +314,7 @@ export const BatchDeleteImageResponse = /*@__PURE__*/ S.suspend(() =>
     imageIds: S.optional(ImageIdentifierList),
     failures: S.optional(ImageFailureList),
   }).pipe(ns),
-).annotate({
-  identifier: "BatchDeleteImageResponse",
-}) as any as S.Schema<BatchDeleteImageResponse>;
+).annotate({ identifier: "BatchDeleteImageResponse" }) as any as S.Schema<BatchDeleteImageResponse>;
 export type UploadId = string;
 export type LayerDigestList = string[];
 export const LayerDigestList = /*@__PURE__*/ S.Array(S.String);
@@ -418,9 +403,7 @@ export const CreateRepositoryRequest = /*@__PURE__*/ S.suspend(() =>
     catalogData: S.optional(RepositoryCatalogDataInput),
     tags: S.optional(TagList),
   }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
-).annotate({
-  identifier: "CreateRepositoryRequest",
-}) as any as S.Schema<CreateRepositoryRequest>;
+).annotate({ identifier: "CreateRepositoryRequest" }) as any as S.Schema<CreateRepositoryRequest>;
 export type Arn = string;
 export type Url = string;
 export type CreationTimestamp = Date;
@@ -461,9 +444,7 @@ export const RepositoryCatalogData = /*@__PURE__*/ S.suspend(() =>
     usageText: S.optional(S.String),
     marketplaceCertified: S.optional(S.Boolean),
   }),
-).annotate({
-  identifier: "RepositoryCatalogData",
-}) as any as S.Schema<RepositoryCatalogData>;
+).annotate({ identifier: "RepositoryCatalogData" }) as any as S.Schema<RepositoryCatalogData>;
 export interface CreateRepositoryResponse {
   repository?: Repository;
   catalogData?: RepositoryCatalogData;
@@ -473,9 +454,7 @@ export const CreateRepositoryResponse = /*@__PURE__*/ S.suspend(() =>
     repository: S.optional(Repository),
     catalogData: S.optional(RepositoryCatalogData),
   }).pipe(ns),
-).annotate({
-  identifier: "CreateRepositoryResponse",
-}) as any as S.Schema<CreateRepositoryResponse>;
+).annotate({ identifier: "CreateRepositoryResponse" }) as any as S.Schema<CreateRepositoryResponse>;
 export type ForceFlag = boolean;
 export interface DeleteRepositoryRequest {
   registryId?: string;
@@ -488,17 +467,13 @@ export const DeleteRepositoryRequest = /*@__PURE__*/ S.suspend(() =>
     repositoryName: S.String,
     force: S.optional(S.Boolean),
   }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
-).annotate({
-  identifier: "DeleteRepositoryRequest",
-}) as any as S.Schema<DeleteRepositoryRequest>;
+).annotate({ identifier: "DeleteRepositoryRequest" }) as any as S.Schema<DeleteRepositoryRequest>;
 export interface DeleteRepositoryResponse {
   repository?: Repository;
 }
 export const DeleteRepositoryResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ repository: S.optional(Repository) }).pipe(ns),
-).annotate({
-  identifier: "DeleteRepositoryResponse",
-}) as any as S.Schema<DeleteRepositoryResponse>;
+).annotate({ identifier: "DeleteRepositoryResponse" }) as any as S.Schema<DeleteRepositoryResponse>;
 export interface DeleteRepositoryPolicyRequest {
   registryId?: string;
   repositoryName: string;
@@ -542,9 +517,7 @@ export const DescribeImagesRequest = /*@__PURE__*/ S.suspend(() =>
     nextToken: S.optional(S.String),
     maxResults: S.optional(S.Number),
   }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
-).annotate({
-  identifier: "DescribeImagesRequest",
-}) as any as S.Schema<DescribeImagesRequest>;
+).annotate({ identifier: "DescribeImagesRequest" }) as any as S.Schema<DescribeImagesRequest>;
 export type ImageTagList = string[];
 export const ImageTagList = /*@__PURE__*/ S.Array(S.String);
 export type ImageSizeInBytes = number;
@@ -578,13 +551,8 @@ export interface DescribeImagesResponse {
   nextToken?: string;
 }
 export const DescribeImagesResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    imageDetails: S.optional(ImageDetailList),
-    nextToken: S.optional(S.String),
-  }).pipe(ns),
-).annotate({
-  identifier: "DescribeImagesResponse",
-}) as any as S.Schema<DescribeImagesResponse>;
+  S.Struct({ imageDetails: S.optional(ImageDetailList), nextToken: S.optional(S.String) }).pipe(ns),
+).annotate({ identifier: "DescribeImagesResponse" }) as any as S.Schema<DescribeImagesResponse>;
 export interface DescribeImageTagsRequest {
   registryId?: string;
   repositoryName: string;
@@ -598,9 +566,7 @@ export const DescribeImageTagsRequest = /*@__PURE__*/ S.suspend(() =>
     nextToken: S.optional(S.String),
     maxResults: S.optional(S.Number),
   }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
-).annotate({
-  identifier: "DescribeImageTagsRequest",
-}) as any as S.Schema<DescribeImageTagsRequest>;
+).annotate({ identifier: "DescribeImageTagsRequest" }) as any as S.Schema<DescribeImageTagsRequest>;
 export interface ReferencedImageDetail {
   imageDigest?: string;
   imageSizeInBytes?: number;
@@ -616,9 +582,7 @@ export const ReferencedImageDetail = /*@__PURE__*/ S.suspend(() =>
     imageManifestMediaType: S.optional(S.String),
     artifactMediaType: S.optional(S.String),
   }),
-).annotate({
-  identifier: "ReferencedImageDetail",
-}) as any as S.Schema<ReferencedImageDetail>;
+).annotate({ identifier: "ReferencedImageDetail" }) as any as S.Schema<ReferencedImageDetail>;
 export interface ImageTagDetail {
   imageTag?: string;
   createdAt?: Date;
@@ -650,10 +614,9 @@ export interface DescribeRegistriesRequest {
   maxResults?: number;
 }
 export const DescribeRegistriesRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    nextToken: S.optional(S.String),
-    maxResults: S.optional(S.Number),
-  }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+  S.Struct({ nextToken: S.optional(S.String), maxResults: S.optional(S.Number) }).pipe(
+    T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
 ).annotate({
   identifier: "DescribeRegistriesRequest",
 }) as any as S.Schema<DescribeRegistriesRequest>;
@@ -732,10 +695,7 @@ export interface DescribeRepositoriesResponse {
   nextToken?: string;
 }
 export const DescribeRepositoriesResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    repositories: S.optional(RepositoryList),
-    nextToken: S.optional(S.String),
-  }).pipe(ns),
+  S.Struct({ repositories: S.optional(RepositoryList), nextToken: S.optional(S.String) }).pipe(ns),
 ).annotate({
   identifier: "DescribeRepositoriesResponse",
 }) as any as S.Schema<DescribeRepositoriesResponse>;
@@ -756,9 +716,7 @@ export const AuthorizationData = /*@__PURE__*/ S.suspend(() =>
     authorizationToken: S.optional(SensitiveString),
     expiresAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
   }),
-).annotate({
-  identifier: "AuthorizationData",
-}) as any as S.Schema<AuthorizationData>;
+).annotate({ identifier: "AuthorizationData" }) as any as S.Schema<AuthorizationData>;
 export interface GetAuthorizationTokenResponse {
   authorizationData?: AuthorizationData;
 }
@@ -779,9 +737,7 @@ export interface RegistryCatalogData {
 }
 export const RegistryCatalogData = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ displayName: S.optional(S.String) }),
-).annotate({
-  identifier: "RegistryCatalogData",
-}) as any as S.Schema<RegistryCatalogData>;
+).annotate({ identifier: "RegistryCatalogData" }) as any as S.Schema<RegistryCatalogData>;
 export interface GetRegistryCatalogDataResponse {
   registryCatalogData: RegistryCatalogData;
 }
@@ -851,10 +807,7 @@ export interface InitiateLayerUploadResponse {
   partSize?: number;
 }
 export const InitiateLayerUploadResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    uploadId: S.optional(S.String),
-    partSize: S.optional(S.Number),
-  }).pipe(ns),
+  S.Struct({ uploadId: S.optional(S.String), partSize: S.optional(S.Number) }).pipe(ns),
 ).annotate({
   identifier: "InitiateLayerUploadResponse",
 }) as any as S.Schema<InitiateLayerUploadResponse>;
@@ -894,9 +847,7 @@ export const PutImageRequest = /*@__PURE__*/ S.suspend(() =>
     imageTag: S.optional(S.String),
     imageDigest: S.optional(S.String),
   }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
-).annotate({
-  identifier: "PutImageRequest",
-}) as any as S.Schema<PutImageRequest>;
+).annotate({ identifier: "PutImageRequest" }) as any as S.Schema<PutImageRequest>;
 export interface Image {
   registryId?: string;
   repositoryName?: string;
@@ -918,9 +869,7 @@ export interface PutImageResponse {
 }
 export const PutImageResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ image: S.optional(Image) }).pipe(ns),
-).annotate({
-  identifier: "PutImageResponse",
-}) as any as S.Schema<PutImageResponse>;
+).annotate({ identifier: "PutImageResponse" }) as any as S.Schema<PutImageResponse>;
 export interface PutRegistryCatalogDataRequest {
   displayName?: string;
 }
@@ -999,9 +948,7 @@ export const TagResourceRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ resourceArn: S.String, tags: TagList }).pipe(
     T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
   ),
-).annotate({
-  identifier: "TagResourceRequest",
-}) as any as S.Schema<TagResourceRequest>;
+).annotate({ identifier: "TagResourceRequest" }) as any as S.Schema<TagResourceRequest>;
 export interface TagResourceResponse {}
 export const TagResourceResponse = /*@__PURE__*/ S.suspend(() => S.Struct({}).pipe(ns)).annotate({
   identifier: "TagResourceResponse",
@@ -1016,9 +963,7 @@ export const UntagResourceRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ resourceArn: S.String, tagKeys: TagKeyList }).pipe(
     T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
   ),
-).annotate({
-  identifier: "UntagResourceRequest",
-}) as any as S.Schema<UntagResourceRequest>;
+).annotate({ identifier: "UntagResourceRequest" }) as any as S.Schema<UntagResourceRequest>;
 export interface UntagResourceResponse {}
 export const UntagResourceResponse = /*@__PURE__*/ S.suspend(() => S.Struct({}).pipe(ns)).annotate({
   identifier: "UntagResourceResponse",
@@ -1041,9 +986,7 @@ export const UploadLayerPartRequest = /*@__PURE__*/ S.suspend(() =>
     partLastByte: S.Number,
     layerPartBlob: T.Blob,
   }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
-).annotate({
-  identifier: "UploadLayerPartRequest",
-}) as any as S.Schema<UploadLayerPartRequest>;
+).annotate({ identifier: "UploadLayerPartRequest" }) as any as S.Schema<UploadLayerPartRequest>;
 export interface UploadLayerPartResponse {
   registryId?: string;
   repositoryName?: string;
@@ -1057,9 +1000,7 @@ export const UploadLayerPartResponse = /*@__PURE__*/ S.suspend(() =>
     uploadId: S.optional(S.String),
     lastByteReceived: S.optional(S.Number),
   }).pipe(ns),
-).annotate({
-  identifier: "UploadLayerPartResponse",
-}) as any as S.Schema<UploadLayerPartResponse>;
+).annotate({ identifier: "UploadLayerPartResponse" }) as any as S.Schema<UploadLayerPartResponse>;
 export type ExceptionMessage = string;
 export type BatchCheckLayerAvailabilityError =
   | InvalidParameterException

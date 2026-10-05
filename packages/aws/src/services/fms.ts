@@ -7,10 +7,7 @@ import type { CommonErrors } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
 import { Retry } from "../retry.ts";
 import * as T from "../traits.ts";
-const svc = T.AwsApiService({
-  sdkId: "FMS",
-  serviceShapeName: "AWSFMS_20180101",
-});
+const svc = T.AwsApiService({ sdkId: "FMS", serviceShapeName: "AWSFMS_20180101" });
 const auth = T.AwsAuthSigv4({ name: "fms" });
 const ver = T.ServiceVersion("2018-01-01");
 const proto = T.AwsProtocolsAwsJson1_1();
@@ -137,9 +134,7 @@ export interface AssociateThirdPartyFirewallResponse {
   ThirdPartyFirewallStatus?: ThirdPartyFirewallAssociationStatus;
 }
 export const AssociateThirdPartyFirewallResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ThirdPartyFirewallStatus: S.optional(ThirdPartyFirewallAssociationStatus),
-  }),
+  S.Struct({ ThirdPartyFirewallStatus: S.optional(ThirdPartyFirewallAssociationStatus) }),
 ).annotate({
   identifier: "AssociateThirdPartyFirewallResponse",
 }) as any as S.Schema<AssociateThirdPartyFirewallResponse>;
@@ -213,9 +208,7 @@ export const DeleteAppsListRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ ListId: S.String }).pipe(
     T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
   ),
-).annotate({
-  identifier: "DeleteAppsListRequest",
-}) as any as S.Schema<DeleteAppsListRequest>;
+).annotate({ identifier: "DeleteAppsListRequest" }) as any as S.Schema<DeleteAppsListRequest>;
 export interface DeleteAppsListResponse {}
 export const DeleteAppsListResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
   identifier: "DeleteAppsListResponse",
@@ -238,13 +231,10 @@ export interface DeletePolicyRequest {
   DeleteAllPolicyResources?: boolean;
 }
 export const DeletePolicyRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    PolicyId: S.String,
-    DeleteAllPolicyResources: S.optional(S.Boolean),
-  }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
-).annotate({
-  identifier: "DeletePolicyRequest",
-}) as any as S.Schema<DeletePolicyRequest>;
+  S.Struct({ PolicyId: S.String, DeleteAllPolicyResources: S.optional(S.Boolean) }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotate({ identifier: "DeletePolicyRequest" }) as any as S.Schema<DeletePolicyRequest>;
 export interface DeletePolicyResponse {}
 export const DeletePolicyResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
   identifier: "DeletePolicyResponse",
@@ -271,9 +261,7 @@ export const DeleteResourceSetRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ Identifier: S.String }).pipe(
     T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
   ),
-).annotate({
-  identifier: "DeleteResourceSetRequest",
-}) as any as S.Schema<DeleteResourceSetRequest>;
+).annotate({ identifier: "DeleteResourceSetRequest" }) as any as S.Schema<DeleteResourceSetRequest>;
 export interface DeleteResourceSetResponse {}
 export const DeleteResourceSetResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
   identifier: "DeleteResourceSetResponse",
@@ -304,18 +292,14 @@ export interface DisassociateThirdPartyFirewallResponse {
   ThirdPartyFirewallStatus?: ThirdPartyFirewallAssociationStatus;
 }
 export const DisassociateThirdPartyFirewallResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ThirdPartyFirewallStatus: S.optional(ThirdPartyFirewallAssociationStatus),
-  }),
+  S.Struct({ ThirdPartyFirewallStatus: S.optional(ThirdPartyFirewallAssociationStatus) }),
 ).annotate({
   identifier: "DisassociateThirdPartyFirewallResponse",
 }) as any as S.Schema<DisassociateThirdPartyFirewallResponse>;
 export interface GetAdminAccountRequest {}
 export const GetAdminAccountRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({}).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
-).annotate({
-  identifier: "GetAdminAccountRequest",
-}) as any as S.Schema<GetAdminAccountRequest>;
+).annotate({ identifier: "GetAdminAccountRequest" }) as any as S.Schema<GetAdminAccountRequest>;
 export type AccountRoleStatus =
   | "READY"
   | "CREATING"
@@ -330,13 +314,8 @@ export interface GetAdminAccountResponse {
   RoleStatus?: AccountRoleStatus;
 }
 export const GetAdminAccountResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    AdminAccount: S.optional(S.String),
-    RoleStatus: S.optional(AccountRoleStatus),
-  }),
-).annotate({
-  identifier: "GetAdminAccountResponse",
-}) as any as S.Schema<GetAdminAccountResponse>;
+  S.Struct({ AdminAccount: S.optional(S.String), RoleStatus: S.optional(AccountRoleStatus) }),
+).annotate({ identifier: "GetAdminAccountResponse" }) as any as S.Schema<GetAdminAccountResponse>;
 export interface GetAdminScopeRequest {
   AdminAccount: string;
 }
@@ -344,9 +323,7 @@ export const GetAdminScopeRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ AdminAccount: S.String }).pipe(
     T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
   ),
-).annotate({
-  identifier: "GetAdminScopeRequest",
-}) as any as S.Schema<GetAdminScopeRequest>;
+).annotate({ identifier: "GetAdminScopeRequest" }) as any as S.Schema<GetAdminScopeRequest>;
 export type AccountIdList = string[];
 export const AccountIdList = /*@__PURE__*/ S.Array(S.String);
 export interface AccountScope {
@@ -375,9 +352,7 @@ export const OrganizationalUnitScope = /*@__PURE__*/ S.suspend(() =>
     AllOrganizationalUnitsEnabled: S.optional(S.Boolean),
     ExcludeSpecifiedOrganizationalUnits: S.optional(S.Boolean),
   }),
-).annotate({
-  identifier: "OrganizationalUnitScope",
-}) as any as S.Schema<OrganizationalUnitScope>;
+).annotate({ identifier: "OrganizationalUnitScope" }) as any as S.Schema<OrganizationalUnitScope>;
 export type AWSRegion = string;
 export type AWSRegionList = string[];
 export const AWSRegionList = /*@__PURE__*/ S.Array(S.String);
@@ -386,10 +361,7 @@ export interface RegionScope {
   AllRegionsEnabled?: boolean;
 }
 export const RegionScope = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Regions: S.optional(AWSRegionList),
-    AllRegionsEnabled: S.optional(S.Boolean),
-  }),
+  S.Struct({ Regions: S.optional(AWSRegionList), AllRegionsEnabled: S.optional(S.Boolean) }),
 ).annotate({ identifier: "RegionScope" }) as any as S.Schema<RegionScope>;
 export type SecurityServiceType =
   | "WAF"
@@ -417,9 +389,7 @@ export const PolicyTypeScope = /*@__PURE__*/ S.suspend(() =>
     PolicyTypes: S.optional(SecurityServiceTypeList),
     AllPolicyTypesEnabled: S.optional(S.Boolean),
   }),
-).annotate({
-  identifier: "PolicyTypeScope",
-}) as any as S.Schema<PolicyTypeScope>;
+).annotate({ identifier: "PolicyTypeScope" }) as any as S.Schema<PolicyTypeScope>;
 export interface AdminScope {
   AccountScope?: AccountScope;
   OrganizationalUnitScope?: OrganizationalUnitScope;
@@ -447,13 +417,8 @@ export interface GetAdminScopeResponse {
   Status?: OrganizationStatus;
 }
 export const GetAdminScopeResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    AdminScope: S.optional(AdminScope),
-    Status: S.optional(OrganizationStatus),
-  }),
-).annotate({
-  identifier: "GetAdminScopeResponse",
-}) as any as S.Schema<GetAdminScopeResponse>;
+  S.Struct({ AdminScope: S.optional(AdminScope), Status: S.optional(OrganizationStatus) }),
+).annotate({ identifier: "GetAdminScopeResponse" }) as any as S.Schema<GetAdminScopeResponse>;
 export interface GetAppsListRequest {
   ListId: string;
   DefaultList?: boolean;
@@ -462,9 +427,7 @@ export const GetAppsListRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ ListId: S.String, DefaultList: S.optional(S.Boolean) }).pipe(
     T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
   ),
-).annotate({
-  identifier: "GetAppsListRequest",
-}) as any as S.Schema<GetAppsListRequest>;
+).annotate({ identifier: "GetAppsListRequest" }) as any as S.Schema<GetAppsListRequest>;
 export type ResourceName = string;
 export type UpdateToken = string;
 export type Protocol = string;
@@ -508,13 +471,8 @@ export interface GetAppsListResponse {
   AppsListArn?: string;
 }
 export const GetAppsListResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    AppsList: S.optional(AppsListData),
-    AppsListArn: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "GetAppsListResponse",
-}) as any as S.Schema<GetAppsListResponse>;
+  S.Struct({ AppsList: S.optional(AppsListData), AppsListArn: S.optional(S.String) }),
+).annotate({ identifier: "GetAppsListResponse" }) as any as S.Schema<GetAppsListResponse>;
 export interface GetComplianceDetailRequest {
   PolicyId: string;
   MemberAccount: string;
@@ -581,9 +539,7 @@ export const ComplianceViolator = /*@__PURE__*/ S.suspend(() =>
     ResourceType: S.optional(S.String),
     Metadata: S.optional(ComplianceViolatorMetadata),
   }),
-).annotate({
-  identifier: "ComplianceViolator",
-}) as any as S.Schema<ComplianceViolator>;
+).annotate({ identifier: "ComplianceViolator" }) as any as S.Schema<ComplianceViolator>;
 export type ComplianceViolators = ComplianceViolator[];
 export const ComplianceViolators = /*@__PURE__*/ S.Array(ComplianceViolator);
 export type DependentServiceName =
@@ -616,9 +572,7 @@ export const PolicyComplianceDetail = /*@__PURE__*/ S.suspend(() =>
     ExpiredAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     IssueInfoMap: S.optional(IssueInfoMap),
   }),
-).annotate({
-  identifier: "PolicyComplianceDetail",
-}) as any as S.Schema<PolicyComplianceDetail>;
+).annotate({ identifier: "PolicyComplianceDetail" }) as any as S.Schema<PolicyComplianceDetail>;
 export interface GetComplianceDetailResponse {
   PolicyComplianceDetail?: PolicyComplianceDetail;
 }
@@ -638,10 +592,7 @@ export interface GetNotificationChannelResponse {
   SnsRoleName?: string;
 }
 export const GetNotificationChannelResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    SnsTopicArn: S.optional(S.String),
-    SnsRoleName: S.optional(S.String),
-  }),
+  S.Struct({ SnsTopicArn: S.optional(S.String), SnsRoleName: S.optional(S.String) }),
 ).annotate({
   identifier: "GetNotificationChannelResponse",
 }) as any as S.Schema<GetNotificationChannelResponse>;
@@ -652,9 +603,7 @@ export const GetPolicyRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ PolicyId: S.String }).pipe(
     T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
   ),
-).annotate({
-  identifier: "GetPolicyRequest",
-}) as any as S.Schema<GetPolicyRequest>;
+).annotate({ identifier: "GetPolicyRequest" }) as any as S.Schema<GetPolicyRequest>;
 export type PolicyUpdateToken = string;
 export type ManagedServiceData = string;
 export type FirewallDeploymentModel = "CENTRALIZED" | "DISTRIBUTED" | (string & {});
@@ -665,17 +614,13 @@ export interface NetworkFirewallPolicy {
 }
 export const NetworkFirewallPolicy = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ FirewallDeploymentModel: S.optional(FirewallDeploymentModel) }),
-).annotate({
-  identifier: "NetworkFirewallPolicy",
-}) as any as S.Schema<NetworkFirewallPolicy>;
+).annotate({ identifier: "NetworkFirewallPolicy" }) as any as S.Schema<NetworkFirewallPolicy>;
 export interface ThirdPartyFirewallPolicy {
   FirewallDeploymentModel?: FirewallDeploymentModel;
 }
 export const ThirdPartyFirewallPolicy = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ FirewallDeploymentModel: S.optional(FirewallDeploymentModel) }),
-).annotate({
-  identifier: "ThirdPartyFirewallPolicy",
-}) as any as S.Schema<ThirdPartyFirewallPolicy>;
+).annotate({ identifier: "ThirdPartyFirewallPolicy" }) as any as S.Schema<ThirdPartyFirewallPolicy>;
 export type IntegerObject = number;
 export interface NetworkAclIcmpTypeCode {
   Code?: number;
@@ -683,9 +628,7 @@ export interface NetworkAclIcmpTypeCode {
 }
 export const NetworkAclIcmpTypeCode = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ Code: S.optional(S.Number), Type: S.optional(S.Number) }),
-).annotate({
-  identifier: "NetworkAclIcmpTypeCode",
-}) as any as S.Schema<NetworkAclIcmpTypeCode>;
+).annotate({ identifier: "NetworkAclIcmpTypeCode" }) as any as S.Schema<NetworkAclIcmpTypeCode>;
 export type IPPortNumberInteger = number;
 export interface NetworkAclPortRange {
   From?: number;
@@ -693,9 +636,7 @@ export interface NetworkAclPortRange {
 }
 export const NetworkAclPortRange = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ From: S.optional(S.Number), To: S.optional(S.Number) }),
-).annotate({
-  identifier: "NetworkAclPortRange",
-}) as any as S.Schema<NetworkAclPortRange>;
+).annotate({ identifier: "NetworkAclPortRange" }) as any as S.Schema<NetworkAclPortRange>;
 export type LengthBoundedNonEmptyString = string;
 export type NetworkAclRuleAction = "allow" | "deny" | (string & {});
 export const NetworkAclRuleAction = S.String;
@@ -719,9 +660,7 @@ export const NetworkAclEntry = /*@__PURE__*/ S.suspend(() =>
     RuleAction: NetworkAclRuleAction,
     Egress: S.Boolean,
   }),
-).annotate({
-  identifier: "NetworkAclEntry",
-}) as any as S.Schema<NetworkAclEntry>;
+).annotate({ identifier: "NetworkAclEntry" }) as any as S.Schema<NetworkAclEntry>;
 export type NetworkAclEntries = NetworkAclEntry[];
 export const NetworkAclEntries = /*@__PURE__*/ S.Array(NetworkAclEntry);
 export interface NetworkAclEntrySet {
@@ -737,17 +676,13 @@ export const NetworkAclEntrySet = /*@__PURE__*/ S.suspend(() =>
     LastEntries: S.optional(NetworkAclEntries),
     ForceRemediateForLastEntries: S.Boolean,
   }),
-).annotate({
-  identifier: "NetworkAclEntrySet",
-}) as any as S.Schema<NetworkAclEntrySet>;
+).annotate({ identifier: "NetworkAclEntrySet" }) as any as S.Schema<NetworkAclEntrySet>;
 export interface NetworkAclCommonPolicy {
   NetworkAclEntrySet: NetworkAclEntrySet;
 }
 export const NetworkAclCommonPolicy = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ NetworkAclEntrySet: NetworkAclEntrySet }),
-).annotate({
-  identifier: "NetworkAclCommonPolicy",
-}) as any as S.Schema<NetworkAclCommonPolicy>;
+).annotate({ identifier: "NetworkAclCommonPolicy" }) as any as S.Schema<NetworkAclCommonPolicy>;
 export interface PolicyOption {
   NetworkFirewallPolicy?: NetworkFirewallPolicy;
   ThirdPartyFirewallPolicy?: ThirdPartyFirewallPolicy;
@@ -793,9 +728,7 @@ export const CustomerPolicyScopeIdType = S.String;
 export type CustomerPolicyScopeId = string;
 export type CustomerPolicyScopeIdList = string[];
 export const CustomerPolicyScopeIdList = /*@__PURE__*/ S.Array(S.String);
-export type CustomerPolicyScopeMap = {
-  [key in CustomerPolicyScopeIdType]?: string[];
-};
+export type CustomerPolicyScopeMap = { [key in CustomerPolicyScopeIdType]?: string[] };
 export const CustomerPolicyScopeMap = /*@__PURE__*/ S.Record(
   CustomerPolicyScopeIdType,
   CustomerPolicyScopeIdList.pipe(S.optional),
@@ -853,9 +786,7 @@ export interface GetPolicyResponse {
 }
 export const GetPolicyResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ Policy: S.optional(Policy), PolicyArn: S.optional(S.String) }),
-).annotate({
-  identifier: "GetPolicyResponse",
-}) as any as S.Schema<GetPolicyResponse>;
+).annotate({ identifier: "GetPolicyResponse" }) as any as S.Schema<GetPolicyResponse>;
 export type PaginationToken = string;
 export type PaginationMaxResults = number;
 export interface GetProtectionStatusRequest {
@@ -903,9 +834,7 @@ export const GetProtocolsListRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ ListId: S.String, DefaultList: S.optional(S.Boolean) }).pipe(
     T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
   ),
-).annotate({
-  identifier: "GetProtocolsListRequest",
-}) as any as S.Schema<GetProtocolsListRequest>;
+).annotate({ identifier: "GetProtocolsListRequest" }) as any as S.Schema<GetProtocolsListRequest>;
 export type ProtocolsList = string[];
 export const ProtocolsList = /*@__PURE__*/ S.Array(S.String);
 export type PreviousProtocolsList = { [key: string]: string[] | undefined };
@@ -932,9 +861,7 @@ export const ProtocolsListData = /*@__PURE__*/ S.suspend(() =>
     ProtocolsList: ProtocolsList,
     PreviousProtocolsList: S.optional(PreviousProtocolsList),
   }),
-).annotate({
-  identifier: "ProtocolsListData",
-}) as any as S.Schema<ProtocolsListData>;
+).annotate({ identifier: "ProtocolsListData" }) as any as S.Schema<ProtocolsListData>;
 export interface GetProtocolsListResponse {
   ProtocolsList?: ProtocolsListData;
   ProtocolsListArn?: string;
@@ -944,9 +871,7 @@ export const GetProtocolsListResponse = /*@__PURE__*/ S.suspend(() =>
     ProtocolsList: S.optional(ProtocolsListData),
     ProtocolsListArn: S.optional(S.String),
   }),
-).annotate({
-  identifier: "GetProtocolsListResponse",
-}) as any as S.Schema<GetProtocolsListResponse>;
+).annotate({ identifier: "GetProtocolsListResponse" }) as any as S.Schema<GetProtocolsListResponse>;
 export interface GetResourceSetRequest {
   Identifier: string;
 }
@@ -954,9 +879,7 @@ export const GetResourceSetRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ Identifier: S.String }).pipe(
     T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
   ),
-).annotate({
-  identifier: "GetResourceSetRequest",
-}) as any as S.Schema<GetResourceSetRequest>;
+).annotate({ identifier: "GetResourceSetRequest" }) as any as S.Schema<GetResourceSetRequest>;
 export type Name = string;
 export type Description = string;
 export type ResourceSetStatus = "ACTIVE" | "OUT_OF_ADMIN_SCOPE" | (string & {});
@@ -988,9 +911,7 @@ export interface GetResourceSetResponse {
 }
 export const GetResourceSetResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ ResourceSet: ResourceSet, ResourceSetArn: S.String }),
-).annotate({
-  identifier: "GetResourceSetResponse",
-}) as any as S.Schema<GetResourceSetResponse>;
+).annotate({ identifier: "GetResourceSetResponse" }) as any as S.Schema<GetResourceSetResponse>;
 export interface GetThirdPartyFirewallAssociationStatusRequest {
   ThirdPartyFirewall: ThirdPartyFirewall;
 }
@@ -1141,9 +1062,7 @@ export const AwsEc2InstanceViolation = /*@__PURE__*/ S.suspend(() =>
     ViolationTarget: S.optional(S.String),
     AwsEc2NetworkInterfaceViolations: S.optional(AwsEc2NetworkInterfaceViolations),
   }),
-).annotate({
-  identifier: "AwsEc2InstanceViolation",
-}) as any as S.Schema<AwsEc2InstanceViolation>;
+).annotate({ identifier: "AwsEc2InstanceViolation" }) as any as S.Schema<AwsEc2InstanceViolation>;
 export interface NetworkFirewallMissingFirewallViolation {
   ViolationTarget?: string;
   VPC?: string;
@@ -1207,9 +1126,7 @@ export const StatelessRuleGroup = /*@__PURE__*/ S.suspend(() =>
     ResourceId: S.optional(S.String),
     Priority: S.optional(S.Number),
   }),
-).annotate({
-  identifier: "StatelessRuleGroup",
-}) as any as S.Schema<StatelessRuleGroup>;
+).annotate({ identifier: "StatelessRuleGroup" }) as any as S.Schema<StatelessRuleGroup>;
 export type StatelessRuleGroupList = StatelessRuleGroup[];
 export const StatelessRuleGroupList = /*@__PURE__*/ S.Array(StatelessRuleGroup);
 export type NetworkFirewallAction = string;
@@ -1240,9 +1157,7 @@ export const StatefulRuleGroup = /*@__PURE__*/ S.suspend(() =>
     Priority: S.optional(S.Number),
     Override: S.optional(NetworkFirewallStatefulRuleGroupOverride),
   }),
-).annotate({
-  identifier: "StatefulRuleGroup",
-}) as any as S.Schema<StatefulRuleGroup>;
+).annotate({ identifier: "StatefulRuleGroup" }) as any as S.Schema<StatefulRuleGroup>;
 export type StatefulRuleGroupList = StatefulRuleGroup[];
 export const StatefulRuleGroupList = /*@__PURE__*/ S.Array(StatefulRuleGroup);
 export type RuleOrder = "STRICT_ORDER" | "DEFAULT_ACTION_ORDER" | (string & {});
@@ -1260,9 +1175,7 @@ export const StatefulEngineOptions = /*@__PURE__*/ S.suspend(() =>
     RuleOrder: S.optional(RuleOrder),
     StreamExceptionPolicy: S.optional(StreamExceptionPolicy),
   }),
-).annotate({
-  identifier: "StatefulEngineOptions",
-}) as any as S.Schema<StatefulEngineOptions>;
+).annotate({ identifier: "StatefulEngineOptions" }) as any as S.Schema<StatefulEngineOptions>;
 export interface NetworkFirewallPolicyDescription {
   StatelessRuleGroups?: StatelessRuleGroup[];
   StatelessDefaultActions?: string[];
@@ -1679,9 +1592,7 @@ export const EntryDescription = /*@__PURE__*/ S.suspend(() =>
     EntryRuleNumber: S.optional(S.Number),
     EntryType: S.optional(EntryType),
   }),
-).annotate({
-  identifier: "EntryDescription",
-}) as any as S.Schema<EntryDescription>;
+).annotate({ identifier: "EntryDescription" }) as any as S.Schema<EntryDescription>;
 export type EntriesWithConflicts = EntryDescription[];
 export const EntriesWithConflicts = /*@__PURE__*/ S.Array(EntryDescription);
 export type EntryViolationReason =
@@ -1736,10 +1647,7 @@ export interface ActionTarget {
   Description?: string;
 }
 export const ActionTarget = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ResourceId: S.optional(S.String),
-    Description: S.optional(S.String),
-  }),
+  S.Struct({ ResourceId: S.optional(S.String), Description: S.optional(S.String) }),
 ).annotate({ identifier: "ActionTarget" }) as any as S.Schema<ActionTarget>;
 export interface EC2CreateRouteAction {
   Description?: string;
@@ -1760,9 +1668,7 @@ export const EC2CreateRouteAction = /*@__PURE__*/ S.suspend(() =>
     GatewayId: S.optional(ActionTarget),
     RouteTableId: ActionTarget,
   }),
-).annotate({
-  identifier: "EC2CreateRouteAction",
-}) as any as S.Schema<EC2CreateRouteAction>;
+).annotate({ identifier: "EC2CreateRouteAction" }) as any as S.Schema<EC2CreateRouteAction>;
 export interface EC2ReplaceRouteAction {
   Description?: string;
   DestinationCidrBlock?: string;
@@ -1780,9 +1686,7 @@ export const EC2ReplaceRouteAction = /*@__PURE__*/ S.suspend(() =>
     GatewayId: S.optional(ActionTarget),
     RouteTableId: ActionTarget,
   }),
-).annotate({
-  identifier: "EC2ReplaceRouteAction",
-}) as any as S.Schema<EC2ReplaceRouteAction>;
+).annotate({ identifier: "EC2ReplaceRouteAction" }) as any as S.Schema<EC2ReplaceRouteAction>;
 export interface EC2DeleteRouteAction {
   Description?: string;
   DestinationCidrBlock?: string;
@@ -1798,23 +1702,15 @@ export const EC2DeleteRouteAction = /*@__PURE__*/ S.suspend(() =>
     DestinationIpv6CidrBlock: S.optional(S.String),
     RouteTableId: ActionTarget,
   }),
-).annotate({
-  identifier: "EC2DeleteRouteAction",
-}) as any as S.Schema<EC2DeleteRouteAction>;
+).annotate({ identifier: "EC2DeleteRouteAction" }) as any as S.Schema<EC2DeleteRouteAction>;
 export interface EC2CopyRouteTableAction {
   Description?: string;
   VpcId: ActionTarget;
   RouteTableId: ActionTarget;
 }
 export const EC2CopyRouteTableAction = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Description: S.optional(S.String),
-    VpcId: ActionTarget,
-    RouteTableId: ActionTarget,
-  }),
-).annotate({
-  identifier: "EC2CopyRouteTableAction",
-}) as any as S.Schema<EC2CopyRouteTableAction>;
+  S.Struct({ Description: S.optional(S.String), VpcId: ActionTarget, RouteTableId: ActionTarget }),
+).annotate({ identifier: "EC2CopyRouteTableAction" }) as any as S.Schema<EC2CopyRouteTableAction>;
 export interface EC2ReplaceRouteTableAssociationAction {
   Description?: string;
   AssociationId: ActionTarget;
@@ -1859,10 +1755,7 @@ export interface FMSPolicyUpdateFirewallCreationConfigAction {
   FirewallCreationConfig?: string;
 }
 export const FMSPolicyUpdateFirewallCreationConfigAction = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Description: S.optional(S.String),
-    FirewallCreationConfig: S.optional(S.String),
-  }),
+  S.Struct({ Description: S.optional(S.String), FirewallCreationConfig: S.optional(S.String) }),
 ).annotate({
   identifier: "FMSPolicyUpdateFirewallCreationConfigAction",
 }) as any as S.Schema<FMSPolicyUpdateFirewallCreationConfigAction>;
@@ -1877,9 +1770,7 @@ export const CreateNetworkAclAction = /*@__PURE__*/ S.suspend(() =>
     Vpc: S.optional(ActionTarget),
     FMSCanRemediate: S.optional(S.Boolean),
   }),
-).annotate({
-  identifier: "CreateNetworkAclAction",
-}) as any as S.Schema<CreateNetworkAclAction>;
+).annotate({ identifier: "CreateNetworkAclAction" }) as any as S.Schema<CreateNetworkAclAction>;
 export interface ReplaceNetworkAclAssociationAction {
   Description?: string;
   AssociationId?: ActionTarget;
@@ -1963,18 +1854,13 @@ export const RemediationAction = /*@__PURE__*/ S.suspend(() =>
     CreateNetworkAclEntriesAction: S.optional(CreateNetworkAclEntriesAction),
     DeleteNetworkAclEntriesAction: S.optional(DeleteNetworkAclEntriesAction),
   }),
-).annotate({
-  identifier: "RemediationAction",
-}) as any as S.Schema<RemediationAction>;
+).annotate({ identifier: "RemediationAction" }) as any as S.Schema<RemediationAction>;
 export interface RemediationActionWithOrder {
   RemediationAction?: RemediationAction;
   Order?: number;
 }
 export const RemediationActionWithOrder = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    RemediationAction: S.optional(RemediationAction),
-    Order: S.optional(S.Number),
-  }),
+  S.Struct({ RemediationAction: S.optional(RemediationAction), Order: S.optional(S.Number) }),
 ).annotate({
   identifier: "RemediationActionWithOrder",
 }) as any as S.Schema<RemediationActionWithOrder>;
@@ -2013,10 +1899,7 @@ export interface WebACLHasIncompatibleConfigurationViolation {
   Description?: string;
 }
 export const WebACLHasIncompatibleConfigurationViolation = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    WebACLArn: S.optional(S.String),
-    Description: S.optional(S.String),
-  }),
+  S.Struct({ WebACLArn: S.optional(S.String), Description: S.optional(S.String) }),
 ).annotate({
   identifier: "WebACLHasIncompatibleConfigurationViolation",
 }) as any as S.Schema<WebACLHasIncompatibleConfigurationViolation>;
@@ -2113,9 +1996,7 @@ export const ResourceViolation = /*@__PURE__*/ S.suspend(() =>
     ),
     WebACLHasOutOfScopeResourcesViolation: S.optional(WebACLHasOutOfScopeResourcesViolation),
   }),
-).annotate({
-  identifier: "ResourceViolation",
-}) as any as S.Schema<ResourceViolation>;
+).annotate({ identifier: "ResourceViolation" }) as any as S.Schema<ResourceViolation>;
 export type ResourceViolations = ResourceViolation[];
 export const ResourceViolations = /*@__PURE__*/ S.Array(ResourceViolation);
 export type TagKey = string;
@@ -2148,9 +2029,7 @@ export const ViolationDetail = /*@__PURE__*/ S.suspend(() =>
     ResourceTags: S.optional(TagList),
     ResourceDescription: S.optional(S.String),
   }),
-).annotate({
-  identifier: "ViolationDetail",
-}) as any as S.Schema<ViolationDetail>;
+).annotate({ identifier: "ViolationDetail" }) as any as S.Schema<ViolationDetail>;
 export interface GetViolationDetailsResponse {
   ViolationDetail?: ViolationDetail;
 }
@@ -2164,10 +2043,9 @@ export interface ListAdminAccountsForOrganizationRequest {
   MaxResults?: number;
 }
 export const ListAdminAccountsForOrganizationRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    NextToken: S.optional(S.String),
-    MaxResults: S.optional(S.Number),
-  }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+  S.Struct({ NextToken: S.optional(S.String), MaxResults: S.optional(S.Number) }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
 ).annotate({
   identifier: "ListAdminAccountsForOrganizationRequest",
 }) as any as S.Schema<ListAdminAccountsForOrganizationRequest>;
@@ -2182,9 +2060,7 @@ export const AdminAccountSummary = /*@__PURE__*/ S.suspend(() =>
     DefaultAdmin: S.optional(S.Boolean),
     Status: S.optional(OrganizationStatus),
   }),
-).annotate({
-  identifier: "AdminAccountSummary",
-}) as any as S.Schema<AdminAccountSummary>;
+).annotate({ identifier: "AdminAccountSummary" }) as any as S.Schema<AdminAccountSummary>;
 export type AdminAccountSummaryList = AdminAccountSummary[];
 export const AdminAccountSummaryList = /*@__PURE__*/ S.Array(AdminAccountSummary);
 export interface ListAdminAccountsForOrganizationResponse {
@@ -2192,10 +2068,7 @@ export interface ListAdminAccountsForOrganizationResponse {
   NextToken?: string;
 }
 export const ListAdminAccountsForOrganizationResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    AdminAccounts: S.optional(AdminAccountSummaryList),
-    NextToken: S.optional(S.String),
-  }),
+  S.Struct({ AdminAccounts: S.optional(AdminAccountSummaryList), NextToken: S.optional(S.String) }),
 ).annotate({
   identifier: "ListAdminAccountsForOrganizationResponse",
 }) as any as S.Schema<ListAdminAccountsForOrganizationResponse>;
@@ -2204,10 +2077,9 @@ export interface ListAdminsManagingAccountRequest {
   MaxResults?: number;
 }
 export const ListAdminsManagingAccountRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    NextToken: S.optional(S.String),
-    MaxResults: S.optional(S.Number),
-  }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+  S.Struct({ NextToken: S.optional(S.String), MaxResults: S.optional(S.Number) }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
 ).annotate({
   identifier: "ListAdminsManagingAccountRequest",
 }) as any as S.Schema<ListAdminsManagingAccountRequest>;
@@ -2216,10 +2088,7 @@ export interface ListAdminsManagingAccountResponse {
   NextToken?: string;
 }
 export const ListAdminsManagingAccountResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    AdminAccounts: S.optional(AccountIdList),
-    NextToken: S.optional(S.String),
-  }),
+  S.Struct({ AdminAccounts: S.optional(AccountIdList), NextToken: S.optional(S.String) }),
 ).annotate({
   identifier: "ListAdminsManagingAccountResponse",
 }) as any as S.Schema<ListAdminsManagingAccountResponse>;
@@ -2234,9 +2103,7 @@ export const ListAppsListsRequest = /*@__PURE__*/ S.suspend(() =>
     NextToken: S.optional(S.String),
     MaxResults: S.Number,
   }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
-).annotate({
-  identifier: "ListAppsListsRequest",
-}) as any as S.Schema<ListAppsListsRequest>;
+).annotate({ identifier: "ListAppsListsRequest" }) as any as S.Schema<ListAppsListsRequest>;
 export interface AppsListDataSummary {
   ListArn?: string;
   ListId?: string;
@@ -2250,9 +2117,7 @@ export const AppsListDataSummary = /*@__PURE__*/ S.suspend(() =>
     ListName: S.optional(S.String),
     AppsList: S.optional(AppsList),
   }),
-).annotate({
-  identifier: "AppsListDataSummary",
-}) as any as S.Schema<AppsListDataSummary>;
+).annotate({ identifier: "AppsListDataSummary" }) as any as S.Schema<AppsListDataSummary>;
 export type AppsListsData = AppsListDataSummary[];
 export const AppsListsData = /*@__PURE__*/ S.Array(AppsListDataSummary);
 export interface ListAppsListsResponse {
@@ -2260,13 +2125,8 @@ export interface ListAppsListsResponse {
   NextToken?: string;
 }
 export const ListAppsListsResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    AppsLists: S.optional(AppsListsData),
-    NextToken: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "ListAppsListsResponse",
-}) as any as S.Schema<ListAppsListsResponse>;
+  S.Struct({ AppsLists: S.optional(AppsListsData), NextToken: S.optional(S.String) }),
+).annotate({ identifier: "ListAppsListsResponse" }) as any as S.Schema<ListAppsListsResponse>;
 export interface ListComplianceStatusRequest {
   PolicyId: string;
   NextToken?: string;
@@ -2296,9 +2156,7 @@ export const EvaluationResult = /*@__PURE__*/ S.suspend(() =>
     ViolatorCount: S.optional(S.Number),
     EvaluationLimitExceeded: S.optional(S.Boolean),
   }),
-).annotate({
-  identifier: "EvaluationResult",
-}) as any as S.Schema<EvaluationResult>;
+).annotate({ identifier: "EvaluationResult" }) as any as S.Schema<EvaluationResult>;
 export type EvaluationResults = EvaluationResult[];
 export const EvaluationResults = /*@__PURE__*/ S.Array(EvaluationResult);
 export interface PolicyComplianceStatus {
@@ -2320,9 +2178,7 @@ export const PolicyComplianceStatus = /*@__PURE__*/ S.suspend(() =>
     LastUpdated: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     IssueInfoMap: S.optional(IssueInfoMap),
   }),
-).annotate({
-  identifier: "PolicyComplianceStatus",
-}) as any as S.Schema<PolicyComplianceStatus>;
+).annotate({ identifier: "PolicyComplianceStatus" }) as any as S.Schema<PolicyComplianceStatus>;
 export type PolicyComplianceStatusList = PolicyComplianceStatus[];
 export const PolicyComplianceStatusList = /*@__PURE__*/ S.Array(PolicyComplianceStatus);
 export interface ListComplianceStatusResponse {
@@ -2368,9 +2224,7 @@ export const DiscoveredResource = /*@__PURE__*/ S.suspend(() =>
     Type: S.optional(S.String),
     Name: S.optional(S.String),
   }),
-).annotate({
-  identifier: "DiscoveredResource",
-}) as any as S.Schema<DiscoveredResource>;
+).annotate({ identifier: "DiscoveredResource" }) as any as S.Schema<DiscoveredResource>;
 export type DiscoveredResourceList = DiscoveredResource[];
 export const DiscoveredResourceList = /*@__PURE__*/ S.Array(DiscoveredResource);
 export interface ListDiscoveredResourcesResponse {
@@ -2378,10 +2232,7 @@ export interface ListDiscoveredResourcesResponse {
   NextToken?: string;
 }
 export const ListDiscoveredResourcesResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Items: S.optional(DiscoveredResourceList),
-    NextToken: S.optional(S.String),
-  }),
+  S.Struct({ Items: S.optional(DiscoveredResourceList), NextToken: S.optional(S.String) }),
 ).annotate({
   identifier: "ListDiscoveredResourcesResponse",
 }) as any as S.Schema<ListDiscoveredResourcesResponse>;
@@ -2390,10 +2241,9 @@ export interface ListMemberAccountsRequest {
   MaxResults?: number;
 }
 export const ListMemberAccountsRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    NextToken: S.optional(S.String),
-    MaxResults: S.optional(S.Number),
-  }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+  S.Struct({ NextToken: S.optional(S.String), MaxResults: S.optional(S.Number) }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
 ).annotate({
   identifier: "ListMemberAccountsRequest",
 }) as any as S.Schema<ListMemberAccountsRequest>;
@@ -2404,10 +2254,7 @@ export interface ListMemberAccountsResponse {
   NextToken?: string;
 }
 export const ListMemberAccountsResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    MemberAccounts: S.optional(MemberAccounts),
-    NextToken: S.optional(S.String),
-  }),
+  S.Struct({ MemberAccounts: S.optional(MemberAccounts), NextToken: S.optional(S.String) }),
 ).annotate({
   identifier: "ListMemberAccountsResponse",
 }) as any as S.Schema<ListMemberAccountsResponse>;
@@ -2416,13 +2263,10 @@ export interface ListPoliciesRequest {
   MaxResults?: number;
 }
 export const ListPoliciesRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    NextToken: S.optional(S.String),
-    MaxResults: S.optional(S.Number),
-  }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
-).annotate({
-  identifier: "ListPoliciesRequest",
-}) as any as S.Schema<ListPoliciesRequest>;
+  S.Struct({ NextToken: S.optional(S.String), MaxResults: S.optional(S.Number) }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotate({ identifier: "ListPoliciesRequest" }) as any as S.Schema<ListPoliciesRequest>;
 export interface PolicySummary {
   PolicyArn?: string;
   PolicyId?: string;
@@ -2452,13 +2296,8 @@ export interface ListPoliciesResponse {
   NextToken?: string;
 }
 export const ListPoliciesResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    PolicyList: S.optional(PolicySummaryList),
-    NextToken: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "ListPoliciesResponse",
-}) as any as S.Schema<ListPoliciesResponse>;
+  S.Struct({ PolicyList: S.optional(PolicySummaryList), NextToken: S.optional(S.String) }),
+).annotate({ identifier: "ListPoliciesResponse" }) as any as S.Schema<ListPoliciesResponse>;
 export interface ListProtocolsListsRequest {
   DefaultLists?: boolean;
   NextToken?: string;
@@ -2486,9 +2325,7 @@ export const ProtocolsListDataSummary = /*@__PURE__*/ S.suspend(() =>
     ListName: S.optional(S.String),
     ProtocolsList: S.optional(ProtocolsList),
   }),
-).annotate({
-  identifier: "ProtocolsListDataSummary",
-}) as any as S.Schema<ProtocolsListDataSummary>;
+).annotate({ identifier: "ProtocolsListDataSummary" }) as any as S.Schema<ProtocolsListDataSummary>;
 export type ProtocolsListsData = ProtocolsListDataSummary[];
 export const ProtocolsListsData = /*@__PURE__*/ S.Array(ProtocolsListDataSummary);
 export interface ListProtocolsListsResponse {
@@ -2496,10 +2333,7 @@ export interface ListProtocolsListsResponse {
   NextToken?: string;
 }
 export const ListProtocolsListsResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ProtocolsLists: S.optional(ProtocolsListsData),
-    NextToken: S.optional(S.String),
-  }),
+  S.Struct({ ProtocolsLists: S.optional(ProtocolsListsData), NextToken: S.optional(S.String) }),
 ).annotate({
   identifier: "ListProtocolsListsResponse",
 }) as any as S.Schema<ListProtocolsListsResponse>;
@@ -2540,13 +2374,10 @@ export interface ListResourceSetsRequest {
   MaxResults?: number;
 }
 export const ListResourceSetsRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    NextToken: S.optional(S.String),
-    MaxResults: S.optional(S.Number),
-  }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
-).annotate({
-  identifier: "ListResourceSetsRequest",
-}) as any as S.Schema<ListResourceSetsRequest>;
+  S.Struct({ NextToken: S.optional(S.String), MaxResults: S.optional(S.Number) }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotate({ identifier: "ListResourceSetsRequest" }) as any as S.Schema<ListResourceSetsRequest>;
 export interface ResourceSetSummary {
   Id?: string;
   Name?: string;
@@ -2562,9 +2393,7 @@ export const ResourceSetSummary = /*@__PURE__*/ S.suspend(() =>
     LastUpdateTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     ResourceSetStatus: S.optional(ResourceSetStatus),
   }),
-).annotate({
-  identifier: "ResourceSetSummary",
-}) as any as S.Schema<ResourceSetSummary>;
+).annotate({ identifier: "ResourceSetSummary" }) as any as S.Schema<ResourceSetSummary>;
 export type ResourceSetSummaryList = ResourceSetSummary[];
 export const ResourceSetSummaryList = /*@__PURE__*/ S.Array(ResourceSetSummary);
 export interface ListResourceSetsResponse {
@@ -2572,13 +2401,8 @@ export interface ListResourceSetsResponse {
   NextToken?: string;
 }
 export const ListResourceSetsResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ResourceSets: S.optional(ResourceSetSummaryList),
-    NextToken: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "ListResourceSetsResponse",
-}) as any as S.Schema<ListResourceSetsResponse>;
+  S.Struct({ ResourceSets: S.optional(ResourceSetSummaryList), NextToken: S.optional(S.String) }),
+).annotate({ identifier: "ListResourceSetsResponse" }) as any as S.Schema<ListResourceSetsResponse>;
 export interface ListTagsForResourceRequest {
   ResourceArn: string;
 }
@@ -2618,10 +2442,7 @@ export interface ThirdPartyFirewallFirewallPolicy {
   FirewallPolicyName?: string;
 }
 export const ThirdPartyFirewallFirewallPolicy = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    FirewallPolicyId: S.optional(S.String),
-    FirewallPolicyName: S.optional(S.String),
-  }),
+  S.Struct({ FirewallPolicyId: S.optional(S.String), FirewallPolicyName: S.optional(S.String) }),
 ).annotate({
   identifier: "ThirdPartyFirewallFirewallPolicy",
 }) as any as S.Schema<ThirdPartyFirewallFirewallPolicy>;
@@ -2649,9 +2470,7 @@ export const PutAdminAccountRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ AdminAccount: S.String, AdminScope: S.optional(AdminScope) }).pipe(
     T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
   ),
-).annotate({
-  identifier: "PutAdminAccountRequest",
-}) as any as S.Schema<PutAdminAccountRequest>;
+).annotate({ identifier: "PutAdminAccountRequest" }) as any as S.Schema<PutAdminAccountRequest>;
 export interface PutAdminAccountResponse {}
 export const PutAdminAccountResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
   identifier: "PutAdminAccountResponse",
@@ -2664,21 +2483,14 @@ export const PutAppsListRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ AppsList: AppsListData, TagList: S.optional(TagList) }).pipe(
     T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
   ),
-).annotate({
-  identifier: "PutAppsListRequest",
-}) as any as S.Schema<PutAppsListRequest>;
+).annotate({ identifier: "PutAppsListRequest" }) as any as S.Schema<PutAppsListRequest>;
 export interface PutAppsListResponse {
   AppsList?: AppsListData;
   AppsListArn?: string;
 }
 export const PutAppsListResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    AppsList: S.optional(AppsListData),
-    AppsListArn: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "PutAppsListResponse",
-}) as any as S.Schema<PutAppsListResponse>;
+  S.Struct({ AppsList: S.optional(AppsListData), AppsListArn: S.optional(S.String) }),
+).annotate({ identifier: "PutAppsListResponse" }) as any as S.Schema<PutAppsListResponse>;
 export interface PutNotificationChannelRequest {
   SnsTopicArn: string;
   SnsRoleName: string;
@@ -2702,30 +2514,23 @@ export const PutPolicyRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ Policy: Policy, TagList: S.optional(TagList) }).pipe(
     T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
   ),
-).annotate({
-  identifier: "PutPolicyRequest",
-}) as any as S.Schema<PutPolicyRequest>;
+).annotate({ identifier: "PutPolicyRequest" }) as any as S.Schema<PutPolicyRequest>;
 export interface PutPolicyResponse {
   Policy?: Policy;
   PolicyArn?: string;
 }
 export const PutPolicyResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ Policy: S.optional(Policy), PolicyArn: S.optional(S.String) }),
-).annotate({
-  identifier: "PutPolicyResponse",
-}) as any as S.Schema<PutPolicyResponse>;
+).annotate({ identifier: "PutPolicyResponse" }) as any as S.Schema<PutPolicyResponse>;
 export interface PutProtocolsListRequest {
   ProtocolsList: ProtocolsListData;
   TagList?: Tag[];
 }
 export const PutProtocolsListRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ProtocolsList: ProtocolsListData,
-    TagList: S.optional(TagList),
-  }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
-).annotate({
-  identifier: "PutProtocolsListRequest",
-}) as any as S.Schema<PutProtocolsListRequest>;
+  S.Struct({ ProtocolsList: ProtocolsListData, TagList: S.optional(TagList) }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotate({ identifier: "PutProtocolsListRequest" }) as any as S.Schema<PutProtocolsListRequest>;
 export interface PutProtocolsListResponse {
   ProtocolsList?: ProtocolsListData;
   ProtocolsListArn?: string;
@@ -2735,9 +2540,7 @@ export const PutProtocolsListResponse = /*@__PURE__*/ S.suspend(() =>
     ProtocolsList: S.optional(ProtocolsListData),
     ProtocolsListArn: S.optional(S.String),
   }),
-).annotate({
-  identifier: "PutProtocolsListResponse",
-}) as any as S.Schema<PutProtocolsListResponse>;
+).annotate({ identifier: "PutProtocolsListResponse" }) as any as S.Schema<PutProtocolsListResponse>;
 export interface PutResourceSetRequest {
   ResourceSet: ResourceSet;
   TagList?: Tag[];
@@ -2746,18 +2549,14 @@ export const PutResourceSetRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ ResourceSet: ResourceSet, TagList: S.optional(TagList) }).pipe(
     T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
   ),
-).annotate({
-  identifier: "PutResourceSetRequest",
-}) as any as S.Schema<PutResourceSetRequest>;
+).annotate({ identifier: "PutResourceSetRequest" }) as any as S.Schema<PutResourceSetRequest>;
 export interface PutResourceSetResponse {
   ResourceSet: ResourceSet;
   ResourceSetArn: string;
 }
 export const PutResourceSetResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ ResourceSet: ResourceSet, ResourceSetArn: S.String }),
-).annotate({
-  identifier: "PutResourceSetResponse",
-}) as any as S.Schema<PutResourceSetResponse>;
+).annotate({ identifier: "PutResourceSetResponse" }) as any as S.Schema<PutResourceSetResponse>;
 export interface TagResourceRequest {
   ResourceArn: string;
   TagList: Tag[];
@@ -2766,9 +2565,7 @@ export const TagResourceRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ ResourceArn: S.String, TagList: TagList }).pipe(
     T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
   ),
-).annotate({
-  identifier: "TagResourceRequest",
-}) as any as S.Schema<TagResourceRequest>;
+).annotate({ identifier: "TagResourceRequest" }) as any as S.Schema<TagResourceRequest>;
 export interface TagResourceResponse {}
 export const TagResourceResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
   identifier: "TagResourceResponse",
@@ -2783,9 +2580,7 @@ export const UntagResourceRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ ResourceArn: S.String, TagKeys: TagKeyList }).pipe(
     T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
   ),
-).annotate({
-  identifier: "UntagResourceRequest",
-}) as any as S.Schema<UntagResourceRequest>;
+).annotate({ identifier: "UntagResourceRequest" }) as any as S.Schema<UntagResourceRequest>;
 export interface UntagResourceResponse {}
 export const UntagResourceResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
   identifier: "UntagResourceResponse",

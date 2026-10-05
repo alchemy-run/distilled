@@ -172,10 +172,7 @@ export class ServiceNotFound
 export class TooManyTagsException
   extends /*@__PURE__*/ S.TaggedError<TooManyTagsException>()(
     "TooManyTagsException",
-    {
-      message: S.optional(S.String).pipe(T.ErrorMessage()),
-      ResourceName: S.optional(S.String),
-    },
+    { message: S.optional(S.String).pipe(T.ErrorMessage()), ResourceName: S.optional(S.String) },
     T.HttpError(400),
   ).pipe(C.withBadRequestError) {}
 export type NamespaceNameHttp = string;
@@ -357,17 +354,13 @@ export const HealthCheckConfig = /*@__PURE__*/ S.suspend(() =>
     ResourcePath: S.optional(S.String),
     FailureThreshold: S.optional(S.Number),
   }),
-).annotate({
-  identifier: "HealthCheckConfig",
-}) as any as S.Schema<HealthCheckConfig>;
+).annotate({ identifier: "HealthCheckConfig" }) as any as S.Schema<HealthCheckConfig>;
 export interface HealthCheckCustomConfig {
   FailureThreshold?: number;
 }
 export const HealthCheckCustomConfig = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ FailureThreshold: S.optional(S.Number) }),
-).annotate({
-  identifier: "HealthCheckCustomConfig",
-}) as any as S.Schema<HealthCheckCustomConfig>;
+).annotate({ identifier: "HealthCheckCustomConfig" }) as any as S.Schema<HealthCheckCustomConfig>;
 export type ServiceTypeOption = "HTTP" | (string & {});
 export const ServiceTypeOption = S.String;
 
@@ -394,9 +387,7 @@ export const CreateServiceRequest = /*@__PURE__*/ S.suspend(() =>
     Tags: S.optional(TagList),
     Type: S.optional(ServiceTypeOption),
   }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
-).annotate({
-  identifier: "CreateServiceRequest",
-}) as any as S.Schema<CreateServiceRequest>;
+).annotate({ identifier: "CreateServiceRequest" }) as any as S.Schema<CreateServiceRequest>;
 export type AWSAccountId = string;
 export type ResourceCount = number;
 export type ServiceType = "HTTP" | "DNS_HTTP" | "DNS" | (string & {});
@@ -441,9 +432,7 @@ export interface CreateServiceResponse {
 }
 export const CreateServiceResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ Service: S.optional(Service) }),
-).annotate({
-  identifier: "CreateServiceResponse",
-}) as any as S.Schema<CreateServiceResponse>;
+).annotate({ identifier: "CreateServiceResponse" }) as any as S.Schema<CreateServiceResponse>;
 export interface DeleteNamespaceRequest {
   Id: string;
 }
@@ -451,17 +440,13 @@ export const DeleteNamespaceRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ Id: S.String }).pipe(
     T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
   ),
-).annotate({
-  identifier: "DeleteNamespaceRequest",
-}) as any as S.Schema<DeleteNamespaceRequest>;
+).annotate({ identifier: "DeleteNamespaceRequest" }) as any as S.Schema<DeleteNamespaceRequest>;
 export interface DeleteNamespaceResponse {
   OperationId?: string;
 }
 export const DeleteNamespaceResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ OperationId: S.optional(S.String) }),
-).annotate({
-  identifier: "DeleteNamespaceResponse",
-}) as any as S.Schema<DeleteNamespaceResponse>;
+).annotate({ identifier: "DeleteNamespaceResponse" }) as any as S.Schema<DeleteNamespaceResponse>;
 export interface DeleteServiceRequest {
   Id: string;
 }
@@ -469,9 +454,7 @@ export const DeleteServiceRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ Id: S.String }).pipe(
     T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
   ),
-).annotate({
-  identifier: "DeleteServiceRequest",
-}) as any as S.Schema<DeleteServiceRequest>;
+).annotate({ identifier: "DeleteServiceRequest" }) as any as S.Schema<DeleteServiceRequest>;
 export interface DeleteServiceResponse {}
 export const DeleteServiceResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
   identifier: "DeleteServiceResponse",
@@ -492,9 +475,7 @@ export const DeleteServiceAttributesRequest = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<DeleteServiceAttributesRequest>;
 export interface DeleteServiceAttributesResponse {}
 export const DeleteServiceAttributesResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate(
-  {
-    identifier: "DeleteServiceAttributesResponse",
-  },
+  { identifier: "DeleteServiceAttributesResponse" },
 ) as any as S.Schema<DeleteServiceAttributesResponse>;
 export interface DeregisterInstanceRequest {
   ServiceId: string;
@@ -548,9 +529,7 @@ export const DiscoverInstancesRequest = /*@__PURE__*/ S.suspend(() =>
     HealthStatus: S.optional(HealthStatusFilter),
     OwnerAccount: S.optional(S.String),
   }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
-).annotate({
-  identifier: "DiscoverInstancesRequest",
-}) as any as S.Schema<DiscoverInstancesRequest>;
+).annotate({ identifier: "DiscoverInstancesRequest" }) as any as S.Schema<DiscoverInstancesRequest>;
 export type HealthStatus = "HEALTHY" | "UNHEALTHY" | "UNKNOWN" | (string & {});
 export const HealthStatus = S.String;
 
@@ -569,9 +548,7 @@ export const HttpInstanceSummary = /*@__PURE__*/ S.suspend(() =>
     HealthStatus: S.optional(HealthStatus),
     Attributes: S.optional(Attributes),
   }),
-).annotate({
-  identifier: "HttpInstanceSummary",
-}) as any as S.Schema<HttpInstanceSummary>;
+).annotate({ identifier: "HttpInstanceSummary" }) as any as S.Schema<HttpInstanceSummary>;
 export type HttpInstanceSummaryList = HttpInstanceSummary[];
 export const HttpInstanceSummaryList = /*@__PURE__*/ S.Array(HttpInstanceSummary);
 export type Revision = number;
@@ -617,9 +594,7 @@ export const GetInstanceRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ ServiceId: S.String, InstanceId: S.String }).pipe(
     T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
   ),
-).annotate({
-  identifier: "GetInstanceRequest",
-}) as any as S.Schema<GetInstanceRequest>;
+).annotate({ identifier: "GetInstanceRequest" }) as any as S.Schema<GetInstanceRequest>;
 export interface Instance {
   Id: string;
   CreatorRequestId?: string;
@@ -639,13 +614,8 @@ export interface GetInstanceResponse {
   Instance?: Instance;
 }
 export const GetInstanceResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ResourceOwner: S.optional(S.String),
-    Instance: S.optional(Instance),
-  }),
-).annotate({
-  identifier: "GetInstanceResponse",
-}) as any as S.Schema<GetInstanceResponse>;
+  S.Struct({ ResourceOwner: S.optional(S.String), Instance: S.optional(Instance) }),
+).annotate({ identifier: "GetInstanceResponse" }) as any as S.Schema<GetInstanceResponse>;
 export type InstanceIdList = string[];
 export const InstanceIdList = /*@__PURE__*/ S.Array(S.String.pipe(T.XmlName("InstanceId")));
 export type MaxResults = number;
@@ -666,9 +636,7 @@ export const GetInstancesHealthStatusRequest = /*@__PURE__*/ S.suspend(() =>
 ).annotate({
   identifier: "GetInstancesHealthStatusRequest",
 }) as any as S.Schema<GetInstancesHealthStatusRequest>;
-export type InstanceHealthStatusMap = {
-  [key: string]: HealthStatus | undefined;
-};
+export type InstanceHealthStatusMap = { [key: string]: HealthStatus | undefined };
 export const InstanceHealthStatusMap = /*@__PURE__*/ S.Record(
   S.String,
   HealthStatus.pipe(S.optional),
@@ -678,10 +646,7 @@ export interface GetInstancesHealthStatusResponse {
   NextToken?: string;
 }
 export const GetInstancesHealthStatusResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Status: S.optional(InstanceHealthStatusMap),
-    NextToken: S.optional(S.String),
-  }),
+  S.Struct({ Status: S.optional(InstanceHealthStatusMap), NextToken: S.optional(S.String) }),
 ).annotate({
   identifier: "GetInstancesHealthStatusResponse",
 }) as any as S.Schema<GetInstancesHealthStatusResponse>;
@@ -692,9 +657,7 @@ export const GetNamespaceRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ Id: S.String }).pipe(
     T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
   ),
-).annotate({
-  identifier: "GetNamespaceRequest",
-}) as any as S.Schema<GetNamespaceRequest>;
+).annotate({ identifier: "GetNamespaceRequest" }) as any as S.Schema<GetNamespaceRequest>;
 export type NamespaceType = "DNS_PUBLIC" | "DNS_PRIVATE" | "HTTP" | (string & {});
 export const NamespaceType = S.String;
 
@@ -720,9 +683,7 @@ export const NamespaceProperties = /*@__PURE__*/ S.suspend(() =>
     DnsProperties: S.optional(DnsProperties),
     HttpProperties: S.optional(HttpProperties),
   }),
-).annotate({
-  identifier: "NamespaceProperties",
-}) as any as S.Schema<NamespaceProperties>;
+).annotate({ identifier: "NamespaceProperties" }) as any as S.Schema<NamespaceProperties>;
 export interface Namespace {
   Id?: string;
   Arn?: string;
@@ -754,9 +715,7 @@ export interface GetNamespaceResponse {
 }
 export const GetNamespaceResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ Namespace: S.optional(Namespace) }),
-).annotate({
-  identifier: "GetNamespaceResponse",
-}) as any as S.Schema<GetNamespaceResponse>;
+).annotate({ identifier: "GetNamespaceResponse" }) as any as S.Schema<GetNamespaceResponse>;
 export interface GetOperationRequest {
   OperationId: string;
   OwnerAccount?: string;
@@ -765,9 +724,7 @@ export const GetOperationRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ OperationId: S.String, OwnerAccount: S.optional(S.String) }).pipe(
     T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
   ),
-).annotate({
-  identifier: "GetOperationRequest",
-}) as any as S.Schema<GetOperationRequest>;
+).annotate({ identifier: "GetOperationRequest" }) as any as S.Schema<GetOperationRequest>;
 export type OperationType =
   | "CREATE_NAMESPACE"
   | "DELETE_NAMESPACE"
@@ -820,9 +777,7 @@ export interface GetOperationResponse {
 }
 export const GetOperationResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ Operation: S.optional(Operation) }),
-).annotate({
-  identifier: "GetOperationResponse",
-}) as any as S.Schema<GetOperationResponse>;
+).annotate({ identifier: "GetOperationResponse" }) as any as S.Schema<GetOperationResponse>;
 export interface GetServiceRequest {
   Id: string;
 }
@@ -830,17 +785,13 @@ export const GetServiceRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ Id: S.String }).pipe(
     T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
   ),
-).annotate({
-  identifier: "GetServiceRequest",
-}) as any as S.Schema<GetServiceRequest>;
+).annotate({ identifier: "GetServiceRequest" }) as any as S.Schema<GetServiceRequest>;
 export interface GetServiceResponse {
   Service?: Service;
 }
 export const GetServiceResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ Service: S.optional(Service) }),
-).annotate({
-  identifier: "GetServiceResponse",
-}) as any as S.Schema<GetServiceResponse>;
+).annotate({ identifier: "GetServiceResponse" }) as any as S.Schema<GetServiceResponse>;
 export interface GetServiceAttributesRequest {
   ServiceId: string;
 }
@@ -865,9 +816,7 @@ export const ServiceAttributes = /*@__PURE__*/ S.suspend(() =>
     ResourceOwner: S.optional(S.String),
     Attributes: S.optional(ServiceAttributesMap),
   }),
-).annotate({
-  identifier: "ServiceAttributes",
-}) as any as S.Schema<ServiceAttributes>;
+).annotate({ identifier: "ServiceAttributes" }) as any as S.Schema<ServiceAttributes>;
 export interface GetServiceAttributesResponse {
   ServiceAttributes?: ServiceAttributes;
 }
@@ -887,9 +836,7 @@ export const ListInstancesRequest = /*@__PURE__*/ S.suspend(() =>
     NextToken: S.optional(S.String),
     MaxResults: S.optional(S.Number),
   }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
-).annotate({
-  identifier: "ListInstancesRequest",
-}) as any as S.Schema<ListInstancesRequest>;
+).annotate({ identifier: "ListInstancesRequest" }) as any as S.Schema<ListInstancesRequest>;
 export interface InstanceSummary {
   Id?: string;
   Attributes?: { [key: string]: string | undefined };
@@ -901,14 +848,10 @@ export const InstanceSummary = /*@__PURE__*/ S.suspend(() =>
     Attributes: S.optional(Attributes),
     CreatedByAccount: S.optional(S.String),
   }),
-).annotate({
-  identifier: "InstanceSummary",
-}) as any as S.Schema<InstanceSummary>;
+).annotate({ identifier: "InstanceSummary" }) as any as S.Schema<InstanceSummary>;
 export type InstanceSummaryList = InstanceSummary[];
 export const InstanceSummaryList = /*@__PURE__*/ S.Array(
-  InstanceSummary.pipe(T.XmlName("InstanceSummary")).annotate({
-    identifier: "InstanceSummary",
-  }),
+  InstanceSummary.pipe(T.XmlName("InstanceSummary")).annotate({ identifier: "InstanceSummary" }),
 );
 export interface ListInstancesResponse {
   ResourceOwner?: string;
@@ -921,9 +864,7 @@ export const ListInstancesResponse = /*@__PURE__*/ S.suspend(() =>
     Instances: S.optional(InstanceSummaryList),
     NextToken: S.optional(S.String),
   }),
-).annotate({
-  identifier: "ListInstancesResponse",
-}) as any as S.Schema<ListInstancesResponse>;
+).annotate({ identifier: "ListInstancesResponse" }) as any as S.Schema<ListInstancesResponse>;
 export type NamespaceFilterName = "TYPE" | "NAME" | "HTTP_NAME" | "RESOURCE_OWNER" | (string & {});
 export const NamespaceFilterName = S.String;
 
@@ -944,14 +885,10 @@ export const NamespaceFilter = /*@__PURE__*/ S.suspend(() =>
     Values: FilterValues,
     Condition: S.optional(FilterCondition),
   }),
-).annotate({
-  identifier: "NamespaceFilter",
-}) as any as S.Schema<NamespaceFilter>;
+).annotate({ identifier: "NamespaceFilter" }) as any as S.Schema<NamespaceFilter>;
 export type NamespaceFilters = NamespaceFilter[];
 export const NamespaceFilters = /*@__PURE__*/ S.Array(
-  NamespaceFilter.pipe(T.XmlName("item")).annotate({
-    identifier: "NamespaceFilter",
-  }),
+  NamespaceFilter.pipe(T.XmlName("item")).annotate({ identifier: "NamespaceFilter" }),
 );
 export interface ListNamespacesRequest {
   NextToken?: string;
@@ -964,9 +901,7 @@ export const ListNamespacesRequest = /*@__PURE__*/ S.suspend(() =>
     MaxResults: S.optional(S.Number),
     Filters: S.optional(NamespaceFilters),
   }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
-).annotate({
-  identifier: "ListNamespacesRequest",
-}) as any as S.Schema<ListNamespacesRequest>;
+).annotate({ identifier: "ListNamespacesRequest" }) as any as S.Schema<ListNamespacesRequest>;
 export interface NamespaceSummary {
   Id?: string;
   Arn?: string;
@@ -990,9 +925,7 @@ export const NamespaceSummary = /*@__PURE__*/ S.suspend(() =>
     Properties: S.optional(NamespaceProperties),
     CreateDate: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
   }),
-).annotate({
-  identifier: "NamespaceSummary",
-}) as any as S.Schema<NamespaceSummary>;
+).annotate({ identifier: "NamespaceSummary" }) as any as S.Schema<NamespaceSummary>;
 export type NamespaceSummariesList = NamespaceSummary[];
 export const NamespaceSummariesList = /*@__PURE__*/ S.Array(NamespaceSummary);
 export interface ListNamespacesResponse {
@@ -1000,13 +933,8 @@ export interface ListNamespacesResponse {
   NextToken?: string;
 }
 export const ListNamespacesResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Namespaces: S.optional(NamespaceSummariesList),
-    NextToken: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "ListNamespacesResponse",
-}) as any as S.Schema<ListNamespacesResponse>;
+  S.Struct({ Namespaces: S.optional(NamespaceSummariesList), NextToken: S.optional(S.String) }),
+).annotate({ identifier: "ListNamespacesResponse" }) as any as S.Schema<ListNamespacesResponse>;
 export type OperationFilterName =
   | "NAMESPACE_ID"
   | "SERVICE_ID"
@@ -1027,14 +955,10 @@ export const OperationFilter = /*@__PURE__*/ S.suspend(() =>
     Values: FilterValues,
     Condition: S.optional(FilterCondition),
   }),
-).annotate({
-  identifier: "OperationFilter",
-}) as any as S.Schema<OperationFilter>;
+).annotate({ identifier: "OperationFilter" }) as any as S.Schema<OperationFilter>;
 export type OperationFilters = OperationFilter[];
 export const OperationFilters = /*@__PURE__*/ S.Array(
-  OperationFilter.pipe(T.XmlName("item")).annotate({
-    identifier: "OperationFilter",
-  }),
+  OperationFilter.pipe(T.XmlName("item")).annotate({ identifier: "OperationFilter" }),
 );
 export interface ListOperationsRequest {
   NextToken?: string;
@@ -1047,36 +971,25 @@ export const ListOperationsRequest = /*@__PURE__*/ S.suspend(() =>
     MaxResults: S.optional(S.Number),
     Filters: S.optional(OperationFilters),
   }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
-).annotate({
-  identifier: "ListOperationsRequest",
-}) as any as S.Schema<ListOperationsRequest>;
+).annotate({ identifier: "ListOperationsRequest" }) as any as S.Schema<ListOperationsRequest>;
 export interface OperationSummary {
   Id?: string;
   Status?: OperationStatus;
 }
 export const OperationSummary = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ Id: S.optional(S.String), Status: S.optional(OperationStatus) }),
-).annotate({
-  identifier: "OperationSummary",
-}) as any as S.Schema<OperationSummary>;
+).annotate({ identifier: "OperationSummary" }) as any as S.Schema<OperationSummary>;
 export type OperationSummaryList = OperationSummary[];
 export const OperationSummaryList = /*@__PURE__*/ S.Array(
-  OperationSummary.pipe(T.XmlName("OperationSummary")).annotate({
-    identifier: "OperationSummary",
-  }),
+  OperationSummary.pipe(T.XmlName("OperationSummary")).annotate({ identifier: "OperationSummary" }),
 );
 export interface ListOperationsResponse {
   Operations?: OperationSummary[];
   NextToken?: string;
 }
 export const ListOperationsResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Operations: S.optional(OperationSummaryList),
-    NextToken: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "ListOperationsResponse",
-}) as any as S.Schema<ListOperationsResponse>;
+  S.Struct({ Operations: S.optional(OperationSummaryList), NextToken: S.optional(S.String) }),
+).annotate({ identifier: "ListOperationsResponse" }) as any as S.Schema<ListOperationsResponse>;
 export type ServiceFilterName = "NAMESPACE_ID" | "RESOURCE_OWNER" | (string & {});
 export const ServiceFilterName = S.String;
 
@@ -1094,9 +1007,7 @@ export const ServiceFilter = /*@__PURE__*/ S.suspend(() =>
 ).annotate({ identifier: "ServiceFilter" }) as any as S.Schema<ServiceFilter>;
 export type ServiceFilters = ServiceFilter[];
 export const ServiceFilters = /*@__PURE__*/ S.Array(
-  ServiceFilter.pipe(T.XmlName("item")).annotate({
-    identifier: "ServiceFilter",
-  }),
+  ServiceFilter.pipe(T.XmlName("item")).annotate({ identifier: "ServiceFilter" }),
 );
 export interface ListServicesRequest {
   NextToken?: string;
@@ -1109,9 +1020,7 @@ export const ListServicesRequest = /*@__PURE__*/ S.suspend(() =>
     MaxResults: S.optional(S.Number),
     Filters: S.optional(ServiceFilters),
   }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
-).annotate({
-  identifier: "ListServicesRequest",
-}) as any as S.Schema<ListServicesRequest>;
+).annotate({ identifier: "ListServicesRequest" }) as any as S.Schema<ListServicesRequest>;
 export interface ServiceSummary {
   Id?: string;
   Arn?: string;
@@ -1149,13 +1058,8 @@ export interface ListServicesResponse {
   NextToken?: string;
 }
 export const ListServicesResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Services: S.optional(ServiceSummariesList),
-    NextToken: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "ListServicesResponse",
-}) as any as S.Schema<ListServicesResponse>;
+  S.Struct({ Services: S.optional(ServiceSummariesList), NextToken: S.optional(S.String) }),
+).annotate({ identifier: "ListServicesResponse" }) as any as S.Schema<ListServicesResponse>;
 export type AmazonResourceName = string;
 export interface ListTagsForResourceRequest {
   ResourceARN: string;
@@ -1189,17 +1093,13 @@ export const RegisterInstanceRequest = /*@__PURE__*/ S.suspend(() =>
     CreatorRequestId: S.optional(S.String).pipe(T.IdempotencyToken()),
     Attributes: Attributes,
   }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
-).annotate({
-  identifier: "RegisterInstanceRequest",
-}) as any as S.Schema<RegisterInstanceRequest>;
+).annotate({ identifier: "RegisterInstanceRequest" }) as any as S.Schema<RegisterInstanceRequest>;
 export interface RegisterInstanceResponse {
   OperationId?: string;
 }
 export const RegisterInstanceResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ OperationId: S.optional(S.String) }),
-).annotate({
-  identifier: "RegisterInstanceResponse",
-}) as any as S.Schema<RegisterInstanceResponse>;
+).annotate({ identifier: "RegisterInstanceResponse" }) as any as S.Schema<RegisterInstanceResponse>;
 export interface TagResourceRequest {
   ResourceARN: string;
   Tags: Tag[];
@@ -1208,9 +1108,7 @@ export const TagResourceRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ ResourceARN: S.String, Tags: TagList }).pipe(
     T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
   ),
-).annotate({
-  identifier: "TagResourceRequest",
-}) as any as S.Schema<TagResourceRequest>;
+).annotate({ identifier: "TagResourceRequest" }) as any as S.Schema<TagResourceRequest>;
 export interface TagResourceResponse {}
 export const TagResourceResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
   identifier: "TagResourceResponse",
@@ -1225,9 +1123,7 @@ export const UntagResourceRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ ResourceARN: S.String, TagKeys: TagKeyList }).pipe(
     T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
   ),
-).annotate({
-  identifier: "UntagResourceRequest",
-}) as any as S.Schema<UntagResourceRequest>;
+).annotate({ identifier: "UntagResourceRequest" }) as any as S.Schema<UntagResourceRequest>;
 export interface UntagResourceResponse {}
 export const UntagResourceResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
   identifier: "UntagResourceResponse",
@@ -1237,9 +1133,7 @@ export interface HttpNamespaceChange {
 }
 export const HttpNamespaceChange = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ Description: S.String }),
-).annotate({
-  identifier: "HttpNamespaceChange",
-}) as any as S.Schema<HttpNamespaceChange>;
+).annotate({ identifier: "HttpNamespaceChange" }) as any as S.Schema<HttpNamespaceChange>;
 export interface UpdateHttpNamespaceRequest {
   Id: string;
   UpdaterRequestId?: string;
@@ -1271,11 +1165,9 @@ export interface UpdateInstanceCustomHealthStatusRequest {
   Status: CustomHealthStatus;
 }
 export const UpdateInstanceCustomHealthStatusRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ServiceId: S.String,
-    InstanceId: S.String,
-    Status: CustomHealthStatus,
-  }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+  S.Struct({ ServiceId: S.String, InstanceId: S.String, Status: CustomHealthStatus }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
 ).annotate({
   identifier: "UpdateInstanceCustomHealthStatusRequest",
 }) as any as S.Schema<UpdateInstanceCustomHealthStatusRequest>;
@@ -1366,9 +1258,7 @@ export const PublicDnsNamespaceChange = /*@__PURE__*/ S.suspend(() =>
     Description: S.optional(S.String),
     Properties: S.optional(PublicDnsNamespacePropertiesChange),
   }),
-).annotate({
-  identifier: "PublicDnsNamespaceChange",
-}) as any as S.Schema<PublicDnsNamespaceChange>;
+).annotate({ identifier: "PublicDnsNamespaceChange" }) as any as S.Schema<PublicDnsNamespaceChange>;
 export interface UpdatePublicDnsNamespaceRequest {
   Id: string;
   UpdaterRequestId?: string;
@@ -1396,9 +1286,7 @@ export interface DnsConfigChange {
 }
 export const DnsConfigChange = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ DnsRecords: DnsRecordList }),
-).annotate({
-  identifier: "DnsConfigChange",
-}) as any as S.Schema<DnsConfigChange>;
+).annotate({ identifier: "DnsConfigChange" }) as any as S.Schema<DnsConfigChange>;
 export interface ServiceChange {
   Description?: string;
   DnsConfig?: DnsConfigChange;
@@ -1419,17 +1307,13 @@ export const UpdateServiceRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ Id: S.String, Service: ServiceChange }).pipe(
     T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
   ),
-).annotate({
-  identifier: "UpdateServiceRequest",
-}) as any as S.Schema<UpdateServiceRequest>;
+).annotate({ identifier: "UpdateServiceRequest" }) as any as S.Schema<UpdateServiceRequest>;
 export interface UpdateServiceResponse {
   OperationId?: string;
 }
 export const UpdateServiceResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ OperationId: S.optional(S.String) }),
-).annotate({
-  identifier: "UpdateServiceResponse",
-}) as any as S.Schema<UpdateServiceResponse>;
+).annotate({ identifier: "UpdateServiceResponse" }) as any as S.Schema<UpdateServiceResponse>;
 export interface UpdateServiceAttributesRequest {
   ServiceId: string;
   Attributes: { [key: string]: string | undefined };
@@ -1443,9 +1327,7 @@ export const UpdateServiceAttributesRequest = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<UpdateServiceAttributesRequest>;
 export interface UpdateServiceAttributesResponse {}
 export const UpdateServiceAttributesResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate(
-  {
-    identifier: "UpdateServiceAttributesResponse",
-  },
+  { identifier: "UpdateServiceAttributesResponse" },
 ) as any as S.Schema<UpdateServiceAttributesResponse>;
 export type ErrorMessage = string;
 export type CreateHttpNamespaceError =

@@ -9,10 +9,7 @@ import { AwsProtocol } from "../protocol.ts";
 import { Retry } from "../retry.ts";
 import { SensitiveString } from "../sensitive.ts";
 import * as T from "../traits.ts";
-const svc = T.AwsApiService({
-  sdkId: "AppFabric",
-  serviceShapeName: "FabricFrontEndService",
-});
+const svc = T.AwsApiService({ sdkId: "AppFabric", serviceShapeName: "FabricFrontEndService" });
 const auth = T.AwsAuthSigv4({ name: "appfabric" });
 const ver = T.ServiceVersion("2023-05-19");
 const proto = T.AwsProtocolsRestJson1();
@@ -82,11 +79,7 @@ export class AccessDeniedException
 export class ConflictException
   extends /*@__PURE__*/ S.TaggedError<ConflictException>()(
     "ConflictException",
-    {
-      message: S.String.pipe(T.ErrorMessage()),
-      resourceId: S.String,
-      resourceType: S.String,
-    },
+    { message: S.String.pipe(T.ErrorMessage()), resourceId: S.String, resourceType: S.String },
     T.HttpError(409),
   ).pipe(C.withConflictError) {}
 export class InternalServerException
@@ -101,11 +94,7 @@ export class InternalServerException
 export class ResourceNotFoundException
   extends /*@__PURE__*/ S.TaggedError<ResourceNotFoundException>()(
     "ResourceNotFoundException",
-    {
-      message: S.String.pipe(T.ErrorMessage()),
-      resourceId: S.String,
-      resourceType: S.String,
-    },
+    { message: S.String.pipe(T.ErrorMessage()), resourceId: S.String, resourceType: S.String },
     T.HttpError(404),
   ).pipe(C.withBadRequestError) {}
 export class ServiceQuotaExceededException
@@ -175,10 +164,7 @@ export interface TaskError {
   errorMessage?: string;
 }
 export const TaskError = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    errorCode: S.optional(S.String),
-    errorMessage: S.optional(S.String),
-  }),
+  S.Struct({ errorCode: S.optional(S.String), errorMessage: S.optional(S.String) }),
 ).annotate({ identifier: "TaskError" }) as any as S.Schema<TaskError>;
 export interface UserAccessResultItem {
   app?: string;
@@ -209,9 +195,7 @@ export const UserAccessResultItem = /*@__PURE__*/ S.suspend(() =>
     userStatus: S.optional(S.String),
     taskError: S.optional(TaskError),
   }),
-).annotate({
-  identifier: "UserAccessResultItem",
-}) as any as S.Schema<UserAccessResultItem>;
+).annotate({ identifier: "UserAccessResultItem" }) as any as S.Schema<UserAccessResultItem>;
 export type UserAccessResultsList = UserAccessResultItem[];
 export const UserAccessResultsList = /*@__PURE__*/ S.Array(UserAccessResultItem);
 export interface BatchGetUserAccessTasksResponse {
@@ -289,9 +273,7 @@ export const AppAuthorizationSummary = /*@__PURE__*/ S.suspend(() =>
     status: AppAuthorizationStatus,
     updatedAt: T.DateFromString.pipe(T.TimestampFormat("date-time")),
   }),
-).annotate({
-  identifier: "AppAuthorizationSummary",
-}) as any as S.Schema<AppAuthorizationSummary>;
+).annotate({ identifier: "AppAuthorizationSummary" }) as any as S.Schema<AppAuthorizationSummary>;
 export interface ConnectAppAuthorizationResponse {
   appAuthorizationSummary: AppAuthorizationSummary;
 }
@@ -306,17 +288,13 @@ export interface Oauth2Credential {
 }
 export const Oauth2Credential = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ clientId: S.String, clientSecret: SensitiveString }),
-).annotate({
-  identifier: "Oauth2Credential",
-}) as any as S.Schema<Oauth2Credential>;
+).annotate({ identifier: "Oauth2Credential" }) as any as S.Schema<Oauth2Credential>;
 export interface ApiKeyCredential {
   apiKey: string | redacted.Redacted<string>;
 }
 export const ApiKeyCredential = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ apiKey: SensitiveString }),
-).annotate({
-  identifier: "ApiKeyCredential",
-}) as any as S.Schema<ApiKeyCredential>;
+).annotate({ identifier: "ApiKeyCredential" }) as any as S.Schema<ApiKeyCredential>;
 export type Credential =
   | { oauth2Credential: Oauth2Credential; apiKeyCredential?: never }
   | { oauth2Credential?: never; apiKeyCredential: ApiKeyCredential };
@@ -358,10 +336,7 @@ export const CreateAppAuthorizationRequest = /*@__PURE__*/ S.suspend(() =>
     tags: S.optional(TagList),
   }).pipe(
     T.all(
-      T.Http({
-        method: "POST",
-        uri: "/appbundles/{appBundleIdentifier}/appauthorizations",
-      }),
+      T.Http({ method: "POST", uri: "/appbundles/{appBundleIdentifier}/appauthorizations" }),
       svc,
       auth,
       proto,
@@ -400,9 +375,7 @@ export const AppAuthorization = /*@__PURE__*/ S.suspend(() =>
     persona: S.optional(Persona),
     authUrl: S.optional(S.String),
   }),
-).annotate({
-  identifier: "AppAuthorization",
-}) as any as S.Schema<AppAuthorization>;
+).annotate({ identifier: "AppAuthorization" }) as any as S.Schema<AppAuthorization>;
 export interface CreateAppAuthorizationResponse {
   appAuthorization: AppAuthorization;
 }
@@ -422,9 +395,7 @@ export const CreateAppBundleRequest = /*@__PURE__*/ S.suspend(() =>
     customerManagedKeyIdentifier: S.optional(S.String),
     tags: S.optional(TagList),
   }).pipe(T.all(T.Http({ method: "POST", uri: "/appbundles" }), svc, auth, proto, ver, rules)),
-).annotate({
-  identifier: "CreateAppBundleRequest",
-}) as any as S.Schema<CreateAppBundleRequest>;
+).annotate({ identifier: "CreateAppBundleRequest" }) as any as S.Schema<CreateAppBundleRequest>;
 export interface AppBundle {
   arn: string;
   customerManagedKeyArn?: string;
@@ -437,9 +408,7 @@ export interface CreateAppBundleResponse {
 }
 export const CreateAppBundleResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ appBundle: AppBundle }),
-).annotate({
-  identifier: "CreateAppBundleResponse",
-}) as any as S.Schema<CreateAppBundleResponse>;
+).annotate({ identifier: "CreateAppBundleResponse" }) as any as S.Schema<CreateAppBundleResponse>;
 export type IngestionType = "auditLog" | (string & {});
 export const IngestionType = S.String;
 
@@ -461,10 +430,7 @@ export const CreateIngestionRequest = /*@__PURE__*/ S.suspend(() =>
     tags: S.optional(TagList),
   }).pipe(
     T.all(
-      T.Http({
-        method: "POST",
-        uri: "/appbundles/{appBundleIdentifier}/ingestions",
-      }),
+      T.Http({ method: "POST", uri: "/appbundles/{appBundleIdentifier}/ingestions" }),
       svc,
       auth,
       proto,
@@ -472,9 +438,7 @@ export const CreateIngestionRequest = /*@__PURE__*/ S.suspend(() =>
       rules,
     ),
   ),
-).annotate({
-  identifier: "CreateIngestionRequest",
-}) as any as S.Schema<CreateIngestionRequest>;
+).annotate({ identifier: "CreateIngestionRequest" }) as any as S.Schema<CreateIngestionRequest>;
 export type IngestionState = "enabled" | "disabled" | (string & {});
 export const IngestionState = S.String;
 
@@ -505,9 +469,7 @@ export interface CreateIngestionResponse {
 }
 export const CreateIngestionResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ ingestion: Ingestion }),
-).annotate({
-  identifier: "CreateIngestionResponse",
-}) as any as S.Schema<CreateIngestionResponse>;
+).annotate({ identifier: "CreateIngestionResponse" }) as any as S.Schema<CreateIngestionResponse>;
 export type Schema = "ocsf" | "raw" | (string & {});
 export const Schema = S.String;
 
@@ -523,9 +485,7 @@ export const AuditLogProcessingConfiguration = /*@__PURE__*/ S.suspend(() =>
 ).annotate({
   identifier: "AuditLogProcessingConfiguration",
 }) as any as S.Schema<AuditLogProcessingConfiguration>;
-export type ProcessingConfiguration = {
-  auditLog: AuditLogProcessingConfiguration;
-};
+export type ProcessingConfiguration = { auditLog: AuditLogProcessingConfiguration };
 export const ProcessingConfiguration = /*@__PURE__*/ S.Union([
   S.Struct({ auditLog: AuditLogProcessingConfiguration }),
 ]);
@@ -560,9 +520,7 @@ export const AuditLogDestinationConfiguration = /*@__PURE__*/ S.suspend(() =>
 ).annotate({
   identifier: "AuditLogDestinationConfiguration",
 }) as any as S.Schema<AuditLogDestinationConfiguration>;
-export type DestinationConfiguration = {
-  auditLog: AuditLogDestinationConfiguration;
-};
+export type DestinationConfiguration = { auditLog: AuditLogDestinationConfiguration };
 export const DestinationConfiguration = /*@__PURE__*/ S.Union([
   S.Struct({ auditLog: AuditLogDestinationConfiguration }),
 ]);
@@ -622,9 +580,7 @@ export const IngestionDestination = /*@__PURE__*/ S.suspend(() =>
     createdAt: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
     updatedAt: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
   }),
-).annotate({
-  identifier: "IngestionDestination",
-}) as any as S.Schema<IngestionDestination>;
+).annotate({ identifier: "IngestionDestination" }) as any as S.Schema<IngestionDestination>;
 export interface CreateIngestionDestinationResponse {
   ingestionDestination: IngestionDestination;
 }
@@ -665,9 +621,7 @@ export interface DeleteAppBundleRequest {
   appBundleIdentifier: string;
 }
 export const DeleteAppBundleRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    appBundleIdentifier: S.String.pipe(T.HttpLabel("appBundleIdentifier")),
-  }).pipe(
+  S.Struct({ appBundleIdentifier: S.String.pipe(T.HttpLabel("appBundleIdentifier")) }).pipe(
     T.all(
       T.Http({ method: "DELETE", uri: "/appbundles/{appBundleIdentifier}" }),
       svc,
@@ -677,9 +631,7 @@ export const DeleteAppBundleRequest = /*@__PURE__*/ S.suspend(() =>
       rules,
     ),
   ),
-).annotate({
-  identifier: "DeleteAppBundleRequest",
-}) as any as S.Schema<DeleteAppBundleRequest>;
+).annotate({ identifier: "DeleteAppBundleRequest" }) as any as S.Schema<DeleteAppBundleRequest>;
 export interface DeleteAppBundleResponse {}
 export const DeleteAppBundleResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
   identifier: "DeleteAppBundleResponse",
@@ -705,9 +657,7 @@ export const DeleteIngestionRequest = /*@__PURE__*/ S.suspend(() =>
       rules,
     ),
   ),
-).annotate({
-  identifier: "DeleteIngestionRequest",
-}) as any as S.Schema<DeleteIngestionRequest>;
+).annotate({ identifier: "DeleteIngestionRequest" }) as any as S.Schema<DeleteIngestionRequest>;
 export interface DeleteIngestionResponse {}
 export const DeleteIngestionResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
   identifier: "DeleteIngestionResponse",
@@ -780,9 +730,7 @@ export interface GetAppBundleRequest {
   appBundleIdentifier: string;
 }
 export const GetAppBundleRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    appBundleIdentifier: S.String.pipe(T.HttpLabel("appBundleIdentifier")),
-  }).pipe(
+  S.Struct({ appBundleIdentifier: S.String.pipe(T.HttpLabel("appBundleIdentifier")) }).pipe(
     T.all(
       T.Http({ method: "GET", uri: "/appbundles/{appBundleIdentifier}" }),
       svc,
@@ -792,17 +740,13 @@ export const GetAppBundleRequest = /*@__PURE__*/ S.suspend(() =>
       rules,
     ),
   ),
-).annotate({
-  identifier: "GetAppBundleRequest",
-}) as any as S.Schema<GetAppBundleRequest>;
+).annotate({ identifier: "GetAppBundleRequest" }) as any as S.Schema<GetAppBundleRequest>;
 export interface GetAppBundleResponse {
   appBundle: AppBundle;
 }
 export const GetAppBundleResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ appBundle: AppBundle }),
-).annotate({
-  identifier: "GetAppBundleResponse",
-}) as any as S.Schema<GetAppBundleResponse>;
+).annotate({ identifier: "GetAppBundleResponse" }) as any as S.Schema<GetAppBundleResponse>;
 export interface GetIngestionRequest {
   appBundleIdentifier: string;
   ingestionIdentifier: string;
@@ -824,17 +768,13 @@ export const GetIngestionRequest = /*@__PURE__*/ S.suspend(() =>
       rules,
     ),
   ),
-).annotate({
-  identifier: "GetIngestionRequest",
-}) as any as S.Schema<GetIngestionRequest>;
+).annotate({ identifier: "GetIngestionRequest" }) as any as S.Schema<GetIngestionRequest>;
 export interface GetIngestionResponse {
   ingestion: Ingestion;
 }
 export const GetIngestionResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ ingestion: Ingestion }),
-).annotate({
-  identifier: "GetIngestionResponse",
-}) as any as S.Schema<GetIngestionResponse>;
+).annotate({ identifier: "GetIngestionResponse" }) as any as S.Schema<GetIngestionResponse>;
 export interface GetIngestionDestinationRequest {
   appBundleIdentifier: string;
   ingestionIdentifier: string;
@@ -882,10 +822,7 @@ export const ListAppAuthorizationsRequest = /*@__PURE__*/ S.suspend(() =>
     nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
   }).pipe(
     T.all(
-      T.Http({
-        method: "GET",
-        uri: "/appbundles/{appBundleIdentifier}/appauthorizations",
-      }),
+      T.Http({ method: "GET", uri: "/appbundles/{appBundleIdentifier}/appauthorizations" }),
       svc,
       auth,
       proto,
@@ -919,16 +856,12 @@ export const ListAppBundlesRequest = /*@__PURE__*/ S.suspend(() =>
     maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
     nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
   }).pipe(T.all(T.Http({ method: "GET", uri: "/appbundles" }), svc, auth, proto, ver, rules)),
-).annotate({
-  identifier: "ListAppBundlesRequest",
-}) as any as S.Schema<ListAppBundlesRequest>;
+).annotate({ identifier: "ListAppBundlesRequest" }) as any as S.Schema<ListAppBundlesRequest>;
 export interface AppBundleSummary {
   arn: string;
 }
 export const AppBundleSummary = /*@__PURE__*/ S.suspend(() => S.Struct({ arn: S.String })).annotate(
-  {
-    identifier: "AppBundleSummary",
-  },
+  { identifier: "AppBundleSummary" },
 ) as any as S.Schema<AppBundleSummary>;
 export type AppBundleSummaryList = AppBundleSummary[];
 export const AppBundleSummaryList = /*@__PURE__*/ S.Array(AppBundleSummary);
@@ -937,13 +870,8 @@ export interface ListAppBundlesResponse {
   nextToken?: string;
 }
 export const ListAppBundlesResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    appBundleSummaryList: AppBundleSummaryList,
-    nextToken: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "ListAppBundlesResponse",
-}) as any as S.Schema<ListAppBundlesResponse>;
+  S.Struct({ appBundleSummaryList: AppBundleSummaryList, nextToken: S.optional(S.String) }),
+).annotate({ identifier: "ListAppBundlesResponse" }) as any as S.Schema<ListAppBundlesResponse>;
 export interface ListIngestionDestinationsRequest {
   appBundleIdentifier: string;
   ingestionIdentifier: string;
@@ -987,10 +915,7 @@ export interface ListIngestionDestinationsResponse {
   nextToken?: string;
 }
 export const ListIngestionDestinationsResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ingestionDestinations: IngestionDestinationList,
-    nextToken: S.optional(S.String),
-  }),
+  S.Struct({ ingestionDestinations: IngestionDestinationList, nextToken: S.optional(S.String) }),
 ).annotate({
   identifier: "ListIngestionDestinationsResponse",
 }) as any as S.Schema<ListIngestionDestinationsResponse>;
@@ -1006,10 +931,7 @@ export const ListIngestionsRequest = /*@__PURE__*/ S.suspend(() =>
     nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
   }).pipe(
     T.all(
-      T.Http({
-        method: "GET",
-        uri: "/appbundles/{appBundleIdentifier}/ingestions",
-      }),
+      T.Http({ method: "GET", uri: "/appbundles/{appBundleIdentifier}/ingestions" }),
       svc,
       auth,
       proto,
@@ -1017,9 +939,7 @@ export const ListIngestionsRequest = /*@__PURE__*/ S.suspend(() =>
       rules,
     ),
   ),
-).annotate({
-  identifier: "ListIngestionsRequest",
-}) as any as S.Schema<ListIngestionsRequest>;
+).annotate({ identifier: "ListIngestionsRequest" }) as any as S.Schema<ListIngestionsRequest>;
 export interface IngestionSummary {
   arn: string;
   app: string;
@@ -1027,15 +947,8 @@ export interface IngestionSummary {
   state: IngestionState;
 }
 export const IngestionSummary = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    arn: S.String,
-    app: S.String,
-    tenantId: S.String,
-    state: IngestionState,
-  }),
-).annotate({
-  identifier: "IngestionSummary",
-}) as any as S.Schema<IngestionSummary>;
+  S.Struct({ arn: S.String, app: S.String, tenantId: S.String, state: IngestionState }),
+).annotate({ identifier: "IngestionSummary" }) as any as S.Schema<IngestionSummary>;
 export type IngestionList = IngestionSummary[];
 export const IngestionList = /*@__PURE__*/ S.Array(IngestionSummary);
 export interface ListIngestionsResponse {
@@ -1044,9 +957,7 @@ export interface ListIngestionsResponse {
 }
 export const ListIngestionsResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ ingestions: IngestionList, nextToken: S.optional(S.String) }),
-).annotate({
-  identifier: "ListIngestionsResponse",
-}) as any as S.Schema<ListIngestionsResponse>;
+).annotate({ identifier: "ListIngestionsResponse" }) as any as S.Schema<ListIngestionsResponse>;
 export interface ListTagsForResourceRequest {
   resourceArn: string;
 }
@@ -1086,9 +997,7 @@ export const StartIngestionRequest = /*@__PURE__*/ S.suspend(() =>
       rules,
     ),
   ),
-).annotate({
-  identifier: "StartIngestionRequest",
-}) as any as S.Schema<StartIngestionRequest>;
+).annotate({ identifier: "StartIngestionRequest" }) as any as S.Schema<StartIngestionRequest>;
 export interface StartIngestionResponse {}
 export const StartIngestionResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
   identifier: "StartIngestionResponse",
@@ -1117,9 +1026,7 @@ export const UserAccessTaskItem = /*@__PURE__*/ S.suspend(() =>
     taskId: S.optional(S.String),
     error: S.optional(TaskError),
   }),
-).annotate({
-  identifier: "UserAccessTaskItem",
-}) as any as S.Schema<UserAccessTaskItem>;
+).annotate({ identifier: "UserAccessTaskItem" }) as any as S.Schema<UserAccessTaskItem>;
 export type UserAccessTasksList = UserAccessTaskItem[];
 export const UserAccessTasksList = /*@__PURE__*/ S.Array(UserAccessTaskItem);
 export interface StartUserAccessTasksResponse {
@@ -1151,9 +1058,7 @@ export const StopIngestionRequest = /*@__PURE__*/ S.suspend(() =>
       rules,
     ),
   ),
-).annotate({
-  identifier: "StopIngestionRequest",
-}) as any as S.Schema<StopIngestionRequest>;
+).annotate({ identifier: "StopIngestionRequest" }) as any as S.Schema<StopIngestionRequest>;
 export interface StopIngestionResponse {}
 export const StopIngestionResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
   identifier: "StopIngestionResponse",
@@ -1163,15 +1068,10 @@ export interface TagResourceRequest {
   tags: Tag[];
 }
 export const TagResourceRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    resourceArn: S.String.pipe(T.HttpLabel("resourceArn")),
-    tags: TagList,
-  }).pipe(
+  S.Struct({ resourceArn: S.String.pipe(T.HttpLabel("resourceArn")), tags: TagList }).pipe(
     T.all(T.Http({ method: "POST", uri: "/tags/{resourceArn}" }), svc, auth, proto, ver, rules),
   ),
-).annotate({
-  identifier: "TagResourceRequest",
-}) as any as S.Schema<TagResourceRequest>;
+).annotate({ identifier: "TagResourceRequest" }) as any as S.Schema<TagResourceRequest>;
 export interface TagResourceResponse {}
 export const TagResourceResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
   identifier: "TagResourceResponse",
@@ -1189,9 +1089,7 @@ export const UntagResourceRequest = /*@__PURE__*/ S.suspend(() =>
   }).pipe(
     T.all(T.Http({ method: "DELETE", uri: "/tags/{resourceArn}" }), svc, auth, proto, ver, rules),
   ),
-).annotate({
-  identifier: "UntagResourceRequest",
-}) as any as S.Schema<UntagResourceRequest>;
+).annotate({ identifier: "UntagResourceRequest" }) as any as S.Schema<UntagResourceRequest>;
 export interface UntagResourceResponse {}
 export const UntagResourceResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
   identifier: "UntagResourceResponse",
@@ -1282,9 +1180,7 @@ export interface ValidationExceptionField {
 }
 export const ValidationExceptionField = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ name: S.String, message: S.String }),
-).annotate({
-  identifier: "ValidationExceptionField",
-}) as any as S.Schema<ValidationExceptionField>;
+).annotate({ identifier: "ValidationExceptionField" }) as any as S.Schema<ValidationExceptionField>;
 export type ValidationExceptionFieldList = ValidationExceptionField[];
 export const ValidationExceptionFieldList = /*@__PURE__*/ S.Array(ValidationExceptionField);
 export type BatchGetUserAccessTasksError =

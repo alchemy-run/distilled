@@ -7,10 +7,7 @@ import type { CommonErrors } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
 import { Retry } from "../retry.ts";
 import * as T from "../traits.ts";
-const svc = T.AwsApiService({
-  sdkId: "SupportAuthZ",
-  serviceShapeName: "SupportAuthZ",
-});
+const svc = T.AwsApiService({ sdkId: "SupportAuthZ", serviceShapeName: "SupportAuthZ" });
 const auth = T.AwsAuthSigv4({ name: "supportauthz" });
 const ver = T.ServiceVersion("2026-06-30");
 const proto = T.AwsProtocolsRestJson1();
@@ -57,11 +54,7 @@ export class AccessDeniedException
 export class ConflictException
   extends /*@__PURE__*/ S.TaggedError<ConflictException>()(
     "ConflictException",
-    {
-      message: S.String.pipe(T.ErrorMessage()),
-      resourceId: S.String,
-      resourceType: S.String,
-    },
+    { message: S.String.pipe(T.ErrorMessage()), resourceId: S.String, resourceType: S.String },
     T.HttpError(409),
   ).pipe(C.withConflictError) {}
 export class InternalServerException
@@ -76,11 +69,7 @@ export class InternalServerException
 export class ResourceNotFoundException
   extends /*@__PURE__*/ S.TaggedError<ResourceNotFoundException>()(
     "ResourceNotFoundException",
-    {
-      message: S.String.pipe(T.ErrorMessage()),
-      resourceId: S.String,
-      resourceType: S.String,
-    },
+    { message: S.String.pipe(T.ErrorMessage()), resourceId: S.String, resourceType: S.String },
     T.HttpError(404),
   ).pipe(C.withBadRequestError) {}
 export class ServiceQuotaExceededException
@@ -148,11 +137,7 @@ export interface Permit {
   conditions?: Condition[];
 }
 export const Permit = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    actions: ActionSet,
-    resources: ResourceSet,
-    conditions: S.optional(Conditions),
-  }),
+  S.Struct({ actions: ActionSet, resources: ResourceSet, conditions: S.optional(Conditions) }),
 ).annotate({ identifier: "Permit" }) as any as S.Schema<Permit>;
 export type Name = string;
 export type Description = string;
@@ -184,9 +169,7 @@ export const CreateSupportPermitInput = /*@__PURE__*/ S.suspend(() =>
     clientToken: S.optional(S.String).pipe(T.IdempotencyToken()),
     tags: S.optional(Tags),
   }).pipe(T.all(T.Http({ method: "POST", uri: "/support-permits" }), svc, auth, proto, ver, rules)),
-).annotate({
-  identifier: "CreateSupportPermitInput",
-}) as any as S.Schema<CreateSupportPermitInput>;
+).annotate({ identifier: "CreateSupportPermitInput" }) as any as S.Schema<CreateSupportPermitInput>;
 export type Arn = string;
 export type SupportPermitStatus = "ACTIVE" | "INACTIVE" | "DELETING" | (string & {});
 export const SupportPermitStatus = S.String;
@@ -221,14 +204,9 @@ export interface DeleteSupportPermitInput {
   supportPermitIdentifier: string;
 }
 export const DeleteSupportPermitInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    supportPermitIdentifier: S.String.pipe(T.HttpLabel("supportPermitIdentifier")),
-  }).pipe(
+  S.Struct({ supportPermitIdentifier: S.String.pipe(T.HttpLabel("supportPermitIdentifier")) }).pipe(
     T.all(
-      T.Http({
-        method: "DELETE",
-        uri: "/support-permits/{supportPermitIdentifier}",
-      }),
+      T.Http({ method: "DELETE", uri: "/support-permits/{supportPermitIdentifier}" }),
       svc,
       auth,
       proto,
@@ -236,9 +214,7 @@ export const DeleteSupportPermitInput = /*@__PURE__*/ S.suspend(() =>
       rules,
     ),
   ),
-).annotate({
-  identifier: "DeleteSupportPermitInput",
-}) as any as S.Schema<DeleteSupportPermitInput>;
+).annotate({ identifier: "DeleteSupportPermitInput" }) as any as S.Schema<DeleteSupportPermitInput>;
 export interface DeleteSupportPermitOutput {
   name: string;
   arn: string;
@@ -280,22 +256,15 @@ export interface GetActionOutput {
 }
 export const GetActionOutput = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ action: S.String, service: S.String, description: S.String }),
-).annotate({
-  identifier: "GetActionOutput",
-}) as any as S.Schema<GetActionOutput>;
+).annotate({ identifier: "GetActionOutput" }) as any as S.Schema<GetActionOutput>;
 export type SupportPermitIdentifier = string;
 export interface GetSupportPermitInput {
   supportPermitIdentifier: string;
 }
 export const GetSupportPermitInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    supportPermitIdentifier: S.String.pipe(T.HttpLabel("supportPermitIdentifier")),
-  }).pipe(
+  S.Struct({ supportPermitIdentifier: S.String.pipe(T.HttpLabel("supportPermitIdentifier")) }).pipe(
     T.all(
-      T.Http({
-        method: "GET",
-        uri: "/support-permits/{supportPermitIdentifier}",
-      }),
+      T.Http({ method: "GET", uri: "/support-permits/{supportPermitIdentifier}" }),
       svc,
       auth,
       proto,
@@ -303,9 +272,7 @@ export const GetSupportPermitInput = /*@__PURE__*/ S.suspend(() =>
       rules,
     ),
   ),
-).annotate({
-  identifier: "GetSupportPermitInput",
-}) as any as S.Schema<GetSupportPermitInput>;
+).annotate({ identifier: "GetSupportPermitInput" }) as any as S.Schema<GetSupportPermitInput>;
 export interface GetSupportPermitOutput {
   name: string;
   arn: string;
@@ -329,9 +296,7 @@ export const GetSupportPermitOutput = /*@__PURE__*/ S.suspend(() =>
     supportCaseDisplayId: S.optional(S.String),
     tags: S.optional(Tags),
   }),
-).annotate({
-  identifier: "GetSupportPermitOutput",
-}) as any as S.Schema<GetSupportPermitOutput>;
+).annotate({ identifier: "GetSupportPermitOutput" }) as any as S.Schema<GetSupportPermitOutput>;
 export type NextToken = string;
 export type MaxResults = number;
 export interface ListActionsInput {
@@ -345,9 +310,7 @@ export const ListActionsInput = /*@__PURE__*/ S.suspend(() =>
     maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
     service: S.String.pipe(T.HttpQuery("service")),
   }).pipe(T.all(T.Http({ method: "GET", uri: "/actions" }), svc, auth, proto, ver, rules)),
-).annotate({
-  identifier: "ListActionsInput",
-}) as any as S.Schema<ListActionsInput>;
+).annotate({ identifier: "ListActionsInput" }) as any as S.Schema<ListActionsInput>;
 export interface ActionSummary {
   action: string;
   service: string;
@@ -363,13 +326,8 @@ export interface ListActionsOutput {
   nextToken?: string;
 }
 export const ListActionsOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    actionSummaries: ActionSummaries,
-    nextToken: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "ListActionsOutput",
-}) as any as S.Schema<ListActionsOutput>;
+  S.Struct({ actionSummaries: ActionSummaries, nextToken: S.optional(S.String) }),
+).annotate({ identifier: "ListActionsOutput" }) as any as S.Schema<ListActionsOutput>;
 export interface ListSupportPermitRequestsInput {
   nextToken?: string;
   maxResults?: number;
@@ -412,9 +370,7 @@ export const SupportPermitRequest = /*@__PURE__*/ S.suspend(() =>
     createdAt: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
     updatedAt: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
   }),
-).annotate({
-  identifier: "SupportPermitRequest",
-}) as any as S.Schema<SupportPermitRequest>;
+).annotate({ identifier: "SupportPermitRequest" }) as any as S.Schema<SupportPermitRequest>;
 export type SupportPermitRequests = SupportPermitRequest[];
 export const SupportPermitRequests = /*@__PURE__*/ S.Array(SupportPermitRequest);
 export interface ListSupportPermitRequestsOutput {
@@ -422,10 +378,7 @@ export interface ListSupportPermitRequestsOutput {
   nextToken?: string;
 }
 export const ListSupportPermitRequestsOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    supportPermitRequests: SupportPermitRequests,
-    nextToken: S.optional(S.String),
-  }),
+  S.Struct({ supportPermitRequests: SupportPermitRequests, nextToken: S.optional(S.String) }),
 ).annotate({
   identifier: "ListSupportPermitRequestsOutput",
 }) as any as S.Schema<ListSupportPermitRequestsOutput>;
@@ -444,9 +397,7 @@ export const ListSupportPermitsInput = /*@__PURE__*/ S.suspend(() =>
       T.HttpQuery("supportPermitStatuses"),
     ),
   }).pipe(T.all(T.Http({ method: "GET", uri: "/support-permits" }), svc, auth, proto, ver, rules)),
-).annotate({
-  identifier: "ListSupportPermitsInput",
-}) as any as S.Schema<ListSupportPermitsInput>;
+).annotate({ identifier: "ListSupportPermitsInput" }) as any as S.Schema<ListSupportPermitsInput>;
 export interface SupportPermitSummary {
   name: string;
   arn: string;
@@ -466,9 +417,7 @@ export const SupportPermitSummary = /*@__PURE__*/ S.suspend(() =>
     createdAt: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
     supportCaseDisplayId: S.optional(S.String),
   }),
-).annotate({
-  identifier: "SupportPermitSummary",
-}) as any as S.Schema<SupportPermitSummary>;
+).annotate({ identifier: "SupportPermitSummary" }) as any as S.Schema<SupportPermitSummary>;
 export type SupportPermitSummaries = SupportPermitSummary[];
 export const SupportPermitSummaries = /*@__PURE__*/ S.Array(SupportPermitSummary);
 export interface ListSupportPermitsOutput {
@@ -476,13 +425,8 @@ export interface ListSupportPermitsOutput {
   nextToken?: string;
 }
 export const ListSupportPermitsOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    supportPermits: SupportPermitSummaries,
-    nextToken: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "ListSupportPermitsOutput",
-}) as any as S.Schema<ListSupportPermitsOutput>;
+  S.Struct({ supportPermits: SupportPermitSummaries, nextToken: S.optional(S.String) }),
+).annotate({ identifier: "ListSupportPermitsOutput" }) as any as S.Schema<ListSupportPermitsOutput>;
 export interface ListTagsForResourceInput {
   resourceArn: string;
 }
@@ -490,9 +434,7 @@ export const ListTagsForResourceInput = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ resourceArn: S.String.pipe(T.HttpLabel("resourceArn")) }).pipe(
     T.all(T.Http({ method: "GET", uri: "/tags/{resourceArn}" }), svc, auth, proto, ver, rules),
   ),
-).annotate({
-  identifier: "ListTagsForResourceInput",
-}) as any as S.Schema<ListTagsForResourceInput>;
+).annotate({ identifier: "ListTagsForResourceInput" }) as any as S.Schema<ListTagsForResourceInput>;
 export interface ListTagsForResourceOutput {
   tags?: { [key: string]: string | undefined };
 }
@@ -507,10 +449,7 @@ export interface RejectSupportPermitRequestInput {
 export const RejectSupportPermitRequestInput = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ requestArn: S.String.pipe(T.HttpLabel("requestArn")) }).pipe(
     T.all(
-      T.Http({
-        method: "PUT",
-        uri: "/support-permit-requests/{requestArn}/reject",
-      }),
+      T.Http({ method: "PUT", uri: "/support-permit-requests/{requestArn}/reject" }),
       svc,
       auth,
       proto,
@@ -534,15 +473,10 @@ export interface TagResourceInput {
   tags: { [key: string]: string | undefined };
 }
 export const TagResourceInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    resourceArn: S.String.pipe(T.HttpLabel("resourceArn")),
-    tags: Tags,
-  }).pipe(
+  S.Struct({ resourceArn: S.String.pipe(T.HttpLabel("resourceArn")), tags: Tags }).pipe(
     T.all(T.Http({ method: "POST", uri: "/tags/{resourceArn}" }), svc, auth, proto, ver, rules),
   ),
-).annotate({
-  identifier: "TagResourceInput",
-}) as any as S.Schema<TagResourceInput>;
+).annotate({ identifier: "TagResourceInput" }) as any as S.Schema<TagResourceInput>;
 export interface TagResourceOutput {}
 export const TagResourceOutput = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
   identifier: "TagResourceOutput",
@@ -560,9 +494,7 @@ export const UntagResourceInput = /*@__PURE__*/ S.suspend(() =>
   }).pipe(
     T.all(T.Http({ method: "DELETE", uri: "/tags/{resourceArn}" }), svc, auth, proto, ver, rules),
   ),
-).annotate({
-  identifier: "UntagResourceInput",
-}) as any as S.Schema<UntagResourceInput>;
+).annotate({ identifier: "UntagResourceInput" }) as any as S.Schema<UntagResourceInput>;
 export interface UntagResourceOutput {}
 export const UntagResourceOutput = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
   identifier: "UntagResourceOutput",
@@ -573,9 +505,7 @@ export interface ValidationExceptionField {
 }
 export const ValidationExceptionField = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ path: S.String, message: S.String }),
-).annotate({
-  identifier: "ValidationExceptionField",
-}) as any as S.Schema<ValidationExceptionField>;
+).annotate({ identifier: "ValidationExceptionField" }) as any as S.Schema<ValidationExceptionField>;
 export type ValidationExceptionFieldList = ValidationExceptionField[];
 export const ValidationExceptionFieldList = /*@__PURE__*/ S.Array(ValidationExceptionField);
 export type CreateSupportPermitError =

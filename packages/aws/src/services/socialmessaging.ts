@@ -9,10 +9,7 @@ import { AwsProtocol } from "../protocol.ts";
 import { Retry } from "../retry.ts";
 import { SensitiveString, SensitiveBlob } from "../sensitive.ts";
 import * as T from "../traits.ts";
-const svc = T.AwsApiService({
-  sdkId: "SocialMessaging",
-  serviceShapeName: "SocialMessaging",
-});
+const svc = T.AwsApiService({ sdkId: "SocialMessaging", serviceShapeName: "SocialMessaging" });
 const auth = T.AwsAuthSigv4({ name: "social-messaging" });
 const ver = T.ServiceVersion("2024-01-01");
 const proto = T.AwsProtocolsRestJson1();
@@ -81,6 +78,18 @@ export class AccessDeniedByMetaException
     { message: S.optional(S.String).pipe(T.ErrorMessage()) },
     T.HttpError(403),
   ).pipe(C.withAuthError) {}
+export class AccessDeniedException
+  extends /*@__PURE__*/ S.TaggedError<AccessDeniedException>()(
+    "AccessDeniedException",
+    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
+    T.HttpError(403),
+  ).pipe(C.withAuthError) {}
+export class ConflictException
+  extends /*@__PURE__*/ S.TaggedError<ConflictException>()(
+    "ConflictException",
+    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
+    T.HttpError(409),
+  ).pipe(C.withConflictError) {}
 export class DependencyException
   extends /*@__PURE__*/ S.TaggedError<DependencyException>()(
     "DependencyException",
@@ -123,9 +132,7 @@ export interface WhatsAppSignupCallback {
 }
 export const WhatsAppSignupCallback = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ accessToken: SensitiveString, callbackUrl: S.optional(S.String) }),
-).annotate({
-  identifier: "WhatsAppSignupCallback",
-}) as any as S.Schema<WhatsAppSignupCallback>;
+).annotate({ identifier: "WhatsAppSignupCallback" }) as any as S.Schema<WhatsAppSignupCallback>;
 export type AssociateInProgressToken = string | redacted.Redacted<string>;
 export type WhatsAppPhoneNumber = string;
 export type TwoFactorPin = string | redacted.Redacted<string>;
@@ -187,9 +194,7 @@ export const WabaSetupFinalization = /*@__PURE__*/ S.suspend(() =>
     eventDestinations: S.optional(WhatsAppBusinessAccountEventDestinations),
     tags: S.optional(TagList),
   }),
-).annotate({
-  identifier: "WabaSetupFinalization",
-}) as any as S.Schema<WabaSetupFinalization>;
+).annotate({ identifier: "WabaSetupFinalization" }) as any as S.Schema<WabaSetupFinalization>;
 export interface WhatsAppSetupFinalization {
   associateInProgressToken: string | redacted.Redacted<string>;
   phoneNumbers: WabaPhoneNumberSetupFinalization[];
@@ -351,6 +356,7 @@ export type MetaFlowCategoryList = MetaFlowCategory[];
 export const MetaFlowCategoryList = /*@__PURE__*/ S.Array(MetaFlowCategory);
 export type MetaFlowJsonBlob = Uint8Array;
 export type MetaFlowId = string;
+export type MetaFlowEndpointUri = string;
 export interface CreateWhatsAppFlowInput {
   id: string;
   flowName: string;
@@ -358,6 +364,7 @@ export interface CreateWhatsAppFlowInput {
   flowJson?: Uint8Array;
   publish?: boolean;
   cloneFlowId?: string;
+  endpointUri?: string;
 }
 export const CreateWhatsAppFlowInput = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -367,6 +374,7 @@ export const CreateWhatsAppFlowInput = /*@__PURE__*/ S.suspend(() =>
     flowJson: S.optional(T.Blob),
     publish: S.optional(S.Boolean),
     cloneFlowId: S.optional(S.String),
+    endpointUri: S.optional(S.String),
   }).pipe(
     T.all(
       T.Http({ method: "POST", uri: "/v1/whatsapp/flow/create" }),
@@ -377,9 +385,7 @@ export const CreateWhatsAppFlowInput = /*@__PURE__*/ S.suspend(() =>
       rules,
     ),
   ),
-).annotate({
-  identifier: "CreateWhatsAppFlowInput",
-}) as any as S.Schema<CreateWhatsAppFlowInput>;
+).annotate({ identifier: "CreateWhatsAppFlowInput" }) as any as S.Schema<CreateWhatsAppFlowInput>;
 export type MetaFlowValidationError = string;
 export type ValidationErrorList = string[];
 export const ValidationErrorList = /*@__PURE__*/ S.Array(S.String);
@@ -388,13 +394,8 @@ export interface CreateWhatsAppFlowOutput {
   validationErrors?: string[];
 }
 export const CreateWhatsAppFlowOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    flowId: S.optional(S.String),
-    validationErrors: S.optional(ValidationErrorList),
-  }),
-).annotate({
-  identifier: "CreateWhatsAppFlowOutput",
-}) as any as S.Schema<CreateWhatsAppFlowOutput>;
+  S.Struct({ flowId: S.optional(S.String), validationErrors: S.optional(ValidationErrorList) }),
+).annotate({ identifier: "CreateWhatsAppFlowOutput" }) as any as S.Schema<CreateWhatsAppFlowOutput>;
 export type MetaTemplateDefinition = Uint8Array;
 export interface CreateWhatsAppMessageTemplateInput {
   templateDefinition: Uint8Array;
@@ -503,9 +504,7 @@ export const MetaLibraryTemplate = /*@__PURE__*/ S.suspend(() =>
     libraryTemplateButtonInputs: S.optional(MetaLibraryTemplateButtonInputs),
     libraryTemplateBodyInputs: S.optional(LibraryTemplateBodyInputs),
   }),
-).annotate({
-  identifier: "MetaLibraryTemplate",
-}) as any as S.Schema<MetaLibraryTemplate>;
+).annotate({ identifier: "MetaLibraryTemplate" }) as any as S.Schema<MetaLibraryTemplate>;
 export interface CreateWhatsAppMessageTemplateFromLibraryInput {
   metaLibraryTemplate: MetaLibraryTemplate;
   id: string;
@@ -582,9 +581,7 @@ export const DeleteWhatsAppFlowInput = /*@__PURE__*/ S.suspend(() =>
   }).pipe(
     T.all(T.Http({ method: "DELETE", uri: "/v1/whatsapp/flow" }), svc, auth, proto, ver, rules),
   ),
-).annotate({
-  identifier: "DeleteWhatsAppFlowInput",
-}) as any as S.Schema<DeleteWhatsAppFlowInput>;
+).annotate({ identifier: "DeleteWhatsAppFlowInput" }) as any as S.Schema<DeleteWhatsAppFlowInput>;
 export interface DeleteWhatsAppFlowOutput {}
 export const DeleteWhatsAppFlowOutput = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
   identifier: "DeleteWhatsAppFlowOutput",
@@ -781,18 +778,214 @@ export const GetLinkedWhatsAppBusinessAccountPhoneNumberInput = /*@__PURE__*/ S.
 ).annotate({
   identifier: "GetLinkedWhatsAppBusinessAccountPhoneNumberInput",
 }) as any as S.Schema<GetLinkedWhatsAppBusinessAccountPhoneNumberInput>;
+export type IanaTimezone = string;
+export type WhatsAppDayOfWeek =
+  | "MONDAY"
+  | "TUESDAY"
+  | "WEDNESDAY"
+  | "THURSDAY"
+  | "FRIDAY"
+  | "SATURDAY"
+  | "SUNDAY"
+  | (string & {});
+export const WhatsAppDayOfWeek = S.String;
+
+export interface WhatsAppTimeOfDay {
+  hours: number;
+  minutes: number;
+}
+export const WhatsAppTimeOfDay = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({ hours: S.Number, minutes: S.Number }),
+).annotate({ identifier: "WhatsAppTimeOfDay" }) as any as S.Schema<WhatsAppTimeOfDay>;
+export interface WhatsAppWeeklyOperatingHoursEntry {
+  dayOfWeek: WhatsAppDayOfWeek;
+  openTime: WhatsAppTimeOfDay;
+  closeTime: WhatsAppTimeOfDay;
+}
+export const WhatsAppWeeklyOperatingHoursEntry = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    dayOfWeek: WhatsAppDayOfWeek,
+    openTime: WhatsAppTimeOfDay,
+    closeTime: WhatsAppTimeOfDay,
+  }),
+).annotate({
+  identifier: "WhatsAppWeeklyOperatingHoursEntry",
+}) as any as S.Schema<WhatsAppWeeklyOperatingHoursEntry>;
+export type WhatsAppWeeklyOperatingHoursList = WhatsAppWeeklyOperatingHoursEntry[];
+export const WhatsAppWeeklyOperatingHoursList = /*@__PURE__*/ S.Array(
+  WhatsAppWeeklyOperatingHoursEntry,
+);
+export type WhatsAppDate = string;
+export interface WhatsAppHolidayScheduleEntry {
+  date: string;
+  startTime: WhatsAppTimeOfDay;
+  endTime: WhatsAppTimeOfDay;
+}
+export const WhatsAppHolidayScheduleEntry = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({ date: S.String, startTime: WhatsAppTimeOfDay, endTime: WhatsAppTimeOfDay }),
+).annotate({
+  identifier: "WhatsAppHolidayScheduleEntry",
+}) as any as S.Schema<WhatsAppHolidayScheduleEntry>;
+export type WhatsAppHolidayScheduleList = WhatsAppHolidayScheduleEntry[];
+export const WhatsAppHolidayScheduleList = /*@__PURE__*/ S.Array(WhatsAppHolidayScheduleEntry);
+export interface WhatsAppCallHours {
+  enabled: boolean;
+  timezone: string;
+  weeklyOperatingHours: WhatsAppWeeklyOperatingHoursEntry[];
+  holidaySchedule?: WhatsAppHolidayScheduleEntry[];
+}
+export const WhatsAppCallHours = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    enabled: S.Boolean,
+    timezone: S.String,
+    weeklyOperatingHours: WhatsAppWeeklyOperatingHoursList,
+    holidaySchedule: S.optional(WhatsAppHolidayScheduleList),
+  }),
+).annotate({ identifier: "WhatsAppCallHours" }) as any as S.Schema<WhatsAppCallHours>;
+export type WhatsAppCallIconVisibility = string;
+export type WhatsAppCallbackPermissionStatus = string;
+export interface WhatsAppCallSettings {
+  callEnabled: boolean;
+  callHours?: WhatsAppCallHours;
+  callIconVisibility?: string;
+  callbackPermissionStatus?: string;
+}
+export const WhatsAppCallSettings = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    callEnabled: S.Boolean,
+    callHours: S.optional(WhatsAppCallHours),
+    callIconVisibility: S.optional(S.String),
+    callbackPermissionStatus: S.optional(S.String),
+  }),
+).annotate({ identifier: "WhatsAppCallSettings" }) as any as S.Schema<WhatsAppCallSettings>;
 export interface GetLinkedWhatsAppBusinessAccountPhoneNumberOutput {
   phoneNumber?: WhatsAppPhoneNumberDetail;
   linkedWhatsAppBusinessAccountId?: string;
+  callSettings?: WhatsAppCallSettings;
 }
 export const GetLinkedWhatsAppBusinessAccountPhoneNumberOutput = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     phoneNumber: S.optional(WhatsAppPhoneNumberDetail),
     linkedWhatsAppBusinessAccountId: S.optional(S.String),
+    callSettings: S.optional(WhatsAppCallSettings),
   }),
 ).annotate({
   identifier: "GetLinkedWhatsAppBusinessAccountPhoneNumberOutput",
 }) as any as S.Schema<GetLinkedWhatsAppBusinessAccountPhoneNumberOutput>;
+export interface GetWhatsAppBusinessPublicKeyInput {
+  originationPhoneNumberId: string;
+}
+export const GetWhatsAppBusinessPublicKeyInput = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    originationPhoneNumberId: S.String.pipe(T.HttpQuery("originationPhoneNumberId")),
+  }).pipe(
+    T.all(
+      T.Http({ method: "GET", uri: "/v1/whatsapp/business-public-key" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({
+  identifier: "GetWhatsAppBusinessPublicKeyInput",
+}) as any as S.Schema<GetWhatsAppBusinessPublicKeyInput>;
+export type BusinessPublicKeyPem = string;
+export type BusinessPublicKeySignatureStatus = string;
+export interface GetWhatsAppBusinessPublicKeyOutput {
+  businessPublicKey?: string;
+  businessPublicKeySignatureStatus?: string;
+}
+export const GetWhatsAppBusinessPublicKeyOutput = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    businessPublicKey: S.optional(S.String),
+    businessPublicKeySignatureStatus: S.optional(S.String),
+  }),
+).annotate({
+  identifier: "GetWhatsAppBusinessPublicKeyOutput",
+}) as any as S.Schema<GetWhatsAppBusinessPublicKeyOutput>;
+export type WhatsAppDestinationPhoneNumber = string | redacted.Redacted<string>;
+export type WhatsAppBusinessScopedUserId = string | redacted.Redacted<string>;
+export interface GetWhatsAppCallPermissionInput {
+  originationPhoneNumberId: string;
+  destinationPhoneNumber?: string | redacted.Redacted<string>;
+  endUserBsuid?: string | redacted.Redacted<string>;
+}
+export const GetWhatsAppCallPermissionInput = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    originationPhoneNumberId: S.String,
+    destinationPhoneNumber: S.optional(SensitiveString),
+    endUserBsuid: S.optional(SensitiveString),
+  }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/v1/whatsapp/call/permission/get" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({
+  identifier: "GetWhatsAppCallPermissionInput",
+}) as any as S.Schema<GetWhatsAppCallPermissionInput>;
+export type WhatsAppCallPermissionStatus = string;
+export interface WhatsAppCallPermission {
+  status: string;
+  expirationTime?: Date;
+}
+export const WhatsAppCallPermission = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    status: S.String,
+    expirationTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+  }),
+).annotate({ identifier: "WhatsAppCallPermission" }) as any as S.Schema<WhatsAppCallPermission>;
+export type WhatsAppCallPermissionActionName = string;
+export type Iso8601Duration = string;
+export interface WhatsAppCallPermissionLimit {
+  timePeriod: string;
+  maxAllowed: number;
+  currentUsage: number;
+  limitExpirationTime?: Date;
+}
+export const WhatsAppCallPermissionLimit = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    timePeriod: S.String,
+    maxAllowed: S.Number,
+    currentUsage: S.Number,
+    limitExpirationTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+  }),
+).annotate({
+  identifier: "WhatsAppCallPermissionLimit",
+}) as any as S.Schema<WhatsAppCallPermissionLimit>;
+export type WhatsAppCallPermissionLimitList = WhatsAppCallPermissionLimit[];
+export const WhatsAppCallPermissionLimitList = /*@__PURE__*/ S.Array(WhatsAppCallPermissionLimit);
+export interface WhatsAppCallPermissionAction {
+  actionName: string;
+  canPerformAction: boolean;
+  limits: WhatsAppCallPermissionLimit[];
+}
+export const WhatsAppCallPermissionAction = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    actionName: S.String,
+    canPerformAction: S.Boolean,
+    limits: WhatsAppCallPermissionLimitList,
+  }),
+).annotate({
+  identifier: "WhatsAppCallPermissionAction",
+}) as any as S.Schema<WhatsAppCallPermissionAction>;
+export type WhatsAppCallPermissionActionList = WhatsAppCallPermissionAction[];
+export const WhatsAppCallPermissionActionList = /*@__PURE__*/ S.Array(WhatsAppCallPermissionAction);
+export interface GetWhatsAppCallPermissionOutput {
+  permission: WhatsAppCallPermission;
+  actions: WhatsAppCallPermissionAction[];
+}
+export const GetWhatsAppCallPermissionOutput = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({ permission: WhatsAppCallPermission, actions: WhatsAppCallPermissionActionList }),
+).annotate({
+  identifier: "GetWhatsAppCallPermissionOutput",
+}) as any as S.Schema<GetWhatsAppCallPermissionOutput>;
 export interface GetWhatsAppFlowInput {
   id: string;
   flowId: string;
@@ -802,13 +995,10 @@ export const GetWhatsAppFlowInput = /*@__PURE__*/ S.suspend(() =>
     id: S.String.pipe(T.HttpQuery("id")),
     flowId: S.String.pipe(T.HttpQuery("flowId")),
   }).pipe(T.all(T.Http({ method: "GET", uri: "/v1/whatsapp/flow" }), svc, auth, proto, ver, rules)),
-).annotate({
-  identifier: "GetWhatsAppFlowInput",
-}) as any as S.Schema<GetWhatsAppFlowInput>;
+).annotate({ identifier: "GetWhatsAppFlowInput" }) as any as S.Schema<GetWhatsAppFlowInput>;
 export type MetaFlowStatus = string;
 export type MetaFlowJsonVersion = string;
 export type MetaFlowDataApiVersion = string;
-export type MetaFlowEndpointUri = string;
 export type MetaFlowPreviewUrl = string;
 export type MetaFlowTimestamp = string;
 export interface MetaFlowPreviewInfo {
@@ -817,9 +1007,7 @@ export interface MetaFlowPreviewInfo {
 }
 export const MetaFlowPreviewInfo = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ previewUrl: S.String, expiresAt: S.String }),
-).annotate({
-  identifier: "MetaFlowPreviewInfo",
-}) as any as S.Schema<MetaFlowPreviewInfo>;
+).annotate({ identifier: "MetaFlowPreviewInfo" }) as any as S.Schema<MetaFlowPreviewInfo>;
 export type MetaFlowWabaCurrency = string;
 export type MetaFlowWabaTimezoneId = string;
 export type MetaFlowWabaTemplateNamespace = string;
@@ -851,9 +1039,7 @@ export interface MetaFlowApplicationInfo {
 }
 export const MetaFlowApplicationInfo = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ link: S.optional(S.String), name: S.String, id: S.String }),
-).annotate({
-  identifier: "MetaFlowApplicationInfo",
-}) as any as S.Schema<MetaFlowApplicationInfo>;
+).annotate({ identifier: "MetaFlowApplicationInfo" }) as any as S.Schema<MetaFlowApplicationInfo>;
 export type MetaFlowHealthStatusAvailability = string;
 export type MetaFlowHealthEntityType = string;
 export interface MetaFlowHealthEntity {
@@ -863,9 +1049,7 @@ export interface MetaFlowHealthEntity {
 }
 export const MetaFlowHealthEntity = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ entityType: S.String, id: S.String, canSendMessage: S.String }),
-).annotate({
-  identifier: "MetaFlowHealthEntity",
-}) as any as S.Schema<MetaFlowHealthEntity>;
+).annotate({ identifier: "MetaFlowHealthEntity" }) as any as S.Schema<MetaFlowHealthEntity>;
 export type MetaFlowHealthEntityList = MetaFlowHealthEntity[];
 export const MetaFlowHealthEntityList = /*@__PURE__*/ S.Array(MetaFlowHealthEntity);
 export interface MetaFlowHealthStatus {
@@ -873,13 +1057,8 @@ export interface MetaFlowHealthStatus {
   entities?: MetaFlowHealthEntity[];
 }
 export const MetaFlowHealthStatus = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    canSendMessage: S.String,
-    entities: S.optional(MetaFlowHealthEntityList),
-  }),
-).annotate({
-  identifier: "MetaFlowHealthStatus",
-}) as any as S.Schema<MetaFlowHealthStatus>;
+  S.Struct({ canSendMessage: S.String, entities: S.optional(MetaFlowHealthEntityList) }),
+).annotate({ identifier: "MetaFlowHealthStatus" }) as any as S.Schema<MetaFlowHealthStatus>;
 export interface GetWhatsAppFlowOutput {
   flowId: string;
   flowName: string;
@@ -909,9 +1088,7 @@ export const GetWhatsAppFlowOutput = /*@__PURE__*/ S.suspend(() =>
     application: S.optional(MetaFlowApplicationInfo),
     healthStatus: S.optional(MetaFlowHealthStatus),
   }),
-).annotate({
-  identifier: "GetWhatsAppFlowOutput",
-}) as any as S.Schema<GetWhatsAppFlowOutput>;
+).annotate({ identifier: "GetWhatsAppFlowOutput" }) as any as S.Schema<GetWhatsAppFlowOutput>;
 export interface GetWhatsAppFlowPreviewInput {
   id: string;
   flowId: string;
@@ -1075,9 +1252,7 @@ export const ListTagsForResourceInput = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ resourceArn: S.String.pipe(T.HttpQuery("resourceArn")) }).pipe(
     T.all(T.Http({ method: "GET", uri: "/v1/tags/list" }), svc, auth, proto, ver, rules),
   ),
-).annotate({
-  identifier: "ListTagsForResourceInput",
-}) as any as S.Schema<ListTagsForResourceInput>;
+).annotate({ identifier: "ListTagsForResourceInput" }) as any as S.Schema<ListTagsForResourceInput>;
 export interface ListTagsForResourceOutput {
   statusCode?: number;
   tags?: Tag[];
@@ -1140,9 +1315,7 @@ export const ListWhatsAppFlowsInput = /*@__PURE__*/ S.suspend(() =>
   }).pipe(
     T.all(T.Http({ method: "GET", uri: "/v1/whatsapp/flow/list" }), svc, auth, proto, ver, rules),
   ),
-).annotate({
-  identifier: "ListWhatsAppFlowsInput",
-}) as any as S.Schema<ListWhatsAppFlowsInput>;
+).annotate({ identifier: "ListWhatsAppFlowsInput" }) as any as S.Schema<ListWhatsAppFlowsInput>;
 export interface MetaFlowSummary {
   flowId: string;
   flowName: string;
@@ -1158,9 +1331,7 @@ export const MetaFlowSummary = /*@__PURE__*/ S.suspend(() =>
     flowCategories: MetaFlowCategoryList,
     validationErrors: ValidationErrorList,
   }),
-).annotate({
-  identifier: "MetaFlowSummary",
-}) as any as S.Schema<MetaFlowSummary>;
+).annotate({ identifier: "MetaFlowSummary" }) as any as S.Schema<MetaFlowSummary>;
 export type MetaFlowSummaryList = MetaFlowSummary[];
 export const MetaFlowSummaryList = /*@__PURE__*/ S.Array(MetaFlowSummary);
 export interface ListWhatsAppFlowsOutput {
@@ -1169,9 +1340,7 @@ export interface ListWhatsAppFlowsOutput {
 }
 export const ListWhatsAppFlowsOutput = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ flows: MetaFlowSummaryList, nextToken: S.optional(S.String) }),
-).annotate({
-  identifier: "ListWhatsAppFlowsOutput",
-}) as any as S.Schema<ListWhatsAppFlowsOutput>;
+).annotate({ identifier: "ListWhatsAppFlowsOutput" }) as any as S.Schema<ListWhatsAppFlowsOutput>;
 export interface ListWhatsAppMessageTemplatesInput {
   id: string;
   nextToken?: string;
@@ -1214,9 +1383,7 @@ export const TemplateSummary = /*@__PURE__*/ S.suspend(() =>
     templateLanguage: S.optional(S.String),
     templateCategory: S.optional(S.String),
   }),
-).annotate({
-  identifier: "TemplateSummary",
-}) as any as S.Schema<TemplateSummary>;
+).annotate({ identifier: "TemplateSummary" }) as any as S.Schema<TemplateSummary>;
 export type TemplateSummaryList = TemplateSummary[];
 export const TemplateSummaryList = /*@__PURE__*/ S.Array(TemplateSummary);
 export interface ListWhatsAppMessageTemplatesOutput {
@@ -1224,10 +1391,7 @@ export interface ListWhatsAppMessageTemplatesOutput {
   nextToken?: string;
 }
 export const ListWhatsAppMessageTemplatesOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    templates: S.optional(TemplateSummaryList),
-    nextToken: S.optional(S.String),
-  }),
+  S.Struct({ templates: S.optional(TemplateSummaryList), nextToken: S.optional(S.String) }),
 ).annotate({
   identifier: "ListWhatsAppMessageTemplatesOutput",
 }) as any as S.Schema<ListWhatsAppMessageTemplatesOutput>;
@@ -1376,9 +1540,7 @@ export const PublishWhatsAppFlowInput = /*@__PURE__*/ S.suspend(() =>
       rules,
     ),
   ),
-).annotate({
-  identifier: "PublishWhatsAppFlowInput",
-}) as any as S.Schema<PublishWhatsAppFlowInput>;
+).annotate({ identifier: "PublishWhatsAppFlowInput" }) as any as S.Schema<PublishWhatsAppFlowInput>;
 export interface PublishWhatsAppFlowOutput {}
 export const PublishWhatsAppFlowOutput = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
   identifier: "PublishWhatsAppFlowOutput",
@@ -1388,10 +1550,7 @@ export interface PutWhatsAppBusinessAccountEventDestinationsInput {
   eventDestinations: WhatsAppBusinessAccountEventDestination[];
 }
 export const PutWhatsAppBusinessAccountEventDestinationsInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    id: S.String,
-    eventDestinations: WhatsAppBusinessAccountEventDestinations,
-  }).pipe(
+  S.Struct({ id: S.String, eventDestinations: WhatsAppBusinessAccountEventDestinations }).pipe(
     T.all(
       T.Http({ method: "PUT", uri: "/v1/whatsapp/waba/eventdestinations" }),
       svc,
@@ -1410,6 +1569,61 @@ export const PutWhatsAppBusinessAccountEventDestinationsOutput = /*@__PURE__*/ S
 ).annotate({
   identifier: "PutWhatsAppBusinessAccountEventDestinationsOutput",
 }) as any as S.Schema<PutWhatsAppBusinessAccountEventDestinationsOutput>;
+export type KmsKeyArn = string;
+export interface PutWhatsAppBusinessPublicKeyInput {
+  originationPhoneNumberId: string;
+  businessPublicKey?: string;
+  kmsKeyArn?: string;
+}
+export const PutWhatsAppBusinessPublicKeyInput = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    originationPhoneNumberId: S.String,
+    businessPublicKey: S.optional(S.String),
+    kmsKeyArn: S.optional(S.String),
+  }).pipe(
+    T.all(
+      T.Http({ method: "PUT", uri: "/v1/whatsapp/business-public-key" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({
+  identifier: "PutWhatsAppBusinessPublicKeyInput",
+}) as any as S.Schema<PutWhatsAppBusinessPublicKeyInput>;
+export interface PutWhatsAppBusinessPublicKeyOutput {}
+export const PutWhatsAppBusinessPublicKeyOutput = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({}),
+).annotate({
+  identifier: "PutWhatsAppBusinessPublicKeyOutput",
+}) as any as S.Schema<PutWhatsAppBusinessPublicKeyOutput>;
+export type WhatsAppCallEventBlob = Uint8Array | redacted.Redacted<Uint8Array>;
+export interface SendWhatsAppCallEventInput {
+  originationPhoneNumberId: string;
+  metaApiVersion: string;
+  callEvent: Uint8Array | redacted.Redacted<Uint8Array>;
+}
+export const SendWhatsAppCallEventInput = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    originationPhoneNumberId: S.String,
+    metaApiVersion: S.String,
+    callEvent: SensitiveBlob,
+  }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/v1/whatsapp/call/event" }), svc, auth, proto, ver, rules),
+  ),
+).annotate({
+  identifier: "SendWhatsAppCallEventInput",
+}) as any as S.Schema<SendWhatsAppCallEventInput>;
+export interface SendWhatsAppCallEventOutput {
+  callId: string;
+}
+export const SendWhatsAppCallEventOutput = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({ callId: S.String }),
+).annotate({
+  identifier: "SendWhatsAppCallEventOutput",
+}) as any as S.Schema<SendWhatsAppCallEventOutput>;
 export type WhatsAppConversionEventBlob = Uint8Array | redacted.Redacted<Uint8Array>;
 export interface SendWhatsAppConversionEventInput {
   id: string;
@@ -1417,11 +1631,7 @@ export interface SendWhatsAppConversionEventInput {
   eventData: Uint8Array | redacted.Redacted<Uint8Array>;
 }
 export const SendWhatsAppConversionEventInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    id: S.String,
-    datasetId: S.String,
-    eventData: SensitiveBlob,
-  }).pipe(
+  S.Struct({ id: S.String, datasetId: S.String, eventData: SensitiveBlob }).pipe(
     T.all(
       T.Http({ method: "POST", uri: "/v1/whatsapp/waba/dataset/events" }),
       svc,
@@ -1456,9 +1666,7 @@ export const SendWhatsAppMessageInput = /*@__PURE__*/ S.suspend(() =>
   }).pipe(
     T.all(T.Http({ method: "POST", uri: "/v1/whatsapp/send" }), svc, auth, proto, ver, rules),
   ),
-).annotate({
-  identifier: "SendWhatsAppMessageInput",
-}) as any as S.Schema<SendWhatsAppMessageInput>;
+).annotate({ identifier: "SendWhatsAppMessageInput" }) as any as S.Schema<SendWhatsAppMessageInput>;
 export interface SendWhatsAppMessageOutput {
   messageId?: string;
 }
@@ -1475,17 +1683,13 @@ export const TagResourceInput = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ resourceArn: S.String, tags: TagList }).pipe(
     T.all(T.Http({ method: "POST", uri: "/v1/tags/tag-resource" }), svc, auth, proto, ver, rules),
   ),
-).annotate({
-  identifier: "TagResourceInput",
-}) as any as S.Schema<TagResourceInput>;
+).annotate({ identifier: "TagResourceInput" }) as any as S.Schema<TagResourceInput>;
 export interface TagResourceOutput {
   statusCode?: number;
 }
 export const TagResourceOutput = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ statusCode: S.optional(S.Number) }),
-).annotate({
-  identifier: "TagResourceOutput",
-}) as any as S.Schema<TagResourceOutput>;
+).annotate({ identifier: "TagResourceOutput" }) as any as S.Schema<TagResourceOutput>;
 export type StringList = string[];
 export const StringList = /*@__PURE__*/ S.Array(S.String);
 export interface UntagResourceInput {
@@ -1496,22 +1700,39 @@ export const UntagResourceInput = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ resourceArn: S.String, tagKeys: StringList }).pipe(
     T.all(T.Http({ method: "POST", uri: "/v1/tags/untag-resource" }), svc, auth, proto, ver, rules),
   ),
-).annotate({
-  identifier: "UntagResourceInput",
-}) as any as S.Schema<UntagResourceInput>;
+).annotate({ identifier: "UntagResourceInput" }) as any as S.Schema<UntagResourceInput>;
 export interface UntagResourceOutput {
   statusCode?: number;
 }
 export const UntagResourceOutput = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ statusCode: S.optional(S.Number) }),
+).annotate({ identifier: "UntagResourceOutput" }) as any as S.Schema<UntagResourceOutput>;
+export interface UpdateLinkedWhatsAppBusinessAccountPhoneNumberInput {
+  id: string;
+  callSettings: WhatsAppCallSettings;
+}
+export const UpdateLinkedWhatsAppBusinessAccountPhoneNumberInput = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({ id: S.String.pipe(T.HttpQuery("id")), callSettings: WhatsAppCallSettings }).pipe(
+    T.all(T.Http({ method: "PUT", uri: "/v1/whatsapp/waba/phone" }), svc, auth, proto, ver, rules),
+  ),
 ).annotate({
-  identifier: "UntagResourceOutput",
-}) as any as S.Schema<UntagResourceOutput>;
+  identifier: "UpdateLinkedWhatsAppBusinessAccountPhoneNumberInput",
+}) as any as S.Schema<UpdateLinkedWhatsAppBusinessAccountPhoneNumberInput>;
+export interface UpdateLinkedWhatsAppBusinessAccountPhoneNumberOutput {
+  phoneNumberId: string;
+}
+export const UpdateLinkedWhatsAppBusinessAccountPhoneNumberOutput = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({ phoneNumberId: S.String }),
+).annotate({
+  identifier: "UpdateLinkedWhatsAppBusinessAccountPhoneNumberOutput",
+}) as any as S.Schema<UpdateLinkedWhatsAppBusinessAccountPhoneNumberOutput>;
 export interface UpdateWhatsAppFlowInput {
   id: string;
   flowId: string;
   flowName?: string;
   categories?: MetaFlowCategory[];
+  endpointUri?: string;
+  metaAppId?: string;
 }
 export const UpdateWhatsAppFlowInput = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -1519,6 +1740,8 @@ export const UpdateWhatsAppFlowInput = /*@__PURE__*/ S.suspend(() =>
     flowId: S.String,
     flowName: S.optional(S.String),
     categories: S.optional(MetaFlowCategoryList),
+    endpointUri: S.optional(S.String),
+    metaAppId: S.optional(S.String),
   }).pipe(
     T.all(
       T.Http({ method: "POST", uri: "/v1/whatsapp/flow/update" }),
@@ -1529,9 +1752,7 @@ export const UpdateWhatsAppFlowInput = /*@__PURE__*/ S.suspend(() =>
       rules,
     ),
   ),
-).annotate({
-  identifier: "UpdateWhatsAppFlowInput",
-}) as any as S.Schema<UpdateWhatsAppFlowInput>;
+).annotate({ identifier: "UpdateWhatsAppFlowInput" }) as any as S.Schema<UpdateWhatsAppFlowInput>;
 export interface UpdateWhatsAppFlowOutput {}
 export const UpdateWhatsAppFlowOutput = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
   identifier: "UpdateWhatsAppFlowOutput",
@@ -2007,6 +2228,72 @@ export const getLinkedWhatsAppBusinessAccountPhoneNumber: API.OperationMethod<
   operationName: "GetLinkedWhatsAppBusinessAccountPhoneNumber",
 }));
 
+export type GetWhatsAppBusinessPublicKeyError =
+  | AccessDeniedByMetaException
+  | AccessDeniedException
+  | DependencyException
+  | InternalServiceException
+  | InvalidParametersException
+  | ResourceNotFoundException
+  | ThrottledRequestException
+  | CommonErrors;
+/**
+ * Retrieves the business public key for a phone number and its signature status.
+ */
+export const getWhatsAppBusinessPublicKey: API.OperationMethod<
+  GetWhatsAppBusinessPublicKeyInput,
+  GetWhatsAppBusinessPublicKeyOutput,
+  GetWhatsAppBusinessPublicKeyError,
+  Credentials | HttpClient.HttpClient
+> = /*@__PURE__*/ API.make(() => ({
+  input: GetWhatsAppBusinessPublicKeyInput,
+  output: GetWhatsAppBusinessPublicKeyOutput,
+  errors: [
+    AccessDeniedByMetaException,
+    AccessDeniedException,
+    DependencyException,
+    InternalServiceException,
+    InvalidParametersException,
+    ResourceNotFoundException,
+    ThrottledRequestException,
+  ],
+  protocol: AwsProtocol,
+  retry: Retry,
+  operationName: "GetWhatsAppBusinessPublicKey",
+}));
+
+export type GetWhatsAppCallPermissionError =
+  | AccessDeniedByMetaException
+  | DependencyException
+  | InternalServiceException
+  | InvalidParametersException
+  | ResourceNotFoundException
+  | ThrottledRequestException
+  | CommonErrors;
+/**
+ * Retrieves the current calling permission for a WhatsApp end user, along with the calling actions the business is allowed to take with that user. Provide the destination phone number or the business-scoped user ID to identify the end user.
+ */
+export const getWhatsAppCallPermission: API.OperationMethod<
+  GetWhatsAppCallPermissionInput,
+  GetWhatsAppCallPermissionOutput,
+  GetWhatsAppCallPermissionError,
+  Credentials | HttpClient.HttpClient
+> = /*@__PURE__*/ API.make(() => ({
+  input: GetWhatsAppCallPermissionInput,
+  output: GetWhatsAppCallPermissionOutput,
+  errors: [
+    AccessDeniedByMetaException,
+    DependencyException,
+    InternalServiceException,
+    InvalidParametersException,
+    ResourceNotFoundException,
+    ThrottledRequestException,
+  ],
+  protocol: AwsProtocol,
+  retry: Retry,
+  operationName: "GetWhatsAppCallPermission",
+}));
+
 export type GetWhatsAppFlowError =
   | AccessDeniedByMetaException
   | DependencyException
@@ -2442,6 +2729,74 @@ export const putWhatsAppBusinessAccountEventDestinations: API.OperationMethod<
   operationName: "PutWhatsAppBusinessAccountEventDestinations",
 }));
 
+export type PutWhatsAppBusinessPublicKeyError =
+  | AccessDeniedByMetaException
+  | AccessDeniedException
+  | DependencyException
+  | InternalServiceException
+  | InvalidParametersException
+  | ResourceNotFoundException
+  | ThrottledRequestException
+  | CommonErrors;
+/**
+ * Sets the business public key used to encrypt the data exchanged with the endpoint of a data exchange Flow.
+ */
+export const putWhatsAppBusinessPublicKey: API.OperationMethod<
+  PutWhatsAppBusinessPublicKeyInput,
+  PutWhatsAppBusinessPublicKeyOutput,
+  PutWhatsAppBusinessPublicKeyError,
+  Credentials | HttpClient.HttpClient
+> = /*@__PURE__*/ API.make(() => ({
+  input: PutWhatsAppBusinessPublicKeyInput,
+  output: PutWhatsAppBusinessPublicKeyOutput,
+  errors: [
+    AccessDeniedByMetaException,
+    AccessDeniedException,
+    DependencyException,
+    InternalServiceException,
+    InvalidParametersException,
+    ResourceNotFoundException,
+    ThrottledRequestException,
+  ],
+  protocol: AwsProtocol,
+  retry: Retry,
+  operationName: "PutWhatsAppBusinessPublicKey",
+}));
+
+export type SendWhatsAppCallEventError =
+  | AccessDeniedByMetaException
+  | ConflictException
+  | DependencyException
+  | InternalServiceException
+  | InvalidParametersException
+  | ResourceNotFoundException
+  | ThrottledRequestException
+  | CommonErrors;
+/**
+ * Sends a WhatsApp calling event, such as connecting or terminating a call, for a business phone number. This operation passes the event through to Meta. To use this operation, the origination phone number must belong to a WhatsApp Business Account that is linked to your Amazon Web Services account.
+ */
+export const sendWhatsAppCallEvent: API.OperationMethod<
+  SendWhatsAppCallEventInput,
+  SendWhatsAppCallEventOutput,
+  SendWhatsAppCallEventError,
+  Credentials | HttpClient.HttpClient
+> = /*@__PURE__*/ API.make(() => ({
+  input: SendWhatsAppCallEventInput,
+  output: SendWhatsAppCallEventOutput,
+  errors: [
+    AccessDeniedByMetaException,
+    ConflictException,
+    DependencyException,
+    InternalServiceException,
+    InvalidParametersException,
+    ResourceNotFoundException,
+    ThrottledRequestException,
+  ],
+  protocol: AwsProtocol,
+  retry: Retry,
+  operationName: "SendWhatsAppCallEvent",
+}));
+
 export type SendWhatsAppConversionEventError =
   | AccessDeniedByMetaException
   | DependencyException
@@ -2553,6 +2908,38 @@ export const untagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UntagResource",
+}));
+
+export type UpdateLinkedWhatsAppBusinessAccountPhoneNumberError =
+  | AccessDeniedByMetaException
+  | DependencyException
+  | InternalServiceException
+  | InvalidParametersException
+  | ResourceNotFoundException
+  | ThrottledRequestException
+  | CommonErrors;
+/**
+ * Updates the calling settings for a linked WhatsApp business phone number, such as whether calling is enabled and the hours during which the business accepts calls.
+ */
+export const updateLinkedWhatsAppBusinessAccountPhoneNumber: API.OperationMethod<
+  UpdateLinkedWhatsAppBusinessAccountPhoneNumberInput,
+  UpdateLinkedWhatsAppBusinessAccountPhoneNumberOutput,
+  UpdateLinkedWhatsAppBusinessAccountPhoneNumberError,
+  Credentials | HttpClient.HttpClient
+> = /*@__PURE__*/ API.make(() => ({
+  input: UpdateLinkedWhatsAppBusinessAccountPhoneNumberInput,
+  output: UpdateLinkedWhatsAppBusinessAccountPhoneNumberOutput,
+  errors: [
+    AccessDeniedByMetaException,
+    DependencyException,
+    InternalServiceException,
+    InvalidParametersException,
+    ResourceNotFoundException,
+    ThrottledRequestException,
+  ],
+  protocol: AwsProtocol,
+  retry: Retry,
+  operationName: "UpdateLinkedWhatsAppBusinessAccountPhoneNumber",
 }));
 
 export type UpdateWhatsAppFlowError =

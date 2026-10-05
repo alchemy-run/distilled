@@ -9,10 +9,7 @@ import { AwsProtocol } from "../protocol.ts";
 import { Retry } from "../retry.ts";
 import { SensitiveString } from "../sensitive.ts";
 import * as T from "../traits.ts";
-const svc = T.AwsApiService({
-  sdkId: "DataSync",
-  serviceShapeName: "FmrsService",
-});
+const svc = T.AwsApiService({ sdkId: "DataSync", serviceShapeName: "FmrsService" });
 const auth = T.AwsAuthSigv4({ name: "datasync" });
 const ver = T.ServiceVersion("2018-11-09");
 const proto = T.AwsProtocolsAwsJson1_1();
@@ -187,18 +184,14 @@ export const CreateAgentRequest = /*@__PURE__*/ S.suspend(() =>
     SubnetArns: S.optional(PLSubnetArnList),
     SecurityGroupArns: S.optional(PLSecurityGroupArnList),
   }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
-).annotate({
-  identifier: "CreateAgentRequest",
-}) as any as S.Schema<CreateAgentRequest>;
+).annotate({ identifier: "CreateAgentRequest" }) as any as S.Schema<CreateAgentRequest>;
 export type AgentArn = string;
 export interface CreateAgentResponse {
   AgentArn?: string;
 }
 export const CreateAgentResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ AgentArn: S.optional(S.String) }),
-).annotate({
-  identifier: "CreateAgentResponse",
-}) as any as S.Schema<CreateAgentResponse>;
+).annotate({ identifier: "CreateAgentResponse" }) as any as S.Schema<CreateAgentResponse>;
 export type AzureBlobContainerUrl = string;
 export type AzureBlobAuthenticationType = "SAS" | "NONE" | (string & {});
 export const AzureBlobAuthenticationType = S.String;
@@ -228,26 +221,16 @@ export interface CmkSecretConfig {
   KmsKeyArn?: string;
 }
 export const CmkSecretConfig = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    SecretArn: S.optional(S.String),
-    KmsKeyArn: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "CmkSecretConfig",
-}) as any as S.Schema<CmkSecretConfig>;
+  S.Struct({ SecretArn: S.optional(S.String), KmsKeyArn: S.optional(S.String) }),
+).annotate({ identifier: "CmkSecretConfig" }) as any as S.Schema<CmkSecretConfig>;
 export type IamRoleArnOrEmptyString = string;
 export interface CustomSecretConfig {
   SecretArn?: string;
   SecretAccessRoleArn?: string;
 }
 export const CustomSecretConfig = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    SecretArn: S.optional(S.String),
-    SecretAccessRoleArn: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "CustomSecretConfig",
-}) as any as S.Schema<CustomSecretConfig>;
+  S.Struct({ SecretArn: S.optional(S.String), SecretAccessRoleArn: S.optional(S.String) }),
+).annotate({ identifier: "CustomSecretConfig" }) as any as S.Schema<CustomSecretConfig>;
 export interface CreateLocationAzureBlobRequest {
   ContainerUrl: string;
   AuthenticationType: AzureBlobAuthenticationType;
@@ -320,9 +303,7 @@ export const CreateLocationEfsRequest = /*@__PURE__*/ S.suspend(() =>
     FileSystemAccessRoleArn: S.optional(S.String),
     InTransitEncryption: S.optional(EfsInTransitEncryption),
   }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
-).annotate({
-  identifier: "CreateLocationEfsRequest",
-}) as any as S.Schema<CreateLocationEfsRequest>;
+).annotate({ identifier: "CreateLocationEfsRequest" }) as any as S.Schema<CreateLocationEfsRequest>;
 export interface CreateLocationEfsResponse {
   LocationArn?: string;
 }
@@ -365,9 +346,7 @@ export interface NfsMountOptions {
 }
 export const NfsMountOptions = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ Version: S.optional(NfsVersion) }),
-).annotate({
-  identifier: "NfsMountOptions",
-}) as any as S.Schema<NfsMountOptions>;
+).annotate({ identifier: "NfsMountOptions" }) as any as S.Schema<NfsMountOptions>;
 export interface FsxProtocolNfs {
   MountOptions?: NfsMountOptions;
 }
@@ -383,9 +362,7 @@ export interface SmbMountOptions {
 }
 export const SmbMountOptions = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ Version: S.optional(SmbVersion) }),
-).annotate({
-  identifier: "SmbMountOptions",
-}) as any as S.Schema<SmbMountOptions>;
+).annotate({ identifier: "SmbMountOptions" }) as any as S.Schema<SmbMountOptions>;
 export type SmbPassword = string | redacted.Redacted<string>;
 export type SmbUser = string;
 export interface ManagedSecretConfig {
@@ -393,9 +370,7 @@ export interface ManagedSecretConfig {
 }
 export const ManagedSecretConfig = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ SecretArn: S.optional(S.String) }),
-).annotate({
-  identifier: "ManagedSecretConfig",
-}) as any as S.Schema<ManagedSecretConfig>;
+).annotate({ identifier: "ManagedSecretConfig" }) as any as S.Schema<ManagedSecretConfig>;
 export interface FsxProtocolSmb {
   Domain?: string;
   MountOptions?: SmbMountOptions;
@@ -421,10 +396,7 @@ export interface FsxProtocol {
   SMB?: FsxProtocolSmb;
 }
 export const FsxProtocol = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    NFS: S.optional(FsxProtocolNfs),
-    SMB: S.optional(FsxProtocolSmb),
-  }),
+  S.Struct({ NFS: S.optional(FsxProtocolNfs), SMB: S.optional(FsxProtocolSmb) }),
 ).annotate({ identifier: "FsxProtocol" }) as any as S.Schema<FsxProtocol>;
 export type StorageVirtualMachineArn = string;
 export type FsxOntapSubdirectory = string;
@@ -556,9 +528,7 @@ export const QopConfiguration = /*@__PURE__*/ S.suspend(() =>
     RpcProtection: S.optional(HdfsRpcProtection),
     DataTransferProtection: S.optional(HdfsDataTransferProtection),
   }),
-).annotate({
-  identifier: "QopConfiguration",
-}) as any as S.Schema<QopConfiguration>;
+).annotate({ identifier: "QopConfiguration" }) as any as S.Schema<QopConfiguration>;
 export type HdfsAuthenticationType = "SIMPLE" | "KERBEROS" | (string & {});
 export const HdfsAuthenticationType = S.String;
 
@@ -635,9 +605,7 @@ export const CreateLocationNfsRequest = /*@__PURE__*/ S.suspend(() =>
     MountOptions: S.optional(NfsMountOptions),
     Tags: S.optional(InputTagList),
   }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
-).annotate({
-  identifier: "CreateLocationNfsRequest",
-}) as any as S.Schema<CreateLocationNfsRequest>;
+).annotate({ identifier: "CreateLocationNfsRequest" }) as any as S.Schema<CreateLocationNfsRequest>;
 export interface CreateLocationNfsResponse {
   LocationArn?: string;
 }
@@ -731,17 +699,13 @@ export const CreateLocationS3Request = /*@__PURE__*/ S.suspend(() =>
     AgentArns: S.optional(AgentArnList),
     Tags: S.optional(InputTagList),
   }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
-).annotate({
-  identifier: "CreateLocationS3Request",
-}) as any as S.Schema<CreateLocationS3Request>;
+).annotate({ identifier: "CreateLocationS3Request" }) as any as S.Schema<CreateLocationS3Request>;
 export interface CreateLocationS3Response {
   LocationArn?: string;
 }
 export const CreateLocationS3Response = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ LocationArn: S.optional(S.String) }),
-).annotate({
-  identifier: "CreateLocationS3Response",
-}) as any as S.Schema<CreateLocationS3Response>;
+).annotate({ identifier: "CreateLocationS3Response" }) as any as S.Schema<CreateLocationS3Response>;
 export type SmbSubdirectory = string;
 export type SmbAuthenticationType = "NTLM" | "KERBEROS" | (string & {});
 export const SmbAuthenticationType = S.String;
@@ -784,9 +748,7 @@ export const CreateLocationSmbRequest = /*@__PURE__*/ S.suspend(() =>
     KerberosKeytab: S.optional(T.Blob),
     KerberosKrb5Conf: S.optional(T.Blob),
   }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
-).annotate({
-  identifier: "CreateLocationSmbRequest",
-}) as any as S.Schema<CreateLocationSmbRequest>;
+).annotate({ identifier: "CreateLocationSmbRequest" }) as any as S.Schema<CreateLocationSmbRequest>;
 export interface CreateLocationSmbResponse {
   LocationArn?: string;
 }
@@ -905,10 +867,7 @@ export interface TaskSchedule {
   Status?: ScheduleStatus;
 }
 export const TaskSchedule = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ScheduleExpression: S.String,
-    Status: S.optional(ScheduleStatus),
-  }),
+  S.Struct({ ScheduleExpression: S.String, Status: S.optional(ScheduleStatus) }),
 ).annotate({ identifier: "TaskSchedule" }) as any as S.Schema<TaskSchedule>;
 export type ManifestAction = "TRANSFER" | (string & {});
 export const ManifestAction = S.String;
@@ -930,17 +889,13 @@ export const S3ManifestConfig = /*@__PURE__*/ S.suspend(() =>
     S3BucketArn: S.String,
     ManifestObjectVersionId: S.optional(S.String),
   }),
-).annotate({
-  identifier: "S3ManifestConfig",
-}) as any as S.Schema<S3ManifestConfig>;
+).annotate({ identifier: "S3ManifestConfig" }) as any as S.Schema<S3ManifestConfig>;
 export interface SourceManifestConfig {
   S3: S3ManifestConfig;
 }
 export const SourceManifestConfig = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ S3: S3ManifestConfig }),
-).annotate({
-  identifier: "SourceManifestConfig",
-}) as any as S.Schema<SourceManifestConfig>;
+).annotate({ identifier: "SourceManifestConfig" }) as any as S.Schema<SourceManifestConfig>;
 export interface ManifestConfig {
   Action?: ManifestAction;
   Format?: ManifestFormat;
@@ -964,17 +919,13 @@ export const ReportDestinationS3 = /*@__PURE__*/ S.suspend(() =>
     S3BucketArn: S.String,
     BucketAccessRoleArn: S.String,
   }),
-).annotate({
-  identifier: "ReportDestinationS3",
-}) as any as S.Schema<ReportDestinationS3>;
+).annotate({ identifier: "ReportDestinationS3" }) as any as S.Schema<ReportDestinationS3>;
 export interface ReportDestination {
   S3?: ReportDestinationS3;
 }
 export const ReportDestination = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ S3: S.optional(ReportDestinationS3) }),
-).annotate({
-  identifier: "ReportDestination",
-}) as any as S.Schema<ReportDestination>;
+).annotate({ identifier: "ReportDestination" }) as any as S.Schema<ReportDestination>;
 export type ReportOutputType = "SUMMARY_ONLY" | "STANDARD" | (string & {});
 export const ReportOutputType = S.String;
 
@@ -1003,9 +954,7 @@ export const ReportOverrides = /*@__PURE__*/ S.suspend(() =>
     Deleted: S.optional(ReportOverride),
     Skipped: S.optional(ReportOverride),
   }),
-).annotate({
-  identifier: "ReportOverrides",
-}) as any as S.Schema<ReportOverrides>;
+).annotate({ identifier: "ReportOverrides" }) as any as S.Schema<ReportOverrides>;
 export interface TaskReportConfig {
   Destination?: ReportDestination;
   OutputType?: ReportOutputType;
@@ -1021,9 +970,7 @@ export const TaskReportConfig = /*@__PURE__*/ S.suspend(() =>
     ObjectVersionIds: S.optional(ObjectVersionIds),
     Overrides: S.optional(ReportOverrides),
   }),
-).annotate({
-  identifier: "TaskReportConfig",
-}) as any as S.Schema<TaskReportConfig>;
+).annotate({ identifier: "TaskReportConfig" }) as any as S.Schema<TaskReportConfig>;
 export type TaskMode = "BASIC" | "ENHANCED" | (string & {});
 export const TaskMode = S.String;
 
@@ -1056,18 +1003,14 @@ export const CreateTaskRequest = /*@__PURE__*/ S.suspend(() =>
     TaskReportConfig: S.optional(TaskReportConfig),
     TaskMode: S.optional(TaskMode),
   }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
-).annotate({
-  identifier: "CreateTaskRequest",
-}) as any as S.Schema<CreateTaskRequest>;
+).annotate({ identifier: "CreateTaskRequest" }) as any as S.Schema<CreateTaskRequest>;
 export type TaskArn = string;
 export interface CreateTaskResponse {
   TaskArn?: string;
 }
 export const CreateTaskResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ TaskArn: S.optional(S.String) }),
-).annotate({
-  identifier: "CreateTaskResponse",
-}) as any as S.Schema<CreateTaskResponse>;
+).annotate({ identifier: "CreateTaskResponse" }) as any as S.Schema<CreateTaskResponse>;
 export interface DeleteAgentRequest {
   AgentArn: string;
 }
@@ -1075,9 +1018,7 @@ export const DeleteAgentRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ AgentArn: S.String }).pipe(
     T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
   ),
-).annotate({
-  identifier: "DeleteAgentRequest",
-}) as any as S.Schema<DeleteAgentRequest>;
+).annotate({ identifier: "DeleteAgentRequest" }) as any as S.Schema<DeleteAgentRequest>;
 export interface DeleteAgentResponse {}
 export const DeleteAgentResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
   identifier: "DeleteAgentResponse",
@@ -1089,9 +1030,7 @@ export const DeleteLocationRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ LocationArn: S.String }).pipe(
     T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
   ),
-).annotate({
-  identifier: "DeleteLocationRequest",
-}) as any as S.Schema<DeleteLocationRequest>;
+).annotate({ identifier: "DeleteLocationRequest" }) as any as S.Schema<DeleteLocationRequest>;
 export interface DeleteLocationResponse {}
 export const DeleteLocationResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
   identifier: "DeleteLocationResponse",
@@ -1103,9 +1042,7 @@ export const DeleteTaskRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ TaskArn: S.String }).pipe(
     T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
   ),
-).annotate({
-  identifier: "DeleteTaskRequest",
-}) as any as S.Schema<DeleteTaskRequest>;
+).annotate({ identifier: "DeleteTaskRequest" }) as any as S.Schema<DeleteTaskRequest>;
 export interface DeleteTaskResponse {}
 export const DeleteTaskResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
   identifier: "DeleteTaskResponse",
@@ -1117,9 +1054,7 @@ export const DescribeAgentRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ AgentArn: S.String }).pipe(
     T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
   ),
-).annotate({
-  identifier: "DescribeAgentRequest",
-}) as any as S.Schema<DescribeAgentRequest>;
+).annotate({ identifier: "DescribeAgentRequest" }) as any as S.Schema<DescribeAgentRequest>;
 export type AgentStatus = "ONLINE" | "OFFLINE" | (string & {});
 export const AgentStatus = S.String;
 
@@ -1140,9 +1075,7 @@ export const PrivateLinkConfig = /*@__PURE__*/ S.suspend(() =>
     SubnetArns: S.optional(PLSubnetArnList),
     SecurityGroupArns: S.optional(PLSecurityGroupArnList),
   }),
-).annotate({
-  identifier: "PrivateLinkConfig",
-}) as any as S.Schema<PrivateLinkConfig>;
+).annotate({ identifier: "PrivateLinkConfig" }) as any as S.Schema<PrivateLinkConfig>;
 export type AgentVersion = string;
 export interface Platform {
   Version?: string;
@@ -1171,9 +1104,7 @@ export const DescribeAgentResponse = /*@__PURE__*/ S.suspend(() =>
     PrivateLinkConfig: S.optional(PrivateLinkConfig),
     Platform: S.optional(Platform),
   }),
-).annotate({
-  identifier: "DescribeAgentResponse",
-}) as any as S.Schema<DescribeAgentResponse>;
+).annotate({ identifier: "DescribeAgentResponse" }) as any as S.Schema<DescribeAgentResponse>;
 export interface DescribeLocationAzureBlobRequest {
   LocationArn: string;
 }
@@ -1564,9 +1495,7 @@ export const DescribeTaskRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ TaskArn: S.String }).pipe(
     T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
   ),
-).annotate({
-  identifier: "DescribeTaskRequest",
-}) as any as S.Schema<DescribeTaskRequest>;
+).annotate({ identifier: "DescribeTaskRequest" }) as any as S.Schema<DescribeTaskRequest>;
 export type TaskStatus =
   | "AVAILABLE"
   | "CREATING"
@@ -1596,9 +1525,7 @@ export const TaskScheduleDetails = /*@__PURE__*/ S.suspend(() =>
     DisabledReason: S.optional(S.String),
     DisabledBy: S.optional(ScheduleDisabledBy),
   }),
-).annotate({
-  identifier: "TaskScheduleDetails",
-}) as any as S.Schema<TaskScheduleDetails>;
+).annotate({ identifier: "TaskScheduleDetails" }) as any as S.Schema<TaskScheduleDetails>;
 export interface DescribeTaskResponse {
   TaskArn?: string;
   Status?: TaskStatus;
@@ -1644,9 +1571,7 @@ export const DescribeTaskResponse = /*@__PURE__*/ S.suspend(() =>
     ScheduleDetails: S.optional(TaskScheduleDetails),
     TaskMode: S.optional(TaskMode),
   }),
-).annotate({
-  identifier: "DescribeTaskResponse",
-}) as any as S.Schema<DescribeTaskResponse>;
+).annotate({ identifier: "DescribeTaskResponse" }) as any as S.Schema<DescribeTaskResponse>;
 export interface DescribeTaskExecutionRequest {
   TaskExecutionArn: string;
 }
@@ -1716,10 +1641,7 @@ export interface TaskExecutionFilesListedDetail {
   AtDestinationForDelete?: number;
 }
 export const TaskExecutionFilesListedDetail = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    AtSource: S.optional(S.Number),
-    AtDestinationForDelete: S.optional(S.Number),
-  }),
+  S.Struct({ AtSource: S.optional(S.Number), AtDestinationForDelete: S.optional(S.Number) }),
 ).annotate({
   identifier: "TaskExecutionFilesListedDetail",
 }) as any as S.Schema<TaskExecutionFilesListedDetail>;
@@ -1745,10 +1667,7 @@ export interface TaskExecutionFoldersListedDetail {
   AtDestinationForDelete?: number;
 }
 export const TaskExecutionFoldersListedDetail = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    AtSource: S.optional(S.Number),
-    AtDestinationForDelete: S.optional(S.Number),
-  }),
+  S.Struct({ AtSource: S.optional(S.Number), AtDestinationForDelete: S.optional(S.Number) }),
 ).annotate({
   identifier: "TaskExecutionFoldersListedDetail",
 }) as any as S.Schema<TaskExecutionFoldersListedDetail>;
@@ -1855,13 +1774,10 @@ export interface ListAgentsRequest {
   NextToken?: string;
 }
 export const ListAgentsRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    MaxResults: S.optional(S.Number),
-    NextToken: S.optional(S.String),
-  }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
-).annotate({
-  identifier: "ListAgentsRequest",
-}) as any as S.Schema<ListAgentsRequest>;
+  S.Struct({ MaxResults: S.optional(S.Number), NextToken: S.optional(S.String) }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotate({ identifier: "ListAgentsRequest" }) as any as S.Schema<ListAgentsRequest>;
 export interface AgentListEntry {
   AgentArn?: string;
   Name?: string;
@@ -1884,9 +1800,7 @@ export interface ListAgentsResponse {
 }
 export const ListAgentsResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ Agents: S.optional(AgentList), NextToken: S.optional(S.String) }),
-).annotate({
-  identifier: "ListAgentsResponse",
-}) as any as S.Schema<ListAgentsResponse>;
+).annotate({ identifier: "ListAgentsResponse" }) as any as S.Schema<ListAgentsResponse>;
 export type LocationFilterName = "LocationUri" | "LocationType" | "CreationTime" | (string & {});
 export const LocationFilterName = S.String;
 
@@ -1913,11 +1827,7 @@ export interface LocationFilter {
   Operator: Operator;
 }
 export const LocationFilter = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Name: LocationFilterName,
-    Values: FilterValues,
-    Operator: Operator,
-  }),
+  S.Struct({ Name: LocationFilterName, Values: FilterValues, Operator: Operator }),
 ).annotate({ identifier: "LocationFilter" }) as any as S.Schema<LocationFilter>;
 export type LocationFilters = LocationFilter[];
 export const LocationFilters = /*@__PURE__*/ S.Array(LocationFilter);
@@ -1932,21 +1842,14 @@ export const ListLocationsRequest = /*@__PURE__*/ S.suspend(() =>
     NextToken: S.optional(S.String),
     Filters: S.optional(LocationFilters),
   }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
-).annotate({
-  identifier: "ListLocationsRequest",
-}) as any as S.Schema<ListLocationsRequest>;
+).annotate({ identifier: "ListLocationsRequest" }) as any as S.Schema<ListLocationsRequest>;
 export interface LocationListEntry {
   LocationArn?: string;
   LocationUri?: string;
 }
 export const LocationListEntry = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    LocationArn: S.optional(S.String),
-    LocationUri: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "LocationListEntry",
-}) as any as S.Schema<LocationListEntry>;
+  S.Struct({ LocationArn: S.optional(S.String), LocationUri: S.optional(S.String) }),
+).annotate({ identifier: "LocationListEntry" }) as any as S.Schema<LocationListEntry>;
 export type LocationList = LocationListEntry[];
 export const LocationList = /*@__PURE__*/ S.Array(LocationListEntry);
 export interface ListLocationsResponse {
@@ -1954,13 +1857,8 @@ export interface ListLocationsResponse {
   NextToken?: string;
 }
 export const ListLocationsResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Locations: S.optional(LocationList),
-    NextToken: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "ListLocationsResponse",
-}) as any as S.Schema<ListLocationsResponse>;
+  S.Struct({ Locations: S.optional(LocationList), NextToken: S.optional(S.String) }),
+).annotate({ identifier: "ListLocationsResponse" }) as any as S.Schema<ListLocationsResponse>;
 export type TaggableResourceArn = string;
 export interface ListTagsForResourceRequest {
   ResourceArn: string;
@@ -1983,10 +1881,7 @@ export interface ListTagsForResourceResponse {
   NextToken?: string;
 }
 export const ListTagsForResourceResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Tags: S.optional(OutputTagList),
-    NextToken: S.optional(S.String),
-  }),
+  S.Struct({ Tags: S.optional(OutputTagList), NextToken: S.optional(S.String) }),
 ).annotate({
   identifier: "ListTagsForResourceResponse",
 }) as any as S.Schema<ListTagsForResourceResponse>;
@@ -2015,9 +1910,7 @@ export const TaskExecutionListEntry = /*@__PURE__*/ S.suspend(() =>
     Status: S.optional(TaskExecutionStatus),
     TaskMode: S.optional(TaskMode),
   }),
-).annotate({
-  identifier: "TaskExecutionListEntry",
-}) as any as S.Schema<TaskExecutionListEntry>;
+).annotate({ identifier: "TaskExecutionListEntry" }) as any as S.Schema<TaskExecutionListEntry>;
 export type TaskExecutionList = TaskExecutionListEntry[];
 export const TaskExecutionList = /*@__PURE__*/ S.Array(TaskExecutionListEntry);
 export interface ListTaskExecutionsResponse {
@@ -2025,10 +1918,7 @@ export interface ListTaskExecutionsResponse {
   NextToken?: string;
 }
 export const ListTaskExecutionsResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    TaskExecutions: S.optional(TaskExecutionList),
-    NextToken: S.optional(S.String),
-  }),
+  S.Struct({ TaskExecutions: S.optional(TaskExecutionList), NextToken: S.optional(S.String) }),
 ).annotate({
   identifier: "ListTaskExecutionsResponse",
 }) as any as S.Schema<ListTaskExecutionsResponse>;
@@ -2056,9 +1946,7 @@ export const ListTasksRequest = /*@__PURE__*/ S.suspend(() =>
     NextToken: S.optional(S.String),
     Filters: S.optional(TaskFilters),
   }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
-).annotate({
-  identifier: "ListTasksRequest",
-}) as any as S.Schema<ListTasksRequest>;
+).annotate({ identifier: "ListTasksRequest" }) as any as S.Schema<ListTasksRequest>;
 export interface TaskListEntry {
   TaskArn?: string;
   Status?: TaskStatus;
@@ -2081,9 +1969,7 @@ export interface ListTasksResponse {
 }
 export const ListTasksResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ Tasks: S.optional(TaskList), NextToken: S.optional(S.String) }),
-).annotate({
-  identifier: "ListTasksResponse",
-}) as any as S.Schema<ListTasksResponse>;
+).annotate({ identifier: "ListTasksResponse" }) as any as S.Schema<ListTasksResponse>;
 export interface StartTaskExecutionRequest {
   TaskArn: string;
   OverrideOptions?: Options;
@@ -2122,9 +2008,7 @@ export const TagResourceRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ ResourceArn: S.String, Tags: InputTagList }).pipe(
     T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
   ),
-).annotate({
-  identifier: "TagResourceRequest",
-}) as any as S.Schema<TagResourceRequest>;
+).annotate({ identifier: "TagResourceRequest" }) as any as S.Schema<TagResourceRequest>;
 export interface TagResourceResponse {}
 export const TagResourceResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
   identifier: "TagResourceResponse",
@@ -2139,9 +2023,7 @@ export const UntagResourceRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ ResourceArn: S.String, Keys: TagKeyList }).pipe(
     T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
   ),
-).annotate({
-  identifier: "UntagResourceRequest",
-}) as any as S.Schema<UntagResourceRequest>;
+).annotate({ identifier: "UntagResourceRequest" }) as any as S.Schema<UntagResourceRequest>;
 export interface UntagResourceResponse {}
 export const UntagResourceResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
   identifier: "UntagResourceResponse",
@@ -2154,9 +2036,7 @@ export const UpdateAgentRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ AgentArn: S.String, Name: S.optional(S.String) }).pipe(
     T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
   ),
-).annotate({
-  identifier: "UpdateAgentRequest",
-}) as any as S.Schema<UpdateAgentRequest>;
+).annotate({ identifier: "UpdateAgentRequest" }) as any as S.Schema<UpdateAgentRequest>;
 export interface UpdateAgentResponse {}
 export const UpdateAgentResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
   identifier: "UpdateAgentResponse",
@@ -2189,9 +2069,7 @@ export const UpdateLocationAzureBlobRequest = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<UpdateLocationAzureBlobRequest>;
 export interface UpdateLocationAzureBlobResponse {}
 export const UpdateLocationAzureBlobResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate(
-  {
-    identifier: "UpdateLocationAzureBlobResponse",
-  },
+  { identifier: "UpdateLocationAzureBlobResponse" },
 ) as any as S.Schema<UpdateLocationAzureBlobResponse>;
 export type UpdatedEfsAccessPointArn = string;
 export type UpdatedEfsIamRoleArn = string;
@@ -2210,9 +2088,7 @@ export const UpdateLocationEfsRequest = /*@__PURE__*/ S.suspend(() =>
     FileSystemAccessRoleArn: S.optional(S.String),
     InTransitEncryption: S.optional(EfsInTransitEncryption),
   }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
-).annotate({
-  identifier: "UpdateLocationEfsRequest",
-}) as any as S.Schema<UpdateLocationEfsRequest>;
+).annotate({ identifier: "UpdateLocationEfsRequest" }) as any as S.Schema<UpdateLocationEfsRequest>;
 export interface UpdateLocationEfsResponse {}
 export const UpdateLocationEfsResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
   identifier: "UpdateLocationEfsResponse",
@@ -2230,9 +2106,7 @@ export const UpdateLocationFsxLustreRequest = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<UpdateLocationFsxLustreRequest>;
 export interface UpdateLocationFsxLustreResponse {}
 export const UpdateLocationFsxLustreResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate(
-  {
-    identifier: "UpdateLocationFsxLustreResponse",
-  },
+  { identifier: "UpdateLocationFsxLustreResponse" },
 ) as any as S.Schema<UpdateLocationFsxLustreResponse>;
 export type UpdateSmbDomain = string;
 export interface FsxUpdateProtocolSmb {
@@ -2252,21 +2126,14 @@ export const FsxUpdateProtocolSmb = /*@__PURE__*/ S.suspend(() =>
     CmkSecretConfig: S.optional(CmkSecretConfig),
     CustomSecretConfig: S.optional(CustomSecretConfig),
   }),
-).annotate({
-  identifier: "FsxUpdateProtocolSmb",
-}) as any as S.Schema<FsxUpdateProtocolSmb>;
+).annotate({ identifier: "FsxUpdateProtocolSmb" }) as any as S.Schema<FsxUpdateProtocolSmb>;
 export interface FsxUpdateProtocol {
   NFS?: FsxProtocolNfs;
   SMB?: FsxUpdateProtocolSmb;
 }
 export const FsxUpdateProtocol = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    NFS: S.optional(FsxProtocolNfs),
-    SMB: S.optional(FsxUpdateProtocolSmb),
-  }),
-).annotate({
-  identifier: "FsxUpdateProtocol",
-}) as any as S.Schema<FsxUpdateProtocol>;
+  S.Struct({ NFS: S.optional(FsxProtocolNfs), SMB: S.optional(FsxUpdateProtocolSmb) }),
+).annotate({ identifier: "FsxUpdateProtocol" }) as any as S.Schema<FsxUpdateProtocol>;
 export interface UpdateLocationFsxOntapRequest {
   LocationArn: string;
   Protocol?: FsxUpdateProtocol;
@@ -2390,9 +2257,7 @@ export const UpdateLocationNfsRequest = /*@__PURE__*/ S.suspend(() =>
     OnPremConfig: S.optional(OnPremConfig),
     MountOptions: S.optional(NfsMountOptions),
   }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
-).annotate({
-  identifier: "UpdateLocationNfsRequest",
-}) as any as S.Schema<UpdateLocationNfsRequest>;
+).annotate({ identifier: "UpdateLocationNfsRequest" }) as any as S.Schema<UpdateLocationNfsRequest>;
 export interface UpdateLocationNfsResponse {}
 export const UpdateLocationNfsResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
   identifier: "UpdateLocationNfsResponse",
@@ -2446,9 +2311,7 @@ export const UpdateLocationS3Request = /*@__PURE__*/ S.suspend(() =>
     S3StorageClass: S.optional(S3StorageClass),
     S3Config: S.optional(S3Config),
   }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
-).annotate({
-  identifier: "UpdateLocationS3Request",
-}) as any as S.Schema<UpdateLocationS3Request>;
+).annotate({ identifier: "UpdateLocationS3Request" }) as any as S.Schema<UpdateLocationS3Request>;
 export interface UpdateLocationS3Response {}
 export const UpdateLocationS3Response = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
   identifier: "UpdateLocationS3Response",
@@ -2488,9 +2351,7 @@ export const UpdateLocationSmbRequest = /*@__PURE__*/ S.suspend(() =>
     KerberosKeytab: S.optional(T.Blob),
     KerberosKrb5Conf: S.optional(T.Blob),
   }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
-).annotate({
-  identifier: "UpdateLocationSmbRequest",
-}) as any as S.Schema<UpdateLocationSmbRequest>;
+).annotate({ identifier: "UpdateLocationSmbRequest" }) as any as S.Schema<UpdateLocationSmbRequest>;
 export interface UpdateLocationSmbResponse {}
 export const UpdateLocationSmbResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
   identifier: "UpdateLocationSmbResponse",
@@ -2518,9 +2379,7 @@ export const UpdateTaskRequest = /*@__PURE__*/ S.suspend(() =>
     ManifestConfig: S.optional(ManifestConfig),
     TaskReportConfig: S.optional(TaskReportConfig),
   }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
-).annotate({
-  identifier: "UpdateTaskRequest",
-}) as any as S.Schema<UpdateTaskRequest>;
+).annotate({ identifier: "UpdateTaskRequest" }) as any as S.Schema<UpdateTaskRequest>;
 export interface UpdateTaskResponse {}
 export const UpdateTaskResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
   identifier: "UpdateTaskResponse",

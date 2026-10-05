@@ -100,6 +100,8 @@ for (const version of VERSIONS) {
       // v0 parity: includeOperationErrors=true with the default status→class
       // map and default error statuses (401/429/500/503 covered globally).
       skipDeprecated: true,
+      // Field deletion answers `202 Accepted` with a DeleteDatasetFieldsResult body.
+      successStatuses: ["200", "201", "202", "204"],
     },
   });
 }

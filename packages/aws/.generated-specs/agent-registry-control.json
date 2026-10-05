@@ -40,6 +40,123 @@
         "smithy.api#httpError": 403
       }
     },
+    "com.amazonaws.agentregistrycontrol#AgUiDescriptor": {
+      "type": "structure",
+      "members": {
+        "source": {
+          "target": "com.amazonaws.agentregistrycontrol#DescriptorSource"
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "<p>A registry record descriptor for the AG-UI (Agent-User Interaction) protocol.</p>"
+      }
+    },
+    "com.amazonaws.agentregistrycontrol#AgentCoreGatewayProtocolType": {
+      "type": "enum",
+      "members": {
+        "MCP": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "MCP"
+          }
+        }
+      }
+    },
+    "com.amazonaws.agentregistrycontrol#AgentCoreGatewaySourceDetails": {
+      "type": "structure",
+      "members": {
+        "protocolType": {
+          "target": "com.amazonaws.agentregistrycontrol#AgentCoreGatewayProtocolType",
+          "traits": {
+            "smithy.api#documentation": "<p>The protocol type of the AgentCore Gateway resource that the registry record was detected from, for example <code>MCP</code>.</p>"
+          }
+        },
+        "authorizerType": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "<p>The type of authorizer configured on the AgentCore Gateway resource that the registry record was detected from.</p>"
+          }
+        },
+        "authorizerConfiguration": {
+          "target": "com.amazonaws.agentregistrycontrol#AuthorizerConfiguration"
+        },
+        "workloadIdentityDetails": {
+          "target": "com.amazonaws.agentregistrycontrol#WorkloadIdentityDetails",
+          "traits": {
+            "smithy.api#documentation": "<p>The workload identity details for the AgentCore Gateway resource. Present when the gateway has a workload identity configured.</p>"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "<p>The source details for a registry record that was auto-detected from an Amazon Bedrock AgentCore Gateway resource.</p>"
+      }
+    },
+    "com.amazonaws.agentregistrycontrol#AgentCoreRuntimeProtocolConfiguration": {
+      "type": "structure",
+      "members": {
+        "serverProtocol": {
+          "target": "com.amazonaws.agentregistrycontrol#AgentCoreRuntimeServerProtocol",
+          "traits": {
+            "smithy.api#documentation": "<p>The server protocol used by the AgentCore Runtime, such as <code>MCP</code>, <code>HTTP</code>, <code>A2A</code>, or <code>AGUI</code>.</p>"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "<p>The protocol configuration of an AgentCore Runtime resource that a registry record was auto-detected from.</p>"
+      }
+    },
+    "com.amazonaws.agentregistrycontrol#AgentCoreRuntimeServerProtocol": {
+      "type": "enum",
+      "members": {
+        "HTTP": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "HTTP"
+          }
+        },
+        "A2A": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "A2A"
+          }
+        },
+        "MCP": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "MCP"
+          }
+        },
+        "AGUI": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "AGUI"
+          }
+        }
+      }
+    },
+    "com.amazonaws.agentregistrycontrol#AgentCoreRuntimeSourceDetails": {
+      "type": "structure",
+      "members": {
+        "protocolConfiguration": {
+          "target": "com.amazonaws.agentregistrycontrol#AgentCoreRuntimeProtocolConfiguration",
+          "traits": {
+            "smithy.api#documentation": "<p>The protocol configuration of the AgentCore Runtime resource that the registry record was detected from.</p>"
+          }
+        },
+        "authorizerConfiguration": {
+          "target": "com.amazonaws.agentregistrycontrol#AuthorizerConfiguration"
+        },
+        "workloadIdentityDetails": {
+          "target": "com.amazonaws.agentregistrycontrol#WorkloadIdentityDetails",
+          "traits": {
+            "smithy.api#documentation": "<p>The workload identity details for the AgentCore Runtime resource. Present when the runtime has a workload identity configured.</p>"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "<p>The source details for a registry record that was auto-detected from an Amazon Bedrock AgentCore Runtime resource.</p>"
+      }
+    },
     "com.amazonaws.agentregistrycontrol#AgentRegistryControl": {
       "type": "service",
       "version": "2025-12-01",
@@ -85,7 +202,7 @@
           "additionalExposedHeaders": ["x-amzn-errortype", "x-amzn-requestid", "x-amzn-trace-id"],
           "maxAge": 86400
         },
-        "smithy.api#documentation": "<p>AWS Agent Registry is a managed catalog for publishing and discovering resources such as MCP servers, agents, and agent skills. Agent Registry Control is its control-plane API: use it to create and manage registries and the records they contain, configure discovery and authorization, govern record approval and curation workflows, and manage automatic detection of resources. Data-plane search and MCP invocation operations are provided by the companion Agent Registry API.</p>",
+        "smithy.api#documentation": "<p>Amazon Web Services Agent Registry is a managed catalog for publishing and discovering resources such as MCP servers, agents, and agent skills. Agent Registry Control is its control-plane API: use it to create and manage registries and the records they contain, configure discovery and authorization, govern record approval and curation workflows, and manage automatic detection of resources. Data-plane search and MCP invocation operations are provided by the companion Agent Registry API.</p>",
         "smithy.api#title": "Agent Registry Control",
         "smithy.rules#endpointBdd": {
           "version": "1.1",
@@ -460,6 +577,84 @@
         }
       }
     },
+    "com.amazonaws.agentregistrycontrol#AutoDetection": {
+      "type": "structure",
+      "members": {
+        "configuration": {
+          "target": "com.amazonaws.agentregistrycontrol#AutoDetectionConfiguration",
+          "traits": {
+            "smithy.api#documentation": "<p>The auto-detection settings that control how resources are discovered for the registry.</p>",
+            "smithy.api#required": {}
+          }
+        },
+        "status": {
+          "target": "com.amazonaws.agentregistrycontrol#AutoDetectionStatus",
+          "traits": {
+            "smithy.api#documentation": "<p>The current auto-detection status. <code>ACTIVE</code> indicates that the registry is actively being populated with detected resources. <code>INACTIVE</code> indicates that the preconditions required at the configured scope are not currently met.</p>",
+            "smithy.api#required": {}
+          }
+        },
+        "statusReason": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "<p>A human-readable explanation of the current auto-detection status. Typically populated when the status requires additional context.</p>"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "<p>The auto-detection properties for a registry, including the requested configuration and the current detection status. When auto-detection is enabled and the scope preconditions are met, the registry is automatically populated with discovered resources.</p>"
+      }
+    },
+    "com.amazonaws.agentregistrycontrol#AutoDetectionConfiguration": {
+      "type": "structure",
+      "members": {
+        "scope": {
+          "target": "com.amazonaws.agentregistrycontrol#AutoDetectionScope",
+          "traits": {
+            "smithy.api#documentation": "<p>The source from which resources are detected. For example, <code>ORGANIZATION</code> sources resources from all member accounts of an Amazon Web Services organization.</p>",
+            "smithy.api#required": {}
+          }
+        },
+        "enabled": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "<p>Specifies whether auto-detection is requested for the registry. Setting this to <code>true</code> is necessary but not sufficient for auto-detection to become active; the preconditions of the configured scope must also be met.</p>",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "<p>The customer-defined auto-detection settings for a registry.</p>"
+      }
+    },
+    "com.amazonaws.agentregistrycontrol#AutoDetectionScope": {
+      "type": "enum",
+      "members": {
+        "ORGANIZATION": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "ORGANIZATION"
+          }
+        }
+      }
+    },
+    "com.amazonaws.agentregistrycontrol#AutoDetectionStatus": {
+      "type": "enum",
+      "members": {
+        "ACTIVE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "ACTIVE"
+          }
+        },
+        "INACTIVE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "INACTIVE"
+          }
+        }
+      }
+    },
     "com.amazonaws.agentregistrycontrol#ClaimMatchOperatorType": {
       "type": "enum",
       "members": {
@@ -666,6 +861,18 @@
             "smithy.api#idempotencyToken": {}
           }
         },
+        "provenance": {
+          "target": "com.amazonaws.agentregistrycontrol#ProvenanceList",
+          "traits": {
+            "smithy.api#documentation": "<p>The provenance lineage entries for the registry record. This field is reserved for the Amazon Web Services Agent Registry auto-detection service principal. Requests that include this field from other callers are rejected.</p>"
+          }
+        },
+        "customMetadata": {
+          "target": "com.amazonaws.agentregistrycontrol#CustomMetadataDocument",
+          "traits": {
+            "smithy.api#documentation": "<p>The custom metadata to attach to the registry record. Each key must match a property defined in the registry's custom metadata schema. Values can be strings (maximum 128 characters) or native JSON booleans (<code>true</code> or <code>false</code>). Values are validated against the schema at creation time.</p>"
+          }
+        },
         "tags": {
           "target": "com.amazonaws.agentregistrycontrol#TagsMap",
           "traits": {
@@ -721,6 +928,12 @@
             "smithy.api#documentation": "<p>The description of the registry</p>"
           }
         },
+        "encryptionConfiguration": {
+          "target": "com.amazonaws.agentregistrycontrol#EncryptionConfiguration",
+          "traits": {
+            "smithy.api#documentation": "<p>The optional server-side encryption configuration for the registry. When you provide this field, the specified customer-managed Amazon Web Services KMS key encrypts the registry's content. Omit this field to use an Amazon Web Services-owned encryption key. You cannot change the encryption configuration after registry creation.</p>"
+          }
+        },
         "discoveryConfiguration": {
           "target": "com.amazonaws.agentregistrycontrol#DiscoveryConfiguration",
           "traits": {
@@ -730,7 +943,7 @@
         "clientToken": {
           "target": "com.amazonaws.agentregistrycontrol#ClientToken",
           "traits": {
-            "smithy.api#documentation": "<p>Client token for idempotency</p>",
+            "smithy.api#documentation": "<p>A unique, case-sensitive identifier to ensure that the operation completes no more than one time. If this token matches a previous request, the service ignores the request, but does not return an error.</p>",
             "smithy.api#idempotencyToken": {}
           }
         },
@@ -744,6 +957,18 @@
           "target": "com.amazonaws.agentregistrycontrol#ApprovalConfiguration",
           "traits": {
             "smithy.api#documentation": "<p>Approval configuration for registry records</p>"
+          }
+        },
+        "customMetadataSchemaConfiguration": {
+          "target": "com.amazonaws.agentregistrycontrol#CustomMetadataSchemaConfiguration",
+          "traits": {
+            "smithy.api#documentation": "<p>The optional custom metadata schema configuration for the registry. When provided, registry records can carry structured metadata validated against this schema.</p>"
+          }
+        },
+        "autoDetectionConfiguration": {
+          "target": "com.amazonaws.agentregistrycontrol#AutoDetectionConfiguration",
+          "traits": {
+            "smithy.api#documentation": "<p>The optional auto-detection configuration for the registry. When provided, the registry is automatically populated with resources discovered according to the configuration. Omit this field for registries whose records are managed exclusively through the Agent Registry Control API.</p>"
           }
         }
       },
@@ -766,6 +991,16 @@
       "traits": {
         "smithy.api#documentation": "<p>Response structure for creating a registry</p>",
         "smithy.api#output": {}
+      }
+    },
+    "com.amazonaws.agentregistrycontrol#CreatorAccountId": {
+      "type": "string",
+      "traits": {
+        "smithy.api#length": {
+          "min": 12,
+          "max": 12
+        },
+        "smithy.api#pattern": "^[0-9]{12}$"
       }
     },
     "com.amazonaws.agentregistrycontrol#CredentialProviderArn": {
@@ -823,7 +1058,10 @@
       "type": "structure",
       "members": {
         "data": {
-          "target": "com.amazonaws.agentregistrycontrol#DescriptorData"
+          "target": "com.amazonaws.agentregistrycontrol#DescriptorData",
+          "traits": {
+            "smithy.api#documentation": "<p>The custom descriptor content, serialized as descriptor payload data.</p>"
+          }
         }
       },
       "traits": {
@@ -879,6 +1117,64 @@
       },
       "traits": {
         "smithy.api#documentation": "<p>Configuration for a custom JWT authorizer that validates inbound bearer tokens against an OpenID Connect identity provider.</p>"
+      }
+    },
+    "com.amazonaws.agentregistrycontrol#CustomMetadataDocument": {
+      "type": "document",
+      "traits": {
+        "smithy.api#documentation": "Free-form JSON document representing custom metadata on a registry record.\nValues may be strings or booleans (native JSON types). Key/value constraints enforced in service code.",
+        "smithy.api#sensitive": {}
+      }
+    },
+    "com.amazonaws.agentregistrycontrol#CustomMetadataSchemaComplianceStatus": {
+      "type": "enum",
+      "members": {
+        "COMPLIANT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "COMPLIANT"
+          }
+        },
+        "NON_COMPLIANT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "NON_COMPLIANT"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "<p>Indicates whether a registry record's custom metadata conforms to the registry's current schema. <code>COMPLIANT</code> means all required fields are present and all values match their declared types. <code>NON_COMPLIANT</code> means the metadata does not satisfy the current schema, for example because the schema was updated after the record was last modified.</p>"
+      }
+    },
+    "com.amazonaws.agentregistrycontrol#CustomMetadataSchemaConfiguration": {
+      "type": "structure",
+      "members": {
+        "defaultSchema": {
+          "target": "com.amazonaws.agentregistrycontrol#CustomMetadataSchemaDefinition",
+          "traits": {
+            "smithy.api#documentation": "<p>The default JSON Schema that applies to record types without a specific override. Supported property types are <code>string</code>, <code>string</code> with an <code>enum</code> constraint, <code>string</code> with a <code>uri</code> format, and <code>boolean</code>.</p>"
+          }
+        },
+        "recordTypeSchemaOverrides": {
+          "target": "com.amazonaws.agentregistrycontrol#RecordTypeSchemaOverrideList",
+          "traits": {
+            "smithy.api#documentation": "<p>A list of per-record-type schema overrides. When a record's type matches an override, that override's schema is used instead of the default schema for validation. If you don't specify an override for a record type, the default schema applies. If no default schema exists, custom metadata on records of that type is rejected.</p>"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "<p>Configuration that defines a typed metadata schema for a registry. Specify at least one of a default schema or per-record-type schema overrides. You can provide both.</p>",
+        "smithy.api#sensitive": {}
+      }
+    },
+    "com.amazonaws.agentregistrycontrol#CustomMetadataSchemaDefinition": {
+      "type": "string",
+      "traits": {
+        "smithy.api#length": {
+          "min": 1,
+          "max": 10240
+        },
+        "smithy.api#sensitive": {}
       }
     },
     "com.amazonaws.agentregistrycontrol#CustomParameterMap": {
@@ -1148,6 +1444,18 @@
           "traits": {
             "smithy.api#documentation": "<p>The custom descriptor, populated when the record type is CUSTOM.</p>"
           }
+        },
+        "http": {
+          "target": "com.amazonaws.agentregistrycontrol#HttpDescriptor",
+          "traits": {
+            "smithy.api#documentation": "<p>The HTTP descriptor, populated for records detected from an HTTP protocol source.</p>"
+          }
+        },
+        "agui": {
+          "target": "com.amazonaws.agentregistrycontrol#AgUiDescriptor",
+          "traits": {
+            "smithy.api#documentation": "<p>The AG-UI descriptor, populated for records detected from an AG-UI protocol source.</p>"
+          }
         }
       },
       "traits": {
@@ -1183,6 +1491,21 @@
           "max": 2048
         },
         "smithy.api#pattern": "^.+/\\.well-known/openid-configuration$"
+      }
+    },
+    "com.amazonaws.agentregistrycontrol#EncryptionConfiguration": {
+      "type": "structure",
+      "members": {
+        "kmsKeyArn": {
+          "target": "com.amazonaws.agentregistrycontrol#KmsKeyArn",
+          "traits": {
+            "smithy.api#documentation": "<p>The Amazon Resource Name (ARN) of the customer-managed Amazon Web Services KMS key used to encrypt the registry's content. The key must be a symmetric encryption key in the same Amazon Web Services account and Region as the registry.</p>",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "<p>The server-side encryption configuration for a registry. Specifies a customer-managed Amazon Web Services KMS key used to encrypt the registry's content.</p>"
       }
     },
     "com.amazonaws.agentregistrycontrol#EndpointIpAddressType": {
@@ -1447,14 +1770,14 @@
         "registryArn": {
           "target": "com.amazonaws.agentregistrycontrol#RegistryArn",
           "traits": {
-            "smithy.api#documentation": "<p>The &amp;ARN; of the parent registry that owns the record.</p>",
+            "smithy.api#documentation": "<p>The Amazon Resource Name (ARN) of the parent registry that owns the record.</p>",
             "smithy.api#required": {}
           }
         },
         "recordArn": {
           "target": "com.amazonaws.agentregistrycontrol#RegistryRecordArn",
           "traits": {
-            "smithy.api#documentation": "<p>The &amp;ARN; of the registry record.</p>",
+            "smithy.api#documentation": "<p>The Amazon Resource Name (ARN) of the registry record.</p>",
             "smithy.api#required": {}
           }
         },
@@ -1529,6 +1852,36 @@
           "traits": {
             "smithy.api#documentation": "<p>The reason for the current status. Typically populated when the status indicates a failure state.</p>"
           }
+        },
+        "provenance": {
+          "target": "com.amazonaws.agentregistrycontrol#ProvenanceList",
+          "traits": {
+            "smithy.api#documentation": "<p>The provenance lineage entries for the registry record. Populated for records created by auto-detection; each entry identifies the upstream source that the record was detected from.</p>"
+          }
+        },
+        "createdByAutoDetection": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "<p>Specifies whether the registry record was created by auto-detection. <code>true</code> indicates the record was automatically created by the service based on the registry's auto-detection configuration; <code>false</code> indicates the record was created through a control-plane API call.</p>"
+          }
+        },
+        "createdBy": {
+          "target": "com.amazonaws.agentregistrycontrol#CreatorAccountId",
+          "traits": {
+            "smithy.api#documentation": "<p>The ID of the Amazon Web Services account that created the registry record.</p>"
+          }
+        },
+        "customMetadata": {
+          "target": "com.amazonaws.agentregistrycontrol#CustomMetadataDocument",
+          "traits": {
+            "smithy.api#documentation": "<p>The custom metadata attached to this registry record. Values are strings (maximum 128 characters) or booleans.</p>"
+          }
+        },
+        "customMetadataSchemaComplianceStatus": {
+          "target": "com.amazonaws.agentregistrycontrol#CustomMetadataSchemaComplianceStatus",
+          "traits": {
+            "smithy.api#documentation": "<p>Indicates whether this record's custom metadata conforms to the registry's current schema. This status is computed at read time against the latest schema.</p>"
+          }
         }
       },
       "traits": {
@@ -1590,10 +1943,22 @@
             "smithy.api#documentation": "<p>Discovery configuration for the registry</p>"
           }
         },
+        "encryptionConfiguration": {
+          "target": "com.amazonaws.agentregistrycontrol#EncryptionConfiguration",
+          "traits": {
+            "smithy.api#documentation": "<p>The server-side encryption configuration for the registry. Appears only when a customer-managed Amazon Web Services KMS key encrypts the registry.</p>"
+          }
+        },
         "approvalConfiguration": {
           "target": "com.amazonaws.agentregistrycontrol#ApprovalConfiguration",
           "traits": {
             "smithy.api#documentation": "<p>Approval configuration for registry records</p>"
+          }
+        },
+        "customMetadataSchemaConfiguration": {
+          "target": "com.amazonaws.agentregistrycontrol#CustomMetadataSchemaConfiguration",
+          "traits": {
+            "smithy.api#documentation": "<p>The custom metadata schema configuration for this registry, if one has been defined.</p>"
           }
         },
         "status": {
@@ -1607,6 +1972,12 @@
           "target": "smithy.api#String",
           "traits": {
             "smithy.api#documentation": "<p>The reason for the current status. Typically populated when the status indicates a failure state.</p>"
+          }
+        },
+        "autoDetection": {
+          "target": "com.amazonaws.agentregistrycontrol#AutoDetection",
+          "traits": {
+            "smithy.api#documentation": "<p>The registry's auto-detection properties, including the requested configuration and the current detection status. Present only when auto-detection was configured for the registry.</p>"
           }
         },
         "createdAt": {
@@ -1627,6 +1998,17 @@
       "traits": {
         "smithy.api#documentation": "<p>Response structure for getting a registry</p>",
         "smithy.api#output": {}
+      }
+    },
+    "com.amazonaws.agentregistrycontrol#HttpDescriptor": {
+      "type": "structure",
+      "members": {
+        "source": {
+          "target": "com.amazonaws.agentregistrycontrol#DescriptorSource"
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "<p>A registry record descriptor for the HTTP protocol. This descriptor is source-only: its content is synchronized from the configured source URL rather than supplied inline.</p>"
       }
     },
     "com.amazonaws.agentregistrycontrol#IamRoleArn": {
@@ -1701,6 +2083,17 @@
         "smithy.api#documentation": "<p>The request failed due to an unexpected internal error; the caller may retry.</p>",
         "smithy.api#error": "server",
         "smithy.api#httpError": 500
+      }
+    },
+    "com.amazonaws.agentregistrycontrol#KmsKeyArn": {
+      "type": "string",
+      "traits": {
+        "smithy.api#documentation": "<p>A KMS key ARN</p>",
+        "smithy.api#length": {
+          "min": 1,
+          "max": 2048
+        },
+        "smithy.api#pattern": "^arn:aws(|-cn|-us-gov):kms:[a-zA-Z0-9-]*:[0-9]{12}:key/[a-zA-Z0-9-]{36}$"
       }
     },
     "com.amazonaws.agentregistrycontrol#ListRegistries": {
@@ -1934,7 +2327,7 @@
         }
       ],
       "traits": {
-        "smithy.api#documentation": "List the tags on a resource",
+        "smithy.api#documentation": "<p>Lists the tags associated with the specified Amazon Web Services Agent Registry resource. Returns the current tag key-value pairs on the resource.</p>",
         "smithy.api#http": {
           "code": 200,
           "method": "GET",
@@ -1949,6 +2342,7 @@
         "resourceArn": {
           "target": "com.amazonaws.agentregistrycontrol#ResourceArn",
           "traits": {
+            "smithy.api#documentation": "<p>The Amazon Resource Name (ARN) of the resource to list tags for. Supported resources include registries and registry records.</p>",
             "smithy.api#httpLabel": {},
             "smithy.api#required": {}
           }
@@ -1962,7 +2356,10 @@
       "type": "structure",
       "members": {
         "tags": {
-          "target": "com.amazonaws.agentregistrycontrol#ResourceTagsMap"
+          "target": "com.amazonaws.agentregistrycontrol#ResourceTagsMap",
+          "traits": {
+            "smithy.api#documentation": "<p>The tags currently associated with the resource, as a map of tag keys to tag values.</p>"
+          }
         }
       },
       "traits": {
@@ -2000,7 +2397,10 @@
           }
         },
         "tags": {
-          "target": "com.amazonaws.agentregistrycontrol#TagsMap"
+          "target": "com.amazonaws.agentregistrycontrol#TagsMap",
+          "traits": {
+            "smithy.api#documentation": "<p>The tags applied to the service-managed VPC resource.</p>"
+          }
         },
         "routingDomain": {
           "target": "com.amazonaws.agentregistrycontrol#RoutingDomain",
@@ -2050,7 +2450,10 @@
       "type": "structure",
       "members": {
         "tools": {
-          "target": "com.amazonaws.agentregistrycontrol#McpToolsDescriptor"
+          "target": "com.amazonaws.agentregistrycontrol#McpToolsDescriptor",
+          "traits": {
+            "smithy.api#documentation": "<p>The MCP tools descriptor that defines the tools exposed by the MCP server.</p>"
+          }
         }
       },
       "traits": {
@@ -2093,10 +2496,16 @@
       "type": "structure",
       "members": {
         "data": {
-          "target": "com.amazonaws.agentregistrycontrol#DescriptorData"
+          "target": "com.amazonaws.agentregistrycontrol#DescriptorData",
+          "traits": {
+            "smithy.api#documentation": "<p>The MCP tools descriptor content, serialized as descriptor payload data.</p>"
+          }
         },
         "dataSchemaVersion": {
-          "target": "com.amazonaws.agentregistrycontrol#DataSchemaVersion"
+          "target": "com.amazonaws.agentregistrycontrol#DataSchemaVersion",
+          "traits": {
+            "smithy.api#documentation": "<p>The schema version of the descriptor payload.</p>"
+          }
         }
       },
       "traits": {
@@ -2188,6 +2597,101 @@
         }
       }
     },
+    "com.amazonaws.agentregistrycontrol#Provenance": {
+      "type": "structure",
+      "members": {
+        "relation": {
+          "target": "com.amazonaws.agentregistrycontrol#ProvenanceRelation",
+          "traits": {
+            "smithy.api#documentation": "<p>The relationship between the registry record and its upstream source. <code>DETECTED_FROM</code> indicates that the record was auto-detected from the source resource.</p>",
+            "smithy.api#required": {}
+          }
+        },
+        "sourceId": {
+          "target": "com.amazonaws.agentregistrycontrol#SourceId",
+          "traits": {
+            "smithy.api#documentation": "<p>The identifier of the upstream source that the registry record was detected from.</p>",
+            "smithy.api#required": {}
+          }
+        },
+        "sourceType": {
+          "target": "com.amazonaws.agentregistrycontrol#SourceType",
+          "traits": {
+            "smithy.api#documentation": "<p>The type of the upstream source that the registry record was detected from.</p>"
+          }
+        },
+        "sourceDetails": {
+          "target": "com.amazonaws.agentregistrycontrol#SourceDetails",
+          "traits": {
+            "smithy.api#documentation": "<p>Additional details about the upstream source that the registry record was detected from, such as the AgentCore Gateway or Runtime configuration. The populated member corresponds to the source type.</p>"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "<p>A provenance entry that describes the lineage of a registry record. Records that were auto-detected by Amazon Web Services Agent Registry carry a provenance entry that links the record back to its upstream source.</p>"
+      }
+    },
+    "com.amazonaws.agentregistrycontrol#ProvenanceList": {
+      "type": "list",
+      "member": {
+        "target": "com.amazonaws.agentregistrycontrol#Provenance"
+      },
+      "traits": {
+        "smithy.api#length": {
+          "max": 1
+        }
+      }
+    },
+    "com.amazonaws.agentregistrycontrol#ProvenanceRelation": {
+      "type": "enum",
+      "members": {
+        "DETECTED_FROM": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "DETECTED_FROM"
+          }
+        }
+      }
+    },
+    "com.amazonaws.agentregistrycontrol#ProvenanceSummary": {
+      "type": "structure",
+      "members": {
+        "relation": {
+          "target": "com.amazonaws.agentregistrycontrol#ProvenanceRelation",
+          "traits": {
+            "smithy.api#documentation": "<p>The relationship between the registry record and its upstream source. <code>DETECTED_FROM</code> indicates that the record was auto-detected from the source resource.</p>",
+            "smithy.api#required": {}
+          }
+        },
+        "sourceId": {
+          "target": "com.amazonaws.agentregistrycontrol#SourceId",
+          "traits": {
+            "smithy.api#documentation": "<p>The identifier of the upstream source that the registry record was detected from.</p>",
+            "smithy.api#required": {}
+          }
+        },
+        "sourceType": {
+          "target": "com.amazonaws.agentregistrycontrol#SourceType",
+          "traits": {
+            "smithy.api#documentation": "<p>The type of the upstream source that the registry record was detected from.</p>"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "<p>A condensed provenance entry surfaced in list results. Contains the source identity of a lineage entry without the source details returned by <code>GetRegistryRecord</code>.</p>"
+      }
+    },
+    "com.amazonaws.agentregistrycontrol#ProvenanceSummaryList": {
+      "type": "list",
+      "member": {
+        "target": "com.amazonaws.agentregistrycontrol#ProvenanceSummary"
+      },
+      "traits": {
+        "smithy.api#length": {
+          "max": 1
+        }
+      }
+    },
     "com.amazonaws.agentregistrycontrol#RecordIdentifier": {
       "type": "string",
       "traits": {
@@ -2225,10 +2729,49 @@
           "traits": {
             "smithy.api#enumValue": "SKILL"
           }
+        },
+        "GATEWAY": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "GATEWAY"
+          }
         }
       },
       "traits": {
         "smithy.api#documentation": "<p>Record type enum for registry record classification</p>"
+      }
+    },
+    "com.amazonaws.agentregistrycontrol#RecordTypeSchemaOverride": {
+      "type": "structure",
+      "members": {
+        "recordType": {
+          "target": "com.amazonaws.agentregistrycontrol#RecordType",
+          "traits": {
+            "smithy.api#documentation": "<p>The record type that this schema override applies to.</p>",
+            "smithy.api#required": {}
+          }
+        },
+        "schema": {
+          "target": "com.amazonaws.agentregistrycontrol#CustomMetadataSchemaDefinition",
+          "traits": {
+            "smithy.api#documentation": "<p>The JSON Schema for the specified record type. Must follow the same structural rules as the default schema.</p>",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "<p>A schema override for a specific record type within a custom metadata schema configuration.</p>"
+      }
+    },
+    "com.amazonaws.agentregistrycontrol#RecordTypeSchemaOverrideList": {
+      "type": "list",
+      "member": {
+        "target": "com.amazonaws.agentregistrycontrol#RecordTypeSchemaOverride"
+      },
+      "traits": {
+        "smithy.api#length": {
+          "max": 5
+        }
       }
     },
     "com.amazonaws.agentregistrycontrol#RegistryArn": {
@@ -2498,7 +3041,7 @@
         "roleArn": {
           "target": "com.amazonaws.agentregistrycontrol#IamRoleArn",
           "traits": {
-            "smithy.api#documentation": "<p>The &amp;ARN; of the IAM role to assume for request signing.</p>"
+            "smithy.api#documentation": "<p>The Amazon Resource Name (ARN) of the IAM role to assume for request signing.</p>"
           }
         },
         "service": {
@@ -2510,12 +3053,12 @@
         "region": {
           "target": "com.amazonaws.agentregistrycontrol#IamSigningRegion",
           "traits": {
-            "smithy.api#documentation": "<p>The AWS Region to use for request signing. If not specified, the Region is derived from the source URL hostname, falling back to the Region of the registry.</p>"
+            "smithy.api#documentation": "<p>The Amazon Web Services Region to use for request signing. If not specified, the Region is derived from the source URL hostname, falling back to the Region of the registry.</p>"
           }
         }
       },
       "traits": {
-        "smithy.api#documentation": "<p>The configuration for an IAM role credential provider that signs requests to a registry record's source with AWS Signature Version 4 (SigV4).</p>"
+        "smithy.api#documentation": "<p>The configuration for an IAM role credential provider that signs requests to a registry record's source with Amazon Web Services Signature Version 4 (SigV4).</p>"
       }
     },
     "com.amazonaws.agentregistrycontrol#RegistryRecordId": {
@@ -2546,7 +3089,7 @@
         "providerArn": {
           "target": "com.amazonaws.agentregistrycontrol#CredentialProviderArn",
           "traits": {
-            "smithy.api#documentation": "<p>The &amp;ARN; of the OAuth 2.0 credential provider resource in Amazon Bedrock AgentCore Identity.</p>",
+            "smithy.api#documentation": "<p>The Amazon Resource Name (ARN) of the OAuth 2.0 credential provider resource in Amazon Bedrock AgentCore Identity.</p>",
             "smithy.api#required": {}
           }
         },
@@ -2686,14 +3229,14 @@
         "registryArn": {
           "target": "com.amazonaws.agentregistrycontrol#RegistryArn",
           "traits": {
-            "smithy.api#documentation": "<p>The &amp;ARN; of the parent registry that owns the record.</p>",
+            "smithy.api#documentation": "<p>The Amazon Resource Name (ARN) of the parent registry that owns the record.</p>",
             "smithy.api#required": {}
           }
         },
         "recordArn": {
           "target": "com.amazonaws.agentregistrycontrol#RegistryRecordArn",
           "traits": {
-            "smithy.api#documentation": "<p>The &amp;ARN; of the registry record.</p>",
+            "smithy.api#documentation": "<p>The Amazon Resource Name (ARN) of the registry record.</p>",
             "smithy.api#required": {}
           }
         },
@@ -2756,6 +3299,30 @@
           "traits": {
             "smithy.api#documentation": "<p>The timestamp when the registry record was last updated.</p>",
             "smithy.api#required": {}
+          }
+        },
+        "createdByAutoDetection": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "<p>Specifies whether the registry record was created by auto-detection. <code>true</code> indicates the record was automatically created by the service based on the registry's auto-detection configuration; <code>false</code> indicates the record was created through a control-plane API call.</p>"
+          }
+        },
+        "createdBy": {
+          "target": "com.amazonaws.agentregistrycontrol#CreatorAccountId",
+          "traits": {
+            "smithy.api#documentation": "<p>The ID of the Amazon Web Services account that created the registry record.</p>"
+          }
+        },
+        "provenanceSummaryList": {
+          "target": "com.amazonaws.agentregistrycontrol#ProvenanceSummaryList",
+          "traits": {
+            "smithy.api#documentation": "<p>The condensed provenance lineage for the registry record. Each entry contains the source relation, source identifier, and source type of an auto-detection lineage entry. Populated for records created by auto-detection.</p>"
+          }
+        },
+        "customMetadataSchemaComplianceStatus": {
+          "target": "com.amazonaws.agentregistrycontrol#CustomMetadataSchemaComplianceStatus",
+          "traits": {
+            "smithy.api#documentation": "<p>Indicates whether this record's custom metadata conforms to the registry's current schema.</p>"
           }
         }
       },
@@ -2899,6 +3466,12 @@
             "smithy.api#documentation": "<p>The reason for the current status. Typically populated when the status indicates a failure state.</p>"
           }
         },
+        "autoDetection": {
+          "target": "com.amazonaws.agentregistrycontrol#AutoDetection",
+          "traits": {
+            "smithy.api#documentation": "<p>The registry's auto-detection properties, including the requested configuration and the current detection status. Present only when auto-detection was configured for the registry.</p>"
+          }
+        },
         "createdAt": {
           "target": "com.amazonaws.agentregistrycontrol#DateTimestamp",
           "traits": {
@@ -3039,6 +3612,53 @@
         "smithy.api#documentation": "<p>The request would exceed a service quota.</p>",
         "smithy.api#error": "client",
         "smithy.api#httpError": 402
+      }
+    },
+    "com.amazonaws.agentregistrycontrol#SourceDetails": {
+      "type": "union",
+      "members": {
+        "agentcoreRuntime": {
+          "target": "com.amazonaws.agentregistrycontrol#AgentCoreRuntimeSourceDetails",
+          "traits": {
+            "smithy.api#documentation": "<p>The source details for a registry record that was auto-detected from an Amazon Bedrock AgentCore Runtime resource. Populated when the source type is <code>AWS::BedrockAgentCore::Runtime</code>.</p>"
+          }
+        },
+        "agentcoreGateway": {
+          "target": "com.amazonaws.agentregistrycontrol#AgentCoreGatewaySourceDetails",
+          "traits": {
+            "smithy.api#documentation": "<p>The source details for a registry record that was auto-detected from an Amazon Bedrock AgentCore Gateway resource. Populated when the source type is <code>AWS::BedrockAgentCore::Gateway</code>.</p>"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "<p>The details about the upstream source from which a registry record was detected. Exactly one member is populated, corresponding to the source type.</p>"
+      }
+    },
+    "com.amazonaws.agentregistrycontrol#SourceId": {
+      "type": "string",
+      "traits": {
+        "smithy.api#length": {
+          "min": 1,
+          "max": 2048
+        },
+        "smithy.api#pattern": "^arn:aws(-[^:]+)?:[a-zA-Z0-9-]+:[a-z0-9-]*:[0-9]{12}:.+$"
+      }
+    },
+    "com.amazonaws.agentregistrycontrol#SourceType": {
+      "type": "enum",
+      "members": {
+        "AWS_BEDROCK_AGENTCORE_RUNTIME": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "AWS::BedrockAgentCore::Runtime"
+          }
+        },
+        "AWS_BEDROCK_AGENTCORE_GATEWAY": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "AWS::BedrockAgentCore::Gateway"
+          }
+        }
       }
     },
     "com.amazonaws.agentregistrycontrol#SubmitRegistryRecordForApproval": {
@@ -3224,7 +3844,7 @@
         }
       ],
       "traits": {
-        "smithy.api#documentation": "Tag a resource with key-value pairs",
+        "smithy.api#documentation": "<p>Adds or overwrites one or more tags for the specified Amazon Web Services Agent Registry resource. Tags are key-value pairs that you can use to categorize and manage Amazon Web Services resources. If a tag with the same key already exists on the resource, the service replaces its value with the value you specify.</p>",
         "smithy.api#http": {
           "code": 204,
           "method": "POST",
@@ -3239,6 +3859,7 @@
         "resourceArn": {
           "target": "com.amazonaws.agentregistrycontrol#ResourceArn",
           "traits": {
+            "smithy.api#documentation": "<p>The Amazon Resource Name (ARN) of the resource to tag. Supported resources include registries and registry records.</p>",
             "smithy.api#httpLabel": {},
             "smithy.api#required": {}
           }
@@ -3246,6 +3867,7 @@
         "tags": {
           "target": "com.amazonaws.agentregistrycontrol#TagsMap",
           "traits": {
+            "smithy.api#documentation": "<p>The tags to apply to the resource, as a map of tag keys to tag values. Tag keys must be unique within the request.</p>",
             "smithy.api#required": {}
           }
         }
@@ -3327,7 +3949,7 @@
         }
       ],
       "traits": {
-        "smithy.api#documentation": "Remove tags from a resource by key",
+        "smithy.api#documentation": "<p>Removes one or more tags from the specified Amazon Web Services Agent Registry resource. The operation removes only the tags whose keys you supply; other tags on the resource remain unchanged.</p>",
         "smithy.api#http": {
           "code": 204,
           "method": "DELETE",
@@ -3342,6 +3964,7 @@
         "resourceArn": {
           "target": "com.amazonaws.agentregistrycontrol#ResourceArn",
           "traits": {
+            "smithy.api#documentation": "<p>The Amazon Resource Name (ARN) of the resource to remove tags from. Supported resources include registries and registry records.</p>",
             "smithy.api#httpLabel": {},
             "smithy.api#required": {}
           }
@@ -3349,6 +3972,7 @@
         "tagKeys": {
           "target": "com.amazonaws.agentregistrycontrol#TagKeyList",
           "traits": {
+            "smithy.api#documentation": "<p>The keys of the tags to remove from the resource. Tags with keys not included in this list remain on the resource.</p>",
             "smithy.api#httpQuery": "tagKeys",
             "smithy.api#required": {}
           }
@@ -3497,10 +4121,22 @@
             "smithy.api#documentation": "<p>The updated version of the registry record. Omit to leave the version unchanged.</p>"
           }
         },
+        "customMetadata": {
+          "target": "com.amazonaws.agentregistrycontrol#UpdatedCustomMetadataMap",
+          "traits": {
+            "smithy.api#documentation": "<p>The updated custom metadata for the registry record. Values can be strings (maximum 128 characters) or native JSON booleans (<code>true</code> or <code>false</code>). Omit to leave the existing metadata unchanged. Supply the wrapper with a full replacement set to update, or with a null value to clear all metadata.</p>"
+          }
+        },
         "triggerSynchronization": {
           "target": "smithy.api#Boolean",
           "traits": {
             "smithy.api#documentation": "<p>Whether to trigger synchronization of the record's descriptor content from its source</p>"
+          }
+        },
+        "provenance": {
+          "target": "com.amazonaws.agentregistrycontrol#ProvenanceList",
+          "traits": {
+            "smithy.api#documentation": "<p>The provenance lineage re-assertion for the registry record. This field is reserved for the Amazon Web Services Agent Registry auto-detection service principal. Requests that include this field from other callers are rejected. The source identity of an existing lineage is immutable; a re-assertion may only refresh the source details.</p>"
           }
         }
       },
@@ -3519,14 +4155,14 @@
         "registryArn": {
           "target": "com.amazonaws.agentregistrycontrol#RegistryArn",
           "traits": {
-            "smithy.api#documentation": "<p>The &amp;ARN; of the parent registry that owns the record.</p>",
+            "smithy.api#documentation": "<p>The Amazon Resource Name (ARN) of the parent registry that owns the record.</p>",
             "smithy.api#required": {}
           }
         },
         "recordArn": {
           "target": "com.amazonaws.agentregistrycontrol#RegistryRecordArn",
           "traits": {
-            "smithy.api#documentation": "<p>The &amp;ARN; of the registry record.</p>",
+            "smithy.api#documentation": "<p>The Amazon Resource Name (ARN) of the registry record.</p>",
             "smithy.api#required": {}
           }
         },
@@ -3600,6 +4236,36 @@
           "target": "smithy.api#String",
           "traits": {
             "smithy.api#documentation": "<p>The reason for the current status. Typically populated when the status indicates a failure state.</p>"
+          }
+        },
+        "provenance": {
+          "target": "com.amazonaws.agentregistrycontrol#ProvenanceList",
+          "traits": {
+            "smithy.api#documentation": "<p>The provenance lineage entries for the registry record. Populated for records created by auto-detection; each entry identifies the upstream source that the record was detected from.</p>"
+          }
+        },
+        "createdByAutoDetection": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "<p>Specifies whether the registry record was created by auto-detection. <code>true</code> indicates the record was automatically created by the service based on the registry's auto-detection configuration; <code>false</code> indicates the record was created through a control-plane API call.</p>"
+          }
+        },
+        "createdBy": {
+          "target": "com.amazonaws.agentregistrycontrol#CreatorAccountId",
+          "traits": {
+            "smithy.api#documentation": "<p>The ID of the Amazon Web Services account that created the registry record.</p>"
+          }
+        },
+        "customMetadata": {
+          "target": "com.amazonaws.agentregistrycontrol#CustomMetadataDocument",
+          "traits": {
+            "smithy.api#documentation": "<p>The custom metadata attached to this registry record. Values are strings (maximum 128 characters) or booleans.</p>"
+          }
+        },
+        "customMetadataSchemaComplianceStatus": {
+          "target": "com.amazonaws.agentregistrycontrol#CustomMetadataSchemaComplianceStatus",
+          "traits": {
+            "smithy.api#documentation": "<p>Indicates whether this record's custom metadata conforms to the registry's current schema. This status is computed at read time against the latest schema.</p>"
           }
         }
       },
@@ -3778,6 +4444,18 @@
           "traits": {
             "smithy.api#documentation": "<p>The updated approval configuration. The change applies only to records that move to PENDING_APPROVAL after the update; records already in PENDING_APPROVAL are unaffected.</p>"
           }
+        },
+        "customMetadataSchemaConfiguration": {
+          "target": "com.amazonaws.agentregistrycontrol#UpdatedCustomMetadataSchemaConfiguration",
+          "traits": {
+            "smithy.api#documentation": "<p>Updated custom metadata schema configuration for the registry. Omit to leave the existing schema unchanged. Schema evolution is additive only: you can add properties and enum values, but you cannot remove properties, change property types or formats, add or remove enum constraints, or remove record type overrides.</p>"
+          }
+        },
+        "autoDetectionConfiguration": {
+          "target": "com.amazonaws.agentregistrycontrol#UpdatedAutoDetectionConfiguration",
+          "traits": {
+            "smithy.api#documentation": "<p>The updated auto-detection configuration for the registry, with PATCH semantics. Omit this field to leave the current configuration unchanged. Supply an empty wrapper to unset it. Supply <code>optionalValue</code> to replace it.</p>"
+          }
         }
       },
       "traits": {
@@ -3821,10 +4499,22 @@
             "smithy.api#documentation": "<p>Discovery configuration for the registry</p>"
           }
         },
+        "encryptionConfiguration": {
+          "target": "com.amazonaws.agentregistrycontrol#EncryptionConfiguration",
+          "traits": {
+            "smithy.api#documentation": "<p>The server-side encryption configuration for the registry. Appears only when a customer-managed Amazon Web Services KMS key encrypts the registry.</p>"
+          }
+        },
         "approvalConfiguration": {
           "target": "com.amazonaws.agentregistrycontrol#ApprovalConfiguration",
           "traits": {
             "smithy.api#documentation": "<p>Approval configuration for registry records</p>"
+          }
+        },
+        "customMetadataSchemaConfiguration": {
+          "target": "com.amazonaws.agentregistrycontrol#CustomMetadataSchemaConfiguration",
+          "traits": {
+            "smithy.api#documentation": "<p>The custom metadata schema configuration for this registry, if one has been defined.</p>"
           }
         },
         "status": {
@@ -3838,6 +4528,12 @@
           "target": "smithy.api#String",
           "traits": {
             "smithy.api#documentation": "<p>The reason for the current status. Typically populated when the status indicates a failure state.</p>"
+          }
+        },
+        "autoDetection": {
+          "target": "com.amazonaws.agentregistrycontrol#AutoDetection",
+          "traits": {
+            "smithy.api#documentation": "<p>The registry's auto-detection properties, including the requested configuration and the current detection status. Present only when auto-detection was configured for the registry.</p>"
           }
         },
         "createdAt": {
@@ -3898,6 +4594,34 @@
       },
       "traits": {
         "smithy.api#documentation": "<p>The set of A2A agent card descriptor fields that can be individually updated.</p>"
+      }
+    },
+    "com.amazonaws.agentregistrycontrol#UpdatedAgUiDescriptor": {
+      "type": "structure",
+      "members": {
+        "optionalValue": {
+          "target": "com.amazonaws.agentregistrycontrol#UpdatedAgUiDescriptorFields",
+          "traits": {
+            "smithy.api#documentation": "<p>The value to set for this field. Omit the wrapper to leave the field unchanged.</p>"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "<p>The AG-UI descriptor patch wrapper. Omit to leave the descriptor unchanged; supply an empty object to remove it; supply optionalValue to patch its fields.</p>"
+      }
+    },
+    "com.amazonaws.agentregistrycontrol#UpdatedAgUiDescriptorFields": {
+      "type": "structure",
+      "members": {
+        "source": {
+          "target": "com.amazonaws.agentregistrycontrol#UpdatedDescriptorSource",
+          "traits": {
+            "smithy.api#documentation": "<p>The patch for the descriptor's source field.</p>"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "<p>The set of AG-UI descriptor fields that can be individually updated.</p>"
       }
     },
     "com.amazonaws.agentregistrycontrol#UpdatedAgentSkillsAdditionalData": {
@@ -4036,6 +4760,20 @@
         "smithy.api#documentation": "<p>Wrapper for updating an optional authorizer configuration with PATCH semantics.</p>"
       }
     },
+    "com.amazonaws.agentregistrycontrol#UpdatedAutoDetectionConfiguration": {
+      "type": "structure",
+      "members": {
+        "optionalValue": {
+          "target": "com.amazonaws.agentregistrycontrol#AutoDetectionConfiguration",
+          "traits": {
+            "smithy.api#documentation": "<p>The value to set for this field. Omit the wrapper to leave the field unchanged.</p>"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "<p>A wrapper for updating the auto-detection configuration of a registry with PATCH semantics. Include this wrapper to replace the auto-detection configuration with the specified value. Omit it to leave the auto-detection configuration unchanged. To clear the configuration, include the wrapper with a null <code>optionalValue</code>.</p>"
+      }
+    },
     "com.amazonaws.agentregistrycontrol#UpdatedCustomDescriptor": {
       "type": "structure",
       "members": {
@@ -4064,6 +4802,34 @@
         "smithy.api#documentation": "<p>The set of custom descriptor fields that can be individually updated.</p>"
       }
     },
+    "com.amazonaws.agentregistrycontrol#UpdatedCustomMetadataMap": {
+      "type": "structure",
+      "members": {
+        "optionalValue": {
+          "target": "com.amazonaws.agentregistrycontrol#CustomMetadataDocument",
+          "traits": {
+            "smithy.api#documentation": "<p>The value to set for this field. Omit the wrapper to leave the field unchanged.</p>"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "<p>The custom metadata patch wrapper. Omit to leave the existing metadata unchanged; supply with a null value to clear all metadata; supply with key-value pairs to replace the existing metadata.</p>"
+      }
+    },
+    "com.amazonaws.agentregistrycontrol#UpdatedCustomMetadataSchemaConfiguration": {
+      "type": "structure",
+      "members": {
+        "optionalValue": {
+          "target": "com.amazonaws.agentregistrycontrol#CustomMetadataSchemaConfiguration",
+          "traits": {
+            "smithy.api#documentation": "<p>The value to set for this field. Omit the wrapper to leave the field unchanged.</p>"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "<p>The custom metadata schema configuration patch wrapper. Omit to leave the existing schema unchanged.</p>"
+      }
+    },
     "com.amazonaws.agentregistrycontrol#UpdatedDataSchemaVersion": {
       "type": "structure",
       "members": {
@@ -4082,7 +4848,10 @@
       "type": "structure",
       "members": {
         "optionalValue": {
-          "target": "com.amazonaws.agentregistrycontrol#Description"
+          "target": "com.amazonaws.agentregistrycontrol#Description",
+          "traits": {
+            "smithy.api#documentation": "<p>The value to set for this field. Omit the wrapper to leave the field unchanged.</p>"
+          }
         }
       },
       "traits": {
@@ -4157,6 +4926,18 @@
           "traits": {
             "smithy.api#documentation": "<p>The patch for the custom descriptor.</p>"
           }
+        },
+        "http": {
+          "target": "com.amazonaws.agentregistrycontrol#UpdatedHttpDescriptor",
+          "traits": {
+            "smithy.api#documentation": "<p>The patch for the HTTP descriptor.</p>"
+          }
+        },
+        "agui": {
+          "target": "com.amazonaws.agentregistrycontrol#UpdatedAgUiDescriptor",
+          "traits": {
+            "smithy.api#documentation": "<p>The patch for the AG-UI descriptor.</p>"
+          }
         }
       },
       "traits": {
@@ -4189,6 +4970,34 @@
       },
       "traits": {
         "smithy.api#documentation": "<p>Leaf patch wrapper for a registry record's display name. Omit to leave unchanged; supply an empty object to unset; supply optionalValue to set.</p>"
+      }
+    },
+    "com.amazonaws.agentregistrycontrol#UpdatedHttpDescriptor": {
+      "type": "structure",
+      "members": {
+        "optionalValue": {
+          "target": "com.amazonaws.agentregistrycontrol#UpdatedHttpDescriptorFields",
+          "traits": {
+            "smithy.api#documentation": "<p>The value to set for this field. Omit the wrapper to leave the field unchanged.</p>"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "<p>The HTTP descriptor patch wrapper. Omit to leave the descriptor unchanged; supply an empty object to remove it; supply optionalValue to patch its fields.</p>"
+      }
+    },
+    "com.amazonaws.agentregistrycontrol#UpdatedHttpDescriptorFields": {
+      "type": "structure",
+      "members": {
+        "source": {
+          "target": "com.amazonaws.agentregistrycontrol#UpdatedDescriptorSource",
+          "traits": {
+            "smithy.api#documentation": "<p>The patch for the descriptor's source field.</p>"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "<p>The set of HTTP descriptor fields that can be individually updated.</p>"
       }
     },
     "com.amazonaws.agentregistrycontrol#UpdatedMcpServerAdditionalData": {
@@ -4402,6 +5211,25 @@
           "max": 48
         },
         "smithy.api#pattern": "^vpc-(([0-9a-z]{8})|([0-9a-z]{17}))$"
+      }
+    },
+    "com.amazonaws.agentregistrycontrol#WorkloadIdentityDetails": {
+      "type": "structure",
+      "members": {
+        "workloadIdentityArn": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "<p>The Amazon Resource Name (ARN) of the workload identity associated with the source resource.</p>",
+            "smithy.api#length": {
+              "min": 1,
+              "max": 1024
+            },
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "<p>The workload identity details associated with a source resource. Present on the source details of a provenance entry when the upstream resource has a workload identity configured.</p>"
       }
     }
   }

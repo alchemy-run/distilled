@@ -7,10 +7,7 @@ import type { CommonErrors } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
 import { Retry } from "../retry.ts";
 import * as T from "../traits.ts";
-const svc = T.AwsApiService({
-  sdkId: "CodeGuruProfiler",
-  serviceShapeName: "CodeGuruProfiler",
-});
+const svc = T.AwsApiService({ sdkId: "CodeGuruProfiler", serviceShapeName: "CodeGuruProfiler" });
 const auth = T.AwsAuthSigv4({ name: "codeguru-profiler" });
 const ver = T.ServiceVersion("2019-07-18");
 const proto = T.AwsProtocolsRestJson1();
@@ -121,11 +118,7 @@ export interface Channel {
   eventPublishers: string[];
 }
 export const Channel = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    id: S.optional(S.String),
-    uri: S.String,
-    eventPublishers: EventPublishers,
-  }),
+  S.Struct({ id: S.optional(S.String), uri: S.String, eventPublishers: EventPublishers }),
 ).annotate({ identifier: "Channel" }) as any as S.Schema<Channel>;
 export type Channels = Channel[];
 export const Channels = /*@__PURE__*/ S.Array(Channel);
@@ -165,9 +158,7 @@ export interface AddNotificationChannelsResponse {
   notificationConfiguration?: NotificationConfiguration;
 }
 export const AddNotificationChannelsResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    notificationConfiguration: S.optional(NotificationConfiguration),
-  }),
+  S.Struct({ notificationConfiguration: S.optional(NotificationConfiguration) }),
 ).annotate({
   identifier: "AddNotificationChannelsResponse",
 }) as any as S.Schema<AddNotificationChannelsResponse>;
@@ -208,10 +199,7 @@ export const BatchGetFrameMetricDataRequest = /*@__PURE__*/ S.suspend(() =>
     frameMetrics: S.optional(FrameMetrics),
   }).pipe(
     T.all(
-      T.Http({
-        method: "POST",
-        uri: "/profilingGroups/{profilingGroupName}/frames/-/metrics",
-      }),
+      T.Http({ method: "POST", uri: "/profilingGroups/{profilingGroupName}/frames/-/metrics" }),
       svc,
       auth,
       proto,
@@ -227,14 +215,10 @@ export interface TimestampStructure {
 }
 export const TimestampStructure = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ value: T.DateFromString.pipe(T.TimestampFormat("date-time")) }),
-).annotate({
-  identifier: "TimestampStructure",
-}) as any as S.Schema<TimestampStructure>;
+).annotate({ identifier: "TimestampStructure" }) as any as S.Schema<TimestampStructure>;
 export type ListOfTimestamps = TimestampStructure[];
 export const ListOfTimestamps = /*@__PURE__*/ S.Array(TimestampStructure);
-export type UnprocessedEndTimeMap = {
-  [key: string]: TimestampStructure[] | undefined;
-};
+export type UnprocessedEndTimeMap = { [key: string]: TimestampStructure[] | undefined };
 export const UnprocessedEndTimeMap = /*@__PURE__*/ S.Record(
   S.String,
   ListOfTimestamps.pipe(S.optional),
@@ -248,9 +232,7 @@ export interface FrameMetricDatum {
 }
 export const FrameMetricDatum = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ frameMetric: FrameMetric, values: FrameMetricValues }),
-).annotate({
-  identifier: "FrameMetricDatum",
-}) as any as S.Schema<FrameMetricDatum>;
+).annotate({ identifier: "FrameMetricDatum" }) as any as S.Schema<FrameMetricDatum>;
 export type FrameMetricData = FrameMetricDatum[];
 export const FrameMetricData = /*@__PURE__*/ S.Array(FrameMetricDatum);
 export interface BatchGetFrameMetricDataResponse {
@@ -289,10 +271,7 @@ export const ConfigureAgentRequest = /*@__PURE__*/ S.suspend(() =>
     metadata: S.optional(Metadata),
   }).pipe(
     T.all(
-      T.Http({
-        method: "POST",
-        uri: "/profilingGroups/{profilingGroupName}/configureAgent",
-      }),
+      T.Http({ method: "POST", uri: "/profilingGroups/{profilingGroupName}/configureAgent" }),
       svc,
       auth,
       proto,
@@ -300,9 +279,7 @@ export const ConfigureAgentRequest = /*@__PURE__*/ S.suspend(() =>
       rules,
     ),
   ),
-).annotate({
-  identifier: "ConfigureAgentRequest",
-}) as any as S.Schema<ConfigureAgentRequest>;
+).annotate({ identifier: "ConfigureAgentRequest" }) as any as S.Schema<ConfigureAgentRequest>;
 export type AgentParameterField = string;
 export type AgentParameters = { [key: string]: string | undefined };
 export const AgentParameters = /*@__PURE__*/ S.Record(S.String, S.String.pipe(S.optional));
@@ -317,9 +294,7 @@ export const AgentConfiguration = /*@__PURE__*/ S.suspend(() =>
     periodInSeconds: S.Number,
     agentParameters: S.optional(AgentParameters),
   }),
-).annotate({
-  identifier: "AgentConfiguration",
-}) as any as S.Schema<AgentConfiguration>;
+).annotate({ identifier: "AgentConfiguration" }) as any as S.Schema<AgentConfiguration>;
 export interface ConfigureAgentResponse {
   configuration: AgentConfiguration;
 }
@@ -329,9 +304,7 @@ export const ConfigureAgentResponse = /*@__PURE__*/ S.suspend(() =>
       identifier: "AgentConfiguration",
     }),
   }),
-).annotate({
-  identifier: "ConfigureAgentResponse",
-}) as any as S.Schema<ConfigureAgentResponse>;
+).annotate({ identifier: "ConfigureAgentResponse" }) as any as S.Schema<ConfigureAgentResponse>;
 export type ComputePlatform = string;
 export type ClientToken = string;
 export interface AgentOrchestrationConfig {
@@ -339,9 +312,7 @@ export interface AgentOrchestrationConfig {
 }
 export const AgentOrchestrationConfig = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ profilingEnabled: S.Boolean }),
-).annotate({
-  identifier: "AgentOrchestrationConfig",
-}) as any as S.Schema<AgentOrchestrationConfig>;
+).annotate({ identifier: "AgentOrchestrationConfig" }) as any as S.Schema<AgentOrchestrationConfig>;
 export type TagsMap = { [key: string]: string | undefined };
 export const TagsMap = /*@__PURE__*/ S.Record(S.String, S.String.pipe(S.optional));
 export interface CreateProfilingGroupRequest {
@@ -372,9 +343,7 @@ export const AggregatedProfileTime = /*@__PURE__*/ S.suspend(() =>
     start: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
     period: S.optional(S.String),
   }),
-).annotate({
-  identifier: "AggregatedProfileTime",
-}) as any as S.Schema<AggregatedProfileTime>;
+).annotate({ identifier: "AggregatedProfileTime" }) as any as S.Schema<AggregatedProfileTime>;
 export interface ProfilingStatus {
   latestAgentProfileReportedAt?: Date;
   latestAggregatedProfile?: AggregatedProfileTime;
@@ -386,9 +355,7 @@ export const ProfilingStatus = /*@__PURE__*/ S.suspend(() =>
     latestAggregatedProfile: S.optional(AggregatedProfileTime),
     latestAgentOrchestratedAt: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
   }),
-).annotate({
-  identifier: "ProfilingStatus",
-}) as any as S.Schema<ProfilingStatus>;
+).annotate({ identifier: "ProfilingStatus" }) as any as S.Schema<ProfilingStatus>;
 export interface ProfilingGroupDescription {
   name?: string;
   agentOrchestrationConfig?: AgentOrchestrationConfig;
@@ -429,14 +396,9 @@ export interface DeleteProfilingGroupRequest {
   profilingGroupName: string;
 }
 export const DeleteProfilingGroupRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    profilingGroupName: S.String.pipe(T.HttpLabel("profilingGroupName")),
-  }).pipe(
+  S.Struct({ profilingGroupName: S.String.pipe(T.HttpLabel("profilingGroupName")) }).pipe(
     T.all(
-      T.Http({
-        method: "DELETE",
-        uri: "/profilingGroups/{profilingGroupName}",
-      }),
+      T.Http({ method: "DELETE", uri: "/profilingGroups/{profilingGroupName}" }),
       svc,
       auth,
       proto,
@@ -455,9 +417,7 @@ export interface DescribeProfilingGroupRequest {
   profilingGroupName: string;
 }
 export const DescribeProfilingGroupRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    profilingGroupName: S.String.pipe(T.HttpLabel("profilingGroupName")),
-  }).pipe(
+  S.Struct({ profilingGroupName: S.String.pipe(T.HttpLabel("profilingGroupName")) }).pipe(
     T.all(
       T.Http({ method: "GET", uri: "/profilingGroups/{profilingGroupName}" }),
       svc,
@@ -523,9 +483,7 @@ export const FindingsReportSummary = /*@__PURE__*/ S.suspend(() =>
     profileEndTime: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
     totalNumberOfFindings: S.optional(S.Number),
   }),
-).annotate({
-  identifier: "FindingsReportSummary",
-}) as any as S.Schema<FindingsReportSummary>;
+).annotate({ identifier: "FindingsReportSummary" }) as any as S.Schema<FindingsReportSummary>;
 export type FindingsReportSummaries = FindingsReportSummary[];
 export const FindingsReportSummaries = /*@__PURE__*/ S.Array(FindingsReportSummary);
 export interface GetFindingsReportAccountSummaryResponse {
@@ -533,10 +491,7 @@ export interface GetFindingsReportAccountSummaryResponse {
   nextToken?: string;
 }
 export const GetFindingsReportAccountSummaryResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    reportSummaries: FindingsReportSummaries,
-    nextToken: S.optional(S.String),
-  }),
+  S.Struct({ reportSummaries: FindingsReportSummaries, nextToken: S.optional(S.String) }),
 ).annotate({
   identifier: "GetFindingsReportAccountSummaryResponse",
 }) as any as S.Schema<GetFindingsReportAccountSummaryResponse>;
@@ -544,9 +499,7 @@ export interface GetNotificationConfigurationRequest {
   profilingGroupName: string;
 }
 export const GetNotificationConfigurationRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    profilingGroupName: S.String.pipe(T.HttpLabel("profilingGroupName")),
-  }).pipe(
+  S.Struct({ profilingGroupName: S.String.pipe(T.HttpLabel("profilingGroupName")) }).pipe(
     T.all(
       T.Http({
         method: "GET",
@@ -574,14 +527,9 @@ export interface GetPolicyRequest {
   profilingGroupName: string;
 }
 export const GetPolicyRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    profilingGroupName: S.String.pipe(T.HttpLabel("profilingGroupName")),
-  }).pipe(
+  S.Struct({ profilingGroupName: S.String.pipe(T.HttpLabel("profilingGroupName")) }).pipe(
     T.all(
-      T.Http({
-        method: "GET",
-        uri: "/profilingGroups/{profilingGroupName}/policy",
-      }),
+      T.Http({ method: "GET", uri: "/profilingGroups/{profilingGroupName}/policy" }),
       svc,
       auth,
       proto,
@@ -589,9 +537,7 @@ export const GetPolicyRequest = /*@__PURE__*/ S.suspend(() =>
       rules,
     ),
   ),
-).annotate({
-  identifier: "GetPolicyRequest",
-}) as any as S.Schema<GetPolicyRequest>;
+).annotate({ identifier: "GetPolicyRequest" }) as any as S.Schema<GetPolicyRequest>;
 export type RevisionId = string;
 export interface GetPolicyResponse {
   policy: string;
@@ -599,9 +545,7 @@ export interface GetPolicyResponse {
 }
 export const GetPolicyResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ policy: S.String, revisionId: S.String }),
-).annotate({
-  identifier: "GetPolicyResponse",
-}) as any as S.Schema<GetPolicyResponse>;
+).annotate({ identifier: "GetPolicyResponse" }) as any as S.Schema<GetPolicyResponse>;
 export type MaxDepth = number;
 export interface GetProfileRequest {
   profilingGroupName: string;
@@ -625,10 +569,7 @@ export const GetProfileRequest = /*@__PURE__*/ S.suspend(() =>
     accept: S.optional(S.String).pipe(T.HttpHeader("Accept")),
   }).pipe(
     T.all(
-      T.Http({
-        method: "GET",
-        uri: "/profilingGroups/{profilingGroupName}/profile",
-      }),
+      T.Http({ method: "GET", uri: "/profilingGroups/{profilingGroupName}/profile" }),
       svc,
       auth,
       proto,
@@ -636,9 +577,7 @@ export const GetProfileRequest = /*@__PURE__*/ S.suspend(() =>
       rules,
     ),
   ),
-).annotate({
-  identifier: "GetProfileRequest",
-}) as any as S.Schema<GetProfileRequest>;
+).annotate({ identifier: "GetProfileRequest" }) as any as S.Schema<GetProfileRequest>;
 export interface GetProfileResponse {
   profile: T.StreamingOutputBody;
   contentType: string;
@@ -650,9 +589,7 @@ export const GetProfileResponse = /*@__PURE__*/ S.suspend(() =>
     contentType: S.String.pipe(T.HttpHeader("Content-Type")),
     contentEncoding: S.optional(S.String).pipe(T.HttpHeader("Content-Encoding")),
   }),
-).annotate({
-  identifier: "GetProfileResponse",
-}) as any as S.Schema<GetProfileResponse>;
+).annotate({ identifier: "GetProfileResponse" }) as any as S.Schema<GetProfileResponse>;
 export type Locale = string;
 export interface GetRecommendationsRequest {
   profilingGroupName: string;
@@ -771,9 +708,7 @@ export const AnomalyInstance = /*@__PURE__*/ S.suspend(() =>
     endTime: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
     userFeedback: S.optional(UserFeedback),
   }),
-).annotate({
-  identifier: "AnomalyInstance",
-}) as any as S.Schema<AnomalyInstance>;
+).annotate({ identifier: "AnomalyInstance" }) as any as S.Schema<AnomalyInstance>;
 export type AnomalyInstances = AnomalyInstance[];
 export const AnomalyInstances = /*@__PURE__*/ S.Array(AnomalyInstance);
 export interface Anomaly {
@@ -841,10 +776,7 @@ export interface ListFindingsReportsResponse {
   nextToken?: string;
 }
 export const ListFindingsReportsResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    findingsReportSummaries: FindingsReportSummaries,
-    nextToken: S.optional(S.String),
-  }),
+  S.Struct({ findingsReportSummaries: FindingsReportSummaries, nextToken: S.optional(S.String) }),
 ).annotate({
   identifier: "ListFindingsReportsResponse",
 }) as any as S.Schema<ListFindingsReportsResponse>;
@@ -869,10 +801,7 @@ export const ListProfileTimesRequest = /*@__PURE__*/ S.suspend(() =>
     nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
   }).pipe(
     T.all(
-      T.Http({
-        method: "GET",
-        uri: "/profilingGroups/{profilingGroupName}/profileTimes",
-      }),
+      T.Http({ method: "GET", uri: "/profilingGroups/{profilingGroupName}/profileTimes" }),
       svc,
       auth,
       proto,
@@ -880,16 +809,12 @@ export const ListProfileTimesRequest = /*@__PURE__*/ S.suspend(() =>
       rules,
     ),
   ),
-).annotate({
-  identifier: "ListProfileTimesRequest",
-}) as any as S.Schema<ListProfileTimesRequest>;
+).annotate({ identifier: "ListProfileTimesRequest" }) as any as S.Schema<ListProfileTimesRequest>;
 export interface ProfileTime {
   start?: Date;
 }
 export const ProfileTime = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    start: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
-  }),
+  S.Struct({ start: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))) }),
 ).annotate({ identifier: "ProfileTime" }) as any as S.Schema<ProfileTime>;
 export type ProfileTimes = ProfileTime[];
 export const ProfileTimes = /*@__PURE__*/ S.Array(ProfileTime);
@@ -899,9 +824,7 @@ export interface ListProfileTimesResponse {
 }
 export const ListProfileTimesResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ profileTimes: ProfileTimes, nextToken: S.optional(S.String) }),
-).annotate({
-  identifier: "ListProfileTimesResponse",
-}) as any as S.Schema<ListProfileTimesResponse>;
+).annotate({ identifier: "ListProfileTimesResponse" }) as any as S.Schema<ListProfileTimesResponse>;
 export interface ListProfilingGroupsRequest {
   nextToken?: string;
   maxResults?: number;
@@ -966,10 +889,7 @@ export const PostAgentProfileRequest = /*@__PURE__*/ S.suspend(() =>
     contentType: S.String.pipe(T.HttpHeader("Content-Type")),
   }).pipe(
     T.all(
-      T.Http({
-        method: "POST",
-        uri: "/profilingGroups/{profilingGroupName}/agentProfile",
-      }),
+      T.Http({ method: "POST", uri: "/profilingGroups/{profilingGroupName}/agentProfile" }),
       svc,
       auth,
       proto,
@@ -977,9 +897,7 @@ export const PostAgentProfileRequest = /*@__PURE__*/ S.suspend(() =>
       rules,
     ),
   ),
-).annotate({
-  identifier: "PostAgentProfileRequest",
-}) as any as S.Schema<PostAgentProfileRequest>;
+).annotate({ identifier: "PostAgentProfileRequest" }) as any as S.Schema<PostAgentProfileRequest>;
 export interface PostAgentProfileResponse {}
 export const PostAgentProfileResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
   identifier: "PostAgentProfileResponse",
@@ -1002,10 +920,7 @@ export const PutPermissionRequest = /*@__PURE__*/ S.suspend(() =>
     revisionId: S.optional(S.String),
   }).pipe(
     T.all(
-      T.Http({
-        method: "PUT",
-        uri: "/profilingGroups/{profilingGroupName}/policy/{actionGroup}",
-      }),
+      T.Http({ method: "PUT", uri: "/profilingGroups/{profilingGroupName}/policy/{actionGroup}" }),
       svc,
       auth,
       proto,
@@ -1013,18 +928,14 @@ export const PutPermissionRequest = /*@__PURE__*/ S.suspend(() =>
       rules,
     ),
   ),
-).annotate({
-  identifier: "PutPermissionRequest",
-}) as any as S.Schema<PutPermissionRequest>;
+).annotate({ identifier: "PutPermissionRequest" }) as any as S.Schema<PutPermissionRequest>;
 export interface PutPermissionResponse {
   policy: string;
   revisionId: string;
 }
 export const PutPermissionResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ policy: S.String, revisionId: S.String }),
-).annotate({
-  identifier: "PutPermissionResponse",
-}) as any as S.Schema<PutPermissionResponse>;
+).annotate({ identifier: "PutPermissionResponse" }) as any as S.Schema<PutPermissionResponse>;
 export interface RemoveNotificationChannelRequest {
   profilingGroupName: string;
   channelId: string;
@@ -1053,9 +964,7 @@ export interface RemoveNotificationChannelResponse {
   notificationConfiguration?: NotificationConfiguration;
 }
 export const RemoveNotificationChannelResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    notificationConfiguration: S.optional(NotificationConfiguration),
-  }),
+  S.Struct({ notificationConfiguration: S.optional(NotificationConfiguration) }),
 ).annotate({
   identifier: "RemoveNotificationChannelResponse",
 }) as any as S.Schema<RemoveNotificationChannelResponse>;
@@ -1082,18 +991,14 @@ export const RemovePermissionRequest = /*@__PURE__*/ S.suspend(() =>
       rules,
     ),
   ),
-).annotate({
-  identifier: "RemovePermissionRequest",
-}) as any as S.Schema<RemovePermissionRequest>;
+).annotate({ identifier: "RemovePermissionRequest" }) as any as S.Schema<RemovePermissionRequest>;
 export interface RemovePermissionResponse {
   policy: string;
   revisionId: string;
 }
 export const RemovePermissionResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ policy: S.String, revisionId: S.String }),
-).annotate({
-  identifier: "RemovePermissionResponse",
-}) as any as S.Schema<RemovePermissionResponse>;
+).annotate({ identifier: "RemovePermissionResponse" }) as any as S.Schema<RemovePermissionResponse>;
 export type AnomalyInstanceId = string;
 export interface SubmitFeedbackRequest {
   profilingGroupName: string;
@@ -1120,9 +1025,7 @@ export const SubmitFeedbackRequest = /*@__PURE__*/ S.suspend(() =>
       rules,
     ),
   ),
-).annotate({
-  identifier: "SubmitFeedbackRequest",
-}) as any as S.Schema<SubmitFeedbackRequest>;
+).annotate({ identifier: "SubmitFeedbackRequest" }) as any as S.Schema<SubmitFeedbackRequest>;
 export interface SubmitFeedbackResponse {}
 export const SubmitFeedbackResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
   identifier: "SubmitFeedbackResponse",
@@ -1132,15 +1035,10 @@ export interface TagResourceRequest {
   tags: { [key: string]: string | undefined };
 }
 export const TagResourceRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    resourceArn: S.String.pipe(T.HttpLabel("resourceArn")),
-    tags: TagsMap,
-  }).pipe(
+  S.Struct({ resourceArn: S.String.pipe(T.HttpLabel("resourceArn")), tags: TagsMap }).pipe(
     T.all(T.Http({ method: "POST", uri: "/tags/{resourceArn}" }), svc, auth, proto, ver, rules),
   ),
-).annotate({
-  identifier: "TagResourceRequest",
-}) as any as S.Schema<TagResourceRequest>;
+).annotate({ identifier: "TagResourceRequest" }) as any as S.Schema<TagResourceRequest>;
 export interface TagResourceResponse {}
 export const TagResourceResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
   identifier: "TagResourceResponse",
@@ -1158,9 +1056,7 @@ export const UntagResourceRequest = /*@__PURE__*/ S.suspend(() =>
   }).pipe(
     T.all(T.Http({ method: "DELETE", uri: "/tags/{resourceArn}" }), svc, auth, proto, ver, rules),
   ),
-).annotate({
-  identifier: "UntagResourceRequest",
-}) as any as S.Schema<UntagResourceRequest>;
+).annotate({ identifier: "UntagResourceRequest" }) as any as S.Schema<UntagResourceRequest>;
 export interface UntagResourceResponse {}
 export const UntagResourceResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
   identifier: "UntagResourceResponse",

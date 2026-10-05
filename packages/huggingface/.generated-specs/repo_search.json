@@ -1143,6 +1143,12 @@
     "com.huggingface.repo_search#SearchQuickRequestLibraryCase0": {
       "type": "enum",
       "members": {
+        "AADYA_NEURAL": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "aadya-neural"
+          }
+        },
         "ACESTEP": {
           "target": "smithy.api#Unit",
           "traits": {
@@ -1161,6 +1167,12 @@
             "smithy.api#enumValue": "allennlp"
           }
         },
+        "ANEFORGE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "aneforge"
+          }
+        },
         "ANEMOI": {
           "target": "smithy.api#Unit",
           "traits": {
@@ -1171,6 +1183,12 @@
           "target": "smithy.api#Unit",
           "traits": {
             "smithy.api#enumValue": "araclip"
+          }
+        },
+        "ASIMOV": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "asimov"
           }
         },
         "AVIATION_NER": {
@@ -1273,6 +1291,12 @@
           "target": "smithy.api#Unit",
           "traits": {
             "smithy.api#enumValue": "cartesia_mlx"
+          }
+        },
+        "CAUSILO": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "causilo"
           }
         },
         "CCPFN": {
@@ -1533,6 +1557,12 @@
             "smithy.api#enumValue": "flair"
           }
         },
+        "FLEXRAY": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "flexray"
+          }
+        },
         "FLEXTAB": {
           "target": "smithy.api#Unit",
           "traits": {
@@ -1545,6 +1575,12 @@
             "smithy.api#enumValue": "fme"
           }
         },
+        "GAUSSIANFORMER": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "gaussianformer"
+          }
+        },
         "GEMMA_CPP": {
           "target": "smithy.api#Unit",
           "traits": {
@@ -1555,6 +1591,12 @@
           "target": "smithy.api#Unit",
           "traits": {
             "smithy.api#enumValue": "geometry-crafter"
+          }
+        },
+        "GLIFORMER": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "gliformer"
           }
         },
         "GLINER": {
@@ -1609,6 +1651,12 @@
           "target": "smithy.api#Unit",
           "traits": {
             "smithy.api#enumValue": "minimax-h3"
+          }
+        },
+        "MECT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "mect"
           }
         },
         "HERMES": {
@@ -1707,6 +1755,12 @@
             "smithy.api#enumValue": "ising-decoding"
           }
         },
+        "JEV_STYLE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "jev-style"
+          }
+        },
         "KERAS": {
           "target": "smithy.api#Unit",
           "traits": {
@@ -1771,6 +1825,12 @@
           "target": "smithy.api#Unit",
           "traits": {
             "smithy.api#enumValue": "lagernvs"
+          }
+        },
+        "LAYA": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "laya"
           }
         },
         "LTX": {
@@ -1909,6 +1969,12 @@
           "target": "smithy.api#Unit",
           "traits": {
             "smithy.api#enumValue": "mflux"
+          }
+        },
+        "MICRODUCK": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "microduck"
           }
         },
         "MITIE": {
@@ -2571,6 +2637,12 @@
             "smithy.api#enumValue": "vui"
           }
         },
+        "VQWEB": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "vqweb"
+          }
+        },
         "VIBEVOICE": {
           "target": "smithy.api#Unit",
           "traits": {
@@ -2689,6 +2761,12 @@
           "target": "smithy.api#Unit",
           "traits": {
             "smithy.api#enumValue": "bucket"
+          }
+        },
+        "CONTAINER": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "container"
           }
         },
         "KERNEL": {
@@ -3232,20 +3310,8 @@
         "target": "smithy.api#String"
       },
       "traits": {
-        "smithy.api#documentation": "Array of excluded resources: spaces/repo, models/repo, datasets/repo, papers/paperId, collections/collectionId, users/username, orgs/orgName, buckets/bucketName, kernels/repo, blog/blogSlug"
+        "smithy.api#documentation": "Array of excluded resources: spaces/repo, models/repo, datasets/repo, papers/paperId, collections/collectionId, users/username, orgs/orgName, buckets/bucketName, containers/containerName, kernels/repo, blog/blogSlug"
       }
-    },
-    "com.huggingface.repo_search#SearchQuickRequestIncludeInvitees": {
-      "type": "union",
-      "members": {
-        "Case0": {
-          "target": "smithy.api#Boolean"
-        },
-        "Case1": {
-          "target": "smithy.api#Document"
-        }
-      },
-      "traits": {}
     },
     "com.huggingface.repo_search#SearchQuickRequestRepoTypeCase0": {
       "type": "enum",
@@ -3278,6 +3344,12 @@
           "target": "smithy.api#Unit",
           "traits": {
             "smithy.api#enumValue": "kernel"
+          }
+        },
+        "CONTAINER": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "container"
           }
         }
       },
@@ -3366,7 +3438,7 @@
           }
         },
         "includeInvitees": {
-          "target": "com.huggingface.repo_search#SearchQuickRequestIncludeInvitees",
+          "target": "smithy.api#Document",
           "traits": {
             "smithy.api#httpQuery": "includeInvitees"
           }
@@ -3672,6 +3744,34 @@
       },
       "traits": {}
     },
+    "com.huggingface.repo_search#SearchQuickResponseContainersItem": {
+      "type": "structure",
+      "members": {
+        "_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "private": {
+          "target": "smithy.api#Boolean"
+        }
+      },
+      "traits": {}
+    },
+    "com.huggingface.repo_search#SearchQuickResponseContainersList": {
+      "type": "list",
+      "member": {
+        "target": "com.huggingface.repo_search#SearchQuickResponseContainersItem"
+      },
+      "traits": {}
+    },
     "com.huggingface.repo_search#SearchQuickResponseKernelsItem": {
       "type": "structure",
       "members": {
@@ -3825,6 +3925,18 @@
           }
         },
         "bucketsCount": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "containers": {
+          "target": "com.huggingface.repo_search#SearchQuickResponseContainersList",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "containersCount": {
           "target": "smithy.api#Double",
           "traits": {
             "smithy.api#required": {}
@@ -5001,6 +5113,12 @@
     "com.huggingface.repo_search#QuickSearchPostRequestLibraryCase0": {
       "type": "enum",
       "members": {
+        "AADYA_NEURAL": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "aadya-neural"
+          }
+        },
         "ACESTEP": {
           "target": "smithy.api#Unit",
           "traits": {
@@ -5019,6 +5137,12 @@
             "smithy.api#enumValue": "allennlp"
           }
         },
+        "ANEFORGE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "aneforge"
+          }
+        },
         "ANEMOI": {
           "target": "smithy.api#Unit",
           "traits": {
@@ -5029,6 +5153,12 @@
           "target": "smithy.api#Unit",
           "traits": {
             "smithy.api#enumValue": "araclip"
+          }
+        },
+        "ASIMOV": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "asimov"
           }
         },
         "AVIATION_NER": {
@@ -5131,6 +5261,12 @@
           "target": "smithy.api#Unit",
           "traits": {
             "smithy.api#enumValue": "cartesia_mlx"
+          }
+        },
+        "CAUSILO": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "causilo"
           }
         },
         "CCPFN": {
@@ -5391,6 +5527,12 @@
             "smithy.api#enumValue": "flair"
           }
         },
+        "FLEXRAY": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "flexray"
+          }
+        },
         "FLEXTAB": {
           "target": "smithy.api#Unit",
           "traits": {
@@ -5403,6 +5545,12 @@
             "smithy.api#enumValue": "fme"
           }
         },
+        "GAUSSIANFORMER": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "gaussianformer"
+          }
+        },
         "GEMMA_CPP": {
           "target": "smithy.api#Unit",
           "traits": {
@@ -5413,6 +5561,12 @@
           "target": "smithy.api#Unit",
           "traits": {
             "smithy.api#enumValue": "geometry-crafter"
+          }
+        },
+        "GLIFORMER": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "gliformer"
           }
         },
         "GLINER": {
@@ -5467,6 +5621,12 @@
           "target": "smithy.api#Unit",
           "traits": {
             "smithy.api#enumValue": "minimax-h3"
+          }
+        },
+        "MECT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "mect"
           }
         },
         "HERMES": {
@@ -5565,6 +5725,12 @@
             "smithy.api#enumValue": "ising-decoding"
           }
         },
+        "JEV_STYLE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "jev-style"
+          }
+        },
         "KERAS": {
           "target": "smithy.api#Unit",
           "traits": {
@@ -5629,6 +5795,12 @@
           "target": "smithy.api#Unit",
           "traits": {
             "smithy.api#enumValue": "lagernvs"
+          }
+        },
+        "LAYA": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "laya"
           }
         },
         "LTX": {
@@ -5767,6 +5939,12 @@
           "target": "smithy.api#Unit",
           "traits": {
             "smithy.api#enumValue": "mflux"
+          }
+        },
+        "MICRODUCK": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "microduck"
           }
         },
         "MITIE": {
@@ -6429,6 +6607,12 @@
             "smithy.api#enumValue": "vui"
           }
         },
+        "VQWEB": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "vqweb"
+          }
+        },
         "VIBEVOICE": {
           "target": "smithy.api#Unit",
           "traits": {
@@ -6547,6 +6731,12 @@
           "target": "smithy.api#Unit",
           "traits": {
             "smithy.api#enumValue": "bucket"
+          }
+        },
+        "CONTAINER": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "container"
           }
         },
         "KERNEL": {
@@ -7090,20 +7280,8 @@
         "target": "smithy.api#String"
       },
       "traits": {
-        "smithy.api#documentation": "Array of excluded resources: spaces/repo, models/repo, datasets/repo, papers/paperId, collections/collectionId, users/username, orgs/orgName, buckets/bucketName, kernels/repo, blog/blogSlug"
+        "smithy.api#documentation": "Array of excluded resources: spaces/repo, models/repo, datasets/repo, papers/paperId, collections/collectionId, users/username, orgs/orgName, buckets/bucketName, containers/containerName, kernels/repo, blog/blogSlug"
       }
-    },
-    "com.huggingface.repo_search#QuickSearchPostRequestIncludeInvitees": {
-      "type": "union",
-      "members": {
-        "Case0": {
-          "target": "smithy.api#Boolean"
-        },
-        "Case1": {
-          "target": "smithy.api#Document"
-        }
-      },
-      "traits": {}
     },
     "com.huggingface.repo_search#QuickSearchPostRequestRepoTypeCase0": {
       "type": "enum",
@@ -7136,6 +7314,12 @@
           "target": "smithy.api#Unit",
           "traits": {
             "smithy.api#enumValue": "kernel"
+          }
+        },
+        "CONTAINER": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "container"
           }
         }
       },
@@ -8285,6 +8469,12 @@
     "com.huggingface.repo_search#QuickSearchPostRequestLibraryCase02": {
       "type": "enum",
       "members": {
+        "AADYA_NEURAL": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "aadya-neural"
+          }
+        },
         "ACESTEP": {
           "target": "smithy.api#Unit",
           "traits": {
@@ -8303,6 +8493,12 @@
             "smithy.api#enumValue": "allennlp"
           }
         },
+        "ANEFORGE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "aneforge"
+          }
+        },
         "ANEMOI": {
           "target": "smithy.api#Unit",
           "traits": {
@@ -8313,6 +8509,12 @@
           "target": "smithy.api#Unit",
           "traits": {
             "smithy.api#enumValue": "araclip"
+          }
+        },
+        "ASIMOV": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "asimov"
           }
         },
         "AVIATION_NER": {
@@ -8415,6 +8617,12 @@
           "target": "smithy.api#Unit",
           "traits": {
             "smithy.api#enumValue": "cartesia_mlx"
+          }
+        },
+        "CAUSILO": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "causilo"
           }
         },
         "CCPFN": {
@@ -8675,6 +8883,12 @@
             "smithy.api#enumValue": "flair"
           }
         },
+        "FLEXRAY": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "flexray"
+          }
+        },
         "FLEXTAB": {
           "target": "smithy.api#Unit",
           "traits": {
@@ -8687,6 +8901,12 @@
             "smithy.api#enumValue": "fme"
           }
         },
+        "GAUSSIANFORMER": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "gaussianformer"
+          }
+        },
         "GEMMA_CPP": {
           "target": "smithy.api#Unit",
           "traits": {
@@ -8697,6 +8917,12 @@
           "target": "smithy.api#Unit",
           "traits": {
             "smithy.api#enumValue": "geometry-crafter"
+          }
+        },
+        "GLIFORMER": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "gliformer"
           }
         },
         "GLINER": {
@@ -8751,6 +8977,12 @@
           "target": "smithy.api#Unit",
           "traits": {
             "smithy.api#enumValue": "minimax-h3"
+          }
+        },
+        "MECT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "mect"
           }
         },
         "HERMES": {
@@ -8849,6 +9081,12 @@
             "smithy.api#enumValue": "ising-decoding"
           }
         },
+        "JEV_STYLE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "jev-style"
+          }
+        },
         "KERAS": {
           "target": "smithy.api#Unit",
           "traits": {
@@ -8913,6 +9151,12 @@
           "target": "smithy.api#Unit",
           "traits": {
             "smithy.api#enumValue": "lagernvs"
+          }
+        },
+        "LAYA": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "laya"
           }
         },
         "LTX": {
@@ -9051,6 +9295,12 @@
           "target": "smithy.api#Unit",
           "traits": {
             "smithy.api#enumValue": "mflux"
+          }
+        },
+        "MICRODUCK": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "microduck"
           }
         },
         "MITIE": {
@@ -9713,6 +9963,12 @@
             "smithy.api#enumValue": "vui"
           }
         },
+        "VQWEB": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "vqweb"
+          }
+        },
         "VIBEVOICE": {
           "target": "smithy.api#Unit",
           "traits": {
@@ -9831,6 +10087,12 @@
           "target": "smithy.api#Unit",
           "traits": {
             "smithy.api#enumValue": "bucket"
+          }
+        },
+        "CONTAINER": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "container"
           }
         },
         "KERNEL": {
@@ -10374,20 +10636,8 @@
         "target": "smithy.api#String"
       },
       "traits": {
-        "smithy.api#documentation": "Array of excluded resources: spaces/repo, models/repo, datasets/repo, papers/paperId, collections/collectionId, users/username, orgs/orgName, buckets/bucketName, kernels/repo, blog/blogSlug"
+        "smithy.api#documentation": "Array of excluded resources: spaces/repo, models/repo, datasets/repo, papers/paperId, collections/collectionId, users/username, orgs/orgName, buckets/bucketName, containers/containerName, kernels/repo, blog/blogSlug"
       }
-    },
-    "com.huggingface.repo_search#QuickSearchPostRequestIncludeInvitees2": {
-      "type": "union",
-      "members": {
-        "Case0": {
-          "target": "smithy.api#Boolean"
-        },
-        "Case1": {
-          "target": "smithy.api#Document"
-        }
-      },
-      "traits": {}
     },
     "com.huggingface.repo_search#QuickSearchPostRequestRepoTypeCase02": {
       "type": "enum",
@@ -10420,6 +10670,12 @@
           "target": "smithy.api#Unit",
           "traits": {
             "smithy.api#enumValue": "kernel"
+          }
+        },
+        "CONTAINER": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "container"
           }
         }
       },
@@ -10508,7 +10764,7 @@
           }
         },
         "includeInvitees": {
-          "target": "com.huggingface.repo_search#QuickSearchPostRequestIncludeInvitees",
+          "target": "smithy.api#Document",
           "traits": {
             "smithy.api#httpQuery": "includeInvitees"
           }
@@ -10814,6 +11070,34 @@
       },
       "traits": {}
     },
+    "com.huggingface.repo_search#QuickSearchPostResponseContainersItem": {
+      "type": "structure",
+      "members": {
+        "_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "private": {
+          "target": "smithy.api#Boolean"
+        }
+      },
+      "traits": {}
+    },
+    "com.huggingface.repo_search#QuickSearchPostResponseContainersList": {
+      "type": "list",
+      "member": {
+        "target": "com.huggingface.repo_search#QuickSearchPostResponseContainersItem"
+      },
+      "traits": {}
+    },
     "com.huggingface.repo_search#QuickSearchPostResponseKernelsItem": {
       "type": "structure",
       "members": {
@@ -10972,6 +11256,18 @@
             "smithy.api#required": {}
           }
         },
+        "containers": {
+          "target": "com.huggingface.repo_search#QuickSearchPostResponseContainersList",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "containersCount": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
         "kernels": {
           "target": "com.huggingface.repo_search#QuickSearchPostResponseKernelsList",
           "traits": {
@@ -11018,6 +11314,164 @@
         "smithy.api#documentation": "Quick search\n\nQuick search for models, datasets, spaces, orgs, users, papers, collections, and buckets"
       }
     },
+    "com.huggingface.repo_search#SearchFullTextRequestTypeCase0": {
+      "type": "enum",
+      "members": {
+        "DATASET": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "dataset"
+          }
+        },
+        "MODEL": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "model"
+          }
+        },
+        "SPACE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "space"
+          }
+        },
+        "BUCKET": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "bucket"
+          }
+        },
+        "KERNEL": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "kernel"
+          }
+        },
+        "CONTAINER": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "container"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.huggingface.repo_search#SearchFullTextRequestTypeCase1Item": {
+      "type": "enum",
+      "members": {
+        "DATASET": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "dataset"
+          }
+        },
+        "MODEL": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "model"
+          }
+        },
+        "SPACE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "space"
+          }
+        },
+        "BUCKET": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "bucket"
+          }
+        },
+        "KERNEL": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "kernel"
+          }
+        },
+        "CONTAINER": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "container"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.huggingface.repo_search#SearchFullTextRequestTypeCase1List": {
+      "type": "list",
+      "member": {
+        "target": "com.huggingface.repo_search#SearchFullTextRequestTypeCase1Item"
+      },
+      "traits": {}
+    },
+    "com.huggingface.repo_search#SearchFullTextRequestType": {
+      "type": "union",
+      "members": {
+        "Case0": {
+          "target": "com.huggingface.repo_search#SearchFullTextRequestTypeCase0"
+        },
+        "Case1": {
+          "target": "com.huggingface.repo_search#SearchFullTextRequestTypeCase1List"
+        }
+      },
+      "traits": {}
+    },
+    "com.huggingface.repo_search#SearchFullTextRequest": {
+      "type": "structure",
+      "members": {
+        "q": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "q"
+          }
+        },
+        "limit": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpQuery": "limit"
+          }
+        },
+        "skip": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpQuery": "skip"
+          }
+        },
+        "type": {
+          "target": "com.huggingface.repo_search#SearchFullTextRequestType",
+          "traits": {
+            "smithy.api#httpQuery": "type"
+          }
+        },
+        "filter": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "filter"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.huggingface.repo_search#SearchFullText": {
+      "type": "operation",
+      "input": {
+        "target": "com.huggingface.repo_search#SearchFullTextRequest"
+      },
+      "output": {
+        "target": "smithy.api#Unit"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/api/search/full-text",
+          "code": 200
+        },
+        "smithy.api#documentation": "Full-text search"
+      }
+    },
     "com.huggingface.repo_search#RepoSearch": {
       "type": "service",
       "version": "0.0.1",
@@ -11027,6 +11481,9 @@
         },
         {
           "target": "com.huggingface.repo_search#QuickSearchPost"
+        },
+        {
+          "target": "com.huggingface.repo_search#SearchFullText"
         }
       ],
       "traits": {

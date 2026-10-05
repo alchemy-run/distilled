@@ -124,10 +124,7 @@ export class ThrottlingException
 export class TooManyTagsException
   extends /*@__PURE__*/ S.TaggedError<TooManyTagsException>()(
     "TooManyTagsException",
-    {
-      message: S.optional(S.String).pipe(T.ErrorMessage()),
-      resourceName: S.optional(S.String),
-    },
+    { message: S.optional(S.String).pipe(T.ErrorMessage()), resourceName: S.optional(S.String) },
     T.HttpError(400),
   ).pipe(C.withBadRequestError) {}
 export class ValidationException
@@ -145,10 +142,7 @@ export interface BatchDeleteAdvancedPromptOptimizationJobRequest {
 export const BatchDeleteAdvancedPromptOptimizationJobRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ jobIdentifiers: AdvancedPromptOptimizationJobIdentifiers }).pipe(
     T.all(
-      T.Http({
-        method: "POST",
-        uri: "/advanced-prompt-optimization-job/batch-delete",
-      }),
+      T.Http({ method: "POST", uri: "/advanced-prompt-optimization-job/batch-delete" }),
       svc,
       auth,
       proto,
@@ -165,11 +159,7 @@ export interface BatchDeleteAdvancedPromptOptimizationJobError_ {
   message?: string;
 }
 export const BatchDeleteAdvancedPromptOptimizationJobError_ = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    jobIdentifier: S.String,
-    code: S.String,
-    message: S.optional(S.String),
-  }),
+  S.Struct({ jobIdentifier: S.String, code: S.String, message: S.optional(S.String) }),
 ).annotate({
   identifier: "BatchDeleteAdvancedPromptOptimizationJobError",
 }) as any as S.Schema<BatchDeleteAdvancedPromptOptimizationJobError_>;
@@ -194,10 +184,7 @@ export interface BatchDeleteAdvancedPromptOptimizationJobItem {
   jobStatus: AdvancedPromptOptimizationJobStatus;
 }
 export const BatchDeleteAdvancedPromptOptimizationJobItem = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    jobIdentifier: S.String,
-    jobStatus: AdvancedPromptOptimizationJobStatus,
-  }),
+  S.Struct({ jobIdentifier: S.String, jobStatus: AdvancedPromptOptimizationJobStatus }),
 ).annotate({
   identifier: "BatchDeleteAdvancedPromptOptimizationJobItem",
 }) as any as S.Schema<BatchDeleteAdvancedPromptOptimizationJobItem>;
@@ -244,11 +231,7 @@ export interface BatchDeleteEvaluationJobError_ {
   message?: string;
 }
 export const BatchDeleteEvaluationJobError_ = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    jobIdentifier: SensitiveString,
-    code: S.String,
-    message: S.optional(S.String),
-  }),
+  S.Struct({ jobIdentifier: SensitiveString, code: S.String, message: S.optional(S.String) }),
 ).annotate({
   identifier: "BatchDeleteEvaluationJobError",
 }) as any as S.Schema<BatchDeleteEvaluationJobError_>;
@@ -368,9 +351,7 @@ export const InferenceConfiguration = /*@__PURE__*/ S.suspend(() =>
     topP: S.optional(S.Number),
     stopSequences: S.optional(NonEmptyStringList),
   }),
-).annotate({
-  identifier: "InferenceConfiguration",
-}) as any as S.Schema<InferenceConfiguration>;
+).annotate({ identifier: "InferenceConfiguration" }) as any as S.Schema<InferenceConfiguration>;
 export type AdditionalModelRequestFieldsKey = string;
 export type AdditionalModelRequestFieldsValue = unknown;
 export type AdditionalModelRequestFields = { [key: string]: any | undefined };
@@ -389,9 +370,7 @@ export const ModelConfiguration = /*@__PURE__*/ S.suspend(() =>
     inferenceConfig: S.optional(InferenceConfiguration),
     additionalModelRequestFields: S.optional(AdditionalModelRequestFields),
   }),
-).annotate({
-  identifier: "ModelConfiguration",
-}) as any as S.Schema<ModelConfiguration>;
+).annotate({ identifier: "ModelConfiguration" }) as any as S.Schema<ModelConfiguration>;
 export type ModelConfigurations = ModelConfiguration[];
 export const ModelConfigurations = /*@__PURE__*/ S.Array(ModelConfiguration);
 export interface CreateAdvancedPromptOptimizationJobRequest {
@@ -510,11 +489,7 @@ export interface AutomatedReasoningPolicyDefinitionVariable {
   description: string | redacted.Redacted<string>;
 }
 export const AutomatedReasoningPolicyDefinitionVariable = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    name: SensitiveString,
-    type: SensitiveString,
-    description: SensitiveString,
-  }),
+  S.Struct({ name: SensitiveString, type: SensitiveString, description: SensitiveString }),
 ).annotate({
   identifier: "AutomatedReasoningPolicyDefinitionVariable",
 }) as any as S.Schema<AutomatedReasoningPolicyDefinitionVariable>;
@@ -625,10 +600,7 @@ export const CreateAutomatedReasoningPolicyTestCaseRequest = /*@__PURE__*/ S.sus
     confidenceThreshold: S.optional(S.Number),
   }).pipe(
     T.all(
-      T.Http({
-        method: "POST",
-        uri: "/automated-reasoning-policies/{policyArn}/test-cases",
-      }),
+      T.Http({ method: "POST", uri: "/automated-reasoning-policies/{policyArn}/test-cases" }),
       svc,
       auth,
       proto,
@@ -663,10 +635,7 @@ export const CreateAutomatedReasoningPolicyVersionRequest = /*@__PURE__*/ S.susp
     tags: S.optional(TagList),
   }).pipe(
     T.all(
-      T.Http({
-        method: "POST",
-        uri: "/automated-reasoning-policies/{policyArn}/versions",
-      }),
+      T.Http({ method: "POST", uri: "/automated-reasoning-policies/{policyArn}/versions" }),
       svc,
       auth,
       proto,
@@ -715,9 +684,7 @@ export const ModelPackageArnDataSource = /*@__PURE__*/ S.suspend(() =>
 ).annotate({
   identifier: "ModelPackageArnDataSource",
 }) as any as S.Schema<ModelPackageArnDataSource>;
-export type CustomModelDataSource = {
-  modelPackageArnDataSource: ModelPackageArnDataSource;
-};
+export type CustomModelDataSource = { modelPackageArnDataSource: ModelPackageArnDataSource };
 export const CustomModelDataSource = /*@__PURE__*/ S.Union([
   S.Struct({ modelPackageArnDataSource: ModelPackageArnDataSource }),
 ]);
@@ -750,9 +717,7 @@ export const CreateCustomModelRequest = /*@__PURE__*/ S.suspend(() =>
       rules,
     ),
   ),
-).annotate({
-  identifier: "CreateCustomModelRequest",
-}) as any as S.Schema<CreateCustomModelRequest>;
+).annotate({ identifier: "CreateCustomModelRequest" }) as any as S.Schema<CreateCustomModelRequest>;
 export type ModelArn = string;
 export interface CreateCustomModelResponse {
   modelArn: string;
@@ -781,10 +746,7 @@ export const CreateCustomModelDeploymentRequest = /*@__PURE__*/ S.suspend(() =>
     clientRequestToken: S.optional(S.String).pipe(T.IdempotencyToken()),
   }).pipe(
     T.all(
-      T.Http({
-        method: "POST",
-        uri: "/model-customization/custom-model-deployments",
-      }),
+      T.Http({ method: "POST", uri: "/model-customization/custom-model-deployments" }),
       svc,
       auth,
       proto,
@@ -826,13 +788,8 @@ export interface EvaluationDataset {
   datasetLocation?: EvaluationDatasetLocation;
 }
 export const EvaluationDataset = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    name: SensitiveString,
-    datasetLocation: S.optional(EvaluationDatasetLocation),
-  }),
-).annotate({
-  identifier: "EvaluationDataset",
-}) as any as S.Schema<EvaluationDataset>;
+  S.Struct({ name: SensitiveString, datasetLocation: S.optional(EvaluationDatasetLocation) }),
+).annotate({ identifier: "EvaluationDataset" }) as any as S.Schema<EvaluationDataset>;
 export type EvaluationMetricName = string | redacted.Redacted<string>;
 export type EvaluationMetricNames = (string | redacted.Redacted<string>)[];
 export const EvaluationMetricNames = /*@__PURE__*/ S.Array(SensitiveString);
@@ -858,14 +815,10 @@ export interface BedrockEvaluatorModel {
 }
 export const BedrockEvaluatorModel = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ modelIdentifier: S.String }),
-).annotate({
-  identifier: "BedrockEvaluatorModel",
-}) as any as S.Schema<BedrockEvaluatorModel>;
+).annotate({ identifier: "BedrockEvaluatorModel" }) as any as S.Schema<BedrockEvaluatorModel>;
 export type BedrockEvaluatorModels = BedrockEvaluatorModel[];
 export const BedrockEvaluatorModels = /*@__PURE__*/ S.Array(BedrockEvaluatorModel);
-export type EvaluatorModelConfig = {
-  bedrockEvaluatorModels: BedrockEvaluatorModel[];
-};
+export type EvaluatorModelConfig = { bedrockEvaluatorModels: BedrockEvaluatorModel[] };
 export const EvaluatorModelConfig = /*@__PURE__*/ S.Union([
   S.Struct({ bedrockEvaluatorModels: BedrockEvaluatorModels }),
 ]);
@@ -885,9 +838,7 @@ export interface RatingScaleItem {
 }
 export const RatingScaleItem = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ definition: S.String, value: RatingScaleItemValue }),
-).annotate({
-  identifier: "RatingScaleItem",
-}) as any as S.Schema<RatingScaleItem>;
+).annotate({ identifier: "RatingScaleItem" }) as any as S.Schema<RatingScaleItem>;
 export type RatingScale = RatingScaleItem[];
 export const RatingScale = /*@__PURE__*/ S.Array(RatingScaleItem);
 export interface CustomMetricDefinition {
@@ -896,14 +847,8 @@ export interface CustomMetricDefinition {
   ratingScale?: RatingScaleItem[];
 }
 export const CustomMetricDefinition = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    name: SensitiveString,
-    instructions: S.String,
-    ratingScale: S.optional(RatingScale),
-  }),
-).annotate({
-  identifier: "CustomMetricDefinition",
-}) as any as S.Schema<CustomMetricDefinition>;
+  S.Struct({ name: SensitiveString, instructions: S.String, ratingScale: S.optional(RatingScale) }),
+).annotate({ identifier: "CustomMetricDefinition" }) as any as S.Schema<CustomMetricDefinition>;
 export type AutomatedEvaluationCustomMetricSource = {
   customMetricDefinition: CustomMetricDefinition;
 };
@@ -967,13 +912,8 @@ export interface HumanWorkflowConfig {
   instructions?: string | redacted.Redacted<string>;
 }
 export const HumanWorkflowConfig = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    flowDefinitionArn: S.String,
-    instructions: S.optional(SensitiveString),
-  }),
-).annotate({
-  identifier: "HumanWorkflowConfig",
-}) as any as S.Schema<HumanWorkflowConfig>;
+  S.Struct({ flowDefinitionArn: S.String, instructions: S.optional(SensitiveString) }),
+).annotate({ identifier: "HumanWorkflowConfig" }) as any as S.Schema<HumanWorkflowConfig>;
 export type EvaluationMetricDescription = string | redacted.Redacted<string>;
 export type EvaluationRatingMethod = string;
 export interface HumanEvaluationCustomMetric {
@@ -1003,9 +943,7 @@ export const HumanEvaluationConfig = /*@__PURE__*/ S.suspend(() =>
     customMetrics: S.optional(HumanEvaluationCustomMetrics),
     datasetMetricConfigs: EvaluationDatasetMetricConfigs,
   }),
-).annotate({
-  identifier: "HumanEvaluationConfig",
-}) as any as S.Schema<HumanEvaluationConfig>;
+).annotate({ identifier: "HumanEvaluationConfig" }) as any as S.Schema<HumanEvaluationConfig>;
 export type EvaluationConfig =
   | { automated: AutomatedEvaluationConfig; human?: never }
   | { automated?: never; human: HumanEvaluationConfig };
@@ -1023,9 +961,7 @@ export interface PerformanceConfiguration {
 }
 export const PerformanceConfiguration = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ latency: S.optional(PerformanceConfigLatency) }),
-).annotate({
-  identifier: "PerformanceConfiguration",
-}) as any as S.Schema<PerformanceConfiguration>;
+).annotate({ identifier: "PerformanceConfiguration" }) as any as S.Schema<PerformanceConfiguration>;
 export interface EvaluationBedrockModel {
   modelIdentifier: string;
   inferenceParams?: string | redacted.Redacted<string>;
@@ -1037,9 +973,7 @@ export const EvaluationBedrockModel = /*@__PURE__*/ S.suspend(() =>
     inferenceParams: S.optional(SensitiveString),
     performanceConfig: S.optional(PerformanceConfiguration),
   }),
-).annotate({
-  identifier: "EvaluationBedrockModel",
-}) as any as S.Schema<EvaluationBedrockModel>;
+).annotate({ identifier: "EvaluationBedrockModel" }) as any as S.Schema<EvaluationBedrockModel>;
 export type EvaluationPrecomputedInferenceSourceIdentifier = string;
 export interface EvaluationPrecomputedInferenceSource {
   inferenceSourceIdentifier: string;
@@ -1051,15 +985,10 @@ export const EvaluationPrecomputedInferenceSource = /*@__PURE__*/ S.suspend(() =
 }) as any as S.Schema<EvaluationPrecomputedInferenceSource>;
 export type EvaluationModelConfig =
   | { bedrockModel: EvaluationBedrockModel; precomputedInferenceSource?: never }
-  | {
-      bedrockModel?: never;
-      precomputedInferenceSource: EvaluationPrecomputedInferenceSource;
-    };
+  | { bedrockModel?: never; precomputedInferenceSource: EvaluationPrecomputedInferenceSource };
 export const EvaluationModelConfig = /*@__PURE__*/ S.Union([
   S.Struct({ bedrockModel: EvaluationBedrockModel }),
-  S.Struct({
-    precomputedInferenceSource: EvaluationPrecomputedInferenceSource,
-  }),
+  S.Struct({ precomputedInferenceSource: EvaluationPrecomputedInferenceSource }),
 ]);
 export type EvaluationModelConfigs = EvaluationModelConfig[];
 export const EvaluationModelConfigs = /*@__PURE__*/ S.Array(EvaluationModelConfig);
@@ -1075,9 +1004,7 @@ export interface FilterAttribute {
 }
 export const FilterAttribute = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ key: S.String, value: S.Any }),
-).annotate({
-  identifier: "FilterAttribute",
-}) as any as S.Schema<FilterAttribute>;
+).annotate({ identifier: "FilterAttribute" }) as any as S.Schema<FilterAttribute>;
 export type RetrievalFilterList = RetrievalFilter[];
 export const RetrievalFilterList = /*@__PURE__*/ S.Array(
   S.suspend(() => RetrievalFilter).annotate({ identifier: "RetrievalFilter" }),
@@ -1291,14 +1218,10 @@ export const RetrievalFilter = /*@__PURE__*/ S.Union([
   S.Struct({ listContains: FilterAttribute }),
   S.Struct({ stringContains: FilterAttribute }),
   S.Struct({
-    andAll: S.suspend(() => RetrievalFilterList).annotate({
-      identifier: "RetrievalFilterList",
-    }),
+    andAll: S.suspend(() => RetrievalFilterList).annotate({ identifier: "RetrievalFilterList" }),
   }),
   S.Struct({
-    orAll: S.suspend(() => RetrievalFilterList).annotate({
-      identifier: "RetrievalFilterList",
-    }),
+    orAll: S.suspend(() => RetrievalFilterList).annotate({ identifier: "RetrievalFilterList" }),
   }),
 ]) as any as S.Schema<RetrievalFilter>;
 export type AttributeType = "STRING" | "NUMBER" | "BOOLEAN" | "STRING_LIST" | (string & {});
@@ -1311,9 +1234,7 @@ export interface MetadataAttributeSchema {
 }
 export const MetadataAttributeSchema = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ key: S.String, type: AttributeType, description: S.String }),
-).annotate({
-  identifier: "MetadataAttributeSchema",
-}) as any as S.Schema<MetadataAttributeSchema>;
+).annotate({ identifier: "MetadataAttributeSchema" }) as any as S.Schema<MetadataAttributeSchema>;
 export type MetadataAttributeSchemaList = MetadataAttributeSchema[];
 export const MetadataAttributeSchemaList = /*@__PURE__*/ S.Array(MetadataAttributeSchema);
 export type BedrockModelArn = string;
@@ -1322,10 +1243,7 @@ export interface ImplicitFilterConfiguration {
   modelArn: string;
 }
 export const ImplicitFilterConfiguration = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    metadataAttributes: MetadataAttributeSchemaList,
-    modelArn: S.String,
-  }),
+  S.Struct({ metadataAttributes: MetadataAttributeSchemaList, modelArn: S.String }),
 ).annotate({
   identifier: "ImplicitFilterConfiguration",
 }) as any as S.Schema<ImplicitFilterConfiguration>;
@@ -1353,9 +1271,7 @@ export interface FieldForReranking {
 }
 export const FieldForReranking = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ fieldName: S.String }),
-).annotate({
-  identifier: "FieldForReranking",
-}) as any as S.Schema<FieldForReranking>;
+).annotate({ identifier: "FieldForReranking" }) as any as S.Schema<FieldForReranking>;
 export type FieldsForReranking = FieldForReranking[];
 export const FieldsForReranking = /*@__PURE__*/ S.Array(FieldForReranking);
 export type RerankingMetadataSelectiveModeConfiguration =
@@ -1425,9 +1341,7 @@ export interface KnowledgeBaseRetrievalConfiguration {
   vectorSearchConfiguration: KnowledgeBaseVectorSearchConfiguration;
 }
 export const KnowledgeBaseRetrievalConfiguration = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    vectorSearchConfiguration: KnowledgeBaseVectorSearchConfiguration,
-  }),
+  S.Struct({ vectorSearchConfiguration: KnowledgeBaseVectorSearchConfiguration }),
 ).annotate({
   identifier: "KnowledgeBaseRetrievalConfiguration",
 }) as any as S.Schema<KnowledgeBaseRetrievalConfiguration>;
@@ -1457,9 +1371,7 @@ export interface GuardrailConfiguration {
 }
 export const GuardrailConfiguration = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ guardrailId: S.String, guardrailVersion: S.String }),
-).annotate({
-  identifier: "GuardrailConfiguration",
-}) as any as S.Schema<GuardrailConfiguration>;
+).annotate({ identifier: "GuardrailConfiguration" }) as any as S.Schema<GuardrailConfiguration>;
 export type Temperature = number;
 export type TopP = number;
 export type MaxTokens = number;
@@ -1478,17 +1390,13 @@ export const TextInferenceConfig = /*@__PURE__*/ S.suspend(() =>
     maxTokens: S.optional(S.Number),
     stopSequences: S.optional(RAGStopSequences),
   }),
-).annotate({
-  identifier: "TextInferenceConfig",
-}) as any as S.Schema<TextInferenceConfig>;
+).annotate({ identifier: "TextInferenceConfig" }) as any as S.Schema<TextInferenceConfig>;
 export interface KbInferenceConfig {
   textInferenceConfig?: TextInferenceConfig;
 }
 export const KbInferenceConfig = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ textInferenceConfig: S.optional(TextInferenceConfig) }),
-).annotate({
-  identifier: "KbInferenceConfig",
-}) as any as S.Schema<KbInferenceConfig>;
+).annotate({ identifier: "KbInferenceConfig" }) as any as S.Schema<KbInferenceConfig>;
 export interface GenerationConfiguration {
   promptTemplate?: PromptTemplate;
   guardrailConfiguration?: GuardrailConfiguration;
@@ -1502,9 +1410,7 @@ export const GenerationConfiguration = /*@__PURE__*/ S.suspend(() =>
     kbInferenceConfig: S.optional(KbInferenceConfig),
     additionalModelRequestFields: S.optional(AdditionalModelRequestFields),
   }),
-).annotate({
-  identifier: "GenerationConfiguration",
-}) as any as S.Schema<GenerationConfiguration>;
+).annotate({ identifier: "GenerationConfiguration" }) as any as S.Schema<GenerationConfiguration>;
 export type QueryTransformationType = "QUERY_DECOMPOSITION" | (string & {});
 export const QueryTransformationType = S.String;
 
@@ -1520,9 +1426,7 @@ export interface OrchestrationConfiguration {
   queryTransformationConfiguration: QueryTransformationConfiguration;
 }
 export const OrchestrationConfiguration = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    queryTransformationConfiguration: QueryTransformationConfiguration,
-  }),
+  S.Struct({ queryTransformationConfiguration: QueryTransformationConfiguration }),
 ).annotate({
   identifier: "OrchestrationConfiguration",
 }) as any as S.Schema<OrchestrationConfiguration>;
@@ -1563,11 +1467,7 @@ export interface ByteContentDoc {
   data: Uint8Array | redacted.Redacted<Uint8Array>;
 }
 export const ByteContentDoc = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    identifier: SensitiveString,
-    contentType: S.String,
-    data: SensitiveBlob,
-  }),
+  S.Struct({ identifier: SensitiveString, contentType: S.String, data: SensitiveBlob }),
 ).annotate({ identifier: "ByteContentDoc" }) as any as S.Schema<ByteContentDoc>;
 export interface ExternalSource {
   sourceType: ExternalSourceType;
@@ -1629,10 +1529,7 @@ export const RetrieveAndGenerateConfiguration = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<RetrieveAndGenerateConfiguration>;
 export type KnowledgeBaseConfig =
   | { retrieveConfig: RetrieveConfig; retrieveAndGenerateConfig?: never }
-  | {
-      retrieveConfig?: never;
-      retrieveAndGenerateConfig: RetrieveAndGenerateConfiguration;
-    };
+  | { retrieveConfig?: never; retrieveAndGenerateConfig: RetrieveAndGenerateConfiguration };
 export const KnowledgeBaseConfig = /*@__PURE__*/ S.Union([
   S.Struct({ retrieveConfig: RetrieveConfig }),
   S.Struct({ retrieveAndGenerateConfig: RetrieveAndGenerateConfiguration }),
@@ -1670,19 +1567,14 @@ export const EvaluationPrecomputedRagSourceConfig = /*@__PURE__*/ S.Union([
   }),
 ]);
 export type RAGConfig =
-  | {
-      knowledgeBaseConfig: KnowledgeBaseConfig;
-      precomputedRagSourceConfig?: never;
-    }
+  | { knowledgeBaseConfig: KnowledgeBaseConfig; precomputedRagSourceConfig?: never }
   | {
       knowledgeBaseConfig?: never;
       precomputedRagSourceConfig: EvaluationPrecomputedRagSourceConfig;
     };
 export const RAGConfig = /*@__PURE__*/ S.Union([
   S.Struct({ knowledgeBaseConfig: KnowledgeBaseConfig }),
-  S.Struct({
-    precomputedRagSourceConfig: EvaluationPrecomputedRagSourceConfig,
-  }),
+  S.Struct({ precomputedRagSourceConfig: EvaluationPrecomputedRagSourceConfig }),
 ]);
 export type RagConfigs = RAGConfig[];
 export const RagConfigs = /*@__PURE__*/ S.Array(RAGConfig);
@@ -1800,9 +1692,7 @@ export const GuardrailTopicConfig = /*@__PURE__*/ S.suspend(() =>
     inputEnabled: S.optional(S.Boolean),
     outputEnabled: S.optional(S.Boolean),
   }),
-).annotate({
-  identifier: "GuardrailTopicConfig",
-}) as any as S.Schema<GuardrailTopicConfig>;
+).annotate({ identifier: "GuardrailTopicConfig" }) as any as S.Schema<GuardrailTopicConfig>;
 export type GuardrailTopicsConfig = GuardrailTopicConfig[];
 export const GuardrailTopicsConfig = /*@__PURE__*/ S.Array(GuardrailTopicConfig);
 export type GuardrailTopicsTierName = "CLASSIC" | "STANDARD" | (string & {});
@@ -1918,9 +1808,7 @@ export const GuardrailWordConfig = /*@__PURE__*/ S.suspend(() =>
     inputEnabled: S.optional(S.Boolean),
     outputEnabled: S.optional(S.Boolean),
   }),
-).annotate({
-  identifier: "GuardrailWordConfig",
-}) as any as S.Schema<GuardrailWordConfig>;
+).annotate({ identifier: "GuardrailWordConfig" }) as any as S.Schema<GuardrailWordConfig>;
 export type GuardrailWordsConfig = GuardrailWordConfig[];
 export const GuardrailWordsConfig = /*@__PURE__*/ S.Array(GuardrailWordConfig);
 export type GuardrailManagedWordsType = "PROFANITY" | (string & {});
@@ -2013,9 +1901,7 @@ export const GuardrailPiiEntityConfig = /*@__PURE__*/ S.suspend(() =>
     inputEnabled: S.optional(S.Boolean),
     outputEnabled: S.optional(S.Boolean),
   }),
-).annotate({
-  identifier: "GuardrailPiiEntityConfig",
-}) as any as S.Schema<GuardrailPiiEntityConfig>;
+).annotate({ identifier: "GuardrailPiiEntityConfig" }) as any as S.Schema<GuardrailPiiEntityConfig>;
 export type GuardrailPiiEntitiesConfig = GuardrailPiiEntityConfig[];
 export const GuardrailPiiEntitiesConfig = /*@__PURE__*/ S.Array(GuardrailPiiEntityConfig);
 export interface GuardrailRegexConfig {
@@ -2039,9 +1925,7 @@ export const GuardrailRegexConfig = /*@__PURE__*/ S.suspend(() =>
     inputEnabled: S.optional(S.Boolean),
     outputEnabled: S.optional(S.Boolean),
   }),
-).annotate({
-  identifier: "GuardrailRegexConfig",
-}) as any as S.Schema<GuardrailRegexConfig>;
+).annotate({ identifier: "GuardrailRegexConfig" }) as any as S.Schema<GuardrailRegexConfig>;
 export type GuardrailRegexesConfig = GuardrailRegexConfig[];
 export const GuardrailRegexesConfig = /*@__PURE__*/ S.Array(GuardrailRegexConfig);
 export interface GuardrailSensitiveInformationPolicyConfig {
@@ -2148,9 +2032,7 @@ export const CreateGuardrailRequest = /*@__PURE__*/ S.suspend(() =>
     tags: S.optional(TagList),
     clientRequestToken: S.optional(S.String).pipe(T.IdempotencyToken()),
   }).pipe(T.all(T.Http({ method: "POST", uri: "/guardrails" }), svc, auth, proto, ver, rules)),
-).annotate({
-  identifier: "CreateGuardrailRequest",
-}) as any as S.Schema<CreateGuardrailRequest>;
+).annotate({ identifier: "CreateGuardrailRequest" }) as any as S.Schema<CreateGuardrailRequest>;
 export type GuardrailId = string;
 export type GuardrailArn = string;
 export type GuardrailDraftVersion = string;
@@ -2167,9 +2049,7 @@ export const CreateGuardrailResponse = /*@__PURE__*/ S.suspend(() =>
     version: S.String,
     createdAt: T.DateFromString.pipe(T.TimestampFormat("date-time")),
   }),
-).annotate({
-  identifier: "CreateGuardrailResponse",
-}) as any as S.Schema<CreateGuardrailResponse>;
+).annotate({ identifier: "CreateGuardrailResponse" }) as any as S.Schema<CreateGuardrailResponse>;
 export type GuardrailIdentifier = string;
 export interface CreateGuardrailVersionRequest {
   guardrailIdentifier: string;
@@ -2240,10 +2120,7 @@ export interface CreateInferenceProfileResponse {
   status?: InferenceProfileStatus;
 }
 export const CreateInferenceProfileResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    inferenceProfileArn: S.String,
-    status: S.optional(InferenceProfileStatus),
-  }),
+  S.Struct({ inferenceProfileArn: S.String, status: S.optional(InferenceProfileStatus) }),
 ).annotate({
   identifier: "CreateInferenceProfileResponse",
 }) as any as S.Schema<CreateInferenceProfileResponse>;
@@ -2278,9 +2155,7 @@ export const SageMakerEndpoint = /*@__PURE__*/ S.suspend(() =>
     kmsEncryptionKey: S.optional(S.String),
     vpc: S.optional(VpcConfig),
   }),
-).annotate({
-  identifier: "SageMakerEndpoint",
-}) as any as S.Schema<SageMakerEndpoint>;
+).annotate({ identifier: "SageMakerEndpoint" }) as any as S.Schema<SageMakerEndpoint>;
 export type EndpointConfig = { sageMaker: SageMakerEndpoint };
 export const EndpointConfig = /*@__PURE__*/ S.Union([S.Struct({ sageMaker: SageMakerEndpoint })]);
 export type AcceptEula = boolean;
@@ -2341,9 +2216,7 @@ export const MarketplaceModelEndpoint = /*@__PURE__*/ S.suspend(() =>
     endpointStatus: S.String,
     endpointStatusMessage: S.optional(S.String),
   }),
-).annotate({
-  identifier: "MarketplaceModelEndpoint",
-}) as any as S.Schema<MarketplaceModelEndpoint>;
+).annotate({ identifier: "MarketplaceModelEndpoint" }) as any as S.Schema<MarketplaceModelEndpoint>;
 export interface CreateMarketplaceModelEndpointResponse {
   marketplaceModelEndpoint: MarketplaceModelEndpoint;
 }
@@ -2400,10 +2273,7 @@ export interface RequestMetadataBaseFilters {
   notEquals?: { [key: string]: string | undefined };
 }
 export const RequestMetadataBaseFilters = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    equals: S.optional(RequestMetadataMap),
-    notEquals: S.optional(RequestMetadataMap),
-  }),
+  S.Struct({ equals: S.optional(RequestMetadataMap), notEquals: S.optional(RequestMetadataMap) }),
 ).annotate({
   identifier: "RequestMetadataBaseFilters",
 }) as any as S.Schema<RequestMetadataBaseFilters>;
@@ -2422,18 +2292,8 @@ export type RequestMetadataFilters =
       andAll?: never;
       orAll?: never;
     }
-  | {
-      equals?: never;
-      notEquals?: never;
-      andAll: RequestMetadataBaseFilters[];
-      orAll?: never;
-    }
-  | {
-      equals?: never;
-      notEquals?: never;
-      andAll?: never;
-      orAll: RequestMetadataBaseFilters[];
-    };
+  | { equals?: never; notEquals?: never; andAll: RequestMetadataBaseFilters[]; orAll?: never }
+  | { equals?: never; notEquals?: never; andAll?: never; orAll: RequestMetadataBaseFilters[] };
 export const RequestMetadataFilters = /*@__PURE__*/ S.Union([
   S.Struct({ equals: RequestMetadataMap }),
   S.Struct({ notEquals: RequestMetadataMap }),
@@ -2451,21 +2311,14 @@ export const InvocationLogsConfig = /*@__PURE__*/ S.suspend(() =>
     invocationLogSource: InvocationLogSource,
     requestMetadataFilters: S.optional(RequestMetadataFilters),
   }),
-).annotate({
-  identifier: "InvocationLogsConfig",
-}) as any as S.Schema<InvocationLogsConfig>;
+).annotate({ identifier: "InvocationLogsConfig" }) as any as S.Schema<InvocationLogsConfig>;
 export interface TrainingDataConfig {
   s3Uri?: string;
   invocationLogsConfig?: InvocationLogsConfig;
 }
 export const TrainingDataConfig = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    s3Uri: S.optional(S.String),
-    invocationLogsConfig: S.optional(InvocationLogsConfig),
-  }),
-).annotate({
-  identifier: "TrainingDataConfig",
-}) as any as S.Schema<TrainingDataConfig>;
+  S.Struct({ s3Uri: S.optional(S.String), invocationLogsConfig: S.optional(InvocationLogsConfig) }),
+).annotate({ identifier: "TrainingDataConfig" }) as any as S.Schema<TrainingDataConfig>;
 export interface Validator {
   s3Uri: string;
 }
@@ -2479,20 +2332,14 @@ export interface ValidationDataConfig {
 }
 export const ValidationDataConfig = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ validators: Validators }),
-).annotate({
-  identifier: "ValidationDataConfig",
-}) as any as S.Schema<ValidationDataConfig>;
+).annotate({ identifier: "ValidationDataConfig" }) as any as S.Schema<ValidationDataConfig>;
 export interface OutputDataConfig {
   s3Uri: string;
 }
 export const OutputDataConfig = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ s3Uri: S.String }),
-).annotate({
-  identifier: "OutputDataConfig",
-}) as any as S.Schema<OutputDataConfig>;
-export type ModelCustomizationHyperParameters = {
-  [key: string]: string | undefined;
-};
+).annotate({ identifier: "OutputDataConfig" }) as any as S.Schema<OutputDataConfig>;
+export type ModelCustomizationHyperParameters = { [key: string]: string | undefined };
 export const ModelCustomizationHyperParameters = /*@__PURE__*/ S.Record(
   S.String,
   S.String.pipe(S.optional),
@@ -2507,26 +2354,20 @@ export const TeacherModelConfig = /*@__PURE__*/ S.suspend(() =>
     teacherModelIdentifier: S.String,
     maxResponseLengthForInference: S.optional(S.Number),
   }),
-).annotate({
-  identifier: "TeacherModelConfig",
-}) as any as S.Schema<TeacherModelConfig>;
+).annotate({ identifier: "TeacherModelConfig" }) as any as S.Schema<TeacherModelConfig>;
 export interface DistillationConfig {
   teacherModelConfig: TeacherModelConfig;
 }
 export const DistillationConfig = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ teacherModelConfig: TeacherModelConfig }),
-).annotate({
-  identifier: "DistillationConfig",
-}) as any as S.Schema<DistillationConfig>;
+).annotate({ identifier: "DistillationConfig" }) as any as S.Schema<DistillationConfig>;
 export type LambdaArn = string;
 export interface LambdaGraderConfig {
   lambdaArn: string;
 }
 export const LambdaGraderConfig = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ lambdaArn: S.String }),
-).annotate({
-  identifier: "LambdaGraderConfig",
-}) as any as S.Schema<LambdaGraderConfig>;
+).annotate({ identifier: "LambdaGraderConfig" }) as any as S.Schema<LambdaGraderConfig>;
 export type GraderConfig = { lambdaGrader: LambdaGraderConfig };
 export const GraderConfig = /*@__PURE__*/ S.Union([S.Struct({ lambdaGrader: LambdaGraderConfig })]);
 export type EpochCount = number;
@@ -2560,9 +2401,7 @@ export const RFTHyperParameters = /*@__PURE__*/ S.suspend(() =>
     reasoningEffort: S.optional(ReasoningEffort),
     evalInterval: S.optional(S.Number),
   }),
-).annotate({
-  identifier: "RFTHyperParameters",
-}) as any as S.Schema<RFTHyperParameters>;
+).annotate({ identifier: "RFTHyperParameters" }) as any as S.Schema<RFTHyperParameters>;
 export interface RFTConfig {
   graderConfig?: GraderConfig;
   hyperParameters?: RFTHyperParameters;
@@ -2771,9 +2610,7 @@ export interface PromptRouterTargetModel {
 }
 export const PromptRouterTargetModel = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ modelArn: S.optional(S.String) }),
-).annotate({
-  identifier: "PromptRouterTargetModel",
-}) as any as S.Schema<PromptRouterTargetModel>;
+).annotate({ identifier: "PromptRouterTargetModel" }) as any as S.Schema<PromptRouterTargetModel>;
 export type PromptRouterTargetModels = PromptRouterTargetModel[];
 export const PromptRouterTargetModels = /*@__PURE__*/ S.Array(PromptRouterTargetModel);
 export type PromptRouterDescription = string | redacted.Redacted<string>;
@@ -2782,9 +2619,7 @@ export interface RoutingCriteria {
 }
 export const RoutingCriteria = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ responseQualityDifference: S.Number }),
-).annotate({
-  identifier: "RoutingCriteria",
-}) as any as S.Schema<RoutingCriteria>;
+).annotate({ identifier: "RoutingCriteria" }) as any as S.Schema<RoutingCriteria>;
 export interface CreatePromptRouterRequest {
   clientRequestToken?: string;
   promptRouterName: string;
@@ -2870,10 +2705,7 @@ export const DeleteAutomatedReasoningPolicyRequest = /*@__PURE__*/ S.suspend(() 
     force: S.optional(S.Boolean).pipe(T.HttpQuery("force")),
   }).pipe(
     T.all(
-      T.Http({
-        method: "DELETE",
-        uri: "/automated-reasoning-policies/{policyArn}",
-      }),
+      T.Http({ method: "DELETE", uri: "/automated-reasoning-policies/{policyArn}" }),
       svc,
       auth,
       proto,
@@ -2962,9 +2794,7 @@ export interface DeleteCustomModelRequest {
   modelIdentifier: string;
 }
 export const DeleteCustomModelRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    modelIdentifier: S.String.pipe(T.HttpLabel("modelIdentifier")),
-  }).pipe(
+  S.Struct({ modelIdentifier: S.String.pipe(T.HttpLabel("modelIdentifier")) }).pipe(
     T.all(
       T.Http({ method: "DELETE", uri: "/custom-models/{modelIdentifier}" }),
       svc,
@@ -2974,9 +2804,7 @@ export const DeleteCustomModelRequest = /*@__PURE__*/ S.suspend(() =>
       rules,
     ),
   ),
-).annotate({
-  identifier: "DeleteCustomModelRequest",
-}) as any as S.Schema<DeleteCustomModelRequest>;
+).annotate({ identifier: "DeleteCustomModelRequest" }) as any as S.Schema<DeleteCustomModelRequest>;
 export interface DeleteCustomModelResponse {}
 export const DeleteCustomModelResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
   identifier: "DeleteCustomModelResponse",
@@ -3017,10 +2845,7 @@ export interface DeleteEnforcedGuardrailConfigurationRequest {
 export const DeleteEnforcedGuardrailConfigurationRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ configId: S.String.pipe(T.HttpLabel("configId")) }).pipe(
     T.all(
-      T.Http({
-        method: "DELETE",
-        uri: "/enforcedGuardrailsConfiguration/{configId}",
-      }),
+      T.Http({ method: "DELETE", uri: "/enforcedGuardrailsConfiguration/{configId}" }),
       svc,
       auth,
       proto,
@@ -3078,9 +2903,7 @@ export const DeleteGuardrailRequest = /*@__PURE__*/ S.suspend(() =>
       rules,
     ),
   ),
-).annotate({
-  identifier: "DeleteGuardrailRequest",
-}) as any as S.Schema<DeleteGuardrailRequest>;
+).annotate({ identifier: "DeleteGuardrailRequest" }) as any as S.Schema<DeleteGuardrailRequest>;
 export interface DeleteGuardrailResponse {}
 export const DeleteGuardrailResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
   identifier: "DeleteGuardrailResponse",
@@ -3090,9 +2913,7 @@ export interface DeleteImportedModelRequest {
   modelIdentifier: string;
 }
 export const DeleteImportedModelRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    modelIdentifier: S.String.pipe(T.HttpLabel("modelIdentifier")),
-  }).pipe(
+  S.Struct({ modelIdentifier: S.String.pipe(T.HttpLabel("modelIdentifier")) }).pipe(
     T.all(
       T.Http({ method: "DELETE", uri: "/imported-models/{modelIdentifier}" }),
       svc,
@@ -3118,10 +2939,7 @@ export const DeleteInferenceProfileRequest = /*@__PURE__*/ S.suspend(() =>
     inferenceProfileIdentifier: S.String.pipe(T.HttpLabel("inferenceProfileIdentifier")),
   }).pipe(
     T.all(
-      T.Http({
-        method: "DELETE",
-        uri: "/inference-profiles/{inferenceProfileIdentifier}",
-      }),
+      T.Http({ method: "DELETE", uri: "/inference-profiles/{inferenceProfileIdentifier}" }),
       svc,
       auth,
       proto,
@@ -3142,10 +2960,7 @@ export interface DeleteMarketplaceModelEndpointRequest {
 export const DeleteMarketplaceModelEndpointRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ endpointArn: S.String.pipe(T.HttpLabel("endpointArn")) }).pipe(
     T.all(
-      T.Http({
-        method: "DELETE",
-        uri: "/marketplace-model/endpoints/{endpointArn}",
-      }),
+      T.Http({ method: "DELETE", uri: "/marketplace-model/endpoints/{endpointArn}" }),
       svc,
       auth,
       proto,
@@ -3187,9 +3002,7 @@ export interface DeletePromptRouterRequest {
   promptRouterArn: string;
 }
 export const DeletePromptRouterRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    promptRouterArn: S.String.pipe(T.HttpLabel("promptRouterArn")),
-  }).pipe(
+  S.Struct({ promptRouterArn: S.String.pipe(T.HttpLabel("promptRouterArn")) }).pipe(
     T.all(
       T.Http({ method: "DELETE", uri: "/prompt-routers/{promptRouterArn}" }),
       svc,
@@ -3211,14 +3024,9 @@ export interface DeleteProvisionedModelThroughputRequest {
   provisionedModelId: string;
 }
 export const DeleteProvisionedModelThroughputRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    provisionedModelId: S.String.pipe(T.HttpLabel("provisionedModelId")),
-  }).pipe(
+  S.Struct({ provisionedModelId: S.String.pipe(T.HttpLabel("provisionedModelId")) }).pipe(
     T.all(
-      T.Http({
-        method: "DELETE",
-        uri: "/provisioned-model-throughput/{provisionedModelId}",
-      }),
+      T.Http({ method: "DELETE", uri: "/provisioned-model-throughput/{provisionedModelId}" }),
       svc,
       auth,
       proto,
@@ -3263,10 +3071,7 @@ export interface DeregisterMarketplaceModelEndpointRequest {
 export const DeregisterMarketplaceModelEndpointRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ endpointArn: S.String.pipe(T.HttpLabel("endpointArn")) }).pipe(
     T.all(
-      T.Http({
-        method: "DELETE",
-        uri: "/marketplace-model/endpoints/{endpointArn}/registration",
-      }),
+      T.Http({ method: "DELETE", uri: "/marketplace-model/endpoints/{endpointArn}/registration" }),
       svc,
       auth,
       proto,
@@ -3289,10 +3094,7 @@ export interface ExportAutomatedReasoningPolicyVersionRequest {
 export const ExportAutomatedReasoningPolicyVersionRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ policyArn: S.String.pipe(T.HttpLabel("policyArn")) }).pipe(
     T.all(
-      T.Http({
-        method: "GET",
-        uri: "/automated-reasoning-policies/{policyArn}/export",
-      }),
+      T.Http({ method: "GET", uri: "/automated-reasoning-policies/{policyArn}/export" }),
       svc,
       auth,
       proto,
@@ -3326,6 +3128,7 @@ export const GetAccountDataRetentionRequest = /*@__PURE__*/ S.suspend(() =>
 export type DataRetentionMode =
   | "default"
   | "none"
+  | "aws_review"
   | "provider_data_share"
   | "inherit"
   | (string & {});
@@ -3347,14 +3150,9 @@ export interface GetAdvancedPromptOptimizationJobRequest {
   jobIdentifier: string;
 }
 export const GetAdvancedPromptOptimizationJobRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    jobIdentifier: S.String.pipe(T.HttpLabel("jobIdentifier")),
-  }).pipe(
+  S.Struct({ jobIdentifier: S.String.pipe(T.HttpLabel("jobIdentifier")) }).pipe(
     T.all(
-      T.Http({
-        method: "GET",
-        uri: "/advanced-prompt-optimization-jobs/{jobIdentifier}",
-      }),
+      T.Http({ method: "GET", uri: "/advanced-prompt-optimization-jobs/{jobIdentifier}" }),
       svc,
       auth,
       proto,
@@ -3402,10 +3200,7 @@ export interface GetAutomatedReasoningPolicyRequest {
 export const GetAutomatedReasoningPolicyRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ policyArn: S.String.pipe(T.HttpLabel("policyArn")) }).pipe(
     T.all(
-      T.Http({
-        method: "GET",
-        uri: "/automated-reasoning-policies/{policyArn}",
-      }),
+      T.Http({ method: "GET", uri: "/automated-reasoning-policies/{policyArn}" }),
       svc,
       auth,
       proto,
@@ -3568,11 +3363,7 @@ export interface AutomatedReasoningPolicyAddVariableAnnotation {
   description: string | redacted.Redacted<string>;
 }
 export const AutomatedReasoningPolicyAddVariableAnnotation = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    name: SensitiveString,
-    type: SensitiveString,
-    description: SensitiveString,
-  }),
+  S.Struct({ name: SensitiveString, type: SensitiveString, description: SensitiveString }),
 ).annotate({
   identifier: "AutomatedReasoningPolicyAddVariableAnnotation",
 }) as any as S.Schema<AutomatedReasoningPolicyAddVariableAnnotation>;
@@ -3878,21 +3669,15 @@ export const AutomatedReasoningPolicyAnnotation = /*@__PURE__*/ S.Union([
   S.Struct({ updateType: AutomatedReasoningPolicyUpdateTypeAnnotation }),
   S.Struct({ deleteType: AutomatedReasoningPolicyDeleteTypeAnnotation }),
   S.Struct({ addVariable: AutomatedReasoningPolicyAddVariableAnnotation }),
-  S.Struct({
-    updateVariable: AutomatedReasoningPolicyUpdateVariableAnnotation,
-  }),
-  S.Struct({
-    deleteVariable: AutomatedReasoningPolicyDeleteVariableAnnotation,
-  }),
+  S.Struct({ updateVariable: AutomatedReasoningPolicyUpdateVariableAnnotation }),
+  S.Struct({ deleteVariable: AutomatedReasoningPolicyDeleteVariableAnnotation }),
   S.Struct({ addRule: AutomatedReasoningPolicyAddRuleAnnotation }),
   S.Struct({ updateRule: AutomatedReasoningPolicyUpdateRuleAnnotation }),
   S.Struct({ deleteRule: AutomatedReasoningPolicyDeleteRuleAnnotation }),
   S.Struct({
     addRuleFromNaturalLanguage: AutomatedReasoningPolicyAddRuleFromNaturalLanguageAnnotation,
   }),
-  S.Struct({
-    updateFromRulesFeedback: AutomatedReasoningPolicyUpdateFromRuleFeedbackAnnotation,
-  }),
+  S.Struct({ updateFromRulesFeedback: AutomatedReasoningPolicyUpdateFromRuleFeedbackAnnotation }),
   S.Struct({
     updateFromScenarioFeedback: AutomatedReasoningPolicyUpdateFromScenarioFeedbackAnnotation,
   }),
@@ -4325,9 +4110,7 @@ export type AutomatedReasoningPolicyDefinitionElement =
       policyDefinitionRule: AutomatedReasoningPolicyDefinitionRule;
     };
 export const AutomatedReasoningPolicyDefinitionElement = /*@__PURE__*/ S.Union([
-  S.Struct({
-    policyDefinitionVariable: AutomatedReasoningPolicyDefinitionVariable,
-  }),
+  S.Struct({ policyDefinitionVariable: AutomatedReasoningPolicyDefinitionVariable }),
   S.Struct({ policyDefinitionType: AutomatedReasoningPolicyDefinitionType }),
   S.Struct({ policyDefinitionRule: AutomatedReasoningPolicyDefinitionRule }),
 ]);
@@ -4339,10 +4122,7 @@ export interface AutomatedReasoningPolicyBuildStepMessage {
   messageType: AutomatedReasoningPolicyBuildMessageType;
 }
 export const AutomatedReasoningPolicyBuildStepMessage = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    message: S.String,
-    messageType: AutomatedReasoningPolicyBuildMessageType,
-  }),
+  S.Struct({ message: S.String, messageType: AutomatedReasoningPolicyBuildMessageType }),
 ).annotate({
   identifier: "AutomatedReasoningPolicyBuildStepMessage",
 }) as any as S.Schema<AutomatedReasoningPolicyBuildStepMessage>;
@@ -4418,9 +4198,7 @@ export interface AutomatedReasoningPolicyGeneratedTestCases {
   generatedTestCases: AutomatedReasoningPolicyGeneratedTestCase[];
 }
 export const AutomatedReasoningPolicyGeneratedTestCases = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    generatedTestCases: AutomatedReasoningPolicyGeneratedTestCaseList,
-  }),
+  S.Struct({ generatedTestCases: AutomatedReasoningPolicyGeneratedTestCaseList }),
 ).annotate({
   identifier: "AutomatedReasoningPolicyGeneratedTestCases",
 }) as any as S.Schema<AutomatedReasoningPolicyGeneratedTestCases>;
@@ -4609,10 +4387,7 @@ export interface AutomatedReasoningPolicyAnnotatedLine {
   lineText?: string | redacted.Redacted<string>;
 }
 export const AutomatedReasoningPolicyAnnotatedLine = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    lineNumber: S.optional(S.Number),
-    lineText: S.optional(SensitiveString),
-  }),
+  S.Struct({ lineNumber: S.optional(S.Number), lineText: S.optional(SensitiveString) }),
 ).annotate({
   identifier: "AutomatedReasoningPolicyAnnotatedLine",
 }) as any as S.Schema<AutomatedReasoningPolicyAnnotatedLine>;
@@ -4669,12 +4444,8 @@ export const AutomatedReasoningPolicyReportSourceDocumentList = /*@__PURE__*/ S.
 export interface AutomatedReasoningPolicyFidelityReport {
   coverageScore: number;
   accuracyScore: number;
-  ruleReports: {
-    [key: string]: AutomatedReasoningPolicyRuleReport | undefined;
-  };
-  variableReports: {
-    [key: string]: AutomatedReasoningPolicyVariableReport | undefined;
-  };
+  ruleReports: { [key: string]: AutomatedReasoningPolicyRuleReport | undefined };
+  variableReports: { [key: string]: AutomatedReasoningPolicyVariableReport | undefined };
   documentSources: AutomatedReasoningPolicyReportSourceDocument[];
 }
 export const AutomatedReasoningPolicyFidelityReport = /*@__PURE__*/ S.suspend(() =>
@@ -4823,10 +4594,7 @@ export interface GetAutomatedReasoningPolicyNextScenarioResponse {
   scenario?: AutomatedReasoningPolicyScenario;
 }
 export const GetAutomatedReasoningPolicyNextScenarioResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    policyArn: S.String,
-    scenario: S.optional(AutomatedReasoningPolicyScenario),
-  }),
+  S.Struct({ policyArn: S.String, scenario: S.optional(AutomatedReasoningPolicyScenario) }),
 ).annotate({
   identifier: "GetAutomatedReasoningPolicyNextScenarioResponse",
 }) as any as S.Schema<GetAutomatedReasoningPolicyNextScenarioResponse>;
@@ -4881,10 +4649,7 @@ export interface GetAutomatedReasoningPolicyTestCaseResponse {
   testCase: AutomatedReasoningPolicyTestCase;
 }
 export const GetAutomatedReasoningPolicyTestCaseResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    policyArn: S.String,
-    testCase: AutomatedReasoningPolicyTestCase,
-  }),
+  S.Struct({ policyArn: S.String, testCase: AutomatedReasoningPolicyTestCase }),
 ).annotate({
   identifier: "GetAutomatedReasoningPolicyTestCaseResponse",
 }) as any as S.Schema<GetAutomatedReasoningPolicyTestCaseResponse>;
@@ -4930,10 +4695,7 @@ export interface AutomatedReasoningLogicStatement {
   naturalLanguage?: string | redacted.Redacted<string>;
 }
 export const AutomatedReasoningLogicStatement = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    logic: SensitiveString,
-    naturalLanguage: S.optional(SensitiveString),
-  }),
+  S.Struct({ logic: SensitiveString, naturalLanguage: S.optional(SensitiveString) }),
 ).annotate({
   identifier: "AutomatedReasoningLogicStatement",
 }) as any as S.Schema<AutomatedReasoningLogicStatement>;
@@ -4985,10 +4747,7 @@ export interface AutomatedReasoningCheckRule {
   policyVersionArn?: string;
 }
 export const AutomatedReasoningCheckRule = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    id: S.optional(S.String),
-    policyVersionArn: S.optional(S.String),
-  }),
+  S.Struct({ id: S.optional(S.String), policyVersionArn: S.optional(S.String) }),
 ).annotate({
   identifier: "AutomatedReasoningCheckRule",
 }) as any as S.Schema<AutomatedReasoningCheckRule>;
@@ -5082,9 +4841,7 @@ export interface AutomatedReasoningCheckTranslationOption {
   translations?: AutomatedReasoningCheckTranslation[];
 }
 export const AutomatedReasoningCheckTranslationOption = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    translations: S.optional(AutomatedReasoningCheckTranslationList),
-  }),
+  S.Struct({ translations: S.optional(AutomatedReasoningCheckTranslationList) }),
 ).annotate({
   identifier: "AutomatedReasoningCheckTranslationOption",
 }) as any as S.Schema<AutomatedReasoningCheckTranslationOption>;
@@ -5190,9 +4947,7 @@ export const AutomatedReasoningCheckFinding = /*@__PURE__*/ S.Union([
   S.Struct({ invalid: AutomatedReasoningCheckInvalidFinding }),
   S.Struct({ satisfiable: AutomatedReasoningCheckSatisfiableFinding }),
   S.Struct({ impossible: AutomatedReasoningCheckImpossibleFinding }),
-  S.Struct({
-    translationAmbiguous: AutomatedReasoningCheckTranslationAmbiguousFinding,
-  }),
+  S.Struct({ translationAmbiguous: AutomatedReasoningCheckTranslationAmbiguousFinding }),
   S.Struct({ tooComplex: AutomatedReasoningCheckTooComplexFinding }),
   S.Struct({ noTranslations: AutomatedReasoningCheckNoTranslationsFinding }),
 ]);
@@ -5237,9 +4992,7 @@ export interface GetCustomModelRequest {
   modelIdentifier: string;
 }
 export const GetCustomModelRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    modelIdentifier: S.String.pipe(T.HttpLabel("modelIdentifier")),
-  }).pipe(
+  S.Struct({ modelIdentifier: S.String.pipe(T.HttpLabel("modelIdentifier")) }).pipe(
     T.all(
       T.Http({ method: "GET", uri: "/custom-models/{modelIdentifier}" }),
       svc,
@@ -5249,26 +5002,20 @@ export const GetCustomModelRequest = /*@__PURE__*/ S.suspend(() =>
       rules,
     ),
   ),
-).annotate({
-  identifier: "GetCustomModelRequest",
-}) as any as S.Schema<GetCustomModelRequest>;
+).annotate({ identifier: "GetCustomModelRequest" }) as any as S.Schema<GetCustomModelRequest>;
 export type MetricFloat = number;
 export interface TrainingMetrics {
   trainingLoss?: number;
 }
 export const TrainingMetrics = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ trainingLoss: S.optional(S.Number) }),
-).annotate({
-  identifier: "TrainingMetrics",
-}) as any as S.Schema<TrainingMetrics>;
+).annotate({ identifier: "TrainingMetrics" }) as any as S.Schema<TrainingMetrics>;
 export interface ValidatorMetric {
   validationLoss?: number;
 }
 export const ValidatorMetric = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ validationLoss: S.optional(S.Number) }),
-).annotate({
-  identifier: "ValidatorMetric",
-}) as any as S.Schema<ValidatorMetric>;
+).annotate({ identifier: "ValidatorMetric" }) as any as S.Schema<ValidatorMetric>;
 export type ValidationMetrics = ValidatorMetric[];
 export const ValidationMetrics = /*@__PURE__*/ S.Array(ValidatorMetric);
 export type ModelStatus = "Active" | "Creating" | "Failed" | (string & {});
@@ -5313,9 +5060,7 @@ export const GetCustomModelResponse = /*@__PURE__*/ S.suspend(() =>
     modelStatus: S.optional(ModelStatus),
     failureMessage: S.optional(S.String),
   }),
-).annotate({
-  identifier: "GetCustomModelResponse",
-}) as any as S.Schema<GetCustomModelResponse>;
+).annotate({ identifier: "GetCustomModelResponse" }) as any as S.Schema<GetCustomModelResponse>;
 export interface GetCustomModelDeploymentRequest {
   customModelDeploymentIdentifier: string;
 }
@@ -5353,10 +5098,7 @@ export interface CustomModelDeploymentUpdateDetails {
   updateStatus: CustomModelDeploymentUpdateStatus;
 }
 export const CustomModelDeploymentUpdateDetails = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    modelArn: S.String,
-    updateStatus: CustomModelDeploymentUpdateStatus,
-  }),
+  S.Struct({ modelArn: S.String, updateStatus: CustomModelDeploymentUpdateStatus }),
 ).annotate({
   identifier: "CustomModelDeploymentUpdateDetails",
 }) as any as S.Schema<CustomModelDeploymentUpdateDetails>;
@@ -5390,9 +5132,7 @@ export interface GetEvaluationJobRequest {
   jobIdentifier: string | redacted.Redacted<string>;
 }
 export const GetEvaluationJobRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    jobIdentifier: SensitiveString.pipe(T.HttpLabel("jobIdentifier")),
-  }).pipe(
+  S.Struct({ jobIdentifier: SensitiveString.pipe(T.HttpLabel("jobIdentifier")) }).pipe(
     T.all(
       T.Http({ method: "GET", uri: "/evaluation-jobs/{jobIdentifier}" }),
       svc,
@@ -5402,9 +5142,7 @@ export const GetEvaluationJobRequest = /*@__PURE__*/ S.suspend(() =>
       rules,
     ),
   ),
-).annotate({
-  identifier: "GetEvaluationJobRequest",
-}) as any as S.Schema<GetEvaluationJobRequest>;
+).annotate({ identifier: "GetEvaluationJobRequest" }) as any as S.Schema<GetEvaluationJobRequest>;
 export type EvaluationJobType = "Human" | "Automated" | (string & {});
 export const EvaluationJobType = S.String;
 
@@ -5443,17 +5181,13 @@ export const GetEvaluationJobResponse = /*@__PURE__*/ S.suspend(() =>
     lastModifiedTime: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
     failureMessages: S.optional(ErrorMessages),
   }),
-).annotate({
-  identifier: "GetEvaluationJobResponse",
-}) as any as S.Schema<GetEvaluationJobResponse>;
+).annotate({ identifier: "GetEvaluationJobResponse" }) as any as S.Schema<GetEvaluationJobResponse>;
 export type GetFoundationModelIdentifier = string;
 export interface GetFoundationModelRequest {
   modelIdentifier: string;
 }
 export const GetFoundationModelRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    modelIdentifier: S.String.pipe(T.HttpLabel("modelIdentifier")),
-  }).pipe(
+  S.Struct({ modelIdentifier: S.String.pipe(T.HttpLabel("modelIdentifier")) }).pipe(
     T.all(
       T.Http({ method: "GET", uri: "/foundation-models/{modelIdentifier}" }),
       svc,
@@ -5505,9 +5239,7 @@ export const FoundationModelLifecycle = /*@__PURE__*/ S.suspend(() =>
     legacyTime: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
     publicExtendedAccessTime: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
   }),
-).annotate({
-  identifier: "FoundationModelLifecycle",
-}) as any as S.Schema<FoundationModelLifecycle>;
+).annotate({ identifier: "FoundationModelLifecycle" }) as any as S.Schema<FoundationModelLifecycle>;
 export interface FoundationModelDetails {
   modelArn: string;
   modelId: string;
@@ -5533,9 +5265,7 @@ export const FoundationModelDetails = /*@__PURE__*/ S.suspend(() =>
     inferenceTypesSupported: S.optional(InferenceTypeList),
     modelLifecycle: S.optional(FoundationModelLifecycle),
   }),
-).annotate({
-  identifier: "FoundationModelDetails",
-}) as any as S.Schema<FoundationModelDetails>;
+).annotate({ identifier: "FoundationModelDetails" }) as any as S.Schema<FoundationModelDetails>;
 export interface GetFoundationModelResponse {
   modelDetails?: FoundationModelDetails;
 }
@@ -5550,10 +5280,7 @@ export interface GetFoundationModelAvailabilityRequest {
 export const GetFoundationModelAvailabilityRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ modelId: S.String.pipe(T.HttpLabel("modelId")) }).pipe(
     T.all(
-      T.Http({
-        method: "GET",
-        uri: "/foundation-model-availability/{modelId}",
-      }),
+      T.Http({ method: "GET", uri: "/foundation-model-availability/{modelId}" }),
       svc,
       auth,
       proto,
@@ -5573,9 +5300,7 @@ export interface AgreementAvailability {
 }
 export const AgreementAvailability = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ status: AgreementStatus, errorMessage: S.optional(S.String) }),
-).annotate({
-  identifier: "AgreementAvailability",
-}) as any as S.Schema<AgreementAvailability>;
+).annotate({ identifier: "AgreementAvailability" }) as any as S.Schema<AgreementAvailability>;
 export type AuthorizationStatus = "AUTHORIZED" | "NOT_AUTHORIZED" | (string & {});
 export const AuthorizationStatus = S.String;
 
@@ -5622,9 +5347,7 @@ export const GetGuardrailRequest = /*@__PURE__*/ S.suspend(() =>
       rules,
     ),
   ),
-).annotate({
-  identifier: "GetGuardrailRequest",
-}) as any as S.Schema<GetGuardrailRequest>;
+).annotate({ identifier: "GetGuardrailRequest" }) as any as S.Schema<GetGuardrailRequest>;
 export type GuardrailStatus =
   | "CREATING"
   | "UPDATING"
@@ -5664,18 +5387,14 @@ export interface GuardrailTopicsTier {
 }
 export const GuardrailTopicsTier = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ tierName: GuardrailTopicsTierName }),
-).annotate({
-  identifier: "GuardrailTopicsTier",
-}) as any as S.Schema<GuardrailTopicsTier>;
+).annotate({ identifier: "GuardrailTopicsTier" }) as any as S.Schema<GuardrailTopicsTier>;
 export interface GuardrailTopicPolicy {
   topics: GuardrailTopic[];
   tier?: GuardrailTopicsTier;
 }
 export const GuardrailTopicPolicy = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ topics: GuardrailTopics, tier: S.optional(GuardrailTopicsTier) }),
-).annotate({
-  identifier: "GuardrailTopicPolicy",
-}) as any as S.Schema<GuardrailTopicPolicy>;
+).annotate({ identifier: "GuardrailTopicPolicy" }) as any as S.Schema<GuardrailTopicPolicy>;
 export interface GuardrailContentFilter {
   type: GuardrailContentFilterType;
   inputStrength: GuardrailFilterStrength;
@@ -5699,9 +5418,7 @@ export const GuardrailContentFilter = /*@__PURE__*/ S.suspend(() =>
     inputEnabled: S.optional(S.Boolean),
     outputEnabled: S.optional(S.Boolean),
   }),
-).annotate({
-  identifier: "GuardrailContentFilter",
-}) as any as S.Schema<GuardrailContentFilter>;
+).annotate({ identifier: "GuardrailContentFilter" }) as any as S.Schema<GuardrailContentFilter>;
 export type GuardrailContentFilters = GuardrailContentFilter[];
 export const GuardrailContentFilters = /*@__PURE__*/ S.Array(GuardrailContentFilter);
 export interface GuardrailContentFiltersTier {
@@ -5721,9 +5438,7 @@ export const GuardrailContentPolicy = /*@__PURE__*/ S.suspend(() =>
     filters: S.optional(GuardrailContentFilters),
     tier: S.optional(GuardrailContentFiltersTier),
   }),
-).annotate({
-  identifier: "GuardrailContentPolicy",
-}) as any as S.Schema<GuardrailContentPolicy>;
+).annotate({ identifier: "GuardrailContentPolicy" }) as any as S.Schema<GuardrailContentPolicy>;
 export interface GuardrailWord {
   text: string;
   inputAction?: GuardrailWordAction;
@@ -5757,9 +5472,7 @@ export const GuardrailManagedWords = /*@__PURE__*/ S.suspend(() =>
     inputEnabled: S.optional(S.Boolean),
     outputEnabled: S.optional(S.Boolean),
   }),
-).annotate({
-  identifier: "GuardrailManagedWords",
-}) as any as S.Schema<GuardrailManagedWords>;
+).annotate({ identifier: "GuardrailManagedWords" }) as any as S.Schema<GuardrailManagedWords>;
 export type GuardrailManagedWordLists = GuardrailManagedWords[];
 export const GuardrailManagedWordLists = /*@__PURE__*/ S.Array(GuardrailManagedWords);
 export interface GuardrailWordPolicy {
@@ -5771,9 +5484,7 @@ export const GuardrailWordPolicy = /*@__PURE__*/ S.suspend(() =>
     words: S.optional(GuardrailWords),
     managedWordLists: S.optional(GuardrailManagedWordLists),
   }),
-).annotate({
-  identifier: "GuardrailWordPolicy",
-}) as any as S.Schema<GuardrailWordPolicy>;
+).annotate({ identifier: "GuardrailWordPolicy" }) as any as S.Schema<GuardrailWordPolicy>;
 export interface GuardrailPiiEntity {
   type: GuardrailPiiEntityType;
   action: GuardrailSensitiveInformationAction;
@@ -5791,9 +5502,7 @@ export const GuardrailPiiEntity = /*@__PURE__*/ S.suspend(() =>
     inputEnabled: S.optional(S.Boolean),
     outputEnabled: S.optional(S.Boolean),
   }),
-).annotate({
-  identifier: "GuardrailPiiEntity",
-}) as any as S.Schema<GuardrailPiiEntity>;
+).annotate({ identifier: "GuardrailPiiEntity" }) as any as S.Schema<GuardrailPiiEntity>;
 export type GuardrailPiiEntities = GuardrailPiiEntity[];
 export const GuardrailPiiEntities = /*@__PURE__*/ S.Array(GuardrailPiiEntity);
 export interface GuardrailRegex {
@@ -5879,10 +5588,7 @@ export interface GuardrailCrossRegionDetails {
   guardrailProfileArn?: string;
 }
 export const GuardrailCrossRegionDetails = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    guardrailProfileId: S.optional(S.String),
-    guardrailProfileArn: S.optional(S.String),
-  }),
+  S.Struct({ guardrailProfileId: S.optional(S.String), guardrailProfileArn: S.optional(S.String) }),
 ).annotate({
   identifier: "GuardrailCrossRegionDetails",
 }) as any as S.Schema<GuardrailCrossRegionDetails>;
@@ -5937,16 +5643,12 @@ export const GetGuardrailResponse = /*@__PURE__*/ S.suspend(() =>
     blockedOutputsMessaging: SensitiveString,
     kmsKeyArn: S.optional(S.String),
   }),
-).annotate({
-  identifier: "GetGuardrailResponse",
-}) as any as S.Schema<GetGuardrailResponse>;
+).annotate({ identifier: "GetGuardrailResponse" }) as any as S.Schema<GetGuardrailResponse>;
 export interface GetImportedModelRequest {
   modelIdentifier: string;
 }
 export const GetImportedModelRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    modelIdentifier: S.String.pipe(T.HttpLabel("modelIdentifier")),
-  }).pipe(
+  S.Struct({ modelIdentifier: S.String.pipe(T.HttpLabel("modelIdentifier")) }).pipe(
     T.all(
       T.Http({ method: "GET", uri: "/imported-models/{modelIdentifier}" }),
       svc,
@@ -5956,9 +5658,7 @@ export const GetImportedModelRequest = /*@__PURE__*/ S.suspend(() =>
       rules,
     ),
   ),
-).annotate({
-  identifier: "GetImportedModelRequest",
-}) as any as S.Schema<GetImportedModelRequest>;
+).annotate({ identifier: "GetImportedModelRequest" }) as any as S.Schema<GetImportedModelRequest>;
 export type ImportedModelArn = string;
 export type InstructSupported = boolean;
 export type CustomModelUnitsVersion = string;
@@ -5971,9 +5671,7 @@ export const CustomModelUnits = /*@__PURE__*/ S.suspend(() =>
     customModelUnitsPerModelCopy: S.optional(S.Number),
     customModelUnitsVersion: S.optional(S.String),
   }),
-).annotate({
-  identifier: "CustomModelUnits",
-}) as any as S.Schema<CustomModelUnits>;
+).annotate({ identifier: "CustomModelUnits" }) as any as S.Schema<CustomModelUnits>;
 export interface GetImportedModelResponse {
   modelArn?: string;
   modelName?: string;
@@ -5999,9 +5697,7 @@ export const GetImportedModelResponse = /*@__PURE__*/ S.suspend(() =>
     instructSupported: S.optional(S.Boolean),
     customModelUnits: S.optional(CustomModelUnits),
   }),
-).annotate({
-  identifier: "GetImportedModelResponse",
-}) as any as S.Schema<GetImportedModelResponse>;
+).annotate({ identifier: "GetImportedModelResponse" }) as any as S.Schema<GetImportedModelResponse>;
 export interface GetInferenceProfileRequest {
   inferenceProfileIdentifier: string;
 }
@@ -6010,10 +5706,7 @@ export const GetInferenceProfileRequest = /*@__PURE__*/ S.suspend(() =>
     inferenceProfileIdentifier: S.String.pipe(T.HttpLabel("inferenceProfileIdentifier")),
   }).pipe(
     T.all(
-      T.Http({
-        method: "GET",
-        uri: "/inference-profiles/{inferenceProfileIdentifier}",
-      }),
+      T.Http({ method: "GET", uri: "/inference-profiles/{inferenceProfileIdentifier}" }),
       svc,
       auth,
       proto,
@@ -6029,9 +5722,7 @@ export interface InferenceProfileModel {
 }
 export const InferenceProfileModel = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ modelArn: S.optional(S.String) }),
-).annotate({
-  identifier: "InferenceProfileModel",
-}) as any as S.Schema<InferenceProfileModel>;
+).annotate({ identifier: "InferenceProfileModel" }) as any as S.Schema<InferenceProfileModel>;
 export type InferenceProfileModels = InferenceProfileModel[];
 export const InferenceProfileModels = /*@__PURE__*/ S.Array(InferenceProfileModel);
 export type InferenceProfileId = string;
@@ -6070,10 +5761,7 @@ export interface GetMarketplaceModelEndpointRequest {
 export const GetMarketplaceModelEndpointRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ endpointArn: S.String.pipe(T.HttpLabel("endpointArn")) }).pipe(
     T.all(
-      T.Http({
-        method: "GET",
-        uri: "/marketplace-model/endpoints/{endpointArn}",
-      }),
+      T.Http({ method: "GET", uri: "/marketplace-model/endpoints/{endpointArn}" }),
       svc,
       auth,
       proto,
@@ -6106,9 +5794,7 @@ export const GetModelCopyJobRequest = /*@__PURE__*/ S.suspend(() =>
       rules,
     ),
   ),
-).annotate({
-  identifier: "GetModelCopyJobRequest",
-}) as any as S.Schema<GetModelCopyJobRequest>;
+).annotate({ identifier: "GetModelCopyJobRequest" }) as any as S.Schema<GetModelCopyJobRequest>;
 export type ModelCopyJobStatus = "InProgress" | "Completed" | "Failed" | (string & {});
 export const ModelCopyJobStatus = S.String;
 
@@ -6139,9 +5825,7 @@ export const GetModelCopyJobResponse = /*@__PURE__*/ S.suspend(() =>
     failureMessage: S.optional(S.String),
     sourceModelName: S.optional(S.String),
   }),
-).annotate({
-  identifier: "GetModelCopyJobResponse",
-}) as any as S.Schema<GetModelCopyJobResponse>;
+).annotate({ identifier: "GetModelCopyJobResponse" }) as any as S.Schema<GetModelCopyJobResponse>;
 export type ModelCustomizationJobIdentifier = string;
 export interface GetModelCustomizationJobRequest {
   jobIdentifier: string;
@@ -6149,10 +5833,7 @@ export interface GetModelCustomizationJobRequest {
 export const GetModelCustomizationJobRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ jobIdentifier: S.String.pipe(T.HttpLabel("jobIdentifier")) }).pipe(
     T.all(
-      T.Http({
-        method: "GET",
-        uri: "/model-customization-jobs/{jobIdentifier}",
-      }),
+      T.Http({ method: "GET", uri: "/model-customization-jobs/{jobIdentifier}" }),
       svc,
       auth,
       proto,
@@ -6193,9 +5874,7 @@ export const ValidationDetails = /*@__PURE__*/ S.suspend(() =>
     creationTime: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
     lastModifiedTime: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
   }),
-).annotate({
-  identifier: "ValidationDetails",
-}) as any as S.Schema<ValidationDetails>;
+).annotate({ identifier: "ValidationDetails" }) as any as S.Schema<ValidationDetails>;
 export interface DataProcessingDetails {
   status?: JobStatusDetails;
   creationTime?: Date;
@@ -6207,9 +5886,7 @@ export const DataProcessingDetails = /*@__PURE__*/ S.suspend(() =>
     creationTime: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
     lastModifiedTime: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
   }),
-).annotate({
-  identifier: "DataProcessingDetails",
-}) as any as S.Schema<DataProcessingDetails>;
+).annotate({ identifier: "DataProcessingDetails" }) as any as S.Schema<DataProcessingDetails>;
 export interface TrainingDetails {
   status?: JobStatusDetails;
   creationTime?: Date;
@@ -6221,9 +5898,7 @@ export const TrainingDetails = /*@__PURE__*/ S.suspend(() =>
     creationTime: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
     lastModifiedTime: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
   }),
-).annotate({
-  identifier: "TrainingDetails",
-}) as any as S.Schema<TrainingDetails>;
+).annotate({ identifier: "TrainingDetails" }) as any as S.Schema<TrainingDetails>;
 export interface StatusDetails {
   validationDetails?: ValidationDetails;
   dataProcessingDetails?: DataProcessingDetails;
@@ -6305,9 +5980,7 @@ export const GetModelImportJobRequest = /*@__PURE__*/ S.suspend(() =>
       rules,
     ),
   ),
-).annotate({
-  identifier: "GetModelImportJobRequest",
-}) as any as S.Schema<GetModelImportJobRequest>;
+).annotate({ identifier: "GetModelImportJobRequest" }) as any as S.Schema<GetModelImportJobRequest>;
 export type ModelImportJobStatus = "InProgress" | "Completed" | "Failed" | (string & {});
 export const ModelImportJobStatus = S.String;
 
@@ -6463,9 +6136,7 @@ export const CloudWatchConfig = /*@__PURE__*/ S.suspend(() =>
     roleArn: S.String,
     largeDataDeliveryS3Config: S.optional(S3Config),
   }),
-).annotate({
-  identifier: "CloudWatchConfig",
-}) as any as S.Schema<CloudWatchConfig>;
+).annotate({ identifier: "CloudWatchConfig" }) as any as S.Schema<CloudWatchConfig>;
 export interface LoggingConfig {
   cloudWatchConfig?: CloudWatchConfig;
   s3Config?: S3Config;
@@ -6498,9 +6169,7 @@ export interface GetPromptRouterRequest {
   promptRouterArn: string;
 }
 export const GetPromptRouterRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    promptRouterArn: S.String.pipe(T.HttpLabel("promptRouterArn")),
-  }).pipe(
+  S.Struct({ promptRouterArn: S.String.pipe(T.HttpLabel("promptRouterArn")) }).pipe(
     T.all(
       T.Http({ method: "GET", uri: "/prompt-routers/{promptRouterArn}" }),
       svc,
@@ -6510,9 +6179,7 @@ export const GetPromptRouterRequest = /*@__PURE__*/ S.suspend(() =>
       rules,
     ),
   ),
-).annotate({
-  identifier: "GetPromptRouterRequest",
-}) as any as S.Schema<GetPromptRouterRequest>;
+).annotate({ identifier: "GetPromptRouterRequest" }) as any as S.Schema<GetPromptRouterRequest>;
 export type PromptRouterStatus = "AVAILABLE" | (string & {});
 export const PromptRouterStatus = S.String;
 
@@ -6526,12 +6193,8 @@ export interface GetPromptRouterResponse {
   createdAt?: Date;
   updatedAt?: Date;
   promptRouterArn: string;
-  models: (PromptRouterTargetModel & {
-    modelArn: PromptRouterTargetModelArn;
-  })[];
-  fallbackModel: PromptRouterTargetModel & {
-    modelArn: PromptRouterTargetModelArn;
-  };
+  models: (PromptRouterTargetModel & { modelArn: PromptRouterTargetModelArn })[];
+  fallbackModel: PromptRouterTargetModel & { modelArn: PromptRouterTargetModelArn };
   status: PromptRouterStatus;
   type: PromptRouterType;
 }
@@ -6548,21 +6211,14 @@ export const GetPromptRouterResponse = /*@__PURE__*/ S.suspend(() =>
     status: PromptRouterStatus,
     type: PromptRouterType,
   }),
-).annotate({
-  identifier: "GetPromptRouterResponse",
-}) as any as S.Schema<GetPromptRouterResponse>;
+).annotate({ identifier: "GetPromptRouterResponse" }) as any as S.Schema<GetPromptRouterResponse>;
 export interface GetProvisionedModelThroughputRequest {
   provisionedModelId: string;
 }
 export const GetProvisionedModelThroughputRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    provisionedModelId: S.String.pipe(T.HttpLabel("provisionedModelId")),
-  }).pipe(
+  S.Struct({ provisionedModelId: S.String.pipe(T.HttpLabel("provisionedModelId")) }).pipe(
     T.all(
-      T.Http({
-        method: "GET",
-        uri: "/provisioned-model-throughput/{provisionedModelId}",
-      }),
+      T.Http({ method: "GET", uri: "/provisioned-model-throughput/{provisionedModelId}" }),
       svc,
       auth,
       proto,
@@ -6629,9 +6285,7 @@ export const GetResourcePolicyRequest = /*@__PURE__*/ S.suspend(() =>
       rules,
     ),
   ),
-).annotate({
-  identifier: "GetResourcePolicyRequest",
-}) as any as S.Schema<GetResourcePolicyRequest>;
+).annotate({ identifier: "GetResourcePolicyRequest" }) as any as S.Schema<GetResourcePolicyRequest>;
 export type ResourcePolicyDocument = string;
 export interface GetResourcePolicyResponse {
   resourcePolicy?: string;
@@ -6805,10 +6459,7 @@ export const ListAutomatedReasoningPolicyBuildWorkflowsRequest = /*@__PURE__*/ S
     maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
   }).pipe(
     T.all(
-      T.Http({
-        method: "GET",
-        uri: "/automated-reasoning-policies/{policyArn}/build-workflows",
-      }),
+      T.Http({ method: "GET", uri: "/automated-reasoning-policies/{policyArn}/build-workflows" }),
       svc,
       auth,
       proto,
@@ -6868,10 +6519,7 @@ export const ListAutomatedReasoningPolicyTestCasesRequest = /*@__PURE__*/ S.susp
     maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
   }).pipe(
     T.all(
-      T.Http({
-        method: "GET",
-        uri: "/automated-reasoning-policies/{policyArn}/test-cases",
-      }),
+      T.Http({ method: "GET", uri: "/automated-reasoning-policies/{policyArn}/test-cases" }),
       svc,
       auth,
       proto,
@@ -6891,10 +6539,7 @@ export interface ListAutomatedReasoningPolicyTestCasesResponse {
   nextToken?: string;
 }
 export const ListAutomatedReasoningPolicyTestCasesResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    testCases: AutomatedReasoningPolicyTestCaseList,
-    nextToken: S.optional(S.String),
-  }),
+  S.Struct({ testCases: AutomatedReasoningPolicyTestCaseList, nextToken: S.optional(S.String) }),
 ).annotate({
   identifier: "ListAutomatedReasoningPolicyTestCasesResponse",
 }) as any as S.Schema<ListAutomatedReasoningPolicyTestCasesResponse>;
@@ -6935,10 +6580,7 @@ export interface ListAutomatedReasoningPolicyTestResultsResponse {
   nextToken?: string;
 }
 export const ListAutomatedReasoningPolicyTestResultsResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    testResults: AutomatedReasoningPolicyTestList,
-    nextToken: S.optional(S.String),
-  }),
+  S.Struct({ testResults: AutomatedReasoningPolicyTestList, nextToken: S.optional(S.String) }),
 ).annotate({
   identifier: "ListAutomatedReasoningPolicyTestResultsResponse",
 }) as any as S.Schema<ListAutomatedReasoningPolicyTestResultsResponse>;
@@ -6973,10 +6615,7 @@ export const ListCustomModelDeploymentsRequest = /*@__PURE__*/ S.suspend(() =>
     modelArnEquals: S.optional(S.String).pipe(T.HttpQuery("modelArnEquals")),
   }).pipe(
     T.all(
-      T.Http({
-        method: "GET",
-        uri: "/model-customization/custom-model-deployments",
-      }),
+      T.Http({ method: "GET", uri: "/model-customization/custom-model-deployments" }),
       svc,
       auth,
       proto,
@@ -7054,9 +6693,7 @@ export const ListCustomModelsRequest = /*@__PURE__*/ S.suspend(() =>
     isOwned: S.optional(S.Boolean).pipe(T.HttpQuery("isOwned")),
     modelStatus: S.optional(ModelStatus).pipe(T.HttpQuery("modelStatus")),
   }).pipe(T.all(T.Http({ method: "GET", uri: "/custom-models" }), svc, auth, proto, ver, rules)),
-).annotate({
-  identifier: "ListCustomModelsRequest",
-}) as any as S.Schema<ListCustomModelsRequest>;
+).annotate({ identifier: "ListCustomModelsRequest" }) as any as S.Schema<ListCustomModelsRequest>;
 export type ModelName = string;
 export interface CustomModelSummary {
   modelArn: string;
@@ -7079,9 +6716,7 @@ export const CustomModelSummary = /*@__PURE__*/ S.suspend(() =>
     ownerAccountId: S.optional(S.String),
     modelStatus: S.optional(ModelStatus),
   }),
-).annotate({
-  identifier: "CustomModelSummary",
-}) as any as S.Schema<CustomModelSummary>;
+).annotate({ identifier: "CustomModelSummary" }) as any as S.Schema<CustomModelSummary>;
 export type CustomModelSummaryList = CustomModelSummary[];
 export const CustomModelSummaryList = /*@__PURE__*/ S.Array(CustomModelSummary);
 export interface ListCustomModelsResponse {
@@ -7089,20 +6724,13 @@ export interface ListCustomModelsResponse {
   modelSummaries?: CustomModelSummary[];
 }
 export const ListCustomModelsResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    nextToken: S.optional(S.String),
-    modelSummaries: S.optional(CustomModelSummaryList),
-  }),
-).annotate({
-  identifier: "ListCustomModelsResponse",
-}) as any as S.Schema<ListCustomModelsResponse>;
+  S.Struct({ nextToken: S.optional(S.String), modelSummaries: S.optional(CustomModelSummaryList) }),
+).annotate({ identifier: "ListCustomModelsResponse" }) as any as S.Schema<ListCustomModelsResponse>;
 export interface ListEnforcedGuardrailsConfigurationRequest {
   nextToken?: string;
 }
 export const ListEnforcedGuardrailsConfigurationRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
-  }).pipe(
+  S.Struct({ nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")) }).pipe(
     T.all(
       T.Http({ method: "GET", uri: "/enforcedGuardrailsConfiguration" }),
       svc,
@@ -7130,9 +6758,7 @@ export const SelectiveContentGuarding = /*@__PURE__*/ S.suspend(() =>
     system: S.optional(SelectiveGuardingMode),
     messages: S.optional(SelectiveGuardingMode),
   }),
-).annotate({
-  identifier: "SelectiveContentGuarding",
-}) as any as S.Schema<SelectiveContentGuarding>;
+).annotate({ identifier: "SelectiveContentGuarding" }) as any as S.Schema<SelectiveContentGuarding>;
 export type ConfigurationOwner = string;
 export type IncludedModelId = string;
 export type IncludedModelsList = string[];
@@ -7145,13 +6771,8 @@ export interface ModelEnforcement {
   excludedModels: string[];
 }
 export const ModelEnforcement = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    includedModels: IncludedModelsList,
-    excludedModels: ExcludedModelsList,
-  }),
-).annotate({
-  identifier: "ModelEnforcement",
-}) as any as S.Schema<ModelEnforcement>;
+  S.Struct({ includedModels: IncludedModelsList, excludedModels: ExcludedModelsList }),
+).annotate({ identifier: "ModelEnforcement" }) as any as S.Schema<ModelEnforcement>;
 export interface AccountEnforcedGuardrailOutputConfiguration {
   configId?: string;
   guardrailArn?: string;
@@ -7310,9 +6931,7 @@ export const EvaluationSummary = /*@__PURE__*/ S.suspend(() =>
     inferenceConfigSummary: S.optional(EvaluationInferenceConfigSummary),
     applicationType: S.optional(ApplicationType),
   }),
-).annotate({
-  identifier: "EvaluationSummary",
-}) as any as S.Schema<EvaluationSummary>;
+).annotate({ identifier: "EvaluationSummary" }) as any as S.Schema<EvaluationSummary>;
 export type EvaluationSummaries = EvaluationSummary[];
 export const EvaluationSummaries = /*@__PURE__*/ S.Array(EvaluationSummary);
 export interface ListEvaluationJobsResponse {
@@ -7320,10 +6939,7 @@ export interface ListEvaluationJobsResponse {
   jobSummaries?: EvaluationSummary[];
 }
 export const ListEvaluationJobsResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    nextToken: S.optional(S.String),
-    jobSummaries: S.optional(EvaluationSummaries),
-  }),
+  S.Struct({ nextToken: S.optional(S.String), jobSummaries: S.optional(EvaluationSummaries) }),
 ).annotate({
   identifier: "ListEvaluationJobsResponse",
 }) as any as S.Schema<ListEvaluationJobsResponse>;
@@ -7340,10 +6956,7 @@ export const ListFoundationModelAgreementOffersRequest = /*@__PURE__*/ S.suspend
     offerType: S.optional(OfferType).pipe(T.HttpQuery("offerType")),
   }).pipe(
     T.all(
-      T.Http({
-        method: "GET",
-        uri: "/list-foundation-model-agreement-offers/{modelId}",
-      }),
+      T.Http({ method: "GET", uri: "/list-foundation-model-agreement-offers/{modelId}" }),
       svc,
       auth,
       proto,
@@ -7368,9 +6981,7 @@ export const DimensionalPriceRate = /*@__PURE__*/ S.suspend(() =>
     description: S.optional(S.String),
     unit: S.optional(S.String),
   }),
-).annotate({
-  identifier: "DimensionalPriceRate",
-}) as any as S.Schema<DimensionalPriceRate>;
+).annotate({ identifier: "DimensionalPriceRate" }) as any as S.Schema<DimensionalPriceRate>;
 export type RateCard = DimensionalPriceRate[];
 export const RateCard = /*@__PURE__*/ S.Array(DimensionalPriceRate);
 export interface PricingTerm {
@@ -7417,11 +7028,7 @@ export interface Offer {
   termDetails: TermDetails;
 }
 export const Offer = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    offerId: S.optional(S.String),
-    offerToken: S.String,
-    termDetails: TermDetails,
-  }),
+  S.Struct({ offerId: S.optional(S.String), offerToken: S.String, termDetails: TermDetails }),
 ).annotate({ identifier: "Offer" }) as any as S.Schema<Offer>;
 export type Offers = Offer[];
 export const Offers = /*@__PURE__*/ S.Array(Offer);
@@ -7478,9 +7085,7 @@ export const FoundationModelSummary = /*@__PURE__*/ S.suspend(() =>
     inferenceTypesSupported: S.optional(InferenceTypeList),
     modelLifecycle: S.optional(FoundationModelLifecycle),
   }),
-).annotate({
-  identifier: "FoundationModelSummary",
-}) as any as S.Schema<FoundationModelSummary>;
+).annotate({ identifier: "FoundationModelSummary" }) as any as S.Schema<FoundationModelSummary>;
 export type FoundationModelSummaryList = FoundationModelSummary[];
 export const FoundationModelSummaryList = /*@__PURE__*/ S.Array(FoundationModelSummary);
 export interface ListFoundationModelsResponse {
@@ -7502,9 +7107,7 @@ export const ListGuardrailsRequest = /*@__PURE__*/ S.suspend(() =>
     maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
     nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
   }).pipe(T.all(T.Http({ method: "GET", uri: "/guardrails" }), svc, auth, proto, ver, rules)),
-).annotate({
-  identifier: "ListGuardrailsRequest",
-}) as any as S.Schema<ListGuardrailsRequest>;
+).annotate({ identifier: "ListGuardrailsRequest" }) as any as S.Schema<ListGuardrailsRequest>;
 export interface GuardrailSummary {
   id: string;
   arn: string;
@@ -7528,9 +7131,7 @@ export const GuardrailSummary = /*@__PURE__*/ S.suspend(() =>
     updatedAt: T.DateFromString.pipe(T.TimestampFormat("date-time")),
     crossRegionDetails: S.optional(GuardrailCrossRegionDetails),
   }),
-).annotate({
-  identifier: "GuardrailSummary",
-}) as any as S.Schema<GuardrailSummary>;
+).annotate({ identifier: "GuardrailSummary" }) as any as S.Schema<GuardrailSummary>;
 export type GuardrailSummaries = GuardrailSummary[];
 export const GuardrailSummaries = /*@__PURE__*/ S.Array(GuardrailSummary);
 export interface ListGuardrailsResponse {
@@ -7539,9 +7140,7 @@ export interface ListGuardrailsResponse {
 }
 export const ListGuardrailsResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ guardrails: GuardrailSummaries, nextToken: S.optional(S.String) }),
-).annotate({
-  identifier: "ListGuardrailsResponse",
-}) as any as S.Schema<ListGuardrailsResponse>;
+).annotate({ identifier: "ListGuardrailsResponse" }) as any as S.Schema<ListGuardrailsResponse>;
 export interface ListImportedModelsRequest {
   creationTimeBefore?: Date;
   creationTimeAfter?: Date;
@@ -7584,9 +7183,7 @@ export const ImportedModelSummary = /*@__PURE__*/ S.suspend(() =>
     instructSupported: S.optional(S.Boolean),
     modelArchitecture: S.optional(S.String),
   }),
-).annotate({
-  identifier: "ImportedModelSummary",
-}) as any as S.Schema<ImportedModelSummary>;
+).annotate({ identifier: "ImportedModelSummary" }) as any as S.Schema<ImportedModelSummary>;
 export type ImportedModelSummaryList = ImportedModelSummary[];
 export const ImportedModelSummaryList = /*@__PURE__*/ S.Array(ImportedModelSummary);
 export interface ListImportedModelsResponse {
@@ -7640,9 +7237,7 @@ export const InferenceProfileSummary = /*@__PURE__*/ S.suspend(() =>
     status: InferenceProfileStatus,
     type: InferenceProfileType,
   }),
-).annotate({
-  identifier: "InferenceProfileSummary",
-}) as any as S.Schema<InferenceProfileSummary>;
+).annotate({ identifier: "InferenceProfileSummary" }) as any as S.Schema<InferenceProfileSummary>;
 export type InferenceProfileSummaries = InferenceProfileSummary[];
 export const InferenceProfileSummaries = /*@__PURE__*/ S.Array(InferenceProfileSummary);
 export interface ListInferenceProfilesResponse {
@@ -7745,9 +7340,7 @@ export const ListModelCopyJobsRequest = /*@__PURE__*/ S.suspend(() =>
     sortBy: S.optional(SortJobsBy).pipe(T.HttpQuery("sortBy")),
     sortOrder: S.optional(SortOrder).pipe(T.HttpQuery("sortOrder")),
   }).pipe(T.all(T.Http({ method: "GET", uri: "/model-copy-jobs" }), svc, auth, proto, ver, rules)),
-).annotate({
-  identifier: "ListModelCopyJobsRequest",
-}) as any as S.Schema<ListModelCopyJobsRequest>;
+).annotate({ identifier: "ListModelCopyJobsRequest" }) as any as S.Schema<ListModelCopyJobsRequest>;
 export interface ModelCopyJobSummary {
   jobArn: string;
   status: ModelCopyJobStatus;
@@ -7775,9 +7368,7 @@ export const ModelCopyJobSummary = /*@__PURE__*/ S.suspend(() =>
     failureMessage: S.optional(S.String),
     sourceModelName: S.optional(S.String),
   }),
-).annotate({
-  identifier: "ModelCopyJobSummary",
-}) as any as S.Schema<ModelCopyJobSummary>;
+).annotate({ identifier: "ModelCopyJobSummary" }) as any as S.Schema<ModelCopyJobSummary>;
 export type ModelCopyJobSummaries = ModelCopyJobSummary[];
 export const ModelCopyJobSummaries = /*@__PURE__*/ S.Array(ModelCopyJobSummary);
 export interface ListModelCopyJobsResponse {
@@ -7933,9 +7524,7 @@ export const ModelImportJobSummary = /*@__PURE__*/ S.suspend(() =>
     importedModelArn: S.optional(S.String),
     importedModelName: S.optional(S.String),
   }),
-).annotate({
-  identifier: "ModelImportJobSummary",
-}) as any as S.Schema<ModelImportJobSummary>;
+).annotate({ identifier: "ModelImportJobSummary" }) as any as S.Schema<ModelImportJobSummary>;
 export type ModelImportJobSummaries = ModelImportJobSummary[];
 export const ModelImportJobSummaries = /*@__PURE__*/ S.Array(ModelImportJobSummary);
 export interface ListModelImportJobsResponse {
@@ -8053,9 +7642,7 @@ export const ListPromptRoutersRequest = /*@__PURE__*/ S.suspend(() =>
     nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
     type: S.optional(PromptRouterType).pipe(T.HttpQuery("type")),
   }).pipe(T.all(T.Http({ method: "GET", uri: "/prompt-routers" }), svc, auth, proto, ver, rules)),
-).annotate({
-  identifier: "ListPromptRoutersRequest",
-}) as any as S.Schema<ListPromptRoutersRequest>;
+).annotate({ identifier: "ListPromptRoutersRequest" }) as any as S.Schema<ListPromptRoutersRequest>;
 export interface PromptRouterSummary {
   promptRouterName: string;
   routingCriteria: RoutingCriteria;
@@ -8081,19 +7668,13 @@ export const PromptRouterSummary = /*@__PURE__*/ S.suspend(() =>
     status: PromptRouterStatus,
     type: PromptRouterType,
   }),
-).annotate({
-  identifier: "PromptRouterSummary",
-}) as any as S.Schema<PromptRouterSummary>;
+).annotate({ identifier: "PromptRouterSummary" }) as any as S.Schema<PromptRouterSummary>;
 export type PromptRouterSummaries = PromptRouterSummary[];
 export const PromptRouterSummaries = /*@__PURE__*/ S.Array(PromptRouterSummary);
 export interface ListPromptRoutersResponse {
   promptRouterSummaries?: (PromptRouterSummary & {
-    models: (PromptRouterTargetModel & {
-      modelArn: PromptRouterTargetModelArn;
-    })[];
-    fallbackModel: PromptRouterTargetModel & {
-      modelArn: PromptRouterTargetModelArn;
-    };
+    models: (PromptRouterTargetModel & { modelArn: PromptRouterTargetModelArn })[];
+    fallbackModel: PromptRouterTargetModel & { modelArn: PromptRouterTargetModelArn };
   })[];
   nextToken?: string;
 }
@@ -8176,9 +7757,7 @@ export const ProvisionedModelSummary = /*@__PURE__*/ S.suspend(() =>
     creationTime: T.DateFromString.pipe(T.TimestampFormat("date-time")),
     lastModifiedTime: T.DateFromString.pipe(T.TimestampFormat("date-time")),
   }),
-).annotate({
-  identifier: "ProvisionedModelSummary",
-}) as any as S.Schema<ProvisionedModelSummary>;
+).annotate({ identifier: "ProvisionedModelSummary" }) as any as S.Schema<ProvisionedModelSummary>;
 export type ProvisionedModelSummaries = ProvisionedModelSummary[];
 export const ProvisionedModelSummaries = /*@__PURE__*/ S.Array(ProvisionedModelSummary);
 export interface ListProvisionedModelThroughputsResponse {
@@ -8316,9 +7895,7 @@ export const PutResourcePolicyRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ resourceArn: S.String, resourcePolicy: S.String }).pipe(
     T.all(T.Http({ method: "POST", uri: "/resource-policy" }), svc, auth, proto, ver, rules),
   ),
-).annotate({
-  identifier: "PutResourcePolicyRequest",
-}) as any as S.Schema<PutResourcePolicyRequest>;
+).annotate({ identifier: "PutResourcePolicyRequest" }) as any as S.Schema<PutResourcePolicyRequest>;
 export interface PutResourcePolicyResponse {
   resourceArn?: string;
 }
@@ -8420,9 +7997,7 @@ export type AutomatedReasoningPolicyGenerateFidelityReportContent = {
   documents: AutomatedReasoningPolicyBuildWorkflowDocument[];
 };
 export const AutomatedReasoningPolicyGenerateFidelityReportContent = /*@__PURE__*/ S.Union([
-  S.Struct({
-    documents: AutomatedReasoningPolicyGenerateFidelityReportDocumentList,
-  }),
+  S.Struct({ documents: AutomatedReasoningPolicyGenerateFidelityReportDocumentList }),
 ]);
 export type AutomatedReasoningPolicyIterativeRefinementDocumentList =
   AutomatedReasoningPolicyBuildWorkflowDocument[];
@@ -8469,15 +8044,11 @@ export type AutomatedReasoningPolicyWorkflowTypeContent =
     };
 export const AutomatedReasoningPolicyWorkflowTypeContent = /*@__PURE__*/ S.Union([
   S.Struct({ documents: AutomatedReasoningPolicyBuildWorkflowDocumentList }),
-  S.Struct({
-    policyRepairAssets: AutomatedReasoningPolicyBuildWorkflowRepairContent,
-  }),
+  S.Struct({ policyRepairAssets: AutomatedReasoningPolicyBuildWorkflowRepairContent }),
   S.Struct({
     generateFidelityReportContent: AutomatedReasoningPolicyGenerateFidelityReportContent,
   }),
-  S.Struct({
-    iterativeRefinementContent: AutomatedReasoningPolicyIterativeRefinementContent,
-  }),
+  S.Struct({ iterativeRefinementContent: AutomatedReasoningPolicyIterativeRefinementContent }),
 ]);
 export interface AutomatedReasoningPolicyBuildWorkflowSource {
   policyDefinition?: AutomatedReasoningPolicyDefinition;
@@ -8577,14 +8148,9 @@ export interface StopAdvancedPromptOptimizationJobRequest {
   jobIdentifier: string;
 }
 export const StopAdvancedPromptOptimizationJobRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    jobIdentifier: S.String.pipe(T.HttpLabel("jobIdentifier")),
-  }).pipe(
+  S.Struct({ jobIdentifier: S.String.pipe(T.HttpLabel("jobIdentifier")) }).pipe(
     T.all(
-      T.Http({
-        method: "POST",
-        uri: "/advanced-prompt-optimization-jobs/{jobIdentifier}/stop",
-      }),
+      T.Http({ method: "POST", uri: "/advanced-prompt-optimization-jobs/{jobIdentifier}/stop" }),
       svc,
       auth,
       proto,
@@ -8605,9 +8171,7 @@ export interface StopEvaluationJobRequest {
   jobIdentifier: string | redacted.Redacted<string>;
 }
 export const StopEvaluationJobRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    jobIdentifier: SensitiveString.pipe(T.HttpLabel("jobIdentifier")),
-  }).pipe(
+  S.Struct({ jobIdentifier: SensitiveString.pipe(T.HttpLabel("jobIdentifier")) }).pipe(
     T.all(
       T.Http({ method: "POST", uri: "/evaluation-job/{jobIdentifier}/stop" }),
       svc,
@@ -8617,9 +8181,7 @@ export const StopEvaluationJobRequest = /*@__PURE__*/ S.suspend(() =>
       rules,
     ),
   ),
-).annotate({
-  identifier: "StopEvaluationJobRequest",
-}) as any as S.Schema<StopEvaluationJobRequest>;
+).annotate({ identifier: "StopEvaluationJobRequest" }) as any as S.Schema<StopEvaluationJobRequest>;
 export interface StopEvaluationJobResponse {}
 export const StopEvaluationJobResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
   identifier: "StopEvaluationJobResponse",
@@ -8630,10 +8192,7 @@ export interface StopModelCustomizationJobRequest {
 export const StopModelCustomizationJobRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ jobIdentifier: S.String.pipe(T.HttpLabel("jobIdentifier")) }).pipe(
     T.all(
-      T.Http({
-        method: "POST",
-        uri: "/model-customization-jobs/{jobIdentifier}/stop",
-      }),
+      T.Http({ method: "POST", uri: "/model-customization-jobs/{jobIdentifier}/stop" }),
       svc,
       auth,
       proto,
@@ -8656,10 +8215,7 @@ export interface StopModelInvocationJobRequest {
 export const StopModelInvocationJobRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ jobIdentifier: S.String.pipe(T.HttpLabel("jobIdentifier")) }).pipe(
     T.all(
-      T.Http({
-        method: "POST",
-        uri: "/model-invocation-job/{jobIdentifier}/stop",
-      }),
+      T.Http({ method: "POST", uri: "/model-invocation-job/{jobIdentifier}/stop" }),
       svc,
       auth,
       proto,
@@ -8682,9 +8238,7 @@ export const TagResourceRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ resourceARN: S.String, tags: TagList }).pipe(
     T.all(T.Http({ method: "POST", uri: "/tagResource" }), svc, auth, proto, ver, rules),
   ),
-).annotate({
-  identifier: "TagResourceRequest",
-}) as any as S.Schema<TagResourceRequest>;
+).annotate({ identifier: "TagResourceRequest" }) as any as S.Schema<TagResourceRequest>;
 export interface TagResourceResponse {}
 export const TagResourceResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
   identifier: "TagResourceResponse",
@@ -8699,9 +8253,7 @@ export const UntagResourceRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ resourceARN: S.String, tagKeys: TagKeyList }).pipe(
     T.all(T.Http({ method: "POST", uri: "/untagResource" }), svc, auth, proto, ver, rules),
   ),
-).annotate({
-  identifier: "UntagResourceRequest",
-}) as any as S.Schema<UntagResourceRequest>;
+).annotate({ identifier: "UntagResourceRequest" }) as any as S.Schema<UntagResourceRequest>;
 export interface UntagResourceResponse {}
 export const UntagResourceResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
   identifier: "UntagResourceResponse",
@@ -8720,10 +8272,7 @@ export const UpdateAutomatedReasoningPolicyRequest = /*@__PURE__*/ S.suspend(() 
     description: S.optional(SensitiveString),
   }).pipe(
     T.all(
-      T.Http({
-        method: "PATCH",
-        uri: "/automated-reasoning-policies/{policyArn}",
-      }),
+      T.Http({ method: "PATCH", uri: "/automated-reasoning-policies/{policyArn}" }),
       svc,
       auth,
       proto,
@@ -8911,9 +8460,7 @@ export const UpdateGuardrailRequest = /*@__PURE__*/ S.suspend(() =>
       rules,
     ),
   ),
-).annotate({
-  identifier: "UpdateGuardrailRequest",
-}) as any as S.Schema<UpdateGuardrailRequest>;
+).annotate({ identifier: "UpdateGuardrailRequest" }) as any as S.Schema<UpdateGuardrailRequest>;
 export interface UpdateGuardrailResponse {
   guardrailId: string;
   guardrailArn: string;
@@ -8927,9 +8474,7 @@ export const UpdateGuardrailResponse = /*@__PURE__*/ S.suspend(() =>
     version: S.String,
     updatedAt: T.DateFromString.pipe(T.TimestampFormat("date-time")),
   }),
-).annotate({
-  identifier: "UpdateGuardrailResponse",
-}) as any as S.Schema<UpdateGuardrailResponse>;
+).annotate({ identifier: "UpdateGuardrailResponse" }) as any as S.Schema<UpdateGuardrailResponse>;
 export interface UpdateMarketplaceModelEndpointRequest {
   endpointArn: string;
   endpointConfig: EndpointConfig;
@@ -8942,10 +8487,7 @@ export const UpdateMarketplaceModelEndpointRequest = /*@__PURE__*/ S.suspend(() 
     clientRequestToken: S.optional(S.String).pipe(T.IdempotencyToken()),
   }).pipe(
     T.all(
-      T.Http({
-        method: "PATCH",
-        uri: "/marketplace-model/endpoints/{endpointArn}",
-      }),
+      T.Http({ method: "PATCH", uri: "/marketplace-model/endpoints/{endpointArn}" }),
       svc,
       auth,
       proto,
@@ -8976,10 +8518,7 @@ export const UpdateProvisionedModelThroughputRequest = /*@__PURE__*/ S.suspend((
     desiredModelId: S.optional(S.String),
   }).pipe(
     T.all(
-      T.Http({
-        method: "PATCH",
-        uri: "/provisioned-model-throughput/{provisionedModelId}",
-      }),
+      T.Http({ method: "PATCH", uri: "/provisioned-model-throughput/{provisionedModelId}" }),
       svc,
       auth,
       proto,

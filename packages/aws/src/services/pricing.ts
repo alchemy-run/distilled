@@ -7,10 +7,7 @@ import type { CommonErrors } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
 import { Retry } from "../retry.ts";
 import * as T from "../traits.ts";
-const svc = T.AwsApiService({
-  sdkId: "Pricing",
-  serviceShapeName: "AWSPriceListService",
-});
+const svc = T.AwsApiService({ sdkId: "Pricing", serviceShapeName: "AWSPriceListService" });
 const auth = T.AwsAuthSigv4({ name: "pricing" });
 const ver = T.ServiceVersion("2017-10-15");
 const proto = T.AwsProtocolsAwsJson1_1();
@@ -139,9 +136,7 @@ export const DescribeServicesRequest = /*@__PURE__*/ S.suspend(() =>
     NextToken: S.optional(S.String),
     MaxResults: S.optional(S.Number),
   }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
-).annotate({
-  identifier: "DescribeServicesRequest",
-}) as any as S.Schema<DescribeServicesRequest>;
+).annotate({ identifier: "DescribeServicesRequest" }) as any as S.Schema<DescribeServicesRequest>;
 export type AttributeNameList = string[];
 export const AttributeNameList = /*@__PURE__*/ S.Array(S.String);
 export interface Service {
@@ -149,10 +144,7 @@ export interface Service {
   AttributeNames?: string[];
 }
 export const Service = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ServiceCode: S.String,
-    AttributeNames: S.optional(AttributeNameList),
-  }),
+  S.Struct({ ServiceCode: S.String, AttributeNames: S.optional(AttributeNameList) }),
 ).annotate({ identifier: "Service" }) as any as S.Schema<Service>;
 export type ServiceList = Service[];
 export const ServiceList = /*@__PURE__*/ S.Array(Service);
@@ -167,9 +159,7 @@ export const DescribeServicesResponse = /*@__PURE__*/ S.suspend(() =>
     FormatVersion: S.optional(S.String),
     NextToken: S.optional(S.String),
   }),
-).annotate({
-  identifier: "DescribeServicesResponse",
-}) as any as S.Schema<DescribeServicesResponse>;
+).annotate({ identifier: "DescribeServicesResponse" }) as any as S.Schema<DescribeServicesResponse>;
 export type GetAttributeValuesMaxResults = number;
 export interface GetAttributeValuesRequest {
   ServiceCode: string;
@@ -200,10 +190,7 @@ export interface GetAttributeValuesResponse {
   NextToken?: string;
 }
 export const GetAttributeValuesResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    AttributeValues: S.optional(AttributeValueList),
-    NextToken: S.optional(S.String),
-  }),
+  S.Struct({ AttributeValues: S.optional(AttributeValueList), NextToken: S.optional(S.String) }),
 ).annotate({
   identifier: "GetAttributeValuesResponse",
 }) as any as S.Schema<GetAttributeValuesResponse>;
@@ -265,9 +252,7 @@ export const GetProductsRequest = /*@__PURE__*/ S.suspend(() =>
     NextToken: S.optional(S.String),
     MaxResults: S.optional(S.Number),
   }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
-).annotate({
-  identifier: "GetProductsRequest",
-}) as any as S.Schema<GetProductsRequest>;
+).annotate({ identifier: "GetProductsRequest" }) as any as S.Schema<GetProductsRequest>;
 export type SynthesizedJsonPriceListJsonItem = string;
 export type PriceListJsonItems = string[];
 export const PriceListJsonItems = /*@__PURE__*/ S.Array(S.String);
@@ -282,9 +267,7 @@ export const GetProductsResponse = /*@__PURE__*/ S.suspend(() =>
     PriceList: S.optional(PriceListJsonItems),
     NextToken: S.optional(S.String),
   }),
-).annotate({
-  identifier: "GetProductsResponse",
-}) as any as S.Schema<GetProductsResponse>;
+).annotate({ identifier: "GetProductsResponse" }) as any as S.Schema<GetProductsResponse>;
 export type ServiceCode = string;
 export type EffectiveDate = Date;
 export type RegionCode = string;
@@ -307,9 +290,7 @@ export const ListPriceListsRequest = /*@__PURE__*/ S.suspend(() =>
     NextToken: S.optional(S.String),
     MaxResults: S.optional(S.Number),
   }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
-).annotate({
-  identifier: "ListPriceListsRequest",
-}) as any as S.Schema<ListPriceListsRequest>;
+).annotate({ identifier: "ListPriceListsRequest" }) as any as S.Schema<ListPriceListsRequest>;
 export type FileFormats = string[];
 export const FileFormats = /*@__PURE__*/ S.Array(S.String);
 export interface PriceList {
@@ -333,13 +314,8 @@ export interface ListPriceListsResponse {
   NextToken?: string;
 }
 export const ListPriceListsResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    PriceLists: S.optional(PriceLists),
-    NextToken: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "ListPriceListsResponse",
-}) as any as S.Schema<ListPriceListsResponse>;
+  S.Struct({ PriceLists: S.optional(PriceLists), NextToken: S.optional(S.String) }),
+).annotate({ identifier: "ListPriceListsResponse" }) as any as S.Schema<ListPriceListsResponse>;
 export type ErrorMessage = string;
 export type DescribeServicesError =
   | AccessDeniedException

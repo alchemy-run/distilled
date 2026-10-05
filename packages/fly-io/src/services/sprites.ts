@@ -19,9 +19,7 @@ export const CreateCheckpointRequest = /*@__PURE__*/ S.suspend(() =>
     name: S.String.pipe(T.Label()),
     comment: S.optional(S.String),
   }).pipe(T.Http({ method: "POST", uri: "/sprites/{name}/checkpoint", code: 200 })),
-).annotate({
-  identifier: "CreateCheckpointRequest",
-}) as any as S.Schema<CreateCheckpointRequest>;
+).annotate({ identifier: "CreateCheckpointRequest" }) as any as S.Schema<CreateCheckpointRequest>;
 
 export interface StreamEvent {
   type?: string;
@@ -46,9 +44,7 @@ export const CreateCheckpointResponseBodyList = /*@__PURE__*/ S.Array(
 export type CreateCheckpointResponse = CreateCheckpointResponseBodyList;
 export const CreateCheckpointResponse = /*@__PURE__*/ S.suspend(() =>
   CreateCheckpointResponseBodyList.pipe(T.RawResponseRoot()),
-).annotate({
-  identifier: "CreateCheckpointResponse",
-}) as any as S.Schema<CreateCheckpointResponse>;
+).annotate({ identifier: "CreateCheckpointResponse" }) as any as S.Schema<CreateCheckpointResponse>;
 
 export interface CreateOrganizationTokenRequest {
   /** Fly organization slug */
@@ -113,9 +109,7 @@ export const CreateSpriteRequest = /*@__PURE__*/ S.suspend(() =>
     url_settings: S.optional(UrlSettings),
     labels: S.optional(CreateSpriteRequestLabelsList),
   }).pipe(T.Http({ method: "POST", uri: "/sprites", code: 200 })),
-).annotate({
-  identifier: "CreateSpriteRequest",
-}) as any as S.Schema<CreateSpriteRequest>;
+).annotate({ identifier: "CreateSpriteRequest" }) as any as S.Schema<CreateSpriteRequest>;
 
 export type SpriteStatus = "cold" | "warm" | "running";
 export const SpriteStatus = S.String;
@@ -168,9 +162,7 @@ export const DeleteSpriteRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     name: S.String.pipe(T.Label()),
   }).pipe(T.Http({ method: "DELETE", uri: "/sprites/{name}", code: 200 })),
-).annotate({
-  identifier: "DeleteSpriteRequest",
-}) as any as S.Schema<DeleteSpriteRequest>;
+).annotate({ identifier: "DeleteSpriteRequest" }) as any as S.Schema<DeleteSpriteRequest>;
 
 export interface DeleteSpriteResponse {}
 export const DeleteSpriteResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -218,9 +210,7 @@ export const ExecCommandRequest = /*@__PURE__*/ S.suspend(() =>
       bodyMediaType: "application/octet-stream",
     }),
   ),
-).annotate({
-  identifier: "ExecCommandRequest",
-}) as any as S.Schema<ExecCommandRequest>;
+).annotate({ identifier: "ExecCommandRequest" }) as any as S.Schema<ExecCommandRequest>;
 
 export interface ExecResult {
   exit_code?: number;
@@ -244,16 +234,8 @@ export const GetCheckpointRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     name: S.String.pipe(T.Label()),
     checkpoint_id: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/sprites/{name}/checkpoints/{checkpoint_id}",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "GetCheckpointRequest",
-}) as any as S.Schema<GetCheckpointRequest>;
+  }).pipe(T.Http({ method: "GET", uri: "/sprites/{name}/checkpoints/{checkpoint_id}", code: 200 })),
+).annotate({ identifier: "GetCheckpointRequest" }) as any as S.Schema<GetCheckpointRequest>;
 
 export interface Checkpoint {
   id?: string;
@@ -280,16 +262,8 @@ export const GetServiceRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     name: S.String.pipe(T.Label()),
     service_name: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/sprites/{name}/services/{service_name}",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "GetServiceRequest",
-}) as any as S.Schema<GetServiceRequest>;
+  }).pipe(T.Http({ method: "GET", uri: "/sprites/{name}/services/{service_name}", code: 200 })),
+).annotate({ identifier: "GetServiceRequest" }) as any as S.Schema<GetServiceRequest>;
 
 export type SpriteServiceArgsList = Array<string>;
 export const SpriteServiceArgsList = /*@__PURE__*/ S.Array(
@@ -316,9 +290,7 @@ export const SpriteServiceState = /*@__PURE__*/ S.suspend(() =>
     started_at: S.optional(S.String),
     error: S.optional(S.String),
   }),
-).annotate({
-  identifier: "SpriteServiceState",
-}) as any as S.Schema<SpriteServiceState>;
+).annotate({ identifier: "SpriteServiceState" }) as any as S.Schema<SpriteServiceState>;
 
 export interface SpriteService {
   name?: string;
@@ -347,9 +319,7 @@ export const GetSpriteRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     name: S.String.pipe(T.Label()),
   }).pipe(T.Http({ method: "GET", uri: "/sprites/{name}", code: 200 })),
-).annotate({
-  identifier: "GetSpriteRequest",
-}) as any as S.Schema<GetSpriteRequest>;
+).annotate({ identifier: "GetSpriteRequest" }) as any as S.Schema<GetSpriteRequest>;
 
 export interface ListCheckpointsRequest {
   name: string;
@@ -358,9 +328,7 @@ export const ListCheckpointsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     name: S.String.pipe(T.Label()),
   }).pipe(T.Http({ method: "GET", uri: "/sprites/{name}/checkpoints", code: 200 })),
-).annotate({
-  identifier: "ListCheckpointsRequest",
-}) as any as S.Schema<ListCheckpointsRequest>;
+).annotate({ identifier: "ListCheckpointsRequest" }) as any as S.Schema<ListCheckpointsRequest>;
 
 export type ListCheckpointsResponseBodyList = Array<Checkpoint>;
 export const ListCheckpointsResponseBodyList = /*@__PURE__*/ S.Array(
@@ -370,9 +338,7 @@ export const ListCheckpointsResponseBodyList = /*@__PURE__*/ S.Array(
 export type ListCheckpointsResponse = ListCheckpointsResponseBodyList;
 export const ListCheckpointsResponse = /*@__PURE__*/ S.suspend(() =>
   ListCheckpointsResponseBodyList.pipe(T.RawResponseRoot()),
-).annotate({
-  identifier: "ListCheckpointsResponse",
-}) as any as S.Schema<ListCheckpointsResponse>;
+).annotate({ identifier: "ListCheckpointsResponse" }) as any as S.Schema<ListCheckpointsResponse>;
 
 export interface ListExecSessionsRequest {
   name: string;
@@ -381,9 +347,7 @@ export const ListExecSessionsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     name: S.String.pipe(T.Label()),
   }).pipe(T.Http({ method: "GET", uri: "/sprites/{name}/exec", code: 200 })),
-).annotate({
-  identifier: "ListExecSessionsRequest",
-}) as any as S.Schema<ListExecSessionsRequest>;
+).annotate({ identifier: "ListExecSessionsRequest" }) as any as S.Schema<ListExecSessionsRequest>;
 
 export interface ExecSession {
   id?: string;
@@ -416,9 +380,7 @@ export const ListExecSessionsResponseBodyList = /*@__PURE__*/ S.Array(
 export type ListExecSessionsResponse = ListExecSessionsResponseBodyList;
 export const ListExecSessionsResponse = /*@__PURE__*/ S.suspend(() =>
   ListExecSessionsResponseBodyList.pipe(T.RawResponseRoot()),
-).annotate({
-  identifier: "ListExecSessionsResponse",
-}) as any as S.Schema<ListExecSessionsResponse>;
+).annotate({ identifier: "ListExecSessionsResponse" }) as any as S.Schema<ListExecSessionsResponse>;
 
 export interface ListServicesRequest {
   name: string;
@@ -427,9 +389,7 @@ export const ListServicesRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     name: S.String.pipe(T.Label()),
   }).pipe(T.Http({ method: "GET", uri: "/sprites/{name}/services", code: 200 })),
-).annotate({
-  identifier: "ListServicesRequest",
-}) as any as S.Schema<ListServicesRequest>;
+).annotate({ identifier: "ListServicesRequest" }) as any as S.Schema<ListServicesRequest>;
 
 export type ListServicesResponseBodyList = Array<SpriteService>;
 export const ListServicesResponseBodyList = /*@__PURE__*/ S.Array(
@@ -439,9 +399,7 @@ export const ListServicesResponseBodyList = /*@__PURE__*/ S.Array(
 export type ListServicesResponse = ListServicesResponseBodyList;
 export const ListServicesResponse = /*@__PURE__*/ S.suspend(() =>
   ListServicesResponseBodyList.pipe(T.RawResponseRoot()),
-).annotate({
-  identifier: "ListServicesResponse",
-}) as any as S.Schema<ListServicesResponse>;
+).annotate({ identifier: "ListServicesResponse" }) as any as S.Schema<ListServicesResponse>;
 
 export interface ListSpritesRequest {
   /** Filter sprites by name prefix */
@@ -457,9 +415,7 @@ export const ListSpritesRequest = /*@__PURE__*/ S.suspend(() =>
     max_results: S.optional(S.Number.pipe(T.Query())),
     continuation_token: S.optional(S.String.pipe(T.Query())),
   }).pipe(T.Http({ method: "GET", uri: "/sprites", code: 200 })),
-).annotate({
-  identifier: "ListSpritesRequest",
-}) as any as S.Schema<ListSpritesRequest>;
+).annotate({ identifier: "ListSpritesRequest" }) as any as S.Schema<ListSpritesRequest>;
 
 export type ListSpritesResponseSpritesList = Array<Sprite>;
 export const ListSpritesResponseSpritesList = /*@__PURE__*/ S.Array(
@@ -489,9 +445,7 @@ export const ListSpritesResponse = /*@__PURE__*/ S.suspend(() =>
     running_limit: S.optional(S.Number),
     warm_limit: S.optional(S.Number),
   }),
-).annotate({
-  identifier: "ListSpritesResponse",
-}) as any as S.Schema<ListSpritesResponse>;
+).annotate({ identifier: "ListSpritesResponse" }) as any as S.Schema<ListSpritesResponse>;
 
 /** Command arguments */
 export type PutServiceRequestArgsList = Array<string>;
@@ -531,16 +485,8 @@ export const PutServiceRequest = /*@__PURE__*/ S.suspend(() =>
     dir: S.optional(S.String),
     needs: S.optional(PutServiceRequestNeedsList),
     http_port: S.optional(S.Number),
-  }).pipe(
-    T.Http({
-      method: "PUT",
-      uri: "/sprites/{name}/services/{service_name}",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "PutServiceRequest",
-}) as any as S.Schema<PutServiceRequest>;
+  }).pipe(T.Http({ method: "PUT", uri: "/sprites/{name}/services/{service_name}", code: 200 })),
+).annotate({ identifier: "PutServiceRequest" }) as any as S.Schema<PutServiceRequest>;
 
 export type PutServiceResponseBodyList = Array<StreamEvent>;
 export const PutServiceResponseBodyList = /*@__PURE__*/ S.Array(
@@ -550,9 +496,7 @@ export const PutServiceResponseBodyList = /*@__PURE__*/ S.Array(
 export type PutServiceResponse = PutServiceResponseBodyList;
 export const PutServiceResponse = /*@__PURE__*/ S.suspend(() =>
   PutServiceResponseBodyList.pipe(T.RawResponseRoot()),
-).annotate({
-  identifier: "PutServiceResponse",
-}) as any as S.Schema<PutServiceResponse>;
+).annotate({ identifier: "PutServiceResponse" }) as any as S.Schema<PutServiceResponse>;
 
 export interface RestoreCheckpointRequest {
   name: string;
@@ -569,9 +513,7 @@ export const RestoreCheckpointRequest = /*@__PURE__*/ S.suspend(() =>
       code: 200,
     }),
   ),
-).annotate({
-  identifier: "RestoreCheckpointRequest",
-}) as any as S.Schema<RestoreCheckpointRequest>;
+).annotate({ identifier: "RestoreCheckpointRequest" }) as any as S.Schema<RestoreCheckpointRequest>;
 
 export type RestoreCheckpointResponseBodyList = Array<StreamEvent>;
 export const RestoreCheckpointResponseBodyList = /*@__PURE__*/ S.Array(
@@ -595,9 +537,7 @@ export const UpdateSpriteRequest = /*@__PURE__*/ S.suspend(() =>
     name: S.String.pipe(T.Label()),
     url_settings: UrlSettings,
   }).pipe(T.Http({ method: "PUT", uri: "/sprites/{name}", code: 200 })),
-).annotate({
-  identifier: "UpdateSpriteRequest",
-}) as any as S.Schema<UpdateSpriteRequest>;
+).annotate({ identifier: "UpdateSpriteRequest" }) as any as S.Schema<UpdateSpriteRequest>;
 
 export interface WriteFileRequest {
   name: string;
@@ -627,9 +567,7 @@ export const WriteFileRequest = /*@__PURE__*/ S.suspend(() =>
       bodyMediaType: "application/octet-stream",
     }),
   ),
-).annotate({
-  identifier: "WriteFileRequest",
-}) as any as S.Schema<WriteFileRequest>;
+).annotate({ identifier: "WriteFileRequest" }) as any as S.Schema<WriteFileRequest>;
 
 export interface WriteFileResponse {
   path?: string;
@@ -642,9 +580,7 @@ export const WriteFileResponse = /*@__PURE__*/ S.suspend(() =>
     size: S.optional(S.Number),
     mode: S.optional(S.String),
   }),
-).annotate({
-  identifier: "WriteFileResponse",
-}) as any as S.Schema<WriteFileResponse>;
+).annotate({ identifier: "WriteFileResponse" }) as any as S.Schema<WriteFileResponse>;
 
 export type CreateCheckpointError = NotFound | SpritesOpError;
 /** Create a checkpoint (NDJSON progress stream) */

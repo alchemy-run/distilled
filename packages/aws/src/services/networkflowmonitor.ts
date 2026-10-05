@@ -106,9 +106,7 @@ export interface MonitorLocalResource {
 }
 export const MonitorLocalResource = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ type: MonitorLocalResourceType, identifier: S.String }),
-).annotate({
-  identifier: "MonitorLocalResource",
-}) as any as S.Schema<MonitorLocalResource>;
+).annotate({ identifier: "MonitorLocalResource" }) as any as S.Schema<MonitorLocalResource>;
 export type MonitorLocalResources = MonitorLocalResource[];
 export const MonitorLocalResources = /*@__PURE__*/ S.Array(MonitorLocalResource);
 export type MonitorRemoteResourceType =
@@ -126,9 +124,7 @@ export interface MonitorRemoteResource {
 }
 export const MonitorRemoteResource = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ type: MonitorRemoteResourceType, identifier: S.String }),
-).annotate({
-  identifier: "MonitorRemoteResource",
-}) as any as S.Schema<MonitorRemoteResource>;
+).annotate({ identifier: "MonitorRemoteResource" }) as any as S.Schema<MonitorRemoteResource>;
 export type MonitorRemoteResources = MonitorRemoteResource[];
 export const MonitorRemoteResources = /*@__PURE__*/ S.Array(MonitorRemoteResource);
 export type Arn = string;
@@ -154,9 +150,7 @@ export const CreateMonitorInput = /*@__PURE__*/ S.suspend(() =>
     clientToken: S.optional(S.String).pipe(T.IdempotencyToken()),
     tags: S.optional(TagMap),
   }).pipe(T.all(T.Http({ method: "POST", uri: "/monitors" }), svc, auth, proto, ver, rules)),
-).annotate({
-  identifier: "CreateMonitorInput",
-}) as any as S.Schema<CreateMonitorInput>;
+).annotate({ identifier: "CreateMonitorInput" }) as any as S.Schema<CreateMonitorInput>;
 export type MonitorArn = string;
 export type MonitorStatus =
   | "PENDING"
@@ -189,9 +183,7 @@ export const CreateMonitorOutput = /*@__PURE__*/ S.suspend(() =>
     modifiedAt: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
     tags: S.optional(TagMap),
   }),
-).annotate({
-  identifier: "CreateMonitorOutput",
-}) as any as S.Schema<CreateMonitorOutput>;
+).annotate({ identifier: "CreateMonitorOutput" }) as any as S.Schema<CreateMonitorOutput>;
 export type AccountId = string;
 export type TargetId = { accountId: string };
 export const TargetId = /*@__PURE__*/ S.Union([S.Struct({ accountId: S.String })]);
@@ -204,9 +196,7 @@ export interface TargetIdentifier {
 }
 export const TargetIdentifier = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ targetId: TargetId, targetType: TargetType }),
-).annotate({
-  identifier: "TargetIdentifier",
-}) as any as S.Schema<TargetIdentifier>;
+).annotate({ identifier: "TargetIdentifier" }) as any as S.Schema<TargetIdentifier>;
 export type AwsRegion = string;
 export interface TargetResource {
   targetIdentifier: TargetIdentifier;
@@ -228,9 +218,7 @@ export const CreateScopeInput = /*@__PURE__*/ S.suspend(() =>
     clientToken: S.optional(S.String).pipe(T.IdempotencyToken()),
     tags: S.optional(TagMap),
   }).pipe(T.all(T.Http({ method: "POST", uri: "/scopes" }), svc, auth, proto, ver, rules)),
-).annotate({
-  identifier: "CreateScopeInput",
-}) as any as S.Schema<CreateScopeInput>;
+).annotate({ identifier: "CreateScopeInput" }) as any as S.Schema<CreateScopeInput>;
 export type ScopeId = string;
 export type ScopeStatus =
   | "SUCCEEDED"
@@ -254,9 +242,7 @@ export const CreateScopeOutput = /*@__PURE__*/ S.suspend(() =>
     scopeArn: S.String,
     tags: S.optional(TagMap),
   }),
-).annotate({
-  identifier: "CreateScopeOutput",
-}) as any as S.Schema<CreateScopeOutput>;
+).annotate({ identifier: "CreateScopeOutput" }) as any as S.Schema<CreateScopeOutput>;
 export interface DeleteMonitorInput {
   monitorName: string;
 }
@@ -271,9 +257,7 @@ export const DeleteMonitorInput = /*@__PURE__*/ S.suspend(() =>
       rules,
     ),
   ),
-).annotate({
-  identifier: "DeleteMonitorInput",
-}) as any as S.Schema<DeleteMonitorInput>;
+).annotate({ identifier: "DeleteMonitorInput" }) as any as S.Schema<DeleteMonitorInput>;
 export interface DeleteMonitorOutput {}
 export const DeleteMonitorOutput = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
   identifier: "DeleteMonitorOutput",
@@ -285,9 +269,7 @@ export const DeleteScopeInput = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ scopeId: S.String.pipe(T.HttpLabel("scopeId")) }).pipe(
     T.all(T.Http({ method: "DELETE", uri: "/scopes/{scopeId}" }), svc, auth, proto, ver, rules),
   ),
-).annotate({
-  identifier: "DeleteScopeInput",
-}) as any as S.Schema<DeleteScopeInput>;
+).annotate({ identifier: "DeleteScopeInput" }) as any as S.Schema<DeleteScopeInput>;
 export interface DeleteScopeOutput {}
 export const DeleteScopeOutput = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
   identifier: "DeleteScopeOutput",
@@ -299,9 +281,7 @@ export const GetMonitorInput = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ monitorName: S.String.pipe(T.HttpLabel("monitorName")) }).pipe(
     T.all(T.Http({ method: "GET", uri: "/monitors/{monitorName}" }), svc, auth, proto, ver, rules),
   ),
-).annotate({
-  identifier: "GetMonitorInput",
-}) as any as S.Schema<GetMonitorInput>;
+).annotate({ identifier: "GetMonitorInput" }) as any as S.Schema<GetMonitorInput>;
 export interface GetMonitorOutput {
   monitorArn: string;
   monitorName: string;
@@ -323,9 +303,7 @@ export const GetMonitorOutput = /*@__PURE__*/ S.suspend(() =>
     modifiedAt: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
     tags: S.optional(TagMap),
   }),
-).annotate({
-  identifier: "GetMonitorOutput",
-}) as any as S.Schema<GetMonitorOutput>;
+).annotate({ identifier: "GetMonitorOutput" }) as any as S.Schema<GetMonitorOutput>;
 export interface GetQueryResultsMonitorTopContributorsInput {
   monitorName: string;
   queryId: string;
@@ -415,9 +393,7 @@ export const TraversedComponent = /*@__PURE__*/ S.suspend(() =>
     componentArn: S.optional(S.String),
     serviceName: S.optional(S.String),
   }),
-).annotate({
-  identifier: "TraversedComponent",
-}) as any as S.Schema<TraversedComponent>;
+).annotate({ identifier: "TraversedComponent" }) as any as S.Schema<TraversedComponent>;
 export type TraversedConstructsList = TraversedComponent[];
 export const TraversedConstructsList = /*@__PURE__*/ S.Array(TraversedComponent);
 export interface KubernetesMetadata {
@@ -437,9 +413,7 @@ export const KubernetesMetadata = /*@__PURE__*/ S.suspend(() =>
     remotePodName: S.optional(S.String),
     remotePodNamespace: S.optional(S.String),
   }),
-).annotate({
-  identifier: "KubernetesMetadata",
-}) as any as S.Schema<KubernetesMetadata>;
+).annotate({ identifier: "KubernetesMetadata" }) as any as S.Schema<KubernetesMetadata>;
 export type InstanceArn = string;
 export type SubnetArn = string;
 export type VpcArn = string;
@@ -795,20 +769,14 @@ export const ListMonitorsInput = /*@__PURE__*/ S.suspend(() =>
     maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
     monitorStatus: S.optional(MonitorStatus).pipe(T.HttpQuery("monitorStatus")),
   }).pipe(T.all(T.Http({ method: "GET", uri: "/monitors" }), svc, auth, proto, ver, rules)),
-).annotate({
-  identifier: "ListMonitorsInput",
-}) as any as S.Schema<ListMonitorsInput>;
+).annotate({ identifier: "ListMonitorsInput" }) as any as S.Schema<ListMonitorsInput>;
 export interface MonitorSummary {
   monitorArn: string;
   monitorName: string;
   monitorStatus: MonitorStatus;
 }
 export const MonitorSummary = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    monitorArn: S.String,
-    monitorName: S.String,
-    monitorStatus: MonitorStatus,
-  }),
+  S.Struct({ monitorArn: S.String, monitorName: S.String, monitorStatus: MonitorStatus }),
 ).annotate({ identifier: "MonitorSummary" }) as any as S.Schema<MonitorSummary>;
 export type MonitorList = MonitorSummary[];
 export const MonitorList = /*@__PURE__*/ S.Array(MonitorSummary);
@@ -818,9 +786,7 @@ export interface ListMonitorsOutput {
 }
 export const ListMonitorsOutput = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ monitors: MonitorList, nextToken: S.optional(S.String) }),
-).annotate({
-  identifier: "ListMonitorsOutput",
-}) as any as S.Schema<ListMonitorsOutput>;
+).annotate({ identifier: "ListMonitorsOutput" }) as any as S.Schema<ListMonitorsOutput>;
 export interface ListScopesInput {
   nextToken?: string;
   maxResults?: number;
@@ -830,9 +796,7 @@ export const ListScopesInput = /*@__PURE__*/ S.suspend(() =>
     nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
     maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
   }).pipe(T.all(T.Http({ method: "GET", uri: "/scopes" }), svc, auth, proto, ver, rules)),
-).annotate({
-  identifier: "ListScopesInput",
-}) as any as S.Schema<ListScopesInput>;
+).annotate({ identifier: "ListScopesInput" }) as any as S.Schema<ListScopesInput>;
 export interface ScopeSummary {
   scopeId: string;
   status: ScopeStatus;
@@ -849,9 +813,7 @@ export interface ListScopesOutput {
 }
 export const ListScopesOutput = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ scopes: ScopeSummaryList, nextToken: S.optional(S.String) }),
-).annotate({
-  identifier: "ListScopesOutput",
-}) as any as S.Schema<ListScopesOutput>;
+).annotate({ identifier: "ListScopesOutput" }) as any as S.Schema<ListScopesOutput>;
 export interface ListTagsForResourceInput {
   resourceArn: string;
 }
@@ -859,9 +821,7 @@ export const ListTagsForResourceInput = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ resourceArn: S.String.pipe(T.HttpLabel("resourceArn")) }).pipe(
     T.all(T.Http({ method: "GET", uri: "/tags/{resourceArn}" }), svc, auth, proto, ver, rules),
   ),
-).annotate({
-  identifier: "ListTagsForResourceInput",
-}) as any as S.Schema<ListTagsForResourceInput>;
+).annotate({ identifier: "ListTagsForResourceInput" }) as any as S.Schema<ListTagsForResourceInput>;
 export interface ListTagsForResourceOutput {
   tags?: { [key: string]: string | undefined };
 }
@@ -897,10 +857,7 @@ export const StartQueryMonitorTopContributorsInput = /*@__PURE__*/ S.suspend(() 
     limit: S.optional(S.Number),
   }).pipe(
     T.all(
-      T.Http({
-        method: "POST",
-        uri: "/monitors/{monitorName}/topContributorsQueries",
-      }),
+      T.Http({ method: "POST", uri: "/monitors/{monitorName}/topContributorsQueries" }),
       svc,
       auth,
       proto,
@@ -944,10 +901,7 @@ export const StartQueryWorkloadInsightsTopContributorsInput = /*@__PURE__*/ S.su
     limit: S.optional(S.Number),
   }).pipe(
     T.all(
-      T.Http({
-        method: "POST",
-        uri: "/workloadInsights/{scopeId}/topContributorsQueries",
-      }),
+      T.Http({ method: "POST", uri: "/workloadInsights/{scopeId}/topContributorsQueries" }),
       svc,
       auth,
       proto,
@@ -982,10 +936,7 @@ export const StartQueryWorkloadInsightsTopContributorsDataInput = /*@__PURE__*/ 
     destinationCategory: DestinationCategory,
   }).pipe(
     T.all(
-      T.Http({
-        method: "POST",
-        uri: "/workloadInsights/{scopeId}/topContributorsDataQueries",
-      }),
+      T.Http({ method: "POST", uri: "/workloadInsights/{scopeId}/topContributorsDataQueries" }),
       svc,
       auth,
       proto,
@@ -1014,10 +965,7 @@ export const StopQueryMonitorTopContributorsInput = /*@__PURE__*/ S.suspend(() =
     queryId: S.String.pipe(T.HttpLabel("queryId")),
   }).pipe(
     T.all(
-      T.Http({
-        method: "DELETE",
-        uri: "/monitors/{monitorName}/topContributorsQueries/{queryId}",
-      }),
+      T.Http({ method: "DELETE", uri: "/monitors/{monitorName}/topContributorsQueries/{queryId}" }),
       svc,
       auth,
       proto,
@@ -1099,15 +1047,10 @@ export interface TagResourceInput {
   tags: { [key: string]: string | undefined };
 }
 export const TagResourceInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    resourceArn: S.String.pipe(T.HttpLabel("resourceArn")),
-    tags: TagMap,
-  }).pipe(
+  S.Struct({ resourceArn: S.String.pipe(T.HttpLabel("resourceArn")), tags: TagMap }).pipe(
     T.all(T.Http({ method: "POST", uri: "/tags/{resourceArn}" }), svc, auth, proto, ver, rules),
   ),
-).annotate({
-  identifier: "TagResourceInput",
-}) as any as S.Schema<TagResourceInput>;
+).annotate({ identifier: "TagResourceInput" }) as any as S.Schema<TagResourceInput>;
 export interface TagResourceOutput {}
 export const TagResourceOutput = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
   identifier: "TagResourceOutput",
@@ -1125,9 +1068,7 @@ export const UntagResourceInput = /*@__PURE__*/ S.suspend(() =>
   }).pipe(
     T.all(T.Http({ method: "DELETE", uri: "/tags/{resourceArn}" }), svc, auth, proto, ver, rules),
   ),
-).annotate({
-  identifier: "UntagResourceInput",
-}) as any as S.Schema<UntagResourceInput>;
+).annotate({ identifier: "UntagResourceInput" }) as any as S.Schema<UntagResourceInput>;
 export interface UntagResourceOutput {}
 export const UntagResourceOutput = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
   identifier: "UntagResourceOutput",
@@ -1158,9 +1099,7 @@ export const UpdateMonitorInput = /*@__PURE__*/ S.suspend(() =>
       rules,
     ),
   ),
-).annotate({
-  identifier: "UpdateMonitorInput",
-}) as any as S.Schema<UpdateMonitorInput>;
+).annotate({ identifier: "UpdateMonitorInput" }) as any as S.Schema<UpdateMonitorInput>;
 export interface UpdateMonitorOutput {
   monitorArn: string;
   monitorName: string;
@@ -1182,9 +1121,7 @@ export const UpdateMonitorOutput = /*@__PURE__*/ S.suspend(() =>
     modifiedAt: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
     tags: S.optional(TagMap),
   }),
-).annotate({
-  identifier: "UpdateMonitorOutput",
-}) as any as S.Schema<UpdateMonitorOutput>;
+).annotate({ identifier: "UpdateMonitorOutput" }) as any as S.Schema<UpdateMonitorOutput>;
 export interface UpdateScopeInput {
   scopeId: string;
   resourcesToAdd?: TargetResource[];
@@ -1198,9 +1135,7 @@ export const UpdateScopeInput = /*@__PURE__*/ S.suspend(() =>
   }).pipe(
     T.all(T.Http({ method: "PATCH", uri: "/scopes/{scopeId}" }), svc, auth, proto, ver, rules),
   ),
-).annotate({
-  identifier: "UpdateScopeInput",
-}) as any as S.Schema<UpdateScopeInput>;
+).annotate({ identifier: "UpdateScopeInput" }) as any as S.Schema<UpdateScopeInput>;
 export interface UpdateScopeOutput {
   scopeId: string;
   status: ScopeStatus;
@@ -1214,9 +1149,7 @@ export const UpdateScopeOutput = /*@__PURE__*/ S.suspend(() =>
     scopeArn: S.String,
     tags: S.optional(TagMap),
   }),
-).annotate({
-  identifier: "UpdateScopeOutput",
-}) as any as S.Schema<UpdateScopeOutput>;
+).annotate({ identifier: "UpdateScopeOutput" }) as any as S.Schema<UpdateScopeOutput>;
 export type CreateMonitorError =
   | AccessDeniedException
   | ConflictException

@@ -7,10 +7,7 @@ import type { CommonErrors } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
 import { Retry } from "../retry.ts";
 import * as T from "../traits.ts";
-const svc = T.AwsApiService({
-  sdkId: "IAM Toolbox",
-  serviceShapeName: "AuthRequestService",
-});
+const svc = T.AwsApiService({ sdkId: "IAM Toolbox", serviceShapeName: "AuthRequestService" });
 const auth = T.AwsAuthSigv4({ name: "iam" });
 const ver = T.ServiceVersion("2018-05-10");
 const proto = T.AwsProtocolsRestJson1();
@@ -107,10 +104,7 @@ export const GetRequestAuthorizationDetailsInput = /*@__PURE__*/ S.suspend(() =>
     nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
   }).pipe(
     T.all(
-      T.Http({
-        method: "GET",
-        uri: "/authorization-details/{authorizationId}",
-      }),
+      T.Http({ method: "GET", uri: "/authorization-details/{authorizationId}" }),
       svc,
       auth,
       proto,
@@ -134,13 +128,8 @@ export interface MatchedStatement {
   evaluatedEffect?: StatementEffect;
 }
 export const MatchedStatement = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    sid: S.optional(S.String),
-    evaluatedEffect: S.optional(StatementEffect),
-  }),
-).annotate({
-  identifier: "MatchedStatement",
-}) as any as S.Schema<MatchedStatement>;
+  S.Struct({ sid: S.optional(S.String), evaluatedEffect: S.optional(StatementEffect) }),
+).annotate({ identifier: "MatchedStatement" }) as any as S.Schema<MatchedStatement>;
 export type MatchedStatementList = MatchedStatement[];
 export const MatchedStatementList = /*@__PURE__*/ S.Array(MatchedStatement);
 export interface MatchedPolicy {
@@ -148,10 +137,7 @@ export interface MatchedPolicy {
   matchedStatements?: MatchedStatement[];
 }
 export const MatchedPolicy = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    uri: S.String,
-    matchedStatements: S.optional(MatchedStatementList),
-  }),
+  S.Struct({ uri: S.String, matchedStatements: S.optional(MatchedStatementList) }),
 ).annotate({ identifier: "MatchedPolicy" }) as any as S.Schema<MatchedPolicy>;
 export type MatchedPolicyList = MatchedPolicy[];
 export const MatchedPolicyList = /*@__PURE__*/ S.Array(MatchedPolicy);
@@ -257,9 +243,5 @@ export const getRequestAuthorizationDetails: API.PaginatedOperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetRequestAuthorizationDetails",
-  pagination: {
-    inputToken: "nextToken",
-    outputToken: "nextToken",
-    items: "evaluations",
-  } as const,
+  pagination: { inputToken: "nextToken", outputToken: "nextToken", items: "evaluations" } as const,
 })) as any;

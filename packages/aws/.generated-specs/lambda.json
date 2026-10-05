@@ -4728,7 +4728,7 @@
         "Timeout": {
           "target": "com.amazonaws.lambda#Timeout",
           "traits": {
-            "smithy.api#documentation": "<p>The amount of time (in seconds) that Lambda allows a function to run before stopping it. The default is 3 seconds. The maximum allowed value is 900 seconds. For more information, see <a href=\"https://docs.aws.amazon.com/lambda/latest/dg/runtimes-context.html\">Lambda execution environment</a>.</p>",
+            "smithy.api#documentation": "<p>The amount of time (in seconds) that Lambda allows a function to run before stopping it. The default is 3 seconds, and the maximum allowed value is 900 seconds. For functions using Lambda Managed Instances, asynchronous invocations and event source mapping invocations (except Amazon MQ and Amazon DocumentDB) support a maximum allowed value of 5,400 seconds (90 minutes). For more information, see <a href=\"https://docs.aws.amazon.com/lambda/latest/dg/runtimes-context.html\">Lambda execution environment</a>.</p>",
             "smithy.api#tags": ["feature:public"]
           }
         },
@@ -6023,7 +6023,7 @@
           "code": 204
         },
         "smithy.api#idempotent": {},
-        "smithy.api#tags": ["feature:rbp"]
+        "smithy.api#tags": ["feature:public"]
       }
     },
     "com.amazonaws.lambda#DeleteResourcePolicyRequest": {
@@ -6035,7 +6035,7 @@
             "smithy.api#documentation": "<p>The Amazon Resource Name (ARN) of the Lambda resource you want to delete the policy from. You can use a qualified or an unqualified ARN. The value must be a complete ARN, and the operation does not accept wildcard characters.</p>",
             "smithy.api#httpLabel": {},
             "smithy.api#required": {},
-            "smithy.api#tags": ["feature:rbp"]
+            "smithy.api#tags": ["feature:public"]
           }
         },
         "RevisionId": {
@@ -6043,13 +6043,13 @@
           "traits": {
             "smithy.api#documentation": "<p>The revision ID that the existing policy must match for the deletion to proceed. If the revision ID doesn't match, the operation fails with a <code>PreconditionFailedException</code> error. To retrieve the current revision ID, use the <a>GetResourcePolicy</a> operation.</p>",
             "smithy.api#httpQuery": "RevisionId",
-            "smithy.api#tags": ["feature:rbp"]
+            "smithy.api#tags": ["feature:public"]
           }
         }
       },
       "traits": {
         "smithy.api#input": {},
-        "smithy.api#tags": ["feature:rbp"]
+        "smithy.api#tags": ["feature:public"]
       }
     },
     "com.amazonaws.lambda#Description": {
@@ -6096,6 +6096,35 @@
         "smithy.api#tags": ["feature:public"]
       }
     },
+    "com.amazonaws.lambda#DirectS3Read": {
+      "type": "enum",
+      "members": {
+        "ENABLED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "ENABLED",
+            "smithy.api#tags": ["feature:s3files-rbp"]
+          }
+        },
+        "DISABLED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "DISABLED",
+            "smithy.api#tags": ["feature:s3files-rbp"]
+          }
+        },
+        "AUTO": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "AUTO",
+            "smithy.api#tags": ["feature:s3files-rbp"]
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#tags": ["feature:s3files-rbp"]
+      }
+    },
     "com.amazonaws.lambda#DocumentDBEventSourceConfig": {
       "type": "structure",
       "members": {
@@ -6133,7 +6162,7 @@
           "target": "com.amazonaws.lambda#KMSKeyArn",
           "traits": {
             "smithy.api#documentation": "<p>The ARN of the Key Management Service (KMS) customer managed key that is used to encrypt your durable execution's payload data, including input, output, and error payloads.</p>",
-            "smithy.api#tags": ["feature:dar-cmkms"]
+            "smithy.api#tags": ["feature:public"]
           }
         },
         "RetentionPeriodInDays": {
@@ -7953,10 +7982,17 @@
             "smithy.api#required": {},
             "smithy.api#tags": ["feature:public"]
           }
+        },
+        "S3FilesConfig": {
+          "target": "com.amazonaws.lambda#S3FilesConfig",
+          "traits": {
+            "smithy.api#documentation": "<p>The configuration for how your function accesses data on an Amazon S3 file system. Valid only when the file system access point ARN is an Amazon S3 Files access point. If you specify a different access point type (for example, Amazon Elastic File System), the operation returns an <code>InvalidParameterException</code>.</p>",
+            "smithy.api#tags": ["feature:s3files-rbp"]
+          }
         }
       },
       "traits": {
-        "smithy.api#documentation": "<p>Details about the connection between a Lambda function and an <a href=\"https://docs.aws.amazon.com/lambda/latest/dg/configuration-filesystem.html\">Amazon EFS file system</a> or an <a href=\"https://docs.aws.amazon.com/lambda/latest/dg/configuration-filesystem.html\">Amazon S3 Files file system</a>.</p>",
+        "smithy.api#documentation": "<p>Details about the connection between a Lambda function and an <a href=\"https://docs.aws.amazon.com/lambda/latest/dg/configuration-filesystem.html\">Amazon EFS file system</a> or an <a href=\"https://docs.aws.amazon.com/lambda/latest/dg/configuration-filesystem.html\">Amazon S3 file system</a>.</p>",
         "smithy.api#tags": ["feature:public"]
       }
     },
@@ -8595,7 +8631,7 @@
         "FileSystemConfigs": {
           "target": "com.amazonaws.lambda#FileSystemConfigList",
           "traits": {
-            "smithy.api#documentation": "<p>Connection settings for an <a href=\"https://docs.aws.amazon.com/lambda/latest/dg/configuration-filesystem.html\">Amazon EFS file system</a> or an <a href=\"https://docs.aws.amazon.com/lambda/latest/dg/configuration-filesystem.html\">Amazon S3 Files file system</a>.</p>",
+            "smithy.api#documentation": "<p>Connection settings for an <a href=\"https://docs.aws.amazon.com/lambda/latest/dg/configuration-filesystem.html\">Amazon EFS file system</a> or an <a href=\"https://docs.aws.amazon.com/lambda/latest/dg/configuration-filesystem.html\">Amazon S3 file system</a>.</p>",
             "smithy.api#tags": ["feature:public"]
           }
         },
@@ -11526,21 +11562,6 @@
         "smithy.api#documentation": "<p>Retrieves the provisioned concurrency configuration for a function's alias or version.</p>",
         "smithy.api#examples": [
           {
-            "documentation": "The following example displays details for the provisioned concurrency configuration for the BLUE alias of the specified function.",
-            "input": {
-              "FunctionName": "my-function",
-              "Qualifier": "BLUE"
-            },
-            "output": {
-              "AllocatedProvisionedConcurrentExecutions": 100,
-              "AvailableProvisionedConcurrentExecutions": 100,
-              "LastModified": "2019-12-31T20:28:49+0000",
-              "RequestedProvisionedConcurrentExecutions": 100,
-              "Status": "READY"
-            },
-            "title": "To view a provisioned concurrency configuration"
-          },
-          {
             "documentation": "The following example returns details for the provisioned concurrency configuration for the BLUE alias of the specified function.",
             "input": {
               "FunctionName": "my-function",
@@ -11554,6 +11575,21 @@
               "Status": "READY"
             },
             "title": "To get a provisioned concurrency configuration"
+          },
+          {
+            "documentation": "The following example displays details for the provisioned concurrency configuration for the BLUE alias of the specified function.",
+            "input": {
+              "FunctionName": "my-function",
+              "Qualifier": "BLUE"
+            },
+            "output": {
+              "AllocatedProvisionedConcurrentExecutions": 100,
+              "AvailableProvisionedConcurrentExecutions": 100,
+              "LastModified": "2019-12-31T20:28:49+0000",
+              "RequestedProvisionedConcurrentExecutions": 100,
+              "Status": "READY"
+            },
+            "title": "To view a provisioned concurrency configuration"
           }
         ],
         "smithy.api#http": {
@@ -11683,7 +11719,7 @@
           "code": 200
         },
         "smithy.api#readonly": {},
-        "smithy.api#tags": ["feature:rbp"]
+        "smithy.api#tags": ["feature:public"]
       }
     },
     "com.amazonaws.lambda#GetResourcePolicyRequest": {
@@ -11695,13 +11731,13 @@
             "smithy.api#documentation": "<p>The Amazon Resource Name (ARN) of the Lambda resource you want to retrieve the policy for. You can use a qualified or an unqualified ARN. The value must be a complete ARN, and the operation does not accept wildcard characters.</p>",
             "smithy.api#httpLabel": {},
             "smithy.api#required": {},
-            "smithy.api#tags": ["feature:rbp"]
+            "smithy.api#tags": ["feature:public"]
           }
         }
       },
       "traits": {
         "smithy.api#input": {},
-        "smithy.api#tags": ["feature:rbp"]
+        "smithy.api#tags": ["feature:public"]
       }
     },
     "com.amazonaws.lambda#GetResourcePolicyResponse": {
@@ -11711,20 +11747,20 @@
           "target": "com.amazonaws.lambda#ResourcePolicy",
           "traits": {
             "smithy.api#documentation": "<p>The resource-based policy attached to the Lambda resource you specified.</p>",
-            "smithy.api#tags": ["feature:rbp"]
+            "smithy.api#tags": ["feature:public"]
           }
         },
         "RevisionId": {
           "target": "com.amazonaws.lambda#RevisionId",
           "traits": {
             "smithy.api#documentation": "<p>The revision ID of the policy. Pass this value as the <code>RevisionId</code> in a <a>PutResourcePolicy</a> or <a>DeleteResourcePolicy</a> request. Doing so ensures the operation acts on the expected version of the policy.</p>",
-            "smithy.api#tags": ["feature:rbp"]
+            "smithy.api#tags": ["feature:public"]
           }
         }
       },
       "traits": {
         "smithy.api#output": {},
-        "smithy.api#tags": ["feature:rbp"]
+        "smithy.api#tags": ["feature:public"]
       }
     },
     "com.amazonaws.lambda#GetRuntimeManagementConfig": {
@@ -16371,7 +16407,7 @@
           "min": 1,
           "max": 256
         },
-        "smithy.api#pattern": "^(arn:(aws[a-zA-Z-]*)?:lambda:(eusc-)?[a-z]{2}((-gov)|(-iso([a-z]?)))?-[a-z]+-\\d{1}:\\d{12}:|(((eusc-)?[a-z]{2}((-gov)|(-iso([a-z]?)))?-[a-z]+-\\d{1}:)?(\\d{12}:)?))(function:)?([a-zA-Z0-9-_\\.]+)(:(\\$LATEST(\\.PUBLISHED)?|[a-zA-Z0-9-_]+))?$",
+        "smithy.api#pattern": "^(arn:(aws[a-zA-Z-]*)?:lambda:)?((eusc-)?[a-z]{2}((-gov)|(-iso([a-z]?)))?-[a-z]+-\\d{1}:)?(\\d{12}:)?(function:)?([a-zA-Z0-9-_\\.]+)(:(\\$LATEST(\\.PUBLISHED)?|[a-zA-Z0-9-_]+))?$",
         "smithy.api#tags": ["feature:public"]
       }
     },
@@ -17042,7 +17078,7 @@
           "max": 256
         },
         "smithy.api#pattern": "^arn:(aws[a-zA-Z-]*)?:lambda:(eusc-)?[a-z]{2}((-gov)|(-iso([a-z]?)))?-[a-z]+-\\d{1}:\\d{12}:function:[a-zA-Z0-9-_]+(:(\\$LATEST(\\.PUBLISHED)?|[a-zA-Z0-9-_])+)?$",
-        "smithy.api#tags": ["feature:rbp"]
+        "smithy.api#tags": ["feature:public"]
       }
     },
     "com.amazonaws.lambda#PositiveInteger": {
@@ -18432,7 +18468,7 @@
           "code": 200
         },
         "smithy.api#idempotent": {},
-        "smithy.api#tags": ["feature:rbp"]
+        "smithy.api#tags": ["feature:public"]
       }
     },
     "com.amazonaws.lambda#PutResourcePolicyRequest": {
@@ -18444,7 +18480,7 @@
             "smithy.api#documentation": "<p>The Amazon Resource Name (ARN) of the Lambda resource you want to add the policy to. You can use a qualified or an unqualified ARN. The value must be a complete ARN, and the operation does not accept wildcard characters.</p>",
             "smithy.api#httpLabel": {},
             "smithy.api#required": {},
-            "smithy.api#tags": ["feature:rbp"]
+            "smithy.api#tags": ["feature:public"]
           }
         },
         "Policy": {
@@ -18452,20 +18488,20 @@
           "traits": {
             "smithy.api#documentation": "<p>The policy document you want to add to your Lambda resource. This is formatted as a JSON string.</p> <p>For more information, see <a href=\"https://docs.aws.amazon.com/lambda/latest/dg/access-control-resource-based.html\">Working with resource-based policies in Lambda</a> in the <i>Lambda Developer Guide</i>.</p>",
             "smithy.api#required": {},
-            "smithy.api#tags": ["feature:rbp"]
+            "smithy.api#tags": ["feature:public"]
           }
         },
         "RevisionId": {
           "target": "com.amazonaws.lambda#RevisionId",
           "traits": {
             "smithy.api#documentation": "<p>The revision ID that the existing policy must match for the replacement to proceed. If the revision ID doesn't match, the operation fails with a <code>PreconditionFailedException</code> error. To retrieve the current revision ID, use the <a>GetResourcePolicy</a> operation.</p>",
-            "smithy.api#tags": ["feature:rbp"]
+            "smithy.api#tags": ["feature:public"]
           }
         }
       },
       "traits": {
         "smithy.api#input": {},
-        "smithy.api#tags": ["feature:rbp"]
+        "smithy.api#tags": ["feature:public"]
       }
     },
     "com.amazonaws.lambda#PutResourcePolicyResponse": {
@@ -18475,20 +18511,20 @@
           "target": "com.amazonaws.lambda#ResourcePolicy",
           "traits": {
             "smithy.api#documentation": "<p>The resource-based policy that Lambda adds to the resource.</p>",
-            "smithy.api#tags": ["feature:rbp"]
+            "smithy.api#tags": ["feature:public"]
           }
         },
         "RevisionId": {
           "target": "com.amazonaws.lambda#RevisionId",
           "traits": {
             "smithy.api#documentation": "<p>The revision ID of the policy that Lambda adds to your Lambda resource.</p>",
-            "smithy.api#tags": ["feature:rbp"]
+            "smithy.api#tags": ["feature:public"]
           }
         }
       },
       "traits": {
         "smithy.api#output": {},
-        "smithy.api#tags": ["feature:rbp"]
+        "smithy.api#tags": ["feature:public"]
       }
     },
     "com.amazonaws.lambda#PutRuntimeManagementConfig": {
@@ -19086,7 +19122,7 @@
           "max": 20480
         },
         "smithy.api#pattern": "^[\\s\\S]+$",
-        "smithy.api#tags": ["feature:rbp"]
+        "smithy.api#tags": ["feature:public"]
       }
     },
     "com.amazonaws.lambda#ResponseStreamingInvocationType": {
@@ -19159,7 +19195,7 @@
           "max": 36
         },
         "smithy.api#pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$",
-        "smithy.api#tags": ["feature:rbp"]
+        "smithy.api#tags": ["feature:public"]
       }
     },
     "com.amazonaws.lambda#RoleArn": {
@@ -19516,21 +19552,21 @@
           "target": "smithy.api#Unit",
           "traits": {
             "smithy.api#enumValue": "java8.al2023",
-            "smithy.api#tags": ["feature:java-al2023"]
+            "smithy.api#tags": ["feature:public"]
           }
         },
         "java11al2023": {
           "target": "smithy.api#Unit",
           "traits": {
             "smithy.api#enumValue": "java11.al2023",
-            "smithy.api#tags": ["feature:java-al2023"]
+            "smithy.api#tags": ["feature:public"]
           }
         },
         "java17al2023": {
           "target": "smithy.api#Unit",
           "traits": {
             "smithy.api#enumValue": "java17.al2023",
-            "smithy.api#tags": ["feature:java-al2023"]
+            "smithy.api#tags": ["feature:public"]
           }
         }
       },
@@ -19604,6 +19640,22 @@
         },
         "smithy.api#pattern": "^[0-9A-Za-z\\.\\-_]*(?<!\\.)$",
         "smithy.api#tags": ["feature:public"]
+      }
+    },
+    "com.amazonaws.lambda#S3FilesConfig": {
+      "type": "structure",
+      "members": {
+        "DirectS3Read": {
+          "target": "com.amazonaws.lambda#DirectS3Read",
+          "traits": {
+            "smithy.api#documentation": "<p>Specifies if a function reads from the file system for the lowest latency, or through Amazon S3 Files feature \"direct Amazon S3 bucket reads\" for the highest throughput. Valid values:</p> <ul> <li> <p> <code>AUTO</code> (default) – Direct reads are active for functions you configure with 512 MB or more of memory.</p> </li> <li> <p> <code>ENABLED</code> – Enforces all reads are directly from the Amazon S3 bucket, regardless of available memory (less than 512 MB).</p> </li> <li> <p> <code>DISABLED</code> – Routes all reads through the file system, regardless of memory configuration.</p> </li> </ul> <p>To use direct reads, you must grant the execution role the <code>s3:GetObject</code> and <code>s3:GetObjectVersion</code> permissions. If a direct read fails, Lambda automatically falls back to reading through the file system.</p>",
+            "smithy.api#tags": ["feature:s3files-rbp"]
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "<p>Setting controls how your function accesses data from an Amazon S3 file system.</p>",
+        "smithy.api#tags": ["feature:s3files-rbp"]
       }
     },
     "com.amazonaws.lambda#S3FilesMountConnectivityException": {
@@ -22701,7 +22753,7 @@
         "Timeout": {
           "target": "com.amazonaws.lambda#Timeout",
           "traits": {
-            "smithy.api#documentation": "<p>The amount of time (in seconds) that Lambda allows a function to run before stopping it. The default is 3 seconds. The maximum allowed value is 900 seconds. For more information, see <a href=\"https://docs.aws.amazon.com/lambda/latest/dg/runtimes-context.html\">Lambda execution environment</a>.</p>",
+            "smithy.api#documentation": "<p>The amount of time (in seconds) that Lambda allows a function to run before stopping it. The default is 3 seconds, and the maximum allowed value is 900 seconds. For functions using Lambda Managed Instances, asynchronous invocations and event source mapping invocations (except Amazon MQ and Amazon DocumentDB) support a maximum allowed value of 5,400 seconds (90 minutes). For more information, see <a href=\"https://docs.aws.amazon.com/lambda/latest/dg/runtimes-context.html\">Lambda execution environment</a>.</p>",
             "smithy.api#tags": ["feature:public"]
           }
         },

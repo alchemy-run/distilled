@@ -331,19 +331,13 @@ const rules = T.EndpointResolver((p, _) => {
 export class InputValidationError
   extends /*@__PURE__*/ S.TaggedError<InputValidationError>()(
     "InputValidationError",
-    {
-      message: S.optional(S.String).pipe(T.ErrorMessage()),
-      ErrorCode: S.optional(S.String),
-    },
+    { message: S.optional(S.String).pipe(T.ErrorMessage()), ErrorCode: S.optional(S.String) },
     T.HttpError(400),
   ).pipe(C.withBadRequestError) {}
 export class InternalServerError
   extends /*@__PURE__*/ S.TaggedError<InternalServerError>()(
     "InternalServerError",
-    {
-      message: S.optional(S.String).pipe(T.ErrorMessage()),
-      ErrorCode: S.optional(S.String),
-    },
+    { message: S.optional(S.String).pipe(T.ErrorMessage()), ErrorCode: S.optional(S.String) },
     T.HttpError(500),
   ).pipe(C.withServerError) {}
 export class InternalStreamFailure
@@ -370,10 +364,7 @@ export class ModelStreamError
 export class ServiceUnavailableError
   extends /*@__PURE__*/ S.TaggedError<ServiceUnavailableError>()(
     "ServiceUnavailableError",
-    {
-      message: S.optional(S.String).pipe(T.ErrorMessage()),
-      ErrorCode: S.optional(S.String),
-    },
+    { message: S.optional(S.String).pipe(T.ErrorMessage()), ErrorCode: S.optional(S.String) },
     T.HttpError(503),
   ).pipe(C.withServerError) {}
 export type SensitiveBlob = Uint8Array | redacted.Redacted<Uint8Array>;
@@ -390,9 +381,7 @@ export const RequestPayloadPart = /*@__PURE__*/ S.suspend(() =>
     CompletionState: S.optional(S.String).pipe(T.EventHeader()),
     P: S.optional(S.String).pipe(T.EventHeader()),
   }),
-).annotate({
-  identifier: "RequestPayloadPart",
-}) as any as S.Schema<RequestPayloadPart>;
+).annotate({ identifier: "RequestPayloadPart" }) as any as S.Schema<RequestPayloadPart>;
 export type RequestStreamEvent = { PayloadPart: RequestPayloadPart };
 export const RequestStreamEvent = /*@__PURE__*/ T.InputEventStream(
   S.Union([S.Struct({ PayloadPart: RequestPayloadPart })]),
@@ -417,10 +406,7 @@ export const InvokeEndpointWithBidirectionalStreamInput = /*@__PURE__*/ S.suspen
     ),
   }).pipe(
     T.all(
-      T.Http({
-        method: "POST",
-        uri: "/endpoints/{EndpointName}/invocations-bidirectional-stream",
-      }),
+      T.Http({ method: "POST", uri: "/endpoints/{EndpointName}/invocations-bidirectional-stream" }),
       svc,
       auth,
       proto,
@@ -444,25 +430,11 @@ export const ResponsePayloadPart = /*@__PURE__*/ S.suspend(() =>
     CompletionState: S.optional(S.String).pipe(T.EventHeader()),
     P: S.optional(S.String).pipe(T.EventHeader()),
   }),
-).annotate({
-  identifier: "ResponsePayloadPart",
-}) as any as S.Schema<ResponsePayloadPart>;
+).annotate({ identifier: "ResponsePayloadPart" }) as any as S.Schema<ResponsePayloadPart>;
 export type ResponseStreamEvent =
-  | {
-      PayloadPart: ResponsePayloadPart;
-      ModelStreamError?: never;
-      InternalStreamFailure?: never;
-    }
-  | {
-      PayloadPart?: never;
-      ModelStreamError: ModelStreamError;
-      InternalStreamFailure?: never;
-    }
-  | {
-      PayloadPart?: never;
-      ModelStreamError?: never;
-      InternalStreamFailure: InternalStreamFailure;
-    };
+  | { PayloadPart: ResponsePayloadPart; ModelStreamError?: never; InternalStreamFailure?: never }
+  | { PayloadPart?: never; ModelStreamError: ModelStreamError; InternalStreamFailure?: never }
+  | { PayloadPart?: never; ModelStreamError?: never; InternalStreamFailure: InternalStreamFailure };
 export const ResponseStreamEvent = /*@__PURE__*/ T.EventStream(
   S.Union([
     S.Struct({ PayloadPart: ResponsePayloadPart }),

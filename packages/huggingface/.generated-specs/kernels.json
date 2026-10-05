@@ -18,15 +18,73 @@
     "distilled.finalized": true
   },
   "shapes": {
+    "com.huggingface.kernels#ListLikersRequestExpandItem": {
+      "type": "enum",
+      "members": {
+        "LIKEDAT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "likedAt"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.huggingface.kernels#ListLikersRequestExpandList": {
+      "type": "list",
+      "member": {
+        "target": "com.huggingface.kernels#ListLikersRequestExpandItem"
+      },
+      "traits": {}
+    },
+    "com.huggingface.kernels#ListLikersRequest": {
+      "type": "structure",
+      "members": {
+        "namespace": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        },
+        "repo": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        },
+        "expand": {
+          "target": "com.huggingface.kernels#ListLikersRequestExpandList",
+          "traits": {
+            "smithy.api#httpQuery": "expand"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.huggingface.kernels#ListLikers": {
+      "type": "operation",
+      "input": {
+        "target": "com.huggingface.kernels#ListLikersRequest"
+      },
+      "output": {
+        "target": "smithy.api#Unit"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/api/kernels/{namespace}/{repo}/likers",
+          "code": 200
+        },
+        "smithy.api#documentation": "List likers"
+      }
+    },
     "com.huggingface.kernels#DuplicateXetFilesRequestTargetType": {
       "type": "enum",
       "members": {
-        "DATASET": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "dataset"
-          }
-        },
         "MODEL": {
           "target": "smithy.api#Unit",
           "traits": {
@@ -37,6 +95,12 @@
           "target": "smithy.api#Unit",
           "traits": {
             "smithy.api#enumValue": "space"
+          }
+        },
+        "DATASET": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "dataset"
           }
         },
         "KERNEL": {
@@ -215,6 +279,138 @@
           "code": 200
         },
         "smithy.api#documentation": "Duplicate xet files\n\nDuplicate xet-stored files from this repo (source) into another repo (target) by xet hash, without re-uploading file bytes. The caller must then commit the files with their sha256/size as usual."
+      }
+    },
+    "com.huggingface.kernels#GetSecurityStatusRequest": {
+      "type": "structure",
+      "members": {
+        "namespace": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        },
+        "repo": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.huggingface.kernels#GetSecurityStatusResponseFilesWithIssuesItemLevel": {
+      "type": "enum",
+      "members": {
+        "UNSCANNED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "unscanned"
+          }
+        },
+        "SAFE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "safe"
+          }
+        },
+        "QUEUED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "queued"
+          }
+        },
+        "ERROR": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "error"
+          }
+        },
+        "CAUTION": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "caution"
+          }
+        },
+        "SUSPICIOUS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "suspicious"
+          }
+        },
+        "UNSAFE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "unsafe"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.huggingface.kernels#GetSecurityStatusResponseFilesWithIssuesItem": {
+      "type": "structure",
+      "members": {
+        "path": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "level": {
+          "target": "com.huggingface.kernels#GetSecurityStatusResponseFilesWithIssuesItemLevel",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.huggingface.kernels#GetSecurityStatusResponseFilesWithIssuesList": {
+      "type": "list",
+      "member": {
+        "target": "com.huggingface.kernels#GetSecurityStatusResponseFilesWithIssuesItem"
+      },
+      "traits": {}
+    },
+    "com.huggingface.kernels#GetSecurityStatusResponse": {
+      "type": "structure",
+      "members": {
+        "scansDone": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "filesWithIssues": {
+          "target": "com.huggingface.kernels#GetSecurityStatusResponseFilesWithIssuesList",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
+      }
+    },
+    "com.huggingface.kernels#GetSecurityStatus": {
+      "type": "operation",
+      "input": {
+        "target": "com.huggingface.kernels#GetSecurityStatusRequest"
+      },
+      "output": {
+        "target": "com.huggingface.kernels#GetSecurityStatusResponse"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/api/kernels/{namespace}/{repo}/scan",
+          "code": 200
+        },
+        "smithy.api#documentation": "Get security status\n\nGet the security status of a repo"
       }
     },
     "com.huggingface.kernels#ListKernelsRequestAuthorCase1List": {
@@ -719,7 +915,7 @@
           "target": "smithy.api#Boolean"
         },
         "Case1": {
-          "target": "smithy.api#Document"
+          "target": "smithy.api#String"
         }
       },
       "traits": {
@@ -763,6 +959,30 @@
           "target": "smithy.api#Unit",
           "traits": {
             "smithy.api#enumValue": "2.10"
+          }
+        },
+        "_2_11": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "2.11"
+          }
+        },
+        "_2_12": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "2.12"
+          }
+        },
+        "_2_13": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "2.13"
+          }
+        },
+        "_2_14": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "2.14"
           }
         }
       },
@@ -1304,7 +1524,7 @@
           }
         },
         "noArchs": {
-          "target": "smithy.api#Document"
+          "target": "smithy.api#Boolean"
         }
       },
       "traits": {}
@@ -1325,7 +1545,7 @@
             "smithy.api#required": {}
           }
         },
-        "sha": {
+        "commit": {
           "target": "smithy.api#String"
         },
         "dirty": {
@@ -1411,6 +1631,7 @@
         "id": {
           "target": "smithy.api#String",
           "traits": {
+            "smithy.api#documentation": "A hex string of 24 characters representing an ObjectId.",
             "smithy.api#required": {}
           }
         },
@@ -1632,7 +1853,7 @@
       "type": "union",
       "members": {
         "Case0": {
-          "target": "smithy.api#Document"
+          "target": "smithy.api#Boolean"
         },
         "Case1": {
           "target": "com.huggingface.kernels#GetKernelResponseGatedCase1"
@@ -1646,6 +1867,7 @@
         "id": {
           "target": "smithy.api#String",
           "traits": {
+            "smithy.api#documentation": "A hex string of 24 characters representing an ObjectId.",
             "smithy.api#required": {}
           }
         },
@@ -1697,6 +1919,7 @@
         "_id": {
           "target": "smithy.api#String",
           "traits": {
+            "smithy.api#documentation": "A hex string of 24 characters representing an ObjectId.",
             "smithy.api#required": {}
           }
         },
@@ -1740,7 +1963,7 @@
           "target": "smithy.api#Double"
         },
         "type": {
-          "target": "smithy.api#Document",
+          "target": "smithy.api#String",
           "traits": {
             "smithy.api#required": {}
           }
@@ -1842,7 +2065,7 @@
           }
         },
         "type": {
-          "target": "smithy.api#Document",
+          "target": "smithy.api#String",
           "traits": {
             "smithy.api#required": {}
           }
@@ -1880,6 +2103,7 @@
         "_id": {
           "target": "smithy.api#String",
           "traits": {
+            "smithy.api#documentation": "A hex string of 24 characters representing an ObjectId.",
             "smithy.api#required": {}
           }
         },
@@ -1923,7 +2147,7 @@
           "target": "smithy.api#Double"
         },
         "type": {
-          "target": "smithy.api#Document",
+          "target": "smithy.api#String",
           "traits": {
             "smithy.api#required": {}
           }
@@ -2063,7 +2287,7 @@
           }
         },
         "repoType": {
-          "target": "smithy.api#Document",
+          "target": "smithy.api#String",
           "traits": {
             "smithy.api#required": {}
           }
@@ -2168,7 +2392,7 @@
       "type": "union",
       "members": {
         "Case0": {
-          "target": "smithy.api#Document"
+          "target": "smithy.api#Boolean"
         },
         "Case1": {
           "target": "com.huggingface.kernels#GetKernelRevisionResponseGatedCase1"
@@ -2182,6 +2406,7 @@
         "id": {
           "target": "smithy.api#String",
           "traits": {
+            "smithy.api#documentation": "A hex string of 24 characters representing an ObjectId.",
             "smithy.api#required": {}
           }
         },
@@ -2233,6 +2458,7 @@
         "_id": {
           "target": "smithy.api#String",
           "traits": {
+            "smithy.api#documentation": "A hex string of 24 characters representing an ObjectId.",
             "smithy.api#required": {}
           }
         },
@@ -2276,7 +2502,7 @@
           "target": "smithy.api#Double"
         },
         "type": {
-          "target": "smithy.api#Document",
+          "target": "smithy.api#String",
           "traits": {
             "smithy.api#required": {}
           }
@@ -2378,7 +2604,7 @@
           }
         },
         "type": {
-          "target": "smithy.api#Document",
+          "target": "smithy.api#String",
           "traits": {
             "smithy.api#required": {}
           }
@@ -2416,6 +2642,7 @@
         "_id": {
           "target": "smithy.api#String",
           "traits": {
+            "smithy.api#documentation": "A hex string of 24 characters representing an ObjectId.",
             "smithy.api#required": {}
           }
         },
@@ -2459,7 +2686,7 @@
           "target": "smithy.api#Double"
         },
         "type": {
-          "target": "smithy.api#Document",
+          "target": "smithy.api#String",
           "traits": {
             "smithy.api#required": {}
           }
@@ -2599,7 +2826,7 @@
           }
         },
         "repoType": {
-          "target": "smithy.api#Document",
+          "target": "smithy.api#String",
           "traits": {
             "smithy.api#required": {}
           }
@@ -2653,12 +2880,52 @@
         "smithy.api#documentation": "Get kernel"
       }
     },
+    "com.huggingface.kernels#ApproveKernelAccessRequest": {
+      "type": "structure",
+      "members": {
+        "namespace": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "sendEmail": {
+          "target": "smithy.api#Boolean"
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.huggingface.kernels#ApproveKernelAccess": {
+      "type": "operation",
+      "input": {
+        "target": "com.huggingface.kernels#ApproveKernelAccessRequest"
+      },
+      "output": {
+        "target": "smithy.api#Unit"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/api/kernels/access-request/approve",
+          "code": 200
+        },
+        "smithy.api#documentation": "Approve kernel access"
+      }
+    },
     "com.huggingface.kernels#Kernels": {
       "type": "service",
       "version": "0.0.1",
       "operations": [
         {
+          "target": "com.huggingface.kernels#ListLikers"
+        },
+        {
           "target": "com.huggingface.kernels#DuplicateXetFiles"
+        },
+        {
+          "target": "com.huggingface.kernels#GetSecurityStatus"
         },
         {
           "target": "com.huggingface.kernels#ListKernels"
@@ -2668,6 +2935,9 @@
         },
         {
           "target": "com.huggingface.kernels#GetKernelRevision"
+        },
+        {
+          "target": "com.huggingface.kernels#ApproveKernelAccess"
         }
       ],
       "traits": {

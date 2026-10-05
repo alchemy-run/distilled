@@ -17,9 +17,7 @@ export const GetLocationRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     id: S.Number.pipe(T.Label()),
   }).pipe(T.Http({ method: "GET", uri: "/locations/{id}", code: 200 })),
-).annotate({
-  identifier: "GetLocationRequest",
-}) as any as S.Schema<GetLocationRequest>;
+).annotate({ identifier: "GetLocationRequest" }) as any as S.Schema<GetLocationRequest>;
 
 export interface GetLocationResponseLocation {
   /** ID of the [Location](#tag/locations). */
@@ -61,9 +59,7 @@ export const GetLocationResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     location: GetLocationResponseLocation,
   }),
-).annotate({
-  identifier: "GetLocationResponse",
-}) as any as S.Schema<GetLocationResponse>;
+).annotate({ identifier: "GetLocationResponse" }) as any as S.Schema<GetLocationResponse>;
 
 export type ListLocationsRequestSortItem =
   | "id"
@@ -96,9 +92,7 @@ export const ListLocationsRequest = /*@__PURE__*/ S.suspend(() =>
     page: S.optional(S.Number.pipe(T.Query())),
     per_page: S.optional(S.Number.pipe(T.Query())),
   }).pipe(T.Http({ method: "GET", uri: "/locations", code: 200 })),
-).annotate({
-  identifier: "ListLocationsRequest",
-}) as any as S.Schema<ListLocationsRequest>;
+).annotate({ identifier: "ListLocationsRequest" }) as any as S.Schema<ListLocationsRequest>;
 
 export type ListLocationsResponseLocationsItem = GetLocationResponseLocation;
 export const ListLocationsResponseLocationsItem = GetLocationResponseLocation;
@@ -159,9 +153,7 @@ export const ListLocationsResponse = /*@__PURE__*/ S.suspend(() =>
     locations: ListLocationsResponseLocationsList,
     meta: ListLocationsResponseMeta,
   }),
-).annotate({
-  identifier: "ListLocationsResponse",
-}) as any as S.Schema<ListLocationsResponse>;
+).annotate({ identifier: "ListLocationsResponse" }) as any as S.Schema<ListLocationsResponse>;
 
 export type GetLocationError = HetznerOpError;
 /** Get a Location Returns a [Location](#tag/locations). */

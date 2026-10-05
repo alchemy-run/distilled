@@ -90,16 +90,8 @@ export const MountGetOrCreateRequest = /*@__PURE__*/ S.suspend(() =>
     objectCreationType: S.optional(ObjectCreationType),
     files: S.optional(MountFileList),
     appId: S.optional(S.String),
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/modal.client.ModalClient/MountGetOrCreate",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "MountGetOrCreateRequest",
-}) as any as S.Schema<MountGetOrCreateRequest>;
+  }).pipe(T.Http({ method: "POST", uri: "/modal.client.ModalClient/MountGetOrCreate", code: 200 })),
+).annotate({ identifier: "MountGetOrCreateRequest" }) as any as S.Schema<MountGetOrCreateRequest>;
 
 export interface MountHandleMetadata {
   contentChecksumSha256Hex?: string;
@@ -108,9 +100,7 @@ export const MountHandleMetadata = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     contentChecksumSha256Hex: S.optional(S.String),
   }),
-).annotate({
-  identifier: "MountHandleMetadata",
-}) as any as S.Schema<MountHandleMetadata>;
+).annotate({ identifier: "MountHandleMetadata" }) as any as S.Schema<MountHandleMetadata>;
 
 export interface MountGetOrCreateResponse {
   mountId?: string;
@@ -121,9 +111,7 @@ export const MountGetOrCreateResponse = /*@__PURE__*/ S.suspend(() =>
     mountId: S.optional(S.String),
     handleMetadata: S.optional(MountHandleMetadata),
   }),
-).annotate({
-  identifier: "MountGetOrCreateResponse",
-}) as any as S.Schema<MountGetOrCreateResponse>;
+).annotate({ identifier: "MountGetOrCreateResponse" }) as any as S.Schema<MountGetOrCreateResponse>;
 
 export interface MountPutFileRequest {
   sha256Hex?: string;
@@ -135,16 +123,8 @@ export const MountPutFileRequest = /*@__PURE__*/ S.suspend(() =>
     sha256Hex: S.optional(S.String),
     data: S.optional(S.String),
     dataBlobId: S.optional(S.String),
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/modal.client.ModalClient/MountPutFile",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "MountPutFileRequest",
-}) as any as S.Schema<MountPutFileRequest>;
+  }).pipe(T.Http({ method: "POST", uri: "/modal.client.ModalClient/MountPutFile", code: 200 })),
+).annotate({ identifier: "MountPutFileRequest" }) as any as S.Schema<MountPutFileRequest>;
 
 export interface MountPutFileResponse {
   exists?: boolean;
@@ -153,9 +133,7 @@ export const MountPutFileResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     exists: S.optional(S.Boolean),
   }),
-).annotate({
-  identifier: "MountPutFileResponse",
-}) as any as S.Schema<MountPutFileResponse>;
+).annotate({ identifier: "MountPutFileResponse" }) as any as S.Schema<MountPutFileResponse>;
 
 export type MountBatchedCheckExistenceError = ModalOpError;
 /** Mounts */

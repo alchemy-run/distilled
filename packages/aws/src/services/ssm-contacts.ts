@@ -7,10 +7,7 @@ import type { CommonErrors } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
 import { Retry } from "../retry.ts";
 import * as T from "../traits.ts";
-const svc = T.AwsApiService({
-  sdkId: "SSM Contacts",
-  serviceShapeName: "SSMContacts",
-});
+const svc = T.AwsApiService({ sdkId: "SSM Contacts", serviceShapeName: "SSMContacts" });
 const auth = T.AwsAuthSigv4({ name: "ssm-contacts" });
 const ver = T.ServiceVersion("2021-05-03");
 const proto = T.AwsProtocolsAwsJson1_1();
@@ -87,9 +84,7 @@ export class ConflictException
       ResourceId: S.String,
       ResourceType: S.String,
       DependentEntities: S.optional(
-        S.suspend(() => DependentEntityList).annotate({
-          identifier: "DependentEntityList",
-        }),
+        S.suspend(() => DependentEntityList).annotate({ identifier: "DependentEntityList" }),
       ),
     },
     T.HttpError(409),
@@ -154,11 +149,7 @@ export class InvalidRotationArn
 export class ResourceNotFoundException
   extends /*@__PURE__*/ S.TaggedError<ResourceNotFoundException>()(
     "ResourceNotFoundException",
-    {
-      message: S.String.pipe(T.ErrorMessage()),
-      ResourceId: S.String,
-      ResourceType: S.String,
-    },
+    { message: S.String.pipe(T.ErrorMessage()), ResourceId: S.String, ResourceType: S.String },
     T.HttpError(404),
   ).pipe(C.withBadRequestError) {}
 export class ServiceQuotaExceededException
@@ -228,9 +219,7 @@ export const AcceptPageRequest = /*@__PURE__*/ S.suspend(() =>
     AcceptCode: S.String,
     AcceptCodeValidation: S.optional(AcceptCodeValidation),
   }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
-).annotate({
-  identifier: "AcceptPageRequest",
-}) as any as S.Schema<AcceptPageRequest>;
+).annotate({ identifier: "AcceptPageRequest" }) as any as S.Schema<AcceptPageRequest>;
 export interface AcceptPageResult {}
 export const AcceptPageResult = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
   identifier: "AcceptPageResult",
@@ -263,13 +252,8 @@ export interface ChannelTargetInfo {
   RetryIntervalInMinutes?: number;
 }
 export const ChannelTargetInfo = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ContactChannelId: S.String,
-    RetryIntervalInMinutes: S.optional(S.Number),
-  }),
-).annotate({
-  identifier: "ChannelTargetInfo",
-}) as any as S.Schema<ChannelTargetInfo>;
+  S.Struct({ ContactChannelId: S.String, RetryIntervalInMinutes: S.optional(S.Number) }),
+).annotate({ identifier: "ChannelTargetInfo" }) as any as S.Schema<ChannelTargetInfo>;
 export type IsEssential = boolean;
 export interface ContactTargetInfo {
   ContactId?: string;
@@ -277,9 +261,7 @@ export interface ContactTargetInfo {
 }
 export const ContactTargetInfo = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ ContactId: S.optional(S.String), IsEssential: S.Boolean }),
-).annotate({
-  identifier: "ContactTargetInfo",
-}) as any as S.Schema<ContactTargetInfo>;
+).annotate({ identifier: "ContactTargetInfo" }) as any as S.Schema<ContactTargetInfo>;
 export interface Target {
   ChannelTargetInfo?: ChannelTargetInfo;
   ContactTargetInfo?: ContactTargetInfo;
@@ -308,10 +290,7 @@ export interface Plan {
   RotationIds?: string[];
 }
 export const Plan = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Stages: S.optional(StagesList),
-    RotationIds: S.optional(SsmContactsArnList),
-  }),
+  S.Struct({ Stages: S.optional(StagesList), RotationIds: S.optional(SsmContactsArnList) }),
 ).annotate({ identifier: "Plan" }) as any as S.Schema<Plan>;
 export type TagKey = string;
 export type TagValue = string;
@@ -342,17 +321,13 @@ export const CreateContactRequest = /*@__PURE__*/ S.suspend(() =>
     Tags: S.optional(TagsList),
     IdempotencyToken: S.optional(S.String).pipe(T.IdempotencyToken()),
   }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
-).annotate({
-  identifier: "CreateContactRequest",
-}) as any as S.Schema<CreateContactRequest>;
+).annotate({ identifier: "CreateContactRequest" }) as any as S.Schema<CreateContactRequest>;
 export interface CreateContactResult {
   ContactArn: string;
 }
 export const CreateContactResult = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ ContactArn: S.String }),
-).annotate({
-  identifier: "CreateContactResult",
-}) as any as S.Schema<CreateContactResult>;
+).annotate({ identifier: "CreateContactResult" }) as any as S.Schema<CreateContactResult>;
 export type ChannelName = string;
 export type ChannelType = "SMS" | "VOICE" | "EMAIL" | (string & {});
 export const ChannelType = S.String;
@@ -363,9 +338,7 @@ export interface ContactChannelAddress {
 }
 export const ContactChannelAddress = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ SimpleAddress: S.optional(S.String) }),
-).annotate({
-  identifier: "ContactChannelAddress",
-}) as any as S.Schema<ContactChannelAddress>;
+).annotate({ identifier: "ContactChannelAddress" }) as any as S.Schema<ContactChannelAddress>;
 export type DeferActivation = boolean;
 export interface CreateContactChannelRequest {
   ContactId: string;
@@ -462,9 +435,7 @@ export const RecurrenceSettings = /*@__PURE__*/ S.suspend(() =>
     ShiftCoverages: S.optional(ShiftCoveragesMap),
     RecurrenceMultiplier: S.Number,
   }),
-).annotate({
-  identifier: "RecurrenceSettings",
-}) as any as S.Schema<RecurrenceSettings>;
+).annotate({ identifier: "RecurrenceSettings" }) as any as S.Schema<RecurrenceSettings>;
 export interface CreateRotationRequest {
   Name: string;
   ContactIds: string[];
@@ -484,17 +455,13 @@ export const CreateRotationRequest = /*@__PURE__*/ S.suspend(() =>
     Tags: S.optional(TagsList),
     IdempotencyToken: S.optional(S.String),
   }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
-).annotate({
-  identifier: "CreateRotationRequest",
-}) as any as S.Schema<CreateRotationRequest>;
+).annotate({ identifier: "CreateRotationRequest" }) as any as S.Schema<CreateRotationRequest>;
 export interface CreateRotationResult {
   RotationArn: string;
 }
 export const CreateRotationResult = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ RotationArn: S.String }),
-).annotate({
-  identifier: "CreateRotationResult",
-}) as any as S.Schema<CreateRotationResult>;
+).annotate({ identifier: "CreateRotationResult" }) as any as S.Schema<CreateRotationResult>;
 export type RotationOverrideContactsArnList = string[];
 export const RotationOverrideContactsArnList = /*@__PURE__*/ S.Array(S.String);
 export interface CreateRotationOverrideRequest {
@@ -545,9 +512,7 @@ export const DeleteContactRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ ContactId: S.String }).pipe(
     T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
   ),
-).annotate({
-  identifier: "DeleteContactRequest",
-}) as any as S.Schema<DeleteContactRequest>;
+).annotate({ identifier: "DeleteContactRequest" }) as any as S.Schema<DeleteContactRequest>;
 export interface DeleteContactResult {}
 export const DeleteContactResult = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
   identifier: "DeleteContactResult",
@@ -573,9 +538,7 @@ export const DeleteRotationRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ RotationId: S.String }).pipe(
     T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
   ),
-).annotate({
-  identifier: "DeleteRotationRequest",
-}) as any as S.Schema<DeleteRotationRequest>;
+).annotate({ identifier: "DeleteRotationRequest" }) as any as S.Schema<DeleteRotationRequest>;
 export interface DeleteRotationResult {}
 export const DeleteRotationResult = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
   identifier: "DeleteRotationResult",
@@ -636,9 +599,7 @@ export const DescribeEngagementResult = /*@__PURE__*/ S.suspend(() =>
     StartTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     StopTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
   }),
-).annotate({
-  identifier: "DescribeEngagementResult",
-}) as any as S.Schema<DescribeEngagementResult>;
+).annotate({ identifier: "DescribeEngagementResult" }) as any as S.Schema<DescribeEngagementResult>;
 export interface DescribePageRequest {
   PageId: string;
 }
@@ -646,9 +607,7 @@ export const DescribePageRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ PageId: S.String }).pipe(
     T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
   ),
-).annotate({
-  identifier: "DescribePageRequest",
-}) as any as S.Schema<DescribePageRequest>;
+).annotate({ identifier: "DescribePageRequest" }) as any as S.Schema<DescribePageRequest>;
 export interface DescribePageResult {
   PageArn: string;
   EngagementArn: string;
@@ -678,9 +637,7 @@ export const DescribePageResult = /*@__PURE__*/ S.suspend(() =>
     ReadTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     DeliveryTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
   }),
-).annotate({
-  identifier: "DescribePageResult",
-}) as any as S.Schema<DescribePageResult>;
+).annotate({ identifier: "DescribePageResult" }) as any as S.Schema<DescribePageResult>;
 export interface GetContactRequest {
   ContactId: string;
 }
@@ -688,9 +645,7 @@ export const GetContactRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ ContactId: S.String }).pipe(
     T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
   ),
-).annotate({
-  identifier: "GetContactRequest",
-}) as any as S.Schema<GetContactRequest>;
+).annotate({ identifier: "GetContactRequest" }) as any as S.Schema<GetContactRequest>;
 export interface GetContactResult {
   ContactArn: string;
   Alias: string;
@@ -706,9 +661,7 @@ export const GetContactResult = /*@__PURE__*/ S.suspend(() =>
     Type: ContactType,
     Plan: Plan,
   }),
-).annotate({
-  identifier: "GetContactResult",
-}) as any as S.Schema<GetContactResult>;
+).annotate({ identifier: "GetContactResult" }) as any as S.Schema<GetContactResult>;
 export interface GetContactChannelRequest {
   ContactChannelId: string;
 }
@@ -716,9 +669,7 @@ export const GetContactChannelRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ ContactChannelId: S.String }).pipe(
     T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
   ),
-).annotate({
-  identifier: "GetContactChannelRequest",
-}) as any as S.Schema<GetContactChannelRequest>;
+).annotate({ identifier: "GetContactChannelRequest" }) as any as S.Schema<GetContactChannelRequest>;
 export type ActivationStatus = "ACTIVATED" | "NOT_ACTIVATED" | (string & {});
 export const ActivationStatus = S.String;
 
@@ -739,9 +690,7 @@ export const GetContactChannelResult = /*@__PURE__*/ S.suspend(() =>
     DeliveryAddress: ContactChannelAddress,
     ActivationStatus: S.optional(ActivationStatus),
   }),
-).annotate({
-  identifier: "GetContactChannelResult",
-}) as any as S.Schema<GetContactChannelResult>;
+).annotate({ identifier: "GetContactChannelResult" }) as any as S.Schema<GetContactChannelResult>;
 export interface GetContactPolicyRequest {
   ContactArn: string;
 }
@@ -749,9 +698,7 @@ export const GetContactPolicyRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ ContactArn: S.String }).pipe(
     T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
   ),
-).annotate({
-  identifier: "GetContactPolicyRequest",
-}) as any as S.Schema<GetContactPolicyRequest>;
+).annotate({ identifier: "GetContactPolicyRequest" }) as any as S.Schema<GetContactPolicyRequest>;
 export type Policy = string;
 export interface GetContactPolicyResult {
   ContactArn?: string;
@@ -759,9 +706,7 @@ export interface GetContactPolicyResult {
 }
 export const GetContactPolicyResult = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ ContactArn: S.optional(S.String), Policy: S.optional(S.String) }),
-).annotate({
-  identifier: "GetContactPolicyResult",
-}) as any as S.Schema<GetContactPolicyResult>;
+).annotate({ identifier: "GetContactPolicyResult" }) as any as S.Schema<GetContactPolicyResult>;
 export interface GetRotationRequest {
   RotationId: string;
 }
@@ -769,9 +714,7 @@ export const GetRotationRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ RotationId: S.String }).pipe(
     T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
   ),
-).annotate({
-  identifier: "GetRotationRequest",
-}) as any as S.Schema<GetRotationRequest>;
+).annotate({ identifier: "GetRotationRequest" }) as any as S.Schema<GetRotationRequest>;
 export interface GetRotationResult {
   RotationArn: string;
   Name: string;
@@ -789,9 +732,7 @@ export const GetRotationResult = /*@__PURE__*/ S.suspend(() =>
     TimeZoneId: S.String,
     Recurrence: RecurrenceSettings,
   }),
-).annotate({
-  identifier: "GetRotationResult",
-}) as any as S.Schema<GetRotationResult>;
+).annotate({ identifier: "GetRotationResult" }) as any as S.Schema<GetRotationResult>;
 export interface GetRotationOverrideRequest {
   RotationId: string;
   RotationOverrideId: string;
@@ -864,10 +805,7 @@ export interface ListContactChannelsResult {
   ContactChannels: ContactChannel[];
 }
 export const ListContactChannelsResult = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    NextToken: S.optional(S.String),
-    ContactChannels: ContactChannelList,
-  }),
+  S.Struct({ NextToken: S.optional(S.String), ContactChannels: ContactChannelList }),
 ).annotate({
   identifier: "ListContactChannelsResult",
 }) as any as S.Schema<ListContactChannelsResult>;
@@ -884,9 +822,7 @@ export const ListContactsRequest = /*@__PURE__*/ S.suspend(() =>
     AliasPrefix: S.optional(S.String),
     Type: S.optional(ContactType),
   }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
-).annotate({
-  identifier: "ListContactsRequest",
-}) as any as S.Schema<ListContactsRequest>;
+).annotate({ identifier: "ListContactsRequest" }) as any as S.Schema<ListContactsRequest>;
 export interface Contact {
   ContactArn: string;
   Alias: string;
@@ -908,13 +844,8 @@ export interface ListContactsResult {
   Contacts?: Contact[];
 }
 export const ListContactsResult = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    NextToken: S.optional(S.String),
-    Contacts: S.optional(ContactsList),
-  }),
-).annotate({
-  identifier: "ListContactsResult",
-}) as any as S.Schema<ListContactsResult>;
+  S.Struct({ NextToken: S.optional(S.String), Contacts: S.optional(ContactsList) }),
+).annotate({ identifier: "ListContactsResult" }) as any as S.Schema<ListContactsResult>;
 export interface TimeRange {
   StartTime?: Date;
   EndTime?: Date;
@@ -938,9 +869,7 @@ export const ListEngagementsRequest = /*@__PURE__*/ S.suspend(() =>
     IncidentId: S.optional(S.String),
     TimeRangeValue: S.optional(TimeRange),
   }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
-).annotate({
-  identifier: "ListEngagementsRequest",
-}) as any as S.Schema<ListEngagementsRequest>;
+).annotate({ identifier: "ListEngagementsRequest" }) as any as S.Schema<ListEngagementsRequest>;
 export interface Engagement {
   EngagementArn: string;
   ContactArn: string;
@@ -967,9 +896,7 @@ export interface ListEngagementsResult {
 }
 export const ListEngagementsResult = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ NextToken: S.optional(S.String), Engagements: EngagementsList }),
-).annotate({
-  identifier: "ListEngagementsResult",
-}) as any as S.Schema<ListEngagementsResult>;
+).annotate({ identifier: "ListEngagementsResult" }) as any as S.Schema<ListEngagementsResult>;
 export interface ListPageReceiptsRequest {
   PageId: string;
   NextToken?: string;
@@ -981,9 +908,7 @@ export const ListPageReceiptsRequest = /*@__PURE__*/ S.suspend(() =>
     NextToken: S.optional(S.String),
     MaxResults: S.optional(S.Number),
   }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
-).annotate({
-  identifier: "ListPageReceiptsRequest",
-}) as any as S.Schema<ListPageReceiptsRequest>;
+).annotate({ identifier: "ListPageReceiptsRequest" }) as any as S.Schema<ListPageReceiptsRequest>;
 export type ReceiptType = "DELIVERED" | "ERROR" | "READ" | "SENT" | "STOP" | (string & {});
 export const ReceiptType = S.String;
 
@@ -1008,13 +933,8 @@ export interface ListPageReceiptsResult {
   Receipts?: Receipt[];
 }
 export const ListPageReceiptsResult = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    NextToken: S.optional(S.String),
-    Receipts: S.optional(ReceiptsList),
-  }),
-).annotate({
-  identifier: "ListPageReceiptsResult",
-}) as any as S.Schema<ListPageReceiptsResult>;
+  S.Struct({ NextToken: S.optional(S.String), Receipts: S.optional(ReceiptsList) }),
+).annotate({ identifier: "ListPageReceiptsResult" }) as any as S.Schema<ListPageReceiptsResult>;
 export interface ListPageResolutionsRequest {
   NextToken?: string;
   PageId: string;
@@ -1033,14 +953,8 @@ export interface ResolutionContact {
   StageIndex?: number;
 }
 export const ResolutionContact = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ContactArn: S.String,
-    Type: ContactType,
-    StageIndex: S.optional(S.Number),
-  }),
-).annotate({
-  identifier: "ResolutionContact",
-}) as any as S.Schema<ResolutionContact>;
+  S.Struct({ ContactArn: S.String, Type: ContactType, StageIndex: S.optional(S.Number) }),
+).annotate({ identifier: "ResolutionContact" }) as any as S.Schema<ResolutionContact>;
 export type ResolutionList = ResolutionContact[];
 export const ResolutionList = /*@__PURE__*/ S.Array(ResolutionContact);
 export interface ListPageResolutionsResult {
@@ -1048,10 +962,7 @@ export interface ListPageResolutionsResult {
   PageResolutions: ResolutionContact[];
 }
 export const ListPageResolutionsResult = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    NextToken: S.optional(S.String),
-    PageResolutions: ResolutionList,
-  }),
+  S.Struct({ NextToken: S.optional(S.String), PageResolutions: ResolutionList }),
 ).annotate({
   identifier: "ListPageResolutionsResult",
 }) as any as S.Schema<ListPageResolutionsResult>;
@@ -1099,9 +1010,7 @@ export interface ListPagesByContactResult {
 }
 export const ListPagesByContactResult = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ NextToken: S.optional(S.String), Pages: PagesList }),
-).annotate({
-  identifier: "ListPagesByContactResult",
-}) as any as S.Schema<ListPagesByContactResult>;
+).annotate({ identifier: "ListPagesByContactResult" }) as any as S.Schema<ListPagesByContactResult>;
 export interface ListPagesByEngagementRequest {
   EngagementId: string;
   NextToken?: string;
@@ -1141,9 +1050,7 @@ export const PreviewOverride = /*@__PURE__*/ S.suspend(() =>
     StartTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     EndTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
   }),
-).annotate({
-  identifier: "PreviewOverride",
-}) as any as S.Schema<PreviewOverride>;
+).annotate({ identifier: "PreviewOverride" }) as any as S.Schema<PreviewOverride>;
 export type OverrideList = PreviewOverride[];
 export const OverrideList = /*@__PURE__*/ S.Array(PreviewOverride);
 export interface ListPreviewRotationShiftsRequest {
@@ -1204,10 +1111,7 @@ export interface ListPreviewRotationShiftsResult {
   NextToken?: string;
 }
 export const ListPreviewRotationShiftsResult = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    RotationShifts: S.optional(RotationShifts),
-    NextToken: S.optional(S.String),
-  }),
+  S.Struct({ RotationShifts: S.optional(RotationShifts), NextToken: S.optional(S.String) }),
 ).annotate({
   identifier: "ListPreviewRotationShiftsResult",
 }) as any as S.Schema<ListPreviewRotationShiftsResult>;
@@ -1244,9 +1148,7 @@ export const RotationOverride = /*@__PURE__*/ S.suspend(() =>
     EndTime: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
     CreateTime: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
   }),
-).annotate({
-  identifier: "RotationOverride",
-}) as any as S.Schema<RotationOverride>;
+).annotate({ identifier: "RotationOverride" }) as any as S.Schema<RotationOverride>;
 export type RotationOverrides = RotationOverride[];
 export const RotationOverrides = /*@__PURE__*/ S.Array(RotationOverride);
 export interface ListRotationOverridesResult {
@@ -1254,10 +1156,7 @@ export interface ListRotationOverridesResult {
   NextToken?: string;
 }
 export const ListRotationOverridesResult = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    RotationOverrides: S.optional(RotationOverrides),
-    NextToken: S.optional(S.String),
-  }),
+  S.Struct({ RotationOverrides: S.optional(RotationOverrides), NextToken: S.optional(S.String) }),
 ).annotate({
   identifier: "ListRotationOverridesResult",
 }) as any as S.Schema<ListRotationOverridesResult>;
@@ -1272,9 +1171,7 @@ export const ListRotationsRequest = /*@__PURE__*/ S.suspend(() =>
     NextToken: S.optional(S.String),
     MaxResults: S.optional(S.Number),
   }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
-).annotate({
-  identifier: "ListRotationsRequest",
-}) as any as S.Schema<ListRotationsRequest>;
+).annotate({ identifier: "ListRotationsRequest" }) as any as S.Schema<ListRotationsRequest>;
 export interface Rotation {
   RotationArn: string;
   Name: string;
@@ -1301,9 +1198,7 @@ export interface ListRotationsResult {
 }
 export const ListRotationsResult = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ NextToken: S.optional(S.String), Rotations: Rotations }),
-).annotate({
-  identifier: "ListRotationsResult",
-}) as any as S.Schema<ListRotationsResult>;
+).annotate({ identifier: "ListRotationsResult" }) as any as S.Schema<ListRotationsResult>;
 export interface ListRotationShiftsRequest {
   RotationId: string;
   StartTime?: Date;
@@ -1327,13 +1222,8 @@ export interface ListRotationShiftsResult {
   NextToken?: string;
 }
 export const ListRotationShiftsResult = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    RotationShifts: S.optional(RotationShifts),
-    NextToken: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "ListRotationShiftsResult",
-}) as any as S.Schema<ListRotationShiftsResult>;
+  S.Struct({ RotationShifts: S.optional(RotationShifts), NextToken: S.optional(S.String) }),
+).annotate({ identifier: "ListRotationShiftsResult" }) as any as S.Schema<ListRotationShiftsResult>;
 export type AmazonResourceName = string;
 export interface ListTagsForResourceRequest {
   ResourceARN: string;
@@ -1361,9 +1251,7 @@ export const PutContactPolicyRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ ContactArn: S.String, Policy: S.String }).pipe(
     T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
   ),
-).annotate({
-  identifier: "PutContactPolicyRequest",
-}) as any as S.Schema<PutContactPolicyRequest>;
+).annotate({ identifier: "PutContactPolicyRequest" }) as any as S.Schema<PutContactPolicyRequest>;
 export interface PutContactPolicyResult {}
 export const PutContactPolicyResult = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
   identifier: "PutContactPolicyResult",
@@ -1403,17 +1291,13 @@ export const StartEngagementRequest = /*@__PURE__*/ S.suspend(() =>
     IncidentId: S.optional(S.String),
     IdempotencyToken: S.optional(S.String).pipe(T.IdempotencyToken()),
   }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
-).annotate({
-  identifier: "StartEngagementRequest",
-}) as any as S.Schema<StartEngagementRequest>;
+).annotate({ identifier: "StartEngagementRequest" }) as any as S.Schema<StartEngagementRequest>;
 export interface StartEngagementResult {
   EngagementArn: string;
 }
 export const StartEngagementResult = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ EngagementArn: S.String }),
-).annotate({
-  identifier: "StartEngagementResult",
-}) as any as S.Schema<StartEngagementResult>;
+).annotate({ identifier: "StartEngagementResult" }) as any as S.Schema<StartEngagementResult>;
 export type StopReason = string;
 export interface StopEngagementRequest {
   EngagementId: string;
@@ -1423,9 +1307,7 @@ export const StopEngagementRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ EngagementId: S.String, Reason: S.optional(S.String) }).pipe(
     T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
   ),
-).annotate({
-  identifier: "StopEngagementRequest",
-}) as any as S.Schema<StopEngagementRequest>;
+).annotate({ identifier: "StopEngagementRequest" }) as any as S.Schema<StopEngagementRequest>;
 export interface StopEngagementResult {}
 export const StopEngagementResult = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
   identifier: "StopEngagementResult",
@@ -1438,9 +1320,7 @@ export const TagResourceRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ ResourceARN: S.String, Tags: TagsList }).pipe(
     T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
   ),
-).annotate({
-  identifier: "TagResourceRequest",
-}) as any as S.Schema<TagResourceRequest>;
+).annotate({ identifier: "TagResourceRequest" }) as any as S.Schema<TagResourceRequest>;
 export interface TagResourceResult {}
 export const TagResourceResult = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
   identifier: "TagResourceResult",
@@ -1455,9 +1335,7 @@ export const UntagResourceRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ ResourceARN: S.String, TagKeys: TagKeyList }).pipe(
     T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
   ),
-).annotate({
-  identifier: "UntagResourceRequest",
-}) as any as S.Schema<UntagResourceRequest>;
+).annotate({ identifier: "UntagResourceRequest" }) as any as S.Schema<UntagResourceRequest>;
 export interface UntagResourceResult {}
 export const UntagResourceResult = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
   identifier: "UntagResourceResult",
@@ -1468,14 +1346,10 @@ export interface UpdateContactRequest {
   Plan?: Plan;
 }
 export const UpdateContactRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ContactId: S.String,
-    DisplayName: S.optional(S.String),
-    Plan: S.optional(Plan),
-  }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
-).annotate({
-  identifier: "UpdateContactRequest",
-}) as any as S.Schema<UpdateContactRequest>;
+  S.Struct({ ContactId: S.String, DisplayName: S.optional(S.String), Plan: S.optional(Plan) }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotate({ identifier: "UpdateContactRequest" }) as any as S.Schema<UpdateContactRequest>;
 export interface UpdateContactResult {}
 export const UpdateContactResult = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
   identifier: "UpdateContactResult",
@@ -1513,9 +1387,7 @@ export const UpdateRotationRequest = /*@__PURE__*/ S.suspend(() =>
     TimeZoneId: S.optional(S.String),
     Recurrence: RecurrenceSettings,
   }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
-).annotate({
-  identifier: "UpdateRotationRequest",
-}) as any as S.Schema<UpdateRotationRequest>;
+).annotate({ identifier: "UpdateRotationRequest" }) as any as S.Schema<UpdateRotationRequest>;
 export interface UpdateRotationResult {}
 export const UpdateRotationResult = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
   identifier: "UpdateRotationResult",
@@ -1535,9 +1407,7 @@ export interface ValidationExceptionField {
 }
 export const ValidationExceptionField = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ Name: S.String, Message: S.String }),
-).annotate({
-  identifier: "ValidationExceptionField",
-}) as any as S.Schema<ValidationExceptionField>;
+).annotate({ identifier: "ValidationExceptionField" }) as any as S.Schema<ValidationExceptionField>;
 export type ValidationExceptionFieldList = ValidationExceptionField[];
 export const ValidationExceptionFieldList = /*@__PURE__*/ S.Array(ValidationExceptionField);
 export interface DependentEntity {
@@ -1545,13 +1415,8 @@ export interface DependentEntity {
   DependentResourceIds: string[];
 }
 export const DependentEntity = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    RelationType: S.String,
-    DependentResourceIds: SsmContactsArnList,
-  }),
-).annotate({
-  identifier: "DependentEntity",
-}) as any as S.Schema<DependentEntity>;
+  S.Struct({ RelationType: S.String, DependentResourceIds: SsmContactsArnList }),
+).annotate({ identifier: "DependentEntity" }) as any as S.Schema<DependentEntity>;
 export type DependentEntityList = DependentEntity[];
 export const DependentEntityList = /*@__PURE__*/ S.Array(DependentEntity);
 export type AcceptPageError =

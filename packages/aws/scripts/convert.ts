@@ -17,7 +17,12 @@ const specsRoot = resolveSpecPath(root, "specs/spec-mirror-aws/specs");
 const modelsRoot = path.join(specsRoot, "models");
 const outDir = path.join(root, ".generated-specs");
 
-const UNSUPPORTED_SERVICES = new Set(["partnercentral-revenue-measurement"]);
+// rpcv2Cbor-only services; the runtime has no CBOR protocol yet.
+const UNSUPPORTED_SERVICES = new Set([
+  "cloudwatchomni",
+  "eventbridgev2",
+  "partnercentral-revenue-measurement",
+]);
 
 const moduleName = (sdkId: string) => sdkId.toLowerCase().replaceAll(" ", "-");
 

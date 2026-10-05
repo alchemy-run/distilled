@@ -95,9 +95,7 @@ export const EndpointModelSource = /*@__PURE__*/ S.suspend(() =>
     baseModelRepoId: S.optional(S.String),
     custom: S.optional(EndpointCustomModelSource),
   }),
-).annotate({
-  identifier: "EndpointModelSource",
-}) as any as S.Schema<EndpointModelSource>;
+).annotate({ identifier: "EndpointModelSource" }) as any as S.Schema<EndpointModelSource>;
 
 export type EndpointApiSurface =
   | "ENDPOINT_API_SURFACE_UNSPECIFIED"
@@ -140,6 +138,7 @@ export interface CreateEndpointRequest {
   environmentName?: string;
   unauthenticated?: boolean;
   servingMode?: EndpointServingMode | (string & {});
+  sharedEndpointNoticeAcknowledged?: boolean;
 }
 export const CreateEndpointRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -153,16 +152,9 @@ export const CreateEndpointRequest = /*@__PURE__*/ S.suspend(() =>
     environmentName: S.optional(S.String),
     unauthenticated: S.optional(S.Boolean),
     servingMode: S.optional(EndpointServingMode),
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/modal.client.ModalClient/EndpointCreate",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "CreateEndpointRequest",
-}) as any as S.Schema<CreateEndpointRequest>;
+    sharedEndpointNoticeAcknowledged: S.optional(S.Boolean),
+  }).pipe(T.Http({ method: "POST", uri: "/modal.client.ModalClient/EndpointCreate", code: 200 })),
+).annotate({ identifier: "CreateEndpointRequest" }) as any as S.Schema<CreateEndpointRequest>;
 
 export interface CreateEndpointResponse {
   endpointId?: string;
@@ -175,9 +167,7 @@ export const CreateEndpointResponse = /*@__PURE__*/ S.suspend(() =>
     endpointPageUrl: S.optional(S.String),
     name: S.optional(S.String),
   }),
-).annotate({
-  identifier: "CreateEndpointResponse",
-}) as any as S.Schema<CreateEndpointResponse>;
+).annotate({ identifier: "CreateEndpointResponse" }) as any as S.Schema<CreateEndpointResponse>;
 
 export interface EndpointGetByNameRequest {
   name?: string;
@@ -188,15 +178,9 @@ export const EndpointGetByNameRequest = /*@__PURE__*/ S.suspend(() =>
     name: S.optional(S.String),
     environmentName: S.optional(S.String),
   }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/modal.client.ModalClient/EndpointGetByName",
-      code: 200,
-    }),
+    T.Http({ method: "POST", uri: "/modal.client.ModalClient/EndpointGetByName", code: 200 }),
   ),
-).annotate({
-  identifier: "EndpointGetByNameRequest",
-}) as any as S.Schema<EndpointGetByNameRequest>;
+).annotate({ identifier: "EndpointGetByNameRequest" }) as any as S.Schema<EndpointGetByNameRequest>;
 
 export interface EndpointGetByNameResponse {
   endpointId?: string;
@@ -211,22 +195,24 @@ export const EndpointGetByNameResponse = /*@__PURE__*/ S.suspend(() =>
   identifier: "EndpointGetByNameResponse",
 }) as any as S.Schema<EndpointGetByNameResponse>;
 
-export interface EndpointGetLifecycleRequest {
+export interface EndpointGetInfoRequest {
   endpointId?: string;
 }
-export const EndpointGetLifecycleRequest = /*@__PURE__*/ S.suspend(() =>
+export const EndpointGetInfoRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     endpointId: S.optional(S.String),
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/modal.client.ModalClient/EndpointGetLifecycle",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "EndpointGetLifecycleRequest",
-}) as any as S.Schema<EndpointGetLifecycleRequest>;
+  }).pipe(T.Http({ method: "POST", uri: "/modal.client.ModalClient/EndpointGetInfo", code: 200 })),
+).annotate({ identifier: "EndpointGetInfoRequest" }) as any as S.Schema<EndpointGetInfoRequest>;
+
+export type EndpointGetInfoResponseEndpointStatus =
+  | "ENDPOINT_STATUS_UNSPECIFIED"
+  | "ENDPOINT_STATUS_PROVISIONING"
+  | "ENDPOINT_STATUS_LIVE"
+  | "ENDPOINT_STATUS_FAILED"
+  | "ENDPOINT_STATUS_CANCELLING"
+  | "ENDPOINT_STATUS_CANCELLED"
+  | "ENDPOINT_STATUS_STOPPED";
+export const EndpointGetInfoResponseEndpointStatus = S.String;
 
 export type EndpointLifecycleStatus =
   | "ENDPOINT_LIFECYCLE_STATUS_UNSPECIFIED"
@@ -254,9 +240,76 @@ export const EndpointLifecycle = /*@__PURE__*/ S.suspend(() =>
     stoppedBy: S.optional(S.String),
     environmentName: S.optional(S.String),
   }),
+).annotate({ identifier: "EndpointLifecycle" }) as any as S.Schema<EndpointLifecycle>;
+
+export interface EndpointGetInfoResponseEndpointInfoSummary {
+  name?: string;
+  repoId?: string;
+  revision?: string;
+  serviceUrl?: string;
+  requiresProxyAuth?: boolean;
+  servingMode?: EndpointServingMode;
+  status?: EndpointGetInfoResponseEndpointStatus;
+  lifecycle?: EndpointLifecycle;
+  /** set only when the model is served from a modal volume */
+  volumeId?: string;
+  modelPath?: string;
+}
+export const EndpointGetInfoResponseEndpointInfoSummary = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    name: S.optional(S.String),
+    repoId: S.optional(S.String),
+    revision: S.optional(S.String),
+    serviceUrl: S.optional(S.String),
+    requiresProxyAuth: S.optional(S.Boolean),
+    servingMode: S.optional(EndpointServingMode),
+    status: S.optional(EndpointGetInfoResponseEndpointStatus),
+    lifecycle: S.optional(EndpointLifecycle),
+    volumeId: S.optional(S.String),
+    modelPath: S.optional(S.String),
+  }),
 ).annotate({
-  identifier: "EndpointLifecycle",
-}) as any as S.Schema<EndpointLifecycle>;
+  identifier: "EndpointGetInfoResponseEndpointInfoSummary",
+}) as any as S.Schema<EndpointGetInfoResponseEndpointInfoSummary>;
+
+export interface EndpointGetInfoResponseEndpointHandleMetadata {
+  appId?: string;
+  serverId?: string;
+  environmentName?: string;
+}
+export const EndpointGetInfoResponseEndpointHandleMetadata = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    appId: S.optional(S.String),
+    serverId: S.optional(S.String),
+    environmentName: S.optional(S.String),
+  }),
+).annotate({
+  identifier: "EndpointGetInfoResponseEndpointHandleMetadata",
+}) as any as S.Schema<EndpointGetInfoResponseEndpointHandleMetadata>;
+
+export interface EndpointGetInfoResponse {
+  info?: EndpointGetInfoResponseEndpointInfoSummary;
+  metadata?: EndpointGetInfoResponseEndpointHandleMetadata;
+}
+export const EndpointGetInfoResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    info: S.optional(EndpointGetInfoResponseEndpointInfoSummary),
+    metadata: S.optional(EndpointGetInfoResponseEndpointHandleMetadata),
+  }),
+).annotate({ identifier: "EndpointGetInfoResponse" }) as any as S.Schema<EndpointGetInfoResponse>;
+
+export interface EndpointGetLifecycleRequest {
+  endpointId?: string;
+}
+export const EndpointGetLifecycleRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    endpointId: S.optional(S.String),
+  }).pipe(
+    T.Http({ method: "POST", uri: "/modal.client.ModalClient/EndpointGetLifecycle", code: 200 }),
+  ),
+).annotate({
+  identifier: "EndpointGetLifecycleRequest",
+}) as any as S.Schema<EndpointGetLifecycleRequest>;
 
 export interface EndpointGetLifecycleResponse {
   lifecycle?: EndpointLifecycle;
@@ -288,16 +341,8 @@ export const ListEndpointRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     environmentName: S.optional(S.String),
     pagination: S.optional(ListPagination),
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/modal.client.ModalClient/EndpointList",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "ListEndpointRequest",
-}) as any as S.Schema<ListEndpointRequest>;
+  }).pipe(T.Http({ method: "POST", uri: "/modal.client.ModalClient/EndpointList", code: 200 })),
+).annotate({ identifier: "ListEndpointRequest" }) as any as S.Schema<ListEndpointRequest>;
 
 export interface CreationInfo {
   /** This message is used in metadata for resource objects like Dict, Queue, Volume, etc. */
@@ -321,9 +366,7 @@ export const EndpointMetadata = /*@__PURE__*/ S.suspend(() =>
     name: S.optional(S.String),
     creationInfo: S.optional(CreationInfo),
   }),
-).annotate({
-  identifier: "EndpointMetadata",
-}) as any as S.Schema<EndpointMetadata>;
+).annotate({ identifier: "EndpointMetadata" }) as any as S.Schema<EndpointMetadata>;
 
 /** NOTE: make sure to update the frontend if we add a new state here https://github.com/modal-labs/modal/blob/main/frontend/src/routes/(dashboard)/%5B%5Bworkspace%5D%5D/apps/+page.svelte#L95 */
 export type AppState =
@@ -362,6 +405,7 @@ export interface EndpointListItem {
   provisioningStatus?: EndpointProvisioningStatus;
   status?: string;
   servingMode?: EndpointServingMode;
+  unauthenticated?: boolean;
 }
 export const EndpointListItem = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -377,10 +421,9 @@ export const EndpointListItem = /*@__PURE__*/ S.suspend(() =>
     provisioningStatus: S.optional(EndpointProvisioningStatus),
     status: S.optional(S.String),
     servingMode: S.optional(EndpointServingMode),
+    unauthenticated: S.optional(S.Boolean),
   }),
-).annotate({
-  identifier: "EndpointListItem",
-}) as any as S.Schema<EndpointListItem>;
+).annotate({ identifier: "EndpointListItem" }) as any as S.Schema<EndpointListItem>;
 
 export type EndpointListItemList = Array<EndpointListItem>;
 export const EndpointListItemList = /*@__PURE__*/ S.Array(
@@ -396,9 +439,7 @@ export const ListEndpointResponse = /*@__PURE__*/ S.suspend(() =>
     items: S.optional(EndpointListItemList),
     environmentName: S.optional(S.String),
   }),
-).annotate({
-  identifier: "ListEndpointResponse",
-}) as any as S.Schema<ListEndpointResponse>;
+).annotate({ identifier: "ListEndpointResponse" }) as any as S.Schema<ListEndpointResponse>;
 
 export type EndpointStopSource =
   | "ENDPOINT_STOP_SOURCE_UNSPECIFIED"
@@ -414,16 +455,8 @@ export const StopEndpointRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     endpointId: S.optional(S.String),
     source: S.optional(EndpointStopSource),
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/modal.client.ModalClient/EndpointStop",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "StopEndpointRequest",
-}) as any as S.Schema<StopEndpointRequest>;
+  }).pipe(T.Http({ method: "POST", uri: "/modal.client.ModalClient/EndpointStop", code: 200 })),
+).annotate({ identifier: "StopEndpointRequest" }) as any as S.Schema<StopEndpointRequest>;
 
 export interface StopEndpointResponse {}
 export const StopEndpointResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -454,6 +487,20 @@ export const endpointGetByName: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: EndpointGetByNameRequest,
   output: EndpointGetByNameResponse,
+  errors: [UnknownModalError],
+  protocol: ModalProtocol,
+  retry: Retry.Retry,
+}));
+
+export type EndpointGetInfoError = ModalOpError;
+export const endpointGetInfo: API.OperationMethod<
+  EndpointGetInfoRequest,
+  EndpointGetInfoResponse,
+  EndpointGetInfoError,
+  ModalOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: EndpointGetInfoRequest,
+  output: EndpointGetInfoResponse,
   errors: [UnknownModalError],
   protocol: ModalProtocol,
   retry: Retry.Retry,

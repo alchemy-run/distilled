@@ -133,10 +133,7 @@ export const SearchRequest = /*@__PURE__*/ S.suspend(() =>
   }).pipe(
     T.all(
       ns,
-      T.Http({
-        method: "GET",
-        uri: "/2013-01-01/search?format=sdk&pretty=true",
-      }),
+      T.Http({ method: "GET", uri: "/2013-01-01/search?format=sdk&pretty=true" }),
       svc,
       auth,
       proto,
@@ -260,10 +257,7 @@ export const SuggestRequest = /*@__PURE__*/ S.suspend(() =>
   }).pipe(
     T.all(
       ns,
-      T.Http({
-        method: "GET",
-        uri: "/2013-01-01/suggest?format=sdk&pretty=true",
-      }),
+      T.Http({ method: "GET", uri: "/2013-01-01/suggest?format=sdk&pretty=true" }),
       svc,
       auth,
       proto,
@@ -290,9 +284,7 @@ export const SuggestionMatch = /*@__PURE__*/ S.suspend(() =>
     score: S.optional(S.Number),
     id: S.optional(S.String),
   }),
-).annotate({
-  identifier: "SuggestionMatch",
-}) as any as S.Schema<SuggestionMatch>;
+).annotate({ identifier: "SuggestionMatch" }) as any as S.Schema<SuggestionMatch>;
 export type Suggestions = SuggestionMatch[];
 export const Suggestions = /*@__PURE__*/ S.Array(SuggestionMatch);
 export interface SuggestModel {
@@ -312,13 +304,8 @@ export interface SuggestResponse {
   suggest?: SuggestModel;
 }
 export const SuggestResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    status: S.optional(SuggestStatus),
-    suggest: S.optional(SuggestModel),
-  }).pipe(ns),
-).annotate({
-  identifier: "SuggestResponse",
-}) as any as S.Schema<SuggestResponse>;
+  S.Struct({ status: S.optional(SuggestStatus), suggest: S.optional(SuggestModel) }).pipe(ns),
+).annotate({ identifier: "SuggestResponse" }) as any as S.Schema<SuggestResponse>;
 export type ContentType = "application/json" | "application/xml" | (string & {});
 export const ContentType = S.String;
 
@@ -341,9 +328,7 @@ export const UploadDocumentsRequest = /*@__PURE__*/ S.suspend(() =>
       rules,
     ),
   ),
-).annotate({
-  identifier: "UploadDocumentsRequest",
-}) as any as S.Schema<UploadDocumentsRequest>;
+).annotate({ identifier: "UploadDocumentsRequest" }) as any as S.Schema<UploadDocumentsRequest>;
 export type Adds = number;
 export type Deletes = number;
 export interface DocumentServiceWarning {
@@ -351,9 +336,7 @@ export interface DocumentServiceWarning {
 }
 export const DocumentServiceWarning = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ message: S.optional(S.String) }),
-).annotate({
-  identifier: "DocumentServiceWarning",
-}) as any as S.Schema<DocumentServiceWarning>;
+).annotate({ identifier: "DocumentServiceWarning" }) as any as S.Schema<DocumentServiceWarning>;
 export type DocumentServiceWarnings = DocumentServiceWarning[];
 export const DocumentServiceWarnings = /*@__PURE__*/ S.Array(DocumentServiceWarning);
 export interface UploadDocumentsResponse {
@@ -369,9 +352,7 @@ export const UploadDocumentsResponse = /*@__PURE__*/ S.suspend(() =>
     deletes: S.optional(S.Number),
     warnings: S.optional(DocumentServiceWarnings),
   }).pipe(ns),
-).annotate({
-  identifier: "UploadDocumentsResponse",
-}) as any as S.Schema<UploadDocumentsResponse>;
+).annotate({ identifier: "UploadDocumentsResponse" }) as any as S.Schema<UploadDocumentsResponse>;
 export type SearchError = SearchException | CommonErrors;
 /**
  * Retrieves a list of documents that match the specified search criteria. How you specify the search criteria depends on which query parser you use. Amazon CloudSearch supports four query parsers:

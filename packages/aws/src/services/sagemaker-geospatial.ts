@@ -86,55 +86,37 @@ export class AccessDeniedException
 export class ConflictException
   extends /*@__PURE__*/ S.TaggedError<ConflictException>()(
     "ConflictException",
-    {
-      message: S.String.pipe(T.ErrorMessage()),
-      ResourceId: S.optional(S.String),
-    },
+    { message: S.String.pipe(T.ErrorMessage()), ResourceId: S.optional(S.String) },
     T.HttpError(409),
   ).pipe(C.withConflictError) {}
 export class InternalServerException
   extends /*@__PURE__*/ S.TaggedError<InternalServerException>()(
     "InternalServerException",
-    {
-      message: S.String.pipe(T.ErrorMessage()),
-      ResourceId: S.optional(S.String),
-    },
+    { message: S.String.pipe(T.ErrorMessage()), ResourceId: S.optional(S.String) },
     T.HttpError(500),
   ).pipe(C.withServerError) {}
 export class ResourceNotFoundException
   extends /*@__PURE__*/ S.TaggedError<ResourceNotFoundException>()(
     "ResourceNotFoundException",
-    {
-      message: S.String.pipe(T.ErrorMessage()),
-      ResourceId: S.optional(S.String),
-    },
+    { message: S.String.pipe(T.ErrorMessage()), ResourceId: S.optional(S.String) },
     T.HttpError(404),
   ).pipe(C.withBadRequestError) {}
 export class ServiceQuotaExceededException
   extends /*@__PURE__*/ S.TaggedError<ServiceQuotaExceededException>()(
     "ServiceQuotaExceededException",
-    {
-      message: S.String.pipe(T.ErrorMessage()),
-      ResourceId: S.optional(S.String),
-    },
+    { message: S.String.pipe(T.ErrorMessage()), ResourceId: S.optional(S.String) },
     T.HttpError(402),
   ).pipe(C.withQuotaError) {}
 export class ThrottlingException
   extends /*@__PURE__*/ S.TaggedError<ThrottlingException>()(
     "ThrottlingException",
-    {
-      message: S.String.pipe(T.ErrorMessage()),
-      ResourceId: S.optional(S.String),
-    },
+    { message: S.String.pipe(T.ErrorMessage()), ResourceId: S.optional(S.String) },
     T.HttpError(429),
   ).pipe(C.withThrottlingError) {}
 export class ValidationException
   extends /*@__PURE__*/ S.TaggedError<ValidationException>()(
     "ValidationException",
-    {
-      message: S.String.pipe(T.ErrorMessage()),
-      ResourceId: S.optional(S.String),
-    },
+    { message: S.String.pipe(T.ErrorMessage()), ResourceId: S.optional(S.String) },
     T.HttpError(400),
   ).pipe(C.withBadRequestError) {}
 export type EarthObservationJobArn = string;
@@ -157,9 +139,7 @@ export const DeleteEarthObservationJobInput = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<DeleteEarthObservationJobInput>;
 export interface DeleteEarthObservationJobOutput {}
 export const DeleteEarthObservationJobOutput = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate(
-  {
-    identifier: "DeleteEarthObservationJobOutput",
-  },
+  { identifier: "DeleteEarthObservationJobOutput" },
 ) as any as S.Schema<DeleteEarthObservationJobOutput>;
 export type VectorEnrichmentJobArn = string;
 export interface DeleteVectorEnrichmentJobInput {
@@ -181,9 +161,7 @@ export const DeleteVectorEnrichmentJobInput = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<DeleteVectorEnrichmentJobInput>;
 export interface DeleteVectorEnrichmentJobOutput {}
 export const DeleteVectorEnrichmentJobOutput = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate(
-  {
-    identifier: "DeleteVectorEnrichmentJobOutput",
-  },
+  { identifier: "DeleteVectorEnrichmentJobOutput" },
 ) as any as S.Schema<DeleteVectorEnrichmentJobOutput>;
 export type ExecutionRoleArn = string;
 export type S3Uri = string;
@@ -194,17 +172,13 @@ export interface ExportS3DataInput {
 }
 export const ExportS3DataInput = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ S3Uri: S.String, KmsKeyId: S.optional(S.String) }),
-).annotate({
-  identifier: "ExportS3DataInput",
-}) as any as S.Schema<ExportS3DataInput>;
+).annotate({ identifier: "ExportS3DataInput" }) as any as S.Schema<ExportS3DataInput>;
 export interface OutputConfigInput {
   S3Data: ExportS3DataInput;
 }
 export const OutputConfigInput = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ S3Data: ExportS3DataInput }),
-).annotate({
-  identifier: "OutputConfigInput",
-}) as any as S.Schema<OutputConfigInput>;
+).annotate({ identifier: "OutputConfigInput" }) as any as S.Schema<OutputConfigInput>;
 export interface ExportEarthObservationJobInput {
   Arn: string;
   ClientToken?: string;
@@ -342,9 +316,7 @@ export const TimeRangeFilterOutput = /*@__PURE__*/ S.suspend(() =>
     StartTime: T.DateFromString.pipe(T.TimestampFormat("date-time")),
     EndTime: T.DateFromString.pipe(T.TimestampFormat("date-time")),
   }),
-).annotate({
-  identifier: "TimeRangeFilterOutput",
-}) as any as S.Schema<TimeRangeFilterOutput>;
+).annotate({ identifier: "TimeRangeFilterOutput" }) as any as S.Schema<TimeRangeFilterOutput>;
 export type Position = number[];
 export const Position = /*@__PURE__*/ S.Array(S.Number);
 export type LinearRing = number[][];
@@ -356,9 +328,7 @@ export interface PolygonGeometryInput {
 }
 export const PolygonGeometryInput = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ Coordinates: LinearRings }),
-).annotate({
-  identifier: "PolygonGeometryInput",
-}) as any as S.Schema<PolygonGeometryInput>;
+).annotate({ identifier: "PolygonGeometryInput" }) as any as S.Schema<PolygonGeometryInput>;
 export type LinearRingsList = number[][][][];
 export const LinearRingsList = /*@__PURE__*/ S.Array(LinearRings);
 export interface MultiPolygonGeometryInput {
@@ -371,10 +341,7 @@ export const MultiPolygonGeometryInput = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<MultiPolygonGeometryInput>;
 export type AreaOfInterestGeometry =
   | { PolygonGeometry: PolygonGeometryInput; MultiPolygonGeometry?: never }
-  | {
-      PolygonGeometry?: never;
-      MultiPolygonGeometry: MultiPolygonGeometryInput;
-    };
+  | { PolygonGeometry?: never; MultiPolygonGeometry: MultiPolygonGeometryInput };
 export const AreaOfInterestGeometry = /*@__PURE__*/ S.Union([
   S.Struct({ PolygonGeometry: PolygonGeometryInput }),
   S.Struct({ MultiPolygonGeometry: MultiPolygonGeometryInput }),
@@ -389,36 +356,28 @@ export interface EoCloudCoverInput {
 }
 export const EoCloudCoverInput = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ LowerBound: S.Number, UpperBound: S.Number }),
-).annotate({
-  identifier: "EoCloudCoverInput",
-}) as any as S.Schema<EoCloudCoverInput>;
+).annotate({ identifier: "EoCloudCoverInput" }) as any as S.Schema<EoCloudCoverInput>;
 export interface ViewOffNadirInput {
   LowerBound: number;
   UpperBound: number;
 }
 export const ViewOffNadirInput = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ LowerBound: S.Number, UpperBound: S.Number }),
-).annotate({
-  identifier: "ViewOffNadirInput",
-}) as any as S.Schema<ViewOffNadirInput>;
+).annotate({ identifier: "ViewOffNadirInput" }) as any as S.Schema<ViewOffNadirInput>;
 export interface ViewSunAzimuthInput {
   LowerBound: number;
   UpperBound: number;
 }
 export const ViewSunAzimuthInput = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ LowerBound: S.Number, UpperBound: S.Number }),
-).annotate({
-  identifier: "ViewSunAzimuthInput",
-}) as any as S.Schema<ViewSunAzimuthInput>;
+).annotate({ identifier: "ViewSunAzimuthInput" }) as any as S.Schema<ViewSunAzimuthInput>;
 export interface ViewSunElevationInput {
   LowerBound: number;
   UpperBound: number;
 }
 export const ViewSunElevationInput = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ LowerBound: S.Number, UpperBound: S.Number }),
-).annotate({
-  identifier: "ViewSunElevationInput",
-}) as any as S.Schema<ViewSunElevationInput>;
+).annotate({ identifier: "ViewSunElevationInput" }) as any as S.Schema<ViewSunElevationInput>;
 export type ComparisonOperator = string;
 export interface PlatformInput {
   Value: string;
@@ -507,13 +466,8 @@ export interface PropertyFilters {
   LogicalOperator?: string;
 }
 export const PropertyFilters = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Properties: S.optional(PropertyFiltersList),
-    LogicalOperator: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "PropertyFilters",
-}) as any as S.Schema<PropertyFilters>;
+  S.Struct({ Properties: S.optional(PropertyFiltersList), LogicalOperator: S.optional(S.String) }),
+).annotate({ identifier: "PropertyFilters" }) as any as S.Schema<PropertyFilters>;
 export interface RasterDataCollectionQueryOutput {
   RasterDataCollectionArn: string;
   RasterDataCollectionName: string;
@@ -541,9 +495,7 @@ export const InputConfigOutput = /*@__PURE__*/ S.suspend(() =>
     PreviousEarthObservationJobArn: S.optional(S.String),
     RasterDataCollectionQuery: S.optional(RasterDataCollectionQueryOutput),
   }),
-).annotate({
-  identifier: "InputConfigOutput",
-}) as any as S.Schema<InputConfigOutput>;
+).annotate({ identifier: "InputConfigOutput" }) as any as S.Schema<InputConfigOutput>;
 export type StringListInput = string[];
 export const StringListInput = /*@__PURE__*/ S.Array(S.String);
 export type OutputType = string;
@@ -553,11 +505,7 @@ export interface Operation {
   OutputType?: string;
 }
 export const Operation = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Name: S.String,
-    Equation: S.String,
-    OutputType: S.optional(S.String),
-  }),
+  S.Struct({ Name: S.String, Equation: S.String, OutputType: S.optional(S.String) }),
 ).annotate({ identifier: "Operation" }) as any as S.Schema<Operation>;
 export type OperationsListInput = Operation[];
 export const OperationsListInput = /*@__PURE__*/ S.Array(Operation);
@@ -566,9 +514,7 @@ export interface CustomIndicesInput {
 }
 export const CustomIndicesInput = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ Operations: S.optional(OperationsListInput) }),
-).annotate({
-  identifier: "CustomIndicesInput",
-}) as any as S.Schema<CustomIndicesInput>;
+).annotate({ identifier: "CustomIndicesInput" }) as any as S.Schema<CustomIndicesInput>;
 export interface BandMathConfigInput {
   PredefinedIndices?: string[];
   CustomIndices?: CustomIndicesInput;
@@ -578,9 +524,7 @@ export const BandMathConfigInput = /*@__PURE__*/ S.suspend(() =>
     PredefinedIndices: S.optional(StringListInput),
     CustomIndices: S.optional(CustomIndicesInput),
   }),
-).annotate({
-  identifier: "BandMathConfigInput",
-}) as any as S.Schema<BandMathConfigInput>;
+).annotate({ identifier: "BandMathConfigInput" }) as any as S.Schema<BandMathConfigInput>;
 export type Unit = string;
 export interface UserDefined {
   Value: number;
@@ -609,9 +553,7 @@ export const ResamplingConfigInput = /*@__PURE__*/ S.suspend(() =>
     AlgorithmName: S.optional(S.String),
     TargetBands: S.optional(StringListInput),
   }),
-).annotate({
-  identifier: "ResamplingConfigInput",
-}) as any as S.Schema<ResamplingConfigInput>;
+).annotate({ identifier: "ResamplingConfigInput" }) as any as S.Schema<ResamplingConfigInput>;
 export type GroupBy = string;
 export type TemporalStatistics = string;
 export type TemporalStatisticsListInput = string[];
@@ -642,9 +584,7 @@ export const CloudRemovalConfigInput = /*@__PURE__*/ S.suspend(() =>
     InterpolationValue: S.optional(S.String),
     TargetBands: S.optional(StringListInput),
   }),
-).annotate({
-  identifier: "CloudRemovalConfigInput",
-}) as any as S.Schema<CloudRemovalConfigInput>;
+).annotate({ identifier: "CloudRemovalConfigInput" }) as any as S.Schema<CloudRemovalConfigInput>;
 export type ZonalStatistics = string;
 export type ZonalStatisticsListInput = string[];
 export const ZonalStatisticsListInput = /*@__PURE__*/ S.Array(S.String);
@@ -670,23 +610,15 @@ export interface GeoMosaicConfigInput {
   TargetBands?: string[];
 }
 export const GeoMosaicConfigInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    AlgorithmName: S.optional(S.String),
-    TargetBands: S.optional(StringListInput),
-  }),
-).annotate({
-  identifier: "GeoMosaicConfigInput",
-}) as any as S.Schema<GeoMosaicConfigInput>;
+  S.Struct({ AlgorithmName: S.optional(S.String), TargetBands: S.optional(StringListInput) }),
+).annotate({ identifier: "GeoMosaicConfigInput" }) as any as S.Schema<GeoMosaicConfigInput>;
 export type PredefinedResolution = string;
 export interface OutputResolutionStackInput {
   Predefined?: string;
   UserDefined?: UserDefined;
 }
 export const OutputResolutionStackInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Predefined: S.optional(S.String),
-    UserDefined: S.optional(UserDefined),
-  }),
+  S.Struct({ Predefined: S.optional(S.String), UserDefined: S.optional(UserDefined) }),
 ).annotate({
   identifier: "OutputResolutionStackInput",
 }) as any as S.Schema<OutputResolutionStackInput>;
@@ -699,9 +631,7 @@ export const StackConfigInput = /*@__PURE__*/ S.suspend(() =>
     OutputResolution: S.optional(OutputResolutionStackInput),
     TargetBands: S.optional(StringListInput),
   }),
-).annotate({
-  identifier: "StackConfigInput",
-}) as any as S.Schema<StackConfigInput>;
+).annotate({ identifier: "StackConfigInput" }) as any as S.Schema<StackConfigInput>;
 export interface CloudMaskingConfigInput {}
 export const CloudMaskingConfigInput = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
   identifier: "CloudMaskingConfigInput",
@@ -849,9 +779,7 @@ export interface ExportErrorDetailsOutput {
 }
 export const ExportErrorDetailsOutput = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ Type: S.optional(S.String), Message: S.optional(S.String) }),
-).annotate({
-  identifier: "ExportErrorDetailsOutput",
-}) as any as S.Schema<ExportErrorDetailsOutput>;
+).annotate({ identifier: "ExportErrorDetailsOutput" }) as any as S.Schema<ExportErrorDetailsOutput>;
 export interface ExportErrorDetails {
   ExportResults?: ExportErrorDetailsOutput;
   ExportSourceImages?: ExportErrorDetailsOutput;
@@ -861,9 +789,7 @@ export const ExportErrorDetails = /*@__PURE__*/ S.suspend(() =>
     ExportResults: S.optional(ExportErrorDetailsOutput),
     ExportSourceImages: S.optional(ExportErrorDetailsOutput),
   }),
-).annotate({
-  identifier: "ExportErrorDetails",
-}) as any as S.Schema<ExportErrorDetails>;
+).annotate({ identifier: "ExportErrorDetails" }) as any as S.Schema<ExportErrorDetails>;
 export type Tags = { [key: string]: string | undefined };
 export const Tags = /*@__PURE__*/ S.Record(S.String, S.String.pipe(S.optional));
 export interface GetEarthObservationJobOutput {
@@ -1019,9 +945,7 @@ export const GetVectorEnrichmentJobInput = /*@__PURE__*/ S.suspend(() =>
 export type VectorEnrichmentJobType = string;
 export type VectorEnrichmentJobStatus = string;
 export type VectorEnrichmentJobDocumentType = string;
-export type VectorEnrichmentJobDataSourceConfigInput = {
-  S3Data: VectorEnrichmentJobS3Data;
-};
+export type VectorEnrichmentJobDataSourceConfigInput = { S3Data: VectorEnrichmentJobS3Data };
 export const VectorEnrichmentJobDataSourceConfigInput = /*@__PURE__*/ S.Union([
   S.Struct({ S3Data: VectorEnrichmentJobS3Data }),
 ]);
@@ -1030,10 +954,7 @@ export interface VectorEnrichmentJobInputConfig {
   DataSourceConfig: VectorEnrichmentJobDataSourceConfigInput;
 }
 export const VectorEnrichmentJobInputConfig = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    DocumentType: S.String,
-    DataSourceConfig: VectorEnrichmentJobDataSourceConfigInput,
-  }),
+  S.Struct({ DocumentType: S.String, DataSourceConfig: VectorEnrichmentJobDataSourceConfigInput }),
 ).annotate({
   identifier: "VectorEnrichmentJobInputConfig",
 }) as any as S.Schema<VectorEnrichmentJobInputConfig>;
@@ -1043,9 +964,7 @@ export interface ReverseGeocodingConfig {
 }
 export const ReverseGeocodingConfig = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ YAttributeName: S.String, XAttributeName: S.String }),
-).annotate({
-  identifier: "ReverseGeocodingConfig",
-}) as any as S.Schema<ReverseGeocodingConfig>;
+).annotate({ identifier: "ReverseGeocodingConfig" }) as any as S.Schema<ReverseGeocodingConfig>;
 export interface MapMatchingConfig {
   IdAttributeName: string;
   YAttributeName: string;
@@ -1059,14 +978,9 @@ export const MapMatchingConfig = /*@__PURE__*/ S.suspend(() =>
     XAttributeName: S.String,
     TimestampAttributeName: S.String,
   }),
-).annotate({
-  identifier: "MapMatchingConfig",
-}) as any as S.Schema<MapMatchingConfig>;
+).annotate({ identifier: "MapMatchingConfig" }) as any as S.Schema<MapMatchingConfig>;
 export type VectorEnrichmentJobConfig =
-  | {
-      ReverseGeocodingConfig: ReverseGeocodingConfig;
-      MapMatchingConfig?: never;
-    }
+  | { ReverseGeocodingConfig: ReverseGeocodingConfig; MapMatchingConfig?: never }
   | { ReverseGeocodingConfig?: never; MapMatchingConfig: MapMatchingConfig };
 export const VectorEnrichmentJobConfig = /*@__PURE__*/ S.Union([
   S.Struct({ ReverseGeocodingConfig: ReverseGeocodingConfig }),
@@ -1078,10 +992,7 @@ export interface VectorEnrichmentJobErrorDetails {
   ErrorMessage?: string;
 }
 export const VectorEnrichmentJobErrorDetails = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ErrorType: S.optional(S.String),
-    ErrorMessage: S.optional(S.String),
-  }),
+  S.Struct({ ErrorType: S.optional(S.String), ErrorMessage: S.optional(S.String) }),
 ).annotate({
   identifier: "VectorEnrichmentJobErrorDetails",
 }) as any as S.Schema<VectorEnrichmentJobErrorDetails>;
@@ -1337,9 +1248,7 @@ export const TimeRangeFilterInput = /*@__PURE__*/ S.suspend(() =>
     StartTime: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
     EndTime: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
   }),
-).annotate({
-  identifier: "TimeRangeFilterInput",
-}) as any as S.Schema<TimeRangeFilterInput>;
+).annotate({ identifier: "TimeRangeFilterInput" }) as any as S.Schema<TimeRangeFilterInput>;
 export interface RasterDataCollectionQueryWithBandFilterInput {
   TimeRangeFilter: TimeRangeFilterInput;
   AreaOfInterest?: AreaOfInterest;
@@ -1469,9 +1378,7 @@ export const InputConfigInput = /*@__PURE__*/ S.suspend(() =>
     PreviousEarthObservationJobArn: S.optional(S.String),
     RasterDataCollectionQuery: S.optional(RasterDataCollectionQueryInput),
   }),
-).annotate({
-  identifier: "InputConfigInput",
-}) as any as S.Schema<InputConfigInput>;
+).annotate({ identifier: "InputConfigInput" }) as any as S.Schema<InputConfigInput>;
 export interface StartEarthObservationJobInput {
   Name: string;
   ClientToken?: string;
@@ -1625,15 +1532,10 @@ export interface TagResourceRequest {
   Tags: { [key: string]: string | undefined };
 }
 export const TagResourceRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ResourceArn: S.String.pipe(T.HttpLabel("ResourceArn")),
-    Tags: Tags,
-  }).pipe(
+  S.Struct({ ResourceArn: S.String.pipe(T.HttpLabel("ResourceArn")), Tags: Tags }).pipe(
     T.all(T.Http({ method: "PUT", uri: "/tags/{ResourceArn}" }), svc, auth, proto, ver, rules),
   ),
-).annotate({
-  identifier: "TagResourceRequest",
-}) as any as S.Schema<TagResourceRequest>;
+).annotate({ identifier: "TagResourceRequest" }) as any as S.Schema<TagResourceRequest>;
 export interface TagResourceResponse {}
 export const TagResourceResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
   identifier: "TagResourceResponse",
@@ -1651,9 +1553,7 @@ export const UntagResourceRequest = /*@__PURE__*/ S.suspend(() =>
   }).pipe(
     T.all(T.Http({ method: "DELETE", uri: "/tags/{ResourceArn}" }), svc, auth, proto, ver, rules),
   ),
-).annotate({
-  identifier: "UntagResourceRequest",
-}) as any as S.Schema<UntagResourceRequest>;
+).annotate({ identifier: "UntagResourceRequest" }) as any as S.Schema<UntagResourceRequest>;
 export interface UntagResourceResponse {}
 export const UntagResourceResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
   identifier: "UntagResourceResponse",

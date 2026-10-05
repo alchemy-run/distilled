@@ -7,10 +7,7 @@ import type { CommonErrors } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
 import { Retry } from "../retry.ts";
 import * as T from "../traits.ts";
-const svc = T.AwsApiService({
-  sdkId: "ControlCatalog",
-  serviceShapeName: "ControlCatalog",
-});
+const svc = T.AwsApiService({ sdkId: "ControlCatalog", serviceShapeName: "ControlCatalog" });
 const auth = T.AwsAuthSigv4({ name: "controlcatalog" });
 const ver = T.ServiceVersion("2018-05-10");
 const proto = T.AwsProtocolsRestJson1();
@@ -111,9 +108,7 @@ export const GetControlRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ ControlArn: S.String }).pipe(
     T.all(T.Http({ method: "POST", uri: "/get-control" }), svc, auth, proto, ver, rules),
   ),
-).annotate({
-  identifier: "GetControlRequest",
-}) as any as S.Schema<GetControlRequest>;
+).annotate({ identifier: "GetControlRequest" }) as any as S.Schema<GetControlRequest>;
 export type ControlAlias = string;
 export type ControlAliases = string[];
 export const ControlAliases = /*@__PURE__*/ S.Array(S.String);
@@ -134,13 +129,8 @@ export interface RegionConfiguration {
   DeployableRegions?: string[];
 }
 export const RegionConfiguration = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Scope: ControlScope,
-    DeployableRegions: S.optional(DeployableRegions),
-  }),
-).annotate({
-  identifier: "RegionConfiguration",
-}) as any as S.Schema<RegionConfiguration>;
+  S.Struct({ Scope: ControlScope, DeployableRegions: S.optional(DeployableRegions) }),
+).annotate({ identifier: "RegionConfiguration" }) as any as S.Schema<RegionConfiguration>;
 export type ImplementationType = string;
 export type ImplementationIdentifier = string;
 export interface ImplementationDetails {
@@ -149,9 +139,7 @@ export interface ImplementationDetails {
 }
 export const ImplementationDetails = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ Type: S.String, Identifier: S.optional(S.String) }),
-).annotate({
-  identifier: "ImplementationDetails",
-}) as any as S.Schema<ImplementationDetails>;
+).annotate({ identifier: "ImplementationDetails" }) as any as S.Schema<ImplementationDetails>;
 export type ParameterRequirementSummary = "REQUIRED" | "OPTIONAL" | "NONE" | (string & {});
 export const ParameterRequirementSummary = S.String;
 
@@ -163,13 +151,8 @@ export interface ControlParameter {
   Requirement?: ControlParameterRequirement;
 }
 export const ControlParameter = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Name: S.String,
-    Requirement: S.optional(ControlParameterRequirement),
-  }),
-).annotate({
-  identifier: "ControlParameter",
-}) as any as S.Schema<ControlParameter>;
+  S.Struct({ Name: S.String, Requirement: S.optional(ControlParameterRequirement) }),
+).annotate({ identifier: "ControlParameter" }) as any as S.Schema<ControlParameter>;
 export type ControlParameters = ControlParameter[];
 export const ControlParameters = /*@__PURE__*/ S.Array(ControlParameter);
 export type GovernedResource = string;
@@ -209,9 +192,7 @@ export const GetControlResponse = /*@__PURE__*/ S.suspend(() =>
     GovernedResources: S.optional(GovernedResources),
     GovernedProviders: S.optional(GovernedProviders),
   }),
-).annotate({
-  identifier: "GetControlResponse",
-}) as any as S.Schema<GetControlResponse>;
+).annotate({ identifier: "GetControlResponse" }) as any as S.Schema<GetControlResponse>;
 export type MaxListCommonControlsResults = number;
 export type PaginationToken = string;
 export type ObjectiveArn = string;
@@ -220,9 +201,7 @@ export interface ObjectiveResourceFilter {
 }
 export const ObjectiveResourceFilter = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ Arn: S.optional(S.String) }),
-).annotate({
-  identifier: "ObjectiveResourceFilter",
-}) as any as S.Schema<ObjectiveResourceFilter>;
+).annotate({ identifier: "ObjectiveResourceFilter" }) as any as S.Schema<ObjectiveResourceFilter>;
 export type ObjectiveResourceFilterList = ObjectiveResourceFilter[];
 export const ObjectiveResourceFilterList = /*@__PURE__*/ S.Array(ObjectiveResourceFilter);
 export interface CommonControlFilter {
@@ -230,9 +209,7 @@ export interface CommonControlFilter {
 }
 export const CommonControlFilter = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ Objectives: S.optional(ObjectiveResourceFilterList) }),
-).annotate({
-  identifier: "CommonControlFilter",
-}) as any as S.Schema<CommonControlFilter>;
+).annotate({ identifier: "CommonControlFilter" }) as any as S.Schema<CommonControlFilter>;
 export interface ListCommonControlsRequest {
   MaxResults?: number;
   NextToken?: string;
@@ -255,9 +232,7 @@ export interface AssociatedDomainSummary {
 }
 export const AssociatedDomainSummary = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ Arn: S.optional(S.String), Name: S.optional(S.String) }),
-).annotate({
-  identifier: "AssociatedDomainSummary",
-}) as any as S.Schema<AssociatedDomainSummary>;
+).annotate({ identifier: "AssociatedDomainSummary" }) as any as S.Schema<AssociatedDomainSummary>;
 export interface AssociatedObjectiveSummary {
   Arn?: string;
   Name?: string;
@@ -286,9 +261,7 @@ export const CommonControlSummary = /*@__PURE__*/ S.suspend(() =>
     CreateTime: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
     LastUpdateTime: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
   }),
-).annotate({
-  identifier: "CommonControlSummary",
-}) as any as S.Schema<CommonControlSummary>;
+).annotate({ identifier: "CommonControlSummary" }) as any as S.Schema<CommonControlSummary>;
 export type CommonControlSummaryList = CommonControlSummary[];
 export const CommonControlSummaryList = /*@__PURE__*/ S.Array(CommonControlSummary);
 export interface ListCommonControlsResponse {
@@ -296,10 +269,7 @@ export interface ListCommonControlsResponse {
   NextToken?: string;
 }
 export const ListCommonControlsResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    CommonControls: CommonControlSummaryList,
-    NextToken: S.optional(S.String),
-  }),
+  S.Struct({ CommonControls: CommonControlSummaryList, NextToken: S.optional(S.String) }),
 ).annotate({
   identifier: "ListCommonControlsResponse",
 }) as any as S.Schema<ListCommonControlsResponse>;
@@ -324,9 +294,7 @@ export const ControlMappingFilter = /*@__PURE__*/ S.suspend(() =>
     CommonControlArns: S.optional(CommonControlArnFilterList),
     MappingTypes: S.optional(MappingTypeFilterList),
   }),
-).annotate({
-  identifier: "ControlMappingFilter",
-}) as any as S.Schema<ControlMappingFilter>;
+).annotate({ identifier: "ControlMappingFilter" }) as any as S.Schema<ControlMappingFilter>;
 export interface ListControlMappingsRequest {
   NextToken?: string;
   MaxResults?: number;
@@ -351,9 +319,7 @@ export interface FrameworkMappingDetails {
 }
 export const FrameworkMappingDetails = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ Name: S.String, Item: S.String }),
-).annotate({
-  identifier: "FrameworkMappingDetails",
-}) as any as S.Schema<FrameworkMappingDetails>;
+).annotate({ identifier: "FrameworkMappingDetails" }) as any as S.Schema<FrameworkMappingDetails>;
 export interface CommonControlMappingDetails {
   CommonControlArn: string;
 }
@@ -374,29 +340,14 @@ export interface RelatedControlMappingDetails {
   RelationType: ControlRelationType;
 }
 export const RelatedControlMappingDetails = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ControlArn: S.optional(S.String),
-    RelationType: ControlRelationType,
-  }),
+  S.Struct({ ControlArn: S.optional(S.String), RelationType: ControlRelationType }),
 ).annotate({
   identifier: "RelatedControlMappingDetails",
 }) as any as S.Schema<RelatedControlMappingDetails>;
 export type Mapping =
-  | {
-      Framework: FrameworkMappingDetails;
-      CommonControl?: never;
-      RelatedControl?: never;
-    }
-  | {
-      Framework?: never;
-      CommonControl: CommonControlMappingDetails;
-      RelatedControl?: never;
-    }
-  | {
-      Framework?: never;
-      CommonControl?: never;
-      RelatedControl: RelatedControlMappingDetails;
-    };
+  | { Framework: FrameworkMappingDetails; CommonControl?: never; RelatedControl?: never }
+  | { Framework?: never; CommonControl: CommonControlMappingDetails; RelatedControl?: never }
+  | { Framework?: never; CommonControl?: never; RelatedControl: RelatedControlMappingDetails };
 export const Mapping = /*@__PURE__*/ S.Union([
   S.Struct({ Framework: FrameworkMappingDetails }),
   S.Struct({ CommonControl: CommonControlMappingDetails }),
@@ -408,11 +359,7 @@ export interface ControlMapping {
   Mapping: Mapping;
 }
 export const ControlMapping = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ControlArn: S.String,
-    MappingType: MappingType,
-    Mapping: Mapping,
-  }),
+  S.Struct({ ControlArn: S.String, MappingType: MappingType, Mapping: Mapping }),
 ).annotate({ identifier: "ControlMapping" }) as any as S.Schema<ControlMapping>;
 export type ControlMappings = ControlMapping[];
 export const ControlMappings = /*@__PURE__*/ S.Array(ControlMapping);
@@ -421,10 +368,7 @@ export interface ListControlMappingsResponse {
   NextToken?: string;
 }
 export const ListControlMappingsResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ControlMappings: ControlMappings,
-    NextToken: S.optional(S.String),
-  }),
+  S.Struct({ ControlMappings: ControlMappings, NextToken: S.optional(S.String) }),
 ).annotate({
   identifier: "ListControlMappingsResponse",
 }) as any as S.Schema<ListControlMappingsResponse>;
@@ -442,9 +386,7 @@ export const ImplementationFilter = /*@__PURE__*/ S.suspend(() =>
     Types: S.optional(ImplementationTypeFilterList),
     Identifiers: S.optional(ImplementationIdentifierFilterList),
   }),
-).annotate({
-  identifier: "ImplementationFilter",
-}) as any as S.Schema<ImplementationFilter>;
+).annotate({ identifier: "ImplementationFilter" }) as any as S.Schema<ImplementationFilter>;
 export type GovernedProviderFilterList = string[];
 export const GovernedProviderFilterList = /*@__PURE__*/ S.Array(S.String);
 export interface ControlFilter {
@@ -468,18 +410,14 @@ export const ListControlsRequest = /*@__PURE__*/ S.suspend(() =>
     MaxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
     Filter: S.optional(ControlFilter),
   }).pipe(T.all(T.Http({ method: "POST", uri: "/list-controls" }), svc, auth, proto, ver, rules)),
-).annotate({
-  identifier: "ListControlsRequest",
-}) as any as S.Schema<ListControlsRequest>;
+).annotate({ identifier: "ListControlsRequest" }) as any as S.Schema<ListControlsRequest>;
 export interface ImplementationSummary {
   Type: string;
   Identifier?: string;
 }
 export const ImplementationSummary = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ Type: S.String, Identifier: S.optional(S.String) }),
-).annotate({
-  identifier: "ImplementationSummary",
-}) as any as S.Schema<ImplementationSummary>;
+).annotate({ identifier: "ImplementationSummary" }) as any as S.Schema<ImplementationSummary>;
 export interface ControlSummary {
   Arn: string;
   Aliases?: string[];
@@ -516,9 +454,7 @@ export interface ListControlsResponse {
 }
 export const ListControlsResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ Controls: Controls, NextToken: S.optional(S.String) }),
-).annotate({
-  identifier: "ListControlsResponse",
-}) as any as S.Schema<ListControlsResponse>;
+).annotate({ identifier: "ListControlsResponse" }) as any as S.Schema<ListControlsResponse>;
 export type MaxListDomainsResults = number;
 export interface ListDomainsRequest {
   MaxResults?: number;
@@ -529,9 +465,7 @@ export const ListDomainsRequest = /*@__PURE__*/ S.suspend(() =>
     MaxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
     NextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
   }).pipe(T.all(T.Http({ method: "POST", uri: "/domains" }), svc, auth, proto, ver, rules)),
-).annotate({
-  identifier: "ListDomainsRequest",
-}) as any as S.Schema<ListDomainsRequest>;
+).annotate({ identifier: "ListDomainsRequest" }) as any as S.Schema<ListDomainsRequest>;
 export interface DomainSummary {
   Arn: string;
   Name: string;
@@ -556,18 +490,14 @@ export interface ListDomainsResponse {
 }
 export const ListDomainsResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ Domains: DomainSummaryList, NextToken: S.optional(S.String) }),
-).annotate({
-  identifier: "ListDomainsResponse",
-}) as any as S.Schema<ListDomainsResponse>;
+).annotate({ identifier: "ListDomainsResponse" }) as any as S.Schema<ListDomainsResponse>;
 export type MaxListObjectivesResults = number;
 export interface DomainResourceFilter {
   Arn?: string;
 }
 export const DomainResourceFilter = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ Arn: S.optional(S.String) }),
-).annotate({
-  identifier: "DomainResourceFilter",
-}) as any as S.Schema<DomainResourceFilter>;
+).annotate({ identifier: "DomainResourceFilter" }) as any as S.Schema<DomainResourceFilter>;
 export type DomainResourceFilterList = DomainResourceFilter[];
 export const DomainResourceFilterList = /*@__PURE__*/ S.Array(DomainResourceFilter);
 export interface ObjectiveFilter {
@@ -575,9 +505,7 @@ export interface ObjectiveFilter {
 }
 export const ObjectiveFilter = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ Domains: S.optional(DomainResourceFilterList) }),
-).annotate({
-  identifier: "ObjectiveFilter",
-}) as any as S.Schema<ObjectiveFilter>;
+).annotate({ identifier: "ObjectiveFilter" }) as any as S.Schema<ObjectiveFilter>;
 export interface ListObjectivesRequest {
   MaxResults?: number;
   NextToken?: string;
@@ -589,9 +517,7 @@ export const ListObjectivesRequest = /*@__PURE__*/ S.suspend(() =>
     NextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
     ObjectiveFilter: S.optional(ObjectiveFilter),
   }).pipe(T.all(T.Http({ method: "POST", uri: "/objectives" }), svc, auth, proto, ver, rules)),
-).annotate({
-  identifier: "ListObjectivesRequest",
-}) as any as S.Schema<ListObjectivesRequest>;
+).annotate({ identifier: "ListObjectivesRequest" }) as any as S.Schema<ListObjectivesRequest>;
 export interface ObjectiveSummary {
   Arn: string;
   Name: string;
@@ -609,9 +535,7 @@ export const ObjectiveSummary = /*@__PURE__*/ S.suspend(() =>
     CreateTime: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
     LastUpdateTime: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
   }),
-).annotate({
-  identifier: "ObjectiveSummary",
-}) as any as S.Schema<ObjectiveSummary>;
+).annotate({ identifier: "ObjectiveSummary" }) as any as S.Schema<ObjectiveSummary>;
 export type ObjectiveSummaryList = ObjectiveSummary[];
 export const ObjectiveSummaryList = /*@__PURE__*/ S.Array(ObjectiveSummary);
 export interface ListObjectivesResponse {
@@ -619,13 +543,8 @@ export interface ListObjectivesResponse {
   NextToken?: string;
 }
 export const ListObjectivesResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Objectives: ObjectiveSummaryList,
-    NextToken: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "ListObjectivesResponse",
-}) as any as S.Schema<ListObjectivesResponse>;
+  S.Struct({ Objectives: ObjectiveSummaryList, NextToken: S.optional(S.String) }),
+).annotate({ identifier: "ListObjectivesResponse" }) as any as S.Schema<ListObjectivesResponse>;
 export type GetControlError =
   | AccessDeniedException
   | InternalServerException

@@ -7,10 +7,7 @@ import type { CommonErrors } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
 import { Retry } from "../retry.ts";
 import * as T from "../traits.ts";
-const svc = T.AwsApiService({
-  sdkId: "MediaPackageV2",
-  serviceShapeName: "mediapackagev2",
-});
+const svc = T.AwsApiService({ sdkId: "MediaPackageV2", serviceShapeName: "mediapackagev2" });
 const auth = T.AwsAuthSigv4({ name: "mediapackagev2" });
 const ver = T.ServiceVersion("2022-12-25");
 const proto = T.AwsProtocolsRestJson1();
@@ -85,9 +82,7 @@ export class ConflictException
     {
       message: S.optional(S.String).pipe(T.ErrorMessage()),
       ConflictExceptionType: S.optional(
-        S.suspend(() => ConflictExceptionType).annotate({
-          identifier: "ConflictExceptionType",
-        }),
+        S.suspend(() => ConflictExceptionType).annotate({ identifier: "ConflictExceptionType" }),
       ),
     },
     T.HttpError(409),
@@ -104,9 +99,7 @@ export class ResourceNotFoundException
     {
       message: S.optional(S.String).pipe(T.ErrorMessage()),
       ResourceTypeNotFound: S.optional(
-        S.suspend(() => ResourceTypeNotFound).annotate({
-          identifier: "ResourceTypeNotFound",
-        }),
+        S.suspend(() => ResourceTypeNotFound).annotate({ identifier: "ResourceTypeNotFound" }),
       ),
     },
     T.HttpError(404),
@@ -127,9 +120,7 @@ export class ValidationException
   extends /*@__PURE__*/ S.TaggedError<ValidationException>()("ValidationException", {
     message: S.optional(S.String).pipe(T.ErrorMessage()),
     ValidationExceptionType: S.optional(
-      S.suspend(() => ValidationExceptionType).annotate({
-        identifier: "ValidationExceptionType",
-      }),
+      S.suspend(() => ValidationExceptionType).annotate({ identifier: "ValidationExceptionType" }),
     ),
   }) {}
 export type ResourceName = string;
@@ -161,15 +152,13 @@ export const CancelHarvestJobRequest = /*@__PURE__*/ S.suspend(() =>
       rules,
     ),
   ),
-).annotate({
-  identifier: "CancelHarvestJobRequest",
-}) as any as S.Schema<CancelHarvestJobRequest>;
+).annotate({ identifier: "CancelHarvestJobRequest" }) as any as S.Schema<CancelHarvestJobRequest>;
 export interface CancelHarvestJobResponse {}
 export const CancelHarvestJobResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
   identifier: "CancelHarvestJobResponse",
 }) as any as S.Schema<CancelHarvestJobResponse>;
 export type IdempotencyToken = string;
-export type InputType = "HLS" | "CMAF" | (string & {});
+export type InputType = "HLS" | "CMAF" | "MULTIVIEW" | (string & {});
 export const InputType = S.String;
 
 export type ResourceDescription = string;
@@ -178,13 +167,8 @@ export interface InputSwitchConfiguration {
   PreferredInput?: number;
 }
 export const InputSwitchConfiguration = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    MQCSInputSwitching: S.optional(S.Boolean),
-    PreferredInput: S.optional(S.Number),
-  }),
-).annotate({
-  identifier: "InputSwitchConfiguration",
-}) as any as S.Schema<InputSwitchConfiguration>;
+  S.Struct({ MQCSInputSwitching: S.optional(S.Boolean), PreferredInput: S.optional(S.Number) }),
+).annotate({ identifier: "InputSwitchConfiguration" }) as any as S.Schema<InputSwitchConfiguration>;
 export interface OutputHeaderConfiguration {
   PublishMQCS?: boolean;
 }
@@ -193,6 +177,27 @@ export const OutputHeaderConfiguration = /*@__PURE__*/ S.suspend(() =>
 ).annotate({
   identifier: "OutputHeaderConfiguration",
 }) as any as S.Schema<OutputHeaderConfiguration>;
+export type MultiviewSourceList = string[];
+export const MultiviewSourceList = /*@__PURE__*/ S.Array(S.String);
+export type MultiviewLayoutType =
+  | "LAYOUT_2EH"
+  | "LAYOUT_2PL"
+  | "LAYOUT_3EL"
+  | "LAYOUT_3PL"
+  | "LAYOUT_4E"
+  | "LAYOUT_4PL"
+  | (string & {});
+export const MultiviewLayoutType = S.String;
+
+export type MultiviewLayoutList = MultiviewLayoutType[];
+export const MultiviewLayoutList = /*@__PURE__*/ S.Array(MultiviewLayoutType);
+export interface MultiviewConfiguration {
+  AvailableSources: string[];
+  AvailableLayouts: MultiviewLayoutType[];
+}
+export const MultiviewConfiguration = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({ AvailableSources: MultiviewSourceList, AvailableLayouts: MultiviewLayoutList }),
+).annotate({ identifier: "MultiviewConfiguration" }) as any as S.Schema<MultiviewConfiguration>;
 export type OutputLockingMode = "EPOCH_LOCKED" | "NON_EPOCH_LOCKED" | (string & {});
 export const OutputLockingMode = S.String;
 
@@ -208,6 +213,7 @@ export interface CreateChannelRequest {
   Description?: string;
   InputSwitchConfiguration?: InputSwitchConfiguration;
   OutputHeaderConfiguration?: OutputHeaderConfiguration;
+  MultiviewConfiguration?: MultiviewConfiguration;
   OutputLockingMode?: OutputLockingMode;
   Tags?: { [key: string]: string | undefined };
 }
@@ -223,16 +229,14 @@ export const CreateChannelRequest = /*@__PURE__*/ S.suspend(() =>
     Description: S.optional(S.String),
     InputSwitchConfiguration: S.optional(InputSwitchConfiguration),
     OutputHeaderConfiguration: S.optional(OutputHeaderConfiguration),
+    MultiviewConfiguration: S.optional(MultiviewConfiguration),
     OutputLockingMode: S.optional(OutputLockingMode),
     Tags: S.optional(TagMap),
   })
     .pipe(S.encodeKeys({ Tags: "tags" }))
     .pipe(
       T.all(
-        T.Http({
-          method: "POST",
-          uri: "/channelGroup/{ChannelGroupName}/channel",
-        }),
+        T.Http({ method: "POST", uri: "/channelGroup/{ChannelGroupName}/channel" }),
         svc,
         auth,
         proto,
@@ -240,9 +244,9 @@ export const CreateChannelRequest = /*@__PURE__*/ S.suspend(() =>
         rules,
       ),
     ),
-).annotate({
-  identifier: "CreateChannelRequest",
-}) as any as S.Schema<CreateChannelRequest>;
+).annotate({ identifier: "CreateChannelRequest" }) as any as S.Schema<CreateChannelRequest>;
+export type AttachedMultiviewChannelList = string[];
+export const AttachedMultiviewChannelList = /*@__PURE__*/ S.Array(S.String);
 export interface IngestEndpoint {
   Id?: string;
   Url?: string;
@@ -253,6 +257,8 @@ export const IngestEndpoint = /*@__PURE__*/ S.suspend(() =>
 export type IngestEndpointList = IngestEndpoint[];
 export const IngestEndpointList = /*@__PURE__*/ S.Array(IngestEndpoint);
 export interface CreateChannelResponse {
+  MultiviewConfiguration?: MultiviewConfiguration;
+  AttachedMultiviewChannels?: string[];
   Arn: string;
   ChannelName: string;
   ChannelGroupName: string;
@@ -269,6 +275,8 @@ export interface CreateChannelResponse {
 }
 export const CreateChannelResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
+    MultiviewConfiguration: S.optional(MultiviewConfiguration),
+    AttachedMultiviewChannels: S.optional(AttachedMultiviewChannelList),
     Arn: S.String,
     ChannelName: S.String,
     ChannelGroupName: S.String,
@@ -283,9 +291,7 @@ export const CreateChannelResponse = /*@__PURE__*/ S.suspend(() =>
     OutputHeaderConfiguration: S.optional(OutputHeaderConfiguration),
     OutputLockingMode: S.optional(OutputLockingMode),
   }),
-).annotate({
-  identifier: "CreateChannelResponse",
-}) as any as S.Schema<CreateChannelResponse>;
+).annotate({ identifier: "CreateChannelResponse" }) as any as S.Schema<CreateChannelResponse>;
 export interface CreateChannelGroupRequest {
   ChannelGroupName: string;
   ClientToken?: string;
@@ -336,9 +342,7 @@ export interface HarvestedHlsManifest {
 }
 export const HarvestedHlsManifest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ ManifestName: S.String }),
-).annotate({
-  identifier: "HarvestedHlsManifest",
-}) as any as S.Schema<HarvestedHlsManifest>;
+).annotate({ identifier: "HarvestedHlsManifest" }) as any as S.Schema<HarvestedHlsManifest>;
 export type HarvestedHlsManifestsList = HarvestedHlsManifest[];
 export const HarvestedHlsManifestsList = /*@__PURE__*/ S.Array(HarvestedHlsManifest);
 export interface HarvestedDashManifest {
@@ -346,9 +350,7 @@ export interface HarvestedDashManifest {
 }
 export const HarvestedDashManifest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ ManifestName: S.String }),
-).annotate({
-  identifier: "HarvestedDashManifest",
-}) as any as S.Schema<HarvestedDashManifest>;
+).annotate({ identifier: "HarvestedDashManifest" }) as any as S.Schema<HarvestedDashManifest>;
 export type HarvestedDashManifestsList = HarvestedDashManifest[];
 export const HarvestedDashManifestsList = /*@__PURE__*/ S.Array(HarvestedDashManifest);
 export interface HarvestedLowLatencyHlsManifest {
@@ -374,9 +376,7 @@ export const HarvestedManifests = /*@__PURE__*/ S.suspend(() =>
     DashManifests: S.optional(HarvestedDashManifestsList),
     LowLatencyHlsManifests: S.optional(HarvestedLowLatencyHlsManifestsList),
   }),
-).annotate({
-  identifier: "HarvestedManifests",
-}) as any as S.Schema<HarvestedManifests>;
+).annotate({ identifier: "HarvestedManifests" }) as any as S.Schema<HarvestedManifests>;
 export interface HarvesterScheduleConfiguration {
   StartTime: Date;
   EndTime: Date;
@@ -397,9 +397,7 @@ export interface S3DestinationConfig {
 }
 export const S3DestinationConfig = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ BucketName: S.String, DestinationPath: S.String }),
-).annotate({
-  identifier: "S3DestinationConfig",
-}) as any as S.Schema<S3DestinationConfig>;
+).annotate({ identifier: "S3DestinationConfig" }) as any as S.Schema<S3DestinationConfig>;
 export interface Destination {
   S3Destination: S3DestinationConfig;
 }
@@ -446,9 +444,7 @@ export const CreateHarvestJobRequest = /*@__PURE__*/ S.suspend(() =>
       rules,
     ),
   ),
-).annotate({
-  identifier: "CreateHarvestJobRequest",
-}) as any as S.Schema<CreateHarvestJobRequest>;
+).annotate({ identifier: "CreateHarvestJobRequest" }) as any as S.Schema<CreateHarvestJobRequest>;
 export type HarvestJobStatus =
   | "QUEUED"
   | "IN_PROGRESS"
@@ -493,9 +489,7 @@ export const CreateHarvestJobResponse = /*@__PURE__*/ S.suspend(() =>
     ETag: S.optional(S.String),
     Tags: S.optional(TagMap),
   }),
-).annotate({
-  identifier: "CreateHarvestJobResponse",
-}) as any as S.Schema<CreateHarvestJobResponse>;
+).annotate({ identifier: "CreateHarvestJobResponse" }) as any as S.Schema<CreateHarvestJobResponse>;
 export type ContainerType = "TS" | "CMAF" | "ISM" | (string & {});
 export const ContainerType = S.String;
 
@@ -570,9 +564,7 @@ export const EncryptionMethod = /*@__PURE__*/ S.suspend(() =>
     CmafEncryptionMethod: S.optional(CmafEncryptionMethod),
     IsmEncryptionMethod: S.optional(IsmEncryptionMethod),
   }),
-).annotate({
-  identifier: "EncryptionMethod",
-}) as any as S.Schema<EncryptionMethod>;
+).annotate({ identifier: "EncryptionMethod" }) as any as S.Schema<EncryptionMethod>;
 export type PresetSpeke20Audio =
   | "PRESET_AUDIO_1"
   | "PRESET_AUDIO_2"
@@ -601,10 +593,7 @@ export interface EncryptionContractConfiguration {
   PresetSpeke20Video: PresetSpeke20Video;
 }
 export const EncryptionContractConfiguration = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    PresetSpeke20Audio: PresetSpeke20Audio,
-    PresetSpeke20Video: PresetSpeke20Video,
-  }),
+  S.Struct({ PresetSpeke20Audio: PresetSpeke20Audio, PresetSpeke20Video: PresetSpeke20Video }),
 ).annotate({
   identifier: "EncryptionContractConfiguration",
 }) as any as S.Schema<EncryptionContractConfiguration>;
@@ -619,6 +608,24 @@ export const DrmSystem = S.String;
 
 export type DrmSystems = DrmSystem[];
 export const DrmSystems = /*@__PURE__*/ S.Array(DrmSystem);
+export type SpekeVersion = "V2_0" | "V2_1" | (string & {});
+export const SpekeVersion = S.String;
+
+export type ContentKeyPeriodTiming =
+  | "INDEX_ONLY"
+  | "START_END_ONLY"
+  | "INDEX_WITH_START_END"
+  | (string & {});
+export const ContentKeyPeriodTiming = S.String;
+
+export interface ContentKeyPeriodConfiguration {
+  ContentKeyPeriodTiming?: ContentKeyPeriodTiming;
+}
+export const ContentKeyPeriodConfiguration = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({ ContentKeyPeriodTiming: S.optional(ContentKeyPeriodTiming) }),
+).annotate({
+  identifier: "ContentKeyPeriodConfiguration",
+}) as any as S.Schema<ContentKeyPeriodConfiguration>;
 export interface SpekeKeyProvider {
   EncryptionContractConfiguration: EncryptionContractConfiguration;
   ResourceId: string;
@@ -626,6 +633,8 @@ export interface SpekeKeyProvider {
   RoleArn: string;
   Url: string;
   CertificateArn?: string;
+  SpekeVersion?: SpekeVersion;
+  ContentKeyPeriodConfiguration?: ContentKeyPeriodConfiguration;
 }
 export const SpekeKeyProvider = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -635,10 +644,10 @@ export const SpekeKeyProvider = /*@__PURE__*/ S.suspend(() =>
     RoleArn: S.String,
     Url: S.String,
     CertificateArn: S.optional(S.String),
+    SpekeVersion: S.optional(SpekeVersion),
+    ContentKeyPeriodConfiguration: S.optional(ContentKeyPeriodConfiguration),
   }),
-).annotate({
-  identifier: "SpekeKeyProvider",
-}) as any as S.Schema<SpekeKeyProvider>;
+).annotate({ identifier: "SpekeKeyProvider" }) as any as S.Schema<SpekeKeyProvider>;
 export interface Encryption {
   ConstantInitializationVector?: string;
   EncryptionMethod: EncryptionMethod;
@@ -692,10 +701,7 @@ export interface ScteHls {
   ScteInManifests?: ScteInManifests;
 }
 export const ScteHls = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    AdMarkerHls: S.optional(AdMarkerHls),
-    ScteInManifests: S.optional(ScteInManifests),
-  }),
+  S.Struct({ AdMarkerHls: S.optional(AdMarkerHls), ScteInManifests: S.optional(ScteInManifests) }),
 ).annotate({ identifier: "ScteHls" }) as any as S.Schema<ScteHls>;
 export interface StartTag {
   TimeOffset: number;
@@ -704,6 +710,15 @@ export interface StartTag {
 export const StartTag = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ TimeOffset: S.Number, Precise: S.optional(S.Boolean) }),
 ).annotate({ identifier: "StartTag" }) as any as S.Schema<StartTag>;
+export interface MultiviewFilterConfiguration {
+  Layout: MultiviewLayoutType;
+  Sources: string[];
+}
+export const MultiviewFilterConfiguration = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({ Layout: MultiviewLayoutType, Sources: MultiviewSourceList }),
+).annotate({
+  identifier: "MultiviewFilterConfiguration",
+}) as any as S.Schema<MultiviewFilterConfiguration>;
 export interface FilterConfiguration {
   ManifestFilter?: string;
   DrmSettings?: string;
@@ -711,6 +726,7 @@ export interface FilterConfiguration {
   End?: Date;
   TimeDelaySeconds?: number;
   ClipStartTime?: Date;
+  Multiview?: MultiviewFilterConfiguration;
 }
 export const FilterConfiguration = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -720,10 +736,9 @@ export const FilterConfiguration = /*@__PURE__*/ S.suspend(() =>
     End: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     TimeDelaySeconds: S.optional(S.Number),
     ClipStartTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    Multiview: S.optional(MultiviewFilterConfiguration),
   }),
-).annotate({
-  identifier: "FilterConfiguration",
-}) as any as S.Schema<FilterConfiguration>;
+).annotate({ identifier: "FilterConfiguration" }) as any as S.Schema<FilterConfiguration>;
 export type UriPathType = "LEAF" | "ROOT" | (string & {});
 export const UriPathType = S.String;
 
@@ -828,10 +843,7 @@ export interface DashUtcTiming {
   TimingSource?: string;
 }
 export const DashUtcTiming = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    TimingMode: S.optional(DashUtcTimingMode),
-    TimingSource: S.optional(S.String),
-  }),
+  S.Struct({ TimingMode: S.optional(DashUtcTimingMode), TimingSource: S.optional(S.String) }),
 ).annotate({ identifier: "DashUtcTiming" }) as any as S.Schema<DashUtcTiming>;
 export type DashProfile = "DVB_DASH" | (string & {});
 export const DashProfile = S.String;
@@ -869,9 +881,7 @@ export const DashProgramInformation = /*@__PURE__*/ S.suspend(() =>
     LanguageCode: S.optional(S.String),
     MoreInformationUrl: S.optional(S.String),
   }),
-).annotate({
-  identifier: "DashProgramInformation",
-}) as any as S.Schema<DashProgramInformation>;
+).annotate({ identifier: "DashProgramInformation" }) as any as S.Schema<DashProgramInformation>;
 export interface DashDvbFontDownload {
   Url?: string;
   MimeType?: string;
@@ -883,18 +893,14 @@ export const DashDvbFontDownload = /*@__PURE__*/ S.suspend(() =>
     MimeType: S.optional(S.String),
     FontFamily: S.optional(S.String),
   }),
-).annotate({
-  identifier: "DashDvbFontDownload",
-}) as any as S.Schema<DashDvbFontDownload>;
+).annotate({ identifier: "DashDvbFontDownload" }) as any as S.Schema<DashDvbFontDownload>;
 export interface DashDvbMetricsReporting {
   ReportingUrl: string;
   Probability?: number;
 }
 export const DashDvbMetricsReporting = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ ReportingUrl: S.String, Probability: S.optional(S.Number) }),
-).annotate({
-  identifier: "DashDvbMetricsReporting",
-}) as any as S.Schema<DashDvbMetricsReporting>;
+).annotate({ identifier: "DashDvbMetricsReporting" }) as any as S.Schema<DashDvbMetricsReporting>;
 export type DashDvbErrorMetrics = DashDvbMetricsReporting[];
 export const DashDvbErrorMetrics = /*@__PURE__*/ S.Array(DashDvbMetricsReporting);
 export interface DashDvbSettings {
@@ -906,9 +912,7 @@ export const DashDvbSettings = /*@__PURE__*/ S.suspend(() =>
     FontDownload: S.optional(DashDvbFontDownload),
     ErrorMetrics: S.optional(DashDvbErrorMetrics),
   }),
-).annotate({
-  identifier: "DashDvbSettings",
-}) as any as S.Schema<DashDvbSettings>;
+).annotate({ identifier: "DashDvbSettings" }) as any as S.Schema<DashDvbSettings>;
 export type DashCompactness = "STANDARD" | "NONE" | (string & {});
 export const DashCompactness = S.String;
 
@@ -923,9 +927,7 @@ export interface DashTtmlConfiguration {
 }
 export const DashTtmlConfiguration = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ TtmlProfile: DashTtmlProfile }),
-).annotate({
-  identifier: "DashTtmlConfiguration",
-}) as any as S.Schema<DashTtmlConfiguration>;
+).annotate({ identifier: "DashTtmlConfiguration" }) as any as S.Schema<DashTtmlConfiguration>;
 export interface DashSubtitleConfiguration {
   TtmlConfiguration?: DashTtmlConfiguration;
 }
@@ -934,13 +936,9 @@ export const DashSubtitleConfiguration = /*@__PURE__*/ S.suspend(() =>
 ).annotate({
   identifier: "DashSubtitleConfiguration",
 }) as any as S.Schema<DashSubtitleConfiguration>;
-export type DashAvailabilityStartTimeConfiguration = {
-  FixedAvailabilityStartTime: Date;
-};
+export type DashAvailabilityStartTimeConfiguration = { FixedAvailabilityStartTime: Date };
 export const DashAvailabilityStartTimeConfiguration = /*@__PURE__*/ S.Union([
-  S.Struct({
-    FixedAvailabilityStartTime: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-  }),
+  S.Struct({ FixedAvailabilityStartTime: S.Date.pipe(T.TimestampFormat("epoch-seconds")) }),
 ]);
 export interface CreateDashManifestConfiguration {
   ManifestName: string;
@@ -1282,10 +1280,7 @@ export const DeleteChannelRequest = /*@__PURE__*/ S.suspend(() =>
     ChannelName: S.String.pipe(T.HttpLabel("ChannelName")),
   }).pipe(
     T.all(
-      T.Http({
-        method: "DELETE",
-        uri: "/channelGroup/{ChannelGroupName}/channel/{ChannelName}/",
-      }),
+      T.Http({ method: "DELETE", uri: "/channelGroup/{ChannelGroupName}/channel/{ChannelName}/" }),
       svc,
       auth,
       proto,
@@ -1293,9 +1288,7 @@ export const DeleteChannelRequest = /*@__PURE__*/ S.suspend(() =>
       rules,
     ),
   ),
-).annotate({
-  identifier: "DeleteChannelRequest",
-}) as any as S.Schema<DeleteChannelRequest>;
+).annotate({ identifier: "DeleteChannelRequest" }) as any as S.Schema<DeleteChannelRequest>;
 export interface DeleteChannelResponse {}
 export const DeleteChannelResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
   identifier: "DeleteChannelResponse",
@@ -1304,9 +1297,7 @@ export interface DeleteChannelGroupRequest {
   ChannelGroupName: string;
 }
 export const DeleteChannelGroupRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ChannelGroupName: S.String.pipe(T.HttpLabel("ChannelGroupName")),
-  }).pipe(
+  S.Struct({ ChannelGroupName: S.String.pipe(T.HttpLabel("ChannelGroupName")) }).pipe(
     T.all(
       T.Http({ method: "DELETE", uri: "/channelGroup/{ChannelGroupName}" }),
       svc,
@@ -1423,10 +1414,7 @@ export const GetChannelRequest = /*@__PURE__*/ S.suspend(() =>
     ChannelName: S.String.pipe(T.HttpLabel("ChannelName")),
   }).pipe(
     T.all(
-      T.Http({
-        method: "GET",
-        uri: "/channelGroup/{ChannelGroupName}/channel/{ChannelName}/",
-      }),
+      T.Http({ method: "GET", uri: "/channelGroup/{ChannelGroupName}/channel/{ChannelName}/" }),
       svc,
       auth,
       proto,
@@ -1434,10 +1422,10 @@ export const GetChannelRequest = /*@__PURE__*/ S.suspend(() =>
       rules,
     ),
   ),
-).annotate({
-  identifier: "GetChannelRequest",
-}) as any as S.Schema<GetChannelRequest>;
+).annotate({ identifier: "GetChannelRequest" }) as any as S.Schema<GetChannelRequest>;
 export interface GetChannelResponse {
+  MultiviewConfiguration?: MultiviewConfiguration;
+  AttachedMultiviewChannels?: string[];
   Arn: string;
   ChannelName: string;
   ChannelGroupName: string;
@@ -1455,6 +1443,8 @@ export interface GetChannelResponse {
 }
 export const GetChannelResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
+    MultiviewConfiguration: S.optional(MultiviewConfiguration),
+    AttachedMultiviewChannels: S.optional(AttachedMultiviewChannelList),
     Arn: S.String,
     ChannelName: S.String,
     ChannelGroupName: S.String,
@@ -1470,16 +1460,12 @@ export const GetChannelResponse = /*@__PURE__*/ S.suspend(() =>
     OutputHeaderConfiguration: S.optional(OutputHeaderConfiguration),
     OutputLockingMode: S.optional(OutputLockingMode),
   }),
-).annotate({
-  identifier: "GetChannelResponse",
-}) as any as S.Schema<GetChannelResponse>;
+).annotate({ identifier: "GetChannelResponse" }) as any as S.Schema<GetChannelResponse>;
 export interface GetChannelGroupRequest {
   ChannelGroupName: string;
 }
 export const GetChannelGroupRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ChannelGroupName: S.String.pipe(T.HttpLabel("ChannelGroupName")),
-  }).pipe(
+  S.Struct({ ChannelGroupName: S.String.pipe(T.HttpLabel("ChannelGroupName")) }).pipe(
     T.all(
       T.Http({ method: "GET", uri: "/channelGroup/{ChannelGroupName}" }),
       svc,
@@ -1489,9 +1475,7 @@ export const GetChannelGroupRequest = /*@__PURE__*/ S.suspend(() =>
       rules,
     ),
   ),
-).annotate({
-  identifier: "GetChannelGroupRequest",
-}) as any as S.Schema<GetChannelGroupRequest>;
+).annotate({ identifier: "GetChannelGroupRequest" }) as any as S.Schema<GetChannelGroupRequest>;
 export interface GetChannelGroupResponse {
   ChannelGroupName: string;
   Arn: string;
@@ -1513,9 +1497,7 @@ export const GetChannelGroupResponse = /*@__PURE__*/ S.suspend(() =>
     ETag: S.optional(S.String),
     Tags: S.optional(TagMap),
   }).pipe(S.encodeKeys({ Tags: "tags" })),
-).annotate({
-  identifier: "GetChannelGroupResponse",
-}) as any as S.Schema<GetChannelGroupResponse>;
+).annotate({ identifier: "GetChannelGroupResponse" }) as any as S.Schema<GetChannelGroupResponse>;
 export interface GetChannelPolicyRequest {
   ChannelGroupName: string;
   ChannelName: string;
@@ -1537,9 +1519,7 @@ export const GetChannelPolicyRequest = /*@__PURE__*/ S.suspend(() =>
       rules,
     ),
   ),
-).annotate({
-  identifier: "GetChannelPolicyRequest",
-}) as any as S.Schema<GetChannelPolicyRequest>;
+).annotate({ identifier: "GetChannelPolicyRequest" }) as any as S.Schema<GetChannelPolicyRequest>;
 export type PolicyText = string;
 export interface GetChannelPolicyResponse {
   ChannelGroupName: string;
@@ -1547,14 +1527,8 @@ export interface GetChannelPolicyResponse {
   Policy: string;
 }
 export const GetChannelPolicyResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ChannelGroupName: S.String,
-    ChannelName: S.String,
-    Policy: S.String,
-  }),
-).annotate({
-  identifier: "GetChannelPolicyResponse",
-}) as any as S.Schema<GetChannelPolicyResponse>;
+  S.Struct({ ChannelGroupName: S.String, ChannelName: S.String, Policy: S.String }),
+).annotate({ identifier: "GetChannelPolicyResponse" }) as any as S.Schema<GetChannelPolicyResponse>;
 export interface GetHarvestJobRequest {
   ChannelGroupName: string;
   ChannelName: string;
@@ -1580,9 +1554,7 @@ export const GetHarvestJobRequest = /*@__PURE__*/ S.suspend(() =>
       rules,
     ),
   ),
-).annotate({
-  identifier: "GetHarvestJobRequest",
-}) as any as S.Schema<GetHarvestJobRequest>;
+).annotate({ identifier: "GetHarvestJobRequest" }) as any as S.Schema<GetHarvestJobRequest>;
 export interface GetHarvestJobResponse {
   ChannelGroupName: string;
   ChannelName: string;
@@ -1618,9 +1590,7 @@ export const GetHarvestJobResponse = /*@__PURE__*/ S.suspend(() =>
     ETag: S.optional(S.String),
     Tags: S.optional(TagMap),
   }),
-).annotate({
-  identifier: "GetHarvestJobResponse",
-}) as any as S.Schema<GetHarvestJobResponse>;
+).annotate({ identifier: "GetHarvestJobResponse" }) as any as S.Schema<GetHarvestJobResponse>;
 export interface GetOriginEndpointRequest {
   ChannelGroupName: string;
   ChannelName: string;
@@ -1644,9 +1614,7 @@ export const GetOriginEndpointRequest = /*@__PURE__*/ S.suspend(() =>
       rules,
     ),
   ),
-).annotate({
-  identifier: "GetOriginEndpointRequest",
-}) as any as S.Schema<GetOriginEndpointRequest>;
+).annotate({ identifier: "GetOriginEndpointRequest" }) as any as S.Schema<GetOriginEndpointRequest>;
 export interface GetOriginEndpointResponse {
   Arn: string;
   ChannelGroupName: string;
@@ -1729,13 +1697,8 @@ export interface CdnAuthConfiguration {
   SecretsRoleArn: string;
 }
 export const CdnAuthConfiguration = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    CdnIdentifierSecretArns: CdnIdentifierSecretArns,
-    SecretsRoleArn: S.String,
-  }),
-).annotate({
-  identifier: "CdnAuthConfiguration",
-}) as any as S.Schema<CdnAuthConfiguration>;
+  S.Struct({ CdnIdentifierSecretArns: CdnIdentifierSecretArns, SecretsRoleArn: S.String }),
+).annotate({ identifier: "CdnAuthConfiguration" }) as any as S.Schema<CdnAuthConfiguration>;
 export interface GetOriginEndpointPolicyResponse {
   ChannelGroupName: string;
   ChannelName: string;
@@ -1764,9 +1727,7 @@ export const ListChannelGroupsRequest = /*@__PURE__*/ S.suspend(() =>
     MaxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
     NextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
   }).pipe(T.all(T.Http({ method: "GET", uri: "/channelGroup" }), svc, auth, proto, ver, rules)),
-).annotate({
-  identifier: "ListChannelGroupsRequest",
-}) as any as S.Schema<ListChannelGroupsRequest>;
+).annotate({ identifier: "ListChannelGroupsRequest" }) as any as S.Schema<ListChannelGroupsRequest>;
 export interface ChannelGroupListConfiguration {
   ChannelGroupName: string;
   Arn: string;
@@ -1792,10 +1753,7 @@ export interface ListChannelGroupsResponse {
   NextToken?: string;
 }
 export const ListChannelGroupsResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Items: S.optional(ChannelGroupsList),
-    NextToken: S.optional(S.String),
-  }),
+  S.Struct({ Items: S.optional(ChannelGroupsList), NextToken: S.optional(S.String) }),
 ).annotate({
   identifier: "ListChannelGroupsResponse",
 }) as any as S.Schema<ListChannelGroupsResponse>;
@@ -1811,10 +1769,7 @@ export const ListChannelsRequest = /*@__PURE__*/ S.suspend(() =>
     NextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
   }).pipe(
     T.all(
-      T.Http({
-        method: "GET",
-        uri: "/channelGroup/{ChannelGroupName}/channel",
-      }),
+      T.Http({ method: "GET", uri: "/channelGroup/{ChannelGroupName}/channel" }),
       svc,
       auth,
       proto,
@@ -1822,9 +1777,7 @@ export const ListChannelsRequest = /*@__PURE__*/ S.suspend(() =>
       rules,
     ),
   ),
-).annotate({
-  identifier: "ListChannelsRequest",
-}) as any as S.Schema<ListChannelsRequest>;
+).annotate({ identifier: "ListChannelsRequest" }) as any as S.Schema<ListChannelsRequest>;
 export interface ChannelListConfiguration {
   Arn: string;
   ChannelName: string;
@@ -1834,6 +1787,8 @@ export interface ChannelListConfiguration {
   Description?: string;
   InputType?: InputType;
   OutputLockingMode?: OutputLockingMode;
+  MultiviewConfiguration?: MultiviewConfiguration;
+  AttachedMultiviewChannels?: string[];
 }
 export const ChannelListConfiguration = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -1845,10 +1800,10 @@ export const ChannelListConfiguration = /*@__PURE__*/ S.suspend(() =>
     Description: S.optional(S.String),
     InputType: S.optional(InputType),
     OutputLockingMode: S.optional(OutputLockingMode),
+    MultiviewConfiguration: S.optional(MultiviewConfiguration),
+    AttachedMultiviewChannels: S.optional(AttachedMultiviewChannelList),
   }),
-).annotate({
-  identifier: "ChannelListConfiguration",
-}) as any as S.Schema<ChannelListConfiguration>;
+).annotate({ identifier: "ChannelListConfiguration" }) as any as S.Schema<ChannelListConfiguration>;
 export type ChannelList = ChannelListConfiguration[];
 export const ChannelList = /*@__PURE__*/ S.Array(ChannelListConfiguration);
 export interface ListChannelsResponse {
@@ -1857,9 +1812,7 @@ export interface ListChannelsResponse {
 }
 export const ListChannelsResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ Items: S.optional(ChannelList), NextToken: S.optional(S.String) }),
-).annotate({
-  identifier: "ListChannelsResponse",
-}) as any as S.Schema<ListChannelsResponse>;
+).annotate({ identifier: "ListChannelsResponse" }) as any as S.Schema<ListChannelsResponse>;
 export interface ListHarvestJobsRequest {
   ChannelGroupName: string;
   ChannelName?: string;
@@ -1878,10 +1831,7 @@ export const ListHarvestJobsRequest = /*@__PURE__*/ S.suspend(() =>
     NextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
   }).pipe(
     T.all(
-      T.Http({
-        method: "GET",
-        uri: "/channelGroup/{ChannelGroupName}/harvestJob",
-      }),
+      T.Http({ method: "GET", uri: "/channelGroup/{ChannelGroupName}/harvestJob" }),
       svc,
       auth,
       proto,
@@ -1889,9 +1839,7 @@ export const ListHarvestJobsRequest = /*@__PURE__*/ S.suspend(() =>
       rules,
     ),
   ),
-).annotate({
-  identifier: "ListHarvestJobsRequest",
-}) as any as S.Schema<ListHarvestJobsRequest>;
+).annotate({ identifier: "ListHarvestJobsRequest" }) as any as S.Schema<ListHarvestJobsRequest>;
 export interface HarvestJob {
   ChannelGroupName: string;
   ChannelName: string;
@@ -1933,13 +1881,8 @@ export interface ListHarvestJobsResponse {
   NextToken?: string;
 }
 export const ListHarvestJobsResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Items: S.optional(HarvestJobsList),
-    NextToken: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "ListHarvestJobsResponse",
-}) as any as S.Schema<ListHarvestJobsResponse>;
+  S.Struct({ Items: S.optional(HarvestJobsList), NextToken: S.optional(S.String) }),
+).annotate({ identifier: "ListHarvestJobsResponse" }) as any as S.Schema<ListHarvestJobsResponse>;
 export interface ListOriginEndpointsRequest {
   ChannelGroupName: string;
   ChannelName: string;
@@ -2069,10 +2012,7 @@ export interface ListOriginEndpointsResponse {
   NextToken?: string;
 }
 export const ListOriginEndpointsResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Items: S.optional(OriginEndpointsList),
-    NextToken: S.optional(S.String),
-  }),
+  S.Struct({ Items: S.optional(OriginEndpointsList), NextToken: S.optional(S.String) }),
 ).annotate({
   identifier: "ListOriginEndpointsResponse",
 }) as any as S.Schema<ListOriginEndpointsResponse>;
@@ -2118,9 +2058,7 @@ export const PutChannelPolicyRequest = /*@__PURE__*/ S.suspend(() =>
       rules,
     ),
   ),
-).annotate({
-  identifier: "PutChannelPolicyRequest",
-}) as any as S.Schema<PutChannelPolicyRequest>;
+).annotate({ identifier: "PutChannelPolicyRequest" }) as any as S.Schema<PutChannelPolicyRequest>;
 export interface PutChannelPolicyResponse {}
 export const PutChannelPolicyResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
   identifier: "PutChannelPolicyResponse",
@@ -2157,9 +2095,7 @@ export const PutOriginEndpointPolicyRequest = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<PutOriginEndpointPolicyRequest>;
 export interface PutOriginEndpointPolicyResponse {}
 export const PutOriginEndpointPolicyResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate(
-  {
-    identifier: "PutOriginEndpointPolicyResponse",
-  },
+  { identifier: "PutOriginEndpointPolicyResponse" },
 ) as any as S.Schema<PutOriginEndpointPolicyResponse>;
 export interface ResetChannelStateRequest {
   ChannelGroupName: string;
@@ -2182,9 +2118,7 @@ export const ResetChannelStateRequest = /*@__PURE__*/ S.suspend(() =>
       rules,
     ),
   ),
-).annotate({
-  identifier: "ResetChannelStateRequest",
-}) as any as S.Schema<ResetChannelStateRequest>;
+).annotate({ identifier: "ResetChannelStateRequest" }) as any as S.Schema<ResetChannelStateRequest>;
 export interface ResetChannelStateResponse {
   ChannelGroupName: string;
   ChannelName: string;
@@ -2250,17 +2184,12 @@ export interface TagResourceRequest {
   Tags: { [key: string]: string | undefined };
 }
 export const TagResourceRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ResourceArn: S.String.pipe(T.HttpLabel("ResourceArn")),
-    Tags: TagMap,
-  })
+  S.Struct({ ResourceArn: S.String.pipe(T.HttpLabel("ResourceArn")), Tags: TagMap })
     .pipe(S.encodeKeys({ Tags: "tags" }))
     .pipe(
       T.all(T.Http({ method: "POST", uri: "/tags/{ResourceArn}" }), svc, auth, proto, ver, rules),
     ),
-).annotate({
-  identifier: "TagResourceRequest",
-}) as any as S.Schema<TagResourceRequest>;
+).annotate({ identifier: "TagResourceRequest" }) as any as S.Schema<TagResourceRequest>;
 export interface TagResourceResponse {}
 export const TagResourceResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
   identifier: "TagResourceResponse",
@@ -2278,9 +2207,7 @@ export const UntagResourceRequest = /*@__PURE__*/ S.suspend(() =>
   }).pipe(
     T.all(T.Http({ method: "DELETE", uri: "/tags/{ResourceArn}" }), svc, auth, proto, ver, rules),
   ),
-).annotate({
-  identifier: "UntagResourceRequest",
-}) as any as S.Schema<UntagResourceRequest>;
+).annotate({ identifier: "UntagResourceRequest" }) as any as S.Schema<UntagResourceRequest>;
 export interface UntagResourceResponse {}
 export const UntagResourceResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
   identifier: "UntagResourceResponse",
@@ -2292,6 +2219,7 @@ export interface UpdateChannelRequest {
   Description?: string;
   InputSwitchConfiguration?: InputSwitchConfiguration;
   OutputHeaderConfiguration?: OutputHeaderConfiguration;
+  MultiviewConfiguration?: MultiviewConfiguration;
 }
 export const UpdateChannelRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -2301,12 +2229,10 @@ export const UpdateChannelRequest = /*@__PURE__*/ S.suspend(() =>
     Description: S.optional(S.String),
     InputSwitchConfiguration: S.optional(InputSwitchConfiguration),
     OutputHeaderConfiguration: S.optional(OutputHeaderConfiguration),
+    MultiviewConfiguration: S.optional(MultiviewConfiguration),
   }).pipe(
     T.all(
-      T.Http({
-        method: "PUT",
-        uri: "/channelGroup/{ChannelGroupName}/channel/{ChannelName}/",
-      }),
+      T.Http({ method: "PUT", uri: "/channelGroup/{ChannelGroupName}/channel/{ChannelName}/" }),
       svc,
       auth,
       proto,
@@ -2314,10 +2240,10 @@ export const UpdateChannelRequest = /*@__PURE__*/ S.suspend(() =>
       rules,
     ),
   ),
-).annotate({
-  identifier: "UpdateChannelRequest",
-}) as any as S.Schema<UpdateChannelRequest>;
+).annotate({ identifier: "UpdateChannelRequest" }) as any as S.Schema<UpdateChannelRequest>;
 export interface UpdateChannelResponse {
+  MultiviewConfiguration?: MultiviewConfiguration;
+  AttachedMultiviewChannels?: string[];
   Arn: string;
   ChannelName: string;
   ChannelGroupName: string;
@@ -2334,6 +2260,8 @@ export interface UpdateChannelResponse {
 }
 export const UpdateChannelResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
+    MultiviewConfiguration: S.optional(MultiviewConfiguration),
+    AttachedMultiviewChannels: S.optional(AttachedMultiviewChannelList),
     Arn: S.String,
     ChannelName: S.String,
     ChannelGroupName: S.String,
@@ -2348,9 +2276,7 @@ export const UpdateChannelResponse = /*@__PURE__*/ S.suspend(() =>
     OutputHeaderConfiguration: S.optional(OutputHeaderConfiguration),
     OutputLockingMode: S.optional(OutputLockingMode),
   }).pipe(S.encodeKeys({ Tags: "tags" })),
-).annotate({
-  identifier: "UpdateChannelResponse",
-}) as any as S.Schema<UpdateChannelResponse>;
+).annotate({ identifier: "UpdateChannelResponse" }) as any as S.Schema<UpdateChannelResponse>;
 export interface UpdateChannelGroupRequest {
   ChannelGroupName: string;
   ETag?: string;
@@ -2617,6 +2543,38 @@ export type ValidationExceptionType =
   | "NON_EPOCH_LOCKED_WITH_FORCE_ENDPOINT_ERROR_CONFIGURATION"
   | "ONLY_HLS_INPUT_TYPE_ALLOW_STREAM_NAME_OUTPUT_MODE"
   | "STREAM_NAME_OUTPUT_MODE_IMMUTABLE"
+  | "MULTIVIEW_CONFIGURATION_REQUIRED"
+  | "MULTIVIEW_CONFIGURATION_NOT_ALLOWED"
+  | "MULTIVIEW_SOURCE_NOT_FOUND"
+  | "MULTIVIEW_SOURCE_INVALID_INPUT_TYPE"
+  | "MULTIVIEW_CHANNEL_POLICY_NOT_ALLOWED"
+  | "MULTIVIEW_INPUT_TYPE_WITH_LL_HLS_MANIFEST"
+  | "MULTIVIEW_INPUT_TYPE_WITH_MSS_MANIFEST"
+  | "MULTIVIEW_INPUT_TYPE_WITH_ISM_CONTAINER"
+  | "MULTIVIEW_INPUT_TYPE_WITH_FILTER_CONFIGURATION"
+  | "MULTIVIEW_INPUT_TYPE_WITH_START_TAG"
+  | "MULTIVIEW_INPUT_TYPE_WITH_HARVEST_JOB"
+  | "MULTIVIEW_RESET_NOT_ALLOWED"
+  | "MULTIVIEW_DUPLICATE_SOURCE"
+  | "MULTIVIEW_DUPLICATE_LAYOUT"
+  | "MULTIVIEW_INPUT_SWITCH_NOT_ALLOWED"
+  | "MULTIVIEW_OUTPUT_HEADER_NOT_ALLOWED"
+  | "MULTIVIEW_STARTOVER_WINDOW_NOT_ALLOWED"
+  | "MULTIVIEW_INVALID_TIME_DELAY_SECONDS"
+  | "MULTIVIEW_MANIFEST_WINDOW_TOO_LONG"
+  | "MULTIVIEW_INPUT_TYPE_WITH_IFRAME_ONLY_STREAMS"
+  | "MULTIVIEW_INPUT_TYPE_WITH_NON_EPOCH_LOCKED"
+  | "MULTIVIEW_INPUT_TYPE_WITH_SEGMENT_DURATION"
+  | "MULTIVIEW_SOURCE_NON_EPOCH_LOCKED"
+  | "MULTIVIEW_SCTE_REQUIRES_AVAILS_PERIOD_TRIGGER"
+  | "CONTENT_KEY_PERIOD_TIMING_WITHOUT_KEY_ROTATION"
+  | "CONTENT_KEY_PERIOD_TIMING_REQUIRES_SPEKE_V2_1"
+  | "MULTIVIEW_FILTER_CONFIGURATION_NOT_ALLOWED"
+  | "MULTIVIEW_FILTER_LAYOUT_NOT_AVAILABLE"
+  | "MULTIVIEW_FILTER_SOURCE_NOT_AVAILABLE"
+  | "MULTIVIEW_FILTER_SOURCE_COUNT_MISMATCH"
+  | "MULTIVIEW_SOURCE_CHANNEL_LIMIT_EXCEEDED"
+  | "MULTIVIEW_TS_USE_AUDIO_RENDITION_GROUP_DISABLED"
   | (string & {});
 export const ValidationExceptionType = S.String;
 

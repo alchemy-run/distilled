@@ -133,13 +133,7 @@ export const AddLoadBalancerServiceRequest = /*@__PURE__*/ S.suspend(() =>
     proxyprotocol: S.Boolean,
     health_check: AddLoadBalancerServiceRequestHealthCheck,
     http: S.optional(AddLoadBalancerServiceRequestHttp),
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/load_balancers/{id}/actions/add_service",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "POST", uri: "/load_balancers/{id}/actions/add_service", code: 200 })),
 ).annotate({
   identifier: "AddLoadBalancerServiceRequest",
 }) as any as S.Schema<AddLoadBalancerServiceRequest>;
@@ -298,13 +292,7 @@ export const AddLoadBalancerTargetRequest = /*@__PURE__*/ S.suspend(() =>
     label_selector: S.optional(AddLoadBalancerTargetRequestLabelSelector),
     ip: S.optional(AddLoadBalancerTargetRequestIp),
     use_private_ip: S.optional(S.Boolean),
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/load_balancers/{id}/actions/add_target",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "POST", uri: "/load_balancers/{id}/actions/add_target", code: 200 })),
 ).annotate({
   identifier: "AddLoadBalancerTargetRequest",
 }) as any as S.Schema<AddLoadBalancerTargetRequest>;
@@ -390,11 +378,7 @@ export const AttachLoadBalancerToNetworkRequest = /*@__PURE__*/ S.suspend(() =>
     ip: S.optional(S.String),
     ip_range: S.optional(S.String),
   }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/load_balancers/{id}/actions/attach_to_network",
-      code: 200,
-    }),
+    T.Http({ method: "POST", uri: "/load_balancers/{id}/actions/attach_to_network", code: 200 }),
   ),
 ).annotate({
   identifier: "AttachLoadBalancerToNetworkRequest",
@@ -481,11 +465,7 @@ export const ChangeLoadBalancerAlgorithmRequest = /*@__PURE__*/ S.suspend(() =>
     id: S.Number.pipe(T.Label()),
     type: ChangeLoadBalancerAlgorithmRequestType,
   }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/load_balancers/{id}/actions/change_algorithm",
-      code: 200,
-    }),
+    T.Http({ method: "POST", uri: "/load_balancers/{id}/actions/change_algorithm", code: 200 }),
   ),
 ).annotate({
   identifier: "ChangeLoadBalancerAlgorithmRequest",
@@ -563,19 +543,15 @@ export interface ChangeLoadBalancerDnsPtrRequest {
   /** Single IPv4 or IPv6 address to create pointer for. */
   ip: string;
   /** Domain Name to point to. PTR record content used for reverse DNS. Set to null to reset (IPv4) to the default value or remove (IPv6) the record. */
-  dns_ptr?: string | null;
+  dns_ptr: string | null;
 }
 export const ChangeLoadBalancerDnsPtrRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     id: S.Number.pipe(T.Label()),
     ip: S.String,
-    dns_ptr: S.optional(S.NullOr(S.String)),
+    dns_ptr: S.NullOr(S.String),
   }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/load_balancers/{id}/actions/change_dns_ptr",
-      code: 200,
-    }),
+    T.Http({ method: "POST", uri: "/load_balancers/{id}/actions/change_dns_ptr", code: 200 }),
   ),
 ).annotate({
   identifier: "ChangeLoadBalancerDnsPtrRequest",
@@ -657,11 +633,7 @@ export const ChangeLoadBalancerProtectionRequest = /*@__PURE__*/ S.suspend(() =>
     id: S.Number.pipe(T.Label()),
     delete: S.optional(S.Boolean),
   }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/load_balancers/{id}/actions/change_protection",
-      code: 200,
-    }),
+    T.Http({ method: "POST", uri: "/load_balancers/{id}/actions/change_protection", code: 200 }),
   ),
 ).annotate({
   identifier: "ChangeLoadBalancerProtectionRequest",
@@ -743,13 +715,7 @@ export const ChangeLoadBalancerTypeRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     id: S.Number.pipe(T.Label()),
     load_balancer_type: S.String,
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/load_balancers/{id}/actions/change_type",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "POST", uri: "/load_balancers/{id}/actions/change_type", code: 200 })),
 ).annotate({
   identifier: "ChangeLoadBalancerTypeRequest",
 }) as any as S.Schema<ChangeLoadBalancerTypeRequest>;
@@ -829,11 +795,7 @@ export const DeleteLoadBalancerServiceRequest = /*@__PURE__*/ S.suspend(() =>
     id: S.Number.pipe(T.Label()),
     listen_port: S.Number,
   }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/load_balancers/{id}/actions/delete_service",
-      code: 200,
-    }),
+    T.Http({ method: "POST", uri: "/load_balancers/{id}/actions/delete_service", code: 200 }),
   ),
 ).annotate({
   identifier: "DeleteLoadBalancerServiceRequest",
@@ -916,11 +878,7 @@ export const DetachLoadBalancerFromNetworkRequest = /*@__PURE__*/ S.suspend(() =
     id: S.Number.pipe(T.Label()),
     network: S.Number,
   }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/load_balancers/{id}/actions/detach_from_network",
-      code: 200,
-    }),
+    T.Http({ method: "POST", uri: "/load_balancers/{id}/actions/detach_from_network", code: 200 }),
   ),
 ).annotate({
   identifier: "DetachLoadBalancerFromNetworkRequest",
@@ -1598,13 +1556,7 @@ export const RemoveLoadBalancerTargetRequest = /*@__PURE__*/ S.suspend(() =>
     server: S.optional(AddLoadBalancerTargetRequestServer),
     label_selector: S.optional(AddLoadBalancerTargetRequestLabelSelector),
     ip: S.optional(AddLoadBalancerTargetRequestIp),
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/load_balancers/{id}/actions/remove_target",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "POST", uri: "/load_balancers/{id}/actions/remove_target", code: 200 })),
 ).annotate({
   identifier: "RemoveLoadBalancerTargetRequest",
 }) as any as S.Schema<RemoveLoadBalancerTargetRequest>;
@@ -1799,11 +1751,7 @@ export const UpdateLoadBalancerServiceRequest = /*@__PURE__*/ S.suspend(() =>
     health_check: S.optional(UpdateLoadBalancerServiceRequestHealthCheck),
     http: S.optional(UpdateLoadBalancerServiceRequestHttp),
   }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/load_balancers/{id}/actions/update_service",
-      code: 200,
-    }),
+    T.Http({ method: "POST", uri: "/load_balancers/{id}/actions/update_service", code: 200 }),
   ),
 ).annotate({
   identifier: "UpdateLoadBalancerServiceRequest",

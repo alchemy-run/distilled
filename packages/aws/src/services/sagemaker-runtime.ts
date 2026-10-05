@@ -114,10 +114,7 @@ export class ModelNotReadyException
     "ModelNotReadyException",
     { message: S.optional(S.String).pipe(T.ErrorMessage()) },
     T.all(
-      T.AwsQueryError({
-        code: "ModelNotReadyException",
-        httpResponseCode: 429,
-      }),
+      T.AwsQueryError({ code: "ModelNotReadyException", httpResponseCode: 429 }),
       T.HttpError(429),
     ),
   ).pipe(C.withThrottlingError) {}
@@ -197,9 +194,7 @@ export const InvokeEndpointInput = /*@__PURE__*/ S.suspend(() =>
       rules,
     ),
   ),
-).annotate({
-  identifier: "InvokeEndpointInput",
-}) as any as S.Schema<InvokeEndpointInput>;
+).annotate({ identifier: "InvokeEndpointInput" }) as any as S.Schema<InvokeEndpointInput>;
 export type NewSessionResponseHeader = string;
 export type SessionIdHeader = string;
 export interface InvokeEndpointOutput {
@@ -223,9 +218,7 @@ export const InvokeEndpointOutput = /*@__PURE__*/ S.suspend(() =>
     NewSessionId: S.optional(S.String).pipe(T.HttpHeader("X-Amzn-SageMaker-New-Session-Id")),
     ClosedSessionId: S.optional(S.String).pipe(T.HttpHeader("X-Amzn-SageMaker-Closed-Session-Id")),
   }),
-).annotate({
-  identifier: "InvokeEndpointOutput",
-}) as any as S.Schema<InvokeEndpointOutput>;
+).annotate({ identifier: "InvokeEndpointOutput" }) as any as S.Schema<InvokeEndpointOutput>;
 export type InputLocationHeader = string;
 export type S3OutputPathExtensionHeader = string;
 export type FilenameHeader = string;
@@ -267,10 +260,7 @@ export const InvokeEndpointAsyncInput = /*@__PURE__*/ S.suspend(() =>
     Body: S.optional(T.StreamingInput).pipe(T.HttpPayload()),
   }).pipe(
     T.all(
-      T.Http({
-        method: "POST",
-        uri: "/endpoints/{EndpointName}/async-invocations",
-      }),
+      T.Http({ method: "POST", uri: "/endpoints/{EndpointName}/async-invocations" }),
       svc,
       auth,
       proto,
@@ -278,9 +268,7 @@ export const InvokeEndpointAsyncInput = /*@__PURE__*/ S.suspend(() =>
       rules,
     ),
   ),
-).annotate({
-  identifier: "InvokeEndpointAsyncInput",
-}) as any as S.Schema<InvokeEndpointAsyncInput>;
+).annotate({ identifier: "InvokeEndpointAsyncInput" }) as any as S.Schema<InvokeEndpointAsyncInput>;
 export interface InvokeEndpointAsyncOutput {
   InferenceId?: string;
   OutputLocation?: string;
@@ -329,10 +317,7 @@ export const InvokeEndpointWithResponseStreamInput = /*@__PURE__*/ S.suspend(() 
     PrefixAwareId: S.optional(S.String).pipe(T.HttpHeader("X-Amzn-SageMaker-Prefix-Aware-Id")),
   }).pipe(
     T.all(
-      T.Http({
-        method: "POST",
-        uri: "/endpoints/{EndpointName}/invocations-response-stream",
-      }),
+      T.Http({ method: "POST", uri: "/endpoints/{EndpointName}/invocations-response-stream" }),
       svc,
       auth,
       proto,
@@ -353,21 +338,9 @@ export const PayloadPart = /*@__PURE__*/ S.suspend(() =>
 export type Message = string;
 export type ErrorCode = string;
 export type ResponseStream =
-  | {
-      PayloadPart: PayloadPart;
-      ModelStreamError?: never;
-      InternalStreamFailure?: never;
-    }
-  | {
-      PayloadPart?: never;
-      ModelStreamError: ModelStreamError;
-      InternalStreamFailure?: never;
-    }
-  | {
-      PayloadPart?: never;
-      ModelStreamError?: never;
-      InternalStreamFailure: InternalStreamFailure;
-    };
+  | { PayloadPart: PayloadPart; ModelStreamError?: never; InternalStreamFailure?: never }
+  | { PayloadPart?: never; ModelStreamError: ModelStreamError; InternalStreamFailure?: never }
+  | { PayloadPart?: never; ModelStreamError?: never; InternalStreamFailure: InternalStreamFailure };
 export const ResponseStream = /*@__PURE__*/ T.EventStream(
   S.Union([
     S.Struct({ PayloadPart: PayloadPart }),

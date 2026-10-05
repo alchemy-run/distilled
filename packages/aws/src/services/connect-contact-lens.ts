@@ -121,10 +121,7 @@ export const ListRealtimeContactAnalysisSegmentsRequest = /*@__PURE__*/ S.suspen
     NextToken: S.optional(S.String),
   }).pipe(
     T.all(
-      T.Http({
-        method: "POST",
-        uri: "/realtime-contact-analysis/analysis-segments",
-      }),
+      T.Http({ method: "POST", uri: "/realtime-contact-analysis/analysis-segments" }),
       svc,
       auth,
       proto,
@@ -149,13 +146,8 @@ export interface CharacterOffsets {
   EndOffsetChar?: number;
 }
 export const CharacterOffsets = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    BeginOffsetChar: S.optional(S.Number),
-    EndOffsetChar: S.optional(S.Number),
-  }),
-).annotate({
-  identifier: "CharacterOffsets",
-}) as any as S.Schema<CharacterOffsets>;
+  S.Struct({ BeginOffsetChar: S.optional(S.Number), EndOffsetChar: S.optional(S.Number) }),
+).annotate({ identifier: "CharacterOffsets" }) as any as S.Schema<CharacterOffsets>;
 export interface IssueDetected {
   CharacterOffsets?: CharacterOffsets;
 }
@@ -194,13 +186,8 @@ export interface PointOfInterest {
   EndOffsetMillis?: number;
 }
 export const PointOfInterest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    BeginOffsetMillis: S.optional(S.Number),
-    EndOffsetMillis: S.optional(S.Number),
-  }),
-).annotate({
-  identifier: "PointOfInterest",
-}) as any as S.Schema<PointOfInterest>;
+  S.Struct({ BeginOffsetMillis: S.optional(S.Number), EndOffsetMillis: S.optional(S.Number) }),
+).annotate({ identifier: "PointOfInterest" }) as any as S.Schema<PointOfInterest>;
 export type PointsOfInterest = PointOfInterest[];
 export const PointsOfInterest = /*@__PURE__*/ S.Array(PointOfInterest);
 export interface CategoryDetails {
@@ -208,9 +195,7 @@ export interface CategoryDetails {
 }
 export const CategoryDetails = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ PointsOfInterest: S.optional(PointsOfInterest) }),
-).annotate({
-  identifier: "CategoryDetails",
-}) as any as S.Schema<CategoryDetails>;
+).annotate({ identifier: "CategoryDetails" }) as any as S.Schema<CategoryDetails>;
 export type MatchedDetails = { [key: string]: CategoryDetails | undefined };
 export const MatchedDetails = /*@__PURE__*/ S.Record(S.String, CategoryDetails.pipe(S.optional));
 export interface Categories {
@@ -247,9 +232,7 @@ export const PostContactSummary = /*@__PURE__*/ S.suspend(() =>
     Status: S.optional(PostContactSummaryStatus),
     FailureCode: S.optional(PostContactSummaryFailureCode),
   }),
-).annotate({
-  identifier: "PostContactSummary",
-}) as any as S.Schema<PostContactSummary>;
+).annotate({ identifier: "PostContactSummary" }) as any as S.Schema<PostContactSummary>;
 export type ExtractionDefinitionId = string;
 export type ExtractionDefinitionName = string;
 export type ExtractionDefinitionDisplayLabel = string;
@@ -259,10 +242,7 @@ export interface ExtractedInformationValue {
   PointsOfInterest?: PointOfInterest[];
 }
 export const ExtractedInformationValue = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Content: S.optional(S.String),
-    PointsOfInterest: S.optional(PointsOfInterest),
-  }),
+  S.Struct({ Content: S.optional(S.String), PointsOfInterest: S.optional(PointsOfInterest) }),
 ).annotate({
   identifier: "ExtractedInformationValue",
 }) as any as S.Schema<ExtractedInformationValue>;
@@ -292,9 +272,7 @@ export const ExtractedInformation = /*@__PURE__*/ S.suspend(() =>
     ExtractedValues: S.optional(ExtractedInformationValues),
     FailureCode: S.optional(ExtractedInformationFailureCode),
   }),
-).annotate({
-  identifier: "ExtractedInformation",
-}) as any as S.Schema<ExtractedInformation>;
+).annotate({ identifier: "ExtractedInformation" }) as any as S.Schema<ExtractedInformation>;
 export interface RealtimeContactAnalysisSegment {
   Transcript?: Transcript;
   Categories?: Categories;
@@ -344,9 +322,7 @@ export interface ListRealtimeContactAnalysisSegmentsResponse {
           | undefined;
       };
     };
-    PostContactSummary: PostContactSummary & {
-      Status: PostContactSummaryStatus;
-    };
+    PostContactSummary: PostContactSummary & { Status: PostContactSummaryStatus };
     ExtractedInformation: ExtractedInformation & {
       ExtractionDefinitionId: ExtractionDefinitionId;
       ExtractionDefinitionName: ExtractionDefinitionName;

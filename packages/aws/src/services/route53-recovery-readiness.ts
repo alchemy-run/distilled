@@ -128,9 +128,7 @@ export const CreateCellRequest = /*@__PURE__*/ S.suspend(() =>
   })
     .pipe(S.encodeKeys({ CellName: "cellName", Cells: "cells", Tags: "tags" }))
     .pipe(T.all(T.Http({ method: "POST", uri: "/cells" }), svc, auth, proto, ver, rules)),
-).annotate({
-  identifier: "CreateCellRequest",
-}) as any as S.Schema<CreateCellRequest>;
+).annotate({ identifier: "CreateCellRequest" }) as any as S.Schema<CreateCellRequest>;
 export type __stringMax256 = string;
 export type __stringMax64PatternAAZAZ09Z = string;
 export interface CreateCellResponse {
@@ -156,20 +154,14 @@ export const CreateCellResponse = /*@__PURE__*/ S.suspend(() =>
       Tags: "tags",
     }),
   ),
-).annotate({
-  identifier: "CreateCellResponse",
-}) as any as S.Schema<CreateCellResponse>;
+).annotate({ identifier: "CreateCellResponse" }) as any as S.Schema<CreateCellResponse>;
 export type CrossAccountAuthorization = string;
 export interface CreateCrossAccountAuthorizationRequest {
   CrossAccountAuthorization?: string;
 }
 export const CreateCrossAccountAuthorizationRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ CrossAccountAuthorization: S.optional(S.String) })
-    .pipe(
-      S.encodeKeys({
-        CrossAccountAuthorization: "crossAccountAuthorization",
-      }),
-    )
+    .pipe(S.encodeKeys({ CrossAccountAuthorization: "crossAccountAuthorization" }))
     .pipe(
       T.all(
         T.Http({ method: "POST", uri: "/crossaccountauthorizations" }),
@@ -249,13 +241,7 @@ export const CreateRecoveryGroupRequest = /*@__PURE__*/ S.suspend(() =>
     RecoveryGroupName: S.optional(S.String),
     Tags: S.optional(Tags),
   })
-    .pipe(
-      S.encodeKeys({
-        Cells: "cells",
-        RecoveryGroupName: "recoveryGroupName",
-        Tags: "tags",
-      }),
-    )
+    .pipe(S.encodeKeys({ Cells: "cells", RecoveryGroupName: "recoveryGroupName", Tags: "tags" }))
     .pipe(T.all(T.Http({ method: "POST", uri: "/recoverygroups" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "CreateRecoveryGroupRequest",
@@ -295,13 +281,10 @@ export interface R53ResourceRecord {
   RecordSetId?: string;
 }
 export const R53ResourceRecord = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    DomainName: S.optional(S.String),
-    RecordSetId: S.optional(S.String),
-  }).pipe(S.encodeKeys({ DomainName: "domainName", RecordSetId: "recordSetId" })),
-).annotate({
-  identifier: "R53ResourceRecord",
-}) as any as S.Schema<R53ResourceRecord>;
+  S.Struct({ DomainName: S.optional(S.String), RecordSetId: S.optional(S.String) }).pipe(
+    S.encodeKeys({ DomainName: "domainName", RecordSetId: "recordSetId" }),
+  ),
+).annotate({ identifier: "R53ResourceRecord" }) as any as S.Schema<R53ResourceRecord>;
 export interface TargetResource {
   NLBResource?: NLBResource;
   R53Resource?: R53ResourceRecord;
@@ -335,9 +318,7 @@ export const DNSTargetResource = /*@__PURE__*/ S.suspend(() =>
       TargetResource: "targetResource",
     }),
   ),
-).annotate({
-  identifier: "DNSTargetResource",
-}) as any as S.Schema<DNSTargetResource>;
+).annotate({ identifier: "DNSTargetResource" }) as any as S.Schema<DNSTargetResource>;
 export interface Resource {
   ComponentId?: string;
   DnsTargetResource?: DNSTargetResource;
@@ -383,9 +364,7 @@ export const CreateResourceSetRequest = /*@__PURE__*/ S.suspend(() =>
       }),
     )
     .pipe(T.all(T.Http({ method: "POST", uri: "/resourcesets" }), svc, auth, proto, ver, rules)),
-).annotate({
-  identifier: "CreateResourceSetRequest",
-}) as any as S.Schema<CreateResourceSetRequest>;
+).annotate({ identifier: "CreateResourceSetRequest" }) as any as S.Schema<CreateResourceSetRequest>;
 export interface CreateResourceSetResponse {
   ResourceSetArn?: string;
   ResourceSetName?: string;
@@ -419,9 +398,7 @@ export const DeleteCellRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ CellName: S.String.pipe(T.HttpLabel("CellName")) }).pipe(
     T.all(T.Http({ method: "DELETE", uri: "/cells/{CellName}" }), svc, auth, proto, ver, rules),
   ),
-).annotate({
-  identifier: "DeleteCellRequest",
-}) as any as S.Schema<DeleteCellRequest>;
+).annotate({ identifier: "DeleteCellRequest" }) as any as S.Schema<DeleteCellRequest>;
 export interface DeleteCellResponse {}
 export const DeleteCellResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
   identifier: "DeleteCellResponse",
@@ -434,10 +411,7 @@ export const DeleteCrossAccountAuthorizationRequest = /*@__PURE__*/ S.suspend(()
     CrossAccountAuthorization: S.String.pipe(T.HttpLabel("CrossAccountAuthorization")),
   }).pipe(
     T.all(
-      T.Http({
-        method: "DELETE",
-        uri: "/crossaccountauthorizations/{CrossAccountAuthorization}",
-      }),
+      T.Http({ method: "DELETE", uri: "/crossaccountauthorizations/{CrossAccountAuthorization}" }),
       svc,
       auth,
       proto,
@@ -458,14 +432,9 @@ export interface DeleteReadinessCheckRequest {
   ReadinessCheckName: string;
 }
 export const DeleteReadinessCheckRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ReadinessCheckName: S.String.pipe(T.HttpLabel("ReadinessCheckName")),
-  }).pipe(
+  S.Struct({ ReadinessCheckName: S.String.pipe(T.HttpLabel("ReadinessCheckName")) }).pipe(
     T.all(
-      T.Http({
-        method: "DELETE",
-        uri: "/readinesschecks/{ReadinessCheckName}",
-      }),
+      T.Http({ method: "DELETE", uri: "/readinesschecks/{ReadinessCheckName}" }),
       svc,
       auth,
       proto,
@@ -484,9 +453,7 @@ export interface DeleteRecoveryGroupRequest {
   RecoveryGroupName: string;
 }
 export const DeleteRecoveryGroupRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    RecoveryGroupName: S.String.pipe(T.HttpLabel("RecoveryGroupName")),
-  }).pipe(
+  S.Struct({ RecoveryGroupName: S.String.pipe(T.HttpLabel("RecoveryGroupName")) }).pipe(
     T.all(
       T.Http({ method: "DELETE", uri: "/recoverygroups/{RecoveryGroupName}" }),
       svc,
@@ -507,9 +474,7 @@ export interface DeleteResourceSetRequest {
   ResourceSetName: string;
 }
 export const DeleteResourceSetRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ResourceSetName: S.String.pipe(T.HttpLabel("ResourceSetName")),
-  }).pipe(
+  S.Struct({ ResourceSetName: S.String.pipe(T.HttpLabel("ResourceSetName")) }).pipe(
     T.all(
       T.Http({ method: "DELETE", uri: "/resourcesets/{ResourceSetName}" }),
       svc,
@@ -519,9 +484,7 @@ export const DeleteResourceSetRequest = /*@__PURE__*/ S.suspend(() =>
       rules,
     ),
   ),
-).annotate({
-  identifier: "DeleteResourceSetRequest",
-}) as any as S.Schema<DeleteResourceSetRequest>;
+).annotate({ identifier: "DeleteResourceSetRequest" }) as any as S.Schema<DeleteResourceSetRequest>;
 export interface DeleteResourceSetResponse {}
 export const DeleteResourceSetResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
   identifier: "DeleteResourceSetResponse",
@@ -615,9 +578,7 @@ export const GetCellResponse = /*@__PURE__*/ S.suspend(() =>
       Tags: "tags",
     }),
   ),
-).annotate({
-  identifier: "GetCellResponse",
-}) as any as S.Schema<GetCellResponse>;
+).annotate({ identifier: "GetCellResponse" }) as any as S.Schema<GetCellResponse>;
 export interface GetCellReadinessSummaryRequest {
   CellName: string;
   MaxResults?: number;
@@ -649,18 +610,10 @@ export interface ReadinessCheckSummary {
   ReadinessCheckName?: string;
 }
 export const ReadinessCheckSummary = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Readiness: S.optional(Readiness),
-    ReadinessCheckName: S.optional(S.String),
-  }).pipe(
-    S.encodeKeys({
-      Readiness: "readiness",
-      ReadinessCheckName: "readinessCheckName",
-    }),
+  S.Struct({ Readiness: S.optional(Readiness), ReadinessCheckName: S.optional(S.String) }).pipe(
+    S.encodeKeys({ Readiness: "readiness", ReadinessCheckName: "readinessCheckName" }),
   ),
-).annotate({
-  identifier: "ReadinessCheckSummary",
-}) as any as S.Schema<ReadinessCheckSummary>;
+).annotate({ identifier: "ReadinessCheckSummary" }) as any as S.Schema<ReadinessCheckSummary>;
 export type __listOfReadinessCheckSummary = ReadinessCheckSummary[];
 export const __listOfReadinessCheckSummary = /*@__PURE__*/ S.Array(ReadinessCheckSummary);
 export interface GetCellReadinessSummaryResponse {
@@ -687,9 +640,7 @@ export interface GetReadinessCheckRequest {
   ReadinessCheckName: string;
 }
 export const GetReadinessCheckRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ReadinessCheckName: S.String.pipe(T.HttpLabel("ReadinessCheckName")),
-  }).pipe(
+  S.Struct({ ReadinessCheckName: S.String.pipe(T.HttpLabel("ReadinessCheckName")) }).pipe(
     T.all(
       T.Http({ method: "GET", uri: "/readinesschecks/{ReadinessCheckName}" }),
       svc,
@@ -699,9 +650,7 @@ export const GetReadinessCheckRequest = /*@__PURE__*/ S.suspend(() =>
       rules,
     ),
   ),
-).annotate({
-  identifier: "GetReadinessCheckRequest",
-}) as any as S.Schema<GetReadinessCheckRequest>;
+).annotate({ identifier: "GetReadinessCheckRequest" }) as any as S.Schema<GetReadinessCheckRequest>;
 export interface GetReadinessCheckResponse {
   ReadinessCheckArn?: string;
   ReadinessCheckName?: string;
@@ -802,13 +751,7 @@ export const GetReadinessCheckResourceStatusResponse = /*@__PURE__*/ S.suspend((
     NextToken: S.optional(S.String),
     Readiness: S.optional(Readiness),
     Rules: S.optional(__listOfRuleResult),
-  }).pipe(
-    S.encodeKeys({
-      NextToken: "nextToken",
-      Readiness: "readiness",
-      Rules: "rules",
-    }),
-  ),
+  }).pipe(S.encodeKeys({ NextToken: "nextToken", Readiness: "readiness", Rules: "rules" })),
 ).annotate({
   identifier: "GetReadinessCheckResourceStatusResponse",
 }) as any as S.Schema<GetReadinessCheckResourceStatusResponse>;
@@ -824,10 +767,7 @@ export const GetReadinessCheckStatusRequest = /*@__PURE__*/ S.suspend(() =>
     ReadinessCheckName: S.String.pipe(T.HttpLabel("ReadinessCheckName")),
   }).pipe(
     T.all(
-      T.Http({
-        method: "GET",
-        uri: "/readinesschecks/{ReadinessCheckName}/status",
-      }),
+      T.Http({ method: "GET", uri: "/readinesschecks/{ReadinessCheckName}/status" }),
       svc,
       auth,
       proto,
@@ -891,9 +831,7 @@ export interface GetRecoveryGroupRequest {
   RecoveryGroupName: string;
 }
 export const GetRecoveryGroupRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    RecoveryGroupName: S.String.pipe(T.HttpLabel("RecoveryGroupName")),
-  }).pipe(
+  S.Struct({ RecoveryGroupName: S.String.pipe(T.HttpLabel("RecoveryGroupName")) }).pipe(
     T.all(
       T.Http({ method: "GET", uri: "/recoverygroups/{RecoveryGroupName}" }),
       svc,
@@ -903,9 +841,7 @@ export const GetRecoveryGroupRequest = /*@__PURE__*/ S.suspend(() =>
       rules,
     ),
   ),
-).annotate({
-  identifier: "GetRecoveryGroupRequest",
-}) as any as S.Schema<GetRecoveryGroupRequest>;
+).annotate({ identifier: "GetRecoveryGroupRequest" }) as any as S.Schema<GetRecoveryGroupRequest>;
 export interface GetRecoveryGroupResponse {
   Cells?: string[];
   RecoveryGroupArn?: string;
@@ -926,9 +862,7 @@ export const GetRecoveryGroupResponse = /*@__PURE__*/ S.suspend(() =>
       Tags: "tags",
     }),
   ),
-).annotate({
-  identifier: "GetRecoveryGroupResponse",
-}) as any as S.Schema<GetRecoveryGroupResponse>;
+).annotate({ identifier: "GetRecoveryGroupResponse" }) as any as S.Schema<GetRecoveryGroupResponse>;
 export interface GetRecoveryGroupReadinessSummaryRequest {
   MaxResults?: number;
   NextToken?: string;
@@ -941,10 +875,7 @@ export const GetRecoveryGroupReadinessSummaryRequest = /*@__PURE__*/ S.suspend((
     RecoveryGroupName: S.String.pipe(T.HttpLabel("RecoveryGroupName")),
   }).pipe(
     T.all(
-      T.Http({
-        method: "GET",
-        uri: "/recoverygroupreadiness/{RecoveryGroupName}",
-      }),
+      T.Http({ method: "GET", uri: "/recoverygroupreadiness/{RecoveryGroupName}" }),
       svc,
       auth,
       proto,
@@ -979,9 +910,7 @@ export interface GetResourceSetRequest {
   ResourceSetName: string;
 }
 export const GetResourceSetRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ResourceSetName: S.String.pipe(T.HttpLabel("ResourceSetName")),
-  }).pipe(
+  S.Struct({ ResourceSetName: S.String.pipe(T.HttpLabel("ResourceSetName")) }).pipe(
     T.all(
       T.Http({ method: "GET", uri: "/resourcesets/{ResourceSetName}" }),
       svc,
@@ -991,9 +920,7 @@ export const GetResourceSetRequest = /*@__PURE__*/ S.suspend(() =>
       rules,
     ),
   ),
-).annotate({
-  identifier: "GetResourceSetRequest",
-}) as any as S.Schema<GetResourceSetRequest>;
+).annotate({ identifier: "GetResourceSetRequest" }) as any as S.Schema<GetResourceSetRequest>;
 export interface GetResourceSetResponse {
   ResourceSetArn?: string;
   ResourceSetName?: string;
@@ -1017,9 +944,7 @@ export const GetResourceSetResponse = /*@__PURE__*/ S.suspend(() =>
       Tags: "tags",
     }),
   ),
-).annotate({
-  identifier: "GetResourceSetResponse",
-}) as any as S.Schema<GetResourceSetResponse>;
+).annotate({ identifier: "GetResourceSetResponse" }) as any as S.Schema<GetResourceSetResponse>;
 export interface ListCellsRequest {
   MaxResults?: number;
   NextToken?: string;
@@ -1029,9 +954,7 @@ export const ListCellsRequest = /*@__PURE__*/ S.suspend(() =>
     MaxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
     NextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
   }).pipe(T.all(T.Http({ method: "GET", uri: "/cells" }), svc, auth, proto, ver, rules)),
-).annotate({
-  identifier: "ListCellsRequest",
-}) as any as S.Schema<ListCellsRequest>;
+).annotate({ identifier: "ListCellsRequest" }) as any as S.Schema<ListCellsRequest>;
 export interface CellOutput {
   CellArn?: string;
   CellName?: string;
@@ -1068,13 +991,10 @@ export interface ListCellsResponse {
   NextToken?: string;
 }
 export const ListCellsResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Cells: S.optional(__listOfCellOutput),
-    NextToken: S.optional(S.String),
-  }).pipe(S.encodeKeys({ Cells: "cells", NextToken: "nextToken" })),
-).annotate({
-  identifier: "ListCellsResponse",
-}) as any as S.Schema<ListCellsResponse>;
+  S.Struct({ Cells: S.optional(__listOfCellOutput), NextToken: S.optional(S.String) }).pipe(
+    S.encodeKeys({ Cells: "cells", NextToken: "nextToken" }),
+  ),
+).annotate({ identifier: "ListCellsResponse" }) as any as S.Schema<ListCellsResponse>;
 export interface ListCrossAccountAuthorizationsRequest {
   MaxResults?: number;
   NextToken?: string;
@@ -1147,9 +1067,7 @@ export const ReadinessCheckOutput = /*@__PURE__*/ S.suspend(() =>
       Tags: "tags",
     }),
   ),
-).annotate({
-  identifier: "ReadinessCheckOutput",
-}) as any as S.Schema<ReadinessCheckOutput>;
+).annotate({ identifier: "ReadinessCheckOutput" }) as any as S.Schema<ReadinessCheckOutput>;
 export type __listOfReadinessCheckOutput = ReadinessCheckOutput[];
 export const __listOfReadinessCheckOutput = /*@__PURE__*/ S.Array(ReadinessCheckOutput);
 export interface ListReadinessChecksResponse {
@@ -1163,12 +1081,7 @@ export const ListReadinessChecksResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     NextToken: S.optional(S.String),
     ReadinessChecks: S.optional(__listOfReadinessCheckOutput),
-  }).pipe(
-    S.encodeKeys({
-      NextToken: "nextToken",
-      ReadinessChecks: "readinessChecks",
-    }),
-  ),
+  }).pipe(S.encodeKeys({ NextToken: "nextToken", ReadinessChecks: "readinessChecks" })),
 ).annotate({
   identifier: "ListReadinessChecksResponse",
 }) as any as S.Schema<ListReadinessChecksResponse>;
@@ -1204,9 +1117,7 @@ export const RecoveryGroupOutput = /*@__PURE__*/ S.suspend(() =>
       Tags: "tags",
     }),
   ),
-).annotate({
-  identifier: "RecoveryGroupOutput",
-}) as any as S.Schema<RecoveryGroupOutput>;
+).annotate({ identifier: "RecoveryGroupOutput" }) as any as S.Schema<RecoveryGroupOutput>;
 export type __listOfRecoveryGroupOutput = RecoveryGroupOutput[];
 export const __listOfRecoveryGroupOutput = /*@__PURE__*/ S.Array(RecoveryGroupOutput);
 export interface ListRecoveryGroupsResponse {
@@ -1234,9 +1145,7 @@ export const ListResourceSetsRequest = /*@__PURE__*/ S.suspend(() =>
     MaxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
     NextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
   }).pipe(T.all(T.Http({ method: "GET", uri: "/resourcesets" }), svc, auth, proto, ver, rules)),
-).annotate({
-  identifier: "ListResourceSetsRequest",
-}) as any as S.Schema<ListResourceSetsRequest>;
+).annotate({ identifier: "ListResourceSetsRequest" }) as any as S.Schema<ListResourceSetsRequest>;
 export interface ResourceSetOutput {
   ResourceSetArn?: string;
   ResourceSetName?: string;
@@ -1260,9 +1169,7 @@ export const ResourceSetOutput = /*@__PURE__*/ S.suspend(() =>
       Tags: "tags",
     }),
   ),
-).annotate({
-  identifier: "ResourceSetOutput",
-}) as any as S.Schema<ResourceSetOutput>;
+).annotate({ identifier: "ResourceSetOutput" }) as any as S.Schema<ResourceSetOutput>;
 export type __listOfResourceSetOutput = ResourceSetOutput[];
 export const __listOfResourceSetOutput = /*@__PURE__*/ S.Array(ResourceSetOutput);
 export interface ListResourceSetsResponse {
@@ -1279,9 +1186,7 @@ export const ListResourceSetsResponse = /*@__PURE__*/ S.suspend(() =>
     NextToken: S.optional(S.String),
     ResourceSets: S.optional(__listOfResourceSetOutput),
   }).pipe(S.encodeKeys({ NextToken: "nextToken", ResourceSets: "resourceSets" })),
-).annotate({
-  identifier: "ListResourceSetsResponse",
-}) as any as S.Schema<ListResourceSetsResponse>;
+).annotate({ identifier: "ListResourceSetsResponse" }) as any as S.Schema<ListResourceSetsResponse>;
 export interface ListRulesRequest {
   MaxResults?: number;
   NextToken?: string;
@@ -1293,9 +1198,7 @@ export const ListRulesRequest = /*@__PURE__*/ S.suspend(() =>
     NextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
     ResourceType: S.optional(S.String).pipe(T.HttpQuery("resourceType")),
   }).pipe(T.all(T.Http({ method: "GET", uri: "/rules" }), svc, auth, proto, ver, rules)),
-).annotate({
-  identifier: "ListRulesRequest",
-}) as any as S.Schema<ListRulesRequest>;
+).annotate({ identifier: "ListRulesRequest" }) as any as S.Schema<ListRulesRequest>;
 export type __stringMax64 = string;
 export interface ListRulesOutput {
   ResourceType?: string;
@@ -1314,9 +1217,7 @@ export const ListRulesOutput = /*@__PURE__*/ S.suspend(() =>
       RuleId: "ruleId",
     }),
   ),
-).annotate({
-  identifier: "ListRulesOutput",
-}) as any as S.Schema<ListRulesOutput>;
+).annotate({ identifier: "ListRulesOutput" }) as any as S.Schema<ListRulesOutput>;
 export type __listOfListRulesOutput = ListRulesOutput[];
 export const __listOfListRulesOutput = /*@__PURE__*/ S.Array(ListRulesOutput);
 export interface ListRulesResponse {
@@ -1328,13 +1229,10 @@ export interface ListRulesResponse {
   })[];
 }
 export const ListRulesResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    NextToken: S.optional(S.String),
-    Rules: S.optional(__listOfListRulesOutput),
-  }).pipe(S.encodeKeys({ NextToken: "nextToken", Rules: "rules" })),
-).annotate({
-  identifier: "ListRulesResponse",
-}) as any as S.Schema<ListRulesResponse>;
+  S.Struct({ NextToken: S.optional(S.String), Rules: S.optional(__listOfListRulesOutput) }).pipe(
+    S.encodeKeys({ NextToken: "nextToken", Rules: "rules" }),
+  ),
+).annotate({ identifier: "ListRulesResponse" }) as any as S.Schema<ListRulesResponse>;
 export interface ListTagsForResourcesRequest {
   ResourceArn: string;
 }
@@ -1358,17 +1256,12 @@ export interface TagResourceRequest {
   Tags?: { [key: string]: string | undefined };
 }
 export const TagResourceRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ResourceArn: S.String.pipe(T.HttpLabel("ResourceArn")),
-    Tags: S.optional(Tags),
-  })
+  S.Struct({ ResourceArn: S.String.pipe(T.HttpLabel("ResourceArn")), Tags: S.optional(Tags) })
     .pipe(S.encodeKeys({ Tags: "tags" }))
     .pipe(
       T.all(T.Http({ method: "POST", uri: "/tags/{ResourceArn}" }), svc, auth, proto, ver, rules),
     ),
-).annotate({
-  identifier: "TagResourceRequest",
-}) as any as S.Schema<TagResourceRequest>;
+).annotate({ identifier: "TagResourceRequest" }) as any as S.Schema<TagResourceRequest>;
 export interface TagResourceResponse {}
 export const TagResourceResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
   identifier: "TagResourceResponse",
@@ -1384,9 +1277,7 @@ export const UntagResourceRequest = /*@__PURE__*/ S.suspend(() =>
   }).pipe(
     T.all(T.Http({ method: "DELETE", uri: "/tags/{ResourceArn}" }), svc, auth, proto, ver, rules),
   ),
-).annotate({
-  identifier: "UntagResourceRequest",
-}) as any as S.Schema<UntagResourceRequest>;
+).annotate({ identifier: "UntagResourceRequest" }) as any as S.Schema<UntagResourceRequest>;
 export interface UntagResourceResponse {}
 export const UntagResourceResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
   identifier: "UntagResourceResponse",
@@ -1402,9 +1293,7 @@ export const UpdateCellRequest = /*@__PURE__*/ S.suspend(() =>
   })
     .pipe(S.encodeKeys({ Cells: "cells" }))
     .pipe(T.all(T.Http({ method: "PUT", uri: "/cells/{CellName}" }), svc, auth, proto, ver, rules)),
-).annotate({
-  identifier: "UpdateCellRequest",
-}) as any as S.Schema<UpdateCellRequest>;
+).annotate({ identifier: "UpdateCellRequest" }) as any as S.Schema<UpdateCellRequest>;
 export interface UpdateCellResponse {
   CellArn?: string;
   CellName?: string;
@@ -1428,9 +1317,7 @@ export const UpdateCellResponse = /*@__PURE__*/ S.suspend(() =>
       Tags: "tags",
     }),
   ),
-).annotate({
-  identifier: "UpdateCellResponse",
-}) as any as S.Schema<UpdateCellResponse>;
+).annotate({ identifier: "UpdateCellResponse" }) as any as S.Schema<UpdateCellResponse>;
 export interface UpdateReadinessCheckRequest {
   ReadinessCheckName: string;
   ResourceSetName?: string;
@@ -1534,12 +1421,7 @@ export const UpdateResourceSetRequest = /*@__PURE__*/ S.suspend(() =>
     ResourceSetType: S.optional(S.String),
     Resources: S.optional(__listOfResource),
   })
-    .pipe(
-      S.encodeKeys({
-        ResourceSetType: "resourceSetType",
-        Resources: "resources",
-      }),
-    )
+    .pipe(S.encodeKeys({ ResourceSetType: "resourceSetType", Resources: "resources" }))
     .pipe(
       T.all(
         T.Http({ method: "PUT", uri: "/resourcesets/{ResourceSetName}" }),
@@ -1550,9 +1432,7 @@ export const UpdateResourceSetRequest = /*@__PURE__*/ S.suspend(() =>
         rules,
       ),
     ),
-).annotate({
-  identifier: "UpdateResourceSetRequest",
-}) as any as S.Schema<UpdateResourceSetRequest>;
+).annotate({ identifier: "UpdateResourceSetRequest" }) as any as S.Schema<UpdateResourceSetRequest>;
 export interface UpdateResourceSetResponse {
   ResourceSetArn?: string;
   ResourceSetName?: string;

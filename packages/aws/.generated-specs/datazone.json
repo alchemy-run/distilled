@@ -2876,6 +2876,17 @@
         "smithy.api#output": {}
       }
     },
+    "com.amazonaws.datazone#BlueprintCategory": {
+      "type": "enum",
+      "members": {
+        "TOOLING": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "TOOLING"
+          }
+        }
+      }
+    },
     "com.amazonaws.datazone#BusinessNameGenerationConfiguration": {
       "type": "structure",
       "members": {
@@ -6678,6 +6689,12 @@
           "traits": {
             "smithy.api#documentation": "<p>The user parameters of this Amazon DataZone blueprint.</p>"
           }
+        },
+        "blueprintCategory": {
+          "target": "com.amazonaws.datazone#BlueprintCategory",
+          "traits": {
+            "smithy.api#documentation": "<p>The category of the Amazon DataZone blueprint. The only valid value is <code>TOOLING</code>, which creates a blueprint that provisions the tooling resources of a project.</p>"
+          }
         }
       },
       "traits": {
@@ -6737,6 +6754,12 @@
           "target": "com.amazonaws.datazone#GlossaryTerms",
           "traits": {
             "smithy.api#documentation": "<p>The glossary terms attached to this Amazon DataZone blueprint.</p>"
+          }
+        },
+        "blueprintCategory": {
+          "target": "com.amazonaws.datazone#BlueprintCategory",
+          "traits": {
+            "smithy.api#documentation": "<p>The category of the Amazon DataZone blueprint. The only valid value is <code>TOOLING</code>, which indicates a blueprint that provisions the tooling resources of a project.</p>"
           }
         },
         "createdAt": {
@@ -7991,6 +8014,12 @@
             "smithy.api#documentation": "<p>The description of the notebook.</p>"
           }
         },
+        "type": {
+          "target": "com.amazonaws.datazone#NotebookType",
+          "traits": {
+            "smithy.api#documentation": "<p>The type of the notebook.</p>"
+          }
+        },
         "metadata": {
           "target": "com.amazonaws.datazone#Metadata",
           "traits": {
@@ -8058,6 +8087,12 @@
           "traits": {
             "smithy.api#documentation": "<p>The status of the notebook.</p>",
             "smithy.api#required": {}
+          }
+        },
+        "type": {
+          "target": "com.amazonaws.datazone#NotebookType",
+          "traits": {
+            "smithy.api#documentation": "<p>The type of the notebook.</p>"
           }
         },
         "description": {
@@ -15592,6 +15627,12 @@
             "smithy.api#documentation": "<p>The timestamp of when the blueprint was enabled.</p>",
             "smithy.api#timestampFormat": "date-time"
           }
+        },
+        "blueprintCategory": {
+          "target": "com.amazonaws.datazone#BlueprintCategory",
+          "traits": {
+            "smithy.api#documentation": "<p>The category of the environment blueprint. The only valid value is <code>TOOLING</code>.</p>"
+          }
         }
       },
       "traits": {
@@ -19127,6 +19168,12 @@
             "smithy.api#documentation": "<p>The glossary terms attached to this Amazon DataZone blueprint.</p>"
           }
         },
+        "blueprintCategory": {
+          "target": "com.amazonaws.datazone#BlueprintCategory",
+          "traits": {
+            "smithy.api#documentation": "<p>The category of this Amazon DataZone blueprint. The only valid value is <code>TOOLING</code>, which indicates a blueprint that provisions the tooling resources of a project.</p>"
+          }
+        },
         "createdAt": {
           "target": "smithy.api#Timestamp",
           "traits": {
@@ -21130,6 +21177,12 @@
             "smithy.api#required": {}
           }
         },
+        "type": {
+          "target": "com.amazonaws.datazone#NotebookType",
+          "traits": {
+            "smithy.api#documentation": "<p>The type of the notebook.</p>"
+          }
+        },
         "description": {
           "target": "com.amazonaws.datazone#Description",
           "traits": {
@@ -21368,6 +21421,12 @@
           "target": "com.amazonaws.datazone#StorageConfig",
           "traits": {
             "smithy.api#documentation": "<p>The storage configuration of the notebook run, including the Amazon Simple Storage Service path and KMS key ARN.</p>"
+          }
+        },
+        "notificationConfiguration": {
+          "target": "com.amazonaws.datazone#NotificationConfig",
+          "traits": {
+            "smithy.api#documentation": "<p>The notification configuration of the notebook run, including the notebook run states that trigger notifications.</p>"
           }
         },
         "triggerSource": {
@@ -24387,6 +24446,12 @@
           "target": "smithy.api#Boolean",
           "traits": {
             "smithy.api#documentation": "<p>Specifies whether Amazon Web Services Glue lineage sync is enabled for a connection.</p>"
+          }
+        },
+        "roleArn": {
+          "target": "com.amazonaws.datazone#RoleArn",
+          "traits": {
+            "smithy.api#documentation": "<p>The ARN of the IAM role to associate with the connection as the project user role. To use this operation, you must have <code>iam:PassRole</code> permission for this role.</p>"
           }
         }
       },
@@ -28148,6 +28213,13 @@
             "smithy.api#httpQuery": "status"
           }
         },
+        "type": {
+          "target": "com.amazonaws.datazone#NotebookType",
+          "traits": {
+            "smithy.api#documentation": "<p>The type to filter notebooks by.</p>",
+            "smithy.api#httpQuery": "type"
+          }
+        },
         "nextToken": {
           "target": "com.amazonaws.datazone#PaginationToken",
           "traits": {
@@ -30860,6 +30932,9 @@
         "status": {
           "target": "com.amazonaws.datazone#NotebookStatus"
         },
+        "type": {
+          "target": "com.amazonaws.datazone#NotebookType"
+        },
         "cellOrder": {
           "target": "com.amazonaws.datazone#CellOrder"
         },
@@ -31119,6 +31194,9 @@
         },
         "storageConfiguration": {
           "target": "com.amazonaws.datazone#StorageConfig"
+        },
+        "notificationConfiguration": {
+          "target": "com.amazonaws.datazone#NotificationConfig"
         },
         "triggerSource": {
           "target": "com.amazonaws.datazone#TriggerSource"
@@ -31423,6 +31501,12 @@
             "smithy.api#required": {}
           }
         },
+        "type": {
+          "target": "com.amazonaws.datazone#NotebookType",
+          "traits": {
+            "smithy.api#documentation": "<p>The type of the notebook.</p>"
+          }
+        },
         "description": {
           "target": "com.amazonaws.datazone#Description",
           "traits": {
@@ -31462,6 +31546,43 @@
       "type": "list",
       "member": {
         "target": "com.amazonaws.datazone#NotebookSummary"
+      }
+    },
+    "com.amazonaws.datazone#NotebookType": {
+      "type": "enum",
+      "members": {
+        "DATA": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#documentation": "<p>A data notebook.</p>",
+            "smithy.api#enumValue": "DATA"
+          }
+        },
+        "SQL": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#documentation": "<p>A SQL notebook.</p>",
+            "smithy.api#enumValue": "SQL"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "<p>The type of a notebook in Amazon SageMaker Unified Studio.</p>"
+      }
+    },
+    "com.amazonaws.datazone#NotificationConfig": {
+      "type": "structure",
+      "members": {
+        "notifyOn": {
+          "target": "com.amazonaws.datazone#NotifyOnStates",
+          "traits": {
+            "smithy.api#documentation": "Notebook run states that trigger notifications. Ordering is not significant.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "<p>The notification configuration for a notebook run in Amazon SageMaker Unified Studio.</p>"
       }
     },
     "com.amazonaws.datazone#NotificationOutput": {
@@ -31648,6 +31769,76 @@
       "type": "list",
       "member": {
         "target": "com.amazonaws.datazone#NotificationOutput"
+      }
+    },
+    "com.amazonaws.datazone#NotifyOnState": {
+      "type": "enum",
+      "members": {
+        "SUCCEEDED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#documentation": "<p>Notify when the notebook run succeeds.</p>",
+            "smithy.api#enumValue": "SUCCEEDED"
+          }
+        },
+        "FAILED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#documentation": "<p>Notify when the notebook run fails.</p>",
+            "smithy.api#enumValue": "FAILED"
+          }
+        },
+        "STOPPED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#documentation": "<p>Notify when the notebook run is stopped.</p>",
+            "smithy.api#enumValue": "STOPPED"
+          }
+        },
+        "QUEUED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#documentation": "<p>Notify when the notebook run is queued.</p>",
+            "smithy.api#enumValue": "QUEUED"
+          }
+        },
+        "STARTING": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#documentation": "<p>Notify when the notebook run is starting.</p>",
+            "smithy.api#enumValue": "STARTING"
+          }
+        },
+        "RUNNING": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#documentation": "<p>Notify when the notebook run is running.</p>",
+            "smithy.api#enumValue": "RUNNING"
+          }
+        },
+        "STOPPING": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#documentation": "<p>Notify when the notebook run is stopping.</p>",
+            "smithy.api#enumValue": "STOPPING"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "<p>A notebook run state that triggers a notification in Amazon SageMaker Unified Studio.</p>"
+      }
+    },
+    "com.amazonaws.datazone#NotifyOnStates": {
+      "type": "list",
+      "member": {
+        "target": "com.amazonaws.datazone#NotifyOnState"
+      },
+      "traits": {
+        "smithy.api#length": {
+          "min": 0,
+          "max": 7
+        },
+        "smithy.api#uniqueItems": {}
       }
     },
     "com.amazonaws.datazone#OAuth2ClientApplication": {
@@ -38260,6 +38451,12 @@
             "smithy.api#documentation": "<p>The timeout configuration for the notebook run. The default timeout is 720 minutes (12 hours) and the maximum is 1440 minutes (24 hours).</p>"
           }
         },
+        "notificationConfiguration": {
+          "target": "com.amazonaws.datazone#NotificationConfig",
+          "traits": {
+            "smithy.api#documentation": "<p>The notification configuration for the notebook run. Use this to specify the notebook run states that trigger notifications.</p>"
+          }
+        },
         "triggerSource": {
           "target": "com.amazonaws.datazone#TriggerSource",
           "traits": {
@@ -38380,6 +38577,12 @@
           "target": "com.amazonaws.datazone#StorageConfig",
           "traits": {
             "smithy.api#documentation": "<p>The storage configuration of the notebook run, including the Amazon Simple Storage Service path and KMS key ARN.</p>"
+          }
+        },
+        "notificationConfiguration": {
+          "target": "com.amazonaws.datazone#NotificationConfig",
+          "traits": {
+            "smithy.api#documentation": "<p>The notification configuration of the notebook run, including the notebook run states that trigger notifications.</p>"
           }
         },
         "triggerSource": {
@@ -42319,6 +42522,12 @@
           "traits": {
             "smithy.api#documentation": "<p>The user parameters to be updated as part of the <code>UpdateEnvironmentBlueprint</code> action.</p>"
           }
+        },
+        "blueprintCategory": {
+          "target": "com.amazonaws.datazone#BlueprintCategory",
+          "traits": {
+            "smithy.api#documentation": "<p>The category to update. The only valid value is <code>TOOLING</code>.</p>"
+          }
         }
       },
       "traits": {
@@ -42378,6 +42587,12 @@
           "target": "com.amazonaws.datazone#GlossaryTerms",
           "traits": {
             "smithy.api#documentation": "<p>The glossary terms to be updated as part of the <code>UpdateEnvironmentBlueprint</code> action.</p>"
+          }
+        },
+        "blueprintCategory": {
+          "target": "com.amazonaws.datazone#BlueprintCategory",
+          "traits": {
+            "smithy.api#documentation": "<p>The category of the environment blueprint. The only valid value is <code>TOOLING</code>.</p>"
           }
         },
         "createdAt": {
@@ -43289,6 +43504,12 @@
             "smithy.api#documentation": "<p>The updated ordered list of cells in the notebook.</p>"
           }
         },
+        "type": {
+          "target": "com.amazonaws.datazone#NotebookType",
+          "traits": {
+            "smithy.api#documentation": "<p>The updated type of the notebook.</p>"
+          }
+        },
         "metadata": {
           "target": "com.amazonaws.datazone#Metadata",
           "traits": {
@@ -43362,6 +43583,12 @@
           "traits": {
             "smithy.api#documentation": "<p>The status of the notebook.</p>",
             "smithy.api#required": {}
+          }
+        },
+        "type": {
+          "target": "com.amazonaws.datazone#NotebookType",
+          "traits": {
+            "smithy.api#documentation": "<p>The type of the notebook.</p>"
           }
         },
         "description": {

@@ -1,28 +1,6 @@
 {
-  "description": "Add observed error responses to v2 operations. Discovered via live API probes against api.axiom.co: 404 is returned for unknown resource IDs on all by-ID GET/PUT/DELETE endpoints; 422 is returned for missing/invalid body fields on create/update; 400 is returned for malformed inputs (e.g. invalid dataset name, malformed annotation ID).",
+  "description": "Add observed error responses to v2 operations. Discovered via live API probes against api.axiom.co: 404 is returned for unknown resource IDs on all by-ID GET/PUT/DELETE endpoints; 422 is returned for missing/invalid body fields on create/update; 400 is returned for malformed inputs (e.g. invalid dataset name, malformed annotation ID). The spec defines BadRequestError itself; this file adds UnprocessableEntityError, which it does not.",
   "patches": [
-    {
-      "op": "add",
-      "path": "/components/responses/BadRequestError",
-      "value": {
-        "description": "Bad request",
-        "content": {
-          "application/json": {
-            "schema": {
-              "type": "object",
-              "properties": {
-                "code": {
-                  "type": "integer"
-                },
-                "message": {
-                  "type": "string"
-                }
-              }
-            }
-          }
-        }
-      }
-    },
     {
       "op": "add",
       "path": "/components/responses/UnprocessableEntityError",

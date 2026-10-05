@@ -121,29 +121,20 @@ export interface S3Reference {
   objectVersion?: string;
 }
 export const S3Reference = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    bucket: S.String,
-    key: S.String,
-    objectVersion: S.optional(S.String),
-  }),
+  S.Struct({ bucket: S.String, key: S.String, objectVersion: S.optional(S.String) }),
 ).annotate({ identifier: "S3Reference" }) as any as S.Schema<S3Reference>;
 export interface RawMessageContent {
   s3Reference: S3Reference;
 }
 export const RawMessageContent = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ s3Reference: S3Reference }),
-).annotate({
-  identifier: "RawMessageContent",
-}) as any as S.Schema<RawMessageContent>;
+).annotate({ identifier: "RawMessageContent" }) as any as S.Schema<RawMessageContent>;
 export interface PutRawMessageContentRequest {
   messageId: string;
   content: RawMessageContent;
 }
 export const PutRawMessageContentRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    messageId: S.String.pipe(T.HttpLabel("messageId")),
-    content: RawMessageContent,
-  }).pipe(
+  S.Struct({ messageId: S.String.pipe(T.HttpLabel("messageId")), content: RawMessageContent }).pipe(
     T.all(T.Http({ method: "POST", uri: "/messages/{messageId}" }), svc, auth, proto, ver, rules),
   ),
 ).annotate({

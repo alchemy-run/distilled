@@ -18,9 +18,7 @@ export const GetAvatarRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     namespace: S.String.pipe(T.Label()),
   }).pipe(T.Http({ method: "GET", uri: "/api/avatars/{namespace}", code: 200 })),
-).annotate({
-  identifier: "GetAvatarRequest",
-}) as any as S.Schema<GetAvatarRequest>;
+).annotate({ identifier: "GetAvatarRequest" }) as any as S.Schema<GetAvatarRequest>;
 
 export interface GetAvatarResponse {}
 export const GetAvatarResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -29,16 +27,8 @@ export const GetAvatarResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).ann
 
 export interface GetJobsUsageRequest {}
 export const GetJobsUsageRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/api/settings/billing/usage/jobs",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "GetJobsUsageRequest",
-}) as any as S.Schema<GetJobsUsageRequest>;
+  S.Struct({}).pipe(T.Http({ method: "GET", uri: "/api/settings/billing/usage/jobs", code: 200 })),
+).annotate({ identifier: "GetJobsUsageRequest" }) as any as S.Schema<GetJobsUsageRequest>;
 
 export interface GetJobsUsageResponseUsageJobDetailsItem {
   jobId: string;
@@ -95,16 +85,12 @@ export const GetJobsUsageResponse = /*@__PURE__*/ S.suspend(() =>
     usage: GetJobsUsageResponseUsage,
     hasAccess: S.Boolean,
   }),
-).annotate({
-  identifier: "GetJobsUsageResponse",
-}) as any as S.Schema<GetJobsUsageResponse>;
+).annotate({ identifier: "GetJobsUsageResponse" }) as any as S.Schema<GetJobsUsageResponse>;
 
 export interface GetMcpToolsRequest {}
 export const GetMcpToolsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({}).pipe(T.Http({ method: "GET", uri: "/api/settings/mcp", code: 200 })),
-).annotate({
-  identifier: "GetMcpToolsRequest",
-}) as any as S.Schema<GetMcpToolsRequest>;
+).annotate({ identifier: "GetMcpToolsRequest" }) as any as S.Schema<GetMcpToolsRequest>;
 
 export type GetMcpToolsResponseBuiltInToolsList = Array<string>;
 export const GetMcpToolsResponseBuiltInToolsList = /*@__PURE__*/ S.Array(
@@ -142,9 +128,7 @@ export const GetMcpToolsResponse = /*@__PURE__*/ S.suspend(() =>
     builtInTools: GetMcpToolsResponseBuiltInToolsList,
     spaceTools: GetMcpToolsResponseSpaceToolsList,
   }),
-).annotate({
-  identifier: "GetMcpToolsResponse",
-}) as any as S.Schema<GetMcpToolsResponse>;
+).annotate({ identifier: "GetMcpToolsResponse" }) as any as S.Schema<GetMcpToolsResponse>;
 
 export interface GetSessionInferenceUsageRequest {
   startDate?: string;
@@ -155,11 +139,7 @@ export const GetSessionInferenceUsageRequest = /*@__PURE__*/ S.suspend(() =>
     startDate: S.optional(S.String.pipe(T.Query())),
     endDate: S.optional(S.String.pipe(T.Query())),
   }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/api/settings/billing/usage-by-inference-session",
-      code: 200,
-    }),
+    T.Http({ method: "GET", uri: "/api/settings/billing/usage-by-inference-session", code: 200 }),
   ),
 ).annotate({
   identifier: "GetSessionInferenceUsageRequest",
@@ -225,9 +205,7 @@ export const GetSocialHandlesRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     username: S.String.pipe(T.Label()),
   }).pipe(T.Http({ method: "GET", uri: "/api/users/{username}/socials", code: 200 })),
-).annotate({
-  identifier: "GetSocialHandlesRequest",
-}) as any as S.Schema<GetSocialHandlesRequest>;
+).annotate({ identifier: "GetSocialHandlesRequest" }) as any as S.Schema<GetSocialHandlesRequest>;
 
 export interface GetSocialHandlesResponseSocialHandles {
   twitter?: string;
@@ -257,22 +235,18 @@ export const GetSocialHandlesResponse = /*@__PURE__*/ S.suspend(() =>
     user: S.String,
     socialHandles: GetSocialHandlesResponseSocialHandles,
   }),
-).annotate({
-  identifier: "GetSocialHandlesResponse",
-}) as any as S.Schema<GetSocialHandlesResponse>;
+).annotate({ identifier: "GetSocialHandlesResponse" }) as any as S.Schema<GetSocialHandlesResponse>;
 
 export interface GetUserAvatarRequest {
   username: string;
-  redirect?: unknown;
+  redirect?: string;
 }
 export const GetUserAvatarRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     username: S.String.pipe(T.Label()),
-    redirect: S.optional(S.Unknown.pipe(T.Query())),
+    redirect: S.optional(S.String.pipe(T.Query())),
   }).pipe(T.Http({ method: "GET", uri: "/api/users/{username}/avatar", code: 200 })),
-).annotate({
-  identifier: "GetUserAvatarRequest",
-}) as any as S.Schema<GetUserAvatarRequest>;
+).annotate({ identifier: "GetUserAvatarRequest" }) as any as S.Schema<GetUserAvatarRequest>;
 
 export interface GetUserAvatarResponse {
   avatarUrl: string;
@@ -281,344 +255,7 @@ export const GetUserAvatarResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     avatarUrl: S.String,
   }),
-).annotate({
-  identifier: "GetUserAvatarResponse",
-}) as any as S.Schema<GetUserAvatarResponse>;
-
-export interface GetUserUsageRequest {
-  periodId?: string;
-}
-export const GetUserUsageRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    periodId: S.optional(S.String.pipe(T.Query())),
-  }).pipe(T.Http({ method: "GET", uri: "/api/settings/billing/usage", code: 200 })),
-).annotate({
-  identifier: "GetUserUsageRequest",
-}) as any as S.Schema<GetUserUsageRequest>;
-
-export type GetUserUsageResponseUsageValueItemProduct =
-  | "hf/repository-storage"
-  | "jobs/cpu-basic/minutes"
-  | "jobs/cpu-upgrade/minutes"
-  | "jobs/cpu-performance/minutes"
-  | "jobs/cpu-xl/minutes"
-  | "jobs/sprx8/minutes"
-  | "jobs/t4-small/minutes"
-  | "jobs/t4-medium/minutes"
-  | "jobs/a10g-small/minutes"
-  | "jobs/a10g-large/minutes"
-  | "jobs/a10g-largex2/minutes"
-  | "jobs/a10g-largex4/minutes"
-  | "jobs/a100-large/minutes"
-  | "jobs/a100x4/minutes"
-  | "jobs/a100x8/minutes"
-  | "jobs/h100/minutes"
-  | "jobs/h100x8/minutes"
-  | "jobs/h200/minutes"
-  | "jobs/h200x2/minutes"
-  | "jobs/h200x4/minutes"
-  | "jobs/h200x8/minutes"
-  | "jobs/rtx-pro-6000/minutes"
-  | "jobs/rtx-pro-6000x2/minutes"
-  | "jobs/rtx-pro-6000x4/minutes"
-  | "jobs/rtx-pro-6000x8/minutes"
-  | "jobs/l4x1/minutes"
-  | "jobs/l4x4/minutes"
-  | "jobs/l40sx1/minutes"
-  | "jobs/l40sx4/minutes"
-  | "jobs/l40sx8/minutes"
-  | "jobs/v5e-2x4/minutes"
-  | "jobs/v5e-2x2/minutes"
-  | "jobs/v5e-1x1/minutes"
-  | "jobs/inf2x6/minutes"
-  | "spaces/zero-a10g/minutes"
-  | "spaces/cpu-basic/minutes"
-  | "spaces/cpu-upgrade/minutes"
-  | "spaces/cpu-performance/minutes"
-  | "spaces/cpu-xl/minutes"
-  | "spaces/sprx8/minutes"
-  | "spaces/t4-small/minutes"
-  | "spaces/t4-medium/minutes"
-  | "spaces/a10g-small/minutes"
-  | "spaces/a10g-large/minutes"
-  | "spaces/a10g-largex2/minutes"
-  | "spaces/a10g-largex4/minutes"
-  | "spaces/a100-large/minutes"
-  | "spaces/a100x4/minutes"
-  | "spaces/a100x8/minutes"
-  | "spaces/h100/minutes"
-  | "spaces/h100x8/minutes"
-  | "spaces/h200/minutes"
-  | "spaces/h200x2/minutes"
-  | "spaces/h200x4/minutes"
-  | "spaces/h200x8/minutes"
-  | "spaces/rtx-pro-6000/minutes"
-  | "spaces/rtx-pro-6000x2/minutes"
-  | "spaces/rtx-pro-6000x4/minutes"
-  | "spaces/rtx-pro-6000x8/minutes"
-  | "spaces/l4x1/minutes"
-  | "spaces/l4x4/minutes"
-  | "spaces/l40sx1/minutes"
-  | "spaces/l40sx4/minutes"
-  | "spaces/l40sx8/minutes"
-  | "spaces/inf2x6/minutes"
-  | "spaces/v5e-2x4/minutes"
-  | "spaces/v5e-2x2/minutes"
-  | "spaces/v5e-1x1/minutes"
-  | "spaces/storage-small/minutes"
-  | "spaces/storage-medium/minutes"
-  | "spaces/storage-large/minutes"
-  | "endpoints/azure/intel-xeon/x1"
-  | "endpoints/azure/intel-xeon/x2"
-  | "endpoints/azure/intel-xeon/x4"
-  | "endpoints/azure/intel-xeon/x8"
-  | "endpoints/aws/intel-icl/x1"
-  | "endpoints/aws/intel-icl/x2"
-  | "endpoints/aws/intel-icl/x4"
-  | "endpoints/aws/intel-icl/x8"
-  | "endpoints/aws/intel-spr/x1"
-  | "endpoints/aws/intel-spr/x2"
-  | "endpoints/aws/intel-spr/x4"
-  | "endpoints/aws/intel-spr/x8"
-  | "endpoints/aws/intel-spr/x16"
-  | "endpoints/aws/intel-spr-overcommitted/x16"
-  | "endpoints/aws/nvidia-t4/x1"
-  | "endpoints/aws/nvidia-t4/x4"
-  | "endpoints/aws/nvidia-l4/x1"
-  | "endpoints/aws/nvidia-l4/x4"
-  | "endpoints/aws/nvidia-l40s/x1"
-  | "endpoints/aws/nvidia-l40s/x4"
-  | "endpoints/aws/nvidia-l40s/x8"
-  | "endpoints/aws/nvidia-a10g/x1"
-  | "endpoints/aws/nvidia-a10g/x4"
-  | "endpoints/aws/nvidia-a100/x1"
-  | "endpoints/aws/nvidia-a100/x2"
-  | "endpoints/aws/nvidia-a100/x4"
-  | "endpoints/aws/nvidia-a100/x8"
-  | "endpoints/aws/nvidia-h100/x1"
-  | "endpoints/aws/nvidia-h100/x2"
-  | "endpoints/aws/nvidia-h100/x4"
-  | "endpoints/aws/nvidia-h100/x8"
-  | "endpoints/aws/nvidia-h200/x1"
-  | "endpoints/aws/nvidia-h200/x2"
-  | "endpoints/aws/nvidia-h200/x4"
-  | "endpoints/aws/nvidia-h200/x8"
-  | "endpoints/aws/nvidia-b200/x1"
-  | "endpoints/aws/nvidia-b200/x2"
-  | "endpoints/aws/nvidia-b200/x4"
-  | "endpoints/aws/nvidia-b200/x8"
-  | "endpoints/aws/nvidia-rtx-pro-6000/x1"
-  | "endpoints/aws/nvidia-rtx-pro-6000/x2"
-  | "endpoints/aws/nvidia-rtx-pro-6000/x4"
-  | "endpoints/aws/nvidia-rtx-pro-6000/x8"
-  | "endpoints/aws/inf2/x1"
-  | "endpoints/aws/inf2/x1-large"
-  | "endpoints/aws/inf2/x12"
-  | "endpoints/gcp/intel-spr/x1"
-  | "endpoints/gcp/intel-spr/x2"
-  | "endpoints/gcp/intel-spr/x4"
-  | "endpoints/gcp/intel-spr/x8"
-  | "endpoints/gcp/nvidia-t4/x1"
-  | "endpoints/gcp/nvidia-l4/x1"
-  | "endpoints/gcp/nvidia-l4/x4"
-  | "endpoints/gcp/nvidia-a100/x1"
-  | "endpoints/gcp/nvidia-a100/x2"
-  | "endpoints/gcp/nvidia-a100/x4"
-  | "endpoints/gcp/nvidia-a100/x8"
-  | "endpoints/gcp/nvidia-h100/x1"
-  | "endpoints/gcp/nvidia-h100/x2"
-  | "endpoints/gcp/nvidia-h100/x4"
-  | "endpoints/gcp/nvidia-h100/x8"
-  | "endpoints/gcp/v5e/1x1"
-  | "endpoints/gcp/v5e/2x2"
-  | "endpoints/gcp/v5e/2x4";
-export const GetUserUsageResponseUsageValueItemProduct = S.String;
-
-export interface GetUserUsageResponseUsageValueItem {
-  entityId: string;
-  label: string | null;
-  product: GetUserUsageResponseUsageValueItemProduct;
-  quantity: number;
-  startedAt?: string;
-  stoppedAt?: string | null;
-  freeGrant?: boolean;
-  productPrettyName: string;
-  unitLabel: string | null;
-  totalCostMicroUSD: number;
-  unitCostMicroUSD: number;
-  active: boolean;
-}
-export const GetUserUsageResponseUsageValueItem = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    entityId: S.String,
-    label: S.NullOr(S.String),
-    product: GetUserUsageResponseUsageValueItemProduct,
-    quantity: S.Number,
-    startedAt: S.optional(S.String),
-    stoppedAt: S.optional(S.NullOr(S.String)),
-    freeGrant: S.optional(S.Boolean),
-    productPrettyName: S.String,
-    unitLabel: S.NullOr(S.String),
-    totalCostMicroUSD: S.Number,
-    unitCostMicroUSD: S.Number,
-    active: S.Boolean,
-  }),
-).annotate({
-  identifier: "GetUserUsageResponseUsageValueItem",
-}) as any as S.Schema<GetUserUsageResponseUsageValueItem>;
-
-export type GetUserUsageResponseUsageValueList = Array<GetUserUsageResponseUsageValueItem>;
-export const GetUserUsageResponseUsageValueList = /*@__PURE__*/ S.Array(
-  GetUserUsageResponseUsageValueItem,
-) as any as S.Schema<GetUserUsageResponseUsageValueList>;
-
-export type GetUserUsageResponseUsageMap = {
-  [key: string]: GetUserUsageResponseUsageValueList | undefined;
-};
-export const GetUserUsageResponseUsageMap = /*@__PURE__*/ S.Record(
-  S.String,
-  GetUserUsageResponseUsageValueList,
-) as any as S.Schema<GetUserUsageResponseUsageMap>;
-
-export type GetUserUsageResponsePeriodEntityType = "user" | "org";
-export const GetUserUsageResponsePeriodEntityType = S.String;
-
-export type GetUserUsageResponsePeriodInvoiceCase0Status =
-  | "draft"
-  | "open"
-  | "paid"
-  | "uncollectible"
-  | "void"
-  | "unpaid";
-export const GetUserUsageResponsePeriodInvoiceCase0Status = S.String;
-
-export type GetUserUsageResponsePeriodInvoiceCase0CollectionMethod =
-  | "charge_automatically"
-  | "send_invoice";
-export const GetUserUsageResponsePeriodInvoiceCase0CollectionMethod = S.String;
-
-export interface GetUserUsageResponsePeriodInvoiceCase0 {
-  type: unknown;
-  id: string;
-  amountDueCents: number;
-  totalCents: number;
-  status: GetUserUsageResponsePeriodInvoiceCase0Status;
-  dueDate: string;
-  collectionMethod?: GetUserUsageResponsePeriodInvoiceCase0CollectionMethod;
-}
-export const GetUserUsageResponsePeriodInvoiceCase0 = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    type: S.Unknown,
-    id: S.String,
-    amountDueCents: S.Number,
-    totalCents: S.Number,
-    status: GetUserUsageResponsePeriodInvoiceCase0Status,
-    dueDate: S.String,
-    collectionMethod: S.optional(GetUserUsageResponsePeriodInvoiceCase0CollectionMethod),
-  }),
-).annotate({
-  identifier: "GetUserUsageResponsePeriodInvoiceCase0",
-}) as any as S.Schema<GetUserUsageResponsePeriodInvoiceCase0>;
-
-export interface GetUserUsageResponsePeriodInvoiceCase1 {
-  type: unknown;
-  id: unknown;
-}
-export const GetUserUsageResponsePeriodInvoiceCase1 = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    type: S.Unknown,
-    id: S.Unknown,
-  }),
-).annotate({
-  identifier: "GetUserUsageResponsePeriodInvoiceCase1",
-}) as any as S.Schema<GetUserUsageResponsePeriodInvoiceCase1>;
-
-export type GetUserUsageResponsePeriodInvoice =
-  | GetUserUsageResponsePeriodInvoiceCase0
-  | GetUserUsageResponsePeriodInvoiceCase1;
-export const GetUserUsageResponsePeriodInvoice =
-  S.Unknown as any as S.Schema<GetUserUsageResponsePeriodInvoice>;
-
-export type GetUserUsageResponsePeriodChargesItemBilledThrough = "stripe-payment-intent";
-export const GetUserUsageResponsePeriodChargesItemBilledThrough = S.String;
-
-export type GetUserUsageResponsePeriodChargesItemPaymentIntentStatus =
-  | "canceled"
-  | "processing"
-  | "requires_action"
-  | "requires_capture"
-  | "requires_confirmation"
-  | "requires_payment_method"
-  | "succeeded";
-export const GetUserUsageResponsePeriodChargesItemPaymentIntentStatus = S.String;
-
-export interface GetUserUsageResponsePeriodChargesItem {
-  _id: string;
-  createdAt: string;
-  dueDate: string;
-  usageAtChargeTimeMicroUSD: number;
-  amountCents: number;
-  billedThrough: GetUserUsageResponsePeriodChargesItemBilledThrough;
-  paymentIntentId: string;
-  paymentIntentStatus: GetUserUsageResponsePeriodChargesItemPaymentIntentStatus;
-}
-export const GetUserUsageResponsePeriodChargesItem = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    _id: S.String,
-    createdAt: S.String,
-    dueDate: S.String,
-    usageAtChargeTimeMicroUSD: S.Number,
-    amountCents: S.Number,
-    billedThrough: GetUserUsageResponsePeriodChargesItemBilledThrough,
-    paymentIntentId: S.String,
-    paymentIntentStatus: GetUserUsageResponsePeriodChargesItemPaymentIntentStatus,
-  }),
-).annotate({
-  identifier: "GetUserUsageResponsePeriodChargesItem",
-}) as any as S.Schema<GetUserUsageResponsePeriodChargesItem>;
-
-export type GetUserUsageResponsePeriodChargesList = Array<GetUserUsageResponsePeriodChargesItem>;
-export const GetUserUsageResponsePeriodChargesList = /*@__PURE__*/ S.Array(
-  GetUserUsageResponsePeriodChargesItem,
-) as any as S.Schema<GetUserUsageResponsePeriodChargesList>;
-
-export interface GetUserUsageResponsePeriod {
-  _id: string;
-  entityId: string;
-  entityType: GetUserUsageResponsePeriodEntityType;
-  entityName: string;
-  periodStart: string;
-  periodEnd: string;
-  invoice?: GetUserUsageResponsePeriodInvoice;
-  charges?: GetUserUsageResponsePeriodChargesList;
-}
-export const GetUserUsageResponsePeriod = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    _id: S.String,
-    entityId: S.String,
-    entityType: GetUserUsageResponsePeriodEntityType,
-    entityName: S.String,
-    periodStart: S.String,
-    periodEnd: S.String,
-    invoice: S.optional(GetUserUsageResponsePeriodInvoice),
-    charges: S.optional(GetUserUsageResponsePeriodChargesList),
-  }),
-).annotate({
-  identifier: "GetUserUsageResponsePeriod",
-}) as any as S.Schema<GetUserUsageResponsePeriod>;
-
-export interface GetUserUsageResponse {
-  usage: GetUserUsageResponseUsageMap;
-  period: GetUserUsageResponsePeriod;
-}
-export const GetUserUsageResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    usage: GetUserUsageResponseUsageMap,
-    period: GetUserUsageResponsePeriod,
-  }),
-).annotate({
-  identifier: "GetUserUsageResponse",
-}) as any as S.Schema<GetUserUsageResponse>;
+).annotate({ identifier: "GetUserAvatarResponse" }) as any as S.Schema<GetUserAvatarResponse>;
 
 export interface GetUserUsageV2Request {
   startDate: number;
@@ -629,9 +266,7 @@ export const GetUserUsageV2Request = /*@__PURE__*/ S.suspend(() =>
     startDate: S.Number.pipe(T.Query()),
     endDate: S.Number.pipe(T.Query()),
   }).pipe(T.Http({ method: "GET", uri: "/api/settings/billing/usage-v2", code: 200 })),
-).annotate({
-  identifier: "GetUserUsageV2Request",
-}) as any as S.Schema<GetUserUsageV2Request>;
+).annotate({ identifier: "GetUserUsageV2Request" }) as any as S.Schema<GetUserUsageV2Request>;
 
 export interface GetUserUsageV2Response {}
 export const GetUserUsageV2Response = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -646,13 +281,7 @@ export const ListFollowedOrganizationsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     username: S.String.pipe(T.Label()),
     cursor: S.optional(S.String.pipe(T.Query())),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/api/users/{username}/following/orgs",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/api/users/{username}/following/orgs", code: 200 })),
 ).annotate({
   identifier: "ListFollowedOrganizationsRequest",
 }) as any as S.Schema<ListFollowedOrganizationsRequest>;
@@ -694,11 +323,12 @@ export const ListFollowedOrganizationsResponseBodyItemEmailDomainsList = /*@__PU
 ) as any as S.Schema<ListFollowedOrganizationsResponseBodyItemEmailDomainsList>;
 
 export interface ListFollowedOrganizationsResponseBodyItem {
+  /** A hex string of 24 characters representing an ObjectId. */
   _id: string;
   avatarUrl: string;
   name: string;
   fullname: string;
-  type: unknown;
+  type: string;
   isHf: boolean;
   orgType?: ListFollowedOrganizationsResponseBodyItemOrgType;
   plan?: ListFollowedOrganizationsResponseBodyItemPlan;
@@ -714,7 +344,7 @@ export const ListFollowedOrganizationsResponseBodyItem = /*@__PURE__*/ S.suspend
     avatarUrl: S.String,
     name: S.String,
     fullname: S.String,
-    type: S.Unknown,
+    type: S.String,
     isHf: S.Boolean,
     orgType: S.optional(ListFollowedOrganizationsResponseBodyItemOrgType),
     plan: S.optional(ListFollowedOrganizationsResponseBodyItemPlan),
@@ -749,16 +379,8 @@ export const ListFollowedUsersRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     username: S.String.pipe(T.Label()),
     cursor: S.optional(S.String.pipe(T.Query())),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/api/users/{username}/following",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "ListFollowedUsersRequest",
-}) as any as S.Schema<ListFollowedUsersRequest>;
+  }).pipe(T.Http({ method: "GET", uri: "/api/users/{username}/following", code: 200 })),
+).annotate({ identifier: "ListFollowedUsersRequest" }) as any as S.Schema<ListFollowedUsersRequest>;
 
 export interface ListFollowedUsersResponseBodyItemOrgsItem {
   id: string;
@@ -785,6 +407,7 @@ export const ListFollowedUsersResponseBodyItemOrgsList = /*@__PURE__*/ S.Array(
 
 /** Set when the user is a service account */
 export interface ListFollowedUsersResponseBodyItemServiceAccount {
+  /** A hex string of 24 characters representing an ObjectId. */
   id: string;
   org: string;
   orgAvatarUrl: string;
@@ -802,6 +425,7 @@ export const ListFollowedUsersResponseBodyItemServiceAccount = /*@__PURE__*/ S.s
 }) as any as S.Schema<ListFollowedUsersResponseBodyItemServiceAccount>;
 
 export interface ListFollowedUsersResponseBodyItem {
+  /** A hex string of 24 characters representing an ObjectId. */
   _id: string;
   orgs?: ListFollowedUsersResponseBodyItemOrgsList;
   avatarUrl: string;
@@ -826,7 +450,7 @@ export interface ListFollowedUsersResponseBodyItem {
   primaryOrgAvatarUrl?: string;
   /** Set when the user is a service account */
   serviceAccount?: ListFollowedUsersResponseBodyItemServiceAccount;
-  type: unknown;
+  type: string;
 }
 export const ListFollowedUsersResponseBodyItem = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -853,7 +477,7 @@ export const ListFollowedUsersResponseBodyItem = /*@__PURE__*/ S.suspend(() =>
     reasonToFollow: S.optional(S.String),
     primaryOrgAvatarUrl: S.optional(S.String),
     serviceAccount: S.optional(ListFollowedUsersResponseBodyItemServiceAccount),
-    type: S.Unknown,
+    type: S.String,
   }),
 ).annotate({
   identifier: "ListFollowedUsersResponseBodyItem",
@@ -893,16 +517,8 @@ export const ListUserFollowersRequest = /*@__PURE__*/ S.suspend(() =>
     cursor: S.optional(S.String.pipe(T.Query())),
     limit: S.optional(S.Number.pipe(T.Query())),
     expand: S.optional(ListUserFollowersRequestExpandList.pipe(T.Query())),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/api/users/{username}/followers",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "ListUserFollowersRequest",
-}) as any as S.Schema<ListUserFollowersRequest>;
+  }).pipe(T.Http({ method: "GET", uri: "/api/users/{username}/followers", code: 200 })),
+).annotate({ identifier: "ListUserFollowersRequest" }) as any as S.Schema<ListUserFollowersRequest>;
 
 export type ListUserFollowersResponseBodyItemCase0OrgsItem =
   ListFollowedUsersResponseBodyItemOrgsItem;
@@ -922,6 +538,7 @@ export const ListUserFollowersResponseBodyItemCase0ServiceAccount =
   ListFollowedUsersResponseBodyItemServiceAccount;
 
 export interface ListUserFollowersResponseBodyItemCase0 {
+  /** A hex string of 24 characters representing an ObjectId. */
   _id: string;
   orgs?: ListUserFollowersResponseBodyItemCase0OrgsList;
   avatarUrl: string;
@@ -946,7 +563,7 @@ export interface ListUserFollowersResponseBodyItemCase0 {
   primaryOrgAvatarUrl?: string;
   /** Set when the user is a service account */
   serviceAccount?: ListFollowedUsersResponseBodyItemServiceAccount;
-  type: unknown;
+  type: string;
 }
 export const ListUserFollowersResponseBodyItemCase0 = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -973,7 +590,7 @@ export const ListUserFollowersResponseBodyItemCase0 = /*@__PURE__*/ S.suspend(()
     reasonToFollow: S.optional(S.String),
     primaryOrgAvatarUrl: S.optional(S.String),
     serviceAccount: S.optional(ListFollowedUsersResponseBodyItemServiceAccount),
-    type: S.Unknown,
+    type: S.String,
   }),
 ).annotate({
   identifier: "ListUserFollowersResponseBodyItemCase0",
@@ -981,6 +598,7 @@ export const ListUserFollowersResponseBodyItemCase0 = /*@__PURE__*/ S.suspend(()
 
 /** Returned when `expand=followedAt` is set */
 export interface ListUserFollowersResponseBodyItemCase1 {
+  /** A hex string of 24 characters representing an ObjectId. */
   _id: string;
   followedAt: string;
 }
@@ -1022,16 +640,15 @@ export const ListUserLikesRequest = /*@__PURE__*/ S.suspend(() =>
     limit: S.optional(S.Number.pipe(T.Query())),
     cursor: S.optional(S.String.pipe(T.Query())),
   }).pipe(T.Http({ method: "GET", uri: "/api/users/{username}/likes", code: 200 })),
-).annotate({
-  identifier: "ListUserLikesRequest",
-}) as any as S.Schema<ListUserLikesRequest>;
+).annotate({ identifier: "ListUserLikesRequest" }) as any as S.Schema<ListUserLikesRequest>;
 
 export type ListUserLikesResponseBodyItemRepoType =
   | "dataset"
   | "model"
   | "space"
   | "bucket"
-  | "kernel";
+  | "kernel"
+  | "container";
 export const ListUserLikesResponseBodyItemRepoType = S.String;
 
 export interface ListUserLikesResponseBodyItemRepo {
@@ -1068,12 +685,16 @@ export const ListUserLikesResponseBodyList = /*@__PURE__*/ S.Array(
 export type ListUserLikesResponse = ListUserLikesResponseBodyList;
 export const ListUserLikesResponse = /*@__PURE__*/ S.suspend(() =>
   ListUserLikesResponseBodyList.pipe(T.RawResponseRoot()),
-).annotate({
-  identifier: "ListUserLikesResponse",
-}) as any as S.Schema<ListUserLikesResponse>;
+).annotate({ identifier: "ListUserLikesResponse" }) as any as S.Schema<ListUserLikesResponse>;
 
 /** Filter by repository type */
-export type ListUserRepositoriesRequestType = "dataset" | "model" | "space" | "bucket" | "kernel";
+export type ListUserRepositoriesRequestType =
+  | "dataset"
+  | "model"
+  | "space"
+  | "bucket"
+  | "kernel"
+  | "container";
 export const ListUserRepositoriesRequestType = S.String;
 
 /** Sort field (default: storage) */
@@ -1108,7 +729,8 @@ export type ListUserRepositoriesResponseBodyItemType =
   | "model"
   | "space"
   | "bucket"
-  | "kernel";
+  | "kernel"
+  | "container";
 export const ListUserRepositoriesResponseBodyItemType = S.String;
 
 export type ListUserRepositoriesResponseBodyItemVisibility = "public" | "private" | "protected";
@@ -1150,9 +772,7 @@ export const ListUserRepositoriesResponse = /*@__PURE__*/ S.suspend(() =>
 export interface StreamMetricsRequest {}
 export const StreamMetricsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({}).pipe(T.Http({ method: "GET", uri: "/api/settings/metrics/live", code: 200 })),
-).annotate({
-  identifier: "StreamMetricsRequest",
-}) as any as S.Schema<StreamMetricsRequest>;
+).annotate({ identifier: "StreamMetricsRequest" }) as any as S.Schema<StreamMetricsRequest>;
 
 export interface StreamMetricsResponse {}
 export const StreamMetricsResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -1161,16 +781,8 @@ export const StreamMetricsResponse = /*@__PURE__*/ S.suspend(() => S.Struct({}))
 
 export interface StreamUserUsageRequest {}
 export const StreamUserUsageRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/api/settings/billing/usage/live",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "StreamUserUsageRequest",
-}) as any as S.Schema<StreamUserUsageRequest>;
+  S.Struct({}).pipe(T.Http({ method: "GET", uri: "/api/settings/billing/usage/live", code: 200 })),
+).annotate({ identifier: "StreamUserUsageRequest" }) as any as S.Schema<StreamUserUsageRequest>;
 
 export interface StreamUserUsageResponse {}
 export const StreamUserUsageResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -1183,13 +795,7 @@ export interface StreamUserUsageByUsernameRequest {
 export const StreamUserUsageByUsernameRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     username: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/api/users/{username}/billing/usage/live",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/api/users/{username}/billing/usage/live", code: 200 })),
 ).annotate({
   identifier: "StreamUserUsageByUsernameRequest",
 }) as any as S.Schema<StreamUserUsageByUsernameRequest>;
@@ -1208,9 +814,7 @@ export const UserOverviewRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     username: S.String.pipe(T.Label()),
   }).pipe(T.Http({ method: "GET", uri: "/api/users/{username}/overview", code: 200 })),
-).annotate({
-  identifier: "UserOverviewRequest",
-}) as any as S.Schema<UserOverviewRequest>;
+).annotate({ identifier: "UserOverviewRequest" }) as any as S.Schema<UserOverviewRequest>;
 
 export type UserOverviewResponseOrgsItem = ListFollowedUsersResponseBodyItemOrgsItem;
 export const UserOverviewResponseOrgsItem = ListFollowedUsersResponseBodyItemOrgsItem;
@@ -1237,14 +841,14 @@ export interface UserOverviewResponseHardwareItemsItem {
   mem: number;
   /** Number of units */
   num: number;
-  isPrimary?: unknown;
+  isPrimary?: boolean;
 }
 export const UserOverviewResponseHardwareItemsItem = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     sku: UserOverviewResponseHardwareItemsItemSkuList,
     mem: S.Number,
     num: S.Number,
-    isPrimary: S.optional(S.Unknown),
+    isPrimary: S.optional(S.Boolean),
   }),
 ).annotate({
   identifier: "UserOverviewResponseHardwareItemsItem",
@@ -1257,6 +861,7 @@ export const UserOverviewResponseHardwareItemsList = /*@__PURE__*/ S.Array(
 ) as any as S.Schema<UserOverviewResponseHardwareItemsList>;
 
 export interface UserOverviewResponse {
+  /** A hex string of 24 characters representing an ObjectId. */
   _id: string;
   orgs?: UserOverviewResponseOrgsList;
   avatarUrl: string;
@@ -1281,7 +886,7 @@ export interface UserOverviewResponse {
   primaryOrgAvatarUrl?: string;
   /** Set when the user is a service account */
   serviceAccount?: ListFollowedUsersResponseBodyItemServiceAccount;
-  type: unknown;
+  type: string;
   createdAt: string;
   /** The user's hardware items, unless the user set them as private */
   hardwareItems?: UserOverviewResponseHardwareItemsList;
@@ -1311,13 +916,11 @@ export const UserOverviewResponse = /*@__PURE__*/ S.suspend(() =>
     reasonToFollow: S.optional(S.String),
     primaryOrgAvatarUrl: S.optional(S.String),
     serviceAccount: S.optional(ListFollowedUsersResponseBodyItemServiceAccount),
-    type: S.Unknown,
+    type: S.String,
     createdAt: S.String,
     hardwareItems: S.optional(UserOverviewResponseHardwareItemsList),
   }),
-).annotate({
-  identifier: "UserOverviewResponse",
-}) as any as S.Schema<UserOverviewResponse>;
+).annotate({ identifier: "UserOverviewResponse" }) as any as S.Schema<UserOverviewResponse>;
 
 export type GetAvatarError = HuggingFaceOpError;
 /** Get avatar Display the avatar for any user or organization. This endpoint redirects to the avatar URL for either a user or an organization */
@@ -1365,7 +968,7 @@ export const getMcpTools: API.OperationMethod<
 }));
 
 export type GetSessionInferenceUsageError = HuggingFaceOpError;
-/** Get session inference usage Get user inference-provider usage broken down per session id */
+/** Session inference usage Get user inference-provider usage broken down per session id */
 export const getSessionInferenceUsage: API.OperationMethod<
   GetSessionInferenceUsageRequest,
   GetSessionInferenceUsageResponse,
@@ -1404,21 +1007,6 @@ export const getUserAvatar: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: GetUserAvatarRequest,
   output: GetUserAvatarResponse,
-  errors: [],
-  protocol: HuggingFaceProtocol,
-  retry: Retry.Retry,
-}));
-
-export type GetUserUsageError = HuggingFaceOpError;
-/** Get user usage Get user usage for a given period */
-export const getUserUsage: API.OperationMethod<
-  GetUserUsageRequest,
-  GetUserUsageResponse,
-  GetUserUsageError,
-  HuggingFaceOpContext
-> = /*@__PURE__*/ API.make(() => ({
-  input: GetUserUsageRequest,
-  output: GetUserUsageResponse,
   errors: [],
   protocol: HuggingFaceProtocol,
   retry: Retry.Retry,

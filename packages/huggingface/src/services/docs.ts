@@ -105,9 +105,7 @@ export const FullTextSearchDocsResponse = /*@__PURE__*/ S.suspend(() =>
 export interface ListDocsRequest {}
 export const ListDocsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({}).pipe(T.Http({ method: "GET", uri: "/api/docs", code: 200 })),
-).annotate({
-  identifier: "ListDocsRequest",
-}) as any as S.Schema<ListDocsRequest>;
+).annotate({ identifier: "ListDocsRequest" }) as any as S.Schema<ListDocsRequest>;
 
 export interface ListDocsResponseBodyItem {
   id: string;
@@ -120,9 +118,7 @@ export const ListDocsResponseBodyItem = /*@__PURE__*/ S.suspend(() =>
     url: S.String,
     category: S.optional(S.String),
   }),
-).annotate({
-  identifier: "ListDocsResponseBodyItem",
-}) as any as S.Schema<ListDocsResponseBodyItem>;
+).annotate({ identifier: "ListDocsResponseBodyItem" }) as any as S.Schema<ListDocsResponseBodyItem>;
 
 export type ListDocsResponseBodyList = Array<ListDocsResponseBodyItem>;
 export const ListDocsResponseBodyList = /*@__PURE__*/ S.Array(
@@ -132,9 +128,7 @@ export const ListDocsResponseBodyList = /*@__PURE__*/ S.Array(
 export type ListDocsResponse = ListDocsResponseBodyList;
 export const ListDocsResponse = /*@__PURE__*/ S.suspend(() =>
   ListDocsResponseBodyList.pipe(T.RawResponseRoot()),
-).annotate({
-  identifier: "ListDocsResponse",
-}) as any as S.Schema<ListDocsResponse>;
+).annotate({ identifier: "ListDocsResponse" }) as any as S.Schema<ListDocsResponse>;
 
 export type SearchDocsRequestProduct =
   | "hub"
@@ -211,9 +205,7 @@ export const SearchDocsRequest = /*@__PURE__*/ S.suspend(() =>
     product: S.optional(SearchDocsRequestProduct.pipe(T.Query())),
     limit: S.optional(S.Number.pipe(T.Query())),
   }).pipe(T.Http({ method: "GET", uri: "/api/docs/search", code: 200 })),
-).annotate({
-  identifier: "SearchDocsRequest",
-}) as any as S.Schema<SearchDocsRequest>;
+).annotate({ identifier: "SearchDocsRequest" }) as any as S.Schema<SearchDocsRequest>;
 
 export type SearchDocsResponseBodyItemVectorsEmbeddingsList = Array<number>;
 export const SearchDocsResponseBodyItemVectorsEmbeddingsList = /*@__PURE__*/ S.Array(
@@ -270,9 +262,7 @@ export const SearchDocsResponseBodyList = /*@__PURE__*/ S.Array(
 export type SearchDocsResponse = SearchDocsResponseBodyList;
 export const SearchDocsResponse = /*@__PURE__*/ S.suspend(() =>
   SearchDocsResponseBodyList.pipe(T.RawResponseRoot()),
-).annotate({
-  identifier: "SearchDocsResponse",
-}) as any as S.Schema<SearchDocsResponse>;
+).annotate({ identifier: "SearchDocsResponse" }) as any as S.Schema<SearchDocsResponse>;
 
 export type FullTextSearchDocsError = HuggingFaceOpError;
 /** Full-text search docs Full-text search across Hugging Face documentation */

@@ -9,10 +9,7 @@ import { AwsProtocol } from "../protocol.ts";
 import { Retry } from "../retry.ts";
 import { SensitiveString } from "../sensitive.ts";
 import * as T from "../traits.ts";
-const svc = T.AwsApiService({
-  sdkId: "Artifact",
-  serviceShapeName: "Artifact",
-});
+const svc = T.AwsApiService({ sdkId: "Artifact", serviceShapeName: "Artifact" });
 const auth = T.AwsAuthSigv4({ name: "artifact" });
 const ver = T.ServiceVersion("2018-05-10");
 const proto = T.AwsProtocolsRestJson1();
@@ -27,12 +24,7 @@ const rules = T.EndpointResolver((p, _) => {
     message: m as string,
   });
   const _p0 = (_0: unknown) => ({
-    authSchemes: [
-      {
-        name: "sigv4",
-        signingRegion: `${_.getAttr(_0, "implicitGlobalRegion")}`,
-      },
-    ],
+    authSchemes: [{ name: "sigv4", signingRegion: `${_.getAttr(_0, "implicitGlobalRegion")}` }],
   });
   if (Endpoint != null) {
     if (UseFIPS === true) {
@@ -102,11 +94,7 @@ export class AccessDeniedException
 export class ConflictException
   extends /*@__PURE__*/ S.TaggedError<ConflictException>()(
     "ConflictException",
-    {
-      message: S.String.pipe(T.ErrorMessage()),
-      resourceId: S.String,
-      resourceType: S.String,
-    },
+    { message: S.String.pipe(T.ErrorMessage()), resourceId: S.String, resourceType: S.String },
     T.HttpError(409),
   ).pipe(C.withConflictError) {}
 export class InternalServerException
@@ -121,11 +109,7 @@ export class InternalServerException
 export class ResourceNotFoundException
   extends /*@__PURE__*/ S.TaggedError<ResourceNotFoundException>()(
     "ResourceNotFoundException",
-    {
-      message: S.String.pipe(T.ErrorMessage()),
-      resourceId: S.String,
-      resourceType: S.String,
-    },
+    { message: S.String.pipe(T.ErrorMessage()), resourceId: S.String, resourceType: S.String },
     T.HttpError(404),
   ).pipe(C.withBadRequestError) {}
 export class ServiceQuotaExceededException
@@ -176,9 +160,7 @@ export interface InquiryFileContent {
 }
 export const InquiryFileContent = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ fileSections: S.optional(FileSectionList), content: T.Blob }),
-).annotate({
-  identifier: "InquiryFileContent",
-}) as any as S.Schema<InquiryFileContent>;
+).annotate({ identifier: "InquiryFileContent" }) as any as S.Schema<InquiryFileContent>;
 export type InquiryContent =
   | { query: string; fileContent?: never }
   | { query?: never; fileContent: InquiryFileContent };
@@ -264,10 +246,7 @@ export interface CreateComplianceInquiryResponse {
   tags?: { [key: string]: string | undefined };
 }
 export const CreateComplianceInquiryResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    complianceInquirySummary: S.optional(InquirySummary),
-    tags: S.optional(TagsMap),
-  }),
+  S.Struct({ complianceInquirySummary: S.optional(InquirySummary), tags: S.optional(TagsMap) }),
 ).annotate({
   identifier: "CreateComplianceInquiryResponse",
 }) as any as S.Schema<CreateComplianceInquiryResponse>;
@@ -302,10 +281,7 @@ export interface ExportComplianceInquiryResponse {
   tags?: { [key: string]: string | undefined };
 }
 export const ExportComplianceInquiryResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    documentPresignedUrl: S.optional(SensitiveString),
-    tags: S.optional(TagsMap),
-  }),
+  S.Struct({ documentPresignedUrl: S.optional(SensitiveString), tags: S.optional(TagsMap) }),
 ).annotate({
   identifier: "ExportComplianceInquiryResponse",
 }) as any as S.Schema<ExportComplianceInquiryResponse>;
@@ -324,12 +300,8 @@ export interface AccountSettings {
   notificationSubscriptionStatus?: NotificationSubscriptionStatus;
 }
 export const AccountSettings = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    notificationSubscriptionStatus: S.optional(NotificationSubscriptionStatus),
-  }),
-).annotate({
-  identifier: "AccountSettings",
-}) as any as S.Schema<AccountSettings>;
+  S.Struct({ notificationSubscriptionStatus: S.optional(NotificationSubscriptionStatus) }),
+).annotate({ identifier: "AccountSettings" }) as any as S.Schema<AccountSettings>;
 export interface GetAccountSettingsResponse {
   accountSettings?: AccountSettings;
 }
@@ -342,9 +314,7 @@ export interface GetComplianceInquiryMetadataRequest {
   complianceInquiryId: string;
 }
 export const GetComplianceInquiryMetadataRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    complianceInquiryId: S.String.pipe(T.HttpQuery("complianceInquiryId")),
-  }).pipe(
+  S.Struct({ complianceInquiryId: S.String.pipe(T.HttpQuery("complianceInquiryId")) }).pipe(
     T.all(
       T.Http({ method: "GET", uri: "/v1/compliance-inquiry/getMetadata" }),
       svc,
@@ -386,10 +356,7 @@ export interface GetComplianceInquiryMetadataResponse {
   tags?: { [key: string]: string | undefined };
 }
 export const GetComplianceInquiryMetadataResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    complianceInquiryDetail: S.optional(InquiryDetail),
-    tags: S.optional(TagsMap),
-  }),
+  S.Struct({ complianceInquiryDetail: S.optional(InquiryDetail), tags: S.optional(TagsMap) }),
 ).annotate({
   identifier: "GetComplianceInquiryMetadataResponse",
 }) as any as S.Schema<GetComplianceInquiryMetadataResponse>;
@@ -406,17 +373,13 @@ export const GetReportRequest = /*@__PURE__*/ S.suspend(() =>
     reportVersion: S.optional(S.Number).pipe(T.HttpQuery("reportVersion")),
     termToken: S.String.pipe(T.HttpQuery("termToken")),
   }).pipe(T.all(T.Http({ method: "GET", uri: "/v1/report/get" }), svc, auth, proto, ver, rules)),
-).annotate({
-  identifier: "GetReportRequest",
-}) as any as S.Schema<GetReportRequest>;
+).annotate({ identifier: "GetReportRequest" }) as any as S.Schema<GetReportRequest>;
 export interface GetReportResponse {
   documentPresignedUrl?: string;
 }
 export const GetReportResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ documentPresignedUrl: S.optional(S.String) }),
-).annotate({
-  identifier: "GetReportResponse",
-}) as any as S.Schema<GetReportResponse>;
+).annotate({ identifier: "GetReportResponse" }) as any as S.Schema<GetReportResponse>;
 export interface GetReportMetadataRequest {
   reportId: string;
   reportVersion?: number;
@@ -428,9 +391,7 @@ export const GetReportMetadataRequest = /*@__PURE__*/ S.suspend(() =>
   }).pipe(
     T.all(T.Http({ method: "GET", uri: "/v1/report/getMetadata" }), svc, auth, proto, ver, rules),
   ),
-).annotate({
-  identifier: "GetReportMetadataRequest",
-}) as any as S.Schema<GetReportMetadataRequest>;
+).annotate({ identifier: "GetReportMetadataRequest" }) as any as S.Schema<GetReportMetadataRequest>;
 export type PublishedState = "PUBLISHED" | "UNPUBLISHED" | (string & {});
 export const PublishedState = S.String;
 
@@ -514,21 +475,14 @@ export const GetTermForReportRequest = /*@__PURE__*/ S.suspend(() =>
       rules,
     ),
   ),
-).annotate({
-  identifier: "GetTermForReportRequest",
-}) as any as S.Schema<GetTermForReportRequest>;
+).annotate({ identifier: "GetTermForReportRequest" }) as any as S.Schema<GetTermForReportRequest>;
 export interface GetTermForReportResponse {
   documentPresignedUrl?: string;
   termToken?: string;
 }
 export const GetTermForReportResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    documentPresignedUrl: S.optional(S.String),
-    termToken: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "GetTermForReportResponse",
-}) as any as S.Schema<GetTermForReportResponse>;
+  S.Struct({ documentPresignedUrl: S.optional(S.String), termToken: S.optional(S.String) }),
+).annotate({ identifier: "GetTermForReportResponse" }) as any as S.Schema<GetTermForReportResponse>;
 export type MaxResultsAttribute = number;
 export type NextTokenAttribute = string;
 export interface ListComplianceInquiriesRequest {
@@ -559,10 +513,7 @@ export interface ListComplianceInquiriesResponse {
   nextToken?: string;
 }
 export const ListComplianceInquiriesResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    complianceInquiries: S.optional(InquiriesList),
-    nextToken: S.optional(S.String),
-  }),
+  S.Struct({ complianceInquiries: S.optional(InquiriesList), nextToken: S.optional(S.String) }),
 ).annotate({
   identifier: "ListComplianceInquiriesResponse",
 }) as any as S.Schema<ListComplianceInquiriesResponse>;
@@ -627,9 +578,7 @@ export const ResponseVersion = /*@__PURE__*/ S.suspend(() =>
     responseText: S.String,
     timestamp: T.DateFromString.pipe(T.TimestampFormat("date-time")),
   }),
-).annotate({
-  identifier: "ResponseVersion",
-}) as any as S.Schema<ResponseVersion>;
+).annotate({ identifier: "ResponseVersion" }) as any as S.Schema<ResponseVersion>;
 export type ResponseVersionList = ResponseVersion[];
 export const ResponseVersionList = /*@__PURE__*/ S.Array(ResponseVersion);
 export interface QuerySummary {
@@ -663,10 +612,7 @@ export interface ListComplianceInquiryQueriesResponse {
   nextToken?: string;
 }
 export const ListComplianceInquiryQueriesResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    queries: S.optional(QueriesList),
-    nextToken: S.optional(S.String),
-  }),
+  S.Struct({ queries: S.optional(QueriesList), nextToken: S.optional(S.String) }),
 ).annotate({
   identifier: "ListComplianceInquiryQueriesResponse",
 }) as any as S.Schema<ListComplianceInquiryQueriesResponse>;
@@ -735,9 +681,7 @@ export const CustomerAgreementSummary = /*@__PURE__*/ S.suspend(() =>
     terminateTerms: S.optional(AgreementTerms),
     type: S.optional(AgreementType),
   }),
-).annotate({
-  identifier: "CustomerAgreementSummary",
-}) as any as S.Schema<CustomerAgreementSummary>;
+).annotate({ identifier: "CustomerAgreementSummary" }) as any as S.Schema<CustomerAgreementSummary>;
 export type CustomerAgreementList = CustomerAgreementSummary[];
 export const CustomerAgreementList = /*@__PURE__*/ S.Array(CustomerAgreementSummary);
 export interface ListCustomerAgreementsResponse {
@@ -745,10 +689,7 @@ export interface ListCustomerAgreementsResponse {
   nextToken?: string;
 }
 export const ListCustomerAgreementsResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    customerAgreements: CustomerAgreementList,
-    nextToken: S.optional(S.String),
-  }),
+  S.Struct({ customerAgreements: CustomerAgreementList, nextToken: S.optional(S.String) }),
 ).annotate({
   identifier: "ListCustomerAgreementsResponse",
 }) as any as S.Schema<ListCustomerAgreementsResponse>;
@@ -761,9 +702,7 @@ export const ListReportsRequest = /*@__PURE__*/ S.suspend(() =>
     maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
     nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
   }).pipe(T.all(T.Http({ method: "GET", uri: "/v1/report/list" }), svc, auth, proto, ver, rules)),
-).annotate({
-  identifier: "ListReportsRequest",
-}) as any as S.Schema<ListReportsRequest>;
+).annotate({ identifier: "ListReportsRequest" }) as any as S.Schema<ListReportsRequest>;
 export interface ReportSummary {
   id?: string;
   name?: string;
@@ -807,13 +746,8 @@ export interface ListReportsResponse {
   nextToken?: string;
 }
 export const ListReportsResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    reports: S.optional(ReportsList),
-    nextToken: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "ListReportsResponse",
-}) as any as S.Schema<ListReportsResponse>;
+  S.Struct({ reports: S.optional(ReportsList), nextToken: S.optional(S.String) }),
+).annotate({ identifier: "ListReportsResponse" }) as any as S.Schema<ListReportsResponse>;
 export interface ListReportVersionsRequest {
   reportId: string;
   maxResults?: number;
@@ -861,9 +795,7 @@ export interface PutAccountSettingsRequest {
   notificationSubscriptionStatus?: NotificationSubscriptionStatus;
 }
 export const PutAccountSettingsRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    notificationSubscriptionStatus: S.optional(NotificationSubscriptionStatus),
-  }).pipe(
+  S.Struct({ notificationSubscriptionStatus: S.optional(NotificationSubscriptionStatus) }).pipe(
     T.all(T.Http({ method: "PUT", uri: "/v1/account-settings/put" }), svc, auth, proto, ver, rules),
   ),
 ).annotate({
@@ -925,9 +857,7 @@ export interface PutComplianceInquiryFeedbackResponse {
   submittedAt: Date;
 }
 export const PutComplianceInquiryFeedbackResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    submittedAt: T.DateFromString.pipe(T.TimestampFormat("date-time")),
-  }),
+  S.Struct({ submittedAt: T.DateFromString.pipe(T.TimestampFormat("date-time")) }),
 ).annotate({
   identifier: "PutComplianceInquiryFeedbackResponse",
 }) as any as S.Schema<PutComplianceInquiryFeedbackResponse>;
@@ -936,15 +866,10 @@ export interface TagResourceRequest {
   tags: { [key: string]: string | undefined };
 }
 export const TagResourceRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    resourceArn: S.String.pipe(T.HttpLabel("resourceArn")),
-    tags: TagsMap,
-  }).pipe(
+  S.Struct({ resourceArn: S.String.pipe(T.HttpLabel("resourceArn")), tags: TagsMap }).pipe(
     T.all(T.Http({ method: "POST", uri: "/tags/{resourceArn}" }), svc, auth, proto, ver, rules),
   ),
-).annotate({
-  identifier: "TagResourceRequest",
-}) as any as S.Schema<TagResourceRequest>;
+).annotate({ identifier: "TagResourceRequest" }) as any as S.Schema<TagResourceRequest>;
 export interface TagResourceResponse {}
 export const TagResourceResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
   identifier: "TagResourceResponse",
@@ -962,9 +887,7 @@ export const UntagResourceRequest = /*@__PURE__*/ S.suspend(() =>
   }).pipe(
     T.all(T.Http({ method: "DELETE", uri: "/tags/{resourceArn}" }), svc, auth, proto, ver, rules),
   ),
-).annotate({
-  identifier: "UntagResourceRequest",
-}) as any as S.Schema<UntagResourceRequest>;
+).annotate({ identifier: "UntagResourceRequest" }) as any as S.Schema<UntagResourceRequest>;
 export interface UntagResourceResponse {}
 export const UntagResourceResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
   identifier: "UntagResourceResponse",
@@ -976,9 +899,7 @@ export interface ValidationExceptionField {
 }
 export const ValidationExceptionField = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ name: S.String, message: S.String }),
-).annotate({
-  identifier: "ValidationExceptionField",
-}) as any as S.Schema<ValidationExceptionField>;
+).annotate({ identifier: "ValidationExceptionField" }) as any as S.Schema<ValidationExceptionField>;
 export type ValidationExceptionFieldList = ValidationExceptionField[];
 export const ValidationExceptionFieldList = /*@__PURE__*/ S.Array(ValidationExceptionField);
 export type CreateComplianceInquiryError =

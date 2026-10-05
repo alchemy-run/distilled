@@ -14,16 +14,8 @@ export interface ClearDictRequest {
 export const ClearDictRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     dictId: S.optional(S.String),
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/modal.client.ModalClient/DictClear",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "ClearDictRequest",
-}) as any as S.Schema<ClearDictRequest>;
+  }).pipe(T.Http({ method: "POST", uri: "/modal.client.ModalClient/DictClear", code: 200 })),
+).annotate({ identifier: "ClearDictRequest" }) as any as S.Schema<ClearDictRequest>;
 
 export interface ClearDictResponse {}
 export const ClearDictResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -36,16 +28,8 @@ export interface DeleteDictRequest {
 export const DeleteDictRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     dictId: S.optional(S.String),
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/modal.client.ModalClient/DictDelete",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "DeleteDictRequest",
-}) as any as S.Schema<DeleteDictRequest>;
+  }).pipe(T.Http({ method: "POST", uri: "/modal.client.ModalClient/DictDelete", code: 200 })),
+).annotate({ identifier: "DeleteDictRequest" }) as any as S.Schema<DeleteDictRequest>;
 
 export interface DeleteDictResponse {}
 export const DeleteDictResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -60,16 +44,8 @@ export const DictContainsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     dictId: S.optional(S.String),
     key: S.optional(S.String),
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/modal.client.ModalClient/DictContains",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "DictContainsRequest",
-}) as any as S.Schema<DictContainsRequest>;
+  }).pipe(T.Http({ method: "POST", uri: "/modal.client.ModalClient/DictContains", code: 200 })),
+).annotate({ identifier: "DictContainsRequest" }) as any as S.Schema<DictContainsRequest>;
 
 export interface DictContainsResponse {
   found?: boolean;
@@ -78,9 +54,7 @@ export const DictContainsResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     found: S.optional(S.Boolean),
   }),
-).annotate({
-  identifier: "DictContainsResponse",
-}) as any as S.Schema<DictContainsResponse>;
+).annotate({ identifier: "DictContainsResponse" }) as any as S.Schema<DictContainsResponse>;
 
 export interface DictGetByIdRequest {
   dictId?: string;
@@ -88,16 +62,8 @@ export interface DictGetByIdRequest {
 export const DictGetByIdRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     dictId: S.optional(S.String),
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/modal.client.ModalClient/DictGetById",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "DictGetByIdRequest",
-}) as any as S.Schema<DictGetByIdRequest>;
+  }).pipe(T.Http({ method: "POST", uri: "/modal.client.ModalClient/DictGetById", code: 200 })),
+).annotate({ identifier: "DictGetByIdRequest" }) as any as S.Schema<DictGetByIdRequest>;
 
 export interface CreationInfo {
   /** This message is used in metadata for resource objects like Dict, Queue, Volume, etc. */
@@ -132,9 +98,7 @@ export const DictGetByIdResponse = /*@__PURE__*/ S.suspend(() =>
     dictId: S.optional(S.String),
     metadata: S.optional(DictMetadata),
   }),
-).annotate({
-  identifier: "DictGetByIdResponse",
-}) as any as S.Schema<DictGetByIdResponse>;
+).annotate({ identifier: "DictGetByIdResponse" }) as any as S.Schema<DictGetByIdResponse>;
 
 export type ObjectCreationType =
   | "OBJECT_CREATION_TYPE_UNSPECIFIED"
@@ -172,16 +136,8 @@ export const DictGetOrCreateRequest = /*@__PURE__*/ S.suspend(() =>
     environmentName: S.optional(S.String),
     objectCreationType: S.optional(ObjectCreationType),
     data: S.optional(DictEntryList),
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/modal.client.ModalClient/DictGetOrCreate",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "DictGetOrCreateRequest",
-}) as any as S.Schema<DictGetOrCreateRequest>;
+  }).pipe(T.Http({ method: "POST", uri: "/modal.client.ModalClient/DictGetOrCreate", code: 200 })),
+).annotate({ identifier: "DictGetOrCreateRequest" }) as any as S.Schema<DictGetOrCreateRequest>;
 
 export interface DictGetOrCreateResponse {
   dictId?: string;
@@ -192,9 +148,7 @@ export const DictGetOrCreateResponse = /*@__PURE__*/ S.suspend(() =>
     dictId: S.optional(S.String),
     metadata: S.optional(DictMetadata),
   }),
-).annotate({
-  identifier: "DictGetOrCreateResponse",
-}) as any as S.Schema<DictGetOrCreateResponse>;
+).annotate({ identifier: "DictGetOrCreateResponse" }) as any as S.Schema<DictGetOrCreateResponse>;
 
 export interface DictHeartbeatRequest {
   dictId?: string;
@@ -202,16 +156,8 @@ export interface DictHeartbeatRequest {
 export const DictHeartbeatRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     dictId: S.optional(S.String),
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/modal.client.ModalClient/DictHeartbeat",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "DictHeartbeatRequest",
-}) as any as S.Schema<DictHeartbeatRequest>;
+  }).pipe(T.Http({ method: "POST", uri: "/modal.client.ModalClient/DictHeartbeat", code: 200 })),
+).annotate({ identifier: "DictHeartbeatRequest" }) as any as S.Schema<DictHeartbeatRequest>;
 
 export interface DictHeartbeatResponse {}
 export const DictHeartbeatResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -224,13 +170,7 @@ export interface DictLenRequest {
 export const DictLenRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     dictId: S.optional(S.String),
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/modal.client.ModalClient/DictLen",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "POST", uri: "/modal.client.ModalClient/DictLen", code: 200 })),
 ).annotate({ identifier: "DictLenRequest" }) as any as S.Schema<DictLenRequest>;
 
 export interface DictLenResponse {
@@ -240,9 +180,7 @@ export const DictLenResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     len: S.optional(S.Number),
   }),
-).annotate({
-  identifier: "DictLenResponse",
-}) as any as S.Schema<DictLenResponse>;
+).annotate({ identifier: "DictLenResponse" }) as any as S.Schema<DictLenResponse>;
 
 export interface DictPopRequest {
   dictId?: string;
@@ -252,13 +190,7 @@ export const DictPopRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     dictId: S.optional(S.String),
     key: S.optional(S.String),
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/modal.client.ModalClient/DictPop",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "POST", uri: "/modal.client.ModalClient/DictPop", code: 200 })),
 ).annotate({ identifier: "DictPopRequest" }) as any as S.Schema<DictPopRequest>;
 
 export interface DictPopResponse {
@@ -270,9 +202,7 @@ export const DictPopResponse = /*@__PURE__*/ S.suspend(() =>
     found: S.optional(S.Boolean),
     value: S.optional(S.String),
   }),
-).annotate({
-  identifier: "DictPopResponse",
-}) as any as S.Schema<DictPopResponse>;
+).annotate({ identifier: "DictPopResponse" }) as any as S.Schema<DictPopResponse>;
 
 export interface GetDictRequest {
   dictId?: string;
@@ -282,13 +212,7 @@ export const GetDictRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     dictId: S.optional(S.String),
     key: S.optional(S.String),
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/modal.client.ModalClient/DictGet",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "POST", uri: "/modal.client.ModalClient/DictGet", code: 200 })),
 ).annotate({ identifier: "GetDictRequest" }) as any as S.Schema<GetDictRequest>;
 
 export interface GetDictResponse {
@@ -300,9 +224,7 @@ export const GetDictResponse = /*@__PURE__*/ S.suspend(() =>
     found: S.optional(S.Boolean),
     value: S.optional(S.String),
   }),
-).annotate({
-  identifier: "GetDictResponse",
-}) as any as S.Schema<GetDictResponse>;
+).annotate({ identifier: "GetDictResponse" }) as any as S.Schema<GetDictResponse>;
 
 export interface ListPagination {
   maxObjects?: number;
@@ -323,16 +245,8 @@ export const ListDictRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     environmentName: S.optional(S.String),
     pagination: S.optional(ListPagination),
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/modal.client.ModalClient/DictList",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "ListDictRequest",
-}) as any as S.Schema<ListDictRequest>;
+  }).pipe(T.Http({ method: "POST", uri: "/modal.client.ModalClient/DictList", code: 200 })),
+).annotate({ identifier: "ListDictRequest" }) as any as S.Schema<ListDictRequest>;
 
 export interface ListDictResponseDictInfo {
   name?: string;
@@ -348,9 +262,7 @@ export const ListDictResponseDictInfo = /*@__PURE__*/ S.suspend(() =>
     dictId: S.optional(S.String),
     metadata: S.optional(DictMetadata),
   }),
-).annotate({
-  identifier: "ListDictResponseDictInfo",
-}) as any as S.Schema<ListDictResponseDictInfo>;
+).annotate({ identifier: "ListDictResponseDictInfo" }) as any as S.Schema<ListDictResponseDictInfo>;
 
 export type ListDictResponseDictInfoList = Array<ListDictResponseDictInfo>;
 export const ListDictResponseDictInfoList = /*@__PURE__*/ S.Array(
@@ -366,9 +278,7 @@ export const ListDictResponse = /*@__PURE__*/ S.suspend(() =>
     dicts: S.optional(ListDictResponseDictInfoList),
     environmentName: S.optional(S.String),
   }),
-).annotate({
-  identifier: "ListDictResponse",
-}) as any as S.Schema<ListDictResponse>;
+).annotate({ identifier: "ListDictResponse" }) as any as S.Schema<ListDictResponse>;
 
 export interface UpdateDictRequest {
   dictId?: string;
@@ -380,16 +290,8 @@ export const UpdateDictRequest = /*@__PURE__*/ S.suspend(() =>
     dictId: S.optional(S.String),
     updates: S.optional(DictEntryList),
     ifNotExists: S.optional(S.Boolean),
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/modal.client.ModalClient/DictUpdate",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "UpdateDictRequest",
-}) as any as S.Schema<UpdateDictRequest>;
+  }).pipe(T.Http({ method: "POST", uri: "/modal.client.ModalClient/DictUpdate", code: 200 })),
+).annotate({ identifier: "UpdateDictRequest" }) as any as S.Schema<UpdateDictRequest>;
 
 export interface UpdateDictResponse {
   created?: boolean;
@@ -398,9 +300,7 @@ export const UpdateDictResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     created: S.optional(S.Boolean),
   }),
-).annotate({
-  identifier: "UpdateDictResponse",
-}) as any as S.Schema<UpdateDictResponse>;
+).annotate({ identifier: "UpdateDictResponse" }) as any as S.Schema<UpdateDictResponse>;
 
 export type ClearDictError = ModalOpError;
 /** Dicts */

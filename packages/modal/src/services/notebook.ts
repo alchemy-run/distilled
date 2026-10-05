@@ -54,9 +54,7 @@ export const NotebookOutputStream = /*@__PURE__*/ S.suspend(() =>
     name: S.optional(S.String),
     text: S.optional(S.String),
   }),
-).annotate({
-  identifier: "NotebookOutputStream",
-}) as any as S.Schema<NotebookOutputStream>;
+).annotate({ identifier: "NotebookOutputStream" }) as any as S.Schema<NotebookOutputStream>;
 
 export type StringList = Array<string>;
 export const StringList = /*@__PURE__*/ S.Array(S.String) as any as S.Schema<StringList>;
@@ -73,9 +71,7 @@ export const NotebookOutputError = /*@__PURE__*/ S.suspend(() =>
     evalue: S.optional(S.String),
     traceback: S.optional(StringList),
   }),
-).annotate({
-  identifier: "NotebookOutputError",
-}) as any as S.Schema<NotebookOutputError>;
+).annotate({ identifier: "NotebookOutputError" }) as any as S.Schema<NotebookOutputError>;
 
 /** A single output from a notebook. When you execute a cell, it produces an array of these outputs as the code runs. https://github.com/jupyter/nbformat/blob/v5.10.4/nbformat/v4/nbformat.v4.schema.json#L301-L309 */
 export interface NotebookOutput {
